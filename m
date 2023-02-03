@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 898186892AB
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 09:50:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D89CE6892B8
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 09:51:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNrhz-0008MH-KZ; Fri, 03 Feb 2023 03:46:11 -0500
+	id 1pNriM-00006a-D3; Fri, 03 Feb 2023 03:46:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhk-0008HH-3T
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:45:57 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrht-0008Mu-2C
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:46:05 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhi-0007Si-4g
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:45:55 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhl-0007UN-VB
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:46:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675413953;
+ s=mimecast20190719; t=1675413956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SlH4VGchGbioi8MqXp5t88/DRmCUyoDlhp2M4HBfaCg=;
- b=c3otJGZYu3kRAyaRwzkeN2uauZi4wTYiL7E2sbuFy6gF4Mjxttf3O1DFYhIDjV1OSmCwDq
- oF9IYCVr2zweeQhqGxSMnWNMqMAg5iiMX0fvtn2Qaxlrs0l3dD2HkMyuWMyyW1XjEeajpS
- y+HHyvvJbBEkGTgTfAX8BrNpQLHGz+U=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4SEbduPWXd1+5f5G4RsIe6W9lEmEgy4MGADIype3gu8=;
+ b=SWmFbO66kD4C17UEA+VGYXRJvV1OhBdb+FR76U43f/KquwlzQ4CLLOLGc8fCotZCBT7K8l
+ lelpvO7dSMZZCD2iOh+Regm/LQuph7pHKtMNJ/GC+AkRsrTQkadvdmwr5b/T1jypSyAJ/Z
+ qF4+I8WAiGe8+D+Gey7BECdJ+PnuDFk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-280-n67AWIrfPcqgedyAcqJm7A-1; Fri, 03 Feb 2023 03:45:51 -0500
-X-MC-Unique: n67AWIrfPcqgedyAcqJm7A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-314-hYdh2jp-MS2TbWO0guOtEQ-1; Fri, 03 Feb 2023 03:45:52 -0500
+X-MC-Unique: hYdh2jp-MS2TbWO0guOtEQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 48AF5830F86;
- Fri,  3 Feb 2023 08:45:51 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9283E3C1016E;
+ Fri,  3 Feb 2023 08:45:52 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D7639C15BAE;
- Fri,  3 Feb 2023 08:45:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 51333140EBF6;
+ Fri,  3 Feb 2023 08:45:52 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B7E4621E6A23; Fri,  3 Feb 2023 09:45:49 +0100 (CET)
+ id BA58A21E6A24; Fri,  3 Feb 2023 09:45:49 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
-	Stefan Berger <stefanb@linux.ibm.com>
-Subject: [PULL 04/35] monitor: Drop unnecessary includes
-Date: Fri,  3 Feb 2023 09:45:18 +0100
-Message-Id: <20230203084549.2622302-5-armbru@redhat.com>
+Cc: peter.maydell@linaro.org
+Subject: [PULL 05/35] audio: Move HMP commands from monitor/ to audio/
+Date: Fri,  3 Feb 2023 09:45:19 +0100
+Message-Id: <20230203084549.2622302-6-armbru@redhat.com>
 In-Reply-To: <20230203084549.2622302-1-armbru@redhat.com>
 References: <20230203084549.2622302-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -79,183 +78,206 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20230124121946.1139465-2-armbru@redhat.com>
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
----
- monitor/hmp-cmds.c         |  4 ----
- monitor/hmp.c              |  3 ---
- monitor/misc.c             | 14 ++------------
- monitor/monitor.c          |  1 -
- monitor/qmp-cmds-control.c |  1 -
- monitor/qmp-cmds.c         |  8 --------
- 6 files changed, 2 insertions(+), 29 deletions(-)
+This moves these commands from MAINTAINERS sections "Human
+Monitor (HMP)" and "QMP" to "Overall Audio backends".
 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 1dba973092..de1a96d48c 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -18,17 +18,14 @@
- #include "net/net.h"
- #include "net/eth.h"
- #include "chardev/char.h"
--#include "sysemu/block-backend.h"
- #include "sysemu/runstate.h"
- #include "qemu/config-file.h"
- #include "qemu/option.h"
--#include "qemu/timer.h"
- #include "qemu/sockets.h"
- #include "qemu/help_option.h"
- #include "monitor/monitor.h"
- #include "qapi/error.h"
- #include "qapi/clone-visitor.h"
--#include "qapi/opts-visitor.h"
- #include "qapi/qapi-builtin-visit.h"
- #include "qapi/qapi-commands-block.h"
- #include "qapi/qapi-commands-char.h"
-@@ -42,7 +39,6 @@
- #include "qapi/qapi-commands-stats.h"
- #include "qapi/qapi-commands-tpm.h"
- #include "qapi/qapi-commands-virtio.h"
--#include "qapi/qapi-visit-virtio.h"
- #include "qapi/qapi-visit-net.h"
- #include "qapi/qapi-visit-migration.h"
- #include "qapi/qmp/qdict.h"
-diff --git a/monitor/hmp.c b/monitor/hmp.c
-index 43fd69f984..65641a6e56 100644
---- a/monitor/hmp.c
-+++ b/monitor/hmp.c
-@@ -23,11 +23,9 @@
-  */
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20230124121946.1139465-3-armbru@redhat.com>
+---
+ include/monitor/hmp.h  |  3 ++
+ audio/audio-hmp-cmds.c | 83 ++++++++++++++++++++++++++++++++++++++++++
+ monitor/misc.c         | 56 ----------------------------
+ audio/meson.build      |  1 +
+ 4 files changed, 87 insertions(+), 56 deletions(-)
+ create mode 100644 audio/audio-hmp-cmds.c
+
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index 1b3bdcb446..c25bec1863 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -151,5 +151,8 @@ void hmp_human_readable_text_helper(Monitor *mon,
+                                     HumanReadableText *(*qmp_handler)(Error **));
+ void hmp_info_stats(Monitor *mon, const QDict *qdict);
+ void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict);
++void hmp_info_capture(Monitor *mon, const QDict *qdict);
++void hmp_stopcapture(Monitor *mon, const QDict *qdict);
++void hmp_wavcapture(Monitor *mon, const QDict *qdict);
  
- #include "qemu/osdep.h"
--#include <dirent.h>
- #include "hw/qdev-core.h"
- #include "monitor-internal.h"
- #include "monitor/hmp.h"
--#include "qapi/error.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qnum.h"
- #include "qemu/config-file.h"
-@@ -37,7 +35,6 @@
- #include "qemu/option.h"
- #include "qemu/units.h"
- #include "sysemu/block-backend.h"
--#include "sysemu/runstate.h"
- #include "trace.h"
- 
- static void monitor_command_cb(void *opaque, const char *cmdline,
+ #endif
+diff --git a/audio/audio-hmp-cmds.c b/audio/audio-hmp-cmds.c
+new file mode 100644
+index 0000000000..1237ce9e75
+--- /dev/null
++++ b/audio/audio-hmp-cmds.c
+@@ -0,0 +1,83 @@
++/*
++ * HMP commands related to audio backends
++ *
++ * Copyright (c) 2003-2004 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "audio/audio.h"
++#include "monitor/hmp.h"
++#include "monitor/monitor.h"
++#include "qapi/qmp/qdict.h"
++
++static QLIST_HEAD (capture_list_head, CaptureState) capture_head;
++
++void hmp_info_capture(Monitor *mon, const QDict *qdict)
++{
++    int i;
++    CaptureState *s;
++
++    for (s = capture_head.lh_first, i = 0; s; s = s->entries.le_next, ++i) {
++        monitor_printf(mon, "[%d]: ", i);
++        s->ops.info (s->opaque);
++    }
++}
++
++void hmp_stopcapture(Monitor *mon, const QDict *qdict)
++{
++    int i;
++    int n = qdict_get_int(qdict, "n");
++    CaptureState *s;
++
++    for (s = capture_head.lh_first, i = 0; s; s = s->entries.le_next, ++i) {
++        if (i == n) {
++            s->ops.destroy (s->opaque);
++            QLIST_REMOVE (s, entries);
++            g_free (s);
++            return;
++        }
++    }
++}
++
++void hmp_wavcapture(Monitor *mon, const QDict *qdict)
++{
++    const char *path = qdict_get_str(qdict, "path");
++    int freq = qdict_get_try_int(qdict, "freq", 44100);
++    int bits = qdict_get_try_int(qdict, "bits", 16);
++    int nchannels = qdict_get_try_int(qdict, "nchannels", 2);
++    const char *audiodev = qdict_get_str(qdict, "audiodev");
++    CaptureState *s;
++    AudioState *as = audio_state_by_name(audiodev);
++
++    if (!as) {
++        monitor_printf(mon, "Audiodev '%s' not found\n", audiodev);
++        return;
++    }
++
++    s = g_malloc0 (sizeof (*s));
++
++    if (wav_start_capture(as, s, path, freq, bits, nchannels)) {
++        monitor_printf(mon, "Failed to add wave capture\n");
++        g_free (s);
++        return;
++    }
++    QLIST_INSERT_HEAD (&capture_head, s, entries);
++}
 diff --git a/monitor/misc.c b/monitor/misc.c
-index 053af4045e..6fc8bfef13 100644
+index 6fc8bfef13..80d5527774 100644
 --- a/monitor/misc.c
 +++ b/monitor/misc.c
-@@ -25,27 +25,20 @@
- #include "qemu/osdep.h"
- #include "monitor-internal.h"
- #include "monitor/qdev.h"
--#include "hw/pci/pci.h"
--#include "sysemu/watchdog.h"
- #include "exec/gdbstub.h"
- #include "net/net.h"
+@@ -30,7 +30,6 @@
  #include "net/slirp.h"
  #include "ui/qemu-spice.h"
--#include "qemu/config-file.h"
  #include "qemu/ctype.h"
- #include "audio/audio.h"
+-#include "audio/audio.h"
  #include "disas/disas.h"
--#include "qemu/timer.h"
  #include "qemu/log.h"
  #include "sysemu/hw_accel.h"
- #include "sysemu/runstate.h"
--#include "authz/list.h"
--#include "qapi/util.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/device_tree.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qerror.h"
--#include "qapi/qmp/qstring.h"
- #include "qom/object_interfaces.h"
- #include "trace/control.h"
- #include "monitor/hmp-target.h"
-@@ -53,10 +46,8 @@
- #ifdef CONFIG_TRACE_SIMPLE
- #include "trace/simple.h"
- #endif
--#include "exec/memory.h"
--#include "exec/exec-all.h"
--#include "qemu/option.h"
--#include "qemu/thread.h"
-+#include "exec/address-spaces.h"
-+#include "exec/ioport.h"
- #include "block/qapi.h"
- #include "block/block-hmp-cmds.h"
- #include "qapi/qapi-commands-char.h"
-@@ -69,7 +60,6 @@
- #include "qapi/qapi-commands-machine.h"
- #include "qapi/qapi-init-commands.h"
- #include "qapi/error.h"
--#include "qapi/qmp-event.h"
- #include "qemu/cutils.h"
+@@ -892,61 +891,6 @@ static void hmp_info_mtree(Monitor *mon, const QDict *qdict)
+     mtree_info(flatview, dispatch_tree, owner, disabled);
+ }
  
- #if defined(TARGET_S390X)
-diff --git a/monitor/monitor.c b/monitor/monitor.c
-index 7ed7bd5342..605fe41748 100644
---- a/monitor/monitor.c
-+++ b/monitor/monitor.c
-@@ -29,7 +29,6 @@
- #include "qapi/qapi-emit-events.h"
- #include "qapi/qapi-visit-control.h"
- #include "qapi/qmp/qdict.h"
--#include "qemu/error-report.h"
- #include "qemu/option.h"
- #include "sysemu/qtest.h"
- #include "trace.h"
-diff --git a/monitor/qmp-cmds-control.c b/monitor/qmp-cmds-control.c
-index 6e581713a3..f21506efa5 100644
---- a/monitor/qmp-cmds-control.c
-+++ b/monitor/qmp-cmds-control.c
-@@ -30,7 +30,6 @@
- #include "qapi/error.h"
- #include "qapi/qapi-commands-control.h"
- #include "qapi/qapi-commands-introspect.h"
--#include "qapi/qapi-emit-events.h"
- #include "qapi/qapi-introspect.h"
- #include "qapi/qapi-visit-introspect.h"
- #include "qapi/qobject-input-visitor.h"
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index bf22a8c5a6..743849c0b5 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -14,29 +14,21 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "block/blockjob.h"
--#include "qemu/cutils.h"
--#include "qemu/option.h"
- #include "monitor/monitor.h"
- #include "monitor/qmp-helpers.h"
- #include "sysemu/sysemu.h"
--#include "qemu/config-file.h"
--#include "qemu/uuid.h"
- #include "chardev/char.h"
- #include "sysemu/kvm.h"
- #include "sysemu/runstate.h"
- #include "sysemu/runstate-action.h"
--#include "sysemu/blockdev.h"
- #include "sysemu/block-backend.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-acpi.h"
--#include "qapi/qapi-commands-block.h"
- #include "qapi/qapi-commands-control.h"
- #include "qapi/qapi-commands-machine.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-stats.h"
- #include "qapi/type-helpers.h"
--#include "exec/ramlist.h"
- #include "hw/mem/memory-device.h"
- #include "hw/acpi/acpi_dev_interface.h"
- #include "hw/intc/intc.h"
+-/* Capture support */
+-static QLIST_HEAD (capture_list_head, CaptureState) capture_head;
+-
+-static void hmp_info_capture(Monitor *mon, const QDict *qdict)
+-{
+-    int i;
+-    CaptureState *s;
+-
+-    for (s = capture_head.lh_first, i = 0; s; s = s->entries.le_next, ++i) {
+-        monitor_printf(mon, "[%d]: ", i);
+-        s->ops.info (s->opaque);
+-    }
+-}
+-
+-static void hmp_stopcapture(Monitor *mon, const QDict *qdict)
+-{
+-    int i;
+-    int n = qdict_get_int(qdict, "n");
+-    CaptureState *s;
+-
+-    for (s = capture_head.lh_first, i = 0; s; s = s->entries.le_next, ++i) {
+-        if (i == n) {
+-            s->ops.destroy (s->opaque);
+-            QLIST_REMOVE (s, entries);
+-            g_free (s);
+-            return;
+-        }
+-    }
+-}
+-
+-static void hmp_wavcapture(Monitor *mon, const QDict *qdict)
+-{
+-    const char *path = qdict_get_str(qdict, "path");
+-    int freq = qdict_get_try_int(qdict, "freq", 44100);
+-    int bits = qdict_get_try_int(qdict, "bits", 16);
+-    int nchannels = qdict_get_try_int(qdict, "nchannels", 2);
+-    const char *audiodev = qdict_get_str(qdict, "audiodev");
+-    CaptureState *s;
+-    AudioState *as = audio_state_by_name(audiodev);
+-
+-    if (!as) {
+-        monitor_printf(mon, "Audiodev '%s' not found\n", audiodev);
+-        return;
+-    }
+-
+-    s = g_malloc0 (sizeof (*s));
+-
+-    if (wav_start_capture(as, s, path, freq, bits, nchannels)) {
+-        monitor_printf(mon, "Failed to add wave capture\n");
+-        g_free (s);
+-        return;
+-    }
+-    QLIST_INSERT_HEAD (&capture_head, s, entries);
+-}
+-
+ void qmp_getfd(const char *fdname, Error **errp)
+ {
+     Monitor *cur_mon = monitor_cur();
+diff --git a/audio/meson.build b/audio/meson.build
+index 34aed78342..0722224ba9 100644
+--- a/audio/meson.build
++++ b/audio/meson.build
+@@ -1,5 +1,6 @@
+ softmmu_ss.add([spice_headers, files('audio.c')])
+ softmmu_ss.add(files(
++  'audio-hmp-cmds.c',
+   'audio_legacy.c',
+   'mixeng.c',
+   'noaudio.c',
 -- 
 2.39.0
 
