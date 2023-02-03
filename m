@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D99A66892AE
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 09:51:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2994168928F
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 09:47:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNriC-0008W0-Hk; Fri, 03 Feb 2023 03:46:24 -0500
+	id 1pNriR-0000F0-9e; Fri, 03 Feb 2023 03:46:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhq-0008Ka-7w
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:46:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhu-0008N6-EM
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:46:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhl-0007Tz-5m
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:46:01 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhm-0007VM-FQ
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:46:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675413955;
+ s=mimecast20190719; t=1675413957;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DYqhtMC3JRMyh+AP/oaCvEgbu1wI4LuYqBhew30oA1Y=;
- b=V46j1iVNX7OzesjNv5A6mvyTGra95MjldpD8WIRy7lbK9BfP0XdenJo7N2O8IoRoi5r9Em
- c95VsNtzVc2q8RYKqmPElUn9oLP2THhcj+Dk6wuexBxznJ/ccwg68Ez9k/7glhRQV+UNhW
- 9+RkjLtzlYyRHNf21bx4cRoH+k21FBE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=dk3m2y93Nyebt1YFx6+TAJe1N43fz4SMNnU4CuDpv8s=;
+ b=FFhEYKP4dioZUw1xyf77YNi8e5L65xBG7jqENC53uqp/k9Hovsyzf/xH4k0GZ6+dYt48Q0
+ 5hQUHKXQAFx5EU4guTZH1AN4RkrSGQHVRE7kMDndcGjScRYAl0h8vVUfOz7tMPIYa/Buge
+ UJZOjs8dC9yPdB5nD384KIuKiqRNpIo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-550-zEFAbDqwMiWPe_Ma0efBKw-1; Fri, 03 Feb 2023 03:45:54 -0500
-X-MC-Unique: zEFAbDqwMiWPe_Ma0efBKw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-127-QD3C93TGMVSYZ-Mee3yzuQ-1; Fri, 03 Feb 2023 03:45:54 -0500
+X-MC-Unique: QD3C93TGMVSYZ-Mee3yzuQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 173C4885628;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A8AD1C05EB4;
  Fri,  3 Feb 2023 08:45:54 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A4C55492B17;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A38C42026D38;
  Fri,  3 Feb 2023 08:45:53 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EB23821E692B; Fri,  3 Feb 2023 09:45:49 +0100 (CET)
+ id ED63621E6930; Fri,  3 Feb 2023 09:45:49 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org
-Subject: [PULL 25/35] stats: Move QMP commands from monitor/ to stats/
-Date: Fri,  3 Feb 2023 09:45:39 +0100
-Message-Id: <20230203084549.2622302-26-armbru@redhat.com>
+Subject: [PULL 26/35] stats: Move HMP commands from monitor/ to stats/
+Date: Fri,  3 Feb 2023 09:45:40 +0100
+Message-Id: <20230203084549.2622302-27-armbru@redhat.com>
 In-Reply-To: <20230203084549.2622302-1-armbru@redhat.com>
 References: <20230203084549.2622302-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,416 +78,530 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This moves these commands from MAINTAINERS section "QMP" to new
-section "Stats".  Status is Orphan.  Volunteers welcome!
+This moves these commands from MAINTAINERS section "Human
+Monitor (HMP)" to section "Stats".
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20230124121946.1139465-23-armbru@redhat.com>
+Message-Id: <20230124121946.1139465-24-armbru@redhat.com>
 ---
- MAINTAINERS                         |   5 +
- meson.build                         |   1 +
- include/{monitor => sysemu}/stats.h |   0
- accel/kvm/kvm-all.c                 |   2 +-
- monitor/qmp-cmds.c                  | 152 --------------------------
- stats/stats-qmp-cmds.c              | 162 ++++++++++++++++++++++++++++
- stats/meson.build                   |   1 +
- 7 files changed, 170 insertions(+), 153 deletions(-)
- rename include/{monitor => sysemu}/stats.h (100%)
- create mode 100644 stats/stats-qmp-cmds.c
- create mode 100644 stats/meson.build
+ monitor/hmp-cmds.c     | 234 --------------------------------------
+ stats/stats-hmp-cmds.c | 247 +++++++++++++++++++++++++++++++++++++++++
+ stats/meson.build      |   2 +-
+ 3 files changed, 248 insertions(+), 235 deletions(-)
+ create mode 100644 stats/stats-hmp-cmds.c
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b2f1d2518b..b377ac1476 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3038,6 +3038,11 @@ F: net/slirp.c
- F: include/net/slirp.h
- T: git https://people.debian.org/~sthibault/qemu.git slirp
- 
-+Stats
-+S: Orphan
-+F: include/sysemu/stats.h
-+F: stats/
-+
- Streams
- M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
- S: Maintained
-diff --git a/meson.build b/meson.build
-index 6d3b665629..57b35d721e 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3132,6 +3132,7 @@ subdir('monitor')
- subdir('net')
- subdir('replay')
- subdir('semihosting')
-+subdir('stats')
- subdir('tcg')
- subdir('fpu')
- subdir('accel')
-diff --git a/include/monitor/stats.h b/include/sysemu/stats.h
-similarity index 100%
-rename from include/monitor/stats.h
-rename to include/sysemu/stats.h
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 7e6a6076b1..9b26582655 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -50,7 +50,7 @@
- #include "qemu/range.h"
- 
- #include "hw/boards.h"
--#include "monitor/stats.h"
-+#include "sysemu/stats.h"
- 
- /* This check must be after config-host.h is included */
- #ifdef CONFIG_EVENTFD
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index 4a8d1e9a15..ab23e52f97 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -25,13 +25,11 @@
- #include "qapi/qapi-commands-acpi.h"
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 34e98b0e0b..8a3d56bcde 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -20,11 +20,9 @@
+ #include "qapi/error.h"
  #include "qapi/qapi-commands-control.h"
  #include "qapi/qapi-commands-misc.h"
 -#include "qapi/qapi-commands-stats.h"
- #include "qapi/type-helpers.h"
- #include "hw/mem/memory-device.h"
- #include "hw/acpi/acpi_dev_interface.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qerror.h"
+ #include "qemu/cutils.h"
+-#include "hw/core/cpu.h"
  #include "hw/intc/intc.h"
- #include "hw/rdma/rdma.h"
--#include "monitor/stats.h"
  
- NameInfo *qmp_query_name(Error **errp)
- {
-@@ -174,153 +172,3 @@ ACPIOSTInfoList *qmp_query_acpi_ospm_status(Error **errp)
+ bool hmp_handle_error(Monitor *mon, Error *err)
+@@ -226,235 +224,3 @@ void hmp_info_iothreads(Monitor *mon, const QDict *qdict)
  
-     return head;
+     qapi_free_IOThreadInfoList(info_list);
  }
 -
--typedef struct StatsCallbacks {
--    StatsProvider provider;
--    StatRetrieveFunc *stats_cb;
--    SchemaRetrieveFunc *schemas_cb;
--    QTAILQ_ENTRY(StatsCallbacks) next;
--} StatsCallbacks;
--
--static QTAILQ_HEAD(, StatsCallbacks) stats_callbacks =
--    QTAILQ_HEAD_INITIALIZER(stats_callbacks);
--
--void add_stats_callbacks(StatsProvider provider,
--                         StatRetrieveFunc *stats_fn,
--                         SchemaRetrieveFunc *schemas_fn)
+-static void print_stats_schema_value(Monitor *mon, StatsSchemaValue *value)
 -{
--    StatsCallbacks *entry = g_new(StatsCallbacks, 1);
--    entry->provider = provider;
--    entry->stats_cb = stats_fn;
--    entry->schemas_cb = schemas_fn;
+-    const char *unit = NULL;
+-    monitor_printf(mon, "    %s (%s%s", value->name, StatsType_str(value->type),
+-                   value->has_unit || value->exponent ? ", " : "");
 -
--    QTAILQ_INSERT_TAIL(&stats_callbacks, entry, next);
--}
--
--static bool invoke_stats_cb(StatsCallbacks *entry,
--                            StatsResultList **stats_results,
--                            StatsFilter *filter, StatsRequest *request,
--                            Error **errp)
--{
--    ERRP_GUARD();
--    strList *targets = NULL;
--    strList *names = NULL;
--
--    if (request) {
--        if (request->provider != entry->provider) {
--            return true;
+-    if (value->has_unit) {
+-        if (value->unit == STATS_UNIT_SECONDS) {
+-            unit = "s";
+-        } else if (value->unit == STATS_UNIT_BYTES) {
+-            unit = "B";
 -        }
--        if (request->has_names && !request->names) {
--            return true;
--        }
--        names = request->has_names ? request->names : NULL;
 -    }
 -
--    switch (filter->target) {
+-    if (unit && value->base == 10 &&
+-        value->exponent >= -18 && value->exponent <= 18 &&
+-        value->exponent % 3 == 0) {
+-        monitor_puts(mon, si_prefix(value->exponent));
+-    } else if (unit && value->base == 2 &&
+-               value->exponent >= 0 && value->exponent <= 60 &&
+-               value->exponent % 10 == 0) {
+-
+-        monitor_puts(mon, iec_binary_prefix(value->exponent));
+-    } else if (value->exponent) {
+-        /* Use exponential notation and write the unit's English name */
+-        monitor_printf(mon, "* %d^%d%s",
+-                       value->base, value->exponent,
+-                       value->has_unit ? " " : "");
+-        unit = NULL;
+-    }
+-
+-    if (value->has_unit) {
+-        monitor_puts(mon, unit ? unit : StatsUnit_str(value->unit));
+-    }
+-
+-    /* Print bucket size for linear histograms */
+-    if (value->type == STATS_TYPE_LINEAR_HISTOGRAM && value->has_bucket_size) {
+-        monitor_printf(mon, ", bucket size=%d", value->bucket_size);
+-    }
+-    monitor_printf(mon, ")");
+-}
+-
+-static StatsSchemaValueList *find_schema_value_list(
+-    StatsSchemaList *list, StatsProvider provider,
+-    StatsTarget target)
+-{
+-    StatsSchemaList *node;
+-
+-    for (node = list; node; node = node->next) {
+-        if (node->value->provider == provider &&
+-            node->value->target == target) {
+-            return node->value->stats;
+-        }
+-    }
+-    return NULL;
+-}
+-
+-static void print_stats_results(Monitor *mon, StatsTarget target,
+-                                bool show_provider,
+-                                StatsResult *result,
+-                                StatsSchemaList *schema)
+-{
+-    /* Find provider schema */
+-    StatsSchemaValueList *schema_value_list =
+-        find_schema_value_list(schema, result->provider, target);
+-    StatsList *stats_list;
+-
+-    if (!schema_value_list) {
+-        monitor_printf(mon, "failed to find schema list for %s\n",
+-                       StatsProvider_str(result->provider));
+-        return;
+-    }
+-
+-    if (show_provider) {
+-        monitor_printf(mon, "provider: %s\n",
+-                       StatsProvider_str(result->provider));
+-    }
+-
+-    for (stats_list = result->stats; stats_list;
+-             stats_list = stats_list->next,
+-             schema_value_list = schema_value_list->next) {
+-
+-        Stats *stats = stats_list->value;
+-        StatsValue *stats_value = stats->value;
+-        StatsSchemaValue *schema_value = schema_value_list->value;
+-
+-        /* Find schema entry */
+-        while (!g_str_equal(stats->name, schema_value->name)) {
+-            if (!schema_value_list->next) {
+-                monitor_printf(mon, "failed to find schema entry for %s\n",
+-                               stats->name);
+-                return;
+-            }
+-            schema_value_list = schema_value_list->next;
+-            schema_value = schema_value_list->value;
+-        }
+-
+-        print_stats_schema_value(mon, schema_value);
+-
+-        if (stats_value->type == QTYPE_QNUM) {
+-            monitor_printf(mon, ": %" PRId64 "\n", stats_value->u.scalar);
+-        } else if (stats_value->type == QTYPE_QBOOL) {
+-            monitor_printf(mon, ": %s\n", stats_value->u.boolean ? "yes" : "no");
+-        } else if (stats_value->type == QTYPE_QLIST) {
+-            uint64List *list;
+-            int i;
+-
+-            monitor_printf(mon, ": ");
+-            for (list = stats_value->u.list, i = 1;
+-                 list;
+-                 list = list->next, i++) {
+-                monitor_printf(mon, "[%d]=%" PRId64 " ", i, list->value);
+-            }
+-            monitor_printf(mon, "\n");
+-        }
+-    }
+-}
+-
+-/* Create the StatsFilter that is needed for an "info stats" invocation.  */
+-static StatsFilter *stats_filter(StatsTarget target, const char *names,
+-                                 int cpu_index, StatsProvider provider)
+-{
+-    StatsFilter *filter = g_malloc0(sizeof(*filter));
+-    StatsProvider provider_idx;
+-    StatsRequestList *request_list = NULL;
+-
+-    filter->target = target;
+-    switch (target) {
 -    case STATS_TARGET_VM:
 -        break;
 -    case STATS_TARGET_VCPU:
--        if (filter->u.vcpu.has_vcpus) {
--            if (!filter->u.vcpu.vcpus) {
--                /* No targets allowed?  Return no statistics.  */
--                return true;
+-    {
+-        strList *vcpu_list = NULL;
+-        CPUState *cpu = qemu_get_cpu(cpu_index);
+-        char *canonical_path = object_get_canonical_path(OBJECT(cpu));
+-
+-        QAPI_LIST_PREPEND(vcpu_list, canonical_path);
+-        filter->u.vcpu.has_vcpus = true;
+-        filter->u.vcpu.vcpus = vcpu_list;
+-        break;
+-    }
+-    default:
+-        break;
+-    }
+-
+-    if (!names && provider == STATS_PROVIDER__MAX) {
+-        return filter;
+-    }
+-
+-    /*
+-     * "info stats" can only query either one or all the providers.  Querying
+-     * by name, but not by provider, requires the creation of one filter per
+-     * provider.
+-     */
+-    for (provider_idx = 0; provider_idx < STATS_PROVIDER__MAX; provider_idx++) {
+-        if (provider == STATS_PROVIDER__MAX || provider == provider_idx) {
+-            StatsRequest *request = g_new0(StatsRequest, 1);
+-            request->provider = provider_idx;
+-            if (names && !g_str_equal(names, "*")) {
+-                request->has_names = true;
+-                request->names = hmp_split_at_comma(names);
 -            }
--            targets = filter->u.vcpu.vcpus;
+-            QAPI_LIST_PREPEND(request_list, request);
 -        }
+-    }
+-
+-    filter->has_providers = true;
+-    filter->providers = request_list;
+-    return filter;
+-}
+-
+-void hmp_info_stats(Monitor *mon, const QDict *qdict)
+-{
+-    const char *target_str = qdict_get_str(qdict, "target");
+-    const char *provider_str = qdict_get_try_str(qdict, "provider");
+-    const char *names = qdict_get_try_str(qdict, "names");
+-
+-    StatsProvider provider = STATS_PROVIDER__MAX;
+-    StatsTarget target;
+-    Error *err = NULL;
+-    g_autoptr(StatsSchemaList) schema = NULL;
+-    g_autoptr(StatsResultList) stats = NULL;
+-    g_autoptr(StatsFilter) filter = NULL;
+-    StatsResultList *entry;
+-
+-    target = qapi_enum_parse(&StatsTarget_lookup, target_str, -1, &err);
+-    if (err) {
+-        monitor_printf(mon, "invalid stats target %s\n", target_str);
+-        goto exit_no_print;
+-    }
+-    if (provider_str) {
+-        provider = qapi_enum_parse(&StatsProvider_lookup, provider_str, -1, &err);
+-        if (err) {
+-            monitor_printf(mon, "invalid stats provider %s\n", provider_str);
+-            goto exit_no_print;
+-        }
+-    }
+-
+-    schema = qmp_query_stats_schemas(provider_str ? true : false,
+-                                     provider, &err);
+-    if (err) {
+-        goto exit;
+-    }
+-
+-    switch (target) {
+-    case STATS_TARGET_VM:
+-        filter = stats_filter(target, names, -1, provider);
+-        break;
+-    case STATS_TARGET_VCPU: {}
+-        int cpu_index = monitor_get_cpu_index(mon);
+-        filter = stats_filter(target, names, cpu_index, provider);
 -        break;
 -    default:
 -        abort();
 -    }
 -
--    entry->stats_cb(stats_results, filter->target, names, targets, errp);
--    if (*errp) {
--        qapi_free_StatsResultList(*stats_results);
--        *stats_results = NULL;
--        return false;
+-    stats = qmp_query_stats(filter, &err);
+-    if (err) {
+-        goto exit;
 -    }
--    return true;
--}
--
--StatsResultList *qmp_query_stats(StatsFilter *filter, Error **errp)
--{
--    StatsResultList *stats_results = NULL;
--    StatsCallbacks *entry;
--    StatsRequestList *request;
--
--    QTAILQ_FOREACH(entry, &stats_callbacks, next) {
--        if (filter->has_providers) {
--            for (request = filter->providers; request; request = request->next) {
--                if (!invoke_stats_cb(entry, &stats_results, filter,
--                                     request->value, errp)) {
--                    break;
--                }
--            }
--        } else {
--            if (!invoke_stats_cb(entry, &stats_results, filter, NULL, errp)) {
--                break;
--            }
--        }
+-    for (entry = stats; entry; entry = entry->next) {
+-        print_stats_results(mon, target, provider_str == NULL, entry->value, schema);
 -    }
 -
--    return stats_results;
--}
--
--StatsSchemaList *qmp_query_stats_schemas(bool has_provider,
--                                         StatsProvider provider,
--                                         Error **errp)
--{
--    ERRP_GUARD();
--    StatsSchemaList *stats_results = NULL;
--    StatsCallbacks *entry;
--
--    QTAILQ_FOREACH(entry, &stats_callbacks, next) {
--        if (!has_provider || provider == entry->provider) {
--            entry->schemas_cb(&stats_results, errp);
--            if (*errp) {
--                qapi_free_StatsSchemaList(stats_results);
--                return NULL;
--            }
--        }
+-exit:
+-    if (err) {
+-        monitor_printf(mon, "%s\n", error_get_pretty(err));
 -    }
--
--    return stats_results;
+-exit_no_print:
+-    error_free(err);
 -}
--
--void add_stats_entry(StatsResultList **stats_results, StatsProvider provider,
--                     const char *qom_path, StatsList *stats_list)
--{
--    StatsResult *entry = g_new0(StatsResult, 1);
--
--    entry->provider = provider;
--    entry->qom_path = g_strdup(qom_path);
--    entry->stats = stats_list;
--
--    QAPI_LIST_PREPEND(*stats_results, entry);
--}
--
--void add_stats_schema(StatsSchemaList **schema_results,
--                      StatsProvider provider, StatsTarget target,
--                      StatsSchemaValueList *stats_list)
--{
--    StatsSchema *entry = g_new0(StatsSchema, 1);
--
--    entry->provider = provider;
--    entry->target = target;
--    entry->stats = stats_list;
--    QAPI_LIST_PREPEND(*schema_results, entry);
--}
--
--bool apply_str_list_filter(const char *string, strList *list)
--{
--    strList *str_list = NULL;
--
--    if (!list) {
--        return true;
--    }
--    for (str_list = list; str_list; str_list = str_list->next) {
--        if (g_str_equal(string, str_list->value)) {
--            return true;
--        }
--    }
--    return false;
--}
-diff --git a/stats/stats-qmp-cmds.c b/stats/stats-qmp-cmds.c
+diff --git a/stats/stats-hmp-cmds.c b/stats/stats-hmp-cmds.c
 new file mode 100644
-index 0000000000..bc973747fb
+index 0000000000..531e35d128
 --- /dev/null
-+++ b/stats/stats-qmp-cmds.c
-@@ -0,0 +1,162 @@
++++ b/stats/stats-hmp-cmds.c
+@@ -0,0 +1,247 @@
 +/*
-+ * QMP commands related to stats
++ * HMP commands related to stats
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or
 + * (at your option) any later version.
 + */
 +
 +#include "qemu/osdep.h"
-+#include "sysemu/stats.h"
 +#include "qapi/qapi-commands-stats.h"
-+#include "qemu/queue.h"
++#include "monitor/hmp.h"
++#include "monitor/monitor.h"
++#include "qemu/cutils.h"
++#include "hw/core/cpu.h"
++#include "qapi/qmp/qdict.h"
 +#include "qapi/error.h"
 +
-+typedef struct StatsCallbacks {
-+    StatsProvider provider;
-+    StatRetrieveFunc *stats_cb;
-+    SchemaRetrieveFunc *schemas_cb;
-+    QTAILQ_ENTRY(StatsCallbacks) next;
-+} StatsCallbacks;
-+
-+static QTAILQ_HEAD(, StatsCallbacks) stats_callbacks =
-+    QTAILQ_HEAD_INITIALIZER(stats_callbacks);
-+
-+void add_stats_callbacks(StatsProvider provider,
-+                         StatRetrieveFunc *stats_fn,
-+                         SchemaRetrieveFunc *schemas_fn)
++static void print_stats_schema_value(Monitor *mon, StatsSchemaValue *value)
 +{
-+    StatsCallbacks *entry = g_new(StatsCallbacks, 1);
-+    entry->provider = provider;
-+    entry->stats_cb = stats_fn;
-+    entry->schemas_cb = schemas_fn;
++    const char *unit = NULL;
++    monitor_printf(mon, "    %s (%s%s", value->name, StatsType_str(value->type),
++                   value->has_unit || value->exponent ? ", " : "");
 +
-+    QTAILQ_INSERT_TAIL(&stats_callbacks, entry, next);
-+}
-+
-+static bool invoke_stats_cb(StatsCallbacks *entry,
-+                            StatsResultList **stats_results,
-+                            StatsFilter *filter, StatsRequest *request,
-+                            Error **errp)
-+{
-+    ERRP_GUARD();
-+    strList *targets = NULL;
-+    strList *names = NULL;
-+
-+    if (request) {
-+        if (request->provider != entry->provider) {
-+            return true;
++    if (value->has_unit) {
++        if (value->unit == STATS_UNIT_SECONDS) {
++            unit = "s";
++        } else if (value->unit == STATS_UNIT_BYTES) {
++            unit = "B";
 +        }
-+        if (request->has_names && !request->names) {
-+            return true;
-+        }
-+        names = request->has_names ? request->names : NULL;
 +    }
 +
-+    switch (filter->target) {
++    if (unit && value->base == 10 &&
++        value->exponent >= -18 && value->exponent <= 18 &&
++        value->exponent % 3 == 0) {
++        monitor_puts(mon, si_prefix(value->exponent));
++    } else if (unit && value->base == 2 &&
++               value->exponent >= 0 && value->exponent <= 60 &&
++               value->exponent % 10 == 0) {
++
++        monitor_puts(mon, iec_binary_prefix(value->exponent));
++    } else if (value->exponent) {
++        /* Use exponential notation and write the unit's English name */
++        monitor_printf(mon, "* %d^%d%s",
++                       value->base, value->exponent,
++                       value->has_unit ? " " : "");
++        unit = NULL;
++    }
++
++    if (value->has_unit) {
++        monitor_puts(mon, unit ? unit : StatsUnit_str(value->unit));
++    }
++
++    /* Print bucket size for linear histograms */
++    if (value->type == STATS_TYPE_LINEAR_HISTOGRAM && value->has_bucket_size) {
++        monitor_printf(mon, ", bucket size=%d", value->bucket_size);
++    }
++    monitor_printf(mon, ")");
++}
++
++static StatsSchemaValueList *find_schema_value_list(
++    StatsSchemaList *list, StatsProvider provider,
++    StatsTarget target)
++{
++    StatsSchemaList *node;
++
++    for (node = list; node; node = node->next) {
++        if (node->value->provider == provider &&
++            node->value->target == target) {
++            return node->value->stats;
++        }
++    }
++    return NULL;
++}
++
++static void print_stats_results(Monitor *mon, StatsTarget target,
++                                bool show_provider,
++                                StatsResult *result,
++                                StatsSchemaList *schema)
++{
++    /* Find provider schema */
++    StatsSchemaValueList *schema_value_list =
++        find_schema_value_list(schema, result->provider, target);
++    StatsList *stats_list;
++
++    if (!schema_value_list) {
++        monitor_printf(mon, "failed to find schema list for %s\n",
++                       StatsProvider_str(result->provider));
++        return;
++    }
++
++    if (show_provider) {
++        monitor_printf(mon, "provider: %s\n",
++                       StatsProvider_str(result->provider));
++    }
++
++    for (stats_list = result->stats; stats_list;
++             stats_list = stats_list->next,
++             schema_value_list = schema_value_list->next) {
++
++        Stats *stats = stats_list->value;
++        StatsValue *stats_value = stats->value;
++        StatsSchemaValue *schema_value = schema_value_list->value;
++
++        /* Find schema entry */
++        while (!g_str_equal(stats->name, schema_value->name)) {
++            if (!schema_value_list->next) {
++                monitor_printf(mon, "failed to find schema entry for %s\n",
++                               stats->name);
++                return;
++            }
++            schema_value_list = schema_value_list->next;
++            schema_value = schema_value_list->value;
++        }
++
++        print_stats_schema_value(mon, schema_value);
++
++        if (stats_value->type == QTYPE_QNUM) {
++            monitor_printf(mon, ": %" PRId64 "\n", stats_value->u.scalar);
++        } else if (stats_value->type == QTYPE_QBOOL) {
++            monitor_printf(mon, ": %s\n", stats_value->u.boolean ? "yes" : "no");
++        } else if (stats_value->type == QTYPE_QLIST) {
++            uint64List *list;
++            int i;
++
++            monitor_printf(mon, ": ");
++            for (list = stats_value->u.list, i = 1;
++                 list;
++                 list = list->next, i++) {
++                monitor_printf(mon, "[%d]=%" PRId64 " ", i, list->value);
++            }
++            monitor_printf(mon, "\n");
++        }
++    }
++}
++
++/* Create the StatsFilter that is needed for an "info stats" invocation.  */
++static StatsFilter *stats_filter(StatsTarget target, const char *names,
++                                 int cpu_index, StatsProvider provider)
++{
++    StatsFilter *filter = g_malloc0(sizeof(*filter));
++    StatsProvider provider_idx;
++    StatsRequestList *request_list = NULL;
++
++    filter->target = target;
++    switch (target) {
 +    case STATS_TARGET_VM:
 +        break;
 +    case STATS_TARGET_VCPU:
-+        if (filter->u.vcpu.has_vcpus) {
-+            if (!filter->u.vcpu.vcpus) {
-+                /* No targets allowed?  Return no statistics.  */
-+                return true;
++    {
++        strList *vcpu_list = NULL;
++        CPUState *cpu = qemu_get_cpu(cpu_index);
++        char *canonical_path = object_get_canonical_path(OBJECT(cpu));
++
++        QAPI_LIST_PREPEND(vcpu_list, canonical_path);
++        filter->u.vcpu.has_vcpus = true;
++        filter->u.vcpu.vcpus = vcpu_list;
++        break;
++    }
++    default:
++        break;
++    }
++
++    if (!names && provider == STATS_PROVIDER__MAX) {
++        return filter;
++    }
++
++    /*
++     * "info stats" can only query either one or all the providers.  Querying
++     * by name, but not by provider, requires the creation of one filter per
++     * provider.
++     */
++    for (provider_idx = 0; provider_idx < STATS_PROVIDER__MAX; provider_idx++) {
++        if (provider == STATS_PROVIDER__MAX || provider == provider_idx) {
++            StatsRequest *request = g_new0(StatsRequest, 1);
++            request->provider = provider_idx;
++            if (names && !g_str_equal(names, "*")) {
++                request->has_names = true;
++                request->names = hmp_split_at_comma(names);
 +            }
-+            targets = filter->u.vcpu.vcpus;
++            QAPI_LIST_PREPEND(request_list, request);
 +        }
++    }
++
++    filter->has_providers = true;
++    filter->providers = request_list;
++    return filter;
++}
++
++void hmp_info_stats(Monitor *mon, const QDict *qdict)
++{
++    const char *target_str = qdict_get_str(qdict, "target");
++    const char *provider_str = qdict_get_try_str(qdict, "provider");
++    const char *names = qdict_get_try_str(qdict, "names");
++
++    StatsProvider provider = STATS_PROVIDER__MAX;
++    StatsTarget target;
++    Error *err = NULL;
++    g_autoptr(StatsSchemaList) schema = NULL;
++    g_autoptr(StatsResultList) stats = NULL;
++    g_autoptr(StatsFilter) filter = NULL;
++    StatsResultList *entry;
++
++    target = qapi_enum_parse(&StatsTarget_lookup, target_str, -1, &err);
++    if (err) {
++        monitor_printf(mon, "invalid stats target %s\n", target_str);
++        goto exit_no_print;
++    }
++    if (provider_str) {
++        provider = qapi_enum_parse(&StatsProvider_lookup, provider_str, -1, &err);
++        if (err) {
++            monitor_printf(mon, "invalid stats provider %s\n", provider_str);
++            goto exit_no_print;
++        }
++    }
++
++    schema = qmp_query_stats_schemas(provider_str ? true : false,
++                                     provider, &err);
++    if (err) {
++        goto exit;
++    }
++
++    switch (target) {
++    case STATS_TARGET_VM:
++        filter = stats_filter(target, names, -1, provider);
++        break;
++    case STATS_TARGET_VCPU: {}
++        int cpu_index = monitor_get_cpu_index(mon);
++        filter = stats_filter(target, names, cpu_index, provider);
 +        break;
 +    default:
 +        abort();
 +    }
 +
-+    entry->stats_cb(stats_results, filter->target, names, targets, errp);
-+    if (*errp) {
-+        qapi_free_StatsResultList(*stats_results);
-+        *stats_results = NULL;
-+        return false;
++    stats = qmp_query_stats(filter, &err);
++    if (err) {
++        goto exit;
 +    }
-+    return true;
-+}
-+
-+StatsResultList *qmp_query_stats(StatsFilter *filter, Error **errp)
-+{
-+    StatsResultList *stats_results = NULL;
-+    StatsCallbacks *entry;
-+    StatsRequestList *request;
-+
-+    QTAILQ_FOREACH(entry, &stats_callbacks, next) {
-+        if (filter->has_providers) {
-+            for (request = filter->providers; request; request = request->next) {
-+                if (!invoke_stats_cb(entry, &stats_results, filter,
-+                                     request->value, errp)) {
-+                    break;
-+                }
-+            }
-+        } else {
-+            if (!invoke_stats_cb(entry, &stats_results, filter, NULL, errp)) {
-+                break;
-+            }
-+        }
++    for (entry = stats; entry; entry = entry->next) {
++        print_stats_results(mon, target, provider_str == NULL, entry->value, schema);
 +    }
 +
-+    return stats_results;
-+}
-+
-+StatsSchemaList *qmp_query_stats_schemas(bool has_provider,
-+                                         StatsProvider provider,
-+                                         Error **errp)
-+{
-+    ERRP_GUARD();
-+    StatsSchemaList *stats_results = NULL;
-+    StatsCallbacks *entry;
-+
-+    QTAILQ_FOREACH(entry, &stats_callbacks, next) {
-+        if (!has_provider || provider == entry->provider) {
-+            entry->schemas_cb(&stats_results, errp);
-+            if (*errp) {
-+                qapi_free_StatsSchemaList(stats_results);
-+                return NULL;
-+            }
-+        }
++exit:
++    if (err) {
++        monitor_printf(mon, "%s\n", error_get_pretty(err));
 +    }
-+
-+    return stats_results;
-+}
-+
-+void add_stats_entry(StatsResultList **stats_results, StatsProvider provider,
-+                     const char *qom_path, StatsList *stats_list)
-+{
-+    StatsResult *entry = g_new0(StatsResult, 1);
-+
-+    entry->provider = provider;
-+    entry->qom_path = g_strdup(qom_path);
-+    entry->stats = stats_list;
-+
-+    QAPI_LIST_PREPEND(*stats_results, entry);
-+}
-+
-+void add_stats_schema(StatsSchemaList **schema_results,
-+                      StatsProvider provider, StatsTarget target,
-+                      StatsSchemaValueList *stats_list)
-+{
-+    StatsSchema *entry = g_new0(StatsSchema, 1);
-+
-+    entry->provider = provider;
-+    entry->target = target;
-+    entry->stats = stats_list;
-+    QAPI_LIST_PREPEND(*schema_results, entry);
-+}
-+
-+bool apply_str_list_filter(const char *string, strList *list)
-+{
-+    strList *str_list = NULL;
-+
-+    if (!list) {
-+        return true;
-+    }
-+    for (str_list = list; str_list; str_list = str_list->next) {
-+        if (g_str_equal(string, str_list->value)) {
-+            return true;
-+        }
-+    }
-+    return false;
++exit_no_print:
++    error_free(err);
 +}
 diff --git a/stats/meson.build b/stats/meson.build
-new file mode 100644
-index 0000000000..4ddb4d096b
---- /dev/null
+index 4ddb4d096b..c4153f979e 100644
+--- a/stats/meson.build
 +++ b/stats/meson.build
-@@ -0,0 +1 @@
-+softmmu_ss.add(files('stats-qmp-cmds.c'))
+@@ -1 +1 @@
+-softmmu_ss.add(files('stats-qmp-cmds.c'))
++softmmu_ss.add(files('stats-hmp-cmds.c', 'stats-qmp-cmds.c'))
 -- 
 2.39.0
 
