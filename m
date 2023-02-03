@@ -2,88 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97DCB68A4A7
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F83968A4A6
 	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 22:30:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pO3bz-0007ht-FI; Fri, 03 Feb 2023 16:28:47 -0500
+	id 1pO3cx-0008FL-Fo; Fri, 03 Feb 2023 16:29:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pO3bx-0007hU-3h
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:28:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pO3bv-0000dV-6v
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:28:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675459720;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KQhsMCOyS2Unsi3MVU+lCA1x0CqiAAWETpWTQsaDVDY=;
- b=V0Ztro/+BWbO4RdNtvzuC42/XBD3942sh1GWrnlldbaf6L0xu62lxkWf6t2s9qD9n2nJrj
- jVmIkXlTjVFNz0KvLzsU537e9FUmSG3kEixHvyvYUyHiD1StTgBb1+d6fff6LQfGR6v+He
- KRx1fmAZq3dNhH+neCSQBqvvBMW48qA=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-528-y2pvkGnwPp-LjXDGBq_ZEw-1; Fri, 03 Feb 2023 16:28:39 -0500
-X-MC-Unique: y2pvkGnwPp-LjXDGBq_ZEw-1
-Received: by mail-io1-f69.google.com with SMTP id
- d8-20020a6b6e08000000b00722d8d9c432so3715771ioh.19
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 13:28:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pO3cn-000852-FQ
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:29:40 -0500
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pO3cf-0000gy-UW
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:29:31 -0500
+Received: by mail-pg1-x529.google.com with SMTP id e10so4517233pgc.9
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 13:29:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=vDsxF3EMd0SWurlsQOrOfzaJHeUClqw3x60y4c9W5ec=;
+ b=SWeorVxPYNlD7C9V7PAmSjNDTF04Dzxqi/O/GXNFSubu4CruHTceKcMkRV+2NFNR6E
+ p30Q5auGVSHmK1+ueuGLKvPa3reOzgi5GIWFe8XQi4pSixnsq4AjUvLb18ZME9xuSSd/
+ bEWU9FOZoWshYeOu3eM3PL3PNgevDurqAEXG2dhKAwyNHBz4/GmwTc40ZJt4r51p7wH9
+ UPsgEnEBNNj67WmBYQ/luPTeUtCrnJFvRta71aPw7y48fCsiZ0qTDs7RTJjt7IT0Cy/S
+ sv2HPSX/0rORw3XGwGdT2hCDiVhof+pdaachp9xvhyPd5FB9sNpO+dTnObOxUnZH1VqS
+ Jw6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=KQhsMCOyS2Unsi3MVU+lCA1x0CqiAAWETpWTQsaDVDY=;
- b=n/Q6S1dQjZSipXQDwNpXYqqS4iVsMhG7dBYMyrHI+blM6GSUaetOGblnf3YGqL4pK2
- SV/NgF59UaxS+GVl4yUpPAficeXYgQSQ2d6F4NBRD7+tMu3grEnWPJWT9XYICUrc7rtq
- wkDgODXLlomdz7Avb+TYPOWqhg3cKpFFc7dqb9Gbw+PKTwGC1mkzCesG3SozXA2h2K2P
- JbggvmLpNQItK1bfWAXFiaurBPvE2AM9Il8XAQ6vKed47svpyLVu/7nTfsDZkxkmDosg
- e551ssfLMDSyLLe18GZU477Opj0w7zWKEHcPSzclPZF73rhWlOFGMBA1RPl6YpUj+zcs
- yrbA==
-X-Gm-Message-State: AO0yUKWTNGELt/bBqOId8Rsguh7VOJhitfZN9FXvBsUu5MlcFvV1gPyA
- Lc5PDIS0pKxfIQVT56CeaNcfTCQdVD5CpZ0x2M2nlKydDkzZw2tfW114koeohi8jOx2xQOEYlGK
- J8P+xTESDfPoL22U=
-X-Received: by 2002:a05:6e02:1bac:b0:311:e8:e82e with SMTP id
- n12-20020a056e021bac00b0031100e8e82emr10216588ili.17.1675459718273; 
- Fri, 03 Feb 2023 13:28:38 -0800 (PST)
-X-Google-Smtp-Source: AK7set/518aY/fU9/HKggm2A6PO8hPggVHBlD3YKGu7xVArVi56nzvLc2WF0fqsx61B9Ri4mOi0saA==
-X-Received: by 2002:a05:6e02:1bac:b0:311:e8:e82e with SMTP id
- n12-20020a056e021bac00b0031100e8e82emr10216574ili.17.1675459717954; 
- Fri, 03 Feb 2023 13:28:37 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- n8-20020a922608000000b0031119a42b2dsm1047458ile.78.2023.02.03.13.28.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Feb 2023 13:28:37 -0800 (PST)
-Date: Fri, 3 Feb 2023 14:28:36 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: John Johnson <john.g.johnson@oracle.com>
-Cc: qemu-devel@nongnu.org, clg@redhat.com, philmd@linaro.org
-Subject: Re: [PATCH v2 17/23] vfio-user: dma map/unmap operations
-Message-ID: <20230203142836.440fb63d.alex.williamson@redhat.com>
-In-Reply-To: <1ec25a5832299083fee3c90bd89561f5c1d42ba9.1675228037.git.john.g.johnson@oracle.com>
-References: <cover.1675228037.git.john.g.johnson@oracle.com>
- <1ec25a5832299083fee3c90bd89561f5c1d42ba9.1675228037.git.john.g.johnson@oracle.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vDsxF3EMd0SWurlsQOrOfzaJHeUClqw3x60y4c9W5ec=;
+ b=vQRnTe4UTi+2gNG+hGkJpLQgxVfqFVmWTx5BgGwzhWl3uzSp6IYqoaZ9q1mb5iGQS+
+ 0p+D+wVuewTrrFHMXymIoZAYwrhbjZYCSxl4oqG8egCmKbmMICd9jfHVpDnjiazBZvJD
+ kJhnfLxGoNhx5GLGSN8BiFvWBHbnbG/xjiGh5U06jPCZkd7lor5eJfkecTuYjP8aHgxK
+ xix7nSdxKmRxKEVe+/jPoj2qcPfYh8OBpQzrKIiVPBg5QkXv8Cfpn/przMvSzEzEMA/6
+ jBqxjca+Pw7/yrbTYImNHv+CKCs6sLwTZbmqDbrBBpQ0tFMBW5QrpqZHg+861Aj03680
+ UcVw==
+X-Gm-Message-State: AO0yUKUDS57k4ppPm4n4oHaNaHxA26w7TRr/VQLvgq4wSnaFq38hrukt
+ 3uNaK/hpBs1cS9Zx57UI6Xi9NA==
+X-Google-Smtp-Source: AK7set/eFvn0sSFzNyQIrIOE5i19JEHqmSnkwYFYbwY0YvyvQoWam/EH0wTwO4jiQSQQouZwOKxabQ==
+X-Received: by 2002:a05:6a00:278c:b0:57f:c170:dc6 with SMTP id
+ bd12-20020a056a00278c00b0057fc1700dc6mr10346956pfb.14.1675459768271; 
+ Fri, 03 Feb 2023 13:29:28 -0800 (PST)
+Received: from [192.168.50.177] (rrcs-173-197-98-118.west.biz.rr.com.
+ [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
+ c200-20020a621cd1000000b00587c11bc925sm2279499pfc.168.2023.02.03.13.29.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Feb 2023 13:29:27 -0800 (PST)
+Message-ID: <cb3c233d-6d0a-35a4-cd90-4b1f738b043e@linaro.org>
+Date: Fri, 3 Feb 2023 11:29:24 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] accel/tcg: test CPUJumpCache in tb_jmp_cache_clear_page()
+Content-Language: en-US
+To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ peter.maydell@linaro.org, pbonzini@redhat.com, qemu-devel@nongnu.org
+Cc: iii@linux.ibm.com
+References: <20230203171510.2867451-1-eric.auger@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230203171510.2867451-1-eric.auger@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,72 +93,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed,  1 Feb 2023 21:55:53 -0800
-John Johnson <john.g.johnson@oracle.com> wrote:
-
-> Add ability to do async operations during memory transactions
+On 2/3/23 07:15, Eric Auger wrote:
+> After commit 4e4fa6c12d ("accel/tcg: Complete cpu initialization
+> before registration"), it looks the CPUJumpCache handle can be NULL.
+> This causes a SIGSEV when running debug-wp-migration kvm unit test.
 > 
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> At the first place it should be clarified why this TCG code is called
+> with KVM acceleration. This may hide another bug.
+> 
+> Fixes: 4e4fa6c12d ("accel/tcg: Complete cpu initialization before registration")
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
 > ---
->  hw/vfio/user-protocol.h       |  32 ++++++
->  include/hw/vfio/vfio-common.h |   4 +-
->  hw/vfio/common.c              |  64 +++++++++---
->  hw/vfio/user.c                | 224 ++++++++++++++++++++++++++++++++++++++++++
->  hw/vfio/trace-events          |   2 +
->  5 files changed, 311 insertions(+), 15 deletions(-)
-...
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 6f99907..f04fd20 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-...
-> @@ -587,7 +586,8 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
->  
->  /* Called with rcu_read_lock held.  */
->  static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
-> -                               ram_addr_t *ram_addr, bool *read_only)
-> +                               ram_addr_t *ram_addr, bool *read_only,
-> +                               MemoryRegion **mrp)
->  {
->      MemoryRegion *mr;
->      hwaddr xlat;
-> @@ -668,6 +668,10 @@ static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
->          *read_only = !writable || mr->readonly;
->      }
->  
-> +    if (mrp != NULL) {
-> +        *mrp = mr;
+>   accel/tcg/cputlb.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index 4e040a1cb9..ac0245ee6c 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -103,6 +103,10 @@ static void tb_jmp_cache_clear_page(CPUState *cpu, target_ulong page_addr)
+>       int i, i0 = tb_jmp_cache_hash_page(page_addr);
+>       CPUJumpCache *jc = cpu->tb_jmp_cache;
+>   
+> +    if (!jc) {
+> +        return;
 > +    }
-> +
->      return true;
->  }
->  
 
-This needs a rebase, the contents of vfio_get_xlat_addr() were largely
-moved to memory_get_xlat_addr() and the context is all wrong now.
-Thanks,
+While I think we shouldn't arrive here for KVM, it was previously not an error to do so. 
+I'm going to go ahead and queue this while the correct cpregs change gets worked out.
 
-Alex
 
-commit baa44bce87fe53ef5c95d39e634b3bace014d235
-Author: Cindy Lu <lulu@redhat.com>
-Date:   Mon Oct 31 11:10:19 2022 +0800
-
-    vfio: move implement of vfio_get_xlat_addr() to memory.c
-    
-    - Move the implement vfio_get_xlat_addr to softmmu/memory.c, and
-      change the name to memory_get_xlat_addr(). So we can use this
-      function on other devices, such as vDPA device.
-    - Add a new function vfio_get_xlat_addr in vfio/common.c, and it will check
-      whether the memory is backed by a discard manager. then device can
-      have its own warning.
-    
-    Signed-off-by: Cindy Lu <lulu@redhat.com>
-    Message-Id: <20221031031020.1405111-2-lulu@redhat.com>
-    Acked-by: Alex Williamson <alex.williamson@redhat.com>
-    Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-    Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+r~
 
 
