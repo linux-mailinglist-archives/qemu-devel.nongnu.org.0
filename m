@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6430689E3C
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 16:26:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE580689E2E
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 16:25:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNxu7-0007b9-IO; Fri, 03 Feb 2023 10:23:07 -0500
+	id 1pNxu8-0007ci-FI; Fri, 03 Feb 2023 10:23:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pNxu3-0007VS-4V
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:23:03 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pNxu4-0007Wy-AQ
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:23:04 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pNxu1-0005Mk-Ir
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:23:02 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pNxu2-0005NC-E0
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:23:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675437780;
+ s=mimecast20190719; t=1675437781;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hsMoKc1kfwQocMh0gbn0IS4q5JFYNQlfuNfS04Ywu/Q=;
- b=FF9m7rsjX+KcpsfzG1CPWihsnwOHkJR/lbwwFEQ+hH4nsF3O3biShVhTbO73DyLAeXB8Ic
- SlFRUqWNNGpgyU0teCPECXcTbJ4etxTh9BJICXF6sXEKvxuPO0Fz27fPLHRWNN543SxTYk
- tgqhuE1y7kyStX46TYnZ1Wr3z1VcsxA=
+ bh=ay6AlvhlYXQzTZqnIJii1z7Wwzb8APYKuAXK3Nxv3RI=;
+ b=c9teZGnafUpc0Y1wGMlEOAKMRLkkLnIU7WzVRfcHRm7Avh33q9r433o1IXZzR6OEtpufsM
+ 08vBwvCGLaEV3PJn14ZYZE/APVm613mUQ6SgQ9yaCRj7a9o69qSbJJn4tesK7goii4hnVI
+ 85P1WJGzlJbo2Fe5NpNVi/QouIz+lAU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-586-Gszzo2DhOJSP18aSplFf0w-1; Fri, 03 Feb 2023 10:22:59 -0500
-X-MC-Unique: Gszzo2DhOJSP18aSplFf0w-1
+ us-mta-624-8VVaUU63P9O_VuFe9rlNxw-1; Fri, 03 Feb 2023 10:23:00 -0500
+X-MC-Unique: 8VVaUU63P9O_VuFe9rlNxw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 10960101A52E;
- Fri,  3 Feb 2023 15:22:59 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 421BD185A7A4;
+ Fri,  3 Feb 2023 15:23:00 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.194.116])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 15C9040C1073;
- Fri,  3 Feb 2023 15:22:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 485FD410B1AD;
+ Fri,  3 Feb 2023 15:22:59 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com, pbonzini@redhat.com, stefanha@redhat.com,
  eesposit@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH 17/23] block: Mark bdrv_co_io_(un)plug() and callers
+Subject: [PATCH 18/23] block: Mark bdrv_co_is_inserted() and callers
  GRAPH_RDLOCK
-Date: Fri,  3 Feb 2023 16:21:56 +0100
-Message-Id: <20230203152202.49054-18-kwolf@redhat.com>
+Date: Fri,  3 Feb 2023 16:21:57 +0100
+Message-Id: <20230203152202.49054-19-kwolf@redhat.com>
 In-Reply-To: <20230203152202.49054-1-kwolf@redhat.com>
 References: <20230203152202.49054-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -61,7 +61,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,89 +77,197 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This adds GRAPH_RDLOCK annotations to declare that callers of
-bdrv_co_io_plug() and bdrv_co_io_unplug() need to hold a reader lock for
-the graph.
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
+This adds GRAPH_RDLOCK annotations to declare that callers of
+bdrv_co_is_inserted() need to hold a reader lock for the graph.
+
+blk_is_inserted() is done as a co_wrapper_mixed_bdrv_rdlock (unlike most
+other blk_* functions) because it is called a lot from other blk_co_*()
+functions that already hold the lock. These calls go through
+blk_is_available(), which becomes a co_wrapper_mixed_bdrv_rdlock, too,
+for the same reason.
+
+Functions that run in a coroutine and can call bdrv_co_is_available()
+directly are changed to do so, which results in better TSA coverage.
+
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/block-io.h         | 4 ++--
- include/block/block_int-common.h | 5 +++--
- block/block-backend.c            | 2 ++
- block/io.c                       | 2 ++
- 4 files changed, 9 insertions(+), 4 deletions(-)
+ include/block/block-io.h          |  4 ++--
+ include/block/block_int-common.h  |  3 ++-
+ include/sysemu/block-backend-io.h |  7 ++++---
+ block.c                           |  1 +
+ block/block-backend.c             | 25 ++++++++++++++-----------
+ 5 files changed, 23 insertions(+), 17 deletions(-)
 
 diff --git a/include/block/block-io.h b/include/block/block-io.h
-index c551742a86..b8f99741a3 100644
+index b8f99741a3..88db63492a 100644
 --- a/include/block/block-io.h
 +++ b/include/block/block-io.h
-@@ -233,8 +233,8 @@ void coroutine_fn bdrv_co_leave(BlockDriverState *bs, AioContext *old_ctx);
+@@ -145,8 +145,8 @@ bool bdrv_is_writable(BlockDriverState *bs);
+ bool bdrv_is_sg(BlockDriverState *bs);
+ int bdrv_get_flags(BlockDriverState *bs);
  
- AioContext *child_of_bds_get_parent_aio_context(BdrvChild *c);
+-bool coroutine_fn bdrv_co_is_inserted(BlockDriverState *bs);
+-bool co_wrapper bdrv_is_inserted(BlockDriverState *bs);
++bool coroutine_fn GRAPH_RDLOCK bdrv_co_is_inserted(BlockDriverState *bs);
++bool co_wrapper_bdrv_rdlock bdrv_is_inserted(BlockDriverState *bs);
  
--void coroutine_fn bdrv_co_io_plug(BlockDriverState *bs);
--void coroutine_fn bdrv_co_io_unplug(BlockDriverState *bs);
-+void coroutine_fn GRAPH_RDLOCK bdrv_co_io_plug(BlockDriverState *bs);
-+void coroutine_fn GRAPH_RDLOCK bdrv_co_io_unplug(BlockDriverState *bs);
- 
- bool coroutine_fn bdrv_co_can_store_new_dirty_bitmap(BlockDriverState *bs,
-                                                      const char *name,
+ void coroutine_fn bdrv_co_lock_medium(BlockDriverState *bs, bool locked);
+ void coroutine_fn bdrv_co_eject(BlockDriverState *bs, bool eject_flag);
 diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-index 6b8fd22c71..61f894bcf6 100644
+index 61f894bcf6..b4a82269e5 100644
 --- a/include/block/block_int-common.h
 +++ b/include/block/block_int-common.h
-@@ -735,8 +735,9 @@ struct BlockDriver {
-                                              BlkdebugEvent event);
+@@ -712,7 +712,8 @@ struct BlockDriver {
+         BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
  
-     /* io queue for linux-aio */
--    void coroutine_fn (*bdrv_co_io_plug)(BlockDriverState *bs);
--    void coroutine_fn (*bdrv_co_io_unplug)(BlockDriverState *bs);
-+    void coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_io_plug)(BlockDriverState *bs);
-+    void coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_io_unplug)(
+     /* removable device specific */
+-    bool coroutine_fn (*bdrv_co_is_inserted)(BlockDriverState *bs);
++    bool coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_is_inserted)(
 +        BlockDriverState *bs);
+     void coroutine_fn (*bdrv_co_eject)(BlockDriverState *bs, bool eject_flag);
+     void coroutine_fn (*bdrv_co_lock_medium)(BlockDriverState *bs, bool locked);
  
-     /**
-      * bdrv_drain_begin is called if implemented in the beginning of a
+diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-backend-io.h
+index b1196ab93c..40ab178719 100644
+--- a/include/sysemu/block-backend-io.h
++++ b/include/sysemu/block-backend-io.h
+@@ -55,10 +55,11 @@ BlockAIOCB *blk_aio_ioctl(BlockBackend *blk, unsigned long int req, void *buf,
+ void blk_inc_in_flight(BlockBackend *blk);
+ void blk_dec_in_flight(BlockBackend *blk);
+ 
+-bool coroutine_fn blk_co_is_inserted(BlockBackend *blk);
+-bool co_wrapper_mixed blk_is_inserted(BlockBackend *blk);
++bool coroutine_fn GRAPH_RDLOCK blk_co_is_inserted(BlockBackend *blk);
++bool co_wrapper_mixed_bdrv_rdlock blk_is_inserted(BlockBackend *blk);
+ 
+-bool blk_is_available(BlockBackend *blk);
++bool coroutine_fn GRAPH_RDLOCK blk_co_is_available(BlockBackend *blk);
++bool co_wrapper_mixed_bdrv_rdlock blk_is_available(BlockBackend *blk);
+ 
+ void coroutine_fn blk_co_lock_medium(BlockBackend *blk, bool locked);
+ void co_wrapper blk_lock_medium(BlockBackend *blk, bool locked);
+diff --git a/block.c b/block.c
+index b91f7658af..0b66995a4b 100644
+--- a/block.c
++++ b/block.c
+@@ -6803,6 +6803,7 @@ bool coroutine_fn bdrv_co_is_inserted(BlockDriverState *bs)
+     BlockDriver *drv = bs->drv;
+     BdrvChild *child;
+     IO_CODE();
++    assert_bdrv_graph_readable();
+ 
+     if (!drv) {
+         return false;
 diff --git a/block/block-backend.c b/block/block-backend.c
-index fdb1e1d5f7..3661a066b3 100644
+index 3661a066b3..20af699f00 100644
 --- a/block/block-backend.c
 +++ b/block/block-backend.c
-@@ -2328,6 +2328,7 @@ void coroutine_fn blk_co_io_plug(BlockBackend *blk)
+@@ -1235,8 +1235,8 @@ void blk_set_disable_request_queuing(BlockBackend *blk, bool disable)
+     blk->disable_request_queuing = disable;
+ }
+ 
+-static coroutine_fn int blk_check_byte_request(BlockBackend *blk,
+-                                               int64_t offset, int64_t bytes)
++static int coroutine_fn GRAPH_RDLOCK
++blk_check_byte_request(BlockBackend *blk, int64_t offset, int64_t bytes)
  {
-     BlockDriverState *bs = blk_bs(blk);
+     int64_t len;
+ 
+@@ -1244,7 +1244,7 @@ static coroutine_fn int blk_check_byte_request(BlockBackend *blk,
+         return -EIO;
+     }
+ 
+-    if (!blk_is_available(blk)) {
++    if (!blk_co_is_available(blk)) {
+         return -ENOMEDIUM;
+     }
+ 
+@@ -1606,8 +1606,9 @@ BlockAIOCB *blk_aio_pwrite_zeroes(BlockBackend *blk, int64_t offset,
+ int64_t coroutine_fn blk_co_getlength(BlockBackend *blk)
+ {
      IO_CODE();
 +    GRAPH_RDLOCK_GUARD();
  
-     if (bs) {
-         bdrv_co_io_plug(bs);
-@@ -2338,6 +2339,7 @@ void coroutine_fn blk_co_io_unplug(BlockBackend *blk)
+-    if (!blk_is_available(blk)) {
++    if (!blk_co_is_available(blk)) {
+         return -ENOMEDIUM;
+     }
+ 
+@@ -1627,8 +1628,9 @@ void blk_get_geometry(BlockBackend *blk, uint64_t *nb_sectors_ptr)
+ int64_t coroutine_fn blk_co_nb_sectors(BlockBackend *blk)
  {
-     BlockDriverState *bs = blk_bs(blk);
      IO_CODE();
 +    GRAPH_RDLOCK_GUARD();
  
-     if (bs) {
-         bdrv_co_io_unplug(bs);
-diff --git a/block/io.c b/block/io.c
-index af9a0cc964..be350aba98 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -3150,6 +3150,7 @@ void coroutine_fn bdrv_co_io_plug(BlockDriverState *bs)
+-    if (!blk_is_available(blk)) {
++    if (!blk_co_is_available(blk)) {
+         return -ENOMEDIUM;
+     }
+ 
+@@ -1676,7 +1678,7 @@ blk_co_do_ioctl(BlockBackend *blk, unsigned long int req, void *buf)
+     blk_wait_while_drained(blk);
+     GRAPH_RDLOCK_GUARD();
+ 
+-    if (!blk_is_available(blk)) {
++    if (!blk_co_is_available(blk)) {
+         return -ENOMEDIUM;
+     }
+ 
+@@ -1769,7 +1771,7 @@ static int coroutine_fn blk_co_do_flush(BlockBackend *blk)
+     blk_wait_while_drained(blk);
+     GRAPH_RDLOCK_GUARD();
+ 
+-    if (!blk_is_available(blk)) {
++    if (!blk_co_is_available(blk)) {
+         return -ENOMEDIUM;
+     }
+ 
+@@ -1996,14 +1998,15 @@ bool coroutine_fn blk_co_is_inserted(BlockBackend *blk)
  {
-     BdrvChild *child;
+     BlockDriverState *bs = blk_bs(blk);
      IO_CODE();
 +    assert_bdrv_graph_readable();
  
-     QLIST_FOREACH(child, &bs->children, next) {
-         bdrv_co_io_plug(child->bs);
-@@ -3167,6 +3168,7 @@ void coroutine_fn bdrv_co_io_unplug(BlockDriverState *bs)
- {
-     BdrvChild *child;
-     IO_CODE();
-+    assert_bdrv_graph_readable();
+     return bs && bdrv_co_is_inserted(bs);
+ }
  
-     assert(bs->io_plugged);
-     if (qatomic_fetch_dec(&bs->io_plugged) == 1) {
+-bool blk_is_available(BlockBackend *blk)
++bool coroutine_fn blk_co_is_available(BlockBackend *blk)
+ {
+     IO_CODE();
+-    return blk_is_inserted(blk) && !blk_dev_is_tray_open(blk);
++    return blk_co_is_inserted(blk) && !blk_dev_is_tray_open(blk);
+ }
+ 
+ void coroutine_fn blk_co_lock_medium(BlockBackend *blk, bool locked)
+@@ -2382,7 +2385,7 @@ int coroutine_fn blk_co_truncate(BlockBackend *blk, int64_t offset, bool exact,
+ {
+     IO_OR_GS_CODE();
+     GRAPH_RDLOCK_GUARD();
+-    if (!blk_is_available(blk)) {
++    if (!blk_co_is_available(blk)) {
+         error_setg(errp, "No medium inserted");
+         return -ENOMEDIUM;
+     }
+@@ -2637,6 +2640,7 @@ int coroutine_fn blk_co_copy_range(BlockBackend *blk_in, int64_t off_in,
+ {
+     int r;
+     IO_CODE();
++    GRAPH_RDLOCK_GUARD();
+ 
+     r = blk_check_byte_request(blk_in, off_in, bytes);
+     if (r) {
+@@ -2647,7 +2651,6 @@ int coroutine_fn blk_co_copy_range(BlockBackend *blk_in, int64_t off_in,
+         return r;
+     }
+ 
+-    GRAPH_RDLOCK_GUARD();
+     return bdrv_co_copy_range(blk_in->root, off_in,
+                               blk_out->root, off_out,
+                               bytes, read_flags, write_flags);
 -- 
 2.38.1
 
