@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1D7368972A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 11:43:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF46689733
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 11:47:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNtVj-0006zJ-OW; Fri, 03 Feb 2023 05:41:39 -0500
+	id 1pNtZv-0001Vu-Rr; Fri, 03 Feb 2023 05:45:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNtVf-0006tS-Nq
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 05:41:35 -0500
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pNtZt-0001Ve-QV; Fri, 03 Feb 2023 05:45:57 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNtVd-0001SB-Ty
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 05:41:35 -0500
-Received: by mail-pf1-x435.google.com with SMTP id o68so1964217pfg.9
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 02:41:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pNtZr-0002QI-Vj; Fri, 03 Feb 2023 05:45:57 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id m2so14145407ejb.8;
+ Fri, 03 Feb 2023 02:45:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=qDKJQ+oQd9/ncDtTKloz7AH/dMoDZ3RSuQNWDK8UOEA=;
- b=pTZDjOGsejjhZe7I6HsdsXMzhiRVADu0NZ0CHtMb0VLhFZcUmlnQI3BsdvuopG45hW
- VkcxNS7hc0VkClY2dVL7g2/hP2BpkTfBP35R4DtUi/lI/mSKNSNolZKicFhDvYjeYqa/
- 6K4GQXdDLfay/O78eA8PVNLUdenOMmPzqPY980nq5uEz8J22j6emk9tF1+pyz+KXlov1
- eX7j8ILKgZYNZomKkJLb5Zy/RnlGhLadbo1jZDAnHfbUpLam5g2IXJCZq50FfVbj3Jyp
- IuJLBHetbJmxEbgRg3DU0qTU0rBd6eDady4L5lQXcTpZrPkNhKU8SqMhVgkPOcpInIZG
- CgLQ==
+ bh=f1zy6+7JpPXVguis2sH2Aap1Rjhgu0d4S2AZ0dnwXgI=;
+ b=I9nn0JEMvxq4/E82lxYe3YOn5nKrfy0t9inOLHS6n4OfJHIUIhbHA4WCVZUELgQsxx
+ A7gPpULpPGYecf4BfucbGneXsiftzxEt2Cd2z9pzYU29Jl0NVvF8qJ9AfuVdT7gt1kux
+ PpgSb3abpprdazvNn3g2h7ydJLAeTdU5X00dlEk25E8yDAjWvFqtdQeg2PaXdxt0RxGJ
+ BD/8X1YuIvjGxCwtk9lgHVENI9jOIVGtMEZ33I7T3ArCAJjEU0oE2jJkWoiX4W3lVE4i
+ V0Evyjpbh6CAHjuv5En+ZTJiCZtfnSQVV1eIJy2LtItWcNybCurcjx1TvbmipKGA6Sb5
+ MuvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=qDKJQ+oQd9/ncDtTKloz7AH/dMoDZ3RSuQNWDK8UOEA=;
- b=bT84mZtJUgR4ybHuUij/FEafzL/bjr4z8F6BAtM3326ezhULQ9zbwpFeAXFjxCP6gj
- y7I9WiHmzIoYp7CF6zjLcehB3vgK1KPlDbeG1COARW1JM8d314ObXZJuHPMEoeGlK0mX
- vUP6oWPh5IvbcbrDBzcx4OuxLRjnggTt1Mb7//GwlybvuSmdaN80Vyo94PgOoPWGoR5z
- 3RhXYc1VmAYRl2RiCycuqPdqv18B7LQxi0CUfhxseGe4bq8mnp9kHMCGvS31IXWoPt1P
- 1nay5wK+6uTvy+xjMqcPkwiWkUBLpWMHmOtvoretoWpJx2zJmCiz5FZczcoogPktAs0M
- zCfQ==
-X-Gm-Message-State: AO0yUKX6xlSkO/U8097S7Tm+mIQgSZ+tlorhsL3j1ox0z7gGIggPn8uZ
- mUEcPtSk6YuN/IGb3MEbrXRfLmzs3NTuk18dzxK1Kg==
-X-Google-Smtp-Source: AK7set+NEQrIUWFtOUVfW7ADvgoASmxIqtRWkHRoZn9KZi47N+i5u8dIGzlG1ZwbeFDpNuDsN36qdtDfVVB12ETSweo=
-X-Received: by 2002:aa7:9686:0:b0:58d:ce70:4683 with SMTP id
- f6-20020aa79686000000b0058dce704683mr2208468pfk.39.1675420892137; Fri, 03 Feb
- 2023 02:41:32 -0800 (PST)
+ bh=f1zy6+7JpPXVguis2sH2Aap1Rjhgu0d4S2AZ0dnwXgI=;
+ b=D5bgg5nx3pSHmELvr2lbCDVGk0hWYDfPX04qGQu6iXrG4AV/gOewn75ZUsJOgDvMUF
+ JV/Z7Uu8qKFfKpDEaGcElFrMTAAIenl/tNanW0VvavulRjVixkmpaqSoMtW2h+VUXrPn
+ ATi91ldjD7iKw+1vC0W/93vrLY6saHh3oc5Mo5u/pKFSpQlNBLeUNc9Ea4lUYi/MpgG1
+ I79Rbw7+/Vm8T/dNhYmgWPCO7erMx9egnoRJB4/fGaAGKOfIYN63SFykDsvAEHQYKIVS
+ yDfhCWikZHwesjcI4vkfGYb+kfAt/s5l0Z1Zf/cOwqdWPKVGZPnmXRBoYjzUV03zprlt
+ qn3A==
+X-Gm-Message-State: AO0yUKUZJaemBqVq1RGjlTWjY+mvO3h7tH5lh1SUZWsYynG0PGSZYru3
+ SMMnEAgzeBCu9TdHTjcomBEsWj0nystLbbN80w8=
+X-Google-Smtp-Source: AK7set9Zm5ntYeqKOmelxQnZZXZkVQ2MUaqw1hFqf8wBXeLi/W5veydb/ifoA6eknplgnhi2QEJXc1Rf3g8AcKdHi1w=
+X-Received: by 2002:a17:906:49da:b0:882:3e56:a854 with SMTP id
+ w26-20020a17090649da00b008823e56a854mr2824940ejv.263.1675421153773; Fri, 03
+ Feb 2023 02:45:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20221031054105.3552-1-richard.henderson@linaro.org>
- <d91ccc02-a963-946d-169a-fd4da2610861@redhat.com>
- <211b40bc-2bbb-63be-191a-42e03e049b98@linaro.org>
- <CAFEAcA8cbfqy-eBY=gjj6ttxJ-RbzBn_XhyjjVfj303=R+uV5Q@mail.gmail.com>
- <5a9de193-e0e4-79f7-3c41-773078bb920c@redhat.com>
-In-Reply-To: <5a9de193-e0e4-79f7-3c41-773078bb920c@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Feb 2023 10:41:20 +0000
-Message-ID: <CAFEAcA_QxZ96k105MK+YsW06vY86EfRE3wvSRSSV-h4CUvo+SQ@mail.gmail.com>
-Subject: Re: [PATCH] accel/tcg: Complete cpu initialization before registration
-To: Eric Auger <eauger@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>, iii@linux.ibm.com,
- qemu-devel@nongnu.org, Cornelia Huck <cohuck@redhat.com>
+References: <20230202135810.1657792-1-dbarboza@ventanamicro.com>
+ <20230202135810.1657792-2-dbarboza@ventanamicro.com>
+ <CAEUhbmW01vUZNdAcXQ0b-7GUgH70q9eyWJH7kG+Mph4uJJeWnA@mail.gmail.com>
+ <51896f68-d902-ee07-295d-5809c9c66e60@ventanamicro.com>
+In-Reply-To: <51896f68-d902-ee07-295d-5809c9c66e60@ventanamicro.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 3 Feb 2023 18:45:42 +0800
+Message-ID: <CAEUhbmVN3Pw8794tq2H3X5amexhptnrZaLdG0MHyON6fyac-AA@mail.gmail.com>
+Subject: Re: [PATCH v10 1/3] hw/riscv: handle 32 bit CPUs kernel_addr in
+ riscv_load_kernel()
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,41 +84,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 3 Feb 2023 at 10:29, Eric Auger <eauger@redhat.com> wrote:
+Hi Daniel,
+
+On Fri, Feb 3, 2023 at 6:31 PM Daniel Henrique Barboza
+<dbarboza@ventanamicro.com> wrote:
 >
-> Hi Peter,
-> On 2/2/23 11:53, Peter Maydell wrote:
-> > On Wed, 1 Feb 2023 at 20:37, Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
+>
+>
+> On 2/3/23 02:39, Bin Meng wrote:
+> > On Thu, Feb 2, 2023 at 9:58 PM Daniel Henrique Barboza
+> > <dbarboza@ventanamicro.com> wrote:
 > >>
-> >> On 2/1/23 04:20, Eric Auger wrote:
-> >>> What I fail to understand is why this code is called with a kvm
-> >>> accelerated qemu (the test runs by default with kvm).
-> >> ...
-> >>> #2  0x000002aaab1500f0 in vmsa_ttbr_write
-> >>> (env=0x2aaac393850, ri=0x2aaac3c90e0, value=2154950976315703518) at
-> >>> ../target/arm/helper.c:3784
-> >>> #3  0x000002aaab14e5a8 in write_raw_cp_reg
-> >>> (env=env@entry=0x2aaac393850, ri=ri@entry=0x2aaac3c90e0,
-> >>> v=v@entry=2154950976315703518)
-> >>
-> >> This is indeed very curious -- vmsa_ttbr_write is supposed to be the "cooked" .writefn,
-> >> not the .raw_writefn.  We're not supposed to arrive here at all.
+> >> load_elf_ram_sym() will sign-extend 32 bit addresses. If a 32 bit QEMU
+> >> guest happens to be running in a hypervisor that are using 64 bits to
+> >> encode its address, kernel_entry can be padded with '1's and create
+> >> problems [1].
 > >
-> > If you only provide a cooked .writefn and no .raw_writefn,
-> > the default is to assume that the cooked function will also
-> > work as the raw one. None of the ARMCPRegInfo structs that
-> > use vmsa_ttbr_write specify a raw_writefn...
-> I fail to understand. Do you suggest we miss explicit .raw_writefn =
-> raw_write in many places and that's the source of our trouble. Indeed
-> entering the TCG code in KVM mode looks weird.
+> > Still this commit message is inaccurate. It's not
+> >
+> > "a 32-bit QEMU guest happens to running in a hypervisor that are using
+> > 64 bits to encode tis address"
+> >
+> > as a 32-bit ELF can only hold a 32-bit address, but it's the QEMU ELF
+> > loader that does the sign extension and returns the address as
+> > uint64_t. It has nothing to do with hypervisor too.
 >
-> Or is that supposed to work and we have a bug introduced by the abive
-> commit commit.
+>
+> Yeah I'm still focusing too much on the use case instead of the root of the
+> problem (sign-extension from QEMU elf).
+>
+> >
+> >>
+> >> Using a translate_fn() callback in load_elf_ram_sym() to filter the
+> >> padding from the address doesn't work. A more detailed explanation can
+> >> be found in [2]. The short version is that glue(load_elf, SZ), from
+> >> include/hw/elf_ops.h, will calculate 'pentry' (mapped into the
+> >> 'kernel_load_base' var in riscv_load_Kernel()) before using
+> >> translate_fn(), and will not recalculate it after executing it. This
+> >> means that the callback does not prevent the padding from
+> >> kernel_load_base to appear.
+> >>
+> >> Let's instead use a kernel_low var to capture the 'lowaddr' value from
+> >> load_elf_ram_sim(), and return it when we're dealing with 32 bit CPUs.
+> >
+> > Looking at the prototype of load_elf_ram_sym() it has
+> >
+> > ssize_t load_elf_ram_sym(const char *filename,
+> >                           uint64_t (*elf_note_fn)(void *, void *, bool),
+> >                           uint64_t (*translate_fn)(void *, uint64_t),
+> >                           void *translate_opaque, uint64_t *pentry,
+> >                           uint64_t *lowaddr, uint64_t *highaddr,
+> >                           uint32_t *pflags, int big_endian, int elf_machine,
+> >                           int clear_lsb, int data_swab,
+> >                           AddressSpace *as, bool load_rom, symbol_fn_t sym_cb)
+> >
+> > So kernel_low is the "highaddr" parameter, not the 'lowaddr' value.
+>
+> And for some reason I thought kernel_base_addr was being used as 'pentry'. kernel_base_addr
+> is already 'lowaddr'. Guess I'll have to rewrite the commit message. And revisit why my
+> test case worked for riscv32 (I probably didn't use an ELF image ...)
+>
+> And the only way out seems to be filtering the bits from lowaddr. I'll do that.
+>
 
-I don't know why the above commit specifically has caused a
-problem, but yes, the registers which do TLB maintenance calls
-in their writefns should set '.raw_writefn = raw_write'.
+Can you check as to why QEMU ELF loader does the sign extension?
 
--- PMM
+I personally don't know why. Maybe the ELF loader does something wrong.
+
+Regards,
+Bin
 
