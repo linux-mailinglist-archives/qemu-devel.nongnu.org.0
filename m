@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2CE868A13B
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 19:10:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D0BE68A144
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 19:11:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pO0V2-000703-60; Fri, 03 Feb 2023 13:09:24 -0500
+	id 1pO0V6-00071z-Gx; Fri, 03 Feb 2023 13:09:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO0V0-0006zF-EO
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:09:22 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO0V4-00070e-DR
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:09:26 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO0Uw-00088s-CO
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:09:22 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- c4-20020a1c3504000000b003d9e2f72093so6603191wma.1
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 10:09:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO0V0-00089k-U8
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:09:25 -0500
+Received: by mail-wr1-x434.google.com with SMTP id q5so5440121wrv.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 10:09:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=jbtr3K/soYpD39/JOx7OqaCZkI9+H1VvjPFqpPMYVq0=;
- b=SP+vwCH5qYrHjRPHA/lMsY+Kta5SwlPcAY8AJaKR9oT1VSTVE2C2ysGzhTFaYMdLhn
- qvnmniHEhkNZYrieLa7sNyO1ZljbElQhvGllSGs0otNyJQCeZIXwGBT6wvKgw/KUN9jv
- hf1D7izv//uEsxyvKAQhCSEMKMrzs3k3QndDGEhN8Uk3P0D3+JtNf3GkU42gzoMASviQ
- 80bzi2gpWSKELb+WTRuvBPA+35GbskHkakG4eQtqcMHhtPBtoAgHqKcQ9D9ytnLLj6/w
- Z8NjO8680Rv9n/Tuuur2/SMNbe2AkMz3oKcbGqoMQ3x9S/0oJFnItUjelAcK03wiXinZ
- BnPg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=aWOXT8kEVLd1z9ooQiF6EcLH2zq0UxcZKoFli6u89Ts=;
+ b=gPkZFkbjBPKkz+Lji5ycmEN0K85IEZZIw2q6gtgnPP63BgwKuk/tCW51t36CDwFan0
+ 9XIRHgs7IcwxKJE6Hh5WSOlR3O+FmAiAxwHQ5z2eVUEjoL/5HGaQwGb5UGfdd0gy1LLS
+ 3T57/PRV6YsGTcUJxXG4LOkVsYakxjXsnjXtNBUVG/nXgzyhrldM9fTJXbJZNMQ9Xhnz
+ 3AsgbteWSP7p2lwiFi5f/mKleV0uSkfL95cP9KABfYn1JFAYh00Kz2jNDFkcVGOYdA3F
+ rlYrTm2GhUzlSjGDwdOsMlc/9K5xJ7cBYt+LifPSsYGYyRXrYeOwjSkhkyb7+0FSqYgl
+ VHTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jbtr3K/soYpD39/JOx7OqaCZkI9+H1VvjPFqpPMYVq0=;
- b=CY0k6OhBt92BfcicUIUPs2kghbMMN7bw66ZBdwm8Ss1aQ2pDRxQeFR3QlxuY5Zcydr
- zpwTNcCxS44b6xSb+REAiwJdwVp0es3px0m2KPAPAwXsf3dqRwCEcQ16zIRHgdPHDN5R
- xWm+6wVvRT4HUoqEdkYs6eo12NNwVyuweRw8OgFCwCICw5r7y11OTwwmJUmFm9Oq4O0o
- itTsWguzHLHqXCy4FCvuioAEg1YB8QIrKuKU6BzXb7pN5bh/okJMNVnhqY7ni4gelbAA
- lFBwSlASuxhH8mqVajKNHJyl2u+2vKGEQZeJ6zC7YIOW1Vq75MiDDYIzhWa0FRKD4prl
- H6IA==
-X-Gm-Message-State: AO0yUKUrmLA3ayFFmxVZGdeFZfL4WieJt4sDZiocsKRI1rV0tOfTVwyi
- YcUyueGH6s/WX7LAAmDLqzaLeE28wS7PXhOp
-X-Google-Smtp-Source: AK7set8BwjF2JaeM5/6Bq+oGwLF7MGmbkhd723xLrgClcnIKUhL7OmJZTsrvFnb/lXXTMi0aTn9AXQ==
-X-Received: by 2002:a05:600c:4711:b0:3df:e474:2ab2 with SMTP id
- v17-20020a05600c471100b003dfe4742ab2mr5872752wmo.33.1675447756023; 
- Fri, 03 Feb 2023 10:09:16 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=aWOXT8kEVLd1z9ooQiF6EcLH2zq0UxcZKoFli6u89Ts=;
+ b=RQX26DI744HzLRyAjy38IHkMO+qpP3uQLGsOzweP24puuh9wfMqwTWggLAWvM0NQT3
+ WI/OUf9QW2R38K/iDD94R9BbTsSEtw9sM8m6an1PGIykx81EPYgKCbArA+4+Ooewm8Ra
+ EDt250sDA7WCE53ltNdFLwOlCon2UQpkVyh6Ip9+DU52TrQ1OM6QxQOAm7IuXbTwj9Vh
+ 1D0Gimx3AkL1x1HMG+GXsXjfl+i1B2uxbCM0O75gTBU+HWoSbnBqHXUVkibgiYeEDfWJ
+ a+OtSWNrjoJOZj3y3tZYtn1uZSzwGd3OY+UFj+w9147v7DAXFu224IexEyRIhKna1IiP
+ BKHA==
+X-Gm-Message-State: AO0yUKWcoJXnkLSgte0R/HSRnpbWCPd72kRTyBz3Vh1uhP3SZTJeeJn8
+ vQRdwMHtBEYrXhew8uuOXXWwG/cACcYaHZMb
+X-Google-Smtp-Source: AK7set9uBXOdSiQ4EnMV+cinqHLCntkPisfJnyrpxkBQFAZgVGmjm0bVUnofjMxVnX3IvihV9ektiw==
+X-Received: by 2002:adf:c713:0:b0:2bf:e05f:53ac with SMTP id
+ k19-20020adfc713000000b002bfe05f53acmr10227055wrg.45.1675447760909; 
+ Fri, 03 Feb 2023 10:09:20 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- m40-20020a05600c3b2800b003dcc82ce53fsm3700790wms.38.2023.02.03.10.09.15
+ x14-20020a5d60ce000000b002bc7f64efa3sm2501936wrt.29.2023.02.03.10.09.20
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 03 Feb 2023 10:09:15 -0800 (PST)
+ Fri, 03 Feb 2023 10:09:20 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Markus Armbruster <armbru@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>, qemu-riscv@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 00/19] hw: Set QDev properties using QDev API (part 1/3)
-Date: Fri,  3 Feb 2023 19:08:55 +0100
-Message-Id: <20230203180914.49112-1-philmd@linaro.org>
+Subject: [PATCH 01/19] NOTFORMERGE scripts/coccinelle: Add qom-qdev-prop.cocci
+Date: Fri,  3 Feb 2023 19:08:56 +0100
+Message-Id: <20230203180914.49112-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230203180914.49112-1-philmd@linaro.org>
+References: <20230203180914.49112-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,97 +90,283 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-QEMU provides the QOM API for core objects.
-Devices are modelled on top of QOM as QDev objects.
+Script I used to generate the following patches. This is
+not an automatic conversion as object_property_set_[u]int()
+does not specify the type size. Each integer property must
+then be converted manually. Therefore this script doesn't
+seem relevant to be committed in the repository.
 
-There is no point in using the lower level QOM API with
-QDev; it makes the code more complex and harder to review.
-
-I first converted all the calls using errp=&error_abort or
-&errp=NULL, then noticed the other uses weren't really
-consistent.
-
-A QDev property defined with the DEFINE_PROP_xxx() macros
-is always available, thus can't fail. When using hot-plug
-devices, we only need to check for optional properties
-registered at runtime with the object_property_add_XXX()
-API. Some are even always registered in device instance_init.
-
-I have probably been overzealous, so I tagged the patches
-not using errp=&error_abort|&error_fatal|NULL as RFC.
-
-PPC and ARM conversions will follow as two different series.
-
-Philippe Mathieu-Daudé (19):
-  scripts/coccinelle: Add qom-qdev-prop.cocci
-  hw/qdev: Introduce qdev_prop_set_link()
-  hw/acpi: Set QDev properties using QDev API
-  hw/audio: Set QDev properties using QDev API
-  hw/core/numa: Set QDev properties using QDev API
-  hw/core/gpio: Set QDev properties using QDev API
-  hw/scsi: Set QDev properties using QDev API
-  hw/usb: Set QDev properties using QDev API
-  hw/virtio: Set QDev properties using QDev API
-  hw/avr: Set QDev properties using QDev API
-  hw/hppa: Set QDev properties using QDev API
-  hw/i386: Set QDev properties using QDev API
-  hw/m68k: Set QDev properties using QDev API
-  hw/microblaze: Set QDev properties using QDev API
-  hw/mips: Set QDev properties using QDev API
-  hw/nios2: Set QDev properties using QDev API
-  hw/riscv: Set QDev properties using QDev API
-  hw/rx: Set QDev properties using QDev API
-  hw/sparc: Set QDev properties using QDev API
-
- hw/acpi/cpu_hotplug.c                    |  7 ++--
- hw/acpi/ich9.c                           |  4 +--
- hw/acpi/piix4.c                          |  4 +--
- hw/avr/arduino.c                         |  4 +--
- hw/avr/atmega.c                          |  4 +--
- hw/core/gpio.c                           |  8 ++---
- hw/core/numa.c                           |  4 +--
- hw/core/qdev-properties.c                |  5 +++
- hw/display/virtio-gpu-pci.c              |  4 +--
- hw/display/virtio-vga.c                  |  4 +--
- hw/dma/sparc32_dma.c                     |  6 ++--
- hw/hppa/machine.c                        |  3 +-
- hw/i386/pc.c                             |  8 ++---
- hw/i386/pc_q35.c                         | 25 +++++++-------
- hw/i386/sgx.c                            |  3 +-
- hw/i386/x86.c                            | 12 +++----
- hw/m68k/next-cube.c                      |  2 +-
- hw/m68k/q800.c                           |  7 ++--
- hw/mem/pc-dimm.c                         |  5 ++-
- hw/microblaze/petalogix_ml605_mmu.c      | 40 ++++++++++------------
- hw/microblaze/petalogix_s3adsp1800_mmu.c |  2 +-
- hw/microblaze/xlnx-zynqmp-pmu.c          | 40 +++++++++-------------
- hw/mips/boston.c                         |  6 ++--
- hw/mips/cps.c                            | 42 ++++++++----------------
- hw/mips/jazz.c                           |  3 +-
- hw/mips/malta.c                          |  6 ++--
- hw/nios2/10m50_devboard.c                |  2 +-
- hw/riscv/microchip_pfsoc.c               |  8 ++---
- hw/riscv/opentitan.c                     |  9 ++---
- hw/riscv/shakti_c.c                      |  7 ++--
- hw/riscv/sifive_e.c                      |  8 ++---
- hw/riscv/sifive_u.c                      |  9 ++---
- hw/riscv/spike.c                         | 10 +++---
- hw/riscv/virt.c                          |  9 ++---
- hw/rx/rx-gdbsim.c                        | 11 +++----
- hw/scsi/scsi-bus.c                       |  6 +---
- hw/sparc/sun4m.c                         | 10 +++---
- hw/sparc64/sun4u.c                       |  3 +-
- hw/usb/hcd-xhci-pci.c                    |  2 +-
- hw/usb/hcd-xhci-sysbus.c                 |  2 +-
- hw/virtio/virtio-iommu-pci.c             |  3 +-
- hw/virtio/virtio-rng.c                   |  3 +-
- include/hw/audio/pcspk.h                 |  2 +-
- include/hw/qdev-properties.h             |  1 +
- target/i386/cpu.c                        |  6 ++--
- target/i386/host-cpu.c                   |  7 ++--
- 46 files changed, 155 insertions(+), 221 deletions(-)
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ scripts/coccinelle/qom-qdev-prop.cocci | 259 +++++++++++++++++++++++++
+ 1 file changed, 259 insertions(+)
  create mode 100644 scripts/coccinelle/qom-qdev-prop.cocci
 
+diff --git a/scripts/coccinelle/qom-qdev-prop.cocci b/scripts/coccinelle/qom-qdev-prop.cocci
+new file mode 100644
+index 0000000000..21e6ed2b33
+--- /dev/null
++++ b/scripts/coccinelle/qom-qdev-prop.cocci
+@@ -0,0 +1,259 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++// SPDX-FileCopyrightText: Linaro Limited 2023
++//
++// Convert QOM set_property() API to QDev set_prop() API equivalent
++//
++// Only bool / string / link properties are automatically converted.
++// Integer properties must be converted manually, since the QOM
++// object_property_set_[u]int() helpers don't specify the type size.
++
++
++//
++// bool
++//
++
++// bool OBJECT
++@@
++typedef DeviceState;
++identifier dev;
++expression prop, val;
++@@
++    DeviceState *dev;
++    ...
++-   object_property_set_bool(OBJECT(dev), prop, val, ... /* &error_abort */);
+++   qdev_prop_set_bit(dev, prop, val);
++
++// bool dev
++@@
++expression dev;
++expression prop, val;
++@@
++-   object_property_set_bool(OBJECT(dev), prop, val, ... /* &error_abort */);
+++   qdev_prop_set_bit(dev, prop, val);
++    ...
++(
++    sysbus_realize(SYS_BUS_DEVICE(dev), ...);
++|
++    qdev_realize(dev, ...);
++|
++    qdev_realize_and_unref(dev, ...);
++)
++
++// bool DEVICE(dev)
++@@
++expression dev;
++expression prop, val;
++@@
++-   object_property_set_bool(OBJECT(dev), prop, val, ... /* &error_abort */);
+++   qdev_prop_set_bit(DEVICE(dev), prop, val);
++    ...
++(
++    sysbus_realize(SYS_BUS_DEVICE(dev), ...);
++|
++    qdev_realize(DEVICE(dev), ...);
++|
++    qdev_realize_and_unref(DEVICE(dev), ...);
++)
++
++// bool DEVICE(obj)
++@@
++expression obj;
++expression prop, val;
++@@
++-   object_property_set_bool(obj, prop, val, ... /* &error_abort */);
+++   qdev_prop_set_bit(DEVICE(obj), prop, val);
++    ...
++(
++    sysbus_realize(SYS_BUS_DEVICE(obj), ...);
++|
++    qdev_realize(DEVICE(obj), ...);
++|
++    qdev_realize_and_unref(DEVICE(obj), ...);
++)
++
++
++//
++// str
++//
++
++// str OBJECT
++@@
++typedef DeviceState;
++identifier dev;
++expression prop, val;
++@@
++    DeviceState *dev;
++    ...
++-   object_property_set_str(OBJECT(dev), prop, val, ... /* &error_abort */);
+++   qdev_prop_set_string(dev, prop, val);
++
++// str dev
++@@
++expression dev;
++expression prop, val;
++@@
++-   object_property_set_str(OBJECT(dev), prop, val, ... /* &error_abort */);
+++   qdev_prop_set_string(dev, prop, val);
++    ...
++(
++    sysbus_realize(SYS_BUS_DEVICE(dev), ...);
++|
++    qdev_realize(dev, ...);
++|
++    qdev_realize_and_unref(dev, ...);
++)
++
++// str DEVICE(dev)
++@@
++expression dev;
++expression prop, val;
++@@
++-   object_property_set_str(OBJECT(dev), prop, val, ... /* &error_abort */);
+++   qdev_prop_set_string(DEVICE(dev), prop, val);
++    ...
++(
++    sysbus_realize(SYS_BUS_DEVICE(dev), ...);
++|
++    qdev_realize(DEVICE(dev), ...);
++|
++    qdev_realize_and_unref(DEVICE(dev), ...);
++)
++
++// str DEVICE(obj)
++@@
++expression obj;
++expression prop, val;
++@@
++-   object_property_set_str(obj, prop, val, ... /* &error_abort */);
+++   qdev_prop_set_string(DEVICE(obj), prop, val);
++    ...
++(
++    sysbus_realize(SYS_BUS_DEVICE(obj), ...);
++|
++    qdev_realize(DEVICE(obj), ...);
++|
++    qdev_realize_and_unref(DEVICE(obj), ...);
++)
++
++
++// int OBJECT
++@@
++typedef DeviceState;
++identifier dev;
++expression prop, val;
++@@
++    DeviceState *dev;
++    ...
++-   object_property_set_int(OBJECT(dev), prop, val, ... /* &error_abort */);
+++   qdev_prop_set_XintXX(dev, prop, val);
++
++// int dev
++@@
++expression dev;
++expression prop, val;
++@@
++-   object_property_set_int(OBJECT(dev), prop, val, ... /* &error_abort */);
+++   qdev_prop_set_XintXX(dev, prop, val);
++    ...
++(
++    sysbus_realize(SYS_BUS_DEVICE(dev), ...);
++|
++    qdev_realize(dev, ...);
++|
++    qdev_realize_and_unref(dev, ...);
++)
++
++// int DEVICE(dev)
++@@
++expression dev;
++expression prop, val;
++@@
++-   object_property_set_int(OBJECT(dev), prop, val, ... /* &error_abort */);
+++   qdev_prop_set_XintXX(DEVICE(dev), prop, val);
++    ...
++(
++    sysbus_realize(SYS_BUS_DEVICE(dev), ...);
++|
++    qdev_realize(DEVICE(dev), ...);
++|
++    qdev_realize_and_unref(DEVICE(dev), ...);
++)
++
++// int DEVICE(obj)
++@@
++expression obj;
++expression prop, val;
++@@
++-   object_property_set_int(obj, prop, val, ... /* &error_abort */);
+++   qdev_prop_set_XintXX(DEVICE(obj), prop, val);
++    ...
++(
++    sysbus_realize(SYS_BUS_DEVICE(obj), ...);
++|
++    qdev_realize(DEVICE(obj), ...);
++|
++    qdev_realize_and_unref(DEVICE(obj), ...);
++)
++
++//
++// link
++//
++
++// link OBJECT
++@@
++typedef DeviceState;
++identifier dev;
++expression prop, val;
++@@
++    DeviceState *dev;
++    ...
++-   object_property_set_link(OBJECT(dev), prop, val, ... /* &error_abort */);
+++   qdev_prop_set_link(dev, prop, val);
++
++// link dev
++@@
++expression dev;
++expression prop, val;
++@@
++-   object_property_set_link(OBJECT(dev), prop, val, ... /* &error_abort */);
+++   qdev_prop_set_link(dev, prop, val);
++    ...
++(
++    sysbus_realize(SYS_BUS_DEVICE(dev), ...);
++|
++    qdev_realize(dev, ...);
++|
++    qdev_realize_and_unref(dev, ...);
++)
++
++// link DEVICE(dev)
++@@
++expression dev;
++expression prop, val;
++@@
++-   object_property_set_link(OBJECT(dev), prop, val, ... /* &error_abort */);
+++   qdev_prop_set_link(DEVICE(dev), prop, val);
++    ...
++(
++    sysbus_realize(SYS_BUS_DEVICE(dev), ...);
++|
++    qdev_realize(DEVICE(dev), ...);
++|
++    qdev_realize_and_unref(DEVICE(dev), ...);
++)
++
++// link DEVICE(obj)
++@@
++expression obj;
++expression prop, val;
++@@
++-   object_property_set_link(obj, prop, val, ... /* &error_abort */);
+++   qdev_prop_set_link(DEVICE(obj), prop, val);
++    ...
++(
++    sysbus_realize(SYS_BUS_DEVICE(obj), ...);
++|
++    qdev_realize(DEVICE(obj), ...);
++|
++    qdev_realize_and_unref(DEVICE(obj), ...);
++)
 -- 
 2.38.1
 
