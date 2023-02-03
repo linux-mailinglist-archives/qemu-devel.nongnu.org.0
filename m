@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE8A689F4C
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 17:31:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13716689F48
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 17:31:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNyxZ-0001NJ-6g; Fri, 03 Feb 2023 11:30:45 -0500
+	id 1pNyxz-0001O7-Au; Fri, 03 Feb 2023 11:31:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNyxW-0001ML-Bp
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 11:30:43 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNyxa-0001Ns-S1
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 11:30:47 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNyxT-0007qE-Gx
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 11:30:42 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- hn2-20020a05600ca38200b003dc5cb96d46so6375590wmb.4
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 08:30:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNyxY-0007rb-Gw
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 11:30:46 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ m5-20020a05600c4f4500b003db03b2559eso4269102wmq.5
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 08:30:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ptROtNuE3lb04ckVNKyGxQMWre2p5gfgVUcEG2lqtgQ=;
- b=VK5KjYlqlL6hd+FMx2A9gdVLSVw6j7WZvvGBxsn8DC4nfXGmtwSTP0U3ZmDaQO3jto
- Fc3XfItGxhpeHP8DoX542kSKvjlM+IVHKxxmO1OjflEE7fyOZPprND+iTTCpBAIibu5H
- 1LAGcf7n0BOA7WTh0gwhvczN2/FojUs03AUxmMs+tC9ElshNCD8uNZLDTpqmuaODbnfY
- FyL0OLWymZW4GQt3Qxzivan3OzpAhb3eL3u5a/7idA36vPPpCReC7lb1SWviIu3wVaIG
- SXzTLOARooNykVPXkXC0ypEHLk72/F753f9h0dAjaCWysS80HFSknlSlQ6qX1NCR8AeP
- wR2A==
+ bh=1wBCF9bWIkPB8j4jWU6kzH466hslSu/AUgLyaE+mSGQ=;
+ b=QN9H+AW+vRzJxaF7JIpaCv1AhDLbjcDzscI6nE9ha05QCfQg94A+uqgSxnvzqsWcCj
+ LYcauZVv4GYuLpCVQU1tonk1xE4zMh+OG2sp6nCvFscWOF92BxXWfZUaMLdc2PDApHq3
+ llJT3bGwyChXsyXkYVbA4BQWHg1NsHPo6BqcEDcrcnsMYo22K9opQFiYYIzg0PBKmwe+
+ MYCNG0zm+AbBvddg6UvXSF7n2j/GtIQ069RDpx8OiW6Uoz5Wkn8gaJ06NkB965yxAuCi
+ 56ZCMM1y7wIEsECst76zfbiz0sOU5PjgAtY6/G5yYxYJEwnMb4l+yasCidUHlAWDo96l
+ gKmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ptROtNuE3lb04ckVNKyGxQMWre2p5gfgVUcEG2lqtgQ=;
- b=JhWMH9Zpuhd8YIN2jmp5DbInK1ZGdlgySPl7zROaihLWGncR6x8Q/7CZMS6LiEQMUl
- m+fUbkD8hXK/Ty8gW3bnw8Aukpt26sbv77Tnsy/z0pabDRuCMJ1eyiKUWXPMWHA/+05r
- S59eRctnIV2CNvmTTBYPXY3KrXO6nTGg9U4YRSEwZDIOblnO3aGT2xiO9zt6/BMjlhCi
- 73OIizKHEZj0fAMOP5MwXPey4wQurUkiqWljSGj2FJmpha1P0fvvxxYySia/4Gmbw10c
- /hh0il62EaYWDIJFFnsIo9FIZNZ8w2S/kSL2haZOq3RxNERLqhgA0/5s7sYaK9ULS0av
- jQpg==
-X-Gm-Message-State: AO0yUKWbxmLG0ylJ36LvEvN/P8+gZcTB2x/O+eCQGhYA0s9YziMnRM5C
- 2I3NSITT5DWXC/+H8RMbIxqqo+q/5qMm1IgZ
-X-Google-Smtp-Source: AK7set9fcZ1JEpakNePHMV908vh2DVSb2pYsYjcSnsVpW/Z/CfWo+x16ty3EKMrMUdLuesdz9svqEQ==
-X-Received: by 2002:a05:600c:601b:b0:3dc:557f:6129 with SMTP id
- az27-20020a05600c601b00b003dc557f6129mr9946409wmb.2.1675441835935; 
- Fri, 03 Feb 2023 08:30:35 -0800 (PST)
+ bh=1wBCF9bWIkPB8j4jWU6kzH466hslSu/AUgLyaE+mSGQ=;
+ b=5gI3GAlxwuXTvXopqs0FV0LPvXFSchEDg2Y9qwR5QZa7m79n4QzBZ85kwkf7sQXg1J
+ Yqk1L3PJMH7rhCzJkCD3wEnDTRgfJMHhu9J9DV0fxvlNWXn9STPapqQ7i/U1jzQ2EPEn
+ BiMV3NBwv7Yc85taWe+ZiFhX1i+La2T6014iQUyfkAZYEXdlHyJjnihz5bCi0v85hAbU
+ cBPJgKxfo8o0fzCCIs90vM6J+yCi5FSWHrl6zRTdqF/rrQuS3Aa2MsihgaQ6FxjDvs7Z
+ 3YXpEfFOKnyZhrArxHyKhPwkZObLjlAENBP0YOeZrWexpBYMym2Qe6Xsz1MLH1gtLQih
+ kt2w==
+X-Gm-Message-State: AO0yUKUtTCViinvwqmk3nS/J2cxi1tjDVMB/L56OU/MtyqmaSq9TCgYL
+ 3BUp1p7rcFYXRbnad4SLEVUqrH44Fq12Pg0H
+X-Google-Smtp-Source: AK7set+I5yonGaxfAm+fi5x5Zdis1wrgCyP/GjknOWnJoNuCAufBM8uqnGSU35bpHcXJ6HdW7b68nw==
+X-Received: by 2002:a05:600c:1f0c:b0:3dd:97d6:8f2e with SMTP id
+ bd12-20020a05600c1f0c00b003dd97d68f2emr10069500wmb.17.1675441842881; 
+ Fri, 03 Feb 2023 08:30:42 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- m2-20020a05600c4f4200b003dc522dd25esm3439513wmq.30.2023.02.03.08.30.33
+ k19-20020a05600c1c9300b003dc43a10fa5sm3469387wms.13.2023.02.03.08.30.40
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 03 Feb 2023 08:30:34 -0800 (PST)
+ Fri, 03 Feb 2023 08:30:41 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
@@ -60,18 +60,18 @@ Cc: Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Aurelien Jarno <aurelien@aurel32.net>
-Subject: [PATCH 2/3] hw/acpi/cpu_hotplug: Rename 'parent' MemoryRegion as
- 'container'
-Date: Fri,  3 Feb 2023 17:30:20 +0100
-Message-Id: <20230203163021.35754-3-philmd@linaro.org>
+Subject: [PATCH 3/3] hw/acpi/cpu_hotplug: Convert 'Object *device' ->
+ 'DeviceState *parent'
+Date: Fri,  3 Feb 2023 17:30:21 +0100
+Message-Id: <20230203163021.35754-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230203163021.35754-1-philmd@linaro.org>
 References: <20230203163021.35754-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,111 +94,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-No logical change, rename for clarity.
+ACPI CPU hotplug parent can't be any QOM object, it must be a QDev.
+Convert AcpiCpuHotplug::device field as QDev to enforce this.
+Rename 'owner' and 'device' variables as 'parent'.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
  hw/acpi/acpi-cpu-hotplug-stub.c |  2 +-
- hw/acpi/cpu_hotplug.c           | 10 +++++-----
- hw/acpi/piix4.c                 | 10 +++++-----
- include/hw/acpi/cpu_hotplug.h   |  2 +-
- 4 files changed, 12 insertions(+), 12 deletions(-)
+ hw/acpi/cpu_hotplug.c           | 18 +++++++++---------
+ hw/acpi/ich9.c                  |  5 +++--
+ hw/acpi/piix4.c                 |  2 +-
+ include/hw/acpi/cpu_hotplug.h   |  4 ++--
+ 5 files changed, 16 insertions(+), 15 deletions(-)
 
 diff --git a/hw/acpi/acpi-cpu-hotplug-stub.c b/hw/acpi/acpi-cpu-hotplug-stub.c
-index b590ad57e1..cbd7a6ec00 100644
+index cbd7a6ec00..0fcc1ec8ea 100644
 --- a/hw/acpi/acpi-cpu-hotplug-stub.c
 +++ b/hw/acpi/acpi-cpu-hotplug-stub.c
 @@ -13,7 +13,7 @@ void acpi_switch_to_modern_cphp(AcpiCpuHotplug *gpe,
      return;
  }
  
--void legacy_acpi_cpu_hotplug_init(MemoryRegion *parent, Object *owner,
-+void legacy_acpi_cpu_hotplug_init(MemoryRegion *container, Object *owner,
+-void legacy_acpi_cpu_hotplug_init(MemoryRegion *container, Object *owner,
++void legacy_acpi_cpu_hotplug_init(MemoryRegion *container, DeviceState *parent,
                                    AcpiCpuHotplug *gpe, uint16_t base)
  {
      return;
 diff --git a/hw/acpi/cpu_hotplug.c b/hw/acpi/cpu_hotplug.c
-index 3cfa4f45dc..636e985c50 100644
+index 636e985c50..b8c9081738 100644
 --- a/hw/acpi/cpu_hotplug.c
 +++ b/hw/acpi/cpu_hotplug.c
-@@ -81,14 +81,14 @@ void legacy_acpi_cpu_plug_cb(HotplugHandler *hotplug_dev, AcpiCpuHotplug *gpe,
+@@ -41,8 +41,8 @@ static void cpu_status_write(void *opaque, hwaddr addr, uint64_t data,
+      */
+     if (addr == 0 && data == 0) {
+         AcpiCpuHotplug *gpe = opaque;
+-        object_property_set_bool(gpe->device, "cpu-hotplug-legacy", false,
+-                                 &error_abort);
++        object_property_set_bool(OBJECT(gpe->parent), "cpu-hotplug-legacy",
++                                 false, &error_abort);
+     }
+ }
+ 
+@@ -66,8 +66,8 @@ static void acpi_set_cpu_present_bit(AcpiCpuHotplug *gpe, CPUState *cpu)
+ 
+     cpu_id = k->get_arch_id(cpu);
+     if ((cpu_id / 8) >= ACPI_GPE_PROC_LEN) {
+-        object_property_set_bool(gpe->device, "cpu-hotplug-legacy", false,
+-                                 &error_abort);
++        object_property_set_bool(OBJECT(gpe->parent), "cpu-hotplug-legacy",
++                                 false, &error_abort);
+         return;
+     }
+ 
+@@ -81,15 +81,15 @@ void legacy_acpi_cpu_plug_cb(HotplugHandler *hotplug_dev, AcpiCpuHotplug *gpe,
      acpi_send_event(DEVICE(hotplug_dev), ACPI_CPU_HOTPLUG_STATUS);
  }
  
--void legacy_acpi_cpu_hotplug_init(MemoryRegion *parent, Object *owner,
-+void legacy_acpi_cpu_hotplug_init(MemoryRegion *container, Object *owner,
+-void legacy_acpi_cpu_hotplug_init(MemoryRegion *container, Object *owner,
++void legacy_acpi_cpu_hotplug_init(MemoryRegion *container, DeviceState *parent,
                                    AcpiCpuHotplug *gpe, uint16_t base)
  {
      CPUState *cpu;
  
-     memory_region_init_io(&gpe->io, owner, &AcpiCpuHotplug_ops,
+-    memory_region_init_io(&gpe->io, owner, &AcpiCpuHotplug_ops,
++    memory_region_init_io(&gpe->io, OBJECT(parent), &AcpiCpuHotplug_ops,
                            gpe, "acpi-cpu-hotplug", ACPI_GPE_PROC_LEN);
--    memory_region_add_subregion(parent, base, &gpe->io);
-+    memory_region_add_subregion(container, base, &gpe->io);
-     gpe->device = owner;
+     memory_region_add_subregion(container, base, &gpe->io);
+-    gpe->device = owner;
++    gpe->parent = parent;
  
      CPU_FOREACH(cpu) {
+         acpi_set_cpu_present_bit(gpe, cpu);
 @@ -100,10 +100,10 @@ void acpi_switch_to_modern_cphp(AcpiCpuHotplug *gpe,
                                  CPUHotplugState *cpuhp_state,
                                  uint16_t io_port)
  {
--    MemoryRegion *parent = pci_address_space_io(PCI_DEVICE(gpe->device));
-+    MemoryRegion *container = pci_address_space_io(PCI_DEVICE(gpe->device));
+-    MemoryRegion *container = pci_address_space_io(PCI_DEVICE(gpe->device));
++    MemoryRegion *container = pci_address_space_io(PCI_DEVICE(gpe->parent));
  
--    memory_region_del_subregion(parent, &gpe->io);
--    cpu_hotplug_hw_init(parent, gpe->device, cpuhp_state, io_port);
-+    memory_region_del_subregion(container, &gpe->io);
-+    cpu_hotplug_hw_init(container, gpe->device, cpuhp_state, io_port);
+     memory_region_del_subregion(container, &gpe->io);
+-    cpu_hotplug_hw_init(container, gpe->device, cpuhp_state, io_port);
++    cpu_hotplug_hw_init(container, OBJECT(gpe->parent), cpuhp_state, io_port);
  }
  
  void build_legacy_cpu_hotplug_aml(Aml *ctx, MachineState *machine,
+diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+index 4f8385b894..6c9a737479 100644
+--- a/hw/acpi/ich9.c
++++ b/hw/acpi/ich9.c
+@@ -197,7 +197,7 @@ static bool vmstate_test_use_cpuhp(void *opaque)
+ static int vmstate_cpuhp_pre_load(void *opaque)
+ {
+     ICH9LPCPMRegs *s = opaque;
+-    Object *obj = OBJECT(s->gpe.device);
++    Object *obj = OBJECT(s->gpe.parent);
+     object_property_set_bool(obj, "cpu-hotplug-legacy", false, &error_abort);
+     return 0;
+ }
+@@ -338,7 +338,8 @@ void ich9_pm_init(PCIDevice *lpc_pci, ICH9LPCPMRegs *pm,
+     qemu_register_powerdown_notifier(&pm->powerdown_notifier);
+ 
+     legacy_acpi_cpu_hotplug_init(pci_address_space_io(lpc_pci),
+-        OBJECT(lpc_pci), &pm->gpe, ICH9_CPU_HOTPLUG_IO_BASE);
++                                 DEVICE(lpc_pci), &pm->gpe,
++                                 ICH9_CPU_HOTPLUG_IO_BASE);
+ 
+     if (pm->acpi_memory_hotplug.is_enabled) {
+         acpi_memory_hotplug_init(pci_address_space_io(lpc_pci), OBJECT(lpc_pci),
 diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index c702d83f27..5595fe5be5 100644
+index 5595fe5be5..3a61d89f92 100644
 --- a/hw/acpi/piix4.c
 +++ b/hw/acpi/piix4.c
-@@ -555,15 +555,15 @@ static void piix4_set_cpu_hotplug_legacy(Object *obj, bool value, Error **errp)
-     s->cpu_hotplug_legacy = value;
- }
- 
--static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
-+static void piix4_acpi_system_hot_add_init(MemoryRegion *container,
-                                            PCIBus *bus, PIIX4PMState *s)
- {
-     memory_region_init_io(&s->io_gpe, OBJECT(s), &piix4_gpe_ops, s,
-                           "acpi-gpe0", GPE_LEN);
--    memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe);
-+    memory_region_add_subregion(container, GPE_BASE, &s->io_gpe);
- 
-     if (s->use_acpi_hotplug_bridge || s->use_acpi_root_pci_hotplug) {
--        acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
-+        acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, container,
-                         s->use_acpi_hotplug_bridge, ACPI_PCIHP_ADDR_PIIX4);
-     }
- 
-@@ -571,11 +571,11 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
+@@ -571,7 +571,7 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *container,
      object_property_add_bool(OBJECT(s), "cpu-hotplug-legacy",
                               piix4_get_cpu_hotplug_legacy,
                               piix4_set_cpu_hotplug_legacy);
--    legacy_acpi_cpu_hotplug_init(parent, OBJECT(s), &s->gpe,
-+    legacy_acpi_cpu_hotplug_init(container, OBJECT(s), &s->gpe,
+-    legacy_acpi_cpu_hotplug_init(container, OBJECT(s), &s->gpe,
++    legacy_acpi_cpu_hotplug_init(container, DEVICE(s), &s->gpe,
                                   PIIX4_CPU_HOTPLUG_IO_BASE);
  
      if (s->acpi_memory_hotplug.is_enabled) {
--        acpi_memory_hotplug_init(parent, OBJECT(s), &s->acpi_memory_hotplug,
-+        acpi_memory_hotplug_init(container, OBJECT(s), &s->acpi_memory_hotplug,
-                                  ACPI_MEMORY_HOTPLUG_BASE);
-     }
- }
 diff --git a/include/hw/acpi/cpu_hotplug.h b/include/hw/acpi/cpu_hotplug.h
-index 99c11b7151..5ff24ec417 100644
+index 5ff24ec417..b2f990f0b8 100644
 --- a/include/hw/acpi/cpu_hotplug.h
 +++ b/include/hw/acpi/cpu_hotplug.h
+@@ -20,7 +20,7 @@
+ #include "hw/acpi/cpu.h"
+ 
+ typedef struct AcpiCpuHotplug {
+-    Object *device;
++    DeviceState *parent;
+     MemoryRegion io;
+     uint8_t sts[ACPI_GPE_PROC_LEN];
+ } AcpiCpuHotplug;
 @@ -28,7 +28,7 @@ typedef struct AcpiCpuHotplug {
  void legacy_acpi_cpu_plug_cb(HotplugHandler *hotplug_dev, AcpiCpuHotplug *gpe,
                               DeviceState *dev, Error **errp);
  
--void legacy_acpi_cpu_hotplug_init(MemoryRegion *parent, Object *owner,
-+void legacy_acpi_cpu_hotplug_init(MemoryRegion *container, Object *owner,
+-void legacy_acpi_cpu_hotplug_init(MemoryRegion *container, Object *owner,
++void legacy_acpi_cpu_hotplug_init(MemoryRegion *container, DeviceState *parent,
                                    AcpiCpuHotplug *gpe, uint16_t base);
  
  void acpi_switch_to_modern_cphp(AcpiCpuHotplug *gpe,
