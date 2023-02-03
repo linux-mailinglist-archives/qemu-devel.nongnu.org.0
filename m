@@ -2,77 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88280689BA4
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:31:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A07689C0C
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:41:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNx5Y-0000Sq-GG; Fri, 03 Feb 2023 09:30:52 -0500
+	id 1pNxFF-0003zD-6Q; Fri, 03 Feb 2023 09:40:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNx4i-0006tr-Lc
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:30:00 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNx4f-00053Z-R0
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:30:00 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- hn2-20020a05600ca38200b003dc5cb96d46so6125856wmb.4
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 06:29:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=L2nnqzPfORcCpUIAV2HyeXVRQVeoYBVIUoJ05tbUvrM=;
- b=NT96SRFcdwVoomEJAZrxvJiJs9Ol0Sf83+iAGijF5aoM9Au4TEMvoZoh54e/JyuBOq
- wpIWezoU9k1i2/yATyrVbzM9BbZgD4djza81vYFcLtkf1gxrHufQDAh1bBpzSJ46hHri
- 1qihFAtHD+pvYOChTwkl0JlLxij4ZyHEOT1VhzMYaFaV5mbG4CAIdPirfcivFct7tFF7
- WDG58J1Fxw68TmUzU46rbIW7umaINpwgZ82Q1bA6bprZYl55gm5tpe7y6X7hdv+kbot9
- K0qsWyyhsTD91TIhknOVHSsa1A7DmkFX0r33qLjqHIoMkOcNqsqBxvapUhHon77lXnCh
- 7FRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=L2nnqzPfORcCpUIAV2HyeXVRQVeoYBVIUoJ05tbUvrM=;
- b=AESzYs+4zxjwPzPT4cnjbw/d0Y/9AHeCzvFWxhF+u978CYc3Ua62Arh7iTNfM4yBve
- ibzq/x70M8dxMA+7aoJmkPgy3SDAIhYSFRemG9spC3nXPUM4TGxaIo2p0Zlu6gxpKXk7
- 79elt5gs9RtYjB+yV0SqM3eKhkC4d+eygHlu3qUwbX79blkan6gQxUZ9G6aFuXAhr+WH
- dTyVi0R7CPVpXsrWJtp6L18weivV6Cp8VP2sZ+P1a5mj4y9MdsIxaYNBJjI6XF3rJIBF
- 7F614J5jeHG28fInzvWusN2AVPL4sGGgM1lcFRJtp0g1arl3ffgbi96xLWxCffP7+uNe
- cR8w==
-X-Gm-Message-State: AO0yUKVUtczpQBMo4UW1mCtZGEA/RwaBMjHGN54MXO//UYGQaKY/qPbE
- Z+MG8KKkUTo8mQ2jgnaDN/KjC+nedi8MgDof
-X-Google-Smtp-Source: AK7set9aTC8lEUcCUUr/efS2rL3vyLbw4/36ePYPxjI2LWWXktZxzN/+MCmPHlZND2jJVdxtExmBlA==
-X-Received: by 2002:a7b:cd17:0:b0:3dc:4f65:553e with SMTP id
- f23-20020a7bcd17000000b003dc4f65553emr10745119wmj.3.1675434597097; 
- Fri, 03 Feb 2023 06:29:57 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- j14-20020a05600c130e00b003df241f52e8sm2578492wmf.42.2023.02.03.06.29.56
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Feb 2023 06:29:56 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 33/33] target/arm: Enable FEAT_FGT on '-cpu max'
-Date: Fri,  3 Feb 2023 14:29:27 +0000
-Message-Id: <20230203142927.834793-34-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230203142927.834793-1-peter.maydell@linaro.org>
-References: <20230203142927.834793-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pNxFD-0003xI-7i; Fri, 03 Feb 2023 09:40:51 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pNxFB-0000nQ-3p; Fri, 03 Feb 2023 09:40:50 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 313Dg1IA031324; Fri, 3 Feb 2023 14:40:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=rR5EitcEJ67N1aIWfIHundVXybReQBBNv8h3jMMJ+xc=;
+ b=FAhUrBZ65Lik3h7HfSfB4d+FuWkNI9vL549t/VACN/RirGFwbsnwi1nHlvFPXVSdt/jF
+ +oZPbRVBxEfwtVbi1YtkoBWLNrYaM+Sw6nkdB08hhM3nAbo5dwxu3gUC2qg0H3GLmwkS
+ OPfBsH/9N/0SZOiKDtH45Dhvx5M1oCRwS90MZuq0oVWMgCrtFCZuWYnCrrmeKhg+PCSO
+ JtmB0b077/vn8Iw2kh865YYfbDHW7/y+GE+3C7Jrmr97/dYbULdFqvYCVGySOTK2sGgS
+ 0nfWvPMYm3VVlvUoLZKOqXC02RPgcTAq9KAMbSKKV8gLu+iq0B4/RZc/dnEpxJ0bvOcr yQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nh3cm1np4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Feb 2023 14:40:38 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 313EABq7001348;
+ Fri, 3 Feb 2023 14:40:37 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nh3cm1nmw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Feb 2023 14:40:37 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3137p9id014675;
+ Fri, 3 Feb 2023 14:40:35 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3ncvttyh63-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Feb 2023 14:40:34 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
+ [10.20.54.100])
+ by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 313EeVAg47972738
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 3 Feb 2023 14:40:31 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 650AE20043;
+ Fri,  3 Feb 2023 14:40:31 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EADB120040;
+ Fri,  3 Feb 2023 14:40:29 +0000 (GMT)
+Received: from [9.171.57.15] (unknown [9.171.57.15])
+ by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Fri,  3 Feb 2023 14:40:29 +0000 (GMT)
+Message-ID: <5ad1cc6a-5d2d-57fc-f082-ec6f843c877e@linux.ibm.com>
+Date: Fri, 3 Feb 2023 15:40:29 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v15 02/11] s390x/cpu topology: add topology entries on CPU
+ hotplug
+Content-Language: en-US
+To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230201132051.126868-1-pmorel@linux.ibm.com>
+ <20230201132051.126868-3-pmorel@linux.ibm.com>
+ <6345131acfb04e353ca2eba620bf27609bfeb535.camel@linux.ibm.com>
+ <c2c502ca-2a1f-d29f-8931-4be7389557ee@linux.ibm.com>
+ <45bb29fcb3629a857577e50378adab1f5598644e.camel@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <45bb29fcb3629a857577e50378adab1f5598644e.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: huOAq1nggo9el_54z4_vk1_UfzsjKLTZ
+X-Proofpoint-GUID: sYSBRxqBGkhzGE9EuRKm2XbvViLrcReb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-03_13,2023-02-03_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ suspectscore=0 mlxscore=0 phishscore=0 spamscore=0 adultscore=0
+ mlxlogscore=999 priorityscore=1501 bulkscore=0 malwarescore=0
+ impostorscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2302030134
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,44 +122,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Update the ID registers for TCG's '-cpu max' to report the
-presence of FEAT_FGT Fine-Grained Traps support.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Tested-by: Fuad Tabba <tabba@google.com>
-Message-id: 20230130182459.3309057-24-peter.maydell@linaro.org
-Message-id: 20230127175507.2895013-24-peter.maydell@linaro.org
----
- docs/system/arm/emulation.rst | 1 +
- target/arm/cpu64.c            | 1 +
- 2 files changed, 2 insertions(+)
 
-diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
-index b87e064d9dc..2062d712610 100644
---- a/docs/system/arm/emulation.rst
-+++ b/docs/system/arm/emulation.rst
-@@ -30,6 +30,7 @@ the following architecture extensions:
- - FEAT_ETS (Enhanced Translation Synchronization)
- - FEAT_EVT (Enhanced Virtualization Traps)
- - FEAT_FCMA (Floating-point complex number instructions)
-+- FEAT_FGT (Fine-Grained Traps)
- - FEAT_FHM (Floating-point half-precision multiplication instructions)
- - FEAT_FP16 (Half-precision floating-point data processing)
- - FEAT_FRINTTS (Floating-point to integer instructions)
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 0e021960fb5..4066950da15 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -1224,6 +1224,7 @@ static void aarch64_max_initfn(Object *obj)
-     t = FIELD_DP64(t, ID_AA64MMFR0, TGRAN16_2, 2); /* 16k stage2 supported */
-     t = FIELD_DP64(t, ID_AA64MMFR0, TGRAN64_2, 2); /* 64k stage2 supported */
-     t = FIELD_DP64(t, ID_AA64MMFR0, TGRAN4_2, 2);  /*  4k stage2 supported */
-+    t = FIELD_DP64(t, ID_AA64MMFR0, FGT, 1);       /* FEAT_FGT */
-     cpu->isar.id_aa64mmfr0 = t;
- 
-     t = cpu->isar.id_aa64mmfr1;
+On 2/3/23 14:22, Nina Schoetterl-Glausch wrote:
+> On Fri, 2023-02-03 at 10:21 +0100, Pierre Morel wrote:
+>>
+>> On 2/2/23 17:42, Nina Schoetterl-Glausch wrote:
+>>> On Wed, 2023-02-01 at 14:20 +0100, Pierre Morel wrote:
+>>>> The topology information are attributes of the CPU and are
+>>>> specified during the CPU device creation.
+>>>>
+>>>> On hot plug we:
+>>>> - calculate the default values for the topology for drawers,
+>>>>     books and sockets in the case they are not specified.
+>>>> - verify the CPU attributes
+>>>> - check that we have still room on the desired socket
+>>>>
+>>>> The possibility to insert a CPU in a mask is dependent on the
+>>>> number of cores allowed in a socket, a book or a drawer, the
+>>>> checking is done during the hot plug of the CPU to have an
+>>>> immediate answer.
+>>>>
+>>>> If the complete topology is not specified, the core is added
+>>>> in the physical topology based on its core ID and it gets
+>>>> defaults values for the modifier attributes.
+>>>>
+>>>> This way, starting QEMU without specifying the topology can
+>>>> still get some advantage of the CPU topology.
+>>>>
+>>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>>>> ---
+>>>>    include/hw/s390x/cpu-topology.h |  24 +++
+>>>>    hw/s390x/cpu-topology.c         | 256 ++++++++++++++++++++++++++++++++
+>>>>    hw/s390x/s390-virtio-ccw.c      |  23 ++-
+>>>>    hw/s390x/meson.build            |   1 +
+>>>>    4 files changed, 302 insertions(+), 2 deletions(-)
+>>>>    create mode 100644 hw/s390x/cpu-topology.c
+>>>>
+> [...]
+>>>
+>>>> +/**
+>>>> + * s390_set_core_in_socket:
+>>>> + * @cpu: the new S390CPU to insert in the topology structure
+>>>> + * @drawer_id: new drawer_id
+>>>> + * @book_id: new book_id
+>>>> + * @socket_id: new socket_id
+>>>> + * @creation: if is true the CPU is a new CPU and there is no old socket
+>>>> + *            to handle.
+>>>> + *            if is false, this is a moving the CPU and old socket count
+>>>> + *            must be decremented.
+>>>> + * @errp: the error pointer
+>>>> + *
+>>>> + */
+>>>> +static void s390_set_core_in_socket(S390CPU *cpu, int drawer_id, int book_id,
+>>>
+>>> Maybe name it s390_(topology_)?add_core_to_socket instead.
+>>
+>> OK, it is better
+>>
+>>>
+>>>> +                                    int socket_id, bool creation, Error **errp)
+>>>> +{
+>>>> +    int old_socket = s390_socket_nb(cpu);
+>>>> +    int new_socket;
+>>>> +
+>>>> +    if (creation) {
+>>>> +        new_socket = old_socket;
+>>>> +    } else {
+>>>
+>>> You need parentheses here.
+>>>
+>>>> +        new_socket = drawer_id * s390_topology.smp->books +
+>>>                          (
+>>>> +                     book_id * s390_topology.smp->sockets +
+>>>                                  )
+>>>> +                     socket_id;
+>>
+>> If you prefer I can us parentheses.
+> 
+> It's necessary, otherwise the multiplication of book_id and smp->sockets takes precedence.
+>>
+>>
+
+Right, I did not understand where you want the parenthesis.
+I think you mean:
+
+         new_socket = (drawer_id * s390_topology.smp->books + book_id) *
+                      s390_topology.smp->sockets + socket_id;
+
+thanks,
+
+Regards,
+Pierre
+
 -- 
-2.34.1
-
+Pierre Morel
+IBM Lab Boeblingen
 
