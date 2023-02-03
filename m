@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D959C68A488
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 22:18:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84BFA68A486
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 22:18:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pO3Qd-0000LT-BJ; Fri, 03 Feb 2023 16:17:03 -0500
+	id 1pO3Qd-0000LU-Bx; Fri, 03 Feb 2023 16:17:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO3QM-0000F8-Ci
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO3QR-0000FS-AX
  for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:16:56 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO3QJ-0006Cn-62
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:16:45 -0500
-Received: by mail-ed1-x535.google.com with SMTP id u21so6424127edv.3
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 13:16:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO3QP-0006DH-4X
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:16:51 -0500
+Received: by mail-ej1-x636.google.com with SMTP id bk15so18819875ejb.9
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 13:16:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=OCe5fq1LEdCOCuZfIaOgrR1H22bGU2FTnkvkdNk/zEU=;
- b=sga5CwGkHM9CRvff0crmalFXpNd020JW9AL7+egepLvMqBS4p9D7ETsZ3J7ARDWqgj
- kR/W2gwiBwLoSy4m9X07vSJtZR9YytVugXFaKF4XLMlQHCVzdmRq6Y/vpE8sIKgpxhna
- cOWzFiwU83E1juQUF/BzVjkZ2PNyHI/JCGxyRGMO1KPRTMwOexoVR/P6cZ8D3tvxGxOO
- 9MYI6jCOGS/lOBxvfWY/jryRh17sH/8fvi3wuniuRBfNrPRGsjIPDIzMm779/KBfXNvJ
- ZufnDod+XFy633X+Cdu7sdy2sdkD5HBrmV7gWb5ERWJ6f8yFlsmBf1LtmOVHJxQf+Lhb
- tvHw==
+ bh=9y7uNtLNirw+zlKhCFqLJUYA0wqOcSYOS5zDaJZAL3I=;
+ b=fp5xuNSOeWx+FOL1AZf1Uhu1bKt9gKU/5sUloE8hEEBxt1xu6Vhs9xSRx7iG7fXgf3
+ Qhn6oaTA71+yHD+2qAscE1BenprPraKVAUcWSuNYVjyEUsM43Zdsa5lle7tAToOYAu9K
+ kNh+t1x/p0UaMYWfckbY4Ioie5TxbZS4V0fxxrRMKIZCp0BiSDDgLhHoalh9sQJc4YuT
+ UGkYiBC4BaJgc1lOZ5nqSx5mA37kN/OgHQ9Osiryfx1B/IpqGagHR1Lm8/YUZajiVvv+
+ e6i4tsOKD4QyDYAVQJttqEhowSWb+Wjt42z1bfMW32PwQ+b/F9zjsL2vvjU7eDhFoCfO
+ RgIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=OCe5fq1LEdCOCuZfIaOgrR1H22bGU2FTnkvkdNk/zEU=;
- b=fVJoq40gvrx2xIAgylMCSaUrBzrw+I8scB5JHY/1ueKW7nc3vIEWm4ySHpENuVUgGs
- +BmB22d+QOEJ1AdBChCIyxd9bTGmnzihMyyOaei8qVl+6gN/xS6yTwMZ0vBSPnG3ytIi
- vryjEbWCH8ObNgOOzCQWCfJYscPCPCO2rK9NBWZQrgpgrooXMQU5QKDMIK7cx5J1TA7+
- IuDJeAMBJj4QV8N3tXGQDPJe/iu9u5Y92fn6Ta7L6KAkn89HWhZrI+nJmjTBjKzvzfI3
- Hkhc5sVvpFrydqt5pXMVQ+NPzV7Q17MANb0TV+vA/WAEjIqZJYBgdPi+3dbdYbSLENYH
- e2jw==
-X-Gm-Message-State: AO0yUKWzFU1J96hCZO8gUiwsH3bp2SEPL4r0AN0bA4WgncHLTYQCIr06
- TOLMXIS9kCva74AqcPl8QDhAUDhsij7+mq9T
-X-Google-Smtp-Source: AK7set9OziNcQ6IqENo7+TkdxHDkZ3YkihJ7++Z8I/53PInEblm9n1Nr1bvlWzfk6Q4xe8GsJDVGOQ==
-X-Received: by 2002:a05:6402:34d6:b0:4a2:2e8a:14cc with SMTP id
- w22-20020a05640234d600b004a22e8a14ccmr16533258edc.1.1675459001193; 
- Fri, 03 Feb 2023 13:16:41 -0800 (PST)
+ bh=9y7uNtLNirw+zlKhCFqLJUYA0wqOcSYOS5zDaJZAL3I=;
+ b=U2gdtwdGnmNVUR/BsrF45Q5Qx9dmuMIidEFIMSawUZ4TlrbkHfol77m7H0ccgDfU6z
+ qoG/FFDwIl7JE0mSHG0FHq6ayTe7TO72Sle1mWaNL9v0Gd3sa4xlbchkO0WCXBUT+qRr
+ oUtrznG5gnmJqQ3oG/YEd7siqwWEqpAizCyPz/TuVJpgzSQ9MEtgRLHWNWi23ADDlSzc
+ otfVCAehpw29KfOWm7uV1JWO6baQ9wCEN+2u4MJpBfEXvKLdhR2MyPvr/nudXGS9leXr
+ HCPGAbXXkOQwVR8p6RqA/Zv2z6UZaCHgHGGzlW3VDpZIDoZDTxM4ActEWIYYdtOb0Yx7
+ lsDQ==
+X-Gm-Message-State: AO0yUKWrMp4quwA+ijlvtCVuM2tRWp1jA7A9w4jzbu+Im6opHBA0sZdH
+ R9YyIJ3qsIB0geo4xBNAQjHTk3h29i+SOg1r
+X-Google-Smtp-Source: AK7set9e/g8XI0JnbBzcz0KV6uaXu3+rjfLdfy9DHYyvFH9AFAZ8ZDe8DpKtY97SmLYnDWB12CY3+g==
+X-Received: by 2002:a17:906:5181:b0:885:dd71:89b5 with SMTP id
+ y1-20020a170906518100b00885dd7189b5mr11456513ejk.41.1675459007118; 
+ Fri, 03 Feb 2023 13:16:47 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- x10-20020a1709060a4a00b00880dbd4b6d4sm1876093ejf.136.2023.02.03.13.16.38
+ s13-20020a170906c30d00b0088842b00241sm1871504ejz.114.2023.02.03.13.16.45
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 03 Feb 2023 13:16:40 -0800 (PST)
+ Fri, 03 Feb 2023 13:16:46 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: BALATON Zoltan <balaton@eik.bme.hu>,
@@ -62,24 +62,24 @@ Cc: BALATON Zoltan <balaton@eik.bme.hu>,
  Markus Armbruster <armbru@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 2/5] hw/pci-host/raven: Set QDev properties using QDev API
-Date: Fri,  3 Feb 2023 22:16:20 +0100
-Message-Id: <20230203211623.50930-3-philmd@linaro.org>
+Subject: [PATCH 3/5] hw/ppc/ppc4xx: Set QDev properties using QDev API
+Date: Fri,  3 Feb 2023 22:16:21 +0100
+Message-Id: <20230203211623.50930-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230203211623.50930-1-philmd@linaro.org>
 References: <20230203211623.50930-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,39 +99,122 @@ No need to use the low-level QOM API when an object
 inherits from QDev. Directly use the QDev API to set
 its properties.
 
-All calls use either errp=&error_fatal or NULL, so
-converting to the QDev API is almost a no-op (QDev API
-always uses &error_abort).
+All calls use either errp=&error_abort or &error_fatal,
+so converting to the QDev API is almost a no-op (QDev
+API always uses &error_abort).
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/pci-host/raven.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ hw/ppc/e500.c          | 3 +--
+ hw/ppc/ppc405_boards.c | 6 ++----
+ hw/ppc/ppc405_uc.c     | 6 +++---
+ hw/ppc/ppc440_bamboo.c | 3 +--
+ hw/ppc/ppc4xx_devs.c   | 2 +-
+ hw/ppc/sam460ex.c      | 5 ++---
+ 6 files changed, 10 insertions(+), 15 deletions(-)
 
-diff --git a/hw/pci-host/raven.c b/hw/pci-host/raven.c
-index cdfb62ac2e..2c842d2146 100644
---- a/hw/pci-host/raven.c
-+++ b/hw/pci-host/raven.c
-@@ -246,8 +246,7 @@ static void raven_pcihost_realizefn(DeviceState *d, Error **errp)
-         /* According to PReP specification section 6.1.6 "System Interrupt
-          * Assignments", all PCI interrupts are routed via IRQ 15 */
-         s->or_irq = OR_IRQ(object_new(TYPE_OR_IRQ));
--        object_property_set_int(OBJECT(s->or_irq), "num-lines", PCI_NUM_PINS,
--                                &error_fatal);
-+        qdev_prop_set_uint16(DEVICE(s->or_irq), "num-lines", PCI_NUM_PINS);
-         qdev_realize(DEVICE(s->or_irq), NULL, &error_fatal);
-         sysbus_init_irq(dev, &s->or_irq->out_irq);
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index 9fa1f8e6cf..083961cef5 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -943,8 +943,7 @@ void ppce500_init(MachineState *machine)
+          * Secondary CPU starts in halted state for now. Needs to change
+          * when implementing non-kernel boot.
+          */
+-        object_property_set_bool(OBJECT(cs), "start-powered-off", i != 0,
+-                                 &error_fatal);
++        qdev_prop_set_bit(DEVICE(cs), "start-powered-off", i != 0);
+         qdev_realize_and_unref(DEVICE(cs), NULL, &error_fatal);
  
-@@ -319,8 +318,7 @@ static void raven_pcihost_initfn(Object *obj)
+         if (!firstenv) {
+diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+index 4092ebc1ab..67eb9ac139 100644
+--- a/hw/ppc/ppc405_boards.c
++++ b/hw/ppc/ppc405_boards.c
+@@ -276,10 +276,8 @@ static void ppc405_init(MachineState *machine)
  
-     object_initialize(&s->pci_dev, sizeof(s->pci_dev), TYPE_RAVEN_PCI_DEVICE);
-     pci_dev = DEVICE(&s->pci_dev);
--    object_property_set_int(OBJECT(&s->pci_dev), "addr", PCI_DEVFN(0, 0),
--                            NULL);
-+    qdev_prop_set_int32(pci_dev, "addr", PCI_DEVFN(0, 0));
-     qdev_prop_set_bit(pci_dev, "multifunction", false);
+     object_initialize_child(OBJECT(machine), "soc", &ppc405->soc,
+                             TYPE_PPC405_SOC);
+-    object_property_set_link(OBJECT(&ppc405->soc), "dram",
+-                             OBJECT(machine->ram), &error_abort);
+-    object_property_set_uint(OBJECT(&ppc405->soc), "sys-clk", 33333333,
+-                             &error_abort);
++    qdev_prop_set_link(DEVICE(&ppc405->soc), "dram", OBJECT(machine->ram));
++    qdev_prop_set_uint32(DEVICE(&ppc405->soc), "sys-clk", 33333333);
+     qdev_realize(DEVICE(&ppc405->soc), NULL, &error_fatal);
+ 
+     /* allocate and load BIOS */
+diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+index c973cfb04e..b7d5cfc548 100644
+--- a/hw/ppc/ppc405_uc.c
++++ b/hw/ppc/ppc405_uc.c
+@@ -1080,7 +1080,7 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+      * We use the 440 DDR SDRAM controller which has more regs and features
+      * but it's compatible enough for now
+      */
+-    object_property_set_int(OBJECT(&s->sdram), "nbanks", 2, &error_abort);
++    qdev_prop_set_uint32(DEVICE(&s->sdram), "nbanks", 2);
+     if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->sdram), &s->cpu, errp)) {
+         return;
+     }
+@@ -1147,8 +1147,8 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     /* MAL */
+-    object_property_set_int(OBJECT(&s->mal), "txc-num", 4, &error_abort);
+-    object_property_set_int(OBJECT(&s->mal), "rxc-num", 2, &error_abort);
++    qdev_prop_set_uint8(DEVICE(&s->mal), "txc-num", 4);
++    qdev_prop_set_uint8(DEVICE(&s->mal), "rxc-num", 2);
+     if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->mal), &s->cpu, errp)) {
+         return;
+     }
+diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
+index 81d71adf34..3612471990 100644
+--- a/hw/ppc/ppc440_bamboo.c
++++ b/hw/ppc/ppc440_bamboo.c
+@@ -200,8 +200,7 @@ static void bamboo_init(MachineState *machine)
+ 
+     /* SDRAM controller */
+     dev = qdev_new(TYPE_PPC4xx_SDRAM_DDR);
+-    object_property_set_link(OBJECT(dev), "dram", OBJECT(machine->ram),
+-                             &error_abort);
++    qdev_prop_set_link(dev, "dram", OBJECT(machine->ram));
+     ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(dev), cpu, &error_fatal);
+     object_unref(OBJECT(dev));
+     /* XXX 440EP's ECC interrupts are on UIC1, but we've only created UIC0. */
+diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+index c1d111465d..1848cf5d3c 100644
+--- a/hw/ppc/ppc4xx_devs.c
++++ b/hw/ppc/ppc4xx_devs.c
+@@ -535,7 +535,7 @@ void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn, void *opaque,
+ bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
+                         Error **errp)
+ {
+-    object_property_set_link(OBJECT(dev), "cpu", OBJECT(cpu), &error_abort);
++    qdev_prop_set_link(DEVICE(dev), "cpu", OBJECT(cpu));
+     return sysbus_realize(SYS_BUS_DEVICE(dev), errp);
  }
  
+diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+index cf065aae0e..cb828b6d4d 100644
+--- a/hw/ppc/sam460ex.c
++++ b/hw/ppc/sam460ex.c
+@@ -345,13 +345,12 @@ static void sam460ex_init(MachineState *machine)
+         exit(1);
+     }
+     dev = qdev_new(TYPE_PPC4xx_SDRAM_DDR2);
+-    object_property_set_link(OBJECT(dev), "dram", OBJECT(machine->ram),
+-                             &error_abort);
++    qdev_prop_set_link(dev, "dram", OBJECT(machine->ram));
+     /*
+      * Put all RAM on first bank because board has one slot
+      * and firmware only checks that
+      */
+-    object_property_set_int(OBJECT(dev), "nbanks", 1, &error_abort);
++    qdev_prop_set_uint32(dev, "nbanks", 1);
+     ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(dev), cpu, &error_fatal);
+     object_unref(OBJECT(dev));
+     /* FIXME: does 460EX have ECC interrupts? */
 -- 
 2.38.1
 
