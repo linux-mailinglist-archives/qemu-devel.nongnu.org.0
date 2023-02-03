@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3383268A659
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 23:54:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACFBF68A668
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 23:59:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pO4wL-0008EW-MY; Fri, 03 Feb 2023 17:53:53 -0500
+	id 1pO50L-0001r8-7j; Fri, 03 Feb 2023 17:58:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pO4wJ-0008ED-Sn
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 17:53:51 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pO50J-0001qo-87
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 17:57:59 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pO4wI-0004pE-Dg
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 17:53:51 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pO50H-0005f5-Fe
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 17:57:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675464829;
+ s=mimecast20190719; t=1675465076;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Jw6rtJsayLrP8WiMRLkeVRNkqMH3ijaEx/mCdcfg8JE=;
- b=MsfcY5R/92QndzXtw8bV7bduNmBAObbAU0VXDr854Jgn3lXlWbFBzB1KjKh0O8xvbSkAvH
- vuvoiYOjIUcthZ9cwBURfy0hWavVcr2vFOnuwZk0yTTxsD2pQlY9xI4iwoR03Ap5bDeOrC
- b2eB25RNbpDhd5sbQ2IUzP1KguqQqE0=
+ bh=a+NSP+Z0EW/ZlCEuvyAcfW+6bx7FMmyj9/emoJ4Rgyo=;
+ b=Lrts81l6ejxHBjedK/usHoOdzIiDJ7X+/mRDufcv73iJt20qhWNRg6GG7QG7bdMUDNhQHB
+ qm/t8D+fytO9JHCPWztdjGsSqlv/gSROaH+juzdjSqSS52JhDOOdkQpQXf2r/RZzniQ0sj
+ 5va5lDvGZMyN208fheAtmO1p0KrYiUk=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-99-uLKCUZ9XOLCSjtkLJM6NUA-1; Fri, 03 Feb 2023 17:53:48 -0500
-X-MC-Unique: uLKCUZ9XOLCSjtkLJM6NUA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-15-Ly5yFhMbPAmxrFYc9MQ_ZQ-1; Fri, 03 Feb 2023 17:57:55 -0500
+X-MC-Unique: Ly5yFhMbPAmxrFYc9MQ_ZQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4E29185A5B1;
- Fri,  3 Feb 2023 22:53:48 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 23371811E6E;
+ Fri,  3 Feb 2023 22:57:55 +0000 (UTC)
 Received: from redhat.com (unknown [10.2.16.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CAE60C15BA0;
- Fri,  3 Feb 2023 22:53:47 +0000 (UTC)
-Date: Fri, 3 Feb 2023 16:53:46 -0600
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A46A492C14;
+ Fri,  3 Feb 2023 22:57:54 +0000 (UTC)
+Date: Fri, 3 Feb 2023 16:57:52 -0600
 From: Eric Blake <eblake@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>
 Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
  Kevin Wolf <kwolf@redhat.com>, mjt@tls.msk.ru
-Subject: Re: [PATCH 2/5] docs: differentiate between block driver create and
- runtime opts
-Message-ID: <20230203225346.xcynxlccx6c2inrl@redhat.com>
+Subject: Re: [PATCH 4/5] docs: flesh out qcow2 format driver description
+Message-ID: <20230203225752.syg2j5p24wtldu4t@redhat.com>
 References: <20230201211234.301918-1-stefanha@redhat.com>
- <20230201211234.301918-3-stefanha@redhat.com>
+ <20230201211234.301918-5-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230201211234.301918-3-stefanha@redhat.com>
+In-Reply-To: <20230201211234.301918-5-stefanha@redhat.com>
 User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -79,46 +78,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 01, 2023 at 04:12:31PM -0500, Stefan Hajnoczi wrote:
-> Options available with qemu-img create -o ... are called create options.
-> They affect how the image file is created on disk.
-> 
-> Options available with --blockdev ... are called runtime options. They
-> affect how the open blockdev behaves.
-> 
-> The documentation makes no distinction is made between the two. For
-
-s/is made //
-
-> example, the preallocation filter driver talks about the runtime options
-> while the image format drivers talk about the create options.
-> 
-> Be explicit about create vs runtime options.
+On Wed, Feb 01, 2023 at 04:12:33PM -0500, Stefan Hajnoczi wrote:
+> Put the create options in alphabetical order, add compression_type and
+> extended_l2, and also mention the common runtime options. I did not add
+> rarely-used runtime options because I think it's too much information.
 > 
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  docs/system/qemu-block-drivers.rst.inc | 26 ++++++++++++++------------
->  1 file changed, 14 insertions(+), 12 deletions(-)
+>  docs/system/qemu-block-drivers.rst.inc | 91 ++++++++++++++++++++------
+>  1 file changed, 70 insertions(+), 21 deletions(-)
 > 
 > diff --git a/docs/system/qemu-block-drivers.rst.inc b/docs/system/qemu-block-drivers.rst.inc
-> index dfe5d2293d..be6eec1eb6 100644
+> index ec9ebb2066..af72817763 100644
 > --- a/docs/system/qemu-block-drivers.rst.inc
 > +++ b/docs/system/qemu-block-drivers.rst.inc
-> @@ -6,9 +6,11 @@ any of the tools (like ``qemu-img``). This includes the preferred formats
->  raw and qcow2 as well as formats that are supported for compatibility with
->  older QEMU versions or other hypervisors.
+> @@ -59,13 +59,27 @@ options that are supported for it.
+>  .. option:: qcow2
 >  
-> -Depending on the image format, different options can be passed to
-> -``qemu-img create`` and ``qemu-img convert`` using the ``-o`` option.
-> -This section describes each format and the options that are supported for it.
-> +Depending on the image format, different options can be passed to ``qemu-img
-> +create`` and ``qemu-img convert`` using the ``-o`` option. These are called
-> +*create options*. Image formats also support different ``--blockdev`` options.
-> +These are called *runtime options*. This section describes each format and the
-> +options that are supported for it.
->  
+>    QEMU image format, the most versatile format. Use it to have smaller
+> -  images (useful if your filesystem does not supports holes, for example
+> -  on Windows), zlib based compression and support of multiple VM
+> +  images (useful if your filesystem does not support holes, for example
+> +  on Windows), zlib/zstd compression and support of multiple VM
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+And sneaking in a grammar fix for "support", I see ;)
+
+Reviewed-by: Eric Blake <eblake@Redhat.com>
 
 -- 
 Eric Blake, Principal Software Engineer
