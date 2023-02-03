@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65D6768A24F
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 19:56:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CB9568A2AC
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 20:13:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pO1DG-0001jf-IH; Fri, 03 Feb 2023 13:55:06 -0500
+	id 1pO1Tp-0006Vy-Go; Fri, 03 Feb 2023 14:12:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pO1DA-0001j3-N7
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:55:03 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pO1D9-0003nP-1C
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:55:00 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- nm12-20020a17090b19cc00b0022c2155cc0bso5782029pjb.4
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 10:54:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :from:to:cc:subject:date:message-id:reply-to;
- bh=VorpZTi8GATFKvZeb8TgqcJt6X78j/vCT2yw0Hum7gI=;
- b=HbwvGt+f/lF2FUzDBwubzigbumLuRCK6V7RwS8dBZxZo2scygqkpaSelpv6CFilyLs
- 3axsOnaozGLxbkuNd26iN3xb+lXQE8fPXXIQzJsVFzyTY0Uy4tdRtpddBwfAsxIuFIma
- yFXjrzDbBFokTc67rlOel3RRJbNBCi+lqEHKlQ8Qz+U7KusNE0DJpXIZcG0vsXygpIQt
- jaAMU9tnzdCfChHBFOx1HDbPtJPlsBr80Ugo3DIAX0U2kqM/naFAhj+TaDbTDfO6VMgW
- r2Py8soxdxAy2myN9oOImwQ8uISc9wjtt3egLLLPxxuholLzNM7xl+MJu1/Ukbfglman
- kuOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VorpZTi8GATFKvZeb8TgqcJt6X78j/vCT2yw0Hum7gI=;
- b=c89d58k+3RxV1+5Un/qh4EX0xgCRloVDXdUFXCnfP4qMxrhECMXOe1erssZCkrIm7E
- r5rbguHlM1PTBW1FHNPuwYk4SIx7Zzx9chJOEgnc0acNCOhihp8E1mmg4wwulnmPUeG7
- cf9Q+vfi5vdcOylZStGx+RrfHGncw8OxU++ZYld8xZKUAu88fXKvKjIjvB6US4Ezw8Jg
- ipSSjlrLirEdvEr7GUP6M/BBMuIctcpwwKlqnG+UiMhW6pZh3ojyvFcXKm95LLfDuMYB
- UmgXaRNDT+Flcy3Ze+OVF2rMK+DYRyF2nV0MDhGqGgXVqvc8W49Z6ikiZCis2y7svN1N
- AbSA==
-X-Gm-Message-State: AO0yUKX9L/93kUvfRgmQxNmXV8ngw3SNfZUHWOKf1ZYAXreIJl+j/B8K
- PzJWr3z8Agln6lXGPv5JR50WCwmJBdwyq5qtLGcCr7BnMoSv0g==
-X-Google-Smtp-Source: AK7set+8Kl2coF5uexDb1MgLgCHWqEzidcHFIbJff44y41xzh9fex0vzWa1NkyhMc8WWaqP7KlX7jlMEIgQJSa3lF9c=
-X-Received: by 2002:a17:902:f552:b0:198:a5da:bf6c with SMTP id
- h18-20020a170902f55200b00198a5dabf6cmr2785714plf.9.1675450497149; Fri, 03 Feb
- 2023 10:54:57 -0800 (PST)
-MIME-Version: 1.0
-References: <20230203142927.834793-1-peter.maydell@linaro.org>
-In-Reply-To: <20230203142927.834793-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Feb 2023 18:54:46 +0000
-Message-ID: <CAFEAcA8w1iCAWuyzL-8c+zJzMukPsLoc=Jw5Az1U+hKjmsOYpg@mail.gmail.com>
-Subject: Re: [PULL 00/33] target-arm queue
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pO1TX-0006Ur-L0
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 14:11:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pO1TV-0007Xq-E4
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 14:11:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675451511;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gX4e9kHjMFhdnFMUhR5qLBHohE/y+CLzUaexiSkoZPw=;
+ b=Izov3EPAG1hH5OooGK3NVhLry99S6pyq5eXOWvGOstpx0pduqrTH+ZnVIz0GfpU3wlhRZW
+ +pBa852R6qPj3CFxsbwFzGhUuUUM1jClGLU+i3/70ZwM3+64T52HTAR3QYEuBftYI9Ws80
+ f5oHyRQ73h9Xq2yMwp0uyLr9xDV//AI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-57-5G8vqQd_Pqqv0SpuHiEyLw-1; Fri, 03 Feb 2023 14:11:48 -0500
+X-MC-Unique: 5G8vqQd_Pqqv0SpuHiEyLw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 70487380606C;
+ Fri,  3 Feb 2023 19:11:47 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.194.221])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 42A3D492C14;
+ Fri,  3 Feb 2023 19:11:44 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102f.google.com
+Cc: Cindy Lu <lulu@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ alvaro.karsz@solid-run.com, Zhu Lingshan <lingshan.zhu@intel.com>,
+ Jason Wang <jasowang@redhat.com>, longpeng2@huawei.com,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Shannon Nelson <snelson@pensando.io>, Eli Cohen <eli@mellanox.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ virtualization@lists.linux-foundation.org,
+ Parav Pandit <parav@mellanox.com>, si-wei.liu@oracle.com,
+ Laurent Vivier <lvivier@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>
+Subject: [PATCH 00/13] Dynamycally switch to vhost shadow virtqueues at vdpa
+ net migration
+Date: Fri,  3 Feb 2023 20:11:29 +0100
+Message-Id: <20230203191142.362623-1-eperezma@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,35 +87,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 3 Feb 2023 at 14:29, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> The following changes since commit bf4460a8d9a86f6cfe05d7a7f470c48e3a93d8b2:
->
->   Merge tag 'pull-tcg-20230123' of https://gitlab.com/rth7680/qemu into staging (2023-02-03 09:30:45 +0000)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20230203
->
-> for you to fetch changes up to bb18151d8bd9bedc497ee9d4e8d81b39a4e5bbf6:
->
->   target/arm: Enable FEAT_FGT on '-cpu max' (2023-02-03 12:59:24 +0000)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * Fix physical address resolution for Stage2
->  * pl011: refactoring, implement reset method
->  * Support GICv3 with hvf acceleration
->  * sbsa-ref: remove cortex-a76 from list of supported cpus
->  * Correct syndrome for ATS12NSO* traps at Secure EL1
->  * Fix priority of HSTR_EL2 traps vs UNDEFs
->  * Implement FEAT_FGT for '-cpu max'
+It's possible to migrate vdpa net devices if they are shadowed from the=0D
+start.  But to always shadow the dataplane is to effectively break its host=
+=0D
+passthrough, so its not convenient in vDPA scenarios.=0D
+=0D
+This series enables dynamically switching to shadow mode only at=0D
+migration time.  This allows full data virtqueues passthrough all the=0D
+time qemu is not migrating.=0D
+=0D
+In this series only net devices with no CVQ are migratable.  CVQ adds=0D
+additional state that would make the series bigger and still had some=0D
+controversy on previous RFC, so let's split it.=0D
+=0D
+The first patch delays the creation of the iova tree until it is really nee=
+ded,=0D
+and makes it easier to dynamically move from and to SVQ mode.=0D
+=0D
+Next patches from 02 to 05 handle the suspending and getting of vq state (b=
+ase)=0D
+of the device at the switch to SVQ mode.  The new _F_SUSPEND feature is=0D
+negotiated and stop device flow is changed so the state can be fetched trus=
+ting=0D
+the device will not modify it.=0D
+=0D
+Since vhost backend must offer VHOST_F_LOG_ALL to be migratable, last patch=
+es=0D
+but the last one add the needed migration blockers so vhost-vdpa can offer =
+it=0D
+safely.  They also add the handling of this feature.=0D
+=0D
+Finally, the last patch makes virtio vhost-vdpa backend to offer=0D
+VHOST_F_LOG_ALL so qemu migrate the device as long as no other blocker has =
+been=0D
+added.=0D
+=0D
+Successfully tested with vdpa_sim_net with patch [1] applied and with the q=
+emu=0D
+emulated device with vp_vdpa with some restrictions:=0D
+* No CVQ. No feature that didn't work with SVQ previously (packed, ...)=0D
+* VIRTIO_RING_F_STATE patches implementing [2].=0D
+* Expose _F_SUSPEND, but ignore it and suspend on ring state fetch like=0D
+  DPDK.=0D
+=0D
+Comments are welcome.=0D
+=0D
+v1:=0D
+- Omit all code working with CVQ and block migration if the device supports=
+=0D
+  CVQ.=0D
+- Remove spurious kick.=0D
+- Move all possible checks for migration to vhost-vdpa instead of the net=0D
+  backend. Move them to init code from start code.=0D
+- Suspend on vhost_vdpa_dev_start(false) instead of in vhost-vdpa net backe=
+nd.=0D
+- Properly split suspend after geting base and adding of status_reset patch=
+es.=0D
+- Add possible TODOs to points where this series can improve in the future.=
+=0D
+- Check the state of migration using migration_in_setup and=0D
+  migration_has_failed instead of checking all the possible migration statu=
+s in=0D
+  a switch.=0D
+- Add TODO with possible low hand fruit using RESUME ops.=0D
+- Always offer _F_LOG from virtio/vhost-vdpa and let migration blockers do=
+=0D
+  their thing instead of adding a variable.=0D
+- RFC v2 at https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg02574.=
+html=0D
+=0D
+RFC v2:=0D
+- Use a migration listener instead of a memory listener to know when=0D
+  the migration starts.=0D
+- Add stuff not picked with ASID patches, like enable rings after=0D
+  driver_ok=0D
+- Add rewinding on the migration src, not in dst=0D
+- RFC v1 at https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg01664.=
+html=0D
+=0D
+[1] https://lore.kernel.org/lkml/20230203142501.300125-1-eperezma@redhat.co=
+m/T/=0D
+[2] https://lists.oasis-open.org/archives/virtio-comment/202103/msg00036.ht=
+ml=0D
+=0D
+Eugenio P=C3=A9rez (13):=0D
+  vdpa net: move iova tree creation from init to start=0D
+  vdpa: Negotiate _F_SUSPEND feature=0D
+  vdpa: add vhost_vdpa_suspend=0D
+  vdpa: move vhost reset after get vring base=0D
+  vdpa: rewind at get_base, not set_base=0D
+  vdpa net: allow VHOST_F_LOG_ALL=0D
+  vdpa: add vdpa net migration state notifier=0D
+  vdpa: disable RAM block discard only for the first device=0D
+  vdpa net: block migration if the device has CVQ=0D
+  vdpa: block migration if device has unsupported features=0D
+  vdpa: block migration if dev does not have _F_SUSPEND=0D
+  vdpa: block migration if SVQ does not admit a feature=0D
+  vdpa: return VHOST_F_LOG_ALL in vhost-vdpa devices=0D
+=0D
+ include/hw/virtio/vhost-backend.h |   4 +=0D
+ hw/virtio/vhost-vdpa.c            | 126 +++++++++++++++-----=0D
+ hw/virtio/vhost.c                 |   3 +=0D
+ net/vhost-vdpa.c                  | 192 +++++++++++++++++++++++++-----=0D
+ hw/virtio/trace-events            |   1 +=0D
+ 5 files changed, 267 insertions(+), 59 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
-
--- PMM
 
