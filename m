@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF2D8689C66
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:58:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78611689C4F
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:56:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNxUC-0002WO-Du; Fri, 03 Feb 2023 09:56:20 -0500
+	id 1pNxUI-0002jD-1g; Fri, 03 Feb 2023 09:56:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNxUA-0002Uz-EM
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:56:18 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNxUF-0002ap-A0
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:56:23 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNxU7-0005xE-V4
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:56:18 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- k8-20020a05600c1c8800b003dc57ea0dfeso6214958wms.0
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 06:56:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNxUC-0005v2-Bf
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:56:23 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ l37-20020a05600c1d2500b003dfe46a9801so2571888wms.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 06:56:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=T7gfeI3mnZ+Wy6rurWRcclNKo/AI2l33cgu5mda3V+c=;
- b=zfE1tKdxzx0uKfjd8INXMPrMnB30oF7VsFg/WfIThH1WKj6dF5HDFNGOi1gnr7j8bv
- hHklH0PQrZ6CYOWT4Z6k4p3HUixcEmoLOI945v9q1D+eIQSdHwPX9iWqTYeGQ2goS5Kz
- qc6H3N5zdlQJLlue2g/+8PMOkG55OYiyl0oLLS6EzWqMgC4stLNsS9v7heAASRzz4j+K
- uCPPwTeNLi8a1VscZhIvUk93GFdsTlkR5cJnQ9BwNbUdLXj+7O9vr6JBZctYtrFMe2By
- aN3jnnZnvST1aYx52mQUEwI85pCD6s0oNCGgfITT4RbTT1D8KLZWsSx6glEjX61r0hFR
- MLrw==
+ bh=f2kBLJKaVnGetSSqtxpfAhCXISkwd1yaz8QImmDemGM=;
+ b=KpY9LpkQkdmGdSECIUV03ptdpIF11O/6yKWpyzgdtyfnGMbcnM3z5Vxqexi6R4/TgB
+ e+e+JhjV8ztHekJdrXiHPRztONz0hemLJEvBGr60OSxZjiIYXELaR+3NRO2AOfmM49tK
+ pR6kFvrNO31fokNf4r9Iue3yONWo8OFso/G3agt4FuH7CDLaEZa0GwNiLxd0XP1SubTp
+ 2oJU8HsL0L5OPvmKc/AM144hHOWjozKQurWbIc6O5c8BSftV9J7VIa5qvAXvrincUfQK
+ QIOc/L86kAc0Q8cqxbk7dlgn4EoTRjsvKznly6tebyrditFVyuOtoTP0rNOd03Xlw4xU
+ sGUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=T7gfeI3mnZ+Wy6rurWRcclNKo/AI2l33cgu5mda3V+c=;
- b=Ppnn/UCf6jGJliO8MyFvof3VDvOsjSx2HoBgYoHvSRbI67nmxVrx6Rwh/RJn1dmL2m
- SIhXF++Nq7U5Fj7jR+3UHF1ew6mz+OY5ZNq+HjglN0t/zExLfu/Uy/DlRbcpW6Pm0Eoz
- urM2/ZYNT/UNOyYylwOd3cuZMWO+Fx8AKJDMbIhHvXQeUlfWPjNgPHw4qlyJUNiVX6CS
- LMjkxg6vTMigAN9Kjc9IGyybq6tu1HkOzezchl06/sxW64uJYnYVzY/GGlisW3N3fIZs
- ByJ0QeepFZBjXi0TIobWo9Gk71xbgYstLDeKLXRrc4uZyXH9EgiaK6fcX4ruxTac/pTV
- 3ORw==
-X-Gm-Message-State: AO0yUKV5LgJOmHeTllmJPB2Zc2WL/ixMSYFs3fkbMSIiWugYNR5EhGFt
- 55svd4bTrUmJCximrFWaXSgGlQfb+hk4/Mnm
-X-Google-Smtp-Source: AK7set8/10zYS/FESlC3R/DkI0eVPpwLqq1SbGQyGKU3SkNJt1rji5e/lArZ2nrao2qh1f7jM//q9A==
-X-Received: by 2002:a05:600c:314a:b0:3df:ee43:860b with SMTP id
- h10-20020a05600c314a00b003dfee43860bmr812324wmo.23.1675436174176; 
- Fri, 03 Feb 2023 06:56:14 -0800 (PST)
+ bh=f2kBLJKaVnGetSSqtxpfAhCXISkwd1yaz8QImmDemGM=;
+ b=3y6DlRizZHIUKiA/A0yzS8bcdi2++5KnNyrnsJKW/YVOEJEepDF8TbRpsQ3UA224kU
+ OdwsH8/Arg6GDoQM8x32S5aHpdU7McH+wAQFP7VEgqYSz++n9eBYm7gCARbvgYVP1sE5
+ +BF9qvYgCzN+8XAqnlOPWBKRS4yE0tkcwq3LwXBc0QcXQRzw4fRTbN+ciZJfE42hSSzF
+ Sd3iahmVSFJloKsoY4lT2fKaGwZx0jAyeNcujxRjx35Vllde+WjsPaLNHVMM7ncENrbL
+ KsCnvA/o4UtcgNTMfexKVWZGi+5X2c8XQspZmBfzPJ9odihABUyjNnf501mXKv6zOj0o
+ J3kQ==
+X-Gm-Message-State: AO0yUKWPv8F9mgea/tf9NfJQ7gOM+tMriMKaXEy6uBMlgVnlyMNKUH1o
+ lOiD+9z76YfjzCyNSBzsQ6MminFojjLbrsPS
+X-Google-Smtp-Source: AK7set+Zj5dbaEL0QrM7w7RdtmsTV88Fholm3LZ7zCfLgNDfiea5TXfBTso/4TUgbXOYQ9KmhH5B6g==
+X-Received: by 2002:a05:600c:1d13:b0:3dc:5abb:2f50 with SMTP id
+ l19-20020a05600c1d1300b003dc5abb2f50mr9505073wms.19.1675436179316; 
+ Fri, 03 Feb 2023 06:56:19 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- r16-20020a05600c459000b003da28dfdedcsm3332092wmo.5.2023.02.03.06.56.13
+ t6-20020a05600c198600b003dc492e4430sm3022855wmq.28.2023.02.03.06.56.18
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 03 Feb 2023 06:56:13 -0800 (PST)
+ Fri, 03 Feb 2023 06:56:18 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
  qemu-ppc@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Joel Stanley <joel@jms.id.au>, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 07/15] hw/arm/nrf51: Alias 'flash-size' QOM property in SoC
+ Peter Maydell <peter.maydell@linaro.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>
+Subject: [PATCH v2 08/15] hw/arm/fsl-imx: Alias 'phy-num' QOM property in SoC
  object
-Date: Fri,  3 Feb 2023 15:55:28 +0100
-Message-Id: <20230203145536.17585-8-philmd@linaro.org>
+Date: Fri,  3 Feb 2023 15:55:29 +0100
+Message-Id: <20230203145536.17585-9-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230203145536.17585-1-philmd@linaro.org>
 References: <20230203145536.17585-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,128 +95,200 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-No need to use an intermediate 'flash-size' property in the
-SoC object. Alias the property, so when the machine (here
-microbit) sets the value on the SoC, it is propagated to
-the flash object.
+No need to use intermediate 'fec-phy-num' properties in the
+SoC object. Alias the properties, so when the machines set
+the value on the SoC, it is propagated to the network device
+object.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/arm/microbit.c          |  5 ++++-
- hw/arm/nrf51_soc.c         | 10 +---------
- hw/nvram/nrf51_nvm.c       |  6 +++++-
- include/hw/arm/nrf51_soc.h |  1 -
- 4 files changed, 10 insertions(+), 12 deletions(-)
+ hw/arm/fsl-imx25.c          |  3 +--
+ hw/arm/fsl-imx6.c           |  3 +--
+ hw/arm/fsl-imx6ul.c         |  8 ++++----
+ hw/arm/fsl-imx7.c           | 12 ++++++------
+ include/hw/arm/fsl-imx25.h  |  1 -
+ include/hw/arm/fsl-imx6.h   |  1 -
+ include/hw/arm/fsl-imx6ul.h |  2 --
+ include/hw/arm/fsl-imx7.h   |  1 -
+ 8 files changed, 12 insertions(+), 19 deletions(-)
 
-diff --git a/hw/arm/microbit.c b/hw/arm/microbit.c
-index 50df362088..79b5574884 100644
---- a/hw/arm/microbit.c
-+++ b/hw/arm/microbit.c
-@@ -36,6 +36,7 @@ static void microbit_init(MachineState *machine)
-     MicrobitMachineState *s = MICROBIT_MACHINE(machine);
-     MemoryRegion *system_memory = get_system_memory();
-     MemoryRegion *mr;
-+    int64_t flash_size;
+diff --git a/hw/arm/fsl-imx25.c b/hw/arm/fsl-imx25.c
+index 24c4374590..eff58e1f7a 100644
+--- a/hw/arm/fsl-imx25.c
++++ b/hw/arm/fsl-imx25.c
+@@ -55,6 +55,7 @@ static void fsl_imx25_init(Object *obj)
+     }
  
-     object_initialize_child(OBJECT(machine), "nrf51", &s->nrf51,
-                             TYPE_NRF51_SOC);
-@@ -43,6 +44,8 @@ static void microbit_init(MachineState *machine)
-     object_property_set_link(OBJECT(&s->nrf51), "memory",
-                              OBJECT(system_memory), &error_fatal);
-     sysbus_realize(SYS_BUS_DEVICE(&s->nrf51), &error_fatal);
-+    flash_size = object_property_get_int(OBJECT(&s->nrf51),
-+                                         "flash-size", &error_abort);
+     object_initialize_child(obj, "fec", &s->fec, TYPE_IMX_FEC);
++    object_property_add_alias(obj, "fec-phy-num", OBJECT(&s->fec), "phy-num");
+ 
+     object_initialize_child(obj, "rngc", &s->rngc, TYPE_IMX_RNGC);
+ 
+@@ -169,7 +170,6 @@ static void fsl_imx25_realize(DeviceState *dev, Error **errp)
+                                             epit_table[i].irq));
+     }
+ 
+-    object_property_set_uint(OBJECT(&s->fec), "phy-num", s->phy_num, &err);
+     qdev_set_nic_properties(DEVICE(&s->fec), &nd_table[0]);
+ 
+     if (!sysbus_realize(SYS_BUS_DEVICE(&s->fec), errp)) {
+@@ -315,7 +315,6 @@ static void fsl_imx25_realize(DeviceState *dev, Error **errp)
+ }
+ 
+ static Property fsl_imx25_properties[] = {
+-    DEFINE_PROP_UINT32("fec-phy-num", FslIMX25State, phy_num, 0),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
+index 00dafe3f62..4f870c928c 100644
+--- a/hw/arm/fsl-imx6.c
++++ b/hw/arm/fsl-imx6.c
+@@ -100,6 +100,7 @@ static void fsl_imx6_init(Object *obj)
+ 
+ 
+     object_initialize_child(obj, "eth", &s->eth, TYPE_IMX_ENET);
++    object_property_add_alias(obj, "fec-phy-num", OBJECT(&s->eth), "phy-num");
+ }
+ 
+ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
+@@ -377,7 +378,6 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
+                                             spi_table[i].irq));
+     }
+ 
+-    object_property_set_uint(OBJECT(&s->eth), "phy-num", s->phy_num, &err);
+     qdev_set_nic_properties(DEVICE(&s->eth), &nd_table[0]);
+     if (!sysbus_realize(SYS_BUS_DEVICE(&s->eth), errp)) {
+         return;
+@@ -451,7 +451,6 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
+ }
+ 
+ static Property fsl_imx6_properties[] = {
+-    DEFINE_PROP_UINT32("fec-phy-num", FslIMX6State, phy_num, 0),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
+index d88d6cc1c5..8b3939e8c5 100644
+--- a/hw/arm/fsl-imx6ul.c
++++ b/hw/arm/fsl-imx6ul.c
+@@ -120,8 +120,12 @@ static void fsl_imx6ul_init(Object *obj)
+      * Ethernet
+      */
+     for (i = 0; i < FSL_IMX6UL_NUM_ETHS; i++) {
++        g_autofree gchar *propname = g_strdup_printf("fec%d-phy-num", i + 1);
+         snprintf(name, NAME_SIZE, "eth%d", i);
+         object_initialize_child(obj, name, &s->eth[i], TYPE_IMX_ENET);
++        qdev_prop_set_uint32(DEVICE(&s->eth[i]), "phy-num", i);
++        object_property_add_alias(obj, propname,
++                                  OBJECT(&s->eth[i]), "phy-num");
+     }
+ 
+     /* USB */
+@@ -424,8 +428,6 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
+             FSL_IMX6UL_ENET2_TIMER_IRQ,
+         };
+ 
+-        object_property_set_uint(OBJECT(&s->eth[i]), "phy-num",
+-                                 s->phy_num[i], &error_abort);
+         object_property_set_uint(OBJECT(&s->eth[i]), "tx-ring-num",
+                                  FSL_IMX6UL_ETH_NUM_TX_RINGS, &error_abort);
+         qdev_set_nic_properties(DEVICE(&s->eth[i]), &nd_table[i]);
+@@ -618,8 +620,6 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
+ }
+ 
+ static Property fsl_imx6ul_properties[] = {
+-    DEFINE_PROP_UINT32("fec1-phy-num", FslIMX6ULState, phy_num[0], 0),
+-    DEFINE_PROP_UINT32("fec2-phy-num", FslIMX6ULState, phy_num[1], 1),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/hw/arm/fsl-imx7.c b/hw/arm/fsl-imx7.c
+index afc7480799..df035c9314 100644
+--- a/hw/arm/fsl-imx7.c
++++ b/hw/arm/fsl-imx7.c
+@@ -102,8 +102,12 @@ static void fsl_imx7_init(Object *obj)
+      * Ethernet
+      */
+     for (i = 0; i < FSL_IMX7_NUM_ETHS; i++) {
+-            snprintf(name, NAME_SIZE, "eth%d", i);
+-            object_initialize_child(obj, name, &s->eth[i], TYPE_IMX_ENET);
++        g_autofree gchar *propname = g_strdup_printf("fec%d-phy-num", i + 1);
++        snprintf(name, NAME_SIZE, "eth%d", i);
++        object_initialize_child(obj, name, &s->eth[i], TYPE_IMX_ENET);
++        qdev_prop_set_uint32(DEVICE(&s->eth[i]), "phy-num", i);
++        object_property_add_alias(obj, propname,
++                                  OBJECT(&s->eth[i]), "phy-num");
+     }
  
      /*
-      * Overlap the TWI stub device into the SoC.  This is a microbit-specific
-@@ -57,7 +60,7 @@ static void microbit_init(MachineState *machine)
-                                         mr, -1);
+@@ -402,8 +406,6 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
+             FSL_IMX7_ENET2_ADDR,
+         };
  
-     armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename,
--                       0, s->nrf51.flash_size);
-+                       0, flash_size);
+-        object_property_set_uint(OBJECT(&s->eth[i]), "phy-num",
+-                                 s->phy_num[i], &error_abort);
+         object_property_set_uint(OBJECT(&s->eth[i]), "tx-ring-num",
+                                  FSL_IMX7_ETH_NUM_TX_RINGS, &error_abort);
+         qdev_set_nic_properties(DEVICE(&s->eth[i]), &nd_table[i]);
+@@ -599,8 +601,6 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
  }
  
- static void microbit_machine_class_init(ObjectClass *oc, void *data)
-diff --git a/hw/arm/nrf51_soc.c b/hw/arm/nrf51_soc.c
-index 34da0d62f0..cc4a636c51 100644
---- a/hw/arm/nrf51_soc.c
-+++ b/hw/arm/nrf51_soc.c
-@@ -24,9 +24,7 @@
-  * are supported in the future, add a sub-class of NRF51SoC for
-  * the specific variants
-  */
--#define NRF51822_FLASH_PAGES    256
- #define NRF51822_SRAM_PAGES     16
--#define NRF51822_FLASH_SIZE     (NRF51822_FLASH_PAGES * NRF51_PAGE_SIZE)
- #define NRF51822_SRAM_SIZE      (NRF51822_SRAM_PAGES * NRF51_PAGE_SIZE)
+ static Property fsl_imx7_properties[] = {
+-    DEFINE_PROP_UINT32("fec1-phy-num", FslIMX7State, phy_num[0], 0),
+-    DEFINE_PROP_UINT32("fec2-phy-num", FslIMX7State, phy_num[1], 1),
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
- #define BASE_TO_IRQ(base) ((base >> 12) & 0x1F)
-@@ -122,11 +120,6 @@ static void nrf51_soc_realize(DeviceState *dev_soc, Error **errp)
-                        BASE_TO_IRQ(NRF51_RNG_BASE)));
+diff --git a/include/hw/arm/fsl-imx25.h b/include/hw/arm/fsl-imx25.h
+index 1b1086e945..e377f8e79a 100644
+--- a/include/hw/arm/fsl-imx25.h
++++ b/include/hw/arm/fsl-imx25.h
+@@ -66,7 +66,6 @@ struct FslIMX25State {
+     MemoryRegion   rom[2];
+     MemoryRegion   iram;
+     MemoryRegion   iram_alias;
+-    uint32_t       phy_num;
+ };
  
-     /* UICR, FICR, NVMC, FLASH */
--    if (!object_property_set_uint(OBJECT(&s->nvm), "flash-size",
--                                  s->flash_size, errp)) {
--        return;
--    }
+ /**
+diff --git a/include/hw/arm/fsl-imx6.h b/include/hw/arm/fsl-imx6.h
+index 83291457cf..f7d1a94640 100644
+--- a/include/hw/arm/fsl-imx6.h
++++ b/include/hw/arm/fsl-imx6.h
+@@ -74,7 +74,6 @@ struct FslIMX6State {
+     MemoryRegion   caam;
+     MemoryRegion   ocram;
+     MemoryRegion   ocram_alias;
+-    uint32_t       phy_num;
+ };
+ 
+ 
+diff --git a/include/hw/arm/fsl-imx6ul.h b/include/hw/arm/fsl-imx6ul.h
+index 7812e516a5..5217eeb8ff 100644
+--- a/include/hw/arm/fsl-imx6ul.h
++++ b/include/hw/arm/fsl-imx6ul.h
+@@ -88,8 +88,6 @@ struct FslIMX6ULState {
+     MemoryRegion       caam;
+     MemoryRegion       ocram;
+     MemoryRegion       ocram_alias;
 -
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->nvm), errp)) {
-         return;
-     }
-@@ -199,6 +192,7 @@ static void nrf51_soc_init(Object *obj)
-     object_initialize_child(obj, "rng", &s->rng, TYPE_NRF51_RNG);
- 
-     object_initialize_child(obj, "nvm", &s->nvm, TYPE_NRF51_NVM);
-+    object_property_add_alias(obj, "flash-size", OBJECT(&s->nvm), "flash-size");
- 
-     object_initialize_child(obj, "gpio", &s->gpio, TYPE_NRF51_GPIO);
- 
-@@ -215,8 +209,6 @@ static Property nrf51_soc_properties[] = {
-     DEFINE_PROP_LINK("memory", NRF51State, board_memory, TYPE_MEMORY_REGION,
-                      MemoryRegion *),
-     DEFINE_PROP_UINT32("sram-size", NRF51State, sram_size, NRF51822_SRAM_SIZE),
--    DEFINE_PROP_UINT32("flash-size", NRF51State, flash_size,
--                       NRF51822_FLASH_SIZE),
-     DEFINE_PROP_END_OF_LIST(),
+-    uint32_t           phy_num[FSL_IMX6UL_NUM_ETHS];
  };
  
-diff --git a/hw/nvram/nrf51_nvm.c b/hw/nvram/nrf51_nvm.c
-index 7f1db8c423..bfae028fcd 100644
---- a/hw/nvram/nrf51_nvm.c
-+++ b/hw/nvram/nrf51_nvm.c
-@@ -26,6 +26,9 @@
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
- 
-+#define NRF51822_FLASH_PAGES    256
-+#define NRF51822_FLASH_SIZE     (NRF51822_FLASH_PAGES * NRF51_PAGE_SIZE)
-+
- /*
-  * FICR Registers Assignments
-  * CODEPAGESIZE      0x010
-@@ -358,7 +361,8 @@ static void nrf51_nvm_reset(DeviceState *dev)
- }
- 
- static Property nrf51_nvm_properties[] = {
--    DEFINE_PROP_UINT32("flash-size", NRF51NVMState, flash_size, 0x40000),
-+    DEFINE_PROP_UINT32("flash-size", NRF51NVMState,
-+                       flash_size, NRF51822_FLASH_SIZE),
-     DEFINE_PROP_END_OF_LIST(),
+ enum FslIMX6ULMemoryMap {
+diff --git a/include/hw/arm/fsl-imx7.h b/include/hw/arm/fsl-imx7.h
+index 4e5e071864..16c68a4937 100644
+--- a/include/hw/arm/fsl-imx7.h
++++ b/include/hw/arm/fsl-imx7.h
+@@ -82,7 +82,6 @@ struct FslIMX7State {
+     IMX7GPRState       gpr;
+     ChipideaState      usb[FSL_IMX7_NUM_USBS];
+     DesignwarePCIEHost pcie;
+-    uint32_t           phy_num[FSL_IMX7_NUM_ETHS];
  };
  
-diff --git a/include/hw/arm/nrf51_soc.h b/include/hw/arm/nrf51_soc.h
-index e52a56e75e..8cf0c21614 100644
---- a/include/hw/arm/nrf51_soc.h
-+++ b/include/hw/arm/nrf51_soc.h
-@@ -45,7 +45,6 @@ struct NRF51State {
-     MemoryRegion twi;
- 
-     uint32_t sram_size;
--    uint32_t flash_size;
- 
-     MemoryRegion *board_memory;
- 
+ enum FslIMX7MemoryMap {
 -- 
 2.38.1
 
