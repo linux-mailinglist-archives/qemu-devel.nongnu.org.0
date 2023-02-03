@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE42F689A51
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 14:54:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23CC2689AE6
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:03:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNwV2-0006rY-NB; Fri, 03 Feb 2023 08:53:08 -0500
+	id 1pNwde-0001w8-0l; Fri, 03 Feb 2023 09:02:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pNwV0-0006qV-1F; Fri, 03 Feb 2023 08:53:06 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ (Exim 4.90_1) (envelope-from <vladimir.isaev@syntacore.com>)
+ id 1pNwUC-0006ln-Dq; Fri, 03 Feb 2023 08:52:18 -0500
+Received: from forward105j.mail.yandex.net ([2a02:6b8:0:801:2::108])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pNwUy-0001Lp-JV; Fri, 03 Feb 2023 08:53:05 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D308D746392;
- Fri,  3 Feb 2023 14:50:33 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 98896746377; Fri,  3 Feb 2023 14:50:33 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 96D8F7456E3;
- Fri,  3 Feb 2023 14:50:33 +0100 (CET)
-Date: Fri, 3 Feb 2023 14:50:33 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
-cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org, 
- Markus Armbruster <armbru@redhat.com>, 
- Eduardo Habkost <eduardo@habkost.net>, 
- Yoshinori Sato <ysato@users.sourceforge.jp>, 
- Magnus Damm <magnus.damm@gmail.com>
-Subject: Re: [PATCH 6/9] hw/display/sm501: QOM-alias 'dma-offset' property
- in chipset object
-In-Reply-To: <075577d7-d5c4-393b-9d0d-2aab32abe957@linaro.org>
-Message-ID: <27fc6a3d-78b4-91f7-6f05-8c0cbd1ef125@eik.bme.hu>
-References: <20230203113650.78146-1-philmd@linaro.org>
- <20230203113650.78146-7-philmd@linaro.org>
- <136f25e8-686a-1529-b114-08dd54e6b819@eik.bme.hu>
- <075577d7-d5c4-393b-9d0d-2aab32abe957@linaro.org>
+ (Exim 4.90_1) (envelope-from <vladimir.isaev@syntacore.com>)
+ id 1pNwUA-0001FX-2E; Fri, 03 Feb 2023 08:52:16 -0500
+Received: from myt6-65ee53fe8ed8.qloud-c.yandex.net
+ (myt6-65ee53fe8ed8.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:1d8e:0:640:65ee:53fe])
+ by forward105j.mail.yandex.net (Yandex) with ESMTP id 5AD9E4EC9665;
+ Fri,  3 Feb 2023 16:52:05 +0300 (MSK)
+Received: by myt6-65ee53fe8ed8.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
+ id 3qYwoclYY0U1-0ivTrp5r; Fri, 03 Feb 2023 16:52:04 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syntacore.com; s=mail;
+ t=1675432324; bh=tAuIyQmV7ZBYjPYRCFEefK0kSf5i0udrwT737+bHbO4=;
+ h=Message-Id:Date:Cc:Subject:To:From;
+ b=xP78BLqjnhJOEV57uL6YYJdfydm9yk4YqVi2LvkWJX5vHiDvuhuuxbgX2E+m1QJYH
+ wvAtQOKPe1MgZ2YumIy8RywIQrH66NKKkXc259u3diha3qsO/yvby0UnjjWX/zTIbJ
+ iYIxFc9LrtxrizUikJKg2wxkTUBesAY1qnW1piCo=
+Authentication-Results: myt6-65ee53fe8ed8.qloud-c.yandex.net;
+ dkim=pass header.i=@syntacore.com
+From: Vladimir Isaev <vladimir.isaev@syntacore.com>
+To: qemu-riscv@nongnu.org, pbonzini@redhat.com, bin.meng@windriver.com,
+ alistair.francis@wdc.com, palmer@dabbelt.com
+Cc: qemu-devel@nongnu.org,
+	Vladimir Isaev <vladimir.isaev@syntacore.com>
+Subject: [PATCH] target/riscv: fix SBI getchar handler for KVM
+Date: Fri,  3 Feb 2023 16:51:55 +0300
+Message-Id: <20230203135155.12449-1-vladimir.isaev@syntacore.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-185547500-1675432233=:62709"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a02:6b8:0:801:2::108;
+ envelope-from=vladimir.isaev@syntacore.com; helo=forward105j.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 03 Feb 2023 09:01:21 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,51 +67,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Character must be returned via ret[0] field (copied to a0 by KVM).
 
---3866299591-185547500-1675432233=:62709
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Return value should be set to 0 to indicate successful processing.
 
-On Fri, 3 Feb 2023, Philippe Mathieu-Daudé wrote:
-> On 3/2/23 14:05, BALATON Zoltan wrote:
->> On Fri, 3 Feb 2023, Philippe Mathieu-Daudé wrote:
->>> No need to use an intermediate 'dma-offset' property in the
->>> chipset object. Alias the property, so when the machine (here
->>> r2d-plus) sets the value on the chipset, it is propagated to
->>> the OHCI object.
->>> 
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>> ---
->>> hw/display/sm501.c | 22 +++++++++++-----------
->>> hw/sh4/r2d.c       |  2 +-
->>> 2 files changed, 12 insertions(+), 12 deletions(-)
->> 
->> It does not seem to be any simpler by the number of lines but maybe a bit 
->> cleaner.
->
-> Well it also moves to the "Embed QOM objects" pattern which Peter prefers.
-> Note this device doesn't implement unrealize().
+Signed-off-by: Vladimir Isaev <vladimir.isaev@syntacore.com>
+---
+ target/riscv/kvm.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-True. Maybe worth mentioning in the commit message to make this more 
-explicit. I saw it in the patch but did not think about that.
+diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
+index 30f21453d69c..0f932a5b966e 100644
+--- a/target/riscv/kvm.c
++++ b/target/riscv/kvm.c
+@@ -467,10 +467,11 @@ static int kvm_riscv_handle_sbi(CPUState *cs, struct kvm_run *run)
+     case SBI_EXT_0_1_CONSOLE_GETCHAR:
+         ret = qemu_chr_fe_read_all(serial_hd(0)->be, &ch, sizeof(ch));
+         if (ret == sizeof(ch)) {
+-            run->riscv_sbi.args[0] = ch;
++            run->riscv_sbi.ret[0] = ch;
+         } else {
+-            run->riscv_sbi.args[0] = -1;
++            run->riscv_sbi.ret[0] = -1;
+         }
++        ret = 0;
+         break;
+     default:
+         qemu_log_mask(LOG_UNIMP,
+-- 
+2.39.1
 
->> I wonder if it would worth renaming the property to dma-offset to match 
->> that of ohci so it's less confusing what it refers to. It's only used by 
->> r2d and this patch already changing that so would be an easy change.
->
-> We can't because TYPE_PCI_SM501 is user-creatable, so we need to
-> go thru the whole deprecation process and we don't have any API to
-> deprecate QOM properties yet.
-
-But the sm501 PCI device only creates the display part hence it has no 
-base option only vram-size (see sm501_pci_properties) so only the sysbus 
-version has this property. Is this still a problem in that case?
-
-Regards,
-BALATON Zoltan
-
-> I'll add these comments to the description.
---3866299591-185547500-1675432233=:62709--
 
