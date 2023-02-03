@@ -2,57 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 085F6689B4C
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:16:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0432E689B78
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:21:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNwqA-0007if-2u; Fri, 03 Feb 2023 09:14:58 -0500
+	id 1pNwvL-0001gE-OD; Fri, 03 Feb 2023 09:20:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pNwq7-0007hH-Br; Fri, 03 Feb 2023 09:14:55 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pNwq5-0001mT-1Y; Fri, 03 Feb 2023 09:14:55 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D5D22746392;
- Fri,  3 Feb 2023 15:12:21 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 9A854745712; Fri,  3 Feb 2023 15:12:21 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 98D057456E3;
- Fri,  3 Feb 2023 15:12:21 +0100 (CET)
-Date: Fri, 3 Feb 2023 15:12:21 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
-cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org, 
- Markus Armbruster <armbru@redhat.com>, 
- Eduardo Habkost <eduardo@habkost.net>, 
- Yoshinori Sato <ysato@users.sourceforge.jp>, 
- Magnus Damm <magnus.damm@gmail.com>
-Subject: Re: [PATCH 6/9] hw/display/sm501: QOM-alias 'dma-offset' property
- in chipset object
-In-Reply-To: <91463ac0-f2ea-d225-30da-90efed93ac28@linaro.org>
-Message-ID: <bdb1403e-d610-9755-d963-3a7864581245@eik.bme.hu>
-References: <20230203113650.78146-1-philmd@linaro.org>
- <20230203113650.78146-7-philmd@linaro.org>
- <136f25e8-686a-1529-b114-08dd54e6b819@eik.bme.hu>
- <075577d7-d5c4-393b-9d0d-2aab32abe957@linaro.org>
- <27fc6a3d-78b4-91f7-6f05-8c0cbd1ef125@eik.bme.hu>
- <91463ac0-f2ea-d225-30da-90efed93ac28@linaro.org>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNwvJ-0001f4-OZ
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:20:17 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNwvI-00035C-6g
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:20:17 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id bk16so4766960wrb.11
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 06:20:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ydfTch62j6ShfUVfmjbhB5PiXRMbJpKjA2kjR0O9PnY=;
+ b=sbFxaqbjoV1w6VBS9EgbdjUDjVLzpdHN6KmuyMN9zfsQM8X+xCJA87ZQ2RI3IB8GyE
+ 314HRIDlkewOvHDrGUsslQyuwg2D8oKe5nTR75KrNtIEyC0a+P2C8bZYFKPg64z6GzRn
+ rkb4qiki6hbMnHjSD2iwA+TBBLKdjKnttsyV61Ddpf8F5TKmzDUhjWpyCvKcEpc3YqZG
+ Xrjn/M2JXcElFgMFae/RnDH8CucIcycX8mXfhhrqwrpuTbRU2Cf9IV08nySLj16TkdbW
+ tKwHJzd5WVlXvMu99REUollVCYDHB/jC8knypG4UUFjFuNgRl8Lkf4130VR9PiZz8CTw
+ 2XPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ydfTch62j6ShfUVfmjbhB5PiXRMbJpKjA2kjR0O9PnY=;
+ b=snfv/i3GYTI9+liD9QoGQxkd6lEOXoF7aXau/kYrVkc2y/uzxvVQrQQJVHn2UQGJKG
+ iKHD6ImYzhXGXi2Z8Kfq8W0+IR6CSP7DWvcwyU+LKnQTweAb60Kg27L40IuU6JnDlhMs
+ /2/dPmj7UVUfhw7B5ArKXAaMOk2kHj4yyLcvQj5cJSAYuzwmzezOvJ00ntWdbS6QjDYq
+ keWDAC9OJ9qV3uycp+eV4QwEiKaKQV5yEQpo8iQO3aou2a2o1Dj6QVyuyCjWCTezO6Lo
+ gqdqAbyRJQ3KlhUX4mTLHaQoKvkqjj2tw1ROFvK8HvgB0Ki4oIFiIbVRAgUzHLi0haFu
+ 3VJw==
+X-Gm-Message-State: AO0yUKXy/0CeApqMKsfvk7kSLu2ikspAVzotfn04M6ExVERI0e+Mt9bn
+ btWB2gDzH3le6mW/mfIw4PP7gA==
+X-Google-Smtp-Source: AK7set/BKfSgtkQog/hbGIm6xgcMFxYHevBIWReIoGFJzN/Ch7b1TVVXRVN0W0FRqvPFerxAGb+uOw==
+X-Received: by 2002:adf:fe86:0:b0:2bf:b36e:f6ac with SMTP id
+ l6-20020adffe86000000b002bfb36ef6acmr8342818wrr.39.1675434014219; 
+ Fri, 03 Feb 2023 06:20:14 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ n9-20020a5d5989000000b002bc7fcf08ddsm2250255wri.103.2023.02.03.06.20.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Feb 2023 06:20:13 -0800 (PST)
+Message-ID: <70d0e6fe-c801-77a5-53d1-58837f59f86f@linaro.org>
+Date: Fri, 3 Feb 2023 15:20:12 +0100
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1226957222-1675433541=:62709"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v6 15/36] tcg: Add guest load/store primitives for
+ TCGv_i128
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org
+References: <20230130214844.1158612-1-richard.henderson@linaro.org>
+ <20230130214844.1158612-16-richard.henderson@linaro.org>
+ <874js5u2pu.fsf@linaro.org> <ff52f5bc-9072-7db7-d5f0-e4cfee0cb527@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <ff52f5bc-9072-7db7-d5f0-e4cfee0cb527@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,57 +93,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 1/2/23 20:03, Richard Henderson wrote:
+> On 1/31/23 23:52, Alex Bennée wrote:
 
---3866299591-1226957222-1675433541=:62709
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+>> Worth splitting the patch?
 
-On Fri, 3 Feb 2023, Philippe Mathieu-Daudé wrote:
-> On 3/2/23 14:50, BALATON Zoltan wrote:
->> On Fri, 3 Feb 2023, Philippe Mathieu-Daudé wrote:
->>> On 3/2/23 14:05, BALATON Zoltan wrote:
->>>> On Fri, 3 Feb 2023, Philippe Mathieu-Daudé wrote:
->>>>> No need to use an intermediate 'dma-offset' property in the
->>>>> chipset object. Alias the property, so when the machine (here
->>>>> r2d-plus) sets the value on the chipset, it is propagated to
->>>>> the OHCI object.
->>>>> 
->>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>>>> ---
->>>>> hw/display/sm501.c | 22 +++++++++++-----------
->>>>> hw/sh4/r2d.c       |  2 +-
->>>>> 2 files changed, 12 insertions(+), 12 deletions(-)
->>>> 
->>>> It does not seem to be any simpler by the number of lines but maybe a bit 
->>>> cleaner.
->>> 
->>> Well it also moves to the "Embed QOM objects" pattern which Peter prefers.
->>> Note this device doesn't implement unrealize().
->> 
->> True. Maybe worth mentioning in the commit message to make this more 
->> explicit. I saw it in the patch but did not think about that.
->> 
->>>> I wonder if it would worth renaming the property to dma-offset to match 
->>>> that of ohci so it's less confusing what it refers to. It's only used by 
->>>> r2d and this patch already changing that so would be an easy change.
->>> 
->>> We can't because TYPE_PCI_SM501 is user-creatable, so we need to
->>> go thru the whole deprecation process and we don't have any API to
->>> deprecate QOM properties yet.
->> 
->> But the sm501 PCI device only creates the display part hence it has no base 
->> option only vram-size (see sm501_pci_properties) so only the sysbus version 
->> has this property. Is this still a problem in that case?
->
-> Oh you are right, I misread the PCI/sysbus functions. Lucky me, thanks!
+> I'm confused about what sort of split you're suggesting.
 
-And I've just realized then we also don't need separate 
-sm501_sysbus_properties[] and sm501_pci_properties[] so you can just keep 
-one and call it sm501_properties.
+Maybe a preliminary patch with the LD/ST helpers:
 
-Regards,
-BALATON Zoltan
---3866299591-1226957222-1675433541=:62709--
+  include/exec/cpu_ldst.h |  10 +++
+  accel/tcg/cputlb.c      | 112 +++++++++++++++++++++++++++++++++
+  accel/tcg/user-exec.c   |  66 ++++++++++++++++++++
+
+Then the translator functions:
+
+  include/tcg/tcg-op.h    |   2 +
+  tcg/tcg-op.c            | 134 ++++++++++++++++++++++++++++++++++++++++
+
+?
 
