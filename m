@@ -2,19 +2,19 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECEFC689E27
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 16:25:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A92689E3D
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 16:27:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNxuC-0007gS-Dj; Fri, 03 Feb 2023 10:23:12 -0500
+	id 1pNxuD-0007gr-Mu; Fri, 03 Feb 2023 10:23:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pNxu9-0007eb-IS
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:23:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pNxu9-0007f9-R3
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:23:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pNxu8-0005PQ-5b
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pNxu8-0005PS-8V
  for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:23:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1675437787;
@@ -22,38 +22,38 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PbZs8InVURnoMKD74IuoMRwN06NholNMEjHQObAQmSU=;
- b=VCnL0AJvGxtTC7V1AvZZ3D5B3BPwCdooqUVD5LhA3hg6l6RS5aMgvexr7Hn+gSCW0cphe5
- 95l5FBb1Z3uQExuOo5dIqqTcjlOcrOvQ6/WyA3EZpYind1iPBBX2Qj8XbyVsuhcJO9cg8V
- BR/pBVEIzLGBfTd850NlP8TMQ6t31pw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=9rFzXCef8TjyMlU//s5g+XWqWiEKh3IWbXr/+etAJwU=;
+ b=LnnAL383+qPp4JJYEUHAX9V5Ge3ZJBsL4kH0BOR0pxqRd9TLfwqkXt5wRCwBxWFZV+a711
+ laDNfASmeS3U90MTE2DT1wgOkGjhC8TRvv3i+CREZbaduSauh1Sg4kMujXtn0m/JSBIBj6
+ lPFL6tfptb3Z1EWTffvHBk6glxe1OkY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-118-KHXVru0HNvKLhn8mnvR0rA-1; Fri, 03 Feb 2023 10:23:04 -0500
-X-MC-Unique: KHXVru0HNvKLhn8mnvR0rA-1
+ us-mta-389-ps0CHXKYMQ6RJQii5EfnGg-1; Fri, 03 Feb 2023 10:23:05 -0500
+X-MC-Unique: ps0CHXKYMQ6RJQii5EfnGg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D80E887A9E7;
- Fri,  3 Feb 2023 15:23:03 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 166442A5956F;
+ Fri,  3 Feb 2023 15:23:05 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.194.116])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DF06040168BD;
- Fri,  3 Feb 2023 15:23:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1CA51408573E;
+ Fri,  3 Feb 2023 15:23:04 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com, pbonzini@redhat.com, stefanha@redhat.com,
  eesposit@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH 21/23] block: Mark bdrv_co_delete_file() and callers
+Subject: [PATCH 22/23] block: Mark bdrv_*_dirty_bitmap() and callers
  GRAPH_RDLOCK
-Date: Fri,  3 Feb 2023 16:22:00 +0100
-Message-Id: <20230203152202.49054-22-kwolf@redhat.com>
+Date: Fri,  3 Feb 2023 16:22:01 +0100
+Message-Id: <20230203152202.49054-23-kwolf@redhat.com>
 In-Reply-To: <20230203152202.49054-1-kwolf@redhat.com>
 References: <20230203152202.49054-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -61,7 +61,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,61 +78,103 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This adds GRAPH_RDLOCK annotations to declare that callers of
-bdrv_co_delete_file() need to hold a reader lock for the graph.
+bdrv_*_dirty_bitmap() need to hold a reader lock for the graph.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/block-io.h         | 8 ++++++--
- include/block/block_int-common.h | 4 ++--
- block.c                          | 1 +
- 3 files changed, 9 insertions(+), 4 deletions(-)
+ include/block/block-io.h         | 14 ++++++--------
+ include/block/block_int-common.h |  6 ++++--
+ include/block/dirty-bitmap.h     | 12 ++++++------
+ block/dirty-bitmap.c             |  2 ++
+ 4 files changed, 18 insertions(+), 16 deletions(-)
 
 diff --git a/include/block/block-io.h b/include/block/block-io.h
-index bf2748011e..a195a9fb11 100644
+index a195a9fb11..95bcc79b75 100644
 --- a/include/block/block-io.h
 +++ b/include/block/block-io.h
-@@ -90,8 +90,12 @@ int64_t co_wrapper bdrv_get_allocated_file_size(BlockDriverState *bs);
- BlockMeasureInfo *bdrv_measure(BlockDriver *drv, QemuOpts *opts,
-                                BlockDriverState *in_bs, Error **errp);
- void bdrv_get_geometry(BlockDriverState *bs, uint64_t *nb_sectors_ptr);
--int coroutine_fn bdrv_co_delete_file(BlockDriverState *bs, Error **errp);
--void coroutine_fn bdrv_co_delete_file_noerr(BlockDriverState *bs);
-+
-+int coroutine_fn GRAPH_RDLOCK
-+bdrv_co_delete_file(BlockDriverState *bs, Error **errp);
-+
-+void coroutine_fn GRAPH_RDLOCK
-+bdrv_co_delete_file_noerr(BlockDriverState *bs);
+@@ -243,14 +243,12 @@ AioContext *child_of_bds_get_parent_aio_context(BdrvChild *c);
+ void coroutine_fn GRAPH_RDLOCK bdrv_co_io_plug(BlockDriverState *bs);
+ void coroutine_fn GRAPH_RDLOCK bdrv_co_io_unplug(BlockDriverState *bs);
  
+-bool coroutine_fn bdrv_co_can_store_new_dirty_bitmap(BlockDriverState *bs,
+-                                                     const char *name,
+-                                                     uint32_t granularity,
+-                                                     Error **errp);
+-bool co_wrapper bdrv_can_store_new_dirty_bitmap(BlockDriverState *bs,
+-                                                const char *name,
+-                                                uint32_t granularity,
+-                                                Error **errp);
++bool coroutine_fn GRAPH_RDLOCK
++bdrv_co_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
++                                   uint32_t granularity, Error **errp);
++bool co_wrapper_bdrv_rdlock
++bdrv_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
++                                uint32_t granularity, Error **errp);
  
- /* async block I/O */
+ /**
+  *
 diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-index 88d9897c97..257a9d18c6 100644
+index 257a9d18c6..d72e31aba3 100644
 --- a/include/block/block_int-common.h
 +++ b/include/block/block_int-common.h
-@@ -649,8 +649,8 @@ struct BlockDriver {
-     int coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_flush)(BlockDriverState *bs);
+@@ -759,10 +759,12 @@ struct BlockDriver {
+     void (*bdrv_drain_end)(BlockDriverState *bs);
  
-     /* Delete a created file. */
--    int coroutine_fn (*bdrv_co_delete_file)(BlockDriverState *bs,
--                                            Error **errp);
-+    int coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_delete_file)(
-+        BlockDriverState *bs, Error **errp);
+     bool (*bdrv_supports_persistent_dirty_bitmap)(BlockDriverState *bs);
+-    bool coroutine_fn (*bdrv_co_can_store_new_dirty_bitmap)(
++
++    bool coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_can_store_new_dirty_bitmap)(
+         BlockDriverState *bs, const char *name, uint32_t granularity,
+         Error **errp);
+-    int coroutine_fn (*bdrv_co_remove_persistent_dirty_bitmap)(
++
++    int coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_remove_persistent_dirty_bitmap)(
+         BlockDriverState *bs, const char *name, Error **errp);
+ };
  
-     /*
-      * Flushes all data that was already written to the OS all the way down to
-diff --git a/block.c b/block.c
-index e2da543f3a..1e378e881d 100644
---- a/block.c
-+++ b/block.c
-@@ -740,6 +740,7 @@ int coroutine_fn bdrv_co_delete_file(BlockDriverState *bs, Error **errp)
+diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
+index 233535ef2d..fa956debfb 100644
+--- a/include/block/dirty-bitmap.h
++++ b/include/block/dirty-bitmap.h
+@@ -36,12 +36,12 @@ int bdrv_dirty_bitmap_check(const BdrvDirtyBitmap *bitmap, uint32_t flags,
+ void bdrv_release_dirty_bitmap(BdrvDirtyBitmap *bitmap);
+ void bdrv_release_named_dirty_bitmaps(BlockDriverState *bs);
  
-     IO_CODE();
-     assert(bs != NULL);
+-int coroutine_fn bdrv_co_remove_persistent_dirty_bitmap(BlockDriverState *bs,
+-                                                        const char *name,
+-                                                        Error **errp);
+-int co_wrapper bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs,
+-                                                   const char *name,
+-                                                   Error **errp);
++int coroutine_fn GRAPH_RDLOCK
++bdrv_co_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
++                                       Error **errp);
++int co_wrapper_bdrv_rdlock
++bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
++                                    Error **errp);
+ 
+ void bdrv_disable_dirty_bitmap(BdrvDirtyBitmap *bitmap);
+ void bdrv_enable_dirty_bitmap(BdrvDirtyBitmap *bitmap);
+diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+index 1e7aee4010..13a1979755 100644
+--- a/block/dirty-bitmap.c
++++ b/block/dirty-bitmap.c
+@@ -394,6 +394,7 @@ int coroutine_fn
+ bdrv_co_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
+                                        Error **errp)
+ {
++    assert_bdrv_graph_readable();
+     if (bs->drv && bs->drv->bdrv_co_remove_persistent_dirty_bitmap) {
+         return bs->drv->bdrv_co_remove_persistent_dirty_bitmap(bs, name, errp);
+     }
+@@ -415,6 +416,7 @@ bdrv_co_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
+                                    uint32_t granularity, Error **errp)
+ {
+     BlockDriver *drv = bs->drv;
 +    assert_bdrv_graph_readable();
  
-     if (!bs->drv) {
-         error_setg(errp, "Block node '%s' is not opened", bs->filename);
+     if (!drv) {
+         error_setg_errno(errp, ENOMEDIUM,
 -- 
 2.38.1
 
