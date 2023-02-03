@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39ED2689C58
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:57:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B481689C5D
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:57:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNxTl-0001pt-Pt; Fri, 03 Feb 2023 09:55:53 -0500
+	id 1pNxTy-0001tF-Bg; Fri, 03 Feb 2023 09:56:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNxTj-0001ow-QX
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:55:51 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNxTo-0001sT-UY
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:55:57 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNxTi-0005sq-77
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:55:51 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id q8so4058175wmo.5
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 06:55:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNxTn-0005tV-Bw
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:55:56 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ c4-20020a1c3504000000b003d9e2f72093so6206658wma.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 06:55:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VmSnSD01/Tl/o5f4h6yNnxoegZSIU5/24i6LDQ+aBqo=;
- b=UuQ+7F8JTJaNCBvK0caVlsRKIND5qixPlQemm3ezQnSLNOpw7t/kIWpRuXEj8WMylX
- V7U9BE8cvioEF9ts4AMNpt4WKvrejRAtdYNTIVdbMxkSCyX4e6NKxmeoBbTiPjI8nmky
- R8dOsTs4eQo4EWFoadIq0IwOn7122cgHPvUqEZ5TGAm8vLUit9LyutoHwwm44D79uHfr
- lXmWeSgioW8kiZ4JnELMHXN5jIfbd9JtimYbkf524wr0zPE/+LIBW+ufNzJ+QVhV+8Yt
- Hj/oQGQ59trO3czVUbc1PCE/l6A7AkROapbtKOCm4NMHx4s/kYmiUEMGGu+Y0Bv4LizY
- SKfw==
+ bh=tZif2it4bxphJIlcF0dFkRLHSBXoWvT693QwJQjGzNo=;
+ b=e65UkPC5QmpQDXpDZHki8/zuv9g086olkHcGAS66BX1U36sGP9oqOQf4gfvLXbmgWM
+ ist1JU9OllFI7yZCBz6tNz6Ha/Ggei4zZSLQlDvRC+oetWcabyhOVeDcHTKcfE/DeOXT
+ UlGqCAdz7du7/qgnw12RyoKAAetuy1z94c84H3hjNjLeW+PcZ5U7DVDaMLJ7lxhPexoJ
+ 7jWJoIXNxbYR1XVgjE4nrS34K2iwKa+Fty3/Y9CwuYFmLH5RIrznYxJNDAPD8lsJEfUP
+ P3jb9eGztYmj2MmzbdXCcLIFEU/loAdFWayXAa0CLBy7FJIdV3Cx8dFVHr8zwUYJFjJ3
+ r1fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VmSnSD01/Tl/o5f4h6yNnxoegZSIU5/24i6LDQ+aBqo=;
- b=AGJ7kT5JTIxl+FOl2qPZwgvI2Z0ytwsUgh6H/+EpfqLFLqe6+AkSfdHuPCHWeCTvOf
- HBSf2av/umEn2SAOGVMiT4DsrbSJ07KhA2O2ug14FxZBZ/IghUFs/tUtD9+6Qjq94MSC
- OsPwlYdicY7dNiJuUxq8PZlwaZWgi9OikBWWtOmL4KWxlTTZrWjLN/ym/DXV3L3Ybw/h
- k/6hLrDI50HQ4pLLtUHRthpnkiDxadoDgNKqm/4SjshvZAdFtNCwwYpOUOi8s1f4NEMq
- ua/C5dM3GKenZiz4F0p61l9ClznAVGkpZ3dggmZ+Vgby4nXe79DY49+WSxdjs2zr0Shp
- tbIQ==
-X-Gm-Message-State: AO0yUKVzJDJIJZC3bX+7qYjmZVKENv6pHPy1axUljSSbc8yo0iXenCfC
- LuE1pAr9YqLTGSHyTYpZy9qsjNMo6U8z5MYk
-X-Google-Smtp-Source: AK7set9fTxCd4HfK5wxLgC07ypDQlX0V4/QYz7FW2xuFn04uJ2TPW18RpLRLQen7dB2cGAInsZ0xTQ==
-X-Received: by 2002:a05:600c:3d9a:b0:3df:e8c3:c612 with SMTP id
- bi26-20020a05600c3d9a00b003dfe8c3c612mr2213485wmb.7.1675436148715; 
- Fri, 03 Feb 2023 06:55:48 -0800 (PST)
+ bh=tZif2it4bxphJIlcF0dFkRLHSBXoWvT693QwJQjGzNo=;
+ b=mnaKCuqcNvVOgfbiinkkqR1XH6YB49E3VmsvAlI4Gv4vCzEjTt+T+rrZ7xgv7ouU8B
+ Yl4sDGDxRHMskJofr1hNbnBA7GrnR1TWDkUxG1DhTw9+DVNqzhd9ARmuEqfmzCNAhTqj
+ T1IR0103VIqM9jK44lXzQ28zblSZ6h/X9T2IR1w9ugANznbrwL8kxewSK1PA8hHuzdND
+ n7n4zax26ueq4wyy2/Z2QNvQBX/x6FZxFv+Pm0cVj9B9efMqDyZVzF+aOwstMJxt7Hzd
+ WiSOWa1jWWygqaShc5Wbp8ggFgJLSEAFhmZ/lvkHrkYq3ypJdG0lV1NYSohkFTtcDS0D
+ 9R8A==
+X-Gm-Message-State: AO0yUKXiPMkMcf4557MGpmt3ddxwbwu551D+dzbNqA0PI27r3WC/bMiD
+ CP1UIPeJDz3kIJZl8yCpLxZKE+BTCeLyjpaR
+X-Google-Smtp-Source: AK7set9blUJXFTFwonzntANn6BA7jPJxh/f4xqrWpo/W0C/r+bbJ6zSRo0JaeEAURLj7oGV8HqFe7w==
+X-Received: by 2002:a05:600c:3491:b0:3db:fc4:d018 with SMTP id
+ a17-20020a05600c349100b003db0fc4d018mr10875768wmq.40.1675436153732; 
+ Fri, 03 Feb 2023 06:55:53 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- o14-20020a05600c4fce00b003dc1a525f22sm3048705wmq.25.2023.02.03.06.55.47
+ y3-20020adfd083000000b002bfbda53b98sm2162717wrh.35.2023.02.03.06.55.52
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 03 Feb 2023 06:55:48 -0800 (PST)
+ Fri, 03 Feb 2023 06:55:53 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
  qemu-ppc@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v2 02/15] hw/qdev: Introduce qdev_unrealize_and_unref()
-Date: Fri,  3 Feb 2023 15:55:23 +0100
-Message-Id: <20230203145536.17585-3-philmd@linaro.org>
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PATCH v2 03/15] linux-user/syscall: Do not open-code
+ qdev_unrealize_and_unref()
+Date: Fri,  3 Feb 2023 15:55:24 +0100
+Message-Id: <20230203145536.17585-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230203145536.17585-1-philmd@linaro.org>
 References: <20230203145536.17585-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,71 +93,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Inspired-by: Markus Armbruster <armbru@redhat.com>
+(See commits dc3edf8d8a "Convert to qdev_unrealize() manually"
+ and 981c3dcd94 "Convert to qdev_unrealize() with Coccinelle").
+
+Reported-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/core/qdev.c         |  9 +++++++++
- include/hw/qdev-core.h | 20 ++++++++++++++++++++
- 2 files changed, 29 insertions(+)
+ linux-user/syscall.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index d759c4602c..b9ef793d51 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -306,6 +306,15 @@ void qdev_unrealize(DeviceState *dev)
-     object_property_set_bool(OBJECT(dev), "realized", false, &error_abort);
- }
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 1f8c10f8ef..9299f71126 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -8642,8 +8642,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+         if (CPU_NEXT(first_cpu)) {
+             TaskState *ts = cpu->opaque;
  
-+bool qdev_unrealize_and_unref(DeviceState *dev, Error **errp)
-+{
-+    bool ret;
-+
-+    ret = object_property_set_bool(OBJECT(dev), "realized", false, errp);
-+    object_unref(OBJECT(dev));
-+    return ret;
-+}
-+
- static int qdev_assert_realized_properly_cb(Object *obj, void *opaque)
- {
-     DeviceState *dev = DEVICE(object_dynamic_cast(obj, TYPE_DEVICE));
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index fd11e9a82f..20b9220023 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -374,6 +374,8 @@ bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp);
-  * for the only reference to the child device to be held by the parent
-  * via the child<> property, and so the reference-count-drop done here
-  * would be incorrect. For that use case you want qdev_realize().
-+ *
-+ * Returns %true on success or %false if an error occured.
-  */
- bool qdev_realize_and_unref(DeviceState *dev, BusState *bus, Error **errp);
- 
-@@ -397,6 +399,24 @@ bool qdev_realize_and_unref(DeviceState *dev, BusState *bus, Error **errp);
-  * the life of the simulation and should not be unrealized and freed.
-  */
- void qdev_unrealize(DeviceState *dev);
-+
-+/**
-+ * qdev_unrealize_and_unref: Unrealize a device and drop a reference
-+ * @dev: device to unrealize
-+ * @errp: pointer to error object
-+ *
-+ * Unrealize @dev and drop a reference.
-+ * This is like qdev_unrealize(), except the caller must hold a
-+ * (private) reference, which is dropped on return regardless of
-+ * success or failure.
-+ *
-+ * Warning: most devices in QEMU do not expect to be unrealized.  Only
-+ * devices which are hot-unpluggable should be unrealized (as part of
-+ * the unplugging process); all other devices are expected to last for
-+ * the life of the simulation and should not be unrealized and freed.
-+ */
-+bool qdev_unrealize_and_unref(DeviceState *dev, Error **errp);
-+
- void qdev_set_legacy_instance_id(DeviceState *dev, int alias_id,
-                                  int required_for_version);
- HotplugHandler *qdev_get_bus_hotplug_handler(DeviceState *dev);
+-            object_property_set_bool(OBJECT(cpu), "realized", false, NULL);
+-            object_unref(OBJECT(cpu));
++            qdev_unrealize_and_unref(DEVICE(cpu), NULL);
+             /*
+              * At this point the CPU should be unrealized and removed
+              * from cpu lists. We can clean-up the rest of the thread
 -- 
 2.38.1
 
