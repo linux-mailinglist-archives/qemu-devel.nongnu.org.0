@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5675E68A23B
+	by mail.lfdr.de (Postfix) with ESMTPS id 5852A68A23C
 	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 19:48:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pO169-00068m-3t; Fri, 03 Feb 2023 13:47:45 -0500
+	id 1pO169-00068q-AY; Fri, 03 Feb 2023 13:47:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pO164-00067l-SU
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:47:40 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pO165-00067x-8o
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:47:41 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pO163-0002h2-9T
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:47:40 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pO163-0002h7-Fi
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:47:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1675450058;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wXtUmbpi8/JYUlFY1aPH7/LIE1EVSztsOOEGSMpBDkk=;
- b=A+D3ixalI7v5zZZdbaz4fDfKBNDGrkS9NCaBfqr3CVh2R1r2QV7C8XqZWf+lHlII7ac4WX
- eqxHRLryIf2x/shVMn58K2vez56mOW4uSYMd/1+SPWaxSSKBW+hp/tsjEsUepPXB57EF+Q
- OiNwdy/WhZd1LE9tZYpBkXRGzy0RUkk=
+ bh=XquLaFf7i0Nx8kyhZf3MFTHd5LBJao98pghnomVRqOs=;
+ b=BmqhWxuMxqhIxHZ3GQ5BuxaTVgMJLNI/8BHG/hnciKQINYUHabFJ4JfJ4W28ftDN0+ZDjE
+ jWSXOIOHcgNyc8t4UL7GjYWgL82bphh7CE+n9pkeGve7yQaHIoPJj04f1TDmgqNdQq4fc8
+ 4wCsDfYC7C5IVGmv93PqHmVeDqepnDc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-139-dJch0iKkOu2MRobNDs9RCg-1; Fri, 03 Feb 2023 13:47:35 -0500
-X-MC-Unique: dJch0iKkOu2MRobNDs9RCg-1
+ us-mta-241-JBh3zIEwP3eZt5HsrimSGw-1; Fri, 03 Feb 2023 13:47:35 -0500
+X-MC-Unique: JBh3zIEwP3eZt5HsrimSGw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AA8A4101A55E;
- Fri,  3 Feb 2023 18:47:34 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02C27858F09;
+ Fri,  3 Feb 2023 18:47:35 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6A15A2166B34;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B63DF2166B34;
  Fri,  3 Feb 2023 18:47:34 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
@@ -46,9 +46,9 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Michael Roth <michael.roth@amd.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>
-Subject: [PATCH v4 3/4] qapi: Update flake8 config
-Date: Fri,  3 Feb 2023 13:47:32 -0500
-Message-Id: <20230203184733.523522-4-jsnow@redhat.com>
+Subject: [PATCH v4 4/4] qapi: update pylint configuration
+Date: Fri,  3 Feb 2023 13:47:33 -0500
+Message-Id: <20230203184733.523522-5-jsnow@redhat.com>
 In-Reply-To: <20230203184733.523522-1-jsnow@redhat.com>
 References: <20230203184733.523522-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -78,24 +78,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-New versions of flake8 don't like same-line comments. (It's a version
-newer than what fc37 ships, but it still makes my life easier to fix it
-now.)
+Newer versions of pylint disable the "no-self-use" message by
+default. Older versions don't, though. If we leave the suppressions in,
+pylint yelps about useless options. Just tell pylint to shush.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/.flake8 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/qapi/pylintrc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/qapi/.flake8 b/scripts/qapi/.flake8
-index 6b158c68b84..a873ff67309 100644
---- a/scripts/qapi/.flake8
-+++ b/scripts/qapi/.flake8
-@@ -1,2 +1,3 @@
- [flake8]
--extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
-+# Prefer pylint's bare-except checks to flake8's
-+extend-ignore = E722
+diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
+index a7246282030..90546df5345 100644
+--- a/scripts/qapi/pylintrc
++++ b/scripts/qapi/pylintrc
+@@ -23,6 +23,7 @@ disable=fixme,
+         too-many-statements,
+         too-many-instance-attributes,
+         consider-using-f-string,
++        useless-option-value,
+ 
+ [REPORTS]
+ 
 -- 
 2.39.0
 
