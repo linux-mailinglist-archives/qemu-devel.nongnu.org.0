@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDEA36897D5
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 12:38:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A02916897D7
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 12:38:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNuNH-0007vP-44; Fri, 03 Feb 2023 06:36:59 -0500
+	id 1pNuNL-0007wP-1m; Fri, 03 Feb 2023 06:37:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNuNF-0007um-CP
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 06:36:57 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNuNJ-0007vk-HH
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 06:37:01 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNuNC-0001Ag-Ar
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 06:36:57 -0500
-Received: by mail-wr1-x432.google.com with SMTP id ba1so314338wrb.5
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 03:36:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNuNH-0001BV-2j
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 06:37:01 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id bk16so4359543wrb.11
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 03:36:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=TR+VT6mWulFtprMX/0aWWSf6NU7JTRRTCnR3RQnSJ/A=;
- b=aLGUAK+Vxgb1+133klDP6KhZwIkldsBCH+0VCw2v5NvTA+1FuqeERRyK5DxjrtBuT7
- WtFtow5XZB0sREudGblBZnDuC61w0mmt59LOvCnNohhzZb3WRBiz9JJbTAnAfq3dhaYg
- GxzT53+aN+5OZmf+W4ZA0FxDkPt95ToheIwNLNt6alblWKoqQh5r7XStqQQJe6fuhVtX
- KLadcB7/x8cUs8joB3V7CH8ZCUloZpR4wUNCyD2g7YXfX5wQjKIGb7uja0ylsCDJtUUT
- qdngJoV87Ed4398L/cUtngdjm/AqPSonAW5hJ+IollDu0+1/1wEzhY1t2dO2fG9UqgFc
- eoSQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=LPgOBQNVShoBt1EXepGeYQrXhiL1fUSuZyDvfJk1E40=;
+ b=VmDCIyNwV7GEJxSl0nfE7kn8ujAuESRt4FNhb33yC/ytBz0sQ853H4qmkB32E31akS
+ a9Iuum1DyG2LCwVRyRSazsAlCmMVzpQtxLAoA8qI6j+z7try0S7JNVw2pE+NzgzirKNx
+ k29KWNYM3zLwCnrUXhGGXSsVzj73GE9WrJq+/kFf/gr4/yFnOSC6g5NGwpfEpxx547b0
+ A4y4TwtDp2eHluTTiaHlQ2gn7r9ZDX6WwwWL30EGVdrsJ1GXcfGwiDwj1sfcttcq9BMp
+ jzaWbAr4uWF57tb3kfB+LjiX9akW2EKRWfLmp2ZVMtq2UkLrM8XGVxcb4UHT+yZUPlCZ
+ Z4nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TR+VT6mWulFtprMX/0aWWSf6NU7JTRRTCnR3RQnSJ/A=;
- b=OzI/q4iGYZTk8y6CXpUl/YWfSIqYmpVAY4jlZxx5PuWwEv0Tp9MfX2OEIUvZEf76JA
- +5PUR2EYnhgpS6tXR2wpiG+qTnfn0QKmtfzIwX3ynLefA8fEpl0ggB5ad1z1jF8SYMxe
- gRYrR5ID30hv54sZhP4St5V2sRLYn/6SzSq8nZc6h/Z6yzc+sdIOvEgbtTbO51W5NUNY
- atSqswQx6bEM6YHSS8CW9grguWN8bv0FRRvr4YeHgJP39KWcX5WNtJlmGnLngAdP5jUa
- udLrqPY9nAEny+jsTqu2PwtRaXgV/45BERgP5h2UYbrRFLOBmXqpFpQainYoJpdO8Ow2
- ab9w==
-X-Gm-Message-State: AO0yUKW5tIhOP6ZjXjuZogtaotn7opP1QHHJg7aiWuSS5r+8wmyY+n7V
- ccmvI+FBMQZMYRoSX4yVCShWDtkQp6qI8KlT
-X-Google-Smtp-Source: AK7set/MtUE40DsQsHY2+NxuFeKlimZiAB7rBg6xcDbvKrtQiU+PcJQhF4xXvVVHq1CFTRAQQhJhrA==
-X-Received: by 2002:a5d:60c4:0:b0:2c3:b4c:a4f with SMTP id
- x4-20020a5d60c4000000b002c30b4c0a4fmr8239273wrt.67.1675424212329; 
- Fri, 03 Feb 2023 03:36:52 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=LPgOBQNVShoBt1EXepGeYQrXhiL1fUSuZyDvfJk1E40=;
+ b=FUQhxe2h73dJEoUoYRwKVs2Gc6YnJhNJvJnZQy1fb1/CdJXySWGsAQDbZMmBvos3t0
+ LZgwHXzr2mbsBonyI1jElbgtQa1ax1VbhiRGPM4UIAIfeohkayDA4I9Rw8WiH3P3w7dj
+ GH38HuMQPq7TpoaBXH3gA3xuTNUFwi76ccfVWvf6+GAwrBJccOy33KOJknTMnKKuhUzs
+ B35GfAj+tLDZz+dKfRFZIwwkVLpm2GztKCvtvYgTKgAHPm1CIO7NeH0DdyUBxvHC1Qe9
+ U0MszrLgcvEMzrpkKTJXgs8xpn30EPmRG0g7T+wJPK5XKwSbyqvjNbQjmwZX5RExSeMu
+ SH8g==
+X-Gm-Message-State: AO0yUKUsFI7fjC4fOIY4ueD806WPHkuSOT3JEvy18LnKlG2L9hOOIv0j
+ +H9c7F10R/FQaV8IWTNikffiRy7U2J06B8+W
+X-Google-Smtp-Source: AK7set/Pf3E/Vm6R6fejVfLxnRiMINZjt3iqKu09jt2lz8437cyovLGjtnlsb68xbIcxpqNhY2+Pew==
+X-Received: by 2002:adf:e192:0:b0:2b2:1db6:a6bb with SMTP id
+ az18-20020adfe192000000b002b21db6a6bbmr9046597wrb.20.1675424217510; 
+ Fri, 03 Feb 2023 03:36:57 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- y10-20020a05600015ca00b002bfd137ecddsm1884866wry.11.2023.02.03.03.36.51
+ s7-20020a5d6a87000000b00287da7ee033sm1763541wru.46.2023.02.03.03.36.56
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 03 Feb 2023 03:36:51 -0800 (PST)
+ Fri, 03 Feb 2023 03:36:57 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
  Markus Armbruster <armbru@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 0/9] hw: Use QOM alias properties and few QOM/QDev cleanups
-Date: Fri,  3 Feb 2023 12:36:41 +0100
-Message-Id: <20230203113650.78146-1-philmd@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PATCH 1/9] hw/i386/sgx: Do not open-code qdev_realize_and_unref()
+Date: Fri,  3 Feb 2023 12:36:42 +0100
+Message-Id: <20230203113650.78146-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230203113650.78146-1-philmd@linaro.org>
+References: <20230203113650.78146-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,58 +95,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These patches are extracted from a QOM/QDev refactor series,
-so they are preliminary cleanups noticed while working on it:
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ hw/i386/sgx.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-- Use correct type when calling qdev_prop_set_xxx()
-- Unify some qdev properties in MIPS models
-- Replace intermediate properties by link properties
-- Remove DEFINE_PROP_DMAADDR() macro which is used one time
-- Use qdev_realize_and_unref() instead of open-coding it
-
-Philippe Mathieu-Daudé (9):
-  hw/i386/sgx: Do not open-code qdev_realize_and_unref()
-  hw/ppc/sam460ex: Correctly set MAL properties
-  hw/arm/nrf51: QOM-alias 'flash-size' property in SoC object
-  hw/arm/fsl-imx: QOM-alias 'phy-num' property in SoC object
-  hw/usb/hcd-ohci: Include missing 'sysbus.h' header
-  hw/display/sm501: QOM-alias 'dma-offset' property in chipset object
-  hw/qdev: Remove DEFINE_PROP_DMAADDR() and 'hw/qdev-dma.h'
-  hw/mips: Declare all length properties as unsigned
-  hw/mips/itu: Pass SAAR using QOM link property
-
- hw/arm/fsl-imx25.c           |  3 +--
- hw/arm/fsl-imx6.c            |  3 +--
- hw/arm/fsl-imx6ul.c          |  8 ++++----
- hw/arm/fsl-imx7.c            | 12 ++++++------
- hw/arm/microbit.c            |  5 ++++-
- hw/arm/nrf51_soc.c           | 10 +---------
- hw/display/sm501.c           | 22 +++++++++++-----------
- hw/i386/sgx.c                |  5 ++---
- hw/intc/mips_gic.c           |  4 ++--
- hw/mips/boston.c             |  2 +-
- hw/mips/cps.c                | 35 ++++++++++++-----------------------
- hw/mips/malta.c              |  2 +-
- hw/misc/mips_cmgcr.c         |  2 +-
- hw/misc/mips_itu.c           | 30 ++++++++++++++++++++----------
- hw/nvram/nrf51_nvm.c         |  6 +++++-
- hw/ppc/sam460ex.c            |  4 ++--
- hw/sh4/r2d.c                 |  2 +-
- hw/usb/hcd-ohci-pci.c        |  1 -
- hw/usb/hcd-ohci.c            |  3 +--
- hw/usb/hcd-ohci.h            |  1 +
- include/hw/arm/fsl-imx25.h   |  1 -
- include/hw/arm/fsl-imx6.h    |  1 -
- include/hw/arm/fsl-imx6ul.h  |  2 --
- include/hw/arm/fsl-imx7.h    |  1 -
- include/hw/arm/nrf51_soc.h   |  1 -
- include/hw/intc/mips_gic.h   |  4 ++--
- include/hw/misc/mips_cmgcr.h |  2 +-
- include/hw/misc/mips_itu.h   |  9 ++++-----
- include/hw/qdev-dma.h        | 16 ----------------
- 29 files changed, 84 insertions(+), 113 deletions(-)
- delete mode 100644 include/hw/qdev-dma.h
-
+diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
+index db004d17a6..5ddc5d7ea2 100644
+--- a/hw/i386/sgx.c
++++ b/hw/i386/sgx.c
+@@ -299,7 +299,7 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
+                                 &sgx_epc->mr);
+ 
+     for (list = x86ms->sgx_epc_list; list; list = list->next) {
+-        obj = object_new("sgx-epc");
++        obj = object_new(TYPE_SGX_EPC);
+ 
+         /* set the memdev link with memory backend */
+         object_property_parse(obj, SGX_EPC_MEMDEV_PROP, list->value->memdev,
+@@ -307,8 +307,7 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
+         /* set the numa node property for sgx epc object */
+         object_property_set_uint(obj, SGX_EPC_NUMA_NODE_PROP, list->value->node,
+                              &error_fatal);
+-        object_property_set_bool(obj, "realized", true, &error_fatal);
+-        object_unref(obj);
++        qdev_realize_and_unref(DEVICE(obj), NULL, &error_fatal);
+     }
+ 
+     if ((sgx_epc->base + sgx_epc->size) < sgx_epc->base) {
 -- 
 2.38.1
 
