@@ -2,98 +2,138 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72EE06897A4
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 12:23:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7857A6897A8
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 12:23:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNu8L-0001QW-9l; Fri, 03 Feb 2023 06:21:33 -0500
+	id 1pNu9i-000245-27; Fri, 03 Feb 2023 06:22:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pNu85-0001N3-5T
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 06:21:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <andrey.zhadchenko@virtuozzo.com>)
+ id 1pNu9f-00023Q-Rw; Fri, 03 Feb 2023 06:22:56 -0500
+Received: from mail-vi1eur05on20720.outbound.protection.outlook.com
+ ([2a01:111:f400:7d00::720]
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pNu82-00054n-W8
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 06:21:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675423273;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qC5KX9oA+s0yDAQv5Vu1JAndP1FtDrSNVvzF24V+jHQ=;
- b=EiaoBYV//iH9DVm4cwOZ5/VfuaP9/7etl9V7GB63TwY20lKimni4qE7eAfcIUJ+g7szAiV
- zVLv4aj9F8Gx9zWSyeYJf++SudWGOEJrII44SBc/KX1yhoMMoLflgnY5Dk6kHD5BjNEWWo
- 2/r0A2JTBi5dw6bG1kHpOf8/+47WqjE=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-513-oA5Prbp1Pu-YRZGQcfj98Q-1; Fri, 03 Feb 2023 06:21:12 -0500
-X-MC-Unique: oA5Prbp1Pu-YRZGQcfj98Q-1
-Received: by mail-qt1-f197.google.com with SMTP id
- p6-20020a05622a048600b003b9a3ab9153so2451969qtx.8
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 03:21:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qC5KX9oA+s0yDAQv5Vu1JAndP1FtDrSNVvzF24V+jHQ=;
- b=PYbm6z6nzxiNUU9Fm1DlGIHzg94rxkf/BDJHB1ZgW3rdVKTN3yKPE1kf6t1jWIjnda
- 8ICInUTpzkFB8z17PyVvw8Nzvm1TSfw8oLlHAD4RkZvPl1mNyK88Tz9ZRc6mQ6SrSoly
- UXiQdwnBbpDj5lKKueaxDwYQLPxmeG2j8HWqry3orLHwXeXLNzMlF7sb049GhLmZ2z13
- 1AkyDAjf7//wvfP0aVTd0QqXpcoIcoDCgDH8HCqCfHGqmEVqaFJuM3bCCSIKBYFxH4xX
- GXUWGW4iAi3CGquIsqyBKy1cs5x1n/hS46xQq3moCpAh4QWvz9uuw42RNJbgkVcnAjIY
- kVoQ==
-X-Gm-Message-State: AO0yUKXU5GkDHEIx+zA1z/GHL0O0QkJozopAXQk+eDUUe8GR4BTDBuUO
- tY2+Zu2aZaabtSWn+1Vx/qWe7T10w4mgh3TdJSM7Qo2NdjU6qBSI2uCai9JJ0RTzTPBpLWcPWJK
- a1M6OvUc5ZWPkrXk=
-X-Received: by 2002:a0c:c349:0:b0:53b:bcf5:843f with SMTP id
- j9-20020a0cc349000000b0053bbcf5843fmr14484989qvi.36.1675423271798; 
- Fri, 03 Feb 2023 03:21:11 -0800 (PST)
-X-Google-Smtp-Source: AK7set+xoSXGyg8lTuml8la4W/ra3P+BuT+ZKC30r0i0uqVwXdk5dZAeJuu7odItq/RD9ap+vOSnUQ==
-X-Received: by 2002:a0c:c349:0:b0:53b:bcf5:843f with SMTP id
- j9-20020a0cc349000000b0053bbcf5843fmr14484965qvi.36.1675423271545; 
- Fri, 03 Feb 2023 03:21:11 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-179-40.web.vodafone.de.
- [109.43.179.40]) by smtp.gmail.com with ESMTPSA id
- g19-20020ac84b73000000b003b8558eabd0sm1400316qts.23.2023.02.03.03.21.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Feb 2023 03:21:10 -0800 (PST)
-Message-ID: <95b6cc32-77f6-5364-5293-be0f9944517c@redhat.com>
-Date: Fri, 3 Feb 2023 12:21:06 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v15 01/11] s390x/cpu topology: adding s390 specificities
- to CPU topology
+ (Exim 4.90_1) (envelope-from <andrey.zhadchenko@virtuozzo.com>)
+ id 1pNu9d-0005XK-Vm; Fri, 03 Feb 2023 06:22:55 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XgDxrVUN7fUAnaMvWmhT1LaMlGnjCC+etZoFN7Q3ewKpHuROFt3vI8moX06/++iUIHIVyWLfiR1ffzYXRzKzTpF1SResxQb0zSD1GFRu0IL0MuH1K/yIU3d90V840tGplOsNuMxHyVXa61Rw0xA5eblb+KMeJeQYQVG33KKDS44iBJEJp078vY0V+EsYNnBNatyu5WEd7glTwOG7GHep3i6atBtp3zE/eQGCgphozNKyLux4q4rTbTxlduDr7KIU+nY/VWtEy9vfM1/vr0y8GApR6WhnViSDydeg3b53eGwvsjxkPQchjaUISbvT1Y8fK5K5rwmjRDGeD342AySUzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZTt7nwKYFP3qPrlgiA2IFpbVIw7sYdJDWIKyQdhBvvM=;
+ b=kgBl36lOx37EanNldRZ8T4Ey+y4FIB1DVPbrrh4SKMA6uJogWo56VQVYSCTDPvs7/jX9TvQMRXlmxPimMp3OywbMDhDikP4uptocJ2FlVLYI9NKL9M1hbXI9OGUJnLvCq+fcoXi4ac93smn+r58y3hfqT0GkLTm4YAgtLDCJQI50uPpxELadpD2HdcwZnGdgBmedKDnCnVBl4XZAxMrJToeLsNs3PBxQboScYI77bp+rJb1LJpvbyAbtAbfrCwzr6L+QZF7cX7LP/Pzg6X/Jtcxl2zTXgcNCkhfdxf5yQydg1eeRJlc3CInb6kxcNTZSVgRts++KIPA5mPi7zT4KkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZTt7nwKYFP3qPrlgiA2IFpbVIw7sYdJDWIKyQdhBvvM=;
+ b=EFHrtZzpC//EE5zEzUSsR0rwX/GmaMJbXdXBPNY/7BOy/29pDRyyBnOdq7rAVNLoCeutQH3qMAksY9IhuChUvFNXK5InTtG9eARVzQYUUKEVsVhAGnaFomolzn+AqAexYpLonu+V1Mzkl3nhhmrQRVak1OPTQmjOJTvfL2XibX1eKHVhPy4vaVeD8lpGQMgLFUZbzIwhG1pzpJog1X3KlWAof9vsXFCzSPr0/lbmZVhy4MJEdkRrwwGlRt6rVkF/zBrsVbz9ACtt3/znwDY8niOzsCytZm82NEov3dtysNw0dOerOkuP8XnJvOMcnHHnp55b+rtO4OcEsFaBygNIrg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM8PR08MB5732.eurprd08.prod.outlook.com (2603:10a6:20b:1d4::16)
+ by DU0PR08MB8020.eurprd08.prod.outlook.com (2603:10a6:10:3e7::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.29; Fri, 3 Feb
+ 2023 11:22:46 +0000
+Received: from AM8PR08MB5732.eurprd08.prod.outlook.com
+ ([fe80::d216:1e62:dc40:6ff1]) by AM8PR08MB5732.eurprd08.prod.outlook.com
+ ([fe80::d216:1e62:dc40:6ff1%3]) with mapi id 15.20.6064.031; Fri, 3 Feb 2023
+ 11:22:46 +0000
+Message-ID: <95e8349f-d0dc-1499-816a-4d0866a788d6@virtuozzo.com>
+Date: Fri, 3 Feb 2023 14:22:43 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.0
+Subject: Re: [PATCH] hbitmap: fix hbitmap_status() return value for first
+ dirty bit case
 Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>,
- Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230201132051.126868-1-pmorel@linux.ibm.com>
- <20230201132051.126868-2-pmorel@linux.ibm.com>
- <9fed7aba2819a6564b785e90c2284b2a83f35431.camel@linux.ibm.com>
- <4ef7d6a2-c9aa-9994-48ac-21d6ed865a45@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <4ef7d6a2-c9aa-9994-48ac-21d6ed865a45@linux.ibm.com>
+From: Andrey Zhadchenko <andrey.zhadchenko@virtuozzo.com>
+To: Eric Blake <eblake@redhat.com>
+Cc: vsementsov@yandex-team.ru, hreitz@redhat.com, jsnow@redhat.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20230202181523.423131-1-andrey.zhadchenko@virtuozzo.com>
+ <20230202193944.63qcqpvklyoslode@redhat.com>
+ <b03aa8ad-c917-b43f-443e-1fe7ee959b23@virtuozzo.com>
+In-Reply-To: <b03aa8ad-c917-b43f-443e-1fe7ee959b23@virtuozzo.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-ClientProxiedBy: FR2P281CA0168.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:99::17) To AM8PR08MB5732.eurprd08.prod.outlook.com
+ (2603:10a6:20b:1d4::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM8PR08MB5732:EE_|DU0PR08MB8020:EE_
+X-MS-Office365-Filtering-Correlation-Id: e57fa63d-fd18-4b59-2d0a-08db05d8f9cb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9dl8lvUqXGzQCe6iBO7uqmbOjSnwTfjRgW8LDcWXb2itRqMoPCqqUq+BtWEEp9w8Bf37XVsi+QVMrrEmw+vA3vKUtzQ4BnPdPaPaKWOJGv0CqldBCi31LR6E0IU1/BcAhz1JdqxhiKWNr5l0u3ai4jDPxSZkQyG/18ehPT1jDHwfirWuJ2EeLez9c/xP04NtxXQeeU7o13p1MNy73qC5MXcXs41jHAWcspnE+QHjRKOqJ9BtsEH0+z0oRqb5ayo/frbcOVxrUnLRyOv8YGBOQFDLxeJtIQS43u/9TNe85RUEYyeuG/SuHsfx83ibN8WHbuLKvq0WUHiPPntpCYFU85wWCXszyMmfGgHI775Qq/47hDQsK5YZuw7BASacJzaU/rkvRjcd2mYqR0n3ODO3WW46TVxuM24gmJ3dzVVtOPmL9kEh4+N/z1n7mLE7TjtWy69d38WGtiPZbJmcKN4tRzpWmzE/UXjkbLof7nxC2CHbop53LxPIHecOQazIiJBkW5lnhtGUel42GFlzbn7WuGL1RAePLMr5FXO+U7XlsCNMy/eGRBJ+ANeVJ+buTiCAvsE/ayRS9Bnihnf/ToFT2jqpLSXj5AKjLgdhkVmWghsLD+Cmb612h7h9gkM0K+pVoQ7ysWhE7TCHCyosG2IYsMR56ELrmxIGxJWPrOYQxI/gh4sBzBXTAnqW0r1Jm0A9of8GD9VBcK8DPMJVB+Q+S3KtH5ry8/C46NonZngxiHhBuGLHSn6dcFHzGr4LuK5M
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM8PR08MB5732.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(366004)(376002)(39850400004)(396003)(136003)(346002)(451199018)(31686004)(316002)(36756003)(86362001)(38100700002)(53546011)(83380400001)(186003)(6506007)(26005)(2616005)(6666004)(6512007)(8936002)(5660300002)(44832011)(478600001)(6486002)(31696002)(41300700001)(2906002)(66476007)(4326008)(66946007)(6916009)(66556008)(8676002)(14143004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SmIvUjFxKzhKQ1R3TUdBMmFiQVdMMElkSW9ncmtKU2lPNm9jSFN2QzJBM0pq?=
+ =?utf-8?B?TEhjMk5ibXpNOHA4L0NQeUNSUHQ0SkNKQWJqS1pUTHhkcmQxdFlrUXR4dkFh?=
+ =?utf-8?B?RTB4VlRzZTBBMlltWDM3RjRPY1pyc3hkNlRyeVpJdHhlY1pLZ21rcVNsSmNC?=
+ =?utf-8?B?YVRYQTIvZ245cjlaOStBYnlURWlNSHZqNXQxSkkyNU85WCtobUYzQ0ZFTkRW?=
+ =?utf-8?B?Z1EvR2t1cUt4T0dzY0NUSjB2OUFxSmI3ZW5DbVN4RXd0czZ2OVQ4SXdZQTl4?=
+ =?utf-8?B?Y0hkczd5NFRUc3NjdmVzb2FxZ0dnU0hiSDNVYjl0bGZnRVFQT2J4MjVUOFdv?=
+ =?utf-8?B?WDN2TFUxRlpqUm5VM1ZRT1BxNDZpSzc5aE12Q21pUW9uQTlla1llRWpLNXFU?=
+ =?utf-8?B?RzZEaFB4L3pEZytXK21yckxNTVhVRU41dmJZODZwZ1JOTjhIVEp5cHo1Uyti?=
+ =?utf-8?B?b2VSVW9aWW9OTDl2QUhadFUxK2JUQ0Mrelo3aGRiazkwUVlwS0tkWFlrNlJ5?=
+ =?utf-8?B?eDFuSDZLWUZaRTl6RzMvVExnbTN3d0p6WkNJS3Q1OHN3K0d0TVRwSFF3dFI0?=
+ =?utf-8?B?bVZDc2E3UGRseHc0YUN2RVEyZkw4UEc1aStpWUNhTkZiYWhUMXZONzlGaW4y?=
+ =?utf-8?B?R3laZDZzek8zVE5MdEhrd3J4UG9CTFo0Nys5L2xEVWRiUUpyaXpBY2hPMlZm?=
+ =?utf-8?B?N1VuZVVuY2NwdFpLWjg2NEJHU2tDVWEweUUvSnF6cEg3TSt1eVhXVnZmTFlU?=
+ =?utf-8?B?RXR4Zm5jWFNJVjViVlJvV1ZYZVpSZzJ4ZXFxR0oyTnBodVlkelpxY0FxTXgy?=
+ =?utf-8?B?ZXliT2V1ZWZmQ1VUMm9ZTmxIZlF0N0lnYmVyVGJ5N3BQQVU4czhROFNnRjhv?=
+ =?utf-8?B?bW9PaVRaL1plTUNHOFB2c0VjRUZacStiaWd3RnhTQkZOellnWVBxdjY4T3dw?=
+ =?utf-8?B?Vld5SGxMUnV3VnRjVnE5MFlubTZmUWQrMHYyNEdhbFNKcmg0eGpTWEI1Ylpn?=
+ =?utf-8?B?RlJsT296SG1oM3MvSnRlQXl3VEl6YnVraW5qTkFSMy80NVBhVEtJZjA2VFNr?=
+ =?utf-8?B?d0JiNjRGZVUyVGdoNlgzV1hmVmdTZGpaZVFUVXF0OFN6TUVDOTVaTC8waWpU?=
+ =?utf-8?B?VmlCc2V1V0xpOHFIRVdIc2c3SFlnRDVMSE04OHhMMHNqN0RsWUU0b0tyUVF5?=
+ =?utf-8?B?eUQ0bE1mcDEvbmtMQ2xTa3JXNHhDWXpPQXF0WndjUnk4STgyYitVN3R0Y1la?=
+ =?utf-8?B?cFRBOFFkWkwwc2NVY25pMzhneC9VZ1lMQ05wWmR1WjhIREhITHloWWt5RkJW?=
+ =?utf-8?B?ZnE2bk5adHNpZjhwMTJjZVF2Y0crbkdTUG1wcGF1SkJnVHdUTzNiOS8vb082?=
+ =?utf-8?B?U2lMRFM0bktUTkdtbldieDBHWGdiOTVsOHpoNHJlZm82em5OUHB5UzBZY3FY?=
+ =?utf-8?B?Z1FTaFlzUExyOG5ZOWxBVmJDcGZLQi91WHI3emhmL2FxNFhaQ25TQ2dEVnJY?=
+ =?utf-8?B?NDhkdmFBK0hqUzJLUnEzdGZ3clV5TlN2OVp0bWxEUWJVZTQvMFlIUU15dldr?=
+ =?utf-8?B?RzFNZ0orYTd0WHhOL3lWbmEwOG9BUWdrVVFCN3RmL0Q4RTh1eE5SeXd0cndG?=
+ =?utf-8?B?a25oUlNiZEpWT1QyWlhWZlRyN1RIWlRob3VXaHJNQTd3cllDTjJLUWpheUl6?=
+ =?utf-8?B?cEM0UnU3VlhqWVBmTjR2YVV6OWw4dnEwZFlkVnpZa01GYllObFY3VmtvVU1v?=
+ =?utf-8?B?Uk9UdGxMWXBYUWRBcFprZzJERldaN01Pd1d3eEVhbVpoY2FFS0NLVVB4SEdI?=
+ =?utf-8?B?V2oxdFk3NzY1L1dMUDFJL28xUXpsMC9udzZiV01mY0xLNTJEK00rZnpJZUlH?=
+ =?utf-8?B?VG9UVTUrRmxGNmU5VS80QmZxUWdkT1pGTlluMHBnYTRhZlZzdmRhL3ZRd2JX?=
+ =?utf-8?B?dXpTUnoyTVQzS1ltTmpyZUNOVnUxUzVXQ1VWclBJQXd5N1dOaDhsTVd4MzBX?=
+ =?utf-8?B?bkdCSE5kRjdGd1lkYittcWllN1RMRGpIZnNnRHJ5OFRXbWxVNzl5OHNSbGtP?=
+ =?utf-8?B?REZ2SFFTdkJ2ZW03bFN3ZUpUOXFjZDJXRStUUTdLZ3M5MUJ4UDNXZzZXZmZB?=
+ =?utf-8?B?ZDVkYUVwM2tMRTU2d0tRYjdmLzFQTHBRR0RCNlczQWtOUmZCazZkQlQxQmlp?=
+ =?utf-8?Q?NKcWEwhWI+1a2/KknmxLuwY=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e57fa63d-fd18-4b59-2d0a-08db05d8f9cb
+X-MS-Exchange-CrossTenant-AuthSource: AM8PR08MB5732.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2023 11:22:46.5911 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: e7b7j1mL4g69KkbbzXYLVsK6Eao/0fY2SmvOadSH4+oRdSmPkt/K0Qyw33+y3UgazsEnE5KemaIYYfT8+MKVNELWZrUT4ak3wspfALNtZEA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB8020
+Received-SPF: pass client-ip=2a01:111:f400:7d00::720;
+ envelope-from=andrey.zhadchenko@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,108 +149,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 03/02/2023 10.39, Pierre Morel wrote:
-> 
-> @Thomas, these changes look good to me.
-> What do you think, do I make the change and keep your RB ?
-
-Yes, splitting that enum sounds cleaner, indeed.
-
-  Thomas
 
 
-> On 2/2/23 17:05, Nina Schoetterl-Glausch wrote:
->> Nit patch title: s390x/cpu topology: add s390 specifics to CPU topology ?
->>
+On 2/3/23 13:55, Andrey Zhadchenko wrote:
 > 
-> OK
-> 
->> On Wed, 2023-02-01 at 14:20 +0100, Pierre Morel wrote:
->>> S390 adds two new SMP levels, drawers and books to the CPU
->>> topology.
->>> The S390 CPU have specific toplogy features like dedication
->>                                  ^o
-> 
-> Yes thx
-> 
->>> and polarity to give to the guest indications on the host
->>> vCPUs scheduling and help the guest take the best decisions
->>> on the scheduling of threads on the vCPUs.
+> On 2/2/23 22:39, Eric Blake wrote:
+>> On Thu, Feb 02, 2023 at 09:15:23PM +0300, Andrey Zhadchenko via wrote:
+>>> The last return statement should return true, as we already evaluated 
+>>> that
+>>> start == next_dirty
 >>>
->>> Let us provide the SMP properties with books and drawers levels
->>> and S390 CPU with dedication and polarity,
+>>> Also, fix hbitmap_status() description in header
 >>>
->>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>>> Cc: qemu-stable@nongnu.org
+>>> Fixes: a6426475a75 ("block/dirty-bitmap: introduce 
+>>> bdrv_dirty_bitmap_status()")
+>>> Signed-off-by: Andrey Zhadchenko <andrey.zhadchenko@virtuozzo.com>
 >>> ---
->>>   qapi/machine.json               | 14 ++++++++--
->>>   include/hw/boards.h             | 10 ++++++-
->>>   include/hw/s390x/cpu-topology.h | 24 +++++++++++++++++
->>>   target/s390x/cpu.h              |  5 ++++
->>>   hw/core/machine-smp.c           | 48 ++++++++++++++++++++++++++++-----
->>>   hw/core/machine.c               |  4 +++
->>>   hw/s390x/s390-virtio-ccw.c      |  2 ++
->>>   softmmu/vl.c                    |  6 +++++
->>>   target/s390x/cpu.c              |  7 +++++
->>>   qemu-options.hx                 |  7 +++--
->>>   10 files changed, 115 insertions(+), 12 deletions(-)
->>>   create mode 100644 include/hw/s390x/cpu-topology.h
->>>
->> [...]
->>>
->>> diff --git a/include/hw/s390x/cpu-topology.h 
->>> b/include/hw/s390x/cpu-topology.h
->>> new file mode 100644
->>> index 0000000000..7a84b30a21
->>> --- /dev/null
->>> +++ b/include/hw/s390x/cpu-topology.h
->>> @@ -0,0 +1,24 @@
->>> +/*
->>> + * CPU Topology
->>> + *
->>> + * Copyright IBM Corp. 2022
->>> + *
->>> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
->>> + * your option) any later version. See the COPYING file in the top-level
->>> + * directory.
->>> + */
->>> +#ifndef HW_S390X_CPU_TOPOLOGY_H
->>> +#define HW_S390X_CPU_TOPOLOGY_H
->>> +
->>> +#define S390_TOPOLOGY_CPU_IFL   0x03
->>> +
->>> +enum s390_topology_polarity {
->>> +    POLARITY_HORIZONTAL,
->>> +    POLARITY_VERTICAL,
->>> +    POLARITY_VERTICAL_LOW = 1,
->>> +    POLARITY_VERTICAL_MEDIUM,
->>> +    POLARITY_VERTICAL_HIGH,
->>> +    POLARITY_MAX,
->>> +};
+>>>   include/qemu/hbitmap.h | 2 +-
+>>>   util/hbitmap.c         | 2 +-
+>>>   2 files changed, 2 insertions(+), 2 deletions(-)
 >>
->> Probably a good idea to keep the S390 prefix.
->> This works, but aliasing VERTICAL and VERTICAL_LOW is not
->> entirely straight forward.
->>
->> Why not have two enum?
->> enum s390_topology_polarity {
->>     S390_POLARITY_HORIZONTAL,
->>     S390_POLARITY_VERTICAL,
->> };
->>
->> enum s390_topology_entitlement {
->>     S390_ENTITLEMENT_LOW = 1,
->>     S390_ENTITLEMENT_MEDIUM,
->>     S390_ENTITLEMENT_HIGH,
->>     S390_ENTITLEMENT_MAX,
->> };
->> Maybe add an ENTITLEMENT_INVALID/NONE, if you need that, as first value.
->>
+>> Eww, nasty bug; looks like copy-before-write is the only curernt
+>> client of this interface.
+> Also this only happens when copy-before-write is used in conjunction
+> with snapshot-access (7.0+), so probably not many people is affected.
 > 
-> If Thomas agree, I do the changes.
+>>
+>> Reviewed-by: Eric Blake <eblake@redhat.com>
+>>
+>> Is there any way to enhance an iotest to add coverage for this code?
+>>
+> Looks like yes. copy-before-write uses bcs bitmaps, which is 64k.
+> So changing existing test
 > 
-> Regards,
-> Pierre
+> diff --git a/tests/qemu-iotests/tests/image-fleecing 
+> b/tests/qemu-iotests/tests/image-fleecing
+> index f6e449d071..7eda9a2c6b 100755
+> --- a/tests/qemu-iotests/tests/image-fleecing
+> +++ b/tests/qemu-iotests/tests/image-fleecing
+> @@ -34,23 +34,23 @@ iotests.script_initialize(
+>       unsupported_imgopts=['compat']
+>   )
+> 
+> -patterns = [('0x5d', '0',         '64k'),
+> -            ('0xd5', '1M',        '64k'),
+> -            ('0xdc', '32M',       '64k'),
+> -            ('0xcd', '0x3ff0000', '64k')]  # 64M - 64K
+> +patterns = [('0x5d', '0',         '128k'),
+> +            ('0xd5', '1M',        '128k'),
+> +            ('0xdc', '32M',       '128k'),
+> +            ('0xcd', '0x3fe0000', '128k')]  # 64M - 128K
+> 
+> -overwrite = [('0xab', '0',         '64k'), # Full overwrite
+> -             ('0xad', '0x00f8000', '64k'), # Partial-left (1M-32K)
+> -             ('0x1d', '0x2008000', '64k'), # Partial-right (32M+32K)
+> -             ('0xea', '0x3fe0000', '64k')] # Adjacent-left (64M - 128K)
+> +overwrite = [('0xab', '0',         '128k'), # Full overwrite
+> +             ('0xad', '0x00f0000', '128k'), # Partial-left (1M-64K)
+> +             ('0x1d', '0x2010000', '128k'), # Partial-right (32M+64K)
+> +             ('0xea', '0x3fc0000', '128k')] # Adjacent-left (64M - 256K)
+> 
+> -zeroes = [('0', '0x00f8000', '32k'), # Left-end of partial-left (1M-32K)
+> -          ('0', '0x2010000', '32k'), # Right-end of partial-right 
+> (32M+64K)
+> -          ('0', '0x3fe0000', '64k')] # overwrite[3]
+> +zeroes = [('0', '0x00f0000', '64k'), # Left-end of partial-left (1M-64K)
+> +          ('0', '0x2020000', '64k'), # Right-end of partial-right 
+> (32M+128K)
+> +          ('0', '0x3fc0000', '128k')] # overwrite[3]
+> 
+> -remainder = [('0xd5', '0x108000',  '32k'), # Right-end of partial-left [1]
+> -             ('0xdc', '32M',       '32k'), # Left-end of partial-right [2]
+> -             ('0xcd', '0x3ff0000', '64k')] # patterns[3]
+> +remainder = [('0xd5', '0x110000',  '64k'), # Right-end of partial-left [1]
+> +             ('0xdc', '32M',       '64k'), # Left-end of partial-right [2]
+> +             ('0xcd', '0x3fe0000', '128k')] # patterns[3]
+> 
+>   def do_test(vm, use_cbw, use_snapshot_access_filter, base_img_path,
+>               fleece_img_path, nbd_sock_path=None,
 > 
 > 
+>  From 64k chunks to 128k chunks (so at the read moment we have N bit 
+> dirty and N+1 clean) produces the following for one of NBD test cases:
+> 
+> --- Setting up NBD Export ---
+> 
+> {"return": {}}
+> {"return": {}}
+> 
+> --- Sanity Check ---
+> 
+> read -P0x5d 0 128k
+> read -P0xd5 1M 128k
+> read -P0xdc 32M 128k
+> read -P0xcd 0x3fe0000 128k
+> read -P0 0x00f0000 64k
+> read failed: Invalid argument
+> 
+> read -P0 0x2020000 64k
+> read failed: Invalid argument
+> 
+> read -P0 0x3fc0000 128k
+> read failed: Invalid argument
+> 
+> 
+> I am not good at qemi-io tool, I guess that EINVAL in that case means 
+> qemu-io found out that image data does not follow requested pattern?
+> 
+> Also this does not trigger for non-nbd tests since backup job is 
+> probably copying one cluster at a time.
 
+Please disregard this.
+
+This EINVALs are somewhat anticipated as they are also present in 
+expected example image-fleecing.out (and applying my patch doesn't get 
+rid of them)
+
+I should think more about possible test cases
 
