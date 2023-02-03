@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224FC689B9F
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:31:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE62689B9D
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:30:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNx5P-0007Ph-V9; Fri, 03 Feb 2023 09:30:44 -0500
+	id 1pNx58-000707-To; Fri, 03 Feb 2023 09:30:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNx4h-0006tK-HU
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:29:59 -0500
+ id 1pNx4i-0006ts-Nx
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:30:00 -0500
 Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNx4f-00059a-IY
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:29:59 -0500
+ id 1pNx4f-00057V-JD
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:30:00 -0500
 Received: by mail-wm1-x32a.google.com with SMTP id
- f47-20020a05600c492f00b003dc584a7b7eso6131861wmp.3
+ m16-20020a05600c3b1000b003dc4050c94aso3985860wms.4
  for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 06:29:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=l0u5UibgcI5qnW9GrxT+wU1ixlLChLWV7gMBX8MNisg=;
- b=NIX3HPCcyhL1s/JRKSFZatiTI0/FkQsTH2xtnHnUeHI8zm3XsdmP0J7eKWy9oiWEHM
- WvF4YlY188KyBd+3IASUswUQeIMWa2jIHQrPJBif/yI0bkv+a8OslDr/U4S8mTlEgi78
- 3a1oZ8Hhc6dmli6LF2I9qaX8vxVdBcg7KbMis+VVxf68ZG4XuikXxQjn2aJzO2bkLE95
- xJ6Gf+HZVgH/3NVZPKhhrfm84//WsX/7o2njAETOnTUav+3CxPgFWUCaWZttcMWJYbCB
- /4uvdd42uGJQRB0fCoev7xt63iq1mzHuamChsja7a3VBZ4eLUG0addZS5avmtGrznfq/
- rCDw==
+ :reply-to; bh=xTqYZJo21mR+70Kxpz8qplBoPvCqRYvqTyvegNRGHKw=;
+ b=gwQqcCxwetDInQbd7fkMf567FsmZBD+fV5+OXeFc72CekDCvPo1vPHUGyfjkEygtqb
+ /NLS6pRoSv3mTzXCIDcC7plXRIPKKLKaiBl1BuM9heL1/ZDf9PjIJ2KC6H2SarVGkvle
+ FIGd+Pa9v9e61HWHnPQNoG5y+gFBVpjlOf7R/Wb+gPEFlRri4aXypinELPvaGoRGqB+d
+ a88wJDKLnp9WKfSxn1LxxKCn19gygvdnwxep2sNTWGbOlNx0g3rDnnWUOsYY6RmWZrjO
+ 76/J6iX2ptifSewiv1qQMi2TIXWCc1etjhudCkeHP1plSgdSICowKqHSEEyFeoSrM5yh
+ xuWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=l0u5UibgcI5qnW9GrxT+wU1ixlLChLWV7gMBX8MNisg=;
- b=fttKeYRZ4qlDvimXDWIwMnlE7/0C+9LpD9wLeZrNjARmxUQDohNen6WrAzLAT9GMlm
- hhbbPQA9d3/PUp044SrXGi+DLTuuN/HMLPk0kQ2bDcQl2006hgaC6sEuUjZZMq9Yio65
- BRHP4p9M5lAqgRcvxE5zLZ6vNWRzjILV7qA1/NDyxuN/w6jPiiYbgj7eJd+JNPspPkB3
- rl8WtTTzhIqS7AGlRHR45wf6mzyQ0G+MwsKncF1BwqeiG4kqkQSfHTiiageHODM7xGKo
- 0dqNEqDFFn4Hgzs6sPxgciCRoUYi0Nbo4uXpljMKgMHe7d+GemGTkUccEL2l7IV6CPkr
- A/FA==
-X-Gm-Message-State: AO0yUKVSgEUsq1OIA3kcG1GsDOSOjDYnDK1GhOPbJBUJqL4n7R3Yob66
- OmsDadJI9UpIOJmB47slNw/K0Npp8NgulJWO
-X-Google-Smtp-Source: AK7set/t0G7d2VvGLlXGyQTQHvFxJ2sd7olfu7ekECLS4zcVXekf8LmSbtasnMsRt4jRmv56WAx9TA==
-X-Received: by 2002:a05:600c:a297:b0:3dc:42e7:f626 with SMTP id
- hu23-20020a05600ca29700b003dc42e7f626mr9618890wmb.26.1675434595402; 
- Fri, 03 Feb 2023 06:29:55 -0800 (PST)
+ bh=xTqYZJo21mR+70Kxpz8qplBoPvCqRYvqTyvegNRGHKw=;
+ b=ubF8mpsPkMk64LlbFOBp6pkIeIz/jPvrY6dYnw6A813eeJ+xEe6/sulRmVd2ra8v+V
+ HLBWDQUTZAqUQSlcqILwCnOu4GoGNqB3AfgQv2eew1QfcDYPTiEltyU5brtO40kVBPXW
+ iQhZlQ0r1VfH2SXYHOqphoiGerlF4gYWXOftA9fhWlD2KYIJvxTvoZ30C9xyn9ptIHqZ
+ vjIrJSAmK0xv5Z+VjHKsjpeThyIGAjUEFzW0a9+KDCuUK3ae8su1yzL+dO96CDnJapJM
+ MSzFY0gM/CYZ7LcASseehg1DuUYfNIFZVhpLOJ9daNyd4zPVXLvKFSpwRuzHk9Wwx3pB
+ TFpQ==
+X-Gm-Message-State: AO0yUKWiJQFTrekhd1wCINzTHEybgbQ7xnCAgAS5Sse5ZzuQqDnwZtXn
+ Bu4QgTrNS1/FdWE/HQ5+ng14D+N3SnS5+lbZ
+X-Google-Smtp-Source: AK7set+IxgoN6eWdxdwnkf0Uj01kIXXKyfvCNAXc8SFUS3/sxoTjR8Nl+jnNplsTQyObXAJ3XsX/LA==
+X-Received: by 2002:a05:600c:210a:b0:3df:12db:2779 with SMTP id
+ u10-20020a05600c210a00b003df12db2779mr8940780wml.3.1675434596198; 
+ Fri, 03 Feb 2023 06:29:56 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- j14-20020a05600c130e00b003df241f52e8sm2578492wmf.42.2023.02.03.06.29.54
+ j14-20020a05600c130e00b003df241f52e8sm2578492wmf.42.2023.02.03.06.29.55
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Feb 2023 06:29:54 -0800 (PST)
+ Fri, 03 Feb 2023 06:29:55 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/33] target/arm: Implement the HFGITR_EL2.SVC_EL0 and SVC_EL1
+Subject: [PULL 32/33] target/arm: Implement MDCR_EL2.TDCC and MDCR_EL3.TDCC
  traps
-Date: Fri,  3 Feb 2023 14:29:25 +0000
-Message-Id: <20230203142927.834793-32-peter.maydell@linaro.org>
+Date: Fri,  3 Feb 2023 14:29:26 +0000
+Message-Id: <20230203142927.834793-33-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230203142927.834793-1-peter.maydell@linaro.org>
 References: <20230203142927.834793-1-peter.maydell@linaro.org>
@@ -90,159 +90,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Implement the HFGITR_EL2.SVC_EL0 and SVC_EL1 fine-grained traps.
-These trap execution of the SVC instruction from AArch32 and AArch64.
-(As usual, AArch32 can only trap from EL0, as fine grained traps are
-disabled with an AArch32 EL1.)
+FEAT_FGT also implements an extra trap bit in the MDCR_EL2 and
+MDCR_EL3 registers: bit TDCC enables trapping of use of the Debug
+Comms Channel registers OSDTRRX_EL1, OSDTRTX_EL1, MDCCSR_EL0,
+MDCCINT_EL0, DBGDTR_EL0, DBGDTRRX_EL0 and DBGDTRTX_EL0 (and their
+AArch32 equivalents).  This trapping is independent of whether
+fine-grained traps are enabled or not.
+
+Implement these extra traps.  (We don't implement DBGDTR_EL0,
+DBGDTRRX_EL0 and DBGDTRTX_EL0.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Tested-by: Fuad Tabba <tabba@google.com>
-Message-id: 20230130182459.3309057-22-peter.maydell@linaro.org
-Message-id: 20230127175507.2895013-22-peter.maydell@linaro.org
+Message-id: 20230130182459.3309057-23-peter.maydell@linaro.org
+Message-id: 20230127175507.2895013-23-peter.maydell@linaro.org
 ---
- target/arm/cpu.h           |  1 +
- target/arm/translate.h     |  2 ++
- target/arm/helper.c        | 20 ++++++++++++++++++++
- target/arm/translate-a64.c |  9 ++++++++-
- target/arm/translate.c     | 12 +++++++++---
- 5 files changed, 40 insertions(+), 4 deletions(-)
+ target/arm/debug_helper.c | 35 +++++++++++++++++++++++++++++++----
+ 1 file changed, 31 insertions(+), 4 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index ec2a7716ce7..7bc97fece97 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3171,6 +3171,7 @@ FIELD(TBFLAG_ANY, FPEXC_EL, 8, 2)
- FIELD(TBFLAG_ANY, ALIGN_MEM, 10, 1)
- FIELD(TBFLAG_ANY, PSTATE__IL, 11, 1)
- FIELD(TBFLAG_ANY, FGT_ACTIVE, 12, 1)
-+FIELD(TBFLAG_ANY, FGT_SVC, 13, 1)
- 
- /*
-  * Bit usage when in AArch32 state, both A- and M-profile.
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index 62a7706eabd..3717824b754 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -134,6 +134,8 @@ typedef struct DisasContext {
-     bool fgt_active;
-     /* True if fine-grained trap on ERET is enabled */
-     bool fgt_eret;
-+    /* True if fine-grained trap on SVC is enabled */
-+    bool fgt_svc;
-     /*
-      * >= 0, a copy of PSTATE.BTYPE, which will be 0 without v8.5-BTI.
-      *  < 0, set by the current instruction.
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 6151c775053..c62ed05c122 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -11842,6 +11842,20 @@ ARMMMUIdx arm_mmu_idx(CPUARMState *env)
-     return arm_mmu_idx_el(env, arm_current_el(env));
+diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
+index b106746b0e1..3c671c88c1a 100644
+--- a/target/arm/debug_helper.c
++++ b/target/arm/debug_helper.c
+@@ -599,6 +599,33 @@ static CPAccessResult access_tda(CPUARMState *env, const ARMCPRegInfo *ri,
+     return CP_ACCESS_OK;
  }
  
-+static inline bool fgt_svc(CPUARMState *env, int el)
++/*
++ * Check for traps to Debug Comms Channel registers. If FEAT_FGT
++ * is implemented then these are controlled by MDCR_EL2.TDCC for
++ * EL2 and MDCR_EL3.TDCC for EL3. They are also controlled by
++ * the general debug access trap bits MDCR_EL2.TDA and MDCR_EL3.TDA.
++ */
++static CPAccessResult access_tdcc(CPUARMState *env, const ARMCPRegInfo *ri,
++                                  bool isread)
 +{
-+    /*
-+     * Assuming fine-grained-traps are active, return true if we
-+     * should be trapping on SVC instructions. Only AArch64 can
-+     * trap on an SVC at EL1, but we don't need to special-case this
-+     * because if this is AArch32 EL1 then arm_fgt_active() is false.
-+     * We also know el is 0 or 1.
-+     */
-+    return el == 0 ?
-+        FIELD_EX64(env->cp15.fgt_exec[FGTREG_HFGITR], HFGITR_EL2, SVC_EL0) :
-+        FIELD_EX64(env->cp15.fgt_exec[FGTREG_HFGITR], HFGITR_EL2, SVC_EL1);
++    int el = arm_current_el(env);
++    uint64_t mdcr_el2 = arm_mdcr_el2_eff(env);
++    bool mdcr_el2_tda = (mdcr_el2 & MDCR_TDA) || (mdcr_el2 & MDCR_TDE) ||
++        (arm_hcr_el2_eff(env) & HCR_TGE);
++    bool mdcr_el2_tdcc = cpu_isar_feature(aa64_fgt, env_archcpu(env)) &&
++                                          (mdcr_el2 & MDCR_TDCC);
++    bool mdcr_el3_tdcc = cpu_isar_feature(aa64_fgt, env_archcpu(env)) &&
++                                          (env->cp15.mdcr_el3 & MDCR_TDCC);
++
++    if (el < 2 && (mdcr_el2_tda || mdcr_el2_tdcc)) {
++        return CP_ACCESS_TRAP_EL2;
++    }
++    if (el < 3 && ((env->cp15.mdcr_el3 & MDCR_TDA) || mdcr_el3_tdcc)) {
++        return CP_ACCESS_TRAP_EL3;
++    }
++    return CP_ACCESS_OK;
 +}
 +
- static CPUARMTBFlags rebuild_hflags_common(CPUARMState *env, int fp_el,
-                                            ARMMMUIdx mmu_idx,
-                                            CPUARMTBFlags flags)
-@@ -11927,6 +11941,9 @@ static CPUARMTBFlags rebuild_hflags_a32(CPUARMState *env, int fp_el,
- 
-     if (arm_fgt_active(env, el)) {
-         DP_TBFLAG_ANY(flags, FGT_ACTIVE, 1);
-+        if (fgt_svc(env, el)) {
-+            DP_TBFLAG_ANY(flags, FGT_SVC, 1);
-+        }
-     }
- 
-     if (env->uncached_cpsr & CPSR_IL) {
-@@ -12068,6 +12085,9 @@ static CPUARMTBFlags rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
-         if (FIELD_EX64(env->cp15.fgt_exec[FGTREG_HFGITR], HFGITR_EL2, ERET)) {
-             DP_TBFLAG_A64(flags, FGT_ERET, 1);
-         }
-+        if (fgt_svc(env, el)) {
-+            DP_TBFLAG_ANY(flags, FGT_SVC, 1);
-+        }
-     }
- 
-     if (cpu_isar_feature(aa64_mte, env_archcpu(env))) {
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 11bfa3f717a..bbfadb7c2e8 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -2179,6 +2179,7 @@ static void disas_exc(DisasContext *s, uint32_t insn)
-     int opc = extract32(insn, 21, 3);
-     int op2_ll = extract32(insn, 0, 5);
-     int imm16 = extract32(insn, 5, 16);
-+    uint32_t syndrome;
- 
-     switch (opc) {
-     case 0:
-@@ -2189,8 +2190,13 @@ static void disas_exc(DisasContext *s, uint32_t insn)
-          */
-         switch (op2_ll) {
-         case 1:                                                     /* SVC */
-+            syndrome = syn_aa64_svc(imm16);
-+            if (s->fgt_svc) {
-+                gen_exception_insn_el(s, 0, EXCP_UDEF, syndrome, 2);
-+                break;
-+            }
-             gen_ss_advance(s);
--            gen_exception_insn(s, 4, EXCP_SWI, syn_aa64_svc(imm16));
-+            gen_exception_insn(s, 4, EXCP_SWI, syndrome);
-             break;
-         case 2:                                                     /* HVC */
-             if (s->current_el == 0) {
-@@ -14751,6 +14757,7 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
-     dc->align_mem = EX_TBFLAG_ANY(tb_flags, ALIGN_MEM);
-     dc->pstate_il = EX_TBFLAG_ANY(tb_flags, PSTATE__IL);
-     dc->fgt_active = EX_TBFLAG_ANY(tb_flags, FGT_ACTIVE);
-+    dc->fgt_svc = EX_TBFLAG_ANY(tb_flags, FGT_SVC);
-     dc->fgt_eret = EX_TBFLAG_A64(tb_flags, FGT_ERET);
-     dc->sve_excp_el = EX_TBFLAG_A64(tb_flags, SVEEXC_EL);
-     dc->sme_excp_el = EX_TBFLAG_A64(tb_flags, SMEEXC_EL);
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 3f51dc6a6bf..c23a3462bfc 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -8834,9 +8834,14 @@ static bool trans_SVC(DisasContext *s, arg_SVC *a)
-         (a->imm == semihost_imm)) {
-         gen_exception_internal_insn(s, EXCP_SEMIHOST);
-     } else {
--        gen_update_pc(s, curr_insn_len(s));
--        s->svc_imm = a->imm;
--        s->base.is_jmp = DISAS_SWI;
-+        if (s->fgt_svc) {
-+            uint32_t syndrome = syn_aa32_svc(a->imm, s->thumb);
-+            gen_exception_insn_el(s, 0, EXCP_UDEF, syndrome, 2);
-+        } else {
-+            gen_update_pc(s, curr_insn_len(s));
-+            s->svc_imm = a->imm;
-+            s->base.is_jmp = DISAS_SWI;
-+        }
-     }
-     return true;
- }
-@@ -9417,6 +9422,7 @@ static void arm_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     dc->align_mem = EX_TBFLAG_ANY(tb_flags, ALIGN_MEM);
-     dc->pstate_il = EX_TBFLAG_ANY(tb_flags, PSTATE__IL);
-     dc->fgt_active = EX_TBFLAG_ANY(tb_flags, FGT_ACTIVE);
-+    dc->fgt_svc = EX_TBFLAG_ANY(tb_flags, FGT_SVC);
- 
-     if (arm_feature(env, ARM_FEATURE_M)) {
-         dc->vfp_enabled = 1;
+ static void oslar_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                         uint64_t value)
+ {
+@@ -681,7 +708,7 @@ static const ARMCPRegInfo debug_cp_reginfo[] = {
+      */
+     { .name = "MDCCSR_EL0", .state = ARM_CP_STATE_AA64,
+       .opc0 = 2, .opc1 = 3, .crn = 0, .crm = 1, .opc2 = 0,
+-      .access = PL0_R, .accessfn = access_tda,
++      .access = PL0_R, .accessfn = access_tdcc,
+       .type = ARM_CP_CONST, .resetvalue = 0 },
+     /*
+      * OSDTRRX_EL1/OSDTRTX_EL1 are used for save and restore of DBGDTRRX_EL0.
+@@ -689,11 +716,11 @@ static const ARMCPRegInfo debug_cp_reginfo[] = {
+      */
+     { .name = "OSDTRRX_EL1", .state = ARM_CP_STATE_BOTH, .cp = 14,
+       .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 0, .opc2 = 2,
+-      .access = PL1_RW, .accessfn = access_tda,
++      .access = PL1_RW, .accessfn = access_tdcc,
+       .type = ARM_CP_CONST, .resetvalue = 0 },
+     { .name = "OSDTRTX_EL1", .state = ARM_CP_STATE_BOTH, .cp = 14,
+       .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 3, .opc2 = 2,
+-      .access = PL1_RW, .accessfn = access_tda,
++      .access = PL1_RW, .accessfn = access_tdcc,
+       .type = ARM_CP_CONST, .resetvalue = 0 },
+     /*
+      * OSECCR_EL1 provides a mechanism for an operating system
+@@ -757,7 +784,7 @@ static const ARMCPRegInfo debug_cp_reginfo[] = {
+      */
+     { .name = "MDCCINT_EL1", .state = ARM_CP_STATE_BOTH,
+       .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 2, .opc2 = 0,
+-      .access = PL1_RW, .accessfn = access_tda,
++      .access = PL1_RW, .accessfn = access_tdcc,
+       .type = ARM_CP_NOP },
+     /*
+      * Dummy DBGCLAIM registers.
 -- 
 2.34.1
 
