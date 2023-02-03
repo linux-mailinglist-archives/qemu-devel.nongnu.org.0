@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207A1689BFD
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:37:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C2BB689B9E
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:31:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNx4j-0006tn-6K; Fri, 03 Feb 2023 09:30:01 -0500
+	id 1pNx4l-0006ua-FF; Fri, 03 Feb 2023 09:30:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNx4Y-0006hi-L2
+ id 1pNx4Y-0006hk-M4
  for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:29:52 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNx4Q-00055e-Ky
+ id 1pNx4Q-00055s-LH
  for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:29:47 -0500
-Received: by mail-wm1-x329.google.com with SMTP id q8so3999859wmo.5
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 06:29:39 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id bg26so4031501wmb.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 06:29:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=vEB5hK/P/E0Hi1gXCAfQiABUckdVC9FZuTnsRmpcDkM=;
- b=IHm8AL62XXf9/K1Iz4qp8f9mZWq1GzrGp4pOcSlPYF6xj4wxPeUhvouyb5O7AV//Wm
- QpL9qdH1cTjzwvCzUhQHjXbKQCPEZVcB542h3dAfa3Y8CiDVCzxXVAJ0K1ELv2X1Muih
- BKtYT2zwM+OnQasHF5OkfSCsc6Uwz+XDGNEqR/maOHyAXfEcHaAhVsxKORxsuzU0HwzT
- G5uhEEUXDgfOtBWOpgWc7wlFNgxZil1qZBJvxgbGJVzKBA4OT3k5xaRJTRp2501GE24f
- RI5BnUxSmN5vZjhHmN1PdG8mZw1diOSgSDCTWnqPf6SUK9CWVjg7+aFweZfoVkaOt0m4
- Ch5w==
+ :reply-to; bh=YcRN5KzcgPE4Jkd8YcnXRx6q8ttqJHp+NRxt/dZGyyI=;
+ b=AbmdDGlk4qmqgcQbJscQpMSnhttNdRoip+D2y16lovjDZPzYFzkPqAtdvXMuR6QmI2
+ CCsUHkB8drSsH/wm47WKZ5UmQRPDWxqIes9tS53ZGCoqi3RJp6EiRAz42FRlFD0pM9Mr
+ tt4gOlXwc6yfAGETWXtxjUWawk1rjpB9iaM7DDySdEgwhflZU+oVBfPE3Tjeny96EFuP
+ +0ZWH0ZsdHd5XQm4EGqTe+IF/J0/eC+4axy+s9mUPkquTeTiczgk7F9Mmy90vY6TbFPr
+ 9IQO2hmJlRTwlfD95vajkJJGS6pHBfbnnxVzRyQ0jVeXSxrYTdXw28utlWJamdDyNIvX
+ Ek1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vEB5hK/P/E0Hi1gXCAfQiABUckdVC9FZuTnsRmpcDkM=;
- b=Lh0VstW72dSZTM12AckiYV4UANbRIaHyAOUlSP+dDc4ZBGTbQiufOAUj490172nPD2
- UsFas9v6O6Jq3iy+JaZfsCMMQOreVnMJqhJAWGOMCfYK0NSsw1sKRqviJoiZy4CHtq0+
- chFGHU3M69rDdd9bb41k6u5OykKFGfIZey+p7Yh7WTvkIWihSD7SRroB9SRwC687WJ8V
- Z8kqottPjfV+Ma2vEn1J9JQzfEvsftDuDwFzXABhM8Fp/dBCXBcbSM4srbciWu2FhTYg
- ET3TyFYPtoS760oQRR7KPxC70TAfygjLRuVOU4E7x5Nao+cPRXCJG0OLJbk/KOoOJ285
- fvgw==
-X-Gm-Message-State: AO0yUKXB6cosBEt/GL5iDrF+FrG58Y/A2M4DktoJa5oX19ojDW9DBfsP
- YFjZrozKDLYow8JV53mwkpCoYsfEFqGwWUu6
-X-Google-Smtp-Source: AK7set/QfZL7Jb7+Sp3FlWxdERj2O3xPFEMqRof+zyHI7Jz/RK/94ZNuif1QbQE1WEMJzOkLkoPOxg==
-X-Received: by 2002:a05:600c:3d90:b0:3df:eedf:df32 with SMTP id
- bi16-20020a05600c3d9000b003dfeedfdf32mr162829wmb.17.1675434578414; 
- Fri, 03 Feb 2023 06:29:38 -0800 (PST)
+ bh=YcRN5KzcgPE4Jkd8YcnXRx6q8ttqJHp+NRxt/dZGyyI=;
+ b=oXWnyxlrHqZm36A3+CqyiKzRh/SeK0ZpugqOQPtf1xRSGvUebXsnuNPplfLrb1yX6k
+ yT8GwbeWPNHFNJlyaVWwwbsZ7IdqqjITFSkoURfPdte1NTu6F4qKnwpkNXqWl9Z1GyAY
+ BliOdZhJ/8EwBAgqYEZoJb0zFOwr8b7+WKABR9IboOKk5QkmP7bEHOsp9c1LunKq54fe
+ R9L1ZFR8fAx5fM34ExSVYoueO+mElp5hlxmTkqDhO/9YcpDHYVI/lj3ExzbsP/wdTJdW
+ xZKNfbiM9PPSKtfa+bdsOw12AgT/f0qDCv6/rMojE04ztr7Clo2s9rDfHot7LEXspHAw
+ kSOQ==
+X-Gm-Message-State: AO0yUKVpSRiz2yS+sKKlpUtaaAxpjs2Z9UCj7O+Guy418+1boGqNViZt
+ QdNOSvk+HPXr5oYp8tz2qUhwakd2xybLPWIO
+X-Google-Smtp-Source: AK7set8PEXYQMtNd2hSFgwZGWppNtm5XooC8mntXQDuDVCYGQFwVFlYsdzJOiflq1QcQGH8Q0bK0/g==
+X-Received: by 2002:a05:600c:4ec7:b0:3dc:5e0d:4ce7 with SMTP id
+ g7-20020a05600c4ec700b003dc5e0d4ce7mr9786650wmq.11.1675434579209; 
+ Fri, 03 Feb 2023 06:29:39 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- j14-20020a05600c130e00b003df241f52e8sm2578492wmf.42.2023.02.03.06.29.37
+ j14-20020a05600c130e00b003df241f52e8sm2578492wmf.42.2023.02.03.06.29.38
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Feb 2023 06:29:37 -0800 (PST)
+ Fri, 03 Feb 2023 06:29:38 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/33] target/arm: Name AT_S1E1RP and AT_S1E1WP cpregs correctly
-Date: Fri,  3 Feb 2023 14:29:05 +0000
-Message-Id: <20230203142927.834793-12-peter.maydell@linaro.org>
+Subject: [PULL 12/33] target/arm: Correct syndrome for ATS12NSO* at Secure EL1
+Date: Fri,  3 Feb 2023 14:29:06 +0000
+Message-Id: <20230203142927.834793-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230203142927.834793-1-peter.maydell@linaro.org>
 References: <20230203142927.834793-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,41 +88,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The encodings 0,0,C7,C9,0 and 0,0,C7,C9,1 are AT SP1E1RP and AT
-S1E1WP, but our ARMCPRegInfo definitions for them incorrectly name
-them AT S1E1R and AT S1E1W (which are entirely different
-instructions).  Fix the names.
+The AArch32 ATS12NSO* address translation operations are supposed to
+trap to either EL2 or EL3 if they're executed at Secure EL1 (which
+can only happen if EL3 is AArch64).  We implement this, but we got
+the syndrome value wrong: like other traps to EL2 or EL3 on an
+AArch32 cpreg access, they should report the 0x3 syndrome, not the
+0x0 'uncategorized' syndrome.  This is clear in the access pseudocode
+for these instructions.
 
-(This has no guest-visible effect as the names are for debug purposes
-only.)
+Fix the syndrome value for these operations by correcting the
+returned value from the ats_access() function.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Tested-by: Fuad Tabba <tabba@google.com>
-Message-id: 20230130182459.3309057-2-peter.maydell@linaro.org
-Message-id: 20230127175507.2895013-2-peter.maydell@linaro.org
+Message-id: 20230130182459.3309057-3-peter.maydell@linaro.org
+Message-id: 20230127175507.2895013-3-peter.maydell@linaro.org
 ---
  target/arm/helper.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 72b37b7cf17..ccb7d1e1712 100644
+index ccb7d1e1712..6f6772d8e04 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -7734,11 +7734,11 @@ static const ARMCPRegInfo vhe_reginfo[] = {
- 
- #ifndef CONFIG_USER_ONLY
- static const ARMCPRegInfo ats1e1_reginfo[] = {
--    { .name = "AT_S1E1R", .state = ARM_CP_STATE_AA64,
-+    { .name = "AT_S1E1RP", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 9, .opc2 = 0,
-       .access = PL1_W, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC,
-       .writefn = ats_write64 },
--    { .name = "AT_S1E1W", .state = ARM_CP_STATE_AA64,
-+    { .name = "AT_S1E1WP", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 9, .opc2 = 1,
-       .access = PL1_W, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC,
-       .writefn = ats_write64 },
+@@ -3284,9 +3284,9 @@ static CPAccessResult ats_access(CPUARMState *env, const ARMCPRegInfo *ri,
+         if (arm_current_el(env) == 1) {
+             if (arm_is_secure_below_el3(env)) {
+                 if (env->cp15.scr_el3 & SCR_EEL2) {
+-                    return CP_ACCESS_TRAP_UNCATEGORIZED_EL2;
++                    return CP_ACCESS_TRAP_EL2;
+                 }
+-                return CP_ACCESS_TRAP_UNCATEGORIZED_EL3;
++                return CP_ACCESS_TRAP_EL3;
+             }
+             return CP_ACCESS_TRAP_UNCATEGORIZED;
+         }
 -- 
 2.34.1
 
