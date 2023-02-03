@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F16FC68A142
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 19:10:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C53068A148
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 19:11:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pO0WS-0002lu-7S; Fri, 03 Feb 2023 13:10:52 -0500
+	id 1pO0WW-0003Bt-0O; Fri, 03 Feb 2023 13:10:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO0WQ-0002bO-4C
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:10:50 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO0WU-00033W-5e
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:10:54 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO0WM-0000kr-Uc
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:10:49 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id r27so1578685wrr.1
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 10:10:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO0WR-0008VF-Dx
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:10:53 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ c4-20020a1c3504000000b003d9e2f72093so6605768wma.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 10:10:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KssFyaPm059TI8uO1WBCvVEy7+56aC9XzP9/EK8Uaa0=;
- b=zMPSlq0BOs6EJa6ya9h0GgTxlS9MJw59qUI718cglBA2nlAKPeWBUbxRKMYxgtit5M
- TawBRE85lkIN93SIh366mzT0p3z61yPhxhiQfHdnGmmMWTkihylXs023/PA+NMbERVhD
- S4AUQlwNtJ93lh4sbna63930gPNTTJIrh0bVeEh7fIx1EyaJgfVkpkX/I9oXdGhSwLyN
- eJltEKexUAgPdOZ2syswY0F6/HmETvckx86ujIE4L43Bd21VSFpRljNj7YS0PCcZF3z8
- O4DIyxC2pa7BwGJc5N4tVaYF8LR+YKQW5/HQe0GCTpPD5eWArOxuBBMpzUjQP/CzmtaU
- jqgg==
+ bh=G/uz1xCSDOP+6dyc1BIJtE4kgUr4oayD/9Q5I8vW7Pg=;
+ b=rs57IDWy4ex+nQZQeb0ZdIEk31Xy11/nJRW20rReogKUl4KeTcl3cc8D8LgRDr/zB+
+ u1xu9JIMluXipYjm6yV9E/vCM1QV81BfzX0tAdIVcQnw3SCt52ft5tbmv43LCl6DvtTH
+ +QXN/gSlICEsSY7Anmepv49+d8lBSk9UIxVr0gIISD9X1Ok3aWpRr7HtqqsuJSk7XLTn
+ fVD6/NnMCZOT/f2RbzUvvj+eDfPcB+/4tofTKLsSRibABiwE6rlqpTGNK5Eo76e31gJO
+ dbSu47RseekPIV/lwoCjG8G/2gpwb7R4RXsh7j//TXCxI5TY2cP0XC26agoEOcURnJlX
+ nvQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KssFyaPm059TI8uO1WBCvVEy7+56aC9XzP9/EK8Uaa0=;
- b=zgWbhBX/nFMIrpGFNS9fmsyMjbx8ODGdvMqIvHiCv9J202zTrcG2EqYPkdS9QfnXyA
- nsUCqmUnULgD5Cvqx5RULjnXFd/URvCDLg+4U8xhYCEl+P73RFLL+ysabMzvZ6TYlMye
- EiGTzyjbL/BY88DTpz2KH5MPuqU/B34S3uJUrl4dniYsO3yb2nV6X10c4ETrmbmwM1qd
- 7JY3o4dHME2txr0wP6A/B0YQqBnoQlZVToOUQjeWq51oYnLFL2c8W1skZn90Eeky95/D
- m37HDr1wu/45+PHJLCgRyFwBs+OPk5tmtB/Dtmn31t3ZULRKcuSbYKXlWisHijQqHEll
- yhfQ==
-X-Gm-Message-State: AO0yUKXSa0sCh2yYr9mVcuwKP/N0ZnG9vLPDpAMPzgPXnuZgCprzWogA
- UZEgL3TeIKigAViouBr0CbagEVLbPJTGLOxX
-X-Google-Smtp-Source: AK7set9kDm860Q2jniyjpu+V5HDq3cgShGFlMDbAUHFNqPTzo/CMJ6zB8uV4xKfU6OmLTZxxLkLGPg==
-X-Received: by 2002:a05:6000:3cb:b0:2bf:e766:90f4 with SMTP id
- b11-20020a05600003cb00b002bfe76690f4mr10770428wrg.68.1675447845316; 
- Fri, 03 Feb 2023 10:10:45 -0800 (PST)
+ bh=G/uz1xCSDOP+6dyc1BIJtE4kgUr4oayD/9Q5I8vW7Pg=;
+ b=VZ37ATrOMwUfu8SDCLASDRUvt9C/LPuKHGaqP9E6i96u+e1E2kc3S0e9NDP21sPno7
+ 5J+IxzeIVWfY4bYsuJeKB9BTJTas9HnP3NYby0gmN0ecQpTJ2ZA1EfyzJPH0RjCu8b8T
+ tMu6nvKcVB7FFU4Jv7Lc2gH+R8vVIYKRJC8M2EsyYi8FeK0EcvwmcJpFkhD17QVxBioo
+ FoaQqllPJSra+E+7423j2DHoeeJujKTuEAm7gsSElPn7Kp/9kIicvu83vS2YdzoZbzjp
+ KNPNmP4KT7XsSU3BXAeWMZyPg9IijTnZ1iy4G6a0rqBFb19KRlDuLaXD4CfmElXtV42Y
+ YsxQ==
+X-Gm-Message-State: AO0yUKVPuQhTrkqIP7SdkYmCMVtmAxSWVs67Mao+244PVsbbPO6WUfob
+ eLi6MCQPA7Bdrx1Oovw3O6/hxChLODqG0uY8
+X-Google-Smtp-Source: AK7set/UQPHJbaivQObW3mjose4JOUwmr7paKMilq0UeHRneB+SQcpqKao3IOC5rr9sj8rTstH09aA==
+X-Received: by 2002:a05:600c:5543:b0:3df:5eb:828c with SMTP id
+ iz3-20020a05600c554300b003df05eb828cmr4955707wmb.32.1675447850564; 
+ Fri, 03 Feb 2023 10:10:50 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- e23-20020a5d5957000000b002366e3f1497sm2567804wri.6.2023.02.03.10.10.44
+ f21-20020a05600c43d500b003dc0cb5e3f1sm3231511wmn.46.2023.02.03.10.10.49
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 03 Feb 2023 10:10:44 -0800 (PST)
+ Fri, 03 Feb 2023 10:10:50 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Markus Armbruster <armbru@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>, qemu-riscv@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Vijai Kumar K <vijai@behindbytes.com>
-Subject: [RFC PATCH 17/19] hw/riscv: Set QDev properties using QDev API
-Date: Fri,  3 Feb 2023 19:09:12 +0100
-Message-Id: <20230203180914.49112-18-philmd@linaro.org>
+ Yoshinori Sato <ysato@users.sourceforge.jp>
+Subject: [PATCH 18/19] hw/rx: Set QDev properties using QDev API
+Date: Fri,  3 Feb 2023 19:09:13 +0100
+Message-Id: <20230203180914.49112-19-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230203180914.49112-1-philmd@linaro.org>
 References: <20230203180914.49112-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,179 +98,38 @@ its properties.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/riscv/microchip_pfsoc.c |  8 ++++----
- hw/riscv/opentitan.c       |  9 +++------
- hw/riscv/shakti_c.c        |  7 +++----
- hw/riscv/sifive_e.c        |  8 +++-----
- hw/riscv/sifive_u.c        |  9 +++------
- hw/riscv/spike.c           | 10 ++++------
- hw/riscv/virt.c            |  9 +++------
- 7 files changed, 23 insertions(+), 37 deletions(-)
+ hw/rx/rx-gdbsim.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index 82ae5e7023..ff6c4b0471 100644
---- a/hw/riscv/microchip_pfsoc.c
-+++ b/hw/riscv/microchip_pfsoc.c
-@@ -423,16 +423,16 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-         qdev_set_nic_properties(DEVICE(&s->gem1), nd);
-     }
- 
--    object_property_set_int(OBJECT(&s->gem0), "revision", GEM_REVISION, errp);
--    object_property_set_int(OBJECT(&s->gem0), "phy-addr", 8, errp);
-+    qdev_prop_set_uint32(DEVICE(&s->gem0), "revision", GEM_REVISION);
-+    qdev_prop_set_uint8(DEVICE(&s->gem0), "phy-addr", 8);
-     sysbus_realize(SYS_BUS_DEVICE(&s->gem0), errp);
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->gem0), 0,
-                     memmap[MICROCHIP_PFSOC_GEM0].base);
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->gem0), 0,
-         qdev_get_gpio_in(DEVICE(s->plic), MICROCHIP_PFSOC_GEM0_IRQ));
- 
--    object_property_set_int(OBJECT(&s->gem1), "revision", GEM_REVISION, errp);
--    object_property_set_int(OBJECT(&s->gem1), "phy-addr", 9, errp);
-+    qdev_prop_set_uint32(DEVICE(&s->gem1), "revision", GEM_REVISION);
-+    qdev_prop_set_uint8(DEVICE(&s->gem1), "phy-addr", 9);
-     sysbus_realize(SYS_BUS_DEVICE(&s->gem1), errp);
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->gem1), 0,
-                     memmap[MICROCHIP_PFSOC_GEM1].base);
-diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index 64d5d435b9..f69db8c31e 100644
---- a/hw/riscv/opentitan.c
-+++ b/hw/riscv/opentitan.c
-@@ -145,12 +145,9 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
-     MemoryRegion *sys_mem = get_system_memory();
-     int i;
- 
--    object_property_set_str(OBJECT(&s->cpus), "cpu-type", ms->cpu_type,
--                            &error_abort);
--    object_property_set_int(OBJECT(&s->cpus), "num-harts", ms->smp.cpus,
--                            &error_abort);
--    object_property_set_int(OBJECT(&s->cpus), "resetvec", s->resetvec,
--                            &error_abort);
-+    qdev_prop_set_string(DEVICE(&s->cpus), "cpu-type", ms->cpu_type);
-+    qdev_prop_set_uint32(DEVICE(&s->cpus), "num-harts", ms->smp.cpus);
-+    qdev_prop_set_uint64(DEVICE(&s->cpus), "resetvec", s->resetvec);
-     sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_fatal);
- 
-     /* Boot ROM */
-diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
-index e43cc9445c..32d3d7cbab 100644
---- a/hw/riscv/shakti_c.c
-+++ b/hw/riscv/shakti_c.c
-@@ -168,10 +168,9 @@ static void shakti_c_soc_instance_init(Object *obj)
-      * So let it be in instance_init. When supported should use ms->cpu_type
-      * instead of TYPE_RISCV_CPU_SHAKTI_C
-      */
--    object_property_set_str(OBJECT(&sss->cpus), "cpu-type",
--                            TYPE_RISCV_CPU_SHAKTI_C, &error_abort);
--    object_property_set_int(OBJECT(&sss->cpus), "num-harts", 1,
--                            &error_abort);
-+    qdev_prop_set_string(DEVICE(&sss->cpus), "cpu-type",
-+                         TYPE_RISCV_CPU_SHAKTI_C);
-+    qdev_prop_set_uint32(DEVICE(&sss->cpus), "num-harts", 1);
- }
- 
- static const TypeInfo shakti_c_type_info = {
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index 3e3f4b0088..0f5dfc5f3d 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -178,9 +178,8 @@ static void sifive_e_soc_init(Object *obj)
-     SiFiveESoCState *s = RISCV_E_SOC(obj);
- 
-     object_initialize_child(obj, "cpus", &s->cpus, TYPE_RISCV_HART_ARRAY);
--    object_property_set_int(OBJECT(&s->cpus), "num-harts", ms->smp.cpus,
--                            &error_abort);
--    object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x1004, &error_abort);
-+    qdev_prop_set_uint32(DEVICE(&s->cpus), "num-harts", ms->smp.cpus);
-+    qdev_prop_set_uint64(DEVICE(&s->cpus), "resetvec", 0x1004);
-     object_initialize_child(obj, "riscv.sifive.e.gpio0", &s->gpio,
-                             TYPE_SIFIVE_GPIO);
- }
-@@ -192,8 +191,7 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
-     SiFiveESoCState *s = RISCV_E_SOC(dev);
-     MemoryRegion *sys_mem = get_system_memory();
- 
--    object_property_set_str(OBJECT(&s->cpus), "cpu-type", ms->cpu_type,
--                            &error_abort);
-+    qdev_prop_set_string(DEVICE(&s->cpus), "cpu-type", ms->cpu_type);
-     sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_fatal);
- 
-     /* Mask ROM */
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 2fb6ee231f..97f504d011 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -540,10 +540,8 @@ static void sifive_u_machine_init(MachineState *machine)
- 
-     /* Initialize SoC */
-     object_initialize_child(OBJECT(machine), "soc", &s->soc, TYPE_RISCV_U_SOC);
--    object_property_set_uint(OBJECT(&s->soc), "serial", s->serial,
--                             &error_abort);
--    object_property_set_str(OBJECT(&s->soc), "cpu-type", machine->cpu_type,
--                             &error_abort);
-+    qdev_prop_set_uint32(DEVICE(&s->soc), "serial", s->serial);
-+    qdev_prop_set_string(DEVICE(&s->soc), "cpu-type", machine->cpu_type);
-     qdev_realize(DEVICE(&s->soc), NULL, &error_fatal);
- 
-     /* register RAM */
-@@ -905,8 +903,7 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-         qemu_check_nic_model(nd, TYPE_CADENCE_GEM);
-         qdev_set_nic_properties(DEVICE(&s->gem), nd);
-     }
--    object_property_set_int(OBJECT(&s->gem), "revision", GEM_REVISION,
--                            &error_abort);
-+    qdev_prop_set_uint32(DEVICE(&s->gem), "revision", GEM_REVISION);
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->gem), errp)) {
-         return;
-     }
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index badc11ec43..328278d820 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
+diff --git a/hw/rx/rx-gdbsim.c b/hw/rx/rx-gdbsim.c
+index 47c17026c7..5d50f36877 100644
+--- a/hw/rx/rx-gdbsim.c
++++ b/hw/rx/rx-gdbsim.c
+@@ -21,6 +21,7 @@
  #include "qemu/error-report.h"
+ #include "qemu/guest-random.h"
  #include "qapi/error.h"
 +#include "hw/qdev-properties.h"
- #include "hw/boards.h"
  #include "hw/loader.h"
- #include "hw/sysbus.h"
-@@ -238,12 +239,9 @@ static void spike_board_init(MachineState *machine)
-         object_initialize_child(OBJECT(machine), soc_name, &s->soc[i],
-                                 TYPE_RISCV_HART_ARRAY);
-         g_free(soc_name);
--        object_property_set_str(OBJECT(&s->soc[i]), "cpu-type",
--                                machine->cpu_type, &error_abort);
--        object_property_set_int(OBJECT(&s->soc[i]), "hartid-base",
--                                base_hartid, &error_abort);
--        object_property_set_int(OBJECT(&s->soc[i]), "num-harts",
--                                hart_count, &error_abort);
-+        qdev_prop_set_string(DEVICE(&s->soc[i]), "cpu-type", machine->cpu_type);
-+        qdev_prop_set_uint32(DEVICE(&s->soc[i]), "hartid-base", base_hartid);
-+        qdev_prop_set_uint32(DEVICE(&s->soc[i]), "num-harts", hart_count);
-         sysbus_realize(SYS_BUS_DEVICE(&s->soc[i]), &error_fatal);
+ #include "hw/rx/rx62n.h"
+ #include "sysemu/qtest.h"
+@@ -99,12 +100,10 @@ static void rx_gdbsim_init(MachineState *machine)
  
-         /* Core Local Interruptor (timer and IPI) for each socket */
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 4a11b4b010..0e091cb65f 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -1360,12 +1360,9 @@ static void virt_machine_init(MachineState *machine)
-         object_initialize_child(OBJECT(machine), soc_name, &s->soc[i],
-                                 TYPE_RISCV_HART_ARRAY);
-         g_free(soc_name);
--        object_property_set_str(OBJECT(&s->soc[i]), "cpu-type",
--                                machine->cpu_type, &error_abort);
--        object_property_set_int(OBJECT(&s->soc[i]), "hartid-base",
--                                base_hartid, &error_abort);
--        object_property_set_int(OBJECT(&s->soc[i]), "num-harts",
--                                hart_count, &error_abort);
-+        qdev_prop_set_string(DEVICE(&s->soc[i]), "cpu-type", machine->cpu_type);
-+        qdev_prop_set_uint32(DEVICE(&s->soc[i]), "hartid-base", base_hartid);
-+        qdev_prop_set_uint32(DEVICE(&s->soc[i]), "num-harts", hart_count);
-         sysbus_realize(SYS_BUS_DEVICE(&s->soc[i]), &error_fatal);
+     /* Initialize MCU */
+     object_initialize_child(OBJECT(machine), "mcu", &s->mcu, rxc->mcu_name);
+-    object_property_set_link(OBJECT(&s->mcu), "main-bus", OBJECT(sysmem),
+-                             &error_abort);
+-    object_property_set_uint(OBJECT(&s->mcu), "xtal-frequency-hz",
+-                             rxc->xtal_freq_hz, &error_abort);
+-    object_property_set_bool(OBJECT(&s->mcu), "load-kernel",
+-                             kernel_filename != NULL, &error_abort);
++    qdev_prop_set_link(DEVICE(&s->mcu), "main-bus", OBJECT(sysmem));
++    qdev_prop_set_uint32(DEVICE(&s->mcu), "xtal-frequency-hz",
++                         rxc->xtal_freq_hz);
++    qdev_prop_set_bit(DEVICE(&s->mcu), "load-kernel", kernel_filename != NULL);
  
-         if (!kvm_enabled()) {
+     if (!kernel_filename) {
+         if (machine->firmware) {
 -- 
 2.38.1
 
