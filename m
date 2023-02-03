@@ -2,55 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3B156892A5
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 09:49:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7565168928C
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 09:47:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNri1-0008Qk-Rx; Fri, 03 Feb 2023 03:46:13 -0500
+	id 1pNriB-0008Vo-UL; Fri, 03 Feb 2023 03:46:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhn-0008Ie-FZ
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:45:59 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhq-0008Jn-1C
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:46:03 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhk-0007TE-2H
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:45:59 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhl-0007Tt-4F
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:46:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1675413955;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=WxdxhjcpH0bHZM/aUh/C/vaCmIeSa8QBmeboH84p0uA=;
- b=foEf1+UW6hQNpo4mlDc/gv7V76gkI1z74rA2D7r//5CfLPGPocxXtABmLVrIK+5kIhrU0F
- 20zf3aOj+uN/E3xe3LNC7EqK/H+FuZWHkX/fZIpX9b7mYPuFfiujsKkEMF/aEO7L7yQ1pA
- s4B1Szd9+IgmSETMj0EPQ45a85/sMzk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TcCGMUGbBBCvYd6SubnjNYKLNtudXL10l2neCSwOqzw=;
+ b=aqRmiBc3FxaZe1x59e8p4A53wzy0NLN78IwLU2Do99yamRLGEJWVQJSRfgimoQ6mxJ8lNN
+ zXgAWTu/S1MgIlmVY21t6xWGASDIYlYuR0EKii0e8hHHRVZVriZWrqdI9C/6T6GEKR4l22
+ DaH5xr9du7YUYnd+a9bR25/fMSrUOMw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-5-1cCu-BQtOjSLKAcvRfu43g-1; Fri, 03 Feb 2023 03:45:51 -0500
-X-MC-Unique: 1cCu-BQtOjSLKAcvRfu43g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-589-h_Gb9FQmPtO51SUvinf57w-1; Fri, 03 Feb 2023 03:45:51 -0500
+X-MC-Unique: h_Gb9FQmPtO51SUvinf57w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 476B2811E9C;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2D0C33C10175;
  Fri,  3 Feb 2023 08:45:51 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D6C482166B34;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D760DC15BA0;
  Fri,  3 Feb 2023 08:45:50 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AF59721E6A1F; Fri,  3 Feb 2023 09:45:49 +0100 (CET)
+ id B0B5721E6A20; Fri,  3 Feb 2023 09:45:49 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org
-Subject: [PULL 00/35] Monitor patches for 2023-02-03
-Date: Fri,  3 Feb 2023 09:45:14 +0100
-Message-Id: <20230203084549.2622302-1-armbru@redhat.com>
+Cc: peter.maydell@linaro.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Juan Quintela <quintela@redhat.com>
+Subject: [PULL 01/35] MAINTAINERS: Cover userfaultfd
+Date: Fri,  3 Feb 2023 09:45:15 +0100
+Message-Id: <20230203084549.2622302-2-armbru@redhat.com>
+In-Reply-To: <20230203084549.2622302-1-armbru@redhat.com>
+References: <20230203084549.2622302-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -75,134 +80,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Commit 0e9b5cd6b2 "migration: introduce UFFD-WP low-level interface
+helpers" added util/userfaultfd.c without covering it in MAINTAINERS.
+Add it to section "Migration".
 
-The following changes since commit deabea6e88f7c4c3c12a36ee30051c6209561165:
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20230119091545.3116376-2-armbru@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+---
+ MAINTAINERS | 2 ++
+ 1 file changed, 2 insertions(+)
 
-  Merge tag 'for_upstream' of https://git.kernel.org/pub/scm/virt/kvm/mst/qemu into staging (2023-02-02 10:10:07 +0000)
-
-are available in the Git repository at:
-
-  https://repo.or.cz/qemu/armbru.git tags/pull-monitor-2023-02-03
-
-for you to fetch changes up to 3a1cecf486ee97d5750931f81706c6d447615f17:
-
-  monitor: Rename misc.c to hmp-target.c (2023-02-03 09:14:17 +0100)
-
-----------------------------------------------------------------
-Monitor patches for 2023-02-03
-
-----------------------------------------------------------------
-Markus Armbruster (35):
-      MAINTAINERS: Cover userfaultfd
-      MAINTAINERS: Cover include/sysemu/accel-blocker.h
-      MAINTAINERS: Cover tpm.c again
-      monitor: Drop unnecessary includes
-      audio: Move HMP commands from monitor/ to audio/
-      char: Move HMP commands from monitor/ to chardev/
-      char: Factor out qmp_add_client() parts and move to chardev/
-      hmp: Drop redundant argument check from add_completion_option()
-      readline: Extract readline_add_completion_of() from monitor
-      hmp: Rename help_cmd() to hmp_help_cmd(), move declaration to hmp.h
-      trace: Move HMP commands from monitor/ to trace/
-      machine: Move QMP commands from monitor/ to hw/core/
-      machine: Move HMP commands from monitor/ to hw/core/
-      qom: Move HMP commands from monitor/ to qom/
-      block: Factor out hmp_change_medium(), and move to block/monitor/
-      rocker: Move HMP commands from monitor to hw/net/rocker/
-      hmp: Rewrite strlist_from_comma_list() as hmp_split_at_comma()
-      net: Move HMP commands from monitor to net/
-      net: Move hmp_info_network() to net-hmp-cmds.c
-      migration: Move HMP commands from monitor/ to migration/
-      migration: Move the QMP command from monitor/ to migration/
-      virtio: Move HMP commands from monitor/ to hw/virtio/
-      tpm: Move HMP commands from monitor/ to softmmu/
-      runstate: Move HMP commands from monitor/ to softmmu/
-      stats: Move QMP commands from monitor/ to stats/
-      stats: Move HMP commands from monitor/ to stats/
-      acpi: Move the QMP command from monitor/ to hw/acpi/
-      qdev: Move HMP command completion from monitor to softmmu/
-      monitor: Split file descriptor passing stuff off misc.c
-      monitor: Move monitor_putc() next to monitor_puts & external linkage
-      monitor: Move target-dependent HMP commands to hmp-cmds-target.c
-      monitor: Move remaining HMP commands from misc.c to hmp-cmds.c
-      monitor: Move remaining QMP stuff from misc.c to qmp-cmds.c
-      monitor: Loosen coupling between misc.c and monitor.c slightly
-      monitor: Rename misc.c to hmp-target.c
-
- MAINTAINERS                          |   14 +-
- meson.build                          |    1 +
- include/monitor/hmp-target.h         |    6 +
- include/monitor/hmp.h                |   27 +
- include/monitor/monitor.h            |    1 +
- include/monitor/qmp-helpers.h        |    3 +
- include/net/net.h                    |    4 +-
- include/qemu/readline.h              |    2 +
- include/{monitor => sysemu}/stats.h  |    0
- monitor/monitor-internal.h           |    1 -
- accel/kvm/kvm-all.c                  |    2 +-
- audio/audio-hmp-cmds.c               |   83 ++
- block/monitor/block-hmp-cmds.c       |   21 +
- chardev/char-hmp-cmds.c              |  220 ++++
- chardev/char.c                       |   20 +
- hw/acpi/acpi-qmp-cmds.c              |   30 +
- hw/core/machine-hmp-cmds.c           |  208 ++++
- hw/core/machine-qmp-cmds.c           |  144 +++
- hw/net/rocker/rocker-hmp-cmds.c      |  316 +++++
- hw/virtio/virtio-hmp-cmds.c          |  321 +++++
- migration/migration-hmp-cmds.c       |  807 +++++++++++++
- migration/migration.c                |   30 +
- monitor/fds.c                        |  468 ++++++++
- monitor/hmp-cmds-target.c            |  380 ++++++
- monitor/hmp-cmds.c                   | 2181 +++-------------------------------
- monitor/hmp-target.c                 |  178 +++
- monitor/hmp.c                        |   17 +-
- monitor/misc.c                       | 1906 -----------------------------
- monitor/monitor.c                    |   30 +-
- monitor/qmp-cmds-control.c           |    1 -
- monitor/qmp-cmds.c                   |  355 +-----
- net/net-hmp-cmds.c                   |  170 +++
- net/net.c                            |   28 +-
- qom/qom-hmp-cmds.c                   |   67 ++
- softmmu/qdev-monitor.c               |   82 ++
- softmmu/runstate-hmp-cmds.c          |   82 ++
- softmmu/tpm-hmp-cmds.c               |   65 +
- stats/stats-hmp-cmds.c               |  247 ++++
- stats/stats-qmp-cmds.c               |  162 +++
- storage-daemon/qemu-storage-daemon.c |    4 +-
- trace/trace-hmp-cmds.c               |  148 +++
- util/readline.c                      |    8 +
- audio/meson.build                    |    1 +
- chardev/meson.build                  |    6 +-
- hmp-commands.hx                      |    4 +-
- hw/acpi/meson.build                  |    1 +
- hw/net/meson.build                   |    1 +
- hw/virtio/meson.build                |    1 +
- migration/meson.build                |    1 +
- monitor/meson.build                  |    4 +-
- net/meson.build                      |    1 +
- softmmu/meson.build                  |    2 +
- stats/meson.build                    |    1 +
- trace/meson.build                    |    1 +
- 54 files changed, 4577 insertions(+), 4287 deletions(-)
- rename include/{monitor => sysemu}/stats.h (100%)
- create mode 100644 audio/audio-hmp-cmds.c
- create mode 100644 chardev/char-hmp-cmds.c
- create mode 100644 hw/acpi/acpi-qmp-cmds.c
- create mode 100644 hw/net/rocker/rocker-hmp-cmds.c
- create mode 100644 hw/virtio/virtio-hmp-cmds.c
- create mode 100644 migration/migration-hmp-cmds.c
- create mode 100644 monitor/fds.c
- create mode 100644 monitor/hmp-cmds-target.c
- create mode 100644 monitor/hmp-target.c
- delete mode 100644 monitor/misc.c
- create mode 100644 net/net-hmp-cmds.c
- create mode 100644 softmmu/runstate-hmp-cmds.c
- create mode 100644 softmmu/tpm-hmp-cmds.c
- create mode 100644 stats/stats-hmp-cmds.c
- create mode 100644 stats/stats-qmp-cmds.c
- create mode 100644 trace/trace-hmp-cmds.c
- create mode 100644 stats/meson.build
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c581c11a64..5288eb8271 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3088,6 +3088,7 @@ S: Maintained
+ F: hw/core/vmstate-if.c
+ F: include/hw/vmstate-if.h
+ F: include/migration/
++F: include/qemu/userfaultfd.h
+ F: migration/
+ F: scripts/vmstate-static-checker.py
+ F: tests/vmstate-static-checker-data/
+@@ -3095,6 +3096,7 @@ F: tests/qtest/migration-test.c
+ F: docs/devel/migration.rst
+ F: qapi/migration.json
+ F: tests/migration/
++F: util/userfaultfd.c
+ 
+ D-Bus
+ M: Marc-André Lureau <marcandre.lureau@redhat.com>
 -- 
 2.39.0
 
