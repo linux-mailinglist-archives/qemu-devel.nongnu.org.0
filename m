@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A8BC68A14A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 19:11:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DF1568A155
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 19:12:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pO0Vy-000091-8O; Fri, 03 Feb 2023 13:10:22 -0500
+	id 1pO0W1-0000Ji-07; Fri, 03 Feb 2023 13:10:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO0Vu-0008EN-2J
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:10:18 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO0Vy-0000FT-Sd
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:10:22 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO0Vr-0008VI-C1
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:10:17 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id n13so4494952wmr.4
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 10:10:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO0Vw-00008H-Ho
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:10:22 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ l21-20020a05600c1d1500b003dfe462b7e4so1953613wms.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 10:10:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Ok2EOjmCsX5+0JFRDcAc0OAjSODkQVsQacDzbNlLsUU=;
- b=OOnbn6JlbCfgbp0zvxoEEPom4S1zlra/nWKhZprQuQcB93S0slNfRCPfqQhtYlnw/o
- ziKsKkqNan8Vfv5imJgY4Jw7CasKv/EDzEQonEC2w8VtX91IqBkBrbQ3nP0k8ECdRZlx
- R/TfnZUhQJOkSzr+x0A3B2UVWfVOIo1cRc8D80NXPEI7HiRBmb3HwYbGF64FTMn00nhx
- skysicGeHnqJcEc8skdRheNE+blwx/89csVZX37Cd7NCnnbepduw21g3mxjtenVuvuRJ
- z9yKkyA1i85aXJb3NlBkYAJlgSEMOXGsCb0pplDWz+R59y/MZoiVH4xbL5Ma0YDBj7QY
- /DJA==
+ bh=yfuxLaxqk4mVFu2bySSXnIQtU3kYxIWtg5zFBO+Mz50=;
+ b=a2cDbtTf1yr0JSUgmzqfVrifho6NBGr2pv81vlACziRCKZCTMcADLVsZJDsq3vATV6
+ klOQ2aBUa1HXDnb8ozL6nsNUcfzLYATGpd3nVVsTG5JzygjH4Dp5MVkGMv7lci2uhe+4
+ bxlvmiKr7/Subg2UBF7qvFlHYLDghmwQch0p/eT/5w707ixfpZz/Aed+p9rZn7BME7iC
+ e01GIBk0gIV/SN2xrETgiu51gAB/k4nQlMFPJkQad9MZLZt/zIXIUOUUHy+7SscZHlLX
+ NyMH9k4cVzPi+f0HdK+Ja0CKviXmM6X4M+xWiIMwFCCDTHygdoqY/4EQvOfyQZVL89Hy
+ s0NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Ok2EOjmCsX5+0JFRDcAc0OAjSODkQVsQacDzbNlLsUU=;
- b=aovGCnrfiD/wF4yRNjS8bDxh7CXDAdPQ342Iuu7PYMdseVQRoC9GKgnkeh7VmYKQ/b
- hUV71UQt9Yo8bVZ7VJO3GSCGJO5H86ApCI8rpTTS7EUjIjr/cqSNFSOmNwQ0EVu8SPfX
- Q/2cHULZ7bY1IPiJQGPrM/6EElbH++vLgkTqot4GaxeYFFWSoyW/oqSUQxoodiE730ho
- GlA2+Onu7PlAG/tLd80UkEfyLfUEj9Zt0Vhbp9IGAmOINm0EoPXF0CtHDxuN9cR+oYzG
- 9NS9kCszUz1dK4qaBRNjexZQoQWEY4Sj0kI7uCq8pv1hlWpOLrFm1egWzV/oVLT3P2tI
- BrTg==
-X-Gm-Message-State: AO0yUKXXrYLQ571fxKpDPxF/vA2AkCiv2NI+zUZnDBP97xSwAu/QBsYx
- hqZl6pvNz6GVYNNEY/eHYKBLuH8PHvmzBEcQ
-X-Google-Smtp-Source: AK7set8WLpr7q1W4zDI/xQvknkuw4cSasu+VD9XCEH2MDAA+6sXp+vYcq/1ZT3Y8feaiwmCY56CiEA==
-X-Received: by 2002:a05:600c:3d1b:b0:3db:fc3:6de4 with SMTP id
- bh27-20020a05600c3d1b00b003db0fc36de4mr10822625wmb.35.1675447813544; 
- Fri, 03 Feb 2023 10:10:13 -0800 (PST)
+ bh=yfuxLaxqk4mVFu2bySSXnIQtU3kYxIWtg5zFBO+Mz50=;
+ b=TZYxfITaoQDSpdQdXXa23pANQn/GcbWNX3QzwY7xMRMmIs8VF28xW30StugOvZJqHD
+ uANmjm5IaGIOt7pfichzylyLUKjHRbYw+rxSS43dSqI37EZjRDxeoiUcCepRAivTgAcI
+ NlCcFmxqAc8foveEosp57zKQXdXTEjqVghAWkZw9uMWt8jL6EkVfRgURMcy87jGnBNPj
+ pUDcL5wIMkxBCr5ZQcV+jBDyiaFoSHK7bljIFaX1RumUwlBYtgNZSEii+8vGrffTsTgI
+ Qzdd/GsbzMKegZ89sdtWzl3DqflVA/QHPROIJKL8/0vINCWRLS0/BtNjxkMDqJSxiyHF
+ DUiQ==
+X-Gm-Message-State: AO0yUKX/vHKy4qYoSWf7FVnXwrWa2DAxkqKLXy8/HhsFzoylFbBL9mR1
+ ndygrT+gIAn0G8stxnO2YvG6pZTbmS6nop6K
+X-Google-Smtp-Source: AK7set8pGePFrz7QezpMto3RsCMpIJFTm8pBFGrnEFlp+HT5v9w4+7AT81PD0MKjcKUhegpIrrMgTA==
+X-Received: by 2002:a05:600c:4fcb:b0:3dd:e38b:a12f with SMTP id
+ o11-20020a05600c4fcb00b003dde38ba12fmr5088912wmq.40.1675447818832; 
+ Fri, 03 Feb 2023 10:10:18 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- m5-20020a7bcb85000000b003de8a1b06c0sm8588291wmi.7.2023.02.03.10.10.11
+ u1-20020a05600c00c100b003a3442f1229sm8356415wmm.29.2023.02.03.10.10.17
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 03 Feb 2023 10:10:13 -0800 (PST)
+ Fri, 03 Feb 2023 10:10:18 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Markus Armbruster <armbru@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>, qemu-riscv@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Helge Deller <deller@gmx.de>
-Subject: [PATCH 11/19] hw/hppa: Set QDev properties using QDev API
-Date: Fri,  3 Feb 2023 19:09:06 +0100
-Message-Id: <20230203180914.49112-12-philmd@linaro.org>
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ David Hildenbrand <david@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>
+Subject: [RFC PATCH 12/19] hw/i386: Set QDev properties using QDev API
+Date: Fri,  3 Feb 2023 19:09:07 +0100
+Message-Id: <20230203180914.49112-13-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230203180914.49112-1-philmd@linaro.org>
 References: <20230203180914.49112-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,23 +103,205 @@ its properties.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/hppa/machine.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/i386/pc.c           |  8 +++-----
+ hw/i386/pc_q35.c       | 25 +++++++++++--------------
+ hw/i386/sgx.c          |  3 +--
+ hw/i386/x86.c          | 12 ++++--------
+ hw/mem/pc-dimm.c       |  5 ++---
+ target/i386/cpu.c      |  6 ++----
+ target/i386/host-cpu.c |  7 +++----
+ 7 files changed, 26 insertions(+), 40 deletions(-)
 
-diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index de1cc7ab71..6bd6a8d722 100644
---- a/hw/hppa/machine.c
-+++ b/hw/hppa/machine.c
-@@ -166,8 +166,7 @@ static DinoState *dino_init(MemoryRegion *addr_space)
-     DeviceState *dev;
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 6e592bd969..700fdefa12 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1236,8 +1236,7 @@ static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl,
+         vmmouse = NULL;
+     }
+     if (vmmouse) {
+-        object_property_set_link(OBJECT(vmmouse), TYPE_I8042, OBJECT(i8042),
+-                                 &error_abort);
++        qdev_prop_set_link(DEVICE(vmmouse), TYPE_I8042, OBJECT(i8042));
+         isa_realize_and_unref(vmmouse, isa_bus, &error_fatal);
+     }
+     port92 = isa_create_simple(isa_bus, TYPE_PORT92);
+@@ -1538,9 +1537,8 @@ static void pc_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+         char *resv_prop_str = g_strdup_printf("0xfee00000:0xfeefffff:%d",
+                                               VIRTIO_IOMMU_RESV_MEM_T_MSI);
  
-     dev = qdev_new(TYPE_DINO_PCI_HOST_BRIDGE);
--    object_property_set_link(OBJECT(dev), "memory-as", OBJECT(addr_space),
--                             &error_fatal);
-+    qdev_prop_set_link(dev, "memory-as", OBJECT(addr_space));
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+-        object_property_set_uint(OBJECT(dev), "len-reserved-regions", 1, errp);
+-        object_property_set_str(OBJECT(dev), "reserved-regions[0]",
+-                                resv_prop_str, errp);
++        qdev_prop_set_uint32(dev, "len-reserved-regions", 1);
++        qdev_prop_set_string(dev, "reserved-regions[0]", resv_prop_str);
+         g_free(resv_prop_str);
+     }
  
-     return DINO_PCI_HOST_BRIDGE(dev);
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 66cd718b70..760efa62ca 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -118,7 +118,7 @@ static void pc_q35_init(MachineState *machine)
+     PCMachineState *pcms = PC_MACHINE(machine);
+     PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
+     X86MachineState *x86ms = X86_MACHINE(machine);
+-    Q35PCIHost *q35_host;
++    DeviceState *q35_host;
+     PCIHostState *phb;
+     PCIBus *host_bus;
+     PCIDevice *lpc;
+@@ -206,7 +206,7 @@ static void pc_q35_init(MachineState *machine)
+     }
+ 
+     /* create pci host bus */
+-    q35_host = Q35_HOST_DEVICE(qdev_new(TYPE_Q35_HOST_DEVICE));
++    q35_host = qdev_new(TYPE_Q35_HOST_DEVICE);
+ 
+     if (pcmc->pci_enabled) {
+         pci_hole64_size = object_property_get_uint(OBJECT(q35_host),
+@@ -219,18 +219,15 @@ static void pc_q35_init(MachineState *machine)
+                    pci_hole64_size);
+ 
+     object_property_add_child(qdev_get_machine(), "q35", OBJECT(q35_host));
+-    object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_RAM_MEM,
+-                             OBJECT(ram_memory), NULL);
+-    object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_PCI_MEM,
+-                             OBJECT(pci_memory), NULL);
+-    object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_SYSTEM_MEM,
+-                             OBJECT(get_system_memory()), NULL);
+-    object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_IO_MEM,
+-                             OBJECT(system_io), NULL);
+-    object_property_set_int(OBJECT(q35_host), PCI_HOST_BELOW_4G_MEM_SIZE,
+-                            x86ms->below_4g_mem_size, NULL);
+-    object_property_set_int(OBJECT(q35_host), PCI_HOST_ABOVE_4G_MEM_SIZE,
+-                            x86ms->above_4g_mem_size, NULL);
++    qdev_prop_set_link(q35_host, MCH_HOST_PROP_RAM_MEM, OBJECT(ram_memory));
++    qdev_prop_set_link(q35_host, MCH_HOST_PROP_PCI_MEM, OBJECT(pci_memory));
++    qdev_prop_set_link(q35_host, MCH_HOST_PROP_IO_MEM, OBJECT(system_io));
++    qdev_prop_set_link(q35_host, MCH_HOST_PROP_SYSTEM_MEM,
++                       OBJECT(get_system_memory()));
++    qdev_prop_set_uint64(q35_host, PCI_HOST_BELOW_4G_MEM_SIZE,
++                         x86ms->below_4g_mem_size);
++    qdev_prop_set_uint64(q35_host, PCI_HOST_ABOVE_4G_MEM_SIZE,
++                         x86ms->above_4g_mem_size);
+     /* pci */
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(q35_host), &error_fatal);
+     phb = PCI_HOST_BRIDGE(q35_host);
+diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
+index 6a729bff94..196fa5afee 100644
+--- a/hw/i386/sgx.c
++++ b/hw/i386/sgx.c
+@@ -304,8 +304,7 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
+         object_property_parse(OBJECT(dev), SGX_EPC_MEMDEV_PROP,
+                               list->value->memdev, &error_fatal);
+         /* set the numa node property for sgx epc object */
+-        object_property_set_uint(OBJECT(dev), SGX_EPC_NUMA_NODE_PROP,
+-                                 list->value->node, &error_fatal);
++        qdev_prop_set_uint32(dev, SGX_EPC_NUMA_NODE_PROP, list->value->node);
+         qdev_realize_and_unref(dev, NULL, &error_fatal);
+     }
+ 
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index eaff4227bd..191a8c36ee 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -43,6 +43,7 @@
+ #include "sysemu/xen.h"
+ #include "trace.h"
+ 
++#include "hw/qdev-properties.h"
+ #include "hw/i386/x86.h"
+ #include "target/i386/cpu.h"
+ #include "hw/i386/topology.h"
+@@ -96,15 +97,10 @@ uint32_t x86_cpu_apic_id_from_index(X86MachineState *x86ms,
+ 
+ void x86_cpu_new(X86MachineState *x86ms, int64_t apic_id, Error **errp)
+ {
+-    Object *cpu = object_new(MACHINE(x86ms)->cpu_type);
++    DeviceState *cpu = DEVICE(object_new(MACHINE(x86ms)->cpu_type));
+ 
+-    if (!object_property_set_uint(cpu, "apic-id", apic_id, errp)) {
+-        goto out;
+-    }
+-    qdev_realize(DEVICE(cpu), NULL, errp);
+-
+-out:
+-    object_unref(cpu);
++    qdev_prop_set_uint32(cpu, "apic-id", apic_id);
++    qdev_realize(cpu, NULL, errp);
+ }
+ 
+ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
+diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
+index 50ef83215c..d6e0c8b680 100644
+--- a/hw/mem/pc-dimm.c
++++ b/hw/mem/pc-dimm.c
+@@ -66,8 +66,7 @@ void pc_dimm_pre_plug(PCDIMMDevice *dimm, MachineState *machine,
+         error_propagate(errp, local_err);
+         return;
+     }
+-    object_property_set_int(OBJECT(dimm), PC_DIMM_SLOT_PROP, slot,
+-                            &error_abort);
++    qdev_prop_set_int32(DEVICE(dimm), PC_DIMM_SLOT_PROP, slot);
+     trace_mhp_pc_dimm_assigned_slot(slot);
+ 
+     memory_device_pre_plug(MEMORY_DEVICE(dimm), machine, legacy_align,
+@@ -234,7 +233,7 @@ static uint64_t pc_dimm_md_get_addr(const MemoryDeviceState *md)
+ static void pc_dimm_md_set_addr(MemoryDeviceState *md, uint64_t addr,
+                                 Error **errp)
+ {
+-    object_property_set_uint(OBJECT(md), PC_DIMM_ADDR_PROP, addr, errp);
++    qdev_prop_set_uint64(DEVICE(md), PC_DIMM_ADDR_PROP, addr);
+ }
+ 
+ static MemoryRegion *pc_dimm_md_get_memory_region(MemoryDeviceState *md,
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 4d2b8d0444..5532cd42c5 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5073,10 +5073,8 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
+      */
+ 
+     /* CPU models only set _minimum_ values for level/xlevel: */
+-    object_property_set_uint(OBJECT(cpu), "min-level", def->level,
+-                             &error_abort);
+-    object_property_set_uint(OBJECT(cpu), "min-xlevel", def->xlevel,
+-                             &error_abort);
++    qdev_prop_set_uint32(DEVICE(cpu), "min-level", def->level);
++    qdev_prop_set_uint32(DEVICE(cpu), "min-xlevel", def->xlevel);
+ 
+     object_property_set_int(OBJECT(cpu), "family", def->family, &error_abort);
+     object_property_set_int(OBJECT(cpu), "model", def->model, &error_abort);
+diff --git a/target/i386/host-cpu.c b/target/i386/host-cpu.c
+index 10f8aba86e..0307eaa208 100644
+--- a/target/i386/host-cpu.c
++++ b/target/i386/host-cpu.c
+@@ -158,7 +158,7 @@ void host_cpu_instance_init(X86CPU *cpu)
+ 
+         host_cpuid(0, 0, NULL, &ebx, &ecx, &edx);
+         x86_cpu_vendor_words2str(vendor, ebx, edx, ecx);
+-        object_property_set_str(OBJECT(cpu), "vendor", vendor, &error_abort);
++        qdev_prop_set_string(DEVICE(cpu), "vendor", vendor);
+     }
+ }
+ 
+@@ -174,13 +174,12 @@ void host_cpu_max_instance_init(X86CPU *cpu)
+     host_cpu_vendor_fms(vendor, &family, &model, &stepping);
+     host_cpu_fill_model_id(model_id);
+ 
+-    object_property_set_str(OBJECT(cpu), "vendor", vendor, &error_abort);
++    qdev_prop_set_string(DEVICE(cpu), "vendor", vendor);
+     object_property_set_int(OBJECT(cpu), "family", family, &error_abort);
+     object_property_set_int(OBJECT(cpu), "model", model, &error_abort);
+     object_property_set_int(OBJECT(cpu), "stepping", stepping,
+                             &error_abort);
+-    object_property_set_str(OBJECT(cpu), "model-id", model_id,
+-                            &error_abort);
++    qdev_prop_set_string(DEVICE(cpu), "model-id", model_id);
+ }
+ 
+ static void host_cpu_class_init(ObjectClass *oc, void *data)
 -- 
 2.38.1
 
