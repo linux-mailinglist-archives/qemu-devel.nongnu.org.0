@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E874868AADE
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 16:12:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DBD168AAD4
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 16:11:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOKC6-0002Ua-L5; Sat, 04 Feb 2023 10:11:10 -0500
+	id 1pOKC7-0002Ut-Gw; Sat, 04 Feb 2023 10:11:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pOKC2-0002RP-HD; Sat, 04 Feb 2023 10:11:06 -0500
+ id 1pOKC5-0002U3-1d; Sat, 04 Feb 2023 10:11:09 -0500
 Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pOKC0-0006b8-SO; Sat, 04 Feb 2023 10:11:06 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id k4so22951548eje.1;
- Sat, 04 Feb 2023 07:11:04 -0800 (PST)
+ id 1pOKC3-0006bQ-Ar; Sat, 04 Feb 2023 10:11:08 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id p26so22795845ejx.13;
+ Sat, 04 Feb 2023 07:11:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=APEL4mR2mjWxIDbTlk214qLngpqhM7APvX4Zo2lwqlc=;
- b=Bemxb2m3mQ0W3JHWL8l7ubGC8SB0zKxsxG31NDd8j7AG1gLmhU8cUqa81a5qG9uAO+
- FsADbHVTxa36gDqXk37hnyvHrtyugZzsPQ+ekQcFIi/5JCyP506BKibaarFWd5t9JgoM
- QSBTy8bnpZYhCzLCw5NrumW36jkR/84Rsx2KcTc3c6/XFM6fwMn5SN/V2TZfFBy07JM8
- BDB9TK0X3v4ZAJwdfwpNueAvKYoWb+Psj8exkb411CLcQ76VdOs2kCJt3brDvb5v0gKD
- syP63alpcHfbPC9Cl67+qU/Jl29A/pfpt7i703vKxhvhlBbeGigPLkRyIyI2E4TDAkoZ
- /dTQ==
+ bh=6Z9BSrGLPwa8H52MdZBz+kDsknrSpQNb66zdwdFnT9g=;
+ b=cLP8qQbbKfrL5sf1m8dzcqVjo3JiWDFYGh95ky9Ja/DPV/J7AWcuy+dP4XKTfhX+3Y
+ +HGzUayZq+rCb066EoQrYIBMutlTJamd9YjW8x49Nr4A7q0M0o8OPLyAM/wy29Jivo85
+ piw+W/8brvFGKbAL4kGJhn4TspmRG2MOOSdnonzpnXRCARIG7/ZKgspe7qFjEADFvzuM
+ bXEJiYbsVgDCy2mhMEDHsoDeHmHloi2e2g3NB+jFBJNH+jZ8Fn/z44r4eR+zollOPCvm
+ 1k5Qg2cj/rsIy/6PkFnGEIQ2THHHjlp4WU0ZUGELAZrEOZYMKOacFT0SgthxQZE2hiYy
+ cfrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=APEL4mR2mjWxIDbTlk214qLngpqhM7APvX4Zo2lwqlc=;
- b=hZYgoNrps82VRyrjzcGMgM/BEa30swmHXuWNFZreiko/PQynMflIj3cdOWgFdcQ3u0
- i3ZiXQ75vgPnTd2uHMjiBjgtRgIAeUtL13gIkQxnhBBxFe4TNHEJn/t/+Y+D31mPLyY1
- MjQL/5QeAPOYkmyLQzb98+s3/WmkSHVDEoBEF0tNInKgQkf27L3jOeNONgVN3+Uo7RoY
- E5iakPsVzeON4W2p2zOVW1ajV3QP0c8EvTPFy5xz3wrO03lpq54wgoKxllnFd9FJuxh6
- dGw4Tte8iB7Pehz+twijh7ZKBw3GEeCmuCD343Svy6w38OsWDn0Zfp7Lddf2Jp4Fa1U4
- vr7A==
-X-Gm-Message-State: AO0yUKXC/LpqUgrm40Z8uKNcHpb71Ty/lxkbrhApRJ63Y3oLdf6KXTo1
- AAw2Svej0dC1RoSRxKUtOz6bPyojHSI=
-X-Google-Smtp-Source: AK7set/+ASBde+I5UmWbR2s3AdEarmneWXpCUeOP3fvmYasypmgka0IHeGothseWbaUMJa1uz/7H7Q==
-X-Received: by 2002:a17:906:53d4:b0:878:7ef1:4a20 with SMTP id
- p20-20020a17090653d400b008787ef14a20mr14151094ejo.4.1675523462933; 
- Sat, 04 Feb 2023 07:11:02 -0800 (PST)
+ bh=6Z9BSrGLPwa8H52MdZBz+kDsknrSpQNb66zdwdFnT9g=;
+ b=Ca32l0eZEW/Qlb1Akt0oPJmyGrN7BonHbWaIi7y7NfTR/AzIkMLEQXVnLyMXxovYI0
+ v8BP/1b67EVJLgTJP9r1+ZdI2RWDGvqfPfLK2P94KCDvIRWlgCbEiwvxs6rYOCd3Ytr8
+ j39iRVn0JSV1QN+OQRjiDGUczUChOB8FDcKPVbzzyYF8QGsYDLcw+p6Brd+6Tt27O4CP
+ W8AqIdyTagEri3odB/zYZ+dk69C7KlghQ+H4qjY6ZnJoSYNIDfaNEawwM5wjiwsuYQ7z
+ hhgUwEXcDuYm69hp7U2JgDg/LNhvlVkSJFumfI+Sg/v8Q6GrezEqGNvS8HD3ElGaunR6
+ ppwA==
+X-Gm-Message-State: AO0yUKXNwvjPX2B5IDD7+7vVhDBsAR2AljjwKVClK7px++B3z2lt5hF7
+ 5ijYIfkYw5XnhMIBVCtCgT0c6DwzqRo=
+X-Google-Smtp-Source: AK7set/lmeMdEbTBXfAU2Ve05oH2LD8UW4pImsbw7kco8U+gLjdfVSz03Yr+5lMlQ0LwbS2KEcfZ/w==
+X-Received: by 2002:a17:906:135a:b0:881:d1ad:1640 with SMTP id
+ x26-20020a170906135a00b00881d1ad1640mr13454640ejb.57.1675523465366; 
+ Sat, 04 Feb 2023 07:11:05 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-077-183-077-083.77.183.pool.telefonica.de. [77.183.77.83])
  by smtp.gmail.com with ESMTPSA id
- 17-20020a170906211100b0088a2aebb146sm2937922ejt.52.2023.02.04.07.11.01
+ 17-20020a170906211100b0088a2aebb146sm2937922ejt.52.2023.02.04.07.11.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Feb 2023 07:11:02 -0800 (PST)
+ Sat, 04 Feb 2023 07:11:04 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>,
@@ -63,16 +63,14 @@ Cc: Thomas Huth <thuth@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Bernhard Beschow <shentey@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v3 6/9] hw/i386/pc: Initialize ram_memory variable directly
-Date: Sat,  4 Feb 2023 16:10:24 +0100
-Message-Id: <20230204151027.39007-7-shentey@gmail.com>
+ Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH v3 7/9] hw/pci-host/pam: Make init_pam() usage more readable
+Date: Sat,  4 Feb 2023 16:10:25 +0100
+Message-Id: <20230204151027.39007-8-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230204151027.39007-1-shentey@gmail.com>
 References: <20230204151027.39007-1-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
  envelope-from=shentey@gmail.com; helo=mail-ej1-x62c.google.com
@@ -98,95 +96,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Going through pc_memory_init() seems quite complicated for a simple
-assignment.
+Unlike pam_update() which takes the subject -- PAMMemoryRegion -- as
+first argument, init_pam() takes it as fifth (!) argument. This makes it
+quite hard to figure out what an init_pam() invocation actually
+initializes. By moving the subject to the front this should become
+clearer.
+
+While at it, lower the DeviceState parameter to Object, also
+communicating more clearly that this parameter is just the owner rather
+than some (heavy?) dependency.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- include/hw/i386/pc.h | 1 -
- hw/i386/pc.c         | 2 --
- hw/i386/pc_piix.c    | 4 ++--
- hw/i386/pc_q35.c     | 5 ++---
- 4 files changed, 4 insertions(+), 8 deletions(-)
+ include/hw/pci-host/pam.h |  5 +++--
+ hw/pci-host/i440fx.c      | 10 +++++-----
+ hw/pci-host/pam.c         | 12 ++++++------
+ hw/pci-host/q35.c         |  8 ++++----
+ 4 files changed, 18 insertions(+), 17 deletions(-)
 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 66e3d059ef..b60b95921b 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -162,7 +162,6 @@ void xen_load_linux(PCMachineState *pcms);
- void pc_memory_init(PCMachineState *pcms,
-                     MemoryRegion *system_memory,
-                     MemoryRegion *rom_memory,
--                    MemoryRegion **ram_memory,
-                     uint64_t pci_hole64_size);
- uint64_t pc_pci_hole64_start(void);
- DeviceState *pc_vga_init(ISABus *isa_bus, PCIBus *pci_bus);
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 6e592bd969..8898cc9961 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -936,7 +936,6 @@ static hwaddr pc_max_used_gpa(PCMachineState *pcms, uint64_t pci_hole64_size)
- void pc_memory_init(PCMachineState *pcms,
-                     MemoryRegion *system_memory,
-                     MemoryRegion *rom_memory,
--                    MemoryRegion **ram_memory,
-                     uint64_t pci_hole64_size)
- {
-     int linux_boot, i;
-@@ -994,7 +993,6 @@ void pc_memory_init(PCMachineState *pcms,
-      * Split single memory region and use aliases to address portions of it,
-      * done for backwards compatibility with older qemus.
-      */
--    *ram_memory = machine->ram;
-     ram_below_4g = g_malloc(sizeof(*ram_below_4g));
-     memory_region_init_alias(ram_below_4g, NULL, "ram-below-4g", machine->ram,
-                              0, x86ms->below_4g_mem_size);
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 5bde4533cc..00ba725656 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -143,6 +143,7 @@ static void pc_init1(MachineState *machine,
-     if (xen_enabled()) {
-         xen_hvm_init_pc(pcms, &ram_memory);
-     } else {
-+        ram_memory = machine->ram;
-         if (!pcms->max_ram_below_4g) {
-             pcms->max_ram_below_4g = 0xe0000000; /* default: 3.5G */
-         }
-@@ -205,8 +206,7 @@ static void pc_init1(MachineState *machine,
+diff --git a/include/hw/pci-host/pam.h b/include/hw/pci-host/pam.h
+index c1fd06ba2a..005916f826 100644
+--- a/include/hw/pci-host/pam.h
++++ b/include/hw/pci-host/pam.h
+@@ -87,8 +87,9 @@ typedef struct PAMMemoryRegion {
+     unsigned current;
+ } PAMMemoryRegion;
  
-     /* allocate ram and load rom/bios */
-     if (!xen_enabled()) {
--        pc_memory_init(pcms, system_memory,
--                       rom_memory, &ram_memory, hole64_size);
-+        pc_memory_init(pcms, system_memory, rom_memory, hole64_size);
-     } else {
-         pc_system_flash_cleanup_unused(pcms);
-         if (machine->kernel_filename != NULL) {
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 8253b49296..88f0981f50 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -129,7 +129,7 @@ static void pc_q35_init(MachineState *machine)
-     MemoryRegion *system_io = get_system_io();
-     MemoryRegion *pci_memory;
-     MemoryRegion *rom_memory;
--    MemoryRegion *ram_memory;
-+    MemoryRegion *ram_memory = machine->ram;
-     GSIState *gsi_state;
-     ISABus *isa_bus;
-     int i;
-@@ -216,8 +216,7 @@ static void pc_q35_init(MachineState *machine)
+-void init_pam(DeviceState *dev, MemoryRegion *ram, MemoryRegion *system,
+-              MemoryRegion *pci, PAMMemoryRegion *mem, uint32_t start, uint32_t size);
++void init_pam(PAMMemoryRegion *mem, Object *owner, MemoryRegion *ram,
++              MemoryRegion *system, MemoryRegion *pci,
++              uint32_t start, uint32_t size);
+ void pam_update(PAMMemoryRegion *mem, int idx, uint8_t val);
+ 
+ #endif /* QEMU_PAM_H */
+diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
+index 9c6882d3fc..61e7b97ff4 100644
+--- a/hw/pci-host/i440fx.c
++++ b/hw/pci-host/i440fx.c
+@@ -292,12 +292,12 @@ PCIBus *i440fx_init(const char *pci_type,
+     object_property_add_const_link(qdev_get_machine(), "smram",
+                                    OBJECT(&f->smram));
+ 
+-    init_pam(dev, f->ram_memory, f->system_memory, f->pci_address_space,
+-             &f->pam_regions[0], PAM_BIOS_BASE, PAM_BIOS_SIZE);
++    init_pam(&f->pam_regions[0], OBJECT(d), f->ram_memory, f->system_memory,
++             f->pci_address_space, PAM_BIOS_BASE, PAM_BIOS_SIZE);
+     for (i = 0; i < ARRAY_SIZE(f->pam_regions) - 1; ++i) {
+-        init_pam(dev, f->ram_memory, f->system_memory, f->pci_address_space,
+-                 &f->pam_regions[i+1], PAM_EXPAN_BASE + i * PAM_EXPAN_SIZE,
+-                 PAM_EXPAN_SIZE);
++        init_pam(&f->pam_regions[i + 1], OBJECT(d), f->ram_memory,
++                 f->system_memory, f->pci_address_space,
++                 PAM_EXPAN_BASE + i * PAM_EXPAN_SIZE, PAM_EXPAN_SIZE);
      }
  
-     /* allocate ram and load rom/bios */
--    pc_memory_init(pcms, system_memory, rom_memory, &ram_memory,
--                   pci_hole64_size);
-+    pc_memory_init(pcms, system_memory, rom_memory, pci_hole64_size);
+     ram_size = ram_size / 8 / 1024 / 1024;
+diff --git a/hw/pci-host/pam.c b/hw/pci-host/pam.c
+index 454dd120db..68e9884d27 100644
+--- a/hw/pci-host/pam.c
++++ b/hw/pci-host/pam.c
+@@ -30,24 +30,24 @@
+ #include "qemu/osdep.h"
+ #include "hw/pci-host/pam.h"
  
-     object_property_add_child(OBJECT(machine), "q35", OBJECT(q35_host));
-     object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_RAM_MEM,
+-void init_pam(DeviceState *dev, MemoryRegion *ram_memory,
++void init_pam(PAMMemoryRegion *mem, Object *owner, MemoryRegion *ram_memory,
+               MemoryRegion *system_memory, MemoryRegion *pci_address_space,
+-              PAMMemoryRegion *mem, uint32_t start, uint32_t size)
++              uint32_t start, uint32_t size)
+ {
+     int i;
+ 
+     /* RAM */
+-    memory_region_init_alias(&mem->alias[3], OBJECT(dev), "pam-ram", ram_memory,
++    memory_region_init_alias(&mem->alias[3], owner, "pam-ram", ram_memory,
+                              start, size);
+     /* ROM (XXX: not quite correct) */
+-    memory_region_init_alias(&mem->alias[1], OBJECT(dev), "pam-rom", ram_memory,
++    memory_region_init_alias(&mem->alias[1], owner, "pam-rom", ram_memory,
+                              start, size);
+     memory_region_set_readonly(&mem->alias[1], true);
+ 
+     /* XXX: should distinguish read/write cases */
+-    memory_region_init_alias(&mem->alias[0], OBJECT(dev), "pam-pci", pci_address_space,
++    memory_region_init_alias(&mem->alias[0], owner, "pam-pci", pci_address_space,
+                              start, size);
+-    memory_region_init_alias(&mem->alias[2], OBJECT(dev), "pam-pci", ram_memory,
++    memory_region_init_alias(&mem->alias[2], owner, "pam-pci", ram_memory,
+                              start, size);
+ 
+     memory_region_transaction_begin();
+diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
+index fa05844319..fd18920e7f 100644
+--- a/hw/pci-host/q35.c
++++ b/hw/pci-host/q35.c
+@@ -645,12 +645,12 @@ static void mch_realize(PCIDevice *d, Error **errp)
+     object_property_add_const_link(qdev_get_machine(), "smram",
+                                    OBJECT(&mch->smram));
+ 
+-    init_pam(DEVICE(mch), mch->ram_memory, mch->system_memory,
+-             mch->pci_address_space, &mch->pam_regions[0],
++    init_pam(&mch->pam_regions[0], OBJECT(mch), mch->ram_memory,
++             mch->system_memory, mch->pci_address_space,
+              PAM_BIOS_BASE, PAM_BIOS_SIZE);
+     for (i = 0; i < ARRAY_SIZE(mch->pam_regions) - 1; ++i) {
+-        init_pam(DEVICE(mch), mch->ram_memory, mch->system_memory,
+-                 mch->pci_address_space, &mch->pam_regions[i+1],
++        init_pam(&mch->pam_regions[i + 1], OBJECT(mch), mch->ram_memory,
++                 mch->system_memory, mch->pci_address_space,
+                  PAM_EXPAN_BASE + i * PAM_EXPAN_SIZE, PAM_EXPAN_SIZE);
+     }
+ }
 -- 
 2.39.1
 
