@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10F4468AB17
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:10:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15B7668AB13
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:09:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOL5w-0005JR-HL; Sat, 04 Feb 2023 11:08:52 -0500
+	id 1pOL5y-0005MH-HV; Sat, 04 Feb 2023 11:08:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5s-0005Dn-QF
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:48 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5t-0005FC-Al
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:49 -0500
 Received: from mout.kundenserver.de ([217.72.192.75])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5q-0006yF-Rt
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:48 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5r-0006yN-95
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:49 -0500
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MPoPd-1p29HS14ol-00Mrqm; Sat, 04
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MadGG-1omGFb2lBq-00cCkH; Sat, 04
  Feb 2023 17:08:45 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Helge Deller <deller@gmx.de>,
 	Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 21/22] linux-user: Implement SOL_ALG encryption support
-Date: Sat,  4 Feb 2023 17:08:29 +0100
-Message-Id: <20230204160830.193093-22-laurent@vivier.eu>
+Subject: [PULL 22/22] linux-user: Allow sendmsg() without IOV
+Date: Sat,  4 Feb 2023 17:08:30 +0100
+Message-Id: <20230204160830.193093-23-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230204160830.193093-1-laurent@vivier.eu>
 References: <20230204160830.193093-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:lQd1o3aGuBgKlcDge8bZJ98/pcNRPbnqyRTXsUGS+brH4F20YDK
- jXJXcQXS7dQyvxOwVyEEKcBQwmA8fSwTi1GVyDR9FrmLn/gDtLlpDraqUUAfhGov+Yc1cFq
- eAfmRcI7tfsHVppyhSTY/djjRPV3g1U16KNLhMJizrFcd33uOOlN/Nw32BCSR7CrlnVYvFw
- Ee9xbcSdFdVlQCzEQdM6w==
-UI-OutboundReport: notjunk:1;M01:P0:MHSzIqsyP9M=;Vyqtid8HkLc7urRCVq005zFzJQj
- loYYnH+C1RYcLpP5WYU6ceVHpOM5BpNmfSVjcap8Qm9kcjjUOGPjwFI2xv0sdjVayKZNA1aI/
- na2/dS2YwnEdnoTs8KbeZy3tBgXheDTDc2TOUbiI3ToYfi0shCAkHcQQ2CoHZgBTb+xoWx1jk
- +hPASazwJvChXNK10pyCHEhYRzfmUWiM2EZcm4njATz8b5vjy6fmQY8MhsNpA/W/DTeqKVZ1W
- Wkw0qEOhwChHfPcvIF72GYIorb3ApysswdxpoEqHhdPWxMQWuhnUjcqLfctznnWiNcPVlJlit
- k6+pFGTOkUOiedPPpPA92QirtYZ6pAouCDcM4fJ3rEm7Eqt7rcAcvEtoboTIZotlDTyz3D2SK
- kAXRHNYiUkpUk1SkzezoEO9U/rFiV52OYERpH2/OELbVavay2CTdijd3+jFlggA74+lnSCNN+
- 6Fi/lSahfc3Uk/B2KJDDYn+FxMjl1rZgZ93CVoksgVuyo4YKphlLcfMQQYi2i2nuA8lh5zNh6
- G0V0yRnWxzczraowd6s1Rdu5CFCGeWIltl5v2ojqorYiLKkUBcJQfj9RtgH+RBUwT/7YuFuhA
- 2/DXIaCw0K6BVcm930DJbYKVrt/4PotAmVExV2JJslBlPCs1x//iMFa1N+sUzOmEdoULuR9VC
- TFrHceBkxhQxgCE+6KT36RmOg9mhSB277RZr5DX9Qw==
+X-Provags-ID: V03:K1:HwvZlHgdhGj0FPAZJbKBy4hIYt7gRR3TZfLWTInBGZUPZbM6GIf
+ nDT+FvsPhPc7+Zt18j3xwS4EyX3svmPhomp7Cibegmtss1PuPcLlisorM+ywpy0EzLbDxKp
+ YFNFiCZV1y5VYWhb+wshE3s6VGpQRvrwR6PdriAzk2itpDmHbP1ttRkKxDZEmJaWyC6qxe+
+ BMgCNY/VW+cEEog9crlYg==
+UI-OutboundReport: notjunk:1;M01:P0:3GJYaYXgG18=;mhcPZ89ojWj0PRKW3fuSxACYuSs
+ yh6XKMktozDIWcP8C5VHhbH9bdepucZpGkJzgFQf87AwXCk5ZFzYJOLZalCNPmlOt8GaVG9bD
+ E3YrzQoWvtggDIHhWrH48/2IKt9Uy6JgMSAv5tl9nyLe4y9UZMFnX8VdJZ9OVHmKN8ZzKfMrt
+ G/rHxxBPSUob/CdA9ejD1H5C2bTWABdpusJeS50jZCLGCbbWhkvHqldmEU0B8JxjTef9GWgDC
+ Q5J7d7cpXNb1NaXW/MNuL2ywolj+LFKjFW4VU+o1yK56OiAmB5KFGjdjdtKnxD7tQp0U9ncSU
+ brDxWNTMNrwkFpr6raPdOi0ahZeO0FSsF9ocRAPvcDQEQxOqFqwPnE9K/ZkDMCY3eIC1i4EzY
+ uBbB99yAeZOIVODoGmee3/l5EYQXHTtrlqVR8QQd1g0QUEUfgFHZ8JA7UHXOl2Hke2UdGqfku
+ 9lGkx7a07ITp+DxfpxGigVZPMxA3s9Ey3ZGWqhvoFlBcM3us7S6GJD8El7RT109C/3c7KcgDk
+ tajisre8N39IDY6N+Jzx91RP7AF031qGEL5yc9VN9mTesumFYcOYIGCVlU+San+q9YlDisUma
+ dwSvJtbrveQNHxSR5x1KS3W6UNw1+DZg+3V5cP8fzj2qAuRQK8PTN3g0NWm7gOdMoFnrEcdny
+ mP0hYi+ZJGtp0beXdsCRA3bPyVaz0SZV8YDndZS/VQ==
 Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -71,38 +71,62 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Helge Deller <deller@gmx.de>
 
-Add suport to handle SOL_ALG packets via sendmsg() and recvmsg().
-This allows emulated userspace to use encryption functionality.
+Applications do call sendmsg() without any IOV, e.g.:
+ sendmsg(4, {msg_name=NULL, msg_namelen=0, msg_iov=NULL, msg_iovlen=0,
+            msg_control=[{cmsg_len=36, cmsg_level=SOL_ALG, cmsg_type=0x2}],
+            msg_controllen=40, msg_flags=0}, MSG_MORE) = 0
+ sendmsg(4, {msg_name=NULL, msg_namelen=0, msg_iov=[{iov_base="The quick brown fox jumps over t"..., iov_len=183}],
+            msg_iovlen=1, msg_control=[{cmsg_len=20, cmsg_level=SOL_ALG, cmsg_type=0x3}],
+            msg_controllen=24, msg_flags=0}, 0) = 183
 
-Tested with the debian ell package with hppa guest on x86_64 host.
+The function do_sendrecvmsg_locked() is used for sndmsg() and recvmsg()
+and calls lock_iovec() to lock the IOV into memory. For the first
+sendmsg() above it returns NULL and thus wrongly skips the call the host
+sendmsg() syscall, which will break the calling application.
+
+Fix this issue by:
+- allowing sendmsg() even with empty IOV
+- skip recvmsg() if IOV is NULL
+- skip both if the return code of do_sendrecvmsg_locked() != 0, which
+  indicates some failure like EFAULT on the IOV
+
+Tested with the debian "ell" package with hppa guest on x86_64 host.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20221212173416.90590-1-deller@gmx.de>
+Message-Id: <20221212173416.90590-2-deller@gmx.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ linux-user/syscall.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 55d53b344b84..a0d2beddaa4e 100644
+index a0d2beddaa4e..1e868e9b0e27 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -1829,6 +1829,14 @@ static inline abi_long target_to_host_cmsg(struct msghdr *msgh,
-             __get_user(cred->pid, &target_cred->pid);
-             __get_user(cred->uid, &target_cred->uid);
-             __get_user(cred->gid, &target_cred->gid);
-+        } else if (cmsg->cmsg_level == SOL_ALG) {
-+            uint32_t *dst = (uint32_t *)data;
-+
-+            memcpy(dst, target_data, len);
-+            /* fix endianess of first 32-bit word */
-+            if (len >= sizeof(uint32_t)) {
-+                *dst = tswap32(*dst);
-+            }
-         } else {
-             qemu_log_mask(LOG_UNIMP, "Unsupported ancillary data: %d/%d\n",
-                           cmsg->cmsg_level, cmsg->cmsg_type);
+@@ -3293,7 +3293,10 @@ static abi_long do_sendrecvmsg_locked(int fd, struct target_msghdr *msgp,
+                      target_vec, count, send);
+     if (vec == NULL) {
+         ret = -host_to_target_errno(errno);
+-        goto out2;
++        /* allow sending packet without any iov, e.g. with MSG_MORE flag */
++        if (!send || ret) {
++            goto out2;
++        }
+     }
+     msg.msg_iovlen = count;
+     msg.msg_iov = vec;
+@@ -3345,7 +3348,9 @@ static abi_long do_sendrecvmsg_locked(int fd, struct target_msghdr *msgp,
+     }
+ 
+ out:
+-    unlock_iovec(vec, target_vec, count, !send);
++    if (vec) {
++        unlock_iovec(vec, target_vec, count, !send);
++    }
+ out2:
+     return ret;
+ }
 -- 
 2.39.1
 
