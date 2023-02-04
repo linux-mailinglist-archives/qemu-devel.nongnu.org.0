@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94CD168AB0D
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:09:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA77B68AB16
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:10:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOL68-0005Tw-0X; Sat, 04 Feb 2023 11:09:04 -0500
+	id 1pOL5x-0005Ls-Ow; Sat, 04 Feb 2023 11:08:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5o-00059c-2B
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:44 -0500
-Received: from mout.kundenserver.de ([212.227.17.24])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5o-0005CN-V5
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:48 -0500
+Received: from mout.kundenserver.de ([212.227.17.10])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5l-0006vv-Vw
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:43 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5m-0006w8-FS
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:44 -0500
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1M7bJ5-1pGwZZ12Cr-0085Fw; Sat, 04
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1M6m5o-1pG7MM2jxm-008MEt; Sat, 04
  Feb 2023 17:08:40 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Helge Deller <deller@gmx.de>,
 	Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 12/22] linux-user: Add strace output for clock_getres_time64()
- and futex_time64()
-Date: Sat,  4 Feb 2023 17:08:20 +0100
-Message-Id: <20230204160830.193093-13-laurent@vivier.eu>
+Subject: [PULL 13/22] linux-user: Improve strace output of getgroups() and
+ setgroups()
+Date: Sat,  4 Feb 2023 17:08:21 +0100
+Message-Id: <20230204160830.193093-14-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230204160830.193093-1-laurent@vivier.eu>
 References: <20230204160830.193093-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:LCimNpfcYEuESv6q3mNEdhG5rgaF6JAhH3rIuk5LEBXQ7ca6Z95
- HMGHhMksrFu5sI9F8V/+2kIWsCr/YP3zhNIkjXOfT9SJNp/o2TNhVaovF5XdEkFaQu4hoOC
- ibGjIJk46FYHUHwDrN3uvZDN1AmGNKJiivxdXagvN77gSOoeUc28j4ansOkQ7QLkNg6sUqB
- 67y8OXnIq/znKyaTRZBFQ==
-UI-OutboundReport: notjunk:1;M01:P0:0SOrIXwGa5Y=;Lvxd8CK+cJofO26MfI6W/D2gGIM
- 0RR/PxBohvs5b/ESPICZkYI7Ki7XyFY0Lt0aYGIJKhdOvwkA1dL/pZSgFLq0c+Pa9eIgBSFzk
- RkACN7xiWukB3jpMJpW0Gon24UrK0xfFno6S2lt9Y1Ex3hZsyLhcKeqjjbiUFxbz6U2EAyCxP
- asAMuFK3v5BwmbVz21DDhUy/LrOrRfWVZWGPGydRYUffwAy11kHhxYmSsio8j1j2SLUlca+VP
- wVtGYlTzH8WK/GuiZIqzc5KXD5fIL6VZwngpapI/97XwyciPmrCPJ7LNWyzmM6nP/YRQK28aT
- RdST5UB7x0yn4O+EGRtaoNb4YGd5HwmHRo1Y/aPtoCOqawGLmu1NkvRtnTNMYBsj8ygXpnYHe
- R8f49IhCuHZGKBaDdLBRGVDrvjTEMiHkTmbME8mTZjgAj4qZw2nmyQLRwignadIV+onLYPG5b
- GDtFtmqyeAOqxluQJORBvVvdKSi2cwruZNqjVWIYoYhxOUTx6gfOcrHW00y4HT2KtJSywZLqx
- EdIhlWo66MClVlzLPBhUt18pGdtGmAC712sZDV9pMPGV9xscabOp5YJm5v6k1YwIP9kYyWkMC
- MuVcVdYwppa8F5C7cKhZjXUX/PE2+al3tHZ4PqTQ97T8KQOMU7DJ96+a7txcCR5CEBSk0ndIm
- /bLiwPCERNrdSbGUcJNCUHc73DnWl9MsVi+iE+yeGQ==
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:yRChEJ7Ba1AWgTnS+fmQyxbTgisMENhq5AuoFIhUK0Acw9aBOm3
+ jvHcC3Z19RCi2qZOlpgp3/WBlAP0vy5c0OMD7NtsqKmYphlcXxZulC442cA0Ul1eY7u23e6
+ tHllPD6s8G2HYv9af1qHOnT2h/odvSbZmoP4YGeDOD9cZVcWWeq6Dp1TaC38MxCLoFtQHHM
+ wdhWUgy4O54re2EbG1bBw==
+UI-OutboundReport: notjunk:1;M01:P0:qQ3kTK21Wqo=;jTH5aSeWNScW/tsRFxyRoe6S4fI
+ U01wYXyvx96sBKMRnIY3q24RQQIzqu1KOnbkWpL/3946SN6o6oWqbmu/nWsRgdVywIdmkzj+w
+ fsf3b3bhF2rdHTo6g+vaXjKu1PG9z6vi8VzrL9FJjR8qEoVHaZAV+JWRIhVBasXsAijzXHpWU
+ qQuqftrgVraG8WpM/3BZO8m+WVHfZA3QFAkX9SqU13iN0rhCSbFS2U5K0O80qm3V5ghgwGVPL
+ Q1VgFtznXHl/4CO1A3lPfgUXxkLeB7pGgCZAEkbDIcvtxUIF4KIOH0sK2K4kRtxQqW8KYWgtb
+ sTa1CSH01PjwysdWKOySt111XFcMOc/AIfKV25UysItTDjjQiMBfRHm7avA/riZebBYF6bP9/
+ 7FtxNPAD042DLewYh44jwjHt4B71marl5UByR+ELiXYh8ggGngN9ktMS3tkHVOm0f13RpIj4K
+ Ek6VZREh/ITFL5MWMOdfRKdMZzPbR/CGYfY5Lk7QqT8M0ShmmqfahI87mu/K+nTHpjU9heVHA
+ KnF3JB8rMXOKB/fouqZZsBSaGzva09VGURZQ21q6AVed++YaitWUxyaGzM12Fb8OPwm6QYjTD
+ A5QovOPiK7fvKl+h9+Fyh2DKx63out6frFF6rQXI4HGofbxm5ZfY8L6uICDz+chNx+NOeCd1w
+ oaOqOnuKyfgFmrwvB13m+ixg9gEFDWqebe7CXa3fXw==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -72,40 +72,46 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Helge Deller <deller@gmx.de>
 
-Add the two syscalls to strace output to avoid "Unknown syscall" message.
+Make the strace look nicer for those syscalls.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20230115113517.25143-1-deller@gmx.de>
+Message-Id: <20230115210057.445132-1-deller@gmx.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.list | 6 ++++++
- 1 file changed, 6 insertions(+)
+ linux-user/strace.list | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index bb21c054148e..64db8e6b8412 100644
+index 64db8e6b8412..cf291d02edfe 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -86,6 +86,9 @@
- { TARGET_NR_clock_getres, "clock_getres" , NULL, print_clock_getres,
-                           print_syscall_ret_clock_getres },
+@@ -321,10 +321,10 @@
+ { TARGET_NR_getgid32, "getgid32" , NULL, NULL, NULL },
  #endif
-+#ifdef TARGET_NR_clock_getres_time64
-+{ TARGET_NR_clock_getres_time64, "clock_getres_time64" , NULL, NULL, NULL },
-+#endif
- #ifdef TARGET_NR_clock_gettime
- { TARGET_NR_clock_gettime, "clock_gettime" , NULL, print_clock_gettime,
-                            print_syscall_ret_clock_gettime },
-@@ -275,6 +278,9 @@
- #ifdef TARGET_NR_futex
- { TARGET_NR_futex, "futex" , NULL, print_futex, NULL },
+ #ifdef TARGET_NR_getgroups
+-{ TARGET_NR_getgroups, "getgroups" , NULL, NULL, NULL },
++{ TARGET_NR_getgroups, "getgroups" , "%s(%d,%p)", NULL, NULL },
  #endif
-+#ifdef TARGET_NR_futex_time64
-+{ TARGET_NR_futex_time64, "futex_time64" , NULL, NULL, NULL },
-+#endif
- #ifdef TARGET_NR_futimesat
- { TARGET_NR_futimesat, "futimesat" , NULL, print_futimesat, NULL },
+ #ifdef TARGET_NR_getgroups32
+-{ TARGET_NR_getgroups32, "getgroups32" , NULL, NULL, NULL },
++{ TARGET_NR_getgroups32, "getgroups32" , "%s(%d,%p)", NULL, NULL },
  #endif
+ #ifdef TARGET_NR_gethostname
+ { TARGET_NR_gethostname, "gethostname" , NULL, NULL, NULL },
+@@ -1304,10 +1304,10 @@
+ { TARGET_NR_setgid32, "setgid32" , "%s(%u)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setgroups
+-{ TARGET_NR_setgroups, "setgroups" , NULL, NULL, NULL },
++{ TARGET_NR_setgroups, "setgroups" , "%s(%d,%p)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setgroups32
+-{ TARGET_NR_setgroups32, "setgroups32" , NULL, NULL, NULL },
++{ TARGET_NR_setgroups32, "setgroups32" , "%s(%d,%p)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_sethae
+ { TARGET_NR_sethae, "sethae" , NULL, NULL, NULL },
 -- 
 2.39.1
 
