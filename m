@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 823C168AB5C
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:38:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E46D68AB49
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:36:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOLU0-000569-K3; Sat, 04 Feb 2023 11:33:44 -0500
+	id 1pOLTz-00054g-AF; Sat, 04 Feb 2023 11:33:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pOLTb-00050O-F1
+ id 1pOLTc-00050h-TR
  for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:33:39 -0500
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pOLTZ-0002Tr-7q
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:33:18 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- e10-20020a17090a630a00b0022bedd66e6dso11534695pjj.1
- for <qemu-devel@nongnu.org>; Sat, 04 Feb 2023 08:33:16 -0800 (PST)
+ id 1pOLTb-0002Ty-7c
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:33:20 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id mi9so7830952pjb.4
+ for <qemu-devel@nongnu.org>; Sat, 04 Feb 2023 08:33:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kxDmw+FVE5lruLaCSsllZpfYhx9udcplIRRKsnSqczg=;
- b=wGDsRJL8nnqqw/cT5RVkzr+Thu71nXaRQeM46Fs2b46JQX2+yAaAnnDqbN+rXvN5HW
- aU+fxJz7OznFdXc/PGsdQ05Cn1oCY/MuRQzbDFiEziwJ2UQhsHbnmwXWV9HuPufjhiI0
- vubiICv2rdHSCaYNRmukWbq8xxAai1MCsfdILDPXsc3BxxffAdRtH41etyEl3pTXCE25
- VRuZeOJhwnpLfF5+2EAshVWhEksp0/ZDDOYl0uZB4zX7jp8h8F627XpPnjgTErwyOaD0
- 5dim91o7pS3Nc21cBm9vpTNrEsz5k0ULJRhNP14bw5SmJLabu2+EMtGnTxecjPVgAjf0
- JLKQ==
+ bh=39PPEuhVRVsZVvJe6r6zmHD1Uy8sB4o4fQgIEwRJuDQ=;
+ b=ztSOjccPJpODSGoNnaCqJHr8wVt0R9+XfIlSEuBW7uX5MDBb24EvkDYDwmU8NAdwxT
+ A1vDj9yXwbxrUAOFu8AqQVZNWbN3P8DcbBRJJxMIHuMY7f/PUBGuV9phCnASN3IxKRlz
+ trqGcjrfiYmVKaHQ3qQwR5rfNSxpJ41qdhXCt6NLoRsPAi/4ivhq9PRFUScMVpr4Jron
+ DjyEiYoFDNrtiDptcEhgYa8dbG0El12/3oIlVvHovsimuIX4hJL3AHL9okMV9fk9JneV
+ wsusKXe2oYlsxRA1crnQO6o5Jl9yC6xpm2DhwLFVlWl45AmoOkLJnwK+c7q2jpRYC2S8
+ aaFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kxDmw+FVE5lruLaCSsllZpfYhx9udcplIRRKsnSqczg=;
- b=f/FgrerFb/0Dz60kJ60Mpcya3W286DXs9TGOWcX7lpN9BIRVxhHVdQbg9ld0nQjQMV
- qIYrp9Lumw1Gqmyz/GCofwjcMwnopaMGxBX/DxYBJbuNo2l0pe1wmeeSG0SE86kvOSxq
- f7ABIAGM0hIez0mawdTC4hAldfP0az4M7anxqZz+KYAQQbeBI17Dmc4JFCs8XHmteLRh
- SWgn9RMbMJAA/TuluJjcLHC1CI2YNui3YNXwtfMw/P48Lap0D7RzDmUMQkB8OvS/feRL
- rL95xo2i4HKN2hkPUp5Qb6QtOhiHvarvL15DMOGZl+t6ChwGUZusa3li64mKeR3TqeDb
- Zdng==
-X-Gm-Message-State: AO0yUKU4rk9qfWFTQvvBw5/TErVTJjarlf1F0pofW1q1TmXjBQY/lFPa
- 2yeoh/jQ4oI47Kp9O/N1H9sp4dcPcuMp3kX2
-X-Google-Smtp-Source: AK7set82Zbk9GWoY7oGBB5TM8kLqvUomLhcI7MWWP7XvrqxVQQt71+PaWejx+Li0yDW1thBEIKDP+A==
-X-Received: by 2002:a17:902:ab59:b0:198:e3ee:2c98 with SMTP id
- ij25-20020a170902ab5900b00198e3ee2c98mr4774329plb.67.1675528395614; 
- Sat, 04 Feb 2023 08:33:15 -0800 (PST)
+ bh=39PPEuhVRVsZVvJe6r6zmHD1Uy8sB4o4fQgIEwRJuDQ=;
+ b=IWO/uBWOjq6jzkD+dIWzHixe0coR/TVZrw2NXd4HUQxMU//TrxQNu6vStn2S/d9tS1
+ EssM7Qo6EvJBCRu1ricRCNGxYj0tvSqSUVRypTK9/FLVRliTgzaEEqyix50z0aCgys44
+ jqsFfu3Cj3j5lgU9RuAc1CEkDHxMXGqfSEfzElIj8rt9uDcmEpFM+IZ0XkdlrmR0l0Pa
+ Gh0amKYpoizK0TsWcbhClydrmn3zSv3wq0AO33MlbO6+hTqS/dUG7tN1GLkEvTk22J4X
+ Z5uMQK1cjFkTiugP7b0cYA8BM7R4Cv4h78ikoHBKveh9oBJe6i3j/adtaFVy2WGe7n5Q
+ SKUA==
+X-Gm-Message-State: AO0yUKXuxyVKcmBmFU5VV/Y9maVpZn9ybcscYC+rdGbs3ggeUS+z3gNM
+ TbqhAvNvx8lvIKvhchaGwaY+laAq/gFAHpOu
+X-Google-Smtp-Source: AK7set+bqDvKSwvK67ynh6dhjmdea7ABUHhras/I4yDmrXlKWMRZaJ0ga88Wa2v4QlXT1YR2UhEJjA==
+X-Received: by 2002:a17:903:11c6:b0:196:8362:b727 with SMTP id
+ q6-20020a17090311c600b001968362b727mr8122151plh.63.1675528397104; 
+ Sat, 04 Feb 2023 08:33:17 -0800 (PST)
 Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
  by smtp.gmail.com with ESMTPSA id
- w19-20020a1709029a9300b00186b69157ecsm3660859plp.202.2023.02.04.08.33.14
+ w19-20020a1709029a9300b00186b69157ecsm3660859plp.202.2023.02.04.08.33.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Feb 2023 08:33:15 -0800 (PST)
+ Sat, 04 Feb 2023 08:33:16 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
-	Eric Auger <eric.auger@redhat.com>
-Subject: [PULL 01/40] accel/tcg: Test CPUJumpCache in tb_jmp_cache_clear_page
-Date: Sat,  4 Feb 2023 06:32:31 -1000
-Message-Id: <20230204163310.815536-2-richard.henderson@linaro.org>
+Cc: peter.maydell@linaro.org
+Subject: [PULL 02/40] tcg: Init temp_subindex in liveness_pass_2
+Date: Sat,  4 Feb 2023 06:32:32 -1000
+Message-Id: <20230204163310.815536-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230204163310.815536-1-richard.henderson@linaro.org>
 References: <20230204163310.815536-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,43 +89,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Eric Auger <eric.auger@redhat.com>
+Correctly handle large types while lowering.
 
-After commit 4e4fa6c12d ("accel/tcg: Complete cpu initialization
-before registration"), it looks the CPUJumpCache pointer can be NULL.
-This causes a SIGSEV when running debug-wp-migration kvm unit test.
-
-At the first place it should be clarified why this TCG code is called
-with KVM acceleration. This may hide another bug.
-
-Fixes: 4e4fa6c12d ("accel/tcg: Complete cpu initialization before registration")
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Message-Id: <20230203171510.2867451-1-eric.auger@redhat.com>
+Fixes: fac87bd2a49b ("tcg: Add temp_subindex to TCGTemp")
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ tcg/tcg.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 4e040a1cb9..04e270742e 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -100,9 +100,14 @@ static void tlb_window_reset(CPUTLBDesc *desc, int64_t ns,
- 
- static void tb_jmp_cache_clear_page(CPUState *cpu, target_ulong page_addr)
- {
--    int i, i0 = tb_jmp_cache_hash_page(page_addr);
-     CPUJumpCache *jc = cpu->tb_jmp_cache;
-+    int i, i0;
- 
-+    if (unlikely(!jc)) {
-+        return;
-+    }
-+
-+    i0 = tb_jmp_cache_hash_page(page_addr);
-     for (i = 0; i < TB_JMP_PAGE_SIZE; i++) {
-         qatomic_set(&jc->array[i0 + i].tb, NULL);
-     }
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index fd557d55d3..bc60fd0fe8 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -3063,6 +3063,7 @@ static bool liveness_pass_2(TCGContext *s)
+             TCGTemp *dts = tcg_temp_alloc(s);
+             dts->type = its->type;
+             dts->base_type = its->base_type;
++            dts->temp_subindex = its->temp_subindex;
+             dts->kind = TEMP_EBB;
+             its->state_ptr = dts;
+         } else {
 -- 
 2.34.1
 
