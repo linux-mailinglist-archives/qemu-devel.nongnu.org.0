@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA77B68AB16
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:10:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60ED868AB11
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:09:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOL5x-0005Ls-Ow; Sat, 04 Feb 2023 11:08:53 -0500
+	id 1pOL66-0005RF-2H; Sat, 04 Feb 2023 11:09:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5o-0005CN-V5
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:48 -0500
-Received: from mout.kundenserver.de ([212.227.17.10])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5y-0005Ne-3J
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:54 -0500
+Received: from mout.kundenserver.de ([217.72.192.75])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5m-0006w8-FS
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:44 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5w-0006ze-Bx
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:53 -0500
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1M6m5o-1pG7MM2jxm-008MEt; Sat, 04
- Feb 2023 17:08:40 +0100
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1M2wbS-1pL3Ir0ORY-003QYL; Sat, 04
+ Feb 2023 17:08:41 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Helge Deller <deller@gmx.de>,
-	Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 13/22] linux-user: Improve strace output of getgroups() and
- setgroups()
-Date: Sat,  4 Feb 2023 17:08:21 +0100
-Message-Id: <20230204160830.193093-14-laurent@vivier.eu>
+Cc: Mike Frysinger <vapier@gentoo.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 14/22] linux-user: move target_flat.h to target subdirs
+Date: Sat,  4 Feb 2023 17:08:22 +0100
+Message-Id: <20230204160830.193093-15-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230204160830.193093-1-laurent@vivier.eu>
 References: <20230204160830.193093-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:yRChEJ7Ba1AWgTnS+fmQyxbTgisMENhq5AuoFIhUK0Acw9aBOm3
- jvHcC3Z19RCi2qZOlpgp3/WBlAP0vy5c0OMD7NtsqKmYphlcXxZulC442cA0Ul1eY7u23e6
- tHllPD6s8G2HYv9af1qHOnT2h/odvSbZmoP4YGeDOD9cZVcWWeq6Dp1TaC38MxCLoFtQHHM
- wdhWUgy4O54re2EbG1bBw==
-UI-OutboundReport: notjunk:1;M01:P0:qQ3kTK21Wqo=;jTH5aSeWNScW/tsRFxyRoe6S4fI
- U01wYXyvx96sBKMRnIY3q24RQQIzqu1KOnbkWpL/3946SN6o6oWqbmu/nWsRgdVywIdmkzj+w
- fsf3b3bhF2rdHTo6g+vaXjKu1PG9z6vi8VzrL9FJjR8qEoVHaZAV+JWRIhVBasXsAijzXHpWU
- qQuqftrgVraG8WpM/3BZO8m+WVHfZA3QFAkX9SqU13iN0rhCSbFS2U5K0O80qm3V5ghgwGVPL
- Q1VgFtznXHl/4CO1A3lPfgUXxkLeB7pGgCZAEkbDIcvtxUIF4KIOH0sK2K4kRtxQqW8KYWgtb
- sTa1CSH01PjwysdWKOySt111XFcMOc/AIfKV25UysItTDjjQiMBfRHm7avA/riZebBYF6bP9/
- 7FtxNPAD042DLewYh44jwjHt4B71marl5UByR+ELiXYh8ggGngN9ktMS3tkHVOm0f13RpIj4K
- Ek6VZREh/ITFL5MWMOdfRKdMZzPbR/CGYfY5Lk7QqT8M0ShmmqfahI87mu/K+nTHpjU9heVHA
- KnF3JB8rMXOKB/fouqZZsBSaGzva09VGURZQ21q6AVed++YaitWUxyaGzM12Fb8OPwm6QYjTD
- A5QovOPiK7fvKl+h9+Fyh2DKx63out6frFF6rQXI4HGofbxm5ZfY8L6uICDz+chNx+NOeCd1w
- oaOqOnuKyfgFmrwvB13m+ixg9gEFDWqebe7CXa3fXw==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:uzF3dc4th1dKxiw9UOa0Y3dK5GTHMJ9W/ghwV3ffxj1NCwKqbBP
+ vMyIO4HRObwmGdINUG7E5ZTjNXmmsAra+b4XEuhl/SIfwLWpRMeERt6/Tv5GuzWjcqh++ts
+ ADNwLjvOx5W+xBWLQwjwAafqeTGMUT/VP9LKVJIFYl6Je0puTpAdXNQfK+sTVvpQE3l6ixb
+ e9lBKh26mhkccAhI4YgNw==
+UI-OutboundReport: notjunk:1;M01:P0:r09LaFXwISY=;6gpTsTVxzThU7fSzlrKwnhN7cV/
+ 87hkcTBEX5gQrB1JZUARMyTk/iuePU64osjqNd1bcdhxZH0IaGuBpRgRRRjlrW0jIGSbaFqn5
+ KXP/YJpA89PoIGdj36cHcrRqbjIMFjGA8IoMAxQRI4VGl0vytMGpNctVbIZEkui45wWtqpAzH
+ YOWXzRwixgxFoY4NfQF/XHIcyMgqymLQiNjrb1ksbu/UgU8IXvCcatXWmPsN6NsJpAfuZq9g2
+ FTklohTzG/tvPU6jbvIHwno5DQLw5xc01T/VzMeQ81NZgDt0SnMBnmlxy0CwGZgHti9eV8R+U
+ UUpfgWGNjZ5gXr/IqSicnsxz9i3ZP0JCmG8VGSe/33bz0yGBcwFQLHDO5ExxLrKaq5tBfubGr
+ zbhmgU+zTHrFsh693i889Huu/wQuSjQald6NEE/JcSLBE/N39QE+3SlvxpaA8BqSpjAkx9k/C
+ VQzUl4vbBjNLQ0gTbkGA0qCH3N3VGN18SAB8VOlW4N7ELMpSiNzp7R/s0eg9brqsboFAdEKIK
+ Uw+QUB+t2NzqXMXnDXFEfE/nyvTcjGEpFzIh1N/6g5W58L69srmgRVQjYcUit+vM/CkmRt27A
+ fgPCQnDQS02Xpvt8jZDpig1DPZQcIK7eNBF4ZNOjFxEZksv/3bun6ttaBhT8g0yq+3g3mrhxw
+ PtRRZhqp2tvRpzNeHACJ6sA9orIgD72F9oBlrirdvA==
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,48 +70,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Helge Deller <deller@gmx.de>
+From: Mike Frysinger <vapier@gentoo.org>
 
-Make the strace look nicer for those syscalls.
+This makes target_flat.h behave like every other target_xxx.h header.
+It also makes it actually work -- while the current header says adding
+a header to the target subdir overrides the common one, it doesn't.
+This is for two reasons:
+* meson.build adds -Ilinux-user before -Ilinux-user/$arch
+* the compiler search path for "target_flat.h" looks in the same dir
+  as the source file before searching -I paths.
 
-Signed-off-by: Helge Deller <deller@gmx.de>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20230115210057.445132-1-deller@gmx.de>
+This can be seen with the xtensa port -- the subdir settings aren't
+used which breaks stack setup.
+
+Move it to the generic/ subdir and add include stubs like every
+other target_xxx.h header is handled.
+
+Signed-off-by: Mike Frysinger <vapier@gentoo.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230129004625.11228-1-vapier@gentoo.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.list | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ linux-user/aarch64/target_flat.h       | 1 +
+ linux-user/arm/target_flat.h           | 1 +
+ linux-user/{ => generic}/target_flat.h | 0
+ linux-user/m68k/target_flat.h          | 1 +
+ linux-user/microblaze/target_flat.h    | 1 +
+ linux-user/sh4/target_flat.h           | 1 +
+ 6 files changed, 5 insertions(+)
+ create mode 100644 linux-user/aarch64/target_flat.h
+ create mode 100644 linux-user/arm/target_flat.h
+ rename linux-user/{ => generic}/target_flat.h (100%)
+ create mode 100644 linux-user/m68k/target_flat.h
+ create mode 100644 linux-user/microblaze/target_flat.h
+ create mode 100644 linux-user/sh4/target_flat.h
 
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 64db8e6b8412..cf291d02edfe 100644
---- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -321,10 +321,10 @@
- { TARGET_NR_getgid32, "getgid32" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_getgroups
--{ TARGET_NR_getgroups, "getgroups" , NULL, NULL, NULL },
-+{ TARGET_NR_getgroups, "getgroups" , "%s(%d,%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_getgroups32
--{ TARGET_NR_getgroups32, "getgroups32" , NULL, NULL, NULL },
-+{ TARGET_NR_getgroups32, "getgroups32" , "%s(%d,%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_gethostname
- { TARGET_NR_gethostname, "gethostname" , NULL, NULL, NULL },
-@@ -1304,10 +1304,10 @@
- { TARGET_NR_setgid32, "setgid32" , "%s(%u)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_setgroups
--{ TARGET_NR_setgroups, "setgroups" , NULL, NULL, NULL },
-+{ TARGET_NR_setgroups, "setgroups" , "%s(%d,%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_setgroups32
--{ TARGET_NR_setgroups32, "setgroups32" , NULL, NULL, NULL },
-+{ TARGET_NR_setgroups32, "setgroups32" , "%s(%d,%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_sethae
- { TARGET_NR_sethae, "sethae" , NULL, NULL, NULL },
+diff --git a/linux-user/aarch64/target_flat.h b/linux-user/aarch64/target_flat.h
+new file mode 100644
+index 000000000000..bc83224cea12
+--- /dev/null
++++ b/linux-user/aarch64/target_flat.h
+@@ -0,0 +1 @@
++#include "../generic/target_flat.h"
+diff --git a/linux-user/arm/target_flat.h b/linux-user/arm/target_flat.h
+new file mode 100644
+index 000000000000..bc83224cea12
+--- /dev/null
++++ b/linux-user/arm/target_flat.h
+@@ -0,0 +1 @@
++#include "../generic/target_flat.h"
+diff --git a/linux-user/target_flat.h b/linux-user/generic/target_flat.h
+similarity index 100%
+rename from linux-user/target_flat.h
+rename to linux-user/generic/target_flat.h
+diff --git a/linux-user/m68k/target_flat.h b/linux-user/m68k/target_flat.h
+new file mode 100644
+index 000000000000..bc83224cea12
+--- /dev/null
++++ b/linux-user/m68k/target_flat.h
+@@ -0,0 +1 @@
++#include "../generic/target_flat.h"
+diff --git a/linux-user/microblaze/target_flat.h b/linux-user/microblaze/target_flat.h
+new file mode 100644
+index 000000000000..bc83224cea12
+--- /dev/null
++++ b/linux-user/microblaze/target_flat.h
+@@ -0,0 +1 @@
++#include "../generic/target_flat.h"
+diff --git a/linux-user/sh4/target_flat.h b/linux-user/sh4/target_flat.h
+new file mode 100644
+index 000000000000..bc83224cea12
+--- /dev/null
++++ b/linux-user/sh4/target_flat.h
+@@ -0,0 +1 @@
++#include "../generic/target_flat.h"
 -- 
 2.39.1
 
