@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9775968AB3D
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:35:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5608368AB57
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:38:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOLUa-0005RW-JF; Sat, 04 Feb 2023 11:34:20 -0500
+	id 1pOLXg-0002Vt-RJ; Sat, 04 Feb 2023 11:37:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pOLUY-0005Qq-Fu
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:34:18 -0500
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+ id 1pOLXV-0001vq-JL
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:37:22 -0500
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pOLUV-0002Zi-GZ
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:34:17 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id m2so8170157plg.4
- for <qemu-devel@nongnu.org>; Sat, 04 Feb 2023 08:34:15 -0800 (PST)
+ id 1pOLXT-0003DK-0Y
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:37:21 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id v23so8182572plo.1
+ for <qemu-devel@nongnu.org>; Sat, 04 Feb 2023 08:37:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=K/mQXKGoZSeezy+fD0L3eFiruW/hZ0so4pkDJy4zkyE=;
- b=V4cCtOcJKVp7hmEjwHWzCB2X99uj3GR8F1kdoLWmediRB1D9T7Vc+6hwp9WXdyVE9F
- XEeiivLBRPVXcNybAvOiT/A6uRCvdV1wslhsW7QPZWsCh5AMuRRI3NubA4ESzMA8XcEH
- N+r4CqYeo6KzLJtx8CeY3kNm90po91oFEjxWO5zv5gV3AmVd3vcaccgdwabJDeprgol4
- PH8rIMdtE9tLd8xUKpn46KM4KoYM4di2+Xh6oyVLmq5Pejes+VzP1lfzK8xlY6p/7ZpH
- 0gpnmLztzo9mUkIFIGs8qaGILYtGKLFVei6rsPiPcWj79t/3xeDwn5eXvqgYIbZRK5v9
- 2e6A==
+ bh=QPWeTXTKWj6B/5YSw0vd9eckVw6ULhkxBcXwg2elZXg=;
+ b=VlFboWBdym/tX1FZojPQMAQgeJxtllvfU481TJFx1VUOSAy6fka5OIBId7T9yMuqdY
+ F4Yc+4KVS/vvEqPoFLo+Pg8BG1dBUC9+FyKeEagHMt7VEqhfBpdUqYuCePHzoGliJS4+
+ Kvx4tgtGpcLRsFBA+dIoymfm9cfXRf5GpOT16/C/GcpWgW0D5ecyg+c/lsnohH0r9JvQ
+ /Ho2xb5gRceRyuD37OPI+a9b8a3iKgDqxpyrSvceiY4T+Byu4WxuZlEryffTJlRtkTyX
+ C5q5yycSoydOmWRkDn9B6HZpu/bfKjbWfZpZjMS7twaU+hYuXyICmk76I1t9JOopQufR
+ IcTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=K/mQXKGoZSeezy+fD0L3eFiruW/hZ0so4pkDJy4zkyE=;
- b=07mg6f0kFiP+XKd1aeUiYeV7KziB3Lb6BGovUAW3eCmXrnCwC0FBAM9KZQ9DM08lmc
- GURZKXG7Ai8WNOb2QZWGqTue8+HGWaxfhU2PaDZqIH6iC9lcs3Yvpp+5gr45zebzX1ms
- n9aTOvskzFjQTHmZ1uDAjPMVMNehm/XHNO7ecvB+kz+hBusqhIhakCm2dNY6Jdif0duV
- vqdKEli8vuNMBnAC452UAhs26IcjhobgB3gYC0Fhn464JjK8y1PpT/qkyDUojA9paB5g
- 6iLEdK0OEbZhFqy8KWceMhU6xdKAPzNWitC+4xRGgYTjcxsZ1zqNVwciGr2Hj0HAgPo7
- J6dQ==
-X-Gm-Message-State: AO0yUKUUe+5tXGNrW8Difx5X3XwQT7Uzlt8fbqkzzVjwUKW8vosBJnzO
- 6Ex7z8RxO3WrvIxFarULO1ZJMEweJqhK59mH
-X-Google-Smtp-Source: AK7set8bf1knY0EH3pqqJiffGwr3gXU6JI+5ccgxzSayNstJBnmV7atRnOk/7tN9RTEFZRwyXQbewQ==
-X-Received: by 2002:a17:902:ce92:b0:198:ec2c:d4e6 with SMTP id
- f18-20020a170902ce9200b00198ec2cd4e6mr5144679plg.38.1675528454647; 
- Sat, 04 Feb 2023 08:34:14 -0800 (PST)
+ bh=QPWeTXTKWj6B/5YSw0vd9eckVw6ULhkxBcXwg2elZXg=;
+ b=N3GDEwIeOVZovIEJyyvGyVyCgMrWvjYjv3pOBanjY8zBLxgTV7J6qdQhvKUAFXM9No
+ GiIN39IDC3VYcM2HomqOGxovAvyy3iGYCUJIN4IbQHC7jSfZocTO6KOiOzSQGzOuRBdU
+ vS4FuYLlgqOsOkdImkL8vbBGCQQx8dOdTXPDwx75NqMwYL7ZJHckXxU6fyd5YDhW2sUl
+ 58uXXzJ7W/tD6NxWy5FUg2c9UHlqDgx7xO/Lfm5LJOtf5Mh2BTfMvbxvYwKcX44XN5jC
+ IQ7ceSVAWzMbU/Hzw97fQsa3+aDFymPvEpgtVpwMhzqHyp0Y45ic/lzOUqABw/hpBSFF
+ afDQ==
+X-Gm-Message-State: AO0yUKXKB8xWM3kRMQ2cJSIu5SmRhz7BKBgjgW1qnZM5FffoYi8pY6eP
+ He+ikFH8zbuqVLdqpkl8v1MrKLHwP32Z7D85
+X-Google-Smtp-Source: AK7set92uAfsTGnsFqG2xvA+WQgv8hlePI/jRc6anYFG/nFsEfrqhEituFdDjPDdTAAGYYUBbv8Mwg==
+X-Received: by 2002:a17:902:f14d:b0:198:dd32:f0e1 with SMTP id
+ d13-20020a170902f14d00b00198dd32f0e1mr5244907plb.0.1675528637549; 
+ Sat, 04 Feb 2023 08:37:17 -0800 (PST)
 Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
  by smtp.gmail.com with ESMTPSA id
- w19-20020a1709029a9300b00186b69157ecsm3660859plp.202.2023.02.04.08.34.13
+ t18-20020a170902b21200b00198ef76ce8dsm314136plr.72.2023.02.04.08.37.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Feb 2023 08:34:14 -0800 (PST)
+ Sat, 04 Feb 2023 08:37:17 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 39/40] target/i386: Inline cmpxchg16b
-Date: Sat,  4 Feb 2023 06:33:09 -1000
-Message-Id: <20230204163310.815536-40-richard.henderson@linaro.org>
+	Zenghui Yu <yuzenghui@huawei.com>
+Subject: [PULL 40/40] tcg/aarch64: Fix patching of LDR in
+ tb_target_set_jmp_target
+Date: Sat,  4 Feb 2023 06:33:10 -1000
+Message-Id: <20230204163310.815536-41-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230204163310.815536-1-richard.henderson@linaro.org>
 References: <20230204163310.815536-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,171 +91,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use tcg_gen_atomic_cmpxchg_i128 for the atomic case,
-and tcg_gen_qemu_ld/st_i128 otherwise.
+'offset' should be bits [23:5] of LDR instruction, rather than [4:0].
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Fixes: d59d83a1c388 ("tcg/aarch64: Reorg goto_tb implementation")
+Reviewed-by: Zenghui Yu <yuzenghui@huawei.com>
+Reported-by: Zenghui Yu <yuzenghui@huawei.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/helper.h         |  4 ---
- target/i386/tcg/mem_helper.c | 69 ------------------------------------
- target/i386/tcg/translate.c  | 44 ++++++++++++++++++++---
- 3 files changed, 39 insertions(+), 78 deletions(-)
+ tcg/aarch64/tcg-target.c.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/i386/helper.h b/target/i386/helper.h
-index 2df8049f91..e627a93107 100644
---- a/target/i386/helper.h
-+++ b/target/i386/helper.h
-@@ -66,10 +66,6 @@ DEF_HELPER_1(rsm, void, env)
- #endif /* !CONFIG_USER_ONLY */
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index fde3b30ad1..a091326f84 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -1914,7 +1914,7 @@ void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
+         ptrdiff_t i_offset = i_addr - jmp_rx;
  
- DEF_HELPER_2(into, void, env, int)
--#ifdef TARGET_X86_64
--DEF_HELPER_2(cmpxchg16b_unlocked, void, env, tl)
--DEF_HELPER_2(cmpxchg16b, void, env, tl)
--#endif
- DEF_HELPER_FLAGS_1(single_step, TCG_CALL_NO_WG, noreturn, env)
- DEF_HELPER_1(rechecking_single_step, void, env)
- DEF_HELPER_1(cpuid, void, env)
-diff --git a/target/i386/tcg/mem_helper.c b/target/i386/tcg/mem_helper.c
-index 814786bb87..3ef84e90d9 100644
---- a/target/i386/tcg/mem_helper.c
-+++ b/target/i386/tcg/mem_helper.c
-@@ -27,75 +27,6 @@
- #include "tcg/tcg.h"
- #include "helper-tcg.h"
- 
--#ifdef TARGET_X86_64
--void helper_cmpxchg16b_unlocked(CPUX86State *env, target_ulong a0)
--{
--    uintptr_t ra = GETPC();
--    Int128 oldv, cmpv, newv;
--    uint64_t o0, o1;
--    int eflags;
--    bool success;
--
--    if ((a0 & 0xf) != 0) {
--        raise_exception_ra(env, EXCP0D_GPF, GETPC());
--    }
--    eflags = cpu_cc_compute_all(env, CC_OP);
--
--    cmpv = int128_make128(env->regs[R_EAX], env->regs[R_EDX]);
--    newv = int128_make128(env->regs[R_EBX], env->regs[R_ECX]);
--
--    o0 = cpu_ldq_data_ra(env, a0 + 0, ra);
--    o1 = cpu_ldq_data_ra(env, a0 + 8, ra);
--
--    oldv = int128_make128(o0, o1);
--    success = int128_eq(oldv, cmpv);
--    if (!success) {
--        newv = oldv;
--    }
--
--    cpu_stq_data_ra(env, a0 + 0, int128_getlo(newv), ra);
--    cpu_stq_data_ra(env, a0 + 8, int128_gethi(newv), ra);
--
--    if (success) {
--        eflags |= CC_Z;
--    } else {
--        env->regs[R_EAX] = int128_getlo(oldv);
--        env->regs[R_EDX] = int128_gethi(oldv);
--        eflags &= ~CC_Z;
--    }
--    CC_SRC = eflags;
--}
--
--void helper_cmpxchg16b(CPUX86State *env, target_ulong a0)
--{
--    uintptr_t ra = GETPC();
--
--    if ((a0 & 0xf) != 0) {
--        raise_exception_ra(env, EXCP0D_GPF, ra);
--    } else if (HAVE_CMPXCHG128) {
--        int eflags = cpu_cc_compute_all(env, CC_OP);
--
--        Int128 cmpv = int128_make128(env->regs[R_EAX], env->regs[R_EDX]);
--        Int128 newv = int128_make128(env->regs[R_EBX], env->regs[R_ECX]);
--
--        int mem_idx = cpu_mmu_index(env, false);
--        MemOpIdx oi = make_memop_idx(MO_TE | MO_128 | MO_ALIGN, mem_idx);
--        Int128 oldv = cpu_atomic_cmpxchgo_le_mmu(env, a0, cmpv, newv, oi, ra);
--
--        if (int128_eq(oldv, cmpv)) {
--            eflags |= CC_Z;
--        } else {
--            env->regs[R_EAX] = int128_getlo(oldv);
--            env->regs[R_EDX] = int128_gethi(oldv);
--            eflags &= ~CC_Z;
--        }
--        CC_SRC = eflags;
--    } else {
--        cpu_loop_exit_atomic(env_cpu(env), ra);
--    }
--}
--#endif
--
- void helper_boundw(CPUX86State *env, target_ulong a0, int v)
- {
-     int low, high;
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index b542b084a6..9d9392b009 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -3053,15 +3053,49 @@ static void gen_cmpxchg8b(DisasContext *s, CPUX86State *env, int modrm)
- #ifdef TARGET_X86_64
- static void gen_cmpxchg16b(DisasContext *s, CPUX86State *env, int modrm)
- {
-+    MemOp mop = MO_TE | MO_128 | MO_ALIGN;
-+    TCGv_i64 t0, t1;
-+    TCGv_i128 cmp, val;
-+
-     gen_lea_modrm(env, s, modrm);
- 
--    if ((s->prefix & PREFIX_LOCK) &&
--        (tb_cflags(s->base.tb) & CF_PARALLEL)) {
--        gen_helper_cmpxchg16b(cpu_env, s->A0);
-+    cmp = tcg_temp_new_i128();
-+    val = tcg_temp_new_i128();
-+    tcg_gen_concat_i64_i128(cmp, cpu_regs[R_EAX], cpu_regs[R_EDX]);
-+    tcg_gen_concat_i64_i128(val, cpu_regs[R_EBX], cpu_regs[R_ECX]);
-+
-+    /* Only require atomic with LOCK; non-parallel handled in generator. */
-+    if (s->prefix & PREFIX_LOCK) {
-+        tcg_gen_atomic_cmpxchg_i128(val, s->A0, cmp, val, s->mem_index, mop);
-     } else {
--        gen_helper_cmpxchg16b_unlocked(cpu_env, s->A0);
-+        tcg_gen_nonatomic_cmpxchg_i128(val, s->A0, cmp, val, s->mem_index, mop);
+         /* Note that we asserted this in range in tcg_out_goto_tb. */
+-        insn = deposit32(I3305_LDR | TCG_REG_TMP, 0, 5, i_offset >> 2);
++        insn = deposit32(I3305_LDR | TCG_REG_TMP, 5, 19, i_offset >> 2);
      }
--    set_cc_op(s, CC_OP_EFLAGS);
-+
-+    tcg_gen_extr_i128_i64(s->T0, s->T1, val);
-+    tcg_temp_free_i128(cmp);
-+    tcg_temp_free_i128(val);
-+
-+    /* Determine success after the fact. */
-+    t0 = tcg_temp_new_i64();
-+    t1 = tcg_temp_new_i64();
-+    tcg_gen_xor_i64(t0, s->T0, cpu_regs[R_EAX]);
-+    tcg_gen_xor_i64(t1, s->T1, cpu_regs[R_EDX]);
-+    tcg_gen_or_i64(t0, t0, t1);
-+    tcg_temp_free_i64(t1);
-+
-+    /* Update Z. */
-+    gen_compute_eflags(s);
-+    tcg_gen_setcondi_i64(TCG_COND_EQ, t0, t0, 0);
-+    tcg_gen_deposit_tl(cpu_cc_src, cpu_cc_src, t0, ctz32(CC_Z), 1);
-+    tcg_temp_free_i64(t0);
-+
-+    /*
-+     * Extract the result values for the register pair.  We may do this
-+     * unconditionally, because on success (Z=1), the old value matches
-+     * the previous value in RDX:RAX.
-+     */
-+    tcg_gen_mov_i64(cpu_regs[R_EAX], s->T0);
-+    tcg_gen_mov_i64(cpu_regs[R_EDX], s->T1);
- }
- #endif
- 
+     qatomic_set((uint32_t *)jmp_rw, insn);
+     flush_idcache_range(jmp_rx, jmp_rw, 4);
 -- 
 2.34.1
 
