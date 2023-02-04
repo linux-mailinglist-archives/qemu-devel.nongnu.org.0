@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A5B968AB1B
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:11:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D797E68AB15
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:09:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOL5u-0005FS-4o; Sat, 04 Feb 2023 11:08:50 -0500
+	id 1pOL5w-0005JE-J2; Sat, 04 Feb 2023 11:08:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5n-00057w-KP
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:43 -0500
-Received: from mout.kundenserver.de ([217.72.192.73])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5p-0005CX-Au
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:48 -0500
+Received: from mout.kundenserver.de ([212.227.17.13])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5l-0006vp-Ed
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:43 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5n-0006wP-E8
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:45 -0500
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MrxfX-1osdNr3prh-00nzZo; Sat, 04
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mofst-1orXSQ1bbt-00p4yK; Sat, 04
  Feb 2023 17:08:39 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Letu Ren <fantasquex@gmail.com>,
-	Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 09/22] linux-user: add more netlink protocol constants
-Date: Sat,  4 Feb 2023 17:08:17 +0100
-Message-Id: <20230204160830.193093-10-laurent@vivier.eu>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 10/22] Revert "linux-user: add more compat ioctl definitions"
+Date: Sat,  4 Feb 2023 17:08:18 +0100
+Message-Id: <20230204160830.193093-11-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230204160830.193093-1-laurent@vivier.eu>
 References: <20230204160830.193093-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:6NGrLWZ+s5gBpApTLYcdfmN6u/320x6R5kH3KIyzfzPAD5UugkU
- 3H1+oJhJ8h62Yt5+9O8+u9brYpjz8am9ICxgHxwcPDcjbCc/mMUyGaKAq/EZGxBpGHlMYcJ
- +PHkezlJW7XgMCL/r4w/bYmZVI30gkzAiMzONg8tyPMxB2g8gAQYPqK3zIs0OzEZzNgxH9C
- g8Zd99e2XaDdR8/57oiUQ==
-UI-OutboundReport: notjunk:1;M01:P0:uH5CD42gIVk=;gIFhXFw97OxbvoJiiVB+VLyEtlm
- Cm0EwCRRiWdpfduPdVzE0iY9PcwY9KJmlTB4iATbI/Q0gO/bcMtuqR1oUGWJD+oc1e214K9Z9
- FQFgiqhrBXrE1oF4tfZKfWwH0bhNTA6lHUQ7AFw4+jleJ/O6snJGalIVIqm/xXybF6v0E9rAM
- BdPfWQG5nVR7Q1Q3iWN+SRI9rAKvJE6s+ozXUhyEPxPVp7kmuqzWFGjjAu3iTuTlkyLzud/rR
- IBAKDSaSnW8gnFnuxptrZ65f9Vu/pllLFxYVTfhUtkFl3d9RknGAV11ZugDalFbLSqUz/OTAy
- v7593KH0+wMcWU+eXJ/Dm6Ds3d3JFLaWpZkEKtTQfJ+WIryGg+pq5kGnKB5HkLhT6tBUt4qRN
- t5NfxA4Z6/qHZZMaFvo5qD5FfCLUn9ciqRIsT4Bm6LihkomLcY9VyaaK0eS9N42viUyiSgMaw
- UzcOfTQNWr2VFkCP6o1UEUMS6QYT7c7lo/ydhNyaH2LVjZ6fS9NwoEkBfh06zyOcITHyRbkeN
- 534+mBaTfHi/voiPf8yqls9UxhvF+xWsIpjLpFA/wV5EyYw5H5e/qkAKG2gxYqQFNnuGy93WR
- LFVBZrxXu0pNRtLco66n9NBQrcI+dSK0VSt8e4IaHVO7KEmnWDsh6i7vl/AzSxYy8MjAHMJ2a
- xz0VWa+17KFrv79EulAGulRA35zQxLcynvZR+mf7rA==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:svgt2oceWJbPahMz+LMGOdoqgEG/gcRO6U3u+w/SqpsOerQmeTn
+ DcUJhJRLMWFnQ6XhRTRqa5Ussd2YSrbYoIRE1raUuRLY8pUY3/pHSs7Kuo38uc8da20EEH8
+ yKPygljyLtgEGJoHvrYy9VJkuKKOFXmBeZTd1a4Rzovhthdqaf+JxZhUBscK+5hHQo0IkG0
+ JK35swQXz0efdXPiR8DqQ==
+UI-OutboundReport: notjunk:1;M01:P0:v3Fttt1pRRM=;05ToAbD8fdcYep8uwvmH6va0RXT
+ jUyPfi0+Mv1R74scRxNV95rf7aWs4HS+fuY65RRhfv4M43O9RE396l9KsYLSHJzpGdToArU75
+ 52a5MRi2XvJcwjVG8PKhqscpmU9GFc4TcPPBs/raxsB00wL0OF0gEe/OTcX4H3bQmkQw+elRV
+ hxb22MLd97z6ToBcpR0RQwC7acagwTXzyIjgT2d7QT8xOZ9sbQC/SfOdB+GLzyeYkIprVKG9K
+ 5gGXtmJXKIB+b41m2wGLRiSvW9XJVRGnmahULnnR4+gnrg7hmiookgPPY3bEQxC8PNAd7YhJc
+ 9kBijvQPdLIcREIfsTpiD52LWcqQF82QV1g1Ag0vMUOjJgsFl058sysbYY1XT6mGfG3/5u+v2
+ cljGji/A3F2lf390Un7tAcovjk4dHiEkDvTWhJY10LieEJfzvrIO5ebD4begfPTun0gL7XkkI
+ PLHFylG4SsMsfbIAVNExLtE6Y38b11B0pMmqUATjSOsV7dC6aL/85rvSV1kNhFvGOk1l2ceg8
+ OVfAfVturN9n58QMoIp62YH0zf7JNZTx8Aag/aj2wWoUCZBv/pqOFxtPBHCRZtBkmSBxFCIr0
+ 8Fg4m/7GQydbk5oYGShNOaWnJtodCo1sYoKjYdKPdS/aOlqRZJ8L0GttaqYZoFrOC9u2aTt0E
+ uJC07osBoAhwgnOmqgpNVoFGldEO1+EBnAE67bW8PQ==
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,92 +71,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Letu Ren <fantasquex@gmail.com>
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-Currently, qemu strace only prints four protocol contants. This patch
-adds others listed in "linux/netlink.h".
+This reverts commit c5495f4ecb0cdaaf2e9dddeb48f1689cdb520ca0.
 
-Signed-off-by: Letu Ren <fantasquex@gmail.com>
-Message-Id: <20230101141105.12024-1-fantasquex@gmail.com>
+glibc has fixed (in 2.36.9000-40-g774058d729) the problem
+that caused a clash when both sys/mount.h annd linux/mount.h
+are included, and backported this to the 2.36 stable release
+too:
+
+  https://sourceware.org/glibc/wiki/Release/2.36#Usage_of_.3Clinux.2Fmount.h.3E_and_.3Csys.2Fmount.h.3E
+
+It is saner for QEMU to remove the workaround it applied for
+glibc 2.36 and expect distros to ship the 2.36 maint release
+with the fix. This avoids needing to add a further workaround
+to QEMU to deal with the fact that linux/brtfs.h now also pulls
+in linux/mount.h via linux/fs.h since Linux 6.1
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20230110174901.2580297-2-berrange@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c | 48 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
+ linux-user/syscall.c | 25 -------------------------
+ 1 file changed, 25 deletions(-)
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 081fc87344ca..f38227ba5db5 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -506,21 +506,69 @@ print_socket_protocol(int domain, int type, int protocol)
-         case NETLINK_ROUTE:
-             qemu_log("NETLINK_ROUTE");
-             break;
-+        case NETLINK_UNUSED:
-+            qemu_log("NETLINK_UNUSED");
-+            break;
-+        case NETLINK_USERSOCK:
-+            qemu_log("NETLINK_USERSOCK");
-+            break;
-+        case NETLINK_FIREWALL:
-+            qemu_log("NETLINK_FIREWALL");
-+            break;
-+        case NETLINK_SOCK_DIAG:
-+            qemu_log("NETLINK_SOCK_DIAG");
-+            break;
-+        case NETLINK_NFLOG:
-+            qemu_log("NETLINK_NFLOG");
-+            break;
-+        case NETLINK_XFRM:
-+            qemu_log("NETLINK_XFRM");
-+            break;
-+        case NETLINK_SELINUX:
-+            qemu_log("NETLINK_SELINUX");
-+            break;
-+        case NETLINK_ISCSI:
-+            qemu_log("NETLINK_ISCSI");
-+            break;
-         case NETLINK_AUDIT:
-             qemu_log("NETLINK_AUDIT");
-             break;
-+        case NETLINK_FIB_LOOKUP:
-+            qemu_log("NETLINK_FIB_LOOKUP");
-+            break;
-+        case NETLINK_CONNECTOR:
-+            qemu_log("NETLINK_CONNECTOR");
-+            break;
-         case NETLINK_NETFILTER:
-             qemu_log("NETLINK_NETFILTER");
-             break;
-+        case NETLINK_IP6_FW:
-+            qemu_log("NETLINK_IP6_FW");
-+            break;
-+        case NETLINK_DNRTMSG:
-+            qemu_log("NETLINK_DNRTMSG");
-+            break;
-         case NETLINK_KOBJECT_UEVENT:
-             qemu_log("NETLINK_KOBJECT_UEVENT");
-             break;
-+        case NETLINK_GENERIC:
-+            qemu_log("NETLINK_GENERIC");
-+            break;
-+        case NETLINK_SCSITRANSPORT:
-+            qemu_log("NETLINK_SCSITRANSPORT");
-+            break;
-+        case NETLINK_ECRYPTFS:
-+            qemu_log("NETLINK_ECRYPTFS");
-+            break;
-         case NETLINK_RDMA:
-             qemu_log("NETLINK_RDMA");
-             break;
-         case NETLINK_CRYPTO:
-             qemu_log("NETLINK_CRYPTO");
-             break;
-+        case NETLINK_SMC:
-+            qemu_log("NETLINK_SMC");
-+            break;
-         default:
-             qemu_log("%d", protocol);
-             break;
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index dbf51e500b4f..b88f8ee96f0f 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -111,31 +111,6 @@
+ #define FS_IOC32_SETFLAGS              _IOW('f', 2, int)
+ #define FS_IOC32_GETVERSION            _IOR('v', 1, int)
+ #define FS_IOC32_SETVERSION            _IOW('v', 2, int)
+-
+-#define BLKGETSIZE64 _IOR(0x12,114,size_t)
+-#define BLKDISCARD _IO(0x12,119)
+-#define BLKIOMIN _IO(0x12,120)
+-#define BLKIOOPT _IO(0x12,121)
+-#define BLKALIGNOFF _IO(0x12,122)
+-#define BLKPBSZGET _IO(0x12,123)
+-#define BLKDISCARDZEROES _IO(0x12,124)
+-#define BLKSECDISCARD _IO(0x12,125)
+-#define BLKROTATIONAL _IO(0x12,126)
+-#define BLKZEROOUT _IO(0x12,127)
+-
+-#define FIBMAP     _IO(0x00,1)
+-#define FIGETBSZ   _IO(0x00,2)
+-
+-struct file_clone_range {
+-        __s64 src_fd;
+-        __u64 src_offset;
+-        __u64 src_length;
+-        __u64 dest_offset;
+-};
+-
+-#define FICLONE         _IOW(0x94, 9, int)
+-#define FICLONERANGE    _IOW(0x94, 13, struct file_clone_range)
+-
+ #else
+ #include <linux/fs.h>
+ #endif
 -- 
 2.39.1
 
