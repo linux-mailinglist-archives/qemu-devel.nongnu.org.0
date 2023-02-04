@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 272BD68ABCC
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 19:17:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B121D68AC00
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 19:56:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pON5G-0004WW-1c; Sat, 04 Feb 2023 13:16:18 -0500
+	id 1pONhF-0006zq-1c; Sat, 04 Feb 2023 13:55:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pON5D-0004Vl-P8
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 13:16:15 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1pONh4-0006zI-KV; Sat, 04 Feb 2023 13:55:23 -0500
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pON5C-0002hN-9m
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 13:16:15 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id p26so23566921ejx.13
- for <qemu-devel@nongnu.org>; Sat, 04 Feb 2023 10:16:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=b/2gFN9pcHbU/n7PMf6iI+BKameeldqRF+zNCLe3aU4=;
- b=TzvLFLXjws7bVa2OOe+LM6KLm7XbIauRMmJur9A7mqOg1DCYCrJFUo6PggLvUPvcR5
- QcmlFIDW9yaSU/exXIJPAfqCpWdBfA/h5cws1HPMh2OEH0cz9Ga4NP1qWh14c0svFnS4
- xDoF98WhVbktqviQCyeocMnwSokgfqaaeYxrLLsdZuhjmdwHEsB+yBLmU8r6m2cSXww7
- NQudgz2DPkxFNXKmE9iNMPbaGktRAe9Dji0HYZisMpiyW0pXmTegY4HY3H5RUbUQLf9v
- HeGGWv1zYXQQZYE5gpC6KUDw9pXLSgfiXDV9rVsDJDk7w2rUcPo6C7T471FMA43Dgiwy
- mAcw==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1pONh2-0000KE-9d; Sat, 04 Feb 2023 13:55:21 -0500
+Received: by mail-oi1-x236.google.com with SMTP id r205so6814588oib.9;
+ Sat, 04 Feb 2023 10:55:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=8VLC/azSnv7y7eHAG0V0W2Fop8W6hbKD/fkPchfj8g4=;
+ b=VfBBDHciErApRk9GZNVu/PuupKwvKt6ZLoi/M1dKLyoKZSDb2UbHsCo08MJ/R0WR6E
+ Npyp+hCZoeeCpa3WhSu91PQfD/cqz87k3wkpPEyxCYvnpSQ86wyRsitYHydTP0tXgTUj
+ 4zIEKbYgi5oq52Mdk5mqJcj7YK9qQ7KP9kgBT6+FMybiMzYmX1LpnPe+ePqbzowrrwKb
+ uun6BACtXJs1+u1Y/mYOL+bQDax43x1xpTessyqm6nwcQw3JxKRbHR0wOx9fc3mQd1Gl
+ J1tqLgkv2OP/5p7ppfKLkMbVTsQv6kbI5LrFKz2624xL/WwPXXwog5mcovOftt9m02LE
+ jTuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=b/2gFN9pcHbU/n7PMf6iI+BKameeldqRF+zNCLe3aU4=;
- b=Kchv0EzLaZ68lv4pZXteYgO7MNgKhP9arFBALQK14L+hecGYaBIHiYQJfszJA/gA/Q
- 4BL/B7d8pfLA/0SSvCII9eQYYFxtkEqgJSyxCOfg4XRM7+R4AemA8LAWvJBx3F5uxP58
- xoCIzFTHO82JyeVEtAaq8Lz7XcJSeUNwgSMOcNrGmuRYvi5S3yHeIScc9Xxlx1HpC2I3
- 329Or9pS39ewIaEB/8KIJrmKAjL5krPNy533uw3WW9Lp4/rm9bWftwWpHiMSKn0Y7+WQ
- TMXIirP/M9qvKo6ko0AApsJ69L6JqHs4JRK4a9Lrbr+sgqV9oZA72s52W/mza5I1L5U5
- 5H/w==
-X-Gm-Message-State: AO0yUKVFCQKRRWWTG3KH4iZEIHEoLUFcnP1/TXF4AcPkLeX3LMuHRdQu
- /6zGQZX2vOqy2HK/43uAotQczA==
-X-Google-Smtp-Source: AK7set+YGFpErYDK/8911VyrfPP/xEVrRosVCjmZY0IkxDILYkz/obhhoSBspYqVptUwPDZNGHkuEA==
-X-Received: by 2002:a17:906:c9d0:b0:884:fdb:6c41 with SMTP id
- hk16-20020a170906c9d000b008840fdb6c41mr16529703ejb.43.1675534572129; 
- Sat, 04 Feb 2023 10:16:12 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
+ bh=8VLC/azSnv7y7eHAG0V0W2Fop8W6hbKD/fkPchfj8g4=;
+ b=Q7cZST5kuzNDyiEpyXQ9sVQaR9kU2yv8FH27Z8lrTfWvS0Nc4rNZ2JHDy+CDmC5XLS
+ A4fl2CxGoLcY+aseMp6S6+dUmBnUVZnNJrFUXTklqBvxWlFV/7Poo8u10nmHjptSPNt0
+ S0wdFWt+d8ViG0hI3i23fq53LbeVjhJm5agAINBjffgfu+sVp7XEqzPcvvYPsqtsq497
+ 9LvcioSuyCzQT+zLPyLmpP1YxmKCkCgo7aq6eZW5RvEnQMsfpMU2XmA4iSm+bm9B4yvO
+ nOkvcby8DHi6dHq6IX57/y6dnER2DpJEsUVwF9SEPc1Hrn1QgAxX9Cy+y4FmBzkb0xyN
+ ZEsA==
+X-Gm-Message-State: AO0yUKXiSGMWxgtamnrr64AAkk3DWv8BaDr9jiT/3a9yKMaK4lHPOxip
+ 0p4piQpU1/g6H+6uqZd9j/9Abwv8jPU=
+X-Google-Smtp-Source: AK7set97hdZ1pXP9+30n5tz9xnk3PPOWJBgMfNKOGK8Ap413BwQQ1Qtw5bOq+Km4nh0MQbFJLep+LA==
+X-Received: by 2002:aca:a887:0:b0:37a:2bf0:5024 with SMTP id
+ r129-20020acaa887000000b0037a2bf05024mr3187113oie.18.1675536916460; 
+ Sat, 04 Feb 2023 10:55:16 -0800 (PST)
+Received: from [192.168.68.107] ([191.19.125.138])
  by smtp.gmail.com with ESMTPSA id
- u10-20020a1709063b8a00b0088b93bfa782sm3139665ejf.176.2023.02.04.10.16.10
+ k15-20020a05680808cf00b0037ab4f054f0sm2065503oij.12.2023.02.04.10.55.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 04 Feb 2023 10:16:11 -0800 (PST)
-Message-ID: <a58e814a-322e-da47-b15a-e4a95fbf202a@linaro.org>
-Date: Sat, 4 Feb 2023 19:16:09 +0100
+ Sat, 04 Feb 2023 10:55:16 -0800 (PST)
+Message-ID: <560fb172-837e-5c10-8e7a-81a250631398@gmail.com>
+Date: Sat, 4 Feb 2023 15:55:13 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH] tcg: Init temp_subindex in liveness_pass_2
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230203225928.4129774-1-richard.henderson@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] hw/ppc/pegasos2: Fix a typo in a comment
 Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230203225928.4129774-1-richard.henderson@linaro.org>
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20230203194312.33834745712@zero.eik.bme.hu>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20230203194312.33834745712@zero.eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x236.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.09,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,28 +91,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/2/23 23:59, Richard Henderson wrote:
-> Correctly handle large types while lowering.
-> 
-> Fixes: fac87bd2a49b ("tcg: Add temp_subindex to TCGTemp")
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
+
+
+Daniel
+
+On 2/3/23 16:43, BALATON Zoltan wrote:
+> Reported-by: Stefan Weil <sw@weilnetz.de>
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->   tcg/tcg.c | 1 +
->   1 file changed, 1 insertion(+)
+>   hw/ppc/pegasos2.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/tcg/tcg.c b/tcg/tcg.c
-> index fd557d55d3..bc60fd0fe8 100644
-> --- a/tcg/tcg.c
-> +++ b/tcg/tcg.c
-> @@ -3063,6 +3063,7 @@ static bool liveness_pass_2(TCGContext *s)
->               TCGTemp *dts = tcg_temp_alloc(s);
->               dts->type = its->type;
->               dts->base_type = its->base_type;
-> +            dts->temp_subindex = its->temp_subindex;
->               dts->kind = TEMP_EBB;
->               its->state_ptr = dts;
->           } else {
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
+> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+> index 1a13632ba6..a9563f4fb2 100644
+> --- a/hw/ppc/pegasos2.c
+> +++ b/hw/ppc/pegasos2.c
+> @@ -564,7 +564,7 @@ static void dt_isa(PCIBus *bus, PCIDevice *d, FDTInfo *fi)
+>       qemu_fdt_setprop_string(fi->fdt, fi->path, "device_type", "isa");
+>       qemu_fdt_setprop_string(fi->fdt, fi->path, "name", "isa");
+>   
+> -    /* addional devices */
+> +    /* additional devices */
+>       g_string_printf(name, "%s/lpt@i3bc", fi->path);
+>       qemu_fdt_add_subnode(fi->fdt, name->str);
+>       qemu_fdt_setprop_cell(fi->fdt, name->str, "clock-frequency", 0);
 
