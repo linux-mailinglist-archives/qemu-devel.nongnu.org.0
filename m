@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F418C68AB23
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:11:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55FAE68AB0E
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:09:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOL5u-0005Fs-Rk; Sat, 04 Feb 2023 11:08:50 -0500
+	id 1pOL5v-0005G2-1i; Sat, 04 Feb 2023 11:08:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5p-0005CY-HS
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5q-0005Ca-9X
  for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:48 -0500
 Received: from mout.kundenserver.de ([212.227.17.10])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5n-0006wm-UD
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:45 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5o-0006x0-A9
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:46 -0500
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MTRhS-1pCM9l2EcG-00TirZ; Sat, 04
- Feb 2023 17:08:41 +0100
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MIxqu-1p449I0CCo-00KOwR; Sat, 04
+ Feb 2023 17:08:42 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Helge Deller <deller@gmx.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 15/22] linux-user: Fix SO_ERROR return code of getsockopt()
-Date: Sat,  4 Feb 2023 17:08:23 +0100
-Message-Id: <20230204160830.193093-16-laurent@vivier.eu>
+Subject: [PULL 16/22] linux-user: Fix /proc/cpuinfo output for hppa
+Date: Sat,  4 Feb 2023 17:08:24 +0100
+Message-Id: <20230204160830.193093-17-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230204160830.193093-1-laurent@vivier.eu>
 References: <20230204160830.193093-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ctvkeRRaSGp+LXDc9zYwdH5ofs1nRVuBV2Q51cNatjilB/ph77y
- zJgj/+iy98/AHljUE5MjCTcwXU4pEq1Ozz5Gbz4L/PENYFETM74I4Oq8sSfj1oswequOZ42
- +wtFuBQNGK7gt5Q4sbN92hPdkB3eezZDEL+d4ELT0YkOYBTAPLmi4HzLQb0qr8CjZfcaVOG
- RmtqxT309SMq4Q+g09xag==
-UI-OutboundReport: notjunk:1;M01:P0:XaT9SpYvLG4=;B7vR44XIuM9Iemjr6GCram7TmrM
- UF67rcoHFf2dZbr/PyQ/YpzyWje4AJd8hv7/yF+Fx5cLMUbegow6Qa0C6sqYwjbpMGRPTM6Cj
- 8DPCiWipuzmj0N4aqKYtoDqN5VRqNrL5Q6RiWwOwPtFTEmBYv+RZQPyFCjPTzgmXcvtfoGbPk
- HvdfNge9uqZ7E1ACcglkzK653OyJ4BgErDEUnkhQD/CXGxrqYzIvxzZTQd7EpX/7KlW51Gjka
- oFjcLdd+nPEDfVk89tJa/AZUUKgANrJEysnaSuifdATXNzu2OxzUFTzPfJmO3ZRD223ucDjMH
- qB/qCsnicebv3UqGT292swq19pb3F+a6wHZBtQU6LZ05tWPmPXx374v4Ka/sZIxUE8A5e0zY6
- xxvBbEOyryXq7GkycikHgNWa3FNFNlS3aN/u/1YkZxccemasmfMjdfgA1Wbwdvg9iaiS7Fw7A
- 5skARRFcLJBfaTlDcR1ucxx82kzA8BF3lwk/j7AUhVPxP8Ujrs4OxeEIDeeuHj1t8y7eOO7+U
- C6M0lPGiOuzwtpfUh4bP7u44D8ucokGy3g/AWJTMa4qGq9EuIkTdzhlQiMfr+Z8+Kbedl7ay+
- 7YhOD6C6XPOChIXUhi8Ws4/oJzoRewprnbXmDvZyBQKe4t/JxiPa+OR0r2YsrxN2+O5B4jB9D
- g5+s/IBQuacHC+Yrs3AkHb4LAkEq5vuWyLF5okVFGg==
+X-Provags-ID: V03:K1:6J504CEHn1Rc8H1oFDl2Q7pG356j0LjPO4dQa0OAbxk6fddwWnd
+ aqCddakJB+FyeSbc92DFnQoLpvXit79Fe0IfETmmPBN8wf7cj/YUG/BzdVcY3QgL4lBHRR5
+ NeO6+AKanxTP8FOgZWdQkOBQvVWaop2d4YRug01ZyeQ/+CsKzVDzlE9khuzu8E7BW9K7/GT
+ mwSMoxlIzF+3lSNZ9WY/w==
+UI-OutboundReport: notjunk:1;M01:P0:W19q2aZfjns=;6qemAJC+bAf4EJ3Xlkt06vUfyRi
+ QJ/k58Ge5UEQi8CfAUBTtOOV62UQEwn8J/tUfa/tXKx06xyU4O3D0XQp4P6phU0QL8NUTgrJF
+ 9BGuAqefXro3Sm8fzlCC78a7uZC85zRpgjVMZ7g02ucWI7wuhUpVvM43lGrp3fxzumAXlB84M
+ 0ny97Pff46tEsS9HPnwLCrZSvE7fcyMtNoXJWRGdT9DtCLxSd/wVs75JxANUBCiPC+cGq/LkA
+ hgoH4m7QBYm0aJDQ5/Ax7NREat7abm6On+0dSgsAlta26gMUb1FRYuP0Xne5eDaOiOpJYFoQN
+ I4838RfgC5jXEGNps1KcQMfGySIQwgJl1qSpgaoNOqSv7uTWcIiAXugAED4NzRQQqb1IDKSMM
+ ph0cmeKz9iPkNRRbp1jOBDMdGxq1piywEcISVT6I6geL2mXN998InugvBGZbad6l7lu2I0FGA
+ gs935twcMRr2kWR9Aq79hVU4N0iZqJu4xpqA7z2aYBPg2L4l0EwSOFz+tWgp6v8bGiONJaYhR
+ wMbrMtosYvHoUgoupNVKFFLjTYiuyEbk8qWCRlbQEgy4rMIKp/t0W0wGpyOop1M8Gh758Kfi6
+ Tuwaxtup9P4o5a4SHNVLQ02V7C/RJlCdpQDktjzxCpCjO07ESzeGhnTxXZDV7/ILX56PnfOLD
+ NMW7DHBOQ1tuinXxcYvXEwRLWyznb62e568SNi7Pew==
 Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -72,40 +74,56 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Helge Deller <deller@gmx.de>
 
-Add translation for the host error return code of:
-    getsockopt(19, SOL_SOCKET, SO_ERROR, [ECONNREFUSED], [4]) = 0
+The hppa architectures provides an own output for the emulated
+/proc/cpuinfo file.
 
-This fixes the testsuite of the cockpit debian package with a
-hppa-linux guest on a x86-64 host.
+Some userspace applications count (even if that's not the recommended
+way) the number of lines which start with "processor:" and assume that
+this number then reflects the number of online CPUs. Since those 3
+architectures don't provide any such line, applications may assume "0"
+CPUs.  One such issue can be seen in debian bug report:
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1024653
+
+Avoid such issues by adding a "processor:" line for each of the online
+CPUs.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <Y9QzNzXg0hrzHQeo@p100>
+Message-Id: <Y9QvyRSq1I1k5/JW@p100>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ linux-user/syscall.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 210db5f0be94..1c42df651801 100644
+index 1c42df651801..55d53b344b84 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -2758,8 +2758,13 @@ get_timeout:
-         ret = get_errno(getsockopt(sockfd, level, optname, &val, &lv));
-         if (ret < 0)
-             return ret;
--        if (optname == SO_TYPE) {
-+        switch (optname) {
-+        case SO_TYPE:
-             val = host_to_target_sock_type(val);
-+            break;
-+        case SO_ERROR:
-+            val = host_to_target_errno(val);
-+            break;
-         }
-         if (len > lv)
-             len = lv;
+@@ -8232,11 +8232,17 @@ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+ #if defined(TARGET_HPPA)
+ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+ {
+-    dprintf(fd, "cpu family\t: PA-RISC 1.1e\n");
+-    dprintf(fd, "cpu\t\t: PA7300LC (PCX-L2)\n");
+-    dprintf(fd, "capabilities\t: os32\n");
+-    dprintf(fd, "model\t\t: 9000/778/B160L\n");
+-    dprintf(fd, "model name\t: Merlin L2 160 QEMU (9000/778/B160L)\n");
++    int i, num_cpus;
++
++    num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
++    for (i = 0; i < num_cpus; i++) {
++        dprintf(fd, "processor\t: %d\n", i);
++        dprintf(fd, "cpu family\t: PA-RISC 1.1e\n");
++        dprintf(fd, "cpu\t\t: PA7300LC (PCX-L2)\n");
++        dprintf(fd, "capabilities\t: os32\n");
++        dprintf(fd, "model\t\t: 9000/778/B160L - "
++                    "Merlin L2 160 QEMU (9000/778/B160L)\n\n");
++    }
+     return 0;
+ }
+ #endif
 -- 
 2.39.1
 
