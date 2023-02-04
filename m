@@ -2,49 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D7468AAEE
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 16:30:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD2768AB0A
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:08:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOKTG-00041d-Hv; Sat, 04 Feb 2023 10:28:54 -0500
+	id 1pOL4Y-0004UE-Lp; Sat, 04 Feb 2023 11:07:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pOKTC-00040z-MX; Sat, 04 Feb 2023 10:28:50 -0500
+ id 1pOL4W-0004Tx-AW
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:07:24 -0500
 Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pOKTA-0000lZ-8R; Sat, 04 Feb 2023 10:28:50 -0500
+ id 1pOL4T-0006p7-Gz
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:07:23 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A28EC746392;
- Sat,  4 Feb 2023 16:26:13 +0100 (CET)
+ by localhost (Postfix) with SMTP id DE7E1746392;
+ Sat,  4 Feb 2023 17:04:49 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 61BB974633D; Sat,  4 Feb 2023 16:26:13 +0100 (CET)
+ id B002F746377; Sat,  4 Feb 2023 17:04:48 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 605737456E3;
- Sat,  4 Feb 2023 16:26:13 +0100 (CET)
-Date: Sat, 4 Feb 2023 16:26:13 +0100 (CET)
+ by zero.eik.bme.hu (Postfix) with ESMTP id AEC2E74633D;
+ Sat,  4 Feb 2023 17:04:48 +0100 (CET)
+Date: Sat, 4 Feb 2023 17:04:48 +0100 (CET)
 From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>, 
- Eduardo Habkost <eduardo@habkost.net>, qemu-trivial@nongnu.org, 
- Laurent Vivier <lvivier@redhat.com>, 
- Sunil Muthuswamy <sunilmut@microsoft.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>, 
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
-Subject: Re: [PATCH v3 6/9] hw/i386/pc: Initialize ram_memory variable directly
-In-Reply-To: <20230204151027.39007-7-shentey@gmail.com>
-Message-ID: <d8ada3a2-c77a-bf77-89e8-c763efdb9b2c@eik.bme.hu>
-References: <20230204151027.39007-1-shentey@gmail.com>
- <20230204151027.39007-7-shentey@gmail.com>
+To: pixman@lists.freedesktop.org
+cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, 
+ Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: pixman_blt on aarch64
+Message-ID: <4b519268-f8e8-6542-9d1b-34054879eec0@eik.bme.hu>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-172597582-1675524373=:44293"
-X-Spam-Probability: 9%
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 11%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
 X-Spam_score_int: -41
@@ -67,113 +58,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hello,
 
---3866299591-172597582-1675524373=:44293
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+I'm trying to involve the pixman list in this thread on qemu-devel list 
+started with subject "Display update issue on M1 Macs". See here:
 
-On Sat, 4 Feb 2023, Bernhard Beschow wrote:
-> Going through pc_memory_init() seems quite complicated for a simple
-> assignment.
->
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
-> include/hw/i386/pc.h | 1 -
-> hw/i386/pc.c         | 2 --
-> hw/i386/pc_piix.c    | 4 ++--
-> hw/i386/pc_q35.c     | 5 ++---
-> 4 files changed, 4 insertions(+), 8 deletions(-)
->
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index 66e3d059ef..b60b95921b 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -162,7 +162,6 @@ void xen_load_linux(PCMachineState *pcms);
-> void pc_memory_init(PCMachineState *pcms,
->                     MemoryRegion *system_memory,
->                     MemoryRegion *rom_memory,
-> -                    MemoryRegion **ram_memory,
->                     uint64_t pci_hole64_size);
-> uint64_t pc_pci_hole64_start(void);
-> DeviceState *pc_vga_init(ISABus *isa_bus, PCIBus *pci_bus);
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 6e592bd969..8898cc9961 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -936,7 +936,6 @@ static hwaddr pc_max_used_gpa(PCMachineState *pcms, uint64_t pci_hole64_size)
-> void pc_memory_init(PCMachineState *pcms,
->                     MemoryRegion *system_memory,
->                     MemoryRegion *rom_memory,
-> -                    MemoryRegion **ram_memory,
->                     uint64_t pci_hole64_size)
-> {
->     int linux_boot, i;
-> @@ -994,7 +993,6 @@ void pc_memory_init(PCMachineState *pcms,
->      * Split single memory region and use aliases to address portions of it,
->      * done for backwards compatibility with older qemus.
->      */
-> -    *ram_memory = machine->ram;
->     ram_below_4g = g_malloc(sizeof(*ram_below_4g));
->     memory_region_init_alias(ram_below_4g, NULL, "ram-below-4g", machine->ram,
->                              0, x86ms->below_4g_mem_size);
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 5bde4533cc..00ba725656 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -143,6 +143,7 @@ static void pc_init1(MachineState *machine,
->     if (xen_enabled()) {
->         xen_hvm_init_pc(pcms, &ram_memory);
->     } else {
-> +        ram_memory = machine->ram;
+https://lists.nongnu.org/archive/html/qemu-devel/2023-02/msg01033.html
 
-Maybe you could just replace the few places it's used with machine->ram 
-directly and get rid of the local variable. There seems to be no advantage 
-storing it in a local just to use it once (in q35 below) or twice in 
-pc-piix. The local name is not even that much shorter so I don't see a 
-reason to have it in the first place,
+We have found that on aarch64 Macs running macOS the pixman_blt and 
+pixman_fill functions are disabled without fallback due to not being able 
+to compile the needed assembly code. See detailed discussion below.
 
-Regards,
+Is there a way to fix this in pixman in the near future or provide a 
+fallback for this in pixman? Or do I need to add a fallback in QEMU or try 
+using something else instead of pixman for these functions?
+
+Thank you,
 BALATON Zoltan
 
->         if (!pcms->max_ram_below_4g) {
->             pcms->max_ram_below_4g = 0xe0000000; /* default: 3.5G */
->         }
-> @@ -205,8 +206,7 @@ static void pc_init1(MachineState *machine,
+On Sat, 4 Feb 2023, Akihiko Odaki wrote:
+> On 2023/02/03 22:45, BALATON Zoltan wrote:
+>> On Fri, 3 Feb 2023, Akihiko Odaki wrote:
+>>> I finally reproduced the issue with MorphOS and ati-vga and figured out 
+>>> its cause.
+>>> 
+>>> The problem is that pixman_blt() is disabled because its backend is 
+>>> written in GNU assembly, and GNU assembler is not available on macOS. 
+>>> There is no fallback written in C, unfortunately. The issue is tracked by 
+>>> the upstream at:
+>>> https://gitlab.freedesktop.org/pixman/pixman/-/issues/59
+>> 
+>> Hm, OK but that ticket is just about compile error and suggests to disable 
+>> it and does not say it won't work then. Are they aware this is a problem? 
+>> Maybe we should write to their mailing list after we're sure what's 
+>> happening.
 >
->     /* allocate ram and load rom/bios */
->     if (!xen_enabled()) {
-> -        pc_memory_init(pcms, system_memory,
-> -                       rom_memory, &ram_memory, hole64_size);
-> +        pc_memory_init(pcms, system_memory, rom_memory, hole64_size);
->     } else {
->         pc_system_flash_cleanup_unused(pcms);
->         if (machine->kernel_filename != NULL) {
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index 8253b49296..88f0981f50 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -129,7 +129,7 @@ static void pc_q35_init(MachineState *machine)
->     MemoryRegion *system_io = get_system_io();
->     MemoryRegion *pci_memory;
->     MemoryRegion *rom_memory;
-> -    MemoryRegion *ram_memory;
-> +    MemoryRegion *ram_memory = machine->ram;
->     GSIState *gsi_state;
->     ISABus *isa_bus;
->     int i;
-> @@ -216,8 +216,7 @@ static void pc_q35_init(MachineState *machine)
->     }
+> That's a good idea. They may prioritize the issue if they realize that 
+> disables pixman_blt().
 >
->     /* allocate ram and load rom/bios */
-> -    pc_memory_init(pcms, system_memory, rom_memory, &ram_memory,
-> -                   pci_hole64_size);
-> +    pc_memory_init(pcms, system_memory, rom_memory, pci_hole64_size);
+>>> I hit the same problem on Asahi Linux, which is based on Arch Linux ARM. 
+>>> It is because Arch Linux copied PKGBUILD from x86 Arch Linux, which 
+>>> disables Arm backends. It is easy to enable the backend for the platform 
+>>> so I proposed a change at:
+>>> https://github.com/archlinuxarm/PKGBUILDs/pull/1985
+>> 
+>> On macOS one source of pixman most people use is brew.sh where this seems 
+>> to be disabled:
+>> 
+>> https://github.com/Homebrew/homebrew-core/blob/master/Formula/pixman.rb
+>> 
+>> another source is macports which has an older version and no such options:
+>> 
+>> https://github.com/macports/macports-ports/blob/master/graphics/libpixman-devel/Portfile
+>> 
+>> I wonder if it compiles from macports on aarch64 then.
 >
->     object_property_add_child(OBJECT(machine), "q35", OBJECT(q35_host));
->     object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_RAM_MEM,
+> It's more likely that it is just outdated. It does not carry a patch to fix 
+> the issue.
 >
---3866299591-172597582-1675524373=:44293--
+>> I wait if I can get some more test results and try to check pixman but its 
+>> source is not too clear to me and there are no docs either so maybe the 
+>> best way is to ask on their list. If this is a pixman issue I hope it can 
+>> be fixed there and we don't need to implement a fallback in QEMU.
+>
+> This is certainly a pixman issue.
+>
+> If you read the source, you can see pixman_blt() calls 
+> _pixman_implementation_blt(). _pixman_implementation_blt() calls blt member 
+> of pixman_implementation_t in turn. Grepping for "blt =" tells it is only 
+> assigned in:
+> pixman/pixman-arm-neon.c
+> pixman/pixman-arm-simd.c
+> pixman/pixman-mips-dspr2.c
+> pixman/pixman-mmx.c
+> pixman/pixman-sse2.c
+>
+> For AArch64, only pixman/pixman-arm-neon.c is relevant, and it needs to be 
+> disabled to build the library on macOS.
+>
+> Regards,
+> Akihiko Odaki
+>
+>> 
+>> Regards,
+>> BALATON Zoltan
 
