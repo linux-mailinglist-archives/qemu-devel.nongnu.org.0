@@ -2,52 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 473D068AB10
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:09:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44FC068AB22
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:11:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOL5s-0005At-LT; Sat, 04 Feb 2023 11:08:48 -0500
+	id 1pOL5v-0005GC-OJ; Sat, 04 Feb 2023 11:08:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5l-00054q-6h
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:42 -0500
-Received: from mout.kundenserver.de ([217.72.192.73])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5n-00059O-W7
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:44 -0500
+Received: from mout.kundenserver.de ([217.72.192.75])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5h-0006u9-TX
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:39 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5k-0006uc-W1
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:43 -0500
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MWBGG-1p8W8u2nRy-00XY5X; Sat, 04
- Feb 2023 17:08:34 +0100
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MZT2u-1p9c4T1wIw-00WSh1; Sat, 04
+ Feb 2023 17:08:35 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+Cc: Drew DeVault <sir@cmpwn.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 01/22] linux-user/strace: Constify struct flags
-Date: Sat,  4 Feb 2023 17:08:09 +0100
-Message-Id: <20230204160830.193093-2-laurent@vivier.eu>
+Subject: [PULL 02/22] linux-user/strace: Extract print_execve_argv() from
+ print_execve()
+Date: Sat,  4 Feb 2023 17:08:10 +0100
+Message-Id: <20230204160830.193093-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230204160830.193093-1-laurent@vivier.eu>
 References: <20230204160830.193093-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ww6E4GBQVIgoAwjoBcEGp8wxBInQNIbPz0KfCNPVFzuEExhcso9
- muF7eOly0bBuTo5C8NX/tLG0xufWG2p7YfSvIW0nRsA0usbodWvcFggd7P9dW8WjFkxtfbK
- a2WgxE0wxQ84upSWKKm3MXbFgXY19QgED2Z+ZMNy+hpEkuABbkPhyaK7rNdRFbg/IV9SJnd
- ud/G8kLTjGn+Hc/o9jx3g==
-UI-OutboundReport: notjunk:1;M01:P0:Kqdqdyhosj8=;vSrnSoHtRzrSP9f8oJSQhc2xSb4
- cVOvCex2tGjmfc30PHoNlzjjEW7ijdgIMLQ5SJ37QYCs05BVGbLq8TOSL0FOqLlFh906MHg6p
- EyN1I4kvAJU0cZZj/YM59jh1VZAIkhpYwtaaWtu7OT5c1W8H+O+5N3dsJxKhFsfB4IyPadXAO
- gQnTh5JzeLLzsJIy8aso5rQnwNbCga0gINVvYSQunfD3xnZprzyel0mkoBlHcahVJqdKw2byF
- vGVJe4WmZNMWiWmokvigQORm4OmwYHN2eOlRP3Xi+i7GIfq1BJbbKwIu4tb2K2epcQMzgBlxS
- nmMmJhb/a14Y8/Wr6wEAkce/4nOXjZOzWqSBXIBLUgMn66WGqVw1kw/0WIrY00DgMx2xGdWYF
- ZbfQsMcjg9McsSw7/3MOuGTNZVACMGL/D7js8c4EVoEx1yufjnpSHveaoyEOwd1cXhIN89CxB
- 1GguS5cGuWRhJEDnFHWgKODP97dbNK5cW2BHmwKnrUibbgvBBwv/ZITmFJcycqD/I0St7HQIU
- FhXBpYrYD7kMvXBYbPQyVFcZwOahMXO0MNHZuaDGPb+kvkzzpWJuQF3NyjOvzl7eZaXwKpMJC
- XYs6Xa0TTrTnVuCgj6jPacE6YIorLfLMFVGZxyGbIbkzzWUKQc7mTdHsyOUpEVoY732nGMxkc
- rFBH1Q1Gq9Tx1o9jusp0M3f2XL/+A2ysw7i38A0emw==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:/wwAHRG41kOMHBmZzPjChXAhyasVmjbQUpwUd4IowSyv9bnii5J
+ /Mqk7vXWBPft76w2rt2EOtpsIPXySm7Soik9U2jFT+K4zlPn4OEkvC2Xt1cP7MQS27qYaDG
+ Vti8ucjLUVMYSx4y1hCMZAwCcbEYVxyqTN6CvBIAobwmZTdfPA1QyrSXsn3+YqOrdou1/XC
+ 4iwNji/Eif7ds/x23/fAw==
+UI-OutboundReport: notjunk:1;M01:P0:YfGAEvojSWw=;ln7bmJf/s+DzcRTi+wg4BNRkpzf
+ e2UGvdnMS2mKpisg++TUyzRAAFpe21TIKM7OiavBca6f2eeScGP+re2U5sj90anWq3EcM6ZtK
+ JBHNby8WdH4dk2dHvHkepof+XTQ8pf+wS4VHM2Eqm8xPmv3m3pbGDnmmQzkT9Q0MGBqO0yrOB
+ UOgdOLoOyldeaSflGs6/wuhAqpLCC67REd87WAB4eAlPj32tbPsw5FZw6wyrziiJVc3OFPPJ1
+ I6GAuS5btIC1RB6DPRTGDfI4e0zyqVMoPySP1Fp4KeQmlc3Vn8sZTb4+fAFg+H42x2NoXiSj1
+ Z//pb15JfTDRKeUovZG+qncqh+J8rdFXIrYwQziME+InP7pts8E6zkQrhlOPRfymKbezKu57K
+ aRd8QIVaLQHhysGMr526g+GbkLf7qcBNYKNjTvSOOfqRqfRmKmqrORiT6QlGAPgv9QUDzQCS1
+ X+XuIjmBNZj3n26y3SPib4wJKD1wSuU+1e0AIsdPYnKUBxdygCb90i3DJkSTurkVsy7Xks91/
+ WYHqb3I6uDKtJkXveDRt0NsGyRtoh/CtDc2Si5R8lC8qTtzSjxbRp2mRHCg8G5WGFsVuDvU/n
+ J4cXxtyuGbT31yusTHVMrdYSfcBmp899T+PSklRvjd8cnLxUbsqZBLc38L5NKs9g8es6DygqO
+ NoUxvCkxJEvw7dQo1rVWyk7ohh6oyyGHfHTCKsuMJw==
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,200 +72,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+From: Drew DeVault <sir@cmpwn.com>
 
-print_flags() takes a const pointer.
+In order to add print_execveat() which re-use common code from
+print_execve(), extract print_execve_argv() from it.
 
+Signed-off-by: Drew DeVault <sir@cmpwn.com>
+Message-Id: <20221104081015.706009-1-sir@cmpwn.com>
+[PMD: Split of bigger patch, filled description, fixed style]
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20221104173632.1052-2-philmd@linaro.org>
+Message-Id: <20221104173632.1052-3-philmd@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c | 40 ++++++++++++++++++++--------------------
- 1 file changed, 20 insertions(+), 20 deletions(-)
+ linux-user/strace.c | 71 +++++++++++++++++++++++++--------------------
+ 1 file changed, 39 insertions(+), 32 deletions(-)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 9ae5a812cd71..25c47f03160d 100644
+index 25c47f03160d..3d11d2f75978 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -945,7 +945,7 @@ print_syscall_ret_ioctl(CPUArchState *cpu_env, const struct syscallname *name,
+@@ -616,38 +616,6 @@ print_semctl(CPUArchState *cpu_env, const struct syscallname *name,
  }
  #endif
  
--UNUSED static struct flags access_flags[] = {
-+UNUSED static const struct flags access_flags[] = {
-     FLAG_GENERIC(F_OK),
-     FLAG_GENERIC(R_OK),
-     FLAG_GENERIC(W_OK),
-@@ -953,7 +953,7 @@ UNUSED static struct flags access_flags[] = {
-     FLAG_END,
- };
- 
--UNUSED static struct flags at_file_flags[] = {
-+UNUSED static const struct flags at_file_flags[] = {
- #ifdef AT_EACCESS
-     FLAG_GENERIC(AT_EACCESS),
+-static void
+-print_execve(CPUArchState *cpu_env, const struct syscallname *name,
+-             abi_long arg1, abi_long arg2, abi_long arg3,
+-             abi_long arg4, abi_long arg5, abi_long arg6)
+-{
+-    abi_ulong arg_ptr_addr;
+-    char *s;
+-
+-    if (!(s = lock_user_string(arg1)))
+-        return;
+-    qemu_log("%s(\"%s\",{", name->name, s);
+-    unlock_user(s, arg1, 0);
+-
+-    for (arg_ptr_addr = arg2; ; arg_ptr_addr += sizeof(abi_ulong)) {
+-        abi_ulong *arg_ptr, arg_addr;
+-
+-        arg_ptr = lock_user(VERIFY_READ, arg_ptr_addr, sizeof(abi_ulong), 1);
+-        if (!arg_ptr)
+-            return;
+-    arg_addr = tswapal(*arg_ptr);
+-        unlock_user(arg_ptr, arg_ptr_addr, 0);
+-        if (!arg_addr)
+-            break;
+-        if ((s = lock_user_string(arg_addr))) {
+-            qemu_log("\"%s\",", s);
+-            unlock_user(s, arg_addr, 0);
+-        }
+-    }
+-
+-    qemu_log("NULL})");
+-}
+-
+ #ifdef TARGET_NR_ipc
+ static void
+ print_ipc(CPUArchState *cpu_env, const struct syscallname *name,
+@@ -1969,6 +1937,45 @@ print_execv(CPUArchState *cpu_env, const struct syscallname *name,
+ }
  #endif
-@@ -963,14 +963,14 @@ UNUSED static struct flags at_file_flags[] = {
-     FLAG_END,
- };
  
--UNUSED static struct flags unlinkat_flags[] = {
-+UNUSED static const struct flags unlinkat_flags[] = {
- #ifdef AT_REMOVEDIR
-     FLAG_GENERIC(AT_REMOVEDIR),
- #endif
-     FLAG_END,
- };
- 
--UNUSED static struct flags mode_flags[] = {
-+UNUSED static const struct flags mode_flags[] = {
-     FLAG_GENERIC(S_IFSOCK),
-     FLAG_GENERIC(S_IFLNK),
-     FLAG_GENERIC(S_IFREG),
-@@ -981,14 +981,14 @@ UNUSED static struct flags mode_flags[] = {
-     FLAG_END,
- };
- 
--UNUSED static struct flags open_access_flags[] = {
-+UNUSED static const struct flags open_access_flags[] = {
-     FLAG_TARGET(O_RDONLY),
-     FLAG_TARGET(O_WRONLY),
-     FLAG_TARGET(O_RDWR),
-     FLAG_END,
- };
- 
--UNUSED static struct flags open_flags[] = {
-+UNUSED static const struct flags open_flags[] = {
-     FLAG_TARGET(O_APPEND),
-     FLAG_TARGET(O_CREAT),
-     FLAG_TARGET(O_DIRECTORY),
-@@ -1019,7 +1019,7 @@ UNUSED static struct flags open_flags[] = {
-     FLAG_END,
- };
- 
--UNUSED static struct flags mount_flags[] = {
-+UNUSED static const struct flags mount_flags[] = {
- #ifdef MS_BIND
-     FLAG_GENERIC(MS_BIND),
- #endif
-@@ -1044,7 +1044,7 @@ UNUSED static struct flags mount_flags[] = {
-     FLAG_END,
- };
- 
--UNUSED static struct flags umount2_flags[] = {
-+UNUSED static const struct flags umount2_flags[] = {
- #ifdef MNT_FORCE
-     FLAG_GENERIC(MNT_FORCE),
- #endif
-@@ -1057,7 +1057,7 @@ UNUSED static struct flags umount2_flags[] = {
-     FLAG_END,
- };
- 
--UNUSED static struct flags mmap_prot_flags[] = {
-+UNUSED static const struct flags mmap_prot_flags[] = {
-     FLAG_GENERIC(PROT_NONE),
-     FLAG_GENERIC(PROT_EXEC),
-     FLAG_GENERIC(PROT_READ),
-@@ -1068,7 +1068,7 @@ UNUSED static struct flags mmap_prot_flags[] = {
-     FLAG_END,
- };
- 
--UNUSED static struct flags mmap_flags[] = {
-+UNUSED static const struct flags mmap_flags[] = {
-     FLAG_TARGET(MAP_SHARED),
-     FLAG_TARGET(MAP_PRIVATE),
-     FLAG_TARGET(MAP_ANONYMOUS),
-@@ -1092,7 +1092,7 @@ UNUSED static struct flags mmap_flags[] = {
-     FLAG_END,
- };
- 
--UNUSED static struct flags clone_flags[] = {
-+UNUSED static const struct flags clone_flags[] = {
-     FLAG_GENERIC(CLONE_VM),
-     FLAG_GENERIC(CLONE_FS),
-     FLAG_GENERIC(CLONE_FILES),
-@@ -1136,7 +1136,7 @@ UNUSED static struct flags clone_flags[] = {
-     FLAG_END,
- };
- 
--UNUSED static struct flags msg_flags[] = {
-+UNUSED static const struct flags msg_flags[] = {
-     /* send */
-     FLAG_GENERIC(MSG_CONFIRM),
-     FLAG_GENERIC(MSG_DONTROUTE),
-@@ -1156,7 +1156,7 @@ UNUSED static struct flags msg_flags[] = {
-     FLAG_END,
- };
- 
--UNUSED static struct flags statx_flags[] = {
-+UNUSED static const struct flags statx_flags[] = {
- #ifdef AT_EMPTY_PATH
-     FLAG_GENERIC(AT_EMPTY_PATH),
- #endif
-@@ -1178,7 +1178,7 @@ UNUSED static struct flags statx_flags[] = {
-     FLAG_END,
- };
- 
--UNUSED static struct flags statx_mask[] = {
-+UNUSED static const struct flags statx_mask[] = {
- /* This must come first, because it includes everything.  */
- #ifdef STATX_ALL
-     FLAG_GENERIC(STATX_ALL),
-@@ -1226,7 +1226,7 @@ UNUSED static struct flags statx_mask[] = {
-     FLAG_END,
- };
- 
--UNUSED static struct flags falloc_flags[] = {
-+UNUSED static const struct flags falloc_flags[] = {
-     FLAG_GENERIC(FALLOC_FL_KEEP_SIZE),
-     FLAG_GENERIC(FALLOC_FL_PUNCH_HOLE),
- #ifdef FALLOC_FL_NO_HIDE_STALE
-@@ -1246,7 +1246,7 @@ UNUSED static struct flags falloc_flags[] = {
- #endif
- };
- 
--UNUSED static struct flags termios_iflags[] = {
-+UNUSED static const struct flags termios_iflags[] = {
-     FLAG_TARGET(IGNBRK),
-     FLAG_TARGET(BRKINT),
-     FLAG_TARGET(IGNPAR),
-@@ -1265,7 +1265,7 @@ UNUSED static struct flags termios_iflags[] = {
-     FLAG_END,
- };
- 
--UNUSED static struct flags termios_oflags[] = {
-+UNUSED static const struct flags termios_oflags[] = {
-     FLAG_TARGET(OPOST),
-     FLAG_TARGET(OLCUC),
-     FLAG_TARGET(ONLCR),
-@@ -1349,7 +1349,7 @@ UNUSED static struct enums termios_cflags_CSIZE[] = {
-     ENUM_END,
- };
- 
--UNUSED static struct flags termios_cflags[] = {
-+UNUSED static const struct flags termios_cflags[] = {
-     FLAG_TARGET(CSTOPB),
-     FLAG_TARGET(CREAD),
-     FLAG_TARGET(PARENB),
-@@ -1360,7 +1360,7 @@ UNUSED static struct flags termios_cflags[] = {
-     FLAG_END,
- };
- 
--UNUSED static struct flags termios_lflags[] = {
-+UNUSED static const struct flags termios_lflags[] = {
-     FLAG_TARGET(ISIG),
-     FLAG_TARGET(ICANON),
-     FLAG_TARGET(XCASE),
-@@ -1380,7 +1380,7 @@ UNUSED static struct flags termios_lflags[] = {
-     FLAG_END,
- };
- 
--UNUSED static struct flags mlockall_flags[] = {
-+UNUSED static const struct flags mlockall_flags[] = {
-     FLAG_TARGET(MCL_CURRENT),
-     FLAG_TARGET(MCL_FUTURE),
- #ifdef MCL_ONFAULT
++static void
++print_execve_argv(abi_long argv, int last)
++{
++    abi_ulong arg_ptr_addr;
++    char *s;
++
++    qemu_log("{");
++    for (arg_ptr_addr = argv; ; arg_ptr_addr += sizeof(abi_ulong)) {
++        abi_ulong *arg_ptr, arg_addr;
++
++        arg_ptr = lock_user(VERIFY_READ, arg_ptr_addr, sizeof(abi_ulong), 1);
++        if (!arg_ptr) {
++            return;
++        }
++        arg_addr = tswapal(*arg_ptr);
++        unlock_user(arg_ptr, arg_ptr_addr, 0);
++        if (!arg_addr) {
++            break;
++        }
++        s = lock_user_string(arg_addr);
++        if (s) {
++            qemu_log("\"%s\",", s);
++            unlock_user(s, arg_addr, 0);
++        }
++    }
++    qemu_log("NULL}%s", get_comma(last));
++}
++
++static void
++print_execve(CPUArchState *cpu_env, const struct syscallname *name,
++             abi_long arg1, abi_long arg2, abi_long arg3,
++             abi_long arg4, abi_long arg5, abi_long arg6)
++{
++    print_syscall_prologue(name);
++    print_string(arg1, 0);
++    print_execve_argv(arg2, 1);
++    print_syscall_epilogue(name);
++}
++
+ #if defined(TARGET_NR_faccessat) || defined(TARGET_NR_faccessat2)
+ static void
+ print_faccessat(CPUArchState *cpu_env, const struct syscallname *name,
 -- 
 2.39.1
 
