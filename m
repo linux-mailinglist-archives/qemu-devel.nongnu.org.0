@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3182468AADF
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 16:12:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3734C68AAE1
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 16:13:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOKBy-0002Oa-PX; Sat, 04 Feb 2023 10:11:02 -0500
+	id 1pOKC0-0002PB-C1; Sat, 04 Feb 2023 10:11:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pOKBw-0002NZ-4J; Sat, 04 Feb 2023 10:11:00 -0500
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
+ id 1pOKBx-0002Nr-3x; Sat, 04 Feb 2023 10:11:01 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pOKBu-0006a3-Cu; Sat, 04 Feb 2023 10:10:59 -0500
-Received: by mail-ej1-x634.google.com with SMTP id m2so22876227ejb.8;
- Sat, 04 Feb 2023 07:10:57 -0800 (PST)
+ id 1pOKBv-0006aD-Ir; Sat, 04 Feb 2023 10:11:00 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id me3so22884470ejb.7;
+ Sat, 04 Feb 2023 07:10:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7iycG/CYzi5qr7Pya6NhclvK6Ts8hrm+dv8CLlGtddE=;
- b=IL6I6keXxU5QiwlRSgq7W9jNNPgXuQ+RbXsuVIon+EsEhFk2Pz7ZetpZl5Py9AzYWO
- EbGSd+Op3hWJvy9nNbOTaGwb7xAjfRFTVutXM9RH49Ryc0hrr2LYNhTi85DL9fWvl+JL
- iymufPr/sGw39TNTaNoATAA1F48Sr0hJlZOQWY/Ui2471xJz8LF96f0Lr8yKOVE4DOBy
- uFm0ajU5i0CxXyncHv3ux45llDNPNsBfUAeqpyVXx7ej+HXxaFF93RcljYyG8rqn9BP6
- rvEOv9nZCFEITBr/FigYg1oGLHAfXT3QjuShjJEU60owV3DtXu7ipCjZzfgpYe3lNs9c
- OYbQ==
+ bh=LA6ZuoQya0s6wnCk3SNGbAuFteCxPNtvbIq0Ce0nCis=;
+ b=YI88LN/t4Lm2N6GWYuEPcwEXt2SnegGrLFt2/87lYbqa2Net4cFpzGXIhbigG3ccRW
+ H3HO7//L3eTZM6vd5f07KivEQBKA8+C3EKOP+jUPToZnRn0LCSe1cWUjYfEhP0W2KLOF
+ eTkGrv0HUmjw0mVG7jny1hptyX0vDtexaDMzjfdv7IL8vWdHQzycevFkWygSiYVgvXDh
+ J5OM+hOy4X+WHmu2dnXtM5891I2CXbOcdJxsZpgR5NGnEaXzDEEaGbwjjVkYAxfzFJbp
+ BlZaUDXlJGHbsTB320dCPhlIbdAfRImfA4ST4cIWHK0qJ6dItNhoTthQMuxDJnU7ANs/
+ V3pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7iycG/CYzi5qr7Pya6NhclvK6Ts8hrm+dv8CLlGtddE=;
- b=NSnCGtqQ6sAgSdvpNfeu9ZSKIR4k/3MJaf8jmnMEc4VtTFSP2JeKtPueJvSWbpSzyL
- 3ZFKrDpREA7z4Zx38PE9s0hw24ndOHRFBN+qJZ4EGzxOzZ9JL+TAKrywTzkx0SavF61v
- DidBbQ6qZ8T1fosRI2qOgCDKCibBDp0Wf7DN5I12nNSHoB0sTDwI303ZKtgTYfSQqLlQ
- wxzJ5yccq8jSZwixRvdqwRd8GRaDdbhiKD3wtXu5k76JAWdsHix9VK6WCNjemUm4iviI
- kXNSjzePcJSKkOeOhhOhoGgokI5mefriBFktON4HJZqVCAAhwaQRaAwgKc6f0S0oRkEf
- RDXg==
-X-Gm-Message-State: AO0yUKXa7vUbuJ78iwJxwoA68GdO/DqwBPOIFS4DcXHvOz9qJUMS4GVk
- 1U4FLWVLPYPxON5f5jX9hd4O04NzXvc=
-X-Google-Smtp-Source: AK7set+HvxgNr+CeLGIYEV8hD5SgMiQsb06bB125tFisVIP6N+RrReltkNmig0jZ+FVVL+4xs/vKTQ==
-X-Received: by 2002:a17:907:8d16:b0:812:d53e:1222 with SMTP id
- tc22-20020a1709078d1600b00812d53e1222mr14342456ejc.31.1675523456421; 
- Sat, 04 Feb 2023 07:10:56 -0800 (PST)
+ bh=LA6ZuoQya0s6wnCk3SNGbAuFteCxPNtvbIq0Ce0nCis=;
+ b=nlkGOsMIomFB0YUbkyi1SRY/4a8zJRa8Wz17n9T5bjcxX1qyRcPc3heZUafYJkSFwm
+ xJAqBWiMbYBevU5p9U0CrLyy450ql5b+Ipc2898k7QoWyK8fT0uE8SFCXlX8qwmox0Xo
+ k7y0cqzAu9rRvFq2JEkuuJgj4VG5OhLHnTWSYY1rpuVctQSWF7Au+c6jVdiJttGqS6hO
+ Ox6zPzP6EbI9gmvW69C36CYyC3tvFGVqDOpgD9pxBzW8SkqvHaiRAsPmts2qBI4m91Wp
+ q2UTMSc6+nsBVXX9ACwDmEyBu6J6z4+FQFiZcOr3j4Qp09PSMJXFBmC3cJar+MEhLSrl
+ zz3A==
+X-Gm-Message-State: AO0yUKXFSRp7F2F8xe/Sa1I+jse+fbeW0H5kvZFVJx3Nz79l4PngLmtr
+ akRdMWxE+iExZg0RpxzcEND1VoaRxuA=
+X-Google-Smtp-Source: AK7set+NjoLkA+OkSXzV8o5XGvFhc85fome84pNCw1nDoCgum8RSmxHIrnCy29s8M+V6ag3dE0bOaA==
+X-Received: by 2002:a17:906:9f06:b0:82e:a57b:cc9b with SMTP id
+ fy6-20020a1709069f0600b0082ea57bcc9bmr4752073ejc.24.1675523457739; 
+ Sat, 04 Feb 2023 07:10:57 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-077-183-077-083.77.183.pool.telefonica.de. [77.183.77.83])
  by smtp.gmail.com with ESMTPSA id
- 17-20020a170906211100b0088a2aebb146sm2937922ejt.52.2023.02.04.07.10.55
+ 17-20020a170906211100b0088a2aebb146sm2937922ejt.52.2023.02.04.07.10.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Feb 2023 07:10:56 -0800 (PST)
+ Sat, 04 Feb 2023 07:10:57 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>,
@@ -64,16 +64,16 @@ Cc: Thomas Huth <thuth@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v3 1/9] hw/pci-host/i440fx: Inline sysbus_add_io()
-Date: Sat,  4 Feb 2023 16:10:19 +0100
-Message-Id: <20230204151027.39007-2-shentey@gmail.com>
+Subject: [PATCH v3 2/9] hw/pci-host/q35: Inline sysbus_add_io()
+Date: Sat,  4 Feb 2023 16:10:20 +0100
+Message-Id: <20230204151027.39007-3-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230204151027.39007-1-shentey@gmail.com>
 References: <20230204151027.39007-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,40 +99,34 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 sysbus_add_io() just wraps memory_region_add_subregion() while also
 obscuring where the memory is attached. So use
 memory_region_add_subregion() directly and attach it to the existing
-memory region s->bus->address_space_io which is set as an alias to
-get_system_io() by the pc machine.
+memory region s->mch.address_space_io which is set as an alias to
+get_system_io() by the q35 machine.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/pci-host/i440fx.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/pci-host/q35.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
-index 262f82c303..9c6882d3fc 100644
---- a/hw/pci-host/i440fx.c
-+++ b/hw/pci-host/i440fx.c
-@@ -27,6 +27,7 @@
- #include "qemu/range.h"
- #include "hw/i386/pc.h"
- #include "hw/pci/pci.h"
-+#include "hw/pci/pci_bus.h"
- #include "hw/pci/pci_host.h"
- #include "hw/pci-host/i440fx.h"
- #include "hw/qdev-properties.h"
-@@ -217,10 +218,10 @@ static void i440fx_pcihost_realize(DeviceState *dev, Error **errp)
-     PCIHostState *s = PCI_HOST_BRIDGE(dev);
+diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
+index 26390863d6..fa05844319 100644
+--- a/hw/pci-host/q35.c
++++ b/hw/pci-host/q35.c
+@@ -50,10 +50,12 @@ static void q35_host_realize(DeviceState *dev, Error **errp)
+     Q35PCIHost *s = Q35_HOST_DEVICE(dev);
      SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
  
--    sysbus_add_io(sbd, 0xcf8, &s->conf_mem);
-+    memory_region_add_subregion(s->bus->address_space_io, 0xcf8, &s->conf_mem);
-     sysbus_init_ioports(sbd, 0xcf8, 4);
+-    sysbus_add_io(sbd, MCH_HOST_BRIDGE_CONFIG_ADDR, &pci->conf_mem);
++    memory_region_add_subregion(s->mch.address_space_io,
++                                MCH_HOST_BRIDGE_CONFIG_ADDR, &pci->conf_mem);
+     sysbus_init_ioports(sbd, MCH_HOST_BRIDGE_CONFIG_ADDR, 4);
  
--    sysbus_add_io(sbd, 0xcfc, &s->data_mem);
-+    memory_region_add_subregion(s->bus->address_space_io, 0xcfc, &s->data_mem);
-     sysbus_init_ioports(sbd, 0xcfc, 4);
+-    sysbus_add_io(sbd, MCH_HOST_BRIDGE_CONFIG_DATA, &pci->data_mem);
++    memory_region_add_subregion(s->mch.address_space_io,
++                                MCH_HOST_BRIDGE_CONFIG_DATA, &pci->data_mem);
+     sysbus_init_ioports(sbd, MCH_HOST_BRIDGE_CONFIG_DATA, 4);
  
-     /* register i440fx 0xcf8 port as coalesced pio */
+     /* register q35 0xcf8 port as coalesced pio */
 -- 
 2.39.1
 
