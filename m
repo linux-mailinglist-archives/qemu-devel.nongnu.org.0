@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BDA268AB5E
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:38:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5560E68AB3F
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:35:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOLUL-0005F9-EC; Sat, 04 Feb 2023 11:34:05 -0500
+	id 1pOLUM-0005Fe-56; Sat, 04 Feb 2023 11:34:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pOLUJ-0005Em-Ag
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:34:03 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ id 1pOLUL-0005FN-5W
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:34:05 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pOLUH-0002af-NK
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:34:03 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id bx22so4935162pjb.3
- for <qemu-devel@nongnu.org>; Sat, 04 Feb 2023 08:34:01 -0800 (PST)
+ id 1pOLUJ-0002aq-69
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:34:04 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ hv11-20020a17090ae40b00b002307b580d7eso4088516pjb.3
+ for <qemu-devel@nongnu.org>; Sat, 04 Feb 2023 08:34:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=eH8QC2IFkRWe6pofdb+MHZgnEhO+cdUQERbeKdouJGM=;
- b=i/iCm68JfG2Zszai6dW+CUI2RMyLorOzHGra/bW53Nfs8WlmSPGFjP0D/VhWvsMyB1
- gj5jBK/HyPmhrSo6oBOY4WKnTE1EEFFefpm9Hv7U2H6kd2btMk9d06v2UvD5lVhdYKmj
- IYoKu4ECgARBZ9BgIIGcA/OT6P/Y90c8vIAkNsjdWeTujTJ3hFFGr53OYRU3trys0qmP
- Ph7Abt3GtMkgBmAXtAlzaNOzceHY/YRkBqrhGQ0LGotlnXJauDFi+upoz1+ukxzpiVz+
- ZznOTLlMIgbIkgh9S1jHkpRKfvCI4Q1nUKTfsvYYqujw2lD2c5vxBk1CqnEXbN5qxBKz
- oWvA==
+ bh=U/HSkpGEvHbItuZnMKBTZy7j63PzLUxQ950pxrJaTtQ=;
+ b=vq/pKfXI1ATHDZadV7NClm0Wz/oErX9bripgzXJLBIHfmqMpc6PevATdZ/AyD/mK16
+ Bv9sQoo6N+Tx38jojkWnu3kKsAtwjqVbSs32R+3WeYUAF54kmV4tTenWNPigduiDGWvE
+ hu2lubkNVd0/f/Q9U0xmfv8ot73kiBMgXYU6ZvhdP5y/91fuO4uBTzbqUhzGsyC9OOjS
+ 9HLvyzZiSn0/SgLCCuOakMu9a/tBJooi+aul+62XW6kZGKjif09+ZPaWRTNz9YtdtR/5
+ UWzjBbrqUTQQZcU7sBbrLFsONRwbAd5hUjriGS20X/YBwjm0sOWESgNh6ZnoZpEWPWDP
+ vEdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=eH8QC2IFkRWe6pofdb+MHZgnEhO+cdUQERbeKdouJGM=;
- b=VnczIzHzTYRTtULuT9n2EeP3DpGlO3HFg1BOlEnqYJWQF+BjfNLRuOUocQ6ESXZDZa
- OqPYF/UsGBuHRw0jmYVA21oRR1P4iaaL7PvnxcEzoN2pgrMx+eqY0rExQD12gQsFXOAa
- dgarAHI/pfYumTe8bbFEB2MhOdcwzWUmHyZwXYH0BlEng/qxnwFQDZTFCNvX7DOh7Vah
- PLigrx1Sep590VF0ShqKomZqwevH2iyvD245M8baMEpNXB9TI8jmQl2s3OU0GMlL6TdS
- Dy0d2rRC537ysrxe3I/SMa2JDPD5k0Z+9ZotKazYsNK5XeFkg/NUHl8C1Ybuzr/lJYti
- qY4A==
-X-Gm-Message-State: AO0yUKWT0u8WoM4ZHqwr8FJIa3mCaKyFVeWLyHhCH95A8E5edD9E88yY
- ve2iV7+eeHcexGHHPA6BrKraO9uxKl5BqJS1
-X-Google-Smtp-Source: AK7set/avD2+Sm5UoC2zk5NJrOIGr04jwBRV5oNSEi+eVGEsabY6THArSLRnY9bNmECr3y+h9lWRTw==
-X-Received: by 2002:a05:6a20:a001:b0:b8:c5b3:bfc with SMTP id
- p1-20020a056a20a00100b000b8c5b30bfcmr16333870pzj.39.1675528440373; 
- Sat, 04 Feb 2023 08:34:00 -0800 (PST)
+ bh=U/HSkpGEvHbItuZnMKBTZy7j63PzLUxQ950pxrJaTtQ=;
+ b=GEoFV7Gvz0HrMcGfqvgJCJVAdeCilD0F+QqbQQUiNkYH19Vpd77xM6cDyvBXPgThVi
+ /M51ibSxwbLOKjRroVtnGWPBOpq6HPJw+EKaaJOcxH14/jshkNna9GrZyxpwyLTiIktt
+ AhV6yVVH35Qs0mmd1inFbp1qVODQPSDEujKOYL/2tngm3iZ1MoG0sLb9BY/dVIkuDDjL
+ lOX5DRk6Nv45FznPHr0M2RsYRUb8F/eqwD6w6OZKqldzJ9rz7e88rAhMCRxah2hA+D0f
+ ULmrXQ7+Ga+ywzIkAfOWGqCK+eLo6o+/Se7sjJkQgZdpSMZL3GmgmnnHFyWU0rqxniQv
+ STrg==
+X-Gm-Message-State: AO0yUKVPSR4nXngBPNz0fU9W3JOMAVF0WY+uLXXR5dSigEn4NkJ3DdC4
+ ARuWLZnl/xnGEHiOp3bL1FFJTG8/AYs1mgDK
+X-Google-Smtp-Source: AK7set+r3ADxQTiDFccn1OQOMMt/qGdyEZjxWSFhsUCFj5g56vd1CIwd57FkYu4tFjJx9Za/EJ45EQ==
+X-Received: by 2002:a17:902:d154:b0:194:d609:e1ca with SMTP id
+ t20-20020a170902d15400b00194d609e1camr11667013plt.54.1675528441941; 
+ Sat, 04 Feb 2023 08:34:01 -0800 (PST)
 Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
  by smtp.gmail.com with ESMTPSA id
- w19-20020a1709029a9300b00186b69157ecsm3660859plp.202.2023.02.04.08.33.59
+ w19-20020a1709029a9300b00186b69157ecsm3660859plp.202.2023.02.04.08.34.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Feb 2023 08:33:59 -0800 (PST)
+ Sat, 04 Feb 2023 08:34:01 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org, Ilya Leoshkevich <iii@linux.ibm.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 30/40] target/s390x: Use Int128 for return from CKSM
-Date: Sat,  4 Feb 2023 06:33:00 -1000
-Message-Id: <20230204163310.815536-31-richard.henderson@linaro.org>
+Subject: [PULL 31/40] target/s390x: Use Int128 for return from TRE
+Date: Sat,  4 Feb 2023 06:33:01 -1000
+Message-Id: <20230204163310.815536-32-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230204163310.815536-1-richard.henderson@linaro.org>
 References: <20230204163310.815536-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,67 +98,65 @@ Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
  target/s390x/helper.h         | 2 +-
  target/s390x/tcg/mem_helper.c | 7 +++----
- target/s390x/tcg/translate.c  | 6 ++++--
- 3 files changed, 8 insertions(+), 7 deletions(-)
+ target/s390x/tcg/translate.c  | 7 +++++--
+ 3 files changed, 9 insertions(+), 7 deletions(-)
 
 diff --git a/target/s390x/helper.h b/target/s390x/helper.h
-index 25c2dd0b3c..03b29efa3e 100644
+index 03b29efa3e..b4170a4256 100644
 --- a/target/s390x/helper.h
 +++ b/target/s390x/helper.h
-@@ -103,7 +103,7 @@ DEF_HELPER_4(tre, i64, env, i64, i64, i64)
+@@ -99,7 +99,7 @@ DEF_HELPER_FLAGS_4(unpka, TCG_CALL_NO_WG, i32, env, i64, i32, i64)
+ DEF_HELPER_FLAGS_4(unpku, TCG_CALL_NO_WG, i32, env, i64, i32, i64)
+ DEF_HELPER_FLAGS_3(tp, TCG_CALL_NO_WG, i32, env, i64, i32)
+ DEF_HELPER_FLAGS_4(tr, TCG_CALL_NO_WG, void, env, i32, i64, i64)
+-DEF_HELPER_4(tre, i64, env, i64, i64, i64)
++DEF_HELPER_4(tre, i128, env, i64, i64, i64)
  DEF_HELPER_4(trt, i32, env, i32, i64, i64)
  DEF_HELPER_4(trtr, i32, env, i32, i64, i64)
  DEF_HELPER_5(trXX, i32, env, i32, i32, i32, i32)
--DEF_HELPER_4(cksm, i64, env, i64, i64, i64)
-+DEF_HELPER_4(cksm, i128, env, i64, i64, i64)
- DEF_HELPER_FLAGS_5(calc_cc, TCG_CALL_NO_RWG_SE, i32, env, i32, i64, i64, i64)
- DEF_HELPER_FLAGS_2(sfpc, TCG_CALL_NO_WG, void, env, i64)
- DEF_HELPER_FLAGS_2(sfas, TCG_CALL_NO_WG, void, env, i64)
 diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
-index 9be42851d8..b0b403e23a 100644
+index b0b403e23a..49969abda7 100644
 --- a/target/s390x/tcg/mem_helper.c
 +++ b/target/s390x/tcg/mem_helper.c
-@@ -1350,8 +1350,8 @@ uint32_t HELPER(clclu)(CPUS390XState *env, uint32_t r1, uint64_t a2,
+@@ -1632,8 +1632,8 @@ void HELPER(tr)(CPUS390XState *env, uint32_t len, uint64_t array,
+     do_helper_tr(env, len, array, trans, GETPC());
  }
  
- /* checksum */
--uint64_t HELPER(cksm)(CPUS390XState *env, uint64_t r1,
--                      uint64_t src, uint64_t src_len)
-+Int128 HELPER(cksm)(CPUS390XState *env, uint64_t r1,
-+                    uint64_t src, uint64_t src_len)
+-uint64_t HELPER(tre)(CPUS390XState *env, uint64_t array,
+-                     uint64_t len, uint64_t trans)
++Int128 HELPER(tre)(CPUS390XState *env, uint64_t array,
++                   uint64_t len, uint64_t trans)
  {
      uintptr_t ra = GETPC();
-     uint64_t max_len, len;
-@@ -1392,8 +1392,7 @@ uint64_t HELPER(cksm)(CPUS390XState *env, uint64_t r1,
-     env->cc_op = (len == src_len ? 0 : 3);
+     uint8_t end = env->regs[0] & 0xff;
+@@ -1668,8 +1668,7 @@ uint64_t HELPER(tre)(CPUS390XState *env, uint64_t array,
+     }
  
-     /* Return both cksm and processed length.  */
--    env->retxl = cksm;
--    return len;
-+    return int128_make128(cksm, len);
+     env->cc_op = cc;
+-    env->retxl = len - i;
+-    return array + i;
++    return int128_make128(len - i, array + i);
  }
  
- void HELPER(pack)(CPUS390XState *env, uint32_t len, uint64_t dest, uint64_t src)
+ static inline uint32_t do_helper_trt(CPUS390XState *env, int len,
 diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index 8397fe2bd8..1a7aa9e4ae 100644
+index 1a7aa9e4ae..f3e4b70ed9 100644
 --- a/target/s390x/tcg/translate.c
 +++ b/target/s390x/tcg/translate.c
-@@ -2041,11 +2041,13 @@ static DisasJumpType op_cxlgb(DisasContext *s, DisasOps *o)
- static DisasJumpType op_cksm(DisasContext *s, DisasOps *o)
+@@ -4905,8 +4905,11 @@ static DisasJumpType op_tr(DisasContext *s, DisasOps *o)
+ 
+ static DisasJumpType op_tre(DisasContext *s, DisasOps *o)
  {
-     int r2 = get_field(s, r2);
+-    gen_helper_tre(o->out, cpu_env, o->out, o->out2, o->in2);
+-    return_low128(o->out2);
 +    TCGv_i128 pair = tcg_temp_new_i128();
-     TCGv_i64 len = tcg_temp_new_i64();
- 
--    gen_helper_cksm(len, cpu_env, o->in1, o->in2, regs[r2 + 1]);
-+    gen_helper_cksm(pair, cpu_env, o->in1, o->in2, regs[r2 + 1]);
-     set_cc_static(s);
--    return_low128(o->out);
-+    tcg_gen_extr_i128_i64(o->out, len, pair);
++
++    gen_helper_tre(pair, cpu_env, o->out, o->out2, o->in2);
++    tcg_gen_extr_i128_i64(o->out2, o->out, pair);
 +    tcg_temp_free_i128(pair);
- 
-     tcg_gen_add_i64(regs[r2], regs[r2], len);
-     tcg_gen_sub_i64(regs[r2 + 1], regs[r2 + 1], len);
+     set_cc_static(s);
+     return DISAS_NEXT;
+ }
 -- 
 2.34.1
 
