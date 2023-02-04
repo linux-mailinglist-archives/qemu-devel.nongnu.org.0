@@ -2,57 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC9768AB1E
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:11:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F24668AB2E
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:25:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOL5o-00059o-U0; Sat, 04 Feb 2023 11:08:48 -0500
+	id 1pOLKQ-0003BJ-V3; Sat, 04 Feb 2023 11:23:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5l-00054p-6i
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:42 -0500
-Received: from mout.kundenserver.de ([217.72.192.75])
+ (Exim 4.90_1) (envelope-from <liu-weinan@qq.com>) id 1pOL6h-0008EE-8g
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:09:39 -0500
+Received: from out162-62-57-64.mail.qq.com ([162.62.57.64])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5i-0006uC-0K
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:39 -0500
-Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MOzjW-1oz8k216Dc-00PL9t; Sat, 04
- Feb 2023 17:08:34 +0100
-From: Laurent Vivier <laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <liu-weinan@qq.com>) id 1pOL6c-00072j-SJ
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:09:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+ t=1675526967; bh=x9D1Snw8RWbqBQC43Urhu3itEat53Yrbhhg7aXaCoKg=;
+ h=From:To:Cc:Subject:Date;
+ b=zorFfEVVvhplq4VUVU/EzTG58YKZiS0v+B+//PKYwOuG2aT+pZr0lECT2yOjePkeh
+ qxhjE6ty94gIY6Aend66e4RgQzulw2JWSBp4wio+ltaJAsF3Z3tLX8R6j+QDHXEegL
+ s6oHEthrgMxh/2gmb1uutASUEi28jWoLaSS4qQE0=
+Received: from localhost.localdomain ([117.28.251.142])
+ by newxmesmtplogicsvrszc2-0.qq.com (NewEsmtp) with SMTP
+ id 20A0E2FD; Sun, 05 Feb 2023 00:08:10 +0800
+X-QQ-mid: xmsmtpt1675526890toup8izxw
+Message-ID: <tencent_4154FDEB122B79E7FB824E2941708C7B0106@qq.com>
+X-QQ-XMAILINFO: MhH68nX24TAM9xiSDU+5xWs28lnoKEFUj3mqCoyFGVfJfn6/9Ai7bwVL5tQbz1
+ 9jNnTsPrBE6EDefoLNcHWY5xlKpaekZNphquRLf6560V5JaGAv+euLF7P+JmdQpHoz6GwOJGJJPh
+ a5hhsDhNqchYOF5jkrK2V7ZjdRuKmQQrX6O7a0MuIiww4oXiPOZe/s+rCjR/imIlSACw7YMNNcjs
+ cj7t7IffLO+hCqZtfEc2wVKR2grSGOIIOsFNPl/Z+THBVpp8YG0EIqutGmJg+vTtMaaDBXEX+05a
+ 70fqv0jZYiFvFG3JXAS9D2kURyiDY9Rf3Sf0DiDRVTBdDXevKV98C76BT7+ubzaK2nTg9cY6yts7
+ q/mgoBryADnDJIJ943wMXlehf+KYOXLw/M5X94+rfwG6FxQOerMa+GJZjBDLljdqmm36o5V/n2EP
+ 6eSO2Qz5dOnwgqY6Q6ubW4hkYspOf662jgrvfhil6w99ldTl/DaUyTlFkEUJM9XpZgdtT6X8rFFG
+ OzTNWCIsegmnmsI5yCy3KWJetztpihG8VYbjcWt8eL/7ylDPvGCtWoeLKTH311mbFZYm0a7AdSyi
+ io6ldU/T34g83EV2dyKTnh2w7Gh1fXRxpHWlgWt2YsZfNigsSvNl5z9DWMYnKf6vwaQxAcd4OyyN
+ b/EX37pTAfe8g2HK/oeHWkiOvEFNwbK7rLGvJpmY4k5cXlSBxhmo5gaIrl8+Cfqy5ECaAs1YLqIO
+ IPlGa4CNV+tkwj/w0ccofZjT7cDASW44dYsXSC+A2SLU6SsadFzqVwNji6MmE5OTYpoBqtiS97Or
+ lKJQ+NKrmZExx/prnD55b6RCNSxoTFkI/MC4jdpDSYc3fkhSgRCtdP7J8jyion5tRsSousQFOiLF
+ L3e7tYNqM7JRiuOA2X6445gfTk9VrFGHs0OTiqf9YAU+vdQ+WQLdnnnDbPEsfD+oRBSNBAqye/ps
+ qtAlqOdIM=
+From: Weinan Liu <liu-weinan@qq.com>
 To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 00/22] Linux user for 8.0 patches
-Date: Sat,  4 Feb 2023 17:08:08 +0100
-Message-Id: <20230204160830.193093-1-laurent@vivier.eu>
-X-Mailer: git-send-email 2.39.1
+Cc: peterx@redhat.com, dgilbert@redhat.com, Weinan Liu <wnliu@stu.xmu.edu.cn>
+Subject: [PATCH] KVM: dirty ring: check if vcpu is created before
+ dirty_ring_reap_one
+Date: Sat,  4 Feb 2023 16:08:08 +0000
+X-OQ-MSGID: <20230204160808.753494-1-liu-weinan@qq.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:NqgA/+LglT0mVRzkUeIbeZ55D+RjFs1R04w2eopdiAdzOhWlF6m
- mB3JkAcfbAZdoOAo06nkWaJRZ+g4mTZNbhdwLeJUslukxv78OczbpngtCREuLbgIzs34Now
- z+DAMQZi4Xiu2c6UMV5524hUtK8czFFfzeVgwx4pD2XkxVKlduQFNiwXgafybDL+RiO+H1p
- 67jKq1NuXWW1q/2a6tKew==
-UI-OutboundReport: notjunk:1;M01:P0:umdSOJcwMQU=;vhT+ca4BlF1szlcDjBZx/6V7wqX
- A8ItMXK6HBIGLjJAuKd+w09tfkiWcrEB0zJFlC+GgFr2D+Phe3a0m2CUevxRzadA1IsNjUZgi
- 5up+jcqFci/PrtI0Lm7TwsXtDD0lnK0HF+uDbIqu8sD3sDMRund7o0OzvzhH3tftzzl7L6XUR
- iPDEq9hOOb11i5EHH0jHGYWukJ1ec/q87PRGM9yA3g2Fa7mkiROctzU+FHHJZRsac20xi3gAH
- OwzLTHZtjiFhUTF7CAZu/gVIoqB1jiFt5BhDQODBC8PYr45Fr36EOynvKsXqJFsIOXIcQ7rDP
- uuGVRrYkHA3se6/mBvWuzeW6d8rvH1F30hltgJPR7jLspBEAUaTvU8GD6KgNve+Ywx57J3142
- ZCtekAgEZVVHBtlrlf+nEuH4tvAxy29xbJ6lglleeACWl1nBtc3vkDjb3UsTRT44b2U+SNqnN
- J8PXFqLczQ5nzyX6mcMOG2yvLsxngSi/Ddcs/XmyPVRqHIuAISPy66d0HxQD3M1NlKX5MYu42
- ZivSTcS6QANOC+2fsuhEFLnzPPu9kdTrh4ddLrH/NPSQpEwpmUg+MpBJsrvHqF9cS+GdUROJz
- VplYGXUfgCw4VgOWWX6FLRqHpLI0l+8dJJnHRSWtd+Ne2oysI+gFaXRzM9HtMz+iC9WDt1nC9
- snC4njniDJgnJ/jVaX44PGfb5FeoKM3pHPprNm7H2A==
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=162.62.57.64; envelope-from=liu-weinan@qq.com;
+ helo=out162-62-57-64.mail.qq.com
+X-Spam_score_int: 8
+X-Spam_score: 0.8
+X-Spam_bar: /
+X-Spam_report: (0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HELO_DYNAMIC_IPADDR=1.951, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, RDNS_DYNAMIC=0.982, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sat, 04 Feb 2023 11:23:47 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,92 +77,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 13356edb87506c148b163b8c7eb0695647d00c2a:
+From: Weinan Liu <wnliu@stu.xmu.edu.cn>
 
-  Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2023-01-24 09:45:33 +0000)
+Failed to assert '(dirty_gfns && ring_size)' in kvm_dirty_ring_reap_one if
+the vcpu has not been finished to create yet. This bug occasionally occurs
+when I open 200+ qemu instances on my 16G 6-cores x86 machine. And it must
+be triggered if inserting a 'sleep(10)' into kvm_vcpu_thread_fn as below--
 
-are available in the Git repository at:
+ static void *kvm_vcpu_thread_fn(void *arg)
+ {
+     CPUState *cpu = arg;
+     int r;
 
-  https://gitlab.com/laurent_vivier/qemu.git tags/linux-user-for-8.0-pull-request
+     rcu_register_thread();
 
-for you to fetch changes up to 3f0744f98b07c6fd2ce9d5840726d0915b2ae7c1:
++    sleep(10);
+     qemu_mutex_lock_iothread();
+     qemu_thread_get_self(cpu->thread);
+     cpu->thread_id = qemu_get_thread_id();
+     cpu->can_do_io = 1;
 
-  linux-user: Allow sendmsg() without IOV (2023-02-03 22:55:12 +0100)
+where dirty ring reaper will wakeup but then a vcpu has not been finished
+to create.
 
-----------------------------------------------------------------
-linux-user branch pull request 20230204
+Signed-off-by: Weinan Liu <wnliu@stu.xmu.edu.cn>
+---
+ accel/kvm/kvm-all.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Implement execveat()
-un-parent OBJECT(cpu) when closing thread
-Revert fix for glibc >= 2.36 sys/mount.h
-Fix/update strace
-move target_flat.h to target subdirs
-Fix SO_ERROR return code of getsockopt()
-Fix /proc/cpuinfo output for hppa
-Add emulation for MADV_WIPEONFORK and MADV_KEEPONFORK in madvise()
-Implement SOL_ALG encryption support
-linux-user: Allow sendmsg() without IOV
-
-----------------------------------------------------------------
-
-Daniel P. Berrangé (2):
-  Revert "linux-user: add more compat ioctl definitions"
-  Revert "linux-user: fix compat with glibc >= 2.36 sys/mount.h"
-
-Drew DeVault (4):
-  linux-user/strace: Extract print_execve_argv() from print_execve()
-  linux-user/strace: Add output for execveat() syscall
-  linux-user/syscall: Extract do_execve() from do_syscall1()
-  linux-user/syscall: Implement execveat()
-
-Helge Deller (11):
-  linux-user: Add missing MAP_HUGETLB and MAP_STACK flags in strace
-  linux-user: Add strace output for clock_getres_time64() and
-    futex_time64()
-  linux-user: Improve strace output of getgroups() and setgroups()
-  linux-user: Fix SO_ERROR return code of getsockopt()
-  linux-user: Fix /proc/cpuinfo output for hppa
-  linux-user: Improve strace output of personality() and sysinfo()
-  linux-user: Add emulation for MADV_WIPEONFORK and MADV_KEEPONFORK in
-    madvise()
-  linux-user: Show 4th argument of rt_sigprocmask() in strace
-  linux-user: Enhance strace output for various syscalls
-  linux-user: Implement SOL_ALG encryption support
-  linux-user: Allow sendmsg() without IOV
-
-Letu Ren (1):
-  linux-user: add more netlink protocol constants
-
-Mike Frysinger (2):
-  linux-user: fix strace build w/out munlockall
-  linux-user: move target_flat.h to target subdirs
-
-Philippe Mathieu-Daudé (1):
-  linux-user/strace: Constify struct flags
-
-Richard Henderson (1):
-  linux-user: un-parent OBJECT(cpu) when closing thread
-
- linux-user/aarch64/target_flat.h       |   1 +
- linux-user/arm/target_flat.h           |   1 +
- linux-user/{ => generic}/target_flat.h |   0
- linux-user/m68k/target_flat.h          |   1 +
- linux-user/microblaze/target_flat.h    |   1 +
- linux-user/mmap.c                      |  56 +++--
- linux-user/sh4/target_flat.h           |   1 +
- linux-user/strace.c                    | 189 ++++++++++-----
- linux-user/strace.list                 |  64 ++---
- linux-user/syscall.c                   | 312 +++++++++++++------------
- meson.build                            |   2 -
- 11 files changed, 378 insertions(+), 250 deletions(-)
- create mode 100644 linux-user/aarch64/target_flat.h
- create mode 100644 linux-user/arm/target_flat.h
- rename linux-user/{ => generic}/target_flat.h (100%)
- create mode 100644 linux-user/m68k/target_flat.h
- create mode 100644 linux-user/microblaze/target_flat.h
- create mode 100644 linux-user/sh4/target_flat.h
-
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 7e6a6076b1..840da7630e 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -719,6 +719,15 @@ static uint64_t kvm_dirty_ring_reap_locked(KVMState *s, CPUState* cpu)
+         total = kvm_dirty_ring_reap_one(s, cpu);
+     } else {
+         CPU_FOREACH(cpu) {
++            /*
++             * Must ensure kvm_init_vcpu is finished, so cpu->kvm_dirty_gfns is
++             * available.
++             */
++            while (cpu->created == false) {
++                qemu_mutex_unlock_iothread();
++                qemu_mutex_lock_iothread();
++            }
++
+             total += kvm_dirty_ring_reap_one(s, cpu);
+         }
+     }
 -- 
-2.39.1
+2.25.1
 
 
