@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55FAE68AB0E
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:09:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB08968AB1C
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:11:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOL5v-0005G2-1i; Sat, 04 Feb 2023 11:08:51 -0500
+	id 1pOL5u-0005Ff-D2; Sat, 04 Feb 2023 11:08:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5q-0005Ca-9X
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5q-0005Cb-HB
  for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:48 -0500
-Received: from mout.kundenserver.de ([212.227.17.10])
+Received: from mout.kundenserver.de ([217.72.192.75])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5o-0006x0-A9
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5o-0006xM-ME
  for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:46 -0500
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MIxqu-1p449I0CCo-00KOwR; Sat, 04
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MV5KC-1pDzmm26I2-00S4yJ; Sat, 04
  Feb 2023 17:08:42 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Helge Deller <deller@gmx.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 16/22] linux-user: Fix /proc/cpuinfo output for hppa
-Date: Sat,  4 Feb 2023 17:08:24 +0100
-Message-Id: <20230204160830.193093-17-laurent@vivier.eu>
+Subject: [PULL 17/22] linux-user: Improve strace output of personality() and
+ sysinfo()
+Date: Sat,  4 Feb 2023 17:08:25 +0100
+Message-Id: <20230204160830.193093-18-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230204160830.193093-1-laurent@vivier.eu>
 References: <20230204160830.193093-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:6J504CEHn1Rc8H1oFDl2Q7pG356j0LjPO4dQa0OAbxk6fddwWnd
- aqCddakJB+FyeSbc92DFnQoLpvXit79Fe0IfETmmPBN8wf7cj/YUG/BzdVcY3QgL4lBHRR5
- NeO6+AKanxTP8FOgZWdQkOBQvVWaop2d4YRug01ZyeQ/+CsKzVDzlE9khuzu8E7BW9K7/GT
- mwSMoxlIzF+3lSNZ9WY/w==
-UI-OutboundReport: notjunk:1;M01:P0:W19q2aZfjns=;6qemAJC+bAf4EJ3Xlkt06vUfyRi
- QJ/k58Ge5UEQi8CfAUBTtOOV62UQEwn8J/tUfa/tXKx06xyU4O3D0XQp4P6phU0QL8NUTgrJF
- 9BGuAqefXro3Sm8fzlCC78a7uZC85zRpgjVMZ7g02ucWI7wuhUpVvM43lGrp3fxzumAXlB84M
- 0ny97Pff46tEsS9HPnwLCrZSvE7fcyMtNoXJWRGdT9DtCLxSd/wVs75JxANUBCiPC+cGq/LkA
- hgoH4m7QBYm0aJDQ5/Ax7NREat7abm6On+0dSgsAlta26gMUb1FRYuP0Xne5eDaOiOpJYFoQN
- I4838RfgC5jXEGNps1KcQMfGySIQwgJl1qSpgaoNOqSv7uTWcIiAXugAED4NzRQQqb1IDKSMM
- ph0cmeKz9iPkNRRbp1jOBDMdGxq1piywEcISVT6I6geL2mXN998InugvBGZbad6l7lu2I0FGA
- gs935twcMRr2kWR9Aq79hVU4N0iZqJu4xpqA7z2aYBPg2L4l0EwSOFz+tWgp6v8bGiONJaYhR
- wMbrMtosYvHoUgoupNVKFFLjTYiuyEbk8qWCRlbQEgy4rMIKp/t0W0wGpyOop1M8Gh758Kfi6
- Tuwaxtup9P4o5a4SHNVLQ02V7C/RJlCdpQDktjzxCpCjO07ESzeGhnTxXZDV7/ILX56PnfOLD
- NMW7DHBOQ1tuinXxcYvXEwRLWyznb62e568SNi7Pew==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:5ub0z4qieGImvYnch3nUWUbLXig7P1ruyKLLApSuJaoJ4Y575Zg
+ UxZy4ksqD83eaD4zBEPQu5LevT3wSRdcHUj39mZQ9Kuj2+mrryhI5S/1+uGxPpvrpqyPQHa
+ 51FKeR7XAzFde01dgHn8Mm6PHAE7UiqEx9wOkzz/0WgmJDR7tO9r9uWPr4ArbMRZfaxgeI8
+ +LTUjzOup16saINM7mlUQ==
+UI-OutboundReport: notjunk:1;M01:P0:qN2MgOJK2PM=;7PZwp8T9OFu6ZL/YjXbM8nfuA5g
+ lF3KHwzwKjFTZILDfaQSMCvglXSLdE6P4hKzBVf5SQSnSx7vowO2Hgs9dLdjbHhOBBL8AYS74
+ SAPxd4T6kBH/Wu75SU9QZQTjqKmJeSqZrofKkWyatiI/LyDjjWFWXVtBTLulgxGDV4c2leC2e
+ jIsHpH+M9EiPUwUiUaRVtQ8ELmtcTYu/H1nRdeee2To6aMCbNWfRv2o2QEXmeKk9R8dTowdTN
+ uJeHycTQCDILPxHAecOWgqXbZqkBiHVzToldtTTaMYTmzubyyYz9kDATbnlJvKecZm/2FQ6MW
+ zLDcWxCUtpLX7C9nAGrxQKlXW/PsY/ifpFxs20/YTQmimOs/3bGC44nIR2PaaHIr6FErxw5TU
+ gCtfzfjUXSrz8YPhrimsYynWnVOsCVtgENqxBfpytYJXCq0fCTQWGCxMRUd8IXQILAFlnAW/N
+ PtqIGJ1nZMlbCgywRWn8Ecsc0V6vt1jjZ0oEIJ9vurr7kD3PchDqAsVBeDpcdQVgWy21ziksy
+ f8LNc0wMGRJx1WvQwJbU3tZH5BGQQG7o7fXx4wJ+lAYByc6lI9YICa7Hj88oWlmp6fFnBvnEB
+ ZrnY/1I7a+TwwvLiqkkCFspE4OlcFmDoFueSnxEqLdi14SHuSXKqbhus0ER6Jn61gdXImQIWQ
+ AOc4/Rdejs8ADJkZd94nt6r4uJnMgS3/bvS1jf89lQ==
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -74,56 +73,40 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Helge Deller <deller@gmx.de>
 
-The hppa architectures provides an own output for the emulated
-/proc/cpuinfo file.
-
-Some userspace applications count (even if that's not the recommended
-way) the number of lines which start with "processor:" and assume that
-this number then reflects the number of online CPUs. Since those 3
-architectures don't provide any such line, applications may assume "0"
-CPUs.  One such issue can be seen in debian bug report:
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1024653
-
-Avoid such issues by adding a "processor:" line for each of the online
-CPUs.
+Make the strace look nicer for those two syscalls.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <Y9QvyRSq1I1k5/JW@p100>
+Message-Id: <Y9QxskymWJjrKQmT@p100>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ linux-user/strace.list | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 1c42df651801..55d53b344b84 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -8232,11 +8232,17 @@ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
- #if defined(TARGET_HPPA)
- static int open_cpuinfo(CPUArchState *cpu_env, int fd)
- {
--    dprintf(fd, "cpu family\t: PA-RISC 1.1e\n");
--    dprintf(fd, "cpu\t\t: PA7300LC (PCX-L2)\n");
--    dprintf(fd, "capabilities\t: os32\n");
--    dprintf(fd, "model\t\t: 9000/778/B160L\n");
--    dprintf(fd, "model name\t: Merlin L2 160 QEMU (9000/778/B160L)\n");
-+    int i, num_cpus;
-+
-+    num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
-+    for (i = 0; i < num_cpus; i++) {
-+        dprintf(fd, "processor\t: %d\n", i);
-+        dprintf(fd, "cpu family\t: PA-RISC 1.1e\n");
-+        dprintf(fd, "cpu\t\t: PA7300LC (PCX-L2)\n");
-+        dprintf(fd, "capabilities\t: os32\n");
-+        dprintf(fd, "model\t\t: 9000/778/B160L - "
-+                    "Merlin L2 160 QEMU (9000/778/B160L)\n\n");
-+    }
-     return 0;
- }
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index cf291d02edfe..3a1f61803a39 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -1049,7 +1049,8 @@
+ { TARGET_NR_perfctr, "perfctr" , NULL, NULL, NULL },
  #endif
+ #ifdef TARGET_NR_personality
+-{ TARGET_NR_personality, "personality" , NULL, NULL, NULL },
++{ TARGET_NR_personality, "personality" , "%s(0x"TARGET_ABI_FMT_lx")", NULL,
++  print_syscall_ret_addr },
+ #endif
+ #ifdef TARGET_NR_pipe
+ { TARGET_NR_pipe, "pipe" , NULL, NULL, NULL },
+@@ -1504,7 +1505,7 @@
+ { TARGET_NR_sysfs, "sysfs" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_sysinfo
+-{ TARGET_NR_sysinfo, "sysinfo" , NULL, NULL, NULL },
++{ TARGET_NR_sysinfo, "sysinfo" , "%s(%p)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_sys_kexec_load
+ { TARGET_NR_sys_kexec_load, "sys_kexec_load" , NULL, NULL, NULL },
 -- 
 2.39.1
 
