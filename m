@@ -2,67 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F24668AB2E
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:25:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 473D068AB10
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 17:09:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOLKQ-0003BJ-V3; Sat, 04 Feb 2023 11:23:50 -0500
+	id 1pOL5s-0005At-LT; Sat, 04 Feb 2023 11:08:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liu-weinan@qq.com>) id 1pOL6h-0008EE-8g
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:09:39 -0500
-Received: from out162-62-57-64.mail.qq.com ([162.62.57.64])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5l-00054q-6h
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:42 -0500
+Received: from mout.kundenserver.de ([217.72.192.73])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liu-weinan@qq.com>) id 1pOL6c-00072j-SJ
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:09:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
- t=1675526967; bh=x9D1Snw8RWbqBQC43Urhu3itEat53Yrbhhg7aXaCoKg=;
- h=From:To:Cc:Subject:Date;
- b=zorFfEVVvhplq4VUVU/EzTG58YKZiS0v+B+//PKYwOuG2aT+pZr0lECT2yOjePkeh
- qxhjE6ty94gIY6Aend66e4RgQzulw2JWSBp4wio+ltaJAsF3Z3tLX8R6j+QDHXEegL
- s6oHEthrgMxh/2gmb1uutASUEi28jWoLaSS4qQE0=
-Received: from localhost.localdomain ([117.28.251.142])
- by newxmesmtplogicsvrszc2-0.qq.com (NewEsmtp) with SMTP
- id 20A0E2FD; Sun, 05 Feb 2023 00:08:10 +0800
-X-QQ-mid: xmsmtpt1675526890toup8izxw
-Message-ID: <tencent_4154FDEB122B79E7FB824E2941708C7B0106@qq.com>
-X-QQ-XMAILINFO: MhH68nX24TAM9xiSDU+5xWs28lnoKEFUj3mqCoyFGVfJfn6/9Ai7bwVL5tQbz1
- 9jNnTsPrBE6EDefoLNcHWY5xlKpaekZNphquRLf6560V5JaGAv+euLF7P+JmdQpHoz6GwOJGJJPh
- a5hhsDhNqchYOF5jkrK2V7ZjdRuKmQQrX6O7a0MuIiww4oXiPOZe/s+rCjR/imIlSACw7YMNNcjs
- cj7t7IffLO+hCqZtfEc2wVKR2grSGOIIOsFNPl/Z+THBVpp8YG0EIqutGmJg+vTtMaaDBXEX+05a
- 70fqv0jZYiFvFG3JXAS9D2kURyiDY9Rf3Sf0DiDRVTBdDXevKV98C76BT7+ubzaK2nTg9cY6yts7
- q/mgoBryADnDJIJ943wMXlehf+KYOXLw/M5X94+rfwG6FxQOerMa+GJZjBDLljdqmm36o5V/n2EP
- 6eSO2Qz5dOnwgqY6Q6ubW4hkYspOf662jgrvfhil6w99ldTl/DaUyTlFkEUJM9XpZgdtT6X8rFFG
- OzTNWCIsegmnmsI5yCy3KWJetztpihG8VYbjcWt8eL/7ylDPvGCtWoeLKTH311mbFZYm0a7AdSyi
- io6ldU/T34g83EV2dyKTnh2w7Gh1fXRxpHWlgWt2YsZfNigsSvNl5z9DWMYnKf6vwaQxAcd4OyyN
- b/EX37pTAfe8g2HK/oeHWkiOvEFNwbK7rLGvJpmY4k5cXlSBxhmo5gaIrl8+Cfqy5ECaAs1YLqIO
- IPlGa4CNV+tkwj/w0ccofZjT7cDASW44dYsXSC+A2SLU6SsadFzqVwNji6MmE5OTYpoBqtiS97Or
- lKJQ+NKrmZExx/prnD55b6RCNSxoTFkI/MC4jdpDSYc3fkhSgRCtdP7J8jyion5tRsSousQFOiLF
- L3e7tYNqM7JRiuOA2X6445gfTk9VrFGHs0OTiqf9YAU+vdQ+WQLdnnnDbPEsfD+oRBSNBAqye/ps
- qtAlqOdIM=
-From: Weinan Liu <liu-weinan@qq.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pOL5h-0006u9-TX
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 11:08:39 -0500
+Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue107
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MWBGG-1p8W8u2nRy-00XY5X; Sat, 04
+ Feb 2023 17:08:34 +0100
+From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: peterx@redhat.com, dgilbert@redhat.com, Weinan Liu <wnliu@stu.xmu.edu.cn>
-Subject: [PATCH] KVM: dirty ring: check if vcpu is created before
- dirty_ring_reap_one
-Date: Sat,  4 Feb 2023 16:08:08 +0000
-X-OQ-MSGID: <20230204160808.753494-1-liu-weinan@qq.com>
-X-Mailer: git-send-email 2.25.1
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 01/22] linux-user/strace: Constify struct flags
+Date: Sat,  4 Feb 2023 17:08:09 +0100
+Message-Id: <20230204160830.193093-2-laurent@vivier.eu>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230204160830.193093-1-laurent@vivier.eu>
+References: <20230204160830.193093-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=162.62.57.64; envelope-from=liu-weinan@qq.com;
- helo=out162-62-57-64.mail.qq.com
-X-Spam_score_int: 8
-X-Spam_score: 0.8
-X-Spam_bar: /
-X-Spam_report: (0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HELO_DYNAMIC_IPADDR=1.951, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, RDNS_DYNAMIC=0.982, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Provags-ID: V03:K1:ww6E4GBQVIgoAwjoBcEGp8wxBInQNIbPz0KfCNPVFzuEExhcso9
+ muF7eOly0bBuTo5C8NX/tLG0xufWG2p7YfSvIW0nRsA0usbodWvcFggd7P9dW8WjFkxtfbK
+ a2WgxE0wxQ84upSWKKm3MXbFgXY19QgED2Z+ZMNy+hpEkuABbkPhyaK7rNdRFbg/IV9SJnd
+ ud/G8kLTjGn+Hc/o9jx3g==
+UI-OutboundReport: notjunk:1;M01:P0:Kqdqdyhosj8=;vSrnSoHtRzrSP9f8oJSQhc2xSb4
+ cVOvCex2tGjmfc30PHoNlzjjEW7ijdgIMLQ5SJ37QYCs05BVGbLq8TOSL0FOqLlFh906MHg6p
+ EyN1I4kvAJU0cZZj/YM59jh1VZAIkhpYwtaaWtu7OT5c1W8H+O+5N3dsJxKhFsfB4IyPadXAO
+ gQnTh5JzeLLzsJIy8aso5rQnwNbCga0gINVvYSQunfD3xnZprzyel0mkoBlHcahVJqdKw2byF
+ vGVJe4WmZNMWiWmokvigQORm4OmwYHN2eOlRP3Xi+i7GIfq1BJbbKwIu4tb2K2epcQMzgBlxS
+ nmMmJhb/a14Y8/Wr6wEAkce/4nOXjZOzWqSBXIBLUgMn66WGqVw1kw/0WIrY00DgMx2xGdWYF
+ ZbfQsMcjg9McsSw7/3MOuGTNZVACMGL/D7js8c4EVoEx1yufjnpSHveaoyEOwd1cXhIN89CxB
+ 1GguS5cGuWRhJEDnFHWgKODP97dbNK5cW2BHmwKnrUibbgvBBwv/ZITmFJcycqD/I0St7HQIU
+ FhXBpYrYD7kMvXBYbPQyVFcZwOahMXO0MNHZuaDGPb+kvkzzpWJuQF3NyjOvzl7eZaXwKpMJC
+ XYs6Xa0TTrTnVuCgj6jPacE6YIorLfLMFVGZxyGbIbkzzWUKQc7mTdHsyOUpEVoY732nGMxkc
+ rFBH1Q1Gq9Tx1o9jusp0M3f2XL/+A2ysw7i38A0emw==
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 04 Feb 2023 11:23:47 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,55 +70,201 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Weinan Liu <wnliu@stu.xmu.edu.cn>
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Failed to assert '(dirty_gfns && ring_size)' in kvm_dirty_ring_reap_one if
-the vcpu has not been finished to create yet. This bug occasionally occurs
-when I open 200+ qemu instances on my 16G 6-cores x86 machine. And it must
-be triggered if inserting a 'sleep(10)' into kvm_vcpu_thread_fn as below--
+print_flags() takes a const pointer.
 
- static void *kvm_vcpu_thread_fn(void *arg)
- {
-     CPUState *cpu = arg;
-     int r;
-
-     rcu_register_thread();
-
-+    sleep(10);
-     qemu_mutex_lock_iothread();
-     qemu_thread_get_self(cpu->thread);
-     cpu->thread_id = qemu_get_thread_id();
-     cpu->can_do_io = 1;
-
-where dirty ring reaper will wakeup but then a vcpu has not been finished
-to create.
-
-Signed-off-by: Weinan Liu <wnliu@stu.xmu.edu.cn>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20221104173632.1052-2-philmd@linaro.org>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- accel/kvm/kvm-all.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ linux-user/strace.c | 40 ++++++++++++++++++++--------------------
+ 1 file changed, 20 insertions(+), 20 deletions(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 7e6a6076b1..840da7630e 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -719,6 +719,15 @@ static uint64_t kvm_dirty_ring_reap_locked(KVMState *s, CPUState* cpu)
-         total = kvm_dirty_ring_reap_one(s, cpu);
-     } else {
-         CPU_FOREACH(cpu) {
-+            /*
-+             * Must ensure kvm_init_vcpu is finished, so cpu->kvm_dirty_gfns is
-+             * available.
-+             */
-+            while (cpu->created == false) {
-+                qemu_mutex_unlock_iothread();
-+                qemu_mutex_lock_iothread();
-+            }
-+
-             total += kvm_dirty_ring_reap_one(s, cpu);
-         }
-     }
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 9ae5a812cd71..25c47f03160d 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -945,7 +945,7 @@ print_syscall_ret_ioctl(CPUArchState *cpu_env, const struct syscallname *name,
+ }
+ #endif
+ 
+-UNUSED static struct flags access_flags[] = {
++UNUSED static const struct flags access_flags[] = {
+     FLAG_GENERIC(F_OK),
+     FLAG_GENERIC(R_OK),
+     FLAG_GENERIC(W_OK),
+@@ -953,7 +953,7 @@ UNUSED static struct flags access_flags[] = {
+     FLAG_END,
+ };
+ 
+-UNUSED static struct flags at_file_flags[] = {
++UNUSED static const struct flags at_file_flags[] = {
+ #ifdef AT_EACCESS
+     FLAG_GENERIC(AT_EACCESS),
+ #endif
+@@ -963,14 +963,14 @@ UNUSED static struct flags at_file_flags[] = {
+     FLAG_END,
+ };
+ 
+-UNUSED static struct flags unlinkat_flags[] = {
++UNUSED static const struct flags unlinkat_flags[] = {
+ #ifdef AT_REMOVEDIR
+     FLAG_GENERIC(AT_REMOVEDIR),
+ #endif
+     FLAG_END,
+ };
+ 
+-UNUSED static struct flags mode_flags[] = {
++UNUSED static const struct flags mode_flags[] = {
+     FLAG_GENERIC(S_IFSOCK),
+     FLAG_GENERIC(S_IFLNK),
+     FLAG_GENERIC(S_IFREG),
+@@ -981,14 +981,14 @@ UNUSED static struct flags mode_flags[] = {
+     FLAG_END,
+ };
+ 
+-UNUSED static struct flags open_access_flags[] = {
++UNUSED static const struct flags open_access_flags[] = {
+     FLAG_TARGET(O_RDONLY),
+     FLAG_TARGET(O_WRONLY),
+     FLAG_TARGET(O_RDWR),
+     FLAG_END,
+ };
+ 
+-UNUSED static struct flags open_flags[] = {
++UNUSED static const struct flags open_flags[] = {
+     FLAG_TARGET(O_APPEND),
+     FLAG_TARGET(O_CREAT),
+     FLAG_TARGET(O_DIRECTORY),
+@@ -1019,7 +1019,7 @@ UNUSED static struct flags open_flags[] = {
+     FLAG_END,
+ };
+ 
+-UNUSED static struct flags mount_flags[] = {
++UNUSED static const struct flags mount_flags[] = {
+ #ifdef MS_BIND
+     FLAG_GENERIC(MS_BIND),
+ #endif
+@@ -1044,7 +1044,7 @@ UNUSED static struct flags mount_flags[] = {
+     FLAG_END,
+ };
+ 
+-UNUSED static struct flags umount2_flags[] = {
++UNUSED static const struct flags umount2_flags[] = {
+ #ifdef MNT_FORCE
+     FLAG_GENERIC(MNT_FORCE),
+ #endif
+@@ -1057,7 +1057,7 @@ UNUSED static struct flags umount2_flags[] = {
+     FLAG_END,
+ };
+ 
+-UNUSED static struct flags mmap_prot_flags[] = {
++UNUSED static const struct flags mmap_prot_flags[] = {
+     FLAG_GENERIC(PROT_NONE),
+     FLAG_GENERIC(PROT_EXEC),
+     FLAG_GENERIC(PROT_READ),
+@@ -1068,7 +1068,7 @@ UNUSED static struct flags mmap_prot_flags[] = {
+     FLAG_END,
+ };
+ 
+-UNUSED static struct flags mmap_flags[] = {
++UNUSED static const struct flags mmap_flags[] = {
+     FLAG_TARGET(MAP_SHARED),
+     FLAG_TARGET(MAP_PRIVATE),
+     FLAG_TARGET(MAP_ANONYMOUS),
+@@ -1092,7 +1092,7 @@ UNUSED static struct flags mmap_flags[] = {
+     FLAG_END,
+ };
+ 
+-UNUSED static struct flags clone_flags[] = {
++UNUSED static const struct flags clone_flags[] = {
+     FLAG_GENERIC(CLONE_VM),
+     FLAG_GENERIC(CLONE_FS),
+     FLAG_GENERIC(CLONE_FILES),
+@@ -1136,7 +1136,7 @@ UNUSED static struct flags clone_flags[] = {
+     FLAG_END,
+ };
+ 
+-UNUSED static struct flags msg_flags[] = {
++UNUSED static const struct flags msg_flags[] = {
+     /* send */
+     FLAG_GENERIC(MSG_CONFIRM),
+     FLAG_GENERIC(MSG_DONTROUTE),
+@@ -1156,7 +1156,7 @@ UNUSED static struct flags msg_flags[] = {
+     FLAG_END,
+ };
+ 
+-UNUSED static struct flags statx_flags[] = {
++UNUSED static const struct flags statx_flags[] = {
+ #ifdef AT_EMPTY_PATH
+     FLAG_GENERIC(AT_EMPTY_PATH),
+ #endif
+@@ -1178,7 +1178,7 @@ UNUSED static struct flags statx_flags[] = {
+     FLAG_END,
+ };
+ 
+-UNUSED static struct flags statx_mask[] = {
++UNUSED static const struct flags statx_mask[] = {
+ /* This must come first, because it includes everything.  */
+ #ifdef STATX_ALL
+     FLAG_GENERIC(STATX_ALL),
+@@ -1226,7 +1226,7 @@ UNUSED static struct flags statx_mask[] = {
+     FLAG_END,
+ };
+ 
+-UNUSED static struct flags falloc_flags[] = {
++UNUSED static const struct flags falloc_flags[] = {
+     FLAG_GENERIC(FALLOC_FL_KEEP_SIZE),
+     FLAG_GENERIC(FALLOC_FL_PUNCH_HOLE),
+ #ifdef FALLOC_FL_NO_HIDE_STALE
+@@ -1246,7 +1246,7 @@ UNUSED static struct flags falloc_flags[] = {
+ #endif
+ };
+ 
+-UNUSED static struct flags termios_iflags[] = {
++UNUSED static const struct flags termios_iflags[] = {
+     FLAG_TARGET(IGNBRK),
+     FLAG_TARGET(BRKINT),
+     FLAG_TARGET(IGNPAR),
+@@ -1265,7 +1265,7 @@ UNUSED static struct flags termios_iflags[] = {
+     FLAG_END,
+ };
+ 
+-UNUSED static struct flags termios_oflags[] = {
++UNUSED static const struct flags termios_oflags[] = {
+     FLAG_TARGET(OPOST),
+     FLAG_TARGET(OLCUC),
+     FLAG_TARGET(ONLCR),
+@@ -1349,7 +1349,7 @@ UNUSED static struct enums termios_cflags_CSIZE[] = {
+     ENUM_END,
+ };
+ 
+-UNUSED static struct flags termios_cflags[] = {
++UNUSED static const struct flags termios_cflags[] = {
+     FLAG_TARGET(CSTOPB),
+     FLAG_TARGET(CREAD),
+     FLAG_TARGET(PARENB),
+@@ -1360,7 +1360,7 @@ UNUSED static struct flags termios_cflags[] = {
+     FLAG_END,
+ };
+ 
+-UNUSED static struct flags termios_lflags[] = {
++UNUSED static const struct flags termios_lflags[] = {
+     FLAG_TARGET(ISIG),
+     FLAG_TARGET(ICANON),
+     FLAG_TARGET(XCASE),
+@@ -1380,7 +1380,7 @@ UNUSED static struct flags termios_lflags[] = {
+     FLAG_END,
+ };
+ 
+-UNUSED static struct flags mlockall_flags[] = {
++UNUSED static const struct flags mlockall_flags[] = {
+     FLAG_TARGET(MCL_CURRENT),
+     FLAG_TARGET(MCL_FUTURE),
+ #ifdef MCL_ONFAULT
 -- 
-2.25.1
+2.39.1
 
 
