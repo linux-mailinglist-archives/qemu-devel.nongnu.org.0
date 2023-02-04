@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8315868AADB
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 16:12:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3182468AADF
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 16:12:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOKBy-0002OK-MS; Sat, 04 Feb 2023 10:11:02 -0500
+	id 1pOKBy-0002Oa-PX; Sat, 04 Feb 2023 10:11:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pOKBv-0002NS-Ji; Sat, 04 Feb 2023 10:10:59 -0500
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630])
+ id 1pOKBw-0002NZ-4J; Sat, 04 Feb 2023 10:11:00 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pOKBt-0006a1-S8; Sat, 04 Feb 2023 10:10:59 -0500
-Received: by mail-ej1-x630.google.com with SMTP id dr8so22831222ejc.12;
+ id 1pOKBu-0006a3-Cu; Sat, 04 Feb 2023 10:10:59 -0500
+Received: by mail-ej1-x634.google.com with SMTP id m2so22876227ejb.8;
  Sat, 04 Feb 2023 07:10:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=EfmMdCHz+Fhltt6YfTaJbRbrlBRK7jA6WLfOJqml/3o=;
- b=eNaXTzLgKJsYzN9zpLA0l3RTGY5gIYeyG0JDFd8eSxZMtmjjNL2RquNP0+WSb3+tiC
- tuZrvLQkSTLwjcgmVoIAuif/ASIMoerjt3u6FjZjqK7+vjXjA8m2xGG9i3DOeD7dg8ho
- PmqkFt/Emnv6gEFRTVHSfmWzNpq+LsW8+mk75gipGnW0JCiHN7IpZ41850yMdJPCI5GK
- xgaZ1xn5HKG+9sqQZ9D8KqLlBIdFStNA1zxSVfJIAdg5VXTn8Y6RDpjcBi8MVlf5aG7r
- kj5jF4aI8Xbw1OEgQXzmNe7jH2OO4t7NJ/s9qrvPOz8jS/PTPL/4pMdkSF77p9m3EafZ
- 5VAw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7iycG/CYzi5qr7Pya6NhclvK6Ts8hrm+dv8CLlGtddE=;
+ b=IL6I6keXxU5QiwlRSgq7W9jNNPgXuQ+RbXsuVIon+EsEhFk2Pz7ZetpZl5Py9AzYWO
+ EbGSd+Op3hWJvy9nNbOTaGwb7xAjfRFTVutXM9RH49Ryc0hrr2LYNhTi85DL9fWvl+JL
+ iymufPr/sGw39TNTaNoATAA1F48Sr0hJlZOQWY/Ui2471xJz8LF96f0Lr8yKOVE4DOBy
+ uFm0ajU5i0CxXyncHv3ux45llDNPNsBfUAeqpyVXx7ej+HXxaFF93RcljYyG8rqn9BP6
+ rvEOv9nZCFEITBr/FigYg1oGLHAfXT3QjuShjJEU60owV3DtXu7ipCjZzfgpYe3lNs9c
+ OYbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=EfmMdCHz+Fhltt6YfTaJbRbrlBRK7jA6WLfOJqml/3o=;
- b=Ed+tWxhKC2OMcI06LiG/pf9IbYjECGJ6ZVp/P/AwSfY2Z5d6xKfhETCrp6PUi4LX6t
- ird5Bnjro7cIPCX8cxUdCPgs5wwWgGSPpVt0P0TiWb0bbTer2QGa7VZbRVI7Dhs1JaEQ
- eGeGc1IYcZtElktl4JmyoSn09/743NH+TgnuGleVz7zUfA6X1BNWIUqClddLnFxvsRK0
- oFnhLc1HXyackwD1bkcwLdbVVXrBwxdQTP2eaGeobOUnsFexYmf3OwHV4eoGB1BckbcA
- Oyh6xBl3YNwIKhs25ebmNGRHwxftNlQBTBruSfYk8meZGkHuUmqPkZcQ9TTlu7JZiViO
- AN2Q==
-X-Gm-Message-State: AO0yUKUUq62CiNDDC31H2QEyv8ME2pnQiyAIRIOtvapv21iyH6BlSfhW
- jQT0E4HFR5SkUGCB6qx/NbrjbHQhEu8=
-X-Google-Smtp-Source: AK7set+ARqWwQbRVk8DA5O5aHkUkYVLQ3MFi6x4JOlpACJjgCpRlyrd13UMPIVTG9G5cZf8kttrOJg==
-X-Received: by 2002:a17:907:8e93:b0:888:a06f:104b with SMTP id
- tx19-20020a1709078e9300b00888a06f104bmr15905424ejc.36.1675523455272; 
- Sat, 04 Feb 2023 07:10:55 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7iycG/CYzi5qr7Pya6NhclvK6Ts8hrm+dv8CLlGtddE=;
+ b=NSnCGtqQ6sAgSdvpNfeu9ZSKIR4k/3MJaf8jmnMEc4VtTFSP2JeKtPueJvSWbpSzyL
+ 3ZFKrDpREA7z4Zx38PE9s0hw24ndOHRFBN+qJZ4EGzxOzZ9JL+TAKrywTzkx0SavF61v
+ DidBbQ6qZ8T1fosRI2qOgCDKCibBDp0Wf7DN5I12nNSHoB0sTDwI303ZKtgTYfSQqLlQ
+ wxzJ5yccq8jSZwixRvdqwRd8GRaDdbhiKD3wtXu5k76JAWdsHix9VK6WCNjemUm4iviI
+ kXNSjzePcJSKkOeOhhOhoGgokI5mefriBFktON4HJZqVCAAhwaQRaAwgKc6f0S0oRkEf
+ RDXg==
+X-Gm-Message-State: AO0yUKXa7vUbuJ78iwJxwoA68GdO/DqwBPOIFS4DcXHvOz9qJUMS4GVk
+ 1U4FLWVLPYPxON5f5jX9hd4O04NzXvc=
+X-Google-Smtp-Source: AK7set+HvxgNr+CeLGIYEV8hD5SgMiQsb06bB125tFisVIP6N+RrReltkNmig0jZ+FVVL+4xs/vKTQ==
+X-Received: by 2002:a17:907:8d16:b0:812:d53e:1222 with SMTP id
+ tc22-20020a1709078d1600b00812d53e1222mr14342456ejc.31.1675523456421; 
+ Sat, 04 Feb 2023 07:10:56 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-077-183-077-083.77.183.pool.telefonica.de. [77.183.77.83])
  by smtp.gmail.com with ESMTPSA id
- 17-20020a170906211100b0088a2aebb146sm2937922ejt.52.2023.02.04.07.10.54
+ 17-20020a170906211100b0088a2aebb146sm2937922ejt.52.2023.02.04.07.10.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Feb 2023 07:10:54 -0800 (PST)
+ Sat, 04 Feb 2023 07:10:56 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>,
@@ -63,15 +64,16 @@ Cc: Thomas Huth <thuth@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v3 0/9] PC cleanups
-Date: Sat,  4 Feb 2023 16:10:18 +0100
-Message-Id: <20230204151027.39007-1-shentey@gmail.com>
+Subject: [PATCH v3 1/9] hw/pci-host/i440fx: Inline sysbus_add_io()
+Date: Sat,  4 Feb 2023 16:10:19 +0100
+Message-Id: <20230204151027.39007-2-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230204151027.39007-1-shentey@gmail.com>
+References: <20230204151027.39007-1-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x630.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,73 +96,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This series contains some cleanups I came across when working on the PC=0D
-machines. It consists of reducing the usage of global variables and elimina=
-ting=0D
-some redundancies.=0D
-=0D
-One notable change is that the SMRAM memory region gets moved from the i440=
-fx=0D
-and q35 host bridges into the x86 machine. This will simplify cleaning up t=
-hese=0D
-host bridges which will be done in a separate series.=0D
-=0D
-Testing done:=0D
-* `make check`=0D
-' `make check-avocado`=0D
-* `qemu-system-x86_64 -M q35 -m 2G -cdrom \=0D
-   manjaro-kde-21.3.2-220704-linux515.iso`=0D
-* `qemu-system-x86_64 -M pc -m 2G -cdrom manjaro-kde-21.3.2-220704-linux515=
-.iso`=0D
-=0D
-v3:=0D
-* Add three patches regarding init_pam() and SMRAM.=0D
-* Drop 'hw/i386/pc_q35: Resolve redundant q35_host variable' since Phil pos=
-ted=0D
-  a similar patch in a more comprehensive series:=0D
-  https://lore.kernel.org/qemu-devel/20230203180914.49112-13-philmd@linaro.=
-org/=0D
-* Drop 'hw/isa/lpc_ich9: Reuse memory and io address space of PCI bus' sinc=
-e=0D
-  it inadvertantly changed the memory hierarchy.=0D
-* Drop ICH9 cleanups again in favor of a separate series.=0D
-=0D
-v2:=0D
-* Factor out 'hw/i386/pc_q35: Reuse machine parameter' from 'hw/i386/pc_q35=
-:=0D
-  Resolve redundant q35_host variable' (Zoltan)=0D
-* Lower type of phb to Object in 'hw/i386/pc_q35: Resolve redundant q35_hos=
-t=0D
-  variable' (Zoltan)=0D
-* Add ICH9 cleanups=0D
-=0D
-Bernhard Beschow (9):=0D
-  hw/pci-host/i440fx: Inline sysbus_add_io()=0D
-  hw/pci-host/q35: Inline sysbus_add_io()=0D
-  hw/i386/pc_q35: Reuse machine parameter=0D
-  hw/i386/pc_{q35,piix}: Reuse MachineClass::desc as SMB product name=0D
-  hw/i386/pc_{q35,piix}: Minimize usage of get_system_memory()=0D
-  hw/i386/pc: Initialize ram_memory variable directly=0D
-  hw/pci-host/pam: Make init_pam() usage more readable=0D
-  hw/i386/x86: Make TYPE_X86_MACHINE the owner of smram=0D
-  target/i386/tcg/sysemu/tcg-cpu: Avoid own opinion about smram size=0D
-=0D
- include/hw/i386/pc.h             |  1 -=0D
- include/hw/i386/x86.h            |  2 ++=0D
- include/hw/pci-host/i440fx.h     |  7 ++++---=0D
- include/hw/pci-host/pam.h        |  5 +++--=0D
- include/hw/pci-host/q35.h        |  4 +++-=0D
- hw/i386/pc.c                     |  2 --=0D
- hw/i386/pc_piix.c                | 10 +++++-----=0D
- hw/i386/pc_q35.c                 | 16 +++++++++-------=0D
- hw/i386/x86.c                    |  4 ++++=0D
- hw/pci-host/i440fx.c             | 28 +++++++++++++---------------=0D
- hw/pci-host/pam.c                | 12 ++++++------=0D
- hw/pci-host/q35.c                | 31 ++++++++++++++++---------------=0D
- target/i386/tcg/sysemu/tcg-cpu.c |  3 +--=0D
- 13 files changed, 66 insertions(+), 59 deletions(-)=0D
-=0D
--- =0D
-2.39.1=0D
-=0D
+sysbus_add_io() just wraps memory_region_add_subregion() while also
+obscuring where the memory is attached. So use
+memory_region_add_subregion() directly and attach it to the existing
+memory region s->bus->address_space_io which is set as an alias to
+get_system_io() by the pc machine.
+
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+---
+ hw/pci-host/i440fx.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
+index 262f82c303..9c6882d3fc 100644
+--- a/hw/pci-host/i440fx.c
++++ b/hw/pci-host/i440fx.c
+@@ -27,6 +27,7 @@
+ #include "qemu/range.h"
+ #include "hw/i386/pc.h"
+ #include "hw/pci/pci.h"
++#include "hw/pci/pci_bus.h"
+ #include "hw/pci/pci_host.h"
+ #include "hw/pci-host/i440fx.h"
+ #include "hw/qdev-properties.h"
+@@ -217,10 +218,10 @@ static void i440fx_pcihost_realize(DeviceState *dev, Error **errp)
+     PCIHostState *s = PCI_HOST_BRIDGE(dev);
+     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+ 
+-    sysbus_add_io(sbd, 0xcf8, &s->conf_mem);
++    memory_region_add_subregion(s->bus->address_space_io, 0xcf8, &s->conf_mem);
+     sysbus_init_ioports(sbd, 0xcf8, 4);
+ 
+-    sysbus_add_io(sbd, 0xcfc, &s->data_mem);
++    memory_region_add_subregion(s->bus->address_space_io, 0xcfc, &s->data_mem);
+     sysbus_init_ioports(sbd, 0xcfc, 4);
+ 
+     /* register i440fx 0xcf8 port as coalesced pio */
+-- 
+2.39.1
+
 
