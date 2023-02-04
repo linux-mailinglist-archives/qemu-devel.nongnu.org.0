@@ -2,106 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2266568A82E
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 05:30:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C9F68A830
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 05:37:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOAAT-0003Tb-MP; Fri, 03 Feb 2023 23:28:49 -0500
+	id 1pOAI3-0005U1-AR; Fri, 03 Feb 2023 23:36:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <taisei1212@outlook.jp>)
- id 1pOAAS-0003TQ-3V
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 23:28:48 -0500
-Received: from mail-sgaapc01olkn2084.outbound.protection.outlook.com
- ([40.92.53.84] helo=APC01-SG2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <taisei1212@outlook.jp>)
- id 1pOAAQ-0006W2-AC
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 23:28:47 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F6UkB8uKOnU8mR0eZ7ym0Y2Uw2TPERVL1GegsJkum7hUSrGUzok84UZ7iJnavo6fopeM7p3Wq7DqljJMA5DXTowWsUsDuatLIST1VUlGNlbxHV1i5VAE0c53NJiWM30aaHDsQosaeONYtEIcIDkJiPAYEEhu5w+ZjefWveGNnVX5yG4RpgK+UNgMFaaJgiDNzk04OWw11pETemGwaBMs+rOgfa0whlbjP2p5+fnyB7jC2MhstnUduy4DTxtuRGKbXxjlduHYo0I2aMwLZ88WNpZtRKhsMccpK9ZdnSUFWfgK11yZpHww7D8h20q4SsxS1EyPgZzn24j2UegpP6FU/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Os2U5XnRCVIhbuQ+D23ClLqQ9yHaAltnUbxlwLW6KUU=;
- b=Uw2Y6VvA/bv/Lg5FOXlKMeebBgXDUD3tOqeg/6B9QS72WcxxybAAsC400D3nqsYFhWyxgHkjGpP9Y3+fOBEz5lKLyw12XWwf02r3SOTMyrcWSRTyK74py4gvuANunnawuMxzCtg72CidAM2xeqdr9Z7PHpCbC5hIYGmJ55c0ZbM1+yVHSMYQeewkyDy9OQUyr7R5CC+rMIZCDkYbuKW6TYF0VzUIINDjO1GP7POU0p6YQNBiwSUP2kxm0PbLBq1MKtXoiWSfhd69DViIfMnMKygjyKVRCf1Qxr8ydcSslKNhz/OMkAXL7EtRUVrdKUKWLuch7qSZX3aCavy12o35Rg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
- (2603:1096:400:1b0::11) by TYZPR01MB3839.apcprd01.prod.exchangelabs.com
- (2603:1096:405:7::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.31; Sat, 4 Feb
- 2023 04:23:37 +0000
-Received: from TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
- ([fe80::56db:1c2:8886:e624]) by
- TY0PR0101MB4285.apcprd01.prod.exchangelabs.com ([fe80::56db:1c2:8886:e624%8])
- with mapi id 15.20.6043.036; Sat, 4 Feb 2023 04:23:37 +0000
-From: TaiseiIto <taisei1212@outlook.jp>
-To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org, richard.henderson@linaro.org,
- TaiseiIto <taisei1212@outlook.jp>
-Subject: [PATCH v2] [PING^2] target/i386/gdbstub: Fix a bug about order of FPU
- stack in 'g' packets.
-Date: Sat,  4 Feb 2023 13:23:10 +0900
-Message-ID: <TY0PR0101MB4285C35D5788FA10558D06D0A4D49@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <TY0PR0101MB4285AD60FE3976F1AD5C6D02A4F89@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com>
-References: <TY0PR0101MB4285AD60FE3976F1AD5C6D02A4F89@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [hESlrfAqFdSHuL0NNS6qNAaeaYWE2LtU]
-X-ClientProxiedBy: TYWPR01CA0023.jpnprd01.prod.outlook.com
- (2603:1096:400:aa::10) To TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
- (2603:1096:400:1b0::11)
-X-Microsoft-Original-Message-ID: <20230204042310.22587-1-taisei1212@outlook.jp>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pOAI0-0005TH-U9
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 23:36:36 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pOAHy-0008NS-Vd
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 23:36:36 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ o16-20020a17090ad25000b00230759a8c06so3769849pjw.2
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 20:36:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=WmaDtMphVqK9IOq4lwIjL+8AQ4n1dPuzwa2XvX777E8=;
+ b=06IgdpBIlGLi8LH0PLB6lLnhr0dBHlxu5lEHLstbi6L+wW9JF4SDy+UKMBULZyc3gt
+ uSzrThOJTrU3riWvwLw/gaSMGjn72+tV7DPJCIoo2WjDpO0W/Q8FjVqnH4Q4Qc2FU57E
+ ptyL6+Lr9pN1AG2izn7uffBTzlmQlC/5pvfOhW59I3WiL+bhaP2dE5PTaw2lJ6KKVG+n
+ I2voJJf+mqrd5GkKGN0mDNOSx7R09bXOsb6gWXFef1fu59T63Li3RoDTSizWjXTmD4e2
+ 3toc+NkQRmrf60H9s7KMgOhcOqmh90itxxpFuCakr9wOV0OfIlGQhXefmgVV4W3OgPVQ
+ i7rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WmaDtMphVqK9IOq4lwIjL+8AQ4n1dPuzwa2XvX777E8=;
+ b=zYKz3SjQmEdirHBEpbvZxF+2x4iW4fR97UN8bzjZSM+DrPNZN7jJwG0itKYNkv+BA/
+ sVtOFXe/dDhPl5D7VwXR9q5YchYYdvOCklXK+qWSxxLHPzaJ6pYsCgcboACeHUHuqAwd
+ cxQbQVCzhz98nfXCOplOL/Iz932/BDSP/W34WxkkyemZU8RJlA60bsKkfxG9ZhXMB6em
+ UmOFhgs6F/1V5Ji9y01yvfgGDZETu58yDwAs9oNiSCeX2g4bFLEBjZmhZQSb0OA3ccTz
+ TM3VgALMqAcgi5itFaXjEEciyBBwhzJZH0/JKNRKW2mXH8owZ7B3i54SfOctnoOnLQyE
+ rwyQ==
+X-Gm-Message-State: AO0yUKWnEA0ZLIox1Qm9ZSnio7JxUPB+wPS6fPDeRwiGbNRh9fjWDQ41
+ KZlKqVEjIGT5Scnu7WPCp0D+PA==
+X-Google-Smtp-Source: AK7set/nYTPWii8Z33656Hjx7UdTkQvHjTBaTNDI1tncMZuJxZVI66ycatyEfm82gJblTl+Qry/u2g==
+X-Received: by 2002:a17:90b:33c5:b0:22c:4cb5:6f14 with SMTP id
+ lk5-20020a17090b33c500b0022c4cb56f14mr12977064pjb.13.1675485393053; 
+ Fri, 03 Feb 2023 20:36:33 -0800 (PST)
+Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ by smtp.gmail.com with ESMTPSA id
+ g7-20020a17090adb0700b002308f6e7f41sm225707pjv.55.2023.02.03.20.36.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Feb 2023 20:36:32 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: Jason Wang <jasowang@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, devel@daynix.com,
+ Yan Vugenfirer <yvugenfi@redhat.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
+ Gal Hammer <gal.hammer@sap.com>, Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH v8 0/8] Introduce igb
+Date: Sat,  4 Feb 2023 13:36:13 +0900
+Message-Id: <20230204043621.13540-1-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY0PR0101MB4285:EE_|TYZPR01MB3839:EE_
-X-MS-Office365-Filtering-Correlation-Id: 75fbc213-b2c3-4f7a-e6e1-08db06679509
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ImuxSNU04civgNXW5wEJLkMFwU3U2TqZ2vWnw1u86s8BCLj0mW8POO0paX/7ODqWn1Ro0vpkq8BlRmMh8Ro/mKo53/aRE6ujc6+awLn6Pb27ZAbO2Zspkrq17CDabyiSnXmn6wB+ZlZJB/rUN1t/93Wwi1YmfQl7mXh3Q+NBDlprCLVk+ApaVOX/i2hlthwowGiZcRat69CTxZo2AKZko4COLtcryEc8LSPKS3/DDm8Xxtvol3CGYj9GdVvfgxcKzSVqyI5ynfilG5gPvX9NfRx1QEo/FURmMiBVk5y4oPdAiz+26JAeTF5rhwAhwpbIY5eEN5mP8Cmlb+m8Mn6pij2CtYLHQUpP46ZZ0yVDXZ5YUEkZ3r+68Bzyajjx1DDR3CfRtJrq5YCd+/Vud+xHUrcLEbR+vL6XU+05aVM2RtKtchebbiYfg3JgkhFlY35+osPZMv8f7l+mey56ZEKf2kN2oae9GMfGPes8P7sb3cZhIDJw/eiK7rIeFhRt/nyRPhmeEOSdqs2KfSzeKOzP2UzBs4aP/BqJ01GTkCWNTRhTm5z4tB4nIp4XHr5ev+HjMavSXLpxmNuUbZOcmBHRrB64Tlm6/NvMDVogih89YKr93gwLruzCPC9g2/NfcmNjgviQ0DZk8M7/9WW1TcW5QQ==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yuzmtiUPDYipWNPcf6uH+apDA9VSjS8CaY/QX7H7F64WKFcQUnz3duH38eBN?=
- =?us-ascii?Q?u77HU/Vv/PZN1Z2PtCPigEv3IJ3Jq+4M9f+gRVl27tlN1DCZz6PbKR/EecAU?=
- =?us-ascii?Q?mARQYmsYKhWiuJsCLAyEoWRvXJJj3bxgQtCiF2MgVw4MwfxCiisToKKTHr3n?=
- =?us-ascii?Q?WCvUKarDKBt8XHXbEpt3kxRf4opKAkuOmmcZ/2SREtlLAqfBzN4Pa0WC6i5/?=
- =?us-ascii?Q?hoo7qSfdc6sZ+jU2yIiTmsa8uy/aj3Vx2zrllfoFPZpug6zEu/54YF9Ji20i?=
- =?us-ascii?Q?XXFjuJ/oDn0UOlwBNzkn+sFC69rpen3mEGXnF/9rAOpQrt4d0vRfbwEmeeRd?=
- =?us-ascii?Q?JjjqCL1J4EyCWYHFBuvdHxEBeCIO9PHHXsXhO2IzlcclWWEEXE80RvJfPMwW?=
- =?us-ascii?Q?1Mt7iYgaWoCG4pu5obspLr+AkZiWVen1wzNFPx7+MaTSCFru50UV/1JDLb8m?=
- =?us-ascii?Q?AGoXMSl5n7g2YGIPAJ0urXM/FU4aSFYJIcDTy9HPqBabGx9/kwzA0klNkQFK?=
- =?us-ascii?Q?eVY+xt4y0pQ7l61ZCVNWphLu03VvQbZ2fJ+Q5NEk3fT46dBrGQG77+FSDpnQ?=
- =?us-ascii?Q?WMfbfY7FJ+xrKWh9i2/SBCDRfh0wVFMXMTS0Hz+iJQCNaRB9JaqNF6/gy5ec?=
- =?us-ascii?Q?z4h9o33YXKLL9JeY95ajeXBMbXH75AaDg4yvFnJT/2lZlRh1mLqBu19nV1lO?=
- =?us-ascii?Q?1/ua+UV6EhAUrqmjIol9hmTw1DQjrg6eYrVeo+UVj+QrBATvKdFdoO3rTRhh?=
- =?us-ascii?Q?+HFfXG1oNhlJJY1tuJ5Z5bBWzkf9TVLandDf8QGjB4z5lkdRJha4j5/Kr5Me?=
- =?us-ascii?Q?jq1m0DlM/z2Bhgk6OphdEx/xuJE9buAKTL6t+Jt6YRgMi/mV8kZhrLgqkBC0?=
- =?us-ascii?Q?bh9AG9CchhpRxng3wIq3KSmGZ8xEBwhv2fZCSuk93I7LX6dCHw6HW1I14iOD?=
- =?us-ascii?Q?G2IPcelrUodf1ON2EWAXjF5FNUtxAfF2IUBHwSpLREMSRqitqOxr6qL3Zgb+?=
- =?us-ascii?Q?MlEnk8gRtYv3fl4FeRPyUyRVZqBVCfa9FEiAcZ1ams4Vg3Uzeabs3dm0wcoO?=
- =?us-ascii?Q?vyHfcS8Qn+g1Kmo/tSQgGMYFDjwlIufNx7gx1X/DEYTYWrBJEwuLdg0WZqiY?=
- =?us-ascii?Q?JpqvqcG1eYPZ6N9vypWvrhAdrC+GilYLu74FE3LaLybUukhWJ8bO48dWtAoF?=
- =?us-ascii?Q?xeoT4zUnO+BM+rB7TFxgcN08ptV1KP7nsfn1/3vKo77JqVDGFlQLVQkfHKdF?=
- =?us-ascii?Q?GLhM04El55izB1VtKkbrdtnhRHUs4DMcX9c3gajH6Q=3D=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-d8e84.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75fbc213-b2c3-4f7a-e6e1-08db06679509
-X-MS-Exchange-CrossTenant-AuthSource: TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2023 04:23:36.9919 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR01MB3839
-Received-SPF: pass client-ip=40.92.53.84; envelope-from=taisei1212@outlook.jp;
- helo=APC01-SG2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,45 +105,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a ping to the patch below.
+Based-on: <20230201033539.30049-1-akihiko.odaki@daynix.com>
+([PATCH v5 00/29] e1000x cleanups (preliminary for IGB))
 
-https://patchew.org/QEMU/TY0PR0101MB42855925D8414E4773D6FA36A41D9@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com/
+igb is a family of Intel's gigabit ethernet controllers. This series implements
+82576 emulation in particular. You can see the last patch for the documentation.
 
-Before this commit, when GDB attached an OS working on QEMU, order of FPU
-stack registers printed by GDB command 'info float' was wrong. There was a
-bug causing the problem in 'g' packets sent by QEMU to GDB. The packets have
-values of registers of machine emulated by QEMU containing FPU stack
-registers. There are 2 ways to specify a x87 FPU stack register. The first
-is specifying by absolute indexed register names (R0, ..., R7). The second
-is specifying by stack top relative indexed register names (ST0, ..., ST7).
-Values of the FPU stack registers should be located in 'g' packet and be
-ordered by the relative index. But QEMU had located these registers ordered
-by the absolute index. After this commit, when QEMU reads registers to make
-a 'g' packet, QEMU specifies FPU stack registers by the relative index.
-Then, the registers are ordered correctly in the packet. As a result, GDB,
-the packet receiver, can print FPU stack registers in the correct order.
+Note that there is another effort to bring 82576 emulation. This series was
+developed independently by Sriram Yagnaraman.
+https://lists.gnu.org/archive/html/qemu-devel/2022-12/msg04670.html
 
-Signed-off-by: TaiseiIto <taisei1212@outlook.jp>
----
- target/i386/gdbstub.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+V7 -> V8:
+- Removed obsolete patch
+  "hw/net/net_tx_pkt: Introduce net_tx_pkt_get_eth_hdr" (Cédric Le Goater)
 
-diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
-index c3a2cf6f28..786971284a 100644
---- a/target/i386/gdbstub.c
-+++ b/target/i386/gdbstub.c
-@@ -121,7 +121,9 @@ int x86_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
-             return gdb_get_reg32(mem_buf, env->regs[gpr_map32[n]]);
-         }
-     } else if (n >= IDX_FP_REGS && n < IDX_FP_REGS + 8) {
--        floatx80 *fp = (floatx80 *) &env->fpregs[n - IDX_FP_REGS];
-+        int st_index = n - IDX_FP_REGS;
-+        int r_index = (st_index + env->fpstt) % 8;
-+        floatx80 *fp = &env->fpregs[r_index].d;
-         int len = gdb_get_reg64(mem_buf, cpu_to_le64(fp->low));
-         len += gdb_get_reg16(mem_buf, cpu_to_le16(fp->high));
-         return len;
+V6 -> V7:
+- Reordered statements in igb_receive_internal() so that checksum will be
+  calculated only once and it will be more close to e1000e_receive_internal().
+
+V5 -> V6:
+- Rebased.
+- Renamed "test" to "packet" in tests/qtest/e1000e-test.c.
+- Fixed Rx logic so that a Rx pool without enough space won't prevent other
+  pools from receiving, based on Sriram Yagnaraman's work.
+
+V4 -> V5:
+- Rebased.
+- Squashed patches to copy from e1000e code and modify it.
+- Listed the implemented features.
+- Added a check for interrupts availablity on PF.
+- Fixed the declaration of igb_receive_internal(). (Sriram Yagnaraman)
+
+V3 -> V4:
+- Rebased.
+- Corrected PCIDevice specified for DMA.
+
+V2 -> V3:
+- Rebased.
+- Fixed PCIDevice reference in hw/net/igbvf.c.
+- Fixed TX packet switching when VM loopback is enabled.
+- Fixed VMDq enablement check.
+- Fixed RX descriptor length parser.
+- Fixed the definitions of RQDPC readers.
+- Implemented VLAN VM filter.
+- Implemented VT_CTL.Def_PL.
+- Implemented the combination of VMDq and RSS.
+- Noted that igb is tested with Windows HLK.
+
+V1 -> V2:
+- Spun off e1000e general improvements to a distinct series.
+- Restored vnet_hdr offload as there seems nothing preventing from that.
+
+Akihiko Odaki (8):
+  pcie: Introduce pcie_sriov_num_vfs
+  e1000: Split header files
+  Intrdocue igb device emulation
+  tests/qtest/e1000e-test: Fabricate ethernet header
+  tests/qtest/libqos/e1000e: Export macreg functions
+  igb: Introduce qtest for igb device
+  tests/avocado: Add igb test
+  docs/system/devices/igb: Add igb documentation
+
+ MAINTAINERS                                   |    9 +
+ docs/system/device-emulation.rst              |    1 +
+ docs/system/devices/igb.rst                   |   71 +
+ hw/net/Kconfig                                |    5 +
+ hw/net/e1000.c                                |    1 +
+ hw/net/e1000_common.h                         |  102 +
+ hw/net/e1000_regs.h                           |  927 +---
+ hw/net/e1000e.c                               |    3 +-
+ hw/net/e1000e_core.c                          |    1 +
+ hw/net/e1000x_common.c                        |    1 +
+ hw/net/e1000x_common.h                        |   74 -
+ hw/net/e1000x_regs.h                          |  940 ++++
+ hw/net/igb.c                                  |  612 +++
+ hw/net/igb_common.h                           |  146 +
+ hw/net/igb_core.c                             | 4043 +++++++++++++++++
+ hw/net/igb_core.h                             |  144 +
+ hw/net/igb_regs.h                             |  648 +++
+ hw/net/igbvf.c                                |  327 ++
+ hw/net/meson.build                            |    2 +
+ hw/net/trace-events                           |   32 +
+ hw/pci/pcie_sriov.c                           |    5 +
+ include/hw/pci/pcie_sriov.h                   |    3 +
+ .../org.centos/stream/8/x86_64/test-avocado   |    1 +
+ tests/avocado/igb.py                          |   38 +
+ tests/qtest/e1000e-test.c                     |   25 +-
+ tests/qtest/fuzz/generic_fuzz_configs.h       |    5 +
+ tests/qtest/igb-test.c                        |  243 +
+ tests/qtest/libqos/e1000e.c                   |   12 -
+ tests/qtest/libqos/e1000e.h                   |   14 +
+ tests/qtest/libqos/igb.c                      |  185 +
+ tests/qtest/libqos/meson.build                |    1 +
+ tests/qtest/meson.build                       |    1 +
+ 32 files changed, 7600 insertions(+), 1022 deletions(-)
+ create mode 100644 docs/system/devices/igb.rst
+ create mode 100644 hw/net/e1000_common.h
+ create mode 100644 hw/net/e1000x_regs.h
+ create mode 100644 hw/net/igb.c
+ create mode 100644 hw/net/igb_common.h
+ create mode 100644 hw/net/igb_core.c
+ create mode 100644 hw/net/igb_core.h
+ create mode 100644 hw/net/igb_regs.h
+ create mode 100644 hw/net/igbvf.c
+ create mode 100644 tests/avocado/igb.py
+ create mode 100644 tests/qtest/igb-test.c
+ create mode 100644 tests/qtest/libqos/igb.c
+
 -- 
-2.34.1
+2.39.1
 
 
