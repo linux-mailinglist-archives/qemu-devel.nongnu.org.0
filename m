@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B2568AF60
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 11:42:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C19368AF64
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 11:52:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOcTd-0003br-Bl; Sun, 05 Feb 2023 05:42:29 -0500
+	id 1pOcbs-0005dO-Oi; Sun, 05 Feb 2023 05:51:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pOcTb-0003be-MH
- for qemu-devel@nongnu.org; Sun, 05 Feb 2023 05:42:27 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pOcbr-0005cu-Hf
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 05:50:59 -0500
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pOcTZ-0002bp-T4
- for qemu-devel@nongnu.org; Sun, 05 Feb 2023 05:42:27 -0500
-Received: by mail-ej1-x635.google.com with SMTP id gr7so26717177ejb.5
- for <qemu-devel@nongnu.org>; Sun, 05 Feb 2023 02:42:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pOcbp-00045A-Ui
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 05:50:59 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id m8so9005311edd.10
+ for <qemu-devel@nongnu.org>; Sun, 05 Feb 2023 02:50:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=4Rx+cKhz51XWo2cs5Wh4CzNxzUzWqAGIbRQx8z2eT+8=;
- b=EpQjI/hsREj4RSO4L0HQYpqj9pxOWBjshpf/dYoE8+oqubgconHOKhyIY5aUNDkbnG
- BJEC8SbBtSUl8Qk1cCX61aQdZ7eNzCJbHoxyj+rD9Kzuyi7Jz2AyxbyuwBuSwSWwwNwt
- ibL7z4LTLsp4EiAZu3yK6tWCTQGSzJtiUSYJE3+ClDIl9Vvq6D7CZ1up0269NtIbWTtN
- gQVp7777RmyDqLtYvrKxEEUew1iZdLBPOYZb6hLPu/0XWBwL9WCC0DBNXEOwabcF8yZg
- HGI9dP1kpC0J26dPKGW8QgEXMgWUlZZmsCYA71tLOlONvD5Sk6G/QSTDM0WIk6Vs5FQ/
- lP8w==
+ bh=rjY4JynZeCWy7+MtZXKDRJJ8UUUCgJVOfkxfeUfVZBE=;
+ b=XAVWHPlREjQkS7dD0nSRcJ7iRXwavqccDp/Jp0GRygrIsTr3r7byUrL/h243CKyLhT
+ UGkpBASdPeJApaSuHxST1RDGHSlbtPc1iEp4xUwFH3/iCjsJ/RRR/9Xmo6AdWMRq0ZMz
+ ubf11Z1n8KLGgsFp/axUP8cdmkZ5kJKQxRyYQ7B09rQOf6n8JXmjTznjluBQzfLTvONZ
+ FulWTzOdox1KDMWgM/jHd378Q30rG2YQ7ostjWPsghKaXO5R03COCSU8hqTy5egB0Kcs
+ PoS/fLb9J4QjQziohj17uLHDiPraxayIpsrYJ6N+WMCMK+bKCmP1tO/uHT/9phOMMqdN
+ RiOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4Rx+cKhz51XWo2cs5Wh4CzNxzUzWqAGIbRQx8z2eT+8=;
- b=Q0b336xwyu2FCtA2WGbte7sbQi6hBm4lc7MKwJ69ds94xQr2OK9Iix8yZvFz4aC8ZV
- g8FO0PygrZ17XaR9cRNx9MTI8yDJBcfcLKGddT5P2jmE41G1nsqlv+NAlORsaWJABy0U
- JWImVEvgxFxFyWn6nZsoqOoAjJMzXsq+Rk51pq2rEluvy0R4aXYs6FM0tONskbkrZ+mj
- 9slSoh35NEcJ6wGq4Y10oDp4i86j57SC2ZhWhdt6POBx0EPBLD8xaBJVcaKEIxuoa3R2
- nbdk5ur1+Rs84aHlX3dYpAB0nRBuSaMji/SkStm8z47r6mqOxpiW1jW8bbiwKXiUG6Cn
- v3YA==
-X-Gm-Message-State: AO0yUKX8RqUsDvkNZsyVNzJEtkNQQNJ+/Qp6tvJPpk0/vrZBCUykg448
- Y92hVzPwwUTGsDJh2DMMXAwyYA==
-X-Google-Smtp-Source: AK7set/+LSTPaUPDU7QlWqUCZ4fqRxern4+YJMz//uO3k5Gp8oOqzJ1/apUD+Z8uLdQMkz/PRM5ulw==
-X-Received: by 2002:a17:907:9d08:b0:879:36b4:486 with SMTP id
- kt8-20020a1709079d0800b0087936b40486mr19452593ejc.13.1675593744495; 
- Sun, 05 Feb 2023 02:42:24 -0800 (PST)
+ bh=rjY4JynZeCWy7+MtZXKDRJJ8UUUCgJVOfkxfeUfVZBE=;
+ b=eM4TlA1yvyy0R5clPhHCHMknILjfiy99/1g9QJdVokh8GSghSd1h6zEdYrm3CUFa2D
+ 371K7jes0Z16eEMmyatHDYWGdXeDtsyMMlWGs0zvIWuUXlEVh2Ljm43paxmWR8BHPRbM
+ urWdi+dr4QKn5TfXZrYYePGJmSuMFNCw5pKx317pP46zAuXQkstBq7OJswmfrXsM3B95
+ EYl8M1jznZr72L7xKQ75M9gbx9U9MVvOA9nYHl/g4/22KaLdnmWROIePsoHp9eYPt5GQ
+ t3fzd7o/a3453J7sHR4Qhiu+h/as0j/v+uw/V0Wpi0A7vNtAj0FsNAR0BHio6X4r2Aqb
+ S49w==
+X-Gm-Message-State: AO0yUKWoQZPzP9xyoKeAuu89yk8Is/TSNE9OhUpb3NCSEcziz4SNUd9u
+ x/AOt6/d3gKMaAlO5YXF+k9paA==
+X-Google-Smtp-Source: AK7set8iN+/mIrqW5/Qr+aqSu9MsIvAJsB27GejEw87Ib7HPmo9xZA/4nsBPgZkcsfmA10rCaMWVnQ==
+X-Received: by 2002:a05:6402:1209:b0:47e:15ec:155e with SMTP id
+ c9-20020a056402120900b0047e15ec155emr16315564edw.26.1675594254684; 
+ Sun, 05 Feb 2023 02:50:54 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- rn26-20020a170906d93a00b008845c668408sm3931925ejb.169.2023.02.05.02.42.22
+ en14-20020a056402528e00b0049622a61f8fsm3623511edb.30.2023.02.05.02.50.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 05 Feb 2023 02:42:23 -0800 (PST)
-Message-ID: <d9ff975c-c054-93a7-3c2a-e0a7b5d33af0@linaro.org>
-Date: Sun, 5 Feb 2023 11:42:22 +0100
+ Sun, 05 Feb 2023 02:50:54 -0800 (PST)
+Message-ID: <110a0c37-872f-fc1e-51bd-4d30e0bac380@linaro.org>
+Date: Sun, 5 Feb 2023 11:50:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 04/10] fuzz/generic-fuzz: add a limit on DMA bytes written
+Subject: Re: [PATCH 02/10] fuzz: add fuzz_reboot API
 Content-Language: en-US
 To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
 Cc: Stefan Hajnoczi <stefanha@redhat.com>, Bandan Das <bsd@redhat.com>,
  Darren Kenny <darren.kenny@oracle.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Laurent Vivier <lvivier@redhat.com>
+ Laurent Vivier <lvivier@redhat.com>, Markus Armbruster <armbru@redhat.com>
 References: <20230205042951.3570008-1-alxndr@bu.edu>
- <20230205042951.3570008-5-alxndr@bu.edu>
+ <20230205042951.3570008-3-alxndr@bu.edu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230205042951.3570008-5-alxndr@bu.edu>
+In-Reply-To: <20230205042951.3570008-3-alxndr@bu.edu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x635.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=philmd@linaro.org; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -95,22 +95,35 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 5/2/23 05:29, Alexander Bulekov wrote:
-> As we have repplaced fork-based fuzzing, with reboots - we can no longer
-
-Typo "replaced".
-
-> use a timeout+exit() to avoid slow inputs. Libfuzzer has its own timer
-> that it uses to catch slow inputs, however these timeouts are usually
-> seconds-minutes long: more than enough to bog-down the fuzzing process.
-> However, I found that slow inputs often attempt to fill overly large DMA
-> requests. Thus, we can mitigate most timeouts by setting a cap on the
-> total number of DMA bytes written by an input.
+> As we are converting most fuzzers to rely on reboots to reset state,
+> introduce an API to make sure reboots are invoked in a consistent
+> manner.
 > 
 > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 > ---
->   tests/qtest/fuzz/generic_fuzz.c | 5 +++++
->   1 file changed, 5 insertions(+)
+>   tests/qtest/fuzz/fuzz.c | 6 ++++++
+>   tests/qtest/fuzz/fuzz.h | 2 +-
+>   2 files changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
+> index eb7520544b..c2d07a4c7e 100644
+> --- a/tests/qtest/fuzz/fuzz.c
+> +++ b/tests/qtest/fuzz/fuzz.c
+> @@ -51,6 +51,12 @@ void flush_events(QTestState *s)
+>       }
+>   }
+>   
+> +void fuzz_reboot(QTestState *s)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+"reboot" sounds like guest software triggered.
+IIUC from the fuzzer PoV this is more a "power-cycle" right?
+
+> +{
+> +    qemu_system_reset(SHUTDOWN_CAUSE_GUEST_RESET);
+
+Is SHUTDOWN_CAUSE_HOST_QMP_SYSTEM_RESET more appropriate?
+
+> +    main_loop_wait(true);
+> +}
 
 
