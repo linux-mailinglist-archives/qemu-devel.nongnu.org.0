@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F96268AF3D
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 11:07:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C8C68AF39
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 11:06:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pObuF-0001pt-Oe; Sun, 05 Feb 2023 05:05:55 -0500
+	id 1pObuD-0001gO-Un; Sun, 05 Feb 2023 05:05:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pObtd-00011Z-0d; Sun, 05 Feb 2023 05:05:17 -0500
-Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229])
+ id 1pObte-00013L-7s; Sun, 05 Feb 2023 05:05:18 -0500
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pObtZ-0005Jz-K2; Sun, 05 Feb 2023 05:05:14 -0500
-Received: by mail-oi1-x229.google.com with SMTP id r9so7588720oig.12;
- Sun, 05 Feb 2023 02:05:12 -0800 (PST)
+ id 1pObtb-0005KN-9f; Sun, 05 Feb 2023 05:05:17 -0500
+Received: by mail-oi1-x232.google.com with SMTP id j21so7619265oie.4;
+ Sun, 05 Feb 2023 02:05:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=J/l5LLpkPmSWg3Y06zvVCIhudPj7GpVJB1dY94JYcyA=;
- b=kJqe/dNTDEwpW/riQSoodu+YFkc6Vy8zDbizucv0YXWMCqDRY75tQHPKUHd1mv3Ruw
- kd/UapXFeSTDq7CM40fh7e1GP+CHSYbETFU0o7iLUptFcRCXBK5ja0EtEzV6fB92ChuZ
- yT0rKwRzbkDOiJKGg7dbyd82H/pLBztbRNgKiFx0YMFhvacZQK3spcYEFiVULFOoD3CK
- N4RpHBwtADq2L4yC45sG8d4LpUiyswoWuL0kcFFeoWIDZl13nVMP8tMwfEWxzWsTKx70
- q9FHRYbxqN4rM4RXCAvANp6hgQk81AMEpyiglkOmqHNifanmUOJnK3ZdI+snMnMjht5V
- vwww==
+ bh=79IGtA6DQyNywTYzy/kQ6iBsuz9L/1nryFMneINAXEU=;
+ b=Y0F9rBunc7BU7XRtMshIfen/4ttTmIg3UY6uET/Vwl3sGSHM9GAaTdcZunbVrSOCJ8
+ dDCSiAZHWrlfsHZyjO/HxFGu5yuBkM+Al22EcZs2RJw7yF8thpgmw0WtBMr2LU4HIu2g
+ EoDLFuN+HC3Tsa9300jE6m40Pa1E8jjKE5VgGHWVurOWz3QYtAXFXeMSuQN4TXyG62mq
+ fNUR0Mj/eC20zDwRcf+radp5kZvEtkgKM7XGcuG3aQqmKfkJYfwuq0pI95Gvy8iPG2PA
+ X05kxVhtg64fDDuDk7FQZaay6QB/AjlYN7d9rP5KjWDHRppCC7K8GW8wjDEgoYg3eNng
+ g4aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=J/l5LLpkPmSWg3Y06zvVCIhudPj7GpVJB1dY94JYcyA=;
- b=F8E0I0f3AxYAY7tbq9574jgpgC3rOFic1OuzNxBNJC9QVJAEUn7MnDrxnXMmg+fhq+
- Of70yMUnwa7c71VVR9OAL3nHpcc8o/FG7idnj9/hoY/QQYgzvEq8MEsrk6JM5jj8PzEY
- qSYbreKraQd8J+mK4bbmoSzL9tgy4APSF8DyjdqpuoxgVOoz091cpWFRfpdeAfOmAhnE
- 7IUbaQrkXNFPH7uxQ+EtQc4fJEbCzxx7gdQRRdajOt4mhWWniwMXPn6tx2HgRL7xTTkD
- 0AXKLVKK0zfi8NT+lbnOWY6DLIBHK+rGnOiFzNL5woCIL0hMMBOEs7doIGxnKC2ifYaG
- UPBQ==
-X-Gm-Message-State: AO0yUKUoppAb3Ye1XUumux7OvYU2Alb0qOfW4XZ33RH+Gm873fX6fIno
- KUDVwFtDHqeJedrbYPvGRPJJWL85lIM=
-X-Google-Smtp-Source: AK7set/5akKL2SnMQXq4RagWClilvE15Yppfo4LhVZLWsZl9Lyyyj6hwkbTVIwrUEwL03LDGeZMNvg==
-X-Received: by 2002:a54:4196:0:b0:37b:1c79:1adc with SMTP id
- 22-20020a544196000000b0037b1c791adcmr359349oiy.59.1675591511453; 
- Sun, 05 Feb 2023 02:05:11 -0800 (PST)
+ bh=79IGtA6DQyNywTYzy/kQ6iBsuz9L/1nryFMneINAXEU=;
+ b=XOLUuTByNCEhRR38v9qs857/xEF98PQ9R/7sxp2OEoQfqajdIAVRrJDjblwcYaRfub
+ w2KIlmlnhmQ346X3Fj6BIDMDbDvCms16e2jNVlmWTCPLcooJOO+80eEg/oR4K9yI2opq
+ aa6MK1PNhX+E3tIvhZFsJ/OPay0ut1nU8nj5bXSpPc3FpmpWZTrsehW/9RCvm29FRFHe
+ tgp99XRnRGPgV6LYeTa8Y/BvVpQMzSH2ZuJdMjOURSCqXau7+RYLL5fkWoZJqMIs91NA
+ bgdIAebmgFdyxKMHZLGu56IONKQt58Ei18CvfF0Pgpk7B7+7k8gWHt7A0c+YhEfcuQRP
+ nBTg==
+X-Gm-Message-State: AO0yUKU/D0Cd+asmfGoXcclYE6pZirRnR7t9LRivZx6fQviubZW7Wuay
+ f7Y7B73GKhfeEjtinI6RlPxttmke1Bc=
+X-Google-Smtp-Source: AK7set+vFu/XcFR1xnhA0zZJE8GfLJcSB9/D3XCVYhY+CafyIdPQ5nD4rPpaVxzAkyIz34ovRQuueg==
+X-Received: by 2002:a05:6808:1b07:b0:36e:cc57:33a3 with SMTP id
+ bx7-20020a0568081b0700b0036ecc5733a3mr9368592oib.22.1675591513662; 
+ Sun, 05 Feb 2023 02:05:13 -0800 (PST)
 Received: from grind.. ([191.19.125.138]) by smtp.gmail.com with ESMTPSA id
- s191-20020acaa9c8000000b003631fe1810dsm2730924oie.47.2023.02.05.02.05.09
+ s191-20020acaa9c8000000b003631fe1810dsm2730924oie.47.2023.02.05.02.05.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Feb 2023 02:05:11 -0800 (PST)
+ Sun, 05 Feb 2023 02:05:13 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- Bernhard Beschow <shentey@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 08/16] hw/ppc/e500.c: Attach eSDHC unimplemented region to
- ccsr_addr_space
-Date: Sun,  5 Feb 2023 07:04:41 -0300
-Message-Id: <20230205100449.2352781-9-danielhb413@gmail.com>
+ Frederic Barrat <fbarrat@linux.ibm.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PULL 09/16] ppc/pnv/pci: Cleanup PnvPHBPecState structure
+Date: Sun,  5 Feb 2023 07:04:42 -0300
+Message-Id: <20230205100449.2352781-10-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230205100449.2352781-1-danielhb413@gmail.com>
 References: <20230205100449.2352781-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x229.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x232.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -91,41 +90,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bernhard Beschow <shentey@gmail.com>
+From: Frederic Barrat <fbarrat@linux.ibm.com>
 
-Makes the unimplemented region move together with the CCSR address space
-if moved by a bootloader. Moving the CCSR address space isn't
-implemented yet but this patch is a preparation for it.
+Remove unused structure member 'system_memory'.
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230125130024.158721-5-shentey@gmail.com>
+Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20230127122848.550083-2-fbarrat@linux.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/e500.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ include/hw/pci-host/pnv_phb4.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-index e3b29d1d97..117c9c08ed 100644
---- a/hw/ppc/e500.c
-+++ b/hw/ppc/e500.c
-@@ -1022,9 +1022,13 @@ void ppce500_init(MachineState *machine)
+diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
+index 1f3237c9d5..17aef08f91 100644
+--- a/include/hw/pci-host/pnv_phb4.h
++++ b/include/hw/pci-host/pnv_phb4.h
+@@ -173,8 +173,6 @@ struct PnvPhb4PecState {
+     uint32_t index;
+     uint32_t chip_id;
  
-     /* eSDHC */
-     if (pmc->has_esdhc) {
--        create_unimplemented_device("esdhc",
--                                    pmc->ccsrbar_base + MPC85XX_ESDHC_REGS_OFFSET,
--                                    MPC85XX_ESDHC_REGS_SIZE);
-+        dev = qdev_new(TYPE_UNIMPLEMENTED_DEVICE);
-+        qdev_prop_set_string(dev, "name", "esdhc");
-+        qdev_prop_set_uint64(dev, "size", MPC85XX_ESDHC_REGS_SIZE);
-+        s = SYS_BUS_DEVICE(dev);
-+        sysbus_realize_and_unref(s, &error_fatal);
-+        memory_region_add_subregion(ccsr_addr_space, MPC85XX_ESDHC_REGS_OFFSET,
-+                                    sysbus_mmio_get_region(s, 0));
- 
-         /*
-          * Compatible with:
+-    MemoryRegion *system_memory;
+-
+     /* Nest registers, excuding per-stack */
+ #define PHB4_PEC_NEST_REGS_COUNT    0xf
+     uint64_t nest_regs[PHB4_PEC_NEST_REGS_COUNT];
 -- 
 2.39.1
 
