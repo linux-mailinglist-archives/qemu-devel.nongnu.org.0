@@ -2,102 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E54E68AE47
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 05:31:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 312C068AE42
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 05:31:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOWfb-0007Ej-SC; Sat, 04 Feb 2023 23:30:28 -0500
+	id 1pOWgC-0007FV-K6; Sat, 04 Feb 2023 23:31:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pOWfZ-0007EJ-IJ
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 23:30:25 -0500
-Received: from esa12.hc2706-39.iphmx.com ([216.71.137.82])
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pOWfb-0007Ek-HR
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 23:30:27 -0500
+Received: from esa2.hc2706-39.iphmx.com ([216.71.152.49])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pOWfX-0006Bn-Su
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 23:30:25 -0500
-X-IronPort-RemoteIP: 209.85.219.69
-X-IronPort-MID: 256594485
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pOWfZ-0006C1-Gk
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 23:30:27 -0500
+X-IronPort-RemoteIP: 209.85.219.72
+X-IronPort-MID: 256644721
 X-IronPort-Reputation: None
 X-IronPort-Listener: OutgoingMail
 X-IronPort-SenderGroup: RELAY_GSUITE
 X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:k0didatMXL7ICD8npAgMHsZMYefnVOtcMUV32f8akzHdYApBsoF/q
- tZmKWHUb6nYNGf0f4t0aNizoEMAvJ7Xzt4xQAo/pXpnQSMR9ZOVVN+UEBzMMnLJJKUvbq7GA
- +byyDXkBJppJpMJjk71atANlVEliefTAOK5ULSfUsxIbVcMYD87jh5+kPIOjIdtgNyoayuAo
- tq3qMDEULOf82cc3lk8tuTS93uDgNyo4GlD5gZmOagQ1LPjvyJ94Kw3dPnZw0TQH9E88t6SH
- 47r0Ly/92XFyBYhYvvNfmHTKxBirhb6ZGBiu1IPM0SQqkEqSh8ai87XAMEhhXJ/0F1lqTzQJ
- OJl7vRcQS9xVkHFdX90vxNwSkmSNoUfkFPLzOTWXWV+ACQqflO1q8iCAn3aMqVCxMcsE2d38
- MBJdmlVVR6ClfDn5JiSH7wEasQLdKEHPasas3BkiCjHVLMoH8GFTKLN6ttVmjw3g6iiH96EP
- 5tfOWcpNk2RJUMeUrsUIMtWcOOAj33vdTFCgFiI46c7/gA/ySQrjeawYYaJKoHiqcN9vUW8/
- 33M+1nCIAg2KeKwimqX0zGur7qa9c/8cMdIfFGizdZzjViOg2AeFhASfV28p/a/lwi5Qd03F
- qAP0i8nrKx37VLyC9ejDlu3p3mLuhNaUN1VewEn1DywJmPvy17xLgA5ovRpMbTKaOdeqeQW6
- 2K0
-IronPort-HdrOrdr: A9a23:vrgQwKPJ6EptT8BcThejsMiBIKoaSvp037Dk7TEUdfUzSL3lqy
- nKpp4mPHDP+VAssR0b6LK90ey7MAjhHP1OkPQs1MmZLXDbUQKTRekInOjfKn/balfDH4ZmtZ
- uIGJIOb+EYY2IK6PrS0U2TP+xl7uO60J2Fs8/j8lYFd3AUV0ii1WtE48Sgf3GeiDMpOXNALu
- vl2iOPnVXARUgq
-Received: from mail-qv1-f69.google.com ([209.85.219.69])
+IronPort-Data: A9a23:z2cv/qNWr38r44XvrR0YlcFynXyQoLVcMsEvi/4bfWQNrUpz1mFSz
+ WVOUGjTMv/ZYDfxLoonao7l9kNQupGGyIdiGQZtpSBmQkwRlceUXt7xwmUcns+xwm8vaGo9s
+ q3yv/GZdJhcokf0/0vraf656CEmjslkf5KkYMbcICd9WAR4fykojBNnioYRj5VhxNO0GGthg
+ /uryyHkEALjimEc3l48sfrZ80s15Kiq41v0g3RlDRx1lA6G/5UqJM9HTU2BByOQapVZGOe8W
+ 9HCwNmRlo8O105wYj8Nuu+TnnwiG9Y+DyDX4pZlc/HKbix5m8AH+v1T2MzwyKtgo27hc9hZk
+ L2hvHErIOsjFvSkdO81CnG0H8ziVEHvFXCuzXWX6KSuI0P6n3TE5chXJxo8ZM4h3O9NOmdHq
+ eIWFDA/YUXW7w626OrTpuhEg80iKIzyItpatC46iz7eCvkiTNbIRKCiCd1whm9hwJATW6yHN
+ oxGM1KDbzyZC/FLEl4TGJQyhs+imz/yfyAwRFe9//dpvTSPk1YouFTrGILTItO6ecwMpX6J+
+ 0Wc3UP6WT9Gd9PKnFJp9Vrp3IcjhxjTQY8XCfi0++BnhHWVwWocDgBQUkG0ycRVkWa7UtNbb
+ lUKo28g8vJ0+0usQd3wGRa/pRZooyIhZjaZKMVigCnl90Yey13x6rQsJtKZVOEbiQ==
+IronPort-HdrOrdr: A9a23:PAkZiqhFNAb9o5o76FFrsTUK+3BQXgwji2hC6mlwRA09TyVXrb
+ HLoB19726JtN91YhsdcL+7Sc+9qB/nhPxICMwqTMyftWrdyRaVxf9ZnPLfKlTbckWUh41gPO
+ VbAtJD4bXLbWSS5vyKhzVQfexQpeWvweSDqd2b4U1QbTxHXYld0iYRMHflLqS0fmV77FgCea
+ Z0KvAom9PZQwVuUi1zPBZlY9T+
+Received: from mail-qv1-f72.google.com ([209.85.219.72])
  by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 04 Feb 2023 23:30:20 -0500
-Received: by mail-qv1-f69.google.com with SMTP id
- ib5-20020a0562141c8500b0053c23b938a0so4514340qvb.17
- for <qemu-devel@nongnu.org>; Sat, 04 Feb 2023 20:30:20 -0800 (PST)
+ 04 Feb 2023 23:30:24 -0500
+Received: by mail-qv1-f72.google.com with SMTP id
+ jo26-20020a056214501a00b0053aa15f61d4so4501206qvb.7
+ for <qemu-devel@nongnu.org>; Sat, 04 Feb 2023 20:30:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CHDhBXIdMrv1WJ0/+De0O/L/lQBwtTrFTHETIFhRcNE=;
- b=Hfwkq+0jPjM8fu2lNb29PbRIxJYak7S8otxTQULgVcMoJq1tos4Kywm5iyHNU3VCqx
- i9x16ZLStECwPDWQmaFXjqndAILTM8QtcTAaBDeQdIP+6NZSV9ulSCa3ZWs5c2s+aNXJ
- lntHCaHS8QzgZ9/vrG/Kt2PmzbuYnve66ahkSa1L0jjKoJMiPntbdsB5FqMzeLSbxFlz
- jsqYfjcGn4T9q5xjsWt9ByeSNpKnGj12lLALAMtPOmxZGIE3xrcK4kRcrCOgspS3XjAp
- +56cwTRM589f9fUIGth5lUq8JdPVdHb1UXn1NxeQGBQE4qzXwKmABo/9nby5/yPnxXfq
- swug==
+ bh=pFLxMEp2r8yiWAlvNWwqHg1ftE8mrJVRMTGKTtgibDE=;
+ b=offjED22wZtTH6tSL9JqNt45FGxJXvHPXNT7LKZAIwZfMWjmHu7ySAc3Cs3UYMndCj
+ FJ+5VklAfwnWMxXMWsUKXCDWfnacrjzaq+zdHOSu0Hka1lhx6QeP/Q1o/w+WOWEIHbLS
+ /nRqWQ230ZVM5ZllheLr1fg7JrssM7qEPT0RcrZ5EOP7MmH6V/zp0dJgQlHvi6drMemY
+ efhvVj4MJ08P+irigj+bJ8HRtCk6eM1eQaPmOdxz22f9YVw5hz+VzKchagxlkH5WmyaP
+ r8xcXb0P3i4TLIZufpLnG5ubRqDoBaiSc4PIw4ACOarLh0JDjQ+2HOFR/vFlk0753/LH
+ WP+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CHDhBXIdMrv1WJ0/+De0O/L/lQBwtTrFTHETIFhRcNE=;
- b=l23Je0aYoNCUlcQaYLnsw1PnoZ/Mnj+KZTFzoBH2OAZqj2eDD5KEwWVNLGTbp/o1CW
- bChDafVE3Tc5IohyHiLDeKBQuIIetC/YjaWOMfWK2yLypbKGIRn7b2cVNkja2Uf6cvJp
- QYilQ6XyeUREq1XG/d4pI5XIu+99ckJqGQ83fDbEYleBJZ3h5z5C2cMcZngdz8LVgFpJ
- yDDJmMiNKIBFrt4LNrEIYnywcwEjJDlMQUF0cCQZCoIdfrCQP5taC7pwdZ2XF4B/JT4m
- wLZwhYGLMOxOPzL8oV9h6FFB22AyII9Ru2by0Y1MVTRb/W6VAm0bNxlJut7n/4077Uue
- gA6Q==
-X-Gm-Message-State: AO0yUKVDvdIOXfuTABMyJplHgVYXQna16ouNK//baQcTlLXyapTNCV8Z
- WRd1Y51B/tPzqH6E6lXri7HzwuhVIq0u14KcvFKq4NUGJby0bcAbaQBOxWblwWUXZ14ZZq35XSP
- 6fu+LWZ78OK+p0d0vF88fQHlTv/bg3A==
-X-Received: by 2002:ac8:5a48:0:b0:3b9:d1c1:6da6 with SMTP id
- o8-20020ac85a48000000b003b9d1c16da6mr20511850qta.7.1675571419594; 
- Sat, 04 Feb 2023 20:30:19 -0800 (PST)
-X-Google-Smtp-Source: AK7set+vI0R0b4+vg2oEfKTNV3ynxdQgHwgCXjFySYeDcawNHdD/0LmpHqQZvccXBZqg6TU0pe8GCQ==
-X-Received: by 2002:ac8:5a48:0:b0:3b9:d1c1:6da6 with SMTP id
- o8-20020ac85a48000000b003b9d1c16da6mr20511827qta.7.1675571419338; 
- Sat, 04 Feb 2023 20:30:19 -0800 (PST)
+ bh=pFLxMEp2r8yiWAlvNWwqHg1ftE8mrJVRMTGKTtgibDE=;
+ b=g7Hs6SdcVlWRA3JPE4mMpLj20wo6DlX1uQM6nDX/0FI4snKlc/EUN/GfW2uPelibsa
+ HkguX655NbuJq1D5U2cxI5gTXC8/EbIGLwjs8rMytvRM7GSScPcvV+7ZFbw7FGPbmaL7
+ /PGCJBm0tRciuSOFhA7+9OLpy0tRherpahajJpmbdTPvh9QdiBwY1TI/lEXjiwjxPNs0
+ zlteG9gFmokWTUxzb4meCrEGMDcxRlQZxy0OnFAYFgutfxvW2xi3+ght2Wy7UUI9JhZ5
+ cPX25dYAz7XBBPC7orCPHyiF1vsjali9i9PTjqFtmttJYNuxQI5H2858S+IGMZvF0jUK
+ RESA==
+X-Gm-Message-State: AO0yUKXCeURzi8ci3xv3zsQBLYT1CJm7d34habwqtnzKkPBx1ylRGFMp
+ M8XdGsH0YWeQnTzM7K3fZmnqGbLuzwGfrLSroQQNZIjeMx5U12fOs4tAb2WsqYTKGH/QlzjOzb2
+ gfeqvcKDd3Y+pwuWNa1FxiCyQ40Ttgg==
+X-Received: by 2002:a05:622a:4b:b0:3b8:6cf0:da83 with SMTP id
+ y11-20020a05622a004b00b003b86cf0da83mr29312790qtw.42.1675571422435; 
+ Sat, 04 Feb 2023 20:30:22 -0800 (PST)
+X-Google-Smtp-Source: AK7set8Pf9HMqSXFCkePQRTQspYgPDgZji/VhlStjpktGMRsu2uRrIdOoh+0DTwaynrzcO0uFPV/eQ==
+X-Received: by 2002:a05:622a:4b:b0:3b8:6cf0:da83 with SMTP id
+ y11-20020a05622a004b00b003b86cf0da83mr29312780qtw.42.1675571422085; 
+ Sat, 04 Feb 2023 20:30:22 -0800 (PST)
 Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
  by smtp.gmail.com with ESMTPSA id
- g7-20020ac87d07000000b003b9a50c8fa1sm4775368qtb.87.2023.02.04.20.30.18
+ 63-20020a370a42000000b00719d9f823c4sm4891482qkk.34.2023.02.04.20.30.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Feb 2023 20:30:19 -0800 (PST)
+ Sat, 04 Feb 2023 20:30:21 -0800 (PST)
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
 Cc: Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
  Bandan Das <bsd@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Qiuhao Li <Qiuhao.Li@outlook.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH 06/10] fuzz/virtio-net: remove fork-based fuzzer
-Date: Sat,  4 Feb 2023 23:29:47 -0500
-Message-Id: <20230205042951.3570008-7-alxndr@bu.edu>
+Subject: [PATCH 07/10] fuzz/virtio-blk: remove fork-based fuzzer
+Date: Sat,  4 Feb 2023 23:29:48 -0500
+Message-Id: <20230205042951.3570008-8-alxndr@bu.edu>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230205042951.3570008-1-alxndr@bu.edu>
 References: <20230205042951.3570008-1-alxndr@bu.edu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.137.82; envelope-from=alxndr@bu.edu;
- helo=esa12.hc2706-39.iphmx.com
+Received-SPF: pass client-ip=216.71.152.49; envelope-from=alxndr@bu.edu;
+ helo=esa2.hc2706-39.iphmx.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -122,30 +121,35 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- tests/qtest/fuzz/virtio_net_fuzz.c | 54 +++---------------------------
- 1 file changed, 5 insertions(+), 49 deletions(-)
+ tests/qtest/fuzz/virtio_blk_fuzz.c | 51 ++++--------------------------
+ 1 file changed, 7 insertions(+), 44 deletions(-)
 
-diff --git a/tests/qtest/fuzz/virtio_net_fuzz.c b/tests/qtest/fuzz/virtio_net_fuzz.c
-index c2c15f07f0..d245ee66a1 100644
---- a/tests/qtest/fuzz/virtio_net_fuzz.c
-+++ b/tests/qtest/fuzz/virtio_net_fuzz.c
-@@ -16,7 +16,6 @@
- #include "tests/qtest/libqtest.h"
- #include "tests/qtest/libqos/virtio-net.h"
+diff --git a/tests/qtest/fuzz/virtio_blk_fuzz.c b/tests/qtest/fuzz/virtio_blk_fuzz.c
+index a9fb9ecf6c..82575a11d9 100644
+--- a/tests/qtest/fuzz/virtio_blk_fuzz.c
++++ b/tests/qtest/fuzz/virtio_blk_fuzz.c
+@@ -19,7 +19,6 @@
+ #include "standard-headers/linux/virtio_pci.h"
+ #include "standard-headers/linux/virtio_blk.h"
  #include "fuzz.h"
 -#include "fork_fuzz.h"
  #include "qos_fuzz.h"
  
- 
-@@ -115,36 +114,18 @@ static void virtio_net_fuzz_multi(QTestState *s,
+ #define TEST_IMAGE_SIZE         (64 * 1024 * 1024)
+@@ -128,48 +127,24 @@ static void virtio_blk_fuzz(QTestState *s, QVirtioBlkQueues* queues,
      }
  }
  
--static void virtio_net_fork_fuzz(QTestState *s,
+-static void virtio_blk_fork_fuzz(QTestState *s,
 -        const unsigned char *Data, size_t Size)
 -{
+-    QVirtioBlk *blk = fuzz_qos_obj;
+-    static QVirtioBlkQueues *queues;
+-    if (!queues) {
+-        queues = qvirtio_blk_init(blk->vdev, 0);
+-    }
 -    if (fork() == 0) {
--        virtio_net_fuzz_multi(s, Data, Size, false);
+-        virtio_blk_fuzz(s, queues, Data, Size);
 -        flush_events(s);
 -        _Exit(0);
 -    } else {
@@ -153,77 +157,64 @@ index c2c15f07f0..d245ee66a1 100644
 -        wait(NULL);
 -    }
 -}
- 
--static void virtio_net_fork_fuzz_check_used(QTestState *s,
-+static void virtio_net_fuzz_check_used(QTestState *s,
+-
+ static void virtio_blk_with_flag_fuzz(QTestState *s,
          const unsigned char *Data, size_t Size)
  {
+     QVirtioBlk *blk = fuzz_qos_obj;
+     static QVirtioBlkQueues *queues;
+ 
 -    if (fork() == 0) {
--        virtio_net_fuzz_multi(s, Data, Size, true);
--        flush_events(s);
+-        if (Size >= sizeof(uint64_t)) {
+-            queues = qvirtio_blk_init(blk->vdev, *(uint64_t *)Data);
+-            virtio_blk_fuzz(s, queues,
+-                             Data + sizeof(uint64_t), Size - sizeof(uint64_t));
+-            flush_events(s);
+-        }
 -        _Exit(0);
 -    } else {
--        flush_events(s);
++    if (Size >= sizeof(uint64_t)) {
++        queues = qvirtio_blk_init(blk->vdev, *(uint64_t *)Data);
++        virtio_blk_fuzz(s, queues,
++                Data + sizeof(uint64_t), Size - sizeof(uint64_t));
+         flush_events(s);
 -        wait(NULL);
--    }
-+    virtio_net_fuzz_multi(s, Data, Size, true);
-+    flush_events(s);
+     }
 +    fuzz_reboot(s);
  }
  
- static void virtio_net_pre_fuzz(QTestState *s)
+ static void virtio_blk_pre_fuzz(QTestState *s)
  {
      qos_init_path(s);
 -    counter_shm_init();
  }
  
- static void *virtio_net_test_setup_socket(GString *cmd_line, void *arg)
-@@ -158,23 +139,8 @@ static void *virtio_net_test_setup_socket(GString *cmd_line, void *arg)
-     return arg;
- }
+ static void drive_destroy(void *path)
+@@ -208,22 +183,10 @@ static void *virtio_blk_test_setup(GString *cmd_line, void *arg)
  
--static void *virtio_net_test_setup_user(GString *cmd_line, void *arg)
--{
--    g_string_append_printf(cmd_line, " -netdev user,id=hs0 ");
--    return arg;
--}
--
- static void register_virtio_net_fuzz_targets(void)
+ static void register_virtio_blk_fuzz_targets(void)
  {
 -    fuzz_add_qos_target(&(FuzzTarget){
--            .name = "virtio-net-socket",
--            .description = "Fuzz the virtio-net virtual queues. Fuzz incoming "
--            "traffic using the socket backend",
--            .pre_fuzz = &virtio_net_pre_fuzz,
--            .fuzz = virtio_net_fork_fuzz,},
--            "virtio-net",
--            &(QOSGraphTestOptions){.before = virtio_net_test_setup_socket}
--            );
- 
+-                .name = "virtio-blk-fuzz",
+-                .description = "Fuzz the virtio-blk virtual queues, forking "
+-                                "for each fuzz run",
+-                .pre_vm_init = &counter_shm_init,
+-                .pre_fuzz = &virtio_blk_pre_fuzz,
+-                .fuzz = virtio_blk_fork_fuzz,},
+-                "virtio-blk",
+-                &(QOSGraphTestOptions){.before = virtio_blk_test_setup}
+-                );
+-
      fuzz_add_qos_target(&(FuzzTarget){
-             .name = "virtio-net-socket-check-used",
-@@ -182,20 +148,10 @@ static void register_virtio_net_fuzz_targets(void)
-             "descriptors to be used. Timeout may indicate improperly handled "
-             "input",
-             .pre_fuzz = &virtio_net_pre_fuzz,
--            .fuzz = virtio_net_fork_fuzz_check_used,},
-+            .fuzz = virtio_net_fuzz_check_used,},
-             "virtio-net",
-             &(QOSGraphTestOptions){.before = virtio_net_test_setup_socket}
-             );
--    fuzz_add_qos_target(&(FuzzTarget){
--            .name = "virtio-net-slirp",
--            .description = "Fuzz the virtio-net virtual queues with the slirp "
--            " backend. Warning: May result in network traffic emitted from the "
--            " process. Run in an isolated network environment.",
--            .pre_fuzz = &virtio_net_pre_fuzz,
--            .fuzz = virtio_net_fork_fuzz,},
--            "virtio-net",
--            &(QOSGraphTestOptions){.before = virtio_net_test_setup_user}
--            );
- }
- 
- fuzz_target_init(register_virtio_net_fuzz_targets);
+                 .name = "virtio-blk-flags-fuzz",
+-                .description = "Fuzz the virtio-blk virtual queues, forking "
+-                "for each fuzz run (also fuzzes the virtio flags)",
+-                .pre_vm_init = &counter_shm_init,
++                .description = "Fuzz the virtio-blk virtual queues. "
++                "Also fuzzes the virtio flags)",
+                 .pre_fuzz = &virtio_blk_pre_fuzz,
+                 .fuzz = virtio_blk_with_flag_fuzz,},
+                 "virtio-blk",
 -- 
 2.39.0
 
