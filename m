@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1299D68AF37
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 11:05:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3285168AF3B
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 11:06:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pObtj-00011c-L9; Sun, 05 Feb 2023 05:05:24 -0500
+	id 1pObu2-00015E-Cr; Sun, 05 Feb 2023 05:05:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pObtR-0000yt-Tf; Sun, 05 Feb 2023 05:05:15 -0500
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
+ id 1pObtT-0000yv-0q; Sun, 05 Feb 2023 05:05:15 -0500
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pObtQ-00057p-0D; Sun, 05 Feb 2023 05:05:05 -0500
-Received: by mail-oi1-x22f.google.com with SMTP id t5so87131oiw.1;
- Sun, 05 Feb 2023 02:05:02 -0800 (PST)
+ id 1pObtQ-00057b-Nl; Sun, 05 Feb 2023 05:05:06 -0500
+Received: by mail-oi1-x236.google.com with SMTP id r28so7619852oiw.3;
+ Sun, 05 Feb 2023 02:05:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=A5Q9l9r/b6kQ91x4NbnE0QX6N3wOGcLvxWVDOgH26Vo=;
- b=n78Zr2CGHojJihr5jFdKqpfa1mjk4FJYxpJZGeaYDLtoPoRZhrG1iGV136f0KBSiWR
- ybjMHu1QYxZDuVMKWSddpmjY57wOcEzrlv5qw7d/xdWzrnnFKU8ilbv5kQHpW0ffI+zK
- rp63zQLcmZArugFpbjKWbQ3vqi7adkRUYuan2Bthc3iCTLDO6mWaZQyu69XI5qq8k1oP
- RtDvG7OUHJH+opLZr+jQCtUROVXM4UBARUk9lB7wTxcUggzQFrFX7SKp8SXHhj8PNjRJ
- ttmX1tP7k2MYt4Ap5pulhXJgOQ91cB1zAYI+ogZJiTRsAZQhBQ1KAjcmPSC7dftNstDp
- dQoA==
+ bh=oFLXQSIkaNrU/k0/AGC5VeAmUpsRZSfIo69ujVvNr00=;
+ b=pxXVbr1O/fOjMWaIDcPvbCuXeJ8Vhv7y3FA90dc/MSKD8lv2/gXgZ/zZU/8lDVBAlh
+ gjde5zb/tnkQa68C98Ek36rAg0yjBu8fYVQF2JXSCtjS+KM63Bau7F9UGrNTGle5TJK8
+ ar3Jp+qQLXD+7w4Byqb6hjQJU91LiaHs4EmKKCISEXQ6L92MFpLw9AJ8+JX0P5jtspRx
+ bmltfp/fp0jRO2ipn4yjA68xxX1TzxtEal2zlp4FiAQyLIjmXiuCgG0DVUZLBk0wD/my
+ tocWKKNZa4g7rvBQoKuKqVvkFexGXAYopwid91aRMOUZuCjU+3dkqIZ4w4PyfmoHL849
+ IneQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=A5Q9l9r/b6kQ91x4NbnE0QX6N3wOGcLvxWVDOgH26Vo=;
- b=1SIrg/VDetN6cxbh6Z37Yiz21gzBCplaO+xGj81ITwfuVoGz3vtR1j8NJkTTYsVQSw
- bqwwdBVWpYRxqrIOZxBNT27xPzpchhIZnY4LPxdnmH1Kh7T8h5SVvPlScq/qQWpXLIKM
- jsLc6icn01F5QpmapYxW3nIkIdKuPamiib+ILRbUXi2pyZH/+/HHlrq5UhvYqhA50SWX
- wy7GuhrlwnrUOs5ZbOQIZyPjC3yqHNByBlvlunDSxzxpGG3tq91ciHnuNWA4a8az6lrs
- ZFhwVMv5aJbcBiqZ47UNixpdeJNkElBKLlM1j34rmcQaaTEVjiktMGPSpHyCQGwqWB7/
- /+kQ==
-X-Gm-Message-State: AO0yUKW1WdmQXHZGOOe9OVYSyIngOtR5rq2i23jjS2k03Pm+2PjUDBrb
- VuD+NTZqd6SYNkT+8CRjvL5kda5kFlo=
-X-Google-Smtp-Source: AK7set88t1Yf42l4PbHsipccIi5Pj+UGdxm7Lk941OeQeezbiEs/Yu27M0OCEI6vgQaoGe8OF5lsDw==
-X-Received: by 2002:a05:6808:18c:b0:378:4785:7a2e with SMTP id
- w12-20020a056808018c00b0037847857a2emr9303169oic.28.1675591501131; 
- Sun, 05 Feb 2023 02:05:01 -0800 (PST)
+ bh=oFLXQSIkaNrU/k0/AGC5VeAmUpsRZSfIo69ujVvNr00=;
+ b=Qsu5VeaSBR5TruQebcbNRT47Duuqe7Jlzs3zsXAguZgOuOq8PiBBPMEtWEnA6MruDf
+ hWxeoisN0GyqQQZXofGlsC64bPXqOpVIcHJhbp+ifSK2mX5KxH4u3jfSy0edf4nRLOgF
+ h4L0Q9GiER69rXD4R/+7wY3iNI9itKxkCSQhBqJ0+vFuYN+eRnfTxciTwvY5wcCypRNY
+ x6yGI6EAKBCUXW6woDfGqkqufjaafd1KZ1Fhpyb5Ber4ga6cZmh86gqBWcdqfTdw4DUs
+ z2cnc7PO0rfwOVvTczOiIoa/XVRevAJtBF5i5leDuD7JxdVczpKx1h0ECdMgu5Qbx/ZV
+ upXw==
+X-Gm-Message-State: AO0yUKXgXUMfAipF5U57OFBVy08yykeQWMAxDqBc6RMnpaLOCsszQxEm
+ mHkTlvC+MHXcwpvYQWcRoySbkz+d/CQ=
+X-Google-Smtp-Source: AK7set9Thc86AEsEMEZOpxx01QztsINiWo4ifsd8y7fQt9pLV3Ueha6eBkpHWdlW2+hLXjHn9IsVhw==
+X-Received: by 2002:aca:a993:0:b0:378:5763:7631 with SMTP id
+ s141-20020acaa993000000b0037857637631mr8218450oie.26.1675591503404; 
+ Sun, 05 Feb 2023 02:05:03 -0800 (PST)
 Received: from grind.. ([191.19.125.138]) by smtp.gmail.com with ESMTPSA id
- s191-20020acaa9c8000000b003631fe1810dsm2730924oie.47.2023.02.05.02.04.59
+ s191-20020acaa9c8000000b003631fe1810dsm2730924oie.47.2023.02.05.02.05.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Feb 2023 02:05:00 -0800 (PST)
+ Sun, 05 Feb 2023 02:05:03 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- BALATON Zoltan <balaton@eik.bme.hu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 03/16] ppc/pegasos2: Improve readability of VIA south bridge
- creation
-Date: Sun,  5 Feb 2023 07:04:36 -0300
-Message-Id: <20230205100449.2352781-4-danielhb413@gmail.com>
+ Bernhard Beschow <shentey@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PULL 04/16] hw/pci-host/mv64361: Reuse pci_swizzle_map_irq_fn
+Date: Sun,  5 Feb 2023 07:04:37 -0300
+Message-Id: <20230205100449.2352781-5-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230205100449.2352781-1-danielhb413@gmail.com>
 References: <20230205100449.2352781-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x236.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -91,60 +91,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: BALATON Zoltan <balaton@eik.bme.hu>
+From: Bernhard Beschow <shentey@gmail.com>
 
-Slightly improve readability of creating the south btidge by cnamging
-type of a local variable to avoid some casts within function arguments
-which makes some lines shorter and easier to read.
-Also remove an unneded line break.
+mv64361_pcihost_map_irq() is a reimplementation of
+pci_swizzle_map_irq_fn(). Resolve this redundancy.
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230117214545.5E191746369@zero.eik.bme.hu>
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+Message-Id: <20230106113927.8603-1-shentey@gmail.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/pegasos2.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ hw/pci-host/mv64361.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-index f46d4bf51d..1a13632ba6 100644
---- a/hw/ppc/pegasos2.c
-+++ b/hw/ppc/pegasos2.c
-@@ -102,7 +102,8 @@ static void pegasos2_init(MachineState *machine)
-     CPUPPCState *env;
-     MemoryRegion *rom = g_new(MemoryRegion, 1);
-     PCIBus *pci_bus;
--    PCIDevice *dev, *via;
-+    Object *via;
-+    PCIDevice *dev;
-     I2CBus *i2c_bus;
-     const char *fwname = machine->firmware ?: PROM_FILENAME;
-     char *filename;
-@@ -159,19 +160,18 @@ static void pegasos2_init(MachineState *machine)
-     pci_bus = mv64361_get_pci_bus(pm->mv, 1);
+diff --git a/hw/pci-host/mv64361.c b/hw/pci-host/mv64361.c
+index 015b92bd5f..f43f33fbd9 100644
+--- a/hw/pci-host/mv64361.c
++++ b/hw/pci-host/mv64361.c
+@@ -72,11 +72,6 @@ struct MV64361PCIState {
+     uint64_t remap[5];
+ };
  
-     /* VIA VT8231 South Bridge (multifunction PCI device) */
--    via = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0), true,
--                                          TYPE_VT8231_ISA);
-+    via = OBJECT(pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0),
-+                                                 true, TYPE_VT8231_ISA));
-     object_property_add_alias(OBJECT(machine), "rtc-time",
--                              object_resolve_path_component(OBJECT(via),
--                                                            "rtc"),
-+                              object_resolve_path_component(via, "rtc"),
-                               "date");
-     qdev_connect_gpio_out(DEVICE(via), 0,
-                           qdev_get_gpio_in_named(pm->mv, "gpp", 31));
- 
--    dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"));
-+    dev = PCI_DEVICE(object_resolve_path_component(via, "ide"));
-     pci_ide_create_devs(dev);
- 
--    dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "pm"));
-+    dev = PCI_DEVICE(object_resolve_path_component(via, "pm"));
-     i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
-     spd_data = spd_data_generate(DDR, machine->ram_size);
-     smbus_eeprom_init_one(i2c_bus, 0x57, spd_data);
+-static int mv64361_pcihost_map_irq(PCIDevice *pci_dev, int n)
+-{
+-    return (n + PCI_SLOT(pci_dev->devfn)) % PCI_NUM_PINS;
+-}
+-
+ static void mv64361_pcihost_set_irq(void *opaque, int n, int level)
+ {
+     MV64361PCIState *s = opaque;
+@@ -97,7 +92,7 @@ static void mv64361_pcihost_realize(DeviceState *dev, Error **errp)
+     g_free(name);
+     name = g_strdup_printf("pci.%d", s->index);
+     h->bus = pci_register_root_bus(dev, name, mv64361_pcihost_set_irq,
+-                                   mv64361_pcihost_map_irq, dev,
++                                   pci_swizzle_map_irq_fn, dev,
+                                    &s->mem, &s->io, 0, 4, TYPE_PCI_BUS);
+     g_free(name);
+     pci_create_simple(h->bus, 0, TYPE_MV64361_PCI_BRIDGE);
 -- 
 2.39.1
 
