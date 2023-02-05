@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D43768AF3F
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 11:09:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B99868AF43
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 11:09:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pObu6-0001BW-40; Sun, 05 Feb 2023 05:05:46 -0500
+	id 1pObu8-0001KR-FU; Sun, 05 Feb 2023 05:05:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pObtU-0000yx-R7; Sun, 05 Feb 2023 05:05:15 -0500
-Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32])
+ id 1pObtX-0000zE-M9; Sun, 05 Feb 2023 05:05:15 -0500
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pObtT-0005Ip-5m; Sun, 05 Feb 2023 05:05:08 -0500
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-16332831ed0so11902281fac.10; 
- Sun, 05 Feb 2023 02:05:06 -0800 (PST)
+ id 1pObtU-0005JB-VE; Sun, 05 Feb 2023 05:05:11 -0500
+Received: by mail-oi1-x22e.google.com with SMTP id s17so7599577ois.10;
+ Sun, 05 Feb 2023 02:05:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1Nuf0VHcX1ggZGxGk6xB4grHnqoZN1Uy+s0FlANDBEE=;
- b=NMhmx7nT9vLQIZoGBybfoOMlzvyFeCIOP9UuyvclRLCKfY4Kxn3Y1rB+G3WR59rJsr
- L8S9LQCyoKiHjRZIXwadN7r309QQIC9SmUqTh85cmhEMT9ayOPPKfPbob2Prgbf/iGiK
- k/xsapGN02VkPoaK9278nvN9hrVpOgVGNTvKSwkCjl09agfeRevia0oEskq1BqDV58mZ
- +OaorkODRFIriMfon+3kMgAWjHTGkEl3HXYtGnQqMykKkFUooBL5ZLD5w+28F8MLeKlB
- TV0gYw/hBo/AonMGikqpnda8u32qwXuaqptZOJNOVv35e2LWxDb647m2mKh/m0D9GbQO
- bUGQ==
+ bh=xiCleTy8543Mmcc9cjgIqcXCXs8OIrvQc5QWbgPOzFM=;
+ b=Wf4Z+oTEnFNGKKrc9ijb6qQB0xZbMjWXUnQftWtpbW/Zyi6CAVERrQMjSvAzhDY7di
+ UPm+t4i+SBY1W/pfty6iucjeLdMfewmQDD8K8AFlhSc2xd0xg6cwsuINiGYD6dg15GE2
+ 0pODhQoEfHeXVCFAleCWyYfctyI7VGs3DsIDULQ8DMWn51V2+BTyMtABu6zmXbrth2qn
+ T1B/FjEHMwxxQU4rXj3dj04XdkYdvN0g+rPdMj6tE6JpONq4jnFYdcneGmkaYBQf5u+1
+ mjfzvOHpHG7AsR7yiYjXWeMVlodnjSo8WDDlCo6K2pGFS/N3I9fBsemNX62aebrnVlO+
+ vk0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1Nuf0VHcX1ggZGxGk6xB4grHnqoZN1Uy+s0FlANDBEE=;
- b=uCZvaFke3X0qjYGxRLT3jomKwm3UWPv22Tt//9FcO9VSg/SKGdByMMch0eRTUWwp9r
- 894Bg0B/UVNsCE2jhEOCPMA/FknPXlcLmQv23MlYBOHW1cI1V52x0SXZm1ObsM8NnkY0
- Fj3Q5BqI2IvdSnW4r40ZzXD5cHxPMTFie5B/Dc2ma0D1Dx+KKEilEL0oRcs4PCwm3axZ
- bS6mGAAAjTgJKqwUz4w1XqSKG0jTIkSeff3sX5ZcAzoKB0oWv8rSMhNztdPf4JcYk8YI
- l1hUHF+rzJAmx7gEyW8v+qYbN4ERLiPMAzVxYyAmRKSDiMUHkFNBKu+6ZpNQHTqiZjQb
- 9+Dw==
-X-Gm-Message-State: AO0yUKU724wp+JVt7se53HaOfVgc2g0xuQrA0B+1Bpkf5MWGKYDrOYQb
- 7tpfP0fypR/y+TIvey4l7AZmMHF76+4=
-X-Google-Smtp-Source: AK7set84KKPAzaMIowEH6NZYXyRUtyXac8hYQmZHyrSQmIPkLkR0PBRGDk8NGFVBMQQV3s9YbIXdCw==
-X-Received: by 2002:a05:6871:a8:b0:163:c555:24e0 with SMTP id
- u40-20020a05687100a800b00163c55524e0mr9842640oaa.18.1675591505343; 
- Sun, 05 Feb 2023 02:05:05 -0800 (PST)
+ bh=xiCleTy8543Mmcc9cjgIqcXCXs8OIrvQc5QWbgPOzFM=;
+ b=LCyKYndF4rqTCOKu90/3F5oHQH4z6LU7Ojj6OrfU8NDIDlZqxXn6jD0F8c9yw34Afl
+ Ilo+iAyNl5z3eMgUojBefZQ40MQTtRkGCUQEi/5U3WGbB+NONNbSnC6fyw/qHcevrFbk
+ J2wZEUL0CkGVeRH5hLsfZWUVu/13jbXdj7kPBZRFLcmKCBqzOZCteEOHiq7VlgAsopY9
+ sX5zg0xuXoZh5W3RNkhYifRNB5nk+UvQ9nwH86eMSTZOSS7GPlVJxuoKBQsUPaPKbW9o
+ VYKv0k+N06cyQNydRGHiHDJKPvW/Ud5LGVB5oSmEHaoK0qc+/uHZv6JlBVlsz+gQS/W+
+ ugqg==
+X-Gm-Message-State: AO0yUKWxT2zX0LIsvvKJEcYTX/IUrtSHzPKnOeL8ad5m1FF34nl7Bc+O
+ fc6wWoHKRtkpP0u61l8/4tU6U50WAdw=
+X-Google-Smtp-Source: AK7set9ERYhFtF4Vg7mvwUOz/0uI8IuY3HBXo7F2VDXElKgI+sL3LoAW5WgQ/wTKwCHdc7jnoDShjA==
+X-Received: by 2002:a05:6808:3ae:b0:360:fd4c:11ab with SMTP id
+ n14-20020a05680803ae00b00360fd4c11abmr7332137oie.1.1675591507305; 
+ Sun, 05 Feb 2023 02:05:07 -0800 (PST)
 Received: from grind.. ([191.19.125.138]) by smtp.gmail.com with ESMTPSA id
- s191-20020acaa9c8000000b003631fe1810dsm2730924oie.47.2023.02.05.02.05.03
+ s191-20020acaa9c8000000b003631fe1810dsm2730924oie.47.2023.02.05.02.05.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Feb 2023 02:05:05 -0800 (PST)
+ Sun, 05 Feb 2023 02:05:07 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PULL 05/16] hw/ppc: Set machine->fdt in e500 machines
-Date: Sun,  5 Feb 2023 07:04:38 -0300
-Message-Id: <20230205100449.2352781-6-danielhb413@gmail.com>
+Subject: [PULL 06/16] hw/ppc/e500{,
+ plat}: Drop redundant checks for presence of platform bus
+Date: Sun,  5 Feb 2023 07:04:39 -0300
+Message-Id: <20230205100449.2352781-7-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230205100449.2352781-1-danielhb413@gmail.com>
 References: <20230205100449.2352781-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::32;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22e.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -91,37 +91,56 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-This enables support for the 'dumpdtb' QMP/HMP command for all
-e500 machines.
+This is a follow-up on commit 47a0b1dff7e9 'hw/ppc/mpc8544ds: Add
+platform bus': Both mpc85xx boards now have a platform bus
+unconditionally.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20230125130024.158721-2-shentey@gmail.com>
+Message-Id: <20230125130024.158721-3-shentey@gmail.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/e500.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ hw/ppc/e500.c     | 5 ++---
+ hw/ppc/e500plat.c | 9 +++------
+ 2 files changed, 5 insertions(+), 9 deletions(-)
 
 diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-index 9fa1f8e6cf..7239993acc 100644
+index 7239993acc..48288c0b41 100644
 --- a/hw/ppc/e500.c
 +++ b/hw/ppc/e500.c
-@@ -659,9 +659,14 @@ done:
-     if (!dry_run) {
-         qemu_fdt_dumpdtb(fdt, fdt_size);
-         cpu_physical_memory_write(addr, fdt, fdt_size);
-+
-+        /* Set machine->fdt for 'dumpdtb' QMP/HMP command */
-+        g_free(machine->fdt);
-+        machine->fdt = fdt;
-+    } else {
-+        g_free(fdt);
+@@ -643,9 +643,8 @@ static int ppce500_load_device_tree(PPCE500MachineState *pms,
      }
-     ret = fdt_size;
--    g_free(fdt);
+     g_free(soc);
  
- out:
-     g_free(pci_map);
+-    if (pms->pbus_dev) {
+-        platform_bus_create_devtree(pms, fdt, mpic);
+-    }
++    platform_bus_create_devtree(pms, fdt, mpic);
++
+     g_free(mpic);
+ 
+     pmc->fixup_devtree(fdt);
+diff --git a/hw/ppc/e500plat.c b/hw/ppc/e500plat.c
+index 44bf874b0f..3032bd3f6d 100644
+--- a/hw/ppc/e500plat.c
++++ b/hw/ppc/e500plat.c
+@@ -46,13 +46,10 @@ static void e500plat_machine_device_plug_cb(HotplugHandler *hotplug_dev,
+                                             DeviceState *dev, Error **errp)
+ {
+     PPCE500MachineState *pms = PPCE500_MACHINE(hotplug_dev);
++    MachineClass *mc = MACHINE_GET_CLASS(pms);
+ 
+-    if (pms->pbus_dev) {
+-        MachineClass *mc = MACHINE_GET_CLASS(pms);
+-
+-        if (device_is_dynamic_sysbus(mc, dev)) {
+-            platform_bus_link_device(pms->pbus_dev, SYS_BUS_DEVICE(dev));
+-        }
++    if (device_is_dynamic_sysbus(mc, dev)) {
++        platform_bus_link_device(pms->pbus_dev, SYS_BUS_DEVICE(dev));
+     }
+ }
+ 
 -- 
 2.39.1
 
