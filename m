@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12AB368AF3A
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 11:06:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 333C168AF3E
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 11:08:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pObuH-0001ya-Te; Sun, 05 Feb 2023 05:05:57 -0500
+	id 1pObuG-0001rj-HN; Sun, 05 Feb 2023 05:05:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pObte-00013q-M6; Sun, 05 Feb 2023 05:05:20 -0500
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230])
+ id 1pObtg-000143-Co; Sun, 05 Feb 2023 05:05:20 -0500
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pObtd-0005Kk-7E; Sun, 05 Feb 2023 05:05:18 -0500
-Received: by mail-oi1-x230.google.com with SMTP id c15so7453937oic.8;
- Sun, 05 Feb 2023 02:05:16 -0800 (PST)
+ id 1pObte-00057i-VF; Sun, 05 Feb 2023 05:05:20 -0500
+Received: by mail-oi1-x22b.google.com with SMTP id r28so7620036oiw.3;
+ Sun, 05 Feb 2023 02:05:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=bYC5ezcKQ8Ug4r49X6lfdepBziknoUgrqqLq88u/tJk=;
- b=T1Ape8A2dor5soh+Tfh06RG4TAzJO7whajPYceAnlPweiO8exqJ0Pejfb0oZ+caqAM
- ZSgm06a1n8RCkW1Ifkoufec976KVW51qhSIxnhF/kYHWJ902gyA3vP9hJccNhgTH3cG2
- VjayTozSpzxapN+/uqwnYYP9mrcZOd5VoYs/oziQ4iJY77HaY67O8aUkvM6V5hM4g8XG
- yYoONaY5oesizVDA+X9uZA/xchJ/qdadBZvQpA1Q4QwCFLPrvq+naadtwDdsHpkYklAN
- LFw1auEkeRngVzvZ1ycpVmSL9XNwJoiz25+U6tJ8KuUwGX/UpeUdAkswzqgo/oyokdtz
- YsfQ==
+ bh=ZUkjxFctZTc2l6rAO74466Igw8QaYm6+knXc6Rb2k4g=;
+ b=h8O24DC1xfZC8m6HsHg6vKjHnveoQNWk25z0x5TWJ6YZc0tb+ezKGGCRs+Tuzfhr9a
+ lUF2zwFvoOUH2So8afy4HVFyctn1cL7hZVTqbQ4KPXBIPJGma8aAcWyU3Eni+UTMf1T1
+ 2tj7ppxh1PWlFCkl5cfZtfPub+yNqL+WC20tdQzcr1pwt8WTtxnyD9gLjam8Y6MRlLQZ
+ Tozkq86jkbclNRazcLEfOnlP+QCQFhCTt111Z+qpRC92vykdT/Lj1A1K9PEu73xBjIin
+ kg7NAIC3ValAIoumHyWCSbPzySGOM+uOI/6gnghQwygk1VPB0rukLnqWFRGp++tCmB82
+ sBLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bYC5ezcKQ8Ug4r49X6lfdepBziknoUgrqqLq88u/tJk=;
- b=IvbOlxfbRisQqkdt8PpCUiSQqj5l+G+9KDQtZAAr1G7ZtjEGC+F69gsXW6RcD4xLbX
- AdfiQEe95VCNlQt7I3tLq4inyJOPzMey5SmOy5RSjRHRPcxFZrfGyNgRORYZpMQ7COLA
- 99KPrSqvhrB+H0FA8YEpm0NWtky20YY5wtIHzB2W/GrKgKnqWG9TAiIZd1V5YHBlBCTc
- qiA3OvflgZvMT/fvjHdWXiwAvk1WslcRtE1WOFC7To2e6IoROMGaIgOsKcrFYFVvyU4g
- zHj6Yy2lH5BZyE8fbDHzj8R6JObM+WoQYAQkF/msFSccOtSQzNmT3/Ab6JDqE1DFNaBD
- nZ3Q==
-X-Gm-Message-State: AO0yUKXKt7FS0NsB/8MymAa7sTGK+T2mF/V7pwzWNuOsWaiBhLv0UEhi
- xnz55VYvsBNnRAWdlqKngPYTIo+j138=
-X-Google-Smtp-Source: AK7set8Qtcd3lbZEsmfTPkOuTx1YjvJCem5k/rR8n5dtAaMLWhvnA0cj+wcq0SzIloI3sdzgML+vTg==
-X-Received: by 2002:a05:6808:ecb:b0:364:d6be:a442 with SMTP id
- q11-20020a0568080ecb00b00364d6bea442mr8923219oiv.57.1675591515735; 
- Sun, 05 Feb 2023 02:05:15 -0800 (PST)
+ bh=ZUkjxFctZTc2l6rAO74466Igw8QaYm6+knXc6Rb2k4g=;
+ b=zgtrRdsHT3rgu98mHzqK0Z+elaf0l23iaHRdIGU9xOXU5mUEn7LXSXG60l74Bjj9E1
+ 8SWNCrpcqiVXM8HRi9eeef/PMiDuLIR3+wsOauevPcTFjAhekocWBViAAJqTlvuY5vVz
+ ukaSqCMLqpANDAgw3NDBXyWDE3DZupEjKbkMeA7HBMnqpCDWUQsr+npTSqX+bpy1rcSt
+ l7ip/hgHsVJcEFwC/eMljEhXBPnVp9/v5y0ajBSUhEIV9cFjPdbDUAzn+CRuldHXqiMK
+ KjlBQjfYOK/64/bCwIX+MSncgPJv3KT1P021150rkncNxwj+hLBMYemHBDxS9Yai2isy
+ M5Fw==
+X-Gm-Message-State: AO0yUKXvhYrv6wzaq2Er36vo941u6EqlVIXGu9TumJqHk4i0uBXkTJgc
+ k14/UVK41amkZHL34Z5Sc05irQn94bw=
+X-Google-Smtp-Source: AK7set8Aowwnk4aSI9A3TWk9rCdJ5I9FliirhED/lrIMmjWYnXie7DDIoCu+lXAYlUeKqUnl3pP1Ow==
+X-Received: by 2002:a54:4509:0:b0:378:57fc:c63e with SMTP id
+ l9-20020a544509000000b0037857fcc63emr7482216oil.17.1675591517807; 
+ Sun, 05 Feb 2023 02:05:17 -0800 (PST)
 Received: from grind.. ([191.19.125.138]) by smtp.gmail.com with ESMTPSA id
- s191-20020acaa9c8000000b003631fe1810dsm2730924oie.47.2023.02.05.02.05.13
+ s191-20020acaa9c8000000b003631fe1810dsm2730924oie.47.2023.02.05.02.05.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Feb 2023 02:05:15 -0800 (PST)
+ Sun, 05 Feb 2023 02:05:17 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  Frederic Barrat <fbarrat@linux.ibm.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 10/16] ppc/pnv/pci: Remove duplicate definition of
- PNV_PHB5_DEVICE_ID
-Date: Sun,  5 Feb 2023 07:04:43 -0300
-Message-Id: <20230205100449.2352781-11-danielhb413@gmail.com>
+Subject: [PULL 11/16] ppc/pnv/pci: Update PHB5 version register
+Date: Sun,  5 Feb 2023 07:04:44 -0300
+Message-Id: <20230205100449.2352781-12-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230205100449.2352781-1-danielhb413@gmail.com>
 References: <20230205100449.2352781-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x230.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22b.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -93,28 +92,26 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Frederic Barrat <fbarrat@linux.ibm.com>
 
-PNV_PHB5_DEVICE_ID is defined in two different headers. The definition
-in hw/pci-host/pnv_phb4.h was left out in a previous rework.
-
-Remaining definition is in hw/pci-host/pnv_phb.h.
+Update register value per its P10 DD2 definition.
 
 Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20230127122848.550083-3-fbarrat@linux.ibm.com>
+Message-Id: <20230127122848.550083-4-fbarrat@linux.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- include/hw/pci-host/pnv_phb4.h | 1 -
- 1 file changed, 1 deletion(-)
+ include/hw/pci-host/pnv_phb4.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
-index 17aef08f91..761525686e 100644
+index 761525686e..28d61b96c7 100644
 --- a/include/hw/pci-host/pnv_phb4.h
 +++ b/include/hw/pci-host/pnv_phb4.h
-@@ -215,7 +215,6 @@ struct PnvPhb4PecClass {
+@@ -214,7 +214,7 @@ struct PnvPhb4PecClass {
+ #define PNV_PHB5(obj) \
      OBJECT_CHECK(PnvPhb4, (obj), TYPE_PNV_PHB5)
  
- #define PNV_PHB5_VERSION           0x000000a500000001ull
--#define PNV_PHB5_DEVICE_ID         0x0652
+-#define PNV_PHB5_VERSION           0x000000a500000001ull
++#define PNV_PHB5_VERSION           0x000000a500000002ull
  
  #define TYPE_PNV_PHB5_PEC "pnv-phb5-pec"
  #define PNV_PHB5_PEC(obj) \
