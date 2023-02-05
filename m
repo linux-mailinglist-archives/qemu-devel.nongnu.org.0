@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88F2768AEB9
+	by mail.lfdr.de (Postfix) with ESMTPS id 85CC268AEB8
 	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 08:45:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOZh7-0004Kt-HV; Sun, 05 Feb 2023 02:44:13 -0500
+	id 1pOZh7-0004MF-IM; Sun, 05 Feb 2023 02:44:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wnliu@stu.xmu.edu.cn>)
- id 1pOY62-0002Vw-Nr
- for qemu-devel@nongnu.org; Sun, 05 Feb 2023 01:01:50 -0500
-Received: from azure-sdnproxy.icoremail.net ([52.229.205.26])
+ id 1pOYoG-0001yK-0C
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 01:47:32 -0500
+Received: from azure-sdnproxy.icoremail.net ([20.231.56.155])
  by eggs.gnu.org with smtp (Exim 4.90_1)
- (envelope-from <wnliu@stu.xmu.edu.cn>) id 1pOY5y-0001WC-Ug
- for qemu-devel@nongnu.org; Sun, 05 Feb 2023 01:01:49 -0500
+ (envelope-from <wnliu@stu.xmu.edu.cn>) id 1pOYoD-0000QQ-5F
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 01:47:31 -0500
 Received: from prodtpl.icoremail.net (unknown [10.12.1.20])
- by hzbj-icmmx-7 (Coremail) with SMTP id AQAAfwA3A+cfRt9jvuKJDQ--.42561S2;
- Sun, 05 Feb 2023 14:01:03 +0800 (CST)
+ by hzbj-icmmx-7 (Coremail) with SMTP id AQAAfwBnMubhUN9jkN+MDQ--.56109S2;
+ Sun, 05 Feb 2023 14:46:57 +0800 (CST)
 Received: from wnliu$stu.xmu.edu.cn ( [117.28.181.52] ) by ajax-webmail-mail
- (Coremail) ; Sun, 5 Feb 2023 14:01:25 +0800 (GMT+08:00)
+ (Coremail) ; Sun, 5 Feb 2023 14:47:19 +0800 (GMT+08:00)
 X-Originating-IP: [117.28.181.52]
-Date: Sun, 5 Feb 2023 14:01:25 +0800 (GMT+08:00)
+Date: Sun, 5 Feb 2023 14:47:19 +0800 (GMT+08:00)
 X-CM-HeaderCharset: UTF-8
 From: "Weinan Liu" <wnliu@stu.xmu.edu.cn>
-To: "Weinan Liu" <liu-weinan@qq.com>
-Cc: qemu-devel@nongnu.org, peterx@redhat.com, dgilbert@redhat.com
+To: qemu-devel@nongnu.org
 Subject: Re: [PATCH] KVM: dirty ring: check if vcpu is created before
  dirty_ring_reap_one
 X-Priority: 3
@@ -39,25 +38,25 @@ References: <tencent_4154FDEB122B79E7FB824E2941708C7B0106@qq.com>
 Content-Transfer-Encoding: base64
 Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Message-ID: <3877ce37.83.186202a4218.Coremail.wnliu@stu.xmu.edu.cn>
+Message-ID: <32491d83.b7.186205448ab.Coremail.wnliu@stu.xmu.edu.cn>
 X-Coremail-Locale: zh_CN
-X-CM-TRANSID: AQAAfwAnu4A1Rt9jVBQAAA--.124W
+X-CM-TRANSID: AQAAfwD3ioD3UN9jQxcAAA--.76W
 X-CM-SenderInfo: astqjiyssrikaurwmqhvwxh5lpxovvfxof0/1tbiAQANEmPeo1wBg
-	QAAsc
+	QACse
 Authentication-Results: hzbj-icmmx-7; spf=neutral smtp.mail=wnliu@stu.
  xmu.edu.cn;
 X-Coremail-Antispam: 1Uk129KBjvJXoW7Ar47ZrWfAF1kZr48Xr1UJrb_yoW8trWfpr
  ZxC3s3Zr4rZr1093y3tw12vr1UWw47WanrJ3yDt3WSy347CF4fJFWrKFyxWrZ8uFyxJr45
- tr15XFyDZF17Xr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ tr15XFyDZF17Xr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  DUYxn0WfASr-VFAU7a7-sFnT9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUU
  UUUUU
-Received-SPF: pass client-ip=52.229.205.26; envelope-from=wnliu@stu.xmu.edu.cn;
+Received-SPF: pass client-ip=20.231.56.155; envelope-from=wnliu@stu.xmu.edu.cn;
  helo=azure-sdnproxy.icoremail.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Sun, 05 Feb 2023 02:44:06 -0500
 X-BeenThere: qemu-devel@nongnu.org
