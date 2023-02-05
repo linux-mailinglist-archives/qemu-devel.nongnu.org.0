@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B99868AF43
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 11:09:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F329068AF36
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 11:05:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pObu8-0001KR-FU; Sun, 05 Feb 2023 05:05:48 -0500
+	id 1pObti-00013J-C2; Sun, 05 Feb 2023 05:05:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pObtX-0000zE-M9; Sun, 05 Feb 2023 05:05:15 -0500
+ id 1pObtZ-0000zH-Jh; Sun, 05 Feb 2023 05:05:15 -0500
 Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pObtU-0005JB-VE; Sun, 05 Feb 2023 05:05:11 -0500
-Received: by mail-oi1-x22e.google.com with SMTP id s17so7599577ois.10;
- Sun, 05 Feb 2023 02:05:08 -0800 (PST)
+ id 1pObtW-0005JZ-O1; Sun, 05 Feb 2023 05:05:12 -0500
+Received: by mail-oi1-x22e.google.com with SMTP id 20so6837280oix.5;
+ Sun, 05 Feb 2023 02:05:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xiCleTy8543Mmcc9cjgIqcXCXs8OIrvQc5QWbgPOzFM=;
- b=Wf4Z+oTEnFNGKKrc9ijb6qQB0xZbMjWXUnQftWtpbW/Zyi6CAVERrQMjSvAzhDY7di
- UPm+t4i+SBY1W/pfty6iucjeLdMfewmQDD8K8AFlhSc2xd0xg6cwsuINiGYD6dg15GE2
- 0pODhQoEfHeXVCFAleCWyYfctyI7VGs3DsIDULQ8DMWn51V2+BTyMtABu6zmXbrth2qn
- T1B/FjEHMwxxQU4rXj3dj04XdkYdvN0g+rPdMj6tE6JpONq4jnFYdcneGmkaYBQf5u+1
- mjfzvOHpHG7AsR7yiYjXWeMVlodnjSo8WDDlCo6K2pGFS/N3I9fBsemNX62aebrnVlO+
- vk0g==
+ bh=0ydv4l9MXYHhhRfYq339RkzWonxTEWGRRNNHRsKfZbQ=;
+ b=Qk0ywl9QH59qikEcyGtuTCH+6WfsBMSG5F4l896BWcx3zOoXqB6dDgnPK3ZYlSFlnD
+ pscr1Zrh7Jygzw2RFK2HbsJFLYv6Kf3JsM8seSMbl+wTG7J8vhYqhbhATxId6FS0abx3
+ rjD7jlEOlbZpWe/H2OIr0GdGTYOIhcsPfjWJKBeDLZx/yaxL/00Mj/Smvq4lSgif4rtz
+ U/xxHz9ZvpJ+XlZiOXLn34DXTJ2XWv4k9QDt4p9pRdkXLy7x9C5dBbrnMnCbsI+aoI08
+ CG81/XQg80OEICl+lq0lDUyBQRWDdh6GX5dl2tuevFtsF43A3lAZwsngedMnIehCf7XA
+ nxcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xiCleTy8543Mmcc9cjgIqcXCXs8OIrvQc5QWbgPOzFM=;
- b=LCyKYndF4rqTCOKu90/3F5oHQH4z6LU7Ojj6OrfU8NDIDlZqxXn6jD0F8c9yw34Afl
- Ilo+iAyNl5z3eMgUojBefZQ40MQTtRkGCUQEi/5U3WGbB+NONNbSnC6fyw/qHcevrFbk
- J2wZEUL0CkGVeRH5hLsfZWUVu/13jbXdj7kPBZRFLcmKCBqzOZCteEOHiq7VlgAsopY9
- sX5zg0xuXoZh5W3RNkhYifRNB5nk+UvQ9nwH86eMSTZOSS7GPlVJxuoKBQsUPaPKbW9o
- VYKv0k+N06cyQNydRGHiHDJKPvW/Ud5LGVB5oSmEHaoK0qc+/uHZv6JlBVlsz+gQS/W+
- ugqg==
-X-Gm-Message-State: AO0yUKWxT2zX0LIsvvKJEcYTX/IUrtSHzPKnOeL8ad5m1FF34nl7Bc+O
- fc6wWoHKRtkpP0u61l8/4tU6U50WAdw=
-X-Google-Smtp-Source: AK7set9ERYhFtF4Vg7mvwUOz/0uI8IuY3HBXo7F2VDXElKgI+sL3LoAW5WgQ/wTKwCHdc7jnoDShjA==
-X-Received: by 2002:a05:6808:3ae:b0:360:fd4c:11ab with SMTP id
- n14-20020a05680803ae00b00360fd4c11abmr7332137oie.1.1675591507305; 
- Sun, 05 Feb 2023 02:05:07 -0800 (PST)
+ bh=0ydv4l9MXYHhhRfYq339RkzWonxTEWGRRNNHRsKfZbQ=;
+ b=2Z/2VRyIWL0LtpTx0TZhv5gRqr0qlpLZ1Apx69ng0D/auw8goxH45ANenI6gvb/WPA
+ 0tgx5p0VpGM81G85QuBXkjpMhfWKuRcGt6Xof72yeHkWjEGJrRm3xCrHxl7hPZQYp2GO
+ Hmb8v/YnYIuxD/eihBfYGqhJ/tBAbAZ2CuCEtJx09qonDdvl9Un0DTsyg48EKGl3/zlW
+ sIzip0vdgDAyEXleupcpmsQCCtiLJ2OsGHpQnTv/LxgB3FEwjKnP7tiWcgoyA4EV5X9R
+ KADCK/m25NxNbovNmok8e12SvByOYiL2ji8x4CFEaMW1Lar6vh5Hgm0YTXrYtg3TNKjF
+ nkag==
+X-Gm-Message-State: AO0yUKXJUkWxzDk5fsqfQCZFHXSUtlPBMOX1eZAY5x5esHBKZrkTQd8J
+ UzRs6YcqJ5UZTD3nxYE+byC9tMxWcx0=
+X-Google-Smtp-Source: AK7set8WPJUY6nz44PeRPD1KZj0cCNsUPxP/iJLjD6JiPv5oa5/+3EqWLqHV21u168RuSiIF7Emt6w==
+X-Received: by 2002:a05:6808:190f:b0:360:e80e:26a9 with SMTP id
+ bf15-20020a056808190f00b00360e80e26a9mr9277091oib.12.1675591509353; 
+ Sun, 05 Feb 2023 02:05:09 -0800 (PST)
 Received: from grind.. ([191.19.125.138]) by smtp.gmail.com with ESMTPSA id
- s191-20020acaa9c8000000b003631fe1810dsm2730924oie.47.2023.02.05.02.05.05
+ s191-20020acaa9c8000000b003631fe1810dsm2730924oie.47.2023.02.05.02.05.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Feb 2023 02:05:07 -0800 (PST)
+ Sun, 05 Feb 2023 02:05:09 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PULL 06/16] hw/ppc/e500{,
- plat}: Drop redundant checks for presence of platform bus
-Date: Sun,  5 Feb 2023 07:04:39 -0300
-Message-Id: <20230205100449.2352781-7-danielhb413@gmail.com>
+Subject: [PULL 07/16] hw/ppc/e500.c: Avoid hardcoding parent device in
+ create_devtree_etsec()
+Date: Sun,  5 Feb 2023 07:04:40 -0300
+Message-Id: <20230205100449.2352781-8-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230205100449.2352781-1-danielhb413@gmail.com>
 References: <20230205100449.2352781-1-danielhb413@gmail.com>
@@ -91,55 +91,29 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-This is a follow-up on commit 47a0b1dff7e9 'hw/ppc/mpc8544ds: Add
-platform bus': Both mpc85xx boards now have a platform bus
-unconditionally.
+The "platform" node is available through data->node, so use that instead
+of making assumptions about the parent device.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20230125130024.158721-3-shentey@gmail.com>
+Message-Id: <20230125130024.158721-4-shentey@gmail.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/e500.c     | 5 ++---
- hw/ppc/e500plat.c | 9 +++------
- 2 files changed, 5 insertions(+), 9 deletions(-)
+ hw/ppc/e500.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-index 7239993acc..48288c0b41 100644
+index 48288c0b41..e3b29d1d97 100644
 --- a/hw/ppc/e500.c
 +++ b/hw/ppc/e500.c
-@@ -643,9 +643,8 @@ static int ppce500_load_device_tree(PPCE500MachineState *pms,
-     }
-     g_free(soc);
- 
--    if (pms->pbus_dev) {
--        platform_bus_create_devtree(pms, fdt, mpic);
--    }
-+    platform_bus_create_devtree(pms, fdt, mpic);
-+
-     g_free(mpic);
- 
-     pmc->fixup_devtree(fdt);
-diff --git a/hw/ppc/e500plat.c b/hw/ppc/e500plat.c
-index 44bf874b0f..3032bd3f6d 100644
---- a/hw/ppc/e500plat.c
-+++ b/hw/ppc/e500plat.c
-@@ -46,13 +46,10 @@ static void e500plat_machine_device_plug_cb(HotplugHandler *hotplug_dev,
-                                             DeviceState *dev, Error **errp)
- {
-     PPCE500MachineState *pms = PPCE500_MACHINE(hotplug_dev);
-+    MachineClass *mc = MACHINE_GET_CLASS(pms);
- 
--    if (pms->pbus_dev) {
--        MachineClass *mc = MACHINE_GET_CLASS(pms);
--
--        if (device_is_dynamic_sysbus(mc, dev)) {
--            platform_bus_link_device(pms->pbus_dev, SYS_BUS_DEVICE(dev));
--        }
-+    if (device_is_dynamic_sysbus(mc, dev)) {
-+        platform_bus_link_device(pms->pbus_dev, SYS_BUS_DEVICE(dev));
-     }
- }
+@@ -241,7 +241,7 @@ static int create_devtree_etsec(SysBusDevice *sbdev, PlatformDevtreeData *data)
+     int irq0 = platform_bus_get_irqn(pbus, sbdev, 0);
+     int irq1 = platform_bus_get_irqn(pbus, sbdev, 1);
+     int irq2 = platform_bus_get_irqn(pbus, sbdev, 2);
+-    gchar *node = g_strdup_printf("/platform/ethernet@%"PRIx64, mmio0);
++    gchar *node = g_strdup_printf("%s/ethernet@%"PRIx64, data->node, mmio0);
+     gchar *group = g_strdup_printf("%s/queue-group", node);
+     void *fdt = data->fdt;
  
 -- 
 2.39.1
