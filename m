@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45D368AF6E
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 12:01:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E935F68AF6C
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 12:01:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOckv-0001bl-VS; Sun, 05 Feb 2023 06:00:21 -0500
+	id 1pOclG-0002AM-Nn; Sun, 05 Feb 2023 06:00:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pOckt-0001ac-Jh; Sun, 05 Feb 2023 06:00:19 -0500
-Received: from mail-oo1-xc33.google.com ([2607:f8b0:4864:20::c33])
+ id 1pOclE-00024T-Nj; Sun, 05 Feb 2023 06:00:40 -0500
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pOckr-0005XZ-He; Sun, 05 Feb 2023 06:00:19 -0500
-Received: by mail-oo1-xc33.google.com with SMTP id
- h12-20020a4a940c000000b004fa81915b1cso892771ooi.4; 
- Sun, 05 Feb 2023 03:00:16 -0800 (PST)
+ id 1pOclB-0005bI-OJ; Sun, 05 Feb 2023 06:00:40 -0500
+Received: by mail-oi1-x236.google.com with SMTP id j21so7667482oie.4;
+ Sun, 05 Feb 2023 03:00:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=R0RBaKeiKQLLmjHAB5JsQkFMoVG9tIpF9DIZ3jtmovo=;
- b=hfA/ZE5G4DuXUjSuxHSGcq4vtaE/5y5wB7EURAjdzwLnTf7K284JUAV+Mq5mGiinKP
- 7YQKvtt9EHxNWAn+asWDRiq3suavybbH5rne97Apv2I9l6wFPjsX/tU/zOoZbuuAxjlZ
- t8qdBMi8cYuUKVSBkDr3t2q9kUKrem2UOwdokwdzJupK4YuTkHmtxcAHBmimLaW3iV0d
- Zz7Dan0QjuVEwDWTFN/wj3bPzqrXGuwwWaVQS9kOIQmw0BX/6Ftg66Qb6FxgrlXVyDVL
- BetshSxJsbWOD/WfZ7Hfia6QN0cnDRbLUkegtbQiOWvAtlmD338ZSAI0gfsnVw4Sxax6
- 5tXA==
+ bh=UdgvbsLMdMZdIilrzB90l5pXJh/3kcG1f4oubefzJHk=;
+ b=LV/jUoWdYjN/C/M7FoTGr1mDv2PMMKms54O1thoRKEaQqYzQrGsptYLK1QQYCUQGJI
+ HLkJu+6d5UtZ4qYunq/NFFi1zCzWLbl5UJ57d0kVHvHK55zMFsxahQG9QmkKxOt1KoN5
+ tS3ycYFuiUa/jsqWPy6Tnp0eKyvWlbp4n/AOGIW2t2cb6BVzAbZiDvJGGmeym2V5RVRo
+ 7iz6M44jcyK1PL/2io5ni1Pg3pUywZ6SJbosnhhpsag5eX0cQsYvmFqFmKOlAYhcu0ga
+ vVuKWK7z/f4svtcNt9Ztohmd5v1wLzfU+8p3wX273LKcL+7PF00nMhEqWucEnXYlS/kI
+ Ic5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=R0RBaKeiKQLLmjHAB5JsQkFMoVG9tIpF9DIZ3jtmovo=;
- b=UnTwm/zk66NMq52nYSSNvcgD/gmdbmqQgftXpcCf0lMp48kulRtHMm8r1vS/2GUyQ0
- mufSWUaG/cE1fZx1Pf8mG138kC3Dc6PU7Hpy3Ak1Q99whIrDZw45/QJN/Sah0qoNKOOg
- E1J4QoS0VSlX/n5At3aVmEe8iQZ9EPRXT7V2ZBMZsFAFTAkQc6Mdx8OenHkfYcLX4yws
- vckXXvfZisg9DEpyNKHRCp68D6bs8gtSTZZ9ekRQ1A7oST2BDbQNFR3nDkTIvAcC2F0r
- OUVTFr9t6JqTPlpvomw2NQPsgPDu1b7WLD2//ULlrn5WFg9D/00iwah40ZQStps4gzFB
- xW9A==
-X-Gm-Message-State: AO0yUKUTzvtGo+Q8mKkNWdxcg/lqNNzb9hSm5S0TOkFQdr6f0qqPGg13
- BMJKPE+KlwECVZ1v683trNY=
-X-Google-Smtp-Source: AK7set8PD/UFzgfV6c9kCd82ObPPTUYRpgczNoQ7BpnxKcCCQkhuYGL/hnffWQPpwAscCKL9M4LfBg==
-X-Received: by 2002:a4a:e904:0:b0:51a:3226:e0a7 with SMTP id
- bx4-20020a4ae904000000b0051a3226e0a7mr6247384oob.9.1675594815899; 
- Sun, 05 Feb 2023 03:00:15 -0800 (PST)
+ bh=UdgvbsLMdMZdIilrzB90l5pXJh/3kcG1f4oubefzJHk=;
+ b=uL/mOAX/X16TC/I1Pwj5EZalOAu5J1mnGP1l1fVO8iUiDzck1Nm6eCVEgKgHz2F0Q2
+ nVwY/zk2S6SbvKEEhZv4brZdrEOsWi/xyiQ2S5nJkRaGYf/J0c/jAmILwcNvRvaNlkqG
+ 99VfjfUEnbjMC8Lnd/i5nQeVJ7I9lLoP3p0T7xbuXcEwwUjrCGpLR8ueBTeFriEGxyhB
+ NlkT3jjVTq1p9JrE55Voy5zU8x79N36jNi1BV9JQNPcBcHTaE2GIJ32iT8Nd/573MXxJ
+ omFmc/5WhFLHQNqmU8FTAQOhKKpi0ZrmP3JxYrRtZVy6hnZjd7uPRKOV0YJEECPurr87
+ fK9Q==
+X-Gm-Message-State: AO0yUKXJeZC+DZ75sOybFUNXAxget8SUXBoi/BwN6U8KLztWqnqf/war
+ NUToPaq+Vbqak3Wh+gNrlb0=
+X-Google-Smtp-Source: AK7set+VLYJ97HpUjy0UliACjWOZYkSoTcobHuxfzWzRLxdRWNRe8+AQx0CM/CbsC6/37BUQYeU8rQ==
+X-Received: by 2002:a05:6808:16a6:b0:36e:b867:76d0 with SMTP id
+ bb38-20020a05680816a600b0036eb86776d0mr8300161oib.58.1675594835931; 
+ Sun, 05 Feb 2023 03:00:35 -0800 (PST)
 Received: from [192.168.68.107] ([191.19.125.138])
  by smtp.gmail.com with ESMTPSA id
- v8-20020a4aa408000000b005178a98b6d2sm3121149ool.30.2023.02.05.03.00.13
+ i184-20020acab8c1000000b00367080ab4casm2765301oif.35.2023.02.05.03.00.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 05 Feb 2023 03:00:15 -0800 (PST)
-Message-ID: <8796fab9-3b48-b385-4f2c-c8b8ace29f03@gmail.com>
-Date: Sun, 5 Feb 2023 08:00:11 -0300
+ Sun, 05 Feb 2023 03:00:35 -0800 (PST)
+Message-ID: <31b0a7dd-9664-568f-4e58-fd48044f5684@gmail.com>
+Date: Sun, 5 Feb 2023 08:00:32 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH 4/5] hw/ppc/spapr: Set QDev properties using QDev API
+Subject: Re: [PATCH 5/5] hw/ppc/pnv: Set QDev properties using QDev API
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
@@ -69,13 +68,13 @@ Cc: BALATON Zoltan <balaton@eik.bme.hu>,
  Markus Armbruster <armbru@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
 References: <20230203211623.50930-1-philmd@linaro.org>
- <20230203211623.50930-5-philmd@linaro.org>
+ <20230203211623.50930-6-philmd@linaro.org>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20230203211623.50930-5-philmd@linaro.org>
+In-Reply-To: <20230203211623.50930-6-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c33;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x236.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -106,104 +105,270 @@ On 2/3/23 18:16, Philippe Mathieu-Daudé wrote:
 > inherits from QDev. Directly use the QDev API to set
 > its properties.
 > 
-> All calls use either errp=&error_abort or &error_fatal,
-> so converting to the QDev API is almost a no-op (QDev
-> API always uses &error_abort).
+> One call in pnv_psi_power8_realize() propagate the
+> Error* argument:
+> 
+>    if (!object_property_set_int(OBJECT(ics), "nr-irqs",
+>                                 PSI_NUM_INTERRUPTS, errp)) {
+>        return;
+>    }
+> 
+> TYPE_ICS "nr-irqs" is declared in ics_properties[],
+> itself always registered in ics_class_init(); so converting
+> this errp to &error_abort is safe.
+> 
+> All other calls use either errp=&error_abort or &error_fatal,
+> so converting to the QDev API is almost a no-op (QDev API
+> always uses &error_abort).
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
 
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
->   hw/intc/spapr_xive.c | 11 ++++-------
->   hw/intc/xics.c       |  4 ++--
->   hw/intc/xive.c       |  4 ++--
->   hw/ppc/spapr_irq.c   |  8 +++-----
->   4 files changed, 11 insertions(+), 16 deletions(-)
+>   hw/intc/pnv_xive.c         | 11 ++++------
+>   hw/intc/pnv_xive2.c        | 15 +++++---------
+>   hw/pci-host/pnv_phb3.c     |  9 +++------
+>   hw/pci-host/pnv_phb4.c     |  4 ++--
+>   hw/pci-host/pnv_phb4_pec.c | 10 +++-------
+>   hw/ppc/pnv.c               | 41 ++++++++++++++++----------------------
+>   hw/ppc/pnv_psi.c           | 10 +++-------
+>   7 files changed, 37 insertions(+), 63 deletions(-)
 > 
-> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> index dc641cc604..213c4cac44 100644
-> --- a/hw/intc/spapr_xive.c
-> +++ b/hw/intc/spapr_xive.c
-> @@ -310,9 +310,8 @@ static void spapr_xive_realize(DeviceState *dev, Error **errp)
->       /*
->        * Initialize the internal sources, for IPIs and virtual devices.
+> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+> index 622f9d28b7..ccc1ea5380 100644
+> --- a/hw/intc/pnv_xive.c
+> +++ b/hw/intc/pnv_xive.c
+> @@ -1857,17 +1857,14 @@ static void pnv_xive_realize(DeviceState *dev, Error **errp)
+>        * resized dynamically when the controller is configured by the FW
+>        * to limit accesses to resources not provisioned.
 >        */
-> -    object_property_set_int(OBJECT(xsrc), "nr-irqs", xive->nr_irqs,
+> -    object_property_set_int(OBJECT(xsrc), "nr-irqs", PNV_XIVE_NR_IRQS,
 > -                            &error_fatal);
 > -    object_property_set_link(OBJECT(xsrc), "xive", OBJECT(xive), &error_abort);
-> +    qdev_prop_set_uint32(DEVICE(xsrc), "nr-irqs", xive->nr_irqs);
+> +    qdev_prop_set_uint32(DEVICE(xsrc), "nr-irqs", PNV_XIVE_NR_IRQS);
 > +    qdev_prop_set_link(DEVICE(xsrc), "xive", OBJECT(xive));
 >       if (!qdev_realize(DEVICE(xsrc), NULL, errp)) {
 >           return;
 >       }
-> @@ -321,10 +320,8 @@ static void spapr_xive_realize(DeviceState *dev, Error **errp)
->       /*
->        * Initialize the END ESB source
->        */
-> -    object_property_set_int(OBJECT(end_xsrc), "nr-ends", xive->nr_irqs,
+>   
+> -    object_property_set_int(OBJECT(end_xsrc), "nr-ends", PNV_XIVE_NR_ENDS,
 > -                            &error_fatal);
 > -    object_property_set_link(OBJECT(end_xsrc), "xive", OBJECT(xive),
 > -                             &error_abort);
-> +    qdev_prop_set_uint32(DEVICE(end_xsrc), "nr-ends", xive->nr_irqs);
+> +    qdev_prop_set_uint32(DEVICE(end_xsrc), "nr-ends", PNV_XIVE_NR_ENDS);
 > +    qdev_prop_set_link(DEVICE(end_xsrc), "xive", OBJECT(xive));
 >       if (!qdev_realize(DEVICE(end_xsrc), NULL, errp)) {
 >           return;
 >       }
-> diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-> index c7f8abd71e..2fd1a15153 100644
-> --- a/hw/intc/xics.c
-> +++ b/hw/intc/xics.c
-> @@ -382,8 +382,8 @@ Object *icp_create(Object *cpu, const char *type, XICSFabric *xi, Error **errp)
->       obj = object_new(type);
->       object_property_add_child(cpu, type, obj);
->       object_unref(obj);
-> -    object_property_set_link(obj, ICP_PROP_XICS, OBJECT(xi), &error_abort);
-> -    object_property_set_link(obj, ICP_PROP_CPU, cpu, &error_abort);
-> +    qdev_prop_set_link(DEVICE(obj), ICP_PROP_XICS, OBJECT(xi));
-> +    qdev_prop_set_link(DEVICE(obj), ICP_PROP_CPU, cpu);
->       if (!qdev_realize(DEVICE(obj), NULL, errp)) {
->           object_unparent(obj);
->           obj = NULL;
-> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-> index a986b96843..0e34035bc6 100644
-> --- a/hw/intc/xive.c
-> +++ b/hw/intc/xive.c
-> @@ -799,8 +799,8 @@ Object *xive_tctx_create(Object *cpu, XivePresenter *xptr, Error **errp)
->       obj = object_new(TYPE_XIVE_TCTX);
->       object_property_add_child(cpu, TYPE_XIVE_TCTX, obj);
->       object_unref(obj);
-> -    object_property_set_link(obj, "cpu", cpu, &error_abort);
-> -    object_property_set_link(obj, "presenter", OBJECT(xptr), &error_abort);
-> +    qdev_prop_set_link(DEVICE(obj), "cpu", cpu);
-> +    qdev_prop_set_link(DEVICE(obj), "presenter", OBJECT(xptr));
->       if (!qdev_realize(DEVICE(obj), NULL, errp)) {
->           object_unparent(obj);
->           return NULL;
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index a0d1e1298e..283769c074 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -313,9 +313,8 @@ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
->           obj = object_new(TYPE_ICS_SPAPR);
+> diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
+> index 7176d70234..d7695f65e7 100644
+> --- a/hw/intc/pnv_xive2.c
+> +++ b/hw/intc/pnv_xive2.c
+> @@ -1821,22 +1821,17 @@ static void pnv_xive2_realize(DeviceState *dev, Error **errp)
+>        * resized dynamically when the controller is configured by the FW
+>        * to limit accesses to resources not provisioned.
+>        */
+> -    object_property_set_int(OBJECT(xsrc), "flags", XIVE_SRC_STORE_EOI,
+> -                            &error_fatal);
+> -    object_property_set_int(OBJECT(xsrc), "nr-irqs", PNV_XIVE2_NR_IRQS,
+> -                            &error_fatal);
+> -    object_property_set_link(OBJECT(xsrc), "xive", OBJECT(xive),
+> -                             &error_fatal);
+> +    qdev_prop_set_uint64(DEVICE(xsrc), "flags", XIVE_SRC_STORE_EOI);
+> +    qdev_prop_set_uint32(DEVICE(xsrc), "nr-irqs", PNV_XIVE2_NR_IRQS);
+> +    qdev_prop_set_link(DEVICE(xsrc), "xive", OBJECT(xive));
+>       qdev_realize(DEVICE(xsrc), NULL, &local_err);
+>       if (local_err) {
+>           error_propagate(errp, local_err);
+>           return;
+>       }
 >   
->           object_property_add_child(OBJECT(spapr), "ics", obj);
-> -        object_property_set_link(obj, ICS_PROP_XICS, OBJECT(spapr),
-> -                                 &error_abort);
-> -        object_property_set_int(obj, "nr-irqs", smc->nr_xirqs, &error_abort);
-> +        qdev_prop_set_link(DEVICE(obj), ICS_PROP_XICS, OBJECT(spapr));
-> +        qdev_prop_set_uint32(DEVICE(obj), "nr-irqs", smc->nr_xirqs);
->           if (!qdev_realize(DEVICE(obj), NULL, errp)) {
->               return;
->           }
-> @@ -335,8 +334,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
->            * priority
+> -    object_property_set_int(OBJECT(end_xsrc), "nr-ends", PNV_XIVE2_NR_ENDS,
+> -                            &error_fatal);
+> -    object_property_set_link(OBJECT(end_xsrc), "xive", OBJECT(xive),
+> -                             &error_abort);
+> +    qdev_prop_set_uint32(DEVICE(end_xsrc), "nr-ends", PNV_XIVE2_NR_ENDS);
+> +    qdev_prop_set_link(DEVICE(end_xsrc), "xive", OBJECT(xive));
+>       qdev_realize(DEVICE(end_xsrc), NULL, &local_err);
+>       if (local_err) {
+>           error_propagate(errp, local_err);
+> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+> index 7a21497cf8..6da9053ffa 100644
+> --- a/hw/pci-host/pnv_phb3.c
+> +++ b/hw/pci-host/pnv_phb3.c
+> @@ -1029,8 +1029,7 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
+>       /* LSI sources */
+>       object_property_set_link(OBJECT(&phb->lsis), "xics", OBJECT(pnv),
+>                                &error_abort);
+> -    object_property_set_int(OBJECT(&phb->lsis), "nr-irqs", PNV_PHB3_NUM_LSI,
+> -                            &error_abort);
+> +    qdev_prop_set_uint32(DEVICE(&phb->lsis), "nr-irqs", PNV_PHB3_NUM_LSI);
+>       if (!qdev_realize(DEVICE(&phb->lsis), NULL, errp)) {
+>           return;
+>       }
+> @@ -1046,15 +1045,13 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
+>                                &error_abort);
+>       object_property_set_link(OBJECT(&phb->msis), "xics", OBJECT(pnv),
+>                                &error_abort);
+> -    object_property_set_int(OBJECT(&phb->msis), "nr-irqs", PHB3_MAX_MSI,
+> -                            &error_abort);
+> +    qdev_prop_set_uint32(DEVICE(&phb->msis), "nr-irqs", PHB3_MAX_MSI);
+>       if (!qdev_realize(DEVICE(&phb->msis), NULL, errp)) {
+>           return;
+>       }
+>   
+>       /* Power Bus Common Queue */
+> -    object_property_set_link(OBJECT(&phb->pbcq), "phb", OBJECT(phb),
+> -                             &error_abort);
+> +    qdev_prop_set_link(DEVICE(&phb->pbcq), "phb", OBJECT(phb));
+>       if (!qdev_realize(DEVICE(&phb->pbcq), NULL, errp)) {
+>           return;
+>       }
+> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+> index ccbde841fc..c4e7cb0efe 100644
+> --- a/hw/pci-host/pnv_phb4.c
+> +++ b/hw/pci-host/pnv_phb4.c
+> @@ -1583,8 +1583,8 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
+>       } else {
+>           nr_irqs = PNV_PHB4_MAX_INTs >> 1;
+>       }
+> -    object_property_set_int(OBJECT(xsrc), "nr-irqs", nr_irqs, &error_fatal);
+> -    object_property_set_link(OBJECT(xsrc), "xive", OBJECT(phb), &error_fatal);
+> +    qdev_prop_set_uint32(DEVICE(xsrc), "nr-irqs", nr_irqs);
+> +    qdev_prop_set_link(DEVICE(xsrc), "xive", OBJECT(phb));
+>       if (!qdev_realize(DEVICE(xsrc), NULL, errp)) {
+>           return;
+>       }
+> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
+> index 43267a428f..9c21382330 100644
+> --- a/hw/pci-host/pnv_phb4_pec.c
+> +++ b/hw/pci-host/pnv_phb4_pec.c
+> @@ -120,13 +120,9 @@ static void pnv_pec_default_phb_realize(PnvPhb4PecState *pec,
+>       int phb_id = pnv_phb4_pec_get_phb_id(pec, stack_no);
+>   
+>       object_property_add_child(OBJECT(pec), "phb[*]", OBJECT(phb));
+> -    object_property_set_link(OBJECT(phb), "pec", OBJECT(pec),
+> -                             &error_abort);
+> -    object_property_set_int(OBJECT(phb), "chip-id", pec->chip_id,
+> -                            &error_fatal);
+> -    object_property_set_int(OBJECT(phb), "index", phb_id,
+> -                            &error_fatal);
+> -
+> +    qdev_prop_set_link(DEVICE(phb), "pec", OBJECT(pec));
+> +    qdev_prop_set_uint32(DEVICE(phb), "chip-id", pec->chip_id);
+> +    qdev_prop_set_uint32(DEVICE(phb), "index", phb_id);
+>       if (!sysbus_realize(SYS_BUS_DEVICE(phb), errp)) {
+>           return;
+>       }
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 44b1fbbc93..7c6d5e4320 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -954,35 +954,31 @@ static void pnv_init(MachineState *machine)
+>       pnv->chips = g_new0(PnvChip *, pnv->num_chips);
+>       for (i = 0; i < pnv->num_chips; i++) {
+>           char chip_name[32];
+> -        Object *chip = OBJECT(qdev_new(chip_typename));
+> +        DeviceState *chip = qdev_new(chip_typename);
+>           uint64_t chip_ram_size =  pnv_chip_get_ram_size(pnv, i);
+>   
+>           pnv->chips[i] = PNV_CHIP(chip);
+>   
+> +        snprintf(chip_name, sizeof(chip_name), "chip[%d]", i);
+> +        object_property_add_child(OBJECT(pnv), chip_name, OBJECT(chip));
+> +
+>           /* Distribute RAM among the chips  */
+> -        object_property_set_int(chip, "ram-start", chip_ram_start,
+> -                                &error_fatal);
+> -        object_property_set_int(chip, "ram-size", chip_ram_size,
+> -                                &error_fatal);
+> +        qdev_prop_set_uint64(chip, "ram-start", chip_ram_start);
+> +        qdev_prop_set_uint64(chip, "ram-size", chip_ram_size);
+>           chip_ram_start += chip_ram_size;
+>   
+> -        snprintf(chip_name, sizeof(chip_name), "chip[%d]", i);
+> -        object_property_add_child(OBJECT(pnv), chip_name, chip);
+> -        object_property_set_int(chip, "chip-id", i, &error_fatal);
+> -        object_property_set_int(chip, "nr-cores", machine->smp.cores,
+> -                                &error_fatal);
+> -        object_property_set_int(chip, "nr-threads", machine->smp.threads,
+> -                                &error_fatal);
+> +        qdev_prop_set_uint32(chip, "chip-id", i);
+> +        qdev_prop_set_uint32(chip, "nr-cores", machine->smp.cores);
+> +        qdev_prop_set_uint32(chip, "nr-threads", machine->smp.threads);
+>           /*
+>            * The POWER8 machine use the XICS interrupt interface.
+>            * Propagate the XICS fabric to the chip and its controllers.
 >            */
->           qdev_prop_set_uint32(dev, "nr-ends", nr_servers << 3);
-> -        object_property_set_link(OBJECT(dev), "xive-fabric", OBJECT(spapr),
-> -                                 &error_abort);
-> +        qdev_prop_set_link(dev, "xive-fabric", OBJECT(spapr));
->           sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>           if (object_dynamic_cast(OBJECT(pnv), TYPE_XICS_FABRIC)) {
+> -            object_property_set_link(chip, "xics", OBJECT(pnv), &error_abort);
+> +            qdev_prop_set_link(chip, "xics", OBJECT(pnv));
+>           }
+>           if (object_dynamic_cast(OBJECT(pnv), TYPE_XIVE_FABRIC)) {
+> -            object_property_set_link(chip, "xive-fabric", OBJECT(pnv),
+> -                                     &error_abort);
+> +            qdev_prop_set_link(chip, "xive-fabric", OBJECT(pnv));
+>           }
+>           sysbus_realize_and_unref(SYS_BUS_DEVICE(chip), &error_fatal);
+>       }
+> @@ -1492,7 +1488,7 @@ static void pnv_chip_quad_realize_one(PnvChip *chip, PnvQuad *eq,
+>                                          sizeof(*eq), TYPE_PNV_QUAD,
+>                                          &error_fatal, NULL);
 >   
->           spapr->xive = SPAPR_XIVE(dev);
+> -    object_property_set_int(OBJECT(eq), "quad-id", core_id, &error_fatal);
+> +    qdev_prop_set_uint32(DEVICE(eq), "quad-id", core_id);
+>       qdev_realize(DEVICE(eq), NULL, &error_fatal);
+>   }
+>   
+> @@ -1969,16 +1965,13 @@ static void pnv_chip_core_realize(PnvChip *chip, Error **errp)
+>           snprintf(core_name, sizeof(core_name), "core[%d]", core_hwid);
+>           object_property_add_child(OBJECT(chip), core_name, OBJECT(pnv_core));
+>           chip->cores[i] = pnv_core;
+> -        object_property_set_int(OBJECT(pnv_core), "nr-threads",
+> -                                chip->nr_threads, &error_fatal);
+> +        qdev_prop_set_uint32(DEVICE(pnv_core), "nr-threads", chip->nr_threads);
+>           object_property_set_int(OBJECT(pnv_core), CPU_CORE_PROP_CORE_ID,
+>                                   core_hwid, &error_fatal);
+> -        object_property_set_int(OBJECT(pnv_core), "pir",
+> -                                pcc->core_pir(chip, core_hwid), &error_fatal);
+> -        object_property_set_int(OBJECT(pnv_core), "hrmor", pnv->fw_load_addr,
+> -                                &error_fatal);
+> -        object_property_set_link(OBJECT(pnv_core), "chip", OBJECT(chip),
+> -                                 &error_abort);
+> +        qdev_prop_set_uint32(DEVICE(pnv_core), "pir",
+> +                             pcc->core_pir(chip, core_hwid));
+> +        qdev_prop_set_uint64(DEVICE(pnv_core), "hrmor", pnv->fw_load_addr);
+> +        qdev_prop_set_link(DEVICE(pnv_core), "chip", OBJECT(chip));
+>           qdev_realize(DEVICE(pnv_core), NULL, &error_fatal);
+>   
+>           /* Each core has an XSCOM MMIO region */
+> diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
+> index 8aa09ab26b..fb90d47138 100644
+> --- a/hw/ppc/pnv_psi.c
+> +++ b/hw/ppc/pnv_psi.c
+> @@ -492,10 +492,7 @@ static void pnv_psi_power8_realize(DeviceState *dev, Error **errp)
+>       unsigned int i;
+>   
+>       /* Create PSI interrupt control source */
+> -    if (!object_property_set_int(OBJECT(ics), "nr-irqs", PSI_NUM_INTERRUPTS,
+> -                                 errp)) {
+> -        return;
+> -    }
+> +    qdev_prop_set_uint32(DEVICE(ics), "nr-irqs", PSI_NUM_INTERRUPTS);
+>       if (!qdev_realize(DEVICE(ics), NULL, errp)) {
+>           return;
+>       }
+> @@ -849,9 +846,8 @@ static void pnv_psi_power9_realize(DeviceState *dev, Error **errp)
+>       XiveSource *xsrc = &PNV9_PSI(psi)->source;
+>       int i;
+>   
+> -    object_property_set_int(OBJECT(xsrc), "nr-irqs", PSIHB9_NUM_IRQS,
+> -                            &error_fatal);
+> -    object_property_set_link(OBJECT(xsrc), "xive", OBJECT(psi), &error_abort);
+> +    qdev_prop_set_uint32(DEVICE(xsrc), "nr-irqs", PSIHB9_NUM_IRQS);
+> +    qdev_prop_set_link(DEVICE(xsrc), "xive", OBJECT(psi));
+>       if (!qdev_realize(DEVICE(xsrc), NULL, errp)) {
+>           return;
+>       }
 
