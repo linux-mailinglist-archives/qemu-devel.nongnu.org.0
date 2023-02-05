@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1677B68AF1C
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 10:48:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 772C068AF18
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 10:46:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pObZk-0003Ub-KS; Sun, 05 Feb 2023 04:44:44 -0500
+	id 1pObZk-0003Ug-Lk; Sun, 05 Feb 2023 04:44:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3gnrfYwgKChsJDFJK1617FF7C5.3FDH5DL-45M5CEFE7EL.FI7@flex--smostafa.bounces.google.com>)
- id 1pObZh-0003Sw-Jg
+ <3hHrfYwgKCh0LFHLM3839HH9E7.5HFJ7FN-67O7EGHG9GN.HK9@flex--smostafa.bounces.google.com>)
+ id 1pObZh-0003T6-VB
  for qemu-devel@nongnu.org; Sun, 05 Feb 2023 04:44:41 -0500
 Received: from mail-wm1-x34a.google.com ([2a00:1450:4864:20::34a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3gnrfYwgKChsJDFJK1617FF7C5.3FDH5DL-45M5CEFE7EL.FI7@flex--smostafa.bounces.google.com>)
- id 1pObZd-000173-11
+ <3hHrfYwgKCh0LFHLM3839HH9E7.5HFJ7FN-67O7EGHG9GN.HK9@flex--smostafa.bounces.google.com>)
+ id 1pObZe-00017O-A9
  for qemu-devel@nongnu.org; Sun, 05 Feb 2023 04:44:41 -0500
 Received: by mail-wm1-x34a.google.com with SMTP id
- j20-20020a05600c1c1400b003dc5dd44c0cso4573136wms.8
- for <qemu-devel@nongnu.org>; Sun, 05 Feb 2023 01:44:35 -0800 (PST)
+ n7-20020a05600c3b8700b003dc55dcb298so5002328wms.8
+ for <qemu-devel@nongnu.org>; Sun, 05 Feb 2023 01:44:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=qGfQzBrF15FcynAI/1sBHoIblw4ElShJPsqja9I9HJw=;
- b=ovRZWy8KZvlQxW5+aoCV1VcREEAPIuD9J4Iup3E0pgAtFHGxKDfNwfP3uNIYDgWHTZ
- UyA020LxM95n0euDzptMISwczgcZ52S1qra0AqjJKvpUWeXd18WT4fqsaOPthJU973TL
- XadtgFLnesW1WDHr4PRwt3OXZ2wjd7iFDWDL4SAn1iNozijnvhPUaHKqhMTWntzU8fe3
- lLVgKGd1cKgS6l10fqfwdW89dDgKylDBtBrmL97h7rHeoVt+QpD+xPujT8wag8RZXbE0
- jf/k8P8BNI1Xc8S/YhEOIw/8qo6ORrK9phz7DcZca16MfsPQFsgI5TzaFKW0MT7VbF2v
- 5tIg==
+ bh=UjRaFYtVUZqC0NEA0rur78DkyweEGXZXJJbd80wD/+w=;
+ b=fA3MHr7klX4U5yFiopPsAmgYxH4abl6mHe6hKRaGiwQx3dOnTdqgCZyA6bYlYEe97p
+ 6P7fZbuRU/1LVnpipU5Xnpw9Ps+8QU3eeAgFahzTk5ilThjM+S8eoys6ctqTXpeBjowD
+ KP0OOD43azEYlhiFBJkN42IDrs7ViTAzYWxiFQTtuVGVi3bmiQHUuSK0QvFHNGvOSJTq
+ YvYqVghQ6pklKoqIFBrHz9Jbgf/cxEsNVxjFjza5VUUedLp+VV+fzQOES9gmLwIO4DlH
+ fboUIirzx4t7jMKdB6Fsze6dOwhKQz7fP+YYZyFrhuwnZpqg3tMURUDrETDiP7Z6ZYBe
+ 2QyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qGfQzBrF15FcynAI/1sBHoIblw4ElShJPsqja9I9HJw=;
- b=h0n6uQ+1K5hYtersBGt7CfQdLyrPu5JY+YBLPBU3RVzR+CMm72wGoezhedQ9uFNMGP
- y4MROmZKwrDb7te4upCuo7QMBF+IdmX+DLFeb2kUyM/DCk3cjjM05GmNN40Q05Z16K/a
- hHPxk60miR7pvzCc5l4TpGLOzfAhkMNgOIiu1cr0cxYBinuYJVcyLOE6akWBmPrp3wI2
- +I44qGDgtZStApW+AQIzYiJFwrsjHm5wKRah9NAXCVYOjddz4hGs4h7fzIh0BPDaxFc0
- J1V856QFRTmmdtOcsungpSGVhPRfdra8G1Wwdq6wRvlMTW/jIzyxcz9ajKceIU7Flv91
- JrmQ==
-X-Gm-Message-State: AO0yUKXrmQGdmv+XfrdbhAWRjT7UAbxn2hCmdqCmD1K3LQ22kOMCBpQ4
- F02/VpWKTizMk+jnhKA8URCMj/iGae1H3rmWvYKVMslIiUi3BJi2SpMTwIIIhsuhaUaDU1DkZk9
- QS5dngAySK9wFhmNIu1ynUHQsRX/46J7ejuqfes65GK2bWMItplOXqP/J/CnOZGFLtg==
-X-Google-Smtp-Source: AK7set/zqyxS0gEIAkIrilvuQ3OcLWO1Hi2+6qXDVAz3dStMg1DVVBhyzl+F9G6YTzOAjelSRAnzz+lxnZ3PUQ==
+ bh=UjRaFYtVUZqC0NEA0rur78DkyweEGXZXJJbd80wD/+w=;
+ b=ZqcMdYIlxkY61d6FV6ZBpeH7KHcVbKhN7b0Nt8/ssXPx2vvqbcAW8lMqUqBCkUWl6+
+ mc9RBGYB5GSuwipZWxn54e0AmSD8vJAbrBjp28kf3t6dOfvAA/oVoibxo76Psb3/kOla
+ +f5U1+c3d2YZn/XsMFLuMamk0AYrWS6rzdCIWItPdH8M8tor++8zGQvwB8MLTfeJXQzH
+ mrBIKzTBMcvcdNKiESnEiYZDUuJlbSljdr+mZ74HdUxdE+8ts8oCnUwzNfMmNJAuUF1Q
+ Qs909sSl+SmWPRdXAdoJZTQ8HAI9gAj3LskeB3DrJ+gjru/ZG6HmofNRoutrCpgqS3Mt
+ GFpA==
+X-Gm-Message-State: AO0yUKV/uBEPGIu/glsKzc5qLTj762g1nMUX22W25FBct6V2rgu32FE5
+ 8wsZjXBAWkqXtTWJM4FmZlFnttduBXs/8EvJ+kXNSKC67hQAUD6G2ev/6tB+QHJzZ6p3+EdzUwr
+ /A8/7cllN5mVFZEmQK758FdWrAPSdXmggK6GYT5lD/Z01r9CHW9GSt3z/oX/XRafa7A==
+X-Google-Smtp-Source: AK7set9wck6vW0Ohhy1cbm4uIXe0H6JmewQkwSn2MackV/IW/I3PgBcLw2GBViimcWwpytd8a+6L2uYTTsznog==
 X-Received: from mostafa.c.googlers.com
  ([fda3:e722:ac3:cc00:28:9cb1:c0a8:333c])
- (user=smostafa job=sendgmr) by 2002:a05:600c:4408:b0:3db:1188:dd3b with SMTP
- id u8-20020a05600c440800b003db1188dd3bmr759365wmn.143.1675590274285; Sun, 05
- Feb 2023 01:44:34 -0800 (PST)
-Date: Sun,  5 Feb 2023 09:43:57 +0000
+ (user=smostafa job=sendgmr) by 2002:a05:600c:46cd:b0:3db:110f:2691 with SMTP
+ id q13-20020a05600c46cd00b003db110f2691mr795316wmo.65.1675590276522; Sun, 05
+ Feb 2023 01:44:36 -0800 (PST)
+Date: Sun,  5 Feb 2023 09:43:58 +0000
 In-Reply-To: <20230205094411.793816-1-smostafa@google.com>
 Mime-Version: 1.0
 References: <20230205094411.793816-1-smostafa@google.com>
 X-Mailer: git-send-email 2.39.1.519.gcb327c4b5f-goog
-Message-ID: <20230205094411.793816-3-smostafa@google.com>
-Subject: [RFC PATCH 02/16] hw/arm/smmuv3: Update translation config to hold
- stage-2
+Message-ID: <20230205094411.793816-4-smostafa@google.com>
+Subject: [RFC PATCH 03/16] hw/arm/smmuv3: Rename smmu_ptw_64
 From: Mostafa Saleh <smostafa@google.com>
 To: qemu-devel@nongnu.org
 Cc: jean-philippe@linaro.org, eric.auger@redhat.com, peter.maydell@linaro.org, 
  qemu-arm@nongnu.org, Mostafa Saleh <smostafa@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2a00:1450:4864:20::34a;
- envelope-from=3gnrfYwgKChsJDFJK1617FF7C5.3FDH5DL-45M5CEFE7EL.FI7@flex--smostafa.bounces.google.com;
+ envelope-from=3hHrfYwgKCh0LFHLM3839HH9E7.5HFJ7FN-67O7EGHG9GN.HK9@flex--smostafa.bounces.google.com;
  helo=mail-wm1-x34a.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
@@ -91,55 +90,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In preparation for adding stage-2 support. Add it's configuration.
-
-They are added as SMMUS2Cfg in SMMUTransCfg, SMMUS2Cfg hold configs
-parsed from STE:
- -tsz: Input range
- -sl0: start level of translation
- -affd: AF fault disable
- -granule_sz: Granule page shift
- -vmid: VMID
- -vttb: PA of translation table
-
-They will be used in the next patches in stage-2 address translation.
+In preparation for adding stage-2 support. Rename smmu_ptw_64 to
+smmu_ptw_64_s1.
 
 No functional change intended.
 
 Signed-off-by: Mostafa Saleh <smostafa@google.com>
 ---
- include/hw/arm/smmu-common.h | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ hw/arm/smmu-common.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/arm/smmu-common.h b/include/hw/arm/smmu-common.h
-index c5683af07d..45f74d0e93 100644
---- a/include/hw/arm/smmu-common.h
-+++ b/include/hw/arm/smmu-common.h
-@@ -60,6 +60,16 @@ typedef struct SMMUTLBEntry {
-     uint8_t granule;
- } SMMUTLBEntry;
+diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
+index 54186f31cb..4fcbffa2f1 100644
+--- a/hw/arm/smmu-common.c
++++ b/hw/arm/smmu-common.c
+@@ -264,7 +264,7 @@ SMMUTransTableInfo *select_tt(SMMUTransCfg *cfg, dma_addr_t iova)
+ }
  
-+typedef struct SMMUS2Cfg {
-+    uint8_t tsz;            /* Input range */
-+    uint8_t sl0;            /* Start level of translation */
-+    bool affd;              /* AF Fault Disable */
-+    uint8_t granule_sz;     /* Granule page shift */
-+    uint16_t vmid;          /* Virtual machine ID */
-+    uint64_t vttb;          /* PA of translation table */
-+} SMMUS2Cfg;
-+
-+
- /*
-  * Generic structure populated by derived SMMU devices
-  * after decoding the configuration information and used as
-@@ -79,6 +89,7 @@ typedef struct SMMUTransCfg {
-     SMMUTransTableInfo tt[2];
-     uint32_t iotlb_hits;       /* counts IOTLB hits for this asid */
-     uint32_t iotlb_misses;     /* counts IOTLB misses for this asid */
-+    struct SMMUS2Cfg s2cfg;
- } SMMUTransCfg;
+ /**
+- * smmu_ptw_64 - VMSAv8-64 Walk of the page tables for a given IOVA
++ * smmu_ptw_64_s1 - VMSAv8-64 Walk of the page tables for a given IOVA
+  * @cfg: translation config
+  * @iova: iova to translate
+  * @perm: access type
+@@ -276,9 +276,9 @@ SMMUTransTableInfo *select_tt(SMMUTransCfg *cfg, dma_addr_t iova)
+  * Upon success, @tlbe is filled with translated_addr and entry
+  * permission rights.
+  */
+-static int smmu_ptw_64(SMMUTransCfg *cfg,
+-                       dma_addr_t iova, IOMMUAccessFlags perm,
+-                       SMMUTLBEntry *tlbe, SMMUPTWEventInfo *info)
++static int smmu_ptw_64_s1(SMMUTransCfg *cfg,
++                          dma_addr_t iova, IOMMUAccessFlags perm,
++                          SMMUTLBEntry *tlbe, SMMUPTWEventInfo *info)
+ {
+     dma_addr_t baseaddr, indexmask;
+     int stage = cfg->stage;
+@@ -384,7 +384,7 @@ int smmu_ptw(SMMUTransCfg *cfg, dma_addr_t iova, IOMMUAccessFlags perm,
+         g_assert_not_reached();
+     }
  
- typedef struct SMMUDevice {
+-    return smmu_ptw_64(cfg, iova, perm, tlbe, info);
++    return smmu_ptw_64_s1(cfg, iova, perm, tlbe, info);
+ }
+ 
+ /**
 -- 
 2.39.1.519.gcb327c4b5f-goog
 
