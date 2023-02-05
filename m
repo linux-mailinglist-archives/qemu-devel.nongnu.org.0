@@ -2,51 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FFB968B13A
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 19:48:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C537668B14D
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 20:11:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOk2q-0004Wc-SR; Sun, 05 Feb 2023 13:47:20 -0500
+	id 1pOkPL-0000U3-GM; Sun, 05 Feb 2023 14:10:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pOk2p-0004WS-A4
- for qemu-devel@nongnu.org; Sun, 05 Feb 2023 13:47:19 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1pOkPI-0000Tu-WA
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 14:10:33 -0500
+Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pOk2m-0001pw-31
- for qemu-devel@nongnu.org; Sun, 05 Feb 2023 13:47:17 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 88040746377;
- Sun,  5 Feb 2023 19:44:41 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 7134B745712; Sun,  5 Feb 2023 19:44:40 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 6F9397456E3;
- Sun,  5 Feb 2023 19:44:40 +0100 (CET)
-Date: Sun, 5 Feb 2023 19:44:40 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Richard Henderson <richard.henderson@linaro.org>
-cc: pixman@lists.freedesktop.org, qemu-devel@nongnu.org, 
- Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: pixman_blt on aarch64
-In-Reply-To: <410c3da9-9be5-a715-7b7a-48bd67355c9c@linaro.org>
-Message-ID: <e615e033-a3f6-083f-5f0f-eb506c3c5b4c@eik.bme.hu>
-References: <4b519268-f8e8-6542-9d1b-34054879eec0@eik.bme.hu>
- <a7866129-9f7a-02d6-1e58-bf05e1bf89e4@eik.bme.hu>
- <410c3da9-9be5-a715-7b7a-48bd67355c9c@linaro.org>
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1pOkPF-0005Yh-Iq
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 14:10:32 -0500
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id 2DD984004C
+ for <qemu-devel@nongnu.org>; Sun,  5 Feb 2023 22:10:19 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id BA6FD9A
+ for <qemu-devel@nongnu.org>; Sun,  5 Feb 2023 22:10:17 +0300 (MSK)
+Message-ID: <3bae2f38-1f16-46a9-604c-7a0a3e141471@msgid.tls.msk.ru>
+Date: Sun, 5 Feb 2023 22:10:17 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Content-Language: en-US
+To: QEMU Developers <qemu-devel@nongnu.org>
+From: Michael Tokarev <mjt@tls.msk.ru>
+Subject: qemu-img hangs on s390x
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,27 +55,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 5 Feb 2023, Richard Henderson wrote:
-> On 2/4/23 06:57, BALATON Zoltan wrote:
->> This has just bounced, I hoped to still be able to post after moderation 
->> but now I'm resending it after subscribing to the pixman list. Meanwhile 
->> I've found this ticket as well: 
->> https://gitlab.freedesktop.org/pixman/pixman/-/merge_requests/71
->> See the rest of the message below. Looks like this is being worked on but 
->> I'm not sure how far is it from getting resolved. Any info on that?
->
-> Please try this:
->
-> https://gitlab.freedesktop.org/rth7680/pixman/-/tree/general
->
-> It provides a pure C version for ultimate fallback.
-> Unfortunately, there are no test cases for this, nor documentation.
+There's a bug filed against qemu on debian, about qemu-img hanging on s390x.
+While digging in, I discovered that the thing is broken there indeed, and it
+is broken for a very long time, and it is interesting.
 
-Thanks, I don't have hardware to test this but maybe Akihiko or somebody 
-else here cam try. Do you think pixman_fill won't have the same problem? 
-It seems to have at least a fast_path implementation but I'm not sure how 
-pixman selects these.
+The reproducer is rather simple:
 
-Regards,
-BALATON Zoltan
+  qemu-img create -f qcow2 -o preallocation=metadata blank-disk-1s.qcow2 512
+
+this hangs until interrupted, after writing 327680 bytes of output.
+I haven't tried old versions, - 5.2 hangs for sure, as is 7.2 and apparently
+all in-between. In particular, current debian sid (whole thing) and 2-years
+old debian bullseye hangs equally.
+
+But the thing is that it does not hang when creating file on a tmpfs, -
+when the filesystem is tmpfs, it always works.
+
+Also, a few times I were able to run the above qemu-img create successfully, -
+maybe 2 out of 100 runs or so.
+
+It looks like the problem has been there for a very long time, and it is
+timing-dependent.
+
+Comparing strace of the two runs, I see differences in most futex operations.
+Here's the parent process:
+
+...
+  read(7, "\0\0\0\0\0\0\0\1", 512)        = 8
+  ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = 1 ([{fd=7, revents=POLLIN}])
+-futex(0x2aa29af8bb4, FUTEX_WAKE_PRIVATE, 1) = 1
++futex(0x2aa03600bb4, FUTEX_WAKE_PRIVATE, 1) = 0
+  read(7, "\0\0\0\0\0\0\0\1", 512)        = 8
++futex(0x2aa03600bb0, FUTEX_WAKE_PRIVATE, 1) = 1
+  ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = 1 ([{fd=7, revents=POLLIN}])
+-futex(0x2aa29af8bb0, FUTEX_WAKE_PRIVATE, 1) = 1
++futex(0x2aa03600bb4, FUTEX_WAKE_PRIVATE, 1) = 0
+  read(7, "\0\0\0\0\0\0\0\1", 512)        = 8
+  ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = 1 ([{fd=7, revents=POLLIN}])
+-futex(0x2aa29af8bb4, FUTEX_WAKE_PRIVATE, 1) = 1
++futex(0x2aa03600bb0, FUTEX_WAKE_PRIVATE, 1) = 0
+  read(7, "\0\0\0\0\0\0\0\1", 512)        = 8
+  ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = 1 ([{fd=7, revents=POLLIN}])
+-futex(0x2aa29af8bb0, FUTEX_WAKE_PRIVATE, 1) = 1
++futex(0x2aa03600bb4, FUTEX_WAKE_PRIVATE, 1) = 0
+  read(7, "\0\0\0\0\0\0\0\1", 512)        = 8
+  ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = 1 ([{fd=7, revents=POLLIN}])
+-futex(0x2aa29af8bb4, FUTEX_WAKE_PRIVATE, 1) = 0
++futex(0x2aa03600bb0, FUTEX_WAKE_PRIVATE, 1) = 1
+  read(7, "\0\0\0\0\0\0\0\1", 512)        = 8
+-ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = ? ERESTARTNOHAND (To be restarted if no handler)
+-ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = ? ERESTARTNOHAND (To be restarted if no handler)
+-ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = ? ERESTARTNOHAND (To be restarted if no handler)
+-ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = ? ERESTARTNOHAND (To be restarted if no handler)
+-ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = ? ERESTARTNOHAND (To be restarted if no handler)
+-ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = ? ERESTARTNOHAND (To be restarted if no handler)
+-ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = ? ERESTARTNOHAND (To be restarted if no handler)
+-ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = ? ERESTARTNOHAND (To be restarted if no handler)
+-ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = ? ERESTARTNOHAND (To be restarted if no handler)
+-ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = ? ERESTARTNOHAND (To be restarted if no handler)
+-ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = ? ERESTARTNOHAND (To be restarted if no handler)
+-ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = ? ERESTARTNOHAND (To be restarted if no handler)
+-ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = ? ERESTARTNOHAND (To be restarted if no handler)
+-ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = ? ERESTARTNOHAND (To be restarted if no handler)
+  ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = 1 ([{fd=7, revents=POLLIN}])
+---- SIGINT {si_signo=SIGINT, si_code=SI_KERNEL} ---
+-+++ killed by SIGINT +++
++futex(0x2aa03600bb4, FUTEX_WAKE_PRIVATE, 1) = 0
++read(7, "\0\0\0\0\0\0\0\1", 512)        = 8
++ppoll([{fd=7, events=POLLIN|POLLERR|POLLHUP}], 1, NULL, NULL, 8) = 1 ([{fd=7, revents=POLLIN}])
++futex(0x2aa03600bb0, FUTEX_WAKE_PRIVATE, 1) = 0
++read(7, "\0\0\0\0\0\0\0\1", 512)        = 8
+...
+
+(I've hit Ctrl+C after quite some time).
+
+I'll take another look at this tomorrow. But if someone knows
+what's going on there, please tell me :)  The situation is quite
+interesting, - is it possible we missed such a serious issue somehow?
+
+Thanks,
+
+/mjt
 
