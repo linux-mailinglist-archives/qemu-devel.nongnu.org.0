@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F143D68AF66
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 11:54:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCB1B68AF67
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 11:56:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOcez-0007P8-G0; Sun, 05 Feb 2023 05:54:13 -0500
+	id 1pOch7-0008A1-6L; Sun, 05 Feb 2023 05:56:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pOcev-0007Oi-9s
- for qemu-devel@nongnu.org; Sun, 05 Feb 2023 05:54:09 -0500
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pOch4-00089r-En
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 05:56:22 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pOcet-0004Qe-Lx
- for qemu-devel@nongnu.org; Sun, 05 Feb 2023 05:54:09 -0500
-Received: by mail-ed1-x52d.google.com with SMTP id z11so9046510ede.1
- for <qemu-devel@nongnu.org>; Sun, 05 Feb 2023 02:54:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pOch2-0004lV-On
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 05:56:22 -0500
+Received: by mail-ej1-x634.google.com with SMTP id ml19so26929914ejb.0
+ for <qemu-devel@nongnu.org>; Sun, 05 Feb 2023 02:56:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=OiblRRCuW+e36b9l0v/WWNUXMxcMpw7xicL8Z0PdfMo=;
- b=w8sgygAZGE3vgHSW5/DhjHZm0RRC51Y4iBF7jJYMrTeW8mXfdpq1N+dQUGRAHDRvE1
- YneMtM+nMlKi61u5YfqSu6vjNNgSkAUCr7OhLBOh1xm0Tb7NPs8Jkd0KL8G2YRkTBIyG
- MhzTgS2DbnXeTTa7WgMfth2LuG7t1tiZh1XWm0hw2sFB+NKVjC6wQawhtbgIqwW2Ff5q
- v4P03/Ps/PLBZZQyL06ndOEZMxe2xuzkMr0YXM40pABOdKevdg7Rx+KFGJriZFcBwQ4T
- 8TaS5O2+Ja0D1ZJsDeIto3fRkgQP+5Mc/J96n5xC/h3Ypxb29mgnQXDTJp7PeP12ncG6
- 1ViA==
+ bh=vsoWybfSyyor0ymm88Vn/AnHZ58KzGYNy65ck/j4AZg=;
+ b=IT9cSH/HDgRbuCHXA3SRdiJ5AWJAR9JDjYARVwEfiMz9o6poZqw29QgZw1bdlW2CpO
+ JbgdIfD++v+OpuGAX58Mhb4qwBZVM7/lcRnekF2axZtbCY7ki1CpxMzxq0SrJoqb2OoJ
+ SpxBTpgXLd2uGZCA3y+vZh2U3kqIVC3G4rRfByxyTQiC4g4PHofsCmPkliU/kwK2P+b9
+ ltVMXnod4WXqO0OWUgEFFeuoAQCG1r8BSJMi3oH4a8YQ0LWAW+wssVTcVTpT/00rP0YB
+ BugXHOWaUrMhZgn2tvgskR4Bf8Z6YNtML176biNI2z4sPPGjxqnYEG4qf/QSRka2I9Wz
+ 0DFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OiblRRCuW+e36b9l0v/WWNUXMxcMpw7xicL8Z0PdfMo=;
- b=ter4H5nV/kv/IdhaE2owqxt9j21qGZ1UvSmdNwXszzcqAIn40Go+kw0rxKvbLIrnMx
- F3G5Sm8dUQ9112CRxTOF9jt3auh8U6lE5MDx5zd6X2KtAQDvNkf63ijveR2wY8OieJWJ
- kLU25XeSib6LCYFiw50k/tRiT1WRe0516m7n7bapeSuho1GCkuLanBjW8fvv/ewmqhzU
- xl4vUNb/GHrd7APGPW/4N7gikRpmybYT6HhjmXnuq0IfXSITvVNWKUlqx72PkBnZwWn5
- DOrR9tGZ2f6GffPWAztQajXkN/jZ1/x9HP3DkaHfd+PkIxgxJMo18QYwxFemndE11KS1
- ebAg==
-X-Gm-Message-State: AO0yUKWYGCTRKAjvJ3LtVgQQj65y3fKIpXkbTOAb1o4TpBcp2j24djH9
- JSTjgUyr7HC9jjehYX4Ic0JPEQ==
-X-Google-Smtp-Source: AK7set9tbC0QAzpWiFFDrxCu1K3Uw+cHrzlK2NPMBZshf3DeKIr87rOISDQHRiOVI+iordHYZYruLg==
-X-Received: by 2002:a50:8718:0:b0:4aa:a390:bf4a with SMTP id
- i24-20020a508718000000b004aaa390bf4amr3539997edb.20.1675594446114; 
- Sun, 05 Feb 2023 02:54:06 -0800 (PST)
+ bh=vsoWybfSyyor0ymm88Vn/AnHZ58KzGYNy65ck/j4AZg=;
+ b=rGLs743nqTzrqpSp7df4m/9lyKEIC8F/05I701fta1U+3+qnJFP+IVOIgfD0eyK1KB
+ fCitSMhkISVAprDSnrCixILOmJOqO+xnqi7o2HvIz+6kxPLBegkD1Dp5IBfNSM0Bbtih
+ P/fczEEtA5pqPVYG7LAInNe30eq5rcjcKV6h6urOgjiF1ZbZ7+NhlQyt9tTVI3eOKxdL
+ +aVIBFV/um7MCpOU2Tcc5AXQiCOhHR5XkRyDGzoz/xIJtc1x9jzDKyqtZbrh8zYEr6J+
+ 631wWHHfren+Sxk+5Wj4FstDqpsCCC3jXsm5VdmU91BUrNrNBMB58ETlQpbPbsf/cWC8
+ DjOg==
+X-Gm-Message-State: AO0yUKWaOC6Kxsqu1QZ3SxDKCXAWfUOrnW3jyL8aj2lDdz1Ns/oOx/Pg
+ U1D9zAVcROQ9MJAZo39cSeh+Ig==
+X-Google-Smtp-Source: AK7set/BHvaC5pEDQKBIEJAEoSSbeZXr+m7OApXLL9v7gMRpFM1vt7wXL6eRjTig6VcrzPUYUQv/6A==
+X-Received: by 2002:a17:906:53d5:b0:88c:8c2e:af17 with SMTP id
+ p21-20020a17090653d500b0088c8c2eaf17mr14830028ejo.2.1675594578203; 
+ Sun, 05 Feb 2023 02:56:18 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- g20-20020aa7c854000000b004a24b8b58cbsm3594517edt.16.2023.02.05.02.54.05
+ g21-20020a1709061e1500b0087bd629e9e4sm4043305ejj.179.2023.02.05.02.56.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 05 Feb 2023 02:54:05 -0800 (PST)
-Message-ID: <e26454d0-148b-01ef-91de-33fbe143809b@linaro.org>
-Date: Sun, 5 Feb 2023 11:54:04 +0100
+ Sun, 05 Feb 2023 02:56:17 -0800 (PST)
+Message-ID: <1dc32ad1-e52b-f1cd-c176-5844cdba6815@linaro.org>
+Date: Sun, 5 Feb 2023 11:56:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 1/4] pcie: pcie_cap_slot_write_config(): use correct macro
+Subject: Re: [PATCH 4/4] pcie: add trace-point for power indicator transitions
 Content-Language: en-US
 To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  qemu-devel@nongnu.org
 Cc: mst@redhat.com, marcel.apfelbaum@gmail.com
 References: <20230204174758.234951-1-vsementsov@yandex-team.ru>
- <20230204174758.234951-2-vsementsov@yandex-team.ru>
+ <20230204174758.234951-6-vsementsov@yandex-team.ru>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230204174758.234951-2-vsementsov@yandex-team.ru>
+In-Reply-To: <20230204174758.234951-6-vsementsov@yandex-team.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -93,16 +93,31 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 4/2/23 18:47, Vladimir Sementsov-Ogievskiy wrote:
-> PCI_EXP_SLTCTL_PIC_OFF is a value, and PCI_EXP_SLTCTL_PIC is a mask.
-> Happily PCI_EXP_SLTCTL_PIC_OFF is a maximum value for this mask and is
-> equal to the mask itself. Still the code looks like a bug. Let's make
-> it more reader-friendly.
-> 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 > ---
->   hw/pci/pcie.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   hw/pci/pcie.c       | 20 ++++++++++++++++++++
+>   hw/pci/trace-events |  3 +++
+>   2 files changed, 23 insertions(+)
+
+> +static const char *pcie_sltctl_pic_str(uint16_t sltctl)
+> +{
+> +    switch (sltctl & PCI_EXP_SLTCTL_PIC) {
+> +    case PCI_EXP_SLTCTL_PWR_IND_ON:
+> +        return "on";
+> +    case PCI_EXP_SLTCTL_PWR_IND_BLINK:
+> +        return "blink";
+> +    case PCI_EXP_SLTCTL_PWR_IND_OFF:
+> +        return "off";
+> +    default:
+> +        return "?";
+
+Maybe "illegal"?
+
+Otherwise:
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+> +    }
+> +}
 
 
