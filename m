@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E599C68AF44
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 11:09:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A80D68AF40
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 11:09:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pObuC-0001bu-Ko; Sun, 05 Feb 2023 05:05:52 -0500
+	id 1pObuA-0001SZ-I9; Sun, 05 Feb 2023 05:05:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pObtk-00016R-Hx; Sun, 05 Feb 2023 05:05:34 -0500
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235])
+ id 1pObtm-00016n-62; Sun, 05 Feb 2023 05:05:34 -0500
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pObti-0005Nm-IL; Sun, 05 Feb 2023 05:05:23 -0500
-Received: by mail-oi1-x235.google.com with SMTP id s66so7609823oib.7;
- Sun, 05 Feb 2023 02:05:20 -0800 (PST)
+ id 1pObtk-00057T-K9; Sun, 05 Feb 2023 05:05:25 -0500
+Received: by mail-oi1-x236.google.com with SMTP id t5so87463oiw.1;
+ Sun, 05 Feb 2023 02:05:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sxuS5pblADF2zAslUcqpRrTAA9fU7BxkRz9/gcJGFo4=;
- b=Gk2JKQI3UptqtYfxuzkkV/o9ps7PcQot9uqwz6saDKvVwtUpnnmzFgxY9kD6RPQDdJ
- YPZvGHQOw7ntesINPy+t1QoQLnY32QUsNsiV+XQp9aJyc3u7CaRDwtDy5OwSO+3VSAii
- vAn4DvpkQqm/wqP8zlbncwMSbek/uOKgh7SHzeH84I++4jUxv6vKhb9Mgyplf/stiAFs
- vW/TZk+FJ80eU/f3EnQqGWiRhhDzgUS0TzypCYdhzL9JU6eao+OCBvhhRRQi5TNd6ob3
- u/XalkN4ZWJsBLXUQ9nSlzrPsiSW2v+vCrTsv8z0ACaYZIqK4bG1fMTS6/HN6pDM0ANT
- 8T8A==
+ bh=xZn7pB0RqnoyOz/E+AIEjOi8jAKEYAUvIieETqATAJU=;
+ b=e2dzG9GzecEjuaIO3chmFukBUSB6sVxEPB5YwXSDffEvT2449JUnwuWSwFzzURFc2L
+ LXguCmHZ7Ff7JyjE9+66ZoY08i6GrpEUeyRXcbIYHFVNe34z16+iXgFkTfrM27gPQhBl
+ EsJSBnDv0yKXl8X9uKyE1B8tBzmqYmJfDI0PVioOneaffngTMJo2ErukBWej7iQ9QDsa
+ mO/LLhSBsGZQTcagD843YKYaRy8SgJZOc9QGc8t6hFMx7rt5cVlTjiuwax9OF8jz6ZTk
+ aR62Ol0RN0Oq+BaHck1vdUFz5cyZUKAzSokn+JzCjOoSWCBuHjIvy6S0C2eioiHKnFDq
+ LBzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sxuS5pblADF2zAslUcqpRrTAA9fU7BxkRz9/gcJGFo4=;
- b=RnSb0YMgZ5T0MzKx4l+ZttBiHLXh6/7yIz1EEPAZTzgWT0oaZniN8L/Fq5wGv5r+P7
- UReJp1sWQtuvylWakv93MYzQWIviR/bi8csKKMYO2dYt4GcMaig8gTzWsM5B/aCOZyBv
- 5zC8x78XksIpbGF/uFxYUAwws8Xv1uiQfqEuJ5dzK9cipgh2oDR68/y5gtAGsf8kuqUr
- lqei6vt98f838ClRTZA8NfJoCnhtb1Fog1uRfsacA/t+n4afXYjRavHM/chNk40+9h+q
- zsnEERDygdd7Pz/SGmCvV7tVdfAoUzvmaORxee1M7thNvtJhU+IdYgJmC4nqcT4BSQU+
- uCtQ==
-X-Gm-Message-State: AO0yUKXbF+zqcFflPR0/zq5CC5uBAUj+0nOtyXNoGoUJXrJ0hI1mw/r5
- Mtd826WqmndrzCmWZz/7L4MTVf02EFs=
-X-Google-Smtp-Source: AK7set8b4kx1RGRIFZAtOffIsuEBf26vAmTi3HfV2de0xau+gZZXSS5SmpgxW2XgNMQ/BV3kO7X2zw==
-X-Received: by 2002:a05:6808:1307:b0:378:84aa:1c20 with SMTP id
- y7-20020a056808130700b0037884aa1c20mr10348154oiv.45.1675591520011; 
- Sun, 05 Feb 2023 02:05:20 -0800 (PST)
+ bh=xZn7pB0RqnoyOz/E+AIEjOi8jAKEYAUvIieETqATAJU=;
+ b=Bkrm1koMHbxESAbJ7P0Qaoctme2lNmsza5zU2GkzPwzkLVHGEysf36pFJ/VYv2M5sl
+ nZ0mcM6e4ztoBYMYxkNmb++61wvjTqiFyW+bdI9VeJO/OicGwAd/FtCwAyuPe4h/a8Ev
+ rpp+DEd4hNFXZaqZwlGN0GrehSIL0VWTmsHNrGBNh6J47tWp4Z+h94hI6dC+DPYpIE59
+ Lz2caMY+o2e43dA3BhOrjr/l6c8GI5jrDuM2H90Wkj69OC8OOPgWeez8Dw98MDJbZ/hB
+ YqBFW2topnzUAOywIWLv3JEDhHqnOXF/3d9HCK35B+wvyZ1uN+xMepWYwl3Za+y1t9iR
+ ehRw==
+X-Gm-Message-State: AO0yUKU0dytJk7ATKXyS/Fv+AlrH59ggDh/R1YEfc2NtU3GBdUEy2g0U
+ f90lHN7GiKBgIxOgl6M7+w5cGmWgiN4=
+X-Google-Smtp-Source: AK7set89NqzsEekf6XpGGvlVfGDA0Usl2tHP7DNxsZeTT4rKfgPdyqiZdvuVGDmnEgM75D/vx0GBfg==
+X-Received: by 2002:a05:6808:19a4:b0:378:3c84:9db2 with SMTP id
+ bj36-20020a05680819a400b003783c849db2mr9914829oib.13.1675591522402; 
+ Sun, 05 Feb 2023 02:05:22 -0800 (PST)
 Received: from grind.. ([191.19.125.138]) by smtp.gmail.com with ESMTPSA id
- s191-20020acaa9c8000000b003631fe1810dsm2730924oie.47.2023.02.05.02.05.18
+ s191-20020acaa9c8000000b003631fe1810dsm2730924oie.47.2023.02.05.02.05.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Feb 2023 02:05:19 -0800 (PST)
+ Sun, 05 Feb 2023 02:05:22 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- Frederic Barrat <fbarrat@linux.ibm.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 12/16] ppc/pnv/pci: Fix PHB xscom registers memory region name
-Date: Sun,  5 Feb 2023 07:04:45 -0300
-Message-Id: <20230205100449.2352781-13-danielhb413@gmail.com>
+ BALATON Zoltan <balaton@eik.bme.hu>, Stefan Weil <sw@weilnetz.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 13/16] hw/ppc/pegasos2: Fix a typo in a comment
+Date: Sun,  5 Feb 2023 07:04:46 -0300
+Message-Id: <20230205100449.2352781-14-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230205100449.2352781-1-danielhb413@gmail.com>
 References: <20230205100449.2352781-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x235.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x236.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -90,33 +90,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Frederic Barrat <fbarrat@linux.ibm.com>
+From: BALATON Zoltan <balaton@eik.bme.hu>
 
-The name is for the region mapping the PHB xscom registers. It was
-apparently a bad cut-and-paste from the per-stack pci xscom area just
-above, so we had two regions with the same name.
-
-Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20230127122848.550083-5-fbarrat@linux.ibm.com>
+Reported-by: Stefan Weil <sw@weilnetz.de>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230203194312.33834745712@zero.eik.bme.hu>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb4.c | 2 +-
+ hw/ppc/pegasos2.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index ccbde841fc..542f9e2932 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -1497,7 +1497,7 @@ static void pnv_phb4_xscom_realize(PnvPHB4 *phb)
-                           PHB4_PEC_PCI_STK_REGS_COUNT);
+diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+index 1a13632ba6..a9563f4fb2 100644
+--- a/hw/ppc/pegasos2.c
++++ b/hw/ppc/pegasos2.c
+@@ -564,7 +564,7 @@ static void dt_isa(PCIBus *bus, PCIDevice *d, FDTInfo *fi)
+     qemu_fdt_setprop_string(fi->fdt, fi->path, "device_type", "isa");
+     qemu_fdt_setprop_string(fi->fdt, fi->path, "name", "isa");
  
-     /* PHB pass-through */
--    snprintf(name, sizeof(name), "xscom-pec-%d.%d-pci-phb-%d",
-+    snprintf(name, sizeof(name), "xscom-pec-%d.%d-phb-%d",
-              pec->chip_id, pec->index, stack_no);
-     pnv_xscom_region_init(&phb->phb_regs_mr, OBJECT(phb),
-                           &pnv_phb4_xscom_ops, phb, name, 0x40);
+-    /* addional devices */
++    /* additional devices */
+     g_string_printf(name, "%s/lpt@i3bc", fi->path);
+     qemu_fdt_add_subnode(fi->fdt, name->str);
+     qemu_fdt_setprop_cell(fi->fdt, name->str, "clock-frequency", 0);
 -- 
 2.39.1
 
