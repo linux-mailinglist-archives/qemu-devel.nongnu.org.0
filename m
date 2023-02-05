@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B7768B2D5
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 00:22:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86B9068B2D6
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 00:25:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOoL1-0003MZ-Mt; Sun, 05 Feb 2023 18:22:23 -0500
+	id 1pOoN1-0004BO-Ri; Sun, 05 Feb 2023 18:24:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pOoL0-0003MK-3w
- for qemu-devel@nongnu.org; Sun, 05 Feb 2023 18:22:22 -0500
-Received: from mail-vs1-xe30.google.com ([2607:f8b0:4864:20::e30])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pOoKx-0006lZ-Og
- for qemu-devel@nongnu.org; Sun, 05 Feb 2023 18:22:21 -0500
-Received: by mail-vs1-xe30.google.com with SMTP id k4so10996979vsc.4
- for <qemu-devel@nongnu.org>; Sun, 05 Feb 2023 15:22:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=xVQ9QDcZ90holuk+mPU4A5+2Ap46oraToHehPYLm28k=;
- b=Yezi17tcwtv7eGjHcysrP9Tck1dV6vSFnYufS4d1b7HrfZXPqnwF19rs4ZeXWGB3VX
- OC7+jANbn0lTqZIcJ5gBc56OECkFeJjgH8+WYSslFSCisijEmldQjG4DqDWdb3Zhkz2X
- lXUMOrpob6VFikvV03s9AifYsggjwtTMLZ4j+yE120OIEOpeTOaHrTxPJT2mPIXQwZ5y
- wPoeaGD0FDvtZllWjF+mEjLgqBNCyW+FDq29TjWG/Sf40uauqm+z4hE6dXV48bUQtkYq
- bOOk0Va3TRfUe6HMVWr506loFhvS8ui9o7PEK9tmzbYyJxJlT6c5/APsMVhVdtbqkbz+
- 4uBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xVQ9QDcZ90holuk+mPU4A5+2Ap46oraToHehPYLm28k=;
- b=eWBCS6WJYt35uA55XrPBXdKaupcRXShW6zbsMmLjZghtDNUu2m8OULPoCWYRLgr20w
- HUIkG0495JxZ9V0YXFhpoHSLrXarSGLGc8YO6YxiFOvgLO4Me5mZfKu23DLyXobFY7Mo
- d71zPRYBpNtHI4/5qO4PIAa71zVbRTLGZECjis0H2uEGkQHayuPdys519Ic0n8JIpD08
- GfLJdozuk+4DJFAPf7GkCqe3eK4WIlt3TeMycoAVY8k/yGetzjOsxruirj1W0a0VuOQJ
- hAK5/pJutlnTP/B/cQFCo09/x5T7sVZPhxXC8wmrD0H7hjfcWOhGYhwKh0u1dCsLdGOM
- bRGg==
-X-Gm-Message-State: AO0yUKVLGAzKB2SCiVC7bAesAxYoDfBeJv/M8BJ96ld9Y/ZwA47nmoAr
- 8lvCM3lwAh3Fkv/vBGv3w90BdY1bpl2f+TWABev+F3SlRik=
-X-Google-Smtp-Source: AK7set+JsTvbqRebnXf2PjfO/uak9z9mmiUb4z8hhjxe+FQL0ewTZnkLK+kr69rQEfpiBQB1Zh3vl8/IHTcVRImmzTY=
-X-Received: by 2002:a67:e102:0:b0:3f0:89e1:7c80 with SMTP id
- d2-20020a67e102000000b003f089e17c80mr2193895vsl.72.1675639337702; Sun, 05 Feb
- 2023 15:22:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pOoN0-0004BE-5r
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 18:24:26 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pOoMy-0007B8-NU
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 18:24:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=UHL2XGnl8sblFZqP6vDBmrpDISPEE3GSFTJz5yVr5jI=; b=rrBgbG9rZ5jABjaUWpqmJjajDd
+ 0Lx1jtLdqjvKxa4/x2e3YlcdCOlc3Fr5u8eaL6ybF2clJcuelgntwWFF8HfD3irwFE8a1K0FKJ61I
+ /5p6jSMQ5b+9Tdfr5CfGmTBcxiDTGxGUF8hVDIMXBQvYsMGlERlahjgxIbIFWHKCvm8KEmQX9k31A
+ thhCIQuGa6J5IWzujp//p+kMbb6v4qeKoECS/YcIMRZLyB8+KA+XSfUPZ/uELeBz4jR/RHZvUyJZ3
+ 73U5tVjE7+ovD0JcVW8z5NWVZ0ZYBqXBoiC+yzrfYs6XMwWVym2aDm4uT6uiQrl5uls9PANwQzN2B
+ Gy+kCiXy6xWXTC5cIrnzzjDOokVHvZRJt0+AAqovWaQ2TzhlsnCjdOwBor0tQduxZfcJvleiT1YQ3
+ 0e5RsDGKUMoxid/ZpMH6x2Qp5+zb55NHjbeFyT7vQe1iihXpMiCXfP1nKa0q1lsjfUk//Ey9T+9/W
+ /TfEJMOZMwWHpPi9zpPp2H2uNAu+xzjp0gxg3utTmSX1X/ddN8tFJBucM8ndH6WXfnXa+/j9e/mDN
+ f4JdAVl0o78aTTHFN9voIwCjbUhLzTCyR3H4EgXWN46jahSYsICHe64ypfgGmLnrfBYy2CLHwo+9G
+ 7LovPw3F4EPmREMIvsAq0vae3aaICbYK3MIrEoxJM=;
+Received: from [2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pOoMT-0008Nb-Ll; Sun, 05 Feb 2023 23:23:53 +0000
+Message-ID: <11a30f56-b1dc-ea1c-755c-d0c54d50c145@ilande.co.uk>
+Date: Sun, 5 Feb 2023 23:24:20 +0000
 MIME-Version: 1.0
-References: <20230127191758.755844-1-debug@rivosinc.com>
-In-Reply-To: <20230127191758.755844-1-debug@rivosinc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 6 Feb 2023 09:21:51 +1000
-Message-ID: <CAKmqyKO-+Jxy7zicMY3G9EDHLJM1sy-Pmif+=wg-9k5J9TLu3A@mail.gmail.com>
-Subject: Re: [PATCH: fix for virt instr exception] target/riscv: fix for
- virtual instr exception
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e30;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe30.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: laurent@vivier.eu, iii@linux.ibm.com
+References: <20230202005204.2055899-1-richard.henderson@linaro.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20230202005204.2055899-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 00/14] linux-user/sparc: Handle missing traps
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,45 +79,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Jan 28, 2023 at 6:36 AM Deepak Gupta <debug@rivosinc.com> wrote:
->
-> commit fb3f3730e4 added mechanism to generate virtual instruction
-> exception during instruction decode when virt is enabled.
->
-> However in some situations, illegal instruction exception can be raised
-> due to state of CPU. One such situation is implementing branch tracking.
-> [1] An indirect branch if doesn't land on a landing pad instruction, then
-> cpu must raise an illegal instruction exception.
-> Implementation would raise such expcetion due to missing landing pad inst
-> and not due to decode. Thus DisasContext must have `virt_inst_excp`
-> initialized to false during DisasContxt initialization for TB.
->
-> [1] - https://github.com/riscv/riscv-cfi
->
-> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+On 02/02/2023 00:51, Richard Henderson wrote:
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Lots of missing trap code for cpu_loop().
+> 
+> r~
+> 
+> Richard Henderson (14):
+>    linux-user/sparc: Raise SIGILL for all unhandled software traps
+>    linux-user/sparc: Tidy syscall trap
+>    linux-user/sparc: Use TT_TRAP for flush windows
+>    linux-user/sparc: Tidy window spill/fill traps
+>    linux-user/sparc: Fix sparc64_{get,set}_context traps
+>    linux-user/sparc: Handle software breakpoint trap
+>    linux-user/sparc: Handle division by zero traps
+>    linux-user/sparc: Handle getcc, setcc, getpsr traps
+>    linux-user/sparc: Handle priviledged opcode trap
+>    linux-user/sparc: Handle privilidged action trap
 
-Alistair
+Minor spelling nit: s/priviledged/privileged/
 
-> ---
->  target/riscv/translate.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index df38db7553..76f61a39d3 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -1167,6 +1167,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->      ctx->pm_base_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_BASE_ENABLED);
->      ctx->itrigger = FIELD_EX32(tb_flags, TB_FLAGS, ITRIGGER);
->      ctx->zero = tcg_constant_tl(0);
-> +    ctx->virt_inst_excp = false;
->  }
->
->  static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
-> --
-> 2.25.1
->
->
+>    linux-user/sparc: Handle coprocessor disabled trap
+>    linux-user/sparc: Handle unimplemented flush trap
+>    linux-user/sparc: Handle floating-point exceptions
+>    linux-user/sparc: Handle tag overflow traps
+> 
+>   linux-user/sparc/target_signal.h |   2 +-
+>   linux-user/syscall_defs.h        |   5 +
+>   target/sparc/cpu.h               |   3 +-
+>   linux-user/sparc/cpu_loop.c      | 170 +++++++++++++++++++++++++------
+>   linux-user/sparc/signal.c        |  36 +++----
+>   5 files changed, 167 insertions(+), 49 deletions(-)
+
+Alas I'm not overly familiar with the Linux syscall implementation on SPARC (all I 
+can really do is run a chroot debian ports install for testing), however if all your 
+local tests pass then I'm happy for this to go via the tcg or linux-user trees.
+
+
+ATB,
+
+Mark.
 
