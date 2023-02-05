@@ -2,95 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 891A968AED2
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 09:16:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBB3F68AEFA
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 10:15:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOaBI-0002E2-OE; Sun, 05 Feb 2023 03:15:25 -0500
+	id 1pOb6M-00054Q-Mx; Sun, 05 Feb 2023 04:14:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pOaBE-0002Do-AH
- for qemu-devel@nongnu.org; Sun, 05 Feb 2023 03:15:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pOaBC-0005DP-Cs
- for qemu-devel@nongnu.org; Sun, 05 Feb 2023 03:15:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675584915;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0acVbFkRdNxlAa7RHH1BXCNeMzX4xUVFWAXk5vkfL6E=;
- b=Xw2Rh7YUmXR+trjZTz9wT3rF+NagO1Z58LbllOnJe2jvFTxJ8ywmOtJTXe1thjCBmSDfGN
- VIDwSNdxWKAYWeNrTrWOjY5V1Hc6M6JwdS46i8sJPTtBrvvOf/syN4EX6ON14voH7WA2FL
- F+iCQQ4q2tC7M11+9ziTIadYt0x+BB0=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-450-vhA3iEF5OlSfWC7p9MYskg-1; Sun, 05 Feb 2023 03:15:14 -0500
-X-MC-Unique: vhA3iEF5OlSfWC7p9MYskg-1
-Received: by mail-yw1-f199.google.com with SMTP id
- 00721157ae682-5005ef73cf3so91910367b3.2
- for <qemu-devel@nongnu.org>; Sun, 05 Feb 2023 00:15:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>)
+ id 1pOb6J-00052n-LB; Sun, 05 Feb 2023 04:14:19 -0500
+Received: from mail-wm1-f44.google.com ([209.85.128.44])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>)
+ id 1pOb6H-0004st-OM; Sun, 05 Feb 2023 04:14:19 -0500
+Received: by mail-wm1-f44.google.com with SMTP id
+ m16-20020a05600c3b1000b003dc4050c94aso6715997wms.4; 
+ Sun, 05 Feb 2023 01:14:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0acVbFkRdNxlAa7RHH1BXCNeMzX4xUVFWAXk5vkfL6E=;
- b=m5tQ5WCtvRAtKNVi1uAbeMfc0k3H6UfW3M18Qe3g5/K8gpwyODEvERIQL7N9AOob43
- Rtc5BDhMjd87Tk2lGq+sLeQsIte1ukuJEi//1yLh5ZWy+Zb/iIBQyiB1s6pstklWJyPz
- jqzWUlOTm1ItTTM4PgHmYFCM9iRHdoNAIpEXkT9pQI26wdowV/u0MJwnYdLtcs9xBPmz
- ++9OMi0hUfhdkV8LIBH52kZczELlWez+tGOrzJ5oQM8XRB4DdeaJT2T1elvmUI6d6I7U
- dkGdB7E5tRyf0EDvIiEiyKme1pxPo+wv5Z6EBHaMQ/Uvn5S2piBUQIDl+yGcchGIrSRw
- mHzQ==
-X-Gm-Message-State: AO0yUKWbvGRarcPpZ8kgwBW+G2O2KgmsOwGWsLsEdiBoczDHHWNO2luZ
- cemqdr8bkxQn3eBSsA2Jl6pBS6MjYKTaj2qOFbpUCHleXeldADGKTLEWdFM2MLzTQLZTvuunzym
- iNFgV+8K+l6lGd6X1NtVaA1NHESuXceY=
-X-Received: by 2002:a5b:64b:0:b0:86d:743c:7868 with SMTP id
- o11-20020a5b064b000000b0086d743c7868mr1029462ybq.216.1675584913288; 
- Sun, 05 Feb 2023 00:15:13 -0800 (PST)
-X-Google-Smtp-Source: AK7set92kWCF9j/MpZZE2Wc+uG4MOvN4Z7Jr6+tobZIiNEYtwmaJXIdA8HZqAqgEGgoFKp+f6AJOUI8YROVwJUjtDvg=
-X-Received: by 2002:a5b:64b:0:b0:86d:743c:7868 with SMTP id
- o11-20020a5b064b000000b0086d743c7868mr1029444ybq.216.1675584912995; Sun, 05
- Feb 2023 00:15:12 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MhEMZK1rOEhoLHl9mMkaygb83KFS1o3EGnxAxehcDLU=;
+ b=HUc1hIOek/geyqgaldDof7WR2LiQthhfFABs8Mjqa9bkwT2xwHLjOaDnGM0xpypdpG
+ dal1Mlc8yGYvBJcuDTO9Qaz4+Ia80cbCiVBIhwBVq6+MTiZDJgjkD+Cc2nrcLSpEkG4D
+ ARY13bKU9e85mWirjqPvXZbu+VTafSce2YlaoMGshrYmZTBVtRpO1eAj8ZTiy7tHuhlo
+ HNpltqgDJ2z5/SduLSVwBsoG3WR+VvJMjjqs3GgPT07ovLYWTBbCWSSQeJfl2x056jo2
+ YpgSffce7cVEbkpt4OqCFC0vJPk0snLq6lL74CkYPUOueFtVSUUj5bVQvjsHepPnnijt
+ dMJA==
+X-Gm-Message-State: AO0yUKUOqjjQ7WZ1a8E5ls0mJJyVxOMsOlz1JDYbdhwgIVw2YKktlw2X
+ HZ4S4Yb8l1PollHcTTyc6X8=
+X-Google-Smtp-Source: AK7set+9nvFk4XiU5qY+hCyWxdhDwcnrI9IxlKWIOy3R4ppLfI2fYiL0jT8dUt/z12yDpU4TU6cY+A==
+X-Received: by 2002:a05:600c:3c9b:b0:3dc:46e8:982 with SMTP id
+ bg27-20020a05600c3c9b00b003dc46e80982mr14852469wmb.19.1675588455030; 
+ Sun, 05 Feb 2023 01:14:15 -0800 (PST)
+Received: from localhost (tmo-098-228.customers.d1-online.com. [80.187.98.228])
+ by smtp.gmail.com with ESMTPSA id
+ o14-20020a05600c4fce00b003dc1a525f22sm7983385wmq.25.2023.02.05.01.14.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 05 Feb 2023 01:14:14 -0800 (PST)
+Date: Sun, 5 Feb 2023 10:14:07 +0100
+From: Thomas Huth <huth@tuxfamily.org>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, Markus Armbruster
+ <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ qemu-riscv@nongnu.org, Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH 13/19] hw/m68k: Set QDev properties using QDev API
+Message-ID: <20230205101407.1d6e979a@tuxfamily.org>
+In-Reply-To: <20230203180914.49112-14-philmd@linaro.org>
+References: <20230203180914.49112-1-philmd@linaro.org>
+ <20230203180914.49112-14-philmd@linaro.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <CAJSP0QUuuZLC0DJNEfZ7amyd3XnRhRNr1k+1OgLfDeF77X1ZDQ@mail.gmail.com>
-In-Reply-To: <CAJSP0QUuuZLC0DJNEfZ7amyd3XnRhRNr1k+1OgLfDeF77X1ZDQ@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Sun, 5 Feb 2023 09:14:36 +0100
-Message-ID: <CAJaqyWd+g5fso6AEGKwj0ByxFVc8EpCS9+ezoMpnjyMo5tbj8Q@mail.gmail.com>
-Subject: Re: Call for GSoC and Outreachy project ideas for summer 2023
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, kvm <kvm@vger.kernel.org>, 
- Rust-VMM Mailing List <rust-vmm@lists.opendev.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, "Florescu,
- Andreea" <fandree@amazon.com>, Damien <damien.lemoal@opensource.wdc.com>, 
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, Hanna Reitz <hreitz@redhat.com>, 
- Alberto Faria <afaria@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- Bernhard Beschow <shentey@gmail.com>, Sean Christopherson <seanjc@google.com>, 
- Vitaly Kuznetsov <vkuznets@redhat.com>, gmaglione@redhat.com, 
- Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.128.44; envelope-from=th.huth@gmail.com;
+ helo=mail-wm1-f44.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,163 +81,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 27, 2023 at 4:18 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
->
-> Dear QEMU, KVM, and rust-vmm communities,
-> QEMU will apply for Google Summer of Code 2023
-> (https://summerofcode.withgoogle.com/) and has been accepted into
-> Outreachy May 2023 (https://www.outreachy.org/). You can now
-> submit internship project ideas for QEMU, KVM, and rust-vmm!
->
-> Please reply to this email by February 6th with your project ideas.
->
-> If you have experience contributing to QEMU, KVM, or rust-vmm you can
-> be a mentor. Mentors support interns as they work on their project. It's a
-> great way to give back and you get to work with people who are just
-> starting out in open source.
->
-> Good project ideas are suitable for remote work by a competent
-> programmer who is not yet familiar with the codebase. In
-> addition, they are:
-> - Well-defined - the scope is clear
-> - Self-contained - there are few dependencies
-> - Uncontroversial - they are acceptable to the community
-> - Incremental - they produce deliverables along the way
->
-> Feel free to post ideas even if you are unable to mentor the project.
-> It doesn't hurt to share the idea!
->
-> I will review project ideas and keep you up-to-date on QEMU's
-> acceptance into GSoC.
->
-> Internship program details:
-> - Paid, remote work open source internships
-> - GSoC projects are 175 or 350 hours, Outreachy projects are 30
-> hrs/week for 12 weeks
-> - Mentored by volunteers from QEMU, KVM, and rust-vmm
-> - Mentors typically spend at least 5 hours per week during the coding period
->
-> For more background on QEMU internships, check out this video:
-> https://www.youtube.com/watch?v=xNVCX7YMUL8
->
-> Please let me know if you have any questions!
->
-> Stefan
->
+Am Fri,  3 Feb 2023 19:09:08 +0100
+schrieb Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>:
 
-Appending the different ideas here.
+> No need to use the low-level QOM API when an object
+> inherits from QDev. Directly use the QDev API to set
+> its properties.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> ---
+>  hw/m68k/next-cube.c | 2 +-
+>  hw/m68k/q800.c      | 7 +++----
+>  2 files changed, 4 insertions(+), 5 deletions(-)
 
-VIRTIO_F_IN_ORDER feature support for virtio devices
-===
-This was already a project the last year, and it produced a few series
-upstream but was never merged. The previous series are totally useful
-to start with, so it's not starting from scratch with them [1]:
-
-Summary
----
-Implement VIRTIO_F_IN_ORDER in QEMU and Linux (vhost and virtio drivers)
-
-The VIRTIO specification defines a feature bit (VIRTIO_F_IN_ORDER)
-that devices and drivers can negotiate when the device uses
-descriptors in the same order in which they were made available by the
-driver.
-
-This feature can simplify device and driver implementations and
-increase performance. For example, when VIRTIO_F_IN_ORDER is
-negotiated, it may be easier to create a batch of buffers and reduce
-DMA transactions when the device uses a batch of buffers.
-
-Currently the devices and drivers available in Linux and QEMU do not
-support this feature. An implementation is available in DPDK for the
-virtio-net driver.
-
-Goals
----
-Implement VIRTIO_F_IN_ORDER for a single device/driver in QEMU and
-Linux (virtio-net or virtio-serial are good starting points).
-Generalize your approach to the common virtio core code for split and
-packed virtqueue layouts.
-If time allows, support for the packed virtqueue layout can be added
-to Linux vhost, QEMU's libvhost-user, and/or QEMU's virtio qtest code.
-
-Shadow Virtqueue missing virtio features
-===
-
-Summary
----
-Some VirtIO devices like virtio-net have a control virtqueue (CVQ)
-that allows them to dynamically change a number of parameters like MAC
-or number of active queues. Changes to passthrough devices using vDPA
-using CVQ are inherently hard to track if CVQ is handled as
-passthrough data queues, because qemu is not aware of that
-communication for performance reasons. In this situation, qemu is not
-able to migrate these devices, as it is not able to tell the actual
-state of the device.
-
-Shadow Virtqueue (SVQ) allows qemu to offer an emulated queue to the
-device, effectively forwarding the descriptors of that communication,
-tracking the device internal state, and being able to migrate it to a
-new destination qemu.
-
-To restore that state in the destination, SVQ is able to send these
-messages as regular CVQ commands. The code to understand and parse
-virtio-net CVQ commands is already in qemu as part of its emulated
-device, but the code to send the some of the new state is not, and
-some features are missing. There is already code to restore basic
-commands like mac or multiqueue, and it is easy to use it as a
-template.
-
-Goals
----
-To implement missing virtio-net commands sending:
-* VIRTIO_NET_CTRL_RX family, to control receive mode.
-* VIRTIO_NET_CTRL_GUEST_OFFLOADS
-* VIRTIO_NET_CTRL_VLAN family
-* VIRTIO_NET_CTRL_MQ_HASH config
-* VIRTIO_NET_CTRL_MQ_RSS config
-
-Shadow Virtqueue performance optimization
-===
-Summary
----
-To perform a virtual machine live migration with an external device to
-qemu, qemu needs a way to know which memory the device modifies so it
-is able to resend it. Otherwise the guest would resume with invalid /
-outdated memory in the destination.
-
-This is especially hard with passthrough hardware devices, as
-transports like PCI imposes a few security and performance challenges.
-As a method to overcome this for virtio devices, qemu can offer an
-emulated virtqueue to the device, called Shadow Virtqueue (SVQ),
-instead of allowing the device to communicate directly with the guest.
-SVQ will then forward the writes to the guest, being the effective
-writer in the guest memory and knowing when a portion of it needs to
-be resent.
-
-As this is effectively breaking the passthrough and it adds extra
-steps in the communication, this comes with a performance penalty in
-some forms: Context switches, more memory reads and writes increasing
-cache pressure, etc.
-
-At this moment the SVQ code is not optimized. It cannot forward
-buffers in parallel using multiqueue and multithread, and it does not
-use posted interrupts to notify the device skipping the host kernel
-context switch (doorbells).
-
-The SVQ code requires minimal modifications for the multithreading,
-and these are examples of multithreaded devices already like
-virtio-blk which can be used as a template-alike. Regarding the posted
-interrupts, DPDK is able to use them so that code can also be used as
-a template.
-
-Goals
----
-* Measure the latest SVQ performance compared to non-SVQ.
-* Add multithreading to SVQ, extracting the code from the Big QEMU Lock (BQL).
-* Add posted thread capabilities to QEMU, following the model of DPDK to it.
-
-Thanks!
-
-[1] https://wiki.qemu.org/Google_Summer_of_Code_2022#VIRTIO_F_IN_ORDER_support_for_virtio_devices
-
+Reviewed-by: Thomas Huth <huth@tuxfamily.org>
 
