@@ -2,101 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 312C068AE42
+	by mail.lfdr.de (Postfix) with ESMTPS id E175468AE45
 	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 05:31:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOWgC-0007FV-K6; Sat, 04 Feb 2023 23:31:04 -0500
+	id 1pOWgD-0007Fi-9j; Sat, 04 Feb 2023 23:31:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pOWfb-0007Ek-HR
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 23:30:27 -0500
-Received: from esa2.hc2706-39.iphmx.com ([216.71.152.49])
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pOWfd-0007F7-5F
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 23:30:29 -0500
+Received: from esa12.hc2706-39.iphmx.com ([216.71.137.82])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pOWfZ-0006C1-Gk
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 23:30:27 -0500
-X-IronPort-RemoteIP: 209.85.219.72
-X-IronPort-MID: 256644721
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pOWfb-0006Bn-6P
+ for qemu-devel@nongnu.org; Sat, 04 Feb 2023 23:30:28 -0500
+X-IronPort-RemoteIP: 209.85.160.199
+X-IronPort-MID: 256594492
 X-IronPort-Reputation: None
 X-IronPort-Listener: OutgoingMail
 X-IronPort-SenderGroup: RELAY_GSUITE
 X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:z2cv/qNWr38r44XvrR0YlcFynXyQoLVcMsEvi/4bfWQNrUpz1mFSz
- WVOUGjTMv/ZYDfxLoonao7l9kNQupGGyIdiGQZtpSBmQkwRlceUXt7xwmUcns+xwm8vaGo9s
- q3yv/GZdJhcokf0/0vraf656CEmjslkf5KkYMbcICd9WAR4fykojBNnioYRj5VhxNO0GGthg
- /uryyHkEALjimEc3l48sfrZ80s15Kiq41v0g3RlDRx1lA6G/5UqJM9HTU2BByOQapVZGOe8W
- 9HCwNmRlo8O105wYj8Nuu+TnnwiG9Y+DyDX4pZlc/HKbix5m8AH+v1T2MzwyKtgo27hc9hZk
- L2hvHErIOsjFvSkdO81CnG0H8ziVEHvFXCuzXWX6KSuI0P6n3TE5chXJxo8ZM4h3O9NOmdHq
- eIWFDA/YUXW7w626OrTpuhEg80iKIzyItpatC46iz7eCvkiTNbIRKCiCd1whm9hwJATW6yHN
- oxGM1KDbzyZC/FLEl4TGJQyhs+imz/yfyAwRFe9//dpvTSPk1YouFTrGILTItO6ecwMpX6J+
- 0Wc3UP6WT9Gd9PKnFJp9Vrp3IcjhxjTQY8XCfi0++BnhHWVwWocDgBQUkG0ycRVkWa7UtNbb
- lUKo28g8vJ0+0usQd3wGRa/pRZooyIhZjaZKMVigCnl90Yey13x6rQsJtKZVOEbiQ==
-IronPort-HdrOrdr: A9a23:PAkZiqhFNAb9o5o76FFrsTUK+3BQXgwji2hC6mlwRA09TyVXrb
- HLoB19726JtN91YhsdcL+7Sc+9qB/nhPxICMwqTMyftWrdyRaVxf9ZnPLfKlTbckWUh41gPO
- VbAtJD4bXLbWSS5vyKhzVQfexQpeWvweSDqd2b4U1QbTxHXYld0iYRMHflLqS0fmV77FgCea
- Z0KvAom9PZQwVuUi1zPBZlY9T+
-Received: from mail-qv1-f72.google.com ([209.85.219.72])
+IronPort-Data: A9a23:AQ8/0q3JxKCQAGB1BPbD5W1zkn2cJEfYwER7XKvMYLTBsI5bpzQHy
+ 2AfUTzUPP3YambxKI1/OY/k8EIPvJTXzIVkQAQ+qSg9HnlHl5H5CIXCJC8cHc8zwu4v7q5Dx
+ 59DAjUVBJlsFhcwnj/0bv666yE5jfvTLlbFILasEjhrQgN5QzsWhxtmmuoo6qZlmtH8CA6W0
+ T/Ii5S31GSNhnglbQr414rZ8Ek05K6q5GtD1rADTasjUGH2xiF94K03ePnZw0vQGuF8AuO8T
+ uDf+7C1lkuxE8AFU47Nfh7TKyXmc5aLVeS8oiM+t5uK23CukhcPPpMTb5LwX6v2ZwKhxLidw
+ P0V3XC5pJxA0qfkwYzxWDEBe81y0DEvFBYq7hFTvOTKp3AqfUcAzN02XUgEEK46+t1XCEVe2
+ acgMxcrZD6c0rfeLLKTEoGAh+wmJcjveZoD4zRulGCIS/khRp/HTuPB4towMDUY3JgfW6aDI
+ ZNHMXw2PUWojx5nYz/7DLo3mPeuimPXeSAepV6IzUYyyzKOklEgjOS8arI5fPShAsFzuwWVj
+ 1v02EDTEAAROcy16AWspyfEaujn2HmTtJgpPKS18+MvjFCNy2g7DhoQWl2m5/6jhSaDt8l3L
+ kUV/m83sfF3+hX6H5/yWBq3pHPCtRkZMzZNL9AHBMi24vK8y26k6qIsF1attPROWBcKeAEX
+IronPort-HdrOrdr: A9a23:rHqEuq9H+48KIhMmURJuk+E2db1zdoMgy1knxilNoHxuH/Bws/
+ re+8jzsiWE7gr5OUtQ4OxoV5PwO080maQFnbX5Xo3SJDUO2lHYSL2KhLGKq1aLdEOeh40tt9
+ YET0VnMrHN5D5B/LnHCWGDYqYdKbK8gd2VbInlvglQpWIDUdAV0+8dYjzrZ3GecDM2d6bQS/
+ Knhvav6gDQM0g/X4CePD0oTuLDr9rEmNbPZgMHPQcu7E2jnC6l87nzFjmfx1M7XylUybkv3G
+ DZm0ihj5/T/82T+1v57Sv+/p5WkNzuxp9qA9GNsNEcLnHBmxulf4NoXpyFpXQQrPu04Fgnvd
+ HQq1MLPth16VnWYmapyCGdljXI4XIL0TvP2FWYiXzsrYjSXzQhEfdMgopfb1/w91cglMsU6t
+ MP40up875sST/QliX04NbFEztwkFCvnHYkmekPy1RCTIolbqNLp4B3xjIWLH45JlO/1GkbKp
+ gvMCic3ocWTbqiVQGWgoC7+q3uYp18JGbAfqE4gL3d79FnpgEP86Im/r1oop55zuNHd3Bl3Z
+ WNDk06rsAEcia9V9MPOA5Ge7r5NkX9BSjHNnmfZXHqC60DUki92qLK3A==
+Received: from mail-qt1-f199.google.com ([209.85.160.199])
  by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 04 Feb 2023 23:30:24 -0500
-Received: by mail-qv1-f72.google.com with SMTP id
- jo26-20020a056214501a00b0053aa15f61d4so4501206qvb.7
- for <qemu-devel@nongnu.org>; Sat, 04 Feb 2023 20:30:23 -0800 (PST)
+ 04 Feb 2023 23:30:26 -0500
+Received: by mail-qt1-f199.google.com with SMTP id
+ bz17-20020a05622a1e9100b003b9c1013018so4739954qtb.18
+ for <qemu-devel@nongnu.org>; Sat, 04 Feb 2023 20:30:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pFLxMEp2r8yiWAlvNWwqHg1ftE8mrJVRMTGKTtgibDE=;
- b=offjED22wZtTH6tSL9JqNt45FGxJXvHPXNT7LKZAIwZfMWjmHu7ySAc3Cs3UYMndCj
- FJ+5VklAfwnWMxXMWsUKXCDWfnacrjzaq+zdHOSu0Hka1lhx6QeP/Q1o/w+WOWEIHbLS
- /nRqWQ230ZVM5ZllheLr1fg7JrssM7qEPT0RcrZ5EOP7MmH6V/zp0dJgQlHvi6drMemY
- efhvVj4MJ08P+irigj+bJ8HRtCk6eM1eQaPmOdxz22f9YVw5hz+VzKchagxlkH5WmyaP
- r8xcXb0P3i4TLIZufpLnG5ubRqDoBaiSc4PIw4ACOarLh0JDjQ+2HOFR/vFlk0753/LH
- WP+w==
+ bh=azWDX557QsD/UuRYVwT2M3/baGp+kYjabcZ5fZ1uEaE=;
+ b=jd4CdsS6ObFRKGHDoHGq3gjbapk92Qazs8nOhHZQJBY//6pUD/jMdh/nqAaLGg3sc5
+ 1S8tTS6ZqqzHHuJ2rcNHOJJRseDPIcsfW3e8MyXC3IG6r1KDxkkbEoSR42UGlvWXAQlI
+ tV07QJKpEC+5y7bacs3eq3N+wfTchp/I/ehjj1tHW3dxcKfjhsYIJxU5wRGw4ZyXMoIt
+ 0yn1n3IrMRbK+AOcISNLQA8UnJHlOdHD5rFmndIi2uAdCz7uq/Pnvf83nNAO/Xgc7lbj
+ 1il7EgvzjeenS74ZeK/Bps/btrFJ2CZ/I1rS4kiPnUQgIxZyppai3RkwiGJSr7/TgR60
+ 5a+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pFLxMEp2r8yiWAlvNWwqHg1ftE8mrJVRMTGKTtgibDE=;
- b=g7Hs6SdcVlWRA3JPE4mMpLj20wo6DlX1uQM6nDX/0FI4snKlc/EUN/GfW2uPelibsa
- HkguX655NbuJq1D5U2cxI5gTXC8/EbIGLwjs8rMytvRM7GSScPcvV+7ZFbw7FGPbmaL7
- /PGCJBm0tRciuSOFhA7+9OLpy0tRherpahajJpmbdTPvh9QdiBwY1TI/lEXjiwjxPNs0
- zlteG9gFmokWTUxzb4meCrEGMDcxRlQZxy0OnFAYFgutfxvW2xi3+ght2Wy7UUI9JhZ5
- cPX25dYAz7XBBPC7orCPHyiF1vsjali9i9PTjqFtmttJYNuxQI5H2858S+IGMZvF0jUK
- RESA==
-X-Gm-Message-State: AO0yUKXCeURzi8ci3xv3zsQBLYT1CJm7d34habwqtnzKkPBx1ylRGFMp
- M8XdGsH0YWeQnTzM7K3fZmnqGbLuzwGfrLSroQQNZIjeMx5U12fOs4tAb2WsqYTKGH/QlzjOzb2
- gfeqvcKDd3Y+pwuWNa1FxiCyQ40Ttgg==
-X-Received: by 2002:a05:622a:4b:b0:3b8:6cf0:da83 with SMTP id
- y11-20020a05622a004b00b003b86cf0da83mr29312790qtw.42.1675571422435; 
- Sat, 04 Feb 2023 20:30:22 -0800 (PST)
-X-Google-Smtp-Source: AK7set8Pf9HMqSXFCkePQRTQspYgPDgZji/VhlStjpktGMRsu2uRrIdOoh+0DTwaynrzcO0uFPV/eQ==
-X-Received: by 2002:a05:622a:4b:b0:3b8:6cf0:da83 with SMTP id
- y11-20020a05622a004b00b003b86cf0da83mr29312780qtw.42.1675571422085; 
- Sat, 04 Feb 2023 20:30:22 -0800 (PST)
+ bh=azWDX557QsD/UuRYVwT2M3/baGp+kYjabcZ5fZ1uEaE=;
+ b=5gBzKKklk4YqwYsepXyR5syY/zUp2MMc2HmsgpIsBIOVd3LER75cl64+Oz8wXkfhfW
+ +DGg0j4m77VPencJPxUL+AZWacb5Nl1AYUlJycJQklndftYwiMDVVfGX69nzy45+pisi
+ 2Q5dzH0WJjA0yF+47Cb/txn41m3T9rzwm8lZlAEWeImdvu7zsknmmU6bN9LZa/froow6
+ muWcV963awAh7a0UlsdSrboi32pMIqv6dQtToMZA6Tc9QJVcDU4oxxFeZe8rMmnJ37Zo
+ jmA2ClHXE68Lm/uokeP0Ol6vm86nqfAe6XtYvv8DwTMpYFZMvlinc7LlLzgKtlyIOSOT
+ hQ4w==
+X-Gm-Message-State: AO0yUKWHZhimNezqn3voq8pWWZW5f7OF2QXgQ7owL/bUM6oc3xgVBrjy
+ jek3lBoMy9Wxh1CY8ffHglS7B459KugGf8zjxJK49k3trHQQjTJd2VObXggx9lhdkQ41nMIVb1B
+ IP3vAsHs+92l4Xkd5n+E+5Ef2da5i6A==
+X-Received: by 2002:ac8:7fc6:0:b0:3b9:a589:e7f4 with SMTP id
+ b6-20020ac87fc6000000b003b9a589e7f4mr29809003qtk.64.1675571425248; 
+ Sat, 04 Feb 2023 20:30:25 -0800 (PST)
+X-Google-Smtp-Source: AK7set+o6sP5mzmfrVuyzUxYKYdJ7SPJgFR6hnRQC/XQ38Gvd8MD9YYx4Y7RDWX91X7hQsDqaVe99Q==
+X-Received: by 2002:ac8:7fc6:0:b0:3b9:a589:e7f4 with SMTP id
+ b6-20020ac87fc6000000b003b9a589e7f4mr29808987qtk.64.1675571424985; 
+ Sat, 04 Feb 2023 20:30:24 -0800 (PST)
 Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
  by smtp.gmail.com with ESMTPSA id
- 63-20020a370a42000000b00719d9f823c4sm4891482qkk.34.2023.02.04.20.30.21
+ i9-20020a05620a0a0900b0071d0f1d01easm4827875qka.57.2023.02.04.20.30.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Feb 2023 20:30:21 -0800 (PST)
+ Sat, 04 Feb 2023 20:30:24 -0800 (PST)
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
 Cc: Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
  Bandan Das <bsd@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Qiuhao Li <Qiuhao.Li@outlook.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH 07/10] fuzz/virtio-blk: remove fork-based fuzzer
-Date: Sat,  4 Feb 2023 23:29:48 -0500
-Message-Id: <20230205042951.3570008-8-alxndr@bu.edu>
+Subject: [PATCH 08/10] fuzz/i440fx: remove fork-based fuzzer
+Date: Sat,  4 Feb 2023 23:29:49 -0500
+Message-Id: <20230205042951.3570008-9-alxndr@bu.edu>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230205042951.3570008-1-alxndr@bu.edu>
 References: <20230205042951.3570008-1-alxndr@bu.edu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.152.49; envelope-from=alxndr@bu.edu;
- helo=esa2.hc2706-39.iphmx.com
+Received-SPF: pass client-ip=216.71.137.82; envelope-from=alxndr@bu.edu;
+ helo=esa12.hc2706-39.iphmx.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -121,36 +126,37 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- tests/qtest/fuzz/virtio_blk_fuzz.c | 51 ++++--------------------------
- 1 file changed, 7 insertions(+), 44 deletions(-)
+ tests/qtest/fuzz/i440fx_fuzz.c | 27 +--------------------------
+ 1 file changed, 1 insertion(+), 26 deletions(-)
 
-diff --git a/tests/qtest/fuzz/virtio_blk_fuzz.c b/tests/qtest/fuzz/virtio_blk_fuzz.c
-index a9fb9ecf6c..82575a11d9 100644
---- a/tests/qtest/fuzz/virtio_blk_fuzz.c
-+++ b/tests/qtest/fuzz/virtio_blk_fuzz.c
-@@ -19,7 +19,6 @@
- #include "standard-headers/linux/virtio_pci.h"
- #include "standard-headers/linux/virtio_blk.h"
+diff --git a/tests/qtest/fuzz/i440fx_fuzz.c b/tests/qtest/fuzz/i440fx_fuzz.c
+index b17fc725df..5d6a703481 100644
+--- a/tests/qtest/fuzz/i440fx_fuzz.c
++++ b/tests/qtest/fuzz/i440fx_fuzz.c
+@@ -18,7 +18,6 @@
+ #include "tests/qtest/libqos/pci-pc.h"
  #include "fuzz.h"
--#include "fork_fuzz.h"
  #include "qos_fuzz.h"
+-#include "fork_fuzz.h"
  
- #define TEST_IMAGE_SIZE         (64 * 1024 * 1024)
-@@ -128,48 +127,24 @@ static void virtio_blk_fuzz(QTestState *s, QVirtioBlkQueues* queues,
-     }
+ 
+ #define I440FX_PCI_HOST_BRIDGE_CFG 0xcf8
+@@ -89,6 +88,7 @@ static void i440fx_fuzz_qtest(QTestState *s,
+                               size_t Size)
+ {
+     ioport_fuzz_qtest(s, Data, Size);
++    fuzz_reboot(s);
  }
  
--static void virtio_blk_fork_fuzz(QTestState *s,
--        const unsigned char *Data, size_t Size)
--{
--    QVirtioBlk *blk = fuzz_qos_obj;
--    static QVirtioBlkQueues *queues;
--    if (!queues) {
--        queues = qvirtio_blk_init(blk->vdev, 0);
--    }
+ static void pciconfig_fuzz_qos(QTestState *s, QPCIBus *bus,
+@@ -145,17 +145,6 @@ static void i440fx_fuzz_qos(QTestState *s,
+     pciconfig_fuzz_qos(s, bus, Data, Size);
+ }
+ 
+-static void i440fx_fuzz_qos_fork(QTestState *s,
+-        const unsigned char *Data, size_t Size) {
 -    if (fork() == 0) {
--        virtio_blk_fuzz(s, queues, Data, Size);
--        flush_events(s);
+-        i440fx_fuzz_qos(s, Data, Size);
 -        _Exit(0);
 -    } else {
 -        flush_events(s);
@@ -158,63 +164,37 @@ index a9fb9ecf6c..82575a11d9 100644
 -    }
 -}
 -
- static void virtio_blk_with_flag_fuzz(QTestState *s,
-         const unsigned char *Data, size_t Size)
- {
-     QVirtioBlk *blk = fuzz_qos_obj;
-     static QVirtioBlkQueues *queues;
- 
--    if (fork() == 0) {
--        if (Size >= sizeof(uint64_t)) {
--            queues = qvirtio_blk_init(blk->vdev, *(uint64_t *)Data);
--            virtio_blk_fuzz(s, queues,
--                             Data + sizeof(uint64_t), Size - sizeof(uint64_t));
--            flush_events(s);
--        }
--        _Exit(0);
--    } else {
-+    if (Size >= sizeof(uint64_t)) {
-+        queues = qvirtio_blk_init(blk->vdev, *(uint64_t *)Data);
-+        virtio_blk_fuzz(s, queues,
-+                Data + sizeof(uint64_t), Size - sizeof(uint64_t));
-         flush_events(s);
--        wait(NULL);
-     }
-+    fuzz_reboot(s);
+ static const char *i440fx_qtest_argv = TARGET_NAME " -machine accel=qtest"
+                                        " -m 0 -display none";
+ static GString *i440fx_argv(FuzzTarget *t)
+@@ -163,10 +152,6 @@ static GString *i440fx_argv(FuzzTarget *t)
+     return g_string_new(i440fx_qtest_argv);
  }
  
- static void virtio_blk_pre_fuzz(QTestState *s)
- {
-     qos_init_path(s);
+-static void fork_init(void)
+-{
 -    counter_shm_init();
- }
+-}
  
- static void drive_destroy(void *path)
-@@ -208,22 +183,10 @@ static void *virtio_blk_test_setup(GString *cmd_line, void *arg)
- 
- static void register_virtio_blk_fuzz_targets(void)
+ static void register_pci_fuzz_targets(void)
  {
+@@ -178,16 +163,6 @@ static void register_pci_fuzz_targets(void)
+                 .get_init_cmdline = i440fx_argv,
+                 .fuzz = i440fx_fuzz_qtest});
+ 
+-    /* Uses libqos and forks to prevent state leakage */
 -    fuzz_add_qos_target(&(FuzzTarget){
--                .name = "virtio-blk-fuzz",
--                .description = "Fuzz the virtio-blk virtual queues, forking "
--                                "for each fuzz run",
--                .pre_vm_init = &counter_shm_init,
--                .pre_fuzz = &virtio_blk_pre_fuzz,
--                .fuzz = virtio_blk_fork_fuzz,},
--                "virtio-blk",
--                &(QOSGraphTestOptions){.before = virtio_blk_test_setup}
+-                .name = "i440fx-qos-fork-fuzz",
+-                .description = "Fuzz the i440fx using raw qtest commands and "
+-                               "rebooting after each run",
+-                .pre_vm_init = &fork_init,
+-                .fuzz = i440fx_fuzz_qos_fork,},
+-                "i440FX-pcihost",
+-                &(QOSGraphTestOptions){}
 -                );
--
-     fuzz_add_qos_target(&(FuzzTarget){
-                 .name = "virtio-blk-flags-fuzz",
--                .description = "Fuzz the virtio-blk virtual queues, forking "
--                "for each fuzz run (also fuzzes the virtio flags)",
--                .pre_vm_init = &counter_shm_init,
-+                .description = "Fuzz the virtio-blk virtual queues. "
-+                "Also fuzzes the virtio flags)",
-                 .pre_fuzz = &virtio_blk_pre_fuzz,
-                 .fuzz = virtio_blk_with_flag_fuzz,},
-                 "virtio-blk",
+ 
+     /*
+      * Uses libqos. Doesn't do anything to reset state. Note that if we were to
 -- 
 2.39.0
 
