@@ -2,108 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3F168AE4B
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 05:31:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4FD168AE7B
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Feb 2023 07:14:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOWgE-0007YE-Lm; Sat, 04 Feb 2023 23:31:06 -0500
+	id 1pOYHA-0005Oy-Ub; Sun, 05 Feb 2023 01:13:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pOWfl-0007G3-JD
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 23:30:59 -0500
-Received: from esa4.hc2706-39.iphmx.com ([216.71.146.118])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pOWfj-0006DL-DU
- for qemu-devel@nongnu.org; Sat, 04 Feb 2023 23:30:36 -0500
-X-IronPort-RemoteIP: 209.85.222.197
-X-IronPort-MID: 255542418
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:mi13jKkBZVx9EhtzBnCQVVbo5gw/JERdPkR7XQ2eYbSJt1+Wr1Gzt
- xIXDzrQOPmDamTyc40jaYy29UhT65SEz4VgQFM/rnw0Fy4T+ZvOCOrCEkqhZCn6wu8v7a5EA
- 2fyTvGacajYm1eF/k/F3oDJ9CU6jufQA+KmU4YoAwgpLSd8UiAtlBl/rOAwh49skLCRDhiE/
- Nj/uKUzAnf8s9JPGj9Suv3rRC9H5qyo42tC5gBmPpingXeF/5UrJMNHTU2OByagKmVkNrbSb
- /rOyri/4lTY838FYj9yuu+mGqGiaue60Tmm0xK6aYD76vRxjnVaPpIACRYpQRw/ZwNlPjxG4
- I4lWZSYEW/FN0BX8QgXe0Aw/ypWZMWq9FJbSJQWXAP6I0DuKhPRL/tS4E4eDNZC++0vLUB13
- t82KylcahKNt+Ok3+fuIgVsrpxLwMjDOYoevjR5zmicA693HtbMRKLF4dIe1zA17ixMNayGN
- oxJNHw1Nk6GOkwQUrsUIMtWcOOAj33vdTFCgFiI46c7/gA/ySQrjeWwbICJI4ziqcN9xl/fv
- 2bfwkfCKy4eKdyjzzO63DXzibqa9c/8cMdIfFGizdZzjViOg2AeFhASfV28p/a/lwi5Qd03F
- qAP0i8nrKx37U/yC9ekDkL+r3mDsRoRHdFXFoXW9T2w90Yd2C7BbkBsc9KLQIVOWBMeLdDy6
- mK0og==
-IronPort-HdrOrdr: A9a23:x5QQBKog9kcIv7NnJkJN1hQaV5r9eYIsimQD101hICG9vPbo8/
- xG+85rqSMc7Qx6ZJhOo6HnBEDtewK/yXcx2/hrAV7AZniahILXFvAa0WKK+VSJcFycygce79
- YbT0EXMr3N5DNB/KHHCWeDYrMd6ejC2oyTwcnl81dRYTdDV5xAhj0JdTpz0XcbeOCFP/cE/V
- aniPav3wDQAUj/p/7VZ0U4Yw==
-Received: from mail-qk1-f197.google.com ([209.85.222.197])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 04 Feb 2023 23:30:33 -0500
-Received: by mail-qk1-f197.google.com with SMTP id
- h13-20020a05620a244d00b006fb713618b8so5947000qkn.0
- for <qemu-devel@nongnu.org>; Sat, 04 Feb 2023 20:30:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JPLwRp0eM/LFolqH3GE0hF96aOq+D5Pu3Y0AZre9qhI=;
- b=LUiC6esaIUqXC/Cl8vei0QbmEDvR+9LIPJU0o3eNR2SJVtpEDjJbBhFp0MHW2xrbny
- MKcBWwSWE1rEXR+Nw99RdpdxuIQr+gEqQHT1CosaCcZFp85wDE/8KFBz5LXM/R09yEq0
- t/aLh90dpjIvNmmlWdRyIcXzmcfslZWvViVmifMzHtJcS7WkuYnI1qC4opnVcyojMI/J
- qQxkw9NKGNKgghClSQ5vlz4Od71dMgLk7HC5klJk2cDUIS+/NIdISUD85CP4zJTFtIyj
- kE8ydcQbQsdk5z7gjCczABPHv1wDdmxInmr8F1IgdeMGw13O0R0IGfohRcp8Jevy+J94
- uuLg==
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1pOYH9-0005Of-0N
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 01:13:19 -0500
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1pOYH7-0003jI-A6
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 01:13:18 -0500
+Received: by mail-pl1-x635.google.com with SMTP id v23so9182575plo.1
+ for <qemu-devel@nongnu.org>; Sat, 04 Feb 2023 22:13:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=KM5kkPB7zAIOrYAX7gUgzJ4YxU3a5JVhtbQVDJ1jb6U=;
+ b=DLgnp1uH71sd/mTdzSoFwxui9PtI0EamtpQ2IK32wWSVTWQ4toJfC1HxS0zCOnHDXe
+ S2GfI+BJLwUuQjSmelt6c8yDRgbb2Uy4u68VQmdo9gt582LcXXWnB5hyP55iY49pBjF5
+ qSxgrO8qsYLLM45p0cNUCRGeWdA0u8RNRn4prz0qGqrqheyUgq9OGDtJ5yiSH1PRn8ja
+ vuAENvkV46E1+spJOKLtULv9LQj0BD+2vgHmQ/wsIl6XNosm8ORuGazOs35VlgprwJvv
+ JWPXpbcsfn68VZkY4qILNAicpHLTfEDfRfX7rNadYiAuB8zGcoc1AcAcDcHU3H/HjPIA
+ bOPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JPLwRp0eM/LFolqH3GE0hF96aOq+D5Pu3Y0AZre9qhI=;
- b=Ni24iyOBYB8TtjUyW7r396Y7GadY31SqZDaDTPO+MnM0ew8ff0mtdlc3Fs6mx6YdhE
- AefPVG23xSYIdnzQn4OZbLad/SXLtnPwbtFgMh+MA+V8+wUX82oTqjX8aN2MhY2SIP+i
- Wjti8OHUuiPMNdi8DwPhoFyJncIYMvVfcTRkZpHrMjgB+twNB0gnf0jdGwoWRBJub0C5
- jGpJgfmBlil4W6Q2L2M9qrk4go30yLuHH6Zn8KE6NL3RvlG4wuAKoZZWJOTlmKItyQf3
- 2nCvpWldwvxyG9U6aASg6isJTcyN34ROp54cvif8kGJ5uJ28D3Sly9Twu2uxMGftZ7o2
- /tHg==
-X-Gm-Message-State: AO0yUKXkZ3DlSUQsVqt+03zi0+vldiiKMHAM2nADfmjYm/tq1W/wi3IF
- +Vf8oTmbo33wS+vaUsBNi0VU4Y7zvGU8fq9/O5TGAXoAnc2UTd5wID5SgUVgsL4TjOb7ZqlHEBv
- zRlvluUKAgx7FF/iuszNkU7EvNwf9EA==
-X-Received: by 2002:a05:622a:413:b0:3b8:6ae9:b10d with SMTP id
- n19-20020a05622a041300b003b86ae9b10dmr28973503qtx.2.1675571432030; 
- Sat, 04 Feb 2023 20:30:32 -0800 (PST)
-X-Google-Smtp-Source: AK7set8kVWTqmQ1LV8Yi++F9p4rthtuvQFKMeS33YnlSIenbeuojMDRbMDMvJed2KNuOGnt4Ko53IQ==
-X-Received: by 2002:a05:622a:413:b0:3b8:6ae9:b10d with SMTP id
- n19-20020a05622a041300b003b86ae9b10dmr28973483qtx.2.1675571431754; 
- Sat, 04 Feb 2023 20:30:31 -0800 (PST)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KM5kkPB7zAIOrYAX7gUgzJ4YxU3a5JVhtbQVDJ1jb6U=;
+ b=VPGYTSOEq13OSWq/eY7ep9smBVwYpmtXAyFAnCR3X+/AF4xYlf3InLZz2GZ2mwQx1G
+ LvmHurcdBlLDTSZjND9xqt3Vt8JDPvMID/K6X6N5eYB+7M9icbE19sOZ8KxvjDcRQNRd
+ I8W7FieA1kVQmpjCbaFZiRjqJk+H+m5oC+ewoZmJH+5XVat8Wi2t96vwF24I8yGcJIwB
+ JCmV2iQIdeFGl27uk+OTGOaeE6jnKRUFViPg1+JdjKfKdy0sorGyFBC84Yi6GW6Rd5qr
+ YsKATKLb5Eukd3d2Ma+/b/Bp6B0zkutjT6McK0eACchH2QGi2VbaGgG/gMFRdZuol9MR
+ fCLQ==
+X-Gm-Message-State: AO0yUKVOvddQDjgVzkj1b/+r2i2qMyT75zfUWEI4/l+YCFBsGGwuJqsi
+ kj/oE4NHCBAd6BTepcVgMRSQ1b35paM=
+X-Google-Smtp-Source: AK7set822d4lvZatN9cAgNOw9BTu8+I9MmSjtO1FuFTLKf6cl63LFlk0NuQXjPUHQKlNp6jdco+FIA==
+X-Received: by 2002:a17:902:dccb:b0:18f:a27c:fe with SMTP id
+ t11-20020a170902dccb00b0018fa27c00femr13285493pll.55.1675577595179; 
+ Sat, 04 Feb 2023 22:13:15 -0800 (PST)
+Received: from octofox.hsd1.ca.comcast.net
+ ([2601:641:401:1d20:3721:f84c:32de:fbfc])
  by smtp.gmail.com with ESMTPSA id
- y21-20020a05622a005500b003b9bb59543fsm4757218qtw.61.2023.02.04.20.30.31
+ a17-20020a170902ee9100b00198fcb1b2c2sm1425376pld.218.2023.02.04.22.13.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Feb 2023 20:30:31 -0800 (PST)
-From: Alexander Bulekov <alxndr@bu.edu>
+ Sat, 04 Feb 2023 22:13:14 -0800 (PST)
+From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
- Bandan Das <bsd@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>
-Subject: [PATCH 10/10] docs/fuzz: remove mentions of fork-based fuzzing
-Date: Sat,  4 Feb 2023 23:29:51 -0500
-Message-Id: <20230205042951.3570008-11-alxndr@bu.edu>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230205042951.3570008-1-alxndr@bu.edu>
-References: <20230205042951.3570008-1-alxndr@bu.edu>
+Cc: Max Filippov <jcmvbkbc@gmail.com>
+Subject: [PATCH] linux-user: add support for xtensa FDPIC
+Date: Sat,  4 Feb 2023 22:12:30 -0800
+Message-Id: <20230205061230.544451-1-jcmvbkbc@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.146.118; envelope-from=alxndr@bu.edu;
- helo=esa4.hc2706-39.iphmx.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, SPF_HELO_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -120,57 +88,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- docs/devel/fuzzing.rst | 22 ++--------------------
- 1 file changed, 2 insertions(+), 20 deletions(-)
+Define xtensa-specific info_is_fdpic and fill in FDPIC-specific
+registers in the xtensa version of init_thread.
 
-diff --git a/docs/devel/fuzzing.rst b/docs/devel/fuzzing.rst
-index 715330c856..3bfcb33fc4 100644
---- a/docs/devel/fuzzing.rst
-+++ b/docs/devel/fuzzing.rst
-@@ -19,11 +19,6 @@ responsibility to ensure that state is reset between fuzzing-runs.
- Building the fuzzers
- --------------------
+Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
+---
+ include/elf.h        |  1 +
+ linux-user/elfload.c | 16 +++++++++++++++-
+ 2 files changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/include/elf.h b/include/elf.h
+index 8bf1e72720d5..e8bfe38a9fbd 100644
+--- a/include/elf.h
++++ b/include/elf.h
+@@ -1619,6 +1619,7 @@ typedef struct elf64_shdr {
+ #define ELFOSABI_MODESTO        11      /* Novell Modesto.  */
+ #define ELFOSABI_OPENBSD        12      /* OpenBSD.  */
+ #define ELFOSABI_ARM_FDPIC      65      /* ARM FDPIC */
++#define ELFOSABI_XTENSA_FDPIC   65      /* Xtensa FDPIC */
+ #define ELFOSABI_ARM            97      /* ARM */
+ #define ELFOSABI_STANDALONE     255     /* Standalone (embedded) application */
  
--*NOTE*: If possible, build a 32-bit binary. When forking, the 32-bit fuzzer is
--much faster, since the page-map has a smaller size. This is due to the fact that
--AddressSanitizer maps ~20TB of memory, as part of its detection. This results
--in a large page-map, and a much slower ``fork()``.
--
- To build the fuzzers, install a recent version of clang:
- Configure with (substitute the clang binaries with the version you installed).
- Here, enable-sanitizers, is optional but it allows us to reliably detect bugs
-@@ -296,10 +291,9 @@ input. It is also responsible for manually calling ``main_loop_wait`` to ensure
- that bottom halves are executed and any cleanup required before the next input.
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 5928c14dfc97..150d1d450396 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -1748,6 +1748,15 @@ static inline void init_thread(struct target_pt_regs *regs,
+     regs->windowstart = 1;
+     regs->areg[1] = infop->start_stack;
+     regs->pc = infop->entry;
++    if (info_is_fdpic(infop)) {
++        regs->areg[4] = infop->loadmap_addr;
++        regs->areg[5] = infop->interpreter_loadmap_addr;
++        if (infop->interpreter_loadmap_addr) {
++            regs->areg[6] = infop->interpreter_pt_dynamic_addr;
++        } else {
++            regs->areg[6] = infop->pt_dynamic_addr;
++        }
++    }
+ }
  
- Since the same process is reused for many fuzzing runs, QEMU state needs to
--be reset at the end of each run. There are currently two implemented
--options for resetting state:
-+be reset at the end of each run. For example, this can be done by rebooting the
-+VM, after each run.
+ /* See linux kernel: arch/xtensa/include/asm/elf.h.  */
+@@ -2207,11 +2216,16 @@ static void zero_bss(abi_ulong elf_bss, abi_ulong last_bss, int prot)
+     }
+ }
  
--- Reboot the guest between runs.
-   - *Pros*: Straightforward and fast for simple fuzz targets.
- 
-   - *Cons*: Depending on the device, does not reset all device state. If the
-@@ -308,15 +302,3 @@ options for resetting state:
-     reboot.
- 
-   - *Example target*: ``i440fx-qtest-reboot-fuzz``
--
--- Run each test case in a separate forked process and copy the coverage
--   information back to the parent. This is fairly similar to AFL's "deferred"
--   fork-server mode [3]
--
--  - *Pros*: Relatively fast. Devices only need to be initialized once. No need to
--    do slow reboots or vmloads.
--
--  - *Cons*: Not officially supported by libfuzzer. Does not work well for
--     devices that rely on dedicated threads.
--
--  - *Example target*: ``virtio-net-fork-fuzz``
+-#ifdef TARGET_ARM
++#if defined(TARGET_ARM)
+ static int elf_is_fdpic(struct elfhdr *exec)
+ {
+     return exec->e_ident[EI_OSABI] == ELFOSABI_ARM_FDPIC;
+ }
++#elif defined(TARGET_XTENSA)
++static int elf_is_fdpic(struct elfhdr *exec)
++{
++    return exec->e_ident[EI_OSABI] == ELFOSABI_XTENSA_FDPIC;
++}
+ #else
+ /* Default implementation, always false.  */
+ static int elf_is_fdpic(struct elfhdr *exec)
 -- 
-2.39.0
+2.30.2
 
 
