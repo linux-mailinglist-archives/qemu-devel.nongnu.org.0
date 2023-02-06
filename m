@@ -2,110 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F53F68B9E1
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 11:21:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B96368B9E2
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 11:21:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOyby-000234-LX; Mon, 06 Feb 2023 05:20:35 -0500
+	id 1pOycM-0002SW-1w; Mon, 06 Feb 2023 05:20:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pOybY-0001su-Tc; Mon, 06 Feb 2023 05:20:08 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pOyc7-0002Fb-AP
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 05:20:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pOybW-00014v-4B; Mon, 06 Feb 2023 05:20:08 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3169HqW9019630; Mon, 6 Feb 2023 10:19:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=D50LrmJ0+QXxCB1ZCm7pg3LBGT+YIgCXvZ+3OlHSMyA=;
- b=eUdD8GVC4Dm5wYHh6Nb0N/Zgt8VOx+0zR4tDZ+rosY2p7VomncQy4gukIRi2DSulxPSo
- GgKuh9k99kpsgX0mt/rVzHLztyUbu5GTTLjNkM3DRp45Qv5yt4VTq4irhjgVzaRCYdDA
- d9DgjjmbdEWV1p5ZLgCCSQs9jxwEwTdywF4Q1D/hy1XZd3Sl6nm86LgHTVEnaW4hjyIh
- 5YFx/eag0Uzjq5lv1keLNHCo8/BlCYVQRF9WJL/pCDsMKJEdq9ZArYUYuawvIs4hoCdw
- uojM702PX2PSZIYL7eLeS4Nc6hfefh+VDqYZ5b7csCf3khl5OKDnH6NeCuZbxodXWzdw EA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3njxsm9h8m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Feb 2023 10:19:57 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 316AIJFF011837;
- Mon, 6 Feb 2023 10:19:56 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3njxsm9h7s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Feb 2023 10:19:56 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31605Na2024259;
- Mon, 6 Feb 2023 10:19:54 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3nhf06t8yd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Feb 2023 10:19:54 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 316AJp6h19792598
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 6 Feb 2023 10:19:51 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 218D220078;
- Mon,  6 Feb 2023 10:19:51 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BF58720076;
- Mon,  6 Feb 2023 10:19:49 +0000 (GMT)
-Received: from [9.171.30.242] (unknown [9.171.30.242])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon,  6 Feb 2023 10:19:49 +0000 (GMT)
-Message-ID: <5d87c783-beef-133f-d18a-e96d671b25a5@linux.ibm.com>
-Date: Mon, 6 Feb 2023 11:19:49 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pOyc5-0001Kl-IR
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 05:20:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675678840;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=W2UFCAH60hTZiIVfuXmzBvSVzM2fQE5o9aZjgR5+A00=;
+ b=X4KfkGiKIDFTRqEVRnBPjUHrFC2OGicSZdGvR2PKHc/CE2oQHBhi5TNXizLtUxmY7XsugY
+ IrrIARyk0ifQXTXBiEnDuWl1EE9Hly9Tu2uYc/F4o8PYVEPkYeInVHvVV8wNIs7510NPGH
+ 26qKhY43/hQiO39Lzk49c1Yg0L7LRTs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-423-Y7lhrmX_PdiliYinRwqz4g-1; Mon, 06 Feb 2023 05:20:38 -0500
+X-MC-Unique: Y7lhrmX_PdiliYinRwqz4g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 53F81183B3C1
+ for <qemu-devel@nongnu.org>; Mon,  6 Feb 2023 10:20:38 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 32D0B2166B29
+ for <qemu-devel@nongnu.org>; Mon,  6 Feb 2023 10:20:38 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 21FBE21E6A1F; Mon,  6 Feb 2023 11:20:37 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com
+Subject: [PATCH] meson: Avoid duplicates in generated config-poison.h again
+Date: Mon,  6 Feb 2023 11:20:37 +0100
+Message-Id: <20230206102037.3621709-1-armbru@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v15 04/11] s390x/sclp: reporting the maximum nested
- topology entries
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- nsg@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230201132051.126868-1-pmorel@linux.ibm.com>
- <20230201132051.126868-5-pmorel@linux.ibm.com>
- <dc19cfad-dfbb-b81a-1341-6a60df7f4968@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <dc19cfad-dfbb-b81a-1341-6a60df7f4968@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 20jTRJz9VtO_hwxyUByOQchAWd0tI1Hx
-X-Proofpoint-ORIG-GUID: JpahCH56fMOoQbAcGk9OsZNxy5n_zhyr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-06_05,2023-02-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 malwarescore=0
- mlxlogscore=976 clxscore=1015 lowpriorityscore=0 spamscore=0 mlxscore=0
- impostorscore=0 bulkscore=0 suspectscore=0 priorityscore=1501 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2302060087
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,32 +75,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Commit eed56e9a89f "configure, meson: move config-poison.h to meson"
+lost a "| sort -u".  Restore it.  config-poison shrinks from ~4500 to
+~700 lines when all targets are enabled.
 
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ scripts/make-config-poison.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 2/6/23 11:13, Thomas Huth wrote:
-> On 01/02/2023 14.20, Pierre Morel wrote:
->> The maximum nested topology entries is used by the guest to
->> know how many nested topology are available on the machine.
->>
->> Let change the MNEST value from 2 to 4 in the SCLP READ INFO
->> structure now that we support books and drawers.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> Reviewed-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
->> ---
->>   include/hw/s390x/sclp.h | 5 +++--
->>   hw/s390x/sclp.c         | 5 +++++
->>   2 files changed, 8 insertions(+), 2 deletions(-)
-> 
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> 
-
-Thanks,
-
-Regards,
-Pierre
-
+diff --git a/scripts/make-config-poison.sh b/scripts/make-config-poison.sh
+index d222a04304..1892854261 100755
+--- a/scripts/make-config-poison.sh
++++ b/scripts/make-config-poison.sh
+@@ -13,4 +13,4 @@ exec sed -n \
+   -e    's///' \
+   -e    's/ .*//' \
+   -e    's/^/#pragma GCC poison /p' \
+-  -e '}' "$@"
++  -e '}' "$@" | sort -u
 -- 
-Pierre Morel
-IBM Lab Boeblingen
+2.39.0
+
 
