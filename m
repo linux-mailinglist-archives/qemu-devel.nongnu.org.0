@@ -2,81 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC23A68B339
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 01:25:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DA4B68B3A3
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 02:10:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOpJY-0000bQ-7o; Sun, 05 Feb 2023 19:24:56 -0500
+	id 1pOq0D-00086E-1k; Sun, 05 Feb 2023 20:09:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1pOpJW-0000b0-4D
- for qemu-devel@nongnu.org; Sun, 05 Feb 2023 19:24:54 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1pOpJT-0000OM-6i
- for qemu-devel@nongnu.org; Sun, 05 Feb 2023 19:24:53 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- t12-20020a17090aae0c00b00229f4cff534so12001343pjq.1
- for <qemu-devel@nongnu.org>; Sun, 05 Feb 2023 16:24:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/06Cav0wb7hi23Toi34xSI0jlbDRwSb8E+vXUSowvXY=;
- b=dInqtYPiCBaCN+Cr2TPE+HFtVV8n5ZoI1w0PvDExg5PpqX/IONhYewn3z3UxrX7h+A
- sgK7ICcAc0cMfc0RYSz9tLVghLTPxkQf/FHvaHlGcydYZ5lDUiuym0H6DYWZfHIVEbSn
- 8d5yaoYJfDKmjrwQABF+FEhdgLFpdkuPq3rhHa3W2MRgTj6knPurvt7o4RumMbV4bdUY
- 9/DtLGMFpe6lJmBLXlLNKpNcWkhKv3jiG0AMqCmrN6OsrOtbxVBtmdjT5WQRwj54JvH8
- GbDfu4y5rB5bfsDMOQLD8WZyBD10jAzJOnQVKnmaubmcrqDaEfc+40RljFX8Z4kt1Man
- uFjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/06Cav0wb7hi23Toi34xSI0jlbDRwSb8E+vXUSowvXY=;
- b=KkihqECesN0YkIAhx3OnlY+A5huKMq0N6gWkFaPTT3E/jq1YzgHgflDWkKTDtXz3+P
- igrXD0QCQDoc6/p6bV+DaxWJncI7TZ/VPegNvf03r4Opp2eGWtdelOP0ooEcnEnQ8/x+
- yFK6VXpE4GbNy4SnA5eCgf1jHpB44Z2/zcel2S+GemRuWkz0QKAvaMk7CGL0vA2oFOEf
- 6BLCQ/1SwR33RWnzhp0WcNBg3BEVP26PkuOVyMy+BjlnOcY/r5CZj4Tj2DcpPlqMQsKB
- QuwFI3SLVPzFi68oxnZhpNm7vfY9JS1exB6bGUMsBmpaT0nSvREv9iM9+uw7SLcZWMBk
- kCuA==
-X-Gm-Message-State: AO0yUKVVp5Do/3HubAzmjD1Q0lLLYZhudaz2Nhlsv+FnYqMzjY9WK9f1
- rQckuLy89tjffbqsjf7f2VyXBA==
-X-Google-Smtp-Source: AK7set+/MJpaKxThUS9BkKyKnNuOIIQQIFntHSiXhSxDaJG4PyLqOe5RFs3cLiebj7z17AmajWW4Cw==
-X-Received: by 2002:a17:902:f1ca:b0:199:7b4:8204 with SMTP id
- e10-20020a170902f1ca00b0019907b48204mr3038392plc.32.1675643085934; 
- Sun, 05 Feb 2023 16:24:45 -0800 (PST)
-Received: from [10.3.43.196] ([61.213.176.9]) by smtp.gmail.com with ESMTPSA id
- 12-20020a170902e9cc00b00178143a728esm3241778plk.275.2023.02.05.16.24.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 05 Feb 2023 16:24:45 -0800 (PST)
-Message-ID: <1a6df753-5286-dcfa-2e7b-87eb9c8b06f4@bytedance.com>
-Date: Mon, 6 Feb 2023 08:23:20 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: PING: [PATCH v4 00/12] Refactor cryptodev
-Content-Language: en-US
-To: mst@redhat.com
-Cc: armbru@redhat.com, qemu-devel@nongnu.org, arei.gonglei@huawei.com,
- dgilbert@redhat.com, berrange@redhat.com, pbonzini@redhat.com
-References: <20230129025747.682282-1-pizhenwei@bytedance.com>
-From: zhenwei pi <pizhenwei@bytedance.com>
-In-Reply-To: <20230129025747.682282-1-pizhenwei@bytedance.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1pOq0B-00085v-8Q
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 20:08:59 -0500
+Received: from out3-smtp.messagingengine.com ([66.111.4.27])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1pOq09-0007jH-Ki
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 20:08:59 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id D651F5C013E;
+ Sun,  5 Feb 2023 20:08:55 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Sun, 05 Feb 2023 20:08:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1675645735; x=
+ 1675732135; bh=TLiwYAbG6WF1xb1iZ+DG1liPHGd/G4F4LT16UUbKemc=; b=i
+ Qrjp8cF7IOEVK7JQPHv6jHxVRABax/Z3usj4Atj27Rvho1NlRBb/TvHzwf+e/n13
+ Y/pNdT9qn2WGpV/g5VcaphZKpD9wvuhQkZGpz1BdvvyuaTxA98OzFbZeK/+ciWE2
+ cQEoK6kguvmDPVAVDzDqKvE+/4kP6CgljJ0rDR/q038xQKnCJbu0TJs78l5CV4ci
+ BF2UDiGH1BJq7Afs96CTBbg+4Kgwh8iu+236+87eMiXXgucjL2/YGxQfAOMaK+af
+ B3Ra94o5K9Qxws3ww7M/3chN4jFywSiMUBg81eUnHtBlgQmd5oEQx/wxpn2e3lbS
+ 0Rbel9xYz8/Bdb5MNCYnA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1675645735; x=
+ 1675732135; bh=TLiwYAbG6WF1xb1iZ+DG1liPHGd/G4F4LT16UUbKemc=; b=q
+ q9KBjKr3l+B+TSO4BSMLKaD5ZBf36sacqlVJBEggz1armasslWnezhNILB46UoxH
+ +X9HUxVENzHYGn9YUK2dShtAhjojWboMktTrIdmCPbqMcapSAbANrRima6fJYs+y
+ 2JHVYTM0eCB008g0safSKSOjfbp5KMs9mZ/i7uvJWV2OTYCNn6aqSEaQ9O3mB4SP
+ ZZE+xHkRdz4GXGUly4pAmOeavLkjoFsIWtn46MCFb/ODj8nOuD7YyI8ILZP7ND1f
+ GCYytii3mgUnmT9ElrMn5vPCc2Kk2dppy6RUZ1bpRNBJdz34i9CbYOUSmqst0vBZ
+ 8Mz8dSKv/rIbTTBAXrTFw==
+X-ME-Sender: <xms:J1PgYwwSbmlOB4bpI9NEFvDPXXJWTzWykSsvK7lsMy2Va_eF54MHAQ>
+ <xme:J1PgY0STGhvhG9FGrlRxB7h-1nLODSLZ3uX_xK1o0bi2EOsxNhvan10DO5y2B0YGC
+ 0ZF_xhDss_h5iieedA>
+X-ME-Received: <xmr:J1PgYyUksBzZcXRjnzrXTeu__aDaHJ8TlHfqM5R_FPW68WMAfHFxbxykQJ1KSBx1bUwN>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeghedgvdekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurheptggguffhjgffvefgkfhfvffosehtqhhmtdhhtdejnecuhfhrohhmpeflihgr
+ gihunhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqne
+ cuggftrfgrthhtvghrnhepuddtjeffteetfeekjeeiheefueeigeeutdevieejveeihfff
+ ledvgfduiefhvddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+ hfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
+X-ME-Proxy: <xmx:J1PgY-gNeCTPi2CXuzj1bnmttS8EgmQzW-WNb-SIMQ-SxUgayMCuHg>
+ <xmx:J1PgYyAgwKFM81xAc7myFl3shijlACE_khuRSnEDWSHcVoSUmosZdw>
+ <xmx:J1PgY_IJEVq69EYFQmGqaZegEL7eKUxV9c10fwRqWYIrBFTPzWGDSQ>
+ <xmx:J1PgYz7u-3kegZY12GmaiJRqRvDvLYWOUzrzrzxCc9VpwEU8u7_pfg>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 5 Feb 2023 20:08:54 -0500 (EST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.300.101.1.3\))
+Subject: Re: [PATCH 3/3] hw/mips: Add MIPS virt board
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+In-Reply-To: <02b95cdf-fe38-f147-1b9c-5078aaf35adb@linaro.org>
+Date: Mon, 6 Feb 2023 01:08:43 +0000
+Cc: BALATON Zoltan via <qemu-devel@nongnu.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <BC1C4370-DD4F-4777-9F83-6D9FA719F0A1@flygoat.com>
+References: <20230202132138.30945-1-jiaxun.yang@flygoat.com>
+ <20230202132138.30945-4-jiaxun.yang@flygoat.com>
+ <02b95cdf-fe38-f147-1b9c-5078aaf35adb@linaro.org>
+To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+X-Mailer: Apple Mail (2.3731.300.101.1.3)
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=jiaxun.yang@flygoat.com;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,84 +106,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Michael
 
-Please correct me if I miss anything...
 
-On 1/29/23 10:57, zhenwei pi wrote:
-> v4 -> v5:
-> - suggested by MST, use 'PRIu32' instead of '%u' to print a uint32_t value
-> - correct *QCryptodevBackendClient* and *QCryptodevInfo* in qapi/cryptodev.json
-> 
-> v3 -> v4:
-> - a small change in '0005-cryptodev-Introduce-query-cryptodev-QMP-command.patch':
->    use 'uint32' instead of 'int' to describe CryptodevBackendClient:queue
-> - fix compling warning(gcc)/error(clang-11) on 32 bit platform in
->    '0007-hmp-add-cryptodev-info-command.patch':
->    use 'printf("%u", client->queue)' instead of 'printf("%ld", client->queue)'
-> 
-> v2 -> v3:
-> - rebase code against the lastest commist: fb7e7990342e59cf67d
-> - document the missing fields in qapi/cryptodev.json
-> - rework statistics part: use 'query-stats' command instead of
->    'query-cryptodev'(cryptodev: Support query-stats QMP command)
-> 
-> v1 -> v2:
-> - fix coding style and use 'g_strjoin()' instead of 'char services[128]'
->     (suggested by Dr. David Alan Gilbert)
-> - wrapper function 'cryptodev_backend_account' to record statistics, and
->     allocate sym_stat/asym_stat in cryptodev base class. see patch:
->     'cryptodev: Support statistics'.
-> - add more arguments into struct CryptoDevBackendOpInfo, then
->     cryptodev_backend_crypto_operation() uses *op_info only.
-> - support cryptodev QoS settings(BPS&OPS), both QEMU command line and QMP
->     command works fine.
-> - add myself as the maintainer for cryptodev.
-> 
-> v1:
-> - introduce cryptodev.json to describe the attributes of crypto device, then
->     drop duplicated type declare, remove some virtio related dependence.
-> - add statistics: OPS and bandwidth.
-> - add QMP command: query-cryptodev
-> - add HMP info command: cryptodev
-> - misc fix: detect akcipher capability instead of exposing akcipher service
->     unconditionally.
-> 
-> Zhenwei Pi (12):
->    cryptodev: Introduce cryptodev.json
->    cryptodev: Remove 'name' & 'model' fields
->    cryptodev: Introduce cryptodev alg type in QAPI
->    cryptodev: Introduce server type in QAPI
->    cryptodev: Introduce 'query-cryptodev' QMP command
->    cryptodev-builtin: Detect akcipher capability
->    hmp: add cryptodev info command
->    cryptodev: Use CryptoDevBackendOpInfo for operation
->    cryptodev: Account statistics
->    cryptodev: support QoS
->    cryptodev: Support query-stats QMP command
->    MAINTAINERS: add myself as the maintainer for cryptodev
-> 
->   MAINTAINERS                     |   2 +
->   backends/cryptodev-builtin.c    |  42 ++--
->   backends/cryptodev-lkcf.c       |  19 +-
->   backends/cryptodev-vhost-user.c |  13 +-
->   backends/cryptodev-vhost.c      |   4 +-
->   backends/cryptodev.c            | 419 ++++++++++++++++++++++++++++++--
->   hmp-commands-info.hx            |  14 ++
->   hw/virtio/virtio-crypto.c       |  48 +++-
->   include/monitor/hmp.h           |   1 +
->   include/sysemu/cryptodev.h      |  95 ++++----
->   monitor/hmp-cmds.c              |  42 ++++
->   monitor/qmp-cmds.c              |   2 +
->   qapi/cryptodev.json             | 143 +++++++++++
->   qapi/meson.build                |   1 +
->   qapi/qapi-schema.json           |   1 +
->   qapi/qom.json                   |   8 +-
->   qapi/stats.json                 |  10 +-
->   17 files changed, 744 insertions(+), 120 deletions(-)
->   create mode 100644 qapi/cryptodev.json
-> 
+> 2023=E5=B9=B42=E6=9C=885=E6=97=A5 11:48=EF=BC=8CPhilippe =
+Mathieu-Daud=C3=A9 <philmd@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> Hi Jiaxun,
+>=20
+> On 2/2/23 14:21, Jiaxun Yang wrote:
+>> MIPS virt board is design to utilize existing VirtIO infrastures
+>> but also comptitable with MIPS's existing internal simulation tools.
+>> It includes virtio-mmio, pcie gpex, flash rom, fw_cfg, goldfish-rtc,
+>> and optional goldfish_pic in case MIPS GIC is not present.
+>=20
+> Is it worth using the CPS/GIC? Can't we using the goldfish PIC
+> regardless CPS availability? Did you run performance comparison?
 
--- 
-zhenwei pi
+goldfish_pic don=E2=80=99t have IPI infra so we must reinvent another =
+SMP mechanism :-(
+
+The interrupt performance should be close as the interrupt handling flow =
+is almost
+the same.
+
+Also it can help us prepare for I6400 vGIC support.
+
+Thanks.
+- Jiaxun
+
+
+>=20
+>> It should be able to cooperate with any MIPS CPU cores.
+>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>> ---
+>> v1:
+>>  - Rename to virt board
+>>  - Convert BIOS flash to ROM
+>>  - Cleanups
+>> ---
+>>  MAINTAINERS                             |    7 +
+>>  configs/devices/mips-softmmu/common.mak |    1 +
+>>  docs/system/target-mips.rst             |   24 +
+>>  hw/mips/Kconfig                         |   18 +
+>>  hw/mips/meson.build                     |    1 +
+>>  hw/mips/virt.c                          | 1015 =
++++++++++++++++++++++++
+>>  6 files changed, 1066 insertions(+)
+>>  create mode 100644 hw/mips/virt.c
+>=20
+
 
