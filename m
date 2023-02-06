@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57DB068BFB7
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 15:13:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E04F68BFAC
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 15:12:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP2Ce-00064m-CO; Mon, 06 Feb 2023 09:10:40 -0500
+	id 1pP2Cg-000658-C8; Mon, 06 Feb 2023 09:10:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP2Cb-00063m-V9
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 09:10:38 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP2Ce-00064v-0j
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 09:10:40 -0500
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP2Ca-0002f1-GG
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 09:10:37 -0500
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP2Cc-0002fN-JE
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 09:10:39 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id CFE0E20E1B;
- Mon,  6 Feb 2023 14:10:34 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 5522A603A0;
+ Mon,  6 Feb 2023 14:10:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675692634; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1675692637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PxPdLXH9DmKt7VkrYzZg7R/L6jDlTL/4xksbd9VouN0=;
- b=Mpk0FuTZJ9jEnMggUYmhDpj/LqgZEe01oSRze1xGqLzcOeR4PSRvM4NraQvfAUR8p5oA2+
- 3Uxn+Vzfg/T4lhueLSPuAOJy8L7EqVkvQ6UcG2roH6k7DzycCzl491uOvinTf+WN6udF55
- nfq8gp51QajQ8XFMXp/G4Mi7x0QRzOM=
+ bh=csDUJZUgv5WSSEjj/YsjXMEE0X0IjozXL8PPvowcxCM=;
+ b=Wk/j7BcJxNM7C2U/0SD+fnzXxu40hsIe40ltvenAu9IkeP8hJAPsDBrDlWb4ThLOgIShvt
+ L5XcjfaxfHdyx0FIOeKBFsnlpa8XF3VnQd/tCpVjLh7PshZgw3h1NDok2veaMqeb3+9l2U
+ Bq496GQkJmAUenX+7TNTbwoQQdAgnT0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675692634;
+ s=susede2_ed25519; t=1675692637;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PxPdLXH9DmKt7VkrYzZg7R/L6jDlTL/4xksbd9VouN0=;
- b=jvK2cECAS6HqRUij46JH6wlXbzWGKI98yh5aaa4Z+IZoriWJ4PU2L4vT0NOBsT/pBfW/4B
- Rk3L43TQgJdOy/Dg==
+ bh=csDUJZUgv5WSSEjj/YsjXMEE0X0IjozXL8PPvowcxCM=;
+ b=6C2F0aLxw6PABMTQSpMvnnT+zk0DTWTYYBVN6FQYQgs2o/HiN0qCzKqbKDkIWOt6uNuaGi
+ VywWYBtlnaWYglAg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C7506138E7;
- Mon,  6 Feb 2023 14:10:32 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4D322138E7;
+ Mon,  6 Feb 2023 14:10:35 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id eEhsI1gK4WOgQAAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 06 Feb 2023 14:10:32 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id yEiFBVsK4WOgQAAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 06 Feb 2023 14:10:35 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: [PATCH 03/10] hw/i386: Select VGA_PCI in Kconfig
-Date: Mon,  6 Feb 2023 11:08:02 -0300
-Message-Id: <20230206140809.26028-4-farosas@suse.de>
+ Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PATCH 04/10] hw/i386: Select E1000_PCI for i440fx
+Date: Mon,  6 Feb 2023 11:08:03 -0300
+Message-Id: <20230206140809.26028-5-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230206140809.26028-1-farosas@suse.de>
 References: <20230206140809.26028-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
  helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -88,12 +88,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Machines that have "std" as default VGA display need to always build
-vga-pci.c, otherwise we get a crash when CONFIG_PCI_DEVICES=n:
+The i440fx machines uses the e1000 adapter as the default when no
+other network card is configured.
 
-$ ./qemu-system-x86_64 -M q35 -vga std
-qemu-system-x86_64: unknown type 'VGA'
-Aborted (core dumped)
+Move the E1000_PCI entry in Kconfig from 'imply' to 'select' to avoid
+the following situation:
+
+./qemu-system-i386 -machine pc-i440fx-8.0
+qemu-system-i386: Unsupported NIC model: e1000
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
@@ -101,20 +103,25 @@ Signed-off-by: Fabiano Rosas <farosas@suse.de>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index 527b95df81..8e59cb6634 100644
+index 8e59cb6634..343783ea3e 100644
 --- a/hw/i386/Kconfig
 +++ b/hw/i386/Kconfig
-@@ -30,9 +30,9 @@ config PC
-     imply TEST_DEVICES
-     imply TPM_CRB
-     imply TPM_TIS_ISA
--    imply VGA_PCI
-     imply VIRTIO_VGA
-     imply NVDIMM
-+    select VGA_PCI
-     select FDC_ISA
-     select I8259
-     select I8254
+@@ -66,7 +66,6 @@ config PC_ACPI
+ 
+ config I440FX
+     bool
+-    imply E1000_PCI
+     imply VMPORT
+     imply VMMOUSE
+     select ACPI_PIIX4
+@@ -78,6 +77,7 @@ config I440FX
+     select DIMM
+     select SMBIOS
+     select FW_CFG_DMA
++    select E1000_PCI
+ 
+ config ISAPC
+     bool
 -- 
 2.35.3
 
