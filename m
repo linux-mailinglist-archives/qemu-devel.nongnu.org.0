@@ -2,89 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F4A68C7B3
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 21:34:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D35AF68C7C1
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 21:38:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP8BN-0004kp-Rx; Mon, 06 Feb 2023 15:33:45 -0500
+	id 1pP8Fa-0006Ed-Pn; Mon, 06 Feb 2023 15:38:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pP8BD-0004j7-QI
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 15:33:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1pP8FR-0006E4-C8
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 15:38:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pP8BA-0007j9-RW
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 15:33:34 -0500
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1pP8FP-0000Nm-LK
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 15:37:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675715611;
+ s=mimecast20190719; t=1675715874;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TK3UhSvTwl0xR1AqZDHsUzvRh8rhkhBdVfPJh3byTpk=;
- b=F/jGVHMPvWdCCzQ0c4HVQ29/PBuJL1cVulTquliykTMGq/UqzMDvrkCOuSWBD7iy8+5Tsb
- 7JQogvAngQVS5jna5uRU4cuK83CCkwCmDbf9zqP8jiAEHwZ8hLYMg9cVKm0ICqc1vLki8B
- sjOGkA6YlPH8dhZVIzPImujNm5kYcho=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fcHLhBiBeUSKNDAZobURRzlpDkUv1iPr0SvkvKjbFbg=;
+ b=P9WBCctLlJsnsaJG+bfGPsXEmYZNLblIZ5dZiJXejqJrhQdOJDWoWGAcm3hk08tNEjqSBJ
+ B/AoZ1rpavui5dqCfFfrkixEFu1FvRNgneuRAhJdizFM4TfDKUc8uF2rj4RdZFM11l7Kby
+ yg7OYPLxbdRnSkDXYqYFMzYlxPX9rrI=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-259-ACL6vEtDMF6E8b5KmnxrwA-1; Mon, 06 Feb 2023 15:33:30 -0500
-X-MC-Unique: ACL6vEtDMF6E8b5KmnxrwA-1
-Received: by mail-io1-f70.google.com with SMTP id
- e16-20020a6b5010000000b00719041c51ebso7733092iob.12
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 12:33:29 -0800 (PST)
+ us-mta-444-aCdtkEN9O86wCcLmY7hTxw-1; Mon, 06 Feb 2023 15:37:53 -0500
+X-MC-Unique: aCdtkEN9O86wCcLmY7hTxw-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ gz8-20020a170907a04800b0087bd94a505fso9452203ejc.16
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 12:37:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TK3UhSvTwl0xR1AqZDHsUzvRh8rhkhBdVfPJh3byTpk=;
- b=immHb+GvVI0KUPgIz2a2L5/UsTL6ARCqTcbK0+8vtHyeRST6ZVMT/EcooXz3+hiz1s
- q5p6dJcC3A+mArx4+lfRjy42/vZ5asVgZ+UQwDj+pg5ZeSqkoImcTSCcmPWCBYpC2wmF
- URohQaZ6Fg++MoC/zJojJP7iIyiU28kj90BDB5iK7MpuI4tYrxIq8MQp70IO//k0v5I/
- 8mtKlVy+beT9XArhMwb1yDtzjGoYT4uwjFtG3YSW1S5gPVY9yxfDWUo9y4+ASGrlC2qC
- Ir51XbJAJ+Zo2eb4a5KW5r/+KfZicU96lSB4feDQ+LARGyUiQzNlbHB8gcB2V95evTla
- oNaA==
-X-Gm-Message-State: AO0yUKXog+NeyW2PqndYZUzolvm0Zviup5cssNHSIaIzcP8MvqsyAQKU
- CUM4tjNhVnlanUDgqLY4VXG2cqW55p6ZfIiUDqESxluEJL005amL9Q1OC6HjL51JMEchKsvEGSr
- swYmdLFaydsBqTR4=
-X-Received: by 2002:a92:7402:0:b0:313:b792:3da1 with SMTP id
- p2-20020a927402000000b00313b7923da1mr378503ilc.25.1675715609280; 
- Mon, 06 Feb 2023 12:33:29 -0800 (PST)
-X-Google-Smtp-Source: AK7set9pPKgG9oBXIhXkd4q3TZWiyPJBKi/6zb9b8ZbnLjZENZJyBFcg+CMpZLuh5BY2ZSjsByttFQ==
-X-Received: by 2002:a92:7402:0:b0:313:b792:3da1 with SMTP id
- p2-20020a927402000000b00313b7923da1mr378489ilc.25.1675715608966; 
- Mon, 06 Feb 2023 12:33:28 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- b129-20020a021987000000b003b1f6de471fsm3816029jab.70.2023.02.06.12.33.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Feb 2023 12:33:28 -0800 (PST)
-Date: Mon, 6 Feb 2023 13:33:27 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: John Johnson <john.g.johnson@oracle.com>
-Cc: qemu-devel@nongnu.org, clg@redhat.com, philmd@linaro.org
-Subject: Re: [PATCH v2 15/23] vfio-user: forward msix BAR accesses to server
-Message-ID: <20230206133327.3b254677.alex.williamson@redhat.com>
-In-Reply-To: <0ad69e4ea3d1f37246ce5e32ba833d6c871e99b1.1675228037.git.john.g.johnson@oracle.com>
-References: <cover.1675228037.git.john.g.johnson@oracle.com>
- <0ad69e4ea3d1f37246ce5e32ba833d6c871e99b1.1675228037.git.john.g.johnson@oracle.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fcHLhBiBeUSKNDAZobURRzlpDkUv1iPr0SvkvKjbFbg=;
+ b=F3KbAQDJ/bCzRCSDg/BXVOlj3hi8UwovHlrbAKPSekM2Q1CRiSXSWnHV/avdnHAvAI
+ foJUhZF0rN9YpCMQf2w9tUWKhNhJ/1xlNQMI4MwpvnjyCT3rOgFieP2w9BF81mRZ1JVV
+ LoFeQox/aPw3oyH2noeklQrOsTm5ucnrKw0Z1o3FIsBU+aJCd5P2Qmh1nDlfi+TG7Vzu
+ Nfw4i9UnsaznG/bWp2ZL0wvXqhoGN08DaTzjbZjRWQTFKKEvIdgWF6PWYLxj5G24tQfN
+ JJgfL2BnGby/06TaMUwIQCZndfZbCpws7R8BsCSXDWNSx/ODVAI5shsNX57Ba9tromIV
+ Qyrw==
+X-Gm-Message-State: AO0yUKURAbPjZF3qb2OHwDGg3mPmJ8Q5luPvhkCEIMZF2YLWSUuAFHD4
+ +YkIuraVhENewy4MrpdEqONWKzcm1+i/N5dp9VM1tF97b5Q/YiEdWlItJVHzr/y4Jiukb3ZIaz6
+ aOpqRxTFbN9e+lj+kHzvCckGJY8MC9Uw=
+X-Received: by 2002:a17:907:f97:b0:884:3298:12b with SMTP id
+ kb23-20020a1709070f9700b008843298012bmr215461ejc.125.1675715871911; 
+ Mon, 06 Feb 2023 12:37:51 -0800 (PST)
+X-Google-Smtp-Source: AK7set8Dj2u/geeCXDjS5uq/e7Z1hO/WHoOYD+Spp5vEs4erfnxkTtr+G5G4mN7/KUdBvMkVjIxZVugp1wFSBZeeEzI=
+X-Received: by 2002:a17:907:f97:b0:884:3298:12b with SMTP id
+ kb23-20020a1709070f9700b008843298012bmr215451ejc.125.1675715871748; Mon, 06
+ Feb 2023 12:37:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
+References: <1675708442-74966-1-git-send-email-steven.sistare@oracle.com>
+In-Reply-To: <1675708442-74966-1-git-send-email-steven.sistare@oracle.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Tue, 7 Feb 2023 00:37:40 +0400
+Message-ID: <CAMxuvawH9=Oy+TG6YLrgsV1qtc+7BmK0+o4N1Rrur3kUBY7nhg@mail.gmail.com>
+Subject: Re: [PATCH V2] meson: fix dependency on qemu-keymap
+To: Steve Sistare <steven.sistare@oracle.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
+ "Daniel P. Berrange" <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philippe.mathieu.daude@gmail.com>
+Content-Type: multipart/alternative; boundary="00000000000047c83c05f40e01b2"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,210 +93,159 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed,  1 Feb 2023 21:55:51 -0800
-John Johnson <john.g.johnson@oracle.com> wrote:
+--00000000000047c83c05f40e01b2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Server holds device current device pending state
-> Use irq masking commands in socket case
-> 
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+On Mon, Feb 6, 2023 at 10:34 PM Steve Sistare <steven.sistare@oracle.com>
+wrote:
+
+> When qemu-keymap is not available on the host, and enable-xkbcommon
+> is specified, parallel make fails with:
+>
+>   % make clean
+>   ...
+>   % make -j 32
+>   ...
+>   FAILED: pc-bios/keymaps/is
+>   ./qemu-keymap -f pc-bios/keymaps/is -l is
+>   /bin/sh: ./qemu-keymap: No such file or directory
+>   ... many similar messages ...
+>
+> The code always runs find_program, rather than waiting to build
+> qemu-keymap, because it looks for CONFIG_XKBCOMMON in config_host
+> rather than config_host_data.  Making serially succeeds, by soft
+> linking files from pc-bios/keymaps, but that is not the desired
+> result for enable-xkbcommon.
+>
+> Examining all occurrences of 'in config_host' for similar bugs shows one
+> instance in the docs, which is also fixed here.
+>
+> Fixes: 4113f4cfee ("meson: move xkbcommon to meson")
+>
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+
 > ---
->  hw/vfio/pci.h                 |  1 +
->  include/hw/vfio/vfio-common.h |  3 ++
->  hw/vfio/ccw.c                 |  1 +
->  hw/vfio/common.c              | 26 ++++++++++++++++++
->  hw/vfio/pci.c                 | 23 +++++++++++++++-
->  hw/vfio/platform.c            |  1 +
->  hw/vfio/user-pci.c            | 64 +++++++++++++++++++++++++++++++++++++++++++
->  7 files changed, 118 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-> index 4f70664..d3e5d5f 100644
-> --- a/hw/vfio/pci.h
-> +++ b/hw/vfio/pci.h
-> @@ -113,6 +113,7 @@ typedef struct VFIOMSIXInfo {
->      uint32_t table_offset;
->      uint32_t pba_offset;
->      unsigned long *pending;
-> +    MemoryRegion *pba_region;
->  } VFIOMSIXInfo;
->  
->  /*
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index bbc4b15..2c58d7d 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -143,6 +143,7 @@ typedef struct VFIODevice {
->      bool ram_block_discard_allowed;
->      bool enable_migration;
->      bool use_regfds;
-> +    bool can_mask_irq;
-
-How can this be a device level property?  vfio-pci (kernel) supports
-masking of INTx.  It seems like there needs to be a per-index info or
-probe here to to support this.
-
-
->      VFIODeviceOps *ops;
->      VFIODeviceIO *io;
->      unsigned int num_irqs;
-> @@ -239,6 +240,8 @@ void vfio_put_base_device(VFIODevice *vbasedev);
->  void vfio_disable_irqindex(VFIODevice *vbasedev, int index);
->  void vfio_unmask_single_irqindex(VFIODevice *vbasedev, int index);
->  void vfio_mask_single_irqindex(VFIODevice *vbasedev, int index);
-> +void vfio_unmask_single_irq(VFIODevice *vbasedev, int index, int irq);
-> +void vfio_mask_single_irq(VFIODevice *vbasedev, int index, int irq);
->  int vfio_set_irq_signaling(VFIODevice *vbasedev, int index, int subindex,
->                             int action, int fd, Error **errp);
->  void vfio_region_write(void *opaque, hwaddr addr,
-> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-> index 00605bd..bf67670 100644
-> --- a/hw/vfio/ccw.c
-> +++ b/hw/vfio/ccw.c
-> @@ -616,6 +616,7 @@ static void vfio_ccw_get_device(VFIOGroup *group, VFIOCCWDevice *vcdev,
->      vcdev->vdev.dev = &vcdev->cdev.parent_obj.parent_obj;
->      vcdev->vdev.io = &vfio_dev_io_ioctl;
->      vcdev->vdev.use_regfds = false;
-> +    vcdev->vdev.can_mask_irq = false;
->  
->      return;
->  
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index de64e53..0c1cb21 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -102,6 +102,32 @@ void vfio_mask_single_irqindex(VFIODevice *vbasedev, int index)
->      vbasedev->io->set_irqs(vbasedev, &irq_set);
+>  docs/devel/kconfig.rst      | 2 +-
+>  pc-bios/keymaps/meson.build | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/docs/devel/kconfig.rst b/docs/devel/kconfig.rst
+> index 69674d0..cc1a456 100644
+> --- a/docs/devel/kconfig.rst
+> +++ b/docs/devel/kconfig.rst
+> @@ -306,6 +306,6 @@ variable::
+>
+>      host_kconfig =3D \
+>        (have_tpm ? ['CONFIG_TPM=3Dy'] : []) + \
+> -      ('CONFIG_SPICE' in config_host ? ['CONFIG_SPICE=3Dy'] : []) + \
+> +      ('CONFIG_LINUX' in config_host ? ['CONFIG_LINUX=3Dy'] : []) + \
+>        (have_ivshmem ? ['CONFIG_IVSHMEM=3Dy'] : []) + \
+>        ...
+> diff --git a/pc-bios/keymaps/meson.build b/pc-bios/keymaps/meson.build
+> index 06c75e6..158a3b4 100644
+> --- a/pc-bios/keymaps/meson.build
+> +++ b/pc-bios/keymaps/meson.build
+> @@ -33,7 +33,7 @@ keymaps =3D {
+>    'tr': '-l tr',
 >  }
->  
-> +void vfio_mask_single_irq(VFIODevice *vbasedev, int index, int irq)
-> +{
-> +    struct vfio_irq_set irq_set = {
-> +        .argsz = sizeof(irq_set),
-> +        .flags = VFIO_IRQ_SET_DATA_NONE | VFIO_IRQ_SET_ACTION_MASK,
-> +        .index = index,
-> +        .start = irq,
-> +        .count = 1,
-> +    };
-> +
-> +    vbasedev->io->set_irqs(vbasedev, &irq_set);
-> +}
-> +
-> +void vfio_unmask_single_irq(VFIODevice *vbasedev, int index, int irq)
-> +{
-> +    struct vfio_irq_set irq_set = {
-> +        .argsz = sizeof(irq_set),
-> +        .flags = VFIO_IRQ_SET_DATA_NONE | VFIO_IRQ_SET_ACTION_UNMASK,
-> +        .index = index,
-> +        .start = irq,
-> +        .count = 1,
-> +    };
-> +
-> +    vbasedev->io->set_irqs(vbasedev, &irq_set);
-> +}
-> +
->  static inline const char *action_to_str(int action)
->  {
->      switch (action) {
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 42e7c82..7b16f8f 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -477,6 +477,7 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
->  {
->      VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
->      VFIOMSIVector *vector;
-> +    bool new_vec = false;
->      int ret;
->  
->      trace_vfio_msix_vector_do_use(vdev->vbasedev.name, nr);
-> @@ -490,6 +491,7 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
->              error_report("vfio: Error: event_notifier_init failed");
->          }
->          vector->use = true;
-> +        new_vec = true;
->          msix_vector_use(pdev, nr);
->      }
->  
-> @@ -516,6 +518,7 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
->                  kvm_irqchip_commit_route_changes(&vfio_route_change);
->                  vfio_connect_kvm_msi_virq(vector);
->              }
-> +            new_vec = true;
+>
+> -if meson.is_cross_build() or 'CONFIG_XKBCOMMON' not in config_host
+> +if meson.is_cross_build() or not xkbcommon.found()
+>    native_qemu_keymap =3D find_program('qemu-keymap', required: false,
+> disabler: true)
+>  else
+>    native_qemu_keymap =3D qemu_keymap
+> --
+> 1.8.3.1
+>
+>
 
-This looks wrong to me, can't we get here when a previously used vector
-is unmasked?
+--00000000000047c83c05f40e01b2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->          }
->      }
->  
-> @@ -523,6 +526,8 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
->       * We don't want to have the host allocate all possible MSI vectors
->       * for a device if they're not in use, so we shutdown and incrementally
->       * increase them as needed.
-> +     * Otherwise, unmask the vector if the vector is already setup (and we can
-> +     * do so) or send the fd if not.
->       */
->      if (vdev->nr_vectors < nr + 1) {
->          vdev->nr_vectors = nr + 1;
-> @@ -533,6 +538,8 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
->                  error_report("vfio: failed to enable vectors, %d", ret);
->              }
->          }
-> +    } else if (vdev->vbasedev.can_mask_irq && !new_vec) {
-> +        vfio_unmask_single_irq(&vdev->vbasedev, VFIO_PCI_MSIX_IRQ_INDEX, nr);
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Feb 6, 2023 at 10:34 PM Steve=
+ Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.com">steven.sistare@or=
+acle.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">When qemu-keymap is not available on the host, and enable-xkbcommon=
+<br>
+is specified, parallel make fails with:<br>
+<br>
+=C2=A0 % make clean<br>
+=C2=A0 ...<br>
+=C2=A0 % make -j 32<br>
+=C2=A0 ...<br>
+=C2=A0 FAILED: pc-bios/keymaps/is<br>
+=C2=A0 ./qemu-keymap -f pc-bios/keymaps/is -l is<br>
+=C2=A0 /bin/sh: ./qemu-keymap: No such file or directory<br>
+=C2=A0 ... many similar messages ...<br>
+<br>
+The code always runs find_program, rather than waiting to build<br>
+qemu-keymap, because it looks for CONFIG_XKBCOMMON in config_host<br>
+rather than config_host_data.=C2=A0 Making serially succeeds, by soft<br>
+linking files from pc-bios/keymaps, but that is not the desired<br>
+result for enable-xkbcommon.<br>
+<br>
+Examining all occurrences of &#39;in config_host&#39; for similar bugs show=
+s one<br>
+instance in the docs, which is also fixed here.<br>
+<br>
+Fixes: 4113f4cfee (&quot;meson: move xkbcommon to meson&quot;)<br>
+<br>
+Signed-off-by: Steve Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.co=
+m" target=3D"_blank">steven.sistare@oracle.com</a>&gt;<br></blockquote><div=
+><br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:m=
+arcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div>=
+=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0docs/devel/kconfig.rst=C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+=C2=A0pc-bios/keymaps/meson.build | 2 +-<br>
+=C2=A02 files changed, 2 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/docs/devel/kconfig.rst b/docs/devel/kconfig.rst<br>
+index 69674d0..cc1a456 100644<br>
+--- a/docs/devel/kconfig.rst<br>
++++ b/docs/devel/kconfig.rst<br>
+@@ -306,6 +306,6 @@ variable::<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0host_kconfig =3D \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0(have_tpm ? [&#39;CONFIG_TPM=3Dy&#39;] : []) + \=
+<br>
+-=C2=A0 =C2=A0 =C2=A0 (&#39;CONFIG_SPICE&#39; in config_host ? [&#39;CONFIG=
+_SPICE=3Dy&#39;] : []) + \<br>
++=C2=A0 =C2=A0 =C2=A0 (&#39;CONFIG_LINUX&#39; in config_host ? [&#39;CONFIG=
+_LINUX=3Dy&#39;] : []) + \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0(have_ivshmem ? [&#39;CONFIG_IVSHMEM=3Dy&#39;] :=
+ []) + \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0...<br>
+diff --git a/pc-bios/keymaps/meson.build b/pc-bios/keymaps/meson.build<br>
+index 06c75e6..158a3b4 100644<br>
+--- a/pc-bios/keymaps/meson.build<br>
++++ b/pc-bios/keymaps/meson.build<br>
+@@ -33,7 +33,7 @@ keymaps =3D {<br>
+=C2=A0 =C2=A0&#39;tr&#39;: &#39;-l tr&#39;,<br>
+=C2=A0}<br>
+<br>
+-if meson.is_cross_build() or &#39;CONFIG_XKBCOMMON&#39; not in config_host=
+<br>
++if meson.is_cross_build() or not xkbcommon.found()<br>
+=C2=A0 =C2=A0native_qemu_keymap =3D find_program(&#39;qemu-keymap&#39;, req=
+uired: false, disabler: true)<br>
+=C2=A0else<br>
+=C2=A0 =C2=A0native_qemu_keymap =3D qemu_keymap<br>
+-- <br>
+1.8.3.1<br>
+<br>
+</blockquote></div></div>
 
-The correctness of @new_vec is doubtful here, but masking support must
-be in reference to a specific IRQ index.  INTx masking is implicit, but
-we'd probably need something on the VFIOPCIDevice to indicate support
-for MSI and MSIX masking support, separately.
-
->      } else {
->          Error *err = NULL;
->          int32_t fd;
-> @@ -574,6 +581,12 @@ static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
->  
->      trace_vfio_msix_vector_release(vdev->vbasedev.name, nr);
->  
-> +    /* just mask vector if peer supports it */
-> +    if (vdev->vbasedev.can_mask_irq) {
-> +        vfio_mask_single_irq(&vdev->vbasedev, VFIO_PCI_MSIX_IRQ_INDEX, nr);
-> +        return;
-> +    }
-> +
->      /*
->       * There are still old guests that mask and unmask vectors on every
->       * interrupt.  If we're using QEMU bypass with a KVM irqfd, leave all of
-> @@ -644,7 +657,7 @@ static void vfio_msix_enable(VFIOPCIDevice *vdev)
->          if (ret) {
->              error_report("vfio: failed to enable vectors, %d", ret);
->          }
-> -    } else {
-> +    } else if (!vdev->vbasedev.can_mask_irq) {
->          /*
->           * Some communication channels between VF & PF or PF & fw rely on the
->           * physical state of the device and expect that enabling MSI-X from the
-> @@ -660,6 +673,13 @@ static void vfio_msix_enable(VFIOPCIDevice *vdev)
->           */
->          vfio_msix_vector_do_use(&vdev->pdev, 0, NULL, NULL);
->          vfio_msix_vector_release(&vdev->pdev, 0);
-> +    } else {
-> +        /*
-> +         * If we can use irq masking, send an invalid fd on vector 0
-> +         * to enable MSI-X without any vectors enabled.
-> +         */
-> +        vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_MSIX_IRQ_INDEX, 0,
-> +                               VFIO_IRQ_SET_ACTION_TRIGGER, -1, NULL);
-
-What does this have to do with masking?  I'm not entirely sure this
-doesn't also work on vfio-pci (kernel).
-
-In general this feels like a special cased version of MSI/X masking
-support rather than actually reworking things to support underlying
-masking support for these indexes.  Thanks,
-
-Alex
+--00000000000047c83c05f40e01b2--
 
 
