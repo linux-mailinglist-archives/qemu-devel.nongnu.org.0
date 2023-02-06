@@ -2,112 +2,161 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B38E68BD73
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 14:03:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B129368C02D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 15:34:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP198-0007bO-1W; Mon, 06 Feb 2023 08:02:58 -0500
+	id 1pP2YF-0005uX-Kj; Mon, 06 Feb 2023 09:32:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pP18p-0007QI-Lu; Mon, 06 Feb 2023 08:02:43 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <Anton.Yakovlev@opensynergy.com>)
+ id 1pOwvz-0002ot-N1
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 03:33:07 -0500
+Received: from repost01.tmes.trendmicro.eu ([18.185.115.12])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pP18o-0006Rc-1u; Mon, 06 Feb 2023 08:02:39 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 316D0qCA025061; Mon, 6 Feb 2023 13:02:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=BhLI7FcTDjadHxnMvPsM3UVArQEhPdX7T+OjtiOG8Dw=;
- b=EetWxw7xmdYdFeEOzOM0NB+9ywmyNDwQ/IJf+wcTr+DGclnDm+xa1x8Bib+yu1W664PO
- 1gunMM4vJDp/72PlzjN6eYdLX0NohBMB5mrSltq7yXfv8roOSQgj/ak1naQmGVGGvqRa
- cZCZlpFpNRJlnC+Otw99STZjWA4BBsJv80jFKjYYId/VNmqL5UGIijRA/FHE8/6UivYf
- pmITYcHRWC99fBlflzN0zeMF4Ts8fcDreGoM/Ce5d9535ctdhv1F7/GBwI4Wv2ZyKs39
- AAolLahbo1yIjiBccD5+eFQKK2alALFCvgcN1OlKF3m8xfP9uKv+dFec9d1vM+RiJ3qX mg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nk22681yn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Feb 2023 13:02:27 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 316D1IkZ027920;
- Mon, 6 Feb 2023 13:02:27 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nk22681sa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Feb 2023 13:02:27 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 315N0mZc022560;
- Mon, 6 Feb 2023 13:02:16 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
- by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3nhemfje3x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Feb 2023 13:02:16 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 316D2CkA39715108
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 6 Feb 2023 13:02:12 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 63E7B20043;
- Mon,  6 Feb 2023 13:02:12 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1DC1720040;
- Mon,  6 Feb 2023 13:02:11 +0000 (GMT)
-Received: from [9.171.30.242] (unknown [9.171.30.242])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon,  6 Feb 2023 13:02:11 +0000 (GMT)
-Message-ID: <ffdc5108-b362-8373-f3c6-fc572d0b8f1a@linux.ibm.com>
-Date: Mon, 6 Feb 2023 14:02:10 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v15 06/11] s390x/cpu topology: interception of PTF
- instruction
+ (Exim 4.90_1) (envelope-from <Anton.Yakovlev@opensynergy.com>)
+ id 1pOwvx-0007j2-O9
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 03:33:07 -0500
+Received: from 104.47.17.173_.trendmicro.com (unknown [172.21.183.236])
+ by repost01.tmes.trendmicro.eu (Postfix) with SMTP id 1A548100017B7;
+ Mon,  6 Feb 2023 08:33:02 +0000 (UTC)
+X-TM-MAIL-RECEIVED-TIME: 1675672381.314000
+X-TM-MAIL-UUID: 583f613e-43fd-4504-849b-bb028e768801
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (unknown
+ [104.47.17.173])
+ by repre01.tmes.trendmicro.eu (Trend Micro Email Security) with ESMTPS id
+ 4CF1710000E58; Mon,  6 Feb 2023 08:33:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ld552OfjzfBaw29OBt7uu+Y51D5GxyqNixitF+HJzJZ4+35g45sLQrXfh0/CjqbL0zFaZo6ZvyXn6RO8sux7L/wvTncTUatT+L70/9nqDzGgUK9OSXzaJrOXdIKhvxvNRe/sOfV94F/JQC2acEDcrDs2+DD3qEMU5kcZ2Mc6OYF5Ve/DP5udBD8gaU6J1RPy/6lYh3tGIAoXL44gbQ8L1MvGy/5m1hs/nuw/WlziXF18VSqvGhkvRqGtE4PSR+s5X6WQ3tEnw3t1OCAHF7c0CxlzJly7wm+EeMYsMp4hIG3ivRiYQJBAdB9jlp75I1w14+JsqK+AVGxZzOK+2sbjpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UqDzEiw3OY7t/zlcE1txhW3+odC+AdtCou95k6Fag6w=;
+ b=XjY7E5+zSqEbxt9qL++WPFVfUQQ99nKHGQ1JlYl8Xs3TDdRCVfqRHUaq6CG5TW1RV3tzRxQiutnTk5WXsz0wBl+BE69ys7d6R06DLzpKYGYcduOcXoLgPwrPFhs9WZ+Y369QcjubWrZYXaQqNaA/D/gMzSAjuH2lKDukdWV51yoJjfJ9ZxkR239WzIJZ+E2lHB6e1OPfXbUcYl9VCpK6Pnt+0t6LsovfdiE2X8hieHTgTyeoArfnAfOTfBOv/QfwNH/cE1uPeSIKPycDFEuR5LnDZHly7PDUsH5yqeSX1dH9skuE4TVHrpdXA90iu2RvYwDa0F4qusUNhwODzSxzxA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=opensynergy.com; dmarc=pass action=none
+ header.from=opensynergy.com; dkim=pass header.d=opensynergy.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=opensynergy.com;
+Message-ID: <affc5c9d-5d66-4a27-ad94-bfb105a12bef@opensynergy.com>
+Date: Mon, 6 Feb 2023 09:32:58 +0100
+Subject: Re: virtio-sound Google Summer of Code project?
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- nsg@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230201132051.126868-1-pmorel@linux.ibm.com>
- <20230201132051.126868-7-pmorel@linux.ibm.com>
- <92533b03-f07e-736a-4e29-bcdf883f7ec4@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <92533b03-f07e-736a-4e29-bcdf883f7ec4@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>, chouhan.shreyansh2702@gmail.com,
+ Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <Laurent@vivier.eu>
+Cc: qemu-devel <qemu-devel@nongnu.org>
+References: <CAJSP0QXBKPXj2vf3wuK2QGdX+HZa_Nu3A+RT6hYnXJrUKTY4Fg@mail.gmail.com>
+ <CAJSP0QWDMv2yFkORzKt+p45ykiY=AmZCbrS464nZOqEtOz-NqA@mail.gmail.com>
+From: Anton Yakovlev <anton.yakovlev@opensynergy.com>
+In-Reply-To: <CAJSP0QWDMv2yFkORzKt+p45ykiY=AmZCbrS464nZOqEtOz-NqA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 7qa0IDZ0-C72yDzK7A0YxqOadoa5jwG8
-X-Proofpoint-ORIG-GUID: SQf9uUKTd32VF4eoGW6F7Z2It97lRmNz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-06_06,2023-02-06_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- priorityscore=1501 impostorscore=0 lowpriorityscore=0 adultscore=0
- spamscore=0 mlxlogscore=999 clxscore=1015 mlxscore=0 bulkscore=0
- phishscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2302060111
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR02CA0125.eurprd02.prod.outlook.com
+ (2603:10a6:20b:28c::22) To BEZP281MB2374.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:5c::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BEZP281MB2374:EE_|FR2P281MB2876:EE_
+X-MS-Office365-Filtering-Correlation-Id: 55027121-24dc-41d8-6a86-08db081cc136
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Q6+eFuwg87Dxtm4xWcbmVawdWzAierEgn3pFhfXOqogLl4hmHhTye8SOYcAkU7ChlBC21+6keK+I9FmX72cAtrXKzu9KVutyKcHnBdqcyf8UCaHygR6Y7falsjWZsv/Z2aBikQ59AzEdpx+DeZ9nxx9wtqr5MayU7RgZ/wuXRgBMBitXl3nTmkL7Y6DsvVspO5xj+3luZ1mUOixV3HdlZFAHAgWEW9D6WJD1s4WXWS4gEvQtTAAploKBYkVUeHB+OjnkUe7V16mHxX4XVbm+t00cSzEL6QmBIStNKATLaKRhUbfNI+LiW5wXx2Viku78eYP075jYYPAVqwZXsf4kSgDXa9gpsr00XCz808J5p0yRDwoCjNqyk1cVAcdhPLiE44ucx7KHJe1slnUf5DAj/rpTwrdRMNMJW7kxFSOc9yLEAirIryI4oFDk3bUSXqIIc+9OW9GWHG55xpyfwWNbuCtY/axoKesPnaQ2i3re3suBxjt5oQLk4/LK+7UlnTYw4T0BP3IjYrPgofxB5d+z5plSK9veesQRtEMIdA4/H0KOeq1ZRd/qfRxcWfuQ8kwFqH4/GeOA0Rrn5VoyubX0TJ9fsHuDgdTfD9kAh/bNIzELSG38YWd55e5p2ETnHMLAbS4rp1MFbA6hxmdFfXifKJb7K/bcbt1acMAIOL6ANhc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BEZP281MB2374.DEUP281.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230025)(136003)(346002)(376002)(396003)(39830400003)(366004)(451199018)(66899018)(53546011)(2616005)(966005)(478600001)(8676002)(186003)(26005)(4326008)(110136005)(66946007)(66556008)(316002)(66476007)(42186006)(86362001)(36756003)(31696002)(38100700002)(83380400001)(5660300002)(44832011)(41300700001)(8936002)(2906002)(31686004);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dXZVcXlpZERYNGNzdmJJT2lCc24yeWNodjhPbWxWMEQxMzNiVjU4K2NTZXNv?=
+ =?utf-8?B?QzAva1B1WTAwWFE5OTlnTGlUY2ZSQldYY00ycklyZk9aQTJNRHRZZFZPc1RT?=
+ =?utf-8?B?L21mZnprNDJZUjYwVDBiMTgzMUh5RitJVVVpbnNGUmN4bHNjM1FqeVpzbzNs?=
+ =?utf-8?B?K0RRMjNtS3k0elJQeGsvbFRpcmVOYkhBNEZsUFdXYVJMdFdXcERIdlRPSTVO?=
+ =?utf-8?B?a2Y4RlVCZ2JrQ3lyODhYNDZyYWtsZHV3WElhQmNveGgxK05taHgzSkJvb1ZK?=
+ =?utf-8?B?NzJHZExZOVdNNlcrY2NTZVdOTmh0Y0dkcnBnMmEwenhpU2hNcEN6OWg2RjRw?=
+ =?utf-8?B?aFpWNENySG9sRVBsUkd5TEtBTUxvaTdZSGU2dFRNbDkrQktISmc5WXJQN0VT?=
+ =?utf-8?B?L29ldnpLTys1c1NxZHdaeTEranE4ZVJvbmNhaTNGMVVwSFhZL0dFdk00QjRl?=
+ =?utf-8?B?R0pZSU4yMkxUaUo5Y2w5dlIrcTB4RjhrZDhySGwwM2taZ0VCbnZ2czcrbVpO?=
+ =?utf-8?B?K0hwMVdTbksxeGFvVHlLQ1pmbUZ4aVhENkNsVDJsK1VRbzNHbERNUGdvNHRH?=
+ =?utf-8?B?NDZFTGZrbTBGd2xIUXVTbS84NjVDL0hHUHFrTVdZbFlpVzhqSmVZSjREQTFH?=
+ =?utf-8?B?OFBFTjlIYXpENWYxRjVXZjhmejhkYngwakZFTEZxNzlyczkvbDFVWXF2Sk5B?=
+ =?utf-8?B?cFU1bENrajFENmxWTFFtemtxZUJJcDlqK0gxYzRTYXBtSnE0M3N4RjY4K0FG?=
+ =?utf-8?B?OXZRU0tFQXA3ZDhhWEdUZG1DRWtaUmRiUGxSTHRidm4wRng3cWU5S3dwMHF2?=
+ =?utf-8?B?MXhtQUN1N0dETnMyNWpRZUhnaTg1aHVCbVZKSXppempxNmk4dk9iazcwQTdP?=
+ =?utf-8?B?SHVKVm1sekJzMnNsVWFXajZGK0tFdlA0R29uR1lhU0ZNTmprRC9sTzlnRHNR?=
+ =?utf-8?B?ZlRnNHd2U0lQTXkxdW9HK2lWN014RTBLK0hpVWlZWTlvU2JKMU5pV2J0Mi9l?=
+ =?utf-8?B?VElCa2dLOXUxZXRtVkxzcUlmdTY5Z09SZHo3clQyU0g2aXVCemhQeUVDMSsx?=
+ =?utf-8?B?d2ZTOUd6QVB5MW9xNnk1UXcvaEpja1JMOWpVRGJ2QzBDcDQ0dWVQbXJNSzFR?=
+ =?utf-8?B?eGJDMTdpQVU0cGlrNzBoTUdLaEc1UnN6RDBXTXpZY0x3UXlDS0xrSUtFSnFn?=
+ =?utf-8?B?bFBtWkVkNGQ0ZXdpTjRtMlRHOW1BQ2pOcGFYL3RUSjV4SDJjTldJQ1ZWTU5x?=
+ =?utf-8?B?WDlVYk4wZlNTeE53WWtoQ0ExNzRiRnlGSEpoZlVWWEZXR3BIdVhNQTZRTzVn?=
+ =?utf-8?B?TzBCdUF4T0Y3Y2g2T05YZHh0ajlGeUJLZmtjQ1VaT2FlbGczN3NSQTJsRHho?=
+ =?utf-8?B?cmRhazhFZ1BOODFqcXpXTnhhdm0yZDFTdjhObEdwT00rQ0lZQXhudDk5NmEz?=
+ =?utf-8?B?TlJRbWZRSzZiOUVBSzlnakc2QU5UT2Zya08yKzIwZk44TGIydTFIKzZsZTJP?=
+ =?utf-8?B?M3JDVDY4T1IrRERiSERhclBVWmVBZERjU0lGeHJhKzFSQndtbzRaOFdaNVpu?=
+ =?utf-8?B?dmJFRURvNzF4YTZ0NllJTmprK2p5VHcrUGdUZ0FTOFdWd3hyNFBoSjRiSHhp?=
+ =?utf-8?B?MFFINFpEQ29Dc01qMFBxMm1BMEdTSlZGYlRueHMxZkltNjI1b2hFSGdBTnJk?=
+ =?utf-8?B?TUdCSDdWb3prRld1VTBKUkpKcVg1bXVpY2VWdVI4NjFKN2FYS25haERMNkEy?=
+ =?utf-8?B?S3BqMXRYTGNWUlFHQ1BFNGlXbHc2SHZ0Nm4xdkd2cTFZUWk3ZXlTVFlva2k1?=
+ =?utf-8?B?UW1VYkc0Slgycnc2TmxGWGJYMUE5Tm9ZR0JsMzI4ZmxUY0s0cnZOSzl2VnRV?=
+ =?utf-8?B?UStDaGdyblovTjZLcXFsVnB2aW11b0VBTGt3UkJnUnhyeWNkckhsd0U0Qk1Y?=
+ =?utf-8?B?QWJxMFhDMzRJdTQ1RnoySWhmU0IzeDBKdDR0aEVhalhFMndPOE5TcFFXRGNo?=
+ =?utf-8?B?SDEwNktDY0Iwdk1nUFdjc2pzVWw5N1BKVVgyMjl2L3BLZkZ0djkzOXV4blMy?=
+ =?utf-8?B?ZjI1TUNTTEVTM1dvREVUZ3pWbHpoRWRmRzBEN1RITUxjb2NLTHNpQlJaOW5n?=
+ =?utf-8?Q?0VpQ2Hqm2M0Xgl/0I5nCbfMaY?=
+X-OriginatorOrg: opensynergy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 55027121-24dc-41d8-6a86-08db081cc136
+X-MS-Exchange-CrossTenant-AuthSource: BEZP281MB2374.DEUP281.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2023 08:32:59.7669 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 800fae25-9b1b-4edc-993d-c939c4e84a64
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: l+4BG5U6sBe1+S16NeUnsKIonvJfHg4Ax2GZPBhYNjYQvi+slwKvUUfrWsb007OaKfqXfmdLy6328wLXxtLdXQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: FR2P281MB2876
+X-TM-AS-ERS: 104.47.17.173-0.0.0.0
+X-TMASE-Version: StarCloud-1.3-9.0.1006-27430.006
+X-TMASE-Result: 10--12.816300-4.000000
+X-TMASE-MatchedRID: 8+bhjh9TQnG1TiWqZWCoj/SG/+sPtZVkodQJXaDex6ctferJ/d7Ab21A
+ +PyfVi9Veez4oHhYoxm7xzMaKbzCxYGPhODXVRLh031Nfxfj2zM4ptE5KnVLXjYgHxNNAM3Eeev
+ ydFaExT0kGoBrODPcEBhLcNjoUT5GxoqlTanWp/gauwHwtbBRCjUDvpRQufxVP4H+2nyK0FNcVM
+ ejXN5JL9qGjcxE8ErOz6JErkPuJbfcLfcGrpLL2blu+/8vPerIIfyQNHR2nabL9b903kllw865Q
+ ern2w9CwjPe6OzQ3nO1Yo1HZ6kAVrPHp4ylMlFLfsrJIMK37At9LQinZ4QefL6qvLNjDYTwsuf7
+ RWbvUtxXSLjBghTWKQtuKBGekqUpIG4YlbCDECtruV6hT84yE1iwJprBIi4pW5t+y7F2Xk5igMm
+ Tu+1gKp63TCR6X0YKVaHbSonfiM9+3BndfXUhXQ==
+X-TMASE-XGENCLOUD: 21b5d6fa-a713-4bb4-bc6b-642e29ccb8d9-0-0-200-0
+X-TM-Deliver-Signature: 70CFC663F957FFC0D1092DF35E207BEE
+X-TM-Addin-Auth: KdDXzUHWT/rH6T5DPIfbddO8eUAOXnPAgL8eY7MbC+H8devFqUY1UatRxrP
+ oyfG3p194C2ZT3IavMHlSCFprirsdo9u02SxrrtTCAE94XVADmYfzPy5hTRM+TuQT+6S/h9bpGj
+ hE8HkTF3UDeKnN26Sb+zwjoIbHRoRnx+TyPjj/jy/R1fXi8FxHf9lwkQwG1xKoaVqrZhFF9KnB7
+ v4qE60FE+PXFwD5G0QE6hNlC23V3TCuCeVDNxktcRjaEHj1tYwaGyl0ZvuIqLdXTULlLFLYmUxH
+ Qnghdpd38iNIlIU=.HqtqOhDDN4qT6qLg6Y+0po74abHQsYltKpMH9TBmltULYTBAw3Sjw9Pv1h
+ SSYirXREadYjMKlaK8It7AHNHBut460ScgxfqQ1ZlpeFwoXPT1iBxKRdHxtxcNVmN0dCvShqjGu
+ xiudGKGaccZZPraH08LA6NrP39c23/ON4q/qETF+FwBA/1CPNmJhjBY9+HmtCcRjDnSXC3WLJ+X
+ qAyWYak6b+vCgcHbNyi+5aWEjbm4C3GU/AEw8xfjpDCMQusf9DCFDAzjEcvCzjbye6EogMy9KUO
+ 2jHvMuKx4zZSpSIy/BQ7oX0befk5w04VS8DMFmR6Q81bSaGQLo0E7+sUlAg==
+X-TM-Addin-ProductCode: EMS
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=opensynergy.com;
+ s=TM-DKIM-20210503141657; t=1675672381;
+ bh=OFA3qzgSxAlEbMZ+CfnvK3J+kZ0cQcrcHsO1sj4RJe4=; l=1664;
+ h=Date:To:From;
+ b=s0+f/KeFRnzdOwRDNWxRVLkWvzO4VplX3caZ4Uz65zRC/X9Wyqok80tEvnxyb5+a8
+ UaD61W78thyXkimeSc8s3fBEjYnH7pbxfjacJpFn/o0wu//GYj+DO88u7g1RYhZsdH
+ ad8h2zC9cuAnNHePg2F9vHRoxEYQxxFlFnmMzIw19WZJdAm4EySctAakluOANUORFU
+ xDWu0glOYioWIwVc2heflT7Fmd48VfldIm0mNTN/DdcjdSst920wWOPPN0jnThkMeg
+ Vi8Cr+uHzpqm457u0OuMTcGlgeVdrX+txzozHB1RBvLd6NQwROc86TcTljiK3jjRsn
+ W62EMrrKg9YUw==
+Received-SPF: pass client-ip=18.185.115.12;
+ envelope-from=Anton.Yakovlev@opensynergy.com; helo=repost01.tmes.trendmicro.eu
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 06 Feb 2023 09:32:51 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,82 +171,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi guys,
+
+If anything, I'm here. Not sure I'll have time to be a mentor, but if there
+are any questions I can answer, you're welcome.
 
 
-On 2/6/23 12:38, Thomas Huth wrote:
-> On 01/02/2023 14.20, Pierre Morel wrote:
->> When the host supports the CPU topology facility, the PTF
->> instruction with function code 2 is interpreted by the SIE,
->> provided that the userland hypervizor activates the interpretation
-> 
-> s/hypervizor/hypervisor/
-
-grr, I was pretty sure you already said that to me and I did change 
-it... seems I did not.
-
-done now.
-
-> 
->> by using the KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
+On 31.01.2023 16:35, Stefan Hajnoczi wrote:
+> On Sun, 29 Jan 2023 at 17:10, Stefan Hajnoczi <stefanha@gmail.com> wrote:
 >>
->> The PTF instructions with function code 0 and 1 are intercepted
->> and must be emulated by the userland hypervizor.
-> 
-> dito
-
-yes, thx.
-
-> 
->> During RESET all CPU of the configuration are placed in
->> horizontal polarity.
+>> Hi Shreyansh, Gerd, and Laurent,
+>> The last virtio-sound RFC was sent in February last year. It was a
+>> spare time project. Understandably it's hard to complete the whole
+>> thing on weekends, evenings, etc. So I wanted to suggest relaunching
+>> the virtio-sound effort as a Google Summer of Code project.
 >>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
-> ...
->>   /**
->>    * s390_topology_reset:
->>    *
->>    * Generic reset for CPU topology, calls s390_topology_reset()
->>    * s390_topology_reset() to reset the kernel Modified Topology
->>    * change record.
->> + * Then set global and all CPUs polarity to POLARITY_HORIZONTAL.
+>> Google Summer of Code is a 12-week full-time remote work internship.
+>> The intern would be co-mentored by some (or all) of us. The project
+>> goal would be to merge virtio-sound with support for both playback and
+>> capture. Advanced features for multi-channel audio, etc can be stretch
+>> goals.
+>>
+>> I haven't looked in detail at the patches from February 2022, so I
+>> don't know the exact state and whether there is enough work remaining
+>> for a 12-week internship. What do you think?
 > 
-> You describe here already what's going to happen...
+> Adding Anton.
 > 
->>    */
->>   void s390_topology_reset(void)
->>   {
->>       s390_cpu_topology_reset();
->> +    /* Set global polarity to POLARITY_HORIZONTAL */
+> I have updated the old wiki page for this project idea and added it to
+> the 2023 ideas list:
+> https://ddec1-0-en-ctp.trendmicro.com:443/wis/clicktime/v1/query?url=https%3a%2f%2fwiki.qemu.org%2fInternships%2fProjectIdeas%2fVirtioSound&umid=dfa27714-6bd5-4f51-afb5-d0561afc03c8&auth=53c7c7de28b92dfd96e93d9dd61a23e634d2fbec-45bc593563b7a9935517db85a53255e7b79f3550
 > 
-> ... then here again ...
+> Please let me know if you wish to co-mentor this project!
 > 
->> +    s390_topology.polarity = POLARITY_HORIZONTAL;
-> 
-> ... and the code is (fortunately) also very self-exaplaining...
-> 
->> +    /* Set all CPU polarity to POLARITY_HORIZONTAL */
->> +    s390_topology_set_cpus_polarity(POLARITY_HORIZONTAL);
-> 
-> ... so I'd rather drop the two comments within the function body.
-
-OK
-
-> 
->>   }
-> 
-> (rest of the patch looks fine to me)
-> 
->   Thomas
-> 
-
-Thanks.
-
-Regards,
-Pierre
-
+> Stefan
 
 -- 
-Pierre Morel
-IBM Lab Boeblingen
+Anton Yakovlev
+Senior Software Engineer
+
+OpenSynergy GmbH
+Rotherstr. 20, 10245 Berlin
 
