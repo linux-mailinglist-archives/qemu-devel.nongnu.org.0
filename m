@@ -2,87 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716FE68C625
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 19:53:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D19E668C638
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 19:56:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP6bj-0004wB-OE; Mon, 06 Feb 2023 13:52:51 -0500
+	id 1pP6cB-0005R9-9i; Mon, 06 Feb 2023 13:53:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP6bZ-0004vZ-Tk
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:52:50 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP6bW-0005RD-00
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:52:40 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- j29-20020a05600c1c1d00b003dc52fed235so9626564wms.1
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 10:52:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=euw2DqlC8cs3IIL7aKpu5NwRAp5I1Awdy07JI7NWZrM=;
- b=X2hpMZ/i/s5N4UIGK3F1DGMIBAoiyrIY5hbeQFmqSLq+BwG5QwQzM0Y9AubgmnjYFM
- 1/ombkfffnVXMRQeMZgKSw153eRV5/OrwVbIen3VNM/SxNSKn4SXcneeYOuFfog/btH6
- gVrLP9/JM623wdGkWaLRu64A50kF2O8PUP2UayOxQOeS13beqxlIPyYyOKWj9536/3nl
- aeATF5F+0OVr1n3IWusMeDhOOr524szu1Iq25NDhDM2flq6OxjxrOA6fjnkFWZAA+Z6v
- 6U2Ow6cd93lrw10VsVsr+Ev0Sy/A9voxe842f/k0UZmGdmP9aM4FRAHHoYPmv8YYTF5y
- mzfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=euw2DqlC8cs3IIL7aKpu5NwRAp5I1Awdy07JI7NWZrM=;
- b=MNQ23CckhXlvh4Zgwf6Zn35EbYjqs80oODtmTBASIEkKCMVaWP1dE8IjFAPgXHXf6m
- Qf4I1WHSIRYjpxZUMMz7AIJIzk/pYGef5LvoitRhYGAlSHjvNV/V7kwm5nvcj5XHVpcj
- 9AbZTBLNATwjq52SdtcV7EfmGV5u1eW/Dydshh/n2qnrNSZY8ve1kbFmoe6L44o4kRfQ
- 2u7qcLeeMLMUBrG5cHSzK9qunGJc3YaU9E5b2mMInRFucz3meDPhziTXDTZ2t1ggjMES
- rRlsxoAWmw6NF34XE68avCE7f318kM+9zXg+jFRaF60LYmxwibPIeFS4avLKJ9buXoN3
- RMLw==
-X-Gm-Message-State: AO0yUKUh0LXh53jJB/JDIuFpLn9RRH87f+X6oySQYCuzz8vC3LrpVDvo
- 5WxM54xxf+EaUjSAgi96ATc3WQ==
-X-Google-Smtp-Source: AK7set/0jWAB7oma4fqR6wuxybqRWFFOhqzS8QEqqBrJ++YUYGkQmVLu5jWIjP6Bfcgl/3YkWrKp7A==
-X-Received: by 2002:a05:600c:3198:b0:3e0:15c:3573 with SMTP id
- s24-20020a05600c319800b003e0015c3573mr602583wmp.35.1675709556358; 
- Mon, 06 Feb 2023 10:52:36 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- k32-20020a05600c1ca000b003ddf2865aeasm18185942wms.41.2023.02.06.10.52.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 10:52:35 -0800 (PST)
-Message-ID: <fe5f2115-ba3e-aa4a-049f-7741b82d107d@linaro.org>
-Date: Mon, 6 Feb 2023 19:52:34 +0100
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1pP6c8-0005Dr-1D
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:53:16 -0500
+Received: from mailout01.t-online.de ([194.25.134.80])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1pP6c5-0005Wv-FS
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:53:14 -0500
+Received: from fwd72.dcpf.telekom.de (fwd72.aul.t-online.de [10.223.144.98])
+ by mailout01.t-online.de (Postfix) with SMTP id 50B73BEB3;
+ Mon,  6 Feb 2023 19:53:11 +0100 (CET)
+Received: from linpower.localnet ([79.208.25.151]) by fwd72.t-online.de
+ with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+ esmtp id 1pP6c3-2UCJMX0; Mon, 6 Feb 2023 19:53:11 +0100
+Received: by linpower.localnet (Postfix, from userid 1000)
+ id 977BF2006C9; Mon,  6 Feb 2023 19:52:37 +0100 (CET)
+From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
+To: Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>
+Cc: qemu-devel@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: [PATCH v2 15/17] audio: handle leftover audio frame from upsampling
+Date: Mon,  6 Feb 2023 19:52:35 +0100
+Message-Id: <20230206185237.8358-15-vr_qemu@t-online.de>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <df6510fe-1dfd-1585-8590-db230c71d367@t-online.de>
+References: <df6510fe-1dfd-1585-8590-db230c71d367@t-online.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 02/12] tests/qtest: Do not run lsi53c895a test if device
- is not present
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Laurent Vivier <lvivier@redhat.com>
-References: <20230206150416.4604-1-farosas@suse.de>
- <20230206150416.4604-3-farosas@suse.de>
- <4ea8eec3-1d4e-0d09-4bf4-eb2987238594@linaro.org> <877cwuadr6.fsf@suse.de>
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <877cwuadr6.fsf@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TOI-EXPURGATEID: 150726::1675709591-81AEBD99-F64D8ECC/2/50744550798 SUSPECT
+ URL-COUNT
+X-TOI-MSGID: 859d53c4-4527-4f4d-824e-61cc276b1897
+Received-SPF: none client-ip=194.25.134.80;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout01.t-online.de
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,42 +66,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 6/2/23 18:46, Fabiano Rosas wrote:
-> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
-> 
->> On 6/2/23 16:04, Fabiano Rosas wrote:
->>> The tests are built once for all the targets, so as long as one QEMU
->>> binary is built with CONFIG_LSI_SCSI_PCI=y, this test will
->>> run. However some binaries might not include the device. So check this
->>> again in runtime.
->>>
->>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
->>> ---
->>>    tests/qtest/fuzz-lsi53c895a-test.c | 4 ++++
->>>    1 file changed, 4 insertions(+)
->>>
->>> diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
->>> index 392a7ae7ed..a9254b455d 100644
->>> --- a/tests/qtest/fuzz-lsi53c895a-test.c
->>> +++ b/tests/qtest/fuzz-lsi53c895a-test.c
->>> @@ -112,6 +112,10 @@ static void test_lsi_do_dma_empty_queue(void)
->>>    
->>>    int main(int argc, char **argv)
->>>    {
->>> +    if (!qtest_has_device("lsi53c895a")) {
->>> +        return 0;
->>> +    }
->>
->> Shouldn't we update Kconfig to now add the test unconditionally?
+Upsampling may leave one remaining audio frame in the input
+buffer. The emulated audio playback devices are currently
+resposible to write this audio frame again in the next write
+cycle. Push that task down to audio_pcm_sw_write.
 
-(I meant meson.build, not Kconfig).
+This is another step towards an audio callback interface that
+guarantees that when audio frontends are told they can write
+n audio frames, they can actually do so.
 
->> Squashing:
-> 
-> I think we'd still want to not build this test if nothing selected
-> CONFIG_LSI_SCSI_PCI.
+Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+---
+ audio/audio.c          | 34 ++++++++++++++++++++++++++++------
+ audio/audio_template.h |  6 ++++++
+ 2 files changed, 34 insertions(+), 6 deletions(-)
 
-Yeah, no need to waste resources building/testing if not available.
+diff --git a/audio/audio.c b/audio/audio.c
+index dad17e59b8..4836ab8ca8 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -731,16 +731,21 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t buf_len)
+     hw_free = hw_free > live ? hw_free - live : 0;
+     frames_out_max = MIN(dead, hw_free);
+     sw_max = st_rate_frames_in(sw->rate, frames_out_max);
+-    fe_max = MIN(buf_len / sw->info.bytes_per_frame, sw->resample_buf.size);
++    fe_max = MIN(buf_len / sw->info.bytes_per_frame + sw->resample_buf.pos,
++                 sw->resample_buf.size);
+     frames_in_max = MIN(sw_max, fe_max);
+ 
+     if (!frames_in_max) {
+         return 0;
+     }
+ 
+-    sw->conv(sw->resample_buf.buffer, buf, frames_in_max);
+-    if (!sw->hw->pcm_ops->volume_out) {
+-        mixeng_volume(sw->resample_buf.buffer, frames_in_max, &sw->vol);
++    if (frames_in_max > sw->resample_buf.pos) {
++        sw->conv(sw->resample_buf.buffer + sw->resample_buf.pos,
++                 buf, frames_in_max - sw->resample_buf.pos);
++        if (!sw->hw->pcm_ops->volume_out) {
++            mixeng_volume(sw->resample_buf.buffer + sw->resample_buf.pos,
++                          frames_in_max - sw->resample_buf.pos, &sw->vol);
++        }
+     }
+ 
+     audio_pcm_sw_resample_out(sw, frames_in_max, frames_out_max,
+@@ -749,6 +754,22 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t buf_len)
+     sw->total_hw_samples_mixed += total_out;
+     sw->empty = sw->total_hw_samples_mixed == 0;
+ 
++    /*
++     * Upsampling may leave one audio frame in the resample buffer. Decrement
++     * total_in by one if there was a leftover frame from the previous resample
++     * pass in the resample buffer. Increment total_in by one if the current
++     * resample pass left one frame in the resample buffer.
++     */
++    if (frames_in_max - total_in == 1) {
++        /* copy one leftover audio frame to the beginning of the buffer */
++        *sw->resample_buf.buffer = *(sw->resample_buf.buffer + total_in);
++        total_in += 1 - sw->resample_buf.pos;
++        sw->resample_buf.pos = 1;
++    } else if (total_in >= sw->resample_buf.pos) {
++        total_in -= sw->resample_buf.pos;
++        sw->resample_buf.pos = 0;
++    }
++
+ #ifdef DEBUG_OUT
+     dolog (
+         "%s: write size %zu written %zu total mixed %zu\n",
+@@ -1155,8 +1176,9 @@ static void audio_run_out (AudioState *s)
+                 } else {
+                     free = 0;
+                 }
+-                if (free > 0) {
+-                    free = MIN(free, sw->resample_buf.size);
++                if (free > sw->resample_buf.pos) {
++                    free = MIN(free, sw->resample_buf.size)
++                           - sw->resample_buf.pos;
+                     sw->callback.fn(sw->callback.opaque,
+                                     free * sw->info.bytes_per_frame);
+                 }
+diff --git a/audio/audio_template.h b/audio/audio_template.h
+index a0b653f52c..0d8aab6fad 100644
+--- a/audio/audio_template.h
++++ b/audio/audio_template.h
+@@ -138,6 +138,12 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE) (SW *sw)
+         return -1;
+     }
+ 
++    /*
++     * Allocate one additional audio frame that is needed for upsampling
++     * if the resample buffer size is small. For large buffer sizes take
++     * care of overflows.
++     */
++    samples = samples < INT_MAX ? samples + 1 : INT_MAX;
+     sw->resample_buf.buffer = g_new0(st_sample, samples);
+     sw->resample_buf.size = samples;
+     sw->resample_buf.pos = 0;
+-- 
+2.35.3
 
-OTOH the qtest's meson.build is too complicated.
 
