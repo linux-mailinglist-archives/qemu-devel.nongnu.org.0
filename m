@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0AB568C0ED
+	by mail.lfdr.de (Postfix) with ESMTPS id 4293A68C0EB
 	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 16:07:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP34p-0003rk-HA; Mon, 06 Feb 2023 10:06:39 -0500
+	id 1pP34s-0003um-Gb; Mon, 06 Feb 2023 10:06:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP34m-0003r8-Su
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:06:36 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP34p-0003uA-UB
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:06:40 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP34k-0008PI-Ve
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:06:36 -0500
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP34n-0008Pi-0A
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:06:39 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D45943F458;
- Mon,  6 Feb 2023 15:06:33 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D5B0E6056C;
+ Mon,  6 Feb 2023 15:06:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675695993; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1675695995; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gThNfP6Ml2oVg/SfCswVI8P1z1B+P2O76UmDUlqm5UY=;
- b=m1r3o71KMDsD2xaEhSEmU0kTe5wmQRuga+GmI/waA06KjTExBSp8PjxbkdtGhJelT0syBe
- 6M8sfvXgXwrxJOht9bUVoOLLOIPuLuFi4lCeMuCPsWJTwMiy0C92VSyAYG5TDwe4z7WxTU
- ewqdrWm6ys2Kg4qJUwUKYkZ0eStSU5w=
+ bh=tt7m42D4iHF+/zWVavAL6Ksm1ZZSEgB/IQavnNmDYZk=;
+ b=RQfX6lQPqXbVJFfaa3nHx936FLo3HnLbaXAvR3wKOSc9m3bQpxl9jGsiQ2ZAWT5rPPbGTE
+ xghexnckxTnqh7J7zdfodHnn4NP9OzvsuAitGFJsTxKkak5cfTdVDIDAgJ6Zup/f3ods2G
+ x/eipC0YQcmTBJB8zM6Za8k4R8BLN+M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675695993;
+ s=susede2_ed25519; t=1675695995;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gThNfP6Ml2oVg/SfCswVI8P1z1B+P2O76UmDUlqm5UY=;
- b=nAmbg7G95xSQjHDjxcHlSH1818JVoyIXcMoHHcfVY0Y8GDZtjb2/co1x6gEtffMJzSGQtP
- SEWsd6o8VLwkKVBg==
+ bh=tt7m42D4iHF+/zWVavAL6Ksm1ZZSEgB/IQavnNmDYZk=;
+ b=0qmrV3AopUeMSGcC0xb8I/PnJZoe6/ak8q5ZtMDLR4jvTJznIcdKUNB0JCMCJceikd7mOF
+ woWKVTlHIjePgACg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8754E138E8;
- Mon,  6 Feb 2023 15:06:32 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4D514138E8;
+ Mon,  6 Feb 2023 15:06:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 8GsrFHgX4WPSXwAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 06 Feb 2023 15:06:32 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id gEIFBnoX4WPSXwAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 06 Feb 2023 15:06:34 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 07/12] tests/qtest: drive_del-test: Skip tests that require
- missing devices
-Date: Mon,  6 Feb 2023 12:04:11 -0300
-Message-Id: <20230206150416.4604-8-farosas@suse.de>
+Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: [PATCH 08/12] tests/qtest: Check for devices in bios-tables-test
+Date: Mon,  6 Feb 2023 12:04:12 -0300
+Message-Id: <20230206150416.4604-9-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230206150416.4604-1-farosas@suse.de>
 References: <20230206150416.4604-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -86,169 +85,212 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Do not include tests that require devices that are not available in
+the QEMU build.
+
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- tests/qtest/drive_del-test.c | 70 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 70 insertions(+)
+ tests/qtest/bios-tables-test.c | 75 ++++++++++++++++++++++++++++++++--
+ 1 file changed, 71 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qtest/drive_del-test.c b/tests/qtest/drive_del-test.c
-index 9a750395a9..6fa96fa94a 100644
---- a/tests/qtest/drive_del-test.c
-+++ b/tests/qtest/drive_del-test.c
-@@ -16,6 +16,21 @@
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qlist.h"
- 
-+static const char *qvirtio_get_dev_type(void);
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index d8c8cda58e..d29a4e47af 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1008,6 +1008,12 @@ static void test_acpi_q35_multif_bridge(void)
+         .machine = MACHINE_Q35,
+         .variant = ".multi-bridge",
+     };
 +
-+/*
-+ * This covers the possible absence of a device due to QEMU build
-+ * options.
-+ */
-+static bool look_for_device_builtin(const char *prefix, const char *suffix)
-+{
-+    gchar *device = g_strdup_printf("%s-%s", prefix, suffix);
-+    bool rc = qtest_has_device(device);
++    if (!qtest_has_device("pcie-root-port")) {
++        g_test_skip("Device pcie-root-port is not available");
++        goto out;
++    }
 +
-+    g_free(device);
-+    return rc;
-+}
-+
- static bool look_for_drive0(QTestState *qts, const char *command, const char *key)
- {
-     QDict *response;
-@@ -40,6 +55,11 @@ static bool look_for_drive0(QTestState *qts, const char *command, const char *ke
-     return found;
+     test_vm_prepare("-S"
+         " -device virtio-balloon,id=balloon0,addr=0x4.0x2"
+         " -device pcie-root-port,id=rp0,multifunction=on,"
+@@ -1043,6 +1049,7 @@ static void test_acpi_q35_multif_bridge(void)
+     /* check that reboot/reset doesn't change any ACPI tables  */
+     qtest_qmp_send(data.qts, "{'execute':'system_reset' }");
+     process_acpi_tables(&data);
++out:
+     free_test_data(&data);
  }
  
-+static bool has_device_builtin(const char *dev)
-+{
-+    return look_for_device_builtin(dev, qvirtio_get_dev_type());
-+}
-+
- static bool has_drive(QTestState *qts)
+@@ -1396,6 +1403,11 @@ static void test_acpi_tcg_dimm_pxm(const char *machine)
  {
-     return look_for_drive0(qts, "query-block", "device");
-@@ -208,6 +228,11 @@ static void test_drive_del_device_del(void)
- {
-     QTestState *qts;
+     test_data data;
  
-+    if (!has_device_builtin("virtio-scsi")) {
-+        g_test_skip(NULL);
++    if (!qtest_has_device("nvdimm")) {
++        g_test_skip("Device nvdimm is not available");
 +        return;
 +    }
 +
-     /* Start with a drive used by a device that unplugs instantaneously */
-     qts = qtest_initf("-drive if=none,id=drive0,file=null-co://,"
-                       "file.read-zeroes=on,format=raw"
-@@ -232,6 +257,11 @@ static void test_cli_device_del(void)
-     const char *arch = qtest_get_arch();
-     const char *machine_addition = "";
+     memset(&data, 0, sizeof(data));
+     data.machine = machine;
+     data.variant = ".dimmpxm";
+@@ -1444,6 +1456,11 @@ static void test_acpi_virt_tcg_memhp(void)
+         .scan_len = 256ULL * 1024 * 1024,
+     };
  
-+    if (!has_device_builtin("virtio-blk")) {
-+        g_test_skip(NULL);
++    if (!qtest_has_device("nvdimm")) {
++        g_test_skip("Device nvdimm is not available");
++        goto out;
++    }
++
+     data.variant = ".memhp";
+     test_acpi_one(" -machine nvdimm=on"
+                   " -cpu cortex-a57"
+@@ -1457,7 +1474,7 @@ static void test_acpi_virt_tcg_memhp(void)
+                   " -device pc-dimm,id=dimm0,memdev=ram2,node=0"
+                   " -device nvdimm,id=dimm1,memdev=nvm0,node=1",
+                   &data);
+-
++out:
+     free_test_data(&data);
+ 
+ }
+@@ -1475,6 +1492,11 @@ static void test_acpi_microvm_tcg(void)
+ {
+     test_data data;
+ 
++    if (!qtest_has_device("virtio-blk-device")) {
++        g_test_skip("Device virtio-blk-device is not available");
 +        return;
 +    }
 +
-     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-         machine_addition = "-machine pc";
-     }
-@@ -256,6 +286,11 @@ static void test_cli_device_del_q35(void)
+     test_acpi_microvm_prepare(&data);
+     test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,rtc=off",
+                   &data);
+@@ -1485,6 +1507,11 @@ static void test_acpi_microvm_usb_tcg(void)
  {
-     QTestState *qts;
+     test_data data;
  
-+    if (!has_device_builtin("virtio-blk")) {
-+        g_test_skip(NULL);
++    if (!qtest_has_device("virtio-blk-device")) {
++        g_test_skip("Device virtio-blk-device is not available");
 +        return;
++    }
++
+     test_acpi_microvm_prepare(&data);
+     data.variant = ".usb";
+     test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,usb=on,rtc=off",
+@@ -1496,6 +1523,11 @@ static void test_acpi_microvm_rtc_tcg(void)
+ {
+     test_data data;
+ 
++    if (!qtest_has_device("virtio-blk-device")) {
++        g_test_skip("Device virtio-blk-device is not available");
++        return;
++    }
++
+     test_acpi_microvm_prepare(&data);
+     data.variant = ".rtc";
+     test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,rtc=on",
+@@ -1507,6 +1539,11 @@ static void test_acpi_microvm_pcie_tcg(void)
+ {
+     test_data data;
+ 
++    if (!qtest_has_device("virtio-blk-device")) {
++        g_test_skip("Device virtio-blk-device is not available");
++        return;
++    }
++
+     test_acpi_microvm_prepare(&data);
+     data.variant = ".pcie";
+     data.tcg_only = true; /* need constant host-phys-bits */
+@@ -1519,6 +1556,11 @@ static void test_acpi_microvm_ioapic2_tcg(void)
+ {
+     test_data data;
+ 
++    if (!qtest_has_device("virtio-blk-device")) {
++        g_test_skip("Device virtio-blk-device is not available");
++        return;
++    }
++
+     test_acpi_microvm_prepare(&data);
+     data.variant = ".ioapic2";
+     test_acpi_one(" -machine microvm,acpi=on,ioapic2=on,rtc=off",
+@@ -1558,6 +1600,12 @@ static void test_acpi_virt_tcg_pxb(void)
+         .ram_start = 0x40000000ULL,
+         .scan_len = 128ULL * 1024 * 1024,
+     };
++
++    if (!qtest_has_device("pcie-root-port")) {
++        g_test_skip("Device pcie-root-port is not available");
++        goto out;
 +    }
 +
      /*
-      * -drive/-device and device_del.  Start with a drive used by a
-      * device that unplugs after reset.
-@@ -277,6 +312,11 @@ static void test_empty_device_del(void)
- {
-     QTestState *qts;
+      * While using -cdrom, the cdrom would auto plugged into pxb-pcie,
+      * the reason is the bus of pxb-pcie is also root bus, it would lead
+@@ -1576,7 +1624,7 @@ static void test_acpi_virt_tcg_pxb(void)
+                   " -cpu cortex-a57"
+                   " -device pxb-pcie,bus_nr=128",
+                   &data);
+-
++out:
+     free_test_data(&data);
+ }
  
-+    if (!has_device_builtin("virtio-scsi")) {
-+        g_test_skip(NULL);
+@@ -1764,6 +1812,12 @@ static void test_acpi_microvm_acpi_erst(void)
+     gchar *params;
+     test_data data;
+ 
++    if (!qtest_has_device("virtio-blk-device")) {
++        g_test_skip("Device virtio-blk-device is not available");
++        g_free(tmp_path);
 +        return;
 +    }
 +
-     /* device_del with no drive plugged.  */
-     qts = qtest_initf("-device virtio-scsi-%s -device scsi-cd,id=dev0",
-                       qvirtio_get_dev_type());
-@@ -291,6 +331,11 @@ static void test_device_add_and_del(void)
-     const char *arch = qtest_get_arch();
-     const char *machine_addition = "";
+     test_acpi_microvm_prepare(&data);
+     data.variant = ".pcie";
+     data.tcg_only = true; /* need constant host-phys-bits */
+@@ -1824,6 +1878,11 @@ static void test_acpi_q35_viot(void)
+         .variant = ".viot",
+     };
  
-+    if (!has_device_builtin("virtio-blk")) {
-+        g_test_skip(NULL);
-+        return;
-+    }
-+
-     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-         machine_addition = "-machine pc";
-     }
-@@ -330,6 +375,11 @@ static void test_device_add_and_del_q35(void)
- {
-     QTestState *qts;
- 
-+    if (!has_device_builtin("virtio-blk")) {
-+        g_test_skip(NULL);
-+        return;
++    if (!qtest_has_device("virtio-iommu")) {
++        g_test_skip("Device virtio-iommu is not available");
++        goto out;
 +    }
 +
      /*
-      * -drive/device_add and device_del.  Start with a drive used by a
-      * device that unplugs after reset.
-@@ -352,6 +402,11 @@ static void test_drive_add_device_add_and_del(void)
-     const char *arch = qtest_get_arch();
-     const char *machine_addition = "";
+      * To keep things interesting, two buses bypass the IOMMU.
+      * VIOT should only describes the other two buses.
+@@ -1834,6 +1893,7 @@ static void test_acpi_q35_viot(void)
+                   "-device pxb-pcie,bus_nr=0x20,id=pcie.200,bus=pcie.0,bypass_iommu=on "
+                   "-device pxb-pcie,bus_nr=0x30,id=pcie.300,bus=pcie.0",
+                   &data);
++out:
+     free_test_data(&data);
+ }
  
-+    if (!has_device_builtin("virtio-blk")) {
-+        g_test_skip(NULL);
+@@ -1894,8 +1954,10 @@ static void test_acpi_virt_viot(void)
+         .scan_len = 128ULL * 1024 * 1024,
+     };
+ 
+-    test_acpi_one("-cpu cortex-a57 "
+-                  "-device virtio-iommu-pci", &data);
++    if (qtest_has_device("virtio-iommu")) {
++        test_acpi_one("-cpu cortex-a57 "
++                       "-device virtio-iommu-pci", &data);
++    }
+     free_test_data(&data);
+ }
+ 
+@@ -2004,6 +2066,11 @@ static void test_acpi_microvm_oem_fields(void)
+     test_data data;
+     char *args;
+ 
++    if (!qtest_has_device("virtio-blk-device")) {
++        g_test_skip("Device virtio-blk-device is not available");
 +        return;
 +    }
 +
-     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-         machine_addition = "-machine pc";
-     }
-@@ -374,6 +429,11 @@ static void test_drive_add_device_add_and_del_q35(void)
- {
-     QTestState *qts;
+     test_acpi_microvm_prepare(&data);
  
-+    if (!has_device_builtin("virtio-blk")) {
-+        g_test_skip(NULL);
-+        return;
-+    }
-+
-     qts = qtest_init("-machine q35 -device pcie-root-port,id=p1 "
-                      "-device pcie-pci-bridge,bus=p1,id=b1");
- 
-@@ -395,6 +455,11 @@ static void test_blockdev_add_device_add_and_del(void)
-     const char *arch = qtest_get_arch();
-     const char *machine_addition = "";
- 
-+    if (!has_device_builtin("virtio-blk")) {
-+        g_test_skip(NULL);
-+        return;
-+    }
-+
-     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-         machine_addition = "-machine pc";
-     }
-@@ -417,6 +482,11 @@ static void test_blockdev_add_device_add_and_del_q35(void)
- {
-     QTestState *qts;
- 
-+    if (!has_device_builtin("virtio-blk")) {
-+        g_test_skip(NULL);
-+        return;
-+    }
-+
-     qts = qtest_init("-machine q35 -device pcie-root-port,id=p1 "
-                      "-device pcie-pci-bridge,bus=p1,id=b1");
- 
+     args = test_acpi_create_args(&data,
 -- 
 2.35.3
 
