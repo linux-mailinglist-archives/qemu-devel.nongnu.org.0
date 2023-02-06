@@ -2,80 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 642B868B87F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 10:21:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E48768B8C8
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 10:37:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOxfr-0002u2-Rd; Mon, 06 Feb 2023 04:20:31 -0500
+	id 1pOxvC-0006Hk-F3; Mon, 06 Feb 2023 04:36:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pOxfi-0002rd-Tw
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 04:20:23 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pOxfZ-0007qG-2o
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 04:20:22 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id g6so1709416wrv.1
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 01:20:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=fGqdE+3KwLKtPmhzyHHh5LIzl/ziJDYhK3nMq9ftjqo=;
- b=zaKvzXtHlpmVIk8lk+gmIAIpw2Y/GuyI+QJsC9wbcR93oqbAh7//3U1G9y0hXJLbgl
- s1sXRyqAl1m7Nj3PTjFuEgGyFFNWajI88/Qkrj9SRlyjPIDNciBbgEb+Xc0aO/NZjgaf
- jwrio2xDTunOP3h16x756BL9mQgnaZBpXWW87hsSWM3zJwPf/wztIz6EW+J9pqCyv6f8
- 0YYprPN8Ly2XSq51v9jIa/67mGcpN/797efUwjZak/LL+HVBsRP17qWGVdR1Rph3WEyi
- FA/NyZGffdKsxH1RN4Yv6zsW7YWVvhV4ZgGEJ5hB1POXJ+Qhb3JTFocJsGMR1iF3pXML
- 4lHw==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pOxv6-0006HV-Pc
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 04:36:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pOxuy-00025e-B7
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 04:36:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675676167;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=M0+OpNt4ZXRXrXKrSESyMavjsXbZhap2HfzMArZfS1k=;
+ b=iEJR+kUUdDyP++6U3SumsAE7xfnweu/KUGwbyoifINNAWJfQnQwfp8S4wITVweFanJITqk
+ 3N6K1inqbu48UqWVdtN0BAetNeOOJ/0JH/qYs3Hmorkrub60Sj7SAGXjujYx+VkDR0sSpi
+ Km6xpKWATL7XGWhwdzeTiWWSdmBFUF0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-536-ZRsRR0keOQCxccNJ2Gebiw-1; Mon, 06 Feb 2023 04:36:05 -0500
+X-MC-Unique: ZRsRR0keOQCxccNJ2Gebiw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ j20-20020a05600c1c1400b003dc5dd44c0cso5469901wms.8
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 01:36:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fGqdE+3KwLKtPmhzyHHh5LIzl/ziJDYhK3nMq9ftjqo=;
- b=4Slx5/NxW/fueQL52+8ZDou3Rt3aJ68BVkYY513/CO/IBjCKbbmIznmvhTznwlsm9s
- R56oEbDctQsxGQek8PKGUm7K4IMsbD2xuSm7Hr/7y7EdwAYF4zAkltJ1WNjD/xOTtBas
- TXZR7jNhxYyMB3SV6WuVwQ+cHaFkvyHEYuf23hp8AZLIxEhhkRCyvbHEhGiwMhONC5Vo
- YLVnX98pC8QjbvyhevokB3CS+oGcw+78GU2nviNE6Bfm39joevhcruICd/y2NZH8trRR
- em580BDjod8ib36h3YI3XzTShg7wUVMstlOvv5dwXL5ke80gUrln1D5anpvDjqyXRBqj
- Jb3w==
-X-Gm-Message-State: AO0yUKXYl84wJSsAdhTH+3W4W/6MoZZixBpRpApYJ0jaJiu4xqJDirrC
- /uAWMBPhlk/yi1YH7hpIG3r55g==
-X-Google-Smtp-Source: AK7set9HW756wmsNXNvLwyeOvZHrRmTmR5svmoQd6MtALGXDgcce5lto/CSukFDIUe5YIG56/3ONlw==
-X-Received: by 2002:a5d:5c01:0:b0:2bf:ea34:dfe4 with SMTP id
- cc1-20020a5d5c01000000b002bfea34dfe4mr18989097wrb.42.1675675209838; 
- Mon, 06 Feb 2023 01:20:09 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h10-20020a5d504a000000b002c3efca57e1sm383655wrt.110.2023.02.06.01.20.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 01:20:08 -0800 (PST)
-Message-ID: <a441ba3c-a454-8680-bf52-9d71a0f9df7a@linaro.org>
-Date: Mon, 6 Feb 2023 10:20:07 +0100
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=M0+OpNt4ZXRXrXKrSESyMavjsXbZhap2HfzMArZfS1k=;
+ b=welTQWsSm4iZuVQpWYxILkFnnP0Lgi75u+pdJ/34/nFY1/ovGgS1Pks5A1oa85Vj7m
+ SA6LXsA/zQQMGpvXeQUMNC6oQV64QXykcSuKvwUhNJlZaCVAjkSgJd6x6q6YX9hyFX+S
+ J+cXGEanAJG4e6HxHiFt4vOb3a2Wi6v3ojGQOzNOuCtV6Nojzq/Kgfgq/hbTA7ygap/K
+ XYM7UDCIbnkK7k/F7mUXbPZnKkE2E0tmKzmmWty/NW7eK9/2meFllPlVv/kRU7iwrQCR
+ 0ReCqMpVmbkgc0WBZryPph47xF6TF3r2w0nsLOxBvMs8yZx9URVnu4AHQBMpyIN/T6iF
+ fwVA==
+X-Gm-Message-State: AO0yUKXnf2N53gv/c1quNusEmGjNTaOR0kV83eYGxOOIDipo4yvMGE1s
+ LmAPjOKtJpYZK/y8CKi1bibEVpJ3/glGP34ksY4YSKDBoJ8lFl9bTodB/x9ovd/kRiyn7u7+PqH
+ yZzUmATq91HA8UCs=
+X-Received: by 2002:a7b:cbd8:0:b0:3df:e69a:2175 with SMTP id
+ n24-20020a7bcbd8000000b003dfe69a2175mr7468216wmi.35.1675676164727; 
+ Mon, 06 Feb 2023 01:36:04 -0800 (PST)
+X-Google-Smtp-Source: AK7set86CfObicuLO1xpURX8tyGLJ00lLSStVroKCg4sLeOpW6y8YzEKD/xdWgllG5ol7jDdiiWfyg==
+X-Received: by 2002:a7b:cbd8:0:b0:3df:e69a:2175 with SMTP id
+ n24-20020a7bcbd8000000b003dfe69a2175mr7468188wmi.35.1675676164360; 
+ Mon, 06 Feb 2023 01:36:04 -0800 (PST)
+Received: from redhat.com (nat-252.udc.es. [193.144.61.252])
+ by smtp.gmail.com with ESMTPSA id
+ t6-20020a05600c450600b003dc433bb5e1sm11128005wmo.9.2023.02.06.01.36.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Feb 2023 01:36:03 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>,  Kevin Wolf <kwolf@redhat.com>,  Daniel
+ P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Qemu-block
+ <qemu-block@nongnu.org>,
+ qemu-devel@nongnu.org,  Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>,  Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  Stefan Hajnoczi
+ <stefanha@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,  hreitz@redhat.com,
+ dgilbert@redhat.com
+Subject: Re: [PATCH 6/6] gitlab-ci.d/buildtest: Disintegrate the
+ build-coroutine-sigaltstack job
+In-Reply-To: <CAFEAcA9azj-v-=dXPjqzX4kdUaeOpArQZUxWU_R5sOm7vwSrrA@mail.gmail.com>
+ (Peter Maydell's message of "Sat, 4 Feb 2023 10:23:17 +0000")
+References: <20230130104446.1286773-1-thuth@redhat.com>
+ <20230130104446.1286773-7-thuth@redhat.com>
+ <Y9eizgN9UYo5kbgx@redhat.com>
+ <fc5dba59-4993-ee66-a94b-a550bdced396@redhat.com>
+ <Y9z5TohXERGuQ6TS@redhat.com>
+ <2caefefa-8757-af55-ccf3-fcc641db0784@redhat.com>
+ <CAFEAcA972rKvQqJh2-FghQcJ1hswVWkhtzb3-KW4CgsypnQgYA@mail.gmail.com>
+ <87sffme9jj.fsf@secure.mitica>
+ <CAFEAcA9azj-v-=dXPjqzX4kdUaeOpArQZUxWU_R5sOm7vwSrrA@mail.gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Mon, 06 Feb 2023 10:36:02 +0100
+Message-ID: <87r0v3cf0d.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH] hw/riscv: virt: Simplify virt_{get,set}_aclint()
-Content-Language: en-US
-To: Bin Meng <bmeng@tinylab.org>, qemu-devel@nongnu.org
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- qemu-riscv@nongnu.org
-References: <20230206085007.3618715-1-bmeng@tinylab.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230206085007.3618715-1-bmeng@tinylab.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,19 +112,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 6/2/23 09:50, Bin Meng wrote:
-> There is no need to declare an intermediate "MachineState *ms".
-> 
-> Signed-off-by: Bin Meng <bmeng@tinylab.org>
-> ---
-> 
->   hw/riscv/virt.c | 6 ++----
->   1 file changed, 2 insertions(+), 4 deletions(-)
+Peter Maydell <peter.maydell@linaro.org> wrote:
+> On Fri, 3 Feb 2023 at 21:14, Juan Quintela <quintela@redhat.com> wrote:
+>>
+>> Peter Maydell <peter.maydell@linaro.org> wrote:
+>> > The migration tests have been flaky for a while now,
+>> > including setups where host and guest page sizes are the same.
+>> > (For instance, my x86 macos box pretty reliably sees failures
+>> > when the machine is under load.)
+>>
+>> I *thought* that we had fixed all of those.
+>>
+>> But it is difficult for me to know because:
+>> - I only happens when one runs "make check"
+>> - running ./migration-test have never failed to me
+>> - When it fails (and it has been a while since it has failed to me)
+>>   it is impossible to me to detect what is going on, and as said, I have
+>>   never been able to reproduce running only migration-test.
+>
+> Yes. If we could improve the logging in the test so that when
+> an intermittent failure does happen the test prints better
+> clues about what happened, I think that would help a lot.
+>
+> https://lore.kernel.org/qemu-devel/CAFEAcA8x_iM3hN2-P9F+huXnXFXy+D6FzE+Leq4erLdg7zkVGw@mail.gmail.com/
+> is the thread from late December about the macos failures.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+We (red hat) found a similar problem with aarch64, but only when using
+zero copy.  Will try to see if I can reproduce this other there.
 
+https://bugzilla.redhat.com/show_bug.cgi?id=2160929
+
+the similar thing to what you have is:
+- they are trying to cancel
+- they are on aarch64
+
+but:
+
+- they can only reproduce with zero copy enabled.
+
+Later, Juan.
 
 
