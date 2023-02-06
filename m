@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E3BF68BCA1
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 13:17:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC3C368BCA2
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 13:17:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP0R6-0007Tf-Q8; Mon, 06 Feb 2023 07:17:28 -0500
+	id 1pP0RF-0007cv-UW; Mon, 06 Feb 2023 07:17:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP0R3-0007T6-7U
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:17:25 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP0RC-0007c2-LM
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:17:34 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP0R1-0005ls-MU
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:17:24 -0500
-Received: by mail-wr1-x430.google.com with SMTP id k13so2755833wrh.8
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 04:17:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP0R6-0005nn-Q2
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:17:31 -0500
+Received: by mail-wm1-x332.google.com with SMTP id o36so8532014wms.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 04:17:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ggNkI2omzYSbcFU8obgJYTQOMlCPZdcoe7nl7q2N0Nk=;
- b=Ex11dsO2tAxKwwh4c0Z8lX40laNBG528soWM3BI0VsHU0RL5OX0PlULKYURkFeOuU+
- jP4jnlpuiog1hthmSjiYtquaFU4sKltJV6b+n28G/oLAtPokUBuOKN2Uaw7inm5t9TPL
- ApvPAav+tlT6ROA9xTYZoR/hY8GpgLgxvrRVoy4DQI1dh6Duon2lJolgiwvvyRdHQIJZ
- 5/0iFgRuq4clAjOa5S4xTK2z6BItYL1S6/mcPU8PSCv88pZRcSXwj1pxmqr1FhiSYEki
- ojRJeQzxQiZ2C0cL1o4HLaJPQ1eyAVjNxPzOCX4q6xP104Zna5nEs7n7iD6oAbCgeE6Q
- zVDw==
+ bh=cnLR1uIdaRx63uyaDPgEE9PMokr2C9C9/vY4stomlB8=;
+ b=pCIc1SWuqEqCCrureSTt61msuerP/ylniPzZ4d74S7kpjWDtNaay9Czimws319Fx5h
+ ykMXm40WA3ywED/ohntCF2H8P0hs1LDfCyUDb3AHOa5OocIyQfeFBeTH6ivzgPxRw4v+
+ iFf5VIKxVXjxMgkse1xVbNmwHRfQenTLzjOxnbXj2sdclXKJ7Zfg+/ICYkgQKkhTdgxo
+ gz4C2J0Mk0ygVmc0He3rNJnBP6dvKtJgFPS928KFt9YOyoKb6ODJdzyGw4dDs06EwU3A
+ 02vqBtsrNUqoenShWpwZGFKVQQlahFsR3QaLtITvC45O0/MBMvKjg6Vu3ja+HMt5x0Q8
+ +F0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ggNkI2omzYSbcFU8obgJYTQOMlCPZdcoe7nl7q2N0Nk=;
- b=zZ1DUMskjRUjiOHtZocjI7z4B3zIU9PnjZ15/npuNtm7KE1nxZIhhBe2aD121p8n8D
- E5WEOHvzjL8l19fuZShQnCFnyRDD6DW/FGaapdHqIfjZJm0mZVepArOPXR+mp71dpGTK
- S/T2yvcHRyaarsKr8r8cuntQwL4diarfLK4llTEv+BR7dBPhQ0S1e8YuqIhy14cUwX+g
- adpUi54N/02iUfpvoZnr+ZHsmdEBLG00Ai+XxoEq1eck2FyiJd5BgMl/5rIp3Vh6rdFS
- 67b5JH296WgPw3SR6MKlXo5KWzxg9ng9Kl9/jLfLQBJulK+po8ZFDl7YI3xftm4eTxMU
- Tz0g==
-X-Gm-Message-State: AO0yUKX64jkxd1i4cog+Bqve5sRbrCyy/1U0dGr9IoZ67R2Z5M9qdroS
- g2mZPdPE2xmUugElh2gu50Pjw9vZtNM4akUV
-X-Google-Smtp-Source: AK7set+GRkSsrVE8+9ncbB9BwRpPPkODx1DR9a3SD20lw2L9oe8II0a82ZfIV5NUcoZS0DL465Cmdw==
-X-Received: by 2002:adf:c753:0:b0:2bf:ae51:807c with SMTP id
- b19-20020adfc753000000b002bfae51807cmr18681837wrh.22.1675685842110; 
- Mon, 06 Feb 2023 04:17:22 -0800 (PST)
+ bh=cnLR1uIdaRx63uyaDPgEE9PMokr2C9C9/vY4stomlB8=;
+ b=U3jxk8xZ/V4AvjNxIRzZ5uzeOr7P8LfBqXCcIxsVLOWENj+Ds8/uuNDunnFdYFQsvC
+ NEuo52uHCXIEb8kZEO+kR+zK4d1lgHwsy7tkPNk2ntk2cTXtQo5xlcvNr/bJNQM1MNJe
+ h1xt6TgSAJok2jSQ17VDP79kmkqSCiJb6bTsJUJYSllPy769A2+OPTdo9kltv6eTcmf/
+ rIdh3WyZBfJU7EXEAGvFSPC/XcjzCNinKe+gfsEk3O9rNe8Kg/ai3pnQSpfRtSP/tm8L
+ 7cSLiFOQ6c0dQSkb9HnmBSmDwfbLv+NjqgvC8YNJ3giRE8zRmLcuA51wWJO0aHzhYxqV
+ r7/Q==
+X-Gm-Message-State: AO0yUKWahQIS+1Dt3hke7jERHg7ZZyyKvOPZxjn4xRU0u/rTHmEobRIk
+ 3C5y6AViLVeVY0PIFJ0gT0vCI9DcwVI8WHKi
+X-Google-Smtp-Source: AK7set84/LM5IVA8zm893gCqicgacHvc5VGnz331HVe28G3JBmUiwBU+6Wt43sjMpZi2kh8KPEcJHA==
+X-Received: by 2002:a05:600c:3795:b0:3c6:e61e:ae71 with SMTP id
+ o21-20020a05600c379500b003c6e61eae71mr21104626wmr.1.1675685847107; 
+ Mon, 06 Feb 2023 04:17:27 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- o15-20020adfa10f000000b002bddaea7a0bsm8827462wro.57.2023.02.06.04.17.21
+ 14-20020a05600c228e00b003dd9232f036sm12708711wmf.23.2023.02.06.04.17.26
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 06 Feb 2023 04:17:21 -0800 (PST)
+ Mon, 06 Feb 2023 04:17:26 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 1/9] target/arm: Restrict v7-M MMU helpers to sysemu TCG
-Date: Mon,  6 Feb 2023 13:17:06 +0100
-Message-Id: <20230206121714.85084-2-philmd@linaro.org>
+Subject: [PATCH 2/9] target/arm: Constify ID_PFR1 on user emulation
+Date: Mon,  6 Feb 2023 13:17:07 +0100
+Message-Id: <20230206121714.85084-3-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230206121714.85084-1-philmd@linaro.org>
 References: <20230206121714.85084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,42 +91,47 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- target/arm/helper.c   | 2 +-
- target/arm/m_helper.c | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ target/arm/helper.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index c62ed05c12..5dbeade787 100644
+index 5dbeade787..b58800a1a5 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -11774,7 +11774,7 @@ int arm_mmu_idx_to_el(ARMMMUIdx mmu_idx)
+@@ -7021,6 +7021,7 @@ static void define_pmu_regs(ARMCPU *cpu)
      }
  }
  
--#ifndef CONFIG_TCG
-+#if !defined(CONFIG_TCG) || defined(CONFIG_USER_ONLY)
- ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
- {
-     g_assert_not_reached();
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index e7e746ea18..1e7e4e33bd 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -2854,8 +2854,6 @@ uint32_t HELPER(v7m_tt)(CPUARMState *env, uint32_t addr, uint32_t op)
-     return tt_resp;
++#ifndef CONFIG_USER_ONLY
+ /*
+  * We don't know until after realize whether there's a GICv3
+  * attached, and that is what registers the gicv3 sysregs.
+@@ -7038,7 +7039,6 @@ static uint64_t id_pfr1_read(CPUARMState *env, const ARMCPRegInfo *ri)
+     return pfr1;
  }
  
--#endif /* !CONFIG_USER_ONLY */
--
- ARMMMUIdx arm_v7m_mmu_idx_all(CPUARMState *env,
-                               bool secstate, bool priv, bool negpri)
+-#ifndef CONFIG_USER_ONLY
+ static uint64_t id_aa64pfr0_read(CPUARMState *env, const ARMCPRegInfo *ri)
  {
-@@ -2892,3 +2890,5 @@ ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
- 
-     return arm_v7m_mmu_idx_for_secstate_and_priv(env, secstate, priv);
- }
-+
-+#endif /* !CONFIG_USER_ONLY */
+     ARMCPU *cpu = env_archcpu(env);
+@@ -7998,8 +7998,16 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 1, .opc2 = 1,
+               .access = PL1_R, .type = ARM_CP_NO_RAW,
+               .accessfn = access_aa32_tid3,
++#ifdef CONFIG_USER_ONLY
++              .type = ARM_CP_CONST,
++              .resetvalue = cpu->isar.id_pfr1,
++#else
++              .type = ARM_CP_NO_RAW,
++              .accessfn = access_aa32_tid3,
+               .readfn = id_pfr1_read,
+-              .writefn = arm_cp_write_ignore },
++              .writefn = arm_cp_write_ignore
++#endif
++            },
+             { .name = "ID_DFR0", .state = ARM_CP_STATE_BOTH,
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 1, .opc2 = 2,
+               .access = PL1_R, .type = ARM_CP_CONST,
 -- 
 2.38.1
 
