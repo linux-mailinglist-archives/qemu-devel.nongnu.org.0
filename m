@@ -2,91 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF2468C81B
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F1AD68C81C
 	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 21:59:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP8ZE-0001nG-Rl; Mon, 06 Feb 2023 15:58:24 -0500
+	id 1pP8Zi-0001r9-VN; Mon, 06 Feb 2023 15:58:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pP8ZA-0001n7-Va
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 15:58:21 -0500
-Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pP8Z8-0004JO-U8
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 15:58:20 -0500
-Received: by mail-ot1-x330.google.com with SMTP id
- r34-20020a05683044a200b0068d4a8a8d2dso3572821otv.12
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 12:58:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9R2cEZWHw5O6WIGpIKjMXBdy7W8IGQ23vZauuQrJZLA=;
- b=YGto0v7MJmslRuxdGpdMiI1Q0oJRtW6PUTaYObaCV8ctwDUM0hzybR5PwU3+xa4j3B
- 9UnMJfvxZgZrWM2XcqFZL3LpxUEvrtLuIxYXSjVuJDoe0h3EWwx6SV74SlSIiaHwn/Cm
- FsA/H9O0XChylYHe3nU/aZCYlWP//74DaGdD8w7ynjz28/Vso682Khilm2s4LylcLrsw
- P+27pocXJsv2HHn9t5QZr0YAc7J9vbYec3WPtKmxy7bH8X5xVHpuTaUfme45KWJRNtb/
- LdyKGOF/tyTo4JUiAZwxE2Ykqy3gjei59RzX20v1ZnxCbTFCJ60+Jx/s/J26NJDgYOUi
- JL9w==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pP8Zb-0001qZ-JA
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 15:58:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pP8ZY-0004My-1C
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 15:58:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675717122;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=D4clvgZ5t60gOexThu8mgXN2iSFxZfOwZVdCoEeXpPE=;
+ b=PPEM1hgCAy+rTLkouN4zkd+Dc1c53WbZeri1KPF3yfH/WswJGdFI5gV2+WIvJIZx4PZ3Gl
+ eVt0KqapTgs31x+KrvNvDNRLRSL/4eRzN4rNB02P3yizpH/r/y/UGChDJedzkJppYzc8/q
+ u/EQWx0Xfo8uROeFikNVRMTE+SJSRpo=
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-450-PTEqt084MNyv2ZB8CiFoQA-1; Mon, 06 Feb 2023 15:58:39 -0500
+X-MC-Unique: PTEqt084MNyv2ZB8CiFoQA-1
+Received: by mail-io1-f69.google.com with SMTP id
+ q12-20020a6b8e0c000000b0071d8eef7c67so7695184iod.5
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 12:58:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9R2cEZWHw5O6WIGpIKjMXBdy7W8IGQ23vZauuQrJZLA=;
- b=ELS7k0qWPGmcgNI/ez+gO6b5yi/tP9s7b0cfFQLO4+RZ7o0KkJIq5jEIqzraWfENx4
- NWAtJC5p5sIfBb19jka0yQSOjodo97VrqTVJf27ZHRxYCRRxVEa8J4WKxmpBkn+qFpRg
- 7tVeHmSt/MSwEQPBs9bR3MHhutjwQbH7VjpD2pJPpnqdwvF5Nw+Up8uY9cyGa+jwWTgu
- Wrwuvqh5EV8tkrarRgK6tpTMDwKsw+iEuspDTq5VIAKFH5a0O6BeYBDu/1DqPZcKJ6i1
- XD4oiOZYmNKBdDziSJo3iJs6Jrpi2jqV5+NE2K+QjylMPjYUnk2U5+7rIgLpIiQwesl/
- jHiQ==
-X-Gm-Message-State: AO0yUKULZuHepKrluxgQ4S55rWJ0FBgEF3ivTD2izKoRcmnLOfGSOp1t
- ucEzd0x1sEDBxIfp1EwRgv5Lrg==
-X-Google-Smtp-Source: AK7set8brWqAFsxK4/eaS4EFZV79Q08Zvelz+Xko6yTZtm6GxO45Fvxex1x+XKyt/gHJDFrNqHUWrQ==
-X-Received: by 2002:a05:6830:1181:b0:68b:cab3:8fc8 with SMTP id
- u1-20020a056830118100b0068bcab38fc8mr402264otq.23.1675717094799; 
- Mon, 06 Feb 2023 12:58:14 -0800 (PST)
-Received: from [192.168.68.107] ([191.19.125.138])
- by smtp.gmail.com with ESMTPSA id
- n13-20020a9d6f0d000000b006884c42a38asm5594094otq.41.2023.02.06.12.58.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 12:58:14 -0800 (PST)
-Message-ID: <a6b79e40-0031-b42f-bb91-38f0dcd9756d@ventanamicro.com>
-Date: Mon, 6 Feb 2023 17:58:08 -0300
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=D4clvgZ5t60gOexThu8mgXN2iSFxZfOwZVdCoEeXpPE=;
+ b=GFh6R/8xdzXMDsSl+WRxbtuCDHQ79zyO4Q09kCd2nZ1KOajA7SRJL+leCKuP1bfgHI
+ +q85GkxXe7vOW/2Gz2j7l4+SWCErCCulnhuKHWIw0pXZlvBNjOerm2WV0TMri3zaipBB
+ fnTVTk0aISPDqT2xazDZ43+QHMMkCwrnkTI9GsKAzwZ9MolvD8CDcX4+/PDWcuPCTaRS
+ P/2lEFnc4OXf1BQfq/2IJm+tTd5h4nkJYrBy/Y2Dx1O/8nCLcMW/YhSUs2lMpW+QtNU9
+ g3nF4rGM+OBCt+6B2mYmIarXKbGhKe7wRdCWhQF7cvGUNWqQIPchLvwGhsHM7Kws04/w
+ 2J0A==
+X-Gm-Message-State: AO0yUKUI8eKKZqzolMFEWeI0oGZLxQLIPazB0vIjkll8ZW7cw9YaXOHj
+ G1YNmIWyV/Q6delSICGQOaTNYC2NXUIKzZqwTOw0z6ypNtJ7lV4GeoQnwCI5tqwkmz9qo36646h
+ GO9xNrOJzBSSSu2U=
+X-Received: by 2002:a05:6e02:1e08:b0:313:bf44:b4a1 with SMTP id
+ g8-20020a056e021e0800b00313bf44b4a1mr640871ila.6.1675717118340; 
+ Mon, 06 Feb 2023 12:58:38 -0800 (PST)
+X-Google-Smtp-Source: AK7set/d9ENoOPDGHg75PtGOT0HngLmwOozrS9lXScClShLURVoPRvNO3Ll15OHPfydHBa6zDyE6qQ==
+X-Received: by 2002:a05:6e02:1e08:b0:313:bf44:b4a1 with SMTP id
+ g8-20020a056e021e0800b00313bf44b4a1mr640860ila.6.1675717118096; 
+ Mon, 06 Feb 2023 12:58:38 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ v5-20020a056638250500b00389cb050d1bsm3686242jat.33.2023.02.06.12.58.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Feb 2023 12:58:36 -0800 (PST)
+Date: Mon, 6 Feb 2023 13:58:35 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: John Johnson <john.g.johnson@oracle.com>
+Cc: qemu-devel@nongnu.org, clg@redhat.com, philmd@linaro.org
+Subject: Re: [PATCH v2 17/23] vfio-user: dma map/unmap operations
+Message-ID: <20230206135835.70de7641.alex.williamson@redhat.com>
+In-Reply-To: <1ec25a5832299083fee3c90bd89561f5c1d42ba9.1675228037.git.john.g.johnson@oracle.com>
+References: <cover.1675228037.git.john.g.johnson@oracle.com>
+ <1ec25a5832299083fee3c90bd89561f5c1d42ba9.1675228037.git.john.g.johnson@oracle.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v4 0/2] riscv: Add support for Zicbo[m,z,p] instructions
-Content-Language: en-US
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Christoph Muellner <cmuellner@linux.com>
-Cc: Atish Patra <atishp@rivosinc.com>, Anup Patel <anup@brainfault.org>,
- =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>, Palmer Dabbelt
- <palmer@dabbelt.com>, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Philipp Tomsich <philipp.tomsich@vrull.eu>,
- Richard Henderson <richard.henderson@linaro.org>,
- Weiwei Li <liweiwei@iscas.ac.cn>
-References: <20220216154839.1024927-1-cmuellner@linux.com>
- <Y9Admgur0rul8X2d@debian>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <Y9Admgur0rul8X2d@debian>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x330.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,38 +100,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+On Wed,  1 Feb 2023 21:55:53 -0800
+John Johnson <john.g.johnson@oracle.com> wrote:
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 6f99907..f04fd20 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
 
-FYI I grabbed these patches, rebased using Alistair's riscv-to-apply.next, and I
-plan to re-send them as v5 in the next few days (maintaining Christoph's authorship,
-of course).
+> @@ -889,6 +894,29 @@ static bool vfio_known_safe_misalignment(MemoryRegionSection *section)
+>      return true;
+>  }
+>  
+> +static void vfio_listener_begin(MemoryListener *listener)
+> +{
+> +    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
+> +
+> +    /*
+> +     * When DMA space is the physical address space,
+> +     * the region add/del listeners will fire during
+> +     * memory update transactions.  These depend on BQL
+> +     * being held, so do any resulting map/demap ops async
+> +     * while keeping BQL.
+> +     */
+> +    container->async_ops = true;
+> +}
+> +
+> +static void vfio_listener_commit(MemoryListener *listener)
+> +{
+> +    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
+> +
+> +    /* wait here for any async requests sent during the transaction */
+> +    container->io->wait_commit(container);
+> +    container->async_ops = false;
+> +}
 
-I'll see if I can implement some of the suggestions made in the v4 one year ago as
-well. To keep the original patches intact I'll do that in separated patches.
+Since this ends up being entirely vfio-user related, what about
+embedding a user struct in VFIOContainer and make optional
+listener_begin and listener_commit callbacks in VFIOContainerIO, ie.
 
+	if (container->io->listener_commit) {
+	    container->io->listener_commit(container);
+	}
 
 Thanks,
+Alex
 
-
-Daniel
-
-On 1/24/23 15:04, Sudip Mukherjee wrote:
-> Hi Christoph,
-> 
-> On Wed, Feb 16, 2022 at 04:48:37PM +0100, Christoph Muellner wrote:
->> The RISC-V base cache management operation ISA extension has been
->> ratified [1]. This patchset adds support for the defined instructions.
->>
->> As the exception behavior of these instructions depend on the PMP
->> configuration, the first patch introduces a new API to probe the access
->> of an address range with a specified size with optional nonfaulting
->> behavior.
->>
->> The Zicbo[m,z,p] patch should be straight-forward and has been reviewed
->> in previous versions of this patchset.
-> 
-> I have not seen any v5 yet, unless I have missed. Are you planning to
-> send one?
-> fwiw, I rebased them on top of v7.2.0 and tested that it works.
-> 
 
