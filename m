@@ -2,95 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8439C68BCBA
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 13:21:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD30E68BCC4
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 13:28:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP0V1-0006wb-Kc; Mon, 06 Feb 2023 07:21:31 -0500
+	id 1pP0bP-0000Ga-BP; Mon, 06 Feb 2023 07:28:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pP0Uy-0006w6-TX
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:21:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pP0Uv-0006cR-Sv
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:21:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675686085;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lF8bAZFZXmbZU/DEPVYqJZCSZJdql8fkjSoGPpbGjv4=;
- b=OE9tsl3jkpz9c814YPLaWYY0iHzqqpsvZXBazsNS4iN13O07999aPSCW5GLFhy6vblW1Bx
- xFRgu6/03CW5lKpi+JPxnBEocMyYrnFk/ix/XwZT7uoF08OT85ccJMP76VifjXohKVViVO
- 7h1i64w7rg9aIh1XMTFIO9yQHnIx2YQ=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-81-zH95wxAjMpGg029RK8LovA-1; Mon, 06 Feb 2023 07:21:23 -0500
-X-MC-Unique: zH95wxAjMpGg029RK8LovA-1
-Received: by mail-qk1-f198.google.com with SMTP id
- op32-20020a05620a536000b0072e2c4dea65so5850493qkn.12
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 04:21:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP0b1-0000EK-SI
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:27:55 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP0aw-00081P-AK
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:27:42 -0500
+Received: by mail-wm1-x329.google.com with SMTP id q8so8534559wmo.5
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 04:27:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4F7xx1nNy7ikmetS0aJNjvHJZ3ymvbyT7PXs6hdpMkA=;
+ b=hLzPY0aeFYE9hjjcNrSdEYYi2IMHa3z8EQJzSdYbNN5eFujyi8IDQQxoBlnlm0yw6s
+ vd9+A0fIBuaLrJK59JPiyS9pm2bBmmX+5hBXCXy0xEqIX0ZhsROXCu56v7QIj2c4vKP/
+ 7bWpDtsg0PjMU3amdnvk6V2gq3uIOT9sMz/Z+WIuskS0HS+IdI85F2671x2jyhEHd/ZZ
+ 0vNpJlaWP7HC4TUY55cJiKM8l8+5z5TnwY9cNOTnnFQI9SpcLw5MX0RrxyWWP1OaUD89
+ nO/sID5MG9yRLb6RTQ3fh9E5hXSd/x6Rrw9PQdcAnxgCYzzn/Qn6ciChzfsz0FcxUWua
+ NL5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lF8bAZFZXmbZU/DEPVYqJZCSZJdql8fkjSoGPpbGjv4=;
- b=ejPOKaKLSiymUNVehs1FNHet/Ckc9K8kZtm2sVQi0EccgjwwLikXizsJg6+RefqM9+
- 4HURG0S+UwYxLShcYA1f3FtzwQMA0W6PN/q7ZhDGBEy9bnev3w69a7hXHeg5YocZm7Pq
- sjDMddcMa8SKxgAmX8o84FguQZUsOw9QsS4ckrmzrqslM5KnSO7hpF964joJerMu/wDx
- gkH5v1aOHHOD/UIKwLXIlTqwSIARm29K76nsWCrMlz01A21CtZ0ImBt61UbkO6JPcn97
- 0fkOV8sdB0WnwuH6HD6ajFReQ7KY6Nv3S3APlVTQly2JKi+8h46aQO2dbE9pgE0wgflh
- i9Aw==
-X-Gm-Message-State: AO0yUKVl1kpiZk6A59jmeSwp/r7Nt1eVyNBJ92q0y8M/W9mNIZ15DWsA
- 5ltQxCsqIXGsd4h7nfQB8Tln1bxX+/8Cb9o2KU1eJe7ar2r2i1az8EkVgRWTyuYPCNV6Pm04g5P
- LsU4jgt7jR+zW/NM=
-X-Received: by 2002:a05:6214:21af:b0:56b:ebd3:efcc with SMTP id
- t15-20020a05621421af00b0056bebd3efccmr12340098qvc.25.1675686083182; 
- Mon, 06 Feb 2023 04:21:23 -0800 (PST)
-X-Google-Smtp-Source: AK7set/VPQWGibD8aEi4WBu4BFREupPLLP5lYGhLm6W7wz/1lYz1CUv9+AexzZjBA2em0/R37jPsiA==
-X-Received: by 2002:a05:6214:21af:b0:56b:ebd3:efcc with SMTP id
- t15-20020a05621421af00b0056bebd3efccmr12340070qvc.25.1675686082893; 
- Mon, 06 Feb 2023 04:21:22 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-177-71.web.vodafone.de.
- [109.43.177.71]) by smtp.gmail.com with ESMTPSA id
- x11-20020a05620a448b00b0072c01a3b6aasm7401405qkp.100.2023.02.06.04.21.19
+ bh=4F7xx1nNy7ikmetS0aJNjvHJZ3ymvbyT7PXs6hdpMkA=;
+ b=s7LhOwMc62RnX6zHx/4fIRPwrCyPttp5tYf0kYHUQgeMgTrBVrvIa7PhNaNwoEHrMs
+ Sz0wI0xFtNzhj9HVPuMTi0mDljNtA0HxYL8v3fc2PquQ3GmOxjvMKYGb0h+ldZVFzpcK
+ l3tZCgsQvTlrtm3rMMgtm/AcqHpKxtZIDdLh5OYnE1FHM/KEQtmQIApk6UOO2YkO3rcJ
+ Nd/hiAwn1wZQpk9G+GvUhk68MqhEZ+RGyNcf94ln1QzGt2mwlr5so9C6HYd4VR8sFuYb
+ R6VmSbtYWwKcXgMC1hBlw5A6XQ9aiR+BIm/xd5y2drBgvs38PXGU60RJt0/Fo0LoTocF
+ DPyw==
+X-Gm-Message-State: AO0yUKWyxhSCd76ePbhQIbGv7YtEXfH7O/S148gfh1oeTXzjlpn4u5oC
+ /hSvNryV2ryzuIGCWuDDTbpNTw==
+X-Google-Smtp-Source: AK7set93B/eONIQx4CnlRmgWTxoe8jJmK75Fa+7zr5cm21TfrTC4YHiH3Mx+jMJlJ6m+0BaJzVUvQQ==
+X-Received: by 2002:a7b:c4c9:0:b0:3de:1d31:1042 with SMTP id
+ g9-20020a7bc4c9000000b003de1d311042mr882429wmk.23.1675686450529; 
+ Mon, 06 Feb 2023 04:27:30 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ u1-20020a05600c00c100b003a3442f1229sm15846080wmm.29.2023.02.06.04.27.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 04:21:22 -0800 (PST)
-Message-ID: <92f02547-569f-2ea8-455b-585dcfaa2a74@redhat.com>
-Date: Mon, 6 Feb 2023 13:21:17 +0100
+ Mon, 06 Feb 2023 04:27:30 -0800 (PST)
+Message-ID: <adf22fcb-51a6-3194-4496-6a6878e9d498@linaro.org>
+Date: Mon, 6 Feb 2023 13:27:28 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PULL 04/35] tests/unit: drop hacky race avoidance in
+ test-io-channel-command
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20230126112250.2584701-1-alex.bennee@linaro.org>
+ <20230126112250.2584701-5-alex.bennee@linaro.org>
 Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- nsg@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230201132051.126868-1-pmorel@linux.ibm.com>
- <20230201132051.126868-9-pmorel@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v15 08/11] qapi/s390x/cpu topology: x-set-cpu-topology
- monitor command
-In-Reply-To: <20230201132051.126868-9-pmorel@linux.ibm.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230126112250.2584701-5-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,236 +93,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 01/02/2023 14.20, Pierre Morel wrote:
-> The modification of the CPU attributes are done through a monitor
-> command.
-> 
-> It allows to move the core inside the topology tree to optimise
+Hi Alex, Thomas.
 
-I'm not a native speaker, but "optimize" is more common, I think?
-
-> the cache usage in the case the host's hypervisor previously
-> moved the CPU.
+On 26/1/23 12:22, Alex Bennée wrote:
+> We don't need to play timing games to ensure one socat wins over the
+> other, just create the fifo they both can use before spawning the
+> processes. However in the process we need to disable two tests for
+> Windows platforms as we don't have an abstraction for mkfifo().
 > 
-> The same command allows to modify the CPU attributes modifiers
-> like polarization entitlement and the dedicated attribute to notify
-> the guest if the host admin modified scheduling or dedication of a vCPU.
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1403
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Message-Id: <20230124180127.1881110-5-alex.bennee@linaro.org>
 > 
-> With this knowledge the guest has the possibility to optimize the
-> usage of the vCPUs.
-> 
-> The command is made experimental for the moment.
-> 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->   qapi/machine-target.json | 29 +++++++++++++
->   include/monitor/hmp.h    |  1 +
->   hw/s390x/cpu-topology.c  | 88 ++++++++++++++++++++++++++++++++++++++++
->   hmp-commands.hx          | 16 ++++++++
->   4 files changed, 134 insertions(+)
-> 
-> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
-> index 2e267fa458..58df0f5061 100644
-> --- a/qapi/machine-target.json
-> +++ b/qapi/machine-target.json
-> @@ -342,3 +342,32 @@
->                      'TARGET_S390X',
->                      'TARGET_MIPS',
->                      'TARGET_LOONGARCH64' ] } }
+> diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
+> index 19f72eab96..425e2f5594 100644
+> --- a/tests/unit/test-io-channel-command.c
+> +++ b/tests/unit/test-io-channel-command.c
+> @@ -20,6 +20,8 @@
+>   
+>   #include "qemu/osdep.h"
+>   #include <glib/gstdio.h>
+> +#include <sys/types.h>
+> +#include <sys/stat.h>
+>   #include "io/channel-command.h"
+>   #include "io-channel-helpers.h"
+>   #include "qapi/error.h"
+> @@ -29,6 +31,7 @@
+>   
+>   static char *socat = NULL;
+>   
+> +#ifndef _WIN32
+>   static void test_io_channel_command_fifo(bool async)
+>   {
+>       g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
+> @@ -40,12 +43,13 @@ static void test_io_channel_command_fifo(bool async)
+>       QIOChannel *src, *dst;
+>       QIOChannelTest *test;
+>   
+> +    if (mkfifo(fifo, 0600)) {
+> +        g_error("mkfifo: %s", strerror(errno));
+> +    }
 > +
-> +##
-> +# @x-set-cpu-topology:
-> +#
-> +# @core: the vCPU ID to be moved
-> +# @socket: the destination socket where to move the vCPU
-> +# @book: the destination book where to move the vCPU
-> +# @drawer: the destination drawer where to move the vCPU
-> +# @polarity: optional polarity, default is last polarity set by the guest
+>       src = QIO_CHANNEL(qio_channel_command_new_spawn((const char **) srcargv,
+>                                                       O_WRONLY,
+>                                                       &error_abort));
+> -    /* try to avoid a race to create the socket */
+> -    g_usleep(1000);
+> -
+>       dst = QIO_CHANNEL(qio_channel_command_new_spawn((const char **) dstargv,
+>                                                       O_RDONLY,
+>                                                       &error_abort));
+> @@ -60,7 +64,6 @@ static void test_io_channel_command_fifo(bool async)
 
-Hmm, below you do something like that:
+Testing on Darwin/Aarch64 I'm getting (reproducible):
 
-     if (!has_polarity) {
-         polarity = POLARITY_VERTICAL_MEDIUM;
-     }
+78/93 qemu:unit / test-io-channel-command             ERROR 
+2.38s   killed by signal 13 SIGPIPE
+ >>> MALLOC_PERTURB_=10 G_TEST_BUILDDIR=./tests/unit 
+G_TEST_SRCDIR=tests/unit ./tests/unit/test-io-channel-command --tap -k
+―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+stderr:
+2023/02/03 08:26:49 socat[32507] E 
+mkfifo(/var/folders/yj/r7khncsj4d77k04ybz9lw4tm0000gn/T/qemu-test-io-channel.GMARZ1/test-io-channel-command.fifo, 
+438): File exists
 
-... so it rather seems like medium polarity is the default? ... that looks 
-weird. I think you should maybe rather pass the has_polarity and 
-has_dedication flags to the s390_change_topology() function and only change 
-the value if they have really been provided?
+(test program exited with status code -13)
 
-> +# @dedicated: optional, if the vCPU is dedicated to a real CPU
-> +#
-> +# Modifies the topology by moving the CPU inside the topology
-> +# tree or by changing a modifier attribute of a CPU.
-> +#
-> +# Returns: Nothing on success, the reason on failure.
-> +#
-> +# Since: <next qemu stable release, eg. 1.0>
+TAP parsing error: Too few tests run (expected 4, got 0)
+―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 
-Please replace with "Since: 8.0" ... I hope we'll get it merged during this 
-cycle!
+We call g_rmdir(), but I see various qtests calling unlink()
+before rmdir(). Do we need it here?
 
-> +{ 'command': 'x-set-cpu-topology',
-> +  'data': {
-> +      'core': 'int',
-> +      'socket': 'int',
-> +      'book': 'int',
-> +      'drawer': 'int',
-> +      '*polarity': 'int',
-> +      '*dedicated': 'bool'
-> +  },
-> +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
-> +}
-> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-> index 1b3bdcb446..12827479cf 100644
-> --- a/include/monitor/hmp.h
-> +++ b/include/monitor/hmp.h
-> @@ -151,5 +151,6 @@ void hmp_human_readable_text_helper(Monitor *mon,
->                                       HumanReadableText *(*qmp_handler)(Error **));
->   void hmp_info_stats(Monitor *mon, const QDict *qdict);
->   void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict);
-> +void hmp_x_set_cpu_topology(Monitor *mon, const QDict *qdict);
->   
->   #endif
-> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> index c33378577b..6c50050991 100644
-> --- a/hw/s390x/cpu-topology.c
-> +++ b/hw/s390x/cpu-topology.c
-> @@ -18,6 +18,10 @@
->   #include "target/s390x/cpu.h"
->   #include "hw/s390x/s390-virtio-ccw.h"
->   #include "hw/s390x/cpu-topology.h"
-> +#include "qapi/qapi-commands-machine-target.h"
-> +#include "qapi/qmp/qdict.h"
-> +#include "monitor/hmp.h"
-> +#include "monitor/monitor.h"
->   
->   /*
->    * s390_topology is used to keep the topology information.
-> @@ -379,3 +383,87 @@ void s390_topology_set_cpu(MachineState *ms, S390CPU *cpu, Error **errp)
->       /* topology tree is reflected in props */
->       s390_update_cpu_props(ms, cpu);
++       g_unlink(fifo);
+
+>       g_rmdir(tmpdir);
 >   }
-> +
-> +/*
-> + * qmp and hmp implementations
-> + */
-> +
-> +static void s390_change_topology(int64_t core_id, int64_t socket_id,
-> +                                 int64_t book_id, int64_t drawer_id,
-> +                                 int64_t polarity, bool dedicated,
-> +                                 Error **errp)
-> +{
-> +    MachineState *ms = current_machine;
-> +    S390CPU *cpu;
-> +    ERRP_GUARD();
-> +
-> +    cpu = (S390CPU *)ms->possible_cpus->cpus[core_id].cpu;
-
-I think you should add a sanity check for core_id being in a valid range ... 
-otherwise this will cause an access beyond the end of the array if core_id 
-is too big or negative.
-
-> +    if (!cpu) {
-> +        error_setg(errp, "Core-id %ld does not exist!", core_id);
-> +        return;
-> +    }
-> +
-> +    /* Verify the new topology */
-> +    s390_topology_check(cpu, errp);
-> +    if (*errp) {
-> +        return;
-> +    }
-> +
-> +    /* Move the CPU into its new socket */
-> +    s390_set_core_in_socket(cpu, drawer_id, book_id, socket_id, true, errp);
-> +
-> +    /* All checks done, report topology in environment */
-> +    cpu->env.drawer_id = drawer_id;
-> +    cpu->env.book_id = book_id;
-> +    cpu->env.socket_id = socket_id;
-> +    cpu->env.dedicated = dedicated;
-> +    cpu->env.entitlement = polarity;
-
-As mentioned above, I think dedicated and polarity should only be changed if 
-they have really been provided?
-
-> +    /* topology tree is reflected in props */
-> +    s390_update_cpu_props(ms, cpu);
-> +
-> +    /* Advertise the topology change */
-> +    s390_cpu_topology_set_modified();
-> +}
-> +
-> +void qmp_x_set_cpu_topology(int64_t core, int64_t socket,
-> +                         int64_t book, int64_t drawer,
-> +                         bool has_polarity, int64_t polarity,
-> +                         bool has_dedicated, bool dedicated,
-> +                         Error **errp)
-> +{
-> +    ERRP_GUARD();
-> +
-> +    if (!s390_has_topology()) {
-> +        error_setg(errp, "This machine doesn't support topology");
-> +        return;
-> +    }
-> +    if (!has_polarity) {
-> +        polarity = POLARITY_VERTICAL_MEDIUM;
-> +    }
-> +    if (!has_dedicated) {
-> +        dedicated = false;
-> +    }
-> +    s390_change_topology(core, socket, book, drawer, polarity, dedicated, errp);
-> +}
-> +
-> +void hmp_x_set_cpu_topology(Monitor *mon, const QDict *qdict)
-> +{
-> +    const int64_t core = qdict_get_int(qdict, "core");
-> +    const int64_t socket = qdict_get_int(qdict, "socket");
-> +    const int64_t book = qdict_get_int(qdict, "book");
-> +    const int64_t drawer = qdict_get_int(qdict, "drawer");
-> +    bool has_polarity    = qdict_haskey(qdict, "polarity");
-> +    const int64_t polarity = qdict_get_try_int(qdict, "polarity", 0);
-> +    bool has_dedicated    = qdict_haskey(qdict, "dedicated");
-> +    const bool dedicated = qdict_get_try_bool(qdict, "dedicated", false);
-> +    Error *local_err = NULL;
-> +
-> +    qmp_x_set_cpu_topology(core, socket, book, drawer,
-> +                           has_polarity, polarity,
-> +                           has_dedicated, dedicated,
-> +                           &local_err);
-> +    if (hmp_handle_error(mon, local_err)) {
-> +        return;
-> +    }
-> +}
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index 673e39a697..bb3c908356 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -1815,3 +1815,19 @@ SRST
->     Dump the FDT in dtb format to *filename*.
->   ERST
->   #endif
-> +
-> +#if defined(TARGET_S390X) && defined(CONFIG_KVM)
-> +    {
-> +        .name       = "x-set-cpu-topology",
-> +        .args_type  = "core:l,socket:l,book:l,drawer:l,polarity:l?,dedicated:b?",
-> +        .params     = "core socket book drawer [polarity] [dedicated]",
-> +        .help       = "Move CPU 'core' to 'socket/book/drawer' "
-> +                      "optionaly modifies polarity and dedication",
-
-optionaly ==> optionally
-
-> +        .cmd        = hmp_x_set_cpu_topology,
-> +    },
-> +
-> +SRST
-> +``x-set-cpu-topology`` *core* *socket* *book* *drawer* *polarity* *dedicated*
-> +  Moves the CPU  *core* to *socket* *book* *drawer* with *polarity* *dedicated*.
-> +ERST
+>   
+> -
+>   static void test_io_channel_command_fifo_async(void)
+>   {
+>       if (!socat) {
+> @@ -80,6 +83,7 @@ static void test_io_channel_command_fifo_sync(void)
+>   
+>       test_io_channel_command_fifo(false);
+>   }
 > +#endif
-
-  Thomas
+>   
+>   
+>   static void test_io_channel_command_echo(bool async)
+> @@ -124,10 +128,12 @@ int main(int argc, char **argv)
+>   
+>       socat = g_find_program_in_path("socat");
+>   
+> +#ifndef _WIN32
+>       g_test_add_func("/io/channel/command/fifo/sync",
+>                       test_io_channel_command_fifo_sync);
+>       g_test_add_func("/io/channel/command/fifo/async",
+>                       test_io_channel_command_fifo_async);
+> +#endif
+>       g_test_add_func("/io/channel/command/echo/sync",
+>                       test_io_channel_command_echo_sync);
+>       g_test_add_func("/io/channel/command/echo/async",
 
 
