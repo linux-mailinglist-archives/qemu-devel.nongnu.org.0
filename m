@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0DC268C922
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 23:09:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D721868C91F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 23:08:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP9em-00051W-Fe; Mon, 06 Feb 2023 17:08:12 -0500
+	id 1pP9eo-0005CG-I6; Mon, 06 Feb 2023 17:08:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pP9ek-0004w6-0N; Mon, 06 Feb 2023 17:08:10 -0500
+ id 1pP9el-00050g-Bo; Mon, 06 Feb 2023 17:08:11 -0500
 Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pP9eg-0007Mw-R7; Mon, 06 Feb 2023 17:08:08 -0500
+ id 1pP9ej-0007ND-JN; Mon, 06 Feb 2023 17:08:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  MIME-Version:References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:
  Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=NYiFvvxyaowG9kTY2/o+uLhNFeEgeTBC/dFDkUy0Iyc=; b=hDZaCSqOCzUe4KS7SbRLG/Uj+I
- VATNV6tjTHbqsgQcn/cc72azZ/kwrxvUiLuRZe+Z52h4kHQbk4FCQ6yMDOrR21X6UyT0UMKUOOeBb
- qkejNFn77OaO0biShUpt7atqp76aEbZ1csO/ZsWxeJUKfGGrinwcWT0r8E1RXCL+EQxwvrm3hYcIy
- BA97TQRX2ghCF4mbQ2u7qy1NgEnwYE9rpr98dy5SpcSGq0qFmIIa56utv9L9ajCrEmtKTmu2sontT
- yTGCIrD421DgQddvj+Zh2Fw2FfuiENNgXI0OGyhpP6XBrznjrZ4GtydH+JEp6XmAkaPsjUUlq1mva
- c9HG87QMX31VQOarHGqcK7wqNMawgdmzZ1vWdexh5EkVNCdR/58oFB+eQ8dYdiO+4HdUpfIuZWfgd
- G9rmcdN/YM6Kc6D3VTIqZT0LnxjKUMxyuAH1b3ydDbkSdE7DX9qk0Luzv/OBIdJAZz5XtI5O8oXAa
- MA7CFqKvuWT50UXi3lfflKMVyWW7NnWJgV7EBiV0IUD+kcpwIH3aiGIcXXyrfLpZeEU3EyZLtcZWo
- v0pdJ/Vf27y8DKr/SHVwoaolVJiha5tldFNy8tNESQnk6X95gzrCkKsEF18MFHoTAxSWDQzNeYZ9z
- xvbW9po6QDdXZDNfkCsgAfvFrDnmIwsCifZiYzgc8=;
+ bh=4GCBhycclOLdUY3669hxwsOM89ABiRANTe/Z/jzfKK8=; b=XkLVjLdAJVp2gXJLsmot13cU9S
+ Utt8Z/CHxY8G+9zGDupMQNiqZSU/hawuqjbAgBHXeGUiT2wmCPmqhcGi9j4VZDoLQyYXha45Ubmiu
+ 8XwVEWYpMbQ9Y3cFGfWAxxi01vOcAuWf4jO2z9ZwImWj8iEipvW+Z5C3Gf18u4MIq7qw3eiiF0Tx0
+ A6XRyt1XBznKHeYSYQ7PcpxSHhO1br47XyLMCWI4GlpJx8wQegWcOnA8GBL2v3//wOwhm7XEbs+1w
+ jV1RlLpJltrOthBD3RuUWqpaqKMRv9UOLxadUn9qNqsDHodHb5S8rSq8iy/fppzYeDqWTSpjU1mkw
+ +NI2RZN0C3zyQeFhyqk8nXNc9+BQJcGzG9+4A3YQm50as5SjRh22bIypi+B5viL7VHv8py6pASSPq
+ GQOdX+dslN2Jv4oMNCuGdKww/RStYTlt90X0QeXF/zSR3YMrkarmeJVzXgxBLSkwpwqkR59tIiTt7
+ HoRkxRilrUVfmn1ijdjsIF20Y2umqZ8tFNF/KQnSnut4h86491ZoZmQAk+zftsneJvHMtdZP7ykgd
+ KoFQ7hhr41qK3VVQlr28VFuDgB29HUND/8JuGx5HlaDGx4UxXrX1xPFG3FTuzZdnrb3og3LZE/RC8
+ vdONEv9Dt5O9yo77mN6N2txAalIrwyJbZ5/kJkO5A=;
 Received: from [2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pP9e6-00039N-Md; Mon, 06 Feb 2023 22:07:34 +0000
+ id 1pP9eA-00039N-Jc; Mon, 06 Feb 2023 22:07:38 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Date: Mon,  6 Feb 2023 22:07:20 +0000
-Message-Id: <20230206220722.125814-7-mark.cave-ayland@ilande.co.uk>
+Date: Mon,  6 Feb 2023 22:07:21 +0000
+Message-Id: <20230206220722.125814-8-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230206220722.125814-1-mark.cave-ayland@ilande.co.uk>
 References: <20230206220722.125814-1-mark.cave-ayland@ilande.co.uk>
@@ -50,7 +50,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 6/8] hw/misc/macio: Return bool from functions taking errp
+Subject: [PULL 7/8] mac_nvram: Add block backend to persist NVRAM contents
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -78,156 +78,95 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-Use the convention to return bool from functions which take an error
-pointer which allows for callers to pass through their error pointer
-without needing a local.
+Add a way to set a backing store for the mac_nvram similar to what
+spapr_nvram or mac_via PRAM already does to allow to save its contents
+between runs.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-Id: <bfce0751e82b031f5e6fb3c32cfbce6325434400.1674001242.git.balaton@eik.bme.hu>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <4b1605a9e484cc95f6e141f297487a070fd418ac.1675297286.git.balaton@eik.bme.hu>
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/misc/macio/macio.c | 62 +++++++++++++++++--------------------------
- 1 file changed, 25 insertions(+), 37 deletions(-)
+ hw/nvram/mac_nvram.c         | 28 ++++++++++++++++++++++++++++
+ include/hw/nvram/mac_nvram.h |  1 +
+ 2 files changed, 29 insertions(+)
 
-diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-index ae2a9a960d..265c0bbd8d 100644
---- a/hw/misc/macio/macio.c
-+++ b/hw/misc/macio/macio.c
-@@ -90,13 +90,13 @@ static void macio_bar_setup(MacIOState *s)
-     macio_escc_legacy_setup(s);
+diff --git a/hw/nvram/mac_nvram.c b/hw/nvram/mac_nvram.c
+index 3d9ddda217..810e84f07e 100644
+--- a/hw/nvram/mac_nvram.c
++++ b/hw/nvram/mac_nvram.c
+@@ -24,9 +24,12 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qapi/error.h"
+ #include "hw/nvram/chrp_nvram.h"
+ #include "hw/nvram/mac_nvram.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
++#include "sysemu/block-backend.h"
+ #include "migration/vmstate.h"
+ #include "qemu/cutils.h"
+ #include "qemu/module.h"
+@@ -44,6 +47,9 @@ static void macio_nvram_writeb(void *opaque, hwaddr addr,
+     addr = (addr >> s->it_shift) & (s->size - 1);
+     trace_macio_nvram_write(addr, value);
+     s->data[addr] = value;
++    if (s->blk) {
++        blk_pwrite(s->blk, addr, 1, &s->data[addr], 0);
++    }
  }
  
--static void macio_common_realize(PCIDevice *d, Error **errp)
-+static bool macio_common_realize(PCIDevice *d, Error **errp)
- {
-     MacIOState *s = MACIO(d);
-     SysBusDevice *sbd;
+ static uint64_t macio_nvram_readb(void *opaque, hwaddr addr,
+@@ -91,6 +97,27 @@ static void macio_nvram_realizefn(DeviceState *dev, Error **errp)
  
-     if (!qdev_realize(DEVICE(&s->dbdma), BUS(&s->macio_bus), errp)) {
--        return;
-+        return false;
-     }
-     sbd = SYS_BUS_DEVICE(&s->dbdma);
-     memory_region_add_subregion(&s->bar, 0x08000,
-@@ -108,14 +108,16 @@ static void macio_common_realize(PCIDevice *d, Error **errp)
-     qdev_prop_set_uint32(DEVICE(&s->escc), "chnBtype", escc_serial);
-     qdev_prop_set_uint32(DEVICE(&s->escc), "chnAtype", escc_serial);
-     if (!qdev_realize(DEVICE(&s->escc), BUS(&s->macio_bus), errp)) {
--        return;
-+        return false;
-     }
+     s->data = g_malloc0(s->size);
  
-     macio_bar_setup(s);
-     pci_register_bar(d, 0, PCI_BASE_ADDRESS_SPACE_MEMORY, &s->bar);
++    if (s->blk) {
++        int64_t len = blk_getlength(s->blk);
++        if (len < 0) {
++            error_setg_errno(errp, -len,
++                             "could not get length of nvram backing image");
++            return;
++        } else if (len != s->size) {
++            error_setg_errno(errp, -len,
++                             "invalid size nvram backing image");
++            return;
++        }
++        if (blk_set_perm(s->blk, BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE,
++                         BLK_PERM_ALL, errp) < 0) {
++            return;
++        }
++        if (blk_pread(s->blk, 0, s->size, s->data, 0) < 0) {
++            error_setg(errp, "can't read-nvram contents");
++            return;
++        }
++    }
 +
-+    return true;
- }
+     memory_region_init_io(&s->mem, OBJECT(s), &macio_nvram_ops, s,
+                           "macio-nvram", s->size << s->it_shift);
+     sysbus_init_mmio(d, &s->mem);
+@@ -106,6 +133,7 @@ static void macio_nvram_unrealizefn(DeviceState *dev)
+ static Property macio_nvram_properties[] = {
+     DEFINE_PROP_UINT32("size", MacIONVRAMState, size, 0),
+     DEFINE_PROP_UINT32("it_shift", MacIONVRAMState, it_shift, 0),
++    DEFINE_PROP_DRIVE("drive", MacIONVRAMState, blk),
+     DEFINE_PROP_END_OF_LIST()
+ };
  
--static void macio_realize_ide(MacIOState *s, MACIOIDEState *ide,
-+static bool macio_realize_ide(MacIOState *s, MACIOIDEState *ide,
-                               qemu_irq irq0, qemu_irq irq1, int dmaid,
-                               Error **errp)
- {
-@@ -128,7 +130,7 @@ static void macio_realize_ide(MacIOState *s, MACIOIDEState *ide,
-                              &error_abort);
-     macio_ide_register_dma(ide);
+diff --git a/include/hw/nvram/mac_nvram.h b/include/hw/nvram/mac_nvram.h
+index b780aca470..0c4dfaeff6 100644
+--- a/include/hw/nvram/mac_nvram.h
++++ b/include/hw/nvram/mac_nvram.h
+@@ -44,6 +44,7 @@ struct MacIONVRAMState {
  
--    qdev_realize(DEVICE(ide), BUS(&s->macio_bus), errp);
-+    return qdev_realize(DEVICE(ide), BUS(&s->macio_bus), errp);
- }
+     MemoryRegion mem;
+     uint8_t *data;
++    BlockBackend *blk;
+ };
  
- static void macio_oldworld_realize(PCIDevice *d, Error **errp)
-@@ -136,12 +138,9 @@ static void macio_oldworld_realize(PCIDevice *d, Error **errp)
-     MacIOState *s = MACIO(d);
-     OldWorldMacIOState *os = OLDWORLD_MACIO(d);
-     DeviceState *pic_dev = DEVICE(&os->pic);
--    Error *err = NULL;
-     SysBusDevice *sbd;
- 
--    macio_common_realize(d, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    if (!macio_common_realize(d, errp)) {
-         return;
-     }
- 
-@@ -176,21 +175,17 @@ static void macio_oldworld_realize(PCIDevice *d, Error **errp)
-     pmac_format_nvram_partition(&os->nvram, os->nvram.size);
- 
-     /* IDE buses */
--    macio_realize_ide(s, &os->ide[0],
--                      qdev_get_gpio_in(pic_dev, OLDWORLD_IDE0_IRQ),
--                      qdev_get_gpio_in(pic_dev, OLDWORLD_IDE0_DMA_IRQ),
--                      0x16, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    if (!macio_realize_ide(s, &os->ide[0],
-+                           qdev_get_gpio_in(pic_dev, OLDWORLD_IDE0_IRQ),
-+                           qdev_get_gpio_in(pic_dev, OLDWORLD_IDE0_DMA_IRQ),
-+                           0x16, errp)) {
-         return;
-     }
- 
--    macio_realize_ide(s, &os->ide[1],
--                      qdev_get_gpio_in(pic_dev, OLDWORLD_IDE1_IRQ),
--                      qdev_get_gpio_in(pic_dev, OLDWORLD_IDE1_DMA_IRQ),
--                      0x1a, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    if (!macio_realize_ide(s, &os->ide[1],
-+                           qdev_get_gpio_in(pic_dev, OLDWORLD_IDE1_IRQ),
-+                           qdev_get_gpio_in(pic_dev, OLDWORLD_IDE1_DMA_IRQ),
-+                           0x1a, errp)) {
-         return;
-     }
- }
-@@ -266,13 +261,10 @@ static void macio_newworld_realize(PCIDevice *d, Error **errp)
-     MacIOState *s = MACIO(d);
-     NewWorldMacIOState *ns = NEWWORLD_MACIO(d);
-     DeviceState *pic_dev = DEVICE(&ns->pic);
--    Error *err = NULL;
-     SysBusDevice *sbd;
-     MemoryRegion *timer_memory = NULL;
- 
--    macio_common_realize(d, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    if (!macio_common_realize(d, errp)) {
-         return;
-     }
- 
-@@ -288,21 +280,17 @@ static void macio_newworld_realize(PCIDevice *d, Error **errp)
-     sysbus_connect_irq(sbd, 1, qdev_get_gpio_in(pic_dev, NEWWORLD_ESCCA_IRQ));
- 
-     /* IDE buses */
--    macio_realize_ide(s, &ns->ide[0],
--                      qdev_get_gpio_in(pic_dev, NEWWORLD_IDE0_IRQ),
--                      qdev_get_gpio_in(pic_dev, NEWWORLD_IDE0_DMA_IRQ),
--                      0x16, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    if (!macio_realize_ide(s, &ns->ide[0],
-+                           qdev_get_gpio_in(pic_dev, NEWWORLD_IDE0_IRQ),
-+                           qdev_get_gpio_in(pic_dev, NEWWORLD_IDE0_DMA_IRQ),
-+                           0x16, errp)) {
-         return;
-     }
- 
--    macio_realize_ide(s, &ns->ide[1],
--                      qdev_get_gpio_in(pic_dev, NEWWORLD_IDE1_IRQ),
--                      qdev_get_gpio_in(pic_dev, NEWWORLD_IDE1_DMA_IRQ),
--                      0x1a, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    if (!macio_realize_ide(s, &ns->ide[1],
-+                           qdev_get_gpio_in(pic_dev, NEWWORLD_IDE1_IRQ),
-+                           qdev_get_gpio_in(pic_dev, NEWWORLD_IDE1_DMA_IRQ),
-+                           0x1a, errp)) {
-         return;
-     }
- 
+ void pmac_format_nvram_partition(MacIONVRAMState *nvr, int len);
 -- 
 2.30.2
 
