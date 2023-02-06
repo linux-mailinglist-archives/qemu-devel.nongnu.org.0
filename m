@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A5B668BCAC
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F37968BCAB
 	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 13:18:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP0S9-0000ul-Jl; Mon, 06 Feb 2023 07:18:35 -0500
+	id 1pP0SE-0000xH-MI; Mon, 06 Feb 2023 07:18:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP0Rl-0000kP-6G
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:18:09 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP0Rp-0000tY-A9
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:18:13 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP0Ri-0005uM-Kg
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:18:08 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- k8-20020a05600c1c8800b003dc57ea0dfeso10642350wms.0
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 04:18:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP0Rn-0005ur-9W
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:18:13 -0500
+Received: by mail-wr1-x433.google.com with SMTP id ba1so6108101wrb.5
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 04:18:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=q9OtXnoXEv7c1NMHlxcIT3UzncY58Hccqx/D2ForunA=;
- b=uOVsfaedb4hOEkSvumSwCn2EN8zCNxNBRQv7BdlyJ5MnGgUjd31BrPJT2U+W5KlAWJ
- 9qNbT/gYyI6dUUM/r+j/hBe7T6bAaq37/FSl6sIJaqNTY+5h+TQswJWNEu9f8VEWVdaP
- PjktMwjdNoRaYIikhzNcM+0s3YUm/DRODwkZxs7qkgamQeFOoraS1z4omdqf33xki+E6
- bDuw7DLWk04NMaIpz8AUnOMzYWy8wkJZ3vqCFJ4b2wyqDvVCObL46WhG8XVpHHClCu/w
- a629JvjICU0Q1CtKTLUrVmArq8xsHHV2G+qlhOP1hjzIQjgsQsXWHbqHev3DsGPqhgJG
- IGQA==
+ bh=xK04lMyGXiTsZ6tKZ58V/KNKtbYzeddWJbilZBnE9nw=;
+ b=D52LimxeEnhnCNJrq8EfTT2PUerVJl4kyndYSyRbB/gGkKyoPohRWTWepJF61XLzpy
+ /fuucykyj5jYUspGuIrwPe+3qrmAt6IbHXEZ7bGiqcEXgjfYed8C/9hpgoHIB54OYJyg
+ puv+BTUHHheL6Q2GX6j+auGNckfDa6KA0TMx8ge9MIglNF+hQ4uEzABFbWdtZtErwyv9
+ 9btdeWxECtSOScwqDrjl2kiNgePa3FmXcTlWhB2QaJB3N5cOkgPNuRTjT+cFsptTOddb
+ Qb/uNLeXFOmfSOXrD1uEHAxiPx3pH9IuZV5O8a4zxmk8Ozun0Si8kdACJcBGWtIogIut
+ KE0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=q9OtXnoXEv7c1NMHlxcIT3UzncY58Hccqx/D2ForunA=;
- b=Lp9nddEWf3ihBXCjki5Futf4wt+nA8pP0RZauLduVtE2lvAoDLHb2ROBj20QWGsqNv
- TxsCMoRUznBBjCVdh3Xlaq90nnfs+61+eI8D/mxUi5KnmawtJRIQkKKEoOVDo9ETAaFo
- Wfkole+ayZRdWgVHdAlLXnOOKUjgosIxA+yO3rQwfeIaE/yVp9Rr4gQW4+kKqo0nQbLO
- hPTstPGIw/erni4/4Zbrt4vaBLuDMl1LFmTApseBEtP1jB5v1MJJdYuHU9pR/tzTZzzH
- OJ9/TP9tYHvzuv/DjsmreBxR26usIziSVNf1/5g9L12vlfnOaag2rFRxlDFUI0oVt7Mn
- 4LHg==
-X-Gm-Message-State: AO0yUKWCvYpSPg884nIRY8r7cHH74FABKYeO4tKB4HsGwJMsHN8nROZg
- Tuts5GMt/lro0FduDi/psvQSumKmV5aBxtrn
-X-Google-Smtp-Source: AK7set/xigteG9r8F65E78U7VpQUqaNtHRPBg9LBJUs2JIu5q3pI11Fs6o6FreaNCzfvXi2admu6GA==
-X-Received: by 2002:a05:600c:a0e:b0:3d3:4f56:62e1 with SMTP id
- z14-20020a05600c0a0e00b003d34f5662e1mr18778135wmp.27.1675685884759; 
- Mon, 06 Feb 2023 04:18:04 -0800 (PST)
+ bh=xK04lMyGXiTsZ6tKZ58V/KNKtbYzeddWJbilZBnE9nw=;
+ b=cijcULpbKjbQ+2sykU0e7TvzRGuaBLSmzwHlzo3mj4zHYdoPnYeZOuko8giNg7oCbI
+ SL1coX9d4WMAOKmFMpzsMPcECnOTyQRj71YZ8eLfZXrja0tjzMBZ8N9DsMq4lORsYTEI
+ HyNcrC8Vp22FjoNknBK60OIs3LdkKBoWhLJUH9Rix5a2aHyiccSR5rAoEdtcXhNsyv+A
+ C1cK3H6U5SaLrvKSTwbg2uacCEC68sANvLBLDPHQ+NtA2u6G2YuOUTOmmSRWgUKDc4wM
+ UfvBD9QgkdOtMDWaOTQdQog+IU4R39o0SBS0QKiQpKQojUh0IfB4RIy1eoq9l0XjdjB6
+ UXAg==
+X-Gm-Message-State: AO0yUKW7S7sesXbuu7JXnzupf4qS0sN3fqkM7Ys7MskSeppbJ+srWavz
+ BTHL86+1DCwtTApejfEcQK1gZIVmnoHMXu+k
+X-Google-Smtp-Source: AK7set8F8a/pi/sKbrEIDqU87xGhm0Dz0tj/jLeQDNRO8EDfi2TEtZ5f9L5CBl+kvEaJIMTzIgVH4w==
+X-Received: by 2002:a5d:6b0e:0:b0:2c2:6541:7afa with SMTP id
+ v14-20020a5d6b0e000000b002c265417afamr19648680wrw.57.1675685889688; 
+ Mon, 06 Feb 2023 04:18:09 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- t8-20020a05600c2ac800b003ddc781b1d4sm10381648wme.33.2023.02.06.04.18.03
+ s14-20020adfa28e000000b002c3be49ef94sm8895439wra.52.2023.02.06.04.18.08
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 06 Feb 2023 04:18:04 -0800 (PST)
+ Mon, 06 Feb 2023 04:18:09 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 8/9] hw/intc/armv7m_nvic: Allow calling neg_prio_requested on
- unrealized NVIC
-Date: Mon,  6 Feb 2023 13:17:13 +0100
-Message-Id: <20230206121714.85084-9-philmd@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: [PATCH 9/9] hw/arm/armv7m: Pass CPU/NVIC using
+ object_property_add_const_link()
+Date: Mon,  6 Feb 2023 13:17:14 +0100
+Message-Id: <20230206121714.85084-10-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230206121714.85084-1-philmd@linaro.org>
 References: <20230206121714.85084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,78 +91,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-armv7m_nvic_neg_prio_requested() is called via arm_cpu_reset_hold()
-during CPU realize() time, when the NVIC isn't yet realized:
-
-(lldb) bt
-  * frame #0:  0x10059ed5c armv7m_nvic_neg_prio_requested(opaque=0x1180087b0, secure=true) at armv7m_nvic.c:404:9
-    frame #1:  0x100383018 arm_v7m_mmu_idx_for_secstate [inlined] arm_v7m_mmu_idx_for_secstate_and_priv(...) at m_helper.c:2882:19
-    frame #2:  0x10038300c arm_v7m_mmu_idx_for_secstate(..., secstate=true) at m_helper.c:2893:12
-    frame #3:  0x10036e9bc arm_mmu_idx_el(...) at helper.c:11799:16 [artificial]
-    frame #4:  0x100366cd4 arm_rebuild_hflags [inlined] rebuild_hflags_internal(env=0x118411f30) at helper.c:12129:25
-    frame #5:  0x100366c18 arm_rebuild_hflags(env=0x118411f30) at helper.c:12142:19
-    frame #6:  0x10035f1c4 arm_cpu_reset_hold(...) at cpu.c:541:5 [artificial]
-    frame #7:  0x10066b354 resettable_phase_hold(obj=0x118410000, opaque=0x000000000, ...) at resettable.c:0
-    frame #8:  0x10066ac40 resettable_assert_reset(obj=0x118410000, ...) at resettable.c:60:5
-    frame #9:  0x10066ab1c resettable_reset(obj=0x118410000, type=RESET_TYPE_COLD) at resettable.c:45:5
-    frame #10: 0x100669568 device_cold_reset(...) at qdev.c:255:5 [artificial]
-    frame #11: 0x10000ca28 cpu_reset(cpu=0x118410000) at cpu-common.c:114:5
-    frame #12: 0x10035ec74 arm_cpu_realizefn(dev=0x118410000, errp=0x16fdfb910) at cpu.c:2145:5
-    frame #13: 0x10066a3e0 device_set_realized(...) at qdev.c:519:13
-    frame #14: 0x100671b98 property_set_bool(obj=0x118410000, ...) at object.c:2285:5
-    frame #15: 0x10066fdf4 object_property_set(obj=0x118410000, name="realized", ...) at object.c:1420:5
-    frame #16: 0x100673da8 object_property_set_qobject(...) at qom-qobject.c:28:10
-    frame #17: 0x10067026c object_property_set_bool(...) at object.c:1489:15
-    frame #18: 0x100669600 qdev_realize(...) at qdev.c:292:12 [artificial]
-    frame #19: 0x1003101bc armv7m_realize(dev=0x118008480, ...) at armv7m.c:344:10
-    frame #20: 0x10066a3e0 device_set_realized(...) at qdev.c:519:13
-    frame #21: 0x100671b98 property_set_bool(obj=0x118008480, ...) at object.c:2285:5
-    frame #22: 0x10066fdf4 object_property_set(obj=0x118008480, name="realized", ...) at object.c:1420:5
-    frame #23: 0x100673da8 object_property_set_qobject(...) at qom-qobject.c:28:10
-    frame #24: 0x10067026c object_property_set_bool(...) at object.c:1489:15
-    frame #25: 0x100669600 qdev_realize(...) at qdev.c:292:12 [artificial]
-    frame #26: 0x100092da8 sysbus_realize(...) at sysbus.c:256:12 [artificial]
-    frame #27: 0x100350e1c armsse_realize(dev=0x118008150, ...) at armsse.c:1043:14
-    frame #28: 0x10066a3e0 device_set_realized(...) at qdev.c:519:13
-    frame #29: 0x100671b98 property_set_bool(obj=0x118008150, ...) at object.c:2285:5
-    frame #30: 0x10066fdf4 object_property_set(obj=0x118008150, name="realized", ...) at object.c:1420:5
-    frame #31: 0x100673da8 object_property_set_qobject(...) at qom-qobject.c:28:10
-    frame #32: 0x10067026c object_property_set_bool(...) at object.c:1489:15
-    frame #33: 0x100669600 qdev_realize(...) at qdev.c:292:12 [artificial]
-    frame #34: 0x100092da8 sysbus_realize(...) at sysbus.c:256:12 [artificial]
-    frame #35: 0x100349354 mps2tz_common_init(machine=0x118008000) at mps2-tz.c:834:5
-    frame #36: 0x10008e6b8 machine_run_board_init(machine=0x118008000, ...) at machine.c:1405:5
-(lldb) frame select 12
-frame #12: 0x10035ec74 arm_cpu_realizefn(dev=0x118410000, errp=0x16fdfb910) at cpu.c:2145:5
-   2142	    }
-   2143
-   2144	    qemu_init_vcpu(cs);
--> 2145	    cpu_reset(cs);
-   2146
-   2147	    acc->parent_realize(dev, errp);
-   2148	}
+Avoid having QOM objects poke at each other internals.
+Instead, pass references using QOM link properties.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/intc/armv7m_nvic.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+ hw/arm/armv7m.c       | 4 ++--
+ hw/intc/armv7m_nvic.c | 3 ++-
+ target/arm/cpu.c      | 3 ++-
+ 3 files changed, 6 insertions(+), 4 deletions(-)
 
+diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
+index 50a9507c0b..edde774da2 100644
+--- a/hw/arm/armv7m.c
++++ b/hw/arm/armv7m.c
+@@ -338,8 +338,8 @@ static void armv7m_realize(DeviceState *dev, Error **errp)
+      * Tell the CPU where the NVIC is; it will fail realize if it doesn't
+      * have one. Similarly, tell the NVIC where its CPU is.
+      */
+-    s->cpu->env.nvic = &s->nvic;
+-    s->nvic.cpu = s->cpu;
++    object_property_add_const_link(OBJECT(s->cpu), "nvic", OBJECT(&s->nvic));
++    object_property_add_const_link(OBJECT(&s->nvic), "cpu", OBJECT(s->cpu));
+ 
+     if (!qdev_realize(DEVICE(s->cpu), NULL, errp)) {
+         return;
 diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
-index e54553283f..d9c7e414bc 100644
+index d9c7e414bc..e43898a9e0 100644
 --- a/hw/intc/armv7m_nvic.c
 +++ b/hw/intc/armv7m_nvic.c
-@@ -399,6 +399,11 @@ bool armv7m_nvic_neg_prio_requested(NVICState *s, bool secure)
-      * mean we don't allow FAULTMASK_NS to actually make the execution
-      * priority negative). Compare pseudocode IsReqExcPriNeg().
-      */
-+
-+    if (!DEVICE(s)->realized) { /* XXX Why are we called while not realized? */
-+        return false;
-+    }
-+
-     if (s->cpu->env.v7m.faultmask[secure]) {
-         return true;
+@@ -2668,7 +2668,8 @@ static void armv7m_nvic_realize(DeviceState *dev, Error **errp)
+     NVICState *s = NVIC(dev);
+ 
+     /* The armv7m container object will have set our CPU pointer */
+-    if (!s->cpu || !arm_feature(&s->cpu->env, ARM_FEATURE_M)) {
++    s->cpu = ARM_CPU(object_property_get_link(OBJECT(dev), "cpu", &error_abort));
++    if (!arm_feature(&s->cpu->env, ARM_FEATURE_M)) {
+         error_setg(errp, "The NVIC can only be used with a Cortex-M CPU");
+         return;
      }
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 876ab8f3bf..f081861947 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1573,12 +1573,13 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+      * error and will result in segfaults if not caught here.
+      */
+     if (arm_feature(env, ARM_FEATURE_M)) {
++        env->nvic = NVIC(object_property_get_link(OBJECT(dev), "nvic", NULL));
+         if (!env->nvic) {
+             error_setg(errp, "This board cannot be used with Cortex-M CPUs");
+             return;
+         }
+     } else {
+-        if (env->nvic) {
++        if (object_property_find(OBJECT(dev), "nvic")) {
+             error_setg(errp, "This board can only be used with Cortex-M CPUs");
+             return;
+         }
 -- 
 2.38.1
 
