@@ -2,86 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EAFA68C13C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 16:23:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CF5B68C150
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 16:29:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP3Jv-0000DM-NH; Mon, 06 Feb 2023 10:22:15 -0500
+	id 1pP3PY-0003iA-0V; Mon, 06 Feb 2023 10:28:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pP3Jr-00009l-7O
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:22:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pP3Jo-0003lO-Mj
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:22:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675696927;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8DolFaCsVV5F/iCGemVkE1D3cXy+E5w6ulv37yHG4Ho=;
- b=N1N282lNSeGCamRDKj4dDmJ5/neLOIXZLs72iCemdL4DSz8To8W8LHvApcPxI+drLA7Hjx
- s43gUEwNsWkNB61g6eotBsmiOLTXngVZi5RfmbdGfgH9P2bv1paWFqZ9F2ChKcG1lfU4Oi
- Vl/fVVZXyLjZe1m7QkW5Ia9+Nj4cheE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-659-mphMkjVxO22Z7fL8y4YIvw-1; Mon, 06 Feb 2023 10:21:49 -0500
-X-MC-Unique: mphMkjVxO22Z7fL8y4YIvw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- e38-20020a05600c4ba600b003dc434dabbdso9093933wmp.6
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 07:21:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP3PE-0003am-8O
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:27:44 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP3PB-00058t-2T
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:27:44 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id i5so3566140wrc.0
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 07:27:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=bwiGbfcWt1cMeEWPC/yatRM1Hq2EpPB8luPfTJXNUR4=;
+ b=Jh9h0L21/qfUtrwJ5GE1qBRWiHRAxgIHUCnmLB/em5VtdWRiqNZ3glrYjjIMMPRLZu
+ hWgvdfHlEILh5Ha2B6NPhktAyr2pq5LPtDOINoZgL83xlAD0pQBlaHaj+6QlCJqXByjD
+ AT6KjTcxHq4SFfOPpToUjkdu5K5xkgAf2HEdU1YfpU2CoYieCm7nZGU5xwcTZjG5ZLNJ
+ aYBRf3DzCMaEKdzLUGP4Z1GEFpJnDiogGowv/QymY/BaHuH6wUFt9hUxWJEjF7ppyycC
+ 4fSc4bjygzx9I15asIW6M2hewf+GGwTZMQ98FeSuqXrC4YkdwAedvh5dY2FxpoUbj0v3
+ IMMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8DolFaCsVV5F/iCGemVkE1D3cXy+E5w6ulv37yHG4Ho=;
- b=2wIi19anjcTXESNXmtz53UF9bpTQcZdAMJDmKx2whzLnEEs6oq2267hkzJFXH5e17l
- iNps2qIJWzZeoDWqNk1iE10Zo10PuAdTW1XisPtkRkh0iTy626VmyJeEH/DMa0YaExR+
- wlR+iEwpM327gnx7i6v5nRa4JOfxIt6ePYpzYb/8T76voAny3tVEnAB4cMwnJNONDSV0
- vI5Y9n6FPUfyEtDLZi+xjSmQOLJNXqaoD4heKn9hJtKaMgwX1o22r68NO7kTH/0aimjd
- rq53/mFbnDpz3ye0Ctadp5K0blFbjdbrWmj6vvUt5aU08Lqizap7dR3tNuxhRzYGxSbt
- OmLA==
-X-Gm-Message-State: AO0yUKXPGZ1gS9tKysE4W8+3wwPteT1G3TjvGoiQ7bpgjshAFduZ6Aqy
- 25iNomhVkIfMqya1aG/3lQntBQamDYwjTaH9I4aDkuelgOhzE+4R+irdrfHX4+iNCOVClTQwGf+
- YnFswCvqZmstyixo=
-X-Received: by 2002:a05:600c:4b28:b0:3df:eda1:43b9 with SMTP id
- i40-20020a05600c4b2800b003dfeda143b9mr116943wmp.4.1675696907810; 
- Mon, 06 Feb 2023 07:21:47 -0800 (PST)
-X-Google-Smtp-Source: AK7set9e4Rv2nJFBaMQ7LEK742vaxJbmKtO/PZ3pLTHZ+eKvQ0aeWcMNPgDS+GF127joBtwRqeH2qg==
-X-Received: by 2002:a05:600c:4b28:b0:3df:eda1:43b9 with SMTP id
- i40-20020a05600c4b2800b003dfeda143b9mr116925wmp.4.1675696907529; 
- Mon, 06 Feb 2023 07:21:47 -0800 (PST)
-Received: from redhat.com ([2a06:c701:7430:4900:1e4f:d57b:58a7:762b])
- by smtp.gmail.com with ESMTPSA id
- n36-20020a05600c3ba400b003dc54eef495sm12624919wms.24.2023.02.06.07.21.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Feb 2023 07:21:46 -0800 (PST)
-Date: Mon, 6 Feb 2023 10:21:44 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Fabiano Rosas <farosas@suse.de>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH 08/12] tests/qtest: Check for devices in bios-tables-test
-Message-ID: <20230206102128-mutt-send-email-mst@kernel.org>
-References: <20230206150416.4604-1-farosas@suse.de>
- <20230206150416.4604-9-farosas@suse.de>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bwiGbfcWt1cMeEWPC/yatRM1Hq2EpPB8luPfTJXNUR4=;
+ b=7Rt3T8ZSmW6ovP544U9mqvCVWsSvUE0ocjOXlDj9M8UU3gTDzP1Hn7Z3DExudRs7RB
+ /SXi1iRgreZ4o3elRaEyTCIUuzHOdQ9DPnvThY2S7qxvxpggjNjuiUrZHkAeenzFhMJA
+ ziPJQvnKMTCDTAgta3nDMTGA9gIhu1pNuKsyyTGCLz0t7t+bF8A3yWliFYIeu2RCDFpJ
+ xuoYFs+6ImGM5OxHTH/RzUvNgb7GAmrdyQanihzqytp2QsKye1iP9isDmOYYL52NPdbn
+ TGtV4RVoj4xBtWP2Hxv8rjH7pMU9UpKtjJ4a8FvD2JzUo33dY65VNNiY1D9A2BbeHp2l
+ D67A==
+X-Gm-Message-State: AO0yUKVqLeMdv6PHEPazD/tVDchxmGbPGC9Nn6hsHLFjpq32UP+Qw/Oa
+ WwTHS5tI9YowWVIb/IfuDnk2yg==
+X-Google-Smtp-Source: AK7set9QJKwbov+bo6S/4zINjWopjzpMf4kKqZQoZNQ1ixnCKiblYkkXYpYtXKrYSO97rNZj8Gqt9Q==
+X-Received: by 2002:a5d:514d:0:b0:2bf:ae1e:84d2 with SMTP id
+ u13-20020a5d514d000000b002bfae1e84d2mr16311798wrt.12.1675697259415; 
+ Mon, 06 Feb 2023 07:27:39 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ v7-20020adfebc7000000b002bc7e5a1171sm9219039wrn.116.2023.02.06.07.27.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Feb 2023 07:27:38 -0800 (PST)
+Message-ID: <46f52043-368c-e153-2d02-ba30220685dd@linaro.org>
+Date: Mon, 6 Feb 2023 16:27:36 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230206150416.4604-9-farosas@suse.de>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 0/9] hw: Use QOM alias properties and few QOM/QDev cleanups
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost
+ <eduardo@habkost.net>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+References: <20230203113650.78146-1-philmd@linaro.org>
+ <e30899d3-06b5-645e-3f42-c99631b5a53a@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <e30899d3-06b5-645e-3f42-c99631b5a53a@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,219 +92,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 06, 2023 at 12:04:12PM -0300, Fabiano Rosas wrote:
-> Do not include tests that require devices that are not available in
-> the QEMU build.
+On 6/2/23 00:29, Mark Cave-Ayland wrote:
+> On 03/02/2023 11:36, Philippe Mathieu-Daudé wrote:
 > 
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
-
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-
-feel free to merge with rest of the patchset.
-
-> ---
->  tests/qtest/bios-tables-test.c | 75 ++++++++++++++++++++++++++++++++--
->  1 file changed, 71 insertions(+), 4 deletions(-)
+>> These patches are extracted from a QOM/QDev refactor series,
+>> so they are preliminary cleanups noticed while working on it:
+>>
+>> - Use correct type when calling qdev_prop_set_xxx()
+>> - Unify some qdev properties in MIPS models
+>> - Replace intermediate properties by link properties
+>> - Remove DEFINE_PROP_DMAADDR() macro which is used one time
+>> - Use qdev_realize_and_unref() instead of open-coding it
+>>
+>> Philippe Mathieu-Daudé (9):
+>>    hw/i386/sgx: Do not open-code qdev_realize_and_unref()
+>>    hw/ppc/sam460ex: Correctly set MAL properties
+>>    hw/arm/nrf51: QOM-alias 'flash-size' property in SoC object
+>>    hw/arm/fsl-imx: QOM-alias 'phy-num' property in SoC object
+>>    hw/usb/hcd-ohci: Include missing 'sysbus.h' header
+>>    hw/display/sm501: QOM-alias 'dma-offset' property in chipset object
+>>    hw/qdev: Remove DEFINE_PROP_DMAADDR() and 'hw/qdev-dma.h'
+>>    hw/mips: Declare all length properties as unsigned
+>>    hw/mips/itu: Pass SAAR using QOM link property
+>>
+>>   hw/arm/fsl-imx25.c           |  3 +--
+>>   hw/arm/fsl-imx6.c            |  3 +--
+>>   hw/arm/fsl-imx6ul.c          |  8 ++++----
+>>   hw/arm/fsl-imx7.c            | 12 ++++++------
+>>   hw/arm/microbit.c            |  5 ++++-
+>>   hw/arm/nrf51_soc.c           | 10 +---------
+>>   hw/display/sm501.c           | 22 +++++++++++-----------
+>>   hw/i386/sgx.c                |  5 ++---
+>>   hw/intc/mips_gic.c           |  4 ++--
+>>   hw/mips/boston.c             |  2 +-
+>>   hw/mips/cps.c                | 35 ++++++++++++-----------------------
+>>   hw/mips/malta.c              |  2 +-
+>>   hw/misc/mips_cmgcr.c         |  2 +-
+>>   hw/misc/mips_itu.c           | 30 ++++++++++++++++++++----------
+>>   hw/nvram/nrf51_nvm.c         |  6 +++++-
+>>   hw/ppc/sam460ex.c            |  4 ++--
+>>   hw/sh4/r2d.c                 |  2 +-
+>>   hw/usb/hcd-ohci-pci.c        |  1 -
+>>   hw/usb/hcd-ohci.c            |  3 +--
+>>   hw/usb/hcd-ohci.h            |  1 +
+>>   include/hw/arm/fsl-imx25.h   |  1 -
+>>   include/hw/arm/fsl-imx6.h    |  1 -
+>>   include/hw/arm/fsl-imx6ul.h  |  2 --
+>>   include/hw/arm/fsl-imx7.h    |  1 -
+>>   include/hw/arm/nrf51_soc.h   |  1 -
+>>   include/hw/intc/mips_gic.h   |  4 ++--
+>>   include/hw/misc/mips_cmgcr.h |  2 +-
+>>   include/hw/misc/mips_itu.h   |  9 ++++-----
+>>   include/hw/qdev-dma.h        | 16 ----------------
+>>   29 files changed, 84 insertions(+), 113 deletions(-)
+>>   delete mode 100644 include/hw/qdev-dma.h
 > 
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index d8c8cda58e..d29a4e47af 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -1008,6 +1008,12 @@ static void test_acpi_q35_multif_bridge(void)
->          .machine = MACHINE_Q35,
->          .variant = ".multi-bridge",
->      };
-> +
-> +    if (!qtest_has_device("pcie-root-port")) {
-> +        g_test_skip("Device pcie-root-port is not available");
-> +        goto out;
-> +    }
-> +
->      test_vm_prepare("-S"
->          " -device virtio-balloon,id=balloon0,addr=0x4.0x2"
->          " -device pcie-root-port,id=rp0,multifunction=on,"
-> @@ -1043,6 +1049,7 @@ static void test_acpi_q35_multif_bridge(void)
->      /* check that reboot/reset doesn't change any ACPI tables  */
->      qtest_qmp_send(data.qts, "{'execute':'system_reset' }");
->      process_acpi_tables(&data);
-> +out:
->      free_test_data(&data);
->  }
->  
-> @@ -1396,6 +1403,11 @@ static void test_acpi_tcg_dimm_pxm(const char *machine)
->  {
->      test_data data;
->  
-> +    if (!qtest_has_device("nvdimm")) {
-> +        g_test_skip("Device nvdimm is not available");
-> +        return;
-> +    }
-> +
->      memset(&data, 0, sizeof(data));
->      data.machine = machine;
->      data.variant = ".dimmpxm";
-> @@ -1444,6 +1456,11 @@ static void test_acpi_virt_tcg_memhp(void)
->          .scan_len = 256ULL * 1024 * 1024,
->      };
->  
-> +    if (!qtest_has_device("nvdimm")) {
-> +        g_test_skip("Device nvdimm is not available");
-> +        goto out;
-> +    }
-> +
->      data.variant = ".memhp";
->      test_acpi_one(" -machine nvdimm=on"
->                    " -cpu cortex-a57"
-> @@ -1457,7 +1474,7 @@ static void test_acpi_virt_tcg_memhp(void)
->                    " -device pc-dimm,id=dimm0,memdev=ram2,node=0"
->                    " -device nvdimm,id=dimm1,memdev=nvm0,node=1",
->                    &data);
-> -
-> +out:
->      free_test_data(&data);
->  
->  }
-> @@ -1475,6 +1492,11 @@ static void test_acpi_microvm_tcg(void)
->  {
->      test_data data;
->  
-> +    if (!qtest_has_device("virtio-blk-device")) {
-> +        g_test_skip("Device virtio-blk-device is not available");
-> +        return;
-> +    }
-> +
->      test_acpi_microvm_prepare(&data);
->      test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,rtc=off",
->                    &data);
-> @@ -1485,6 +1507,11 @@ static void test_acpi_microvm_usb_tcg(void)
->  {
->      test_data data;
->  
-> +    if (!qtest_has_device("virtio-blk-device")) {
-> +        g_test_skip("Device virtio-blk-device is not available");
-> +        return;
-> +    }
-> +
->      test_acpi_microvm_prepare(&data);
->      data.variant = ".usb";
->      test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,usb=on,rtc=off",
-> @@ -1496,6 +1523,11 @@ static void test_acpi_microvm_rtc_tcg(void)
->  {
->      test_data data;
->  
-> +    if (!qtest_has_device("virtio-blk-device")) {
-> +        g_test_skip("Device virtio-blk-device is not available");
-> +        return;
-> +    }
-> +
->      test_acpi_microvm_prepare(&data);
->      data.variant = ".rtc";
->      test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,rtc=on",
-> @@ -1507,6 +1539,11 @@ static void test_acpi_microvm_pcie_tcg(void)
->  {
->      test_data data;
->  
-> +    if (!qtest_has_device("virtio-blk-device")) {
-> +        g_test_skip("Device virtio-blk-device is not available");
-> +        return;
-> +    }
-> +
->      test_acpi_microvm_prepare(&data);
->      data.variant = ".pcie";
->      data.tcg_only = true; /* need constant host-phys-bits */
-> @@ -1519,6 +1556,11 @@ static void test_acpi_microvm_ioapic2_tcg(void)
->  {
->      test_data data;
->  
-> +    if (!qtest_has_device("virtio-blk-device")) {
-> +        g_test_skip("Device virtio-blk-device is not available");
-> +        return;
-> +    }
-> +
->      test_acpi_microvm_prepare(&data);
->      data.variant = ".ioapic2";
->      test_acpi_one(" -machine microvm,acpi=on,ioapic2=on,rtc=off",
-> @@ -1558,6 +1600,12 @@ static void test_acpi_virt_tcg_pxb(void)
->          .ram_start = 0x40000000ULL,
->          .scan_len = 128ULL * 1024 * 1024,
->      };
-> +
-> +    if (!qtest_has_device("pcie-root-port")) {
-> +        g_test_skip("Device pcie-root-port is not available");
-> +        goto out;
-> +    }
-> +
->      /*
->       * While using -cdrom, the cdrom would auto plugged into pxb-pcie,
->       * the reason is the bus of pxb-pcie is also root bus, it would lead
-> @@ -1576,7 +1624,7 @@ static void test_acpi_virt_tcg_pxb(void)
->                    " -cpu cortex-a57"
->                    " -device pxb-pcie,bus_nr=128",
->                    &data);
-> -
-> +out:
->      free_test_data(&data);
->  }
->  
-> @@ -1764,6 +1812,12 @@ static void test_acpi_microvm_acpi_erst(void)
->      gchar *params;
->      test_data data;
->  
-> +    if (!qtest_has_device("virtio-blk-device")) {
-> +        g_test_skip("Device virtio-blk-device is not available");
-> +        g_free(tmp_path);
-> +        return;
-> +    }
-> +
->      test_acpi_microvm_prepare(&data);
->      data.variant = ".pcie";
->      data.tcg_only = true; /* need constant host-phys-bits */
-> @@ -1824,6 +1878,11 @@ static void test_acpi_q35_viot(void)
->          .variant = ".viot",
->      };
->  
-> +    if (!qtest_has_device("virtio-iommu")) {
-> +        g_test_skip("Device virtio-iommu is not available");
-> +        goto out;
-> +    }
-> +
->      /*
->       * To keep things interesting, two buses bypass the IOMMU.
->       * VIOT should only describes the other two buses.
-> @@ -1834,6 +1893,7 @@ static void test_acpi_q35_viot(void)
->                    "-device pxb-pcie,bus_nr=0x20,id=pcie.200,bus=pcie.0,bypass_iommu=on "
->                    "-device pxb-pcie,bus_nr=0x30,id=pcie.300,bus=pcie.0",
->                    &data);
-> +out:
->      free_test_data(&data);
->  }
->  
-> @@ -1894,8 +1954,10 @@ static void test_acpi_virt_viot(void)
->          .scan_len = 128ULL * 1024 * 1024,
->      };
->  
-> -    test_acpi_one("-cpu cortex-a57 "
-> -                  "-device virtio-iommu-pci", &data);
-> +    if (qtest_has_device("virtio-iommu")) {
-> +        test_acpi_one("-cpu cortex-a57 "
-> +                       "-device virtio-iommu-pci", &data);
-> +    }
->      free_test_data(&data);
->  }
->  
-> @@ -2004,6 +2066,11 @@ static void test_acpi_microvm_oem_fields(void)
->      test_data data;
->      char *args;
->  
-> +    if (!qtest_has_device("virtio-blk-device")) {
-> +        g_test_skip("Device virtio-blk-device is not available");
-> +        return;
-> +    }
-> +
->      test_acpi_microvm_prepare(&data);
->  
->      args = test_acpi_create_args(&data,
-> -- 
-> 2.35.3
+> I must admit to being slightly nervous about using QOM alias properties 
+> in this way, simply because you start creating implicit dependencies 
+> between QOM objects. How would this work when trying to build machines 
+> from configuration files and/or the monitor? Or are the changes 
+> restricted to container devices i.e. those which consist of in-built 
+> child devices?
 
+The latter. All parents forward a property to a contained child.
+
+The parent forwarding property is replaced by a link into the child,
+so accessing the parent property transparently access the child one.
+
+The dependencies are already explicit. We can not create a parent
+without its children (the children creation is implicit when we
+create the parent object).
+
+
+I thought this was the canonical QOM alias properties use. What is
+the normal use then?
 
