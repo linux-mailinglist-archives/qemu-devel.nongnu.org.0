@@ -2,54 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2CAC68C639
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 19:56:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 716FE68C625
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 19:53:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP6cC-0005Wu-Jl; Mon, 06 Feb 2023 13:53:20 -0500
+	id 1pP6bj-0004wB-OE; Mon, 06 Feb 2023 13:52:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1pP6c9-0005M2-E3
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:53:17 -0500
-Received: from mailout03.t-online.de ([194.25.134.81])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1pP6c4-0005Wi-ED
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:53:17 -0500
-Received: from fwd71.dcpf.telekom.de (fwd71.aul.t-online.de [10.223.144.97])
- by mailout03.t-online.de (Postfix) with SMTP id 22891177BB;
- Mon,  6 Feb 2023 19:53:09 +0100 (CET)
-Received: from linpower.localnet ([79.208.25.151]) by fwd71.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pP6c0-22PXxR0; Mon, 6 Feb 2023 19:53:08 +0100
-Received: by linpower.localnet (Postfix, from userid 1000)
- id 94BE22006C8; Mon,  6 Feb 2023 19:52:37 +0100 (CET)
-From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-To: Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>
-Cc: qemu-devel@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PATCH v2 14/17] audio: wire up st_rate_frames_out()
-Date: Mon,  6 Feb 2023 19:52:34 +0100
-Message-Id: <20230206185237.8358-14-vr_qemu@t-online.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <df6510fe-1dfd-1585-8590-db230c71d367@t-online.de>
-References: <df6510fe-1dfd-1585-8590-db230c71d367@t-online.de>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP6bZ-0004vZ-Tk
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:52:50 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP6bW-0005RD-00
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:52:40 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ j29-20020a05600c1c1d00b003dc52fed235so9626564wms.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 10:52:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=euw2DqlC8cs3IIL7aKpu5NwRAp5I1Awdy07JI7NWZrM=;
+ b=X2hpMZ/i/s5N4UIGK3F1DGMIBAoiyrIY5hbeQFmqSLq+BwG5QwQzM0Y9AubgmnjYFM
+ 1/ombkfffnVXMRQeMZgKSw153eRV5/OrwVbIen3VNM/SxNSKn4SXcneeYOuFfog/btH6
+ gVrLP9/JM623wdGkWaLRu64A50kF2O8PUP2UayOxQOeS13beqxlIPyYyOKWj9536/3nl
+ aeATF5F+0OVr1n3IWusMeDhOOr524szu1Iq25NDhDM2flq6OxjxrOA6fjnkFWZAA+Z6v
+ 6U2Ow6cd93lrw10VsVsr+Ev0Sy/A9voxe842f/k0UZmGdmP9aM4FRAHHoYPmv8YYTF5y
+ mzfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=euw2DqlC8cs3IIL7aKpu5NwRAp5I1Awdy07JI7NWZrM=;
+ b=MNQ23CckhXlvh4Zgwf6Zn35EbYjqs80oODtmTBASIEkKCMVaWP1dE8IjFAPgXHXf6m
+ Qf4I1WHSIRYjpxZUMMz7AIJIzk/pYGef5LvoitRhYGAlSHjvNV/V7kwm5nvcj5XHVpcj
+ 9AbZTBLNATwjq52SdtcV7EfmGV5u1eW/Dydshh/n2qnrNSZY8ve1kbFmoe6L44o4kRfQ
+ 2u7qcLeeMLMUBrG5cHSzK9qunGJc3YaU9E5b2mMInRFucz3meDPhziTXDTZ2t1ggjMES
+ rRlsxoAWmw6NF34XE68avCE7f318kM+9zXg+jFRaF60LYmxwibPIeFS4avLKJ9buXoN3
+ RMLw==
+X-Gm-Message-State: AO0yUKUh0LXh53jJB/JDIuFpLn9RRH87f+X6oySQYCuzz8vC3LrpVDvo
+ 5WxM54xxf+EaUjSAgi96ATc3WQ==
+X-Google-Smtp-Source: AK7set/0jWAB7oma4fqR6wuxybqRWFFOhqzS8QEqqBrJ++YUYGkQmVLu5jWIjP6Bfcgl/3YkWrKp7A==
+X-Received: by 2002:a05:600c:3198:b0:3e0:15c:3573 with SMTP id
+ s24-20020a05600c319800b003e0015c3573mr602583wmp.35.1675709556358; 
+ Mon, 06 Feb 2023 10:52:36 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ k32-20020a05600c1ca000b003ddf2865aeasm18185942wms.41.2023.02.06.10.52.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Feb 2023 10:52:35 -0800 (PST)
+Message-ID: <fe5f2115-ba3e-aa4a-049f-7741b82d107d@linaro.org>
+Date: Mon, 6 Feb 2023 19:52:34 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 02/12] tests/qtest: Do not run lsi53c895a test if device
+ is not present
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Alexander Bulekov <alxndr@bu.edu>,
+ Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Laurent Vivier <lvivier@redhat.com>
+References: <20230206150416.4604-1-farosas@suse.de>
+ <20230206150416.4604-3-farosas@suse.de>
+ <4ea8eec3-1d4e-0d09-4bf4-eb2987238594@linaro.org> <877cwuadr6.fsf@suse.de>
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <877cwuadr6.fsf@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1675709588-437ECC4D-00173077/0/0 CLEAN NORMAL
-X-TOI-MSGID: d6d7aca6-1e01-4365-93ee-3c806e7db691
-Received-SPF: none client-ip=194.25.134.81;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout03.t-online.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,88 +98,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Wire up the st_rate_frames_out() function and replace
-audio_frontend_frames_in() to make audio packet length
-calculation exact.
+On 6/2/23 18:46, Fabiano Rosas wrote:
+> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
+> 
+>> On 6/2/23 16:04, Fabiano Rosas wrote:
+>>> The tests are built once for all the targets, so as long as one QEMU
+>>> binary is built with CONFIG_LSI_SCSI_PCI=y, this test will
+>>> run. However some binaries might not include the device. So check this
+>>> again in runtime.
+>>>
+>>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+>>> ---
+>>>    tests/qtest/fuzz-lsi53c895a-test.c | 4 ++++
+>>>    1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
+>>> index 392a7ae7ed..a9254b455d 100644
+>>> --- a/tests/qtest/fuzz-lsi53c895a-test.c
+>>> +++ b/tests/qtest/fuzz-lsi53c895a-test.c
+>>> @@ -112,6 +112,10 @@ static void test_lsi_do_dma_empty_queue(void)
+>>>    
+>>>    int main(int argc, char **argv)
+>>>    {
+>>> +    if (!qtest_has_device("lsi53c895a")) {
+>>> +        return 0;
+>>> +    }
+>>
+>> Shouldn't we update Kconfig to now add the test unconditionally?
 
-Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
----
- audio/audio.c | 29 ++++++++---------------------
- 1 file changed, 8 insertions(+), 21 deletions(-)
+(I meant meson.build, not Kconfig).
 
-diff --git a/audio/audio.c b/audio/audio.c
-index 22c36d6660..dad17e59b8 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -579,7 +579,7 @@ static void audio_pcm_sw_resample_in(SWVoiceIn *sw,
- static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t buf_len)
- {
-     HWVoiceIn *hw = sw->hw;
--    size_t live, frames_out_max, swlim, total_in, total_out;
-+    size_t live, frames_out_max, total_in, total_out;
- 
-     live = hw->total_samples_captured - sw->total_hw_samples_acquired;
-     if (!live) {
-@@ -590,12 +590,10 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t buf_len)
-         return 0;
-     }
- 
--    frames_out_max = buf_len / sw->info.bytes_per_frame;
-+    frames_out_max = MIN(buf_len / sw->info.bytes_per_frame,
-+                         sw->resample_buf.size);
- 
--    swlim = (live * sw->ratio) >> 32;
--    swlim = MIN(swlim, frames_out_max);
--
--    audio_pcm_sw_resample_in(sw, live, swlim, &total_in, &total_out);
-+    audio_pcm_sw_resample_in(sw, live, frames_out_max, &total_in, &total_out);
- 
-     if (!hw->pcm_ops->volume_in) {
-         mixeng_volume(sw->resample_buf.buffer, total_out, &sw->vol);
-@@ -979,18 +977,6 @@ void AUD_set_active_in (SWVoiceIn *sw, int on)
-     }
- }
- 
--/**
-- * audio_frontend_frames_in() - returns the number of frames the resampling
-- * code generates from frames_in frames
-- *
-- * @sw: audio recording frontend
-- * @frames_in: number of frames
-- */
--static size_t audio_frontend_frames_in(SWVoiceIn *sw, size_t frames_in)
--{
--    return (int64_t)frames_in * sw->ratio >> 32;
--}
--
- static size_t audio_get_avail (SWVoiceIn *sw)
- {
-     size_t live;
-@@ -1007,9 +993,9 @@ static size_t audio_get_avail (SWVoiceIn *sw)
-     }
- 
-     ldebug (
--        "%s: get_avail live %zu frontend frames %zu\n",
-+        "%s: get_avail live %zu frontend frames %u\n",
-         SW_NAME (sw),
--        live, audio_frontend_frames_in(sw, live)
-+        live, st_rate_frames_out(sw->rate, live)
-         );
- 
-     return live;
-@@ -1314,8 +1300,9 @@ static void audio_run_in (AudioState *s)
-                 size_t sw_avail = audio_get_avail(sw);
-                 size_t avail;
- 
--                avail = audio_frontend_frames_in(sw, sw_avail);
-+                avail = st_rate_frames_out(sw->rate, sw_avail);
-                 if (avail > 0) {
-+                    avail = MIN(avail, sw->resample_buf.size);
-                     sw->callback.fn(sw->callback.opaque,
-                                     avail * sw->info.bytes_per_frame);
-                 }
--- 
-2.35.3
+>> Squashing:
+> 
+> I think we'd still want to not build this test if nothing selected
+> CONFIG_LSI_SCSI_PCI.
 
+Yeah, no need to waste resources building/testing if not available.
+
+OTOH the qtest's meson.build is too complicated.
 
