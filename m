@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17CF068BD11
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 13:40:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6DA268BD19
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 13:42:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP0mZ-0006Wy-AR; Mon, 06 Feb 2023 07:39:39 -0500
+	id 1pP0on-0007ef-H8; Mon, 06 Feb 2023 07:41:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pP0m8-0006Ss-Ha
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:39:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pP0ok-0007aP-8m
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:41:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pP0m3-0001lc-5R
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:39:11 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pP0oi-0002PS-J0
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:41:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675687144;
+ s=mimecast20190719; t=1675687311;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y0Climxmd80gPJCZb9kfYYkitkINiIJLh9XX7tfV0B0=;
- b=aquDf8Nf13gCxCkWWU938sY9MWGPMw81vwLT9d19ZepWXSypW3suCUUQWnTzl9TpZ+nsJa
- r8FsnwTJAMRBam8QkJtxFy13V5Ecr483h/FheX0XUXNAtr3D5Auz6FQduRuHzkiyEnKe0C
- 0waarZFkSXpUfBiUrcUzzlflM/9mL9Q=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=okOxFNRBawMJX/GrZo7mW7r0/H+vIJ0KrofIPQLvRJo=;
+ b=E9s0Yulx3ihAr4XhQjY0TGgA/nVHcS8qAoTJ9ptMrwuaCM6SvPZ0s2VSmhdKt0K7CKAeur
+ 3adNazY/XSOH4kh3A2/vUgwmQ0/eA9+PU3QD7lC6aJSdP9jUKgU9bFxvN1wWRLwxyN6xYz
+ BSIaUWk5+fr6Jvm3qSLq8h8Nlmt4mho=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-198-A10R-pzvNWCwxC8-CjL4ag-1; Mon, 06 Feb 2023 07:39:03 -0500
-X-MC-Unique: A10R-pzvNWCwxC8-CjL4ag-1
-Received: by mail-qv1-f72.google.com with SMTP id
- cs17-20020ad44c51000000b0056c02b4bf4aso54427qvb.4
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 04:39:03 -0800 (PST)
+ us-mta-35-JIzLSrFYPYKyw1gO0s0v5A-1; Mon, 06 Feb 2023 07:41:50 -0500
+X-MC-Unique: JIzLSrFYPYKyw1gO0s0v5A-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ s7-20020a05620a0bc700b006e08208eb31so7688693qki.3
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 04:41:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Y0Climxmd80gPJCZb9kfYYkitkINiIJLh9XX7tfV0B0=;
- b=6ipPTPIvdxj7NsF/wiaJ5HNWRVVR+fX7fqVpj2poyY6GreqsqaXXc80hajy02WtrWr
- JoFuFujwIulxjHuuKzScUBs1K9peOFUDosxlwJiJ8DY1+s6PZ3jSjfsPEO/5KKAdSux+
- mV9TE67sHFtWuZyG0BQWvvJdIy2VG8d6p/0v8aAvvujdSy6RdGWdjzCeALkSKOUy5hG7
- 6fVb4sTDtILP5ZErTTBwXi9S6liXM3+OpZflzjsJrNNk+zle9yapV4zYKNm60YTkCx2+
- xxZrZbM1yF3bdPhhXolDeCdEfNSjVKCM6pmiKUcGn13/NM6jw7TUj1bNvFj2o04+xbNv
- C9bg==
-X-Gm-Message-State: AO0yUKWQwkOfU0/7wSWbTZozXc+0jyHBlSMGbS39LKe5/LIQzW1sWEnA
- r5/HCNnu77waEGJxM1ZBoJK98zwUEDdlcR1HOToV2HeK1h7z7nQMWD6gfHLiCGAgneARq14Rh/W
- 8VXTC4t9NKiy/u/4=
-X-Received: by 2002:a05:622a:491:b0:3b9:bd05:bdf1 with SMTP id
- p17-20020a05622a049100b003b9bd05bdf1mr32230877qtx.14.1675687142673; 
- Mon, 06 Feb 2023 04:39:02 -0800 (PST)
-X-Google-Smtp-Source: AK7set8RJUU66GhEeiPWpfV8qSkiLHe6iumVprXheEBwrWwN+C0Y2B4J1cbBOXtModm3cWIW9aXBOA==
-X-Received: by 2002:a05:622a:491:b0:3b9:bd05:bdf1 with SMTP id
- p17-20020a05622a049100b003b9bd05bdf1mr32230838qtx.14.1675687142434; 
- Mon, 06 Feb 2023 04:39:02 -0800 (PST)
+ bh=okOxFNRBawMJX/GrZo7mW7r0/H+vIJ0KrofIPQLvRJo=;
+ b=SyOV9ZlOqmnWUJP9W6GrU5dJuS0h53lsYwyRwDXr0dTAndKLNtU8XFWLpdqI9Xo58Z
+ Fu10AjUng1vYN5/6LmToSM5rHQ9GnZxXMFyzLAQrMkU00idnRuyS1ezsWbhxPMXpqqhX
+ ii7vKP/WsCvmh1hHH1Zz9/dlTEMtpFy88zykcfDFvdkoqlIeNv19BqFCSvybPNYPyDRZ
+ YZj4wQv2pcV0YnnvA/CqnSty45KVYjNRVswT9hFQRW+aXAochoNJtyy5F34A3WOBoGGI
+ 0JPhFURws+pZA9+vxgR/zM3kZVwObaDtw4F5lHnwpVy2JwH+enf3FKmhPZ0gaWTfXhZL
+ mtrw==
+X-Gm-Message-State: AO0yUKV+pHlzsbWP7tW8CeuNKsvhhxZ8pmltFMTQ6uPzziGWTolKb1hh
+ ttzn0qmTLUDf/36LvnRqEdMFDSXSGBHWfY8+8UfLyfEW0/NTMgCZwp6pupV21/MeEBW/3KSRpm0
+ f2201WrNqkayAyBA=
+X-Received: by 2002:a05:622a:5ce:b0:3b6:36a0:adbe with SMTP id
+ d14-20020a05622a05ce00b003b636a0adbemr37258156qtb.6.1675687309823; 
+ Mon, 06 Feb 2023 04:41:49 -0800 (PST)
+X-Google-Smtp-Source: AK7set+GAXr9jY6Hh9EW3jsp2Uai+08Q7dFWScNRaKTS4AOBcs+GaunXCokeMxElbmP4WgnciGYbEw==
+X-Received: by 2002:a05:622a:5ce:b0:3b6:36a0:adbe with SMTP id
+ d14-20020a05622a05ce00b003b636a0adbemr37258104qtb.6.1675687309463; 
+ Mon, 06 Feb 2023 04:41:49 -0800 (PST)
 Received: from [192.168.0.2] (ip-109-43-177-71.web.vodafone.de.
  [109.43.177.71]) by smtp.gmail.com with ESMTPSA id
- o11-20020ac8698b000000b003b9f1b7895asm7120008qtq.10.2023.02.06.04.38.58
+ i15-20020a05620a27cf00b006fba0a389a4sm7234075qkp.88.2023.02.06.04.41.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 04:39:01 -0800 (PST)
-Message-ID: <cce946c3-aa78-b9a2-79af-a2cf1ce32355@redhat.com>
-Date: Mon, 6 Feb 2023 13:38:57 +0100
+ Mon, 06 Feb 2023 04:41:48 -0800 (PST)
+Message-ID: <a7a235d5-4ded-b83d-dcb6-2cf81ad5f283@redhat.com>
+Date: Mon, 6 Feb 2023 13:41:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
+Subject: Re: [PATCH v15 09/11] machine: adding s390 topology to query-cpu-fast
 Content-Language: en-US
 To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
 Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
@@ -77,11 +78,10 @@ Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
 References: <20230201132051.126868-1-pmorel@linux.ibm.com>
  <20230201132051.126868-10-pmorel@linux.ibm.com>
 From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v15 09/11] machine: adding s390 topology to query-cpu-fast
 In-Reply-To: <20230201132051.126868-10-pmorel@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -108,12 +108,7 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 01/02/2023 14.20, Pierre Morel wrote:
 > S390x provides two more topology containers above the sockets,
 > books and drawers.
-
-books and drawers are already handled via the entries in 
-CpuInstanceProperties, so this sentence looks like a wrong leftover now?
-
-I'd suggest talking about "dedication" and "polarity" instead?
-
+> 
 > Let's add these CPU attributes to the QAPI command query-cpu-fast.
 > 
 > Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
@@ -142,19 +137,10 @@ I'd suggest talking about "dedication" and "polarity" instead?
 > +    'data': { 'cpu-state': 'CpuS390State',
 > +              'dedicated': 'bool',
 > +              'polarity': 'int'
-> +    }
-> +}
->   
->   ##
->   # @CpuInfoFast:
-> @@ -70,7 +77,7 @@
->   #
->   # @thread-id: ID of the underlying host thread
->   #
-> -# @props: properties describing to which node/socket/core/thread
-> +# @props: properties describing to which node/drawer/book/socket/core/thread
 
-I think this hunk should rather be moved to patch 1 now.
+I think it would also be better to mark the new fields as optional and only 
+return them if the guest has the topology enabled, to avoid confusing 
+clients that were written before this change.
 
   Thomas
 
