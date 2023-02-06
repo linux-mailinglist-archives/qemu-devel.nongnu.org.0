@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAFFF68C32F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 17:26:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5D1268C330
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 17:28:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP4JK-0008GO-RL; Mon, 06 Feb 2023 11:25:42 -0500
+	id 1pP4LQ-0000mu-54; Mon, 06 Feb 2023 11:27:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP4JA-0008Fq-RB
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 11:25:32 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pP4LI-0000mK-I8
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 11:27:44 -0500
+Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP4J9-0008PX-Ei
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 11:25:32 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- j32-20020a05600c1c2000b003dc4fd6e61dso11167098wms.5
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 08:25:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=NcPTiRXzMJKgo7GQ2Pw2GvRH1TKbfDnYqxaZ8KaGfWw=;
- b=v2WvNEYH4chn93AM7kuB5OvFW5kTF65jXJSgiTeh6Ib3VamUJMQudeg7ZzNnPS8Lu5
- 5j4jV1CJ2OvUWwspiqq14z+nxYrUGRnWu9vZu0J6tYIVekF554xWA8mmbMMHS3HrNbzI
- AFcZKpOxIWaCumuPkoLWPe3hzsGFNOD4kaXGzaKyLF4jpD35RMOwXNwsXTmW2IEpUXln
- +h9tdeJL9/Lg/e8l5ovMWukVNAByXDnMAnS8QmiD43/LYYopSCSsUqZaRPus4sAjOn9d
- +jEYAgzdJepmFfSkeyDmNvrayPIqLektwXWvdUgK1FH6QOWGPMqIra1opMeInJxIQpsG
- AqQg==
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pP4LG-0000Ow-JD
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 11:27:44 -0500
+Received: by mail-yb1-xb2d.google.com with SMTP id t1so5737295ybd.4
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 08:27:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RLgX2o3MJyCY39k40u5lR5tLh/jUqo6iE0+PE7qVR88=;
+ b=Br3tjDPnDvGAnipp5G/8bGWT/PfHcJ8nrXD43nxqg0M9sWz7brgGzyRrB0v3yttsh1
+ xEtsXOKor2zNtvFpJkW8KworUJ3tjR+dmAjLj9u3P2kIB9wR4WLk1G/Z72RM0T9v0z75
+ /mojI+Fs26WeIks5A894krmauVIpGjGQ+mtaPeU3CAR9pkwftmCjVwQf19zefIHq4dHq
+ 8h6RYkqXC3ipl30prW8VcuM1I1GmQyc0BxvbbGT+VlJBMrK9qwCUv8O6vpAiXxVtEEUf
+ U8iUvHePRYVtcIQR4MNOigLt2QRNIn8MxrLV9z9gBvcg1bhS2f5sUXjRpq4tdnjFEVAV
+ nq0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NcPTiRXzMJKgo7GQ2Pw2GvRH1TKbfDnYqxaZ8KaGfWw=;
- b=XSAUyKl8IsOomFFSQ+T4xlCx0TrOuwmis4vBL6WGqTrr4PkvXyTztUMZskjIW8WXha
- Q/CnEFjZjoGcFGp1zQxufNw1pzekAmZu0L2MRxXvL5tSMdNf1Ix7lRlkAYvVc4oL1BmO
- DAtSLjKEDd4KtITIFhM+sm4I1qB6dYpCZ5ynH5ETBObmGsNdIanRxZD47S3xPjp/NGVf
- OvM7PH/LadbDEKcv83ztbbriJ9EtaxUaScS8B4UzTksbA9I3udFni59rE1xoxt6AIlfa
- zimVebS0jfLAuYIZQtYuYzhHj699T7nyjo+PWAyDOaVhIYyCKzZUiQMEc4U1Q0sNxTdm
- 2Iig==
-X-Gm-Message-State: AO0yUKU8uSMSF9/Loi0yj/tjJc2I5NTiHCjQJMCuFycCCBXVJ1u1K0SJ
- oV8c809D/0J36kWyelRUMKlhm6r3BDUB2bpf
-X-Google-Smtp-Source: AK7set8bq1R7uZ1SG0OjZ5k4nW9ISOzI5F+VNFL5uNXNER1spepNcccFr4j6y7bWL83eJwczhYgiPA==
-X-Received: by 2002:a05:600c:19d1:b0:3e0:15b:47b3 with SMTP id
- u17-20020a05600c19d100b003e0015b47b3mr251232wmq.32.1675700728811; 
- Mon, 06 Feb 2023 08:25:28 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- x9-20020a05600c21c900b003dc434b39c7sm21534192wmj.0.2023.02.06.08.25.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 08:25:28 -0800 (PST)
-Message-ID: <c5cfed8a-e07d-b74d-b236-757ee1fb007f@linaro.org>
-Date: Mon, 6 Feb 2023 17:25:26 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RLgX2o3MJyCY39k40u5lR5tLh/jUqo6iE0+PE7qVR88=;
+ b=DPFX9DwqDKx/fc8jesKxPn1NeyUjCy6SlYYPS1+nrVqXzCZI//kdi1fs+WAZxtB1Fg
+ u+nsbZ52z8kEiZysueGe6g/vwCEJcL6AxuikiG379AADG+MhGPEiFS5TFbTWjR3ypY8I
+ 16po6nLBHu/rKjAY7SI4TKFaprteUdB0wnIgflbHBxD9Zg5EjpHoxKaWKlgSHv9MSnXw
+ LVItidR4cAvGElBsKG+79196l/XJg+/k18C3sFyBzw0jH5EB6H9o4JRdCv4/Bodygt3C
+ 7uPGW0ol+adZPHk+OBr/YFybcBDvSf/Mo/H1IrgSbmOQLoqm63IReq1Mu14YglZ7VeMw
+ orOw==
+X-Gm-Message-State: AO0yUKXj1km81h4Eogxe4ZTPmtTwu4z2xrLuNHGVfMNr2H5zkinx5x5r
+ Q1zgvTDkOXbUiIOCeMV4EKQ9HLmpEG5Rf0TaR0Y=
+X-Google-Smtp-Source: AK7set9cBnzKVEnMSA5UfOY3gFQivP2f2Qb6N5byp1A1r7Z8YqeTYLFpq8OcFG/fgRn+dX/mC3PNKkKmgFero9Fxh0Q=
+X-Received: by 2002:a25:410:0:b0:827:8002:1dc4 with SMTP id
+ 16-20020a250410000000b0082780021dc4mr26180ybe.209.1675700861473; Mon, 06 Feb
+ 2023 08:27:41 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: hw/misc/mos6522: What is VIA_TIMER_FREQ value?
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- BALATON Zoltan <balaton@eik.bme.hu>, "open list:PReP" <qemu-ppc@nongnu.org>
-References: <35205d94-c19a-f41c-899c-89214296075c@linaro.org>
-In-Reply-To: <35205d94-c19a-f41c-899c-89214296075c@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+References: <fb523956-7a8c-608b-6db1-961686b73e9c@redhat.com>
+In-Reply-To: <fb523956-7a8c-608b-6db1-961686b73e9c@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 6 Feb 2023 11:27:29 -0500
+Message-ID: <CAJSP0QWnq6av7j6x_n-C2mLSPMYBhMeEthr6ayPN-cmsEB3UnA@mail.gmail.com>
+Subject: Re: vhost-user (virtio-fs) migration: back end state
+To: Hanna Czenczek <hreitz@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ virtio-fs-list <virtio-fs@redhat.com>, 
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+ Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Dave Gilbert <dgilbert@redhat.com>, Juan Quintela <quintela@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,21 +90,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 6/2/23 17:22, Philippe Mathieu-Daudé wrote:
-> Hi Mark & Laurent,
-> 
-> In commit d811d61fbc6 Mark defined VIA_TIMER_FREQ as 4700000 / 6
-> (783333.33) and in commit 6dca62a0000 Laurent defined it as 783360.
+On Mon, 6 Feb 2023 at 07:36, Hanna Czenczek <hreitz@redhat.com> wrote:
+>
+> Hi Stefan,
+>
+> For true virtio-fs migration, we need to migrate the daemon=E2=80=99s (ba=
+ck
+> end=E2=80=99s) state somehow.  I=E2=80=99m addressing you because you had=
+ a talk on this
+> topic at KVM Forum 2021. :)
+>
+> As far as I understood your talk, the only standardized way to migrate a
+> vhost-user back end=E2=80=99s state is via dbus-vmstate.  I believe that
+> interface is unsuitable for our use case, because we will need to
+> migrate more than 1 MB of state.  Now, that 1 MB limit has supposedly
+> been chosen arbitrarily, but the introducing commit=E2=80=99s message say=
+s that
+> it=E2=80=99s based on the idea that the data must be supplied basically
+> immediately anyway (due to both dbus and qemu migration requirements),
+> and I don=E2=80=99t think we can meet that requirement.
 
-Also 4700000 / 6 in hw/misc/macio/cuda.c (commit 267002cd28).
+Yes, dbus-vmstate is the available today. It's independent of
+vhost-user and VIRTIO.
 
-> What is the correct value?
-> 
-> Could we define it once in include/hw/misc/mac_via.h or
-> even include/hw/misc/mos6522.h?
-> 
-> Thanks,
-> 
-> Phil.
+> Has there been progress on the topic of standardizing a vhost-user back
+> end state migration channel besides dbus-vmstate?  I=E2=80=99ve looked ar=
+ound
+> but didn=E2=80=99t find anything.  If there isn=E2=80=99t anything yet, i=
+s there still
+> interest in the topic?
 
+Not that I'm aware of. There are two parts to the topic of VIRTIO
+device state migration:
+1. Defining an interface for migrating VIRTIO/vDPA/vhost/vhost-user
+devices. It doesn't need to be implemented in all these places
+immediately, but the design should consider that each of these
+standards will need to participate in migration sooner or later. It
+makes sense to choose an interface that works for all or most of these
+interfaces instead of inventing something vhost-user-specific.
+2. Defining standard device state formats so VIRTIO implementations
+can interoperate.
+
+> Of course, we could use a channel that completely bypasses qemu, but I
+> think we=E2=80=99d like to avoid that if possible.  First, this would req=
+uire
+> adding functionality to virtiofsd to configure this channel.  Second,
+> not storing the state in the central VM state means that migrating to
+> file doesn=E2=80=99t work (well, we could migrate to a dedicated state fi=
+le,
+> but...).  Third, setting up such a channel after virtiofsd has sandboxed
+> itself is hard.  I guess we should set up the migration channel before
+> sandboxing, which constrains runtime configuration (basically this would
+> only allow us to set up a listening server, I believe).  Well, and
+> finally, it isn=E2=80=99t a standard way, which won=E2=80=99t be great if=
+ we=E2=80=99re planning
+> to add a standard way anyway.
+
+Yes, live migration is hard enough. Duplicating it is probably not
+going to make things better. It would still be necessary to support
+saving to file as well as live migration.
+
+There are two high-level approaches to the migration interface:
+1. The whitebox approach where the vhost-user back-end implements
+device-specific messages to get/set migration state (e.g.
+VIRTIO_FS_GET_DEVICE_STATE with a struct virtio_fs_device_state
+containing the state of the FUSE session or multiple fine-grained
+messages that extract pieces of state). The hypervisor is responsible
+for the actual device state serialization.
+2. The blackbox approach where the vhost-user back-end implements the
+device state serialization itself and just produces a blob of data.
+
+An example of the whitebox approach is the existing vhost migration
+interface - except that it doesn't really support device-specific
+state, only generic virtqueue state.
+
+An example of the blackbox approach is the VFIO v2 migration interface:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/inc=
+lude/uapi/linux/vfio.h#n867
+
+Another aspect to consider is whether save/load is sufficient or if
+the full iterative migration model needs to be exposed by the
+interface. VFIO migration is an example of the full iterative model
+while dbus-vmstate is just save/load. Devices with large amounts of
+state need the full iterative model while simple devices just need
+save/load.
+
+Regarding virtiofs, I think the device state is not
+implementation-specific. Different implementations may have different
+device states (e.g. in-memory file system implementation versus POSIX
+file system-backed implementation), but the device state produced by
+https://gitlab.com/virtio-fs/virtiofsd can probably also be loaded by
+another implementation.
+
+My suggestion is blackbox migration with a full iterative interface.
+The reason I like the blackbox approach is that a device's device
+state is encapsulated in the device implementation and does not
+require coordinating changes across other codebases (e.g. vDPA and
+vhost kernel interface, vhost-user protocol, QEMU, etc). A blackbox
+interface only needs to be defined and implemented once. After that,
+device implementations can evolve without constant changes at various
+layers.
+
+So basically, something like VFIO v2 migration but for vhost-user
+(with an eye towards vDPA and VIRTIO support in the future).
+
+Should we schedule a call with Jason, Michael, Juan, David, etc to
+discuss further? That way there's less chance of spending weeks
+working on something only to be asked to change the approach later.
+
+Stefan
 
