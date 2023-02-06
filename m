@@ -2,52 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE1E68C61D
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 19:48:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9950F68C61E
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 19:48:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP6Wv-0002gc-Gj; Mon, 06 Feb 2023 13:47:53 -0500
+	id 1pP6XX-0002v3-2c; Mon, 06 Feb 2023 13:48:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pP6Wb-0002gO-Ib
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:47:34 -0500
-Received: from mailout11.t-online.de ([194.25.134.85])
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pP6XG-0002re-3a
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:48:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pP6WZ-0004dx-4r
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:47:33 -0500
-Received: from fwd78.dcpf.telekom.de (fwd78.aul.t-online.de [10.223.144.104])
- by mailout11.t-online.de (Postfix) with SMTP id CE23A9FC0;
- Mon,  6 Feb 2023 19:47:25 +0100 (CET)
-Received: from [192.168.211.200] ([79.208.25.151]) by fwd78.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pP6WT-2106PB0; Mon, 6 Feb 2023 19:47:25 +0100
-Message-ID: <df6510fe-1dfd-1585-8590-db230c71d367@t-online.de>
-Date: Mon, 6 Feb 2023 19:47:25 +0100
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pP6XC-0004ga-L0
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:48:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675709289;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WVYGd8arWXZz65AzODBGuQZgta3ZdIike2VTBp2ryok=;
+ b=LYh9gC1ZZ8kJyaI81zYAbVKAjZatddY6udKBl9oHT/uAs3pJBOLZAudv3jV++5+J2ssd/+
+ b5yqeLMDQd6QIIEz1tTrfsYy4WiInK34LMyiDnlHATOkREhcPy/lxD97slzqe8MtbeYi0q
+ PzFisWPeOpz3p+mI7pNvWIkdeglO93c=
+Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
+ [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-132-G8v2ILr0OD-_CaT40CR8Gg-1; Mon, 06 Feb 2023 13:48:08 -0500
+X-MC-Unique: G8v2ILr0OD-_CaT40CR8Gg-1
+Received: by mail-yb1-f199.google.com with SMTP id
+ p202-20020a25d8d3000000b00858a2a2cc15so12482137ybg.21
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 10:48:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WVYGd8arWXZz65AzODBGuQZgta3ZdIike2VTBp2ryok=;
+ b=ny+28hBXn5I5rYNLEjsmsc1lyfgSHz/hCYa5fTUXbdnu39C867xFTPi2MAQ/Pk85b1
+ aPjdhYjxWxGn3Vfwyoi/ZmST8MkQoFumkICfeH51J0CkMK7ZXaQSUHuy2Iu78Q5wVG0w
+ Gdto1jICG5pMy/MTNlghwgljK2LdI8QawIHfo//wt1s9FRybto8DPgI0XWmrRghuNXQA
+ lx5Ye58HA3yOhnHeyNCpSxhNlZG2gZXuuoYY3p2qsDPNDXfLlT42jK1epy6ZB5gYue/c
+ gEEgMrx3cozIah63m8COEFE92ip84riMu7i+pYPh+VXifuqOx4WZHhRYCvJQKSHePR7U
+ xeMA==
+X-Gm-Message-State: AO0yUKXyToft1NrRJtyI7rWLDBL0cm5U/CT2CDj/mBl79ovKeMunF8O8
+ PJ5mPo4ZGKvBXPVjEi2Nyvhj40nNW+y1JlzgyS2R7zeUsQ/mfw+qzeg6yY5KzoaqmdIjX2A4eIF
+ yS9DK6iunfJ5bxvdL7ENR/5a++dYfnjM=
+X-Received: by 2002:a25:928e:0:b0:86a:e417:b66e with SMTP id
+ y14-20020a25928e000000b0086ae417b66emr74667ybl.382.1675709287443; 
+ Mon, 06 Feb 2023 10:48:07 -0800 (PST)
+X-Google-Smtp-Source: AK7set+ozNBSd/B0sfHVe7daDx8WGouJSox4byJDWdASdsM8pnpm6rwiPgcuER84SP4E2mcA0JFWlN9KaNMIyH+VB7I=
+X-Received: by 2002:a25:928e:0:b0:86a:e417:b66e with SMTP id
+ y14-20020a25928e000000b0086ae417b66emr74641ybl.382.1675709286926; Mon, 06 Feb
+ 2023 10:48:06 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-Cc: qemu-devel@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: [PATCH v2 00/17] audio: improve callback interface for audio frontends
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1675709245-C77EB4E4-F5E37C85/0/0 CLEAN NORMAL
-X-TOI-MSGID: d5bff233-0f31-4780-9ae4-f031fe6a64c9
-Received-SPF: none client-ip=194.25.134.85; envelope-from=vr_qemu@t-online.de;
- helo=mailout11.t-online.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+References: <CAJSP0QUuuZLC0DJNEfZ7amyd3XnRhRNr1k+1OgLfDeF77X1ZDQ@mail.gmail.com>
+ <CAJaqyWd+g5fso6AEGKwj0ByxFVc8EpCS9+ezoMpnjyMo5tbj8Q@mail.gmail.com>
+ <CAJSP0QXyO4qXJseMzbgsVdXK-4-W4U9DxPcxr6wX45d6VBTeWQ@mail.gmail.com>
+ <CAJaqyWczFwbxNWrZ8dcFHvYrV2=tH7Tv0Apf=qORT+gzDpBN4Q@mail.gmail.com>
+ <CAJSP0QX+mpmdVE-13L9p=02_XbmPFT-mFAbz-JJjqB5V-2ON6Q@mail.gmail.com>
+ <CAJaqyWd8EhfDmTtmLNzuoVDoF641Tq3LL1jvvdXK+DDbAfjccQ@mail.gmail.com>
+ <CAJSP0QUFR_Nhd2dDkXJ_NjSo=+GNHFswztuGLLJ1QuokqOMUqA@mail.gmail.com>
+In-Reply-To: <CAJSP0QUFR_Nhd2dDkXJ_NjSo=+GNHFswztuGLLJ1QuokqOMUqA@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 6 Feb 2023 19:47:30 +0100
+Message-ID: <CAJaqyWcBLOi5dggqVwhbNTFRRV24SOcHMUEDa6UDwN0RqXVMSA@mail.gmail.com>
+Subject: Re: Call for GSoC and Outreachy project ideas for summer 2023
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, kvm <kvm@vger.kernel.org>, 
+ Rust-VMM Mailing List <rust-vmm@lists.opendev.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, "Florescu,
+ Andreea" <fandree@amazon.com>, Damien <damien.lemoal@opensource.wdc.com>, 
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>, Hanna Reitz <hreitz@redhat.com>, 
+ Alberto Faria <afaria@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ Bernhard Beschow <shentey@gmail.com>, Sean Christopherson <seanjc@google.com>, 
+ Vitaly Kuznetsov <vkuznets@redhat.com>, gmaglione@redhat.com, 
+ Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,269 +112,444 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Based-on: <0a4007dc-e11c-f16e-0e21-dbc4e60caa59@t-online.de>
-([PATCH v2 00/11] audio: more improvements)
+On Mon, Feb 6, 2023 at 6:22 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
+>
+> On Mon, 6 Feb 2023 at 11:47, Eugenio Perez Martin <eperezma@redhat.com> wrote:
+> >
+> > On Mon, Feb 6, 2023 at 3:21 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> > >
+> > > On Mon, 6 Feb 2023 at 06:53, Eugenio Perez Martin <eperezma@redhat.com> wrote:
+> > > >
+> > > > On Sun, Feb 5, 2023 at 2:57 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> > > > >
+> > > > > On Sun, 5 Feb 2023 at 03:15, Eugenio Perez Martin <eperezma@redhat.com> wrote:
+> > > > > >
+> > > > > > On Fri, Jan 27, 2023 at 4:18 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> > > > > > >
+> > > > > > > Dear QEMU, KVM, and rust-vmm communities,
+> > > > > > > QEMU will apply for Google Summer of Code 2023
+> > > > > > > (https://summerofcode.withgoogle.com/) and has been accepted into
+> > > > > > > Outreachy May 2023 (https://www.outreachy.org/). You can now
+> > > > > > > submit internship project ideas for QEMU, KVM, and rust-vmm!
+> > > > > > >
+> > > > > > > Please reply to this email by February 6th with your project ideas.
+> > > > > > >
+> > > > > > > If you have experience contributing to QEMU, KVM, or rust-vmm you can
+> > > > > > > be a mentor. Mentors support interns as they work on their project. It's a
+> > > > > > > great way to give back and you get to work with people who are just
+> > > > > > > starting out in open source.
+> > > > > > >
+> > > > > > > Good project ideas are suitable for remote work by a competent
+> > > > > > > programmer who is not yet familiar with the codebase. In
+> > > > > > > addition, they are:
+> > > > > > > - Well-defined - the scope is clear
+> > > > > > > - Self-contained - there are few dependencies
+> > > > > > > - Uncontroversial - they are acceptable to the community
+> > > > > > > - Incremental - they produce deliverables along the way
+> > > > > > >
+> > > > > > > Feel free to post ideas even if you are unable to mentor the project.
+> > > > > > > It doesn't hurt to share the idea!
+> > > > > > >
+> > > > > > > I will review project ideas and keep you up-to-date on QEMU's
+> > > > > > > acceptance into GSoC.
+> > > > > > >
+> > > > > > > Internship program details:
+> > > > > > > - Paid, remote work open source internships
+> > > > > > > - GSoC projects are 175 or 350 hours, Outreachy projects are 30
+> > > > > > > hrs/week for 12 weeks
+> > > > > > > - Mentored by volunteers from QEMU, KVM, and rust-vmm
+> > > > > > > - Mentors typically spend at least 5 hours per week during the coding period
+> > > > > > >
+> > > > > > > For more background on QEMU internships, check out this video:
+> > > > > > > https://www.youtube.com/watch?v=xNVCX7YMUL8
+> > > > > > >
+> > > > > > > Please let me know if you have any questions!
+> > > > > > >
+> > > > > > > Stefan
+> > > > > > >
+> > > > > >
+> > > > > > Appending the different ideas here.
+> > > > >
+> > > > > Hi Eugenio,
+> > > > > Thanks for sharing your project ideas. I have added some questions
+> > > > > below before we add them to the ideas list wiki page.
+> > >
+> > > Thanks for the discussion. Do you want to focus on 1 or 2 project
+> > > ideas? 3 might be a bit much to mentor.
+> > >
+> >
+> > Right, my idea was to reduce that amount afterwards just in case some
+> > of them were rejected. But sure, we can filter out some if needed.
+>
+> Do you mean in case there is no realistic applicant? You can do that
+> if you want, just keep in mind it may be more work for you during the
+> application phase. If it turns out there is a strong applicant for
+> each project idea you could see if someone else is willing to mentor
+> the project(s) you don't have time for.
+>
 
-The callback interface for emulated audio devices is strange. The 
-callback function has an 'avail' parameter that passes the number of 
-bytes that can be written or read. Unfortunately, this value sometimes 
-is only an imprecise estimate and the callback functions must check the 
-actual bytes written or read. For playback devices, this means that they 
-either need a ring buffer or have to write the unwritten bytes again the 
-next time. For recording devices, things are a bit easier. They only 
-need to continue with the actual number of bytes read.
+Good point, I'll discard the IN_ORDER project from the list.
 
-After this patch series, the 'avail' argument for the -audiodev 
-out.mixing-engine=on and in.mixing-engine=on cases is exact. Audio 
-frontends only need a linear frame buffer and there's a guarantee they 
-can write or read 'avail' bytes.
+> I'll post the project ideas once you've updated them.
+>
+> > > Please send an updated version of the project descriptions and I'll
+> > > post it on the wiki.
+> > >
+> > > > >
+> > > > > > VIRTIO_F_IN_ORDER feature support for virtio devices
+> > > > > > ===
+> > > > > > This was already a project the last year, and it produced a few series
+> > > > > > upstream but was never merged. The previous series are totally useful
+> > > > > > to start with, so it's not starting from scratch with them [1]:
+> > > > >
+> > > > > Has Zhi Guo stopped working on the patches?
+> > > > >
+> > > >
+> > > > I can ask him for sure.
+> > > >
+> > > > > What is the state of the existing patches? What work remains to be done?
+> > > > >
+> > > >
+> > > > There are some pending comments from upstream. However if somebody
+> > > > starts it from scratch it needs time to review some of the VirtIO
+> > > > standard to understand the virtio in_order feature, both in split and
+> > > > packed vq.
+> > >
+> > > The intern will need to take ownership and deal with code review
+> > > feedback for code they didn't write. That can be difficult for someone
+> > > who is new unless the requested changes are easy to address.
+> > >
+> >
+> > Indeed that is a very good point.
+> >
+> > > It's okay to start from scratch. You're in a better position than an
+> > > applicant to decide whether that's the best approach.
+> > >
+> > > >
+> > > >
+> > > > > >
+> > > > > > Summary
+> > > > > > ---
+> > > > > > Implement VIRTIO_F_IN_ORDER in QEMU and Linux (vhost and virtio drivers)
+> > > > > >
+> > > > > > The VIRTIO specification defines a feature bit (VIRTIO_F_IN_ORDER)
+> > > > > > that devices and drivers can negotiate when the device uses
+> > > > > > descriptors in the same order in which they were made available by the
+> > > > > > driver.
+> > > > > >
+> > > > > > This feature can simplify device and driver implementations and
+> > > > > > increase performance. For example, when VIRTIO_F_IN_ORDER is
+> > > > > > negotiated, it may be easier to create a batch of buffers and reduce
+> > > > > > DMA transactions when the device uses a batch of buffers.
+> > > > > >
+> > > > > > Currently the devices and drivers available in Linux and QEMU do not
+> > > > > > support this feature. An implementation is available in DPDK for the
+> > > > > > virtio-net driver.
+> > > > > >
+> > > > > > Goals
+> > > > > > ---
+> > > > > > Implement VIRTIO_F_IN_ORDER for a single device/driver in QEMU and
+> > > > > > Linux (virtio-net or virtio-serial are good starting points).
+> > > > > > Generalize your approach to the common virtio core code for split and
+> > > > > > packed virtqueue layouts.
+> > > > > > If time allows, support for the packed virtqueue layout can be added
+> > > > > > to Linux vhost, QEMU's libvhost-user, and/or QEMU's virtio qtest code.
+> > > > > >
+> > > > > > Shadow Virtqueue missing virtio features
+> > > > > > ===
+> > > > > >
+> > > > > > Summary
+> > > > > > ---
+> > > > > > Some VirtIO devices like virtio-net have a control virtqueue (CVQ)
+> > > > > > that allows them to dynamically change a number of parameters like MAC
+> > > > > > or number of active queues. Changes to passthrough devices using vDPA
+> > > > > > using CVQ are inherently hard to track if CVQ is handled as
+> > > > > > passthrough data queues, because qemu is not aware of that
+> > > > > > communication for performance reasons. In this situation, qemu is not
+> > > > > > able to migrate these devices, as it is not able to tell the actual
+> > > > > > state of the device.
+> > > > > >
+> > > > > > Shadow Virtqueue (SVQ) allows qemu to offer an emulated queue to the
+> > > > > > device, effectively forwarding the descriptors of that communication,
+> > > > > > tracking the device internal state, and being able to migrate it to a
+> > > > > > new destination qemu.
+> > > > > >
+> > > > > > To restore that state in the destination, SVQ is able to send these
+> > > > > > messages as regular CVQ commands. The code to understand and parse
+> > > > > > virtio-net CVQ commands is already in qemu as part of its emulated
+> > > > > > device, but the code to send the some of the new state is not, and
+> > > > > > some features are missing. There is already code to restore basic
+> > > > > > commands like mac or multiqueue, and it is easy to use it as a
+> > > > > > template.
+> > > > > >
+> > > > > > Goals
+> > > > > > ---
+> > > > > > To implement missing virtio-net commands sending:
+> > > > > > * VIRTIO_NET_CTRL_RX family, to control receive mode.
+> > > > > > * VIRTIO_NET_CTRL_GUEST_OFFLOADS
+> > > > > > * VIRTIO_NET_CTRL_VLAN family
+> > > > > > * VIRTIO_NET_CTRL_MQ_HASH config
+> > > > > > * VIRTIO_NET_CTRL_MQ_RSS config
+> > > > >
+> > > > > Is there enough work here for a 350 hour or 175 hour GSoC project?
+> > > > >
+> > > >
+> > > > I think 175 hour should fit better. If needed more features can be
+> > > > added (packed vq, ring reset, etc), but to start contributing a 175
+> > > > hour should work.
+> > > >
+> > > > > The project description mentions "there is already code to restore
+> > > > > basic commands like mac and multiqueue", please include a link.
+> > > > >
+> > > >
+> > > > MAC address was merged with ASID support so the whole series is more
+> > > > complicated than it should be. Here is it the most relevant patch:
+> > > > * https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg00342.html
+> > > >
+> > > > MQ is way cleaner in that regard, and future series should look more
+> > > > similar to this one:
+> > > > * https://www.mail-archive.com/qemu-devel@nongnu.org/msg906273.html
+> > > >
+> > > > > > Shadow Virtqueue performance optimization
+> > > > > > ===
+> > > > > > Summary
+> > > > > > ---
+> > > > > > To perform a virtual machine live migration with an external device to
+> > > > > > qemu, qemu needs a way to know which memory the device modifies so it
+> > > > > > is able to resend it. Otherwise the guest would resume with invalid /
+> > > > > > outdated memory in the destination.
+> > > > > >
+> > > > > > This is especially hard with passthrough hardware devices, as
+> > > > > > transports like PCI imposes a few security and performance challenges.
+> > > > > > As a method to overcome this for virtio devices, qemu can offer an
+> > > > > > emulated virtqueue to the device, called Shadow Virtqueue (SVQ),
+> > > > > > instead of allowing the device to communicate directly with the guest.
+> > > > > > SVQ will then forward the writes to the guest, being the effective
+> > > > > > writer in the guest memory and knowing when a portion of it needs to
+> > > > > > be resent.
+> > > > > >
+> > > > > > As this is effectively breaking the passthrough and it adds extra
+> > > > > > steps in the communication, this comes with a performance penalty in
+> > > > > > some forms: Context switches, more memory reads and writes increasing
+> > > > > > cache pressure, etc.
+> > > > > >
+> > > > > > At this moment the SVQ code is not optimized. It cannot forward
+> > > > > > buffers in parallel using multiqueue and multithread, and it does not
+> > > > > > use posted interrupts to notify the device skipping the host kernel
+> > > > > > context switch (doorbells).
+> > > > > >
+> > > > > > The SVQ code requires minimal modifications for the multithreading,
+> > > > > > and these are examples of multithreaded devices already like
+> > > > > > virtio-blk which can be used as a template-alike. Regarding the posted
+> > > > > > interrupts, DPDK is able to use them so that code can also be used as
+> > > > > > a template.
+> > > > > >
+> > > > > > Goals
+> > > > > > ---
+> > > > > > * Measure the latest SVQ performance compared to non-SVQ.
+> > > > >
+> > > > > Which benchmark workload and which benchmarking tool do you recommend?
+> > > > > Someone unfamiliar with QEMU and SVQ needs more details in order to
+> > > > > know what to do.
+> > > > >
+> > > >
+> > > > In my opinion netperf (TCP_STREAM & TCP_RR) or iperf equivalent +
+> > > > testpmd in AF_PACKET mode should test these scenarios better. But
+> > > > maybe upstream requests additional testings. Feedback on this would be
+> > > > appreciated actually.
+> > > >
+> > > > My intention is not for the intern to develop new tests or anything
+> > > > like that, they are just a means to justify the changes in SVQ. This
+> > > > part would be very guided, or it can be offloaded from the project. So
+> > > > if these tools are not enough descriptive maybe it's better to take
+> > > > this out of the goals and add it to the description like that.
+> > >
+> > > Great, "netperf (TCP_STREAM & TCP_RR) or iperf equivalent + testpmd in
+> > > AF_PACKET mode" is enough information.
+> > >
+> > > >
+> > > > > > * Add multithreading to SVQ, extracting the code from the Big QEMU Lock (BQL).
+> > > > >
+> > > > > What do you have in mind? Allowing individual virtqueues to be
+> > > > > assigned to IOThreads? Or processing all virtqueues in a single
+> > > > > IOThread (like virtio-blk and virtio-scsi do today)?
+> > > > >
+> > > >
+> > > > My idea was to use iothreads. I thought virtio-blk and virtio-scsi
+> > > > were done that way actually, is there a reason / advantage to use just
+> > > > a single iothread?
+> > >
+> > > The reason for only supporting a single IOThread at the moment is
+> > > thread-safety. There is multi-queue work in progress that will remove
+> > > this limitation in the future.
+> > >
+> > > I sent a patch series proposing a command-line syntax for multi-queue here:
+> > > https://www.mail-archive.com/qemu-devel@nongnu.org/msg933001.html
+> > >
+> > > The idea is that the same syntax can be used by other devices that
+> > > support mapping vqs to multiple IOThreads.
+> > >
+> >
+> > Understood. I'll take a look, thanks!
+> >
+> > > >
+> > > > > > * Add posted thread capabilities to QEMU, following the model of DPDK to it.
+> > > > >
+> > > > > What is this about? I thought KVM uses posted interrupts when
+> > > > > available, so what needs to be done here? Please also include a link
+> > > > > to the relevant DPDK code.
+> > > > >
+> > > >
+> > > > The guest in KVM may use posted interrupts but SVQ code runs in
+> > > > userland qemu :). There were no previous uses of HW posted interrupts
+> > > > as far as I know so SVQ is only able to use vhost-vdpa kick eventfds
+> > > > to notify queues. This has a performance penalty in the form of host
+> > > > kernel context switches.
+> > > >
+> > > > If I'm not wrong this patch adds it to DPDK, but I may be missing
+> > > > additional context or versions:
+> > > > * https://lore.kernel.org/all/1579539790-3882-31-git-send-email-matan@mellanox.com/
+> > > >
+> > > > Please let me know if you need further information. Thanks!
+> > >
+> > > This patch does not appear related to posted interrupts because it's
+> > > using the kickfd (available buffer notification) instead of the callfd
+> > > (used buffer notification). It's the glue that forwards a virtqueue
+> > > kick to hardware.
+> > >
+> >
+> > I'm sorry, that's because I confused the terms in my head and I wanted
+> > to say "host notifiers memory regions" or "hardware doorbell mapping".
+> > Maybe it is clearer that way?
+>
+> The VIRTIO spec calls this memory the Queue Notify address.
+>
+> >
+> > > I don't think that userspace available buffer notification
+> > > interception can be bypassed in the SVQ model. SVQ needs to take a
+> > > copy of available buffers so it knows the scatter-gather lists before
+> > > forwarding the kick to the vDPA device. If the notification is
+> > > bypassed then SVQ cannot reliably capture the scatter-gather list.
+> > >
+> > > I also don't think it's possible to bypass userspace in the used
+> > > buffer notification path. The vDPA used buffer notification must be
+> > > intercepted so SVQ can mark memory pages in the scatter-gather list
+> > > dirty before it fills in a guest used buffer and sends a guest used
+> > > buffer notification.
+> > >
+> > > The guest used buffer notification should already be a VT-d Posted
+> > > Interrupt on hardware that supports the feature. KVM takes care of
+> > > that.
+> > >
+> > > I probably don't understand what the optimization idea is. You want
+> > > SVQ to avoid a system call when sending vDPA available buffer
+> > > notifications? That's not related to posted interrupts though, so I'm
+> > > confused...
+> > >
+> >
+> > That's right, you described the idea perfectly that way :). I'll
+> > complete the projects summary but I'll be ok if you think it is not
+> > qualified, we can leave that part out of the proposal.
+>
+> Thanks, I think I get it now. The task is to implement the dual of
+> QEMU's virtio_queue_set_host_notifier_mr() so SVQ can perform
+> virtqueue kicks on the vDPA device via memory store instructions.
+>
+> That's a cool feature and I think it should be included in the project idea.
+>
+> Stefan
+>
 
-The -audiodev out.mixing-engine=off case is also mostly accurate. Only 
-the D-Bus audio backend is still missing a required function. The 
--audiodev in.mixing-engine=off case always passes a much too large 
-'avail' value. I haven't worked on this yet, because there was no reason 
-for it so far.
+Thanks for all the feedback, it makes the proposal way clearer. I add
+the updated proposals here, please let me know if you think they need
+further modifications.
 
-The following logs show the improvements. Not only the audio frontends 
-can write or read all needed or available bytes. The same is true for 
-the audio backends. For playback, the first six lines in the logs are 
-expected. Here you can see how quickly the guest fills the empty 
-downstream buffers after playback starts.
+Shadow Virtqueue missing virtio features
+===
 
-QEMU was started with -device ich9-intel-hda,addr=0x1b -device 
-hda-duplex,audiodev=audio0 -audiodev 
-pa,out.frequency=96000,in.frequency=96000,id=audio0
+Summary
+---
+Some VirtIO devices like virtio-net have a control virtqueue (CVQ)
+that allows them to dynamically change a number of parameters like MAC
+or number of active queues. Changes to passthrough devices using vDPA
+using CVQ are inherently hard to track if CVQ is handled as
+passthrough data queues, because qemu is not aware of that
+communication for performance reasons. In this situation, qemu is not
+able to migrate these devices, as it is not able to tell the actual
+state of the device.
 
-playback guest 44100Hz => host 96000Hz
+Shadow Virtqueue (SVQ) allows qemu to offer an emulated queue to the
+device, effectively forwarding the descriptors of that communication,
+tracking the device internal state, and being able to migrate it to a
+new destination qemu.
 
-unpatched version:
-hda_audio_output_cb: to write 8188, written 1704
-audio_run_out: free 4458, played 926
-hda_audio_output_cb: to write 6488, written 2384
-audio_run_out: free 3532, played 1297
-hda_audio_output_cb: to write 4104, written 2648
-audio_run_out: free 2235, played 1441
-audio_run_out: free 794, played 793
-audio_run_out: free 897, played 896
-audio_run_out: free 831, played 829
-...
-hda_audio_output_cb: could not write 4 bytes
-hda_audio_output_cb: to write 1764, written 1760
-audio_run_out: free 960, played 958
-...
+To restore that state in the destination, SVQ is able to send these
+messages as regular CVQ commands. The code to understand and parse
+virtio-net CVQ commands is already in qemu as part of its emulated
+device, but the code to send some of the new state is not, and
+some features are missing. There is already code to restore basic
+commands like mac [1] or multiqueue [2], and it is easy to use them as
+a template.
 
-patched version:
-hda_audio_output_cb: to write 8192, written 1620
-audio_run_out: free 4458, played 880
-hda_audio_output_cb: to write 6576, written 2508
-audio_run_out: free 3578, played 1365
-hda_audio_output_cb: to write 4068, written 2500
-audio_run_out: free 2213, played 1360
+[1] https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg00342.html
+[2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg906273.html
 
-record host 96000Hz => guest 44100Hz
+Goals
+---
+To implement missing virtio-net commands sending:
+* VIRTIO_NET_CTRL_RX family, to control receive mode.
+* VIRTIO_NET_CTRL_GUEST_OFFLOADS
+* VIRTIO_NET_CTRL_VLAN family
+* VIRTIO_NET_CTRL_MQ_HASH config
+* VIRTIO_NET_CTRL_MQ_RSS config
 
-unpatched version:
-audio_run_in: avail 4458, acquired 4454
-audio_run_in: avail 1574, acquired 1572
-audio_run_in: avail 766, acquired 764
-audio_run_in: avail 1052, acquired 1051
-audio_run_in: avail 761, acquired 760
-audio_run_in: avail 1123, acquired 1121
-...
-hda_audio_input_cb: could not read 4 bytes
-hda_audio_input_cb: to read 1988, read 1984
-audio_run_in: avail 1082, acquired 1080
-...
+Shadow Virtqueue performance optimization
+===
+Summary
+---
+To perform a virtual machine live migration with an external device to
+qemu, qemu needs a way to know which memory the device modifies so it
+is able to resend it. Otherwise the guest would resume with invalid /
+outdated memory in the destination.
 
-patched version:
-(no output)
+This is especially hard with passthrough hardware devices, as
+transports like PCI imposes a few security and performance challenges.
+As a method to overcome this for virtio devices, qemu can offer an
+emulated virtqueue to the device, called Shadow Virtqueue (SVQ),
+instead of allowing the device to communicate directly with the guest.
+SVQ will then forward the writes to the guest, being the effective
+writer in the guest memory and knowing when a portion of it needs to
+be resent.
 
-QEMU was started with -device ich9-intel-hda,addr=0x1b -device 
-hda-duplex,audiodev=audio0 -audiodev 
-pa,out.frequency=32000,in.frequency=32000,id=audio0
+As this is effectively breaking the passthrough and it adds extra
+steps in the communication, this comes with a performance penalty in
+some forms: Context switches, more memory reads and writes increasing
+cache pressure, etc.
 
-playback guest 44100Hz => host 32000Hz
+At this moment the SVQ code is not optimized. It cannot forward
+buffers in parallel using multiqueue and multithread, and it does not
+use the Queue Notify address to notify the device for available
+buffers, so these notifications needs to perform an extra host kernel
+context switch.
 
-unpatched version:
-hda_audio_output_cb: to write 8188, written 1620
-audio_run_out: free 1486, played 294
-hda_audio_output_cb: to write 6568, written 2512
-audio_run_out: free 1192, played 455
-hda_audio_output_cb: to write 4060, written 2504
-audio_run_out: free 737, played 455
-audio_run_out: free 282, played 281
-audio_run_out: free 357, played 356
-audio_run_out: free 314, played 313
-...
-hda_audio_output_cb: could not write 4 bytes
-hda_audio_output_cb: to write 1416, written 1412
-audio_run_out: free 257, played 256
-...
+The SVQ code requires minimal modifications for the multithreading,
+and these are examples of multithreaded devices already like
+virtio-blk which can be used as a template-alike. Proposals about the
+cmdline syntax of mapping virtio queues to iothread using the qemu
+command line have been sent to qemu mail list already [1].
 
-patched version:
-hda_audio_output_cb: to write 8192, written 1656
-audio_run_out: free 1486, played 300
-hda_audio_output_cb: to write 6536, written 2516
-audio_run_out: free 1186, played 457
-hda_audio_output_cb: to write 4020, written 2540
-audio_run_out: free 729, played 460
+Regarding the use of Queue Notify address, DPDK is able to use them so
+that code can also be used as a template.
 
-record host 32000Hz => guest 44100Hz
+[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg933001.html
 
-unpatched version:
-audio_run_in: avail 1486, acquired 1485
-audio_run_in: avail 272, acquired 271
-audio_run_in: avail 366, acquired 365
-hda_audio_input_cb: could not read 4 bytes
-hda_audio_input_cb: to read 1420, read 1416
-audio_run_in: avail 258, acquired 257
-audio_run_in: avail 375, acquired 374
-hda_audio_input_cb: could not read 4 bytes
-hda_audio_input_cb: to read 2056, read 2052
-audio_run_in: avail 260, acquired 259
-...
-
-patched version:
-(no output)
-
-This is the debug code for the logs above.
-
----snip--
- > --- a/audio/audio.c    2022-12-13 19:14:31.793153558 +0100
- > +++ b/audio/audio.c    2022-12-11 16:24:48.842649711 +0100
- > @@ -1228,6 +1228,10 @@ static void audio_run_out (AudioState *s
- >  #ifdef DEBUG_OUT
- >          dolog("played=%zu\n", played);
- >  #endif
- > +        if (hw_free - played) {
- > +            fprintf(stderr, "%s: free %zu, played %zu\n",
- > +                    __func__, hw_free, played);
- > +        }
- >
- >          if (played) {
- >              hw->ts_helper += played;
- > @@ -1318,6 +1322,7 @@ static void audio_run_in (AudioState *s)
- >              if (sw->active) {
- >                  size_t sw_avail = audio_get_avail(sw);
- >                  size_t avail;
- > +                size_t prev_acquired = sw->total_hw_samples_acquired;
- >
- >                  avail = st_rate_frames_out(sw->rate, sw_avail);
- >                  if (avail > 0) {
- > @@ -1325,6 +1330,11 @@ static void audio_run_in (AudioState *s)
- > sw->callback.fn(sw->callback.opaque,
- >                                      avail * sw->info.bytes_per_frame);
- >                  }
- > +
- > +                if (sw_avail + prev_acquired - 
-sw->total_hw_samples_acquired) {
- > +                    fprintf(stderr, "%s: avail %zu, acquired %zu\n", 
-__func__,
- > +                            sw_avail, sw->total_hw_samples_acquired 
-- prev_acquired);
- > +                }
- >              }
- >          }
- >      }
- > --- a/hw/audio/hda-codec.c    2023-01-04 14:07:31.954304889 +0100
- > +++ b/hw/audio/hda-codec.c    2023-01-04 13:57:47.687320406 +0100
- > @@ -265,20 +265,28 @@ static void hda_audio_input_cb(void *opa
- >      int64_t rpos = st->rpos;
- >
- >      int64_t to_transfer = MIN(B_SIZE - (wpos - rpos), avail);
- > +    unsigned int total_read = 0;
- >
- >      while (to_transfer) {
- >          uint32_t start = (uint32_t) (wpos & B_MASK);
- >          uint32_t chunk = (uint32_t) MIN(B_SIZE - start, to_transfer);
- >          uint32_t read = AUD_read(st->voice.in, st->buf + start, chunk);
- >          wpos += read;
- > +        total_read += read;
- >          to_transfer -= read;
- >          st->wpos += read;
- >          if (chunk != read) {
- > +            fprintf(stderr, "%s: could not read %u bytes\n", __func__,
- > +                    chunk - read);
- >              break;
- >          }
- >      }
- >
- >      hda_timer_sync_adjust(st, -((wpos - rpos) - (B_SIZE >> 1)));
- > +    if (avail != total_read) {
- > +        fprintf(stderr, "%s: to read %d, read %u\n", __func__,
- > +                avail, total_read);
- > +    }
- >  }
- >
- >  static void hda_audio_output_timer(void *opaque)
- > @@ -329,6 +337,7 @@ static void hda_audio_output_cb(void *op
- >      int64_t rpos = st->rpos;
- >
- >      int64_t to_transfer = MIN(wpos - rpos, avail);
- > +    unsigned int total_written = 0;
- >
- >      if (wpos - rpos == B_SIZE) {
- >          /* drop buffer, reset timer adjust */
- > @@ -343,15 +352,22 @@ static void hda_audio_output_cb(void *op
- >          uint32_t start = (uint32_t) (rpos & B_MASK);
- >          uint32_t chunk = (uint32_t) MIN(B_SIZE - start, to_transfer);
- >          uint32_t written = AUD_write(st->voice.out, st->buf + start, 
-chunk);
- > +        total_written += written;
- >          rpos += written;
- >          to_transfer -= written;
- >          st->rpos += written;
- >          if (chunk != written) {
- > +            fprintf(stderr, "%s: could not write %u bytes\n", __func__,
- > +                    chunk - written);
- >              break;
- >          }
- >      }
- >
- >      hda_timer_sync_adjust(st, (wpos - rpos) - (B_SIZE >> 1));
- > +    if (avail != total_written) {
- > +        fprintf(stderr, "%s: to write %d, written %u\n", __func__,
- > +                avail, total_written);
- > +    }
- >  }
- >
- >  static void hda_audio_compat_input_cb(void *opaque, int avail)
----snip--
-
-v2:
-The patch series was rebased onto [PATCH v2 00/11] audio: more 
-improvements. Patch 15/17 (audio: handle leftover audio frame from 
-upsampling) and patch 17/17 (audio: remove sw->ratio) needed changes 
-because of this.
-
-Volker Rümelin (17):
-   audio: change type of mix_buf and conv_buf
-   audio: change type and name of the resample buffer
-   audio: make the resampling code greedy
-   audio: replace the resampling loop in audio_pcm_sw_write()
-   audio: remove sw == NULL check
-   audio: rename variables in audio_pcm_sw_write()
-   audio: don't misuse audio_pcm_sw_write()
-   audio: remove unused noop_conv() function
-   audio/mixeng: calculate number of input frames
-   audio: wire up st_rate_frames_in()
-   audio: replace the resampling loop in audio_pcm_sw_read()
-   audio: rename variables in audio_pcm_sw_read()
-   audio/mixeng: calculate number of output frames
-   audio: wire up st_rate_frames_out()
-   audio: handle leftover audio frame from upsampling
-   audio/audio_template: substitute sw->hw with hw
-   audio: remove sw->ratio
-
-  audio/audio.c          | 366 +++++++++++++++++++++--------------------
-  audio/audio_int.h      |  12 +-
-  audio/audio_template.h |  61 ++++---
-  audio/mixeng.c         |  73 ++++++++
-  audio/mixeng.h         |   2 +
-  audio/rate_template.h  |  21 ++-
-  6 files changed, 314 insertions(+), 221 deletions(-)
-
--- 
-2.35.3
+Goals
+---
+* Measure the latest SVQ performance compared to non-SVQ with
+standardized profiling tools like netperf (TCP_STREAM & TCP_RR) or
+iperf equivalent + DPDK's testpmd in AF_PACKET.
+* Add multithreading to SVQ, extracting the code from the Big QEMU Lock (BQL)
+* Add Queue Notify write capabilities to QEMU, following the model of
+DPDK to it.
 
 
