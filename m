@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4AC868C9A4
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 23:38:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBD5D68C98F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 23:37:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPA5N-0001q0-2d; Mon, 06 Feb 2023 17:35:41 -0500
+	id 1pPA5N-0001qA-5X; Mon, 06 Feb 2023 17:35:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPA4y-0001i5-Or
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 17:35:26 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPA52-0001ip-VV
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 17:35:28 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPA4w-0004QP-1s
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 17:35:16 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- bg13-20020a05600c3c8d00b003d9712b29d2so11920018wmb.2
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 14:35:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPA4z-0004R2-EN
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 17:35:19 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ f47-20020a05600c492f00b003dc584a7b7eso11901937wmp.3
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 14:35:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=p4gyS8VSD6RIzTedBzt7OIRvLu1nwoR5LZytAL+qtYA=;
- b=M0jkkyt+5OA03Ycl5VLUGKKEtqBl6coUbdTH6Dxixe+6IAEiK7xLR6nDhOkjDL41Oy
- P0zwEHgnfmurEJ17sVxDvcrBtPTbiKOiNroNcydc8oY721IEnr7Gs/g+y+vNwmHLBWIp
- UAWRkacDWwLyxGTM7uhCmotCHHg1VYE4XREeuOkPBNr8OPSz37x3MSam5Pn6VGeFsHRX
- qc+YWiPGLicw8SqkappHHWVNN//ANKcblzJcRxx4PVdiouZ/kx90XnH1Vh9NgEf1srsB
- pHe+yBR/1IGXZ5umvvftuCCsqZ524+vFUDgX6V0qZn9YCl4iAWswT/RafqrsRHfpShHh
- 7u6A==
+ bh=PqS8f1SsLczkqeP2a5G3rABOyp0fVyhf7LwTVRK5JbM=;
+ b=VcQPq29oDvlBhGLhvTpTQy6lsGEwc5fzIWcgFrIwcL7y40SCRV3nzJgeKMA9/eQBWJ
+ 2DpTKvrqN6NPihFphi6F7VXDSBrKr9FEAwURq8EOD2m/bP0suDzfdwj8SyDQvnvckRfx
+ a17SdDEX1QJhQ1tUWB8B+CeO2kA7nDeP5d/1+hV3XBaaBlCBTjDIAPMBWwl/nrKb8dRo
+ 4M01yK3ZvgZO6H+dJwk9YMUcbDI3nUDHxPqwSkIQTWvZ+YRf98WtgglsFZfPCAvIiGZM
+ RHZENNbKa13TCEvS9rEIQLHVl8eq4vkW0h4/0leM8wzU80CyYFD/N2QhX7qhO0GuPsdj
+ 0SVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=p4gyS8VSD6RIzTedBzt7OIRvLu1nwoR5LZytAL+qtYA=;
- b=jeNwkItHWCr4+UDu1+vBNcNajqdOMCtYvsxu16lNovkmed3mVdrLpVGMYjrf5Z5bhI
- 5UKYw2yDFhwht2ITxuf4dx55bcHNkkLJZvTPXSYCObveeTDMKqZWcvUnVWdEPGgCWae3
- 02q0Gwsr2XzhHh5GUPjWHicWVqiEJsLVsjdyYTMSIf5ml8iQhjXOqgGOp9k1gjJkJfVL
- k/f2FPuCoigIamQXmQnwNyUdu3/R7YeTbdr45i6X7VQUyPfhCywVJktZ5tmUUZYiw/2q
- zYBEdVwqgbCAlYqhN6NZ7M31z86zhgwQe4VCLcnYnOxL2TsbfQ7y3TiQGRoeeJqcKfM3
- 1aoQ==
-X-Gm-Message-State: AO0yUKUXCnU3aVwuypioxMnNf/0GxrYwP2ol/RnX+Zj5J/mEfJi46SjI
- v5d/EIlNvcWnW9pFOZWLQ73eFp9Ssfz9FnjV
-X-Google-Smtp-Source: AK7set/V1Uj9XdLZYMpmrKo8XiJYWOgoqz5KRNO0S0Q/FaSbl4w28eRi80uLAW/3fmieYP0xvRWn8g==
-X-Received: by 2002:a05:600c:1613:b0:3df:b5ae:5289 with SMTP id
- m19-20020a05600c161300b003dfb5ae5289mr1115598wmn.8.1675722910146; 
- Mon, 06 Feb 2023 14:35:10 -0800 (PST)
+ bh=PqS8f1SsLczkqeP2a5G3rABOyp0fVyhf7LwTVRK5JbM=;
+ b=sUwLxRkprYr7DRBQ5CxdQ/hRTrS13ssn+OFH9F/G0rh4rg5SI37u1LniEv3iI5RrEO
+ loZB5am1zUgh7aC0XpWhv86KiomBmo7I4tQ2Kbq+7hcfwFDcV6CgFv6nbd1ntFlREVgD
+ gXXqAWnUiDHZtovlo0fHu7F6EB4KWbTpVypFj8G1EsBUDhbK6/Yj4pjldDYxxdhQpaLf
+ xsk8ASr2nRiGRie0irjpc8Zo/zO1Qfs94wut4w/lP/RVb3oQ60oFc0AngFZ30eHCaG/h
+ +kuKMwbgu4ifMwxkAk+FbFYL8WbeTGGaTOo9zIHCNyrIted8HWMcGOrK/6Evg03vwUD7
+ 4Fyg==
+X-Gm-Message-State: AO0yUKUeOWwKVN+z2z/cuBHYU9rX+Z1q8StexbKIT36sElBI9irXklR/
+ tfo1xBlGVep73d/k8OLUNQ5yJ3A4mgisiz5a
+X-Google-Smtp-Source: AK7set/5JRahYyR1iIlSyfYcKhiaJLQdxzfTf9CQ3QVR+cb2+tSER8iBR0n9A4xmi/Nu29NJ1/jMQQ==
+X-Received: by 2002:a05:600c:4d21:b0:3dc:3398:cf87 with SMTP id
+ u33-20020a05600c4d2100b003dc3398cf87mr1149674wmp.11.1675722915674; 
+ Mon, 06 Feb 2023 14:35:15 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- o37-20020a05600c512500b003c6bbe910fdsm18922037wms.9.2023.02.06.14.35.09
+ o14-20020a05600c4fce00b003dc1a525f22sm12732030wmq.25.2023.02.06.14.35.14
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 06 Feb 2023 14:35:09 -0800 (PST)
+ Mon, 06 Feb 2023 14:35:15 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
  Richard Henderson <richard.henderson@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v2 01/11] hw/intc/armv7m_nvic: Use
- OBJECT_DECLARE_SIMPLE_TYPE() macro
-Date: Mon,  6 Feb 2023 23:34:52 +0100
-Message-Id: <20230206223502.25122-2-philmd@linaro.org>
+Subject: [PATCH v2 02/11] target/arm: Simplify arm_v7m_mmu_idx_for_secstate()
+ for user emulation
+Date: Mon,  6 Feb 2023 23:34:53 +0100
+Message-Id: <20230206223502.25122-3-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230206223502.25122-1-philmd@linaro.org>
 References: <20230206223502.25122-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,31 +93,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Manually convert to OBJECT_DECLARE_SIMPLE_TYPE() macro,
-similarly to automatic conversion from commit 8063396bf3
-("Use OBJECT_DECLARE_SIMPLE_TYPE when possible").
-
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- include/hw/intc/armv7m_nvic.h | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ target/arm/m_helper.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/intc/armv7m_nvic.h b/include/hw/intc/armv7m_nvic.h
-index 0180c7b0ca..07f9c21a5f 100644
---- a/include/hw/intc/armv7m_nvic.h
-+++ b/include/hw/intc/armv7m_nvic.h
-@@ -16,10 +16,7 @@
- #include "qom/object.h"
+diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
+index e7e746ea18..76239c9abe 100644
+--- a/target/arm/m_helper.c
++++ b/target/arm/m_helper.c
+@@ -150,7 +150,12 @@ uint32_t HELPER(v7m_tt)(CPUARMState *env, uint32_t addr, uint32_t op)
+     return 0;
+ }
  
- #define TYPE_NVIC "armv7m_nvic"
+-#else
++ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
++{
++    return ARMMMUIdx_MUser;
++}
++
++#else /* !CONFIG_USER_ONLY */
+ 
+ /*
+  * What kind of stack write are we doing? This affects how exceptions
+@@ -2854,8 +2859,6 @@ uint32_t HELPER(v7m_tt)(CPUARMState *env, uint32_t addr, uint32_t op)
+     return tt_resp;
+ }
+ 
+-#endif /* !CONFIG_USER_ONLY */
 -
--typedef struct NVICState NVICState;
--DECLARE_INSTANCE_CHECKER(NVICState, NVIC,
--                         TYPE_NVIC)
-+OBJECT_DECLARE_SIMPLE_TYPE(NVICState, NVIC)
+ ARMMMUIdx arm_v7m_mmu_idx_all(CPUARMState *env,
+                               bool secstate, bool priv, bool negpri)
+ {
+@@ -2892,3 +2895,5 @@ ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
  
- /* Highest permitted number of exceptions (architectural limit) */
- #define NVIC_MAX_VECTORS 512
+     return arm_v7m_mmu_idx_for_secstate_and_priv(env, secstate, priv);
+ }
++
++#endif /* !CONFIG_USER_ONLY */
 -- 
 2.38.1
 
