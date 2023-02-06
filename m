@@ -2,63 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B96368B9E2
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 11:21:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF5A68BA13
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 11:27:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOycM-0002SW-1w; Mon, 06 Feb 2023 05:20:58 -0500
+	id 1pOyi2-0005Sd-Hb; Mon, 06 Feb 2023 05:26:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pOyc7-0002Fb-AP
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 05:20:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pOyc5-0001Kl-IR
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 05:20:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675678840;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=W2UFCAH60hTZiIVfuXmzBvSVzM2fQE5o9aZjgR5+A00=;
- b=X4KfkGiKIDFTRqEVRnBPjUHrFC2OGicSZdGvR2PKHc/CE2oQHBhi5TNXizLtUxmY7XsugY
- IrrIARyk0ifQXTXBiEnDuWl1EE9Hly9Tu2uYc/F4o8PYVEPkYeInVHvVV8wNIs7510NPGH
- 26qKhY43/hQiO39Lzk49c1Yg0L7LRTs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-423-Y7lhrmX_PdiliYinRwqz4g-1; Mon, 06 Feb 2023 05:20:38 -0500
-X-MC-Unique: Y7lhrmX_PdiliYinRwqz4g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 53F81183B3C1
- for <qemu-devel@nongnu.org>; Mon,  6 Feb 2023 10:20:38 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 32D0B2166B29
- for <qemu-devel@nongnu.org>; Mon,  6 Feb 2023 10:20:38 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 21FBE21E6A1F; Mon,  6 Feb 2023 11:20:37 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com
-Subject: [PATCH] meson: Avoid duplicates in generated config-poison.h again
-Date: Mon,  6 Feb 2023 11:20:37 +0100
-Message-Id: <20230206102037.3621709-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pOyi0-0005S4-6B; Mon, 06 Feb 2023 05:26:48 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pOyhy-0002L6-K4; Mon, 06 Feb 2023 05:26:47 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id hx15so32676149ejc.11;
+ Mon, 06 Feb 2023 02:26:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=mMuDshQ4BHUUGzKLcUc7fCITYJEM9uaMgWaz+MM72Qk=;
+ b=b9FAj2ZCvOXIkva8mq01ncVd0H/sVkGWFuIcgrCmQMgazu9TsdfURfy3se3HZVC+4q
+ 43BY7cb6fqo3tA2r44L67ndI5/JMjeLoZdfq4fsHRkEVNPZNqecnMSfEugQS+ji8SRPM
+ LpgQz+IcbBdumjzP2BVf62z5p2elSIhMS2TZXUi5BQatvhuspgXEXZimQleMHHHJRtem
+ oGFfy4EiJidm6q5wrkaR0VaJ/tD4vRBjbZhTXMsNFIiXaD53GjnwoDnyi8uC8+k4V8Ao
+ iiE0yfsLRGymGhrSxr0bVRpkZX7fN9hPjaWKIVzMzh89z5GR36Bvo0oGOu7oTTIryuCC
+ m/rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mMuDshQ4BHUUGzKLcUc7fCITYJEM9uaMgWaz+MM72Qk=;
+ b=XhtbFx9bTPcdpdiRvYhNemiVcQGrkj/4j5ZSqmgavAO2K901MLpv6v6nX9TVqzM13L
+ VZqMXPXQaasgKpjnTpl2N+DoVcFHO86F7ajp+z/d0+vzUeGarVAPWNQPlWmIjBdky5cz
+ vPuTr4CrMJZIjMM9qnFWDeHrn2fZjmm1dDebEPKwFRZPolDfqyodgMp0Cg/2mxoCsf+e
+ DWJllbZfPeE+21MTrw5TeiEIPX0z0C7dRLQydhYnLhIKg9+WIlFj72WRY5fMpPykW2bl
+ HB0PfnjVL1ndc1OTvseshJz3ZOWO0aHET7xHdALQ6PGgHK56UsK6fppwvnnZJ6WV0XAs
+ GA9Q==
+X-Gm-Message-State: AO0yUKUz9LM0ELewzlhzY5rC4LWcpRUGIMVwTye6JS7+gbX2uQUNtG7Y
+ kF0otfHa/eDhNayQwXh44U8rjIWZOkbzEofkgkE=
+X-Google-Smtp-Source: AK7set/yngp5KgSnfKJYXJIJjaj55gYhLsz4CeFvWQWcfjjdmSjfR0SEMQCMArDTkdkCnCJTk0g7H19SIrnlAZ9sESQ=
+X-Received: by 2002:a17:906:8395:b0:888:f761:87aa with SMTP id
+ p21-20020a170906839500b00888f76187aamr6187259ejx.163.1675679204795; Mon, 06
+ Feb 2023 02:26:44 -0800 (PST)
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
+ <20230202045223.2594627-8-sunilvl@ventanamicro.com>
+In-Reply-To: <20230202045223.2594627-8-sunilvl@ventanamicro.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 6 Feb 2023 18:26:33 +0800
+Message-ID: <CAEUhbmXQZQsH6wiQLf1dHQEVnQX4bgZeNAaVVgBNAo66nuZkfQ@mail.gmail.com>
+Subject: Re: [PATCH 07/10] hw/riscv: meson.build: Build virt-acpi-build.c
+To: Sunil V L <sunilvl@ventanamicro.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Andrew Jones <ajones@ventanamicro.com>, Anup Patel <apatel@ventanamicro.com>, 
+ Atish Kumar Patra <atishp@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,26 +85,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Commit eed56e9a89f "configure, meson: move config-poison.h to meson"
-lost a "| sort -u".  Restore it.  config-poison shrinks from ~4500 to
-~700 lines when all targets are enabled.
+On Thu, Feb 2, 2023 at 12:53 PM Sunil V L <sunilvl@ventanamicro.com> wrote:
+>
+> ACPI functions are defined in new file virt-acpi-build.c. Enable
+> it to be built as part of virt machine if CONFIG_ACPI is set.
+>
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> ---
+>  hw/riscv/meson.build | 1 +
+>  1 file changed, 1 insertion(+)
+>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- scripts/make-config-poison.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/make-config-poison.sh b/scripts/make-config-poison.sh
-index d222a04304..1892854261 100755
---- a/scripts/make-config-poison.sh
-+++ b/scripts/make-config-poison.sh
-@@ -13,4 +13,4 @@ exec sed -n \
-   -e    's///' \
-   -e    's/ .*//' \
-   -e    's/^/#pragma GCC poison /p' \
--  -e '}' "$@"
-+  -e '}' "$@" | sort -u
--- 
-2.39.0
-
+Reviewed-by: Bin Meng <bmeng@tinylab.org>
 
