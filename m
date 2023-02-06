@@ -2,94 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E44068BCFD
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 13:36:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18BCD68BD03
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 13:36:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP0j0-0004SG-EB; Mon, 06 Feb 2023 07:35:58 -0500
+	id 1pP0jA-0004fK-5I; Mon, 06 Feb 2023 07:36:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pP0iV-0004Hx-Fs
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:35:33 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pP0iR-0001BR-Il
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:35:27 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- j29-20020a05600c1c1d00b003dc52fed235so8669201wms.1
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 04:35:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=NYa0j72PWc+nBQemWoL8OJL1TfSAnOza+b+PCPlRNs8=;
- b=QvczlEBtWDoDhPYxe5I2WJkzpdAHUxivKaNOf9WUy9HD+wAmkFZGV3QqkD7WqSLSxr
- +D2L/KWid5WoECaOmf2tBblBL73+3nPqyHCYRylv/PyStQS9iGaHO3S1stajJ2ONNK03
- rXh6lcxm8lXONEBexjwRHyl7TraD1cPzqErsQuoO+O4Hmpz+bCCPG5nFg4etdajK4beS
- kWVdlFhKju6GHm4z/jcda26kJlYB5CMxw6eql16yRrNJLZsBkoz+UVrmgerliTzhAkXm
- qVnsul9NlXUgQrA6n+OybhPSf3xkNWovvbjvdn4C7LHeTOhACgfNj4Tve5wBI19INGiF
- iMUg==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pP0in-0004W8-Dk
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:35:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pP0ij-0001Iz-Dv
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:35:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675686937;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SR3JdnlJDOw/nUy9InxCO4dantX6P96RUrHJEt4/XbQ=;
+ b=iZQ4p1fLqaCd3bTnj2XTnTA1oFRxGbz6K5+0RnAYfz2qYQrq4B5puGIrm5CFSQlqJfKy1P
+ K564XZVvILg/DYSqZiPFuO8Ihov8drQfhtB/ZGF9FOE193MaPcTAnXMa9Jh+w5iirV/Jwn
+ UFV/F7CLa3qgWNqhphfVnTsxpPvedSo=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-626-IpbriS13OdmS134QB5z67A-1; Mon, 06 Feb 2023 07:35:35 -0500
+X-MC-Unique: IpbriS13OdmS134QB5z67A-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ fl9-20020a05600c0b8900b003dfe4bae099so5251578wmb.0
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 04:35:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NYa0j72PWc+nBQemWoL8OJL1TfSAnOza+b+PCPlRNs8=;
- b=j5GSKpoCPpBsn+4gkA0kXNXtoD3PUqYg3XDN1fzWPSuBZG0HDwsxGUjbry35xloNgu
- YQpKLnyUvIc5u0a5vH5nlgFFzyKHOgPYHH8fWcpwiSjjP4fpQjQ4triY7pKqIXamOz0w
- 2Uu3RogDKDk4FTGlqj1Ap3yueuUc6TB7tK+lCu4XscpyYRroU51EtdPCXWpHlCNHct7M
- sV5GSzkEvn2Q2FToINV+ZfU0iwWCePXaRn9nDFhQEvKcAcXxEgqWapfV2G32GSDxgw8k
- CbNGVamiOi3rvvWBH5n7bo6e3Xt6CqmYoI6zrOCJjKWEnOlSwDBKDKqw8PtThAoYmRY3
- ROZA==
-X-Gm-Message-State: AO0yUKXt3h1OuzSS6ffWx3q19vfetKCjAuLK7aSlvMi2X/gnm1koWoHU
- uzRyBwUnvBAzxtJvEbJIDeMFTQ==
-X-Google-Smtp-Source: AK7set8dx2ZZ+nRHDYt17NRGdC/kdNYVgNE7WGmmFxn/Bh3C5RixOgokp4LS+2tLpK2qzOJk8ZAI/A==
-X-Received: by 2002:a05:600c:4fd2:b0:3df:e41f:8396 with SMTP id
- o18-20020a05600c4fd200b003dfe41f8396mr13980577wmq.37.1675686921419; 
- Mon, 06 Feb 2023 04:35:21 -0800 (PST)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz.
- [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+ h=content-transfer-encoding:cc:to:subject:from:content-language
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=SR3JdnlJDOw/nUy9InxCO4dantX6P96RUrHJEt4/XbQ=;
+ b=6Y/hAGVlUXX2Enb4CJwmi5+TkjVunColZ563etrUyppYnAC4OfkG8kUrsz0FwK0vXN
+ PLsqRe/OgAv5i5C2CJh5jdHKIsdSdxkqg3KujK7JuKhnHMI86GvoXxBYKubsjsNIsYTI
+ gcH3G1FH7hmwQdd153jDzZKnG0j9Qd6LLtWCWr+hXYwHR+frGRBktzifBG+7ABo5gfNT
+ r8uGLDcsdB+NWCx1OrIGRzBx1RxAG2Lvhp2q+bPuhTTByv2bfqaFenhYIywQiTBO/Huq
+ ivzoyC1MBvTdhWdMmJouIImpdLMf8fiazYku+WnDNNRmx8RjOhEaPVQkX632B8481p0R
+ Jieg==
+X-Gm-Message-State: AO0yUKVehZ8ttXWlX4actqwWl1e54vJngFOEncD00gaRuNeodV8uctfu
+ 6wpRmm3CrIzez9Z/DIizX7JkHNniEyT6TQxM0x4W49ZkbCfxSLOxmRwoV2F9FLcgiAtWSRLXwQ4
+ ioj2+9v5L6N5kCD8=
+X-Received: by 2002:a05:600c:c17:b0:3dc:3b29:7a4 with SMTP id
+ fm23-20020a05600c0c1700b003dc3b2907a4mr10753339wmb.0.1675686934561; 
+ Mon, 06 Feb 2023 04:35:34 -0800 (PST)
+X-Google-Smtp-Source: AK7set9D7pyiU9jOWUcPz9N7w1qY93NaIfbMe0L/MK6sDyCwEy/nWXu/qYoGgZ5rSbew64yWqQgu1Q==
+X-Received: by 2002:a05:600c:c17:b0:3dc:3b29:7a4 with SMTP id
+ fm23-20020a05600c0c1700b003dc3b2907a4mr10753333wmb.0.1675686934422; 
+ Mon, 06 Feb 2023 04:35:34 -0800 (PST)
+Received: from ?IPV6:2003:cf:d72e:fd7:26ff:71e9:ed84:bdc0?
+ (p200300cfd72e0fd726ff71e9ed84bdc0.dip0.t-ipconnect.de.
+ [2003:cf:d72e:fd7:26ff:71e9:ed84:bdc0])
  by smtp.gmail.com with ESMTPSA id
- bg21-20020a05600c3c9500b003db06493ee7sm17613755wmb.47.2023.02.06.04.35.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Feb 2023 04:35:20 -0800 (PST)
-Date: Mon, 6 Feb 2023 13:35:20 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: Andrea Bolognani <abologna@redhat.com>,
- Sunil V L <sunilvl@ventanamicro.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Anup Patel <apatel@ventanamicro.com>,
- Atish Kumar Patra <atishp@rivosinc.com>,
- Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: Re: [PATCH 02/10] hw/riscv/virt: Add a switch to enable/disable ACPI
-Message-ID: <20230206123520.feomnevavp4olbie@orel>
-References: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
- <20230202045223.2594627-3-sunilvl@ventanamicro.com>
- <CABJz62PFGT1H-AArbfTkpiX24mHU=q3wk7h-bpduZhJyy7tTLw@mail.gmail.com>
- <fe3b5794-be2a-eec7-9d4e-9a13eab48378@linaro.org>
+ z17-20020a7bc7d1000000b003dc3f07c876sm16250503wmk.46.2023.02.06.04.35.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Feb 2023 04:35:33 -0800 (PST)
+Message-ID: <fb523956-7a8c-608b-6db1-961686b73e9c@redhat.com>
+Date: Mon, 6 Feb 2023 13:35:33 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Content-Language: en-US
+From: Hanna Czenczek <hreitz@redhat.com>
+Subject: vhost-user (virtio-fs) migration: back end state
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: virtio-fs-list <virtio-fs@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <fe3b5794-be2a-eec7-9d4e-9a13eab48378@linaro.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=ajones@ventanamicro.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,40 +99,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 06, 2023 at 12:18:06PM +0100, Philippe Mathieu-Daud� wrote:
-> On 6/2/23 11:54, Andrea Bolognani wrote:
-> > On Thu, Feb 02, 2023 at 10:22:15AM +0530, Sunil V L wrote:
-> > > +    object_class_property_add(oc, "acpi", "OnOffAuto",
-> > > +                              virt_get_acpi, virt_set_acpi,
-> > > +                              NULL, NULL);
-> > > +    object_class_property_set_description(oc, "acpi",
-> > > +                                          "Enable ACPI");
-> > 
-> > The way this works on other architectures (x86_64, aarch64) is that
-> > you get ACPI by default and can use -no-acpi to disable it if
-> > desired. Can we have the same on RISC-V, for consistency?
+Hi Stefan,
 
-Default on, with a user control to turn off, can be done with a boolean.
-I'm not sure why/if Auto is needed for acpi. Auto is useful when a
-configuration doesn't support a default setting for a feature. If the
-user hasn't explicitly requested the feature to be on or off, then the
-configuration can silently select what works. If, however, the user
-explicitly chooses what doesn't work, then qemu will fail with an error
-instead.
+For true virtio-fs migration, we need to migrate the daemon’s (back 
+end’s) state somehow.  I’m addressing you because you had a talk on this 
+topic at KVM Forum 2021. :)
 
-> 
-> -no-acpi rather seems a x86-specific hack for the ISA PC machine, and
-> has a high maintenance cost / burden.
-> 
-> If hardware provides ACPI support, QEMU should expose it to the guest.
-> 
-> Actually, what is the value added by '-no-acpi'?
+As far as I understood your talk, the only standardized way to migrate a 
+vhost-user back end’s state is via dbus-vmstate.  I believe that 
+interface is unsuitable for our use case, because we will need to 
+migrate more than 1 MB of state.  Now, that 1 MB limit has supposedly 
+been chosen arbitrarily, but the introducing commit’s message says that 
+it’s based on the idea that the data must be supplied basically 
+immediately anyway (due to both dbus and qemu migration requirements), 
+and I don’t think we can meet that requirement.
 
-IIRC, when booting, at least arm guests, with edk2 and ACPI tables,
-then edk2 will provide the guest ACPI tables instead of DT. To ensure
-we can boot with edk2, but still allow the guest to boot with DT, we
-need a way to disable the generation of ACPI tables.
+Has there been progress on the topic of standardizing a vhost-user back 
+end state migration channel besides dbus-vmstate?  I’ve looked around 
+but didn’t find anything.  If there isn’t anything yet, is there still 
+interest in the topic?
 
-Thanks,
-drew
+Of course, we could use a channel that completely bypasses qemu, but I 
+think we’d like to avoid that if possible.  First, this would require 
+adding functionality to virtiofsd to configure this channel.  Second, 
+not storing the state in the central VM state means that migrating to 
+file doesn’t work (well, we could migrate to a dedicated state file, 
+but...).  Third, setting up such a channel after virtiofsd has sandboxed 
+itself is hard.  I guess we should set up the migration channel before 
+sandboxing, which constrains runtime configuration (basically this would 
+only allow us to set up a listening server, I believe).  Well, and 
+finally, it isn’t a standard way, which won’t be great if we’re planning 
+to add a standard way anyway.
+
+Thanks!
+
+Hanna
+
 
