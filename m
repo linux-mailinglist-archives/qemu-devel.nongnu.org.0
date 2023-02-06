@@ -2,95 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D0268BFAD
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 15:12:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 486D168BFC1
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 15:14:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP2Db-0006ex-Qs; Mon, 06 Feb 2023 09:11:40 -0500
+	id 1pP2Fd-0001R2-Nn; Mon, 06 Feb 2023 09:13:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1pP2DZ-0006eY-Uy
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 09:11:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pP2ET-0000jO-7j; Mon, 06 Feb 2023 09:12:34 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1pP2DY-0002mJ-9X
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 09:11:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675692694;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FCEYo5GZG1cjQJe5fl5B22YWWBzGwDNvW1dg1MXOaCY=;
- b=CIHOyXPOAPW624+xwXtH7awRS6Jjr8NsyIA3JpqyJjbM4ebe8Dy/LaJ796nvEHmB+R8hlS
- EFvwLeoMF2zTWVCvtr/qF6b6kbUsI6Jz0Z09D+XWTfY5JmhHaQNpwG7oDDUT+dxVtjdVlz
- MLoUcoXX+csLc3PcpNHM0j9ShYVljuI=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-483-GKR4GhJTNUmlaCuPOy9FSA-1; Mon, 06 Feb 2023 09:11:24 -0500
-X-MC-Unique: GKR4GhJTNUmlaCuPOy9FSA-1
-Received: by mail-ej1-f70.google.com with SMTP id
- y12-20020a170906470c00b008a479dfaf54so1712962ejq.5
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 06:11:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FCEYo5GZG1cjQJe5fl5B22YWWBzGwDNvW1dg1MXOaCY=;
- b=36yRvEivAUxZ+WNtM3VTdm+yZtvmSLM9V9QGDMEI7E0U5RFnumEdMt7yh7h/Q0Gd7M
- XiZd0xFFBhKhB/ERtB1J25FgZNIAt7EKq+alT0cSwoUD6j1EOHVDgRZlULjaef5b2hnN
- bwV1NL54Lrxvlgeq/eobv92ofyO286SZA80G4338Vc222RBCtXnMhg7GSQCewUMKM/X8
- jku8TA2Pll2BL3Rn9pUab+mYnZ+KV8PMzOq5KuskXB0j81mMbEHkMKvDwThysMY5pCoL
- PovtU0py/s0IQIA9gxfDxRJY2BhdvHa7g1BWJkKngueCjDDKBLg6q9SWg2wDYm1lCBSf
- jk6A==
-X-Gm-Message-State: AO0yUKWsVR7+QX5KC6LJ44La6Zxqoz7Ddqbcbp2sTV7Jtt30fXDQMUkg
- E1/FctN8nqnolW5iPLnDJ9BEkLP9AvXZCv9fOtuoIOqZL5Z4+QS00huwy4yOpym8pvhWyjRXqbt
- dJ6Ybbe0aQCCC3Rw=
-X-Received: by 2002:a17:906:9610:b0:881:a3ec:2b40 with SMTP id
- s16-20020a170906961000b00881a3ec2b40mr22040433ejx.59.1675692682902; 
- Mon, 06 Feb 2023 06:11:22 -0800 (PST)
-X-Google-Smtp-Source: AK7set/zLpCfT5ktwIFFXCrDWK/lgg8/NOugHBZrBAoLWUP4jaz5JXVrHIv8kD3y+H2WUhh2F+giWw==
-X-Received: by 2002:a17:906:9610:b0:881:a3ec:2b40 with SMTP id
- s16-20020a170906961000b00881a3ec2b40mr22040408ejx.59.1675692682687; 
- Mon, 06 Feb 2023 06:11:22 -0800 (PST)
-Received: from [10.43.2.39] (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- c18-20020a1709060fd200b0088f8abd3214sm5544070ejk.92.2023.02.06.06.11.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 06:11:22 -0800 (PST)
-Message-ID: <8291c176-b868-c0e9-af59-0827c6c46807@redhat.com>
-Date: Mon, 6 Feb 2023 15:11:21 +0100
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pP2EP-0002r2-Ms; Mon, 06 Feb 2023 09:12:31 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 316DqNR4023244; Mon, 6 Feb 2023 14:12:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=K9bXKa5/UTcdZdo4qTag6GoNPwNiRJjt75VYr8TlVPs=;
+ b=D+aSQfUb1154TFSyAitIcyE5H49uJy94SZDwYVwgOchcZV/NotgXydc78WI31/DEjzUW
+ CnP/mi4ItVJ8gxDtHzKJtKUeCq81xHfJ2wgOgo3d8Xu4fBPGRhwL/PV70ecp4nL2Ne65
+ 62L+ONXrXSrGd8mF62KR7ibnT61LMBEOlAVfowjU1K2JIzhipVe7zT7XfE8Qfl7GiHbO
+ G6jrHRbNvnu+cSFP4eUOYaUAdC8fuZJhD40ZxupW62x3Lq/y1gCDqJVHrYYDkZ6WYfaX
+ ThG44J9Rj7MNc/4mxIwTnCCHNXl8YTIO8hp2rEG4INDiCmGRcFM+aeC4pGkSHnWh5W7f 5w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nk1abkx3s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Feb 2023 14:12:24 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 316DtZxU023402;
+ Mon, 6 Feb 2023 14:12:24 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nk1abkx2d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Feb 2023 14:12:23 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 315GPFoi011173;
+ Mon, 6 Feb 2023 14:12:21 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+ by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3nhf06srse-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Feb 2023 14:12:20 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 316ECHTg21758532
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 6 Feb 2023 14:12:17 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4C77E20049;
+ Mon,  6 Feb 2023 14:12:17 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0218420043;
+ Mon,  6 Feb 2023 14:12:16 +0000 (GMT)
+Received: from [9.171.30.242] (unknown [9.171.30.242])
+ by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Mon,  6 Feb 2023 14:12:15 +0000 (GMT)
+Message-ID: <61ce96bb-35d9-cb9d-439f-1188e06c8ae6@linux.ibm.com>
+Date: Mon, 6 Feb 2023 15:12:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [RFC 0/3] virtio-blk: add iothread-vq-mapping parameter
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v15 09/11] machine: adding s390 topology to query-cpu-fast
 Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org,
- Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20230118194732.1258208-1-stefanha@redhat.com>
-From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
-In-Reply-To: <20230118194732.1258208-1-stefanha@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ nsg@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230201132051.126868-1-pmorel@linux.ibm.com>
+ <20230201132051.126868-10-pmorel@linux.ibm.com>
+ <cce946c3-aa78-b9a2-79af-a2cf1ce32355@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <cce946c3-aa78-b9a2-79af-a2cf1ce32355@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: PCYAk7KnkPIMKFxZQyBxA9jtKGnFhakc
+X-Proofpoint-GUID: 51Vbgip_3WnoLWYgxU30eRq_ODtU_zri
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-06_07,2023-02-06_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 adultscore=0
+ lowpriorityscore=0 malwarescore=0 suspectscore=0 bulkscore=0
+ impostorscore=0 spamscore=0 mlxscore=0 priorityscore=1501 phishscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302060121
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,87 +119,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/18/23 20:47, Stefan Hajnoczi wrote:
-> This is a preview of the iothread-vq-mapping parameter that assigns virtqueues
-> to IOThreads. The syntax is implemented but multiple IOThreads are not actually
-> supported yet. The purpose of this RFC is to reach agreement on the syntax and
-> to prepare for libvirt support.
+
+
+On 2/6/23 13:38, Thomas Huth wrote:
+> On 01/02/2023 14.20, Pierre Morel wrote:
+>> S390x provides two more topology containers above the sockets,
+>> books and drawers.
 > 
-> virtio-blk and virtio-scsi devices will need a way to specify the
-> mapping between IOThreads and virtqueues. At the moment all virtqueues
-> are assigned to a single IOThread or the main loop. This single thread
-> can be a CPU bottleneck, so it is necessary to allow finer-grained
-> assignment to spread the load.
+> books and drawers are already handled via the entries in 
+> CpuInstanceProperties, so this sentence looks like a wrong leftover now?
+
+yes it is
+
 > 
-> This series introduces command-line syntax for the new iothread-vq-mapping
-> property is as follows:
+> I'd suggest talking about "dedication" and "polarity" instead?
+
+OK.
+
 > 
->   --device '{"driver":"virtio-blk-pci","iothread-vq-mapping":[{"iothread":"iothread0","vqs":[0,1,2]},...]},...'
+>> Let's add these CPU attributes to the QAPI command query-cpu-fast.
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+>>   qapi/machine.json          | 13 ++++++++++---
+>>   hw/core/machine-qmp-cmds.c |  2 ++
+>>   2 files changed, 12 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/qapi/machine.json b/qapi/machine.json
+>> index 3036117059..e36c39e258 100644
+>> --- a/qapi/machine.json
+>> +++ b/qapi/machine.json
+>> @@ -53,11 +53,18 @@
+>>   #
+>>   # Additional information about a virtual S390 CPU
+>>   #
+>> -# @cpu-state: the virtual CPU's state
+>> +# @cpu-state: the virtual CPU's state (since 2.12)
+>> +# @dedicated: the virtual CPU's dedication (since 8.0)
+>> +# @polarity: the virtual CPU's polarity (since 8.0)
+>>   #
+>>   # Since: 2.12
+>>   ##
+>> -{ 'struct': 'CpuInfoS390', 'data': { 'cpu-state': 'CpuS390State' } }
+>> +{ 'struct': 'CpuInfoS390',
+>> +    'data': { 'cpu-state': 'CpuS390State',
+>> +              'dedicated': 'bool',
+>> +              'polarity': 'int'
+>> +    }
+>> +}
+>>   ##
+>>   # @CpuInfoFast:
+>> @@ -70,7 +77,7 @@
+>>   #
+>>   # @thread-id: ID of the underlying host thread
+>>   #
+>> -# @props: properties describing to which node/socket/core/thread
+>> +# @props: properties describing to which 
+>> node/drawer/book/socket/core/thread
 > 
-> IOThreads are specified by name and virtqueues are specified by 0-based
-> index.
-> 
-> It will be common to simply assign virtqueues round-robin across a set
-> of IOThreads. A convenient syntax that does not require specifying
-> individual virtqueue indices is available:
-> 
->   --device '{"driver":"virtio-blk-pci","iothread-vq-mapping":[{"iothread":"iothread0"},{"iothread":"iothread1"},...]},...'
-> 
-> There is no way to reassign virtqueues at runtime and I expect that to be a
-> very rare requirement.
-> 
-> Perhaps libvirt only needs to support round-robin because specifying individual
-> virtqueues is very specific and probably only useful for low-level performance
-> investigation. The libvirt domain XML syntax for this could be:
-> 
->   <driver name='qemu' type='qcow2'>
->     <iothreads>
->       <iothread id="1"/>
->       <iothread id="2"/>
->       <iothread id="3"/>
->     </iothreads>
->     ...
->   </driver>
+> I think this hunk should rather be moved to patch 1 now.
 
-Just for completeness, this how disk XML looks now:
+yes it should.
+Thanks.
 
-  <disk type='file' device='disk'>
-    <driver name='qemu' type='qcow2' queues='4' iothread='1'/>
-    <source file='/tmp/data.qcow'/>
-    <target dev='vda' bus='virtio'/>
-    <address type='pci' domain='0x0000' bus='0x00' slot='0x03' function='0x0'/>
-  </disk>
+Regards,
+Pierre
 
-It corresponds to the following cmd line:
-
-  -blockdev '{"driver":"file","filename":"/tmp/data.qcow","node-name":"libvirt-3-storage","auto-read-only":true,"discard":"unmap"}' \
-  -blockdev '{"node-name":"libvirt-3-format","read-only":false,"driver":"qcow2","file":"libvirt-3-storage"}' \
-  -device '{"driver":"virtio-blk-pci","iothread":"iothread1","num-queues":4,"bus":"pci.0","addr":"0x3","drive":"libvirt-3-format","id":"virtio-disk0","bootindex":1}' \
-
-We already have @iothread attribute, so inventing an <iothread/>
-subelement is a bit misleading, because if users query which disk uses
-iothreads, they need to change their XPATH. Currently they can get away
-with:
-
-  //disk[driver/@iothread]/source/@file
-
-but I guess for backwards compatibility, we can put the first iothread
-ID into the attribute, e.g.:
-
-  <driver iothread="2">
-    <iothread>
-     <iothread id="2"/>
-     <iothread id="4"/>
-    </iothread>
-  </driver>
-
-
-We've done something similar, when introducing multiple listen addresses
-for VNC.
-
-Now, an iothread is actually a thread pool. I guess we will never ever
-need to assign individual threads from the pool to queues, right?
-
-Michal
-
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
