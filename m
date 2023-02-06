@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B955868BD3E
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 13:49:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ECC368BD44
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 13:49:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP0vW-0001gL-5f; Mon, 06 Feb 2023 07:48:56 -0500
+	id 1pP0w0-00029e-Mo; Mon, 06 Feb 2023 07:49:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pP0vK-0001fu-TI
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:48:46 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pP0vJ-0003RW-CX
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:48:42 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- f23-20020a05600c491700b003dff4480a17so2353161wmp.1
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 04:48:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EuBry+mKvbixcO1Ga2Feg00C9N7emtjYOwiBjij2BxQ=;
- b=sDSMJWsqsANq9nf7lOg0DZWoIlA9zaxmWni3Li8R6qQIEFtNhxfAcgjGiTZ9IuQkPG
- u2ONmta/nWyiEm8CPeZZq+Uk7vuXYnE8TdOkai3i7HpMcuVpBzt/EOwRMdm7lA34L5iO
- k+rOfkewzNuV+APr6g1O1KCzByzqtn9xRR2ESyiUxPmzPoZA8aXh0+6jvjc1W/2jKPK6
- uDTXuPGLOqCz3y5SnYVV6WUborXGoUBl4vBWtQO2EIItTuVlnUQ1u6X2/eswJaxGOCQR
- +PcRWGhOCR56IaGSuwA8WiHJXF8DKYnGViPMZdZCKH75La+nfy28XPIQLWRj/oz9HjiK
- Hmtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=EuBry+mKvbixcO1Ga2Feg00C9N7emtjYOwiBjij2BxQ=;
- b=7HtsC+uggWZ9Y3JNQ8Z3q765xAmcf+kUB/tWb39wJu3nTlwTGpDNG942lTOm6OdluM
- ZE9nQaZigUJLjoPHtrv3RkP0kXLoGzhmUpWqE1oPv8heco/2F91SrJ7CzEZH27qekITn
- dgFOBR9zkzkXKjS4KU6ICshRbsR1/87YkYmUeftRexKRehrsogo0suVlDuREK0TE4yLh
- nM1KFk1IlfC2A4L/CBHrv7hSVqw68yK4Ctnsx6vU+R6OtlYCe13YPV2bswZfA+uH/yv4
- zh0AXWJYWFndEFXKjSJS7BfRDwVZKzbUuLZ1/rCN6b50Q7VKHxGzX+JGMwmytC3qRjDx
- LLMQ==
-X-Gm-Message-State: AO0yUKX5CCuHs0/AJXRFUTSoEU4ODEBUwY54EaWVC9FEH4kLfhKBl3/f
- RFyaIAsmFpf+Y9D2UvDrJsMhy6f5si+vK6wW
-X-Google-Smtp-Source: AK7set9EPvrgT2snaHP9FRb7JMjMWUo5qXayY2YD3+/rSeoV3IsORKtAtfTVTleiSmygVuMuR7uv/A==
-X-Received: by 2002:a05:600c:601b:b0:3dd:1982:4ce0 with SMTP id
- az27-20020a05600c601b00b003dd19824ce0mr18400890wmb.16.1675687718489; 
- Mon, 06 Feb 2023 04:48:38 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- o2-20020a05600002c200b002bde537721dsm9020659wry.20.2023.02.06.04.48.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Feb 2023 04:48:38 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 980FD1FFB7;
- Mon,  6 Feb 2023 12:48:37 +0000 (GMT)
-References: <20230206102037.3621709-1-armbru@redhat.com>
-User-agent: mu4e 1.9.19; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH] meson: Avoid duplicates in generated config-poison.h again
-Date: Mon, 06 Feb 2023 12:48:30 +0000
-In-reply-to: <20230206102037.3621709-1-armbru@redhat.com>
-Message-ID: <87edr3q7ru.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pP0vs-0001tA-2H
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:49:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pP0vp-0003Ul-IF
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:49:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675687752;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=X5ecGObh+Ix2p1TiaCThbROvfT36JcK1+DZ9dqHAZBw=;
+ b=GHasWgUS/JzJ5BREh3E3OvvXv+38gdk2btItzR7VrrgN5pIlHXleLG66YAn4FvQfL8SRVQ
+ DNX6VgFkuX9MgiN4/PXcRcvOPgNPI5SuMC82QMs+EJ0dSVUy5H8Xv5LKKXbjcXuRDCRgVL
+ rPIh99JURVEJWJ6OuRkpP7zoE6mEsBQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-463-ix81AwATPEO7-KzbcM8o6w-1; Mon, 06 Feb 2023 07:49:08 -0500
+X-MC-Unique: ix81AwATPEO7-KzbcM8o6w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E4BC5185A794;
+ Mon,  6 Feb 2023 12:49:07 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D4C62C15BA0;
+ Mon,  6 Feb 2023 12:49:04 +0000 (UTC)
+Date: Mon, 6 Feb 2023 12:49:00 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ nsg@linux.ibm.com, frankja@linux.ibm.com, clg@kaod.org
+Subject: Re: [PATCH v15 09/11] machine: adding s390 topology to query-cpu-fast
+Message-ID: <Y+D3PH0EkUPshIMO@redhat.com>
+References: <20230201132051.126868-1-pmorel@linux.ibm.com>
+ <20230201132051.126868-10-pmorel@linux.ibm.com>
+ <a7a235d5-4ded-b83d-dcb6-2cf81ad5f283@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+Content-Disposition: inline
+In-Reply-To: <a7a235d5-4ded-b83d-dcb6-2cf81ad5f283@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,22 +83,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, Feb 06, 2023 at 01:41:44PM +0100, Thomas Huth wrote:
+> On 01/02/2023 14.20, Pierre Morel wrote:
+> > S390x provides two more topology containers above the sockets,
+> > books and drawers.
+> > 
+> > Let's add these CPU attributes to the QAPI command query-cpu-fast.
+> > 
+> > Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> > ---
+> >   qapi/machine.json          | 13 ++++++++++---
+> >   hw/core/machine-qmp-cmds.c |  2 ++
+> >   2 files changed, 12 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/qapi/machine.json b/qapi/machine.json
+> > index 3036117059..e36c39e258 100644
+> > --- a/qapi/machine.json
+> > +++ b/qapi/machine.json
+> > @@ -53,11 +53,18 @@
+> >   #
+> >   # Additional information about a virtual S390 CPU
+> >   #
+> > -# @cpu-state: the virtual CPU's state
+> > +# @cpu-state: the virtual CPU's state (since 2.12)
+> > +# @dedicated: the virtual CPU's dedication (since 8.0)
+> > +# @polarity: the virtual CPU's polarity (since 8.0)
+> >   #
+> >   # Since: 2.12
+> >   ##
+> > -{ 'struct': 'CpuInfoS390', 'data': { 'cpu-state': 'CpuS390State' } }
+> > +{ 'struct': 'CpuInfoS390',
+> > +    'data': { 'cpu-state': 'CpuS390State',
+> > +              'dedicated': 'bool',
+> > +              'polarity': 'int'
+> 
+> I think it would also be better to mark the new fields as optional and only
+> return them if the guest has the topology enabled, to avoid confusing
+> clients that were written before this change.
 
-Markus Armbruster <armbru@redhat.com> writes:
+FWIW, I would say that the general expectation of QMP clients is that
+they must *always* expect new fields to appear in dicts that are
+returned in QMP replies. We add new fields at will on a frequent basis.
 
-> Commit eed56e9a89f "configure, meson: move config-poison.h to meson"
-> lost a "| sort -u".  Restore it.  config-poison shrinks from ~4500 to
-> ~700 lines when all targets are enabled.
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+So personally I'd keep life simple and unconditionally report the new
+fields.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
