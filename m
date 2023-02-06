@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F46068C0EF
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 16:07:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A67FF68C0EC
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 16:07:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP34w-00043g-Df; Mon, 06 Feb 2023 10:06:46 -0500
+	id 1pP34y-0004BN-RH; Mon, 06 Feb 2023 10:06:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pP34s-0003v9-VD; Mon, 06 Feb 2023 10:06:42 -0500
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP34v-000446-8L
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:06:45 -0500
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pP34r-0008S2-AU; Mon, 06 Feb 2023 10:06:42 -0500
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP34t-0008SS-Dh
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:06:44 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E7BE13F459;
- Mon,  6 Feb 2023 15:06:39 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B48F6605EA;
+ Mon,  6 Feb 2023 15:06:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675695999; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1675696001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1eNbsYvP7CwZOcw5Y0L+l8vJNH2vWuCrSQHXOX6eOOY=;
- b=qN7X2Hhg5crivArYxP/KoeMjr93bJcv5/6H1+YvuyUVC2AWV6D2W+2g54CD6/GpPmZH2gK
- hJ9jVF+FNb2W6oeNf8vHtj5ZGC4d9+ELny6F2faHxar2hzVvdjjVUbHnlv87TAUaWAkjUc
- zLNA2NQ2OpnFdkXSD3L9/SRBMwVIAMk=
+ bh=NXZtz6drXmu5S9m5FeMIml4zOVj2zvdZ6JoGmNfyPl4=;
+ b=hMxm3egKZI8OGcPg4wOPzKQVUvKFu94i21/lG+PXN3Dn8JZMpn3gu5/s/fWgr6zUa0/XBI
+ UnR+zT3Cc4eGSVTQCUsNrKzl4msxwO5Q/AjIY8Dk/ZfzkkVOkEmvnu7+WmNWJMu5TSqPe4
+ PtW6HzLW3PMWRYmc0dvN8BErZCLqNkY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675695999;
+ s=susede2_ed25519; t=1675696001;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1eNbsYvP7CwZOcw5Y0L+l8vJNH2vWuCrSQHXOX6eOOY=;
- b=ugo17InzdXr7G+x9Y9pTD8v/NlOUq8hyhjngzLxZEZSZwuX/BiwaWsMWWiBgU83HQN+YjD
- YYovQ7Fa4UbveYCQ==
+ bh=NXZtz6drXmu5S9m5FeMIml4zOVj2zvdZ6JoGmNfyPl4=;
+ b=MX5ipKjeN2j3tesA5jEfuLfPHI0RrHEVkNA4iLx3Io21GJDJvyf1TKVS4Iz5Iu76RVwtuG
+ UV8MDM5Y/Lt2nPBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 54C4A138E8;
- Mon,  6 Feb 2023 15:06:38 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5FC1F138E8;
+ Mon,  6 Feb 2023 15:06:40 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id wI6zB34X4WPSXwAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 06 Feb 2023 15:06:38 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id wCtzCoAX4WPSXwAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 06 Feb 2023 15:06:40 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-Subject: [PATCH 10/12] tests/qemu-iotests: Require virtio-scsi-pci
-Date: Mon,  6 Feb 2023 12:04:14 -0300
-Message-Id: <20230206150416.4604-11-farosas@suse.de>
+Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH 11/12] tests/qtest: bios-tables-test: Skip if missing configs
+Date: Mon,  6 Feb 2023 12:04:15 -0300
+Message-Id: <20230206150416.4604-12-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230206150416.4604-1-farosas@suse.de>
 References: <20230206150416.4604-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -85,26 +85,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Check that virtio-scsi-pci is present in the QEMU build before running
-the tests.
+If we build with --without-default-devices, CONFIG_HPET and
+CONFIG_PARALLEL are set to N, which makes the respective devices go
+missing from acpi tables.
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- tests/qemu-iotests/186 | 1 +
- 1 file changed, 1 insertion(+)
+I currently don't see a way of allowing the tests to pass in the
+absence of these two configs. As far as I understand, we would need to
+have one set of expected table files (tests/data/acpi) for each
+combination of machine vs. possible CONFIG that can be toggled.
 
-diff --git a/tests/qemu-iotests/186 b/tests/qemu-iotests/186
-index 072e54e62b..eaf13c7a33 100755
---- a/tests/qemu-iotests/186
-+++ b/tests/qemu-iotests/186
-@@ -40,6 +40,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- _supported_fmt qcow2
- _supported_proto file fuse
- _require_drivers null-co
-+_require_devices virtio-scsi-pci
- 
- if [ "$QEMU_DEFAULT_MACHINE" != "pc" ]; then
-     _notrun "Requires a PC machine"
+Any ideas?
+---
+ tests/qtest/meson.build | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index a930706a43..2829eda2c9 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -78,7 +78,9 @@ qtests_i386 = \
+    config_all_devices.has_key('CONFIG_Q35') and                                             \
+    config_all_devices.has_key('CONFIG_VIRTIO_PCI') and                                      \
+    slirp.found() ? ['virtio-net-failover'] : []) +                                          \
+-  (unpack_edk2_blobs ? ['bios-tables-test'] : []) +                                         \
++  (unpack_edk2_blobs and                                                                    \
++   config_all_devices.has_key('CONFIG_HPET') and                                            \
++   config_all_devices.has_key('CONFIG_PARALLEL') ? ['bios-tables-test'] : []) +             \
+   qtests_pci +                                                                              \
+   qtests_cxl +                                                                              \
+   ['fdc-test',
 -- 
 2.35.3
 
