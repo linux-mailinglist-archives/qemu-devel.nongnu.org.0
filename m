@@ -2,90 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 853B168BB21
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 12:18:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9AB868BB53
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 12:23:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOzVp-0002op-0K; Mon, 06 Feb 2023 06:18:17 -0500
+	id 1pOzZf-0004Dk-C4; Mon, 06 Feb 2023 06:22:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pOzVm-0002o2-A6
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 06:18:14 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pOzVk-0002U0-FW
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 06:18:14 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id n13so8387253wmr.4
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 03:18:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kp9wWGYlisByX/SGntQzjUtEe66S3uULw2QfqrHXT7Y=;
- b=ebcZGJD2m9/bvQ42+qEcfKHcpJOBW9XqvIjdQOB2tPtL+H6VlvJKQME/2Y8szQADTh
- DvA9aNTrNk3xginMurohb1iC3GTrHHqd0Hng9FCpcXnlDU1ZOfb9z8FKSbpwGAHXKNvE
- NPEnIBlOTrpffgXvXk4dxAm5HbPF1+8/kjd8DV0JmcYm63AVSgDGnHOZI91Dp9byhYSH
- 01l62sRm4j3kZs3G/HYefVL1FXqdAqyumx7FkUY7L3iuF9aqzAQnvY4BIYO03b7PhTJ8
- e0h8NnJjAgy9MUMQZir6EkT2PiiZQ45OXDPogVldQSlUbyowTEpD7E/sK08VMDIkPMKE
- AFHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kp9wWGYlisByX/SGntQzjUtEe66S3uULw2QfqrHXT7Y=;
- b=A9w2y+XJEkikLGEKOHKelxCtTLNVsDcBWBd6S54p5KRyFZcKaWNRq0MyRm198Blcgp
- InU2QoT8MtGBJSf1WPwt0JDNL+L5GsiQEju966wQXYEO9zTWEwUfeJ87KMzJsjfBVvyj
- d6qw7faxK9jxJTYxefrRbhBXXXJddaXEHzf51iRE8Oc6P5r51Pk20XzNpklIQKm+3fJI
- 60CFczEaKzYOGsa/bk7Mc/gRQ4O7GrcH9X/1BnvGEQGCVzyCzun3qjnIwyZwMq0ill22
- 5vKiFi985D+Qn5LMyHvXXLX74VDLpmXW16x9Uymy8K7EPApVPkts+D4O1+zKeurFiaKw
- Jftw==
-X-Gm-Message-State: AO0yUKXBQnKy3c+TJSwrBIuhcAxxET60aMUMaRDAvoNME4k64LmB0a7M
- lISy1Q+L/TeJy8EJKnqXF+P+Eg==
-X-Google-Smtp-Source: AK7set+RlM0y7XO4ihlwYduFQlG7u9sLgngAQVswrPlesHcMjiwdArGO34Jz2hyZoOsI82nt5q0t+A==
-X-Received: by 2002:a05:600c:43c5:b0:3dc:5674:66e6 with SMTP id
- f5-20020a05600c43c500b003dc567466e6mr19029897wmn.25.1675682289910; 
- Mon, 06 Feb 2023 03:18:09 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- he7-20020a05600c540700b003df5be8987esm13820781wmb.20.2023.02.06.03.18.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 03:18:08 -0800 (PST)
-Message-ID: <fe3b5794-be2a-eec7-9d4e-9a13eab48378@linaro.org>
-Date: Mon, 6 Feb 2023 12:18:06 +0100
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pOzZT-0004Cg-Q2
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 06:22:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pOzZR-0003Lq-N9
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 06:22:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675682520;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=X4/ItBPPJAnDvyXgl70Ve2C6m7UmhgLBo5CGA8m1l08=;
+ b=PaYIFJt5PGR4AyOMqBYP4O1wuqxJnKhY+pBQaQLKf0/KSbiECFEqpsAV4K6VzJyAaltRlu
+ LFtrr17DwbcUXdRHgxovlsbRLWPBuQN1UBncX/c+lOtZO1D7mvCSTgJMuMe1b7LkEiqS9S
+ yGk0JqHNlK42abq1zzYFihuD4lmFxfs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-477-qvNki5FAPr2dpYFyKrwwDQ-1; Mon, 06 Feb 2023 06:20:54 -0500
+X-MC-Unique: qvNki5FAPr2dpYFyKrwwDQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 33E7529ABA01;
+ Mon,  6 Feb 2023 11:20:54 +0000 (UTC)
+Received: from gshan.redhat.com (vpn2-54-63.bne.redhat.com [10.64.54.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4453E492B21;
+ Mon,  6 Feb 2023 11:20:48 +0000 (UTC)
+From: Gavin Shan <gshan@redhat.com>
+To: qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, peter.maydell@linaro.org,
+ peterx@redhat.com, david@redhat.com, philmd@linaro.org, mst@redhat.com,
+ cohuck@redhat.com, quintela@redhat.com, dgilbert@redhat.com,
+ maz@kernel.org, zhenyzha@redhat.com, shan.gavin@gmail.com
+Subject: [PATCH RFCv1 0/8] hw/arm/virt: Support dirty ring
+Date: Mon,  6 Feb 2023 19:20:02 +0800
+Message-Id: <20230206112010.99871-1-gshan@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 02/10] hw/riscv/virt: Add a switch to enable/disable ACPI
-Content-Language: en-US
-To: Andrea Bolognani <abologna@redhat.com>,
- Sunil V L <sunilvl@ventanamicro.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Andrew Jones <ajones@ventanamicro.com>,
- Anup Patel <apatel@ventanamicro.com>, Atish Kumar Patra
- <atishp@rivosinc.com>, Ani Sinha <ani@anisinha.ca>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster
- <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Bernhard Beschow <shentey@gmail.com>
-References: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
- <20230202045223.2594627-3-sunilvl@ventanamicro.com>
- <CABJz62PFGT1H-AArbfTkpiX24mHU=q3wk7h-bpduZhJyy7tTLw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <CABJz62PFGT1H-AArbfTkpiX24mHU=q3wk7h-bpduZhJyy7tTLw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,22 +76,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 6/2/23 11:54, Andrea Bolognani wrote:
-> On Thu, Feb 02, 2023 at 10:22:15AM +0530, Sunil V L wrote:
->> +    object_class_property_add(oc, "acpi", "OnOffAuto",
->> +                              virt_get_acpi, virt_set_acpi,
->> +                              NULL, NULL);
->> +    object_class_property_set_description(oc, "acpi",
->> +                                          "Enable ACPI");
-> 
-> The way this works on other architectures (x86_64, aarch64) is that
-> you get ACPI by default and can use -no-acpi to disable it if
-> desired. Can we have the same on RISC-V, for consistency?
+This series intends to support dirty ring for live migration. The dirty
+ring use discrete buffer to track dirty pages. For ARM64, the speciality
+is to use backup bitmap to track dirty pages when there is no-running-vcpu
+context. It's known that the backup bitmap needs to be synchronized when
+KVM device "kvm-arm-gicv3" or "arm-its-kvm" has been enabled. The backup
+bitmap is collected in the last stage of migration.
 
--no-acpi rather seems a x86-specific hack for the ISA PC machine, and
-has a high maintenance cost / burden.
+PATCH[1]    Synchronize linux-headers for dirty ring
+PATCH[2-3]  Introduce indicator of the last stage migration and pass it
+            all the way down
+PATCH[4-5]  Introduce secondary bitmap, corresponding to the backup bitmap
+PATCH[6-8]  Enable dirty ring for hw/arm/virt
 
-If hardware provides ACPI support, QEMU should expose it to the guest.
+Testing
+=======
+(1) kvm-unit-tests/its-pending-migration and kvm-unit-tests/its-migration with
+    dirty ring or normal dirty page tracking mechanism. All test cases passed.
 
-Actually, what is the value added by '-no-acpi'?
+    QEMU=./qemu.main/build/qemu-system-aarch64 ACCEL=kvm \
+    ./its-pending-migration
+
+    QEMU=./qemu.main/build/qemu-system-aarch64 ACCEL=kvm \
+    ./its-migration
+
+    QEMU=./qemu.main/build/qemu-system-aarch64 ACCEL=kvm,dirty-ring-size=65536 \
+    ./its-pending-migration
+
+    QEMU=./qemu.main/build/qemu-system-aarch64 ACCEL=kvm,dirty-ring-size=65536 \
+    ./its-migration
+
+(2) Combinations of migration, post-copy migration, e1000e and virtio-net
+    devices. All test cases passed.
+
+    -netdev tap,id=net0,script=/etc/qemu-ifup,downscript=/etc/qemu-ifdown  \
+    -device e1000e,bus=pcie.5,netdev=net0,mac=52:54:00:f1:26:a0
+
+    -netdev tap,id=vnet0,script=/etc/qemu-ifup,downscript=/etc/qemu-ifdown \
+    -device virtio-net-pci,bus=pcie.6,netdev=vnet0,mac=52:54:00:f1:26:b0
+
+Gavin Shan (8):
+  linux-headers: Update for dirty ring
+  memory: Add last stage indicator to global dirty log synchronization
+  migration: Add last stage indicator to global dirty log
+    synchronization
+  kvm: Introduce secondary dirty bitmap
+  kvm: Synchronize secondary bitmap in last stage
+  kvm: Add helper kvm_dirty_ring_init()
+  hw/arm/virt: Enable backup bitmap for dirty ring
+  kvm: Enable dirty ring for arm64
+
+ accel/kvm/kvm-all.c           | 138 ++++++++++++++++++++++++----------
+ hw/arm/virt.c                 |  26 +++++++
+ include/exec/memory.h         |   5 +-
+ include/sysemu/kvm_int.h      |   1 +
+ linux-headers/asm-arm64/kvm.h |   1 +
+ linux-headers/linux/kvm.h     |   2 +
+ migration/dirtyrate.c         |   4 +-
+ migration/ram.c               |  20 ++---
+ softmmu/memory.c              |  10 +--
+ target/arm/kvm64.c            |  25 ++++++
+ target/arm/kvm_arm.h          |  12 +++
+ 11 files changed, 185 insertions(+), 59 deletions(-)
+
+-- 
+2.23.0
+
 
