@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883DF68BA33
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 11:31:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71ECD68BA3E
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 11:32:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOylj-0007Eo-Ne; Mon, 06 Feb 2023 05:30:39 -0500
+	id 1pOynT-0008Qv-22; Mon, 06 Feb 2023 05:32:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pOylf-000769-Ob
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 05:30:36 -0500
-Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130])
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pOynQ-0008QR-Gd; Mon, 06 Feb 2023 05:32:24 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pOyle-0002vL-8L
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 05:30:35 -0500
-Received: by mail-lf1-x130.google.com with SMTP id f34so16918834lfv.10
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 02:30:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pOynO-0003DQ-Va; Mon, 06 Feb 2023 05:32:24 -0500
+Received: by mail-ed1-x532.google.com with SMTP id i38so89891eda.1;
+ Mon, 06 Feb 2023 02:32:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bLERtPt6D0Jqj6BR7px4gZn3LTlgUSsijfxCMNYTU0I=;
- b=O4+UwhyTaY60u8OTeS3z+GnlHmBvEnOiSajG8JL/b+aQcvMO+BTc55X+k17jnapuCq
- KFJNIAbjI/FFeH6K/3J9+Q3QmRefFa2ORdTgSwg81aJwIfgE4ogSc63/UpKVKFnD1Pcb
- wOQrEjOnm1HGigb0buCeBlIACXdyS7he3b+Qv3nx0OkHmG6izAHt3Nv9INn/yMan1a8f
- yy9/mO1jqKymD91E7HMSqkSCZoeXe03EADDQVommCSp5I2LP3dyKxFGqDjsZ9HW1eXrS
- VKJJmG4BVyic2czBSAg4lgxNWqRb1dQZ/gL/VgZo/tDFeuS4XBYGTMQGcVR0NAoXfGOq
- bq5A==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=dArcDlWoyKNn9ifB/wYJ9q/rMZwn4bHSIasEtB4JElw=;
+ b=DH1CFyMGoibFfOm911/d5qDviAcmq5gJFf/ZQn83bb2Gym6QWyUklwT/Nj7npAmDo8
+ j/UVjjwS71zzGxHB9uvYMpvZ6DRrI1xb2d89xskwFFCPf2aTUWLjn4Idg7ZYO9pYTotZ
+ ObdQ0Xv7c7gZj/z64i5k58GRC0K8gJic+Gn3Ebu1uOqZUQ2mrJC6GKWkjRzThS0CPD7e
+ dkfHgaCMMsw2TjLvOngpbzU4ixd3Lnw4eFHWM1I1V33GpceKO7MG4pqnGIcotGEW0Zlv
+ PtXEJJXfIi2vXtztxdnJgyTZMoizZ9/Re0z7TaSeke3whqCq8YUaz8s7HAp3Ge9uc25x
+ hPIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bLERtPt6D0Jqj6BR7px4gZn3LTlgUSsijfxCMNYTU0I=;
- b=Z3mki9NW6hJivu6MQSTGdL+Ntt3gc7A2OCQCNAqK3F8q0MH8sqmlSHjSwywsk5TSWG
- uXjpHzj64rwM817fNBWwY+2nXwk0jjFxt5hdrdCAnzisTALHmCHHDyZoBVnkKYeZh2zf
- OVFnMhCCanlIlqulxZYLkwOjx5wG71vx7aAtxEHZJNojrk7jax/neZfAUovy4b9waxHt
- PrmX9mJr/gYePpRsL3L7Y+vCnhsQMQsx5/fh8/vGHJILYFUKnHLsZiQxRF2iaP7gZmC3
- NlMg3Q3tt3RAf3/z8Bb50P+uuUlc3WxQzdoIA0B6ssUpXO9CEpwFLfI/nBnZ5Pp8Gu3i
- g5ZA==
-X-Gm-Message-State: AO0yUKVIUxTh204Bzes2gTo9YiFNedhrWPWgJlnZd2lz2tbPbgykABu6
- ce8Il2YDbc0WgWvhpHvZcyqfEL99tIkUPXHG5hc=
-X-Google-Smtp-Source: AK7set/2UJ5qIve2Yk7n2ipmT4P1emOmjw/Z3mY2c9CTyFFOygNQrarpqK9hhT8PqOsVya4Q0AJiM8U7hY1ksO0be2M=
-X-Received: by 2002:a05:6512:3990:b0:4d5:82bb:7d39 with SMTP id
- j16-20020a056512399000b004d582bb7d39mr2409964lfu.129.1675679432052; Mon, 06
- Feb 2023 02:30:32 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dArcDlWoyKNn9ifB/wYJ9q/rMZwn4bHSIasEtB4JElw=;
+ b=ehcgDFNSlCCnqqdBS1cDDk0zzOcPfVVYb/r1CYQ+MjG9fkF/KQ5Rd3qpJ3EH0nIFHF
+ xhJDACKK6VuNHtXGmvho3kmzx4HZOH4FA9Cpb3j7IHqyCdn4eGSuELX1Dbng040NXTP1
+ 8FzYwK/Sa3jrw1eSb6m2va2mcP4gJ7Y+yNni8CRj6nFDLnnZH60C5iyTauSdJy6i3S1j
+ UXuxEQG3f/QxU0gVWUIo/W1Ghr3vuMo20zvjh6cqMM5cFR2zAGaCes6ts+ta1mHIJtnz
+ q/zUM/5yGlbLVqab0zyuKzQ3O2Q21vQFp47XjbZf8BU90WugWHEFxXl7B3JSI4UR+VpE
+ iZzw==
+X-Gm-Message-State: AO0yUKWESxJwBsaZTtfnzbkGgAxJKC2CWD0yrRDiPsI4jdEzX5XDE6gt
+ bUfHTYoBYLodMYc1tOzbJuZmgBzT7U0iMx+Yp7xRVCIcLbo=
+X-Google-Smtp-Source: AK7set/dtMYAoxmRWTX7XaStXKp/QjHEfOhqpoMZqbvRI7PezWI8m+u8mVCOYBUN3GdGdx+z1rDIf14s5LUz+Z4SQEI=
+X-Received: by 2002:a50:d5c9:0:b0:4a2:121d:1d3d with SMTP id
+ g9-20020a50d5c9000000b004a2121d1d3dmr5848044edj.82.1675679541113; Mon, 06 Feb
+ 2023 02:32:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20230206102037.3621709-1-armbru@redhat.com>
-In-Reply-To: <20230206102037.3621709-1-armbru@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 6 Feb 2023 14:30:20 +0400
-Message-ID: <CAJ+F1C+sq1tpNAxyuX4N4pu+T8fnUci-0ComM80ozKv+zg9Y+A@mail.gmail.com>
-Subject: Re: [PATCH] meson: Avoid duplicates in generated config-poison.h again
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com
+References: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
+ <20230202045223.2594627-10-sunilvl@ventanamicro.com>
+In-Reply-To: <20230202045223.2594627-10-sunilvl@ventanamicro.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 6 Feb 2023 18:32:09 +0800
+Message-ID: <CAEUhbmUj3k0ARs06wH32qMDfxzuNdLQxTH=pO9doeS64ieFAdQ@mail.gmail.com>
+Subject: Re: [PATCH 09/10] hw/riscv/virt.c: Initialize the ACPI tables
+To: Sunil V L <sunilvl@ventanamicro.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Andrew Jones <ajones@ventanamicro.com>, Anup Patel <apatel@ventanamicro.com>, 
+ Atish Kumar Patra <atishp@rivosinc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::130;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x130.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,37 +85,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 6, 2023 at 2:21 PM Markus Armbruster <armbru@redhat.com> wrote:
+On Thu, Feb 2, 2023 at 12:53 PM Sunil V L <sunilvl@ventanamicro.com> wrote:
 >
-> Commit eed56e9a89f "configure, meson: move config-poison.h to meson"
-> lost a "| sort -u".  Restore it.  config-poison shrinks from ~4500 to
-> ~700 lines when all targets are enabled.
+> When the "acpi=on", ACPI tables need to be added. Detect the option
+> and initialize the ACPI tables.
 >
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 > ---
->  scripts/make-config-poison.sh | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/make-config-poison.sh b/scripts/make-config-poison.s=
-h
-> index d222a04304..1892854261 100755
-> --- a/scripts/make-config-poison.sh
-> +++ b/scripts/make-config-poison.sh
-> @@ -13,4 +13,4 @@ exec sed -n \
->    -e    's///' \
->    -e    's/ .*//' \
->    -e    's/^/#pragma GCC poison /p' \
-> -  -e '}' "$@"
-> +  -e '}' "$@" | sort -u
-> --
-> 2.39.0
->
+>  hw/riscv/virt.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 >
 
-
---=20
-Marc-Andr=C3=A9 Lureau
+Reviewed-by: Bin Meng <bmeng@tinylab.org>
 
