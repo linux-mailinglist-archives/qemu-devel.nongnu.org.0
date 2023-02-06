@@ -2,87 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DA2A68B725
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 09:14:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D17C468B73F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 09:24:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOwd8-0007F2-Qk; Mon, 06 Feb 2023 03:13:39 -0500
+	id 1pOwmt-0000In-71; Mon, 06 Feb 2023 03:23:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pOwd7-0007Ek-5z
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 03:13:37 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pOwd5-0004De-Hr
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 03:13:36 -0500
-Received: by mail-wr1-x435.google.com with SMTP id h16so9503245wrz.12
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 00:13:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=qNb/+AfMQDxEHzS4d4py5Qy9gK3cNQ7mJLJN52tqhd8=;
- b=XnPZikqSgr3c4fHT+XpaGWp7tubb4eHyXj9MJ3alGhL05IWR87bZLr1hRaIZHfBFNU
- DZd8qj313W+AdOdZ/Nvf98vchpm2Gy/sVcgLdFFgjzzqUpBIY0FO5eo1dXRbYaMNnm/P
- fnEPYSDKux9nZbgRE6EWT7IQHmhI42u3zfhabS8+8MYERuIzkTfUcBwwMRCDyeiqwPPK
- X55xwZ9IQrDAv3z8jf30Wck5/EBSYVHX7WcSrmNh2PwPaRPJlm6SeD0KJOkggPPWmeUy
- z+rlDumK3QK/BJjR/0NcOeexitet8zawhiOqSkFS92Lk7jGIB0NmJgGPL+DO5VWcUzmf
- 82Gg==
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1pOwmo-0000IY-OM
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 03:23:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1pOwmn-0005yC-2z
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 03:23:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675671815;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=T0OpMXp15UlrsUv+Kaa9AX/d5XBD023859CWToXau0I=;
+ b=L40BQPOyHlf/yAUgf84trabosYSONRHRj20O7A/+V2KVh3F+VlLew9+GUu9+NtLtrzQln6
+ Z8u5oP1oxkw2HfwiSmBZvLNunGTY/WnOkjGVRHYutG9PYD615p0HapyaRk4EnIATJa5pnw
+ ug8Fahsivc4Mm+4lPA8G8fg36Pb5hdM=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-577-VF4-NCN-MSioPfP_ek9hjA-1; Mon, 06 Feb 2023 03:23:34 -0500
+X-MC-Unique: VF4-NCN-MSioPfP_ek9hjA-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ g22-20020a05620a13d600b00726e7ad3f44so7348281qkl.8
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 00:23:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qNb/+AfMQDxEHzS4d4py5Qy9gK3cNQ7mJLJN52tqhd8=;
- b=TQNSfttcsxJk/X266m8rJHuioqzLuTB1RcqRpN4lO36VHSXp4jUrept/buI4S5YP9+
- gITMd9COl1vmEEt44rOCuy3hcdIZB67vCT8r0Y1D5AWm/SLHVMmOpzyMsQF3GgK8a9WO
- 5RC3AyuT8EmUznNHCrNcXovm3ARlj8+m4A60TcQ6INiyc55OeA1AxAepqTFhc46nH9a5
- uDDtmAE1YvsYB41vn3a6FjIxkdALoNF9PLEyJiA8Zb5MTQHklSMYMsWh3MA0uGDS7hND
- IWL6hz459MpisPYQqhZYRnIAc2sfOuzuwuItkMGI2Yn3A9Vmq/CoQ/8p2By2TzpDdG3Q
- sjtQ==
-X-Gm-Message-State: AO0yUKX0AQo6fRN/AXx+kuq0rDsW5qpwfbX6lQ9+1n90PrIDo8Oazk/h
- fsCP+tduG3JNGnK9wXjYPBqFVw==
-X-Google-Smtp-Source: AK7set8C4ObNbZyy3JgdIFXrtHiMj2zQx2i17TbLGHdc7Paw8hAYxeqe5h+GuO+eQwg/O+I9XZAEOg==
-X-Received: by 2002:a5d:514b:0:b0:2c3:e88c:d80c with SMTP id
- u11-20020a5d514b000000b002c3e88cd80cmr2052048wrt.44.1675671214071; 
- Mon, 06 Feb 2023 00:13:34 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- bw17-20020a0560001f9100b002be25db0b7bsm8276470wrb.10.2023.02.06.00.13.32
+ bh=T0OpMXp15UlrsUv+Kaa9AX/d5XBD023859CWToXau0I=;
+ b=6eLNSJQqYDerEW9mBJ6jh/ZqVixhYiHt38cB3DzAL+UVOG6W/bfACPa4uJHZKzw3/b
+ WQ7sMlcrdA5zswm4x5mgGz8F8jyGdq3qWXSjU/JRLLSAx5CBkLrUnFsu0ZZyExej9du5
+ nOp4qaXi1fYXnUw3glFJ5RK+ODS9Ms4RdDdHBLXBuk3RPCJR6yMWD5fvsvOh2E4c71Og
+ qrLB5eRdecxSmlhCDxIvhYBhCEhOjeFq4a1zNA4uHz7HM3Uwgx32Y+Vi933L53tq/V6G
+ DZG4i/jHG9X5e4kUOlHJnARykxI1zxJ7b32DwHLR6DqPl7Oea6Qn8ozMnGVCd2sWg7uG
+ bnHg==
+X-Gm-Message-State: AO0yUKVSVO7TLIpJgbB7HGWy4IcGRYDgHmpjnyP4Q+5tkP4Z+wAnfZFy
+ pE+wUyEKNWmc1XxwcTh2R/WL+2fO0ID1llEwOWigIieDi1en64cY+/5O7rz5dvMXnMxFO8344V6
+ GDMjegJJSJOA9YpA=
+X-Received: by 2002:ac8:5847:0:b0:3b8:61df:e298 with SMTP id
+ h7-20020ac85847000000b003b861dfe298mr33548843qth.3.1675671814243; 
+ Mon, 06 Feb 2023 00:23:34 -0800 (PST)
+X-Google-Smtp-Source: AK7set/npHIUM5cw7jnVy1GaKN2+sTdPpGD0lhU3jBVFqSZSXUrItVYeQDtEWzpdUUsevJSdoKAYAw==
+X-Received: by 2002:ac8:5847:0:b0:3b8:61df:e298 with SMTP id
+ h7-20020ac85847000000b003b861dfe298mr33548827qth.3.1675671813998; 
+ Mon, 06 Feb 2023 00:23:33 -0800 (PST)
+Received: from [192.168.100.30] ([82.142.8.70])
+ by smtp.gmail.com with ESMTPSA id
+ m28-20020a05620a13bc00b006fec1c0754csm6888650qki.87.2023.02.06.00.23.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 00:13:33 -0800 (PST)
-Message-ID: <83359feb-bcfa-31d7-e116-36f509a7abe2@linaro.org>
-Date: Mon, 6 Feb 2023 09:13:31 +0100
+ Mon, 06 Feb 2023 00:23:33 -0800 (PST)
+Message-ID: <e076fc9f-c0fb-f871-559c-faa968418340@redhat.com>
+Date: Mon, 6 Feb 2023 09:23:31 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 2/9] tests: fix test-io-channel-command on win32
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PULL 00/11] Net patches
 Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: Stefan Weil <sw@weilnetz.de>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20230129182414.583349-1-marcandre.lureau@redhat.com>
- <20230129182414.583349-3-marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230129182414.583349-3-marcandre.lureau@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+References: <20230202062126.67550-1-jasowang@redhat.com>
+ <CAFEAcA8TbQFZTG_M3djxiXD+42y8C=QtXrfO9jVEOY4V1PAGGA@mail.gmail.com>
+ <fe517a25-b7fc-3227-fb1b-b10be66898f0@redhat.com>
+ <CAFEAcA9Z4G74W8k4t3=+vJ5x-W6Skuq_rjbxEj7GHq+7BWEeug@mail.gmail.com>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <CAFEAcA9Z4G74W8k4t3=+vJ5x-W6Skuq_rjbxEj7GHq+7BWEeug@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.149, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,18 +104,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 29/1/23 19:24, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 2/5/23 13:36, Peter Maydell wrote:
+> On Sat, 4 Feb 2023 at 20:09, Laurent Vivier <lvivier@redhat.com> wrote:
+>>
+>> On 2/4/23 15:57, Peter Maydell wrote:
+>>> On Thu, 2 Feb 2023 at 06:21, Jason Wang <jasowang@redhat.com> wrote:
+>>>>
+>>>> The following changes since commit 13356edb87506c148b163b8c7eb0695647d00c2a:
+>>>>
+>>>>     Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2023-01-24 09:45:33 +0000)
+>>>>
+>>>> are available in the git repository at:
+>>>>
+>>>>     https://github.com/jasowang/qemu.git tags/net-pull-request
+>>>>
+>>>> for you to fetch changes up to 2bd492bca521ee8594f1d5db8dc9aac126fc4f85:
+>>>>
+>>>>     vdpa: fix VHOST_BACKEND_F_IOTLB_ASID flag check (2023-02-02 14:16:48 +0800)
+>>>>
+>>>> ----------------------------------------------------------------
+>>>
+>>> Something weird has happened here -- this pullreq is trying to
+>>> add tests/qtest/netdev-socket.c, but it already exists in the
+>>> tree and doesn't have the same contents as the version in your
+>>> pull request.
+>>>
+>>> Can you look at what's happened here and fix it up, please ?
+>>
+>> Thomas and Jason have queued the patch:
+>>
+>>     tests/qtest: netdev: test stream and dgram backends
+>>
+>> For Jason it's because it's needed by
+>>
+>>     net: stream: add a new option to automatically reconnect
+>>
+>> For me, both patches (in tree and Jason's one) are identical to my v7
+>> (except the one that is merged does not have Thomas' acked-by).
 > 
-> socat "PIPE:"" on Windows are named pipes, not fifo path names.
-> 
-> Fixes: commit 68406d10859 ("tests/unit: cleanups for test-io-channel-command")
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->   tests/unit/test-io-channel-command.c | 6 ++++++
->   1 file changed, 6 insertions(+)
+> When I tried to merge the pullreq I got conflicts because they
+> weren't the same, notably in the set of #include lines.
 
-This doesn't apply cleanly on top of c906e6fbaa ("tests/unit: drop hacky
-race avoidance in test-io-channel-command").
+The differences in the file are introduced by the following patch 10/11:
+
+5b28ced1bc6d net: stream: add a new option to automatically reconnect
+
+Thanks,
+Laurent
 
 
