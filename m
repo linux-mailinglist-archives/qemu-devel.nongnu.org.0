@@ -2,88 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18BCD68BD03
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 13:36:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CF068BD11
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 13:40:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP0jA-0004fK-5I; Mon, 06 Feb 2023 07:36:09 -0500
+	id 1pP0mZ-0006Wy-AR; Mon, 06 Feb 2023 07:39:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pP0in-0004W8-Dk
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:35:48 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pP0m8-0006Ss-Ha
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:39:16 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pP0ij-0001Iz-Dv
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:35:42 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pP0m3-0001lc-5R
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:39:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675686937;
+ s=mimecast20190719; t=1675687144;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=SR3JdnlJDOw/nUy9InxCO4dantX6P96RUrHJEt4/XbQ=;
- b=iZQ4p1fLqaCd3bTnj2XTnTA1oFRxGbz6K5+0RnAYfz2qYQrq4B5puGIrm5CFSQlqJfKy1P
- K564XZVvILg/DYSqZiPFuO8Ihov8drQfhtB/ZGF9FOE193MaPcTAnXMa9Jh+w5iirV/Jwn
- UFV/F7CLa3qgWNqhphfVnTsxpPvedSo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Y0Climxmd80gPJCZb9kfYYkitkINiIJLh9XX7tfV0B0=;
+ b=aquDf8Nf13gCxCkWWU938sY9MWGPMw81vwLT9d19ZepWXSypW3suCUUQWnTzl9TpZ+nsJa
+ r8FsnwTJAMRBam8QkJtxFy13V5Ecr483h/FheX0XUXNAtr3D5Auz6FQduRuHzkiyEnKe0C
+ 0waarZFkSXpUfBiUrcUzzlflM/9mL9Q=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-626-IpbriS13OdmS134QB5z67A-1; Mon, 06 Feb 2023 07:35:35 -0500
-X-MC-Unique: IpbriS13OdmS134QB5z67A-1
-Received: by mail-wm1-f71.google.com with SMTP id
- fl9-20020a05600c0b8900b003dfe4bae099so5251578wmb.0
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 04:35:35 -0800 (PST)
+ us-mta-198-A10R-pzvNWCwxC8-CjL4ag-1; Mon, 06 Feb 2023 07:39:03 -0500
+X-MC-Unique: A10R-pzvNWCwxC8-CjL4ag-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ cs17-20020ad44c51000000b0056c02b4bf4aso54427qvb.4
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 04:39:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:from:content-language
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=SR3JdnlJDOw/nUy9InxCO4dantX6P96RUrHJEt4/XbQ=;
- b=6Y/hAGVlUXX2Enb4CJwmi5+TkjVunColZ563etrUyppYnAC4OfkG8kUrsz0FwK0vXN
- PLsqRe/OgAv5i5C2CJh5jdHKIsdSdxkqg3KujK7JuKhnHMI86GvoXxBYKubsjsNIsYTI
- gcH3G1FH7hmwQdd153jDzZKnG0j9Qd6LLtWCWr+hXYwHR+frGRBktzifBG+7ABo5gfNT
- r8uGLDcsdB+NWCx1OrIGRzBx1RxAG2Lvhp2q+bPuhTTByv2bfqaFenhYIywQiTBO/Huq
- ivzoyC1MBvTdhWdMmJouIImpdLMf8fiazYku+WnDNNRmx8RjOhEaPVQkX632B8481p0R
- Jieg==
-X-Gm-Message-State: AO0yUKVehZ8ttXWlX4actqwWl1e54vJngFOEncD00gaRuNeodV8uctfu
- 6wpRmm3CrIzez9Z/DIizX7JkHNniEyT6TQxM0x4W49ZkbCfxSLOxmRwoV2F9FLcgiAtWSRLXwQ4
- ioj2+9v5L6N5kCD8=
-X-Received: by 2002:a05:600c:c17:b0:3dc:3b29:7a4 with SMTP id
- fm23-20020a05600c0c1700b003dc3b2907a4mr10753339wmb.0.1675686934561; 
- Mon, 06 Feb 2023 04:35:34 -0800 (PST)
-X-Google-Smtp-Source: AK7set9D7pyiU9jOWUcPz9N7w1qY93NaIfbMe0L/MK6sDyCwEy/nWXu/qYoGgZ5rSbew64yWqQgu1Q==
-X-Received: by 2002:a05:600c:c17:b0:3dc:3b29:7a4 with SMTP id
- fm23-20020a05600c0c1700b003dc3b2907a4mr10753333wmb.0.1675686934422; 
- Mon, 06 Feb 2023 04:35:34 -0800 (PST)
-Received: from ?IPV6:2003:cf:d72e:fd7:26ff:71e9:ed84:bdc0?
- (p200300cfd72e0fd726ff71e9ed84bdc0.dip0.t-ipconnect.de.
- [2003:cf:d72e:fd7:26ff:71e9:ed84:bdc0])
- by smtp.gmail.com with ESMTPSA id
- z17-20020a7bc7d1000000b003dc3f07c876sm16250503wmk.46.2023.02.06.04.35.33
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y0Climxmd80gPJCZb9kfYYkitkINiIJLh9XX7tfV0B0=;
+ b=6ipPTPIvdxj7NsF/wiaJ5HNWRVVR+fX7fqVpj2poyY6GreqsqaXXc80hajy02WtrWr
+ JoFuFujwIulxjHuuKzScUBs1K9peOFUDosxlwJiJ8DY1+s6PZ3jSjfsPEO/5KKAdSux+
+ mV9TE67sHFtWuZyG0BQWvvJdIy2VG8d6p/0v8aAvvujdSy6RdGWdjzCeALkSKOUy5hG7
+ 6fVb4sTDtILP5ZErTTBwXi9S6liXM3+OpZflzjsJrNNk+zle9yapV4zYKNm60YTkCx2+
+ xxZrZbM1yF3bdPhhXolDeCdEfNSjVKCM6pmiKUcGn13/NM6jw7TUj1bNvFj2o04+xbNv
+ C9bg==
+X-Gm-Message-State: AO0yUKWQwkOfU0/7wSWbTZozXc+0jyHBlSMGbS39LKe5/LIQzW1sWEnA
+ r5/HCNnu77waEGJxM1ZBoJK98zwUEDdlcR1HOToV2HeK1h7z7nQMWD6gfHLiCGAgneARq14Rh/W
+ 8VXTC4t9NKiy/u/4=
+X-Received: by 2002:a05:622a:491:b0:3b9:bd05:bdf1 with SMTP id
+ p17-20020a05622a049100b003b9bd05bdf1mr32230877qtx.14.1675687142673; 
+ Mon, 06 Feb 2023 04:39:02 -0800 (PST)
+X-Google-Smtp-Source: AK7set8RJUU66GhEeiPWpfV8qSkiLHe6iumVprXheEBwrWwN+C0Y2B4J1cbBOXtModm3cWIW9aXBOA==
+X-Received: by 2002:a05:622a:491:b0:3b9:bd05:bdf1 with SMTP id
+ p17-20020a05622a049100b003b9bd05bdf1mr32230838qtx.14.1675687142434; 
+ Mon, 06 Feb 2023 04:39:02 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-71.web.vodafone.de.
+ [109.43.177.71]) by smtp.gmail.com with ESMTPSA id
+ o11-20020ac8698b000000b003b9f1b7895asm7120008qtq.10.2023.02.06.04.38.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 04:35:33 -0800 (PST)
-Message-ID: <fb523956-7a8c-608b-6db1-961686b73e9c@redhat.com>
-Date: Mon, 6 Feb 2023 13:35:33 +0100
+ Mon, 06 Feb 2023 04:39:01 -0800 (PST)
+Message-ID: <cce946c3-aa78-b9a2-79af-a2cf1ce32355@redhat.com>
+Date: Mon, 6 Feb 2023 13:38:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
+ Thunderbird/91.13.0
 Content-Language: en-US
-From: Hanna Czenczek <hreitz@redhat.com>
-Subject: vhost-user (virtio-fs) migration: back end state
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: virtio-fs-list <virtio-fs@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ nsg@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230201132051.126868-1-pmorel@linux.ibm.com>
+ <20230201132051.126868-10-pmorel@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v15 09/11] machine: adding s390 topology to query-cpu-fast
+In-Reply-To: <20230201132051.126868-10-pmorel@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,40 +105,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Stefan,
+On 01/02/2023 14.20, Pierre Morel wrote:
+> S390x provides two more topology containers above the sockets,
+> books and drawers.
 
-For true virtio-fs migration, we need to migrate the daemon’s (back 
-end’s) state somehow.  I’m addressing you because you had a talk on this 
-topic at KVM Forum 2021. :)
+books and drawers are already handled via the entries in 
+CpuInstanceProperties, so this sentence looks like a wrong leftover now?
 
-As far as I understood your talk, the only standardized way to migrate a 
-vhost-user back end’s state is via dbus-vmstate.  I believe that 
-interface is unsuitable for our use case, because we will need to 
-migrate more than 1 MB of state.  Now, that 1 MB limit has supposedly 
-been chosen arbitrarily, but the introducing commit’s message says that 
-it’s based on the idea that the data must be supplied basically 
-immediately anyway (due to both dbus and qemu migration requirements), 
-and I don’t think we can meet that requirement.
+I'd suggest talking about "dedication" and "polarity" instead?
 
-Has there been progress on the topic of standardizing a vhost-user back 
-end state migration channel besides dbus-vmstate?  I’ve looked around 
-but didn’t find anything.  If there isn’t anything yet, is there still 
-interest in the topic?
+> Let's add these CPU attributes to the QAPI command query-cpu-fast.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>   qapi/machine.json          | 13 ++++++++++---
+>   hw/core/machine-qmp-cmds.c |  2 ++
+>   2 files changed, 12 insertions(+), 3 deletions(-)
+> 
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index 3036117059..e36c39e258 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -53,11 +53,18 @@
+>   #
+>   # Additional information about a virtual S390 CPU
+>   #
+> -# @cpu-state: the virtual CPU's state
+> +# @cpu-state: the virtual CPU's state (since 2.12)
+> +# @dedicated: the virtual CPU's dedication (since 8.0)
+> +# @polarity: the virtual CPU's polarity (since 8.0)
+>   #
+>   # Since: 2.12
+>   ##
+> -{ 'struct': 'CpuInfoS390', 'data': { 'cpu-state': 'CpuS390State' } }
+> +{ 'struct': 'CpuInfoS390',
+> +    'data': { 'cpu-state': 'CpuS390State',
+> +              'dedicated': 'bool',
+> +              'polarity': 'int'
+> +    }
+> +}
+>   
+>   ##
+>   # @CpuInfoFast:
+> @@ -70,7 +77,7 @@
+>   #
+>   # @thread-id: ID of the underlying host thread
+>   #
+> -# @props: properties describing to which node/socket/core/thread
+> +# @props: properties describing to which node/drawer/book/socket/core/thread
 
-Of course, we could use a channel that completely bypasses qemu, but I 
-think we’d like to avoid that if possible.  First, this would require 
-adding functionality to virtiofsd to configure this channel.  Second, 
-not storing the state in the central VM state means that migrating to 
-file doesn’t work (well, we could migrate to a dedicated state file, 
-but...).  Third, setting up such a channel after virtiofsd has sandboxed 
-itself is hard.  I guess we should set up the migration channel before 
-sandboxing, which constrains runtime configuration (basically this would 
-only allow us to set up a listening server, I believe).  Well, and 
-finally, it isn’t a standard way, which won’t be great if we’re planning 
-to add a standard way anyway.
+I think this hunk should rather be moved to patch 1 now.
 
-Thanks!
-
-Hanna
+  Thomas
 
 
