@@ -2,108 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B83C068BF7A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 15:05:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 521FB68BFA4
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 15:11:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP274-0002lp-RY; Mon, 06 Feb 2023 09:04:54 -0500
+	id 1pP2Cb-000619-Vw; Mon, 06 Feb 2023 09:10:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pP26S-0002QC-8w; Mon, 06 Feb 2023 09:04:32 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pP26P-0001AB-Po; Mon, 06 Feb 2023 09:04:15 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 316DqLdx023077; Mon, 6 Feb 2023 14:04:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=xzpay8012wESMgTwYYcShoD2Y6VLzutxD8kLXGl4dVY=;
- b=jevi4V+xLmRgXUTzn5j2hDtRzuOpPXUyhSriHAlLstgsGp6xYcRTkdwRTh7Mirxspu08
- whYt1Hv1DIwC6wIy8iN/R5uWwapfnjKjVUSwq4qwBm/zulapsSJinnwsV3UpmYs2ZLkU
- 7SgIfp1lsBnL9QMFQR/R3UKZUalhPH4aIw7URDSEice2wGbNl0WtwmwVhHo9NJ95FhO3
- gwpWIEnYHzrqcnUBQo3WcQzkr9eoSvJgDAQMTHujkGpVBxiofD2NmWLLwcfgccw+05zx
- 8gxQgGgYqKrGKN8R3FHs7Kd67vwVL2aIz/Ck7oY01821/mMa+xXGtw/0oxWFzveft9il qg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nk1abkjwj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Feb 2023 14:04:02 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 316DqMOm023183;
- Mon, 6 Feb 2023 14:04:01 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nk1abkjuc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Feb 2023 14:04:01 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3160Hbb8023711;
- Mon, 6 Feb 2023 14:03:58 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3nhf06tg3a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Feb 2023 14:03:58 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 316E3sCJ47710464
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 6 Feb 2023 14:03:54 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 41C3B20049;
- Mon,  6 Feb 2023 14:03:54 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9C64120043;
- Mon,  6 Feb 2023 14:03:52 +0000 (GMT)
-Received: from [9.171.30.242] (unknown [9.171.30.242])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon,  6 Feb 2023 14:03:52 +0000 (GMT)
-Message-ID: <16114dce-778c-1416-5b68-4ee3bea135c0@linux.ibm.com>
-Date: Mon, 6 Feb 2023 15:03:52 +0100
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP2CX-0005zd-PY
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 09:10:33 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP2CV-0002Zh-U3
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 09:10:33 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 43D2833CF9;
+ Mon,  6 Feb 2023 14:10:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1675692628; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=AR45YYrvUz2H1u7poKdPcRr/QLsI/6t2WOIwBcJW2YY=;
+ b=yubnneXpKSCSfYvQKCpYTspEmdmA4wE9Pjm7et9/V0zIUqAvWMswU0VhdvtTVf/CyEX89h
+ kNc7qduBhWg5/yWvi7YX16Hjd4zShfJkAtIa5ifgI8/0f00Wi+93Op+QzLyJ3YC+3AHURG
+ rEUAlbReSCNSLj2U1hMnvI3AFlXM6CI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1675692628;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=AR45YYrvUz2H1u7poKdPcRr/QLsI/6t2WOIwBcJW2YY=;
+ b=fvnrz0OFkQwTK9UF4H0QOwiOzEomnewLk1Cw6MD3P3hzuJH+K15JEUofHZIt0HdHZ2KHBj
+ d5JM+Ukizarb6XDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 519F1138E7;
+ Mon,  6 Feb 2023 14:10:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id aYB3BlMK4WOgQAAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 06 Feb 2023 14:10:27 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>
+Subject: [PATCH 00/10] Kconfig vs. default devices
+Date: Mon,  6 Feb 2023 11:07:59 -0300
+Message-Id: <20230206140809.26028-1-farosas@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v15 08/11] qapi/s390x/cpu topology: x-set-cpu-topology
- monitor command
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- nsg@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230201132051.126868-1-pmorel@linux.ibm.com>
- <20230201132051.126868-9-pmorel@linux.ibm.com>
- <92f02547-569f-2ea8-455b-585dcfaa2a74@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <92f02547-569f-2ea8-455b-585dcfaa2a74@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: opO_5MRFf3_4T8d4ncLufMD94s8HqUXO
-X-Proofpoint-GUID: 8xcTxdwJzj301Z_0wyhNSN1zM1MPjTSn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-06_07,2023-02-06_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0
- lowpriorityscore=0 malwarescore=0 suspectscore=0 bulkscore=0
- impostorscore=0 spamscore=0 mlxscore=0 priorityscore=1501 phishscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302060121
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -120,274 +78,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+We currently have a situation where disabling a Kconfig might result
+in a runtime error when QEMU selects the corresponding device as a
+default value for an option. But first a disambiguation:
 
+Kconfig default::
+  a device "Foo" for which there's "config FOO default y" or "config X
+  imply FOO" in Kconfig.
 
-On 2/6/23 13:21, Thomas Huth wrote:
-> On 01/02/2023 14.20, Pierre Morel wrote:
->> The modification of the CPU attributes are done through a monitor
->> command.
->>
->> It allows to move the core inside the topology tree to optimise
-> 
-> I'm not a native speaker, but "optimize" is more common, I think?
+QEMU hardcoded default::
+  a fallback; a device "Foo" that is chosen in case no corresponding
+  option is given in the command line.
 
-Yes. I will stick on it.
+The issue I'm trying to solve is that there is no link between the two
+"defaults" above, which means that when the user at build time
+de-selects a Kconfig default, either via configs/devices/*/*.mak or
+--without-default-devices, the subsequent invocation at runtime might
+continue to try to create the missing device due to QEMU defaults.
 
-> 
->> the cache usage in the case the host's hypervisor previously
->> moved the CPU.
->>
->> The same command allows to modify the CPU attributes modifiers
->> like polarization entitlement and the dedicated attribute to notify
->> the guest if the host admin modified scheduling or dedication of a vCPU.
->>
->> With this knowledge the guest has the possibility to optimize the
->> usage of the vCPUs.
->>
->> The command is made experimental for the moment.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   qapi/machine-target.json | 29 +++++++++++++
->>   include/monitor/hmp.h    |  1 +
->>   hw/s390x/cpu-topology.c  | 88 ++++++++++++++++++++++++++++++++++++++++
->>   hmp-commands.hx          | 16 ++++++++
->>   4 files changed, 134 insertions(+)
->>
->> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
->> index 2e267fa458..58df0f5061 100644
->> --- a/qapi/machine-target.json
->> +++ b/qapi/machine-target.json
->> @@ -342,3 +342,32 @@
->>                      'TARGET_S390X',
->>                      'TARGET_MIPS',
->>                      'TARGET_LOONGARCH64' ] } }
->> +
->> +##
->> +# @x-set-cpu-topology:
->> +#
->> +# @core: the vCPU ID to be moved
->> +# @socket: the destination socket where to move the vCPU
->> +# @book: the destination book where to move the vCPU
->> +# @drawer: the destination drawer where to move the vCPU
->> +# @polarity: optional polarity, default is last polarity set by the 
->> guest
-> 
-> Hmm, below you do something like that:
-> 
->      if (!has_polarity) {
->          polarity = POLARITY_VERTICAL_MEDIUM;
->      } >
-> ... so it rather seems like medium polarity is the default? ... that 
-> looks weird. I think you should maybe rather pass the has_polarity and 
-> has_dedication flags to the s390_change_topology() function and only 
-> change the value if they have really been provided?
+Even a experienced user that tweaks the build via .mak files is not
+required to know about what QEMU developers chose to use as fallbacks
+in the code. Moreover, the person/entity that builds the code might
+not be the same that runs it, which makes it even more confusing.
 
-OK, I will change this incoherence.
+We do have -nodefaults in the command line, but that doesn't include
+all types of fallbacks that might be set in the code. It also does not
+cover individual CONFIGs and their respective use as a fallback in the
+code.
 
-> 
->> +# @dedicated: optional, if the vCPU is dedicated to a real CPU
->> +#
->> +# Modifies the topology by moving the CPU inside the topology
->> +# tree or by changing a modifier attribute of a CPU.
->> +#
->> +# Returns: Nothing on success, the reason on failure.
->> +#
->> +# Since: <next qemu stable release, eg. 1.0>
-> 
-> Please replace with "Since: 8.0" ... I hope we'll get it merged during 
-> this cycle!
+So my proposal here is actually simple: Let's make sure every fallback
+device creation *without* a validation check gets a hard dependency in
+Kconfig. A validation check being something like:
 
-OK. :)
+if (has_defaults && object_get_class("foo") {
+   create_foo();
+}
 
-> 
->> +{ 'command': 'x-set-cpu-topology',
->> +  'data': {
->> +      'core': 'int',
->> +      'socket': 'int',
->> +      'book': 'int',
->> +      'drawer': 'int',
->> +      '*polarity': 'int',
->> +      '*dedicated': 'bool'
->> +  },
->> +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
->> +}
->> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
->> index 1b3bdcb446..12827479cf 100644
->> --- a/include/monitor/hmp.h
->> +++ b/include/monitor/hmp.h
->> @@ -151,5 +151,6 @@ void hmp_human_readable_text_helper(Monitor *mon,
->>                                       HumanReadableText 
->> *(*qmp_handler)(Error **));
->>   void hmp_info_stats(Monitor *mon, const QDict *qdict);
->>   void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict);
->> +void hmp_x_set_cpu_topology(Monitor *mon, const QDict *qdict);
->>   #endif
->> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
->> index c33378577b..6c50050991 100644
->> --- a/hw/s390x/cpu-topology.c
->> +++ b/hw/s390x/cpu-topology.c
->> @@ -18,6 +18,10 @@
->>   #include "target/s390x/cpu.h"
->>   #include "hw/s390x/s390-virtio-ccw.h"
->>   #include "hw/s390x/cpu-topology.h"
->> +#include "qapi/qapi-commands-machine-target.h"
->> +#include "qapi/qmp/qdict.h"
->> +#include "monitor/hmp.h"
->> +#include "monitor/monitor.h"
->>   /*
->>    * s390_topology is used to keep the topology information.
->> @@ -379,3 +383,87 @@ void s390_topology_set_cpu(MachineState *ms, 
->> S390CPU *cpu, Error **errp)
->>       /* topology tree is reflected in props */
->>       s390_update_cpu_props(ms, cpu);
->>   }
->> +
->> +/*
->> + * qmp and hmp implementations
->> + */
->> +
->> +static void s390_change_topology(int64_t core_id, int64_t socket_id,
->> +                                 int64_t book_id, int64_t drawer_id,
->> +                                 int64_t polarity, bool dedicated,
->> +                                 Error **errp)
->> +{
->> +    MachineState *ms = current_machine;
->> +    S390CPU *cpu;
->> +    ERRP_GUARD();
->> +
->> +    cpu = (S390CPU *)ms->possible_cpus->cpus[core_id].cpu;
-> 
-> I think you should add a sanity check for core_id being in a valid range 
-> ... otherwise this will cause an access beyond the end of the array if 
-> core_id is too big or negative.
+Fabiano Rosas (10):
+  vl.c: Do not add isa-parallel if it's not present
+  hw/i386: Select E1000E for q35
+  hw/i386: Select VGA_PCI in Kconfig
+  hw/i386: Select E1000_PCI for i440fx
+  hw/arm: Select VIRTIO_NET for virt machine
+  hw/arm: Select VIRTIO_BLK for virt machine
+  hw/arm: Select XLNX_USB_SUBSYS for xlnx-zcu102 machine
+  hw/arm: Select GICV3_TCG for sbsa-ref machine
+  hw/arm: Select e1000e for sbsa-ref machine
+  hw/arm: Select VGA_PCI for sbsa-ref machine
 
-Right, I will also change the int64_t for the declaration of the core, 
-socket etc to uint16_t so avoiding a check for negative values.
-
-> 
->> +    if (!cpu) {
->> +        error_setg(errp, "Core-id %ld does not exist!", core_id);
->> +        return;
->> +    }
->> +
->> +    /* Verify the new topology */
->> +    s390_topology_check(cpu, errp);
->> +    if (*errp) {
->> +        return;
->> +    }
->> +
->> +    /* Move the CPU into its new socket */
->> +    s390_set_core_in_socket(cpu, drawer_id, book_id, socket_id, true, 
->> errp);
->> +
->> +    /* All checks done, report topology in environment */
->> +    cpu->env.drawer_id = drawer_id;
->> +    cpu->env.book_id = book_id;
->> +    cpu->env.socket_id = socket_id;
->> +    cpu->env.dedicated = dedicated;
->> +    cpu->env.entitlement = polarity;
-> 
-> As mentioned above, I think dedicated and polarity should only be 
-> changed if they have really been provided?
-
-right, I do this.
-
-> 
->> +    /* topology tree is reflected in props */
->> +    s390_update_cpu_props(ms, cpu);
->> +
->> +    /* Advertise the topology change */
->> +    s390_cpu_topology_set_modified();
->> +}
->> +
->> +void qmp_x_set_cpu_topology(int64_t core, int64_t socket,
->> +                         int64_t book, int64_t drawer,
->> +                         bool has_polarity, int64_t polarity,
->> +                         bool has_dedicated, bool dedicated,
->> +                         Error **errp)
->> +{
->> +    ERRP_GUARD();
->> +
->> +    if (!s390_has_topology()) {
->> +        error_setg(errp, "This machine doesn't support topology");
->> +        return;
->> +    }
->> +    if (!has_polarity) {
->> +        polarity = POLARITY_VERTICAL_MEDIUM;
->> +    }
->> +    if (!has_dedicated) {
->> +        dedicated = false;
->> +    }
->> +    s390_change_topology(core, socket, book, drawer, polarity, 
->> dedicated, errp);
->> +}
->> +
->> +void hmp_x_set_cpu_topology(Monitor *mon, const QDict *qdict)
->> +{
->> +    const int64_t core = qdict_get_int(qdict, "core");
->> +    const int64_t socket = qdict_get_int(qdict, "socket");
->> +    const int64_t book = qdict_get_int(qdict, "book");
->> +    const int64_t drawer = qdict_get_int(qdict, "drawer");
->> +    bool has_polarity    = qdict_haskey(qdict, "polarity");
->> +    const int64_t polarity = qdict_get_try_int(qdict, "polarity", 0);
->> +    bool has_dedicated    = qdict_haskey(qdict, "dedicated");
->> +    const bool dedicated = qdict_get_try_bool(qdict, "dedicated", 
->> false);
->> +    Error *local_err = NULL;
->> +
->> +    qmp_x_set_cpu_topology(core, socket, book, drawer,
->> +                           has_polarity, polarity,
->> +                           has_dedicated, dedicated,
->> +                           &local_err);
->> +    if (hmp_handle_error(mon, local_err)) {
->> +        return;
->> +    }
->> +}
->> diff --git a/hmp-commands.hx b/hmp-commands.hx
->> index 673e39a697..bb3c908356 100644
->> --- a/hmp-commands.hx
->> +++ b/hmp-commands.hx
->> @@ -1815,3 +1815,19 @@ SRST
->>     Dump the FDT in dtb format to *filename*.
->>   ERST
->>   #endif
->> +
->> +#if defined(TARGET_S390X) && defined(CONFIG_KVM)
->> +    {
->> +        .name       = "x-set-cpu-topology",
->> +        .args_type  = 
->> "core:l,socket:l,book:l,drawer:l,polarity:l?,dedicated:b?",
->> +        .params     = "core socket book drawer [polarity] [dedicated]",
->> +        .help       = "Move CPU 'core' to 'socket/book/drawer' "
->> +                      "optionaly modifies polarity and dedication",
-> 
-> optionaly ==> optionally
-
-OK
-
-> 
->> +        .cmd        = hmp_x_set_cpu_topology,
->> +    },
->> +
->> +SRST
->> +``x-set-cpu-topology`` *core* *socket* *book* *drawer* *polarity* 
->> *dedicated*
->> +  Moves the CPU  *core* to *socket* *book* *drawer* with *polarity* 
->> *dedicated*.
->> +ERST
->> +#endif
-> 
->   Thomas
-> 
-
-Thanks,
-
-Regards,
-Pierre
-
+ hw/arm/Kconfig  | 7 +++++++
+ hw/i386/Kconfig | 6 +++---
+ softmmu/vl.c    | 3 ++-
+ 3 files changed, 12 insertions(+), 4 deletions(-)
 
 -- 
-Pierre Morel
-IBM Lab Boeblingen
+2.35.3
+
 
