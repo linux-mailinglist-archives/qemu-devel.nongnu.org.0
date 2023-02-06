@@ -2,68 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA5E368B70D
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 09:07:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 812C968B717
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 09:09:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOwWn-0004bp-Hu; Mon, 06 Feb 2023 03:07:05 -0500
+	id 1pOwZB-0005e0-Ue; Mon, 06 Feb 2023 03:09:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1pOwWj-0004WC-Lj; Mon, 06 Feb 2023 03:07:03 -0500
-Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pOwZA-0005dn-9u
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 03:09:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1pOwWh-0003AI-HY; Mon, 06 Feb 2023 03:07:01 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.105])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id CDA7B20410;
- Mon,  6 Feb 2023 08:06:54 +0000 (UTC)
-Received: from kaod.org (37.59.142.102) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Mon, 6 Feb
- 2023 09:06:54 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R004641a3327-537f-44f9-a23f-1c793acf9172,
- CF69EBA19D99189A5BFA69977647E68A070273F7) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <9bdc5d89-cd81-8cf1-56d3-0e8b18c37731@kaod.org>
-Date: Mon, 6 Feb 2023 09:06:53 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pOwZ8-0003Nt-Q5
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 03:09:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675670969;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GTY6Up6NBM/BcmD/rqL0/gOjTKE2TWegijIRespjDwg=;
+ b=WFQWPixaRVXP56NlCNWQExwHQ3Zc8kasny9wySk5bgwudYg1Feelrc1Iq9l9/pmdxpdWSe
+ 6chIlUZ5fqdh//bgLTLo3XbhOkyhPsuz/hT5TexGZE/USxt/0WDmRrQyMVdP911f+kyf6M
+ CrO0d+hLQ8kJsPJ35CWOPLgWVPKHnxY=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-205-i3dD9VbeP0W51dtAx3GGAg-1; Mon, 06 Feb 2023 03:09:26 -0500
+X-MC-Unique: i3dD9VbeP0W51dtAx3GGAg-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ s7-20020ae9f707000000b007294677a6e8so7412311qkg.17
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 00:09:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GTY6Up6NBM/BcmD/rqL0/gOjTKE2TWegijIRespjDwg=;
+ b=tYp7qfwIVuE1/cRoPUghCZqjD9iXaQFGmqHqUfNrurX3pUBX7iDCOOVPh2Ujy4bshi
+ W8R5PM2PHHwI+1C9ecBZI6GFA+g3SXnxe4nvQLvJhBggr604nBYWnarfXW0mFL6Y3wVJ
+ lPx1kS2MBp/+306Z4sJaEirfpTJx0AGSE3pvwqfCFBb5frj5Q21xHfgyh8Xahz7qAa3f
+ CiO+epP+5Q2gQUTDwcCfQy/qQtclRJUuAv5ybpA7upduhsfU1OWeiPbsNLhieObJQspl
+ tx55Q5sUDbE6iY2STCLNlsI2Vd125O7k8byuaPU+6Pzcq+Zgls8o5kGlS4VrM5PO3kpA
+ FR9Q==
+X-Gm-Message-State: AO0yUKXMv2jZxt5OQnESvHRiXRyMZpQyYnJlBkB7EO39rHUMZBw5VBZW
+ 6vLVVbmBjRj4tlEnwrFRiX2rMD2S9f8TIZS8ADNQUMaJg7aekoubBXTSqw8AW4FF7mKQcjvocqz
+ evtK+YI4bVADM6Xg=
+X-Received: by 2002:ac8:5dd2:0:b0:3b7:faaf:f6da with SMTP id
+ e18-20020ac85dd2000000b003b7faaff6damr34863478qtx.50.1675670965986; 
+ Mon, 06 Feb 2023 00:09:25 -0800 (PST)
+X-Google-Smtp-Source: AK7set9EHaSeMUjszb7+uNplOI57iADsZZGCMHXUefin0GY0nxSCc2Qjpqg5dw4AX+PN/Crm+6iaAg==
+X-Received: by 2002:ac8:5dd2:0:b0:3b7:faaf:f6da with SMTP id
+ e18-20020ac85dd2000000b003b7faaff6damr34863466qtx.50.1675670965772; 
+ Mon, 06 Feb 2023 00:09:25 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-71.web.vodafone.de.
+ [109.43.177.71]) by smtp.gmail.com with ESMTPSA id
+ u186-20020a3760c3000000b0072c86374ddfsm6993549qkb.71.2023.02.06.00.09.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Feb 2023 00:09:25 -0800 (PST)
+Message-ID: <c39d58f3-872d-eedb-1f4e-6d26999390ac@redhat.com>
+Date: Mon, 6 Feb 2023 09:09:21 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 4/5] hw/ppc/spapr: Set QDev properties using QDev API
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 2/9] tests: fix test-io-channel-command on win32
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- <qemu-devel@nongnu.org>
-CC: BALATON Zoltan <balaton@eik.bme.hu>, Mark Cave-Ayland
- <mark.cave-ayland@ilande.co.uk>, <qemu-ppc@nongnu.org>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>, Daniel Henrique
- Barboza <danielhb413@gmail.com>, Markus Armbruster <armbru@redhat.com>, David
- Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-References: <20230203211623.50930-1-philmd@linaro.org>
- <20230203211623.50930-5-philmd@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230203211623.50930-5-philmd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Cc: Stefan Weil <sw@weilnetz.de>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20230129182414.583349-1-marcandre.lureau@redhat.com>
+ <20230129182414.583349-3-marcandre.lureau@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230129182414.583349-3-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: c4ef3834-7fe4-485d-b8e3-5e158943c7aa
-X-Ovh-Tracer-Id: 13050868770457488306
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudeghedguddufecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehphhhilhhmugeslhhinhgrrhhordhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdgsrghlrghtohhnsegvihhkrdgsmhgvrdhhuhdpmhgrrhhkrdgtrghvvgdqrgihlhgrnhgusehilhgrnhguvgdrtghordhukhdpqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrghdphhhpohhushhsihhnsehrvggrtghtohhsrdhorhhgpdgurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdgrrhhmsghruhesrhgvughhrghtrdgtohhmpdgurghvihgusehgihgssh
- honhdrughrohhpsggvrghrrdhiugdrrghupdhgrhhouhhgsehkrghougdrohhrghdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
- helo=8.mo548.mail-out.ovh.net
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.149,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.149, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,115 +109,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/3/23 22:16, Philippe Mathieu-Daudé wrote:
-> No need to use the low-level QOM API when an object
-> inherits from QDev. Directly use the QDev API to set
-> its properties.
+On 29/01/2023 19.24, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> All calls use either errp=&error_abort or &error_fatal,
-> so converting to the QDev API is almost a no-op (QDev
-> API always uses &error_abort).
+> socat "PIPE:"" on Windows are named pipes, not fifo path names.
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
-
+> Fixes: commit 68406d10859 ("tests/unit: cleanups for test-io-channel-command")
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->   hw/intc/spapr_xive.c | 11 ++++-------
->   hw/intc/xics.c       |  4 ++--
->   hw/intc/xive.c       |  4 ++--
->   hw/ppc/spapr_irq.c   |  8 +++-----
->   4 files changed, 11 insertions(+), 16 deletions(-)
+>   tests/unit/test-io-channel-command.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
 > 
-> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> index dc641cc604..213c4cac44 100644
-> --- a/hw/intc/spapr_xive.c
-> +++ b/hw/intc/spapr_xive.c
-> @@ -310,9 +310,8 @@ static void spapr_xive_realize(DeviceState *dev, Error **errp)
->       /*
->        * Initialize the internal sources, for IPIs and virtual devices.
->        */
-> -    object_property_set_int(OBJECT(xsrc), "nr-irqs", xive->nr_irqs,
-> -                            &error_fatal);
-> -    object_property_set_link(OBJECT(xsrc), "xive", OBJECT(xive), &error_abort);
-> +    qdev_prop_set_uint32(DEVICE(xsrc), "nr-irqs", xive->nr_irqs);
-> +    qdev_prop_set_link(DEVICE(xsrc), "xive", OBJECT(xive));
->       if (!qdev_realize(DEVICE(xsrc), NULL, errp)) {
->           return;
->       }
-> @@ -321,10 +320,8 @@ static void spapr_xive_realize(DeviceState *dev, Error **errp)
->       /*
->        * Initialize the END ESB source
->        */
-> -    object_property_set_int(OBJECT(end_xsrc), "nr-ends", xive->nr_irqs,
-> -                            &error_fatal);
-> -    object_property_set_link(OBJECT(end_xsrc), "xive", OBJECT(xive),
-> -                             &error_abort);
-> +    qdev_prop_set_uint32(DEVICE(end_xsrc), "nr-ends", xive->nr_irqs);
-> +    qdev_prop_set_link(DEVICE(end_xsrc), "xive", OBJECT(xive));
->       if (!qdev_realize(DEVICE(end_xsrc), NULL, errp)) {
->           return;
->       }
-> diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-> index c7f8abd71e..2fd1a15153 100644
-> --- a/hw/intc/xics.c
-> +++ b/hw/intc/xics.c
-> @@ -382,8 +382,8 @@ Object *icp_create(Object *cpu, const char *type, XICSFabric *xi, Error **errp)
->       obj = object_new(type);
->       object_property_add_child(cpu, type, obj);
->       object_unref(obj);
-> -    object_property_set_link(obj, ICP_PROP_XICS, OBJECT(xi), &error_abort);
-> -    object_property_set_link(obj, ICP_PROP_CPU, cpu, &error_abort);
-> +    qdev_prop_set_link(DEVICE(obj), ICP_PROP_XICS, OBJECT(xi));
-> +    qdev_prop_set_link(DEVICE(obj), ICP_PROP_CPU, cpu);
->       if (!qdev_realize(DEVICE(obj), NULL, errp)) {
->           object_unparent(obj);
->           obj = NULL;
-> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-> index a986b96843..0e34035bc6 100644
-> --- a/hw/intc/xive.c
-> +++ b/hw/intc/xive.c
-> @@ -799,8 +799,8 @@ Object *xive_tctx_create(Object *cpu, XivePresenter *xptr, Error **errp)
->       obj = object_new(TYPE_XIVE_TCTX);
->       object_property_add_child(cpu, TYPE_XIVE_TCTX, obj);
->       object_unref(obj);
-> -    object_property_set_link(obj, "cpu", cpu, &error_abort);
-> -    object_property_set_link(obj, "presenter", OBJECT(xptr), &error_abort);
-> +    qdev_prop_set_link(DEVICE(obj), "cpu", cpu);
-> +    qdev_prop_set_link(DEVICE(obj), "presenter", OBJECT(xptr));
->       if (!qdev_realize(DEVICE(obj), NULL, errp)) {
->           object_unparent(obj);
->           return NULL;
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index a0d1e1298e..283769c074 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -313,9 +313,8 @@ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
->           obj = object_new(TYPE_ICS_SPAPR);
+> diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
+> index 096224962c..e76ef2daaa 100644
+> --- a/tests/unit/test-io-channel-command.c
+> +++ b/tests/unit/test-io-channel-command.c
+> @@ -31,8 +31,12 @@ static char *socat = NULL;
 >   
->           object_property_add_child(OBJECT(spapr), "ics", obj);
-> -        object_property_set_link(obj, ICS_PROP_XICS, OBJECT(spapr),
-> -                                 &error_abort);
-> -        object_property_set_int(obj, "nr-irqs", smc->nr_xirqs, &error_abort);
-> +        qdev_prop_set_link(DEVICE(obj), ICS_PROP_XICS, OBJECT(spapr));
-> +        qdev_prop_set_uint32(DEVICE(obj), "nr-irqs", smc->nr_xirqs);
->           if (!qdev_realize(DEVICE(obj), NULL, errp)) {
->               return;
->           }
-> @@ -335,8 +334,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
->            * priority
->            */
->           qdev_prop_set_uint32(dev, "nr-ends", nr_servers << 3);
-> -        object_property_set_link(OBJECT(dev), "xive-fabric", OBJECT(spapr),
-> -                                 &error_abort);
-> +        qdev_prop_set_link(dev, "xive-fabric", OBJECT(spapr));
->           sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>   static void test_io_channel_command_fifo(bool async)
+>   {
+> +#ifdef WIN32
+> +    const gchar *fifo = TEST_FIFO;
+
+Question from a Windows ignorant: Won't this cause a race condition in case 
+someone is trying to run tests in parallel (i.e. shouldn't there be a random 
+part in the name)? Or are these named pipes local to the current process?
+
+  Thomas
+
+> +#else
+>       g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
+>       g_autofree gchar *fifo = g_build_filename(tmpdir, TEST_FIFO, NULL);
+> +#endif
+>       g_autofree gchar *srcargs = g_strdup_printf("%s - PIPE:%s,wronly", socat, fifo);
+>       g_autofree gchar *dstargs = g_strdup_printf("%s PIPE:%s,rdonly -", socat, fifo);
+>       g_auto(GStrv) srcargv = g_strsplit(srcargs, " ", -1);
+> @@ -57,7 +61,9 @@ static void test_io_channel_command_fifo(bool async)
+>       object_unref(OBJECT(src));
+>       object_unref(OBJECT(dst));
 >   
->           spapr->xive = SPAPR_XIVE(dev);
+> +#ifndef WIN32
+>       g_rmdir(tmpdir);
+> +#endif
+>   }
+>   
+>   
 
 
