@@ -2,80 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F7568BD5E
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 13:57:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F165468BD61
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 13:58:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP12r-0004a6-1j; Mon, 06 Feb 2023 07:56:29 -0500
+	id 1pP14P-0005Z7-IQ; Mon, 06 Feb 2023 07:58:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pP12k-0004ZO-NE
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:56:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pP14M-0005YS-Lf; Mon, 06 Feb 2023 07:58:02 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pP12g-0004xN-QY
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:56:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675688177;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lMFwhSlzcUaH+PxWk3cpoFuTyUeO4LxfnKLnjaDnMr8=;
- b=bqSNLt8FRSuCcN2x3V/b240+/nIQxz/eJWRUB0PfjVscnflLqnp27dExT1WUe7ggZLWAIl
- 7nyhO5TZWrXGdOloBT9NtVa/HrjvavfQN6ghLwTEGVYO4kmhiuxUUpuflIus52wBkVqNb1
- EMjBW9iec+44knoZXQ5bh2atf2YdVm8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-370-whb8BwzJO86XI-LdLlkV5Q-1; Mon, 06 Feb 2023 07:56:14 -0500
-X-MC-Unique: whb8BwzJO86XI-LdLlkV5Q-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9F6913823A00;
- Mon,  6 Feb 2023 12:56:13 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F382492B21;
- Mon,  6 Feb 2023 12:56:13 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5CD421800850; Mon,  6 Feb 2023 13:56:10 +0100 (CET)
-Date: Mon, 6 Feb 2023 13:56:10 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: Andrea Bolognani <abologna@redhat.com>,
- Sunil V L <sunilvl@ventanamicro.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Andrew Jones <ajones@ventanamicro.com>,
- Anup Patel <apatel@ventanamicro.com>,
- Atish Kumar Patra <atishp@rivosinc.com>,
- Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: Re: [PATCH 02/10] hw/riscv/virt: Add a switch to enable/disable ACPI
-Message-ID: <20230206125610.nmo2bbbd5kosihav@sirius.home.kraxel.org>
-References: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
- <20230202045223.2594627-3-sunilvl@ventanamicro.com>
- <CABJz62PFGT1H-AArbfTkpiX24mHU=q3wk7h-bpduZhJyy7tTLw@mail.gmail.com>
- <fe3b5794-be2a-eec7-9d4e-9a13eab48378@linaro.org>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pP14K-0005ED-Px; Mon, 06 Feb 2023 07:58:02 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 316CeXlE029918; Mon, 6 Feb 2023 12:57:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=SeQkV1ACMiEhB8pq/6VNn3zrHYPoAYfEbtTUoT3W6C4=;
+ b=s/LY6OlnjnTuBTYY71gmqmy2kpzQxkX7qDHayB4Ap35dYVozFHhjF7BZ9pvbA9+QwD3P
+ 923CnmJk3BGa0AHa3K1BJOUVlko7SFfmiVa2NsDbvh+nuFpftvSZCwSvkKuliRfDDWGj
+ yaYNlAESnZCV9NXd9K6jcnb04tvjhAna2sLjXwJqT9D0Xlr7TNOutrBEt/84nsOwQa95
+ CENz/TuVX+0/XJXrENpXDcpMwqpgYxDt1ZhtviFVC0Kufkb9oDa0W6iKJETuCMrYQMVC
+ NzrhizWdoEeDwYqQbeFsQtCAjOvL1cPK+P0qAkIV9J5FyzrkvwnAClxyUEMGWljZb/xD 5w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nk06w3avh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Feb 2023 12:57:51 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 316CerTp031799;
+ Mon, 6 Feb 2023 12:57:51 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nk06w3aup-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Feb 2023 12:57:50 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 315Fwnd2015782;
+ Mon, 6 Feb 2023 12:57:49 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+ by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3nhemfhqrj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Feb 2023 12:57:48 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 316CvjOV52953592
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 6 Feb 2023 12:57:45 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3D96920043;
+ Mon,  6 Feb 2023 12:57:45 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E94CF20040;
+ Mon,  6 Feb 2023 12:57:43 +0000 (GMT)
+Received: from [9.171.30.242] (unknown [9.171.30.242])
+ by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Mon,  6 Feb 2023 12:57:43 +0000 (GMT)
+Message-ID: <c02a570a-f99f-a594-c369-9d58942fe0aa@linux.ibm.com>
+Date: Mon, 6 Feb 2023 13:57:43 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fe3b5794-be2a-eec7-9d4e-9a13eab48378@linaro.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v15 03/11] target/s390x/cpu topology: handle STSI(15) and
+ build the SYSIB
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ nsg@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230201132051.126868-1-pmorel@linux.ibm.com>
+ <20230201132051.126868-4-pmorel@linux.ibm.com>
+ <107dd0bc-ab7d-2c91-65b3-2bf78d3b7d92@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <107dd0bc-ab7d-2c91-65b3-2bf78d3b7d92@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: NU3dMJYS8wqD1MMhJYecIHToxiMHAwd8
+X-Proofpoint-ORIG-GUID: FVQ5M9q46SP91F2RjWzJZOf9S3wCM4yh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-06_06,2023-02-06_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 adultscore=0 phishscore=0 mlxlogscore=999 suspectscore=0
+ clxscore=1015 bulkscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302060102
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,36 +122,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 06, 2023 at 12:18:06PM +0100, Philippe Mathieu-Daudé wrote:
-> On 6/2/23 11:54, Andrea Bolognani wrote:
-> > On Thu, Feb 02, 2023 at 10:22:15AM +0530, Sunil V L wrote:
-> > > +    object_class_property_add(oc, "acpi", "OnOffAuto",
-> > > +                              virt_get_acpi, virt_set_acpi,
-> > > +                              NULL, NULL);
-> > > +    object_class_property_set_description(oc, "acpi",
-> > > +                                          "Enable ACPI");
-> > 
-> > The way this works on other architectures (x86_64, aarch64) is that
-> > you get ACPI by default and can use -no-acpi to disable it if
-> > desired. Can we have the same on RISC-V, for consistency?
+
+
+On 2/6/23 12:24, Thomas Huth wrote:
+> On 01/02/2023 14.20, Pierre Morel wrote:
+>> On interception of STSI(15.1.x) the System Information Block
+>> (SYSIB) is built from the list of pre-ordered topology entries.
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+> ...
+
+...
+
+>> --- a/target/s390x/cpu.h
+>> +++ b/target/s390x/cpu.h
+
+...
+
+>> +
+>> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar);
 > 
-> -no-acpi rather seems a x86-specific hack for the ISA PC machine, and
-> has a high maintenance cost / burden.
+> __u64 is not a portable type (e.g. fails when doing "make 
+> vm-build-openbsd"), please replace with uint64_t.
 
-Under the hood it is actually a OnOffAuto machine property and -no-acpi
-is just a shortcut to set that.
+done.
+Thanks
 
-> Actually, what is the value added by '-no-acpi'?
 
-On arm(64) the linux kernel can use either device trees or ACPI to find
-the hardware.  Historical reasons mostly, when the platform started
-there was no ACPI support.  Also the edk2 firmware uses Device Trees
-for hardware discovery, likewise for historical reasons.
+Regards,
+Pierre
 
-When ACPI is available for a platform right from the start I see little
-reason to offer an option to turn it off though ...
 
-take care,
-  Gerd
 
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
