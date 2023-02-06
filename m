@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9AB868BB53
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 12:23:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3C6B68BB48
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 12:22:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOzZf-0004Dk-C4; Mon, 06 Feb 2023 06:22:15 -0500
+	id 1pOzZg-0004EM-3p; Mon, 06 Feb 2023 06:22:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pOzZT-0004Cg-Q2
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 06:22:05 -0500
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pOzZZ-0004DA-E6
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 06:22:12 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pOzZR-0003Lq-N9
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 06:22:03 -0500
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pOzZX-0003Mh-5y
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 06:22:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675682520;
+ s=mimecast20190719; t=1675682526;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=X4/ItBPPJAnDvyXgl70Ve2C6m7UmhgLBo5CGA8m1l08=;
- b=PaYIFJt5PGR4AyOMqBYP4O1wuqxJnKhY+pBQaQLKf0/KSbiECFEqpsAV4K6VzJyAaltRlu
- LFtrr17DwbcUXdRHgxovlsbRLWPBuQN1UBncX/c+lOtZO1D7mvCSTgJMuMe1b7LkEiqS9S
- yGk0JqHNlK42abq1zzYFihuD4lmFxfs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=a7SKC2TVqKQzjslWVnkLc/vK9me7ZpW6UmUARx4xlI4=;
+ b=M+fITCXuShcVrPrkxjPsBZ6CDbRDfyslBIIsxVpZuKAj98uMdsHifozHRWsSwGdmAS0xpl
+ 8gJa7jCCv6lbbOq7hzcdBZXDRgrIqM//fPXuqdocSb5Uh/rwPmhMH3BSifVXfhfcbpd0WG
+ knXkCpM1ZM9xfXqHYPgklgWOhYFXe6o=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-477-qvNki5FAPr2dpYFyKrwwDQ-1; Mon, 06 Feb 2023 06:20:54 -0500
-X-MC-Unique: qvNki5FAPr2dpYFyKrwwDQ-1
+ us-mta-517-qAks29C5OHq9GLqAIKiCbg-1; Mon, 06 Feb 2023 06:21:00 -0500
+X-MC-Unique: qAks29C5OHq9GLqAIKiCbg-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 33E7529ABA01;
- Mon,  6 Feb 2023 11:20:54 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B64AC800050;
+ Mon,  6 Feb 2023 11:20:59 +0000 (UTC)
 Received: from gshan.redhat.com (vpn2-54-63.bne.redhat.com [10.64.54.63])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4453E492B21;
- Mon,  6 Feb 2023 11:20:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C54AC492B21;
+ Mon,  6 Feb 2023 11:20:54 +0000 (UTC)
 From: Gavin Shan <gshan@redhat.com>
 To: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, peter.maydell@linaro.org,
  peterx@redhat.com, david@redhat.com, philmd@linaro.org, mst@redhat.com,
  cohuck@redhat.com, quintela@redhat.com, dgilbert@redhat.com,
  maz@kernel.org, zhenyzha@redhat.com, shan.gavin@gmail.com
-Subject: [PATCH RFCv1 0/8] hw/arm/virt: Support dirty ring
-Date: Mon,  6 Feb 2023 19:20:02 +0800
-Message-Id: <20230206112010.99871-1-gshan@redhat.com>
+Subject: [PATCH RFCv1 1/8] linux-headers: Update for dirty ring
+Date: Mon,  6 Feb 2023 19:20:03 +0800
+Message-Id: <20230206112010.99871-2-gshan@redhat.com>
+In-Reply-To: <20230206112010.99871-1-gshan@redhat.com>
+References: <20230206112010.99871-1-gshan@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -76,69 +79,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This series intends to support dirty ring for live migration. The dirty
-ring use discrete buffer to track dirty pages. For ARM64, the speciality
-is to use backup bitmap to track dirty pages when there is no-running-vcpu
-context. It's known that the backup bitmap needs to be synchronized when
-KVM device "kvm-arm-gicv3" or "arm-its-kvm" has been enabled. The backup
-bitmap is collected in the last stage of migration.
+Signed-off-by: Gavin Shan <gshan@redhat.com>
+---
+ linux-headers/asm-arm64/kvm.h | 1 +
+ linux-headers/linux/kvm.h     | 2 ++
+ 2 files changed, 3 insertions(+)
 
-PATCH[1]    Synchronize linux-headers for dirty ring
-PATCH[2-3]  Introduce indicator of the last stage migration and pass it
-            all the way down
-PATCH[4-5]  Introduce secondary bitmap, corresponding to the backup bitmap
-PATCH[6-8]  Enable dirty ring for hw/arm/virt
-
-Testing
-=======
-(1) kvm-unit-tests/its-pending-migration and kvm-unit-tests/its-migration with
-    dirty ring or normal dirty page tracking mechanism. All test cases passed.
-
-    QEMU=./qemu.main/build/qemu-system-aarch64 ACCEL=kvm \
-    ./its-pending-migration
-
-    QEMU=./qemu.main/build/qemu-system-aarch64 ACCEL=kvm \
-    ./its-migration
-
-    QEMU=./qemu.main/build/qemu-system-aarch64 ACCEL=kvm,dirty-ring-size=65536 \
-    ./its-pending-migration
-
-    QEMU=./qemu.main/build/qemu-system-aarch64 ACCEL=kvm,dirty-ring-size=65536 \
-    ./its-migration
-
-(2) Combinations of migration, post-copy migration, e1000e and virtio-net
-    devices. All test cases passed.
-
-    -netdev tap,id=net0,script=/etc/qemu-ifup,downscript=/etc/qemu-ifdown  \
-    -device e1000e,bus=pcie.5,netdev=net0,mac=52:54:00:f1:26:a0
-
-    -netdev tap,id=vnet0,script=/etc/qemu-ifup,downscript=/etc/qemu-ifdown \
-    -device virtio-net-pci,bus=pcie.6,netdev=vnet0,mac=52:54:00:f1:26:b0
-
-Gavin Shan (8):
-  linux-headers: Update for dirty ring
-  memory: Add last stage indicator to global dirty log synchronization
-  migration: Add last stage indicator to global dirty log
-    synchronization
-  kvm: Introduce secondary dirty bitmap
-  kvm: Synchronize secondary bitmap in last stage
-  kvm: Add helper kvm_dirty_ring_init()
-  hw/arm/virt: Enable backup bitmap for dirty ring
-  kvm: Enable dirty ring for arm64
-
- accel/kvm/kvm-all.c           | 138 ++++++++++++++++++++++++----------
- hw/arm/virt.c                 |  26 +++++++
- include/exec/memory.h         |   5 +-
- include/sysemu/kvm_int.h      |   1 +
- linux-headers/asm-arm64/kvm.h |   1 +
- linux-headers/linux/kvm.h     |   2 +
- migration/dirtyrate.c         |   4 +-
- migration/ram.c               |  20 ++---
- softmmu/memory.c              |  10 +--
- target/arm/kvm64.c            |  25 ++++++
- target/arm/kvm_arm.h          |  12 +++
- 11 files changed, 185 insertions(+), 59 deletions(-)
-
+diff --git a/linux-headers/asm-arm64/kvm.h b/linux-headers/asm-arm64/kvm.h
+index 4bf2d7246e..a7cfefb3a8 100644
+--- a/linux-headers/asm-arm64/kvm.h
++++ b/linux-headers/asm-arm64/kvm.h
+@@ -43,6 +43,7 @@
+ #define __KVM_HAVE_VCPU_EVENTS
+ 
+ #define KVM_COALESCED_MMIO_PAGE_OFFSET 1
++#define KVM_DIRTY_LOG_PAGE_OFFSET 64
+ 
+ #define KVM_REG_SIZE(id)						\
+ 	(1U << (((id) & KVM_REG_SIZE_MASK) >> KVM_REG_SIZE_SHIFT))
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index ebdafa576d..5b4e0e4e68 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -1175,6 +1175,8 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_VM_DISABLE_NX_HUGE_PAGES 220
+ #define KVM_CAP_S390_ZPCI_OP 221
+ #define KVM_CAP_S390_CPU_TOPOLOGY 222
++#define KVM_CAP_DIRTY_LOG_RING_ACQ_REL 223
++#define KVM_CAP_DIRTY_LOG_RING_WITH_BITMAP 225
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
 -- 
 2.23.0
 
