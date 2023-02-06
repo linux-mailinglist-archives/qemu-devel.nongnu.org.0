@@ -2,78 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DDA768C0E3
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 16:04:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACAB968C0F2
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 16:07:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP31U-0000q1-Ps; Mon, 06 Feb 2023 10:03:12 -0500
+	id 1pP34c-0003nO-Qr; Mon, 06 Feb 2023 10:06:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP31L-0000or-U3
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:03:09 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP34Z-0003lW-1f
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:06:23 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP31K-0007IN-2O
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:03:03 -0500
-Received: by mail-wm1-x333.google.com with SMTP id u10so5830058wmj.3
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 07:03:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=q6q5Dnon0SlZrgp0JefJPRIHQyX3KYD+vmLlF+UXTlI=;
- b=wGGkG0N9tFHJFCgGyDKU/4M44spXMw53PGWlCq6nOCgLCRL6FnGszAERShYrN/Cc/f
- kunfuF6P5UacIjaLIS6BCgFNlrZycZujatxfmzVYOpAVJ3cLVCe9ASIQThnD6SMvYXGk
- QmwIfHL7uqtCKOA++AJ5Zp+ue0+NqS7SbX0i/gZAUHdrJ5RynYH6qQKorHEoEQZyzQOT
- aaZt5EoN5TvG4wknEHQLmvWtmG+lSN9Ptp6UH5BWpBomhuZmB3MBVI9KKZjShnHUw99l
- 0WNFCpIFD4ARJzayVcLaN7GsAoqdX02z0G8ZXl48wBROBwSCfn/aFu7OXiJWsdwNObiJ
- elzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=q6q5Dnon0SlZrgp0JefJPRIHQyX3KYD+vmLlF+UXTlI=;
- b=t0FyFItali6mxx0aezd+w1IsekUQvb81G80QcTVF10x6pv2IlQ1DF3l7X5Q7a+HGTk
- whVQ/MMg2fvtlLewMk5ipuxtBO2PF6/MWya3cWqqqtIl4An4e8iPpp/bXbHO1vjSuwqf
- bGWc/Q4fAh7TNNRVLQQYJ9ytzQsiqPUczhfz8EfqFKFI0BlWhlpGNnxBcQpiEhDSzt3B
- Ar2PeeWbp8Us4TySPFfldK/Lpbp1Pzh2cwO4GjWxB1V/mdmVflMHXdKO31NOlZxVajyL
- J8IDZ/RGHpKB18FeA1TTj+CX9s4of1S5J7ZP+z/NL4UCMrzv+miSW+kQbNIHJ1tNI5nK
- O+Fg==
-X-Gm-Message-State: AO0yUKWZZkM0nZ7rQafNlqy6yrskS1fN4tppbr0wBi68cSs+JCYDLVE6
- b3g+kAy5uPtxyRDHDHEwLG/UcA==
-X-Google-Smtp-Source: AK7set/eO7dX29btlMue0cA1esEKJZ55gpfVpHEBIKyI4nViwwjKDJHnzAeo3LT1PsrgSnTpiT/pmA==
-X-Received: by 2002:a1c:f413:0:b0:3dd:b0b3:811b with SMTP id
- z19-20020a1cf413000000b003ddb0b3811bmr19590644wma.31.1675695780518; 
- Mon, 06 Feb 2023 07:03:00 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- j14-20020a05600c190e00b003daf681d05dsm12224640wmq.26.2023.02.06.07.02.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 07:02:59 -0800 (PST)
-Message-ID: <c75d2adc-f566-75bc-f3a1-71c5b1dd9245@linaro.org>
-Date: Mon, 6 Feb 2023 16:02:58 +0100
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP34X-0008M4-8h
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:06:22 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id BB4AB6056C;
+ Mon,  6 Feb 2023 15:06:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1675695979; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=g9vwjTqyl9yJCjDL1Is5+Jgx3k+j+NwXzs127qeuo1E=;
+ b=r+v6eE07SV67W/oSMzRkNN0unUIjk5ftR9ERETmoCe7P2LWiRu0GKMyCjSglEALZh/Ae+E
+ oZnd42k+irI4GoWsWWx6Q0ZMxemt1XubDzpA/IheRzAb2PfmvsSoJARsbRjGJWpcyveyCC
+ CGSVNRfLUkeIecb+aG6Bi0goOFXhF44=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1675695979;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=g9vwjTqyl9yJCjDL1Is5+Jgx3k+j+NwXzs127qeuo1E=;
+ b=gX0VYXx4K5w9rcHWxMzh3tR0+QyTTcd2wt1nPNpRzJ+rP/pg5bjY3nsjUfKTaNNgIl88YL
+ yJ4TItRLDV7zuxCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D2375138E8;
+ Mon,  6 Feb 2023 15:06:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 3jj4JWoX4WPSXwAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 06 Feb 2023 15:06:18 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>
+Subject: [PATCH 00/12] qtests vs. default devices
+Date: Mon,  6 Feb 2023 12:04:04 -0300
+Message-Id: <20230206150416.4604-1-farosas@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 01/10] vl.c: Do not add isa-parallel if it's not present
-Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20230206140809.26028-1-farosas@suse.de>
- <20230206140809.26028-2-farosas@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230206140809.26028-2-farosas@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,36 +78,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 6/2/23 15:08, Fabiano Rosas wrote:
-> Currently the isa-parallel driver is always added by default
-> regardless of the presence of the actual code in the build, which can
-> lead to a crash:
-> 
-> qemu-system-i386: unknown type 'isa-parallel'
-> Aborted (core dumped)
-> 
-> Check for the presence of the QOM class and do not include
-> isa-parallel by default if it's not found.
-> 
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
-> ---
->   softmmu/vl.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 9177d95d4e..614e6cf66e 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -1269,7 +1269,8 @@ static void qemu_disable_default_devices(void)
->       if (!has_defaults || machine_class->no_serial) {
->           default_serial = 0;
->       }
-> -    if (!has_defaults || machine_class->no_parallel) {
-> +    if (!has_defaults || machine_class->no_parallel ||
-> +        !object_class_by_name("isa-parallel")) {
->           default_parallel = 0;
->       }
->       if (!has_defaults || machine_class->no_floppy) {
+Most of our tests assume the presence of default devices. When
+building --without-default-devices or with individual CONFIGs
+disabled, several tests fail.
 
-How is isa-parallel different, why not the other defaults?
+I went through them one by one and did local changes to skip or avoid
+including tests that require devices that are missing. With these
+initial changes, 'make check' now passes for the
+--without-default-devices build for x86 and arm.
+
+However, the approach of making local changes seems hard to maintain:
+every time a CONFIG changes from 'y' to 'n' a test might break and all
+new tests need to remember to check before adding devices, which some
+tests add several.
+
+So the last patch in the series provides an alternative: Parse the
+command line at qtest_init and skip the test if devices are
+missing. Individual tests would have to check 'if (!qts)' and
+bail. Seems a bit heavy-weight, but it would mean we don't have to put
+a qtest_has_device check for every device in every test.
+
+Based on: <20230206140809.26028-1-farosas@suse.de>
+[PATCH 00/10] Kconfig vs. default devices
+https://lore.kernel.org/r/20230206140809.26028-1-farosas@suse.de
+
+Fabiano Rosas (12):
+  tests/qtest: Skip PXE tests for missing devices
+  tests/qtest: Do not run lsi53c895a test if device is not present
+  tests/qtest: Add dependence on PCIE_ROOT for virtio-net-failover.c
+  tests/qtest: Skip virtio-serial-console tests if device not present
+  tests/qtest: hd-geo-test: Check for missing devices
+  tests/qtest: Skip unplug tests that use missing devices
+  tests/qtest: drive_del-test: Skip tests that require missing devices
+  tests/qtest: Check for devices in bios-tables-test
+  tests/qtest: Do not include hexloader-test if loader device is not
+    present
+  tests/qemu-iotests: Require virtio-scsi-pci
+  tests/qtest: bios-tables-test: Skip if missing configs
+  [NOT FOR MERGE] tests/qtest: Introduce qtest_validate_args
+
+ tests/qemu-iotests/186             |   1 +
+ tests/qtest/bios-tables-test.c     |  75 +++++++++++++++-
+ tests/qtest/device-plug-test.c     |  19 ++++
+ tests/qtest/drive_del-test.c       |  70 +++++++++++++++
+ tests/qtest/fuzz-lsi53c895a-test.c |   4 +
+ tests/qtest/hd-geo-test.c          |  38 +++++---
+ tests/qtest/hexloader-test.c       |   5 ++
+ tests/qtest/libqtest.c             | 137 ++++++++++++++++++++++++++++-
+ tests/qtest/libqtest.h             |  12 +++
+ tests/qtest/meson.build            |  11 ++-
+ tests/qtest/pxe-test.c             |   4 +
+ tests/qtest/virtio-net-failover.c  |   5 ++
+ tests/qtest/virtio-serial-test.c   |   4 +
+ 13 files changed, 363 insertions(+), 22 deletions(-)
+
+-- 
+2.35.3
+
 
