@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86A4968C42F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 18:07:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E649668C45D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 18:15:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP4wS-0007Lk-GE; Mon, 06 Feb 2023 12:06:09 -0500
+	id 1pP54I-0000iV-Kj; Mon, 06 Feb 2023 12:14:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP4wO-0007KW-Kt
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 12:06:04 -0500
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pP54D-0000hV-8U
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 12:14:10 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP4wJ-0008N4-Ow
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 12:06:04 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C10DB606EC;
- Mon,  6 Feb 2023 17:05:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675703157; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Mn3iQ4ySwsb/eo8V/XRuT7zh/HCH8qaYdtB/Jn0bPsc=;
- b=NF/TIWO/cHyQzN1D1ZCjcsEVdddCoAaKaollSAM+y4ls7MLtdg92zaP2JBmwg5vqdf6CYC
- a1fedrBIJpnKQHKzwVofd3Re06/8bg3lolMtJcbFk2UnecE84fdmATh97801khU6X43bld
- O0U9+QPPttb/MsH7/aM9J12MKxkBInc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675703157;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Mn3iQ4ySwsb/eo8V/XRuT7zh/HCH8qaYdtB/Jn0bPsc=;
- b=pglLErLJLFTMUwka87XPtT9D49NcSgWsPpXxkrOJy3awv7vpvGo2RhjK6/CLZl16GdgVYZ
- cNkmSTsjr/aOTkCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5137F138E8;
- Mon,  6 Feb 2023 17:05:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 1gkYB3Uz4WMtJAAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 06 Feb 2023 17:05:57 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 01/10] vl.c: Do not add isa-parallel if it's not present
-In-Reply-To: <c75d2adc-f566-75bc-f3a1-71c5b1dd9245@linaro.org>
-References: <20230206140809.26028-1-farosas@suse.de>
- <20230206140809.26028-2-farosas@suse.de>
- <c75d2adc-f566-75bc-f3a1-71c5b1dd9245@linaro.org>
-Date: Mon, 06 Feb 2023 14:05:54 -0300
-Message-ID: <87a61qafm5.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pP54A-0001QK-0Q
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 12:14:08 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id j25so7531247wrc.4
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 09:14:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Yj1DEvs3X4/BfrWA87uKCI4tHJLA6vEN8CkLaerxWYk=;
+ b=uN+LE8QHV5k6EjvWghp3O50yXscrEQvPXcZ8Fsli588A9iK5W1MA94UNcmwNu4V1ie
+ gaLG1tmL21+2XNc3ddWALysIV1aSHtoMzGQHWpCrknHujmpR6ConTNewh4cEmfxPEri8
+ Kgn1pbmblo4eRZAoay/LnoM/NLjuD+gsjtlt8DJIbHhkajB08sbLfgxvyY0QsQYjzprm
+ frLXb8pFJe/awtM+pR8HI3E+F/1/1oxqdyj+yaj2JQBlD5VTg9X9G+m5Fgyb8CE48+ja
+ 5UOACTTL6/0/8nvd3A+8kZJaG8WOzzegxuiPRcLYovKy98kdW/fur0eOmeGzMBR4+2/I
+ eY2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Yj1DEvs3X4/BfrWA87uKCI4tHJLA6vEN8CkLaerxWYk=;
+ b=T2mR2ZISi3VkFvTMyRHeeWQOqfzPtIqcPD9NG+yn5rZgqJoKiMkZ/TUtu8qwVW8exM
+ onIX0enDwjwW8CWD7lf71arEoXY0xetsedKnkznesKd/3CBbuuveh11lvijx2Fv+wIzE
+ sy9R5p0T4PH2a/tom62bs3qFsp4QBLiQod9mm3ofLRHtMislBD7CqIGRoXwKFDYUQAOy
+ ZlP9IVkI85h2EPLj/8XBSveS6phFe929ctWoT2e+MsJoS7+Wt1OXwsN68cEYMMZfuxWo
+ h6hVO8iYEKlabzrAPsK2sSEuFJKzXmVKeB5oeF1HTNCb26NdfL+LMbx5jbudhGkMMkrW
+ 3qiA==
+X-Gm-Message-State: AO0yUKWMUg5PiJm1N3zjn5mvv6Y18oI1PbUyvZwFxVI7Vfath0a4ISaD
+ vD9A9/PQ+QqyqSqLNjoLztEI4hkQbmdGkqpQ
+X-Google-Smtp-Source: AK7set8k2L09YhD93rJ4oLfkMD/1E2e22Wq1zozf2d7Q105CggNdkIbNNAGZO4ObRWosLS7dgpGqKw==
+X-Received: by 2002:a5d:6089:0:b0:2c3:ea86:863b with SMTP id
+ w9-20020a5d6089000000b002c3ea86863bmr3150743wrt.29.1675703642588; 
+ Mon, 06 Feb 2023 09:14:02 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ y10-20020a05600015ca00b002bfd137ecddsm9529841wry.11.2023.02.06.09.14.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Feb 2023 09:14:01 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Thomas Huth <thuth@redhat.com>,
+ Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: [RFC PATCH 0/5] Deprecate/rename singlestep command line option
+Date: Mon,  6 Feb 2023 17:13:54 +0000
+Message-Id: <20230206171359.1327671-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,62 +91,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+The command line option '-singlestep' and its HMP equivalent
+the 'singlestep' command are very confusingly named, because
+they have nothing to do with single-stepping the guest (either
+via the gdb stub or by emulation of guest CPU architectural
+debug facilities). What they actually do is put TCG into a
+mode where it puts only one guest instruction into each
+translation block. This is useful for some circumstances
+such as when you want the -d debug logging to be easier to
+interpret, or if you have a finicky guest binary that wants
+to see interrupts delivered at something other than the end
+of a basic block.
 
-> On 6/2/23 15:08, Fabiano Rosas wrote:
->> Currently the isa-parallel driver is always added by default
->> regardless of the presence of the actual code in the build, which can
->> lead to a crash:
->>=20
->> qemu-system-i386: unknown type 'isa-parallel'
->> Aborted (core dumped)
->>=20
->> Check for the presence of the QOM class and do not include
->> isa-parallel by default if it's not found.
->>=20
->> Signed-off-by: Fabiano Rosas <farosas@suse.de>
->> ---
->>   softmmu/vl.c | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>=20
->> diff --git a/softmmu/vl.c b/softmmu/vl.c
->> index 9177d95d4e..614e6cf66e 100644
->> --- a/softmmu/vl.c
->> +++ b/softmmu/vl.c
->> @@ -1269,7 +1269,8 @@ static void qemu_disable_default_devices(void)
->>       if (!has_defaults || machine_class->no_serial) {
->>           default_serial =3D 0;
->>       }
->> -    if (!has_defaults || machine_class->no_parallel) {
->> +    if (!has_defaults || machine_class->no_parallel ||
->> +        !object_class_by_name("isa-parallel")) {
->>           default_parallel =3D 0;
->>       }
->>       if (!has_defaults || machine_class->no_floppy) {
->
-> How is isa-parallel different, why not the other defaults?
+The confusing name is made worse by the fact that our
+documentation for these is so minimal as to be useless
+for telling users what they really do.
 
-I doesn't need to be different, I did it like this because I expected to
-solve the others in the same way. Peter also flagged the inconsistency,
-I'll add a Kconfig dependence like the others.
+This series:
+ * renames the 'singlestep' global variable to 'one_insn_per_tb'
+ * Adds new '-one-insn-per-tb' command line options and a
+   HMP 'one-insn-per-tb' command
+ * Documents the '-singlestep' options and 'singlestep'
+   HMP command as deprecated synonyms for the new ones
 
-As to why the other defaults don't have this issue:
+It does not do anything about the other place where we surface
+'singlestep', which is in the QMP StatusInfo object returned by the
+'query-status' command.  This is incorrectly documented as "true if
+VCPUs are in single-step mode" and "singlestep is enabled through
+the GDB stub", because what it's actually returning is the
+one-insn-per-tb state.
 
-serial - for x86, already selected by CONFIG_PC;
-         not used on arm;
-parallel - for x86, should be selected by CONFIG_PC, I'll fix that on v2;
-           not used on arm;
-monitor - built in with char.c;
-floppy - built in with blockdev.c;
-sdcard - built in with blockdev.c;
+Things I didn't bother with because this is only an RFC but
+will do if it turns into a non-RFC patchset:
+ * test the bsd-user changes :-)
+ * add text to deprecated.rst
 
-cdrom - uses mc->block_default_type, so the CONFIG corresponding to that
-        device should be selected.
-net - verification is only done later during machine init, so the
-      machine will need to provide a fallback;
-vga - uses mc->default_display, so the CONFIG corresponding to that device
-      should be selected.
+So, questions:
 
-These last three are addressed in other patches in this series (VGA_PCI, VI=
-RTIO_*).
+(1) is this worth bothering with at all? We could just
+    name our global variable etc better, and document what
+    -singlestep actually does, and not bother with the new
+    names for the options/commands.
+(2) if we do do it, do we retain the old name indefinitely,
+    or actively put it on the deprecate-and-drop list?
+(3) what should we do about the HMP StatusInfo object?
+    I'm not sure how we handle compatibility for HMP.
+
+thanks
+-- PMM
+
+
+Peter Maydell (5):
+  Rename the singlestep global variable to one_insn_per_tb
+  linux-user: Add '-one-insn-per-tb' option equivalent to '-singlestep'
+  bsd-user: Add '-one-insn-per-tb' option equivalent to '-singlestep'
+  softmmu: Add '-one-insn-per-tb' option equivalent to '-singlestep'
+  hmp: Add 'one-insn-per-tb' command equivalent to 'singlestep'
+
+ docs/user/main.rst          | 14 ++++++++++++--
+ include/exec/cpu-common.h   |  2 +-
+ include/monitor/hmp.h       |  2 +-
+ accel/tcg/cpu-exec.c        |  4 ++--
+ bsd-user/main.c             |  9 +++++----
+ linux-user/main.c           | 13 ++++++++-----
+ softmmu/globals.c           |  2 +-
+ softmmu/runstate-hmp-cmds.c |  6 +++---
+ softmmu/runstate.c          |  2 +-
+ softmmu/vl.c                |  3 ++-
+ tests/qtest/test-hmp.c      |  1 +
+ hmp-commands.hx             | 25 +++++++++++++++++++++----
+ qemu-options.hx             | 14 ++++++++++++--
+ tcg/tci/README              |  2 +-
+ 14 files changed, 71 insertions(+), 28 deletions(-)
+
+-- 
+2.34.1
+
 
