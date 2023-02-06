@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19E668C638
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 19:56:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B28068C63D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 19:56:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP6cB-0005R9-9i; Mon, 06 Feb 2023 13:53:19 -0500
+	id 1pP6cF-0005eB-Ub; Mon, 06 Feb 2023 13:53:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1pP6c8-0005Dr-1D
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:53:16 -0500
-Received: from mailout01.t-online.de ([194.25.134.80])
+ id 1pP6cD-0005ak-Nq
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:53:21 -0500
+Received: from mailout02.t-online.de ([194.25.134.17])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1pP6c5-0005Wv-FS
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:53:14 -0500
-Received: from fwd72.dcpf.telekom.de (fwd72.aul.t-online.de [10.223.144.98])
- by mailout01.t-online.de (Postfix) with SMTP id 50B73BEB3;
- Mon,  6 Feb 2023 19:53:11 +0100 (CET)
-Received: from linpower.localnet ([79.208.25.151]) by fwd72.t-online.de
+ id 1pP6c8-0005XG-KH
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:53:21 -0500
+Received: from fwd83.dcpf.telekom.de (fwd83.aul.t-online.de [10.223.144.109])
+ by mailout02.t-online.de (Postfix) with SMTP id 39E2D2A35C;
+ Mon,  6 Feb 2023 19:53:15 +0100 (CET)
+Received: from linpower.localnet ([79.208.25.151]) by fwd83.t-online.de
  with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pP6c3-2UCJMX0; Mon, 6 Feb 2023 19:53:11 +0100
+ esmtp id 1pP6c5-3ZIWHZ0; Mon, 6 Feb 2023 19:53:13 +0100
 Received: by linpower.localnet (Postfix, from userid 1000)
- id 977BF2006C9; Mon,  6 Feb 2023 19:52:37 +0100 (CET)
+ id 9A3F82006CE; Mon,  6 Feb 2023 19:52:37 +0100 (CET)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>
 Cc: qemu-devel@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PATCH v2 15/17] audio: handle leftover audio frame from upsampling
-Date: Mon,  6 Feb 2023 19:52:35 +0100
-Message-Id: <20230206185237.8358-15-vr_qemu@t-online.de>
+Subject: [PATCH v2 16/17] audio/audio_template: substitute sw->hw with hw
+Date: Mon,  6 Feb 2023 19:52:36 +0100
+Message-Id: <20230206185237.8358-16-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <df6510fe-1dfd-1585-8590-db230c71d367@t-online.de>
 References: <df6510fe-1dfd-1585-8590-db230c71d367@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1675709591-81AEBD99-F64D8ECC/2/50744550798 SUSPECT
- URL-COUNT
-X-TOI-MSGID: 859d53c4-4527-4f4d-824e-61cc276b1897
-Received-SPF: none client-ip=194.25.134.80;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout01.t-online.de
+X-TOI-EXPURGATEID: 150726::1675709593-432C3378-768373ED/0/0 CLEAN NORMAL
+X-TOI-MSGID: 3eac6bbd-7d12-43bc-8dd2-76cb3f4b2236
+Received-SPF: none client-ip=194.25.134.17;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout02.t-online.de
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_NONE=0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,104 +65,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Upsampling may leave one remaining audio frame in the input
-buffer. The emulated audio playback devices are currently
-resposible to write this audio frame again in the next write
-cycle. Push that task down to audio_pcm_sw_write.
-
-This is another step towards an audio callback interface that
-guarantees that when audio frontends are told they can write
-n audio frames, they can actually do so.
+Substitute sw->hw with hw in the audio_pcm_sw_alloc_resources_*
+functions.
 
 Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- audio/audio.c          | 34 ++++++++++++++++++++++++++++------
- audio/audio_template.h |  6 ++++++
- 2 files changed, 34 insertions(+), 6 deletions(-)
+ audio/audio_template.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/audio/audio.c b/audio/audio.c
-index dad17e59b8..4836ab8ca8 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -731,16 +731,21 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t buf_len)
-     hw_free = hw_free > live ? hw_free - live : 0;
-     frames_out_max = MIN(dead, hw_free);
-     sw_max = st_rate_frames_in(sw->rate, frames_out_max);
--    fe_max = MIN(buf_len / sw->info.bytes_per_frame, sw->resample_buf.size);
-+    fe_max = MIN(buf_len / sw->info.bytes_per_frame + sw->resample_buf.pos,
-+                 sw->resample_buf.size);
-     frames_in_max = MIN(sw_max, fe_max);
- 
-     if (!frames_in_max) {
-         return 0;
-     }
- 
--    sw->conv(sw->resample_buf.buffer, buf, frames_in_max);
--    if (!sw->hw->pcm_ops->volume_out) {
--        mixeng_volume(sw->resample_buf.buffer, frames_in_max, &sw->vol);
-+    if (frames_in_max > sw->resample_buf.pos) {
-+        sw->conv(sw->resample_buf.buffer + sw->resample_buf.pos,
-+                 buf, frames_in_max - sw->resample_buf.pos);
-+        if (!sw->hw->pcm_ops->volume_out) {
-+            mixeng_volume(sw->resample_buf.buffer + sw->resample_buf.pos,
-+                          frames_in_max - sw->resample_buf.pos, &sw->vol);
-+        }
-     }
- 
-     audio_pcm_sw_resample_out(sw, frames_in_max, frames_out_max,
-@@ -749,6 +754,22 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t buf_len)
-     sw->total_hw_samples_mixed += total_out;
-     sw->empty = sw->total_hw_samples_mixed == 0;
- 
-+    /*
-+     * Upsampling may leave one audio frame in the resample buffer. Decrement
-+     * total_in by one if there was a leftover frame from the previous resample
-+     * pass in the resample buffer. Increment total_in by one if the current
-+     * resample pass left one frame in the resample buffer.
-+     */
-+    if (frames_in_max - total_in == 1) {
-+        /* copy one leftover audio frame to the beginning of the buffer */
-+        *sw->resample_buf.buffer = *(sw->resample_buf.buffer + total_in);
-+        total_in += 1 - sw->resample_buf.pos;
-+        sw->resample_buf.pos = 1;
-+    } else if (total_in >= sw->resample_buf.pos) {
-+        total_in -= sw->resample_buf.pos;
-+        sw->resample_buf.pos = 0;
-+    }
-+
- #ifdef DEBUG_OUT
-     dolog (
-         "%s: write size %zu written %zu total mixed %zu\n",
-@@ -1155,8 +1176,9 @@ static void audio_run_out (AudioState *s)
-                 } else {
-                     free = 0;
-                 }
--                if (free > 0) {
--                    free = MIN(free, sw->resample_buf.size);
-+                if (free > sw->resample_buf.pos) {
-+                    free = MIN(free, sw->resample_buf.size)
-+                           - sw->resample_buf.pos;
-                     sw->callback.fn(sw->callback.opaque,
-                                     free * sw->info.bytes_per_frame);
-                 }
 diff --git a/audio/audio_template.h b/audio/audio_template.h
-index a0b653f52c..0d8aab6fad 100644
+index 0d8aab6fad..7e116426c7 100644
 --- a/audio/audio_template.h
 +++ b/audio/audio_template.h
-@@ -138,6 +138,12 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE) (SW *sw)
-         return -1;
+@@ -107,6 +107,7 @@ static void glue (audio_pcm_sw_free_resources_, TYPE) (SW *sw)
+ 
+ static int glue (audio_pcm_sw_alloc_resources_, TYPE) (SW *sw)
+ {
++    HW *hw = sw->hw;
+     int samples;
+ 
+     if (!glue(audio_get_pdo_, TYPE)(sw->s->dev)->mixing_engine) {
+@@ -125,7 +126,6 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE) (SW *sw)
      }
  
-+    /*
-+     * Allocate one additional audio frame that is needed for upsampling
-+     * if the resample buffer size is small. For large buffer sizes take
-+     * care of overflows.
-+     */
-+    samples = samples < INT_MAX ? samples + 1 : INT_MAX;
-     sw->resample_buf.buffer = g_new0(st_sample, samples);
-     sw->resample_buf.size = samples;
+     if (samples == 0) {
+-        HW *hw = sw->hw;
+         size_t f_fe_min;
+ 
+         /* f_fe_min = ceil(1 [frames] * f_be [Hz] / size_be [frames]) */
+@@ -149,9 +149,9 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE) (SW *sw)
      sw->resample_buf.pos = 0;
+ 
+ #ifdef DAC
+-    sw->rate = st_rate_start (sw->info.freq, sw->hw->info.freq);
++    sw->rate = st_rate_start(sw->info.freq, hw->info.freq);
+ #else
+-    sw->rate = st_rate_start (sw->hw->info.freq, sw->info.freq);
++    sw->rate = st_rate_start(hw->info.freq, sw->info.freq);
+ #endif
+ 
+     return 0;
 -- 
 2.35.3
 
