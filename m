@@ -2,95 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA4B68B3A3
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 02:10:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 564F868B471
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 04:22:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOq0D-00086E-1k; Sun, 05 Feb 2023 20:09:01 -0500
+	id 1pOs4J-0002vF-Ld; Sun, 05 Feb 2023 22:21:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1pOq0B-00085v-8Q
- for qemu-devel@nongnu.org; Sun, 05 Feb 2023 20:08:59 -0500
-Received: from out3-smtp.messagingengine.com ([66.111.4.27])
+ (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
+ id 1pOs4G-0002ur-O3
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 22:21:20 -0500
+Received: from out30-110.freemail.mail.aliyun.com ([115.124.30.110])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1pOq09-0007jH-Ki
- for qemu-devel@nongnu.org; Sun, 05 Feb 2023 20:08:59 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id D651F5C013E;
- Sun,  5 Feb 2023 20:08:55 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Sun, 05 Feb 2023 20:08:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1675645735; x=
- 1675732135; bh=TLiwYAbG6WF1xb1iZ+DG1liPHGd/G4F4LT16UUbKemc=; b=i
- Qrjp8cF7IOEVK7JQPHv6jHxVRABax/Z3usj4Atj27Rvho1NlRBb/TvHzwf+e/n13
- Y/pNdT9qn2WGpV/g5VcaphZKpD9wvuhQkZGpz1BdvvyuaTxA98OzFbZeK/+ciWE2
- cQEoK6kguvmDPVAVDzDqKvE+/4kP6CgljJ0rDR/q038xQKnCJbu0TJs78l5CV4ci
- BF2UDiGH1BJq7Afs96CTBbg+4Kgwh8iu+236+87eMiXXgucjL2/YGxQfAOMaK+af
- B3Ra94o5K9Qxws3ww7M/3chN4jFywSiMUBg81eUnHtBlgQmd5oEQx/wxpn2e3lbS
- 0Rbel9xYz8/Bdb5MNCYnA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1675645735; x=
- 1675732135; bh=TLiwYAbG6WF1xb1iZ+DG1liPHGd/G4F4LT16UUbKemc=; b=q
- q9KBjKr3l+B+TSO4BSMLKaD5ZBf36sacqlVJBEggz1armasslWnezhNILB46UoxH
- +X9HUxVENzHYGn9YUK2dShtAhjojWboMktTrIdmCPbqMcapSAbANrRima6fJYs+y
- 2JHVYTM0eCB008g0safSKSOjfbp5KMs9mZ/i7uvJWV2OTYCNn6aqSEaQ9O3mB4SP
- ZZE+xHkRdz4GXGUly4pAmOeavLkjoFsIWtn46MCFb/ODj8nOuD7YyI8ILZP7ND1f
- GCYytii3mgUnmT9ElrMn5vPCc2Kk2dppy6RUZ1bpRNBJdz34i9CbYOUSmqst0vBZ
- 8Mz8dSKv/rIbTTBAXrTFw==
-X-ME-Sender: <xms:J1PgYwwSbmlOB4bpI9NEFvDPXXJWTzWykSsvK7lsMy2Va_eF54MHAQ>
- <xme:J1PgY0STGhvhG9FGrlRxB7h-1nLODSLZ3uX_xK1o0bi2EOsxNhvan10DO5y2B0YGC
- 0ZF_xhDss_h5iieedA>
-X-ME-Received: <xmr:J1PgYyUksBzZcXRjnzrXTeu__aDaHJ8TlHfqM5R_FPW68WMAfHFxbxykQJ1KSBx1bUwN>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeghedgvdekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurheptggguffhjgffvefgkfhfvffosehtqhhmtdhhtdejnecuhfhrohhmpeflihgr
- gihunhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqne
- cuggftrfgrthhtvghrnhepuddtjeffteetfeekjeeiheefueeigeeutdevieejveeihfff
- ledvgfduiefhvddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
- hfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:J1PgY-gNeCTPi2CXuzj1bnmttS8EgmQzW-WNb-SIMQ-SxUgayMCuHg>
- <xmx:J1PgYyAgwKFM81xAc7myFl3shijlACE_khuRSnEDWSHcVoSUmosZdw>
- <xmx:J1PgY_IJEVq69EYFQmGqaZegEL7eKUxV9c10fwRqWYIrBFTPzWGDSQ>
- <xmx:J1PgYz7u-3kegZY12GmaiJRqRvDvLYWOUzrzrzxCc9VpwEU8u7_pfg>
-Feedback-ID: ifd894703:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 5 Feb 2023 20:08:54 -0500 (EST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.300.101.1.3\))
-Subject: Re: [PATCH 3/3] hw/mips: Add MIPS virt board
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <02b95cdf-fe38-f147-1b9c-5078aaf35adb@linaro.org>
-Date: Mon, 6 Feb 2023 01:08:43 +0000
-Cc: BALATON Zoltan via <qemu-devel@nongnu.org>,
- BALATON Zoltan <balaton@eik.bme.hu>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <BC1C4370-DD4F-4777-9F83-6D9FA719F0A1@flygoat.com>
-References: <20230202132138.30945-1-jiaxun.yang@flygoat.com>
- <20230202132138.30945-4-jiaxun.yang@flygoat.com>
- <02b95cdf-fe38-f147-1b9c-5078aaf35adb@linaro.org>
-To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-X-Mailer: Apple Mail (2.3731.300.101.1.3)
-Received-SPF: pass client-ip=66.111.4.27; envelope-from=jiaxun.yang@flygoat.com;
- helo=out3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
+ id 1pOs4E-000693-HP
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 22:21:20 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R101e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046056;
+ MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=3; SR=0;
+ TI=SMTPD_---0Vawboys_1675653665; 
+Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
+ fp:SMTPD_---0Vawboys_1675653665) by smtp.aliyun-inc.com;
+ Mon, 06 Feb 2023 11:21:05 +0800
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+To: qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>
+Subject: [PATCH v2 0/2] virtio: fix for assertion failure:
+ virtio_net_get_subqueue(nc)->async_tx.elem failed
+Date: Mon,  6 Feb 2023 11:21:03 +0800
+Message-Id: <20230206032105.35831-1-xuanzhuo@linux.alibaba.com>
+X-Mailer: git-send-email 2.32.0.3.g01195cf9f
+MIME-Version: 1.0
+X-Git-Hash: 761767cc32
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.124.30.110;
+ envelope-from=xuanzhuo@linux.alibaba.com;
+ helo=out30-110.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,53 +61,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+In the current design, we stop the device from operating on the vring
+during per-queue reset by resetting the structure VirtQueue.
 
+But before the reset operation, when recycling some resources, we should
+stop referencing new vring resources.
 
-> 2023=E5=B9=B42=E6=9C=885=E6=97=A5 11:48=EF=BC=8CPhilippe =
-Mathieu-Daud=C3=A9 <philmd@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> Hi Jiaxun,
->=20
-> On 2/2/23 14:21, Jiaxun Yang wrote:
->> MIPS virt board is design to utilize existing VirtIO infrastures
->> but also comptitable with MIPS's existing internal simulation tools.
->> It includes virtio-mmio, pcie gpex, flash rom, fw_cfg, goldfish-rtc,
->> and optional goldfish_pic in case MIPS GIC is not present.
->=20
-> Is it worth using the CPS/GIC? Can't we using the goldfish PIC
-> regardless CPS availability? Did you run performance comparison?
+This bug is caused by this reason.
 
-goldfish_pic don=E2=80=99t have IPI infra so we must reinvent another =
-SMP mechanism :-(
+    https://gitlab.com/qemu-project/qemu/-/issues/1451
 
-The interrupt performance should be close as the interrupt handling flow =
-is almost
-the same.
+Before we reset the structure, we called the ->queue_reset callback to let the
+device reclaim resources. Here virtio-net tries to release the packets sent
+asynchronously, but during this process virtio_net_flush_tx() will be called,
+and new data will be sent again. This leads to asserted.
 
-Also it can help us prepare for I6400 vGIC support.
+     assert(!virtio_net_get_subqueue(nc)->async_tx.elem);
 
-Thanks.
-- Jiaxun
+v2:
+    1. fix by stop flush inside virtio_net_tx_complete() when purge packets.
 
+v1:
+    1. rename "reset" to disabled_by_reset
+    2. add api: virtio_queue_reset_state()
 
->=20
->> It should be able to cooperate with any MIPS CPU cores.
->> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->> ---
->> v1:
->>  - Rename to virt board
->>  - Convert BIOS flash to ROM
->>  - Cleanups
->> ---
->>  MAINTAINERS                             |    7 +
->>  configs/devices/mips-softmmu/common.mak |    1 +
->>  docs/system/target-mips.rst             |   24 +
->>  hw/mips/Kconfig                         |   18 +
->>  hw/mips/meson.build                     |    1 +
->>  hw/mips/virt.c                          | 1015 =
-+++++++++++++++++++++++
->>  6 files changed, 1066 insertions(+)
->>  create mode 100644 hw/mips/virt.c
->=20
+Xuan Zhuo (2):
+  virtio_net: virtio_net_tx_complete() stop flush new packets for purge
+    operation
+  virtio_net: just purge tx when dev/queue reset
+
+ hw/net/virtio-net.c | 34 +++++++++++++++++++---------------
+ 1 file changed, 19 insertions(+), 15 deletions(-)
+
+--
+2.32.0.3.g01195cf9f
 
 
