@@ -2,90 +2,159 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6109E68CAB0
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 00:41:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 401E168CAC8
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 00:46:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPB6M-0004Fl-Lq; Mon, 06 Feb 2023 18:40:46 -0500
+	id 1pPBBH-000635-DL; Mon, 06 Feb 2023 18:45:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pPB6F-0004DP-DD; Mon, 06 Feb 2023 18:40:39 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pPB68-0007cd-JN; Mon, 06 Feb 2023 18:40:37 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id p26so38801172ejx.13;
- Mon, 06 Feb 2023 15:40:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JVy6FR1hEbasmnaifEknW49PgE9Wuzdb9VjLYGE2QUg=;
- b=HP8KsnD9pHrttD6wgAx907uX8oeMNTNfFNfoYuXVkGOCRpd+QPE2sBwuT+E/DO4fTX
- AtN+WfcJ/KR6erka6E7+nYZ3uYQHcj9C2FfV6iOf+I+ff5w7eBKUpPFns6b7GljO1IoK
- mE4VGZ86PUKxutem6W6nhTRk9w3Uc3hvlanY8nfF37D8HrRgyZUom+20hAbNrGpn0Scb
- Xy9Pw2Da5LwBbT4yfRBvAkZ0NsF3I7XfZ5oqbMTd26AEzv12uKzIIxg6f+oltdRI3neT
- t6LDHU0Lozu2fVNP4+BH/qMJt3bUnT7h1uAOheUT7uDL9itBSvr+D+RBXN+0/kwx8aHI
- rR2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JVy6FR1hEbasmnaifEknW49PgE9Wuzdb9VjLYGE2QUg=;
- b=Fv540y5j+6Yc0IK7GUBrW/oM8uZWCXMdaa5UaZiiLQdkdxCtEAkxdGG6vuzCRswB+4
- qFk0E0abufaWjC7PaWVUOf6v/TCAMT++3MBRHm0niFlRnAjS9bef20r/jKAt3G8G3MIx
- rc+zLEBTeIP2tLCntfXTkL/PbLsk77r7MG+xIEY83dD8nH2UdGQaTYo+xHfPjKLCh5w8
- ZuqYGUwYwZg2U11aZd10w8JDz2cjsMXQbcD76LxDwAEaCjmvCHgo3nMSzvVCZZv7UmwB
- 5MnUQPEnptaSkxPEC3FoNcBdFUBcQHP8wsbxsH7wlwgs3iFlfCJyPUXiyRiI3w1iETx1
- SJmg==
-X-Gm-Message-State: AO0yUKXLDzq1q4LLG2ol3QCXhzzfh2ztEhf6eh/nFx2vo7r0EN3DjoLz
- lP0i+JhgE8/KEO0CZZa+abM=
-X-Google-Smtp-Source: AK7set9DapzhZBTc3Z6XfJfgBz+d4JDUR2DHBDROI63d0DuTkQ9OpTUS7MKezr32+HdDwvSVEM7rhQ==
-X-Received: by 2002:a17:907:7211:b0:88d:ba89:184f with SMTP id
- dr17-20020a170907721100b0088dba89184fmr20807235ejc.32.1675726829273; 
- Mon, 06 Feb 2023 15:40:29 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-077-191-247-108.77.191.pool.telefonica.de.
- [77.191.247.108]) by smtp.gmail.com with ESMTPSA id
- y14-20020a17090668ce00b00887f6c39ac0sm6115069ejr.98.2023.02.06.15.40.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 15:40:28 -0800 (PST)
-Date: Mon, 06 Feb 2023 23:40:20 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- BALATON Zoltan <balaton@eik.bme.hu>
-CC: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-ppc@nongnu.org, qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_07/10=5D_hw/ide/piix=3A_Require?=
- =?US-ASCII?Q?_an_ISABus_only_for_user-created_instances?=
-In-Reply-To: <935ae2a8-4327-53c6-1649-36698a00901d@ilande.co.uk>
-References: <20230126211740.66874-1-shentey@gmail.com>
- <20230126211740.66874-8-shentey@gmail.com>
- <fb287888-c88c-60b1-20a4-1e50ddbf1daf@ilande.co.uk>
- <alpine.LMD.2.03.2302052308460.32269@eik.bme.hu>
- <935ae2a8-4327-53c6-1649-36698a00901d@ilande.co.uk>
-Message-ID: <00D45BF9-CA37-42FF-BDE1-F742B04F60F4@gmail.com>
+ (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
+ id 1pPBB8-00061J-Ec
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 18:45:43 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
+ id 1pPBB5-0008Eh-Db
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 18:45:41 -0500
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 316KESU2009779; Mon, 6 Feb 2023 23:45:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=corp-2022-7-12;
+ bh=HkaBaRL+ZwFGS951fjDpQkEvThfBb62coYc7KELuFv4=;
+ b=XQRxAuvYl8UIH0F28hVZE4pHoOveVkMJO8aWkH0eSj3joVFbhaOlI7ZLShol2qilYKw9
+ fv9nRbsCsusuV+30hcenrNJZwdNJIdE0lfP+zIChMQJLVbgnI362PLxg0vSBAnyHNIuk
+ trdBTBqI8Ta2wiY5RC+rdRcgv3SDtWEjOQ7Lce1vJU6eju6JRYmK4qOQhLGbAcUXO9Q/
+ LEupoKWEZhXiiHbc9R+aOG8MTBsIYp6IL3dGz4ui3jypDSL6XdpH4QX0W6zQIDCQdkNi
+ XJCIc+bRjSB5mzkpZfm0EvOYg2IbswKuGnvf1Zok/JT1lo6JrTvbHnmk1Mpg/lSac/Ns Wg== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nhe9nc7qb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 06 Feb 2023 23:45:35 +0000
+Received: from pps.filterd
+ (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
+ with ESMTP id 316Ngn1X016804; Mon, 6 Feb 2023 23:45:34 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2174.outbound.protection.outlook.com [104.47.55.174])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3njrb9b3gg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 06 Feb 2023 23:45:33 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LeQ9RHZ0zIOIcXH9WlDblm+PKl0JzD0SpSPNBdkS3BqUIPcTPOZA0mqwde49LkTpX3AG+oJYr7Dv+9xlsDG48dYTnFQKN86xL6zEzdoHzGzdbSzYZAiMWQB1Lgew+VLDLEfkZhgasR8CTLZEPursk9eVrUp1FEN9ppgUrPix2+nc5pvonN4nMa01mHGF2arEb+DzHobtAl8Nv7FDrPpbL+MiVhI2wdrzuS77qPGTT1Fj9k+N5bRTnA3GE9Feqvxu26ccuoozewJLa8VHTAm+hrH4mhGyrn2nBdkoBj2FlMo/6otWfkbwiIJlKKkb2jJ/3r9XaomSiZC8izvsBrfSNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HkaBaRL+ZwFGS951fjDpQkEvThfBb62coYc7KELuFv4=;
+ b=kc1izm+Qo2Kf5Zy+NcEuExgLMzuSBefDsCup6SHfiAjV7cvJC1LFeAGUWov9E0VjofdFdTY47sUwVDO+XiOgrBiMdcus/mqyDaeEDvgoKsbfHOx9wvKzLywX7KPLXyd7VD9907WZzbCVcRpWw8KWrBTVEW61aJM6dDLlXmzUdi6pq78SkDyPitc7ZeQ44uMJH4V/NzL7/f7v+ZvLMXvnr24GAmrJdy0pe7EXE4tUrJ22UcUczgZoU21nJYxpdtV6gK+HRZjcuMQebCImucKTygzpZ6OB11wBQMW9TBeXuIpcGnJANfCRD1ihNIlhhHlN6h1pkgaDjRif7fwe3dbxTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HkaBaRL+ZwFGS951fjDpQkEvThfBb62coYc7KELuFv4=;
+ b=ZrRJBTUjxBWL/QSk8NoBuLVV02jQ10n0KqpqURfoB+sIhDekdSwxP1vvPD8nEk5qWWn/5B/Q55PVzUKZ9hx6G+S/ennYuIdsAoGlJa558RZLwjrTJlVbgweiHFe/TL98oHpozBfFweYsZjh/0Smp9ROvAKWgR0z0WPuzk5YjuMc=
+Received: from BYAPR10MB2663.namprd10.prod.outlook.com (2603:10b6:a02:a9::20)
+ by MN2PR10MB4141.namprd10.prod.outlook.com (2603:10b6:208:1df::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.24; Mon, 6 Feb
+ 2023 23:42:51 +0000
+Received: from BYAPR10MB2663.namprd10.prod.outlook.com
+ ([fe80::d3a9:5199:9c2:e8fe]) by BYAPR10MB2663.namprd10.prod.outlook.com
+ ([fe80::d3a9:5199:9c2:e8fe%4]) with mapi id 15.20.6086.009; Mon, 6 Feb 2023
+ 23:42:51 +0000
+From: Dongli Zhang <dongli.zhang@oracle.com>
+To: qemu-devel@nongnu.org
+Cc: dgilbert@redhat.com, richard.henderson@linaro.org, pbonzini@redhat.com,
+ joe.jin@oracle.com
+Subject: [PATCH 1/1] hw/core/cpu: always print cpu index with cpu state
+Date: Mon,  6 Feb 2023 15:42:20 -0800
+Message-Id: <20230206234220.8414-1-dongli.zhang@oracle.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR13CA0082.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c4::27) To BYAPR10MB2663.namprd10.prod.outlook.com
+ (2603:10b6:a02:a9::20)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR10MB2663:EE_|MN2PR10MB4141:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1a10225d-4e59-4495-5a57-08db089bdc07
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: aL6eSj42PvYoV4pj2+pMIR5gPX7QEEfBwE+1gIpmPxmyfrQtFe09BmSJ1N4albA7/h1kn6VNabyCSfcHvomZrqVucTh3lU27cQVPvXwF94jLZDUP+qGf1QuuYFLuf3OFmdocP8EK4NswEtpkaNAQp3i16JklQd4FeQEMz3AhLJuwbK8n/FOVgbiCa3Jh61CdfpZJeYYLakNwi8GHSabbokNHdJwTLdGIFws8jlZGa3yEvzxmcMgvy74cl6fDqnNmKMdlEwYa+MQT2Oi40EYY/EvnZZvCkKHkSQJ4ysiIhBR963p3ebMmYmkJBVb3I2ACsoijUoliV4UiXVmbzcTP1IPYAFtB1cLV5EqlXDSHrc/n3H2qDsop0I2fuitVymgIq+PYZ/nK640JeyRZR10C6SS6dtZFbZq+/anK0ISB0bc4fc9I4371TF6syUjSWq/9gMMi0Sp+vt4xwQvlkJPnaEH25nnasLD6HNlGwqwznG8X3mmn3H1nEPHN/VNDT6JsaIbVmRNymV0SrAmO3/+fGsUF5x59RlxjR1pVwAsCnBtybRKt3nbejrkBlCWiJuc4pSzlfkevSMZaXIGiiX3v8nShIwBv/YEGQRoFmZmz4kanTCIbUcb/a3Q43c0nhcQkyr1Sx4Gvdz/v/DA4u4VJ1A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR10MB2663.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(366004)(39860400002)(136003)(346002)(376002)(396003)(451199018)(41300700001)(66946007)(316002)(66556008)(5660300002)(8936002)(44832011)(2906002)(86362001)(36756003)(38100700002)(66476007)(6916009)(8676002)(83380400001)(4326008)(478600001)(2616005)(6486002)(6512007)(6506007)(186003)(1076003)(26005)(107886003)(6666004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qFt4s8Y6UQismudKTO0URrsXWgIuzniIS5obKHodzt8FkNLQ0Nc+WASMUXqt?=
+ =?us-ascii?Q?kYReYLeR3F+C4g5s9GjEhfvngX3RZ4PsJ3gLPxRbL7eyzlzUNpSakzRjXNAV?=
+ =?us-ascii?Q?Jfduujb4x5AxdxebFDjHeSbfq4gekpF0HQbAK4tesnZenF68Ccfxof+Tf27h?=
+ =?us-ascii?Q?thrW29NZzILTXknbQMv1XoGScXHBwnA2JwC6X+Ms1904JaRimmuVG7ttbfSI?=
+ =?us-ascii?Q?N/ONYfe7azRkmtVN+Ho50W7N6b+UkOVg+1P8GDX+nuSsll04uqoksCtQCBBN?=
+ =?us-ascii?Q?HPFf1zbNTPZJ+foehl47pz6PQLotWsOjKfTrNp4DrgTgwDsne0lCAMwUWzcb?=
+ =?us-ascii?Q?0x41/NB+bNISSheENwkE+DM4AThf8+r9lhiklYo65/uOXNJG9fa1ulKtjogQ?=
+ =?us-ascii?Q?qDkl1tcCVPXlgVgUvt3MtQBqaMTdhXmdpKgIMGtZq8b7aSsa/ucTLYQDPDiu?=
+ =?us-ascii?Q?OgKLAk5OjvW7jLgvTeq5h7k/UFEy3bLbZ0I6FJRqI3+w3R07rL7cNL0VNywI?=
+ =?us-ascii?Q?4iBgvWPwIWQUjTmOtZ4Xcak8xp7hfJJ99Q6DefdKdYu7DcgFd/PqdP93b0W+?=
+ =?us-ascii?Q?r0C0dUqkTYrP8Al1Xo5eyLgnUrLFb7tL1kUpmaJwPvYBKsZm1eb3nVMLkft9?=
+ =?us-ascii?Q?+Wy2hsnvfNqDOEmjSYQBL7+vGuQ4uY+XQf2xLr/ULejBqhg+e+XvnVAkDmea?=
+ =?us-ascii?Q?xwKspzJMJbYyarMhzNBkyVKwuLaSeb5dV3ag5vjyJOihBipWKyRtAicYr78J?=
+ =?us-ascii?Q?T1sPsAsTZDFf4FyIMTkSRJvGOmqba6nzpr2OXMA9O9hySL+iY0J3c4uiwVvy?=
+ =?us-ascii?Q?aQ958coB/PAIgQQZLgv54EgO7n4+daH+h3lszEGAPcq0gn77xR4h8e79AQUJ?=
+ =?us-ascii?Q?4+prfwlyQqSZiSZINnsXCahIqafK1miTFsQyOw5p/eVTm4rF5Y1E3agWKuf+?=
+ =?us-ascii?Q?QNbT+CcYI6uLJd9p5tAIMfxxu14zTugvR6b9+izqge6M7kUfhuLrR3AmstIF?=
+ =?us-ascii?Q?F8RUFiMTcYyTahwZqvQlzqZyoGlNvo7d65EiVVUsnGC0s0kIzGkB4/SESeYy?=
+ =?us-ascii?Q?8OTHBEWwB22yyFaSrYUDnYlUGtN7/eAud9BUdQv0mm+ozOeZaAI6b5/D4UJb?=
+ =?us-ascii?Q?yTmp7zzGzgZfdJ7wpzgIGfQaPrM9vd8ErJKt1fhZ3uw8fo4Fd0HDb5v3q2Oc?=
+ =?us-ascii?Q?IjmVVplU51tJAnV4HGMsrLEgevlGuPKTcfWVyS/Toe2cZhALtZCZMRaLqAyF?=
+ =?us-ascii?Q?q0qzt5U+v1D6su0fJFv/ROINEbTjnRM34AdjUs63Bsxzlz0q+fVHG1FsM1Hz?=
+ =?us-ascii?Q?3mP/v9eIcuHMrcsvldMwhh17RClPf3G5JPxmMzwHmKxztz0Fsz11ehM/aOM3?=
+ =?us-ascii?Q?76Yz2cxyD6Nl9SLju0CKyIQTKNJOziZAj219tr9aPe/c8WMPyehCCaV+m0SL?=
+ =?us-ascii?Q?xYGcUpLBUr4XlqYQSXq4cbp6oIFbzbrJbyUsgcBjouKBwp9MVFMNncXugTxx?=
+ =?us-ascii?Q?/hOtNxtGN+cSRHJB3SQSUWyt5VMdSXSanq6irPJuQmLJV+mF8Oka4BuFrOFn?=
+ =?us-ascii?Q?Sph/yE+6HbiFAI84pEo8Js+e1EiAvMYOeZaZRnRWa2RzEWqO0d9UVcIBT6AH?=
+ =?us-ascii?Q?rw=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: /89qtrgUU6qowws5jqLhGW4UfrjNl5WE4cArLqzATkcs38DN3ZxMoResYKVPMZ4VObk5ylNgxNMKu2cs97y3BUHz0v/ItGNbCjVpjZU8spo/D2Kg/i2JlEJzQ1CPWXE/uOAlkZQCACrYZ7gERVSbXq4WWR0K4OMbwwmOWvzyZiJIi/WEHA04ZrIcdc6B4Oz1p3PmtvHZfg0p0mChrX1rncLs/T7jca2zSUiU0uzAGIOKz2qNByG2ghYGIicAf/F7qp050z9BkMxbdskKzP9MFTMKAUBM0X+P5EcSeVy3ahFEzC+cRoKt0nJdguQIH7HEwJ8D+rm3gTZLj2ynyyOSw9+dUExWIFRSYQnGvI4BE9CL7oEDhTQHe6npvzre409BZkBo2/Jldvf/MW2g4sutz6DBV+LZwmZFqyjsNR7oVUtIHeXHeOUZS+nSANqhpKjFuwQ0sHZmXmbwlfsjatUUNZGlcolFLVSVAgjy0bFsEypp7yOvsLcTV8de4wbKozFcNqKES5VsqgRxIbjwVONt7vjc2/CNebc2rBwuFYxcBdxHkhGM42iHKknnaxNrcwO7bmD7eoPRZomNn09FxkKzz9wc0i/aMl6Ob44uHN7BKFBGQDOWNHtxxdMegW4HEzruY2P4v/Mrp64zvOEnSnY4vZ+ahze9tKDJVhCDpugRBCzMUNYZE+9Z1xM6ZM9tZBvfk6VfNgOI1AyyGbJR0euenCzQZuIEgbaUcGoBhJdkqsiP6wUyTeOZkv/O5jyIqugQZkYMsfeOSVhdoBk03yLps4o8IFRP7oL6LQZO1rx5x/8H2v5YrndzcwFx8IO9d4vn
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a10225d-4e59-4495-5a57-08db089bdc07
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2663.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2023 23:42:50.9666 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5xM0QYsJrLfgKx7f5umSNFKppN9WHufeE+7YXvOppJpHP5DNGdE1peu+hwRlgo9XgU4R3qw8nzl4g/2tHpkvMA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4141
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-06_07,2023-02-06_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ phishscore=0 spamscore=0
+ malwarescore=0 suspectscore=0 mlxscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2302060205
+X-Proofpoint-ORIG-GUID: e-S8oeFYSQ9j5uW-d9YnXSh7t3wL3YSn
+X-Proofpoint-GUID: e-S8oeFYSQ9j5uW-d9YnXSh7t3wL3YSn
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=dongli.zhang@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,297 +170,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+The cpu_dump_state() does not print the cpu index. When the
+cpu_dump_state() is invoked due to the KVM failure, we are not able to tell
+from which CPU the state is. The below is an example.
 
+KVM internal error. Suberror: 764064
+RAX=0000000000000002 RBX=ffff8a9e57c38400 RCX=00000000ffffffff RDX=ffff8a9cc00ba8a0
+RSI=0000000000000003 RDI=ffff8a9e57c38400 RBP=ffffb6120c5b3c50 RSP=ffffb6120c5b3c40
+R8 =0000000000000000 R9 =ffff8a9cc00ba8a0 R10=ffffffff8e467350 R11=0000000000000007
+R12=000000000000000a R13=ffffffff8f987e25 R14=ffffffff8f988a01 R15=0000000000000000
+RIP=ffffffff8e51bb04 RFL=00010046 [---Z-P-] CPL=0 II=0 A20=1 SMM=0 HLT=0
+ES =0000 0000000000000000 ffffffff 00c00000
+CS =0010 0000000000000000 ffffffff 00a09b00 DPL=0 CS64 [-RA]
+SS =0000 0000000000000000 ffffffff 00c00000
+DS =0000 0000000000000000 ffffffff 00c00000
+FS =0000 0000000000000000 ffffffff 00c00000
+GS =0000 ffff8ac27fcc0000 ffffffff 00c00000
+LDT=0000 0000000000000000 ffffffff 00c00000
+TR =0040 fffffe0000096000 0000206f 00008b00 DPL=0 TSS64-busy
+GDT=     fffffe0000094000 0000007f
+IDT=     fffffe0000000000 00000fff
+CR0=80050033 CR2=0000000000000000 CR3=00000010ca40a001 CR4=003606e0
+DR0=0000000000000000 DR1=0000000000000000 DR2=0000000000000000 DR3=0000000000000000
+DR6=00000000fffe0ff0 DR7=0000000000000400
+EFER=0000000000000d01
+Code=0f 1f ... ...
 
-Am 5=2E Februar 2023 22:32:03 UTC schrieb Mark Cave-Ayland <mark=2Ecave-ay=
-land@ilande=2Eco=2Euk>:
->On 05/02/2023 22:21, BALATON Zoltan wrote:
->
->> On Sun, 5 Feb 2023, Mark Cave-Ayland wrote:
->>> On 26/01/2023 21:17, Bernhard Beschow wrote:
->>>> Internal instances now defer interrupt wiring to the caller which
->>>> decouples them from the ISABus=2E User-created devices still fish out=
- the
->>>> ISABus from the QOM tree and the interrupt wiring remains in PIIX IDE=
-=2E
->>>> The latter mechanism is considered a workaround and intended to be
->>>> removed once a deprecation period for user-created PIIX IDE devices i=
-s
->>>> over=2E
->>>>=20
->>>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->>>> ---
->>>> =C2=A0 include/hw/ide/pci=2Eh |=C2=A0 1 +
->>>> =C2=A0 hw/ide/piix=2Ec=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 64=
- ++++++++++++++++++++++++++++++++++----------
->>>> =C2=A0 hw/isa/piix=2Ec=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 5 ++++
->>>> =C2=A0 3 files changed, 56 insertions(+), 14 deletions(-)
->>>>=20
->>>> diff --git a/include/hw/ide/pci=2Eh b/include/hw/ide/pci=2Eh
->>>> index 24c0b7a2dd=2E=2Eee2c8781b7 100644
->>>> --- a/include/hw/ide/pci=2Eh
->>>> +++ b/include/hw/ide/pci=2Eh
->>>> @@ -54,6 +54,7 @@ struct PCIIDEState {
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MemoryRegion bmdma_bar;
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MemoryRegion cmd_bar[2];
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MemoryRegion data_bar[2];
->>>> +=C2=A0=C2=A0=C2=A0 bool user_created;
->>>> =C2=A0 };
->>>> =C2=A0=C2=A0=C2=A0 static inline IDEState *bmdma_active_if(BMDMAState=
- *bmdma)
->>>> diff --git a/hw/ide/piix=2Ec b/hw/ide/piix=2Ec
->>>> index 5980045db0=2E=2Ef0d95761ac 100644
->>>> --- a/hw/ide/piix=2Ec
->>>> +++ b/hw/ide/piix=2Ec
->>>> @@ -108,6 +108,13 @@ static void bmdma_setup_bar(PCIIDEState *d)
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>> =C2=A0 }
->>>> =C2=A0 +static void piix_ide_set_irq(void *opaque, int n, int level)
->>>> +{
->>>> +=C2=A0=C2=A0=C2=A0 PCIIDEState *d =3D opaque;
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0 qemu_set_irq(d->isa_irqs[n], level);
->>>> +}
->>>> +
->>>> =C2=A0 static void piix_ide_reset(DeviceState *dev)
->>>> =C2=A0 {
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PCIIDEState *d =3D PCI_IDE(dev);
->>>> @@ -138,11 +145,18 @@ static void pci_piix_init_ports(PCIIDEState *d,=
- ISABus *isa_bus)
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int i;
->>>> =C2=A0 +=C2=A0=C2=A0=C2=A0 if (isa_bus) {
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 d->isa_irqs[0] =3D isa_bu=
-s->irqs[port_info[0]=2Eisairq];
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 d->isa_irqs[1] =3D isa_bu=
-s->irqs[port_info[1]=2Eisairq];
->>>> +=C2=A0=C2=A0=C2=A0 } else {
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qdev_init_gpio_out(DEVICE=
-(d), d->isa_irqs, 2);
->>>> +=C2=A0=C2=A0=C2=A0 }
->>>> +
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < 2; i++) {
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ide_bus_init(&=
-d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ide_init_iopor=
-t(&d->bus[i], NULL, port_info[i]=2Eiobase,
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 port_info[i]=2Eiobase2);
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ide_init2(&d->bus[i], isa=
-_bus->irqs[port_info[i]=2Eisairq]);
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ide_init2(&d->bus[i], qde=
-v_get_gpio_in(DEVICE(d), i));
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bm=
-dma_init(&d->bus[i], &d->bmdma[i], d);
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 d->bmdma[i]=2E=
-bus =3D &d->bus[i];
->>>> @@ -154,8 +168,7 @@ static void pci_piix_ide_realize(PCIDevice *dev, =
-Error **errp)
->>>> =C2=A0 {
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PCIIDEState *d =3D PCI_IDE(dev);
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint8_t *pci_conf =3D dev->config;
->>>> -=C2=A0=C2=A0=C2=A0 ISABus *isa_bus;
->>>> -=C2=A0=C2=A0=C2=A0 bool ambiguous;
->>>> +=C2=A0=C2=A0=C2=A0 ISABus *isa_bus =3D NULL;
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pci_conf[PCI_CLASS_PROG] =
-=3D 0x80; // legacy ATA mode
->>>> =C2=A0 @@ -164,22 +177,36 @@ static void pci_piix_ide_realize(PCIDevi=
-ce *dev, Error **errp)
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vmstate_register(VMSTATE_I=
-F(dev), 0, &vmstate_ide_pci, d);
->>>> =C2=A0 -=C2=A0=C2=A0=C2=A0 isa_bus =3D ISA_BUS(object_resolve_path_ty=
-pe("", TYPE_ISA_BUS, &ambiguous));
->>>> -=C2=A0=C2=A0=C2=A0 if (ambiguous) {
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp,
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "More than one ISA bus found whi=
-le %s supports only one",
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 object_get_typename(OBJECT(dev))=
-);
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->>>> -=C2=A0=C2=A0=C2=A0 }
->>>> -=C2=A0=C2=A0=C2=A0 if (!isa_bus) {
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp, "No ISA =
-bus found while %s requires one",
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 object_get_typename(OBJECT(dev))=
-);
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->>>> +=C2=A0=C2=A0=C2=A0 if (d->user_created) {
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool ambiguous;
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 isa_bus =3D ISA_BUS(objec=
-t_resolve_path_type("", TYPE_ISA_BUS,
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 &ambiguous));
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ambiguous) {
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 e=
-rror_setg(errp,
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "More th=
-an one ISA bus found while %s supports only one",
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 object_g=
-et_typename(OBJECT(dev)));
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 r=
-eturn;
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!isa_bus) {
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 e=
-rror_setg(errp, "No ISA bus found while %s requires one",
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 object_g=
-et_typename(OBJECT(dev)));
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 r=
-eturn;
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pci_piix_init_ports(d, isa=
-_bus);
->>>> =C2=A0 }
->>>> =C2=A0 +static void pci_piix_ide_init(Object *obj)
->>>> +{
->>>> +=C2=A0=C2=A0=C2=A0 DeviceState *dev =3D DEVICE(obj);
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0 qdev_init_gpio_in(dev, piix_ide_set_irq, 2);
->>>> +}
->>>> +
->>>> =C2=A0 static void pci_piix_ide_exitfn(PCIDevice *dev)
->>>> =C2=A0 {
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PCIIDEState *d =3D PCI_IDE(dev);
->>>> @@ -191,6 +218,11 @@ static void pci_piix_ide_exitfn(PCIDevice *dev)
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>> =C2=A0 }
->>>> =C2=A0 +static Property piix_ide_properties[] =3D {
->>>> +=C2=A0=C2=A0=C2=A0 DEFINE_PROP_BOOL("user-created", PCIIDEState, use=
-r_created, true),
->>>> +=C2=A0=C2=A0=C2=A0 DEFINE_PROP_END_OF_LIST(),
->>>> +};
->>>> +
->>>> =C2=A0 /* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
->>>> =C2=A0 static void piix3_ide_class_init(ObjectClass *klass, void *dat=
-a)
->>>> =C2=A0 {
->>>> @@ -205,11 +237,13 @@ static void piix3_ide_class_init(ObjectClass *k=
-lass, void *data)
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 k->class_id =3D PCI_CLASS_STORAGE_IDE;
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_bit(DEVICE_CATEGORY_STORAGE, dc->c=
-ategories);
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dc->hotpluggable =3D false;
->>>> +=C2=A0=C2=A0=C2=A0 device_class_set_props(dc, piix_ide_properties);
->>>> =C2=A0 }
->>>> =C2=A0=C2=A0=C2=A0 static const TypeInfo piix3_ide_info =3D {
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =2Ename=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 =3D TYPE_PIIX3_IDE,
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =2Eparent=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =3D TYPE_PCI_IDE,
->>>> +=C2=A0=C2=A0=C2=A0 =2Einstance_init =3D pci_piix_ide_init,
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =2Eclass_init=C2=A0=C2=A0=C2=A0 =3D pi=
-ix3_ide_class_init,
->>>> =C2=A0 };
->>>> =C2=A0 @@ -227,11 +261,13 @@ static void piix4_ide_class_init(ObjectC=
-lass *klass, void *data)
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 k->class_id =3D PCI_CLASS_STORAGE_IDE;
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_bit(DEVICE_CATEGORY_STORAGE, dc->c=
-ategories);
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dc->hotpluggable =3D false;
->>>> +=C2=A0=C2=A0=C2=A0 device_class_set_props(dc, piix_ide_properties);
->>>> =C2=A0 }
->>>> =C2=A0=C2=A0=C2=A0 static const TypeInfo piix4_ide_info =3D {
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =2Ename=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 =3D TYPE_PIIX4_IDE,
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =2Eparent=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =3D TYPE_PCI_IDE,
->>>> +=C2=A0=C2=A0=C2=A0 =2Einstance_init =3D pci_piix_ide_init,
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =2Eclass_init=C2=A0=C2=A0=C2=A0 =3D pi=
-ix4_ide_class_init,
->>>> =C2=A0 };
->>>> =C2=A0 diff --git a/hw/isa/piix=2Ec b/hw/isa/piix=2Ec
->>>> index 54a1246a9d=2E=2Ef9974c2a77 100644
->>>> --- a/hw/isa/piix=2Ec
->>>> +++ b/hw/isa/piix=2Ec
->>>> @@ -345,9 +345,14 @@ static void pci_piix_realize(PCIDevice *dev, con=
-st char *uhci_type,
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* IDE */
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qdev_prop_set_int32(DEVICE(&d->ide), "=
-addr", dev->devfn + 1);
->>>> +=C2=A0=C2=A0=C2=A0 qdev_prop_set_bit(DEVICE(&d->ide), "user-created"=
-, false);
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!qdev_realize(DEVICE(&d->ide), BUS=
-(pci_bus), errp)) {
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>> +=C2=A0=C2=A0=C2=A0 qdev_connect_gpio_out(DEVICE(&d->ide), 0,
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 qdev_get_gpio_in(DEVICE(&d->pic), 14));
->>>> +=C2=A0=C2=A0=C2=A0 qdev_connect_gpio_out(DEVICE(&d->ide), 1,
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 qdev_get_gpio_in(DEVICE(&d->pic), 15));
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* USB */
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (d->has_usb) {
->>>=20
->>> I haven't checked the datasheet, but I suspect this will be similar to=
- the cmd646/via PCI-IDE interfaces in that there will be a PCI configuratio=
-n register that will switch between ISA compatibility mode (and ISA irqs) a=
-nd PCI mode (with PCI IRQs)=2E So it would be the device configuration that=
- would specify PCI or ISA mode, rather than the presence of an ISABus=2E
->>=20
->> I forgot about this topic already and haven't follwed this series eithe=
-r so what I say may not fully make sense but I think CMD646 and via-ide are=
- different=2E CMD646 is a PCI device and should use PCI interrupts while vi=
-a-ide is part of a southbridge/superio complex and connected to the ISA PIC=
-s within that southbride, so I think via-ide always uses ISA IRQs and the I=
-SA btidge within the same chip may convert that to PCI IRQs or not (that pa=
-rt is where I'm lost also because we may not actually model it that way)=2E=
- After a long debate we managed to find a solution back then that works for=
- every guest we use it for now so I think we don't want to touch it now unt=
-il some real need arises=2E It does not worth the trouble and added complex=
-ity to model something that is not used just for the sake of correctness=2E=
- By the time we find a use for that, the ISA emulation may evolve so it's e=
-asier to implement the missing switching between isa and native mode or we =
-may want to do it differently (such as we do things differently now compare=
-d to what we did years ago)=2E So I think it does not worth keeping the ISA=
- model from being simplified for some theoretical uses in the future which =
-we may not actually do any time soon=2E But I don't want to get into this a=
-gain so just shared my thoughts and feel free to ignore it=2E I don't care =
-where these patches go as long as the VIA model keeps working for me=2E
->
->I have a vague memory that ISA compatibility mode was part of the origina=
-l PCI-BMDMA specification, but it has been a while since I last looked=2E
->
->Bernhard, is there any mention of this in the PIIX datasheet(s)? For refe=
-rence the cmd646 datasheet specifies that ISA mode or PCI mode is determine=
-d by register PROG_IF (0x9) in PCI configuration space=2E
+Print the cpu->cpu_index in cpu_dump_state() and remove it from the caller.
 
-I've found the following:
+Cc: Joe Jin <joe.jin@oracle.com>
+Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
+---
+ hw/core/cpu-common.c      | 1 +
+ monitor/hmp-cmds-target.c | 2 --
+ softmmu/cpus.c            | 1 -
+ 3 files changed, 1 insertion(+), 3 deletions(-)
 
-  "Only PCI masters have access to the IDE port=2E ISA Bus masters cannot =
-access the IDE I/O port addresses=2E Memory targeted by the IDE interface a=
-cting as a PCI Bus master on behalf of IDE DMA slaves must reside on PCI, u=
-sually main memory implemented by the host-to-PCI bridge=2E"
+diff --git a/hw/core/cpu-common.c b/hw/core/cpu-common.c
+index 5ccc3837b6..d2503f2d09 100644
+--- a/hw/core/cpu-common.c
++++ b/hw/core/cpu-common.c
+@@ -105,6 +105,7 @@ void cpu_dump_state(CPUState *cpu, FILE *f, int flags)
+ 
+     if (cc->dump_state) {
+         cpu_synchronize_state(cpu);
++        qemu_fprintf(f, "\nCPU#%d\n", cpu->cpu_index);
+         cc->dump_state(cpu, f, flags);
+     }
+ }
+diff --git a/monitor/hmp-cmds-target.c b/monitor/hmp-cmds-target.c
+index 0d3e84d960..f7dd354d2a 100644
+--- a/monitor/hmp-cmds-target.c
++++ b/monitor/hmp-cmds-target.c
+@@ -99,7 +99,6 @@ void hmp_info_registers(Monitor *mon, const QDict *qdict)
+ 
+     if (all_cpus) {
+         CPU_FOREACH(cs) {
+-            monitor_printf(mon, "\nCPU#%d\n", cs->cpu_index);
+             cpu_dump_state(cs, NULL, CPU_DUMP_FPU);
+         }
+     } else {
+@@ -114,7 +113,6 @@ void hmp_info_registers(Monitor *mon, const QDict *qdict)
+             return;
+         }
+ 
+-        monitor_printf(mon, "\nCPU#%d\n", cs->cpu_index);
+         cpu_dump_state(cs, NULL, CPU_DUMP_FPU);
+     }
+ }
+diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+index 9cbc8172b5..f69bbe6abc 100644
+--- a/softmmu/cpus.c
++++ b/softmmu/cpus.c
+@@ -122,7 +122,6 @@ void hw_error(const char *fmt, ...)
+     vfprintf(stderr, fmt, ap);
+     fprintf(stderr, "\n");
+     CPU_FOREACH(cpu) {
+-        fprintf(stderr, "CPU #%d:\n", cpu->cpu_index);
+         cpu_dump_state(cpu, stderr, CPU_DUMP_FPU);
+     }
+     va_end(ap);
+-- 
+2.34.1
 
-And:
-
-  "PIIX4 can act as a PCI Bus master on behalf of an IDE slave device=2E"
-
-Does this perhaps mean that piix-ide does indeed have no ISA bus?
-
-Best regards,
-Bernhard
-
->
->
->ATB,
->
->Mark=2E
 
