@@ -2,74 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AFF668B9DA
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 11:20:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F53F68B9E1
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 11:21:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOyaz-0000wV-6j; Mon, 06 Feb 2023 05:19:33 -0500
+	id 1pOyby-000234-LX; Mon, 06 Feb 2023 05:20:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pOyau-0000sL-K7
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 05:19:30 -0500
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pOyas-0000rO-WB
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 05:19:28 -0500
-Received: by mail-ej1-x636.google.com with SMTP id ml19so32871718ejb.0
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 02:19:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mP0odKeZCLa1H7OyrrD27HnTdHrt4lOP6jJS86fjanI=;
- b=X8TAo7Oij5fB7zuRkFDSof1VACqA/1yLT/qOSEGdw7Aej4XaFy+JsGFf3h3CnZfIei
- e9tEIeXCcr8IUPmrmIyvdDvJE+BOrtr23mKMqNilm4WTbeLIqMPkMlIc2Nw3pyRFZrSe
- E6NXpUeBe9R0E9gjYKHP2lKqJ26LLpLhaQLTUSHMNGJHlTJyT+FWJz/Za1fM66meocLh
- sGRuSIdB1bU0rdkJhGVl70Q5oHj1JG+X1ma1uE7jkRSBGLuMRAJ95cykaMtF7FQC+JPn
- VXn4EwTrVXJB9F4mQqxJd98XvpBNh1XRlfbszBeZwuBLi0H8rvZF4WSvKalCEASZyLri
- hFfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mP0odKeZCLa1H7OyrrD27HnTdHrt4lOP6jJS86fjanI=;
- b=kYUnpx/+j4n4nXzRG45BBq7A6Esn7s7RYpzFrSNIut1tA5T057iBPMDWxl5zeN4qZf
- rwhbatk1y+CeyPQetkzrqsbKGv+4A3N2+yQuilQgVVeXS67De3Fwe1Xv2JjFpDqTIegN
- Nxcv7mIgzY3eOD5iOjzZXwjQk9OERrXCpXzFpHRZaxQDkrmKJz6QA5fUXt60ZzDNWc6A
- zqokd+jRwX9WZHBUEd1G1i9gvqZwveVzwO/R4ewZp9wAxsEOrzi7tFjXDeDKJSrVuso2
- A+iflg00Mq6jZlY/QA8wPFDdFttsK7QwR2mBGFc5E/EUTxokBRcX/pnsDfZrTDvFg5N5
- PXiw==
-X-Gm-Message-State: AO0yUKWdkT0J0jO5aKtnTedaV7GTSx+78sI4EatZhnTwXLhagUWE81/R
- BbMf052d1rHr7SISleqtrDRSJVGGi4tD5Rrm8k+SuDp+
-X-Google-Smtp-Source: AK7set/oN3TZBmWEmlxeUxy8SZzgoM1MNdgGsUZdFJo9gSEizLljNjY11aZ4Y8UsHJ+8ZqVHqjOOVz5c1XdBdGecUFI=
-X-Received: by 2002:a17:906:8395:b0:888:f761:87aa with SMTP id
- p21-20020a170906839500b00888f76187aamr6180585ejx.163.1675678765573; Mon, 06
- Feb 2023 02:19:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pOybY-0001su-Tc; Mon, 06 Feb 2023 05:20:08 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pOybW-00014v-4B; Mon, 06 Feb 2023 05:20:08 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3169HqW9019630; Mon, 6 Feb 2023 10:19:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=D50LrmJ0+QXxCB1ZCm7pg3LBGT+YIgCXvZ+3OlHSMyA=;
+ b=eUdD8GVC4Dm5wYHh6Nb0N/Zgt8VOx+0zR4tDZ+rosY2p7VomncQy4gukIRi2DSulxPSo
+ GgKuh9k99kpsgX0mt/rVzHLztyUbu5GTTLjNkM3DRp45Qv5yt4VTq4irhjgVzaRCYdDA
+ d9DgjjmbdEWV1p5ZLgCCSQs9jxwEwTdywF4Q1D/hy1XZd3Sl6nm86LgHTVEnaW4hjyIh
+ 5YFx/eag0Uzjq5lv1keLNHCo8/BlCYVQRF9WJL/pCDsMKJEdq9ZArYUYuawvIs4hoCdw
+ uojM702PX2PSZIYL7eLeS4Nc6hfefh+VDqYZ5b7csCf3khl5OKDnH6NeCuZbxodXWzdw EA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3njxsm9h8m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Feb 2023 10:19:57 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 316AIJFF011837;
+ Mon, 6 Feb 2023 10:19:56 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3njxsm9h7s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Feb 2023 10:19:56 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31605Na2024259;
+ Mon, 6 Feb 2023 10:19:54 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3nhf06t8yd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Feb 2023 10:19:54 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 316AJp6h19792598
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 6 Feb 2023 10:19:51 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 218D220078;
+ Mon,  6 Feb 2023 10:19:51 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BF58720076;
+ Mon,  6 Feb 2023 10:19:49 +0000 (GMT)
+Received: from [9.171.30.242] (unknown [9.171.30.242])
+ by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Mon,  6 Feb 2023 10:19:49 +0000 (GMT)
+Message-ID: <5d87c783-beef-133f-d18a-e96d671b25a5@linux.ibm.com>
+Date: Mon, 6 Feb 2023 11:19:49 +0100
 MIME-Version: 1.0
-References: <CALj-+m3GVB8s60wMbQuZVEHm2kJRLaYxoveQg_wg=hV6MYcS_A@mail.gmail.com>
- <9d13db25-0ee3-4eaa-227a-dd3ca909a1ba@linaro.org>
-In-Reply-To: <9d13db25-0ee3-4eaa-227a-dd3ca909a1ba@linaro.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 6 Feb 2023 18:19:14 +0800
-Message-ID: <CAEUhbmWNeOEJLkkCQ=jCRP9A3MzdQMRW-A_pGTwEfRGGqC3vVA@mail.gmail.com>
-Subject: Re: Qemu - how to run in Win?
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: Jacob A <extrapowernosugar@gmail.com>, qemu-devel@nongnu.org, 
- Stefan Weil <sw@weilnetz.de>, Yonggang Luo <luoyonggang@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v15 04/11] s390x/sclp: reporting the maximum nested
+ topology entries
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ nsg@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230201132051.126868-1-pmorel@linux.ibm.com>
+ <20230201132051.126868-5-pmorel@linux.ibm.com>
+ <dc19cfad-dfbb-b81a-1341-6a60df7f4968@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <dc19cfad-dfbb-b81a-1341-6a60df7f4968@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 20jTRJz9VtO_hwxyUByOQchAWd0tI1Hx
+X-Proofpoint-ORIG-GUID: JpahCH56fMOoQbAcGk9OsZNxy5n_zhyr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-06_05,2023-02-03_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 malwarescore=0
+ mlxlogscore=976 clxscore=1015 lowpriorityscore=0 spamscore=0 mlxscore=0
+ impostorscore=0 bulkscore=0 suspectscore=0 priorityscore=1501 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2302060087
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,22 +122,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 6, 2023 at 5:55 PM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.o=
-rg> wrote:
->
-> Cc'ing Yonggang & Stefan.
->
-> On 5/2/23 13:01, Jacob A wrote:
-> > Hello,
-> >
-> > After installing Qemu on Win, I don't see any shortcut to run it? There
-> > is only a link to 'uninstall'. launching exe files doesn't do anything.
-> > Can you please explain how to launch this application?
-> >
 
-QEMU is a command-line utility so you need to run QEMU with some
-parameters from a Windows shell.
+
+On 2/6/23 11:13, Thomas Huth wrote:
+> On 01/02/2023 14.20, Pierre Morel wrote:
+>> The maximum nested topology entries is used by the guest to
+>> know how many nested topology are available on the machine.
+>>
+>> Let change the MNEST value from 2 to 4 in the SCLP READ INFO
+>> structure now that we support books and drawers.
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> Reviewed-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+>> ---
+>>   include/hw/s390x/sclp.h | 5 +++--
+>>   hw/s390x/sclp.c         | 5 +++++
+>>   2 files changed, 8 insertions(+), 2 deletions(-)
+> 
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> 
+
+Thanks,
 
 Regards,
-Bin
+Pierre
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
