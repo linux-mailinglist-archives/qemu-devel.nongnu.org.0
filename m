@@ -2,82 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD30E68BCC4
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 13:28:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC75268BCD3
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 13:32:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP0bP-0000Ga-BP; Mon, 06 Feb 2023 07:28:07 -0500
+	id 1pP0e5-0001Ac-2W; Mon, 06 Feb 2023 07:30:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP0b1-0000EK-SI
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:27:55 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pP0e1-0001AH-L8
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:30:49 -0500
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP0aw-00081P-AK
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:27:42 -0500
-Received: by mail-wm1-x329.google.com with SMTP id q8so8534559wmo.5
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 04:27:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=4F7xx1nNy7ikmetS0aJNjvHJZ3ymvbyT7PXs6hdpMkA=;
- b=hLzPY0aeFYE9hjjcNrSdEYYi2IMHa3z8EQJzSdYbNN5eFujyi8IDQQxoBlnlm0yw6s
- vd9+A0fIBuaLrJK59JPiyS9pm2bBmmX+5hBXCXy0xEqIX0ZhsROXCu56v7QIj2c4vKP/
- 7bWpDtsg0PjMU3amdnvk6V2gq3uIOT9sMz/Z+WIuskS0HS+IdI85F2671x2jyhEHd/ZZ
- 0vNpJlaWP7HC4TUY55cJiKM8l8+5z5TnwY9cNOTnnFQI9SpcLw5MX0RrxyWWP1OaUD89
- nO/sID5MG9yRLb6RTQ3fh9E5hXSd/x6Rrw9PQdcAnxgCYzzn/Qn6ciChzfsz0FcxUWua
- NL5Q==
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pP0dv-0008Un-Ez
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 07:30:45 -0500
+Received: by mail-pf1-x42d.google.com with SMTP id 144so8214656pfv.11
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 04:30:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:to:content-language
+ :references:cc:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=/q7yh3wSFjN7H3ukpRtPad+KSuL5FYES8hSINa6yboo=;
+ b=qPzUt9j1j6D+PtPpozUHvRsq6PMXdb2owtQiR6ciYbwSx4SfdXQ00ZJk8aO0gleVdh
+ wRuZSirWKFbROTtySn9XOcwxKxK5MVNwi/57eWqDMWNypDpi4UHwwPTjrVKc1hJYmLGb
+ apqsPbor15NeWVmUFAyPjTiAMPHSXAnQ1tmLJ13MM9ZLOc+Y9BTV86Iw/OFzF73GHVTS
+ MUgRae66LoIL5ZANhSiEp8zVDKRd8ua4qNxrquyouZekkQ5dlx4T8ckTSCaJOwS41YTp
+ XWVEqOQV8YsQFGTwcSBFAVlGvtbGkz1qqrKG7gWC44D5Qq6UAynp7E6f92gLr+V6ri33
+ HVZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:to:content-language
+ :references:cc:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4F7xx1nNy7ikmetS0aJNjvHJZ3ymvbyT7PXs6hdpMkA=;
- b=s7LhOwMc62RnX6zHx/4fIRPwrCyPttp5tYf0kYHUQgeMgTrBVrvIa7PhNaNwoEHrMs
- Sz0wI0xFtNzhj9HVPuMTi0mDljNtA0HxYL8v3fc2PquQ3GmOxjvMKYGb0h+ldZVFzpcK
- l3tZCgsQvTlrtm3rMMgtm/AcqHpKxtZIDdLh5OYnE1FHM/KEQtmQIApk6UOO2YkO3rcJ
- Nd/hiAwn1wZQpk9G+GvUhk68MqhEZ+RGyNcf94ln1QzGt2mwlr5so9C6HYd4VR8sFuYb
- R6VmSbtYWwKcXgMC1hBlw5A6XQ9aiR+BIm/xd5y2drBgvs38PXGU60RJt0/Fo0LoTocF
- DPyw==
-X-Gm-Message-State: AO0yUKWyxhSCd76ePbhQIbGv7YtEXfH7O/S148gfh1oeTXzjlpn4u5oC
- /hSvNryV2ryzuIGCWuDDTbpNTw==
-X-Google-Smtp-Source: AK7set93B/eONIQx4CnlRmgWTxoe8jJmK75Fa+7zr5cm21TfrTC4YHiH3Mx+jMJlJ6m+0BaJzVUvQQ==
-X-Received: by 2002:a7b:c4c9:0:b0:3de:1d31:1042 with SMTP id
- g9-20020a7bc4c9000000b003de1d311042mr882429wmk.23.1675686450529; 
- Mon, 06 Feb 2023 04:27:30 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- u1-20020a05600c00c100b003a3442f1229sm15846080wmm.29.2023.02.06.04.27.29
+ bh=/q7yh3wSFjN7H3ukpRtPad+KSuL5FYES8hSINa6yboo=;
+ b=Vr8jn8kV3sI0D9t9nL/iA2wvXDFhIMyhRYzxoXD2ZdATfA7uVdMoHPvnY99DCzRzxN
+ HMgaq8Vq82/0CeiWQTiW+MvPokCsvuadVEIAWcTrBKMEjB/7faAImO3cS62yKrKy/aZ/
+ YXphTl6NmO9p/+gykioE1SOVIwX9iNYRSkLvkMjuFTamAePqkOPngIZSUqXblTT0+9Hk
+ gqP0VBbgNnanz13ZpZTUg50DAMYaDE1inWLNbGVIKeFaUTmkv8aOfy1J3s92VX9m5p9C
+ U2772n5omL2B1yX9lUaVSL2CRQDeV67nF1bYy3G2d+jlY1tySbOVkIt/Y6p+iwrjDSP+
+ jhww==
+X-Gm-Message-State: AO0yUKWkfWDrtY9q8ktagEGUh+3r42tKAyNvRe3fnOgkw7me+/Gl/cum
+ U7HPzdCeqzPDj4eyr7ehq4KIfQ==
+X-Google-Smtp-Source: AK7set/k80rvaahgJM+dp9Yu4K+9aOaAHn/9/oDztkl9qJ8AL3WWlcj05pyVhr62LQbszEhNU8TA/A==
+X-Received: by 2002:a62:164a:0:b0:58b:7db6:da48 with SMTP id
+ 71-20020a62164a000000b0058b7db6da48mr10127861pfw.20.1675686641287; 
+ Mon, 06 Feb 2023 04:30:41 -0800 (PST)
+Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
+ ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ by smtp.gmail.com with ESMTPSA id
+ 68-20020a620647000000b00574e84ed847sm6973780pfg.24.2023.02.06.04.30.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 04:27:30 -0800 (PST)
-Message-ID: <adf22fcb-51a6-3194-4496-6a6878e9d498@linaro.org>
-Date: Mon, 6 Feb 2023 13:27:28 +0100
+ Mon, 06 Feb 2023 04:30:40 -0800 (PST)
+Message-ID: <d273c8a4-7e95-eaa1-b057-e69513b4d3f3@daynix.com>
+Date: Mon, 6 Feb 2023 21:30:35 +0900
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PULL 04/35] tests/unit: drop hacky race avoidance in
- test-io-channel-command
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20230126112250.2584701-1-alex.bennee@linaro.org>
- <20230126112250.2584701-5-alex.bennee@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH v8 0/8] Introduce igb
+Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Darren Kenny
+ <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, devel@daynix.com,
+ Yan Vugenfirer <yvugenfi@redhat.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
+ Gal Hammer <gal.hammer@sap.com>
+References: <20230204043621.13540-1-akihiko.odaki@daynix.com>
 Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230126112250.2584701-5-alex.bennee@linaro.org>
+To: Jason Wang <jasowang@redhat.com>
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <20230204043621.13540-1-akihiko.odaki@daynix.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+Received-SPF: none client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x42d.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,108 +109,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Alex, Thomas.
+Hi Jason,
 
-On 26/1/23 12:22, Alex Bennée wrote:
-> We don't need to play timing games to ensure one socat wins over the
-> other, just create the fifo they both can use before spawning the
-> processes. However in the process we need to disable two tests for
-> Windows platforms as we don't have an abstraction for mkfifo().
+Let me remind that every patches in this series now has Reviewed-by: or 
+Acked-by: tag though I forgot to include tags the prior versions of this 
+series received to the latest version:
+
+"Introduce igb"
+https://lore.kernel.org/qemu-devel/DBBP189MB143365704198DC9A0684DEA595D09@DBBP189MB1433.EURP189.PROD.OUTLOOK.COM/
+
+"docs/system/devices/igb: Add igb documentation"
+https://lore.kernel.org/qemu-devel/741a0975-9f7a-b4bc-9651-cf45f03d1787@kaod.org/
+
+Regards,
+Akihiko Odaki
+
+On 2023/02/04 13:36, Akihiko Odaki wrote:
+> Based-on: <20230201033539.30049-1-akihiko.odaki@daynix.com>
+> ([PATCH v5 00/29] e1000x cleanups (preliminary for IGB))
 > 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1403
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Message-Id: <20230124180127.1881110-5-alex.bennee@linaro.org>
+> igb is a family of Intel's gigabit ethernet controllers. This series implements
+> 82576 emulation in particular. You can see the last patch for the documentation.
 > 
-> diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
-> index 19f72eab96..425e2f5594 100644
-> --- a/tests/unit/test-io-channel-command.c
-> +++ b/tests/unit/test-io-channel-command.c
-> @@ -20,6 +20,8 @@
->   
->   #include "qemu/osdep.h"
->   #include <glib/gstdio.h>
-> +#include <sys/types.h>
-> +#include <sys/stat.h>
->   #include "io/channel-command.h"
->   #include "io-channel-helpers.h"
->   #include "qapi/error.h"
-> @@ -29,6 +31,7 @@
->   
->   static char *socat = NULL;
->   
-> +#ifndef _WIN32
->   static void test_io_channel_command_fifo(bool async)
->   {
->       g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
-> @@ -40,12 +43,13 @@ static void test_io_channel_command_fifo(bool async)
->       QIOChannel *src, *dst;
->       QIOChannelTest *test;
->   
-> +    if (mkfifo(fifo, 0600)) {
-> +        g_error("mkfifo: %s", strerror(errno));
-> +    }
-> +
->       src = QIO_CHANNEL(qio_channel_command_new_spawn((const char **) srcargv,
->                                                       O_WRONLY,
->                                                       &error_abort));
-> -    /* try to avoid a race to create the socket */
-> -    g_usleep(1000);
-> -
->       dst = QIO_CHANNEL(qio_channel_command_new_spawn((const char **) dstargv,
->                                                       O_RDONLY,
->                                                       &error_abort));
-> @@ -60,7 +64,6 @@ static void test_io_channel_command_fifo(bool async)
-
-Testing on Darwin/Aarch64 I'm getting (reproducible):
-
-78/93 qemu:unit / test-io-channel-command             ERROR 
-2.38s   killed by signal 13 SIGPIPE
- >>> MALLOC_PERTURB_=10 G_TEST_BUILDDIR=./tests/unit 
-G_TEST_SRCDIR=tests/unit ./tests/unit/test-io-channel-command --tap -k
-―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-stderr:
-2023/02/03 08:26:49 socat[32507] E 
-mkfifo(/var/folders/yj/r7khncsj4d77k04ybz9lw4tm0000gn/T/qemu-test-io-channel.GMARZ1/test-io-channel-command.fifo, 
-438): File exists
-
-(test program exited with status code -13)
-
-TAP parsing error: Too few tests run (expected 4, got 0)
-―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-
-We call g_rmdir(), but I see various qtests calling unlink()
-before rmdir(). Do we need it here?
-
-+       g_unlink(fifo);
-
->       g_rmdir(tmpdir);
->   }
->   
-> -
->   static void test_io_channel_command_fifo_async(void)
->   {
->       if (!socat) {
-> @@ -80,6 +83,7 @@ static void test_io_channel_command_fifo_sync(void)
->   
->       test_io_channel_command_fifo(false);
->   }
-> +#endif
->   
->   
->   static void test_io_channel_command_echo(bool async)
-> @@ -124,10 +128,12 @@ int main(int argc, char **argv)
->   
->       socat = g_find_program_in_path("socat");
->   
-> +#ifndef _WIN32
->       g_test_add_func("/io/channel/command/fifo/sync",
->                       test_io_channel_command_fifo_sync);
->       g_test_add_func("/io/channel/command/fifo/async",
->                       test_io_channel_command_fifo_async);
-> +#endif
->       g_test_add_func("/io/channel/command/echo/sync",
->                       test_io_channel_command_echo_sync);
->       g_test_add_func("/io/channel/command/echo/async",
-
+> Note that there is another effort to bring 82576 emulation. This series was
+> developed independently by Sriram Yagnaraman.
+> https://lists.gnu.org/archive/html/qemu-devel/2022-12/msg04670.html
+> 
+> V7 -> V8:
+> - Removed obsolete patch
+>    "hw/net/net_tx_pkt: Introduce net_tx_pkt_get_eth_hdr" (Cédric Le Goater)
+> 
+> V6 -> V7:
+> - Reordered statements in igb_receive_internal() so that checksum will be
+>    calculated only once and it will be more close to e1000e_receive_internal().
+> 
+> V5 -> V6:
+> - Rebased.
+> - Renamed "test" to "packet" in tests/qtest/e1000e-test.c.
+> - Fixed Rx logic so that a Rx pool without enough space won't prevent other
+>    pools from receiving, based on Sriram Yagnaraman's work.
+> 
+> V4 -> V5:
+> - Rebased.
+> - Squashed patches to copy from e1000e code and modify it.
+> - Listed the implemented features.
+> - Added a check for interrupts availablity on PF.
+> - Fixed the declaration of igb_receive_internal(). (Sriram Yagnaraman)
+> 
+> V3 -> V4:
+> - Rebased.
+> - Corrected PCIDevice specified for DMA.
+> 
+> V2 -> V3:
+> - Rebased.
+> - Fixed PCIDevice reference in hw/net/igbvf.c.
+> - Fixed TX packet switching when VM loopback is enabled.
+> - Fixed VMDq enablement check.
+> - Fixed RX descriptor length parser.
+> - Fixed the definitions of RQDPC readers.
+> - Implemented VLAN VM filter.
+> - Implemented VT_CTL.Def_PL.
+> - Implemented the combination of VMDq and RSS.
+> - Noted that igb is tested with Windows HLK.
+> 
+> V1 -> V2:
+> - Spun off e1000e general improvements to a distinct series.
+> - Restored vnet_hdr offload as there seems nothing preventing from that.
+> 
+> Akihiko Odaki (8):
+>    pcie: Introduce pcie_sriov_num_vfs
+>    e1000: Split header files
+>    Intrdocue igb device emulation
+>    tests/qtest/e1000e-test: Fabricate ethernet header
+>    tests/qtest/libqos/e1000e: Export macreg functions
+>    igb: Introduce qtest for igb device
+>    tests/avocado: Add igb test
+>    docs/system/devices/igb: Add igb documentation
+> 
+>   MAINTAINERS                                   |    9 +
+>   docs/system/device-emulation.rst              |    1 +
+>   docs/system/devices/igb.rst                   |   71 +
+>   hw/net/Kconfig                                |    5 +
+>   hw/net/e1000.c                                |    1 +
+>   hw/net/e1000_common.h                         |  102 +
+>   hw/net/e1000_regs.h                           |  927 +---
+>   hw/net/e1000e.c                               |    3 +-
+>   hw/net/e1000e_core.c                          |    1 +
+>   hw/net/e1000x_common.c                        |    1 +
+>   hw/net/e1000x_common.h                        |   74 -
+>   hw/net/e1000x_regs.h                          |  940 ++++
+>   hw/net/igb.c                                  |  612 +++
+>   hw/net/igb_common.h                           |  146 +
+>   hw/net/igb_core.c                             | 4043 +++++++++++++++++
+>   hw/net/igb_core.h                             |  144 +
+>   hw/net/igb_regs.h                             |  648 +++
+>   hw/net/igbvf.c                                |  327 ++
+>   hw/net/meson.build                            |    2 +
+>   hw/net/trace-events                           |   32 +
+>   hw/pci/pcie_sriov.c                           |    5 +
+>   include/hw/pci/pcie_sriov.h                   |    3 +
+>   .../org.centos/stream/8/x86_64/test-avocado   |    1 +
+>   tests/avocado/igb.py                          |   38 +
+>   tests/qtest/e1000e-test.c                     |   25 +-
+>   tests/qtest/fuzz/generic_fuzz_configs.h       |    5 +
+>   tests/qtest/igb-test.c                        |  243 +
+>   tests/qtest/libqos/e1000e.c                   |   12 -
+>   tests/qtest/libqos/e1000e.h                   |   14 +
+>   tests/qtest/libqos/igb.c                      |  185 +
+>   tests/qtest/libqos/meson.build                |    1 +
+>   tests/qtest/meson.build                       |    1 +
+>   32 files changed, 7600 insertions(+), 1022 deletions(-)
+>   create mode 100644 docs/system/devices/igb.rst
+>   create mode 100644 hw/net/e1000_common.h
+>   create mode 100644 hw/net/e1000x_regs.h
+>   create mode 100644 hw/net/igb.c
+>   create mode 100644 hw/net/igb_common.h
+>   create mode 100644 hw/net/igb_core.c
+>   create mode 100644 hw/net/igb_core.h
+>   create mode 100644 hw/net/igb_regs.h
+>   create mode 100644 hw/net/igbvf.c
+>   create mode 100644 tests/avocado/igb.py
+>   create mode 100644 tests/qtest/igb-test.c
+>   create mode 100644 tests/qtest/libqos/igb.c
+> 
 
