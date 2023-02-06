@@ -2,85 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BC0E68BAD2
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 11:56:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED37668BAF2
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 12:06:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOz9l-0006S4-90; Mon, 06 Feb 2023 05:55:29 -0500
+	id 1pOzJH-00082n-A0; Mon, 06 Feb 2023 06:05:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1pOz9j-0006RO-6X
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 05:55:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1pOz9h-00076q-QG
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 05:55:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675680924;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=j+vd8a3YNLOVyD4fOqsiPRV4nlAqGJMUnaszJ4jFS0c=;
- b=AaDSZeMxyn/3XqsTH+jb8FjkYd2MtNeIHph2tvXdpnJYw8pW3AQx6ZVjj5dXMLGCdJ0z36
- 6aGvWIJ1ZbE/sCvTzSPYuVFrRkTJDul04lYoYXSaxmDuq/oKPNZhGnIbTL3FjpohoHxKOS
- y73DTKYdC3Q0OUFPdoGWH/ZaUWAGTNM=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-86-hig0qVUEPWGg2QrVaPLkXA-1; Mon, 06 Feb 2023 05:54:18 -0500
-X-MC-Unique: hig0qVUEPWGg2QrVaPLkXA-1
-Received: by mail-pf1-f199.google.com with SMTP id
- z7-20020aa79587000000b00593f19705d5so6306090pfj.10
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 02:54:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pOzJ3-00082U-It
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 06:05:08 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pOzJ1-00005F-Nt
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 06:05:05 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ m16-20020a05600c3b1000b003dc4050c94aso8434277wms.4
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 03:05:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YinycJG3qv79YV/7XBh/0Op9xB6A0l/6TDZNwR0+k+c=;
+ b=TIb12KXUjBzaHXmdKG9u25rULlE4ZNAtpiSqP1aUBl+v5eg8IZPwF1hDggZOoVpqGR
+ 2zJdd0+bDGQkLhhZonbd74KbMOt/AjiTR5Uf5muIy5tI5JBAuU5ctQ85a1LY5mk36sFA
+ oS27NgXqb+8i2fDHzQqUujYQvdrKeVXwHcqxya3reCTMeTEK3N2bMhuyDxyNH0jItoJw
+ Pvtrsax3XPmRBgEWLt3uw2wyIfkdkPoUBOBk3Etjl3ZMCW/0Ulyvb+5PnssNYGqXn026
+ YmcqyqZVJBaF7jR/wwe6PXLfA2cjOcoCmV1JOgzN2R0k1kqWx7SHdwvFO+CYm2wYUePm
+ q3bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:in-reply-to:mime-version:references
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=j+vd8a3YNLOVyD4fOqsiPRV4nlAqGJMUnaszJ4jFS0c=;
- b=YMiHGqg1mToVsjEy8gAi5MnWh4jXuyxjFiPTsfT3Gq0tWL7D43pkG8ETKfgXzdlMTF
- xq1ozW4h6GSbCcA5OdHBc3CpWBRwyE5M3AUYt1Qe9z1WoxOdUF4RLnywosF1jfZ8FbHd
- 7HRZnPS5TuNqYXdvzQl++ECoOspbvdXFxvofOtVwJx6C9SMAb64hH9vFqCGwONmHizEV
- BgQpDqyCUwnVy7jA/NCbljpZiBAIdTYCC7pyXUgGvW6YHsdL8u9lGGc5KBoWLD2qxFVF
- R8B6j1riJs/AS6n6pBRdB/4cRZQbr8A5bxciubdf4oH04MweFYzAUHstJeBwsLj+Swqu
- qdtw==
-X-Gm-Message-State: AO0yUKX0Yc1tByoeG0j6C5wzRIfZ72bLn+gZLBnJlAPdvYDXEEYCHZv3
- 9uJMDVAKmQRCiVCGKgTuGbNOhOwqA2Y2WRsbKlufn4uvZ1Az4onVfE9LvQyFlHFqRWZ+SGldDjV
- vUGxLetEvYScmEAdICkaF6e1sEb2M6JY=
-X-Received: by 2002:a65:45c9:0:b0:477:31bc:348f with SMTP id
- m9-20020a6545c9000000b0047731bc348fmr2984408pgr.72.1675680857840; 
- Mon, 06 Feb 2023 02:54:17 -0800 (PST)
-X-Google-Smtp-Source: AK7set/PfGg99e65fX6/yIy48rzNfKGmY83luKzURQzAgeX2suGH56YiVeDdERsLJL6V5GVPEBlPXsTlZXaVCuQAw1I=
-X-Received: by 2002:a65:45c9:0:b0:477:31bc:348f with SMTP id
- m9-20020a6545c9000000b0047731bc348fmr2984400pgr.72.1675680857553; Mon, 06 Feb
- 2023 02:54:17 -0800 (PST)
-Received: from 744723338238 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 6 Feb 2023 02:54:16 -0800
-From: Andrea Bolognani <abologna@redhat.com>
-References: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
- <20230202045223.2594627-3-sunilvl@ventanamicro.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YinycJG3qv79YV/7XBh/0Op9xB6A0l/6TDZNwR0+k+c=;
+ b=z02LzN3Hs0fLtfc5alNfddyS2PaF0i58Et64WjP5McQNTPeby4SCW9LqJmsn5R6aD7
+ +JXaeD2NIzibF15fXE+ZQxsjesZycJ5bqH8+YIBrxwkI2pOkO65JE6afpVdAJmyP6USL
+ IdXaRANJYncoghoXuyIjTZkjKNeYnKvkeSKjsvY+qF38Lv6z7+/ByRY44fgfr8TH690R
+ kN8HgsaRgmG1fWUif6VAK3aCYDzHguEzg/+YXYeaxLHZm0BXrcv2rnQebE4+Oq4oiQb/
+ ulCt+RTuhrVUW8KrkJMQ6+fpqAJmn8cwDpH9aSYZFdeLzEII4Hoq/sfHvcly3374Ba3i
+ DdDw==
+X-Gm-Message-State: AO0yUKUw9rH1HCiBPVjNYyPBVaX0/uIuD7rG16Sy4agga3nr5EhGRu6C
+ 62VeHw0pjZc/NA7d5nrxCWOTfQ==
+X-Google-Smtp-Source: AK7set8ydUJVaD19cgXvZpaR2Q9zQE/DHozLvWMXQyFcE41Q75zdp0PsBGXVouE4IKWHUhjd/DMMPQ==
+X-Received: by 2002:a05:600c:5121:b0:3dc:5a70:23dc with SMTP id
+ o33-20020a05600c512100b003dc5a7023dcmr18209851wms.27.1675681501981; 
+ Mon, 06 Feb 2023 03:05:01 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ y6-20020a7bcd86000000b003dc4480df80sm15844129wmj.34.2023.02.06.03.04.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Feb 2023 03:05:00 -0800 (PST)
+Message-ID: <9d85105f-f841-f96a-1388-1ae302cf98da@linaro.org>
+Date: Mon, 6 Feb 2023 12:04:59 +0100
 MIME-Version: 1.0
-In-Reply-To: <20230202045223.2594627-3-sunilvl@ventanamicro.com>
-Date: Mon, 6 Feb 2023 02:54:16 -0800
-Message-ID: <CABJz62PFGT1H-AArbfTkpiX24mHU=q3wk7h-bpduZhJyy7tTLw@mail.gmail.com>
-Subject: Re: [PATCH 02/10] hw/riscv/virt: Add a switch to enable/disable ACPI
-To: Sunil V L <sunilvl@ventanamicro.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Andrew Jones <ajones@ventanamicro.com>, Anup Patel <apatel@ventanamicro.com>, 
- Atish Kumar Patra <atishp@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=abologna@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH] meson: Avoid duplicates in generated config-poison.h again
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com
+References: <20230206102037.3621709-1-armbru@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230206102037.3621709-1-armbru@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,18 +90,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 02, 2023 at 10:22:15AM +0530, Sunil V L wrote:
-> +    object_class_property_add(oc, "acpi", "OnOffAuto",
-> +                              virt_get_acpi, virt_set_acpi,
-> +                              NULL, NULL);
-> +    object_class_property_set_description(oc, "acpi",
-> +                                          "Enable ACPI");
+On 6/2/23 11:20, Markus Armbruster wrote:
+> Commit eed56e9a89f "configure, meson: move config-poison.h to meson"
+> lost a "| sort -u".  Restore it.  config-poison shrinks from ~4500 to
+> ~700 lines when all targets are enabled.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   scripts/make-config-poison.sh | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-The way this works on other architectures (x86_64, aarch64) is that
-you get ACPI by default and can use -no-acpi to disable it if
-desired. Can we have the same on RISC-V, for consistency?
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
--- 
-Andrea Bolognani / Red Hat / Virtualization
 
 
