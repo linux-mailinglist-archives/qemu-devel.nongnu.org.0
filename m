@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10FF268BFAB
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 15:12:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF66F68BFBF
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 15:14:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP2Cc-00061c-9Q; Mon, 06 Feb 2023 09:10:38 -0500
+	id 1pP2Cd-00064h-NE; Mon, 06 Feb 2023 09:10:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP2CZ-00060m-3m
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP2CZ-000614-HI
  for qemu-devel@nongnu.org; Mon, 06 Feb 2023 09:10:35 -0500
 Received: from smtp-out1.suse.de ([195.135.220.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP2CW-0002Zp-3B
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 09:10:34 -0500
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP2CX-0002bD-Dr
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 09:10:35 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D561533D27;
- Mon,  6 Feb 2023 14:10:29 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5861F33D29;
+ Mon,  6 Feb 2023 14:10:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675692629; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1675692632; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yRt17INxw+r/097qGsN3dpcq/vEASg9fuWlP5GWMX1g=;
- b=lpA+IOzCKrFDbrWW+Ug4f/kcLUFqVom/CDn1ZCP4/5+P/icPr9lztmr5EUEwmkzi0dPJpC
- GD4Gz1BWDMYh54I5R0jGVFiV9TKy7LdExhJvJt8TyyCtb7XcRkm/cOvkN73HVivAdZlmSY
- JlSDvcL0hfdNEoSi5L//+zXATPWJijM=
+ bh=Mykl+BdE21hEMrBw4HHu6ROq7yGSZl8D6OrvyFyeVd4=;
+ b=KWbZVjg8+s6+GNhzUMk7d+13HiiGfGaLYpEVJbIo4Yra9GhnRVHFvlfnopUEx5B/xgovMh
+ MWbENbMzCQ3aEhRojWb6I2EZBpUfEYUt8RnNNbQb9AItmf7FzdKJFtgRw5G5oHju3AcP6y
+ zPu4e7AUgzO3Iy2QA1N3dX/85xhQWtA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675692629;
+ s=susede2_ed25519; t=1675692632;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yRt17INxw+r/097qGsN3dpcq/vEASg9fuWlP5GWMX1g=;
- b=5AYePBDWHAo+9NxQ4Et5jOzwJ0m9uIubT6K8A4E4sw1jWzWjSBqbNj4bsNJfxr9GLyTKnv
- YxTGeGCKcRyjZJDQ==
+ bh=Mykl+BdE21hEMrBw4HHu6ROq7yGSZl8D6OrvyFyeVd4=;
+ b=4VIz7Ik3xnYc98ulFgLxszQbLg1C2WzS1MbrCdQBo50i/8IgCtIpfex28khgVnt41bzr/D
+ h/xR+zFFyuqQ21Cw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B157D138E7;
- Mon,  6 Feb 2023 14:10:28 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 50995138E7;
+ Mon,  6 Feb 2023 14:10:30 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id KNgTHlQK4WOgQAAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 06 Feb 2023 14:10:28 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id UCF0BlYK4WOgQAAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 06 Feb 2023 14:10:30 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 01/10] vl.c: Do not add isa-parallel if it's not present
-Date: Mon,  6 Feb 2023 11:08:00 -0300
-Message-Id: <20230206140809.26028-2-farosas@suse.de>
+Cc: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PATCH 02/10] hw/i386: Select E1000E for q35
+Date: Mon,  6 Feb 2023 11:08:01 -0300
+Message-Id: <20230206140809.26028-3-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230206140809.26028-1-farosas@suse.de>
 References: <20230206140809.26028-1-farosas@suse.de>
@@ -85,35 +88,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently the isa-parallel driver is always added by default
-regardless of the presence of the actual code in the build, which can
-lead to a crash:
-
-qemu-system-i386: unknown type 'isa-parallel'
-Aborted (core dumped)
-
-Check for the presence of the QOM class and do not include
-isa-parallel by default if it's not found.
+The e1000e network adapter is the default network card for the q35
+machine. Make sure that CONFIG is always selected for that machine.
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- softmmu/vl.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/i386/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 9177d95d4e..614e6cf66e 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -1269,7 +1269,8 @@ static void qemu_disable_default_devices(void)
-     if (!has_defaults || machine_class->no_serial) {
-         default_serial = 0;
-     }
--    if (!has_defaults || machine_class->no_parallel) {
-+    if (!has_defaults || machine_class->no_parallel ||
-+        !object_class_by_name("isa-parallel")) {
-         default_parallel = 0;
-     }
-     if (!has_defaults || machine_class->no_floppy) {
+diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+index 1bf47b0b0b..527b95df81 100644
+--- a/hw/i386/Kconfig
++++ b/hw/i386/Kconfig
+@@ -93,7 +93,6 @@ config Q35
+     bool
+     imply VTD
+     imply AMD_IOMMU
+-    imply E1000E_PCI_EXPRESS
+     imply VMPORT
+     imply VMMOUSE
+     select PC_PCI
+@@ -104,6 +103,7 @@ config Q35
+     select DIMM
+     select SMBIOS
+     select FW_CFG_DMA
++    select E1000E_PCI_EXPRESS
+ 
+ config MICROVM
+     bool
 -- 
 2.35.3
 
