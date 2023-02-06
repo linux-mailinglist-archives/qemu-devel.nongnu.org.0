@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 052B468C2D3
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 17:17:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 320DE68C319
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 17:23:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP49w-0005Yc-FU; Mon, 06 Feb 2023 11:16:00 -0500
+	id 1pP4Ft-0007Ob-Gx; Mon, 06 Feb 2023 11:22:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pP49t-0005Y4-PB
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 11:15:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pP49s-0006Qh-4J
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 11:15:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675700154;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y1YxdtXAKHSW2xa0lWBV1M5rrSQV9boHSWRJ7x97GV8=;
- b=gQQ7jmiekxEsNTUAOXoyZxnim8FNnDTTDEe3z4NHZwNvHgL8jpNXrMl/xRRruFWzsHjE6G
- o+NcG1AU2tZCI+6teJyNqsicDJwo4LLH8pUGI5E7OMEgDTgC6XNxnFHmqduK7aUjE17jWt
- odBggJV7VpL/rSDPSQOEsRZrXdV5uTw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-471-kSF7DlEePbyFJS4Mn4WExA-1; Mon, 06 Feb 2023 11:15:52 -0500
-X-MC-Unique: kSF7DlEePbyFJS4Mn4WExA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 851C685A588;
- Mon,  6 Feb 2023 16:15:51 +0000 (UTC)
-Received: from localhost (dhcp-192-239.str.redhat.com [10.33.192.239])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 253B140398A0;
- Mon,  6 Feb 2023 16:15:51 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eric Auger <eauger@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org, "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>, Juan Quintela
- <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>, Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: Re: [PATCH v5 2/3] arm/kvm: add support for MTE
-In-Reply-To: <071ec3a6-cb4b-0dac-87fd-f3c3d00b5e83@redhat.com>
-Organization: Red Hat GmbH
-References: <20230203134433.31513-1-cohuck@redhat.com>
- <20230203134433.31513-3-cohuck@redhat.com>
- <da118de5-adcd-ec0c-9870-454c3741a4ab@linaro.org>
- <071ec3a6-cb4b-0dac-87fd-f3c3d00b5e83@redhat.com>
-User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Mon, 06 Feb 2023 17:15:49 +0100
-Message-ID: <877cwun51m.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP4Fr-0007OQ-0f
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 11:22:07 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP4Fp-0007jR-H4
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 11:22:06 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ f47-20020a05600c492f00b003dc584a7b7eso11157800wmp.3
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 08:22:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:subject:from:cc:to:content-language
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1xpV1IAy/zyeF789T2mMfVs8rafYbqXqeStHyu0TRDk=;
+ b=kLKy9TZ820cwQz0t04fVPMecrJAyo6TILt4GOT+dDfoLgdr5zAjH35JQBLeVyxwGl8
+ We4GV27BQQEJ2b6hm545/rCdGRA3TlUMpbpmYs5gwIoVMxfcoumsCQmemb+gHpLzPmOe
+ SPoaX1nRu2P2jp9xaaXJNQTe21/Gm63GTRbvSIuHQ66oaciZTh8gM8CNDmnw/RkcVdjY
+ LmYac3zscQew8gS4YyJ47mn67lR6GwFbMAfcuBrSzrmBfGT/gOmin0w4NI8h+AQrjmvQ
+ ZZjG6y/6bZu7pWsJ6MStPcT0XY/v4FqguKRHkKkpRAHhkuyKCsOLpItHcHzfydu0f+dC
+ EXdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:subject:from:cc:to:content-language
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=1xpV1IAy/zyeF789T2mMfVs8rafYbqXqeStHyu0TRDk=;
+ b=pYPK9z6fNGVo4fvMwgTzCaDqXSOBhEH+IgB60mIBZWR3sgA/dPLnrHfGpHbq/BdxR1
+ R6q0IVNmof20afvjej5wiJVgeeLZ4ge64UwtGT+oc+i0a/AxoE6+w0n6lAq5+mg9EKgo
+ 0AHC7aPG7QDI+XT9aOT2kXo4g4loH/rAGl9WPOe3MEsz2csFrLPEemPuxbvn6gDzG1pp
+ gAe/3Ri4iRFtdqwTxnhdMVocAxwwpEZm6JoJYUWJBs++1rn+UJmw2YEAWQt9hUKmqnFt
+ Rdjunyvhp2Nzr+EywPYmX40Ofrz40jn63PRlXthY1bv1tefBB7nvvoAToNvCxvX0Vdj5
+ IfUw==
+X-Gm-Message-State: AO0yUKWsKBiCkSwMsB9ISHfGtsM1F2Iiot5PIPcQn8J8Ebjz9XEWHjzx
+ TTeYay6lcyZhxHrCLrHdoGABUA==
+X-Google-Smtp-Source: AK7set8tbEJ4GfqsDhK6TG7VeXBF1/VYmgDSmWi2lgXmTEZJ8lmfmIOfJUKHGB0Subc9UbN/teLJAw==
+X-Received: by 2002:a05:600c:44c4:b0:3e0:14a:697a with SMTP id
+ f4-20020a05600c44c400b003e0014a697amr302113wmo.6.1675700523691; 
+ Mon, 06 Feb 2023 08:22:03 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ k10-20020a7bc30a000000b003dfee43863fsm9392996wmj.26.2023.02.06.08.22.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Feb 2023 08:22:03 -0800 (PST)
+Message-ID: <35205d94-c19a-f41c-899c-89214296075c@linaro.org>
+Date: Mon, 6 Feb 2023 17:22:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Laurent Vivier <laurent@vivier.eu>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Subject: hw/misc/mos6522: What is VIA_TIMER_FREQ value?
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,48 +90,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 06 2023, Eric Auger <eauger@redhat.com> wrote:
+Hi Mark & Laurent,
 
-> Hi,
->
-> On 2/3/23 21:40, Richard Henderson wrote:
->> On 2/3/23 03:44, Cornelia Huck wrote:
->>> +static void aarch64_cpu_get_mte(Object *obj, Visitor *v, const char
->>> *name,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void *opaque, Error **errp)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 ARMCPU *cpu =3D ARM_CPU(obj);
->>> +=C2=A0=C2=A0=C2=A0 OnOffAuto mte =3D cpu->prop_mte;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 visit_type_OnOffAuto(v, name, &mte, errp);
->>> +}
->>=20
->> You don't need to copy to a local variable here.
->>=20
->>> +
->>> +static void aarch64_cpu_set_mte(Object *obj, Visitor *v, const char
->>> *name,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void *opaque, Error **errp)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 ARMCPU *cpu =3D ARM_CPU(obj);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 visit_type_OnOffAuto(v, name, &cpu->prop_mte, errp);
->>> +}
->>=20
->> ... which makes get and set functions identical.
->> No need for both.
-> This looks like a common pattern though. virt_get_acpi/set_acpi in
-> virt.c or pc_machine_get_vmport/set_vmport in i386/pc.c and many other
-> places (microvm ...). Do those other callers also need some simplificatio=
-ns?
+In commit d811d61fbc6 Mark defined VIA_TIMER_FREQ as 4700000 / 6
+(783333.33) and in commit 6dca62a0000 Laurent defined it as 783360.
 
-Indeed, I'm pretty sure that I copied + adapted it from somewhere :)
+What is the correct value?
 
-Should we clean up all instances in one go instead? (Probably on top of
-this series, in order to minimize conflicts with other changes.)
+Could we define it once in include/hw/misc/mac_via.h or
+even include/hw/misc/mos6522.h?
 
+Thanks,
+
+Phil.
 
