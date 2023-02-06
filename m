@@ -2,77 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D1FB68CACB
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 00:47:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA3068CAE6
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 00:59:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPBCc-0006mI-Bw; Mon, 06 Feb 2023 18:47:14 -0500
+	id 1pPBNk-0000GC-Fc; Mon, 06 Feb 2023 18:58:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
- id 1pPBCZ-0006m2-Ne
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 18:47:11 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
- id 1pPBCY-00009I-4S
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 18:47:11 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- j29-20020a05600c1c1d00b003dc52fed235so10206716wms.1
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 15:47:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=vRRO6m1OSUl30UiVydTCm/txaY5nuYW+gGUPdw0BbVI=;
- b=LJ4vghSqwFs3q2JeNx4/QGBUPXZLgNi7FTZJbxFBZnV9hq+hbhN2WSDKwQ0JE1d4jF
- /Gv1FvBDmmHW/i8O7wflkfISM64ozzon306VK+Y+xxDR4rFtQR5a6b3AAX4h3FmDGqAK
- iRHhezFS/MkMOTON+gSySm5SO6FXNTkler18m1ZIjyQBgRx0qOqbA3WuuPEFQ+z8SHXR
- Mq98ihSn+UDvKtliAPuhLe0NVjQgF95x4PbPXEWQUxgapLWOMlYIbNf60OFePr8DVyxc
- Aq0tOLdEfLZoIQAfzn1hYwnJ9tVaT1bhKUV0OYRUSy3r4iiZ7Yl6RHM8SSzypzCX89ne
- fziw==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pPBNb-0000Fq-7u
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 18:58:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pPBNZ-0001s1-9Y
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 18:58:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675727911;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=1k3R1uZDv9Vwm8PhgAbFY4NxfH0ImyVY1f5SkwvxO18=;
+ b=BUfGWouDLVEPS4nGhVtDOani+/QbdFEBPo+lk+ctLXFQwRf0Gs+vgHw5pbDdksIjnl/aGo
+ dVci56Lo9FVAmGJdNsxg++6a7WCF6D+42rXmsaReRVoS5Y+u0l5Q31OHnH624SY32XHp8G
+ C6LmMjS/IH4zvRgNM2wCPI7oGA0yseQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-463-GffS8GkUPsaGtscF0LhYNg-1; Mon, 06 Feb 2023 18:58:30 -0500
+X-MC-Unique: GffS8GkUPsaGtscF0LhYNg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ fl9-20020a05600c0b8900b003dfe4bae099so6063352wmb.0
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 15:58:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vRRO6m1OSUl30UiVydTCm/txaY5nuYW+gGUPdw0BbVI=;
- b=rcfbOyk5IblZLVNSrbGbfVD8jrvpCUnq5C6RfUPbvYDr9RyUyHxaGoj97gnk7Y21NG
- o8ElrgXSr0SDcXO71Jp0Ug8voNRpp+sp+wNWbI7GAbr1kICVwYAEYyqdymvPMQn/CcGq
- L35U198Q4+DGoQ6VkXiCSCn4wcPEKTGEsPqruKfAXSkYBDv9xNsxu5diuySy6CoTbfc7
- cal90EFK+cZ+39JsTXRpZ/EI4c7zF/DB0JqOXD0yZqu14fnjOk8rD97bsmJ08LvCctEo
- yZfqeX87MHtKcl0Zfh6pIO9VHcXnJ+Nboge0BO9kYKVX/VjEBIVZLXgcMldBCSEjqqhm
- Kb+g==
-X-Gm-Message-State: AO0yUKW8K9JV9msOSSjASli+TmRyA80oMHdcUEf5Kzg5Bm8TfDmoDTGQ
- BtrqGrzEtYaw1gXPPLH01HSJoHmbBHxu7yfwGjOTAg==
-X-Google-Smtp-Source: AK7set8Imz5BGOdKM/JMe8zYpKoh0mCxQcMLxeBpzF7oDZH+j/INERnb9Es1VV+xw/qjoOcehwr107jEpMAr0+3cq8A=
-X-Received: by 2002:a05:600c:a46:b0:3e0:15b:4791 with SMTP id
- c6-20020a05600c0a4600b003e0015b4791mr105835wmq.187.1675727227654; Mon, 06 Feb
- 2023 15:47:07 -0800 (PST)
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1k3R1uZDv9Vwm8PhgAbFY4NxfH0ImyVY1f5SkwvxO18=;
+ b=FIlc/X2QLXOxtthHt4//65v60l0COes+b0BHUUDvbgV2TmZf4lWTpcdAmIJsOmDj1z
+ 8aGGWlLU4aOdptgq51bVuBYRgPiAgxRr1og3yBgUVCfSxhGYOnPqZtzL93ysv8jHWW1s
+ 4mDJiRc2Dp8zo6comt15Se6yDmvHyW+ydmveF8HyFQS9RUFSG7g+sMbPgs1mAZR/bFm5
+ xXdFbzYhCgvuokWx53KcImIMdbhiwUHj69kQMYIit0Xj6PD399TbvM3dxDL9kwJIM6zq
+ 8ZdyfY1COeICBMR6qSHsqzbRyZjkR1tk5GjUts3YNpto9aR9l6dT//zZJw9GSSdL8vbe
+ CZuA==
+X-Gm-Message-State: AO0yUKWkmf2zscHQi7CbFSXTy+399aBE905wGGG6v+qE9sqEhHRKYkro
+ VAIF8KVR/9DyMdkxFSDBL6CxzCt2Ki+YBUF4VmDTQhyQuUmJN8rnrzkrh2QezAkjvJGmvc0nTAK
+ Q1FBrWTgJf/4enAI=
+X-Received: by 2002:a5d:438f:0:b0:2c3:e959:2697 with SMTP id
+ i15-20020a5d438f000000b002c3e9592697mr706911wrq.0.1675727909003; 
+ Mon, 06 Feb 2023 15:58:29 -0800 (PST)
+X-Google-Smtp-Source: AK7set/ufDDPcqGCZk4bn8SnMzYTiHaIxc05IJUYI8GINR65GJrIzDjWlZqupg38qH8UUHWsKONGXQ==
+X-Received: by 2002:a5d:438f:0:b0:2c3:e959:2697 with SMTP id
+ i15-20020a5d438f000000b002c3e9592697mr706888wrq.0.1675727908726; 
+ Mon, 06 Feb 2023 15:58:28 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ m5-20020a7bcb85000000b003de8a1b06c0sm17612504wmi.7.2023.02.06.15.58.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Feb 2023 15:58:27 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: Hanna Czenczek <hreitz@redhat.com>,  Stefan Hajnoczi
+ <stefanha@redhat.com>,  virtio-fs-list <virtio-fs@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,  =?utf-8?Q?Marc-Andr?=
+ =?utf-8?Q?=C3=A9?= Lureau
+ <marcandre.lureau@redhat.com>,  Eugenio =?utf-8?Q?P=C3=A9rez?=
+ <eperezma@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,  "Michael S. Tsirkin" <mst@redhat.com>,
+ Dave Gilbert <dgilbert@redhat.com>
+Subject: Re: vhost-user (virtio-fs) migration: back end state
+In-Reply-To: <CAJSP0QUO3i+tLfDE0sdNRePnoaqJ7TL29izmk5sDzRt83Ds8tQ@mail.gmail.com>
+ (Stefan Hajnoczi's message of "Mon, 6 Feb 2023 16:16:22 -0500")
+References: <fb523956-7a8c-608b-6db1-961686b73e9c@redhat.com>
+ <CAJSP0QWnq6av7j6x_n-C2mLSPMYBhMeEthr6ayPN-cmsEB3UnA@mail.gmail.com>
+ <87mt5qv76d.fsf@secure.mitica>
+ <CAJSP0QUO3i+tLfDE0sdNRePnoaqJ7TL29izmk5sDzRt83Ds8tQ@mail.gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Tue, 07 Feb 2023 00:58:27 +0100
+Message-ID: <87ilgeuz18.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20230206233428.2772669-1-wuhaotsh@google.com>
- <20230206233428.2772669-2-wuhaotsh@google.com>
-In-Reply-To: <20230206233428.2772669-2-wuhaotsh@google.com>
-From: Havard Skinnemoen <hskinnemoen@google.com>
-Date: Mon, 6 Feb 2023 15:46:55 -0800
-Message-ID: <CAFQmdRbnFFOJbJSLS8c2Nv8JMAdS=xnMrHYO2K6cs2iSZyMmBQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] MAINTAINERS: Add myself to maintainers and remove
- Havard
-To: Hao Wu <wuhaotsh@google.com>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- venture@google.com, Avi.Fishman@nuvoton.com, kfting@nuvoton.com, 
- titusr@google.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=hskinnemoen@google.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,44 +104,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 6, 2023 at 3:34 PM Hao Wu <wuhaotsh@google.com> wrote:
+Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> On Mon, 6 Feb 2023 at 16:02, Juan Quintela <quintela@redhat.com> wrote:
+>> The last two bits are on my ToDo list for the near future, but not done.
+>>
+>> If we ended having lots of so big devices, we are going to have to think
+>> about downtimes in the order of dozens of seconds, not subsecond.
+>>
+>> So, if you are planning doing this in the near future, this is a good
+>> time to discuss this.
 >
-> Havard is no longer working on the Nuvoton systems for a while
-> and won't be able to do any work on it in the future. So I'll
-> take over maintaining the Nuvoton system from him.
+> Can you explain the dirty bitmap requirement you mentioned further, given that:
+> 1. vhost-user has dirty memory logging already, so DMA is covered.
+> 2. An iterative interface allows the device to keep generating more
+> state, so does QEMU really need to know if parts of the previously
+> emitted binary blob have become dirty? It might allow QEMU to minimize
+> the size of the savevm file, but only if the overwritten data has the
+> same size.
 >
-> Signed-off-by: Hao Wu <wuhaotsh@google.com>
+> Is a dirty bitmap for the device state necessary?
 
-Acked-by: Havard Skinnemoen <hskinnemoen@google.com>
+Not for that.  My fault.  I was talking about a dirty bitmap because
+that is how it is implemented in vfio.  Notice that qemu don't see that
+bitmap.  But the device can enter the iterative stage.
 
-Just to confirm that I'm no longer on the team that does all the
-exciting qemu work, but I love to see all the great work that the team
-is doing.
+The reason that I ask is if you can enter the iterative stage to send
+stuff before the last stage.
 
-Havard
+If you don't have something similar to that, you need to send that in
+one go, and that is going to take really a lot of time.
 
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index fa10ecaeb9..347936e41c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -799,8 +799,8 @@ F: include/hw/net/mv88w8618_eth.h
->  F: docs/system/arm/musicpal.rst
->
->  Nuvoton NPCM7xx
-> -M: Havard Skinnemoen <hskinnemoen@google.com>
->  M: Tyrone Ting <kfting@nuvoton.com>
-> +M: Hao Wu <wuhaotsh@google.com>
->  L: qemu-arm@nongnu.org
->  S: Supported
->  F: hw/*/npcm7xx*
-> --
-> 2.39.1.519.gcb327c4b5f-goog
->
+When we are talking about NVidia GPU's, they have two kinds of state:
+- Frame buffer: they can (or at some point would have) a dirty bitmap
+  and they can enter the iterative stage.
+- They have internal state that is not visible to the user, that state
+  is big (around 1GB) and they can't enter the iterative stage, because
+  they can't know if the guest, the card, or whoever has changed that.
+
+For vhost device:
+- what is the "typical" amount of state.
+- if it is more than a few megabytes, is there a way to send parts of it
+  before the ending stage?  That is what I asked for a dirty bitmap for
+  it, but it can be anything else.  Just that vhost-user keep track of
+  what has sent to the other side and then have less state for the last
+  stage?
+  
+
+Later, Juan.
+
 
