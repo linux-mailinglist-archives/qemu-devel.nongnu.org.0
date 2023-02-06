@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC8E68C0F1
+	by mail.lfdr.de (Postfix) with ESMTPS id DA17C68C0F3
 	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 16:07:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP34e-0003nz-N9; Mon, 06 Feb 2023 10:06:28 -0500
+	id 1pP34h-0003oo-Cz; Mon, 06 Feb 2023 10:06:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP34a-0003mb-74
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:06:24 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP34f-0003o9-Ag
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:06:29 -0500
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP34Y-0008MM-O6
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:06:23 -0500
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP34d-0008N6-Q6
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:06:29 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 8A46E605EA;
- Mon,  6 Feb 2023 15:06:21 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A5F183F455;
+ Mon,  6 Feb 2023 15:06:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675695981; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1675695984; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=goSDfx7cmfycf8tBXDj8HVE4wyFuG1uzctEfXFzu2j8=;
- b=b38f/EWiastCCpeu+pM77HwRhEscUWXyIy2OCgiZoXycRQpfIEp1YX79ecV0zYkUDhEXbf
- HlwejqtuBt71PcdJf5YicerOHTa7sSiYRgpIOBDl708ziIN2prmoY7rvllFmJ/dnoTGjtT
- tJs2yzm12R5rNQEO97x0Y03BPao17ig=
+ bh=rY9bvUmHzpF8EYq003M5m/AMh8SAb7YC+mha6Wm6cEo=;
+ b=bm+5c8OJUBXNXNBNYKkxgo8RNGvo13rRT7Ajf1S9arfWDo4CGKHlv9nHGEdtuxoXjGWrPo
+ ofn+ilWZw1guesJ5ItcCBMCX6ZTIncmOVuwaTL/vXO3ohe/a8lELtiirD0G+QcgXt/3jIn
+ a0Wug6ravI5paO674yTbsWOWcBE0kBU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675695981;
+ s=susede2_ed25519; t=1675695984;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=goSDfx7cmfycf8tBXDj8HVE4wyFuG1uzctEfXFzu2j8=;
- b=85qNz+LGJDAW9Rtmw7M2FJFJhuf1lhuvV1ke65q8rxUe9tDRJewfubHwAB0y6Mog8QFoVm
- B0VBAfUZK9wX0xAA==
+ bh=rY9bvUmHzpF8EYq003M5m/AMh8SAb7YC+mha6Wm6cEo=;
+ b=dwiPUvmHgL5lexOZFYqlbxIEAQi2zclUlcbi5iFAnd60RXHWRerznqK0j/QbwkQSJjYGZS
+ Pg5pfZ9KM+OqsbAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 34F52138E8;
- Mon,  6 Feb 2023 15:06:19 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0416E138E8;
+ Mon,  6 Feb 2023 15:06:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SJB4O2sX4WPSXwAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 06 Feb 2023 15:06:19 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id YEeNL20X4WPSXwAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 06 Feb 2023 15:06:21 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 01/12] tests/qtest: Skip PXE tests for missing devices
-Date: Mon,  6 Feb 2023 12:04:05 -0300
-Message-Id: <20230206150416.4604-2-farosas@suse.de>
+Cc: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Alexander Bulekov <alxndr@bu.edu>,
+ Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Subject: [PATCH 02/12] tests/qtest: Do not run lsi53c895a test if device is
+ not present
+Date: Mon,  6 Feb 2023 12:04:06 -0300
+Message-Id: <20230206150416.4604-3-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230206150416.4604-1-farosas@suse.de>
 References: <20230206150416.4604-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -85,30 +89,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Check if the devices we're trying to add are present in the QEMU
-binary. They could have been removed from the build via Kconfig or the
---without-default-devices option.
+The tests are built once for all the targets, so as long as one QEMU
+binary is built with CONFIG_LSI_SCSI_PCI=y, this test will
+run. However some binaries might not include the device. So check this
+again in runtime.
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- tests/qtest/pxe-test.c | 4 ++++
+ tests/qtest/fuzz-lsi53c895a-test.c | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/tests/qtest/pxe-test.c b/tests/qtest/pxe-test.c
-index 52f0b5c67c..62b6eef464 100644
---- a/tests/qtest/pxe-test.c
-+++ b/tests/qtest/pxe-test.c
-@@ -108,6 +108,10 @@ static void test_batch(const testdef_t *tests, bool ipv6)
-         const testdef_t *test = &tests[i];
-         char *testname;
+diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
+index 392a7ae7ed..a9254b455d 100644
+--- a/tests/qtest/fuzz-lsi53c895a-test.c
++++ b/tests/qtest/fuzz-lsi53c895a-test.c
+@@ -112,6 +112,10 @@ static void test_lsi_do_dma_empty_queue(void)
  
-+        if (!qtest_has_device(test->model)) {
-+            continue;
-+        }
+ int main(int argc, char **argv)
+ {
++    if (!qtest_has_device("lsi53c895a")) {
++        return 0;
++    }
 +
-         testname = g_strdup_printf("pxe/ipv4/%s/%s",
-                                    test->machine, test->model);
-         qtest_add_data_func(testname, test, test_pxe_ipv4);
+     g_test_init(&argc, &argv, NULL);
+ 
+     qtest_add_func("fuzz/lsi53c895a/lsi_do_dma_empty_queue",
 -- 
 2.35.3
 
