@@ -2,83 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D3B68B705
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 09:02:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 972DF68B70B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 09:07:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOwRk-0002Oc-G0; Mon, 06 Feb 2023 03:01:52 -0500
+	id 1pOwW6-0003r2-8y; Mon, 06 Feb 2023 03:06:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pOwRg-0002GA-GR
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 03:01:48 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pOwRe-0002Qw-G9
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 03:01:48 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id d14so9490441wrr.9
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 00:01:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=g84X+YXZv+5zRJZyg9NjsxJ8QaBmxJqzEwr0nGVTb/0=;
- b=h3gPFnXqMgjBxavpi9Cy4jbKWFiKogb51pX1S/gTPF4wtrzONxro2Z5/40UbekwA9G
- /QOiUJSbnBPKwMZiQ0XzY4jNtu+Vo+k1iIKblkvTgs/WG7AGwMcBSNk3n3T7jY10BmGW
- iLt5N5N5D3YTqrG/OGi2YcVsEdvZVlOZSMCVKytOusdB2Q4dcAGJkPb0i2vWAILXbawA
- cm6Ok0QFbFniunb0RAYul21prP9I05RlrXF4JJnYr2OOTXhMpV0Iv6oJ8l1JEKactV0i
- UAoKw1UZi7NyQA61LF7wixlvc7daAjWDfhnff/T8hFoYohIWtMtyoaAlCWg2ZM4tutjJ
- fEoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=g84X+YXZv+5zRJZyg9NjsxJ8QaBmxJqzEwr0nGVTb/0=;
- b=P/MGXBlsYN79FaxHDAPlBATmFPvt8//KwrAk1AfGFUxD2OvGe5dix6qSpWB3GGC+PT
- VMya1ge23+GP/ycszvZlRkJbvsmyjEazkB8JPMc+rjFJtTIuUiiwjTJDgtIIKwK4BPCH
- 0C49653DIbpXW4DMj1TsSLwmu1Tw1bwA4QA4TDqgzzNV479eC36LetXpuoedj7AJLjaT
- g+jl1N76JkiiHGJrh/p1nihqxjkXJoxvVMXB2Te3fbnZFh5gYlk2W2U5pZx7yR3GsRlV
- uh89g954xqKdoxRzHNQ+lHgQ15rgrPnlzgn6bwpNqj/hQupmXkryf2pjftfy0oohZGm8
- vjuA==
-X-Gm-Message-State: AO0yUKXRjzPNcjgy4fVZTl1qQOSEghA4PKbnptSykwEEjcraULPRKOA+
- r1EJYIE3ejSq6hRp55UiEaR8Jg==
-X-Google-Smtp-Source: AK7set+NjMAJFOTvEE9b+19/lSOk0sdvN+gtDd9LAiBXQusDPk6SrHBlH9CGpq+ePfdV9gDD4PpAnQ==
-X-Received: by 2002:adf:dbca:0:b0:2c3:d852:a952 with SMTP id
- e10-20020adfdbca000000b002c3d852a952mr9077444wrj.17.1675670504683; 
- Mon, 06 Feb 2023 00:01:44 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- o2-20020a05600002c200b002bde537721dsm8308063wry.20.2023.02.06.00.01.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 00:01:44 -0800 (PST)
-Message-ID: <4808b00b-3fed-233b-1f87-a6f4709062da@linaro.org>
-Date: Mon, 6 Feb 2023 09:01:42 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pOwVw-0003pq-No
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 03:06:16 -0500
+Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pOwVt-00035T-4D
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 03:06:11 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.216])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id C761928065;
+ Mon,  6 Feb 2023 08:06:05 +0000 (UTC)
+Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Mon, 6 Feb
+ 2023 09:06:05 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G002a8fc6efd-5d4b-4c64-b758-0e73ed562cb0,
+ CF69EBA19D99189A5BFA69977647E68A070273F7) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <73ecb8de-8f11-c83c-d464-9325da36f079@kaod.org>
+Date: Mon, 6 Feb 2023 09:06:04 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 2/3] hw/isa/vt82c686: Allow PM controller to switch to
- ACPI mode
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 5/5] hw/ppc/pnv: Set QDev properties using QDev API
 Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-To: BALATON Zoltan <balaton@eik.bme.hu>, Bernhard Beschow
- <shentey@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Cc: qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Huacai Chen <chenhuacai@kernel.org>
-References: <20230129213418.87978-1-shentey@gmail.com>
- <20230129213418.87978-3-shentey@gmail.com>
- <9611ad50-1c60-de0a-e8e0-85b487950888@eik.bme.hu>
- <78bc4dd9-f713-3824-1d87-74f3011b019d@linaro.org>
-In-Reply-To: <78bc4dd9-f713-3824-1d87-74f3011b019d@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ <qemu-devel@nongnu.org>
+CC: BALATON Zoltan <balaton@eik.bme.hu>, Mark Cave-Ayland
+ <mark.cave-ayland@ilande.co.uk>, <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>, Daniel Henrique
+ Barboza <danielhb413@gmail.com>, Markus Armbruster <armbru@redhat.com>, David
+ Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+References: <20230203211623.50930-1-philmd@linaro.org>
+ <20230203211623.50930-6-philmd@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230203211623.50930-6-philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 102c2c92-e8a3-4616-b796-152c5d09bb11
+X-Ovh-Tracer-Id: 13037076499997559730
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudeghedgudduvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhhihhlmhgusehlihhnrghrohdrohhrghdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpsggrlhgrthhonhesvghikhdrsghmvgdrhhhupdhmrghrkhdrtggrvhgvqdgrhihlrghnugesihhlrghnuggvrdgtohdruhhkpdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdhhphhouhhsshhinhesrhgvrggtthhoshdrohhrghdpuggrnhhivghlhhgsgedufeesghhmrghilhdrtghomhdprghrmhgsrhhusehrvgguhhgrthdrtghomhdpuggrvhhiugesghhisghsoh
+ hnrdgurhhophgsvggrrhdrihgurdgruhdpghhrohhugheskhgrohgurdhorhhgpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
+ helo=9.mo552.mail-out.ovh.net
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.149,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,32 +79,283 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Forgot to Cc ACPI maintainers.
+On 2/3/23 22:16, Philippe Mathieu-Daudé wrote:
+> No need to use the low-level QOM API when an object
+> inherits from QDev. Directly use the QDev API to set
+> its properties.
+> 
+> One call in pnv_psi_power8_realize() propagate the
+> Error* argument:
+> 
+>    if (!object_property_set_int(OBJECT(ics), "nr-irqs",
+>                                 PSI_NUM_INTERRUPTS, errp)) {
+>        return;
+>    }
+> 
+> TYPE_ICS "nr-irqs" is declared in ics_properties[],
+> itself always registered in ics_class_init(); so converting
+> this errp to &error_abort is safe.
 
-On 6/2/23 09:00, Philippe Mathieu-Daudé wrote:
-> On 31/1/23 15:54, BALATON Zoltan wrote:
->> On Sun, 29 Jan 2023, Bernhard Beschow wrote:
->>> Adds missing functionality the real hardware supports.
->>>
->>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->>> ---
->>> hw/isa/vt82c686.c | 18 +++++++++++++++++-
->>> 1 file changed, 17 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
->>> index 2189be6f20..b0765d4ed8 100644
->>> --- a/hw/isa/vt82c686.c
->>> +++ b/hw/isa/vt82c686.c
->>> @@ -37,6 +37,9 @@
->>> #include "qemu/timer.h"
->>> #include "trace.h"
+yes. That's ok. I think this model was one of the first I converted to QOM.
+
 > 
->> Why does acpi_pm1_cnt_update() take two arguments for a bool value? 
->> Can these be both true or false at the same time?
+> All other calls use either errp=&error_abort or &error_fatal,
+> so converting to the QDev API is almost a no-op (QDev API
+> always uses &error_abort).
 > 
-> No, this is a one-bit so boolean is enough...
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
+Thanks,
+
+C.
+
+> ---
+>   hw/intc/pnv_xive.c         | 11 ++++------
+>   hw/intc/pnv_xive2.c        | 15 +++++---------
+>   hw/pci-host/pnv_phb3.c     |  9 +++------
+>   hw/pci-host/pnv_phb4.c     |  4 ++--
+>   hw/pci-host/pnv_phb4_pec.c | 10 +++-------
+>   hw/ppc/pnv.c               | 41 ++++++++++++++++----------------------
+>   hw/ppc/pnv_psi.c           | 10 +++-------
+>   7 files changed, 37 insertions(+), 63 deletions(-)
 > 
-> Maybe unfinished refactor from commit eaba51c573 ("acpi, acpi_piix,
-> vt82c686: factor out PM1_CNT logic")?
+> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+> index 622f9d28b7..ccc1ea5380 100644
+> --- a/hw/intc/pnv_xive.c
+> +++ b/hw/intc/pnv_xive.c
+> @@ -1857,17 +1857,14 @@ static void pnv_xive_realize(DeviceState *dev, Error **errp)
+>        * resized dynamically when the controller is configured by the FW
+>        * to limit accesses to resources not provisioned.
+>        */
+> -    object_property_set_int(OBJECT(xsrc), "nr-irqs", PNV_XIVE_NR_IRQS,
+> -                            &error_fatal);
+> -    object_property_set_link(OBJECT(xsrc), "xive", OBJECT(xive), &error_abort);
+> +    qdev_prop_set_uint32(DEVICE(xsrc), "nr-irqs", PNV_XIVE_NR_IRQS);
+> +    qdev_prop_set_link(DEVICE(xsrc), "xive", OBJECT(xive));
+>       if (!qdev_realize(DEVICE(xsrc), NULL, errp)) {
+>           return;
+>       }
+>   
+> -    object_property_set_int(OBJECT(end_xsrc), "nr-ends", PNV_XIVE_NR_ENDS,
+> -                            &error_fatal);
+> -    object_property_set_link(OBJECT(end_xsrc), "xive", OBJECT(xive),
+> -                             &error_abort);
+> +    qdev_prop_set_uint32(DEVICE(end_xsrc), "nr-ends", PNV_XIVE_NR_ENDS);
+> +    qdev_prop_set_link(DEVICE(end_xsrc), "xive", OBJECT(xive));
+>       if (!qdev_realize(DEVICE(end_xsrc), NULL, errp)) {
+>           return;
+>       }
+> diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
+> index 7176d70234..d7695f65e7 100644
+> --- a/hw/intc/pnv_xive2.c
+> +++ b/hw/intc/pnv_xive2.c
+> @@ -1821,22 +1821,17 @@ static void pnv_xive2_realize(DeviceState *dev, Error **errp)
+>        * resized dynamically when the controller is configured by the FW
+>        * to limit accesses to resources not provisioned.
+>        */
+> -    object_property_set_int(OBJECT(xsrc), "flags", XIVE_SRC_STORE_EOI,
+> -                            &error_fatal);
+> -    object_property_set_int(OBJECT(xsrc), "nr-irqs", PNV_XIVE2_NR_IRQS,
+> -                            &error_fatal);
+> -    object_property_set_link(OBJECT(xsrc), "xive", OBJECT(xive),
+> -                             &error_fatal);
+> +    qdev_prop_set_uint64(DEVICE(xsrc), "flags", XIVE_SRC_STORE_EOI);
+> +    qdev_prop_set_uint32(DEVICE(xsrc), "nr-irqs", PNV_XIVE2_NR_IRQS);
+> +    qdev_prop_set_link(DEVICE(xsrc), "xive", OBJECT(xive));
+>       qdev_realize(DEVICE(xsrc), NULL, &local_err);
+>       if (local_err) {
+>           error_propagate(errp, local_err);
+>           return;
+>       }
+>   
+> -    object_property_set_int(OBJECT(end_xsrc), "nr-ends", PNV_XIVE2_NR_ENDS,
+> -                            &error_fatal);
+> -    object_property_set_link(OBJECT(end_xsrc), "xive", OBJECT(xive),
+> -                             &error_abort);
+> +    qdev_prop_set_uint32(DEVICE(end_xsrc), "nr-ends", PNV_XIVE2_NR_ENDS);
+> +    qdev_prop_set_link(DEVICE(end_xsrc), "xive", OBJECT(xive));
+>       qdev_realize(DEVICE(end_xsrc), NULL, &local_err);
+>       if (local_err) {
+>           error_propagate(errp, local_err);
+> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+> index 7a21497cf8..6da9053ffa 100644
+> --- a/hw/pci-host/pnv_phb3.c
+> +++ b/hw/pci-host/pnv_phb3.c
+> @@ -1029,8 +1029,7 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
+>       /* LSI sources */
+>       object_property_set_link(OBJECT(&phb->lsis), "xics", OBJECT(pnv),
+>                                &error_abort);
+> -    object_property_set_int(OBJECT(&phb->lsis), "nr-irqs", PNV_PHB3_NUM_LSI,
+> -                            &error_abort);
+> +    qdev_prop_set_uint32(DEVICE(&phb->lsis), "nr-irqs", PNV_PHB3_NUM_LSI);
+>       if (!qdev_realize(DEVICE(&phb->lsis), NULL, errp)) {
+>           return;
+>       }
+> @@ -1046,15 +1045,13 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
+>                                &error_abort);
+>       object_property_set_link(OBJECT(&phb->msis), "xics", OBJECT(pnv),
+>                                &error_abort);
+> -    object_property_set_int(OBJECT(&phb->msis), "nr-irqs", PHB3_MAX_MSI,
+> -                            &error_abort);
+> +    qdev_prop_set_uint32(DEVICE(&phb->msis), "nr-irqs", PHB3_MAX_MSI);
+>       if (!qdev_realize(DEVICE(&phb->msis), NULL, errp)) {
+>           return;
+>       }
+>   
+>       /* Power Bus Common Queue */
+> -    object_property_set_link(OBJECT(&phb->pbcq), "phb", OBJECT(phb),
+> -                             &error_abort);
+> +    qdev_prop_set_link(DEVICE(&phb->pbcq), "phb", OBJECT(phb));
+>       if (!qdev_realize(DEVICE(&phb->pbcq), NULL, errp)) {
+>           return;
+>       }
+> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+> index ccbde841fc..c4e7cb0efe 100644
+> --- a/hw/pci-host/pnv_phb4.c
+> +++ b/hw/pci-host/pnv_phb4.c
+> @@ -1583,8 +1583,8 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
+>       } else {
+>           nr_irqs = PNV_PHB4_MAX_INTs >> 1;
+>       }
+> -    object_property_set_int(OBJECT(xsrc), "nr-irqs", nr_irqs, &error_fatal);
+> -    object_property_set_link(OBJECT(xsrc), "xive", OBJECT(phb), &error_fatal);
+> +    qdev_prop_set_uint32(DEVICE(xsrc), "nr-irqs", nr_irqs);
+> +    qdev_prop_set_link(DEVICE(xsrc), "xive", OBJECT(phb));
+>       if (!qdev_realize(DEVICE(xsrc), NULL, errp)) {
+>           return;
+>       }
+> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
+> index 43267a428f..9c21382330 100644
+> --- a/hw/pci-host/pnv_phb4_pec.c
+> +++ b/hw/pci-host/pnv_phb4_pec.c
+> @@ -120,13 +120,9 @@ static void pnv_pec_default_phb_realize(PnvPhb4PecState *pec,
+>       int phb_id = pnv_phb4_pec_get_phb_id(pec, stack_no);
+>   
+>       object_property_add_child(OBJECT(pec), "phb[*]", OBJECT(phb));
+> -    object_property_set_link(OBJECT(phb), "pec", OBJECT(pec),
+> -                             &error_abort);
+> -    object_property_set_int(OBJECT(phb), "chip-id", pec->chip_id,
+> -                            &error_fatal);
+> -    object_property_set_int(OBJECT(phb), "index", phb_id,
+> -                            &error_fatal);
+> -
+> +    qdev_prop_set_link(DEVICE(phb), "pec", OBJECT(pec));
+> +    qdev_prop_set_uint32(DEVICE(phb), "chip-id", pec->chip_id);
+> +    qdev_prop_set_uint32(DEVICE(phb), "index", phb_id);
+>       if (!sysbus_realize(SYS_BUS_DEVICE(phb), errp)) {
+>           return;
+>       }
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 44b1fbbc93..7c6d5e4320 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -954,35 +954,31 @@ static void pnv_init(MachineState *machine)
+>       pnv->chips = g_new0(PnvChip *, pnv->num_chips);
+>       for (i = 0; i < pnv->num_chips; i++) {
+>           char chip_name[32];
+> -        Object *chip = OBJECT(qdev_new(chip_typename));
+> +        DeviceState *chip = qdev_new(chip_typename);
+>           uint64_t chip_ram_size =  pnv_chip_get_ram_size(pnv, i);
+>   
+>           pnv->chips[i] = PNV_CHIP(chip);
+>   
+> +        snprintf(chip_name, sizeof(chip_name), "chip[%d]", i);
+> +        object_property_add_child(OBJECT(pnv), chip_name, OBJECT(chip));
+> +
+>           /* Distribute RAM among the chips  */
+> -        object_property_set_int(chip, "ram-start", chip_ram_start,
+> -                                &error_fatal);
+> -        object_property_set_int(chip, "ram-size", chip_ram_size,
+> -                                &error_fatal);
+> +        qdev_prop_set_uint64(chip, "ram-start", chip_ram_start);
+> +        qdev_prop_set_uint64(chip, "ram-size", chip_ram_size);
+>           chip_ram_start += chip_ram_size;
+>   
+> -        snprintf(chip_name, sizeof(chip_name), "chip[%d]", i);
+> -        object_property_add_child(OBJECT(pnv), chip_name, chip);
+> -        object_property_set_int(chip, "chip-id", i, &error_fatal);
+> -        object_property_set_int(chip, "nr-cores", machine->smp.cores,
+> -                                &error_fatal);
+> -        object_property_set_int(chip, "nr-threads", machine->smp.threads,
+> -                                &error_fatal);
+> +        qdev_prop_set_uint32(chip, "chip-id", i);
+> +        qdev_prop_set_uint32(chip, "nr-cores", machine->smp.cores);
+> +        qdev_prop_set_uint32(chip, "nr-threads", machine->smp.threads);
+>           /*
+>            * The POWER8 machine use the XICS interrupt interface.
+>            * Propagate the XICS fabric to the chip and its controllers.
+>            */
+>           if (object_dynamic_cast(OBJECT(pnv), TYPE_XICS_FABRIC)) {
+> -            object_property_set_link(chip, "xics", OBJECT(pnv), &error_abort);
+> +            qdev_prop_set_link(chip, "xics", OBJECT(pnv));
+>           }
+>           if (object_dynamic_cast(OBJECT(pnv), TYPE_XIVE_FABRIC)) {
+> -            object_property_set_link(chip, "xive-fabric", OBJECT(pnv),
+> -                                     &error_abort);
+> +            qdev_prop_set_link(chip, "xive-fabric", OBJECT(pnv));
+>           }
+>           sysbus_realize_and_unref(SYS_BUS_DEVICE(chip), &error_fatal);
+>       }
+> @@ -1492,7 +1488,7 @@ static void pnv_chip_quad_realize_one(PnvChip *chip, PnvQuad *eq,
+>                                          sizeof(*eq), TYPE_PNV_QUAD,
+>                                          &error_fatal, NULL);
+>   
+> -    object_property_set_int(OBJECT(eq), "quad-id", core_id, &error_fatal);
+> +    qdev_prop_set_uint32(DEVICE(eq), "quad-id", core_id);
+>       qdev_realize(DEVICE(eq), NULL, &error_fatal);
+>   }
+>   
+> @@ -1969,16 +1965,13 @@ static void pnv_chip_core_realize(PnvChip *chip, Error **errp)
+>           snprintf(core_name, sizeof(core_name), "core[%d]", core_hwid);
+>           object_property_add_child(OBJECT(chip), core_name, OBJECT(pnv_core));
+>           chip->cores[i] = pnv_core;
+> -        object_property_set_int(OBJECT(pnv_core), "nr-threads",
+> -                                chip->nr_threads, &error_fatal);
+> +        qdev_prop_set_uint32(DEVICE(pnv_core), "nr-threads", chip->nr_threads);
+>           object_property_set_int(OBJECT(pnv_core), CPU_CORE_PROP_CORE_ID,
+>                                   core_hwid, &error_fatal);
+> -        object_property_set_int(OBJECT(pnv_core), "pir",
+> -                                pcc->core_pir(chip, core_hwid), &error_fatal);
+> -        object_property_set_int(OBJECT(pnv_core), "hrmor", pnv->fw_load_addr,
+> -                                &error_fatal);
+> -        object_property_set_link(OBJECT(pnv_core), "chip", OBJECT(chip),
+> -                                 &error_abort);
+> +        qdev_prop_set_uint32(DEVICE(pnv_core), "pir",
+> +                             pcc->core_pir(chip, core_hwid));
+> +        qdev_prop_set_uint64(DEVICE(pnv_core), "hrmor", pnv->fw_load_addr);
+> +        qdev_prop_set_link(DEVICE(pnv_core), "chip", OBJECT(chip));
+>           qdev_realize(DEVICE(pnv_core), NULL, &error_fatal);
+>   
+>           /* Each core has an XSCOM MMIO region */
+> diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
+> index 8aa09ab26b..fb90d47138 100644
+> --- a/hw/ppc/pnv_psi.c
+> +++ b/hw/ppc/pnv_psi.c
+> @@ -492,10 +492,7 @@ static void pnv_psi_power8_realize(DeviceState *dev, Error **errp)
+>       unsigned int i;
+>   
+>       /* Create PSI interrupt control source */
+> -    if (!object_property_set_int(OBJECT(ics), "nr-irqs", PSI_NUM_INTERRUPTS,
+> -                                 errp)) {
+> -        return;
+> -    }
+> +    qdev_prop_set_uint32(DEVICE(ics), "nr-irqs", PSI_NUM_INTERRUPTS);
+>       if (!qdev_realize(DEVICE(ics), NULL, errp)) {
+>           return;
+>       }
+> @@ -849,9 +846,8 @@ static void pnv_psi_power9_realize(DeviceState *dev, Error **errp)
+>       XiveSource *xsrc = &PNV9_PSI(psi)->source;
+>       int i;
+>   
+> -    object_property_set_int(OBJECT(xsrc), "nr-irqs", PSIHB9_NUM_IRQS,
+> -                            &error_fatal);
+> -    object_property_set_link(OBJECT(xsrc), "xive", OBJECT(psi), &error_abort);
+> +    qdev_prop_set_uint32(DEVICE(xsrc), "nr-irqs", PSIHB9_NUM_IRQS);
+> +    qdev_prop_set_link(DEVICE(xsrc), "xive", OBJECT(psi));
+>       if (!qdev_realize(DEVICE(xsrc), NULL, errp)) {
+>           return;
+>       }
 
 
