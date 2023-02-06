@@ -2,85 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE1E668C1AB
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 16:33:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23C4968C258
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 16:56:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP3U8-0006dO-16; Mon, 06 Feb 2023 10:32:48 -0500
+	id 1pP3pd-0005UD-Tx; Mon, 06 Feb 2023 10:55:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP3TT-0006Yo-2s
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:32:24 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP3TR-0006Ef-DG
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:32:06 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- bg13-20020a05600c3c8d00b003d9712b29d2so11060279wmb.2
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 07:32:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Dp+mT21yBQu4HGsD0lSSH+6Pj7kpSKIvRtNlMVPxhc8=;
- b=VESL6m4tF++sjFRR7hGbshOz6ZnYC7fSJsQV0O9hyfR9/CPJaDixe6eUbiGVUwwXg0
- eD4iVsYcsLRvUNT+OJU4EZVJWshfmdh0dTwu04VgLo7fm3mkFHu4NHEcs0+z/yHmWLuq
- oIxfgVqcP5qhvI9XzfMJlX8zUoTUEqOtBXxOCyxiy+3cB5498TVtLraQCtIxCLoSuw9X
- wWpDQHNk6tt4becFel1ITVPZekrcFBj6QOggR/ri/MDBZcbiMgsyjFCLdmRYJPjUcI6U
- y26tUI5Nl2th+LLyCifapXCVNBXNSw0zhhYVWE7A8O1X9Zm6qX1Vme48IPOg4MNLeQ9N
- hBMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Dp+mT21yBQu4HGsD0lSSH+6Pj7kpSKIvRtNlMVPxhc8=;
- b=iXH8Pro21ieRZ5175fE6XesawVZnrfo+ct6yCMaq06+qJBN8SaUjo1p7uwkxI7orzO
- TWeHhUAhFAXVKirRHVv4SBnv9VFvucjpc4Eaj6wti4dwIJ0xL68fe6ayw7ijhr61CEtr
- 0pF4AJt9mGKNFIdR96Pt+7UAAcwZZlfqYF7/OHrjLlubP05Lu5zLtfMjFSLpcSAT6Oou
- G7f05Yxc/G1w8CLckcXikLQjSxCvhqVHWwfzLRAm8PK6AzNzUy0uzE8jkKrECrs4CFMt
- 9UJf6z3fU/hPlGJpxWxDzQsv0pE+KlPh3t8gbrGgTkHett7F3mIDS0T/5LvGzEeNxNAZ
- rW7w==
-X-Gm-Message-State: AO0yUKUpdHZCjz8XzSfW00PJUuMFpiXYUXw6Ijaqd8fU7jvf/yCd3leO
- CwknZNSwMM/VcSlwPxwN84ZPOg==
-X-Google-Smtp-Source: AK7set+bXKAhzN+Vex2wxrTXpglim9msdcF0Ahrp3uLos2ThG4gOSjeFJbTwkRV9NB5lDOf1rFLqig==
-X-Received: by 2002:a05:600c:1e8a:b0:3df:e57d:f4ba with SMTP id
- be10-20020a05600c1e8a00b003dfe57df4bamr190188wmb.7.1675697520967; 
- Mon, 06 Feb 2023 07:32:00 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- s13-20020a05600c45cd00b003dc42d48defsm11867382wmo.6.2023.02.06.07.31.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 07:32:00 -0800 (PST)
-Message-ID: <4ea8eec3-1d4e-0d09-4bf4-eb2987238594@linaro.org>
-Date: Mon, 6 Feb 2023 16:31:57 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pP3pa-0005Tb-MW
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:54:58 -0500
+Received: from 4.mo548.mail-out.ovh.net ([188.165.42.229])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pP3pY-0002V7-M9
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:54:58 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.128])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 49EB521112;
+ Mon,  6 Feb 2023 15:54:52 +0000 (UTC)
+Received: from kaod.org (37.59.142.98) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Mon, 6 Feb
+ 2023 16:54:51 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R00215416cc7-8e75-49ad-8e27-27be9608fe84,
+ CF69EBA19D99189A5BFA69977647E68A070273F7) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <be61e573-1713-472c-899e-ac51b8a22345@kaod.org>
+Date: Mon, 6 Feb 2023 16:54:46 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 02/12] tests/qtest: Do not run lsi53c895a test if device
- is not present
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PULL 03/38] pflash: Only read non-zero parts of backend image
 Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Laurent Vivier <lvivier@redhat.com>
-References: <20230206150416.4604-1-farosas@suse.de>
- <20230206150416.4604-3-farosas@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230206150416.4604-3-farosas@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+To: Kevin Wolf <kwolf@redhat.com>, <qemu-block@nongnu.org>
+CC: <peter.maydell@linaro.org>, <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, Xiang Zheng
+ <zhengxiang9@huawei.com>
+References: <20230120122633.84983-1-kwolf@redhat.com>
+ <20230120122633.84983-4-kwolf@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230120122633.84983-4-kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: ad3b7254-0bdd-4c41-920b-e8d6b28eb276
+X-Ovh-Tracer-Id: 2507379094288304934
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudegiedgkedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeikeehkeehheejgfffkeffveegleduffeiteejuefgfedtjeekgefgveffveeigfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepkhifohhlfhesrhgvughhrghtrdgtohhmpdhqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhgpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpiihhvghnghigihgrnhhgleeshhhurgifvghirdgtohhmpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
+ helo=4.mo548.mail-out.ovh.net
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.148,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,59 +75,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 6/2/23 16:04, Fabiano Rosas wrote:
-> The tests are built once for all the targets, so as long as one QEMU
-> binary is built with CONFIG_LSI_SCSI_PCI=y, this test will
-> run. However some binaries might not include the device. So check this
-> again in runtime.
-> 
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
-> ---
->   tests/qtest/fuzz-lsi53c895a-test.c | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
-> index 392a7ae7ed..a9254b455d 100644
-> --- a/tests/qtest/fuzz-lsi53c895a-test.c
-> +++ b/tests/qtest/fuzz-lsi53c895a-test.c
-> @@ -112,6 +112,10 @@ static void test_lsi_do_dma_empty_queue(void)
->   
->   int main(int argc, char **argv)
->   {
-> +    if (!qtest_has_device("lsi53c895a")) {
-> +        return 0;
-> +    }
+Hello,
 
-Shouldn't we update Kconfig to now add the test unconditionally?
-Squashing:
+On 1/20/23 13:25, Kevin Wolf wrote:
+> From: Xiang Zheng <zhengxiang9@huawei.com>
+> 
+> Currently we fill the VIRT_FLASH memory space with two 64MB NOR images
+> when using persistent UEFI variables on virt board. Actually we only use
+> a very small(non-zero) part of the memory while the rest significant
+> large(zero) part of memory is wasted.
+> 
+> So this patch checks the block status and only writes the non-zero part
+> into memory. This requires pflash devices to use sparse files for
+> backends.
+> 
+> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+> 
+> [ kraxel: rebased to latest master ]
+> 
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Message-Id: <20221220084246.1984871-1-kraxel@redhat.com>
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 
--- >8 --
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index e97616d327..498e49a1b2 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -66,7 +66,6 @@ qtests_i386 = \
-    (config_all_devices.has_key('CONFIG_RTL8139_PCI') ? ['rtl8139-test'] 
-: []) +              \
-    (config_all_devices.has_key('CONFIG_E1000E_PCI_EXPRESS') ? 
-['fuzz-e1000e-test'] : []) +   \
-    (config_all_devices.has_key('CONFIG_MEGASAS_SCSI_PCI') ? 
-['fuzz-megasas-test'] : []) +    \
--  (config_all_devices.has_key('CONFIG_LSI_SCSI_PCI') ? 
-['fuzz-lsi53c895a-test'] : []) +     \
-    (config_all_devices.has_key('CONFIG_VIRTIO_SCSI') ? 
-['fuzz-virtio-scsi-test'] : []) +     \
-    (config_all_devices.has_key('CONFIG_SB16') ? ['fuzz-sb16-test'] : 
-[]) +                   \
-    (config_all_devices.has_key('CONFIG_SDHCI_PCI') ? 
-['fuzz-sdcard-test'] : []) +            \
-@@ -87,6 +86,7 @@ qtests_i386 = \
-     'rtc-test',
-     'i440fx-test',
-     'fw_cfg-test',
-+   'fuzz-lsi53c895a-test',
-     'device-plug-test',
-     'drive_del-test',
-     'tco-test',
----
+This newly merged patch introduces a "regression" when booting an Aspeed
+machine. The following extra m25p80 patch (not yet merged) is required
+for the issue to show:
+
+   https://lore.kernel.org/qemu-devel/20221115151000.2080833-1-clg@kaod.org/
+
+U-Boot fails to find the filesystem in that case.
+
+It can be easily reproduced with the witherspoon-bmc machine and seems
+to be related to the use of a UBI filesystem. Other Aspeed machines not
+using UBI are not impacted.
+
+Here is a tentative fix. I don't know enough the block layer to explain
+what is happening :/
+
+Thanks,
+
+C.
+
+
+@@ -39,7 +39,7 @@ static int blk_pread_nonzeroes(BlockBack
+              return ret;
+          }
+          if (!(ret & BDRV_BLOCK_ZERO)) {
+-            ret = bdrv_pread(bs->file, offset, bytes,
++            ret = blk_pread(blk, offset, bytes,
+                               (uint8_t *) buf + offset, 0);
+              if (ret < 0) {
+                  return ret;
 
