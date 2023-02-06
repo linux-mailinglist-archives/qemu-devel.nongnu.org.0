@@ -2,101 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6ABA68B69A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 08:45:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 568CA68B69B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 08:45:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOwBD-0006DK-Av; Mon, 06 Feb 2023 02:44:47 -0500
+	id 1pOwBt-0006wa-Us; Mon, 06 Feb 2023 02:45:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pOwBB-0006BM-88
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 02:44:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <yuan.yao@linux.intel.com>)
+ id 1pOwBr-0006nt-8t
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 02:45:27 -0500
+Received: from mga01.intel.com ([192.55.52.88])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pOwB8-0007f7-Sq
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 02:44:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675669476;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZCVHx8k8+dW2EjfeNXvsmU6uZDZFcyxKnJ0jmHeYywA=;
- b=dYplWOGC2bhz3DWlr+J376ZOdMjHiRw3MZAwu8QrM7BpGm6sflUhdllLJTT8TlRNrDJR+I
- LXfL7J6jcm095c/34QXrwwK2SkvWTHRLmSTOWBjwhfEpVDhnKOK5/2Vwr9UFt7npFfXiRR
- p3SR0pISLEihSNz1gP/jju8cqVXrd/I=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-346-ajvJHCBANF2kZTXCQHy7ZQ-1; Mon, 06 Feb 2023 02:44:33 -0500
-X-MC-Unique: ajvJHCBANF2kZTXCQHy7ZQ-1
-Received: by mail-qv1-f71.google.com with SMTP id
- ib5-20020a0562141c8500b0053c23b938a0so5475944qvb.17
- for <qemu-devel@nongnu.org>; Sun, 05 Feb 2023 23:44:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZCVHx8k8+dW2EjfeNXvsmU6uZDZFcyxKnJ0jmHeYywA=;
- b=70X0VZl+Qn3v4uDX2QQorkUEB01PpGuSWZn7HCPjXaz8PUdmf9t3dPh2HGgxA8fZRr
- M2I31Pf6+xsyFzlWB14ReEPgYiBqwC+wc3BTq4de6xJCysmAh6x066EcoJ1BH/7V0M00
- 52VJDBtXbETwtyhujVzJDDDL2nYmLK4Vx4qsN1LykV66WbBKqXEhzq17SDwEIyt7Hu7D
- 8a8q1vDVf3V0Ynghx1jAudPEFEjQoIVnv2bT4NmZrIkSJABgsuDtjZE1ROSGCWq13DVG
- C0Wmnl1ZIue/ayvihs8pXUmuMyZ1vXOjGONp3vA6LbVIYv1mXusMwNZKt21J6BIr8EW2
- rmyQ==
-X-Gm-Message-State: AO0yUKU8eN2nsHkUUoJwHuWZ4Lt0b9qQb2PNE/HYnP8RP/Cb7lkQRoBA
- F3Tl1zSTsZwzIKFJs6+mvvQS38m5gJ3E8W6mdIeseF5e3KquQ5TXMiQm6wly16R5QDFp2c8Frxh
- LwM3gjh4q+dgH93M=
-X-Received: by 2002:a05:6214:2604:b0:56b:eda2:a6bc with SMTP id
- gu4-20020a056214260400b0056beda2a6bcmr14735415qvb.11.1675669473295; 
- Sun, 05 Feb 2023 23:44:33 -0800 (PST)
-X-Google-Smtp-Source: AK7set94t+zQw3mXc/ovaaas58PZrw1Hw32N+WHzv/IjVZXIxNZvcsVPZ932A1PJKGZ9tfG8McFIxg==
-X-Received: by 2002:a05:6214:2604:b0:56b:eda2:a6bc with SMTP id
- gu4-20020a056214260400b0056beda2a6bcmr14735391qvb.11.1675669473053; 
- Sun, 05 Feb 2023 23:44:33 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-177-71.web.vodafone.de.
- [109.43.177.71]) by smtp.gmail.com with ESMTPSA id
- dm40-20020a05620a1d6800b006fef61300fesm6886473qkb.16.2023.02.05.23.44.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 05 Feb 2023 23:44:32 -0800 (PST)
-Message-ID: <21fa9ab9-524d-c44d-905a-f1feddf92099@redhat.com>
-Date: Mon, 6 Feb 2023 08:44:29 +0100
+ (Exim 4.90_1) (envelope-from <yuan.yao@linux.intel.com>)
+ id 1pOwBp-0007u8-5o
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 02:45:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675669525; x=1707205525;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=twTN2ngfAj+EnnouzgdeQ/7oTcxx8uxXez11jcVoi9Y=;
+ b=N83bqQssy0A5JtIFb3zHkst3IaWiJXPyt8T0nD8T5T/XNvNUAn1MZmPQ
+ +DLNaQ95U0kzRe7XbFutobRFs85t8dPmPMTsN8DLITDm0xfh90ISZX9mB
+ Af7Yd1cjxOuUQltmY6e2OnuzEkgsktu0swFiG8V4MRFgdso7ewu1cZs5y
+ iyETmetPN2nVznuJ0sxZqNnMEG+yrxE/yN+jviLfg5+G7t79KzpSfP2VI
+ kc3SC+51yTZcclxplddidoF10ORrVbQyo6YbWk39JID1uMBrPcuifSpdq
+ BzchuWy8JRnFI3MHW/TxAke/l4MpQAF5Dd8vTGaJ1rYeQFC2J2XV1kbOE A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="356506181"
+X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; d="scan'208";a="356506181"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Feb 2023 23:45:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="790355495"
+X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; d="scan'208";a="790355495"
+Received: from yy-desk-7060.sh.intel.com (HELO localhost) ([10.239.159.76])
+ by orsmga004.jf.intel.com with ESMTP; 05 Feb 2023 23:45:20 -0800
+Date: Mon, 6 Feb 2023 15:45:19 +0800
+From: Yuan Yao <yuan.yao@linux.intel.com>
+To: Lei Wang <lei4.wang@intel.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, imammedo@redhat.com,
+ dgilbert@redhat.com, berrange@redhat.com, xiaoyao.li@intel.com,
+ yang.zhong@linux.intel.com
+Subject: Re: [PATCH v3 1/6] i386: Introduce FeatureWordInfo for AMX CPUID
+ leaf 0x1D and 0x1E
+Message-ID: <20230206074519.kohp6devu4t7prwf@yy-desk-7060>
+References: <20230106083826.5384-1-lei4.wang@intel.com>
+ <20230106083826.5384-2-lei4.wang@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 6/6] gitlab-ci.d/buildtest: Disintegrate the
- build-coroutine-sigaltstack job
-Content-Language: en-US
-To: quintela@redhat.com, Peter Maydell <peter.maydell@linaro.org>
-Cc: Kevin Wolf <kwolf@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, hreitz@redhat.com,
- dgilbert@redhat.com
-References: <20230130104446.1286773-1-thuth@redhat.com>
- <20230130104446.1286773-7-thuth@redhat.com> <Y9eizgN9UYo5kbgx@redhat.com>
- <fc5dba59-4993-ee66-a94b-a550bdced396@redhat.com>
- <Y9z5TohXERGuQ6TS@redhat.com>
- <2caefefa-8757-af55-ccf3-fcc641db0784@redhat.com>
- <CAFEAcA972rKvQqJh2-FghQcJ1hswVWkhtzb3-KW4CgsypnQgYA@mail.gmail.com>
- <87sffme9jj.fsf@secure.mitica>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <87sffme9jj.fsf@secure.mitica>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.149, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230106083826.5384-2-lei4.wang@intel.com>
+User-Agent: NeoMutt/20171215
+Received-SPF: none client-ip=192.55.52.88;
+ envelope-from=yuan.yao@linux.intel.com; helo=mga01.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,79 +80,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 03/02/2023 22.14, Juan Quintela wrote:
-> Peter Maydell <peter.maydell@linaro.org> wrote:
->> On Fri, 3 Feb 2023 at 15:44, Thomas Huth <thuth@redhat.com> wrote:
->>>
->>> On 03/02/2023 13.08, Kevin Wolf wrote:
->>>> Am 03.02.2023 um 12:23 hat Thomas Huth geschrieben:
->>>>> On 30/01/2023 11.58, Daniel P. Berrangé wrote:
->>>>>> On Mon, Jan 30, 2023 at 11:44:46AM +0100, Thomas Huth wrote:
->>>>>>> We can get rid of the build-coroutine-sigaltstack job by moving
->>>>>>> the configure flags that should be tested here to other jobs:
->>>>>>> Move --with-coroutine=sigaltstack to the build-without-defaults job
->>>>>>> and --enable-trace-backends=ftrace to the cross-s390x-kvm-only job.
->>>>>>
->>>>>> The biggest user of coroutines is the block layer. So we probably
->>>>>> ought to have coroutines aligned with a job that triggers the
->>>>>> 'make check-block' for iotests.  IIUC,  the without-defaults
->>>>>> job won't do that. How about, arbitrarily, using either the
->>>>>> 'check-system-debian' or 'check-system-ubuntu' job. Those distros
->>>>>> are closely related, so getting sigaltstack vs ucontext coverage
->>>>>> between them is a good win, and they both trigger the block jobs
->>>>>> IIUC.
->>>>>
->>>>> I gave it a try with the ubuntu job, but this apparently trips up the iotests:
->>>>>
->>>>>    https://gitlab.com/thuth/qemu/-/jobs/3705965062#L212
->>>>>
->>>>> Does anybody have a clue what could be going wrong here?
->>>>
->>>> I'm not sure how changing the coroutine backend could cause it, but
->>>> primarily this looks like an assertion failure in migration code.
->>>>
->>>> Dave, Juan, any ideas what this assertion checks and why it could be
->>>> failing?
->>>
->>> Ah, I think it's the bug that will be fixed by:
->>>
->>>    https://lore.kernel.org/qemu-devel/20230202160640.2300-2-quintela@redhat.com/
->>>
->>> The fix hasn't hit the master branch yet (I think), and I had another patch
->>> in my CI that disables the aarch64 binary in that runner, so the iotests
->>> suddenly have been executed with the alpha binary there --> migration fails.
->>>
->>> So never mind, it will be fixed as soon as Juan's pull request gets included.
->>
->> The migration tests have been flaky for a while now,
->> including setups where host and guest page sizes are the same.
->> (For instance, my x86 macos box pretty reliably sees failures
->> when the machine is under load.)
-> 
-> I *thought* that we had fixed all of those.
-> 
-> But it is difficult for me to know because:
-> - I only happens when one runs "make check"
-> - running ./migration-test have never failed to me
-> - When it fails (and it has been a while since it has failed to me)
->    it is impossible to me to detect what is going on, and as said, I have
->    never been able to reproduce running only migration-test.
-> 
-> I will try to run several at the same time and see if it happens.
-> 
-> And as Thomas said, I *think* that the fix that Peter Xu posted should
-> fix this issue.  Famous last words.
+On Fri, Jan 06, 2023 at 12:38:21AM -0800, Lei Wang wrote:
+> CPUID leaf 0x1D and 0x1E enumerate tile and TMUL information for AMX.
+>
+> Introduce FeatureWord FEAT_1D_1_EAX, FEAT_1D_1_EBX, FEAT_1D_1_ECX and
+> FEAT_1E_0_EBX. Thus these features of AMX can be expanded when
+> "-cpu host/max" and can be configured in named CPU model.
+>
+> Signed-off-by: Lei Wang <lei4.wang@intel.com>
 
-The patch from Peter should fix my problems that I triggered via the iotests 
-- but the migration-qtest is still unstable independent from that issue, I 
-think. See for example the latest staging pipeline:
+Reviewed-by: Yao Yuan <yuan.yao@intel.com>
 
-  https://gitlab.com/qemu-project/qemu/-/pipelines/767961842
-
-The migration qtest failed in both, the x86-freebsd-build and the 
-ubuntu-20.04-s390x-all pipelin.
-
-  Thomas
-
-
+> ---
+>  target/i386/cpu.c | 55 +++++++++++++++++++++++++++++++++++++++++++++++
+>  target/i386/cpu.h | 12 +++++++++++
+>  2 files changed, 67 insertions(+)
+>
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index 3410e5e470..b6d1247e5e 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -1002,6 +1002,45 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+>          },
+>          .tcg_features = ~0U,
+>      },
+> +    [FEAT_1D_1_EAX] = {
+> +        .type = CPUID_FEATURE_WORD,
+> +        .cpuid = {
+> +            .eax = 0x1D,
+> +            .needs_ecx = true, .ecx = 1,
+> +            .reg = R_EAX,
+> +        },
+> +        .migratable_flags = CPUID_AMX_PALETTE_1_TOTAL_TILE_BYTES_MASK |
+> +            CPUID_AMX_PALETTE_1_BYTES_PER_TILE_MASK,
+> +    },
+> +    [FEAT_1D_1_EBX] = {
+> +        .type = CPUID_FEATURE_WORD,
+> +        .cpuid = {
+> +            .eax = 0x1D,
+> +            .needs_ecx = true, .ecx = 1,
+> +            .reg = R_EBX,
+> +        },
+> +        .migratable_flags = CPUID_AMX_PALETTE_1_BYTES_PER_ROW_MASK |
+> +            CPUID_AMX_PALETTE_1_MAX_NAMES_MASK,
+> +    },
+> +    [FEAT_1D_1_ECX] = {
+> +        .type = CPUID_FEATURE_WORD,
+> +        .cpuid = {
+> +            .eax = 0x1D,
+> +            .needs_ecx = true, .ecx = 1,
+> +            .reg = R_ECX,
+> +        },
+> +        .migratable_flags = CPUID_AMX_PALETTE_1_MAX_ROWS_MASK,
+> +    },
+> +    [FEAT_1E_0_EBX] = {
+> +        .type = CPUID_FEATURE_WORD,
+> +        .cpuid = {
+> +            .eax = 0x1E,
+> +            .needs_ecx = true, .ecx = 0,
+> +            .reg = R_EBX,
+> +        },
+> +        .migratable_flags = CPUID_AMX_TMUL_MAX_K_MASK |
+> +            CPUID_AMX_TMUL_MAX_N_MASK,
+> +    },
+>      /*Below are MSR exposed features*/
+>      [FEAT_ARCH_CAPABILITIES] = {
+>          .type = MSR_FEATURE_WORD,
+> @@ -1371,6 +1410,22 @@ static FeatureDep feature_dependencies[] = {
+>          .from = { FEAT_7_0_EBX,             CPUID_7_0_EBX_INTEL_PT },
+>          .to = { FEAT_14_0_ECX,              ~0ull },
+>      },
+> +    {
+> +        .from = { FEAT_7_0_EDX,             CPUID_7_0_EDX_AMX_TILE },
+> +        .to = { FEAT_1D_1_EAX,              ~0ull },
+> +    },
+> +    {
+> +        .from = { FEAT_7_0_EDX,             CPUID_7_0_EDX_AMX_TILE },
+> +        .to = { FEAT_1D_1_EBX,              ~0ull },
+> +    },
+> +    {
+> +        .from = { FEAT_7_0_EDX,             CPUID_7_0_EDX_AMX_TILE },
+> +        .to = { FEAT_1D_1_ECX,              ~0ull },
+> +    },
+> +    {
+> +        .from = { FEAT_7_0_EDX,             CPUID_7_0_EDX_AMX_TILE },
+> +        .to = { FEAT_1E_0_EBX,              ~0ull },
+> +    },
+>      {
+>          .from = { FEAT_8000_0001_EDX,       CPUID_EXT2_RDTSCP },
+>          .to = { FEAT_VMX_SECONDARY_CTLS,    VMX_SECONDARY_EXEC_RDTSCP },
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index d4bc19577a..3e3e0cfe59 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -585,6 +585,14 @@ typedef enum X86Seg {
+>                                   XSTATE_Hi16_ZMM_MASK | XSTATE_PKRU_MASK | \
+>                                   XSTATE_XTILE_CFG_MASK | XSTATE_XTILE_DATA_MASK)
+>
+> +#define CPUID_AMX_PALETTE_1_TOTAL_TILE_BYTES_MASK 0xffffU
+> +#define CPUID_AMX_PALETTE_1_BYTES_PER_TILE_MASK   (0xffffU << 16)
+> +#define CPUID_AMX_PALETTE_1_BYTES_PER_ROW_MASK    0xffffU
+> +#define CPUID_AMX_PALETTE_1_MAX_NAMES_MASK        (0xffffU << 16)
+> +#define CPUID_AMX_PALETTE_1_MAX_ROWS_MASK         0xffffU
+> +#define CPUID_AMX_TMUL_MAX_K_MASK                 0xffU
+> +#define CPUID_AMX_TMUL_MAX_N_MASK                 (0xffffU << 8)
+> +
+>  /* CPUID feature words */
+>  typedef enum FeatureWord {
+>      FEAT_1_EDX,         /* CPUID[1].EDX */
+> @@ -605,6 +613,10 @@ typedef enum FeatureWord {
+>      FEAT_6_EAX,         /* CPUID[6].EAX */
+>      FEAT_XSAVE_XCR0_LO, /* CPUID[EAX=0xd,ECX=0].EAX */
+>      FEAT_XSAVE_XCR0_HI, /* CPUID[EAX=0xd,ECX=0].EDX */
+> +    FEAT_1D_1_EAX,      /* CPUID[EAX=0x1d,ECX=1].EAX */
+> +    FEAT_1D_1_EBX,      /* CPUID[EAX=0x1d,ECX=1].EBX */
+> +    FEAT_1D_1_ECX,      /* CPUID[EAX=0x1d,ECX=1].ECX */
+> +    FEAT_1E_0_EBX,      /* CPUID[EAX=0x1e,ECX=0].EBX */
+>      FEAT_ARCH_CAPABILITIES,
+>      FEAT_CORE_CAPABILITY,
+>      FEAT_PERF_CAPABILITIES,
+> --
+> 2.34.1
+>
+>
 
