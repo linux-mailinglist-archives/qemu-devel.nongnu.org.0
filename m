@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4293A68C0EB
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 16:07:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B414568C111
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 16:11:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP34s-0003um-Gb; Mon, 06 Feb 2023 10:06:42 -0500
+	id 1pP34v-0003xp-Kn; Mon, 06 Feb 2023 10:06:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP34p-0003uA-UB
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP34q-0003uH-N0
  for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:06:40 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP34n-0008Pi-0A
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:06:39 -0500
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP34p-0008QA-1f
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:06:40 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D5B0E6056C;
- Mon,  6 Feb 2023 15:06:35 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id DC7AE3F458;
+ Mon,  6 Feb 2023 15:06:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675695995; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1675695997; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tt7m42D4iHF+/zWVavAL6Ksm1ZZSEgB/IQavnNmDYZk=;
- b=RQfX6lQPqXbVJFfaa3nHx936FLo3HnLbaXAvR3wKOSc9m3bQpxl9jGsiQ2ZAWT5rPPbGTE
- xghexnckxTnqh7J7zdfodHnn4NP9OzvsuAitGFJsTxKkak5cfTdVDIDAgJ6Zup/f3ods2G
- x/eipC0YQcmTBJB8zM6Za8k4R8BLN+M=
+ bh=ERF/eYRp1uSXd+v28TrQ+yEaIQU6blReaQ6jeUk4Uzo=;
+ b=WsPrrd4VEbcFJ7l6Q2L8ha2N+02eN0bwwVE5EuAfRMsPMjYeQV1fk3PUpW77gCSAe0RnCP
+ QClecxpHrQgv/xBFY5y72Y5x63UVAv9U5pwoCcdCCsghElLGCcNZC7NwR8eJW+dgkPS0nW
+ px54g5r5wgaJhnxkYbCq7vgOLq6i3Mk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675695995;
+ s=susede2_ed25519; t=1675695997;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tt7m42D4iHF+/zWVavAL6Ksm1ZZSEgB/IQavnNmDYZk=;
- b=0qmrV3AopUeMSGcC0xb8I/PnJZoe6/ak8q5ZtMDLR4jvTJznIcdKUNB0JCMCJceikd7mOF
- woWKVTlHIjePgACg==
+ bh=ERF/eYRp1uSXd+v28TrQ+yEaIQU6blReaQ6jeUk4Uzo=;
+ b=GcfvnPmdsG16C6zGf7M0FwKRlaQ3RG9SLEVrddhDc/qtHYpyPldaRvX3jxwMHJMo5Ii32g
+ d9G+EsiVQu5HYkCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4D514138E8;
- Mon,  6 Feb 2023 15:06:34 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 50831138E8;
+ Mon,  6 Feb 2023 15:06:36 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id gEIFBnoX4WPSXwAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 06 Feb 2023 15:06:34 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id yPmgBnwX4WPSXwAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 06 Feb 2023 15:06:36 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PATCH 08/12] tests/qtest: Check for devices in bios-tables-test
-Date: Mon,  6 Feb 2023 12:04:12 -0300
-Message-Id: <20230206150416.4604-9-farosas@suse.de>
+Cc: Thomas Huth <thuth@redhat.com>, Su Hang <suhang16@mails.ucas.ac.cn>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH 09/12] tests/qtest: Do not include hexloader-test if loader
+ device is not present
+Date: Mon,  6 Feb 2023 12:04:13 -0300
+Message-Id: <20230206150416.4604-10-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230206150416.4604-1-farosas@suse.de>
 References: <20230206150416.4604-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -85,212 +86,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Do not include tests that require devices that are not available in
-the QEMU build.
-
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- tests/qtest/bios-tables-test.c | 75 ++++++++++++++++++++++++++++++++--
- 1 file changed, 71 insertions(+), 4 deletions(-)
+ tests/qtest/hexloader-test.c | 5 +++++
+ tests/qtest/meson.build      | 4 ++--
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index d8c8cda58e..d29a4e47af 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1008,6 +1008,12 @@ static void test_acpi_q35_multif_bridge(void)
-         .machine = MACHINE_Q35,
-         .variant = ".multi-bridge",
-     };
-+
-+    if (!qtest_has_device("pcie-root-port")) {
-+        g_test_skip("Device pcie-root-port is not available");
-+        goto out;
-+    }
-+
-     test_vm_prepare("-S"
-         " -device virtio-balloon,id=balloon0,addr=0x4.0x2"
-         " -device pcie-root-port,id=rp0,multifunction=on,"
-@@ -1043,6 +1049,7 @@ static void test_acpi_q35_multif_bridge(void)
-     /* check that reboot/reset doesn't change any ACPI tables  */
-     qtest_qmp_send(data.qts, "{'execute':'system_reset' }");
-     process_acpi_tables(&data);
-+out:
-     free_test_data(&data);
- }
+diff --git a/tests/qtest/hexloader-test.c b/tests/qtest/hexloader-test.c
+index 3023548041..3ab464f438 100644
+--- a/tests/qtest/hexloader-test.c
++++ b/tests/qtest/hexloader-test.c
+@@ -22,6 +22,11 @@ static void hex_loader_test(void)
+     unsigned int i;
+     const unsigned int base_addr = 0x00010000;
  
-@@ -1396,6 +1403,11 @@ static void test_acpi_tcg_dimm_pxm(const char *machine)
- {
-     test_data data;
- 
-+    if (!qtest_has_device("nvdimm")) {
-+        g_test_skip("Device nvdimm is not available");
++    if (!qtest_has_device("loader")) {
++        g_test_skip("Device 'loader' not available");
 +        return;
 +    }
 +
-     memset(&data, 0, sizeof(data));
-     data.machine = machine;
-     data.variant = ".dimmpxm";
-@@ -1444,6 +1456,11 @@ static void test_acpi_virt_tcg_memhp(void)
-         .scan_len = 256ULL * 1024 * 1024,
-     };
+     QTestState *s = qtest_initf(
+         "-M vexpress-a9 -device loader,file=tests/data/hex-loader/test.hex");
  
-+    if (!qtest_has_device("nvdimm")) {
-+        g_test_skip("Device nvdimm is not available");
-+        goto out;
-+    }
-+
-     data.variant = ".memhp";
-     test_acpi_one(" -machine nvdimm=on"
-                   " -cpu cortex-a57"
-@@ -1457,7 +1474,7 @@ static void test_acpi_virt_tcg_memhp(void)
-                   " -device pc-dimm,id=dimm0,memdev=ram2,node=0"
-                   " -device nvdimm,id=dimm1,memdev=nvm0,node=1",
-                   &data);
--
-+out:
-     free_test_data(&data);
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 431b623df9..a930706a43 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -197,11 +197,11 @@ qtests_arm = \
+   (config_all_devices.has_key('CONFIG_PFLASH_CFI02') ? ['pflash-cfi02-test'] : []) +         \
+   (config_all_devices.has_key('CONFIG_ASPEED_SOC') ? qtests_aspeed : []) + \
+   (config_all_devices.has_key('CONFIG_NPCM7XX') ? qtests_npcm7xx : []) + \
++  (config_all_devices.has_key('CONFIG_GENERIC_LOADER') ? ['hexloader-test'] : []) + \
+   ['arm-cpu-features',
+    'microbit-test',
+    'test-arm-mptimer',
+-   'boot-serial-test',
+-   'hexloader-test']
++   'boot-serial-test']
  
- }
-@@ -1475,6 +1492,11 @@ static void test_acpi_microvm_tcg(void)
- {
-     test_data data;
- 
-+    if (!qtest_has_device("virtio-blk-device")) {
-+        g_test_skip("Device virtio-blk-device is not available");
-+        return;
-+    }
-+
-     test_acpi_microvm_prepare(&data);
-     test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,rtc=off",
-                   &data);
-@@ -1485,6 +1507,11 @@ static void test_acpi_microvm_usb_tcg(void)
- {
-     test_data data;
- 
-+    if (!qtest_has_device("virtio-blk-device")) {
-+        g_test_skip("Device virtio-blk-device is not available");
-+        return;
-+    }
-+
-     test_acpi_microvm_prepare(&data);
-     data.variant = ".usb";
-     test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,usb=on,rtc=off",
-@@ -1496,6 +1523,11 @@ static void test_acpi_microvm_rtc_tcg(void)
- {
-     test_data data;
- 
-+    if (!qtest_has_device("virtio-blk-device")) {
-+        g_test_skip("Device virtio-blk-device is not available");
-+        return;
-+    }
-+
-     test_acpi_microvm_prepare(&data);
-     data.variant = ".rtc";
-     test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,rtc=on",
-@@ -1507,6 +1539,11 @@ static void test_acpi_microvm_pcie_tcg(void)
- {
-     test_data data;
- 
-+    if (!qtest_has_device("virtio-blk-device")) {
-+        g_test_skip("Device virtio-blk-device is not available");
-+        return;
-+    }
-+
-     test_acpi_microvm_prepare(&data);
-     data.variant = ".pcie";
-     data.tcg_only = true; /* need constant host-phys-bits */
-@@ -1519,6 +1556,11 @@ static void test_acpi_microvm_ioapic2_tcg(void)
- {
-     test_data data;
- 
-+    if (!qtest_has_device("virtio-blk-device")) {
-+        g_test_skip("Device virtio-blk-device is not available");
-+        return;
-+    }
-+
-     test_acpi_microvm_prepare(&data);
-     data.variant = ".ioapic2";
-     test_acpi_one(" -machine microvm,acpi=on,ioapic2=on,rtc=off",
-@@ -1558,6 +1600,12 @@ static void test_acpi_virt_tcg_pxb(void)
-         .ram_start = 0x40000000ULL,
-         .scan_len = 128ULL * 1024 * 1024,
-     };
-+
-+    if (!qtest_has_device("pcie-root-port")) {
-+        g_test_skip("Device pcie-root-port is not available");
-+        goto out;
-+    }
-+
-     /*
-      * While using -cdrom, the cdrom would auto plugged into pxb-pcie,
-      * the reason is the bus of pxb-pcie is also root bus, it would lead
-@@ -1576,7 +1624,7 @@ static void test_acpi_virt_tcg_pxb(void)
-                   " -cpu cortex-a57"
-                   " -device pxb-pcie,bus_nr=128",
-                   &data);
--
-+out:
-     free_test_data(&data);
- }
- 
-@@ -1764,6 +1812,12 @@ static void test_acpi_microvm_acpi_erst(void)
-     gchar *params;
-     test_data data;
- 
-+    if (!qtest_has_device("virtio-blk-device")) {
-+        g_test_skip("Device virtio-blk-device is not available");
-+        g_free(tmp_path);
-+        return;
-+    }
-+
-     test_acpi_microvm_prepare(&data);
-     data.variant = ".pcie";
-     data.tcg_only = true; /* need constant host-phys-bits */
-@@ -1824,6 +1878,11 @@ static void test_acpi_q35_viot(void)
-         .variant = ".viot",
-     };
- 
-+    if (!qtest_has_device("virtio-iommu")) {
-+        g_test_skip("Device virtio-iommu is not available");
-+        goto out;
-+    }
-+
-     /*
-      * To keep things interesting, two buses bypass the IOMMU.
-      * VIOT should only describes the other two buses.
-@@ -1834,6 +1893,7 @@ static void test_acpi_q35_viot(void)
-                   "-device pxb-pcie,bus_nr=0x20,id=pcie.200,bus=pcie.0,bypass_iommu=on "
-                   "-device pxb-pcie,bus_nr=0x30,id=pcie.300,bus=pcie.0",
-                   &data);
-+out:
-     free_test_data(&data);
- }
- 
-@@ -1894,8 +1954,10 @@ static void test_acpi_virt_viot(void)
-         .scan_len = 128ULL * 1024 * 1024,
-     };
- 
--    test_acpi_one("-cpu cortex-a57 "
--                  "-device virtio-iommu-pci", &data);
-+    if (qtest_has_device("virtio-iommu")) {
-+        test_acpi_one("-cpu cortex-a57 "
-+                       "-device virtio-iommu-pci", &data);
-+    }
-     free_test_data(&data);
- }
- 
-@@ -2004,6 +2066,11 @@ static void test_acpi_microvm_oem_fields(void)
-     test_data data;
-     char *args;
- 
-+    if (!qtest_has_device("virtio-blk-device")) {
-+        g_test_skip("Device virtio-blk-device is not available");
-+        return;
-+    }
-+
-     test_acpi_microvm_prepare(&data);
- 
-     args = test_acpi_create_args(&data,
+ # TODO: once aarch64 TCG is fixed on ARM 32 bit host, make bios-tables-test unconditional
+ qtests_aarch64 = \
 -- 
 2.35.3
 
