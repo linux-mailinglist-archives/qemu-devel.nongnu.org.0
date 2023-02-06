@@ -2,72 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC8EF68BBD7
+	by mail.lfdr.de (Postfix) with ESMTPS id A8D8C68BBD6
 	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 12:39:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOzos-0004MS-H3; Mon, 06 Feb 2023 06:37:58 -0500
+	id 1pOzpT-0004TJ-TN; Mon, 06 Feb 2023 06:38:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pOzoq-0004Ll-Gg
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 06:37:56 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pOzoo-0006Xg-FQ
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 06:37:56 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id
- f15-20020a17090ac28f00b00230a32f0c9eso3471270pjt.4
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 03:37:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=uexPtxvo2H1fL0NWmv1sLqATz9FzxkRRtFJFUqzDoU8=;
- b=lvTcTYQi43C+SNmgx86DJPomacvV3JuMNk4BuxbkwYBt1YT3l/1uzh/gJm/45BQGH2
- 1eOWmTlbKUbdcvgkIh4TVGRmxQVA6AyTYQ7ZkhRZgOZXcm+k0d9H6rpx1LX+U3l4QZ9v
- PPxgiGg4xkuSdyZxMn50JYWBW3Nu9yJGco9vFqHqAFmkO7yJtE1Y/M70W4h214+P2OgP
- P7BupEkL7HtcYEvaEJgoPyJ2OR86J6l85ZA4yHCNqhQ0MDDy03amAw5K24EVYH0bJapY
- SpCQsD2FU8EtVEF7WJk4NokCOxSmJ7L9+py5DUAV5q3aHaUySpomvV4Q5qD7sTWb9SAQ
- 31qQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pOzpC-0004QP-BE
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 06:38:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pOzpA-0006ZP-IH
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 06:38:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675683495;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0yurOwrSYkMEr1+LImfWS1Ft2DGAumqBBKks44Ulqjc=;
+ b=eJcWTMcnWY6KZZHNt/18zA8k/SbjulkThm35DfJB4hEN5LC779K4t4c9y/BhabUY5KV8Fs
+ I+mOqzAOzQMbKP+rTaeL0rcvUmpJv2fxCI3KwquRa5aourUZFbBsrU5vaWqedrB226PfQ9
+ VnQfCJm7oTG6DD5pOIyaDhXwvkqVHJk=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-348-qKTqeFi6MtO6PiUxT4AU-Q-1; Mon, 06 Feb 2023 06:38:14 -0500
+X-MC-Unique: qKTqeFi6MtO6PiUxT4AU-Q-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ ob12-20020a0562142f8c00b004c6c72bf1d0so5606412qvb.9
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 03:38:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=uexPtxvo2H1fL0NWmv1sLqATz9FzxkRRtFJFUqzDoU8=;
- b=pW7mVD7tu5ZZjMMQWfgSYR6HenxKgm3pu3BMsTrsS8xuiuXPgkwHZpA0iz8fZnKsZF
- frZkPDy/evweuXekdt5nRQ5OWmtrFsbAbWUSeCCsd2F/Prcb5YpWyCl9CGZxizc042wS
- oLoUPP46VXIyG+VdE1Qj0pbAPnyB00xTGIKDLSCKfW0aKu+t/OHD1xzAvnzDaMUiRn+y
- eZ8CWMYb/MDDJsMRGxbv43WBwMnC79i5PvWLgVq+WxWhVBCgKhadkTwXFpf+N3vNjxdf
- f7tFQquqqlOjF8aalPEqwkNvSR2Zb/Hp55S4iTrSqbk5IRQOxIOaGKQw0EdZh3pc9PGy
- F5vQ==
-X-Gm-Message-State: AO0yUKXXgct3XP4dA5Ci68DXRwoJSMLLzTeyds1jysciY3GiqqKBPZP6
- XmKGOiPx8/ZyUTbFEsMALA/ZAJ+sGPXcYBoDJwFqLg==
-X-Google-Smtp-Source: AK7set9QWuA2ED9m5P0ggumLvFgkwFQU3Dz/2yLcngHfLI8RmF9uQDZ6IIrpR6VekkYnNtI+qUY3CAVLX00Kp2e5VSg=
-X-Received: by 2002:a17:90a:313:b0:230:c24b:f22c with SMTP id
- 19-20020a17090a031300b00230c24bf22cmr549109pje.53.1675683472949; Mon, 06 Feb
- 2023 03:37:52 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0yurOwrSYkMEr1+LImfWS1Ft2DGAumqBBKks44Ulqjc=;
+ b=ryPDyNKrn95LWL3MnSmyQbwUTu7PmL4NXyitrUnREOE2Osm5i0G4Q58ZJmo0XFdoKD
+ 0gJoF7w/D+8a6L0F7Wd1iCfPdhT77bhjTKAGjge9d6QpAgJb5nIvtA6aQc5oTxyP5s1q
+ mlelIYP3GEQb9hZgcHvhvAFlve9ujAr7+KGcUwg0iZQ36xYK9vuLEC211LmOXv3h9XD1
+ jlO6oJApnwCPbsms709hsUM6KegUctOJYnsSS9XTC4IP9ShGbiLnNIuP9OdLyE3ESx+1
+ NyXotAP4+Ob5N9eYlOJJ6ir2QYxEBMgKbSScxnEJd/xrtOWIKYdbLvczgcPtMRwIJfeN
+ dSxA==
+X-Gm-Message-State: AO0yUKVMn0BlX4zgaqhAFIb+9Ys53RVHYKSeBcXQrXPJz9wnHxJZHhDU
+ IzytAvxNbD8pZyu1K4zNNyonZWCKDvf92uaaSKva3mj60n2YpVg4pkLa47xFddDWPdZMmTVq3aE
+ Yd5hRgBNC0zoS8ps=
+X-Received: by 2002:a05:6214:20e3:b0:537:7e74:2d6a with SMTP id
+ 3-20020a05621420e300b005377e742d6amr34541896qvk.3.1675683493907; 
+ Mon, 06 Feb 2023 03:38:13 -0800 (PST)
+X-Google-Smtp-Source: AK7set9bdEFqgHWp1C10RyzvDFI9sRYQyMXT5vVscDNqI9UVkgLuRwREcF7/JuyuS0N//oHHVy6q/Q==
+X-Received: by 2002:a05:6214:20e3:b0:537:7e74:2d6a with SMTP id
+ 3-20020a05621420e300b005377e742d6amr34541864qvk.3.1675683493674; 
+ Mon, 06 Feb 2023 03:38:13 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-71.web.vodafone.de.
+ [109.43.177.71]) by smtp.gmail.com with ESMTPSA id
+ h67-20020a376c46000000b0070495934152sm7266775qkc.48.2023.02.06.03.38.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Feb 2023 03:38:13 -0800 (PST)
+Message-ID: <92533b03-f07e-736a-4e29-bcdf883f7ec4@redhat.com>
+Date: Mon, 6 Feb 2023 12:38:08 +0100
 MIME-Version: 1.0
-References: <20230205100449.2352781-1-danielhb413@gmail.com>
-In-Reply-To: <20230205100449.2352781-1-danielhb413@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 6 Feb 2023 11:37:41 +0000
-Message-ID: <CAFEAcA-ffNmy4ZRyYhw5CGbo1BVuuX8nt3WO=GyM82yASaxKzQ@mail.gmail.com>
-Subject: Re: [PULL 00/16] ppc queue
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ nsg@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230201132051.126868-1-pmorel@linux.ibm.com>
+ <20230201132051.126868-7-pmorel@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v15 06/11] s390x/cpu topology: interception of PTF
+ instruction
+In-Reply-To: <20230201132051.126868-7-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,35 +106,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 5 Feb 2023 at 10:04, Daniel Henrique Barboza
-<danielhb413@gmail.com> wrote:
->
-> The following changes since commit ceabf6e500570ecfb311d8896c4ba9da8cf21f2a:
->
->   Merge tag 'linux-user-for-8.0-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2023-02-04 17:17:15 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/danielhb/qemu.git tags/pull-ppc-20230205
->
-> for you to fetch changes up to bd591dc1b3c39b7f73b8d9f20be6e9001c905238:
->
->   hw/display/sm501: Code style fix (2023-02-05 06:40:28 -0300)
->
-> ----------------------------------------------------------------
-> ppc patch queue for 2023-02-05:
->
-> This queue includes patches that aren't PPC specific but benefit/impact
-> PPC machines, such as the changes to guestperf.py, mv64361 and sm501. As
-> for PPC specific changes we have e500 and PNV_PHB5 fixes.
->
-> ----------------------------------------------------------------
+On 01/02/2023 14.20, Pierre Morel wrote:
+> When the host supports the CPU topology facility, the PTF
+> instruction with function code 2 is interpreted by the SIE,
+> provided that the userland hypervizor activates the interpretation
 
+s/hypervizor/hypervisor/
 
-Applied, thanks.
+> by using the KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
+> 
+> The PTF instructions with function code 0 and 1 are intercepted
+> and must be emulated by the userland hypervizor.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
+dito
 
--- PMM
+> During RESET all CPU of the configuration are placed in
+> horizontal polarity.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+...
+>   /**
+>    * s390_topology_reset:
+>    *
+>    * Generic reset for CPU topology, calls s390_topology_reset()
+>    * s390_topology_reset() to reset the kernel Modified Topology
+>    * change record.
+> + * Then set global and all CPUs polarity to POLARITY_HORIZONTAL.
+
+You describe here already what's going to happen...
+
+>    */
+>   void s390_topology_reset(void)
+>   {
+>       s390_cpu_topology_reset();
+> +    /* Set global polarity to POLARITY_HORIZONTAL */
+
+... then here again ...
+
+> +    s390_topology.polarity = POLARITY_HORIZONTAL;
+
+... and the code is (fortunately) also very self-exaplaining...
+
+> +    /* Set all CPU polarity to POLARITY_HORIZONTAL */
+> +    s390_topology_set_cpus_polarity(POLARITY_HORIZONTAL);
+
+... so I'd rather drop the two comments within the function body.
+
+>   }
+
+(rest of the patch looks fine to me)
+
+  Thomas
+
 
