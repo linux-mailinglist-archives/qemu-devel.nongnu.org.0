@@ -2,210 +2,154 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F4268B51B
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 06:11:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D7D768B53D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 06:39:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOtl0-0001cr-HF; Mon, 06 Feb 2023 00:09:34 -0500
+	id 1pOuCJ-0007BH-Ep; Mon, 06 Feb 2023 00:37:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <si-wei.liu@oracle.com>)
- id 1pOtkf-0001bj-0N
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 00:09:16 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+ (Exim 4.90_1)
+ (envelope-from <prvs=140196ce1e=guohuai.shi@windriver.com>)
+ id 1pOuCG-0007B8-TS
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 00:37:44 -0500
+Received: from mx0b-0064b401.pphosted.com ([205.220.178.238])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <si-wei.liu@oracle.com>)
- id 1pOtkd-0005Ar-1u
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 00:09:12 -0500
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3160MSW1013424; Mon, 6 Feb 2023 05:08:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2022-7-12;
- bh=+HgIilpwh0NPoUukx7aXOtbw2eQAua+7a40XiQDnwJY=;
- b=oBji22rUtnaDIDO9r/LH7sLbajNGpCu5rx8iMvhdoudhfNXnApBjIC51vVw+bY6YzTt2
- HVsxvoyN+px9GhlBudTtvCj8bAABAofYTWSs33Zgoop3mDW7xRqPef6JAPgU/z18odsO
- ltG0LbKC/+R+DKLANZj5nDuK2B7pp/Pcp+KJgSgGIvnY2ypH+2IcV6AYqQQAfai6m34t
- 9e+TCyrEVu8LTUDYNfi+8htpk1hVf3XqA1INQmnr7RilczQBAcp3l7eVgLFv/L2FhfL/
- hgvekr8RnbQl5QMN2VL0QDOCuwKK/PQb3p1f8GMXRsCDG2pb+hOMklG5xoevM5AFBJ1p tw== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nhdy121gn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 06 Feb 2023 05:08:50 +0000
-Received: from pps.filterd
- (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 3162TE1d037647; Mon, 6 Feb 2023 05:08:49 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam10lp2100.outbound.protection.outlook.com [104.47.58.100])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3nhdt9u6qm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 06 Feb 2023 05:08:48 +0000
+ (Exim 4.90_1)
+ (envelope-from <prvs=140196ce1e=guohuai.shi@windriver.com>)
+ id 1pOuCC-00028b-PU
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 00:37:43 -0500
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+ by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3165ZWfi006134; Mon, 6 Feb 2023 05:37:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=PPS06212021;
+ bh=PdhzbzHyjIT/bD2ks/M7dC8yg8kkyQ7BHAxTYbpIzeU=;
+ b=Vuchdek/kL+GY5hcmh658yaVECqsbUZpxQlcPZPj5WhlZbIFn64HW6AGNtnPmxOGlxXt
+ sJKkg13C8FSjebLb4+DYTKS9ygHzZiF8Cb9/vrWX9nv3vRIRvpvepp2hSfueP9Vndo0t
+ 0mi8LGMBLrpbegn5KfSpGnVA0hkQ3rrMhWrfpPPGgXh9uSpf9/O9/r0bQlJjf3j3CQmG
+ f+LuxhGQOpne2HxUt9wjQ+IlHxVJzdICp5Yatc4ATDUZX30d7IYztTlziSkO9otes056
+ u5n71yevCFp3ihdv0Bwucgy0EOLgThea3+WqiGrFDMQYnAZKrQSbCF0cUwOH23QEkcpv Gw== 
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2169.outbound.protection.outlook.com [104.47.55.169])
+ by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3nhck31h04-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Feb 2023 05:37:21 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cB9rOQiLZCZoSPPneYpswNBc88hJlarYLjLbgAcLXS4Y6tQahtJXeyw6HZsnh2dsHlguUPJq/QDKUvSzNzOBYiR4Y4wwL3tn/KFEo4pJClI7zoCjWBMpXfM9hMX9RTEQK8S7pv2iwt2qvfm2jqmYmT321Ti4iuV8D2n5/Fc3Am+x/ERjwfUeVv1g/pGpZMhp7q1J3v2FfcitUMpZ4bKvgNoIPysDBUDiPcm2Z1PyqhkYMhtmbg1HzaM423+k6/5pWJ1+lXKK9cfNqrVO3OqIwq3ahAizt7UlTm5QxQgNlZIcHNT8IcP8EWlzifpNLyy7tcWsuAhxTbZEC77B1hXWxg==
+ b=oHRRbdgEWyevjWr+mz4WY46/lfQt+cJ2zwl1KAnmhuuV7jNB+PxnAT7aF44UN9ttHfXIrWIkVo5FSKkmkS5EyqrJd87XTiSqRm3kga1jV3bWGQ7Uh/BSKp0EaSP7hOu081oM2xXoijr2i9dulP57Ev2B3YWfJttT+ToN+2Uq7ZgQsxZWQAZTzRHuZQpBfSJN9LYGbmcasMD26ztfVEQaEZjSlZYFxf85vaquNqlZLYeRTe4sdoN8PoHNaVthu3PYAJkiyj+pIBbYv09rAQMSda0euyhVQ+nahqCjSC6UqVs07T2cz3hQmngUn3kJ1KNUfVLjjTXPxjs/KqItp9Qc6A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+HgIilpwh0NPoUukx7aXOtbw2eQAua+7a40XiQDnwJY=;
- b=TC8XCN3NGY3ufqH1HMmW/M8aQn82WD5m8gyMj+ws+XfTHAQ0uzYnE24+2mjnaIy2rJD+CfNDETG4DL90ud5fSahhOawrZPlXQlyD1hELi0dhsxrRPetvacF9cSjhMFz5nz27B4ueuxnFsKbac3BhS6/n9yUa1s8/zBYsNw2xbGb7UhZFXUWkrJhmGxUmimtwLfqKmwfCYcbtUYKUZeH135WlKx5U0OZBCA37gbbGhwYfx6me7O2QDgx+BAGEIVTG0aw8L95cV1x+iAmQnLM5TI4Zlcm/5bFHo0/Qj7t/bnJwvGPC/EEQNhJNlYxPJjttJinW8QUj0wYLIGnlh4CVdQ==
+ bh=PdhzbzHyjIT/bD2ks/M7dC8yg8kkyQ7BHAxTYbpIzeU=;
+ b=XI0xxY5Qr7qCdO/Usw49jQ6l5fAUQS+5/Q509IfkSlCC3GZM1uoPVgET6M3lOW/+0eK2ea8+i9/sE8a8JOjGUbzFysULrXxpaDqitrH69pE0z/1NZUqREL24iu7YOuLzUPy0AMin1RtF+9IiXW6p1i9UxBe98yoB1NGkXP2RoTcY8Y21YJa+iVkACcwHPpwiaKp314MHUOEUVixLWTtFH6Y8cj/Mxv4KGMgwJp9tXskYOsQLmhVpBYpUBRskTkg6LK/emioPrrE7UgoBmPQn+jLRoyNacP8OoGYi+73skFAAVODB5wPm8CfuUgdQcCYOrH0A35RwIqYO67LFEeSyIg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+HgIilpwh0NPoUukx7aXOtbw2eQAua+7a40XiQDnwJY=;
- b=fjsYFvNehXVg7S3QhHwAgvqlHujSSgeAXrx1WDux5maVJyoIDcD2a7AiHSdpZvj3ISXju1X1bki2yELrE7gpawbLHBoRSPWE/x1FhYQArmH7ISUAvuODDSOvSRsHQGpU/aiWrmfI5odUXeiwqX1Yp7Jxbv59vp3ZFiiLSfB+Sns=
-Received: from MW4PR10MB6535.namprd10.prod.outlook.com (2603:10b6:303:225::12)
- by CY8PR10MB7241.namprd10.prod.outlook.com (2603:10b6:930:72::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.15; Mon, 6 Feb
- 2023 05:08:47 +0000
-Received: from MW4PR10MB6535.namprd10.prod.outlook.com
- ([fe80::cd0e:bbf4:4b15:308b]) by MW4PR10MB6535.namprd10.prod.outlook.com
- ([fe80::cd0e:bbf4:4b15:308b%6]) with mapi id 15.20.6086.009; Mon, 6 Feb 2023
- 05:08:46 +0000
-Message-ID: <78695d89-287b-aac8-9c6c-b4ef31759a27@oracle.com>
-Date: Sun, 5 Feb 2023 21:08:43 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [RFC v2 12/13] vdpa: preemptive kick at enable
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from MN2PR11MB4173.namprd11.prod.outlook.com (2603:10b6:208:137::20)
+ by DM6PR11MB4593.namprd11.prod.outlook.com (2603:10b6:5:2a3::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.34; Mon, 6 Feb
+ 2023 05:37:16 +0000
+Received: from MN2PR11MB4173.namprd11.prod.outlook.com
+ ([fe80::2d69:6276:f527:9fb4]) by MN2PR11MB4173.namprd11.prod.outlook.com
+ ([fe80::2d69:6276:f527:9fb4%6]) with mapi id 15.20.6064.034; Mon, 6 Feb 2023
+ 05:37:16 +0000
+From: "Shi, Guohuai" <Guohuai.Shi@windriver.com>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: "Meng, Bin" <Bin.Meng@windriver.com>, =?iso-8859-1?Q?Marc-Andr=E9_Lureau?=
+ <marcandre.lureau@redhat.com>, =?iso-8859-1?Q?Daniel_P=2E_Berrang=E9?=
+ <berrange@redhat.com>
+Subject: RE: [PATCH v4 04/16] hw/9pfs: Implement Windows specific xxxdir() APIs
+Thread-Topic: [PATCH v4 04/16] hw/9pfs: Implement Windows specific xxxdir()
+ APIs
+Thread-Index: AQHZNJCQ5QDQDl+c2UWDW8VIOF7gh669K9gAgAAOB2CAABf+gIAADomAgAAn3wCAA7nRcA==
+Date: Mon, 6 Feb 2023 05:37:16 +0000
+Message-ID: <MN2PR11MB4173960A520976B15946CCEBEFDA9@MN2PR11MB4173.namprd11.prod.outlook.com>
+References: <20230130095202.2773186-1-bin.meng@windriver.com>
+ <7414919.cCnjH5He9x@silver>
+ <MN2PR11MB4173C6CF342F103D757F8A21EFD79@MN2PR11MB4173.namprd11.prod.outlook.com>
+ <3667674.co3Lnhysxx@silver>
+In-Reply-To: <3667674.co3Lnhysxx@silver>
+Accept-Language: en-US, zh-CN
 Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Eugenio Perez Martin <eperezma@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- "Zhu, Lingshan" <lingshan.zhu@intel.com>, qemu-devel@nongnu.org,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, alvaro.karsz@solid-run.com,
- Shannon Nelson <snelson@pensando.io>, Laurent Vivier <lvivier@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Cindy Lu <lulu@redhat.com>,
- Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>
-References: <20230112172434.760850-1-eperezma@redhat.com>
- <20230112172434.760850-13-eperezma@redhat.com>
- <CACGkMEt8cMM1UxVzxb0eHeaWSpR0ApvGzaF901vrM4m-uGMiPA@mail.gmail.com>
- <7438853f-8d5e-33fb-1e53-b4a0036f0b7d@intel.com>
- <CACGkMEtwcjExouCbnMrQ3TcAkXJH4mv63ud-ROEUu6mH+53C6Q@mail.gmail.com>
- <CAJaqyWfijv2doQ8OAiiWdYvrWtmLPwJcnFtO+aUuoTa0jSL73A@mail.gmail.com>
- <a7367dec-2f96-c748-8f62-7bd03c3de263@oracle.com>
- <CAJaqyWe3d0i85DS2+yS9nZ6dZkcXyOEmYng-vKVk=6G3Ty-mfg@mail.gmail.com>
- <fbb445f5-05c5-dea4-b694-9b001e342091@oracle.com>
- <20230205045833-mutt-send-email-mst@kernel.org>
-From: Si-Wei Liu <si-wei.liu@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <20230205045833-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR13CA0123.namprd13.prod.outlook.com
- (2603:10b6:a03:2c6::8) To MW4PR10MB6535.namprd10.prod.outlook.com
- (2603:10b6:303:225::12)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR10MB6535:EE_|CY8PR10MB7241:EE_
-X-MS-Office365-Filtering-Correlation-Id: 23dcc533-2cbe-46bc-215b-08db08003996
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ns8gnz7ETy1fVBJFHMqiF3j6LEslDvpgHb62vWo5qHsaX66QlUDrF4vDeb8QhUko6HIvgPSsQyivc6++RPMqzCTShMjDNv823JnJsgzxkkQF5LL3HSh0XqbdMiAiF/KOIC70vjyzZ3fA25I+AjT3gtPV9gyddYkyfGX8HMQmgL0JWxTVicgJnMSLNRQnNjqdLaCzMuOUahJKPOMqY0YqZYwSPhztmpGluzVcga2p/XKPg9grFDIYCVqCaAPvEO5q/n4uHYmdZsO8C7fqi+xEH5QniNDLbtS0Q0GWuD8iGwSMGwTrHj0KkkCBvMrVYuHjB2FSKMOhugP32mabet+LterVt/DOFyAign5NTwe4PkwwPSTBZ87GM3XZkOvlrSA+rc/augBp63Zxl25ak++j+YgxIzotDZiXWtNIC9KkYQ8yqyATEvQzlSNyAedOTm7/WV2ThAoXrYHVmGIyZIoHy7gznZAPgY7KQqx3x1TPxDMMPrAw9FTMKfkBT6YYV8jGmh8tOmhnG+LdooEi9I5ATYl07oLai/mdcw+LHCOSzlrk4WZ/1vwuJ63oAsnM5nmtU7AJV5vtHsPg7gRlMHsEwY4HMgBNffp67oZMf9at0GV7qUjRoQarmZh096cYn4EnCgKRaRycUtNsjTxsNqsLalheqJ8BL+VMsbgFrr3QAgiiRk42C60vFsPVPjnJxqzFSjdnlMEf3xkdGE3LII81eve9dc/TXTkBrWB2Ux5rketh1YSS8amKHTgoYPa3xVpd
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW4PR10MB6535.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(346002)(136003)(376002)(39860400002)(366004)(396003)(451199018)(31686004)(316002)(54906003)(4326008)(66946007)(66556008)(66476007)(8676002)(6916009)(41300700001)(8936002)(38100700002)(31696002)(86362001)(36756003)(6666004)(53546011)(6512007)(966005)(186003)(26005)(6506007)(2906002)(7416002)(5660300002)(6486002)(36916002)(83380400001)(478600001)(2616005)(43740500002)(45980500001);
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN2PR11MB4173:EE_|DM6PR11MB4593:EE_
+x-ms-office365-filtering-correlation-id: fd06fc53-1930-445d-b311-08db080434df
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ormzPXZKemH0599BvXJ5vL6q03l6bFQc2KEX5CLDPlyjJxYft/NLPhPphgJr9oCG+Z8UXyn3RH+Q+F3ALVavYk0+sDbxzopB96eLjkw9EFMi0vnHyuZz1aqQ5Bx2maDYbFbJBQ9bAWk330oZkxOtM8FWJi8PwEgyu0ZIgaxpSHC4Pkt7g6mYjH9xH9cbj4BCBkg6jL9soNbOKed7WrdDMYLyBeOisn+oSwRc2IQgZDvkYiGdE6/TUyA0xMZcG0GUBrrQqclEVBeSlzyEb1AeRXPiAxwdDTNGMYMIg7uI/wuEHSawyhV5TiExFNWYM88nYQQ51w2ejsIAssGreQx2gqmS8BZmpTa/wumMkSiqmcMNvueUQLI5wM01YZQTWmgWUcZvAPCzRmadjoWS2rNBlWyXdX1ihPIbwCceOjG3hL2tZODHhvvPNPkxuHNUwkVnmsttLK4V6zO7YnX5S6EDUUG/RFEQVDNzGlYudPBBhHzQlmbOZObIla1cAibLqWQoEcGdWRpn00Nara4M5WCmyb1hwIZEGyEfFEOKurZ3M8Yf+EK23Jb+f/AFbbZK+Z1D8xKkCy9bB6YCOUaK5x1oPjeBc5wM1F8X7uvjbfwdJPdXXPEtToOQSW6j1cUl8+LnuBUYXSEIorwYF7+WngW04kZnYuiEjB8F2Gh20OndPX/6F3LhcYQ2b9frE/uEUtas1z5Ui2BjPs6qACjenWbaXEJf2jX7+/YGSsNr3oiluJsaxzAHdlN8roTZmxOwtde5ICbEVFHm3l3L79ybjWzP2w==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR11MB4173.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(136003)(376002)(346002)(39840400004)(396003)(366004)(451199018)(186003)(966005)(33656002)(6506007)(9686003)(26005)(53546011)(38100700002)(38070700005)(122000001)(110136005)(54906003)(316002)(52536014)(55016003)(8936002)(41300700001)(5660300002)(2906002)(71200400001)(66446008)(7696005)(30864003)(66476007)(8676002)(4326008)(66946007)(66556008)(64756008)(86362001)(83380400001)(478600001)(76116006)(579004);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cVNoSTM5UThmUitqdDEzUC90anhXN1hEbjRTbVVJYUhFWktHZUVBYjdkNlJQ?=
- =?utf-8?B?YWx5alJLM0pqQkN2Y2R1UmV4M1Rjb2V2NGhJOXlrVkppZGRYYjhNZnhlU1hn?=
- =?utf-8?B?ZllKUXR2M0NqRUhLSTNkZnQvU2NNLy9adktEd2NwaVgxZExqUm9EZlRTWWFr?=
- =?utf-8?B?VGpvVVRjKzR4UWxRTnc5S3kvMUlkSjhST00vcDVLaWFCZ1BvU3J1bnBpMkY2?=
- =?utf-8?B?bkZ6bjExMU03UGV2akhMbnlnd2JlbkVReFRrQTI2eFdobWpuUmNHM29uSnhy?=
- =?utf-8?B?aVZMdDBZTmxuRnJkZ2xzTFZ1ck5kZVNlVE1ZVFh3WE5FNmdiY2crVkRTUlZ2?=
- =?utf-8?B?cmRWbFdrT0lEcDdtakNIWmVWTXFQTW1neVJib3k4eklNOGUzM0N6OFZTaG0y?=
- =?utf-8?B?M0J1Q2VCT1AwNVVuZFJjUnpDaDc2MGs3Z29GbDNtaDFuUWtiNzF2QUZ2NDlh?=
- =?utf-8?B?QmNRTmcycW9SMlN0RUM4Q1YrQkRDTVI0eHg2R1lMV05qZXQxM2NCYS9Ja3JH?=
- =?utf-8?B?VTNzcHJiRkltejh4S3N5QTZHek1XMzlLRHNJN245SXFUdVVDTGxWSHhtcnlK?=
- =?utf-8?B?enkrcmVtWlRQbHVJNlhxQ0dTa2NIZFVpSThBWmUzYVNlS3BHSGpDVEpjNGFw?=
- =?utf-8?B?aS9vZkxuWEY3R1AwR2tkVmltaFlsMkFKemdvUFlhT25ONWtkZ1Ztc0hoVlVL?=
- =?utf-8?B?TkprVVdIVk11K2trNXZKeXBSem94dWt3S0N1NzltSCt1cm5lbVduNXFQK3dz?=
- =?utf-8?B?M3ppMW1NWmZxZDBHUXdkMDd2TlU1WWE1ZGxkNTJ2NU1JMmljbUk2V3FFMjhI?=
- =?utf-8?B?UWdXRk82MWRjRldOVm93NmJFdy92UWxDS3BLMEZhZU5ENks1TDRHd0l0YXgx?=
- =?utf-8?B?SW04Rmt6U1pMbEIzb0o2bExYb2NXakNWcWxSbGY4cEhBR29SZFVTaDNIOG1S?=
- =?utf-8?B?ZVZyWjdGT2JqYzcxQm1BZW10WnpPL1hZOTMvODJVSW83S3p2SDRrNG1WVnNM?=
- =?utf-8?B?aGpTZVNUWndBdmw3L2VJQllSWjBWL1lJNWVldDhOa3NMWWlFRkNxamxNakl6?=
- =?utf-8?B?K0NyNWg5R1BPNVJRZEFQeFZsSHQwYU16b0FWakFDUzArakZLR0tLY0RYRVhw?=
- =?utf-8?B?Q3l4anorYVN4cFhwNS9SZU1XOS9oRXo1STkrZW5raGZhamVpaVNGb1JmV3RI?=
- =?utf-8?B?S01HVThmNjhqZC9RaE9ySFlBNmVIckJOYThtcWlBVEMrbE5MMS9LaS9xcnZw?=
- =?utf-8?B?a3NWd1IvbEE4cWVreGE4bS92UnpSY2UvSG5reFhIVjQyZ0Y5WE1hQ0NMQjZp?=
- =?utf-8?B?bTMrSmFsWVlycnNNR0o3R00xSzdGM3JIT04vcG5hcGRDY3Iyc2Z4YVJVUnY2?=
- =?utf-8?B?a2JWMDVzbXFub2ROQnJTMnBNcEl3SW9rNXJOTG1ub29KWFU3elNVNDhuVitp?=
- =?utf-8?B?ZDh2UlFFc1RsanRBUStsMnJGZFNsV2Z2MUhyaVBISGlLMFRZMjY0WXp6UzFR?=
- =?utf-8?B?clh5K1lSd2FMNVRVa3pKVEplcUxpc0hURjFaUHBsdzl4M1d2dGQ0U0o0ZXFX?=
- =?utf-8?B?TVlkaUo5eXdZL3lNY1RpeVVOaFBtVG5EMkQ2MHdZS3lWNnJlVUltUGxjZXg5?=
- =?utf-8?B?TGlyalVjQ2JqMWpQN29QTUMxbllaMlBTNDRIT1h0T1h2REtzVk1ZNDI3QVkv?=
- =?utf-8?B?dHR1MXd5KzM0V0VnQldFVXdIN0QrcUYxY0dXdW9IaFFJWkk2ckFiUUpwTnJ3?=
- =?utf-8?B?TGJ4TloweHBsb2ZUSStNK0g4OE0xd3ZjL1M1ZmJkdmVqOTJ5cHVnUTFtYTBY?=
- =?utf-8?B?d0RCTFVmdnVMSzg3QmxaR1NwMFltVXRqTForSnorQVB1YVk1RmhoM1pBeG1j?=
- =?utf-8?B?N0V4NjVaWVBLY0tyV0ZWYXRIN3NXbk9OOWJnZnFIU2FHSzJtREFuV3lnSTFH?=
- =?utf-8?B?QTdCeHVzY0JGRnlrUm9KYjQ0TXhlRmU1d0FJUm5UYm51SXRsekc4MUVLcWlx?=
- =?utf-8?B?RzRWSjBrdlN4NW1XOGxmZlg1QTNaVXUvNmxwcDk3Y2l5M2lFSGx2WktaaFhG?=
- =?utf-8?B?enFMR0Q0bnhOWnYvZ2s3bmNMYloyc3gwNFdzeEtUZTBXc0tQNjdaNE0rWW05?=
- =?utf-8?Q?0GymQp5gpRHs/iu+n/b2gJZ46?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?utf-8?B?ZURWZkJXMlc3RXFMdG5rNnVWbEc3L0RxYzBTNlkzMW1OZHJSUUYzNFFWMkNE?=
- =?utf-8?B?anhYWmtoMlg2Slg2WDZFQ1hDVUpOMkNha0JNTU1yWGk5UTRtTTVZTWp4S2FK?=
- =?utf-8?B?MElrNzNHRE0zQ1kxV0xZWndBbkdLeTEwT25CUFd4QWU4U3ozbU9hUzR6bkdQ?=
- =?utf-8?B?VW4vRldRdkVZVURsNUViaXlKRVVYc2NVemQ3VE9pWExnVXI4NW04L3JyR0c0?=
- =?utf-8?B?RFlxZGZ3MGhOcVlzUENqYWg0dEFLellzY1dmMm1mSktCbk8xYlJEVElDR1Qx?=
- =?utf-8?B?c2tSR1FXWE8yUGtYVk1lTyt2VVZjMkRlL1psTUI1M3ljeWxqT3h4MVZVdFli?=
- =?utf-8?B?UlpsWmF4cHU5aFlXK3dlYmYwTWFCSmpFMlVXWXF3RmUzdDBXQTU0ZlFRbG5h?=
- =?utf-8?B?SnY4bEJORUhlVlZEQXViUEVMMTM0NitiZUVWZE1TcnZEaWxQclRmMGVqVm14?=
- =?utf-8?B?eUZUVnhnR0lmNVhpMHY0NTdCNDl3MXRJRjlhWkdXSzdXREpUU3p1SHMvSGg4?=
- =?utf-8?B?VHpSYlJUZFBsb05pQmFDbDFTS0J4eXRPUEozNEkvZXk4WC9qS0s3Q3R5TEpl?=
- =?utf-8?B?NS9qbURsNitNY0orRWdFQ3hiVFRDWXl1ZC9tNjN5cUZLQUVXQ1NoTXVUM3d1?=
- =?utf-8?B?cnhsM1JaS08rbjFUdGQrWHFYTkVOV0grbG96RzJwM0lSVldRRUxUOWhIUHAw?=
- =?utf-8?B?UEJHL1lIbFdFSTArL1lsYzRkY1hmUzZabVVmcnBTeG1FQW90eEZGYzFlV2Vr?=
- =?utf-8?B?SmUwalovM2VKQjdIQ2hSazI0UkJCTG9SUGZ2UEMrdndPRHEwSEhzUEdqVjla?=
- =?utf-8?B?eGFXZkl1V3Y5Q1ZhZEdWaXdKcVJMdkl4a0dzZjhxV0dOczJic0twMnlralNj?=
- =?utf-8?B?V2JYNHM1a1JWcVdRNlkzUEZwdVh0cDUwaHRObVAva2VTYTRJRWpVdTE5VGFm?=
- =?utf-8?B?SHJCdEtMbVpHSTdXcnhpeVc4Vk8vdTgrNktmY1Q0Z05NTStMTE1TTFVWOVlj?=
- =?utf-8?B?SEhYQjNyS2NaQW1teVEySDNYWXJoOUZ5TWFTMnhqVkM0RUhiZlRoSVpVbHJs?=
- =?utf-8?B?aWNSTlY4YjBKdTYvaUZMZXNVSGg1Q0RneDBjNzdrMFFLVWxhUXhKQVkvTnZv?=
- =?utf-8?B?dDR0QjNicm5ZaUtVeU5WVER2ZXpXYXIrOERqaEF1MkdDbEVPNE9oVmN3Z0NG?=
- =?utf-8?B?bjBtRTBkeVZ3RDErREYvTnJWM0pPR3kwUHdmV2dTV1E1dmMvWGZGTHM4WGkx?=
- =?utf-8?B?TjFQVGdVOFBPdnVnZnNPbVZpRkR0eTA1anFORnR3WXI5dUxIQT09?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23dcc533-2cbe-46bc-215b-08db08003996
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR10MB6535.namprd10.prod.outlook.com
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?M4xUvKuZjiqN6EZjACRARRUPAs1srHITdCS4wStn65qdIy+mFchpebJOyJ?=
+ =?iso-8859-1?Q?h8K/HgHe04qMUVkm5uPlctGIyjEC/hFKa9S1qFdgBIRshGiKdcyFS2BouC?=
+ =?iso-8859-1?Q?QaD/4aCVAXRR8Cj4/NHK0X7L1ALhzPlZE8oyJnK+pJZFHRwTdtv0DHByQ6?=
+ =?iso-8859-1?Q?45TrAkp/W17oHfg4G53MDOpQ/hZiGPFUzrJ/kSizH5amvx8+0i7AZKrLLR?=
+ =?iso-8859-1?Q?qeuQCgNuNIE2fjXIffUY/Ef6/Zy144xuz5rQkzoT5VhI+OECWQnlqNRevi?=
+ =?iso-8859-1?Q?/CXlhIiPX8ubhQ9oPw+tfUdPvoR6QP8SaoZTjAdd6p8WhgCwpNBHaNOe+e?=
+ =?iso-8859-1?Q?R1+bku8apqkycqp8veRejzO7sFaDMACXM7jsWHwoXZQ5GnE+X3Uzvboacy?=
+ =?iso-8859-1?Q?yFa5MdsyS76oq0KffPsmEhEVRmUkT58e9Vh7B/zxWqeykszJRq+5uaAHZi?=
+ =?iso-8859-1?Q?2LzsMPuOL0xd1531v6Djm0vXNLIQfIm8KvTUD97DQR/fke2bMCTUTkDb6m?=
+ =?iso-8859-1?Q?cIopZntH7mVY32v+TMu8ozaB3D+/IDRKTWEsd6iK5PWZGUkWlhzVBsMY+f?=
+ =?iso-8859-1?Q?5oC1EJsAKdfIFKtihXKVEC+EVp4Nuj0vb7/MPGGw95M0yvW6hI19hiMEOT?=
+ =?iso-8859-1?Q?wfcr+By1jy4jTwNIki6Y4cKNpF4EHNSpffY2YVQ0+z7vTduuMX8obEIkfe?=
+ =?iso-8859-1?Q?qMHQBsV1TJJnuZyDyBdVesVrFMnnMpnCXypfUIQA2L3O0yzzSxzVaTwbrz?=
+ =?iso-8859-1?Q?oSv5JHWexVh/HXYSKv8aTC/sgWglPakxFn+V7h+PkqdnXWj4NGfbOVHrhZ?=
+ =?iso-8859-1?Q?wlAlEbhYAi6hw5UWSDzQohKJNvZq5Lnfqw0jFo3ZJXvASryAM24FI/1kJZ?=
+ =?iso-8859-1?Q?kUE5X21udqkVc1TcmwcSBmbyAZIQy55ysJZ+6qIt3J+rWjoakleK2/8twg?=
+ =?iso-8859-1?Q?gpyzaoOlndGMn5ZCXAbJZtmcVQNCgbdCnAECPqNO7TqUP3bJe8R9SK0c8r?=
+ =?iso-8859-1?Q?THBCgdDVqk1UzHgW4Vxax4ljNaTcbdBPD+l2Wxq0JYJoD9rBgI69FrsSte?=
+ =?iso-8859-1?Q?NQZZOTafpYH6qEpUKBt0UeV2/8ptJw3IUlyL4K+KvRmugBNxrYP2GGlXJ1?=
+ =?iso-8859-1?Q?USOc5IvFqcCkDI5pfxS6MmQGjGaRkr46o+8avlHFjO/Zo4S5hulrlaJpB+?=
+ =?iso-8859-1?Q?xr8D1qICt7I+vBEYZ1SRq1kBxt2syM2kA8au/+IaOHHrK26XD1orEWpOtW?=
+ =?iso-8859-1?Q?cowFMC+UZKA2TejgfmtfJyyKxWdzJARfHIUlD4aetLtVprv5J5v47LribP?=
+ =?iso-8859-1?Q?NoXukqO6n2y/fjJoI+BMafJT/uoW5PpkXcZ3xK0zS4oTcor9cwLTaGdomN?=
+ =?iso-8859-1?Q?eReXmDUa56GczjyBawO8H18Ltk9VRXeS2+VaXMVJNo4RshD76lSzVBL6LM?=
+ =?iso-8859-1?Q?JnNivTSe/gfho08kStSBbI3EhTCOjnxWMpjngaYuPLd1q9Ccu7gbSKlKNb?=
+ =?iso-8859-1?Q?Rv9yv+4bPUrMJvQzVvIW+SGB9eb+LsE3tV4Btw76S/2X6ZUv5jnn4rPAnN?=
+ =?iso-8859-1?Q?HNuhZFgkZQRXKjhaNeLAOJN19pF24YO8mHd+BQpBOrH6ASgcoY2avoWTBb?=
+ =?iso-8859-1?Q?TR27Nqo3ZE9Ke36XT23Ukj5c24AI1YA8Op?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2023 05:08:46.3470 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: we70r72nvh4AHwPHUja0bqfKCkuwE5/qzhdonrkpqfocT9SJV2wHwQDyJv2f+pC9Rqd86hV0LWEp0XM0YXdDCg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR10MB7241
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB4173.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fd06fc53-1930-445d-b311-08db080434df
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Feb 2023 05:37:16.2555 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vzfVa+2KQZfplwwVQGxQzFqlqo3dqocHyZ3FjBizu04Eob9SJk85Kkh6dqeNMadGJm6tSAr6bPmmoM7wJuVz02XRO5VaB5PrGzWnnVoMvEc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4593
+X-Proofpoint-ORIG-GUID: YgOCM5MNXGd977Y3Ng9huCSelJKqKK4s
+X-Proofpoint-GUID: YgOCM5MNXGd977Y3Ng9huCSelJKqKK4s
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
  definitions=2023-02-06_02,2023-02-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- suspectscore=0 adultscore=0
- malwarescore=0 mlxscore=0 phishscore=0 spamscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2302060045
-X-Proofpoint-GUID: RWcSAZEd973esSFtybXIh8yoCGO5JtJD
-X-Proofpoint-ORIG-GUID: RWcSAZEd973esSFtybXIh8yoCGO5JtJD
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=si-wei.liu@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0
+ adultscore=0 mlxlogscore=999 impostorscore=0 spamscore=0 malwarescore=0
+ lowpriorityscore=0 priorityscore=1501 mlxscore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302060048
+Received-SPF: pass client-ip=205.220.178.238;
+ envelope-from=prvs=140196ce1e=guohuai.shi@windriver.com;
+ helo=mx0b-0064b401.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -224,26 +168,689 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-On 2/5/2023 2:00 AM, Michael S. Tsirkin wrote:
-> On Sat, Feb 04, 2023 at 03:04:02AM -0800, Si-Wei Liu wrote:
->> For network hardware device, I thought suspend
->> just needs to wait until the completion of ongoing Tx/Rx DMA transaction
->> already in the flight, rather than to drain all the upcoming packets until
->> avail_idx.
-> It depends I guess but if device expects to recover all state from just
-> ring state in memory then at least it has to drain until some index
-> value.
-Yes, that's the general requirement for other devices than networking 
-device. For e.g., if a storage device had posted request before 
-suspending and there's no way to replay those requests from destination, 
-it needs to drain until all posted requests are completed. For network 
-device, this requirement can be lifted up somehow, as network (Ethernet) 
-usually is tolerant to packet drops. Jason and I once had a long 
-discussion about the expectation for {get,set}_vq_state() driver API and 
-we came to conclusion that this is something networking device can stand 
-up to:
+> -----Original Message-----
+> From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> Sent: Saturday, February 4, 2023 01:55
+> To: Greg Kurz <groug@kaod.org>; qemu-devel@nongnu.org
+> Cc: Meng, Bin <Bin.Meng@windriver.com>; Marc-Andr=E9 Lureau
+> <marcandre.lureau@redhat.com>; Daniel P. Berrang=E9
+> <berrange@redhat.com>; Shi, Guohuai <Guohuai.Shi@windriver.com>
+> Subject: Re: [PATCH v4 04/16] hw/9pfs: Implement Windows specific xxxdir(=
+)
+> APIs
+>=20
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender an=
+d
+> know the content is safe.
+>=20
+> On Friday, February 3, 2023 5:30:35 PM CET Shi, Guohuai wrote:
+> >
+> > > -----Original Message-----
+> > > From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > > Sent: Friday, February 3, 2023 22:41
+> > > To: Greg Kurz <groug@kaod.org>; qemu-devel@nongnu.org
+> > > Cc: Meng, Bin <Bin.Meng@windriver.com>; Marc-Andr=E9 Lureau
+> > > <marcandre.lureau@redhat.com>; Daniel P. Berrang=E9
+> > > <berrange@redhat.com>; Shi, Guohuai <Guohuai.Shi@windriver.com>
+> > > Subject: Re: [PATCH v4 04/16] hw/9pfs: Implement Windows specific
+> > > xxxdir() APIs
+> > >
+> > > CAUTION: This email comes from a non Wind River email account!
+> > > Do not click links or open attachments unless you recognize the
+> > > sender and know the content is safe.
+> > >
+> > > On Friday, February 3, 2023 2:34:13 PM CET Shi, Guohuai wrote:
+> > > >
+> > > > > -----Original Message-----
+> > > > > From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > > > > Sent: Friday, February 3, 2023 20:25
+> > > > > To: Greg Kurz <groug@kaod.org>; qemu-devel@nongnu.org
+> > > > > Cc: Shi, Guohuai <Guohuai.Shi@windriver.com>; Meng, Bin
+> > > > > <Bin.Meng@windriver.com>; Marc-Andr=E9 Lureau
+> > > > > <marcandre.lureau@redhat.com>; Daniel P. Berrang=E9
+> > > > > <berrange@redhat.com>
+> > > > > Subject: Re: [PATCH v4 04/16] hw/9pfs: Implement Windows
+> > > > > specific
+> > > > > xxxdir() APIs
+> > > > >
+> > > > > CAUTION: This email comes from a non Wind River email account!
+> > > > > Do not click links or open attachments unless you recognize the
+> > > > > sender and know the content is safe.
+> > > > >
+> > > > > On Monday, January 30, 2023 10:51:50 AM CET Bin Meng wrote:
+> > > > > > From: Guohuai Shi <guohuai.shi@windriver.com>
+> > > > > >
+> > > > > > This commit implements Windows specific xxxdir() APIs for
+> > > > > > safety directory access.
+> > > > > >
+> > > > >
+> > > > > This issue deserves a link to either the previous discussion
+> > > > >
+> > > > > Link:
+> > > > > https://lore.kernel.org/qemu-devel/2830993.GtbaR8S6b6@silver/
+> > > > >
+> > > > > and/or a link to this continuation of the discussion here, as
+> > > > > it's not a trivial issue, with pros and cons been discussed for
+> > > > > the individual, possible solutions.
+> > > > >
+> > > > > > Signed-off-by: Guohuai Shi <guohuai.shi@windriver.com>
+> > > > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > > > > > ---
+> > > > > >
+> > > > > >  hw/9pfs/9p-util.h       |   6 +
+> > > > > >  hw/9pfs/9p-util-win32.c | 296
+> > > > > > ++++++++++++++++++++++++++++++++++++++++
+> > > > > >  2 files changed, 302 insertions(+)
+> > > > > >
+> > > > > > diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h index
+> > > > > > 0f159fb4ce..c1c251fbd1 100644
+> > > > > > --- a/hw/9pfs/9p-util.h
+> > > > > > +++ b/hw/9pfs/9p-util.h
+> > > > > > @@ -141,6 +141,12 @@ int unlinkat_win32(int dirfd, const char
+> > > > > > *pathname, int flags);  int statfs_win32(const char
+> > > > > > *root_path, struct statfs *stbuf);  int openat_dir(int dirfd,
+> > > > > > const char *name);  int openat_file(int dirfd, const char
+> > > > > > *name, int flags, mode_t mode);
+> > > > > > +DIR *opendir_win32(const char *full_file_name); int
+> > > > > > +closedir_win32(DIR *pDir); struct dirent *readdir_win32(DIR
+> > > > > > +*pDir); void rewinddir_win32(DIR *pDir); void
+> > > > > > +seekdir_win32(DIR *pDir, long pos); long telldir_win32(DIR
+> > > > > > +*pDir);
+> > > > > >  #endif
+> > > > > >
+> > > > > >  static inline void close_preserve_errno(int fd) diff --git
+> > > > > > a/hw/9pfs/9p-util-win32.c b/hw/9pfs/9p-util-win32.c index
+> > > > > > a99d579a06..5503199300 100644
+> > > > > > --- a/hw/9pfs/9p-util-win32.c
+> > > > > > +++ b/hw/9pfs/9p-util-win32.c
+> > > > > > @@ -37,6 +37,13 @@
+> > > > > >   *    Windows does not support opendir, the directory fd is cr=
+eated
+> by
+> > > > > >   *    CreateFile and convert to fd by _open_osfhandle(). Keep =
+the fd
+> > > open
+> > > > > will
+> > > > > >   *    lock and protect the directory (can not be modified or r=
+eplaced)
+> > > > > > + *
+> > > > > > + * 5. Windows and MinGW does not provide safety directory
+> > > > > > + accessing
+> > > > > functions.
+> > > > > > + *    readdir(), seekdir() and telldir() may get or set wrong =
+value
+> > > > > because
+> > > > > > + *    directory entry data is not protected.
+> > > > >
+> > > > > I would rephrase that sentence, as it doesn't cover the root
+> > > > > problem adequately. Maybe something like this:
+> > > > >
+> > > > > 5. Neither Windows native APIs, nor MinGW provide a POSIX
+> > > > > compatible API for acquiring directory entries in a safe way.
+> > > > > Calling those APIs (native
+> > > > > _findfirst() and _findnext() or MinGW's readdir(), seekdir() and
+> > > > > telldir()) directly can lead to an inconsistent state if
+> > > > > directory is modified in between, e.g. the same directory
+> > > > > appearing more than once in output, or directories not appearing
+> > > > > at all in output even though they were neither newly created nor
+> > > > > deleted. POSIX does not define what happens with deleted or
+> > > > > newly created directories in between,
+> > > but it guarantees a consistent state.
+> > > > >
+> > > > > > + *
+> > > > > > + *    This file re-write POSIX directory accessing functions a=
+nd cache
+> > > all
+> > > > > > + *    directory entries during opening.
+> > > > > >   */
+> > > > > >
+> > > > > >  #include "qemu/osdep.h"
+> > > > > > @@ -51,6 +58,27 @@
+> > > > > >
+> > > > > >  #define V9FS_MAGIC  0x53465039  /* string "9PFS" */
+> > > > > >
+> > > > > > +/*
+> > > > > > + * MinGW and Windows does not provide safety way to seek
+> > > > > > +directory while other
+> > > > > > + * thread is modifying same directory.
+> > > > > > + *
+> > > > > > + * The two structures are used to cache all directory entries
+> > > > > > +when opening
+> > > > > it.
+> > > > > > + * Cached entries are always returned for read or seek.
+> > > > > > + */
+> > > > > > +struct dir_win32_entry {
+> > > > > > +    QSLIST_ENTRY(dir_win32_entry) node;
+> > > > > > +    struct _finddata_t dd_data; };
+> > > > > > +
+> > > > > > +struct dir_win32 {
+> > > > > > +    struct dirent dd_dir;
+> > > > > > +    uint32_t offset;
+> > > > > > +    uint32_t total_entries;
+> > > > > > +    QSLIST_HEAD(, dir_win32_entry) head;
+> > > > > > +    struct dir_win32_entry *current;
+> > > > > > +    char dd_name[1];
+> > > > > > +};
+> > > > > > +
+> > > > > >  /*
+> > > > > >   * win32_error_to_posix - convert Win32 error to POSIX error
+> number
+> > > > > >   *
+> > > > > > @@ -977,3 +1005,271 @@ int qemu_mknodat(int dirfd, const char
+> > > > > > *filename,
+> > > > > mode_t mode, dev_t dev)
+> > > > > >      errno =3D ENOTSUP;
+> > > > > >      return -1;
+> > > > > >  }
+> > > > > > +
+> > > > > > +/*
+> > > > > > + * opendir_win32 - open a directory
+> > > > > > + *
+> > > > > > + * This function opens a directory and caches all directory en=
+tries.
+> > > > > > + */
+> > > > > > +DIR *opendir_win32(const char *full_file_name) {
+> > > > > > +    HANDLE hDir =3D INVALID_HANDLE_VALUE;
+> > > > > > +    DWORD attribute;
+> > > > > > +    intptr_t dd_handle =3D -1;
+> > > > > > +    struct _finddata_t dd_data;
+> > > > > > +
+> > > > > > +    struct dir_win32 *stream =3D NULL;
+> > > > > > +    struct dir_win32_entry *dir_entry;
+> > > > > > +    struct dir_win32_entry *prev;
+> > > > > > +    struct dir_win32_entry *next;
+> > > > > > +
+> > > > > > +    int err =3D 0;
+> > > > > > +    int find_status;
+> > > > > > +    uint32_t index;
+> > > > > > +
+> > > > > > +    /* open directory to prevent it being removed */
+> > > > > > +
+> > > > > > +    hDir =3D CreateFile(full_file_name, GENERIC_READ,
+> > > > > > +                      FILE_SHARE_READ | FILE_SHARE_WRITE |
+> > > > > FILE_SHARE_DELETE,
+> > > > > > +                      NULL,
+> > > > > > +                      OPEN_EXISTING,
+> > > > > > + FILE_FLAG_BACKUP_SEMANTICS, NULL);
+> > > > > > +
+> > > > > > +    if (hDir =3D=3D INVALID_HANDLE_VALUE) {
+> > > > > > +        err =3D win32_error_to_posix(GetLastError());
+> > > > > > +        goto out;
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    attribute =3D GetFileAttributes(full_file_name);
+> > > > > > +
+> > > > > > +    /* symlink is not allow */
+> > > > > > +    if (attribute =3D=3D INVALID_FILE_ATTRIBUTES
+> > > > > > +        || (attribute & FILE_ATTRIBUTE_REPARSE_POINT) !=3D 0) =
+{
+> > > > > > +        err =3D EACCES;
+> > > > > > +        goto out;
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    /* check if it is a directory */
+> > > > > > +    if ((attribute & FILE_ATTRIBUTE_DIRECTORY) =3D=3D 0) {
+> > > > > > +        err =3D ENOTDIR;
+> > > > > > +        goto out;
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    /*
+> > > > > > +     * findfirst() need suffix format name like
+> > > > > > + "\dir1\dir2\*", allocate
+> > > > > more
+> > > > > > +     * buffer to store suffix.
+> > > > > > +     */
+> > > > > > +    stream =3D g_malloc0(sizeof(struct dir_win32) +
+> > > > > > + strlen(full_file_name) +
+> > > > > 3);
+> > > > > > +    QSLIST_INIT(&stream->head);
+> > > > > > +
+> > > > > > +    strcpy(stream->dd_name, full_file_name);
+> > > > > > +    strcat(stream->dd_name, "\\*");
+> > > > > > +
+> > > > > > +    dd_handle =3D _findfirst(stream->dd_name, &dd_data);
+> > > > > > +
+> > > > > > +    if (dd_handle =3D=3D -1) {
+> > > > > > +        err =3D errno;
+> > > > > > +        goto out;
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    index =3D 0;
+> > > > > > +
+> > > > > > +    /* read all entries to link list */
+> > > > > > +    do {
+> > > > > > +        dir_entry =3D g_malloc0(sizeof(struct dir_win32_entry)=
+);
+> > > > > > +        memcpy(&dir_entry->dd_data, &dd_data, sizeof(dd_data))=
+;
+> > > > > > +        if (index =3D=3D 0) {
+> > > > > > +            QSLIST_INSERT_HEAD(&stream->head, dir_entry, node)=
+;
+> > > > > > +        } else {
+> > > > > > +            QSLIST_INSERT_AFTER(prev, dir_entry, node);
+> > > > > > +        }
+> > > > > > +
+> > > > > > +        prev =3D dir_entry;
+> > > > > > +        find_status =3D _findnext(dd_handle, &dd_data);
+> > > > > > +
+> > > > > > +        index++;
+> > > > > > +    } while (find_status =3D=3D 0);
+> > > > >
+> > > > > So you decided to go for the solution that caches all entries of
+> > > > > a directory in RAM.
+> > > > >
+> > > > > So don't you think my last suggested solution that would call
+> > > > > native
+> > > > > _findfirst() and _findnext() directly, but without any chaching
+> > > > > and instead picking the relevent entry simply by inode number,
+> > > > > might be a better candidate as a starting point for landing Windo=
+ws
+> support?
+> > > > > Link to that previous
+> > > > > suggestion:
+> > > > >
+> > > > > https://lore.kernel.org/qemu-devel/2468168.SvRIHAoRfs@silver/
+> > > > >
+> > > >
+> > > > I did a quick test for caching data without name entry, but it
+> > > > failed for
+> > > reading + deleting directory on Windows host (like "rm -rf" for a
+> directory).
+> > > > The root cause is: Windows's directory entry is not cached.
+> > > > If there is 100 files in a directory:
+> > > >
+> > > > File1
+> > > > File2
+> > > > ...
+> > > > File100
+> > > >
+> > > > When "rm -rf" is working:
+> > > >
+> > > > It read first 10 entries, and remove them. 9pfs may seek and
+> > > > re-seek to
+> > > offset 10 to read next 10 entries.
+> > > > But Windows and MinGW does not provide rewinddir.
+> > > > If we using findfirst() and findnext to seek to offset 10, then we
+> > > > will not
+> > > get File11 but get File 21 (because we skipped 10 entries by seekdir(=
+)).
+> > >
+> > > I assume you are referring to a simple solution like MinGW does,
+> > > i.e. a consecutive dense index (0,1,2,3,...n-1 where n is the
+> > > current total amount of directory entries). That would not work,
+> > > yes. But that's not what I suggested.
+> > >
+> > > With an inode number based lookup you would not seek to an incorrect
+> > > entry ...
+> > >
+> > > > If we removed some entries in directory, inode number is useless
+> > > > because we
+> > > can not find it again.
+> > >
+> > > You *can* recover from the previous inode number, even if any
+> > > directory entry has been deleted in the meantime: you would lookup
+> > > the entry with the next higher inode number.
+> > >
+> > > Example, say initial directory state on host is:
+> > >
+> > > name   inode-nr
+> > > aaa    8
+> > > bbb    3
+> > > ccc    4
+> > > ddd    2
+> > > eee    9
+> > >
+> > > Say client is looking up exactly 2 entries, you would return to
+> > > client in this order (by inode-nr):
+> > >
+> > > 1. ddd
+> > > 2. bbb
+> > >
+> > > Now say "bbb" (a.k.a. previous) and "ccc" (a.k.a next) are removed.
+> > > Directory state on host is now:
+> > >
+> > > name   inode-nr
+> > > aaa    8
+> > > ddd    2
+> > > eee    9
+> > >
+> > > Subsequently the last directory entries are requested by client.
+> > > Previous inode number (stored in RAM) was 3, which no longer exists,
+> > > so you lookup the entry with the next higher inode number than 3,
+> > > which is now 8 in this example. Hence you would eventually return to
+> client (in this order):
+> > >
+> > > 3. aaa
+> > > 4. eee
+> > >
+> >
+> > Yes, it can work by using inode number (called File ID on Windows host:
+> https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-
+> winbase-file_id_info).
+> > However, Windows does not provide a function to get file information by
+> file ID.
+> > That means, for anytime of seeking directory, 9pfs need to do the follo=
+wing
+> sequence work to locate a name entry:
+> >
+> > 1. findfirst
+> > 2. CreateFile to get file handle
+> > 3. GetFileInformationByHandleEx to get file ID
+> > (https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/ne-
+> min
+> > winbase-file_info_by_handle_class)
+> > 4. Close file handle and return if the file ID is match 5. findnext 6.
+> > repeat to step #2
+> >
+> > Windows does not short file name entry by file ID and the file ID is 12=
+8-bit
+> integer.
+> > When there are many entries in directory, seeking directory will cause =
+a
+> very bad performance.
+>=20
+> I know, it's an n-square performance issue and what I already wrote in th=
+e
+> summary of the linked original suggestion [1] in v3 before, quote:
+>=20
+>   + Relatively straight-forward to implement.
+>=20
+>   + No (major) changes in 9pfs code base required.
+>=20
+>   - Still n-square performance issue (neglectable to land Windows host
+> support
+>     IMO).
+>=20
+>   o Consistency assured for "most" cases, except one: if hardlinks are
+>     inserted in between then it might fail
 
-https://lore.kernel.org/lkml/b2d18964-8cd6-6bb1-1995-5b966207046d@redhat.com/
+readdir() on Linux host may also return the deleted entries.
+And POSIX specification does not mention about the consistency issue.
 
--Siwei
+NTFS file id is the $MFT index id. It will keen unique until file is delete=
+d.
+But the index id may be reuse if delete and re-create many files.
+
+Saving file id instead of name will make consistency better, but may not co=
+ver all status.
+Because read directory is not a "atomic" operation.
+>=20
+> [1] https://lore.kernel.org/qemu-devel/2468168.SvRIHAoRfs@silver/
+>=20
+> The idea was to use that just as a starting point to land Windows host su=
+pport
+> ASAP, slower on large dirs compared to other solutions, yes, but with
+> guaranteed correct and deterministic behaviour. And then on the long run
+> we would of course replace that with a more performant solution.
+>=20
+> I mean, this is really simple to implement, so I would at least test it. =
+If it really
+> runs horribly slow we could still discuss faster solutions, which are how=
+ever
+> all much more tricky.
+>=20
+
+I did a basic test on Windows host, here is the code:
+
+    st =3D clock();
+    pDir =3D opendir_win32(TEST_DIR);
+
+    if (pDir =3D=3D NULL)
+        return -1;
+   =20
+    while ((pEnt =3D readdir_win32(pDir)) !=3D NULL)
+    {
+        totals++;
+    }
+    closedir_win32(pDir);
+    ed =3D clock();
+
+    printf("total =3D %d clocks =3D %d %d\n", totals, ed - st, CLOCKS_PER_S=
+EC);
+
+My local storage is SSD disk.
+
+Run this test for 100, 1000, 10000 entries.
+For file name cache solution, the time cost is: 2, 9, 44 (in ms).
+For file id cache solution, the time cost: 3, 438, 4338 (in ms).
+I already used OpenFileById() to make it faster instead of CreateFile(). If=
+ I use CreateFile, it need more than 80 seconds.
+
+The performance looks like not good.=20
+And actually, it would be worse in 9pfs.
+Because in current design, 9pfs  may seek forward and seek back several tim=
+es during reading directory, which may cause the performance worse.
+
+> > So I think store all name entries would be better than store all file I=
+D.
+>=20
+> As already discussed, NTFS allows up to (2^32 - 1) =3D 4,294,967,295 entr=
+ies per
+> directory. So caching only one directory (entirely) in RAM can already ex=
+ceed
+> the available RAM, which would crash QEMU. Multiplied by an expected
+> amount of directory lookups by client and we even get into much higher
+> categories, even with much smaller individual directory sizes.
+>=20
+
+Windows file id structure is 24 bytes, which is not a small structure.
+If you think the performance is acceptable, I can rework this commit based =
+on file id.
+
+> >
+> >
+> > > >
+> > > >
+> > > > Thanks
+> > > > Guohuai
+> > > >
+> > > >
+> > > > > > +
+> > > > > > +    if (errno =3D=3D ENOENT) {
+> > > > > > +        /* No more matching files could be found, clean errno =
+*/
+> > > > > > +        errno =3D 0;
+> > > > > > +    } else {
+> > > > > > +        err =3D errno;
+> > > > > > +        goto out;
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    stream->total_entries =3D index;
+> > > > > > +    stream->current =3D QSLIST_FIRST(&stream->head);
+> > > > > > +
+> > > > > > +out:
+> > > > > > +    if (err !=3D 0) {
+> > > > > > +        errno =3D err;
+> > > > > > +        /* free whole list */
+> > > > > > +        if (stream !=3D NULL) {
+> > > > > > +            QSLIST_FOREACH_SAFE(dir_entry, &stream->head,
+> > > > > > +node, next)
+> > > {
+> > > > > > +                QSLIST_REMOVE(&stream->head, dir_entry,
+> > > > > > +dir_win32_entry,
+> > > > > node);
+> > > > > > +                g_free(dir_entry);
+> > > > > > +            }
+> > > > > > +            g_free(stream);
+> > > > > > +            stream =3D NULL;
+> > > > > > +        }
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    /* after cached all entries, this handle is useless */
+> > > > > > +    if (dd_handle !=3D -1) {
+> > > > > > +        _findclose(dd_handle);
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    if (hDir !=3D INVALID_HANDLE_VALUE) {
+> > > > > > +        CloseHandle(hDir);
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    return (DIR *)stream;
+> > > > > > +}
+> > > > > > +
+> > > > > > +/*
+> > > > > > + * closedir_win32 - close a directory
+> > > > > > + *
+> > > > > > + * This function closes directory and free all cached resource=
+s.
+> > > > > > + */
+> > > > > > +int closedir_win32(DIR *pDir) {
+> > > > > > +    struct dir_win32 *stream =3D (struct dir_win32 *)pDir;
+> > > > > > +    struct dir_win32_entry *dir_entry;
+> > > > > > +    struct dir_win32_entry *next;
+> > > > > > +
+> > > > > > +    if (stream =3D=3D NULL) {
+> > > > > > +        errno =3D EBADF;
+> > > > > > +        return -1;
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    /* free all resources */
+> > > > > > +
+> > > > > > +    QSLIST_FOREACH_SAFE(dir_entry, &stream->head, node, next)
+> {
+> > > > > > +        QSLIST_REMOVE(&stream->head, dir_entry,
+> > > > > > + dir_win32_entry,
+> > > node);
+> > > > > > +        g_free(dir_entry);
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    g_free(stream);
+> > > > > > +
+> > > > > > +    return 0;
+> > > > > > +}
+> > > > > > +
+> > > > > > +/*
+> > > > > > + * readdir_win32 - read a directory
+> > > > > > + *
+> > > > > > + * This function reads a directory entry from cached entry lis=
+t.
+> > > > > > + */
+> > > > > > +struct dirent *readdir_win32(DIR *pDir) {
+> > > > > > +    struct dir_win32 *stream =3D (struct dir_win32 *)pDir;
+> > > > > > +
+> > > > > > +    if (stream =3D=3D NULL) {
+> > > > > > +        errno =3D EBADF;
+> > > > > > +        return NULL;
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    if (stream->offset >=3D stream->total_entries) {
+> > > > > > +        /* reach to the end, return NULL without set errno */
+> > > > > > +        return NULL;
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    memcpy(stream->dd_dir.d_name,
+> > > > > > +           stream->current->dd_data.name,
+> > > > > > +           sizeof(stream->dd_dir.d_name));
+> > > > > > +
+> > > > > > +    /* Windows does not provide inode number */
+> > > > > > +    stream->dd_dir.d_ino =3D 0;
+> > > > > > +    stream->dd_dir.d_reclen =3D 0;
+> > > > > > +    stream->dd_dir.d_namlen =3D strlen(stream->dd_dir.d_name);
+> > > > > > +
+> > > > > > +    stream->offset++;
+> > > > > > +    stream->current =3D QSLIST_NEXT(stream->current, node);
+> > > > > > +
+> > > > > > +    return &stream->dd_dir;
+> > > > > > +}
+> > > > > > +
+> > > > > > +/*
+> > > > > > + * rewinddir_win32 - reset directory stream
+> > > > > > + *
+> > > > > > + * This function resets the position of the directory stream
+> > > > > > +to the
+> > > > > > + * beginning of the directory.
+> > > > > > + */
+> > > > > > +void rewinddir_win32(DIR *pDir) {
+> > > > > > +    struct dir_win32 *stream =3D (struct dir_win32 *)pDir;
+> > > > > > +
+> > > > > > +    if (stream =3D=3D NULL) {
+> > > > > > +        errno =3D EBADF;
+> > > > > > +        return;
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    stream->offset =3D 0;
+> > > > > > +    stream->current =3D QSLIST_FIRST(&stream->head);
+> > > > > > +
+> > > > > > +    return;
+> > > > > > +}
+> > > > > > +
+> > > > > > +/*
+> > > > > > + * seekdir_win32 - set the position of the next readdir()
+> > > > > > +call in the directory
+> > > > > > + *
+> > > > > > + * This function sets the position of the next readdir() call
+> > > > > > +in the directory
+> > > > > > + * from which the next readdir() call will start.
+> > > > > > + */
+> > > > > > +void seekdir_win32(DIR *pDir, long pos) {
+> > > > > > +    struct dir_win32 *stream =3D (struct dir_win32 *)pDir;
+> > > > > > +    uint32_t index;
+> > > > > > +
+> > > > > > +    if (stream =3D=3D NULL) {
+> > > > > > +        errno =3D EBADF;
+> > > > > > +        return;
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    if (pos < -1) {
+> > > > > > +        errno =3D EINVAL;
+> > > > > > +        return;
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    if (pos =3D=3D -1 || pos >=3D (long)stream->total_entries)=
+ {
+> > > > > > +        /* seek to the end */
+> > > > > > +        stream->offset =3D stream->total_entries;
+> > > > > > +        return;
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    if (pos - (long)stream->offset =3D=3D 0) {
+> > > > > > +        /* no need to seek */
+> > > > > > +        return;
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    /* seek position from list head */
+> > > > > > +
+> > > > > > +    stream->current =3D QSLIST_FIRST(&stream->head);
+> > > > > > +
+> > > > > > +    for (index =3D 0; index < (uint32_t)pos; index++) {
+> > > > > > +        stream->current =3D QSLIST_NEXT(stream->current, node)=
+;
+> > > > > > +    }
+> > > > > > +    stream->offset =3D index;
+> > > > > > +
+> > > > > > +    return;
+> > > > > > +}
+> > > > > > +
+> > > > > > +/*
+> > > > > > + * telldir_win32 - return current location in directory
+> > > > > > + *
+> > > > > > + * This function returns current location in directory.
+> > > > > > + */
+> > > > > > +long telldir_win32(DIR *pDir) {
+> > > > > > +    struct dir_win32 *stream =3D (struct dir_win32 *)pDir;
+> > > > > > +
+> > > > > > +    if (stream =3D=3D NULL) {
+> > > > > > +        errno =3D EBADF;
+> > > > > > +        return -1;
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    if (stream->offset > stream->total_entries) {
+> > > > > > +        return -1;
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    return (long)stream->offset; }
+> > > > > >
+> > > > >
+> > > >
+> > > >
+> > > >
+> > >
+> > >
+> >
+> >
+> >
+>=20
+>=20
+
 
