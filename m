@@ -2,65 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26E3A68C921
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 23:09:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8184D68C930
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 23:14:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP9et-0005Lj-DJ; Mon, 06 Feb 2023 17:08:19 -0500
+	id 1pP9kn-0003Oy-3k; Mon, 06 Feb 2023 17:14:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pP9eo-0005F2-EB; Mon, 06 Feb 2023 17:08:14 -0500
+ id 1pP9kk-0003Ol-Nn
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 17:14:22 -0500
 Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pP9em-0007Nl-Ss; Mon, 06 Feb 2023 17:08:14 -0500
+ id 1pP9kj-00007t-4S
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 17:14:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- MIME-Version:References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=D+xdaajBCmuiErpKUV92p9eXOdHBs5EOUDssNOnSHAE=; b=pzlMTQBT8z8sspBV03iEkQWH3T
- aqIRsrgaL++Ct6D6N+59bxrwv0icIjYsKdPEwNB9qQPRgCRYTj9NWvtyugtFLsiIp1fZJctQDv64Z
- X0/IDCZ/hKG5Zc3kmPpn65xhkFNjuAGkVrSEi8BkcfNTkEysk41cLkfDMrewnWN8h8pVWt9yAJ0T5
- FFU/AZ4zXpPWvviqRvGEx0gnsGWvZN+nDCIr1+UXtZiCzLx/l4IBEkM/Z1ER/TTy7odDRzf3Hv1er
- EME+uqL2vR4se90nJzxfFKl1NB51VGAjgdGlyCHI013aepOtXEur+vdRxkL6aBZUUU9yaDohTxaE5
- bjAOQWEFDroK020eVrDOCeT027cqN87DVflGgl1uF9v8azrGmnj5yyHe3qJ4a5v3t0YTNd887zE81
- EpE5+Np9djoRs3t8V2j+WNL59LCJizzjRJgS8RxQkKpkjHmu3OL6BAf9b9+d4kueIUhvWep063DEt
- Ybe5qN9oBiQcQ8ExXJmHQR5sGHYLDcUBDT4rCP9kLLkfFMc4XyWpYabyoS19q3FgscnR3ra/Q3EEF
- SJvlGxb+yW8Aebzk7BoQsAi7RARG0j+SdEoG0/d7JYqN+mo+xgbT2ddtDVYb/o5sPw2iI4x6ZLLVo
- djDCSHkBlu15AdsBp0v0oImVApYFS7bPTI0IQAT2E=;
-Received: from [2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc] (helo=kentang.home)
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ bh=WrwRorH2PiZFi0QA9bKxOPcAeT57o3a3dy1NxINN6s8=; b=f67r7FHzsY3ToTlyG19J2F7Ips
+ NXFTVCv7Nq3yrGyPO2JRPn+u1pg/lp4iThLzpF+/X2xgMWcgWr2sUSp9h58U+kzpqE6ebEzONA9Fn
+ XE04AnZXUtfKfGTSIbcOi1nJZ3mwA277jHuFVzdRybO76VAWL20yz/KFdvRbY8ijOcN4RyKY/uGc0
+ xH/wLAe6mb6V8tCxfJTo05+R4TVnxQ7VB06KR+MjD7M0I4wG8GvGqpYseZPLDHLUj3rNIYy3F9ZIL
+ tOE/3gHkUygwEEufKOOVTM1bjEcOgRPA61hLZZ0b2NOylx76MPDdCwCUkkPrj9oBkf+8nOBBIAv+f
+ BoPv/ze3uiFAWE6qvwl5aWJA/GDWlmBRrtb3lvyYFfdsBb6J8c42Kbn3EYv/tLJl432xJopW+CpfZ
+ AqtQSQTUiY1KjAYX4pzYhpGiKC5JuZFxUZN1TY8IwZT1od5RMcdCu1k5ecnW3rhQy4hPmly5wGhYr
+ tbb6QQMahWDYq42iB0JKNLE3nhsm4kOElw1mwb6wlSY6aKr4+7rZtms+G6wi1DfE68SgFRY9SIOoe
+ BF9/YOTo4D1XZGdg5wUyy1eZwM8JlfQPH/fxFizYdPPYJ3vEDbM7mzm77iJYKmRI3LVIEidpONeH7
+ v/pLEmuflkAaMWvsw4SAG6a4XhdtoBgKlqfjWqayE=;
+Received: from [2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pP9eE-00039N-4O; Mon, 06 Feb 2023 22:07:42 +0000
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: peter.maydell@linaro.org,
-	qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Date: Mon,  6 Feb 2023 22:07:22 +0000
-Message-Id: <20230206220722.125814-9-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230206220722.125814-1-mark.cave-ayland@ilande.co.uk>
-References: <20230206220722.125814-1-mark.cave-ayland@ilande.co.uk>
+ id 1pP9kD-0003FY-I7; Mon, 06 Feb 2023 22:13:49 +0000
+Message-ID: <17b6324b-1d40-2416-3d50-5b908923d7e9@ilande.co.uk>
+Date: Mon, 6 Feb 2023 22:14:17 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>
+References: <35205d94-c19a-f41c-899c-89214296075c@linaro.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <35205d94-c19a-f41c-899c-89214296075c@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 8/8] mac_oldworld: Allow specifying nvram backing store
+Subject: Re: hw/misc/mos6522: What is VIA_TIMER_FREQ value?
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
  envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,48 +81,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: BALATON Zoltan <balaton@eik.bme.hu>
+On 06/02/2023 16:22, Philippe Mathieu-Daudé wrote:
 
-Add a way to set a backing store for the mac_nvram. Use -drive
-file=nvram.img,format=raw,if=mtd to specify backing file where
-nvram.img must be MACIO_NVRAM_SIZE which is 8192 bytes.
+> Hi Mark & Laurent,
+> 
+> In commit d811d61fbc6 Mark defined VIA_TIMER_FREQ as 4700000 / 6
+> (783333.33) and in commit 6dca62a0000 Laurent defined it as 783360.
+> 
+> What is the correct value?
+> 
+> Could we define it once in include/hw/misc/mac_via.h or
+> even include/hw/misc/mos6522.h?
+> 
+> Thanks,
+> 
+> Phil.
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <1aadee8f0ca0f56cf1b7c45c3944676a07d91de9.1675297286.git.balaton@eik.bme.hu>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
----
- hw/ppc/mac_oldworld.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Hi Phil,
 
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 5a7b25a4a8..2e4cc3fe0b 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -102,7 +102,7 @@ static void ppc_heathrow_init(MachineState *machine)
-     DeviceState *dev, *pic_dev, *grackle_dev;
-     BusState *adb_bus;
-     uint16_t ppc_boot_device;
--    DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
-+    DriveInfo *dinfo, *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
-     void *fw_cfg;
-     uint64_t tbfreq = kvm_enabled() ? kvmppc_get_tbfreq() : TBFREQ;
- 
-@@ -245,6 +245,12 @@ static void ppc_heathrow_init(MachineState *machine)
-     qdev_prop_set_chr(dev, "chrA", serial_hd(0));
-     qdev_prop_set_chr(dev, "chrB", serial_hd(1));
- 
-+    dinfo = drive_get(IF_MTD, 0, 0);
-+    if (dinfo) {
-+        dev = DEVICE(object_resolve_path_component(macio, "nvram"));
-+        qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo));
-+    }
-+
-     pci_realize_and_unref(PCI_DEVICE(macio), pci_bus, &error_fatal);
- 
-     pic_dev = DEVICE(object_resolve_path_component(macio, "pic"));
--- 
-2.30.2
+The 6522 VIA has a 16-bit counter which is driven by an external clock crystal which 
+is set to 783kHz for Macs. Commit 6dca62a0000 is the correct value since that was 
+given in the Macintosh hardware documentation, and needs to be accurate since it was 
+used for timing in older Macs. The value in commit d811d61fbc6 came from Ben, and it 
+may be that this is how it is implemented on real PMU hardware by dividing a 4.7MHz 
+clock for compatibility purposes: certainly newer Macs have a much more accurate 
+hardware timer that would be used by the OS instead.
 
+
+ATB,
+
+Mark.
 
