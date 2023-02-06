@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD6868C45A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 18:15:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E06EB68C45F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 18:15:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP54P-0000jx-Rh; Mon, 06 Feb 2023 12:14:21 -0500
+	id 1pP54K-0000jB-CS; Mon, 06 Feb 2023 12:14:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pP54G-0000hw-2W
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 12:14:12 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ id 1pP54H-0000hz-2y
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 12:14:13 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pP54A-0001Qb-Ln
+ id 1pP54C-0001Qj-Pg
  for qemu-devel@nongnu.org; Mon, 06 Feb 2023 12:14:10 -0500
-Received: by mail-wr1-x432.google.com with SMTP id ba1so7006259wrb.5
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 09:14:05 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id r2so11061042wrv.7
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 09:14:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=i0Jr8DH9OG5vGfeN7iONeP5ImzvUd60F7hUAYLN+I10=;
- b=HFsfwTlVS7H36hlbk8MGiLGB9AeDrGhw49moEB2O1/KNJCDnke7PG0oDF0fAQld7ao
- 63r4E7GVs+Rs/rZc6avvuTrQ/z18vQTrCGrVCRlbzZff+9n/WaYo3hPZ0ePF6q+0VBPr
- wBCOOkNAYKnPl1KfzTGVE6FtIAMDdtNQ9LYgyr20HMBSVtfDlyHf50JZVxnoU8aq9ORW
- ny0JWkpcs5kHNxpc49etfcFOSg5skPZFn6LBbmG2mDq6cHL9C1n5qRRPwGmPrE0nnAhv
- 85EY28fGvfcxoGp6xDt0plKJn4cXrYcAhBEwFu3iCtKcA4Ryu21zscIjhVagTdwASym+
- bYTQ==
+ bh=mvKv8MeGCedu3b+fClY2dUyPUXygqJQqulbvcZ7fvCk=;
+ b=xyx4TEweFZbZdgM6BDOmxM4v8aaRMGRjatJWgrY6jwgoKnpgjPelPI/MrOvhZpBLVv
+ 0vlMPSTRwQ9jq++rasLvCD/MlFZyYoXS1QRR+LbcHFCrPegm3PJtmui8xTmN2EETgtUL
+ +fTDLkMdTMbFj1TwHbzj7ZqC1L1MQ5tfrzmpKklwE11m9CTbyPKtXs6iubEitLLFczLv
+ GMrf3Esb4KeYRH0KMO8sQI2+tBKVEfQ2ewlyuQDIyEN9nAhXf/Zu34ens6WmOMcKieUM
+ yMeZ56hQyHuV4L0qqEO1gD9xu8pJtN1gs8+nzNExXEO+raxG9YT5ecEJUPNxlK7NA3Un
+ z1dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=i0Jr8DH9OG5vGfeN7iONeP5ImzvUd60F7hUAYLN+I10=;
- b=t3ZMJUR1w/H2pqRC1lSXNKhXX/TeqZ0zRFNJYWsdTXIIWFx39a9unX60YtRuAnl2+T
- hg+Szc/V1eY5dXBS48nildHNYkT3LK2cndtBdYSFLJQZ7jDQzArE6/Zg/lyvjfFGrAAC
- AGteauRK0wQK1v6svr3E1metpw3LvzEBjBU2tcn4GIdnpiQDcmuuQEX7mrEqhhiQ2Ikn
- skpRicvL16bCwJ8/tiS0axemDyUNl6d1T0vyMtnAJHPCzL/pI4uz6cgvAmjG4VgKQ/gU
- 0n0tDS1qVqmzjDKEXyNdCjgDxCltoJEv+vWl5+7ez41FvyedwrwGHZO0qktTZsbjv/ae
- FNSw==
-X-Gm-Message-State: AO0yUKU6LJseSA7VSPLOx49wZ6SbqwzVgIAQcaRyotgMKd9KLMGuK1JO
- Dko1RIvp15Ge+k2w49BCjTnRK/LRvCjPKG95
-X-Google-Smtp-Source: AK7set8Rd6K3n4+7KfU93a6MPHZUE4BOi6hx09WTRJ+IocEkGbF3v8dPVQm3avFgZUkQalIdzCaJTw==
-X-Received: by 2002:adf:ec06:0:b0:2c3:ea95:4726 with SMTP id
- x6-20020adfec06000000b002c3ea954726mr3419106wrn.34.1675703644879; 
- Mon, 06 Feb 2023 09:14:04 -0800 (PST)
+ bh=mvKv8MeGCedu3b+fClY2dUyPUXygqJQqulbvcZ7fvCk=;
+ b=YlrFZd7/ndqJRsCC54w63CvRB/9jnwZ/xbStPGLtsf+3tMa2y9dDvGIH/gFr2N9Tbn
+ SD4RzAtVIh7cCdVjlWjIbMvuKrsF4GXXV7qv99qVQH4/qswNolR3Ztw0Fcu35xessrC5
+ 9Rjpuv5amhnb/XEm/V+66CkX9auwqw7yCWrqY0iVPtjB/e5RgABEhuqpAPWLN6Zq7Fi6
+ c5qERM7hKkmW9NR+p+mcOiZ53K3szP8d0FijpWhjLbmL1TIMncGjQDSSoNlIrRq0Ezfw
+ 51LF//1ATkQEC7/D/tPz6g+wVYLa3xcIuJqJlWoMcOtLycN4cy0rugFZ24HBt8GXgkMU
+ obrQ==
+X-Gm-Message-State: AO0yUKXhJo6ibzhcISeWTiApd107CzOtN4w4TsaDP77KspYdehg1094r
+ AZ2M92IOn+615Ig/8p0JSk4WXfBntBmJG2L8
+X-Google-Smtp-Source: AK7set9PYMns/sjMGG+I0GtYbSF1mHqpnPErgzGNGSY3CGWVQi/iUm1yJMRfoWtkYzN8jZc2z4Klhg==
+X-Received: by 2002:adf:c788:0:b0:2bf:b7cb:d2ef with SMTP id
+ l8-20020adfc788000000b002bfb7cbd2efmr19666371wrg.9.1675703645835; 
+ Mon, 06 Feb 2023 09:14:05 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- y10-20020a05600015ca00b002bfd137ecddsm9529841wry.11.2023.02.06.09.14.03
+ y10-20020a05600015ca00b002bfd137ecddsm9529841wry.11.2023.02.06.09.14.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Feb 2023 09:14:04 -0800 (PST)
+ Mon, 06 Feb 2023 09:14:05 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -62,17 +62,17 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>, Thomas Huth <thuth@redhat.com>,
  Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
  Markus Armbruster <armbru@redhat.com>
-Subject: [RFC PATCH 2/5] linux-user: Add '-one-insn-per-tb' option equivalent
- to '-singlestep'
-Date: Mon,  6 Feb 2023 17:13:56 +0000
-Message-Id: <20230206171359.1327671-3-peter.maydell@linaro.org>
+Subject: [RFC PATCH 3/5] bsd-user: Add '-one-insn-per-tb' option equivalent to
+ '-singlestep'
+Date: Mon,  6 Feb 2023 17:13:57 +0000
+Message-Id: <20230206171359.1327671-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230206171359.1327671-1-peter.maydell@linaro.org>
 References: <20230206171359.1327671-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -106,17 +106,19 @@ and eventually perhaps drop it.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
+NB: not even compile tested!
+---
  docs/user/main.rst | 7 ++++++-
- linux-user/main.c  | 9 ++++++---
- 2 files changed, 12 insertions(+), 4 deletions(-)
+ bsd-user/main.c    | 5 +++--
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/docs/user/main.rst b/docs/user/main.rst
-index 6f2ffa080f7..f9ac701f4b1 100644
+index f9ac701f4b1..f4786353965 100644
 --- a/docs/user/main.rst
 +++ b/docs/user/main.rst
-@@ -93,8 +93,13 @@ Debug options:
- ``-g port``
-    Wait gdb connection to port
+@@ -247,5 +247,10 @@ Debug options:
+ ``-p pagesize``
+    Act as if the host page size was 'pagesize' bytes
  
 +``-one-insn-per-tb``
 +   Run the emulation with one guest instruction per translation block.
@@ -126,36 +128,29 @@ index 6f2ffa080f7..f9ac701f4b1 100644
  ``-singlestep``
 -   Run the emulation in single step mode.
 +   This is a deprecated synonym for the ``-one-insn-per-tb`` option.
- 
- Environment variables:
- 
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 99bcd542b42..41089e51cea 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -395,7 +395,7 @@ static void handle_arg_reserved_va(const char *arg)
-     }
- }
- 
--static void handle_arg_singlestep(const char *arg)
-+static void handle_arg_one_insn_per_tb(const char *arg)
- {
-     one_insn_per_tb = 1;
- }
-@@ -486,8 +486,11 @@ static const struct qemu_argument arg_table[] = {
-      "logfile",     "write logs to 'logfile' (default stderr)"},
-     {"p",          "QEMU_PAGESIZE",    true,  handle_arg_pagesize,
-      "pagesize",   "set the host page size to 'pagesize'"},
--    {"singlestep", "QEMU_SINGLESTEP",  false, handle_arg_singlestep,
--     "",           "run in singlestep mode"},
-+    {"one-insn-per-tb",
-+                   "QEMU_ONE_INSN_PER_TB",  false, handle_arg_one_insn_per_tb,
-+     "",           "run with one guest instruction per emulated TB"},
-+    {"singlestep", "QEMU_SINGLESTEP",  false, handle_arg_one_insn_per_tb,
-+     "",           "deprecated synonym for -one-insn-per-tb"},
-     {"strace",     "QEMU_STRACE",      false, handle_arg_strace,
-      "",           "log system calls"},
-     {"seed",       "QEMU_RAND_SEED",   true,  handle_arg_seed,
+diff --git a/bsd-user/main.c b/bsd-user/main.c
+index a8de6906ed5..8ede40614ec 100644
+--- a/bsd-user/main.c
++++ b/bsd-user/main.c
+@@ -167,7 +167,8 @@ static void usage(void)
+            "-d item1[,...]    enable logging of specified items\n"
+            "                  (use '-d help' for a list of log items)\n"
+            "-D logfile        write logs to 'logfile' (default stderr)\n"
+-           "-singlestep       always run in singlestep mode\n"
++           "-one-insn-per-tb  run with one guest instruction per emulated TB\n"
++           "-singlestep       deprecated synonym for -one-insn-per-tb\n"
+            "-strace           log system calls\n"
+            "-trace            [[enable=]<pattern>][,events=<file>][,file=<file>]\n"
+            "                  specify tracing options\n"
+@@ -390,7 +391,7 @@ int main(int argc, char **argv)
+             (void) envlist_unsetenv(envlist, "LD_PRELOAD");
+         } else if (!strcmp(r, "seed")) {
+             seed_optarg = optarg;
+-        } else if (!strcmp(r, "singlestep")) {
++        } else if (!strcmp(r, "singlestep") || !strcmp(r, "one-insn-per-tb") {
+             one_insn_per_tb = 1;
+         } else if (!strcmp(r, "strace")) {
+             do_strace = 1;
 -- 
 2.34.1
 
