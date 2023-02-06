@@ -2,81 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BEF968C8C9
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 22:30:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7638A68C8CF
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 22:31:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP933-0003Cu-Ni; Mon, 06 Feb 2023 16:29:13 -0500
+	id 1pP956-0003vi-5z; Mon, 06 Feb 2023 16:31:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pP931-0003Cm-LE
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 16:29:11 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pP950-0003vK-6X
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 16:31:14 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pP92z-0000bi-Ps
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 16:29:11 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pP94y-000117-Jv
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 16:31:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675718948;
+ s=mimecast20190719; t=1675719072;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=w8So+rFs9xxovf6k8oRvH+8iEZXMGOaKi/142xsMhdQ=;
- b=WUttNgFR9CdIL60wxNacFydaEcrrZFm/GcbZJQIfJ9Hn16BgfHz5ZmikgWuPwcN4dHya2K
- GCX2Af1Ie4ly67TCA8ft9ax4ohwqtfV3txGs7oj847Lwsjx9x7Ib9+RWLawzwcBR3dz5hm
- ooYE1f2BT8RTzbUCvovKlq3PYxIj/uI=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NdnRbwWlooCL0zFFumc4wV1CRZU8huvC4QS3PBYR77k=;
+ b=TLiim5a87dBZP/eVCCiAG5bO9+b2e/wZzfuSrZuruVWZTqzrziKaN/CtDMZPAVsb7eamWa
+ Vk1XYPipsHGB2YyxapAatdRCTXLNNxwlwrnDOQILnJcCuHkr/xD7dYDuNf3vJk67A4WN2G
+ UzWy8Br2hs9jhTNZ3qUgyVm+E0NDu2c=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-349-0WHJiHRPO0imOGKWGwoRIA-1; Mon, 06 Feb 2023 16:29:06 -0500
-X-MC-Unique: 0WHJiHRPO0imOGKWGwoRIA-1
-Received: by mail-il1-f198.google.com with SMTP id
- i14-20020a056e020d8e00b003034b93bd07so9030275ilj.14
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 13:29:06 -0800 (PST)
+ us-mta-439-_jL5k9njO9aEua5wQljwVA-1; Mon, 06 Feb 2023 16:31:03 -0500
+X-MC-Unique: _jL5k9njO9aEua5wQljwVA-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ x7-20020a05620a098700b007242aa494ddso8641877qkx.19
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 13:31:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=w8So+rFs9xxovf6k8oRvH+8iEZXMGOaKi/142xsMhdQ=;
- b=phKf5oO3NQN7rbLikwLL1HWGiyoAglGOmvJiFj9r3576qfhv29+O1omwXpn+KnG+iW
- ab8FfGo4pEqKbSMoPwL7RjdNmTvXrgVmZEDkXk3hmfvZGuzOf4/vc7w0TVV84/hLbrOJ
- ysu8q1IEXg82UZVCbQpXtUM2nOWIKMc8wbZ1uMKpNCXrNSiQ9hodiBz++OLjat/bZc5L
- 9CbwAQiuHYWCybChptFiQrF5A1edgehg9ELNdcxIcHzfKcjyovl5UeIuGxfnQ49MTBns
- u4FR19xE+OaUtAAwWMzn7iOcEFZBJtVtUT5svFUEkCaAyzENvkagCM1PymtTPEKfZikC
- fKEg==
-X-Gm-Message-State: AO0yUKUs8bfbXfrZ38vLFJL1u+IM7J/G/TvXtwB8xDqe5V+tmkSLpG/x
- F3QyRSk2+fv7eISXXfc4G96lhccp/vWi1BGtNhhMxI24XTy4I7GDLRCpVDojUsuqZKi3EfZqANx
- x9He0XjYmX2GGSv8=
-X-Received: by 2002:a05:6e02:1c27:b0:311:ad48:ff1d with SMTP id
- m7-20020a056e021c2700b00311ad48ff1dmr11776383ilh.5.1675718946067; 
- Mon, 06 Feb 2023 13:29:06 -0800 (PST)
-X-Google-Smtp-Source: AK7set/wIL6xtIRuiLisUi2sf34i9aVezdCgC6tSzbBJvf+EyUF4eea9miezTTTY+dZ0Rv5M3bUb5Q==
-X-Received: by 2002:a05:6e02:1c27:b0:311:ad48:ff1d with SMTP id
- m7-20020a056e021c2700b00311ad48ff1dmr11776371ilh.5.1675718945757; 
- Mon, 06 Feb 2023 13:29:05 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- bo20-20020a056638439400b003af7ff68d6fsm3760980jab.53.2023.02.06.13.29.05
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NdnRbwWlooCL0zFFumc4wV1CRZU8huvC4QS3PBYR77k=;
+ b=STFQAdkFNaPRxEhTuAmbxE4Jo5bDTLW6d8Y8KNn2zHAclcFzbSnAbp9ifaPJyfj8j3
+ DV7nyIu5s9NlKejLHI+dCX9s6v5r7qtjPaba1x8HauUHNJQ7y2rFKvbgTQscmaxwmWNc
+ //vMwdm6gZh8pvRjAl01l+fy40FujGl+LeQMQRqFVmZGThkQVJT2ezWWEtVddkDdB9yO
+ LgLl7FtpzdmG61rgJjHFC0hO27y0nv3yHeRscnri6k3L9az9XemmBfmg56/d1+c4fDUk
+ VuJY5yEPccb9wP5Y5uQGjQ8mAYIGJyz2Yn1B+Ff2WUP3IXL6C+HivY8XZmTzOFzFbtvG
+ x0cg==
+X-Gm-Message-State: AO0yUKVZ7yABcV4VcSQAYg2KWNDRI0l4kFT8zChWyBguFGHAwe0b8LnT
+ 2Y9xW+XYcomyoTOKzIlS5g4WQ9zFHrRtj4B9LodSTIfr4T3YTkTQ1zexfNwpiJod8+2tOo/WbBS
+ 2dUTrL0d5x41CJls=
+X-Received: by 2002:ac8:59c1:0:b0:3b8:6c6e:4949 with SMTP id
+ f1-20020ac859c1000000b003b86c6e4949mr1815703qtf.4.1675719062715; 
+ Mon, 06 Feb 2023 13:31:02 -0800 (PST)
+X-Google-Smtp-Source: AK7set/NwYLF3AS13/KTMXCNAR/NiYbgm2/IlPYeYqKKioXYEzrSZhUvrn8DCcYxiaJhP+J2SZ1ZHA==
+X-Received: by 2002:ac8:59c1:0:b0:3b8:6c6e:4949 with SMTP id
+ f1-20020ac859c1000000b003b86c6e4949mr1815663qtf.4.1675719062384; 
+ Mon, 06 Feb 2023 13:31:02 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ bk42-20020a05620a1a2a00b006fa16fe93bbsm8367845qkb.15.2023.02.06.13.31.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Feb 2023 13:29:05 -0800 (PST)
-Date: Mon, 6 Feb 2023 14:29:04 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: John Johnson <john.g.johnson@oracle.com>
-Cc: qemu-devel@nongnu.org, clg@redhat.com, philmd@linaro.org
-Subject: Re: [PATCH v2 18/23] vfio-user: add dma_unmap_all
-Message-ID: <20230206142904.073989dd.alex.williamson@redhat.com>
-In-Reply-To: <20fc8b4bb94583ef41d289db3831a9d07a0eae02.1675228037.git.john.g.johnson@oracle.com>
-References: <cover.1675228037.git.john.g.johnson@oracle.com>
- <20fc8b4bb94583ef41d289db3831a9d07a0eae02.1675228037.git.john.g.johnson@oracle.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+ Mon, 06 Feb 2023 13:31:01 -0800 (PST)
+Date: Mon, 6 Feb 2023 16:31:00 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Michal =?utf-8?B?UHLDrXZvem7DrWs=?= <mprivozn@redhat.com>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2 3/3] util/userfaultfd: Support /dev/userfaultfd
+Message-ID: <Y+FxlKN2/DsCiCzC@x1n>
+References: <20230201211055.649442-1-peterx@redhat.com>
+ <20230201211055.649442-4-peterx@redhat.com>
+ <87cz6stk4a.fsf@secure.mitica> <Y9wf5AI4xmHhNCTM@x1n>
+ <87357mfoq7.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87357mfoq7.fsf@secure.mitica>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,158 +104,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed,  1 Feb 2023 21:55:54 -0800
-John Johnson <john.g.johnson@oracle.com> wrote:
+On Fri, Feb 03, 2023 at 10:01:04PM +0100, Juan Quintela wrote:
+> Peter Xu <peterx@redhat.com> wrote:
+> > On Thu, Feb 02, 2023 at 11:52:21AM +0100, Juan Quintela wrote:
+> >> Peter Xu <peterx@redhat.com> wrote:
+> >> > Teach QEMU to use /dev/userfaultfd when it existed and fallback to the
+> >> > system call if either it's not there or doesn't have enough permission.
+> >> >
+> >> > Firstly, as long as the app has permission to access /dev/userfaultfd, it
+> >> > always have the ability to trap kernel faults which QEMU mostly wants.
+> >> > Meanwhile, in some context (e.g. containers) the userfaultfd syscall can be
+> >> > forbidden, so it can be the major way to use postcopy in a restricted
+> >> > environment with strict seccomp setup.
+> >> >
+> >> > Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> >> > Signed-off-by: Peter Xu <peterx@redhat.com>
+> >> 
+> >> 
+> >> Hi
+> >
+> > Hi, Juan,
+> 
+> 
+> >> static int open_userfaultd(void)
+> >> {
+> >>     /*
+> >>      * Make /dev/userfaultfd the default approach because it has better
+> >>      * permission controls, meanwhile allows kernel faults without any
+> >>      * privilege requirement (e.g. SYS_CAP_PTRACE).
+> >>      */
+> >>      int uffd = open("/dev/userfaultfd", O_RDWR | O_CLOEXEC);
+> >>      if (uffd >= 0) {
+> >>             return uffd;
+> >>      }
+> >>      return -1;
+> >> }
+> >> 
+> >> int uffd_open(int flags)
+> >> {
+> >> #if defined(__linux__) && defined(__NR_userfaultfd)
+> 
+> Just an incise, checkpatch don't liue that you use __linux__
+> 
+> This file is compiled under CONFIG_LINUX, so you can drop it.
 
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> ---
->  include/hw/vfio/vfio-common.h |  1 +
->  hw/vfio/common.c              | 45 ++++++++++++++++++++++++++++++++++---------
->  hw/vfio/user.c                | 24 +++++++++++++++++++++++
->  3 files changed, 61 insertions(+), 9 deletions(-)
+Yes indeed.  I'll drop it.
 
-This is inventing a need for a kernel vs user callback op rather than
-probing support for VFIO_UNMAP_ALL and using VFIO_DMA_UNMAP_FLAG_VADDR
-consistently.  The flags arg of the dma_unmap_all() op is unused and
-the kernel implementation introduces hard coded magic values.  The
-vfio-user dirty_bitmap addition here is rather random.  Please include
-some sort of description in the commit log for all patches.  Thanks,
+> 
+> >>     static int uffd = -2;
+> >>     if (uffd == -2) {
+> >>         uffd = open_userfaultd();
+> >>     }
+> >>     if (uffd >= 0) {
+> >>         return ioctl(uffd, USERFAULTFD_IOC_NEW, flags);
+> >>     }
+> >>     return syscall(__NR_userfaultfd, flags);
+> >> #else
+> >>      return -EINVAL;
+> >> 
+> >> 27 lines vs 42
+> >> 
+> >> No need for enum type
+> >> No need for global variable
+> >> 
+> >> What do you think?
+> >
+> > Yes, as I used to reply to Phil I think it can be simplified.  I did this
+> > major for (1) better readability, and (2) being crystal clear on which way
+> > we used to open /dev/userfaultfd, then guarantee we're keeping using it. so
+> > at least I prefer keeping things like trace_uffd_detect_open_mode().
+> 
+> The trace is ok for me.  I just forgot to copy it on the rework, sorry.
+> 
+> > I also plan to add another mode when fd-mode is there even if it'll reuse
+> > the same USERFAULTFD_IOC_NEW; they can be useful information when a failure
+> > happens.
+> 
+> The other fd mode will change the uffd.
+> 
+> What I *kind* of object is:
+> - Using a global variable when it is not needed
+>   i.e. for me using a global variable means that anything else is worse.
+>   Not the case IMHO.
 
-Alex
+IMHO globals are evil when they're used in multiple places; that's bad to
+readability.  Here it's not the case because it's set once and for all.  I
+wanted to have an easy and clear way to peek what's the mode chosen even
+without tracing enabled (e.g. from a dump or a live process).
 
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index ee6ad8f..abef9b4 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -193,6 +193,7 @@ struct VFIOContainerIO {
->      int (*dma_unmap)(VFIOContainer *container,
->                       struct vfio_iommu_type1_dma_unmap *unmap,
->                       struct vfio_bitmap *bitmap);
-> +    int (*dma_unmap_all)(VFIOContainer *container, uint32_t flags);
->      int (*dirty_bitmap)(VFIOContainer *container,
->                          struct vfio_iommu_type1_dirty_bitmap *bitmap,
->                          struct vfio_iommu_type1_dirty_bitmap_get *range);
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index f04fd20..8b55fbb 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -508,6 +508,14 @@ static int vfio_dma_unmap(VFIOContainer *container,
->      return container->io->dma_unmap(container, &unmap, NULL);
->  }
->  
-> +/*
-> + * DMA - Mapping and unmapping for the "type1" IOMMU interface used on x86
-> + */
-> +static int vfio_dma_unmap_all(VFIOContainer *container)
-> +{
-> +    return container->io->dma_unmap_all(container, VFIO_DMA_UNMAP_FLAG_ALL);
-> +}
-> +
->  static int vfio_dma_map(VFIOContainer *container, MemoryRegion *mr, hwaddr iova,
->                          ram_addr_t size, void *vaddr, bool readonly)
->  {
-> @@ -1256,17 +1264,10 @@ static void vfio_listener_region_del(MemoryListener *listener,
->  
->      if (try_unmap) {
->          if (int128_eq(llsize, int128_2_64())) {
-> -            /* The unmap ioctl doesn't accept a full 64-bit span. */
-> -            llsize = int128_rshift(llsize, 1);
-> +            ret = vfio_dma_unmap_all(container);
-> +        } else {
->              ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
-> -            if (ret) {
-> -                error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
-> -                             "0x%"HWADDR_PRIx") = %d (%m)",
-> -                             container, iova, int128_get64(llsize), ret);
-> -            }
-> -            iova += int128_get64(llsize);
->          }
-> -        ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
->          if (ret) {
->              error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
->                           "0x%"HWADDR_PRIx") = %d (%m)",
-> @@ -2867,6 +2868,31 @@ static int vfio_io_dma_unmap(VFIOContainer *container,
->      return 0;
->  }
->  
-> +static int vfio_io_dma_unmap_all(VFIOContainer *container, uint32_t flags)
-> +{
-> +    struct vfio_iommu_type1_dma_unmap unmap = {
-> +        .argsz = sizeof(unmap),
-> +        .flags = 0,
-> +        .size = 0x8000000000000000,
-> +    };
-> +    int ret;
-> +
-> +    /* The unmap ioctl doesn't accept a full 64-bit span. */
-> +    unmap.iova = 0;
-> +    ret = ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, &unmap);
-> +    if (ret) {
-> +        return -errno;
-> +    }
-> +
-> +    unmap.iova += unmap.size;
-> +    ret = ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, &unmap);
-> +    if (ret) {
-> +        return -errno;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
->  static int vfio_io_dirty_bitmap(VFIOContainer *container,
->                                  struct vfio_iommu_type1_dirty_bitmap *bitmap,
->                                  struct vfio_iommu_type1_dirty_bitmap_get *range)
-> @@ -2886,6 +2912,7 @@ static void vfio_io_wait_commit(VFIOContainer *container)
->  static VFIOContainerIO vfio_cont_io_ioctl = {
->      .dma_map = vfio_io_dma_map,
->      .dma_unmap = vfio_io_dma_unmap,
-> +    .dma_unmap_all = vfio_io_dma_unmap_all,
->      .dirty_bitmap = vfio_io_dirty_bitmap,
->      .wait_commit = vfio_io_wait_commit,
->  };
-> diff --git a/hw/vfio/user.c b/hw/vfio/user.c
-> index 6dee775..fe6e476 100644
-> --- a/hw/vfio/user.c
-> +++ b/hw/vfio/user.c
-> @@ -1825,6 +1825,28 @@ static int vfio_user_io_dma_unmap(VFIOContainer *container,
->                                 container->async_ops);
->  }
->  
-> +static int vfio_user_io_dma_unmap_all(VFIOContainer *container, uint32_t flags)
-> +{
-> +    struct vfio_iommu_type1_dma_unmap unmap = {
-> +        .argsz = sizeof(unmap),
-> +        .flags = flags | VFIO_DMA_UNMAP_FLAG_ALL,
-> +        .iova = 0,
-> +        .size = 0,
-> +    };
-> +
-> +    return vfio_user_dma_unmap(container->proxy, &unmap, NULL,
-> +                               container->async_ops);
-> +}
-> +
-> +static int vfio_user_io_dirty_bitmap(VFIOContainer *container,
-> +                        struct vfio_iommu_type1_dirty_bitmap *bitmap,
-> +                        struct vfio_iommu_type1_dirty_bitmap_get *range)
-> +{
-> +
-> +    /* vfio-user doesn't support migration */
-> +    return -EINVAL;
-> +}
-> +
->  static void vfio_user_io_wait_commit(VFIOContainer *container)
->  {
->      vfio_user_wait_reqs(container->proxy);
-> @@ -1833,5 +1855,7 @@ static void vfio_user_io_wait_commit(VFIOContainer *container)
->  VFIOContainerIO vfio_cont_io_sock = {
->      .dma_map = vfio_user_io_dma_map,
->      .dma_unmap = vfio_user_io_dma_unmap,
-> +    .dma_unmap_all = vfio_user_io_dma_unmap_all,
-> +    .dirty_bitmap = vfio_user_io_dirty_bitmap,
->      .wait_commit = vfio_user_io_wait_commit,
->  };
+> - Call uffd_open_mode() for every call, when we know that it can change,
+>   it is going to return always the same value, so cache it.
+
+uffd_detect_open_mode() caches the result already?  Or maybe you meant
+something else?
+
+> 
+> > Though if you insist, I can switch to the simple version too.
+> 
+> I always told that the person who did the patch has the last word on
+> style.  I preffer my version, but it is up to you to take it or not.
+
+Thanks,
+
+-- 
+Peter Xu
 
 
