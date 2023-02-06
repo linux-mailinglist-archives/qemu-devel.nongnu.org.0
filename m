@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5567C68BFA6
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B8868BFA7
 	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 15:11:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP2Ck-000663-Cp; Mon, 06 Feb 2023 09:10:46 -0500
+	id 1pP2Cw-00067T-9y; Mon, 06 Feb 2023 09:10:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pP2Cg-00065A-0v; Mon, 06 Feb 2023 09:10:42 -0500
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ id 1pP2Ch-000662-Uj; Mon, 06 Feb 2023 09:10:44 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pP2Ce-0002fa-HS; Mon, 06 Feb 2023 09:10:41 -0500
+ id 1pP2Cg-0002g0-Bi; Mon, 06 Feb 2023 09:10:43 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2CFE433CF9;
- Mon,  6 Feb 2023 14:10:39 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 0311E60420;
+ Mon,  6 Feb 2023 14:10:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675692639; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1675692641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FEGE8pycELFg8/TWdTKjH83z3RR5mzFkoQaZma3+j+8=;
- b=phpX8Ui0tb9oUlgo2rJlliCGS+K1vTcDzOmkjw06bqCWhhMZxKMKizsd8Ay9mA3q0a+fT7
- VCdM56C/rv5x+Bd/6zM1mYXv8VKbi+9HM2vfRCBCZPvNha7Lfd3SXbd7tqD/mQnPUozUsM
- s1hxZgYLh9Bd/oZ2cH3NgAXlmmjkE68=
+ bh=2nF6Q1feagG1j59SSALXFHCj/mrnFM3pmdWjXUdvEyk=;
+ b=2OyAQdYAuGIZZE+HtUF3pb3GSFde3he6QRrJZBlgGiuq9dFyjPEjOUpQDaFdNy26aMVoIl
+ 4+W89l9r/RIkSFJwNOVwm5POLGFWSPQoAA4+BZ/EJHLk9vP4zeOkR0KZFz+spUQOX2Lb5s
+ vG0EiiMrNS+ECpBlHNhvO43PdpT7DMI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675692639;
+ s=susede2_ed25519; t=1675692641;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FEGE8pycELFg8/TWdTKjH83z3RR5mzFkoQaZma3+j+8=;
- b=MMXrNsp3nWjQLcMhNMA5eR6o7a0v56jxJ2tP2CPn+GuVero7ntpLVWl36gixQHWyIMGWfA
- WS7twA7/Fd4HncAg==
+ bh=2nF6Q1feagG1j59SSALXFHCj/mrnFM3pmdWjXUdvEyk=;
+ b=OIZjmeufdyR2kyZ7nHEmRVxefLjDZSE31xo571EU0XTrj1PVHAFLH3exKanxMAYsputE73
+ y26HJq+sdrhRF6BA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C5AB6138E7;
- Mon,  6 Feb 2023 14:10:37 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9B35E138E7;
+ Mon,  6 Feb 2023 14:10:39 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id UHeOIl0K4WOgQAAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 06 Feb 2023 14:10:37 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id KEWOGF8K4WOgQAAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 06 Feb 2023 14:10:39 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  qemu-arm@nongnu.org
-Subject: [PATCH 05/10] hw/arm: Select VIRTIO_NET for virt machine
-Date: Mon,  6 Feb 2023 11:08:04 -0300
-Message-Id: <20230206140809.26028-6-farosas@suse.de>
+Subject: [PATCH 06/10] hw/arm: Select VIRTIO_BLK for virt machine
+Date: Mon,  6 Feb 2023 11:08:05 -0300
+Message-Id: <20230206140809.26028-7-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230206140809.26028-1-farosas@suse.de>
 References: <20230206140809.26028-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -85,29 +85,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The 'virt' machine uses virtio-net-pci as a fallback when no other
-network driver has been selected via command line. Select VIRTIO_NET
-and VIRTIO_PCI from CONFIG_ARM_VIRT to avoid errors when PCI_DEVICES=n
-(due to e.g. --without-default-devices):
+The virt machine has IF_VIRTIO as block_default_type, which causes the
+generic code to try to create a virtio-blk-pci device pair at
+configure_blockdev()/qemu_create_cli_devices().
 
-$ ./qemu-system-aarch64 -M virt -accel tcg -cpu max
-qemu-system-aarch64: Unsupported NIC model: virtio-net-pci
+Select VIRTIO_BLK and VIRTIO_PCI from CONFIG_ARM_VIRT to avoid errors
+when PCI_DEVICES=n (due to e.g. --without-default-devices):
+
+$ ./qemu-system-aarch64 -M virt -accel tcg -cpu max -nodefaults -cdrom foo.qcow2
+qemu-system-aarch64: -cdrom foo.qcow2: 'virtio-blk' (alias
+'virtio-blk-pci') is not a valid device model name
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- hw/arm/Kconfig | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/arm/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 2d157de9b8..8dcc08b7ec 100644
+index 8dcc08b7ec..296d4f5176 100644
 --- a/hw/arm/Kconfig
 +++ b/hw/arm/Kconfig
-@@ -31,6 +31,8 @@ config ARM_VIRT
-     select VIRTIO_MEM_SUPPORTED
-     select ACPI_CXL
+@@ -33,6 +33,7 @@ config ARM_VIRT
      select ACPI_HMAT
-+    select VIRTIO_PCI
-+    select VIRTIO_NET
+     select VIRTIO_PCI
+     select VIRTIO_NET
++    select VIRTIO_BLK
  
  config CHEETAH
      bool
