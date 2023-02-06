@@ -2,66 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D963368C5B6
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 19:26:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6572168C5B9
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 19:28:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP6Bn-0001uE-HD; Mon, 06 Feb 2023 13:26:03 -0500
+	id 1pP6D5-0002pq-Jw; Mon, 06 Feb 2023 13:27:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pP6Bd-0001pV-MX
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:25:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pP6BZ-0001CJ-Pu
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:25:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675707947;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=iL5SfASu0qjk5DzDdE9ca6DCEViV26jy212tqL09KMk=;
- b=g6ADoSPE+muepW49JNz9mixJ+eS2B3qw9yMR74aBu2q4KdJOHzXEgV8w+duONKjCx337AH
- KrNjMHgPExKCwTU9FrkI3K4nFEUdFMt90XIGvQYjNjYUaFPueplnm9WKQMdqNNBemb3kSP
- RqGOEidCjyxSAT3mE+pEfzJJ2kUfOmY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-74-MfmAxIcOOViPEDdpLIjeQA-1; Mon, 06 Feb 2023 13:25:46 -0500
-X-MC-Unique: MfmAxIcOOViPEDdpLIjeQA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BAA1918A6463;
- Mon,  6 Feb 2023 18:25:45 +0000 (UTC)
-Received: from scv.redhat.com (unknown [10.22.16.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C3E722026D37;
- Mon,  6 Feb 2023 18:25:44 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Lev Kujawski <lkujaw@mailbox.org>, Bernhard Beschow <shentey@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- BALATON Zoltan <balaton@eik.bme.hu>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- John Snow <jsnow@redhat.com>
-Subject: [PATCH] MAINTAINERS: Mark IDE and Floppy as "Odd Fixes"
-Date: Mon,  6 Feb 2023 13:25:44 -0500
-Message-Id: <20230206182544.711117-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pP6D3-0002pS-N9
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:27:22 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pP6D2-0001NH-0v
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:27:21 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ d6-20020a17090ae28600b00230aa72904fso4115666pjz.5
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 10:27:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=pf3wpo98ocpZojzJUra9uZGXeOuH5mXdt8yWg6RtZZY=;
+ b=TJa6TnxHhKEivNxKOKlklAu07cnRPG9dR4+Vw049IqSz+IB19WXwQ28/Yu9cIhxXmQ
+ ONaj2y6stdJFY0CSIclSQIaecIyQuc715Xo+hGpFA8QnC3M3ADFiBsA5K4Pb/8cF0qxr
+ mbur5/9ZpMurib/WRaylfqSDFo/ceJsL3J4C+NTGRbeLUAR4Ep5MC07ddrEw3Cu7byQo
+ +PNlFliuR2ETEoWN2NZJcI6ihtmxjLS3itkX24UeuTbNEqQC0jitw7wlulG3fkSx/jUE
+ JQM8Si6whQ1qEg07McP2zXmyI5iVS+f90F+5KV36gyG7qenqPSS4X9e4LROtQa2v5hCf
+ XaNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pf3wpo98ocpZojzJUra9uZGXeOuH5mXdt8yWg6RtZZY=;
+ b=MMAZMwErK6DAXykwrVkcBPqMmtdwysxcDxqAqOcl/G+qEFTsNZVSLMM513kw+ovywu
+ oZyXsUx6pHmJS74D0ZwzpBcQFf4ue2NEdSCTzVZhNVE8jcNe7Bz92OUCkZUxj4nbh6T5
+ s8mv8VDt57MnY0PGxmwwhhBIsN1ArdeB7BmYdmm+0XkmaVEz74Ub+ZFpn5FrZ1P+rEId
+ pnyHL7gppzuCUQzFFB/WRWT8cW+61FUjXZOvFHN7OSKWleFfgHA/zcIKJrvhwMqeAPWu
+ vV+cgsraD/sFjz2zuBOv8dgphmGFU5cow/VG9Q227cJMS9SBTX4fxQY/9fGoiH9gpXoH
+ XhLA==
+X-Gm-Message-State: AO0yUKVZBwGflsEshbENinP6GbinQcVhKPsqIAk/RTvo3YPccAuJA/aJ
+ jwL01oZcc0qaTkDI/9SOiG4wtw==
+X-Google-Smtp-Source: AK7set/N6u1sagtvJP1JT+ZXBR9x5zwXRHdQg5WiucTmuzZ7wcw8vc8YeuqN2UB41pHb6ghRqL4MEA==
+X-Received: by 2002:a17:90b:3b4e:b0:230:acb2:e3e8 with SMTP id
+ ot14-20020a17090b3b4e00b00230acb2e3e8mr417696pjb.23.1675708038115; 
+ Mon, 06 Feb 2023 10:27:18 -0800 (PST)
+Received: from [192.168.101.227] (rrcs-74-87-59-234.west.biz.rr.com.
+ [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
+ j12-20020a17090a31cc00b0022c35f1c576sm2865846pjf.57.2023.02.06.10.27.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Feb 2023 10:27:17 -0800 (PST)
+Message-ID: <14188fd3-6e97-3e00-7d54-7f76e53eeb22@linaro.org>
+Date: Mon, 6 Feb 2023 08:27:13 -1000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v5 2/3] arm/kvm: add support for MTE
+Content-Language: en-US
+To: Eric Auger <eauger@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+References: <20230203134433.31513-1-cohuck@redhat.com>
+ <20230203134433.31513-3-cohuck@redhat.com>
+ <ecddd3a1-f4e4-4cc8-3294-8c94aca28ed0@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <ecddd3a1-f4e4-4cc8-3294-8c94aca28ed0@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,38 +100,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I have not been able to give these devices the love they need for a
-while now. Update the maintainers file to reflect the truth of the
-matter.
+On 2/6/23 03:32, Eric Auger wrote:
+>> +void kvm_arm_enable_mte(Error **errp)
+>> +{
+>> +    static bool tried_to_enable = false;
+>> +    Error *mte_migration_blocker = NULL;
+> can't you make the mte_migration_blocker static instead?
+> 
+>> +    int ret;
+>> +
+>> +    if (tried_to_enable) {
+>> +        /*
+>> +         * MTE on KVM is enabled on a per-VM basis (and retrying doesn't make
+>> +         * sense), and we only want a single migration blocker as well.
+>> +         */
+>> +        return;
+>> +    }
+>> +    tried_to_enable = true;
+>> +
+>> +    if ((ret = kvm_vm_enable_cap(kvm_state, KVM_CAP_ARM_MTE, 0))) {
+>> +        error_setg_errno(errp, -ret, "Failed to enable KVM_CAP_ARM_MTE");
+>> +        return;
+>> +    }
+>> +
+>> +    /* TODO: add proper migration support with MTE enabled */
+>> +    error_setg(&mte_migration_blocker,
+>> +               "Live migration disabled due to MTE enabled");
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- MAINTAINERS | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Making the blocker static wouldn't stop multiple errors from kvm_vm_enable_cap.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fa10ecaeb94..97d0f2fdc8f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1784,7 +1784,7 @@ F: hw/misc/edu.c
- IDE
- M: John Snow <jsnow@redhat.com>
- L: qemu-block@nongnu.org
--S: Supported
-+S: Odd Fixes
- F: include/hw/ide.h
- F: include/hw/ide/
- F: hw/ide/
-@@ -1809,7 +1809,7 @@ T: git https://github.com/cminyard/qemu.git master-ipmi-rebase
- Floppy
- M: John Snow <jsnow@redhat.com>
- L: qemu-block@nongnu.org
--S: Supported
-+S: Odd Fixes
- F: hw/block/fdc.c
- F: hw/block/fdc-internal.h
- F: hw/block/fdc-isa.c
--- 
-2.39.0
 
+r~
 
