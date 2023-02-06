@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0524B68C117
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 16:12:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F96168C12A
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 16:17:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP3AK-0003Hx-W8; Mon, 06 Feb 2023 10:12:21 -0500
+	id 1pP3EC-0006Ks-Io; Mon, 06 Feb 2023 10:16:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP3AH-0003D0-RD
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:12:17 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pP3E9-0006Ji-4T
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:16:17 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pP3AF-0001T5-D3
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:12:17 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id d14so10668317wrr.9
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 07:12:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pP3E7-0002U7-8b
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:16:16 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id n13so8911157wmr.4
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 07:16:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FqzvdRul7AfjIyf4m9xJrzm9eghVm8fVvNt4NLjoK+Y=;
- b=LjkD4l04tJVJJyt2/AXvNi0LYB7EyavQfyDyNCxiYeAtzq5jxv95FapONxbferodcB
- 56H3e1ZSaaKNl5aRdL4MSwS92jt7tuASTYJlWyLSewxm3Xj+oM6Q5RXGnHxnH3TJQXgB
- iQ8bA9K4L7DjO9NsnzIJ+TqiZLFMaCK43LiVrgVk6c7dWrju0Rj1Yo9XsPLeDaXSDElk
- iCZOJdLOw3S40OQ3ecRvSmKB2bZKcWtUSsh929DeB8rb3Vttlr45ceRY69YC5SQHiFu7
- 3IYlKaMONgd0rlMwQnNa+WKORFmWwSh2SSL1PPWI4FpTb2Inlty3L7R3ylFTQLkNYAek
- i85A==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1To7rwcy9URXf81xLyGLzH05uoV172WcCp/SHRj686g=;
+ b=gMXzrxclpRrN1Kgq+Bf8kEmOZEweu1+ZLBMaeYdEZcKVClmlKDgQaTfypFPh5YRBDL
+ sY1ASmAXXS4gB7cHZEbs7VnabArmpj7p20AXH43EzEhT64I2qbrOeXRZSDuJ+GG8iHrM
+ 1xIdSOiOsDAvIzQaUsX0Me2Md2qseuG8ApkxQH5pTsLqoAJ58vTEAVoD6VnSJ6G9PIde
+ 8u09YFJk/1l+xQNSZcHWbsKtFL+y9aRDa9BAKiOjSaqvqcEfxDumyRUEgVGbfulQxIZL
+ A+5GFCTc9DfQRoWRxmjUZpszCjJxSn7kWuvuc5gc2JdNrvaFxBrRsSj92cQ2AD//aZFJ
+ 0BqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FqzvdRul7AfjIyf4m9xJrzm9eghVm8fVvNt4NLjoK+Y=;
- b=mmAV0VlXVHGjW/YigT7xn4JLqcnBPesFPhUOyO+w75+Hlr3icR7dpR9r/68E53N5Kq
- X4IJxHDLRHl0Trf9YVJLkIJBG5FNQS0HwUxDZw6tGmRlY9fzjSEPJSIn7fe502qGtgoD
- iXTkcgg0hPFEV3q2Q9wPMPCryPKfIvjuFX0nrZK+FhQ1gnTqTySQjcoaTBQF3zT7YuPk
- nowfMI01mIU5/orx0R8txaTUIP8cfPgMz307cIrFquNLLkbgAeXGfmxVuK2oBYWS/D0v
- VOjFlGyq9qWEijEf11A9b234QypsAp9XGkUrujh+Ub3yBig2y92HfWW51q36TEO8iv0F
- q9Vg==
-X-Gm-Message-State: AO0yUKUlBGUiSMxrridSZ1V9zoFOQ1q3VMBUPLqkkC2Ei06o2gAF7k/9
- 7bhIviN9RfsQ2Mn/GCibTUncMr2tabNq0j1e
-X-Google-Smtp-Source: AK7set9wmqEeP+tKcuNF6UNq2CkUp8zYIPf+hg7a/bNSlb8n45WyMfgMEcCFUNxq387B0rJE/TebWA==
-X-Received: by 2002:adf:f58d:0:b0:2c3:ea92:3494 with SMTP id
- f13-20020adff58d000000b002c3ea923494mr2970450wro.55.1675696333704; 
- Mon, 06 Feb 2023 07:12:13 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- s22-20020a1cf216000000b003dffe312925sm4442463wmc.15.2023.02.06.07.12.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 07:12:13 -0800 (PST)
-Message-ID: <1bb6f2bd-8af8-55b2-4660-9794eabdc0e1@linaro.org>
-Date: Mon, 6 Feb 2023 16:12:12 +0100
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=1To7rwcy9URXf81xLyGLzH05uoV172WcCp/SHRj686g=;
+ b=iNBNrTBXW/EwC1rRqXx7hTFWlo0JLlNU3+TY6VBFVJzW6tjtR2up/oNpiom7FUf1W2
+ xSTsfcdUGRR9jE+V3JjqmzJM0klGZeAVT7eQIMiQmnK/Ubdx3+r4QD09iR5Qaj53aHLk
+ XZCLlbDG+vCx/+l2wgF2UmiKx5BHV37OUh8iZvpTUP9yv8x9af4M0qwbt/uHc9Rn9xl7
+ 8m2M2+SY72vw/u383fb8nM0RJw7ZvKsfoTB/j2ueIeSOC79e4HJxdn3PpaCRHdSUrBuO
+ S05ko3NVRS13NOAFtSsAOyonKK8I9hAgyxIqHehKYeewH9KdDph4T4vq8PI3zf8YmSoH
+ MjGQ==
+X-Gm-Message-State: AO0yUKU2gQ3cjLSmkvrezUO4iHZU7x/uYY0rupTTR/+A30UEGc6oFuVq
+ 40bQxTIsvsVMN9CJ37x8Q/XPuw==
+X-Google-Smtp-Source: AK7set9Ppc64NUj8SyMQh0QvB6CCGXAz28hUHv7V4q/I6ML+fsI45sm0+reN06+u4/6QTVTAJkJs0Q==
+X-Received: by 2002:a05:600c:2ac8:b0:3dd:638d:bc31 with SMTP id
+ t8-20020a05600c2ac800b003dd638dbc31mr53126wme.26.1675696572029; 
+ Mon, 06 Feb 2023 07:16:12 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ v17-20020a05600c445100b003dc433355aasm11819836wmn.18.2023.02.06.07.16.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Feb 2023 07:16:11 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2465E1FFB7;
+ Mon,  6 Feb 2023 15:16:11 +0000 (GMT)
+References: <20230206141051.4088777-1-alex.bennee@linaro.org>
+ <3d76dc8b-0328-3159-3f52-ca8c86d14f7f@linaro.org>
+User-agent: mu4e 1.9.19; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?=
+ <berrange@redhat.com>
+Subject: Re: [RFC PATCH] tests: be a bit more strict cleaning up fifos
+Date: Mon, 06 Feb 2023 15:15:28 +0000
+In-reply-to: <3d76dc8b-0328-3159-3f52-ca8c86d14f7f@linaro.org>
+Message-ID: <87sffiq0xw.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v11 1/3] hw/riscv: handle 32 bit CPUs kernel_entry in
- riscv_load_kernel()
-Content-Language: en-US
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com
-References: <20230206140022.2748401-1-dbarboza@ventanamicro.com>
- <20230206140022.2748401-2-dbarboza@ventanamicro.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230206140022.2748401-2-dbarboza@ventanamicro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,52 +95,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 6/2/23 15:00, Daniel Henrique Barboza wrote:
-> Next patch will move all calls to riscv_load_initrd() to
-> riscv_load_kernel(). Machines that want to load initrd will be able to
-> do via an extra flag to riscv_load_kernel().
-> 
-> This change will expose a sign-extend behavior that is happening in
-> load_elf_ram_sym() when running 32 bit guests [1]. This is currently
-> obscured by the fact that riscv_load_initrd() is using the return of
-> riscv_load_kernel(), defined as target_ulong, and this return type will
-> crop the higher 32 bits that would be padded with 1s by the sign
-> extension when running in 32 bit targets. The changes to be done will
-> force riscv_load_initrd() to use an uint64_t instead, exposing it to the
-> padding when dealing with 32 bit CPUs.
-> 
-> There is a discussion about whether load_elf_ram_sym() should or should
-> not sign extend the value returned by 'lowaddr'. What we can do is to
-> prevent the behavior change that the next patch will end up doing.
-> riscv_load_initrd() wasn't dealing with 64 bit kernel entries when
-> running 32 bit CPUs, and we want to keep it that way.
-> 
-> One way of doing it is to use target_ulong in 'kernel_entry' in
-> riscv_load_kernel() and rely on the fact that this var will not be sign
-> extended for 32 bit targets. Another way is to explictly clear the
-> higher 32 bits when running 32 bit CPUs for all possibilities of
-> kernel_entry.
-> 
-> We opted for the later. This will allow us to be clear about the design
-> choices made in the function, while also allowing us to add a small
-> comment about what load_elf_ram_sym() is doing. With this change, the
-> consolation patch can do its job without worrying about unintended
-> behavioral changes.
-> 
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg02281.html
-> 
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> ---
->   hw/riscv/boot.c            | 20 +++++++++++++++++---
->   hw/riscv/microchip_pfsoc.c |  3 ++-
->   hw/riscv/opentitan.c       |  3 ++-
->   hw/riscv/sifive_e.c        |  3 ++-
->   hw/riscv/sifive_u.c        |  3 ++-
->   hw/riscv/spike.c           |  3 ++-
->   hw/riscv/virt.c            |  3 ++-
->   include/hw/riscv/boot.h    |  1 +
->   8 files changed, 30 insertions(+), 9 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
+> On 6/2/23 15:10, Alex Benn=C3=A9e wrote:
+>> When we re-factored we dropped the unlink() step which turns out to be
+>> required for rmdir to do its thing. If we had been checking the return
+>> value we would have noticed so lets do that with this fix.
+>> Fixes: 68406d1085 (tests/unit: cleanups for test-io-channel-command)
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+>> ---
+>>   tests/unit/test-io-channel-command.c | 6 +++++-
+>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>> diff --git a/tests/unit/test-io-channel-command.c
+>> b/tests/unit/test-io-channel-command.c
+>> index 425e2f5594..c2179a6462 100644
+>> --- a/tests/unit/test-io-channel-command.c
+>> +++ b/tests/unit/test-io-channel-command.c
+>> @@ -42,6 +42,7 @@ static void test_io_channel_command_fifo(bool async)
+>>       g_auto(GStrv) dstargv =3D g_strsplit(dstargs, " ", -1);
+>>       QIOChannel *src, *dst;
+>>       QIOChannelTest *test;
+>> +    int err;
+>>         if (mkfifo(fifo, 0600)) {
+>>           g_error("mkfifo: %s", strerror(errno));
+>> @@ -61,7 +62,10 @@ static void test_io_channel_command_fifo(bool async)
+>>       object_unref(OBJECT(src));
+>>       object_unref(OBJECT(dst));
+>>   -    g_rmdir(tmpdir);
+>> +    err =3D g_unlink(fifo);
+>> +    g_assert(err =3D=3D 0);
+>> +    err =3D g_rmdir(tmpdir);
+>> +    g_assert(err =3D=3D 0);
+>>   }
+>
+> Thanks for the patch, but unfortunately this doesn't help:
+>
+> Unknown TAP version. The first line MUST be `TAP version <int>`.
+> Assuming version 12.
+>
+> 71/93 qemu:unit / test-io-channel-command             ERROR 1.06s
+> killed by signal 13 SIGPIPE
+>>>> G_TEST_BUILDDIR=3D/Users/philmd/source/qemu/build/tests/unit
+>     G_TEST_SRCDIR=3D/Users/philmd/source/qemu/tests/unit
+>     MALLOC_PERTURB_=3D27
+>     /Users/philmd/source/qemu/build/tests/unit/test-io-channel-command
+>    --tap -k
+> =E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95
+> =E2=9C=80
+> =E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95
+> stderr:
+> 2023/02/06 15:46:03 socat[88615] E read(5, 0x13480c000, 8192): Bad
+> file descriptor
+>
+> (test program exited with status code -13)
+>
+> TAP parsing error: Too few tests run (expected 4, got 0)
+
+Ahh that is a different error.
+
+>
+> $ tests/unit/test-io-channel-command
+> # random seed: R02Se92d5500c30bbf1797b1047cd480607c
+> 1..4
+> # Start of io tests
+> # Start of channel tests
+> # Start of command tests
+> # Start of fifo tests
+> 2023/02/06 15:47:31 socat[88651] E read(5, 0x12000c000, 8192): Bad
+> file descriptor
+> $ echo $?
+> 141
+>
+> Should we add 'socat' as testing dependency in lci-tool?
+
+Yes, and maybe this is triggering on FreeBSD as well?
+
+  https://cdn.artifacts.gitlab-static.net/7e/5d/7e5de39c75978325e6b9b68dd0f=
+992f487a1c862c6dff2cc867723e4c306e820/2023_02_05/3717196650/4070740647/job.=
+log?response-content-type=3Dtext%2Fplain%3B%20charset%3Dutf-8&response-cont=
+ent-disposition=3Dinline&Expires=3D1675696399&KeyName=3Dgprd-artifacts-cdn&=
+Signature=3DB4AVL9qee1_jd8hmwvEkyVepy38=3D
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
