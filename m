@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DF4F68C4E0
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 18:31:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3132668C4E2
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 18:32:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP5Kq-0001Hx-0K; Mon, 06 Feb 2023 12:31:20 -0500
+	id 1pP5LQ-0002VE-Ot; Mon, 06 Feb 2023 12:31:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pP5Kn-0001Bj-V0
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 12:31:17 -0500
+ id 1pP5LK-0002Ra-J2
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 12:31:50 -0500
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pP5Km-0005lR-Dv
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 12:31:17 -0500
+ id 1pP5LI-0005sP-OM
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 12:31:49 -0500
 Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P9Y9K1sLnz6J65x;
- Tue,  7 Feb 2023 01:27:17 +0800 (CST)
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P9YDz0Tykz6J9yR;
+ Tue,  7 Feb 2023 01:30:27 +0800 (CST)
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Mon, 6 Feb 2023 17:31:14 +0000
+ 15.1.2507.17; Mon, 6 Feb 2023 17:31:44 +0000
 To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
 CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
  <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Gregory Price
  <gourry.memverge@gmail.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philmd@linaro.org>
-Subject: [PATCH v4 06/10] hw/i386/acpi: Drop duplicate _UID entry for CXL root
- bridge
-Date: Mon, 6 Feb 2023 17:28:12 +0000
-Message-ID: <20230206172816.8201-7-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v4 07/10] tests: acpi: Update q35/DSDT.cxl for removed
+ duplicate UID
+Date: Mon, 6 Feb 2023 17:28:13 +0000
+Message-ID: <20230206172816.8201-8-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230206172816.8201-1-Jonathan.Cameron@huawei.com>
 References: <20230206172816.8201-1-Jonathan.Cameron@huawei.com>
@@ -41,7 +41,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100005.china.huawei.com (7.191.160.25) To
+X-ClientProxiedBy: lhrpeml100004.china.huawei.com (7.191.162.219) To
  lhrpeml500005.china.huawei.com (7.191.163.240)
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=185.176.79.56;
@@ -69,28 +69,34 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Noticed as this prevents iASL disasembling the DSDT table.
+Dropping the ID effects this table in trivial fashion.
 
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
 Reviewed-by: Gregory Price <gregory.price@memverge.com>
 Tested-by: Gregory Price <gregory.price@memverge.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- hw/i386/acpi-build.c | 1 -
- 1 file changed, 1 deletion(-)
+ tests/data/acpi/q35/DSDT.cxl                | Bin 9578 -> 9564 bytes
+ tests/qtest/bios-tables-test-allowed-diff.h |   1 -
+ 2 files changed, 1 deletion(-)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 145389aa58..4840d11799 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1514,7 +1514,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-                 aml_append(pkg, aml_eisaid("PNP0A03"));
-                 aml_append(dev, aml_name_decl("_CID", pkg));
-                 aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
--                aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
-                 build_cxl_osc_method(dev);
-             } else if (pci_bus_is_express(bus)) {
-                 aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+diff --git a/tests/data/acpi/q35/DSDT.cxl b/tests/data/acpi/q35/DSDT.cxl
+index 3d18b9672d124a0cf11a79e92c396a1b883d0589..4586b9a18b24acd946cd32c7e3e3a70891a246d2 100644
+GIT binary patch
+delta 65
+zcmaFmb;pa#CD<h-MwNkqQEMaDUKwr|m6-Tor}*e5Z{^9CWUMyF%dcjfyiYC^MM6#<
+IB*D!F0I~xVRsaA1
+
+delta 79
+zcmccP^~#IOCD<h-OO=6vv2P>SUKwt0m6-Tor}*e5CzZ*UWUScYLp@!%?rjc`U&A<g
+SyId%Wytq76o(Cw;!v+8Y7Z@l2
+
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index 9ce0f596cc..dfb8523c8b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,2 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/q35/DSDT.cxl",
 -- 
 2.37.2
 
