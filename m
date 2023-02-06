@@ -2,68 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E242068B699
+	by mail.lfdr.de (Postfix) with ESMTPS id E6ABA68B69A
 	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 08:45:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOwA9-0005yy-Hs; Mon, 06 Feb 2023 02:43:42 -0500
+	id 1pOwBD-0006DK-Av; Mon, 06 Feb 2023 02:44:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuan.yao@linux.intel.com>)
- id 1pOwA2-0005yF-Io
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 02:43:37 -0500
-Received: from mga12.intel.com ([192.55.52.136])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pOwBB-0006BM-88
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 02:44:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuan.yao@linux.intel.com>)
- id 1pOw9y-0007av-Ul
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 02:43:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675669410; x=1707205410;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=dCJfA4nIv+qjLcPLPnVOQfzYF3vYqVKp3I2U6GyMThc=;
- b=irX6McBbsXYDDphy36Mos49KkpefAmpbL0Vq6pXv3yu1eUQSBj73F6Zm
- fLKFfyc+ZMFx617gaAGzzKBlJFgc3JPg7pMhjC9lHOztGiSU06b5KL5Rp
- v/xJBlp0sb8P4FteWVCO03p0KlaY05nvXuHfgqWdo7hKh7SeCs+dgjxX6
- i1IA/HzLZ7IkCI6cVD5xKRZqwVLANYwB3YFa2dSONE6qSj/d6sDoBLjxs
- Ko+wd+MUzkQY/R3qjG46KoHty1yncpmuFlLHSGHVDuYkVcH9SBIrLytaS
- fZovSAJ45fwSt8hAhkx23naF7WzKpscqeif1/mlL6J9/oH4+bIkpKJpkm A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="308791922"
-X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; d="scan'208";a="308791922"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2023 23:43:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="775082321"
-X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; d="scan'208";a="775082321"
-Received: from yy-desk-7060.sh.intel.com (HELO localhost) ([10.239.159.76])
- by fmsmga002.fm.intel.com with ESMTP; 05 Feb 2023 23:43:20 -0800
-Date: Mon, 6 Feb 2023 15:43:20 +0800
-From: Yuan Yao <yuan.yao@linux.intel.com>
-To: Lei Wang <lei4.wang@intel.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, imammedo@redhat.com,
- dgilbert@redhat.com, berrange@redhat.com, xiaoyao.li@intel.com,
- yang.zhong@linux.intel.com
-Subject: Re: [PATCH v3 4/6] i386: Mask and report unavailable multi-bit
- feature values
-Message-ID: <20230206074320.bkeuh3eep7kauhg7@yy-desk-7060>
-References: <20230106083826.5384-1-lei4.wang@intel.com>
- <20230106083826.5384-5-lei4.wang@intel.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pOwB8-0007f7-Sq
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 02:44:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675669476;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZCVHx8k8+dW2EjfeNXvsmU6uZDZFcyxKnJ0jmHeYywA=;
+ b=dYplWOGC2bhz3DWlr+J376ZOdMjHiRw3MZAwu8QrM7BpGm6sflUhdllLJTT8TlRNrDJR+I
+ LXfL7J6jcm095c/34QXrwwK2SkvWTHRLmSTOWBjwhfEpVDhnKOK5/2Vwr9UFt7npFfXiRR
+ p3SR0pISLEihSNz1gP/jju8cqVXrd/I=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-346-ajvJHCBANF2kZTXCQHy7ZQ-1; Mon, 06 Feb 2023 02:44:33 -0500
+X-MC-Unique: ajvJHCBANF2kZTXCQHy7ZQ-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ ib5-20020a0562141c8500b0053c23b938a0so5475944qvb.17
+ for <qemu-devel@nongnu.org>; Sun, 05 Feb 2023 23:44:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZCVHx8k8+dW2EjfeNXvsmU6uZDZFcyxKnJ0jmHeYywA=;
+ b=70X0VZl+Qn3v4uDX2QQorkUEB01PpGuSWZn7HCPjXaz8PUdmf9t3dPh2HGgxA8fZRr
+ M2I31Pf6+xsyFzlWB14ReEPgYiBqwC+wc3BTq4de6xJCysmAh6x066EcoJ1BH/7V0M00
+ 52VJDBtXbETwtyhujVzJDDDL2nYmLK4Vx4qsN1LykV66WbBKqXEhzq17SDwEIyt7Hu7D
+ 8a8q1vDVf3V0Ynghx1jAudPEFEjQoIVnv2bT4NmZrIkSJABgsuDtjZE1ROSGCWq13DVG
+ C0Wmnl1ZIue/ayvihs8pXUmuMyZ1vXOjGONp3vA6LbVIYv1mXusMwNZKt21J6BIr8EW2
+ rmyQ==
+X-Gm-Message-State: AO0yUKU8eN2nsHkUUoJwHuWZ4Lt0b9qQb2PNE/HYnP8RP/Cb7lkQRoBA
+ F3Tl1zSTsZwzIKFJs6+mvvQS38m5gJ3E8W6mdIeseF5e3KquQ5TXMiQm6wly16R5QDFp2c8Frxh
+ LwM3gjh4q+dgH93M=
+X-Received: by 2002:a05:6214:2604:b0:56b:eda2:a6bc with SMTP id
+ gu4-20020a056214260400b0056beda2a6bcmr14735415qvb.11.1675669473295; 
+ Sun, 05 Feb 2023 23:44:33 -0800 (PST)
+X-Google-Smtp-Source: AK7set94t+zQw3mXc/ovaaas58PZrw1Hw32N+WHzv/IjVZXIxNZvcsVPZ932A1PJKGZ9tfG8McFIxg==
+X-Received: by 2002:a05:6214:2604:b0:56b:eda2:a6bc with SMTP id
+ gu4-20020a056214260400b0056beda2a6bcmr14735391qvb.11.1675669473053; 
+ Sun, 05 Feb 2023 23:44:33 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-71.web.vodafone.de.
+ [109.43.177.71]) by smtp.gmail.com with ESMTPSA id
+ dm40-20020a05620a1d6800b006fef61300fesm6886473qkb.16.2023.02.05.23.44.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 05 Feb 2023 23:44:32 -0800 (PST)
+Message-ID: <21fa9ab9-524d-c44d-905a-f1feddf92099@redhat.com>
+Date: Mon, 6 Feb 2023 08:44:29 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230106083826.5384-5-lei4.wang@intel.com>
-User-Agent: NeoMutt/20171215
-Received-SPF: none client-ip=192.55.52.136;
- envelope-from=yuan.yao@linux.intel.com; helo=mga12.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 6/6] gitlab-ci.d/buildtest: Disintegrate the
+ build-coroutine-sigaltstack job
+Content-Language: en-US
+To: quintela@redhat.com, Peter Maydell <peter.maydell@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, hreitz@redhat.com,
+ dgilbert@redhat.com
+References: <20230130104446.1286773-1-thuth@redhat.com>
+ <20230130104446.1286773-7-thuth@redhat.com> <Y9eizgN9UYo5kbgx@redhat.com>
+ <fc5dba59-4993-ee66-a94b-a550bdced396@redhat.com>
+ <Y9z5TohXERGuQ6TS@redhat.com>
+ <2caefefa-8757-af55-ccf3-fcc641db0784@redhat.com>
+ <CAFEAcA972rKvQqJh2-FghQcJ1hswVWkhtzb3-KW4CgsypnQgYA@mail.gmail.com>
+ <87sffme9jj.fsf@secure.mitica>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <87sffme9jj.fsf@secure.mitica>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.149, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,118 +112,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 06, 2023 at 12:38:24AM -0800, Lei Wang wrote:
-> Some feature words, e.g., feature words in AMX-related CPUID leaf 0x1D and
-> 0x1E are not bit-wise but multiple bits represents one value. Handle this
-> situation when the values specified are not the same as which are reported
-> by KVM. The handling includes:
->
->  - The responsibility of masking bits and giving warnings are delegated to
->    the feature enabler. A framework is also provided to enable this.
->  - To simplify the initialization, a default function is provided if the
->    the function is not specified.
->
-> The reason why delegating this responsibility rather than just marking
-> them as zeros when they are not same is because different multi-bit
-> features may have different logic, which is case by case, for example:
->
->  1. CPUID.0x14_0x1:EBX[15:0]. Even though it's multi-bits field, it's a
->     bitmap and each bit represents a separate capability.
->
->  2. CPUID.0x14_0x1:EAX[2:0] represents the number of configurable Address
->     Ranges. 3 bits as a whole to represent a integer value. It means the
->     maximum capability of HW. If KVM reports M, then M to 0 is legal
->     value to configure (because KVM can emulate each value correctly).
->
->  3. CPUID.0x1D_0x1:EAX[31:16] represents palette 1 bytes_per_tile. 16 bits
->     as a whole represent an integer value. It's not like case 2 and SW
->     needs to configure the same value as reported. Because it's not
->     possible for SW to configure to a different value and KVM cannot
->     emulate it.
->
-> So marking them blindly as zeros is incorrect, and delegating this
-> responsibility can let each multi-bit feature have its own way to mask bits.
->
-> Signed-off-by: Lei Wang <lei4.wang@intel.com>
-> ---
->  target/i386/cpu-internal.h |  2 ++
->  target/i386/cpu.c          | 36 ++++++++++++++++++++++++++++++++++++
->  2 files changed, 38 insertions(+)
->
-> diff --git a/target/i386/cpu-internal.h b/target/i386/cpu-internal.h
-> index 66b3d66cb4..83c7b53926 100644
-> --- a/target/i386/cpu-internal.h
-> +++ b/target/i386/cpu-internal.h
-> @@ -30,6 +30,8 @@ typedef struct MultiBitFeatureInfo {
->      uint64_t mask;
->      unsigned high_bit_position;
->      unsigned low_bit_position;
-> +    void (*mark_unavailable_multi_bit)(X86CPU *cpu, FeatureWord w, int index,
-> +                                       const char *verbose_prefix);
->  } MultiBitFeatureInfo;
->
->  typedef struct FeatureWordInfo {
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 88aa780566..e638a31d34 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -4377,6 +4377,28 @@ static bool x86_cpu_have_filtered_features(X86CPU *cpu)
->      return false;
->  }
->
-> +static void mark_unavailable_multi_bit_default(X86CPU *cpu, FeatureWord w,
-> +                                               int index,
-> +                                               const char *verbose_prefix)
-> +{
-> +    FeatureWordInfo *f = &feature_word_info[w];
-> +    g_autofree char *feat_word_str = feature_word_description(f);
-> +    uint64_t host_feat = x86_cpu_get_supported_feature_word(w, false);
-> +    MultiBitFeatureInfo mf = f->multi_bit_features[index];
-> +
-> +    if ((cpu->env.features[w] & mf.mask) &&
+On 03/02/2023 22.14, Juan Quintela wrote:
+> Peter Maydell <peter.maydell@linaro.org> wrote:
+>> On Fri, 3 Feb 2023 at 15:44, Thomas Huth <thuth@redhat.com> wrote:
+>>>
+>>> On 03/02/2023 13.08, Kevin Wolf wrote:
+>>>> Am 03.02.2023 um 12:23 hat Thomas Huth geschrieben:
+>>>>> On 30/01/2023 11.58, Daniel P. Berrangé wrote:
+>>>>>> On Mon, Jan 30, 2023 at 11:44:46AM +0100, Thomas Huth wrote:
+>>>>>>> We can get rid of the build-coroutine-sigaltstack job by moving
+>>>>>>> the configure flags that should be tested here to other jobs:
+>>>>>>> Move --with-coroutine=sigaltstack to the build-without-defaults job
+>>>>>>> and --enable-trace-backends=ftrace to the cross-s390x-kvm-only job.
+>>>>>>
+>>>>>> The biggest user of coroutines is the block layer. So we probably
+>>>>>> ought to have coroutines aligned with a job that triggers the
+>>>>>> 'make check-block' for iotests.  IIUC,  the without-defaults
+>>>>>> job won't do that. How about, arbitrarily, using either the
+>>>>>> 'check-system-debian' or 'check-system-ubuntu' job. Those distros
+>>>>>> are closely related, so getting sigaltstack vs ucontext coverage
+>>>>>> between them is a good win, and they both trigger the block jobs
+>>>>>> IIUC.
+>>>>>
+>>>>> I gave it a try with the ubuntu job, but this apparently trips up the iotests:
+>>>>>
+>>>>>    https://gitlab.com/thuth/qemu/-/jobs/3705965062#L212
+>>>>>
+>>>>> Does anybody have a clue what could be going wrong here?
+>>>>
+>>>> I'm not sure how changing the coroutine backend could cause it, but
+>>>> primarily this looks like an assertion failure in migration code.
+>>>>
+>>>> Dave, Juan, any ideas what this assertion checks and why it could be
+>>>> failing?
+>>>
+>>> Ah, I think it's the bug that will be fixed by:
+>>>
+>>>    https://lore.kernel.org/qemu-devel/20230202160640.2300-2-quintela@redhat.com/
+>>>
+>>> The fix hasn't hit the master branch yet (I think), and I had another patch
+>>> in my CI that disables the aarch64 binary in that runner, so the iotests
+>>> suddenly have been executed with the alpha binary there --> migration fails.
+>>>
+>>> So never mind, it will be fixed as soon as Juan's pull request gets included.
+>>
+>> The migration tests have been flaky for a while now,
+>> including setups where host and guest page sizes are the same.
+>> (For instance, my x86 macos box pretty reliably sees failures
+>> when the machine is under load.)
+> 
+> I *thought* that we had fixed all of those.
+> 
+> But it is difficult for me to know because:
+> - I only happens when one runs "make check"
+> - running ./migration-test have never failed to me
+> - When it fails (and it has been a while since it has failed to me)
+>    it is impossible to me to detect what is going on, and as said, I have
+>    never been able to reproduce running only migration-test.
+> 
+> I will try to run several at the same time and see if it happens.
+> 
+> And as Thomas said, I *think* that the fix that Peter Xu posted should
+> fix this issue.  Famous last words.
 
-With this checking bits are all 0 but covered by mf.mask's range are skippped,
-even if they're different from the host_feat, please check whether it's desried
-behavior.
+The patch from Peter should fix my problems that I triggered via the iotests 
+- but the migration-qtest is still unstable independent from that issue, I 
+think. See for example the latest staging pipeline:
 
-> +        ((cpu->env.features[w] ^ host_feat) & mf.mask)) {
-> +        if (!cpu->force_features) {
-> +            cpu->env.features[w] &= ~mf.mask;
-> +        }
-> +        cpu->filtered_features[w] |= mf.mask;
-> +        if (verbose_prefix)
-> +            warn_report("%s: %s.%s [%u:%u]", verbose_prefix, feat_word_str,
-> +                        mf.feat_name, mf.high_bit_position,
-> +                        mf.low_bit_position);
-> +    }
-> +}
-> +
->  static void mark_unavailable_features(X86CPU *cpu, FeatureWord w, uint64_t mask,
->                                        const char *verbose_prefix)
->  {
-> @@ -6442,6 +6464,20 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
->              x86_cpu_get_supported_feature_word(w, false);
->          uint64_t requested_features = env->features[w];
->          uint64_t unavailable_features = requested_features & ~host_feat;
-> +        FeatureWordInfo f = feature_word_info[w];
-> +        int i;
-> +
-> +        for (i = 0; i < f.num_multi_bit_features; i++) {
-> +            MultiBitFeatureInfo mf = f.multi_bit_features[i];
-> +            if (mf.mark_unavailable_multi_bit) {
-> +                mf.mark_unavailable_multi_bit(cpu, w, i, prefix);
-> +            } else {
-> +                mark_unavailable_multi_bit_default(cpu, w, i, prefix);
-> +            }
-> +
-> +            unavailable_features &= ~mf.mask;
-> +        }
-> +
->          mark_unavailable_features(cpu, w, unavailable_features, prefix);
->      }
->
-> --
-> 2.34.1
->
->
+  https://gitlab.com/qemu-project/qemu/-/pipelines/767961842
+
+The migration qtest failed in both, the x86-freebsd-build and the 
+ubuntu-20.04-s390x-all pipelin.
+
+  Thomas
+
+
 
