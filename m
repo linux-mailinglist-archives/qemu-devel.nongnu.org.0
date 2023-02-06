@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AAFB68B32F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 01:21:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC23A68B339
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 01:25:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOpF6-0007U4-9I; Sun, 05 Feb 2023 19:20:20 -0500
+	id 1pOpJY-0000bQ-7o; Sun, 05 Feb 2023 19:24:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pOpF2-0007Sc-Nu; Sun, 05 Feb 2023 19:20:16 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1pOpJW-0000b0-4D
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 19:24:54 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pOpF1-0008HI-0i; Sun, 05 Feb 2023 19:20:16 -0500
-Received: by mail-ej1-x635.google.com with SMTP id qw12so29877814ejc.2;
- Sun, 05 Feb 2023 16:20:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=a7O5nGsl6rLGvX+8pr+dC3SNQLc9hdIqF5LsDfipkeE=;
- b=gKuSCuNlzIJ4S2m+uDDSxpeg5OYx62SScb4OdicVLE/HIMvaxQHPwZ81FTeNuRZd1w
- 3wzLK5ag+WUM3JlcAcs20Bn77SFAemOtUoYBKCBnitTWjtDa2mVq7Fkf00jmPRBtVojm
- M3f0UFrAB1e1KkH3qlcHll5M1XoDtfZnhi5SA+TGJSqstMGaUcJ/E/5Nd4cdrk+VeZg/
- 3c1i7z98UdcqPNjt4zcuW74W2PGypeC8ZNlsTR+6GbMcF2QfDm8EUtm+IopYqhacb6/B
- YTFKMKVmm5Ueh30xp+PxaIxzRr82rgRTGa0CCgOiyNN9nLwWQqnyND8y2AOG3Q3L8cUO
- jBVA==
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1pOpJT-0000OM-6i
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 19:24:53 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ t12-20020a17090aae0c00b00229f4cff534so12001343pjq.1
+ for <qemu-devel@nongnu.org>; Sun, 05 Feb 2023 16:24:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/06Cav0wb7hi23Toi34xSI0jlbDRwSb8E+vXUSowvXY=;
+ b=dInqtYPiCBaCN+Cr2TPE+HFtVV8n5ZoI1w0PvDExg5PpqX/IONhYewn3z3UxrX7h+A
+ sgK7ICcAc0cMfc0RYSz9tLVghLTPxkQf/FHvaHlGcydYZ5lDUiuym0H6DYWZfHIVEbSn
+ 8d5yaoYJfDKmjrwQABF+FEhdgLFpdkuPq3rhHa3W2MRgTj6knPurvt7o4RumMbV4bdUY
+ 9/DtLGMFpe6lJmBLXlLNKpNcWkhKv3jiG0AMqCmrN6OsrOtbxVBtmdjT5WQRwj54JvH8
+ GbDfu4y5rB5bfsDMOQLD8WZyBD10jAzJOnQVKnmaubmcrqDaEfc+40RljFX8Z4kt1Man
+ uFjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=a7O5nGsl6rLGvX+8pr+dC3SNQLc9hdIqF5LsDfipkeE=;
- b=KVTi6jF/GPN34X7H5k8H1HJ6WZlv8jBlNXQ+5WkGhCtw+pvyyXhxsyETgRxy56ydXI
- qetPsOYRR5ZHx3XLcoJG2By7jxcGy0VN6Z7AJ4ySzjjak2vIh6A+iolw9+GwdiyzBrCJ
- 7d5mTevf1nSIFiyy42YhcP5tYJH+1TSZCgGBAaTjmF3H4AdTD19ceXzhiFrb7pI8IkuY
- oMhwjPSab/545D+V87Fxcci7cbKiptiJt+SCsZ5bDKmk0uIUZR+beOERjlexSgskquNz
- tEuBIGs2tHnKDND6T/2Qg/sjuuZSvjD49l8yP4Ei6treiw4MpKIylTE/1WXEkHSfOhvI
- RFsA==
-X-Gm-Message-State: AO0yUKWP8iGrgFRk0azYhQO2fUGi8HPujICq2x+VscOa6dMV2lLjtihY
- qm1OhKLOCsOQvJC6By62sMU=
-X-Google-Smtp-Source: AK7set+pEv/zR5e4bVNleT/hHIg9K829co8WqujXTQV+SuYW+/oQC8tn3yv/jvH+ASEcZlvR9dSd5w==
-X-Received: by 2002:a17:906:b817:b0:86d:f880:5193 with SMTP id
- dv23-20020a170906b81700b0086df8805193mr20307594ejb.38.1675642810782; 
- Sun, 05 Feb 2023 16:20:10 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-077-013-009-140.77.13.pool.telefonica.de.
- [77.13.9.140]) by smtp.gmail.com with ESMTPSA id
- f17-20020a1709064dd100b0087276f66c6asm4718729ejw.115.2023.02.05.16.20.10
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/06Cav0wb7hi23Toi34xSI0jlbDRwSb8E+vXUSowvXY=;
+ b=KkihqECesN0YkIAhx3OnlY+A5huKMq0N6gWkFaPTT3E/jq1YzgHgflDWkKTDtXz3+P
+ igrXD0QCQDoc6/p6bV+DaxWJncI7TZ/VPegNvf03r4Opp2eGWtdelOP0ooEcnEnQ8/x+
+ yFK6VXpE4GbNy4SnA5eCgf1jHpB44Z2/zcel2S+GemRuWkz0QKAvaMk7CGL0vA2oFOEf
+ 6BLCQ/1SwR33RWnzhp0WcNBg3BEVP26PkuOVyMy+BjlnOcY/r5CZj4Tj2DcpPlqMQsKB
+ QuwFI3SLVPzFi68oxnZhpNm7vfY9JS1exB6bGUMsBmpaT0nSvREv9iM9+uw7SLcZWMBk
+ kCuA==
+X-Gm-Message-State: AO0yUKVVp5Do/3HubAzmjD1Q0lLLYZhudaz2Nhlsv+FnYqMzjY9WK9f1
+ rQckuLy89tjffbqsjf7f2VyXBA==
+X-Google-Smtp-Source: AK7set+/MJpaKxThUS9BkKyKnNuOIIQQIFntHSiXhSxDaJG4PyLqOe5RFs3cLiebj7z17AmajWW4Cw==
+X-Received: by 2002:a17:902:f1ca:b0:199:7b4:8204 with SMTP id
+ e10-20020a170902f1ca00b0019907b48204mr3038392plc.32.1675643085934; 
+ Sun, 05 Feb 2023 16:24:45 -0800 (PST)
+Received: from [10.3.43.196] ([61.213.176.9]) by smtp.gmail.com with ESMTPSA id
+ 12-20020a170902e9cc00b00178143a728esm3241778plk.275.2023.02.05.16.24.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 05 Feb 2023 16:20:10 -0800 (PST)
-Date: Mon, 06 Feb 2023 00:20:08 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-CC: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-ppc@nongnu.org, qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 03/10] softmmu/ioport: Remove unused functions
-In-Reply-To: <dea7bf85-85c1-620c-9a98-4d696fa291f6@ilande.co.uk>
-References: <20230126211740.66874-1-shentey@gmail.com>
- <20230126211740.66874-4-shentey@gmail.com>
- <dea7bf85-85c1-620c-9a98-4d696fa291f6@ilande.co.uk>
-Message-ID: <092C7A4D-9947-4D70-9631-AC644B65EF2A@gmail.com>
+ Sun, 05 Feb 2023 16:24:45 -0800 (PST)
+Message-ID: <1a6df753-5286-dcfa-2e7b-87eb9c8b06f4@bytedance.com>
+Date: Mon, 6 Feb 2023 08:23:20 +0800
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: PING: [PATCH v4 00/12] Refactor cryptodev
+Content-Language: en-US
+To: mst@redhat.com
+Cc: armbru@redhat.com, qemu-devel@nongnu.org, arei.gonglei@huawei.com,
+ dgilbert@redhat.com, berrange@redhat.com, pbonzini@redhat.com
+References: <20230129025747.682282-1-pizhenwei@bytedance.com>
+From: zhenwei pi <pizhenwei@bytedance.com>
+In-Reply-To: <20230129025747.682282-1-pizhenwei@bytedance.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,93 +93,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi Michael
 
+Please correct me if I miss anything...
 
-Am 5=2E Februar 2023 21:37:01 UTC schrieb Mark Cave-Ayland <mark=2Ecave-ay=
-land@ilande=2Eco=2Euk>:
->On 26/01/2023 21:17, Bernhard Beschow wrote:
->
->> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->> ---
->>   include/exec/ioport=2Eh |  2 --
->>   softmmu/ioport=2Ec      | 24 ------------------------
->>   2 files changed, 26 deletions(-)
->>=20
->> diff --git a/include/exec/ioport=2Eh b/include/exec/ioport=2Eh
->> index ec3e8e5942=2E=2E1ef5aebba3 100644
->> --- a/include/exec/ioport=2Eh
->> +++ b/include/exec/ioport=2Eh
->> @@ -67,7 +67,5 @@ void portio_list_init(PortioList *piolist, Object *ow=
-ner,
->>                         void *opaque, const char *name,
->>                         MemoryRegion *address_space_io, uint16_t start)=
-;
->>   void portio_list_set_flush_coalesced(PortioList *piolist);
->> -void portio_list_destroy(PortioList *piolist);
->> -void portio_list_del(PortioList *piolist);
->>     #endif /* IOPORT_H */
->> diff --git a/softmmu/ioport=2Ec b/softmmu/ioport=2Ec
->> index c92e3cb27d=2E=2E0a55d39196 100644
->> --- a/softmmu/ioport=2Ec
->> +++ b/softmmu/ioport=2Ec
->> @@ -118,19 +118,6 @@ void portio_list_set_flush_coalesced(PortioList *p=
-iolist)
->>       piolist->flush_coalesced_mmio =3D true;
->>   }
->>   -void portio_list_destroy(PortioList *piolist)
->> -{
->> -    MemoryRegionPortioList *mrpio;
->> -    unsigned i;
->> -
->> -    for (i =3D 0; i < piolist->nr; ++i) {
->> -        mrpio =3D container_of(piolist->regions[i], MemoryRegionPortio=
-List, mr);
->> -        object_unparent(OBJECT(&mrpio->mr));
->> -        g_free(mrpio);
->> -    }
->> -    g_free(piolist->regions);
->> -}
->> -
->>   static const MemoryRegionPortio *find_portio(MemoryRegionPortioList *=
-mrpio,
->>                                                uint64_t offset, unsigne=
-d size,
->>                                                bool write)
->> @@ -280,14 +267,3 @@ void portio_list_init(PortioList *piolist, Object =
-*owner,
->>       /* There will always be an open sub-list=2E  */
->>       portio_list_add_1(piolist, pio_start, count, start, off_low, off_=
-high);
->>   }
->> -
->> -void portio_list_del(PortioList *piolist)
->> -{
->> -    MemoryRegionPortioList *mrpio;
->> -    unsigned i;
->> -
->> -    for (i =3D 0; i < piolist->nr; ++i) {
->> -        mrpio =3D container_of(piolist->regions[i], MemoryRegionPortio=
-List, mr);
->> -        memory_region_del_subregion(piolist->address_space, &mrpio->mr=
-);
->> -    }
->> -}
->
->I think it may be worth leaving these functions=2E There were previous di=
-scussions around the cmd646 and via PCI-IDE interfaces which have a bit in =
-PCI configuration space that switches the chip between compatibility (ISA) =
-mode and PCI mode=2E I could see that switching the device to PCI mode woul=
-d require removal of the old ISA ports, for example, as in PCI mode the reg=
-isters would be accessed exclusively via the PCI BAR=2E
+On 1/29/23 10:57, zhenwei pi wrote:
+> v4 -> v5:
+> - suggested by MST, use 'PRIu32' instead of '%u' to print a uint32_t value
+> - correct *QCryptodevBackendClient* and *QCryptodevInfo* in qapi/cryptodev.json
+> 
+> v3 -> v4:
+> - a small change in '0005-cryptodev-Introduce-query-cryptodev-QMP-command.patch':
+>    use 'uint32' instead of 'int' to describe CryptodevBackendClient:queue
+> - fix compling warning(gcc)/error(clang-11) on 32 bit platform in
+>    '0007-hmp-add-cryptodev-info-command.patch':
+>    use 'printf("%u", client->queue)' instead of 'printf("%ld", client->queue)'
+> 
+> v2 -> v3:
+> - rebase code against the lastest commist: fb7e7990342e59cf67d
+> - document the missing fields in qapi/cryptodev.json
+> - rework statistics part: use 'query-stats' command instead of
+>    'query-cryptodev'(cryptodev: Support query-stats QMP command)
+> 
+> v1 -> v2:
+> - fix coding style and use 'g_strjoin()' instead of 'char services[128]'
+>     (suggested by Dr. David Alan Gilbert)
+> - wrapper function 'cryptodev_backend_account' to record statistics, and
+>     allocate sym_stat/asym_stat in cryptodev base class. see patch:
+>     'cryptodev: Support statistics'.
+> - add more arguments into struct CryptoDevBackendOpInfo, then
+>     cryptodev_backend_crypto_operation() uses *op_info only.
+> - support cryptodev QoS settings(BPS&OPS), both QEMU command line and QMP
+>     command works fine.
+> - add myself as the maintainer for cryptodev.
+> 
+> v1:
+> - introduce cryptodev.json to describe the attributes of crypto device, then
+>     drop duplicated type declare, remove some virtio related dependence.
+> - add statistics: OPS and bandwidth.
+> - add QMP command: query-cryptodev
+> - add HMP info command: cryptodev
+> - misc fix: detect akcipher capability instead of exposing akcipher service
+>     unconditionally.
+> 
+> Zhenwei Pi (12):
+>    cryptodev: Introduce cryptodev.json
+>    cryptodev: Remove 'name' & 'model' fields
+>    cryptodev: Introduce cryptodev alg type in QAPI
+>    cryptodev: Introduce server type in QAPI
+>    cryptodev: Introduce 'query-cryptodev' QMP command
+>    cryptodev-builtin: Detect akcipher capability
+>    hmp: add cryptodev info command
+>    cryptodev: Use CryptoDevBackendOpInfo for operation
+>    cryptodev: Account statistics
+>    cryptodev: support QoS
+>    cryptodev: Support query-stats QMP command
+>    MAINTAINERS: add myself as the maintainer for cryptodev
+> 
+>   MAINTAINERS                     |   2 +
+>   backends/cryptodev-builtin.c    |  42 ++--
+>   backends/cryptodev-lkcf.c       |  19 +-
+>   backends/cryptodev-vhost-user.c |  13 +-
+>   backends/cryptodev-vhost.c      |   4 +-
+>   backends/cryptodev.c            | 419 ++++++++++++++++++++++++++++++--
+>   hmp-commands-info.hx            |  14 ++
+>   hw/virtio/virtio-crypto.c       |  48 +++-
+>   include/monitor/hmp.h           |   1 +
+>   include/sysemu/cryptodev.h      |  95 ++++----
+>   monitor/hmp-cmds.c              |  42 ++++
+>   monitor/qmp-cmds.c              |   2 +
+>   qapi/cryptodev.json             | 143 +++++++++++
+>   qapi/meson.build                |   1 +
+>   qapi/qapi-schema.json           |   1 +
+>   qapi/qom.json                   |   8 +-
+>   qapi/stats.json                 |  10 +-
+>   17 files changed, 744 insertions(+), 120 deletions(-)
+>   create mode 100644 qapi/cryptodev.json
+> 
 
-Sure, I can skip this patch=2E
-
-BR,
-Bernhard
-
->
->
->ATB,
->
->Mark=2E
+-- 
+zhenwei pi
 
