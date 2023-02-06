@@ -2,110 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A8368BFDF
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 15:18:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E500C68BFEA
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 15:20:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP2Iu-0000hL-Ee; Mon, 06 Feb 2023 09:17:08 -0500
+	id 1pP2M4-0003E3-34; Mon, 06 Feb 2023 09:20:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pP2IK-0000ZZ-1s; Mon, 06 Feb 2023 09:16:45 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pP2IE-0003kO-4d; Mon, 06 Feb 2023 09:16:28 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 316EC1Ue021856; Mon, 6 Feb 2023 14:16:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=9V4+1bTBlOyRGeFmTE8PIGfvSYZcaPGmJTmVyyL8gFA=;
- b=dk3l0ZQCLC9RazrIF1B8Hso6IShjDyFAaPpOYROWXP6JFshuYdp0dN4Iv0QXooFmeGnL
- ik2Yt/K8E1zmNB2r1SzM8PSbHa6j4EjbOORodiR0cMWge7QBNJLpxqKCGpJTZ0J1l1MT
- DsI+FRI4EfkRjk/xvsfKNF1wNRBjr9iKnxwaLY64h+jhAvtRo8gBIup8vfnjsKmLWcrC
- 6YOzLTzRZYilxU8y+6kRg6XLPnKmAyhmjEr/d2AIKmc84VMpOe0Tj34RWjfGbGi54VAH
- VbAIgMG2tOILkX7DZPxvLJ8ZWCARwlxH+Cx2Cshz5yTAcqO5MkkmvBEGa8c4awM+0T6D tA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nk33p83uj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Feb 2023 14:16:14 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 316EDWf9027601;
- Mon, 6 Feb 2023 14:16:14 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nk33p83t4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Feb 2023 14:16:14 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31601N2t023807;
- Mon, 6 Feb 2023 14:16:11 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3nhf06tgge-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Feb 2023 14:16:11 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 316EG8kC25428428
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 6 Feb 2023 14:16:08 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 27E1620040;
- Mon,  6 Feb 2023 14:16:08 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CD8DC20049;
- Mon,  6 Feb 2023 14:16:06 +0000 (GMT)
-Received: from [9.171.30.242] (unknown [9.171.30.242])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon,  6 Feb 2023 14:16:06 +0000 (GMT)
-Message-ID: <38f86aa5-c2bb-8a06-5f5c-7e512aca655f@linux.ibm.com>
-Date: Mon, 6 Feb 2023 15:16:06 +0100
+ (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
+ id 1pP2LV-0002cw-IL
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 09:19:51 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
+ id 1pP2LB-0005B3-5Q
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 09:19:48 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id
+ bg10-20020a17090b0d8a00b00230c7f312d4so2080606pjb.3
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 06:19:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=KURJL21wa1FUHPhUnCRF4eQkT8aMjQ4b6+/Ubcj9Zqw=;
+ b=cQwCXlsiJY5LeIbgEnGd/J8/TUSTKwKIZG3Q98TouthHmuaDUXV0Thn5U9HJXdq+GZ
+ jY5kR4ovDRKrULGjF8wJL5FCjB8aqa9tGYWLT5K+xxYnsDJcq5DnKliKiUKGoGXN9NU+
+ Q8TfbtM3KMWyJ1aafsrgElfP/K9j7lFLKMfvTU8NCDkCR0IyTV7tI3bkUfu/6Gzm6EFG
+ oF1aqCwwDsmasMlPFu5hX/u0l2TXOU84PZr6j6b8LdEcVBSTVkVI4V9f1iY/64TIQfjG
+ BC+IYLOZNezvXMF0KdO8OMQicc5acGMkWWDcCDhhFPZ7sm87JudQ3sr7dLOH7jmhGxDF
+ P5OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KURJL21wa1FUHPhUnCRF4eQkT8aMjQ4b6+/Ubcj9Zqw=;
+ b=YHEOtoHCJyn6TI93to6udFMzwW+AP8ZNk3v1WV1/etwZZhf4RerRvoxX4KRU8WFVIO
+ X4QwL9Cj2CpGQJLp6+sIJA53vhaZ/EWHtBgowz+oeXg/vmsiIw65vU6N00VM78nW6xn+
+ es9iGysOw9PQUCK8WKQ+RcUX6CH6GPV0fWrYdIEi2lehzXNsOeyWqH8wartawtEYXxGq
+ cQel8+CojIzoSB4HWughA/ktAX7VEhDet0RTRaxBFdkJ4wJMfyuLpEHbnaaR0Rfwg77J
+ Xp1YM25pL4+rTSsgmPm5Hr8SvdFst8SNPzeAZNdy5PlP5oCl9RYU63oB9R/HX6UZUIbG
+ Htsg==
+X-Gm-Message-State: AO0yUKWnr+ws4TE3aV5GSVpQ81XuvB4fTJEWBo+jED+XKroujpFVUKWR
+ WK9Rf2+hpFE/h/V22A7letaPrQ==
+X-Google-Smtp-Source: AK7set/OV34mtLqL9el7NX5JGIrijALBcoW0beuU1Y+TJmUGF7hbnBDg2WXa9P5DNFyiY1uIwFjklQ==
+X-Received: by 2002:a05:6a20:65a6:b0:b8:8a94:5bf with SMTP id
+ p38-20020a056a2065a600b000b88a9405bfmr17537908pzh.21.1675693167256; 
+ Mon, 06 Feb 2023 06:19:27 -0800 (PST)
+Received: from sunil-laptop ([49.206.14.226]) by smtp.gmail.com with ESMTPSA id
+ i132-20020a62878a000000b005810c4286d6sm7132789pfe.0.2023.02.06.06.19.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Feb 2023 06:19:26 -0800 (PST)
+Date: Mon, 6 Feb 2023 19:49:20 +0530
+From: Sunil V L <sunilvl@ventanamicro.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Andrew Jones <ajones@ventanamicro.com>,
+ Anup Patel <apatel@ventanamicro.com>,
+ Atish Kumar Patra <atishp@rivosinc.com>
+Subject: Re: [PATCH 08/10] hw/riscv/Kconfig: virt: Enable ACPI config options
+Message-ID: <Y+EMaGuphDk9mslw@sunil-laptop>
+References: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
+ <20230202045223.2594627-9-sunilvl@ventanamicro.com>
+ <CAEUhbmUGF3DR_XOB1fb6HbLUYM43RMHo92dewo=_94D2mFkcpA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v15 09/11] machine: adding s390 topology to query-cpu-fast
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, borntraeger@de.ibm.com,
- pasic@linux.ibm.com, richard.henderson@linaro.org, david@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, nsg@linux.ibm.com, frankja@linux.ibm.com, clg@kaod.org
-References: <20230201132051.126868-1-pmorel@linux.ibm.com>
- <20230201132051.126868-10-pmorel@linux.ibm.com>
- <a7a235d5-4ded-b83d-dcb6-2cf81ad5f283@redhat.com>
- <Y+D3PH0EkUPshIMO@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <Y+D3PH0EkUPshIMO@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: bEJz2pT2mOH3ioUEyYVCZileEWUTukjK
-X-Proofpoint-ORIG-GUID: vt0Hv6tDQwyKk0aDVXMwmqTFmWqK7hBO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-06_07,2023-02-06_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=999
- adultscore=0 suspectscore=0 spamscore=0 impostorscore=0 priorityscore=1501
- clxscore=1015 mlxscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2302060121
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAEUhbmUGF3DR_XOB1fb6HbLUYM43RMHo92dewo=_94D2mFkcpA@mail.gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=sunilvl@ventanamicro.com; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -121,64 +96,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 2/6/23 13:49, Daniel P. Berrangé wrote:
-> On Mon, Feb 06, 2023 at 01:41:44PM +0100, Thomas Huth wrote:
->> On 01/02/2023 14.20, Pierre Morel wrote:
->>> S390x provides two more topology containers above the sockets,
->>> books and drawers.
->>>
->>> Let's add these CPU attributes to the QAPI command query-cpu-fast.
->>>
->>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->>> ---
->>>    qapi/machine.json          | 13 ++++++++++---
->>>    hw/core/machine-qmp-cmds.c |  2 ++
->>>    2 files changed, 12 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/qapi/machine.json b/qapi/machine.json
->>> index 3036117059..e36c39e258 100644
->>> --- a/qapi/machine.json
->>> +++ b/qapi/machine.json
->>> @@ -53,11 +53,18 @@
->>>    #
->>>    # Additional information about a virtual S390 CPU
->>>    #
->>> -# @cpu-state: the virtual CPU's state
->>> +# @cpu-state: the virtual CPU's state (since 2.12)
->>> +# @dedicated: the virtual CPU's dedication (since 8.0)
->>> +# @polarity: the virtual CPU's polarity (since 8.0)
->>>    #
->>>    # Since: 2.12
->>>    ##
->>> -{ 'struct': 'CpuInfoS390', 'data': { 'cpu-state': 'CpuS390State' } }
->>> +{ 'struct': 'CpuInfoS390',
->>> +    'data': { 'cpu-state': 'CpuS390State',
->>> +              'dedicated': 'bool',
->>> +              'polarity': 'int'
->>
->> I think it would also be better to mark the new fields as optional and only
->> return them if the guest has the topology enabled, to avoid confusing
->> clients that were written before this change.
+On Mon, Feb 06, 2023 at 06:29:46PM +0800, Bin Meng wrote:
+> On Thu, Feb 2, 2023 at 12:54 PM Sunil V L <sunilvl@ventanamicro.com> wrote:
+> >
+> > Enable ACPI related config options to build ACPI subsystem
+> > for virt machine.
+> >
+> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> > ---
+> >  hw/riscv/Kconfig | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+> > index 4550b3b938..92b1a9eb64 100644
+> > --- a/hw/riscv/Kconfig
+> > +++ b/hw/riscv/Kconfig
+> > @@ -44,6 +44,9 @@ config RISCV_VIRT
+> >      select VIRTIO_MMIO
+> >      select FW_CFG_DMA
+> >      select PLATFORM_BUS
+> > +    select ACPI
+> > +    select ACPI_HW_REDUCED
 > 
-> FWIW, I would say that the general expectation of QMP clients is that
-> they must *always* expect new fields to appear in dicts that are
-> returned in QMP replies. We add new fields at will on a frequent basis.
+> I don't see APIs in ACPI_HW_REDUCED get called by RISC-V virt codes.
 > 
-> So personally I'd keep life simple and unconditionally report the new
-> fields.
+Yes, this and PCI are not required at this time. Will remove them when I
+send the next revision of this series.
+
+Thanks
+Sunil
+> > +    select ACPI_PCI
 > 
-> With regards,
-> Daniel
-
-OK, thanks both of you.
-I will then keep the simple way.
-
-Regards,
-Pierre
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
+> Regards,
+> Bin
 
