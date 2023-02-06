@@ -2,80 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CEB768C511
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 18:47:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C655468C543
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 18:54:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP5ZN-00087f-Ho; Mon, 06 Feb 2023 12:46:21 -0500
+	id 1pP5gg-0001u8-E0; Mon, 06 Feb 2023 12:53:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP5ZF-00087V-ET
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 12:46:13 -0500
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP5ZE-0000cW-0k
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 12:46:13 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id DEADB3EC70;
- Mon,  6 Feb 2023 17:46:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675705568; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XgDsmbk/JsbY5hv9jVXruFQLTF0RXwJfKzMdj3G7/10=;
- b=XX1YHChkYKNEp3CIFFicwJOL3lVSTIzPmr8jXtiqR49HtARVLljIMMLzwLSVNUuYLsYyzA
- ieqPcc3wNXD79joWVd0uenh5LEa9wgI90ssbGQ7IPtMXkWe6Y3zQMBw1NbCdixQ5Q6cJLX
- qCUasLa9u2tzlpR+ouV3sr+krHnSIC8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675705568;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XgDsmbk/JsbY5hv9jVXruFQLTF0RXwJfKzMdj3G7/10=;
- b=YQiQy33ISmygP65ljuYiHyEDx0IOSrcjOXh7rtfHA12npWnPZvQhD9axDkLLVaH6F1+lDD
- ah4cVxTayIuL8nAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 60BA9138E8;
- Mon,  6 Feb 2023 17:46:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id MIGaCuA84WOXNwAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 06 Feb 2023 17:46:08 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Fam
- Zheng <fam@euphon.net>, Alexander Bulekov <alxndr@bu.edu>, Bandan Das
- <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Darren Kenny
- <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>, Laurent
- Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH 02/12] tests/qtest: Do not run lsi53c895a test if device
- is not present
-In-Reply-To: <4ea8eec3-1d4e-0d09-4bf4-eb2987238594@linaro.org>
-References: <20230206150416.4604-1-farosas@suse.de>
- <20230206150416.4604-3-farosas@suse.de>
- <4ea8eec3-1d4e-0d09-4bf4-eb2987238594@linaro.org>
-Date: Mon, 06 Feb 2023 14:46:05 -0300
-Message-ID: <877cwuadr6.fsf@suse.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pP5fv-0001ok-Uf; Mon, 06 Feb 2023 12:53:08 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pP5fr-000231-KV; Mon, 06 Feb 2023 12:53:06 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 316HkTAd027959; Mon, 6 Feb 2023 17:52:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=I+pJ4WkLtO5FQW8kg6WQZcvUQQJie3J+oP4QT2XKuw0=;
+ b=VgLCbUccsGKcz23t+fxIRr7FsO9/ok1dH2kkpbSH+6ZAbcRUY9OFHYe78OwDkgGnxOHy
+ +kQOAf6/x0rFnlNEFknUhCcJO+QDyubnbWKfVwT3y/B8Q5CYY2S6o8AMl20JEUrXabwV
+ saLZUr+1v1ib2qeOBZz/tgmNZZRP0OdxltAx6gCbwcEUThPE6+8F+oRrEWoxAT1Bbhk3
+ lIQA7Uss2ZB0YjCHjGvjzmRXvYh8Y5SKsOq2OEWtR3IT/RZODKeSXKk4Rcr9Qf9RlG+Q
+ D5CSomNXlHZ1ow9XIuMOVhs1sJT9bkSiSETbIOhGaXIgWoQh4GvqSSHfRVrrbUUjZ/1P 7A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nk66387dg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Feb 2023 17:52:52 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 316HltBA003696;
+ Mon, 6 Feb 2023 17:52:51 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nk66387cy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Feb 2023 17:52:51 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 316GdVqc022560;
+ Mon, 6 Feb 2023 17:52:48 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3nhemfjpcg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Feb 2023 17:52:48 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
+ [10.20.54.101])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 316Hqjem38273530
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 6 Feb 2023 17:52:45 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 07FB520043;
+ Mon,  6 Feb 2023 17:52:45 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 946EF20040;
+ Mon,  6 Feb 2023 17:52:44 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.200.84]) by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Mon,  6 Feb 2023 17:52:44 +0000 (GMT)
+Message-ID: <3215597a6916932c26fdbe1dd8daf2fc0c1c1ab5.camel@linux.ibm.com>
+Subject: Re: [PATCH v15 05/11] s390x/cpu topology: resetting the
+ Topology-Change-Report
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+Date: Mon, 06 Feb 2023 18:52:44 +0100
+In-Reply-To: <20230201132051.126868-6-pmorel@linux.ibm.com>
+References: <20230201132051.126868-1-pmorel@linux.ibm.com>
+ <20230201132051.126868-6-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 3q0ivc2ankn86auKXwKpiw6plqxx09yG
+X-Proofpoint-ORIG-GUID: E9A7GTLtY6iGdjcGRAxlSm8Af7Fyfc3-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-06_07,2023-02-06_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 phishscore=0
+ spamscore=0 clxscore=1015 adultscore=0 priorityscore=1501 bulkscore=0
+ lowpriorityscore=0 suspectscore=0 impostorscore=0 malwarescore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302060152
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,35 +117,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+On Wed, 2023-02-01 at 14:20 +0100, Pierre Morel wrote:
+> During a subsystem reset the Topology-Change-Report is cleared
+> by the machine.
+> Let's ask KVM to clear the Modified Topology Change Report (MTCR)
+> bit of the SCA in the case of a subsystem reset.
+>=20
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>  include/hw/s390x/cpu-topology.h |  1 +
+>  target/s390x/cpu.h              |  1 +
+>  target/s390x/kvm/kvm_s390x.h    |  1 +
+>  hw/s390x/cpu-topology.c         | 12 ++++++++++++
+>  hw/s390x/s390-virtio-ccw.c      |  3 +++
+>  target/s390x/cpu-sysemu.c       | 13 +++++++++++++
+>  target/s390x/kvm/kvm.c          | 17 +++++++++++++++++
+>  7 files changed, 48 insertions(+)
+>=20
+> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topol=
+ogy.h
+> index 1ae7e7c5e3..60e0b9fbfa 100644
+> --- a/include/hw/s390x/cpu-topology.h
+> +++ b/include/hw/s390x/cpu-topology.h
+> @@ -66,5 +66,6 @@ static inline void s390_topology_set_cpu(MachineState *=
+ms,
+> =20
+>  extern S390Topology s390_topology;
+>  int s390_socket_nb(S390CPU *cpu);
+> +void s390_topology_reset(void);
+> =20
+>  #endif
+> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+> index e1f6925856..848314d2a9 100644
+> --- a/target/s390x/cpu.h
+> +++ b/target/s390x/cpu.h
+> @@ -641,6 +641,7 @@ typedef struct SysIBTl_cpu {
+>  QEMU_BUILD_BUG_ON(sizeof(SysIBTl_cpu) !=3D 16);
+> =20
+>  void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar);
+> +void s390_cpu_topology_reset(void);
 
-> On 6/2/23 16:04, Fabiano Rosas wrote:
->> The tests are built once for all the targets, so as long as one QEMU
->> binary is built with CONFIG_LSI_SCSI_PCI=3Dy, this test will
->> run. However some binaries might not include the device. So check this
->> again in runtime.
->>=20
->> Signed-off-by: Fabiano Rosas <farosas@suse.de>
->> ---
->>   tests/qtest/fuzz-lsi53c895a-test.c | 4 ++++
->>   1 file changed, 4 insertions(+)
->>=20
->> diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53=
-c895a-test.c
->> index 392a7ae7ed..a9254b455d 100644
->> --- a/tests/qtest/fuzz-lsi53c895a-test.c
->> +++ b/tests/qtest/fuzz-lsi53c895a-test.c
->> @@ -112,6 +112,10 @@ static void test_lsi_do_dma_empty_queue(void)
->>=20=20=20
->>   int main(int argc, char **argv)
->>   {
->> +    if (!qtest_has_device("lsi53c895a")) {
->> +        return 0;
->> +    }
->
-> Shouldn't we update Kconfig to now add the test unconditionally?
-> Squashing:
+How about you call this s390_cpu_topology_reset_modified, so it's symmetric
+with the function you define in the next patch. You could also drop the "cp=
+u"
+from the name.
 
-I think we'd still want to not build this test if nothing selected
-CONFIG_LSI_SCSI_PCI.
+Or maybe even better, you only define a function for setting the modified s=
+tate,
+but make it take a bool argument. This way you also get rid of some code du=
+plication
+and it wouldn't harm readability IMO.
+
+> =20
+>  /* MMU defines */
+>  #define ASCE_ORIGIN           (~0xfffULL) /* segment table origin       =
+      */
+> diff --git a/target/s390x/kvm/kvm_s390x.h b/target/s390x/kvm/kvm_s390x.h
+> index f9785564d0..649dae5948 100644
+> --- a/target/s390x/kvm/kvm_s390x.h
+> +++ b/target/s390x/kvm/kvm_s390x.h
+> @@ -47,5 +47,6 @@ void kvm_s390_crypto_reset(void);
+>  void kvm_s390_restart_interrupt(S390CPU *cpu);
+>  void kvm_s390_stop_interrupt(S390CPU *cpu);
+>  void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info);
+> +int kvm_s390_topology_set_mtcr(uint64_t attr);
+> =20
+>  #endif /* KVM_S390X_H */
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> index a80a1ebf22..cf63f3dd01 100644
+> --- a/hw/s390x/cpu-topology.c
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -85,6 +85,18 @@ static void s390_topology_init(MachineState *ms)
+>      QTAILQ_INSERT_HEAD(&s390_topology.list, entry, next);
+>  }
+> =20
+> +/**
+> + * s390_topology_reset:
+> + *
+> + * Generic reset for CPU topology, calls s390_topology_reset()
+> + * s390_topology_reset() to reset the kernel Modified Topology
+> + * change record.
+> + */
+> +void s390_topology_reset(void)
+> +{
+
+I'm wondering if you shouldn't move the reset changes you do in the next pa=
+tch
+into this one. I don't see what they have to do with PTF emulation.
+
+> +    s390_cpu_topology_reset();
+> +}
+> +
+>  /**
+>   * s390_topology_cpu_default:
+>   * @cpu: pointer to a S390CPU
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index 9bc51a83f4..30fdfe41fa 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -122,6 +122,9 @@ static void subsystem_reset(void)
+>              device_cold_reset(dev);
+>          }
+>      }
+> +    if (s390_has_topology()) {
+> +        s390_topology_reset();
+> +    }
+>  }
+> =20
+>  static int virtio_ccw_hcall_notify(const uint64_t *args)
+> diff --git a/target/s390x/cpu-sysemu.c b/target/s390x/cpu-sysemu.c
+> index 948e4bd3e0..e27864c5f5 100644
+> --- a/target/s390x/cpu-sysemu.c
+> +++ b/target/s390x/cpu-sysemu.c
+> @@ -306,3 +306,16 @@ void s390_do_cpu_set_diag318(CPUState *cs, run_on_cp=
+u_data arg)
+>          kvm_s390_set_diag318(cs, arg.host_ulong);
+>      }
+>  }
+> +
+> +void s390_cpu_topology_reset(void)
+> +{
+> +    int ret;
+> +
+> +    if (kvm_enabled()) {
+> +        ret =3D kvm_s390_topology_set_mtcr(0);
+> +        if (ret) {
+> +            error_report("Failed to set Modified Topology Change Report:=
+ %s",
+> +                         strerror(-ret));
+> +        }
+> +    }
+> +}
+> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+> index 5ea358cbb0..bc953151ce 100644
+> --- a/target/s390x/kvm/kvm.c
+> +++ b/target/s390x/kvm/kvm.c
+> @@ -2592,6 +2592,23 @@ int kvm_s390_get_zpci_op(void)
+>      return cap_zpci_op;
+>  }
+> =20
+> +int kvm_s390_topology_set_mtcr(uint64_t attr)
+> +{
+> +    struct kvm_device_attr attribute =3D {
+> +        .group =3D KVM_S390_VM_CPU_TOPOLOGY,
+> +        .attr  =3D attr,
+> +    };
+> +
+> +    if (!s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
+> +        return 0;
+> +    }
+> +    if (!kvm_vm_check_attr(kvm_state, KVM_S390_VM_CPU_TOPOLOGY, attr)) {
+> +        return -ENOTSUP;
+> +    }
+> +
+> +    return kvm_vm_ioctl(kvm_state, KVM_SET_DEVICE_ATTR, &attribute);
+> +}
+> +
+>  void kvm_arch_accel_class_init(ObjectClass *oc)
+>  {
+>  }
+
 
