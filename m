@@ -2,104 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E48768B8C8
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 10:37:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19A2468B8DF
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 10:44:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOxvC-0006Hk-F3; Mon, 06 Feb 2023 04:36:22 -0500
+	id 1pOy26-0007dI-UL; Mon, 06 Feb 2023 04:43:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pOxv6-0006HV-Pc
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 04:36:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pOxuy-00025e-B7
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 04:36:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675676167;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=M0+OpNt4ZXRXrXKrSESyMavjsXbZhap2HfzMArZfS1k=;
- b=iEJR+kUUdDyP++6U3SumsAE7xfnweu/KUGwbyoifINNAWJfQnQwfp8S4wITVweFanJITqk
- 3N6K1inqbu48UqWVdtN0BAetNeOOJ/0JH/qYs3Hmorkrub60Sj7SAGXjujYx+VkDR0sSpi
- Km6xpKWATL7XGWhwdzeTiWWSdmBFUF0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-536-ZRsRR0keOQCxccNJ2Gebiw-1; Mon, 06 Feb 2023 04:36:05 -0500
-X-MC-Unique: ZRsRR0keOQCxccNJ2Gebiw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j20-20020a05600c1c1400b003dc5dd44c0cso5469901wms.8
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 01:36:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pOy24-0007co-6v; Mon, 06 Feb 2023 04:43:29 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pOy22-00036f-Gk; Mon, 06 Feb 2023 04:43:27 -0500
+Received: by mail-ed1-x531.google.com with SMTP id r3so1272158edq.13;
+ Mon, 06 Feb 2023 01:43:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=67d9zFG35eHOCtzFLecCP+mO7UjXbgKaJPqOH5JRbck=;
+ b=J7SCmKL39QzeGI++TGoqPCdVyBnavknPjl4odyKBiJC7kaoJ3TZOaR1zGul9Kaz3tt
+ s2UdOxVLjOSHvXZ5Xumeh4MtPzurmAUI6sfuLoDTfsJs6Nluyppk5t5vjsWtjX3fLVRS
+ eTXkcjBYg2S5Pgp9G0xbJYAaIKswuYM5X+Q4O5ip3Lf+an9NAAoxesEz6nhTlI1NI5Lw
+ nkPcQ2sy9/pbH/GJ1XVYENShsCpFegRr3Vl9SCdiIIXcr5pBN/o2Z0/wT5CByye6up8/
+ UEJTzbb2xVVp1bi2GMZCRNjaRQkd5ll5ZlwOsJxZZY4JSwrkkKI+rJ5gpi7wSny9EN8r
+ hX7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=M0+OpNt4ZXRXrXKrSESyMavjsXbZhap2HfzMArZfS1k=;
- b=welTQWsSm4iZuVQpWYxILkFnnP0Lgi75u+pdJ/34/nFY1/ovGgS1Pks5A1oa85Vj7m
- SA6LXsA/zQQMGpvXeQUMNC6oQV64QXykcSuKvwUhNJlZaCVAjkSgJd6x6q6YX9hyFX+S
- J+cXGEanAJG4e6HxHiFt4vOb3a2Wi6v3ojGQOzNOuCtV6Nojzq/Kgfgq/hbTA7ygap/K
- XYM7UDCIbnkK7k/F7mUXbPZnKkE2E0tmKzmmWty/NW7eK9/2meFllPlVv/kRU7iwrQCR
- 0ReCqMpVmbkgc0WBZryPph47xF6TF3r2w0nsLOxBvMs8yZx9URVnu4AHQBMpyIN/T6iF
- fwVA==
-X-Gm-Message-State: AO0yUKXnf2N53gv/c1quNusEmGjNTaOR0kV83eYGxOOIDipo4yvMGE1s
- LmAPjOKtJpYZK/y8CKi1bibEVpJ3/glGP34ksY4YSKDBoJ8lFl9bTodB/x9ovd/kRiyn7u7+PqH
- yZzUmATq91HA8UCs=
-X-Received: by 2002:a7b:cbd8:0:b0:3df:e69a:2175 with SMTP id
- n24-20020a7bcbd8000000b003dfe69a2175mr7468216wmi.35.1675676164727; 
- Mon, 06 Feb 2023 01:36:04 -0800 (PST)
-X-Google-Smtp-Source: AK7set86CfObicuLO1xpURX8tyGLJ00lLSStVroKCg4sLeOpW6y8YzEKD/xdWgllG5ol7jDdiiWfyg==
-X-Received: by 2002:a7b:cbd8:0:b0:3df:e69a:2175 with SMTP id
- n24-20020a7bcbd8000000b003dfe69a2175mr7468188wmi.35.1675676164360; 
- Mon, 06 Feb 2023 01:36:04 -0800 (PST)
-Received: from redhat.com (nat-252.udc.es. [193.144.61.252])
- by smtp.gmail.com with ESMTPSA id
- t6-20020a05600c450600b003dc433bb5e1sm11128005wmo.9.2023.02.06.01.36.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Feb 2023 01:36:03 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>,  Kevin Wolf <kwolf@redhat.com>,  Daniel
- P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Qemu-block
- <qemu-block@nongnu.org>,
- qemu-devel@nongnu.org,  Alex =?utf-8?Q?Benn=C3=A9e?=
- <alex.bennee@linaro.org>,  Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  Stefan Hajnoczi
- <stefanha@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,  hreitz@redhat.com,
- dgilbert@redhat.com
-Subject: Re: [PATCH 6/6] gitlab-ci.d/buildtest: Disintegrate the
- build-coroutine-sigaltstack job
-In-Reply-To: <CAFEAcA9azj-v-=dXPjqzX4kdUaeOpArQZUxWU_R5sOm7vwSrrA@mail.gmail.com>
- (Peter Maydell's message of "Sat, 4 Feb 2023 10:23:17 +0000")
-References: <20230130104446.1286773-1-thuth@redhat.com>
- <20230130104446.1286773-7-thuth@redhat.com>
- <Y9eizgN9UYo5kbgx@redhat.com>
- <fc5dba59-4993-ee66-a94b-a550bdced396@redhat.com>
- <Y9z5TohXERGuQ6TS@redhat.com>
- <2caefefa-8757-af55-ccf3-fcc641db0784@redhat.com>
- <CAFEAcA972rKvQqJh2-FghQcJ1hswVWkhtzb3-KW4CgsypnQgYA@mail.gmail.com>
- <87sffme9jj.fsf@secure.mitica>
- <CAFEAcA9azj-v-=dXPjqzX4kdUaeOpArQZUxWU_R5sOm7vwSrrA@mail.gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Mon, 06 Feb 2023 10:36:02 +0100
-Message-ID: <87r0v3cf0d.fsf@secure.mitica>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=67d9zFG35eHOCtzFLecCP+mO7UjXbgKaJPqOH5JRbck=;
+ b=hHmTy00XMUXeim80xjctOiS5K87K+B+M6Sif6JFh/H1X6eTOacxLl/Q3aRZ4sBUU5R
+ /t/n/CuW93nvOmN1oJKrO185E4a2HMWp4yRRr4VJL6p02pIy/fskxezoqH4G4S0wdWQw
+ KpketluIJjchAWTmznI7+ekHo/7lPZ6ygXpndGnewUMi32t18sKKZV0Nwk766F2AJ1R8
+ EAJtGoinhOFgrliGxw/WW3abrEZnvLb9+A7g0zFBmrW835LI8V9P7xB1OCWP2NXLGOku
+ jb28CVaowof9GdIaRy6TOU7DUkQy1x5NGoTqv+FsLbm0p7+BlQkSF5l/6tzWsZ0rImEP
+ QUig==
+X-Gm-Message-State: AO0yUKXC/MkiBwLR+ww3HySiq3AfjpUIVUQCY6D8xXkJyNOJOOxxsK3u
+ pUpkAAn93oP0IgPy0IacHq+juJNycW4uNnJoJNc=
+X-Google-Smtp-Source: AK7set9McZ9Ax27VrqHo8dME9BriZAwS4F2JULPyMCy9pGGUhKJ5EaM5/eTbJ5MnCebDW8CtAQweLW6JmClsTqASwZM=
+X-Received: by 2002:a50:d5c9:0:b0:4a2:121d:1d3d with SMTP id
+ g9-20020a50d5c9000000b004a2121d1d3dmr5796098edj.82.1675676604471; Mon, 06 Feb
+ 2023 01:43:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
+ <20230202045223.2594627-3-sunilvl@ventanamicro.com>
+In-Reply-To: <20230202045223.2594627-3-sunilvl@ventanamicro.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 6 Feb 2023 17:43:13 +0800
+Message-ID: <CAEUhbmXYjVTDo6ZYQaO+R50_E+zCnns=CN9oCT-TMwwJ8eH=+w@mail.gmail.com>
+Subject: Re: [PATCH 02/10] hw/riscv/virt: Add a switch to enable/disable ACPI
+To: Sunil V L <sunilvl@ventanamicro.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Andrew Jones <ajones@ventanamicro.com>, Anup Patel <apatel@ventanamicro.com>, 
+ Atish Kumar Patra <atishp@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,48 +82,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Maydell <peter.maydell@linaro.org> wrote:
-> On Fri, 3 Feb 2023 at 21:14, Juan Quintela <quintela@redhat.com> wrote:
->>
->> Peter Maydell <peter.maydell@linaro.org> wrote:
->> > The migration tests have been flaky for a while now,
->> > including setups where host and guest page sizes are the same.
->> > (For instance, my x86 macos box pretty reliably sees failures
->> > when the machine is under load.)
->>
->> I *thought* that we had fixed all of those.
->>
->> But it is difficult for me to know because:
->> - I only happens when one runs "make check"
->> - running ./migration-test have never failed to me
->> - When it fails (and it has been a while since it has failed to me)
->>   it is impossible to me to detect what is going on, and as said, I have
->>   never been able to reproduce running only migration-test.
+On Thu, Feb 2, 2023 at 12:54 PM Sunil V L <sunilvl@ventanamicro.com> wrote:
 >
-> Yes. If we could improve the logging in the test so that when
-> an intermittent failure does happen the test prints better
-> clues about what happened, I think that would help a lot.
+> ACPI is optional. So, add a switch to toggle.
 >
-> https://lore.kernel.org/qemu-devel/CAFEAcA8x_iM3hN2-P9F+huXnXFXy+D6FzE+Leq4erLdg7zkVGw@mail.gmail.com/
-> is the thread from late December about the macos failures.
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> ---
+>  hw/riscv/virt.c         | 38 ++++++++++++++++++++++++++++++++++++++
+>  include/hw/riscv/virt.h |  2 ++
+>  2 files changed, 40 insertions(+)
+>
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index 7ad9fda20c..84962962ff 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -50,6 +50,7 @@
+>  #include "hw/pci-host/gpex.h"
+>  #include "hw/display/ramfb.h"
+>  #include "hw/acpi/aml-build.h"
+> +#include "qapi/qapi-visit-common.h"
+>
+>  /*
+>   * The virt machine physical address space used by some of the devices
+> @@ -1525,6 +1526,10 @@ static void virt_machine_init(MachineState *machine)
+>
+>  static void virt_machine_instance_init(Object *obj)
+>  {
+> +    MachineState *ms = MACHINE(obj);
 
-We (red hat) found a similar problem with aarch64, but only when using
-zero copy.  Will try to see if I can reproduce this other there.
+Drop this
 
-https://bugzilla.redhat.com/show_bug.cgi?id=2160929
+> +    RISCVVirtState *s = RISCV_VIRT_MACHINE(ms);
+> +
+> +    s->acpi = ON_OFF_AUTO_OFF;
 
-the similar thing to what you have is:
-- they are trying to cancel
-- they are on aarch64
+Is this needed? I believe the purpose of an auto/on/off property is to
+have an "auto" value, which is ON_OFF_AUTO_AUTO.
 
-but:
+>  }
+>
+>  static char *virt_get_aia_guests(Object *obj, Error **errp)
+> @@ -1601,6 +1606,34 @@ static void virt_set_aclint(Object *obj, bool value, Error **errp)
+>      s->have_aclint = value;
+>  }
+>
+> +bool virt_is_acpi_enabled(RISCVVirtState *s)
+> +{
+> +    if (s->acpi == ON_OFF_AUTO_OFF) {
+> +        return false;
+> +    }
+> +    return true;
+> +}
+> +
+> +static void virt_get_acpi(Object *obj, Visitor *v, const char *name,
+> +                          void *opaque, Error **errp)
+> +{
+> +    MachineState *ms = MACHINE(obj);
 
-- they can only reproduce with zero copy enabled.
+ditto
 
-Later, Juan.
+> +    RISCVVirtState *s = RISCV_VIRT_MACHINE(ms);
+> +
+> +    OnOffAuto acpi = s->acpi;
+> +
+> +    visit_type_OnOffAuto(v, name, &acpi, errp);
+> +}
+> +
+> +static void virt_set_acpi(Object *obj, Visitor *v, const char *name,
+> +                          void *opaque, Error **errp)
+> +{
+> +    MachineState *ms = MACHINE(obj);
 
+ditto
+
+> +    RISCVVirtState *s = RISCV_VIRT_MACHINE(ms);
+> +
+> +    visit_type_OnOffAuto(v, name, &s->acpi, errp);
+> +}
+> +
+>  static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
+>                                                          DeviceState *dev)
+>  {
+> @@ -1672,6 +1705,11 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+>      sprintf(str, "Set number of guest MMIO pages for AIA IMSIC. Valid value "
+>                   "should be between 0 and %d.", VIRT_IRQCHIP_MAX_GUESTS);
+>      object_class_property_set_description(oc, "aia-guests", str);
+> +    object_class_property_add(oc, "acpi", "OnOffAuto",
+> +                              virt_get_acpi, virt_set_acpi,
+> +                              NULL, NULL);
+
+I am not sure about "OnOffAuto" vs. "bool" type. It seems the only
+difference is that with "OnOffAuto" type we may silently change the
+interpretation of "auto" value across different QEMU versions?
+
+> +    object_class_property_set_description(oc, "acpi",
+> +                                          "Enable ACPI");
+>  }
+>
+>  static const TypeInfo virt_machine_typeinfo = {
+> diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
+> index 6c7885bf89..62efebaa32 100644
+> --- a/include/hw/riscv/virt.h
+> +++ b/include/hw/riscv/virt.h
+> @@ -58,6 +58,7 @@ struct RISCVVirtState {
+>      int aia_guests;
+>      char *oem_id;
+>      char *oem_table_id;
+> +    OnOffAuto acpi;
+>  };
+>
+>  enum {
+> @@ -123,4 +124,5 @@ enum {
+>  #define FDT_APLIC_INT_MAP_WIDTH (FDT_PCI_ADDR_CELLS + FDT_PCI_INT_CELLS + \
+>                                   1 + FDT_APLIC_INT_CELLS)
+>
+> +bool virt_is_acpi_enabled(RISCVVirtState *s);
+>  #endif
+> --
+
+Regards,
+Bin
 
