@@ -2,95 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C14D68B9A3
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 11:14:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5C2768B9D5
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 11:20:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOyVI-0006fR-PI; Mon, 06 Feb 2023 05:13:40 -0500
+	id 1pOyZp-0000Mp-RY; Mon, 06 Feb 2023 05:18:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pOyVC-0006XK-RP
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 05:13:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pOyVA-0008Kq-DZ
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 05:13:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675678407;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=541RhhlzsaQHgle1Nk79Bgd+WcPXeY3i6TWNGx9WQBk=;
- b=O6SkMEUSsiMzRP8gwNBJP8AsMT1Jof+1NesmYs2uylP7giMQzVA2blmtEojAaUzt1Oi+g4
- DiNj/9c8iD2zNRh6w7cw7yvP/3aE6GVGinMCEKuoo9hWbnEwC7lnU6Mb+wjEjI3AsV+L2o
- xGUBBu8fHG27zjYj6bhhZrIJl5XWwtg=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-414-dJ5rR_8nMjK6JnbXr4JkqQ-1; Mon, 06 Feb 2023 05:13:26 -0500
-X-MC-Unique: dJ5rR_8nMjK6JnbXr4JkqQ-1
-Received: by mail-qv1-f72.google.com with SMTP id
- dy3-20020ad44e83000000b0056bf716c68bso985179qvb.10
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 02:13:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pOyZc-0000M0-GS; Mon, 06 Feb 2023 05:18:17 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pOyZZ-0000f1-BS; Mon, 06 Feb 2023 05:18:07 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id hx15so32610573ejc.11;
+ Mon, 06 Feb 2023 02:18:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=h1vHMSfJ2prz574cUnYV7blK1fKWTRyynGIIMC/LgBU=;
+ b=NcTFfsPX1XNZzBMffMWVaHH7bxAF0GQaq+V6fWSJVFKAfX6gyI5pQgLjfoIz0NeCmX
+ rYOUBbXF+lm0SWMZ9+AT68f1igOQPMbyncHmkkDil6uEDTK/B37QA0ZV7QzitM07B1v+
+ j31aV6GIl9ytL8l9vpkAmACS/KYbMhY8dbQ4DbweY9HYZGzpttCHeBK7KYuIoFkWFxbc
+ 7+V42z6/O4q179+Qu/iGK6YenXt/bgy3tQpikOWdNFuxvTZSsMiq4/YMWlJYK3Y2CuDX
+ W7OEJPpGSfbiIT0ImUT8pGASWchos7oHmqMQZOXGwfXLXkgx2hbH5emq5h0yhfcmfDpQ
+ 8UYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=541RhhlzsaQHgle1Nk79Bgd+WcPXeY3i6TWNGx9WQBk=;
- b=V0S2MzZYAeWrAVI7ATQhgWcip9M7U9EJXtbZB90Xiq4OGeTOLbVSsiJURj2W4qg7YB
- cJvRlb5szeD2DYudefpkkQMhXx/gC/sgdtzvfTJILcdBApyuYpUra3jgQa4DUp2ZXE5r
- WGIjmiDclJGl2M8G/3KbFODs0pLbphRC737iDGo//alkDmypzhnpoCm+90VeKvbPT/bB
- w5FW21CyFxKVJ6FMPBx+NV4OnC1D9l3svOVLi5RudPYBHvmiPr9NhWRdTnQrTNrSkwKc
- hJ+0AAnImA2CoEaaWXPJBHoReA5c7z1ShNloYiEq3qtsk+rxJ7rTLM1te71aYmlzhR1E
- exjA==
-X-Gm-Message-State: AO0yUKUXmnTyo0/nXmU+iUgQIqxPKxzOfrxnzMZphBXgeXkes3uKLopS
- uaxLdnt4gmx5+FZGB2Ab7MYZq2odCpHFckRXK6gX30My1M3IWjmJeQRFA7tskx39LDKjFMKtgBE
- H8ObrnRpb4cwTCJM=
-X-Received: by 2002:ac8:5746:0:b0:3b9:ca95:da6e with SMTP id
- 6-20020ac85746000000b003b9ca95da6emr28949381qtx.44.1675678406235; 
- Mon, 06 Feb 2023 02:13:26 -0800 (PST)
-X-Google-Smtp-Source: AK7set/eK/1ZE1EZU9OIuyZJjtHyolv/nA66FESD4737u2k9Alw01F8uxfYI3aEtFOBu/+ITF0qwYg==
-X-Received: by 2002:ac8:5746:0:b0:3b9:ca95:da6e with SMTP id
- 6-20020ac85746000000b003b9ca95da6emr28949368qtx.44.1675678406045; 
- Mon, 06 Feb 2023 02:13:26 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-177-71.web.vodafone.de.
- [109.43.177.71]) by smtp.gmail.com with ESMTPSA id
- 16-20020a05620a049000b0072692330190sm7104714qkr.64.2023.02.06.02.13.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 02:13:25 -0800 (PST)
-Message-ID: <dc19cfad-dfbb-b81a-1341-6a60df7f4968@redhat.com>
-Date: Mon, 6 Feb 2023 11:13:20 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=h1vHMSfJ2prz574cUnYV7blK1fKWTRyynGIIMC/LgBU=;
+ b=xuOPFGMbZEpSpQM7F0/tL6wOcc6+mcGv8PevUIuOfvFLPdUCr5PQ4dJGdKPnvfJS4L
+ X6x5RnMGZleiGEw8K6hfPFU5tw/wou+UHQKeQLoE9iZ2ftpApLyhENBD+3rqrhwip7xD
+ 21cvi4AIdrVMpwsq4orsOz6aVPXMkEnZa8of9q6Q96Fj6K2gFErxiLFSs+hfzzZSlHyJ
+ 6Z4rVlg8WnenpGhX4NG7i1sw5CivZ6SsavL0w/OGYyfZvG209xTsIqNwuIIMB649snGL
+ 2ZzTIh4Tn7GLgBILVgDRsEGuvpyXM29wbN15I6jOSY7EA6BibhRMBwl9Lk2REMjZPXTA
+ Psbw==
+X-Gm-Message-State: AO0yUKUsJ8kSdJgDdK7jOYLg33K9RDlMpgldTEw37X4arpPj9S6yQtVS
+ rvx9vBr2rm5Dm9ggHMqJ2MCqxEOTmWlgPEJ2GQ8=
+X-Google-Smtp-Source: AK7set89zP7uMHR1J+KMfgsfvb+081yFcTqnRUzD86HWPxednpJ6sFjs2/ELPJjn2K1DUrAamiN47Bidlkb5U5oz7oA=
+X-Received: by 2002:a17:906:8395:b0:888:f761:87aa with SMTP id
+ p21-20020a170906839500b00888f76187aamr6179275ejx.163.1675678682257; Mon, 06
+ Feb 2023 02:18:02 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v15 04/11] s390x/sclp: reporting the maximum nested
- topology entries
-Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- nsg@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230201132051.126868-1-pmorel@linux.ibm.com>
- <20230201132051.126868-5-pmorel@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230201132051.126868-5-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.149, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
+ <20230202045223.2594627-5-sunilvl@ventanamicro.com>
+In-Reply-To: <20230202045223.2594627-5-sunilvl@ventanamicro.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 6 Feb 2023 18:17:50 +0800
+Message-ID: <CAEUhbmXhXw7juMQTW7-XxSLwhcJrOiZ=4fiwFFAyoXj+sL0jUQ@mail.gmail.com>
+Subject: Re: [PATCH 04/10] hw/riscv/virt: virt-acpi-build.c: Add basic ACPI
+ tables
+To: Sunil V L <sunilvl@ventanamicro.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Andrew Jones <ajones@ventanamicro.com>, Anup Patel <apatel@ventanamicro.com>, 
+ Atish Kumar Patra <atishp@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,20 +86,356 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 01/02/2023 14.20, Pierre Morel wrote:
-> The maximum nested topology entries is used by the guest to
-> know how many nested topology are available on the machine.
-> 
-> Let change the MNEST value from 2 to 4 in the SCLP READ INFO
-> structure now that we support books and drawers.
-> 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> Reviewed-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+On Thu, Feb 2, 2023 at 12:54 PM Sunil V L <sunilvl@ventanamicro.com> wrote:
+>
+> Add few basic ACPI tables and DSDT with few devices in a
+> new file virt-acpi-build.c.
+>
+> These are mostly leveraged from arm64.
+
+There are lots of same ACPI codes existing in x86/arm/riscv. I believe
+some refactoring work is needed before ACPI support fully lands on
+RISC-V.
+For example, we can extract the common part among x86/arm/riscv into a
+separate file, like hw/acpi/acpi-build.c?
+
+>
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 > ---
->   include/hw/s390x/sclp.h | 5 +++--
->   hw/s390x/sclp.c         | 5 +++++
->   2 files changed, 8 insertions(+), 2 deletions(-)
+>  hw/riscv/virt-acpi-build.c | 292 +++++++++++++++++++++++++++++++++++++
+>  include/hw/riscv/virt.h    |   1 +
+>  2 files changed, 293 insertions(+)
+>  create mode 100644 hw/riscv/virt-acpi-build.c
+>
+> diff --git a/hw/riscv/virt-acpi-build.c b/hw/riscv/virt-acpi-build.c
+> new file mode 100644
+> index 0000000000..0410b955bd
+> --- /dev/null
+> +++ b/hw/riscv/virt-acpi-build.c
+> @@ -0,0 +1,292 @@
+> +/*
+> + * Support for generating ACPI tables and passing them to Guests
+> + *
+> + * RISC-V virt ACPI generation
+> + *
+> + * Copyright (C) 2008-2010  Kevin O'Connor <kevin@koconnor.net>
+> + * Copyright (C) 2006 Fabrice Bellard
+> + * Copyright (C) 2013 Red Hat Inc
+> + * Copyright (c) 2015 HUAWEI TECHNOLOGIES CO.,LTD.
+> + * Copyright (C) 2021-2023 Ventana Micro Systems Inc
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License as published by
+> + * the Free Software Foundation; either version 2 of the License, or
+> + * (at your option) any later version.
+> +
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + * GNU General Public License for more details.
+> +
+> + * You should have received a copy of the GNU General Public License along
+> + * with this program; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/acpi/acpi-defs.h"
+> +#include "hw/acpi/acpi.h"
+> +#include "hw/acpi/aml-build.h"
+> +#include "hw/riscv/virt.h"
+> +#include "hw/riscv/numa.h"
+> +#include "hw/acpi/pci.h"
+> +#include "hw/acpi/utils.h"
+> +#include "sysemu/reset.h"
+> +#include "hw/pci-host/gpex.h"
+> +#include "qapi/error.h"
+> +#include "migration/vmstate.h"
+> +
+> +#define ACPI_BUILD_TABLE_SIZE             0x20000
+> +
+> +typedef struct AcpiBuildState {
+> +    /* Copy of table in RAM (for patching). */
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+nits: removing the ending .
 
+> +    MemoryRegion *table_mr;
+> +    MemoryRegion *rsdp_mr;
+> +    MemoryRegion *linker_mr;
+> +    /* Is table patched? */
+> +    bool patched;
+> +} AcpiBuildState;
+> +
+> +static void
+
+nits: please put above in the same line
+
+> +acpi_align_size(GArray *blob, unsigned align)
+> +{
+> +    /*
+> +     * Align size to multiple of given size. This reduces the chance
+> +     * we need to change size in the future (breaking cross version migration).
+> +     */
+> +    g_array_set_size(blob, ROUND_UP(acpi_data_len(blob), align));
+> +}
+> +
+> +static void
+> +acpi_dsdt_add_cpus(Aml *scope, RISCVVirtState *vms)
+
+QEMU convention is to use 's' for the model state, so:
+
+s/vms/s/g
+
+> +{
+> +    MachineState *ms = MACHINE(vms);
+> +    uint16_t i;
+> +
+> +
+> +    for (i = 0; i < ms->smp.cpus; i++) {
+> +        Aml *dev = aml_device("C%.03X", i);
+> +        aml_append(dev, aml_name_decl("_HID", aml_string("ACPI0007")));
+> +        aml_append(dev, aml_name_decl("_UID", aml_int(i)));
+> +        aml_append(scope, dev);
+> +    }
+> +}
+> +
+> +static void
+> +acpi_dsdt_add_fw_cfg(Aml *scope, const MemMapEntry *fw_cfg_memmap)
+> +{
+> +    Aml *dev = aml_device("FWCF");
+> +    aml_append(dev, aml_name_decl("_HID", aml_string("QEMU0002")));
+> +    /* device present, functioning, decoding, not shown in UI */
+> +    aml_append(dev, aml_name_decl("_STA", aml_int(0xB)));
+> +    aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
+> +
+> +    Aml *crs = aml_resource_template();
+> +    aml_append(crs, aml_memory32_fixed(fw_cfg_memmap->base,
+> +                                       fw_cfg_memmap->size, AML_READ_WRITE));
+> +    aml_append(dev, aml_name_decl("_CRS", crs));
+> +    aml_append(scope, dev);
+> +}
+> +
+> +/* FADT */
+> +static void
+> +build_fadt_rev6(GArray *table_data, BIOSLinker *linker,
+> +                 RISCVVirtState *vms, unsigned dsdt_tbl_offset)
+> +{
+> +    /* ACPI v5.1 */
+> +    AcpiFadtData fadt = {
+> +        .rev = 6,
+> +        .minor_ver = 0,
+> +        .flags = 1 << ACPI_FADT_F_HW_REDUCED_ACPI,
+> +        .xdsdt_tbl_offset = &dsdt_tbl_offset,
+> +    };
+> +
+> +    build_fadt(table_data, linker, &fadt, vms->oem_id, vms->oem_table_id);
+> +}
+> +
+> +/* DSDT */
+> +static void
+> +build_dsdt(GArray *table_data, BIOSLinker *linker, RISCVVirtState *vms)
+> +{
+> +    Aml *scope, *dsdt;
+> +    const MemMapEntry *memmap = vms->memmap;
+> +    AcpiTable table = { .sig = "DSDT", .rev = 2, .oem_id = vms->oem_id,
+> +                        .oem_table_id = vms->oem_table_id };
+> +
+> +
+> +    acpi_table_begin(&table, table_data);
+> +    dsdt = init_aml_allocator();
+> +
+> +    /*
+> +     * When booting the VM with UEFI, UEFI takes ownership of the RTC hardware.
+> +     * While UEFI can use libfdt to disable the RTC device node in the DTB that
+> +     * it passes to the OS, it cannot modify AML. Therefore, we won't generate
+> +     * the RTC ACPI device at all when using UEFI.
+> +     */
+> +    scope = aml_scope("\\_SB");
+> +    acpi_dsdt_add_cpus(scope, vms);
+> +
+> +    acpi_dsdt_add_fw_cfg(scope, &memmap[VIRT_FW_CFG]);
+> +
+> +    aml_append(dsdt, scope);
+> +
+> +    /* copy AML table into ACPI tables blob and patch header there */
+> +    g_array_append_vals(table_data, dsdt->buf->data, dsdt->buf->len);
+> +
+> +    acpi_table_end(linker, &table);
+> +    free_aml_allocator();
+> +}
+> +
+> +static void
+> +virt_acpi_build(RISCVVirtState *vms, AcpiBuildTables *tables)
+> +{
+> +    GArray *table_offsets;
+> +    unsigned dsdt, xsdt;
+> +    GArray *tables_blob = tables->table_data;
+> +
+> +    table_offsets = g_array_new(false, true,
+> +                                sizeof(uint32_t));
+> +
+> +    bios_linker_loader_alloc(tables->linker,
+> +                             ACPI_BUILD_TABLE_FILE, tables_blob,
+> +                             64, false);
+> +
+> +    /* DSDT is pointed to by FADT */
+> +    dsdt = tables_blob->len;
+> +    build_dsdt(tables_blob, tables->linker, vms);
+> +
+> +    /* FADT and others pointed to by RSDT */
+> +    acpi_add_table(table_offsets, tables_blob);
+> +    build_fadt_rev6(tables_blob, tables->linker, vms, dsdt);
+> +
+> +    acpi_add_table(table_offsets, tables_blob);
+> +    build_madt(tables_blob, tables->linker, vms);
+> +
+> +    acpi_add_table(table_offsets, tables_blob);
+> +    build_rhct(tables_blob, tables->linker, vms);
+> +
+> +    /* XSDT is pointed to by RSDP */
+> +    xsdt = tables_blob->len;
+> +    build_xsdt(tables_blob, tables->linker, table_offsets, vms->oem_id,
+> +                vms->oem_table_id);
+> +
+> +    /* RSDP is in FSEG memory, so allocate it separately */
+> +    {
+> +        AcpiRsdpData rsdp_data = {
+> +            .revision = 2,
+> +            .oem_id = vms->oem_id,
+> +            .xsdt_tbl_offset = &xsdt,
+> +            .rsdt_tbl_offset = NULL,
+> +        };
+> +        build_rsdp(tables->rsdp, tables->linker, &rsdp_data);
+> +    }
+> +
+> +    /*
+> +     * The align size is 128, warn if 64k is not enough therefore
+> +     * the align size could be resized.
+> +     */
+> +    if (tables_blob->len > ACPI_BUILD_TABLE_SIZE / 2) {
+> +        warn_report("ACPI table size %u exceeds %d bytes,"
+> +                    " migration may not work",
+> +                    tables_blob->len, ACPI_BUILD_TABLE_SIZE / 2);
+> +        error_printf("Try removing CPUs, NUMA nodes, memory slots"
+> +                     " or PCI bridges.");
+> +    }
+> +    acpi_align_size(tables_blob, ACPI_BUILD_TABLE_SIZE);
+> +
+> +
+> +    /* Cleanup memory that's no longer used. */
+
+Clean up
+
+nits: removing the ending .
+
+> +    g_array_free(table_offsets, true);
+> +}
+> +
+> +static void
+> +acpi_ram_update(MemoryRegion *mr, GArray *data)
+> +{
+> +    uint32_t size = acpi_data_len(data);
+> +
+> +    /*
+> +     * Make sure RAM size is correct - in case it got changed
+> +     * e.g. by migration
+> +     */
+> +    memory_region_ram_resize(mr, size, &error_abort);
+> +
+> +    memcpy(memory_region_get_ram_ptr(mr), data->data, size);
+> +    memory_region_set_dirty(mr, 0, size);
+> +}
+> +
+> +static void
+> +virt_acpi_build_update(void *build_opaque)
+> +{
+> +    AcpiBuildState *build_state = build_opaque;
+> +    AcpiBuildTables tables;
+> +
+> +    /* No state to update or already patched? Nothing to do. */
+> +    if (!build_state || build_state->patched) {
+> +        return;
+> +    }
+> +    build_state->patched = true;
+> +
+> +    acpi_build_tables_init(&tables);
+> +
+> +    virt_acpi_build(RISCV_VIRT_MACHINE(qdev_get_machine()), &tables);
+> +
+> +    acpi_ram_update(build_state->table_mr, tables.table_data);
+> +    acpi_ram_update(build_state->rsdp_mr, tables.rsdp);
+> +    acpi_ram_update(build_state->linker_mr, tables.linker->cmd_blob);
+> +
+> +    acpi_build_tables_cleanup(&tables, true);
+> +}
+> +
+> +static void
+> +virt_acpi_build_reset(void *build_opaque)
+> +{
+> +    AcpiBuildState *build_state = build_opaque;
+> +    build_state->patched = false;
+> +}
+> +
+> +static const VMStateDescription vmstate_virt_acpi_build = {
+> +    .name = "virt_acpi_build",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_BOOL(patched, AcpiBuildState),
+> +        VMSTATE_END_OF_LIST()
+> +    },
+> +};
+> +
+> +void
+> +virt_acpi_setup(RISCVVirtState *vms)
+> +{
+> +    AcpiBuildTables tables;
+> +    AcpiBuildState *build_state;
+> +
+> +    build_state = g_malloc0(sizeof *build_state);
+> +
+> +    acpi_build_tables_init(&tables);
+> +    virt_acpi_build(vms, &tables);
+> +
+> +    /* Now expose it all to Guest */
+> +    build_state->table_mr = acpi_add_rom_blob(virt_acpi_build_update,
+> +                                              build_state, tables.table_data,
+> +                                              ACPI_BUILD_TABLE_FILE);
+> +    assert(build_state->table_mr != NULL);
+> +
+> +    build_state->linker_mr = acpi_add_rom_blob(virt_acpi_build_update,
+> +                                               build_state,
+> +                                               tables.linker->cmd_blob,
+> +                                               ACPI_BUILD_LOADER_FILE);
+> +
+> +    build_state->rsdp_mr = acpi_add_rom_blob(virt_acpi_build_update,
+> +                                             build_state, tables.rsdp,
+> +                                             ACPI_BUILD_RSDP_FILE);
+> +
+> +    qemu_register_reset(virt_acpi_build_reset, build_state);
+> +    virt_acpi_build_reset(build_state);
+> +    vmstate_register(NULL, 0, &vmstate_virt_acpi_build, build_state);
+> +
+> +    /*
+> +     * Cleanup tables but don't free the memory: we track it
+
+s/Cleanup/Clean up
+
+> +     * in build_state.
+> +     */
+> +    acpi_build_tables_cleanup(&tables, false);
+> +}
+> diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
+> index 379501edcc..e5c474b26e 100644
+> --- a/include/hw/riscv/virt.h
+> +++ b/include/hw/riscv/virt.h
+> @@ -126,4 +126,5 @@ enum {
+>                                   1 + FDT_APLIC_INT_CELLS)
+>
+>  bool virt_is_acpi_enabled(RISCVVirtState *s);
+> +void virt_acpi_setup(RISCVVirtState *vms);
+>  #endif
+> --
+
+Regards,
+Bin
 
