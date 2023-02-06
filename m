@@ -2,52 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59DDA68B473
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 04:22:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E75E268B4B7
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 04:59:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOs4K-0002w8-Ar; Sun, 05 Feb 2023 22:21:24 -0500
+	id 1pOsdt-0000pP-5h; Sun, 05 Feb 2023 22:58:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1pOs4G-0002ut-Rt
- for qemu-devel@nongnu.org; Sun, 05 Feb 2023 22:21:20 -0500
-Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133])
+ (Exim 4.90_1) (envelope-from <liu-weinan@qq.com>) id 1pOsdp-0000pC-1P
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 22:58:05 -0500
+Received: from out203-205-221-190.mail.qq.com ([203.205.221.190])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1pOs4E-000698-Ev
- for qemu-devel@nongnu.org; Sun, 05 Feb 2023 22:21:20 -0500
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R191e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045170;
- MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=4; SR=0;
- TI=SMTPD_---0VawgfOv_1675653666; 
-Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
- fp:SMTPD_---0VawgfOv_1675653666) by smtp.aliyun-inc.com;
- Mon, 06 Feb 2023 11:21:07 +0800
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-To: qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>
-Subject: [PATCH v2 2/2] virtio_net: just purge tx when dev/queue reset
-Date: Mon,  6 Feb 2023 11:21:05 +0800
-Message-Id: <20230206032105.35831-3-xuanzhuo@linux.alibaba.com>
-X-Mailer: git-send-email 2.32.0.3.g01195cf9f
-In-Reply-To: <20230206032105.35831-1-xuanzhuo@linux.alibaba.com>
-References: <20230206032105.35831-1-xuanzhuo@linux.alibaba.com>
-MIME-Version: 1.0
-X-Git-Hash: 761767cc32
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.133;
- envelope-from=xuanzhuo@linux.alibaba.com;
- helo=out30-133.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <liu-weinan@qq.com>) id 1pOsdm-0002uj-Dm
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 22:58:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+ t=1675655872; bh=d616RdHXF/h+pcCPrOKzjDaST7hBtlIYOEhW8clEomQ=;
+ h=From:To:Cc:Subject:Date;
+ b=LHB4RiBthZ46laQ4bLth22pSykUwvhno3jJFsWIYDcXMD5+ehw/sziVltyKo+cpPA
+ MZNAX5f4Qp/r9Kz4sj41fwmp3mL3qHSGcAxuJKzr3O01rxwZOmD2MTYJRPYrm3tPxA
+ SQsANU7AKl/wQvviAwiYfSaR+A+YYlFehFK+ZNi4=
+X-QQ-FEAT: oHWrrGTW1dDRbvGv3VJP9TzOaNKYzqcj
+X-QQ-SSF: 00000000000000F000000000000000I
+X-QQ-XMAILINFO: MPoJ54MdyxGBFhcwBRx/gnYLiO583OjbsmMzrQchWaZGbU36fuAn/dYYV4eI+u
+ QgyzL/9bQbYbBduaiYP1771X1Mi3STcfCYxBMhXVDngjND3sUfsveHFt+SJcmesRw9nuofFHvhWGb
+ fj9HRNAc2V/OiNJIHp0O188MF5qpUANfLsNUTRtLAzb1BfOfIUUzTT15RCtzyUwvRszP0fcM5I/9H
+ YNXfe2BzSTl3MS5sKqmo5nEusQjsDjLJa4KQyJSQClTuLIO0SNx0XZElqkDRMUdvnkZUi92PjsTsu
+ LWrZ39uhMapfaZusLuSQuF4SKR+5CVjXebTXepsgBlgiL3p15QQzgcCjqM6tmHLlm5jOHe0AE4OUp
+ O6FrZUWB1m68wC7z2+naZtWx9xvDQUWB/qE0yYeoT4hpIwcmIFfSUx+v78AcrnRHyhYsJd3DyR8lm
+ 6DejI0CRI4CUMZPfkYzYpmtn5WYGAE1sG91V/l/hlzih1UnojkhFmDMqWHrkHq07iPijNAhWEowPG
+ MGlRT4yZOYznli0dxeY12Na24+3mRx3ZK1h0UETLf8Awdk40SFsRWirCXtVUPRB3VxCLS7LaG6sFQ
+ 7+XGyNUP4k/zCACwqK7+EWaBcJqlTT0fk2CQMYjDAVIGsjiPH1T1LiTNQ4aLkaATPZMsfiimx4yx/
+ lnEDmmaqrTsE6EAgVM5dziACCHRjjGFnLnzSz7BKONxW33UfTnyw2+SXjx6Z+GdoJ/BSjGlv7MJzs
+ wWlNYlKoEz7jr9xDW7U6JkDQcZ+mzvENtgvLfEMa2oZi1ZZZ6SArr/HE14pJeMvGcXJYoD1tsvF8T
+ 2t1aKGoG6fiyvG/9xlINoIu7bgcuHnHuX6ireQH4CaoO7iv8cwRXF+VRK+b1+C7WrWZP1mq4vphZU
+ jtiA9SpPMNCD6Zz9AXCDbQ7DOhjTWlEIfBkuGTmvn9H590bspLSv/F/DyrwfAjni0kLxLua1Js=
+X-HAS-ATTACH: no
+X-QQ-BUSINESS-ORIGIN: 2
+X-Originating-IP: 117.28.23.179
+X-QQ-STYLE: 
+X-QQ-mid: webmail440t1675655678t6329822
+From: "=?gb18030?B?V2VpbmFuIExpdaOowfXsv+mqo6k=?=" <liu-weinan@qq.com>
+To: "=?gb18030?B?UGV0ZXIgWHU=?=" <peterx@redhat.com>
+Cc: "=?gb18030?B?cWVtdS1kZXZlbA==?=" <qemu-devel@nongnu.org>,
+ "=?gb18030?B?ZGdpbGJlcnQ=?=" <dgilbert@redhat.com>,
+ "=?gb18030?B?UGFvbG8gQm9uemluaQ==?=" <pbonzini@redhat.com>
+Subject: Re: [PATCH v2] KVM: dirty ring: check if vcpu is created before
+ dirty_ring_reap_one
+Mime-Version: 1.0
+Content-Type: text/plain;
+	charset="gb18030"
+Content-Transfer-Encoding: base64
+Date: Mon, 6 Feb 2023 11:54:38 +0800
+X-Priority: 3
+Message-ID: <tencent_977641A1343378C6FD0AEAE6F59A75AD5305@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
+Received-SPF: pass client-ip=203.205.221.190; envelope-from=liu-weinan@qq.com;
+ helo=out203-205-221-190.mail.qq.com
+X-Spam_score_int: 40
+X-Spam_score: 4.0
+X-Spam_bar: ++++
+X-Spam_report: (4.0 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_FROM=0.001, HELO_DYNAMIC_IPADDR=1.951, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, RDNS_DYNAMIC=0.982, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,33 +84,11 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When dev/queue reset, we should just purge all packet, not try to flush
-the async packets. When flush these async packets, the
-callback(virtio_net_tx_complete) will try to flush new packets from tx
-queue.
+SGksIFBldGVyLAoKJmd0OyBJTUhPIHRoYXQgb25lIHdpbGwgYmUgbW9yZSBzdHJhaWdodGZv
+cndhcmQgYW5kIHNlbGYgY29udGFpbmVkIHRoYW4gdGhpcwomZ3Q7IG9uZS4gIFdoYXQgZG8g
+eW91IHRoaW5rPwpZZXMsIGl0IGlzLgoKJmd0OyBXaGVuIHBvc3RpbmcgbmV3IHBhdGNoZXMs
+IHBsZWFzZSBhbHNvIHJlbWVtYmVyIHRvIGNvcHkgbWFpbnRhaW5lcnMuICBGb3IKJmd0OyB0
+aGlzIG9uZSwgaXQnczoKVGhhbmtzIGZvciB5b3VyIHN1Z2dlc3Rpb24uCgpXZWluYW4gTGl1
 
-Fixes: 7dc6be52 ("virtio-net: support queue reset")
-Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1451
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
----
- hw/net/virtio-net.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 6daa1e5ac1..2ac6d3dad9 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -570,7 +570,7 @@ static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
-         vhost_net_virtqueue_reset(vdev, nc, queue_index);
-     }
- 
--    flush_or_purge_queued_packets(nc);
-+    qemu_purge_queued_packets(nc);
- }
- 
- static void virtio_net_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
--- 
-2.32.0.3.g01195cf9f
 
 
