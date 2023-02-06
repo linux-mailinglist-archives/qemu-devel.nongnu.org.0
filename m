@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23FD768B2DC
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 00:33:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D8868B2F7
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 01:03:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOoV5-0006IY-8p; Sun, 05 Feb 2023 18:32:47 -0500
+	id 1pOoxa-0001uX-J2; Sun, 05 Feb 2023 19:02:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pOoV0-0006Hz-VX; Sun, 05 Feb 2023 18:32:43 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pOoUz-0000Kj-HI; Sun, 05 Feb 2023 18:32:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=swV9CZqHOmSyHSHRmGDKRKfDUI19XgCsenFN7kdixsc=; b=kiiE3aqc/EdkVuUP24yTrQEYYR
- ZLmlhElSbONVhTeuXVwxAdxcEW1oNi+3Q37DD10lkXQzfKhr2IYNeHjhs5su/ol9lp8Jbk4jRf2kQ
- lG30zyKgP68pbfHMriM6xJ5VXaVLYEEMV0y/7RdcTEJRwlykABAH7hAr2G1KMmaQLJK4aa0KYLSny
- pIKVKMBEo4sEuYQlna9KJ5v9Hm2lpBGWLQl3+X4am8N8WAZ2Nf0/0loa9q6p57nXmfYbwKC0Q9104
- 3AxlzKqe/9XxlDqmOtfq6ShRp4HP2U8JSHVzOhAVOV1WoOhUCOufxoSR0m4E5aemdDDggC7pgMrFr
- gJRjO0VtmpIK5Fl3inyH8xifZ0YdFvquhJgm9Pg7YAHhsy8saN/7Oa4viET93ofgFDny0YXo8mHRs
- WJK+x41y0MzEWMWGON7wUji3Pg2hnEfBZtUEQThnoQGB1ZPS3HXSS10KEC14Yc39+lYkBAYdp3xyQ
- cQxtZyXox0bgKjMFFhjhlWysZidOs5Lim98UJBDGEorxZH/QlAwl5ItU+IO4U5Vhw6CYDaWpfS0x4
- Lpe/jOZs4oIhghq37s6f/GnxH88m0u2KiEsNKGyUemBa4JE8RGaiTu7PZES6LibALgkGLE2oAS/E3
- N7IaoSogcBKw6fvrdKa3b23J1Es5a42f2BbT/jtJI=;
-Received: from [2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pOoUQ-0008SV-9c; Sun, 05 Feb 2023 23:32:10 +0000
-Message-ID: <7ee99649-4afc-c4dc-f692-58d9bb2929af@ilande.co.uk>
-Date: Sun, 5 Feb 2023 23:32:34 +0000
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pOoxX-0001uA-7A
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 19:02:11 -0500
+Received: from mail-vs1-xe32.google.com ([2607:f8b0:4864:20::e32])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pOoxU-0005UT-3f
+ for qemu-devel@nongnu.org; Sun, 05 Feb 2023 19:02:10 -0500
+Received: by mail-vs1-xe32.google.com with SMTP id a24so11071947vsl.2
+ for <qemu-devel@nongnu.org>; Sun, 05 Feb 2023 16:02:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=BQHDUj3tn+tupjdBoTIO2i76pdBK+eiKuvryAKOW9M8=;
+ b=FkDAItRpAj2zcED1leZ5pZ3YLjCLmFdcePrr+YQmP7Gossa1b5oAMgsQanqw2QvMbM
+ 5lFMcfsvTAK/vzpYaEQAr3hwj/sAz/oV8dlssCn6zhJls1Q8VI9easYZDel35Jx/2hpn
+ jBTG8AaDMyzhx+btj8nxoVvZmfKpDrB+VNF5QWdKIZBZc5s/IIvoXhWlOl1Xa+BNAxBb
+ UqMOicLWLEdXwksHqxxVHQi0ji184dtowX+oNT53SJaL4fq9Ql8B3JUhA79mnpUldrm0
+ OvJznFaFCLxvx/6X2y8+kz+PQizXo+fPS/lXvLJLSr/N7BilOx/HB8nmBIw+AJpfZXyV
+ 5G2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=BQHDUj3tn+tupjdBoTIO2i76pdBK+eiKuvryAKOW9M8=;
+ b=hChBecbFnpeiEGkbcZpkQguygUZxSgGKZyB+3t92wo+b5GlZ8mKYsOKvOA97fHzYh0
+ qVy1VOyylv7Pp3CJ/y35jEmJ3gVggb2rSlKrrsep2QVzO+YH9hfzXCVgbxojM4JviuR3
+ gnIMfO/Dxj4grbu7pri4rPDiScqjWiPooNBxU3TUGpY0eW7LN7vaZAkVqrl6qznN6ILn
+ OXeeIUQzqD7xkMMRIwScTg1t5cVtC5HeLZ4dz1Cus6g4E+j1k1ZoTLczuH95+LDmTdxy
+ 32QylJAwQTzHO7fCxzkF1t2gXsh/bYQtmbdZ+RtEsp1A7gYvwkR79zvKSArRSZkUHaWM
+ GS3Q==
+X-Gm-Message-State: AO0yUKXnDkNfdl4nRAhG1P1jKBl84liluk2I+EUABYEVvwaIvPTw+D5t
+ krw7Ah6vpUqg2JBDCXuXwNY3s+vFrfYHiSGPwU6JW6QmNNo=
+X-Google-Smtp-Source: AK7set8PRcd4M8WKuXCnXxvtJEJRW/rmZkxr6N+3iSkjktbWjRsO8nOnE8eIePzLKN7uNRd7qShJqrQGjxq0yMcMzSc=
+X-Received: by 2002:a67:ab0f:0:b0:401:5ed:9a8 with SMTP id
+ u15-20020a67ab0f000000b0040105ed09a8mr2365984vse.10.1675641726987; 
+ Sun, 05 Feb 2023 16:02:06 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <cover.1675297286.git.balaton@eik.bme.hu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <cover.1675297286.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 0/2] mac_nvram: Add block backend to persist NVRAM
- contents
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230127191758.755844-1-debug@rivosinc.com>
+In-Reply-To: <20230127191758.755844-1-debug@rivosinc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 6 Feb 2023 10:01:41 +1000
+Message-ID: <CAKmqyKNUEiEODbhAd4MESN-dD2qm2jTVC90ko=7MFv1hBBdJhA@mail.gmail.com>
+Subject: Re: [PATCH: fix for virt instr exception] target/riscv: fix for
+ virtual instr exception
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e32;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe32.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,31 +84,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 02/02/2023 00:24, BALATON Zoltan wrote:
+On Sat, Jan 28, 2023 at 6:36 AM Deepak Gupta <debug@rivosinc.com> wrote:
+>
+> commit fb3f3730e4 added mechanism to generate virtual instruction
+> exception during instruction decode when virt is enabled.
+>
+> However in some situations, illegal instruction exception can be raised
+> due to state of CPU. One such situation is implementing branch tracking.
+> [1] An indirect branch if doesn't land on a landing pad instruction, then
+> cpu must raise an illegal instruction exception.
+> Implementation would raise such expcetion due to missing landing pad inst
+> and not due to decode. Thus DisasContext must have `virt_inst_excp`
+> initialized to false during DisasContxt initialization for TB.
+>
+> [1] - https://github.com/riscv/riscv-cfi
+>
+> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
 
-> Same as v1 just split in two patches as suggested by Mark.
-> 
-> Regards,
-> BALATON Zoltan
-> 
-> BALATON Zoltan (2):
->    mac_nvram: Add block backend to persist NVRAM contents
->    mac_oldworld: Allow specifying nvram backing store
-> 
->   hw/nvram/mac_nvram.c         | 28 ++++++++++++++++++++++++++++
->   hw/ppc/mac_oldworld.c        |  8 +++++++-
->   include/hw/nvram/mac_nvram.h |  1 +
->   3 files changed, 36 insertions(+), 1 deletion(-)
+Thanks!
 
-This seems okay to me so:
+Applied to riscv-to-apply.next
 
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Alistair
 
-There was no further comment from Cédric regarding blk_check_size_and_read_all() so 
-I've applied this to my qemu-macppc branch.
-
-
-ATB,
-
-Mark.
+> ---
+>  target/riscv/translate.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index df38db7553..76f61a39d3 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -1167,6 +1167,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>      ctx->pm_base_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_BASE_ENABLED);
+>      ctx->itrigger = FIELD_EX32(tb_flags, TB_FLAGS, ITRIGGER);
+>      ctx->zero = tcg_constant_tl(0);
+> +    ctx->virt_inst_excp = false;
+>  }
+>
+>  static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
+> --
+> 2.25.1
+>
+>
 
