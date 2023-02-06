@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D8868B2F7
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 01:03:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B7E268B2F9
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 01:04:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pOoxa-0001uX-J2; Sun, 05 Feb 2023 19:02:14 -0500
+	id 1pOoyu-0002fF-Ov; Sun, 05 Feb 2023 19:03:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pOoxX-0001uA-7A
- for qemu-devel@nongnu.org; Sun, 05 Feb 2023 19:02:11 -0500
-Received: from mail-vs1-xe32.google.com ([2607:f8b0:4864:20::e32])
+ id 1pOoys-0002ev-MQ; Sun, 05 Feb 2023 19:03:34 -0500
+Received: from mail-vs1-xe30.google.com ([2607:f8b0:4864:20::e30])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pOoxU-0005UT-3f
- for qemu-devel@nongnu.org; Sun, 05 Feb 2023 19:02:10 -0500
-Received: by mail-vs1-xe32.google.com with SMTP id a24so11071947vsl.2
- for <qemu-devel@nongnu.org>; Sun, 05 Feb 2023 16:02:07 -0800 (PST)
+ id 1pOoyr-0005Z1-3h; Sun, 05 Feb 2023 19:03:34 -0500
+Received: by mail-vs1-xe30.google.com with SMTP id v26so3275956vsk.8;
+ Sun, 05 Feb 2023 16:03:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=BQHDUj3tn+tupjdBoTIO2i76pdBK+eiKuvryAKOW9M8=;
- b=FkDAItRpAj2zcED1leZ5pZ3YLjCLmFdcePrr+YQmP7Gossa1b5oAMgsQanqw2QvMbM
- 5lFMcfsvTAK/vzpYaEQAr3hwj/sAz/oV8dlssCn6zhJls1Q8VI9easYZDel35Jx/2hpn
- jBTG8AaDMyzhx+btj8nxoVvZmfKpDrB+VNF5QWdKIZBZc5s/IIvoXhWlOl1Xa+BNAxBb
- UqMOicLWLEdXwksHqxxVHQi0ji184dtowX+oNT53SJaL4fq9Ql8B3JUhA79mnpUldrm0
- OvJznFaFCLxvx/6X2y8+kz+PQizXo+fPS/lXvLJLSr/N7BilOx/HB8nmBIw+AJpfZXyV
- 5G2w==
+ bh=DHH2gLmtB9ROiVFuoryCAehBmeVFlX9Yi5WJhUpEpRg=;
+ b=oURn8pm0ynQ6uy/FRwDQMv9imjULBrJv8zSJWqrUxfKawYPE91JTm6UDx9q2URpylD
+ NwYq3lxnIUbOvVxIpJCksffzqcP1cttXyEPcb91QHMhAH5H8qBr7xdd/rd183ONGx3Q1
+ Ee1w7zbGe0GYD336rOeJJ5FC6/T+Z4F56Wx4UMRqHERz59+ix4MVANxdcP8ySKeaESWf
+ B/xxfzL+yS8fg7aUS13J8d+BAC/3ssU3n9XLtloLUgcurHaMwpmBFzvmO4Kilx2UnAml
+ /e9zsCMNO8CUKtlBOKUYLWz24KHdhPvxC0GSnVH+n+OdXZjWOeUxR64SUYMsg8eupJ96
+ 9Kjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=BQHDUj3tn+tupjdBoTIO2i76pdBK+eiKuvryAKOW9M8=;
- b=hChBecbFnpeiEGkbcZpkQguygUZxSgGKZyB+3t92wo+b5GlZ8mKYsOKvOA97fHzYh0
- qVy1VOyylv7Pp3CJ/y35jEmJ3gVggb2rSlKrrsep2QVzO+YH9hfzXCVgbxojM4JviuR3
- gnIMfO/Dxj4grbu7pri4rPDiScqjWiPooNBxU3TUGpY0eW7LN7vaZAkVqrl6qznN6ILn
- OXeeIUQzqD7xkMMRIwScTg1t5cVtC5HeLZ4dz1Cus6g4E+j1k1ZoTLczuH95+LDmTdxy
- 32QylJAwQTzHO7fCxzkF1t2gXsh/bYQtmbdZ+RtEsp1A7gYvwkR79zvKSArRSZkUHaWM
- GS3Q==
-X-Gm-Message-State: AO0yUKXnDkNfdl4nRAhG1P1jKBl84liluk2I+EUABYEVvwaIvPTw+D5t
- krw7Ah6vpUqg2JBDCXuXwNY3s+vFrfYHiSGPwU6JW6QmNNo=
-X-Google-Smtp-Source: AK7set8PRcd4M8WKuXCnXxvtJEJRW/rmZkxr6N+3iSkjktbWjRsO8nOnE8eIePzLKN7uNRd7qShJqrQGjxq0yMcMzSc=
-X-Received: by 2002:a67:ab0f:0:b0:401:5ed:9a8 with SMTP id
- u15-20020a67ab0f000000b0040105ed09a8mr2365984vse.10.1675641726987; 
- Sun, 05 Feb 2023 16:02:06 -0800 (PST)
+ bh=DHH2gLmtB9ROiVFuoryCAehBmeVFlX9Yi5WJhUpEpRg=;
+ b=8EXWLaVZReP0xT0l5lT2+TyZhlrlPtncUCCWDqOjQNjdKXosjVpiNRSZroe2iqpBp4
+ 3hx2vacgSxwI0YtluBxizc9EHo5YIXi578OHTxpGm9z1PwLxt5yUpTdRKLTHQLmI+Wkc
+ 79ROct7x0Tgl7YtKlLQhSMUTHBqlYARh6frAOFG7N0zdtLTzqIYpkYzntz6oEG6ulyvI
+ GeObD2TYSYBY11OVZio6iIJ/hNXNqhM8OhyeXj7EEA56lEQ0eiE9PedmkxSlfBz7pwhX
+ PIMMBIGaZ1gvis+BAgM4q0gFmI1bSeQgV0/UgCjJm3vQUl2EDNxFLWourctuv+1EBJ0L
+ WQfg==
+X-Gm-Message-State: AO0yUKUk5R66S3dTRWlPa6uIUKl6MepQ46xqWz088xOLGnPk+xYgexgy
+ 2yT9Xj6E1L8An/bca2JbCcbJ1SrDDSgjAmdwmCY=
+X-Google-Smtp-Source: AK7set/g4H2QxAGiJmzFoBGjNNj+L0jGamFnhdeUOdKlk0frf1OK26oTCegOE2mNzcLpbh2RQvW0iPo14hUm053M6cg=
+X-Received: by 2002:a05:6102:1:b0:3f9:3f38:ca46 with SMTP id
+ j1-20020a056102000100b003f93f38ca46mr2856797vsp.73.1675641811628; Sun, 05 Feb
+ 2023 16:03:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20230127191758.755844-1-debug@rivosinc.com>
-In-Reply-To: <20230127191758.755844-1-debug@rivosinc.com>
+References: <20230204082312.43557-1-vladimir.isaev@syntacore.com>
+In-Reply-To: <20230204082312.43557-1-vladimir.isaev@syntacore.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 6 Feb 2023 10:01:41 +1000
-Message-ID: <CAKmqyKNUEiEODbhAd4MESN-dD2qm2jTVC90ko=7MFv1hBBdJhA@mail.gmail.com>
-Subject: Re: [PATCH: fix for virt instr exception] target/riscv: fix for
- virtual instr exception
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: qemu-devel@nongnu.org
+Date: Mon, 6 Feb 2023 10:03:05 +1000
+Message-ID: <CAKmqyKPjjowAAk1d1azRiHdEqpBYbM8D59L2Ga4HV2=anD=w9Q@mail.gmail.com>
+Subject: Re: [PATCH v2] target/riscv: fix ctzw behavior
+To: Vladimir Isaev <vladimir.isaev@syntacore.com>
+Cc: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e32;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e30;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe30.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -84,22 +82,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Jan 28, 2023 at 6:36 AM Deepak Gupta <debug@rivosinc.com> wrote:
+On Sat, Feb 4, 2023 at 6:25 PM Vladimir Isaev
+<vladimir.isaev@syntacore.com> wrote:
 >
-> commit fb3f3730e4 added mechanism to generate virtual instruction
-> exception during instruction decode when virt is enabled.
+> According to spec, ctzw should work with 32-bit register, not 64.
 >
-> However in some situations, illegal instruction exception can be raised
-> due to state of CPU. One such situation is implementing branch tracking.
-> [1] An indirect branch if doesn't land on a landing pad instruction, then
-> cpu must raise an illegal instruction exception.
-> Implementation would raise such expcetion due to missing landing pad inst
-> and not due to decode. Thus DisasContext must have `virt_inst_excp`
-> initialized to false during DisasContxt initialization for TB.
+> For example, previous implementation returns 33 for (1<<33) input
+> when the new one returns 32.
 >
-> [1] - https://github.com/riscv/riscv-cfi
->
-> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+> Signed-off-by: Vladimir Isaev <vladimir.isaev@syntacore.com>
+> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 
 Thanks!
 
@@ -108,23 +100,26 @@ Applied to riscv-to-apply.next
 Alistair
 
 > ---
->  target/riscv/translate.c | 1 +
+> v2:
+>    - Use simpler solution suggested by Richard Henderson
+> ---
+>  target/riscv/insn_trans/trans_rvb.c.inc | 1 +
 >  1 file changed, 1 insertion(+)
 >
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index df38db7553..76f61a39d3 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -1167,6 +1167,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->      ctx->pm_base_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_BASE_ENABLED);
->      ctx->itrigger = FIELD_EX32(tb_flags, TB_FLAGS, ITRIGGER);
->      ctx->zero = tcg_constant_tl(0);
-> +    ctx->virt_inst_excp = false;
+> diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
+> index e2b8329f1e5b..990bc94b9840 100644
+> --- a/target/riscv/insn_trans/trans_rvb.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvb.c.inc
+> @@ -401,6 +401,7 @@ static bool trans_ctzw(DisasContext *ctx, arg_ctzw *a)
+>  {
+>      REQUIRE_64BIT(ctx);
+>      REQUIRE_ZBB(ctx);
+> +    ctx->ol = MXL_RV32;
+>      return gen_unary(ctx, a, EXT_ZERO, gen_ctzw);
 >  }
 >
->  static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
 > --
-> 2.25.1
+> 2.39.1
 >
 >
 
