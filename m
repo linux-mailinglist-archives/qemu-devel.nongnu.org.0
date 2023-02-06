@@ -2,75 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54CB68BE1F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 14:29:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCCE468BE25
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 14:30:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP1YU-0004J0-02; Mon, 06 Feb 2023 08:29:10 -0500
+	id 1pP1ZI-0004yi-Qp; Mon, 06 Feb 2023 08:30:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1pP1YR-0004Ii-Jp; Mon, 06 Feb 2023 08:29:07 -0500
-Received: from 1.mo552.mail-out.ovh.net ([178.32.96.117])
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pP1ZF-0004xh-U5
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 08:29:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1pP1YP-0003Qh-HK; Mon, 06 Feb 2023 08:29:07 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.27])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 295722A5FE;
- Mon,  6 Feb 2023 13:28:59 +0000 (UTC)
-Received: from kaod.org (37.59.142.95) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Mon, 6 Feb
- 2023 14:28:57 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G0012dd424aa-d101-4885-afb5-84c5a9d6594f,
- CF69EBA19D99189A5BFA69977647E68A070273F7) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <e29628f2-5547-9cd9-e61e-1b3f900f11a0@kaod.org>
-Date: Mon, 6 Feb 2023 14:28:56 +0100
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pP1ZE-0003fc-6s
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 08:29:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675690195;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xKXXSgd3A42zuw3lRyfuxuRf6X3mMPYhFtecJsTFhjg=;
+ b=GcccugMNFb8OkiKVqAlO8SHHlLQy56v1ENnKh+51P9N+/wv5NRepEjOMp/D3Lzg/VfNo3C
+ DZjOqqguAbjOEiyIvstMW7es3Ih9ignaPdssHj++vbmPqP94U5tWvI1WDhpDnKPqhNZb1C
+ 4ygcE9cxybl/t86ciOmftuX0iRZS4Nc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-586-P9E5FcBvP1692uIk2EahEQ-1; Mon, 06 Feb 2023 08:29:51 -0500
+X-MC-Unique: P9E5FcBvP1692uIk2EahEQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C8BA101A52E;
+ Mon,  6 Feb 2023 13:29:51 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0ABB7C15BA0;
+ Mon,  6 Feb 2023 13:29:50 +0000 (UTC)
+From: Hanna Czenczek <hreitz@redhat.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Hanna Czenczek <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PATCH] curl: Fix error path in curl_open()
+Date: Mon,  6 Feb 2023 14:29:49 +0100
+Message-Id: <20230206132949.92917-1-hreitz@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v8 8/8] docs/system/devices/igb: Add igb documentation
-Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-CC: Jason Wang <jasowang@redhat.com>, Dmitry Fleytman
- <dmitry.fleytman@gmail.com>, "Michael S . Tsirkin" <mst@redhat.com>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Thomas Huth <thuth@redhat.com>, Wainer dos Santos
- Moschetta <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>, Cleber Rosa
- <crosa@redhat.com>, Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Alexander Bulekov <alxndr@bu.edu>, Bandan Das
- <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Darren Kenny
- <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- <qemu-devel@nongnu.org>, <qemu-ppc@nongnu.org>, <devel@daynix.com>, Yan
- Vugenfirer <yvugenfi@redhat.com>, Yuri Benditovich
- <yuri.benditovich@daynix.com>, Sriram Yagnaraman
- <sriram.yagnaraman@est.tech>, Gal Hammer <gal.hammer@sap.com>
-References: <20230204043621.13540-1-akihiko.odaki@daynix.com>
- <20230204043621.13540-9-akihiko.odaki@daynix.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230204043621.13540-9-akihiko.odaki@daynix.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: b8199428-51fc-4e15-b1ec-7c914d901b09
-X-Ovh-Tracer-Id: 43347149289196383
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudegiedghedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedvgeeileetgedvvdevieejtdefleelgeetuefhveeihefggfdttdfgjeetffefueenucffohhmrghinhepihhnthgvlhdrtghomhdpghhithhhuhgsrdgtohhmpdhmihgtrhhoshhofhhtrdgtohhmpdhkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegrkhhihhhikhhordhouggrkhhisegurgihnhhigidrtghomhdphihurhhirdgsvghnughithhovhhitghhsegurgihnhhigidrtghomhdphihvuhhgvghnfhhisehrvgguhhgrthdrtghomhdpuggvvhgvlhesuggrhihnihigrdgtohhmpdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurd
- horhhgpdfsihhuhhgrohdrnfhisehouhhtlhhoohhkrdgtohhmpdgurghrrhgvnhdrkhgvnhhnhiesohhrrggtlhgvrdgtohhmpdhsthgvfhgrnhhhrgesrhgvughhrghtrdgtohhmpdgsshgusehrvgguhhgrthdrtghomhdprghlgihnughrsegsuhdrvgguuhdpshhrihhrrghmrdihrghgnhgrrhgrmhgrnhesvghsthdrthgvtghhpdhpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdgtrhhoshgrsehrvgguhhgrthdrtghomhdpsghlvggrlhesrhgvughhrghtrdgtohhmpdifrghinhgvrhhsmhesrhgvughhrghtrdgtohhmpdhthhhuthhhsehrvgguhhgrthdrtghomhdpphhhihhlmhgusehlihhnrghrohdrohhrghdprghlvgigrdgsvghnnhgvvgeslhhinhgrrhhordhorhhgpdhmrghrtggvlhdrrghpfhgvlhgsrghumhesghhmrghilhdrtghomhdpmhhsthesrhgvughhrghtrdgtohhmpdgumhhithhrhidrfhhlvgihthhmrghnsehgmhgrihhlrdgtohhmpdhjrghsohifrghnghesrhgvughhrghtrdgtohhmpdhlvhhivhhivghrsehrvgguhhgrthdrtghomhdpghgrlhdrhhgrmhhmvghrsehsrghprdgtohhmpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
- helo=1.mo552.mail-out.ovh.net
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,119 +75,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/4/23 05:36, Akihiko Odaki wrote:
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+g_hash_table_destroy() and g_hash_table_foreach_remove() (called by
+curl_drop_all_sockets()) both require the table to be non-NULL, or will
+print assertion failures (just print, no abort).
 
-Reviewed-by: Cédric Le Goater <clg@redhat.com>
+There are several paths in curl_open() that can lead to the out_noclean
+label without s->sockets being allocated, so clean it only if it has
+been allocated.
 
-Thanks,
+Example reproducer:
+$ qemu-img info -f http ''
+qemu-img: GLib: g_hash_table_foreach_remove: assertion 'hash_table != NULL' failed
+qemu-img: GLib: g_hash_table_destroy: assertion 'hash_table != NULL' failed
+qemu-img: Could not open '': http curl driver cannot handle the URL '' (does not start with 'http://')
 
-C.
+Closes: https://gitlab.com/qemu-project/qemu/-/issues/1475
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
+---
+ block/curl.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-> ---
->   MAINTAINERS                      |  1 +
->   docs/system/device-emulation.rst |  1 +
->   docs/system/devices/igb.rst      | 71 ++++++++++++++++++++++++++++++++
->   3 files changed, 73 insertions(+)
->   create mode 100644 docs/system/devices/igb.rst
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c0831aeb56..e85957e37f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2224,6 +2224,7 @@ F: tests/qtest/libqos/e1000e.*
->   igb
->   M: Akihiko Odaki <akihiko.odaki@daynix.com>
->   S: Maintained
-> +F: docs/system/devices/igb.rst
->   F: hw/net/igb*
->   F: tests/avocado/igb.py
->   F: tests/qtest/igb-test.c
-> diff --git a/docs/system/device-emulation.rst b/docs/system/device-emulation.rst
-> index 0506006056..c1b1934e3d 100644
-> --- a/docs/system/device-emulation.rst
-> +++ b/docs/system/device-emulation.rst
-> @@ -93,3 +93,4 @@ Emulated Devices
->      devices/virtio-pmem.rst
->      devices/vhost-user-rng.rst
->      devices/canokey.rst
-> +   devices/igb.rst
-> diff --git a/docs/system/devices/igb.rst b/docs/system/devices/igb.rst
-> new file mode 100644
-> index 0000000000..70edadd574
-> --- /dev/null
-> +++ b/docs/system/devices/igb.rst
-> @@ -0,0 +1,71 @@
-> +.. SPDX-License-Identifier: GPL-2.0-or-later
-> +.. _igb:
-> +
-> +igb
-> +---
-> +
-> +igb is a family of Intel's gigabit ethernet controllers. In QEMU, 82576
-> +emulation is implemented in particular. Its datasheet is available at [1]_.
-> +
-> +This implementation is expected to be useful to test SR-IOV networking without
-> +requiring physical hardware.
-> +
-> +Limitations
-> +===========
-> +
-> +This igb implementation was tested with Linux Test Project [2]_ and Windows HLK
-> +[3]_ during the initial development. The command used when testing with LTP is:
-> +
-> +.. code-block:: shell
-> +
-> +  network.sh -6mta
-> +
-> +Be aware that this implementation lacks many functionalities available with the
-> +actual hardware, and you may experience various failures if you try to use it
-> +with a different operating system other than Linux and Windows or if you try
-> +functionalities not covered by the tests.
-> +
-> +Using igb
-> +=========
-> +
-> +Using igb should be nothing different from using another network device. See
-> +:ref:`pcsys_005fnetwork` in general.
-> +
-> +However, you may also need to perform additional steps to activate SR-IOV
-> +feature on your guest. For Linux, refer to [4]_.
-> +
-> +Developing igb
-> +==============
-> +
-> +igb is the successor of e1000e, and e1000e is the successor of e1000 in turn.
-> +As these devices are very similar, if you make a change for igb and the same
-> +change can be applied to e1000e and e1000, please do so.
-> +
-> +Please do not forget to run tests before submitting a change. As tests included
-> +in QEMU is very minimal, run some application which is likely to be affected by
-> +the change to confirm it works in an integrated system.
-> +
-> +Testing igb
-> +===========
-> +
-> +A qtest of the basic functionality is available. Run the below at the build
-> +directory:
-> +
-> +.. code-block:: shell
-> +
-> +  meson test qtest-x86_64/qos-test
-> +
-> +ethtool can test register accesses, interrupts, etc. It is automated as an
-> +Avocado test and can be ran with the following command:
-> +
-> +.. code:: shell
-> +
-> +  make check-avocado AVOCADO_TESTS=tests/avocado/igb.py
-> +
-> +References
-> +==========
-> +
-> +.. [1] https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/82576eb-gigabit-ethernet-controller-datasheet.pdf
-> +.. [2] https://github.com/linux-test-project/ltp
-> +.. [3] https://learn.microsoft.com/en-us/windows-hardware/test/hlk/
-> +.. [4] https://docs.kernel.org/PCI/pci-iov-howto.html
+diff --git a/block/curl.c b/block/curl.c
+index cbada22e9e..ba9977af5a 100644
+--- a/block/curl.c
++++ b/block/curl.c
+@@ -850,8 +850,10 @@ out_noclean:
+     g_free(s->username);
+     g_free(s->proxyusername);
+     g_free(s->proxypassword);
+-    curl_drop_all_sockets(s->sockets);
+-    g_hash_table_destroy(s->sockets);
++    if (s->sockets) {
++        curl_drop_all_sockets(s->sockets);
++        g_hash_table_destroy(s->sockets);
++    }
+     qemu_opts_del(opts);
+     return -EINVAL;
+ }
+-- 
+2.39.1
 
 
