@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA1F468C103
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 16:09:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0AB568C0ED
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 16:07:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP34o-0003r5-Ry; Mon, 06 Feb 2023 10:06:38 -0500
+	id 1pP34p-0003rk-HA; Mon, 06 Feb 2023 10:06:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP34k-0003qW-WD
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:06:35 -0500
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP34m-0003r8-Su
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:06:36 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP34j-0008Op-7m
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:06:34 -0500
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pP34k-0008PI-Ve
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:06:36 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1ADBC3F457;
- Mon,  6 Feb 2023 15:06:32 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id D45943F458;
+ Mon,  6 Feb 2023 15:06:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675695992; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1675695993; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O8MO8fFpHkrT5iCSfryXtaeiZ8WPv8JiXUvDOuHVgjw=;
- b=kju15KLLhTKGMx7NNGY1M05BXofkcVzKEsYg1cdoz1wB/6q2E1FskZQvJrIhcsO0VGoydS
- 2lux9w+vYjbcmF1oxedpAEeicjDhaHo0gdbPtadYbXePZWQo9jZTUNdXMjBFCYj2XWJ/X8
- fSFivnmTbPnwIPUeDdlpJEgDqi0UuP0=
+ bh=gThNfP6Ml2oVg/SfCswVI8P1z1B+P2O76UmDUlqm5UY=;
+ b=m1r3o71KMDsD2xaEhSEmU0kTe5wmQRuga+GmI/waA06KjTExBSp8PjxbkdtGhJelT0syBe
+ 6M8sfvXgXwrxJOht9bUVoOLLOIPuLuFi4lCeMuCPsWJTwMiy0C92VSyAYG5TDwe4z7WxTU
+ ewqdrWm6ys2Kg4qJUwUKYkZ0eStSU5w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675695992;
+ s=susede2_ed25519; t=1675695993;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O8MO8fFpHkrT5iCSfryXtaeiZ8WPv8JiXUvDOuHVgjw=;
- b=SG3avQZM8Z60QBACOMwSTBs+qGrscR/eHvFiQ1bxKDzfMoJLeF9zZAptaNDOC7BUc4UOOz
- YAoqKlrxJp0U2+CA==
+ bh=gThNfP6Ml2oVg/SfCswVI8P1z1B+P2O76UmDUlqm5UY=;
+ b=nAmbg7G95xSQjHDjxcHlSH1818JVoyIXcMoHHcfVY0Y8GDZtjb2/co1x6gEtffMJzSGQtP
+ SEWsd6o8VLwkKVBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B89E5138E8;
- Mon,  6 Feb 2023 15:06:30 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8754E138E8;
+ Mon,  6 Feb 2023 15:06:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id EO0ZIHYX4WPSXwAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 06 Feb 2023 15:06:30 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id 8GsrFHgX4WPSXwAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 06 Feb 2023 15:06:32 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 06/12] tests/qtest: Skip unplug tests that use missing devices
-Date: Mon,  6 Feb 2023 12:04:10 -0300
-Message-Id: <20230206150416.4604-7-farosas@suse.de>
+Subject: [PATCH 07/12] tests/qtest: drive_del-test: Skip tests that require
+ missing devices
+Date: Mon,  6 Feb 2023 12:04:11 -0300
+Message-Id: <20230206150416.4604-8-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230206150416.4604-1-farosas@suse.de>
 References: <20230206150416.4604-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
  helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -87,59 +88,166 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- tests/qtest/device-plug-test.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ tests/qtest/drive_del-test.c | 70 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
 
-diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
-index 5a6afa2b57..931acbdf50 100644
---- a/tests/qtest/device-plug-test.c
-+++ b/tests/qtest/device-plug-test.c
-@@ -67,6 +67,11 @@ static void test_pci_unplug_request(void)
-     const char *arch = qtest_get_arch();
-     const char *machine_addition = "";
+diff --git a/tests/qtest/drive_del-test.c b/tests/qtest/drive_del-test.c
+index 9a750395a9..6fa96fa94a 100644
+--- a/tests/qtest/drive_del-test.c
++++ b/tests/qtest/drive_del-test.c
+@@ -16,6 +16,21 @@
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qlist.h"
  
-+    if (!qtest_has_device("virtio-mouse-pci")) {
-+        g_test_skip("Device virtio-mouse-pci not available");
-+        return;
-+    }
++static const char *qvirtio_get_dev_type(void);
 +
-     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-         machine_addition = "-machine pc";
-     }
-@@ -81,6 +86,10 @@ static void test_pci_unplug_request(void)
- 
- static void test_q35_pci_unplug_request(void)
++/*
++ * This covers the possible absence of a device due to QEMU build
++ * options.
++ */
++static bool look_for_device_builtin(const char *prefix, const char *suffix)
++{
++    gchar *device = g_strdup_printf("%s-%s", prefix, suffix);
++    bool rc = qtest_has_device(device);
++
++    g_free(device);
++    return rc;
++}
++
+ static bool look_for_drive0(QTestState *qts, const char *command, const char *key)
  {
-+    if (!qtest_has_device("virtio-mouse-pci")) {
-+        g_test_skip("Device virtio-mouse-pci not available");
+     QDict *response;
+@@ -40,6 +55,11 @@ static bool look_for_drive0(QTestState *qts, const char *command, const char *ke
+     return found;
+ }
+ 
++static bool has_device_builtin(const char *dev)
++{
++    return look_for_device_builtin(dev, qvirtio_get_dev_type());
++}
++
+ static bool has_drive(QTestState *qts)
+ {
+     return look_for_drive0(qts, "query-block", "device");
+@@ -208,6 +228,11 @@ static void test_drive_del_device_del(void)
+ {
+     QTestState *qts;
+ 
++    if (!has_device_builtin("virtio-scsi")) {
++        g_test_skip(NULL);
 +        return;
 +    }
- 
-     QTestState *qtest = qtest_initf("-machine q35 "
-                                     "-device pcie-root-port,id=p1 "
-@@ -97,6 +106,11 @@ static void test_pci_unplug_json_request(void)
++
+     /* Start with a drive used by a device that unplugs instantaneously */
+     qts = qtest_initf("-drive if=none,id=drive0,file=null-co://,"
+                       "file.read-zeroes=on,format=raw"
+@@ -232,6 +257,11 @@ static void test_cli_device_del(void)
      const char *arch = qtest_get_arch();
      const char *machine_addition = "";
  
-+    if (!qtest_has_device("virtio-mouse-pci")) {
-+        g_test_skip("Device virtio-mouse-pci not available");
++    if (!has_device_builtin("virtio-blk")) {
++        g_test_skip(NULL);
 +        return;
 +    }
 +
      if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
          machine_addition = "-machine pc";
      }
-@@ -123,6 +137,11 @@ static void test_q35_pci_unplug_json_request(void)
-                                     "'bus': 'b1', "
-                                     "'id': 'dev0'}\"";
+@@ -256,6 +286,11 @@ static void test_cli_device_del_q35(void)
+ {
+     QTestState *qts;
  
-+    if (!qtest_has_device("virtio-mouse-pci")) {
-+        g_test_skip("Device virtio-mouse-pci not available");
++    if (!has_device_builtin("virtio-blk")) {
++        g_test_skip(NULL);
 +        return;
 +    }
 +
-     QTestState *qtest = qtest_initf("-machine q35 %s %s %s",
-                                     port, bridge, device);
+     /*
+      * -drive/-device and device_del.  Start with a drive used by a
+      * device that unplugs after reset.
+@@ -277,6 +312,11 @@ static void test_empty_device_del(void)
+ {
+     QTestState *qts;
+ 
++    if (!has_device_builtin("virtio-scsi")) {
++        g_test_skip(NULL);
++        return;
++    }
++
+     /* device_del with no drive plugged.  */
+     qts = qtest_initf("-device virtio-scsi-%s -device scsi-cd,id=dev0",
+                       qvirtio_get_dev_type());
+@@ -291,6 +331,11 @@ static void test_device_add_and_del(void)
+     const char *arch = qtest_get_arch();
+     const char *machine_addition = "";
+ 
++    if (!has_device_builtin("virtio-blk")) {
++        g_test_skip(NULL);
++        return;
++    }
++
+     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+         machine_addition = "-machine pc";
+     }
+@@ -330,6 +375,11 @@ static void test_device_add_and_del_q35(void)
+ {
+     QTestState *qts;
+ 
++    if (!has_device_builtin("virtio-blk")) {
++        g_test_skip(NULL);
++        return;
++    }
++
+     /*
+      * -drive/device_add and device_del.  Start with a drive used by a
+      * device that unplugs after reset.
+@@ -352,6 +402,11 @@ static void test_drive_add_device_add_and_del(void)
+     const char *arch = qtest_get_arch();
+     const char *machine_addition = "";
+ 
++    if (!has_device_builtin("virtio-blk")) {
++        g_test_skip(NULL);
++        return;
++    }
++
+     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+         machine_addition = "-machine pc";
+     }
+@@ -374,6 +429,11 @@ static void test_drive_add_device_add_and_del_q35(void)
+ {
+     QTestState *qts;
+ 
++    if (!has_device_builtin("virtio-blk")) {
++        g_test_skip(NULL);
++        return;
++    }
++
+     qts = qtest_init("-machine q35 -device pcie-root-port,id=p1 "
+                      "-device pcie-pci-bridge,bus=p1,id=b1");
+ 
+@@ -395,6 +455,11 @@ static void test_blockdev_add_device_add_and_del(void)
+     const char *arch = qtest_get_arch();
+     const char *machine_addition = "";
+ 
++    if (!has_device_builtin("virtio-blk")) {
++        g_test_skip(NULL);
++        return;
++    }
++
+     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+         machine_addition = "-machine pc";
+     }
+@@ -417,6 +482,11 @@ static void test_blockdev_add_device_add_and_del_q35(void)
+ {
+     QTestState *qts;
+ 
++    if (!has_device_builtin("virtio-blk")) {
++        g_test_skip(NULL);
++        return;
++    }
++
+     qts = qtest_init("-machine q35 -device pcie-root-port,id=p1 "
+                      "-device pcie-pci-bridge,bus=p1,id=b1");
  
 -- 
 2.35.3
