@@ -2,83 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F96168C12A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 16:17:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EAFA68C13C
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 16:23:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP3EC-0006Ks-Io; Mon, 06 Feb 2023 10:16:20 -0500
+	id 1pP3Jv-0000DM-NH; Mon, 06 Feb 2023 10:22:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pP3E9-0006Ji-4T
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:16:17 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pP3E7-0002U7-8b
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:16:16 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id n13so8911157wmr.4
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 07:16:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1To7rwcy9URXf81xLyGLzH05uoV172WcCp/SHRj686g=;
- b=gMXzrxclpRrN1Kgq+Bf8kEmOZEweu1+ZLBMaeYdEZcKVClmlKDgQaTfypFPh5YRBDL
- sY1ASmAXXS4gB7cHZEbs7VnabArmpj7p20AXH43EzEhT64I2qbrOeXRZSDuJ+GG8iHrM
- 1xIdSOiOsDAvIzQaUsX0Me2Md2qseuG8ApkxQH5pTsLqoAJ58vTEAVoD6VnSJ6G9PIde
- 8u09YFJk/1l+xQNSZcHWbsKtFL+y9aRDa9BAKiOjSaqvqcEfxDumyRUEgVGbfulQxIZL
- A+5GFCTc9DfQRoWRxmjUZpszCjJxSn7kWuvuc5gc2JdNrvaFxBrRsSj92cQ2AD//aZFJ
- 0BqQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pP3Jr-00009l-7O
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:22:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pP3Jo-0003lO-Mj
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 10:22:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675696927;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8DolFaCsVV5F/iCGemVkE1D3cXy+E5w6ulv37yHG4Ho=;
+ b=N1N282lNSeGCamRDKj4dDmJ5/neLOIXZLs72iCemdL4DSz8To8W8LHvApcPxI+drLA7Hjx
+ s43gUEwNsWkNB61g6eotBsmiOLTXngVZi5RfmbdGfgH9P2bv1paWFqZ9F2ChKcG1lfU4Oi
+ Vl/fVVZXyLjZe1m7QkW5Ia9+Nj4cheE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-659-mphMkjVxO22Z7fL8y4YIvw-1; Mon, 06 Feb 2023 10:21:49 -0500
+X-MC-Unique: mphMkjVxO22Z7fL8y4YIvw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ e38-20020a05600c4ba600b003dc434dabbdso9093933wmp.6
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 07:21:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=1To7rwcy9URXf81xLyGLzH05uoV172WcCp/SHRj686g=;
- b=iNBNrTBXW/EwC1rRqXx7hTFWlo0JLlNU3+TY6VBFVJzW6tjtR2up/oNpiom7FUf1W2
- xSTsfcdUGRR9jE+V3JjqmzJM0klGZeAVT7eQIMiQmnK/Ubdx3+r4QD09iR5Qaj53aHLk
- XZCLlbDG+vCx/+l2wgF2UmiKx5BHV37OUh8iZvpTUP9yv8x9af4M0qwbt/uHc9Rn9xl7
- 8m2M2+SY72vw/u383fb8nM0RJw7ZvKsfoTB/j2ueIeSOC79e4HJxdn3PpaCRHdSUrBuO
- S05ko3NVRS13NOAFtSsAOyonKK8I9hAgyxIqHehKYeewH9KdDph4T4vq8PI3zf8YmSoH
- MjGQ==
-X-Gm-Message-State: AO0yUKU2gQ3cjLSmkvrezUO4iHZU7x/uYY0rupTTR/+A30UEGc6oFuVq
- 40bQxTIsvsVMN9CJ37x8Q/XPuw==
-X-Google-Smtp-Source: AK7set9Ppc64NUj8SyMQh0QvB6CCGXAz28hUHv7V4q/I6ML+fsI45sm0+reN06+u4/6QTVTAJkJs0Q==
-X-Received: by 2002:a05:600c:2ac8:b0:3dd:638d:bc31 with SMTP id
- t8-20020a05600c2ac800b003dd638dbc31mr53126wme.26.1675696572029; 
- Mon, 06 Feb 2023 07:16:12 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8DolFaCsVV5F/iCGemVkE1D3cXy+E5w6ulv37yHG4Ho=;
+ b=2wIi19anjcTXESNXmtz53UF9bpTQcZdAMJDmKx2whzLnEEs6oq2267hkzJFXH5e17l
+ iNps2qIJWzZeoDWqNk1iE10Zo10PuAdTW1XisPtkRkh0iTy626VmyJeEH/DMa0YaExR+
+ wlR+iEwpM327gnx7i6v5nRa4JOfxIt6ePYpzYb/8T76voAny3tVEnAB4cMwnJNONDSV0
+ vI5Y9n6FPUfyEtDLZi+xjSmQOLJNXqaoD4heKn9hJtKaMgwX1o22r68NO7kTH/0aimjd
+ rq53/mFbnDpz3ye0Ctadp5K0blFbjdbrWmj6vvUt5aU08Lqizap7dR3tNuxhRzYGxSbt
+ OmLA==
+X-Gm-Message-State: AO0yUKXPGZ1gS9tKysE4W8+3wwPteT1G3TjvGoiQ7bpgjshAFduZ6Aqy
+ 25iNomhVkIfMqya1aG/3lQntBQamDYwjTaH9I4aDkuelgOhzE+4R+irdrfHX4+iNCOVClTQwGf+
+ YnFswCvqZmstyixo=
+X-Received: by 2002:a05:600c:4b28:b0:3df:eda1:43b9 with SMTP id
+ i40-20020a05600c4b2800b003dfeda143b9mr116943wmp.4.1675696907810; 
+ Mon, 06 Feb 2023 07:21:47 -0800 (PST)
+X-Google-Smtp-Source: AK7set9e4Rv2nJFBaMQ7LEK742vaxJbmKtO/PZ3pLTHZ+eKvQ0aeWcMNPgDS+GF127joBtwRqeH2qg==
+X-Received: by 2002:a05:600c:4b28:b0:3df:eda1:43b9 with SMTP id
+ i40-20020a05600c4b2800b003dfeda143b9mr116925wmp.4.1675696907529; 
+ Mon, 06 Feb 2023 07:21:47 -0800 (PST)
+Received: from redhat.com ([2a06:c701:7430:4900:1e4f:d57b:58a7:762b])
  by smtp.gmail.com with ESMTPSA id
- v17-20020a05600c445100b003dc433355aasm11819836wmn.18.2023.02.06.07.16.11
+ n36-20020a05600c3ba400b003dc54eef495sm12624919wms.24.2023.02.06.07.21.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Feb 2023 07:16:11 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2465E1FFB7;
- Mon,  6 Feb 2023 15:16:11 +0000 (GMT)
-References: <20230206141051.4088777-1-alex.bennee@linaro.org>
- <3d76dc8b-0328-3159-3f52-ca8c86d14f7f@linaro.org>
-User-agent: mu4e 1.9.19; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?=
- <berrange@redhat.com>
-Subject: Re: [RFC PATCH] tests: be a bit more strict cleaning up fifos
-Date: Mon, 06 Feb 2023 15:15:28 +0000
-In-reply-to: <3d76dc8b-0328-3159-3f52-ca8c86d14f7f@linaro.org>
-Message-ID: <87sffiq0xw.fsf@linaro.org>
+ Mon, 06 Feb 2023 07:21:46 -0800 (PST)
+Date: Mon, 6 Feb 2023 10:21:44 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Fabiano Rosas <farosas@suse.de>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH 08/12] tests/qtest: Check for devices in bios-tables-test
+Message-ID: <20230206102128-mutt-send-email-mst@kernel.org>
+References: <20230206150416.4604-1-farosas@suse.de>
+ <20230206150416.4604-9-farosas@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230206150416.4604-9-farosas@suse.de>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,111 +97,219 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, Feb 06, 2023 at 12:04:12PM -0300, Fabiano Rosas wrote:
+> Do not include tests that require devices that are not available in
+> the QEMU build.
+> 
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
-> On 6/2/23 15:10, Alex Benn=C3=A9e wrote:
->> When we re-factored we dropped the unlink() step which turns out to be
->> required for rmdir to do its thing. If we had been checking the return
->> value we would have noticed so lets do that with this fix.
->> Fixes: 68406d1085 (tests/unit: cleanups for test-io-channel-command)
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
->> ---
->>   tests/unit/test-io-channel-command.c | 6 +++++-
->>   1 file changed, 5 insertions(+), 1 deletion(-)
->> diff --git a/tests/unit/test-io-channel-command.c
->> b/tests/unit/test-io-channel-command.c
->> index 425e2f5594..c2179a6462 100644
->> --- a/tests/unit/test-io-channel-command.c
->> +++ b/tests/unit/test-io-channel-command.c
->> @@ -42,6 +42,7 @@ static void test_io_channel_command_fifo(bool async)
->>       g_auto(GStrv) dstargv =3D g_strsplit(dstargs, " ", -1);
->>       QIOChannel *src, *dst;
->>       QIOChannelTest *test;
->> +    int err;
->>         if (mkfifo(fifo, 0600)) {
->>           g_error("mkfifo: %s", strerror(errno));
->> @@ -61,7 +62,10 @@ static void test_io_channel_command_fifo(bool async)
->>       object_unref(OBJECT(src));
->>       object_unref(OBJECT(dst));
->>   -    g_rmdir(tmpdir);
->> +    err =3D g_unlink(fifo);
->> +    g_assert(err =3D=3D 0);
->> +    err =3D g_rmdir(tmpdir);
->> +    g_assert(err =3D=3D 0);
->>   }
->
-> Thanks for the patch, but unfortunately this doesn't help:
->
-> Unknown TAP version. The first line MUST be `TAP version <int>`.
-> Assuming version 12.
->
-> 71/93 qemu:unit / test-io-channel-command             ERROR 1.06s
-> killed by signal 13 SIGPIPE
->>>> G_TEST_BUILDDIR=3D/Users/philmd/source/qemu/build/tests/unit
->     G_TEST_SRCDIR=3D/Users/philmd/source/qemu/tests/unit
->     MALLOC_PERTURB_=3D27
->     /Users/philmd/source/qemu/build/tests/unit/test-io-channel-command
->    --tap -k
-> =E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95
-> =E2=9C=80
-> =E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95
-> stderr:
-> 2023/02/06 15:46:03 socat[88615] E read(5, 0x13480c000, 8192): Bad
-> file descriptor
->
-> (test program exited with status code -13)
->
-> TAP parsing error: Too few tests run (expected 4, got 0)
+feel free to merge with rest of the patchset.
 
-Ahh that is a different error.
+> ---
+>  tests/qtest/bios-tables-test.c | 75 ++++++++++++++++++++++++++++++++--
+>  1 file changed, 71 insertions(+), 4 deletions(-)
+> 
+> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> index d8c8cda58e..d29a4e47af 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -1008,6 +1008,12 @@ static void test_acpi_q35_multif_bridge(void)
+>          .machine = MACHINE_Q35,
+>          .variant = ".multi-bridge",
+>      };
+> +
+> +    if (!qtest_has_device("pcie-root-port")) {
+> +        g_test_skip("Device pcie-root-port is not available");
+> +        goto out;
+> +    }
+> +
+>      test_vm_prepare("-S"
+>          " -device virtio-balloon,id=balloon0,addr=0x4.0x2"
+>          " -device pcie-root-port,id=rp0,multifunction=on,"
+> @@ -1043,6 +1049,7 @@ static void test_acpi_q35_multif_bridge(void)
+>      /* check that reboot/reset doesn't change any ACPI tables  */
+>      qtest_qmp_send(data.qts, "{'execute':'system_reset' }");
+>      process_acpi_tables(&data);
+> +out:
+>      free_test_data(&data);
+>  }
+>  
+> @@ -1396,6 +1403,11 @@ static void test_acpi_tcg_dimm_pxm(const char *machine)
+>  {
+>      test_data data;
+>  
+> +    if (!qtest_has_device("nvdimm")) {
+> +        g_test_skip("Device nvdimm is not available");
+> +        return;
+> +    }
+> +
+>      memset(&data, 0, sizeof(data));
+>      data.machine = machine;
+>      data.variant = ".dimmpxm";
+> @@ -1444,6 +1456,11 @@ static void test_acpi_virt_tcg_memhp(void)
+>          .scan_len = 256ULL * 1024 * 1024,
+>      };
+>  
+> +    if (!qtest_has_device("nvdimm")) {
+> +        g_test_skip("Device nvdimm is not available");
+> +        goto out;
+> +    }
+> +
+>      data.variant = ".memhp";
+>      test_acpi_one(" -machine nvdimm=on"
+>                    " -cpu cortex-a57"
+> @@ -1457,7 +1474,7 @@ static void test_acpi_virt_tcg_memhp(void)
+>                    " -device pc-dimm,id=dimm0,memdev=ram2,node=0"
+>                    " -device nvdimm,id=dimm1,memdev=nvm0,node=1",
+>                    &data);
+> -
+> +out:
+>      free_test_data(&data);
+>  
+>  }
+> @@ -1475,6 +1492,11 @@ static void test_acpi_microvm_tcg(void)
+>  {
+>      test_data data;
+>  
+> +    if (!qtest_has_device("virtio-blk-device")) {
+> +        g_test_skip("Device virtio-blk-device is not available");
+> +        return;
+> +    }
+> +
+>      test_acpi_microvm_prepare(&data);
+>      test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,rtc=off",
+>                    &data);
+> @@ -1485,6 +1507,11 @@ static void test_acpi_microvm_usb_tcg(void)
+>  {
+>      test_data data;
+>  
+> +    if (!qtest_has_device("virtio-blk-device")) {
+> +        g_test_skip("Device virtio-blk-device is not available");
+> +        return;
+> +    }
+> +
+>      test_acpi_microvm_prepare(&data);
+>      data.variant = ".usb";
+>      test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,usb=on,rtc=off",
+> @@ -1496,6 +1523,11 @@ static void test_acpi_microvm_rtc_tcg(void)
+>  {
+>      test_data data;
+>  
+> +    if (!qtest_has_device("virtio-blk-device")) {
+> +        g_test_skip("Device virtio-blk-device is not available");
+> +        return;
+> +    }
+> +
+>      test_acpi_microvm_prepare(&data);
+>      data.variant = ".rtc";
+>      test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,rtc=on",
+> @@ -1507,6 +1539,11 @@ static void test_acpi_microvm_pcie_tcg(void)
+>  {
+>      test_data data;
+>  
+> +    if (!qtest_has_device("virtio-blk-device")) {
+> +        g_test_skip("Device virtio-blk-device is not available");
+> +        return;
+> +    }
+> +
+>      test_acpi_microvm_prepare(&data);
+>      data.variant = ".pcie";
+>      data.tcg_only = true; /* need constant host-phys-bits */
+> @@ -1519,6 +1556,11 @@ static void test_acpi_microvm_ioapic2_tcg(void)
+>  {
+>      test_data data;
+>  
+> +    if (!qtest_has_device("virtio-blk-device")) {
+> +        g_test_skip("Device virtio-blk-device is not available");
+> +        return;
+> +    }
+> +
+>      test_acpi_microvm_prepare(&data);
+>      data.variant = ".ioapic2";
+>      test_acpi_one(" -machine microvm,acpi=on,ioapic2=on,rtc=off",
+> @@ -1558,6 +1600,12 @@ static void test_acpi_virt_tcg_pxb(void)
+>          .ram_start = 0x40000000ULL,
+>          .scan_len = 128ULL * 1024 * 1024,
+>      };
+> +
+> +    if (!qtest_has_device("pcie-root-port")) {
+> +        g_test_skip("Device pcie-root-port is not available");
+> +        goto out;
+> +    }
+> +
+>      /*
+>       * While using -cdrom, the cdrom would auto plugged into pxb-pcie,
+>       * the reason is the bus of pxb-pcie is also root bus, it would lead
+> @@ -1576,7 +1624,7 @@ static void test_acpi_virt_tcg_pxb(void)
+>                    " -cpu cortex-a57"
+>                    " -device pxb-pcie,bus_nr=128",
+>                    &data);
+> -
+> +out:
+>      free_test_data(&data);
+>  }
+>  
+> @@ -1764,6 +1812,12 @@ static void test_acpi_microvm_acpi_erst(void)
+>      gchar *params;
+>      test_data data;
+>  
+> +    if (!qtest_has_device("virtio-blk-device")) {
+> +        g_test_skip("Device virtio-blk-device is not available");
+> +        g_free(tmp_path);
+> +        return;
+> +    }
+> +
+>      test_acpi_microvm_prepare(&data);
+>      data.variant = ".pcie";
+>      data.tcg_only = true; /* need constant host-phys-bits */
+> @@ -1824,6 +1878,11 @@ static void test_acpi_q35_viot(void)
+>          .variant = ".viot",
+>      };
+>  
+> +    if (!qtest_has_device("virtio-iommu")) {
+> +        g_test_skip("Device virtio-iommu is not available");
+> +        goto out;
+> +    }
+> +
+>      /*
+>       * To keep things interesting, two buses bypass the IOMMU.
+>       * VIOT should only describes the other two buses.
+> @@ -1834,6 +1893,7 @@ static void test_acpi_q35_viot(void)
+>                    "-device pxb-pcie,bus_nr=0x20,id=pcie.200,bus=pcie.0,bypass_iommu=on "
+>                    "-device pxb-pcie,bus_nr=0x30,id=pcie.300,bus=pcie.0",
+>                    &data);
+> +out:
+>      free_test_data(&data);
+>  }
+>  
+> @@ -1894,8 +1954,10 @@ static void test_acpi_virt_viot(void)
+>          .scan_len = 128ULL * 1024 * 1024,
+>      };
+>  
+> -    test_acpi_one("-cpu cortex-a57 "
+> -                  "-device virtio-iommu-pci", &data);
+> +    if (qtest_has_device("virtio-iommu")) {
+> +        test_acpi_one("-cpu cortex-a57 "
+> +                       "-device virtio-iommu-pci", &data);
+> +    }
+>      free_test_data(&data);
+>  }
+>  
+> @@ -2004,6 +2066,11 @@ static void test_acpi_microvm_oem_fields(void)
+>      test_data data;
+>      char *args;
+>  
+> +    if (!qtest_has_device("virtio-blk-device")) {
+> +        g_test_skip("Device virtio-blk-device is not available");
+> +        return;
+> +    }
+> +
+>      test_acpi_microvm_prepare(&data);
+>  
+>      args = test_acpi_create_args(&data,
+> -- 
+> 2.35.3
 
->
-> $ tests/unit/test-io-channel-command
-> # random seed: R02Se92d5500c30bbf1797b1047cd480607c
-> 1..4
-> # Start of io tests
-> # Start of channel tests
-> # Start of command tests
-> # Start of fifo tests
-> 2023/02/06 15:47:31 socat[88651] E read(5, 0x12000c000, 8192): Bad
-> file descriptor
-> $ echo $?
-> 141
->
-> Should we add 'socat' as testing dependency in lci-tool?
-
-Yes, and maybe this is triggering on FreeBSD as well?
-
-  https://cdn.artifacts.gitlab-static.net/7e/5d/7e5de39c75978325e6b9b68dd0f=
-992f487a1c862c6dff2cc867723e4c306e820/2023_02_05/3717196650/4070740647/job.=
-log?response-content-type=3Dtext%2Fplain%3B%20charset%3Dutf-8&response-cont=
-ent-disposition=3Dinline&Expires=3D1675696399&KeyName=3Dgprd-artifacts-cdn&=
-Signature=3DB4AVL9qee1_jd8hmwvEkyVepy38=3D
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
