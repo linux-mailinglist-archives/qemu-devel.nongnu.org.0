@@ -2,87 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B479168C77D
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 21:19:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1634368C78E
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 21:22:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP7wv-00084j-2y; Mon, 06 Feb 2023 15:18:49 -0500
+	id 1pP7yv-00015U-PU; Mon, 06 Feb 2023 15:20:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pP7wp-000815-MJ
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 15:18:45 -0500
-Received: from mail-oo1-xc2f.google.com ([2607:f8b0:4864:20::c2f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pP7wo-00054I-17
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 15:18:43 -0500
-Received: by mail-oo1-xc2f.google.com with SMTP id
- k15-20020a4adfaf000000b00517450f9bd7so1227064ook.8
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 12:18:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=x78Jif3QAdalrc8WzGLO8KvwP+8HpbsW1oZCYsmjQbw=;
- b=JQnwhLzs8zJK8x8+OqaS+340ZyUyzCqZXcb0tiq+Nri8vQgdc/8xv/IsHdQdeV1cR2
- a7y1AJPm70ttj4/7EI2n3W3rUGvyg9YN4T60t7PXN4UZfo/CklD4mAPqF3sHr1Y9BPYS
- Mx7Y1/eyV8c0sO1efaUyEsDjkCKe4+PQQqn1ViPzQJehPmEApgsLCl2beRkKgwzaQ4GY
- 9tTfLPq8tFnJXZycyTTBTZIP97hN9LRLnqppcIjaK23fcmaZruhCZISbs3vmO/7uo9fi
- dx+tfJSam1UO0MkkvQ3+H5NSTHESNIkZ1zv0lMP89W9eoADstIPbU2P/DxCouDY5REGe
- TPEg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pP7yt-000154-3S
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 15:20:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pP7yr-0005eM-Ew
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 15:20:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675714848;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CcYgxdn21h+6BuTcVQ8mu50Au3DoZptI9uP5b2XsgR0=;
+ b=Xz2jmMgRgQA8hgWw2bhscm8Vo1/VYYftp/NwZLb6xMpS5YDg28iHg2eC803yjQ14NFjvBr
+ rhFJ9LnZyVkbXXaQ0MAAAZabTM8jr5CDXa07CL1AJdtnexmrCorADKOAINwRSOjJp/mbZc
+ wD8QHh5CZSVQyfkHZn5RMBsAfyccNCc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-510-QtwOv_P8M4KprifR1bm5BQ-1; Mon, 06 Feb 2023 15:20:47 -0500
+X-MC-Unique: QtwOv_P8M4KprifR1bm5BQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ bi10-20020a05600c3d8a00b003dd1b5d2a36so3861553wmb.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 12:20:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=x78Jif3QAdalrc8WzGLO8KvwP+8HpbsW1oZCYsmjQbw=;
- b=ttfyFSnWdbybLhosD9NrsBmToEpMRL7O48YNkxvFuSXyBRArKwNQmuw8w12hKCVUNR
- ehCgGiimcLVXC6QsGBXEB/IgnZtUKM8McQgeBWnU0gP4EVdqpVXHvK344S1KXp5J8KQ1
- fc4G283r1Bsu4cSUGTivTd8c1Cc4dsKTtLcUABEG/qHk3IwrWhjb9YKjdo4NO49IK5ub
- g89u9DmXQMasf82HKFdL8xfILybwVrlzCwz46SS9+DUoXkPhHEk7yXjEg8lZ6YFbYRgN
- 1NILlX6Rfe+634KmfUZfzm6rkWDx6y9texuHZDtHNvnpaeq6c20RKPn2bhlqdt09QNl8
- ljNQ==
-X-Gm-Message-State: AO0yUKVbQm5xXL1WF4xwM2/FMQfoag2gyiCeV7s/g2Zmm6Ir3dSZz4tC
- EIPMvt15uxn4RwnpA6MAsv0Fng==
-X-Google-Smtp-Source: AK7set8Rht0129IGbcMhXqz3dQyySYEX1SMIvcY3lT4MoO4/KthzPR5E+ITSD0d/+k2GgZ4ZPZbmNw==
-X-Received: by 2002:a4a:91c6:0:b0:4fa:325e:ebb0 with SMTP id
- e6-20020a4a91c6000000b004fa325eebb0mr114997ooh.5.1675714719382; 
- Mon, 06 Feb 2023 12:18:39 -0800 (PST)
-Received: from [192.168.68.107] ([191.19.125.138])
- by smtp.gmail.com with ESMTPSA id
- w1-20020a4a2741000000b004f269f9b8f3sm4493974oow.25.2023.02.06.12.18.36
+ bh=CcYgxdn21h+6BuTcVQ8mu50Au3DoZptI9uP5b2XsgR0=;
+ b=jwQx1t9+eBQv7HSFmrE7H/bOfHIxvXgvNWf8iWfD0tRsRdJ7WzG3EQ//6dBMnLMcM1
+ bW72IKuIxIbV8jVpaw0bhcxJiH6G3Z63sEn6rHRoQXiP081X75r2rfhAWdKw/6nf51Fa
+ fhRRysu6pQftfhe1ugiCzovnITuXacvuNwLCUHsHOGpk2wbhZnlgS1NiWcEuo/lCtT5i
+ QNMR3YyKWFtrE4uMNHGNoqE8l/bV/RhQT5wC2s9JnO5HLdQNCGdlVJXEdkf3vmqxBEqT
+ i/V5bhhz0+kiuVVPZiy2t/0SC76iENDeWZOtOomAsZ/OjYqRmgIwvZ0gYLQW/lsj2sNQ
+ ljKg==
+X-Gm-Message-State: AO0yUKWZIWdu5PqLhbRjZ9CTBMusHDfVgxRm1p34eU1mdv1cJ12srQ/0
+ JHmG/YYyAhxjXDak8glHj+lM9y78JMonH2V+URlJuDKsZH3gJmafX8NL9KsLqf3uuJmi8BKUaM1
+ G75O/MJZSWiTEdVM=
+X-Received: by 2002:a5d:453b:0:b0:2bf:af52:b836 with SMTP id
+ j27-20020a5d453b000000b002bfaf52b836mr167566wra.16.1675714846563; 
+ Mon, 06 Feb 2023 12:20:46 -0800 (PST)
+X-Google-Smtp-Source: AK7set/6l4UvoWAIoA6DtrasYNLAeVKCP9xPwtQ5CKo+NT+hG0CIBBuWLf/cYFa7WazFNCLMzQ2EVQ==
+X-Received: by 2002:a5d:453b:0:b0:2bf:af52:b836 with SMTP id
+ j27-20020a5d453b000000b002bfaf52b836mr167550wra.16.1675714846384; 
+ Mon, 06 Feb 2023 12:20:46 -0800 (PST)
+Received: from [192.168.8.105] (tmo-096-216.customers.d1-online.com.
+ [80.187.96.216]) by smtp.gmail.com with ESMTPSA id
+ r13-20020a05600c35cd00b003dc5b59ed7asm12669664wmq.11.2023.02.06.12.20.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 12:18:38 -0800 (PST)
-Message-ID: <b3105db2-d36b-b12c-fd0b-863cf82f938f@ventanamicro.com>
-Date: Mon, 6 Feb 2023 17:18:35 -0300
+ Mon, 06 Feb 2023 12:20:45 -0800 (PST)
+Message-ID: <8669ea09-05b4-b17f-aa85-9943071232d3@redhat.com>
+Date: Mon, 6 Feb 2023 21:20:43 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v11 2/3] hw/riscv/boot.c: consolidate all kernel init in
- riscv_load_kernel()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [RFC PATCH 1/5] Rename the singlestep global variable to
+ one_insn_per_tb
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng@tinylab.org>
-References: <20230206140022.2748401-1-dbarboza@ventanamicro.com>
- <20230206140022.2748401-3-dbarboza@ventanamicro.com>
- <21b58cf5-af07-95e3-8253-29d5b12d12e1@linaro.org>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <21b58cf5-af07-95e3-8253-29d5b12d12e1@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Warner Losh <imp@bsdimp.com>,
+ Kyle Evans <kevans@freebsd.org>, Markus Armbruster <armbru@redhat.com>
+References: <20230206171359.1327671-1-peter.maydell@linaro.org>
+ <20230206171359.1327671-2-peter.maydell@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230206171359.1327671-2-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2f;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oo1-xc2f.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,35 +106,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 2/6/23 16:54, Richard Henderson wrote:
-> On 2/6/23 04:00, Daniel Henrique Barboza wrote:
->> To not change the behavior of boards that aren't calling
->> riscv_load_init(), add an 'load_initrd' flag to riscv_load_kernel() and
->> allow these boards to opt out from initrd loading.
+On 06/02/2023 18.13, Peter Maydell wrote:
+> The 'singlestep' global variable is badly misnamed, because it has
+> nothing to do with single-stepping the emulation either via the gdb
+> stub or by emulation of architectural debug facilities.  Instead what
+> it does is force TCG to put only one instruction into each TB.
+> Rename it to one_insn_per_tb, so that it reflects what it does better
+> and is easier to search for in the codebase.
 > 
-> Surely this is simply a bug for those boards.
+> This misnaming is also present in user-facing interfaces: the command
+> line option '-singlestep', the HMP 'singlestep' command, and the QMP
+> StatusInfo object.  Those are harder to update because we need to
+> retain backwards compatibility.  Subsequent patches will add
+> better-named aliases so we can eventually deprecate-and-drop the old,
+> bad name.
 > 
-> I cannot believe, for instance, that sifive_u should allow initrd and sifive_e must not.
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   include/exec/cpu-common.h   | 2 +-
+>   accel/tcg/cpu-exec.c        | 4 ++--
+>   bsd-user/main.c             | 4 ++--
+>   linux-user/main.c           | 4 ++--
+>   softmmu/globals.c           | 2 +-
+>   softmmu/runstate-hmp-cmds.c | 4 ++--
+>   softmmu/runstate.c          | 2 +-
+>   softmmu/vl.c                | 2 +-
+>   8 files changed, 12 insertions(+), 12 deletions(-)
 > 
-> Backward compatible behaviour is had simply by not providing the command-line argument.
+> diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+> index 6feaa40ca7b..f2592a1967f 100644
+> --- a/include/exec/cpu-common.h
+> +++ b/include/exec/cpu-common.h
+> @@ -163,7 +163,7 @@ int cpu_memory_rw_debug(CPUState *cpu, vaddr addr,
+>                           void *ptr, size_t len, bool is_write);
+>   
+>   /* vl.c */
+> -extern int singlestep;
+> +extern int one_insn_per_tb;
 
-That makes sense but the question here is whether the sifive_e board supports
--initrd if the option is provided. I tend to believe that it does, and the current
-code state is mostly an oversight (we forgot to add load_initrd() support for the
-board) rather than an intentional design choice, but since I'm not sure about
-it I opted for playing it safe.
+IMHO the global variable should completely go away - this should get a 
+property of the tcg accel instead.
 
-If someone can guarantee that the sifive_e and the opentitan boards are capable of
--initrd loading I can re-send this patch without the 'load_initrd' flag.
+  Thomas
 
-
-Thanks,
-
-Daniel
-
-> 
-> 
-> r~
 
