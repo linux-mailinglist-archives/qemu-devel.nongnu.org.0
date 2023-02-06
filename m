@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE86968C5ED
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 19:38:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE2D668C5F3
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Feb 2023 19:39:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pP6NE-0007fU-Q2; Mon, 06 Feb 2023 13:37:52 -0500
+	id 1pP6OS-0008MQ-Ao; Mon, 06 Feb 2023 13:39:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pP6NB-0007cT-SX
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:37:50 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ id 1pP6O2-00083M-BZ
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:38:50 -0500
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pP6NA-00038d-1f
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:37:49 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- bg10-20020a17090b0d8a00b00230c7f312d4so2896057pjb.3
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 10:37:46 -0800 (PST)
+ id 1pP6Nn-0003B2-Ac
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 13:38:41 -0500
+Received: by mail-pl1-x644.google.com with SMTP id u9so8846796plf.3
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 10:38:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=rJ4WZRb+qcB0ADCuzq0HTG68lsC6ky8K+1goHFG9KLM=;
- b=rfGVI8arAbGktWNINQD0qsezrFXq3+jSVliXFmkpCZjFRRmGQuu5A/UTb3vfjOUUIj
- fiKLqxVMkuAF0dU9sE3RU6exR9RP3R+s7FynK1LpHdWRtCpIV5YAVb+5CEIbiZVsCldp
- XYV3cG2HkQGdgYiBcKfQ3T6Hgga/rOCIOqeVcpLGikR2f2r7bLP0dBrwmbj+E1rnIU7p
- SuhXLA4DV9dNeqeHGU3sLyb6gdbNe1lPUNI6TbLhPxxFv+fwSwnzas8fe1mpfJDirCHQ
- 0vfcXTK9Il9PpdyaeHAASb89qdcS9PNT8SxHeeHSe9m5Lq228OhluBXpz4XW14Wxzio+
- xSAQ==
+ bh=565L2xF5k9TqD2ASC6di7Sxu9PLFzcP9o7TCEyUYZDk=;
+ b=NvFHrihvDc5YLt+AdkZTtm49qI6EsYoPDUClg5s8ggIcXDWW+sqUyMaqfxGPfkiSc9
+ 8O1qK895RbOcJta6kNqnzRC3SFUJSjGUMliNw0ILrnOgRIDpVmCELMWGc6gzU+XHJy2+
+ 33YrbrvHcGkVGBuxwmLaUptd1heYP7mHQ3Lvvh7wzn6ABLEE6lO0LEmvyeFsPZbzq9YN
+ 95ZsUj6aM/QgJFOpZdkjKLQzNyeqzBD5GAXAsdTo4brKQm7a1BvDDxsiD2qL1MrRwIYD
+ +/q3ISGT75Bd5VE4fZ7C34nCFAd8sQVKXQ1joQw3ZF7nBVHX24qSPHJifD8tC+2FkjjG
+ bhyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rJ4WZRb+qcB0ADCuzq0HTG68lsC6ky8K+1goHFG9KLM=;
- b=jXey1smzlGPsQLGGSRxJ9ykO1khzWkm1nsOZVblJexs3ddUywwnux/+UVSW5YSO3mf
- +nQPV3qCaD/zpTDx1GaRAycmrH1OEvDxUEIVFOJShnrykU7eonM6L/S0QWgXA4PJAH6S
- iXj+rE6KVLYkeYzvp1B3BQMzcC0U2KHlDMQC5uyKJzNNQDwU1pHDJzpRs5Sjzt4kAuPX
- rOB3yDNI5iRnu1ygtCmEE1dI418HT5hq04YrREcE0MXZZtzs8JFQW9RhjnaFIFLPFWpE
- SZI5UUoMs/bCYMviMwYQwOMVSN6uzyHgmu0lmt568TLIx9tnxZnfY5dsQMDhom7K+jEB
- QJPw==
-X-Gm-Message-State: AO0yUKVgaGuQo7ZFqmnjRb1dwDUDr0fuieuSDAI1rkNN9HhIcl4/QJkh
- C5bsgZEKAjqS+YLR/yjLNZ5LXg==
-X-Google-Smtp-Source: AK7set+ZFIlo7OjHs+s/1ZBYwYXZ6WB4RgLVekZkc6lo1zPNcW//42EYVNL8c8Lsr3P2Bur9Yq7GTA==
-X-Received: by 2002:a17:903:18f:b0:199:19b7:cb3 with SMTP id
- z15-20020a170903018f00b0019919b70cb3mr4588519plg.34.1675708665496; 
- Mon, 06 Feb 2023 10:37:45 -0800 (PST)
+ bh=565L2xF5k9TqD2ASC6di7Sxu9PLFzcP9o7TCEyUYZDk=;
+ b=ZU8P94ilkOeWMdos91rvk+ijCBB+751Gcvkpz1qdeOU5sBLJKdG2hZ0a5LSJLuMGXW
+ QpFE8Dy73QKXwLGOPqepydZJMbmx1foGbOD/+gRbRvSkAYEuu9CWGpZrx1m78UN9j5tC
+ 2HBlhPxeUpHEZ7xvQiy5PDgje94NG0UQ5blgGqy+P5poMl1s9GUcWGgXcRS8DXn3Fggv
+ /iZ6Fljxl9nTu5KaOOuIh0V36XhGTZua8DlEkrzpHTHwV535iXO5hB6GGDhRuzSajde0
+ AZTA0+bcgTCnZjALdfZGtbCeWDbbASeqWz0uy+5b5RGRtR7zDlk6vYn9pCMsrEkxueAc
+ QE6Q==
+X-Gm-Message-State: AO0yUKWNJuAJmgnVZ1HPl56uaWOwg8oHGbGOQu4VDNAwTHWuO2ICDJ7K
+ gSLWIAiycIUeJMaTtI3EoaS6xA==
+X-Google-Smtp-Source: AK7set880ePzGC5p1V6qgwbGd/h/tQbi69QO7szreP6XSTj54Ppo3rd9JfKjKoYSicdanGkn5fhR7Q==
+X-Received: by 2002:a17:902:c702:b0:194:7d25:cb78 with SMTP id
+ p2-20020a170902c70200b001947d25cb78mr16117036plp.46.1675708704283; 
+ Mon, 06 Feb 2023 10:38:24 -0800 (PST)
 Received: from [192.168.101.227] (rrcs-74-87-59-234.west.biz.rr.com.
  [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
- jl12-20020a170903134c00b0017f73dc1549sm4188215plb.263.2023.02.06.10.37.43
+ jf14-20020a170903268e00b001991cff52a8sm1934251plb.28.2023.02.06.10.38.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 10:37:44 -0800 (PST)
-Message-ID: <afe89944-610f-4a05-741b-75d28c1ab36f@linaro.org>
-Date: Mon, 6 Feb 2023 08:37:41 -1000
+ Mon, 06 Feb 2023 10:38:23 -0800 (PST)
+Message-ID: <2c0b8a2d-4ef2-f952-adf3-b0605f786fc2@linaro.org>
+Date: Mon, 6 Feb 2023 08:38:20 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 3/9] target/arm: Avoid resetting CPUARMState::eabi field
+Subject: Re: [PATCH 2/9] target/arm: Constify ID_PFR1 on user emulation
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
 References: <20230206121714.85084-1-philmd@linaro.org>
- <20230206121714.85084-4-philmd@linaro.org>
+ <20230206121714.85084-3-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230206121714.85084-4-philmd@linaro.org>
+In-Reply-To: <20230206121714.85084-3-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,47 +94,53 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 2/6/23 02:17, Philippe Mathieu-Daudé wrote:
-> Although the 'eabi' field is only used in user emulation where
-> CPU reset doesn't occur, it doesn't belong to the area to reset.
-> Move it after the 'end_reset_fields' for consistency.
-> 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   target/arm/cpu.h | 9 ++++-----
->   1 file changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index 7bc97fece9..bbbcf2e153 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -721,11 +721,6 @@ typedef struct CPUArchState {
->       ARMVectorReg zarray[ARM_MAX_VQ * 16];
->   #endif
->   
-> -#if defined(CONFIG_USER_ONLY)
-> -    /* For usermode syscall translation.  */
-> -    int eabi;
-> -#endif
-> -
->       struct CPUBreakpoint *cpu_breakpoint[16];
->       struct CPUWatchpoint *cpu_watchpoint[16];
->   
-> @@ -772,6 +767,10 @@ typedef struct CPUArchState {
->           uint32_t ctrl;
->       } sau;
->   
-> +#if defined(CONFIG_USER_ONLY)
-> +    /* For usermode syscall translation.  */
-> +    int eabi;
-> +#endif
-
-As a follow-up, this could be bool.  And thus this might pack better just before 
-tagged_addr_enable.
-
-Other than placement,
+>   target/arm/helper.c | 12 ++++++++++--
+>   1 file changed, 10 insertions(+), 2 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-
 r~
+
+> 
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index 5dbeade787..b58800a1a5 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -7021,6 +7021,7 @@ static void define_pmu_regs(ARMCPU *cpu)
+>       }
+>   }
+>   
+> +#ifndef CONFIG_USER_ONLY
+>   /*
+>    * We don't know until after realize whether there's a GICv3
+>    * attached, and that is what registers the gicv3 sysregs.
+> @@ -7038,7 +7039,6 @@ static uint64_t id_pfr1_read(CPUARMState *env, const ARMCPRegInfo *ri)
+>       return pfr1;
+>   }
+>   
+> -#ifndef CONFIG_USER_ONLY
+>   static uint64_t id_aa64pfr0_read(CPUARMState *env, const ARMCPRegInfo *ri)
+>   {
+>       ARMCPU *cpu = env_archcpu(env);
+> @@ -7998,8 +7998,16 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+>                 .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 1, .opc2 = 1,
+>                 .access = PL1_R, .type = ARM_CP_NO_RAW,
+>                 .accessfn = access_aa32_tid3,
+> +#ifdef CONFIG_USER_ONLY
+> +              .type = ARM_CP_CONST,
+> +              .resetvalue = cpu->isar.id_pfr1,
+> +#else
+> +              .type = ARM_CP_NO_RAW,
+> +              .accessfn = access_aa32_tid3,
+>                 .readfn = id_pfr1_read,
+> -              .writefn = arm_cp_write_ignore },
+> +              .writefn = arm_cp_write_ignore
+> +#endif
+> +            },
+>               { .name = "ID_DFR0", .state = ARM_CP_STATE_BOTH,
+>                 .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 1, .opc2 = 2,
+>                 .access = PL1_R, .type = ARM_CP_CONST,
+
 
