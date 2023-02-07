@@ -2,91 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D0FA68DB91
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:33:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A25B068DBA7
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:34:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPP2C-0001Ug-Jh; Tue, 07 Feb 2023 09:33:24 -0500
+	id 1pPP3K-0003pR-UN; Tue, 07 Feb 2023 09:34:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pPP1u-0001G6-Fb
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:33:07 -0500
-Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pPP3I-0003oh-55
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:34:32 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pPP1s-0007vc-PN
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:33:06 -0500
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-527979e8670so111174307b3.10
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:33:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pPP3G-00088c-Kv
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:34:31 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id d2so11508957pjd.5
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:34:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=RTH+aH0oSY3ZVMd9O3U15uYMHnEaKKfdSwajJ12ADOI=;
- b=OVTQhbegMlYyAF7g4djIvtyt0hHaAhM6URGUcqV79ytkKaJSPqC0WwFghFl2Bz4TeM
- SmlvTClvHyY+w2+Ln0z9WhuEDQ/MZ3/zF7dx/Y+aLhZ9bjFkFqHZ4f1AFOPsTINeBHl9
- T7iVdmIS8lIcNcYHHO7QFYIkj3RMdhXYAmAR4RV7SmvNuDGefaks32Mgg+ji1+NaIUyQ
- oYQ4ZX4cVVrPmGwtVphzMeL/yN4660mDSr/V/udj7Mwuj6imMSlB4ARcHMl10x9CprA7
- VuulCT68r1CIc0B1MDq+IWJ73ghRaxV5EjRFFbavlGb0GuzRvEwRDfpIbOPh8Wrya7MC
- d3SA==
+ bh=fgyO/Nbv99Si2C5XaM4U2ruXGJqXvpH0ymdkNd7I7U8=;
+ b=IEpe4PkvGPMNhxZfZcTN/dAl/O987zrMDthYY9oyI0/nuSvTrCzIQZmvCYohunAxL1
+ eBPJWsywxMLCgHCi9Qub+00WwINzBxweFxafaFVVmqn7eOhmRyVrkIV3Le3A8VRwAoQ7
+ x5Iakx0XGohEhY1x7y6kOIotn70hl3JfMmfRagfIyP1qHRGPWOL3hg0jDQw575nPW17C
+ iFrEB4HFtJTS0mWLgUOUE5kA+6m81Yi9uTS45+RogW08Oj/+QjpXOAZc2Rx4oDZKnab4
+ dpHESSMEasTufxfqz0TEFsl0jXZoq4eIzYdxkX14IxP3aOBciz42njrUqE2xkQZ3xWji
+ 7bLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=RTH+aH0oSY3ZVMd9O3U15uYMHnEaKKfdSwajJ12ADOI=;
- b=dCXpilbxQkg8pOnTG3SbaAPRDuPzSVM3gRdajgKdZbQuu3+oG9vaPcYy2H3kVOf5+2
- Dj9mY3efCX59yQXNC+eyw8DVVdKTJhx89u2RF+XMv269cI6QS1/sJMWIqo9nXcq7XP8/
- CFDCYosDUSROA/70UC/Nt0XKPmUYhrM95NuRNrvT5pJneCMHU0n1Y2RxjjroSiOlWhd1
- OjnlZ5xA/FxUpVKrE9gwGWnylxmfaRGb0J93HFY2Q9H7yj7Hg1/2emUo/IE3LGYPSdxY
- lp2LqsmmyXehhSazSv71t7YAysHQ+aKAgFRPBgZ7dEzkLl4Z3qGVsar8F2M7lLI3OE1K
- Ubsg==
-X-Gm-Message-State: AO0yUKVoE/Hd+x6H4kwoAh/sJSIy1f7FNymoZfAyl427xyl8GhaHF01M
- wOO/5ryei9SduL0x7ktpAg4eBtOHVh/rYKS5Am4=
-X-Google-Smtp-Source: AK7set++S9is4bzsa+KfhYVLzXm962DXR+Of+cTGrOBJRzVHYEGEkM2v3+gXYH3mkJxJfixxV/DpetVZ9yy3PmWI3+Q=
-X-Received: by 2002:a81:a10f:0:b0:527:ac79:7808 with SMTP id
- y15-20020a81a10f000000b00527ac797808mr301705ywg.239.1675780382820; Tue, 07
- Feb 2023 06:33:02 -0800 (PST)
+ bh=fgyO/Nbv99Si2C5XaM4U2ruXGJqXvpH0ymdkNd7I7U8=;
+ b=rMEhu9pzh7aTH+7GdeelXQMx/LYfnFmJ/1KWUpwRHOzuxMMmN+Tp+ZdSpA10RirNlN
+ KuOdR4gcoziCPzt4BQEQUe2AJ6QmeR/yf/GhsydDVULx180+hKR288Lue8RJ5pB5qcjc
+ 0P1gpwtCcOg/x3LLPb0N7Jt69V+z9EcCj2MYEPHbnMuFV7kCH/x7/DJSaLC22puv4ESt
+ nig99agF2f0zcH5ZAmkYUk4OheADZqSzqj6aJUUg0hcVBtzqAhbu6oerYEltxWB+PMiR
+ da5watTmYppqGkp0yk9Pzqx18pdAOuzMCpgtTsyII7PBwynlVK/Ano0FgHbuQb7J3JkE
+ XMcg==
+X-Gm-Message-State: AO0yUKX75+yXA8ByEulU8HiN+Trh/ksSH1G3/TNYXjVT2UfvO/hEP+Cf
+ bRS1EYHOINV/mgX9vF3CQM5Aklee36YJnA0fQVFi/w==
+X-Google-Smtp-Source: AK7set9CHmxPmbCidSh6Szfdj8uCpF4Du9dvWP1TOuMOsMfn9hzR8G/ftOssrNzd98qf2uDdWiIJRUIMnZ6e0vAB1/o=
+X-Received: by 2002:a17:90a:a38d:b0:230:81fc:db1b with SMTP id
+ x13-20020a17090aa38d00b0023081fcdb1bmr2888914pjp.89.1675780469178; Tue, 07
+ Feb 2023 06:34:29 -0800 (PST)
 MIME-Version: 1.0
-References: <CAJSP0QUuuZLC0DJNEfZ7amyd3XnRhRNr1k+1OgLfDeF77X1ZDQ@mail.gmail.com>
- <CAELaAXysa3M-TPbLMCVCwpt40iqhXpF7PCan_i6SzY_YMafXrg@mail.gmail.com>
- <CAJSP0QWLdbNqyrGnhRB3AqMpH0xYFK6+=TpWrrytQzn9MGD2zA@mail.gmail.com>
- <CAELaAXwAF1QSyfFEzqBFJk69VZN9cEC=H=hHh6kvndFm9p0f6w@mail.gmail.com>
- <CAELaAXx6cUhcs+Yi4Kev6BfcG0LO8H_hAKWrCBL77TbmguKO+w@mail.gmail.com>
-In-Reply-To: <CAELaAXx6cUhcs+Yi4Kev6BfcG0LO8H_hAKWrCBL77TbmguKO+w@mail.gmail.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 7 Feb 2023 09:32:50 -0500
-Message-ID: <CAJSP0QXqOkVEza0S=A-Ct_6FqRGe3BQgkJEG6HnqoMAdLhJ5pA@mail.gmail.com>
-Subject: Re: Call for GSoC and Outreachy project ideas for summer 2023
-To: Alberto Faria <afaria@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, kvm <kvm@vger.kernel.org>, 
- Rust-VMM Mailing List <rust-vmm@lists.opendev.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>, 
- Stefano Garzarella <sgarzare@redhat.com>,
- =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
- "Florescu, Andreea" <fandree@amazon.com>,
- Damien <damien.lemoal@opensource.wdc.com>, 
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, Hanna Reitz <hreitz@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- Bernhard Beschow <shentey@gmail.com>, Sean Christopherson <seanjc@google.com>, 
- Vitaly Kuznetsov <vkuznets@redhat.com>, gmaglione@redhat.com
+References: <20230124000027.3565716-1-richard.henderson@linaro.org>
+ <20230124000027.3565716-5-richard.henderson@linaro.org>
+In-Reply-To: <20230124000027.3565716-5-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Feb 2023 14:34:18 +0000
+Message-ID: <CAFEAcA_6dwB9ygO-kr9vaGTH=wNavZoQpunxWQ4Nt715Y49NGg@mail.gmail.com>
+Subject: Re: [PATCH 04/22] target/arm: Update SCR and HCR for RME
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, yier.jin@huawei.com, 
+ jonathan.cameron@huawei.com, leonardo.garcia@linaro.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x112b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,59 +84,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 7 Feb 2023 at 05:30, Alberto Faria <afaria@redhat.com> wrote:
+On Tue, 24 Jan 2023 at 00:01, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> On Tue, Feb 7, 2023 at 10:23 AM Alberto Faria <afaria@redhat.com> wrote:
-> > On Mon, Feb 6, 2023 at 9:22 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> > > Great that you're interesting, Alberto! Both sound feasible. I would
-> > > like to co-mentor the zoned storage project or can at least commit to
-> > > being available to help because zoned storage is currently on my mind
-> > > anyway :).
-> >
-> > Perfect, I'll have time to co-mentor one project, but probably not
-> > two, so let's leave the NVMe driver project aside for now. If anyone
-> > wants to take that one over, though, go for it.
-> >
-> > > Do you want to write up one or both of them using the project template
-> > > below? You can use the other project ideas as a reference for how much
-> > > detail to include: https://wiki.qemu.org/Google_Summer_of_Code_2023
-> >
-> > I feel like this is closer to a 175 hour project than a 350 hour one,
-> > but I'm not entirely sure.
-> >
-> >   === Zoned device support for libblkio ===
-> >
-> >    '''Summary:''' Add support for zoned block devices to the libblkio library.
-> >
-> >    Zoned block devices are special kinds of disks that are split into several
-> >    regions called zones, where each zone may only be written
-> > sequentially and data
-> >    can't be updated without resetting the entire zone.
-> >
-> >    libblkio is a library that provides an API for efficiently accessing block
-> >    devices using modern high-performance block I/O interfaces like
-> > Linux io_uring.
-> >
-> >    The goal is to extend libblkio so users can use it to access zoned devices
-> >    properly. This will require adding support for more request types, expanding
-> >    its API to expose additional metadata about the device, and making the
-> >    appropriate changes to each libblkio "driver".
-> >
-> >    This is important for QEMU since it will soon support zoned devices too and
-> >    several of its BlockDrivers rely on libblkio. In particular, this
-> > project would
-> >    enable QEMU to access zoned vhost-user-blk and vhost-vdpa-blk devices.
+> Define the missing SCR and HCR bits, allow SCR_NSE and {SCR,HCR}_GPF
+> to be set, and invalidate TLBs when NSE changes.
 >
-> Also, a stretch/bonus goal could be to make the necessary changes to
-> QEMU to actually make use of libblkio's zoned device support.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Great, I have added it to the wiki and included a list of tasks:
-https://wiki.qemu.org/Internships/ProjectIdeas/LibblkioZonedStorage
 
-Feel free to edit it.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-I think this project could just as easily be 350 hours, but I'm happy
-to mentor a 175 hour project with a more modest scope.
-
-Stefan
+thanks
+-- PMM
 
