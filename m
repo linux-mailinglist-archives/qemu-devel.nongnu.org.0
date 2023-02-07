@@ -2,97 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC4F168D074
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 08:18:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38FCE68D072
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 08:18:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPI9X-0000oN-5R; Tue, 07 Feb 2023 02:12:31 -0500
+	id 1pPI9Z-0001fN-T9; Tue, 07 Feb 2023 02:12:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=395dd5341=alistair.francis@opensource.wdc.com>)
- id 1pPI8a-0000Rf-Ou
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:11:33 -0500
+ id 1pPI8l-0000oR-L4
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:11:45 -0500
 Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=395dd5341=alistair.francis@opensource.wdc.com>)
- id 1pPI8Z-0000FW-2J
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:11:32 -0500
+ id 1pPI8j-0000FD-T3
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:11:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1675753890; x=1707289890;
+ t=1675753901; x=1707289901;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=nAEGQFI1FHQzfJo42rtu+JUbjk/iQKPLMYjeGOQU254=;
- b=AahOUEe8ioJHAoXcRaBQPqgPKCbqVo+clfX1rwKt4eArVoIza7HeRqPT
- vc587VIajfPcbtk8ivzU5gJ0t15w6Rixk83CqoFzvBV2mnZ/zwPXscSY3
- 7Zr0O0on0fI3jU17wrQA/q8b7pRGFBBakdKJog/UPP77QCrzqjTCgrxI+
- UvEWedLFOhAyvG9IB5n7wUbfAJEyDl0Iae15fv4sKL99/g7w/FlIsQW/H
- g1wxiyV6mlDDdOVDgbvw3CTvlik9e88/AOqnjXmHomNvXxGjXyQ6Q4Su1
- NHp6NhXpT9rbGKSuiIpOtu/erodsUdmQN2RGDIMPdi9U30qccJcvqhTcy A==;
-X-IronPort-AV: E=Sophos;i="5.97,278,1669046400"; d="scan'208";a="227657569"
+ bh=FqxN0DDoeXyJPxneOePzsGYbK2UlUP3aMNQdNoJRU2U=;
+ b=f8m7dXDLclFRVVpURZExkxkICRB8wa8Kj024KWyWQ2wuGMjiaVyrlnAH
+ UNCJJWD8ou9aoGLAZxv4yFqdSX6cjYSwHI/5tdPf0uodoVOzTjz+NGwsZ
+ 0gLg2FVJoDKQuZs7Fn1iJ2SLm1E5SuWW4vkKkIh5IGaVB0e438gitzZSP
+ Dkbk/5RhTrgcYeUrZ15l3uTq+xkY69lK8d3t2r2vFhBezQnHsGifcgNJM
+ bcs8X8OyX/Y9KI16i76B0iqMFcGb6W49d4rKj8e8O5BVQQ98nt686wLBl
+ fnnKaoCELtH7qvkU0oDqnwPgqMM6mY/KJ6g39Uwcqw1nbsLD/+uDkGVA2 w==;
+X-IronPort-AV: E=Sophos;i="5.97,278,1669046400"; d="scan'208";a="227657570"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 07 Feb 2023 15:10:45 +0800
-IronPort-SDR: 0aZ2XGvmRVy7leT2JTFyw3NDRC9JnvHRMi1Li+bN9O2g6+LGl66CBeP3aLbCKe85WNw0wI55G0
- z0LlMZnmJd2jUxoG6jr1R9LmvJWOxzAcHQAk7DHsvutSb8kg0yBi7d2jGP7GWDSQ/qWO+6RKcl
- bDEDoeeH3uJkTLSR46wl7WJY5/7zJrDq9fokVE3eCvyX46dyIF1YZeM8ZGtzoJNw5C0dArfcCR
- co8ygq74yq95fLYOH6fOk+QKSSJJ6Uknte0misNTE4E3t7kcu0aOWOGnfxqXL33J53RMfWSRfv
- rlM=
+ by ob1.hgst.iphmx.com with ESMTP; 07 Feb 2023 15:10:46 +0800
+IronPort-SDR: iVVa8Zm96IHVguEkOjrIhWPOW7hQkL+h9rj0rc8aG4uWxKCniDg/RtxhgY5zGGjbVwttr2HaMO
+ 3K426/4B3X+7dmBtUJqwZgXiZzTrsFxdSDlSAwx0Qj8kl3WSfZ0Hcuvia4IuFXwpOynR/4O89s
+ Ybr+1PdlwiO2CARXgG140Y9wW84vWCEUjqqTnZEDu7cPRAt5/zV+sw/Mzs1VuqIaYy+dymss5H
+ yE/ReVTXv6q6EKTv1B0I+rwqAzB9MTUkMV4IAmjwbrjLIjtEX9eoT9jYgOSa091ByCtIKyaMMK
+ SY0=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Feb 2023 22:28:02 -0800
-IronPort-SDR: f6zFsmhHUSCLcwukVUgrYn3fy5l0GRFjnJgcorsq0hDsDeScABD6baqrgSdrKTpZt9VSRszvFT
- c4aQABLKvqUHfWEB1LH4Hn1xTwbp5AS4rKPGrBPUyfietf0RKTzWw070rAJ5YoiNXq7fPxp/kV
- 3IPJ+34yvCv71eoDLnkdCxs1MV1HmuA5Crq2et+QzFzge6FLUKIPzgWypcsuSfmubwJ/TRouL8
- W8nMs0hj4iBL4qUmuJaK0EjsZHSzeuVcqH9AzIhEiZj7IJN10ukFHesDXDfcHDaKUjXK4I9xY4
- TQg=
+ 06 Feb 2023 22:28:03 -0800
+IronPort-SDR: 9HkgtQ1+oBO9Jh+iAhvYOSwPEsikR0Afvgqn/vfG63aL5pKpSnAcb/wvefmV4lYYBtaBZiyJa3
+ 5r6/XHF2WHQfOPH2Gvm6x6XFgtrlom0IQZ/1O8YK6vxfixnYN3/tSxu7ZyNots9KU2NMQeEeDB
+ ve5tpCvLJEpblANifbooa9F3o+Y7CvFuV8MAe61xfircTNNqpPajiNXKoMzRr92XUlBGtskCTf
+ arZskiM4Zhi0idN+xJ2hklPEAgHZP6jmb+APVFG5FWRWqulw21lY0dJurH5uO6z6MDbEQfXMDJ
+ Qhk=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Feb 2023 23:10:45 -0800
+ 06 Feb 2023 23:10:47 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4P9vRT0kSxz1Rwrq
- for <qemu-devel@nongnu.org>; Mon,  6 Feb 2023 23:10:45 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4P9vRV5xM1z1RvTp
+ for <qemu-devel@nongnu.org>; Mon,  6 Feb 2023 23:10:46 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1675753844; x=1678345845; bh=nAEGQFI
- 1FHQzfJo42rtu+JUbjk/iQKPLMYjeGOQU254=; b=sG4CfVC6jvzHThFKkUb2CYf
- u46/Lo7+EuXorN1q8qAO7dXn1FISiWy/YB6TYYz9q6JthRGNtAqnH+Y5jTfPz3Y0
- h5jXD7uuENKHuPuAXnCWuFfOtZUkcxxuaDybfxrzwfdSOh6A33jAwWS1lRvLJDP+
- AQ/+uh9MvwCWIB3nX5xJsP89nZcdTx2OG8ASatqNJtliRT3HtW/bKFcpKnluYxvA
- BEqjcWdLbjt2RXL67RowEiEDbcK5UaB62daiwt9IlEURRPL6nCLMcDhQ0qsJc1ir
- xQsigoAUxckn6H+90hwMC5eHtvNE42RPRSKTEnri0s3u204CUqBgJCCafGIN5Pw=
- =
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :references:in-reply-to:x-mailer:message-id:date:subject:to
+ :from; s=dkim; t=1675753846; x=1678345847; bh=FqxN0DDoeXyJPxneOe
+ PzsGYbK2UlUP3aMNQdNoJRU2U=; b=YlbYPIZ0P89CrRW1P6Wjde6WdGoCoiG6ev
+ SXeNhKr5s/Sr+RDR2M+FyBrPRmUcNtuVGDhE4GbBr+b7ZSasHJjNeP6DCD4JoHUS
+ 4y/TtATRc9aBY+HAkeNbeBSyplb8hTNAvSUoOFw+j7o5WZ+nZ22wPBSg2lE1FLLA
+ TgwFhYgpoqSJizNyr6cfsIh0TgkQwQ08iHVKOXns3iOEy91T1BSRcOdooia5bUBw
+ sw4bjHRK+rduVNk/xCZESF3lD3YJPhMe3LV0vwdcDE3pHS6uDTCBTJAswH1E8IBE
+ i7iy8d8FdvQJ9Q6cviKQLNflm4t/tR8mjp2wE6O+5lImhIs13R5w==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id KAq0mZK0f3pz for <qemu-devel@nongnu.org>;
- Mon,  6 Feb 2023 23:10:44 -0800 (PST)
+ port 10026) with ESMTP id REbW29BRo7q9 for <qemu-devel@nongnu.org>;
+ Mon,  6 Feb 2023 23:10:46 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.38])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4P9vRR1SQNz1RvTp;
- Mon,  6 Feb 2023 23:10:42 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4P9vRT0h0lz1RwqL;
+ Mon,  6 Feb 2023 23:10:44 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com,
- =?UTF-8?q?Christoph=20M=C3=BCllner?= <christoph.muellner@vrull.eu>,
- LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
+Cc: alistair23@gmail.com, Deepak Gupta <debug@rivosinc.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 28/32] target/riscv: add a MAINTAINERS entry for XThead*
- extension support
-Date: Tue,  7 Feb 2023 17:09:39 +1000
-Message-Id: <20230207070943.2558857-29-alistair.francis@opensource.wdc.com>
+Subject: [PULL 29/32] target/riscv: fix for virtual instr exception
+Date: Tue,  7 Feb 2023 17:09:40 +1000
+Message-Id: <20230207070943.2558857-30-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230207070943.2558857-1-alistair.francis@opensource.wdc.com>
 References: <20230207070943.2558857-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=216.71.153.141;
  envelope-from=prvs=395dd5341=alistair.francis@opensource.wdc.com;
@@ -119,39 +114,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Christoph M=C3=BCllner <christoph.muellner@vrull.eu>
+From: Deepak Gupta <debug@rivosinc.com>
 
-The XThead* extensions are maintained by T-Head and VRULL.
-Adding a point of contact from both companies.
+commit fb3f3730e4 added mechanism to generate virtual instruction
+exception during instruction decode when virt is enabled.
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+However in some situations, illegal instruction exception can be raised
+due to state of CPU. One such situation is implementing branch tracking.
+[1] An indirect branch if doesn't land on a landing pad instruction, then
+cpu must raise an illegal instruction exception.
+Implementation would raise such expcetion due to missing landing pad inst
+and not due to decode. Thus DisasContext must have `virt_inst_excp`
+initialized to false during DisasContxt initialization for TB.
+
+[1] - https://github.com/riscv/riscv-cfi
+
+Signed-off-by: Deepak Gupta <debug@rivosinc.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Christoph M=C3=BCllner <christoph.muellner@vrull.eu>
-Message-Id: <20230131202013.2541053-15-christoph.muellner@vrull.eu>
+Message-Id: <20230127191758.755844-1-debug@rivosinc.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ target/riscv/translate.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fa10ecaeb9..96e25f62ac 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -295,6 +295,14 @@ F: include/hw/riscv/
- F: linux-user/host/riscv32/
- F: linux-user/host/riscv64/
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 182649dcb6..772f9d7973 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -1213,6 +1213,7 @@ static void riscv_tr_init_disas_context(DisasContex=
+tBase *dcbase, CPUState *cs)
+     ctx->pm_base_enabled =3D FIELD_EX32(tb_flags, TB_FLAGS, PM_BASE_ENAB=
+LED);
+     ctx->itrigger =3D FIELD_EX32(tb_flags, TB_FLAGS, ITRIGGER);
+     ctx->zero =3D tcg_constant_tl(0);
++    ctx->virt_inst_excp =3D false;
+ }
 =20
-+RISC-V XThead* extensions
-+M: Christoph Muellner <christoph.muellner@vrull.eu>
-+M: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-+L: qemu-riscv@nongnu.org
-+S: Supported
-+F: target/riscv/insn_trans/trans_xthead.c.inc
-+F: target/riscv/xthead*.decode
-+
- RISC-V XVentanaCondOps extension
- M: Philipp Tomsich <philipp.tomsich@vrull.eu>
- L: qemu-riscv@nongnu.org
+ static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
 --=20
 2.39.1
 
