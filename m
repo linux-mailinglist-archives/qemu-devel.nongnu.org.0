@@ -2,92 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB5F268DE47
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 17:54:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B676D68DE4F
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 17:56:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPRDR-0007zy-Tc; Tue, 07 Feb 2023 11:53:09 -0500
+	id 1pPRGP-0001du-VX; Tue, 07 Feb 2023 11:56:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pPRDM-0007yz-5L
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 11:53:04 -0500
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pPRDJ-00039G-Dc
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 11:53:02 -0500
-Received: by mail-pl1-x636.google.com with SMTP id m2so16279621plg.4
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 08:53:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=bX8JXCdprYKqnse/b3uxBI0XRoMhkp8yJyzSC9QdOEA=;
- b=IkrXjJYMUR17ptun2nAdobEycQDvX7coWUyx2JolWeG8K/8G+2bKCxrGFSWRw2Mj75
- E1yeerZ+A1lHhZLijO0n0swCzQ2zn5ZMISTu6bSTxKw8QyrpSpE+vrMjnVu1V+mDQoDR
- ZFVUii+gGRQ+GPUxIAqtpU1L6UFLP8SonTlth70AVZlb9qBIAiBOD5o8Mbj+hEYkdCbO
- xVIfhJoS8PLrJMNT0GQUEIoNJxKrC4oTCDzWWI9zE4fZp7j+L2Em/WOVRl9pufspMXtJ
- Kjm0BJDiHVIYoA8Q/W4Bb2DDfBYNfArcSG4X/6lUYqENX95CFhUCJJTIWRMTlSDB79kb
- V8mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bX8JXCdprYKqnse/b3uxBI0XRoMhkp8yJyzSC9QdOEA=;
- b=rR2LihGaEtMpcgR9OwkqHfCNfJs/ccMa9Xi0C296yuksJGTptvNAc9vRdW6meuPKfw
- YZPT72u1Kk8fIPCJVLZ8on6dZvgHkKg1YdVX66uxz6TqwxwsuneZ66Qi2AZh/bg0zM2c
- IRzYX+SNG/EqiQVztHZ5683t0AP5/Hpn2LZbPady8kg+y7AJA2rPu1OoPw1YyyZI1awA
- EzaEuWsz461gEZatT4lC0WeU/dBD0shLlG9Dp+U+DPWrNEFqL0ex4i3z6DbDnSzg0x2/
- /MdcEGGWmwiJXhhnAEOusUrMbhfTcFYFi7zKxAoBdvIwjwu16IzggGqBKWtTF5otKbf/
- PmYw==
-X-Gm-Message-State: AO0yUKWsMbSeYn05egQkne9SoB6oQmFAv0yF6/11lFJs5sXovt7u1Cks
- TBS8WQZeHOtKo++XBLISu9RAlnYGl6P0bHe72NdcgQ==
-X-Google-Smtp-Source: AK7set8+PaF+R1qC7sAls/3cXnuInZBhxDBhbbZCzheka8Zn6Vmo0LJzK9+JQH4SPCVW6sZR9CDCXty5Ci9FFdTtcd8=
-X-Received: by 2002:a17:90a:1141:b0:230:c24b:f22c with SMTP id
- d1-20020a17090a114100b00230c24bf22cmr1109233pje.53.1675788779837; Tue, 07 Feb
- 2023 08:52:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mathbern@qualcomm.com>)
+ id 1pPRGO-0001dO-CD; Tue, 07 Feb 2023 11:56:12 -0500
+Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mathbern@qualcomm.com>)
+ id 1pPRGM-0003sP-71; Tue, 07 Feb 2023 11:56:12 -0500
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 317CFx7i007395; Tue, 7 Feb 2023 16:56:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=qcppdkim1;
+ bh=+Oms+9hs5cy4OJZC++KDhwxjq+zCytw15tcx189Dyng=;
+ b=Ass2cD+jO1gC4Jhj19f5bVSCUn6ZmYG/dqrckaENQwTrT8TM5EwBfQcJ98GoB40g5Wya
+ H7nMIPLtIH5mjufSkTiBWvQPrGmRqnDMlYZuvw0HTKhBKhdfTVuUR0fhIOZ+Muo3hZMB
+ buXMtdL6AiCTx+Frhz9tcrBGzrCdxHW3d1c2t2DyRvUDv8jolMVSx7rtBRyT/POD98bI
+ s/x025emZ3NljtBZHcG7vYSMjJy4bBPP+fIxEecDo48F3/XXyI6MOWY6wEIxXYLNf+IZ
+ tZgxXmJZWcnDNU5IYtPztRoeByBvhWwq32frwIGptWnLQPysyhO1qkyS7d1AEpk1VuzZ bA== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nkdeya01e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Feb 2023 16:56:07 +0000
+Received: from pps.filterd (NALASPPMTA01.qualcomm.com [127.0.0.1])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 317Gs99F026046; 
+ Tue, 7 Feb 2023 16:56:06 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by NALASPPMTA01.qualcomm.com (PPS) with ESMTPS id 3nhgem0f3t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Feb 2023 16:56:06 +0000
+Received: from NALASPPMTA01.qualcomm.com (NALASPPMTA01.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 317Gr2wj024986;
+ Tue, 7 Feb 2023 16:56:06 GMT
+Received: from hu-devc-sd-u20-a-1.qualcomm.com (hu-mathbern-lv.qualcomm.com
+ [10.47.235.147])
+ by NALASPPMTA01.qualcomm.com (PPS) with ESMTPS id 317Gu5CA028416
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Feb 2023 16:56:06 +0000
+Received: by hu-devc-sd-u20-a-1.qualcomm.com (Postfix, from userid 4229910)
+ id 8115E6212; Tue,  7 Feb 2023 13:56:05 -0300 (-03)
+From: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
+To: thuth@redhat.com
+Cc: anjo@rev.ng, bcain@quicinc.com, berrange@redhat.com, pbonzini@redhat.com, 
+ philmd@linaro.org, qemu-devel@nongnu.org, qemu-trivial@nongnu.org,
+ quic_acaggian@quicinc.com, quic_mathbern@quicinc.com, tsimpson@quicinc.com
+Subject: Re: [PATCH] Hexagon (meson.build): define min bison version
+Date: Tue,  7 Feb 2023 13:56:03 -0300
+Message-Id: <20230207165603.107707-1-quic_mathbern@quicinc.com>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <0c85ac6c-0787-ba6f-3e19-5dbbc1619fac@redhat.com>
+References: <0c85ac6c-0787-ba6f-3e19-5dbbc1619fac@redhat.com>
 MIME-Version: 1.0
-References: <20230207005650.1810-1-quintela@redhat.com>
-In-Reply-To: <20230207005650.1810-1-quintela@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Feb 2023 16:52:48 +0000
-Message-ID: <CAFEAcA_Bchx+EkGm6tWJEEudzD31iYA0b52POh7Mn7+czJU0xw@mail.gmail.com>
-Subject: Re: [PULL 00/30] Migration 20230206 patches
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
- Stefan Berger <stefanb@linux.vnet.ibm.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, 
- Halil Pasic <pasic@linux.ibm.com>, John Snow <jsnow@redhat.com>, 
- David Hildenbrand <david@redhat.com>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, 
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- Coiby Xu <Coiby.Xu@gmail.com>, Ilya Leoshkevich <iii@linux.ibm.com>, 
- Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, 
- Eric Blake <eblake@redhat.com>, Eric Farman <farman@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: vloGJuXsUT583xFTa-e2rbxUd3hc6k2M
+X-Proofpoint-GUID: vloGJuXsUT583xFTa-e2rbxUd3hc6k2M
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-07_09,2023-02-06_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 suspectscore=0
+ mlxlogscore=653 lowpriorityscore=0 priorityscore=1501 phishscore=0
+ impostorscore=0 mlxscore=0 clxscore=1011 malwarescore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302070150
+Received-SPF: pass client-ip=205.220.180.131;
+ envelope-from=mathbern@qualcomm.com; helo=mx0b-0031df01.pphosted.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,36 +105,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 7 Feb 2023 at 00:57, Juan Quintela <quintela@redhat.com> wrote:
+Thomas Huth <thuth@redhat.com> wrote:
 >
-> The following changes since commit 6661b8c7fe3f8b5687d2d90f7b4f3f23d70e3e8b:
->
->   Merge tag 'pull-ppc-20230205' of https://gitlab.com/danielhb/qemu into staging (2023-02-05 16:49:09 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/juan.quintela/qemu.git tags/migration-20230206-pull-request
->
-> for you to fetch changes up to 1b1f4ab69c41279a45ccd0d3178e83471e6e4ec1:
->
->   migration: save/delete migration thread info (2023-02-06 19:22:57 +0100)
->
-> ----------------------------------------------------------------
-> Migration Pull request
->
-> In this try
-> - rebase to latest upstream
-> - same than previous patch
-> - fix compilation on non linux (userfaultfd.h) (me)
-> - query-migrationthreads (jiang)
-> - fix race on reading MultiFDPages_t.block (zhenzhong)
-> - fix flush of zero copy page send reuest  (zhenzhong)
->
+> Out of curiosity: Where did you encounter this problem? After having a quick 
+> look at https://repology.org/project/bison/versions it seems to me that all 
+> our supported OS distros should already ship bison 3.0 or newer...
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
-
--- PMM
+I actually noticed this when compiling our downstream
+qemu-system-hexagon on macOS (Ventura 13.2), where the bundled bison
+version is 2.3 (although 3.8.2 is available through brew). I thought
+this could affect other upstream users too, but good to know that the
+supported OSes already ship bison >= 3.0.
 
