@@ -2,97 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EFB068D9F9
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 14:58:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88C6B68DA04
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:01:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPOT7-0008CA-UP; Tue, 07 Feb 2023 08:57:09 -0500
+	id 1pPOVn-00017y-8F; Tue, 07 Feb 2023 08:59:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1pPOT5-0008BY-Ji
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 08:57:07 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPOVm-00017n-0h
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 08:59:54 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1pPOT4-0000jB-6O
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 08:57:07 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPOVk-000187-IS
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 08:59:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675778224;
+ s=mimecast20190719; t=1675778392;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lYdA62YsY6ncUTQYB5leWThHrpMyQvhBe/YVwiz8p4U=;
- b=PUQNDJ0yJNQuiIqt8HtXtoAkihsNTTN2ew0ZbNAvmSVlW6hndi0otjAPwqPp5V7Rf+N6MY
- nXpbnO6mmU/FuwvEbENwpRngr/A6wA4W5r1ciJnuKaG2bLsB7TWxCdVfLJYTjJIxW1YXZt
- b/7CTSVcHMAZH7b5dCjTVRhibD62atw=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Cj9lpDvdlHSTXkSZJTsuM21/dgSN2myfL2vNsvaM9fk=;
+ b=cC4UE8iBUttHyW0pQOJWrozhJYxwFNhjmfiGNqQaz3VBTh9KZXnnmhz5l10Yp+NDxP0pE6
+ crQzjMQGFFx4blPK9nin8YIMeTQ4+ch8udXsvpujtotbrw0Yk3EYgDc0vkkVOE/vTixDSJ
+ oGZ+1ocKxwcsC/obbClmr0wc4VUz1o8=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-398-A0URWT0TP-GHcI43r0MGrw-1; Tue, 07 Feb 2023 08:57:02 -0500
-X-MC-Unique: A0URWT0TP-GHcI43r0MGrw-1
-Received: by mail-pl1-f198.google.com with SMTP id
- j18-20020a170903029200b00198aa765a9dso8047927plr.6
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 05:57:02 -0800 (PST)
+ us-mta-386-DhEarB7ZOCSDWPi8XcgPKQ-1; Tue, 07 Feb 2023 08:59:50 -0500
+X-MC-Unique: DhEarB7ZOCSDWPi8XcgPKQ-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ x7-20020a05620a098700b007242aa494ddso9843063qkx.19
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 05:59:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:in-reply-to
- :mime-version:references:from:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=lYdA62YsY6ncUTQYB5leWThHrpMyQvhBe/YVwiz8p4U=;
- b=h1ZxpiLqO98bFfoUSbYtrmZdgE2p8E8khadKpp1aRmhYjMc6Bc6c1j5Fm64GE47Gc0
- g6v/I1PmzhKbJQ07F0LvAbXIUUSmn3LhJJ85WZ3RUiXl71gy/1qaWHVKOS5WclVZzUxH
- IzjqUaDm555MYRtZe0zWX8oSy/09Nq/CvoP3138ahROYUXRTpzXyGyd8ZcDz32mSfaLD
- VIDgIfSyQSdIMsqgvfLS2DlHei3rbFAw99HVUWajKhNz5IuXvpiFvFb6Wx1bFCry2lA/
- kjKILdayHoHf0yceSQJSGmAGN3df9uzzbf1juDLuMpatR3ZX8KSds5RfoxWoGtUpqZrS
- A25w==
-X-Gm-Message-State: AO0yUKW71jfMgkwjGg9bgeKDIrUBntIwTjo5jXaMaXmBcXnuadwJE4YM
- A9672+9h8+RTX9xtbbc67jvYKRZVTWnb894G3c0rnlHSTQ2HNLSfglGwWcQEm8br40uzrjweSKA
- IRPL77HJdorO/yj5dAbREdIWRwOxjotQ=
-X-Received: by 2002:a62:1cca:0:b0:5a7:8880:834a with SMTP id
- c193-20020a621cca000000b005a78880834amr521783pfc.37.1675778220348; 
- Tue, 07 Feb 2023 05:57:00 -0800 (PST)
-X-Google-Smtp-Source: AK7set84531pFRTR7artQq3nXsJ0ghkhBE4V9Z1014qYLvoLwbACyEZ/dU+7PO8LS3d1LQbo9IrPjp5swQTuBVdCcLU=
-X-Received: by 2002:a62:1cca:0:b0:5a7:8880:834a with SMTP id
- c193-20020a621cca000000b005a78880834amr521775pfc.37.1675778220060; Tue, 07
- Feb 2023 05:57:00 -0800 (PST)
-Received: from 744723338238 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 7 Feb 2023 05:56:59 -0800
-From: Andrea Bolognani <abologna@redhat.com>
-References: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
- <20230202045223.2594627-3-sunilvl@ventanamicro.com>
- <CABJz62PFGT1H-AArbfTkpiX24mHU=q3wk7h-bpduZhJyy7tTLw@mail.gmail.com>
- <fe3b5794-be2a-eec7-9d4e-9a13eab48378@linaro.org>
- <20230207102353.hpg2gxh22urjbebu@orel>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Cj9lpDvdlHSTXkSZJTsuM21/dgSN2myfL2vNsvaM9fk=;
+ b=ZPPjC3CkSIf4hsZVA9YuE4Q3JRWB+IulbOv5tmAT3D1G+dV7YjiEfu3/G6PJ16jyJo
+ sMPrVAkX62RnaI2TEi8oDd5peJVkwDcxlePV1IIQmgI83rkIHJwVqHAOiHx3bLSItXWU
+ VtUJzpG80m/byKAChoV1A1c/GUu3VgZKrkCmph6ayG/rzUDMlGjes2tCmwfsJ1NzwT76
+ pSHjGGRB91AWkYFDyCgB19UCk6JCriDkqkku8sYSMSCRhYSRfCm01w2G9kveNxVSlnWY
+ IkQJ4qzLn5VB+WSQxiUi1wLxS6EWL/EZa7T7k9NpvAgGa9AWt54Dr0H1M8l472N+Mkzw
+ lqRw==
+X-Gm-Message-State: AO0yUKUX/huGZCfT4UehpGY18Z2FxZ+NdhyXuqHVc0OChGFZopBK1uST
+ jdpOchjpd3G6tnOuLhTWgvWVJL45hnBmm9vmSvlLpuGywaa2aPqv5f9DepRRnldoDSx2Cj/+Xho
+ UAQ+cWwFcPD5dGZw=
+X-Received: by 2002:ac8:574a:0:b0:3b8:6d3c:a96e with SMTP id
+ 10-20020ac8574a000000b003b86d3ca96emr5680877qtx.28.1675778390392; 
+ Tue, 07 Feb 2023 05:59:50 -0800 (PST)
+X-Google-Smtp-Source: AK7set/k+nZ0lZ9dfgpLBuA58YP3pJqWGYrEyX9pmNpAYdpaEZTvFsN8afSYuyp6pM8ubZXPfegHjw==
+X-Received: by 2002:ac8:574a:0:b0:3b8:6d3c:a96e with SMTP id
+ 10-20020ac8574a000000b003b86d3ca96emr5680850qtx.28.1675778390150; 
+ Tue, 07 Feb 2023 05:59:50 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-120.web.vodafone.de.
+ [109.43.176.120]) by smtp.gmail.com with ESMTPSA id
+ j24-20020ac84058000000b003b635a5d56csm9495299qtl.30.2023.02.07.05.59.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Feb 2023 05:59:49 -0800 (PST)
+Message-ID: <7d61db17-d0f1-3f9f-8bf6-bf9b0d33a063@redhat.com>
+Date: Tue, 7 Feb 2023 14:59:47 +0100
 MIME-Version: 1.0
-In-Reply-To: <20230207102353.hpg2gxh22urjbebu@orel>
-Date: Tue, 7 Feb 2023 05:56:58 -0800
-Message-ID: <CABJz62M+n4DFqMPttzaDrSRzDcjkyEduX_NAv=-9J58mmUe+Ng@mail.gmail.com>
-Subject: Re: [PATCH 02/10] hw/riscv/virt: Add a switch to enable/disable ACPI
-To: Andrew Jones <ajones@ventanamicro.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Sunil V L <sunilvl@ventanamicro.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- qemu-riscv@nongnu.org, 
- qemu-devel@nongnu.org, Anup Patel <apatel@ventanamicro.com>, 
- Atish Kumar Patra <atishp@rivosinc.com>, Ani Sinha <ani@anisinha.ca>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>, 
- Bernhard Beschow <shentey@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 06/12] tests/qtest: Skip unplug tests that use missing
+ devices
+Content-Language: en-US
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20230206150416.4604-1-farosas@suse.de>
+ <20230206150416.4604-7-farosas@suse.de>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230206150416.4604-7-farosas@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,42 +101,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 07, 2023 at 11:23:53AM +0100, Andrew Jones wrote:
-> On Mon, Feb 06, 2023 at 12:18:06PM +0100, Philippe Mathieu-Daud=C3=A9 wro=
-te:
-> > On 6/2/23 11:54, Andrea Bolognani wrote:
-> > > On Thu, Feb 02, 2023 at 10:22:15AM +0530, Sunil V L wrote:
-> > > > +    object_class_property_add(oc, "acpi", "OnOffAuto",
-> > > > +                              virt_get_acpi, virt_set_acpi,
-> > > > +                              NULL, NULL);
-> > > > +    object_class_property_set_description(oc, "acpi",
-> > > > +                                          "Enable ACPI");
-> > >
-> > > The way this works on other architectures (x86_64, aarch64) is that
-> > > you get ACPI by default and can use -no-acpi to disable it if
-> > > desired. Can we have the same on RISC-V, for consistency?
-> >
-> > -no-acpi rather seems a x86-specific hack for the ISA PC machine, and
-> > has a high maintenance cost / burden.
->
-> Can you elaborate on this? RISCV doesn't need '-no-acpi' specifically.
-> If -no-acpi is problematic for some reason, then something like
-> '-machine virt,acpi=3Doff' would be sufficient for switching to DT too.
+On 06/02/2023 16.04, Fabiano Rosas wrote:
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> ---
+>   tests/qtest/device-plug-test.c | 19 +++++++++++++++++++
+>   1 file changed, 19 insertions(+)
+> 
+> diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
+> index 5a6afa2b57..931acbdf50 100644
+> --- a/tests/qtest/device-plug-test.c
+> +++ b/tests/qtest/device-plug-test.c
+> @@ -67,6 +67,11 @@ static void test_pci_unplug_request(void)
+>       const char *arch = qtest_get_arch();
+>       const char *machine_addition = "";
+>   
+> +    if (!qtest_has_device("virtio-mouse-pci")) {
+> +        g_test_skip("Device virtio-mouse-pci not available");
+> +        return;
+> +    }
+> +
+>       if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+>           machine_addition = "-machine pc";
+>       }
+> @@ -81,6 +86,10 @@ static void test_pci_unplug_request(void)
+>   
+>   static void test_q35_pci_unplug_request(void)
+>   {
+> +    if (!qtest_has_device("virtio-mouse-pci")) {
+> +        g_test_skip("Device virtio-mouse-pci not available");
+> +        return;
+> +    }
+>   
+>       QTestState *qtest = qtest_initf("-machine q35 "
+>                                       "-device pcie-root-port,id=p1 "
 
-I would greatly prefer it if the command line interface could be kept
-consistent across architectures.
+This seems to break the QEMU coding style ("Mixed declarations (interleaving 
+statements and declarations within blocks) are generally not allowed; 
+declarations should be at the beginning
+of blocks.") ... could you separate the declaration of qtest from its 
+initialization now, please?
 
-It looks like i440fx and q35 both have an 'acpi' machine property. Is
--no-acpi just sugar for acpi=3Doff? Is it considered desirable to get
-rid of -no-acpi? If so, we should follow the usual deprecation
-process and get rid of it after libvirt has had a chance to adapt.
-
-In the scenario described above, it would make sense for RISC-V to
-only offer the machine type option (assuming that -no-acpi doesn't
-come for free with that) instead of putting additional effort into
-implementing an interface that is already on its way out.
-
---=20
-Andrea Bolognani / Red Hat / Virtualization
+  Thomas
 
 
