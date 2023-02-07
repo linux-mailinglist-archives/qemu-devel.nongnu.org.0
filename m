@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639E968E1C0
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 21:16:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5299868E1C4
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 21:16:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPUND-000748-I9; Tue, 07 Feb 2023 15:15:28 -0500
+	id 1pPUNO-0007B4-8M; Tue, 07 Feb 2023 15:15:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPUN2-0006ui-ET
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPUN2-0006ue-CT
  for qemu-devel@nongnu.org; Tue, 07 Feb 2023 15:15:17 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPUMy-0007Pt-LD
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 15:15:14 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPUMy-0007Q0-He
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 15:15:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675800908;
+ s=mimecast20190719; t=1675800909;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EIuywMu9ggagVPzhIb0moXB4/DolPh8FkfLEYJfnjWI=;
- b=VjQkRkIlQu0uAjG2sIRs8Yq8LxYAX+/EIH7wY6UjmWlhfva76XF0v3dm/DS6+txhlkwSQC
- n0c3ZFDIMMT3GzoZvX+7j/ekFIYeeOZq2vIHt9kzIO3FhFeJ2NQRpOPBDYwk9IiIdmSJqf
- s+m6kskArhYzbsBaARcm2Wq5fShae3A=
+ bh=XvLOSl6vpnCQ50xVu0fn7Ivye/m7B8X3Ouz3zlsn790=;
+ b=Kw6JAXV+Xw4ZiUwa21YLWuN/Rjp0v1P9I4SSZfm1idQyjRukFQGk5DHyFcdN+VwPsQk49V
+ FVbff9lhbkoXMYqPuOrzpDCGYWRXPG8roBrc0hbS7KqOPUDpyli+YjtX4yWFx7EUAQ27IA
+ xy8E6jdvd66/Hqm/DRzvSX93rWqBhis=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-20-czp0Z23mM_aU8K23m9bTYw-1; Tue, 07 Feb 2023 15:15:04 -0500
-X-MC-Unique: czp0Z23mM_aU8K23m9bTYw-1
+ us-mta-272-rPp0QLvvM9K5enWafsO_Og-1; Tue, 07 Feb 2023 15:15:05 -0500
+X-MC-Unique: rPp0QLvvM9K5enWafsO_Og-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 798691C05143;
- Tue,  7 Feb 2023 20:15:03 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3CA2F3C0252F;
+ Tue,  7 Feb 2023 20:15:05 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0CDC1492B21;
- Tue,  7 Feb 2023 20:15:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BC8F4492B21;
+ Tue,  7 Feb 2023 20:15:03 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -49,10 +49,9 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Fabiano Rosas <farosas@suse.de>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v2 4/5] .gitlab-ci.d/buildtest-template: Simplify the
- configure step
-Date: Tue,  7 Feb 2023 21:14:46 +0100
-Message-Id: <20230207201447.566661-5-thuth@redhat.com>
+Subject: [PATCH v2 5/5] gitlab-ci.d: Build with --enable-fdt=system by default
+Date: Tue,  7 Feb 2023 21:14:47 +0100
+Message-Id: <20230207201447.566661-6-thuth@redhat.com>
 In-Reply-To: <20230207201447.566661-1-thuth@redhat.com>
 References: <20230207201447.566661-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -82,36 +81,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It's easier to use ${TARGETS:+--target-list="$TARGETS"} to add
-a --target-list parameter depending on whether the TARGETS variable
-is set or not.
+By using --enable-fdt=system we can make sure that the configure
+script does not try to check out the "dtc" submodule. This should
+help to safe some precious CI minutes in the long run.
+
+While we're at it, also drop some now-redundant --enable-slirp
+and --enable-capstone statements. These used to have the "=system"
+suffix in the past, too, which has been dropped when the their
+corresponding submodules had been removed. Since these features
+are auto-enabled anyway now (since the containers have the right
+libraries installed), we do not need the explicit --enable-...
+statements anymore.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.d/buildtest-template.yml | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ .gitlab-ci.d/buildtest-template.yml  | 2 +-
+ .gitlab-ci.d/buildtest.yml           | 9 +++------
+ .gitlab-ci.d/crossbuild-template.yml | 5 +++--
+ .gitlab-ci.d/crossbuilds.yml         | 2 ++
+ .gitlab-ci.d/windows.yml             | 7 +++++--
+ 5 files changed, 14 insertions(+), 11 deletions(-)
 
 diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
-index 73ecfabb8d..4a922d9c33 100644
+index 4a922d9c33..cb96b55c3f 100644
 --- a/.gitlab-ci.d/buildtest-template.yml
 +++ b/.gitlab-ci.d/buildtest-template.yml
-@@ -11,12 +11,10 @@
+@@ -11,7 +11,7 @@
        fi
      - mkdir build
      - cd build
--    - if test -n "$TARGETS";
--      then
--        ../configure --enable-werror --disable-docs ${LD_JOBS:+--meson=git} $CONFIGURE_ARGS --target-list="$TARGETS" ;
--      else
--        ../configure --enable-werror --disable-docs ${LD_JOBS:+--meson=git} $CONFIGURE_ARGS ;
--      fi || { cat config.log meson-logs/meson-log.txt && exit 1; }
-+    - ../configure --enable-werror --disable-docs
-+          ${LD_JOBS:+--meson=git} ${TARGETS:+--target-list="$TARGETS"}
-+          $CONFIGURE_ARGS ||
-+      { cat config.log meson-logs/meson-log.txt && exit 1; }
-     - if test -n "$LD_JOBS";
-       then
-         ../meson/meson.py configure . -Dbackend_max_links="$LD_JOBS" ;
+-    - ../configure --enable-werror --disable-docs
++    - ../configure --enable-werror --disable-docs --enable-fdt=system
+           ${LD_JOBS:+--meson=git} ${TARGETS:+--target-list="$TARGETS"}
+           $CONFIGURE_ARGS ||
+       { cat config.log meson-logs/meson-log.txt && exit 1; }
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index 8697c61072..d903c42798 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -41,7 +41,7 @@ build-system-ubuntu:
+     job: amd64-ubuntu2004-container
+   variables:
+     IMAGE: ubuntu2004
+-    CONFIGURE_ARGS: --enable-docs --enable-fdt=system --enable-capstone
++    CONFIGURE_ARGS: --enable-docs
+     TARGETS: alpha-softmmu cris-softmmu hppa-softmmu
+       microblazeel-softmmu mips64el-softmmu
+     MAKE_CHECK_ARGS: check-build
+@@ -120,7 +120,6 @@ build-system-fedora:
+   variables:
+     IMAGE: fedora
+     CONFIGURE_ARGS: --disable-gcrypt --enable-nettle --enable-docs
+-             --enable-fdt=system --enable-slirp --enable-capstone
+     TARGETS: tricore-softmmu microblaze-softmmu mips-softmmu
+       xtensa-softmmu m68k-softmmu riscv32-softmmu ppc-softmmu sparc64-softmmu
+     MAKE_CHECK_ARGS: check-build
+@@ -166,9 +165,8 @@ build-system-centos:
+     job: amd64-centos8-container
+   variables:
+     IMAGE: centos8
+-    CONFIGURE_ARGS: --disable-nettle --enable-gcrypt --enable-fdt=system
++    CONFIGURE_ARGS: --disable-nettle --enable-gcrypt --enable-vfio-user-server
+       --enable-modules --enable-trace-backends=dtrace --enable-docs
+-      --enable-vfio-user-server
+     TARGETS: ppc64-softmmu or1k-softmmu s390x-softmmu
+       x86_64-softmmu rx-softmmu sh4-softmmu nios2-softmmu
+     MAKE_CHECK_ARGS: check-build
+@@ -201,7 +199,6 @@ build-system-opensuse:
+     job: amd64-opensuse-leap-container
+   variables:
+     IMAGE: opensuse-leap
+-    CONFIGURE_ARGS: --enable-fdt=system
+     TARGETS: s390x-softmmu x86_64-softmmu aarch64-softmmu
+     MAKE_CHECK_ARGS: check-build
+   artifacts:
+@@ -464,7 +461,7 @@ tsan-build:
+   variables:
+     IMAGE: ubuntu2004
+     CONFIGURE_ARGS: --enable-tsan --cc=clang-10 --cxx=clang++-10
+-          --enable-trace-backends=ust --enable-fdt=system --disable-slirp
++          --enable-trace-backends=ust --disable-slirp
+     TARGETS: x86_64-softmmu ppc64-softmmu riscv64-softmmu x86_64-linux-user
+     MAKE_CHECK_ARGS: bench V=1
+ 
+diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
+index 6d709628f1..d07989e3b0 100644
+--- a/.gitlab-ci.d/crossbuild-template.yml
++++ b/.gitlab-ci.d/crossbuild-template.yml
+@@ -6,8 +6,9 @@
+   script:
+     - mkdir build
+     - cd build
+-    - ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
+-        --disable-user --target-list-exclude="arm-softmmu cris-softmmu
++    - ../configure --enable-werror --disable-docs --enable-fdt=system
++        --disable-user $QEMU_CONFIGURE_OPTS $EXTRA_CONFIGURE_OPTS
++        --target-list-exclude="arm-softmmu cris-softmmu
+           i386-softmmu microblaze-softmmu mips-softmmu mipsel-softmmu
+           mips64-softmmu ppc-softmmu riscv32-softmmu sh4-softmmu
+           sparc-softmmu xtensa-softmmu $CROSS_SKIP_TARGETS"
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index 57637c5127..101416080c 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -175,6 +175,7 @@ cross-win32-system:
+     job: win32-fedora-cross-container
+   variables:
+     IMAGE: fedora-win32-cross
++    EXTRA_CONFIGURE_OPTS: --enable-fdt=internal
+     CROSS_SKIP_TARGETS: alpha-softmmu avr-softmmu hppa-softmmu m68k-softmmu
+                         microblazeel-softmmu mips64el-softmmu nios2-softmmu
+   artifacts:
+@@ -187,6 +188,7 @@ cross-win64-system:
+     job: win64-fedora-cross-container
+   variables:
+     IMAGE: fedora-win64-cross
++    EXTRA_CONFIGURE_OPTS: --enable-fdt=internal
+     CROSS_SKIP_TARGETS: alpha-softmmu avr-softmmu hppa-softmmu
+                         m68k-softmmu microblazeel-softmmu nios2-softmmu
+                         or1k-softmmu rx-softmmu sh4eb-softmmu sparc64-softmmu
+diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+index cf445b77f6..87235e43b4 100644
+--- a/.gitlab-ci.d/windows.yml
++++ b/.gitlab-ci.d/windows.yml
+@@ -38,6 +38,7 @@ msys2-64bit:
+       mingw-w64-x86_64-capstone
+       mingw-w64-x86_64-curl
+       mingw-w64-x86_64-cyrus-sasl
++      mingw-w64-x86_64-dtc
+       mingw-w64-x86_64-gcc
+       mingw-w64-x86_64-glib2
+       mingw-w64-x86_64-gnutls
+@@ -71,7 +72,7 @@ msys2-64bit:
+   # for the msys2 64-bit job, due to the build could not complete within
+   # the project timeout.
+   - ..\msys64\usr\bin\bash -lc '../configure --target-list=x86_64-softmmu
+-      --without-default-devices'
++      --without-default-devices --enable-fdt=system'
+   - ..\msys64\usr\bin\bash -lc 'make'
+   # qTests don't run successfully with "--without-default-devices",
+   # so let's exclude the qtests from CI for now.
+@@ -86,6 +87,7 @@ msys2-32bit:
+       mingw-w64-i686-capstone
+       mingw-w64-i686-curl
+       mingw-w64-i686-cyrus-sasl
++      mingw-w64-i686-dtc
+       mingw-w64-i686-gcc
+       mingw-w64-i686-glib2
+       mingw-w64-i686-gnutls
+@@ -113,7 +115,8 @@ msys2-32bit:
+   - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
+   - mkdir output
+   - cd output
+-  - ..\msys64\usr\bin\bash -lc '../configure --target-list=ppc64-softmmu'
++  - ..\msys64\usr\bin\bash -lc '../configure --target-list=ppc64-softmmu
++                                --enable-fdt=system'
+   - ..\msys64\usr\bin\bash -lc 'make'
+   - ..\msys64\usr\bin\bash -lc 'make check MTESTARGS=\"--no-suite qtest\" ||
+                                 { cat meson-logs/testlog.txt; exit 1; }'
 -- 
 2.31.1
 
