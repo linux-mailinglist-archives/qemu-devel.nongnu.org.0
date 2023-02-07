@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEC0E68E31D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 22:48:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE3F868E31E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 22:48:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPVoY-0006vS-SF; Tue, 07 Feb 2023 16:47:46 -0500
+	id 1pPVpQ-0007pE-1E; Tue, 07 Feb 2023 16:48:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pPVoK-0006mZ-1m
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 16:47:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pPVpO-0007p1-MM
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 16:48:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pPVoH-0008E4-7m
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 16:47:31 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pPVpN-0008Lg-4f
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 16:48:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675806448;
+ s=mimecast20190719; t=1675806516;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=rXAaNytzF3w8rxH3o+eZhFu00IxOwPu3evjbxvrAPd0=;
- b=K1ipeugetYgJrrMaQQnjCBEEBkjHITk21srSzpAj1mgTOVmd5DVLRbQrJS3BpVXtW0irjh
- qNK8aSyKtQl2LziIOVfpXwjk6Mx4Mh40CIpHhv9muB2woVYI6k0bNav70Swu38I05I+hOU
- 0OT33uFj6J1UT9s/sa2079Rc9YGxac0=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=EC60mKDQ6SyUvTfaxp2LlrcVC4Jms2w7pouegAkAcl4=;
+ b=AZZmJ+86r8epS4f/Ua+PUHclx9YwEHgf7X10NurFL7DauMNANZu+uv0W0HvmMyFy06yMsv
+ X+BmnDrmVnY7HRl0sVCs7QWKRsAvz/wiTDht3rqwY3/k0b0H7PMbzGsXWgvhmwhetb9IQe
+ M44YhYqpv4IbkLddCe8Ph9F0bw1VFC8=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-134--fc2euLkO8K8qu6-a4Lmew-1; Tue, 07 Feb 2023 16:47:27 -0500
-X-MC-Unique: -fc2euLkO8K8qu6-a4Lmew-1
-Received: by mail-qk1-f198.google.com with SMTP id
- a198-20020ae9e8cf000000b007259083a3c8so10702966qkg.7
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 13:47:27 -0800 (PST)
+ us-mta-653-KNWiOSKDPtuNSTV6J6EgvQ-1; Tue, 07 Feb 2023 16:48:34 -0500
+X-MC-Unique: KNWiOSKDPtuNSTV6J6EgvQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ x10-20020a05600c21ca00b003dc5584b516so53568wmj.7
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 13:48:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rXAaNytzF3w8rxH3o+eZhFu00IxOwPu3evjbxvrAPd0=;
- b=fShRf8Iu61TenT70dcGrKkRaI1ELPO54WXh90XAHvVebmUD1qa5vetvmOQ1rJiTATK
- fX7u/qeGmY96SNNXbNAfzsGbSNN324dKo7+m7BS8ngUI0atMGVwhxr3D2SYB9JTfbVqF
- j0135BeTjRk/MdHzBPDdDxsFq8dCFxdQ6BOXUKsJMm3ehr6mLjTqne26MnKENLL6Vs3L
- TAE7Wosrfn+DDGkg9AohxsENTHHHtfupx+sYC/GszC3OYjvD0bZpVeNNSP8Xo2Xh2s7x
- 7XOyqdpkbPchDa38vL1OAfgE7z+LXYtfq1A8XJhivXmxr8R39m51b66Elc/cECaSWjQa
- Pg1g==
-X-Gm-Message-State: AO0yUKXjNrL+rU7SRR3k0iYKBVgB4Kk+m4gNst3yc9IoF5+v5BybYHJf
- HfGwKueSOhPRsJgOLHapBqp0XJFKvJPoZIaf0LmP0md6JaGtg2A4Z2cwkuwYAluTyFmFEfezSd+
- j82FhppfU6jx/Wlk=
-X-Received: by 2002:ac8:5fd2:0:b0:3b8:6d5a:3457 with SMTP id
- k18-20020ac85fd2000000b003b86d5a3457mr10199342qta.6.1675806446774; 
- Tue, 07 Feb 2023 13:47:26 -0800 (PST)
-X-Google-Smtp-Source: AK7set8LcCTXANgoU+OUwgJdU9ieu641rUM2P2NyxS+QxmQ2XGENkHX29quNFgyKO1RxzcCbUl0BEg==
-X-Received: by 2002:ac8:5fd2:0:b0:3b8:6d5a:3457 with SMTP id
- k18-20020ac85fd2000000b003b86d5a3457mr10199315qta.6.1675806446482; 
- Tue, 07 Feb 2023 13:47:26 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- k1-20020a05620a414100b007112aa42c4fsm10431778qko.135.2023.02.07.13.47.25
+ bh=EC60mKDQ6SyUvTfaxp2LlrcVC4Jms2w7pouegAkAcl4=;
+ b=7N4L+5kB42HX7CTSeT+nYaKpgFmh1hrEGw9izw7lx+wGykEeEuNKkU4zpitSlowCC5
+ z12VBusq2oA08C0zaYPhjHO5eRkazp9rEX8lcfq1HM5fBSawnd+DvWuv16MvLpWUJWP/
+ Z0zwI1RH6DvHRoiztPZxiVts1Z3Vnjl9QHHG3ldnhvYbp6fuocCf/5JP1bfnxydZWKV6
+ F7t5JSRyxdIb7uJCuhPEcexfixMe1rjnMXVqLgtge1BkoNB1qijJEQCvsuI8sWFZCIqm
+ dRjrHo7IomeGhtuVWH9LEfPtC4xgWSWQFbSQPeeXLNcAEvjKZNvmV8u+/Czwgsj5lPV4
+ TtYQ==
+X-Gm-Message-State: AO0yUKVXcWC0wNcFGLDo4/IbHwbVKXpx1A7iPqi9V/UWAZ+ADevM/da/
+ qsLUGdvNyHIne5pOdMGJeZ2CE8vBsi+VMW1S4kGyfoiKMPqh/F2Wgu+vF33P/FH4KumV1oZgWBT
+ c7o/BOGYXj2phVNNKag/w
+X-Received: by 2002:a05:6000:1211:b0:2bf:95cc:744f with SMTP id
+ e17-20020a056000121100b002bf95cc744fmr3850249wrx.56.1675806513287; 
+ Tue, 07 Feb 2023 13:48:33 -0800 (PST)
+X-Google-Smtp-Source: AK7set/m9sqOYZ1kU8q4t6a2dT7H0w2hDZLyU9bCQ2Z0cT3BISK8lqerBzVJjAIRf2NggEYNSgCOTg==
+X-Received: by 2002:a05:6000:1211:b0:2bf:95cc:744f with SMTP id
+ e17-20020a056000121100b002bf95cc744fmr3850237wrx.56.1675806513080; 
+ Tue, 07 Feb 2023 13:48:33 -0800 (PST)
+Received: from redhat.com ([2.52.8.17]) by smtp.gmail.com with ESMTPSA id
+ a4-20020a5d5084000000b002c3db0eec5fsm10406656wrt.62.2023.02.07.13.48.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Feb 2023 13:47:25 -0800 (PST)
-Date: Tue, 7 Feb 2023 16:47:24 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Steven Sistare <steven.sistare@oracle.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH V2] memory: flat section iterator
-Message-ID: <Y+LG7Ge3iSKho/oF@x1n>
-References: <1675796609-235681-1-git-send-email-steven.sistare@oracle.com>
- <Y+KwNN9v81aLKct2@x1n>
- <d2cf4bae-1a45-d2ae-8f47-f4ce56cf21dd@oracle.com>
+ Tue, 07 Feb 2023 13:48:32 -0800 (PST)
+Date: Tue, 7 Feb 2023 16:48:22 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, thuth@redhat.com, philmd@linaro.org,
+ david.daney@fungible.com
+Subject: Re: [PATCH] virtio-rng-pci: fix transitional migration compat for
+ vectors
+Message-ID: <20230207164805-mutt-send-email-mst@kernel.org>
+References: <20230207174944.138255-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d2cf4bae-1a45-d2ae-8f47-f4ce56cf21dd@oracle.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+In-Reply-To: <20230207174944.138255-1-dgilbert@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -101,42 +96,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 07, 2023 at 04:28:49PM -0500, Steven Sistare wrote:
-> On 2/7/2023 3:10 PM, Peter Xu wrote:
-> > On Tue, Feb 07, 2023 at 11:03:29AM -0800, Steve Sistare wrote:
-> >> Add an iterator over the sections of a flattened address space.
-> >> This will be needed by cpr to issue vfio ioctl's on the same memory
-> >> ranges that are already programmed.
-> > 
-> > Should this better be proposed with the context of using it?  Or I don't
-> > know how to justify this new interface is needed.
-> > 
-> > For example, any explanations on why memory region listeners cannot work?
+On Tue, Feb 07, 2023 at 05:49:44PM +0000, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 > 
-> For context, the new interfaces is used in the patch
->   "vfio-pci: recover from unmap-all-vaddr failure"
-> in the original live update series:
->   https://lore.kernel.org/qemu-devel/1658851843-236870-1-git-send-email-steven.sistare@oracle.com/
+> In bad9c5a5166fd5e3a892b7b0477cf2f4bd3a959a I fixed the virito-rng-pci
+
+virtio?
+
+> migration compatibility, but it was discovered that we also need to fix
+> the other aliases of the device for the transitional cases.
 > 
-> More succinctly, the memory region listeners already ran, and the vfio 
-> callbacks created vfio memory regions.  Now we want to perform live update,
-> and are in steady state, so no listeners are being called.  We need the
-> flat section iterator to reproduce the same addresses and extents that were
-> produced by the listeners, to make a state change on each distinct vfio
-> memory region.
-
-Okay it makes sense, thanks.
-
-I think it'll be the same as one memory_listener_register() followed by an
-unregister with region_add() hooked only, but maybe we should avoid
-fiddling with the global list of listeners when possible.
-
-If you plan to keep posting it separately, would you add some information
-into the commit message?  With that enhanced, please feel free to add:
-
-Acked-by: Peter Xu <peterx@redhat.com>
-
--- 
-Peter Xu
+> Fixes: 9ea02e8f1 ('virtio-rng-pci: Allow setting nvectors, so we can use MSI-X')
+> bz: https://bugzilla.redhat.com/show_bug.cgi?id=2162569
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  hw/core/machine.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index b5cd42cd8c..4627b274d9 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -49,6 +49,8 @@ const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
+>  GlobalProperty hw_compat_7_1[] = {
+>      { "virtio-device", "queue_reset", "false" },
+>      { "virtio-rng-pci", "vectors", "0" },
+> +    { "virtio-rng-pci-transitional", "vectors", "0" },
+> +    { "virtio-rng-pci-non-transitional", "vectors", "0" },
+>  };
+>  const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
+>  
+> -- 
+> 2.39.1
 
 
