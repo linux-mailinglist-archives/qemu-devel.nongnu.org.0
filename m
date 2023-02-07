@@ -2,95 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F17CF68DA3A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:14:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73FC268DA51
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:17:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPOiQ-00009a-BL; Tue, 07 Feb 2023 09:12:58 -0500
+	id 1pPOlc-0001Iu-D8; Tue, 07 Feb 2023 09:16:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPOiM-00008u-Kr
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:12:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPOiK-0003PB-Dq
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:12:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675779171;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Tf90iYsbA2tTlNxoKXvxtMh5klez5zJLxDeO08WzgIs=;
- b=MF5HZ+orJp9Jw2/R4Fh+K8A2KzuWwuXUJL5I3+JAmUnx1SSStVdF47qfvXWnKZtqlh4Amr
- yk641lBluYZmJM6ZtcPTvvvVtDa05MNYJ6GBemrS7VvP85JPXEhjiVTyEMH37viJ4r2HTG
- PWAV0G3WDEbPwDE0Xe1V9rKbnajdgdU=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-608-JlmnP1WSO_iR8CTq6p62Yg-1; Tue, 07 Feb 2023 09:12:50 -0500
-X-MC-Unique: JlmnP1WSO_iR8CTq6p62Yg-1
-Received: by mail-qt1-f199.google.com with SMTP id
- cr22-20020a05622a429600b003b694a9f291so8571386qtb.1
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:12:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pPOlV-0001IG-4a
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:16:09 -0500
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pPOlO-0003wl-EJ
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:16:08 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id u9so11483821plf.3
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:16:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=vMKOCtRl6tfc7/LnEHG8xUDz7jFiTEmPSRpALH6vf8g=;
+ b=bCGDO71+xvpTB3yjreLzLLnU/IL91/15r0TcVYJt79RXptcyqxln4GoRrVcflKA6CH
+ s68eyBw3mlojwsqt1dD/PNRcfNwoJfl1mJfrvi2LZ/3JTykN7jvhqh3h2MDuP9tiKu2X
+ VSiMkFe+wwqS7YvNIyMQbtaHYIVTQ/q6B9fWl/Re+0IS/aLa9ghMGbFHNMt6xJZQdfe7
+ D4jC/jYL5d9kLcXpF23gSqZ/UsUFGrVnxcg9GOeCtm/6QTgXzXrFu60iF6bKUq+3eGFr
+ RbuPYcmQv43GGQRhUwP55odwWISEbSs2yu3izhIoOucGdYhOZ6JRgyHHDcVK0WT9RDWL
+ zd4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Tf90iYsbA2tTlNxoKXvxtMh5klez5zJLxDeO08WzgIs=;
- b=ojI0FECiEa7ub85bjKJqCpkDERWxMXx4qHROMY2lMFVLJjzGFH77faaN+rGwEbT0+Z
- Kv/+3lDSxpk28vxfDZ/Ce6I4PWA6a0QnWiOSulIabjqmXO9s7kSecT18XxMLZheEhMYQ
- WzPUobzCzL1wy8V7smVCYacJ7SUBL8ut1Q4P71DjJGnArT5kEvK4K3el7JAuSVoSUbU9
- JcHUmmWQOSRu2k873AZgujo3gwKl7YZoCKgqTmT85g/DR+THRN5SI9eEyaKU/N4MjI6H
- 0LT7E7d9gJRfloF8Y+szdCbclQSZId8fR9IkrLFi/J04h+fEig+mJBGWz1Mu9eHbjoDC
- B6Tw==
-X-Gm-Message-State: AO0yUKWvBUH5xFsSvRw74I12blS2AN1LB6jK7wQF3Pt8IlAREfLtQjVi
- xeV7RIEKqnpSEyLEfDyvs6ScFR68htwvn/dkLChVB6m4C8X33I7GiG7XDcoRbAGFF8cl72+jkMt
- 5Ndq3Nbty9WXM4z4=
-X-Received: by 2002:a05:6214:260a:b0:56a:7a8d:37fe with SMTP id
- gu10-20020a056214260a00b0056a7a8d37femr5361464qvb.43.1675779169637; 
- Tue, 07 Feb 2023 06:12:49 -0800 (PST)
-X-Google-Smtp-Source: AK7set8jmwukdVyzNF5C7XMqxIiuPIQLGMjU9y8PmTLvPM4mWO6bWl8UDMnyTc1SyuTG68XfqZcZQw==
-X-Received: by 2002:a05:6214:260a:b0:56a:7a8d:37fe with SMTP id
- gu10-20020a056214260a00b0056a7a8d37femr5361425qvb.43.1675779169383; 
- Tue, 07 Feb 2023 06:12:49 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-120.web.vodafone.de.
- [109.43.176.120]) by smtp.gmail.com with ESMTPSA id
- b6-20020a379906000000b007186c9e167esm9508420qke.52.2023.02.07.06.12.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Feb 2023 06:12:48 -0800 (PST)
-Message-ID: <52435c65-9ed6-f7c3-c9c8-907883700f2d@redhat.com>
-Date: Tue, 7 Feb 2023 15:12:45 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vMKOCtRl6tfc7/LnEHG8xUDz7jFiTEmPSRpALH6vf8g=;
+ b=3dnAAzq1xM42hEkPqawhE5A/sQufkaa8+N7phAmqZ59ZaBTzG+mJrYkUxh6myXQ15l
+ qefECIrgOn9Thpev4//1XUTNf1f8j2/rhdhFZDAOkDdn3v7p5kS/FUgotlz35hjOJNL2
+ uSKUJ5rZHVyqhmpZD0coNBFmnuEbUYjKyqtIdlS9HK0QASiXvd+7AYNd4hIVesIf72RC
+ 7qiEseoRsSpd0XETJ3VOErWI2w+tT70GrQXId3OpN/uR88MQ9bQx5/T7LfIK5lkyNjHG
+ CD0kHFoVj/0ugPReRB7hLyuXMqfGAJtMOtA373Wc5H4ic5AM/KdbwumnfGVFxpQeGkSu
+ Rtcg==
+X-Gm-Message-State: AO0yUKWOSvZrzxGtiSh8hz4gfBh+Lr64+qA2rqqM3TYGfzgZZDTdoTe/
+ Q5fwoL23UxcCVBhz/K3dtvJKIKmSUAdMtm5RRFB8Fg==
+X-Google-Smtp-Source: AK7set/Se56fi2SWmo18hVuy7zEdXmOSx23mn4jLRSF05y0EptjVesShTczwN01Xt0mUpoCNi3GbCWkk9puy7zYSyxY=
+X-Received: by 2002:a17:90a:a38d:b0:230:81fc:db1b with SMTP id
+ x13-20020a17090aa38d00b0023081fcdb1bmr2872228pjp.89.1675779360856; Tue, 07
+ Feb 2023 06:16:00 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 02/12] tests/qtest: Do not run lsi53c895a test if device
- is not present
-Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Darren Kenny
- <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Laurent Vivier <lvivier@redhat.com>
-References: <20230206150416.4604-1-farosas@suse.de>
- <20230206150416.4604-3-farosas@suse.de>
- <c612ab5f-157b-264b-31e5-94b16b3c30b3@redhat.com> <878rh9o9o9.fsf@suse.de>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <878rh9o9o9.fsf@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <167547085745.18032.9674021893886143814-0@git.sr.ht>
+ <CAFEAcA-gftmFa9H1Q2g3TkLdwh4e=G8jYXmVou81Jy0+x98ODw@mail.gmail.com>
+In-Reply-To: <CAFEAcA-gftmFa9H1Q2g3TkLdwh4e=G8jYXmVou81Jy0+x98ODw@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Feb 2023 14:15:49 +0000
+Message-ID: <CAFEAcA_3o=UrER0oQb6T7eBCaP1FbH1L+ge7dzpQtHZCCgX=EQ@mail.gmail.com>
+Subject: Re: [PATCH qemu v3 0/2] ARM: Add support for V8M special registers in
+ GDB stub
+To: "~dreiss-meta" <dreiss@meta.com>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,50 +84,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 07/02/2023 15.02, Fabiano Rosas wrote:
-> Thomas Huth <thuth@redhat.com> writes:
-> 
->> On 06/02/2023 16.04, Fabiano Rosas wrote:
->>> The tests are built once for all the targets, so as long as one QEMU
->>> binary is built with CONFIG_LSI_SCSI_PCI=y, this test will
->>> run. However some binaries might not include the device. So check this
->>> again in runtime.
->>>
->>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
->>> ---
->>>    tests/qtest/fuzz-lsi53c895a-test.c | 4 ++++
->>>    1 file changed, 4 insertions(+)
->>>
->>> diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
->>> index 392a7ae7ed..a9254b455d 100644
->>> --- a/tests/qtest/fuzz-lsi53c895a-test.c
->>> +++ b/tests/qtest/fuzz-lsi53c895a-test.c
->>> @@ -112,6 +112,10 @@ static void test_lsi_do_dma_empty_queue(void)
->>>    
->>>    int main(int argc, char **argv)
->>>    {
->>> +    if (!qtest_has_device("lsi53c895a")) {
->>> +        return 0;
->>> +    }
->>
->> I'm a little bit confused right now ... We're already checking
->> CONFIG_LSI_SCSI_PCI in meson.build, and we're only adding the test to
->> qtests_i386 there ... so how did you end up in a situation where you needed
->> this change?
-> 
-> I building with
-> --target-list=i386-softmmu,x86_64-softmmu,aarch64-softmmu,arm-softmmu
-> and the arm machines are selecting the CONFIG
-...
-> hw/arm/Kconfig has:
-> 
-> config REALVIEW
->      ...
->      select LSI_SCSI_PCI
+On Tue, 7 Feb 2023 at 13:46, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Sat, 4 Feb 2023 at 00:34, ~dreiss-meta <dreiss-meta@git.sr.ht> wrote:
+> >
+> > Rebased and updated to use NULL as a sentinel.
+> >
+> > David Reiss (2):
+> >   target/arm/gdbstub: Support reading M system registers from GDB
+> >   target/arm/gdbstub: Support reading M security extension registers
+> >     from GDB
+> >
+> >  target/arm/cpu.h         |  25 +++-
+> >  target/arm/gdbstub.c     | 241 +++++++++++++++++++++++++++++++++++++++
+> >  target/arm/m_helper.c    |  29 ++---
+> >  tests/lcitool/libvirt-ci |   2 +-
+>
+> You have an accidental submodule change in here. (It probably crept
+> in on a rebase -- git's terrible submodule handling makes that very
+> easy to do by accident.)
+>
+> I've removed that and applied these changes to target-arm.next;
+> thanks.
 
-Ah, right, thanks for the explanation, I missed that some machines have this 
-device built in this way. Ok, patch makes perfectly sense now:
+...the linux-user target fails to build, though:
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+/usr/bin/ld: libqemu-arm-linux-user.fa.p/target_arm_gdbstub.c.o: in
+function `arm_gdb_get_m_secextreg':
+gdbstub.c:(.text+0x41cd): undefined reference to `arm_v7m_get_sp_ptr'
 
+Could you have a look at that, please?
+
+thanks
+-- PMM
 
