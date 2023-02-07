@@ -2,31 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B2CC68D3C1
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 11:11:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D32C968D3B5
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 11:10:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPKuF-0000nN-HP; Tue, 07 Feb 2023 05:08:55 -0500
+	id 1pPKuC-0000gG-4N; Tue, 07 Feb 2023 05:08:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=a43c=6D=kaod.org=clg@ozlabs.org>)
- id 1pPKu3-0000Y0-4d; Tue, 07 Feb 2023 05:08:45 -0500
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]
- helo=gandalf.ozlabs.org)
+ id 1pPKu7-0000ZJ-Bu; Tue, 07 Feb 2023 05:08:47 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=a43c=6D=kaod.org=clg@ozlabs.org>)
- id 1pPKu1-0002Uw-8C; Tue, 07 Feb 2023 05:08:42 -0500
+ id 1pPKu2-0002UP-1y; Tue, 07 Feb 2023 05:08:45 -0500
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4P9zNk3yXnz4xxJ;
- Tue,  7 Feb 2023 21:08:38 +1100 (AEDT)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4P9zNn0YHPz4xyd;
+ Tue,  7 Feb 2023 21:08:41 +1100 (AEDT)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4P9zNh3rblz4xyd;
- Tue,  7 Feb 2023 21:08:36 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4P9zNl0QT4z4xyB;
+ Tue,  7 Feb 2023 21:08:38 +1100 (AEDT)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -34,24 +33,24 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Peter Delevoryas <peter@pjd.dev>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 17/25] hw/watchdog/wdt_aspeed: Log unimplemented registers as
- UNIMP level
-Date: Tue,  7 Feb 2023 11:07:36 +0100
-Message-Id: <20230207100744.698694-18-clg@kaod.org>
+Subject: [PULL 18/25] hw/misc/aspeed_hace: Do not crash if address_space_map()
+ failed
+Date: Tue,  7 Feb 2023 11:07:37 +0100
+Message-Id: <20230207100744.698694-19-clg@kaod.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230207100744.698694-1-clg@kaod.org>
 References: <20230207100744.698694-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=SRS0=a43c=6D=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,72 +68,94 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Add more Aspeed watchdog registers from [*].
+address_space_map() can fail:
 
-Since guests can righteously access them, log the access at
-'unimplemented' level instead of 'guest-errors'.
+  uart:~$ hash test
+  sha256_test
+  tv[0]:
+  Segmentation fault: 11
+  Thread 3 "qemu-system-arm" received signal SIGSEGV, Segmentation fault.
+  gen_acc_mode_iov (req_len=0x7ffff18b7778, id=<optimized out>, iov=0x7ffff18b7780, s=0x555556ce0bd0)
+      at ../hw/misc/aspeed_hace.c:171
+  171         if (has_padding(s, &iov[id], *req_len, &total_msg_len, &pad_offset)) {
+  (gdb) bt
+  #0  gen_acc_mode_iov (req_len=0x7ffff18b7778, id=<optimized out>, iov=0x7ffff18b7780, s=0x555556ce0bd0)
+      at ../hw/misc/aspeed_hace.c:171
+  #1  do_hash_operation (s=s@entry=0x555556ce0bd0, algo=3, sg_mode=sg_mode@entry=true, acc_mode=acc_mode@entry=true)
+      at ../hw/misc/aspeed_hace.c:224
+  #2  0x00005555559bdbb8 in aspeed_hace_write (opaque=<optimized out>, addr=12, data=262488, size=<optimized out>)
+      at ../hw/misc/aspeed_hace.c:358
 
-[*] https://github.com/AspeedTech-BMC/zephyr/blob/v00.01.08/drivers/watchdog/wdt_aspeed.c#L31
+This change doesn't fix much, but at least the guest
+can't crash QEMU anymore. Instead it is still usable:
+
+  uart:~$ hash test
+  sha256_test
+  tv[0]:hash_final error
+  sha384_test
+  tv[0]:hash_final error
+  sha512_test
+  tv[0]:hash_final error
+  [00:00:06.278,000] <err> hace_global: HACE poll timeout
+  [00:00:09.324,000] <err> hace_global: HACE poll timeout
+  [00:00:12.261,000] <err> hace_global: HACE poll timeout
+  uart:~$
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Peter Delevoryas <peter@pjd.dev>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/watchdog/wdt_aspeed.h |  2 +-
- hw/watchdog/wdt_aspeed.c         | 13 +++++++++++++
- 2 files changed, 14 insertions(+), 1 deletion(-)
+ hw/misc/aspeed_hace.c | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_aspeed.h
-index db91ee6b51..e90ef86651 100644
---- a/include/hw/watchdog/wdt_aspeed.h
-+++ b/include/hw/watchdog/wdt_aspeed.h
-@@ -21,7 +21,7 @@ OBJECT_DECLARE_TYPE(AspeedWDTState, AspeedWDTClass, ASPEED_WDT)
- #define TYPE_ASPEED_2600_WDT TYPE_ASPEED_WDT "-ast2600"
- #define TYPE_ASPEED_1030_WDT TYPE_ASPEED_WDT "-ast1030"
+diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
+index ac21be306c..12a761f1f5 100644
+--- a/hw/misc/aspeed_hace.c
++++ b/hw/misc/aspeed_hace.c
+@@ -193,6 +193,7 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode,
+     size_t digest_len = 0;
+     int niov = 0;
+     int i;
++    void *haddr;
  
--#define ASPEED_WDT_REGS_MAX        (0x20 / 4)
-+#define ASPEED_WDT_REGS_MAX        (0x30 / 4)
+     if (sg_mode) {
+         uint32_t len = 0;
+@@ -217,9 +218,13 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode,
+             addr &= SG_LIST_ADDR_MASK;
  
- struct AspeedWDTState {
-     /*< private >*/
-diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-index eefca31ae4..d267aa185c 100644
---- a/hw/watchdog/wdt_aspeed.c
-+++ b/hw/watchdog/wdt_aspeed.c
-@@ -42,6 +42,11 @@
- #define     WDT_PUSH_PULL_MAGIC         (0xA8 << 24)
- #define     WDT_OPEN_DRAIN_MAGIC        (0x8A << 24)
- #define WDT_RESET_MASK1                 (0x1c / 4)
-+#define WDT_RESET_MASK2                 (0x20 / 4)
-+
-+#define WDT_SW_RESET_CTRL               (0x24 / 4)
-+#define WDT_SW_RESET_MASK1              (0x28 / 4)
-+#define WDT_SW_RESET_MASK2              (0x2c / 4)
+             plen = len & SG_LIST_LEN_MASK;
+-            iov[i].iov_base = address_space_map(&s->dram_as, addr, &plen, false,
+-                                                MEMTXATTRS_UNSPECIFIED);
+-
++            haddr = address_space_map(&s->dram_as, addr, &plen, false,
++                                      MEMTXATTRS_UNSPECIFIED);
++            if (haddr == NULL) {
++                qemu_log_mask(LOG_GUEST_ERROR, "%s: qcrypto failed\n", __func__);
++                return;
++            }
++            iov[i].iov_base = haddr;
+             if (acc_mode) {
+                 niov = gen_acc_mode_iov(s, iov, i, &plen);
  
- #define WDT_TIMEOUT_STATUS              (0x10 / 4)
- #define WDT_TIMEOUT_CLEAR               (0x14 / 4)
-@@ -83,6 +88,10 @@ static uint64_t aspeed_wdt_read(void *opaque, hwaddr offset, unsigned size)
-         return s->regs[WDT_RESET_MASK1];
-     case WDT_TIMEOUT_STATUS:
-     case WDT_TIMEOUT_CLEAR:
-+    case WDT_RESET_MASK2:
-+    case WDT_SW_RESET_CTRL:
-+    case WDT_SW_RESET_MASK1:
-+    case WDT_SW_RESET_MASK2:
-         qemu_log_mask(LOG_UNIMP,
-                       "%s: uninmplemented read at offset 0x%" HWADDR_PRIx "\n",
-                       __func__, offset);
-@@ -190,6 +199,10 @@ static void aspeed_wdt_write(void *opaque, hwaddr offset, uint64_t data,
+@@ -230,10 +235,14 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode,
+     } else {
+         hwaddr len = s->regs[R_HASH_SRC_LEN];
  
-     case WDT_TIMEOUT_STATUS:
-     case WDT_TIMEOUT_CLEAR:
-+    case WDT_RESET_MASK2:
-+    case WDT_SW_RESET_CTRL:
-+    case WDT_SW_RESET_MASK1:
-+    case WDT_SW_RESET_MASK2:
-         qemu_log_mask(LOG_UNIMP,
-                       "%s: uninmplemented write at offset 0x%" HWADDR_PRIx "\n",
-                       __func__, offset);
++        haddr = address_space_map(&s->dram_as, s->regs[R_HASH_SRC],
++                                  &len, false, MEMTXATTRS_UNSPECIFIED);
++        if (haddr == NULL) {
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: qcrypto failed\n", __func__);
++            return;
++        }
++        iov[0].iov_base = haddr;
+         iov[0].iov_len = len;
+-        iov[0].iov_base = address_space_map(&s->dram_as, s->regs[R_HASH_SRC],
+-                                            &len, false,
+-                                            MEMTXATTRS_UNSPECIFIED);
+         i = 1;
+ 
+         if (s->iov_count) {
 -- 
 2.39.1
 
