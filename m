@@ -2,88 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD50568DFBB
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 19:17:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8CB968DFC0
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 19:18:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPSVH-00069G-Lr; Tue, 07 Feb 2023 13:15:39 -0500
+	id 1pPSXC-000716-6v; Tue, 07 Feb 2023 13:17:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pPSVD-00068X-V0
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 13:15:36 -0500
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pPSVC-0003Pj-8x
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 13:15:35 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- rm7-20020a17090b3ec700b0022c05558d22so15869817pjb.5
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 10:15:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=bTFMhpW/ICrjAdAfa2iboE6OQItLKAmRMMZON/DuZ2Q=;
- b=KXbHWWRJtQl2RrKQ/ZMieGZvOzMd8cAdbF6HbOVByeC4vkDYhElxwH8VT4V2rYifAO
- tE6CjS16HeXuF6hhdrKBbEqiWSFbfPDdJU7RjGBkT4RvKMD0o4yf2ReSl6XXyv6thnMg
- 4Cmy1pmpRdyLZULU7hWY+LXMKShc1NF5B2/1JmUd1RWBISm53bqilYdmZlMSWl+3fSc3
- t2jgDV3PbBaTDxlbIiAHu6HnGyZ5uPnzZgUSYIcPK9dC1rAL8h40ur398QJzSMi4RV98
- Mi7FoVAZu+c8lRIkEno80qArTCsmMFay7JtPQCsYPMDSmgjf8WXMJLrOqXWt0uy0afgA
- zVTg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPSWL-0006yQ-Na
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 13:16:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPSWH-0003ex-Li
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 13:16:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675793800;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mXZiFWjPiIG3htzQ+ZRNHFAs0BptVI3EIW4KlRNQxJU=;
+ b=cfn0OeiuX2ZMUmvHCvP8EEnW2rk9xMIHKVnVYdjrsPTtIxiCrTjLPnRjiWGu7jMUHFTmvL
+ YNa8WgjguJkl/mujb3qCBwvdDni2FZd0bK1MMerfGDdLxGbp8IxdK0dn77F84G4rAnVMhi
+ UVvMoB0q689VKYYxS9ArL+FNA5SoaRo=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-33-eLkXOOaAPoaVma-4crZKAg-1; Tue, 07 Feb 2023 13:16:39 -0500
+X-MC-Unique: eLkXOOaAPoaVma-4crZKAg-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ l6-20020ad44446000000b00537721bfd2dso8172350qvt.11
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 10:16:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bTFMhpW/ICrjAdAfa2iboE6OQItLKAmRMMZON/DuZ2Q=;
- b=AAEG2YJzeEkyGX3RfJOMszaSgFbNe/8DF9HWG8t8GyOSYg/AvIbjNUl7+cIWRKWCEg
- 1+ghe5qb0I8Nmo584Rj9TfTWDx8yz3zNnW46NNDOXbyff5rZ/pe4Ol5X7cVioeuNAL9G
- zeg3lf0i44Wwa9U2u3mQqltxtJn5SDwcfevxWXiQg848NjFZar+XmSNkjxoWfoYlfBVM
- tPFpM9Tzp/foM9iuShxNW0ZUfaF2kaII5rINepEji51fJQFD6dDeYKAVg24aWSAMOvDf
- N+CIrovzKrrZQ53JvQ/TZNxlEbCHAQSo/7yGX9/YY+3knUr0To+pDlCTeoJp1dVCO3lk
- 8Ihw==
-X-Gm-Message-State: AO0yUKVNpNQN1q47/9D+L/bYyum1KEFc7YnzV5HMOICaFbWr0m7Tsh7y
- LnByQ9ESGnRYyJl2l2YSAW11pg==
-X-Google-Smtp-Source: AK7set/pw2H0H0kiiD3xZEVWlXliRXPXbSo7rDsaXx3+wXIiKvjgqN5+U7f7GCu3E0O6eyTDduG0yQ==
-X-Received: by 2002:a05:6a21:2c91:b0:bf:ae32:5ed0 with SMTP id
- ua17-20020a056a212c9100b000bfae325ed0mr3180906pzb.13.1675793731993; 
- Tue, 07 Feb 2023 10:15:31 -0800 (PST)
-Received: from sunil-laptop ([49.206.14.226]) by smtp.gmail.com with ESMTPSA id
- e11-20020aa78c4b000000b00581dd94be3asm9551306pfd.61.2023.02.07.10.15.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Feb 2023 10:15:31 -0800 (PST)
-Date: Tue, 7 Feb 2023 23:45:25 +0530
-From: Sunil V L <sunilvl@ventanamicro.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Andrew Jones <ajones@ventanamicro.com>,
- Anup Patel <apatel@ventanamicro.com>,
- Atish Kumar Patra <atishp@rivosinc.com>
-Subject: Re: [PATCH 04/10] hw/riscv/virt: virt-acpi-build.c: Add basic ACPI
- tables
-Message-ID: <Y+KVPaVQPcoItBbV@sunil-laptop>
-References: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
- <20230202045223.2594627-5-sunilvl@ventanamicro.com>
- <CAEUhbmXhXw7juMQTW7-XxSLwhcJrOiZ=4fiwFFAyoXj+sL0jUQ@mail.gmail.com>
- <Y+D/frPU/TE1aj7y@sunil-laptop>
- <CAEUhbmU2cofq767-9Lfs2CF+DzpZ6FCHz1ox1TC1siPs5uUdWQ@mail.gmail.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mXZiFWjPiIG3htzQ+ZRNHFAs0BptVI3EIW4KlRNQxJU=;
+ b=QZHF91U2Ug2uIbaz2/S/BnRZj0d0Blwtk/HaGYki+L01DRxdxTwB5VMXc13E7SATCS
+ zjAzsDSN/xEmsNDSBWplxx6kK9RJIFYHTA+3RKHqfJ/jA9j3cr0oCz4fGZ8tNb0uYE++
+ bY7LMVpqT685pVSkdOS5VJ/tfhbOW1oMbPUCap/YiDdq7DkT1OrWIPjE2mSqIeGEtPcV
+ gd8599Bxl2vfxKrecxdFK8Jmk9/1tVe46ZSRCECcoPEZ8qQOqfLQib3dO9PDm9zldrN0
+ S3Pd9dLi47h6ZIH8vmtC+H+p0zpO0h0jrU40YuB/hydwdg5+s1Jnk82ukgC4H4WAJFDv
+ ugSQ==
+X-Gm-Message-State: AO0yUKX6F85uUW/bnwM7MWxrD3qlbuI2pOHnxy8c0FFhAbd9bNr0JlxO
+ ANZKkl1Noh2aw7f1Dfn+Yl5mGTFh3CPbc8aU+YK48XZdnA6n9uzcVEaAZK7xPtstwNHuFKDyotl
+ 6K4i5GDQqnqyH4q0=
+X-Received: by 2002:ac8:7f8e:0:b0:3b8:629e:afd1 with SMTP id
+ z14-20020ac87f8e000000b003b8629eafd1mr6816851qtj.53.1675793798624; 
+ Tue, 07 Feb 2023 10:16:38 -0800 (PST)
+X-Google-Smtp-Source: AK7set/a3svxLD3j1CeovNkG72iLUvloFH5WdZrKLqMX63OBOkapEmdkFTznB819tWhRXKfrMTXrTw==
+X-Received: by 2002:ac8:7f8e:0:b0:3b8:629e:afd1 with SMTP id
+ z14-20020ac87f8e000000b003b8629eafd1mr6816819qtj.53.1675793798351; 
+ Tue, 07 Feb 2023 10:16:38 -0800 (PST)
+Received: from [192.168.8.105] (tmo-099-228.customers.d1-online.com.
+ [80.187.99.228]) by smtp.gmail.com with ESMTPSA id
+ b2-20020ac86bc2000000b003b7e8c04d2esm9709466qtt.64.2023.02.07.10.16.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Feb 2023 10:16:37 -0800 (PST)
+Message-ID: <1df55822-6e09-7096-6d6a-a10fdfd9b45b@redhat.com>
+Date: Tue, 7 Feb 2023 19:16:34 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEUhbmU2cofq767-9Lfs2CF+DzpZ6FCHz1ox1TC1siPs5uUdWQ@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=sunilvl@ventanamicro.com; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 04/10] hw/i386: Select E1000_PCI for i440fx
+Content-Language: en-US
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20230206140809.26028-1-farosas@suse.de>
+ <20230206140809.26028-5-farosas@suse.de>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230206140809.26028-5-farosas@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,57 +104,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 08, 2023 at 12:10:55AM +0800, Bin Meng wrote:
-> On Mon, Feb 6, 2023 at 9:24 PM Sunil V L <sunilvl@ventanamicro.com> wrote:
-> >
-> > On Mon, Feb 06, 2023 at 06:17:50PM +0800, Bin Meng wrote:
-> > > On Thu, Feb 2, 2023 at 12:54 PM Sunil V L <sunilvl@ventanamicro.com> wrote:
-> > > >
-> > > > Add few basic ACPI tables and DSDT with few devices in a
-> > > > new file virt-acpi-build.c.
-> > > >
-> > > > These are mostly leveraged from arm64.
-> > >
-> > > There are lots of same ACPI codes existing in x86/arm/riscv. I believe
-> > > some refactoring work is needed before ACPI support fully lands on
-> > > RISC-V.
-> > > For example, we can extract the common part among x86/arm/riscv into a
-> > > separate file, like hw/acpi/acpi-build.c?
-> > >
-> >
-> > While it appears like there is same code in multiple places, those
-> > functions take architecture specific MachineState parameter. Some tables
-> > like MADT though with same name, will have different contents for
-> > different architectures.
-> >
-> > Only one function which Daniel also pointed is the wrapper
-> > acpi_align_size() which can be made common. I am not
-> > sure whether it is worth of refactoring.
-> >
+On 06/02/2023 15.08, Fabiano Rosas wrote:
+> The i440fx machines uses the e1000 adapter as the default when no
+> other network card is configured.
 > 
-> It's more than that. For example,
+> Move the E1000_PCI entry in Kconfig from 'imply' to 'select' to avoid
+> the following situation:
 > 
-> With acpi_dsdt_add_cpus(), the only meaningful parameter is the number
-> of cpus, so there is no need to pass the architecture specific
-> MachineState as the parameter.
+> ./qemu-system-i386 -machine pc-i440fx-8.0
+> qemu-system-i386: Unsupported NIC model: e1000
 > 
-I would not make this function common. The reason is, an architecture may
-choose to attach different ACPI objects under the CPU node.
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> ---
+>   hw/i386/Kconfig | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+> index 8e59cb6634..343783ea3e 100644
+> --- a/hw/i386/Kconfig
+> +++ b/hw/i386/Kconfig
+> @@ -66,7 +66,6 @@ config PC_ACPI
+>   
+>   config I440FX
+>       bool
+> -    imply E1000_PCI
+>       imply VMPORT
+>       imply VMMOUSE
+>       select ACPI_PIIX4
+> @@ -78,6 +77,7 @@ config I440FX
+>       select DIMM
+>       select SMBIOS
+>       select FW_CFG_DMA
+> +    select E1000_PCI
 
-> Likewise, acpi_dsdt_add_fw_cfg() can be made generic as well.
-> 
-The issue is, these things are not exactly common across all architectures.
-x86 has bit different data in these objects. While today it appears they
-are same for riscv and arm, in future things may change for an architecture.
-It doesn't look like it is a standard practice to build files under
-hw/acpi for specific architectures. Hence, IMO, it is better to keep these
-things in architecture specific folders to allow them to do differently in
-future.
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-But I look forward for the feedback from other architecture maintainers on
-this topic. My experience in qemu is very limited. So, I need help from
-experts.
-
-Thanks!
-Sunil
 
