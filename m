@@ -2,102 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED11E68E375
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 23:35:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3441E68E385
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 23:44:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPWYT-0007Np-RW; Tue, 07 Feb 2023 17:35:14 -0500
+	id 1pPWgO-00014g-RA; Tue, 07 Feb 2023 17:43:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pPWYM-0007N0-14
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 17:35:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pPWYI-0008AM-L7
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 17:35:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675809301;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3bElMFABkpLafy1Au2cT+Z1nUTukaPlqrE3l9STek/w=;
- b=ED8d9w0QHIqAERINgwl+68QonLxhB27hPRh69IoHUbipqeUGOdyyxCaIvvHui2u2iPTVua
- FFPANT0ybsApamctbHcaKaf84rVsnS6n0YiDiFgvEjRYXNJ6ItP4hkQ3Rz9EQe8gITfFzg
- LN91+mFIYdja3D16r9QO1AxNZdbw8PE=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-642-6UW3vbC8PkufXGFKiDZrfA-1; Tue, 07 Feb 2023 17:34:59 -0500
-X-MC-Unique: 6UW3vbC8PkufXGFKiDZrfA-1
-Received: by mail-il1-f200.google.com with SMTP id
- s12-20020a92cb0c000000b00313ceced13aso4565337ilo.8
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 14:34:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pPWgK-00013Q-Og; Tue, 07 Feb 2023 17:43:21 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pPWgI-0001KL-Od; Tue, 07 Feb 2023 17:43:20 -0500
+Received: by mail-ej1-x631.google.com with SMTP id jg8so7085544ejc.6;
+ Tue, 07 Feb 2023 14:43:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CLNU6zUWL8XdhKLFhPtLqoqW2DVP6mUKKflRHEJsQ3c=;
+ b=NMkZMl0U5DZ/olbz0LymS8Nl4Cyuzxo4NUXEgPBInDfI2i2oeWdqyoFIoM52PN4Ry4
+ doWVdpKhTgAPjH8H5hTvsP6RpsxTsIHFdPu9I/p4gcBoGROB0w2iVrO6vEEyXXOMMhEm
+ utyR4S4HDXPnZBO2k3vAEFhVRjZw9i0y4KPzc2u1jeqzVSByNtAyRuT64SxXaOe35uCy
+ p8aBRkmWtrx6UxsGh7RMdDJW4qGQ5dTLYtMmBHg7brVHM+oIBCVOFiiWm9kPVu7y1ebH
+ I69Qwi3HUR6BsaHE3GKQobvE4LCK0ZYyccQeQAuPmF95Ogu5HeybYKpLiII4gYZqFZOd
+ dWKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3bElMFABkpLafy1Au2cT+Z1nUTukaPlqrE3l9STek/w=;
- b=N+po6ykVCXpEN/ptUiL3bP8qEW6iNWfD1mxkzgekjg0vjTXKyr9uIj93bmPcctACVo
- +2XXcvyps9fbKUqy2uO6wMeG94O3J4FS8OGYREzcGpRiXMom+FJjTllBU860QSEuqvgK
- m7z5J5RlF7qiELRVxpJquzTyh5aqjps/7X8mmc5gS/HR5d66qAVorUMu/hTcg1cdPqhc
- 6AIcwYTSRLCDUgfx6wHQroL4rjzv0Byn8O1TnpNFCSMYqmsjuQe6vqE9ZdTaOR8dzDSg
- w4ZzRSX1o1MGcq7/Q4SqNbplMdO6mPdHyduyglw5rAfGgSSc0K1X64OQ54V35HDpabcH
- k16Q==
-X-Gm-Message-State: AO0yUKXHOWVvw4nmGOJcVlBwHNaAot7ZbkHhZMOqph6fQ0HqZmA12FlU
- GxRDlCT9La1Zs6JdOnaA2ol8lmnVI8G118PhifN1Vr9HQq2DZe6fJy+pxxopKi5OTJN1xJnfntd
- mlEz114HkgETcU5Q=
-X-Received: by 2002:a92:8e4f:0:b0:30f:5f1f:8927 with SMTP id
- k15-20020a928e4f000000b0030f5f1f8927mr3926664ilh.20.1675809298926; 
- Tue, 07 Feb 2023 14:34:58 -0800 (PST)
-X-Google-Smtp-Source: AK7set+2R7pzfo7TnzhNQ21UxCsydL0/ptmTPL3Cf5vnRpb8+CdG+jJlCXmHuzq6gggEFGFtw58+0w==
-X-Received: by 2002:a92:8e4f:0:b0:30f:5f1f:8927 with SMTP id
- k15-20020a928e4f000000b0030f5f1f8927mr3926644ilh.20.1675809298617; 
- Tue, 07 Feb 2023 14:34:58 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- c5-20020a92cf45000000b0030dbef81995sm2924108ilr.57.2023.02.07.14.34.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Feb 2023 14:34:58 -0800 (PST)
-Date: Tue, 7 Feb 2023 15:34:54 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>
-Cc: <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>, Christian
- Borntraeger <borntraeger@linux.ibm.com>, Eric Farman
- <farman@linux.ibm.com>, Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, "Ilya Leoshkevich"
- <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>, "Juan Quintela"
- <quintela@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>, Vladimir
- Sementsov-Ogievskiy <vsementsov@yandex-team.ru>, John Snow
- <jsnow@redhat.com>, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@redhat.com>,
- <qemu-s390x@nongnu.org>, <qemu-block@nongnu.org>, Yishai Hadas
- <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
- <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
- <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v9 07/14] vfio/migration: Block multiple devices migration
-Message-ID: <20230207153454.4e1a0c51.alex.williamson@redhat.com>
-In-Reply-To: <20230206123137.31149-8-avihaih@nvidia.com>
-References: <20230206123137.31149-1-avihaih@nvidia.com>
- <20230206123137.31149-8-avihaih@nvidia.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+ bh=CLNU6zUWL8XdhKLFhPtLqoqW2DVP6mUKKflRHEJsQ3c=;
+ b=75piO+67dGlW9jcZj7s45SC0tmrmjzkCkkCC96Db7Xj0d1ruGTara00/OVOnnX9Nif
+ I3nL+8ZrOr0MyNKhcf9fUb8qAJ80NIhWrUHK3dCxNumdY+J7uj0tyaolcW3RlvR//V0r
+ SnR2p3sOrj9w2NUT2TyVraHO9Bqi0syvtRjNWxtGkXNQBxrfYC8MvUUOv+Igen0hU+lT
+ zrcNrtIiUMitMu2uX1Fhl9vq0zf3J4u52NLuWcc7xMfN348/NxG9HL3BdYyN9FEo+DdY
+ HAufscKJW0dABJkMAhEXYooz3BgktX80Ow7MDSy3j1d7POADqv/XruxeKBhmcpmxxdQ9
+ riqA==
+X-Gm-Message-State: AO0yUKXACLOGApWK1hEW+VN9yXPeKw7EKqgbFoymcauvozwOBhohhdH8
+ sIQMIiCgNQZMS4M4sQisfAM=
+X-Google-Smtp-Source: AK7set9mybFk74HrnHAJRyUBULMJ1B/PSAgLCZOPFLpjYOQWMoKa8yPsagx246MSHRH3pGsfAVNG3g==
+X-Received: by 2002:a17:906:e0c9:b0:84d:4394:e8e with SMTP id
+ gl9-20020a170906e0c900b0084d43940e8emr5110096ejb.41.1675809794042; 
+ Tue, 07 Feb 2023 14:43:14 -0800 (PST)
+Received: from [127.0.0.1] (dynamic-089-014-074-246.89.14.pool.telefonica.de.
+ [89.14.74.246]) by smtp.gmail.com with ESMTPSA id
+ fd8-20020a056402388800b004a245350e0fsm7056780edb.36.2023.02.07.14.43.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Feb 2023 14:43:13 -0800 (PST)
+Date: Tue, 07 Feb 2023 22:43:06 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: quintela@redhat.com, Juan Quintela <quintela@redhat.com>
+CC: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, qemu-trivial@nongnu.org,
+ BALATON Zoltan <balaton@eik.bme.hu>, Laurent Vivier <lvivier@redhat.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_8/9=5D_hw/i386/x86=3A_Make?=
+ =?US-ASCII?Q?_TYPE=5FX86=5FMACHINE_the_owner_of_smram?=
+In-Reply-To: <87h6vxnx33.fsf@secure.mitica>
+References: <20230204151027.39007-1-shentey@gmail.com>
+ <20230204151027.39007-9-shentey@gmail.com>
+ <10bf125e-85a4-72cc-07de-0d6206941f62@linaro.org>
+ <87h6vzcdlb.fsf@secure.mitica>
+ <CAG4p6K4woqhr2ZxyV6MbehASDXVB9=ssTzHrPMEB=0N+c3P3Yw@mail.gmail.com>
+ <87h6vxnx33.fsf@secure.mitica>
+Message-ID: <99607654-0527-42CD-8EB1-CE3550C74FD9@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,149 +103,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 6 Feb 2023 14:31:30 +0200
-Avihai Horon <avihaih@nvidia.com> wrote:
 
-> Currently VFIO migration doesn't implement some kind of intermediate
-> quiescent state in which P2P DMAs are quiesced before stopping or
-> running the device. This can cause problems in multi-device migration
-> where the devices are doing P2P DMAs, since the devices are not stopped
-> together at the same time.
-> 
-> Until such support is added, block migration of multiple devices.
-> 
-> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> ---
->  include/hw/vfio/vfio-common.h |  2 ++
->  hw/vfio/common.c              | 51 +++++++++++++++++++++++++++++++++++
->  hw/vfio/migration.c           |  6 +++++
->  3 files changed, 59 insertions(+)
-> 
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index e573f5a9f1..56b1683824 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -218,6 +218,8 @@ typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) VFIOGroupList;
->  extern VFIOGroupList vfio_group_list;
->  
->  bool vfio_mig_active(void);
-> +int vfio_block_multiple_devices_migration(Error **errp);
-> +void vfio_unblock_multiple_devices_migration(void);
->  int64_t vfio_mig_bytes_transferred(void);
->  
->  #ifdef CONFIG_LINUX
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 3a35f4afad..01db41b735 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -41,6 +41,7 @@
->  #include "qapi/error.h"
->  #include "migration/migration.h"
->  #include "migration/misc.h"
-> +#include "migration/blocker.h"
->  #include "sysemu/tpm.h"
->  
->  VFIOGroupList vfio_group_list =
-> @@ -337,6 +338,56 @@ bool vfio_mig_active(void)
->      return true;
->  }
->  
-> +Error *multiple_devices_migration_blocker;
-> +
-> +static unsigned int vfio_migratable_device_num(void)
-> +{
-> +    VFIOGroup *group;
-> +    VFIODevice *vbasedev;
-> +    unsigned int device_num = 0;
-> +
-> +    QLIST_FOREACH(group, &vfio_group_list, next) {
-> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
-> +            if (vbasedev->migration) {
-> +                device_num++;
-> +            }
-> +        }
-> +    }
-> +
-> +    return device_num;
-> +}
-> +
-> +int vfio_block_multiple_devices_migration(Error **errp)
-> +{
-> +    int ret;
-> +
-> +    if (vfio_migratable_device_num() != 2) {
-> +        return 0;
-> +    }
-> +
-> +    error_setg(&multiple_devices_migration_blocker,
-> +               "Migration is currently not supported with multiple "
-> +               "VFIO devices");
-> +    ret = migrate_add_blocker(multiple_devices_migration_blocker, errp);
-> +    if (ret < 0) {
-> +        error_free(multiple_devices_migration_blocker);
-> +        multiple_devices_migration_blocker = NULL;
-> +    }
-> +
-> +    return ret;
-> +}
-> +
-> +void vfio_unblock_multiple_devices_migration(void)
-> +{
-> +    if (vfio_migratable_device_num() != 2) {
-> +        return;
-> +    }
-> +
-> +    migrate_del_blocker(multiple_devices_migration_blocker);
-> +    error_free(multiple_devices_migration_blocker);
-> +    multiple_devices_migration_blocker = NULL;
-> +}
 
-A couple awkward things here.  First I wish we could do something
-cleaner or more intuitive than the != 2 test.  I get that we're trying
-to do this on the addition of the 2nd device supporting migration, or
-the removal of the next to last device independent of all other devices,
-but I wonder if it wouldn't be better to remove the multiple-device
-blocker after migration is torn down for the device so we can test
-device >1 or ==1 in combination with whether
-multiple_devices_migration_blocker is NULL.
+Am 7=2E Februar 2023 18:34:40 UTC schrieb Juan Quintela <quintela@redhat=
+=2Ecom>:
+>Bernhard Beschow <shentey@gmail=2Ecom> wrote:
+>v> On Mon, Feb 6, 2023 at 11:06 AM Juan Quintela <quintela@redhat=2Ecom> =
+wrote:
+>>
+>>> Philippe Mathieu-Daud=C3=A9 <philmd@linaro=2Eorg> wrote:
+>>> > On 4/2/23 16:10, Bernhard Beschow wrote:
+>>> >> Treat the smram MemoryRegion analoguous to other memory regions suc=
+h as
+>>> >> ram, pci, io, =2E=2E=2E , making the used memory regions more expli=
+cit when
+>>> >> instantiating q35 or i440fx=2E
+>>> >> Note that the q35 device uses these memory regions only during the
+>>> >> realize phase which suggests that it shouldn't be the owner of smra=
+m=2E
+>>> >
+>>> > Few years ago I tried something similar and it wasn't accepted becau=
+se
+>>> > the MR owner name is used in the migration stream, so this was break=
+ing
+>>> > migrating from older machines=2E
+>>>
+>>> I don't remember the details O:-)
+>>>
+>>> Migration code, really depends on RAMBlocks names, not memory region
+>>> names=2E  But as far as I remember, that don't matter too much because=
+ the
+>>> memory region names ends tangled quite a bit with the RAMBlock name, r=
+ight?
+>>>
+>>> > Adding David/Juan for double-checking that=2E
+>>>
+>>>     trace_vmstate_save(se->idstr, se->vmsd ? se->vmsd->name : "(old)")=
+;
+>>>
+>>> You can try to enable this trace and see that every section has the sa=
+me
+>>> name with and without your change (i=2Ee=2E that memory region name is=
+ not
+>>> seen by the migration stream)=2E
+>>>
+>>> But that is the only help that I can came with=2E
+>>>
+>>> The code that you are changing (smram) is something that I don't know
+>>> about to give you more help=2E
+>>>
+>>> Looking at the patch, it looks that the name was before and now the
+>>> "sram", so perhaps it could help=2E  But I don't know=2E
+>>>
+>>> In the i440fx you say that you only use it until realize, so you shoul=
+d
+>>> be safe=2E
+>>>
+>>> For q35, it is not clear to me=2E
+>>>
+>>> If the trace don't show new names, I will just try:
+>>> - migrate a i440fx machine from binary without your patch to one with
+>>>   your patch
+>>> - the same for q35=2E
+>>>
+>>> And depending on the result, we can go from there=2E
+>>>
+>>
+>> Thanks for the pointers, Juan!
+>>
+>> I took some inspiration and created four migration files,
+>> {pc,q35}-{before,after}=2Emig by running `qemu-system-x86_64 -M {pc,q35=
+} -S`
+>> with qemu built from master and from my branch=2E Then I basically ran
+>>  `=2E/scripts/analyze-migration=2Epy -d desc -f *=2Emig > *=2Ejson` on =
+the four
+>> files and compared the diffs=2E Both diffs were empty=2E AFAIU this pro=
+ves that
+>> there is no binary change, right?
+>
+>We have two options here:
+>- you are right (my opinion)
+>- you got a bug in analyze-migration=2Epy script and you have a new job=
+=2E
 
-Which comes to the second awkwardness, if we fail to add the blocker we
-free and clear the blocker, but when we tear down the device due to that
-failure we'll remove the blocker that doesn't exist, free NULL, and
-clear it again.  Thanks to the glib slist the migration blocker is
-using, I think that all works, but I'd rather not be dependent on that
-implementation to avoid a segfault here.  Incorporating a test of
-multiple_devices_migration_blocker as above would avoid this too.  Thanks,
+I take option one ;)
 
-Alex
+>But I think you can send this patch=2E
 
-> +
->  static bool vfio_devices_all_dirty_tracking(VFIOContainer *container)
->  {
->      VFIOGroup *group;
-> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> index 552c2313b2..8085a4ff44 100644
-> --- a/hw/vfio/migration.c
-> +++ b/hw/vfio/migration.c
-> @@ -880,6 +880,11 @@ int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
->          goto add_blocker;
->      }
->  
-> +    ret = vfio_block_multiple_devices_migration(errp);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
->      trace_vfio_migration_probe(vbasedev->name, info->index);
->      g_free(info);
->      return 0;
-> @@ -902,6 +907,7 @@ void vfio_migration_finalize(VFIODevice *vbasedev)
->      if (vbasedev->migration) {
->          VFIOMigration *migration = vbasedev->migration;
->  
-> +        vfio_unblock_multiple_devices_migration();
->          remove_migration_state_change_notifier(&migration->migration_state);
->          qemu_del_vm_change_state_handler(migration->vm_state);
->          unregister_savevm(VMSTATE_IF(vbasedev->dev), "vfio", vbasedev);
+The patches still need reviews=2E
 
+Best regards,
+Bernhard
+>
+>Later, Juan=2E
+>
+>> Best regards,
+>> Bernhard
+>>>
+>>>
+>>> Later, Juan=2E
+>>>
+>>>
+>
 
