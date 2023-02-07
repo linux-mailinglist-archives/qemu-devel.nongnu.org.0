@@ -2,108 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0201A68D2B5
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 10:25:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 764E768D2D1
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 10:30:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPKDL-0002Ff-FB; Tue, 07 Feb 2023 04:24:35 -0500
+	id 1pPKIf-0003dr-BA; Tue, 07 Feb 2023 04:30:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pPKDI-0002FO-Vr; Tue, 07 Feb 2023 04:24:33 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pPKDG-0002qD-Qh; Tue, 07 Feb 2023 04:24:32 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3178MLKM033317; Tue, 7 Feb 2023 09:24:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=j5oA2j3ygGCH1n9m8jUXpwF34OLwRxc+WmElCWzBNvc=;
- b=LWq8nZfAsa2OTBdMfdNy2g83zWRgBvLmFZ6h45BI1zc++CRJn2pCxVfLdRE0KTjNLOgw
- 4UshWS5UUQKZTHHd9qRosuu/WlgJHyOsACPTUpJP7eJp9uGiCYVqFXceLiYvVUdt22Cd
- 3WH1suLN2ZXLkq/klQcFs8INE2WqFQvMq5qerqaShEAI4ghhS7rDYQeg+r33Kbo/57un
- CWgzPH8CDp8yd6XbC2pIb2bQZ7EeyXTPzZOU5Cnn/qgD+9G6j7s4yKgjc2Kfg2xL6crA
- w3f6Jh5ug3O5atA9VJ9KKhx6WkJ+euWemB2LUZZ/lOGoST04dCUSHKLpyVs/cVl5nwRY ow== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nkk2xhmpw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Feb 2023 09:24:24 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3179Jhig030605;
- Tue, 7 Feb 2023 09:24:23 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nkk2xhmnw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Feb 2023 09:24:23 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3171eHG0020252;
- Tue, 7 Feb 2023 09:24:20 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
- by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3nhf06tdkj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Feb 2023 09:24:20 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 3179OHRj46203374
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 7 Feb 2023 09:24:17 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EAFB92004D;
- Tue,  7 Feb 2023 09:24:16 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A52DE2004B;
- Tue,  7 Feb 2023 09:24:16 +0000 (GMT)
-Received: from [9.152.224.241] (unknown [9.152.224.241])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Tue,  7 Feb 2023 09:24:16 +0000 (GMT)
-Message-ID: <f4732cd4-67bb-a2a3-0048-3a2118b52fc1@linux.ibm.com>
-Date: Tue, 7 Feb 2023 10:24:16 +0100
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPKId-0003cu-Ju
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 04:30:03 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPKIb-00040c-Ve
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 04:30:03 -0500
+Received: by mail-wr1-x435.google.com with SMTP id d14so12866599wrr.9
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 01:30:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=0Li7CX6psPPPZvcWliKSjDe7eAKUR6K9zHWJyX7RHk4=;
+ b=quaaJKe2CyVtPvaGQ2R0yD56jXUUR/pTb0a2C9swJC7/NgGhiGp1mjyFiviseSAu8l
+ tXFnuoYbMmpdgxXT8yR8B+srgtqFKrNYaqWgIlTsVulTwSKEzB+cgQSWE7LJ85wwfbPs
+ GoPOhtKmbnGxYN/z7YjTAU2CMhj+w8xG2B3i0QL8fuYmg9T8MWO2tf7aR5iNVsK9Ooe5
+ faYg8d7H9toePwYhQFe2uaP9zR+6twO8zaeh4eLK3irswTZNy6SzRyMktr8myoKLygIS
+ WzS2dE7VCC5r32hUCpcB8oevXRSK1yDjgGnEr2gLwPCKs1mNrgnvgEuxGiDZ+7xjZffb
+ iiew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0Li7CX6psPPPZvcWliKSjDe7eAKUR6K9zHWJyX7RHk4=;
+ b=5RGZcesn3PqNy0qeM750wlmE+sVcNMfv2uE8fwu5CyTR1rLF3Nq6arIa09ddDDyhhO
+ Sr8ZT7d7cqEEDdo6KQpBXZKU9IxW5KoaIWQk14K1aWHOiMnDtTKia8IUQz9tQoe0Q4v1
+ Gnl9BOCbq36IDPzhI/He+9Xq9/HVK8gRa5uC2MPwFU+oMgpREKFxI5VVMwdwl8ZcQozl
+ /PAT0PkS7gqnTC2HrzDLvc18FucPOqvkW4/ngReDGPfhJPH6NZgNEAm5TWlW+dmG+weq
+ SdRVbq5G+Jgg20myMYEEhR3sZV5eQ7KgoYL8reGWK8YI1plD3IEGuSQZ8fFUBxbBB479
+ rvjw==
+X-Gm-Message-State: AO0yUKX+IwGSspUnDSPVfoe0MhdFE9H8/2a4xcsuBUpqtD/rGSaQX46j
+ Lxh9uLXcL572SIOUKdeXO6DbZTk1e7jhI0om
+X-Google-Smtp-Source: AK7set/TNHGlBA6fceKxGHuZEFGdPYo54C7hbhCOBaYa7GoGlIB+0m3a4+R8FhredekZTwIG+ugaBA==
+X-Received: by 2002:adf:ef43:0:b0:2bf:ea34:dfe4 with SMTP id
+ c3-20020adfef43000000b002bfea34dfe4mr1941170wrp.42.1675762199688; 
+ Tue, 07 Feb 2023 01:29:59 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ n9-20020a5d5989000000b002bc7fcf08ddsm11147895wri.103.2023.02.07.01.29.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Feb 2023 01:29:59 -0800 (PST)
+Message-ID: <e54fc1c8-c54b-8b96-9b4f-5c0e9945e209@linaro.org>
+Date: Tue, 7 Feb 2023 10:29:57 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v15 05/11] s390x/cpu topology: resetting the
- Topology-Change-Report
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH] MAINTAINERS: add myself maintainer for the clock framework
 Content-Language: en-US
-To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230201132051.126868-1-pmorel@linux.ibm.com>
- <20230201132051.126868-6-pmorel@linux.ibm.com>
- <3215597a6916932c26fdbe1dd8daf2fc0c1c1ab5.camel@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <3215597a6916932c26fdbe1dd8daf2fc0c1c1ab5.camel@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Cc: Luc Michel <luc@lmichel.fr>, Peter Maydell <peter.maydell@linaro.org>,
+ Damien Hedde <damien.hedde@greensocs.com>,
+ Mark Burton <mburton@qti.qualcomm.com>,
+ Damien Hedde <damien.hedde@sifive.com>
+References: <20210211085318.2507-1-luc@lmichel.fr>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20210211085318.2507-1-luc@lmichel.fr>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: E9NC7Xhl66eAfXhqbBe02yWCv06dOQuq
-X-Proofpoint-ORIG-GUID: Kt6cKGVnS9qy4aXgc7H-WapJN0hid4V_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-07_02,2023-02-06_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- lowpriorityscore=0 malwarescore=0 adultscore=0 priorityscore=1501
- phishscore=0 suspectscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0
- spamscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2302070080
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -120,109 +92,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 2/6/23 18:52, Nina Schoetterl-Glausch wrote:
-> On Wed, 2023-02-01 at 14:20 +0100, Pierre Morel wrote:
->> During a subsystem reset the Topology-Change-Report is cleared
->> by the machine.
->> Let's ask KVM to clear the Modified Topology Change Report (MTCR)
->> bit of the SCA in the case of a subsystem reset.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   include/hw/s390x/cpu-topology.h |  1 +
->>   target/s390x/cpu.h              |  1 +
->>   target/s390x/kvm/kvm_s390x.h    |  1 +
->>   hw/s390x/cpu-topology.c         | 12 ++++++++++++
->>   hw/s390x/s390-virtio-ccw.c      |  3 +++
->>   target/s390x/cpu-sysemu.c       | 13 +++++++++++++
->>   target/s390x/kvm/kvm.c          | 17 +++++++++++++++++
->>   7 files changed, 48 insertions(+)
->>
->> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
->> index 1ae7e7c5e3..60e0b9fbfa 100644
->> --- a/include/hw/s390x/cpu-topology.h
->> +++ b/include/hw/s390x/cpu-topology.h
->> @@ -66,5 +66,6 @@ static inline void s390_topology_set_cpu(MachineState *ms,
->>   
->>   extern S390Topology s390_topology;
->>   int s390_socket_nb(S390CPU *cpu);
->> +void s390_topology_reset(void);
->>   
->>   #endif
->> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
->> index e1f6925856..848314d2a9 100644
->> --- a/target/s390x/cpu.h
->> +++ b/target/s390x/cpu.h
->> @@ -641,6 +641,7 @@ typedef struct SysIBTl_cpu {
->>   QEMU_BUILD_BUG_ON(sizeof(SysIBTl_cpu) != 16);
->>   
->>   void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar);
->> +void s390_cpu_topology_reset(void);
+On 11/2/21 09:53, Luc Michel wrote:
+> Also add Damien as a reviewer.
 > 
-> How about you call this s390_cpu_topology_reset_modified, so it's symmetric
-> with the function you define in the next patch. You could also drop the "cpu"
-> from the name.
+> Signed-off-by: Luc Michel <luc@lmichel.fr>
+> ---
+>   MAINTAINERS | 11 +++++++++++
+>   1 file changed, 11 insertions(+)
 
-I am not sure about this, Thomas already gave his R-B on this patch so I 
-prefer to stay on the original name, unless he says it is a good idea to 
-change.
-Also in cpu-sysemu.c most of the function are tagged with _cpu_
+> +Clock framework
+> +M: Luc Michel <luc@lmichel.fr>
+> +R: Damien Hedde <damien.hedde@greensocs.com>
 
-> 
-> Or maybe even better, you only define a function for setting the modified state,
-> but make it take a bool argument. This way you also get rid of some code duplication
-> and it wouldn't harm readability IMO.
+FTR Damien address is bouncing.
 
-There is already a single function kvm_s390_topology_set_mtcr(attr) to 
-set the "modified state"
+> +S: Maintained
+> +F: include/hw/clock.h
+> +F: include/hw/qdev-clock.h
+> +F: hw/core/clock.c
+> +F: hw/core/clock-vmstate.c
+> +F: hw/core/qdev-clock.c
+> +F: docs/devel/clocks.rst
 
-> 
->>   
->>   /* MMU defines */
->>   #define ASCE_ORIGIN           (~0xfffULL) /* segment table origin             */
->> diff --git a/target/s390x/kvm/kvm_s390x.h b/target/s390x/kvm/kvm_s390x.h
->> index f9785564d0..649dae5948 100644
->> --- a/target/s390x/kvm/kvm_s390x.h
->> +++ b/target/s390x/kvm/kvm_s390x.h
->> @@ -47,5 +47,6 @@ void kvm_s390_crypto_reset(void);
->>   void kvm_s390_restart_interrupt(S390CPU *cpu);
->>   void kvm_s390_stop_interrupt(S390CPU *cpu);
->>   void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info);
->> +int kvm_s390_topology_set_mtcr(uint64_t attr);
->>   
->>   #endif /* KVM_S390X_H */
->> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
->> index a80a1ebf22..cf63f3dd01 100644
->> --- a/hw/s390x/cpu-topology.c
->> +++ b/hw/s390x/cpu-topology.c
->> @@ -85,6 +85,18 @@ static void s390_topology_init(MachineState *ms)
->>       QTAILQ_INSERT_HEAD(&s390_topology.list, entry, next);
->>   }
->>   
->> +/**
->> + * s390_topology_reset:
->> + *
->> + * Generic reset for CPU topology, calls s390_topology_reset()
->> + * s390_topology_reset() to reset the kernel Modified Topology
->> + * change record.
->> + */
->> +void s390_topology_reset(void)
->> +{
-> 
-> I'm wondering if you shouldn't move the reset changes you do in the next patch
-> into this one. I don't see what they have to do with PTF emulation.
-
-Here in this patch we do not intercept PTF and we have only an 
-horizontal polarity.
-So we do not need to reset the polarity for all the vCPUs, we only need 
-it when we have vertical polarity.
-
-Regards,
-Pierre
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
 
