@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B65568DAAD
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:26:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 248B068DAAF
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:26:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPOv0-0007KZ-U7; Tue, 07 Feb 2023 09:25:58 -0500
+	id 1pPOv1-0007MM-Fk; Tue, 07 Feb 2023 09:25:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pPOut-0007JD-EC
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:25:51 -0500
+ id 1pPOuu-0007KG-Oe
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:25:53 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pPOuq-0006DU-P8
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:25:49 -0500
+ id 1pPOut-0006Do-6k
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:25:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675779947;
+ s=mimecast20190719; t=1675779950;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Zmk18G08raxXr7fJ4g2bzz2Tgoba+zSUGqNVNLtSwDE=;
- b=WWn19MWrq8rSR2ci+2PK5rqE4RrXivKnEItOc4C6EW+mmzWbH2cE+zekKgb/17/ACEyzPQ
- oXMhoMRPkAIxw5qsBIBok/ZcKEL5PryubpbG0w/lCjkvQdVt6iRWp0DALWYFEeHSo54w6U
- IwyeT+2RomevjeG9ag+T32vuhB35nhA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KWGZySkEpRmPwEzDmMhdAFN3A39UnpAP1RWhCsgb3vE=;
+ b=FE5VDfZAluAkTym1GPH9lFgjObG0ItoNagR2TvzBGxrFLoRA/EEfMqo81ku9rAp50TX/vz
+ CHeyVOaEDKtxJEcq3zpNhl+Sjm1/SOfrVjTiumcq5ziVE2c084BXxge7OuIJMqdJeyNRpQ
+ 3mXWM1NaJT7b5tHWkjFg/3pi0JoVpCw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-396-urU2PQqPMbqi9OEebeTO9g-1; Tue, 07 Feb 2023 09:25:44 -0500
-X-MC-Unique: urU2PQqPMbqi9OEebeTO9g-1
+ us-mta-198-fmvKibgnMm2HGMRzjw2EuQ-1; Tue, 07 Feb 2023 09:25:49 -0500
+X-MC-Unique: fmvKibgnMm2HGMRzjw2EuQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 94262100F921;
- Tue,  7 Feb 2023 14:25:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A3CDC2A59563;
+ Tue,  7 Feb 2023 14:25:48 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B09BA404CD80;
- Tue,  7 Feb 2023 14:25:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 845C2404CD80;
+ Tue,  7 Feb 2023 14:25:47 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Beraldo Leal <bleal@redhat.com>,
@@ -56,9 +56,10 @@ Cc: Beraldo Leal <bleal@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [PATCH v3 01/10] tests: fix path separator, use g_build_filename()
-Date: Tue,  7 Feb 2023 18:25:26 +0400
-Message-Id: <20230207142535.1153722-2-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 02/10] char: do not double-close fd when failing to add
+ client
+Date: Tue,  7 Feb 2023 18:25:27 +0400
+Message-Id: <20230207142535.1153722-3-marcandre.lureau@redhat.com>
 In-Reply-To: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
 References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
@@ -92,26 +93,32 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+The caller is already closing the fd on failure.
+
+Fixes: c3054a6e6a ("char: Factor out qmp_add_client() parts and move to chardev/")
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/unit/test-io-channel-command.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ chardev/char.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
-index 425e2f5594..75d8de43fd 100644
---- a/tests/unit/test-io-channel-command.c
-+++ b/tests/unit/test-io-channel-command.c
-@@ -35,7 +35,7 @@ static char *socat = NULL;
- static void test_io_channel_command_fifo(bool async)
- {
-     g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
--    g_autofree gchar *fifo = g_strdup_printf("%s/%s", tmpdir, TEST_FIFO);
-+    g_autofree gchar *fifo = g_build_filename(tmpdir, TEST_FIFO, NULL);
-     g_autofree gchar *srcargs = g_strdup_printf("%s - PIPE:%s,wronly", socat, fifo);
-     g_autofree gchar *dstargs = g_strdup_printf("%s PIPE:%s,rdonly -", socat, fifo);
-     g_auto(GStrv) srcargv = g_strsplit(srcargs, " ", -1);
+diff --git a/chardev/char.c b/chardev/char.c
+index 11eab7764c..e69390601f 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -1175,12 +1175,10 @@ bool qmp_add_client_char(int fd, bool has_skipauth, bool skipauth,
+ 
+     if (!s) {
+         error_setg(errp, "protocol '%s' is invalid", protocol);
+-        close(fd);
+         return false;
+     }
+     if (qemu_chr_add_client(s, fd) < 0) {
+         error_setg(errp, "failed to add client");
+-        close(fd);
+         return false;
+     }
+     return true;
 -- 
 2.39.1
 
