@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FA2068E1F7
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 21:38:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1AC668E1FB
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 21:38:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPUiy-0000Nv-Eo; Tue, 07 Feb 2023 15:37:56 -0500
+	id 1pPUiw-0000Ly-Ga; Tue, 07 Feb 2023 15:37:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pPUiv-0000Lh-5G
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 15:37:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pPUiu-0000LC-No
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 15:37:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pPUit-0004KA-Mh
+ id 1pPUis-0004Jd-7u
  for qemu-devel@nongnu.org; Tue, 07 Feb 2023 15:37:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675802271;
+ s=mimecast20190719; t=1675802269;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=mMY1HsjNR0Xrn9MouctwMKYbeH3RfKjeXs1iaAOHZ8o=;
- b=EJFh9JgVCaU7hs9d/2h+qjXlVYRsavSs5VwQST0aAJvtHMHqVgHYhXiyys43RVwG7/L7eY
- 7Tc1WLr7XMz4HGZrnnt6biG+CyTI02VL4lF+/01SqYTwoIgVtlEqWqoEgvt9zra/td5Oe2
- yEBw8uhVhSTWOebZoS/ddvJLJ1uHJLk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZHAcYrwLiKzwlv8ftTovcEzHuKiOJB+r7rwtfed0E/g=;
+ b=MHhDtUm5DtoAaOnvrMPKd817h4tuQ9xMVr0mgUSqaUv0YCJtPe4AzNFGicSxmSdr+OeJAR
+ eI2bsAiwn2CmHWVi3gMtpVFhqNO8UUTsjCO3myaACbgOLF5tlxBpIEXxmfIra3ksIQ8vhD
+ QyZymKO1d8hQvZfc3xtKYKOKAVoLDV4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-301-ufcPWfbIMgS0la93ekJGUw-1; Tue, 07 Feb 2023 15:37:47 -0500
-X-MC-Unique: ufcPWfbIMgS0la93ekJGUw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-594-5iDMDd9UMuGp3_kT_rIsbA-1; Tue, 07 Feb 2023 15:37:45 -0500
+X-MC-Unique: 5iDMDd9UMuGp3_kT_rIsbA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 829AE3C22742;
- Tue,  7 Feb 2023 20:37:47 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 79B51811E6E;
+ Tue,  7 Feb 2023 20:37:45 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F2F0F492B21;
- Tue,  7 Feb 2023 20:37:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6DE2A2166B29;
+ Tue,  7 Feb 2023 20:37:44 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Fiona Ebner <f.ebner@proxmox.com>,
  qemu-block@nongnu.org, Fam Zheng <fam@euphon.net>,
- Stefan Hajnoczi <stefanha@redhat.com>, Hanna Reitz <hreitz@redhat.com>
-Subject: [PATCH v4 0/4] block: fix detect-zeroes= with BDRV_REQ_REGISTERED_BUF
-Date: Tue,  7 Feb 2023 15:37:15 -0500
-Message-Id: <20230207203719.242926-1-stefanha@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+ Stefan Hajnoczi <stefanha@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-stable@nongnu.org, Eric Blake <eblake@redhat.com>
+Subject: [PATCH v4 1/4] block: fix detect-zeroes= with BDRV_REQ_REGISTERED_BUF
+Date: Tue,  7 Feb 2023 15:37:16 -0500
+Message-Id: <20230207203719.242926-2-stefanha@redhat.com>
+In-Reply-To: <20230207203719.242926-1-stefanha@redhat.com>
+References: <20230207203719.242926-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -77,44 +80,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-v4:
-- Add 'r' to read_f() getopt() call [Hanna]
-- Fix qemu_io_alloc() and friends buf and len with qemuio_misalign [Hanna]
-- Fix qemu_iovec_destroy()/qemu_io_free() ordering in aio_write_done() [Hanna]
-- Add mutually exclusive -z -r option check in aio_write_f() [Hanna]
-v3:
-- Restore alphabetical order in getopt strings [Eric]
-v2:
-- Add comment explaining unbalanced error code path in
-  qemu_io_alloc_from_file() [Eric]
-- List options alphabetically in help output [Eric]
-- Add Tested-by/Reviewed-by
-- CC qemu-stable on the fix
+When a write request is converted into a write zeroes request by the
+detect-zeroes= feature, it is no longer associated with an I/O buffer.
+The BDRV_REQ_REGISTERED_BUF flag doesn't make sense without an I/O
+buffer and must be cleared because bdrv_co_do_pwrite_zeroes() fails with
+-EINVAL when it's set.
 
-The first patch fixes a regression in QEMU 7.2 where detect-zeroes breaks with
-virtio-blk devices due to a BDRV_REQ_REGISTERED_BUF bug. Details of the
-regression can be found here:
-https://gitlab.com/qemu-project/qemu/-/issues/1404
+Fiona Ebner <f.ebner@proxmox.com> bisected and diagnosed this QEMU 7.2
+regression where writes containing zeroes to a blockdev with
+discard=unmap,detect-zeroes=unmap fail.
 
-The remaining patches add a regression test that will protect this code path in
-the future. The qemu-io command is extended with the new -r option that calls
-blk_register_buf(). This allows a qemu-iotests test case to trigger the same
-bug as virtio-blk.
+Buglink: https://gitlab.com/qemu-project/qemu/-/issues/1404
+Fixes: e8b6535533be ("block: add BDRV_REQ_REGISTERED_BUF request flag")
+Tested-by: Fiona Ebner <f.ebner@proxmox.com>
+Cc: qemu-stable@nongnu.org
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Hanna Czenczek <hreitz@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ block/io.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Stefan Hajnoczi (4):
-  block: fix detect-zeroes= with BDRV_REQ_REGISTERED_BUF
-  qemu-io: use BdrvRequestFlags instead of int
-  qemu-io: add -r option to register I/O buffer
-  iotests/detect-zeroes-registered-buf: add new test
-
- block/io.c                                    |   3 +
- qemu-io-cmds.c                                | 215 +++++++++++-------
- .../tests/detect-zeroes-registered-buf        |  58 +++++
- .../tests/detect-zeroes-registered-buf.out    |   7 +
- 4 files changed, 203 insertions(+), 80 deletions(-)
- create mode 100755 tests/qemu-iotests/tests/detect-zeroes-registered-buf
- create mode 100644 tests/qemu-iotests/tests/detect-zeroes-registered-buf.out
-
+diff --git a/block/io.c b/block/io.c
+index 2dc0c13e41..d2be37b11e 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -1926,6 +1926,9 @@ static int coroutine_fn bdrv_aligned_pwritev(BdrvChild *child,
+         if (bs->detect_zeroes == BLOCKDEV_DETECT_ZEROES_OPTIONS_UNMAP) {
+             flags |= BDRV_REQ_MAY_UNMAP;
+         }
++
++        /* Can't use optimization hint with bufferless zero write */
++        flags &= ~BDRV_REQ_REGISTERED_BUF;
+     }
+ 
+     if (ret < 0) {
 -- 
 2.39.1
 
