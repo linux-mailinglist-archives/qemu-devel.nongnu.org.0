@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5513B68D741
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 13:54:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 231A068D743
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 13:55:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPNUO-0001DT-Kn; Tue, 07 Feb 2023 07:54:24 -0500
+	id 1pPNVQ-000205-Sq; Tue, 07 Feb 2023 07:55:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pPNUN-0001D2-0y
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:54:23 -0500
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pPNVO-0001zr-MY
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:55:26 -0500
+Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pPNUL-00061N-Fs
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:54:22 -0500
-Received: by mail-pf1-x42a.google.com with SMTP id a5so7662871pfv.10
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 04:54:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pPNVM-0006LD-DU
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:55:26 -0500
+Received: by mail-lj1-x231.google.com with SMTP id h17so15455202ljq.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 04:55:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=I67R4pNssTVatlp+xdgpD4XJXE5KMr6pjSPT31x9GEQ=;
- b=VKIVxkCbgEdSz6vAoXKF2lV5iz0SI5XVRyI69q2Q7iHj9dHFR85KXBgwefIFPmmUrd
- eFT5QFce8GVIL+v8PsAmDznQ3T829yiSnG5TwJYuJDpawgMgDVEV+twNdg595bddPDj+
- WKKlZvZ+yW2tA3pGf8dI0GILRwR4On066VO3HT4HHHxel7L8g7/H60UiSLYjf/yv5JnW
- fyBMr6JGYzURAcALobDc+QcmUQhwRdXUh2g0J5nPZlph1z6eCfpHJgmvrevSzRB/bS8G
- Fb6chKZSUvzX5qp+eq/AzSCbJUvM/T4iCRCByEuuD2SCIKM7Ikyx/WuYx5HP1RZPIGwN
- h2pA==
+ bh=6EHL/JzwxOSmqtwAHfsg4hheuvpYaxxAyWoTNKtTJEU=;
+ b=Y4Ss+kSWLrXrlrtCpe6BwmrPzd6JYI6i/rwUNc2pEOWwkk9+CY+O05fyQI8qJQG8mV
+ anP514vhLZ9iQqHfUDkbQZmK9De/WQDjRFWHTR53SR7ghMbu1RbjBsqekx7BXGiYuATq
+ DUIZo+ln8FN4rEFXK8aZYJrnhb5c/LlJy3VN3aq7TYa5TO87qt4QJ4uPvpuIViApIZ2d
+ hieu9sTZKAPh0qdogGJJGKPXhlJbOw/iIUW9doqASsSZiagvQIiJygZxLTIiYm7pyS3V
+ zkW56rymyphtbRhMAzTmCzMJCb3p7Xfj32i4x35IXpUkbW9PRvVep1FCD4F0Y7WXeuLp
+ pP9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=I67R4pNssTVatlp+xdgpD4XJXE5KMr6pjSPT31x9GEQ=;
- b=pc4PKseFmsq27RdFEbDXP3JgMRq9F0RWMb4ETO6uxUbjmYJx5uTB2J8bhZqde3QaOC
- vBD+TPuSo8llZHMnKyjAcIg8THZ5ZW6FOAmyUWzeWfPV3Pde6T7maRY78kGWAzhB3tNk
- 4t11ZlU0CoCTKJRaY1xTO29bPmaEenE6smSdfmwYWjiOUNq3tSLExveHbytHEY/Tgglq
- 0eI8IUCzmfEmGBVbvadKPLTsLAB7lzff4zqxXy7UFS8UAeFAj9o7yBqgEpjJCMHeMYPO
- nPmbMbKWGBHKUsrNbU6J1wSzGWUF5kg6pw6wOyZ5yznvRqlMksPzfqpU3auuQiQj2J1H
- 6gsQ==
-X-Gm-Message-State: AO0yUKXDzJMcbs5Ool4I6wTtzcmAmkIXv5fXPtpwMYkjR98muEAogrpV
- z9aIcvDUJIiIsEMajBUtDA9YTifKWaHFVjcJ9EEZfA==
-X-Google-Smtp-Source: AK7set/vEMOzaHOzi+FdI8wYkyvMuoxW1MWk3R2fXcZnh6HJggaUHEnO9Gruk1j8XBfTIz/gMCQLrjEUQb8YlUqtLAo=
-X-Received: by 2002:aa7:9a48:0:b0:58d:ce70:4683 with SMTP id
- x8-20020aa79a48000000b0058dce704683mr708391pfj.39.1675774459757; Tue, 07 Feb
- 2023 04:54:19 -0800 (PST)
+ bh=6EHL/JzwxOSmqtwAHfsg4hheuvpYaxxAyWoTNKtTJEU=;
+ b=8CLtFc7UOJ6dEwXRwwXBcPJ7DxqlKyHIkcaU8co1gn3B1VnbKoITa7m6ohXdilwx8g
+ FiAE1PzJnr11j/u4VzOm+f6rjtNBoyqo2+/cykk0lZ8bC/HO+A3DZo130tpVB6CsVARM
+ iVXXtg3npknbUDQKqQ9BkLPSv9zMXE3U37CCwPu03M7dSC85xCb2hZFSv529lajhlQu/
+ XR4YirEpqf/CPR0N5Tl3pHmwdgYqvEhjQHSmdN5/UXDuLnXSlJAoVdvflW9sp66S9wJD
+ kiFIx23//TaqaxtQMpVS29ij0oW0EzhYkeQs6IuO0+9qgQgAMvj7SPUD9UY1ryADahcT
+ jwDg==
+X-Gm-Message-State: AO0yUKVHDGXg4/s4kwpQSerPdyFqnH2RrtLglzgujcuzIWKOzFlbLekv
+ nqdL+PJjill+j55kd8rtnImskmyfhUvOmHDwxpc=
+X-Google-Smtp-Source: AK7set87Jd5CuYcj6mmRk/gz18l+zMNzuk0WKZfI6hIwKOhAlPXbZ/Kf+8Ht3UEQ9azpVej665kp11FvC/rWXnY5MPo=
+X-Received: by 2002:a2e:84c7:0:b0:290:4fce:f881 with SMTP id
+ q7-20020a2e84c7000000b002904fcef881mr470993ljh.126.1675774521986; Tue, 07 Feb
+ 2023 04:55:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20230203171657.2867598-1-eric.auger@redhat.com>
- <CAFEAcA8qz8qsZNsrbbnmvVUgRazsxtGVm59enyU1rf2ZHjx+ow@mail.gmail.com>
- <e4eaad79-f545-9eab-5fa3-8e55a045a2ff@linaro.org>
-In-Reply-To: <e4eaad79-f545-9eab-5fa3-8e55a045a2ff@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Feb 2023 12:54:08 +0000
-Message-ID: <CAFEAcA8a_UMVfJvEo-Da=xOKguwgsArQD1VEt7PgTgy=GN_3mQ@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Add raw_writes ops for register whose write
- induce TLB maintenance
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com, 
- richard.henderson@linaro.org, pbonzini@redhat.com, qemu-devel@nongnu.org
+References: <20230129182414.583349-1-marcandre.lureau@redhat.com>
+ <20230129182414.583349-3-marcandre.lureau@redhat.com>
+ <c39d58f3-872d-eedb-1f4e-6d26999390ac@redhat.com>
+In-Reply-To: <c39d58f3-872d-eedb-1f4e-6d26999390ac@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 7 Feb 2023 16:55:10 +0400
+Message-ID: <CAJ+F1CJ+jAYzzBPRKxjKzJLfCgPzy4Sfm6s4NB8G2bc3qdEPpw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/9] tests: fix test-io-channel-command on win32
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Stefan Weil <sw@weilnetz.de>, 
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Eric Blake <eblake@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::231;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x231.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,34 +96,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 7 Feb 2023 at 12:15, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org=
-> wrote:
->
-> On 3/2/23 19:04, Peter Maydell wrote:
-> > Anything with type ARM_CP_NO_RAW shouldn't need a .raw_writefn, because
-> > that type indication says that it's a bug if we ever call
-> > read_raw_cp_reg() or write_raw_cp_reg() on it. (Specifically,
-> > for KVM, we should never end up trying to do a raw read/write
-> > for a state sync because write_list_to_cpustate() and
-> > write_cpustate_to_list() skip NO_RAW cpregs.)
->
-> Ah, this is the check added by commit 375421ccae ("target-arm: Add
-> checks that cpreg raw accesses are handled"). So this patch shouldn't
-> pass check-qtest, right?
+Hi
 
-That commit adds a check that if your register is *not* NO_RAW
-then raw_read/raw_write will work[*] (ie it is const/has a fieldoffset/
-has raw accessors/has normal accessors). It doesn't check that
-if the register *is* NO_RAW it doesn't also specify unnecessary
-accessor functions.
+On Mon, Feb 6, 2023 at 12:09 PM Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 29/01/2023 19.24, marcandre.lureau@redhat.com wrote:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > socat "PIPE:"" on Windows are named pipes, not fifo path names.
+> >
+> > Fixes: commit 68406d10859 ("tests/unit: cleanups for test-io-channel-co=
+mmand")
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >   tests/unit/test-io-channel-command.c | 6 ++++++
+> >   1 file changed, 6 insertions(+)
+> >
+> > diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-=
+channel-command.c
+> > index 096224962c..e76ef2daaa 100644
+> > --- a/tests/unit/test-io-channel-command.c
+> > +++ b/tests/unit/test-io-channel-command.c
+> > @@ -31,8 +31,12 @@ static char *socat =3D NULL;
+> >
+> >   static void test_io_channel_command_fifo(bool async)
+> >   {
+> > +#ifdef WIN32
+> > +    const gchar *fifo =3D TEST_FIFO;
+>
+> Question from a Windows ignorant: Won't this cause a race condition in ca=
+se
+> someone is trying to run tests in parallel (i.e. shouldn't there be a ran=
+dom
+> part in the name)? Or are these named pipes local to the current process?
+>
 
-[*] at least in the sense of not crashing or accessing
-offset 0 in the state structure -- it has no way of telling
-the difference between "no raw accessors specified because
-the plain ones will work fine" and "no raw accessors
-specified, and this is a bug because the plain ones do
-something that's not OK as a raw-access".
+You are right, they are global. Furthermore, socat PIPE: is actually
+not using windows named-pipes, at least directly (despite debugging
+log saying something like that). It's actually mkfifo() cygwin/newlib
+implementation that does some magic (in msys2). It looks like it
+creates some kind of "fake" file/links with metadata and actually
+creates the named pipe later on demand. So it still maps to some kind
+of file, and it looks like create/open races would still be possible,
+even if "cygwin" mkfifo was called before socat. The alternative would
+be to create pipe() beforehand and handing those fd to socat, perhaps.
+I might give it a try.
 
 thanks
--- PMM
+
+>   Thomas
+>
+> > +#else
+> >       g_autofree gchar *tmpdir =3D g_dir_make_tmp("qemu-test-io-channel=
+.XXXXXX", NULL);
+> >       g_autofree gchar *fifo =3D g_build_filename(tmpdir, TEST_FIFO, NU=
+LL);
+> > +#endif
+> >       g_autofree gchar *srcargs =3D g_strdup_printf("%s - PIPE:%s,wronl=
+y", socat, fifo);
+> >       g_autofree gchar *dstargs =3D g_strdup_printf("%s PIPE:%s,rdonly =
+-", socat, fifo);
+> >       g_auto(GStrv) srcargv =3D g_strsplit(srcargs, " ", -1);
+> > @@ -57,7 +61,9 @@ static void test_io_channel_command_fifo(bool async)
+> >       object_unref(OBJECT(src));
+> >       object_unref(OBJECT(dst));
+> >
+> > +#ifndef WIN32
+> >       g_rmdir(tmpdir);
+> > +#endif
+> >   }
+> >
+> >
+>
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
