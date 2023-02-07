@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323F268DAB5
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:27:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7679968DAB6
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:27:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPOvX-0008W2-Ce; Tue, 07 Feb 2023 09:26:31 -0500
+	id 1pPOvz-0001Cx-Ca; Tue, 07 Feb 2023 09:26:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pPOvU-0008TV-Nr
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:26:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pPOvT-0006O3-9G
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:26:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675779986;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XcG5Ofpku2P6U6QsS5vFI6NQFICT1WobQ6Kdk3RgC7Y=;
- b=fTDaiJ3EGjONkqlL4M5SfChpDvHJAcmPjJehg8287rlXkqY23x6nDOw3rLUe67H4oFPEav
- XhLnwcn7iJr9d3N8fmOj7+8IRaPdjZL14coSgpI7jGzs8MJ7tpe92QvFc5i0Ibp1fjbaLw
- qCKjDdIO8O1Q7Zjp0SfZ2kUqP0jZu2s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-96-rLX1fFbPOueZli2gJOFWSg-1; Tue, 07 Feb 2023 09:26:24 -0500
-X-MC-Unique: rLX1fFbPOueZli2gJOFWSg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8CF72104F0A8;
- Tue,  7 Feb 2023 14:26:22 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 81698492B21;
- Tue,  7 Feb 2023 14:26:21 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Cc: Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Eric Blake <eblake@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Michael Roth <michael.roth@amd.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [PATCH v3 10/10] qtest: enable vnc-display test on win32
-Date: Tue,  7 Feb 2023 18:25:35 +0400
-Message-Id: <20230207142535.1153722-11-marcandre.lureau@redhat.com>
-In-Reply-To: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
-References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pPOvu-0000yK-Py
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:26:54 -0500
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pPOvs-0006TZ-V8
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:26:54 -0500
+Received: by mail-pf1-x431.google.com with SMTP id t19so3439368pfe.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:26:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Fxv71ohYTRmu/fBnYyOPmbcm4hm27+TzCHKQssLCMK0=;
+ b=HsshjF56g0SC3T/y3pdixulN2tMaSavwKLtGp2GsTDaSwX/+9V0VRx4tbnLd8GDegr
+ E/43wOYYVmGJYQc16z1NVebPIw5AOlby31xPrYbdvFy0USOImlnJ9dUfysyZLBlgV6wx
+ rZl4oI4JEN9pht6FRFAVVdKh2raPO7PYYwLZXZeQ8vB30G1zc+NTSE+k0r5Kt7CWEeFB
+ IyKzVR75jer+qcudDD4/d6MGGYxiAbSPSnJwUaxP9KcX0YUzWq2JYD7mSgGWHfvi2sri
+ aqmHJvnJswrbd3nxfkOxFA9XYkzO5gD2MSo/uYIFmUMGk1c9lxR2s+NGByzF3tgcqY/q
+ bs1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Fxv71ohYTRmu/fBnYyOPmbcm4hm27+TzCHKQssLCMK0=;
+ b=kpX6nB8xxbzlDMFICszKE1WdarE+kxoaDjbUZSWtjzQEEhqa8586pcRZoCHqFbbWGc
+ FtoyS0zlAoLZbNjiug2qwBHEk4A8OVKvbg0BDVX+3R/fqP3Sf137M4ZTeX842O6EQIwe
+ P7cMV0BfTxI0Qbb16G5tnZlE05fYtu791q4B8W70RkmktyqSbCREZcdpjXCWzWvCwQfb
+ +FFALNpy5fMv2YJNiH3Ogmv/FObZIfkruAVC7UcMfWdN/wmTtAJbL1SmAbopthUlo7Da
+ jpAD7eWV2c29UUdfh+zH59mY3ti1t55QDFM2qoFw2LKMe80JCsRjq27Til8f400dGdke
+ F8xA==
+X-Gm-Message-State: AO0yUKXFAVZmhpJGzXVWiGR4+HnFyCiw/xddQM1RoXfWRHfgQx1zbKYs
+ ET0xjPBVuqiBSWUfC8tSLExPjDPtkVK7jgxnz5xkXw==
+X-Google-Smtp-Source: AK7set+/RlNxwzyHp+vYIQ+7RXJfo6XyeS/Z7knjh4wOuay7L3GTn6saynRBoOppU2oJLhXQ2DHN9QiUoZDfH6sQTsI=
+X-Received: by 2002:a62:53c6:0:b0:58d:a84a:190b with SMTP id
+ h189-20020a6253c6000000b0058da84a190bmr814453pfb.48.1675780010143; Tue, 07
+ Feb 2023 06:26:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230124000027.3565716-1-richard.henderson@linaro.org>
+ <20230124000027.3565716-2-richard.henderson@linaro.org>
+In-Reply-To: <20230124000027.3565716-2-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Feb 2023 14:26:38 +0000
+Message-ID: <CAFEAcA_-XkpZDGWXFnKny5A19-KUnZPaoPwi-N9EeyPjaDxJBg@mail.gmail.com>
+Subject: Re: [PATCH 01/22] target/arm: Fix pmsav8 stage2 secure parameter
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, yier.jin@huawei.com, 
+ jonathan.cameron@huawei.com, leonardo.garcia@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,43 +84,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Tue, 24 Jan 2023 at 00:01, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> We have computed the security state for the stage2 lookup
+> into s2walk_secure -- use it.
 
-Now that qtest_qmp_add_client() works on win32, we can enable the VNC
-test.
+We've computed *something* into s2walk_secure, but it
+doesn't make much sense for PMSAv8 because the VSTCR_EL2
+and VTCR_EL2 registers don't exist there. s2walk_secure
+also doesn't sound like something we should be using,
+because in PMSAv8 there is no "stage 2 walk" being done (there
+are no page tables to walk) -- we just use the information in
+the EL2 MPU registers.
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
----
- tests/qtest/vnc-display-test.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+I think what we want to be passing to get_phys_addr_pmsav8()
+is ipa_secure. It's a bit moot, of course, since PMSAv8 doesn't
+have TrustZone and for PMSAv8-32 the security state is always
+NonSecure. (For PMSAv8-64 it is always Secure, though...)
+This means that ipa == address and ipa_secure == is_secure,
+since the stage 1 MPU can't change either the address or the
+security state. Passing both ipa and ipa_secure to the stage2
+call means we're being consistent, I guess.
 
-diff --git a/tests/qtest/vnc-display-test.c b/tests/qtest/vnc-display-test.c
-index e52a4326ec..2c47db8d4c 100644
---- a/tests/qtest/vnc-display-test.c
-+++ b/tests/qtest/vnc-display-test.c
-@@ -19,7 +19,7 @@ typedef struct Test {
-     GMainLoop *loop;
- } Test;
- 
--#if !defined(WIN32) && !defined(CONFIG_DARWIN)
-+#if !defined(CONFIG_DARWIN)
- 
- static void on_vnc_error(VncConnection* self,
-                          const char* msg)
-@@ -38,10 +38,7 @@ static void on_vnc_auth_failure(VncConnection *self,
- static bool
- test_setup(Test *test)
- {
--#ifdef WIN32
--    g_test_skip("Not supported on Windows yet");
--    return false;
--#elif defined(CONFIG_DARWIN)
-+#if defined(CONFIG_DARWIN)
-     g_test_skip("Broken on Darwin");
-     return false;
- #else
--- 
-2.39.1
+> Fixes: fca45e3467f ("target/arm: Add PMSAv8r functionality")
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/ptw.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+> index 57f3615a66..b0f8c59767 100644
+> --- a/target/arm/ptw.c
+> +++ b/target/arm/ptw.c
+> @@ -2727,7 +2727,7 @@ static bool get_phys_addr_twostage(CPUARMState *env, S1Translate *ptw,
+>
+>      if (arm_feature(env, ARM_FEATURE_PMSA)) {
+>          ret = get_phys_addr_pmsav8(env, ipa, access_type,
+> -                                   ptw->in_mmu_idx, is_secure, result, fi);
+> +                                   ptw->in_mmu_idx, s2walk_secure, result, fi);
+>      } else {
+>          ret = get_phys_addr_lpae(env, ptw, ipa, access_type,
+>                                   is_el0, result, fi);
+> --
+> 2.34.1
 
+thanks
+-- PMM
 
