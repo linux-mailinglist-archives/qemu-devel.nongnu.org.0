@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B1168DA72
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:20:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46F9568DA8E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:23:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPOpU-0003x6-PS; Tue, 07 Feb 2023 09:20:18 -0500
+	id 1pPOs5-0005L4-4E; Tue, 07 Feb 2023 09:22:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPOpQ-0003pr-Rl
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:20:12 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPOs2-0005Ko-AF
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:22:54 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPOpO-0004rQ-Ft
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:20:12 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPOs0-0005de-QJ
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:22:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675779609;
+ s=mimecast20190719; t=1675779771;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LFBue2Kmxmj2jLstOZFwQB8khqI5CaUr6HbSgRF/Nio=;
- b=NV/E4wZLY2aLWMFXGZzpjz8wdV7BKi3M7BuAGVtnRWGbRCjbPjsKbcfaY8XxIvL0ijOaR7
- g3vefzHRZuFn85oQcox3j5HWFZ73faOTD0erryz4gRyf5ZsWJUvGfPnJvV/lmV+tibqx3U
- 8oiL1sPvDELfqhnRpYwWNLm6BpwN4b8=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bLLRb7UIiA3ue3A+KTuYUYawy+oxA0/Ekhe7vAC7u+A=;
+ b=SagAa5nuTYmHBBy2LQYGQlDjn4K/9vQVR8fKYBJ5294gUhl3UO7YINV+haK/tER0rMm9NC
+ obHuWUzXgcd3AlX+4UL+2bvOuSkWg8gEfMeImyctYgNQlQZMGoLpm9xxUJUHoGzGKr4Y9P
+ K6PyPPN1HmjlB4jG+XAPBswax/4I67M=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-117-8pskworGMMC_4CYIHKKTUw-1; Tue, 07 Feb 2023 09:20:07 -0500
-X-MC-Unique: 8pskworGMMC_4CYIHKKTUw-1
-Received: by mail-qv1-f71.google.com with SMTP id
- kd28-20020a056214401c00b0053cd4737a42so7790409qvb.22
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:20:07 -0800 (PST)
+ us-mta-371-pM37uh0qNMOcn3dQJNLetA-1; Tue, 07 Feb 2023 09:22:50 -0500
+X-MC-Unique: pM37uh0qNMOcn3dQJNLetA-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ x16-20020ac87ed0000000b003b82d873b38so8694415qtj.13
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:22:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LFBue2Kmxmj2jLstOZFwQB8khqI5CaUr6HbSgRF/Nio=;
- b=JtzMJAf8wVBjXO2t8to859yk6w/NbYfl4D8ojyUFbwZ1FYkpKwDma4leZqoNeG5Oh+
- 1F2WKWOo3/DG2mZ9elsSnqFg3ZzebukKjWzVb6VHzh8PMiRMe1Khs9zFT0DngODZUW6E
- ElBvoxZ7ZWZ/S1eXBtEXshdRs7k5120yR9jMJ1rj9EzEdco9mHl//XXX9WRtv2qocu/Y
- 2n/0tzQPbKsT53qi8f1qnLT4PhLyIXZ4dGXwPAr8Od3PZENPjUEkRbHxM2Iy2lXMUhUA
- PaQgJUN/1/naTcb3mu1ee5Wuby/9yB52q2WZSz5acc+t20lp6BgIvo3k24BrjGGFPNhe
- bDiA==
-X-Gm-Message-State: AO0yUKXEa6n29R+d55oExmU5reeQym81rIxLghf7TkFjbuspk/MgddCD
- gE9Sf/QP+8rXsuLX8KpZtBpW4oxzJpXYkcXB0mLlZFbFNB/hCxAU2BevB0Zv5DlXgyCHA810pkn
- fms7SfxmoCyGY1oE=
-X-Received: by 2002:a05:622a:8b:b0:3b8:1f0b:5a4 with SMTP id
- o11-20020a05622a008b00b003b81f0b05a4mr5682432qtw.19.1675779607422; 
- Tue, 07 Feb 2023 06:20:07 -0800 (PST)
-X-Google-Smtp-Source: AK7set9cSukqgtWaBlyC6G4bxkCuYPGhWI3Xf8uXHpOfEE5oOyjCNhr/rQlqDJsxPAfn/DjVTfyeWQ==
-X-Received: by 2002:a05:622a:8b:b0:3b8:1f0b:5a4 with SMTP id
- o11-20020a05622a008b00b003b81f0b05a4mr5682394qtw.19.1675779607146; 
- Tue, 07 Feb 2023 06:20:07 -0800 (PST)
+ bh=bLLRb7UIiA3ue3A+KTuYUYawy+oxA0/Ekhe7vAC7u+A=;
+ b=QoXWVoEoweqj16PnOqePdNO5s5m2BRQZpMHwWKE1oTuczeb1j6akrTbRNbWom4MId7
+ JLXf0focFo7zTYx9jkAzYa6dYpRnkN6H67R1y4WTL+ehieMuD7BEi2lsI/3ww8yrPmG/
+ qoSQblGfTet55KmFpdODG33grNC4F9j/OqNWRlNDpuGDxEBATQ1Sa8o64dU+l4OAUF9B
+ T/ZPsIxwChn1HA8LEeBuZ2/+sTYGtM0kcmUOtc7rrFvFzbzUFqDtODMgyJ0hAIrR3X2c
+ YDVDkPcaBeGazq8yTTDbfTHQSvP6ohHW7bjF7piQCo0g356GIOTR1Bda8cvW+TkKJmms
+ E2Cw==
+X-Gm-Message-State: AO0yUKUosjxE0Z+tSL/Gum/pPLtpLx7iugaCYHm7d8xRwtIq/5rqSDr7
+ oLzRTkNUCncqD/ikzPfZJiugwlUZF6DP8fuiBll0rB9LsjOJLSG35TaVJ+gFQ/c88vnd6L0Zxdf
+ NuGv/etpx9uKJ0AhmbD2n30A=
+X-Received: by 2002:a05:622a:60b:b0:3b8:26a7:d608 with SMTP id
+ z11-20020a05622a060b00b003b826a7d608mr5920537qta.19.1675779769973; 
+ Tue, 07 Feb 2023 06:22:49 -0800 (PST)
+X-Google-Smtp-Source: AK7set/YvvTg269bzU6B+bFFkqJNcwN23OZQNWavMfd4HlYGuEiZVd10Iwx3o4INwSgmitrbHEBuRQ==
+X-Received: by 2002:a05:622a:60b:b0:3b8:26a7:d608 with SMTP id
+ z11-20020a05622a060b00b003b826a7d608mr5920496qta.19.1675779769721; 
+ Tue, 07 Feb 2023 06:22:49 -0800 (PST)
 Received: from [192.168.0.2] (ip-109-43-176-120.web.vodafone.de.
  [109.43.176.120]) by smtp.gmail.com with ESMTPSA id
- o5-20020ac80245000000b003ab7aee56a0sm9340498qtg.39.2023.02.07.06.20.05
+ g12-20020a05620a278c00b0070531c5d655sm9527299qkp.90.2023.02.07.06.22.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Feb 2023 06:20:06 -0800 (PST)
-Message-ID: <2d31e4e9-b5b5-fe98-417d-73920ef2b9e7@redhat.com>
-Date: Tue, 7 Feb 2023 15:20:04 +0100
+ Tue, 07 Feb 2023 06:22:49 -0800 (PST)
+Message-ID: <50a9a8f9-21b2-d40b-3116-90a96dcc9bc7@redhat.com>
+Date: Tue, 7 Feb 2023 15:22:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH 07/12] tests/qtest: drive_del-test: Skip tests that
- require missing devices
+Subject: Re: [PATCH 06/12] tests/qtest: Skip unplug tests that use missing
+ devices
 Content-Language: en-US
 To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 References: <20230206150416.4604-1-farosas@suse.de>
- <20230206150416.4604-8-farosas@suse.de>
+ <20230206150416.4604-7-farosas@suse.de>
+ <7d61db17-d0f1-3f9f-8bf6-bf9b0d33a063@redhat.com> <874jrxo8zh.fsf@suse.de>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230206150416.4604-8-farosas@suse.de>
+In-Reply-To: <874jrxo8zh.fsf@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
@@ -101,64 +103,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 06/02/2023 16.04, Fabiano Rosas wrote:
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
-> ---
->   tests/qtest/drive_del-test.c | 70 ++++++++++++++++++++++++++++++++++++
->   1 file changed, 70 insertions(+)
+On 07/02/2023 15.17, Fabiano Rosas wrote:
+> Thomas Huth <thuth@redhat.com> writes:
 > 
-> diff --git a/tests/qtest/drive_del-test.c b/tests/qtest/drive_del-test.c
-> index 9a750395a9..6fa96fa94a 100644
-> --- a/tests/qtest/drive_del-test.c
-> +++ b/tests/qtest/drive_del-test.c
-> @@ -16,6 +16,21 @@
->   #include "qapi/qmp/qdict.h"
->   #include "qapi/qmp/qlist.h"
->   
-> +static const char *qvirtio_get_dev_type(void);
-> +
-> +/*
-> + * This covers the possible absence of a device due to QEMU build
-> + * options.
-> + */
-> +static bool look_for_device_builtin(const char *prefix, const char *suffix)
-> +{
-> +    gchar *device = g_strdup_printf("%s-%s", prefix, suffix);
-> +    bool rc = qtest_has_device(device);
-> +
-> +    g_free(device);
-> +    return rc;
-> +}
+>> On 06/02/2023 16.04, Fabiano Rosas wrote:
+>>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+>>> ---
+>>>    tests/qtest/device-plug-test.c | 19 +++++++++++++++++++
+>>>    1 file changed, 19 insertions(+)
+>>>
+>>> diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
+>>> index 5a6afa2b57..931acbdf50 100644
+>>> --- a/tests/qtest/device-plug-test.c
+>>> +++ b/tests/qtest/device-plug-test.c
+>>> @@ -67,6 +67,11 @@ static void test_pci_unplug_request(void)
+>>>        const char *arch = qtest_get_arch();
+>>>        const char *machine_addition = "";
+>>>    
+>>> +    if (!qtest_has_device("virtio-mouse-pci")) {
+>>> +        g_test_skip("Device virtio-mouse-pci not available");
+>>> +        return;
+>>> +    }
+>>> +
+>>>        if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+>>>            machine_addition = "-machine pc";
+>>>        }
+>>> @@ -81,6 +86,10 @@ static void test_pci_unplug_request(void)
+>>>    
+>>>    static void test_q35_pci_unplug_request(void)
+>>>    {
+>>> +    if (!qtest_has_device("virtio-mouse-pci")) {
+>>> +        g_test_skip("Device virtio-mouse-pci not available");
+>>> +        return;
+>>> +    }
+>>>    
+>>>        QTestState *qtest = qtest_initf("-machine q35 "
+>>>                                        "-device pcie-root-port,id=p1 "
+>>
+>> This seems to break the QEMU coding style ("Mixed declarations (interleaving
+>> statements and declarations within blocks) are generally not allowed;
+>> declarations should be at the beginning
+>> of blocks.") ... could you separate the declaration of qtest from its
+>> initialization now, please?
+> 
+> Ah well spotted, I got thrown off because some of these tests already
+> have a:
+> 
+>      if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+>          machine_addition = "-machine pc";
+>      }
+> 
+>      QTestState *qtest = qtest_initf...
+> 
+> I'll fix those as well.
 
-I think I'd rather merge the above code into the has_device_builtin() 
-function below ... or is there a reason for keeping this separate?
+Yes, please.
 
->   static bool look_for_drive0(QTestState *qts, const char *command, const char *key)
->   {
->       QDict *response;
-> @@ -40,6 +55,11 @@ static bool look_for_drive0(QTestState *qts, const char *command, const char *ke
->       return found;
->   }
->   
-> +static bool has_device_builtin(const char *dev)
-> +{
-> +    return look_for_device_builtin(dev, qvirtio_get_dev_type());
-> +}
-> +
->   static bool has_drive(QTestState *qts)
->   {
->       return look_for_drive0(qts, "query-block", "device");
-> @@ -208,6 +228,11 @@ static void test_drive_del_device_del(void)
->   {
->       QTestState *qts;
->   
-> +    if (!has_device_builtin("virtio-scsi")) {
-> +        g_test_skip(NULL);
-
-Having a short message for the skip would be nice.
-
-> +        return;
-> +    }
+Actually, I wonder whether we could remove those "-machine pc" lines again, 
+since "pc" is the default machine anyway. I think the original idea here was 
+to get rid of the default machine on x86 or to switch it to q35, but that 
+never happened, so this code seems superfluous now. Anyway, maybe rather 
+something for a separate patch later...
 
   Thomas
 
