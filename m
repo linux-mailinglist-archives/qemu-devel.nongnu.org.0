@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E318768DF2C
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 18:42:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2308468DF2E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 18:42:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPRyd-0007f5-Hl; Tue, 07 Feb 2023 12:41:55 -0500
+	id 1pPRzJ-0000wN-0B; Tue, 07 Feb 2023 12:42:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pPRyb-0007eL-MC
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 12:41:53 -0500
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
+ id 1pPRzG-0000om-DQ
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 12:42:34 -0500
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pPRyZ-0005IO-SO
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 12:41:53 -0500
-Received: by mail-pg1-x52d.google.com with SMTP id x31so1985371pgl.6
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 09:41:51 -0800 (PST)
+ id 1pPRzA-0005Ol-Rk
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 12:42:31 -0500
+Received: by mail-pf1-x431.google.com with SMTP id 16so1569943pfo.8
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 09:42:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=9w8/wIWRY0FavrEtWVwv9H9oWWWD8s5ZbnFz4DIma9g=;
- b=C9Vt5ZQxMhukT5yCfurV1KJpn7JkSey/jsV6Air2ODGzUmrwFVBQGWzT4/ZE3xcuXj
- UmAdvdufd+XMwmY+r/ikpx0EEVdSdV9SaMLG+HWLdGynRzGIItNIYUgh1hSS5j5h0J/J
- xHpjm60slJ8AVMxQ/l7juXNLvCGgUVinu9bRcnNOL8IWlSYrXME32xU8q0kenTBZ0oez
- fzpLz8LzdVPc0wjW7fOrnEobkLQERJWgIsxunYznv/nBa1IfLNJhNfABnq3sd6qPALiG
- X2IsSsTn0FNW9yDOm62+ZCfEZai06P9cnQ9AYD7llTv6aOBttwbTDKDlvdExKk4l09jI
- KuIg==
+ bh=4zbPWm1aozytlfdFTH7ySVK3a3qpOC00xk+suUzXh0k=;
+ b=ENYMdiAkTEcniP8t7uH+fhdBv9LZN729ZVF8QeTaMH5fQ0jO0E16d3+NBrBzZGX8B6
+ TIm1V8usRwhu8fPUweMTcJLqLYFslvn28UIKyexv7/QS1CX8uyzQJbKgEC+zJE9xO5BH
+ 9gZ9dNzKIV6W0fYYG50Be9oJocn26l7jRRMfC11+JpIu2/ijHe+tzxtej/sSBFle3BfP
+ I8IvXRZERTquefK84QtUx5N7gK0iwQqazVRk16o10/VnjwT2MVRmMkHzZXNojz3h2IVB
+ nv+HdUc/qLf6NlUj4Gc+4yQ1tpvRXtdq+fBF5o6VKFUsxWlGzNo6rqfn00spfqN1j1xf
+ c3lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=9w8/wIWRY0FavrEtWVwv9H9oWWWD8s5ZbnFz4DIma9g=;
- b=wM+TP1CJRZPQnwkIMBDv1OXqsFuT8jYqGPIWc8zhUvI3GsC7ZzQbj+z2Y/JgFICHqy
- BmbixxlBaBaOutXaZkiWJ/ZCvDX+GDpJ83Iy5NZ1wxOOYueoc509di5vcOYXfD3EAUG8
- s9i6XUEL/QCnqyClS8CEnpfh6itOCxidZnAWByQpms7a7rnh48qtmyMC22Kk0u8Jukxz
- 9isV2T+qeLMsdqikRwEGVCStNVib1sP4jl+P+gq1JhAHbcP5rXaM0LsMPzENR6tHT/G6
- n+k7WBJhR3FW/8jG2xBh3NoD75IbL2Q2WrbmHLhnDFYRtkax5zHdVijYmVJFEOn7qSqf
- telg==
-X-Gm-Message-State: AO0yUKU3chIyTcp/ugMRrqD+yQ8VcMC6rVHfZnbrepH0BsDsWw91XJ1r
- fmHqZkBAppCXCXI6epnNkRCG8AiBe2Be2jhD2i5X5A==
-X-Google-Smtp-Source: AK7set/ayXfxDf/QBPXpzHEJl7ujP22EIWRpAmNMF9FnruHuUzZene1ODi+UussTl0GYMMkvBM1fCDFNRx7fhmp2Fvo=
-X-Received: by 2002:a63:b944:0:b0:4da:e1c7:99be with SMTP id
- v4-20020a63b944000000b004dae1c799bemr761878pgo.37.1675791710387; Tue, 07 Feb
- 2023 09:41:50 -0800 (PST)
+ bh=4zbPWm1aozytlfdFTH7ySVK3a3qpOC00xk+suUzXh0k=;
+ b=Z/a2y8PJ6xva/dlyyz6mdT9OHEZE5GE5PWNe6RmSA9/A8uVka8pn6K69CctrsObmp0
+ VnBRxO6HijinJWtTdl13UySpFmNxI+YsaAaAkxVPqllL6PjvU2F86hNNf143KwZuOwnC
+ fldpdm2nKdS0ZU+WussbYB4aHMo4Z7nwJNPQ4FWbBMonbY0wzhto5yiwZ0uz3+7exhb7
+ 38EGjI4ej+rdI9OFx1I7KWCHQ0KMRi4hITgfZq72tC+mhDbb1LFaPVtzJ1mU1zhPZlLP
+ Ao7/XWyWfm7JhvO8P6j4/t57cvxyPhKCqFQ1ohhk5cXodRCfSzgP0Mj8o8Rph1qtx95D
+ JOlA==
+X-Gm-Message-State: AO0yUKW5GhoiDwla4qmAt11wJBpgD608FujyMcK1R2o0gAagr6tDpnrU
+ jTq76q8TwgKllYAfCwJMlINsz8AOvJg6Eb/wu+u+wg==
+X-Google-Smtp-Source: AK7set99uzL7byyHfqup9DUh+aJCi9qlVNnxBNt6DlYbjuurWbBOydXkf3z7bjEHT+PrC9NRlVmKbiYzAJVnBHEnxQc=
+X-Received: by 2002:aa7:956c:0:b0:5a7:f2a6:5e1 with SMTP id
+ x12-20020aa7956c000000b005a7f2a605e1mr468516pfq.23.1675791747405; Tue, 07 Feb
+ 2023 09:42:27 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1675193329.git.balaton@eik.bme.hu>
- <42bcdf2e60211557ec44f11a45d6b465654693b4.1675193329.git.balaton@eik.bme.hu>
- <CAFEAcA8k_pVA_81Xr0cFqT6cTYqL2x3K3+WDKNMk02DtQ0XDMw@mail.gmail.com>
- <39de90bd-a3ab-dda6-3767-43378389ef06@eik.bme.hu>
-In-Reply-To: <39de90bd-a3ab-dda6-3767-43378389ef06@eik.bme.hu>
+ <ca6b5e2b87d9e0c9edb361227bb45c29b3ceeff6.1675193329.git.balaton@eik.bme.hu>
+ <CAFEAcA9A8rhFqfgGfZXfuDCiTdogL7j41g74ZgcxPxoeMDc3AQ@mail.gmail.com>
+ <398ecd29-94fb-c3e8-ee2b-0ff818fb6748@eik.bme.hu>
+In-Reply-To: <398ecd29-94fb-c3e8-ee2b-0ff818fb6748@eik.bme.hu>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Feb 2023 17:41:39 +0000
-Message-ID: <CAFEAcA9b_0sS7+s5ZbOueeOhc9jQ1ONbkG9pT2at55j-f4-Yuw@mail.gmail.com>
-Subject: Re: [PATCH 2/6] usb/ohci: Code style fix white space errors
+Date: Tue, 7 Feb 2023 17:42:16 +0000
+Message-ID: <CAFEAcA_v3LyGfAEGgnWEcrwUUjhPSdncW2V_sO14SihTV1dzmA@mail.gmail.com>
+Subject: Re: [PATCH 6/6] usb/ohci: Implement resume on connection status change
 To: BALATON Zoltan <balaton@eik.bme.hu>
 Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, 
  Howard Spoelstra <hsp.cat7@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,34 +86,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 7 Feb 2023 at 17:36, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+On Tue, 7 Feb 2023 at 17:41, BALATON Zoltan <balaton@eik.bme.hu> wrote:
 >
 > On Tue, 7 Feb 2023, Peter Maydell wrote:
-> > On Tue, 31 Jan 2023 at 19:39, BALATON Zoltan <balaton@eik.bme.hu> wrote:
-> >>
-> >> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> >> ---
-> >>  hw/usb/hcd-ohci.c | 162 +++++++++++++++++++++++-----------------------
-> >>  1 file changed, 80 insertions(+), 82 deletions(-)
-> >>
-> >> -    .subsections = (const VMStateDescription*[]) {
-> >> +    .subsections = (const VMStateDescription * []) {
-> >
-> > You might as well leave this one alone. (checkpatch does
-> > not analyse this syntax correctly and mistakenly thinks
-> > it needs spaces because it's a multiplication...)
+> > I think we should retain this comment in the factored-out function.
 >
-> I'd add a space before * at least but if this makes checkpatch happy I
-> wenr for the second space just to avoid sputious warnings. Should this be
-> changed back?
+> I did retain it. It's just above the function header.
 
-If you use
-  git grep -h '\.subsections'|sort |less
-you'll see that most preferred is "no spaces", next after
-that is "space each side" (probably checkpatch-influenced)
-and "space only before" has just one use.
-
-I usually go for "no spaces".
+Oops, sorry, was scanning the patch too quickly.
 
 thanks
 -- PMM
