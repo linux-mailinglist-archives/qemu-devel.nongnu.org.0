@@ -2,63 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDB1A68DF52
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 18:51:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A99B268DF53
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 18:51:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPS6Q-0005Yd-KS; Tue, 07 Feb 2023 12:49:58 -0500
+	id 1pPS6S-0005Z8-1I; Tue, 07 Feb 2023 12:50:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pPS6O-0005YS-PN
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 12:49:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pPS6N-0006hX-0U
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 12:49:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675792194;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=9Fc5ve2HitVoG8eAdYKdUUo7A0a6G2jpLgQnR5sQYik=;
- b=T+bSyV4zydTv9Xx9IdRHMDp7fjrXo8bsS9XDUf5o52prjuwyPbi414MN1wzRsvSGmc5ban
- j1IUXYObAKMko35Hg/xYzsxpadxiZv60W8JfLHNZUecotvEhIO66UgSLwHyal29JjfcbtT
- Deo5gikK9wHS1giP3UwygYh3I0D7zD8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-647-QZr119ryNHOePOeka055cA-1; Tue, 07 Feb 2023 12:49:51 -0500
-X-MC-Unique: QZr119ryNHOePOeka055cA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 77419811E6E;
- Tue,  7 Feb 2023 17:49:50 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.33.36.161])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A15A91121314;
- Tue,  7 Feb 2023 17:49:49 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, mst@redhat.com, thuth@redhat.com, philmd@linaro.org
-Cc: david.daney@fungible.com
-Subject: [PATCH] virtio-rng-pci: fix transitional migration compat for vectors
-Date: Tue,  7 Feb 2023 17:49:44 +0000
-Message-Id: <20230207174944.138255-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPS6Q-0005Yj-EU
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 12:49:58 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPS6O-0006hZ-NC
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 12:49:58 -0500
+Received: by mail-wr1-x433.google.com with SMTP id y1so14384015wru.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 09:49:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nEPSPNIpeKY2kYybeQvc2wqyxKZKQ18+QISd6HLbIp0=;
+ b=ePasMimE7dJs58CMqX5WpHYlTXw+uXnlk5NVTLmv7Nj46MIV4qnVI9L6mZ3EYu6w+J
+ ZIhO9EE/9A4sM4qd3a9sgPXwbRQIC4a4clyf02UWm8O6UAc/MXzSxfPUCqKNIh8dFHMB
+ 3A/bLoyhn8rjZDavsM07UTW7dHLnrAZCRUSIg+bZW3J8DQNWKWb6UaKBEy5V/mcOqaV3
+ V/j/9WwKf9PksxAoy90IL6GJEL5/m6+4tf0LoEkzfztGpnNUU4kFUqk5FP+D7pa66go4
+ FeDBJZzRFyOI+eZaceo4YOEoBQ25SlXlm8Uyc73vXtkBb5+w1YvjcA4is+2BM2XNzzsx
+ Knqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nEPSPNIpeKY2kYybeQvc2wqyxKZKQ18+QISd6HLbIp0=;
+ b=ch1XAlKGW7jyRF35L+/bIETd6z2ob1eigYy06h0kGlSc6kgAPQJuyLYJusNUz/vRqm
+ aemjE1/J14DBy1Q1+weZGl29LdoUAiHPq/Pu11E7UkqYbLJ27VqNcxgG1MVd27/FcJ+9
+ teJslYKNG+djDnvwnWN4/gKfNJJ+PzobiszxebHTaHYwilGxnb8puJ+eqzkDBDDiGOgr
+ YRo+fHEVSsbuC3kSjS782CpdBXPE7LQhaTy64mDRQNQf+3qdMuI398c8gCVSd7SphRYS
+ msVTx+O+iSgLn93akoBpt6CmgxA2Pdqxq+NL3KB9+5brofW6eHiGmNzmKDVax/xESLuJ
+ VWug==
+X-Gm-Message-State: AO0yUKVgjOacd8NPsh8c79KdQZ0onXpBy4WOfNC8zDbuDRWvssIs7W+b
+ SFxZyPswhbLhEBupvj6JbCpWOA==
+X-Google-Smtp-Source: AK7set8wSW//odsyNvsrmxtoMpwDOC5jkhMROyAy7A7emzf7vU1N+dp1/xuQ90pOooCrTWpB2Vb4Lw==
+X-Received: by 2002:a5d:4bc2:0:b0:2c3:db3e:6a0a with SMTP id
+ l2-20020a5d4bc2000000b002c3db3e6a0amr2560420wrt.68.1675792194123; 
+ Tue, 07 Feb 2023 09:49:54 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ o13-20020a5d408d000000b002c3f42f3687sm2153529wrp.72.2023.02.07.09.49.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Feb 2023 09:49:53 -0800 (PST)
+Message-ID: <38cbdfd8-aa1d-aca7-c760-8fa4a92c16ab@linaro.org>
+Date: Tue, 7 Feb 2023 18:49:51 +0100
 MIME-Version: 1.0
-Content-type: text/plain
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 1/1] hw/core/cpu: always print cpu index with cpu state
+Content-Language: en-US
+To: Dongli Zhang <dongli.zhang@oracle.com>, qemu-devel@nongnu.org
+Cc: dgilbert@redhat.com, richard.henderson@linaro.org, pbonzini@redhat.com,
+ joe.jin@oracle.com
+References: <20230206234220.8414-1-dongli.zhang@oracle.com>
+ <71f8e94b-f66c-099f-cc3d-2cd431ced9ba@linaro.org>
+ <8f490130-4d01-a38f-e263-127977e0051a@oracle.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <8f490130-4d01-a38f-e263-127977e0051a@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,33 +93,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On 7/2/23 18:32, Dongli Zhang wrote:
+> Hi Philippe,
+> 
+> On 2/6/23 23:16, Philippe Mathieu-Daudé wrote:
+>> On 7/2/23 00:42, Dongli Zhang wrote:
+>>> The cpu_dump_state() does not print the cpu index. When the
+>>> cpu_dump_state() is invoked due to the KVM failure, we are not able to tell
+>>> from which CPU the state is. The below is an example.
+>>>
+>>> KVM internal error. Suberror: 764064
+>>> RAX=0000000000000002 RBX=ffff8a9e57c38400 RCX=00000000ffffffff
+>>> RDX=ffff8a9cc00ba8a0
+>>> RSI=0000000000000003 RDI=ffff8a9e57c38400 RBP=ffffb6120c5b3c50
+>>> RSP=ffffb6120c5b3c40
+>>> R8 =0000000000000000 R9 =ffff8a9cc00ba8a0 R10=ffffffff8e467350
+>>> R11=0000000000000007
+>>> R12=000000000000000a R13=ffffffff8f987e25 R14=ffffffff8f988a01
+>>> R15=0000000000000000
+>>> RIP=ffffffff8e51bb04 RFL=00010046 [---Z-P-] CPL=0 II=0 A20=1 SMM=0 HLT=0
+>>> ES =0000 0000000000000000 ffffffff 00c00000
+>>> CS =0010 0000000000000000 ffffffff 00a09b00 DPL=0 CS64 [-RA]
+>>> SS =0000 0000000000000000 ffffffff 00c00000
+>>> DS =0000 0000000000000000 ffffffff 00c00000
+>>> FS =0000 0000000000000000 ffffffff 00c00000
+>>> GS =0000 ffff8ac27fcc0000 ffffffff 00c00000
+>>> LDT=0000 0000000000000000 ffffffff 00c00000
+>>> TR =0040 fffffe0000096000 0000206f 00008b00 DPL=0 TSS64-busy
+>>> GDT=     fffffe0000094000 0000007f
+>>> IDT=     fffffe0000000000 00000fff
+>>> CR0=80050033 CR2=0000000000000000 CR3=00000010ca40a001 CR4=003606e0
+>>> DR0=0000000000000000 DR1=0000000000000000 DR2=0000000000000000
+>>> DR3=0000000000000000
+>>> DR6=00000000fffe0ff0 DR7=0000000000000400
+>>> EFER=0000000000000d01
+>>> Code=0f 1f ... ...
+>>>
+>>> Print the cpu->cpu_index in cpu_dump_state() and remove it from the caller.
+>>>
+>>> Cc: Joe Jin <joe.jin@oracle.com>
+>>> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
+>>> ---
+>>>    hw/core/cpu-common.c      | 1 +
+>>>    monitor/hmp-cmds-target.c | 2 --
+>>>    softmmu/cpus.c            | 1 -
+>>>    3 files changed, 1 insertion(+), 3 deletions(-)
+>>>
+>>> diff --git a/hw/core/cpu-common.c b/hw/core/cpu-common.c
+>>> index 5ccc3837b6..d2503f2d09 100644
+>>> --- a/hw/core/cpu-common.c
+>>> +++ b/hw/core/cpu-common.c
+>>> @@ -105,6 +105,7 @@ void cpu_dump_state(CPUState *cpu, FILE *f, int flags)
+>>>          if (cc->dump_state) {
+>>>            cpu_synchronize_state(cpu);
+>>
+>> Should we check for:
+>>
+>>            if (cpu->cpu_index != -1) {
+>>
+>>> +        qemu_fprintf(f, "\nCPU#%d\n", cpu->cpu_index);
+>>
+>>            }
+> 
+> I think you meant if (cpu->cpu_index != UNASSIGNED_CPU_INDEX).
+> 
+> I do not see this case may happen within my knowledge. The cpu_index is always
+> expected to be assigned if cpu_exec_realizefn()-->cpu_list_add() is called.
+> 
+>   83 void cpu_list_add(CPUState *cpu)
+>   84 {
+>   85     QEMU_LOCK_GUARD(&qemu_cpu_list_lock);
+>   86     if (cpu->cpu_index == UNASSIGNED_CPU_INDEX) {
+>   87         cpu->cpu_index = cpu_get_free_index();
+>   88         assert(cpu->cpu_index != UNASSIGNED_CPU_INDEX);
+>   89     } else {
+>   90         assert(!cpu_index_auto_assigned);
+>   91     }
+>   92     QTAILQ_INSERT_TAIL_RCU(&cpus, cpu, node);
+>   93     cpu_list_generation_id++;
+>   94 }
+> 
+> 
+> In addition, the cc->dump_state() is always invoked by cpu_dump_state(). As a
+> result, e.g., arm_cpu_dump_state() or x86_cpu_dump_state() may always print the
+> cpu state unconditionally (same for mips, s390 or riscv). I do not see a reason
+> to hide the cpu_index.
+> 
+> Would you please let me know if the above is wrong? I do not think it is
+> required to filter the cpu_index with UNASSIGNED_CPU_INDEX.
 
-In bad9c5a5166fd5e3a892b7b0477cf2f4bd3a959a I fixed the virito-rng-pci
-migration compatibility, but it was discovered that we also need to fix
-the other aliases of the device for the transitional cases.
+You are right.
 
-Fixes: 9ea02e8f1 ('virtio-rng-pci: Allow setting nvectors, so we can use MSI-X')
-bz: https://bugzilla.redhat.com/show_bug.cgi?id=2162569
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- hw/core/machine.c | 2 ++
- 1 file changed, 2 insertions(+)
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index b5cd42cd8c..4627b274d9 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -49,6 +49,8 @@ const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
- GlobalProperty hw_compat_7_1[] = {
-     { "virtio-device", "queue_reset", "false" },
-     { "virtio-rng-pci", "vectors", "0" },
-+    { "virtio-rng-pci-transitional", "vectors", "0" },
-+    { "virtio-rng-pci-non-transitional", "vectors", "0" },
- };
- const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
- 
--- 
-2.39.1
-
+Thanks for clarifying!
 
