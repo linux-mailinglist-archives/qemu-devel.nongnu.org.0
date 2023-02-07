@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9BD968CBAA
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 02:04:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5176A68CBAE
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 02:04:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPCIn-00032x-ME; Mon, 06 Feb 2023 19:57:41 -0500
+	id 1pPCIx-0003CM-EY; Mon, 06 Feb 2023 19:57:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pPCIk-0002za-5I
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 19:57:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pPCIv-0003BZ-S2
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 19:57:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pPCIf-0003dE-BE
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 19:57:37 -0500
+ id 1pPCIu-0003hZ-9w
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 19:57:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675731452;
+ s=mimecast20190719; t=1675731466;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dKZAVW4KhViUgdBggWo5EKxv7CoNmT5xnU8AYti1Uuw=;
- b=PyZt3rmtJoPsjTcjbTwE12X7gZsihKl6qsIt1CRDuOzYOn70/YCHv7HbmUROoWiph6uek/
- epHY+92iwWgR5xzpit1IlRF3SkM40UFML1CXuiH4l7CHb1eu9IzBuYpPTz8LgwjgGyCCj3
- WIob9vgJIub+vyESrcc9RlhqaUNuXJ0=
+ bh=qzSBIR6LRz6N4Dl8hXA3eueT1HX6gOU9Tw+HrG3oo/w=;
+ b=HK4nUVmS3MeObKUt56U9uuMMKIjvvuraCn4e0QdLQWX6PPO2+Xngf8IJETP10dv7lqO606
+ 7n1WurIt4NQOH68XTYnnqnywBxWm0KcV3HwSoHxK2iti0NthrmqPhoICmJIEQ3iOk/Cn6k
+ JYFxCBQRjt0ZAPuza8QcMR3mJKvcZ/M=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-220-QTMJkEyKO3-5SxZbFlmD6Q-1; Mon, 06 Feb 2023 19:57:27 -0500
-X-MC-Unique: QTMJkEyKO3-5SxZbFlmD6Q-1
+ us-mta-657-GR52TcoOO6qY4ikAJib3BQ-1; Mon, 06 Feb 2023 19:57:43 -0500
+X-MC-Unique: GR52TcoOO6qY4ikAJib3BQ-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 24BD780D0ED;
- Tue,  7 Feb 2023 00:57:27 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9F65A85A588;
+ Tue,  7 Feb 2023 00:57:42 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E147492C3C;
- Tue,  7 Feb 2023 00:57:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DAF28492C3C;
+ Tue,  7 Feb 2023 00:57:37 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
@@ -64,16 +64,16 @@ Cc: qemu-block@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
  Alex Williamson <alex.williamson@redhat.com>,
  Eric Blake <eblake@redhat.com>, Eric Farman <farman@linux.ibm.com>,
  Peter Xu <peterx@redhat.com>
-Subject: [PULL 06/30] util/userfaultfd: Add uffd_open()
-Date: Tue,  7 Feb 2023 01:56:26 +0100
-Message-Id: <20230207005650.1810-7-quintela@redhat.com>
+Subject: [PULL 09/30] migration/ram: Don't explicitly unprotect when
+ unregistering uffd-wp
+Date: Tue,  7 Feb 2023 01:56:29 +0100
+Message-Id: <20230207005650.1810-10-quintela@redhat.com>
 In-Reply-To: <20230207005650.1810-1-quintela@redhat.com>
 References: <20230207005650.1810-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -97,156 +97,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Peter Xu <peterx@redhat.com>
+From: David Hildenbrand <david@redhat.com>
 
-Add a helper to create the uffd handle.
+When unregistering uffd-wp, older kernels before commit f369b07c86143
+("mm/uffd:reset write protection when unregister with wp-mode") won't
+clear the uffd-wp PTE bit. When re-registering uffd-wp, the previous
+uffd-wp PTE bits would trigger again. With above commit, the kernel will
+clear the uffd-wp PTE bits when unregistering itself.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Consequently, we'll clear the uffd-wp PTE bits now twice -- whereby we
+don't care about clearing them at all: a new background snapshot will
+re-register uffd-wp and re-protect all memory either way.
+
+So let's skip the manual clearing of uffd-wp. If ever relevant, we
+could clear conditionally in uffd_unregister_memory() -- we just need a
+way to figure out more recent kernels.
+
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- include/qemu/userfaultfd.h   | 12 ++++++++++++
- migration/postcopy-ram.c     | 11 +++++------
- tests/qtest/migration-test.c |  4 ++--
- util/userfaultfd.c           | 13 +++++++++++--
- 4 files changed, 30 insertions(+), 10 deletions(-)
+ migration/ram.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/include/qemu/userfaultfd.h b/include/qemu/userfaultfd.h
-index 6b74f92792..d764496f0b 100644
---- a/include/qemu/userfaultfd.h
-+++ b/include/qemu/userfaultfd.h
-@@ -13,10 +13,20 @@
- #ifndef USERFAULTFD_H
- #define USERFAULTFD_H
+diff --git a/migration/ram.c b/migration/ram.c
+index 73e5ca93e5..efaae07dd8 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -1918,12 +1918,6 @@ fail:
+         if ((block->flags & RAM_UF_WRITEPROTECT) == 0) {
+             continue;
+         }
+-        /*
+-         * In case some memory block failed to be write-protected
+-         * remove protection and unregister all succeeded RAM blocks
+-         */
+-        uffd_change_protection(rs->uffdio_fd, block->host, block->max_length,
+-                false, false);
+         uffd_unregister_memory(rs->uffdio_fd, block->host, block->max_length);
+         /* Cleanup flags and remove reference */
+         block->flags &= ~RAM_UF_WRITEPROTECT;
+@@ -1949,9 +1943,6 @@ void ram_write_tracking_stop(void)
+         if ((block->flags & RAM_UF_WRITEPROTECT) == 0) {
+             continue;
+         }
+-        /* Remove protection and unregister all affected RAM blocks */
+-        uffd_change_protection(rs->uffdio_fd, block->host, block->max_length,
+-                false, false);
+         uffd_unregister_memory(rs->uffdio_fd, block->host, block->max_length);
  
-+#ifdef CONFIG_LINUX
-+
- #include "qemu/osdep.h"
- #include "exec/hwaddr.h"
- #include <linux/userfaultfd.h>
- 
-+/**
-+ * uffd_open(): Open an userfaultfd handle for current context.
-+ *
-+ * @flags: The flags we want to pass in when creating the handle.
-+ *
-+ * Returns: the uffd handle if >=0, or <0 if error happens.
-+ */
-+int uffd_open(int flags);
- int uffd_query_features(uint64_t *features);
- int uffd_create_fd(uint64_t features, bool non_blocking);
- void uffd_close_fd(int uffd_fd);
-@@ -32,4 +42,6 @@ int uffd_wakeup(int uffd_fd, void *addr, uint64_t length);
- int uffd_read_events(int uffd_fd, struct uffd_msg *msgs, int count);
- bool uffd_poll_events(int uffd_fd, int tmo);
- 
-+#endif /* CONFIG_LINUX */
-+
- #endif /* USERFAULTFD_H */
-diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index b9a37ef255..0c55df0e52 100644
---- a/migration/postcopy-ram.c
-+++ b/migration/postcopy-ram.c
-@@ -37,6 +37,7 @@
- #include "qemu-file.h"
- #include "yank_functions.h"
- #include "tls.h"
-+#include "qemu/userfaultfd.h"
- 
- /* Arbitrary limit on size of each discard command,
-  * keeps them around ~200 bytes
-@@ -226,11 +227,9 @@ static bool receive_ufd_features(uint64_t *features)
-     int ufd;
-     bool ret = true;
- 
--    /* if we are here __NR_userfaultfd should exists */
--    ufd = syscall(__NR_userfaultfd, O_CLOEXEC);
-+    ufd = uffd_open(O_CLOEXEC);
-     if (ufd == -1) {
--        error_report("%s: syscall __NR_userfaultfd failed: %s", __func__,
--                     strerror(errno));
-+        error_report("%s: uffd_open() failed: %s", __func__, strerror(errno));
-         return false;
-     }
- 
-@@ -375,7 +374,7 @@ bool postcopy_ram_supported_by_host(MigrationIncomingState *mis)
-         goto out;
-     }
- 
--    ufd = syscall(__NR_userfaultfd, O_CLOEXEC);
-+    ufd = uffd_open(O_CLOEXEC);
-     if (ufd == -1) {
-         error_report("%s: userfaultfd not available: %s", __func__,
-                      strerror(errno));
-@@ -1160,7 +1159,7 @@ static int postcopy_temp_pages_setup(MigrationIncomingState *mis)
- int postcopy_ram_incoming_setup(MigrationIncomingState *mis)
- {
-     /* Open the fd for the kernel to give us userfaults */
--    mis->userfault_fd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK);
-+    mis->userfault_fd = uffd_open(O_CLOEXEC | O_NONBLOCK);
-     if (mis->userfault_fd == -1) {
-         error_report("%s: Failed to open userfault fd: %s", __func__,
-                      strerror(errno));
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 1dd32c9506..109bc8e7b1 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -61,14 +61,14 @@ static bool uffd_feature_thread_id;
- #if defined(__linux__) && defined(__NR_userfaultfd) && defined(CONFIG_EVENTFD)
- #include <sys/eventfd.h>
- #include <sys/ioctl.h>
--#include <linux/userfaultfd.h>
-+#include "qemu/userfaultfd.h"
- 
- static bool ufd_version_check(void)
- {
-     struct uffdio_api api_struct;
-     uint64_t ioctl_mask;
- 
--    int ufd = syscall(__NR_userfaultfd, O_CLOEXEC);
-+    int ufd = uffd_open(O_CLOEXEC);
- 
-     if (ufd == -1) {
-         g_test_message("Skipping test: userfaultfd not available");
-diff --git a/util/userfaultfd.c b/util/userfaultfd.c
-index f1cd6af2b1..4953b3137d 100644
---- a/util/userfaultfd.c
-+++ b/util/userfaultfd.c
-@@ -19,6 +19,15 @@
- #include <sys/syscall.h>
- #include <sys/ioctl.h>
- 
-+int uffd_open(int flags)
-+{
-+#if defined(__NR_userfaultfd)
-+    return syscall(__NR_userfaultfd, flags);
-+#else
-+    return -EINVAL;
-+#endif
-+}
-+
- /**
-  * uffd_query_features: query UFFD features
-  *
-@@ -32,7 +41,7 @@ int uffd_query_features(uint64_t *features)
-     struct uffdio_api api_struct = { 0 };
-     int ret = -1;
- 
--    uffd_fd = syscall(__NR_userfaultfd, O_CLOEXEC);
-+    uffd_fd = uffd_open(O_CLOEXEC);
-     if (uffd_fd < 0) {
-         trace_uffd_query_features_nosys(errno);
-         return -1;
-@@ -69,7 +78,7 @@ int uffd_create_fd(uint64_t features, bool non_blocking)
-     uint64_t ioctl_mask = BIT(_UFFDIO_REGISTER) | BIT(_UFFDIO_UNREGISTER);
- 
-     flags = O_CLOEXEC | (non_blocking ? O_NONBLOCK : 0);
--    uffd_fd = syscall(__NR_userfaultfd, flags);
-+    uffd_fd = uffd_open(flags);
-     if (uffd_fd < 0) {
-         trace_uffd_create_fd_nosys(errno);
-         return -1;
+         trace_ram_write_tracking_ramblock_stop(block->idstr, block->page_size,
 -- 
 2.39.1
 
