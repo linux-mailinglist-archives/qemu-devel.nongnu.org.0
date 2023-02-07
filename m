@@ -2,82 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8CB968DFC0
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 19:18:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54AD968DFCC
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 19:19:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPSXC-000716-6v; Tue, 07 Feb 2023 13:17:38 -0500
+	id 1pPSZ1-0008Fv-5k; Tue, 07 Feb 2023 13:19:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPSWL-0006yQ-Na
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 13:16:51 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPSYz-0008F9-NU
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 13:19:29 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPSWH-0003ex-Li
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 13:16:44 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPSYy-0003sK-8g
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 13:19:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675793800;
+ s=mimecast20190719; t=1675793964;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mXZiFWjPiIG3htzQ+ZRNHFAs0BptVI3EIW4KlRNQxJU=;
- b=cfn0OeiuX2ZMUmvHCvP8EEnW2rk9xMIHKVnVYdjrsPTtIxiCrTjLPnRjiWGu7jMUHFTmvL
- YNa8WgjguJkl/mujb3qCBwvdDni2FZd0bK1MMerfGDdLxGbp8IxdK0dn77F84G4rAnVMhi
- UVvMoB0q689VKYYxS9ArL+FNA5SoaRo=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3tlJvyIkHw+kEqypg/oUPCMuZ9Qrp54A/XQNKtZFujs=;
+ b=Z83q7aLKtCf2N8eJEcbKxV103hDIBwPUt5JS6hcWFYyx2uF7ruu9AR3G6merPdXxwyDrWO
+ TVnCcU5GZGQw/ILf9PobeR6ztZCMGBOtEIqxS0j4vAhfELBhx1Z07eUSk2bTD3kFcsJ/PQ
+ H6BpDaGBJ0DzjHvQHaMl496Kqft7Pts=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-33-eLkXOOaAPoaVma-4crZKAg-1; Tue, 07 Feb 2023 13:16:39 -0500
-X-MC-Unique: eLkXOOaAPoaVma-4crZKAg-1
-Received: by mail-qv1-f70.google.com with SMTP id
- l6-20020ad44446000000b00537721bfd2dso8172350qvt.11
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 10:16:39 -0800 (PST)
+ us-mta-67-UyLy-51PMxaPg-30h23oKw-1; Tue, 07 Feb 2023 13:19:22 -0500
+X-MC-Unique: UyLy-51PMxaPg-30h23oKw-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ cr22-20020a05622a429600b003b694a9f291so9027420qtb.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 10:19:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mXZiFWjPiIG3htzQ+ZRNHFAs0BptVI3EIW4KlRNQxJU=;
- b=QZHF91U2Ug2uIbaz2/S/BnRZj0d0Blwtk/HaGYki+L01DRxdxTwB5VMXc13E7SATCS
- zjAzsDSN/xEmsNDSBWplxx6kK9RJIFYHTA+3RKHqfJ/jA9j3cr0oCz4fGZ8tNb0uYE++
- bY7LMVpqT685pVSkdOS5VJ/tfhbOW1oMbPUCap/YiDdq7DkT1OrWIPjE2mSqIeGEtPcV
- gd8599Bxl2vfxKrecxdFK8Jmk9/1tVe46ZSRCECcoPEZ8qQOqfLQib3dO9PDm9zldrN0
- S3Pd9dLi47h6ZIH8vmtC+H+p0zpO0h0jrU40YuB/hydwdg5+s1Jnk82ukgC4H4WAJFDv
- ugSQ==
-X-Gm-Message-State: AO0yUKX6F85uUW/bnwM7MWxrD3qlbuI2pOHnxy8c0FFhAbd9bNr0JlxO
- ANZKkl1Noh2aw7f1Dfn+Yl5mGTFh3CPbc8aU+YK48XZdnA6n9uzcVEaAZK7xPtstwNHuFKDyotl
- 6K4i5GDQqnqyH4q0=
-X-Received: by 2002:ac8:7f8e:0:b0:3b8:629e:afd1 with SMTP id
- z14-20020ac87f8e000000b003b8629eafd1mr6816851qtj.53.1675793798624; 
- Tue, 07 Feb 2023 10:16:38 -0800 (PST)
-X-Google-Smtp-Source: AK7set/a3svxLD3j1CeovNkG72iLUvloFH5WdZrKLqMX63OBOkapEmdkFTznB819tWhRXKfrMTXrTw==
-X-Received: by 2002:ac8:7f8e:0:b0:3b8:629e:afd1 with SMTP id
- z14-20020ac87f8e000000b003b8629eafd1mr6816819qtj.53.1675793798351; 
- Tue, 07 Feb 2023 10:16:38 -0800 (PST)
+ bh=3tlJvyIkHw+kEqypg/oUPCMuZ9Qrp54A/XQNKtZFujs=;
+ b=M0c769gamM4wHjbwScACRAVcIDsBBBQcl9lZ6VaOZHKBxHMEaezS9qJRN2D7VXPDnE
+ +PZ2oEthRjCtwalOu9sI7FQf2CMLEWVhOAVoPCA5WACbqDx34J/DXQdzbiVLChsC09Mt
+ eIHfNMAqS5vItJCSW0248hkRScdzpvKAgtLcxp/zZCWCC/WtkyQIoRcVGYimN8fudGpx
+ mREFwvf/a7a+ABVnX0K7W5Sv6nSLfDKNmTXKiJxKrtkWkQqIdsNTM+I2jjP/wWky3ATZ
+ lmWk5fZ5C6NXy1cBnkv2MLEyYzsla8TOLQEVYFPLH3aaLTCCRHppDKIIqbEpmINeYe5I
+ O0uw==
+X-Gm-Message-State: AO0yUKXpgHs5oq7RRFUVKxWCu/yGvXdtwl0GxRt4jwyLRfLyuurMWNeb
+ 0P2LLkbQaV3EpEIfo6u/nCkuh3lugA3QUGnaRJTGJAeEmHRf5E3MAd/lYpACC6MmBosAfO5I7Pm
+ PUrzj+zl3WwYltV0=
+X-Received: by 2002:ac8:5949:0:b0:3b8:41f4:94e7 with SMTP id
+ 9-20020ac85949000000b003b841f494e7mr6717850qtz.17.1675793962414; 
+ Tue, 07 Feb 2023 10:19:22 -0800 (PST)
+X-Google-Smtp-Source: AK7set+dWkZol/kIpYW50sCKofOw6LibcxfL+GBEZ22FbNeKjulQ2k/PSz5b5xW4PkQpd7ZxoUn2Vw==
+X-Received: by 2002:ac8:5949:0:b0:3b8:41f4:94e7 with SMTP id
+ 9-20020ac85949000000b003b841f494e7mr6717828qtz.17.1675793962204; 
+ Tue, 07 Feb 2023 10:19:22 -0800 (PST)
 Received: from [192.168.8.105] (tmo-099-228.customers.d1-online.com.
  [80.187.99.228]) by smtp.gmail.com with ESMTPSA id
- b2-20020ac86bc2000000b003b7e8c04d2esm9709466qtt.64.2023.02.07.10.16.35
+ m3-20020ac807c3000000b003b848759ed8sm9799703qth.47.2023.02.07.10.19.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Feb 2023 10:16:37 -0800 (PST)
-Message-ID: <1df55822-6e09-7096-6d6a-a10fdfd9b45b@redhat.com>
-Date: Tue, 7 Feb 2023 19:16:34 +0100
+ Tue, 07 Feb 2023 10:19:21 -0800 (PST)
+Message-ID: <6c5029a9-4832-fb7f-7dd4-eab81fe50a4b@redhat.com>
+Date: Tue, 7 Feb 2023 19:19:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH 04/10] hw/i386: Select E1000_PCI for i440fx
+Subject: Re: [PATCH 05/10] hw/arm: Select VIRTIO_NET for virt machine
 Content-Language: en-US
 To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  QEMU Trivial <qemu-trivial@nongnu.org>
 References: <20230206140809.26028-1-farosas@suse.de>
- <20230206140809.26028-5-farosas@suse.de>
+ <20230206140809.26028-6-farosas@suse.de>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230206140809.26028-5-farosas@suse.de>
+In-Reply-To: <20230206140809.26028-6-farosas@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
@@ -105,37 +102,29 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 06/02/2023 15.08, Fabiano Rosas wrote:
-> The i440fx machines uses the e1000 adapter as the default when no
-> other network card is configured.
+> The 'virt' machine uses virtio-net-pci as a fallback when no other
+> network driver has been selected via command line. Select VIRTIO_NET
+> and VIRTIO_PCI from CONFIG_ARM_VIRT to avoid errors when PCI_DEVICES=n
+> (due to e.g. --without-default-devices):
 > 
-> Move the E1000_PCI entry in Kconfig from 'imply' to 'select' to avoid
-> the following situation:
-> 
-> ./qemu-system-i386 -machine pc-i440fx-8.0
-> qemu-system-i386: Unsupported NIC model: e1000
+> $ ./qemu-system-aarch64 -M virt -accel tcg -cpu max
+> qemu-system-aarch64: Unsupported NIC model: virtio-net-pci
 > 
 > Signed-off-by: Fabiano Rosas <farosas@suse.de>
 > ---
->   hw/i386/Kconfig | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   hw/arm/Kconfig | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-> index 8e59cb6634..343783ea3e 100644
-> --- a/hw/i386/Kconfig
-> +++ b/hw/i386/Kconfig
-> @@ -66,7 +66,6 @@ config PC_ACPI
->   
->   config I440FX
->       bool
-> -    imply E1000_PCI
->       imply VMPORT
->       imply VMMOUSE
->       select ACPI_PIIX4
-> @@ -78,6 +77,7 @@ config I440FX
->       select DIMM
->       select SMBIOS
->       select FW_CFG_DMA
-> +    select E1000_PCI
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 2d157de9b8..8dcc08b7ec 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -31,6 +31,8 @@ config ARM_VIRT
+>       select VIRTIO_MEM_SUPPORTED
+>       select ACPI_CXL
+>       select ACPI_HMAT
+> +    select VIRTIO_PCI
+> +    select VIRTIO_NET
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
