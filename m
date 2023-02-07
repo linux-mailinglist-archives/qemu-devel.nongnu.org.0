@@ -2,60 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 428E368D63A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 13:11:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2491768D647
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 13:17:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPMow-0001kx-I2; Tue, 07 Feb 2023 07:11:34 -0500
+	id 1pPMsq-00070r-Gq; Tue, 07 Feb 2023 07:15:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pPMot-0001Wx-V7
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:11:31 -0500
-Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pPMoq-0004aB-OE
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:11:30 -0500
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id DDFE9600D9;
- Tue,  7 Feb 2023 15:11:23 +0300 (MSK)
-Received: from vsementsov-win.yandex-team.ru (unknown [2a02:6b8:b081:218::1:e])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- HBbDgg1QJGk1-Q9cKLL3A; Tue, 07 Feb 2023 15:11:23 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1675771883; bh=9UQZIC26gd9V5xSKa0q+eOT+DoRF3Hp4776K835oCfM=;
- h=Cc:Message-Id:References:Date:In-Reply-To:Subject:To:From;
- b=Yrm6B9WX1adYzGi4QSwjp986paPwlR56lTTs4bcH1uSdFHCGkab9EyPh1yYWMht2s
- LmKmHN1eKuOrIUOUnULB8d1kARSyGROMuK4M9Cav+Rf3pOi2cwCXsrJachTBOmT2+o
- OsxRQIlghf5fGgIOVSUk9N/VR/NeL4MqccNtFMfo=
-Authentication-Results: vla1-81430ab5870b.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com, marcel.apfelbaum@gmail.com, vsementsov@yandex-team.ru,
- philmd@linaro.org
-Subject: [PATCH v2 3/3] pcie: drop unused PCIExpressIndicator
-Date: Tue,  7 Feb 2023 15:11:16 +0300
-Message-Id: <20230207121116.325456-4-vsementsov@yandex-team.ru>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230207121116.325456-1-vsementsov@yandex-team.ru>
-References: <20230207121116.325456-1-vsementsov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPMsn-0006xp-TZ
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:15:34 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPMsl-0005ab-SZ
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:15:33 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ hn2-20020a05600ca38200b003dc5cb96d46so13005246wmb.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 04:15:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Cq2KukWF+KsQeioiqFW997HD/cOMm/FKc4489TXV8W4=;
+ b=v6vpMs1fu+bMsZjizlok9idmysYqq+xgNdcsdDycNTgt+QL9+6OsYnNrLO2ZsezmTF
+ WJJiOP+6Y5X7bPAYvc0fnuDvSbo+A89zILdZMcOJd9OyZpykhUM+5ia/olnw+k5v3QbB
+ iK4S8J3VAzaVFE7NiBSz6szpJEF5trgZn06DDckNG5u5uE5VBKHpdzXgxVTqMA1l+loh
+ ANBDctYeLsNHNXXAyGdaetBrrfsPC8yXzwT0n1vGYv/NDavHBqlURJz4a5uOG+rpXgzo
+ OXZGKiO/QY7AbeEqAFRGivAAmuPDOiqNWsFvTCkVIEpqmk4epE32L6SxQuu/MkkASOjq
+ Qi7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Cq2KukWF+KsQeioiqFW997HD/cOMm/FKc4489TXV8W4=;
+ b=X2IcDYdh8j7XrBtmJtn6Z4X5FnfnKpJiCs8POsZYXvKohcpxKEhSJjbwtTFzGBV7tW
+ T7DubY/J1k2dvchY5hiW8+x6PfyQvozbyOgmJDwaE55x5eJlXz4bZepyh0U88vyoeBeD
+ atYCMAkO3v2qoCQhXOdZQkoTz9ZZFfd3mTKmRA+yw9EwaL22lzInmbW9lg9JV7A1toCK
+ DnjmozwxBWMOdGgwDaej7wN0R5GOdWwSE6dAOcoIfcjW+nM4tEUYLfuFfS/pNUKz9v/Y
+ 402qMfJTrf1/fMyIv28hX4YjRVmWe6hRwn88OeNurljqteMAMY9vBBfVVsWicubA640R
+ nB6g==
+X-Gm-Message-State: AO0yUKULEJUeNjzjyhIFJUrrtSAr0w5Agg/CRXJxYEbh/vM8vXVFuZBx
+ RZlYiqxMdrcJ4UCtZegX9LvNxA==
+X-Google-Smtp-Source: AK7set9RGYME1dUJtLeH+45kUAB/9Ce3INNjklK9zLqJWa94riqfs0Sulh+pSeRSGMXSn+BkVBTDmw==
+X-Received: by 2002:a05:600c:1688:b0:3dc:573c:6601 with SMTP id
+ k8-20020a05600c168800b003dc573c6601mr3024206wmn.36.1675772130047; 
+ Tue, 07 Feb 2023 04:15:30 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ p17-20020a05600c205100b003dd1bd0b915sm15662595wmg.22.2023.02.07.04.15.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Feb 2023 04:15:29 -0800 (PST)
+Message-ID: <e4eaad79-f545-9eab-5fa3-8e55a045a2ff@linaro.org>
+Date: Tue, 7 Feb 2023 13:15:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.72;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH] target/arm: Add raw_writes ops for register whose write
+ induce TLB maintenance
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Eric Auger <eric.auger@redhat.com>
+Cc: eric.auger.pro@gmail.com, richard.henderson@linaro.org,
+ pbonzini@redhat.com, qemu-devel@nongnu.org
+References: <20230203171657.2867598-1-eric.auger@redhat.com>
+ <CAFEAcA8qz8qsZNsrbbnmvVUgRazsxtGVm59enyU1rf2ZHjx+ow@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CAFEAcA8qz8qsZNsrbbnmvVUgRazsxtGVm59enyU1rf2ZHjx+ow@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,52 +94,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The structure type is unused. Also, it's the only user of corresponding
-macros, so drop them too.
+On 3/2/23 19:04, Peter Maydell wrote:
+> On Fri, 3 Feb 2023 at 17:17, Eric Auger <eric.auger@redhat.com> wrote:
+>>
+>> Many registers whose 'cooked' writefns induce TLB maintenance do
+>> not have raw_writefn ops defined. If only the writefn ops is set
+>> (ie. no raw_writefn is provided), it is assumed the cooked also
+>> work as the raw one. For those registers it is not obvious the
+>> tlb_flush works on KVM mode so better/safer setting the raw write.
+>>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+>>
+>> ---
+>>
+>> I'am not familiar with those callbacks. I have tested in kvm accelerated
+>> mode including migration but I fail to test with TCG. It SIGSEVs for
+>> me even without my additions. I am not sure whether the .raw_writefn
+>> must be set only for registers only doing some TLB maintenance or
+>> shall be set safely on other registers doing TLB maintenance + other
+>> state settings.
+>> ---
+>> @@ -718,16 +718,20 @@ static const ARMCPRegInfo not_v7_cp_reginfo[] = {
+>>        * the unified TLB ops but also the dside/iside/inner-shareable variants.
+>>        */
+>>       { .name = "TLBIALL", .cp = 15, .crn = 8, .crm = CP_ANY,
+>> -      .opc1 = CP_ANY, .opc2 = 0, .access = PL1_W, .writefn = tlbiall_write,
+>> +      .opc1 = CP_ANY, .opc2 = 0, .access = PL1_W,
+>> +      .writefn = tlbiall_write, .raw_writefn = raw_write,
+>>         .type = ARM_CP_NO_RAW },
+> 
+> Anything with type ARM_CP_NO_RAW shouldn't need a .raw_writefn, because
+> that type indication says that it's a bug if we ever call
+> read_raw_cp_reg() or write_raw_cp_reg() on it. (Specifically,
+> for KVM, we should never end up trying to do a raw read/write
+> for a state sync because write_list_to_cpustate() and
+> write_cpustate_to_list() skip NO_RAW cpregs.)
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- include/hw/pci/pcie.h      | 8 --------
- include/hw/pci/pcie_regs.h | 5 -----
- 2 files changed, 13 deletions(-)
-
-diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
-index 798a262a0a..3cc2b15957 100644
---- a/include/hw/pci/pcie.h
-+++ b/include/hw/pci/pcie.h
-@@ -27,14 +27,6 @@
- #include "hw/pci/pcie_sriov.h"
- #include "hw/hotplug.h"
- 
--typedef enum {
--    /* for attention and power indicator */
--    PCI_EXP_HP_IND_RESERVED     = PCI_EXP_SLTCTL_IND_RESERVED,
--    PCI_EXP_HP_IND_ON           = PCI_EXP_SLTCTL_IND_ON,
--    PCI_EXP_HP_IND_BLINK        = PCI_EXP_SLTCTL_IND_BLINK,
--    PCI_EXP_HP_IND_OFF          = PCI_EXP_SLTCTL_IND_OFF,
--} PCIExpressIndicator;
--
- typedef enum {
-     /* these bits must match the bits in Slot Control/Status registers.
-      * PCI_EXP_HP_EV_xxx = PCI_EXP_SLTCTL_xxxE = PCI_EXP_SLTSTA_xxx
-diff --git a/include/hw/pci/pcie_regs.h b/include/hw/pci/pcie_regs.h
-index 00b595a82e..1fe0bdd25b 100644
---- a/include/hw/pci/pcie_regs.h
-+++ b/include/hw/pci/pcie_regs.h
-@@ -66,11 +66,6 @@ typedef enum PCIExpLinkWidth {
- 
- #define PCI_EXP_SLTCAP_PSN_SHIFT        ctz32(PCI_EXP_SLTCAP_PSN)
- 
--#define PCI_EXP_SLTCTL_IND_RESERVED     0x0
--#define PCI_EXP_SLTCTL_IND_ON           0x1
--#define PCI_EXP_SLTCTL_IND_BLINK        0x2
--#define PCI_EXP_SLTCTL_IND_OFF          0x3
--
- #define PCI_EXP_SLTCTL_SUPPORTED        \
-             (PCI_EXP_SLTCTL_ABPE |      \
-              PCI_EXP_SLTCTL_PDCE |      \
--- 
-2.34.1
-
+Ah, this is the check added by commit 375421ccae ("target-arm: Add
+checks that cpreg raw accesses are handled"). So this patch shouldn't
+pass check-qtest, right?
 
