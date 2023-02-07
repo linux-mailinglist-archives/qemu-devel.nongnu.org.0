@@ -2,65 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB34F68D48A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 11:40:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 667FA68D4AD
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 11:45:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPLNc-0004Fp-VY; Tue, 07 Feb 2023 05:39:16 -0500
+	id 1pPLSW-0005Yk-Sk; Tue, 07 Feb 2023 05:44:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pPLNZ-0004Fd-BG
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 05:39:13 -0500
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pPLSU-0005Xo-5Y
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 05:44:18 -0500
+Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pPLNX-0000Cb-Df
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 05:39:13 -0500
-Received: from sas1-2d2912cdb877.qloud-c.yandex.net
- (sas1-2d2912cdb877.qloud-c.yandex.net
- [IPv6:2a02:6b8:c14:280d:0:640:2d29:12cd])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 31B2D61204;
- Tue,  7 Feb 2023 13:39:04 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:218::1:e] (unknown [2a02:6b8:b081:218::1:e])
- by sas1-2d2912cdb877.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 3dZEPg0Or8c1-uce5gcAr; Tue, 07 Feb 2023 13:39:03 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1675766343; bh=zEwjoCQ6IDBqX8u2Mi5xGh7BS6o7mprR/i2W1/C6Y6A=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=cOtMEv3by660vN/CuEBIrIf6J/A3MEuvma2muHAhBHOV+M7OhGlUrg+68PF/Md04C
- B+xLjK7hghjngNv6HDgSYomVO+8jHx8bVN5aAtbejljy4D3fe8pfNI+JqjXYnWBg6o
- GOpzs/yk5tAuyh4yXuzWQkP6qLZrKehSmv88wDks=
-Authentication-Results: sas1-2d2912cdb877.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <d6ea345b-d3d1-0dfa-20cb-fb328900086a@yandex-team.ru>
-Date: Tue, 7 Feb 2023 13:39:03 +0300
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pPLSS-000151-Fz
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 05:44:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:
+ To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=3OPCgX//qu7enp/+JCS1MdLsLtR1yu7d/D3sdbUHwNs=; b=obvsKVXZqMBQOKW0lnNksUJ4PL
+ YXgqO9Gn55SqjTrK8kJpcQ8l2u3dI11nNZwblxGxsfS1wTd6FYHBmfvMoGqKBWMLF9T9pou3jkxGz
+ EqiJ3hLcUtnPN+NpITCXsl6vb0rQrzOvXQwD8oxzxWVTuOqHvxbqE5RAjTeBcR81Uew0=;
+To: qemu-devel@nongnu.org
+Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
+ eduardo@habkost.net, peter.maydell@linaro.org
+Subject: [PATCH 0/3] Replace TARGET_TB_PCREL with CF_PCREL
+Date: Tue,  7 Feb 2023 11:43:49 +0100
+Message-Id: <20230207104352.11055-1-anjo@rev.ng>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 4/4] pcie: add trace-point for power indicator transitions
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: mst@redhat.com, marcel.apfelbaum@gmail.com
-References: <20230204174758.234951-1-vsementsov@yandex-team.ru>
- <20230204174758.234951-6-vsementsov@yandex-team.ru>
- <1dc32ad1-e52b-f1cd-c176-5844cdba6815@linaro.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <1dc32ad1-e52b-f1cd-c176-5844cdba6815@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,53 +52,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Anton Johansson <anjo@rev.ng>
+From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Thanks for reviewing!
+This patchset entirely replaces the macro TARGET_TB_PCREL with
+a field in TranslationBlock.cflags called CF_PCREL, and is a
+first step towards removing target-specific assumptions from
+non-target/ directories.
 
-On 05.02.23 13:56, Philippe Mathieu-Daudé wrote:
-> On 4/2/23 18:47, Vladimir Sementsov-Ogievskiy wrote:
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->> ---
->>   hw/pci/pcie.c       | 20 ++++++++++++++++++++
->>   hw/pci/trace-events |  3 +++
->>   2 files changed, 23 insertions(+)
-> 
->> +static const char *pcie_sltctl_pic_str(uint16_t sltctl)
->> +{
->> +    switch (sltctl & PCI_EXP_SLTCTL_PIC) {
->> +    case PCI_EXP_SLTCTL_PWR_IND_ON:
->> +        return "on";
->> +    case PCI_EXP_SLTCTL_PWR_IND_BLINK:
->> +        return "blink";
->> +    case PCI_EXP_SLTCTL_PWR_IND_OFF:
->> +        return "off";
->> +    default:
->> +        return "?";
-> 
-> Maybe "illegal"?
+The grand goal is to allow for heterogeneous QEMU binaries
+consisting of multiple frontends.
 
-I just was unsure about it.
+RFC: https://lists.nongnu.org/archive/html/qemu-devel/2022-12/msg04518.html
 
-For SHPC, 0 is correct, and means that this command don't change the led state.
+Anton Johansson (3):
+  include/exec: Introduce `CF_PCREL`
+  Replace `TARGET_TB_PCREL` with `CF_PCREL`
+  target: Set `CF_PCREL` for arm and i386 frontends
 
-But with PCI-e hotplug we don't have such commands but change the led directly, so it must be one of "on"/"blink"/"off", and zero is really wrong, right?
+ accel/tcg/cpu-exec.c        |  8 +++----
+ accel/tcg/internal.h        | 10 ++++----
+ accel/tcg/perf.c            |  2 +-
+ accel/tcg/tb-jmp-cache.h    | 48 ++++++++++++++++++-------------------
+ accel/tcg/tb-maint.c        |  8 +++----
+ accel/tcg/translate-all.c   | 14 +++++------
+ include/exec/cpu-defs.h     |  3 ---
+ include/exec/exec-all.h     | 28 ++++++++++------------
+ target/arm/cpu-param.h      |  2 --
+ target/arm/cpu.c            | 13 ++++++----
+ target/arm/translate-a64.c  |  8 +++----
+ target/arm/translate.c      |  6 ++---
+ target/arm/translate.h      |  2 +-
+ target/i386/cpu-param.h     |  4 ----
+ target/i386/cpu.c           |  5 ++++
+ target/i386/helper.c        |  2 +-
+ target/i386/tcg/tcg-cpu.c   |  6 ++---
+ target/i386/tcg/translate.c | 26 ++++++++++----------
+ 18 files changed, 95 insertions(+), 100 deletions(-)
 
-
-Also, I'm now looking at /* TODO: send event to monitor */ in shpc code, and working on it. So, I think, I'll soon send patches with such event for both SHPC and PCI-e, and probably that trace point becomes not needed.
-
-> 
-> Otherwise:
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> 
->> +    }
->> +}
-> 
-
--- 
-Best regards,
-Vladimir
-
+--
+2.39.1
 
