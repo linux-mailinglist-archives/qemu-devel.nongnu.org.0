@@ -2,73 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7679968DAB6
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:27:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6524668DB8C
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:33:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPOvz-0001Cx-Ca; Tue, 07 Feb 2023 09:26:59 -0500
+	id 1pPP1M-0000XW-Qq; Tue, 07 Feb 2023 09:32:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pPOvu-0000yK-Py
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:26:54 -0500
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pPOvs-0006TZ-V8
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:26:54 -0500
-Received: by mail-pf1-x431.google.com with SMTP id t19so3439368pfe.2
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:26:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Fxv71ohYTRmu/fBnYyOPmbcm4hm27+TzCHKQssLCMK0=;
- b=HsshjF56g0SC3T/y3pdixulN2tMaSavwKLtGp2GsTDaSwX/+9V0VRx4tbnLd8GDegr
- E/43wOYYVmGJYQc16z1NVebPIw5AOlby31xPrYbdvFy0USOImlnJ9dUfysyZLBlgV6wx
- rZl4oI4JEN9pht6FRFAVVdKh2raPO7PYYwLZXZeQ8vB30G1zc+NTSE+k0r5Kt7CWEeFB
- IyKzVR75jer+qcudDD4/d6MGGYxiAbSPSnJwUaxP9KcX0YUzWq2JYD7mSgGWHfvi2sri
- aqmHJvnJswrbd3nxfkOxFA9XYkzO5gD2MSo/uYIFmUMGk1c9lxR2s+NGByzF3tgcqY/q
- bs1w==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPP1J-0000WV-44
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:32:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPP1G-0007ox-5x
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:32:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675780344;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2KNl7/RT8ivNgYFG7xjIKTZlEz/8iaqEFHGju9JP/dY=;
+ b=ScJ+bPWOm3YjsjwBTqB+yKkobarA36lMnLj2gyEw9XimA9hPJDNQXJY+6DvybUGkFKbf5v
+ 3gDBdwUWnonD6+9pDoV4SWlmMpuDK7ZULmodLMpbZHF2Di+M6AQZtcNNlZUqOLj7CbtkI3
+ hJVyOXK677OU04XX7z25ugbfykbWlfA=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-163-JLZUdZk4MPCF9PrnSlG86Q-1; Tue, 07 Feb 2023 09:31:45 -0500
+X-MC-Unique: JLZUdZk4MPCF9PrnSlG86Q-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ ly4-20020a0562145c0400b0054d2629a759so7746787qvb.16
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:31:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Fxv71ohYTRmu/fBnYyOPmbcm4hm27+TzCHKQssLCMK0=;
- b=kpX6nB8xxbzlDMFICszKE1WdarE+kxoaDjbUZSWtjzQEEhqa8586pcRZoCHqFbbWGc
- FtoyS0zlAoLZbNjiug2qwBHEk4A8OVKvbg0BDVX+3R/fqP3Sf137M4ZTeX842O6EQIwe
- P7cMV0BfTxI0Qbb16G5tnZlE05fYtu791q4B8W70RkmktyqSbCREZcdpjXCWzWvCwQfb
- +FFALNpy5fMv2YJNiH3Ogmv/FObZIfkruAVC7UcMfWdN/wmTtAJbL1SmAbopthUlo7Da
- jpAD7eWV2c29UUdfh+zH59mY3ti1t55QDFM2qoFw2LKMe80JCsRjq27Til8f400dGdke
- F8xA==
-X-Gm-Message-State: AO0yUKXFAVZmhpJGzXVWiGR4+HnFyCiw/xddQM1RoXfWRHfgQx1zbKYs
- ET0xjPBVuqiBSWUfC8tSLExPjDPtkVK7jgxnz5xkXw==
-X-Google-Smtp-Source: AK7set+/RlNxwzyHp+vYIQ+7RXJfo6XyeS/Z7knjh4wOuay7L3GTn6saynRBoOppU2oJLhXQ2DHN9QiUoZDfH6sQTsI=
-X-Received: by 2002:a62:53c6:0:b0:58d:a84a:190b with SMTP id
- h189-20020a6253c6000000b0058da84a190bmr814453pfb.48.1675780010143; Tue, 07
- Feb 2023 06:26:50 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2KNl7/RT8ivNgYFG7xjIKTZlEz/8iaqEFHGju9JP/dY=;
+ b=jd61ESc2S/+Qm40KD3hfvb/tl8rwZY49et1E0Itr0ZlGVsR2TURfJUbeIobcQrsXdL
+ BRHtIy8D1W7F8UbAMcN/hdd2xktXuBPzBWYdnb8XhvHYAB2W9PeOxXMnODMLkG3QWvFi
+ HYEuU6X0Tr++8WppTnM4nXG6eZoM+6HdjIIJjsy6nPpXjqfGtH6nMicLwNQwI3CvyV3L
+ 4OkmH7F//my6QYLElc+VlWGtVYs8reGUdMc7MSwA63hPxUtU4RmDY6OOabdHFnzOHhOO
+ t08rfskjae0DLEouireN+N+J5NNg9enzOqgmjThkbJ8E+GGFjY8Dr25DqKmsCts35rq/
+ VgcA==
+X-Gm-Message-State: AO0yUKWc1z5VCKV8ePSbH4Nj/RVe0pGJXEjDcdvF5C2WizIz8iPvVCON
+ YC3Nyvtn2AozmcVfQMWmivbnRW1rnBSw+kjzNu/ow6/3E9f+S9pNAsm3NDTKgpRlDfm0bMJFAir
+ O3xfymQOsBf3ePe8=
+X-Received: by 2002:a05:622a:15d2:b0:3b8:6d23:9727 with SMTP id
+ d18-20020a05622a15d200b003b86d239727mr6021524qty.33.1675780218839; 
+ Tue, 07 Feb 2023 06:30:18 -0800 (PST)
+X-Google-Smtp-Source: AK7set8Ze+zduSmGjVzMJPoF4tFuI++685eXl9BC3PIBIcYdAadgA9uQCZ/jXNE3Wpy1l9fFC4C1Vg==
+X-Received: by 2002:a05:622a:15d2:b0:3b8:6d23:9727 with SMTP id
+ d18-20020a05622a15d200b003b86d239727mr6021482qty.33.1675780218556; 
+ Tue, 07 Feb 2023 06:30:18 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-120.web.vodafone.de.
+ [109.43.176.120]) by smtp.gmail.com with ESMTPSA id
+ z20-20020ac87cb4000000b003b950b03b6dsm9463244qtv.37.2023.02.07.06.30.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Feb 2023 06:30:17 -0800 (PST)
+Message-ID: <6f9dc151-5894-e619-4e97-987c88bb0d71@redhat.com>
+Date: Tue, 7 Feb 2023 15:30:15 +0100
 MIME-Version: 1.0
-References: <20230124000027.3565716-1-richard.henderson@linaro.org>
- <20230124000027.3565716-2-richard.henderson@linaro.org>
-In-Reply-To: <20230124000027.3565716-2-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Feb 2023 14:26:38 +0000
-Message-ID: <CAFEAcA_-XkpZDGWXFnKny5A19-KUnZPaoPwi-N9EeyPjaDxJBg@mail.gmail.com>
-Subject: Re: [PATCH 01/22] target/arm: Fix pmsav8 stage2 secure parameter
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, yier.jin@huawei.com, 
- jonathan.cameron@huawei.com, leonardo.garcia@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 09/12] tests/qtest: Do not include hexloader-test if
+ loader device is not present
+Content-Language: en-US
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: Su Hang <suhang16@mails.ucas.ac.cn>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20230206150416.4604-1-farosas@suse.de>
+ <20230206150416.4604-10-farosas@suse.de>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230206150416.4604-10-farosas@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,51 +102,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 24 Jan 2023 at 00:01, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> We have computed the security state for the stage2 lookup
-> into s2walk_secure -- use it.
-
-We've computed *something* into s2walk_secure, but it
-doesn't make much sense for PMSAv8 because the VSTCR_EL2
-and VTCR_EL2 registers don't exist there. s2walk_secure
-also doesn't sound like something we should be using,
-because in PMSAv8 there is no "stage 2 walk" being done (there
-are no page tables to walk) -- we just use the information in
-the EL2 MPU registers.
-
-I think what we want to be passing to get_phys_addr_pmsav8()
-is ipa_secure. It's a bit moot, of course, since PMSAv8 doesn't
-have TrustZone and for PMSAv8-32 the security state is always
-NonSecure. (For PMSAv8-64 it is always Secure, though...)
-This means that ipa == address and ipa_secure == is_secure,
-since the stage 1 MPU can't change either the address or the
-security state. Passing both ipa and ipa_secure to the stage2
-call means we're being consistent, I guess.
-
-> Fixes: fca45e3467f ("target/arm: Add PMSAv8r functionality")
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 06/02/2023 16.04, Fabiano Rosas wrote:
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
 > ---
->  target/arm/ptw.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-> index 57f3615a66..b0f8c59767 100644
-> --- a/target/arm/ptw.c
-> +++ b/target/arm/ptw.c
-> @@ -2727,7 +2727,7 @@ static bool get_phys_addr_twostage(CPUARMState *env, S1Translate *ptw,
->
->      if (arm_feature(env, ARM_FEATURE_PMSA)) {
->          ret = get_phys_addr_pmsav8(env, ipa, access_type,
-> -                                   ptw->in_mmu_idx, is_secure, result, fi);
-> +                                   ptw->in_mmu_idx, s2walk_secure, result, fi);
->      } else {
->          ret = get_phys_addr_lpae(env, ptw, ipa, access_type,
->                                   is_el0, result, fi);
-> --
-> 2.34.1
+>   tests/qtest/hexloader-test.c | 5 +++++
+>   tests/qtest/meson.build      | 4 ++--
+>   2 files changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tests/qtest/hexloader-test.c b/tests/qtest/hexloader-test.c
+> index 3023548041..3ab464f438 100644
+> --- a/tests/qtest/hexloader-test.c
+> +++ b/tests/qtest/hexloader-test.c
+> @@ -22,6 +22,11 @@ static void hex_loader_test(void)
+>       unsigned int i;
+>       const unsigned int base_addr = 0x00010000;
+>   
+> +    if (!qtest_has_device("loader")) {
+> +        g_test_skip("Device 'loader' not available");
+> +        return;
+> +    }
+> +
+>       QTestState *s = qtest_initf(
+>           "-M vexpress-a9 -device loader,file=tests/data/hex-loader/test.hex");
+>   
+> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> index 431b623df9..a930706a43 100644
+> --- a/tests/qtest/meson.build
+> +++ b/tests/qtest/meson.build
+> @@ -197,11 +197,11 @@ qtests_arm = \
+>     (config_all_devices.has_key('CONFIG_PFLASH_CFI02') ? ['pflash-cfi02-test'] : []) +         \
+>     (config_all_devices.has_key('CONFIG_ASPEED_SOC') ? qtests_aspeed : []) + \
+>     (config_all_devices.has_key('CONFIG_NPCM7XX') ? qtests_npcm7xx : []) + \
+> +  (config_all_devices.has_key('CONFIG_GENERIC_LOADER') ? ['hexloader-test'] : []) + \
+>     ['arm-cpu-features',
+>      'microbit-test',
+>      'test-arm-mptimer',
+> -   'boot-serial-test',
+> -   'hexloader-test']
+> +   'boot-serial-test']
 
-thanks
--- PMM
+In this case, I think the change to meson.build should be enough, since 
+there is no machine that does "select GENERIC_LOADER" in the Kconfig files 
+... or do I miss something again?
+
+  Thomas
+
 
