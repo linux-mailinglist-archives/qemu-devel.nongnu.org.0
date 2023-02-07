@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5176A68CBAE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 02:04:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2375B68CBA9
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 02:04:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPCIx-0003CM-EY; Mon, 06 Feb 2023 19:57:51 -0500
+	id 1pPCJ1-0003Ji-MM; Mon, 06 Feb 2023 19:57:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pPCIv-0003BZ-S2
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 19:57:49 -0500
+ id 1pPCIz-0003Dj-It
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 19:57:53 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pPCIu-0003hZ-9w
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 19:57:49 -0500
+ id 1pPCIy-0003iG-5d
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 19:57:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675731466;
+ s=mimecast20190719; t=1675731471;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qzSBIR6LRz6N4Dl8hXA3eueT1HX6gOU9Tw+HrG3oo/w=;
- b=HK4nUVmS3MeObKUt56U9uuMMKIjvvuraCn4e0QdLQWX6PPO2+Xngf8IJETP10dv7lqO606
- 7n1WurIt4NQOH68XTYnnqnywBxWm0KcV3HwSoHxK2iti0NthrmqPhoICmJIEQ3iOk/Cn6k
- JYFxCBQRjt0ZAPuza8QcMR3mJKvcZ/M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6lIg7aqLoDZba0OtgiOTBlqeFrJWsZnu9N17z0NU7N0=;
+ b=eGvdoqnZWmIXzd9K8XuAZdIKpQUbQmqlxsJSKucUvRUUMQL1iWVTSM+8GuTFKqqiCJKnN1
+ Lht3vR5F0DqqNuZqjtHOpNsf2okkFRP9qHVEvCmCzrr+/BWsxqLNpmDwqzktoDMwdh00DN
+ H3MOyXOkSDmtGz3qJncNyhQX87Clj+c=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-657-GR52TcoOO6qY4ikAJib3BQ-1; Mon, 06 Feb 2023 19:57:43 -0500
-X-MC-Unique: GR52TcoOO6qY4ikAJib3BQ-1
+ us-mta-9-UoOnwQr8NsuicMww8-sPjg-1; Mon, 06 Feb 2023 19:57:48 -0500
+X-MC-Unique: UoOnwQr8NsuicMww8-sPjg-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9F65A85A588;
- Tue,  7 Feb 2023 00:57:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B07DE3C025B6;
+ Tue,  7 Feb 2023 00:57:47 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DAF28492C3C;
- Tue,  7 Feb 2023 00:57:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E57EA492C3C;
+ Tue,  7 Feb 2023 00:57:42 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
@@ -64,10 +64,10 @@ Cc: qemu-block@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
  Alex Williamson <alex.williamson@redhat.com>,
  Eric Blake <eblake@redhat.com>, Eric Farman <farman@linux.ibm.com>,
  Peter Xu <peterx@redhat.com>
-Subject: [PULL 09/30] migration/ram: Don't explicitly unprotect when
- unregistering uffd-wp
-Date: Tue,  7 Feb 2023 01:56:29 +0100
-Message-Id: <20230207005650.1810-10-quintela@redhat.com>
+Subject: [PULL 10/30] migration/ram: Rely on used_length for
+ uffd_change_protection()
+Date: Tue,  7 Feb 2023 01:56:30 +0100
+Message-Id: <20230207005650.1810-11-quintela@redhat.com>
 In-Reply-To: <20230207005650.1810-1-quintela@redhat.com>
 References: <20230207005650.1810-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -81,7 +81,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,55 +99,38 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Hildenbrand <david@redhat.com>
 
-When unregistering uffd-wp, older kernels before commit f369b07c86143
-("mm/uffd:reset write protection when unregister with wp-mode") won't
-clear the uffd-wp PTE bit. When re-registering uffd-wp, the previous
-uffd-wp PTE bits would trigger again. With above commit, the kernel will
-clear the uffd-wp PTE bits when unregistering itself.
+ram_mig_ram_block_resized() will abort migration (including background
+snapshots) when resizing a RAMBlock. ram_block_populate_read() will only
+populate RAM up to used_length, so at least for anonymous memory
+protecting everything between used_length and max_length won't
+actually be protected and is just a NOP.
 
-Consequently, we'll clear the uffd-wp PTE bits now twice -- whereby we
-don't care about clearing them at all: a new background snapshot will
-re-register uffd-wp and re-protect all memory either way.
+So let's only protect everything up to used_length.
 
-So let's skip the manual clearing of uffd-wp. If ever relevant, we
-could clear conditionally in uffd_unregister_memory() -- we just need a
-way to figure out more recent kernels.
+Note: it still makes sense to register uffd-wp for max_length, such
+that RAM_UF_WRITEPROTECT is independent of a changing used_length.
 
 Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 9 ---------
- 1 file changed, 9 deletions(-)
+ migration/ram.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index 73e5ca93e5..efaae07dd8 100644
+index efaae07dd8..a6956c9e7d 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -1918,12 +1918,6 @@ fail:
-         if ((block->flags & RAM_UF_WRITEPROTECT) == 0) {
-             continue;
-         }
--        /*
--         * In case some memory block failed to be write-protected
--         * remove protection and unregister all succeeded RAM blocks
--         */
--        uffd_change_protection(rs->uffdio_fd, block->host, block->max_length,
--                false, false);
-         uffd_unregister_memory(rs->uffdio_fd, block->host, block->max_length);
-         /* Cleanup flags and remove reference */
-         block->flags &= ~RAM_UF_WRITEPROTECT;
-@@ -1949,9 +1943,6 @@ void ram_write_tracking_stop(void)
-         if ((block->flags & RAM_UF_WRITEPROTECT) == 0) {
-             continue;
-         }
--        /* Remove protection and unregister all affected RAM blocks */
--        uffd_change_protection(rs->uffdio_fd, block->host, block->max_length,
--                false, false);
-         uffd_unregister_memory(rs->uffdio_fd, block->host, block->max_length);
+@@ -1901,7 +1901,7 @@ int ram_write_tracking_start(void)
  
-         trace_ram_write_tracking_ramblock_stop(block->idstr, block->page_size,
+         /* Apply UFFD write protection to the block memory range */
+         if (uffd_change_protection(rs->uffdio_fd, block->host,
+-                block->max_length, true, false)) {
++                                   block->used_length, true, false)) {
+             goto fail;
+         }
+ 
 -- 
 2.39.1
 
