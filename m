@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9123368DAAE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:26:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23BAE68DAB8
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:27:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPOvG-0007VC-Lk; Tue, 07 Feb 2023 09:26:14 -0500
+	id 1pPOvI-0007Vl-8j; Tue, 07 Feb 2023 09:26:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pPOvF-0007Us-1q
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:26:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pPOvG-0007VB-6X
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:26:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pPOvD-0006IZ-DI
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:26:12 -0500
+ id 1pPOvE-0006Km-Bc
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:26:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675779969;
+ s=mimecast20190719; t=1675779971;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=odFOL3cg61TDWscFaLr3f9+xIKavyEThhYBqETsyNZI=;
- b=X2i+yulHDr8TAq9fMCP1tqCBYfcxBkyUk/2CGOt/xqGkFN61gTwac/9FIzJYYzFslDV+Jq
- 65n+zh6WvA3qTihJqrWkqXcsBqvaKzrny7obSW6R0wokG/ZrMHaYuMKQ/VhmNjAiSK4g5t
- kAJPdx1ahXAlAsYAEpS5YW1VcO8FGfg=
+ bh=NhHXydFI0TtNZY/17kwXRMemx9Mdt7dhyIDBKvB2xRg=;
+ b=aFg+THNTqlnNtLjZ7FE565iT84BbaWwq6F2+S4vUyx3HKO4Lq8o8W1fRF7ybeqH8sePklw
+ 1d5r4wdj+m2kLOjhrZR+uutCLB0aB9SYwCb+g1BAqW+VZqHcWCNabtJbmBIEEBbUv3YdqH
+ NIWhLzNitmAlYQHCaTDfGfUsTyCs01U=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-82-MNcM4QNeN1iXf5AelRjVAQ-1; Tue, 07 Feb 2023 09:26:06 -0500
-X-MC-Unique: MNcM4QNeN1iXf5AelRjVAQ-1
+ us-mta-351-V2h-jVGlPRCSIIAFxIUrtg-1; Tue, 07 Feb 2023 09:26:10 -0500
+X-MC-Unique: V2h-jVGlPRCSIIAFxIUrtg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C1BCD100F91B;
- Tue,  7 Feb 2023 14:26:05 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D2EDD823D5F;
+ Tue,  7 Feb 2023 14:26:09 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A97D21410F36;
- Tue,  7 Feb 2023 14:26:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9B811140EBF4;
+ Tue,  7 Feb 2023 14:26:08 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Beraldo Leal <bleal@redhat.com>,
@@ -56,16 +56,16 @@ Cc: Beraldo Leal <bleal@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [PATCH v3 06/10] monitor: release the lock before calling close()
-Date: Tue,  7 Feb 2023 18:25:31 +0400
-Message-Id: <20230207142535.1153722-7-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 07/10] qapi: implement conditional command arguments
+Date: Tue,  7 Feb 2023 18:25:32 +0400
+Message-Id: <20230207142535.1153722-8-marcandre.lureau@redhat.com>
 In-Reply-To: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
 References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124;
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -92,43 +92,113 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-As per comment, presumably to avoid syscall in critical section.
+The generated code doesn't quite handle the conditional arguments.
+For example, 'bar' in 'test-if-cmd' is not correctly surrounded by #if
+conditions. See generated code in qmp_marshal_test_if_cmd().
 
-Fixes: 0210c3b39bef08 ("monitor: Use LOCK_GUARD macros")
+Note that if there are multiple optional arguments at the last position,
+there might be compilation issues due to extra comas. I left an assert
+and FIXME for later.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- monitor/fds.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ scripts/qapi/commands.py                |  4 ++++
+ scripts/qapi/gen.py                     | 19 ++++++++++++++-----
+ scripts/qapi/visit.py                   |  2 ++
+ tests/qapi-schema/qapi-schema-test.json |  3 ++-
+ 4 files changed, 22 insertions(+), 6 deletions(-)
 
-diff --git a/monitor/fds.c b/monitor/fds.c
-index 26b39a0ce6..03c5e97c35 100644
---- a/monitor/fds.c
-+++ b/monitor/fds.c
-@@ -80,7 +80,7 @@ void qmp_getfd(const char *fdname, Error **errp)
-         return;
-     }
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index 79c5e5c3a9..07997d1586 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -64,9 +64,13 @@ def gen_call(name: str,
+     elif arg_type:
+         assert not arg_type.variants
+         for memb in arg_type.members:
++            if memb.ifcond.is_present():
++                argstr += '\n' + memb.ifcond.gen_if()
+             if memb.need_has():
+                 argstr += 'arg.has_%s, ' % c_name(memb.name)
+             argstr += 'arg.%s, ' % c_name(memb.name)
++            if memb.ifcond.is_present():
++                argstr += '\n' + memb.ifcond.gen_endif()
  
--    QEMU_LOCK_GUARD(&cur_mon->mon_lock);
-+    qemu_mutex_lock(&cur_mon->mon_lock);
-     QLIST_FOREACH(monfd, &cur_mon->fds, next) {
-         if (strcmp(monfd->name, fdname) != 0) {
-             continue;
-@@ -88,6 +88,7 @@ void qmp_getfd(const char *fdname, Error **errp)
+     lhs = ''
+     if ret_type:
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index b5a8d03e8e..ba57e72c9b 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -111,22 +111,31 @@ def build_params(arg_type: Optional[QAPISchemaObjectType],
+                  boxed: bool,
+                  extra: Optional[str] = None) -> str:
+     ret = ''
+-    sep = ''
+     if boxed:
+         assert arg_type
+         ret += '%s arg' % arg_type.c_param_type()
+-        sep = ', '
++        if extra:
++            ret += ', '
+     elif arg_type:
+         assert not arg_type.variants
++        n = 0
+         for memb in arg_type.members:
+-            ret += sep
+-            sep = ', '
++            n += 1
++            if memb.ifcond.is_present():
++                ret += '\n' + memb.ifcond.gen_if()
+             if memb.need_has():
+                 ret += 'bool has_%s, ' % c_name(memb.name)
+             ret += '%s %s' % (memb.type.c_param_type(),
+                               c_name(memb.name))
++            if extra or n != len(arg_type.members):
++                ret += ', '
++            else:
++                # FIXME: optional last argument may break compilation
++                assert not memb.ifcond.is_present()
++            if memb.ifcond.is_present():
++                ret += '\n' + memb.ifcond.gen_endif()
+     if extra:
+-        ret += sep + extra
++        ret += extra
+     return ret if ret else 'void'
  
-         tmp_fd = monfd->fd;
-         monfd->fd = fd;
-+        qemu_mutex_unlock(&cur_mon->mon_lock);
-         /* Make sure close() is outside critical section */
-         close(tmp_fd);
-         return;
-@@ -98,6 +99,7 @@ void qmp_getfd(const char *fdname, Error **errp)
-     monfd->fd = fd;
  
-     QLIST_INSERT_HEAD(&cur_mon->fds, monfd, next);
-+    qemu_mutex_unlock(&cur_mon->mon_lock);
- }
+diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+index 26a584ee4c..c56ea4d724 100644
+--- a/scripts/qapi/visit.py
++++ b/scripts/qapi/visit.py
+@@ -74,11 +74,13 @@ def gen_visit_object_members(name: str,
+     sep = ''
+     for memb in members:
+         if memb.optional and not memb.need_has():
++            ret += memb.ifcond.gen_if()
+             ret += mcgen('''
+     bool has_%(c_name)s = !!obj->%(c_name)s;
+ ''',
+                          c_name=c_name(memb.name))
+             sep = '\n'
++            ret += memb.ifcond.gen_endif()
+     ret += sep
  
- void qmp_closefd(const char *fdname, Error **errp)
+     if base:
+diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
+index ba7302f42b..baa4e69f63 100644
+--- a/tests/qapi-schema/qapi-schema-test.json
++++ b/tests/qapi-schema/qapi-schema-test.json
+@@ -258,7 +258,8 @@
+ 
+ { 'event': 'TEST_IF_EVENT',
+   'data': { 'foo': 'TestIfStruct',
+-            'bar': { 'type': ['TestIfEnum'], 'if': 'TEST_IF_EVT_BAR' } },
++            'bar': { 'type': ['TestIfEnum'], 'if': 'TEST_IF_EVT_BAR' },
++            'baz': 'int' },
+   'if': { 'all': ['TEST_IF_EVT', 'TEST_IF_STRUCT'] } }
+ 
+ { 'event': 'TEST_IF_EVENT2', 'data': {},
 -- 
 2.39.1
 
