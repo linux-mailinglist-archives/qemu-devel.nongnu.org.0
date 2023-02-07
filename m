@@ -2,68 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D20668CFC5
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 07:48:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B14A68CFD6
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 07:53:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPHjw-0007KD-En; Tue, 07 Feb 2023 01:46:04 -0500
+	id 1pPHqV-0007EO-TJ; Tue, 07 Feb 2023 01:52:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPHjT-000773-58
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 01:45:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPHjQ-00040S-Hc
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 01:45:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675752331;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gUYc5wycJJSoXofa4UZKMNo38IWrWDescXM6M4+WTMk=;
- b=IXtfcBa9K0Pz+EVV22o+Mp8WWWdyguKYb1Xwd4PB+TXdKgUjZNVebAOpYqntwTF2NKUENY
- iZQ5kKzL7xtjZonRqxj761xCrfXWlqmcP4Yd1jO+KqWAqeG4sbPZlRELaep0uMHJSoPIX2
- W3foH/5A1V1o3PTVhIGKzy4UPnvSwb8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-124-xq8DxLLiOfeDuqHLpXiwdw-1; Tue, 07 Feb 2023 01:45:28 -0500
-X-MC-Unique: xq8DxLLiOfeDuqHLpXiwdw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 448E48027EB;
- Tue,  7 Feb 2023 06:45:28 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D788D401014C;
- Tue,  7 Feb 2023 06:45:27 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1DB0B21E6921; Tue,  7 Feb 2023 07:45:24 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Greg Kurz <groug@kaod.org>, "Michael S . Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: [PULL 20/20] Drop duplicate #include
-Date: Tue,  7 Feb 2023 07:45:23 +0100
-Message-Id: <20230207064523.3968603-21-armbru@redhat.com>
-In-Reply-To: <20230207064523.3968603-1-armbru@redhat.com>
-References: <20230207064523.3968603-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPHp0-0006Z6-Ls
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 01:51:19 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPHou-00054Q-8v
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 01:51:13 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ c4-20020a1c3504000000b003d9e2f72093so12415374wma.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 22:51:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=GOZnn0xAf2BLigO826JIf+6VgZ1eVU4Y30duOgi4FUU=;
+ b=q57+NTBfqmFAxxN+7UGnabWdfp55PhtPzQ/kIDj8zTSZxzGKemvqn6vyqxEseOFSom
+ P7vyMOToqoWSOjSci87STB/z0D0tzhNId+co47pDhdiiubZbys93jywFQqNeqLDe7Ifv
+ PpGq9SSnlw8ZyJbgaoyjes72sv5l5r2i2kP4o0Hgx4YoQDAV6wPKANHNG/+geXbE4bk1
+ R/xP8sS0XiO7SSCtv/VP9a8Z42v4JW5aKDtv6FZTxSwS2KlSScHmOMPr7EerQpfWPakM
+ hiAqI5SNPkdteLQRSVWdqTarw+VYqTXWYGeZgzjWmVUAZJAfF0JYgXYD5jkEBSLhifwW
+ tScw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GOZnn0xAf2BLigO826JIf+6VgZ1eVU4Y30duOgi4FUU=;
+ b=11qsDBkoDxlQdGjgibbyxgXkFTaxcekmXtT+8U7Svio5UIpNE0fS9Zlm8ByWqbKU5D
+ t1o8uJ5pMLWKLJdkWDU4IFVc2Xjf5LOPnJxZu5j8fNk3CXzgcjIuYPc04s1EYApHnaAb
+ fZUvY6LYrrVww44x3JD8BMCjCF2wBz148KeOsoO6rVovv5CJkbcCxZ9ohwx7X8FWLnqU
+ z7QrC7XK0oNDedypJ58g/rXJmG2PNUr3UrHlFVvJf8MxnEUKwyCfKmhP4ZoO5jtQpafQ
+ zgtlBk7z8nixtMeFtk2OPZbnO0VZxc07Md5s4tynUKOx5OHHRWXzDhRt0e1uUH+nX6Fy
+ ux+w==
+X-Gm-Message-State: AO0yUKU//i5BxXunmzA+15fMNG2ocdKHsWXkPTUktlSOIC3Gt7WPUpxG
+ Q2j3H1ZB4tK8CeWbbYxuaNxWuw==
+X-Google-Smtp-Source: AK7set/hx7DuTHKE6fQKBVJ1x1p9aNS83jnRu1s6lm8R/BRoDn+8RtfjQCWauWnj/Ma5WcBb9YF3NQ==
+X-Received: by 2002:a05:600c:3596:b0:3df:d431:cf64 with SMTP id
+ p22-20020a05600c359600b003dfd431cf64mr1945066wmq.39.1675752670604; 
+ Mon, 06 Feb 2023 22:51:10 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ i6-20020adffc06000000b002c3e28d0343sm6576355wrr.85.2023.02.06.22.51.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Feb 2023 22:51:10 -0800 (PST)
+Message-ID: <98911d1f-59fe-4939-b022-c27b1013d9c1@linaro.org>
+Date: Tue, 7 Feb 2023 07:51:08 +0100
 MIME-Version: 1.0
-Content-type: text/plain
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v4 1/2] hw/sensor: Add SB-TSI Temperature Sensor Interface
+Content-Language: en-US
+To: Hao Wu <wuhaotsh@google.com>, Patrick Venture <venture@google.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Cc: cminyard@mvista.com, thuth@redhat.com, lvivier@redhat.com,
+ pbonzini@redhat.com, f4bug@amsat.org, qemu-devel@nongnu.org,
+ Doug Evans <dje@google.com>
+References: <20220131222948.496588-1-venture@google.com>
+ <20220131222948.496588-2-venture@google.com>
+ <CAGcCb113A8y0zgXKvLjZEZJeMu-kDpJp0f5tUPyH--WfH36sLQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CAGcCb113A8y0zgXKvLjZEZJeMu-kDpJp0f5tUPyH--WfH36sLQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,460 +95,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Tracked down with the help of scripts/clean-includes.
+On 7/2/23 00:24, Hao Wu wrote:
+> Hi,
+> 
+> It seems like this patch set is reviewed but never merged. Who should 
+> take this patch set? What are our next steps for them?
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Message-Id: <20230202133830.2152150-21-armbru@redhat.com>
----
- include/hw/arm/fsl-imx6ul.h   | 1 -
- include/hw/arm/fsl-imx7.h     | 1 -
- backends/tpm/tpm_emulator.c   | 1 -
- hw/acpi/piix4.c               | 1 -
- hw/alpha/dp264.c              | 1 -
- hw/arm/virt.c                 | 1 -
- hw/arm/xlnx-versal.c          | 1 -
- hw/block/pflash_cfi01.c       | 1 -
- hw/core/machine.c             | 1 -
- hw/hppa/machine.c             | 1 -
- hw/i386/acpi-build.c          | 1 -
- hw/loongarch/acpi-build.c     | 1 -
- hw/misc/macio/cuda.c          | 1 -
- hw/misc/macio/pmu.c           | 1 -
- hw/net/xilinx_axienet.c       | 1 -
- hw/ppc/ppc405_uc.c            | 2 --
- hw/ppc/ppc440_bamboo.c        | 1 -
- hw/ppc/spapr_drc.c            | 1 -
- hw/rdma/vmw/pvrdma_dev_ring.c | 1 -
- hw/remote/machine.c           | 1 -
- hw/remote/remote-obj.c        | 1 -
- hw/rtc/mc146818rtc.c          | 1 -
- hw/s390x/virtio-ccw-serial.c  | 1 -
- migration/postcopy-ram.c      | 2 --
- softmmu/dirtylimit.c          | 1 -
- softmmu/runstate.c            | 1 -
- softmmu/vl.c                  | 1 -
- target/loongarch/translate.c  | 1 -
- target/mips/tcg/translate.c   | 1 -
- target/nios2/translate.c      | 2 --
- tests/unit/test-cutils.c      | 1 -
- ui/gtk.c                      | 1 -
- util/oslib-posix.c            | 4 ----
- 33 files changed, 39 deletions(-)
+Having some interest in interaction with emulated analog world,
+I could have an overall look at hw/sensor/. Co-maintainers welcomed!
 
-diff --git a/include/hw/arm/fsl-imx6ul.h b/include/hw/arm/fsl-imx6ul.h
-index 7812e516a5..1952cb984d 100644
---- a/include/hw/arm/fsl-imx6ul.h
-+++ b/include/hw/arm/fsl-imx6ul.h
-@@ -30,7 +30,6 @@
- #include "hw/timer/imx_gpt.h"
- #include "hw/timer/imx_epit.h"
- #include "hw/i2c/imx_i2c.h"
--#include "hw/gpio/imx_gpio.h"
- #include "hw/sd/sdhci.h"
- #include "hw/ssi/imx_spi.h"
- #include "hw/net/imx_fec.h"
-diff --git a/include/hw/arm/fsl-imx7.h b/include/hw/arm/fsl-imx7.h
-index 4e5e071864..355bd8ea83 100644
---- a/include/hw/arm/fsl-imx7.h
-+++ b/include/hw/arm/fsl-imx7.h
-@@ -32,7 +32,6 @@
- #include "hw/timer/imx_gpt.h"
- #include "hw/timer/imx_epit.h"
- #include "hw/i2c/imx_i2c.h"
--#include "hw/gpio/imx_gpio.h"
- #include "hw/sd/sdhci.h"
- #include "hw/ssi/imx_spi.h"
- #include "hw/net/imx_fec.h"
-diff --git a/backends/tpm/tpm_emulator.c b/backends/tpm/tpm_emulator.c
-index 67e7b212e3..d18144b92e 100644
---- a/backends/tpm/tpm_emulator.c
-+++ b/backends/tpm/tpm_emulator.c
-@@ -35,7 +35,6 @@
- #include "sysemu/runstate.h"
- #include "sysemu/tpm_backend.h"
- #include "sysemu/tpm_util.h"
--#include "sysemu/runstate.h"
- #include "tpm_int.h"
- #include "tpm_ioctl.h"
- #include "migration/blocker.h"
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index 724294b378..eac2125abd 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -34,7 +34,6 @@
- #include "sysemu/xen.h"
- #include "qapi/error.h"
- #include "qemu/range.h"
--#include "hw/acpi/pcihp.h"
- #include "hw/acpi/cpu_hotplug.h"
- #include "hw/acpi/cpu.h"
- #include "hw/hotplug.h"
-diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
-index c502c8c62a..4161f559a7 100644
---- a/hw/alpha/dp264.c
-+++ b/hw/alpha/dp264.c
-@@ -18,7 +18,6 @@
- #include "net/net.h"
- #include "qemu/cutils.h"
- #include "qemu/datadir.h"
--#include "net/net.h"
- 
- static uint64_t cpu_alpha_superpage_to_phys(void *opaque, uint64_t addr)
- {
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index ba47728288..75f28947de 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -33,7 +33,6 @@
- #include "qemu/units.h"
- #include "qemu/option.h"
- #include "monitor/qdev.h"
--#include "qapi/error.h"
- #include "hw/sysbus.h"
- #include "hw/arm/boot.h"
- #include "hw/arm/primecell.h"
-diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-index 57276e1506..69b1b99e93 100644
---- a/hw/arm/xlnx-versal.c
-+++ b/hw/arm/xlnx-versal.c
-@@ -22,7 +22,6 @@
- #include "hw/misc/unimp.h"
- #include "hw/arm/xlnx-versal.h"
- #include "qemu/log.h"
--#include "hw/sysbus.h"
- 
- #define XLNX_VERSAL_ACPU_TYPE ARM_CPU_TYPE_NAME("cortex-a72")
- #define XLNX_VERSAL_RCPU_TYPE ARM_CPU_TYPE_NAME("cortex-r5f")
-diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index 36d68c70f6..3c066e3405 100644
---- a/hw/block/pflash_cfi01.c
-+++ b/hw/block/pflash_cfi01.c
-@@ -45,7 +45,6 @@
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "qemu/bitops.h"
--#include "qemu/error-report.h"
- #include "qemu/host-utils.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index f7761baab5..38953fe161 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -39,7 +39,6 @@
- #include "exec/confidential-guest-support.h"
- #include "hw/virtio/virtio.h"
- #include "hw/virtio/virtio-pci.h"
--#include "qom/object_interfaces.h"
- 
- GlobalProperty hw_compat_7_2[] = {};
- const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
-diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index de1cc7ab71..7ac68c943f 100644
---- a/hw/hppa/machine.c
-+++ b/hw/hppa/machine.c
-@@ -28,7 +28,6 @@
- #include "qapi/error.h"
- #include "net/net.h"
- #include "qemu/log.h"
--#include "net/net.h"
- 
- #define MIN_SEABIOS_HPPA_VERSION 6 /* require at least this fw version */
- 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 145389aa58..b67dcbbb37 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -76,7 +76,6 @@
- 
- #include "hw/acpi/hmat.h"
- #include "hw/acpi/viot.h"
--#include "hw/acpi/cxl.h"
- 
- #include CONFIG_DEVICES
- 
-diff --git a/hw/loongarch/acpi-build.c b/hw/loongarch/acpi-build.c
-index c2b237736d..f551296a0e 100644
---- a/hw/loongarch/acpi-build.c
-+++ b/hw/loongarch/acpi-build.c
-@@ -22,7 +22,6 @@
- /* Supported chipsets: */
- #include "hw/pci-host/ls7a.h"
- #include "hw/loongarch/virt.h"
--#include "hw/acpi/aml-build.h"
- 
- #include "hw/acpi/utils.h"
- #include "hw/acpi/pci.h"
-diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
-index 853e88bfed..29a8e5ed19 100644
---- a/hw/misc/macio/cuda.c
-+++ b/hw/misc/macio/cuda.c
-@@ -30,7 +30,6 @@
- #include "hw/input/adb.h"
- #include "hw/misc/mos6522.h"
- #include "hw/misc/macio/cuda.h"
--#include "qapi/error.h"
- #include "qemu/timer.h"
- #include "sysemu/runstate.h"
- #include "sysemu/rtc.h"
-diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
-index 97ef8c771b..5a788e595a 100644
---- a/hw/misc/macio/pmu.c
-+++ b/hw/misc/macio/pmu.c
-@@ -36,7 +36,6 @@
- #include "hw/misc/mos6522.h"
- #include "hw/misc/macio/gpio.h"
- #include "hw/misc/macio/pmu.h"
--#include "qapi/error.h"
- #include "qemu/timer.h"
- #include "sysemu/runstate.h"
- #include "sysemu/rtc.h"
-diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
-index 7e00965323..5b19a01eaa 100644
---- a/hw/net/xilinx_axienet.c
-+++ b/hw/net/xilinx_axienet.c
-@@ -31,7 +31,6 @@
- #include "net/net.h"
- #include "net/checksum.h"
- 
--#include "hw/hw.h"
- #include "hw/irq.h"
- #include "hw/qdev-properties.h"
- #include "hw/stream.h"
-diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-index c973cfb04e..0cc68178ad 100644
---- a/hw/ppc/ppc405_uc.c
-+++ b/hw/ppc/ppc405_uc.c
-@@ -38,8 +38,6 @@
- #include "sysemu/sysemu.h"
- #include "exec/address-spaces.h"
- #include "hw/intc/ppc-uic.h"
--#include "hw/qdev-properties.h"
--#include "qapi/error.h"
- #include "trace.h"
- 
- /*****************************************************************************/
-diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
-index 81d71adf34..2880c81cb1 100644
---- a/hw/ppc/ppc440_bamboo.c
-+++ b/hw/ppc/ppc440_bamboo.c
-@@ -13,7 +13,6 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/units.h"
--#include "qemu/error-report.h"
- #include "qemu/datadir.h"
- #include "qemu/error-report.h"
- #include "net/net.h"
-diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-index 4923435a8b..b5c400a94d 100644
---- a/hw/ppc/spapr_drc.c
-+++ b/hw/ppc/spapr_drc.c
-@@ -17,7 +17,6 @@
- #include "hw/ppc/spapr_drc.h"
- #include "qom/object.h"
- #include "migration/vmstate.h"
--#include "qapi/error.h"
- #include "qapi/qapi-events-qdev.h"
- #include "qapi/visitor.h"
- #include "qemu/error-report.h"
-diff --git a/hw/rdma/vmw/pvrdma_dev_ring.c b/hw/rdma/vmw/pvrdma_dev_ring.c
-index 598e6adc5e..30ce22a5be 100644
---- a/hw/rdma/vmw/pvrdma_dev_ring.c
-+++ b/hw/rdma/vmw/pvrdma_dev_ring.c
-@@ -14,7 +14,6 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu/cutils.h"
- #include "hw/pci/pci.h"
- #include "cpu.h"
- #include "qemu/cutils.h"
-diff --git a/hw/remote/machine.c b/hw/remote/machine.c
-index 519f855ec1..fdc6c441bb 100644
---- a/hw/remote/machine.c
-+++ b/hw/remote/machine.c
-@@ -22,7 +22,6 @@
- #include "hw/remote/iohub.h"
- #include "hw/remote/iommu.h"
- #include "hw/qdev-core.h"
--#include "hw/remote/iommu.h"
- #include "hw/remote/vfio-user-obj.h"
- #include "hw/pci/msi.h"
- 
-diff --git a/hw/remote/remote-obj.c b/hw/remote/remote-obj.c
-index 333e5ac443..65b6f7cc86 100644
---- a/hw/remote/remote-obj.c
-+++ b/hw/remote/remote-obj.c
-@@ -12,7 +12,6 @@
- #include "qemu/error-report.h"
- #include "qemu/notify.h"
- #include "qom/object_interfaces.h"
--#include "hw/qdev-core.h"
- #include "io/channel.h"
- #include "hw/qdev-core.h"
- #include "hw/remote/machine.h"
-diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-index bc1192b7ae..ba612a151d 100644
---- a/hw/rtc/mc146818rtc.c
-+++ b/hw/rtc/mc146818rtc.c
-@@ -43,7 +43,6 @@
- #include "qapi/error.h"
- #include "qapi/qapi-events-misc.h"
- #include "qapi/visitor.h"
--#include "hw/rtc/mc146818rtc_regs.h"
- 
- //#define DEBUG_CMOS
- //#define DEBUG_COALESCED
-diff --git a/hw/s390x/virtio-ccw-serial.c b/hw/s390x/virtio-ccw-serial.c
-index bf8057880f..8f8d2302f8 100644
---- a/hw/s390x/virtio-ccw-serial.c
-+++ b/hw/s390x/virtio-ccw-serial.c
-@@ -15,7 +15,6 @@
- #include "hw/qdev-properties.h"
- #include "hw/virtio/virtio-serial.h"
- #include "virtio-ccw.h"
--#include "hw/virtio/virtio-serial.h"
- 
- #define TYPE_VIRTIO_SERIAL_CCW "virtio-serial-ccw"
- OBJECT_DECLARE_SIMPLE_TYPE(VirtioSerialCcw, VIRTIO_SERIAL_CCW)
-diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index b9a37ef255..8b7d1af75d 100644
---- a/migration/postcopy-ram.c
-+++ b/migration/postcopy-ram.c
-@@ -17,7 +17,6 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu/rcu.h"
- #include "qemu/madvise.h"
- #include "exec/target_page.h"
- #include "migration.h"
-@@ -34,7 +33,6 @@
- #include "hw/boards.h"
- #include "exec/ramblock.h"
- #include "socket.h"
--#include "qemu-file.h"
- #include "yank_functions.h"
- #include "tls.h"
- 
-diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-index 12668555f2..c56f0f58c8 100644
---- a/softmmu/dirtylimit.c
-+++ b/softmmu/dirtylimit.c
-@@ -11,7 +11,6 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qapi/error.h"
- #include "qemu/main-loop.h"
- #include "qapi/qapi-commands-migration.h"
- #include "qapi/qmp/qdict.h"
-diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-index cab9f6fc07..f9ad88e6a7 100644
---- a/softmmu/runstate.c
-+++ b/softmmu/runstate.c
-@@ -41,7 +41,6 @@
- #include "qapi/qapi-commands-run-state.h"
- #include "qapi/qapi-events-run-state.h"
- #include "qemu/error-report.h"
--#include "qemu/log.h"
- #include "qemu/job.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 5355a7fe5a..b2ee3fee3f 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -129,7 +129,6 @@
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-visit-qom.h"
- #include "qapi/qapi-commands-ui.h"
--#include "qapi/qmp/qdict.h"
- #include "block/qdict.h"
- #include "qapi/qmp/qerror.h"
- #include "sysemu/iothread.h"
-diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-index 38ced69803..72a6275665 100644
---- a/target/loongarch/translate.c
-+++ b/target/loongarch/translate.c
-@@ -12,7 +12,6 @@
- #include "exec/helper-proto.h"
- #include "exec/helper-gen.h"
- 
--#include "exec/translator.h"
- #include "exec/log.h"
- #include "qemu/qemu-print.h"
- #include "fpu/softfloat.h"
-diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index 624e6b7786..aa12bb708a 100644
---- a/target/mips/tcg/translate.c
-+++ b/target/mips/tcg/translate.c
-@@ -32,7 +32,6 @@
- #include "semihosting/semihost.h"
- 
- #include "trace.h"
--#include "exec/translator.h"
- #include "exec/log.h"
- #include "qemu/qemu-print.h"
- #include "fpu_helper.h"
-diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index 4db8b47744..7aee65a089 100644
---- a/target/nios2/translate.c
-+++ b/target/nios2/translate.c
-@@ -938,8 +938,6 @@ static const char * const cr_regnames[NUM_CR_REGS] = {
- };
- #endif
- 
--#include "exec/gen-icount.h"
--
- /* generate intermediate code for basic block 'tb'.  */
- static void nios2_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
- {
-diff --git a/tests/unit/test-cutils.c b/tests/unit/test-cutils.c
-index 2126b46391..3c4f875420 100644
---- a/tests/unit/test-cutils.c
-+++ b/tests/unit/test-cutils.c
-@@ -26,7 +26,6 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu/units.h"
- #include "qemu/cutils.h"
- #include "qemu/units.h"
- 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 4817623c8f..7f752d8b7d 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -53,7 +53,6 @@
- #include <math.h>
- 
- #include "trace.h"
--#include "qemu/cutils.h"
- #include "ui/input.h"
- #include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index fd03fd32c8..77d882e681 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -59,10 +59,6 @@
- 
- #include "qemu/mmap-alloc.h"
- 
--#ifdef CONFIG_DEBUG_STACK_USAGE
--#include "qemu/error-report.h"
--#endif
--
- #define MAX_MEM_PREALLOC_THREAD_COUNT 16
- 
- struct MemsetThread;
--- 
-2.39.0
+> On Mon, Jan 31, 2022 at 2:29 PM Patrick Venture <venture@google.com 
+> <mailto:venture@google.com>> wrote:
+> 
+>     From: Hao Wu <wuhaotsh@google.com <mailto:wuhaotsh@google.com>>
+> 
+>     SB Temperature Sensor Interface (SB-TSI) is an SMBus compatible
+>     interface that reports AMD SoC's Ttcl (normalized temperature),
+>     and resembles a typical 8-pin remote temperature sensor's I2C interface
+>     to BMC.
+> 
+>     This patch implements a basic AMD SB-TSI sensor that is
+>     compatible with the open-source data sheet from AMD and Linux
+>     kernel driver.
+> 
+>     Reference:
+>     Linux kernel driver:
+>     https://lkml.org/lkml/2020/12/11/968
+>     <https://lkml.org/lkml/2020/12/11/968>
+>     Register Map:
+>     https://developer.amd.com/wp-content/resources/56255_3_03.PDF
+>     <https://developer.amd.com/wp-content/resources/56255_3_03.PDF>
+>     (Chapter 6)
+> 
+>     Signed-off-by: Hao Wu <wuhaotsh@google.com <mailto:wuhaotsh@google.com>>
+>     Signed-off-by: Patrick Venture <venture@google.com
+>     <mailto:venture@google.com>>
+>     Reviewed-by: Doug Evans <dje@google.com <mailto:dje@google.com>>
+>     Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org
+>     <mailto:f4bug@amsat.org>>
+>     Acked-by: Corey Minyard <cminyard@mvista.com
+>     <mailto:cminyard@mvista.com>>
+>     ---
+>       meson.build               |   1 +
+>       hw/sensor/trace.h         |   1 +
+>       include/hw/sensor/sbtsi.h |  45 +++++
+>       hw/sensor/tmp_sbtsi.c     | 369 ++++++++++++++++++++++++++++++++++++++
+>       hw/sensor/Kconfig         |   4 +
+>       hw/sensor/meson.build     |   1 +
+>       hw/sensor/trace-events    |   5 +
+>       7 files changed, 426 insertions(+)
+>       create mode 100644 hw/sensor/trace.h
+>       create mode 100644 include/hw/sensor/sbtsi.h
+>       create mode 100644 hw/sensor/tmp_sbtsi.c
+>       create mode 100644 hw/sensor/trace-events
 
 
