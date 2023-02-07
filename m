@@ -2,56 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0568868D734
+	by mail.lfdr.de (Postfix) with ESMTPS id 046AC68D733
 	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 13:50:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPNOt-0005hF-DY; Tue, 07 Feb 2023 07:48:43 -0500
+	id 1pPNOl-0005dN-1I; Tue, 07 Feb 2023 07:48:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pPNOq-0005gw-KE
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:48:40 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pPNOj-0005c2-DN
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:48:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pPNOo-0004UJ-H3
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:48:40 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 92FC17457E7;
- Tue,  7 Feb 2023 13:46:03 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 35C6A745712; Tue,  7 Feb 2023 13:46:03 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 33F787456E3;
- Tue,  7 Feb 2023 13:46:03 +0100 (CET)
-Date: Tue, 7 Feb 2023 13:46:03 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-cc: Richard Henderson <richard.henderson@linaro.org>, 
- Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org, 
- pixman@lists.freedesktop.org
-Subject: Re: pixman_blt on aarch64
-In-Reply-To: <8c33a708-9805-b6c8-70e8-9ee0dfb73ee6@gmail.com>
-Message-ID: <6eb4db3e-fdbe-b57d-df4f-52b388efb422@eik.bme.hu>
-References: <4b519268-f8e8-6542-9d1b-34054879eec0@eik.bme.hu>
- <a7866129-9f7a-02d6-1e58-bf05e1bf89e4@eik.bme.hu>
- <410c3da9-9be5-a715-7b7a-48bd67355c9c@linaro.org>
- <e615e033-a3f6-083f-5f0f-eb506c3c5b4c@eik.bme.hu>
- <a8ca919f-c6fc-70cf-0574-261fdad81d96@linaro.org>
- <8c33a708-9805-b6c8-70e8-9ee0dfb73ee6@gmail.com>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pPNOh-0004Tb-Ly
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:48:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675774110;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VMifq9Evo8eqLEbPwQqX66hipue5IvpYnnM0U2CL0hM=;
+ b=EBY9LXC8iWIHht5f5yqA3nCbTqvvIMOplY93UyDC4bpMQvfy+edDgRpMsv5yTMsB3YUNq4
+ dBZhOI5IUasu8p9TefHHqeUOEfr77/enHA+CaW0lMv44jRBdT1io/hY5EuQFv2q8XB8uf4
+ 5VhlHunbLvMsGMrE8/hLq5/AkRbKH+4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-518-wodIGuXVNYil7fg9j4pwog-1; Tue, 07 Feb 2023 07:48:27 -0500
+X-MC-Unique: wodIGuXVNYil7fg9j4pwog-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 059DF101A52E;
+ Tue,  7 Feb 2023 12:48:27 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C698E404BEF3;
+ Tue,  7 Feb 2023 12:48:23 +0000 (UTC)
+Date: Tue, 7 Feb 2023 13:48:22 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: qemu-block@nongnu.org, peter.maydell@linaro.org, qemu-devel@nongnu.org,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ kraxel@redhat.com
+Subject: Re: [PULL 03/38] pflash: Only read non-zero parts of backend image
+Message-ID: <Y+JIlj5BxP6vDFjG@redhat.com>
+References: <20230120122633.84983-1-kwolf@redhat.com>
+ <20230120122633.84983-4-kwolf@redhat.com>
+ <be61e573-1713-472c-899e-ac51b8a22345@kaod.org>
+ <Y+IN+xWlJUl6I2u9@redhat.com>
+ <d09135a0-8ca7-d8af-bcf9-677e839b9d17@kaod.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1690749644-1675773963=:60269"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d09135a0-8ca7-d8af-bcf9-677e839b9d17@kaod.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,70 +83,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Am 07.02.2023 um 10:19 hat Cédric Le Goater geschrieben:
+> On 2/7/23 09:38, Kevin Wolf wrote:
+> > Am 06.02.2023 um 16:54 hat Cédric Le Goater geschrieben:
+> > > On 1/20/23 13:25, Kevin Wolf wrote:
+> > > > From: Xiang Zheng <zhengxiang9@huawei.com>
+> > > > 
+> > > > Currently we fill the VIRT_FLASH memory space with two 64MB NOR images
+> > > > when using persistent UEFI variables on virt board. Actually we only use
+> > > > a very small(non-zero) part of the memory while the rest significant
+> > > > large(zero) part of memory is wasted.
+> > > > 
+> > > > So this patch checks the block status and only writes the non-zero part
+> > > > into memory. This requires pflash devices to use sparse files for
+> > > > backends.
+> > > > 
+> > > > Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+> > > > 
+> > > > [ kraxel: rebased to latest master ]
+> > > > 
+> > > > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> > > > Message-Id: <20221220084246.1984871-1-kraxel@redhat.com>
+> > > > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> > > > Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+> > > > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > > 
+> > > This newly merged patch introduces a "regression" when booting an Aspeed
+> > > machine. The following extra m25p80 patch (not yet merged) is required
+> > > for the issue to show:
+> > > 
+> > >    https://lore.kernel.org/qemu-devel/20221115151000.2080833-1-clg@kaod.org/
+> > > 
+> > > U-Boot fails to find the filesystem in that case.
+> > > 
+> > > It can be easily reproduced with the witherspoon-bmc machine and seems
+> > > to be related to the use of a UBI filesystem. Other Aspeed machines not
+> > > using UBI are not impacted.
+> > > 
+> > > Here is a tentative fix. I don't know enough the block layer to explain
+> > > what is happening :/
+> > 
+> > I was puzzled for a moment, but...
+> > 
+> > > @@ -39,7 +39,7 @@ static int blk_pread_nonzeroes(BlockBack
+> > >               return ret;
+> > >           }
+> > >           if (!(ret & BDRV_BLOCK_ZERO)) {
+> > > -            ret = bdrv_pread(bs->file, offset, bytes,
+> > 
+> > 'bs->file' rather than 'bs' really looks wrong. I think replacing that
+> > would already fix the bug you're seeing.
+> > 
+> > Just to be sure, how did you configure the block backend? bs->file would
+> > happen to work more or less with raw over file-posix (which is probably
+> > what Gerd tested), but I think it breaks with anything else.
+> 
+> The command is  :
+> 
+>   $ qemu-system-arm -M witherspoon-bmc -net user \
+> 	-drive file=/path/to/file.mtd,format=raw,if=mtd \
+> 	-nographic -serial mon:stdio -snapshot
+> 
+> If I remove '-snapshot', all works fine.
 
---3866299591-1690749644-1675773963=:60269
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Ok, that makes sense then. -snapshot creates a temporary qcow2 overlay,
+and then what your guest sees with bs->file is not the virtual disk
+content of the qcow2 image, but the qcow2 file itself.
 
-Maybe we should include pixman list in this. In case you're not subscribed 
-I'm forwarding it to that list now.
+Kevin
 
-On Tue, 7 Feb 2023, Akihiko Odaki wrote:
-> On 2023/02/06 4:16, Richard Henderson wrote:
->> On 2/5/23 08:44, BALATON Zoltan wrote:
->>> On Sun, 5 Feb 2023, Richard Henderson wrote:
->>>> On 2/4/23 06:57, BALATON Zoltan wrote:
->>>>> This has just bounced, I hoped to still be able to post after moderation 
->>>>> but now I'm resending it after subscribing to the pixman list. Meanwhile 
->>>>> I've found this ticket as well: 
->>>>> https://gitlab.freedesktop.org/pixman/pixman/-/merge_requests/71
->>>>> See the rest of the message below. Looks like this is being worked on 
->>>>> but I'm not sure how far is it from getting resolved. Any info on that?
->>>> 
->>>> Please try this:
->>>> 
->>>> https://gitlab.freedesktop.org/rth7680/pixman/-/tree/general
->>>> 
->>>> It provides a pure C version for ultimate fallback.
->>>> Unfortunately, there are no test cases for this, nor documentation.
->
-> It can share the implementation with fast_composite_src_memcpy(). 
-> fast_composite_src_memcpy() should be well-tested with the tests for 
-> pixman_image_composite(). arm-neon does similar so we can trust 
-> fast_composite_src_memcpy() functions as blt.
->
->>> 
->>> Thanks, I don't have hardware to test this but maybe Akihiko or somebody 
->>> else here cam try. Do you think pixman_fill won't have the same problem? 
->>> It seems to have at least a fast_path implementation but I'm not sure how 
->>> pixman selects these.
->> 
->> For fill, I think the fast_path implementation should work, so long as it 
->> isn't disabled via environment variable.Â  I'm not sure why that is, and why 
->> _fast_path isn't part of _general.
->
-> The implementation of fill should be moved to pixman-general.c but the other 
-> part of pixman-fast-path.c shouldn't be.
->
-> By isolating the non-essential fast-path code to pixman-fast-path.c, you can 
-> disable it with the environment variable when you are not confident with the 
-> implementation, and that may help debugging. However, if pixman-fast-path.c 
-> has some essential code like the implementation of fill, the utility of the 
-> environment variable will be impaired as setting the environment variable may 
-> break things.
->
->> 
->> Indeed, the fast_path implementation of fill should be easily vectorized by 
->> the compiler. I would expect it to be competitive with an assembly 
->> implementation.Â  I would expect the implementation chain design to only be 
->> useful when multiple vector implementations are supported and selected at 
->> runtime -- e.g. the x86 SSE2 vs SSSE3 stuff.
->> 
->> 
->> r~
->
->
---3866299591-1690749644-1675773963=:60269--
 
