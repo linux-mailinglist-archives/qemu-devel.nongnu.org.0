@@ -2,92 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F9568DA8E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:23:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FD5A68DA9B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:25:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPOs5-0005L4-4E; Tue, 07 Feb 2023 09:22:57 -0500
+	id 1pPOtF-0005zp-8x; Tue, 07 Feb 2023 09:24:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPOs2-0005Ko-AF
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:22:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPOs0-0005de-QJ
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:22:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675779771;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bLLRb7UIiA3ue3A+KTuYUYawy+oxA0/Ekhe7vAC7u+A=;
- b=SagAa5nuTYmHBBy2LQYGQlDjn4K/9vQVR8fKYBJ5294gUhl3UO7YINV+haK/tER0rMm9NC
- obHuWUzXgcd3AlX+4UL+2bvOuSkWg8gEfMeImyctYgNQlQZMGoLpm9xxUJUHoGzGKr4Y9P
- K6PyPPN1HmjlB4jG+XAPBswax/4I67M=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-371-pM37uh0qNMOcn3dQJNLetA-1; Tue, 07 Feb 2023 09:22:50 -0500
-X-MC-Unique: pM37uh0qNMOcn3dQJNLetA-1
-Received: by mail-qt1-f200.google.com with SMTP id
- x16-20020ac87ed0000000b003b82d873b38so8694415qtj.13
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:22:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPOtD-0005zT-KA
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:24:07 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPOtB-0005ko-Kb
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:24:07 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id h3so5882929wrp.10
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:24:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Hax/XOz6L1HwvWdYp3TmUzlLwg3i5L7wNEbwhLs97i0=;
+ b=xU9L/CufPrpEJQeoIEKk0f/LfRTnrb7OAI6AXlB3jyvC+uC1U3x31QS3OfRr5nkWkW
+ VyRXFPW0dfSN2KIW2Eng6wRZRJInd8eWf/rK4zzBYbCAonM0jUN9IdvySGw33IQbgGX9
+ 0PCiGswnmieURiPujlf2PGkNKFKC2PqdbAnKl33rPLeOlK7d2zyKZrf2pk2sPMl6EHew
+ EcPqa41rs8uo2Ml8HHrA5kkvIpG+BUosxGZReonv2ZdWg5jpGYqkQ/ccdraJhFU62eFP
+ EULN9atVYJFenlNUxboxpvGsOzpZNPhk3dC0notwCPNKUREOhvsEBd8UuDrOvLUE25PF
+ aw2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bLLRb7UIiA3ue3A+KTuYUYawy+oxA0/Ekhe7vAC7u+A=;
- b=QoXWVoEoweqj16PnOqePdNO5s5m2BRQZpMHwWKE1oTuczeb1j6akrTbRNbWom4MId7
- JLXf0focFo7zTYx9jkAzYa6dYpRnkN6H67R1y4WTL+ehieMuD7BEi2lsI/3ww8yrPmG/
- qoSQblGfTet55KmFpdODG33grNC4F9j/OqNWRlNDpuGDxEBATQ1Sa8o64dU+l4OAUF9B
- T/ZPsIxwChn1HA8LEeBuZ2/+sTYGtM0kcmUOtc7rrFvFzbzUFqDtODMgyJ0hAIrR3X2c
- YDVDkPcaBeGazq8yTTDbfTHQSvP6ohHW7bjF7piQCo0g356GIOTR1Bda8cvW+TkKJmms
- E2Cw==
-X-Gm-Message-State: AO0yUKUosjxE0Z+tSL/Gum/pPLtpLx7iugaCYHm7d8xRwtIq/5rqSDr7
- oLzRTkNUCncqD/ikzPfZJiugwlUZF6DP8fuiBll0rB9LsjOJLSG35TaVJ+gFQ/c88vnd6L0Zxdf
- NuGv/etpx9uKJ0AhmbD2n30A=
-X-Received: by 2002:a05:622a:60b:b0:3b8:26a7:d608 with SMTP id
- z11-20020a05622a060b00b003b826a7d608mr5920537qta.19.1675779769973; 
- Tue, 07 Feb 2023 06:22:49 -0800 (PST)
-X-Google-Smtp-Source: AK7set/YvvTg269bzU6B+bFFkqJNcwN23OZQNWavMfd4HlYGuEiZVd10Iwx3o4INwSgmitrbHEBuRQ==
-X-Received: by 2002:a05:622a:60b:b0:3b8:26a7:d608 with SMTP id
- z11-20020a05622a060b00b003b826a7d608mr5920496qta.19.1675779769721; 
- Tue, 07 Feb 2023 06:22:49 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-120.web.vodafone.de.
- [109.43.176.120]) by smtp.gmail.com with ESMTPSA id
- g12-20020a05620a278c00b0070531c5d655sm9527299qkp.90.2023.02.07.06.22.48
+ bh=Hax/XOz6L1HwvWdYp3TmUzlLwg3i5L7wNEbwhLs97i0=;
+ b=3TqOcuS/1bSVNXqIR/ExuzAJtD51bKyKzvHvpgC3kmJRy80ShfiRJy9c/uW1NeNVwt
+ g5cOG9blTYEraP/NTmB+KJKRpmLZbfRbslh/rMLfbroWfufadrTBPGGDD6H4J8q8fGUb
+ QXgWflhTQYc8Z0RY9AQhHFv//0pPMNZ8QrVyDtmQVNoRWuu86Bym9GQmoEihJiGxlS1x
+ 8eh4/H3+9GvaF83AWbcX31fi8XwH+G9sHxkM6GqneS5A+90nkqo5m5CIiU6PjPIvgrDD
+ H0np1advVu0iLUtAqHHndhPFQtF4OAMzDhTf0uap6GxVB74JwRd1o32CSa4gihnEblSe
+ AygQ==
+X-Gm-Message-State: AO0yUKX/jr9o6PMXTSRattbGrCsyy1Mc4N3vxwN6PtYkL17Ug+mT6XnD
+ YfvQQmhseoAhIZDTCJ8o9Ju/WA==
+X-Google-Smtp-Source: AK7set80AjZcNd2rjhy7uAaSO0ToODxDqACZphTSdCMAQyP7LWCQTgU7JuXFttMtB11ILszB/K+yeA==
+X-Received: by 2002:adf:ea03:0:b0:2c3:ee27:457a with SMTP id
+ q3-20020adfea03000000b002c3ee27457amr2929067wrm.33.1675779844002; 
+ Tue, 07 Feb 2023 06:24:04 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ j5-20020a5d5645000000b002c3efee2f4bsm3224188wrw.80.2023.02.07.06.24.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Feb 2023 06:22:49 -0800 (PST)
-Message-ID: <50a9a8f9-21b2-d40b-3116-90a96dcc9bc7@redhat.com>
-Date: Tue, 7 Feb 2023 15:22:47 +0100
+ Tue, 07 Feb 2023 06:24:02 -0800 (PST)
+Message-ID: <5e82a829-0348-e73f-4351-21caa396e402@linaro.org>
+Date: Tue, 7 Feb 2023 15:24:01 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 06/12] tests/qtest: Skip unplug tests that use missing
- devices
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v2] gdbstub: move update guest debug to accel ops
 Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20230206150416.4604-1-farosas@suse.de>
- <20230206150416.4604-7-farosas@suse.de>
- <7d61db17-d0f1-3f9f-8bf6-bf9b0d33a063@redhat.com> <874jrxo8zh.fsf@suse.de>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <874jrxo8zh.fsf@suse.de>
+To: Mads Ynddal <mads@ynddal.dk>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>, kvm@vger.kernel.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Mads Ynddal <m.ynddal@samsung.com>
+References: <20230207131721.49233-1-mads@ynddal.dk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230207131721.49233-1-mads@ynddal.dk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,68 +95,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 07/02/2023 15.17, Fabiano Rosas wrote:
-> Thomas Huth <thuth@redhat.com> writes:
+On 7/2/23 14:17, Mads Ynddal wrote:
+> From: Mads Ynddal <m.ynddal@samsung.com>
 > 
->> On 06/02/2023 16.04, Fabiano Rosas wrote:
->>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
->>> ---
->>>    tests/qtest/device-plug-test.c | 19 +++++++++++++++++++
->>>    1 file changed, 19 insertions(+)
->>>
->>> diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
->>> index 5a6afa2b57..931acbdf50 100644
->>> --- a/tests/qtest/device-plug-test.c
->>> +++ b/tests/qtest/device-plug-test.c
->>> @@ -67,6 +67,11 @@ static void test_pci_unplug_request(void)
->>>        const char *arch = qtest_get_arch();
->>>        const char *machine_addition = "";
->>>    
->>> +    if (!qtest_has_device("virtio-mouse-pci")) {
->>> +        g_test_skip("Device virtio-mouse-pci not available");
->>> +        return;
->>> +    }
->>> +
->>>        if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
->>>            machine_addition = "-machine pc";
->>>        }
->>> @@ -81,6 +86,10 @@ static void test_pci_unplug_request(void)
->>>    
->>>    static void test_q35_pci_unplug_request(void)
->>>    {
->>> +    if (!qtest_has_device("virtio-mouse-pci")) {
->>> +        g_test_skip("Device virtio-mouse-pci not available");
->>> +        return;
->>> +    }
->>>    
->>>        QTestState *qtest = qtest_initf("-machine q35 "
->>>                                        "-device pcie-root-port,id=p1 "
->>
->> This seems to break the QEMU coding style ("Mixed declarations (interleaving
->> statements and declarations within blocks) are generally not allowed;
->> declarations should be at the beginning
->> of blocks.") ... could you separate the declaration of qtest from its
->> initialization now, please?
+> Continuing the refactor of a48e7d9e52 (gdbstub: move guest debug support
+> check to ops) by removing hardcoded kvm_enabled() from generic cpu.c
+> code, and replace it with a property of AccelOpsClass.
 > 
-> Ah well spotted, I got thrown off because some of these tests already
-> have a:
-> 
->      if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
->          machine_addition = "-machine pc";
->      }
-> 
->      QTestState *qtest = qtest_initf...
-> 
-> I'll fix those as well.
+> Signed-off-by: Mads Ynddal <m.ynddal@samsung.com>
+> ---
+>   accel/kvm/kvm-accel-ops.c  |  5 +++++
+>   cpu.c                      | 11 ++++++++---
+>   include/sysemu/accel-ops.h |  1 +
+>   3 files changed, 14 insertions(+), 3 deletions(-)
 
-Yes, please.
-
-Actually, I wonder whether we could remove those "-machine pc" lines again, 
-since "pc" is the default machine anyway. I think the original idea here was 
-to get rid of the default machine on x86 or to switch it to q35, but that 
-never happened, so this code seems superfluous now. Anyway, maybe rather 
-something for a separate patch later...
-
-  Thomas
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
