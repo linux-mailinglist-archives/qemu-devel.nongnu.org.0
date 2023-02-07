@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D665368D056
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 08:15:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDC4D68D076
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 08:18:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPIAk-0006AI-IV; Tue, 07 Feb 2023 02:13:46 -0500
+	id 1pPIE0-0004fW-0Q; Tue, 07 Feb 2023 02:17:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPIAh-00066K-3m
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:13:43 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPIDa-0004as-9X
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:16:42 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPIAf-00017J-9n
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:13:42 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- bg5-20020a05600c3c8500b003e00c739ce4so2009928wmb.5
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 23:13:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPIDY-00021B-Aq
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:16:41 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ bg13-20020a05600c3c8d00b003d9712b29d2so12445730wmb.2
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 23:16:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=5qDd63j+Z60WdwRzJL1tU/BVjMZ0HIClw7obz4DE6Qw=;
- b=Cst1J3D68wlWl8ezALluwKcQImuHATA9/SGQDw0On4HhBKsP22C13OES4+FVv2deDA
- utQ6fcFkvIUjD1yBG2ltqyARvzT1zbT41RNkme7nVgDvBQAkpLT0kDck4Vo+WmEd4XvY
- k82ndRJObEz9UBa+BYFubSuEeiy201/SQAQHiPr2qUNFT/WBmF8BGm++D1+NNtj6+tPw
- AIZSxQsgaG0KwjZKfsGLiRKkUJKRsTzOn/kn/dubQqeDfAw7dtxPL1GZBe0rg8LV6Y6p
- u6IOpnMzMW84/G146YZiXHFmR0KzvDsP0KbQ77g8l2azQaIteOIaqYLpuqa3FhHlFXW8
- lb9Q==
+ bh=SdsC98/4SZ9Xjl/L0JXgqoOonlZ4/JUVP1q1NWmwnx0=;
+ b=ANp+xL4p3I6dUYZIeAq2JVznQR476VWs6tu4e7Uhk1na3KYo+uroF4b0vGaSJAWu/G
+ GEWfKq8sx28kKi9TEanHNNJTKES8fRjDZCGxMhM1vbCYtJZUu8kVkm8d9iKfDcWFfV8K
+ UM8Vd9ElchTjbVY+FAv7zgzhi/L6paMz89LNNGa+310JcWe3fpI02LtRJnpsD7VrOG0f
+ a8GLZB5Y1Rw8z4zoFfUesviB+hMxxqmBGLP4Lt5NLA7Yt3wQsqjAbqT9St8bf70HiiEd
+ vXKcx2+w2TbCHu5ucw1EhhUkalqgDrUp30qOYkogml3wbE8AKqAlU+896kZI0CkXYFcP
+ hFhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5qDd63j+Z60WdwRzJL1tU/BVjMZ0HIClw7obz4DE6Qw=;
- b=AR1kGn/Qo3NQO8k72oeL1HbV1jqhKnVL2ey6gCtqLbIDC4pYjnJOFYxQ47HcDXJS6t
- wM3snQYAeHFUH/tBYmjiseNCkZdfqHoREi8iLm23Mzd+epK0QsJQtDDUGIYVk8lG7/nr
- 8dIcMHOhidJvtrRj7xBVLs3uWvRYAz8GmIZ01k9BarZTC8mdfzRW3pxX8b6LjoBnML8v
- Z6E8nwRpr39rQ9xmZqhsO36W1lV+MTuGbV+zSepCkTc+yHAGIWRqySUwYHvBOyWnplle
- BEKkUyPV7puqq1ZuybWEfe4zRjskp0h8zBEHhCeM4xBSEdB6SmahrkNSCqos6qIHg8t5
- gc/Q==
-X-Gm-Message-State: AO0yUKVJN0HtfH4AomMpS2mRMANe7brQSkU6b6G6Xk50l1XYPTupok65
- MA4Ge/MplkeIUcLbqfhGzN/K4g==
-X-Google-Smtp-Source: AK7set8XxCQ54Zfg+1SdOxJcvyHr8LMu9MrVglnU0Eibm50ijWbNW0ttaM8jz/70DyMYxyZES8ePgg==
-X-Received: by 2002:a05:600c:a287:b0:3df:fff4:5f6f with SMTP id
- hu7-20020a05600ca28700b003dffff45f6fmr2139486wmb.36.1675754018821; 
- Mon, 06 Feb 2023 23:13:38 -0800 (PST)
+ bh=SdsC98/4SZ9Xjl/L0JXgqoOonlZ4/JUVP1q1NWmwnx0=;
+ b=kENckE8kzQ11dCCFUr5FyOkZ3rLNsP3ukqX02xbWpbpNylhgQFhIwPnxUYBWWGrFwL
+ Hw7LA2ompoXFm/Gzxk6Qwnc+1NA2t4D91BuG9mLKCY/iTGI2XLbt0xcVK276yENq6m6J
+ 0YTXVkUzvsjczpE/X01XncZvrtM6RdqMi27PBVY8myO4TTMRGTSVUef3utzpb/NC12wJ
+ 99eAYhhczVIB0693lGCaYAvmZqO+IexleoPS3FWYP6k7R59j9hnpQMWuCflcxwjx1yzF
+ r5Ytj6VlcMxpcH25h8KE3fsUMZ+3EsmYoseD/LsPo7VzuCjc7gI4vVEFHYGn4ZfvBBDf
+ IGNQ==
+X-Gm-Message-State: AO0yUKW7P1FAfioKcuJ+JVDQN82bWL9s0SLzB1xi4MUasXvOqTK8k70i
+ gG3hZOOoi4zD6fLVlHVtPxGMfA==
+X-Google-Smtp-Source: AK7set9DLALWUVGncjqGPewaG73b9nt4qwa7JqUKN/5AVzA3+bU8WX8k+tPtRUQqpAngyjXJgDajOw==
+X-Received: by 2002:a05:600c:3287:b0:3d9:e5f9:984c with SMTP id
+ t7-20020a05600c328700b003d9e5f9984cmr2853223wmp.2.1675754198819; 
+ Mon, 06 Feb 2023 23:16:38 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- q14-20020a05600c46ce00b003dc47d458cdsm13570487wmo.15.2023.02.06.23.13.36
+ k10-20020a5d6e8a000000b002bdda9856b5sm10532127wrz.50.2023.02.06.23.16.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 23:13:37 -0800 (PST)
-Message-ID: <de4b4eb1-0f77-fb20-5e8e-be751f4a32a5@linaro.org>
-Date: Tue, 7 Feb 2023 08:13:36 +0100
+ Mon, 06 Feb 2023 23:16:38 -0800 (PST)
+Message-ID: <71f8e94b-f66c-099f-cc3d-2cd431ced9ba@linaro.org>
+Date: Tue, 7 Feb 2023 08:16:37 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 2/3] hw/ssi: Add Nuvoton PSPI Module
+Subject: Re: [PATCH 1/1] hw/core/cpu: always print cpu index with cpu state
 Content-Language: en-US
-To: Hao Wu <wuhaotsh@google.com>, peter.maydell@linaro.org
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, venture@google.com,
- Avi.Fishman@nuvoton.com, kfting@nuvoton.com, hskinnemoen@google.com,
- titusr@google.com, Chris Rauer <crauer@google.com>
-References: <20230206233428.2772669-1-wuhaotsh@google.com>
- <20230206233428.2772669-3-wuhaotsh@google.com>
+To: Dongli Zhang <dongli.zhang@oracle.com>, qemu-devel@nongnu.org
+Cc: dgilbert@redhat.com, richard.henderson@linaro.org, pbonzini@redhat.com,
+ joe.jin@oracle.com
+References: <20230206234220.8414-1-dongli.zhang@oracle.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230206233428.2772669-3-wuhaotsh@google.com>
+In-Reply-To: <20230206234220.8414-1-dongli.zhang@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,85 +91,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 7/2/23 00:34, Hao Wu wrote:
-> Nuvoton's PSPI is a general purpose SPI module which enables
-> connections to SPI-based peripheral devices.
+On 7/2/23 00:42, Dongli Zhang wrote:
+> The cpu_dump_state() does not print the cpu index. When the
+> cpu_dump_state() is invoked due to the KVM failure, we are not able to tell
+> from which CPU the state is. The below is an example.
 > 
-> Signed-off-by: Hao Wu <wuhaotsh@google.com>
-> Reviewed-by: Chris Rauer <crauer@google.com>
+> KVM internal error. Suberror: 764064
+> RAX=0000000000000002 RBX=ffff8a9e57c38400 RCX=00000000ffffffff RDX=ffff8a9cc00ba8a0
+> RSI=0000000000000003 RDI=ffff8a9e57c38400 RBP=ffffb6120c5b3c50 RSP=ffffb6120c5b3c40
+> R8 =0000000000000000 R9 =ffff8a9cc00ba8a0 R10=ffffffff8e467350 R11=0000000000000007
+> R12=000000000000000a R13=ffffffff8f987e25 R14=ffffffff8f988a01 R15=0000000000000000
+> RIP=ffffffff8e51bb04 RFL=00010046 [---Z-P-] CPL=0 II=0 A20=1 SMM=0 HLT=0
+> ES =0000 0000000000000000 ffffffff 00c00000
+> CS =0010 0000000000000000 ffffffff 00a09b00 DPL=0 CS64 [-RA]
+> SS =0000 0000000000000000 ffffffff 00c00000
+> DS =0000 0000000000000000 ffffffff 00c00000
+> FS =0000 0000000000000000 ffffffff 00c00000
+> GS =0000 ffff8ac27fcc0000 ffffffff 00c00000
+> LDT=0000 0000000000000000 ffffffff 00c00000
+> TR =0040 fffffe0000096000 0000206f 00008b00 DPL=0 TSS64-busy
+> GDT=     fffffe0000094000 0000007f
+> IDT=     fffffe0000000000 00000fff
+> CR0=80050033 CR2=0000000000000000 CR3=00000010ca40a001 CR4=003606e0
+> DR0=0000000000000000 DR1=0000000000000000 DR2=0000000000000000 DR3=0000000000000000
+> DR6=00000000fffe0ff0 DR7=0000000000000400
+> EFER=0000000000000d01
+> Code=0f 1f ... ...
+> 
+> Print the cpu->cpu_index in cpu_dump_state() and remove it from the caller.
+> 
+> Cc: Joe Jin <joe.jin@oracle.com>
+> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
 > ---
->   MAINTAINERS                |   6 +-
->   hw/ssi/meson.build         |   2 +-
->   hw/ssi/npcm_pspi.c         | 216 +++++++++++++++++++++++++++++++++++++
->   hw/ssi/trace-events        |   5 +
->   include/hw/ssi/npcm_pspi.h |  53 +++++++++
->   5 files changed, 278 insertions(+), 4 deletions(-)
->   create mode 100644 hw/ssi/npcm_pspi.c
->   create mode 100644 include/hw/ssi/npcm_pspi.h
+>   hw/core/cpu-common.c      | 1 +
+>   monitor/hmp-cmds-target.c | 2 --
+>   softmmu/cpus.c            | 1 -
+>   3 files changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/hw/core/cpu-common.c b/hw/core/cpu-common.c
+> index 5ccc3837b6..d2503f2d09 100644
+> --- a/hw/core/cpu-common.c
+> +++ b/hw/core/cpu-common.c
+> @@ -105,6 +105,7 @@ void cpu_dump_state(CPUState *cpu, FILE *f, int flags)
+>   
+>       if (cc->dump_state) {
+>           cpu_synchronize_state(cpu);
 
+Should we check for:
 
-> +static const MemoryRegionOps npcm_pspi_ctrl_ops = {
-> +    .read = npcm_pspi_ctrl_read,
-> +    .write = npcm_pspi_ctrl_write,
-> +    .endianness = DEVICE_LITTLE_ENDIAN,
-> +    .valid = {
-> +        .min_access_size = 1,
-> +        .max_access_size = 2,
+           if (cpu->cpu_index != -1) {
 
-I'm not sure about ".max_access_size = 2". The datasheet does
-not seem public. Does that mean the CPU bus can not do a 32-bit
-access to read two consecutive 16-bit registers? (these fields
-restrict the guest accesses to the device).
+> +        qemu_fprintf(f, "\nCPU#%d\n", cpu->cpu_index);
 
-> +        .unaligned = false,
-> +    },
+           }
 
-You might want instead (which is how you implemented the r/w
-handlers):
+?
 
-     .impl.min_access_size = 2,
-     .impl.max_access_size = 2,
-
-> +};
-
-
-> +static void npcm_pspi_realize(DeviceState *dev, Error **errp)
-> +{
-> +    NPCMPSPIState *s = NPCM_PSPI(dev);
-> +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-> +    Object *obj = OBJECT(dev);
-> +
-> +    s->spi = ssi_create_bus(dev, "pspi");
-
-FYI there is an ongoing discussion about how to model QOM tree. If
-this bus isn't shared with another controller, the "embed QOM child
-in parent" style could be preferred. If so, the bus would be created
-as:
-
-       object_initialize_child(obj, "pspi", &s->spi, TYPE_SSI_BUS);
-
-> +    memory_region_init_io(&s->mmio, obj, &npcm_pspi_ctrl_ops, s,
-> +                          "mmio", 4 * KiB);
-> +    sysbus_init_mmio(sbd, &s->mmio);
-> +    sysbus_init_irq(sbd, &s->irq);
-> +}
-
-
-> diff --git a/hw/ssi/trace-events b/hw/ssi/trace-events
-> index c707d4aaba..16ea9954c4 100644
-> --- a/hw/ssi/trace-events
-> +++ b/hw/ssi/trace-events
-
-> +# npcm_pspi.c
-> +npcm_pspi_enter_reset(const char *id, int reset_type) "%s reset type: %d"
-> +npcm_pspi_ctrl_read(const char *id, uint64_t addr, uint16_t data) "%s offset: 0x%04" PRIx64 " value: 0x%08" PRIx16
-> +npcm_pspi_ctrl_write(const char *id, uint64_t addr, uint16_t data) "%s offset: 0x%04" PRIx64 " value: 0x%08" PRIx16
-
-Since the region is 4KiB and the implementation is 16-bit, the formats
-could be simplified as offset 0x%03 and value 0x%04. The traces will
-then be more digestible to human eyes.
-
-Modulo the impl.access_size change:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>           cc->dump_state(cpu, f, flags);
+>       }
+>   }
+> diff --git a/monitor/hmp-cmds-target.c b/monitor/hmp-cmds-target.c
+> index 0d3e84d960..f7dd354d2a 100644
+> --- a/monitor/hmp-cmds-target.c
+> +++ b/monitor/hmp-cmds-target.c
+> @@ -99,7 +99,6 @@ void hmp_info_registers(Monitor *mon, const QDict *qdict)
+>   
+>       if (all_cpus) {
+>           CPU_FOREACH(cs) {
+> -            monitor_printf(mon, "\nCPU#%d\n", cs->cpu_index);
+>               cpu_dump_state(cs, NULL, CPU_DUMP_FPU);
+>           }
 
 
