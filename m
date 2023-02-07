@@ -2,77 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D034868D622
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 13:03:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F8EF68D62C
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 13:10:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPMex-0002Fl-EA; Tue, 07 Feb 2023 07:01:15 -0500
+	id 1pPMnC-00061d-GT; Tue, 07 Feb 2023 07:09:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPMev-0002FF-20
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:01:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pPMn8-00061J-PR
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:09:42 -0500
+Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPMeq-0001gY-4e
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:01:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675771266;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+tAPBvGV2sQ1d83bHnZ8r3bYp52SxUeMiL22SWOSras=;
- b=JVD/uwsuGfL65ciiWbOenFDaQw+cPvArUhmj2fjyurAB4vpVj9X9S4W83j9xXuM6Z/iEZZ
- +bDL2dvye5lpQ+FoP6idA3bVo1BRq8aG1u1MhhbSKoIfL7ickWWXbAsdkAGnI5Ouf7RFEJ
- ev9+kvMYM7zaVod0UGrVfXviuXaTJ84=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-42-XIGcQp--ODukuDpEEtBXBg-1; Tue, 07 Feb 2023 07:01:02 -0500
-X-MC-Unique: XIGcQp--ODukuDpEEtBXBg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 748068027EB;
- Tue,  7 Feb 2023 12:01:01 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B9FCC2166B2A;
- Tue,  7 Feb 2023 12:00:58 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1232921E6A1F; Tue,  7 Feb 2023 13:00:57 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org,  marcandre.lureau@redhat.com,  mst@redhat.com,
- imammedo@redhat.com,  ani@anisinha.ca,  eduardo@habkost.net,
- marcel.apfelbaum@gmail.com,  wangyanan55@huawei.com,  jiri@resnulli.us,
- jasowang@redhat.com,  pavel.dovgaluk@ispras.ru,  pbonzini@redhat.com,
- zhanghailiang@xfusion.com,  quintela@redhat.com,  dgilbert@redhat.com,
- michael.roth@amd.com,  kkostiuk@redhat.com
-Subject: Re: [PATCH 02/12] dump: Improve error message when target doesn't
- support memory dump
-References: <20230207075115.1525-1-armbru@redhat.com>
- <20230207075115.1525-3-armbru@redhat.com>
- <0cff7e74-c230-2979-9643-9f108809c7d6@linaro.org>
-Date: Tue, 07 Feb 2023 13:00:57 +0100
-In-Reply-To: <0cff7e74-c230-2979-9643-9f108809c7d6@linaro.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 7 Feb 2023 09:32:02
- +0100")
-Message-ID: <878rh9vg5i.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pPMn6-00046y-Q3
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:09:42 -0500
+Received: from myt6-23a5e62c0090.qloud-c.yandex.net
+ (myt6-23a5e62c0090.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:1da3:0:640:23a5:e62c])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 60FD762394;
+ Tue,  7 Feb 2023 15:09:31 +0300 (MSK)
+Received: from vsementsov-win.yandex-team.ru (unknown [2a02:6b8:b081:218::1:e])
+ by myt6-23a5e62c0090.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ O9b4CX1QdqM1-fl9uBlQb; Tue, 07 Feb 2023 15:09:30 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1675771770; bh=cQmYgx3QWN3AwP5BNL2AzMH0kRpW8d65jXbnZuWelu0=;
+ h=Message-Id:Date:Cc:Subject:To:From;
+ b=NF4Q+eLaT2q1vPS5z+PbTw11VzyujrxncccEbGvHf7q1edCi7v1rQ+BH3tFhmxnMH
+ DEO6C4ToDzx/RbPvRPSRqGsIpodXiDOoCHrfkdPbuTLDopzteawe24Od+akBlOAdKU
+ /pGT9NhbE9W+McDlpanJZxfPjqyV0KP3924S9QAU=
+Authentication-Results: myt6-23a5e62c0090.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Cc: mst@redhat.com, marcel.apfelbaum@gmail.com, vsementsov@yandex-team.ru,
+ philmd@linaro.org
+Subject: [PATCH 0/4] pcie: cleanup code and add trace point
+Date: Tue,  7 Feb 2023 15:09:17 +0300
+Message-Id: <20230207120922.325203-1-vsementsov@yandex-team.ru>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=178.154.239.136;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,41 +69,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+Hi all!
 
-> On 7/2/23 08:51, Markus Armbruster wrote:
->> The QERR_ macros are leftovers from the days of "rich" error objects.
->> We've been trying to reduce their remaining use.
->> Get rid of a use of QERR_UNSUPPORTED, and improve the rather vague
->> error message
->>      (qemu) dump-guest-memory mumble
->>      Error: this feature or command is not currently supported
->> to
->>      Error: guest memory dumping is not supported on this target
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>   dump/dump.c | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->> diff --git a/dump/dump.c b/dump/dump.c
->> index 279b07f09b..80620da40d 100644
->> --- a/dump/dump.c
->> +++ b/dump/dump.c
->> @@ -1854,7 +1854,8 @@ static void dump_init(DumpState *s, int fd, bool h=
-as_format,
->>        */
->>       ret =3D cpu_get_dump_info(&s->dump_info, &s->guest_phys_blocks);
->>       if (ret < 0) {
->> -        error_setg(errp, QERR_UNSUPPORTED);
->> +        error_setg(errp,
->> +                   "guest memory dumping is not supported on this targe=
-t");
->
-> "Dumping guest memory is not supported on this target"?
+Here is tiny code cleanup + on trace point to track power indicator
+changes (which may help to analyze
+"Hot-unplug failed: guest is busy (power indicator blinking)" error
+message).
 
-Sold!
+Vladimir Sementsov-Ogievskiy (4):
+  pcie: pcie_cap_slot_write_config(): use correct macro
+  pcie_regs: drop duplicated indicator value macros
+  pcie: drop unused PCIExpressIndicator
+  pcie: add trace-point for power indicator transitions
 
->>           goto cleanup;
->>       }
->>=20=20=20
+ include/hw/pci/pcie.h      |  8 --------
+ include/hw/pci/pcie_regs.h | 14 --------------
+ hw/pci/pcie.c              | 33 +++++++++++++++++++++++++++------
+ hw/pci/trace-events        |  3 +++
+ 4 files changed, 30 insertions(+), 28 deletions(-)
+
+-- 
+2.34.1
 
 
