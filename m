@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D49568E410
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 00:01:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FE1068E434
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 00:08:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPWw1-0007GC-5u; Tue, 07 Feb 2023 17:59:33 -0500
+	id 1pPX3k-0000VX-3J; Tue, 07 Feb 2023 18:07:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pPWvs-0007Dz-Iq
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 17:59:25 -0500
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+ id 1pPX3g-0000U4-GG
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 18:07:29 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pPWvq-00049d-4v
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 17:59:23 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id e19so9382134plc.9
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 14:59:21 -0800 (PST)
+ id 1pPX3e-0005zc-9x
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 18:07:28 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ o16-20020a17090ad25000b00230759a8c06so374609pjw.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 15:07:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=iEeW3DoEK3Lc8rA9gJUYXTwtZDjS/pFE4Wh2Y06imIA=;
- b=znR4twCxDhylk+Co7F5rLi50GXYsniUbI645+m7DEFCK3md2Ve4F3xVLq4QA5tPlU6
- HWmL0OXcsNGg0pODz3nHIVBn8nhiWfOBXj9l4QdtpVNDt8XadSSlNZwhuZ+SN14j7Tpl
- vA3dEdIAw0J+7VKgdkKulyT1MNbu+jpfU2ngPAwA9+s+kwVTgg+ze/OVXisM8fgzCFvo
- iwJtHx1X1kuFq3j+eH/9KWO0xCOP//3WJBzKMZLjU5LwuLEHpv28W/WEor9siPNeI0Uv
- bf0iT8r4p/J5qpj2dSJNYemJ4Z67jrMkpY6WV+8skzn+TiENKVn76hJuiQnGnlPrfaaC
- H9Tg==
+ bh=bhPqfErekPB3c4DakukzGYqWK9QgFk/hQmgTk727dp8=;
+ b=DY/uwrGEXFqcMwcHPgXjd3y/h1pj/+Rx/rbaNuP1nXWnoxkhI6UADPBL6rLs38zfdR
+ Mf9LIkhq7fiDgWteaIP8EY+UteQSJWMajHaKm0AyfNi1JJdWBwqBgpnrWCyGfL+KnW4d
+ tZgPEwty17fgbnDYsZjf/4sRe68Vwrp6hUGnbJ4UMyoQa9h8y4RnA9NrMx9RE2ALxN2m
+ lRag/67bJ0QELOnGDOXzB1K8PuFnnV8v52rL3AUnKAJBP0QtLrXKUm1iSIDU/d4aYO7G
+ CZeUvhFpBKOeFaCWZFUISbXZDM4ZV6daA/+3IbqHFdvoVMNO9Id8yV9yUIalO3erUjqh
+ nspw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iEeW3DoEK3Lc8rA9gJUYXTwtZDjS/pFE4Wh2Y06imIA=;
- b=hYZAUPLIbgLUKmKWSnaqyWtiBsEUdTRREkoNQovzg+CrHh/KVcBOz9bCm6j84qs6Mp
- U3RHUhcvVH+oCN/bvPzVKhcRJxSdHZixVNfaTXmfzRKGS385M8Sd2O+96gaHnoePLrhd
- xOwKwfs9o0Esbc9ti5IMPfYzvZucg/2O4mbJnN8AwEyiYJGSQ0cwGQMvDTsVABM3V6UT
- RIaUlEX4enWIRG+Fp7wvAiZYTpeegqEQMgUhUUN9UMB0D90KsEcICuVTUtI0Pm3qLdgU
- uhlPwnDGcl7cPtFt9vsaTzurKqfNREZWHxhs5iqr3DxkNEqMOu+EVXtY4vF7tJ+z799q
- dzYg==
-X-Gm-Message-State: AO0yUKX8xl6uYk+HGgVaF/96RAV/DziMzBrhzBVu2J8EnBaAZkATnlaZ
- M8+PsvdCQgMoE38JN6kG+8TRNQ==
-X-Google-Smtp-Source: AK7set/Dv43qCtdCVUQaYDacIFsuun4/ztBLuktLsVxFrClfquezT1uwJkJd6mYNRVvTo9ibgiZ0uQ==
-X-Received: by 2002:a05:6a20:3ca6:b0:bf:9f83:2374 with SMTP id
- b38-20020a056a203ca600b000bf9f832374mr6164895pzj.52.1675810760538; 
- Tue, 07 Feb 2023 14:59:20 -0800 (PST)
+ bh=bhPqfErekPB3c4DakukzGYqWK9QgFk/hQmgTk727dp8=;
+ b=iIoAKqdEFvo9xRU91m+0F22Qj0nwbHmaj62HZk7q5Nr4zGr3qreyopY7KPXtHAav3O
+ kVwNbZEw80ckXE4Bd7AlFaqeIc1xbLYDmTUgXTBWAT8veMFtGO+2o901f2y/SMTDcxvA
+ WuFIOsT5K6Rupc1EOloZv19JFzgm27Hhg9BRYtS6HxquRGgxFJTDwvVwUjQsPVW5+AVK
+ HuEz2fjeAWvqKQzgxHHHPVpbgInPxAE2oBhI8Eu0FtMxGqy997jWJQ1oYS/QCpneu6bR
+ L3pWSGAvweFuolTooJu2jcFpToUl6ynGR/OoX2O2dfh+FsCVaIn3l17Y8qmfS2AdeXME
+ 6uvQ==
+X-Gm-Message-State: AO0yUKXt7l7FZJ2wk+BG+UyoxsHE3gMfi3T3XlZyH/Lo8Gxx6UCXDJwR
+ wTUCkCtafm2AqNh8IJgoeD9UCA==
+X-Google-Smtp-Source: AK7set+rf1DPDzNMCHcDSnubKk804uscbvrVTjLmo82tMRQQgNwkw68bR+7FyCN7jlHTNvsrnautww==
+X-Received: by 2002:a17:903:41c7:b0:196:704e:2c97 with SMTP id
+ u7-20020a17090341c700b00196704e2c97mr5189168ple.25.1675811244326; 
+ Tue, 07 Feb 2023 15:07:24 -0800 (PST)
 Received: from [192.168.101.227] (rrcs-74-87-59-234.west.biz.rr.com.
  [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
- q25-20020a639819000000b004dadeb4decasm8402765pgd.53.2023.02.07.14.59.18
+ g6-20020a170902868600b00192fe452e17sm9473153plo.162.2023.02.07.15.07.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Feb 2023 14:59:19 -0800 (PST)
-Message-ID: <0dfe9a93-e593-82bf-0a00-59223c943fef@linaro.org>
-Date: Tue, 7 Feb 2023 12:59:14 -1000
+ Tue, 07 Feb 2023 15:07:23 -0800 (PST)
+Message-ID: <941b9ea6-ad1f-cdaa-c0e2-5c64dbedd744@linaro.org>
+Date: Tue, 7 Feb 2023 13:07:14 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v2 01/11] hw/intc/armv7m_nvic: Use
- OBJECT_DECLARE_SIMPLE_TYPE() macro
+Subject: Re: [PATCH v2 02/11] target/arm: Simplify
+ arm_v7m_mmu_idx_for_secstate() for user emulation
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
  Peter Maydell <peter.maydell@linaro.org>
 References: <20230206223502.25122-1-philmd@linaro.org>
- <20230206223502.25122-2-philmd@linaro.org>
+ <20230206223502.25122-3-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230206223502.25122-2-philmd@linaro.org>
+In-Reply-To: <20230206223502.25122-3-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,35 +98,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 2/6/23 12:34, Philippe Mathieu-Daudé wrote:
-> Manually convert to OBJECT_DECLARE_SIMPLE_TYPE() macro,
-> similarly to automatic conversion from commit 8063396bf3
-> ("Use OBJECT_DECLARE_SIMPLE_TYPE when possible").
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
 > ---
->   include/hw/intc/armv7m_nvic.h | 5 +----
->   1 file changed, 1 insertion(+), 4 deletions(-)
+>   target/arm/m_helper.c | 11 ++++++++---
+>   1 file changed, 8 insertions(+), 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
-
-> 
-> diff --git a/include/hw/intc/armv7m_nvic.h b/include/hw/intc/armv7m_nvic.h
-> index 0180c7b0ca..07f9c21a5f 100644
-> --- a/include/hw/intc/armv7m_nvic.h
-> +++ b/include/hw/intc/armv7m_nvic.h
-> @@ -16,10 +16,7 @@
->   #include "qom/object.h"
->   
->   #define TYPE_NVIC "armv7m_nvic"
-> -
-> -typedef struct NVICState NVICState;
-> -DECLARE_INSTANCE_CHECKER(NVICState, NVIC,
-> -                         TYPE_NVIC)
-> +OBJECT_DECLARE_SIMPLE_TYPE(NVICState, NVIC)
->   
->   /* Highest permitted number of exceptions (architectural limit) */
->   #define NVIC_MAX_VECTORS 512
-
 
