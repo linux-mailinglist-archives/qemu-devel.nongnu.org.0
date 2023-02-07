@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BEF68E0D4
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 20:04:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3595C68E0D9
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 20:04:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPTFp-0007gF-Fb; Tue, 07 Feb 2023 14:03:45 -0500
+	id 1pPTFp-0007is-S0; Tue, 07 Feb 2023 14:03:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1pPTFh-0007WG-3C
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 14:03:39 -0500
+ id 1pPTFk-0007fO-P9
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 14:03:40 -0500
 Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1pPTFf-0003o2-3L
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 14:03:36 -0500
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ id 1pPTFi-0003oP-Nq
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 14:03:40 -0500
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 317Ix2W8002206; Tue, 7 Feb 2023 19:03:33 GMT
+ 317IxBHH022113; Tue, 7 Feb 2023 19:03:36 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=corp-2022-7-12;
- bh=2XE0SnTniCx9KZVn2oMZbvUVAj5ZqIM1KrX5hlazDO4=;
- b=vnLcko1YkHxsjmdkRFhaMo7Y5sEwORtZ8Nw/AjBI4vYuA48CSfHRvjTyUsRPTysLgwwH
- EOIz7UUKNqbiKpelX+VyZNSP5kijN/xJ35nMEI9drrPkIzF1VZBWncr7FxLqytWwDoAN
- DG5ePC3FVeY1k6ChApRR/qqPvwdSmeoqhdn4M+FLdsn7VHiETbbDoyOlpPodr82djXL2
- XQVBl7oxjUnreQX1XZqMJrJGAn+aTHMdNgJHAZ1CD+BEfwOsQUfnz0Hd1eROFVpS4xjb
- LoxhiLvLsy5FhGnZolNR3Jsa0/FvmJdfgeaQP+zhCggqbR88tIWbv8Krs7riMjn64FGF lw== 
+ subject : date : message-id; s=corp-2022-7-12;
+ bh=AEJT/Adq5Wasll5tYTNBKb4ccK2SzLLmTiSJKH4Ws98=;
+ b=UnsWsAfNUW0wvNrGnQAiSq4Py1ULDMb5BGUAMrkOlpTbuv6+l/RjlMEOg5UzZlCPouK2
+ jXhHdBEXshwaptzS0Xle31uNP9RFIsNqkt117fHT/1D/yra69Up9JBifc8MHSpwXn8V1
+ J56YBu5ZrrL1ZvRnSqjsTUMI45IK/23dSm+c+WPHgeczX7QjXI6IslpMUNYKxeJmPoKY
+ u18LxYptP5UmZHfkKLw4n/sWHWL9VzoH+7MWTYVRjIerDyfhu+4zlQ9ghSx73nX2T2wW
+ SqmQVKFzPQOmHEl8cvzyzzN6mh96CjeWV4r6RwD1XS2SN6ppvIu/0wEHBs8Q2dInCL1W +g== 
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nhdy16eb0-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nhfwu6agy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Feb 2023 19:03:32 +0000
+ Tue, 07 Feb 2023 19:03:36 +0000
 Received: from pps.filterd
  (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
  by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 317HxYFj033998; Tue, 7 Feb 2023 19:03:31 GMT
+ with ESMTP id 317HvhDU028763; Tue, 7 Feb 2023 19:03:35 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3nhdtd4d6w-1
+ 3nhdtd4da6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Feb 2023 19:03:31 +0000
+ Tue, 07 Feb 2023 19:03:35 +0000
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 317J3Ur3019246;
- Tue, 7 Feb 2023 19:03:30 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 317J3YQL019516;
+ Tue, 7 Feb 2023 19:03:34 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with
- ESMTP id 3nhdtd4d5m-1; Tue, 07 Feb 2023 19:03:30 +0000
+ ESMTP id 3nhdtd4d96-1; Tue, 07 Feb 2023 19:03:34 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>, 
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Peter Xu <peterx@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>, 
+ David Hildenbrand <david@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Peter Xu <peterx@redhat.com>,
  Steve Sistare <steven.sistare@oracle.com>
-Subject: [PATCH V2] memory: flat section iterator
-Date: Tue,  7 Feb 2023 11:03:29 -0800
-Message-Id: <1675796609-235681-1-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V2] memory: RAM_NAMED_FILE flag
+Date: Tue,  7 Feb 2023 11:03:33 -0800
+Message-Id: <1675796613-235716-1-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
  definitions=2023-02-07_11,2023-02-06_03,2022-06-22_01
@@ -75,8 +72,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
  malwarescore=0 adultscore=0 phishscore=0 suspectscore=0 mlxscore=0
  spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2302070170
-X-Proofpoint-GUID: 0NDOvo94JKHQPsxBu6pp2coQnfHhe6fO
-X-Proofpoint-ORIG-GUID: 0NDOvo94JKHQPsxBu6pp2coQnfHhe6fO
+X-Proofpoint-GUID: VdpGFGA_ApZ4UlFpB4GCKrPpC38Y3uY_
+X-Proofpoint-ORIG-GUID: VdpGFGA_ApZ4UlFpB4GCKrPpC38Y3uY_
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -101,91 +98,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add an iterator over the sections of a flattened address space.
-This will be needed by cpr to issue vfio ioctl's on the same memory
-ranges that are already programmed.
+migrate_ignore_shared() is an optimization that avoids copying memory
+that is visible and can be mapped on the target.  However, a
+memory-backend-ram or a memory-backend-memfd block with the RAM_SHARED
+flag set is not migrated when migrate_ignore_shared() is true.  This is
+wrong, because the block has no named backing store, and its contents will
+be lost.  To fix, ignore shared memory iff it is a named file.  Define a
+new flag RAM_NAMED_FILE to distinguish this case.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/exec/memory.h | 31 +++++++++++++++++++++++++++++++
- softmmu/memory.c      | 21 +++++++++++++++++++++
- 2 files changed, 52 insertions(+)
+ backends/hostmem-file.c   | 1 +
+ include/exec/cpu-common.h | 1 +
+ include/exec/memory.h     | 3 +++
+ migration/ram.c           | 3 ++-
+ softmmu/physmem.c         | 7 ++++++-
+ 5 files changed, 13 insertions(+), 2 deletions(-)
 
+diff --git a/backends/hostmem-file.c b/backends/hostmem-file.c
+index 2514128..486d77d 100644
+--- a/backends/hostmem-file.c
++++ b/backends/hostmem-file.c
+@@ -56,6 +56,7 @@ file_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+     ram_flags = backend->share ? RAM_SHARED : 0;
+     ram_flags |= backend->reserve ? 0 : RAM_NORESERVE;
+     ram_flags |= fb->is_pmem ? RAM_PMEM : 0;
++    ram_flags |= RAM_NAMED_FILE;
+     memory_region_init_ram_from_file(&backend->mr, OBJECT(backend), name,
+                                      backend->size, fb->align, ram_flags,
+                                      fb->mem_path, fb->readonly, errp);
+diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+index 6feaa40..8173e3b 100644
+--- a/include/exec/cpu-common.h
++++ b/include/exec/cpu-common.h
+@@ -92,6 +92,7 @@ void qemu_ram_set_uf_zeroable(RAMBlock *rb);
+ bool qemu_ram_is_migratable(RAMBlock *rb);
+ void qemu_ram_set_migratable(RAMBlock *rb);
+ void qemu_ram_unset_migratable(RAMBlock *rb);
++bool qemu_ram_is_named_file(RAMBlock *rb);
+ int qemu_ram_get_fd(RAMBlock *rb);
+ 
+ size_t qemu_ram_pagesize(RAMBlock *block);
 diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 3224e09..b6ca3f5 100644
+index 2e602a2..3224e09 100644
 --- a/include/exec/memory.h
 +++ b/include/exec/memory.h
-@@ -2376,6 +2376,37 @@ void memory_region_set_ram_discard_manager(MemoryRegion *mr,
-                                            RamDiscardManager *rdm);
+@@ -232,6 +232,9 @@ typedef struct IOMMUTLBEvent {
+ /* RAM that isn't accessible through normal means. */
+ #define RAM_PROTECTED (1 << 8)
  
- /**
-+ * memory_region_section_cb: callback for address_space_flat_for_each_section()
-+ *
-+ * @mrs: MemoryRegionSection of the range
-+ * @opaque: data pointer passed to address_space_flat_for_each_section()
-+ * @errp: error message, returned to the address_space_flat_for_each_section
-+ *        caller.
-+ *
-+ * Returns: non-zero to stop the iteration, and 0 to continue.  The same
-+ * non-zero value is returned to the address_space_flat_for_each_section caller.
-+ */
++/* RAM is an mmap-ed named file */
++#define RAM_NAMED_FILE (1 << 9)
 +
-+typedef int (*memory_region_section_cb)(MemoryRegionSection *mrs,
-+                                        void *opaque,
-+                                        Error **errp);
-+
-+/**
-+ * address_space_flat_for_each_section: walk the ranges in the address space
-+ * flat view and call @func for each.  Return 0 on success, else return non-zero
-+ * with a message in @errp.
-+ *
-+ * @as: target address space
-+ * @func: callback function
-+ * @opaque: passed to @func
-+ * @errp: passed to @func
-+ */
-+int address_space_flat_for_each_section(AddressSpace *as,
-+                                        memory_region_section_cb func,
-+                                        void *opaque,
-+                                        Error **errp);
-+
-+/**
-  * memory_region_find: translate an address/size relative to a
-  * MemoryRegion into a #MemoryRegionSection.
-  *
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 9d64efc..57c3131 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -2748,6 +2748,27 @@ bool memory_region_is_mapped(MemoryRegion *mr)
-     return !!mr->container || mr->mapped_via_alias;
+ static inline void iommu_notifier_init(IOMMUNotifier *n, IOMMUNotify fn,
+                                        IOMMUNotifierFlag flags,
+                                        hwaddr start, hwaddr end,
+diff --git a/migration/ram.c b/migration/ram.c
+index 334309f..03f8131 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -190,7 +190,8 @@ static bool postcopy_preempt_active(void)
+ bool ramblock_is_ignored(RAMBlock *block)
+ {
+     return !qemu_ram_is_migratable(block) ||
+-           (migrate_ignore_shared() && qemu_ram_is_shared(block));
++           (migrate_ignore_shared() && qemu_ram_is_shared(block) &&
++            qemu_ram_is_named_file(block));
  }
  
-+int address_space_flat_for_each_section(AddressSpace *as,
-+                                        memory_region_section_cb func,
-+                                        void *opaque,
-+                                        Error **errp)
+ #undef RAMBLOCK_FOREACH
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index cb998cd..767a5f0 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -1749,6 +1749,11 @@ void qemu_ram_unset_migratable(RAMBlock *rb)
+     rb->flags &= ~RAM_MIGRATABLE;
+ }
+ 
++bool qemu_ram_is_named_file(RAMBlock *rb)
 +{
-+    FlatView *view = address_space_get_flatview(as);
-+    FlatRange *fr;
-+    int ret;
-+
-+    FOR_EACH_FLAT_RANGE(fr, view) {
-+        MemoryRegionSection mrs = section_from_flat_range(fr, view);
-+        ret = func(&mrs, opaque, errp);
-+        if (ret) {
-+            return ret;
-+        }
-+    }
-+
-+    flatview_unref(view);
-+    return 0;
++    return rb->flags & RAM_NAMED_FILE;
 +}
 +
- /* Same as memory_region_find, but it does not add a reference to the
-  * returned region.  It must be called from an RCU critical section.
-  */
+ int qemu_ram_get_fd(RAMBlock *rb)
+ {
+     return rb->fd;
+@@ -2059,7 +2064,7 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+ 
+     /* Just support these ram flags by now. */
+     assert((ram_flags & ~(RAM_SHARED | RAM_PMEM | RAM_NORESERVE |
+-                          RAM_PROTECTED)) == 0);
++                          RAM_PROTECTED | RAM_NAMED_FILE)) == 0);
+ 
+     if (xen_enabled()) {
+         error_setg(errp, "-mem-path not supported with Xen");
 -- 
 1.8.3.1
 
