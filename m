@@ -2,85 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6808368CB9A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 02:01:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7718068CB9B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 02:01:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPCLs-0003mz-Fh; Mon, 06 Feb 2023 20:00:52 -0500
+	id 1pPCMK-0005E6-8f; Mon, 06 Feb 2023 20:01:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pPCKy-0003QH-LB
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 20:00:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pPCKn-00044M-KA
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 19:59:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675731585;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AEZrsqZsmcl/2XNXsBwuDppqhKVGTnKg5/u2lNXA0Nk=;
- b=XhLA2dsXaob2GqHSaHkEg0XIhEcSl8GsHy97teU0UZWYHkON8rF+jJhG/lvSgGPt0hmP6K
- GXB/ca3ar18ER7bbcl98kq8gJwU+gv0g0GA5FfD7VPdanCzoVMpjpHlS/bJmOALO/7z0bG
- PlDEDWzEeDen6DSoAC5KaBUThqaUC2s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-445-IiZIEu_7NP-yOeYctboWbw-1; Mon, 06 Feb 2023 19:59:40 -0500
-X-MC-Unique: IiZIEu_7NP-yOeYctboWbw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C70AB185A794;
- Tue,  7 Feb 2023 00:59:38 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.192.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0EBAA492C3C;
- Tue,  7 Feb 2023 00:59:33 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- John Snow <jsnow@redhat.com>, David Hildenbrand <david@redhat.com>,
- Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Coiby Xu <Coiby.Xu@gmail.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Eric Blake <eblake@redhat.com>, Eric Farman <farman@linux.ibm.com>,
- Jiang Jiacheng <jiangjiacheng@huawei.com>
-Subject: [PULL 30/30] migration: save/delete migration thread info
-Date: Tue,  7 Feb 2023 01:56:50 +0100
-Message-Id: <20230207005650.1810-31-quintela@redhat.com>
-In-Reply-To: <20230207005650.1810-1-quintela@redhat.com>
-References: <20230207005650.1810-1-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pPCLx-0004py-3w
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 20:01:04 -0500
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pPCLv-0004Ux-6Q
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 20:00:56 -0500
+Received: by mail-yb1-xb36.google.com with SMTP id x4so16681766ybp.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 17:00:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=PzNcsW8Hrl9l8KBKQzAZFcbFKkmOsrZjBk1wjPQHcEo=;
+ b=BoZzkC/W4ciY44+B9zgXN3T71rr8TEjOxVb3EoQhy3wacA4e05IMlKqC9jA0zGjWMc
+ qMf1kjForSwZpv3ZNmGVOFZhdmgKLAzZXjkQRV5mulqj6AyCtpCX4+uW5vG0jD0OEQUQ
+ 8Ozp4Y0zb19QH9JlQc0+meWyZpLkOcP0ZzHbzbEzILOuMTmcj6b3NsBZM8HhALTfozpr
+ 8HKZ66hyYdWAm7EqsrO8W64rt28Y8QYMW0Bu1pgJd6BBtrsLEFAFGk4aXDJ0f2i1yj6D
+ pcgetaxLQupIn1oiVDEiwD5YbeehlSEprRBBhVyMIsFo0yFGsfLJFEMD9itK6jk5iovU
+ 59Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=PzNcsW8Hrl9l8KBKQzAZFcbFKkmOsrZjBk1wjPQHcEo=;
+ b=y1UN02EPwasbo2jEhEDX0zlocgmXJ/goNhmHdpqoQo0ZlUmgXgdLWLCNpM2uHiq8Mz
+ zkYgGhUSfKLID+pV3F4tsJkc0XFNytW1wtg91gOsG2LYW7tD4GvXifbfajjb5rfoMfzL
+ iDWrC+uK+U3RvgLyAUJmhlFtzJd9K90fjyI+lSWTTVJq8A1PEpx/obppcY7QRngupJ4F
+ Z9dGxabuqJ1DhIHdT/Zg1cqBLpAF1HQjuYnZeTO2rfEEHbGIVy/e7irWxVBNA/q8MlaG
+ jAWub+p4M5Rkx1qJ498TzK4joYQL/W08+k5K3QmnmeJHsJugGGQd+hlsJedeMR24QVi9
+ UfgQ==
+X-Gm-Message-State: AO0yUKU9hIVRsastew6tf+XSRauVp2T8GH3T1ob30qA/yQO0YwGJEERQ
+ PRB1NUon+PqfjqnBzX9u0TIPtZ38VUaE6J55cuQ=
+X-Google-Smtp-Source: AK7set/CL+ULWvMubc53ftoGDLBY5BEaWXiCB0xjXYoQvo2L7HQ26E5d5w/pbEPWGcJ4uhzWMBPzPNLGZSDOt+WySoQ=
+X-Received: by 2002:a5b:ec4:0:b0:880:9ae0:2728 with SMTP id
+ a4-20020a5b0ec4000000b008809ae02728mr164743ybs.366.1675731653914; Mon, 06 Feb
+ 2023 17:00:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <CAJSP0QUuuZLC0DJNEfZ7amyd3XnRhRNr1k+1OgLfDeF77X1ZDQ@mail.gmail.com>
+ <CAJaqyWd+g5fso6AEGKwj0ByxFVc8EpCS9+ezoMpnjyMo5tbj8Q@mail.gmail.com>
+ <CAJSP0QXyO4qXJseMzbgsVdXK-4-W4U9DxPcxr6wX45d6VBTeWQ@mail.gmail.com>
+ <CAJaqyWczFwbxNWrZ8dcFHvYrV2=tH7Tv0Apf=qORT+gzDpBN4Q@mail.gmail.com>
+ <CAJSP0QX+mpmdVE-13L9p=02_XbmPFT-mFAbz-JJjqB5V-2ON6Q@mail.gmail.com>
+ <CAJaqyWd8EhfDmTtmLNzuoVDoF641Tq3LL1jvvdXK+DDbAfjccQ@mail.gmail.com>
+ <CAJSP0QUFR_Nhd2dDkXJ_NjSo=+GNHFswztuGLLJ1QuokqOMUqA@mail.gmail.com>
+ <CAJaqyWcBLOi5dggqVwhbNTFRRV24SOcHMUEDa6UDwN0RqXVMSA@mail.gmail.com>
+In-Reply-To: <CAJaqyWcBLOi5dggqVwhbNTFRRV24SOcHMUEDa6UDwN0RqXVMSA@mail.gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 6 Feb 2023 20:00:42 -0500
+Message-ID: <CAJSP0QU5eu+9_0gSamE_TvgN6roRzCWMprtiQ2GQnumXi1iskw@mail.gmail.com>
+Subject: Re: Call for GSoC and Outreachy project ideas for summer 2023
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, kvm <kvm@vger.kernel.org>, 
+ Rust-VMM Mailing List <rust-vmm@lists.opendev.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, "Florescu,
+ Andreea" <fandree@amazon.com>, Damien <damien.lemoal@opensource.wdc.com>, 
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>, Hanna Reitz <hreitz@redhat.com>, 
+ Alberto Faria <afaria@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ Bernhard Beschow <shentey@gmail.com>, Sean Christopherson <seanjc@google.com>, 
+ Vitaly Kuznetsov <vkuznets@redhat.com>, gmaglione@redhat.com, 
+ Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb36.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,88 +104,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Jiang Jiacheng <jiangjiacheng@huawei.com>
+On Mon, 6 Feb 2023 at 13:48, Eugenio Perez Martin <eperezma@redhat.com> wrote:>
+> Thanks for all the feedback, it makes the proposal way clearer. I add
+> the updated proposals here, please let me know if you think they need
+> further modifications.
 
-To support query migration thread infomation, save and delete
-thread(live_migration and multifdsend) information at thread
-creation and finish.
+Thanks, I have added them to the wiki:
+https://wiki.qemu.org/Google_Summer_of_Code_2023
 
-Signed-off-by: Jiang Jiacheng <jiangjiacheng@huawei.com>
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- migration/migration.c | 5 +++++
- migration/multifd.c   | 5 +++++
- 2 files changed, 10 insertions(+)
+I edited them more (e.g. specifically mentioned vhost_svq_kick() and
+vhost_vdpa_host_notifier_init() so it's clear which functions need to
+be tweaked for the mmap Queue Notify address support). Please feel
+free to make changes.
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 66c74f8e17..7a14aa98d8 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -58,6 +58,7 @@
- #include "net/announce.h"
- #include "qemu/queue.h"
- #include "multifd.h"
-+#include "threadinfo.h"
- #include "qemu/yank.h"
- #include "sysemu/cpus.h"
- #include "yank_functions.h"
-@@ -4028,10 +4029,13 @@ static void qemu_savevm_wait_unplug(MigrationState *s, int old_state,
- static void *migration_thread(void *opaque)
- {
-     MigrationState *s = opaque;
-+    MigrationThread *thread = NULL;
-     int64_t setup_start = qemu_clock_get_ms(QEMU_CLOCK_HOST);
-     MigThrError thr_error;
-     bool urgent = false;
- 
-+    thread = MigrationThreadAdd("live_migration", qemu_get_thread_id());
-+
-     rcu_register_thread();
- 
-     object_ref(OBJECT(s));
-@@ -4108,6 +4112,7 @@ static void *migration_thread(void *opaque)
-     migration_iteration_finish(s);
-     object_unref(OBJECT(s));
-     rcu_unregister_thread();
-+    MigrationThreadDel(thread);
-     return NULL;
- }
- 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 437bf6f808..b7ad7002e0 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -24,6 +24,7 @@
- #include "qemu-file.h"
- #include "trace.h"
- #include "multifd.h"
-+#include "threadinfo.h"
- 
- #include "qemu/yank.h"
- #include "io/channel-socket.h"
-@@ -649,10 +650,13 @@ int multifd_send_sync_main(QEMUFile *f)
- static void *multifd_send_thread(void *opaque)
- {
-     MultiFDSendParams *p = opaque;
-+    MigrationThread *thread = NULL;
-     Error *local_err = NULL;
-     int ret = 0;
-     bool use_zero_copy_send = migrate_use_zero_copy_send();
- 
-+    thread = MigrationThreadAdd(p->name, qemu_get_thread_id());
-+
-     trace_multifd_send_thread_start(p->id);
-     rcu_register_thread();
- 
-@@ -762,6 +766,7 @@ out:
-     qemu_mutex_unlock(&p->mutex);
- 
-     rcu_unregister_thread();
-+    MigrationThreadDel(thread);
-     trace_multifd_send_thread_end(p->id, p->num_packets, p->total_normal_pages);
- 
-     return NULL;
--- 
-2.39.1
-
+Stefan
 
