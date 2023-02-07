@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2A3268E1B0
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 21:06:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BCE568E1B4
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 21:11:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPUDZ-0003iM-9R; Tue, 07 Feb 2023 15:05:29 -0500
+	id 1pPUIa-0004wx-MM; Tue, 07 Feb 2023 15:10:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pPUDX-0003i4-66
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 15:05:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pPUIX-0004wT-2U
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 15:10:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pPUDU-0005wK-Gw
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 15:05:26 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pPUIV-0006jy-PL
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 15:10:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675800323;
+ s=mimecast20190719; t=1675800634;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=SQcpypF1zRnJtHoXo1rFAfvGxMAlj6EJNaxw19JfZDI=;
- b=AlVPW6aemMlI/LotuJf3Op6LmlyoidxEjVX4xHk4MCY/nPvUjcrgjBYx1Rj6hD01XtY9u8
- xGKFjdsrgO5gdlKvXggSNN2JP6YEuCvZAfC0sWZK3geqEElY3D1EifpXL8qhGEe3AOpvVg
- B5Z9LfLMf1zwtbJXU9puICM68ybmfXw=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ECgbF0/hZ++gaCGrH/apoSf3z3ZqYwVLcd0OOZ588Io=;
+ b=QQKphr8i9n9fxZx60ZrwtJb6WF2wCOP0BYaSJ2UVPSvhxSYv2ZffQcy8pM6ZzhYaZ257sI
+ zNv7mtmBBOZ6StVUFY9oF2IP64JLAKotEKyU6HREz4QouEhVjRJPU19s056s8rlrBkJa6v
+ hTm72SVgpmHGPlS86A8PTO5vDnMWBus=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-342-U7w6aG3oOxu2OKVNs5T_cw-1; Tue, 07 Feb 2023 15:05:21 -0500
-X-MC-Unique: U7w6aG3oOxu2OKVNs5T_cw-1
-Received: by mail-qt1-f198.google.com with SMTP id
- i5-20020ac813c5000000b003b86b748aadso9293259qtj.14
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 12:05:21 -0800 (PST)
+ us-mta-557-S9GIY3YtPIStMDDwCxTjAw-1; Tue, 07 Feb 2023 15:10:31 -0500
+X-MC-Unique: S9GIY3YtPIStMDDwCxTjAw-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ pv16-20020ad45490000000b0056bf828babfso3691161qvb.23
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 12:10:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=SQcpypF1zRnJtHoXo1rFAfvGxMAlj6EJNaxw19JfZDI=;
- b=3uRr1gmyTW1asTAUwa88blJF6xI/TXZzI8xrjp4zmIjlreWB4XPVdBTUZhuozMoxkv
- WSXKN6ugTVAZCq3xSJYAYFgPYmCCcm2zQrAsIZJlfSiJD/KV4XPmyywitlwBY0Lo/fB6
- cTZPFUZ13+k15c/ImnDBHhxezQIfpTKSPOW+18uJnBH1omT4amfFoRlNOZJbDmnkE2CP
- bgBIvw/HxSNPm1eqVn9GjONIqrA/QIGGR+f1324xpjXhisPBm+NB0jrNb+alZ9+9cfkv
- qrwynj00Ox1x43tqJjrvAdkka35hmh8GOZd1w7naQ4rk4zgv5Nk5gI1eC6X1VwUjpdt5
- i9Qg==
-X-Gm-Message-State: AO0yUKUVpJSBB4sZfQv5N8vr+gK5bI689IPqvyoHEObJYZIy7KP9v1FC
- eOaR+7RlocoNjjO3a1N8/lUZkcqG78szuz2tACmzYM2vnlIKGbfWp/+H8ZcSa67YiwBrAdrMKIP
- SJuj1nekJc8ex20A=
-X-Received: by 2002:ac8:4e8d:0:b0:3b8:5f47:aac2 with SMTP id
- 13-20020ac84e8d000000b003b85f47aac2mr9255127qtp.1.1675800321352; 
- Tue, 07 Feb 2023 12:05:21 -0800 (PST)
-X-Google-Smtp-Source: AK7set9hC0kdbt6OmYUwSwflZrbpWDx217I+CAoevt3kv84sOHcUZq6DK4v9hEMi4snV3wk4kcdzBA==
-X-Received: by 2002:ac8:4e8d:0:b0:3b8:5f47:aac2 with SMTP id
- 13-20020ac84e8d000000b003b85f47aac2mr9255088qtp.1.1675800320998; 
- Tue, 07 Feb 2023 12:05:20 -0800 (PST)
+ bh=ECgbF0/hZ++gaCGrH/apoSf3z3ZqYwVLcd0OOZ588Io=;
+ b=z8AgrxNf+Xa2sfuRi6i1nGtmKRUmrT7gmJp7K8YkL2P7DpmO4K+Ax6H6MClqeqNi0s
+ BE6PxGP36cLPOLuy6I2EeJeSngs4GRNl0DtS3lxnzzNR1NBQXu4r4clg2GsX5aSu7irW
+ XZSTijElSyH15CZ0zHx5Nh+xfR1Twq/GiCRNdTlQux9bEy6TxM5xSuC86Litnbvoq52A
+ dZY9xh4KOot4OAKmCxJG4jIVb9D801lpilskfBRI58uEDc9dO9K+6p5P7TffH7JOgg2d
+ dtosk7Gi+ig+35PPMGOM+KKnk5PIgRAe1IXNxyrcy1gQ5my3I73HjJrkys2UNIjeuxgG
+ qQjA==
+X-Gm-Message-State: AO0yUKWIEsCxEtTszIGDDOyuYwC3FT6YtbuMVb2Oy1P06is7YpvDtWA7
+ zLEwlMSbVNHNoHzy7q8YOSKo/RQguCrRFkkd3Gm0kNoCGF4gErw8cwRjMRkf69vLeJBJo7/9o5X
+ ZBMaWenTay03N7Ug=
+X-Received: by 2002:a05:622a:4d2:b0:3b6:35cb:b944 with SMTP id
+ q18-20020a05622a04d200b003b635cbb944mr8874256qtx.2.1675800630497; 
+ Tue, 07 Feb 2023 12:10:30 -0800 (PST)
+X-Google-Smtp-Source: AK7set/KNQR4cLLuZ68t/2I/5EAlUNWTCFDGIWI8+6XodaCXOjAb0MCsmf9wmEh+3KYFn0CwwaK1HQ==
+X-Received: by 2002:a05:622a:4d2:b0:3b6:35cb:b944 with SMTP id
+ q18-20020a05622a04d200b003b635cbb944mr8874209qtx.2.1675800630221; 
+ Tue, 07 Feb 2023 12:10:30 -0800 (PST)
 Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
  [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- y23-20020ac87057000000b003b86b5a07b3sm1731672qtm.90.2023.02.07.12.05.19
+ k19-20020ac85fd3000000b003b0766cd169sm10419331qta.2.2023.02.07.12.10.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Feb 2023 12:05:20 -0800 (PST)
-Date: Tue, 7 Feb 2023 15:05:19 -0500
+ Tue, 07 Feb 2023 12:10:29 -0800 (PST)
+Date: Tue, 7 Feb 2023 15:10:28 -0500
 From: Peter Xu <peterx@redhat.com>
 To: Steve Sistare <steven.sistare@oracle.com>
-Cc: qemu-devel@nongnu.org,
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH V2] migration: simplify blockers
-Message-ID: <Y+Ku/zQOoFogmx0j@x1n>
-References: <1675796593-235541-1-git-send-email-steven.sistare@oracle.com>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH V2] memory: flat section iterator
+Message-ID: <Y+KwNN9v81aLKct2@x1n>
+References: <1675796609-235681-1-git-send-email-steven.sistare@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1675796593-235541-1-git-send-email-steven.sistare@oracle.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+In-Reply-To: <1675796609-235681-1-git-send-email-steven.sistare@oracle.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -98,69 +99,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 07, 2023 at 11:03:13AM -0800, Steve Sistare wrote:
-> Modify migrate_add_blocker and migrate_del_blocker to take an Error **
-> reason.  This allows migration to own the Error object, so that if
-> an error occurs, migration code can free the Error and clear the client
-> handle, simplifying client code.  This is a pre-requisite for a future
-> patch that will allow one Error blocker to be registered for multiple
-> migration modes.
-> 
-> No functional change.
-> 
-> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+On Tue, Feb 07, 2023 at 11:03:29AM -0800, Steve Sistare wrote:
+> Add an iterator over the sections of a flattened address space.
+> This will be needed by cpr to issue vfio ioctl's on the same memory
+> ranges that are already programmed.
 
-Acked-by: Peter Xu <peterx@redhat.com>
+Should this better be proposed with the context of using it?  Or I don't
+know how to justify this new interface is needed.
 
-One trivial comment below.
+For example, any explanations on why memory region listeners cannot work?
 
-[...]
-
-> diff --git a/include/migration/blocker.h b/include/migration/blocker.h
-> index 9cebe2b..7c8d326 100644
-> --- a/include/migration/blocker.h
-> +++ b/include/migration/blocker.h
-> @@ -17,19 +17,22 @@
->  /**
->   * @migrate_add_blocker - prevent migration from proceeding
->   *
-> - * @reason - an error to be returned whenever migration is attempted
-> + * @reasonp - address of an error to be returned whenever migration is attempted
->   *
->   * @errp - [out] The reason (if any) we cannot block migration right now.
->   *
->   * @returns - 0 on success, -EBUSY/-EACCES on failure, with errp set.
-> + *
-> + * *@reasonp is freed and set to NULL if failure is returned.
-> + * On success, the caller no longer owns *@reasonp and must not free it.
-
-This statement reads weird.  IMHO the caller still owns @reasonp, but if it
-succeeded it should only free it with a migrate_del_blocker() later.
-
->   */
-> -int migrate_add_blocker(Error *reason, Error **errp);
-> +int migrate_add_blocker(Error **reasonp, Error **errp);
->  
->  /**
->   * @migrate_add_blocker_internal - prevent migration from proceeding without
->   *                                 only-migrate implications
->   *
-> - * @reason - an error to be returned whenever migration is attempted
-> + * @reasonp - address of an error to be returned whenever migration is attempted
->   *
->   * @errp - [out] The reason (if any) we cannot block migration right now.
->   *
-> @@ -38,14 +41,19 @@ int migrate_add_blocker(Error *reason, Error **errp);
->   * Some of the migration blockers can be temporary (e.g., for a few seconds),
->   * so it shouldn't need to conflict with "-only-migratable".  For those cases,
->   * we can call this function rather than @migrate_add_blocker().
-> + *
-> + * *@reasonp is freed and set to NULL if failure is returned.
-> + * On success, the caller no longer owns *@reasonp and must not free it.
-
-Same here?
-
->   */
+Thanks,
 
 -- 
 Peter Xu
