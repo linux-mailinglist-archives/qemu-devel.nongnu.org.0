@@ -2,82 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494B168DBCE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:40:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 816C568DBE3
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:43:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPP8a-00079F-9K; Tue, 07 Feb 2023 09:40:00 -0500
+	id 1pPPBS-0000tT-3c; Tue, 07 Feb 2023 09:42:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1pPP8X-00078p-Tj
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:39:57 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1pPP8U-00019M-S1
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:39:57 -0500
-Received: by mail-ed1-x534.google.com with SMTP id l14so5869599eds.4
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:39:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QIUGw87YvOml+etbXafxEw1gLC4ghxYHYpZXODHiBRo=;
- b=NWDg5Yj/ofVHps05/b+bL8k5+IvVh5ZKU7FLRkE1oLqkuS4CzXN4IUVtmblyLpWcz4
- Xj2v28A8jIegO+8Up2gLNI0y04RUM7yPnfH6tpCHROVWZVxSl7u2ANQZUPs3BouYhPs+
- suib9EDUtepS9K1GYRaNbinmfB90hxFv3eQBa1whpnjP+WwDmp8hA2z+x1PxoZajewkM
- POvm/NM+dHucWEfxjB3LQpp0MsyxEa1l7LBlhiYLFuxClkNqAQVcL3YDZiWZb4OEi1e8
- lsPn4m4ARYGYBNvheN6q3kYy3kNX3+55B3qr833vmDxGkawzW6uFdg901qmQU8/mBfzy
- WV5A==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pPPBQ-0000tG-7W
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:42:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pPPBO-00020l-B3
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:42:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675780973;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9ugR8Scgm50Zn3kKriW/gus6lslDuLfKFTuofnttDaM=;
+ b=YuPpZo7bU8lPOdi/zWUnL/LpopxWq2qOMli1Bun0PMElNchvyYE57cVKSGdsS5ff8xD2+a
+ AhL19SbzcIQg2zg+QTqxdSy4ALDXlntfHTHufBQd1UUS+Ffgg589/FuJbih5Flrs/SBot3
+ 7KEXt0mtU/D6bDZo6BZ0/3pEXXsgcZE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-670-K8h4jBhfMlOUptpYQ0l4zg-1; Tue, 07 Feb 2023 09:42:50 -0500
+X-MC-Unique: K8h4jBhfMlOUptpYQ0l4zg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ n4-20020a05600c3b8400b003dfe223de49so8056620wms.5
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:42:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=QIUGw87YvOml+etbXafxEw1gLC4ghxYHYpZXODHiBRo=;
- b=KqTm4YUoHvofOxOh4Cwryw56aSodDOleFbJgayucRQN3i39vkjKIsng8NZVJKns6u4
- rLMMD02MgVk1NXbywd7ZXKxc7wXFrs9K/8Ef62vBGa7xynH3F549L8WihUq5H1InzK1N
- xi86k3Hb213cfPU6/j6nOcrg+MlzIvwwMfQdTbf0eTY4hZOLePOdBlOweW6kKxmpIgnG
- 2VFNx8XOKmmNpOolQqBYOrakLwFziGRpWbgg2ZG1xKWPOm2/WlMWXq+3OdGW5nw2UIbf
- /g57Bm+tiURM6RPJ+oFCEzCZONL4KqPsZaOKQ4uuPSYocyYMlB54h9WiZauQVTeIkvWA
- 337w==
-X-Gm-Message-State: AO0yUKWBZS4UelcJtVZLNGNWo8V0KFDIorTDCbgEc9REn21/xUko2XJB
- F11tkcBSqJW9nhOslvzdJNVGalSxxj8nFC9RDNE=
-X-Google-Smtp-Source: AK7set/lcyKN/ll2rRJRtPQayNE9esghwOJrZeKKxmM7MpM5+ACYsnZnLiLxp9Mg8L8Uqko3/pa99Q==
-X-Received: by 2002:a50:cd17:0:b0:4aa:a964:e6e0 with SMTP id
- z23-20020a50cd17000000b004aaa964e6e0mr3828367edi.18.1675780792092; 
- Tue, 07 Feb 2023 06:39:52 -0800 (PST)
-Received: from ubuntu-focal.. ([2a01:4f9:3a:1e26::2])
- by smtp.gmail.com with ESMTPSA id
- v21-20020a50d595000000b004aaa09d50adsm4742249edi.94.2023.02.07.06.39.51
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9ugR8Scgm50Zn3kKriW/gus6lslDuLfKFTuofnttDaM=;
+ b=R4GRAF1Oa+apek8DF/eIl74l9mUPrhMJz0sVhMdiooQI74CvcWH8nGEEiPCgAb5LFG
+ QH8OXDFQ2OvC4SoYul5Oi+Bh5jP/QmG3zE6pQWJTbwWMDrO+RJLaVWsSt6vQZDV6R5+Y
+ IWCc7UpmOHiXf40KS+AJAP9GwGdJ7saSEpG6I1iYM8ZrrshGZef/cgoZ0vnGZre/fkIG
+ l+ijxQQjJchvQB4lcKkBHLWEYHuST3vfmfQlwkSG0AFZehO074E4qatMHW+5X+jqK52r
+ 9YQRDZ7fiTlDPPnKw6f9oYwMNmhxr7bwJIM7a0BW2qRt+3rIm/BWGrUfw501pcdoGcm2
+ d0lg==
+X-Gm-Message-State: AO0yUKXf4QSg99QoMJWZjXw88Lri8x6oqYVUOgerp/Ed8nMiv6bSDF7k
+ 84kkJx3g6c5MT92gvBqIFnauHi9cc45xDLFrs+pWRXW22frTWXUsm4pfpoC2vpM75/VFlUi+C4H
+ KJjV7+8tJ+8KNBro=
+X-Received: by 2002:adf:edc9:0:b0:2c0:6217:8459 with SMTP id
+ v9-20020adfedc9000000b002c062178459mr3146134wro.16.1675780968874; 
+ Tue, 07 Feb 2023 06:42:48 -0800 (PST)
+X-Google-Smtp-Source: AK7set+nk4tH0cTqha9JaDW+N5cW4k31yfASURbnkPiLDt3f3fZmDTFolf8hwe6tzdr4oehaOuZycw==
+X-Received: by 2002:adf:edc9:0:b0:2c0:6217:8459 with SMTP id
+ v9-20020adfedc9000000b002c062178459mr3146127wro.16.1675780968686; 
+ Tue, 07 Feb 2023 06:42:48 -0800 (PST)
+Received: from redhat.com ([2.52.8.17]) by smtp.gmail.com with ESMTPSA id
+ o15-20020a5d684f000000b002c3f03d8851sm2985749wrw.16.2023.02.07.06.42.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Feb 2023 06:39:51 -0800 (PST)
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-To: qemu-devel@nongnu.org
-Cc: Kito Cheng <kito.cheng@sifive.com>,
- Christoph Muellner <christoph.muellner@vrull.eu>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>
-Subject: [PATCH v3 2/2] target/riscv: redirect XVentanaCondOps to use the
- Zicond functions
-Date: Tue,  7 Feb 2023 15:39:44 +0100
-Message-Id: <20230207143944.1883400-2-philipp.tomsich@vrull.eu>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230207143944.1883400-1-philipp.tomsich@vrull.eu>
-References: <20230207143944.1883400-1-philipp.tomsich@vrull.eu>
+ Tue, 07 Feb 2023 06:42:48 -0800 (PST)
+Date: Tue, 7 Feb 2023 09:42:45 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH 11/12] tests/qtest: bios-tables-test: Skip if missing
+ configs
+Message-ID: <20230207094103-mutt-send-email-mst@kernel.org>
+References: <20230206150416.4604-1-farosas@suse.de>
+ <20230206150416.4604-12-farosas@suse.de>
+ <218e02c0-efed-1461-e9d5-6bee0a5ecbbc@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-ed1-x534.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <218e02c0-efed-1461-e9d5-6bee0a5ecbbc@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,87 +99,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The Zicond standard extension implements the same instruction
-semantics as XVentanaCondOps, although using different mnemonics and
-opcodes.
+On Tue, Feb 07, 2023 at 03:35:56PM +0100, Thomas Huth wrote:
+> On 06/02/2023 16.04, Fabiano Rosas wrote:
+> > If we build with --without-default-devices, CONFIG_HPET and
+> > CONFIG_PARALLEL are set to N, which makes the respective devices go
+> > missing from acpi tables.
+> > 
+> > Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> > ---
+> > I currently don't see a way of allowing the tests to pass in the
+> > absence of these two configs. As far as I understand, we would need to
+> > have one set of expected table files (tests/data/acpi) for each
+> > combination of machine vs. possible CONFIG that can be toggled.
+> 
+> I think you're right ... maintaining tables for each combination does not
+> scale. Disabling the test in that case is likely the best we can do here
+> right now.
+> 
+> > diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> > index a930706a43..2829eda2c9 100644
+> > --- a/tests/qtest/meson.build
+> > +++ b/tests/qtest/meson.build
+> > @@ -78,7 +78,9 @@ qtests_i386 = \
+> >      config_all_devices.has_key('CONFIG_Q35') and                                             \
+> >      config_all_devices.has_key('CONFIG_VIRTIO_PCI') and                                      \
+> >      slirp.found() ? ['virtio-net-failover'] : []) +                                          \
+> > -  (unpack_edk2_blobs ? ['bios-tables-test'] : []) +                                         \
+> > +  (unpack_edk2_blobs and                                                                    \
+> > +   config_all_devices.has_key('CONFIG_HPET') and                                            \
+> > +   config_all_devices.has_key('CONFIG_PARALLEL') ? ['bios-tables-test'] : []) +             \
+> >     qtests_pci +                                                                              \
+> >     qtests_cxl +                                                                              \
+> >     ['fdc-test',
+> 
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-Point XVentanaCondOps to the (newly implemented) Zicond implementation
-to reduce the future maintenance burden.
 
-Also updating MAINTAINERS as trans_xventanacondops.c.inc will not see
-active maintenance from here forward.
+One thing we could do is move this code to an SSDT by itself.  Then
+there's two variants of e.g. HPET SSDT: with and without CONFIG_HPET.
+Needs ACPI work though. Igor what do you think? Worth it?
 
-Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
----
 
-Changes in v3:
-- Don't downgrade to "Odd Fixes", but rather to "Maintained" (we are
-  not being paid to look after this, but will look after it
-  nonetheless).
-
-Changes in v2:
-- Calls into the gen_czero_{eqz,nez} helpers instead of calling
-  trans_czero_{eqz,nez} to bypass the require-check and ensure that
-  XVentanaCondOps can be enabled/disabled independently of Zicond.
-
- MAINTAINERS                                    |  2 +-
- .../insn_trans/trans_xventanacondops.c.inc     | 18 +++---------------
- 2 files changed, 4 insertions(+), 16 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fa10ecaeb9..0ee82c5213 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -298,7 +298,7 @@ F: linux-user/host/riscv64/
- RISC-V XVentanaCondOps extension
- M: Philipp Tomsich <philipp.tomsich@vrull.eu>
- L: qemu-riscv@nongnu.org
--S: Supported
-+S: Maintained
- F: target/riscv/XVentanaCondOps.decode
- F: target/riscv/insn_trans/trans_xventanacondops.c.inc
- 
-diff --git a/target/riscv/insn_trans/trans_xventanacondops.c.inc b/target/riscv/insn_trans/trans_xventanacondops.c.inc
-index 16849e6d4e..38c15f2825 100644
---- a/target/riscv/insn_trans/trans_xventanacondops.c.inc
-+++ b/target/riscv/insn_trans/trans_xventanacondops.c.inc
-@@ -1,7 +1,7 @@
- /*
-  * RISC-V translation routines for the XVentanaCondOps extension.
-  *
-- * Copyright (c) 2021-2022 VRULL GmbH.
-+ * Copyright (c) 2021-2023 VRULL GmbH.
-  *
-  * This program is free software; you can redistribute it and/or modify it
-  * under the terms and conditions of the GNU General Public License,
-@@ -16,24 +16,12 @@
-  * this program.  If not, see <http://www.gnu.org/licenses/>.
-  */
- 
--static bool gen_vt_condmask(DisasContext *ctx, arg_r *a, TCGCond cond)
--{
--    TCGv dest = dest_gpr(ctx, a->rd);
--    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
--    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
--
--    tcg_gen_movcond_tl(cond, dest, src2, ctx->zero, src1, ctx->zero);
--
--    gen_set_gpr(ctx, a->rd, dest);
--    return true;
--}
--
- static bool trans_vt_maskc(DisasContext *ctx, arg_r *a)
- {
--    return gen_vt_condmask(ctx, a, TCG_COND_NE);
-+    return gen_logic(ctx, a, gen_czero_eqz);
- }
- 
- static bool trans_vt_maskcn(DisasContext *ctx, arg_r *a)
- {
--    return gen_vt_condmask(ctx, a, TCG_COND_EQ);
-+    return gen_logic(ctx, a, gen_czero_nez);
- }
 -- 
-2.34.1
+MST
 
 
