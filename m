@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 190A468D5A9
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 12:38:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB1768D5B2
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 12:39:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPMIm-0001vK-KQ; Tue, 07 Feb 2023 06:38:20 -0500
+	id 1pPMIo-0001vu-BY; Tue, 07 Feb 2023 06:38:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pPMIj-0001uT-Oz
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 06:38:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pPMIm-0001vJ-80
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 06:38:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pPMIi-0003yi-De
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 06:38:17 -0500
+ id 1pPMIk-0003z9-Ns
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 06:38:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675769895;
+ s=mimecast20190719; t=1675769898;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=80ioF1PilPSnjwNdMorXe4SR8mo0XpUL1Z0aUHRVZCY=;
- b=O4qKsnCG2nh+lB1jV6SswcaHbea9O/MRFX+hbJkqgclXyOsoBF52vk5JFGEF4A/dMuy6KS
- MIxiY1/6P/Oti9F83prdAH9XKQrwrW2Lc2dsaB7jV/P2a0Ip2aGxvOr8PUh8M8/DamVSG7
- FZzLJsrr2KcYffTauqP/kk/wKiNh7sY=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uK94fcymOVdApNTE2J2S39VT7KMfsPK0unfcL2uBjwk=;
+ b=bfEsKVQEh6ZVuVTbgB29XBYNHX3RKPKaxbDf6VUdtl2c4lZd+iNJFoDrZOmjSA+8UNvXni
+ iQ0UJkmUabsfWgjK2XdgTI+bZwfuG22Cges+Img9iwNDV1XA9d/7Vcr4QKhBsRnS8/9osq
+ pYq3fRQeUd1+mUbcbP9ZyB6WINxIt6o=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-467-SXQv5y6mOFqzUSaefVh_Fw-1; Tue, 07 Feb 2023 06:38:14 -0500
-X-MC-Unique: SXQv5y6mOFqzUSaefVh_Fw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- 21-20020a170906225500b0088b953a6df6so11034416ejr.20
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 03:38:14 -0800 (PST)
+ us-mta-138-SJ3EnXphMV-_ESlsf_x0Eg-1; Tue, 07 Feb 2023 06:38:16 -0500
+X-MC-Unique: SJ3EnXphMV-_ESlsf_x0Eg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ dm4-20020a05640222c400b004aaa5e3c414so4461746edb.3
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 03:38:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=80ioF1PilPSnjwNdMorXe4SR8mo0XpUL1Z0aUHRVZCY=;
- b=hV6LRiIDQyv4rLxj5TLnGh5aXDzh0AEExsAZzcogEdOxYGmPvVjBhKIgee1CzRBdhp
- +XY1Za8o4yzn0r+iKS5is1RWuZaJ0tD8q3fBw6BepLxZoLRjd+w/6jF1B2YJdLKQ2IUy
- skeIA7SrGZKXCN2FISY7C3PThaG4X3sCviheZEZrUkz7sqtC2vrWD7Nq8Hktz62V/S0y
- Nb1nEiCEPhZKc7EQWmQaFa0il+hYXLFAeVulfPDxROU49h9MBGPfco7FLCV6GsDdgSeQ
- U9n4rq1hDmBN+kf4XqspF2Rlo3KSwZcumKaLqU91tSV3jcwKMkYxnhveUy7CYHq/toVp
- 1/Ww==
-X-Gm-Message-State: AO0yUKWudbrW3pAThioudg/XyZJo7u2Vy0mWWfbv+SLElZDpWNL2RUra
- xiw3bKxcB1mTRPNoYRWm3pzNghYpIuZZ5s5UheAT0mENhjxBuvK+8Akpxw9Ud8DIHKuOwxcYbjO
- ajhB4Ac7WsfHy8aov9I8Gz5KOETb5Omo+pxdV97g5SkViVC8sHYTcNd0QE4V1ONG+FdgjOfzF
-X-Received: by 2002:a50:a45e:0:b0:4aa:ba82:424d with SMTP id
- v30-20020a50a45e000000b004aaba82424dmr3107614edb.20.1675769892762; 
- Tue, 07 Feb 2023 03:38:12 -0800 (PST)
-X-Google-Smtp-Source: AK7set9H9+1eK0epwSaKHqmpagZuSqT/9Uk8FzQKLPHAPLvFmFiJa4UMXmUfb/eetdxTJ854kKhehg==
-X-Received: by 2002:a50:a45e:0:b0:4aa:ba82:424d with SMTP id
- v30-20020a50a45e000000b004aaba82424dmr3107599edb.20.1675769892565; 
- Tue, 07 Feb 2023 03:38:12 -0800 (PST)
+ bh=uK94fcymOVdApNTE2J2S39VT7KMfsPK0unfcL2uBjwk=;
+ b=Tv64azi/5c2knBqPrpd5Pr47HHD0rnNIsyTNZ/EwEGTZ30ITk9/LHAj4WojOgDPNFt
+ VnGKQ/t8nMRkVtLSpnF1JCzRCwRQcVQ5whx8PXjhF90iykjuhASmHptKRuqeGT62w/Ey
+ pvj1Y7Wisc7+NNiE9B+MacMbCmeHq8d/G9O5eJpwsaLucm+tann5iZUy8p66djyQCRM2
+ g652ia5KOimKkKDMjCSSvAPBfyL6shq1e/6yt8K9U4NIc+hBNukQmgTWdtFt83cK5XJH
+ YpXian6PSzqY+Ey7X62K8gAjKICOrTpzkoG+6PaRGGuy2RcK1+EdaWbHr0l4BZkijWMy
+ bgEg==
+X-Gm-Message-State: AO0yUKWH0L971RfZSGyzRsqpIo7g0Y9phagz6opXTNRmle4K8krrrp/D
+ ul3fQuiUvkg1DOpXJjdG6kFw1nPv+4z7UQdTsTDFt5rWlEQt/E68KFMP35Xc/qUVCAEdZLSWTuj
+ k423ubEWYvhNjfupXfjDi1KSqhYDzdaQmEcIM/r4T5gP9Bzah1S8i9Jj3w6JT4FhAu+sGsmeq
+X-Received: by 2002:a17:907:16a8:b0:8aa:eb:ca42 with SMTP id
+ hc40-20020a17090716a800b008aa00ebca42mr1871284ejc.69.1675769895371; 
+ Tue, 07 Feb 2023 03:38:15 -0800 (PST)
+X-Google-Smtp-Source: AK7set9phKnx2tr0gDR0KfjgAZHEFYF79hPby7/PM9vNclQzrGfEhMwu1QrTCTigC7JKioXpgc4luA==
+X-Received: by 2002:a17:907:16a8:b0:8aa:eb:ca42 with SMTP id
+ hc40-20020a17090716a800b008aa00ebca42mr1871263ejc.69.1675769895121; 
+ Tue, 07 Feb 2023 03:38:15 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- q24-20020aa7cc18000000b0049e19136c22sm6237243edt.95.2023.02.07.03.38.11
+ uo29-20020a170907cc1d00b00871ac327db6sm6693686ejc.45.2023.02.07.03.38.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Feb 2023 03:38:12 -0800 (PST)
+ Tue, 07 Feb 2023 03:38:14 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: crosa@redhat.com
-Subject: [PULL 1/5] scripts/ci: remove unnecessary checks from CentOS playbook
-Date: Tue,  7 Feb 2023 12:38:03 +0100
-Message-Id: <20230207113807.67322-2-pbonzini@redhat.com>
+Subject: [PULL 2/5] scripts/ci: support CentOS Stream 8 in
+ build-environment.yaml
+Date: Tue,  7 Feb 2023 12:38:04 +0100
+Message-Id: <20230207113807.67322-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230207113807.67322-1-pbonzini@redhat.com>
 References: <20230207113807.67322-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -99,34 +100,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since this playbook is meant for a CentOS 8 install, no need to check
-the facts.
+Update the CI playbook so that it is able to prepare a system with a
+fresh CentOS Stream 8 install, rather than just support RHEL.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/ci/org.centos/stream/8/build-environment.yml | 4 ----
- 1 file changed, 4 deletions(-)
+ scripts/ci/setup/build-environment.yml | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/ci/org.centos/stream/8/build-environment.yml b/scripts/ci/org.centos/stream/8/build-environment.yml
-index 42b0471634c2..fe8807b7b074 100644
---- a/scripts/ci/org.centos/stream/8/build-environment.yml
-+++ b/scripts/ci/org.centos/stream/8/build-environment.yml
-@@ -17,8 +17,6 @@
-         option: enabled
-         value: "1"
-       when:
--        - ansible_facts['distribution'] == 'CentOS'
--        - ansible_facts['distribution_major_version'] == '8'
-         - centos_stream_8
+diff --git a/scripts/ci/setup/build-environment.yml b/scripts/ci/setup/build-environment.yml
+index 58438008eeb6..c3cebc42ac2c 100644
+--- a/scripts/ci/setup/build-environment.yml
++++ b/scripts/ci/setup/build-environment.yml
+@@ -130,6 +130,16 @@
+         - ansible_facts['distribution_version'] == '20.04'
+         - ansible_facts['architecture'] == 'aarch64'
  
-     - name: Install basic packages to build QEMU on CentOS Stream 8
-@@ -46,6 +44,4 @@
-           - systemd-devel
++    - name: Enable PowerTools repo on CentOS 8
++      ini_file:
++        path: /etc/yum.repos.d/CentOS-Stream-PowerTools.repo
++        section: powertools
++        option: enabled
++        value: "1"
++      when:
++        - ansible_facts['distribution_file_variety'] == 'CentOS'
++        - ansible_facts['distribution_major_version'] == '8'
++
+     - name: Install basic packages to build QEMU on EL8
+       dnf:
+         # This list of packages start with tests/docker/dockerfiles/centos8.docker
+@@ -164,7 +174,7 @@
+           - zlib-devel
          state: present
        when:
--        - ansible_facts['distribution'] == 'CentOS'
--        - ansible_facts['distribution_major_version'] == '8'
-         - centos_stream_8
+-        - ansible_facts['distribution_file_variety'] == 'RedHat'
++        - ansible_facts['distribution_file_variety'] in ['RedHat', 'CentOS']
+         - ansible_facts['distribution_version'] == '8'
+ 
+     - name: Install packages only available on x86 and aarch64
+@@ -174,6 +184,6 @@
+           - spice-server
+         state: present
+       when:
+-        - ansible_facts['distribution_file_variety'] == 'RedHat'
++        - ansible_facts['distribution_file_variety'] in ['RedHat', 'CentOS']
+         - ansible_facts['distribution_version'] == '8'
+         - ansible_facts['architecture'] == 'aarch64' or ansible_facts['architecture'] == 'x86_64'
 -- 
 2.38.1
 
