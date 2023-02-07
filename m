@@ -2,79 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 528F868E397
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 23:50:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D49568E410
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 00:01:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPWmb-0004YF-U3; Tue, 07 Feb 2023 17:49:49 -0500
+	id 1pPWw1-0007GC-5u; Tue, 07 Feb 2023 17:59:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=KxRu=6D=zx2c4.com=Jason@kernel.org>)
- id 1pPWmX-0004OA-Pb
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 17:49:45 -0500
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=KxRu=6D=zx2c4.com=Jason@kernel.org>)
- id 1pPWmV-00029b-O2
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 17:49:45 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C395F61300;
- Tue,  7 Feb 2023 22:49:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38B40C4339E;
- Tue,  7 Feb 2023 22:49:41 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="dt48L3cS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1675810179;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=q0dpFGSnbJwq3V84ad3cioDT/ZuyV1mdKYDPVdf5Wyc=;
- b=dt48L3cStBhHRclHmPTNB7my2MldQKdSq1u8fKOgDTvgP4TU/XYE3NRXGcvVL2uZHI9Jhi
- C7aB/qydgryMBGJ0axYuTbdIjzM3wN2zT68EMpb0WTwl0mLEqn1dNx4Sr60VmvlHFXvVFc
- gdht/WYRTEqvZHPgG5rPU3BZxCwCb10=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 57af54db
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Tue, 7 Feb 2023 22:49:39 +0000 (UTC)
-Date: Tue, 7 Feb 2023 19:49:34 -0300
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Dov Murik <dovmurik@linux.ibm.com>, qemu-devel@nongnu.org,
- Tom Lendacky <thomas.lendacky@amd.com>,
- James Bottomley <jejb@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
-Subject: Re: [PATCH] x86: Don't add RNG seed to Linux cmdline for SEV guests
-Message-ID: <Y+LVfmaxwuwYNCz0@zx2c4.com>
-References: <20230207084116.285787-1-dovmurik@linux.ibm.com>
- <20230207164117-mutt-send-email-mst@kernel.org>
- <Y+LOFgCuC9wjKpsL@zx2c4.com>
- <20230207173008-mutt-send-email-mst@kernel.org>
- <CAHmME9pUe48qQRDwhWSK5ba=3Jj-qNYS8ZV9ZFEZeTi=MvEm6w@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pPWvs-0007Dz-Iq
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 17:59:25 -0500
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pPWvq-00049d-4v
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 17:59:23 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id e19so9382134plc.9
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 14:59:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=iEeW3DoEK3Lc8rA9gJUYXTwtZDjS/pFE4Wh2Y06imIA=;
+ b=znR4twCxDhylk+Co7F5rLi50GXYsniUbI645+m7DEFCK3md2Ve4F3xVLq4QA5tPlU6
+ HWmL0OXcsNGg0pODz3nHIVBn8nhiWfOBXj9l4QdtpVNDt8XadSSlNZwhuZ+SN14j7Tpl
+ vA3dEdIAw0J+7VKgdkKulyT1MNbu+jpfU2ngPAwA9+s+kwVTgg+ze/OVXisM8fgzCFvo
+ iwJtHx1X1kuFq3j+eH/9KWO0xCOP//3WJBzKMZLjU5LwuLEHpv28W/WEor9siPNeI0Uv
+ bf0iT8r4p/J5qpj2dSJNYemJ4Z67jrMkpY6WV+8skzn+TiENKVn76hJuiQnGnlPrfaaC
+ H9Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=iEeW3DoEK3Lc8rA9gJUYXTwtZDjS/pFE4Wh2Y06imIA=;
+ b=hYZAUPLIbgLUKmKWSnaqyWtiBsEUdTRREkoNQovzg+CrHh/KVcBOz9bCm6j84qs6Mp
+ U3RHUhcvVH+oCN/bvPzVKhcRJxSdHZixVNfaTXmfzRKGS385M8Sd2O+96gaHnoePLrhd
+ xOwKwfs9o0Esbc9ti5IMPfYzvZucg/2O4mbJnN8AwEyiYJGSQ0cwGQMvDTsVABM3V6UT
+ RIaUlEX4enWIRG+Fp7wvAiZYTpeegqEQMgUhUUN9UMB0D90KsEcICuVTUtI0Pm3qLdgU
+ uhlPwnDGcl7cPtFt9vsaTzurKqfNREZWHxhs5iqr3DxkNEqMOu+EVXtY4vF7tJ+z799q
+ dzYg==
+X-Gm-Message-State: AO0yUKX8xl6uYk+HGgVaF/96RAV/DziMzBrhzBVu2J8EnBaAZkATnlaZ
+ M8+PsvdCQgMoE38JN6kG+8TRNQ==
+X-Google-Smtp-Source: AK7set/Dv43qCtdCVUQaYDacIFsuun4/ztBLuktLsVxFrClfquezT1uwJkJd6mYNRVvTo9ibgiZ0uQ==
+X-Received: by 2002:a05:6a20:3ca6:b0:bf:9f83:2374 with SMTP id
+ b38-20020a056a203ca600b000bf9f832374mr6164895pzj.52.1675810760538; 
+ Tue, 07 Feb 2023 14:59:20 -0800 (PST)
+Received: from [192.168.101.227] (rrcs-74-87-59-234.west.biz.rr.com.
+ [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
+ q25-20020a639819000000b004dadeb4decasm8402765pgd.53.2023.02.07.14.59.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Feb 2023 14:59:19 -0800 (PST)
+Message-ID: <0dfe9a93-e593-82bf-0a00-59223c943fef@linaro.org>
+Date: Tue, 7 Feb 2023 12:59:14 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHmME9pUe48qQRDwhWSK5ba=3Jj-qNYS8ZV9ZFEZeTi=MvEm6w@mail.gmail.com>
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=SRS0=KxRu=6D=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 01/11] hw/intc/armv7m_nvic: Use
+ OBJECT_DECLARE_SIMPLE_TYPE() macro
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20230206223502.25122-1-philmd@linaro.org>
+ <20230206223502.25122-2-philmd@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230206223502.25122-2-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,103 +96,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 07, 2023 at 07:33:09PM -0300, Jason A. Donenfeld wrote:
-> On Tue, Feb 7, 2023 at 7:31 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Tue, Feb 07, 2023 at 07:17:58PM -0300, Jason A. Donenfeld wrote:
-> > > On Tue, Feb 07, 2023 at 04:45:19PM -0500, Michael S. Tsirkin wrote:
-> > > > On Tue, Feb 07, 2023 at 08:41:16AM +0000, Dov Murik wrote:
-> > > > > Recent feature to supply RNG seed to the guest kernel modifies the
-> > > > > kernel command-line by adding extra data at its end; this breaks
-> > > > > measured boot with SEV and OVMF, and possibly signed boot.
-> > > > >
-> > > > > Specifically SEV doesn't miss this feature because it uses UEFI/OVMF
-> > > > > which has its own way of getting random seed (not to mention that
-> > > > > getting the random seed from the untrusted host breaks the confidential
-> > > > > computing trust model).
-> > > >
-> > > > Nope - getting a random seed from an untrusted source should not break
-> > > > anything assuming you also have some other randomness source.
-> > > > If you don't then you have other problems.
-> > > >
-> > > > > Disable the RNG seed feature in SEV guests.
-> > > > >
-> > > > > Fixes: eac7a7791bb6 ("x86: don't let decompressed kernel image clobber setup_data")
-> > > > > Reported-by: Tom Lendacky <thomas.lendacky@amd.com>
-> > > > > Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
-> > > > >
-> > > > > ---
-> > > > >
-> > > > > There might be a need for a wider change to the ways setup_data entries
-> > > > > are handled in x86_load_linux(); here I just try to restore the
-> > > > > situation for SEV guests prior to the addition of the SETUP_RNG_SEED
-> > > > > entry.
-> > > > >
-> > > > > Recent discussions on other (safer?) ways to pass this setup_data entry:
-> > > > > [1] https://lore.kernel.org/qemu-devel/da39abab9785aea2a2e7652ed6403b6268aeb31f.camel@linux.ibm.com/
-> > > > >
-> > > > > Note that in qemu 7.2.0 this is broken as well -- there the
-> > > > > SETUP_RNG_SEED entry is appended to the Linux kernel data (and therefore
-> > > > > modifies and breaks the measurement of the kernel in SEV measured boot).
-> > > > > A similar fix will be needed there (but I fear this patch cannot be
-> > > > > applied as-is).
-> > > >
-> > > > So it's not a regression, is it?
-> > >
-> > > I think that note is actually wrong. There prior was the sev_enabled()
-> > > check elsewhere, which should have worked. I remember we originally had
-> > > that problem with 7.1 and fixed it. So this is a new issue. I'll take
-> > > care of it.
-> > >
-> > > >
-> > > > > ---
-> > > > >  hw/i386/x86.c | 2 +-
-> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> > > > > index eaff4227bd..e65a83f8df 100644
-> > > > > --- a/hw/i386/x86.c
-> > > > > +++ b/hw/i386/x86.c
-> > > > > @@ -1103,7 +1103,7 @@ void x86_load_linux(X86MachineState *x86ms,
-> > > > >          load_image_size(dtb_filename, setup_data->data, dtb_size);
-> > > > >      }
-> > > > >
-> > > > > -    if (!legacy_no_rng_seed && protocol >= 0x209) {
-> > > > > +    if (!legacy_no_rng_seed && protocol >= 0x209 && !sev_enabled()) {
-> > > > >          setup_data_offset = cmdline_size;
-> > > > >          cmdline_size += sizeof(SetupData) + RNG_SEED_LENGTH;
-> > > > >          kernel_cmdline = g_realloc(kernel_cmdline, cmdline_size);
-> > > > >
-> > > > > base-commit: 6661b8c7fe3f8b5687d2d90f7b4f3f23d70e3e8b
-> > > >
-> > > > I am beginning to think we have been hasty here. no rng seed
-> > > > should have been then default and requested with a flag.
-> > > > Then we'd avoid all this heartburn - and SEV might not be the
-> > > > only workload broken.
-> > > > Maybe not too late. Jason - objections?
-> > >
-> > > Yes, highly object. If it's not here by default, it's completely useless
-> > > from my perspective and I'll just stop working on this feature. There's
-> > > no reason we can't make this work. It's turned out to have a lot of
-> > > technical landmines, but that doesn't mean it's infeasible. I'll keep
-> > > hammering away at it.
-> > >
-> > > Anyway, I'll send a v2 of this patch, and also address another thing
-> > > left out of the previous fix.
-> > >
-> > > (And meanwhile, James and hpa@ seem to be having some discussion about
-> > > introducing an even better mechanism; we'll see if that materializes.)
-> > >
-> > > Jason
-> >
-> >
-> > OK I guess ... objections to a reverse flag disabling this?
-> > Will at least allow a work-around for sev and friends ...
+On 2/6/23 12:34, Philippe Mathieu-Daudé wrote:
+> Manually convert to OBJECT_DECLARE_SIMPLE_TYPE() macro,
+> similarly to automatic conversion from commit 8063396bf3
+> ("Use OBJECT_DECLARE_SIMPLE_TYPE when possible").
 > 
-> I think we should generally try to make this work right as-is, without
-> needing to introduce knobs. The SEV stuff seems really simple to fix.
-> I'll have a 2 patch series for you in the next 20 minutes if all goes
-> well.
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   include/hw/intc/armv7m_nvic.h | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
 
-Done: https://lore.kernel.org/all/20230207224847.94429-1-Jason@zx2c4.com/
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
+
+> 
+> diff --git a/include/hw/intc/armv7m_nvic.h b/include/hw/intc/armv7m_nvic.h
+> index 0180c7b0ca..07f9c21a5f 100644
+> --- a/include/hw/intc/armv7m_nvic.h
+> +++ b/include/hw/intc/armv7m_nvic.h
+> @@ -16,10 +16,7 @@
+>   #include "qom/object.h"
+>   
+>   #define TYPE_NVIC "armv7m_nvic"
+> -
+> -typedef struct NVICState NVICState;
+> -DECLARE_INSTANCE_CHECKER(NVICState, NVIC,
+> -                         TYPE_NVIC)
+> +OBJECT_DECLARE_SIMPLE_TYPE(NVICState, NVIC)
+>   
+>   /* Highest permitted number of exceptions (architectural limit) */
+>   #define NVIC_MAX_VECTORS 512
+
 
