@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC08568D630
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 13:11:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E6768D632
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 13:11:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPMnE-00063I-Mf; Tue, 07 Feb 2023 07:09:48 -0500
+	id 1pPMof-0007rW-1q; Tue, 07 Feb 2023 07:11:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pPMnA-00061f-9a
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:09:44 -0500
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+ id 1pPMoY-0007c9-Fy
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:11:10 -0500
+Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pPMn7-00047J-1Z
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:09:43 -0500
-Received: from myt6-23a5e62c0090.qloud-c.yandex.net
- (myt6-23a5e62c0090.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:1da3:0:640:23a5:e62c])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 8013F61FCF;
- Tue,  7 Feb 2023 15:09:36 +0300 (MSK)
-Received: from vsementsov-win.yandex-team.ru (unknown [2a02:6b8:b081:218::1:e])
- by myt6-23a5e62c0090.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- O9b4CX1QdqM1-mQ3c8NhD; Tue, 07 Feb 2023 15:09:35 +0300
+ id 1pPMoW-0004Xs-OV
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:11:10 -0500
+Received: from vla5-b2806cb321eb.qloud-c.yandex.net
+ (vla5-b2806cb321eb.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c18:3e0d:0:640:b280:6cb3])
+ by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id CC64F600C9;
+ Tue,  7 Feb 2023 15:11:02 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:218::1:e] (unknown [2a02:6b8:b081:218::1:e])
+ by vla5-b2806cb321eb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 2BbeeC1QQGk1-fvNdXYQB; Tue, 07 Feb 2023 15:11:02 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1675771775; bh=lVnskt62WXTjQL8xh1t8y7e2B9BV1/qTkQL+/+8sNQQ=;
- h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=ZUNuWzs0LjCtWkbkRMs9p3HDwFKVAkflBV8FnpAWJeGweri62ZYYiEOAf0NyA95d+
- BlA5Ey/32CwoR91QPCMc0B48PwX16QavgND/I8y9kUj/j9L2deZH8No9La76AEtSxS
- nR5dTNeiqmpoT4yNzI1rjzY2RcptxMX+rpOQhcgU=
-Authentication-Results: myt6-23a5e62c0090.qloud-c.yandex.net;
+ t=1675771862; bh=/IuBs05ecVy6ICOB4bvgg5iy580XigprbGH5x73aLts=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=zIOZdX1IEQVGfAotsM8+2aNnzRcKrlmNtuYT5KZO579uSZ26IOHFhz/p7cvPHsp3w
+ Z6rl++YO13oMLyeV8WZzRYj0p7s6W712hdwQKHomEGPosHPXn1aAJS1rZYk5cNTeQC
+ jZNBJDn3I7tofhzGTGQZ65+mD5KoBXer5+a72Jqk=
+Authentication-Results: vla5-b2806cb321eb.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com, marcel.apfelbaum@gmail.com, vsementsov@yandex-team.ru,
- philmd@linaro.org
-Subject: [PATCH 4/4] pcie: add trace-point for power indicator transitions
-Date: Tue,  7 Feb 2023 15:09:22 +0300
-Message-Id: <20230207120922.325203-6-vsementsov@yandex-team.ru>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230207120922.325203-1-vsementsov@yandex-team.ru>
-References: <20230207120922.325203-1-vsementsov@yandex-team.ru>
+Message-ID: <1e45380c-04ef-6291-6879-da89e50340b9@yandex-team.ru>
+Date: Tue, 7 Feb 2023 15:11:02 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 0/4] pcie: cleanup code and add trace point DROP THIS
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+Cc: mst@redhat.com, marcel.apfelbaum@gmail.com, philmd@linaro.org
+References: <20230207120922.325203-1-vsementsov@yandex-team.ru>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20230207120922.325203-1-vsementsov@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.72;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,69 +73,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
----
- hw/pci/pcie.c       | 20 ++++++++++++++++++++
- hw/pci/trace-events |  3 +++
- 2 files changed, 23 insertions(+)
+Please ignore this accidental resend, I'm sorry for the noise.
 
-diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index ccdb2377e1..1a19368994 100644
---- a/hw/pci/pcie.c
-+++ b/hw/pci/pcie.c
-@@ -28,6 +28,7 @@
- #include "hw/pci/pcie_regs.h"
- #include "hw/pci/pcie_port.h"
- #include "qemu/range.h"
-+#include "trace.h"
- 
- //#define DEBUG_PCIE
- #ifdef DEBUG_PCIE
-@@ -718,6 +719,20 @@ void pcie_cap_slot_get(PCIDevice *dev, uint16_t *slt_ctl, uint16_t *slt_sta)
-     *slt_sta = pci_get_word(exp_cap + PCI_EXP_SLTSTA);
- }
- 
-+static const char *pcie_sltctl_pic_str(uint16_t sltctl)
-+{
-+    switch (sltctl & PCI_EXP_SLTCTL_PIC) {
-+    case PCI_EXP_SLTCTL_PWR_IND_ON:
-+        return "on";
-+    case PCI_EXP_SLTCTL_PWR_IND_BLINK:
-+        return "blink";
-+    case PCI_EXP_SLTCTL_PWR_IND_OFF:
-+        return "off";
-+    default:
-+        return "?";
-+    }
-+}
-+
- void pcie_cap_slot_write_config(PCIDevice *dev,
-                                 uint16_t old_slt_ctl, uint16_t old_slt_sta,
-                                 uint32_t addr, uint32_t val, int len)
-@@ -762,6 +777,11 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
-                         sltsta);
-     }
- 
-+    if ((val & PCI_EXP_SLTCTL_PIC) != (old_slt_ctl & PCI_EXP_SLTCTL_PIC)) {
-+        trace_pcie_power_indicator(pcie_sltctl_pic_str(old_slt_ctl),
-+                                   pcie_sltctl_pic_str(val));
-+    }
-+
-     /*
-      * If the slot is populated, power indicator is off and power
-      * controller is off, it is safe to detach the devices.
-diff --git a/hw/pci/trace-events b/hw/pci/trace-events
-index aaf46bc92d..ec4a5ff43d 100644
---- a/hw/pci/trace-events
-+++ b/hw/pci/trace-events
-@@ -15,3 +15,6 @@ msix_write_config(char *name, bool enabled, bool masked) "dev %s enabled %d mask
- sriov_register_vfs(const char *name, int slot, int function, int num_vfs) "%s %02x:%x: creating %d vf devs"
- sriov_unregister_vfs(const char *name, int slot, int function, int num_vfs) "%s %02x:%x: Unregistering %d vf devs"
- sriov_config_write(const char *name, int slot, int fun, uint32_t offset, uint32_t val, uint32_t len) "%s %02x:%x: sriov offset 0x%x val 0x%x len %d"
-+
-+# pcie.c
-+pcie_power_indicator(const char *old, const char *new) "%s -> %s"
+On 07.02.23 15:09, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
+> 
+> Here is tiny code cleanup + on trace point to track power indicator
+> changes (which may help to analyze
+> "Hot-unplug failed: guest is busy (power indicator blinking)" error
+> message).
+> 
+> Vladimir Sementsov-Ogievskiy (4):
+>    pcie: pcie_cap_slot_write_config(): use correct macro
+>    pcie_regs: drop duplicated indicator value macros
+>    pcie: drop unused PCIExpressIndicator
+>    pcie: add trace-point for power indicator transitions
+> 
+>   include/hw/pci/pcie.h      |  8 --------
+>   include/hw/pci/pcie_regs.h | 14 --------------
+>   hw/pci/pcie.c              | 33 +++++++++++++++++++++++++++------
+>   hw/pci/trace-events        |  3 +++
+>   4 files changed, 30 insertions(+), 28 deletions(-)
+> 
+
 -- 
-2.34.1
+Best regards,
+Vladimir
 
 
