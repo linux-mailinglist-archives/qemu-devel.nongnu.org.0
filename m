@@ -2,68 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC26468CD93
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 04:44:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B42868CDD2
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 04:59:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPEsz-0005TS-7w; Mon, 06 Feb 2023 22:43:13 -0500
+	id 1pPF7D-0000t3-Uh; Mon, 06 Feb 2023 22:57:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1pPEsv-0005T2-Lh; Mon, 06 Feb 2023 22:43:10 -0500
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pPF7B-0000rx-DK; Mon, 06 Feb 2023 22:57:53 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1pPEsp-0006so-S6; Mon, 06 Feb 2023 22:43:09 -0500
-Received: by mail-ej1-x634.google.com with SMTP id e22so10609921ejb.1;
- Mon, 06 Feb 2023 19:43:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=w4dtwDSPc1b3/CIRYaTSaxyFeWuM9HcnDANTq8UZwCY=;
- b=B4ch1vE2gaqVPe090Elw+KCEaTVR+VeGP8oJRIItaB9Dii0EH4lXGHWJNocg1zC0Ng
- X5pVLZepKN68KF313nUIatU4e+DH21lucjoAShnDQxPT4DDcOvTZQ+faUgRGnYyLY28W
- ycfkkmaEIdBJrLEl5dVmZkitqzaC/hEY75uP0=
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pPF79-0001Ti-PJ; Mon, 06 Feb 2023 22:57:53 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id hx15so39890446ejc.11;
+ Mon, 06 Feb 2023 19:57:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=l1QGUszpJeXC9WE0yY4G0muVa8oTrHmvKxcFmZwhzfA=;
+ b=plzMNCMCnYmzJ7ia2HuhtvNd2iH+LDWLNVtWpXc7mKjOhpOZNZccbpRLDIme/Fk2/K
+ maXqaOD/IvnsjbS0gTjKzfVBWg/qIAapAyRL4cu6009eALlTRWzH56b7GllvnREW1DJw
+ s+XIGHEiLWwAieHsUHbH7UlP8GTMqE2inTPE/lrfb9p9WhMHiiekpYoequJUwba6iswL
+ V8tniELiAJ8iCkB0njQ24eVWiqaKSDt6siRCrNWkIFHBusB2Bzr6SepOyKJzfX/MJTwh
+ HeoS0NNFmOEb98PPba1UfOKCXKPDdAFtmLrwCdpwotfdCpiLN43nFAwWUEjm28Moqct+
+ Bmcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=w4dtwDSPc1b3/CIRYaTSaxyFeWuM9HcnDANTq8UZwCY=;
- b=aQ29j8M7h2nA8ChAN36VHZdhI64bGMGNMZvB17a0IlJA9LVZHVE8UXjraGQ/Bon4Sm
- 4Se/dHzAaH3h5ha4ARQQroOXKF1zW0dPc7a4RRMaL6vqzy/kewaq4xwZ+msH6AEGKYZJ
- BOBvds0lfijB39FILboXpir6Y+8rdQCsSxp/ImE6tnuEk07L/DFn8w3MwadLJYEqUsOc
- zQfOHJRvSHZERc6lcBUcv0RONbbURR3vMVu4ZEflRCWz370qFiJ1L4f2Rhnb1pGf3/E+
- gZ8bhE+E2i3MkzD4ceEYgxogfwKM1QkJU1m1ex8YbGLNm0e1fTkl/M5rNbMAsxxGmgHD
- vZUw==
-X-Gm-Message-State: AO0yUKU/Zpe7BKdM5QFtF9jvLhGXPp17qMuPEV9OtGenNu0qZH5Rlgp1
- daaU5h90meoQChaJmYeFbai464iWq4R4QV791Ag=
-X-Google-Smtp-Source: AK7set/OXEPl/NesK6+nitXHKCeNtoCN9te0wLf+1WZL/l7lop+o9ueUy2Cdn3jlINyvnk9S6CBIxnJSGeei+p3VKP8=
-X-Received: by 2002:a17:906:3013:b0:885:2313:c8b5 with SMTP id
- 19-20020a170906301300b008852313c8b5mr478629ejz.201.1675741380442; Mon, 06 Feb
- 2023 19:43:00 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=l1QGUszpJeXC9WE0yY4G0muVa8oTrHmvKxcFmZwhzfA=;
+ b=U9bf9qi1iy61wHervN8ooavMviT630KEAmI3LOC1RL4Qk5BpjBgF32zd1fnD0HEU4L
+ kQkOnZk+V8OeVui4sMNa80J74sdPTQ+xlR/M0z5EwE/IqRaYe7aKAy1BH3SZ232OOsxZ
+ 8uG2n9USW/NkGXje4+8Jeec9YBj01LWA1MI7KuI5vpcExyRQIdJKfV7hVUTMnrd1EEEF
+ mHVwi+Z4QkZJmolY2XSsAOwaJldPmjdye2WqdPizG1g36mOAZ4dYnZgSb4HpEAiCf5Kb
+ 5RV3Js9pQ1U199Zu+VuC/i4lEOUuWtyfR75tEc6XM0HWXa1NGVIR5hYtLQD1s4GIPhBq
+ loTw==
+X-Gm-Message-State: AO0yUKVDb1dcd9TZR3t6rRzhrm6lww3IE5jMpesj04xvMx5uq1vhDOsR
+ Z4rW8/JxKh2XiySAd7aRQPcp7WVzWkhs+KwCW14=
+X-Google-Smtp-Source: AK7set/iagUxUvxNDlCBO81qsSjDh0LlQCZQUoeHEA2+kxeveL9+4Ld6SF7BwxwQC9PSZqFnpgLkzT5caM8oVkdkxmY=
+X-Received: by 2002:a17:906:7816:b0:888:f761:87aa with SMTP id
+ u22-20020a170906781600b00888f76187aamr503913ejm.163.1675742261081; Mon, 06
+ Feb 2023 19:57:41 -0800 (PST)
 MIME-Version: 1.0
-References: <20230206194936.168843-1-titusr@google.com>
- <20230206194936.168843-2-titusr@google.com>
-In-Reply-To: <20230206194936.168843-2-titusr@google.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 7 Feb 2023 03:42:54 +0000
-Message-ID: <CACPK8Xc=w9n-Q-K7iJQF8QSSzSW1e1S=dfuqrQvRp=SOCwQfHw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] hw/gpio: add PCA6414 i2c GPIO expander
-To: Titus Rwantare <titusr@google.com>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Hao Wu <wuhaotsh@google.com>
+References: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
+ <20230202045223.2594627-3-sunilvl@ventanamicro.com>
+ <CABJz62PFGT1H-AArbfTkpiX24mHU=q3wk7h-bpduZhJyy7tTLw@mail.gmail.com>
+ <fe3b5794-be2a-eec7-9d4e-9a13eab48378@linaro.org>
+ <20230206123520.feomnevavp4olbie@orel>
+In-Reply-To: <20230206123520.feomnevavp4olbie@orel>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 7 Feb 2023 11:57:29 +0800
+Message-ID: <CAEUhbmUDuH47SFyvHRzB6ZD_Ofs0DZpQDCpcyVELZgF+cTat9g@mail.gmail.com>
+Subject: Re: [PATCH 02/10] hw/riscv/virt: Add a switch to enable/disable ACPI
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Andrea Bolognani <abologna@redhat.com>, Sunil V L <sunilvl@ventanamicro.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Anup Patel <apatel@ventanamicro.com>, Atish Kumar Patra <atishp@rivosinc.com>, 
+ Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, 
+ Igor Mammedov <imammedo@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Bernhard Beschow <shentey@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=joel.stan@gmail.com; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,85 +95,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 6 Feb 2023 at 19:51, Titus Rwantare <titusr@google.com> wrote:
+On Mon, Feb 6, 2023 at 8:36 PM Andrew Jones <ajones@ventanamicro.com> wrote=
+:
 >
-> This is a simple i2c device that allows i2c capable devices to have
-> GPIOs.
-
-Nice.
-
-In Linux this is supported by a driver called pca953x.  Would it make
-sense to name your model similarly (both the file and the prefixes you
-use)?
-
-If we do that then it looks like other devices from the same family
-could be easily supported. (I'm not suggesting you do that work up
-front)
-
->  hw/gpio/pca_i2c_gpio.c          | 362 ++++++++++++++++++++++++++++++++
->  hw/gpio/trace-events            |   5 +
->  hw/i2c/Kconfig                  |   4 +
->  include/hw/gpio/pca_i2c_gpio.h  |  72 +++++++
->  tests/qtest/meson.build         |   1 +
->  tests/qtest/pca_i2c_gpio-test.c | 169 +++++++++++++++
->  8 files changed, 615 insertions(+)
->  create mode 100644 hw/gpio/pca_i2c_gpio.c
->  create mode 100644 include/hw/gpio/pca_i2c_gpio.h
->  create mode 100644 tests/qtest/pca_i2c_gpio-test.c
+> On Mon, Feb 06, 2023 at 12:18:06PM +0100, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+> > On 6/2/23 11:54, Andrea Bolognani wrote:
+> > > On Thu, Feb 02, 2023 at 10:22:15AM +0530, Sunil V L wrote:
+> > > > +    object_class_property_add(oc, "acpi", "OnOffAuto",
+> > > > +                              virt_get_acpi, virt_set_acpi,
+> > > > +                              NULL, NULL);
+> > > > +    object_class_property_set_description(oc, "acpi",
+> > > > +                                          "Enable ACPI");
+> > >
+> > > The way this works on other architectures (x86_64, aarch64) is that
+> > > you get ACPI by default and can use -no-acpi to disable it if
+> > > desired. Can we have the same on RISC-V, for consistency?
 >
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index 2d157de9b8..1b533ddd76 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -418,6 +418,7 @@ config NPCM7XX
->      select SSI
->      select UNIMP
->      select PCA954X
-> +    select PCA_I2C_GPIO
+> Default on, with a user control to turn off, can be done with a boolean.
+> I'm not sure why/if Auto is needed for acpi. Auto is useful when a
+> configuration doesn't support a default setting for a feature. If the
+> user hasn't explicitly requested the feature to be on or off, then the
+> configuration can silently select what works. If, however, the user
+> explicitly chooses what doesn't work, then qemu will fail with an error
+> instead.
+
+I have a confusion about "OnOffAuto" vs. "bool" type.
+
+Both "OnOffAuto" vs. "bool" type property can have a default value if
+user does not assign a value to it from command line. The default
+value is:
+
+- ON_OFF_AUTO_AUTO for "OnOffAuto"
+- false for "bool"
+
+But the default value can be overridden in the machine's init
+function, like in this patch.
+
+So I am not really sure how these 2 types of properties are different.
+Why did we introduce a "OnOffAuto" type, and how is that type supposed
+to be used in which scenario?
+
 >
->  config FSL_IMX25
->      bool
-> diff --git a/hw/gpio/meson.build b/hw/gpio/meson.build
-> index b726e6d27a..1e5b602002 100644
-> --- a/hw/gpio/meson.build
-> +++ b/hw/gpio/meson.build
-> @@ -12,3 +12,4 @@ softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_gpio.c'))
->  softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_gpio.c'))
->  softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_gpio.c'))
->  softmmu_ss.add(when: 'CONFIG_SIFIVE_GPIO', if_true: files('sifive_gpio.c'))
-> +softmmu_ss.add(when: 'CONFIG_PCA_I2C_GPIO', if_true: files('pca_i2c_gpio.c'))
-> diff --git a/hw/gpio/pca_i2c_gpio.c b/hw/gpio/pca_i2c_gpio.c
-> new file mode 100644
-> index 0000000000..afae497a22
-> --- /dev/null
-> +++ b/hw/gpio/pca_i2c_gpio.c
-> @@ -0,0 +1,362 @@
-> +/*
-> + * NXP PCA I2C GPIO Expanders
-> + *
-> + * Low-voltage translating 16-bit I2C/SMBus GPIO expander with interrupt output,
-> + * reset, and configuration registers
-> + *
-> + * Datasheet: https://www.nxp.com/docs/en/data-sheet/PCA6416A.pdf
+> >
+> > -no-acpi rather seems a x86-specific hack for the ISA PC machine, and
+> > has a high maintenance cost / burden.
+> >
+> > If hardware provides ACPI support, QEMU should expose it to the guest.
+> >
+> > Actually, what is the value added by '-no-acpi'?
+>
+> IIRC, when booting, at least arm guests, with edk2 and ACPI tables,
+> then edk2 will provide the guest ACPI tables instead of DT. To ensure
+> we can boot with edk2, but still allow the guest to boot with DT, we
+> need a way to disable the generation of ACPI tables.
+>
 
-+1
-
-> + *
-> + * Copyright 2023 Google LLC
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + *
-> + * These devices, by default, are configured to input only. The configuration is
-> + * settable through qom/qmp, or i2c.To set some pins as inputs before boot, use
-> + * the following in the board file of the machine:
-> + *      object_property_set_uint(Object *obj, const char *name,
-> + *                               uint64_t value, Error **errp);
-> + * specifying name as "gpio_config" and the value as a bitfield of the inputs
-> + * e.g. for the pca6416, a value of 0xFFF0, sets pins 0-3 as outputs and
-> + * 4-15 as inputs.
-> + * This value can also be set at runtime through qmp externally, or by
-> + * writing to the config register using i2c.
-
-Nice docs. I'm sure someone else will tell you if there's a better
-spot, but I like that you've written this down.
+Regards,
+Bin
 
