@@ -2,106 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAF2868D06D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 08:17:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D665368D056
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 08:15:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPI9Z-0001fZ-Vv; Tue, 07 Feb 2023 02:12:34 -0500
+	id 1pPIAk-0006AI-IV; Tue, 07 Feb 2023 02:13:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=395dd5341=alistair.francis@opensource.wdc.com>)
- id 1pPI8x-0000vj-HI
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:12:08 -0500
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=395dd5341=alistair.francis@opensource.wdc.com>)
- id 1pPI8v-0000FD-Tv
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:11:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1675753913; x=1707289913;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=US6AOZxZc/Tz5zXl8mndWgNM8kZmZs66TcvQR2IB3O4=;
- b=DMBJxpRF6Dn1bG/M7W6TLFzauMhuqaE2afuy9Ukz95Q7YBART4VjbwZ3
- FRYOSAOBqukq9eA8bUoIQmNzQT8EKGEhTsLHjEJ4zquvhtFL+l34HYN1W
- lfk1126t1K39rm2LyZqJx+G5886tKt6VirQpqzGvlv901273e6g1picGl
- UvcOAvkLFvFs15NqC3UrhmWMEGa9vWgjC+yOom/NkGXIsPeGUYOWc/Zrd
- 0CzQim7pR1hAffUw3TRyqq/Uok/67xqDtetK9Ab6trLwLY+Xqy9a8x3+6
- CtqJP3I1TbnNSbIW1W5AYB1vKgc1Yr25VYv8WhsD0O3DbiFI2t3hFWQy6 A==;
-X-IronPort-AV: E=Sophos;i="5.97,278,1669046400"; d="scan'208";a="227657588"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 07 Feb 2023 15:10:52 +0800
-IronPort-SDR: jYSLXLEr+7TYC0z871P8FqgthfMgkwVJEV7o3GEHqLG5bt9sSJs+5/4e8W9EnaPy210JzItgay
- 7JIyD4OPwb5BWu5H/ZduhQZWP4rQ/A0gQJggO6hYQjyVvlOBRMjUwROmY8trH+72YxNtZ/ODHy
- FXuMbAyMA+JtV4kPyASV0baIrzrOdfqAf9Zccqyt+KKDwQuAviAbjA09OUEztdee/n0HG1mmN5
- cFjtdkACEbkM1WG04/tgaD0bhRevByA2zjA+8tC38Oh+u5qNj8qeAMOUu1G9VbsFZU5LEuAN6p
- 4E8=
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Feb 2023 22:28:09 -0800
-IronPort-SDR: Fh7CudacfgtpXvPJGzIBPWBBOyZWATa4rSTPtGsONnkdKaI/5eVdLXdgjPy5MwPBXxAdTjcfB9
- H84wK+WVZA2BlFh4GdIIwB+EGD93iiU9evH6+2iARInLt3xlnqXDQq3AHuG21TQg3Jbp2/4BaN
- CB4iUaCqvfHcu422HyhvVgQhdVMVs1bAZYwXjc63qkH4weq7bLAjcwfoYww8WPckwgLoWGc8xj
- WyI6MenVtkCajmedn2UwN7uilo16Yi1fPx07RmP9mS0mxhOX4eQ6pWBhI3t+mkgcIJ9ZelZgHN
- E3Q=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Feb 2023 23:10:52 -0800
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4P9vRc2GGSz1RvLy
- for <qemu-devel@nongnu.org>; Mon,  6 Feb 2023 23:10:52 -0800 (PST)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1675753851; x=1678345852; bh=US6AOZx
- Zc/Tz5zXl8mndWgNM8kZmZs66TcvQR2IB3O4=; b=H6BufcZ5NPNH541ZFYXlq9Y
- 9DzqzHlw5D5R6Sayj6M8J0/I07MdlBzeIQl5dC6+a+jct4GfPTzO+S1OleBih7yK
- 1jvXKIYN+muAzH1rSI6fhQigS6MGsRDSxZt4rHahS/nb3bGtWbU144z7nM//fFR7
- 8LIsL+0QyxIZsGPYnGQRE+S6khM9xLAJ5YgXRGwWQG+HFhq+ibwFISMzJgyiIxnL
- uSXTwwU70eevDAM/g9+2s/2B2K2WMTNC74+YFPFJWWGkbJpNtbAe4+7f3A8W7MhU
- qEqpV0vUw+b6COfhDvhxMBg/TgMtrb4yvGljgZV8zCH16EjLXGi8NAGOpnH53kA=
- =
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id bHRhbhmZeX9j for <qemu-devel@nongnu.org>;
- Mon,  6 Feb 2023 23:10:51 -0800 (PST)
-Received: from toolbox.alistair23.me (unknown [10.225.167.38])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4P9vRZ3bJ0z1Rwrq;
- Mon,  6 Feb 2023 23:10:50 -0800 (PST)
-From: Alistair Francis <alistair.francis@opensource.wdc.com>
-To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Bin Meng <bmeng@tinylab.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 32/32] hw/riscv: virt: Simplify virt_{get,set}_aclint()
-Date: Tue,  7 Feb 2023 17:09:43 +1000
-Message-Id: <20230207070943.2558857-33-alistair.francis@opensource.wdc.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230207070943.2558857-1-alistair.francis@opensource.wdc.com>
-References: <20230207070943.2558857-1-alistair.francis@opensource.wdc.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPIAh-00066K-3m
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:13:43 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPIAf-00017J-9n
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:13:42 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ bg5-20020a05600c3c8500b003e00c739ce4so2009928wmb.5
+ for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 23:13:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=5qDd63j+Z60WdwRzJL1tU/BVjMZ0HIClw7obz4DE6Qw=;
+ b=Cst1J3D68wlWl8ezALluwKcQImuHATA9/SGQDw0On4HhBKsP22C13OES4+FVv2deDA
+ utQ6fcFkvIUjD1yBG2ltqyARvzT1zbT41RNkme7nVgDvBQAkpLT0kDck4Vo+WmEd4XvY
+ k82ndRJObEz9UBa+BYFubSuEeiy201/SQAQHiPr2qUNFT/WBmF8BGm++D1+NNtj6+tPw
+ AIZSxQsgaG0KwjZKfsGLiRKkUJKRsTzOn/kn/dubQqeDfAw7dtxPL1GZBe0rg8LV6Y6p
+ u6IOpnMzMW84/G146YZiXHFmR0KzvDsP0KbQ77g8l2azQaIteOIaqYLpuqa3FhHlFXW8
+ lb9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5qDd63j+Z60WdwRzJL1tU/BVjMZ0HIClw7obz4DE6Qw=;
+ b=AR1kGn/Qo3NQO8k72oeL1HbV1jqhKnVL2ey6gCtqLbIDC4pYjnJOFYxQ47HcDXJS6t
+ wM3snQYAeHFUH/tBYmjiseNCkZdfqHoREi8iLm23Mzd+epK0QsJQtDDUGIYVk8lG7/nr
+ 8dIcMHOhidJvtrRj7xBVLs3uWvRYAz8GmIZ01k9BarZTC8mdfzRW3pxX8b6LjoBnML8v
+ Z6E8nwRpr39rQ9xmZqhsO36W1lV+MTuGbV+zSepCkTc+yHAGIWRqySUwYHvBOyWnplle
+ BEKkUyPV7puqq1ZuybWEfe4zRjskp0h8zBEHhCeM4xBSEdB6SmahrkNSCqos6qIHg8t5
+ gc/Q==
+X-Gm-Message-State: AO0yUKVJN0HtfH4AomMpS2mRMANe7brQSkU6b6G6Xk50l1XYPTupok65
+ MA4Ge/MplkeIUcLbqfhGzN/K4g==
+X-Google-Smtp-Source: AK7set8XxCQ54Zfg+1SdOxJcvyHr8LMu9MrVglnU0Eibm50ijWbNW0ttaM8jz/70DyMYxyZES8ePgg==
+X-Received: by 2002:a05:600c:a287:b0:3df:fff4:5f6f with SMTP id
+ hu7-20020a05600ca28700b003dffff45f6fmr2139486wmb.36.1675754018821; 
+ Mon, 06 Feb 2023 23:13:38 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ q14-20020a05600c46ce00b003dc47d458cdsm13570487wmo.15.2023.02.06.23.13.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Feb 2023 23:13:37 -0800 (PST)
+Message-ID: <de4b4eb1-0f77-fb20-5e8e-be751f4a32a5@linaro.org>
+Date: Tue, 7 Feb 2023 08:13:36 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.153.141;
- envelope-from=prvs=395dd5341=alistair.francis@opensource.wdc.com;
- helo=esa3.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 2/3] hw/ssi: Add Nuvoton PSPI Module
+Content-Language: en-US
+To: Hao Wu <wuhaotsh@google.com>, peter.maydell@linaro.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, venture@google.com,
+ Avi.Fishman@nuvoton.com, kfting@nuvoton.com, hskinnemoen@google.com,
+ titusr@google.com, Chris Rauer <crauer@google.com>
+References: <20230206233428.2772669-1-wuhaotsh@google.com>
+ <20230206233428.2772669-3-wuhaotsh@google.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230206233428.2772669-3-wuhaotsh@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,44 +93,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bin Meng <bmeng@tinylab.org>
+On 7/2/23 00:34, Hao Wu wrote:
+> Nuvoton's PSPI is a general purpose SPI module which enables
+> connections to SPI-based peripheral devices.
+> 
+> Signed-off-by: Hao Wu <wuhaotsh@google.com>
+> Reviewed-by: Chris Rauer <crauer@google.com>
+> ---
+>   MAINTAINERS                |   6 +-
+>   hw/ssi/meson.build         |   2 +-
+>   hw/ssi/npcm_pspi.c         | 216 +++++++++++++++++++++++++++++++++++++
+>   hw/ssi/trace-events        |   5 +
+>   include/hw/ssi/npcm_pspi.h |  53 +++++++++
+>   5 files changed, 278 insertions(+), 4 deletions(-)
+>   create mode 100644 hw/ssi/npcm_pspi.c
+>   create mode 100644 include/hw/ssi/npcm_pspi.h
 
-There is no need to declare an intermediate "MachineState *ms".
 
-Signed-off-by: Bin Meng <bmeng@tinylab.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20230206085007.3618715-1-bmeng@tinylab.org>
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- hw/riscv/virt.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+> +static const MemoryRegionOps npcm_pspi_ctrl_ops = {
+> +    .read = npcm_pspi_ctrl_read,
+> +    .write = npcm_pspi_ctrl_write,
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +    .valid = {
+> +        .min_access_size = 1,
+> +        .max_access_size = 2,
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index a061151a6f..b81081c70b 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -1583,16 +1583,14 @@ static void virt_set_aia(Object *obj, const char =
-*val, Error **errp)
-=20
- static bool virt_get_aclint(Object *obj, Error **errp)
- {
--    MachineState *ms =3D MACHINE(obj);
--    RISCVVirtState *s =3D RISCV_VIRT_MACHINE(ms);
-+    RISCVVirtState *s =3D RISCV_VIRT_MACHINE(obj);
-=20
-     return s->have_aclint;
- }
-=20
- static void virt_set_aclint(Object *obj, bool value, Error **errp)
- {
--    MachineState *ms =3D MACHINE(obj);
--    RISCVVirtState *s =3D RISCV_VIRT_MACHINE(ms);
-+    RISCVVirtState *s =3D RISCV_VIRT_MACHINE(obj);
-=20
-     s->have_aclint =3D value;
- }
---=20
-2.39.1
+I'm not sure about ".max_access_size = 2". The datasheet does
+not seem public. Does that mean the CPU bus can not do a 32-bit
+access to read two consecutive 16-bit registers? (these fields
+restrict the guest accesses to the device).
+
+> +        .unaligned = false,
+> +    },
+
+You might want instead (which is how you implemented the r/w
+handlers):
+
+     .impl.min_access_size = 2,
+     .impl.max_access_size = 2,
+
+> +};
+
+
+> +static void npcm_pspi_realize(DeviceState *dev, Error **errp)
+> +{
+> +    NPCMPSPIState *s = NPCM_PSPI(dev);
+> +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+> +    Object *obj = OBJECT(dev);
+> +
+> +    s->spi = ssi_create_bus(dev, "pspi");
+
+FYI there is an ongoing discussion about how to model QOM tree. If
+this bus isn't shared with another controller, the "embed QOM child
+in parent" style could be preferred. If so, the bus would be created
+as:
+
+       object_initialize_child(obj, "pspi", &s->spi, TYPE_SSI_BUS);
+
+> +    memory_region_init_io(&s->mmio, obj, &npcm_pspi_ctrl_ops, s,
+> +                          "mmio", 4 * KiB);
+> +    sysbus_init_mmio(sbd, &s->mmio);
+> +    sysbus_init_irq(sbd, &s->irq);
+> +}
+
+
+> diff --git a/hw/ssi/trace-events b/hw/ssi/trace-events
+> index c707d4aaba..16ea9954c4 100644
+> --- a/hw/ssi/trace-events
+> +++ b/hw/ssi/trace-events
+
+> +# npcm_pspi.c
+> +npcm_pspi_enter_reset(const char *id, int reset_type) "%s reset type: %d"
+> +npcm_pspi_ctrl_read(const char *id, uint64_t addr, uint16_t data) "%s offset: 0x%04" PRIx64 " value: 0x%08" PRIx16
+> +npcm_pspi_ctrl_write(const char *id, uint64_t addr, uint16_t data) "%s offset: 0x%04" PRIx64 " value: 0x%08" PRIx16
+
+Since the region is 4KiB and the implementation is 16-bit, the formats
+could be simplified as offset 0x%03 and value 0x%04. The traces will
+then be more digestible to human eyes.
+
+Modulo the impl.access_size change:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
