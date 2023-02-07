@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B998168CFC6
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 07:48:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BE2568CFC1
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 07:47:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPHjs-0007IO-VA; Tue, 07 Feb 2023 01:46:01 -0500
+	id 1pPHk0-0007Kd-La; Tue, 07 Feb 2023 01:46:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPHjV-00077p-4T
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 01:45:38 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPHjT-00077F-W7
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 01:45:36 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPHjS-00041Q-FL
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 01:45:36 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPHjR-000417-L3
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 01:45:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1675752333;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+C6wV+P61LrLb2jloR7AjMfWpFMLNmpllPtxSRkkEdw=;
- b=S7TfXMVglwaXmjPDb2kCXdqldo13qLPWVmDGxlagrQIBdP40aLKFbGqb3kQiy4M0pQWWeU
- wWT6HtEM3z6jEb6kCnJgW4F0+zKv8OhPckYm38ESb9CO8MK3B/CC9+tT+rb9T9rcbsT8va
- X4dcYn7ncWl4D4kHIIw8M7G731oRIXg=
+ bh=0+vzG9psU6DnR2uT7ryMZ+h+3Ec3AhK/lm+UEgyc0G8=;
+ b=bofHUX6S6Yo3R7tP4ce7NLASDu+yzhvkg5xfDt5E3ClhXohNQYQGGToFF/sPUVWAr/AHiu
+ P4ERQmvGtBDDqAA3yeNEanM8deLHreNF95DKZP85dE4byNkyDklqizo8/KlgG3FrQq3A6M
+ oU61DkNYAFh4LyZ84I3qOl5fxvW1ZUY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-74-be4Al44fOdO1tmdo9tmc_Q-1; Tue, 07 Feb 2023 01:45:27 -0500
-X-MC-Unique: be4Al44fOdO1tmdo9tmc_Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-74-raD_FFAYNG-LQH72hfPBKw-1; Tue, 07 Feb 2023 01:45:27 -0500
+X-MC-Unique: raD_FFAYNG-LQH72hfPBKw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AC44A858F0E;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD52E802314;
  Tue,  7 Feb 2023 06:45:26 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8946AC15BA0;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 89E46492C3C;
  Tue,  7 Feb 2023 06:45:26 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 08DA421E6913; Tue,  7 Feb 2023 07:45:24 +0100 (CET)
+ id 0B46521E6914; Tue,  7 Feb 2023 07:45:24 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+Cc: peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>,
  "Michael S . Tsirkin" <mst@redhat.com>
-Subject: [PULL 12/20] net: Clean up includes
-Date: Tue,  7 Feb 2023 07:45:15 +0100
-Message-Id: <20230207064523.3968603-13-armbru@redhat.com>
+Subject: [PULL 13/20] target/hexagon: Clean up includes
+Date: Tue,  7 Feb 2023 07:45:16 +0100
+Message-Id: <20230207064523.3968603-14-armbru@redhat.com>
 In-Reply-To: <20230207064523.3968603-1-armbru@redhat.com>
 References: <20230207064523.3968603-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -91,26 +90,48 @@ related cleanups:
 * Likewise, including headers qemu/osdep.h includes is redundant.
   Drop these, too.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20230202133830.2152150-13-armbru@redhat.com>
----
- net/vmnet_int.h | 1 -
- 1 file changed, 1 deletion(-)
+Changes to standalone programs dropped, because these intentionally
+don't use qemu/osdep.h:
 
-diff --git a/net/vmnet_int.h b/net/vmnet_int.h
-index adf6e8c20d..d0b90594f2 100644
---- a/net/vmnet_int.h
-+++ b/net/vmnet_int.h
-@@ -10,7 +10,6 @@
- #ifndef VMNET_INT_H
- #define VMNET_INT_H
+    target/hexagon/gen_dectree_import.c
+    target/hexagon/gen_semantics.c
+    target/hexagon/idef-parser/idef-parser.h
+    target/hexagon/idef-parser/parser-helpers.c
+    target/hexagon/idef-parser/parser-helpers.h
+
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <20230202133830.2152150-14-armbru@redhat.com>
+---
+ target/hexagon/hex_arch_types.h | 1 -
+ target/hexagon/mmvec/macros.h   | 1 -
+ 2 files changed, 2 deletions(-)
+
+diff --git a/target/hexagon/hex_arch_types.h b/target/hexagon/hex_arch_types.h
+index 885f68f760..52a7f2b2f3 100644
+--- a/target/hexagon/hex_arch_types.h
++++ b/target/hexagon/hex_arch_types.h
+@@ -18,7 +18,6 @@
+ #ifndef HEXAGON_HEX_ARCH_TYPES_H
+ #define HEXAGON_HEX_ARCH_TYPES_H
  
 -#include "qemu/osdep.h"
- #include "vmnet_int.h"
- #include "clients.h"
+ #include "mmvec/mmvec.h"
+ #include "qemu/int128.h"
  
+diff --git a/target/hexagon/mmvec/macros.h b/target/hexagon/mmvec/macros.h
+index 8c864e8c68..1201d778d0 100644
+--- a/target/hexagon/mmvec/macros.h
++++ b/target/hexagon/mmvec/macros.h
+@@ -18,7 +18,6 @@
+ #ifndef HEXAGON_MMVEC_MACROS_H
+ #define HEXAGON_MMVEC_MACROS_H
+ 
+-#include "qemu/osdep.h"
+ #include "qemu/host-utils.h"
+ #include "arch.h"
+ #include "mmvec/system_ext_mmvec.h"
 -- 
 2.39.0
 
