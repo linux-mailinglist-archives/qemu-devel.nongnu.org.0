@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A300368CB86
+	by mail.lfdr.de (Postfix) with ESMTPS id A569968CB87
 	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 01:58:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPCIJ-0002eK-VS; Mon, 06 Feb 2023 19:57:12 -0500
+	id 1pPCIN-0002fy-Vb; Mon, 06 Feb 2023 19:57:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pPCIC-0002dw-PS
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 19:57:05 -0500
+ id 1pPCIH-0002f3-4g
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 19:57:09 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pPCIA-0003Yh-8t
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 19:57:03 -0500
+ id 1pPCIF-0003ZL-H1
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 19:57:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675731420;
+ s=mimecast20190719; t=1675731426;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=beZ5hYezpg1eaD+EamOXUKFXISgfutVwDb5m1qp0Cgo=;
- b=HRa1r2gaGyPhJHGO984xEO/54PgSYD8Ry2CoYRB7/32nJC1TQwIphTAjxX1Il266j2Ta0Z
- udd6Hq4WK341LoJJAOrdHY3uNHjIHaa2NZZBlV2KAweoIYIrAh/skkOSiyq+RjcZEkVhdk
- 4D0jqub4fUV23i/yrGKO8wJ3VH1lDkc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4tyAthjyAJfKR2wxZiLS098ns/1BTHiWpLuviegbRVQ=;
+ b=dc9TfAsNAPS/CG1MC9DNUuspR45gIGvejLg2KWdlqfqsx7uzR1FX8s+Y0RdPOT37vrqBZ6
+ OSW+r8rPvevQ/e52ebY2QCTD+jSxH8EEaE7va8Uc4YsfRwGCm+ma6b9jprgO7j4EnpKQ79
+ SOC6KKNZPQfHWHlqQc1/c9HDHgi0oF0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-325-3_cE7ZEANHKr0fcmT_11hQ-1; Mon, 06 Feb 2023 19:56:57 -0500
-X-MC-Unique: 3_cE7ZEANHKr0fcmT_11hQ-1
+ us-mta-655-6Rcrl1TjM66tyeSAaNYYpg-1; Mon, 06 Feb 2023 19:57:02 -0500
+X-MC-Unique: 6Rcrl1TjM66tyeSAaNYYpg-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 695713815F62;
- Tue,  7 Feb 2023 00:56:56 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE38A800B24;
+ Tue,  7 Feb 2023 00:57:01 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 29944492C3C;
- Tue,  7 Feb 2023 00:56:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AEF9F492C3C;
+ Tue,  7 Feb 2023 00:56:56 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
@@ -61,12 +62,15 @@ Cc: qemu-block@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Alex Williamson <alex.williamson@redhat.com>,
- Eric Blake <eblake@redhat.com>, Eric Farman <farman@linux.ibm.com>
-Subject: [PULL 00/30] Migration 20230206 patches
-Date: Tue,  7 Feb 2023 01:56:20 +0100
-Message-Id: <20230207005650.1810-1-quintela@redhat.com>
+ Eric Blake <eblake@redhat.com>, Eric Farman <farman@linux.ibm.com>,
+ Peter Xu <peterx@redhat.com>, qemu-stable@nongnu.org
+Subject: [PULL 01/30] migration: Fix migration crash when target psize larger
+ than host
+Date: Tue,  7 Feb 2023 01:56:21 +0100
+Message-Id: <20230207005650.1810-2-quintela@redhat.com>
+In-Reply-To: <20230207005650.1810-1-quintela@redhat.com>
+References: <20230207005650.1810-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
@@ -93,155 +97,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 6661b8c7fe3f8b5687d2d90f7b4f3f23d70e3e8b:
+From: Peter Xu <peterx@redhat.com>
 
-  Merge tag 'pull-ppc-20230205' of https://gitlab.com/danielhb/qemu into staging (2023-02-05 16:49:09 +0000)
+Commit d9e474ea56 overlooked the case where the target psize is even larger
+than the host psize.  One example is Alpha has 8K page size and migration
+will start to crash the source QEMU when running Alpha migration on x86.
 
-are available in the Git repository at:
+Fix it by detecting that case and set host start/end just to cover the
+single page to be migrated.
 
-  https://gitlab.com/juan.quintela/qemu.git tags/migration-20230206-pull-request
+This will slightly optimize the common case where host psize equals to
+guest psize so we don't even need to do the roundups, but that's trivial.
 
-for you to fetch changes up to 1b1f4ab69c41279a45ccd0d3178e83471e6e4ec1:
+Cc: qemu-stable@nongnu.org
+Reported-by: Thomas Huth <thuth@redhat.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1456
+Fixes: d9e474ea56 ("migration: Teach PSS about host page")
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
+ migration/ram.c | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
-  migration: save/delete migration thread info (2023-02-06 19:22:57 +0100)
-
-----------------------------------------------------------------
-Migration Pull request
-
-In this try
-- rebase to latest upstream
-- same than previous patch
-- fix compilation on non linux (userfaultfd.h) (me)
-- query-migrationthreads (jiang)
-- fix race on reading MultiFDPages_t.block (zhenzhong)
-- fix flush of zero copy page send reuest  (zhenzhong)
-
-Please apply.
-
-Previous try:
-It includes:
-- David Hildenbrand fixes for virtio-men
-- David Gilbert canary to detect problems
-- Fix for rdma return values (Fiona)
-- Peter Xu uffd_open fixes
-- Peter Xu show right downtime for postcopy
-- manish.mishra msg fix fixes
-- my vfio changes.
-
-Please apply.
-
-----------------------------------------------------------------
-
-David Hildenbrand (13):
-  migration/ram: Fix populate_read_range()
-  migration/ram: Fix error handling in ram_write_tracking_start()
-  migration/ram: Don't explicitly unprotect when unregistering uffd-wp
-  migration/ram: Rely on used_length for uffd_change_protection()
-  migration/ram: Optimize ram_write_tracking_start() for
-    RamDiscardManager
-  migration/savevm: Move more savevm handling into vmstate_save()
-  migration/savevm: Prepare vmdesc json writer in
-    qemu_savevm_state_setup()
-  migration/savevm: Allow immutable device state to be migrated early
-    (i.e., before RAM)
-  migration/vmstate: Introduce VMSTATE_WITH_TMP_TEST() and
-    VMSTATE_BITMAP_TEST()
-  migration/ram: Factor out check for advised postcopy
-  virtio-mem: Fail if a memory backend with "prealloc=on" is specified
-  virtio-mem: Migrate immutable properties early
-  virtio-mem: Proper support for preallocation with migration
-
-Dr. David Alan Gilbert (2):
-  migration: Add canary to VMSTATE_END_OF_LIST
-  migration: Perform vmsd structure check during tests
-
-Fiona Ebner (1):
-  migration/rdma: fix return value for qio_channel_rdma_{readv,writev}
-
-Jiang Jiacheng (2):
-  migration: Introduce interface query-migrationthreads
-  migration: save/delete migration thread info
-
-Juan Quintela (4):
-  migration: No save_live_pending() method uses the QEMUFile parameter
-  migration: Split save_live_pending() into state_pending_*
-  migration: Remove unused threshold_size parameter
-  migration: simplify migration_iteration_run()
-
-Peter Xu (3):
-  migration: Fix migration crash when target psize larger than host
-  util/userfaultfd: Add uffd_open()
-  migration: Show downtime during postcopy phase
-
-Zhenzhong Duan (3):
-  migration/dirtyrate: Show sample pages only in page-sampling mode
-  multifd: Fix a race on reading MultiFDPages_t.block
-  multifd: Fix flush of zero copy page send request
-
-manish.mishra (2):
-  io: Add support for MSG_PEEK for socket channel
-  migration: check magic value for deciding the mapping of channels
-
- docs/devel/migration.rst                      |   18 +-
- docs/devel/vfio-migration.rst                 |    4 +-
- .../x86_64-quintela-devices.mak               |    7 +
- .../x86_64-quintela2-devices.mak              |    6 +
- qapi/migration.json                           |   29 +
- include/hw/virtio/virtio-mem.h                |    8 +
- include/io/channel.h                          |    6 +
- include/migration/misc.h                      |    4 +-
- include/migration/register.h                  |   17 +-
- include/migration/vmstate.h                   |   35 +-
- include/qemu/userfaultfd.h                    |   12 +
- migration/channel.h                           |    5 +
- migration/migration.h                         |    4 +
- migration/multifd.h                           |    2 +-
- migration/postcopy-ram.h                      |    2 +-
- migration/savevm.h                            |   10 +-
- migration/threadinfo.h                        |   28 +
- chardev/char-socket.c                         |    4 +-
- hw/core/machine.c                             |    4 +-
- hw/s390x/s390-stattrib.c                      |   11 +-
- hw/vfio/migration.c                           |   20 +-
- hw/virtio/virtio-mem.c                        |  144 +-
- io/channel-buffer.c                           |    1 +
- io/channel-command.c                          |    1 +
- io/channel-file.c                             |    1 +
- io/channel-null.c                             |    1 +
- io/channel-socket.c                           |   19 +-
- io/channel-tls.c                              |    1 +
- io/channel-websock.c                          |    1 +
- io/channel.c                                  |   16 +-
- migration/block-dirty-bitmap.c                |   14 +-
- migration/block.c                             |   13 +-
- migration/channel-block.c                     |    1 +
- migration/channel.c                           |   45 +
- migration/dirtyrate.c                         |   10 +-
- migration/migration.c                         |  124 +-
- migration/multifd.c                           |   39 +-
- migration/postcopy-ram.c                      |   16 +-
- migration/ram.c                               |  120 +-
- migration/rdma.c                              |   16 +-
- migration/savevm.c                            |  187 ++-
- migration/threadinfo.c                        |   51 +
- migration/vmstate.c                           |    2 +
- scsi/qemu-pr-helper.c                         |    2 +-
- tests/qtest/migration-test.c                  |    4 +-
- tests/qtest/tpm-emu.c                         |    2 +-
- tests/unit/test-io-channel-socket.c           |    1 +
- util/userfaultfd.c                            |   13 +-
- util/vhost-user-server.c                      |    2 +-
- hw/vfio/trace-events                          |    2 +-
- migration/meson.build                         |    1 +
- migration/multifd.c.orig                      | 1274 +++++++++++++++++
- migration/trace-events                        |    7 +-
- 53 files changed, 2134 insertions(+), 233 deletions(-)
- create mode 100644 configs/devices/x86_64-softmmu/x86_64-quintela-devices.mak
- create mode 100644 configs/devices/x86_64-softmmu/x86_64-quintela2-devices.mak
- create mode 100644 migration/threadinfo.h
- create mode 100644 migration/threadinfo.c
- create mode 100644 migration/multifd.c.orig
-
+diff --git a/migration/ram.c b/migration/ram.c
+index 334309f1c6..68a45338e3 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -2319,8 +2319,25 @@ static void pss_host_page_prepare(PageSearchStatus *pss)
+     size_t guest_pfns = qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
+ 
+     pss->host_page_sending = true;
+-    pss->host_page_start = ROUND_DOWN(pss->page, guest_pfns);
+-    pss->host_page_end = ROUND_UP(pss->page + 1, guest_pfns);
++    if (guest_pfns <= 1) {
++        /*
++         * This covers both when guest psize == host psize, or when guest
++         * has larger psize than the host (guest_pfns==0).
++         *
++         * For the latter, we always send one whole guest page per
++         * iteration of the host page (example: an Alpha VM on x86 host
++         * will have guest psize 8K while host psize 4K).
++         */
++        pss->host_page_start = pss->page;
++        pss->host_page_end = pss->page + 1;
++    } else {
++        /*
++         * The host page spans over multiple guest pages, we send them
++         * within the same host page iteration.
++         */
++        pss->host_page_start = ROUND_DOWN(pss->page, guest_pfns);
++        pss->host_page_end = ROUND_UP(pss->page + 1, guest_pfns);
++    }
+ }
+ 
+ /*
 -- 
 2.39.1
 
