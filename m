@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 764E768D2D1
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 10:30:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0365368D2EC
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 10:35:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPKIf-0003dr-BA; Tue, 07 Feb 2023 04:30:05 -0500
+	id 1pPKNB-00050m-Hf; Tue, 07 Feb 2023 04:34:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPKId-0003cu-Ju
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 04:30:03 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPKIb-00040c-Ve
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 04:30:03 -0500
-Received: by mail-wr1-x435.google.com with SMTP id d14so12866599wrr.9
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 01:30:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=0Li7CX6psPPPZvcWliKSjDe7eAKUR6K9zHWJyX7RHk4=;
- b=quaaJKe2CyVtPvaGQ2R0yD56jXUUR/pTb0a2C9swJC7/NgGhiGp1mjyFiviseSAu8l
- tXFnuoYbMmpdgxXT8yR8B+srgtqFKrNYaqWgIlTsVulTwSKEzB+cgQSWE7LJ85wwfbPs
- GoPOhtKmbnGxYN/z7YjTAU2CMhj+w8xG2B3i0QL8fuYmg9T8MWO2tf7aR5iNVsK9Ooe5
- faYg8d7H9toePwYhQFe2uaP9zR+6twO8zaeh4eLK3irswTZNy6SzRyMktr8myoKLygIS
- WzS2dE7VCC5r32hUCpcB8oevXRSK1yDjgGnEr2gLwPCKs1mNrgnvgEuxGiDZ+7xjZffb
- iiew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0Li7CX6psPPPZvcWliKSjDe7eAKUR6K9zHWJyX7RHk4=;
- b=5RGZcesn3PqNy0qeM750wlmE+sVcNMfv2uE8fwu5CyTR1rLF3Nq6arIa09ddDDyhhO
- Sr8ZT7d7cqEEDdo6KQpBXZKU9IxW5KoaIWQk14K1aWHOiMnDtTKia8IUQz9tQoe0Q4v1
- Gnl9BOCbq36IDPzhI/He+9Xq9/HVK8gRa5uC2MPwFU+oMgpREKFxI5VVMwdwl8ZcQozl
- /PAT0PkS7gqnTC2HrzDLvc18FucPOqvkW4/ngReDGPfhJPH6NZgNEAm5TWlW+dmG+weq
- SdRVbq5G+Jgg20myMYEEhR3sZV5eQ7KgoYL8reGWK8YI1plD3IEGuSQZ8fFUBxbBB479
- rvjw==
-X-Gm-Message-State: AO0yUKX+IwGSspUnDSPVfoe0MhdFE9H8/2a4xcsuBUpqtD/rGSaQX46j
- Lxh9uLXcL572SIOUKdeXO6DbZTk1e7jhI0om
-X-Google-Smtp-Source: AK7set/TNHGlBA6fceKxGHuZEFGdPYo54C7hbhCOBaYa7GoGlIB+0m3a4+R8FhredekZTwIG+ugaBA==
-X-Received: by 2002:adf:ef43:0:b0:2bf:ea34:dfe4 with SMTP id
- c3-20020adfef43000000b002bfea34dfe4mr1941170wrp.42.1675762199688; 
- Tue, 07 Feb 2023 01:29:59 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- n9-20020a5d5989000000b002bc7fcf08ddsm11147895wri.103.2023.02.07.01.29.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Feb 2023 01:29:59 -0800 (PST)
-Message-ID: <e54fc1c8-c54b-8b96-9b4f-5c0e9945e209@linaro.org>
-Date: Tue, 7 Feb 2023 10:29:57 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pPKN8-0004zv-2j
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 04:34:42 -0500
+Received: from 2.mo548.mail-out.ovh.net ([178.33.255.19])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pPKN6-0005Er-3g
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 04:34:41 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.124])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 3ED7421EC2;
+ Tue,  7 Feb 2023 09:34:35 +0000 (UTC)
+Received: from kaod.org (37.59.142.99) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Tue, 7 Feb
+ 2023 10:34:34 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G003120cffc7-5b22-4e51-a5df-4aae120c553a,
+ 904990D422014CC0AD0CD8052B6B5031CF8ACE51) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <4c11d47e-5d34-758f-52a8-97b99fd91486@kaod.org>
+Date: Tue, 7 Feb 2023 10:34:31 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH] MAINTAINERS: add myself maintainer for the clock framework
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v4 1/2] hw/sensor: Add SB-TSI Temperature Sensor Interface
 Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: Luc Michel <luc@lmichel.fr>, Peter Maydell <peter.maydell@linaro.org>,
- Damien Hedde <damien.hedde@greensocs.com>,
- Mark Burton <mburton@qti.qualcomm.com>,
- Damien Hedde <damien.hedde@sifive.com>
-References: <20210211085318.2507-1-luc@lmichel.fr>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20210211085318.2507-1-luc@lmichel.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, Hao Wu
+ <wuhaotsh@google.com>, Patrick Venture <venture@google.com>
+CC: <cminyard@mvista.com>, <thuth@redhat.com>, <lvivier@redhat.com>,
+ <pbonzini@redhat.com>, <f4bug@amsat.org>, <qemu-devel@nongnu.org>, Doug Evans
+ <dje@google.com>, Titus Rwantare <titusr@google.com>
+References: <20220131222948.496588-1-venture@google.com>
+ <20220131222948.496588-2-venture@google.com>
+ <CAGcCb113A8y0zgXKvLjZEZJeMu-kDpJp0f5tUPyH--WfH36sLQ@mail.gmail.com>
+ <98911d1f-59fe-4939-b022-c27b1013d9c1@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <98911d1f-59fe-4939-b022-c27b1013d9c1@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 6377640a-770c-4b8f-8adc-7b2379a02d9f
+X-Ovh-Tracer-Id: 1957376988089584629
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudegkedgtdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeitefgudeghfefleffueejjeevffetgeelkedvleegudekjedvudekvdeuffejveenucffohhmrghinheplhhkmhhlrdhorhhgpdgrmhgurdgtohhmnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhhihhlmhgusehlihhnrghrohdrohhrghdpfihuhhgrohhtshhhsehgohhoghhlvgdrtghomhdpvhgvnhhtuhhrvgesghhoohhglhgvrdgtohhmpdgtmhhinhihrghrugesmhhvihhsthgrrdgtohhmpdhthhhuthhhsehrvgguhhgrthdrtghomhdplhhvihhvihgvrhesrhgvughhrghtrdgtohhmpdhpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdhfgegsuhhgsegrmhhsrghtrdhorhhgpdhqvghmuhdquggvvh
+ gvlhesnhhonhhgnhhurdhorhhgpdgujhgvsehgohhoghhlvgdrtghomhdpthhithhushhrsehgohhoghhlvgdrtghomhdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=178.33.255.19; envelope-from=clg@kaod.org;
+ helo=2.mo548.mail-out.ovh.net
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,26 +79,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/2/21 09:53, Luc Michel wrote:
-> Also add Damien as a reviewer.
+[ Cc: Titus, since he is maintainer of some sensor models already ]
+
+On 2/7/23 07:51, Philippe Mathieu-Daudé wrote:
+> On 7/2/23 00:24, Hao Wu wrote:
+>> Hi,
+>>
+>> It seems like this patch set is reviewed but never merged. Who should take this patch set? What are our next steps for them?
 > 
-> Signed-off-by: Luc Michel <luc@lmichel.fr>
-> ---
->   MAINTAINERS | 11 +++++++++++
->   1 file changed, 11 insertions(+)
-
-> +Clock framework
-> +M: Luc Michel <luc@lmichel.fr>
-> +R: Damien Hedde <damien.hedde@greensocs.com>
-
-FTR Damien address is bouncing.
-
-> +S: Maintained
-> +F: include/hw/clock.h
-> +F: include/hw/qdev-clock.h
-> +F: hw/core/clock.c
-> +F: hw/core/clock-vmstate.c
-> +F: hw/core/qdev-clock.c
-> +F: docs/devel/clocks.rst
+> Having some interest in interaction with emulated analog world,
+> I could have an overall look at hw/sensor/. Co-maintainers welcomed!
+>
+>> On Mon, Jan 31, 2022 at 2:29 PM Patrick Venture <venture@google.com <mailto:venture@google.com>> wrote:
+>>
+>>     From: Hao Wu <wuhaotsh@google.com <mailto:wuhaotsh@google.com>>
+>>
+>>     SB Temperature Sensor Interface (SB-TSI) is an SMBus compatible
+>>     interface that reports AMD SoC's Ttcl (normalized temperature),
+>>     and resembles a typical 8-pin remote temperature sensor's I2C interface
+>>     to BMC.
+>>
+>>     This patch implements a basic AMD SB-TSI sensor that is
+>>     compatible with the open-source data sheet from AMD and Linux
+>>     kernel driver.
+>>
+>>     Reference:
+>>     Linux kernel driver:
+>>     https://lkml.org/lkml/2020/12/11/968
+>>     <https://lkml.org/lkml/2020/12/11/968>
+>>     Register Map:
+>>     https://developer.amd.com/wp-content/resources/56255_3_03.PDF
+>>     <https://developer.amd.com/wp-content/resources/56255_3_03.PDF>
+>>     (Chapter 6)
+>>
+>>     Signed-off-by: Hao Wu <wuhaotsh@google.com <mailto:wuhaotsh@google.com>>
+>>     Signed-off-by: Patrick Venture <venture@google.com
+>>     <mailto:venture@google.com>>
+>>     Reviewed-by: Doug Evans <dje@google.com <mailto:dje@google.com>>
+>>     Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org
+>>     <mailto:f4bug@amsat.org>>
+>>     Acked-by: Corey Minyard <cminyard@mvista.com
+>>     <mailto:cminyard@mvista.com>>
+>>     ---
+>>       meson.build               |   1 +
+>>       hw/sensor/trace.h         |   1 +
+>>       include/hw/sensor/sbtsi.h |  45 +++++
+>>       hw/sensor/tmp_sbtsi.c     | 369 ++++++++++++++++++++++++++++++++++++++
+>>       hw/sensor/Kconfig         |   4 +
+>>       hw/sensor/meson.build     |   1 +
+>>       hw/sensor/trace-events    |   5 +
+>>       7 files changed, 426 insertions(+)
+>>       create mode 100644 hw/sensor/trace.h
+>>       create mode 100644 include/hw/sensor/sbtsi.h
+>>       create mode 100644 hw/sensor/tmp_sbtsi.c
+>>       create mode 100644 hw/sensor/trace-events
+> 
 
 
