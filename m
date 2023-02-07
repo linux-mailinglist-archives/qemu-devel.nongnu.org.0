@@ -2,91 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE47C68D068
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 08:16:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6CB468D075
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 08:18:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPI8k-0000cX-NI; Tue, 07 Feb 2023 02:11:42 -0500
+	id 1pPI9X-0000o6-6F; Tue, 07 Feb 2023 02:12:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=395dd5341=alistair.francis@opensource.wdc.com>)
- id 1pPI8Z-0000OL-Ct
+ id 1pPI8a-0000Qi-Ir
  for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:11:32 -0500
 Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=395dd5341=alistair.francis@opensource.wdc.com>)
- id 1pPI8X-0000FD-Lz
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:11:31 -0500
+ id 1pPI8Y-0008RS-3i
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:11:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1675753889; x=1707289889;
+ t=1675753890; x=1707289890;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=mivczXb3+jA3+/eUdSpQqT+Zxld8MCw7EIixk2IiFQU=;
- b=dp2wAGlOZBiBs+hmy4J4EPek7f6qjCBhhIBHaLikT19SsFx+ZpBFrkq5
- U2PPxskbF0RziahkD2q1hDJNsbGKSBCN+PG9MXZR7UpmifClljKiEh7Mv
- 3ghO6Upx4lpiBCzkn8q0xMcUzu75E23im+pHd7KQHolv1qA9HHjPq63fj
- 3S8AGMxfOAocaeWlvAyGwM9/PvTKM5EseT1AhYuiJ9mB4PC4kaH7NPrTp
- 0dJWrKOY8udnkUnFAo0r06Q/H8RG7D72hnpLLzjeCijp8WATFyE+B5GLT
- eM3clA0/ZHX1W9b7qa9yS4QSTCzvEoFScciqvWGv31xpRDhQTHULql5tM Q==;
-X-IronPort-AV: E=Sophos;i="5.97,278,1669046400"; d="scan'208";a="227657565"
+ bh=fZq8j/Z0sB8UQr9g3SVkvXP73yOPreTU5lG++Cj3Its=;
+ b=Zjv9d4roYYkZ6ohRudFqlrd9qIFUWVvr3XTBflp9HUJ+OwZldWiYUFpC
+ Wn8sEpqaqboWjData6YeM9qiz8pwieCE9sYP6aLX/oyrKBZnq35Vsm0x/
+ QrcxFvLPstcyn62w7rs2GLX4ndR2eISEI30vfVv4dQ0+zBGxnJQdPMUg4
+ 87cPGfhUmR2+GgHa2uc4UPJVgU2HDY7K+OuHZRVxGoljipKwTEGl1GEnt
+ sMlOw+rlZUYTd2natZBR/wh1T9FyRY5QQvyRTsjr5BBsh5MxyvjMgEHUJ
+ rw/yLVMBmcdUVJyWv+WGtQEDdnIofUNj7p4zgKP9WKRZoTPMybYCONxKh A==;
+X-IronPort-AV: E=Sophos;i="5.97,278,1669046400"; d="scan'208";a="227657566"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 07 Feb 2023 15:10:41 +0800
-IronPort-SDR: SjnZ3Pw6BHZba9A933KsTkXKCplDhMLrY/ugeczFUTXWrHxbnf7Qga9lhR4/LTJUoRTVuEsjko
- 2mKziHE8T4roIeLCnJNetDEgo0+gg7bDt0uDkX8UoXdwETgiU8RZBILWoZ6ZOVKBDCylcFamUX
- rq8KFXdt2xF7OZA9e3WMSCUl4u+L4eIN3g4N2vDby2e2rSaHjQdy+YdTZ7CsWougQ9CgcKy6wa
- fjcnI3aDBfckJFsDNqS/JoIgzOsOwjelhtXXXPW14tH2grtOnMcxyxCOnYJhKXLm5v71ObnjvW
- KYI=
+ by ob1.hgst.iphmx.com with ESMTP; 07 Feb 2023 15:10:43 +0800
+IronPort-SDR: YeV9nqBzESnNBzzQC9yILUcqFwdG65cgUJMSxkofF3g1jOQRvLqkCnN9KTv4r2NYsnFcqJhtJC
+ sO5AHDQb0YqBaWQY9qLfJ7wYNDsCRlglkXaQN89RMES3fZ0PV1ac4BXl+B4Aru1BxyR0Ysdxvr
+ QNAJ7aFFIRdGDU1ad3Kfn7mEORT+vZVhOXCqMazltgQigS4bGE9CnxyjlT0VT63xjrk9TqN83p
+ CZt/D9hIjBSco2Fkph17M3mwTucIn98ErBkI62ATi+iXJwBWLlHtiiAaY8srrjJBXpoKIICSAc
+ dhM=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Feb 2023 22:27:58 -0800
-IronPort-SDR: r22p8Mks+UQftVfx2CgQ3D5vu2bMgWEhOb5GgYuBGxbuyFhxJZA/K1f/xWjiap3x6hr7jjNCS/
- vUgP3+FnCAZKVr12T0YcLviiu9UHsIk4ruYyvh8b3bEndSeNafw3bPJKqZfc7uTykqw8QmEEVq
- AV2kgjl9WxjB6Dj6GXIg/xGoDz6vxpZI7ORuo87WwHRaUkc2NfQNP2i/OO03PnznywxgIdKQUV
- d7cITALSb55PBolvykthpqH1xgJl5BMRNEOAW20FBq1vLZpVjpiTMbxTZKpCzMYFlMrQ1PM0nx
- fWk=
+ 06 Feb 2023 22:28:00 -0800
+IronPort-SDR: BUPYM7HIn5zpItkLWqGpimk+deScT7KwGo1HRucFPtQnDs50l/j6rR5oWOj6llnax8b8ib24lM
+ xUEp2e63Rg0xrGu/Tm1WK9WSFZPcjeqy5ePCmzjP1usMXCQ1N2tkkDvXJZcVDQHuKX5R/r12t9
+ zhroP5SNeE6cIl1RS/enD/A9E58Q0/FX+Fd5Y26fA1UPMn4uaZFZmy73UBgsGJJDl9bDNLXYLX
+ Pcd1zsuaZYVvGdneFFH5AgxDeZNtCgY09sSIh41FT+cA8MOwI2OpUP1/3j3X7XjmdNS6gzq6D7
+ Scg=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Feb 2023 23:10:41 -0800
+ 06 Feb 2023 23:10:43 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4P9vRP3ZKSz1RwtC
- for <qemu-devel@nongnu.org>; Mon,  6 Feb 2023 23:10:41 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4P9vRR2PSyz1RwqL
+ for <qemu-devel@nongnu.org>; Mon,  6 Feb 2023 23:10:43 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:content-type
  :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1675753840; x=1678345841; bh=mivczXb
- 3+jA3+/eUdSpQqT+Zxld8MCw7EIixk2IiFQU=; b=JbuduKB9OVxGkuOqLi2EoSB
- tFxN6Yn5d5BcxDQPDCq4brFtQBrYRT8y6m/gpX5Ux70GsniCghlsFHqdDcgODvCK
- lGPG7wgOuE8rItyF4xOVqr0wZ2RcSgQyxpwcMSv+uyLXGZQBv3ZC82jPO3bCwNIM
- Z6fN8vfiSTgMLguO7LAFiQD3Ea4BG3y/qHWhpPzSFYhAglSWQCEa34ppUZYxWtkq
- aIaTh4hiQwAsb8L8q1zmMeaxKT6bYCmfR4NxRFhKRftlpXDJ8wQNcevbGi8aEEkb
- 9zhJENBaQDMUYCnbMF0nqmyI3obYdr9UoksJWF8OE6MWg2VmdkGdeDjS5pj11ww=
+ :subject:to:from; s=dkim; t=1675753842; x=1678345843; bh=fZq8j/Z
+ 0sB8UQr9g3SVkvXP73yOPreTU5lG++Cj3Its=; b=ppD5fzDdvfLb2UX9fdCoXun
+ OsTdpIASraS4do5nqRoQI5fmIAEaQa2Aei6eJGpaNq18EyI+C+Jr9vT5fXMYR14P
+ PG/jJUwu3UIQXx2tTcjbKkWJrltw2U83Sj32aUH2+gXKxC78D63v/jMgfsTx2mpr
+ YsKaHV0iwX9HzYJ9VIyRIhK/8AEk9Vf1ehSXYCpY4ZkohRGeDxYyh90ldIAqE5TQ
+ 4bMrE/UtIump2YINmIwb+D7t/5JSZSpF1cMpfK0medSNcKO17QOw4W2+0ZDOxdTn
+ bf/HCezPw27KJvrtPCI8JwuNAo3326QWdNulmulAHrnqeccAlU3HR5iO3c4vHJA=
  =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 4i24gGRA_F9P for <qemu-devel@nongnu.org>;
- Mon,  6 Feb 2023 23:10:40 -0800 (PST)
+ port 10026) with ESMTP id dLCbQEl4vxdc for <qemu-devel@nongnu.org>;
+ Mon,  6 Feb 2023 23:10:42 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.38])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4P9vRM2tfPz1Rwt8;
- Mon,  6 Feb 2023 23:10:39 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4P9vRP26zKz1RvLy;
+ Mon,  6 Feb 2023 23:10:41 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com,
  =?UTF-8?q?Christoph=20M=C3=BCllner?= <christoph.muellner@vrull.eu>,
  LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 26/32] RISC-V: Add initial support for T-Head C906
-Date: Tue,  7 Feb 2023 17:09:37 +1000
-Message-Id: <20230207070943.2558857-27-alistair.francis@opensource.wdc.com>
+Subject: [PULL 27/32] RISC-V: Adding XTheadFmv ISA extension
+Date: Tue,  7 Feb 2023 17:09:38 +1000
+Message-Id: <20230207070943.2558857-28-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230207070943.2558857-1-alistair.francis@opensource.wdc.com>
 References: <20230207070943.2558857-1-alistair.francis@opensource.wdc.com>
@@ -120,108 +120,170 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Christoph M=C3=BCllner <christoph.muellner@vrull.eu>
 
-This patch adds the T-Head C906 to the list of known CPUs.
-Selecting this CPUs will automatically enable the available
-ISA extensions of the CPUs (incl. vendor extensions).
+This patch adds support for the XTheadFmv ISA extension.
+The patch uses the T-Head specific decoder and translation.
 
-Co-developed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Christoph M=C3=BCllner <christoph.muellner@vrull.eu>
-Message-Id: <20230131202013.2541053-13-christoph.muellner@vrull.eu>
+Message-Id: <20230131202013.2541053-14-christoph.muellner@vrull.eu>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h          |  1 +
- target/riscv/cpu_vendorid.h |  6 ++++++
- target/riscv/cpu.c          | 31 +++++++++++++++++++++++++++++++
- 3 files changed, 38 insertions(+)
- create mode 100644 target/riscv/cpu_vendorid.h
+ target/riscv/cpu.h                         |  1 +
+ target/riscv/xthead.decode                 |  4 ++
+ target/riscv/cpu.c                         |  2 +
+ target/riscv/translate.c                   |  6 +--
+ target/riscv/insn_trans/trans_xthead.c.inc | 45 ++++++++++++++++++++++
+ 5 files changed, 55 insertions(+), 3 deletions(-)
 
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 5cc3011529..60478f4a9c 100644
+index 60478f4a9c..7128438d8e 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -53,6 +53,7 @@
- #define TYPE_RISCV_CPU_SIFIVE_E51       RISCV_CPU_TYPE_NAME("sifive-e51"=
-)
- #define TYPE_RISCV_CPU_SIFIVE_U34       RISCV_CPU_TYPE_NAME("sifive-u34"=
-)
- #define TYPE_RISCV_CPU_SIFIVE_U54       RISCV_CPU_TYPE_NAME("sifive-u54"=
-)
-+#define TYPE_RISCV_CPU_THEAD_C906       RISCV_CPU_TYPE_NAME("thead-c906"=
-)
- #define TYPE_RISCV_CPU_HOST             RISCV_CPU_TYPE_NAME("host")
+@@ -480,6 +480,7 @@ struct RISCVCPUConfig {
+     bool ext_xtheadcmo;
+     bool ext_xtheadcondmov;
+     bool ext_xtheadfmemidx;
++    bool ext_xtheadfmv;
+     bool ext_xtheadmac;
+     bool ext_xtheadmemidx;
+     bool ext_xtheadmempair;
+diff --git a/target/riscv/xthead.decode b/target/riscv/xthead.decode
+index 81daf1d694..d1d104bcf2 100644
+--- a/target/riscv/xthead.decode
++++ b/target/riscv/xthead.decode
+@@ -110,6 +110,10 @@ th_fsrw          01000 .. ..... ..... 111 ..... 0001=
+011 @th_memidx
+ th_fsurd         01110 .. ..... ..... 111 ..... 0001011 @th_memidx
+ th_fsurw         01010 .. ..... ..... 111 ..... 0001011 @th_memidx
 =20
- #if defined(TARGET_RISCV32)
-diff --git a/target/riscv/cpu_vendorid.h b/target/riscv/cpu_vendorid.h
-new file mode 100644
-index 0000000000..a5aa249bc9
---- /dev/null
-+++ b/target/riscv/cpu_vendorid.h
-@@ -0,0 +1,6 @@
-+#ifndef TARGET_RISCV_CPU_VENDORID_H
-+#define TARGET_RISCV_CPU_VENDORID_H
++# XTheadFmv
++th_fmv_hw_x      1010000  00000 ..... 001 ..... 0001011 @r2
++th_fmv_x_hw      1100000  00000 ..... 001 ..... 0001011 @r2
 +
-+#define THEAD_VENDOR_ID         0x5b7
-+
-+#endif /*  TARGET_RISCV_CPU_VENDORID_H */
+ # XTheadMac
+ th_mula          00100 00 ..... ..... 001 ..... 0001011 @r
+ th_mulah         00101 00 ..... ..... 001 ..... 0001011 @r
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 3078556f1b..8cbc5c9c1b 100644
+index 8cbc5c9c1b..0dd2f0c753 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -22,6 +22,7 @@
- #include "qemu/ctype.h"
- #include "qemu/log.h"
- #include "cpu.h"
-+#include "cpu_vendorid.h"
- #include "pmu.h"
- #include "internals.h"
- #include "time_helper.h"
-@@ -281,6 +282,35 @@ static void rv64_sifive_e_cpu_init(Object *obj)
-     cpu->cfg.mmu =3D false;
+@@ -116,6 +116,7 @@ static const struct isa_ext_data isa_edata_arr[] =3D =
+{
+     ISA_EXT_DATA_ENTRY(xtheadcmo, true, PRIV_VERSION_1_11_0, ext_xtheadc=
+mo),
+     ISA_EXT_DATA_ENTRY(xtheadcondmov, true, PRIV_VERSION_1_11_0, ext_xth=
+eadcondmov),
+     ISA_EXT_DATA_ENTRY(xtheadfmemidx, true, PRIV_VERSION_1_11_0, ext_xth=
+eadfmemidx),
++    ISA_EXT_DATA_ENTRY(xtheadfmv, true, PRIV_VERSION_1_11_0, ext_xtheadf=
+mv),
+     ISA_EXT_DATA_ENTRY(xtheadmac, true, PRIV_VERSION_1_11_0, ext_xtheadm=
+ac),
+     ISA_EXT_DATA_ENTRY(xtheadmemidx, true, PRIV_VERSION_1_11_0, ext_xthe=
+admemidx),
+     ISA_EXT_DATA_ENTRY(xtheadmempair, true, PRIV_VERSION_1_11_0, ext_xth=
+eadmempair),
+@@ -1134,6 +1135,7 @@ static Property riscv_cpu_extensions[] =3D {
+     DEFINE_PROP_BOOL("xtheadcmo", RISCVCPU, cfg.ext_xtheadcmo, false),
+     DEFINE_PROP_BOOL("xtheadcondmov", RISCVCPU, cfg.ext_xtheadcondmov, f=
+alse),
+     DEFINE_PROP_BOOL("xtheadfmemidx", RISCVCPU, cfg.ext_xtheadfmemidx, f=
+alse),
++    DEFINE_PROP_BOOL("xtheadfmv", RISCVCPU, cfg.ext_xtheadfmv, false),
+     DEFINE_PROP_BOOL("xtheadmac", RISCVCPU, cfg.ext_xtheadmac, false),
+     DEFINE_PROP_BOOL("xtheadmemidx", RISCVCPU, cfg.ext_xtheadmemidx, fal=
+se),
+     DEFINE_PROP_BOOL("xtheadmempair", RISCVCPU, cfg.ext_xtheadmempair, f=
+alse),
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 216eaf9d12..182649dcb6 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -135,9 +135,9 @@ static bool has_xthead_p(DisasContext *ctx  __attribu=
+te__((__unused__)))
+     return ctx->cfg_ptr->ext_xtheadba || ctx->cfg_ptr->ext_xtheadbb ||
+            ctx->cfg_ptr->ext_xtheadbs || ctx->cfg_ptr->ext_xtheadcmo ||
+            ctx->cfg_ptr->ext_xtheadcondmov ||
+-           ctx->cfg_ptr->ext_xtheadfmemidx || ctx->cfg_ptr->ext_xtheadma=
+c ||
+-           ctx->cfg_ptr->ext_xtheadmemidx || ctx->cfg_ptr->ext_xtheadmem=
+pair ||
+-           ctx->cfg_ptr->ext_xtheadsync;
++           ctx->cfg_ptr->ext_xtheadfmemidx || ctx->cfg_ptr->ext_xtheadfm=
+v ||
++           ctx->cfg_ptr->ext_xtheadmac || ctx->cfg_ptr->ext_xtheadmemidx=
+ ||
++           ctx->cfg_ptr->ext_xtheadmempair || ctx->cfg_ptr->ext_xtheadsy=
+nc;
  }
 =20
-+static void rv64_thead_c906_cpu_init(Object *obj)
+ #define MATERIALISE_EXT_PREDICATE(ext)  \
+diff --git a/target/riscv/insn_trans/trans_xthead.c.inc b/target/riscv/in=
+sn_trans/trans_xthead.c.inc
+index 37373732f6..be87c34f56 100644
+--- a/target/riscv/insn_trans/trans_xthead.c.inc
++++ b/target/riscv/insn_trans/trans_xthead.c.inc
+@@ -52,6 +52,12 @@
+     }                                            \
+ } while (0)
+=20
++#define REQUIRE_XTHEADFMV(ctx) do {              \
++    if (!ctx->cfg_ptr->ext_xtheadfmv) {          \
++        return false;                            \
++    }                                            \
++} while (0)
++
+ #define REQUIRE_XTHEADMAC(ctx) do {              \
+     if (!ctx->cfg_ptr->ext_xtheadmac) {          \
+         return false;                            \
+@@ -449,6 +455,45 @@ static bool trans_th_fsurw(DisasContext *ctx, arg_th=
+_memidx *a)
+     return gen_fstore_idx(ctx, a, MO_TEUL, true);
+ }
+=20
++/* XTheadFmv */
++
++static bool trans_th_fmv_hw_x(DisasContext *ctx, arg_th_fmv_hw_x *a)
 +{
-+    CPURISCVState *env =3D &RISCV_CPU(obj)->env;
-+    RISCVCPU *cpu =3D RISCV_CPU(obj);
++    REQUIRE_XTHEADFMV(ctx);
++    REQUIRE_32BIT(ctx);
++    REQUIRE_FPU;
++    REQUIRE_EXT(ctx, RVD);
 +
-+    set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RV=
-U);
-+    set_priv_version(env, PRIV_VERSION_1_11_0);
++    TCGv src1 =3D get_gpr(ctx, a->rs1, EXT_ZERO);
++    TCGv_i64 t1 =3D tcg_temp_new_i64();
 +
-+    cpu->cfg.ext_g =3D true;
-+    cpu->cfg.ext_c =3D true;
-+    cpu->cfg.ext_u =3D true;
-+    cpu->cfg.ext_s =3D true;
-+    cpu->cfg.ext_icsr =3D true;
-+    cpu->cfg.ext_zfh =3D true;
-+    cpu->cfg.mmu =3D true;
-+    cpu->cfg.ext_xtheadba =3D true;
-+    cpu->cfg.ext_xtheadbb =3D true;
-+    cpu->cfg.ext_xtheadbs =3D true;
-+    cpu->cfg.ext_xtheadcmo =3D true;
-+    cpu->cfg.ext_xtheadcondmov =3D true;
-+    cpu->cfg.ext_xtheadfmemidx =3D true;
-+    cpu->cfg.ext_xtheadmac =3D true;
-+    cpu->cfg.ext_xtheadmemidx =3D true;
-+    cpu->cfg.ext_xtheadmempair =3D true;
-+    cpu->cfg.ext_xtheadsync =3D true;
-+
-+    cpu->cfg.mvendorid =3D THEAD_VENDOR_ID;
++    tcg_gen_extu_tl_i64(t1, src1);
++    tcg_gen_deposit_i64(cpu_fpr[a->rd], cpu_fpr[a->rd], t1, 32, 32);
++    tcg_temp_free_i64(t1);
++    mark_fs_dirty(ctx);
++    return true;
 +}
 +
- static void rv128_base_cpu_init(Object *obj)
- {
-     if (qemu_tcg_mttcg_enabled()) {
-@@ -1371,6 +1401,7 @@ static const TypeInfo riscv_cpu_type_infos[] =3D {
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64_sifive_e_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64_sifive_u_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SHAKTI_C,         rv64_sifive_u_cpu_init),
-+    DEFINE_CPU(TYPE_RISCV_CPU_THEAD_C906,       rv64_thead_c906_cpu_init=
-),
-     DEFINE_CPU(TYPE_RISCV_CPU_BASE128,          rv128_base_cpu_init),
- #endif
- };
++static bool trans_th_fmv_x_hw(DisasContext *ctx, arg_th_fmv_x_hw *a)
++{
++    REQUIRE_XTHEADFMV(ctx);
++    REQUIRE_32BIT(ctx);
++    REQUIRE_FPU;
++    REQUIRE_EXT(ctx, RVD);
++    TCGv dst;
++    TCGv_i64 t1;
++
++    dst =3D dest_gpr(ctx, a->rd);
++    t1 =3D tcg_temp_new_i64();
++
++    tcg_gen_extract_i64(t1, cpu_fpr[a->rs1], 32, 32);
++    tcg_gen_trunc_i64_tl(dst, t1);
++    gen_set_gpr(ctx, a->rd, dst);
++    tcg_temp_free_i64(t1);
++    mark_fs_dirty(ctx);
++    return true;
++}
++
+ /* XTheadMac */
+=20
+ static bool gen_th_mac(DisasContext *ctx, arg_r *a,
 --=20
 2.39.1
 
