@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C748568DABC
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:27:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B65568DAAD
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:26:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPOut-0007IG-JU; Tue, 07 Feb 2023 09:25:51 -0500
+	id 1pPOv0-0007KZ-U7; Tue, 07 Feb 2023 09:25:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pPOuo-0007H0-QK
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:25:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pPOut-0007JD-EC
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:25:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pPOum-0006Cg-6y
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:25:46 -0500
+ id 1pPOuq-0006DU-P8
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:25:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675779943;
+ s=mimecast20190719; t=1675779947;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=l/5kaJG3LvbMqgf7a01kzX3v+tHg0stuqRHZWdXxJDU=;
- b=JlhYTCAgspFZo5GI2CEl86q+d1LbGfQoSO0mIWv6LYnhIpVhBxVrw7wTnY9+6/220UDAO+
- xYPQs21vCzptQtadlC5VCCWX6LRhuULY2i4vAhZ8V6SVsWQKiyHZT2yAAYmk7UwiKw2mcB
- ulvoNRLJ56Mtp4O+hm95vz7/fWLYQ9o=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Zmk18G08raxXr7fJ4g2bzz2Tgoba+zSUGqNVNLtSwDE=;
+ b=WWn19MWrq8rSR2ci+2PK5rqE4RrXivKnEItOc4C6EW+mmzWbH2cE+zekKgb/17/ACEyzPQ
+ oXMhoMRPkAIxw5qsBIBok/ZcKEL5PryubpbG0w/lCjkvQdVt6iRWp0DALWYFEeHSo54w6U
+ IwyeT+2RomevjeG9ag+T32vuhB35nhA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-263-Sp8pGcoQOI6A5IEwhNBg3w-1; Tue, 07 Feb 2023 09:25:40 -0500
-X-MC-Unique: Sp8pGcoQOI6A5IEwhNBg3w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-396-urU2PQqPMbqi9OEebeTO9g-1; Tue, 07 Feb 2023 09:25:44 -0500
+X-MC-Unique: urU2PQqPMbqi9OEebeTO9g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9706B801CF7;
- Tue,  7 Feb 2023 14:25:39 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 94262100F921;
+ Tue,  7 Feb 2023 14:25:43 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 753181121319;
- Tue,  7 Feb 2023 14:25:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B09BA404CD80;
+ Tue,  7 Feb 2023 14:25:42 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Beraldo Leal <bleal@redhat.com>,
@@ -55,14 +56,16 @@ Cc: Beraldo Leal <bleal@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [PATCH v3 00/10] Teach 'getfd' QMP command to import win32 sockets
-Date: Tue,  7 Feb 2023 18:25:25 +0400
-Message-Id: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 01/10] tests: fix path separator, use g_build_filename()
+Date: Tue,  7 Feb 2023 18:25:26 +0400
+Message-Id: <20230207142535.1153722-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
+References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -89,56 +92,26 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Hi,
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/unit/test-io-channel-command.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The series focuses on 'getfd'/'add_client' win32 support, by limiting its scope
-to sockets and adding a new argument to import sockets there. This enables
-vnc-display test on win32, exercising the new code paths.
-
-A follow up series will add dbus display support on win32, with tests using this
-socket import method.
-
-v3:
-- drop "tests: fix test-io-channel-command on win32", not good enough
-- include "char: do not double-close fd when failing to add client"
-- add "monitor: release the lock before calling close()"
-- rebase after recent QMP code move
-
-v2:
-- replace the propose new command in v1, with 'wsa-info' argument in 'getfd'
-- fix qapi/qmp for commands/events with optional arguments
-- rebase, and tags
-
-Marc-André Lureau (10):
-  tests: fix path separator, use g_build_filename()
-  char: do not double-close fd when failing to add client
-  tests/docker: fix a win32 error due to portability
-  osdep: implement qemu_socketpair() for win32
-  qmp: 'add_client' actually expects sockets
-  monitor: release the lock before calling close()
-  qapi: implement conditional command arguments
-  qmp: teach 'getfd' to import sockets on win32
-  libqtest: make qtest_qmp_add_client work on win32
-  qtest: enable vnc-display test on win32
-
- qapi/misc.json                          |  16 +++-
- include/qemu/sockets.h                  |   2 -
- tests/qtest/libqtest.h                  |   2 -
- chardev/char.c                          |   2 -
- monitor/fds.c                           |  77 +++++++++++++----
- monitor/hmp-cmds.c                      |   6 +-
- monitor/qmp-cmds.c                      |  11 ++-
- tests/qtest/libqtest.c                  |  16 +++-
- tests/qtest/vnc-display-test.c          |   7 +-
- tests/unit/test-io-channel-command.c    |   2 +-
- util/oslib-win32.c                      | 110 ++++++++++++++++++++++++
- scripts/qapi/commands.py                |   4 +
- scripts/qapi/gen.py                     |  19 ++--
- scripts/qapi/visit.py                   |   2 +
- tests/docker/docker.py                  |   6 +-
- tests/qapi-schema/qapi-schema-test.json |   3 +-
- 16 files changed, 242 insertions(+), 43 deletions(-)
-
+diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
+index 425e2f5594..75d8de43fd 100644
+--- a/tests/unit/test-io-channel-command.c
++++ b/tests/unit/test-io-channel-command.c
+@@ -35,7 +35,7 @@ static char *socat = NULL;
+ static void test_io_channel_command_fifo(bool async)
+ {
+     g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
+-    g_autofree gchar *fifo = g_strdup_printf("%s/%s", tmpdir, TEST_FIFO);
++    g_autofree gchar *fifo = g_build_filename(tmpdir, TEST_FIFO, NULL);
+     g_autofree gchar *srcargs = g_strdup_printf("%s - PIPE:%s,wronly", socat, fifo);
+     g_autofree gchar *dstargs = g_strdup_printf("%s PIPE:%s,rdonly -", socat, fifo);
+     g_auto(GStrv) srcargv = g_strsplit(srcargs, " ", -1);
 -- 
 2.39.1
 
