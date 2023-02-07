@@ -2,79 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60A9668DA21
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:07:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A4868DA2E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:09:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPOcc-0005QA-0M; Tue, 07 Feb 2023 09:06:58 -0500
+	id 1pPOeU-0006dl-J6; Tue, 07 Feb 2023 09:08:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pPOcZ-0005P9-NQ
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:06:55 -0500
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pPOcX-0002XG-J7
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:06:55 -0500
-Received: by mail-lf1-x12a.google.com with SMTP id w11so22432603lfu.11
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:06:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=iM9lSFaMcuDkm6sCFU4YsKm/K1ppERd5G/AJATCrMnk=;
- b=hNcFXEJb2ROYqrptx1SdlE7NYOXsmT9bZbikvBS6kn0i9dPBYtvPVjemoAYyJdlIXs
- ug6dfdjIv4vbUxdwXHeQXswgzmFScRZVn/p/SCYu9Kry5H0+LiD4/j0fEqOGwzGZaCZ/
- psrh9we6BgWSGGw9XwnjaUPaRcD26SZO6HSpn2RQXLL4ShxNK4lggsJTRiTEKfqaQ8Dc
- 5+3iBU7NGJ1uPOIkw3VZVyuzn+9M6k8MYwEh55/+SgDP7PfZBGTtw1O0uIFkGzp6VUuF
- JSdEciLNfhbxr9BbVRAHnawsPBsf8hF6PqkLMR99B4kSMbFfosUrt/ezBq64xgONXKfV
- ta4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=iM9lSFaMcuDkm6sCFU4YsKm/K1ppERd5G/AJATCrMnk=;
- b=VrfH+3N+QcqKfs2VfvzE/Nczb8CLrZ/UvYHeGonLVXh/qSgL8YXGOMHbtLZ1+Yrfbo
- k9yImNgL8ATFJgCvYwW5pLltegqTZCx42fSKEIIYuwJBxEQ/WTtAlAigjMnPgoZ2K4Nn
- gmHRFTOxvLZ1OvpJRYRMFEsfS+ss3CYBzvoMgPIZlogzZ9C4LXBTFf8rc06xf/mxLXyt
- tQkwpZvaoSpn0JQBHVWKYhIfF7rY1gj4/iF02lifNZWvqzXbLGQ+0jb1RS+6dKp9KqaN
- rZ2/bRgxBVFbJjFXkrkwLARXxa1SlTSXRdCIV+/tdO6W7qJ4A0//bT9GxIHc89S0tyNH
- 9GMg==
-X-Gm-Message-State: AO0yUKVUCr/bATAYMJ8NhFZEyI/vbUYZAU8JYs6Xr7PvwrP4YVmE3ZWe
- 2vSZzAMjyq9WZXEElZaWiN/h/2bZ/VrlRvXym+A=
-X-Google-Smtp-Source: AK7set8rKmxO6VmjeBfS7FGVs19RD9LawdyYdDpYR0YsYq7yPZ3YDv87cY4cluvb/876u0eHVy5QYC866CSJpfAAf+U=
-X-Received: by 2002:ac2:41c7:0:b0:4cc:6ce7:6614 with SMTP id
- d7-20020ac241c7000000b004cc6ce76614mr446496lfi.83.1675778811316; Tue, 07 Feb
- 2023 06:06:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pPOeS-0006dC-C8; Tue, 07 Feb 2023 09:08:52 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pPOeQ-0002e9-0q; Tue, 07 Feb 2023 09:08:51 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 317DUkJv000843; Tue, 7 Feb 2023 14:08:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=HHVghQBlFsm5W8pswKf4ADah+BOuHwoa8u7nzAOhAEU=;
+ b=hkQio4GJ7XD4cLVbsgMmUVdAlmWU475cs81oL6+4EJLrWvQmqqKxMUXxb3hqSydlgK9S
+ FSplctGw2c8wg768k3z7asuZExFUGontj59YR7PdzWn9mKM1Lx5LS0KRP82rQHWBblLD
+ W6Oi/LxeiXgm8p8T41hJ7OCVwPyQpzn2HIgpmTNRDA9UVoN9QW3YaoWPnGZpE14WJ1pF
+ bhaKxBIaUx9IkEliq593k9H1UvPlQGWrUMgx9tMuSCJCgR9STRjMiYs0gqbF6fSKJ4LG
+ rpULrcY9d1D9hO835tevuCfJ9eOmuo/Znps3Y900ON2PNY2To/EQdeDQvo1jQSAxxAJv 8w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nkqkgh1yr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Feb 2023 14:08:46 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 317DcJu5024039;
+ Tue, 7 Feb 2023 14:08:45 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nkqkgh1xf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Feb 2023 14:08:45 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 317C14WO001883;
+ Tue, 7 Feb 2023 14:08:43 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3nhf06kpjm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Feb 2023 14:08:43 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 317E8dBQ46530968
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 7 Feb 2023 14:08:39 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A26522004B;
+ Tue,  7 Feb 2023 14:08:39 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 57CAC20040;
+ Tue,  7 Feb 2023 14:08:39 +0000 (GMT)
+Received: from [9.152.224.241] (unknown [9.152.224.241])
+ by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Tue,  7 Feb 2023 14:08:39 +0000 (GMT)
+Message-ID: <57096fc5-1ab9-4589-ff1b-6bcc2fdcbd82@linux.ibm.com>
+Date: Tue, 7 Feb 2023 15:08:39 +0100
 MIME-Version: 1.0
-References: <20200925120655.295142-1-dgilbert@redhat.com>
- <20200925120655.295142-24-dgilbert@redhat.com>
- <CAJ+F1C+6zPmeTjByKMaDZaFND5qr3Y4i9vJpyFJc2UFkgHWOjQ@mail.gmail.com>
- <Y+JVHUrYY2rFbBes@work-vm>
-In-Reply-To: <Y+JVHUrYY2rFbBes@work-vm>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 7 Feb 2023 18:06:39 +0400
-Message-ID: <CAJ+F1CKLV_XG3pe_4YJD++-R71F5M4yepGOoR7nYocqs65y0fw@mail.gmail.com>
-Subject: Re: [PULL 23/26] monitor: Use LOCK_GUARD macros
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: peterx@redhat.com, qemu-devel@nongnu.org, zhengchuan@huawei.com, 
- dovmurik@linux.vnet.ibm.com, hgcoin@gmail.com, 
- zhangjiachen.jaycee@bytedance.com, lvivier@redhat.com, stefanha@redhat.com, 
- vgoyal@redhat.com, jinyan12@huawei.com, ann.zhuangyanying@huawei.com, 
- quintela@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v15 05/11] s390x/cpu topology: resetting the
+ Topology-Change-Report
+Content-Language: en-US
+To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230201132051.126868-1-pmorel@linux.ibm.com>
+ <20230201132051.126868-6-pmorel@linux.ibm.com>
+ <3215597a6916932c26fdbe1dd8daf2fc0c1c1ab5.camel@linux.ibm.com>
+ <f4732cd4-67bb-a2a3-0048-3a2118b52fc1@linux.ibm.com>
+ <669fea20042a31d009b5f3d9371bcf88f32d5d49.camel@linux.ibm.com>
+ <78b4f4c2-511e-f8bd-6f4b-8c13f4d87fe1@linux.ibm.com>
+ <d53ff9ed9d3f28abd504763f060c4c6c4f7f9553.camel@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <d53ff9ed9d3f28abd504763f060c4c6c4f7f9553.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: zVmsRN8hQTw38xumnn9I9U-fgXoiOEBP
+X-Proofpoint-ORIG-GUID: ouV6lxIgc5KaKiOvLC5kjq3R5DDCz_hy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-07_05,2023-02-06_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ phishscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
+ malwarescore=0 mlxlogscore=999 spamscore=0 bulkscore=0 impostorscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302070126
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,278 +125,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi
-
-On Tue, Feb 7, 2023 at 5:41 PM Dr. David Alan Gilbert
-<dgilbert@redhat.com> wrote:
->
-> * Marc-Andr=C3=A9 Lureau (marcandre.lureau@gmail.com) wrote:
-> > Hi David
-> >
-> > On Fri, Sep 25, 2020 at 4:27 PM Dr. David Alan Gilbert (git)
-> > <dgilbert@redhat.com> wrote:
-> > >
-> > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > >
-> > > Use the lock guard macros in monitor/misc.c - saves
-> > > a lot of unlocks in error paths, and the occasional goto.
-> > >
-> > > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > > Message-Id: <20200922095741.101911-1-dgilbert@redhat.com>
-> > > Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> > > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > > ---
-> > >  monitor/misc.c | 44 ++++++++++++++------------------------------
-> > >  1 file changed, 14 insertions(+), 30 deletions(-)
-> > >
-> > > diff --git a/monitor/misc.c b/monitor/misc.c
-> > > index 262f2bd951..6e0da0cb96 100644
-> > > --- a/monitor/misc.c
-> > > +++ b/monitor/misc.c
-> > > @@ -141,13 +141,13 @@ char *qmp_human_monitor_command(const char *com=
-mand_line, bool has_cpu_index,
-> > >      handle_hmp_command(&hmp, command_line);
-> > >      cur_mon =3D old_mon;
-> > >
-> > > -    qemu_mutex_lock(&hmp.common.mon_lock);
-> > > -    if (qstring_get_length(hmp.common.outbuf) > 0) {
-> > > -        output =3D g_strdup(qstring_get_str(hmp.common.outbuf));
-> > > -    } else {
-> > > -        output =3D g_strdup("");
-> > > +    WITH_QEMU_LOCK_GUARD(&hmp.common.mon_lock) {
-> > > +        if (qstring_get_length(hmp.common.outbuf) > 0) {
-> > > +            output =3D g_strdup(qstring_get_str(hmp.common.outbuf));
-> > > +        } else {
-> > > +            output =3D g_strdup("");
-> > > +        }
-> > >      }
-> > > -    qemu_mutex_unlock(&hmp.common.mon_lock);
-> > >
-> > >  out:
-> > >      monitor_data_destroy(&hmp.common);
-> > > @@ -1248,7 +1248,7 @@ void qmp_getfd(const char *fdname, Error **errp=
-)
-> > >          return;
-> > >      }
-> > >
-> > > -    qemu_mutex_lock(&cur_mon->mon_lock);
-> > > +    QEMU_LOCK_GUARD(&cur_mon->mon_lock);
-> > >      QLIST_FOREACH(monfd, &cur_mon->fds, next) {
-> > >          if (strcmp(monfd->name, fdname) !=3D 0) {
-> > >              continue;
-> > > @@ -1256,7 +1256,6 @@ void qmp_getfd(const char *fdname, Error **errp=
-)
-> > >
-> > >          tmp_fd =3D monfd->fd;
-> > >          monfd->fd =3D fd;
-> > > -        qemu_mutex_unlock(&cur_mon->mon_lock);
-> > >          /* Make sure close() is outside critical section */
-> > >          close(tmp_fd);
-> >
-> > The comment doesn't look true after this patch, since the lock is
-> > released before returning. commit 9409fc05fe2 ("monitor: protect
-> > mon->fds with mon_lock") introduced the lock & comment. Apparently,
-> > you didn't convert qmp_closefd() to LOCK_GUARD, presumably because of
-> > the comment. But you did it in qmp_getfd. What's the reason for that
-> > though, avoiding syscalls while holding the lock or am I missing
-> > something?
->
-> No, I think you're right!
-> Yeh I think the reason was to avoid the (potentially blocking) syscall
-> with the lock held.
->
-
-Ok, I'll send a patch, thanks
-
-> Dave
->
-> > thanks
-> >
-> > >          return;
-> > > @@ -1267,7 +1266,6 @@ void qmp_getfd(const char *fdname, Error **errp=
-)
-> > >      monfd->fd =3D fd;
-> > >
-> > >      QLIST_INSERT_HEAD(&cur_mon->fds, monfd, next);
-> > > -    qemu_mutex_unlock(&cur_mon->mon_lock);
-> > >  }
-> > >
-> > >  void qmp_closefd(const char *fdname, Error **errp)
-> > > @@ -1299,7 +1297,7 @@ int monitor_get_fd(Monitor *mon, const char *fd=
-name, Error **errp)
-> > >  {
-> > >      mon_fd_t *monfd;
-> > >
-> > > -    qemu_mutex_lock(&mon->mon_lock);
-> > > +    QEMU_LOCK_GUARD(&mon->mon_lock);
-> > >      QLIST_FOREACH(monfd, &mon->fds, next) {
-> > >          int fd;
-> > >
-> > > @@ -1313,12 +1311,10 @@ int monitor_get_fd(Monitor *mon, const char *=
-fdname, Error **errp)
-> > >          QLIST_REMOVE(monfd, next);
-> > >          g_free(monfd->name);
-> > >          g_free(monfd);
-> > > -        qemu_mutex_unlock(&mon->mon_lock);
-> > >
-> > >          return fd;
-> > >      }
-> > >
-> > > -    qemu_mutex_unlock(&mon->mon_lock);
-> > >      error_setg(errp, "File descriptor named '%s' has not been found"=
-, fdname);
-> > >      return -1;
-> > >  }
-> > > @@ -1350,11 +1346,10 @@ void monitor_fdsets_cleanup(void)
-> > >      MonFdset *mon_fdset;
-> > >      MonFdset *mon_fdset_next;
-> > >
-> > > -    qemu_mutex_lock(&mon_fdsets_lock);
-> > > +    QEMU_LOCK_GUARD(&mon_fdsets_lock);
-> > >      QLIST_FOREACH_SAFE(mon_fdset, &mon_fdsets, next, mon_fdset_next)=
- {
-> > >          monitor_fdset_cleanup(mon_fdset);
-> > >      }
-> > > -    qemu_mutex_unlock(&mon_fdsets_lock);
-> > >  }
-> > >
-> > >  AddfdInfo *qmp_add_fd(bool has_fdset_id, int64_t fdset_id, bool has_=
-opaque,
-> > > @@ -1389,7 +1384,7 @@ void qmp_remove_fd(int64_t fdset_id, bool has_f=
-d, int64_t fd, Error **errp)
-> > >      MonFdsetFd *mon_fdset_fd;
-> > >      char fd_str[60];
-> > >
-> > > -    qemu_mutex_lock(&mon_fdsets_lock);
-> > > +    QEMU_LOCK_GUARD(&mon_fdsets_lock);
-> > >      QLIST_FOREACH(mon_fdset, &mon_fdsets, next) {
-> > >          if (mon_fdset->id !=3D fdset_id) {
-> > >              continue;
-> > > @@ -1409,12 +1404,10 @@ void qmp_remove_fd(int64_t fdset_id, bool has=
-_fd, int64_t fd, Error **errp)
-> > >              goto error;
-> > >          }
-> > >          monitor_fdset_cleanup(mon_fdset);
-> > > -        qemu_mutex_unlock(&mon_fdsets_lock);
-> > >          return;
-> > >      }
-> > >
-> > >  error:
-> > > -    qemu_mutex_unlock(&mon_fdsets_lock);
-> > >      if (has_fd) {
-> > >          snprintf(fd_str, sizeof(fd_str), "fdset-id:%" PRId64 ", fd:%=
-" PRId64,
-> > >                   fdset_id, fd);
-> > > @@ -1430,7 +1423,7 @@ FdsetInfoList *qmp_query_fdsets(Error **errp)
-> > >      MonFdsetFd *mon_fdset_fd;
-> > >      FdsetInfoList *fdset_list =3D NULL;
-> > >
-> > > -    qemu_mutex_lock(&mon_fdsets_lock);
-> > > +    QEMU_LOCK_GUARD(&mon_fdsets_lock);
-> > >      QLIST_FOREACH(mon_fdset, &mon_fdsets, next) {
-> > >          FdsetInfoList *fdset_info =3D g_malloc0(sizeof(*fdset_info))=
-;
-> > >          FdsetFdInfoList *fdsetfd_list =3D NULL;
-> > > @@ -1460,7 +1453,6 @@ FdsetInfoList *qmp_query_fdsets(Error **errp)
-> > >          fdset_info->next =3D fdset_list;
-> > >          fdset_list =3D fdset_info;
-> > >      }
-> > > -    qemu_mutex_unlock(&mon_fdsets_lock);
-> > >
-> > >      return fdset_list;
-> > >  }
-> > > @@ -1554,7 +1546,7 @@ int monitor_fdset_dup_fd_add(int64_t fdset_id, =
-int flags)
-> > >  #else
-> > >      MonFdset *mon_fdset;
-> > >
-> > > -    qemu_mutex_lock(&mon_fdsets_lock);
-> > > +    QEMU_LOCK_GUARD(&mon_fdsets_lock);
-> > >      QLIST_FOREACH(mon_fdset, &mon_fdsets, next) {
-> > >          MonFdsetFd *mon_fdset_fd;
-> > >          MonFdsetFd *mon_fdset_fd_dup;
-> > > @@ -1569,7 +1561,6 @@ int monitor_fdset_dup_fd_add(int64_t fdset_id, =
-int flags)
-> > >          QLIST_FOREACH(mon_fdset_fd, &mon_fdset->fds, next) {
-> > >              mon_fd_flags =3D fcntl(mon_fdset_fd->fd, F_GETFL);
-> > >              if (mon_fd_flags =3D=3D -1) {
-> > > -                qemu_mutex_unlock(&mon_fdsets_lock);
-> > >                  return -1;
-> > >              }
-> > >
-> > > @@ -1580,25 +1571,21 @@ int monitor_fdset_dup_fd_add(int64_t fdset_id=
-, int flags)
-> > >          }
-> > >
-> > >          if (fd =3D=3D -1) {
-> > > -            qemu_mutex_unlock(&mon_fdsets_lock);
-> > >              errno =3D EACCES;
-> > >              return -1;
-> > >          }
-> > >
-> > >          dup_fd =3D qemu_dup_flags(fd, flags);
-> > >          if (dup_fd =3D=3D -1) {
-> > > -            qemu_mutex_unlock(&mon_fdsets_lock);
-> > >              return -1;
-> > >          }
-> > >
-> > >          mon_fdset_fd_dup =3D g_malloc0(sizeof(*mon_fdset_fd_dup));
-> > >          mon_fdset_fd_dup->fd =3D dup_fd;
-> > >          QLIST_INSERT_HEAD(&mon_fdset->dup_fds, mon_fdset_fd_dup, nex=
-t);
-> > > -        qemu_mutex_unlock(&mon_fdsets_lock);
-> > >          return dup_fd;
-> > >      }
-> > >
-> > > -    qemu_mutex_unlock(&mon_fdsets_lock);
-> > >      errno =3D ENOENT;
-> > >      return -1;
-> > >  #endif
-> > > @@ -1609,7 +1596,7 @@ static int64_t monitor_fdset_dup_fd_find_remove=
-(int dup_fd, bool remove)
-> > >      MonFdset *mon_fdset;
-> > >      MonFdsetFd *mon_fdset_fd_dup;
-> > >
-> > > -    qemu_mutex_lock(&mon_fdsets_lock);
-> > > +    QEMU_LOCK_GUARD(&mon_fdsets_lock);
-> > >      QLIST_FOREACH(mon_fdset, &mon_fdsets, next) {
-> > >          QLIST_FOREACH(mon_fdset_fd_dup, &mon_fdset->dup_fds, next) {
-> > >              if (mon_fdset_fd_dup->fd =3D=3D dup_fd) {
-> > > @@ -1619,17 +1606,14 @@ static int64_t monitor_fdset_dup_fd_find_remo=
-ve(int dup_fd, bool remove)
-> > >                      if (QLIST_EMPTY(&mon_fdset->dup_fds)) {
-> > >                          monitor_fdset_cleanup(mon_fdset);
-> > >                      }
-> > > -                    goto err;
-> > > +                    return -1;
-> > >                  } else {
-> > > -                    qemu_mutex_unlock(&mon_fdsets_lock);
-> > >                      return mon_fdset->id;
-> > >                  }
-> > >              }
-> > >          }
-> > >      }
-> > >
-> > > -err:
-> > > -    qemu_mutex_unlock(&mon_fdsets_lock);
-> > >      return -1;
-> > >  }
-> > >
-> > > --
-> > > 2.26.2
-> > >
-> > >
-> >
-> >
-> > --
-> > Marc-Andr=C3=A9 Lureau
-> >
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->
 
 
---=20
-Marc-Andr=C3=A9 Lureau
+On 2/7/23 14:37, Nina Schoetterl-Glausch wrote:
+> On Tue, 2023-02-07 at 13:19 +0100, Pierre Morel wrote:
+>>
+>> On 2/7/23 11:50, Nina Schoetterl-Glausch wrote:
+>>> On Tue, 2023-02-07 at 10:24 +0100, Pierre Morel wrote:
+>>>>
+>>>> On 2/6/23 18:52, Nina Schoetterl-Glausch wrote:
+>>>>> On Wed, 2023-02-01 at 14:20 +0100, Pierre Morel wrote:
+>>>>>> During a subsystem reset the Topology-Change-Report is cleared
+>>>>>> by the machine.
+>>>>>> Let's ask KVM to clear the Modified Topology Change Report (MTCR)
+>>>>>> bit of the SCA in the case of a subsystem reset.
+>>>>>>
+>>>>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>>>>>> ---
+>>>>>>     include/hw/s390x/cpu-topology.h |  1 +
+>>>>>>     target/s390x/cpu.h              |  1 +
+>>>>>>     target/s390x/kvm/kvm_s390x.h    |  1 +
+>>>>>>     hw/s390x/cpu-topology.c         | 12 ++++++++++++
+>>>>>>     hw/s390x/s390-virtio-ccw.c      |  3 +++
+>>>>>>     target/s390x/cpu-sysemu.c       | 13 +++++++++++++
+>>>>>>     target/s390x/kvm/kvm.c          | 17 +++++++++++++++++
+>>>>>>     7 files changed, 48 insertions(+)
+>>>>>>
+>>>>>> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
+>>>>>> index 1ae7e7c5e3..60e0b9fbfa 100644
+>>>>>> --- a/include/hw/s390x/cpu-topology.h
+>>>>>> +++ b/include/hw/s390x/cpu-topology.h
+>>>>>> @@ -66,5 +66,6 @@ static inline void s390_topology_set_cpu(MachineState *ms,
+>>>>>>     
+>>>>>>     extern S390Topology s390_topology;
+>>>>>>     int s390_socket_nb(S390CPU *cpu);
+>>>>>> +void s390_topology_reset(void);
+>>>>>>     
+>>>>>>     #endif
+>>>>>> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+>>>>>> index e1f6925856..848314d2a9 100644
+>>>>>> --- a/target/s390x/cpu.h
+>>>>>> +++ b/target/s390x/cpu.h
+>>>>>> @@ -641,6 +641,7 @@ typedef struct SysIBTl_cpu {
+>>>>>>     QEMU_BUILD_BUG_ON(sizeof(SysIBTl_cpu) != 16);
+>>>>>>     
+>>>>>>     void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar);
+>>>>>> +void s390_cpu_topology_reset(void);
+>>>>>
+>>>>> How about you call this s390_cpu_topology_reset_modified, so it's symmetric
+>>>>> with the function you define in the next patch. You could also drop the "cpu"
+>>>>> from the name.
+>>>>
+>>>> I am not sure about this, Thomas already gave his R-B on this patch so I
+>>>> prefer to stay on the original name, unless he says it is a good idea to
+>>>> change.
+>>>> Also in cpu-sysemu.c most of the function are tagged with _cpu_
+>>>
+>>> IMO, renaming a function would be a small enough change to keep an R-b.
+>>>>
+>>>>>
+>>>>> Or maybe even better, you only define a function for setting the modified state,
+>>>>> but make it take a bool argument. This way you also get rid of some code duplication
+>>>>> and it wouldn't harm readability IMO.
+>>>>
+>>>> There is already a single function kvm_s390_topology_set_mtcr(attr) to
+>>>> set the "modified state"
+>>>
+>>> Yes, but that is for KVM only and doesn't do error handling.
+>>> So you need at least one function on top of that. What I'm suggesting is to
+>>> only have one function instead of two because it gets rid of some code.
+>>
+>> OK this is right.
+>> I rename
+>> void s390_cpu_topology_reset(void);
+>> to
+>> void s390_cpu_topology_set_mtcr(int value);
+> 
+> I don't find mtcr very descriptive and a bit of a SIE/KVM name, it might not
+> fit a possible future tcg implementation.
+> I'd just call it s390_cpu_topology_set_changed/modified, and have it take a bool,
+> because I cannot imagine other int values to make sense.
+
+OK
+
+> 
+>>
+>> and then:
+>>
+>> -    s390_cpu_topology_reset();
+>> +    s390_cpu_topology_set_mtcr(0);
+>>
+>>
+>>>>
+>>>>>
+>>>>>>     
+>>>>>>     /* MMU defines */
+>>>>>>     #define ASCE_ORIGIN           (~0xfffULL) /* segment table origin             */
+>>>>>> diff --git a/target/s390x/kvm/kvm_s390x.h b/target/s390x/kvm/kvm_s390x.h
+>>>>>> index f9785564d0..649dae5948 100644
+>>>>>> --- a/target/s390x/kvm/kvm_s390x.h
+>>>>>> +++ b/target/s390x/kvm/kvm_s390x.h
+>>>>>> @@ -47,5 +47,6 @@ void kvm_s390_crypto_reset(void);
+>>>>>>     void kvm_s390_restart_interrupt(S390CPU *cpu);
+>>>>>>     void kvm_s390_stop_interrupt(S390CPU *cpu);
+>>>>>>     void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info);
+>>>>>> +int kvm_s390_topology_set_mtcr(uint64_t attr);
+>>>>>>     
+>>>>>>     #endif /* KVM_S390X_H */
+>>>>>> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+>>>>>> index a80a1ebf22..cf63f3dd01 100644
+>>>>>> --- a/hw/s390x/cpu-topology.c
+>>>>>> +++ b/hw/s390x/cpu-topology.c
+>>>>>> @@ -85,6 +85,18 @@ static void s390_topology_init(MachineState *ms)
+>>>>>>         QTAILQ_INSERT_HEAD(&s390_topology.list, entry, next);
+>>>>>>     }
+>>>>>>     
+>>>>>> +/**
+>>>>>> + * s390_topology_reset:
+>>>>>> + *
+>>>>>> + * Generic reset for CPU topology, calls s390_topology_reset()
+>>>>>> + * s390_topology_reset() to reset the kernel Modified Topology
+>>>>>> + * change record.
+>>>>>> + */
+>>>>>> +void s390_topology_reset(void)
+>>>>>> +{
+>>>>>
+>>>>> I'm wondering if you shouldn't move the reset changes you do in the next patch
+>>>>> into this one. I don't see what they have to do with PTF emulation.
+>>>>
+>>>> Here in this patch we do not intercept PTF and we have only an
+>>>> horizontal polarity.
+>>>> So we do not need to reset the polarity for all the vCPUs, we only need
+>>>> it when we have vertical polarity.
+>>>
+>>> Well, with the PTF patch you don't get vertical polarity either, because you
+>>> only enable the topology with patch 7.
+>>> And since it's about resetting, it fits better in this patch IMO.
+>>
+>> Not in my opinion, suppose the next patch never get included it has no
+>> sense.
+> 
+> Well, yes, but then the series would be broken, since the facility requires PTF to work.
+
+Yes, same if the activation of the facility is not included.
+
+Regards,
+Pierre
+
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
