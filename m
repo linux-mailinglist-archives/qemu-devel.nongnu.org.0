@@ -2,85 +2,162 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF1E468CBA7
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 02:04:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB94F68CBF2
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 02:31:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPCKp-0002er-H0; Mon, 06 Feb 2023 19:59:48 -0500
+	id 1pPCnn-0004Fz-9t; Mon, 06 Feb 2023 20:29:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pPCKh-0001rA-18
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 19:59:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <eddie.dong@intel.com>)
+ id 1pPCng-0004FA-HC; Mon, 06 Feb 2023 20:29:37 -0500
+Received: from mga04.intel.com ([192.55.52.120])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pPCKc-000413-AM
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 19:59:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675731572;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CFfCGNpJ2ofu7yh6AXsFdYvKkqDeKIq/PJ0QkgXtDLY=;
- b=JONUXBuMz603em1p/cy5g3FpH0fojenoYcYaAT9csW1NmNScxexaatvNPjS/U3Ksv6zM52
- f1/HAjw8WgtqTFHKRZMxPpUQgBS8Ku0MWDA2lIK0y6pRj4vQw0TTuNRUQ2uRikdxV5lLBz
- jEB3D7vyrHSDvispDt52RZjm6ogmLG8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-Qt8smNQgOr23hVwO4GUoWw-1; Mon, 06 Feb 2023 19:59:29 -0500
-X-MC-Unique: Qt8smNQgOr23hVwO4GUoWw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9B8EB3C025B0;
- Tue,  7 Feb 2023 00:59:28 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.192.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF260492C3C;
- Tue,  7 Feb 2023 00:59:23 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- John Snow <jsnow@redhat.com>, David Hildenbrand <david@redhat.com>,
- Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Coiby Xu <Coiby.Xu@gmail.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Eric Blake <eblake@redhat.com>, Eric Farman <farman@linux.ibm.com>,
- Zhenzhong Duan <zhenzhong.duan@intel.com>
-Subject: [PULL 28/30] multifd: Fix flush of zero copy page send request
-Date: Tue,  7 Feb 2023 01:56:48 +0100
-Message-Id: <20230207005650.1810-29-quintela@redhat.com>
-In-Reply-To: <20230207005650.1810-1-quintela@redhat.com>
-References: <20230207005650.1810-1-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <eddie.dong@intel.com>)
+ id 1pPCnZ-00012o-GJ; Mon, 06 Feb 2023 20:29:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675733369; x=1707269369;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=Yq7nNSIc6prQWVkeWwCf5J3jynwLNc4IQTgf1+zTFgU=;
+ b=Wwdv4huxNtFaLXATp8sgXIm1nqY23vLzS1h+Imrg2la4etb4RzfEh4SC
+ JlKrO8jf3jCT0/JO8ENoqu8LAV/ajcyuIUPc5V154mgEUT6tAq5dtwWWr
+ VERveWFyvzO5wyuqJeiEy5l9A1TzkIc0cvhyQD3wS1GMzEnV0elX60TRh
+ Lbubw3qEZviS7uBQbUef2ehProWmNst/7WBxpx1P9yKmNUgc97+hvlvYo
+ V2QQmbJvlqIjfTa5hOM4e3VO8QcqyztI7VMOht4csNslb8MvSbDIDAOj1
+ HR4Y4ZPkpas+gxP3KRGm+qo567RMU6VclWcHl0ZufbTJ7HotA2ygcUaJt g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="328005659"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; d="scan'208";a="328005659"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Feb 2023 17:29:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="644263160"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; d="scan'208";a="644263160"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orsmga006.jf.intel.com with ESMTP; 06 Feb 2023 17:29:18 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Mon, 6 Feb 2023 17:29:17 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Mon, 6 Feb 2023 17:29:17 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.41) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Mon, 6 Feb 2023 17:29:15 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EsnKiX7ZMvyD5ft05E9kjd16TORY3TUePmEgXuLEz+xUr28ZZEXP4DM8vjfuJlxIxcWXPFkei4LFlVB1K+21NF5pH031S0bNUGJK6VKMCI7wS+9Bh/8ABN/bydP28vTD2vmxxhdIJK/tAYlXv3Fe+2gMpxNOC+WQ22zoySWLkhDihqM55HPnJX7pJ0iw37EV2H3riGCuX84lTsNl+xBt0Og66FxOgfZc7G4dNaZMNXaelWPWwsTK8kd2kFtODp79Qm6rgG9s9shDZVpqz8oK+3T132Eez5bG1kND5ibXZ1TlUbyUq1fsQ/3MWb5XbsG7/QjEdzLPhDOKDZ+41p6IaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Yq7nNSIc6prQWVkeWwCf5J3jynwLNc4IQTgf1+zTFgU=;
+ b=dDqY54cSnkoyArHyvikRNpvrnaFKCDExWikvTpaVQnJaL5Gq1UpuOcDENcAxUm4oAxhJRm7DmjDa8lwtZ4YnOKIvcKQfdC80v9AWnZ4MjsWY6vlEbJyYoGW6VFwKOuiyDr3OSAOOEazisIiIczQT4BqAQycDD3A53lOFmBFim9shAmJguR8noA2F6FMeW0zE0lKRE7HR88ZiuXiYvI7AQbMoGkVdjzDbaYvrOwU5BVqPz4vPrV1cyGValNpNEPQRNcd3fFfm26lkvQa6lxrWRAQ6Wo5r5efG8BiaCMKrb/RVLPup3na8BOQfZNQ+9bIqE9PK3U8sFZL/JZb0/zVipg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BL0PR11MB3042.namprd11.prod.outlook.com (2603:10b6:208:78::17)
+ by DM4PR11MB8090.namprd11.prod.outlook.com (2603:10b6:8:188::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.34; Tue, 7 Feb
+ 2023 01:29:13 +0000
+Received: from BL0PR11MB3042.namprd11.prod.outlook.com
+ ([fe80::cdd9:e662:a515:df44]) by BL0PR11MB3042.namprd11.prod.outlook.com
+ ([fe80::cdd9:e662:a515:df44%4]) with mapi id 15.20.6064.029; Tue, 7 Feb 2023
+ 01:29:13 +0000
+From: "Dong, Eddie" <eddie.dong@intel.com>
+To: Titus Rwantare <titusr@google.com>, "peter.maydell@linaro.org"
+ <peter.maydell@linaro.org>
+CC: "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, Hao Wu <wuhaotsh@google.com>
+Subject: RE: [PATCH 1/3] hw/gpio: add PCA6414 i2c GPIO expander
+Thread-Topic: [PATCH 1/3] hw/gpio: add PCA6414 i2c GPIO expander
+Thread-Index: AQHZOmRo+QilMymW2U6H02EiJHvko67CrJzw
+Date: Tue, 7 Feb 2023 01:29:13 +0000
+Message-ID: <BL0PR11MB304243FE15655303D4540F9B8ADB9@BL0PR11MB3042.namprd11.prod.outlook.com>
+References: <20230206194936.168843-1-titusr@google.com>
+ <20230206194936.168843-2-titusr@google.com>
+In-Reply-To: <20230206194936.168843-2-titusr@google.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BL0PR11MB3042:EE_|DM4PR11MB8090:EE_
+x-ms-office365-filtering-correlation-id: 320c4710-4086-46f6-4282-08db08aab853
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: u1hAQPFmkqx8frGxR9a+ujpaGnd27Um9lz2yA7jz7ekeNAKZ6QpFDpfM5P7bisZEv+h9zYBu2DgXxXLZusC3iB7ajUVb/LO3SpO1Q8EBvoXPNUxIY1a9E+WD/BdB/tS46uYRkhNabFuvCAPfj5yw1onZFgxk0LfKnmadkqZrAfvItnTmEIzqIxPKQAjKoUWbFEjuqxnmm9q/knWPFwP7TN2q1S66RnUCZfyzlmT+5AOhkqenOkjnxf1G0yzZ9/DUlKYcw2dhDZbJiJMeBPLrvoirinNl9kB5WZKJPjKQwX+3oTkvHXbzxwF9vJFi693WXZhYIM6P475tWf3CTfc+rDtw68yLcFE0k85aEkiqcSZd6ad8SrE/qzknnkIgLlF745X7YZ39vKYnnIv0TFWBNUiFlNAZOLSXS22bHqHsI+jyB9ozgTj3biOfV0NsHoc54we69rLYnMoXUVNHI6gByBj9pqtGLzIZbQLjg90BcGpgXkVrsFXSF3thM8d273rAWQxBZpkqG4Dxs9BI/3l+LVNKHvxvot2c5A1kdPIMc1iWImclUN9lUlZ5DEG6hCtYubuK8UtU26AKGcjbFTeVQbjvdCqsqVAAb3YyaGFAqRwmrz9m/5mP9DjqVCKbvsnO9imaa90s6XmibwfmRjv5lGhR4OPdbIRSVU4v6eYEJqLeqL2B+o57isX/7m/US5jyD88vWlrlLwEYOaUQ+/7yp3U90uPNrMye82S76SelKKym8QpxRzU8ILNTQXe19yD7
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR11MB3042.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(39860400002)(346002)(396003)(136003)(376002)(366004)(451199018)(38070700005)(86362001)(33656002)(82960400001)(38100700002)(122000001)(41300700001)(66946007)(316002)(64756008)(66556008)(8936002)(66446008)(66476007)(52536014)(5660300002)(8676002)(110136005)(4326008)(54906003)(76116006)(2906002)(55016003)(83380400001)(71200400001)(30864003)(966005)(478600001)(9686003)(26005)(7696005)(53546011)(6506007)(186003)(21314003)(559001)(579004);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cDRXRDBYeUNBWWJmaWREd3ZycUlhZmM0ZFA3RHROdm1JUis5ME9XN3Zhei9K?=
+ =?utf-8?B?RTZ4L0MzVFlEZHlyclM1dVpMS1krODNxb2NiNlFyWHpNSmRZcnA2TUkxTHAw?=
+ =?utf-8?B?K204UkpDUUNCa3hkS2t4bmxQRkhYL0tmbUFCRHdod0xyZ0JSdGk4NjBTajFh?=
+ =?utf-8?B?ZWoxL1VUOXNKK00xd1d6QTJOWFh5OWdDdHI4VDFLMS9ZNThKendqZUlXV1ZS?=
+ =?utf-8?B?c2dzWXpVaTRBam5WbDJXc0Z5Nm9hb1E4M1J6Zmx0M3Y2KzVPM3VaRWR4d2VZ?=
+ =?utf-8?B?MnYxeHhNT0paenJhOFQ0SmJubjhWV2NMaDNhMGtWR3VnTUJ1UkZpb3JNbVE4?=
+ =?utf-8?B?RUlnMmhhODhlb1NKelVDRTNKVnEwaEhMNVhJb1k5d3BhbUVJMUJiRVVvcHU1?=
+ =?utf-8?B?V0tXN0RCUWQrb3poM3dOdTNoc29FNnFNc0lJVmw4MEFhQVBHMVBHK2FMNlBH?=
+ =?utf-8?B?UklJZmkvYmw1WGhpeGhFazVmVG9kZnJiaFpxTnd2Qkc5TXRxWXhhNmR4MFBK?=
+ =?utf-8?B?TVlwbHNteDhPNFpaNEVRNnhHK1FWZzJJNE85U0ljanJMbUNSMllaYk85eWZQ?=
+ =?utf-8?B?RHhGdWphTTZDSjZzS3A5eTZTeThYd294eUpUYzIrY2x6M0ZreVNBR080SWNN?=
+ =?utf-8?B?VGQvYm9iQ1JDNXZNdTY5WENZUFcyK0tQMDlmaG9FK2trVFlmWkJVMlRWV3g1?=
+ =?utf-8?B?YjN1RWdHU0ZmVHN3YzNBVmlyekdncnRPOEQ2enNKRk1iL3R3TVpIMWk0TlRh?=
+ =?utf-8?B?TllDaGx5M0pUckNtbTVFSGlwVVRvK3V6dnZFSm9Scy9aT2RubitDSml0V0xI?=
+ =?utf-8?B?YUNxdERkTmRRK2lDcGx4cXU4UmdBM2RpREoxcWEydHlGTVpVRExVZHhHajdG?=
+ =?utf-8?B?QzFzRDhsM0xxeXNwVEFYY2hDRitML1RkQTRHRXZTUW1aVmdhZGxvZW10RWRY?=
+ =?utf-8?B?NEZxcVdGVnludVJKTUp1ZUhPa05Oc3F2VXd6YXVDTm9JWWF4WC9pN09DbkF4?=
+ =?utf-8?B?NUVjOUwzQU9naG1UN0J1bTA2V2trdENpTjNndzhhQmVkWXB5TDJQRkxvTDdy?=
+ =?utf-8?B?QVlVMk03NDU3Nk1CQmFGR3V4STVGdSt3TlpxQU43SzZ5VVNCZmQ1cDZnWGs3?=
+ =?utf-8?B?S3VoV0NXQkl4aVpjWGZXcGdwRG83SkJpbHl2ZGRodi9iRVBwQ2ZMdnJMRzdu?=
+ =?utf-8?B?VnZHbVdxeGp3b3FHLzVnQ2tNTjNSeDFKbXFFbzdSRzU3NW90cy9mTzAySjhM?=
+ =?utf-8?B?YWg1b25ZSi9tM2dnTVBUWXlZZ1R1NzNacXNNSnRqVUswYW81ODFMZk4xdC95?=
+ =?utf-8?B?cEVSQXJCRzh2SDhoMkpZTVY3eXJCNzhPRDMrUThSZTBVYTQ1aWpVSUxHakVw?=
+ =?utf-8?B?ZVNhQ29LZTlLOCtkcFQ4Q1Z5SVpBbkpWbWx5OFZ5ZUxQNXhtcWRWNm5ieG93?=
+ =?utf-8?B?NVVRNGo5R0VyRHV6bGg4Wk1ZMG1YRHpQeGhBT0xTeHpUMnFTZ1Zxc2FCS1pj?=
+ =?utf-8?B?aHpGVzZOaGNFU0d6cWpaN1E3WEZVM2dtVnNMTHhuUnQ1LzA0VjEvbnVhSFBI?=
+ =?utf-8?B?UjZGdUhVdHkzZktLM3BtT2FrcHVaUXR5eUFvdUJiZWJFTHh3SktYNldvWHQz?=
+ =?utf-8?B?MUlLNko3V0J4Nms0QnJ3ak55WTlYeFJxT1NwZThQbEpoUHN1bnFpMjhqRDdh?=
+ =?utf-8?B?K2xuTE90YVJnL2h2anFaODR4ZFhlT3ZDckVFeG1YZnhvRzR1K052N25pbDlR?=
+ =?utf-8?B?bm5DbFg0SG1SN2svTFN3cEZIQ2x4WHlZOHR0Q1pZVWJlc01zL0sxT0pIZGRJ?=
+ =?utf-8?B?ZmpQbm1xNkduWG5xc1FiU2pLNDBaNEh3bkxITDRUNllGbG94dURrM1owcmJK?=
+ =?utf-8?B?YzRxNE1rcmFzc1hXcDNma25XNUtCYWR2OG5YMGxSVTlSeXFXWXNCcUJoczNO?=
+ =?utf-8?B?L0ZQaUNFRTUrcVZuaE5hZXRNWFA5eFhYeDl3b01SU08yd3RkMHNpM09OZ2gr?=
+ =?utf-8?B?dTNBblJBVkxjQm90TmVGaS9YaDZFcG9kUEFXTENWV1hHRWdWblNEbEt2Y0sy?=
+ =?utf-8?B?Vm9xa3BaT1BEc295bGVGU2ZsQkxQTVFUV3R3SDA3NWJHQlRVRndTREMvcVN5?=
+ =?utf-8?Q?dzoGBjRJ72n67HDVm7MmxUe8e?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB3042.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 320c4710-4086-46f6-4282-08db08aab853
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Feb 2023 01:29:13.2671 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BE447lBh0R9+P6Kjcj2cl+eGM/ugxxESPm8BxPW7bDRHu/UvlasbacAuMAd0ZMxobojFytTHTWOwsuCU5NpnmQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB8090
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.120; envelope-from=eddie.dong@intel.com;
+ helo=mga04.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,1355 +173,446 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Zhenzhong Duan <zhenzhong.duan@intel.com>
-
-Make IO channel flush call after the inflight request has been drained
-in multifd thread, or else we may missed to flush the inflight request.
-
-Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- .../x86_64-quintela-devices.mak               |    7 +
- .../x86_64-quintela2-devices.mak              |    6 +
- migration/multifd.c                           |    8 +-
- migration/multifd.c.orig                      | 1274 +++++++++++++++++
- 4 files changed, 1291 insertions(+), 4 deletions(-)
- create mode 100644 configs/devices/x86_64-softmmu/x86_64-quintela-devices.mak
- create mode 100644 configs/devices/x86_64-softmmu/x86_64-quintela2-devices.mak
- create mode 100644 migration/multifd.c.orig
-
-diff --git a/configs/devices/x86_64-softmmu/x86_64-quintela-devices.mak b/configs/devices/x86_64-softmmu/x86_64-quintela-devices.mak
-new file mode 100644
-index 0000000000..ee2bb8c5c9
---- /dev/null
-+++ b/configs/devices/x86_64-softmmu/x86_64-quintela-devices.mak
-@@ -0,0 +1,7 @@
-+# Boards:
-+#
-+CONFIG_ISAPC=n
-+CONFIG_I440FX=n
-+CONFIG_Q35=n
-+CONFIG_MICROVM=y
-+
-diff --git a/configs/devices/x86_64-softmmu/x86_64-quintela2-devices.mak b/configs/devices/x86_64-softmmu/x86_64-quintela2-devices.mak
-new file mode 100644
-index 0000000000..f7e4dae842
---- /dev/null
-+++ b/configs/devices/x86_64-softmmu/x86_64-quintela2-devices.mak
-@@ -0,0 +1,6 @@
-+# Boards:
-+#
-+CONFIG_ISAPC=y
-+CONFIG_I440FX=y
-+CONFIG_Q35=y
-+CONFIG_MICROVM=y
-diff --git a/migration/multifd.c b/migration/multifd.c
-index ad89293b4e..437bf6f808 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -630,16 +630,16 @@ int multifd_send_sync_main(QEMUFile *f)
-         stat64_add(&ram_atomic_counters.transferred, p->packet_len);
-         qemu_mutex_unlock(&p->mutex);
-         qemu_sem_post(&p->sem);
--
--        if (flush_zero_copy && p->c && (multifd_zero_copy_flush(p->c) < 0)) {
--            return -1;
--        }
-     }
-     for (i = 0; i < migrate_multifd_channels(); i++) {
-         MultiFDSendParams *p = &multifd_send_state->params[i];
- 
-         trace_multifd_send_sync_main_wait(p->id);
-         qemu_sem_wait(&p->sem_sync);
-+
-+        if (flush_zero_copy && p->c && (multifd_zero_copy_flush(p->c) < 0)) {
-+            return -1;
-+        }
-     }
-     trace_multifd_send_sync_main(multifd_send_state->packet_num);
- 
-diff --git a/migration/multifd.c.orig b/migration/multifd.c.orig
-new file mode 100644
-index 0000000000..ad89293b4e
---- /dev/null
-+++ b/migration/multifd.c.orig
-@@ -0,0 +1,1274 @@
-+/*
-+ * Multifd common code
-+ *
-+ * Copyright (c) 2019-2020 Red Hat Inc
-+ *
-+ * Authors:
-+ *  Juan Quintela <quintela@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/rcu.h"
-+#include "exec/target_page.h"
-+#include "sysemu/sysemu.h"
-+#include "exec/ramblock.h"
-+#include "qemu/error-report.h"
-+#include "qapi/error.h"
-+#include "ram.h"
-+#include "migration.h"
-+#include "socket.h"
-+#include "tls.h"
-+#include "qemu-file.h"
-+#include "trace.h"
-+#include "multifd.h"
-+
-+#include "qemu/yank.h"
-+#include "io/channel-socket.h"
-+#include "yank_functions.h"
-+
-+/* Multiple fd's */
-+
-+#define MULTIFD_MAGIC 0x11223344U
-+#define MULTIFD_VERSION 1
-+
-+typedef struct {
-+    uint32_t magic;
-+    uint32_t version;
-+    unsigned char uuid[16]; /* QemuUUID */
-+    uint8_t id;
-+    uint8_t unused1[7];     /* Reserved for future use */
-+    uint64_t unused2[4];    /* Reserved for future use */
-+} __attribute__((packed)) MultiFDInit_t;
-+
-+/* Multifd without compression */
-+
-+/**
-+ * nocomp_send_setup: setup send side
-+ *
-+ * For no compression this function does nothing.
-+ *
-+ * Returns 0 for success or -1 for error
-+ *
-+ * @p: Params for the channel that we are using
-+ * @errp: pointer to an error
-+ */
-+static int nocomp_send_setup(MultiFDSendParams *p, Error **errp)
-+{
-+    return 0;
-+}
-+
-+/**
-+ * nocomp_send_cleanup: cleanup send side
-+ *
-+ * For no compression this function does nothing.
-+ *
-+ * @p: Params for the channel that we are using
-+ * @errp: pointer to an error
-+ */
-+static void nocomp_send_cleanup(MultiFDSendParams *p, Error **errp)
-+{
-+    return;
-+}
-+
-+/**
-+ * nocomp_send_prepare: prepare date to be able to send
-+ *
-+ * For no compression we just have to calculate the size of the
-+ * packet.
-+ *
-+ * Returns 0 for success or -1 for error
-+ *
-+ * @p: Params for the channel that we are using
-+ * @errp: pointer to an error
-+ */
-+static int nocomp_send_prepare(MultiFDSendParams *p, Error **errp)
-+{
-+    MultiFDPages_t *pages = p->pages;
-+
-+    for (int i = 0; i < p->normal_num; i++) {
-+        p->iov[p->iovs_num].iov_base = pages->block->host + p->normal[i];
-+        p->iov[p->iovs_num].iov_len = p->page_size;
-+        p->iovs_num++;
-+    }
-+
-+    p->next_packet_size = p->normal_num * p->page_size;
-+    p->flags |= MULTIFD_FLAG_NOCOMP;
-+    return 0;
-+}
-+
-+/**
-+ * nocomp_recv_setup: setup receive side
-+ *
-+ * For no compression this function does nothing.
-+ *
-+ * Returns 0 for success or -1 for error
-+ *
-+ * @p: Params for the channel that we are using
-+ * @errp: pointer to an error
-+ */
-+static int nocomp_recv_setup(MultiFDRecvParams *p, Error **errp)
-+{
-+    return 0;
-+}
-+
-+/**
-+ * nocomp_recv_cleanup: setup receive side
-+ *
-+ * For no compression this function does nothing.
-+ *
-+ * @p: Params for the channel that we are using
-+ */
-+static void nocomp_recv_cleanup(MultiFDRecvParams *p)
-+{
-+}
-+
-+/**
-+ * nocomp_recv_pages: read the data from the channel into actual pages
-+ *
-+ * For no compression we just need to read things into the correct place.
-+ *
-+ * Returns 0 for success or -1 for error
-+ *
-+ * @p: Params for the channel that we are using
-+ * @errp: pointer to an error
-+ */
-+static int nocomp_recv_pages(MultiFDRecvParams *p, Error **errp)
-+{
-+    uint32_t flags = p->flags & MULTIFD_FLAG_COMPRESSION_MASK;
-+
-+    if (flags != MULTIFD_FLAG_NOCOMP) {
-+        error_setg(errp, "multifd %u: flags received %x flags expected %x",
-+                   p->id, flags, MULTIFD_FLAG_NOCOMP);
-+        return -1;
-+    }
-+    for (int i = 0; i < p->normal_num; i++) {
-+        p->iov[i].iov_base = p->host + p->normal[i];
-+        p->iov[i].iov_len = p->page_size;
-+    }
-+    return qio_channel_readv_all(p->c, p->iov, p->normal_num, errp);
-+}
-+
-+static MultiFDMethods multifd_nocomp_ops = {
-+    .send_setup = nocomp_send_setup,
-+    .send_cleanup = nocomp_send_cleanup,
-+    .send_prepare = nocomp_send_prepare,
-+    .recv_setup = nocomp_recv_setup,
-+    .recv_cleanup = nocomp_recv_cleanup,
-+    .recv_pages = nocomp_recv_pages
-+};
-+
-+static MultiFDMethods *multifd_ops[MULTIFD_COMPRESSION__MAX] = {
-+    [MULTIFD_COMPRESSION_NONE] = &multifd_nocomp_ops,
-+};
-+
-+void multifd_register_ops(int method, MultiFDMethods *ops)
-+{
-+    assert(0 < method && method < MULTIFD_COMPRESSION__MAX);
-+    multifd_ops[method] = ops;
-+}
-+
-+static int multifd_send_initial_packet(MultiFDSendParams *p, Error **errp)
-+{
-+    MultiFDInit_t msg = {};
-+    int ret;
-+
-+    msg.magic = cpu_to_be32(MULTIFD_MAGIC);
-+    msg.version = cpu_to_be32(MULTIFD_VERSION);
-+    msg.id = p->id;
-+    memcpy(msg.uuid, &qemu_uuid.data, sizeof(msg.uuid));
-+
-+    ret = qio_channel_write_all(p->c, (char *)&msg, sizeof(msg), errp);
-+    if (ret != 0) {
-+        return -1;
-+    }
-+    return 0;
-+}
-+
-+static int multifd_recv_initial_packet(QIOChannel *c, Error **errp)
-+{
-+    MultiFDInit_t msg;
-+    int ret;
-+
-+    ret = qio_channel_read_all(c, (char *)&msg, sizeof(msg), errp);
-+    if (ret != 0) {
-+        return -1;
-+    }
-+
-+    msg.magic = be32_to_cpu(msg.magic);
-+    msg.version = be32_to_cpu(msg.version);
-+
-+    if (msg.magic != MULTIFD_MAGIC) {
-+        error_setg(errp, "multifd: received packet magic %x "
-+                   "expected %x", msg.magic, MULTIFD_MAGIC);
-+        return -1;
-+    }
-+
-+    if (msg.version != MULTIFD_VERSION) {
-+        error_setg(errp, "multifd: received packet version %u "
-+                   "expected %u", msg.version, MULTIFD_VERSION);
-+        return -1;
-+    }
-+
-+    if (memcmp(msg.uuid, &qemu_uuid, sizeof(qemu_uuid))) {
-+        char *uuid = qemu_uuid_unparse_strdup(&qemu_uuid);
-+        char *msg_uuid = qemu_uuid_unparse_strdup((const QemuUUID *)msg.uuid);
-+
-+        error_setg(errp, "multifd: received uuid '%s' and expected "
-+                   "uuid '%s' for channel %hhd", msg_uuid, uuid, msg.id);
-+        g_free(uuid);
-+        g_free(msg_uuid);
-+        return -1;
-+    }
-+
-+    if (msg.id > migrate_multifd_channels()) {
-+        error_setg(errp, "multifd: received channel version %u "
-+                   "expected %u", msg.version, MULTIFD_VERSION);
-+        return -1;
-+    }
-+
-+    return msg.id;
-+}
-+
-+static MultiFDPages_t *multifd_pages_init(size_t size)
-+{
-+    MultiFDPages_t *pages = g_new0(MultiFDPages_t, 1);
-+
-+    pages->allocated = size;
-+    pages->offset = g_new0(ram_addr_t, size);
-+
-+    return pages;
-+}
-+
-+static void multifd_pages_clear(MultiFDPages_t *pages)
-+{
-+    pages->num = 0;
-+    pages->allocated = 0;
-+    pages->packet_num = 0;
-+    pages->block = NULL;
-+    g_free(pages->offset);
-+    pages->offset = NULL;
-+    g_free(pages);
-+}
-+
-+static void multifd_send_fill_packet(MultiFDSendParams *p)
-+{
-+    MultiFDPacket_t *packet = p->packet;
-+    int i;
-+
-+    packet->flags = cpu_to_be32(p->flags);
-+    packet->pages_alloc = cpu_to_be32(p->pages->allocated);
-+    packet->normal_pages = cpu_to_be32(p->normal_num);
-+    packet->next_packet_size = cpu_to_be32(p->next_packet_size);
-+    packet->packet_num = cpu_to_be64(p->packet_num);
-+
-+    if (p->pages->block) {
-+        strncpy(packet->ramblock, p->pages->block->idstr, 256);
-+    }
-+
-+    for (i = 0; i < p->normal_num; i++) {
-+        /* there are architectures where ram_addr_t is 32 bit */
-+        uint64_t temp = p->normal[i];
-+
-+        packet->offset[i] = cpu_to_be64(temp);
-+    }
-+}
-+
-+static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
-+{
-+    MultiFDPacket_t *packet = p->packet;
-+    RAMBlock *block;
-+    int i;
-+
-+    packet->magic = be32_to_cpu(packet->magic);
-+    if (packet->magic != MULTIFD_MAGIC) {
-+        error_setg(errp, "multifd: received packet "
-+                   "magic %x and expected magic %x",
-+                   packet->magic, MULTIFD_MAGIC);
-+        return -1;
-+    }
-+
-+    packet->version = be32_to_cpu(packet->version);
-+    if (packet->version != MULTIFD_VERSION) {
-+        error_setg(errp, "multifd: received packet "
-+                   "version %u and expected version %u",
-+                   packet->version, MULTIFD_VERSION);
-+        return -1;
-+    }
-+
-+    p->flags = be32_to_cpu(packet->flags);
-+
-+    packet->pages_alloc = be32_to_cpu(packet->pages_alloc);
-+    /*
-+     * If we received a packet that is 100 times bigger than expected
-+     * just stop migration.  It is a magic number.
-+     */
-+    if (packet->pages_alloc > p->page_count) {
-+        error_setg(errp, "multifd: received packet "
-+                   "with size %u and expected a size of %u",
-+                   packet->pages_alloc, p->page_count) ;
-+        return -1;
-+    }
-+
-+    p->normal_num = be32_to_cpu(packet->normal_pages);
-+    if (p->normal_num > packet->pages_alloc) {
-+        error_setg(errp, "multifd: received packet "
-+                   "with %u pages and expected maximum pages are %u",
-+                   p->normal_num, packet->pages_alloc) ;
-+        return -1;
-+    }
-+
-+    p->next_packet_size = be32_to_cpu(packet->next_packet_size);
-+    p->packet_num = be64_to_cpu(packet->packet_num);
-+
-+    if (p->normal_num == 0) {
-+        return 0;
-+    }
-+
-+    /* make sure that ramblock is 0 terminated */
-+    packet->ramblock[255] = 0;
-+    block = qemu_ram_block_by_name(packet->ramblock);
-+    if (!block) {
-+        error_setg(errp, "multifd: unknown ram block %s",
-+                   packet->ramblock);
-+        return -1;
-+    }
-+
-+    p->host = block->host;
-+    for (i = 0; i < p->normal_num; i++) {
-+        uint64_t offset = be64_to_cpu(packet->offset[i]);
-+
-+        if (offset > (block->used_length - p->page_size)) {
-+            error_setg(errp, "multifd: offset too long %" PRIu64
-+                       " (max " RAM_ADDR_FMT ")",
-+                       offset, block->used_length);
-+            return -1;
-+        }
-+        p->normal[i] = offset;
-+    }
-+
-+    return 0;
-+}
-+
-+struct {
-+    MultiFDSendParams *params;
-+    /* array of pages to sent */
-+    MultiFDPages_t *pages;
-+    /* global number of generated multifd packets */
-+    uint64_t packet_num;
-+    /* send channels ready */
-+    QemuSemaphore channels_ready;
-+    /*
-+     * Have we already run terminate threads.  There is a race when it
-+     * happens that we got one error while we are exiting.
-+     * We will use atomic operations.  Only valid values are 0 and 1.
-+     */
-+    int exiting;
-+    /* multifd ops */
-+    MultiFDMethods *ops;
-+} *multifd_send_state;
-+
-+/*
-+ * How we use multifd_send_state->pages and channel->pages?
-+ *
-+ * We create a pages for each channel, and a main one.  Each time that
-+ * we need to send a batch of pages we interchange the ones between
-+ * multifd_send_state and the channel that is sending it.  There are
-+ * two reasons for that:
-+ *    - to not have to do so many mallocs during migration
-+ *    - to make easier to know what to free at the end of migration
-+ *
-+ * This way we always know who is the owner of each "pages" struct,
-+ * and we don't need any locking.  It belongs to the migration thread
-+ * or to the channel thread.  Switching is safe because the migration
-+ * thread is using the channel mutex when changing it, and the channel
-+ * have to had finish with its own, otherwise pending_job can't be
-+ * false.
-+ */
-+
-+static int multifd_send_pages(QEMUFile *f)
-+{
-+    int i;
-+    static int next_channel;
-+    MultiFDSendParams *p = NULL; /* make happy gcc */
-+    MultiFDPages_t *pages = multifd_send_state->pages;
-+    uint64_t transferred;
-+
-+    if (qatomic_read(&multifd_send_state->exiting)) {
-+        return -1;
-+    }
-+
-+    qemu_sem_wait(&multifd_send_state->channels_ready);
-+    /*
-+     * next_channel can remain from a previous migration that was
-+     * using more channels, so ensure it doesn't overflow if the
-+     * limit is lower now.
-+     */
-+    next_channel %= migrate_multifd_channels();
-+    for (i = next_channel;; i = (i + 1) % migrate_multifd_channels()) {
-+        p = &multifd_send_state->params[i];
-+
-+        qemu_mutex_lock(&p->mutex);
-+        if (p->quit) {
-+            error_report("%s: channel %d has already quit!", __func__, i);
-+            qemu_mutex_unlock(&p->mutex);
-+            return -1;
-+        }
-+        if (!p->pending_job) {
-+            p->pending_job++;
-+            next_channel = (i + 1) % migrate_multifd_channels();
-+            break;
-+        }
-+        qemu_mutex_unlock(&p->mutex);
-+    }
-+    assert(!p->pages->num);
-+    assert(!p->pages->block);
-+
-+    p->packet_num = multifd_send_state->packet_num++;
-+    multifd_send_state->pages = p->pages;
-+    p->pages = pages;
-+    transferred = ((uint64_t) pages->num) * p->page_size + p->packet_len;
-+    qemu_file_acct_rate_limit(f, transferred);
-+    ram_counters.multifd_bytes += transferred;
-+    stat64_add(&ram_atomic_counters.transferred, transferred);
-+    qemu_mutex_unlock(&p->mutex);
-+    qemu_sem_post(&p->sem);
-+
-+    return 1;
-+}
-+
-+int multifd_queue_page(QEMUFile *f, RAMBlock *block, ram_addr_t offset)
-+{
-+    MultiFDPages_t *pages = multifd_send_state->pages;
-+    bool changed = false;
-+
-+    if (!pages->block) {
-+        pages->block = block;
-+    }
-+
-+    if (pages->block == block) {
-+        pages->offset[pages->num] = offset;
-+        pages->num++;
-+
-+        if (pages->num < pages->allocated) {
-+            return 1;
-+        }
-+    } else {
-+        changed = true;
-+    }
-+
-+    if (multifd_send_pages(f) < 0) {
-+        return -1;
-+    }
-+
-+    if (changed) {
-+        return multifd_queue_page(f, block, offset);
-+    }
-+
-+    return 1;
-+}
-+
-+static void multifd_send_terminate_threads(Error *err)
-+{
-+    int i;
-+
-+    trace_multifd_send_terminate_threads(err != NULL);
-+
-+    if (err) {
-+        MigrationState *s = migrate_get_current();
-+        migrate_set_error(s, err);
-+        if (s->state == MIGRATION_STATUS_SETUP ||
-+            s->state == MIGRATION_STATUS_PRE_SWITCHOVER ||
-+            s->state == MIGRATION_STATUS_DEVICE ||
-+            s->state == MIGRATION_STATUS_ACTIVE) {
-+            migrate_set_state(&s->state, s->state,
-+                              MIGRATION_STATUS_FAILED);
-+        }
-+    }
-+
-+    /*
-+     * We don't want to exit each threads twice.  Depending on where
-+     * we get the error, or if there are two independent errors in two
-+     * threads at the same time, we can end calling this function
-+     * twice.
-+     */
-+    if (qatomic_xchg(&multifd_send_state->exiting, 1)) {
-+        return;
-+    }
-+
-+    for (i = 0; i < migrate_multifd_channels(); i++) {
-+        MultiFDSendParams *p = &multifd_send_state->params[i];
-+
-+        qemu_mutex_lock(&p->mutex);
-+        p->quit = true;
-+        qemu_sem_post(&p->sem);
-+        if (p->c) {
-+            qio_channel_shutdown(p->c, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
-+        }
-+        qemu_mutex_unlock(&p->mutex);
-+    }
-+}
-+
-+void multifd_save_cleanup(void)
-+{
-+    int i;
-+
-+    if (!migrate_use_multifd() || !migrate_multi_channels_is_allowed()) {
-+        return;
-+    }
-+    multifd_send_terminate_threads(NULL);
-+    for (i = 0; i < migrate_multifd_channels(); i++) {
-+        MultiFDSendParams *p = &multifd_send_state->params[i];
-+
-+        if (p->running) {
-+            qemu_thread_join(&p->thread);
-+        }
-+    }
-+    for (i = 0; i < migrate_multifd_channels(); i++) {
-+        MultiFDSendParams *p = &multifd_send_state->params[i];
-+        Error *local_err = NULL;
-+
-+        if (p->registered_yank) {
-+            migration_ioc_unregister_yank(p->c);
-+        }
-+        socket_send_channel_destroy(p->c);
-+        p->c = NULL;
-+        qemu_mutex_destroy(&p->mutex);
-+        qemu_sem_destroy(&p->sem);
-+        qemu_sem_destroy(&p->sem_sync);
-+        g_free(p->name);
-+        p->name = NULL;
-+        multifd_pages_clear(p->pages);
-+        p->pages = NULL;
-+        p->packet_len = 0;
-+        g_free(p->packet);
-+        p->packet = NULL;
-+        g_free(p->iov);
-+        p->iov = NULL;
-+        g_free(p->normal);
-+        p->normal = NULL;
-+        multifd_send_state->ops->send_cleanup(p, &local_err);
-+        if (local_err) {
-+            migrate_set_error(migrate_get_current(), local_err);
-+            error_free(local_err);
-+        }
-+    }
-+    qemu_sem_destroy(&multifd_send_state->channels_ready);
-+    g_free(multifd_send_state->params);
-+    multifd_send_state->params = NULL;
-+    multifd_pages_clear(multifd_send_state->pages);
-+    multifd_send_state->pages = NULL;
-+    g_free(multifd_send_state);
-+    multifd_send_state = NULL;
-+}
-+
-+static int multifd_zero_copy_flush(QIOChannel *c)
-+{
-+    int ret;
-+    Error *err = NULL;
-+
-+    ret = qio_channel_flush(c, &err);
-+    if (ret < 0) {
-+        error_report_err(err);
-+        return -1;
-+    }
-+    if (ret == 1) {
-+        dirty_sync_missed_zero_copy();
-+    }
-+
-+    return ret;
-+}
-+
-+int multifd_send_sync_main(QEMUFile *f)
-+{
-+    int i;
-+    bool flush_zero_copy;
-+
-+    if (!migrate_use_multifd()) {
-+        return 0;
-+    }
-+    if (multifd_send_state->pages->num) {
-+        if (multifd_send_pages(f) < 0) {
-+            error_report("%s: multifd_send_pages fail", __func__);
-+            return -1;
-+        }
-+    }
-+
-+    /*
-+     * When using zero-copy, it's necessary to flush the pages before any of
-+     * the pages can be sent again, so we'll make sure the new version of the
-+     * pages will always arrive _later_ than the old pages.
-+     *
-+     * Currently we achieve this by flushing the zero-page requested writes
-+     * per ram iteration, but in the future we could potentially optimize it
-+     * to be less frequent, e.g. only after we finished one whole scanning of
-+     * all the dirty bitmaps.
-+     */
-+
-+    flush_zero_copy = migrate_use_zero_copy_send();
-+
-+    for (i = 0; i < migrate_multifd_channels(); i++) {
-+        MultiFDSendParams *p = &multifd_send_state->params[i];
-+
-+        trace_multifd_send_sync_main_signal(p->id);
-+
-+        qemu_mutex_lock(&p->mutex);
-+
-+        if (p->quit) {
-+            error_report("%s: channel %d has already quit", __func__, i);
-+            qemu_mutex_unlock(&p->mutex);
-+            return -1;
-+        }
-+
-+        p->packet_num = multifd_send_state->packet_num++;
-+        p->flags |= MULTIFD_FLAG_SYNC;
-+        p->pending_job++;
-+        qemu_file_acct_rate_limit(f, p->packet_len);
-+        ram_counters.multifd_bytes += p->packet_len;
-+        stat64_add(&ram_atomic_counters.transferred, p->packet_len);
-+        qemu_mutex_unlock(&p->mutex);
-+        qemu_sem_post(&p->sem);
-+
-+        if (flush_zero_copy && p->c && (multifd_zero_copy_flush(p->c) < 0)) {
-+            return -1;
-+        }
-+    }
-+    for (i = 0; i < migrate_multifd_channels(); i++) {
-+        MultiFDSendParams *p = &multifd_send_state->params[i];
-+
-+        trace_multifd_send_sync_main_wait(p->id);
-+        qemu_sem_wait(&p->sem_sync);
-+    }
-+    trace_multifd_send_sync_main(multifd_send_state->packet_num);
-+
-+    return 0;
-+}
-+
-+static void *multifd_send_thread(void *opaque)
-+{
-+    MultiFDSendParams *p = opaque;
-+    Error *local_err = NULL;
-+    int ret = 0;
-+    bool use_zero_copy_send = migrate_use_zero_copy_send();
-+
-+    trace_multifd_send_thread_start(p->id);
-+    rcu_register_thread();
-+
-+    if (multifd_send_initial_packet(p, &local_err) < 0) {
-+        ret = -1;
-+        goto out;
-+    }
-+    /* initial packet */
-+    p->num_packets = 1;
-+
-+    while (true) {
-+        qemu_sem_wait(&p->sem);
-+
-+        if (qatomic_read(&multifd_send_state->exiting)) {
-+            break;
-+        }
-+        qemu_mutex_lock(&p->mutex);
-+
-+        if (p->pending_job) {
-+            uint64_t packet_num = p->packet_num;
-+            uint32_t flags = p->flags;
-+            p->normal_num = 0;
-+
-+            if (use_zero_copy_send) {
-+                p->iovs_num = 0;
-+            } else {
-+                p->iovs_num = 1;
-+            }
-+
-+            for (int i = 0; i < p->pages->num; i++) {
-+                p->normal[p->normal_num] = p->pages->offset[i];
-+                p->normal_num++;
-+            }
-+
-+            if (p->normal_num) {
-+                ret = multifd_send_state->ops->send_prepare(p, &local_err);
-+                if (ret != 0) {
-+                    qemu_mutex_unlock(&p->mutex);
-+                    break;
-+                }
-+            }
-+            multifd_send_fill_packet(p);
-+            p->flags = 0;
-+            p->num_packets++;
-+            p->total_normal_pages += p->normal_num;
-+            p->pages->num = 0;
-+            p->pages->block = NULL;
-+            qemu_mutex_unlock(&p->mutex);
-+
-+            trace_multifd_send(p->id, packet_num, p->normal_num, flags,
-+                               p->next_packet_size);
-+
-+            if (use_zero_copy_send) {
-+                /* Send header first, without zerocopy */
-+                ret = qio_channel_write_all(p->c, (void *)p->packet,
-+                                            p->packet_len, &local_err);
-+                if (ret != 0) {
-+                    break;
-+                }
-+            } else {
-+                /* Send header using the same writev call */
-+                p->iov[0].iov_len = p->packet_len;
-+                p->iov[0].iov_base = p->packet;
-+            }
-+
-+            ret = qio_channel_writev_full_all(p->c, p->iov, p->iovs_num, NULL,
-+                                              0, p->write_flags, &local_err);
-+            if (ret != 0) {
-+                break;
-+            }
-+
-+            qemu_mutex_lock(&p->mutex);
-+            p->pending_job--;
-+            qemu_mutex_unlock(&p->mutex);
-+
-+            if (flags & MULTIFD_FLAG_SYNC) {
-+                qemu_sem_post(&p->sem_sync);
-+            }
-+            qemu_sem_post(&multifd_send_state->channels_ready);
-+        } else if (p->quit) {
-+            qemu_mutex_unlock(&p->mutex);
-+            break;
-+        } else {
-+            qemu_mutex_unlock(&p->mutex);
-+            /* sometimes there are spurious wakeups */
-+        }
-+    }
-+
-+out:
-+    if (local_err) {
-+        trace_multifd_send_error(p->id);
-+        multifd_send_terminate_threads(local_err);
-+        error_free(local_err);
-+    }
-+
-+    /*
-+     * Error happen, I will exit, but I can't just leave, tell
-+     * who pay attention to me.
-+     */
-+    if (ret != 0) {
-+        qemu_sem_post(&p->sem_sync);
-+        qemu_sem_post(&multifd_send_state->channels_ready);
-+    }
-+
-+    qemu_mutex_lock(&p->mutex);
-+    p->running = false;
-+    qemu_mutex_unlock(&p->mutex);
-+
-+    rcu_unregister_thread();
-+    trace_multifd_send_thread_end(p->id, p->num_packets, p->total_normal_pages);
-+
-+    return NULL;
-+}
-+
-+static bool multifd_channel_connect(MultiFDSendParams *p,
-+                                    QIOChannel *ioc,
-+                                    Error *error);
-+
-+static void multifd_tls_outgoing_handshake(QIOTask *task,
-+                                           gpointer opaque)
-+{
-+    MultiFDSendParams *p = opaque;
-+    QIOChannel *ioc = QIO_CHANNEL(qio_task_get_source(task));
-+    Error *err = NULL;
-+
-+    if (qio_task_propagate_error(task, &err)) {
-+        trace_multifd_tls_outgoing_handshake_error(ioc, error_get_pretty(err));
-+    } else {
-+        trace_multifd_tls_outgoing_handshake_complete(ioc);
-+    }
-+
-+    if (!multifd_channel_connect(p, ioc, err)) {
-+        /*
-+         * Error happen, mark multifd_send_thread status as 'quit' although it
-+         * is not created, and then tell who pay attention to me.
-+         */
-+        p->quit = true;
-+        qemu_sem_post(&multifd_send_state->channels_ready);
-+        qemu_sem_post(&p->sem_sync);
-+    }
-+}
-+
-+static void *multifd_tls_handshake_thread(void *opaque)
-+{
-+    MultiFDSendParams *p = opaque;
-+    QIOChannelTLS *tioc = QIO_CHANNEL_TLS(p->c);
-+
-+    qio_channel_tls_handshake(tioc,
-+                              multifd_tls_outgoing_handshake,
-+                              p,
-+                              NULL,
-+                              NULL);
-+    return NULL;
-+}
-+
-+static void multifd_tls_channel_connect(MultiFDSendParams *p,
-+                                        QIOChannel *ioc,
-+                                        Error **errp)
-+{
-+    MigrationState *s = migrate_get_current();
-+    const char *hostname = s->hostname;
-+    QIOChannelTLS *tioc;
-+
-+    tioc = migration_tls_client_create(s, ioc, hostname, errp);
-+    if (!tioc) {
-+        return;
-+    }
-+
-+    object_unref(OBJECT(ioc));
-+    trace_multifd_tls_outgoing_handshake_start(ioc, tioc, hostname);
-+    qio_channel_set_name(QIO_CHANNEL(tioc), "multifd-tls-outgoing");
-+    p->c = QIO_CHANNEL(tioc);
-+    qemu_thread_create(&p->thread, "multifd-tls-handshake-worker",
-+                       multifd_tls_handshake_thread, p,
-+                       QEMU_THREAD_JOINABLE);
-+}
-+
-+static bool multifd_channel_connect(MultiFDSendParams *p,
-+                                    QIOChannel *ioc,
-+                                    Error *error)
-+{
-+    trace_multifd_set_outgoing_channel(
-+        ioc, object_get_typename(OBJECT(ioc)),
-+        migrate_get_current()->hostname, error);
-+
-+    if (!error) {
-+        if (migrate_channel_requires_tls_upgrade(ioc)) {
-+            multifd_tls_channel_connect(p, ioc, &error);
-+            if (!error) {
-+                /*
-+                 * tls_channel_connect will call back to this
-+                 * function after the TLS handshake,
-+                 * so we mustn't call multifd_send_thread until then
-+                 */
-+                return true;
-+            } else {
-+                return false;
-+            }
-+        } else {
-+            migration_ioc_register_yank(ioc);
-+            p->registered_yank = true;
-+            p->c = ioc;
-+            qemu_thread_create(&p->thread, p->name, multifd_send_thread, p,
-+                                   QEMU_THREAD_JOINABLE);
-+       }
-+       return true;
-+    }
-+
-+    return false;
-+}
-+
-+static void multifd_new_send_channel_cleanup(MultiFDSendParams *p,
-+                                             QIOChannel *ioc, Error *err)
-+{
-+     migrate_set_error(migrate_get_current(), err);
-+     /* Error happen, we need to tell who pay attention to me */
-+     qemu_sem_post(&multifd_send_state->channels_ready);
-+     qemu_sem_post(&p->sem_sync);
-+     /*
-+      * Although multifd_send_thread is not created, but main migration
-+      * thread neet to judge whether it is running, so we need to mark
-+      * its status.
-+      */
-+     p->quit = true;
-+     object_unref(OBJECT(ioc));
-+     error_free(err);
-+}
-+
-+static void multifd_new_send_channel_async(QIOTask *task, gpointer opaque)
-+{
-+    MultiFDSendParams *p = opaque;
-+    QIOChannel *sioc = QIO_CHANNEL(qio_task_get_source(task));
-+    Error *local_err = NULL;
-+
-+    trace_multifd_new_send_channel_async(p->id);
-+    if (qio_task_propagate_error(task, &local_err)) {
-+        goto cleanup;
-+    } else {
-+        p->c = QIO_CHANNEL(sioc);
-+        qio_channel_set_delay(p->c, false);
-+        p->running = true;
-+        if (!multifd_channel_connect(p, sioc, local_err)) {
-+            goto cleanup;
-+        }
-+        return;
-+    }
-+
-+cleanup:
-+    multifd_new_send_channel_cleanup(p, sioc, local_err);
-+}
-+
-+int multifd_save_setup(Error **errp)
-+{
-+    int thread_count;
-+    uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
-+    uint8_t i;
-+
-+    if (!migrate_use_multifd()) {
-+        return 0;
-+    }
-+    if (!migrate_multi_channels_is_allowed()) {
-+        error_setg(errp, "multifd is not supported by current protocol");
-+        return -1;
-+    }
-+
-+    thread_count = migrate_multifd_channels();
-+    multifd_send_state = g_malloc0(sizeof(*multifd_send_state));
-+    multifd_send_state->params = g_new0(MultiFDSendParams, thread_count);
-+    multifd_send_state->pages = multifd_pages_init(page_count);
-+    qemu_sem_init(&multifd_send_state->channels_ready, 0);
-+    qatomic_set(&multifd_send_state->exiting, 0);
-+    multifd_send_state->ops = multifd_ops[migrate_multifd_compression()];
-+
-+    for (i = 0; i < thread_count; i++) {
-+        MultiFDSendParams *p = &multifd_send_state->params[i];
-+
-+        qemu_mutex_init(&p->mutex);
-+        qemu_sem_init(&p->sem, 0);
-+        qemu_sem_init(&p->sem_sync, 0);
-+        p->quit = false;
-+        p->pending_job = 0;
-+        p->id = i;
-+        p->pages = multifd_pages_init(page_count);
-+        p->packet_len = sizeof(MultiFDPacket_t)
-+                      + sizeof(uint64_t) * page_count;
-+        p->packet = g_malloc0(p->packet_len);
-+        p->packet->magic = cpu_to_be32(MULTIFD_MAGIC);
-+        p->packet->version = cpu_to_be32(MULTIFD_VERSION);
-+        p->name = g_strdup_printf("multifdsend_%d", i);
-+        /* We need one extra place for the packet header */
-+        p->iov = g_new0(struct iovec, page_count + 1);
-+        p->normal = g_new0(ram_addr_t, page_count);
-+        p->page_size = qemu_target_page_size();
-+        p->page_count = page_count;
-+
-+        if (migrate_use_zero_copy_send()) {
-+            p->write_flags = QIO_CHANNEL_WRITE_FLAG_ZERO_COPY;
-+        } else {
-+            p->write_flags = 0;
-+        }
-+
-+        socket_send_channel_create(multifd_new_send_channel_async, p);
-+    }
-+
-+    for (i = 0; i < thread_count; i++) {
-+        MultiFDSendParams *p = &multifd_send_state->params[i];
-+        Error *local_err = NULL;
-+        int ret;
-+
-+        ret = multifd_send_state->ops->send_setup(p, &local_err);
-+        if (ret) {
-+            error_propagate(errp, local_err);
-+            return ret;
-+        }
-+    }
-+    return 0;
-+}
-+
-+struct {
-+    MultiFDRecvParams *params;
-+    /* number of created threads */
-+    int count;
-+    /* syncs main thread and channels */
-+    QemuSemaphore sem_sync;
-+    /* global number of generated multifd packets */
-+    uint64_t packet_num;
-+    /* multifd ops */
-+    MultiFDMethods *ops;
-+} *multifd_recv_state;
-+
-+static void multifd_recv_terminate_threads(Error *err)
-+{
-+    int i;
-+
-+    trace_multifd_recv_terminate_threads(err != NULL);
-+
-+    if (err) {
-+        MigrationState *s = migrate_get_current();
-+        migrate_set_error(s, err);
-+        if (s->state == MIGRATION_STATUS_SETUP ||
-+            s->state == MIGRATION_STATUS_ACTIVE) {
-+            migrate_set_state(&s->state, s->state,
-+                              MIGRATION_STATUS_FAILED);
-+        }
-+    }
-+
-+    for (i = 0; i < migrate_multifd_channels(); i++) {
-+        MultiFDRecvParams *p = &multifd_recv_state->params[i];
-+
-+        qemu_mutex_lock(&p->mutex);
-+        p->quit = true;
-+        /*
-+         * We could arrive here for two reasons:
-+         *  - normal quit, i.e. everything went fine, just finished
-+         *  - error quit: We close the channels so the channel threads
-+         *    finish the qio_channel_read_all_eof()
-+         */
-+        if (p->c) {
-+            qio_channel_shutdown(p->c, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
-+        }
-+        qemu_mutex_unlock(&p->mutex);
-+    }
-+}
-+
-+int multifd_load_cleanup(Error **errp)
-+{
-+    int i;
-+
-+    if (!migrate_use_multifd() || !migrate_multi_channels_is_allowed()) {
-+        return 0;
-+    }
-+    multifd_recv_terminate_threads(NULL);
-+    for (i = 0; i < migrate_multifd_channels(); i++) {
-+        MultiFDRecvParams *p = &multifd_recv_state->params[i];
-+
-+        if (p->running) {
-+            p->quit = true;
-+            /*
-+             * multifd_recv_thread may hung at MULTIFD_FLAG_SYNC handle code,
-+             * however try to wakeup it without harm in cleanup phase.
-+             */
-+            qemu_sem_post(&p->sem_sync);
-+            qemu_thread_join(&p->thread);
-+        }
-+    }
-+    for (i = 0; i < migrate_multifd_channels(); i++) {
-+        MultiFDRecvParams *p = &multifd_recv_state->params[i];
-+
-+        migration_ioc_unregister_yank(p->c);
-+        object_unref(OBJECT(p->c));
-+        p->c = NULL;
-+        qemu_mutex_destroy(&p->mutex);
-+        qemu_sem_destroy(&p->sem_sync);
-+        g_free(p->name);
-+        p->name = NULL;
-+        p->packet_len = 0;
-+        g_free(p->packet);
-+        p->packet = NULL;
-+        g_free(p->iov);
-+        p->iov = NULL;
-+        g_free(p->normal);
-+        p->normal = NULL;
-+        multifd_recv_state->ops->recv_cleanup(p);
-+    }
-+    qemu_sem_destroy(&multifd_recv_state->sem_sync);
-+    g_free(multifd_recv_state->params);
-+    multifd_recv_state->params = NULL;
-+    g_free(multifd_recv_state);
-+    multifd_recv_state = NULL;
-+
-+    return 0;
-+}
-+
-+void multifd_recv_sync_main(void)
-+{
-+    int i;
-+
-+    if (!migrate_use_multifd()) {
-+        return;
-+    }
-+    for (i = 0; i < migrate_multifd_channels(); i++) {
-+        MultiFDRecvParams *p = &multifd_recv_state->params[i];
-+
-+        trace_multifd_recv_sync_main_wait(p->id);
-+        qemu_sem_wait(&multifd_recv_state->sem_sync);
-+    }
-+    for (i = 0; i < migrate_multifd_channels(); i++) {
-+        MultiFDRecvParams *p = &multifd_recv_state->params[i];
-+
-+        WITH_QEMU_LOCK_GUARD(&p->mutex) {
-+            if (multifd_recv_state->packet_num < p->packet_num) {
-+                multifd_recv_state->packet_num = p->packet_num;
-+            }
-+        }
-+        trace_multifd_recv_sync_main_signal(p->id);
-+        qemu_sem_post(&p->sem_sync);
-+    }
-+    trace_multifd_recv_sync_main(multifd_recv_state->packet_num);
-+}
-+
-+static void *multifd_recv_thread(void *opaque)
-+{
-+    MultiFDRecvParams *p = opaque;
-+    Error *local_err = NULL;
-+    int ret;
-+
-+    trace_multifd_recv_thread_start(p->id);
-+    rcu_register_thread();
-+
-+    while (true) {
-+        uint32_t flags;
-+
-+        if (p->quit) {
-+            break;
-+        }
-+
-+        ret = qio_channel_read_all_eof(p->c, (void *)p->packet,
-+                                       p->packet_len, &local_err);
-+        if (ret == 0) {   /* EOF */
-+            break;
-+        }
-+        if (ret == -1) {   /* Error */
-+            break;
-+        }
-+
-+        qemu_mutex_lock(&p->mutex);
-+        ret = multifd_recv_unfill_packet(p, &local_err);
-+        if (ret) {
-+            qemu_mutex_unlock(&p->mutex);
-+            break;
-+        }
-+
-+        flags = p->flags;
-+        /* recv methods don't know how to handle the SYNC flag */
-+        p->flags &= ~MULTIFD_FLAG_SYNC;
-+        trace_multifd_recv(p->id, p->packet_num, p->normal_num, flags,
-+                           p->next_packet_size);
-+        p->num_packets++;
-+        p->total_normal_pages += p->normal_num;
-+        qemu_mutex_unlock(&p->mutex);
-+
-+        if (p->normal_num) {
-+            ret = multifd_recv_state->ops->recv_pages(p, &local_err);
-+            if (ret != 0) {
-+                break;
-+            }
-+        }
-+
-+        if (flags & MULTIFD_FLAG_SYNC) {
-+            qemu_sem_post(&multifd_recv_state->sem_sync);
-+            qemu_sem_wait(&p->sem_sync);
-+        }
-+    }
-+
-+    if (local_err) {
-+        multifd_recv_terminate_threads(local_err);
-+        error_free(local_err);
-+    }
-+    qemu_mutex_lock(&p->mutex);
-+    p->running = false;
-+    qemu_mutex_unlock(&p->mutex);
-+
-+    rcu_unregister_thread();
-+    trace_multifd_recv_thread_end(p->id, p->num_packets, p->total_normal_pages);
-+
-+    return NULL;
-+}
-+
-+int multifd_load_setup(Error **errp)
-+{
-+    int thread_count;
-+    uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
-+    uint8_t i;
-+
-+    /*
-+     * Return successfully if multiFD recv state is already initialised
-+     * or multiFD is not enabled.
-+     */
-+    if (multifd_recv_state || !migrate_use_multifd()) {
-+        return 0;
-+    }
-+
-+    if (!migrate_multi_channels_is_allowed()) {
-+        error_setg(errp, "multifd is not supported by current protocol");
-+        return -1;
-+    }
-+    thread_count = migrate_multifd_channels();
-+    multifd_recv_state = g_malloc0(sizeof(*multifd_recv_state));
-+    multifd_recv_state->params = g_new0(MultiFDRecvParams, thread_count);
-+    qatomic_set(&multifd_recv_state->count, 0);
-+    qemu_sem_init(&multifd_recv_state->sem_sync, 0);
-+    multifd_recv_state->ops = multifd_ops[migrate_multifd_compression()];
-+
-+    for (i = 0; i < thread_count; i++) {
-+        MultiFDRecvParams *p = &multifd_recv_state->params[i];
-+
-+        qemu_mutex_init(&p->mutex);
-+        qemu_sem_init(&p->sem_sync, 0);
-+        p->quit = false;
-+        p->id = i;
-+        p->packet_len = sizeof(MultiFDPacket_t)
-+                      + sizeof(uint64_t) * page_count;
-+        p->packet = g_malloc0(p->packet_len);
-+        p->name = g_strdup_printf("multifdrecv_%d", i);
-+        p->iov = g_new0(struct iovec, page_count);
-+        p->normal = g_new0(ram_addr_t, page_count);
-+        p->page_count = page_count;
-+        p->page_size = qemu_target_page_size();
-+    }
-+
-+    for (i = 0; i < thread_count; i++) {
-+        MultiFDRecvParams *p = &multifd_recv_state->params[i];
-+        Error *local_err = NULL;
-+        int ret;
-+
-+        ret = multifd_recv_state->ops->recv_setup(p, &local_err);
-+        if (ret) {
-+            error_propagate(errp, local_err);
-+            return ret;
-+        }
-+    }
-+    return 0;
-+}
-+
-+bool multifd_recv_all_channels_created(void)
-+{
-+    int thread_count = migrate_multifd_channels();
-+
-+    if (!migrate_use_multifd()) {
-+        return true;
-+    }
-+
-+    if (!multifd_recv_state) {
-+        /* Called before any connections created */
-+        return false;
-+    }
-+
-+    return thread_count == qatomic_read(&multifd_recv_state->count);
-+}
-+
-+/*
-+ * Try to receive all multifd channels to get ready for the migration.
-+ * Sets @errp when failing to receive the current channel.
-+ */
-+void multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
-+{
-+    MultiFDRecvParams *p;
-+    Error *local_err = NULL;
-+    int id;
-+
-+    id = multifd_recv_initial_packet(ioc, &local_err);
-+    if (id < 0) {
-+        multifd_recv_terminate_threads(local_err);
-+        error_propagate_prepend(errp, local_err,
-+                                "failed to receive packet"
-+                                " via multifd channel %d: ",
-+                                qatomic_read(&multifd_recv_state->count));
-+        return;
-+    }
-+    trace_multifd_recv_new_channel(id);
-+
-+    p = &multifd_recv_state->params[id];
-+    if (p->c != NULL) {
-+        error_setg(&local_err, "multifd: received id '%d' already setup'",
-+                   id);
-+        multifd_recv_terminate_threads(local_err);
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+    p->c = ioc;
-+    object_ref(OBJECT(ioc));
-+    /* initial packet */
-+    p->num_packets = 1;
-+
-+    p->running = true;
-+    qemu_thread_create(&p->thread, p->name, multifd_recv_thread, p,
-+                       QEMU_THREAD_JOINABLE);
-+    qatomic_inc(&multifd_recv_state->count);
-+}
--- 
-2.39.1
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogcWVtdS1kZXZlbC1ib3Vu
+Y2VzK2VkZGllLmRvbmc9aW50ZWwuY29tQG5vbmdudS5vcmcgPHFlbXUtDQo+IGRldmVsLWJvdW5j
+ZXMrZWRkaWUuZG9uZz1pbnRlbC5jb21Abm9uZ251Lm9yZz4gT24gQmVoYWxmIE9mIFRpdHVzDQo+
+IFJ3YW50YXJlDQo+IFNlbnQ6IE1vbmRheSwgRmVicnVhcnkgNiwgMjAyMyAxMTo1MCBBTQ0KPiBU
+bzogcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnDQo+IENjOiBxZW11LWFybUBub25nbnUub3JnOyBx
+ZW11LWRldmVsQG5vbmdudS5vcmc7IFRpdHVzIFJ3YW50YXJlDQo+IDx0aXR1c3JAZ29vZ2xlLmNv
+bT47IEhhbyBXdSA8d3VoYW90c2hAZ29vZ2xlLmNvbT4NCj4gU3ViamVjdDogW1BBVENIIDEvM10g
+aHcvZ3BpbzogYWRkIFBDQTY0MTQgaTJjIEdQSU8gZXhwYW5kZXINCj4gDQo+IFRoaXMgaXMgYSBz
+aW1wbGUgaTJjIGRldmljZSB0aGF0IGFsbG93cyBpMmMgY2FwYWJsZSBkZXZpY2VzIHRvIGhhdmUg
+R1BJT3MuDQoNClRoaXMgcGF0Y2ggaXMgdG8gaW1wbGVtZW50IGEgZGV2aWNlIG1vZGVsIG9mIEky
+QyB0byBHUElPIGZvciBQQ0FfeHh4LCByaWdodD8NCk9yIGRvIHlvdSBpbXBsZW1lbnQgYSBnZW5l
+cmFsL2NvbW1vbiBJMkMgdG8gR1BJTyBkZXZpY2U/IA0KSSB0aGluayBpdCBpcyBmb3IgdGhlIGZv
+cm1lciBvbmUuIEluIHRoaXMgY2FzZSwgdGhlIGNvbW1pdCBtZXNzYWdlIGlzIG5vdCBjbGVhci4N
+Cg0KDQo+IA0KPiBSZXZpZXdlZC1ieTogSGFvIFd1IDx3dWhhb3RzaEBnb29nbGUuY29tPg0KPiBT
+aWduZWQtb2ZmLWJ5OiBUaXR1cyBSd2FudGFyZSA8dGl0dXNyQGdvb2dsZS5jb20+DQo+IC0tLQ0K
+PiAgaHcvYXJtL0tjb25maWcgICAgICAgICAgICAgICAgICB8ICAgMSArDQo+ICBody9ncGlvL21l
+c29uLmJ1aWxkICAgICAgICAgICAgIHwgICAxICsNCj4gIGh3L2dwaW8vcGNhX2kyY19ncGlvLmMg
+ICAgICAgICAgfCAzNjIgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4gIGh3L2dw
+aW8vdHJhY2UtZXZlbnRzICAgICAgICAgICAgfCAgIDUgKw0KPiAgaHcvaTJjL0tjb25maWcgICAg
+ICAgICAgICAgICAgICB8ICAgNCArDQo+ICBpbmNsdWRlL2h3L2dwaW8vcGNhX2kyY19ncGlvLmgg
+IHwgIDcyICsrKysrKysNCj4gIHRlc3RzL3F0ZXN0L21lc29uLmJ1aWxkICAgICAgICAgfCAgIDEg
+Kw0KPiAgdGVzdHMvcXRlc3QvcGNhX2kyY19ncGlvLXRlc3QuYyB8IDE2OSArKysrKysrKysrKysr
+KysNCj4gIDggZmlsZXMgY2hhbmdlZCwgNjE1IGluc2VydGlvbnMoKykNCj4gIGNyZWF0ZSBtb2Rl
+IDEwMDY0NCBody9ncGlvL3BjYV9pMmNfZ3Bpby5jICBjcmVhdGUgbW9kZSAxMDA2NDQNCj4gaW5j
+bHVkZS9ody9ncGlvL3BjYV9pMmNfZ3Bpby5oICBjcmVhdGUgbW9kZSAxMDA2NDQNCj4gdGVzdHMv
+cXRlc3QvcGNhX2kyY19ncGlvLXRlc3QuYw0KPiANCj4gZGlmZiAtLWdpdCBhL2h3L2FybS9LY29u
+ZmlnIGIvaHcvYXJtL0tjb25maWcgaW5kZXgNCj4gMmQxNTdkZTliOC4uMWI1MzNkZGQ3NiAxMDA2
+NDQNCj4gLS0tIGEvaHcvYXJtL0tjb25maWcNCj4gKysrIGIvaHcvYXJtL0tjb25maWcNCj4gQEAg
+LTQxOCw2ICs0MTgsNyBAQCBjb25maWcgTlBDTTdYWA0KPiAgICAgIHNlbGVjdCBTU0kNCj4gICAg
+ICBzZWxlY3QgVU5JTVANCj4gICAgICBzZWxlY3QgUENBOTU0WA0KPiArICAgIHNlbGVjdCBQQ0Ff
+STJDX0dQSU8NCj4gDQo+ICBjb25maWcgRlNMX0lNWDI1DQo+ICAgICAgYm9vbA0KPiBkaWZmIC0t
+Z2l0IGEvaHcvZ3Bpby9tZXNvbi5idWlsZCBiL2h3L2dwaW8vbWVzb24uYnVpbGQgaW5kZXgNCj4g
+YjcyNmU2ZDI3YS4uMWU1YjYwMjAwMiAxMDA2NDQNCj4gLS0tIGEvaHcvZ3Bpby9tZXNvbi5idWls
+ZA0KPiArKysgYi9ody9ncGlvL21lc29uLmJ1aWxkDQo+IEBAIC0xMiwzICsxMiw0IEBAIHNvZnRt
+bXVfc3MuYWRkKHdoZW46ICdDT05GSUdfT01BUCcsIGlmX3RydWU6DQo+IGZpbGVzKCdvbWFwX2dw
+aW8uYycpKQ0KPiAgc29mdG1tdV9zcy5hZGQod2hlbjogJ0NPTkZJR19SQVNQSScsIGlmX3RydWU6
+IGZpbGVzKCdiY20yODM1X2dwaW8uYycpKQ0KPiAgc29mdG1tdV9zcy5hZGQod2hlbjogJ0NPTkZJ
+R19BU1BFRURfU09DJywgaWZfdHJ1ZToNCj4gZmlsZXMoJ2FzcGVlZF9ncGlvLmMnKSkNCj4gIHNv
+ZnRtbXVfc3MuYWRkKHdoZW46ICdDT05GSUdfU0lGSVZFX0dQSU8nLCBpZl90cnVlOiBmaWxlcygn
+c2lmaXZlX2dwaW8uYycpKQ0KPiArc29mdG1tdV9zcy5hZGQod2hlbjogJ0NPTkZJR19QQ0FfSTJD
+X0dQSU8nLCBpZl90cnVlOg0KPiArZmlsZXMoJ3BjYV9pMmNfZ3Bpby5jJykpDQo+IGRpZmYgLS1n
+aXQgYS9ody9ncGlvL3BjYV9pMmNfZ3Bpby5jIGIvaHcvZ3Bpby9wY2FfaTJjX2dwaW8uYyBuZXcg
+ZmlsZQ0KPiBtb2RlIDEwMDY0NCBpbmRleCAwMDAwMDAwMDAwLi5hZmFlNDk3YTIyDQo+IC0tLSAv
+ZGV2L251bGwNCj4gKysrIGIvaHcvZ3Bpby9wY2FfaTJjX2dwaW8uYw0KDQpTaG91bGQgdGhpcyBm
+aWxlIGJlIGxvY2F0ZWQgdW5kZXIgaHcvaTJjID8NCg0KPiBAQCAtMCwwICsxLDM2MiBAQA0KPiAr
+LyoNCj4gKyAqIE5YUCBQQ0EgSTJDIEdQSU8gRXhwYW5kZXJzDQo+ICsgKg0KPiArICogTG93LXZv
+bHRhZ2UgdHJhbnNsYXRpbmcgMTYtYml0IEkyQy9TTUJ1cyBHUElPIGV4cGFuZGVyIHdpdGgNCj4g
+K2ludGVycnVwdCBvdXRwdXQsDQo+ICsgKiByZXNldCwgYW5kIGNvbmZpZ3VyYXRpb24gcmVnaXN0
+ZXJzDQo+ICsgKg0KPiArICogRGF0YXNoZWV0OiBodHRwczovL3d3dy5ueHAuY29tL2RvY3MvZW4v
+ZGF0YS1zaGVldC9QQ0E2NDE2QS5wZGYNCj4gKyAqDQo+ICsgKiBDb3B5cmlnaHQgMjAyMyBHb29n
+bGUgTExDDQo+ICsgKg0KPiArICogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAtb3It
+bGF0ZXINCj4gKyAqDQo+ICsgKiBUaGVzZSBkZXZpY2VzLCBieSBkZWZhdWx0LCBhcmUgY29uZmln
+dXJlZCB0byBpbnB1dCBvbmx5LiBUaGUNCj4gK2NvbmZpZ3VyYXRpb24gaXMNCj4gKyAqIHNldHRh
+YmxlIHRocm91Z2ggcW9tL3FtcCwgb3IgaTJjLlRvIHNldCBzb21lIHBpbnMgYXMgaW5wdXRzIGJl
+Zm9yZQ0KPiArYm9vdCwgdXNlDQo+ICsgKiB0aGUgZm9sbG93aW5nIGluIHRoZSBib2FyZCBmaWxl
+IG9mIHRoZSBtYWNoaW5lOg0KPiArICogICAgICBvYmplY3RfcHJvcGVydHlfc2V0X3VpbnQoT2Jq
+ZWN0ICpvYmosIGNvbnN0IGNoYXIgKm5hbWUsDQo+ICsgKiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICB1aW50NjRfdCB2YWx1ZSwgRXJyb3IgKiplcnJwKTsNCj4gKyAqIHNwZWNpZnlpbmcg
+bmFtZSBhcyAiZ3Bpb19jb25maWciIGFuZCB0aGUgdmFsdWUgYXMgYSBiaXRmaWVsZCBvZiB0aGUN
+Cj4gK2lucHV0cw0KPiArICogZS5nLiBmb3IgdGhlIHBjYTY0MTYsIGEgdmFsdWUgb2YgMHhGRkYw
+LCBzZXRzIHBpbnMgMC0zIGFzIG91dHB1dHMNCj4gK2FuZA0KPiArICogNC0xNSBhcyBpbnB1dHMu
+DQo+ICsgKiBUaGlzIHZhbHVlIGNhbiBhbHNvIGJlIHNldCBhdCBydW50aW1lIHRocm91Z2ggcW1w
+IGV4dGVybmFsbHksIG9yIGJ5DQo+ICsgKiB3cml0aW5nIHRvIHRoZSBjb25maWcgcmVnaXN0ZXIg
+dXNpbmcgaTJjLg0KPiArICoNCj4gKyAqLw0KPiArDQo+ICsjaW5jbHVkZSAicWVtdS9vc2RlcC5o
+Ig0KPiArI2luY2x1ZGUgImh3L2dwaW8vcGNhX2kyY19ncGlvLmgiDQo+ICsjaW5jbHVkZSAiaHcv
+aXJxLmgiDQo+ICsjaW5jbHVkZSAiaHcvcWRldi1wcm9wZXJ0aWVzLmgiDQo+ICsjaW5jbHVkZSAi
+bWlncmF0aW9uL3Ztc3RhdGUuaCINCj4gKyNpbmNsdWRlICJxYXBpL3Zpc2l0b3IuaCINCj4gKyNp
+bmNsdWRlICJxZW11L2xvZy5oIg0KPiArI2luY2x1ZGUgInFlbXUvbW9kdWxlLmgiDQo+ICsjaW5j
+bHVkZSAidHJhY2UuaCINCj4gKw0KPiArLyoNCj4gKyAqIGNvbXBhcmUgbmV3X291dHB1dCB0byBj
+dXJyX291dHB1dCBhbmQgdXBkYXRlIGlycSB0byBtYXRjaA0KPiBuZXdfb3V0cHV0DQo+ICsgKg0K
+PiArICogVGhlIElucHV0IHBvcnQgcmVnaXN0ZXJzIChyZWdpc3RlcnMgMCBhbmQgMSkgcmVmbGVj
+dCB0aGUgaW5jb21pbmcNCj4gK2xvZ2ljDQo+ICsgKiBsZXZlbHMgb2YgdGhlIHBpbnMsIHJlZ2Fy
+ZGxlc3Mgb2Ygd2hldGhlciB0aGUgcGluIGlzIGRlZmluZWQgYXMgYW4NCj4gK2lucHV0IG9yDQo+
+ICsgKiBhbiBvdXRwdXQgYnkgdGhlIENvbmZpZ3VyYXRpb24gcmVnaXN0ZXIuDQo+ICsgKi8NCj4g
+K3N0YXRpYyB2b2lkIHBjYV9pMmNfdXBkYXRlX2lycXMoUENBR1BJT1N0YXRlICpwcykgew0KPiAr
+ICAgIFBDQUdQSU9DbGFzcyAqcGMgPSBQQ0FfSTJDX0dQSU9fR0VUX0NMQVNTKHBzKTsNCj4gKyAg
+ICB1aW50MTZfdCBvdXRfZGlmZiA9IHBzLT5uZXdfb3V0cHV0IF4gcHMtPmN1cnJfb3V0cHV0Ow0K
+PiArICAgIHVpbnQxNl90IGluX2RpZmYgPSBwcy0+bmV3X2lucHV0IF4gcHMtPmN1cnJfaW5wdXQ7
+DQo+ICsgICAgdWludDE2X3QgbWFzaywgcGluX2k7DQo+ICsNCj4gKyAgICBpZiAoaW5fZGlmZiB8
+fCBvdXRfZGlmZikgew0KVGhlIHNwZWMgc2F5cyAiIEEgcGluIGNvbmZpZ3VyZWQgYXMgYW4gb3V0
+cHV0IGNhbm5vdCBjYXVzZSBhbiBpbnRlcnJ1cHQiLg0KRG8gd2UgbmVlZCB0byBjaGVjayBvdXRf
+ZGlmZiBoZXJlPw0KDQo+ICsgICAgICAgIGZvciAoaW50IGkgPSAwOyBpIDwgcGMtPm51bV9waW5z
+OyBpKyspIHsNCkF0IGxlYXN0IGZvciBQQ0FfNjQxNkEsIHRoZSBzdGF0ZSBvZiBwaW5zIGFyZSBk
+ZXNjcmliZWQgaW4gVUlOVDE2LiBXZSBjYW4gY2hlY2sNCmFsbCB0b2dldGhlciByYXRoZXIgdGhh
+biBiaXQgc2Nhbi9waW4gc2Nhbi4NCg0KPiArICAgICAgICAgICAgbWFzayA9IEJJVChpKTsNCj4g
+KyAgICAgICAgICAgIC8qIHBpbiBtdXN0IGJlIGNvbmZpZ3VyZWQgYXMgYW4gb3V0cHV0IHRvIGJl
+IHNldCBoZXJlICovDQo+ICsgICAgICAgICAgICBpZiAob3V0X2RpZmYgJiB+cHMtPmNvbmZpZyAm
+IG1hc2spIHsNCj4gKyAgICAgICAgICAgICAgICBwaW5faSA9IG1hc2sgJiBwcy0+bmV3X291dHB1
+dDsNCj4gKyAgICAgICAgICAgICAgICBxZW11X3NldF9pcnEocHMtPm91dHB1dFtpXSwgcGluX2kg
+PiAwKTsNCj4gKyAgICAgICAgICAgICAgICBwcy0+Y3Vycl9vdXRwdXQgJj0gfm1hc2s7DQo+ICsg
+ICAgICAgICAgICAgICAgcHMtPmN1cnJfb3V0cHV0IHw9IHBpbl9pOw0KPiArICAgICAgICAgICAg
+fQ0KPiArDQo+ICsgICAgICAgICAgICBpZiAoaW5fZGlmZiAmIG1hc2spIHsNCj4gKyAgICAgICAg
+ICAgICAgICBwcy0+Y3Vycl9pbnB1dCAmPSB+bWFzazsNCj4gKyAgICAgICAgICAgICAgICBwcy0+
+Y3Vycl9pbnB1dCB8PSBtYXNrICYgcHMtPm5ld19pbnB1dDsNCj4gKyAgICAgICAgICAgIH0NCj4g
+KyAgICAgICAgfQ0KPiArICAgICAgICAvKiBtYWtlIGRpZmYgPSAwICovDQo+ICsgICAgICAgIHBz
+LT5uZXdfaW5wdXQgPSBwcy0+Y3Vycl9pbnB1dDsNCj4gKyAgICB9DQo+ICt9DQo+ICsNCj4gK3N0
+YXRpYyB2b2lkIHBjYV9pMmNfaXJxX2hhbmRsZXIodm9pZCAqb3BhcXVlLCBpbnQgbiwgaW50IGxl
+dmVsKSB7DQo+ICsgICAgUENBR1BJT1N0YXRlICpwcyA9IG9wYXF1ZTsNCj4gKyAgICBQQ0FHUElP
+Q2xhc3MgKnBjID0gUENBX0kyQ19HUElPX0dFVF9DTEFTUyhvcGFxdWUpOw0KPiArICAgIHVpbnQx
+Nl90IG1hc2sgPSBCSVQobik7DQo+ICsNCj4gKyAgICBnX2Fzc2VydChuIDwgcGMtPm51bV9waW5z
+KTsNCj4gKyAgICBnX2Fzc2VydChuID49IDApOw0KPiArDQo+ICsgICAgcHMtPm5ld19pbnB1dCAm
+PSB+bWFzazsNCj4gKw0KPiArICAgIGlmIChsZXZlbCA+IDApIHsNCj4gKyAgICAgICAgcHMtPm5l
+d19pbnB1dCB8PSBCSVQobik7DQo+ICsgICAgfQ0KPiArDQo+ICsgICAgcGNhX2kyY191cGRhdGVf
+aXJxcyhwcyk7DQo+ICt9DQo+ICsNCj4gKy8qIHNsYXZlIHRvIG1hc3RlciAqLw0KPiArc3RhdGlj
+IHVpbnQ4X3QgcGNhNjQxNl9yZWN2KEkyQ1NsYXZlICppMmMpIHsNCj4gKyAgICBQQ0FHUElPU3Rh
+dGUgKnBzID0gUENBX0kyQ19HUElPKGkyYyk7DQo+ICsgICAgdWludDhfdCBkYXRhOw0KPiArDQo+
+ICsgICAgc3dpdGNoIChwcy0+Y29tbWFuZCkgew0KSWYgd2UgdXNlIGFuIGFycmF5IHRvIGRlZmlu
+ZSB0aGUgc3RhdGUgKG9yIHVuaW9uIHdpdGggYW4gYXJyYXkgYWNjZXNzKSwNCndlIGNhbiBhdm9p
+ZCB0aGUgZHVwbGljYXRlZCBjb2RlIGJlbG93Lg0KDQo+ICsgICAgY2FzZSBQQ0E2NDE2X0lOUFVU
+X1BPUlRfMDoNCj4gKyAgICAgICAgZGF0YSA9IHBzLT5jdXJyX2lucHV0Ow0KPiArICAgICAgICBi
+cmVhazsNCj4gKw0KPiArICAgIGNhc2UgUENBNjQxNl9JTlBVVF9QT1JUXzE6DQo+ICsgICAgICAg
+IGRhdGEgPSBwcy0+Y3Vycl9pbnB1dCA+PiA4Ow0KPiArICAgICAgICBicmVhazsNCj4gKw0KPiAr
+ICAgIC8qDQo+ICsgICAgICogaTJjIHJlYWRzIHRvIHRoZSBvdXRwdXQgcmVnaXN0ZXJzIHJlZmxl
+Y3QgdGhlIHZhbHVlcyB3cml0dGVuDQo+ICsgICAgICogTk9UIHRoZSBhY3R1YWwgdmFsdWVzIG9m
+IHRoZSBncGlvcw0KPiArICAgICAqLw0KPiArICAgIGNhc2UgUENBNjQxNl9PVVRQVVRfUE9SVF8w
+Og0KPiArICAgICAgICBkYXRhID0gcHMtPm5ld19vdXRwdXQ7DQo+ICsgICAgICAgIGJyZWFrOw0K
+PiArDQo+ICsgICAgY2FzZSBQQ0E2NDE2X09VVFBVVF9QT1JUXzE6DQo+ICsgICAgICAgIGRhdGEg
+PSBwcy0+bmV3X291dHB1dCA+PiA4Ow0KPiArICAgICAgICBicmVhazsNCj4gKw0KPiArICAgIGNh
+c2UgUENBNjQxNl9QT0xBUklUWV9JTlZFUlNJT05fUE9SVF8wOg0KPiArICAgICAgICBkYXRhID0g
+cHMtPnBvbGFyaXR5X2ludjsNCj4gKyAgICAgICAgYnJlYWs7DQo+ICsNCj4gKyAgICBjYXNlIFBD
+QTY0MTZfUE9MQVJJVFlfSU5WRVJTSU9OX1BPUlRfMToNCj4gKyAgICAgICAgZGF0YSA9IHBzLT5w
+b2xhcml0eV9pbnYgPj4gODsNCj4gKyAgICAgICAgYnJlYWs7DQo+ICsNCj4gKyAgICBjYXNlIFBD
+QTY0MTZfQ09ORklHVVJBVElPTl9QT1JUXzA6DQo+ICsgICAgICAgIGRhdGEgPSBwcy0+Y29uZmln
+Ow0KPiArICAgICAgICBicmVhazsNCj4gKw0KPiArICAgIGNhc2UgUENBNjQxNl9DT05GSUdVUkFU
+SU9OX1BPUlRfMToNCj4gKyAgICAgICAgZGF0YSA9IHBzLT5jb25maWcgPj4gODsNCj4gKyAgICAg
+ICAgYnJlYWs7DQo+ICsNCj4gKyAgICBkZWZhdWx0Og0KPiArICAgICAgICBxZW11X2xvZ19tYXNr
+KExPR19HVUVTVF9FUlJPUiwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAiJXM6IHJlYWRpbmcg
+ZnJvbSB1bnN1cHBvcnRlZCByZWdpc3RlciAweCUwMngiLA0KPiArICAgICAgICAgICAgICAgICAg
+ICAgIF9fZnVuY19fLCBwcy0+Y29tbWFuZCk7DQo+ICsgICAgICAgIGRhdGEgPSAweEZGOw0KPiAr
+ICAgICAgICBicmVhazsNCj4gKyAgICB9DQo+ICsNCj4gKyAgICB0cmFjZV9wY2FfaTJjX3JlY3Yo
+REVWSUNFKHBzKS0+Y2Fub25pY2FsX3BhdGgsIHBzLT5jb21tYW5kLCBkYXRhKTsNCj4gKyAgICBy
+ZXR1cm4gZGF0YTsNCj4gK30NCj4gKw0KPiArLyogbWFzdGVyIHRvIHNsYXZlICovDQo+ICtzdGF0
+aWMgaW50IHBjYTY0MTZfc2VuZChJMkNTbGF2ZSAqaTJjLCB1aW50OF90IGRhdGEpIHsNCj4gKyAg
+ICBQQ0FHUElPU3RhdGUgKnBzID0gUENBX0kyQ19HUElPKGkyYyk7DQo+ICsgICAgaWYgKHBzLT5p
+MmNfY21kKSB7DQo+ICsgICAgICAgIHBzLT5jb21tYW5kID0gZGF0YTsNCj4gKyAgICAgICAgcHMt
+PmkyY19jbWQgPSBmYWxzZTsNCj4gKyAgICAgICAgcmV0dXJuIDA7DQo+ICsgICAgfQ0KPiArDQo+
+ICsgICAgdHJhY2VfcGNhX2kyY19zZW5kKERFVklDRShwcyktPmNhbm9uaWNhbF9wYXRoLCBwcy0+
+Y29tbWFuZCwgZGF0YSk7DQo+ICsNCj4gKyAgICBzd2l0Y2ggKHBzLT5jb21tYW5kKSB7DQo+ICsg
+ICAgY2FzZSBQQ0E2NDE2X0lOUFVUX1BPUlRfMDoNCj4gKyAgICBjYXNlIFBDQTY0MTZfSU5QVVRf
+UE9SVF8xOg0KPiArICAgICAgICBxZW11X2xvZ19tYXNrKExPR19HVUVTVF9FUlJPUiwgIiVzOiB3
+cml0aW5nIHRvIHJlYWQgb25seSByZWc6DQo+IDB4JTAyeCIsDQo+ICsgICAgICAgICAgICAgICAg
+ICAgICAgX19mdW5jX18sIHBzLT5jb21tYW5kKTsNCj4gKyAgICAgICAgYnJlYWs7DQo+ICsNCj4g
+KyAgICBjYXNlIFBDQTY0MTZfT1VUUFVUX1BPUlRfMDoNCj4gKyAgICAgICAgcHMtPm5ld19vdXRw
+dXQgJj0gMHhGRjAwOw0KPiArICAgICAgICBwcy0+bmV3X291dHB1dCB8PSBkYXRhOw0KPiArICAg
+ICAgICBicmVhazsNCj4gKw0KPiArICAgIGNhc2UgUENBNjQxNl9PVVRQVVRfUE9SVF8xOg0KPiAr
+ICAgICAgICBwcy0+bmV3X291dHB1dCAmPSAweEZGOw0KPiArICAgICAgICBwcy0+bmV3X291dHB1
+dCB8PSBkYXRhIDw8IDg7DQo+ICsgICAgICAgIGJyZWFrOw0KPiArDQo+ICsgICAgY2FzZSBQQ0E2
+NDE2X1BPTEFSSVRZX0lOVkVSU0lPTl9QT1JUXzA6DQo+ICsgICAgICAgIHBzLT5wb2xhcml0eV9p
+bnYgJj0gMHhGRjAwOw0KPiArICAgICAgICBwcy0+cG9sYXJpdHlfaW52IHw9IGRhdGE7DQo+ICsg
+ICAgICAgIGJyZWFrOw0KPiArDQo+ICsgICAgY2FzZSBQQ0E2NDE2X1BPTEFSSVRZX0lOVkVSU0lP
+Tl9QT1JUXzE6DQo+ICsgICAgICAgIHBzLT5wb2xhcml0eV9pbnYgJj0gMHhGRjsNCj4gKyAgICAg
+ICAgcHMtPnBvbGFyaXR5X2ludiB8PSBkYXRhIDw8IDg7DQo+ICsgICAgICAgIGJyZWFrOw0KPiAr
+DQo+ICsgICAgY2FzZSBQQ0E2NDE2X0NPTkZJR1VSQVRJT05fUE9SVF8wOg0KPiArICAgICAgICBw
+cy0+Y29uZmlnICY9IDB4RkYwMDsNCj4gKyAgICAgICAgcHMtPmNvbmZpZyB8PSBkYXRhOw0KPiAr
+ICAgICAgICBicmVhazsNCj4gKw0KPiArICAgIGNhc2UgUENBNjQxNl9DT05GSUdVUkFUSU9OX1BP
+UlRfMToNCj4gKyAgICAgICAgcHMtPmNvbmZpZyAmPSAweEZGOw0KPiArICAgICAgICBwcy0+Y29u
+ZmlnIHw9IGRhdGEgPDwgODsNCj4gKyAgICAgICAgYnJlYWs7DQo+ICsNCj4gKyAgICBkZWZhdWx0
+Og0KPiArICAgICAgICBxZW11X2xvZ19tYXNrKExPR19HVUVTVF9FUlJPUiwNCj4gKyAgICAgICAg
+ICAgICAgICAgICAgICAiJXM6IHdyaXRpbmcgdG8gdW5zdXBwb3J0ZWQgcmVnaXN0ZXJcbiIsDQo+
+ICsgICAgICAgICAgICAgICAgICAgICAgX19mdW5jX18pOw0KPiArICAgICAgICByZXR1cm4gLTE7
+DQo+ICsgICAgfQ0KPiArDQo+ICsgICAgcGNhX2kyY191cGRhdGVfaXJxcyhwcyk7DQo+ICsgICAg
+cmV0dXJuIDA7DQo+ICt9DQo+ICsNCj4gK3N0YXRpYyBpbnQgcGNhX2kyY19ldmVudChJMkNTbGF2
+ZSAqaTJjLCBlbnVtIGkyY19ldmVudCBldmVudCkgew0KPiArICAgIFBDQUdQSU9TdGF0ZSAqcHMg
+PSBQQ0FfSTJDX0dQSU8oaTJjKTsNCj4gKw0KPiArICAgIHN3aXRjaCAoZXZlbnQpIHsNCj4gKyAg
+ICBjYXNlIEkyQ19TVEFSVF9SRUNWOg0KPiArICAgICAgICB0cmFjZV9wY2FfaTJjX2V2ZW50KERF
+VklDRShwcyktPmNhbm9uaWNhbF9wYXRoLCAiU1RBUlRfUkVDViIpOw0KPiArICAgICAgICBicmVh
+azsNCj4gKw0KPiArICAgIGNhc2UgSTJDX1NUQVJUX1NFTkQ6DQo+ICsgICAgICAgIHRyYWNlX3Bj
+YV9pMmNfZXZlbnQoREVWSUNFKHBzKS0+Y2Fub25pY2FsX3BhdGgsICJTVEFSVF9TRU5EIik7DQo+
+ICsgICAgICAgIHBzLT5pMmNfY21kID0gdHJ1ZTsNCj4gKyAgICAgICAgYnJlYWs7DQo+ICsNCj4g
+KyAgICBjYXNlIEkyQ19GSU5JU0g6DQo+ICsgICAgICAgIHRyYWNlX3BjYV9pMmNfZXZlbnQoREVW
+SUNFKHBzKS0+Y2Fub25pY2FsX3BhdGgsICJGSU5JU0giKTsNCj4gKyAgICAgICAgYnJlYWs7DQo+
+ICsNCj4gKyAgICBjYXNlIEkyQ19OQUNLOg0KPiArICAgICAgICB0cmFjZV9wY2FfaTJjX2V2ZW50
+KERFVklDRShwcyktPmNhbm9uaWNhbF9wYXRoLCAiTkFDSyIpOw0KPiArICAgICAgICBicmVhazsN
+Cj4gKw0KPiArICAgIGRlZmF1bHQ6DQo+ICsgICAgICAgIHFlbXVfbG9nX21hc2soTE9HX0dVRVNU
+X0VSUk9SLCAiJXM6ICVzOiB1bmtub3duIGV2ZW50DQo+IDB4JXhcbiIsDQo+ICsgICAgICAgICAg
+ICAgICAgICAgICAgREVWSUNFKHBzKS0+Y2Fub25pY2FsX3BhdGgsIF9fZnVuY19fLCBldmVudCk7
+DQo+ICsgICAgICAgIHJldHVybiAtMTsNCj4gKyAgICB9DQo+ICsNCj4gKyAgICByZXR1cm4gMDsN
+Cj4gK30NCj4gKw0KPiArc3RhdGljIHZvaWQgcGNhX2kyY19jb25maWdfZ2V0KE9iamVjdCAqb2Jq
+LCBWaXNpdG9yICp2LCBjb25zdCBjaGFyICpuYW1lLA0KPiArICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICB2b2lkICpvcGFxdWUsIEVycm9yICoqZXJycCkgew0KPiArICAgIFBDQUdQSU9T
+dGF0ZSAqcHMgPSBQQ0FfSTJDX0dQSU8ob2JqKTsNCj4gKyAgICB2aXNpdF90eXBlX3VpbnQxNih2
+LCBuYW1lLCAmcHMtPmNvbmZpZywgZXJycCk7IH0NCj4gKw0KPiArc3RhdGljIHZvaWQgcGNhX2ky
+Y19jb25maWdfc2V0KE9iamVjdCAqb2JqLCBWaXNpdG9yICp2LCBjb25zdCBjaGFyICpuYW1lLA0K
+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB2b2lkICpvcGFxdWUsIEVycm9yICoq
+ZXJycCkgew0KPiArICAgIFBDQUdQSU9TdGF0ZSAqcHMgPSBQQ0FfSTJDX0dQSU8ob2JqKTsNCj4g
+KyAgICBpZiAoIXZpc2l0X3R5cGVfdWludDE2KHYsIG5hbWUsICZwcy0+Y29uZmlnLCBlcnJwKSkg
+ew0KPiArICAgICAgICByZXR1cm47DQo+ICsgICAgfQ0KPiArICAgIHBjYV9pMmNfdXBkYXRlX2ly
+cXMocHMpOw0KPiArfQ0KPiArDQo+ICsNCj4gK3N0YXRpYyB2b2lkIHBjYV9pMmNfaW5wdXRfZ2V0
+KE9iamVjdCAqb2JqLCBWaXNpdG9yICp2LCBjb25zdCBjaGFyICpuYW1lLA0KPiArICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICB2b2lkICpvcGFxdWUsIEVycm9yICoqZXJycCkgew0KPiAr
+ICAgIFBDQUdQSU9TdGF0ZSAqcHMgPSBQQ0FfSTJDX0dQSU8ob2JqKTsNCj4gKyAgICB2aXNpdF90
+eXBlX3VpbnQxNih2LCBuYW1lLCAmcHMtPmN1cnJfaW5wdXQsIGVycnApOyB9DQo+ICsNCj4gK3N0
+YXRpYyB2b2lkIHBjYV9pMmNfaW5wdXRfc2V0KE9iamVjdCAqb2JqLCBWaXNpdG9yICp2LCBjb25z
+dCBjaGFyICpuYW1lLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB2b2lkICpv
+cGFxdWUsIEVycm9yICoqZXJycCkgew0KPiArICAgIFBDQUdQSU9TdGF0ZSAqcHMgPSBQQ0FfSTJD
+X0dQSU8ob2JqKTsNCj4gKyAgICBpZiAoIXZpc2l0X3R5cGVfdWludDE2KHYsIG5hbWUsICZwcy0+
+bmV3X2lucHV0LCBlcnJwKSkgew0KPiArICAgICAgICByZXR1cm47DQo+ICsgICAgfQ0KPiArICAg
+IHBjYV9pMmNfdXBkYXRlX2lycXMocHMpOw0KPiArfQ0KPiArDQo+ICtzdGF0aWMgdm9pZCBwY2Ff
+aTJjX291dHB1dF9nZXQoT2JqZWN0ICpvYmosIFZpc2l0b3IgKnYsIGNvbnN0IGNoYXIgKm5hbWUs
+DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZvaWQgKm9wYXF1ZSwgRXJyb3Ig
+KiplcnJwKSB7DQo+ICsgICAgUENBR1BJT1N0YXRlICpwcyA9IFBDQV9JMkNfR1BJTyhvYmopOw0K
+PiArICAgIHZpc2l0X3R5cGVfdWludDE2KHYsIG5hbWUsICZwcy0+Y3Vycl9vdXRwdXQsIGVycnAp
+OyB9DQo+ICsNCj4gK3N0YXRpYyB2b2lkIHBjYV9pMmNfb3V0cHV0X3NldChPYmplY3QgKm9iaiwg
+VmlzaXRvciAqdiwgY29uc3QgY2hhciAqbmFtZSwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgdm9pZCAqb3BhcXVlLCBFcnJvciAqKmVycnApIHsNCj4gKyAgICBQQ0FHUElPU3Rh
+dGUgKnBzID0gUENBX0kyQ19HUElPKG9iaik7DQo+ICsgICAgaWYgKCF2aXNpdF90eXBlX3VpbnQx
+Nih2LCBuYW1lLCAmcHMtPm5ld19vdXRwdXQsIGVycnApKSB7DQo+ICsgICAgICAgIHJldHVybjsN
+Cj4gKyAgICB9DQo+ICsgICAgcGNhX2kyY191cGRhdGVfaXJxcyhwcyk7DQo+ICt9DQo+ICsNCj4g
+K3N0YXRpYyB2b2lkIHBjYV9pMmNfcmVhbGl6ZShEZXZpY2VTdGF0ZSAqZGV2LCBFcnJvciAqKmVy
+cnApIHsNCj4gKyAgICBQQ0FHUElPU3RhdGUgKnBzID0gUENBX0kyQ19HUElPKGRldik7DQo+ICsg
+ICAgcGNhX2kyY191cGRhdGVfaXJxcyhwcyk7DQo+ICt9DQo+ICsNCj4gK3N0YXRpYyBjb25zdCBW
+TVN0YXRlRGVzY3JpcHRpb24gdm1zdGF0ZV9wY2FfaTJjX2dwaW8gPSB7DQo+ICsgICAgLm5hbWUg
+PSBUWVBFX1BDQV9JMkNfR1BJTywNCj4gKyAgICAudmVyc2lvbl9pZCA9IDAsDQo+ICsgICAgLm1p
+bmltdW1fdmVyc2lvbl9pZCA9IDAsDQo+ICsgICAgLmZpZWxkcyA9IChWTVN0YXRlRmllbGRbXSkg
+ew0KPiArICAgICAgICBWTVNUQVRFX0kyQ19TTEFWRShwYXJlbnQsIFBDQUdQSU9TdGF0ZSksDQo+
+ICsgICAgICAgIFZNU1RBVEVfVUlOVDE2KHBvbGFyaXR5X2ludiwgUENBR1BJT1N0YXRlKSwNCj4g
+KyAgICAgICAgVk1TVEFURV9VSU5UMTYoY29uZmlnLCBQQ0FHUElPU3RhdGUpLA0KPiArICAgICAg
+ICBWTVNUQVRFX1VJTlQxNihjdXJyX2lucHV0LCBQQ0FHUElPU3RhdGUpLA0KPiArICAgICAgICBW
+TVNUQVRFX1VJTlQxNihjdXJyX291dHB1dCwgUENBR1BJT1N0YXRlKSwNCj4gKyAgICAgICAgVk1T
+VEFURV9FTkRfT0ZfTElTVCgpDQo+ICsgICAgfQ0KPiArfTsNCj4gKw0KPiArc3RhdGljIHZvaWQg
+cGNhNjQxNl9ncGlvX2NsYXNzX2luaXQoT2JqZWN0Q2xhc3MgKmtsYXNzLCB2b2lkICpkYXRhKSB7
+DQo+ICsgICAgRGV2aWNlQ2xhc3MgKmRjID0gREVWSUNFX0NMQVNTKGtsYXNzKTsNCj4gKyAgICBJ
+MkNTbGF2ZUNsYXNzICprID0gSTJDX1NMQVZFX0NMQVNTKGtsYXNzKTsNCj4gKyAgICBQQ0FHUElP
+Q2xhc3MgKnBjID0gUENBX0kyQ19HUElPX0NMQVNTKGtsYXNzKTsNCj4gKw0KPiArICAgIGRjLT5k
+ZXNjID0gIlBDQTY0MTYgMTYtYml0IEkvTyBleHBhbmRlciI7DQo+ICsgICAgZGMtPnJlYWxpemUg
+PSBwY2FfaTJjX3JlYWxpemU7DQo+ICsgICAgZGMtPnZtc2QgPSAmdm1zdGF0ZV9wY2FfaTJjX2dw
+aW87DQo+ICsNCj4gKyAgICBrLT5ldmVudCA9IHBjYV9pMmNfZXZlbnQ7DQo+ICsgICAgay0+cmVj
+diA9IHBjYTY0MTZfcmVjdjsNCj4gKyAgICBrLT5zZW5kID0gcGNhNjQxNl9zZW5kOw0KPiArDQo+
+ICsgICAgcGMtPm51bV9waW5zID0gUENBNjQxNl9OVU1fUElOUzsNCj4gK30NCj4gKw0KPiArc3Rh
+dGljIHZvaWQgcGNhX2kyY19ncGlvX2luaXQoT2JqZWN0ICpvYmopIHsNCj4gKyAgICBQQ0FHUElP
+U3RhdGUgKnBzID0gUENBX0kyQ19HUElPKG9iaik7DQo+ICsgICAgUENBR1BJT0NsYXNzICpwYyA9
+IFBDQV9JMkNfR1BJT19HRVRfQ0xBU1Mob2JqKTsNCj4gKyAgICBEZXZpY2VTdGF0ZSAqZGV2ID0g
+REVWSUNFKG9iaik7DQo+ICsNCj4gKyAgICBwcy0+bmV3X291dHB1dCA9IFBDQV9JMkNfT1VUUFVU
+X0RFRkFVTFQ7DQo+ICsgICAgcHMtPmNvbmZpZyA9IFBDQV9JMkNfQ09ORklHX0RFRkFVTFQ7DQo+
+ICsNCj4gKyAgICBvYmplY3RfcHJvcGVydHlfYWRkKG9iaiwgImdwaW9faW5wdXQiLCAidWludDE2
+IiwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgIHBjYV9pMmNfaW5wdXRfZ2V0LA0KPiArICAg
+ICAgICAgICAgICAgICAgICAgICAgcGNhX2kyY19pbnB1dF9zZXQsIE5VTEwsIE5VTEwpOw0KPiAr
+ICAgIG9iamVjdF9wcm9wZXJ0eV9hZGQob2JqLCAiZ3Bpb19vdXRwdXQiLCAidWludDE2IiwNCj4g
+KyAgICAgICAgICAgICAgICAgICAgICAgIHBjYV9pMmNfb3V0cHV0X2dldCwNCj4gKyAgICAgICAg
+ICAgICAgICAgICAgICAgIHBjYV9pMmNfb3V0cHV0X3NldCwgTlVMTCwgTlVMTCk7DQo+ICsgICAg
+b2JqZWN0X3Byb3BlcnR5X2FkZChvYmosICJncGlvX2NvbmZpZyIsICJ1aW50MTYiLA0KPiArICAg
+ICAgICAgICAgICAgICAgICAgICAgcGNhX2kyY19jb25maWdfZ2V0LA0KPiArICAgICAgICAgICAg
+ICAgICAgICAgICAgcGNhX2kyY19jb25maWdfc2V0LCBOVUxMLCBOVUxMKTsNCj4gKyAgICBxZGV2
+X2luaXRfZ3Bpb19pbihkZXYsIHBjYV9pMmNfaXJxX2hhbmRsZXIsIHBjLT5udW1fcGlucyk7DQo+
+ICsgICAgcWRldl9pbml0X2dwaW9fb3V0KGRldiwgcHMtPm91dHB1dCwgcGMtPm51bV9waW5zKTsg
+fQ0KPiArDQo+ICtzdGF0aWMgY29uc3QgVHlwZUluZm8gcGNhX2dwaW9fdHlwZXNbXSA9IHsNCj4g
+KyAgICB7DQo+ICsgICAgLm5hbWUgPSBUWVBFX1BDQV9JMkNfR1BJTywNCj4gKyAgICAucGFyZW50
+ID0gVFlQRV9JMkNfU0xBVkUsDQo+ICsgICAgLmluc3RhbmNlX3NpemUgPSBzaXplb2YoUENBR1BJ
+T1N0YXRlKSwNCj4gKyAgICAuaW5zdGFuY2VfaW5pdCA9IHBjYV9pMmNfZ3Bpb19pbml0LA0KPiAr
+ICAgIC5jbGFzc19zaXplID0gc2l6ZW9mKFBDQUdQSU9DbGFzcyksDQo+ICsgICAgLmFic3RyYWN0
+ID0gdHJ1ZSwNCj4gKyAgICB9LA0KPiArICAgIHsNCj4gKyAgICAubmFtZSA9IFRZUEVfUENBNjQx
+Nl9HUElPLA0KPiArICAgIC5wYXJlbnQgPSBUWVBFX1BDQV9JMkNfR1BJTywNCj4gKyAgICAuY2xh
+c3NfaW5pdCA9IHBjYTY0MTZfZ3Bpb19jbGFzc19pbml0LA0KPiArICAgIH0sDQo+ICt9Ow0KPiAr
+DQo+ICtERUZJTkVfVFlQRVMocGNhX2dwaW9fdHlwZXMpOw0KPiBkaWZmIC0tZ2l0IGEvaHcvZ3Bp
+by90cmFjZS1ldmVudHMgYi9ody9ncGlvL3RyYWNlLWV2ZW50cyBpbmRleA0KPiA5NzM2YjM2MmFj
+Li4zZmIwNjg1MDk2IDEwMDY0NA0KPiAtLS0gYS9ody9ncGlvL3RyYWNlLWV2ZW50cw0KPiArKysg
+Yi9ody9ncGlvL3RyYWNlLWV2ZW50cw0KPiBAQCAtMzEsMyArMzEsOCBAQCBzaWZpdmVfZ3Bpb191
+cGRhdGVfb3V0cHV0X2lycShpbnQ2NF90IGxpbmUsIGludDY0X3QNCj4gdmFsdWUpICJsaW5lICUi
+IFBSSWk2NCAiIHZhbCAgIyBhc3BlZWRfZ3Bpby5jICBhc3BlZWRfZ3Bpb19yZWFkKHVpbnQ2NF90
+DQo+IG9mZnNldCwgdWludDY0X3QgdmFsdWUpICJvZmZzZXQ6IDB4JSIgUFJJeDY0ICIgdmFsdWUg
+MHglIiBQUkl4NjQNCj4gYXNwZWVkX2dwaW9fd3JpdGUodWludDY0X3Qgb2Zmc2V0LCB1aW50NjRf
+dCB2YWx1ZSkgIm9mZnNldDogMHglIiBQUkl4NjQgIg0KPiB2YWx1ZSAweCUiIFBSSXg2NA0KPiAr
+DQo+ICsjIHBjYV9pMmNfZ3Bpby5jDQo+ICtwY2FfaTJjX2V2ZW50KGNvbnN0IGNoYXIgKmlkLCBj
+b25zdCBjaGFyICpldmVudCkgIiVzOiAlcyINCj4gK3BjYV9pMmNfcmVjdihjb25zdCBjaGFyICpp
+ZCwgdWludDhfdCBjbWQsIHVpbnQ4X3QgZGF0YSkgIiVzIGNtZDogMHglIg0KPiArUFJJeDggIiBk
+YXRhIDB4JSIgUFJJeDggcGNhX2kyY19zZW5kKGNvbnN0IGNoYXIgKmlkLCB1aW50OF90IGNtZCwN
+Cj4gK3VpbnQ4X3QgZGF0YSkgIiVzIGNtZDogMHglIiBQUkl4OCAiIGRhdGEgMHglIiBQUkl4OA0K
+PiBkaWZmIC0tZ2l0IGEvaHcvaTJjL0tjb25maWcgYi9ody9pMmMvS2NvbmZpZyBpbmRleCAxNDg4
+NmIzNWRhLi5iNTlhNzlmZGRmDQo+IDEwMDY0NA0KPiAtLS0gYS9ody9pMmMvS2NvbmZpZw0KPiAr
+KysgYi9ody9pMmMvS2NvbmZpZw0KPiBAQCAtNDIsNiArNDIsMTAgQEAgY29uZmlnIFBDQTk1NFgN
+Cj4gICAgICBib29sDQo+ICAgICAgc2VsZWN0IEkyQw0KPiANCj4gK2NvbmZpZyBQQ0FfSTJDX0dQ
+SU8NCj4gKyAgICBib29sDQo+ICsgICAgc2VsZWN0IEkyQw0KPiArDQo+ICBjb25maWcgUE1CVVMN
+Cj4gICAgICBib29sDQo+ICAgICAgc2VsZWN0IFNNQlVTDQo+IGRpZmYgLS1naXQgYS9pbmNsdWRl
+L2h3L2dwaW8vcGNhX2kyY19ncGlvLmgNCj4gYi9pbmNsdWRlL2h3L2dwaW8vcGNhX2kyY19ncGlv
+LmggbmV3IGZpbGUgbW9kZSAxMDA2NDQgaW5kZXgNCj4gMDAwMDAwMDAwMC4uYTEwODk3YzBlMA0K
+PiAtLS0gL2Rldi9udWxsDQo+ICsrKyBiL2luY2x1ZGUvaHcvZ3Bpby9wY2FfaTJjX2dwaW8uaA0K
+PiBAQCAtMCwwICsxLDcyIEBADQo+ICsvKg0KPiArICogTlhQIFBDQTY0MTZBDQo+ICsgKiBMb3ct
+dm9sdGFnZSB0cmFuc2xhdGluZyAxNi1iaXQgSTJDL1NNQnVzIEdQSU8gZXhwYW5kZXIgd2l0aA0K
+PiAraW50ZXJydXB0IG91dHB1dCwNCj4gKyAqIHJlc2V0LCBhbmQgY29uZmlndXJhdGlvbiByZWdp
+c3RlcnMNCj4gKyAqDQo+ICsgKiBEYXRhc2hlZXQ6IGh0dHBzOi8vd3d3Lm54cC5jb20vZG9jcy9l
+bi9kYXRhLXNoZWV0L1BDQTY0MTZBLnBkZg0KPiArICoNCj4gKyAqIE5vdGU6IFBvbGFyaXR5IGlu
+dmVyc2lvbiBlbXVsYXRpb24gbm90IGltcGxlbWVudGVkDQo+ICsgKg0KPiArICogQ29weXJpZ2h0
+IDIwMjEgR29vZ2xlIExMQw0KPiArICoNCj4gKyAqIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBH
+UEwtMi4wLW9yLWxhdGVyICAqLyAjaWZuZGVmIFBDQV9JMkNfR1BJT19IDQo+ICsjZGVmaW5lIFBD
+QV9JMkNfR1BJT19IDQo+ICsNCj4gKyNpbmNsdWRlICJody9pMmMvaTJjLmgiDQo+ICsjaW5jbHVk
+ZSAicW9tL29iamVjdC5oIg0KPiArDQo+ICsjZGVmaW5lIFBDQTY0MTZfTlVNX1BJTlMgICAgICAg
+ICAxNg0KPiArDQo+ICt0eXBlZGVmIHN0cnVjdCBQQ0FHUElPQ2xhc3Mgew0KPiArICAgIEkyQ1Ns
+YXZlQ2xhc3MgcGFyZW50Ow0KPiArDQo+ICsgICAgdWludDhfdCBudW1fcGluczsNCj4gK30gUENB
+R1BJT0NsYXNzOw0KPiArDQo+ICt0eXBlZGVmIHN0cnVjdCBQQ0FHUElPU3RhdGUgew0KPiArICAg
+IEkyQ1NsYXZlIHBhcmVudDsNCj4gKw0KPiArICAgIHVpbnQxNl90IHBvbGFyaXR5X2ludjsNCj4g
+KyAgICB1aW50MTZfdCBjb25maWc7DQo+ICsNCj4gKyAgICAvKiB0aGUgdmFsdWVzIG9mIHRoZSBn
+cGlvIHBpbnMgYXJlIG1pcnJvcmVkIGluIHRoZXNlIGludGVnZXJzICovDQo+ICsgICAgdWludDE2
+X3QgY3Vycl9pbnB1dDsNCj4gKyAgICB1aW50MTZfdCBjdXJyX291dHB1dDsNCj4gKyAgICB1aW50
+MTZfdCBuZXdfaW5wdXQ7DQo+ICsgICAgdWludDE2X3QgbmV3X291dHB1dDsNCj4gKw0KPiArICAg
+IC8qDQo+ICsgICAgICogTm90ZSB0aGF0IHRoZXNlIG91dHB1dHMgbmVlZCB0byBiZSBjb25zdW1l
+ZCBieSBzb21lIG90aGVyIGlucHV0DQo+ICsgICAgICogdG8gYmUgdXNlZnVsLCBxZW11IGlnbm9y
+ZXMgd3JpdGVzIHRvIGRpc2Nvbm5lY3RlZCBncGlvIHBpbnMNCj4gKyAgICAgKi8NCj4gKyAgICBx
+ZW11X2lycSBvdXRwdXRbUENBNjQxNl9OVU1fUElOU107DQo+ICsNCj4gKyAgICAvKiBpMmMgdHJh
+bnNhY3Rpb24gaW5mbyAqLw0KPiArICAgIHVpbnQ4X3QgY29tbWFuZDsNCj4gKyAgICBib29sIGky
+Y19jbWQ7DQo+ICsNCj4gK30gUENBR1BJT1N0YXRlOw0KPiArDQo+ICsjZGVmaW5lIFRZUEVfUENB
+X0kyQ19HUElPICJwY2FfaTJjX2dwaW8iDQo+ICtPQkpFQ1RfREVDTEFSRV9UWVBFKFBDQUdQSU9T
+dGF0ZSwgUENBR1BJT0NsYXNzLCBQQ0FfSTJDX0dQSU8pDQo+ICsNCj4gKyNkZWZpbmUgUENBNjQx
+Nl9JTlBVVF9QT1JUXzAgICAgICAgICAgICAgICAgIDB4MDAgLyogcmVhZCAqLw0KPiArI2RlZmlu
+ZSBQQ0E2NDE2X0lOUFVUX1BPUlRfMSAgICAgICAgICAgICAgICAgMHgwMSAvKiByZWFkICovDQo+
+ICsjZGVmaW5lIFBDQTY0MTZfT1VUUFVUX1BPUlRfMCAgICAgICAgICAgICAgICAweDAyIC8qIHJl
+YWQvd3JpdGUgKi8NCj4gKyNkZWZpbmUgUENBNjQxNl9PVVRQVVRfUE9SVF8xICAgICAgICAgICAg
+ICAgIDB4MDMgLyogcmVhZC93cml0ZSAqLw0KPiArI2RlZmluZSBQQ0E2NDE2X1BPTEFSSVRZX0lO
+VkVSU0lPTl9QT1JUXzAgICAgMHgwNCAvKiByZWFkL3dyaXRlICovDQo+ICsjZGVmaW5lIFBDQTY0
+MTZfUE9MQVJJVFlfSU5WRVJTSU9OX1BPUlRfMSAgICAweDA1IC8qIHJlYWQvd3JpdGUgKi8NCj4g
+KyNkZWZpbmUgUENBNjQxNl9DT05GSUdVUkFUSU9OX1BPUlRfMCAgICAgICAgIDB4MDYgLyogcmVh
+ZC93cml0ZSAqLw0KPiArI2RlZmluZSBQQ0E2NDE2X0NPTkZJR1VSQVRJT05fUE9SVF8xICAgICAg
+ICAgMHgwNyAvKiByZWFkL3dyaXRlICovDQo+ICsNCj4gKyNkZWZpbmUgUENBNjQxNl9PVVRQVVRf
+REVGQVVMVCAgICAgICAgICAgICAgIDB4RkZGRg0KPiArI2RlZmluZSBQQ0E2NDE2X0NPTkZJR19E
+RUZBVUxUICAgICAgICAgICAgICAgMHhGRkZGDQo+ICsNCj4gKyNkZWZpbmUgUENBX0kyQ19PVVRQ
+VVRfREVGQVVMVCAgICAgICAgICAgICAgIDB4RkZGRg0KPiArI2RlZmluZSBQQ0FfSTJDX0NPTkZJ
+R19ERUZBVUxUICAgICAgICAgICAgICAgMHhGRkZGDQo+ICsNCj4gKyNkZWZpbmUgVFlQRV9QQ0E2
+NDE2X0dQSU8gInBjYTY0MTYiDQo+ICsNCj4gKyNlbmRpZg0KPiBkaWZmIC0tZ2l0IGEvdGVzdHMv
+cXRlc3QvbWVzb24uYnVpbGQgYi90ZXN0cy9xdGVzdC9tZXNvbi5idWlsZCBpbmRleA0KPiBlOTc2
+MTZkMzI3Li40OWY0MDZhZjZiIDEwMDY0NA0KPiAtLS0gYS90ZXN0cy9xdGVzdC9tZXNvbi5idWls
+ZA0KPiArKysgYi90ZXN0cy9xdGVzdC9tZXNvbi5idWlsZA0KPiBAQCAtMjQxLDYgKzI0MSw3IEBA
+IHFvc190ZXN0X3NzLmFkZCgNCj4gICAgJ25lMjAwMC10ZXN0LmMnLA0KPiAgICAndHVsaXAtdGVz
+dC5jJywNCj4gICAgJ252bWUtdGVzdC5jJywNCj4gKyAgJ3BjYV9pMmNfZ3Bpby10ZXN0LmMnLA0K
+PiAgICAncGNhOTU1Mi10ZXN0LmMnLA0KPiAgICAncGNpLXRlc3QuYycsDQo+ICAgICdwY25ldC10
+ZXN0LmMnLA0KPiBkaWZmIC0tZ2l0IGEvdGVzdHMvcXRlc3QvcGNhX2kyY19ncGlvLXRlc3QuYyBi
+L3Rlc3RzL3F0ZXN0L3BjYV9pMmNfZ3Bpby10ZXN0LmMNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQg
+aW5kZXggMDAwMDAwMDAwMC4uMDQxY2EzNGUyMg0KPiAtLS0gL2Rldi9udWxsDQo+ICsrKyBiL3Rl
+c3RzL3F0ZXN0L3BjYV9pMmNfZ3Bpby10ZXN0LmMNCj4gQEAgLTAsMCArMSwxNjkgQEANCj4gKy8q
+DQo+ICsgKiBRVGVzdCBmb3IgUENBIEkyQyBHUElPIGV4cGFuZGVycw0KPiArICoNCj4gKyAqIENv
+cHlyaWdodCAyMDIxIEdvb2dsZSBMTEMNCj4gKyAqDQo+ICsgKiBTUERYLUxpY2Vuc2UtSWRlbnRp
+ZmllcjogR1BMLTIuMC1vci1sYXRlciAgKi8NCj4gKw0KPiArI2luY2x1ZGUgInFlbXUvb3NkZXAu
+aCINCj4gKyNpbmNsdWRlICJody9ncGlvL3BjYV9pMmNfZ3Bpby5oIg0KPiArI2luY2x1ZGUgImxp
+YnF0ZXN0LXNpbmdsZS5oIg0KPiArI2luY2x1ZGUgImxpYnFvcy9pMmMuaCINCj4gKyNpbmNsdWRl
+ICJxYXBpL3FtcC9xZGljdC5oIg0KPiArI2luY2x1ZGUgInFhcGkvcW1wL3FudW0uaCINCj4gKyNp
+bmNsdWRlICJxZW11L2JpdG9wcy5oIg0KPiArDQo+ICsNCj4gKyNkZWZpbmUgVEVTVF9JRCAicGNh
+X2kyY19ncGlvLXRlc3QiDQo+ICsjZGVmaW5lIFBDQV9DT05GSUdfQllURSAgICAgMHg1NQ0KPiAr
+I2RlZmluZSBQQ0FfQ09ORklHX1dPUkQgICAgIDB4NTU1NQ0KPiArDQo+ICtzdGF0aWMgdWludDE2
+X3QgcW1wX3BjYV9ncGlvX2dldChjb25zdCBjaGFyICppZCwgY29uc3QgY2hhciAqcHJvcGVydHkp
+DQo+ICt7DQo+ICsgICAgUURpY3QgKnJlc3BvbnNlOw0KPiArICAgIHVpbnQxNl90IHJldDsNCj4g
+KyAgICByZXNwb25zZSA9IHFtcCgieyAnZXhlY3V0ZSc6ICdxb20tZ2V0JywgJ2FyZ3VtZW50cyc6
+IHsgJ3BhdGgnOiAlcywgIg0KPiArICAgICAgICAgICAgICAgICAgICIncHJvcGVydHknOiAlcyB9
+IH0iLCBpZCwgcHJvcGVydHkpOw0KPiArICAgIGdfYXNzZXJ0KHFkaWN0X2hhc2tleShyZXNwb25z
+ZSwgInJldHVybiIpKTsNCj4gKyAgICByZXQgPSBxbnVtX2dldF91aW50KHFvYmplY3RfdG8oUU51
+bSwgcWRpY3RfZ2V0KHJlc3BvbnNlLCAicmV0dXJuIikpKTsNCj4gKyAgICBxb2JqZWN0X3VucmVm
+KHJlc3BvbnNlKTsNCj4gKyAgICByZXR1cm4gcmV0Ow0KPiArfQ0KPiArDQo+ICtzdGF0aWMgdm9p
+ZCBxbXBfcGNhX2dwaW9fc2V0KGNvbnN0IGNoYXIgKmlkLCBjb25zdCBjaGFyICpwcm9wZXJ0eSwN
+Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdWludDE2X3QgdmFsdWUpIHsNCj4gKyAg
+ICBRRGljdCAqcmVzcG9uc2U7DQo+ICsNCj4gKyAgICByZXNwb25zZSA9IHFtcCgieyAnZXhlY3V0
+ZSc6ICdxb20tc2V0JywgJ2FyZ3VtZW50cyc6IHsgJ3BhdGgnOiAlcywgIg0KPiArICAgICAgICAg
+ICAgICAgICAgICIncHJvcGVydHknOiAlcywgJ3ZhbHVlJzogJXUgfSB9IiwNCj4gKyAgICAgICAg
+ICAgICAgICAgICBpZCwgcHJvcGVydHksIHZhbHVlKTsNCj4gKyAgICBnX2Fzc2VydChxZGljdF9o
+YXNrZXkocmVzcG9uc2UsICJyZXR1cm4iKSk7DQo+ICsgICAgcW9iamVjdF91bnJlZihyZXNwb25z
+ZSk7DQo+ICt9DQo+ICsNCj4gK3N0YXRpYyB2b2lkIHRlc3Rfc2V0X2lucHV0KHZvaWQgKm9iaiwg
+dm9pZCAqZGF0YSwgUUd1ZXN0QWxsb2NhdG9yDQo+ICsqYWxsb2MpIHsNCj4gKyAgICBRSTJDRGV2
+aWNlICppMmNkZXYgPSAoUUkyQ0RldmljZSAqKW9iajsNCj4gKyAgICB1aW50OF90IHZhbHVlOw0K
+PiArICAgIHVpbnQxNl90IHFtcF92YWx1ZTsNCj4gKyAgICAvKiBjb25maWd1cmUgcGlucyB0byBi
+ZSBpbnB1dHMgKi8NCj4gKyAgICBpMmNfc2V0OChpMmNkZXYsIFBDQTY0MTZfQ09ORklHVVJBVElP
+Tl9QT1JUXzAsIDB4RkYpOw0KPiArICAgIGkyY19zZXQ4KGkyY2RldiwgUENBNjQxNl9DT05GSUdV
+UkFUSU9OX1BPUlRfMSwgMHhGRik7DQo+ICsNCj4gKyAgICBxbXBfcGNhX2dwaW9fc2V0KFRFU1Rf
+SUQsICJncGlvX2lucHV0IiwgMHhBQUFBKTsNCj4gKyAgICB2YWx1ZSA9IGkyY19nZXQ4KGkyY2Rl
+diwgUENBNjQxNl9JTlBVVF9QT1JUXzApOw0KPiArICAgIGdfYXNzZXJ0X2NtcGhleCh2YWx1ZSwg
+PT0sIDB4QUEpOw0KPiArICAgIHZhbHVlID0gaTJjX2dldDgoaTJjZGV2LCBQQ0E2NDE2X0lOUFVU
+X1BPUlRfMSk7DQo+ICsgICAgZ19hc3NlcnRfY21waGV4KHZhbHVlLCA9PSwgMHhBQSk7DQo+ICsN
+Cj4gKyAgICBxbXBfdmFsdWUgPSBxbXBfcGNhX2dwaW9fZ2V0KFRFU1RfSUQsICJncGlvX2lucHV0
+Iik7DQo+ICsgICAgZ19hc3NlcnRfY21waGV4KHFtcF92YWx1ZSwgPT0sIDB4QUFBQSk7IH0gc3Rh
+dGljIHZvaWQNCj4gK3Rlc3RfY29uZmlnKHZvaWQgKm9iaiwgdm9pZCAqZGF0YSwgUUd1ZXN0QWxs
+b2NhdG9yICphbGxvYykgew0KPiArDQo+ICsgICAgUUkyQ0RldmljZSAqaTJjZGV2ID0gKFFJMkNE
+ZXZpY2UgKilvYmo7DQo+ICsgICAgdWludDhfdCB2YWx1ZTsNCj4gKyAgICB1aW50MTZfdCBxbXBf
+dmFsdWU7DQo+ICsgICAgLyogY29uZmlndXJlIGhhbGYgdGhlIHBpbnMgdG8gYmUgaW5wdXRzICov
+DQo+ICsgICAgaTJjX3NldDgoaTJjZGV2LCBQQ0E2NDE2X0NPTkZJR1VSQVRJT05fUE9SVF8wLA0K
+PiBQQ0FfQ09ORklHX0JZVEUpOw0KPiArICAgIGkyY19zZXQ4KGkyY2RldiwgUENBNjQxNl9DT05G
+SUdVUkFUSU9OX1BPUlRfMSwNCj4gUENBX0NPTkZJR19CWVRFKTsNCj4gKyAgICB2YWx1ZSA9IGky
+Y19nZXQ4KGkyY2RldiwgUENBNjQxNl9DT05GSUdVUkFUSU9OX1BPUlRfMCk7DQo+ICsgICAgZ19h
+c3NlcnRfY21waGV4KHZhbHVlLCA9PSwgUENBX0NPTkZJR19CWVRFKTsNCj4gKw0KPiArICAgIHZh
+bHVlID0gaTJjX2dldDgoaTJjZGV2LCBQQ0E2NDE2X0NPTkZJR1VSQVRJT05fUE9SVF8xKTsNCj4g
+KyAgICBnX2Fzc2VydF9jbXBoZXgodmFsdWUsID09LCBQQ0FfQ09ORklHX0JZVEUpOw0KPiArDQo+
+ICsgICAgLyogdGhlIHBpbnMgdGhhdCBtYXRjaCB0aGUgY29uZmlnIHNob3VsZCBiZSBzZXQsIHRo
+ZSByZXN0IGFyZSB1bmRlZiAqLw0KPiArICAgIHFtcF9wY2FfZ3Bpb19zZXQoVEVTVF9JRCwgImdw
+aW9faW5wdXQiLCAweEZGRkYpOw0KPiArICAgIHZhbHVlID0gaTJjX2dldDgoaTJjZGV2LCBQQ0E2
+NDE2X0lOUFVUX1BPUlRfMCk7DQo+ICsgICAgZ19hc3NlcnRfY21waGV4KHZhbHVlICYgUENBX0NP
+TkZJR19CWVRFLCA9PSwgMHg1NSk7DQo+ICsgICAgdmFsdWUgPSBpMmNfZ2V0OChpMmNkZXYsIFBD
+QTY0MTZfSU5QVVRfUE9SVF8xKTsNCj4gKyAgICBnX2Fzc2VydF9jbXBoZXgodmFsdWUgJiBQQ0Ff
+Q09ORklHX0JZVEUsID09LCAweDU1KTsNCj4gKyAgICBxbXBfdmFsdWUgPSBxbXBfcGNhX2dwaW9f
+Z2V0KFRFU1RfSUQsICJncGlvX2lucHV0Iik7DQo+ICsgICAgZ19hc3NlcnRfY21waGV4KHFtcF92
+YWx1ZSAmIFBDQV9DT05GSUdfV09SRCwgPT0sIDB4NTU1NSk7DQo+ICsNCj4gKyAgICAvKg0KPiAr
+ICAgICAqIGkyYyB3aWxsIHJldHVybiB0aGUgdmFsdWUgd3JpdHRlbiB0byB0aGUgb3V0cHV0IHJl
+Z2lzdGVyLCBub3QgdGhlIHZhbHVlcw0KPiArICAgICAqIG9mIHRoZSBvdXRwdXQgcGlucywgc28g
+d2UgY2hlY2sgb25seSB0aGUgY29uZmlndXJlZCBwaW5zDQo+ICsgICAgICovDQo+ICsgICAgcW1w
+X3BjYV9ncGlvX3NldChURVNUX0lELCAiZ3Bpb19vdXRwdXQiLCAweEZGRkYpOw0KPiArICAgIHZh
+bHVlID0gaTJjX2dldDgoaTJjZGV2LCBQQ0E2NDE2X09VVFBVVF9QT1JUXzApOw0KPiArICAgIGdf
+YXNzZXJ0X2NtcGhleCh2YWx1ZSAmIH5QQ0FfQ09ORklHX0JZVEUsID09LCAweEFBKTsNCj4gKyAg
+ICB2YWx1ZSA9IGkyY19nZXQ4KGkyY2RldiwgUENBNjQxNl9PVVRQVVRfUE9SVF8xKTsNCj4gKyAg
+ICBnX2Fzc2VydF9jbXBoZXgodmFsdWUgJiB+UENBX0NPTkZJR19CWVRFLCA9PSwgMHhBQSk7DQo+
+ICsNCj4gKyAgICBxbXBfdmFsdWUgPSBxbXBfcGNhX2dwaW9fZ2V0KFRFU1RfSUQsICJncGlvX291
+dHB1dCIpOw0KPiArICAgIGdfYXNzZXJ0X2NtcGhleChxbXBfdmFsdWUgJiB+UENBX0NPTkZJR19X
+T1JELCA9PSwgMHhBQUFBKTsgfQ0KPiArDQo+ICtzdGF0aWMgdm9pZCB0ZXN0X3NldF9vdXRwdXQo
+dm9pZCAqb2JqLCB2b2lkICpkYXRhLCBRR3Vlc3RBbGxvY2F0b3INCj4gKyphbGxvYykgew0KPiAr
+ICAgIFFJMkNEZXZpY2UgKmkyY2RldiA9IChRSTJDRGV2aWNlICopb2JqOw0KPiArICAgIHVpbnQ4
+X3QgdmFsdWU7DQo+ICsgICAgdWludDE2X3QgcW1wX3ZhbHVlOw0KPiArICAgIC8qIGNvbmZpZ3Vy
+ZSBwaW5zIHRvIGJlIG91dHB1dHMgKi8NCj4gKyAgICBpMmNfc2V0OChpMmNkZXYsIFBDQTY0MTZf
+Q09ORklHVVJBVElPTl9QT1JUXzAsIDApOw0KPiArICAgIGkyY19zZXQ4KGkyY2RldiwgUENBNjQx
+Nl9DT05GSUdVUkFUSU9OX1BPUlRfMSwgMCk7DQo+ICsNCj4gKyAgICBxbXBfcGNhX2dwaW9fc2V0
+KFRFU1RfSUQsICJncGlvX291dHB1dCIsIDB4NTU1NSk7DQo+ICsgICAgdmFsdWUgPSBpMmNfZ2V0
+OChpMmNkZXYsIFBDQTY0MTZfT1VUUFVUX1BPUlRfMCk7DQo+ICsgICAgZ19hc3NlcnRfY21waGV4
+KHZhbHVlLCA9PSwgMHg1NSk7DQo+ICsgICAgdmFsdWUgPSBpMmNfZ2V0OChpMmNkZXYsIFBDQTY0
+MTZfT1VUUFVUX1BPUlRfMSk7DQo+ICsgICAgZ19hc3NlcnRfY21waGV4KHZhbHVlLCA9PSwgMHg1
+NSk7DQo+ICsNCj4gKyAgICBxbXBfdmFsdWUgPSBxbXBfcGNhX2dwaW9fZ2V0KFRFU1RfSUQsICJn
+cGlvX291dHB1dCIpOw0KPiArICAgIGdfYXNzZXJ0X2NtcGhleChxbXBfdmFsdWUsID09LCAweDU1
+NTUpOyB9DQo+ICsNCj4gK3N0YXRpYyB2b2lkIHRlc3RfdHhfcngodm9pZCAqb2JqLCB2b2lkICpk
+YXRhLCBRR3Vlc3RBbGxvY2F0b3IgKmFsbG9jKSB7DQo+ICsgICAgUUkyQ0RldmljZSAqaTJjZGV2
+ID0gKFFJMkNEZXZpY2UgKilvYmo7DQo+ICsgICAgdWludDhfdCB2YWx1ZTsNCj4gKw0KPiArICAg
+IGkyY19zZXQ4KGkyY2RldiwgUENBNjQxNl9DT05GSUdVUkFUSU9OX1BPUlRfMCwgMHhGRik7DQo+
+ICsgICAgaTJjX3NldDgoaTJjZGV2LCBQQ0E2NDE2X0NPTkZJR1VSQVRJT05fUE9SVF8xLCAweEZG
+KTsNCj4gKyAgICBpMmNfc2V0OChpMmNkZXYsIFBDQTY0MTZfUE9MQVJJVFlfSU5WRVJTSU9OX1BP
+UlRfMCwgMCk7DQo+ICsgICAgaTJjX3NldDgoaTJjZGV2LCBQQ0E2NDE2X1BPTEFSSVRZX0lOVkVS
+U0lPTl9QT1JUXzEsIDApOw0KPiArDQo+ICsgICAgdmFsdWUgPSBpMmNfZ2V0OChpMmNkZXYsIFBD
+QTY0MTZfQ09ORklHVVJBVElPTl9QT1JUXzApOw0KPiArICAgIGdfYXNzZXJ0X2NtcGhleCh2YWx1
+ZSwgPT0sIDB4RkYpOw0KPiArDQo+ICsgICAgdmFsdWUgPSBpMmNfZ2V0OChpMmNkZXYsIFBDQTY0
+MTZfQ09ORklHVVJBVElPTl9QT1JUXzEpOw0KPiArICAgIGdfYXNzZXJ0X2NtcGhleCh2YWx1ZSwg
+PT0sIDB4RkYpOw0KPiArDQo+ICsgICAgdmFsdWUgPSBpMmNfZ2V0OChpMmNkZXYsIFBDQTY0MTZf
+UE9MQVJJVFlfSU5WRVJTSU9OX1BPUlRfMCk7DQo+ICsgICAgZ19hc3NlcnRfY21waGV4KHZhbHVl
+LCA9PSwgMCk7DQo+ICsNCj4gKyAgICB2YWx1ZSA9IGkyY19nZXQ4KGkyY2RldiwgUENBNjQxNl9Q
+T0xBUklUWV9JTlZFUlNJT05fUE9SVF8xKTsNCj4gKyAgICBnX2Fzc2VydF9jbXBoZXgodmFsdWUs
+ID09LCAwKTsNCj4gKw0KPiArICAgIGkyY19zZXQ4KGkyY2RldiwgUENBNjQxNl9DT05GSUdVUkFU
+SU9OX1BPUlRfMCwgMHhBQik7DQo+ICsgICAgdmFsdWUgPSBpMmNfZ2V0OChpMmNkZXYsIFBDQTY0
+MTZfQ09ORklHVVJBVElPTl9QT1JUXzApOw0KPiArICAgIGdfYXNzZXJ0X2NtcGhleCh2YWx1ZSwg
+PT0sIDB4QUIpOw0KPiArDQo+ICsgICAgaTJjX3NldDgoaTJjZGV2LCBQQ0E2NDE2X0NPTkZJR1VS
+QVRJT05fUE9SVF8xLCAweEJDKTsNCj4gKyAgICB2YWx1ZSA9IGkyY19nZXQ4KGkyY2RldiwgUENB
+NjQxNl9DT05GSUdVUkFUSU9OX1BPUlRfMSk7DQo+ICsgICAgZ19hc3NlcnRfY21waGV4KHZhbHVl
+LCA9PSwgMHhCQyk7DQo+ICsNCj4gK30NCj4gKw0KPiArc3RhdGljIHZvaWQgcGNhX2kyY19ncGlv
+X3JlZ2lzdGVyX25vZGVzKHZvaWQpIHsNCj4gKyAgICBRT1NHcmFwaEVkZ2VPcHRpb25zIG9wdHMg
+PSB7DQo+ICsgICAgICAgIC5leHRyYV9kZXZpY2Vfb3B0cyA9ICJpZD0iIFRFU1RfSUQgIixhZGRy
+ZXNzPTB4NzgiDQo+ICsgICAgfTsNCj4gKyAgICBhZGRfcWkyY19hZGRyZXNzKCZvcHRzLCAmKFFJ
+MkNBZGRyZXNzKSB7IDB4NzggfSk7DQo+ICsgICAgZ190ZXN0X3NldF9ub25mYXRhbF9hc3NlcnRp
+b25zKCk7DQo+ICsNCj4gKyAgICBxb3Nfbm9kZV9jcmVhdGVfZHJpdmVyKCJwY2E2NDE2IiwgaTJj
+X2RldmljZV9jcmVhdGUpOw0KPiArICAgIHFvc19ub2RlX2NvbnN1bWVzKCJwY2E2NDE2IiwgImky
+Yy1idXMiLCAmb3B0cyk7DQo+ICsNCj4gKyAgICBxb3NfYWRkX3Rlc3QoInR4LXJ4IiwgInBjYTY0
+MTYiLCB0ZXN0X3R4X3J4LCBOVUxMKTsNCj4gKyAgICBxb3NfYWRkX3Rlc3QoInNldF9vdXRwdXRf
+Z3BpbyIsICJwY2E2NDE2IiwgdGVzdF9zZXRfb3V0cHV0LCBOVUxMKTsNCj4gKyAgICBxb3NfYWRk
+X3Rlc3QoInNldF9pbnB1dF9ncGlvIiwgInBjYTY0MTYiLCB0ZXN0X3NldF9pbnB1dCwgTlVMTCk7
+DQo+ICsgICAgcW9zX2FkZF90ZXN0KCJmb2xsb3dfZ3Bpb19jb25maWciLCAicGNhNjQxNiIsIHRl
+c3RfY29uZmlnLCBOVUxMKTsgfQ0KPiArbGlicW9zX2luaXQocGNhX2kyY19ncGlvX3JlZ2lzdGVy
+X25vZGVzKTsNCj4gLS0NCj4gMi4zOS4xLjUxOS5nY2IzMjdjNGI1Zi1nb29nDQo+IA0KDQo=
 
