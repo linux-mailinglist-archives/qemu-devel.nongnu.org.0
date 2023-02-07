@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7767B68E081
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 19:49:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05DE568E082
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 19:50:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPT1v-0003cT-1G; Tue, 07 Feb 2023 13:49:23 -0500
+	id 1pPT1r-0003O6-0h; Tue, 07 Feb 2023 13:49:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1pPT1X-0003D3-EZ
+ id 1pPT1Y-0003D5-2m
  for qemu-devel@nongnu.org; Tue, 07 Feb 2023 13:49:04 -0500
 Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1pPT1T-00018N-Hj
+ id 1pPT1U-00018Y-KS
  for qemu-devel@nongnu.org; Tue, 07 Feb 2023 13:48:59 -0500
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 317GmgDD024047; Tue, 7 Feb 2023 18:48:52 GMT
+ 317Gmqtb022928; Tue, 7 Feb 2023 18:48:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type : content-transfer-encoding; s=corp-2022-7-12;
- bh=cL3xZ0uADdTDQzJmb0SSc4HZPvnB+mHXNqLrVpETg1s=;
- b=kCZ7dP0xsA8Kgf67n+9IH9TCLY1ynYVG/ZkLiBWDaSmVPkQeaKN/ogjeXFNBMAS4n9y+
- biyjb6Rjeyl53FQoNcHrH+IA2TU3glAtFY7fudpmGZCzT8GXQQOp/v1CU5d/PNOL3PQr
- SlmWjpKueLhrc2LECi+JBm+z7k8TlV58dFsoHrsnhK7ZtQo81Z278Oi4es9Tpz8mbxhV
- +gVpHzPq4IFDMa+hzrBtCpAVZCtF4TCFTaXT5M61EfgUaUO6lsYOv8VXF8jDUKtFh/Fs
- /AwxbrJZtbSEb28kIP3LMkXwtJjAnXnkmTD6RJih9MQDcCIBY1vR4tPx20mNV/4moxaD 5Q== 
+ bh=uIzEGC0jXaqPYoVhdVCmhjj6OWp+ypUWq6WHLdseACM=;
+ b=RDb+BtelDxxbjN9j1X6AJz9vA94lWxss1LBjVR7wGHuWEgecFT14fdms25PF3vrtnsVp
+ BVY4x7++nxxMI3XyD+52rebLM4IrYx+mA0LlzQFF7SHVFFvrhJEhKynkcOV6Qp3+kPrA
+ m2zC1rHTCifIj7ZUXny3ExdjLOO4qscSw92+LPCpV4WvTQJOwJ3nLwtnLGPa6RWnyQLy
+ yI7R+ZwxnEENUhkwMqwGZlhFjzPTuNW4Ne8vqLk0QAgKB0R6EuKPYBC1B/ML74tpMLfl
+ vH9+82B7RJb/A0lfA1hSsp1nJqR1Y+Xr50ZnflckCfIuMcYE32+5nYFl8gwdKzbD9ILr iQ== 
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nhdsdpdk1-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nheytxds1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Feb 2023 18:48:52 +0000
+ Tue, 07 Feb 2023 18:48:53 +0000
 Received: from pps.filterd
  (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
  by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 317I0QaW028809; Tue, 7 Feb 2023 18:48:51 GMT
+ with ESMTP id 317I0cp8028808; Tue, 7 Feb 2023 18:48:52 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3nhdtd3rft-1
+ 3nhdtd3rge-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Feb 2023 18:48:51 +0000
+ Tue, 07 Feb 2023 18:48:52 +0000
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 317Im35W033516;
- Tue, 7 Feb 2023 18:48:50 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 317Im35Y033516;
+ Tue, 7 Feb 2023 18:48:52 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with
- ESMTP id 3nhdtd3rdm-3; Tue, 07 Feb 2023 18:48:50 +0000
+ ESMTP id 3nhdtd3rdm-4; Tue, 07 Feb 2023 18:48:51 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Michael Roth <michael.roth@amd.com>,
  Steve Sistare <steven.sistare@oracle.com>
-Subject: [PATCH V2 2/4] qapi: QAPI_LIST_LENGTH
-Date: Tue,  7 Feb 2023 10:48:45 -0800
-Message-Id: <1675795727-235010-3-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V2 3/4] qapi: strv_from_strList
+Date: Tue,  7 Feb 2023 10:48:46 -0800
+Message-Id: <1675795727-235010-4-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1675795727-235010-1-git-send-email-steven.sistare@oracle.com>
 References: <1675795727-235010-1-git-send-email-steven.sistare@oracle.com>
@@ -75,8 +75,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
  malwarescore=0 adultscore=0 phishscore=0 suspectscore=0 mlxscore=0
  spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2302070167
-X-Proofpoint-ORIG-GUID: EwpGcwvsey_oRqHjUU_hExnyBaiHM3Lf
-X-Proofpoint-GUID: EwpGcwvsey_oRqHjUU_hExnyBaiHM3Lf
+X-Proofpoint-GUID: r7Mcia0PsnZ5DvZuZQlxY0LlX2bijY1Q
+X-Proofpoint-ORIG-GUID: r7Mcia0PsnZ5DvZuZQlxY0LlX2bijY1Q
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -104,31 +104,52 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/qapi/util.h | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ include/qapi/util.h |  6 ++++++
+ qapi/qapi-util.c    | 14 ++++++++++++++
+ 2 files changed, 20 insertions(+)
 
 diff --git a/include/qapi/util.h b/include/qapi/util.h
-index 7d88b09..75dddca 100644
+index 75dddca..51ff64e 100644
 --- a/include/qapi/util.h
 +++ b/include/qapi/util.h
-@@ -65,4 +65,17 @@ struct strList *strList_from_string(const char *in, char delim);
-     (tail) = &(*(tail))->next; \
- } while (0)
+@@ -33,6 +33,12 @@ bool qapi_bool_parse(const char *name, const char *value, bool *obj,
+ int parse_qapi_name(const char *name, bool complete);
  
-+/*
-+ * For any GenericList @list, return its length.
+ /*
++ * Produce and return a NULL-terminated array of strings from @args.
++ * All strings are g_strdup'd.
 + */
-+#define QAPI_LIST_LENGTH(list) \
-+    ({ \
-+        int len = 0; \
-+        typeof(list) elem; \
-+        for (elem = list; elem != NULL; elem = elem->next) { \
-+            len++; \
-+        } \
-+        len; \
-+    })
++GStrv strv_from_strList(const struct strList *args);
 +
- #endif
++/*
+  * Produce a strList from the character delimited string @in.
+  * All strings are g_strdup'd.
+  * A NULL or empty input string returns NULL.
+diff --git a/qapi/qapi-util.c b/qapi/qapi-util.c
+index b61c73c..fe6bda2 100644
+--- a/qapi/qapi-util.c
++++ b/qapi/qapi-util.c
+@@ -154,6 +154,20 @@ int parse_qapi_name(const char *str, bool complete)
+     return p - str;
+ }
+ 
++GStrv strv_from_strList(const strList *args)
++{
++    const strList *arg;
++    int i = 0;
++    GStrv argv = g_new(char *, QAPI_LIST_LENGTH(args) + 1);
++
++    for (arg = args; arg != NULL; arg = arg->next) {
++        argv[i++] = g_strdup(arg->value);
++    }
++    argv[i] = NULL;
++
++    return argv;
++}
++
+ strList *strList_from_string(const char *in, char delim)
+ {
+     strList *res = NULL;
 -- 
 1.8.3.1
 
