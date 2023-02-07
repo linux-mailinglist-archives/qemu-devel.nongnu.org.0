@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 619C468D043
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 08:12:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57C1568D03A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 08:11:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPI7z-0006ut-PS; Tue, 07 Feb 2023 02:10:55 -0500
+	id 1pPI81-0006vN-7K; Tue, 07 Feb 2023 02:10:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=395dd5341=alistair.francis@opensource.wdc.com>)
- id 1pPI7y-0006uR-1i
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:10:54 -0500
+ id 1pPI7z-0006uj-0r
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:10:55 -0500
 Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=395dd5341=alistair.francis@opensource.wdc.com>)
- id 1pPI7w-0000FD-1E
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:10:53 -0500
+ id 1pPI7w-0008RS-S8
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:10:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1675753851; x=1707289851;
+ t=1675753852; x=1707289852;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=HxNdFIrfrIbT2zaILVCY9Z7JvLJT5NAftgeXNy0lQL4=;
- b=JoOrg11ehWiZO8kZ/JnbDwZkW66ygx1cS5BtTD92mqzQxLbnibUqTiCg
- JVjuRwm/au2EAx4/mDYSkXenGO/IrrWiTi4gFG+kPbKS8uDBopqGxNM37
- go56Gs03GeJwZfc1maBs2iVR3+RBGQ16NLjxgXekoKxo5mdSmwGBjA1qN
- VB+EfZu1Niafho9+9S930XQfpYgAxJcIzkipoHMrYKGH5qdgibeWWjlRR
- pavh1KbJ6XFrf1KozgWxJnZdJ7rMrDwlpqEGDT129np3IxWipEmTA+okM
- 7NyHdlTDkSrufs2SCo03hEHrCef0lefbUK9Ol4HnwKuAmG6KfBnC6CnPp w==;
-X-IronPort-AV: E=Sophos;i="5.97,278,1669046400"; d="scan'208";a="227657516"
+ bh=SPd7l1Q0Auz9vtTQN8UFne2otnriLq/q7MmdjRt6ErI=;
+ b=XRTpd6bTpl4PnmB28iO+OKIT90L3yVKdP8RdPOLC2dPigQqnTXuu8fvT
+ 9DpeWJZMZ30WPO7HgsOwnDPqV2dvKox0L2beN4VWtBtmzG/cefU/FdJYY
+ zJh5vnmdVLsz5C1BHZuHP5hLFA6IWG6tyQR+Fy91WCJKAgzPqk04tPNdR
+ LhnKulrnIxZ5IfuF0xAIfNbPlH4L81wlSONq63Uywqm4qRWNVftScmaWB
+ Pik8hnGolgfIvFWJlGvGG049u+hK8Olsi8espN4DCvjAYzI9HnIKasDKR
+ xYsIp4HRYGkxnWGieCvhT/HNXlubPYwvgZ9Veor20u3neWidCOUqJl7jk w==;
+X-IronPort-AV: E=Sophos;i="5.97,278,1669046400"; d="scan'208";a="227657524"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 07 Feb 2023 15:10:23 +0800
-IronPort-SDR: xbXpiT2YfaTwkkvruTvK5bqKcaVLH01GeMWyELm3rRXX5CIVJ+/r2IxcDCxn9QYqjBUCZ9Irei
- 7kOrRCtKXy2TNkQRpWUh+8MU4zAlBRG4evS3bJ4YKTpTAHOwQvG+OjjYR3ndjp1dwm6h7AGvsH
- 8Leeq+UBuexIu1ty1NF2vs3zApv2KBF3VIXm6xYUan66bzyhy/V8GWc4vEc8qnFYuhXbPrE1RZ
- Ks+PtAo2+N5hrx3/QiU7smDuTBuVxgaBMDu5Ao4CbgURfoJ20/2tvhgvNLH9fx3qFIFocJFL15
- iFI=
+ by ob1.hgst.iphmx.com with ESMTP; 07 Feb 2023 15:10:25 +0800
+IronPort-SDR: s32QCBfXjCxg9Y5A35XnOX0Y6xNdhFBbca+HCf4YTjc5+vfH1jn+kcw/7EBOzowpPSu8ElyDyH
+ ZkW2BB+NT/bq68zHWgTjiXqwwE8ges0QRDZzP5w3XPSraEHLBkcdDiY1RGeib0uIHnEjOXhIyy
+ spHVYjxyiCzwY7RKYRKBInVdP76XhhhYn8EzUBQKIYxuUb+df479usI7stkug1XFRCHkEuB1K/
+ YSHknc2V0G4VOzVmdENfqkJXjAkJNnheMrUOI0FxmFenWXc1Zo4p7M1FQlH1eb6KNmoOHWvyFg
+ pNc=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Feb 2023 22:27:40 -0800
-IronPort-SDR: c0GvaRNOF6FN6MqavAtxg9aNc5OoXmIYVcF2EmB05aJ1q9uDupnJRUcCB0+2vr0u+HtY8Oyoah
- Ui0xvr2ahyjN8ZS+ziU5Tt/TDYkU8hPiGyj8ReZ0rdWe4nb7UEQUfnKNWHWHjiFxfmhv7NzBxA
- /vZNIvKjO2YlGWhlO5BlaYD5dL+wfH8giTD8/Iw43WdhI99brHwnz1BACo8Q3/4LHT2iBl0d/g
- nZqeEaBw9xBGSbGEXmXBZuq6xDAWxWda/R6fnDXTK7jVsUONTI43gTlQ05iy4p1UBTgeL47cai
- 3Pc=
+ 06 Feb 2023 22:27:42 -0800
+IronPort-SDR: ZYGnIK/58wy7iBONfSOJHtcSt1pfJVPTOLzHDpasG5qyTEYe1xcxhouNQ85PJitPuPzQ16ef/M
+ kaw0GLg9abilbvDnNFTiVCogF5xJJ1HynpTyUZN5NL+rw2sDPWXvjIMqBwPGrcsmIZUPQhW6BJ
+ 1qXFFTwEXgZ0ZEf8WIHcsT4MCAfIdEPsFroMNXz5adCHZIW9ZG++UpIZkNLxjzPbq0U+G0CbcZ
+ hWcO0Koca6hNT1BO3+S3y4gTh+iw/4jMcNCbuD2XGfRcA7FyqRXz58Y8I8aYwxW8bCqA4cloDE
+ lBM=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Feb 2023 23:10:23 -0800
+ 06 Feb 2023 23:10:25 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4P9vR26Wjyz1Rwt8
- for <qemu-devel@nongnu.org>; Mon,  6 Feb 2023 23:10:22 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4P9vR51yhDz1Rwrq
+ for <qemu-devel@nongnu.org>; Mon,  6 Feb 2023 23:10:25 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:content-type
  :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1675753821; x=1678345822; bh=HxNdFIr
- frIbT2zaILVCY9Z7JvLJT5NAftgeXNy0lQL4=; b=AwwpMHYFDY/3Q5WKOycQGS0
- JtrU2J6qd9/c3arNnHIkEdKzopvNqMOb6Ut/7rkwZpQHjBxvbF67n7/sifSjPy96
- ZxugWyxzKkZ+j281Q0sGAV+D0NAO/YVXOGp8UhXsx44YmHd3Ul3rH6r6Ht/tmjqb
- YhMfGo2zx95kV5+MevD/N/M09qKmFk+IjAVl65E6BIQDx1qcMGqoYiiy8G13GIGi
- 4kGp8eLNIKpeSM1ReSawxV9+4cRRNKcPlremrkjXFlauVQWmMZLwy1ji2aI+AA5l
- 4j16v3xlrEZLXOjS0dxCajgIiMBujoSGd7xk6S2pUlgtLo9QMvA6ARgBuNI+igw=
+ :subject:to:from; s=dkim; t=1675753824; x=1678345825; bh=SPd7l1Q
+ 0Auz9vtTQN8UFne2otnriLq/q7MmdjRt6ErI=; b=sWqNODdnAaKcWGprSwx0pkv
+ 0dINu8DK1szyz/jg0TUfWNSJpbm7FKfkEPY4+t7ih5llnkzx3n2y7Oc+hUxbeKIE
+ PBRhp/AabCaH/3ZoQPSTfVRB5pd5ZKq3Q2OR2G8/e5Ttlu2tPHbkeqfaQllXwzrM
+ dLOIz6q8yox1oiEUa9FzNaKZRW8GCCmGeqCEv214C6tkBSxVAWSCaKW/18OnqjSW
+ v0ldBbzk7Ybu7Q5MAEDljGxjWXW2X7+nhQitlpCtUYFbSTUihJeD4V808M1vNx7r
+ kgic2spq2YdSg2gAlWDrSriafclTGuIWTzh347M7AYl7YgeJXSbI1sbfY3kImXA=
  =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id AJzP04ja5bVe for <qemu-devel@nongnu.org>;
- Mon,  6 Feb 2023 23:10:21 -0800 (PST)
+ port 10026) with ESMTP id Pq16lgPn6cWN for <qemu-devel@nongnu.org>;
+ Mon,  6 Feb 2023 23:10:24 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.38])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4P9vR015c6z1RvTp;
- Mon,  6 Feb 2023 23:10:19 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4P9vR23fNhz1RvLy;
+ Mon,  6 Feb 2023 23:10:22 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com,
@@ -85,9 +85,9 @@ Cc: alistair23@gmail.com,
  Philipp Tomsich <philipp.tomsich@vrull.eu>,
  LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 17/32] RISC-V: Adding XTheadBa ISA extension
-Date: Tue,  7 Feb 2023 17:09:28 +1000
-Message-Id: <20230207070943.2558857-18-alistair.francis@opensource.wdc.com>
+Subject: [PULL 18/32] RISC-V: Adding XTheadBb ISA extension
+Date: Tue,  7 Feb 2023 17:09:29 +1000
+Message-Id: <20230207070943.2558857-19-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230207070943.2558857-1-alistair.francis@opensource.wdc.com>
 References: <20230207070943.2558857-1-alistair.francis@opensource.wdc.com>
@@ -121,92 +121,95 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Christoph M=C3=BCllner <christoph.muellner@vrull.eu>
 
-This patch adds support for the XTheadBa ISA extension.
+This patch adds support for the XTheadBb ISA extension.
 The patch uses the T-Head specific decoder and translation.
 
 Co-developed-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 Co-developed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Christoph M=C3=BCllner <christoph.muellner@vrull.eu>
-Message-Id: <20230131202013.2541053-4-christoph.muellner@vrull.eu>
+Message-Id: <20230131202013.2541053-5-christoph.muellner@vrull.eu>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h                         |  1 +
- target/riscv/xthead.decode                 | 22 ++++++++++++
- target/riscv/cpu.c                         |  2 ++
- target/riscv/translate.c                   |  3 +-
- target/riscv/insn_trans/trans_xthead.c.inc | 39 ++++++++++++++++++++++
- 5 files changed, 66 insertions(+), 1 deletion(-)
+ target/riscv/cpu.h                         |   1 +
+ target/riscv/xthead.decode                 |  20 ++++
+ target/riscv/cpu.c                         |   2 +
+ target/riscv/translate.c                   |   4 +-
+ target/riscv/insn_trans/trans_xthead.c.inc | 124 +++++++++++++++++++++
+ 5 files changed, 149 insertions(+), 2 deletions(-)
 
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index ea00586436..f1f7795bd5 100644
+index f1f7795bd5..be86c2fb95 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -473,6 +473,7 @@ struct RISCVCPUConfig {
-     uint64_t mimpid;
+@@ -474,6 +474,7 @@ struct RISCVCPUConfig {
 =20
      /* Vendor-specific custom extensions */
-+    bool ext_xtheadba;
+     bool ext_xtheadba;
++    bool ext_xtheadbb;
      bool ext_xtheadcmo;
      bool ext_xtheadsync;
      bool ext_XVentanaCondOps;
 diff --git a/target/riscv/xthead.decode b/target/riscv/xthead.decode
-index 1d86f3a012..b149f13018 100644
+index b149f13018..8cd140891b 100644
 --- a/target/riscv/xthead.decode
 +++ b/target/riscv/xthead.decode
-@@ -2,6 +2,7 @@
- # Translation routines for the instructions of the XThead* ISA extension=
-s
- #
- # Copyright (c) 2022 Christoph Muellner, christoph.muellner@vrull.eu
-+#                    Dr. Philipp Tomsich, philipp.tomsich@vrull.eu
- #
- # SPDX-License-Identifier: LGPL-2.1-or-later
- #
-@@ -9,12 +10,33 @@
- #   https://github.com/T-head-Semi/thead-extension-spec/releases/latest
-=20
- # Fields:
-+%rd        7:5
+@@ -13,14 +13,23 @@
+ %rd        7:5
  %rs1       15:5
  %rs2       20:5
++%sh5       20:5
++%sh6       20:6
 =20
-+# Argument sets
-+&r         rd rs1 rs2                               !extern
-+
+ # Argument sets
+ &r         rd rs1 rs2                               !extern
++&r2        rd rs1                                   !extern
++&shift     shamt rs1 rd                             !extern
++&th_bfext  msb lsb rs1 rd
+=20
  # Formats
  @sfence_vm  ....... ..... .....   ... ..... ....... %rs1
  @rs2_s      ....... ..... ..... ... ..... .......   %rs2 %rs1
-+@r          ....... ..... .....  ... ..... .......  &r %rs2 %rs1 %rd
-+
-+# XTheadBa
-+# Instead of defining a new encoding, we simply use the decoder to
-+# extract the imm[0:1] field and dispatch to separate translation
-+# functions (mirroring the `sh[123]add` instructions from Zba and
-+# the regular RVI `add` instruction.
-+#
-+# The only difference between sh[123]add and addsl is that the shift
-+# is applied to rs1 (for addsl) instead of rs2 (for sh[123]add).
-+#
-+# Note that shift-by-0 is a valid operation according to the manual.
-+# This will be equivalent to a regular add.
-+add              0000000 ..... ..... 001 ..... 0001011 @r
-+th_addsl1        0000001 ..... ..... 001 ..... 0001011 @r
-+th_addsl2        0000010 ..... ..... 001 ..... 0001011 @r
-+th_addsl3        0000011 ..... ..... 001 ..... 0001011 @r
+ @r          ....... ..... .....  ... ..... .......  &r %rs2 %rs1 %rd
++@r2         ....... ..... .....  ... ..... .......  &r2 %rs1 %rd
++@th_bfext   msb:6  lsb:6  .....  ... ..... .......  &th_bfext %rs1 %rd
++@sh5        ....... ..... .....  ... ..... .......  &shift  shamt=3D%sh5=
+      %rs1 %rd
++@sh6        ...... ...... .....  ... ..... .......  &shift shamt=3D%sh6 =
+%rs1 %rd
 =20
+ # XTheadBa
+ # Instead of defining a new encoding, we simply use the decoder to
+@@ -38,6 +47,17 @@ th_addsl1        0000001 ..... ..... 001 ..... 0001011=
+ @r
+ th_addsl2        0000010 ..... ..... 001 ..... 0001011 @r
+ th_addsl3        0000011 ..... ..... 001 ..... 0001011 @r
+=20
++# XTheadBb
++th_ext           ...... ...... ..... 010 ..... 0001011 @th_bfext
++th_extu          ...... ...... ..... 011 ..... 0001011 @th_bfext
++th_ff0           1000010 00000 ..... 001 ..... 0001011 @r2
++th_ff1           1000011 00000 ..... 001 ..... 0001011 @r2
++th_srri          000100 ...... ..... 001 ..... 0001011 @sh6
++th_srriw         0001010 ..... ..... 001 ..... 0001011 @sh5
++th_rev           1000001 00000 ..... 001 ..... 0001011 @r2
++th_revw          1001000 00000 ..... 001 ..... 0001011 @r2
++th_tstnbz        1000000 00000 ..... 001 ..... 0001011 @r2
++
  # XTheadCmo
  th_dcache_call   0000000 00001 00000 000 00000 0001011
+ th_dcache_ciall  0000000 00011 00000 000 00000 0001011
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index f76639845d..dd5ff82f22 100644
+index dd5ff82f22..def27a53f2 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -109,6 +109,7 @@ static const struct isa_ext_data isa_edata_arr[] =3D =
+@@ -110,6 +110,7 @@ static const struct isa_ext_data isa_edata_arr[] =3D =
 {
-     ISA_EXT_DATA_ENTRY(svinval, true, PRIV_VERSION_1_12_0, ext_svinval),
      ISA_EXT_DATA_ENTRY(svnapot, true, PRIV_VERSION_1_12_0, ext_svnapot),
      ISA_EXT_DATA_ENTRY(svpbmt, true, PRIV_VERSION_1_12_0, ext_svpbmt),
-+    ISA_EXT_DATA_ENTRY(xtheadba, true, PRIV_VERSION_1_11_0, ext_xtheadba=
+     ISA_EXT_DATA_ENTRY(xtheadba, true, PRIV_VERSION_1_11_0, ext_xtheadba=
+),
++    ISA_EXT_DATA_ENTRY(xtheadbb, true, PRIV_VERSION_1_11_0, ext_xtheadbb=
 ),
      ISA_EXT_DATA_ENTRY(xtheadcmo, true, PRIV_VERSION_1_11_0, ext_xtheadc=
 mo),
@@ -214,41 +217,42 @@ mo),
 sync),
      ISA_EXT_DATA_ENTRY(xventanacondops, true, PRIV_VERSION_1_12_0, ext_X=
 VentanaCondOps),
-@@ -1090,6 +1091,7 @@ static Property riscv_cpu_extensions[] =3D {
-     DEFINE_PROP_BOOL("zmmul", RISCVCPU, cfg.ext_zmmul, false),
+@@ -1092,6 +1093,7 @@ static Property riscv_cpu_extensions[] =3D {
 =20
      /* Vendor-specific custom extensions */
-+    DEFINE_PROP_BOOL("xtheadba", RISCVCPU, cfg.ext_xtheadba, false),
+     DEFINE_PROP_BOOL("xtheadba", RISCVCPU, cfg.ext_xtheadba, false),
++    DEFINE_PROP_BOOL("xtheadbb", RISCVCPU, cfg.ext_xtheadbb, false),
      DEFINE_PROP_BOOL("xtheadcmo", RISCVCPU, cfg.ext_xtheadcmo, false),
      DEFINE_PROP_BOOL("xtheadsync", RISCVCPU, cfg.ext_xtheadsync, false),
      DEFINE_PROP_BOOL("xventanacondops", RISCVCPU, cfg.ext_XVentanaCondOp=
 s, false),
 diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 0657a4bea2..4683562ecf 100644
+index 4683562ecf..387ef0ad8b 100644
 --- a/target/riscv/translate.c
 +++ b/target/riscv/translate.c
-@@ -132,7 +132,8 @@ static bool always_true_p(DisasContext *ctx  __attrib=
+@@ -132,8 +132,8 @@ static bool always_true_p(DisasContext *ctx  __attrib=
 ute__((__unused__)))
 =20
  static bool has_xthead_p(DisasContext *ctx  __attribute__((__unused__)))
  {
--    return ctx->cfg_ptr->ext_xtheadcmo || ctx->cfg_ptr->ext_xtheadsync;
-+    return ctx->cfg_ptr->ext_xtheadba || ctx->cfg_ptr->ext_xtheadcmo ||
-+           ctx->cfg_ptr->ext_xtheadsync;
+-    return ctx->cfg_ptr->ext_xtheadba || ctx->cfg_ptr->ext_xtheadcmo ||
+-           ctx->cfg_ptr->ext_xtheadsync;
++    return ctx->cfg_ptr->ext_xtheadba || ctx->cfg_ptr->ext_xtheadbb ||
++           ctx->cfg_ptr->ext_xtheadcmo || ctx->cfg_ptr->ext_xtheadsync;
  }
 =20
  #define MATERIALISE_EXT_PREDICATE(ext)  \
 diff --git a/target/riscv/insn_trans/trans_xthead.c.inc b/target/riscv/in=
 sn_trans/trans_xthead.c.inc
-index f35bf6ea89..a6fb8132a8 100644
+index a6fb8132a8..ebfab90dd9 100644
 --- a/target/riscv/insn_trans/trans_xthead.c.inc
 +++ b/target/riscv/insn_trans/trans_xthead.c.inc
-@@ -16,6 +16,12 @@
-  * this program.  If not, see <http://www.gnu.org/licenses/>.
-  */
+@@ -22,6 +22,12 @@
+     }                                            \
+ } while (0)
 =20
-+#define REQUIRE_XTHEADBA(ctx) do {               \
-+    if (!ctx->cfg_ptr->ext_xtheadba) {           \
++#define REQUIRE_XTHEADBB(ctx) do {               \
++    if (!ctx->cfg_ptr->ext_xtheadbb) {           \
 +        return false;                            \
 +    }                                            \
 +} while (0)
@@ -256,48 +260,131 @@ index f35bf6ea89..a6fb8132a8 100644
  #define REQUIRE_XTHEADCMO(ctx) do {              \
      if (!ctx->cfg_ptr->ext_xtheadcmo) {          \
          return false;                            \
-@@ -28,6 +34,39 @@
-     }                                            \
- } while (0)
+@@ -67,6 +73,124 @@ GEN_TRANS_TH_ADDSL(1)
+ GEN_TRANS_TH_ADDSL(2)
+ GEN_TRANS_TH_ADDSL(3)
 =20
-+/* XTheadBa */
++/* XTheadBb */
 +
-+/*
-+ * th.addsl is similar to sh[123]add (from Zba), but not an
-+ * alternative encoding: while sh[123] applies the shift to rs1,
-+ * th.addsl shifts rs2.
-+ */
-+
-+#define GEN_TH_ADDSL(SHAMT)                                     \
-+static void gen_th_addsl##SHAMT(TCGv ret, TCGv arg1, TCGv arg2) \
-+{                                                               \
-+    TCGv t =3D tcg_temp_new();                                    \
-+    tcg_gen_shli_tl(t, arg2, SHAMT);                            \
-+    tcg_gen_add_tl(ret, t, arg1);                               \
-+    tcg_temp_free(t);                                           \
++/* th.srri is an alternate encoding for rori (from Zbb) */
++static bool trans_th_srri(DisasContext *ctx, arg_th_srri * a)
++{
++    REQUIRE_XTHEADBB(ctx);
++    return gen_shift_imm_fn_per_ol(ctx, a, EXT_NONE,
++                                   tcg_gen_rotri_tl, gen_roriw, NULL);
 +}
 +
-+GEN_TH_ADDSL(1)
-+GEN_TH_ADDSL(2)
-+GEN_TH_ADDSL(3)
-+
-+#define GEN_TRANS_TH_ADDSL(SHAMT)                                       =
-\
-+static bool trans_th_addsl##SHAMT(DisasContext *ctx,                    =
-\
-+                                  arg_th_addsl##SHAMT * a)              =
-\
-+{                                                                       =
-\
-+    REQUIRE_XTHEADBA(ctx);                                              =
-\
-+    return gen_arith(ctx, a, EXT_NONE, gen_th_addsl##SHAMT, NULL);      =
-\
++/* th.srriw is an alternate encoding for roriw (from Zbb) */
++static bool trans_th_srriw(DisasContext *ctx, arg_th_srriw *a)
++{
++    REQUIRE_XTHEADBB(ctx);
++    REQUIRE_64BIT(ctx);
++    ctx->ol =3D MXL_RV32;
++    return gen_shift_imm_fn(ctx, a, EXT_NONE, gen_roriw, NULL);
 +}
 +
-+GEN_TRANS_TH_ADDSL(1)
-+GEN_TRANS_TH_ADDSL(2)
-+GEN_TRANS_TH_ADDSL(3)
++/* th.ext and th.extu perform signed/unsigned bitfield extraction */
++static bool gen_th_bfextract(DisasContext *ctx, arg_th_bfext *a,
++                             void (*f)(TCGv, TCGv, unsigned int, unsigne=
+d int))
++{
++    TCGv dest =3D dest_gpr(ctx, a->rd);
++    TCGv source =3D get_gpr(ctx, a->rs1, EXT_ZERO);
++
++    if (a->lsb <=3D a->msb) {
++        f(dest, source, a->lsb, a->msb - a->lsb + 1);
++        gen_set_gpr(ctx, a->rd, dest);
++    }
++    return true;
++}
++
++static bool trans_th_ext(DisasContext *ctx, arg_th_ext *a)
++{
++    REQUIRE_XTHEADBB(ctx);
++    return gen_th_bfextract(ctx, a, tcg_gen_sextract_tl);
++}
++
++static bool trans_th_extu(DisasContext *ctx, arg_th_extu *a)
++{
++    REQUIRE_XTHEADBB(ctx);
++    return gen_th_bfextract(ctx, a, tcg_gen_extract_tl);
++}
++
++/* th.ff0: find first zero (clz on an inverted input) */
++static bool gen_th_ff0(DisasContext *ctx, arg_th_ff0 *a, DisasExtend ext=
+)
++{
++    TCGv dest =3D dest_gpr(ctx, a->rd);
++    TCGv src1 =3D get_gpr(ctx, a->rs1, ext);
++
++    int olen =3D get_olen(ctx);
++    TCGv t =3D tcg_temp_new();
++
++    tcg_gen_not_tl(t, src1);
++    if (olen !=3D TARGET_LONG_BITS) {
++        if (olen =3D=3D 32) {
++            gen_clzw(dest, t);
++        } else {
++            g_assert_not_reached();
++        }
++    } else {
++        gen_clz(dest, t);
++    }
++
++    tcg_temp_free(t);
++    gen_set_gpr(ctx, a->rd, dest);
++
++    return true;
++}
++
++static bool trans_th_ff0(DisasContext *ctx, arg_th_ff0 *a)
++{
++    REQUIRE_XTHEADBB(ctx);
++    return gen_th_ff0(ctx, a, EXT_NONE);
++}
++
++/* th.ff1 is an alternate encoding for clz (from Zbb) */
++static bool trans_th_ff1(DisasContext *ctx, arg_th_ff1 *a)
++{
++    REQUIRE_XTHEADBB(ctx);
++    return gen_unary_per_ol(ctx, a, EXT_NONE, gen_clz, gen_clzw);
++}
++
++static void gen_th_revw(TCGv ret, TCGv arg1)
++{
++    tcg_gen_bswap32_tl(ret, arg1, TCG_BSWAP_OS);
++}
++
++/* th.rev is an alternate encoding for the RV64 rev8 (from Zbb) */
++static bool trans_th_rev(DisasContext *ctx, arg_th_rev *a)
++{
++    REQUIRE_XTHEADBB(ctx);
++
++    return gen_unary_per_ol(ctx, a, EXT_NONE, tcg_gen_bswap_tl, gen_th_r=
+evw);
++}
++
++/* th.revw is a sign-extended byte-swap of the lower word */
++static bool trans_th_revw(DisasContext *ctx, arg_th_revw *a)
++{
++    REQUIRE_XTHEADBB(ctx);
++    REQUIRE_64BIT(ctx);
++    return gen_unary(ctx, a, EXT_NONE, gen_th_revw);
++}
++
++/* th.tstnbz is equivalent to an orc.b (from Zbb) with inverted result *=
+/
++static void gen_th_tstnbz(TCGv ret, TCGv source1)
++{
++    gen_orc_b(ret, source1);
++    tcg_gen_not_tl(ret, ret);
++}
++
++static bool trans_th_tstnbz(DisasContext *ctx, arg_th_tstnbz *a)
++{
++    REQUIRE_XTHEADBB(ctx);
++    return gen_unary(ctx, a, EXT_ZERO, gen_th_tstnbz);
++}
 +
  /* XTheadCmo */
 =20
