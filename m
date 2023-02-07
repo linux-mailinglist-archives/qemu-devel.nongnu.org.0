@@ -2,90 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E11ED68DC78
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 16:08:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB7568DC7B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 16:08:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPPYy-00010n-UA; Tue, 07 Feb 2023 10:07:16 -0500
+	id 1pPPZe-0001nE-7I; Tue, 07 Feb 2023 10:07:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pPPYw-000101-KP
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:07:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pPPYu-0007Ji-4M
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:07:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675782430;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qyOcUB1C5vlkOxgJnTPeTFdMsOGBzb/pp2rjHVDWb2A=;
- b=YYzAEeRXsptIEj2de98E6GSTehgeH0pxA4gTxt7liasnpNmZzrzSCKvhoyhzEH6ryHCiUO
- ty0oLx1Qs+oHrYm+AxHIW3KDu1n6aUULHn9qgoEayEgm+mphco0BoruLpVyjp2Gyi4r4KM
- GCe9pjFpOC4pf9/Uq09AsrIvtJPNZU0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-161-Bu6ZJ9PHMKWC1xZubDk3Mw-1; Tue, 07 Feb 2023 10:07:09 -0500
-X-MC-Unique: Bu6ZJ9PHMKWC1xZubDk3Mw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- d18-20020a05600c34d200b003df901ab982so7348445wmq.4
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 07:07:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pPPZc-0001mC-Au
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:07:56 -0500
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pPPZZ-0007Oj-Ol
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:07:56 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id ea13so1683707pfb.13
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 07:07:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=fAltMcuXk5nHD2gmnYFO7HpFbgteV7lw0CrjjJIcs38=;
+ b=jgwXULle1QOoPatKUrkd3WNvuUyLNHyCDatn6MCPcm92b3fh1cpLotW1KrKD/Dyf6O
+ yh94cShlB4yjuVLcffNQKAjlthS0Mlj3Owc2jBBsQceyWCbsz8nzy22mavnFoIbe3NCb
+ Iw1A9EshTcaF21fLeKp9mhVgd2CVAjotkrAZRt6F4GzfWaD/OBQn31ECy0oKookaZ3NR
+ n9GWTMZO/qM0ZmIY7ev3YoWi3MF/J7YyR4cXl4zUNlhDzWO5yTBLQSSN0Jt9s2sCJRx9
+ VdnktgUMZFXxZ5nP2LoJzys9PChuVlCfrSFYVKfIVyoyA4QXOIcp5SUQ3PkjlalGkWJC
+ 2MPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qyOcUB1C5vlkOxgJnTPeTFdMsOGBzb/pp2rjHVDWb2A=;
- b=twLPxbnjMnECNZKXep2FUum5PkwI+yQFrpw1R62gd75LGVIxffcfzdfxoGU1lYKLZM
- 7VZjRRsN/hMrWx/PG/t2YOse5fdvca5PnQdKLPq+DGgBI7gpfyxvadBEbgMH/U7MzMzs
- HTxkI0nUJcAsgIDkVdX4tiFvRgxA9nuqtg6sy3GqsGtOLL2KHXWrFvA7mP522eA2ZcLs
- MnnkEiYgMVjMP1vqOfdYZtoBkLHnbfC82ecYtUBcad6h7/8sTRcvLGNoQQ9BjKRrnu3S
- dzRHtGo5F3Id6KPYa5Cwi1zkMklfXiPvQZGFdMsFOBtlLzM9J1iDmXiFK0gBF+cs4B4k
- hWBA==
-X-Gm-Message-State: AO0yUKXBKDMFsvqQGhZlIKRelAehmNDH7bBObTIU8cjcEY15ZqHxO5zN
- vdfWBM2TzB4RkZEVvKm6TvU1b4p0BSFJ7gcXAAL+7gbx2Rblti7N1OawY11TqOA/+u9FwFfDgzs
- 1cra2Onli39BraNU=
-X-Received: by 2002:adf:e3c3:0:b0:2bf:ae19:d8e4 with SMTP id
- k3-20020adfe3c3000000b002bfae19d8e4mr3126402wrm.16.1675782428036; 
- Tue, 07 Feb 2023 07:07:08 -0800 (PST)
-X-Google-Smtp-Source: AK7set93SAPrjsRjCGXScBqeGBX1tBxNgtc3E7NhAu2HzqBCZKpxCuuJUyAHj6hDUePErsCZJ8BQ9g==
-X-Received: by 2002:adf:e3c3:0:b0:2bf:ae19:d8e4 with SMTP id
- k3-20020adfe3c3000000b002bfae19d8e4mr3126372wrm.16.1675782427708; 
- Tue, 07 Feb 2023 07:07:07 -0800 (PST)
-Received: from ?IPV6:2003:cf:d708:4b2c:f69d:dcc6:80c8:9f6f?
- (p200300cfd7084b2cf69ddcc680c89f6f.dip0.t-ipconnect.de.
- [2003:cf:d708:4b2c:f69d:dcc6:80c8:9f6f])
- by smtp.gmail.com with ESMTPSA id
- a10-20020adfdd0a000000b002c3f7dfd15csm1264100wrm.32.2023.02.07.07.07.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Feb 2023 07:07:06 -0800 (PST)
-Message-ID: <7fac7a1c-3710-33e7-9ac3-856dce33ca03@redhat.com>
-Date: Tue, 7 Feb 2023 16:07:06 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fAltMcuXk5nHD2gmnYFO7HpFbgteV7lw0CrjjJIcs38=;
+ b=xAku7v26R+tUKBn91ZP1SSWOzjZXbY4l422TYorg+xr5I29cwyyim87y+gqipZSfk4
+ 1PaUBY+MjTCTG8l5jSCw/AfMU6ijWAcIJu7MjrVK/uBuVCy/CtQEFGWWPyK3s0WzEjp3
+ hnRMHTYrQ6Whs9Ga59Xs+351EBwiZ5wPNs/qp7j7m2SfFPPns6D5eBWYnWp5A0fhMAzS
+ ET8AFqzHTPxuC9aiiW6JLa0Pyoy2Qw7HkZaTHemA68Qlnly8nwr6OmOGWAstg/ez1PZW
+ GdhS15PHHVedXjM6eh6/TPNBf8FKLgrw5X9SEtHa5aMzOFSWf+AMqNmUON2gIzlYhJMv
+ tSUg==
+X-Gm-Message-State: AO0yUKWnX6mD4b3DMPm8tz9IbwA5nSz811Jv3+2YchV0zSHQXPOm4L0V
+ ywmHRgIEHkc0VnVFEfudRB/zG+ZjbhXIDcBx6/o1kw==
+X-Google-Smtp-Source: AK7set9RwV95MKsnemD6syHENMxFd3ePEA1HCcxLx4GWpkdGlIQ8TizHV4sFh1ssYL5oJWmVcK6rM2Or5b+9IxuK1nc=
+X-Received: by 2002:a62:53c6:0:b0:58d:a84a:190b with SMTP id
+ h189-20020a6253c6000000b0058da84a190bmr849940pfb.48.1675782471538; Tue, 07
+ Feb 2023 07:07:51 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 00/13] block: Fix bdrv_open*() calls from coroutine context
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Cc: eesposit@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org
-References: <20230126172432.436111-1-kwolf@redhat.com>
-From: Hanna Czenczek <hreitz@redhat.com>
-In-Reply-To: <20230126172432.436111-1-kwolf@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230124000027.3565716-1-richard.henderson@linaro.org>
+ <20230124000027.3565716-10-richard.henderson@linaro.org>
+In-Reply-To: <20230124000027.3565716-10-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Feb 2023 15:07:40 +0000
+Message-ID: <CAFEAcA-7Fj5bVn8dTBSR-4jddogWi54MWZJmgXnnycvjnQvZSA@mail.gmail.com>
+Subject: Re: [PATCH 09/22] target/arm: Adjust the order of Phys and Stage2
+ ARMMMUIdx
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, yier.jin@huawei.com, 
+ jonathan.cameron@huawei.com, leonardo.garcia@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,18 +85,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 26.01.23 18:24, Kevin Wolf wrote:
-> bdrv_open*() must not be called from coroutine context, amongst others
-> because it modifies the block graph. However, some functions - in
-> particular all .bdrv_co_create* implementations of image formats - do
-> call it from coroutine context. This is already wrong today, but when we
-> add locking, it actually becomes visible.
+On Tue, 24 Jan 2023 at 00:02, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> This series adds no_co_wrapper functions, which are automatically
-> generated wrappers that run in coroutine context and use a BH to call
-> the wrapped function outside of coroutine context. It then uses these
-> wrappers to fix the problematic bdrv_open*() calls.
+> It will be helpful to have ARMMMUIdx_Phys_* to be in the same
+> relative order as ARMSecuritySpace enumerators. This requires
+> the adjustment to the nstable check. While there, check for being
+> in secure state rather than rely on clearing the low bit making
+> no change to non-secure state.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/cpu.h | 12 ++++++------
+>  target/arm/ptw.c | 10 ++++------
+>  2 files changed, 10 insertions(+), 12 deletions(-)
+>
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index cfc62d60b0..0114e1ed87 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -3057,18 +3057,18 @@ typedef enum ARMMMUIdx {
+>      ARMMMUIdx_E2        = 6 | ARM_MMU_IDX_A,
+>      ARMMMUIdx_E3        = 7 | ARM_MMU_IDX_A,
+>
+> -    /* TLBs with 1-1 mapping to the physical address spaces. */
+> -    ARMMMUIdx_Phys_NS   = 8 | ARM_MMU_IDX_A,
+> -    ARMMMUIdx_Phys_S    = 9 | ARM_MMU_IDX_A,
+> -
+>      /*
+>       * Used for second stage of an S12 page table walk, or for descriptor
+>       * loads during first stage of an S1 page table walk.  Note that both
+>       * are in use simultaneously for SecureEL2: the security state for
+>       * the S2 ptw is selected by the NS bit from the S1 ptw.
+>       */
+> -    ARMMMUIdx_Stage2    = 10 | ARM_MMU_IDX_A,
+> -    ARMMMUIdx_Stage2_S  = 11 | ARM_MMU_IDX_A,
+> +    ARMMMUIdx_Stage2_S  = 8 | ARM_MMU_IDX_A,
+> +    ARMMMUIdx_Stage2    = 9 | ARM_MMU_IDX_A,
+> +
+> +    /* TLBs with 1-1 mapping to the physical address spaces. */
+> +    ARMMMUIdx_Phys_S    = 10 | ARM_MMU_IDX_A,
+> +    ARMMMUIdx_Phys_NS   = 11 | ARM_MMU_IDX_A,
+>
+>      /*
+>       * These are not allocated TLBs and are used only for AT system
+> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+> index 437f6fefa9..59cf64d0a6 100644
+> --- a/target/arm/ptw.c
+> +++ b/target/arm/ptw.c
+> @@ -1410,16 +1410,14 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+>      descaddr |= (address >> (stride * (4 - level))) & indexmask;
+>      descaddr &= ~7ULL;
+>      nstable = extract32(tableattrs, 4, 1);
+> -    if (nstable) {
+> +    if (nstable && ptw->in_secure) {
+>          /*
+>           * Stage2_S -> Stage2 or Phys_S -> Phys_NS
+>           * Assert that the non-secure idx are even, and relative order.
+>           */
 
-Reviewed-by: Hanna Czenczek <hreitz@redhat.com>
+Comment needs updating to match the code change (we're no
+longer asserting that the NS indexes are even).
 
+> -        QEMU_BUILD_BUG_ON((ARMMMUIdx_Phys_NS & 1) != 0);
+> -        QEMU_BUILD_BUG_ON((ARMMMUIdx_Stage2 & 1) != 0);
+> -        QEMU_BUILD_BUG_ON(ARMMMUIdx_Phys_NS + 1 != ARMMMUIdx_Phys_S);
+> -        QEMU_BUILD_BUG_ON(ARMMMUIdx_Stage2 + 1 != ARMMMUIdx_Stage2_S);
+> -        ptw->in_ptw_idx &= ~1;
+> +        QEMU_BUILD_BUG_ON(ARMMMUIdx_Phys_S + 1 != ARMMMUIdx_Phys_NS);
+> +        QEMU_BUILD_BUG_ON(ARMMMUIdx_Stage2_S + 1 != ARMMMUIdx_Stage2);
+> +        ptw->in_ptw_idx += 1;
+>          ptw->in_secure = false;
+>      }
+>      if (!S1_ptw_translate(env, ptw, descaddr, fi)) {
+
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
