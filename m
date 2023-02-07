@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A569968CB87
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 01:58:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E3F568CB88
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 01:58:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPCIN-0002fy-Vb; Mon, 06 Feb 2023 19:57:16 -0500
+	id 1pPCIc-0002kO-9W; Mon, 06 Feb 2023 19:57:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pPCIH-0002f3-4g
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 19:57:09 -0500
+ id 1pPCIa-0002ip-Iw
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 19:57:28 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pPCIF-0003ZL-H1
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 19:57:08 -0500
+ id 1pPCIO-0003aZ-Uo
+ for qemu-devel@nongnu.org; Mon, 06 Feb 2023 19:57:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675731426;
+ s=mimecast20190719; t=1675731433;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4tyAthjyAJfKR2wxZiLS098ns/1BTHiWpLuviegbRVQ=;
- b=dc9TfAsNAPS/CG1MC9DNUuspR45gIGvejLg2KWdlqfqsx7uzR1FX8s+Y0RdPOT37vrqBZ6
- OSW+r8rPvevQ/e52ebY2QCTD+jSxH8EEaE7va8Uc4YsfRwGCm+ma6b9jprgO7j4EnpKQ79
- SOC6KKNZPQfHWHlqQc1/c9HDHgi0oF0=
+ bh=ZH6YddLEeOQzAr9SjLkB0f5BGyw0/sKDCslYwuvDfrs=;
+ b=S/Z6Jf/ex5IUpVyLbjIPbXCH0P9KI0oJhFYUpxMeMQ8lGqPxm1Kwi+pRzpPWWQz2UNXpIF
+ ZqanskrwEtl9xzhn+YIY/W7ZoIBWdKiX60/Uwtmo4xG13oKjaRPDIFJl5iem54Q9nccLOt
+ u8WHXEs/2aU1lIra6N5bJdejHIe8uoA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-655-6Rcrl1TjM66tyeSAaNYYpg-1; Mon, 06 Feb 2023 19:57:02 -0500
-X-MC-Unique: 6Rcrl1TjM66tyeSAaNYYpg-1
+ us-mta-9-wgPjX4k_NKeHkIKwMhKEaA-1; Mon, 06 Feb 2023 19:57:08 -0500
+X-MC-Unique: wgPjX4k_NKeHkIKwMhKEaA-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE38A800B24;
- Tue,  7 Feb 2023 00:57:01 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D4939101A52E;
+ Tue,  7 Feb 2023 00:57:06 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AEF9F492C3C;
- Tue,  7 Feb 2023 00:56:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0FA28492C3C;
+ Tue,  7 Feb 2023 00:57:01 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
@@ -62,12 +62,11 @@ Cc: qemu-block@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Alex Williamson <alex.williamson@redhat.com>,
- Eric Blake <eblake@redhat.com>, Eric Farman <farman@linux.ibm.com>,
- Peter Xu <peterx@redhat.com>, qemu-stable@nongnu.org
-Subject: [PULL 01/30] migration: Fix migration crash when target psize larger
- than host
-Date: Tue,  7 Feb 2023 01:56:21 +0100
-Message-Id: <20230207005650.1810-2-quintela@redhat.com>
+ Eric Blake <eblake@redhat.com>, Eric Farman <farman@linux.ibm.com>
+Subject: [PULL 02/30] migration: No save_live_pending() method uses the
+ QEMUFile parameter
+Date: Tue,  7 Feb 2023 01:56:22 +0100
+Message-Id: <20230207005650.1810-3-quintela@redhat.com>
 In-Reply-To: <20230207005650.1810-1-quintela@redhat.com>
 References: <20230207005650.1810-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -81,7 +80,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,62 +96,148 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Peter Xu <peterx@redhat.com>
+So remove it everywhere.
 
-Commit d9e474ea56 overlooked the case where the target psize is even larger
-than the host psize.  One example is Alpha has 8K page size and migration
-will start to crash the source QEMU when running Alpha migration on x86.
-
-Fix it by detecting that case and set host start/end just to cover the
-single page to be migrated.
-
-This will slightly optimize the common case where host psize equals to
-guest psize so we don't even need to do the roundups, but that's trivial.
-
-Cc: qemu-stable@nongnu.org
-Reported-by: Thomas Huth <thuth@redhat.com>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1456
-Fixes: d9e474ea56 ("migration: Teach PSS about host page")
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/ram.c | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+ include/migration/register.h   | 2 +-
+ migration/savevm.h             | 2 +-
+ hw/s390x/s390-stattrib.c       | 2 +-
+ hw/vfio/migration.c            | 2 +-
+ migration/block-dirty-bitmap.c | 2 +-
+ migration/block.c              | 2 +-
+ migration/migration.c          | 2 +-
+ migration/ram.c                | 2 +-
+ migration/savevm.c             | 4 ++--
+ 9 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 334309f1c6..68a45338e3 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -2319,8 +2319,25 @@ static void pss_host_page_prepare(PageSearchStatus *pss)
-     size_t guest_pfns = qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
+diff --git a/include/migration/register.h b/include/migration/register.h
+index c1dcff0f90..6ca71367af 100644
+--- a/include/migration/register.h
++++ b/include/migration/register.h
+@@ -46,7 +46,7 @@ typedef struct SaveVMHandlers {
  
-     pss->host_page_sending = true;
--    pss->host_page_start = ROUND_DOWN(pss->page, guest_pfns);
--    pss->host_page_end = ROUND_UP(pss->page + 1, guest_pfns);
-+    if (guest_pfns <= 1) {
-+        /*
-+         * This covers both when guest psize == host psize, or when guest
-+         * has larger psize than the host (guest_pfns==0).
-+         *
-+         * For the latter, we always send one whole guest page per
-+         * iteration of the host page (example: an Alpha VM on x86 host
-+         * will have guest psize 8K while host psize 4K).
-+         */
-+        pss->host_page_start = pss->page;
-+        pss->host_page_end = pss->page + 1;
-+    } else {
-+        /*
-+         * The host page spans over multiple guest pages, we send them
-+         * within the same host page iteration.
-+         */
-+        pss->host_page_start = ROUND_DOWN(pss->page, guest_pfns);
-+        pss->host_page_end = ROUND_UP(pss->page + 1, guest_pfns);
-+    }
+     /* This runs outside the iothread lock!  */
+     int (*save_setup)(QEMUFile *f, void *opaque);
+-    void (*save_live_pending)(QEMUFile *f, void *opaque,
++    void (*save_live_pending)(void *opaque,
+                               uint64_t threshold_size,
+                               uint64_t *res_precopy_only,
+                               uint64_t *res_compatible,
+diff --git a/migration/savevm.h b/migration/savevm.h
+index 6461342cb4..524cf12f25 100644
+--- a/migration/savevm.h
++++ b/migration/savevm.h
+@@ -40,7 +40,7 @@ void qemu_savevm_state_cleanup(void);
+ void qemu_savevm_state_complete_postcopy(QEMUFile *f);
+ int qemu_savevm_state_complete_precopy(QEMUFile *f, bool iterable_only,
+                                        bool inactivate_disks);
+-void qemu_savevm_state_pending(QEMUFile *f, uint64_t max_size,
++void qemu_savevm_state_pending(uint64_t max_size,
+                                uint64_t *res_precopy_only,
+                                uint64_t *res_compatible,
+                                uint64_t *res_postcopy_only);
+diff --git a/hw/s390x/s390-stattrib.c b/hw/s390x/s390-stattrib.c
+index 9eda1c3b2a..a553a1e850 100644
+--- a/hw/s390x/s390-stattrib.c
++++ b/hw/s390x/s390-stattrib.c
+@@ -182,7 +182,7 @@ static int cmma_save_setup(QEMUFile *f, void *opaque)
+     return 0;
  }
  
- /*
+-static void cmma_save_pending(QEMUFile *f, void *opaque, uint64_t max_size,
++static void cmma_save_pending(void *opaque, uint64_t max_size,
+                               uint64_t *res_precopy_only,
+                               uint64_t *res_compatible,
+                               uint64_t *res_postcopy_only)
+diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+index c74453e0b5..b2125c7607 100644
+--- a/hw/vfio/migration.c
++++ b/hw/vfio/migration.c
+@@ -456,7 +456,7 @@ static void vfio_save_cleanup(void *opaque)
+     trace_vfio_save_cleanup(vbasedev->name);
+ }
+ 
+-static void vfio_save_pending(QEMUFile *f, void *opaque,
++static void vfio_save_pending(void *opaque,
+                               uint64_t threshold_size,
+                               uint64_t *res_precopy_only,
+                               uint64_t *res_compatible,
+diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
+index 15127d489a..c27ef9b033 100644
+--- a/migration/block-dirty-bitmap.c
++++ b/migration/block-dirty-bitmap.c
+@@ -762,7 +762,7 @@ static int dirty_bitmap_save_complete(QEMUFile *f, void *opaque)
+     return 0;
+ }
+ 
+-static void dirty_bitmap_save_pending(QEMUFile *f, void *opaque,
++static void dirty_bitmap_save_pending(void *opaque,
+                                       uint64_t max_size,
+                                       uint64_t *res_precopy_only,
+                                       uint64_t *res_compatible,
+diff --git a/migration/block.c b/migration/block.c
+index 5da15a62de..47852b8d58 100644
+--- a/migration/block.c
++++ b/migration/block.c
+@@ -863,7 +863,7 @@ static int block_save_complete(QEMUFile *f, void *opaque)
+     return 0;
+ }
+ 
+-static void block_save_pending(QEMUFile *f, void *opaque, uint64_t max_size,
++static void block_save_pending(void *opaque, uint64_t max_size,
+                                uint64_t *res_precopy_only,
+                                uint64_t *res_compatible,
+                                uint64_t *res_postcopy_only)
+diff --git a/migration/migration.c b/migration/migration.c
+index 56859d5869..5e2c891845 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3781,7 +3781,7 @@ static MigIterateState migration_iteration_run(MigrationState *s)
+     uint64_t pending_size, pend_pre, pend_compat, pend_post;
+     bool in_postcopy = s->state == MIGRATION_STATUS_POSTCOPY_ACTIVE;
+ 
+-    qemu_savevm_state_pending(s->to_dst_file, s->threshold_size, &pend_pre,
++    qemu_savevm_state_pending(s->threshold_size, &pend_pre,
+                               &pend_compat, &pend_post);
+     pending_size = pend_pre + pend_compat + pend_post;
+ 
+diff --git a/migration/ram.c b/migration/ram.c
+index 68a45338e3..389739f162 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -3409,7 +3409,7 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
+     return 0;
+ }
+ 
+-static void ram_save_pending(QEMUFile *f, void *opaque, uint64_t max_size,
++static void ram_save_pending(void *opaque, uint64_t max_size,
+                              uint64_t *res_precopy_only,
+                              uint64_t *res_compatible,
+                              uint64_t *res_postcopy_only)
+diff --git a/migration/savevm.c b/migration/savevm.c
+index a783789430..5e4bccb966 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1472,7 +1472,7 @@ flush:
+  * the result is split into the amount for units that can and
+  * for units that can't do postcopy.
+  */
+-void qemu_savevm_state_pending(QEMUFile *f, uint64_t threshold_size,
++void qemu_savevm_state_pending(uint64_t threshold_size,
+                                uint64_t *res_precopy_only,
+                                uint64_t *res_compatible,
+                                uint64_t *res_postcopy_only)
+@@ -1493,7 +1493,7 @@ void qemu_savevm_state_pending(QEMUFile *f, uint64_t threshold_size,
+                 continue;
+             }
+         }
+-        se->ops->save_live_pending(f, se->opaque, threshold_size,
++        se->ops->save_live_pending(se->opaque, threshold_size,
+                                    res_precopy_only, res_compatible,
+                                    res_postcopy_only);
+     }
 -- 
 2.39.1
 
