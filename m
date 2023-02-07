@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2350568E1C2
+	by mail.lfdr.de (Postfix) with ESMTPS id AD84268E1C3
 	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 21:16:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPUNR-0007M7-W3; Tue, 07 Feb 2023 15:15:42 -0500
+	id 1pPUN5-0006u4-UC; Tue, 07 Feb 2023 15:15:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPUMy-0006sN-EA
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPUMr-0006qS-Dn
  for qemu-devel@nongnu.org; Tue, 07 Feb 2023 15:15:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPUMq-0007PE-2I
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 15:15:06 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPUMp-0007P9-Kn
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 15:15:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675800903;
+ s=mimecast20190719; t=1675800902;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RT+calkQzOfc76YQqxKcCGbpujDbUe5qLV+fxpDYTmA=;
- b=XvbObIegXByAFBAP88/tXN750SmemEmqAObacFtQyYL+N2guaqTh/UjleU1+NQ1AZ9LCIS
- LYD7k6GE8UFtKA2J3GuC2mdfz7sSi8KrqYSYMc8NctHo0I662lC85RKM4FY12NLIJhP2YF
- Sv4FlMu6Ksh52zIgSnDrC03Q8lTqik0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4J3MiOnnGyo/Ghsqm0B27kNfTdgnxT2iDxhmVbuZH2s=;
+ b=gB0F2yF3mWLWwrxsMmmMKXQvyceWUMGdhxFGN/CyOzlq7HyXnPAPXGQcDZiZq8lL4SMrPh
+ +VmvuUhWEV3pQHsj1klqq+O2I1x1Pbn9ZmJzYLQyQ/UVj28l99rSV5c90q85q9q+Pg9vLT
+ JYY5oxflJocasu5mo43rIUOZbA+TOS4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-65-6Za7J0wSMy-bySpYAbrSFw-1; Tue, 07 Feb 2023 15:14:59 -0500
-X-MC-Unique: 6Za7J0wSMy-bySpYAbrSFw-1
+ us-mta-644-AyzzjOJ8MiWNZPzpFEJv_A-1; Tue, 07 Feb 2023 15:15:00 -0500
+X-MC-Unique: AyzzjOJ8MiWNZPzpFEJv_A-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 33705857D07;
- Tue,  7 Feb 2023 20:14:58 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EF12529A9CAC;
+ Tue,  7 Feb 2023 20:14:59 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 07E88492B21;
- Tue,  7 Feb 2023 20:14:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 73A30492B21;
+ Tue,  7 Feb 2023 20:14:58 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -49,17 +49,16 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Fabiano Rosas <farosas@suse.de>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v2 1/5] build: deprecate --enable-gprof builds and remove from
- CI
-Date: Tue,  7 Feb 2023 21:14:43 +0100
-Message-Id: <20230207201447.566661-2-thuth@redhat.com>
+Subject: [PATCH v2 2/5] gitlab-ci.d/buildtest: Remove aarch64-softmmu from the
+ build-system-ubuntu job
+Date: Tue,  7 Feb 2023 21:14:44 +0100
+Message-Id: <20230207201447.566661-3-thuth@redhat.com>
 In-Reply-To: <20230207201447.566661-1-thuth@redhat.com>
 References: <20230207201447.566661-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -83,118 +82,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Alex Bennée <alex.bennee@linaro.org>
+aarch64-softmmu is also checked on the same version of Ubuntu in the
+gcov job, so it is redundant to check again in the normal ubuntu job.
 
-As gprof relies on instrumentation you rarely get useful data compared
-to a real optimised build. Lets deprecate the build option and
-simplify the CI configuration as a result.
-
-Buglink: https://gitlab.com/qemu-project/qemu/-/issues/1338
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20230131094224.861621-1-alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- docs/about/deprecated.rst  | 14 ++++++++++++++
- meson.build                |  7 ++++++-
- .gitlab-ci.d/buildtest.yml | 19 ++++---------------
- meson_options.txt          |  3 ++-
- 4 files changed, 26 insertions(+), 17 deletions(-)
+ .gitlab-ci.d/buildtest.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index da2e6fe63d..9317046177 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -20,6 +20,20 @@ they were first deprecated in the 2.10.0 release.
- What follows is a list of all features currently marked as
- deprecated.
- 
-+Build options
-+-------------
-+
-+``gprof`` builds (since 8.0)
-+''''''''''''''''''''''''''''
-+
-+The ``--enable-gprof`` configure setting relies on compiler
-+instrumentation to gather its data which can distort the generated
-+profile. As other non-instrumenting tools are available that give a
-+more holistic view of the system with non-instrumented binaries we are
-+deprecating the build option and no longer defend it in CI. The
-+``--enable-gcov`` build option remains for analysis test case
-+coverage.
-+
- System emulator command line arguments
- --------------------------------------
- 
-diff --git a/meson.build b/meson.build
-index 4ba3bf3431..bc60bf3c4c 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3784,7 +3784,12 @@ summary_info += {'mutex debugging':   get_option('debug_mutex')}
- summary_info += {'memory allocator':  get_option('malloc')}
- summary_info += {'avx2 optimization': config_host_data.get('CONFIG_AVX2_OPT')}
- summary_info += {'avx512f optimization': config_host_data.get('CONFIG_AVX512F_OPT')}
--summary_info += {'gprof enabled':     get_option('gprof')}
-+if get_option('gprof')
-+  gprof_info = 'YES (deprecated)'
-+else
-+  gprof_info = get_option('gprof')
-+endif
-+summary_info += {'gprof':             gprof_info}
- summary_info += {'gcov':              get_option('b_coverage')}
- summary_info += {'thread sanitizer':  config_host.has_key('CONFIG_TSAN')}
- summary_info += {'CFI support':       get_option('cfi')}
 diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index 0aa149a352..8f332fc36f 100644
+index 8f332fc36f..8fff961b44 100644
 --- a/.gitlab-ci.d/buildtest.yml
 +++ b/.gitlab-ci.d/buildtest.yml
-@@ -467,27 +467,16 @@ tsan-build:
-     TARGETS: x86_64-softmmu ppc64-softmmu riscv64-softmmu x86_64-linux-user
-     MAKE_CHECK_ARGS: bench V=1
- 
--# gprof/gcov are GCC features
--build-gprof-gcov:
-+# gcov is a GCC features
-+gcov:
-   extends: .native_build_job_template
-   needs:
-     job: amd64-ubuntu2004-container
-+  timeout: 80m
+@@ -42,7 +42,7 @@ build-system-ubuntu:
    variables:
      IMAGE: ubuntu2004
--    CONFIGURE_ARGS: --enable-gprof --enable-gcov
-+    CONFIGURE_ARGS: --enable-gcov
-     TARGETS: aarch64-softmmu ppc64-softmmu s390x-softmmu x86_64-softmmu
--  artifacts:
--    expire_in: 1 days
--    paths:
--      - build
--
--check-gprof-gcov:
--  extends: .native_test_job_template
--  needs:
--    - job: build-gprof-gcov
--      artifacts: true
--  variables:
--    IMAGE: ubuntu2004
-     MAKE_CHECK_ARGS: check
-   after_script:
-     - cd build
-diff --git a/meson_options.txt b/meson_options.txt
-index 559a571b6b..53459c15fc 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -316,7 +316,8 @@ option('debug_stack_usage', type: 'boolean', value: false,
- option('qom_cast_debug', type: 'boolean', value: false,
-        description: 'cast debugging support')
- option('gprof', type: 'boolean', value: false,
--       description: 'QEMU profiling with gprof')
-+       description: 'QEMU profiling with gprof',
-+       deprecated: true)
- option('profiler', type: 'boolean', value: false,
-        description: 'profiler support')
- option('slirp_smbd', type : 'feature', value : 'auto',
+     CONFIGURE_ARGS: --enable-docs --enable-fdt=system --enable-capstone
+-    TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
++    TARGETS: alpha-softmmu cris-softmmu hppa-softmmu
+       microblazeel-softmmu mips64el-softmmu
+     MAKE_CHECK_ARGS: check-build
+   artifacts:
 -- 
 2.31.1
 
