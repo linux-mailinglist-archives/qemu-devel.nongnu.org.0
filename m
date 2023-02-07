@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292E168E1CE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 21:24:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97CBC68E1E2
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 21:30:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPUUr-0002zh-Jj; Tue, 07 Feb 2023 15:23:21 -0500
+	id 1pPUaV-0005mK-HO; Tue, 07 Feb 2023 15:29:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pPUUp-0002zN-CQ
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 15:23:19 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pPUaS-0005iw-KN
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 15:29:08 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pPUUo-0000sM-1S
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 15:23:19 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pPUaQ-0002IB-Le
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 15:29:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675801396;
+ s=mimecast20190719; t=1675801745;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=6db5YoXwSRl5OSAfT1V1jFFCbYlVwIqx1+V2VS3cEjI=;
- b=SLLdQRp4nO4mfCyDhKQnUm5ukve8AA0hVCkLLiL/PafG/LHgmy2rKygV1AEXby4xW9NkOv
- nsH4EUizSep+Wy+C5I2Vf2csj3gSlEZbnkjikXN29RT/cgWl4mpQcwlNX/Ynwd+ZWmOQHm
- dEIn8qAbz9guo71g+67lk9HyWle0gL0=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=egWwlawFq60BjEIe83kCE72VD87SGzTDvNqDQftr6+c=;
+ b=HoutGGS4OyZdSSKvVQIwK4SeLCdOWevKIq4uqFyovTwiw+NIRZeVXow8qhgwKam/2UtE4h
+ 16jM6pAaT3N0HFx5QPn5IAbnwtRg40D7qwbAYeYYySvgP8EFd2Fpjk9KBairlZx8xaUQJu
+ ohKz/uygyNQKymrFyFI2gUUdIxK1Pss=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-668-TQp0HUhHMIOE4PqfDcaymQ-1; Tue, 07 Feb 2023 15:23:15 -0500
-X-MC-Unique: TQp0HUhHMIOE4PqfDcaymQ-1
-Received: by mail-qv1-f70.google.com with SMTP id
- c10-20020a05621401ea00b004c72d0e92bcso8275634qvu.12
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 12:23:14 -0800 (PST)
+ us-mta-164-gBoGVOJxMpWWsTOKeAs3iw-1; Tue, 07 Feb 2023 15:29:03 -0500
+X-MC-Unique: gBoGVOJxMpWWsTOKeAs3iw-1
+Received: by mail-pl1-f199.google.com with SMTP id
+ t11-20020a1709028c8b00b00199404808b9so99077plo.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 12:29:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6db5YoXwSRl5OSAfT1V1jFFCbYlVwIqx1+V2VS3cEjI=;
- b=SNcDvYay5x/GoR2krf0XlXSdTaqeUoq/VNzjHpgtHc3ktNQzPSLq/LmHOSNarxqCCR
- W9P+gkLpW3ZSR6si5hdOhQEC1IJ3kzw1umu/Ofp0lANldsxvSoICLgnfDVS6icAh+Qzh
- v4TJPacK9BnB343v5TFykNMj8yDpn5wYtoGpRyChHa/tmE+Q5ECIuY4j1m6OGzTSI4Ti
- ry4yfjNbYDEz9DYuSVCXIa2ZhTcW6ImwyvrFII5zQaLXkQTdYXMlgitBhTAUEpjqHidt
- XdH0Fac0XAZOtLEE0Agca2G80gO6qDO8V8zX72oqgn1+FnOobYEWR0khTerKYD0iNTAH
- ZXOQ==
-X-Gm-Message-State: AO0yUKUn/6AV4AUnGJ/HYw7jCYeEGPg/AT32zeqfGrDEmQ6/lmtsYxTb
- B6Sr9ove7KKDkuxFdoHxWzejxIVr+qP93VK2uv6s6x9q8xQLIuJ0xX+QqkUVK9LQg2CtFXadtHy
- PyvH1G/j+DW4XjfU=
-X-Received: by 2002:ac8:4e51:0:b0:3b8:36f8:830e with SMTP id
- e17-20020ac84e51000000b003b836f8830emr8654078qtw.6.1675801394455; 
- Tue, 07 Feb 2023 12:23:14 -0800 (PST)
-X-Google-Smtp-Source: AK7set9SuAMD8lD+Yr4OsFYLNoaDk2/zNHE67bJ6Nn3ures3zDyNQwmhgvmaJVtRuUrGVEemxqoD0Q==
-X-Received: by 2002:ac8:4e51:0:b0:3b8:36f8:830e with SMTP id
- e17-20020ac84e51000000b003b836f8830emr8654048qtw.6.1675801394146; 
- Tue, 07 Feb 2023 12:23:14 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- x14-20020ac8018e000000b003ba19e53e43sm7066708qtf.25.2023.02.07.12.23.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Feb 2023 12:23:13 -0800 (PST)
-Date: Tue, 7 Feb 2023 15:23:12 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Steve Sistare <steven.sistare@oracle.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
- David Hildenbrand <david@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH V2] memory: RAM_NAMED_FILE flag
-Message-ID: <Y+KzMDdc+F9zHMh2@x1n>
-References: <1675796613-235716-1-git-send-email-steven.sistare@oracle.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=egWwlawFq60BjEIe83kCE72VD87SGzTDvNqDQftr6+c=;
+ b=p8fVJx12wzYBF9aEvMm3XdvGX/UpGkJu9ubkxyvNNvkhgA3g73DFV2khHyqsHitfJK
+ p5w8rwBWRa52D++lGh5RLFizQugfRljtHATFuvy6DY8lvMndsygbdkq5dracLfcRBf2T
+ acCnhzGQzS0FxEf4BE81HHKf37L74G0ams/DsS/ivXJBSxhErX6+4MHfqQOPzShZ0Gak
+ gOy7LqzDYs5jCeqF4PVI072n3kGmR9U2hMeznqWPhKA8FdcdalzugW9+XgAijDtM1uC0
+ LqqUZDlNyWwhsoqHp/IiP9WiN77UxlnUbDMu1NkH3e0mt2Sk2Qstg7Aob0wpsSZwEL8w
+ arqA==
+X-Gm-Message-State: AO0yUKXR9u4h4h5d1yS+A6tCVqvtfcpRhq9coXEkttvijyo8oHCXtcGd
+ ChAcXffjLLWtlJ7x7nLCPNhKDuXprH9UkHwgV8ojMUrE6/kGhNyETBqoluSO1pqcPoJXvuE+SCX
+ S9iA7UM0Dc3aPCYAITjAWwW3O4ww07W0=
+X-Received: by 2002:a05:6a00:2495:b0:5a8:16b7:c9d7 with SMTP id
+ c21-20020a056a00249500b005a816b7c9d7mr368517pfv.31.1675801742321; 
+ Tue, 07 Feb 2023 12:29:02 -0800 (PST)
+X-Google-Smtp-Source: AK7set97qNCml+IbbXPaSeO6MU9+LygET9xAiDeMDsTtOheDgLK+fUTet0tD1ohL5VRomeKREvF0aTGNbWpzwvHqDvo=
+X-Received: by 2002:a05:6a00:2495:b0:5a8:16b7:c9d7 with SMTP id
+ c21-20020a056a00249500b005a816b7c9d7mr368509pfv.31.1675801741984; Tue, 07 Feb
+ 2023 12:29:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1675796613-235716-1-git-send-email-steven.sistare@oracle.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+References: <1675796605-235646-1-git-send-email-steven.sistare@oracle.com>
+In-Reply-To: <1675796605-235646-1-git-send-email-steven.sistare@oracle.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 7 Feb 2023 15:28:50 -0500
+Message-ID: <CAFn=p-ZCA42VAMEkg8xQeTQBTMqn1AA7RjptkWD72uwBX+iKPA@mail.gmail.com>
+Subject: Re: [PATCH V2] python/machine: QEMUMachine reopen_qmp_connection
+To: Steve Sistare <steven.sistare@oracle.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -99,38 +89,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 07, 2023 at 11:03:33AM -0800, Steve Sistare wrote:
-> migrate_ignore_shared() is an optimization that avoids copying memory
-> that is visible and can be mapped on the target.  However, a
-> memory-backend-ram or a memory-backend-memfd block with the RAM_SHARED
-> flag set is not migrated when migrate_ignore_shared() is true.  This is
-> wrong, because the block has no named backing store, and its contents will
-> be lost.  To fix, ignore shared memory iff it is a named file.  Define a
-> new flag RAM_NAMED_FILE to distinguish this case.
+On Tue, Feb 7, 2023 at 2:03 PM Steve Sistare <steven.sistare@oracle.com> wrote:
+>
+> Provide reopen_qmp_connection() to reopen a closed monitor connection.
+> This will be needed by cpr, because qemu exec closes the monitor socket.
+>
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+> Reviewed-by: John Snow <jsnow@redhat.com>
+> ---
+>  python/qemu/machine/machine.py | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>
+> diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
+> index ef94dcf..557209a 100644
+> --- a/python/qemu/machine/machine.py
+> +++ b/python/qemu/machine/machine.py
+> @@ -501,6 +501,16 @@ def _close_qmp_connection(self) -> None:
+>          finally:
+>              self._qmp_connection = None
+>
+> +    def reopen_qmp_connection(self) -> None:
+> +        """Close and re-open the QMP connection."""
+> +        self._close_qmp_connection()
+> +        self._qmp_connection = QEMUMonitorProtocol(
+> +            self._monitor_address,
+> +            server=True,
+> +            nickname=self._name
+> +        )
+> +        self._qmp.accept(self._qmp_timer)
+> +
+>      def _early_cleanup(self) -> None:
+>          """
+>          Perform any cleanup that needs to happen before the VM exits.
+> --
+> 1.8.3.1
+>
 
-There's also TYPE_MEMORY_BACKEND_EPC.  Reading the commit message it seems
-it can still be used in similar ways.  Pasting commit message from c6c0232:
+This code is still mechanically fine as far as I can tell, but I lost
+the plot on why it's needed - Can you please elaborate for me on what
+you mean by "qemu exec will close the socket"?
 
-    Because of its unique requirements, Linux manages EPC separately from
-    normal memory.  Similar to memfd, the device /dev/sgx_vepc can be
-    opened to obtain a file descriptor which can in turn be used to mmap()
-    EPC memory.
+(R-B still stands, but since I am rewriting machine.py to be natively
+async, I should be aware of your new use case.)
 
-I'm not sure whether it means that should apply for RAM_NAMED_FILE too,
-neither do I think it's super important..  Still better to define it
-properly.
-
-Another comment is, AFAIK this patch will modify senamtics of the old
-capability "x-ignore-shared".  But I'd say in a sensible way.  Maybe worth
-directly modify qapi/migration.json to reflect it (especially it's x-
-prefixed) to something like:
-
-# @x-ignore-shared: If enabled, QEMU will not migrate named shared memory
-#                   (since 4.0) 
-
-Thanks,
-
--- 
-Peter Xu
+--js
 
 
