@@ -2,85 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207CB68DD08
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 16:30:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B49A568DD24
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 16:36:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPPuA-00070W-Ah; Tue, 07 Feb 2023 10:29:12 -0500
+	id 1pPQ0F-000113-7n; Tue, 07 Feb 2023 10:35:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPPu6-0006yi-FJ
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:29:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1pPQ05-0000ud-AI
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:35:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPPu5-00036E-1m
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:29:06 -0500
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1pPQ03-0004nn-1X
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:35:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675783744;
+ s=mimecast20190719; t=1675784111;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uKSc/8jFH0gXoMTCJMH5R6e3VIFiikeQr44IgDAeKQw=;
- b=XPz6XCpM9aXDE0TL/RYC2jE1Zn9gysep6k1S48HRSQlgaQy8sIycpT35vr1CTx6nry3vDi
- OOGdlbMTwcutfpPzz+IaSHAIDYseQAjrCoY72Qsgje5fDe9hVQEdwCYL+SaJ1YWLzIlnjZ
- bMrIgIfobz2udAJkl6GR6J4G3i8f6JY=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oVZEq3XaEPB8JjgV4QcYiyPBtrXnBeZO2zzNCczpvTY=;
+ b=RCIV/kx4WkW79hpMgb9beCohs6ZC++8vdBWem8b9g2fPMzscymT0Bj5I0ZXIGPxsJUmaBq
+ bCK+cK2D68p+nHpTKAFmkjBjGE4BEKBkiy1Prfnatw9BsLAApq5RTtRB3VDe1gElSdkCbm
+ VIArso7CrhnLEMsykDO/ZV2uiSAAaWE=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-622-xLCa-K1tOImOvWu0EvkdeQ-1; Tue, 07 Feb 2023 10:28:34 -0500
-X-MC-Unique: xLCa-K1tOImOvWu0EvkdeQ-1
-Received: by mail-qt1-f199.google.com with SMTP id
- c16-20020ac85190000000b003b841d1118aso8768271qtn.17
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 07:28:34 -0800 (PST)
+ us-mta-3-kOkG_00FOt6jFga1Q3qnXg-1; Tue, 07 Feb 2023 10:35:09 -0500
+X-MC-Unique: kOkG_00FOt6jFga1Q3qnXg-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ c14-20020ac87d8e000000b003ba2d72f98aso2830465qtd.10
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 07:35:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uKSc/8jFH0gXoMTCJMH5R6e3VIFiikeQr44IgDAeKQw=;
- b=oAf2vZ9kn2Xfd65MWOP+A08zTXiWqqJTjxitDXcbW0reIGll6bru39Z2m4D6Pfuucm
- gSXdQDUCRHJUaLdMIIJc23oXL+HcXAWB9y7YHgxf6h56vL4gV8E9m3CRTj6iqoc0s8y+
- +M+BadP0hUoyse5TicwK+9tIWwB4ltN90unGWK+5sH2+dnBK0a3bpOibHnFL2VCsTdQt
- v0KzZv9ZFFpG0Kvo44SYfQxnxRYfQbj6rKOX+H8KI2EjSqKOBo5puZXTWVl5r4ZXradJ
- 0qkT81YqPp+WV6GcHwjrN/7ce0zKt6xUTaf/VEoYNDqQ7V7sIaUwrrwMzdpgCXMHr+ac
- mp0A==
-X-Gm-Message-State: AO0yUKVBZ1+15AqA1WJLr89I3iHqiaKXSgyKCQelfFxvoLJPmI3Pqj5f
- 5VxpeBOs1WnM3ZieokHRXd/j8PdwQ3un2DWTsUMm/EX/4A2c/7/0JmbuCRjmP+cu4ocTdJobLrz
- SQPW2khYXpZ0y9Ac=
-X-Received: by 2002:ac8:5b10:0:b0:3b9:b2c3:9d2e with SMTP id
- m16-20020ac85b10000000b003b9b2c39d2emr6633106qtw.10.1675783714263; 
- Tue, 07 Feb 2023 07:28:34 -0800 (PST)
-X-Google-Smtp-Source: AK7set8PrpAbmaD2ax+rBXhyze3NX8v5etDQ6ce64r3iJ6PY/uNRNr9ecnIpZVQNvimtz5FBlxvypw==
-X-Received: by 2002:ac8:5b10:0:b0:3b9:b2c3:9d2e with SMTP id
- m16-20020ac85b10000000b003b9b2c39d2emr6633085qtw.10.1675783714053; 
- Tue, 07 Feb 2023 07:28:34 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-120.web.vodafone.de.
- [109.43.176.120]) by smtp.gmail.com with ESMTPSA id
- q1-20020ac84101000000b003b86d9a3700sm9541856qtl.78.2023.02.07.07.28.31
+ bh=oVZEq3XaEPB8JjgV4QcYiyPBtrXnBeZO2zzNCczpvTY=;
+ b=RIEkitIgGlckpxd5jLmM82ur3/dk843CHfezePeTdm3XJD14SQxFV7t0q1598IRD8F
+ DBLCyTgF0X0h+V8IDILNaER1tCYugClORWDg3W4rysR7Ed65DmyWEFTriV8hJA+kq9mi
+ MLrewWvxjDEvSSNKXTiDc4Qnymm5OT221fWZZ1EfVZNtFkiKTbYi8uM7FeZJWrW0M/O5
+ e0lHIzLSuwelM7vzJ9z0SJxoxezPEUKnxVcjoahmDcmziCXD58jDT0ALHHVTHrDU2M25
+ X64iR9Fy7RN2XuZXXI/s7MweWtmX0Iu/jnQGAFYjqoivfqfqt79KfLkeNRx45XqFA46V
+ wupQ==
+X-Gm-Message-State: AO0yUKU7A39zvuJeBPm61mgo21k0hRkYffrsli2AQ0FesTjbR07rM6n4
+ fGQdwCWpinNu8uMb1O55lBjA2A5EtM1WYajSObThj6mKNLpVlYntYzLGh4vdIwgeAGmX6Q41/iT
+ EjS9jwUAAdDxZe1U=
+X-Received: by 2002:a05:622a:164e:b0:3b9:b6e8:8670 with SMTP id
+ y14-20020a05622a164e00b003b9b6e88670mr6741562qtj.51.1675784108577; 
+ Tue, 07 Feb 2023 07:35:08 -0800 (PST)
+X-Google-Smtp-Source: AK7set8q+i3kHOcVqF9guHCtou59zI/CZrwAjQYrG7mOMT6gNgETxQNAFLvtfRCywG9PAQjtVgJ9UQ==
+X-Received: by 2002:a05:622a:164e:b0:3b9:b6e8:8670 with SMTP id
+ y14-20020a05622a164e00b003b9b6e88670mr6741534qtj.51.1675784108357; 
+ Tue, 07 Feb 2023 07:35:08 -0800 (PST)
+Received: from [192.168.100.30] ([82.142.8.70])
+ by smtp.gmail.com with ESMTPSA id
+ c77-20020ae9ed50000000b00720ae160601sm9634058qkg.22.2023.02.07.07.35.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Feb 2023 07:28:33 -0800 (PST)
-Message-ID: <e62be3f0-019e-d723-5df1-fc0d88b33ae4@redhat.com>
-Date: Tue, 7 Feb 2023 16:28:30 +0100
+ Tue, 07 Feb 2023 07:35:07 -0800 (PST)
+Message-ID: <79b5fb1f-f377-0fb1-0abf-8454e1f2cd91@redhat.com>
+Date: Tue, 7 Feb 2023 16:35:05 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 02/10] hw/i386: Select E1000E for q35
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 04/12] tests/qtest: Skip virtio-serial-console tests if
+ device not present
 Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>
-References: <20230206140809.26028-1-farosas@suse.de>
- <20230206140809.26028-3-farosas@suse.de>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230206140809.26028-3-farosas@suse.de>
+To: Thomas Huth <thuth@redhat.com>, Fabiano Rosas <farosas@suse.de>,
+ qemu-devel@nongnu.org
+Cc: Amit Shah <amit@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>
+References: <20230206150416.4604-1-farosas@suse.de>
+ <20230206150416.4604-5-farosas@suse.de>
+ <3b2e6eb7-2f0a-7663-b454-bce49d92f36f@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <3b2e6eb7-2f0a-7663-b454-bce49d92f36f@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -88,7 +90,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,33 +106,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 06/02/2023 15.08, Fabiano Rosas wrote:
-> The e1000e network adapter is the default network card for the q35
-> machine. Make sure that CONFIG is always selected for that machine.
+On 2/7/23 14:25, Thomas Huth wrote:
+> On 06/02/2023 16.04, Fabiano Rosas wrote:
+>> The virtconsole device might not be present in the QEMU build that is
+>> being tested. Skip the test if that's the case.
+>>
+>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+>> ---
+>>   tests/qtest/virtio-serial-test.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/tests/qtest/virtio-serial-test.c b/tests/qtest/virtio-serial-test.c
+>> index 2541034822..f4e05e8fdd 100644
+>> --- a/tests/qtest/virtio-serial-test.c
+>> +++ b/tests/qtest/virtio-serial-test.c
+>> @@ -28,6 +28,10 @@ static void register_virtio_serial_test(void)
+>>   {
+>>       QOSGraphTestOptions opts = { };
+>> +    if (!qtest_has_device("virtconsole")) {
+>> +        return;
+>> +    }
+>> +
+>>       opts.edge.before_cmd_line = "-device virtconsole,bus=vser0.0";
+>>       qos_add_test("console-nop", "virtio-serial", virtio_serial_nop, &opts);
 > 
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
-> ---
->   hw/i386/Kconfig | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> virtio-serial-test.c is a qos test - and this should detect automatically already whether 
+> a device is available and pluggable or not, I think.
 > 
-> diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-> index 1bf47b0b0b..527b95df81 100644
-> --- a/hw/i386/Kconfig
-> +++ b/hw/i386/Kconfig
-> @@ -93,7 +93,6 @@ config Q35
->       bool
->       imply VTD
->       imply AMD_IOMMU
-> -    imply E1000E_PCI_EXPRESS
->       imply VMPORT
->       imply VMMOUSE
->       select PC_PCI
-> @@ -104,6 +103,7 @@ config Q35
->       select DIMM
->       select SMBIOS
->       select FW_CFG_DMA
-> +    select E1000E_PCI_EXPRESS
+> There must be something else wrong here ... Laurent, Paolo, any ideas?
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+I think the checking of the device should be added where the device is added to the qos 
+tree, in libqos/virtio-serial.c
+
+If you don't add the device then the test is not started.
+
+If I remember correctly, there was no autodetection of the devices, all are added statically.
+
+Thanks,
+Laurent
 
 
