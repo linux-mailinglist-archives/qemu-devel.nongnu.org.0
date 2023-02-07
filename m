@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7B9368CFD7
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 07:53:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A9C68CFB8
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 07:47:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPHjr-0007CV-76; Tue, 07 Feb 2023 01:45:59 -0500
+	id 1pPHjX-00077A-Ci; Tue, 07 Feb 2023 01:45:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPHjR-000766-6b
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 01:45:33 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPHjP-00075E-JF
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 01:45:31 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPHjP-0003zm-CM
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 01:45:32 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPHjN-0003z3-5m
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 01:45:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675752330;
+ s=mimecast20190719; t=1675752328;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WOCqh0Ouf9lk7FdEGkKrbLzSKUzB7kmriObL8PDTGjQ=;
- b=TUBBU449B+zOXyk7zcUl2t4IiusJa+qAW6ctUnMpk9Gkn9EDl8iP2AFgwaG7zsHkJCfx3U
- sACnlHTaSSWC9TFvHhYSAXTTcQRZyfFLAg0jNFsBaTsFzT+4e7WM8xr0k09BWm8uWckma6
- 8Zy2mpuo2x2olPPoI7ylNIHvAIN3yas=
+ bh=XAFLlF366IRpOgTTPxU8jSKPAlBQ8uZkSp1iE3vAEa4=;
+ b=S0qf/qO0GNjf2C5XVIgFbxWpv+T1SnDCYfWOfeuCTJLifj5zdd4CKEQlLyaSO/sVUj117M
+ YG9RDe7QRKkCvt34PTmPPWaXooeQYIroDSbgzLTYmZ8p+4qOsci22hG85vweNFqZ52EGDe
+ /kn0kpyIwXULcLAABJOTijQ3UF57jQI=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-74-ZenzJsX5MCKathV29n6Z5g-1; Tue, 07 Feb 2023 01:45:27 -0500
-X-MC-Unique: ZenzJsX5MCKathV29n6Z5g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-78-mp2j6YVhOUuoIWmwdPslzg-1; Tue, 07 Feb 2023 01:45:27 -0500
+X-MC-Unique: mp2j6YVhOUuoIWmwdPslzg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AC82B29AB3F3;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ABDD638012E7;
  Tue,  7 Feb 2023 06:45:26 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 89559C15BAD;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A29B492B22;
  Tue,  7 Feb 2023 06:45:26 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 019C621E6900; Tue,  7 Feb 2023 07:45:24 +0100 (CET)
+ id 0419A21E6901; Tue,  7 Feb 2023 07:45:24 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+Cc: peter.maydell@linaro.org, Konstantin Kostiuk <kkostiuk@redhat.com>,
  "Michael S . Tsirkin" <mst@redhat.com>
-Subject: [PULL 09/20] hw/tricore: Clean up includes
-Date: Tue,  7 Feb 2023 07:45:12 +0100
-Message-Id: <20230207064523.3968603-10-armbru@redhat.com>
+Subject: [PULL 10/20] qga: Clean up includes
+Date: Tue,  7 Feb 2023 07:45:13 +0100
+Message-Id: <20230207064523.3968603-11-armbru@redhat.com>
 In-Reply-To: <20230207064523.3968603-1-armbru@redhat.com>
 References: <20230207064523.3968603-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -92,25 +91,55 @@ related cleanups:
   Drop these, too.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20230202133830.2152150-10-armbru@redhat.com>
+Message-Id: <20230202133830.2152150-11-armbru@redhat.com>
 ---
- include/hw/tricore/triboard.h | 1 -
- 1 file changed, 1 deletion(-)
+ qga/cutils.h         | 2 --
+ qga/commands-posix.c | 1 -
+ qga/cutils.c         | 3 ++-
+ 3 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/tricore/triboard.h b/include/hw/tricore/triboard.h
-index 094c8bd563..4fdd2d7d97 100644
---- a/include/hw/tricore/triboard.h
-+++ b/include/hw/tricore/triboard.h
-@@ -18,7 +18,6 @@
-  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-  */
+diff --git a/qga/cutils.h b/qga/cutils.h
+index f0f30a7d28..c1f2f4b17a 100644
+--- a/qga/cutils.h
++++ b/qga/cutils.h
+@@ -1,8 +1,6 @@
+ #ifndef CUTILS_H_
+ #define CUTILS_H_
  
 -#include "qemu/osdep.h"
+-
+ int qga_open_cloexec(const char *name, int flags, mode_t mode);
+ 
+ #endif /* CUTILS_H_ */
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index ebd33a643c..079689d79a 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -51,7 +51,6 @@
+ #else
+ #include <net/ethernet.h>
+ #endif
+-#include <sys/types.h>
+ #ifdef CONFIG_SOLARIS
+ #include <sys/sockio.h>
+ #endif
+diff --git a/qga/cutils.c b/qga/cutils.c
+index b8e142ef64..b21bcf3683 100644
+--- a/qga/cutils.c
++++ b/qga/cutils.c
+@@ -2,8 +2,9 @@
+  * This work is licensed under the terms of the GNU GPL, version 2 or later.
+  * See the COPYING file in the top-level directory.
+  */
+-#include "cutils.h"
+ 
++#include "qemu/osdep.h"
++#include "cutils.h"
  #include "qapi/error.h"
- #include "hw/boards.h"
- #include "sysemu/sysemu.h"
+ 
+ /**
 -- 
 2.39.0
 
