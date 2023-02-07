@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F6368D3AE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 11:09:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EE1D68D3B2
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 11:10:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPKtx-0000S6-Uc; Tue, 07 Feb 2023 05:08:39 -0500
+	id 1pPKuC-0000hD-Fp; Tue, 07 Feb 2023 05:08:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=a43c=6D=kaod.org=clg@ozlabs.org>)
- id 1pPKtV-0000PL-26; Tue, 07 Feb 2023 05:08:09 -0500
+ id 1pPKtY-0000Q8-93; Tue, 07 Feb 2023 05:08:12 -0500
 Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=a43c=6D=kaod.org=clg@ozlabs.org>)
- id 1pPKtR-0002Mp-Bb; Tue, 07 Feb 2023 05:08:07 -0500
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4P9zN24BkZz4y02;
- Tue,  7 Feb 2023 21:08:02 +1100 (AEDT)
+ id 1pPKtV-0002Nc-Pv; Tue, 07 Feb 2023 05:08:12 -0500
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4P9zN465qfz4y03;
+ Tue,  7 Feb 2023 21:08:04 +1100 (AEDT)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4P9zN01W77z4xyf;
- Tue,  7 Feb 2023 21:07:59 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4P9zN30f6Mz4xyy;
+ Tue,  7 Feb 2023 21:08:02 +1100 (AEDT)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stephen Longfield <slongfield@google.com>, Hao Wu <wuhaotsh@google.com>,
- Joel Stanley <joel@jms.id.au>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 04/25] hw/net: Fix read of uninitialized memory in ftgmac100
-Date: Tue,  7 Feb 2023 11:07:23 +0100
-Message-Id: <20230207100744.698694-5-clg@kaod.org>
+Subject: [PULL 05/25] avocado/boot_linux_console.py: Update ast2600 test
+Date: Tue,  7 Feb 2023 11:07:24 +0100
+Message-Id: <20230207100744.698694-6-clg@kaod.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230207100744.698694-1-clg@kaod.org>
 References: <20230207100744.698694-1-clg@kaod.org>
@@ -65,43 +64,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Stephen Longfield <slongfield@google.com>
+From: Joel Stanley <joel@jms.id.au>
 
-With the `size += 4` before the call to `crc32`, the CRC calculation
-would overrun the buffer. Size is used in the while loop starting on
-line 1009 to determine how much data to write back, with the last
-four bytes coming from `crc_ptr`, so do need to increase it, but should
-do this after the computation.
+Update the test_arm_ast2600_debian test to
 
-I'm unsure why this use of uninitialized memory in the CRC doesn't
-result in CRC errors, but it seems clear to me that it should not be
-included in the calculation.
+ - the latest Debian kernel
+ - use the Rainier machine instead of Tacoma
 
-Signed-off-by: Stephen Longfield <slongfield@google.com>
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-Id: <20221220221437.3303721-1-slongfield@google.com>
+Both of which contains support for more hardware and thus exercises more
+of the hardware Qemu models.
+
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20220607011938.1676459-1-joel@jms.id.au>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/net/ftgmac100.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/avocado/boot_linux_console.py | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-index 83ef0a783e..d3bf14be53 100644
---- a/hw/net/ftgmac100.c
-+++ b/hw/net/ftgmac100.c
-@@ -980,9 +980,9 @@ static ssize_t ftgmac100_receive(NetClientState *nc, const uint8_t *buf,
-         return size;
-     }
+diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
+index 258f2ee897..be60f8cda9 100644
+--- a/tests/avocado/boot_linux_console.py
++++ b/tests/avocado/boot_linux_console.py
+@@ -1105,18 +1105,18 @@ def test_arm_vexpressa9(self):
+     def test_arm_ast2600_debian(self):
+         """
+         :avocado: tags=arch:arm
+-        :avocado: tags=machine:tacoma-bmc
++        :avocado: tags=machine:rainier-bmc
+         """
+         deb_url = ('http://snapshot.debian.org/archive/debian/'
+-                   '20210302T203551Z/'
++                   '20220606T211338Z/'
+                    'pool/main/l/linux/'
+-                   'linux-image-5.10.0-3-armmp_5.10.13-1_armhf.deb')
+-        deb_hash = 'db40d32fe39255d05482bea48d72467b67d6225bb2a2a4d6f618cb8976f1e09e'
++                   'linux-image-5.17.0-2-armmp_5.17.6-1%2Bb1_armhf.deb')
++        deb_hash = '8acb2b4439faedc2f3ed4bdb2847ad4f6e0491f73debaeb7f660c8abe4dcdc0e'
+         deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash,
+                                     algorithm='sha256')
+-        kernel_path = self.extract_from_deb(deb_path, '/boot/vmlinuz-5.10.0-3-armmp')
++        kernel_path = self.extract_from_deb(deb_path, '/boot/vmlinuz-5.17.0-2-armmp')
+         dtb_path = self.extract_from_deb(deb_path,
+-                '/usr/lib/linux-image-5.10.0-3-armmp/aspeed-bmc-opp-tacoma.dtb')
++                '/usr/lib/linux-image-5.17.0-2-armmp/aspeed-bmc-ibm-rainier.dtb')
  
--    /* 4 bytes for the CRC.  */
--    size += 4;
-     crc = cpu_to_be32(crc32(~0, buf, size));
-+    /* Increase size by 4, loop below reads the last 4 bytes from crc_ptr. */
-+    size += 4;
-     crc_ptr = (uint8_t *) &crc;
- 
-     /* Huge frames are truncated.  */
+         self.vm.set_console()
+         self.vm.add_args('-kernel', kernel_path,
 -- 
 2.39.1
 
