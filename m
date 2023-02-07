@@ -2,92 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8411668DC25
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:53:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F5F68DC27
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:53:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPPKu-000595-L6; Tue, 07 Feb 2023 09:52:44 -0500
+	id 1pPPL2-0005BU-7G; Tue, 07 Feb 2023 09:52:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mathbern@qualcomm.com>)
- id 1pPPKs-00058v-Mp
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:52:42 -0500
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mathbern@qualcomm.com>)
- id 1pPPKr-0004NH-0K
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:52:42 -0500
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 317CEbnk025133; Tue, 7 Feb 2023 14:52:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=qcppdkim1; bh=6NLDSfRjg1hLNPHlzPuh58Gjrc6depiO8VLevUkBStI=;
- b=kMBXZMak27WM1UoNiX5sOu70DOhMKuQg+Dv3UJIri58+bK6zx2cr+SR6xZWSIZmU6hLM
- zJQx5yInlA/zsLQvMHs3BAqYKx12d2bFjJM0/qcIfj/PM9logtW8ajoeMkPD0KGLMkAS
- qT7lkMOv4Be900mb98BZ9SilKFPdyOu68Llfw4jlluAI5/ODtvYTWOrRZKD+vMLC7nJ4
- W8Zc/niH1Ov/ekqUJ3sYLc7LYSgyCPetLM3NXo2B8XJeIgS6lNZ7SEGsdirYV6tP+sCz
- GM4JKTC4eUwJHpTkTDuHwyagbHvQAYSy8c9MdFsrLixd5BO9fPsbu+mMEN0GA3iPG7Fm 1w== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nkmnnrhk6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Feb 2023 14:52:35 +0000
-Received: from pps.filterd (NALASPPMTA05.qualcomm.com [127.0.0.1])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 317EniS3008781; 
- Tue, 7 Feb 2023 14:52:34 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by NALASPPMTA05.qualcomm.com (PPS) with ESMTPS id 3nhgekyx8j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Feb 2023 14:52:34 +0000
-Received: from NALASPPMTA05.qualcomm.com (NALASPPMTA05.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 317EqXHR012114;
- Tue, 7 Feb 2023 14:52:34 GMT
-Received: from hu-devc-sd-u20-a-1.qualcomm.com (hu-mathbern-lv.qualcomm.com
- [10.47.235.147])
- by NALASPPMTA05.qualcomm.com (PPS) with ESMTPS id 317EqXHF012113
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Feb 2023 14:52:33 +0000
-Received: by hu-devc-sd-u20-a-1.qualcomm.com (Postfix, from userid 4229910)
- id 767B761F8; Tue,  7 Feb 2023 11:52:33 -0300 (-03)
-From: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-To: qemu-devel@nongnu.org
-Cc: anjo@rev.ng, tsimpson@quicinc.com, bcain@quicinc.com,
- quic_acaggian@quicinc.com
-Subject: [PATCH] Hexagon (meson.build): define min bison version
-Date: Tue,  7 Feb 2023 11:52:31 -0300
-Message-Id: <a6763f9f7b89ea310ab86f9a2b311a05254a1acd.1675779233.git.quic_mathbern@quicinc.com>
-X-Mailer: git-send-email 2.37.2
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPPL0-00059Y-9o
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:52:50 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPPKy-0004Oc-Nr
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:52:50 -0500
+Received: by mail-wr1-x429.google.com with SMTP id y1so13828858wru.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:52:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Xk0cwIQxPWdOTJuQoWiUmMjZ6LrN0O5frCZ9TFyx+PA=;
+ b=UAm8DWgxOd3VbFhy4gy345U0K3QzKd8eqU17M3Oaj4YbxIMzZ2QrQ3HCPVZLWaZ7Xl
+ hhyxa1XjqtX4QfjScOI3Ka7G8vD+JTaWu2c2LMM/o+/jtgYwSTOw25Vp9iZkgDNRFrGx
+ yS6csanB4492NDK3Y1Qwm/KFvnV27CAXBVPa5L8koeiCSITXPpgrLTiLs8NVl/xJLlC/
+ ZtoJuntWxWjIDC9Cyx0/tGZqaY4eOIHGRKUsQBNakG874B9IKLZHN2VvNpUH3JBKQO2D
+ tTJ+LRhBPFwr+Nr4kvTyHjahDnB4OVqBmsrTX4yuiOzoyISbjVc4xyFW44xKovaDCw8m
+ nUZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Xk0cwIQxPWdOTJuQoWiUmMjZ6LrN0O5frCZ9TFyx+PA=;
+ b=baPR9BQhYis8a0GE2qT9PqcjUyPcJq28Q5jr66sRpEuF+C/9sJChr0MPTZZn1J0PAr
+ OsCletBdwkMpf0xowK7J3+mqawnFKiOZcR6Nw2sa7vI05uFZ0pxRXfUK3ItE+MyCoLO9
+ /VPePf3h+zC5h0WpY7nv03XAhXXRhi3RPbPSOxAGk8NQsM+HtxXXuoGWIy+vbWRiML0Q
+ 6sRwDlvFP9gJugjkObuXMz8V7LOzVxRnvuiPD0NnXCL1eRBiQi5c3L4nZqvjIy9za4Vd
+ ooEYQrOM83xf3DUzNdDa6DISKEPkwsAv4vfKAQM9moTGZHhIu/g77DxXL/c6i7g34R/F
+ ni/w==
+X-Gm-Message-State: AO0yUKVQsxmTdkQcLsf8eMP3IBt3i9bDH3c2pJ1OBnLXT67FXeB3gAT/
+ HIffe/lRZP6RP3H0oRae2Scheg==
+X-Google-Smtp-Source: AK7set81Ih1XBo2E2rqi/+nUkG9svKxzZzn0N5UcYD+XMCeXTnQ6D+4Fn6a0SZ3dZGUBuz2GQAVq8Q==
+X-Received: by 2002:adf:ead1:0:b0:2bf:c0e4:1bc5 with SMTP id
+ o17-20020adfead1000000b002bfc0e41bc5mr2715929wrn.56.1675781566191; 
+ Tue, 07 Feb 2023 06:52:46 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ c12-20020a5d4ccc000000b002bddac15b3dsm11283316wrt.33.2023.02.07.06.52.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Feb 2023 06:52:45 -0800 (PST)
+Message-ID: <ae894dfe-4234-9b40-19fd-a101ab87262b@linaro.org>
+Date: Tue, 7 Feb 2023 15:52:43 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v3 06/10] monitor: release the lock before calling close()
+Content-Language: en-US
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Cc: Beraldo Leal <bleal@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
+ <20230207142535.1153722-7-marcandre.lureau@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230207142535.1153722-7-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 5_0WNH__o-17M73teGt_Y92g60w6gaOt
-X-Proofpoint-GUID: 5_0WNH__o-17M73teGt_Y92g60w6gaOt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-07_06,2023-02-06_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0
- mlxlogscore=630 phishscore=0 adultscore=0 clxscore=1011 malwarescore=0
- priorityscore=1501 suspectscore=0 spamscore=0 lowpriorityscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302070132
-Received-SPF: pass client-ip=205.220.168.131;
- envelope-from=mathbern@qualcomm.com; helo=mx0a-0031df01.pphosted.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,36 +99,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hexagon's idef-parser machinery uses some bison features that are not
-available at older versions. The most preeminent example (as it can
-be used as a sentinel) is "%define parse.error verbose". This was
-introduced in version 3.0 of the tool, which is able to compile
-qemu-hexagon just fine. However, compilation fails with the previous
-minor bison release, v2.7. So let's assert the minimum version at
-meson.build to give a more comprehensive error message for those trying
-to compile QEMU.
+On 7/2/23 15:25, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> As per comment, presumably to avoid syscall in critical section.
+> 
+> Fixes: 0210c3b39bef08 ("monitor: Use LOCK_GUARD macros")
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>   monitor/fds.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/monitor/fds.c b/monitor/fds.c
+> index 26b39a0ce6..03c5e97c35 100644
+> --- a/monitor/fds.c
+> +++ b/monitor/fds.c
+> @@ -80,7 +80,7 @@ void qmp_getfd(const char *fdname, Error **errp)
+>           return;
+>       }
+>   
+> -    QEMU_LOCK_GUARD(&cur_mon->mon_lock);
+> +    qemu_mutex_lock(&cur_mon->mon_lock);
 
-[1]: https://www.gnu.org/software/bison/manual/html_node/_0025define-Summary.html#index-_0025define-parse_002eerror
+If you respin, please add /* See close() call below. */ comment.
 
-Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
----
- target/hexagon/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>       QLIST_FOREACH(monfd, &cur_mon->fds, next) {
+>           if (strcmp(monfd->name, fdname) != 0) {
+>               continue;
+> @@ -88,6 +88,7 @@ void qmp_getfd(const char *fdname, Error **errp)
+>   
+>           tmp_fd = monfd->fd;
+>           monfd->fd = fd;
+> +        qemu_mutex_unlock(&cur_mon->mon_lock);
+>           /* Make sure close() is outside critical section */
+>           close(tmp_fd);
+>           return;
+> @@ -98,6 +99,7 @@ void qmp_getfd(const char *fdname, Error **errp)
+>       monfd->fd = fd;
+>   
+>       QLIST_INSERT_HEAD(&cur_mon->fds, monfd, next);
+> +    qemu_mutex_unlock(&cur_mon->mon_lock);
+>   }
 
-diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
-index c9d31d095c..42b03c81e6 100644
---- a/target/hexagon/meson.build
-+++ b/target/hexagon/meson.build
-@@ -183,7 +183,7 @@ if idef_parser_enabled and 'hexagon-linux-user' in target_dirs
-     )
- 
-     bison = generator(
--        find_program('bison'),
-+        find_program('bison', version: '>=3.0'),
-         output: ['@BASENAME@.tab.c', '@BASENAME@.tab.h'],
-         arguments: ['@INPUT@', '--defines=@OUTPUT1@', '--output=@OUTPUT0@']
-     )
--- 
-2.37.2
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
