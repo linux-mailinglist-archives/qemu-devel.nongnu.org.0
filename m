@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCA9268D614
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 12:58:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AA6E68D616
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 12:59:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPMbR-0007ds-J6; Tue, 07 Feb 2023 06:57:37 -0500
+	id 1pPMcX-000065-8F; Tue, 07 Feb 2023 06:58:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPMbO-0007dA-Oo
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 06:57:34 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPMbN-0000kk-Ab
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 06:57:34 -0500
-Received: by mail-wm1-x335.google.com with SMTP id bg26so10873914wmb.0
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 03:57:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Yvk1bjMva3nt591vRkSpjg/a1fkeFs+048PKS9Q/ybw=;
- b=Y0XiAATwkxkjABcNbAZKC1SsYF+RKtNMno4FrT1/Wh61Xc7Lnh5Y8iXHv1/jMjVhiz
- QOe6EC0l630FFkt/C1bDDcmZfmO2R9Nfi3D9xumbsrDyP6NUqmCyyAJUtEyIkBipsgB9
- xpxvmn9rDNLKqof9r6+CS4Y1ZHN6IS0YMGMDZNS0wzQ11wru0LcoQPPk6TXneNl9erwY
- NB7ycTj4kzprZil4DWpBcAe3S15cgRzCrWCaRTzfxW3C9ZwuN3JP7qXocwP0FjKn82Gy
- YgbaM/7lHCa+4kL9NYNCAjiFpgFkhcEjDLk6cme7EcDeAteNQnSV0g8Lx3IMvtWQ7JFJ
- tSIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Yvk1bjMva3nt591vRkSpjg/a1fkeFs+048PKS9Q/ybw=;
- b=ZMzozrEDl8HHx0wfT+eAAuNsVowKPNnoLsWvZdYpSpR2+Ye0/u/3owJUJKdlYy4TSP
- peWump8DDiP+RdO2JjPC+2QX1Hi0wa66vSUeTPkmukA7uNni4ZXUmHhj6MLK7VTjFSRM
- bLcP/WscZ4erihWS2icaybFWKGk00NMLkEocJlkjr28TmKUhRQnPFBgvmfyTvRpT0Z34
- ItB3fMuOpWuWDPySgVrwQlA1MRQT0AfGhlahq0PqWlyXaamDB/WIyDOlpl4J4u/qhBg4
- TuWI0wTYo86BG3jzFJ/zZfUQ4do7Ys7lOVUfoRty0xI6ui+LQBonuNfdjGXIC3MhOjam
- n0Hw==
-X-Gm-Message-State: AO0yUKU1f0sAqdYkSlzCFKTBTFMl0Curh/lnTreYFCtXQHAHPSdkmyr/
- XhbwKe05mq70ftdF+Qr86/ZYqw==
-X-Google-Smtp-Source: AK7set+Ee07zC0HyTtDI2ZbZFQGp/FnwdWHP+y4UxIWtoIiXQyoDiXHCc+0A2rimL0zuBULtCSIsOQ==
-X-Received: by 2002:a05:600c:1716:b0:3df:f7cc:4da2 with SMTP id
- c22-20020a05600c171600b003dff7cc4da2mr2832791wmn.16.1675771051470; 
- Tue, 07 Feb 2023 03:57:31 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- t1-20020a1c7701000000b003b47b80cec3sm18394291wmi.42.2023.02.07.03.57.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Feb 2023 03:57:31 -0800 (PST)
-Message-ID: <0810c356-db4e-f808-a610-247c1b19b5b2@linaro.org>
-Date: Tue, 7 Feb 2023 12:57:29 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 3/4] pcie: drop unused PCIExpressIndicator
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org
-Cc: mst@redhat.com, marcel.apfelbaum@gmail.com
-References: <20230204174758.234951-1-vsementsov@yandex-team.ru>
- <20230204174758.234951-4-vsementsov@yandex-team.ru>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230204174758.234951-4-vsementsov@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pPMcT-00005s-Se
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 06:58:41 -0500
+Received: from mr85p00im-hyfv06011401.me.com ([17.58.23.191])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pPMcS-00016M-GR
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 06:58:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
+ t=1675771118; bh=Cn0qz0bMHB6vxV8Q4ejxdppqOEkAynR/SkSPXu1IlvI=;
+ h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
+ b=Xr4x63GAslHmhREJ5ScX0ShUVTWttvXUdV+P0RRokExZ+BiNGGhAJQr532uOfCXj1
+ ZqkDVc9iOGpGjBHjWVFxgIwpjsracshofIVX3/1c8bFteBwMssKElDCSl9Wq++grLs
+ 1YE8czPPd15jiviooew03Evu38xofTXifMKQYw62JHNKzwacVgifJS64xzMIdmZbsS
+ L6WveY1JxmlZ2fpSB/ClKH8gn6QiJUvvvgt/NdWQKM1L6rXc4EKkV9GtRNNiDcuJoi
+ NCukyy9rq6vHv5GsbMTMqRRH9NhBvTcjFByiC8xHexFZoeyjAggq/BQ0XVsdm38Gnv
+ dBh9CuU3l811g==
+Received: from smtpclient.apple (mr38p00im-dlb-asmtp-mailmevip.me.com
+ [17.57.152.18])
+ by mr85p00im-hyfv06011401.me.com (Postfix) with ESMTPSA id DA007357B5F6;
+ Tue,  7 Feb 2023 11:58:35 +0000 (UTC)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.300.101.1.3\))
+Subject: Re: [PATCH] gdbstub: move update guest debug to accel ops
+From: Mads Ynddal <mads@ynddal.dk>
+In-Reply-To: <871qn2rjd2.fsf@linaro.org>
+Date: Tue, 7 Feb 2023 12:58:23 +0100
+Cc: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ "open list:Overall KVM CPUs" <kvm@vger.kernel.org>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <35145587-C279-46A1-A2C5-3261A646F225@ynddal.dk>
+References: <20221123121712.72817-1-mads@ynddal.dk>
+ <af92080f-e708-f593-7ff5-81b7b264d587@linaro.org>
+ <C8BC6E24-F98D-428D-80F8-98BDA40C7B15@ynddal.dk> <87h6xyjcdh.fsf@linaro.org>
+ <4B19094C-63DC-4A81-A008-886504256D5D@ynddal.dk> <871qn2rjd2.fsf@linaro.org>
+To: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+X-Mailer: Apple Mail (2.3731.300.101.1.3)
+X-Proofpoint-GUID: SyIWDj8aX2WDaQWMsXo-TNJimMYxIvbX
+X-Proofpoint-ORIG-GUID: SyIWDj8aX2WDaQWMsXo-TNJimMYxIvbX
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.816,17.11.62.513.0000000_definitions?=
+ =?UTF-8?Q?=3D2022-01-18=5F01:2022-01-14=5F01,2022-01-18=5F01,2021-12-02?=
+ =?UTF-8?Q?=5F01_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ clxscore=1030
+ suspectscore=0 mlxlogscore=660 adultscore=0 phishscore=0 mlxscore=0
+ spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2302070107
+Received-SPF: pass client-ip=17.58.23.191; envelope-from=mads@ynddal.dk;
+ helo=mr85p00im-hyfv06011401.me.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,16 +86,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/2/23 18:47, Vladimir Sementsov-Ogievskiy wrote:
-> The structure type is unused. Also, it's the only user of corresponding
-> macros, so drop them too.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> ---
->   include/hw/pci/pcie.h      | 8 --------
->   include/hw/pci/pcie_regs.h | 5 -----
->   2 files changed, 13 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>=20
+> Sorry this dropped of my radar. Yes I think the ifdef will do. Are you
+> going to post a v2 with all the various updates?
+>=20
+
+No worries, I'll make a v2 with the changes.
+
+=E2=80=94
+Mads Ynddal
 
 
