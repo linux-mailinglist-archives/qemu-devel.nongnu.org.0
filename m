@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 019C068D631
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 13:11:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC08568D630
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 13:11:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPMnE-00063S-Qu; Tue, 07 Feb 2023 07:09:48 -0500
+	id 1pPMnE-00063I-Mf; Tue, 07 Feb 2023 07:09:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pPMnA-00061Z-8J
+ id 1pPMnA-00061f-9a
  for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:09:44 -0500
 Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pPMn6-000477-Qz
+ id 1pPMn7-00047J-1Z
  for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:09:43 -0500
 Received: from myt6-23a5e62c0090.qloud-c.yandex.net
  (myt6-23a5e62c0090.qloud-c.yandex.net
  [IPv6:2a02:6b8:c12:1da3:0:640:23a5:e62c])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 7A39061F0E;
- Tue,  7 Feb 2023 15:09:35 +0300 (MSK)
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 8013F61FCF;
+ Tue,  7 Feb 2023 15:09:36 +0300 (MSK)
 Received: from vsementsov-win.yandex-team.ru (unknown [2a02:6b8:b081:218::1:e])
  by myt6-23a5e62c0090.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- O9b4CX1QdqM1-UNDYgtlN; Tue, 07 Feb 2023 15:09:34 +0300
+ O9b4CX1QdqM1-mQ3c8NhD; Tue, 07 Feb 2023 15:09:35 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1675771774; bh=lVnskt62WXTjQL8xh1t8y7e2B9BV1/qTkQL+/+8sNQQ=;
+ t=1675771775; bh=lVnskt62WXTjQL8xh1t8y7e2B9BV1/qTkQL+/+8sNQQ=;
  h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=e9b1yyVN+hpYBDRIlDVnUDpuL66KmSgj5hBPtDi6VdPzelos8pFkpDg9fZl+6BcRS
- XWdcvuzTq6Tfszf9irAyjABrE/+3DZ8BXxnM8NuoheI3apfZpbdO+aFtWD9bAN98qg
- 5hhJmcKqGlYOds2gmT9fKATrR/zK9gD2P9gl1JJU=
+ b=ZUNuWzs0LjCtWkbkRMs9p3HDwFKVAkflBV8FnpAWJeGweri62ZYYiEOAf0NyA95d+
+ BlA5Ey/32CwoR91QPCMc0B48PwX16QavgND/I8y9kUj/j9L2deZH8No9La76AEtSxS
+ nR5dTNeiqmpoT4yNzI1rjzY2RcptxMX+rpOQhcgU=
 Authentication-Results: myt6-23a5e62c0090.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, marcel.apfelbaum@gmail.com, vsementsov@yandex-team.ru,
  philmd@linaro.org
-Subject: [PATCH 4/4] pcie: add trace-poing for power indicator transitions
-Date: Tue,  7 Feb 2023 15:09:21 +0300
-Message-Id: <20230207120922.325203-5-vsementsov@yandex-team.ru>
+Subject: [PATCH 4/4] pcie: add trace-point for power indicator transitions
+Date: Tue,  7 Feb 2023 15:09:22 +0300
+Message-Id: <20230207120922.325203-6-vsementsov@yandex-team.ru>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230207120922.325203-1-vsementsov@yandex-team.ru>
 References: <20230207120922.325203-1-vsementsov@yandex-team.ru>
