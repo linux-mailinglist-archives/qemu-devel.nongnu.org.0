@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9249D68D62D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 13:11:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 019C068D631
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 13:11:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPMnF-00063X-Eu; Tue, 07 Feb 2023 07:09:49 -0500
+	id 1pPMnE-00063S-Qu; Tue, 07 Feb 2023 07:09:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pPMnA-00061b-2c
+ id 1pPMnA-00061Z-8J
  for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:09:44 -0500
 Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pPMn6-000472-RS
+ id 1pPMn6-000477-Qz
  for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:09:43 -0500
 Received: from myt6-23a5e62c0090.qloud-c.yandex.net
  (myt6-23a5e62c0090.qloud-c.yandex.net
  [IPv6:2a02:6b8:c12:1da3:0:640:23a5:e62c])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 7B4D161F24;
- Tue,  7 Feb 2023 15:09:34 +0300 (MSK)
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 7A39061F0E;
+ Tue,  7 Feb 2023 15:09:35 +0300 (MSK)
 Received: from vsementsov-win.yandex-team.ru (unknown [2a02:6b8:b081:218::1:e])
  by myt6-23a5e62c0090.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- O9b4CX1QdqM1-xJAx8jez; Tue, 07 Feb 2023 15:09:33 +0300
+ O9b4CX1QdqM1-UNDYgtlN; Tue, 07 Feb 2023 15:09:34 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1675771773; bh=tP2IyLisR7py++F7eSpuD+cqx3kxx2gIiVRyrlrH4uE=;
+ t=1675771774; bh=lVnskt62WXTjQL8xh1t8y7e2B9BV1/qTkQL+/+8sNQQ=;
  h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=K4V0GtIFbrjZ95u1hn4tJulkbste8O17KdD/wETq7y7igKibk1DPWA4DuH5xkR/1e
- QlcUbGp5aLtwS1gBe2pTHp5smnLIuACrPHekAK/KBgwQZB8/+1A+dgRiEsmKySOaWZ
- Ydnmg4sMQFjOXQdwi4KcO5KVsMY0SdGr+bu4XJZ4=
+ b=e9b1yyVN+hpYBDRIlDVnUDpuL66KmSgj5hBPtDi6VdPzelos8pFkpDg9fZl+6BcRS
+ XWdcvuzTq6Tfszf9irAyjABrE/+3DZ8BXxnM8NuoheI3apfZpbdO+aFtWD9bAN98qg
+ 5hhJmcKqGlYOds2gmT9fKATrR/zK9gD2P9gl1JJU=
 Authentication-Results: myt6-23a5e62c0090.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, marcel.apfelbaum@gmail.com, vsementsov@yandex-team.ru,
  philmd@linaro.org
-Subject: [PATCH 3/4] pcie: drop unused PCIExpressIndicator
-Date: Tue,  7 Feb 2023 15:09:20 +0300
-Message-Id: <20230207120922.325203-4-vsementsov@yandex-team.ru>
+Subject: [PATCH 4/4] pcie: add trace-poing for power indicator transitions
+Date: Tue,  7 Feb 2023 15:09:21 +0300
+Message-Id: <20230207120922.325203-5-vsementsov@yandex-team.ru>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230207120922.325203-1-vsementsov@yandex-team.ru>
 References: <20230207120922.325203-1-vsementsov@yandex-team.ru>
@@ -71,50 +71,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The structure type is unused. Also, it's the only user of corresponding
-macros, so drop them too.
-
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 ---
- include/hw/pci/pcie.h      | 8 --------
- include/hw/pci/pcie_regs.h | 5 -----
- 2 files changed, 13 deletions(-)
+ hw/pci/pcie.c       | 20 ++++++++++++++++++++
+ hw/pci/trace-events |  3 +++
+ 2 files changed, 23 insertions(+)
 
-diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
-index 798a262a0a..3cc2b15957 100644
---- a/include/hw/pci/pcie.h
-+++ b/include/hw/pci/pcie.h
-@@ -27,14 +27,6 @@
- #include "hw/pci/pcie_sriov.h"
- #include "hw/hotplug.h"
+diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+index ccdb2377e1..1a19368994 100644
+--- a/hw/pci/pcie.c
++++ b/hw/pci/pcie.c
+@@ -28,6 +28,7 @@
+ #include "hw/pci/pcie_regs.h"
+ #include "hw/pci/pcie_port.h"
+ #include "qemu/range.h"
++#include "trace.h"
  
--typedef enum {
--    /* for attention and power indicator */
--    PCI_EXP_HP_IND_RESERVED     = PCI_EXP_SLTCTL_IND_RESERVED,
--    PCI_EXP_HP_IND_ON           = PCI_EXP_SLTCTL_IND_ON,
--    PCI_EXP_HP_IND_BLINK        = PCI_EXP_SLTCTL_IND_BLINK,
--    PCI_EXP_HP_IND_OFF          = PCI_EXP_SLTCTL_IND_OFF,
--} PCIExpressIndicator;
--
- typedef enum {
-     /* these bits must match the bits in Slot Control/Status registers.
-      * PCI_EXP_HP_EV_xxx = PCI_EXP_SLTCTL_xxxE = PCI_EXP_SLTSTA_xxx
-diff --git a/include/hw/pci/pcie_regs.h b/include/hw/pci/pcie_regs.h
-index 00b595a82e..1fe0bdd25b 100644
---- a/include/hw/pci/pcie_regs.h
-+++ b/include/hw/pci/pcie_regs.h
-@@ -66,11 +66,6 @@ typedef enum PCIExpLinkWidth {
+ //#define DEBUG_PCIE
+ #ifdef DEBUG_PCIE
+@@ -718,6 +719,20 @@ void pcie_cap_slot_get(PCIDevice *dev, uint16_t *slt_ctl, uint16_t *slt_sta)
+     *slt_sta = pci_get_word(exp_cap + PCI_EXP_SLTSTA);
+ }
  
- #define PCI_EXP_SLTCAP_PSN_SHIFT        ctz32(PCI_EXP_SLTCAP_PSN)
++static const char *pcie_sltctl_pic_str(uint16_t sltctl)
++{
++    switch (sltctl & PCI_EXP_SLTCTL_PIC) {
++    case PCI_EXP_SLTCTL_PWR_IND_ON:
++        return "on";
++    case PCI_EXP_SLTCTL_PWR_IND_BLINK:
++        return "blink";
++    case PCI_EXP_SLTCTL_PWR_IND_OFF:
++        return "off";
++    default:
++        return "?";
++    }
++}
++
+ void pcie_cap_slot_write_config(PCIDevice *dev,
+                                 uint16_t old_slt_ctl, uint16_t old_slt_sta,
+                                 uint32_t addr, uint32_t val, int len)
+@@ -762,6 +777,11 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
+                         sltsta);
+     }
  
--#define PCI_EXP_SLTCTL_IND_RESERVED     0x0
--#define PCI_EXP_SLTCTL_IND_ON           0x1
--#define PCI_EXP_SLTCTL_IND_BLINK        0x2
--#define PCI_EXP_SLTCTL_IND_OFF          0x3
--
- #define PCI_EXP_SLTCTL_SUPPORTED        \
-             (PCI_EXP_SLTCTL_ABPE |      \
-              PCI_EXP_SLTCTL_PDCE |      \
++    if ((val & PCI_EXP_SLTCTL_PIC) != (old_slt_ctl & PCI_EXP_SLTCTL_PIC)) {
++        trace_pcie_power_indicator(pcie_sltctl_pic_str(old_slt_ctl),
++                                   pcie_sltctl_pic_str(val));
++    }
++
+     /*
+      * If the slot is populated, power indicator is off and power
+      * controller is off, it is safe to detach the devices.
+diff --git a/hw/pci/trace-events b/hw/pci/trace-events
+index aaf46bc92d..ec4a5ff43d 100644
+--- a/hw/pci/trace-events
++++ b/hw/pci/trace-events
+@@ -15,3 +15,6 @@ msix_write_config(char *name, bool enabled, bool masked) "dev %s enabled %d mask
+ sriov_register_vfs(const char *name, int slot, int function, int num_vfs) "%s %02x:%x: creating %d vf devs"
+ sriov_unregister_vfs(const char *name, int slot, int function, int num_vfs) "%s %02x:%x: Unregistering %d vf devs"
+ sriov_config_write(const char *name, int slot, int fun, uint32_t offset, uint32_t val, uint32_t len) "%s %02x:%x: sriov offset 0x%x val 0x%x len %d"
++
++# pcie.c
++pcie_power_indicator(const char *old, const char *new) "%s -> %s"
 -- 
 2.34.1
 
