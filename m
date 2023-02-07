@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2534668CD37
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 04:15:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B1468CD21
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 04:13:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPERM-0006oX-49; Mon, 06 Feb 2023 22:14:40 -0500
+	id 1pPELT-0005hw-LH; Mon, 06 Feb 2023 22:08:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
- id 1pPERJ-0006ni-OI
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 22:14:37 -0500
-Received: from mga05.intel.com ([192.55.52.43])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
- id 1pPERG-00023q-SY
- for qemu-devel@nongnu.org; Mon, 06 Feb 2023 22:14:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675739674; x=1707275674;
- h=message-id:date:mime-version:from:subject:to:cc:
- references:in-reply-to:content-transfer-encoding;
- bh=wFuJOcRnxhNvPh971ghasLO8hPjes4GazDUTK1Ezf8A=;
- b=hDXLFRXbk6sbsz/O4r8DxU9BIzxkHsU9cfL27kzZJWdYY1FqhkpHJ3C8
- 6Jqn5asiHzuh8/3PJ3c4jNHf5wzakarQyoVGn3EzWjgDDRB1MYrwTBKsX
- /86ttiBL7adot2CPZIdgzevGhljL7e7rDJNPYIMXWdUgVm3P5SSt6FXyL
- OD8cAwO5F8W/yRDt7kPrOdkVZ3pCz+/oiw4bof+wjYRxJMRHHdGBYLw6A
- hvixXJQqfhB3MIB7byrwxHAXSpWxwWDwrFCE4P2l4I93mGM5EP3a5RrAK
- vMkFS/XeI77tVlR9xJGwxo7XGipmSLq1/gNAyzDw4KYTlFQahbHXemUkp w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="415605573"
-X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; d="scan'208";a="415605573"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Feb 2023 18:51:01 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="840605633"
-X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; d="scan'208";a="840605633"
-Received: from leiwang7-mobl.ccr.corp.intel.com (HELO [10.238.212.95])
- ([10.238.212.95])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Feb 2023 18:50:58 -0800
-Message-ID: <22fde3ed-a4e7-db65-2e8a-ce6346fe6ac0@intel.com>
-Date: Tue, 7 Feb 2023 10:50:56 +0800
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pPELR-0005he-Ur; Mon, 06 Feb 2023 22:08:33 -0500
+Received: from mail-vs1-xe2c.google.com ([2607:f8b0:4864:20::e2c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pPELH-0001Ih-CU; Mon, 06 Feb 2023 22:08:33 -0500
+Received: by mail-vs1-xe2c.google.com with SMTP id k6so14903298vsk.1;
+ Mon, 06 Feb 2023 19:08:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=44Zji4UkG2JMCVgwOWwwU78WxsX66yvpm/FwQSnpvUc=;
+ b=jT1rvtmwSRGOaS3JO0Xv3SCLlEllJSk9UD2OjTs/ywN8Y/58vLXOIxqrltpajRaXVU
+ Cw2cfeWl4had1eHChevyg/J5GsFyePoybfH30or5IzTk2cKsWEAWOt0qSjDjGNP/Po5I
+ /xldq0j5u76ARP1drvIKb9IqBaWC/p21L8kOpleWlC54YFxumqTCBwyzlUjRG1Vb7HYD
+ R2dadnDbHnoMXzTkT6kdHTn2mVPHAE1zQbRujtRmlV8KseT/Ux0UPZqe0gbwqo1ujgnb
+ Ml7i7gNNlWGc6jABl4zjlar1yxZQYdgfrxZ58XOUoRtdNzLQA6AQUwk71y214Ye+p4zT
+ jFcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=44Zji4UkG2JMCVgwOWwwU78WxsX66yvpm/FwQSnpvUc=;
+ b=XIdbPgI179HFjI441UtjZYaXGPGRYxggdxF3B6wFx+zDMjepoqR5xu2x/ZXflioPTb
+ d67kSCsEWqOVf1p/8aCAjq2QVpS0acMZygoOFrGHaiWqqe33bJgS8zrU3vTWW3I0pUAf
+ WOuev/dnQIp/cCh2J+1EJPg7IB4krj4ywkOMpnoK0QJtEi6pOn8nQWGi4jXpjIXj8zWh
+ YVp49mvViRG6eaiyRpSl+EoaMNjqIKE2UpARZ8lyeqmJAc9F27NWl08JCJLufpyz1C3D
+ 7bJMr/wR5QZJkZwSl4VJbngxrIFJaamD5Cdpoq2rRjMpyKwbAvw4vT/vPOJOgy3gZ+bv
+ Jwww==
+X-Gm-Message-State: AO0yUKXxWM0hT5RJ0WhYIVp76q6tWECSgtU53GpRlHifhJXmlgaD0qaG
+ pg1s6i7b0w6zrj8CB374TGdS78qrBvNTpKfIQl/X1u0mrus=
+X-Google-Smtp-Source: AK7set9/3Rd57ZvTGu1lXCWU0P7zutGe60U1rPBIZETHMM9l/hZToge+JkqR4xL3iqwPy2XbNde+/aqB4nxTPZjPR8U=
+X-Received: by 2002:a67:c297:0:b0:3fe:5a64:f8ea with SMTP id
+ k23-20020a67c297000000b003fe5a64f8eamr351760vsj.54.1675738916824; Mon, 06 Feb
+ 2023 19:01:56 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.6.1
-From: "Wang, Lei" <lei4.wang@intel.com>
-Subject: Re: [PATCH v3 0/6] Support for new CPU model SapphireRapids
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- berrange@redhat.com, xiaoyao.li@intel.com, yang.zhong@linux.intel.com
-References: <20230106083826.5384-1-lei4.wang@intel.com>
- <20230202120533.37972585@imammedo.users.ipa.redhat.com>
-Content-Language: en-US
-In-Reply-To: <20230202120533.37972585@imammedo.users.ipa.redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=lei4.wang@intel.com;
- helo=mga05.intel.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <20230206085007.3618715-1-bmeng@tinylab.org>
+In-Reply-To: <20230206085007.3618715-1-bmeng@tinylab.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 7 Feb 2023 13:00:00 +1000
+Message-ID: <CAKmqyKO_=reUVP_EBfnLUmuuSCUonOghF0TUdhSmRGW+xf9Mvw@mail.gmail.com>
+Subject: Re: [PATCH] hw/riscv: virt: Simplify virt_{get,set}_aclint()
+To: Bin Meng <bmeng@tinylab.org>
+Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ qemu-riscv@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2c;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,102 +83,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/2/2023 7:05 PM, Igor Mammedov wrote:
-> On Fri,  6 Jan 2023 00:38:20 -0800
-> Lei Wang <lei4.wang@intel.com> wrote:
-> 
->> This series aims to add a new CPU model SapphireRapids, and tries to
->> address the problem stated in
->> https://lore.kernel.org/all/20220812055751.14553-1-lei4.wang@intel.com/T/#mcf67dbd1ad37c65d7988c36a2b267be9afd2fb30,
->> so that named CPU model can define its own AMX values, and QEMU won't
->> pass the wrong AMX values to KVM in future platforms if they have
->> different values supported.
->>
->> The original patch is
->> https://lore.kernel.org/all/20220812055751.14553-1-lei4.wang@intel.com/T/#u.
-> 
-> MultiBitFeatureInfo looks like an interesting
-> idea but among fixing whatever issues this has atm,
-> you'd probably need to introduce a new  qdev_bitfield property
-> infrastructure so that such features could be treated like any
-> other qdev properties.
-> Also when MultiBitFeatureInfo is added, one should convert all
-> other usecases where it's applicable (not only for new code)
-> so that we would end up with consolidated approach instead of
-> zoo mess.
-> 
-> I'm not sure all MultiBitFeatureInfo complexity is necessary
-> just for adding a new CPU model, I'd rather use ad hoc approach
-> that we were using before for non boolean features.
+On Mon, Feb 6, 2023 at 6:51 PM Bin Meng <bmeng@tinylab.org> wrote:
+>
+> There is no need to declare an intermediate "MachineState *ms".
+>
+> Signed-off-by: Bin Meng <bmeng@tinylab.org>
 
-Hi, Igor. I do not quite understand what does the "ad hoc approach" mean,
-currently if we specify a multi-bit non-boolean CPUID value which is different
-from the host value to CPU model, e.g., consider the following scenario:
+Thanks!
 
-- KVM **ONLY** supports value 5 (101) and,
-- QEMU user want to pass value 3 (011) to it,
+Applied to riscv-to-apply.next
 
-and follow the current logic:
+Alistair
 
-    uint64_t unavailable_features = requested_features & ~host_feat;
-
-then:
-
-1. The warning message will be messy and not intuitive:
-
-requested_features bit 1 is 1 and host_feat bit 1 is 0, so it will warn on this
-non-sense bit.
-
-
-2. Some CPUID bits will "leak" into the final CPUID passed to KVM:
-
-requested_features bit 0 is 1 and host_feat bit 0 is also 1, so it will pass
-this CPUID bit to host, the request_features value is 3 (011), finally we get 1
-(001), this is not we want.
-
-Am I understanding it correctly?
-
-> 
-> And then try to develop MultiBitFeatureInfo & co as a separate
-> series to demonstrate how much it will improve current
-> cpu models definitions.
-> 
-> PS:
->  'make check-acceptance' are broken with this
-> 
->> ---
->>
->> Changelog:
->>
->> v3:
->>  - Rebase on the latest QEMU (d1852caab131ea898134fdcea8c14bc2ee75fbe9).
->>  - v2: https://lore.kernel.org/qemu-devel/20221102085256.81139-1-lei4.wang@intel.com/
->>
->> v2:
->>  - Fix when passing all zeros of AMX-related CPUID, QEMU will warn
->>    unsupported.
->>  - Remove unnecessary function definition and make code cleaner.
->>  - Fix some typos.
->>  - v1: https://lore.kernel.org/qemu-devel/20221027020036.373140-1-lei4.wang@intel.com/T/#t
->>
->>
->> Lei Wang (6):
->>   i386: Introduce FeatureWordInfo for AMX CPUID leaf 0x1D and 0x1E
->>   i386: Remove unused parameter "uint32_t bit" in
->>     feature_word_description()
->>   i386: Introduce new struct "MultiBitFeatureInfo" for multi-bit
->>     features
->>   i386: Mask and report unavailable multi-bit feature values
->>   i386: Initialize AMX CPUID leaves with corresponding env->features[]
->>     leaves
->>   i386: Add new CPU model SapphireRapids
->>
->>  target/i386/cpu-internal.h |  11 ++
->>  target/i386/cpu.c          | 311 +++++++++++++++++++++++++++++++++++--
->>  target/i386/cpu.h          |  16 ++
->>  3 files changed, 322 insertions(+), 16 deletions(-)
->>
->>
->> base-commit: d1852caab131ea898134fdcea8c14bc2ee75fbe9
-> 
+> ---
+>
+>  hw/riscv/virt.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index 4a11b4b010..bdb6b93115 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -1577,16 +1577,14 @@ static void virt_set_aia(Object *obj, const char *val, Error **errp)
+>
+>  static bool virt_get_aclint(Object *obj, Error **errp)
+>  {
+> -    MachineState *ms = MACHINE(obj);
+> -    RISCVVirtState *s = RISCV_VIRT_MACHINE(ms);
+> +    RISCVVirtState *s = RISCV_VIRT_MACHINE(obj);
+>
+>      return s->have_aclint;
+>  }
+>
+>  static void virt_set_aclint(Object *obj, bool value, Error **errp)
+>  {
+> -    MachineState *ms = MACHINE(obj);
+> -    RISCVVirtState *s = RISCV_VIRT_MACHINE(ms);
+> +    RISCVVirtState *s = RISCV_VIRT_MACHINE(obj);
+>
+>      s->have_aclint = value;
+>  }
+> --
+> 2.25.1
+>
+>
 
