@@ -2,95 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B49A568DD24
+	by mail.lfdr.de (Postfix) with ESMTPS id B75C168DD25
 	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 16:36:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPQ0F-000113-7n; Tue, 07 Feb 2023 10:35:27 -0500
+	id 1pPQ0e-00018j-7h; Tue, 07 Feb 2023 10:35:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1pPQ05-0000ud-AI
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:35:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1pPQ03-0004nn-1X
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:35:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675784111;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pPQ0c-00018Y-G6
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:35:50 -0500
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pPQ0a-0004ya-R6
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:35:50 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6AF0638DFC;
+ Tue,  7 Feb 2023 15:35:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1675784147; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=oVZEq3XaEPB8JjgV4QcYiyPBtrXnBeZO2zzNCczpvTY=;
- b=RCIV/kx4WkW79hpMgb9beCohs6ZC++8vdBWem8b9g2fPMzscymT0Bj5I0ZXIGPxsJUmaBq
- bCK+cK2D68p+nHpTKAFmkjBjGE4BEKBkiy1Prfnatw9BsLAApq5RTtRB3VDe1gElSdkCbm
- VIArso7CrhnLEMsykDO/ZV2uiSAAaWE=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-3-kOkG_00FOt6jFga1Q3qnXg-1; Tue, 07 Feb 2023 10:35:09 -0500
-X-MC-Unique: kOkG_00FOt6jFga1Q3qnXg-1
-Received: by mail-qt1-f198.google.com with SMTP id
- c14-20020ac87d8e000000b003ba2d72f98aso2830465qtd.10
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 07:35:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oVZEq3XaEPB8JjgV4QcYiyPBtrXnBeZO2zzNCczpvTY=;
- b=RIEkitIgGlckpxd5jLmM82ur3/dk843CHfezePeTdm3XJD14SQxFV7t0q1598IRD8F
- DBLCyTgF0X0h+V8IDILNaER1tCYugClORWDg3W4rysR7Ed65DmyWEFTriV8hJA+kq9mi
- MLrewWvxjDEvSSNKXTiDc4Qnymm5OT221fWZZ1EfVZNtFkiKTbYi8uM7FeZJWrW0M/O5
- e0lHIzLSuwelM7vzJ9z0SJxoxezPEUKnxVcjoahmDcmziCXD58jDT0ALHHVTHrDU2M25
- X64iR9Fy7RN2XuZXXI/s7MweWtmX0Iu/jnQGAFYjqoivfqfqt79KfLkeNRx45XqFA46V
- wupQ==
-X-Gm-Message-State: AO0yUKU7A39zvuJeBPm61mgo21k0hRkYffrsli2AQ0FesTjbR07rM6n4
- fGQdwCWpinNu8uMb1O55lBjA2A5EtM1WYajSObThj6mKNLpVlYntYzLGh4vdIwgeAGmX6Q41/iT
- EjS9jwUAAdDxZe1U=
-X-Received: by 2002:a05:622a:164e:b0:3b9:b6e8:8670 with SMTP id
- y14-20020a05622a164e00b003b9b6e88670mr6741562qtj.51.1675784108577; 
- Tue, 07 Feb 2023 07:35:08 -0800 (PST)
-X-Google-Smtp-Source: AK7set8q+i3kHOcVqF9guHCtou59zI/CZrwAjQYrG7mOMT6gNgETxQNAFLvtfRCywG9PAQjtVgJ9UQ==
-X-Received: by 2002:a05:622a:164e:b0:3b9:b6e8:8670 with SMTP id
- y14-20020a05622a164e00b003b9b6e88670mr6741534qtj.51.1675784108357; 
- Tue, 07 Feb 2023 07:35:08 -0800 (PST)
-Received: from [192.168.100.30] ([82.142.8.70])
- by smtp.gmail.com with ESMTPSA id
- c77-20020ae9ed50000000b00720ae160601sm9634058qkg.22.2023.02.07.07.35.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Feb 2023 07:35:07 -0800 (PST)
-Message-ID: <79b5fb1f-f377-0fb1-0abf-8454e1f2cd91@redhat.com>
-Date: Tue, 7 Feb 2023 16:35:05 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 04/12] tests/qtest: Skip virtio-serial-console tests if
- device not present
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, Fabiano Rosas <farosas@suse.de>,
- qemu-devel@nongnu.org
-Cc: Amit Shah <amit@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>
+ bh=grXPb38SY1J/ClX8QajUKwmWwbQXZocT/qkraYNEHTo=;
+ b=HfQYFjXzyJOjWMpoDw1YR6S8qUmuEvDmWUiFc6Vctkq+WHhxNpdDtGkdF96JpgbJ4FPCf/
+ GsOS2425lJJJgYplT8qLoMnBBZ7P9NIDu7iuLVt4vZ3DIM1wNyDLRgGWKQUKgxg41UUCN8
+ KbcdP7I7vqjm2K5x64H19LsRUnsQe3c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1675784147;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=grXPb38SY1J/ClX8QajUKwmWwbQXZocT/qkraYNEHTo=;
+ b=bTyeOhoQz+1cAMQyPzuH0wZPRuygtfJfewxIgw4xL6u7w+lC5jkUuDODKhgltsUC9iRJXJ
+ wVKWc9lIINBVHKDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id ED7E513467;
+ Tue,  7 Feb 2023 15:35:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id SJQYLdJv4mNwLQAAMHmgww
+ (envelope-from <farosas@suse.de>); Tue, 07 Feb 2023 15:35:46 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 12/12] [NOT FOR MERGE] tests/qtest: Introduce
+ qtest_validate_args
+In-Reply-To: <8a4b8438-98a4-71fa-cf73-005139b97b95@redhat.com>
 References: <20230206150416.4604-1-farosas@suse.de>
- <20230206150416.4604-5-farosas@suse.de>
- <3b2e6eb7-2f0a-7663-b454-bce49d92f36f@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <3b2e6eb7-2f0a-7663-b454-bce49d92f36f@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <20230206150416.4604-13-farosas@suse.de>
+ <8a4b8438-98a4-71fa-cf73-005139b97b95@redhat.com>
+Date: Tue, 07 Feb 2023 12:35:44 -0300
+Message-ID: <87v8kdmqsv.fsf@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,43 +84,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/7/23 14:25, Thomas Huth wrote:
+Thomas Huth <thuth@redhat.com> writes:
+
 > On 06/02/2023 16.04, Fabiano Rosas wrote:
->> The virtconsole device might not be present in the QEMU build that is
->> being tested. Skip the test if that's the case.
->>
+>> The QEMU binary can be built with a varied set of features/devices
+>> which are opaque to the tests. Add a centralized point for parsing and
+>> validating the command line.
+>> 
+>> Tests can now be skipped with the following pattern:
+>> 
+>> qts = qtest_init(args);
+>> if (!qts) {
+>>      return;
+>> }
+>> 
+>> For now, the only validation is that the -device options all
+>> correspond to devices that are actually present in the build.
+>> 
 >> Signed-off-by: Fabiano Rosas <farosas@suse.de>
 >> ---
->>   tests/qtest/virtio-serial-test.c | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/tests/qtest/virtio-serial-test.c b/tests/qtest/virtio-serial-test.c
->> index 2541034822..f4e05e8fdd 100644
->> --- a/tests/qtest/virtio-serial-test.c
->> +++ b/tests/qtest/virtio-serial-test.c
->> @@ -28,6 +28,10 @@ static void register_virtio_serial_test(void)
->>   {
->>       QOSGraphTestOptions opts = { };
->> +    if (!qtest_has_device("virtconsole")) {
->> +        return;
->> +    }
->> +
->>       opts.edge.before_cmd_line = "-device virtconsole,bus=vser0.0";
->>       qos_add_test("console-nop", "virtio-serial", virtio_serial_nop, &opts);
-> 
-> virtio-serial-test.c is a qos test - and this should detect automatically already whether 
-> a device is available and pluggable or not, I think.
-> 
-> There must be something else wrong here ... Laurent, Paolo, any ideas?
+>> Would this be better than checking for missing devices in individual
+>> tests?
+>
+> This is certainly an interesting idea! ... some things still bug me, though:
+>
+> - We still need to change all the calling sites (to check for
+>    !qts) ... so the effort seems to be in a similar ballpark as
+>    adding qtest_has_device() to the various problematic tests
 
-I think the checking of the device should be added where the device is added to the qos 
-tree, in libqos/virtio-serial.c
+Just notice that this series does not cover _all_ -device uses, only the
+ones that refer to devices disabled by --without-default-devices. So we
+might need to come back to this when some CONFIG changes, new devices
+are added, new tests, etc.
 
-If you don't add the device then the test is not started.
+> - This will now call qtest_has_device for each and every device
+>    in the parameter list, even if it is not necessary. And at
+>    least the first call to qtest_has_device() is rather expensive
+>    since it has to fire up a separate QEMU to retrieve the list
+>    of supported the devices. So adding this to all tests might
+>    cause a slow-down to the tests...
 
-If I remember correctly, there was no autodetection of the devices, all are added statically.
+Yes, that was my main concern. We could have something like this patch
+but as a helper that tests can call. Initially, I had thought of:
 
-Thanks,
-Laurent
+if (qtest_validate_args(args)) {
+   qts = qtest_init(args);
+}
 
+> - It could maybe even hide bugs if you don't look closely, e.g.
+>    if you have a typo in the device name in a test, the test then
+>    gets skipped automatically instead of failing ... ok, that's
+>    unlikely for new tests where you look closely, but still, it
+>    gives me slightly bad feeling.
+
+I agree. In fact I have been looking into making the same change (as
+this patch) in the avocado tests, which of course all fail
+without-default-devices. There it's considerably simpler (because
+Python), but I'm still thinking about how to avoid hiding a legitimate
+failure.
+
+> So I think I rather tend to go for explicit calls to qtest_has_device() as 
+> you did in your first 11 patches.
+
+Ok, I'll send just them for v2, unless anyone else has something to say.
 
