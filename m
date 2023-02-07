@@ -2,114 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7A4868DA2E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:09:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F17CF68DA3A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:14:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPOeU-0006dl-J6; Tue, 07 Feb 2023 09:08:54 -0500
+	id 1pPOiQ-00009a-BL; Tue, 07 Feb 2023 09:12:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pPOeS-0006dC-C8; Tue, 07 Feb 2023 09:08:52 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPOiM-00008u-Kr
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:12:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pPOeQ-0002e9-0q; Tue, 07 Feb 2023 09:08:51 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 317DUkJv000843; Tue, 7 Feb 2023 14:08:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=HHVghQBlFsm5W8pswKf4ADah+BOuHwoa8u7nzAOhAEU=;
- b=hkQio4GJ7XD4cLVbsgMmUVdAlmWU475cs81oL6+4EJLrWvQmqqKxMUXxb3hqSydlgK9S
- FSplctGw2c8wg768k3z7asuZExFUGontj59YR7PdzWn9mKM1Lx5LS0KRP82rQHWBblLD
- W6Oi/LxeiXgm8p8T41hJ7OCVwPyQpzn2HIgpmTNRDA9UVoN9QW3YaoWPnGZpE14WJ1pF
- bhaKxBIaUx9IkEliq593k9H1UvPlQGWrUMgx9tMuSCJCgR9STRjMiYs0gqbF6fSKJ4LG
- rpULrcY9d1D9hO835tevuCfJ9eOmuo/Znps3Y900ON2PNY2To/EQdeDQvo1jQSAxxAJv 8w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nkqkgh1yr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Feb 2023 14:08:46 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 317DcJu5024039;
- Tue, 7 Feb 2023 14:08:45 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nkqkgh1xf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Feb 2023 14:08:45 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 317C14WO001883;
- Tue, 7 Feb 2023 14:08:43 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
- by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3nhf06kpjm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Feb 2023 14:08:43 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 317E8dBQ46530968
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 7 Feb 2023 14:08:39 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A26522004B;
- Tue,  7 Feb 2023 14:08:39 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 57CAC20040;
- Tue,  7 Feb 2023 14:08:39 +0000 (GMT)
-Received: from [9.152.224.241] (unknown [9.152.224.241])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Tue,  7 Feb 2023 14:08:39 +0000 (GMT)
-Message-ID: <57096fc5-1ab9-4589-ff1b-6bcc2fdcbd82@linux.ibm.com>
-Date: Tue, 7 Feb 2023 15:08:39 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPOiK-0003PB-Dq
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:12:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675779171;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Tf90iYsbA2tTlNxoKXvxtMh5klez5zJLxDeO08WzgIs=;
+ b=MF5HZ+orJp9Jw2/R4Fh+K8A2KzuWwuXUJL5I3+JAmUnx1SSStVdF47qfvXWnKZtqlh4Amr
+ yk641lBluYZmJM6ZtcPTvvvVtDa05MNYJ6GBemrS7VvP85JPXEhjiVTyEMH37viJ4r2HTG
+ PWAV0G3WDEbPwDE0Xe1V9rKbnajdgdU=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-608-JlmnP1WSO_iR8CTq6p62Yg-1; Tue, 07 Feb 2023 09:12:50 -0500
+X-MC-Unique: JlmnP1WSO_iR8CTq6p62Yg-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ cr22-20020a05622a429600b003b694a9f291so8571386qtb.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:12:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Tf90iYsbA2tTlNxoKXvxtMh5klez5zJLxDeO08WzgIs=;
+ b=ojI0FECiEa7ub85bjKJqCpkDERWxMXx4qHROMY2lMFVLJjzGFH77faaN+rGwEbT0+Z
+ Kv/+3lDSxpk28vxfDZ/Ce6I4PWA6a0QnWiOSulIabjqmXO9s7kSecT18XxMLZheEhMYQ
+ WzPUobzCzL1wy8V7smVCYacJ7SUBL8ut1Q4P71DjJGnArT5kEvK4K3el7JAuSVoSUbU9
+ JcHUmmWQOSRu2k873AZgujo3gwKl7YZoCKgqTmT85g/DR+THRN5SI9eEyaKU/N4MjI6H
+ 0LT7E7d9gJRfloF8Y+szdCbclQSZId8fR9IkrLFi/J04h+fEig+mJBGWz1Mu9eHbjoDC
+ B6Tw==
+X-Gm-Message-State: AO0yUKWvBUH5xFsSvRw74I12blS2AN1LB6jK7wQF3Pt8IlAREfLtQjVi
+ xeV7RIEKqnpSEyLEfDyvs6ScFR68htwvn/dkLChVB6m4C8X33I7GiG7XDcoRbAGFF8cl72+jkMt
+ 5Ndq3Nbty9WXM4z4=
+X-Received: by 2002:a05:6214:260a:b0:56a:7a8d:37fe with SMTP id
+ gu10-20020a056214260a00b0056a7a8d37femr5361464qvb.43.1675779169637; 
+ Tue, 07 Feb 2023 06:12:49 -0800 (PST)
+X-Google-Smtp-Source: AK7set8jmwukdVyzNF5C7XMqxIiuPIQLGMjU9y8PmTLvPM4mWO6bWl8UDMnyTc1SyuTG68XfqZcZQw==
+X-Received: by 2002:a05:6214:260a:b0:56a:7a8d:37fe with SMTP id
+ gu10-20020a056214260a00b0056a7a8d37femr5361425qvb.43.1675779169383; 
+ Tue, 07 Feb 2023 06:12:49 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-120.web.vodafone.de.
+ [109.43.176.120]) by smtp.gmail.com with ESMTPSA id
+ b6-20020a379906000000b007186c9e167esm9508420qke.52.2023.02.07.06.12.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Feb 2023 06:12:48 -0800 (PST)
+Message-ID: <52435c65-9ed6-f7c3-c9c8-907883700f2d@redhat.com>
+Date: Tue, 7 Feb 2023 15:12:45 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v15 05/11] s390x/cpu topology: resetting the
- Topology-Change-Report
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 02/12] tests/qtest: Do not run lsi53c895a test if device
+ is not present
 Content-Language: en-US
-To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230201132051.126868-1-pmorel@linux.ibm.com>
- <20230201132051.126868-6-pmorel@linux.ibm.com>
- <3215597a6916932c26fdbe1dd8daf2fc0c1c1ab5.camel@linux.ibm.com>
- <f4732cd4-67bb-a2a3-0048-3a2118b52fc1@linux.ibm.com>
- <669fea20042a31d009b5f3d9371bcf88f32d5d49.camel@linux.ibm.com>
- <78b4f4c2-511e-f8bd-6f4b-8c13f4d87fe1@linux.ibm.com>
- <d53ff9ed9d3f28abd504763f060c4c6c4f7f9553.camel@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <d53ff9ed9d3f28abd504763f060c4c6c4f7f9553.camel@linux.ibm.com>
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Darren Kenny
+ <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Laurent Vivier <lvivier@redhat.com>
+References: <20230206150416.4604-1-farosas@suse.de>
+ <20230206150416.4604-3-farosas@suse.de>
+ <c612ab5f-157b-264b-31e5-94b16b3c30b3@redhat.com> <878rh9o9o9.fsf@suse.de>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <878rh9o9o9.fsf@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: zVmsRN8hQTw38xumnn9I9U-fgXoiOEBP
-X-Proofpoint-ORIG-GUID: ouV6lxIgc5KaKiOvLC5kjq3R5DDCz_hy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-07_05,2023-02-06_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 lowpriorityscore=0
- phishscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
- malwarescore=0 mlxlogscore=999 spamscore=0 bulkscore=0 impostorscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302070126
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -125,155 +106,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 2/7/23 14:37, Nina Schoetterl-Glausch wrote:
-> On Tue, 2023-02-07 at 13:19 +0100, Pierre Morel wrote:
->>
->> On 2/7/23 11:50, Nina Schoetterl-Glausch wrote:
->>> On Tue, 2023-02-07 at 10:24 +0100, Pierre Morel wrote:
->>>>
->>>> On 2/6/23 18:52, Nina Schoetterl-Glausch wrote:
->>>>> On Wed, 2023-02-01 at 14:20 +0100, Pierre Morel wrote:
->>>>>> During a subsystem reset the Topology-Change-Report is cleared
->>>>>> by the machine.
->>>>>> Let's ask KVM to clear the Modified Topology Change Report (MTCR)
->>>>>> bit of the SCA in the case of a subsystem reset.
->>>>>>
->>>>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->>>>>> ---
->>>>>>     include/hw/s390x/cpu-topology.h |  1 +
->>>>>>     target/s390x/cpu.h              |  1 +
->>>>>>     target/s390x/kvm/kvm_s390x.h    |  1 +
->>>>>>     hw/s390x/cpu-topology.c         | 12 ++++++++++++
->>>>>>     hw/s390x/s390-virtio-ccw.c      |  3 +++
->>>>>>     target/s390x/cpu-sysemu.c       | 13 +++++++++++++
->>>>>>     target/s390x/kvm/kvm.c          | 17 +++++++++++++++++
->>>>>>     7 files changed, 48 insertions(+)
->>>>>>
->>>>>> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
->>>>>> index 1ae7e7c5e3..60e0b9fbfa 100644
->>>>>> --- a/include/hw/s390x/cpu-topology.h
->>>>>> +++ b/include/hw/s390x/cpu-topology.h
->>>>>> @@ -66,5 +66,6 @@ static inline void s390_topology_set_cpu(MachineState *ms,
->>>>>>     
->>>>>>     extern S390Topology s390_topology;
->>>>>>     int s390_socket_nb(S390CPU *cpu);
->>>>>> +void s390_topology_reset(void);
->>>>>>     
->>>>>>     #endif
->>>>>> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
->>>>>> index e1f6925856..848314d2a9 100644
->>>>>> --- a/target/s390x/cpu.h
->>>>>> +++ b/target/s390x/cpu.h
->>>>>> @@ -641,6 +641,7 @@ typedef struct SysIBTl_cpu {
->>>>>>     QEMU_BUILD_BUG_ON(sizeof(SysIBTl_cpu) != 16);
->>>>>>     
->>>>>>     void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar);
->>>>>> +void s390_cpu_topology_reset(void);
->>>>>
->>>>> How about you call this s390_cpu_topology_reset_modified, so it's symmetric
->>>>> with the function you define in the next patch. You could also drop the "cpu"
->>>>> from the name.
->>>>
->>>> I am not sure about this, Thomas already gave his R-B on this patch so I
->>>> prefer to stay on the original name, unless he says it is a good idea to
->>>> change.
->>>> Also in cpu-sysemu.c most of the function are tagged with _cpu_
->>>
->>> IMO, renaming a function would be a small enough change to keep an R-b.
->>>>
->>>>>
->>>>> Or maybe even better, you only define a function for setting the modified state,
->>>>> but make it take a bool argument. This way you also get rid of some code duplication
->>>>> and it wouldn't harm readability IMO.
->>>>
->>>> There is already a single function kvm_s390_topology_set_mtcr(attr) to
->>>> set the "modified state"
->>>
->>> Yes, but that is for KVM only and doesn't do error handling.
->>> So you need at least one function on top of that. What I'm suggesting is to
->>> only have one function instead of two because it gets rid of some code.
->>
->> OK this is right.
->> I rename
->> void s390_cpu_topology_reset(void);
->> to
->> void s390_cpu_topology_set_mtcr(int value);
+On 07/02/2023 15.02, Fabiano Rosas wrote:
+> Thomas Huth <thuth@redhat.com> writes:
 > 
-> I don't find mtcr very descriptive and a bit of a SIE/KVM name, it might not
-> fit a possible future tcg implementation.
-> I'd just call it s390_cpu_topology_set_changed/modified, and have it take a bool,
-> because I cannot imagine other int values to make sense.
-
-OK
-
-> 
->>
->> and then:
->>
->> -    s390_cpu_topology_reset();
->> +    s390_cpu_topology_set_mtcr(0);
->>
->>
->>>>
->>>>>
->>>>>>     
->>>>>>     /* MMU defines */
->>>>>>     #define ASCE_ORIGIN           (~0xfffULL) /* segment table origin             */
->>>>>> diff --git a/target/s390x/kvm/kvm_s390x.h b/target/s390x/kvm/kvm_s390x.h
->>>>>> index f9785564d0..649dae5948 100644
->>>>>> --- a/target/s390x/kvm/kvm_s390x.h
->>>>>> +++ b/target/s390x/kvm/kvm_s390x.h
->>>>>> @@ -47,5 +47,6 @@ void kvm_s390_crypto_reset(void);
->>>>>>     void kvm_s390_restart_interrupt(S390CPU *cpu);
->>>>>>     void kvm_s390_stop_interrupt(S390CPU *cpu);
->>>>>>     void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info);
->>>>>> +int kvm_s390_topology_set_mtcr(uint64_t attr);
->>>>>>     
->>>>>>     #endif /* KVM_S390X_H */
->>>>>> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
->>>>>> index a80a1ebf22..cf63f3dd01 100644
->>>>>> --- a/hw/s390x/cpu-topology.c
->>>>>> +++ b/hw/s390x/cpu-topology.c
->>>>>> @@ -85,6 +85,18 @@ static void s390_topology_init(MachineState *ms)
->>>>>>         QTAILQ_INSERT_HEAD(&s390_topology.list, entry, next);
->>>>>>     }
->>>>>>     
->>>>>> +/**
->>>>>> + * s390_topology_reset:
->>>>>> + *
->>>>>> + * Generic reset for CPU topology, calls s390_topology_reset()
->>>>>> + * s390_topology_reset() to reset the kernel Modified Topology
->>>>>> + * change record.
->>>>>> + */
->>>>>> +void s390_topology_reset(void)
->>>>>> +{
->>>>>
->>>>> I'm wondering if you shouldn't move the reset changes you do in the next patch
->>>>> into this one. I don't see what they have to do with PTF emulation.
->>>>
->>>> Here in this patch we do not intercept PTF and we have only an
->>>> horizontal polarity.
->>>> So we do not need to reset the polarity for all the vCPUs, we only need
->>>> it when we have vertical polarity.
+>> On 06/02/2023 16.04, Fabiano Rosas wrote:
+>>> The tests are built once for all the targets, so as long as one QEMU
+>>> binary is built with CONFIG_LSI_SCSI_PCI=y, this test will
+>>> run. However some binaries might not include the device. So check this
+>>> again in runtime.
 >>>
->>> Well, with the PTF patch you don't get vertical polarity either, because you
->>> only enable the topology with patch 7.
->>> And since it's about resetting, it fits better in this patch IMO.
+>>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+>>> ---
+>>>    tests/qtest/fuzz-lsi53c895a-test.c | 4 ++++
+>>>    1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
+>>> index 392a7ae7ed..a9254b455d 100644
+>>> --- a/tests/qtest/fuzz-lsi53c895a-test.c
+>>> +++ b/tests/qtest/fuzz-lsi53c895a-test.c
+>>> @@ -112,6 +112,10 @@ static void test_lsi_do_dma_empty_queue(void)
+>>>    
+>>>    int main(int argc, char **argv)
+>>>    {
+>>> +    if (!qtest_has_device("lsi53c895a")) {
+>>> +        return 0;
+>>> +    }
 >>
->> Not in my opinion, suppose the next patch never get included it has no
->> sense.
+>> I'm a little bit confused right now ... We're already checking
+>> CONFIG_LSI_SCSI_PCI in meson.build, and we're only adding the test to
+>> qtests_i386 there ... so how did you end up in a situation where you needed
+>> this change?
 > 
-> Well, yes, but then the series would be broken, since the facility requires PTF to work.
+> I building with
+> --target-list=i386-softmmu,x86_64-softmmu,aarch64-softmmu,arm-softmmu
+> and the arm machines are selecting the CONFIG
+...
+> hw/arm/Kconfig has:
+> 
+> config REALVIEW
+>      ...
+>      select LSI_SCSI_PCI
 
-Yes, same if the activation of the facility is not included.
+Ah, right, thanks for the explanation, I missed that some machines have this 
+device built in this way. Ok, patch makes perfectly sense now:
 
-Regards,
-Pierre
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
 
