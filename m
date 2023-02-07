@@ -2,89 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43EDB68D04D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 08:13:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6647E68D05E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 08:16:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPI9b-0001rD-RC; Tue, 07 Feb 2023 02:12:36 -0500
+	id 1pPI9Y-00018E-1a; Tue, 07 Feb 2023 02:12:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=395dd5341=alistair.francis@opensource.wdc.com>)
- id 1pPI8m-0000os-Sj
+ id 1pPI8n-0000ot-1K
  for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:11:46 -0500
 Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=395dd5341=alistair.francis@opensource.wdc.com>)
- id 1pPI8k-0008RS-U1
+ id 1pPI8l-0000FW-4S
  for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:11:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1675753902; x=1707289902;
+ t=1675753903; x=1707289903;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=MP0C+2m3+enuehum4RyKcU0ml6Pel2g/4/nOPc7lILE=;
- b=WtzKcQOPVZVmxFDQdNfVh3D0nfviHr/PTXoGXSx6ylKiWuUxqNyd9OhU
- SAZ+qy3dvmQSJICv+qHqFp/3lpa2kGk4M8S9BojBEpIlQpND8p2t5ru7Y
- 6hOjlsNmMJPXkSFbCI8EEFcW0EE26Jpr4KF+mQmXSpBRltyHA3QzFB1xL
- AqATAiXPY3OvGMUlHVEYvFQqE74FY7J3oPsvWyPxfCRr/QWFT2XJdtEES
- 7SlwIxN6kcJmw6CA5xgTlQp2OR6UKwZRkRiTyNLk/nDLkmTIF4OMMimxE
- fKPi0x1vMOmnycd3mA2tcI9YshGuE0nxMkTsXkZRIaY5dhF8156FVcwQy g==;
-X-IronPort-AV: E=Sophos;i="5.97,278,1669046400"; d="scan'208";a="227657576"
+ bh=ufYiZCJb17W83Uqjf2s08zY+Ir+33n8NAc2wUshJSmw=;
+ b=LMmGRypERBbR2/57XEkG6YRmYDK1xbXjHBN5lz7omviS+mC6c1tLDg08
+ U4bDw1qwthiMkmH628dxUeQM3FZ61N3Dth3zTbQUdNt6yBykTuC85BSBb
+ RahuJPvMQdp0Gki+o3F01QDe3n0up/o//FeqJsbFXgRXsqKxFhFJ49dwz
+ 979PqfzIRBDRy0hwLiuTdg9uI9WH6xM2rcqRStmN/ns79ixNxatXWOnUE
+ ntxm1IPKrmdRVYkjXt82XTuQRt/j8sbQWFNl8RW4QH9c3fpFo8DWUhQ3z
+ iLWwsexifq1Z4dJtEaC67FuIZ4Hleb9bTokjZALH88sLqMV1t/jzysUIA g==;
+X-IronPort-AV: E=Sophos;i="5.97,278,1669046400"; d="scan'208";a="227657584"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 07 Feb 2023 15:10:48 +0800
-IronPort-SDR: AnRFaumTCqGmKe8uLhsJsIgVocCDr4dRLDFpGSEIWsN+wWTKQskOMzb14MW+MrUS2UN4fI7TV1
- /RJjWaiz5VkCzIKYHCD4tN//Ut6OeySwyUYvDPTQhtqMhNwjbsjOg1zkwDxKQrzYtZmicbQDOM
- pCyXtk7b1pSTQWij2z+Kjl4t7WzkeZtkgwlmIq1eEg2MAf1rXCREDsbfatgFDnvAVZiuwLr2Xw
- JOFr8AxSejKR2f+xDlq4R74ixArQ6/z2B3eFSQVh5vjSYN5CIJWxnP4IrW9loP7TeMGWXRMHoV
- 8Mo=
+ by ob1.hgst.iphmx.com with ESMTP; 07 Feb 2023 15:10:50 +0800
+IronPort-SDR: Z4Q+h5TqYUTXX2knAD7FGBLVhUMU9z3GKSiiWMsFPgrCv4D2Am8GhyFk2xlfJhQqcBklaqZAIk
+ wYY8A8WCfDkw/9D5dwsz0Wy2Ae6aRBB+ur1mFIYfvNAMYfE7yQPOFfihxXTFSWhksaZA5lruC5
+ CAzXwGtb8nqs/ebOsETLPWhrvIcosYcVVeZf7nQK7zyolbfGvLNw1RWc4YqU0GwLO9TelPcw6N
+ jFTXa7nrJ73Gp9Q6WzfMs322rmcjgb5trXAVKybdYnr6PVkD4v7EuMeaZMiqiasrVP6dGN9Isv
+ v1w=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Feb 2023 22:28:05 -0800
-IronPort-SDR: vTMutlnPQPWJncuGBdV1Q3sG2L6wq5SQNrn4OwMElxvfzs3UFwHJNl+N8sZp2CpWkWOoDVFBZW
- miEVasLChCWYvT2RyoTDd/qWLtaX/JhuRdCZ3ES1VIoXIEHQC3/IwzenOJ8ZeOpFx3uGjWGmYQ
- 246H9p7pXqpypUWagQM7pnGjLCymLEE3ELzY8lkUynb/JJa0UAYDT+gyAU50/viNthG4sOo3L1
- qKJWtQmpxa2sM9c3tjlRjVtHHSNtzsRnt9mCwr6qIb51+LX8Nbszqbu8icEDIUPD/LuRcQdZpd
- Uls=
+ 06 Feb 2023 22:28:07 -0800
+IronPort-SDR: hDKFEq1eHrkb/qkzdkzJQUrS/lPP3wTsc00N8zXZlTfmCA/ZuJNmK0ngMIw8rP2BWcFeQZ9EMH
+ QMuDCtu4/ZZlOTG3q07Y133ZxQQX9t2vJBaSoIAOgSj6WIA9KI0PeAd+jvWSf5lC5SgAHE89KP
+ sF+WRUxDjYitJigqN8858ESwpG7ooOR1hvZF0pV0COnB5ERg08DvJzCQERuKrD4SPNB8sInh5/
+ G88INkIba+FU+2XLEWadO60SGKOXudZXgpN8hauSobBV6EznQLP9PWyXdSG2xEAG06HnGdHXkM
+ PPU=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Feb 2023 23:10:48 -0800
+ 06 Feb 2023 23:10:50 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4P9vRX4JPFz1RvTp
- for <qemu-devel@nongnu.org>; Mon,  6 Feb 2023 23:10:48 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4P9vRZ35bHz1RvTp
+ for <qemu-devel@nongnu.org>; Mon,  6 Feb 2023 23:10:50 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1675753848; x=1678345849; bh=MP0C+2m3+enuehum4R
- yKcU0ml6Pel2g/4/nOPc7lILE=; b=ST6KI55PJzqkzvARTCP1mgxVRY2ukrDqy9
- +vHEXWJKIgrNtz/PhW0SoS4IeeNh9uqYgQdbok3EGBZDEhqqEJa1EwyQGHOml598
- RjNExMJxQGtbj4JWxHc+munIbPrbNAqwKlbY2YXZbli1HP3IFwWIYk+NmjvKU94F
- 4uYCMOT1Y4aORH4lU8RgJgOdMgusFSOcXstIPbGEMwYnw3v30DhflA6513UfkH7H
- CcKsOb3Yf5SQdeky7k0wf81eLqrZ1QoUXPsdwR1v9RtjzqoC0V5au890OT2HTRzB
- jhYUk7c+UZtzwQqXSkg48LbQhunKM6x4cq0zI8OyDnQyMA1VpGuw==
+ :from; s=dkim; t=1675753850; x=1678345851; bh=ufYiZCJb17W83Uqjf2
+ s08zY+Ir+33n8NAc2wUshJSmw=; b=XPeEwjzd8zOF6gVUVlO+DpPLtJYjybb7eL
+ ZP12neEJMEVDG9wDKV6QWg9oe+3z5a1lUH69eKFrSEsWp07julFNRYt4N0IbRRTJ
+ hw1ax8X5FFtf7ftGc2HFvzWQGH1qJRpnXAZNfspU8HY9u1Se1pfOHjjAgqSPpRbI
+ /xTtYwFgdiE3sPfQbaZYBT3NVE61fjuFJonl3ioYWzfv+3iOIhxQwXDBPhdlfugW
+ yP10S007kxZKNZUawp/7K3G/3DBuHB1YiP+F1SbKQgZPt9TzxiRLhwRpyvIXo2Pi
+ mn2b+4YGAK6D4NsoHDCDrBtcACnSU81M8TeWk7v3TVgm1F3l4ZFA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id zgCiuTnQtTLE for <qemu-devel@nongnu.org>;
- Mon,  6 Feb 2023 23:10:48 -0800 (PST)
+ port 10026) with ESMTP id pBzhSpkV45Gf for <qemu-devel@nongnu.org>;
+ Mon,  6 Feb 2023 23:10:50 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.38])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4P9vRV54jQz1RvLy;
- Mon,  6 Feb 2023 23:10:46 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4P9vRX4vdvz1RwtC;
+ Mon,  6 Feb 2023 23:10:48 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Vladimir Isaev <vladimir.isaev@syntacore.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 30/32] target/riscv: fix ctzw behavior
-Date: Tue,  7 Feb 2023 17:09:41 +1000
-Message-Id: <20230207070943.2558857-31-alistair.francis@opensource.wdc.com>
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 31/32] target/riscv: fix SBI getchar handler for KVM
+Date: Tue,  7 Feb 2023 17:09:42 +1000
+Message-Id: <20230207070943.2558857-32-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230207070943.2558857-1-alistair.francis@opensource.wdc.com>
 References: <20230207070943.2558857-1-alistair.francis@opensource.wdc.com>
@@ -117,34 +116,37 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Vladimir Isaev <vladimir.isaev@syntacore.com>
 
-According to spec, ctzw should work with 32-bit register, not 64.
+Character must be returned via ret[0] field (copied to a0 by KVM).
 
-For example, previous implementation returns 33 for (1<<33) input
-when the new one returns 32.
+Return value should be set to 0 to indicate successful processing.
 
 Signed-off-by: Vladimir Isaev <vladimir.isaev@syntacore.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230204082312.43557-1-vladimir.isaev@syntacore.com>
+Message-Id: <20230203135155.12449-1-vladimir.isaev@syntacore.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn_trans/trans_rvb.c.inc | 1 +
- 1 file changed, 1 insertion(+)
+ target/riscv/kvm.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_=
-trans/trans_rvb.c.inc
-index e2b8329f1e..990bc94b98 100644
---- a/target/riscv/insn_trans/trans_rvb.c.inc
-+++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -401,6 +401,7 @@ static bool trans_ctzw(DisasContext *ctx, arg_ctzw *a=
-)
- {
-     REQUIRE_64BIT(ctx);
-     REQUIRE_ZBB(ctx);
-+    ctx->ol =3D MXL_RV32;
-     return gen_unary(ctx, a, EXT_ZERO, gen_ctzw);
- }
-=20
+diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
+index 30f21453d6..0f932a5b96 100644
+--- a/target/riscv/kvm.c
++++ b/target/riscv/kvm.c
+@@ -467,10 +467,11 @@ static int kvm_riscv_handle_sbi(CPUState *cs, struc=
+t kvm_run *run)
+     case SBI_EXT_0_1_CONSOLE_GETCHAR:
+         ret =3D qemu_chr_fe_read_all(serial_hd(0)->be, &ch, sizeof(ch));
+         if (ret =3D=3D sizeof(ch)) {
+-            run->riscv_sbi.args[0] =3D ch;
++            run->riscv_sbi.ret[0] =3D ch;
+         } else {
+-            run->riscv_sbi.args[0] =3D -1;
++            run->riscv_sbi.ret[0] =3D -1;
+         }
++        ret =3D 0;
+         break;
+     default:
+         qemu_log_mask(LOG_UNIMP,
 --=20
 2.39.1
 
