@@ -2,74 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB7568DC7B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 16:08:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 813C668DC91
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 16:09:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPPZe-0001nE-7I; Tue, 07 Feb 2023 10:07:58 -0500
+	id 1pPPaL-0002gZ-DX; Tue, 07 Feb 2023 10:08:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pPPZc-0001mC-Au
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:07:56 -0500
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pPPZZ-0007Oj-Ol
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:07:56 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id ea13so1683707pfb.13
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 07:07:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=fAltMcuXk5nHD2gmnYFO7HpFbgteV7lw0CrjjJIcs38=;
- b=jgwXULle1QOoPatKUrkd3WNvuUyLNHyCDatn6MCPcm92b3fh1cpLotW1KrKD/Dyf6O
- yh94cShlB4yjuVLcffNQKAjlthS0Mlj3Owc2jBBsQceyWCbsz8nzy22mavnFoIbe3NCb
- Iw1A9EshTcaF21fLeKp9mhVgd2CVAjotkrAZRt6F4GzfWaD/OBQn31ECy0oKookaZ3NR
- n9GWTMZO/qM0ZmIY7ev3YoWi3MF/J7YyR4cXl4zUNlhDzWO5yTBLQSSN0Jt9s2sCJRx9
- VdnktgUMZFXxZ5nP2LoJzys9PChuVlCfrSFYVKfIVyoyA4QXOIcp5SUQ3PkjlalGkWJC
- 2MPA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPPaI-0002d3-Ua
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:08:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPPaH-0007Ss-9T
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:08:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675782516;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KI3RgQdPtYw8GUWyMez8C5CNhpplO8CmMk/Ip3SnJv8=;
+ b=GRODJLTI8ky/LZMP55fwsIZm+QM7R4P+sYHOGB8J4EdSpYu8e+smR+kEZysWNxOb6wEIVj
+ zD4vpI3nyQLd3MsNQ1QNtI4DjJ1Os/6wbB9b2+tw678TnNBe4pX/koJFa+BCJp8iKquG6E
+ NmDSaP4GMF6PXDeKyfOXDelq8oKa8lo=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-493-DV6Nkh8cPkKHTWRj7Y4rsg-1; Tue, 07 Feb 2023 10:08:34 -0500
+X-MC-Unique: DV6Nkh8cPkKHTWRj7Y4rsg-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ jh2-20020a0562141fc200b004c74bbb0affso7862040qvb.21
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 07:08:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fAltMcuXk5nHD2gmnYFO7HpFbgteV7lw0CrjjJIcs38=;
- b=xAku7v26R+tUKBn91ZP1SSWOzjZXbY4l422TYorg+xr5I29cwyyim87y+gqipZSfk4
- 1PaUBY+MjTCTG8l5jSCw/AfMU6ijWAcIJu7MjrVK/uBuVCy/CtQEFGWWPyK3s0WzEjp3
- hnRMHTYrQ6Whs9Ga59Xs+351EBwiZ5wPNs/qp7j7m2SfFPPns6D5eBWYnWp5A0fhMAzS
- ET8AFqzHTPxuC9aiiW6JLa0Pyoy2Qw7HkZaTHemA68Qlnly8nwr6OmOGWAstg/ez1PZW
- GdhS15PHHVedXjM6eh6/TPNBf8FKLgrw5X9SEtHa5aMzOFSWf+AMqNmUON2gIzlYhJMv
- tSUg==
-X-Gm-Message-State: AO0yUKWnX6mD4b3DMPm8tz9IbwA5nSz811Jv3+2YchV0zSHQXPOm4L0V
- ywmHRgIEHkc0VnVFEfudRB/zG+ZjbhXIDcBx6/o1kw==
-X-Google-Smtp-Source: AK7set9RwV95MKsnemD6syHENMxFd3ePEA1HCcxLx4GWpkdGlIQ8TizHV4sFh1ssYL5oJWmVcK6rM2Or5b+9IxuK1nc=
-X-Received: by 2002:a62:53c6:0:b0:58d:a84a:190b with SMTP id
- h189-20020a6253c6000000b0058da84a190bmr849940pfb.48.1675782471538; Tue, 07
- Feb 2023 07:07:51 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KI3RgQdPtYw8GUWyMez8C5CNhpplO8CmMk/Ip3SnJv8=;
+ b=qrrbNq72HVVS+MMwYXQDk+sRWDdktlrkwPXq9MxFcisAuHc48UuhIbRCOUvPd0Iga8
+ OJDFRtSOn0Rj8uDhDWiWMMIQ8kJvjXAx84tE9MN8NuPxPCgBwS99/juR/XL3Lm6Np7Af
+ 3g+GRcQ3ZL3RX1S3a309d20GjNGrvnl6d0RHxeJof5NmI/muV5WUVXY/adot7WA+ieYe
+ KsB3Pw7CM8ZHdhQuLIBjcmGgggfAlVaSaJpghmCXwDX5A1Y/8NPdrqSFWV3uKlzjI+ku
+ OnNzfG6tHqEegPd6N/5ylk3aCD2MIOR6pGy/iayoINDwO77WrKL/ty5Qxipt4s1GZ5o6
+ gQQg==
+X-Gm-Message-State: AO0yUKVLEnZoTIdnLTHBlLKa7amo9R28irBQwBLWweHVzAetuWTz7gqU
+ LryO/osjWBxXzFw37+J/DXxMT0iS1z4V09GVav+iMzIUq8E2dsVneKrZl3eT41Xt8wdIuQQ4Zum
+ HjlFvEPRjT4RhMXk=
+X-Received: by 2002:a05:622a:2c7:b0:3b8:6c4d:488a with SMTP id
+ a7-20020a05622a02c700b003b86c4d488amr6457372qtx.37.1675782514405; 
+ Tue, 07 Feb 2023 07:08:34 -0800 (PST)
+X-Google-Smtp-Source: AK7set/Y4pVpX+B3xPI4SKSATAD4woC9RI86y1CpZw+JiIUaqRTg6V0WemI42E752ahsybpqtWC9BQ==
+X-Received: by 2002:a05:622a:2c7:b0:3b8:6c4d:488a with SMTP id
+ a7-20020a05622a02c700b003b86c4d488amr6457282qtx.37.1675782513576; 
+ Tue, 07 Feb 2023 07:08:33 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-120.web.vodafone.de.
+ [109.43.176.120]) by smtp.gmail.com with ESMTPSA id
+ w15-20020a05620a444f00b007296805f607sm9843364qkp.17.2023.02.07.07.08.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Feb 2023 07:08:32 -0800 (PST)
+Message-ID: <0c85ac6c-0787-ba6f-3e19-5dbbc1619fac@redhat.com>
+Date: Tue, 7 Feb 2023 16:08:29 +0100
 MIME-Version: 1.0
-References: <20230124000027.3565716-1-richard.henderson@linaro.org>
- <20230124000027.3565716-10-richard.henderson@linaro.org>
-In-Reply-To: <20230124000027.3565716-10-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Feb 2023 15:07:40 +0000
-Message-ID: <CAFEAcA-7Fj5bVn8dTBSR-4jddogWi54MWZJmgXnnycvjnQvZSA@mail.gmail.com>
-Subject: Re: [PATCH 09/22] target/arm: Adjust the order of Phys and Stage2
- ARMMMUIdx
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, yier.jin@huawei.com, 
- jonathan.cameron@huawei.com, leonardo.garcia@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] Hexagon (meson.build): define min bison version
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Matheus Tavares Bernardino <quic_mathbern@quicinc.com>, qemu-devel@nongnu.org
+Cc: anjo@rev.ng, tsimpson@quicinc.com, bcain@quicinc.com,
+ quic_acaggian@quicinc.com, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>
+References: <a6763f9f7b89ea310ab86f9a2b311a05254a1acd.1675779233.git.quic_mathbern@quicinc.com>
+ <53dd2acc-0eb7-5e49-e803-2625f0841880@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <53dd2acc-0eb7-5e49-e803-2625f0841880@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,83 +104,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 24 Jan 2023 at 00:02, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> It will be helpful to have ARMMMUIdx_Phys_* to be in the same
-> relative order as ARMSecuritySpace enumerators. This requires
-> the adjustment to the nstable check. While there, check for being
-> in secure state rather than rely on clearing the low bit making
-> no change to non-secure state.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/cpu.h | 12 ++++++------
->  target/arm/ptw.c | 10 ++++------
->  2 files changed, 10 insertions(+), 12 deletions(-)
->
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index cfc62d60b0..0114e1ed87 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -3057,18 +3057,18 @@ typedef enum ARMMMUIdx {
->      ARMMMUIdx_E2        = 6 | ARM_MMU_IDX_A,
->      ARMMMUIdx_E3        = 7 | ARM_MMU_IDX_A,
->
-> -    /* TLBs with 1-1 mapping to the physical address spaces. */
-> -    ARMMMUIdx_Phys_NS   = 8 | ARM_MMU_IDX_A,
-> -    ARMMMUIdx_Phys_S    = 9 | ARM_MMU_IDX_A,
-> -
->      /*
->       * Used for second stage of an S12 page table walk, or for descriptor
->       * loads during first stage of an S1 page table walk.  Note that both
->       * are in use simultaneously for SecureEL2: the security state for
->       * the S2 ptw is selected by the NS bit from the S1 ptw.
->       */
-> -    ARMMMUIdx_Stage2    = 10 | ARM_MMU_IDX_A,
-> -    ARMMMUIdx_Stage2_S  = 11 | ARM_MMU_IDX_A,
-> +    ARMMMUIdx_Stage2_S  = 8 | ARM_MMU_IDX_A,
-> +    ARMMMUIdx_Stage2    = 9 | ARM_MMU_IDX_A,
-> +
-> +    /* TLBs with 1-1 mapping to the physical address spaces. */
-> +    ARMMMUIdx_Phys_S    = 10 | ARM_MMU_IDX_A,
-> +    ARMMMUIdx_Phys_NS   = 11 | ARM_MMU_IDX_A,
->
->      /*
->       * These are not allocated TLBs and are used only for AT system
-> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-> index 437f6fefa9..59cf64d0a6 100644
-> --- a/target/arm/ptw.c
-> +++ b/target/arm/ptw.c
-> @@ -1410,16 +1410,14 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
->      descaddr |= (address >> (stride * (4 - level))) & indexmask;
->      descaddr &= ~7ULL;
->      nstable = extract32(tableattrs, 4, 1);
-> -    if (nstable) {
-> +    if (nstable && ptw->in_secure) {
->          /*
->           * Stage2_S -> Stage2 or Phys_S -> Phys_NS
->           * Assert that the non-secure idx are even, and relative order.
->           */
+On 07/02/2023 15.54, Philippe Mathieu-Daudé wrote:
+> Cc'ing Paolo/Daniel/Thomas
+> 
+> On 7/2/23 15:52, Matheus Tavares Bernardino wrote:
+>> Hexagon's idef-parser machinery uses some bison features that are not
+>> available at older versions. The most preeminent example (as it can
+>> be used as a sentinel) is "%define parse.error verbose". This was
+>> introduced in version 3.0 of the tool, which is able to compile
+>> qemu-hexagon just fine. However, compilation fails with the previous
+>> minor bison release, v2.7. So let's assert the minimum version at
+>> meson.build to give a more comprehensive error message for those trying
+>> to compile QEMU.
+>>
+>> [1]: 
+>> https://www.gnu.org/software/bison/manual/html_node/_0025define-Summary.html#index-_0025define-parse_002eerror 
+>>
+>>
+>> Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
+>> ---
+>>   target/hexagon/meson.build | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
+>> index c9d31d095c..42b03c81e6 100644
+>> --- a/target/hexagon/meson.build
+>> +++ b/target/hexagon/meson.build
+>> @@ -183,7 +183,7 @@ if idef_parser_enabled and 'hexagon-linux-user' in 
+>> target_dirs
+>>       )
+>>       bison = generator(
+>> -        find_program('bison'),
+>> +        find_program('bison', version: '>=3.0'),
+>>           output: ['@BASENAME@.tab.c', '@BASENAME@.tab.h'],
+>>           arguments: ['@INPUT@', '--defines=@OUTPUT1@', '--output=@OUTPUT0@']
+>>       )
 
-Comment needs updating to match the code change (we're no
-longer asserting that the NS indexes are even).
+Looks reasonable, thus:
 
-> -        QEMU_BUILD_BUG_ON((ARMMMUIdx_Phys_NS & 1) != 0);
-> -        QEMU_BUILD_BUG_ON((ARMMMUIdx_Stage2 & 1) != 0);
-> -        QEMU_BUILD_BUG_ON(ARMMMUIdx_Phys_NS + 1 != ARMMMUIdx_Phys_S);
-> -        QEMU_BUILD_BUG_ON(ARMMMUIdx_Stage2 + 1 != ARMMMUIdx_Stage2_S);
-> -        ptw->in_ptw_idx &= ~1;
-> +        QEMU_BUILD_BUG_ON(ARMMMUIdx_Phys_S + 1 != ARMMMUIdx_Phys_NS);
-> +        QEMU_BUILD_BUG_ON(ARMMMUIdx_Stage2_S + 1 != ARMMMUIdx_Stage2);
-> +        ptw->in_ptw_idx += 1;
->          ptw->in_secure = false;
->      }
->      if (!S1_ptw_translate(env, ptw, descaddr, fi)) {
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Out of curiosity: Where did you encounter this problem? After having a quick 
+look at https://repology.org/project/bison/versions it seems to me that all 
+our supported OS distros should already ship bison 3.0 or newer...
 
-thanks
--- PMM
+  Thomas
+
 
