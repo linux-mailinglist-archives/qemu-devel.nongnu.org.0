@@ -2,54 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5214668DD9E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 17:10:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CB6A68DDA0
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 17:11:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPQY5-0008E4-6i; Tue, 07 Feb 2023 11:10:25 -0500
+	id 1pPQYq-0000Zr-RF; Tue, 07 Feb 2023 11:11:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>)
- id 1pPQXz-0008Dl-O5; Tue, 07 Feb 2023 11:10:20 -0500
-Received: from rev.ng ([5.9.113.41])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>)
- id 1pPQXx-0003kw-MP; Tue, 07 Feb 2023 11:10:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=6ae+QySS9zb9LCfiPK3fdcGJHYoFs6pn7NmHYCDqR4s=; b=d3ywGR5SjGpN5cJ6e1NhHYgism
- RE0D+5lyNBin1O9I+9TSKq2/hqoT4gSvOKDM6TnR+nCBtyWeviHvhd1HckmEbvkEwalGlVNNJ8h6j
- cmZV1SX/38mGPITMYcg8vGgnfjkxkbNwWhNUzi1Phs+YbezNFGP8T0aZK55UB+diaC28=;
-Date: Tue, 7 Feb 2023 17:07:11 +0100
-To: Taylor Simpson <tsimpson@quicinc.com>
-Cc: Thomas Huth <thuth@redhat.com>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVk?=
- =?UTF-8?B?w6k=?= <philmd@linaro.org>, "Matheus Bernardino (QUIC)"
- <quic_mathbern@quicinc.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "anjo@rev.ng" <anjo@rev.ng>, Brian Cain
- <bcain@quicinc.com>, "Antonio Caggiano (QUIC)" <quic_acaggian@quicinc.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>
-Subject: Re: [PATCH] Hexagon (meson.build): define min bison version
-Message-ID: <20230207170711.2278b2a7@orange>
-In-Reply-To: <SN4PR0201MB880806A66F0497F72D0DCC5FDEDB9@SN4PR0201MB8808.namprd02.prod.outlook.com>
-References: <a6763f9f7b89ea310ab86f9a2b311a05254a1acd.1675779233.git.quic_mathbern@quicinc.com>
- <53dd2acc-0eb7-5e49-e803-2625f0841880@linaro.org>
- <0c85ac6c-0787-ba6f-3e19-5dbbc1619fac@redhat.com>
- <SN4PR0201MB880806A66F0497F72D0DCC5FDEDB9@SN4PR0201MB8808.namprd02.prod.outlook.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pPQYo-0000ZR-3c; Tue, 07 Feb 2023 11:11:10 -0500
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pPQYm-0003vS-H8; Tue, 07 Feb 2023 11:11:09 -0500
+Received: by mail-ed1-x530.google.com with SMTP id a10so9192678edu.9;
+ Tue, 07 Feb 2023 08:11:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=DaT0vzRLbS2uKSgkefjvaiCQs2y4tC1/K8IS5ehOzrI=;
+ b=dGpkLOrwVsHnysDf7Wlq3gLOfgp4yoOMdJ6nh5e5TQIdvItjnGcDsBSCuGiu6NK7eC
+ LZDVZrcieeu1P+k7FnIfu7MAKmDB+WYQBENqMiouBpB6sRFxlu9gNMh9+CcukS1DlhRF
+ +7A9rOoNluK8ZNC4hYKo4XJlE9oAzv6fDL4IAoX1Gc63Rt7Zu5zPRbjOFDnQjMq5tt3M
+ s6e2I6OKmzzzycIj9UNhNC1/1X12zu2zMHSvSdM6TFoQS5bmbwibecLYbZha74gxyDxK
+ h/8kQ5dKa90LaT/L2Vfab4n7TFy5rB6oX7GpcNtNtNhCyHUlPfFiWlVxvaxqX4PZ16Qm
+ Pgkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DaT0vzRLbS2uKSgkefjvaiCQs2y4tC1/K8IS5ehOzrI=;
+ b=RaSMS6as0qCsuFihq0qQOfVvoJUjn0xBUpDhrZyLssREjYSN0lmY29d5BczFacQgZG
+ KCCRRK9zW4J/oUR6YUIyJ4tnd9Br+/VyCKqnw0qoGvU8Cw0oUeDx9gDz3QGrv7sU+9aC
+ 1sL5y6qCL++0vVl7G0moo59HnXqDnowe7W+eFhSpXblf3P8GHiVqT7jEgp1qJhLOdTRB
+ z5Im5cDWYYSQtAUVhTPthoYG2IYUwT5KISNYGiBxT/7+d/4QWa0c3gmbXJZaNcl8rDBb
+ mySdnU6aLeiVprO8qysrsjUdlWiZ2CaSZSuZ48ulpP45o5DyfaZNJpP00LBY/984MtDa
+ MjYg==
+X-Gm-Message-State: AO0yUKUAUAsQNCQHyuWJgFMjJ0yZWjOm9KhUSyU9vIPAx+9J4P+3CfcM
+ lCCgi57zQy89x1aHMMmgT4beQ2JATcXUz8nS4Qs=
+X-Google-Smtp-Source: AK7set9c8aje7IEMwZbKRga7eyHTI3X3eM8qxS7hKoAjFXZ4q1WHDNzmwvcPAGCH3PHWOguyiRjeERWn9r/gAHmb8IY=
+X-Received: by 2002:a17:906:7816:b0:888:f761:87aa with SMTP id
+ u22-20020a170906781600b00888f76187aamr1062205ejm.163.1675786266634; Tue, 07
+ Feb 2023 08:11:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=ale@rev.ng; helo=rev.ng
+References: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
+ <20230202045223.2594627-5-sunilvl@ventanamicro.com>
+ <CAEUhbmXhXw7juMQTW7-XxSLwhcJrOiZ=4fiwFFAyoXj+sL0jUQ@mail.gmail.com>
+ <Y+D/frPU/TE1aj7y@sunil-laptop>
+In-Reply-To: <Y+D/frPU/TE1aj7y@sunil-laptop>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 8 Feb 2023 00:10:55 +0800
+Message-ID: <CAEUhbmU2cofq767-9Lfs2CF+DzpZ6FCHz1ox1TC1siPs5uUdWQ@mail.gmail.com>
+Subject: Re: [PATCH 04/10] hw/riscv/virt: virt-acpi-build.c: Add basic ACPI
+ tables
+To: Sunil V L <sunilvl@ventanamicro.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Andrew Jones <ajones@ventanamicro.com>, Anup Patel <apatel@ventanamicro.com>, 
+ Atish Kumar Patra <atishp@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,16 +85,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Alessandro Di Federico <ale@rev.ng>
-From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The patch makes sense to me.
+On Mon, Feb 6, 2023 at 9:24 PM Sunil V L <sunilvl@ventanamicro.com> wrote:
+>
+> On Mon, Feb 06, 2023 at 06:17:50PM +0800, Bin Meng wrote:
+> > On Thu, Feb 2, 2023 at 12:54 PM Sunil V L <sunilvl@ventanamicro.com> wrote:
+> > >
+> > > Add few basic ACPI tables and DSDT with few devices in a
+> > > new file virt-acpi-build.c.
+> > >
+> > > These are mostly leveraged from arm64.
+> >
+> > There are lots of same ACPI codes existing in x86/arm/riscv. I believe
+> > some refactoring work is needed before ACPI support fully lands on
+> > RISC-V.
+> > For example, we can extract the common part among x86/arm/riscv into a
+> > separate file, like hw/acpi/acpi-build.c?
+> >
+>
+> While it appears like there is same code in multiple places, those
+> functions take architecture specific MachineState parameter. Some tables
+> like MADT though with same name, will have different contents for
+> different architectures.
+>
+> Only one function which Daniel also pointed is the wrapper
+> acpi_align_size() which can be made common. I am not
+> sure whether it is worth of refactoring.
+>
 
-Reviewed-by: Alessandro Di Federico <ale@rev.ng>
+It's more than that. For example,
 
--- 
-Alessandro Di Federico
-rev.ng Labs
+With acpi_dsdt_add_cpus(), the only meaningful parameter is the number
+of cpus, so there is no need to pass the architecture specific
+MachineState as the parameter.
+
+Likewise, acpi_dsdt_add_fw_cfg() can be made generic as well.
+
+Regards,
+Bin
 
