@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E780068DC18
+	by mail.lfdr.de (Postfix) with ESMTPS id ED64268DC19
 	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:51:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPPIU-0003MZ-0i; Tue, 07 Feb 2023 09:50:14 -0500
+	id 1pPPIq-0003TG-Np; Tue, 07 Feb 2023 09:50:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPPIR-0003M7-MW
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:50:11 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPPIo-0003PW-D4
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:50:34 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPPIM-0003lw-Oi
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:50:11 -0500
-Received: by mail-wm1-x329.google.com with SMTP id o36so11216707wms.1
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:50:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPPIh-0003uN-TY
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:50:34 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id g6so5823178wrv.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:50:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=nxMkl45XiBM1aBlMNF3vUsPV8qHD+Ur7DhIsnN2VJKA=;
- b=BSHxGSQCY83St3dSiN658GFcfkSLg511p1rxPozfmOuxB/2PYOaCjmqumE9RLax45H
- PQqFVG6ZGFSmWPlOqh9Bbub4aimHcwrL8GK2YdqfA5Z4J6zjqe6Y5GclglppzrZsfays
- 7f7njJUfVyb6Hv0gBYL9yyT5m8EOmbnyDa5qBjbBgC5WoOjGdLvdiouAtMG280WDWKhy
- 79RJUz3Y4gxBzKOYUpl4e2iL4eAhP6kXx6OTanIA139/BO2vVz1a/Q256PiN2RGqGqbY
- h6X7XypWQ+1NnrLQadUte8jCvPxDeP66NBXlhPIE0miQabd3l2y7Bkkn/NAS8hni8e82
- vivQ==
+ bh=/Gi6wIoAlUy+tailwC9qAgeHmJkMddpSItEmR85I/d4=;
+ b=dc7cscTFqPAOgAc44s3AU5MYkL93tN6gBU6ujWkXWwXT9nslrKzHokh5wvywOLu6W1
+ QwBHV/SGwiepGxkWnVzXzAZp/ssPlCORjjB35NNEylVe35+bL35624eGsCpB3l3UsyC3
+ UIeCz/0cNHpCpqpKvS17SUy5FffQSn2OPm9i1BcKqhokaJHp0vxsFTmqFmiO4UuSwFu/
+ eXWJui9zBg9YfRFqRKMF3XLevxCVtG4JwHHQlUC29NdJWdI6RDk0B6q5/XsIZQhTfLd8
+ yFp5YpeotJtNXRVOsWI+TAJZikDYpKX7wyRapBSfWq4SFGOr5nR4R+6zORR9hV5PdeQP
+ sz7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nxMkl45XiBM1aBlMNF3vUsPV8qHD+Ur7DhIsnN2VJKA=;
- b=gsHScnDnuVgLWavYJJ7tAZ8yHLdHKFlh4fTfwabc4d9/pQQBlRFOZJVrbmVNsqpxZf
- WmYHlMMxz8WaEQ2KWqUOvd/LM74ZRx/fZeysylwpjxNKCd+Smmgrb/anHbEzv22uP2DJ
- UfLWpTAWNgQKkUutY1m5K/iKKqQz6DnOuUjaoUnCuImZZJmDYiqHOxKPw3Qp8Vus2pj7
- 68mHczb+hXh7/bbGQrE7C1U4A9axPyrDa9JOf9r2BGjly3cKHL2Y0vKpkdXVbddIpvDD
- RnVMcgznCG9TpHsDetHoNppWI8RA3aUWd5V5VkFBFg7lqrcngabSuPfYopP1PIKTwOAF
- x2bw==
-X-Gm-Message-State: AO0yUKVfhyKavhw6JXozvG+BNl+SjuEmevp0HVsJaiX5FwtPpjLcD+ZI
- 03Gbjai0NeHdU+V+QB2RRgZLTQ==
-X-Google-Smtp-Source: AK7set9hafdXA4ULPBwd7mqQNMWDFbmdjhy7GOlu0+tgqcMWtrvJYmbn2FF+GT1YrYA9i4SFkCgHAw==
-X-Received: by 2002:a05:600c:3197:b0:3dc:5240:53b6 with SMTP id
- s23-20020a05600c319700b003dc524053b6mr3465797wmp.6.1675781405013; 
- Tue, 07 Feb 2023 06:50:05 -0800 (PST)
+ bh=/Gi6wIoAlUy+tailwC9qAgeHmJkMddpSItEmR85I/d4=;
+ b=4zCdjAKxdkIcIdim4CDrJg4J/h9c+Mhu//TbJxj/rwIYym90ljWrhBUq/8lHq1gFyZ
+ O4WURtYvksN9X7i2XSLkXMy6mLHmTLpL2SqizEIsMTEjKNBQsx9+tnlDyFHVKJhskUBS
+ vzBTG2kPepmXqusbII32VetFcuUvpSWD4bDmh6dLpTxnhCDMY5nzBJaHpDoDSdtvNEth
+ LXeVSRtWup7NlekbfHBgl0K8U9OwziYNiAbnaEZXFXZ1jFsV1qz9YL2xQ9PuvlkAq9Sh
+ gRrvnASNpv6ufyparekabWiy3XA1XfRAAjSHISlUkANuEAnPiw/xGNSiUxPF193JPh+o
+ 7pXA==
+X-Gm-Message-State: AO0yUKVBiJayTTHPj7fpjPulp4+yBVdgW2XJnmvjYOaLnJKmol7cN8Bj
+ CEHABTsHcloxbazhg7SW6ZFUwQ==
+X-Google-Smtp-Source: AK7set8eQ5mNlQQcAqTBOB9Wm46pieEJScOO4dyaNa+QssY62vBHP7WDF9prNP4RCXUCRC6EQ5e6rA==
+X-Received: by 2002:a5d:6e8a:0:b0:2bf:e39d:c8a7 with SMTP id
+ k10-20020a5d6e8a000000b002bfe39dc8a7mr3492763wrz.44.1675781426308; 
+ Tue, 07 Feb 2023 06:50:26 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- t8-20020a05600c198800b003dff870ce0esm8721125wmq.2.2023.02.07.06.50.03
+ r15-20020a5d694f000000b002c3e1e6eda0sm7954995wrw.99.2023.02.07.06.50.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Feb 2023 06:50:04 -0800 (PST)
-Message-ID: <a8cd6b40-7b69-74bd-c706-f62557a2248a@linaro.org>
-Date: Tue, 7 Feb 2023 15:50:02 +0100
+ Tue, 07 Feb 2023 06:50:25 -0800 (PST)
+Message-ID: <9153b2a8-a696-0486-feec-eab7545f693e@linaro.org>
+Date: Tue, 7 Feb 2023 15:50:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v3 08/10] qmp: teach 'getfd' to import sockets on win32
+Subject: Re: [PATCH v3 09/10] libqtest: make qtest_qmp_add_client work on win32
 Content-Language: en-US
 To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 Cc: Beraldo Leal <bleal@redhat.com>, Eric Blake <eblake@redhat.com>,
@@ -70,13 +70,13 @@ Cc: Beraldo Leal <bleal@redhat.com>, Eric Blake <eblake@redhat.com>,
  Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
 References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
- <20230207142535.1153722-9-marcandre.lureau@redhat.com>
+ <20230207142535.1153722-10-marcandre.lureau@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230207142535.1153722-9-marcandre.lureau@redhat.com>
+In-Reply-To: <20230207142535.1153722-10-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -102,69 +102,15 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 7/2/23 15:25, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> A process with enough capabilities can duplicate a socket to QEMU.
-> Modify 'getfd' to import it and add it to the monitor fd list, so it can
-> be later used by other commands.
-> 
-> Note that we actually store the SOCKET in the FD list, appropriate care
-> must now be taken to use the correct socket functions (similar approach
-> is taken by our io/ code and in glib, this is internal and shouldn't
-> affect the QEMU/QMP users)
+> Duplicate a socket to QEMU, and add it via 'getfd' on win32.
 > 
 > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Acked-by: Thomas Huth <thuth@redhat.com>
 > ---
->   qapi/misc.json     | 16 ++++++++--
->   monitor/fds.c      | 79 ++++++++++++++++++++++++++++++++++++----------
->   monitor/hmp-cmds.c |  6 +++-
->   3 files changed, 81 insertions(+), 20 deletions(-)
+>   tests/qtest/libqtest.h |  2 --
+>   tests/qtest/libqtest.c | 16 ++++++++++++++--
+>   2 files changed, 14 insertions(+), 4 deletions(-)
 
-
-> +void qmp_getfd(const char *fdname,
-> +#ifdef WIN32
-> +               const char *wsa_info,
-
-Rename as 'optional_b64_context' and remove #ifdef'ry?
-
-Preferrably change qmp_getfd() prototype and use close_fd()
-in a preliminary patch. Otherwise LGTM.
-
-> +#endif
-> +               Error **errp)
-> +{
-> +    Monitor *cur_mon = monitor_cur();
-> +    int fd;
-> +
-> +#ifdef WIN32
-> +    if (wsa_info) {
-> +        g_autofree WSAPROTOCOL_INFOW *info = NULL;
-> +        gsize len;
-> +        SOCKET sk;
-> +
-> +        info = (void *)g_base64_decode(wsa_info, &len);
-> +        if (len != sizeof(*info)) {
-> +            error_setg(errp, "Invalid WSAPROTOCOL_INFOW value");
-> +            return;
-> +        }
-> +
-> +        sk = WSASocketW(FROM_PROTOCOL_INFO, FROM_PROTOCOL_INFO,
-> +                        FROM_PROTOCOL_INFO, info, 0, 0);
-> +        if (sk == INVALID_SOCKET) {
-> +            g_autofree gchar *emsg = g_win32_error_message(WSAGetLastError());
-> +            error_setg(errp, "Couldn't create socket: %s", emsg);
-> +            return;
-> +        }
-> +
-> +        return monitor_add_fd(cur_mon, sk, fdname, errp);
-> +    }
-> +#endif
-> +
-> +    fd = qemu_chr_fe_get_msgfd(&cur_mon->chr);
-> +    if (fd == -1) {
-> +        error_setg(errp, "No file descriptor supplied via SCM_RIGHTS");
-> +        return;
-> +    }
-> +
-> +    return monitor_add_fd(cur_mon, fd, fdname, errp);
->   }
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
