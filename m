@@ -2,94 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C10168CF0F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 06:39:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6B068CFBF
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 07:47:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPGfZ-0006sB-1s; Tue, 07 Feb 2023 00:37:29 -0500
+	id 1pPHjS-00075Y-1M; Tue, 07 Feb 2023 01:45:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pPGfX-0006rd-LT
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 00:37:27 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pPGfU-0000mI-Hb
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 00:37:26 -0500
-Received: by mail-ej1-x633.google.com with SMTP id hr39so10759160ejc.7
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 21:37:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=IXNSAmlt9qLzxgp27xvAti8qNzIPOgfIJtZxyNbs1lg=;
- b=dg5cw+mcwDwW/6Mxq9GmGe2jrlF9ajPaZ+LmXYIaj7ov6NxAcIKoGnMTrthyn6jEGs
- 6OapGy6V5N//FqvpvLdFAwnh20FiWDXQoa/FB3NNwdSZG4gFdlRpys0SFrxi01cemB/G
- swlWp9piId4H6lxKq/y0TMY/iKTFeb/ez3itSWSNmlDJ7hQ6RVFJF8JbJMcntRmDR80l
- 2ZTGLkN7OMxauEX2TIceGRz6roqmWz0vS3gEZj3ABS2rWNCWRRm5OYHrb/bHFRPd6IQF
- 1HZ5W8wCAu0t6r1Upqp0UfyyO8sql0vUJj0DoRYmqkug8/UhLhwRQNpYNJftTScmRCrY
- djgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IXNSAmlt9qLzxgp27xvAti8qNzIPOgfIJtZxyNbs1lg=;
- b=uwRvNUXmRvXflD3ui/ZHqFcpZDrJMDyg6f3Ouo30tGtWcOPePA56JihAteniOoInFQ
- XxgDiYvc9S9xcf/u48ePcH7owfB53+ddul4hQRq4A2PoNUAHRO0UegRTFhL7ec8U2h/D
- E9QkG4RtN7Mz4gqcrZFVaLk0haCFIXjO7OLuqeHDAPa9AE+XnvcfAt14ackETwSURFna
- B3xs/t757beDYLQU4ABznzW6SGierCG1c0AR5Z4qTMblT9bXc80sgEDR5CcEgVxUBvnL
- 6fIrmP1RxXNLwR49vqwPpkdRxyLHMZKGSfGGqG9x+cD54pXfiLKs12DvNfKj4gH1p5SW
- ecoQ==
-X-Gm-Message-State: AO0yUKX7FvPZ62By3G8UP8ILzZiusRj2e6h/eygmO+IItRXwejKwvSev
- JQ0Z7tPw5++GDjPGG6a7L+pmCQ==
-X-Google-Smtp-Source: AK7set/U8v8BIO1+61AZeDbiuUX8twqDQh9Rtobokr+P/vQMolc+nuy4Uax6ZyFpLFFxZ4vzsLC0ww==
-X-Received: by 2002:a17:906:6a27:b0:88d:ba89:1833 with SMTP id
- qw39-20020a1709066a2700b0088dba891833mr22340612ejc.4.1675748237935; 
- Mon, 06 Feb 2023 21:37:17 -0800 (PST)
-Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
- by smtp.gmail.com with ESMTPSA id
- lt14-20020a170906fa8e00b00880dbd4b6d7sm6477244ejb.170.2023.02.06.21.37.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Feb 2023 21:37:17 -0800 (PST)
-Date: Tue, 7 Feb 2023 06:37:16 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Andrea Bolognani <abologna@redhat.com>,
- Sunil V L <sunilvl@ventanamicro.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Anup Patel <apatel@ventanamicro.com>,
- Atish Kumar Patra <atishp@rivosinc.com>,
- Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: Re: [PATCH 02/10] hw/riscv/virt: Add a switch to enable/disable ACPI
-Message-ID: <20230207053716.bihsj4uleridnhc6@orel>
-References: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
- <20230202045223.2594627-3-sunilvl@ventanamicro.com>
- <CABJz62PFGT1H-AArbfTkpiX24mHU=q3wk7h-bpduZhJyy7tTLw@mail.gmail.com>
- <fe3b5794-be2a-eec7-9d4e-9a13eab48378@linaro.org>
- <20230206123520.feomnevavp4olbie@orel>
- <CAEUhbmUDuH47SFyvHRzB6ZD_Ofs0DZpQDCpcyVELZgF+cTat9g@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPHjO-00074t-H4
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 01:45:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPHjM-0003yr-Eq
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 01:45:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675752327;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hZkmBUo8taXioD/1U1QnP9Q1afJh37bzbZSzugX8SPQ=;
+ b=VBs7XQvhAfJNw7Wc9tVwC30ruVfoupva3ObFvzEfLg65//SOIY7mk5bO8bfpPv5cuKEo4A
+ xA8b6NL0f9TetlA3xVoGwnypYrBxhnbINXLQ96FKZlEEEyXVHmzPfLWVDKcNNFRoXEXCkB
+ cDqPopXGxjDptdTnDAiNmE/GqRtA9vA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-446--7KXH74uOHOPmiWaCk-FKw-1; Tue, 07 Feb 2023 01:45:25 -0500
+X-MC-Unique: -7KXH74uOHOPmiWaCk-FKw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7BB6F101A521;
+ Tue,  7 Feb 2023 06:45:25 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 36ABE492C3F;
+ Tue,  7 Feb 2023 06:45:25 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E0FB321E6A1F; Tue,  7 Feb 2023 07:45:23 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
+Subject: [PULL 00/20] Header cleanup patches for 2023-02-06
+Date: Tue,  7 Feb 2023 07:45:03 +0100
+Message-Id: <20230207064523.3968603-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEUhbmUDuH47SFyvHRzB6ZD_Ofs0DZpQDCpcyVELZgF+cTat9g@mail.gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=ajones@ventanamicro.com; helo=mail-ej1-x633.google.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,83 +75,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 07, 2023 at 11:57:29AM +0800, Bin Meng wrote:
-> On Mon, Feb 6, 2023 at 8:36 PM Andrew Jones <ajones@ventanamicro.com> wrote:
-> >
-> > On Mon, Feb 06, 2023 at 12:18:06PM +0100, Philippe Mathieu-Daudé wrote:
-> > > On 6/2/23 11:54, Andrea Bolognani wrote:
-> > > > On Thu, Feb 02, 2023 at 10:22:15AM +0530, Sunil V L wrote:
-> > > > > +    object_class_property_add(oc, "acpi", "OnOffAuto",
-> > > > > +                              virt_get_acpi, virt_set_acpi,
-> > > > > +                              NULL, NULL);
-> > > > > +    object_class_property_set_description(oc, "acpi",
-> > > > > +                                          "Enable ACPI");
-> > > >
-> > > > The way this works on other architectures (x86_64, aarch64) is that
-> > > > you get ACPI by default and can use -no-acpi to disable it if
-> > > > desired. Can we have the same on RISC-V, for consistency?
-> >
-> > Default on, with a user control to turn off, can be done with a boolean.
-> > I'm not sure why/if Auto is needed for acpi. Auto is useful when a
-> > configuration doesn't support a default setting for a feature. If the
-> > user hasn't explicitly requested the feature to be on or off, then the
-> > configuration can silently select what works. If, however, the user
-> > explicitly chooses what doesn't work, then qemu will fail with an error
-> > instead.
-> 
-> I have a confusion about "OnOffAuto" vs. "bool" type.
-> 
-> Both "OnOffAuto" vs. "bool" type property can have a default value if
-> user does not assign a value to it from command line. The default
-> value is:
-> 
-> - ON_OFF_AUTO_AUTO for "OnOffAuto"
-> - false for "bool"
-> 
-> But the default value can be overridden in the machine's init
-> function, like in this patch.
-> 
-> So I am not really sure how these 2 types of properties are different.
-> Why did we introduce a "OnOffAuto" type, and how is that type supposed
-> to be used in which scenario?
+The following changes since commit 6661b8c7fe3f8b5687d2d90f7b4f3f23d70e3e8b:
 
-Auto makes sense for options which have dependencies on other options.
-For example, if we have two options, A and B, where A is an Auto and
-B is a boolean, then, when A is initialized to AUTO and has a dependency
-on B being X, then have the following
+  Merge tag 'pull-ppc-20230205' of https://gitlab.com/danielhb/qemu into staging (2023-02-05 16:49:09 +0000)
 
-	B=X	A=AUTO -> T	(works)
-	B=!X	A=AUTO -> F	(works)
+are available in the Git repository at:
 
-(This is the same whether B was set to X by default or explicitly by the
-user.)
+  https://repo.or.cz/qemu/armbru.git tags/pull-include-2023-02-06
 
-Now, if the user explicitly sets A, we have
+for you to fetch changes up to e74285cc0d1d517271531c4103d8bbabe1bdad7d:
 
-	B=X	A=T		(works)
-	B=X	A=F		(works)
-	B=!X	A=T		(emit error about B!=X with A=T and fail)
-	B=!X	A=F		(works)
+  Drop duplicate #include (2023-02-06 16:40:33 +0100)
 
-We can't have that behavior with A just being a boolean, defaulting to
-true, because we don't know if it's true because of the default or
-because it was explicitly set
+----------------------------------------------------------------
+Header cleanup patches for 2023-02-06
 
-	B=X	A=T		(works, by default or by user)
-	B=X	A=F		(works)
-	B=!X	A=T		(doesn't work, but if the user didn't
-				 select A=T, then we could have silently
-				 flipped it to F and continued)
-	B=!X	A=F		(works)
+----------------------------------------------------------------
+Markus Armbruster (20):
+      scripts/clean-includes: Fully skip / ignore files
+      scripts/clean-includes: Don't claim duplicate headers found when not
+      scripts/clean-includes: Skip symbolic links
+      scripts/clean-includes: Improve --git commit message
+      bsd-user: Clean up includes
+      crypto: Clean up includes
+      hw/cxl: Clean up includes
+      hw/input: Clean up includes
+      hw/tricore: Clean up includes
+      qga: Clean up includes
+      migration: Clean up includes
+      net: Clean up includes
+      target/hexagon: Clean up includes
+      riscv: Clean up includes
+      block: Clean up includes
+      accel: Clean up includes
+      Fix non-first inclusions of qemu/osdep.h
+      Don't include headers already included by qemu/osdep.h
+      9p: Drop superfluous include of linux/limits.h
+      Drop duplicate #include
 
+ backends/tpm/tpm_ioctl.h          |  2 --
+ bsd-user/bsd-proc.h               |  4 ----
+ bsd-user/qemu.h                   |  1 -
+ crypto/block-luks-priv.h          |  1 -
+ fsdev/p9array.h                   |  2 --
+ include/block/graph-lock.h        |  1 -
+ include/block/write-threshold.h   |  2 --
+ include/hw/arm/fsl-imx6ul.h       |  1 -
+ include/hw/arm/fsl-imx7.h         |  1 -
+ include/hw/cxl/cxl_component.h    |  2 --
+ include/hw/cxl/cxl_host.h         |  1 -
+ include/hw/cxl/cxl_pci.h          |  1 -
+ include/hw/input/pl050.h          |  1 -
+ include/hw/misc/aspeed_lpc.h      |  2 --
+ include/hw/pci/pcie_doe.h         |  1 -
+ include/hw/tricore/triboard.h     |  1 -
+ include/qemu/async-teardown.h     |  2 --
+ include/qemu/dbus.h               |  1 -
+ include/qemu/host-utils.h         |  1 -
+ include/qemu/userfaultfd.h        |  1 -
+ include/sysemu/accel-blocker.h    |  1 -
+ include/sysemu/event-loop-base.h  |  1 -
+ net/vmnet_int.h                   |  1 -
+ qga/cutils.h                      |  2 --
+ target/hexagon/hex_arch_types.h   |  1 -
+ target/hexagon/mmvec/macros.h     |  1 -
+ target/riscv/pmu.h                |  1 -
+ accel/tcg/cpu-exec.c              |  1 -
+ audio/sndioaudio.c                |  2 +-
+ backends/hostmem-epc.c            |  2 +-
+ backends/tpm/tpm_emulator.c       |  1 -
+ block/export/vduse-blk.c          |  2 +-
+ block/qapi.c                      |  1 -
+ bsd-user/arm/signal.c             |  1 +
+ bsd-user/arm/target_arch_cpu.c    |  2 ++
+ bsd-user/freebsd/os-sys.c         |  1 +
+ bsd-user/i386/signal.c            |  1 +
+ bsd-user/i386/target_arch_cpu.c   |  3 +--
+ bsd-user/main.c                   |  4 +---
+ bsd-user/strace.c                 |  1 -
+ bsd-user/x86_64/signal.c          |  1 +
+ bsd-user/x86_64/target_arch_cpu.c |  3 +--
+ hw/9pfs/9p.c                      |  5 -----
+ hw/acpi/piix4.c                   |  1 -
+ hw/alpha/dp264.c                  |  1 -
+ hw/arm/virt.c                     |  1 -
+ hw/arm/xlnx-versal.c              |  1 -
+ hw/block/pflash_cfi01.c           |  1 -
+ hw/core/machine.c                 |  1 -
+ hw/display/virtio-gpu-udmabuf.c   |  1 -
+ hw/hppa/machine.c                 |  1 -
+ hw/hyperv/syndbg.c                |  2 +-
+ hw/i2c/pmbus_device.c             |  1 -
+ hw/i386/acpi-build.c              |  1 -
+ hw/input/tsc210x.c                |  1 -
+ hw/loongarch/acpi-build.c         |  1 -
+ hw/misc/macio/cuda.c              |  1 -
+ hw/misc/macio/pmu.c               |  1 -
+ hw/net/xilinx_axienet.c           |  1 -
+ hw/ppc/ppc405_uc.c                |  2 --
+ hw/ppc/ppc440_bamboo.c            |  1 -
+ hw/ppc/spapr_drc.c                |  1 -
+ hw/rdma/vmw/pvrdma_dev_ring.c     |  1 -
+ hw/remote/machine.c               |  1 -
+ hw/remote/proxy-memory-listener.c |  1 -
+ hw/remote/remote-obj.c            |  1 -
+ hw/rtc/mc146818rtc.c              |  1 -
+ hw/s390x/virtio-ccw-serial.c      |  1 -
+ hw/sensor/adm1272.c               |  1 -
+ hw/usb/dev-storage-bot.c          |  1 -
+ hw/usb/dev-storage-classic.c      |  1 -
+ migration/postcopy-ram.c          |  2 --
+ qga/commands-posix.c              |  1 -
+ qga/cutils.c                      |  3 ++-
+ softmmu/dirtylimit.c              |  1 -
+ softmmu/runstate.c                |  1 -
+ softmmu/vl.c                      |  3 ---
+ target/loongarch/translate.c      |  1 -
+ target/mips/tcg/translate.c       |  1 -
+ target/nios2/translate.c          |  2 --
+ tcg/tci.c                         |  1 -
+ tests/unit/test-cutils.c          |  1 -
+ tests/unit/test-seccomp.c         |  1 -
+ ui/gtk.c                          |  1 -
+ ui/udmabuf.c                      |  1 -
+ util/async-teardown.c             | 12 ++++--------
+ util/main-loop.c                  |  1 -
+ util/oslib-posix.c                |  6 ------
+ scripts/clean-includes            | 27 +++++++++++++++++++--------
+ 89 files changed, 38 insertions(+), 126 deletions(-)
 
-IOW, Auto just adds one more bit of info, allowing default vs. user
-selection to be determined, which can then be used for different
-behaviors.
+-- 
+2.39.0
 
-Back to the "acpi" property, I'm not sure what it depends on that
-requires it to be an Auto vs. a boolean.
-
-Thanks,
-drew
 
