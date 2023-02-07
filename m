@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4865268D078
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 08:18:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64BF868D0F9
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 08:52:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPIFP-0000J1-Nm; Tue, 07 Feb 2023 02:18:35 -0500
+	id 1pPIlF-00039G-Ay; Tue, 07 Feb 2023 02:51:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPIFK-0008Rw-In
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:18:30 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPIFI-0002FK-Ou
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:18:30 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- bg5-20020a05600c3c8500b003e00c739ce4so2017680wmb.5
- for <qemu-devel@nongnu.org>; Mon, 06 Feb 2023 23:18:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aoJp/X2qeP4aHLRK+qPZEOY34PqbOLhVAXlhXswFXQ4=;
- b=PNVPVYZFcqQo0+NAGYZBBOEXAgAS6KmW4hOHJNuwd2Qz8cp89ZN0T11A+TmvXDLSi3
- zNWA+D8W0TUnulEcTetk0PMvZD0oUZro68XqnSR6I34R5y+m8RMfmsMFdEZSH/sG48G5
- IdyCU45a9x/I66/+RcRtpb44i918iDmG3LRoW+g5yLG0C2xrZMtJ/CAUJkIBvPiOreDu
- 6MAh1TY6A8mbLjEjKtrXHF+F1gkcmmN/9poLkYkqKVuET+4ILyJH2ef950k3JH+1f9Gn
- fYc8AfeC5gRPHQKsBYVpXT5D+kIRreSNzyma7XeF4Y0oeGd8is9j0zhmkOlCESTemYov
- UZtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aoJp/X2qeP4aHLRK+qPZEOY34PqbOLhVAXlhXswFXQ4=;
- b=eNeaxnXlAbTL+VTybJt974oPVBYztLpSMhq9jXfk1zODaIlR/FzrHmX+B/UqCIGr2p
- ST8w6td/TQeEiZEjdCDgOisWgZ+UfABgj9f5BtS+46oZUVo5pIqYbjNJHPFuf8Lm5nUY
- m4IuycHyDZ5MA7YOg8KKAzzREKknysFznVK9lYW7UmbFD0ktGj6YPRy1HhozbmWpeROg
- ylrIspt+v2Gwlb4ATALiHbEUnxY4TYVjZoef4GkrQPQGA9vheN7FtzmMTFhEAeBJSTbY
- nXs68FLV3c7fpffYoIhrtgDhofmJOjibpelaMLW1IH2s8I4zDuhJbGA20Znh8C4Na9Z5
- d/CA==
-X-Gm-Message-State: AO0yUKXj7H4FY0Colq5VkSSmxUFH4FjcfewcdOjZGcnLLy8Lc16elHAV
- zaP4VCYLp91r8tecaM9hkj3aaBaOBikE8I+L
-X-Google-Smtp-Source: AK7set9on837emuNWh8QauGSl8By0Dtj5gLl3amMPnHXrzwylQJKCTlPKaMNB2r5sAYeF++f0Xe80A==
-X-Received: by 2002:a05:600c:331a:b0:3d2:392e:905f with SMTP id
- q26-20020a05600c331a00b003d2392e905fmr2045055wmp.24.1675754306899; 
- Mon, 06 Feb 2023 23:18:26 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- s22-20020a1cf216000000b003dffe312925sm6177018wmc.15.2023.02.06.23.18.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 23:18:26 -0800 (PST)
-Message-ID: <084f4fed-5646-d30b-21c9-0402063ae5bf@linaro.org>
-Date: Tue, 7 Feb 2023 08:18:25 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPIlC-00037X-Up
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:51:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPIlA-0000t4-Vo
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:51:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675756284;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+ox8diL8kQyGTWBUS4FkfccAUvNjMVZdjhDv7W1Ixdc=;
+ b=KXfiT9oLxkhGwtjyYBgGee+UJskCdJMEtLfmzuRuMqLMmk3b3K6/7TJQ9ciAJyP/1O+snC
+ bEszfjfFIXqmEi56KM5Sb/5IT+/6AgL5uw3SCaA5MpstjkEdFslZ0au+E9lhXrKZU7lrNw
+ VbYbYx4Bj1n7sOWhxGUMzT0eJYDXZjQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-168-0-pjUj4qPPqw0uJdlYWDDw-1; Tue, 07 Feb 2023 02:51:18 -0500
+X-MC-Unique: 0-pjUj4qPPqw0uJdlYWDDw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 333D385A5A3;
+ Tue,  7 Feb 2023 07:51:18 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F2D9B492B21;
+ Tue,  7 Feb 2023 07:51:16 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B5C7F21E6A1F; Tue,  7 Feb 2023 08:51:15 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, mst@redhat.com, imammedo@redhat.com,
+ ani@anisinha.ca, eduardo@habkost.net, marcel.apfelbaum@gmail.com,
+ philmd@linaro.org, wangyanan55@huawei.com, jiri@resnulli.us,
+ jasowang@redhat.com, pavel.dovgaluk@ispras.ru, pbonzini@redhat.com,
+ zhanghailiang@xfusion.com, quintela@redhat.com, dgilbert@redhat.com,
+ michael.roth@amd.com, kkostiuk@redhat.com
+Subject: [PATCH 00/12] error: Reduce qerror.h usage a bit more
+Date: Tue,  7 Feb 2023 08:51:03 +0100
+Message-Id: <20230207075115.1525-1-armbru@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 3/3] hw/arm: Attach PSPI module to NPCM7XX SoC
-Content-Language: en-US
-To: Hao Wu <wuhaotsh@google.com>, peter.maydell@linaro.org
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, venture@google.com,
- Avi.Fishman@nuvoton.com, kfting@nuvoton.com, hskinnemoen@google.com,
- titusr@google.com
-References: <20230206233428.2772669-1-wuhaotsh@google.com>
- <20230206233428.2772669-4-wuhaotsh@google.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230206233428.2772669-4-wuhaotsh@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,15 +80,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 7/2/23 00:34, Hao Wu wrote:
-> Signed-off-by: Hao Wu <wuhaotsh@google.com>
-> Reviewed-by: Titus Rwantare <titusr@google.com>
-> ---
->   docs/system/arm/nuvoton.rst |  2 +-
->   hw/arm/npcm7xx.c            | 25 +++++++++++++++++++++++--
->   include/hw/arm/npcm7xx.h    |  2 ++
->   3 files changed, 26 insertions(+), 3 deletions(-)
+This series gets rid of two out of 15 remaining QERR_ macros and
+confines use of one more to qga/.  Bonus: better error messages.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Markus Armbruster (12):
+  error: Drop superfluous #include "qapi/qmp/qerror.h"
+  dump: Improve error message when target doesn't support memory dump
+  dump: Assert cpu_get_note_size() can't fail
+  hw/core: Improve error message when machine doesn't provide NMIs
+  hw/smbios: Dumb down smbios_entry_add() stub
+  hw/acpi: Dumb down acpi_table_add() stub
+  hw/acpi: Move QMP command to hw/core/
+  qga: Drop dangling reference to QERR_QGA_LOGGING_DISABLED
+  replay: Simplify setting replay blockers
+  hw/core: Improve the query-hotpluggable-cpus error message
+  migration/colo: Improve an x-colo-lost-heartbeat error message
+  rocker: Tweak stubbed out monitor commands' error messages
+
+ MAINTAINERS                    |  1 -
+ include/qapi/qmp/qerror.h      |  6 ------
+ include/sysemu/replay.h        |  2 +-
+ authz/listfile.c               |  1 -
+ backends/cryptodev-vhost.c     |  1 -
+ backends/rng.c                 |  1 -
+ backends/vhost-user.c          |  1 -
+ block/backup.c                 |  1 -
+ block/commit.c                 |  1 -
+ block/mirror.c                 |  1 -
+ block/stream.c                 |  1 -
+ dump/dump.c                    |  8 +++-----
+ hw/acpi/acpi-stub.c            |  4 +---
+ hw/acpi/vmgenid.c              | 18 ------------------
+ hw/core/machine-qmp-cmds.c     | 21 +++++++++++++++++++--
+ hw/core/machine.c              |  1 -
+ hw/core/nmi.c                  |  3 +--
+ hw/i386/pc.c                   |  1 -
+ hw/i386/x86.c                  |  1 -
+ hw/misc/xlnx-zynqmp-apu-ctrl.c |  1 -
+ hw/net/rocker/qmp-norocker.c   | 12 +++++-------
+ hw/smbios/smbios-stub.c        |  4 +---
+ migration/colo-failover.c      |  3 +--
+ migration/colo.c               |  1 -
+ migration/migration-hmp-cmds.c |  1 -
+ qga/commands.c                 |  5 ++---
+ qga/main.c                     |  1 -
+ replay/replay.c                |  6 +++++-
+ replay/stubs-system.c          |  2 +-
+ softmmu/qtest.c                |  1 -
+ softmmu/rtc.c                  |  5 +----
+ softmmu/vl.c                   | 13 +++----------
+ stubs/vmgenid.c                | 10 ----------
+ target/i386/monitor.c          |  1 -
+ target/i386/sev-sysemu-stub.c  |  1 -
+ target/i386/sev.c              |  1 -
+ util/qemu-config.c             |  1 -
+ stubs/meson.build              |  1 -
+ 38 files changed, 44 insertions(+), 100 deletions(-)
+ delete mode 100644 stubs/vmgenid.c
+
+-- 
+2.39.0
 
 
