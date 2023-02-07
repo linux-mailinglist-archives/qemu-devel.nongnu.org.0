@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EDF468D3B4
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 11:10:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D491A68D3B3
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 11:10:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPKuG-0000pF-U0; Tue, 07 Feb 2023 05:08:56 -0500
+	id 1pPKuM-0000yS-6C; Tue, 07 Feb 2023 05:09:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=a43c=6D=kaod.org=clg@ozlabs.org>)
- id 1pPKuA-0000es-L7; Tue, 07 Feb 2023 05:08:50 -0500
+ id 1pPKuC-0000k0-Jl; Tue, 07 Feb 2023 05:08:52 -0500
 Received: from gandalf.ozlabs.org ([150.107.74.76])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=a43c=6D=kaod.org=clg@ozlabs.org>)
- id 1pPKu8-0002WK-OV; Tue, 07 Feb 2023 05:08:50 -0500
+ id 1pPKuA-0002UP-0o; Tue, 07 Feb 2023 05:08:52 -0500
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4P9zNt2cndz4xyF;
- Tue,  7 Feb 2023 21:08:46 +1100 (AEDT)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4P9zNw6VMTz4wgv;
+ Tue,  7 Feb 2023 21:08:48 +1100 (AEDT)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4P9zNr2Vdlz4xwl;
- Tue,  7 Feb 2023 21:08:44 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4P9zNt6CN8z4xwl;
+ Tue,  7 Feb 2023 21:08:46 +1100 (AEDT)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -33,9 +33,9 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Peter Delevoryas <peter@pjd.dev>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 20/25] hw/arm/aspeed_ast10x0: Map I3C peripheral
-Date: Tue,  7 Feb 2023 11:07:39 +0100
-Message-Id: <20230207100744.698694-21-clg@kaod.org>
+Subject: [PULL 21/25] hw/arm/aspeed_ast10x0: Map the secure SRAM
+Date: Tue,  7 Feb 2023 11:07:40 +0100
+Message-Id: <20230207100744.698694-22-clg@kaod.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230207100744.698694-1-clg@kaod.org>
 References: <20230207100744.698694-1-clg@kaod.org>
@@ -67,66 +67,108 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Since I don't have access to the datasheet, the relevant
-values were found in:
-https://github.com/AspeedTech-BMC/zephyr/blob/v00.01.08/dts/arm/aspeed/ast10x0.dtsi
+Some SRAM appears to be used by the Secure Boot unit and
+crypto accelerators. Name it 'secure sram'.
 
-Reviewed-by: Peter Delevoryas <peter@pjd.dev>
+Note, the SRAM base address was already present but unused
+(the 'SBC' index is used for the MMIO peripheral).
+
+Interestingly using CFLAGS=-Winitializer-overrides reports:
+
+  ../hw/arm/aspeed_ast10x0.c:32:30: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+    [ASPEED_DEV_SBC]       = 0x7E6F2000,
+                             ^~~~~~~~~~
+  ../hw/arm/aspeed_ast10x0.c:24:30: note: previous initialization is here
+    [ASPEED_DEV_SBC]       = 0x79000000,
+                             ^~~~~~~~~~
+This fixes with Zephyr:
+
+  uart:~$ rsa test
+  rsa test vector[0]:
+  [00:00:26.156,000] <err> os: ***** BUS FAULT *****
+  [00:00:26.157,000] <err> os:   Precise data bus error
+  [00:00:26.157,000] <err> os:   BFAR Address: 0x79000000
+  [00:00:26.158,000] <err> os: r0/a1:  0x79000000  r1/a2:  0x00000000  r2/a3:  0x00001800
+  [00:00:26.158,000] <err> os: r3/a4:  0x79001800 r12/ip:  0x00000800 r14/lr:  0x0001098d
+  [00:00:26.158,000] <err> os:  xpsr:  0x81000000
+  [00:00:26.158,000] <err> os: Faulting instruction address (r15/pc): 0x0001e1bc
+  [00:00:26.158,000] <err> os: >>> ZEPHYR FATAL ERROR 0: CPU exception on CPU 0
+  [00:00:26.158,000] <err> os: Current thread: 0x38248 (shell_uart)
+  [00:00:26.165,000] <err> os: Halting system
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Peter Delevoryas <peter@pjd.dev>
+[ clg: Fixed size of Secure Boot Controller Memory ]
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/arm/aspeed_ast10x0.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ include/hw/arm/aspeed_soc.h |  3 +++
+ hw/arm/aspeed_ast10x0.c     | 11 ++++++++++-
+ 2 files changed, 13 insertions(+), 1 deletion(-)
 
+diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+index 9a5e3c0bac..bd1e03e78a 100644
+--- a/include/hw/arm/aspeed_soc.h
++++ b/include/hw/arm/aspeed_soc.h
+@@ -71,6 +71,7 @@ struct AspeedSoCState {
+     AspeedSMCState spi[ASPEED_SPIS_NUM];
+     EHCISysBusState ehci[ASPEED_EHCIS_NUM];
+     AspeedSBCState sbc;
++    MemoryRegion secsram;
+     UnimplementedDeviceState sbc_unimplemented;
+     AspeedSDMCState sdmc;
+     AspeedWDTState wdt[ASPEED_WDTS_NUM];
+@@ -105,6 +106,7 @@ struct AspeedSoCClass {
+     const char *cpu_type;
+     uint32_t silicon_rev;
+     uint64_t sram_size;
++    uint64_t secsram_size;
+     int spis_num;
+     int ehcis_num;
+     int wdts_num;
+@@ -143,6 +145,7 @@ enum {
+     ASPEED_DEV_SCU,
+     ASPEED_DEV_ADC,
+     ASPEED_DEV_SBC,
++    ASPEED_DEV_SECSRAM,
+     ASPEED_DEV_EMMC_BC,
+     ASPEED_DEV_VIDEO,
+     ASPEED_DEV_SRAM,
 diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-index b970a5ea58..1a06269cb1 100644
+index 1a06269cb1..592a19d988 100644
 --- a/hw/arm/aspeed_ast10x0.c
 +++ b/hw/arm/aspeed_ast10x0.c
-@@ -53,6 +53,7 @@ static const hwaddr aspeed_soc_ast1030_memmap[] = {
-     [ASPEED_DEV_WDT]       = 0x7E785000,
-     [ASPEED_DEV_LPC]       = 0x7E789000,
-     [ASPEED_DEV_PECI]      = 0x7E78B000,
-+    [ASPEED_DEV_I3C]       = 0x7E7A0000,
-     [ASPEED_DEV_I2C]       = 0x7E7B0000,
- };
+@@ -21,7 +21,7 @@
  
-@@ -88,6 +89,7 @@ static const int aspeed_soc_ast1030_irqmap[] = {
-     [ASPEED_DEV_ADC]       = 46,
-     [ASPEED_DEV_SPI1]      = 65,
-     [ASPEED_DEV_SPI2]      = 66,
-+    [ASPEED_DEV_I3C]       = 102, /* 102 -> 105 */
-     [ASPEED_DEV_I2C]       = 110, /* 110 ~ 123 */
-     [ASPEED_DEV_KCS]       = 138, /* 138 -> 142 */
-     [ASPEED_DEV_UDC]       = 9,
-@@ -129,6 +131,8 @@ static void aspeed_soc_ast1030_init(Object *obj)
-     snprintf(typename, sizeof(typename), "aspeed.i2c-%s", socname);
-     object_initialize_child(obj, "i2c", &s->i2c, typename);
- 
-+    object_initialize_child(obj, "i3c", &s->i3c, TYPE_ASPEED_I3C);
-+
-     snprintf(typename, sizeof(typename), "aspeed.timer-%s", socname);
-     object_initialize_child(obj, "timerctrl", &s->timerctrl, typename);
- 
-@@ -239,6 +243,18 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
-         sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c.busses[i]), 0, irq);
-     }
- 
-+    /* I3C */
-+    if (!sysbus_realize(SYS_BUS_DEVICE(&s->i3c), errp)) {
+ static const hwaddr aspeed_soc_ast1030_memmap[] = {
+     [ASPEED_DEV_SRAM]      = 0x00000000,
+-    [ASPEED_DEV_SBC]       = 0x79000000,
++    [ASPEED_DEV_SECSRAM]   = 0x79000000,
+     [ASPEED_DEV_IOMEM]     = 0x7E600000,
+     [ASPEED_DEV_PWM]       = 0x7E610000,
+     [ASPEED_DEV_FMC]       = 0x7E620000,
+@@ -221,6 +221,14 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+     memory_region_add_subregion(s->memory,
+                                 sc->memmap[ASPEED_DEV_SRAM],
+                                 &s->sram);
++    memory_region_init_ram(&s->secsram, OBJECT(s), "sec.sram",
++                           sc->secsram_size, &err);
++    if (err != NULL) {
++        error_propagate(errp, err);
 +        return;
 +    }
-+    aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->i3c), 0, sc->memmap[ASPEED_DEV_I3C]);
-+    for (i = 0; i < ASPEED_I3C_NR_DEVICES; i++) {
-+        qemu_irq irq = qdev_get_gpio_in(DEVICE(&s->armv7m),
-+                                        sc->irqmap[ASPEED_DEV_I3C] + i);
-+        /* The AST1030 I3C controller has one IRQ per bus. */
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->i3c.devices[i]), 0, irq);
-+    }
-+
-     /* PECI */
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->peci), errp)) {
-         return;
++    memory_region_add_subregion(s->memory, sc->memmap[ASPEED_DEV_SECSRAM],
++                                &s->secsram);
+ 
+     /* SCU */
+     if (!sysbus_realize(SYS_BUS_DEVICE(&s->scu), errp)) {
+@@ -400,6 +408,7 @@ static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data)
+     sc->cpu_type = ARM_CPU_TYPE_NAME("cortex-m4");
+     sc->silicon_rev = AST1030_A1_SILICON_REV;
+     sc->sram_size = 0xc0000;
++    sc->secsram_size = 0x40000; /* 256 * KiB */
+     sc->spis_num = 2;
+     sc->ehcis_num = 0;
+     sc->wdts_num = 4;
 -- 
 2.39.1
 
