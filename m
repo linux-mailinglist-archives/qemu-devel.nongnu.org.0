@@ -2,81 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A492B68D564
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 12:27:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA0E768D56B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 12:28:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPM84-0004kH-87; Tue, 07 Feb 2023 06:27:16 -0500
+	id 1pPM99-0006NI-3z; Tue, 07 Feb 2023 06:28:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPM7y-0004h2-Vq
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 06:27:11 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPM7x-0001Hx-EA
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 06:27:10 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- hn2-20020a05600ca38200b003dc5cb96d46so12906778wmb.4
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 03:27:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=As+OIpCe6fvWfPVdKfMUvEibuyv1SP7NphtO9o8GadM=;
- b=lQ9gUO1q39laO9dDrgtQyxY8RKDgBEpnFEhu4zs7RnfknOiG3RPby6QQIGr5mDxgi8
- 0n4dAeeH/ROQcavBMXngMYMDjjGzsfooOfYuIvjgKQYfOLzDwEc53uWbB6JB7wPZMCpO
- ML4F31htZ99T1szuvn8u34WQX7efE2lckkFbg7cW8087uO19X5He+dK/ewaQwGPc+MyP
- 0XNstpEWymBDhBEMcEL0Ztr+ZTQVncLB318OsRj3Y/3RndksnXd9dLWfsX6TblnaMCHp
- XgWwClZ3fk9pnrlDiyDp+HxCSdc3gjM3JPkprkB1p7P5pmhFiOn1J9YUpJ1hzsh421Sh
- pC/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=As+OIpCe6fvWfPVdKfMUvEibuyv1SP7NphtO9o8GadM=;
- b=6LhihroqcjAjHYZKKXcRthATnUugPue9vknBpLrCYJ2k+im0JBENdI+ppP5a9zBT60
- csMKNi0m8L2/qk3ZVFX2MGBufP8lzZmZP9a4Ooulyqx2JBaTfl2e84wrwm9KMi3ARhsA
- Otos8pfdTh5pDTTXmr65p3QTyhUC3V/R5DrY2hdLIBCoQmKGxtodH3pnb7lIIWnPN+MT
- TxanwUtB5P+LVJxyHyzu1NSFbPTTqE+kDIRvfNuoHNtTD/b0cUNkRNKrUZkK9fhw4akc
- q5LO6+mjZwE8izzU+FlOTMVDNXhpgw9GCMrukreZmHZWozPo9V0KbEeTItywncY1rLJ3
- XOJw==
-X-Gm-Message-State: AO0yUKVqut+vk5jlft1y/RKj69TICB7xBIZIVk4odDla8qbksta+JCxc
- in++OjtnzxeTeDpNZNAa3zT7Kw==
-X-Google-Smtp-Source: AK7set//7aVml1Pl3I9tjHu61neZ0lSxNZGVJCdS7HgCpAK8BwU97HPDY/SmJRQz18JCHSFzgPYJzg==
-X-Received: by 2002:a05:600c:3513:b0:3df:9858:c030 with SMTP id
- h19-20020a05600c351300b003df9858c030mr13405946wmq.5.1675769228067; 
- Tue, 07 Feb 2023 03:27:08 -0800 (PST)
-Received: from [192.168.46.175] (62.red-88-29-178.dynamicip.rima-tde.net.
- [88.29.178.62]) by smtp.gmail.com with ESMTPSA id
- r16-20020a05600c459000b003e00c9888besm2808859wmo.30.2023.02.07.03.27.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Feb 2023 03:27:07 -0800 (PST)
-Message-ID: <56ef8dc0-d860-bf55-050d-3cf60ae18ee5@linaro.org>
-Date: Tue, 7 Feb 2023 12:27:05 +0100
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pPM93-0006Ja-Hd; Tue, 07 Feb 2023 06:28:17 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pPM91-0001Sh-G8; Tue, 07 Feb 2023 06:28:17 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3179itfC007494; Tue, 7 Feb 2023 11:28:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=C+NTGBOON520x55mRkXDqiScYQ49mrLWZBpUOX295Fc=;
+ b=AvCM2LMO7rbaV1GTfPmh0Rjq2gAwmqrkk5h1KrAi/srJJVI7F2xjMr+ASk9e9gok3UUn
+ D2h0m+Fyi0znXFI5PI5lkjWbEblvX2S/mHZ9LLiYm/K3W4h4OgZc2ozW+unALRsPWaCu
+ GmxKa0dZ64cByJx+/p7WAcuwOF4vR4qHIbD0d13IupwcTBPQTdlmaMa3BvDV8nqXUhIe
+ EQQYnhcQUzS0VI6F4WirL5VNV8XUI9Vf3Qwk1gcuYoRJOhRX7ljJ2Z/Z1YO34kI9myOi
+ RMpmyXKHObAjP/7HyOYX8Wlo0eUdPu+tTRP9TB71P7suRB4SHZUdqrhHG3XQYgvS3efB AA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nkm9n2jkh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Feb 2023 11:28:04 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3179lelU019288;
+ Tue, 7 Feb 2023 11:28:04 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nkm9n2jjj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Feb 2023 11:28:04 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 316HZFjd004215;
+ Tue, 7 Feb 2023 11:28:01 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+ by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3nhf06jgh2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Feb 2023 11:28:01 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
+ [10.20.54.101])
+ by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 317BRuie52756958
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 7 Feb 2023 11:27:56 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BAB312004F;
+ Tue,  7 Feb 2023 11:27:56 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5CC192004B;
+ Tue,  7 Feb 2023 11:27:56 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.169.160])
+ by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Tue,  7 Feb 2023 11:27:56 +0000 (GMT)
+Message-ID: <b3c206df9dc08c094c0c717b0cb6457d29ed9925.camel@linux.ibm.com>
+Subject: Re: [PATCH v15 06/11] s390x/cpu topology: interception of PTF
+ instruction
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+Date: Tue, 07 Feb 2023 12:27:56 +0100
+In-Reply-To: <f5c6b04a-0faa-ba36-9019-468662b9fbb2@linux.ibm.com>
+References: <20230201132051.126868-1-pmorel@linux.ibm.com>
+ <20230201132051.126868-7-pmorel@linux.ibm.com>
+ <5c15ccde659a9849ab3529e08f5e1278508406c8.camel@linux.ibm.com>
+ <f5c6b04a-0faa-ba36-9019-468662b9fbb2@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 3/3] target: Set `CF_PCREL` for arm and i386 frontends
-Content-Language: en-US
-To: Anton Johansson <anjo@rev.ng>, qemu-devel@nongnu.org
-Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
- eduardo@habkost.net, peter.maydell@linaro.org
-References: <20230207104352.11055-1-anjo@rev.ng>
- <20230207104352.11055-4-anjo@rev.ng>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230207104352.11055-4-anjo@rev.ng>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: iU7AHCYSsynreF4yv_H_-GHgKQLFEMe6
+X-Proofpoint-GUID: _x5NPmbcBr0-gUD28iQoV1Z73--1LLiM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-07_03,2023-02-06_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxscore=0
+ suspectscore=0 priorityscore=1501 lowpriorityscore=0 malwarescore=0
+ impostorscore=0 bulkscore=0 clxscore=1015 spamscore=0 mlxlogscore=999
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302070099
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,18 +120,199 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 7/2/23 11:43, Anton Johansson via wrote:
-> Signed-off-by: Anton Johansson <anjo@rev.ng>
-> ---
->   target/arm/cpu-param.h  | 2 --
->   target/arm/cpu.c        | 5 +++++
->   target/i386/cpu-param.h | 4 ----
->   target/i386/cpu.c       | 5 +++++
->   4 files changed, 10 insertions(+), 6 deletions(-)
+On Tue, 2023-02-07 at 10:59 +0100, Pierre Morel wrote:
+>=20
+> On 2/6/23 19:34, Nina Schoetterl-Glausch wrote:
+> > On Wed, 2023-02-01 at 14:20 +0100, Pierre Morel wrote:
+> > > When the host supports the CPU topology facility, the PTF
+> > > instruction with function code 2 is interpreted by the SIE,
+> > > provided that the userland hypervizor activates the interpretation
+> > > by using the KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
+> > >=20
+> > > The PTF instructions with function code 0 and 1 are intercepted
+> > > and must be emulated by the userland hypervizor.
+> > >=20
+> > > During RESET all CPU of the configuration are placed in
+> > > horizontal polarity.
+> > >=20
+> > > Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> > > ---
+> > >   include/hw/s390x/s390-virtio-ccw.h |   6 ++
+> > >   target/s390x/cpu.h                 |   1 +
+> > >   hw/s390x/cpu-topology.c            | 103 ++++++++++++++++++++++++++=
++++
+> > >   target/s390x/cpu-sysemu.c          |  14 ++++
+> > >   target/s390x/kvm/kvm.c             |  11 +++
+> > >   5 files changed, 135 insertions(+)
+> > >=20
+> > [...]
+> >=20
+> > > diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> > > index cf63f3dd01..1028bf4476 100644
+> > > --- a/hw/s390x/cpu-topology.c
+> > > +++ b/hw/s390x/cpu-topology.c
+> > > @@ -85,16 +85,104 @@ static void s390_topology_init(MachineState *ms)
+> > >       QTAILQ_INSERT_HEAD(&s390_topology.list, entry, next);
+> > >   }
+> > >  =20
+> > > +/**
+> > > + * s390_topology_set_cpus_polarity:
+> > > + * @polarity: polarity requested by the caller
+> > > + *
+> > > + * Set all CPU entitlement according to polarity and
+> > > + * dedication.
+> > > + * Default vertical entitlement is POLARITY_VERTICAL_MEDIUM as
+> > > + * it does not require host modification of the CPU provisioning
+> > > + * until the host decide to modify individual CPU provisioning
+> > > + * using QAPI interface.
+> > > + * However a dedicated vCPU will have a POLARITY_VERTICAL_HIGH
+> > > + * entitlement.
+> > > + */
+> > > +static void s390_topology_set_cpus_polarity(int polarity)
+> >=20
+> > Since you set the entitlement field I'd prefer _set_cpus_entitlement or=
+ similar.
+>=20
+> OK if you prefer.
+>=20
+> >=20
+> > > +{
+> > > +    CPUState *cs;
+> > > +
+> > > +    CPU_FOREACH(cs) {
+> > > +        if (polarity =3D=3D POLARITY_HORIZONTAL) {
+> > > +            S390_CPU(cs)->env.entitlement =3D 0;
+> > > +        } else if (S390_CPU(cs)->env.dedicated) {
+> > > +            S390_CPU(cs)->env.entitlement =3D POLARITY_VERTICAL_HIGH=
+;
+> > > +        } else {
+> > > +            S390_CPU(cs)->env.entitlement =3D POLARITY_VERTICAL_MEDI=
+UM;
+> > > +        }
+> > > +    }
+> > > +}
+> > > +
+> > [...]
+> > >  =20
+> > >   /**
+> > > @@ -137,6 +225,21 @@ static void s390_topology_cpu_default(S390CPU *c=
+pu, Error **errp)
+> > >                             (smp->books * smp->sockets * smp->cores))=
+ %
+> > >                            smp->drawers;
+> > >       }
+> >=20
+> > Why are the changes below in this patch?
+>=20
+> Because before thos patch we have only horizontal polarization.
 
-Better to split in 2 distinct patches since two different
-subsystems are modified.
+Not really since you only enable topology in the next patch.
+>=20
+> >=20
+> > > +
+> > > +    /*
+> > > +     * Machine polarity is set inside the global s390_topology struc=
+ture.
+> > > +     * In the case the polarity is set as horizontal set the entitle=
+ment
+>=20
+> Sorry here an error in the comment should be :
+> "In the case the polarity is NOT set as horizontal..."
+>=20
+> > > +     * to POLARITY_VERTICAL_MEDIUM which is the better equivalent wh=
+en
+> > > +     * machine polarity is set to vertical or POLARITY_VERTICAL_HIGH=
+ if
+> > > +     * the vCPU is dedicated.
+> > > +     */
+> > > +    if (s390_topology.polarity && !env->entitlement) {
+> >=20
+> > It'd be more readable if you compared against enum values by name.
+>=20
+> Right, I will change this to
+>=20
+>      if (s390_topology.polarity !=3D S390_POLARITY_HORIZONTAL &&
+>          env->entitlement =3D=3D S390_ENTITLEMENT_UNSET) {
+>=20
+> >=20
+> > I don't see why you check s390_topology.polarity. If it is horizontal
+> > then the value of the entitlement doesn't matter at all, so you can set=
+ it
+> > to whatever.
+>=20
+> Right, that is why it is done only for vertical polarization (sorry for=
+=20
+> the wrong comment)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+I'm saying you don't need to check it at all. You adjust the values for
+vertical polarization, but you could just always do that since the values
+don't matter at all if the polarization is horizontal.
+>=20
+> > All you want to do is enforce dedicated -> VERTICAL_HIGH, right?
+> > So why don't you just add
+> >=20
+> > +    if (cpu->env.dedicated && cpu->env.entitlement !=3D POLARITY_VERTI=
+CAL_HIGH) {
+> > +        error_setg(errp, "A dedicated cpu implies high entitlement");
+> > +        return;
+> > +    } >
+> > to s390_topology_check?
+>=20
+> Here it is to set the default in the case the values are not provided.
+
+If no values are provided, they default to dedication=3Dfalse and entitleme=
+nt=3Dmedium,
+as defined by patch 1, which are fine and don't need to be adjusted.
+
+>=20
+> But where you are right is that I should add a verification to the check=
+=20
+> function.
+>=20
+> >=20
+> > > +        if (env->dedicated) {
+> > > +            env->entitlement =3D POLARITY_VERTICAL_HIGH;
+> > > +        } else {
+> > > +            env->entitlement =3D POLARITY_VERTICAL_MEDIUM;
+> > > +        }
+> >=20
+> > If it is horizontal, then setting the entitlement is pointless as it wi=
+ll be
+> > reset to medium on PTF.
+>=20
+> That is why the polarity is tested (sorry for the bad comment)
+
+I said this because I'm fine with setting it pointlessly.
+
+> > So the current polarization is vertical and a cpu is being hotplugged,
+> > but setting the entitlement of the cpu being added is also pointless, b=
+ecause
+> > it's determined by the dedication. That seems weird.
+>=20
+> No it is not determined by the dedication, if there is no dedication the=
+=20
+> 3 vertical values are possible.
+
+You set it to either high or medium based on the dedication. And for horizo=
+ntal
+polarization it obviously doesn't matter.
+
+As far as I understand you don't need this because the default values are f=
+ine.
+You should add the check that if a dedicated cpu is hotplugged, then the en=
+titlement
+must be high, to patch 2 and that's it, no additional changes necessary.
+>=20
+>=20
+> Regards,
+> Pierre
+>=20
+> >=20
+> > > +    }
+> > >   }
+> > >  =20
+> >=20
+> > [...]
+>=20
 
 
