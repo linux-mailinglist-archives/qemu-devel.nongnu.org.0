@@ -2,72 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D4F668DD38
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 16:42:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E609268DD4C
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 16:48:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPQ6H-0003TD-81; Tue, 07 Feb 2023 10:41:41 -0500
+	id 1pPQBw-0004tB-4W; Tue, 07 Feb 2023 10:47:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPQ6E-0003So-Hf
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:41:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPQBf-0004pN-69
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:47:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPQ6C-000616-W6
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:41:38 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPQBd-00078D-35
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:47:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675784496;
+ s=mimecast20190719; t=1675784831;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=rdWwXJJl7NZ3s/6kcxFJFriBuMysUMsw1HxYvy5+Pyo=;
- b=G9E79EBY/qgavwc8t13S8NnOx8qcKNTHgwdhMR85M2Hw9eqmmlcRHTFWGSfCbod1pxAFd9
- UF6F8IepA4EK1B/qDS/xOOlzZxT8OsJrM8CBT0dr+Pf2UNvWIwUM1OFyW5O01PThYKqSmN
- DuqI9Mg4PDLY5Od6N1MEBSnVZaJrXy4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-350-fX99W8D9O-ysbkJi0E6SMw-1; Tue, 07 Feb 2023 10:41:15 -0500
-X-MC-Unique: fX99W8D9O-ysbkJi0E6SMw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 523A3803CBB;
- Tue,  7 Feb 2023 15:39:34 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E0313400EAB9;
- Tue,  7 Feb 2023 15:39:33 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7CCB021E6A1F; Tue,  7 Feb 2023 16:39:32 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Daniel P. Berrange <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Mark Burton <mburton@qti.qualcomm.com>, Luc Michel <luc@lmichel.fr>,
- Bernhard Beschow <shentey@gmail.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <Alistair.Francis@wdc.com>
-Subject: Can we unpoison CONFIG_FOO macros?
-Date: Tue, 07 Feb 2023 16:39:32 +0100
-Message-ID: <87lel9o56z.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HJjl93DVN9vdohT7xlF3+/lT2ly444CPsYRyAQ512gk=;
+ b=Ahq+zOpeol+vIRx1T1NEv5PJSM6jagTkCM6pbFUjmINLGkutseHOGc7w5O042oGI1sBZEZ
+ DRUIn1XXwdcv5dc9M3vbXTIVT2dLqJabQTeucHDC9H9D6yfMKlIlUj0GIATqjyzMKadHfi
+ vswtckRZfEDKGe39YySyiCe9SBj6JWY=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-281-lZfDIsljMHamWq4ydqoeHA-1; Tue, 07 Feb 2023 10:47:10 -0500
+X-MC-Unique: lZfDIsljMHamWq4ydqoeHA-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ c10-20020a05621401ea00b004c72d0e92bcso7804189qvu.12
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 07:47:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HJjl93DVN9vdohT7xlF3+/lT2ly444CPsYRyAQ512gk=;
+ b=KDcMW0f+r87pFNsQcb8TJKdAbCWVb4QySl9hcruVpLPC1BxBA2nRJ2yqJEBhfvzSMQ
+ P7YwfbhDBvu/CQVBLjboXvgn/Z0zI9apixbs0fiKcNTw8Kfa7tJcp2E2/+X2HHoOXyfb
+ pxSr5RdudOtUxlEwYtH3EvoIy3e9rMOOZezPmza9HCWKLKV5tRIg5cqVidjCWXZFsFdR
+ NBGIgf5ojGX/Bq3SJazq+sWioSoW5Q6ppdP5ABk2VFEaVc+OEKb9RI49pV8blIEnpnwA
+ T8RUKvCd7ZO8/9OuIQKOg7oYYQtb+q+sE5fUxx2m4toObNLXgOEtsitLRD6icRgWfuK8
+ Lk1w==
+X-Gm-Message-State: AO0yUKV9yWOoE/NQrHgVNDqYgK+oZI1J/pjBSSFSP6KfGhgy4jSkz46s
+ XnAjyjh8g9sWCY4X6Q/abmjifgRtAXiG29NBP29G8zg4RGE4OVSbJY/V3Vh0gt4NaEhJmRoUp0F
+ EGMt0xjmh7lDnBsY=
+X-Received: by 2002:a05:622a:1a1d:b0:3b9:b9ae:1476 with SMTP id
+ f29-20020a05622a1a1d00b003b9b9ae1476mr5940481qtb.40.1675784830189; 
+ Tue, 07 Feb 2023 07:47:10 -0800 (PST)
+X-Google-Smtp-Source: AK7set8DxIRJCtilC7sJcv+ggFtgXZpChfhaDLeU+Gdly33mlllmOvFHXSqzSURdw97u1eZIHKYKqQ==
+X-Received: by 2002:a05:622a:1a1d:b0:3b9:b9ae:1476 with SMTP id
+ f29-20020a05622a1a1d00b003b9b9ae1476mr5940455qtb.40.1675784829955; 
+ Tue, 07 Feb 2023 07:47:09 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-120.web.vodafone.de.
+ [109.43.176.120]) by smtp.gmail.com with ESMTPSA id
+ cm13-20020a05622a250d00b003ba20fd91a4sm5063785qtb.11.2023.02.07.07.47.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Feb 2023 07:47:08 -0800 (PST)
+Message-ID: <6a2ded82-8bbf-8fd5-4704-071c6bdbf3eb@redhat.com>
+Date: Tue, 7 Feb 2023 16:47:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 03/10] hw/i386: Select VGA_PCI in Kconfig
+Content-Language: en-US
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+References: <20230206140809.26028-1-farosas@suse.de>
+ <20230206140809.26028-4-farosas@suse.de>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230206140809.26028-4-farosas@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,42 +104,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We have a boatload of CONFIG_FOO macros that may only be used in
-target-dependent code.  We use generated config-poison.h to enforce.
+On 06/02/2023 15.08, Fabiano Rosas wrote:
+> Machines that have "std" as default VGA display need to always build
+> vga-pci.c, otherwise we get a crash when CONFIG_PCI_DEVICES=n:
+> 
+> $ ./qemu-system-x86_64 -M q35 -vga std
 
-This is a bit annoying in the QAPI schema.  Let me demonstrate with an
-example: QMP commands query-rocker, query-rocker-ports, and so forth.
-These commands are useful only with "rocker" devices.  They are
-compile-time optional.  hw/net/Kconfig:
+I'd remove the "-vga std" in above example to show that it also crashed "by 
+default".
 
-    config ROCKER
-        bool
-        default y if PCI_DEVICES
-        depends on PCI && MSI_NONBROKEN
+> qemu-system-x86_64: unknown type 'VGA'
+> Aborted (core dumped)
+> 
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> ---
+>   hw/i386/Kconfig | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+> index 527b95df81..8e59cb6634 100644
+> --- a/hw/i386/Kconfig
+> +++ b/hw/i386/Kconfig
+> @@ -30,9 +30,9 @@ config PC
+>       imply TEST_DEVICES
+>       imply TPM_CRB
+>       imply TPM_TIS_ISA
+> -    imply VGA_PCI
+>       imply VIRTIO_VGA
+>       imply NVDIMM
+> +    select VGA_PCI
+>       select FDC_ISA
+>       select I8259
+>       select I8254
 
-The rocker device and QMP code is actually target-independent:
-hw/net/meson.build puts it into softmmu_ss.
+Maybe it would be better to add it to the i440fx and the q35 machine only, 
+so that you could still compile the isapc machine without it?
 
-Disabling the "rocker" device type ideally disables the rocker QMP
-commands, too.  Should be easy enough: 'if': 'CONFIG_FOO' in the QAPI
-schema.
-
-Except that makes the entire code QAPI generates for rocker.json
-device-dependent: it now contains #if defined(CONFIG_ROCKER), and
-CONFIG_ROCKER is poisoned.  The rocker code implementing monitor
-commands also becomes device-dependent, because it includes generated
-headers.  We compile all that per target for no sane reason at all.
-That's why we don't actually disable the commands.
-
-Not disabling them creates another problem: we have the commands always,
-but their implementation depends on CONFIG_ROCKER.  So we provide stubs
-that always fail for use when CONFIG_ROCKER is off.  Drawbacks: we
-generate, compile and link useless code, and QAPI/QMP introspection is
-less useful than it could be.
-
-This isn't terrible.  It still annoys me.  I wonder whether Philippe's
-work on having a single qemu-system binary could improve things here.
-
-Comments?
+  Thomas
 
 
