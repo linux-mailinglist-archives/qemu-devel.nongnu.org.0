@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6BBA68DD72
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 16:57:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 438FF68DD87
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 17:03:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPQKx-0000W9-En; Tue, 07 Feb 2023 10:56:51 -0500
+	id 1pPQPY-0002NI-US; Tue, 07 Feb 2023 11:01:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPQKv-0000W1-SX
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:56:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPQKu-0000re-AL
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 10:56:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675785407;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6uQNtNw0gnTHwchBsaip65DsB1rkCSf/yP4sMFDqs0E=;
- b=PNses6IBDBmaiFXfwxyUX5axRGHuzMpelTzu/mOsQe+68asGricUBLrsmFUqULUYEUeeTV
- hX0U3EIaCHNkyvhgiTVG/Zknask6vaQPSA6PCIpbXUPuBvAMCblxvkowWVKzGctqWeU+O/
- p3qzxHZKvJGgEP+feDVFx3PLB4av45g=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-46-v4AguRpMOV2O7vqkXwW3UA-1; Tue, 07 Feb 2023 10:56:35 -0500
-X-MC-Unique: v4AguRpMOV2O7vqkXwW3UA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 369AF100F901;
- Tue,  7 Feb 2023 15:56:35 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AB4FE51FF;
- Tue,  7 Feb 2023 15:56:34 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 88E1621E6A1F; Tue,  7 Feb 2023 16:56:33 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org,  Richard Henderson
- <richard.henderson@linaro.org>,  Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,  Laurent Vivier
- <laurent@vivier.eu>,  Thomas Huth <thuth@redhat.com>,  Warner Losh
- <imp@bsdimp.com>,  Kyle Evans <kevans@freebsd.org>
-Subject: Re: [RFC PATCH 0/5] Deprecate/rename singlestep command line option
-References: <20230206171359.1327671-1-peter.maydell@linaro.org>
-Date: Tue, 07 Feb 2023 16:56:33 +0100
-In-Reply-To: <20230206171359.1327671-1-peter.maydell@linaro.org> (Peter
- Maydell's message of "Mon, 6 Feb 2023 17:13:54 +0000")
-Message-ID: <87h6vxo4em.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pPQOz-0002LB-OS
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 11:01:04 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pPQOy-0001wb-AF
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 11:01:01 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ v18-20020a17090ae99200b00230f079dcd9so1369645pjy.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 08:00:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=fKEA1h9BQhuGfYQ+kwubdTa7YvZekBbXd3t+/9/vabk=;
+ b=SMwLyPFJHWwWQ+y77+/PFP6jALdmcMZbNmCiVTOgKVcALeGasLGzjyu+esQPJvaFv1
+ gcGyyEtxZhwdhAiCEiRHiaqOhpFRtiIc3mx3gaTeof6aOZqsqmTqIWDrx3L9B/LaSgTs
+ ZU0/4VHI0TC8jtASm6IFRxddo+eugHzhO2B+IAEwDdAPq+XftQxIEnTXxvSr96fl5Yhy
+ 1+fyILXQJrVhSjQqb5NgxqePQXHoYKB3rcC1WUzXITa4kyklJbCmwUfFkMOXfq8vHg6F
+ sa3DO+z5qO1ZIlXLV9pFtc+oTjZG8l2VD1aHWKUeOVtVihOfurB3oRs97V/jVux6ixYH
+ 0Hzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fKEA1h9BQhuGfYQ+kwubdTa7YvZekBbXd3t+/9/vabk=;
+ b=D4xJmMHLFcLylEgyk6ASQEJywZAu0RXyYR5F1TBoeY27eQ2AWv/uYDoBg1jOOMeLXu
+ 3gOlwV/QyDBzhtkmzUUdmTC13VGA53JFhgiPypwzM8KyiHnYDHFyk0kJeepELy/cD6+N
+ PlQGsdmjYpFx9uBgWTzHE2kTb2ZLvAalQG/M2VHez0YkxwIksB/EvasEl/e1FLK3cNSY
+ ceFIBiVGssje7qOLvZEqfGM0nuawJwc4m0a1M4jOryUJpFvYpDgUH05O+yH4ede5jy9o
+ 7zT7xz47N1YElbUktgDznpYeSN1kXNGd/C8BdSOH7rdoTY4ziQ9v7iSFkucTXkRBjd4l
+ 80yQ==
+X-Gm-Message-State: AO0yUKUjDSTlZJnhhhInPP+BtfJWiH96MpTtxvc2/RtKyCf9n0lE+vIA
+ ayQzmo8wcCRRJlNq2rrzsy/cx12ipDgNHZHQLW9XqQ==
+X-Google-Smtp-Source: AK7set/R9zUqX4TOe/Ai4Dkw9jVA7M08gl8OHiewsGsvTjFJsvUEosgSTxNyslgkAEJK97R5AZHCSmmDAtej/RGP/aw=
+X-Received: by 2002:a17:90b:3906:b0:230:eadf:4a2e with SMTP id
+ ob6-20020a17090b390600b00230eadf4a2emr761859pjb.137.1675785658730; Tue, 07
+ Feb 2023 08:00:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230124000027.3565716-1-richard.henderson@linaro.org>
+ <20230124000027.3565716-3-richard.henderson@linaro.org>
+In-Reply-To: <20230124000027.3565716-3-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Feb 2023 16:00:47 +0000
+Message-ID: <CAFEAcA9+BLL3m+SO6ht8hZktSHN=AKpmK9vzJwoWoZeGHC=hYQ@mail.gmail.com>
+Subject: Re: [PATCH 02/22] target/arm: Rewrite check_s2_mmu_setup
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, yier.jin@huawei.com, 
+ jonathan.cameron@huawei.com, leonardo.garcia@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,73 +85,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> The command line option '-singlestep' and its HMP equivalent
-> the 'singlestep' command are very confusingly named, because
-> they have nothing to do with single-stepping the guest (either
-> via the gdb stub or by emulation of guest CPU architectural
-> debug facilities). What they actually do is put TCG into a
-> mode where it puts only one guest instruction into each
-> translation block. This is useful for some circumstances
-> such as when you want the -d debug logging to be easier to
-> interpret, or if you have a finicky guest binary that wants
-> to see interrupts delivered at something other than the end
-> of a basic block.
+On Tue, 24 Jan 2023 at 00:01, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> The confusing name is made worse by the fact that our
-> documentation for these is so minimal as to be useless
-> for telling users what they really do.
+> Integrate neighboring code from get_phys_addr_lpae which computed
+> starting level, as it is easier to validate when doing both at the
+> same time.  Mirror the checks at the start of AArch{64,32}.S2Walk,
+> especially S2InvalidESL and S2InconsistentSL.
 >
-> This series:
->  * renames the 'singlestep' global variable to 'one_insn_per_tb'
->  * Adds new '-one-insn-per-tb' command line options and a
->    HMP 'one-insn-per-tb' command
->  * Documents the '-singlestep' options and 'singlestep'
->    HMP command as deprecated synonyms for the new ones
->
-> It does not do anything about the other place where we surface
-> 'singlestep', which is in the QMP StatusInfo object returned by the
-> 'query-status' command.  This is incorrectly documented as "true if
-> VCPUs are in single-step mode" and "singlestep is enabled through
-> the GDB stub", because what it's actually returning is the
-> one-insn-per-tb state.
->
-> Things I didn't bother with because this is only an RFC but
-> will do if it turns into a non-RFC patchset:
->  * test the bsd-user changes :-)
->  * add text to deprecated.rst
->
-> So, questions:
->
-> (1) is this worth bothering with at all? We could just
->     name our global variable etc better, and document what
->     -singlestep actually does, and not bother with the new
->     names for the options/commands.
+> This reverts 49ba115bb74, which was incorrect -- there is nothing
+> in the ARM pseudocode that depends on TxSZ, i.e. outputsize; the
+> pseudocode is consistent in referencing PAMax.
 
-The feature is kind of esoteric.  Rather weak excuse for not fixing bad
-UI, in my opinion.  Weaker still since you already did a good part of
-the actual work.
+I'm having difficulty reviewing this one:
+ * the latest version of the Arm ARM doesn't have the pseudocode
+   functions you refer to, so it's difficult to cross-refer against
+   the spec
+ * the changes are too large for it to be easy to confirm what's
+   just been refactored into the other function and what (if any)
+   the behavioural changes are
 
-> (2) if we do do it, do we retain the old name indefinitely,
->     or actively put it on the deprecate-and-drop list?
-
-By "the old name", you mean the CLI option name, right?
-
-I'd prefer deprecate and drop.
-
-> (3) what should we do about the HMP StatusInfo object?
->     I'm not sure how we handle compatibility for HMP.
-
-Uh, you mean *QMP*, don't you?
-
-As you wrote above, StatusInfo is returned by query-status, which is a
-stable interface.  Changes to members therefore require the usual
-deprecation grace period.  We'd add a new member with a sane name, and
-deprecate the old one.
-
-The matching HMP command is "info status".  It shows member @singlestep
-as " (single step mode)".  Changing that is fine; HMP is not a stable
-interface.
-
+thanks
+-- PMM
 
