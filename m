@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B42D68D197
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 09:42:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 790AB68D19F
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 09:44:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPJXz-0007Rm-7r; Tue, 07 Feb 2023 03:41:51 -0500
+	id 1pPJa9-0000MY-G5; Tue, 07 Feb 2023 03:44:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPJXx-0007Ra-4n
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 03:41:49 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1pPJZt-0000LR-49
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 03:43:49 -0500
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPJXv-00036s-I2
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 03:41:48 -0500
-Received: by mail-wm1-x329.google.com with SMTP id n13so10461363wmr.4
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 00:41:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=7RyJv85ili1ctOxWaeXaMet0B3SqW8r1ZTzoRdAI8GY=;
- b=E4K6DAFpg1aIkdN4yxClPMklFZaxx6zhJdGux87WFghCcgLnIhVPmgXvAzHU68J3yd
- Wye7nPV/ZHNb5omoS6/pHERJ3qcjmnvBEJCA2WSZ4Gm96QEL++0pOwbtwVH4ME2UYzuN
- emDaO88AELgwX3NUHz8pRm1GxlfFdq+ZAjcdGI05emmBNwH9Jlp9XIDv1X1R30zfeKZT
- CLeoxnyac/BbWHMK42iEwAxjMWdFZqah+V5Eyd9igsJnlLPjA0ecGlBE6o3KFejY4moy
- RwcHD/RAkWtjmyUB7hvIZ7wwbp5GeydWn1xotoCQOYN6hV9cO4VDS+MI8MxsMlZa6d5E
- h7hg==
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1pPJZr-0003S1-DA
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 03:43:48 -0500
+Received: by mail-pl1-x633.google.com with SMTP id be8so14922967plb.7
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 00:43:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=QUReV4KMvI7An8ubheslQVfRM2aU7U816taWVsImywA=;
+ b=a5orAumV77+kcjH0Ni32yXBpSYK+gd9VCjoKYhVuYtUQp1RdpCTENNwm71GelEydi2
+ xkNWqiemH27UYHtrOuIiThlvn7OAxm4UsM4WRgU9zReOuT/E8l7mi2FWoeHVkjh5jU3w
+ O8Zbll1QZp6JriSmW8PRam6133aSEkY3pJjTf5kBoWJAtIVsTUUUBoZBApQAPXQL4yNy
+ n4WDklI33l7Usc5TUf6zeQAZv4SvpGhe/G+Ehx9nlVh42qTibKQ4ryDO2d6E5nBQS3pS
+ CS6jfA6Ln1W5NuGenB3rtrloqs3ijwid/nfamzi4QRBUdbbdxblLHvTyVZ/W3rYEsWK1
+ Xo1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7RyJv85ili1ctOxWaeXaMet0B3SqW8r1ZTzoRdAI8GY=;
- b=y5ryTDdw7mc3v05cioqnr6QI+9hHtHusP9I/FHQ+piKJ+mR4aZGjea6mjgfvt0AGN3
- UZO0upzEmDgFJ+TNwy/xXUexG3ggobFoyRNmO0qLEf2DfJNg0HLd+/HeyYjs/r1FhwOv
- ObVwDOhDY1NCNyLnSVOqJMZ+oihdGWlSxWVNYibgl313nN5Vxr5zrjuougY3WJLJCftH
- v3bU6ZWbOQ5mtb2P/2puXemdyD6fgRPNwhQL29MR1fHU6zx+jLDqkXeSBJzY6poyjrl1
- wHuRJ5OxnZM+B20ecrhirUvIY6HMtVYqhxDlojPz6OC7S0I9t7Kpqw83RRS0NK3ftuav
- rEiA==
-X-Gm-Message-State: AO0yUKUtZ4ZLZ/Hen8ZqBRs/j6pzA7cuRMvlldkDrmSJp1jWVb3Bfrho
- TxgvhHmo9tX+vb/tlfkjn67FcA==
-X-Google-Smtp-Source: AK7set9h370vjyboaozFhkferrxRd23AECHOmJHE1rob8sIiR+8GLhd+L4ITFcTOZTxU+1Tm4+arZQ==
-X-Received: by 2002:a05:600c:1817:b0:3df:e54a:4ac5 with SMTP id
- n23-20020a05600c181700b003dfe54a4ac5mr2327957wmp.27.1675759305199; 
- Tue, 07 Feb 2023 00:41:45 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- g42-20020a05600c4caa00b003de664d4c14sm13012056wmp.36.2023.02.07.00.41.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Feb 2023 00:41:44 -0800 (PST)
-Message-ID: <5e9239ca-f6cd-9396-2b7b-21ef7e4df5d2@linaro.org>
-Date: Tue, 7 Feb 2023 09:41:43 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QUReV4KMvI7An8ubheslQVfRM2aU7U816taWVsImywA=;
+ b=QAyOIw0fPYY1n3T+LHjl6tkfPOSEbhSCCMkiuIAMan9/OrCeFe/kKqXUC0E/hzxzCr
+ s0/eLbVud/DpK/mKYHqlbpDOgZM3fsAHnJzhT+NKad4EQpBheQ62Wfk9cd+4ShFlocEn
+ WkgRQhpDlzjk4jidi7811jF1OKa58ARVTPn6c7Q2GCc74vfL2BYS02AKV5AkKYwGR2Hr
+ ucAHTAI30pYWg+R3crqqbX9/3mtH8eRpMaF53icbYIcgnbQXogEjiaImT9L4y4ZjzkiI
+ 0HzE69y+Inqz5vbtCsB/o1Jh5A+MX0fiR3RW5lhvifu6XzfkimfBo79UqWhBYH82hHlX
+ yMSA==
+X-Gm-Message-State: AO0yUKXU1IEqi3qlyQLstKa1yNW5F9TY8dt1j/JtPFW8T0EJa8VLaOrX
+ 5n8hd21T7LNXNLCEhWulLjGmXVMZhAJyXDye0WJORF0YviqD0vRGD0uNh9pp9Rmz9oa3Kgtgctn
+ u5SldD54P+w/9hM7qj6zWibmf264mY6CqVCdq7oHNxjk5Qc8zFo9Cg3boUQQwzkqpdsQ2CY5//m
+ I=
+X-Google-Smtp-Source: AK7set+MVL77dHpKwxO5VfAF71g/keFiItjUgyaHv/dlZYh0XixvAwOvvgUPhHsEXffTO4uU2jwCyw==
+X-Received: by 2002:a17:902:c612:b0:196:49a3:d349 with SMTP id
+ r18-20020a170902c61200b0019649a3d349mr1844112plr.30.1675759425381; 
+ Tue, 07 Feb 2023 00:43:45 -0800 (PST)
+Received: from frankchang-ThinkPad-T490.internal.sifive.com
+ (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
+ by smtp.gmail.com with ESMTPSA id
+ v14-20020a170902e8ce00b001949c680b52sm8273534plg.193.2023.02.07.00.43.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Feb 2023 00:43:45 -0800 (PST)
+From: frank.chang@sifive.com
+To: qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>
+Subject: [PATCH] target/riscv: Remove .min_priv_ver restriction from RVV CSRs
+Date: Tue,  7 Feb 2023 16:43:35 +0800
+Message-Id: <20230207084341.303907-1-frank.chang@sifive.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 00/12] error: Reduce qerror.h usage a bit more
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, mst@redhat.com, imammedo@redhat.com,
- ani@anisinha.ca, eduardo@habkost.net, marcel.apfelbaum@gmail.com,
- wangyanan55@huawei.com, jiri@resnulli.us, jasowang@redhat.com,
- pavel.dovgaluk@ispras.ru, pbonzini@redhat.com, zhanghailiang@xfusion.com,
- quintela@redhat.com, dgilbert@redhat.com, michael.roth@amd.com,
- kkostiuk@redhat.com
-References: <20230207075115.1525-1-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230207075115.1525-1-armbru@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,24 +92,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 7/2/23 08:51, Markus Armbruster wrote:
-> This series gets rid of two out of 15 remaining QERR_ macros and
-> confines use of one more to qga/.  Bonus: better error messages.
-> 
-> Markus Armbruster (12):
->    error: Drop superfluous #include "qapi/qmp/qerror.h"
->    dump: Improve error message when target doesn't support memory dump
->    dump: Assert cpu_get_note_size() can't fail
->    hw/core: Improve error message when machine doesn't provide NMIs
->    hw/smbios: Dumb down smbios_entry_add() stub
->    hw/acpi: Dumb down acpi_table_add() stub
->    hw/acpi: Move QMP command to hw/core/
->    qga: Drop dangling reference to QERR_QGA_LOGGING_DISABLED
->    replay: Simplify setting replay blockers
->    hw/core: Improve the query-hotpluggable-cpus error message
->    migration/colo: Improve an x-colo-lost-heartbeat error message
->    rocker: Tweak stubbed out monitor commands' error messages
+From: Frank Chang <frank.chang@sifive.com>
 
-Series:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+The RVV specification does not require that the core needs to support
+the privileged specification v1.12.0 to support RVV, and there is no
+dependency from ISA level. This commit removes the restriction.
+
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
+---
+ target/riscv/csr.c | 21 +++++++--------------
+ 1 file changed, 7 insertions(+), 14 deletions(-)
+
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index fa17d7770c4..1b0a0c1693c 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -3980,20 +3980,13 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     [CSR_FRM]      = { "frm",      fs,     read_frm,     write_frm    },
+     [CSR_FCSR]     = { "fcsr",     fs,     read_fcsr,    write_fcsr   },
+     /* Vector CSRs */
+-    [CSR_VSTART]   = { "vstart",   vs,     read_vstart,  write_vstart,
+-                       .min_priv_ver = PRIV_VERSION_1_12_0            },
+-    [CSR_VXSAT]    = { "vxsat",    vs,     read_vxsat,   write_vxsat,
+-                       .min_priv_ver = PRIV_VERSION_1_12_0            },
+-    [CSR_VXRM]     = { "vxrm",     vs,     read_vxrm,    write_vxrm,
+-                       .min_priv_ver = PRIV_VERSION_1_12_0            },
+-    [CSR_VCSR]     = { "vcsr",     vs,     read_vcsr,    write_vcsr,
+-                       .min_priv_ver = PRIV_VERSION_1_12_0            },
+-    [CSR_VL]       = { "vl",       vs,     read_vl,
+-                       .min_priv_ver = PRIV_VERSION_1_12_0            },
+-    [CSR_VTYPE]    = { "vtype",    vs,     read_vtype,
+-                       .min_priv_ver = PRIV_VERSION_1_12_0            },
+-    [CSR_VLENB]    = { "vlenb",    vs,     read_vlenb,
+-                       .min_priv_ver = PRIV_VERSION_1_12_0            },
++    [CSR_VSTART]   = { "vstart",   vs,     read_vstart,  write_vstart },
++    [CSR_VXSAT]    = { "vxsat",    vs,     read_vxsat,   write_vxsat  },
++    [CSR_VXRM]     = { "vxrm",     vs,     read_vxrm,    write_vxrm   },
++    [CSR_VCSR]     = { "vcsr",     vs,     read_vcsr,    write_vcsr   },
++    [CSR_VL]       = { "vl",       vs,     read_vl                    },
++    [CSR_VTYPE]    = { "vtype",    vs,     read_vtype                 },
++    [CSR_VLENB]    = { "vlenb",    vs,     read_vlenb                 },
+     /* User Timers and Counters */
+     [CSR_CYCLE]    = { "cycle",    ctr,    read_hpmcounter  },
+     [CSR_INSTRET]  = { "instret",  ctr,    read_hpmcounter  },
+-- 
+2.25.1
+
 
