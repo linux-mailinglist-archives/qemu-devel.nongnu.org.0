@@ -2,84 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9DAE68E21C
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 21:45:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E085968E240
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 21:53:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPUpb-0004gn-Lx; Tue, 07 Feb 2023 15:44:47 -0500
+	id 1pPUx8-0002g8-8Z; Tue, 07 Feb 2023 15:52:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pPUpY-0004gN-KQ
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 15:44:44 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pPUpW-0005KB-1Q
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 15:44:44 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- hn2-20020a05600ca38200b003dc5cb96d46so14053164wmb.4
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 12:44:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=BCYtPFtyqePX+GuVb/E/tXIxhHB+OeSyenBZtfPgpu8=;
- b=WZGyuM+QUWnW2eAjWvhhaGW1MSmeZmycrhpEYDm3gtG0I5xh93So7HnvS5C+oXvDH2
- YKD9HpGCs9PKYhMcHfKQYA3nAwWEi+aP36jWJT/V5ulL0vGz6uvFPxq68VTVv+i0SBUF
- mKUQCFgGHMnfX4z9acACNOR8wKsCeh91ghhg+Ntqm0tQaoW/WXZP25zbavkAdNORyn1c
- MVITWiU+74VsDAkNOmOR+340khuJ1Gq4ARJfBoCyWwXpkgruMQ3tEzHMWM377ZjjSxI4
- 7tteL31twjs06miWMa26UalhVfdAJJmJeGelyG966EE8ifIR8gAUalyItQ55e3ApSn68
- BB3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BCYtPFtyqePX+GuVb/E/tXIxhHB+OeSyenBZtfPgpu8=;
- b=wrRjHm3Wf8TcPdxp3QvTf4W2TAwY3KOsAo75CUckJpFkPRebMEmw3Bb1xYFTErOV9H
- MHQ2cnqbdSrfpXm6rhJvfmlxy4Zc3vmuqcQPJZFl4SMGUJtXiTuE19OYhqBNfEN7lHbz
- pLNOO9xx9CiOa9VJ37EcsbpAKNQTXCGT7pVqiHsux+yqPIZV+8uE6Tahtq49i6SXD58R
- 9tLufjnzSOpqjBJEwjCzrDUC1KapQM8J18x9Qyf3OrwlpItERzj6+6xa72Zx5NmSVFlE
- e5vvCqVnN3uYEl55ppE8kvzjbLLHeKBEIYb0fjEXiFRo/PgiAMwP9uc4oIoSwL0QzyxY
- myVQ==
-X-Gm-Message-State: AO0yUKVWLZhJ6yu2qJcXLHHbwhhVk33FaiGxONuQ8JYmN5wcF6BLm1Xq
- kh2wAWC0sHTahkuSBFLgp+bX9g==
-X-Google-Smtp-Source: AK7set/U/iZr/tlNMz2XzD0yea/gec4PnLaPjV8bqupAblVJqXJpST20fbYdKhEgQBVPHwAbQyJBRA==
-X-Received: by 2002:a05:600c:a294:b0:3e0:10d:f1c with SMTP id
- hu20-20020a05600ca29400b003e0010d0f1cmr4393935wmb.37.1675802680360; 
- Tue, 07 Feb 2023 12:44:40 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- v16-20020a05600c471000b003dd1bd66e0dsm16748970wmo.3.2023.02.07.12.44.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Feb 2023 12:44:39 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 673861FFB7;
- Tue,  7 Feb 2023 20:44:39 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Anders Roxell <anders.roxell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [RFC PATCH] tests: add LKFT baseline test to avocado
-Date: Tue,  7 Feb 2023 20:44:33 +0000
-Message-Id: <20230207204433.752020-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.39.1
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pPUx5-0002ei-Ne; Tue, 07 Feb 2023 15:52:31 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pPUwz-00079m-Jr; Tue, 07 Feb 2023 15:52:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=b2mxEzYqFKsH3ffCNG4xeG1oEQ1ymCgJrBO6byWciCk=; b=nZv2R8KE1IQ+SHh6A1wLZVdwie
+ UmVtaf072pzoF0bC4RWz1EVa0WNJv0TM7HJDDhx+InoOzJiTwqobyzCs4FQJR1W8LJFxjya7PBFOy
+ OEovCYjflyofCgeVltCNBj5FtFNJNutXKNikmWomy5+Ri7VLWWYbvwy4RA1lTo6+wpmTQC5kapHh4
+ ZLroglKw+e6eQFhE2MSjZ68bZ9POcVuxitgJXSn4QYSxo0Zr9JVDc7ZX/P8m4kcHY0lgaGvvBTFZB
+ PQcvQUs9x3mTQogF9RK35pXGiSu2TvUyAtGIEBvvxl7Y2miT7BEEUT8eCnLa1oAPmarZknRtBqQjl
+ tIkwWgA+vLKF0ZSvMzbVpUGcBdRNfF8BwMpSTYdKKRcT207w7xJpcikE+KIm8DZ5HxD8jouETcM98
+ 5YSZHpS7pZx43yjIzujsjMEXjl67KZciDsTKXs6i9TxVwZMssLRwv60INZhGQdmAdkq1GMFPn9WPl
+ LoYT1xro2nWGVUjLzt6GYwcJyv7BnAKz2phkiqWaEZUBBi1BpEYPoEtn6Rg9geS+Ad//YfSgQpF0T
+ kp5KBnRtjH+0eDzkX8od/7I0XLh/RapyAjgg6pinm/oQTXlMOl8amsyULdyrDMiR6Fs5EC0JMylY9
+ lEsj5aUleSEvDARfoFm/6e5Glpx4VoNNEPdDCqqcM=;
+Received: from [2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pPUwA-000ApT-NX; Tue, 07 Feb 2023 20:51:38 +0000
+Message-ID: <b38987d5-5530-ecd9-2fd2-3a57e1a611dd@ilande.co.uk>
+Date: Tue, 7 Feb 2023 20:52:02 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, BALATON Zoltan <balaton@eik.bme.hu>
+Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-ppc@nongnu.org, qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20230126211740.66874-1-shentey@gmail.com>
+ <20230126211740.66874-8-shentey@gmail.com>
+ <fb287888-c88c-60b1-20a4-1e50ddbf1daf@ilande.co.uk>
+ <alpine.LMD.2.03.2302052308460.32269@eik.bme.hu>
+ <935ae2a8-4327-53c6-1649-36698a00901d@ilande.co.uk>
+ <00D45BF9-CA37-42FF-BDE1-F742B04F60F4@gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <00D45BF9-CA37-42FF-BDE1-F742B04F60F4@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-SA-Exim-Connect-IP: 2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 07/10] hw/ide/piix: Require an ISABus only for
+ user-created instances
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,296 +90,228 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The Linux Kernel Function Test (LKFT) project uses QEMU to test a wide
-variety of kernel configurations on wide range of our emulated
-platforms. They publish a known good set of images at:
-
-  https://storage.tuxboot.com/
-
-to help with bisecting regressions in either the kernel, firmware or
-QEMU itself. The tests are pretty lightweight as they contain just a
-kernel with a minimal rootfs which boots a lot faster than most of the
-distros. In time they might be persuaded to version there known good
-baselines and we can then enable proper checksums.
-
-Total run time: 140s
-
-Overall coverage rate:
-  lines......: 8.7% (96412 of 1106284 lines)
-  functions..: 10.8% (11515 of 106651 functions)
-  branches...: 8.3% (30685 of 370255 branches)
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Anders Roxell <anders.roxell@linaro.org>
----
- tests/avocado/lkft_baselines.py | 257 ++++++++++++++++++++++++++++++++
- 1 file changed, 257 insertions(+)
- create mode 100755 tests/avocado/lkft_baselines.py
-
-diff --git a/tests/avocado/lkft_baselines.py b/tests/avocado/lkft_baselines.py
-new file mode 100755
-index 0000000000..f347150df7
---- /dev/null
-+++ b/tests/avocado/lkft_baselines.py
-@@ -0,0 +1,257 @@
-+# Functional test that boots known good lkft images
-+#
-+# Copyright (c) 2023 Linaro Ltd.
-+#
-+# Author:
-+#  Alex Bennée <alex.bennee@linaro.org>
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+import os
-+import time
-+
-+from avocado_qemu import QemuSystemTest
-+from avocado_qemu import exec_command, exec_command_and_wait_for_pattern
-+from avocado_qemu import wait_for_console_pattern
-+from avocado.utils import process
-+from avocado.utils.path import find_command
-+
-+
-+class LKFTBaselineTest(QemuSystemTest):
-+    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 root=/dev/vda'
-+
-+    def setUp(self):
-+        super().setUp()
-+
-+        # We need zstd for all the lkft tests
-+        zstd = find_command('zstd', False)
-+        if zstd is False:
-+            self.cancel('Could not find "zstd", which is required to '
-+                        'decompress rootfs')
-+        self.zstd = zstd
-+
-+        # Process the LKFT specific tags, most machines work with
-+        # reasonable defaults but we sometimes need to tweak the
-+        # config.
-+
-+        # The lfkt tag matches the root directory
-+        self.lkft = self.params.get('lkft',
-+                                    default = self._get_unique_tag_val('lkft'))
-+
-+        # Most Linux's use ttyS0 for their serial port
-+        console = self.params.get('console',
-+                                  default = self._get_unique_tag_val('console'))
-+        if console:
-+            self.console = console
-+        else:
-+            self.console = "ttyS0"
-+
-+        # Does the machine shutdown QEMU nicely on "halt"
-+        self.shutdown = self.params.get('shutdown',
-+                                    default = self._get_unique_tag_val('shutdown'))
-+
-+        # The name of the kernel Image file
-+        image = self.params.get('image',
-+                                default = self._get_unique_tag_val('image'))
-+        if not image:
-+            self.image = "Image"
-+        else:
-+            self.image = image
-+
-+        # The block device drive type
-+        drive = self.params.get('drive',
-+                                default = self._get_unique_tag_val('drive'))
-+        if not drive:
-+            self.drive = "virtio-blk-device"
-+        else:
-+            self.drive = drive
-+
-+    def wait_for_console_pattern(self, success_message, vm=None):
-+        wait_for_console_pattern(self, success_message,
-+                                 failure_message='Kernel panic - not syncing',
-+                                 vm=vm)
-+
-+    def fetch_lkft_assets(self, dt=None):
-+        """
-+        Fetch the LKFT assets. They are stored in a standard way so we
-+        use the per-test tags to fetch details.
-+        """
-+        base_url = f"https://storage.tuxboot.com/{self.lkft}/"
-+        kernel_image =  self.fetch_asset(base_url + self.image)
-+        disk_image_zst = self.fetch_asset(base_url + "rootfs.ext4.zst")
-+
-+        cmd = f"{self.zstd} -d {disk_image_zst} -o {self.workdir}/rootfs.ext4"
-+        process.run(cmd)
-+
-+        if dt:
-+            dtb = self.fetch_asset(base_url + dt)
-+        else:
-+            dtb = None
-+
-+        return (kernel_image, self.workdir + "/rootfs.ext4", dtb)
-+
-+    def prepare_run(self, kernel, disk, dtb=None):
-+        """
-+        Setup to run and add the common parameters to the system
-+        """
-+        self.vm.set_console()
-+
-+        # all block devices are raw ext4's
-+        blockdev = "driver=raw,file.driver=file," \
-+            + f"file.filename={disk},node-name=hd0"
-+
-+        kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + \
-+            f" console={self.console}"
-+
-+        self.vm.add_args('-kernel', kernel,
-+                         '-append', kernel_command_line,
-+                         '-blockdev', blockdev,
-+                         '-device', f"{self.drive},drive=hd0")
-+
-+        # Some machines need an explicit DTB
-+        if dtb:
-+            self.vm.add_args('-dtb', dtb)
-+
-+    def run_tuxtest_tests(self, haltmsg):
-+        """
-+        Wait for the system to boot up, wait for the login prompt and
-+        then do a few things on the console. Trigger a shutdown and
-+        wait to exit cleanly.
-+        """
-+        self.wait_for_console_pattern("Welcome to TuxTest")
-+        time.sleep(0.1)
-+        exec_command(self, 'root')
-+        time.sleep(0.1)
-+        exec_command(self, 'cat /proc/interrupts')
-+        time.sleep(0.1)
-+        exec_command(self, 'cat /proc/self/maps')
-+        time.sleep(0.1)
-+        exec_command(self, 'uname -a')
-+        time.sleep(0.1)
-+        exec_command_and_wait_for_pattern(self, 'halt', haltmsg)
-+
-+        # Wait for VM to shut down gracefully if it can
-+        if self.shutdown == "nowait":
-+            self.vm.shutdown()
-+        else:
-+            self.vm.wait()
-+
-+    def common_lkft(self, dt=None, haltmsg="reboot: System halted"):
-+        """
-+        Common path for LKFT tests. Unless we need to do something
-+        special with the command line we can process most things using
-+        the tag metadata.
-+        """
-+        (kernel, disk, dtb) = self.fetch_lkft_assets(dt)
-+
-+        self.prepare_run(kernel, disk, dtb)
-+        self.vm.launch()
-+        self.run_tuxtest_tests(haltmsg)
-+
-+    def test_arm64(self):
-+        """
-+        :avocado: tags=arch:aarch64
-+        :avocado: tags=cpu:cortex-a57
-+        :avocado: tags=machine:virt
-+        :avocado: tags=lkft:arm64
-+        :avocado: tags=console:ttyAMA0
-+        :avocado: tags=shutdown:nowait
-+        """
-+        self.common_lkft()
-+
-+    def test_arm64be(self):
-+        """
-+        :avocado: tags=arch:aarch64
-+        :avocado: tags=cpu:cortex-a57
-+        :avocado: tags=machine:virt
-+        :avocado: tags=lkft:arm64be
-+        :avocado: tags=console:ttyAMA0
-+        :avocado: tags=shutdown:nowait
-+        """
-+        self.common_lkft()
-+
-+    def test_armv5(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=cpu:arm926
-+        :avocado: tags=machine:versatilepb
-+        :avocado: tags=lkft:armv5
-+        :avocado: tags=image:zImage
-+        :avocado: tags=drive:virtio-blk-pci
-+        :avocado: tags=console:ttyAMA0
-+        :avocado: tags=shutdown:nowait
-+        """
-+        self.common_lkft(dt="versatile-pb.dtb")
-+
-+    def test_armv7(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=cpu:cortex-a15
-+        :avocado: tags=machine:virt
-+        :avocado: tags=lkft:armv7
-+        :avocado: tags=image:zImage
-+        :avocado: tags=console:ttyAMA0
-+        :avocado: tags=shutdown:nowait
-+        """
-+        self.common_lkft()
-+
-+    def test_armv7be(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=cpu:cortex-a15
-+        :avocado: tags=machine:virt
-+        :avocado: tags=lkft:armv7be
-+        :avocado: tags=image:zImage
-+        :avocado: tags=console:ttyAMA0
-+        :avocado: tags=shutdown:nowait
-+        """
-+        self.common_lkft()
-+
-+    def test_i386(self):
-+        """
-+        :avocado: tags=arch:i386
-+        :avocado: tags=cpu:coreduo
-+        :avocado: tags=machine:q35
-+        :avocado: tags=lkft:i386
-+        :avocado: tags=image:bzImage
-+        :avocado: tags=drive:virtio-blk-pci
-+        :avocado: tags=shutdown:nowait
-+        """
-+        self.common_lkft()
-+
-+    # def test_mips32(self):
-+    #     """
-+    #     :avocado: tags=arch:mips
-+    #     :avocado: tags=machine:malta
-+    #     :avocado: tags=lkft:mips32
-+    #     :avocado: tags=image:vmlinux
-+    #     :avocado: tags=drive:virtio-blk-pci
-+    #     :avocado: tags=shutdown:nowait
-+    #     """
-+    #     self.common_lkft()
-+
-+    def test_riscv32(self):
-+        """
-+        :avocado: tags=arch:riscv32
-+        :avocado: tags=machine:virt
-+        :avocado: tags=lkft:riscv32
-+        """
-+        self.common_lkft()
-+
-+    def test_riscv64(self):
-+        """
-+        :avocado: tags=arch:riscv64
-+        :avocado: tags=machine:virt
-+        :avocado: tags=lkft:riscv64
-+        """
-+        self.common_lkft()
-+
-+    def test_s390(self):
-+        """
-+        :avocado: tags=arch:s390x
-+        :avocado: tags=lkft:s390
-+        :avocado: tags=image:bzImage
-+        :avocado: tags=drive:virtio-blk-ccw
-+        :avocado: tags=shutdown:nowait
-+        """
-+        self.common_lkft(haltmsg="Requesting system halt")
--- 
-2.39.1
-
+T24gMDYvMDIvMjAyMyAyMzo0MCwgQmVybmhhcmQgQmVzY2hvdyB3cm90ZToNCg0KPiBBbSA1
+LiBGZWJydWFyIDIwMjMgMjI6MzI6MDMgVVRDIHNjaHJpZWIgTWFyayBDYXZlLUF5bGFuZCA8
+bWFyay5jYXZlLWF5bGFuZEBpbGFuZGUuY28udWs+Og0KPj4gT24gMDUvMDIvMjAyMyAyMjoy
+MSwgQkFMQVRPTiBab2x0YW4gd3JvdGU6DQo+Pg0KPj4+IE9uIFN1biwgNSBGZWIgMjAyMywg
+TWFyayBDYXZlLUF5bGFuZCB3cm90ZToNCj4+Pj4gT24gMjYvMDEvMjAyMyAyMToxNywgQmVy
+bmhhcmQgQmVzY2hvdyB3cm90ZToNCj4+Pj4+IEludGVybmFsIGluc3RhbmNlcyBub3cgZGVm
+ZXIgaW50ZXJydXB0IHdpcmluZyB0byB0aGUgY2FsbGVyIHdoaWNoDQo+Pj4+PiBkZWNvdXBs
+ZXMgdGhlbSBmcm9tIHRoZSBJU0FCdXMuIFVzZXItY3JlYXRlZCBkZXZpY2VzIHN0aWxsIGZp
+c2ggb3V0IHRoZQ0KPj4+Pj4gSVNBQnVzIGZyb20gdGhlIFFPTSB0cmVlIGFuZCB0aGUgaW50
+ZXJydXB0IHdpcmluZyByZW1haW5zIGluIFBJSVggSURFLg0KPj4+Pj4gVGhlIGxhdHRlciBt
+ZWNoYW5pc20gaXMgY29uc2lkZXJlZCBhIHdvcmthcm91bmQgYW5kIGludGVuZGVkIHRvIGJl
+DQo+Pj4+PiByZW1vdmVkIG9uY2UgYSBkZXByZWNhdGlvbiBwZXJpb2QgZm9yIHVzZXItY3Jl
+YXRlZCBQSUlYIElERSBkZXZpY2VzIGlzDQo+Pj4+PiBvdmVyLg0KPj4+Pj4NCj4+Pj4+IFNp
+Z25lZC1vZmYtYnk6IEJlcm5oYXJkIEJlc2Nob3cgPHNoZW50ZXlAZ21haWwuY29tPg0KPj4+
+Pj4gLS0tDQo+Pj4+PiAgwqAgaW5jbHVkZS9ody9pZGUvcGNpLmggfMKgIDEgKw0KPj4+Pj4g
+IMKgIGh3L2lkZS9waWl4LmPCoMKgwqDCoMKgwqDCoCB8IDY0ICsrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKystLS0tLS0tLS0tDQo+Pj4+PiAgwqAgaHcvaXNhL3BpaXguY8Kg
+wqDCoMKgwqDCoMKgIHzCoCA1ICsrKysNCj4+Pj4+ICDCoCAzIGZpbGVzIGNoYW5nZWQsIDU2
+IGluc2VydGlvbnMoKyksIDE0IGRlbGV0aW9ucygtKQ0KPj4+Pj4NCj4+Pj4+IGRpZmYgLS1n
+aXQgYS9pbmNsdWRlL2h3L2lkZS9wY2kuaCBiL2luY2x1ZGUvaHcvaWRlL3BjaS5oDQo+Pj4+
+PiBpbmRleCAyNGMwYjdhMmRkLi5lZTJjODc4MWI3IDEwMDY0NA0KPj4+Pj4gLS0tIGEvaW5j
+bHVkZS9ody9pZGUvcGNpLmgNCj4+Pj4+ICsrKyBiL2luY2x1ZGUvaHcvaWRlL3BjaS5oDQo+
+Pj4+PiBAQCAtNTQsNiArNTQsNyBAQCBzdHJ1Y3QgUENJSURFU3RhdGUgew0KPj4+Pj4gIMKg
+wqDCoMKgwqAgTWVtb3J5UmVnaW9uIGJtZG1hX2JhcjsNCj4+Pj4+ICDCoMKgwqDCoMKgIE1l
+bW9yeVJlZ2lvbiBjbWRfYmFyWzJdOw0KPj4+Pj4gIMKgwqDCoMKgwqAgTWVtb3J5UmVnaW9u
+IGRhdGFfYmFyWzJdOw0KPj4+Pj4gK8KgwqDCoCBib29sIHVzZXJfY3JlYXRlZDsNCj4+Pj4+
+ICDCoCB9Ow0KPj4+Pj4gIMKgwqDCoCBzdGF0aWMgaW5saW5lIElERVN0YXRlICpibWRtYV9h
+Y3RpdmVfaWYoQk1ETUFTdGF0ZSAqYm1kbWEpDQo+Pj4+PiBkaWZmIC0tZ2l0IGEvaHcvaWRl
+L3BpaXguYyBiL2h3L2lkZS9waWl4LmMNCj4+Pj4+IGluZGV4IDU5ODAwNDVkYjAuLmYwZDk1
+NzYxYWMgMTAwNjQ0DQo+Pj4+PiAtLS0gYS9ody9pZGUvcGlpeC5jDQo+Pj4+PiArKysgYi9o
+dy9pZGUvcGlpeC5jDQo+Pj4+PiBAQCAtMTA4LDYgKzEwOCwxMyBAQCBzdGF0aWMgdm9pZCBi
+bWRtYV9zZXR1cF9iYXIoUENJSURFU3RhdGUgKmQpDQo+Pj4+PiAgwqDCoMKgwqDCoCB9DQo+
+Pj4+PiAgwqAgfQ0KPj4+Pj4gIMKgICtzdGF0aWMgdm9pZCBwaWl4X2lkZV9zZXRfaXJxKHZv
+aWQgKm9wYXF1ZSwgaW50IG4sIGludCBsZXZlbCkNCj4+Pj4+ICt7DQo+Pj4+PiArwqDCoMKg
+IFBDSUlERVN0YXRlICpkID0gb3BhcXVlOw0KPj4+Pj4gKw0KPj4+Pj4gK8KgwqDCoCBxZW11
+X3NldF9pcnEoZC0+aXNhX2lycXNbbl0sIGxldmVsKTsNCj4+Pj4+ICt9DQo+Pj4+PiArDQo+
+Pj4+PiAgwqAgc3RhdGljIHZvaWQgcGlpeF9pZGVfcmVzZXQoRGV2aWNlU3RhdGUgKmRldikN
+Cj4+Pj4+ICDCoCB7DQo+Pj4+PiAgwqDCoMKgwqDCoCBQQ0lJREVTdGF0ZSAqZCA9IFBDSV9J
+REUoZGV2KTsNCj4+Pj4+IEBAIC0xMzgsMTEgKzE0NSwxOCBAQCBzdGF0aWMgdm9pZCBwY2lf
+cGlpeF9pbml0X3BvcnRzKFBDSUlERVN0YXRlICpkLCBJU0FCdXMgKmlzYV9idXMpDQo+Pj4+
+PiAgwqDCoMKgwqDCoCB9Ow0KPj4+Pj4gIMKgwqDCoMKgwqAgaW50IGk7DQo+Pj4+PiAgwqAg
+K8KgwqDCoCBpZiAoaXNhX2J1cykgew0KPj4+Pj4gK8KgwqDCoMKgwqDCoMKgIGQtPmlzYV9p
+cnFzWzBdID0gaXNhX2J1cy0+aXJxc1twb3J0X2luZm9bMF0uaXNhaXJxXTsNCj4+Pj4+ICvC
+oMKgwqDCoMKgwqDCoCBkLT5pc2FfaXJxc1sxXSA9IGlzYV9idXMtPmlycXNbcG9ydF9pbmZv
+WzFdLmlzYWlycV07DQo+Pj4+PiArwqDCoMKgIH0gZWxzZSB7DQo+Pj4+PiArwqDCoMKgwqDC
+oMKgwqAgcWRldl9pbml0X2dwaW9fb3V0KERFVklDRShkKSwgZC0+aXNhX2lycXMsIDIpOw0K
+Pj4+Pj4gK8KgwqDCoCB9DQo+Pj4+PiArDQo+Pj4+PiAgwqDCoMKgwqDCoCBmb3IgKGkgPSAw
+OyBpIDwgMjsgaSsrKSB7DQo+Pj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgIGlkZV9idXNfaW5p
+dCgmZC0+YnVzW2ldLCBzaXplb2YoZC0+YnVzW2ldKSwgREVWSUNFKGQpLCBpLCAyKTsNCj4+
+Pj4+ICDCoMKgwqDCoMKgwqDCoMKgwqAgaWRlX2luaXRfaW9wb3J0KCZkLT5idXNbaV0sIE5V
+TEwsIHBvcnRfaW5mb1tpXS5pb2Jhc2UsDQo+Pj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcG9ydF9pbmZvW2ldLmlvYmFzZTIpOw0K
+Pj4+Pj4gLcKgwqDCoMKgwqDCoMKgIGlkZV9pbml0MigmZC0+YnVzW2ldLCBpc2FfYnVzLT5p
+cnFzW3BvcnRfaW5mb1tpXS5pc2FpcnFdKTsNCj4+Pj4+ICvCoMKgwqDCoMKgwqDCoCBpZGVf
+aW5pdDIoJmQtPmJ1c1tpXSwgcWRldl9nZXRfZ3Bpb19pbihERVZJQ0UoZCksIGkpKTsNCj4+
+Pj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJtZG1hX2luaXQoJmQtPmJ1c1tpXSwgJmQt
+PmJtZG1hW2ldLCBkKTsNCj4+Pj4+ICDCoMKgwqDCoMKgwqDCoMKgwqAgZC0+Ym1kbWFbaV0u
+YnVzID0gJmQtPmJ1c1tpXTsNCj4+Pj4+IEBAIC0xNTQsOCArMTY4LDcgQEAgc3RhdGljIHZv
+aWQgcGNpX3BpaXhfaWRlX3JlYWxpemUoUENJRGV2aWNlICpkZXYsIEVycm9yICoqZXJycCkN
+Cj4+Pj4+ICDCoCB7DQo+Pj4+PiAgwqDCoMKgwqDCoCBQQ0lJREVTdGF0ZSAqZCA9IFBDSV9J
+REUoZGV2KTsNCj4+Pj4+ICDCoMKgwqDCoMKgIHVpbnQ4X3QgKnBjaV9jb25mID0gZGV2LT5j
+b25maWc7DQo+Pj4+PiAtwqDCoMKgIElTQUJ1cyAqaXNhX2J1czsNCj4+Pj4+IC3CoMKgwqAg
+Ym9vbCBhbWJpZ3VvdXM7DQo+Pj4+PiArwqDCoMKgIElTQUJ1cyAqaXNhX2J1cyA9IE5VTEw7
+DQo+Pj4+PiAgwqDCoMKgwqDCoMKgwqAgcGNpX2NvbmZbUENJX0NMQVNTX1BST0ddID0gMHg4
+MDsgLy8gbGVnYWN5IEFUQSBtb2RlDQo+Pj4+PiAgwqAgQEAgLTE2NCwyMiArMTc3LDM2IEBA
+IHN0YXRpYyB2b2lkIHBjaV9waWl4X2lkZV9yZWFsaXplKFBDSURldmljZSAqZGV2LCBFcnJv
+ciAqKmVycnApDQo+Pj4+PiAgwqDCoMKgwqDCoMKgwqAgdm1zdGF0ZV9yZWdpc3RlcihWTVNU
+QVRFX0lGKGRldiksIDAsICZ2bXN0YXRlX2lkZV9wY2ksIGQpOw0KPj4+Pj4gIMKgIC3CoMKg
+wqAgaXNhX2J1cyA9IElTQV9CVVMob2JqZWN0X3Jlc29sdmVfcGF0aF90eXBlKCIiLCBUWVBF
+X0lTQV9CVVMsICZhbWJpZ3VvdXMpKTsNCj4+Pj4+IC3CoMKgwqAgaWYgKGFtYmlndW91cykg
+ew0KPj4+Pj4gLcKgwqDCoMKgwqDCoMKgIGVycm9yX3NldGcoZXJycCwNCj4+Pj4+IC3CoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIk1vcmUgdGhhbiBvbmUgSVNBIGJ1
+cyBmb3VuZCB3aGlsZSAlcyBzdXBwb3J0cyBvbmx5IG9uZSIsDQo+Pj4+PiAtwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG9iamVjdF9nZXRfdHlwZW5hbWUoT0JKRUNU
+KGRldikpKTsNCj4+Pj4+IC3CoMKgwqDCoMKgwqDCoCByZXR1cm47DQo+Pj4+PiAtwqDCoMKg
+IH0NCj4+Pj4+IC3CoMKgwqAgaWYgKCFpc2FfYnVzKSB7DQo+Pj4+PiAtwqDCoMKgwqDCoMKg
+wqAgZXJyb3Jfc2V0ZyhlcnJwLCAiTm8gSVNBIGJ1cyBmb3VuZCB3aGlsZSAlcyByZXF1aXJl
+cyBvbmUiLA0KPj4+Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBv
+YmplY3RfZ2V0X3R5cGVuYW1lKE9CSkVDVChkZXYpKSk7DQo+Pj4+PiAtwqDCoMKgwqDCoMKg
+wqAgcmV0dXJuOw0KPj4+Pj4gK8KgwqDCoCBpZiAoZC0+dXNlcl9jcmVhdGVkKSB7DQo+Pj4+
+PiArwqDCoMKgwqDCoMKgwqAgYm9vbCBhbWJpZ3VvdXM7DQo+Pj4+PiArDQo+Pj4+PiArwqDC
+oMKgwqDCoMKgwqAgaXNhX2J1cyA9IElTQV9CVVMob2JqZWN0X3Jlc29sdmVfcGF0aF90eXBl
+KCIiLCBUWVBFX0lTQV9CVVMsDQo+Pj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCAmYW1iaWd1b3VzKSk7DQo+Pj4+PiArDQo+Pj4+PiArwqDC
+oMKgwqDCoMKgwqAgaWYgKGFtYmlndW91cykgew0KPj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgZXJyb3Jfc2V0ZyhlcnJwLA0KPj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgICJNb3JlIHRoYW4gb25lIElTQSBidXMgZm91bmQgd2hp
+bGUgJXMgc3VwcG9ydHMgb25seSBvbmUiLA0KPj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG9iamVjdF9nZXRfdHlwZW5hbWUoT0JKRUNUKGRl
+dikpKTsNCj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybjsNCj4+Pj4+ICvC
+oMKgwqDCoMKgwqDCoCB9DQo+Pj4+PiArDQo+Pj4+PiArwqDCoMKgwqDCoMKgwqAgaWYgKCFp
+c2FfYnVzKSB7DQo+Pj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBlcnJvcl9zZXRnKGVy
+cnAsICJObyBJU0EgYnVzIGZvdW5kIHdoaWxlICVzIHJlcXVpcmVzIG9uZSIsDQo+Pj4+PiAr
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgb2JqZWN0X2dl
+dF90eXBlbmFtZShPQkpFQ1QoZGV2KSkpOw0KPj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgcmV0dXJuOw0KPj4+Pj4gK8KgwqDCoMKgwqDCoMKgIH0NCj4+Pj4+ICDCoMKgwqDCoMKg
+IH0NCj4+Pj4+ICDCoMKgwqDCoMKgwqDCoCBwY2lfcGlpeF9pbml0X3BvcnRzKGQsIGlzYV9i
+dXMpOw0KPj4+Pj4gIMKgIH0NCj4+Pj4+ICDCoCArc3RhdGljIHZvaWQgcGNpX3BpaXhfaWRl
+X2luaXQoT2JqZWN0ICpvYmopDQo+Pj4+PiArew0KPj4+Pj4gK8KgwqDCoCBEZXZpY2VTdGF0
+ZSAqZGV2ID0gREVWSUNFKG9iaik7DQo+Pj4+PiArDQo+Pj4+PiArwqDCoMKgIHFkZXZfaW5p
+dF9ncGlvX2luKGRldiwgcGlpeF9pZGVfc2V0X2lycSwgMik7DQo+Pj4+PiArfQ0KPj4+Pj4g
+Kw0KPj4+Pj4gIMKgIHN0YXRpYyB2b2lkIHBjaV9waWl4X2lkZV9leGl0Zm4oUENJRGV2aWNl
+ICpkZXYpDQo+Pj4+PiAgwqAgew0KPj4+Pj4gIMKgwqDCoMKgwqAgUENJSURFU3RhdGUgKmQg
+PSBQQ0lfSURFKGRldik7DQo+Pj4+PiBAQCAtMTkxLDYgKzIxOCwxMSBAQCBzdGF0aWMgdm9p
+ZCBwY2lfcGlpeF9pZGVfZXhpdGZuKFBDSURldmljZSAqZGV2KQ0KPj4+Pj4gIMKgwqDCoMKg
+wqAgfQ0KPj4+Pj4gIMKgIH0NCj4+Pj4+ICDCoCArc3RhdGljIFByb3BlcnR5IHBpaXhfaWRl
+X3Byb3BlcnRpZXNbXSA9IHsNCj4+Pj4+ICvCoMKgwqAgREVGSU5FX1BST1BfQk9PTCgidXNl
+ci1jcmVhdGVkIiwgUENJSURFU3RhdGUsIHVzZXJfY3JlYXRlZCwgdHJ1ZSksDQo+Pj4+PiAr
+wqDCoMKgIERFRklORV9QUk9QX0VORF9PRl9MSVNUKCksDQo+Pj4+PiArfTsNCj4+Pj4+ICsN
+Cj4+Pj4+ICDCoCAvKiBOT1RFOiBmb3IgdGhlIFBJSVgzLCB0aGUgSVJRcyBhbmQgSU9wb3J0
+cyBhcmUgaGFyZGNvZGVkICovDQo+Pj4+PiAgwqAgc3RhdGljIHZvaWQgcGlpeDNfaWRlX2Ns
+YXNzX2luaXQoT2JqZWN0Q2xhc3MgKmtsYXNzLCB2b2lkICpkYXRhKQ0KPj4+Pj4gIMKgIHsN
+Cj4+Pj4+IEBAIC0yMDUsMTEgKzIzNywxMyBAQCBzdGF0aWMgdm9pZCBwaWl4M19pZGVfY2xh
+c3NfaW5pdChPYmplY3RDbGFzcyAqa2xhc3MsIHZvaWQgKmRhdGEpDQo+Pj4+PiAgwqDCoMKg
+wqDCoCBrLT5jbGFzc19pZCA9IFBDSV9DTEFTU19TVE9SQUdFX0lERTsNCj4+Pj4+ICDCoMKg
+wqDCoMKgIHNldF9iaXQoREVWSUNFX0NBVEVHT1JZX1NUT1JBR0UsIGRjLT5jYXRlZ29yaWVz
+KTsNCj4+Pj4+ICDCoMKgwqDCoMKgIGRjLT5ob3RwbHVnZ2FibGUgPSBmYWxzZTsNCj4+Pj4+
+ICvCoMKgwqAgZGV2aWNlX2NsYXNzX3NldF9wcm9wcyhkYywgcGlpeF9pZGVfcHJvcGVydGll
+cyk7DQo+Pj4+PiAgwqAgfQ0KPj4+Pj4gIMKgwqDCoCBzdGF0aWMgY29uc3QgVHlwZUluZm8g
+cGlpeDNfaWRlX2luZm8gPSB7DQo+Pj4+PiAgwqDCoMKgwqDCoCAubmFtZcKgwqDCoMKgwqDC
+oMKgwqDCoCA9IFRZUEVfUElJWDNfSURFLA0KPj4+Pj4gIMKgwqDCoMKgwqAgLnBhcmVudMKg
+wqDCoMKgwqDCoMKgID0gVFlQRV9QQ0lfSURFLA0KPj4+Pj4gK8KgwqDCoCAuaW5zdGFuY2Vf
+aW5pdCA9IHBjaV9waWl4X2lkZV9pbml0LA0KPj4+Pj4gIMKgwqDCoMKgwqAgLmNsYXNzX2lu
+aXTCoMKgwqAgPSBwaWl4M19pZGVfY2xhc3NfaW5pdCwNCj4+Pj4+ICDCoCB9Ow0KPj4+Pj4g
+IMKgIEBAIC0yMjcsMTEgKzI2MSwxMyBAQCBzdGF0aWMgdm9pZCBwaWl4NF9pZGVfY2xhc3Nf
+aW5pdChPYmplY3RDbGFzcyAqa2xhc3MsIHZvaWQgKmRhdGEpDQo+Pj4+PiAgwqDCoMKgwqDC
+oCBrLT5jbGFzc19pZCA9IFBDSV9DTEFTU19TVE9SQUdFX0lERTsNCj4+Pj4+ICDCoMKgwqDC
+oMKgIHNldF9iaXQoREVWSUNFX0NBVEVHT1JZX1NUT1JBR0UsIGRjLT5jYXRlZ29yaWVzKTsN
+Cj4+Pj4+ICDCoMKgwqDCoMKgIGRjLT5ob3RwbHVnZ2FibGUgPSBmYWxzZTsNCj4+Pj4+ICvC
+oMKgwqAgZGV2aWNlX2NsYXNzX3NldF9wcm9wcyhkYywgcGlpeF9pZGVfcHJvcGVydGllcyk7
+DQo+Pj4+PiAgwqAgfQ0KPj4+Pj4gIMKgwqDCoCBzdGF0aWMgY29uc3QgVHlwZUluZm8gcGlp
+eDRfaWRlX2luZm8gPSB7DQo+Pj4+PiAgwqDCoMKgwqDCoCAubmFtZcKgwqDCoMKgwqDCoMKg
+wqDCoCA9IFRZUEVfUElJWDRfSURFLA0KPj4+Pj4gIMKgwqDCoMKgwqAgLnBhcmVudMKgwqDC
+oMKgwqDCoMKgID0gVFlQRV9QQ0lfSURFLA0KPj4+Pj4gK8KgwqDCoCAuaW5zdGFuY2VfaW5p
+dCA9IHBjaV9waWl4X2lkZV9pbml0LA0KPj4+Pj4gIMKgwqDCoMKgwqAgLmNsYXNzX2luaXTC
+oMKgwqAgPSBwaWl4NF9pZGVfY2xhc3NfaW5pdCwNCj4+Pj4+ICDCoCB9Ow0KPj4+Pj4gIMKg
+IGRpZmYgLS1naXQgYS9ody9pc2EvcGlpeC5jIGIvaHcvaXNhL3BpaXguYw0KPj4+Pj4gaW5k
+ZXggNTRhMTI0NmE5ZC4uZjk5NzRjMmE3NyAxMDA2NDQNCj4+Pj4+IC0tLSBhL2h3L2lzYS9w
+aWl4LmMNCj4+Pj4+ICsrKyBiL2h3L2lzYS9waWl4LmMNCj4+Pj4+IEBAIC0zNDUsOSArMzQ1
+LDE0IEBAIHN0YXRpYyB2b2lkIHBjaV9waWl4X3JlYWxpemUoUENJRGV2aWNlICpkZXYsIGNv
+bnN0IGNoYXIgKnVoY2lfdHlwZSwNCj4+Pj4+ICDCoMKgwqDCoMKgwqDCoCAvKiBJREUgKi8N
+Cj4+Pj4+ICDCoMKgwqDCoMKgIHFkZXZfcHJvcF9zZXRfaW50MzIoREVWSUNFKCZkLT5pZGUp
+LCAiYWRkciIsIGRldi0+ZGV2Zm4gKyAxKTsNCj4+Pj4+ICvCoMKgwqAgcWRldl9wcm9wX3Nl
+dF9iaXQoREVWSUNFKCZkLT5pZGUpLCAidXNlci1jcmVhdGVkIiwgZmFsc2UpOw0KPj4+Pj4g
+IMKgwqDCoMKgwqAgaWYgKCFxZGV2X3JlYWxpemUoREVWSUNFKCZkLT5pZGUpLCBCVVMocGNp
+X2J1cyksIGVycnApKSB7DQo+Pj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybjsNCj4+
+Pj4+ICDCoMKgwqDCoMKgIH0NCj4+Pj4+ICvCoMKgwqAgcWRldl9jb25uZWN0X2dwaW9fb3V0
+KERFVklDRSgmZC0+aWRlKSwgMCwNCj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBxZGV2X2dldF9ncGlvX2luKERFVklDRSgmZC0+
+cGljKSwgMTQpKTsNCj4+Pj4+ICvCoMKgwqAgcWRldl9jb25uZWN0X2dwaW9fb3V0KERFVklD
+RSgmZC0+aWRlKSwgMSwNCj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBxZGV2X2dldF9ncGlvX2luKERFVklDRSgmZC0+cGljKSwg
+MTUpKTsNCj4+Pj4+ICDCoMKgwqDCoMKgwqDCoCAvKiBVU0IgKi8NCj4+Pj4+ICDCoMKgwqDC
+oMKgIGlmIChkLT5oYXNfdXNiKSB7DQo+Pj4+DQo+Pj4+IEkgaGF2ZW4ndCBjaGVja2VkIHRo
+ZSBkYXRhc2hlZXQsIGJ1dCBJIHN1c3BlY3QgdGhpcyB3aWxsIGJlIHNpbWlsYXIgdG8gdGhl
+IGNtZDY0Ni92aWEgUENJLUlERSBpbnRlcmZhY2VzIGluIHRoYXQgdGhlcmUgd2lsbCBiZSBh
+IFBDSSBjb25maWd1cmF0aW9uIHJlZ2lzdGVyIHRoYXQgd2lsbCBzd2l0Y2ggYmV0d2VlbiBJ
+U0EgY29tcGF0aWJpbGl0eSBtb2RlIChhbmQgSVNBIGlycXMpIGFuZCBQQ0kgbW9kZSAod2l0
+aCBQQ0kgSVJRcykuIFNvIGl0IHdvdWxkIGJlIHRoZSBkZXZpY2UgY29uZmlndXJhdGlvbiB0
+aGF0IHdvdWxkIHNwZWNpZnkgUENJIG9yIElTQSBtb2RlLCByYXRoZXIgdGhhbiB0aGUgcHJl
+c2VuY2Ugb2YgYW4gSVNBQnVzLg0KPj4+DQo+Pj4gSSBmb3Jnb3QgYWJvdXQgdGhpcyB0b3Bp
+YyBhbHJlYWR5IGFuZCBoYXZlbid0IGZvbGx3ZWQgdGhpcyBzZXJpZXMgZWl0aGVyIHNvIHdo
+YXQgSSBzYXkgbWF5IG5vdCBmdWxseSBtYWtlIHNlbnNlIGJ1dCBJIHRoaW5rIENNRDY0NiBh
+bmQgdmlhLWlkZSBhcmUgZGlmZmVyZW50LiBDTUQ2NDYgaXMgYSBQQ0kgZGV2aWNlIGFuZCBz
+aG91bGQgdXNlIFBDSSBpbnRlcnJ1cHRzIHdoaWxlIHZpYS1pZGUgaXMgcGFydCBvZiBhIHNv
+dXRoYnJpZGdlL3N1cGVyaW8gY29tcGxleCBhbmQgY29ubmVjdGVkIHRvIHRoZSBJU0EgUElD
+cyB3aXRoaW4gdGhhdCBzb3V0aGJyaWRlLCBzbyBJIHRoaW5rIHZpYS1pZGUgYWx3YXlzIHVz
+ZXMgSVNBIElSUXMgYW5kIHRoZSBJU0EgYnRpZGdlIHdpdGhpbiB0aGUgc2FtZSBjaGlwIG1h
+eSBjb252ZXJ0IHRoYXQgdG8gUENJIElSUXMgb3Igbm90ICh0aGF0IHBhcnQgaXMgd2hlcmUg
+SSdtIGxvc3QgYWxzbyBiZWNhdXNlIHdlIG1heSBub3QgYWN0dWFsbHkgbW9kZWwgaXQgdGhh
+dCB3YXkpLiBBZnRlciBhIGxvbmcgZGViYXRlIHdlIG1hbmFnZWQgdG8gZmluZCBhIHNvbHV0
+aW9uIGJhY2sgdGhlbiB0aGF0IHdvcmtzIGZvciBldmVyeSBndWVzdCB3ZSB1c2UgaXQgZm9y
+IG5vdyBzbyBJIHRoaW5rIHdlIGRvbid0IHdhbnQgdG8gdG91Y2ggaXQgbm93IHVudGlsIHNv
+bWUgcmVhbCBuZWVkIGFyaXNlcy4gSXQgZG9lcyBub3Qgd29ydGggdGhlIHRyb3VibGUgYW5k
+IGFkZGVkIGNvbXBsZXhpdHkgdG8gbW9kZWwgc29tZXRoaW5nIHRoYXQgaXMgbm90IHVzZWQg
+anVzdCBmb3IgdGhlIHNha2Ugb2YgY29ycmVjdG5lc3MuIEJ5IHRoZSB0aW1lIHdlIGZpbmQg
+YSB1c2UgZm9yIHRoYXQsIHRoZSBJU0EgZW11bGF0aW9uIG1heSBldm9sdmUgc28gaXQncyBl
+YXNpZXIgdG8gaW1wbGVtZW50IHRoZSBtaXNzaW5nIHN3aXRjaGluZyBiZXR3ZWVuIGlzYSBh
+bmQgbmF0aXZlIG1vZGUgb3Igd2UgbWF5IHdhbnQgdG8gZG8gaXQgZGlmZmVyZW50bHkgKHN1
+Y2ggYXMgd2UgZG8gdGhpbmdzIGRpZmZlcmVudGx5IG5vdyBjb21wYXJlZCB0byB3aGF0IHdl
+IGRpZCB5ZWFycyBhZ28pLiBTbyBJIHRoaW5rIGl0IGRvZXMgbm90IHdvcnRoIGtlZXBpbmcg
+dGhlIElTQSBtb2RlbCBmcm9tIGJlaW5nIHNpbXBsaWZpZWQgZm9yIHNvbWUgdGhlb3JldGlj
+YWwgdXNlcyBpbiB0aGUgZnV0dXJlIHdoaWNoIHdlIG1heSBub3QgYWN0dWFsbHkgZG8gYW55
+IHRpbWUgc29vbi4gQnV0IEkgZG9uJ3Qgd2FudCB0byBnZXQgaW50byB0aGlzIGFnYWluIHNv
+IGp1c3Qgc2hhcmVkIG15IHRob3VnaHRzIGFuZCBmZWVsIGZyZWUgdG8gaWdub3JlIGl0LiBJ
+IGRvbid0IGNhcmUgd2hlcmUgdGhlc2UgcGF0Y2hlcyBnbyBhcyBsb25nIGFzIHRoZSBWSUEg
+bW9kZWwga2VlcHMgd29ya2luZyBmb3IgbWUuDQo+Pg0KPj4gSSBoYXZlIGEgdmFndWUgbWVt
+b3J5IHRoYXQgSVNBIGNvbXBhdGliaWxpdHkgbW9kZSB3YXMgcGFydCBvZiB0aGUgb3JpZ2lu
+YWwgUENJLUJNRE1BIHNwZWNpZmljYXRpb24sIGJ1dCBpdCBoYXMgYmVlbiBhIHdoaWxlIHNp
+bmNlIEkgbGFzdCBsb29rZWQuDQo+Pg0KPj4gQmVybmhhcmQsIGlzIHRoZXJlIGFueSBtZW50
+aW9uIG9mIHRoaXMgaW4gdGhlIFBJSVggZGF0YXNoZWV0KHMpPyBGb3IgcmVmZXJlbmNlIHRo
+ZSBjbWQ2NDYgZGF0YXNoZWV0IHNwZWNpZmllcyB0aGF0IElTQSBtb2RlIG9yIFBDSSBtb2Rl
+IGlzIGRldGVybWluZWQgYnkgcmVnaXN0ZXIgUFJPR19JRiAoMHg5KSBpbiBQQ0kgY29uZmln
+dXJhdGlvbiBzcGFjZS4NCj4gDQo+IEkndmUgZm91bmQgdGhlIGZvbGxvd2luZzoNCj4gDQo+
+ICAgICJPbmx5IFBDSSBtYXN0ZXJzIGhhdmUgYWNjZXNzIHRvIHRoZSBJREUgcG9ydC4gSVNB
+IEJ1cyBtYXN0ZXJzIGNhbm5vdCBhY2Nlc3MgdGhlIElERSBJL08gcG9ydCBhZGRyZXNzZXMu
+IE1lbW9yeSB0YXJnZXRlZCBieSB0aGUgSURFIGludGVyZmFjZSBhY3RpbmcgYXMgYSBQQ0kg
+QnVzIG1hc3RlciBvbiBiZWhhbGYgb2YgSURFIERNQSBzbGF2ZXMgbXVzdCByZXNpZGUgb24g
+UENJLCB1c3VhbGx5IG1haW4gbWVtb3J5IGltcGxlbWVudGVkIGJ5IHRoZSBob3N0LXRvLVBD
+SSBicmlkZ2UuIg0KPiANCj4gQW5kOg0KPiANCj4gICAgIlBJSVg0IGNhbiBhY3QgYXMgYSBQ
+Q0kgQnVzIG1hc3RlciBvbiBiZWhhbGYgb2YgYW4gSURFIHNsYXZlIGRldmljZS4iDQo+IA0K
+PiBEb2VzIHRoaXMgcGVyaGFwcyBtZWFuIHRoYXQgcGlpeC1pZGUgZG9lcyBpbmRlZWQgaGF2
+ZSBubyBJU0EgYnVzPw0KDQpJJ2QgYmUgYW1hemVkIGlmIHRoYXQgd2VyZSB0aGUgY2FzZTog
+Y2VydGFpbmx5IHdoZW4gdGhlIGZpcnN0IG1vdGhlcmJvYXJkcyBjYW1lIG91dCANCndpdGgg
+UENJIGFuZCBJU0Egc2xvdHMsIEknZCBleHBlY3QgdGhlIElERSBsZWdhY3kgbW9kZSB0byBi
+ZSBlbmFibGVkIGJ5IGRlZmF1bHQgc2luY2UgDQpCSU9TZXMgYW5kIE9TcyBzdWNoIGFzIERP
+UyB3b3VsZG4ndCBoYXZlIGJlZW4gUENJIGF3YXJlIGFuZCB3b3VsZCBhY2Nlc3MgdGhlIElT
+QSANCmlvcG9ydHMgZGlyZWN0bHkuIEZyb20gbWVtb3J5IHRoZSBPRiBQQ0kgc3BlY2lmaWNh
+dGlvbiBoYXMgbWVudGlvbiBvZiB3b3JrYXJvdW5kcyANCnN1Y2ggYXMgbWFwcGluZyB0aGUg
+b2xkIFZHQSBtZW1vcnkgdG8gUENJIE1NSU8gc3BhY2UgZm9yIGNvbXBhdGliaWxpdHkgcmVh
+c29ucywgc28gDQpJJ2QgYmUgc3VycHJpc2VkIGlmIHRoZXJlIHdhc24ndCBzb21ldGhpbmcg
+c2ltaWxhciBmb3IgSURFLg0KDQpUaGUgd29yZGluZyBhYm92ZSBpcyBhIGJpdCBhbWJpZ3Vv
+dXMgYmVjYXVzZSBJIGNhbiBzZWUgdGhlIGFib3ZlIHN0YXRlbWVudHMgd291bGQgYmUgDQp0
+cnVlIGlmIHRoZSBQQ0ktSURFIGRldmljZSB3ZXJlIGFscmVhZHkgc3dpdGNoZWQgdG8gUENJ
+IG1vZGUsIGFuZCB3aGF0IHdlJ3JlIGxvb2tpbmcgDQpmb3IgaXMgd2hldGhlciBhIHN3aXRj
+aCBiZXR3ZWVuIHRoZSB0d28gaXMgc3VwcG9ydGVkIG9yIHBvc3NpYmxlLg0KDQpUaGUgY21k
+NjQ2IGRhdGFzaGVldCBzZWN0aW9uIDEuNCBoYXMgYSBmbGVldGluZyBtZW50aW9uIG9mIGEg
+ZG9jdW1lbnQgY2FsbGVkICJQQ0kgSURFIA0KQ29udHJvbGxlciBTcGVjaWZpY2F0aW9uIFJl
+dmlzaW9uIDEuMCIgd2hpY2ggaWYgeW91IGNhbiBmaW5kIGl0LCBtYXkgcHJvdmlkZSBtb3Jl
+IA0KaW5mb3JtYXRpb24gYXMgdG8gd2hldGhlciB0aGlzIGFiaWxpdHkgaXMgc3BlY2lmaWMg
+dG8gdGhlIGNtZDY0NiBvciB3aGV0aGVyIGl0IGlzIA0KYWxzbyByZWxldmFudCB0byBnZW5l
+cmljIFBDSS1JREUgY29udHJvbGxlcnMgc3VjaCBhcyB0aGUgUElJWCBzZXJpZXMgdG9vLg0K
+DQoNCkFUQiwNCg0KTWFyay4NCg==
 
