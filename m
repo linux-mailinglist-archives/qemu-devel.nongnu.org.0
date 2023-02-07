@@ -2,73 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A25B068DBA7
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:34:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F12B68DBBE
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:36:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPP3K-0003pR-UN; Tue, 07 Feb 2023 09:34:34 -0500
+	id 1pPP4z-0004mA-PM; Tue, 07 Feb 2023 09:36:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pPP3I-0003oh-55
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:34:32 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pPP3G-00088c-Kv
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:34:31 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id d2so11508957pjd.5
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:34:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=fgyO/Nbv99Si2C5XaM4U2ruXGJqXvpH0ymdkNd7I7U8=;
- b=IEpe4PkvGPMNhxZfZcTN/dAl/O987zrMDthYY9oyI0/nuSvTrCzIQZmvCYohunAxL1
- eBPJWsywxMLCgHCi9Qub+00WwINzBxweFxafaFVVmqn7eOhmRyVrkIV3Le3A8VRwAoQ7
- x5Iakx0XGohEhY1x7y6kOIotn70hl3JfMmfRagfIyP1qHRGPWOL3hg0jDQw575nPW17C
- iFrEB4HFtJTS0mWLgUOUE5kA+6m81Yi9uTS45+RogW08Oj/+QjpXOAZc2Rx4oDZKnab4
- dpHESSMEasTufxfqz0TEFsl0jXZoq4eIzYdxkX14IxP3aOBciz42njrUqE2xkQZ3xWji
- 7bLg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPP4n-0004kv-7N
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:36:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPP4l-0000Em-Eh
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:36:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675780562;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YDLoeqIsechbUgz6PoS2sUn6Go9VWrLZL909u/pxufs=;
+ b=Vb0rTOp7PbmgOz1gGz0L62ajAx3rTS5rK4iV7yGvr1fBVyXCLNb3l0MEjnJbbfenCLdkwX
+ ra1q7yk1+uIITuArBkhNh1Dm/0e7+k0Nx99pDejtDiZNg8wGWCGivqgzCqlJKswclzFSQ6
+ qryaGkSZQoe2pMHrMEZPTGH07SWwSH0=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-468-FyzHrwZ1NOeuh19MVky85g-1; Tue, 07 Feb 2023 09:36:01 -0500
+X-MC-Unique: FyzHrwZ1NOeuh19MVky85g-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ ay10-20020a05620a178a00b0072db6346c39so8601058qkb.16
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:36:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fgyO/Nbv99Si2C5XaM4U2ruXGJqXvpH0ymdkNd7I7U8=;
- b=rMEhu9pzh7aTH+7GdeelXQMx/LYfnFmJ/1KWUpwRHOzuxMMmN+Tp+ZdSpA10RirNlN
- KuOdR4gcoziCPzt4BQEQUe2AJ6QmeR/yf/GhsydDVULx180+hKR288Lue8RJ5pB5qcjc
- 0P1gpwtCcOg/x3LLPb0N7Jt69V+z9EcCj2MYEPHbnMuFV7kCH/x7/DJSaLC22puv4ESt
- nig99agF2f0zcH5ZAmkYUk4OheADZqSzqj6aJUUg0hcVBtzqAhbu6oerYEltxWB+PMiR
- da5watTmYppqGkp0yk9Pzqx18pdAOuzMCpgtTsyII7PBwynlVK/Ano0FgHbuQb7J3JkE
- XMcg==
-X-Gm-Message-State: AO0yUKX75+yXA8ByEulU8HiN+Trh/ksSH1G3/TNYXjVT2UfvO/hEP+Cf
- bRS1EYHOINV/mgX9vF3CQM5Aklee36YJnA0fQVFi/w==
-X-Google-Smtp-Source: AK7set9CHmxPmbCidSh6Szfdj8uCpF4Du9dvWP1TOuMOsMfn9hzR8G/ftOssrNzd98qf2uDdWiIJRUIMnZ6e0vAB1/o=
-X-Received: by 2002:a17:90a:a38d:b0:230:81fc:db1b with SMTP id
- x13-20020a17090aa38d00b0023081fcdb1bmr2888914pjp.89.1675780469178; Tue, 07
- Feb 2023 06:34:29 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YDLoeqIsechbUgz6PoS2sUn6Go9VWrLZL909u/pxufs=;
+ b=V3Q6ilJj+Blk5vjvJfKSlrjBQn9GRU6oU1WFUZfdoohF/3z/eCST0mJAknhFSrwuHX
+ GAmaZB1zl2C5DabWkDL+/a72GOB9D6ffQf3w5Ghgnr0xJr/kqnCOV155gqLjBAyLi9/v
+ IyL+s184Ce2HKhqW9lJ+7MoMYeK1HubIu19f2B7+LzfC8u1IqocE8tQ9ZooQ3GCWIPK7
+ bdbVSEe6drF4pSJaqwn0QizmcEH9XjfPbyM4dJsb5u86sug+0RHVTne2nS2Rth+BlYqR
+ nHADhVtoO3NvUm+dkZNJBUx31CUdCP5/thsW+YGhs9TY84TjCwbak7z3PFqCLLahdnPV
+ XKDg==
+X-Gm-Message-State: AO0yUKWzzzrH689ninf1WzmEXKnlQRgu3/W3PBUUrP/ah/dqUbXm+fgv
+ M7fDFDeZP9iLMH3okRwdzbgNW0QWgn9fzKTjEDgTvLggdfp/IxmET8qLNGiHt2Br84Aq8i6It4Q
+ DhDurTU6Rt3u9IoI=
+X-Received: by 2002:a05:622a:1ce:b0:3b8:2dd5:3c1d with SMTP id
+ t14-20020a05622a01ce00b003b82dd53c1dmr5043768qtw.48.1675780560486; 
+ Tue, 07 Feb 2023 06:36:00 -0800 (PST)
+X-Google-Smtp-Source: AK7set+xFok5NRzXHPmVRoJaA9wq9FdHslvdf669+e1H6QnoxSQCqFl00SCZn02++6wG+vyHXEXzXQ==
+X-Received: by 2002:a05:622a:1ce:b0:3b8:2dd5:3c1d with SMTP id
+ t14-20020a05622a01ce00b003b82dd53c1dmr5043745qtw.48.1675780560221; 
+ Tue, 07 Feb 2023 06:36:00 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-120.web.vodafone.de.
+ [109.43.176.120]) by smtp.gmail.com with ESMTPSA id
+ fd10-20020a05622a4d0a00b003bb50a9f9bbsm3030qtb.7.2023.02.07.06.35.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Feb 2023 06:35:59 -0800 (PST)
+Message-ID: <218e02c0-efed-1461-e9d5-6bee0a5ecbbc@redhat.com>
+Date: Tue, 7 Feb 2023 15:35:56 +0100
 MIME-Version: 1.0
-References: <20230124000027.3565716-1-richard.henderson@linaro.org>
- <20230124000027.3565716-5-richard.henderson@linaro.org>
-In-Reply-To: <20230124000027.3565716-5-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Feb 2023 14:34:18 +0000
-Message-ID: <CAFEAcA_6dwB9ygO-kr9vaGTH=wNavZoQpunxWQ4Nt715Y49NGg@mail.gmail.com>
-Subject: Re: [PATCH 04/22] target/arm: Update SCR and HCR for RME
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, yier.jin@huawei.com, 
- jonathan.cameron@huawei.com, leonardo.garcia@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 11/12] tests/qtest: bios-tables-test: Skip if missing
+ configs
+Content-Language: en-US
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>
+References: <20230206150416.4604-1-farosas@suse.de>
+ <20230206150416.4604-12-farosas@suse.de>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230206150416.4604-12-farosas@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,17 +103,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 24 Jan 2023 at 00:01, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Define the missing SCR and HCR bits, allow SCR_NSE and {SCR,HCR}_GPF
-> to be set, and invalidate TLBs when NSE changes.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 06/02/2023 16.04, Fabiano Rosas wrote:
+> If we build with --without-default-devices, CONFIG_HPET and
+> CONFIG_PARALLEL are set to N, which makes the respective devices go
+> missing from acpi tables.
+> 
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> ---
+> I currently don't see a way of allowing the tests to pass in the
+> absence of these two configs. As far as I understand, we would need to
+> have one set of expected table files (tests/data/acpi) for each
+> combination of machine vs. possible CONFIG that can be toggled.
 
+I think you're right ... maintaining tables for each combination does not 
+scale. Disabling the test in that case is likely the best we can do here 
+right now.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> index a930706a43..2829eda2c9 100644
+> --- a/tests/qtest/meson.build
+> +++ b/tests/qtest/meson.build
+> @@ -78,7 +78,9 @@ qtests_i386 = \
+>      config_all_devices.has_key('CONFIG_Q35') and                                             \
+>      config_all_devices.has_key('CONFIG_VIRTIO_PCI') and                                      \
+>      slirp.found() ? ['virtio-net-failover'] : []) +                                          \
+> -  (unpack_edk2_blobs ? ['bios-tables-test'] : []) +                                         \
+> +  (unpack_edk2_blobs and                                                                    \
+> +   config_all_devices.has_key('CONFIG_HPET') and                                            \
+> +   config_all_devices.has_key('CONFIG_PARALLEL') ? ['bios-tables-test'] : []) +             \
+>     qtests_pci +                                                                              \
+>     qtests_cxl +                                                                              \
+>     ['fdc-test',
 
-thanks
--- PMM
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+
 
