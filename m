@@ -2,95 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 757A768D6D7
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 13:35:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0568868D734
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 13:50:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPNAp-0007d4-5j; Tue, 07 Feb 2023 07:34:11 -0500
+	id 1pPNOt-0005hF-DY; Tue, 07 Feb 2023 07:48:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pPNAn-0007c1-GJ
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:34:09 -0500
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pPNAk-00010G-7i
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:34:09 -0500
-Received: by mail-pf1-x429.google.com with SMTP id ea13so1373806pfb.13
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 04:34:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=jnIsDvta7NZxVHd7LnlBHZ35p5nPwuLeuPmb/ZK5jes=;
- b=Od+bBkKqBThPmPpYoSmkSkGfJOuFba3m3659bNCDhp/Njq1woDL0XzknnPQeW9vRz+
- H3ninOD/ibjOpAOVpHgNz4vtpiz+i4Wu9FmPKcrzuapCE9FYEtL9z2TBo/b50ImFmiUv
- MZSUpspEYTF7FPK1JvdVtZ5G/HM/kgGM2kYLhA8kYh/cS4Z+Mtd3xB5cLmrr+u1BS/kK
- Jm+BPV2l2riDtZDhroHV2D9pEBEuK13Oc5g9onSo4vef2ooFinibrsY6kLNrG7Haj7K3
- E6I1MicTfg5UPQMmuh3yYAf1JLHJ+vUZQ1O4nG1nrDwR8jhZM3dA+vp1G8veRWYjr/Rd
- K2fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jnIsDvta7NZxVHd7LnlBHZ35p5nPwuLeuPmb/ZK5jes=;
- b=tUgpJ1nXvjmdlP8U/7mAH1P8IXTTYWV0gr+CA72y5I6fQ1qBEbfhsbGqy5rs1ZbG1f
- xyNF1wZjx8pJXPjfdd9G796ijHCKhxNlaAjlQWkSnMshFYsOUxFzfW5yjnV10h69IWUQ
- /h/FWwokwvMmgEWpLTCINZB2OD3oEAjOd0LwBu2vSj/+cuuGxKwoqMqd9Dp2HCSIW4M5
- UItJbBjIyI1DVeEElf6KIKm2XIztxnCntkYx0TueDzuyMiDqfjC2zn9HMo+6jG75ULRf
- 7e+OZB+b8A2jyAUQCx/8KYarKYoCSo4Uh4k5+MXoEujWqcpbvFx5kIC775vL4k774YKC
- XUnw==
-X-Gm-Message-State: AO0yUKWkMuyQCmr19uhWmjozWjoSo69IXT3GSUK5nxwW/R+Oc2jCFuB3
- mOqBDojUQfvH/KfGsNAI7uaTjQ==
-X-Google-Smtp-Source: AK7set9IlgmWIGhF1LyH0qHKM2Xg3zMBpAqnr33vHqq6YsigtXl4aPUo7BJt3hk71BpZUYmIdNB2lw==
-X-Received: by 2002:a62:1452:0:b0:592:40cd:ce83 with SMTP id
- 79-20020a621452000000b0059240cdce83mr2961603pfu.4.1675773240127; 
- Tue, 07 Feb 2023 04:34:00 -0800 (PST)
-Received: from sunil-laptop ([49.206.14.226]) by smtp.gmail.com with ESMTPSA id
- t8-20020aa78f88000000b0059260f01115sm9029011pfs.76.2023.02.07.04.33.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Feb 2023 04:33:59 -0800 (PST)
-Date: Tue, 7 Feb 2023 18:03:48 +0530
-From: Sunil V L <sunilvl@ventanamicro.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: Andrew Jones <ajones@ventanamicro.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Andrea Bolognani <abologna@redhat.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Anup Patel <apatel@ventanamicro.com>,
- Atish Kumar Patra <atishp@rivosinc.com>,
- Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: Re: [PATCH 02/10] hw/riscv/virt: Add a switch to enable/disable ACPI
-Message-ID: <Y+JFLOPIVuHhGNF2@sunil-laptop>
-References: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
- <20230202045223.2594627-3-sunilvl@ventanamicro.com>
- <CABJz62PFGT1H-AArbfTkpiX24mHU=q3wk7h-bpduZhJyy7tTLw@mail.gmail.com>
- <fe3b5794-be2a-eec7-9d4e-9a13eab48378@linaro.org>
- <20230206123520.feomnevavp4olbie@orel>
- <CAEUhbmUDuH47SFyvHRzB6ZD_Ofs0DZpQDCpcyVELZgF+cTat9g@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pPNOq-0005gw-KE
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:48:40 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pPNOo-0004UJ-H3
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:48:40 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 92FC17457E7;
+ Tue,  7 Feb 2023 13:46:03 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 35C6A745712; Tue,  7 Feb 2023 13:46:03 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 33F787456E3;
+ Tue,  7 Feb 2023 13:46:03 +0100 (CET)
+Date: Tue, 7 Feb 2023 13:46:03 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+cc: Richard Henderson <richard.henderson@linaro.org>, 
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org, 
+ pixman@lists.freedesktop.org
+Subject: Re: pixman_blt on aarch64
+In-Reply-To: <8c33a708-9805-b6c8-70e8-9ee0dfb73ee6@gmail.com>
+Message-ID: <6eb4db3e-fdbe-b57d-df4f-52b388efb422@eik.bme.hu>
+References: <4b519268-f8e8-6542-9d1b-34054879eec0@eik.bme.hu>
+ <a7866129-9f7a-02d6-1e58-bf05e1bf89e4@eik.bme.hu>
+ <410c3da9-9be5-a715-7b7a-48bd67355c9c@linaro.org>
+ <e615e033-a3f6-083f-5f0f-eb506c3c5b4c@eik.bme.hu>
+ <a8ca919f-c6fc-70cf-0574-261fdad81d96@linaro.org>
+ <8c33a708-9805-b6c8-70e8-9ee0dfb73ee6@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEUhbmUDuH47SFyvHRzB6ZD_Ofs0DZpQDCpcyVELZgF+cTat9g@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=sunilvl@ventanamicro.com; helo=mail-pf1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-1690749644-1675773963=:60269"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,53 +67,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 07, 2023 at 11:57:29AM +0800, Bin Meng wrote:
-> On Mon, Feb 6, 2023 at 8:36 PM Andrew Jones <ajones@ventanamicro.com> wrote:
-> >
-> > On Mon, Feb 06, 2023 at 12:18:06PM +0100, Philippe Mathieu-Daudé wrote:
-> > > On 6/2/23 11:54, Andrea Bolognani wrote:
-> > > > On Thu, Feb 02, 2023 at 10:22:15AM +0530, Sunil V L wrote:
-> > > > > +    object_class_property_add(oc, "acpi", "OnOffAuto",
-> > > > > +                              virt_get_acpi, virt_set_acpi,
-> > > > > +                              NULL, NULL);
-> > > > > +    object_class_property_set_description(oc, "acpi",
-> > > > > +                                          "Enable ACPI");
-> > > >
-> > > > The way this works on other architectures (x86_64, aarch64) is that
-> > > > you get ACPI by default and can use -no-acpi to disable it if
-> > > > desired. Can we have the same on RISC-V, for consistency?
-> >
-> > Default on, with a user control to turn off, can be done with a boolean.
-> > I'm not sure why/if Auto is needed for acpi. Auto is useful when a
-> > configuration doesn't support a default setting for a feature. If the
-> > user hasn't explicitly requested the feature to be on or off, then the
-> > configuration can silently select what works. If, however, the user
-> > explicitly chooses what doesn't work, then qemu will fail with an error
-> > instead.
-> 
-> I have a confusion about "OnOffAuto" vs. "bool" type.
-> 
-> Both "OnOffAuto" vs. "bool" type property can have a default value if
-> user does not assign a value to it from command line. The default
-> value is:
-> 
-> - ON_OFF_AUTO_AUTO for "OnOffAuto"
-> - false for "bool"
-> 
-> But the default value can be overridden in the machine's init
-> function, like in this patch.
-> 
-> So I am not really sure how these 2 types of properties are different.
-> Why did we introduce a "OnOffAuto" type, and how is that type supposed
-> to be used in which scenario?
-> 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-I don't know either. Since it is the same property across architectures,
-I used the OnOffAuto instead of a bool. 
+--3866299591-1690749644-1675773963=:60269
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-May be Gerd and other qemu experts can help us to understand better.
-https://github.com/qemu/qemu/commit/17e89077b7e3bc1d96540e21ddc7451c3e077049
+Maybe we should include pixman list in this. In case you're not subscribed 
+I'm forwarding it to that list now.
 
-Thanks,
-Sunil
+On Tue, 7 Feb 2023, Akihiko Odaki wrote:
+> On 2023/02/06 4:16, Richard Henderson wrote:
+>> On 2/5/23 08:44, BALATON Zoltan wrote:
+>>> On Sun, 5 Feb 2023, Richard Henderson wrote:
+>>>> On 2/4/23 06:57, BALATON Zoltan wrote:
+>>>>> This has just bounced, I hoped to still be able to post after moderation 
+>>>>> but now I'm resending it after subscribing to the pixman list. Meanwhile 
+>>>>> I've found this ticket as well: 
+>>>>> https://gitlab.freedesktop.org/pixman/pixman/-/merge_requests/71
+>>>>> See the rest of the message below. Looks like this is being worked on 
+>>>>> but I'm not sure how far is it from getting resolved. Any info on that?
+>>>> 
+>>>> Please try this:
+>>>> 
+>>>> https://gitlab.freedesktop.org/rth7680/pixman/-/tree/general
+>>>> 
+>>>> It provides a pure C version for ultimate fallback.
+>>>> Unfortunately, there are no test cases for this, nor documentation.
+>
+> It can share the implementation with fast_composite_src_memcpy(). 
+> fast_composite_src_memcpy() should be well-tested with the tests for 
+> pixman_image_composite(). arm-neon does similar so we can trust 
+> fast_composite_src_memcpy() functions as blt.
+>
+>>> 
+>>> Thanks, I don't have hardware to test this but maybe Akihiko or somebody 
+>>> else here cam try. Do you think pixman_fill won't have the same problem? 
+>>> It seems to have at least a fast_path implementation but I'm not sure how 
+>>> pixman selects these.
+>> 
+>> For fill, I think the fast_path implementation should work, so long as it 
+>> isn't disabled via environment variable.  I'm not sure why that is, and why 
+>> _fast_path isn't part of _general.
+>
+> The implementation of fill should be moved to pixman-general.c but the other 
+> part of pixman-fast-path.c shouldn't be.
+>
+> By isolating the non-essential fast-path code to pixman-fast-path.c, you can 
+> disable it with the environment variable when you are not confident with the 
+> implementation, and that may help debugging. However, if pixman-fast-path.c 
+> has some essential code like the implementation of fill, the utility of the 
+> environment variable will be impaired as setting the environment variable may 
+> break things.
+>
+>> 
+>> Indeed, the fast_path implementation of fill should be easily vectorized by 
+>> the compiler. I would expect it to be competitive with an assembly 
+>> implementation.  I would expect the implementation chain design to only be 
+>> useful when multiple vector implementations are supported and selected at 
+>> runtime -- e.g. the x86 SSE2 vs SSSE3 stuff.
+>> 
+>> 
+>> r~
+>
+>
+--3866299591-1690749644-1675773963=:60269--
 
