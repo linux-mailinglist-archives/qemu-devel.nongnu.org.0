@@ -2,51 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC3668DE08
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E0268DE09
 	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 17:37:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPQxC-000171-KB; Tue, 07 Feb 2023 11:36:22 -0500
+	id 1pPQx1-0000zA-71; Tue, 07 Feb 2023 11:36:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pPQx8-000155-Gx
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 11:36:18 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pPQwy-0000ym-R2
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 11:36:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pPQx6-0000Er-Kk
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 11:36:18 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A6903745720;
- Tue,  7 Feb 2023 17:33:43 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 64C06745712; Tue,  7 Feb 2023 17:33:43 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 639877456E3;
- Tue,  7 Feb 2023 17:33:43 +0100 (CET)
-Date: Tue, 7 Feb 2023 17:33:43 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: qemu-devel@nongnu.org
-cc: philmd@linaro.org, Richard Henderson <richard.henderson@linaro.org>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 1/2] log: Add separate debug option for logging invalid
- memory accesses
-In-Reply-To: <ad4783ee-20ce-06d2-7c2f-1f915bd684d0@eik.bme.hu>
-Message-ID: <413edbc1-8af1-4b0e-70ab-41d49f1bbbcd@eik.bme.hu>
-References: <20230119214032.4BF1E7457E7@zero.eik.bme.hu>
- <ad4783ee-20ce-06d2-7c2f-1f915bd684d0@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pPQwu-0000Do-AI
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 11:36:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675787762;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+JtOhhuovIHwGiqrxn/PRR7S1vl7BeehJdw6uaOtnVY=;
+ b=dAbXEVt9CalDyKFeYPk8JRHEcjsvzuSu56NHSP9+9JKJgtDoEdj2UPVNBoEz/EH8+bDVm7
+ U3J3LxtotR7o1Zsxp99WY05tCDhEMhzgEQUxCkQHwbkbg9NI6lno2jK0MS1x8Psr3IiZz5
+ w/akeuPNA3ePgPfQidYtzXibyN7zbWc=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-635-xlC5y3bLMBOgpyDK3xRkNw-1; Tue, 07 Feb 2023 11:36:00 -0500
+X-MC-Unique: xlC5y3bLMBOgpyDK3xRkNw-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ gw11-20020a0562140f0b00b0053b81ec39dfso8002966qvb.14
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 08:36:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+JtOhhuovIHwGiqrxn/PRR7S1vl7BeehJdw6uaOtnVY=;
+ b=v0Stm2NHLY9zBvtMDaLdjcMpeYgz8mfnJfYaTBOs5PGLWyP1p3ECsK03TY01LSobA9
+ P73kkVq8Bm1ho1WBUuE4drAtEp1fgl23nmSO7EFIPhpQseP2Zim9ZH7/WdBrzj0TZN0m
+ OfhtxgbZB7Ajn46ZnrhLRRx55TMdSFbs0o4/i1JJET+yq9NgmZxcxUwPKyHWWwZBe8va
+ 1NxtzvpG1kBxcxD/XiTUpDmjgjz8OQkk8fzHlPgsFhKnE1Zj6ctrMGMhruTATeCoFi6D
+ XDUJQtKNg6fMuVqdvXcJxXoX/tE/JihCPEqH26bVBaxUAqulYOYKSRyrGckeIdJTX3zZ
+ 38/g==
+X-Gm-Message-State: AO0yUKWHRuEEuBgfnJ2D2jcCpROuOoT3BRKNo32tCkSVZa5jcWClZ/RC
+ rONnuWP2LKw8OAgaZbhAU5uri94gkUAuAb0xmaWGFjzaTwkSF4xIkmbNb4kmwp/muadTsCr6fLx
+ JdVinLyQz7oJNDFg=
+X-Received: by 2002:a0c:c98d:0:b0:53d:7373:2e8 with SMTP id
+ b13-20020a0cc98d000000b0053d737302e8mr4713962qvk.3.1675787758578; 
+ Tue, 07 Feb 2023 08:35:58 -0800 (PST)
+X-Google-Smtp-Source: AK7set+9HlBe3B5ZiUIZ7XqsQUd8WroVuYcoCDZZxEIRu3QRpaS7MtOnmquiCqJTDDrxKcSvp5z0Ig==
+X-Received: by 2002:a0c:c98d:0:b0:53d:7373:2e8 with SMTP id
+ b13-20020a0cc98d000000b0053d737302e8mr4713931qvk.3.1675787758249; 
+ Tue, 07 Feb 2023 08:35:58 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ g7-20020a05620a278700b006ff8a122a1asm9724612qkp.78.2023.02.07.08.35.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Feb 2023 08:35:57 -0800 (PST)
+Date: Tue, 7 Feb 2023 11:35:56 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, mst@redhat.com, qemu-devel@nongnu.org,
+ eric.auger@redhat.com, viktor@daynix.com
+Subject: Re: [PATCH 2/3] intel-iommu: fail DEVIOTLB_UNMAP without dt mode
+Message-ID: <Y+J97GTPjluoAHe4@x1n>
+References: <20221129081037.12099-1-jasowang@redhat.com>
+ <20221129081037.12099-3-jasowang@redhat.com>
+ <185ce2ea-62c3-71e5-7ef1-1e0b4e35d01c@redhat.com>
+ <c4df55fe-99ff-ef0f-c006-e70809e8890d@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c4df55fe-99ff-ef0f-c006-e70809e8890d@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,106 +101,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 31 Jan 2023, BALATON Zoltan wrote:
-> On Thu, 19 Jan 2023, BALATON Zoltan wrote:
->> Currently -d guest_errors enables logging of different invalid actions
->> by the guest such as misusing hardware, accessing missing features or
->> invalid memory areas. The memory access logging can be quite verbose
->> which obscures the other messages enabled by this debug switch so
->> separate it by adding a new -d memaccess option to make it possible to
->> control it independently of other guest error logs.
->> 
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->
-> Ping? Could somebody review and pick it up please?
+On Tue, Feb 07, 2023 at 05:17:42PM +0100, Laurent Vivier wrote:
+> On 2/3/23 10:08, Laurent Vivier wrote:
+> > On 11/29/22 09:10, Jason Wang wrote:
+> > > Without dt mode, device IOTLB notifier won't work since guest won't
+> > > send device IOTLB invalidation descriptor in this case. Let's fail
+> > > early instead of misbehaving silently.
+> > > 
+> > > Signed-off-by: Jason Wang <jasowang@redhat.com>
+> > > ---
+> > >   hw/i386/intel_iommu.c | 8 ++++++++
+> > >   1 file changed, 8 insertions(+)
+> > > 
+> > > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> > > index 9143376677..d025ef2873 100644
+> > > --- a/hw/i386/intel_iommu.c
+> > > +++ b/hw/i386/intel_iommu.c
+> > > @@ -3179,6 +3179,7 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
+> > >   {
+> > >       VTDAddressSpace *vtd_as = container_of(iommu, VTDAddressSpace, iommu);
+> > >       IntelIOMMUState *s = vtd_as->iommu_state;
+> > > +    X86IOMMUState *x86_iommu = X86_IOMMU_DEVICE(s);
+> > >       /* TODO: add support for VFIO and vhost users */
+> > >       if (s->snoop_control) {
+> > > @@ -3193,6 +3194,13 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
+> > >                            PCI_FUNC(vtd_as->devfn));
+> > >           return -ENOTSUP;
+> > >       }
+> > > +    if (!x86_iommu->dt_supported && (new & IOMMU_NOTIFIER_DEVIOTLB_UNMAP)) {
+> > > +        error_setg_errno(errp, ENOTSUP,
+> > > +                         "device %02x.%02x.%x requires device IOTLB mode",
+> > > +                         pci_bus_num(vtd_as->bus), PCI_SLOT(vtd_as->devfn),
+> > > +                         PCI_FUNC(vtd_as->devfn));
+> > > +        return -ENOTSUP;
+> > > +    }
+> > >       /* Update per-address-space notifier flags */
+> > >       vtd_as->notifier_flags = new;
+> > 
+> > Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+> > Tested-by: Laurent Vivier <lvivier@redhat.com>
+> > Buglink: https://bugzilla.redhat.com/2156876
+> 
+> Is this possible to have this patch merged?
+> It fixes a real problem and it is really trivial.
 
-Ping?
+AFAIU Jason will post a new version soon for this whole set.  But I also
+agree if Michael has an earlier pull we can add this in even earlier.
 
-Regards,
-BALATON Zoltan
+Thanks,
 
->> ---
->> include/qemu/log.h | 1 +
->> softmmu/memory.c   | 6 +++---
->> softmmu/physmem.c  | 2 +-
->> util/log.c         | 2 ++
->> 4 files changed, 7 insertions(+), 4 deletions(-)
->> 
->> diff --git a/include/qemu/log.h b/include/qemu/log.h
->> index c5643d8dd5..4bf0a65a85 100644
->> --- a/include/qemu/log.h
->> +++ b/include/qemu/log.h
->> @@ -35,6 +35,7 @@ bool qemu_log_separate(void);
->> /* LOG_STRACE is used for user-mode strace logging. */
->> #define LOG_STRACE         (1 << 19)
->> #define LOG_PER_THREAD     (1 << 20)
->> +#define LOG_MEM_ACCESS     (1 << 21)
->> 
->> /* Lock/unlock output. */
->> 
->> diff --git a/softmmu/memory.c b/softmmu/memory.c
->> index 9d64efca26..0a9fa67d32 100644
->> --- a/softmmu/memory.c
->> +++ b/softmmu/memory.c
->> @@ -1379,7 +1379,7 @@ bool memory_region_access_valid(MemoryRegion *mr,
->> {
->>     if (mr->ops->valid.accepts
->>         && !mr->ops->valid.accepts(mr->opaque, addr, size, is_write, 
->> attrs)) {
->> -        qemu_log_mask(LOG_GUEST_ERROR, "Invalid %s at addr 0x%" 
->> HWADDR_PRIX
->> +        qemu_log_mask(LOG_MEM_ACCESS, "Invalid %s at addr 0x%" HWADDR_PRIX
->>                       ", size %u, region '%s', reason: rejected\n",
->>                       is_write ? "write" : "read",
->>                       addr, size, memory_region_name(mr));
->> @@ -1387,7 +1387,7 @@ bool memory_region_access_valid(MemoryRegion *mr,
->>     }
->>
->>     if (!mr->ops->valid.unaligned && (addr & (size - 1))) {
->> -        qemu_log_mask(LOG_GUEST_ERROR, "Invalid %s at addr 0x%" 
->> HWADDR_PRIX
->> +        qemu_log_mask(LOG_MEM_ACCESS, "Invalid %s at addr 0x%" HWADDR_PRIX
->>                       ", size %u, region '%s', reason: unaligned\n",
->>                       is_write ? "write" : "read",
->>                       addr, size, memory_region_name(mr));
->> @@ -1401,7 +1401,7 @@ bool memory_region_access_valid(MemoryRegion *mr,
->>
->>     if (size > mr->ops->valid.max_access_size
->>         || size < mr->ops->valid.min_access_size) {
->> -        qemu_log_mask(LOG_GUEST_ERROR, "Invalid %s at addr 0x%" 
->> HWADDR_PRIX
->> +        qemu_log_mask(LOG_MEM_ACCESS, "Invalid %s at addr 0x%" HWADDR_PRIX
->>                       ", size %u, region '%s', reason: invalid size "
->>                       "(min:%u max:%u)\n",
->>                       is_write ? "write" : "read",
->> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
->> index bf585e45a8..bca679ee01 100644
->> --- a/softmmu/physmem.c
->> +++ b/softmmu/physmem.c
->> @@ -2792,7 +2792,7 @@ static bool flatview_access_allowed(MemoryRegion *mr, 
->> MemTxAttrs attrs,
->>     if (memory_region_is_ram(mr)) {
->>         return true;
->>     }
->> -    qemu_log_mask(LOG_GUEST_ERROR,
->> +    qemu_log_mask(LOG_MEM_ACCESS,
->>                   "Invalid access to non-RAM device at "
->>                   "addr 0x%" HWADDR_PRIX ", size %" HWADDR_PRIu ", "
->>                   "region '%s'\n", addr, len, memory_region_name(mr));
->> diff --git a/util/log.c b/util/log.c
->> index 7837ff9917..a3c097f320 100644
->> --- a/util/log.c
->> +++ b/util/log.c
->> @@ -495,6 +495,8 @@ const QEMULogItem qemu_log_items[] = {
->>       "log every user-mode syscall, its input, and its result" },
->>     { LOG_PER_THREAD, "tid",
->>       "open a separate log file per thread; filename must contain '%d'" },
->> +    { LOG_MEM_ACCESS, "memaccess",
->> +      "log invalid memory accesses" },
->>     { 0, NULL, NULL },
->> };
->> 
->> 
->
->
+-- 
+Peter Xu
+
 
