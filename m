@@ -2,62 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D2768E091
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 19:51:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FDE568E0A1
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 19:53:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPT3a-0006gm-P6; Tue, 07 Feb 2023 13:51:07 -0500
+	id 1pPT4g-0007nC-HH; Tue, 07 Feb 2023 13:52:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1pPT3O-0006OP-Qf
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 13:50:55 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+ id 1pPT4Q-0007cU-R1
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 13:51:59 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1pPT3L-0001ez-LN
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 13:50:54 -0500
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ id 1pPT3z-0001nn-O2
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 13:51:37 -0500
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 317GntVx000488; Tue, 7 Feb 2023 18:50:49 GMT
+ 317Gmqtu022928; Tue, 7 Feb 2023 18:51:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id; s=corp-2022-7-12;
- bh=mGrqoJp3rAahZewfOcAxfU1h42C/8QKDC9Wc19Ags8w=;
- b=nORYwG/rBs56+xlE92DQdmtsHQ+LTkjYl7ps2Ece8ZF2l8vqMWHU/auuGszmkoZ6ufVR
- 1UfhdoJCy44xR4IBCj/pfeJZf6Cur++EbAAgsWt/jNhqz6KA4aBERPrWlebVHU4VyULs
- mpT0iBIngYlRDkEXAA4S/w9j1U98sb7/IZBdiJ0JcUg2Kpu0uH8FwIMRrnuWzGKR8nXu
- fJ/yUCGjZtJYYG26tCKHVElNLzO09KrrU9UaR87WcBWjBA+hqjrl3NqQVHOLmW/ZkAvz
- DLNA1P2WxsEwkbR5LR7j8Z6uc3fsvNCa4BE+ia2ZVxn5FdKitddK/PKYd+sADtJ6p9EJ 5g== 
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=corp-2022-7-12;
+ bh=2XE0SnTniCx9KZVn2oMZbvUVAj5ZqIM1KrX5hlazDO4=;
+ b=0cGZTxRICJAWZMxob9OBPzg/B8Dd/DqRWcIZuNXx6AhBnNm09lvPUdeF6lyaiz8yAnSK
+ HcrpaheZQfdsiG6DhnP6mRY2M0tP+tiRozFl2j6EwSo62IMZehHJ9XBpogDMXdL9qIBu
+ EKcth/145cNUTtspDA+rQnnPLUTgH7A38QdS388ILlfsHlJI8uMHkkqfDcJL4mnu3hQ1
+ hrLpq7UN9lb51KMFOwpnPRkjdugFdXclL5RVfwcHPpZdcdrSYwZMFuSvl0Vd6i2CvCYR
+ BFpNbBaGWj13xYNx24otbhzurg7IF0k2tZWZSAJluz2JFAActBZr1ufrGMbrRuhos+g6 Xg== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nhdy16daj-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nheytxdym-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Feb 2023 18:50:49 +0000
+ Tue, 07 Feb 2023 18:51:30 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 317I271J007788; Tue, 7 Feb 2023 18:50:48 GMT
+ with ESMTP id 317I271j007788; Tue, 7 Feb 2023 18:51:29 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3nhdt6jhgq-1
+ 3nhdt6jjee-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Feb 2023 18:50:48 +0000
+ Tue, 07 Feb 2023 18:51:29 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 317ImDpp010778;
- Tue, 7 Feb 2023 18:50:47 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 317IoU9u020172;
+ Tue, 7 Feb 2023 18:51:28 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with
- ESMTP id 3nhdt6jhg7-1; Tue, 07 Feb 2023 18:50:47 +0000
+ ESMTP id 3nhdt6jjds-1; Tue, 07 Feb 2023 18:51:28 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Cc: John Snow <jsnow@redhat.com>, Steve Sistare <steven.sistare@oracle.com>
-Subject: [PATCH V2 17/20] python/machine: QEMUMachine reopen_qmp_connection
-Date: Tue,  7 Feb 2023 10:50:47 -0800
-Message-Id: <1675795847-235232-1-git-send-email-steven.sistare@oracle.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>, 
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Peter Xu <peterx@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Steve Sistare <steven.sistare@oracle.com>
+Subject: [PATCH V2 11/20] memory: flat section iterator
+Date: Tue,  7 Feb 2023 10:51:27 -0800
+Message-Id: <1675795887-235277-1-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
  definitions=2023-02-07_10,2023-02-06_03,2022-06-22_01
@@ -66,10 +75,10 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
  mlxlogscore=999 adultscore=0 phishscore=0 mlxscore=0 malwarescore=0
  bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2302070167
-X-Proofpoint-GUID: 61gcYlbqFN4iCg9hM72F0_6h7wn_QseW
-X-Proofpoint-ORIG-GUID: 61gcYlbqFN4iCg9hM72F0_6h7wn_QseW
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Proofpoint-GUID: H92-M3IAA-fSC-Br4Wyf6iupKwFleDa7
+X-Proofpoint-ORIG-GUID: H92-M3IAA-fSC-Br4Wyf6iupKwFleDa7
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -92,36 +101,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Provide reopen_qmp_connection() to reopen a closed monitor connection.
-This will be needed by cpr, because qemu exec closes the monitor socket.
+Add an iterator over the sections of a flattened address space.
+This will be needed by cpr to issue vfio ioctl's on the same memory
+ranges that are already programmed.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- python/qemu/machine/machine.py | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ include/exec/memory.h | 31 +++++++++++++++++++++++++++++++
+ softmmu/memory.c      | 21 +++++++++++++++++++++
+ 2 files changed, 52 insertions(+)
 
-diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-index ef94dcf..557209a 100644
---- a/python/qemu/machine/machine.py
-+++ b/python/qemu/machine/machine.py
-@@ -501,6 +501,16 @@ def _close_qmp_connection(self) -> None:
-         finally:
-             self._qmp_connection = None
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 3224e09..b6ca3f5 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -2376,6 +2376,37 @@ void memory_region_set_ram_discard_manager(MemoryRegion *mr,
+                                            RamDiscardManager *rdm);
  
-+    def reopen_qmp_connection(self) -> None:
-+        """Close and re-open the QMP connection."""
-+        self._close_qmp_connection()
-+        self._qmp_connection = QEMUMonitorProtocol(
-+            self._monitor_address,
-+            server=True,
-+            nickname=self._name
-+        )
-+        self._qmp.accept(self._qmp_timer)
+ /**
++ * memory_region_section_cb: callback for address_space_flat_for_each_section()
++ *
++ * @mrs: MemoryRegionSection of the range
++ * @opaque: data pointer passed to address_space_flat_for_each_section()
++ * @errp: error message, returned to the address_space_flat_for_each_section
++ *        caller.
++ *
++ * Returns: non-zero to stop the iteration, and 0 to continue.  The same
++ * non-zero value is returned to the address_space_flat_for_each_section caller.
++ */
 +
-     def _early_cleanup(self) -> None:
-         """
-         Perform any cleanup that needs to happen before the VM exits.
++typedef int (*memory_region_section_cb)(MemoryRegionSection *mrs,
++                                        void *opaque,
++                                        Error **errp);
++
++/**
++ * address_space_flat_for_each_section: walk the ranges in the address space
++ * flat view and call @func for each.  Return 0 on success, else return non-zero
++ * with a message in @errp.
++ *
++ * @as: target address space
++ * @func: callback function
++ * @opaque: passed to @func
++ * @errp: passed to @func
++ */
++int address_space_flat_for_each_section(AddressSpace *as,
++                                        memory_region_section_cb func,
++                                        void *opaque,
++                                        Error **errp);
++
++/**
+  * memory_region_find: translate an address/size relative to a
+  * MemoryRegion into a #MemoryRegionSection.
+  *
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 9d64efc..57c3131 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -2748,6 +2748,27 @@ bool memory_region_is_mapped(MemoryRegion *mr)
+     return !!mr->container || mr->mapped_via_alias;
+ }
+ 
++int address_space_flat_for_each_section(AddressSpace *as,
++                                        memory_region_section_cb func,
++                                        void *opaque,
++                                        Error **errp)
++{
++    FlatView *view = address_space_get_flatview(as);
++    FlatRange *fr;
++    int ret;
++
++    FOR_EACH_FLAT_RANGE(fr, view) {
++        MemoryRegionSection mrs = section_from_flat_range(fr, view);
++        ret = func(&mrs, opaque, errp);
++        if (ret) {
++            return ret;
++        }
++    }
++
++    flatview_unref(view);
++    return 0;
++}
++
+ /* Same as memory_region_find, but it does not add a reference to the
+  * returned region.  It must be called from an RCU critical section.
+  */
 -- 
 1.8.3.1
 
