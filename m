@@ -2,93 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDE0268D052
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 08:14:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A123868D041
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 08:11:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPI7U-0006Tr-9b; Tue, 07 Feb 2023 02:10:24 -0500
+	id 1pPI7T-0006Tk-QP; Tue, 07 Feb 2023 02:10:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=395dd5341=alistair.francis@opensource.wdc.com>)
- id 1pPI7G-0006Pq-Qp
+ id 1pPI7H-0006Pr-3q
  for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:10:14 -0500
 Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=395dd5341=alistair.francis@opensource.wdc.com>)
- id 1pPI7D-0008Qm-15
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:10:08 -0500
+ id 1pPI7D-0008RS-5C
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:10:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1675753806; x=1707289806;
+ t=1675753807; x=1707289807;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=O4W7jSIgP3x0J1YsHMz5Loi58cLrcTjSyZLrNefVGmc=;
- b=np4H4TE14Ddn8v843JuI2Rcm0Diyr7ElTxXRpSr5LrS3iU3ad7DkSOH9
- kKZ2aUIVkOsYUuTQQ1wfypDiCPMS+WbUUfBdRNhGCX7zV76ooyfgXlqoq
- 9OsSrcnY9aUVk2tJJ5CWQteSRcZZmNBoXTPt3o6YYrXhmZUXk0mpf/HWx
- cDt2yjp7NI7idnXvGnsWvdLA0EbrnnQcEbs8LRIxcReIqr3T8DXViCWTe
- BCxgTHc2l8+X7b6WotoNS0/nwhMPRrcZr3gktQ10dThQCAOskffwLnfxI
- KW3izkJzwWxYqlt62CM1Rzd20rSAfxSuWeKSHfHeSeuwamXZjPVE3fNL6 A==;
-X-IronPort-AV: E=Sophos;i="5.97,278,1669046400"; d="scan'208";a="227657470"
+ bh=+v/zl+Eu3HGH4Gb95ZtesHY+Tt+n4VotvjzyDYk/yQA=;
+ b=YIW+j/wuzc3MEnifCBGM6whiAi0/bAD3MW0RIOfenE8vAnf5FEDYILxY
+ dZ7Zn/z/OWpwVk/tNPjW0znKoRFo0iXdTzxQco2ndTuhssiQanMxvKc2u
+ ojX0Mo+Mx3uVJNkO+8575mYD6DLsPIebpiiNBpbdS/3CWEDIistJT5iTd
+ GwMNz0mCZgiT+NcwCf/HYiiRR8cB/YeI3PbQIPe8vkOKR8xP3aWyAYpxO
+ i30KPFbUi/TlaggzZzZ/MkpM8dAt32RNxmfMEMDYuFHCCj0IW87xRQJXZ
+ dej23LJVT4oBNa+HoHlKS4poI1K4k3Z5PerMdgLylHSPn63gDsyhQM7AN g==;
+X-IronPort-AV: E=Sophos;i="5.97,278,1669046400"; d="scan'208";a="227657480"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 07 Feb 2023 15:10:02 +0800
-IronPort-SDR: VJUjWim5+tRMiBDEQStmo+k0T+q6mbh6exCv8Cze4ApwzN6hDvn8aLbV0SV8WdzqUvLADdNQn+
- JMBrrHKcysGg22Uu0UCD6cj2X87K1Wy6ItqgLaOa+zpIjg75MIrqiWlvj9KtWuctblZvR7DDaN
- K/4OqXWaXnGq0gAy9vpdNWckyfqrsxKJYMOE4Lbct4L7lRsQz5LpwAITUm2Y5ISdIcbUErfCfn
- HXEr49rABkYiRuYI13BH14QwhA6Vvprmv/syw8yFe7jQTcKNC1QqPTWraTBkemsgKfGUY4nfjf
- RTs=
+ by ob1.hgst.iphmx.com with ESMTP; 07 Feb 2023 15:10:04 +0800
+IronPort-SDR: thrqDwTjM2vNez7vTzubwfW5LzF0GiwCFLdJD1k6X2g3OSS+TSQBAlwfx1f79ilQiyg/avGeGF
+ 3rCcQTqpChw24M1Z2MbQARFRG5rW8iKGxr3CMnM0DNpxlA9OB+iJvBsB77MDe77PmjdMe4JDwq
+ 4dGsjwhRP2ivPEl/NRIENysydku/DMhjD5x7b+1eTAphvoTzX7WLi1yZrFmPaBy8vn4EGJyKCK
+ rZKNvo42aFnJJnAECH4yZVAvta5oUtuFjJpkFbng/tq3iqzc6+zf5NuYy7xdOd6wzQtzirw3Dx
+ Ubk=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Feb 2023 22:27:19 -0800
-IronPort-SDR: 5kupZHiaPtgtHQZTI5pjYj8SqB0OIw/Hb53wN6tHiE3hLvBoeT+J+QccPTuCrBkpSHZJiRfoO0
- 7pKz+ISL5fcjp08c4lBf4flHJdB2cY7TiBOn7Sy/wPOnHNWOnC6x/IXe3jhJbXAJd6lLJHkgkN
- o2z19RAnO9tw0uBHQ2nzMZGGlJvXNSXcbNstWV0Fwlw9MdFeSAFywPUnI/eaFqf6AIHf7jbTCi
- gCqNxyXudiuD+XDLIHdRFfuGbcmGmI3X41r1OfJnDFE4/GhcPIz1iWgAcc4nnLxruN4XNsWt3G
- REg=
+ 06 Feb 2023 22:27:21 -0800
+IronPort-SDR: iBw/G79oy8YtmIMetgIdhRXTbHu8iCea2ajHiyGHJnUp5D9zVegnuXAQkF/XffsMpBhFW0Yvq+
+ xMZXQxZ71SbBrrHreJKphn/cTyahVylG22uG/PxeNHPy11QTJdzFDkEgrc0m8bx00C1qD65eWc
+ BSi4ES2AATP8CXYry1yblJYM1gthRUfcaO8+Ksmwr+8KTLsdpSIGLyoRU8DABNDtpd7QhcuVkq
+ wGK7AQi6xe/6+786hldkviyahocpO7gt0CVybBabiBXX9WacLTm8YRyN4xkvuxSs1WHNL9wM79
+ rUk=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Feb 2023 23:10:02 -0800
+ 06 Feb 2023 23:10:04 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4P9vQd6LWyz1Rwrq
- for <qemu-devel@nongnu.org>; Mon,  6 Feb 2023 23:10:01 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4P9vQh02tMz1RwtC
+ for <qemu-devel@nongnu.org>; Mon,  6 Feb 2023 23:10:03 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1675753801; x=1678345802; bh=O4W7jSIgP3x0J1YsHM
- z5Loi58cLrcTjSyZLrNefVGmc=; b=jQLJB4R30W2tcvsCSm2yn4oc4P30EsPhLN
- +o2VIlOsUjI8eHZIutQ6BteaAZ+NvG/Eaw7k2sUH9GTOWxXjb6fU2HT5rN5z4VqA
- m/jkdfuoM10c3TVdxWsacsWBTu5Wm4WjDv6aKaqrrFXgrgwb7LLhrQ+E/GYduzPo
- sQePHUQ7VNskSvQdQyY5vtlxGgeBEpWpPpp8uC1F8BvbEIIXWzM00zlcwiWErv1e
- emaSjOEU/VlJR+pNpeXz4+tV+LXX6L+e/Ix+EeyNp0ad7ZUrMe9pO2S8v3w34PUr
- XcGi2JXOJSuy2JWMdqZLXOxee1y02ZqZzu/2xc7RPDE4SobibCVA==
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:references:in-reply-to:x-mailer:message-id:date
+ :subject:to:from; s=dkim; t=1675753803; x=1678345804; bh=+v/zl+E
+ u3HGH4Gb95ZtesHY+Tt+n4VotvjzyDYk/yQA=; b=aJPWdks7hZpY2e87oC6lGLf
+ sU9cOdNX0XUMc6P+U1IJmUypkff1lBICXKbp+uRjg8Rxz+zlLxW+HBKMFOvMHtLJ
+ RXpEng1UnMKb7osy6yNrmR4sRsnKZpPEqUpW8hpPAc/yrRrQRl82CWbJpKg0Lg/5
+ VIF0ZEaGE7aC3SloDu9WTjvRywBJDSsujc672efAfCh+NZOVzLxn6y+787k50UXL
+ rXbWfTroG1PyBQ9LmObKvskWcttcgLUWO38JR0tdZ/iA14Q9CZzNHpxQhn2Ge7tA
+ kDOUhp6w6r2f4o/cJZ4rIHXtx1oYa3ib8xAZwmxc2BQd2hnJRXWV8+0Hk4bQFfg=
+ =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id lm5B8M0qeIrj for <qemu-devel@nongnu.org>;
- Mon,  6 Feb 2023 23:10:01 -0800 (PST)
+ port 10026) with ESMTP id SyfICwHeU8Mt for <qemu-devel@nongnu.org>;
+ Mon,  6 Feb 2023 23:10:03 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.38])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4P9vQb6rfSz1RvLy;
- Mon,  6 Feb 2023 23:09:59 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4P9vQd43Bqz1RvTp;
+ Mon,  6 Feb 2023 23:10:01 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Anup Patel <apatel@ventanamicro.com>,
+Cc: alistair23@gmail.com, Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 07/32] target/riscv: Ensure opcode is saved for all relevant
- instructions
-Date: Tue,  7 Feb 2023 17:09:18 +1000
-Message-Id: <20230207070943.2558857-8-alistair.francis@opensource.wdc.com>
+Subject: [PULL 08/32] hw/riscv/virt.c: calculate socket count once in
+ create_fdt_imsic()
+Date: Tue,  7 Feb 2023 17:09:19 +1000
+Message-Id: <20230207070943.2558857-9-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230207070943.2558857-1-alistair.francis@opensource.wdc.com>
 References: <20230207070943.2558857-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=216.71.153.141;
  envelope-from=prvs=395dd5341=alistair.francis@opensource.wdc.com;
@@ -115,221 +118,191 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Anup Patel <apatel@ventanamicro.com>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
-We should call decode_save_opc() for all relevant instructions which
-can potentially generate a virtual instruction fault or a guest page
-fault because generating transformed instruction upon guest page fault
-expects opcode to be available. Without this, hypervisor will see
-transformed instruction as zero in htinst CSR for guest MMIO emulation
-which makes MMIO emulation in hypervisor slow and also breaks nested
-virtualization.
+riscv_socket_count() returns either ms->numa_state->num_nodes or 1
+depending on NUMA support. In any case the value can be retrieved only
+once and used in the rest of the function.
 
-Fixes: a9814e3e08d2 ("target/riscv: Minimize the calls to decode_save_opc=
-")
-Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+This will also alleviate the rename we're going to do next by reducing
+the instances of MachineState 'mc' inside hw/riscv/virt.c.
+
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20230120125950.2246378-5-apatel@ventanamicro.com>
+Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Message-Id: <20230124212234.412630-2-dbarboza@ventanamicro.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn_trans/trans_rva.c.inc     | 10 +++++++---
- target/riscv/insn_trans/trans_rvd.c.inc     |  2 ++
- target/riscv/insn_trans/trans_rvf.c.inc     |  2 ++
- target/riscv/insn_trans/trans_rvh.c.inc     |  3 +++
- target/riscv/insn_trans/trans_rvi.c.inc     |  2 ++
- target/riscv/insn_trans/trans_rvzfh.c.inc   |  2 ++
- target/riscv/insn_trans/trans_svinval.c.inc |  3 +++
- 7 files changed, 21 insertions(+), 3 deletions(-)
+ hw/riscv/virt.c | 34 +++++++++++++++++++---------------
+ 1 file changed, 19 insertions(+), 15 deletions(-)
 
-diff --git a/target/riscv/insn_trans/trans_rva.c.inc b/target/riscv/insn_=
-trans/trans_rva.c.inc
-index 45db82c9be..5f194a447b 100644
---- a/target/riscv/insn_trans/trans_rva.c.inc
-+++ b/target/riscv/insn_trans/trans_rva.c.inc
-@@ -20,8 +20,10 @@
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 4a11b4b010..61fdb52090 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -505,13 +505,14 @@ static void create_fdt_imsic(RISCVVirtState *s, con=
+st MemMapEntry *memmap,
+     int cpu, socket;
+     char *imsic_name;
+     MachineState *mc =3D MACHINE(s);
++    int socket_count =3D riscv_socket_count(mc);
+     uint32_t imsic_max_hart_per_socket, imsic_guest_bits;
+     uint32_t *imsic_cells, *imsic_regs, imsic_addr, imsic_size;
 =20
- static bool gen_lr(DisasContext *ctx, arg_atomic *a, MemOp mop)
- {
--    TCGv src1 =3D get_address(ctx, a->rs1, 0);
-+    TCGv src1;
+     *msi_m_phandle =3D (*phandle)++;
+     *msi_s_phandle =3D (*phandle)++;
+     imsic_cells =3D g_new0(uint32_t, mc->smp.cpus * 2);
+-    imsic_regs =3D g_new0(uint32_t, riscv_socket_count(mc) * 4);
++    imsic_regs =3D g_new0(uint32_t, socket_count * 4);
 =20
-+    decode_save_opc(ctx);
-+    src1 =3D get_address(ctx, a->rs1, 0);
-     if (a->rl) {
-         tcg_gen_mb(TCG_MO_ALL | TCG_BAR_STRL);
+     /* M-level IMSIC node */
+     for (cpu =3D 0; cpu < mc->smp.cpus; cpu++) {
+@@ -519,7 +520,7 @@ static void create_fdt_imsic(RISCVVirtState *s, const=
+ MemMapEntry *memmap,
+         imsic_cells[cpu * 2 + 1] =3D cpu_to_be32(IRQ_M_EXT);
      }
-@@ -43,6 +45,7 @@ static bool gen_sc(DisasContext *ctx, arg_atomic *a, Me=
-mOp mop)
-     TCGLabel *l1 =3D gen_new_label();
-     TCGLabel *l2 =3D gen_new_label();
+     imsic_max_hart_per_socket =3D 0;
+-    for (socket =3D 0; socket < riscv_socket_count(mc); socket++) {
++    for (socket =3D 0; socket < socket_count; socket++) {
+         imsic_addr =3D memmap[VIRT_IMSIC_M].base +
+                      socket * VIRT_IMSIC_GROUP_MAX_SIZE;
+         imsic_size =3D IMSIC_HART_SIZE(0) * s->soc[socket].num_harts;
+@@ -545,14 +546,14 @@ static void create_fdt_imsic(RISCVVirtState *s, con=
+st MemMapEntry *memmap,
+     qemu_fdt_setprop(mc->fdt, imsic_name, "interrupts-extended",
+         imsic_cells, mc->smp.cpus * sizeof(uint32_t) * 2);
+     qemu_fdt_setprop(mc->fdt, imsic_name, "reg", imsic_regs,
+-        riscv_socket_count(mc) * sizeof(uint32_t) * 4);
++        socket_count * sizeof(uint32_t) * 4);
+     qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,num-ids",
+         VIRT_IRQCHIP_NUM_MSIS);
+-    if (riscv_socket_count(mc) > 1) {
++    if (socket_count > 1) {
+         qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,hart-index-bit=
+s",
+             imsic_num_bits(imsic_max_hart_per_socket));
+         qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,group-index-bi=
+ts",
+-            imsic_num_bits(riscv_socket_count(mc)));
++            imsic_num_bits(socket_count));
+         qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,group-index-sh=
+ift",
+             IMSIC_MMIO_GROUP_MIN_SHIFT);
+     }
+@@ -567,7 +568,7 @@ static void create_fdt_imsic(RISCVVirtState *s, const=
+ MemMapEntry *memmap,
+     }
+     imsic_guest_bits =3D imsic_num_bits(s->aia_guests + 1);
+     imsic_max_hart_per_socket =3D 0;
+-    for (socket =3D 0; socket < riscv_socket_count(mc); socket++) {
++    for (socket =3D 0; socket < socket_count; socket++) {
+         imsic_addr =3D memmap[VIRT_IMSIC_S].base +
+                      socket * VIRT_IMSIC_GROUP_MAX_SIZE;
+         imsic_size =3D IMSIC_HART_SIZE(imsic_guest_bits) *
+@@ -594,18 +595,18 @@ static void create_fdt_imsic(RISCVVirtState *s, con=
+st MemMapEntry *memmap,
+     qemu_fdt_setprop(mc->fdt, imsic_name, "interrupts-extended",
+         imsic_cells, mc->smp.cpus * sizeof(uint32_t) * 2);
+     qemu_fdt_setprop(mc->fdt, imsic_name, "reg", imsic_regs,
+-        riscv_socket_count(mc) * sizeof(uint32_t) * 4);
++        socket_count * sizeof(uint32_t) * 4);
+     qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,num-ids",
+         VIRT_IRQCHIP_NUM_MSIS);
+     if (imsic_guest_bits) {
+         qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,guest-index-bi=
+ts",
+             imsic_guest_bits);
+     }
+-    if (riscv_socket_count(mc) > 1) {
++    if (socket_count > 1) {
+         qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,hart-index-bit=
+s",
+             imsic_num_bits(imsic_max_hart_per_socket));
+         qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,group-index-bi=
+ts",
+-            imsic_num_bits(riscv_socket_count(mc)));
++            imsic_num_bits(socket_count));
+         qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,group-index-sh=
+ift",
+             IMSIC_MMIO_GROUP_MIN_SHIFT);
+     }
+@@ -733,6 +734,7 @@ static void create_fdt_sockets(RISCVVirtState *s, con=
+st MemMapEntry *memmap,
+     MachineState *mc =3D MACHINE(s);
+     uint32_t msi_m_phandle =3D 0, msi_s_phandle =3D 0;
+     uint32_t *intc_phandles, xplic_phandles[MAX_NODES];
++    int socket_count =3D riscv_socket_count(mc);
 =20
-+    decode_save_opc(ctx);
-     src1 =3D get_address(ctx, a->rs1, 0);
-     tcg_gen_brcond_tl(TCG_COND_NE, load_res, src1, l1);
+     qemu_fdt_add_subnode(mc->fdt, "/cpus");
+     qemu_fdt_setprop_cell(mc->fdt, "/cpus", "timebase-frequency",
+@@ -744,7 +746,7 @@ static void create_fdt_sockets(RISCVVirtState *s, con=
+st MemMapEntry *memmap,
+     intc_phandles =3D g_new0(uint32_t, mc->smp.cpus);
 =20
-@@ -81,9 +84,10 @@ static bool gen_amo(DisasContext *ctx, arg_atomic *a,
-                     MemOp mop)
- {
-     TCGv dest =3D dest_gpr(ctx, a->rd);
--    TCGv src1 =3D get_address(ctx, a->rs1, 0);
--    TCGv src2 =3D get_gpr(ctx, a->rs2, EXT_NONE);
-+    TCGv src1, src2 =3D get_gpr(ctx, a->rs2, EXT_NONE);
+     phandle_pos =3D mc->smp.cpus;
+-    for (socket =3D (riscv_socket_count(mc) - 1); socket >=3D 0; socket-=
+-) {
++    for (socket =3D (socket_count - 1); socket >=3D 0; socket--) {
+         phandle_pos -=3D s->soc[socket].num_harts;
 =20
-+    decode_save_opc(ctx);
-+    src1 =3D get_address(ctx, a->rs1, 0);
-     func(dest, src1, src2, ctx->mem_idx, mop);
+         clust_name =3D g_strdup_printf("/cpus/cpu-map/cluster%d", socket=
+);
+@@ -775,7 +777,7 @@ static void create_fdt_sockets(RISCVVirtState *s, con=
+st MemMapEntry *memmap,
+     }
 =20
-     gen_set_gpr(ctx, a->rd, dest);
-diff --git a/target/riscv/insn_trans/trans_rvd.c.inc b/target/riscv/insn_=
-trans/trans_rvd.c.inc
-index 1397c1ce1c..6e3159b797 100644
---- a/target/riscv/insn_trans/trans_rvd.c.inc
-+++ b/target/riscv/insn_trans/trans_rvd.c.inc
-@@ -38,6 +38,7 @@ static bool trans_fld(DisasContext *ctx, arg_fld *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
+     phandle_pos =3D mc->smp.cpus;
+-    for (socket =3D (riscv_socket_count(mc) - 1); socket >=3D 0; socket-=
+-) {
++    for (socket =3D (socket_count - 1); socket >=3D 0; socket--) {
+         phandle_pos -=3D s->soc[socket].num_harts;
 =20
-+    decode_save_opc(ctx);
-     addr =3D get_address(ctx, a->rs1, a->imm);
-     tcg_gen_qemu_ld_i64(cpu_fpr[a->rd], addr, ctx->mem_idx, MO_TEUQ);
+         if (s->aia_type =3D=3D VIRT_AIA_TYPE_NONE) {
+@@ -790,7 +792,7 @@ static void create_fdt_sockets(RISCVVirtState *s, con=
+st MemMapEntry *memmap,
 =20
-@@ -52,6 +53,7 @@ static bool trans_fsd(DisasContext *ctx, arg_fsd *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
+     g_free(intc_phandles);
 =20
-+    decode_save_opc(ctx);
-     addr =3D get_address(ctx, a->rs1, a->imm);
-     tcg_gen_qemu_st_i64(cpu_fpr[a->rs2], addr, ctx->mem_idx, MO_TEUQ);
-     return true;
-diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_=
-trans/trans_rvf.c.inc
-index a1d3eb52ad..965e1f8d11 100644
---- a/target/riscv/insn_trans/trans_rvf.c.inc
-+++ b/target/riscv/insn_trans/trans_rvf.c.inc
-@@ -38,6 +38,7 @@ static bool trans_flw(DisasContext *ctx, arg_flw *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVF);
+-    for (socket =3D 0; socket < riscv_socket_count(mc); socket++) {
++    for (socket =3D 0; socket < socket_count; socket++) {
+         if (socket =3D=3D 0) {
+             *irq_mmio_phandle =3D xplic_phandles[socket];
+             *irq_virtio_phandle =3D xplic_phandles[socket];
+@@ -1051,7 +1053,8 @@ static void create_fdt(RISCVVirtState *s, const Mem=
+MapEntry *memmap)
 =20
-+    decode_save_opc(ctx);
-     addr =3D get_address(ctx, a->rs1, a->imm);
-     dest =3D cpu_fpr[a->rd];
-     tcg_gen_qemu_ld_i64(dest, addr, ctx->mem_idx, MO_TEUL);
-@@ -54,6 +55,7 @@ static bool trans_fsw(DisasContext *ctx, arg_fsw *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVF);
+     /* Pass seed to RNG */
+     qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
+-    qemu_fdt_setprop(mc->fdt, "/chosen", "rng-seed", rng_seed, sizeof(rn=
+g_seed));
++    qemu_fdt_setprop(mc->fdt, "/chosen", "rng-seed",
++                     rng_seed, sizeof(rng_seed));
+ }
 =20
-+    decode_save_opc(ctx);
-     addr =3D get_address(ctx, a->rs1, a->imm);
-     tcg_gen_qemu_st_i64(cpu_fpr[a->rs2], addr, ctx->mem_idx, MO_TEUL);
-     return true;
-diff --git a/target/riscv/insn_trans/trans_rvh.c.inc b/target/riscv/insn_=
-trans/trans_rvh.c.inc
-index 4f8aecddc7..9248b48c36 100644
---- a/target/riscv/insn_trans/trans_rvh.c.inc
-+++ b/target/riscv/insn_trans/trans_rvh.c.inc
-@@ -36,6 +36,7 @@ static bool do_hlv(DisasContext *ctx, arg_r2 *a, MemOp =
-mop)
- #ifdef CONFIG_USER_ONLY
-     return false;
- #else
-+    decode_save_opc(ctx);
-     if (check_access(ctx)) {
-         TCGv dest =3D dest_gpr(ctx, a->rd);
-         TCGv addr =3D get_gpr(ctx, a->rs1, EXT_NONE);
-@@ -82,6 +83,7 @@ static bool do_hsv(DisasContext *ctx, arg_r2_s *a, MemO=
-p mop)
- #ifdef CONFIG_USER_ONLY
-     return false;
- #else
-+    decode_save_opc(ctx);
-     if (check_access(ctx)) {
-         TCGv addr =3D get_gpr(ctx, a->rs1, EXT_NONE);
-         TCGv data =3D get_gpr(ctx, a->rs2, EXT_NONE);
-@@ -135,6 +137,7 @@ static bool trans_hsv_d(DisasContext *ctx, arg_hsv_d =
-*a)
- static bool do_hlvx(DisasContext *ctx, arg_r2 *a,
-                     void (*func)(TCGv, TCGv_env, TCGv))
- {
-+    decode_save_opc(ctx);
-     if (check_access(ctx)) {
-         TCGv dest =3D dest_gpr(ctx, a->rd);
-         TCGv addr =3D get_gpr(ctx, a->rs1, EXT_NONE);
-diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_=
-trans/trans_rvi.c.inc
-index 5c69b88d1e..4496f21266 100644
---- a/target/riscv/insn_trans/trans_rvi.c.inc
-+++ b/target/riscv/insn_trans/trans_rvi.c.inc
-@@ -261,6 +261,7 @@ static bool gen_load_i128(DisasContext *ctx, arg_lb *=
-a, MemOp memop)
+ static inline DeviceState *gpex_pcie_init(MemoryRegion *sys_mem,
+@@ -1328,9 +1331,10 @@ static void virt_machine_init(MachineState *machin=
+e)
+     char *soc_name;
+     DeviceState *mmio_irqchip, *virtio_irqchip, *pcie_irqchip;
+     int i, base_hartid, hart_count;
++    int socket_count =3D riscv_socket_count(machine);
 =20
- static bool gen_load(DisasContext *ctx, arg_lb *a, MemOp memop)
- {
-+    decode_save_opc(ctx);
-     if (get_xl(ctx) =3D=3D MXL_RV128) {
-         return gen_load_i128(ctx, a, memop);
-     } else {
-@@ -350,6 +351,7 @@ static bool gen_store_i128(DisasContext *ctx, arg_sb =
-*a, MemOp memop)
+     /* Check socket count limit */
+-    if (VIRT_SOCKETS_MAX < riscv_socket_count(machine)) {
++    if (VIRT_SOCKETS_MAX < socket_count) {
+         error_report("number of sockets/nodes should be less than %d",
+             VIRT_SOCKETS_MAX);
+         exit(1);
+@@ -1338,7 +1342,7 @@ static void virt_machine_init(MachineState *machine=
+)
 =20
- static bool gen_store(DisasContext *ctx, arg_sb *a, MemOp memop)
- {
-+    decode_save_opc(ctx);
-     if (get_xl(ctx) =3D=3D MXL_RV128) {
-         return gen_store_i128(ctx, a, memop);
-     } else {
-diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc b/target/riscv/ins=
-n_trans/trans_rvzfh.c.inc
-index 5d07150cd0..2ad5716312 100644
---- a/target/riscv/insn_trans/trans_rvzfh.c.inc
-+++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
-@@ -49,6 +49,7 @@ static bool trans_flh(DisasContext *ctx, arg_flh *a)
-     REQUIRE_FPU;
-     REQUIRE_ZFH_OR_ZFHMIN(ctx);
-=20
-+    decode_save_opc(ctx);
-     t0 =3D get_gpr(ctx, a->rs1, EXT_NONE);
-     if (a->imm) {
-         TCGv temp =3D temp_new(ctx);
-@@ -71,6 +72,7 @@ static bool trans_fsh(DisasContext *ctx, arg_fsh *a)
-     REQUIRE_FPU;
-     REQUIRE_ZFH_OR_ZFHMIN(ctx);
-=20
-+    decode_save_opc(ctx);
-     t0 =3D get_gpr(ctx, a->rs1, EXT_NONE);
-     if (a->imm) {
-         TCGv temp =3D tcg_temp_new();
-diff --git a/target/riscv/insn_trans/trans_svinval.c.inc b/target/riscv/i=
-nsn_trans/trans_svinval.c.inc
-index 2682bd969f..f3cd7d5c0b 100644
---- a/target/riscv/insn_trans/trans_svinval.c.inc
-+++ b/target/riscv/insn_trans/trans_svinval.c.inc
-@@ -28,6 +28,7 @@ static bool trans_sinval_vma(DisasContext *ctx, arg_sin=
-val_vma *a)
-     /* Do the same as sfence.vma currently */
-     REQUIRE_EXT(ctx, RVS);
- #ifndef CONFIG_USER_ONLY
-+    decode_save_opc(ctx);
-     gen_helper_tlb_flush(cpu_env);
-     return true;
- #endif
-@@ -56,6 +57,7 @@ static bool trans_hinval_vvma(DisasContext *ctx, arg_hi=
-nval_vvma *a)
-     /* Do the same as hfence.vvma currently */
-     REQUIRE_EXT(ctx, RVH);
- #ifndef CONFIG_USER_ONLY
-+    decode_save_opc(ctx);
-     gen_helper_hyp_tlb_flush(cpu_env);
-     return true;
- #endif
-@@ -68,6 +70,7 @@ static bool trans_hinval_gvma(DisasContext *ctx, arg_hi=
-nval_gvma *a)
-     /* Do the same as hfence.gvma currently */
-     REQUIRE_EXT(ctx, RVH);
- #ifndef CONFIG_USER_ONLY
-+    decode_save_opc(ctx);
-     gen_helper_hyp_gvma_tlb_flush(cpu_env);
-     return true;
- #endif
+     /* Initialize sockets */
+     mmio_irqchip =3D virtio_irqchip =3D pcie_irqchip =3D NULL;
+-    for (i =3D 0; i < riscv_socket_count(machine); i++) {
++    for (i =3D 0; i < socket_count; i++) {
+         if (!riscv_socket_check_hartids(machine, i)) {
+             error_report("discontinuous hartids in socket%d", i);
+             exit(1);
 --=20
 2.39.1
 
