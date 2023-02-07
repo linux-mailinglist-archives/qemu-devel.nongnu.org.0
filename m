@@ -2,72 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8520368DBEA
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:44:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E780068DC18
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 15:51:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPPCA-0001SJ-GZ; Tue, 07 Feb 2023 09:43:42 -0500
+	id 1pPPIU-0003MZ-0i; Tue, 07 Feb 2023 09:50:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPPC9-0001Ru-34
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:43:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPPC7-00029t-Mr
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:43:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675781018;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=a/5J13TxMFR2+6p1fgAFZLZxCwiBhqUgdDUNGYSuRLo=;
- b=cx32tVA6xclByfBnJUYQqSIO/EWMxtRB0vBFPA6+ZCXqaaJDMbjXhAG0rG/FzWsrotHNwc
- EPNAR2Nfx6EmxvBHmVy5jjyOm9/ZxIBBHkmPAOTAX9gLSaaxq5Bz+WUB6fakbSFGkLv9fL
- U0yd/OrqP6IHbokuM49EdGwEWqterWw=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-166-nt7rqecHNyqUuuDz9g569Q-1; Tue, 07 Feb 2023 09:43:37 -0500
-X-MC-Unique: nt7rqecHNyqUuuDz9g569Q-1
-Received: by mail-qk1-f198.google.com with SMTP id
- g6-20020ae9e106000000b00720f9e6e3e2so10025040qkm.13
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:43:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPPIR-0003M7-MW
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:50:11 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPPIM-0003lw-Oi
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 09:50:11 -0500
+Received: by mail-wm1-x329.google.com with SMTP id o36so11216707wms.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 06:50:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nxMkl45XiBM1aBlMNF3vUsPV8qHD+Ur7DhIsnN2VJKA=;
+ b=BSHxGSQCY83St3dSiN658GFcfkSLg511p1rxPozfmOuxB/2PYOaCjmqumE9RLax45H
+ PQqFVG6ZGFSmWPlOqh9Bbub4aimHcwrL8GK2YdqfA5Z4J6zjqe6Y5GclglppzrZsfays
+ 7f7njJUfVyb6Hv0gBYL9yyT5m8EOmbnyDa5qBjbBgC5WoOjGdLvdiouAtMG280WDWKhy
+ 79RJUz3Y4gxBzKOYUpl4e2iL4eAhP6kXx6OTanIA139/BO2vVz1a/Q256PiN2RGqGqbY
+ h6X7XypWQ+1NnrLQadUte8jCvPxDeP66NBXlhPIE0miQabd3l2y7Bkkn/NAS8hni8e82
+ vivQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=a/5J13TxMFR2+6p1fgAFZLZxCwiBhqUgdDUNGYSuRLo=;
- b=SfZlrbg2l4d8qTImi9TVFKNbxRq1+q045VJ2Fgmt815D+Z9Z3jVTtfZ7XA8nlnIlS5
- MiGu9gq5btPh02RzOP8aU9ZT0DVXfWjt2ptQTpq9ZK1M/Lw4V/98aedTG96+fi0IYDko
- EniwdMHN0HLCfpgyhREXs5dO7O8oR7WjVFhHpeqePacKYT2lwC6c0M3sJe9eSDE2xIce
- eIw433xVRYm0Df7Pzf49T001WdiqB5yG/wvK5qWQn4T3SkJmg43y3HmcmsGswCdUaTsl
- swPV/j98kYjoHeUE0Tb87MS06/HKtW8sVFSU1+YsuZYbmPHCwFGSQ6hIEh6QH0J5h7/m
- +2GQ==
-X-Gm-Message-State: AO0yUKUNLce9wwytvPY/PMGWors/p0vCRIdf/JR1hdDLVkBIMPr70Ff/
- rf1ginjW1YjIeu7BCMpogNtYmE6PLxj7jWW9QQQzisLJhJ6unFWGW3xo1g43smEXHda1DJ/zQuB
- n/fZvGvaxsTSPfrw=
-X-Received: by 2002:ac8:5955:0:b0:3b8:4adb:c604 with SMTP id
- 21-20020ac85955000000b003b84adbc604mr6468749qtz.14.1675781015969; 
- Tue, 07 Feb 2023 06:43:35 -0800 (PST)
-X-Google-Smtp-Source: AK7set+ve47/FTOERmcNWArU0CHm76CE+6Jip6QvFV6CzuoTsqsaxRmLaFduE1MTQSV9lO2MdjCaag==
-X-Received: by 2002:ac8:5955:0:b0:3b8:4adb:c604 with SMTP id
- 21-20020ac85955000000b003b84adbc604mr6468722qtz.14.1675781015749; 
- Tue, 07 Feb 2023 06:43:35 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-120.web.vodafone.de.
- [109.43.176.120]) by smtp.gmail.com with ESMTPSA id
- k64-20020a37ba43000000b007023fc46b64sm9471612qkf.113.2023.02.07.06.43.32
+ bh=nxMkl45XiBM1aBlMNF3vUsPV8qHD+Ur7DhIsnN2VJKA=;
+ b=gsHScnDnuVgLWavYJJ7tAZ8yHLdHKFlh4fTfwabc4d9/pQQBlRFOZJVrbmVNsqpxZf
+ WmYHlMMxz8WaEQ2KWqUOvd/LM74ZRx/fZeysylwpjxNKCd+Smmgrb/anHbEzv22uP2DJ
+ UfLWpTAWNgQKkUutY1m5K/iKKqQz6DnOuUjaoUnCuImZZJmDYiqHOxKPw3Qp8Vus2pj7
+ 68mHczb+hXh7/bbGQrE7C1U4A9axPyrDa9JOf9r2BGjly3cKHL2Y0vKpkdXVbddIpvDD
+ RnVMcgznCG9TpHsDetHoNppWI8RA3aUWd5V5VkFBFg7lqrcngabSuPfYopP1PIKTwOAF
+ x2bw==
+X-Gm-Message-State: AO0yUKVfhyKavhw6JXozvG+BNl+SjuEmevp0HVsJaiX5FwtPpjLcD+ZI
+ 03Gbjai0NeHdU+V+QB2RRgZLTQ==
+X-Google-Smtp-Source: AK7set9hafdXA4ULPBwd7mqQNMWDFbmdjhy7GOlu0+tgqcMWtrvJYmbn2FF+GT1YrYA9i4SFkCgHAw==
+X-Received: by 2002:a05:600c:3197:b0:3dc:5240:53b6 with SMTP id
+ s23-20020a05600c319700b003dc524053b6mr3465797wmp.6.1675781405013; 
+ Tue, 07 Feb 2023 06:50:05 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ t8-20020a05600c198800b003dff870ce0esm8721125wmq.2.2023.02.07.06.50.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Feb 2023 06:43:34 -0800 (PST)
-Message-ID: <ac129d7a-6047-4d2c-d966-a94cd6344dca@redhat.com>
-Date: Tue, 7 Feb 2023 15:43:25 +0100
+ Tue, 07 Feb 2023 06:50:04 -0800 (PST)
+Message-ID: <a8cd6b40-7b69-74bd-c706-f62557a2248a@linaro.org>
+Date: Tue, 7 Feb 2023 15:50:02 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v3 02/10] char: do not double-close fd when failing to add
- client
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v3 08/10] qmp: teach 'getfd' to import sockets on win32
 Content-Language: en-US
 To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 Cc: Beraldo Leal <bleal@redhat.com>, Eric Blake <eblake@redhat.com>,
@@ -76,25 +65,25 @@ Cc: Beraldo Leal <bleal@redhat.com>, Eric Blake <eblake@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Michael Roth <michael.roth@amd.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
 References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
- <20230207142535.1153722-3-marcandre.lureau@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230207142535.1153722-3-marcandre.lureau@redhat.com>
+ <20230207142535.1153722-9-marcandre.lureau@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230207142535.1153722-9-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,36 +99,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 07/02/2023 15.25, marcandre.lureau@redhat.com wrote:
+On 7/2/23 15:25, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> The caller is already closing the fd on failure.
+> A process with enough capabilities can duplicate a socket to QEMU.
+> Modify 'getfd' to import it and add it to the monitor fd list, so it can
+> be later used by other commands.
 > 
-> Fixes: c3054a6e6a ("char: Factor out qmp_add_client() parts and move to chardev/")
+> Note that we actually store the SOCKET in the FD list, appropriate care
+> must now be taken to use the correct socket functions (similar approach
+> is taken by our io/ code and in glib, this is internal and shouldn't
+> affect the QEMU/QMP users)
+> 
 > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   chardev/char.c | 2 --
->   1 file changed, 2 deletions(-)
-> 
-> diff --git a/chardev/char.c b/chardev/char.c
-> index 11eab7764c..e69390601f 100644
-> --- a/chardev/char.c
-> +++ b/chardev/char.c
-> @@ -1175,12 +1175,10 @@ bool qmp_add_client_char(int fd, bool has_skipauth, bool skipauth,
->   
->       if (!s) {
->           error_setg(errp, "protocol '%s' is invalid", protocol);
-> -        close(fd);
->           return false;
->       }
->       if (qemu_chr_add_client(s, fd) < 0) {
->           error_setg(errp, "failed to add client");
-> -        close(fd);
->           return false;
->       }
->       return true;
+>   qapi/misc.json     | 16 ++++++++--
+>   monitor/fds.c      | 79 ++++++++++++++++++++++++++++++++++++----------
+>   monitor/hmp-cmds.c |  6 +++-
+>   3 files changed, 81 insertions(+), 20 deletions(-)
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+
+> +void qmp_getfd(const char *fdname,
+> +#ifdef WIN32
+> +               const char *wsa_info,
+
+Rename as 'optional_b64_context' and remove #ifdef'ry?
+
+Preferrably change qmp_getfd() prototype and use close_fd()
+in a preliminary patch. Otherwise LGTM.
+
+> +#endif
+> +               Error **errp)
+> +{
+> +    Monitor *cur_mon = monitor_cur();
+> +    int fd;
+> +
+> +#ifdef WIN32
+> +    if (wsa_info) {
+> +        g_autofree WSAPROTOCOL_INFOW *info = NULL;
+> +        gsize len;
+> +        SOCKET sk;
+> +
+> +        info = (void *)g_base64_decode(wsa_info, &len);
+> +        if (len != sizeof(*info)) {
+> +            error_setg(errp, "Invalid WSAPROTOCOL_INFOW value");
+> +            return;
+> +        }
+> +
+> +        sk = WSASocketW(FROM_PROTOCOL_INFO, FROM_PROTOCOL_INFO,
+> +                        FROM_PROTOCOL_INFO, info, 0, 0);
+> +        if (sk == INVALID_SOCKET) {
+> +            g_autofree gchar *emsg = g_win32_error_message(WSAGetLastError());
+> +            error_setg(errp, "Couldn't create socket: %s", emsg);
+> +            return;
+> +        }
+> +
+> +        return monitor_add_fd(cur_mon, sk, fdname, errp);
+> +    }
+> +#endif
+> +
+> +    fd = qemu_chr_fe_get_msgfd(&cur_mon->chr);
+> +    if (fd == -1) {
+> +        error_setg(errp, "No file descriptor supplied via SCM_RIGHTS");
+> +        return;
+> +    }
+> +
+> +    return monitor_add_fd(cur_mon, fd, fdname, errp);
+>   }
 
 
