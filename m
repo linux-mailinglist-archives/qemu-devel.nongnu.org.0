@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 442EE68E16B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 20:47:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A98B868E17D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 20:50:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPTvJ-0002aK-QL; Tue, 07 Feb 2023 14:46:37 -0500
+	id 1pPTyu-0006d0-Ks; Tue, 07 Feb 2023 14:50:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3fariYwgKCoI20nguzynmuumrk.iuswks0-jk1krtutmt0.uxm@flex--wuhaotsh.bounces.google.com>)
- id 1pPTv9-0002WZ-CS
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 14:46:27 -0500
-Received: from mail-pf1-x449.google.com ([2607:f8b0:4864:20::449])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pPTys-0006cR-8G
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 14:50:18 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3fariYwgKCoI20nguzynmuumrk.iuswks0-jk1krtutmt0.uxm@flex--wuhaotsh.bounces.google.com>)
- id 1pPTv7-0002fd-CV
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 14:46:27 -0500
-Received: by mail-pf1-x449.google.com with SMTP id
- x9-20020aa79409000000b00593a1f7c3d8so8725428pfo.14
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 11:46:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=0+NgHraPggD1/G/0Zic2rQg5R0ycbmNyiemBx69rPPw=;
- b=IwiT65RW/lOEqRtBItqNU8ntEbgoZLfMwyaG4QuaPLY2OvdI3DBVtqGVpejUmXIpRQ
- Z8ywrbQrOPjiBpd1XKJqcvne/Y1NeyjOCZXcj/Cb/JsEfjHja37uq5fDYxfR2Nc0m8bE
- yEciBS2c29MZvvTCUROiY4LkaN1POWfVWHZdv4Y2UnxdkkAa8fBLlEAua3U8a8O5NfTo
- jxOZs9Ba4D5WZgtmhr0sza9xPLBX7gSdS/WIIUmZaIE9iMEq4lP5DezvROUiW+c+K5KN
- nXI6rvARxbbOL/h7DZY3tpuDw0E8A5JP+oTjYsIBOiDy6bWtfcgcBoQwzpyZCX2CgaPL
- enxw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pPTyq-0003OP-HW
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 14:50:17 -0500
+Received: by mail-pl1-x631.google.com with SMTP id h15so9436550plk.12
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 11:50:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=xsQ6ggLr3rGxgwu5UthUJwiZQl4XJhVTywRjORcCgjg=;
+ b=X0oierJgpkSApLVUEE0MqfscgRHeJ3yDHERl5NW5exvbCVnW7WLEUOTtItX7xDYtcn
+ Gh9o7mr7iHNu6L7+V8HOCS4UMM5PGveR3IPSb4T0DECFFg1CG1X9OImnd8x43t+4mvl/
+ a1NLsA7lqbfEfTFMtvTZkKQ2CNdS/b3WFO91KDW12SRvY9vwzzYn9xNJF8auDuAaDSTm
+ VvKN/LRPTf28uxonFqOx0Jsh2EaDt9j+L5YCeDOe6Ena1fkoPRCH1TkN+pGT5YwFlzIt
+ LDqqyWKOm4XeAA/5b1SQbos/BywIjO91PZZzQT+TiwqAbh3OmpMpQVzM9mWqqMenemme
+ jKnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0+NgHraPggD1/G/0Zic2rQg5R0ycbmNyiemBx69rPPw=;
- b=Yiw28zEOthJ60X8/2Yb2xmSDVCKQh6BQ1C8Jazp2zsWcR3VoTKz83EwmOxLvbMnBaw
- S6nT5bjrn6dos3inx/fYgEcmoi2Hf3qMweC8Lkuv7cL+oQrCnlNVYDhq+ytqwT40wxh1
- 15OpOEqsXIWpFxCkXa8xk9Q1CVlYUosIrGB+7WEckS1LLo9tE3Svt0s7E7XUdEmKFg7u
- RLz/hM7fU+dl5QiHdi06fEenvuCO3SvlG+Yd8KWpwi+iZzKJWG9kdQSIHEGTB2v7iDSj
- OQJVs8IJnkkbGjfDSMXlcYzxOSp8AD8ZBwRpSrnSnFn01WZLz2cAG7sWpXYkAVRZLVPD
- iz1g==
-X-Gm-Message-State: AO0yUKVatvZKIS0B+BH9LG/AFy21xrzlvtlxquzwKmZTwz3oa/lEG+c2
- /eHxW+NsQ+wlWAzqpNUep755FSwWLh2m4g==
-X-Google-Smtp-Source: AK7set/ct5Kykr6/D1VXilygufc2EI0uvLWJ9z1Wrtur/ah3Aj/P1IYq6CCflxZ/LchWbT1dOllCDTPG6hXn3g==
-X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4e])
- (user=wuhaotsh job=sendgmr) by 2002:a17:90a:c202:b0:230:ee6f:28bc with SMTP
- id e2-20020a17090ac20200b00230ee6f28bcmr7784pjt.1.1675799165587; Tue, 07 Feb
- 2023 11:46:05 -0800 (PST)
-Date: Tue,  7 Feb 2023 11:45:56 -0800
-In-Reply-To: <20230207194556.3262708-1-wuhaotsh@google.com>
-Mime-Version: 1.0
-References: <20230207194556.3262708-1-wuhaotsh@google.com>
-X-Mailer: git-send-email 2.39.1.519.gcb327c4b5f-goog
-Message-ID: <20230207194556.3262708-4-wuhaotsh@google.com>
-Subject: [PATCH v2 3/3] hw/arm: Attach PSPI module to NPCM7XX SoC
-From: Hao Wu <wuhaotsh@google.com>
-To: peter.maydell@linaro.org
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, wuhaotsh@google.com, 
- venture@google.com, Avi.Fishman@nuvoton.com, kfting@nuvoton.com, 
- hskinnemoen@google.com, titusr@google.com, 
- Philippe Mathieu-Daude <philmd@linaro.org>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xsQ6ggLr3rGxgwu5UthUJwiZQl4XJhVTywRjORcCgjg=;
+ b=QqSsRLK366uBRexEJHB9fhZ0fmuyMkDcrlXbnbKZWIoGJAu7USm9g9/qHXrGNKGncX
+ TKUurANGLsunOjNSzPOyChNHv34T5xG+v+9g4VfGmBe+1ptOo8rP+1014JLkcihqiYdT
+ x++xS8PZYGNJCj9A2CfIojr9a5aHbuZQTR8wVh3XngrmpTWaVIorrP1lyD6kLEuNxwmb
+ 6Fhq0zjlbLZOXlFf6b4vpBTzMSOZYUgCVXHUnE56eUeiex8qENS6EhgksL6nR9gncxHQ
+ pCXQsxMkGfaP7PkyLobU978TP+2yp1/eAI68bD9+X1xLre4CYMdM4OwtZG+CMU6dJpz7
+ gReQ==
+X-Gm-Message-State: AO0yUKUz2AE6XUqTP+gwHE9XGjveoWODTsyoDLnd5BaMGElFqyuq4ZS1
+ WEaEFwWGJC/eOnDtFdhwdOFXj1eq8tR2/H8d4zmUyxBb1W3gKnUL
+X-Google-Smtp-Source: AK7set9oG3SJC+6YtXYpJqYuJIrlFNu6kr+e2aHprKaUQNOEhtdhx3PZVGKiLZ8lR7k2w7X+s1jaVPRETvHYtZwVAaw=
+X-Received: by 2002:a17:902:dac3:b0:199:f31:49fc with SMTP id
+ q3-20020a170902dac300b001990f3149fcmr1191450plx.9.1675799413487; Tue, 07 Feb
+ 2023 11:50:13 -0800 (PST)
+MIME-Version: 1.0
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Feb 2023 19:50:02 +0000
+Message-ID: <CAFEAcA8cHCbq64mtyG3G4VqnFe0VkmUsyQzbr1LfkAi=ZXvHyQ@mail.gmail.com>
+Subject: random copy-before-write iotest failure
+To: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Qemu-block <qemu-block@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::449;
- envelope-from=3fariYwgKCoI20nguzynmuumrk.iuswks0-jk1krtutmt0.uxm@flex--wuhaotsh.bounces.google.com;
- helo=mail-pf1-x449.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,120 +81,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Hao Wu <wuhaotsh@google.com>
-Reviewed-by: Titus Rwantare <titusr@google.com>
-Reviewed-by: Philippe Mathieu-Daude <philmd@linaro.org>
----
- docs/system/arm/nuvoton.rst |  2 +-
- hw/arm/npcm7xx.c            | 25 +++++++++++++++++++++++--
- include/hw/arm/npcm7xx.h    |  2 ++
- 3 files changed, 26 insertions(+), 3 deletions(-)
+This is on ppc64 (big-endian), a random failure
+(it was while testing the riscv pullreq, but that doesn't touch
+any of the block stuff):
 
-diff --git a/docs/system/arm/nuvoton.rst b/docs/system/arm/nuvoton.rst
-index c38df32bde..0424cae4b0 100644
---- a/docs/system/arm/nuvoton.rst
-+++ b/docs/system/arm/nuvoton.rst
-@@ -49,6 +49,7 @@ Supported devices
-  * SMBus controller (SMBF)
-  * Ethernet controller (EMC)
-  * Tachometer
-+ * Peripheral SPI controller (PSPI)
- 
- Missing devices
- ---------------
-@@ -64,7 +65,6 @@ Missing devices
- 
-  * Ethernet controller (GMAC)
-  * USB device (USBD)
-- * Peripheral SPI controller (PSPI)
-  * SD/MMC host
-  * PECI interface
-  * PCI and PCIe root complex and bridges
-diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
-index d85cc02765..15ff21d047 100644
---- a/hw/arm/npcm7xx.c
-+++ b/hw/arm/npcm7xx.c
-@@ -86,6 +86,8 @@ enum NPCM7xxInterrupt {
-     NPCM7XX_EMC1RX_IRQ          = 15,
-     NPCM7XX_EMC1TX_IRQ,
-     NPCM7XX_MMC_IRQ             = 26,
-+    NPCM7XX_PSPI2_IRQ           = 28,
-+    NPCM7XX_PSPI1_IRQ           = 31,
-     NPCM7XX_TIMER0_IRQ          = 32,   /* Timer Module 0 */
-     NPCM7XX_TIMER1_IRQ,
-     NPCM7XX_TIMER2_IRQ,
-@@ -220,6 +222,12 @@ static const hwaddr npcm7xx_emc_addr[] = {
-     0xf0826000,
- };
- 
-+/* Register base address for each PSPI Module */
-+static const hwaddr npcm7xx_pspi_addr[] = {
-+    0xf0200000,
-+    0xf0201000,
-+};
+616/635 qemu:block / qemu-iotests qcow2
+           ERROR
+      101.88s   exit status 1
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95 =E2=9C=80  =E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95
+stderr:
+--- /home/pm215/qemu/tests/qemu-iotests/tests/copy-before-write.out
++++ /home/pm215/qemu/build/all/tests/qemu-iotests/scratch/copy-before-write=
+/copy-before-wri
+te.out.bad
+@@ -1,5 +1,21 @@
+-....
++..F.
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++FAIL: test_timeout_break_guest (__main__.TestCbwError.test_timeout_break_g=
+uest)
++----------------------------------------------------------------------
++Traceback (most recent call last):
++  File "/home/pm215/qemu/tests/qemu-iotests/tests/copy-before-write",
+line 200, in test_ti
+meout_break_guest
++    self.assertEqual(log, """\
++AssertionError: 'wrot[90 chars])\nwrote 524288/524288 bytes at offset
+524288\[151 chars]c)\n' !=3D 'wrot[90 chars])\nwrite failed: Connection
+timed out\nread 10[85 chars]c)\n'
++  wrote 524288/524288 bytes at offset 0
++  512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+++ write failed: Connection timed out
++- wrote 524288/524288 bytes at offset 524288
++- 512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++  read 1048576/1048576 bytes at offset 0
++  1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
 +
- static const struct {
-     hwaddr regs_addr;
-     uint32_t unconnected_pins;
-@@ -444,6 +452,10 @@ static void npcm7xx_init(Object *obj)
-         object_initialize_child(obj, "emc[*]", &s->emc[i], TYPE_NPCM7XX_EMC);
-     }
- 
-+    for (i = 0; i < ARRAY_SIZE(s->pspi); i++) {
-+        object_initialize_child(obj, "pspi[*]", &s->pspi[i], TYPE_NPCM_PSPI);
-+    }
 +
-     object_initialize_child(obj, "mmc", &s->mmc, TYPE_NPCM7XX_SDHCI);
- }
- 
-@@ -715,6 +727,17 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->mmc), 0,
-             npcm7xx_irq(s, NPCM7XX_MMC_IRQ));
- 
-+    /* PSPI */
-+    QEMU_BUILD_BUG_ON(ARRAY_SIZE(npcm7xx_pspi_addr) != ARRAY_SIZE(s->pspi));
-+    for (i = 0; i < ARRAY_SIZE(s->pspi); i++) {
-+        SysBusDevice *sbd = SYS_BUS_DEVICE(&s->pspi[i]);
-+        int irq = (i == 0) ? NPCM7XX_PSPI1_IRQ : NPCM7XX_PSPI2_IRQ;
-+
-+        sysbus_realize(sbd, &error_abort);
-+        sysbus_mmio_map(sbd, 0, npcm7xx_pspi_addr[i]);
-+        sysbus_connect_irq(sbd, 0, npcm7xx_irq(s, irq));
-+    }
-+
-     create_unimplemented_device("npcm7xx.shm",          0xc0001000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.vdmx",         0xe0800000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.pcierc",       0xe1000000,  64 * KiB);
-@@ -724,8 +747,6 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
-     create_unimplemented_device("npcm7xx.peci",         0xf0100000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.siox[1]",      0xf0101000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.siox[2]",      0xf0102000,   4 * KiB);
--    create_unimplemented_device("npcm7xx.pspi1",        0xf0200000,   4 * KiB);
--    create_unimplemented_device("npcm7xx.pspi2",        0xf0201000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.ahbpci",       0xf0400000,   1 * MiB);
-     create_unimplemented_device("npcm7xx.mcphy",        0xf05f0000,  64 * KiB);
-     create_unimplemented_device("npcm7xx.gmac1",        0xf0802000,   8 * KiB);
-diff --git a/include/hw/arm/npcm7xx.h b/include/hw/arm/npcm7xx.h
-index f1b7e4a48d..72c7722096 100644
---- a/include/hw/arm/npcm7xx.h
-+++ b/include/hw/arm/npcm7xx.h
-@@ -32,6 +32,7 @@
- #include "hw/nvram/npcm7xx_otp.h"
- #include "hw/timer/npcm7xx_timer.h"
- #include "hw/ssi/npcm7xx_fiu.h"
-+#include "hw/ssi/npcm_pspi.h"
- #include "hw/usb/hcd-ehci.h"
- #include "hw/usb/hcd-ohci.h"
- #include "target/arm/cpu.h"
-@@ -104,6 +105,7 @@ struct NPCM7xxState {
-     NPCM7xxFIUState     fiu[2];
-     NPCM7xxEMCState     emc[2];
-     NPCM7xxSDHCIState   mmc;
-+    NPCMPSPIState       pspi[2];
- };
- 
- #define TYPE_NPCM7XX    "npcm7xx"
--- 
-2.39.1.519.gcb327c4b5f-goog
+ ----------------------------------------------------------------------
+ Ran 4 tests
 
+-OK
++FAILED (failures=3D1)
+
+thanks
+-- PMM
 
