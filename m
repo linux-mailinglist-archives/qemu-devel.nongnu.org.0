@@ -2,89 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C722968D03E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 08:11:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5642568D039
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 08:11:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPI7R-0006Rs-8S; Tue, 07 Feb 2023 02:10:21 -0500
+	id 1pPI7O-0006Po-K8; Tue, 07 Feb 2023 02:10:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=395dd5341=alistair.francis@opensource.wdc.com>)
- id 1pPI79-0006Oh-Ef
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:10:05 -0500
+ id 1pPI78-0006Oa-5K
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:10:02 -0500
 Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=395dd5341=alistair.francis@opensource.wdc.com>)
- id 1pPI75-0008RG-BJ
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:10:03 -0500
+ id 1pPI75-0008RS-BI
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:10:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1675753799; x=1707289799;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=rv8HxBWrNfdQXe7z0ik519Oh4Sz72AnNuoOvIRr3Haw=;
- b=Ty/Jm8FGTQpDeRwrr8esb9rIo84AB0d7idppnRbVZkCDBZLjDeCgSP4s
- mGDFahKAxugmiTo07TX9jUH9Hb27JInXIXQmI5SokhIVOo1kbX49rVNOy
- 1r7kxYMTsM2KGhAuBc7TiBntzGQlwPnDchepl1E/GfpAzs0I//qRW18SU
- z42KJoMEkAi+V1rBsqCs9m9Md3teUQEgBAabWWJeK1HO4MlJ98xMY8pez
- GOQcxolKa2zUQ+WdH2pwOA5HvgKkz5I2TCUVYnc/7pGNOHm8zmOklyJnX
- Cerz4mPrFrRNWbR91YgLh6rjYrrhzMa2EK1uqen7UhUDfXMVTJMNG+1Nj Q==;
-X-IronPort-AV: E=Sophos;i="5.97,278,1669046400"; d="scan'208";a="227657445"
+ bh=wETotYCh8Dar8zwu9wTkK33Kyt+p5n8PB5KWMCUOGVE=;
+ b=UbLpoCugMoGwlTwD9WdnS/tWoOvYoEvl1KKRixQRcftF/Vlra8nB7fcn
+ i3n0d8eaTFAuAgCIRQsan4LS2rssss+VqnXkEznEW5DeXc4dnAWXx8xGq
+ rp3lXMxywgVcPJVjcc6GqivK8p3rV3ZO0pvGZjA5igrOP19Ixp10HY70C
+ Eq6MT2rzstXxKaYsC7BUDLqoDQ2Yv7384CWpESiHnon0msBpiXklhCcX9
+ vzG9ClmEJG980LBz4YgWRJvw6R3IGijJliTX8AxTv6TF0VSDzDnaEVxPU
+ JBtzcn7yY4bwzyF2u+ZjOkj0Wb6/ckeV9rXQfr9arTBsYEIlHrVQpMGkf Q==;
+X-IronPort-AV: E=Sophos;i="5.97,278,1669046400"; d="scan'208";a="227657450"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 07 Feb 2023 15:09:51 +0800
-IronPort-SDR: VEaT8PfzvwvWR6MVDuE1XB04Gs6nTr1ANaae51YWC1Q8HNlBlZmTcB30l5G2V7F7R+Tpv1mfyQ
- bWWsAQfQxerJ33+hx6JKSWrOmKruaf4SnT5NpSMJ0Nt8ycfgA9YbzV7UN/KmS2zcxqtDKdu+MY
- TuelNIFheCSZHxnMsoQ916YHrlBch0lRR1b/8EWapDOHHKnxi4TiD4VDJLe50Pmuu5Jxvu+75q
- HFs+BQN/2XHX/SSKsYsClfG7hVJfIn4acYEKkzKu3tKL6UuO4LS7piUWKqJ89RsrHIEWPg4cOc
- eS8=
+ by ob1.hgst.iphmx.com with ESMTP; 07 Feb 2023 15:09:53 +0800
+IronPort-SDR: F0NqOEoC69rmjOCCNTcPPrNY3whivleXRSofOhqVQy5iTw+ZsX/iXv1DhB2965zZGNcBZYqJuk
+ 6beQ2DJb+6GEqtWQcH5U3ipUURz8QwGG8s9yLdSaB+ySLvRYViJwsvIM+3M0yikHU5+C8y7wz7
+ oWlWaY+L2UA1cAlYHnMidrYeWA1jOqKesdXPd8x/4eLBit7Dyp0Lp6miRA7d6T39XokbYmy0Vm
+ fSHkvtZsSaHF9Sp/1+ysrH3TrkVhQlHrVWnPVPOKavYsD+1jPmr8kfjgqgxW3/bi6mpNCPVj7+
+ V0Q=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Feb 2023 22:27:08 -0800
-IronPort-SDR: JTmLsjo68e52t7AwX+gGaGRDXLsoE5+3EYwiE6PJGqCDoBZfT7DTTrGMlBfH15hTW7VFaycojI
- IfQyYhIwPWRnoHUKJ6ELD1OBFUSuEW3a2F4HKYwhCaHJr/6qP0xGiAuYuFCtlLS/RC46Tl3L4h
- wANqGkpgy1EhdkaIBgrSqW0DhOd97tE4SK54uF3H9WQNnANJ2KlQuOVBm7Po9Jk+/3v232DHRq
- j8GKZM9OJ8PINtLA6jCCrFkITktJDnSoSWUxaACrKCijhc0dBGJ3gEl90/XxcL55hHoECFsfz8
- Ohw=
+ 06 Feb 2023 22:27:10 -0800
+IronPort-SDR: tNJvp5pag0O2bMSyCfwwoLGBAivxoafl9+xLGBgVQssOOfvXRraeyu7U5nFCoZuDPepgqGZWHk
+ oeQNAcnQU8Bn9tGsEf4J5uVOAswfJQdsS+F3rHvL1/5Wc+xaJ8dC3tVMTC3U0b8jKU0VnupLVc
+ hsoVAcUhlqQT8fr+UOMieeFP0TIphHuL7jzKRTWoIY2a+tPvMx6f4HaYTQpSThWqVRVdlpjWtW
+ Fnf5l4sfCY38R8ynOzPm0mFDVe1XCU0ZiLDCkghPGUKeoCe6U/+uxAIpfk01GeKp5jME1IyiPG
+ S8w=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Feb 2023 23:09:51 -0800
+ 06 Feb 2023 23:09:53 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4P9vQR4598z1Rwrq
- for <qemu-devel@nongnu.org>; Mon,  6 Feb 2023 23:09:51 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4P9vQT5B7hz1Rwrq
+ for <qemu-devel@nongnu.org>; Mon,  6 Feb 2023 23:09:53 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1675753791; x=1678345792; bh=rv8HxBWrNfdQXe7z0i
- k519Oh4Sz72AnNuoOvIRr3Haw=; b=Ji/K9XuHk3goans0puRr/zLOCafziDUJVZ
- DIp2P/4XFqhjj+Whmq+UbJZh8JXTz0FjuEBRHZV4lIFEcTdyftUgRp6hZ2Qmw0jY
- jcwpYoI5gsQFF9VFp1LF6K0n3fhh/Ru95DTzSwPQfsZgLIzw8mpfNhdA1nZrc26E
- r8vzzEQiMkzv+3X4iDS3+6bI/Z7IH5lPv5zqHNIwm1tbX88bkac+BtZCgJQQWQto
- 07HdhTQdeQhaadgtCrV1hhqBAz2tID2muRFE3CgcRBTMFjjWi/4Gd3QoI8bXb9ck
- wPStFhJ02HOp+y6FAcauVgYNGHc+om/8V80O9BotDkfBwPiTOiWw==
+ :from; s=dkim; t=1675753792; x=1678345793; bh=wETotYCh8Dar8zwu9w
+ TkK33Kyt+p5n8PB5KWMCUOGVE=; b=L1qYGC8I70g28Wf4KrGWt0EkPrc+c6Nzsz
+ 8XViXqroYokmctiuaWLfYvpgMHJNXQwuSUFqUBOZAzM6gWNH399gd6ITodjYBNlW
+ SkuYA26UkLKVNfUWwzjTQRNTahNYoSYIMc1uLdSSWJuXAIHNZ4Ffm5oQQspT4glo
+ XkvKf/rXNJY6mvQbvO1ve9+jFkSUlqHHBFe6u7s6Ty1Vf9or+BQqUX+WmwgzEPGZ
+ dZUSAiC4+p40Y4TP8sA4OjsyjFRCc5zrR2LAgokHb0EujkPYJjFdRW5LmeU34lkj
+ Qybp/oajyUmKu4pPh83+6KGZAumvIxD5oGkYk1RVXjFNNb/zOL6Q==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id bKtOO2TvIxTR for <qemu-devel@nongnu.org>;
- Mon,  6 Feb 2023 23:09:51 -0800 (PST)
+ port 10026) with ESMTP id kFX2k2M1D4KF for <qemu-devel@nongnu.org>;
+ Mon,  6 Feb 2023 23:09:52 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.38])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4P9vQP6FSzz1RvTp;
- Mon,  6 Feb 2023 23:09:49 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4P9vQR3sbpz1RvTr;
+ Mon,  6 Feb 2023 23:09:51 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Philipp Tomsich <philipp.tomsich@vrull.eu>,
+Cc: alistair23@gmail.com, Wilfred Mallawa <wilfred.mallawa@wdc.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 01/32] target/riscv: update disas.c for xnor/orn/andn and
- slli.uw
-Date: Tue,  7 Feb 2023 17:09:12 +1000
-Message-Id: <20230207070943.2558857-2-alistair.francis@opensource.wdc.com>
+Subject: [PULL 02/32] include/hw/riscv/opentitan: update opentitan IRQs
+Date: Tue,  7 Feb 2023 17:09:13 +1000
+Message-Id: <20230207070943.2558857-3-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230207070943.2558857-1-alistair.francis@opensource.wdc.com>
 References: <20230207070943.2558857-1-alistair.francis@opensource.wdc.com>
@@ -115,52 +114,168 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
+From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-The decoding of the following instructions from Zb[abcs] currently
-contains decoding/printing errors:
- * xnor,orn,andn: the rs2 operand is not being printed
- * slli.uw: decodes and prints the immediate shift-amount as a
-            register (e.g. 'shift-by-2' becomes 'sp') instead of
-	    interpreting this as an immediate
+Updates the opentitan IRQs to match the latest supported commit of
+Opentitan from TockOS.
 
-This commit updates the instruction descriptions to use the
-appropriate decoding/printing formats.
+OPENTITAN_SUPPORTED_SHA :=3D 565e4af39760a123c59a184aa2f5812a961fde47
 
-Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Memory layout as per [1]
+
+[1] https://github.com/lowRISC/opentitan/blob/565e4af39760a123c59a184aa2f=
+5812a961fde47/hw/top_earlgrey/sw/autogen/top_earlgrey_memory.h
+
+Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20230120151551.1022761-1-philipp.tomsich@vrull.eu>
+Message-Id: <20230123063619.222459-1-wilfred.mallawa@opensource.wdc.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- disas/riscv.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ include/hw/riscv/opentitan.h | 14 +++----
+ hw/riscv/opentitan.c         | 80 ++++++++++++++++++------------------
+ 2 files changed, 47 insertions(+), 47 deletions(-)
 
-diff --git a/disas/riscv.c b/disas/riscv.c
-index d216b9c39b..ddda687c13 100644
---- a/disas/riscv.c
-+++ b/disas/riscv.c
-@@ -1626,9 +1626,9 @@ const rv_opcode_data opcode_data[] =3D {
-     { "cpop", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-     { "sext.h", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-     { "sext.b", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
--    { "xnor", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
--    { "orn", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
--    { "andn", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "xnor", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "orn", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "andn", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-     { "rol", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-     { "ror", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-     { "sh1add", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-@@ -1647,7 +1647,7 @@ const rv_opcode_data opcode_data[] =3D {
-     { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-     { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-     { "cpopw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
--    { "slli.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "slli.uw", rv_codec_i_sh5, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
-     { "add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-     { "rolw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-     { "rorw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
+index 7659d1bc5b..c40b05052a 100644
+--- a/include/hw/riscv/opentitan.h
++++ b/include/hw/riscv/opentitan.h
+@@ -94,9 +94,9 @@ enum {
+     IBEX_DEV_EDNO,
+     IBEX_DEV_EDN1,
+     IBEX_DEV_ALERT_HANDLER,
+-    IBEX_DEV_NMI_GEN,
++    IBEX_DEV_SRAM_CTRL,
+     IBEX_DEV_OTBN,
+-    IBEX_DEV_PERI,
++    IBEX_DEV_IBEX_CFG,
+ };
+=20
+ enum {
+@@ -108,11 +108,11 @@ enum {
+     IBEX_UART0_RX_BREAK_ERR_IRQ   =3D 6,
+     IBEX_UART0_RX_TIMEOUT_IRQ     =3D 7,
+     IBEX_UART0_RX_PARITY_ERR_IRQ  =3D 8,
+-    IBEX_TIMER_TIMEREXPIRED0_0    =3D 127,
+-    IBEX_SPI_HOST0_ERR_IRQ        =3D 134,
+-    IBEX_SPI_HOST0_SPI_EVENT_IRQ  =3D 135,
+-    IBEX_SPI_HOST1_ERR_IRQ        =3D 136,
+-    IBEX_SPI_HOST1_SPI_EVENT_IRQ  =3D 137,
++    IBEX_TIMER_TIMEREXPIRED0_0    =3D 124,
++    IBEX_SPI_HOST0_ERR_IRQ        =3D 131,
++    IBEX_SPI_HOST0_SPI_EVENT_IRQ  =3D 132,
++    IBEX_SPI_HOST1_ERR_IRQ        =3D 133,
++    IBEX_SPI_HOST1_SPI_EVENT_IRQ  =3D 134,
+ };
+=20
+ #endif
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index 64d5d435b9..353f030d80 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -31,47 +31,47 @@
+ /*
+  * This version of the OpenTitan machine currently supports
+  * OpenTitan RTL version:
+- * <lowRISC/opentitan@d072ac505f82152678d6e04be95c72b728a347b8>
++ * <lowRISC/opentitan@565e4af39760a123c59a184aa2f5812a961fde47>
+  *
+  * MMIO mapping as per (specified commit):
+  * lowRISC/opentitan: hw/top_earlgrey/sw/autogen/top_earlgrey_memory.h
+  */
+ static const MemMapEntry ibex_memmap[] =3D {
+-    [IBEX_DEV_ROM] =3D            {  0x00008000,  0x8000 },
+-    [IBEX_DEV_RAM] =3D            {  0x10000000,  0x20000 },
+-    [IBEX_DEV_FLASH] =3D          {  0x20000000,  0x100000 },
+-    [IBEX_DEV_UART] =3D           {  0x40000000,  0x1000  },
+-    [IBEX_DEV_GPIO] =3D           {  0x40040000,  0x1000  },
+-    [IBEX_DEV_SPI_DEVICE] =3D     {  0x40050000,  0x1000  },
+-    [IBEX_DEV_I2C] =3D            {  0x40080000,  0x1000  },
+-    [IBEX_DEV_PATTGEN] =3D        {  0x400e0000,  0x1000  },
+-    [IBEX_DEV_TIMER] =3D          {  0x40100000,  0x1000  },
+-    [IBEX_DEV_OTP_CTRL] =3D       {  0x40130000,  0x4000  },
+-    [IBEX_DEV_LC_CTRL] =3D        {  0x40140000,  0x1000  },
+-    [IBEX_DEV_ALERT_HANDLER] =3D  {  0x40150000,  0x1000  },
+-    [IBEX_DEV_SPI_HOST0] =3D      {  0x40300000,  0x1000  },
+-    [IBEX_DEV_SPI_HOST1] =3D      {  0x40310000,  0x1000  },
+-    [IBEX_DEV_USBDEV] =3D         {  0x40320000,  0x1000  },
+-    [IBEX_DEV_PWRMGR] =3D         {  0x40400000,  0x1000  },
+-    [IBEX_DEV_RSTMGR] =3D         {  0x40410000,  0x1000  },
+-    [IBEX_DEV_CLKMGR] =3D         {  0x40420000,  0x1000  },
+-    [IBEX_DEV_PINMUX] =3D         {  0x40460000,  0x1000  },
+-    [IBEX_DEV_AON_TIMER] =3D      {  0x40470000,  0x1000  },
+-    [IBEX_DEV_SENSOR_CTRL] =3D    {  0x40490000,  0x1000  },
+-    [IBEX_DEV_FLASH_CTRL] =3D     {  0x41000000,  0x1000  },
+-    [IBEX_DEV_AES] =3D            {  0x41100000,  0x1000  },
+-    [IBEX_DEV_HMAC] =3D           {  0x41110000,  0x1000  },
+-    [IBEX_DEV_KMAC] =3D           {  0x41120000,  0x1000  },
+-    [IBEX_DEV_OTBN] =3D           {  0x41130000,  0x10000 },
+-    [IBEX_DEV_KEYMGR] =3D         {  0x41140000,  0x1000  },
+-    [IBEX_DEV_CSRNG] =3D          {  0x41150000,  0x1000  },
+-    [IBEX_DEV_ENTROPY] =3D        {  0x41160000,  0x1000  },
+-    [IBEX_DEV_EDNO] =3D           {  0x41170000,  0x1000  },
+-    [IBEX_DEV_EDN1] =3D           {  0x41180000,  0x1000  },
+-    [IBEX_DEV_NMI_GEN] =3D        {  0x411c0000,  0x1000  },
+-    [IBEX_DEV_PERI] =3D           {  0x411f0000,  0x10000 },
+-    [IBEX_DEV_PLIC] =3D           {  0x48000000,  0x4005000 },
+-    [IBEX_DEV_FLASH_VIRTUAL] =3D  {  0x80000000,  0x80000 },
++    [IBEX_DEV_ROM] =3D            {  0x00008000,  0x8000      },
++    [IBEX_DEV_RAM] =3D            {  0x10000000,  0x20000     },
++    [IBEX_DEV_FLASH] =3D          {  0x20000000,  0x100000    },
++    [IBEX_DEV_UART] =3D           {  0x40000000,  0x40        },
++    [IBEX_DEV_GPIO] =3D           {  0x40040000,  0x40        },
++    [IBEX_DEV_SPI_DEVICE] =3D     {  0x40050000,  0x2000      },
++    [IBEX_DEV_I2C] =3D            {  0x40080000,  0x80        },
++    [IBEX_DEV_PATTGEN] =3D        {  0x400e0000,  0x40        },
++    [IBEX_DEV_TIMER] =3D          {  0x40100000,  0x200       },
++    [IBEX_DEV_OTP_CTRL] =3D       {  0x40130000,  0x2000      },
++    [IBEX_DEV_LC_CTRL] =3D        {  0x40140000,  0x100       },
++    [IBEX_DEV_ALERT_HANDLER] =3D  {  0x40150000,  0x800       },
++    [IBEX_DEV_SPI_HOST0] =3D      {  0x40300000,  0x40        },
++    [IBEX_DEV_SPI_HOST1] =3D      {  0x40310000,  0x40        },
++    [IBEX_DEV_USBDEV] =3D         {  0x40320000,  0x1000      },
++    [IBEX_DEV_PWRMGR] =3D         {  0x40400000,  0x80        },
++    [IBEX_DEV_RSTMGR] =3D         {  0x40410000,  0x80        },
++    [IBEX_DEV_CLKMGR] =3D         {  0x40420000,  0x80        },
++    [IBEX_DEV_PINMUX] =3D         {  0x40460000,  0x1000      },
++    [IBEX_DEV_AON_TIMER] =3D      {  0x40470000,  0x40        },
++    [IBEX_DEV_SENSOR_CTRL] =3D    {  0x40490000,  0x40        },
++    [IBEX_DEV_FLASH_CTRL] =3D     {  0x41000000,  0x200       },
++    [IBEX_DEV_AES] =3D            {  0x41100000,  0x100       },
++    [IBEX_DEV_HMAC] =3D           {  0x41110000,  0x1000      },
++    [IBEX_DEV_KMAC] =3D           {  0x41120000,  0x1000      },
++    [IBEX_DEV_OTBN] =3D           {  0x41130000,  0x10000     },
++    [IBEX_DEV_KEYMGR] =3D         {  0x41140000,  0x100       },
++    [IBEX_DEV_CSRNG] =3D          {  0x41150000,  0x80        },
++    [IBEX_DEV_ENTROPY] =3D        {  0x41160000,  0x100       },
++    [IBEX_DEV_EDNO] =3D           {  0x41170000,  0x80        },
++    [IBEX_DEV_EDN1] =3D           {  0x41180000,  0x80        },
++    [IBEX_DEV_SRAM_CTRL] =3D      {  0x411c0000,  0x20        },
++    [IBEX_DEV_IBEX_CFG] =3D       {  0x411f0000,  0x100       },
++    [IBEX_DEV_PLIC] =3D           {  0x48000000,  0x8000000   },
++    [IBEX_DEV_FLASH_VIRTUAL] =3D  {  0x80000000,  0x80000     },
+ };
+=20
+ static void opentitan_board_init(MachineState *machine)
+@@ -294,12 +294,12 @@ static void lowrisc_ibex_soc_realize(DeviceState *d=
+ev_soc, Error **errp)
+         memmap[IBEX_DEV_EDN1].base, memmap[IBEX_DEV_EDN1].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.alert_handler",
+         memmap[IBEX_DEV_ALERT_HANDLER].base, memmap[IBEX_DEV_ALERT_HANDL=
+ER].size);
+-    create_unimplemented_device("riscv.lowrisc.ibex.nmi_gen",
+-        memmap[IBEX_DEV_NMI_GEN].base, memmap[IBEX_DEV_NMI_GEN].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.sram_ctrl",
++        memmap[IBEX_DEV_SRAM_CTRL].base, memmap[IBEX_DEV_SRAM_CTRL].size=
+);
+     create_unimplemented_device("riscv.lowrisc.ibex.otbn",
+         memmap[IBEX_DEV_OTBN].base, memmap[IBEX_DEV_OTBN].size);
+-    create_unimplemented_device("riscv.lowrisc.ibex.peri",
+-        memmap[IBEX_DEV_PERI].base, memmap[IBEX_DEV_PERI].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.ibex_cfg",
++        memmap[IBEX_DEV_IBEX_CFG].base, memmap[IBEX_DEV_IBEX_CFG].size);
+ }
+=20
+ static Property lowrisc_ibex_soc_props[] =3D {
 --=20
 2.39.1
 
