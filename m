@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B7DF68D0FA
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 08:52:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 832B468D0FC
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 08:52:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPIlF-00039f-Vo; Tue, 07 Feb 2023 02:51:30 -0500
+	id 1pPIlJ-0003DD-88; Tue, 07 Feb 2023 02:51:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPIlA-00036F-IU
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:51:24 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPIlH-0003C3-KS
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:51:31 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPIl8-0000rw-Jc
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:51:24 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPIlF-0000vI-VZ
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 02:51:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675756281;
+ s=mimecast20190719; t=1675756289;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZFKe7OCQnj29O26w2oLufJdZs1jTzFyi3QebtvonmvI=;
- b=azwdtQPslRyD12xsXp1XQQY25d8LZlNTGa6h2Ez2m74omYea7msY9mE4nM+BM0vaRtsFMF
- CCSVwKUrb/w34dlq2oea/Kb3zeorIkCtO01SD4raQQd0g36JYj/yMNE2DRoFrrRRYMRYCM
- aCreSFBt7mlxMNyROuIDuUudvz83T2c=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Zk0Z/Sno0op22FOd7Bs0xSOPfSTSP95Q5CK+H5Xe7Tg=;
+ b=B3GCaFviP7xoU5ME+Gl/Ibj5MuMPh0PemBQTlleG9/se5lzY1Nuz7CRFFdYVWVd9Qt2aBp
+ /x0f/J4UuBqrt1lmfbgNRyfZS/oWbYqgYrh9DZJWmbnah6SrbPLSXGdHKTaeOsRokP7isf
+ h8vsPuGIXed4Asrj0eGHr6anqQrp7JU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-481-Md-5gUqONX-_8UJ88eAQuw-1; Tue, 07 Feb 2023 02:51:20 -0500
-X-MC-Unique: Md-5gUqONX-_8UJ88eAQuw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-519-Ka3t4BVTO9WexmAt5AZ1Mw-1; Tue, 07 Feb 2023 02:51:20 -0500
+X-MC-Unique: Ka3t4BVTO9WexmAt5AZ1Mw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7CB7F38123A0;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7FD86857F42;
  Tue,  7 Feb 2023 07:51:19 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5876A2166B2A;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A6F940398A0;
  Tue,  7 Feb 2023 07:51:19 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C612421E6A25; Tue,  7 Feb 2023 08:51:15 +0100 (CET)
+ id C93AD21E6A26; Tue,  7 Feb 2023 08:51:15 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: marcandre.lureau@redhat.com, mst@redhat.com, imammedo@redhat.com,
@@ -50,15 +50,15 @@ Cc: marcandre.lureau@redhat.com, mst@redhat.com, imammedo@redhat.com,
  jasowang@redhat.com, pavel.dovgaluk@ispras.ru, pbonzini@redhat.com,
  zhanghailiang@xfusion.com, quintela@redhat.com, dgilbert@redhat.com,
  michael.roth@amd.com, kkostiuk@redhat.com
-Subject: [PATCH 06/12] hw/acpi: Dumb down acpi_table_add() stub
-Date: Tue,  7 Feb 2023 08:51:09 +0100
-Message-Id: <20230207075115.1525-7-armbru@redhat.com>
+Subject: [PATCH 07/12] hw/acpi: Move QMP command to hw/core/
+Date: Tue,  7 Feb 2023 08:51:10 +0100
+Message-Id: <20230207075115.1525-8-armbru@redhat.com>
 In-Reply-To: <20230207075115.1525-1-armbru@redhat.com>
 References: <20230207075115.1525-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -66,7 +66,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ PP_MIME_FAKE_ASCII_TEXT=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,36 +87,139 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 The QERR_ macros are leftovers from the days of "rich" error objects.
 We've been trying to reduce their remaining use.
 
-acpi_table_add() is only ever called on behalf of CLI option
--acpitable.  Since qemu-options.hx sets @arch_mask to QEMU_ARCH_I386,
-it is reachable only for these targets.  Since they provide a real
-acpi_table_add(), the stub is unreachable.
+qmp_query_vm_generation_id() in stubs/vmgenid.c is the last user of
+QERR_UNSUPPORTED outside qga/.  Unlike the stubs we just dropped, it
+is actually reachable, namely when CONFIG_ACPI_VMGENID is off.  It
+always fails like
 
-There's no point in unreachable code keeping QERR_UNSUPPORTED alive.
-Dumb it down to g_assert_not_reached().
+    (qemu) info vm-generation-id
+    Error: this feature or command is not currently supported
+
+Turns out the real qmp_query_vm_generation_id() doesn't actually
+depend on CONFIG_ACPI_VMGENID, and fails safely when it's off.  Move
+it to hw/core/machine-qmp-cmds.c, and drop the stub.  The error
+message becomes
+
+    Error: VM Generation ID device not found
+
+Feels like an improvement to me.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/acpi/acpi-stub.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ MAINTAINERS                |  1 -
+ hw/acpi/vmgenid.c          | 18 ------------------
+ hw/core/machine-qmp-cmds.c | 18 ++++++++++++++++++
+ stubs/vmgenid.c            | 10 ----------
+ stubs/meson.build          |  1 -
+ 5 files changed, 18 insertions(+), 30 deletions(-)
+ delete mode 100644 stubs/vmgenid.c
 
-diff --git a/hw/acpi/acpi-stub.c b/hw/acpi/acpi-stub.c
-index 4c9d081ed4..e268ce9b1a 100644
---- a/hw/acpi/acpi-stub.c
-+++ b/hw/acpi/acpi-stub.c
-@@ -19,11 +19,9 @@
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fa10ecaeb9..1abdd01661 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2267,7 +2267,6 @@ F: hw/acpi/vmgenid.c
+ F: include/hw/acpi/vmgenid.h
+ F: docs/specs/vmgenid.txt
+ F: tests/qtest/vmgenid-test.c
+-F: stubs/vmgenid.c
+ 
+ LED
+ M: Philippe Mathieu-Daudé <philmd@linaro.org>
+diff --git a/hw/acpi/vmgenid.c b/hw/acpi/vmgenid.c
+index 0c9f158ac9..a39315c1b3 100644
+--- a/hw/acpi/vmgenid.c
++++ b/hw/acpi/vmgenid.c
+@@ -12,7 +12,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qapi/qapi-commands-machine.h"
+ #include "qemu/module.h"
+ #include "hw/acpi/acpi.h"
+ #include "hw/acpi/aml-build.h"
+@@ -244,20 +243,3 @@ static void vmgenid_register_types(void)
+ }
+ 
+ type_init(vmgenid_register_types)
+-
+-GuidInfo *qmp_query_vm_generation_id(Error **errp)
+-{
+-    GuidInfo *info;
+-    VmGenIdState *vms;
+-    Object *obj = find_vmgenid_dev();
+-
+-    if (!obj) {
+-        error_setg(errp, "VM Generation ID device not found");
+-        return NULL;
+-    }
+-    vms = VMGENID(obj);
+-
+-    info = g_malloc0(sizeof(*info));
+-    info->guid = qemu_uuid_unparse_strdup(&vms->guid);
+-    return info;
+-}
+diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+index 44b5da8880..a6ed3a63c3 100644
+--- a/hw/core/machine-qmp-cmds.c
++++ b/hw/core/machine-qmp-cmds.c
+@@ -8,6 +8,7 @@
   */
  
  #include "qemu/osdep.h"
--#include "qapi/error.h"
--#include "qapi/qmp/qerror.h"
- #include "hw/acpi/acpi.h"
++#include "hw/acpi/vmgenid.h"
+ #include "hw/boards.h"
+ #include "hw/intc/intc.h"
+ #include "hw/mem/memory-device.h"
+@@ -383,3 +384,20 @@ HumanReadableText *qmp_x_query_irq(Error **errp)
  
- void acpi_table_add(const QemuOpts *opts, Error **errp)
- {
--    error_setg(errp, QERR_UNSUPPORTED);
-+    g_assert_not_reached();
+     return human_readable_text_from_str(buf);
  }
++
++GuidInfo *qmp_query_vm_generation_id(Error **errp)
++{
++    GuidInfo *info;
++    VmGenIdState *vms;
++    Object *obj = find_vmgenid_dev();
++
++    if (!obj) {
++        error_setg(errp, "VM Generation ID device not found");
++        return NULL;
++    }
++    vms = VMGENID(obj);
++
++    info = g_malloc0(sizeof(*info));
++    info->guid = qemu_uuid_unparse_strdup(&vms->guid);
++    return info;
++}
+diff --git a/stubs/vmgenid.c b/stubs/vmgenid.c
+deleted file mode 100644
+index bfad656c6c..0000000000
+--- a/stubs/vmgenid.c
++++ /dev/null
+@@ -1,10 +0,0 @@
+-#include "qemu/osdep.h"
+-#include "qapi/error.h"
+-#include "qapi/qapi-commands-machine.h"
+-#include "qapi/qmp/qerror.h"
+-
+-GuidInfo *qmp_query_vm_generation_id(Error **errp)
+-{
+-    error_setg(errp, QERR_UNSUPPORTED);
+-    return NULL;
+-}
+diff --git a/stubs/meson.build b/stubs/meson.build
+index 981585cbdf..7657467a5d 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -45,7 +45,6 @@ stub_ss.add(files('target-get-monitor-def.c'))
+ stub_ss.add(files('target-monitor-defs.c'))
+ stub_ss.add(files('trace-control.c'))
+ stub_ss.add(files('uuid.c'))
+-stub_ss.add(files('vmgenid.c'))
+ stub_ss.add(files('vmstate.c'))
+ stub_ss.add(files('vm-stop.c'))
+ stub_ss.add(files('win32-kbd-hook.c'))
 -- 
 2.39.0
 
