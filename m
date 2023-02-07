@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AA6E68D616
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 12:59:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D034868D622
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Feb 2023 13:03:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPMcX-000065-8F; Tue, 07 Feb 2023 06:58:45 -0500
+	id 1pPMex-0002Fl-EA; Tue, 07 Feb 2023 07:01:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pPMcT-00005s-Se
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 06:58:41 -0500
-Received: from mr85p00im-hyfv06011401.me.com ([17.58.23.191])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPMev-0002FF-20
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:01:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pPMcS-00016M-GR
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 06:58:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
- t=1675771118; bh=Cn0qz0bMHB6vxV8Q4ejxdppqOEkAynR/SkSPXu1IlvI=;
- h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
- b=Xr4x63GAslHmhREJ5ScX0ShUVTWttvXUdV+P0RRokExZ+BiNGGhAJQr532uOfCXj1
- ZqkDVc9iOGpGjBHjWVFxgIwpjsracshofIVX3/1c8bFteBwMssKElDCSl9Wq++grLs
- 1YE8czPPd15jiviooew03Evu38xofTXifMKQYw62JHNKzwacVgifJS64xzMIdmZbsS
- L6WveY1JxmlZ2fpSB/ClKH8gn6QiJUvvvgt/NdWQKM1L6rXc4EKkV9GtRNNiDcuJoi
- NCukyy9rq6vHv5GsbMTMqRRH9NhBvTcjFByiC8xHexFZoeyjAggq/BQ0XVsdm38Gnv
- dBh9CuU3l811g==
-Received: from smtpclient.apple (mr38p00im-dlb-asmtp-mailmevip.me.com
- [17.57.152.18])
- by mr85p00im-hyfv06011401.me.com (Postfix) with ESMTPSA id DA007357B5F6;
- Tue,  7 Feb 2023 11:58:35 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.300.101.1.3\))
-Subject: Re: [PATCH] gdbstub: move update guest debug to accel ops
-From: Mads Ynddal <mads@ynddal.dk>
-In-Reply-To: <871qn2rjd2.fsf@linaro.org>
-Date: Tue, 7 Feb 2023 12:58:23 +0100
-Cc: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- "open list:Overall KVM CPUs" <kvm@vger.kernel.org>,
- Yanan Wang <wangyanan55@huawei.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPMeq-0001gY-4e
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 07:01:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675771266;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+tAPBvGV2sQ1d83bHnZ8r3bYp52SxUeMiL22SWOSras=;
+ b=JVD/uwsuGfL65ciiWbOenFDaQw+cPvArUhmj2fjyurAB4vpVj9X9S4W83j9xXuM6Z/iEZZ
+ +bDL2dvye5lpQ+FoP6idA3bVo1BRq8aG1u1MhhbSKoIfL7ickWWXbAsdkAGnI5Ouf7RFEJ
+ ev9+kvMYM7zaVod0UGrVfXviuXaTJ84=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-42-XIGcQp--ODukuDpEEtBXBg-1; Tue, 07 Feb 2023 07:01:02 -0500
+X-MC-Unique: XIGcQp--ODukuDpEEtBXBg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 748068027EB;
+ Tue,  7 Feb 2023 12:01:01 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B9FCC2166B2A;
+ Tue,  7 Feb 2023 12:00:58 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1232921E6A1F; Tue,  7 Feb 2023 13:00:57 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org,  marcandre.lureau@redhat.com,  mst@redhat.com,
+ imammedo@redhat.com,  ani@anisinha.ca,  eduardo@habkost.net,
+ marcel.apfelbaum@gmail.com,  wangyanan55@huawei.com,  jiri@resnulli.us,
+ jasowang@redhat.com,  pavel.dovgaluk@ispras.ru,  pbonzini@redhat.com,
+ zhanghailiang@xfusion.com,  quintela@redhat.com,  dgilbert@redhat.com,
+ michael.roth@amd.com,  kkostiuk@redhat.com
+Subject: Re: [PATCH 02/12] dump: Improve error message when target doesn't
+ support memory dump
+References: <20230207075115.1525-1-armbru@redhat.com>
+ <20230207075115.1525-3-armbru@redhat.com>
+ <0cff7e74-c230-2979-9643-9f108809c7d6@linaro.org>
+Date: Tue, 07 Feb 2023 13:00:57 +0100
+In-Reply-To: <0cff7e74-c230-2979-9643-9f108809c7d6@linaro.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 7 Feb 2023 09:32:02
+ +0100")
+Message-ID: <878rh9vg5i.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <35145587-C279-46A1-A2C5-3261A646F225@ynddal.dk>
-References: <20221123121712.72817-1-mads@ynddal.dk>
- <af92080f-e708-f593-7ff5-81b7b264d587@linaro.org>
- <C8BC6E24-F98D-428D-80F8-98BDA40C7B15@ynddal.dk> <87h6xyjcdh.fsf@linaro.org>
- <4B19094C-63DC-4A81-A008-886504256D5D@ynddal.dk> <871qn2rjd2.fsf@linaro.org>
-To: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-X-Mailer: Apple Mail (2.3731.300.101.1.3)
-X-Proofpoint-GUID: SyIWDj8aX2WDaQWMsXo-TNJimMYxIvbX
-X-Proofpoint-ORIG-GUID: SyIWDj8aX2WDaQWMsXo-TNJimMYxIvbX
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.816,17.11.62.513.0000000_definitions?=
- =?UTF-8?Q?=3D2022-01-18=5F01:2022-01-14=5F01,2022-01-18=5F01,2021-12-02?=
- =?UTF-8?Q?=5F01_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- clxscore=1030
- suspectscore=0 mlxlogscore=660 adultscore=0 phishscore=0 mlxscore=0
- spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2302070107
-Received-SPF: pass client-ip=17.58.23.191; envelope-from=mads@ynddal.dk;
- helo=mr85p00im-hyfv06011401.me.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,15 +89,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
->=20
-> Sorry this dropped of my radar. Yes I think the ifdef will do. Are you
-> going to post a v2 with all the various updates?
->=20
+> On 7/2/23 08:51, Markus Armbruster wrote:
+>> The QERR_ macros are leftovers from the days of "rich" error objects.
+>> We've been trying to reduce their remaining use.
+>> Get rid of a use of QERR_UNSUPPORTED, and improve the rather vague
+>> error message
+>>      (qemu) dump-guest-memory mumble
+>>      Error: this feature or command is not currently supported
+>> to
+>>      Error: guest memory dumping is not supported on this target
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>   dump/dump.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>> diff --git a/dump/dump.c b/dump/dump.c
+>> index 279b07f09b..80620da40d 100644
+>> --- a/dump/dump.c
+>> +++ b/dump/dump.c
+>> @@ -1854,7 +1854,8 @@ static void dump_init(DumpState *s, int fd, bool h=
+as_format,
+>>        */
+>>       ret =3D cpu_get_dump_info(&s->dump_info, &s->guest_phys_blocks);
+>>       if (ret < 0) {
+>> -        error_setg(errp, QERR_UNSUPPORTED);
+>> +        error_setg(errp,
+>> +                   "guest memory dumping is not supported on this targe=
+t");
+>
+> "Dumping guest memory is not supported on this target"?
 
-No worries, I'll make a v2 with the changes.
+Sold!
 
-=E2=80=94
-Mads Ynddal
+>>           goto cleanup;
+>>       }
+>>=20=20=20
 
 
