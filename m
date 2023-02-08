@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C386368F98F
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B77068F98E
 	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 22:14:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPrkE-0000aN-Tm; Wed, 08 Feb 2023 16:12:46 -0500
+	id 1pPrkI-0000ir-5T; Wed, 08 Feb 2023 16:12:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pPrkC-0000U8-Qw
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 16:12:44 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pPrkF-0000dB-Js
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 16:12:47 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pPrkB-0007qs-Do
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 16:12:44 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pPrkE-0007rP-2K
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 16:12:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675890762;
+ s=mimecast20190719; t=1675890765;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=pyB2eX4BrxplsV/cU4fgKDTd3hh497IDhiUSXuPJBb8=;
- b=jA/43WkzesejjPQUNHCQXKDpj7rKpHf5aPojT/l4ql/bR0QREWD/KyCB5WBsnS1l3a8q+t
- ElILnAucgWtrN05HTc9YsXnARQJPuHHlWl7435ZE2hRfAgU8MX5F7FmBzLXjirHr+R3LHU
- 8J3AQ+GSATpe+lC2BoK+yJhkvACzwb8=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NERecKdHLUqwMZWLwJADWmbTJLbslnFnPSfMbqlvP3U=;
+ b=UePe9jeuleEU13xO8pLyOB0TvKEjaZXL5FcaG2tL0PFzS6rDSowyuwcxnfTa0grFF2XX5A
+ PeckehzsxVQu9DHi3IUdvInkkLC4OJxhrADselCuXc6Ke4YN9OhjCUS7TcdTjaqmalwQcg
+ 3sMPR9LJJfUUpH0XimlQhD/P7IJzt1A=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-144-JvqLPPrcNu-qSqY1EDpTWw-1; Wed, 08 Feb 2023 16:12:41 -0500
-X-MC-Unique: JvqLPPrcNu-qSqY1EDpTWw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- v5-20020adf8b45000000b002bde0366b11so3256105wra.7
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 13:12:41 -0800 (PST)
+ us-mta-530-HZYRJkQxMuCU0DgI_3dnpQ-1; Wed, 08 Feb 2023 16:12:44 -0500
+X-MC-Unique: HZYRJkQxMuCU0DgI_3dnpQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ h5-20020adff185000000b002c3e68f9d6fso2194758wro.10
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 13:12:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pyB2eX4BrxplsV/cU4fgKDTd3hh497IDhiUSXuPJBb8=;
- b=u1k+E6NxiSXs/KF5F6Q4OiUt28aTBU2fG6gwZyoAhkKjRa/OIPMLg4iFQ4uOCaLLhl
- RQ4odA7jUqrMZgf3+MgSw4XZMQstLO3M3jO/s5fxNJff/2IIvkN8Pn/OkMRR9fD2WSOm
- d1eYBd7A3zIkeOLnEOqtd1DruJ9KzRD5Wouh4Ei8R55bapDe/+yXbR/SxDy7YKMuDuAZ
- tBCjZkn6GJXWksQH9PfrXUocNZS0DAzupv4o59IWu9Bq+AbWqq1bVxuUxUUPfxVFDeVI
- r9KFhbZ2VnjVRYN3Yauyg2M+Ad9slwKiJE3rrVXZqwQCrY1LdnSsiLbji4tN2ZcDHgR0
- Fu7A==
-X-Gm-Message-State: AO0yUKUC+RZfnxbhwJ3VyL3158G2KSXWewmJ2Ua9qmkFeR8hvnfbqlWu
- eBWNErPnfCLLFCFvRy7OIq8JwErv2e21cJGnUg2FhdzdNXQtDVNMGW/+osVYz9JwnC76wc33LJ5
- bKvlDF30/rpGSGhHOEczdyc7Mgoxkbe3mSRrDnlnjP54qAkdCnXhQSsA/esXYNa5lUVNe
-X-Received: by 2002:adf:e607:0:b0:2c4:5de:2d3e with SMTP id
- p7-20020adfe607000000b002c405de2d3emr1747045wrm.41.1675890757427; 
- Wed, 08 Feb 2023 13:12:37 -0800 (PST)
-X-Google-Smtp-Source: AK7set838VaFDlxa9uadyGE5Hk1bmbh3K276tSM5JtsHQY0vUmJXrZ16/41fZCphaQYDSIClM32nOA==
-X-Received: by 2002:adf:e607:0:b0:2c4:5de:2d3e with SMTP id
- p7-20020adfe607000000b002c405de2d3emr1747022wrm.41.1675890757189; 
- Wed, 08 Feb 2023 13:12:37 -0800 (PST)
+ bh=NERecKdHLUqwMZWLwJADWmbTJLbslnFnPSfMbqlvP3U=;
+ b=W4lDKxoq5sK4rp2CgtarhCyZ97oaBiQ/Yh1FNtJehVV04w7C5WgFot/BbJ1IJAXDDn
+ Sv/X8h9hLPRAaSfxd8WboCpFoGaaxZzt3ELSEh2WNQpN5f9HHMFScGpcK7MrkceZGw5X
+ 0T8A0rXVQ9jyhgVxK42+hsJoznU1Dk5/tuYM/oAPCWXMbY3N8wbAQnKgGrYMzCCDqxkT
+ X1ZPs3h3zJiRYjcZhg3Ucru0Y4VNnAjMBoeTwTDxLwi0soVnMwgsaTEg7c4VGScYKwqt
+ Ai/rzVVxE63uYwLiw9BgZbJgusEvvkHA28Iy/3nh57/crOIdBQtaxPTsnICI8rQrkC29
+ Facg==
+X-Gm-Message-State: AO0yUKVzWzALik7DCtKT5eQwLNsEJAbesUWqWky3vW0OGpl9Oi5p91UP
+ BSg8gGZw7OCmBJcgC3QnFdyoMQLJNlK0DQ77sbuEguLdSEm/6nMTevw1Gc4QOuVydScUY2a6Qze
+ jsiA/3pcXN3g7/pjhcitY6Xy9/GUBUSC1GI5RlK9I5T4l1R29Fa3rN3/ZfIhJNOiCJGkZ
+X-Received: by 2002:a05:6000:1d1:b0:2c3:ba99:44bc with SMTP id
+ t17-20020a05600001d100b002c3ba9944bcmr8345856wrx.68.1675890762575; 
+ Wed, 08 Feb 2023 13:12:42 -0800 (PST)
+X-Google-Smtp-Source: AK7set9hJ/RtQuMOQNR+s++VE21Jk7JmDAqkt+dsnQdLd0krrCQM6jyPXo7PC5NSAGcU94PVU+QKKw==
+X-Received: by 2002:a05:6000:1d1:b0:2c3:ba99:44bc with SMTP id
+ t17-20020a05600001d100b002c3ba9944bcmr8345830wrx.68.1675890762340; 
+ Wed, 08 Feb 2023 13:12:42 -0800 (PST)
 Received: from redhat.com ([2.52.132.212]) by smtp.gmail.com with ESMTPSA id
- y5-20020adfee05000000b002c3f6d7d5fesm4398119wrn.44.2023.02.08.13.12.32
+ c12-20020a5d4ccc000000b002bddac15b3dsm14220412wrt.33.2023.02.08.13.12.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 13:12:36 -0800 (PST)
-Date: Wed, 8 Feb 2023 16:12:31 -0500
+ Wed, 08 Feb 2023 13:12:41 -0800 (PST)
+Date: Wed, 8 Feb 2023 16:12:37 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org, "Jason A. Donenfeld" <Jason@zx2c4.com>
 Cc: x86@kernel.org, linux-kernel@vger.kernel.org,
@@ -72,11 +72,11 @@ Cc: x86@kernel.org, linux-kernel@vger.kernel.org,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Nathan Chancellor <nathan@kernel.org>,
  Borislav Petkov <bp@alien8.de>, Eric Biggers <ebiggers@kernel.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PATCH RFC 2/7] Revert "x86: do not re-randomize RNG seed on
- snapshot load"
-Message-ID: <20230208211212.41951-3-mst@redhat.com>
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: [PATCH RFC 3/7] Revert "x86: re-initialize RNG seed when selecting
+ kernel"
+Message-ID: <20230208211212.41951-4-mst@redhat.com>
 References: <20230208211212.41951-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -108,27 +108,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This reverts commit 14b29fea742034186403914b4d013d0e83f19e78.
+This reverts commit cc63374a5a7c240b7d3be734ef589dabbefc7527.
 
+Fixes: cc63374a5a ("x86: re-initialize RNG seed when selecting kernel")
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Fixes: 14b29fea74 ("x86: do not re-randomize RNG seed on snapshot load")
 ---
- hw/i386/x86.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/i386/x86.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
 diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 78cc131926..7984f65352 100644
+index 7984f65352..e1a5f244a9 100644
 --- a/hw/i386/x86.c
 +++ b/hw/i386/x86.c
-@@ -1115,7 +1115,7 @@ void x86_load_linux(X86MachineState *x86ms,
-         setup_data->type = cpu_to_le32(SETUP_RNG_SEED);
+@@ -1116,14 +1116,11 @@ void x86_load_linux(X86MachineState *x86ms,
          setup_data->len = cpu_to_le32(RNG_SEED_LENGTH);
          qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
--        qemu_register_reset_nosnapshotload(reset_rng_seed, setup_data);
-+        qemu_register_reset(reset_rng_seed, setup_data);
-         fw_cfg_add_bytes_callback(fw_cfg, FW_CFG_KERNEL_DATA, reset_rng_seed, NULL,
-                                   setup_data, kernel, kernel_size, true);
-     } else {
+         qemu_register_reset(reset_rng_seed, setup_data);
+-        fw_cfg_add_bytes_callback(fw_cfg, FW_CFG_KERNEL_DATA, reset_rng_seed, NULL,
+-                                  setup_data, kernel, kernel_size, true);
+-    } else {
+-        fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
+     }
+ 
+     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, prot_addr);
+     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
++    fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
+     sev_load_ctx.kernel_data = (char *)kernel;
+     sev_load_ctx.kernel_size = kernel_size;
+ 
 -- 
 MST
 
