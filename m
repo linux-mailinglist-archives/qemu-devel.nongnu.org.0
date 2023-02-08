@@ -2,81 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 770FD68ECDF
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 11:30:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E6168ECE2
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 11:31:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPhi1-0007Yu-HS; Wed, 08 Feb 2023 05:29:49 -0500
+	id 1pPhj9-0008Hf-MQ; Wed, 08 Feb 2023 05:30:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alvaro.karsz@solid-run.com>)
- id 1pPhhx-0007Yd-8K
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 05:29:45 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alvaro.karsz@solid-run.com>)
- id 1pPhhv-0003aD-1o
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 05:29:44 -0500
-Received: by mail-pl1-x629.google.com with SMTP id g17so1253841ply.11
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 02:29:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=solid-run-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Uw2ZicEA5RLzfShMXQ1dwaKNDb+ZvEQ5nofhk/pEKE8=;
- b=qNvBsfjNBF1TkmnJTB3tUs4ujn+RLEV1Twl1prVx+53gUaxKFIy+mCCT33Cg+gE5tn
- YTdT/tgxI8JWYnb8kl1KE8f7JQWbSioraFlguQvUmbyuBrXhFrKebzHO0S6MeuaQJfv0
- bYgsluSWWVbKreOBmLyRvaoaNDEj70uvFKRzk5sEUhhHaL2MRuZcHDpFbQKSbJxMRacu
- gu9XR6iUMFR9ZzbRUfHW8mHUezeg0H0j0MQM8mU739C2b9DtqwRROw5VF8PvEwqUNiEB
- O/QCPyZB18cjx8JUBDwZUaQjnEH2/jbXrpkpJhr0zqmxU79zMu3Z0+anu8mNzDXqA0f5
- 5lzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Uw2ZicEA5RLzfShMXQ1dwaKNDb+ZvEQ5nofhk/pEKE8=;
- b=lgl4KN0fAbIV4VsCb0DoCCOul6vdXbOkUElHu7MZfJcpct6Z8k8WTNhKQMOrIzNPJ9
- zh8Ge5pCPMUWB26p7xpo0MlVCGR5xs0NUNVA+7ymDLtFEinXuzB4jBflQX0AFg/rokYL
- wDHiuqvCPE6eV5j+kHZOCjzicKbfjTKH+LSyqm5W0sNwXNCccttYZ6uXO9FJMFmZP5IO
- f6nTh8mmKtI84jJyFhQxGqHmYqVkUHc6BS61DQk+6tRE9ix+jokOMNEr00kEpHhc1u8D
- 0Q4bRMhhNGHcKfE43qlw4i07Mf3GP1DklGiPOXBNNM3W3FeE0mX/G94vsbMsk6T6XG/Z
- cH0w==
-X-Gm-Message-State: AO0yUKXP/nxFKH/Y4JZ4n9zxyhdTfoct/R8hWQO1xgtL+flQC4yN81FW
- elb1RuYrdK+hbL1Gh3AFcp22/aYxI+l+7XYyeNTc/Q==
-X-Google-Smtp-Source: AK7set/D85OP4MbEUttLin1Mc4kBwGa/GSqWKwYp9esG56LQONCdHonoSsb/1780I1mBh093u4BaKZgg9Akx7nlrlwU=
-X-Received: by 2002:a17:90a:764d:b0:230:c6fa:9305 with SMTP id
- s13-20020a17090a764d00b00230c6fa9305mr600415pjl.93.1675852181066; Wed, 08 Feb
- 2023 02:29:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPhj7-0008HI-Fs
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 05:30:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPhj6-00068w-3N
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 05:30:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675852254;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mlwiT1EHL5AUvx49hZ0S9rNsLNZWxhwAqcvFPfQ4E3Q=;
+ b=B5J5X339cwYqbV/x7yCaEORD+14fPQsjHvIpsAMkfKxUCA7DV+ESkQvtcN3d530jQbu56w
+ RrcS3ODQDxrLePNA/RHD2a2NiLVHontpt1ERKW4rM+IRlxToOAEU7CRL/BtPi6Or2t3g/P
+ qo3pLGW/YLQxVR/bi/nf8xuU991U9hs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-377--6HK664_MmmPpK5r8ynSCw-1; Wed, 08 Feb 2023 05:30:51 -0500
+X-MC-Unique: -6HK664_MmmPpK5r8ynSCw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 00DF2101A55E;
+ Wed,  8 Feb 2023 10:30:51 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.193.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C9F2540398A0;
+ Wed,  8 Feb 2023 10:30:49 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Yonggang Luo <luoyonggang@gmail.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH] cirrus.yml: Improve the windows_msys2_task
+Date: Wed,  8 Feb 2023 11:30:46 +0100
+Message-Id: <20230208103046.618154-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20230208094253.702672-1-eperezma@redhat.com>
-In-Reply-To: <20230208094253.702672-1-eperezma@redhat.com>
-From: Alvaro Karsz <alvaro.karsz@solid-run.com>
-Date: Wed, 8 Feb 2023 12:29:03 +0200
-Message-ID: <CAJs=3_DQQPGUYK_Fv4tuiVcdJ6V1dtRjRkUL3_EqNhwJt-+kYg@mail.gmail.com>
-Subject: Re: [PATCH v2 00/13] Dynamycally switch to vhost shadow virtqueues at
- vdpa net migration
-To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Harpreet Singh Anand <hanand@xilinx.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, 
- Jason Wang <jasowang@redhat.com>, Cindy Lu <lulu@redhat.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, Lei Yang <leiyang@redhat.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Shannon Nelson <snelson@pensando.io>, 
- Parav Pandit <parav@mellanox.com>, Gautam Dawar <gdawar@xilinx.com>,
- Eli Cohen <eli@mellanox.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- longpeng2@huawei.com, virtualization@lists.linux-foundation.org, 
- Stefano Garzarella <sgarzare@redhat.com>, si-wei.liu@oracle.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=alvaro.karsz@solid-run.com; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,24 +73,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-HI Eugenio, thanks for the series!
+There's no need to run a full-blown bash just to create a directory.
+And we can skip the "cd build" each time by doing it once at the
+beginning.
 
-I tested the series with our DPU, SolidNET.
+Additionally, let's exclude some targets (that we already compile-test
+with MinGW in the gitlab jobs) from the build, since the build time of
+this task is very long already (between 80 and 90 minutes).
 
-The test went as follow:
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ .cirrus.yml | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-- Create 2 virtio net vdpa devices, every device in a separated VF.
-- Start 2 VMs with the vdpa device as a single network device, without
-shadow vq.
-   The source VM with "-netdev
-vhost-vdpa,vhostdev=/dev/vhost-vdpa-0,id=hostnet0"
-   The destination VM with "-netdev
-vhost-vdpa,vhostdev=/dev/vhost-vdpa-1,id=hostnet0"
-- Boot the source VM, test the network by pinging.
-- Migrate
-- Test the destination VM network.
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 4895987da4..5fb00da73d 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -100,9 +100,11 @@ windows_msys2_task:
+       tar xf C:\tools\archive\msys64.tar
+       Write-Output "Extract msys2 time taken: $((Get-Date).Subtract($start_time))"
+   script:
+-    - C:\tools\msys64\usr\bin\bash.exe -lc "mkdir build"
+-    - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && ../configure --python=python3"
+-    - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make -j8"
++    - mkdir build
++    - cd build
++    - C:\tools\msys64\usr\bin\bash.exe -lc "../configure --python=python3
++        --target-list-exclude=i386-softmmu,ppc64-softmmu,aarch64-softmmu,mips64-softmmu,mipsel-softmmu,sh4-softmmu"
++    - C:\tools\msys64\usr\bin\bash.exe -lc "make -j8"
+     - exit $LastExitCode
+   test_script:
+     - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make V=1 check"
+-- 
+2.31.1
 
-Everything worked fine.
-
-Tested-by: Alvaro Karsz <alvaro.karsz@solid-run.com>
 
