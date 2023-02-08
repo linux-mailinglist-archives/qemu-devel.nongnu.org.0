@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBF4468F996
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 22:14:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D740A68F997
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 22:16:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPrlz-0005QW-LZ; Wed, 08 Feb 2023 16:14:36 -0500
+	id 1pPrnS-0006PY-AJ; Wed, 08 Feb 2023 16:16:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pPrls-0005M3-Nt
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 16:14:29 -0500
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
+ id 1pPrnI-0006Of-0e
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 16:16:03 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pPrlq-0008LC-Tn
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 16:14:28 -0500
-Received: by mail-pg1-x52d.google.com with SMTP id u75so174603pgc.10
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 13:14:26 -0800 (PST)
+ id 1pPrnG-0000cY-DW
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 16:15:55 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id
+ d13-20020a17090ad3cd00b0023127b2d602so152935pjw.2
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 13:15:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=+cHkCKk2j/7NYYpLejsZtHFs/f/KC/ZgO/F58TNtqj8=;
- b=Zm7zgBK5PrnirEFe04bbjVtWiC0x6XHLyKHHCPDiECEUw6bXZYpIuI4vAIjYJ6IPlW
- 30mJ23iwNuyL4taIMKclNEkIeNHfvaOD4i2oFRFP//TaHHdXW/B7NK0Wo4Iu3jP2sINE
- WjVPeaW9oB/adg9aiJNHUbfIN3TFfWB3KgFrdu82G8rMhsb9UlCRkZqUFG/k9ecKAoDd
- g2KY/moAjAbwH4SQDluruAVp00X8uKxN2gC7CX9li/l38nJkhhuoJQUU1nT57a3lmQMn
- v3mLsK11Yx5Klj4M8vrdfBf+ehPVhAZUKhLRZcVgSyKSLEiRMECK5LlgU7Hiub5VI1IK
- 3qlg==
+ bh=kWVWkbGuD9bNyS02qwfyDGnF+6H5mm/unN3iTZqS3ss=;
+ b=JFS2/LQT9YUAE7YEzyMcvVDEmDZaRjtIlmmXrbGMMKkgRXPHHznv5bm+07OW0P0YZu
+ Bsj2JRi2kzkkFO5WsepeCNRMqWV+9sHfLnkPEqlwXM/hhhWV+CYqGTo62GbkSodHamU1
+ sKbqd8D0d+/LC7ZNgKmVvdb+l3Avwwsj75BnsFcC3W4NyQN7lZ132hWwNvQov3XYq27H
+ t5rcVuzgWlcmw9O5j+aTnxWQOfH1bfmUyRBEpVVHK/JPXqLxyLCu2xflxAKapW8wSnal
+ hUg4EpKoJY+ZtUaTrixMVVEkwYQR/rVD7ikQZDNHsYywHbYkagS13ANbE0xQAPx9zMX4
+ SoYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+cHkCKk2j/7NYYpLejsZtHFs/f/KC/ZgO/F58TNtqj8=;
- b=ZAnLlyUAUZUKXXXK0UYi3ectcu0vuZUNwLCzgD5kswL4989cgj8lVTy6c9kWBGZhTS
- 4/psgasinGYtoSTMWNctjrmcRHbN+N4eDKKmIuE5ILMvXqO5yUONQ8v+gKGydkp1vAjK
- aqT8rp3RtZ5z0ftgW/O22chPzN/Nt4mXV7UY9Kl3Ql6SxVu4rQ7ITXK1bEUw2AMgSn4y
- 1+eD2RFVb83oxYkb0S8v2sCOW6Uelmdoc7+XO9O3Kmk+R1OPF6ZWXF3RG2JrthG8Sk0Y
- 0nYOQWf646WU4OkefDwtuC3MnmtpFQSIlXtann70rCc6nibE52x3cPyNUGu9gJ/HL57j
- cgbA==
-X-Gm-Message-State: AO0yUKXAaoTRyL1tJNHQDFaaUjdv5+j288h+qJLyVc5XQzXnpst4MLjo
- OIjcCGlTc/MHohhU00A4r20D7A==
-X-Google-Smtp-Source: AK7set+8+WV143ux84Ml7U33iFfluqPQ76Vrf/bo9ehC5mGm4UHX1Q3gyGMD0WWPaQ4auc4DyFx1Sw==
-X-Received: by 2002:a05:6a00:4f:b0:5a8:4dea:7014 with SMTP id
- i15-20020a056a00004f00b005a84dea7014mr1129262pfk.27.1675890864573; 
- Wed, 08 Feb 2023 13:14:24 -0800 (PST)
+ bh=kWVWkbGuD9bNyS02qwfyDGnF+6H5mm/unN3iTZqS3ss=;
+ b=1FMebuHuEtmFW6vYpkgKrw/yHiZjndXFIwBITJMMVTi8yu/qBsjLy1uhd0WKex+qii
+ bOUqOb5VnzC8BPQja6NC2Ks4l2vLPGoiIFEWTac8KcOw7zQPJ4HQ9OUxBGhLAJj1dMPf
+ uF3xt+P4RaxuRx19+QM0C4qPNfaJvbHaooCG7N7o728Mjp+eB/TP3RG2qfUkG8HjHFJv
+ cl75luYgiTMFvC6/O3xq7H4hjnZXVoOasSG16aUzWaDmc2X1hCOBk82+hp8Ehfa2HsUb
+ 9ajZMOYDDvLw7tnezO7jVNmB3C45MaxxMlS63jXoLIvRhlIGtKM7Li4v0DhY0sHq2gsW
+ 9yeg==
+X-Gm-Message-State: AO0yUKW6GJCodOJXM570ZnQamnjMuR7LcMSaVI2fiOg7NMK188PDpe/j
+ +Kif0Rd6z/qBbaKEveo82ZBgkw==
+X-Google-Smtp-Source: AK7set8uMsu6Y0KRJYsymhpS2hv0wqSWWpnq4gSiWTvRjyg4f7IHu8ZqHkVi+yJuOw9s44S2xSH9cg==
+X-Received: by 2002:a05:6a20:3b25:b0:be:982b:ed86 with SMTP id
+ c37-20020a056a203b2500b000be982bed86mr7752126pzh.29.1675890952837; 
+ Wed, 08 Feb 2023 13:15:52 -0800 (PST)
 Received: from [192.168.101.227] (rrcs-74-87-59-234.west.biz.rr.com.
  [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
- f207-20020a6238d8000000b0058d9428e482sm11736789pfa.85.2023.02.08.13.14.22
+ u24-20020a62ed18000000b005a84ef49c63sm292866pfh.214.2023.02.08.13.15.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Feb 2023 13:14:23 -0800 (PST)
-Message-ID: <e8aa5585-0e5a-de30-7fc6-669697a79cb0@linaro.org>
-Date: Wed, 8 Feb 2023 11:14:20 -1000
+ Wed, 08 Feb 2023 13:15:52 -0800 (PST)
+Message-ID: <a3d7199d-d245-d576-4866-d701159f9249@linaro.org>
+Date: Wed, 8 Feb 2023 11:15:48 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 2/3] Replace `TARGET_TB_PCREL` with `CF_PCREL`
+Subject: Re: [PATCH 3/3] target: Set `CF_PCREL` for arm and i386 frontends
 Content-Language: en-US
 To: Anton Johansson <anjo@rev.ng>, qemu-devel@nongnu.org
 Cc: ale@rev.ng, pbonzini@redhat.com, eduardo@habkost.net,
  peter.maydell@linaro.org
 References: <20230207104352.11055-1-anjo@rev.ng>
- <20230207104352.11055-3-anjo@rev.ng>
+ <20230207104352.11055-4-anjo@rev.ng>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230207104352.11055-3-anjo@rev.ng>
+In-Reply-To: <20230207104352.11055-4-anjo@rev.ng>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -95,99 +96,42 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 2/7/23 00:43, Anton Johansson wrote:
-> diff --git a/accel/tcg/tb-jmp-cache.h b/accel/tcg/tb-jmp-cache.h
-> index b3f6e78835..083939b302 100644
-> --- a/accel/tcg/tb-jmp-cache.h
-> +++ b/accel/tcg/tb-jmp-cache.h
->   static inline TranslationBlock *
-> -tb_jmp_cache_get_tb(CPUJumpCache *jc, uint32_t hash)
-> +tb_jmp_cache_get_tb(CPUJumpCache *jc, uint32_t cflags, uint32_t hash)
->   {
-> -#if TARGET_TB_PCREL
-> -    /* Use acquire to ensure current load of pc from jc. */
-> -    return qatomic_load_acquire(&jc->array[hash].tb);
-> -#else
-> -    /* Use rcu_read to ensure current load of pc from *tb. */
-> -    return qatomic_rcu_read(&jc->array[hash].tb);
-> -#endif
-> +    if (cflags & CF_PCREL) {
-> +        /* Use acquire to ensure current load of pc from jc. */
-> +        return qatomic_load_acquire(&jc->array[hash].tb);
-> +    } else {
-> +        /* Use rcu_read to ensure current load of pc from *tb. */
-> +        return qatomic_rcu_read(&jc->array[hash].tb);
-> +    }
->   }
+> Signed-off-by: Anton Johansson <anjo@rev.ng>
+> ---
+>   target/arm/cpu-param.h  | 2 --
+>   target/arm/cpu.c        | 5 +++++
+>   target/i386/cpu-param.h | 4 ----
+>   target/i386/cpu.c       | 5 +++++
+>   4 files changed, 10 insertions(+), 6 deletions(-)
+> 
+> diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
+> index 53cac9c89b..b7bde18986 100644
+> --- a/target/arm/cpu-param.h
+> +++ b/target/arm/cpu-param.h
+> @@ -31,8 +31,6 @@
+>   # define TARGET_PAGE_BITS_VARY
+>   # define TARGET_PAGE_BITS_MIN  10
 >   
->   static inline target_ulong
->   tb_jmp_cache_get_pc(CPUJumpCache *jc, uint32_t hash, TranslationBlock *tb)
->   {
-> -#if TARGET_TB_PCREL
-> -    return jc->array[hash].pc;
-> -#else
-> -    return tb_pc(tb);
-> -#endif
-> +    if (tb_cflags(tb) & CF_PCREL) {
-> +        return jc->array[hash].pc;
-> +    } else {
-> +        return tb_pc(tb);
-> +    }
->   }
+> -# define TARGET_TB_PCREL 1
+> -
+>   /*
+>    * Cache the attrs and shareability fields from the page table entry.
+>    *
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 31dc595e11..62b876e0f0 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -1551,6 +1551,11 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+>       Error *local_err = NULL;
+>       bool no_aa32 = false;
 >   
->   static inline void
->   tb_jmp_cache_set(CPUJumpCache *jc, uint32_t hash,
->                    TranslationBlock *tb, target_ulong pc)
->   {
-> -#if TARGET_TB_PCREL
-> -    jc->array[hash].pc = pc;
-> -    /* Use store_release on tb to ensure pc is written first. */
-> -    qatomic_store_release(&jc->array[hash].tb, tb);
-> -#else
-> -    /* Use the pc value already stored in tb->pc. */
-> -    qatomic_set(&jc->array[hash].tb, tb);
-> -#endif
-> +    if (tb_cflags(tb) & CF_PCREL) {
-> +        jc->array[hash].pc = pc;
-> +        /* Use store_release on tb to ensure pc is written first. */
-> +        qatomic_store_release(&jc->array[hash].tb, tb);
-> +    } else{
-> +        /* Use the pc value already stored in tb->pc. */
-> +        qatomic_set(&jc->array[hash].tb, tb);
-> +    }
->   }
+> +    /* Use pc-relative instructions in system-mode */
+> +#ifndef CONFIG_USER_ONLY
+> +    cs->tcg_cflags |= CF_PCREL;
+> +#endif
 
-These little functions made sense when they were isolating ifdefs.
-When they protect a sequence of conditions,
-
-     if (CF_PCREL) {
-         a
-     } else {
-         b
-     }
-     if (CF_PCREL) {
-         c
-     } else {
-         d
-     }
-     if (CF_PCREL) {
-         e
-     } else {
-         f
-     }
-
-we probably want to hoist one check in the callers.
-
-> +    return ((tb_cflags(a) & CF_PCREL || tb_pc(a) == tb_pc(b)) &&
-
-Similarly things like this, where we have a PCREL test here, and also within tb_pc().
-
-> -    h = tb_hash_func(phys_pc, (TARGET_TB_PCREL ? 0 : tb_pc(tb)),
-> +    h = tb_hash_func(phys_pc, (orig_cflags & CF_PCREL ? 0 : tb_pc(tb)),
-
-etc.
-
-This does too much at once, and also disables TARGET_TB_PCREL for one patch, changing 
-behaviour during bisection.
+To fix bisection problems, the hunks setting CF_PCREL need to precede removal of the 
+TARGET_TB_PCREL tests.  The removal of TARGET_TB_PCREL can happen all at once at the end.
 
 
 r~
