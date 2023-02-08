@@ -2,67 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E26B168F7D5
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:11:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B2368F7D6
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:12:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPpq4-0007YB-Ek; Wed, 08 Feb 2023 14:10:40 -0500
+	id 1pPpqn-00083q-MH; Wed, 08 Feb 2023 14:11:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nathan@kernel.org>) id 1pPpq1-0007Xq-V5
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:10:38 -0500
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nathan@kernel.org>) id 1pPppx-0003IX-4o
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:10:37 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5D6806179F;
- Wed,  8 Feb 2023 19:10:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D145FC433D2;
- Wed,  8 Feb 2023 19:10:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1675883430;
- bh=e+CLtWu0ezo1ss7QKSKjODeN5/LijFIlf3Ht4nMxC7w=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hTUScijhpQmEhJSz3fFTxAqv6LzID9GD/v6L+xoqlfb8F5sf7duNqNEdBnyQDKoSC
- LaykZ3GsgCEYPzLYlEorlHRNyA+Dh7psBAknfTzIYbOhj8wibK8lU+8gk2igdUZiBK
- EhrsMVc3tX4Uxl6YvOxpfiPu7hHkiWhBhT4Uz0XnqimBZcCNMIaXHErtMLt9JDXXca
- rTti1GzZgAD/X+eHrL7hj0Fno00TbKPARKP+fn3R/fxsXYprrqVabksxFzYc3oYVJn
- jYV9aEfguMQSDKDoMpW6zNGiokJCAFv5EnBxIEOlTgSZU1MdbHQeIGzVCwGkY9ukZ7
- uGZJehyGCXXtg==
-Date: Wed, 8 Feb 2023 12:10:28 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: qemu-devel@nongnu.org, x86@kernel.org, linux-kernel@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>, Dov Murik <dovmurik@linux.ibm.com>,
- Tom Lendacky <thomas.lendacky@amd.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "H . Peter Anvin" <hpa@zytor.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Borislav Petkov <bp@alien8.de>, Eric Biggers <ebiggers@kernel.org>
-Subject: Re: [PATCH] x86: temporarily remove all attempts to provide setup_data
-Message-ID: <Y+PzpLL8/o8vZCYV@dev-arch.thelio-3990X>
-References: <20230208180835.234638-1-Jason@zx2c4.com>
- <Y+PmfAuNViED6NmS@dev-arch.thelio-3990X>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pPpqi-0007sk-L8
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:11:22 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pPpqg-0003Nl-HH
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:11:19 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ gj9-20020a17090b108900b0023114156d36so3117597pjb.4
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 11:11:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nJP1yGLiveBfNzIjhX2krrGn53w4wtj8etqfJwO0xFU=;
+ b=mT4jFQguIae9ycHRK3KZRKZpwht9s/mEFr46OstO1OuMY1fnUnhhduj7vuqkDGZ6iq
+ 0HDQFgz9u0S7UjIEQSwpjKhiY/A5FkJhWkms2ytomQvM7DILtLeZQ5q46volSFsH+Rea
+ DlxITvi2XBpEBEaGYtNCqK0reDdTTikgR+mNxgriCicTL+hr3Mb3EK7HEAWby9MGTxzU
+ VGV6yksknRHI+LJcNi5is28OpLs6ERn9cUcGNn/6z//e6BpQ2qpEJIJ2c9HboMznO+1y
+ n85J4XJo5lrUOdpZJCebK+xbm/MGL0il9yTQcTRCYhNbkiFdXp9cZqpyJsxW0q3SKkuX
+ 3SVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nJP1yGLiveBfNzIjhX2krrGn53w4wtj8etqfJwO0xFU=;
+ b=hquHGmLOjdhbKBXOznVuvW+vLN+bjdWC/evvpAYHES1rjHIE/MZCIcMgbKhkLPN2ea
+ YXvbrQNtdGnX5DLE3igU2n4Pl5bMP+HBlcoOS14TK4Y8xG7Ux4QdBuDqoncVyanX6OHQ
+ dCDsU3ws+WW0uAiXV/uMw8Vey+ExbjUv32+X1r9zDgUT5u8ueW++n27/PwEzz42jfNES
+ LUoqibZE9vviDrb7p2+6syaKzNhmnF1ovFQlrSpBSxgErtKrE6Evt9w9Y7uRmM1ktM9g
+ SFo939DCpcHfo5NVrFUM9MKV45mdywccg0NI45CQxwXEd/ZA0o5qs8x9zpvs+gvi+hQO
+ ep2A==
+X-Gm-Message-State: AO0yUKUEmxEIJkdOQA+ax0+Lw+8Ch0lT9MpNMOxjRCVgfr8HSTmgtEI3
+ +t/CKz+np8xOj5vP5OwhbwU8eA==
+X-Google-Smtp-Source: AK7set9R+b6EvIYP+CvUU7guSzjAJClVEILAoizH8IeW0sjUhyhcruD6YWnOOCRqu+abFCPoazQYiw==
+X-Received: by 2002:a17:90a:47:b0:231:24c1:8025 with SMTP id
+ 7-20020a17090a004700b0023124c18025mr1489240pjb.34.1675883473188; 
+ Wed, 08 Feb 2023 11:11:13 -0800 (PST)
+Received: from [192.168.101.227] (rrcs-74-87-59-234.west.biz.rr.com.
+ [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
+ w5-20020a17090a380500b0022c942b8683sm1692547pjb.56.2023.02.08.11.11.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Feb 2023 11:11:12 -0800 (PST)
+Message-ID: <81960e11-f378-6719-2e3e-45aa0e06366e@linaro.org>
+Date: Wed, 8 Feb 2023 09:11:06 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 1/2] exec/ioport: Factor
+ portio_list_register_flush_coalesced() out
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Peter Xu <peterx@redhat.com>, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
+ <hpoussin@reactos.org>, Bernhard Beschow <shentey@gmail.com>,
+ David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20230207234615.77300-1-philmd@linaro.org>
+ <20230207234615.77300-2-philmd@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230207234615.77300-2-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y+PmfAuNViED6NmS@dev-arch.thelio-3990X>
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=nathan@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.146,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,288 +100,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 08, 2023 at 11:14:23AM -0700, Nathan Chancellor wrote:
-> On Wed, Feb 08, 2023 at 03:08:35PM -0300, Jason A. Donenfeld wrote:
-> > All attempts at providing setup_data have been made as an iteration on
-> > whatever was there before, stretching back to the original
-> > implementation used for DTBs that [mis]used the kernel image itself.
-> > We've now had a dozen rounds of bugs and hacks, and the result is
-> > turning into a pile of unmaintainable and increasingly brittle hacks.
-> > 
-> > Let's just rip out all the madness and start over. We can re-architect
-> > this based on having a separate standalone setup_data file, which is how
-> > it should have been done in the first place. This is a larger project
-> > with a few things to coordinate, but we can't really begin thinking
-> > about that while trying to play whack-a-mole with the current buggy
-> > implementation.
-> > 
-> > So this commit removes the setup_data setting from x86_load_linux(),
-> > while leaving intact the infrastructure we'll need in the future to try
-> > again.
-> > 
-> > Cc: Michael S. Tsirkin <mst@redhat.com>
-> > Cc: Dov Murik <dovmurik@linux.ibm.com>
-> > Cc: Tom Lendacky <thomas.lendacky@amd.com>
-> > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > Cc: Daniel P. Berrangé <berrange@redhat.com>
-> > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > Cc: Richard Henderson <richard.henderson@linaro.org>
-> > Cc: H. Peter Anvin <hpa@zytor.com>
-> > Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
-> > Cc: Nathan Chancellor <nathan@kernel.org>
-> > Cc: Borislav Petkov <bp@alien8.de>
-> > Cc: Eric Biggers <ebiggers@kernel.org>
-> > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+On 2/7/23 13:46, Philippe Mathieu-DaudÃ© wrote:
+> We always follow the same pattern when registering
+> coalesced portio:
 > 
-> Thanks for the quick patch! Both of my use cases appear fixed.
+>    - portio_list_init()
+>    - portio_list_set_flush_coalesced()
+>    - portio_list_add()
 > 
-> Tested-by: Nathan Chancellor <nathan@kernel.org>
+> Factor these 3 operations in a single helper named
+> portio_list_register_flush_coalesced().
+> 
+> Drop portio_list_set_flush_coalesced() which is now
+> inlined.
+> 
+> Signed-off-by: Philippe Mathieu-DaudÃ©<philmd@linaro.org>
+> ---
+>   hw/display/qxl.c      |  7 +++----
+>   hw/display/vga.c      |  5 ++---
+>   include/exec/ioport.h |  5 ++++-
+>   softmmu/ioport.c      | 27 ++++++++++++++++++++++-----
+>   4 files changed, 31 insertions(+), 13 deletions(-)
 
-Unfortunately, I only tested qemu-system-x86_64 booting via EFI and just now came to
-find out this breaks booting without EFI in both qemu-system-i386 and
-qemu-system-x86_64 (just defconfig for both images):
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-$ qemu-system-i386 \
-    -d unimp,guest_errors \
-    -kernel arch/x86/boot/bzImage \
-    -append "console=ttyS0 earlycon=uart8250,io,0x3f8" \
-    -cpu host \
-    -enable-kvm \
-    -smp 8 \
-    -display none \
-    -initrd .../boot-utils-ro/images/x86/rootfs.cpio \
-    -m 512m \
-    -nodefaults \
-    -no-reboot \
-    -serial mon:stdio
-
-There is no output, which I suppose makes sense since we are very early
-in boot. Sorry for missing this initially, I'll ramp up my testing for
-future patches.
-
-Cheers,
-Nathan
-
-> > ---
-> >  hw/i386/microvm.c |  15 ++----
-> >  hw/i386/x86.c     | 120 +++++-----------------------------------------
-> >  2 files changed, 17 insertions(+), 118 deletions(-)
-> > 
-> > diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-> > index 29f30dd6d3..170a331e3f 100644
-> > --- a/hw/i386/microvm.c
-> > +++ b/hw/i386/microvm.c
-> > @@ -378,8 +378,7 @@ static void microvm_fix_kernel_cmdline(MachineState *machine)
-> >      MicrovmMachineState *mms = MICROVM_MACHINE(machine);
-> >      BusState *bus;
-> >      BusChild *kid;
-> > -    char *cmdline, *existing_cmdline;
-> > -    size_t len;
-> > +    char *cmdline;
-> >  
-> >      /*
-> >       * Find MMIO transports with attached devices, and add them to the kernel
-> > @@ -388,8 +387,7 @@ static void microvm_fix_kernel_cmdline(MachineState *machine)
-> >       * Yes, this is a hack, but one that heavily improves the UX without
-> >       * introducing any significant issues.
-> >       */
-> > -    existing_cmdline = fw_cfg_read_bytes_ptr(x86ms->fw_cfg, FW_CFG_CMDLINE_DATA);
-> > -    cmdline = g_strdup(existing_cmdline);
-> > +    cmdline = g_strdup(machine->kernel_cmdline);
-> >      bus = sysbus_get_default();
-> >      QTAILQ_FOREACH(kid, &bus->children, sibling) {
-> >          DeviceState *dev = kid->child;
-> > @@ -413,12 +411,9 @@ static void microvm_fix_kernel_cmdline(MachineState *machine)
-> >          }
-> >      }
-> >  
-> > -    len = strlen(cmdline);
-> > -    if (len > VIRTIO_CMDLINE_TOTAL_MAX_LEN + strlen(existing_cmdline)) {
-> > -        fprintf(stderr, "qemu: virtio mmio cmdline too large, skipping\n");
-> > -    } else {
-> > -        memcpy(existing_cmdline, cmdline, len + 1);
-> > -    }
-> > +    fw_cfg_modify_i32(x86ms->fw_cfg, FW_CFG_CMDLINE_SIZE, strlen(cmdline) + 1);
-> > +    fw_cfg_modify_string(x86ms->fw_cfg, FW_CFG_CMDLINE_DATA, cmdline);
-> > +
-> >      g_free(cmdline);
-> >  }
-> >  
-> > diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> > index eaff4227bd..6cfdca9acd 100644
-> > --- a/hw/i386/x86.c
-> > +++ b/hw/i386/x86.c
-> > @@ -50,7 +50,6 @@
-> >  #include "hw/intc/i8259.h"
-> >  #include "hw/rtc/mc146818rtc.h"
-> >  #include "target/i386/sev.h"
-> > -#include "hw/i386/microvm.h"
-> >  
-> >  #include "hw/acpi/cpu_hotplug.h"
-> >  #include "hw/irq.h"
-> > @@ -770,30 +769,6 @@ static bool load_elfboot(const char *kernel_filename,
-> >      return true;
-> >  }
-> >  
-> > -typedef struct SetupDataFixup {
-> > -    void *pos;
-> > -    hwaddr orig_val, new_val;
-> > -    uint32_t addr;
-> > -} SetupDataFixup;
-> > -
-> > -static void fixup_setup_data(void *opaque)
-> > -{
-> > -    SetupDataFixup *fixup = opaque;
-> > -    stq_p(fixup->pos, fixup->new_val);
-> > -}
-> > -
-> > -static void reset_setup_data(void *opaque)
-> > -{
-> > -    SetupDataFixup *fixup = opaque;
-> > -    stq_p(fixup->pos, fixup->orig_val);
-> > -}
-> > -
-> > -static void reset_rng_seed(void *opaque)
-> > -{
-> > -    SetupData *setup_data = opaque;
-> > -    qemu_guest_getrandom_nofail(setup_data->data, le32_to_cpu(setup_data->len));
-> > -}
-> > -
-> >  void x86_load_linux(X86MachineState *x86ms,
-> >                      FWCfgState *fw_cfg,
-> >                      int acpi_data_size,
-> > @@ -803,29 +778,20 @@ void x86_load_linux(X86MachineState *x86ms,
-> >      bool linuxboot_dma_enabled = X86_MACHINE_GET_CLASS(x86ms)->fwcfg_dma_enabled;
-> >      uint16_t protocol;
-> >      int setup_size, kernel_size, cmdline_size;
-> > -    int dtb_size, setup_data_offset;
-> >      uint32_t initrd_max;
-> >      uint8_t header[8192], *setup, *kernel;
-> > -    hwaddr real_addr, prot_addr, cmdline_addr, initrd_addr = 0, first_setup_data = 0;
-> > +    hwaddr real_addr, prot_addr, cmdline_addr, initrd_addr = 0;
-> >      FILE *f;
-> >      char *vmode;
-> >      MachineState *machine = MACHINE(x86ms);
-> > -    SetupData *setup_data;
-> >      const char *kernel_filename = machine->kernel_filename;
-> >      const char *initrd_filename = machine->initrd_filename;
-> > -    const char *dtb_filename = machine->dtb;
-> > -    char *kernel_cmdline;
-> > +    const char *kernel_cmdline = machine->kernel_cmdline;
-> >      SevKernelLoaderContext sev_load_ctx = {};
-> >      enum { RNG_SEED_LENGTH = 32 };
-> >  
-> > -    /*
-> > -     * Add the NUL terminator, some padding for the microvm cmdline fiddling
-> > -     * hack, and then align to 16 bytes as a paranoia measure
-> > -     */
-> > -    cmdline_size = (strlen(machine->kernel_cmdline) + 1 +
-> > -                    VIRTIO_CMDLINE_TOTAL_MAX_LEN + 16) & ~15;
-> > -    /* Make a copy, since we might append arbitrary bytes to it later. */
-> > -    kernel_cmdline = g_strndup(machine->kernel_cmdline, cmdline_size);
-> > +    /* Align to 16 bytes as a paranoia measure */
-> > +    cmdline_size = (strlen(kernel_cmdline) + 16) & ~15;
-> >  
-> >      /* load the kernel header */
-> >      f = fopen(kernel_filename, "rb");
-> > @@ -966,6 +932,12 @@ void x86_load_linux(X86MachineState *x86ms,
-> >          initrd_max = x86ms->below_4g_mem_size - acpi_data_size - 1;
-> >      }
-> >  
-> > +    fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_ADDR, cmdline_addr);
-> > +    fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE, strlen(kernel_cmdline) + 1);
-> > +    fw_cfg_add_string(fw_cfg, FW_CFG_CMDLINE_DATA, kernel_cmdline);
-> > +    sev_load_ctx.cmdline_data = (char *)kernel_cmdline;
-> > +    sev_load_ctx.cmdline_size = strlen(kernel_cmdline) + 1;
-> > +
-> >      if (protocol >= 0x202) {
-> >          stl_p(header + 0x228, cmdline_addr);
-> >      } else {
-> > @@ -1078,81 +1050,13 @@ void x86_load_linux(X86MachineState *x86ms,
-> >      }
-> >      fclose(f);
-> >  
-> > -    /* append dtb to kernel */
-> > -    if (dtb_filename) {
-> > -        if (protocol < 0x209) {
-> > -            fprintf(stderr, "qemu: Linux kernel too old to load a dtb\n");
-> > -            exit(1);
-> > -        }
-> > -
-> > -        dtb_size = get_image_size(dtb_filename);
-> > -        if (dtb_size <= 0) {
-> > -            fprintf(stderr, "qemu: error reading dtb %s: %s\n",
-> > -                    dtb_filename, strerror(errno));
-> > -            exit(1);
-> > -        }
-> > -
-> > -        setup_data_offset = cmdline_size;
-> > -        cmdline_size += sizeof(SetupData) + dtb_size;
-> > -        kernel_cmdline = g_realloc(kernel_cmdline, cmdline_size);
-> > -        setup_data = (void *)kernel_cmdline + setup_data_offset;
-> > -        setup_data->next = cpu_to_le64(first_setup_data);
-> > -        first_setup_data = cmdline_addr + setup_data_offset;
-> > -        setup_data->type = cpu_to_le32(SETUP_DTB);
-> > -        setup_data->len = cpu_to_le32(dtb_size);
-> > -        load_image_size(dtb_filename, setup_data->data, dtb_size);
-> > -    }
-> > -
-> > -    if (!legacy_no_rng_seed && protocol >= 0x209) {
-> > -        setup_data_offset = cmdline_size;
-> > -        cmdline_size += sizeof(SetupData) + RNG_SEED_LENGTH;
-> > -        kernel_cmdline = g_realloc(kernel_cmdline, cmdline_size);
-> > -        setup_data = (void *)kernel_cmdline + setup_data_offset;
-> > -        setup_data->next = cpu_to_le64(first_setup_data);
-> > -        first_setup_data = cmdline_addr + setup_data_offset;
-> > -        setup_data->type = cpu_to_le32(SETUP_RNG_SEED);
-> > -        setup_data->len = cpu_to_le32(RNG_SEED_LENGTH);
-> > -        qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
-> > -        qemu_register_reset_nosnapshotload(reset_rng_seed, setup_data);
-> > -        fw_cfg_add_bytes_callback(fw_cfg, FW_CFG_KERNEL_DATA, reset_rng_seed, NULL,
-> > -                                  setup_data, kernel, kernel_size, true);
-> > -    } else {
-> > -        fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
-> > -    }
-> > -
-> > -    fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_ADDR, cmdline_addr);
-> > -    fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE, cmdline_size);
-> > -    fw_cfg_add_bytes(fw_cfg, FW_CFG_CMDLINE_DATA, kernel_cmdline, cmdline_size);
-> > -    sev_load_ctx.cmdline_data = (char *)kernel_cmdline;
-> > -    sev_load_ctx.cmdline_size = cmdline_size;
-> > -
-> > +    fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
-> >      fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, prot_addr);
-> >      fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
-> >      sev_load_ctx.kernel_data = (char *)kernel;
-> >      sev_load_ctx.kernel_size = kernel_size;
-> >  
-> > -    /*
-> > -     * If we're starting an encrypted VM, it will be OVMF based, which uses the
-> > -     * efi stub for booting and doesn't require any values to be placed in the
-> > -     * kernel header.  We therefore don't update the header so the hash of the
-> > -     * kernel on the other side of the fw_cfg interface matches the hash of the
-> > -     * file the user passed in.
-> > -     */
-> > -    if (!sev_enabled() && first_setup_data) {
-> > -        SetupDataFixup *fixup = g_malloc(sizeof(*fixup));
-> > -
-> > -        memcpy(setup, header, MIN(sizeof(header), setup_size));
-> > -        /* Offset 0x250 is a pointer to the first setup_data link. */
-> > -        fixup->pos = setup + 0x250;
-> > -        fixup->orig_val = ldq_p(fixup->pos);
-> > -        fixup->new_val = first_setup_data;
-> > -        fixup->addr = cpu_to_le32(real_addr);
-> > -        fw_cfg_add_bytes_callback(fw_cfg, FW_CFG_SETUP_ADDR, fixup_setup_data, NULL,
-> > -                                  fixup, &fixup->addr, sizeof(fixup->addr), true);
-> > -        qemu_register_reset(reset_setup_data, fixup);
-> > -    } else {
-> > -        fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_ADDR, real_addr);
-> > -    }
-> > +    fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_ADDR, real_addr);
-> >      fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_SIZE, setup_size);
-> >      fw_cfg_add_bytes(fw_cfg, FW_CFG_SETUP_DATA, setup, setup_size);
-> >      sev_load_ctx.setup_data = (char *)setup;
-> > -- 
-> > 2.39.1
-> > 
+r~
 
