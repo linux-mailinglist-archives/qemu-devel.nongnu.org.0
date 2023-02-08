@@ -2,94 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 937E168E5C5
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 03:05:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15F3A68E5F0
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 03:14:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPZoI-000809-9X; Tue, 07 Feb 2023 21:03:46 -0500
+	id 1pPZxR-0002iN-6d; Tue, 07 Feb 2023 21:13:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pPZo8-0007yA-1W
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 21:03:36 -0500
-Received: from sonic315-55.consmr.mail.gq1.yahoo.com ([98.137.65.31])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pPZo5-0002Cg-Gx
- for qemu-devel@nongnu.org; Tue, 07 Feb 2023 21:03:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1675821808; bh=NXJ9PRylLClq1paqhxQPO6X19sNqGm+8vVMc3JLv+yo=;
- h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
- b=K81FqFtOTeBnloDm8unpt8jM7HSXiSqoSjHwDxcqWTgNmGjf1tNMjn4yFltK8b6ETRdF3aYHttqINhgLyYj5WPwO14VxAVOdjrChd1Byw4yqpXq89Qnfjk++D0DXz0pACrx12qOepvsyY/jA79XPfli7K9/OyIqKPQHLDZ7t4zJXUyhJqzDWKSEh8GxyadBC8AWgTcSEzRgphOr4KnawQ5NCDsgiU+OOBSsboODTosmEaMEOVLX7Zgne2COwsTNtdSOHnDQTElT37nxv+Y6YEOTbIZ2RHzD6N3BFoO53ec644VcVi2N63a4YneXyne1kP6Nzaq25thYteDcxHdrqHQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1675821808; bh=kWlPj0khdqgamcY3cVxsxxVYNpSRMoDGw3WTDoMW/XM=;
- h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=RExVFcu4TsjeJMcqv6P/tTrkNKS71TbcVS4EHEp8CXq5PoTCnr88GqkJiQVAxAKTr2JTBAhlJrbt/BDZbG4hlkAxoD9pQer2SSDTBl8Zob/BxWevEZS68j1FS1KZpts2Iks/02TVo3q2ePgv63awwSNCDyPde9opyxNXSTn4YLe0+p84Q0JFFrtlmvukrP4tIcAj6Cq1ng8TXPHKqkpnoRzsZ3b4uY6X3/9AS3kycLdXNCooPpUWawqLjcKGk6hDgOP1bwCPYDSZlMXz4MNX3hzBuo9t+95bdIUF/QNBG7R8naQTijFokx2sES1zooblSr0J3uAou8Hby9K8JieFLg==
-X-YMail-OSG: HdhH2KYVM1mUq4HnKWmrYNjCXKkD8WAM8t491iad3X6T7_EAe0YYzySz2eUIXaD
- xaTI2LKPoLQEtMVSoddtnOIxIpyvFZI.fbXxClaOxb3HZOuCTKjPxghK1BZ.QaRssSkk8G.Yor_W
- MdyDDWd57U9_.hIqAXG2HPcR3hBmvnqyi9YGO5q7E3_DQrqSYx0NbATXrZC0EkY2_wNHEUqHyBnx
- Is4.NX25k0lVY6..iNT939SG7w6biAgEtQW8ckKFWraN8E20E43Lyfeh34KhymL.v08XzW.XKa2d
- nttcy43MzS6ewwOEKT3HMpJIFBTjIzwnm3N5tmIKPk5iuWb2lYP49tEHFcioFvQuccf238KQSe7x
- TsRWUrsk_gT93B_XdS9Lp47.a59lDsHbWZSIB7iYKlkT86PJjPZlqxWbSHnxQVYYGkw8dEhvwWzD
- UBDg.UI8OA.DcHAO8iRgtWE7WNxyNytAAMZEVDXA1TWAx7QAborNhPngTnMW2zyInlNE2m5kFtGE
- 28rUxlB9JxhHPV5o7NWWaErCyYA6ZQ_.OHiHq6Q6IiDwJcTWwwWJRarCGy5y8VLnav2iP4cqLAkb
- 7MiRkJxkri.56BPxNyleSZpucB5dsahJ7IgIr8nSPs68IIkoniPm6dSh8ZIrM.O_drsAbWjS3Qpc
- feKocN9vJ8.JQ7mRmvgJeSqtJK1TExeilbtDSKIlfu7d19uZ7PwfdtRTLvHqQhHljZXw98Z5rMG3
- dmvGSP3FNHsYw5UckRlsxVSeZa3rKXSGKZd3ZQKKJeoa1a6KbqyuTzEeP.lNCKbUKKxXZ2ASk6C6
- _pi6hMIbbEHmXKGDtZp16JxHWE_OCE4ZYnLApPevldrzPa9g4XY.5ZObcs2eR9w8jAqD_UmWyL84
- H1mtNznwoslQT_Nzf7WO_VwRlVsqOCwblO2F6EzPFdmNpUo3dEio2LJ32udP7WnNn2DrZYiGXxbu
- 5g3fDaFBuRThhOH.ZAXR4.hKMWjHdPE1unfUCWzAuMzIlGf.ScUnzD8IKHj5eyaRy4YLYNuwgZxx
- tE4bfaB0PQQpN60cOFSyiQmNlv1kFjgxPTFxXqdvfyTUWhGsb_GzoDR2Xeod56R168q4Rz9XQHWE
- .aW0W2d1_hUwTdPeMRiGKGSBeJVSTRNrtRs7UPqr2AA.s08NtJMccSg64FAyKsnwOGbo7X7QbQFv
- SnHBmvwOG89etq8D5ZyX7zvYrhut9EgPUM4a_DQZqrmK83Si1PBXxImxCEWsPWKhvbUxEQci9wCN
- cXJgPtcCX8yXm1v3EABhJ4t5WEiUDCoz2p29zLgmZfDUBIHrzJ5YMctOJtnxR1HOcUUJ.fMgtia9
- w69lYx8UGB13Gf7XPmiiyKbnVuUKTeKB47Placr9tYLbsK4FYoBJ.Y6b5UkO84RrTbBem9Cawcf8
- ChQ9Fk7cd5zwTvUo08anwmcUJqcwgZBCJ7TFV6vZpc6eeTFc0AK_y3h4Z6SbEowHYS82foAGsaO_
- k3Uv9_EgU2LrbzxZrwbwtET2Q85.e0JtHU8HJnKBFSJwGE6rto.JpGOrj4I4TIFm2KCUCVZi2rGX
- PX3OG8kckEqzvAJqREbpAyoXj5XDvXGv4c8KN.dwnzpMaqyXeJLw3LepVJJS4dBM.lKJ3Ym6O3Wn
- ZCi101UTfl0MRaIIETFQ_a4fFlfyMDcXwM1Wdi9h9kKPKt1j7W0EFs4vP5YamW1Cs4QJf7chKTDx
- iaIh17eguneIV3rUEWxP05oP_VX1zZJ8k4ku1BNTwe5yDp1B1Vq_YPilJMCDx.IlKHnjtYWWJSC_
- rCYjUn4Bgs433Y_AJxFzF9r6kuOMjdUnhrlIQKzVcFQwu7aUdIKLnrdxFOyHIbT6hmNmHc.lZTm2
- u5OsylnaUTidIL2_88mew0pCbV.G1TDkiJ6qFAdwfh2dsN0PGM9MXOb4H9y7RaiBZncWYEq6OF4y
- SGdREhllhbjr795.WE6gkjPoFzJlXikjxQs8.tgORiTCpmwfLtj5zZ9q.kcAMvvGGIQJt033.qmZ
- EyhwLQosavtEt_CM2ULZzJ0R_uecKXJd3FYRhQS4uSvMjnBzvpgEO.vDIW_5_s0atxIt8VuVHNzg
- TT.xUseeyax5yKWXEqKA110m0LxOp0qNtvKOYCdn5pkqUNx939atMDPUgCAjw2OW_XyvLkSd3He.
- 9SgLZPvwlOboR3app02mNQ3.IUSvVVaqXHwJVH3uQ_acHma4bN0.WvorHyeMrhfvAUxUrpCX65Ih
- o
-X-Sonic-MF: <brchuckz@aim.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic315.consmr.mail.gq1.yahoo.com with HTTP; Wed, 8 Feb 2023 02:03:28 +0000
-Received: by hermes--production-ne1-746bc6c6c4-j9j2r (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 6c67ca8b47a829739ee46a2e499b4e4c; 
- Wed, 08 Feb 2023 02:03:23 +0000 (UTC)
-From: Chuck Zmudzinski <brchuckz@aol.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pPZxP-0002hn-Hh
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 21:13:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pPZxN-00040D-Au
+ for qemu-devel@nongnu.org; Tue, 07 Feb 2023 21:13:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675822388;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+v/eLNGra13m0Qhi7WdQ7uC/OmCYsmMNBhIkYCcdyos=;
+ b=hdTw5oYAXA+hPF2N0UDBlX6HUad6HtrFSOP7gIpMKCUNds51jwqK97XQ5qLNHEEK+Bx1OG
+ 1Rg2LLiaJ6d83X32mjNsSqmY5D3njNY/hCV8hRAHNlBPtJCbpNsDWHSoO6AsTFMwoD1aH7
+ ezY1HYvaBHKPRwvOBVn1Ccbv3lRvzrA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-147-zMUXrwStOfK59NzXyhd2kg-1; Tue, 07 Feb 2023 21:13:06 -0500
+X-MC-Unique: zMUXrwStOfK59NzXyhd2kg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 78D7985A588;
+ Wed,  8 Feb 2023 02:13:06 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.16.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 46C0A1121314;
+ Wed,  8 Feb 2023 02:13:06 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>, xen-devel@lists.xenproject.org,
- qemu-stable@nongnu.org
-Subject: [PATCH] xen/pt: fix igd passthrough for pc machine with xen
- accelerator
-Date: Tue,  7 Feb 2023 21:03:05 -0500
-Message-Id: <a304213d26506b066021f803c39b87f6a262ed86.1675820085.git.brchuckz@aol.com>
-X-Mailer: git-send-email 2.39.1
+Cc: Michael Roth <michael.roth@amd.com>, Markus Armbruster <armbru@redhat.com>,
+ John Snow <jsnow@redhat.com>
+Subject: [PATCH v2 0/7] qapi: static typing conversion, pt5c
+Date: Tue,  7 Feb 2023 21:12:59 -0500
+Message-Id: <20230208021306.870657-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-References: <a304213d26506b066021f803c39b87f6a262ed86.1675820085.git.brchuckz.ref@aol.com>
-Received-SPF: pass client-ip=98.137.65.31; envelope-from=brchuckz@aim.com;
- helo=sonic315-55.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,104 +74,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Commit 998250e97661 ("xen, gfx passthrough: register host bridge specific
-to passthrough") uses the igd-passthrough-i440FX pci host device with
-the xenfv machine type and igd-passthru=on, but using it for the pc
-machine type, xen accelerator, and igd-passtru=on was omitted from that
-commit.
-
-The igd-passthru-i440FX pci host device is also needed for guests
-configured with the pc machine type, the xen accelerator, and
-igd-passthru=on. Specifically, tests show that not using the igd-specific
-pci host device with the Intel igd passed through to the guest results
-in slower startup performance and reduced resolution of the display
-during startup. This patch fixes this issue.
-
-To simplify the logic that is needed to support both the --enable-xen
-and the --disable-xen configure options, introduce the boolean symbol
-pc_xen_igd_gfx_pt_enabled() whose value is set appropriately in the
-sysemu/xen.h header file as the test to determine whether or not
-to use the igd-passthrough-i440FX pci host device instead of the
-normal i440FX pci host device.
-
-Fixes: 998250e97661 ("xen, gfx passthrough: register host bridge specific to passthrough")
-Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
----
-This patch is intended to replace or complement a recently proposed
-patch that modifies slot_reserved_mask for the xenfv machine with
-igd-passthru=on in order to fix the problem of Qemu not reserving slot 2
-for the Intel IGD for the xenfv machine type. This patch provides a
-simple way to improve Qemu support for the Intel IGD with the xen
-accelerator without needing to change how slot_reserved_mask functions.
-
-For reference, the latest version of the patch to fix the xenfv machine
-using slot_reserved_mask is at:
-
-https://lore.kernel.org/qemu-devel/b1b4a21fe9a600b1322742dda55a40e9961daa57.1674346505.git.brchuckz@aol.com/
-
-Reason for introducing the new boolean pc_xen_igd_gfx_pt_enabled():
-
-It is also possible to use xen_igd_gfx_pt_enabled() directly to check
-if the igd-passthru-i440FX pci host device is needed in this patch,
-but in that case it would be necessary to implement it in
-accel/stubs/xen-stub.c like this:
-
-bool xen_igd_gfx_pt_enabled(void)
-{
-    return false;
-}
-
-to cover the case when Qemu is configured with --disable-xen. I thought
-it was simpler to introduce the same boolean prefixed with pc_ and
-set it to 0 when --disable-xen is the configure option, and that explains
-why the proposed patch introduces pc_xen_igd_gfx_pt_enabled() instead of
-using xen_igd_gfx_pt_enabled() directly.
-
-Another reason to use pc_xen_igd_gfx_pt_enabled() is to distinguish it
-from xen_igd_gfx_pt_enabled() in hw/i386/pc_piix.c, because the use of
-xen_igd_gfx_pt_enabled() is guarded by CONFIG_XEN but this patch needs
-to place the boolean in a position that is not guarded by CONFIG_XEN.
-This approach will simplify any future effort to move the code in
-pc_piix.c that is not guarded by CONFIG_XEN to a xen-specific file.
-
- hw/i386/pc_piix.c    | 2 ++
- include/sysemu/xen.h | 2 ++
- 2 files changed, 4 insertions(+)
-
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index df64dd8dcc..fd5b9ae1eb 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -433,6 +433,8 @@ static void pc_xen_hvm_init(MachineState *machine)
-             compat(machine); \
-         } \
-         pc_init1(machine, TYPE_I440FX_PCI_HOST_BRIDGE, \
-+                 pc_xen_igd_gfx_pt_enabled() ? \
-+                 TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE : \
-                  TYPE_I440FX_PCI_DEVICE); \
-     } \
-     DEFINE_PC_MACHINE(suffix, name, pc_init_##suffix, optionfn)
-diff --git a/include/sysemu/xen.h b/include/sysemu/xen.h
-index 0ca25697e4..99ae41e619 100644
---- a/include/sysemu/xen.h
-+++ b/include/sysemu/xen.h
-@@ -23,6 +23,7 @@
- extern bool xen_allowed;
- 
- #define xen_enabled()           (xen_allowed)
-+#define pc_xen_igd_gfx_pt_enabled()    xen_igd_gfx_pt_enabled()
- 
- #ifndef CONFIG_USER_ONLY
- void xen_hvm_modified_memory(ram_addr_t start, ram_addr_t length);
-@@ -33,6 +34,7 @@ void xen_ram_alloc(ram_addr_t ram_addr, ram_addr_t size,
- #else /* !CONFIG_XEN_IS_POSSIBLE */
- 
- #define xen_enabled() 0
-+#define pc_xen_igd_gfx_pt_enabled() 0
- #ifndef CONFIG_USER_ONLY
- static inline void xen_hvm_modified_memory(ram_addr_t start, ram_addr_t length)
- {
--- 
-2.39.1
+This is part five (c), and focuses on sharing strict types between=0D
+parser.py and expr.py.=0D
+=0D
+gitlab: https://gitlab.com/jsnow/qemu/-/commits/python-qapi-cleanup-pt5c=0D
+=0D
+Every commit should pass with:=0D
+ - `isort -c qapi/`=0D
+ - `flake8 qapi/`=0D
+ - `pylint --rcfile=3Dqapi/pylintrc qapi/`=0D
+ - `mypy --config-file=3Dqapi/mypy.ini qapi/`=0D
+=0D
+Some notes on this series:=0D
+=0D
+Patches 2 and 3 are almost entirely superseded by patch 5, but I wasn't=0D
+as confident that Markus would like patch 5, so these patches aren't=0D
+squashed quite as tightly as they could be -- I recommend peeking ahead=0D
+at the cover letters before reviewing the actual patch diffs.=0D
+=0D
+By the end of this series, the only JSON-y types we have left are:=0D
+=0D
+(A) QAPIExpression,=0D
+(B) JSONValue,=0D
+(C) _ExprValue.=0D
+=0D
+The argument I'm making here is that QAPIExpression and JSONValue are=0D
+distinct enough to warrant having both types (for now, at least); and=0D
+that _ExprValue is specialized enough to also warrant its inclusion.=0D
+=0D
+(Brutal honesty: my attempts at unifying this even further had even more=0D
+hacks and unsatisfying conclusions, and fully unifying these types=0D
+should probably wait until we're allowed to rely on some fairly modern=0D
+Python versions.)=0D
+=0D
+John Snow (7):=0D
+  qapi/expr: Split check_expr out from check_exprs=0D
+  qapi/parser.py: add ParsedExpression type=0D
+  qapi/expr: Use TopLevelExpr where appropriate=0D
+  qapi/expr: add typing workaround for AbstractSet=0D
+  qapi/parser: [RFC] add QAPIExpression=0D
+  qapi: remove _JSONObject=0D
+  qapi: remove JSON value FIXME=0D
+=0D
+ scripts/qapi/expr.py   | 282 +++++++++++++++++++----------------------=0D
+ scripts/qapi/parser.py |  51 +++++---=0D
+ scripts/qapi/schema.py | 105 +++++++--------=0D
+ 3 files changed, 218 insertions(+), 220 deletions(-)=0D
+=0D
+-- =0D
+2.39.0=0D
+=0D
 
 
