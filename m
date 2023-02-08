@@ -2,93 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A7C68F6B4
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 19:14:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E1A968F6B7
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 19:14:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPowq-0001jn-S4; Wed, 08 Feb 2023 13:13:36 -0500
+	id 1pPoxm-0002Op-Td; Wed, 08 Feb 2023 13:14:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pPowp-0001jQ-8r
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 13:13:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <nathan@kernel.org>) id 1pPoxk-0002OL-Cr
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 13:14:32 -0500
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pPown-0005ro-A8
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 13:13:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675880012;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oV3LhQWLhZOpmoUA/gu9hDqx3ud2jZxwbGD8NOUQGqQ=;
- b=et9sV0wWdI1YJWuvbAKpoXKe7zsoqhZPVfWATqI1S1siYwzsLyWbVilSei9Plqiy2FN/W3
- z/tU+NBEaNe3TIyqWqbQ29mQSviLTUcwlNnRgTYupi0P6hp8avDGCyGkAjvoRGGVS+mRKz
- Jput2vs2e9Lnw9qyCEYlx9ThjOpt6iI=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-604-EgiwAqZgNFCGutMLOSPp5w-1; Wed, 08 Feb 2023 13:13:31 -0500
-X-MC-Unique: EgiwAqZgNFCGutMLOSPp5w-1
-Received: by mail-ed1-f71.google.com with SMTP id
- en20-20020a056402529400b004a26ef05c34so12890673edb.16
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 10:13:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oV3LhQWLhZOpmoUA/gu9hDqx3ud2jZxwbGD8NOUQGqQ=;
- b=jGIw539kmMf231n2G6e8nwuA9BPZq8jMsgfdPUo9LW756AbIYtySWtFxwsMjhjt2sI
- D2vzlF6/oY+XqnsVx9Lv3gqXvaR/ru1oEXtkvWdZNBQPfa+gllhqHxyQuKtgO6JSQ1Jj
- 5jkMRL7gysbY7vlK6v32eFX/oPGHPlA8APCYOKsvYnfIFT9q15MpgrBaKPV2FwU/mlAZ
- +Su5w3+/qo8rm74ijr4kXA6Gpu4rg+9IePAnRNco39PlN6LyJBqFQ8p6aF2zKSA0QOMi
- ry8Xc5THZy5uXOHpGZh2gz8Z4iU/mXdJp2JP1lNSu1iXeao3FveE/JxwcKDF/Il/bHdU
- ilpQ==
-X-Gm-Message-State: AO0yUKVTncPLOvs4TJiP52Jpl/ZQBbHGtdgLqzpbpSnn7bZUQP2C9nq6
- TD2OWFH3HTdE1ipMxFzxgLc2NUX+lfgSl60hEOVzuoXnBK4w6WDc9z9sPy3CVkSGFFLHsI9E5mS
- YQZ9ooG4EpRnujLQ=
-X-Received: by 2002:a50:d74e:0:b0:4aa:a0ed:e373 with SMTP id
- i14-20020a50d74e000000b004aaa0ede373mr8450149edj.7.1675880010290; 
- Wed, 08 Feb 2023 10:13:30 -0800 (PST)
-X-Google-Smtp-Source: AK7set+/arhac+UYUxiPqq4ZW4JLXty4MWjPbcojQU/KUpY4QUlatlIbnhawTr4frviDTPnY+etMdA==
-X-Received: by 2002:a50:d74e:0:b0:4aa:a0ed:e373 with SMTP id
- i14-20020a50d74e000000b004aaa0ede373mr8450124edj.7.1675880010051; 
- Wed, 08 Feb 2023 10:13:30 -0800 (PST)
-Received: from redhat.com ([2.52.132.212]) by smtp.gmail.com with ESMTPSA id
- p21-20020a50cd95000000b004ab0e9e396bsm1035144edi.87.2023.02.08.10.13.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 10:13:29 -0800 (PST)
-Date: Wed, 8 Feb 2023 13:13:25 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
+ (Exim 4.90_1) (envelope-from <nathan@kernel.org>) id 1pPoxg-0006Q5-Rv
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 13:14:31 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 172A26177B;
+ Wed,  8 Feb 2023 18:14:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05B1DC4339B;
+ Wed,  8 Feb 2023 18:14:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1675880062;
+ bh=Io+Zftu4/VWY5Uh1c/BIVeYM8UME2HKy1G70ZbQpS18=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=JPWAu0Ai0p6fsp9Mu4L/AWZs+A1yndq7Fm97JK4NLuXrqxYyDAG3Z5/KekyrrrFgf
+ hYDRXy3fisj/hTXYL6PkjXYp1EA19p/0CTutDx2Bxd9t+6s8H7yfc1CILCK5XEUd1E
+ Lv1rgzyP9/CYSQG5XTScgAESHw9Z90P/7C9BODbnsS2O/TH9BGqtwN5JAk9JHfePPv
+ 6AfswXX6NsstN4S2aKxbeiis+Jn4D1qiFkGXAMJ/41fOOFgR5+Ij1QZcJnrDVBtO6E
+ 8ACctsltAzh30kAxuAWIo4l8IeYOup7BZnC7xNeBO239SP95bFoqqNVAZ62tZAQn5E
+ 7LseKTjM+WWSg==
+Date: Wed, 8 Feb 2023 11:14:20 -0700
+From: Nathan Chancellor <nathan@kernel.org>
 To: "Jason A. Donenfeld" <Jason@zx2c4.com>
 Cc: qemu-devel@nongnu.org, x86@kernel.org, linux-kernel@vger.kernel.org,
- Dov Murik <dovmurik@linux.ibm.com>, Tom Lendacky <thomas.lendacky@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Dov Murik <dovmurik@linux.ibm.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  "H . Peter Anvin" <hpa@zytor.com>,
  Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Nathan Chancellor <nathan@kernel.org>,
  Borislav Petkov <bp@alien8.de>, Eric Biggers <ebiggers@kernel.org>
 Subject: Re: [PATCH] x86: temporarily remove all attempts to provide setup_data
-Message-ID: <20230208131125-mutt-send-email-mst@kernel.org>
+Message-ID: <Y+PmfAuNViED6NmS@dev-arch.thelio-3990X>
 References: <20230208180835.234638-1-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 In-Reply-To: <20230208180835.234638-1-Jason@zx2c4.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=nathan@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -137,16 +109,9 @@ On Wed, Feb 08, 2023 at 03:08:35PM -0300, Jason A. Donenfeld wrote:
 > Cc: Eric Biggers <ebiggers@kernel.org>
 > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 
-I think I'll be happier if this is just a revert of
-the relevant commits in reverse order to make life easier
-for backporters.
-Unless that's too much work as we made other changes around
-this code?
+Thanks for the quick patch! Both of my use cases appear fixed.
 
-Failing that list the affected commits so people at least
-know what to revert?
-
-
+Tested-by: Nathan Chancellor <nathan@kernel.org>
 
 > ---
 >  hw/i386/microvm.c |  15 ++----
@@ -369,5 +334,5 @@ know what to revert?
 >      sev_load_ctx.setup_data = (char *)setup;
 > -- 
 > 2.39.1
-
+> 
 
