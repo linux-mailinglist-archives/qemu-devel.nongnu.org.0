@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5B8C68EFC5
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 14:31:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F3568EFC0
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 14:31:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPkX8-0000eL-DJ; Wed, 08 Feb 2023 08:30:46 -0500
+	id 1pPkX8-0000eH-DW; Wed, 08 Feb 2023 08:30:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pPkWm-0000U8-Pg
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 08:30:24 -0500
+ id 1pPkWq-0000Wz-GE
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 08:30:36 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pPkWl-00076P-7W
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 08:30:24 -0500
+ id 1pPkWo-0007Ai-1E
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 08:30:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675863022;
+ s=mimecast20190719; t=1675863025;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KrkF6Evvslyb699wK/97JmnRE7geMlSfLtpM4sgvx48=;
- b=Hh1cryHidKXndFKKysIelfs2ayfK9pd9KIJJLa76hVlQqWDEbjRuecDYwYUsoWN5GVIxD0
- 9K9Cqn556LMxCCRdkDAYw0HT6x+wV3yWO2wpUqbYBh5s/DmNhjCR1HYDiqb7GilKjYUUgi
- xl1DGiPArVpy+PrHKWNspGW+mC6rE7M=
+ bh=aBOPUfcJWVwmgQ09J+Sr8M4g+/Ln6cFlGFlcEe57tcs=;
+ b=dnQrDIFZiDWVGzpCAQ5zHbqkcmJvWbv9bYHS9HD048eDwkUgdQy17+vtwiECWTQVagz0+T
+ DltbtFr+04bzowrJQz+XtBI4v7QQCAlsz6av6SJ+a5hoXWeb3uFhshVPn5JyE8PxNN+uri
+ oyNIkd//U8pTFeWN6sHlkpeVoVxscXY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-650-Sias0M2JPwCHtreOEMBeYA-1; Wed, 08 Feb 2023 08:30:19 -0500
-X-MC-Unique: Sias0M2JPwCHtreOEMBeYA-1
+ us-mta-28-UiC0DHn9Pg2gTQLiVAfQdw-1; Wed, 08 Feb 2023 08:30:21 -0500
+X-MC-Unique: UiC0DHn9Pg2gTQLiVAfQdw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0CF3188904E;
- Wed,  8 Feb 2023 13:30:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7923388904E;
+ Wed,  8 Feb 2023 13:30:21 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C901C15BA0;
- Wed,  8 Feb 2023 13:30:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 78B3DC15BA0;
+ Wed,  8 Feb 2023 13:30:19 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
@@ -50,9 +50,9 @@ Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Yanan Wang <wangyanan55@huawei.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>, Eric Blake <eblake@redhat.com>
-Subject: [PATCH v3 2/6] multifd: Protect multifd_send_sync_main() calls
-Date: Wed,  8 Feb 2023 14:30:06 +0100
-Message-Id: <20230208133010.17323-3-quintela@redhat.com>
+Subject: [PATCH v3 3/6] migration: Simplify ram_find_and_save_block()
+Date: Wed,  8 Feb 2023 14:30:07 +0100
+Message-Id: <20230208133010.17323-4-quintela@redhat.com>
 In-Reply-To: <20230208133010.17323-1-quintela@redhat.com>
 References: <20230208133010.17323-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -82,65 +82,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We only need to do that on the ram_save_iterate() call on sending and
-on destination when we get a RAM_SAVE_FLAG_EOS.
-
-In setup() and complete() we need to synch in both new and old cases,
-so don't add a check there.
+We will need later that find_dirty_block() return errors, so
+simplify the loop.
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
-
 ---
-
-Remove the wrappers that we take out on patch 5.
----
- migration/ram.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+ migration/ram.c | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index b966e148c2..0f0fd5c36a 100644
+index 0f0fd5c36a..5c406f2c1d 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -3354,9 +3354,12 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
- out:
-     if (ret >= 0
-         && migration_is_setup_or_active(migrate_get_current()->state)) {
--        ret = multifd_send_sync_main(rs->pss[RAM_CHANNEL_PRECOPY].pss_channel);
--        if (ret < 0) {
--            return ret;
-+        if (migrate_multifd_sync_after_each_section()) {
-+            ret = multifd_send_sync_main(
-+                rs->pss[RAM_CHANNEL_PRECOPY].pss_channel);
-+            if (ret < 0) {
-+                return ret;
+@@ -2542,7 +2542,6 @@ static int ram_find_and_save_block(RAMState *rs)
+ {
+     PageSearchStatus *pss = &rs->pss[RAM_CHANNEL_PRECOPY];
+     int pages = 0;
+-    bool again, found;
+ 
+     /* No dirty page as there is zero RAM */
+     if (!ram_bytes_total()) {
+@@ -2564,18 +2563,17 @@ static int ram_find_and_save_block(RAMState *rs)
+     pss_init(pss, rs->last_seen_block, rs->last_page);
+ 
+     do {
+-        again = true;
+-        found = get_queued_page(rs, pss);
+-
+-        if (!found) {
++        if (!get_queued_page(rs, pss)) {
+             /* priority queue empty, so just search for something dirty */
+-            found = find_dirty_block(rs, pss, &again);
+-        }
+-
+-        if (found) {
++            bool again = true;
++            if (!find_dirty_block(rs, pss, &again)) {
++                if (!again) {
++                    break;
++                }
 +            }
+             pages = ram_save_host_page(rs, pss);
          }
+-    } while (!pages && again);
++    } while (!pages);
  
-         qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-@@ -4116,7 +4119,9 @@ int ram_load_postcopy(QEMUFile *f, int channel)
- 
-         case RAM_SAVE_FLAG_EOS:
-             /* normal exit */
--            multifd_recv_sync_main();
-+            if (migrate_multifd_sync_after_each_section()) {
-+                multifd_recv_sync_main();
-+            }
-             break;
-         default:
-             error_report("Unknown combination of migration flags: 0x%x"
-@@ -4387,7 +4392,9 @@ static int ram_load_precopy(QEMUFile *f)
-             break;
-         case RAM_SAVE_FLAG_EOS:
-             /* normal exit */
--            multifd_recv_sync_main();
-+            if (migrate_multifd_sync_after_each_section()) {
-+                multifd_recv_sync_main();
-+            }
-             break;
-         default:
-             if (flags & RAM_SAVE_FLAG_HOOK) {
+     rs->last_seen_block = pss->block;
+     rs->last_page = pss->page;
 -- 
 2.39.1
 
