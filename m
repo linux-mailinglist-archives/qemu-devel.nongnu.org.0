@@ -2,94 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32A668F0CC
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 15:27:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 090A368F0E1
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 15:33:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPlPR-0006FV-D5; Wed, 08 Feb 2023 09:26:53 -0500
+	id 1pPlUq-0008ND-Jo; Wed, 08 Feb 2023 09:32:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ninad@linux.vnet.ibm.com>)
- id 1pPlPO-00068d-20
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 09:26:50 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ninad@linux.vnet.ibm.com>)
- id 1pPlPG-0006lY-Uu
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 09:26:49 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 318EBqLo013272
- for <qemu-devel@nongnu.org>; Wed, 8 Feb 2023 14:26:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date : to :
- from : subject : content-type : content-transfer-encoding : mime-version;
- s=pp1; bh=X+jHQmmJPgVsds/J0IuBMl1rwObGNIazPH5H/zLGbqo=;
- b=al/KhStaJtb4WG2pILMFoseBt6lpKN0c+NqduRJ9He5+AidKMkRoNyYEaeECMOYWxL9P
- dYlEcvz434F6xLHP6I5ltJGhyyZm1t4lIRbEU1x4QpNrGbM7zmFGZIlspApH9zPHj4Qs
- tZI03bEcxktyb421zrfwX+egAN5eO+A0uMjZ9+qUAy/kz0cUvvhCAj0NBQB1A/3r5UC6
- mX4UT7SHqOIjdLlV7F/40VNvljzDYAJzIGmX8wiOXxenxSFhZeShYusYEFJ34wk/Vlh4
- Hy44A+rdtV4vywdTbGb64BtgihWYXKnA9Oqwu0H9w1z9mPxv2ipocq7kglxG9Kd+Ea9H ug== 
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nmd9n0ctn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 14:26:39 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 318C7ACP001953
- for <qemu-devel@nongnu.org>; Wed, 8 Feb 2023 14:26:38 GMT
-Received: from smtprelay05.dal12v.mail.ibm.com ([9.208.130.101])
- by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3nhf07k2ws-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 14:26:38 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com
- [10.241.53.104])
- by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 318EQbiV7143990
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Wed, 8 Feb 2023 14:26:37 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6FC785804C
- for <qemu-devel@nongnu.org>; Wed,  8 Feb 2023 14:26:37 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 56F3358056
- for <qemu-devel@nongnu.org>; Wed,  8 Feb 2023 14:26:37 +0000 (GMT)
-Received: from [9.163.39.56] (unknown [9.163.39.56])
- by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP
- for <qemu-devel@nongnu.org>; Wed,  8 Feb 2023 14:26:37 +0000 (GMT)
-Message-ID: <0bdde867-d769-1146-76a7-b8cbe89a13fa@linux.vnet.ibm.com>
-Date: Wed, 8 Feb 2023 08:26:37 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.0
-Content-Language: en-US
-To: qemu-devel@nongnu.org
-From: Ninad Palsule <ninad@linux.vnet.ibm.com>
-Subject: rainier-bmc machine dumping core with latest qemu
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: GsfQ7ni6Oi7zN7q4ZiHHflH7LYemNQUC
-X-Proofpoint-ORIG-GUID: GsfQ7ni6Oi7zN7q4ZiHHflH7LYemNQUC
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pPlUn-0008Mx-Tn
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 09:32:25 -0500
+Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pPlUj-0002Oz-S5
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 09:32:24 -0500
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-52bf225460cso12698537b3.4
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 06:32:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0LLYngw8A+tTzU0eFFBQCDBl93nWuzAZ3a6Se7a+EcY=;
+ b=ooPZlFVOdsGihFmB9TgJIYzcUnk8SrS3ehy3U4N+p2+pR3KmZUW6xlfjGltJXMiJnL
+ TLYcI+HE/mBRbIGlYtU8ZuSudc7X1nredkFF8tE8xWUgdbV/M6ALfZrNlkFkZ4AF21F0
+ PkPP2RrE4M17BUd8CelXkFKJ1PfJUpZ7qeeiKeOmfclfph9m+GvBixwmbtPvuwJ/rTpv
+ iIecI43FHAT82Oh9Ukno39I+yXTV644BZFthzBGotmcteVXJTjtYTKvBzBdHSkMSdZAU
+ EhUBOpRsIOQ9wREtUHEysRCwGw2HQAmgIHTsB0DA6gqcpP07PN7vc/RYUsoxTJY+RJtS
+ 8c1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0LLYngw8A+tTzU0eFFBQCDBl93nWuzAZ3a6Se7a+EcY=;
+ b=SN8Ac96P+6h0htdIv1CrW4G3MysR7awzNdNyDj7Q1h/XJq0hAzbX80XKhH6/2RPNIm
+ zfyGGEli/oaIJv3lEf2rRmLta6fbYEBYPwaYqRm/j8fWKYas3xf/CWarQf2pjyxLU7eU
+ rGMaX5Wly+copnLKkG9H5E/3lec4MS4QaFUR8jZii+gKO7Bq56WROn1FQJrWer2AArxO
+ t+umn+V4+nIVv7PCkisDOLP8xHjhqwRyc3s5GDpoY6OKcQUGy4X6DHGAiCJPxYNMlYt9
+ eq2VDJodGDyZ7JRv5pee7JKkwyJ8LJtXS8DO9VWOrX6Z/TaUfkGXt085JGT8evET9dve
+ RudA==
+X-Gm-Message-State: AO0yUKUSVPOU3GKef8nvgxeKpBnd2Rnmkwu9U9IEdBZEe1j7+h7TYv03
+ U15YmnEGgjkVZlfw8UiEwV4/o7qN4E2lpHqmMK8=
+X-Google-Smtp-Source: AK7set+grd/nMETgKCxtRaF03q+oXoQY/rAyE939/MyI6GTel7vXEcebY5g+/5pZFDj16yoosY4N4yQfGOIm+qH+WD0=
+X-Received: by 2002:a0d:f804:0:b0:527:ad38:2c5b with SMTP id
+ i4-20020a0df804000000b00527ad382c5bmr1024673ywf.336.1675866737986; Wed, 08
+ Feb 2023 06:32:17 -0800 (PST)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-08_06,2023-02-08_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0
- malwarescore=0 spamscore=0 impostorscore=0 bulkscore=0 mlxlogscore=999
- lowpriorityscore=0 priorityscore=1501 mlxscore=0 clxscore=1011
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302080124
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=ninad@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <fb523956-7a8c-608b-6db1-961686b73e9c@redhat.com>
+ <CAJSP0QWnq6av7j6x_n-C2mLSPMYBhMeEthr6ayPN-cmsEB3UnA@mail.gmail.com>
+ <f26dd5ed-fa02-faeb-fadb-0dbfbe7792d3@redhat.com>
+ <CAJSP0QWA5j8J_nsUWwh5a18XsoJxjtRutLQzXT6JT1LwLbxCCA@mail.gmail.com>
+In-Reply-To: <CAJSP0QWA5j8J_nsUWwh5a18XsoJxjtRutLQzXT6JT1LwLbxCCA@mail.gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Wed, 8 Feb 2023 09:32:05 -0500
+Message-ID: <CAJSP0QWh-4cYfKK3ea4qwcaGrmXpS0npxvhzr0JG7rNUjfrB=A@mail.gmail.com>
+Subject: Re: vhost-user (virtio-fs) migration: back end state
+To: Hanna Czenczek <hreitz@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ virtio-fs-list <virtio-fs@redhat.com>, 
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+ Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Dave Gilbert <dgilbert@redhat.com>, Juan Quintela <quintela@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1130.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,94 +94,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello,
+On Tue, 7 Feb 2023 at 07:29, Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> On Tue, 7 Feb 2023 at 04:08, Hanna Czenczek <hreitz@redhat.com> wrote:
+> > On 06.02.23 17:27, Stefan Hajnoczi wrote:
+> > > On Mon, 6 Feb 2023 at 07:36, Hanna Czenczek <hreitz@redhat.com> wrote=
+:
+> > > Should we schedule a call with Jason, Michael, Juan, David, etc to
+> > > discuss further? That way there's less chance of spending weeks
+> > > working on something only to be asked to change the approach later.
+> >
+> > Sure, sounds good!  I=E2=80=99ve taken a look into what state we=E2=80=
+=99ll need to
+> > migrate already, but I=E2=80=99ll take a more detailed look now so that=
+ it=E2=80=99s
+> > clear what our requirements are.
 
-I am hitting core dump while running qemu with rainier-bmc machine. I 
-started
-hitting it after I rebased to latest qemu from master.
-Can someone please help?
+Hi Hanna,
+The next step is getting agreement on how the vhost-user device state
+interface will work. Do you want to draft the new vhost-user protocol
+messages and put together slides for discussion with Michael, Jason,
+Juan, and David in the next KVM call? That might be the best way to
+get agreement. Doing it via email is possible too but I guess it will
+take longer.
 
-/home/abc/dev/qemu/build/qemu-system-arm -M rainier-bmc -nographic \
-   -kernel 
-./fitImage-linux.bin--${LINUX_VERSION}-r0-p10bmc-${BLD_VERSION}.bin \
-   -dtb 
-./aspeed-bmc-ibm-rainier--${LINUX_VERSION}-r0-p10bmc-${BLD_VERSION}.dtb \
-   -initrd ./obmc-phosphor-initramfs-p10bmc-${BLD_VERSION}.rootfs.cpio.xz \
-   -drive 
-file=./obmc-phosphor-image-p10bmc-${BLD_VERSION}.rootfs.wic.qcow2,if=sd,index=2 
-\
-   -append 'rootwait console=ttyS4,115200n8 root=PARTLABEL=rofs-a'
+If you don't want to design the vhost-user protocol changes yourself
+then someone on this email thread can help with that.
 
-
-
-[  OK  ] Started Journal Service.
-          Starting Flush Journal to Persistent Storage...
-[   45.873184] systemd-journald[156]: Received client request to flush 
-runtime journal.
-[   45.932231] systemd-journald[156]: File 
-/var/log/journal/97cd620eaa284caf980533438c7355c4/system.journal 
-corrupted or uncleanly shut down, renaming and replacing.
-qemu-system-arm: /home/abc/dev/qemu/block/block-gen.h:43: bdrv_poll_co: 
-Assertion `qemu_get_current_aio_context() == qemu_get_aio_context()' failed.
-
-Thread 3 "qemu-system-arm" received signal SIGABRT, Aborted.
-[Switching to Thread 0x7ffff6896640 (LWP 3898452)]
-__pthread_kill_implementation (no_tid=0, signo=6, 
-threadid=140737329587776) at ./nptl/pthread_kill.c:44
-44  ./nptl/pthread_kill.c: No such file or directory.
-
-
-#6  0x00007ffff77e8e96 in __GI___assert_fail
-     (assertion=assertion@entry=0x55555603e798 
-"qemu_get_current_aio_context() ==
-qemu_get_aio_context()", file=file@entry=0x5555560aef28 
-"/home/abc/dev/qemu/block/block-gen.h", line=line@entry=43, 
-function=function@entry=0x5555560af080 <__PRETTY_FUNCTION__.9> 
-"bdrv_poll_co") at ./assert/assert.c:101
-#7  0x0000555555da91f9 in bdrv_poll_co (s=0x7ffff68957f0) at 
-/home/abc/dev/qemu/block/block-gen.h:43
-#8  bdrv_poll_co (s=0x7ffff68957f0) at 
-/home/abc/dev/qemu/block/block-gen.h:38
-#9  bdrv_getlength (bs=<optimized out>) at block/block-gen.c:310
-#10 0x0000555555e3558e in handle_aiocb_write_zeroes 
-(opaque=0x7fff419965f0) at ../block/file-posix.c:1741
-#11 0x0000555555ef80fd in worker_thread 
-(opaque=opaque@entry=0x5555569e2300) at ../util/thread-pool.c:110
-#12 0x0000555555ee3901 in qemu_thread_start (args=<optimized out>) at 
-../util/qemu-thread-posix.c:505
-#13 0x00007ffff7843b43 in start_thread (arg=<optimized out>) at 
-./nptl/pthread_create.c:442
-#14 0x00007ffff78d5a00 in clone3 () at 
-../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
-
-(gdb) p qemu_aio_context
-$1 = (AioContext *) 0x5555568b13d0
-
----------------------------------------
-
-
-Reproduction steps:
-
-1. Clone and build qemu from https://github.com/qemu/qemu
-2. Download following eBMC images
-
-BLD_VERSION=20230205025034
-LINUX_VERSION="6.0.19+git0+67c9407e1f"
-wget 
-https://jenkins.openbmc.org/view/latest/job/latest-master/label=docker-builder,target=p10bmc/lastStableBuild/artifact/openbmc/build/tmp/deploy/images/p10bmc/obmc-phosphor-initramfs-p10bmc-${BLD_VERSION}.rootfs.cpio.xz
-
-wget 
-https://jenkins.openbmc.org/view/latest/job/latest-master/label=docker-builder,target=p10bmc/lastStableBuild/artifact/openbmc/build/tmp/deploy/images/p10bmc/aspeed-bmc-ibm-rainier--${LINUX_VERSION}-r0-p10bmc-${BLD_VERSION}.dtb
-
-wget 
-https://jenkins.openbmc.org/view/latest/job/latest-master/label=docker-builder,target=p10bmc/lastStableBuild/artifact/openbmc/build/tmp/deploy/images/p10bmc/fitImage-linux.bin--${LINUX_VERSION}-r0-p10bmc-${BLD_VERSION}.bin
-
-wget 
-https://jenkins.openbmc.org/view/latest/job/latest-master/label=docker-builder,target=p10bmc/lastStableBuild/artifact/openbmc/build/tmp/deploy/images/p10bmc/obmc-phosphor-image-p10bmc-${BLD_VERSION}.rootfs.wic.qcow2
-qemu-img resize 
-obmc-phosphor-image-p10bmc-${BLD_VERSION}.rootfs.wic.qcow2 16G
-
-3. Run the qemu command as show at the start
-
-
+Stefan
 
