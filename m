@@ -2,89 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AE0668F28F
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 16:55:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1530568F2A3
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 16:59:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPmmT-0006Hv-Lt; Wed, 08 Feb 2023 10:54:46 -0500
+	id 1pPmq6-0007Yn-BE; Wed, 08 Feb 2023 10:58:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=Pi03=6E=zx2c4.com=Jason@kernel.org>)
- id 1pPmmS-0006Hl-CZ
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 10:54:44 -0500
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pPmq4-0007YV-BB
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 10:58:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=Pi03=6E=zx2c4.com=Jason@kernel.org>)
- id 1pPmmQ-0001iN-Hw
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 10:54:44 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8E05C615D4
- for <qemu-devel@nongnu.org>; Wed,  8 Feb 2023 15:54:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEC70C4339C
- for <qemu-devel@nongnu.org>; Wed,  8 Feb 2023 15:54:38 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="R248P2s8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1675871675;
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pPmq1-0004rL-Sr
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 10:58:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675871904;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZO+Hoy2aeh5u3HmJOdShQ0iSlytU7P3hI6p/dnscsIo=;
- b=R248P2s8GUPhN059Mcy34fvuWiCMzslegvjn/KxB6wazLoGK6KoCg5hX1SCD4U6/3J3njx
- /A1d0eUIocc7r6mRTU5V7BjltqtLnPXwWvmnpgfaCayPFgrknVzb8T4tXBlN8spTEA0zRy
- eeisc6vJSA9Yr0Ss7CmG9GG5aBCCZDM=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 4c55420d
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Wed, 8 Feb 2023 15:54:35 +0000 (UTC)
-Received: by mail-yw1-f175.google.com with SMTP id
- 00721157ae682-52bdbd30328so32651907b3.8
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 07:54:35 -0800 (PST)
-X-Gm-Message-State: AO0yUKVBMOZSgu8IlAKjthNOR7+2HfaU9bkMGkNRPkwuyTs4f619Q9m7
- uy5A2f+MZDm3NCjTOLDeWj9c450Z9MRrDaTaQeE=
-X-Google-Smtp-Source: AK7set+dpKEtoSlrgZdNllVqc/Qq4dmb+EWJDXtQjXWYC7an30ZMIXXIFJZoax7Q7jR8AEej4WCb0VgLKlXKL/8OvYc=
-X-Received: by 2002:a0d:db15:0:b0:52b:fc96:d943 with SMTP id
- d21-20020a0ddb15000000b0052bfc96d943mr76916ywe.259.1675871674381; Wed, 08 Feb
- 2023 07:54:34 -0800 (PST)
+ bh=+SumB18J8SPTOpxD/V0lcHXlMjFz2+h/YniBTG+hasY=;
+ b=cMidb54LTcdWEgEAnlF/xoxqdld0epdcHR3ckY7rtWqOxfosN9zBxQUl5viBvfG0dHyqUB
+ 4KVJ40l3/LWTzvMwFUfi+oj/YKblEtOn/PIpDywiCSFN5II1g0vY9XPInC+/mbe+waPuN1
+ dll529wERyCAZkEgHYw1dHBhlOMzJ3Y=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-591-4E6F5VrdNtC2RMfEZijHCQ-1; Wed, 08 Feb 2023 10:58:23 -0500
+X-MC-Unique: 4E6F5VrdNtC2RMfEZijHCQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ o42-20020a05600c512a00b003dc5341afbaso1260832wms.7
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 07:58:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+SumB18J8SPTOpxD/V0lcHXlMjFz2+h/YniBTG+hasY=;
+ b=oOW+t0OvVwrawKE6UQbcR0vjV+3ckmKf4bQLsu3EomtKIfnFrbLcHmx+4G3oKBi7Ms
+ QT/fyBfqm9fPygEGsx1/t8OmB9GJEFCG1NCpJamJFVOQwIE4zxJhB2eyhvSIMMJ68e2f
+ XEq8m5JIXwIHD5W6YNgN3hCvqUx7cjOVpvm+CawVe5+FFvmAtagYdI+yhObOhU595ryL
+ JeDExGkzxgeIdP+SXyNrt/HFRcQmVs92wDTZo6m9C6j5YOga5ZtyFcyp3n4uarXpTR/o
+ evxRDmk+tsnfTytHhXzNaTjMP+eTtivgenk1ra4U7vMvQcdWxutanVnxF6vSn0pL8HWv
+ qRzA==
+X-Gm-Message-State: AO0yUKXwJuKt7I488WD5fKHsLpBWBniPPbVvPD8G+JJfZd5V03K65yhE
+ gv/f4EN55h97xiwAOgdgzPREUDf+4DXM8l1Tri41OlBCxaCWoCdO8bzwBoPsi1x3o808DWJm0hu
+ tUnyqQW0k0Y+PJs0=
+X-Received: by 2002:adf:fe8b:0:b0:2c4:6b1:cf69 with SMTP id
+ l11-20020adffe8b000000b002c406b1cf69mr442160wrr.13.1675871901941; 
+ Wed, 08 Feb 2023 07:58:21 -0800 (PST)
+X-Google-Smtp-Source: AK7set9YCj2augAQhwDR25E2oENYFD44f2/t9Y70fsVdhll4Ixq8+1GvkYOnAHgWBpsZWkZEWNsxtQ==
+X-Received: by 2002:adf:fe8b:0:b0:2c4:6b1:cf69 with SMTP id
+ l11-20020adffe8b000000b002c406b1cf69mr442141wrr.13.1675871901748; 
+ Wed, 08 Feb 2023 07:58:21 -0800 (PST)
+Received: from ?IPV6:2003:cf:d71d:64b4:b0d4:7b71:b8bd:d2cc?
+ (p200300cfd71d64b4b0d47b71b8bdd2cc.dip0.t-ipconnect.de.
+ [2003:cf:d71d:64b4:b0d4:7b71:b8bd:d2cc])
+ by smtp.gmail.com with ESMTPSA id
+ t1-20020a5d4601000000b002bdfe3aca17sm13844164wrq.51.2023.02.08.07.58.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Feb 2023 07:58:21 -0800 (PST)
+Message-ID: <d33b0bff-f07d-56a9-8648-16310b60f8a5@redhat.com>
+Date: Wed, 8 Feb 2023 16:58:20 +0100
 MIME-Version: 1.0
-References: <20230207084116.285787-1-dovmurik@linux.ibm.com>
- <20230207164117-mutt-send-email-mst@kernel.org>
- <23f28bd4-7adb-3bb1-7148-7dfbb57871d5@amd.com>
- <CAHmME9rrqRY0gOVBav4LjMypmu6uicx3vD9kozApyFoytNg84Q@mail.gmail.com>
- <5ac2a4bc-a7a3-49ca-67c7-96df7e152dd7@amd.com>
- <7c4e3018-2f0f-1fd8-45b2-6d72221e9452@linux.ibm.com>
-In-Reply-To: <7c4e3018-2f0f-1fd8-45b2-6d72221e9452@linux.ibm.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Wed, 8 Feb 2023 12:54:23 -0300
-X-Gmail-Original-Message-ID: <CAHmME9pXZVnb_O+PFOoYK_-Qe_A4xoWfYrBtVHOgAWMEivAv1g@mail.gmail.com>
-Message-ID: <CAHmME9pXZVnb_O+PFOoYK_-Qe_A4xoWfYrBtVHOgAWMEivAv1g@mail.gmail.com>
-Subject: Re: [PATCH] x86: Don't add RNG seed to Linux cmdline for SEV guests
-To: Dov Murik <dovmurik@linux.ibm.com>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, 
- James Bottomley <jejb@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- "H. Peter Anvin" <hpa@zytor.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=SRS0=Pi03=6E=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: vhost-user (virtio-fs) migration: back end state
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ virtio-fs-list <virtio-fs@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Dave Gilbert <dgilbert@redhat.com>, Juan Quintela <quintela@redhat.com>
+References: <fb523956-7a8c-608b-6db1-961686b73e9c@redhat.com>
+ <CAJSP0QWnq6av7j6x_n-C2mLSPMYBhMeEthr6ayPN-cmsEB3UnA@mail.gmail.com>
+ <f26dd5ed-fa02-faeb-fadb-0dbfbe7792d3@redhat.com>
+ <CAJSP0QWA5j8J_nsUWwh5a18XsoJxjtRutLQzXT6JT1LwLbxCCA@mail.gmail.com>
+ <CAJSP0QWh-4cYfKK3ea4qwcaGrmXpS0npxvhzr0JG7rNUjfrB=A@mail.gmail.com>
+From: Hanna Czenczek <hreitz@redhat.com>
+In-Reply-To: <CAJSP0QWh-4cYfKK3ea4qwcaGrmXpS0npxvhzr0JG7rNUjfrB=A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.146, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,16 +111,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 8, 2023 at 12:49 PM Dov Murik <dovmurik@linux.ibm.com> wrote:
->   /*
->    * Add the NUL terminator, some padding for the microvm cmdline fiddling
->    * hack, and then align to 16 bytes as a paranoia measure
->    */
->   cmdline_size = (strlen(machine->kernel_cmdline) + 1 +
->                   VIRTIO_CMDLINE_TOTAL_MAX_LEN + 16) & ~15;
->   /* Make a copy, since we might append arbitrary bytes to it later. */
->   kernel_cmdline = g_strndup(machine->kernel_cmdline, cmdline_size);
+On 08.02.23 15:32, Stefan Hajnoczi wrote:
+> On Tue, 7 Feb 2023 at 07:29, Stefan Hajnoczi <stefanha@gmail.com> wrote:
+>> On Tue, 7 Feb 2023 at 04:08, Hanna Czenczek <hreitz@redhat.com> wrote:
+>>> On 06.02.23 17:27, Stefan Hajnoczi wrote:
+>>>> On Mon, 6 Feb 2023 at 07:36, Hanna Czenczek <hreitz@redhat.com> wrote:
+>>>> Should we schedule a call with Jason, Michael, Juan, David, etc to
+>>>> discuss further? That way there's less chance of spending weeks
+>>>> working on something only to be asked to change the approach later.
+>>> Sure, sounds good!  I’ve taken a look into what state we’ll need to
+>>> migrate already, but I’ll take a more detailed look now so that it’s
+>>> clear what our requirements are.
+> Hi Hanna,
+> The next step is getting agreement on how the vhost-user device state
+> interface will work. Do you want to draft the new vhost-user protocol
+> messages and put together slides for discussion with Michael, Jason,
+> Juan, and David in the next KVM call? That might be the best way to
+> get agreement. Doing it via email is possible too but I guess it will
+> take longer.
+>
+> If you don't want to design the vhost-user protocol changes yourself
+> then someone on this email thread can help with that.
 
-We could safely skip this part on !microvm, which I think might handle
-the SEV case?
+I’ll need to talk about the whole thing to Stefano and German first 
+(we’re collaborating on virtio-fs migration, looking at different 
+aspects of it).  Also, I think I’ll want to look into the code a bit 
+first and fiddle around to get a working prototype so I get an idea of 
+what might be feasible at all.  I wouldn’t want to propose something 
+that actually can’t work when I try to make it work in practice. O:)
+
+Hanna
+
 
