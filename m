@@ -2,70 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 078D568EFBF
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 14:31:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6975668EFC3
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 14:31:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPkXB-0000p6-U5; Wed, 08 Feb 2023 08:30:49 -0500
+	id 1pPkXB-0000ns-Dg; Wed, 08 Feb 2023 08:30:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pPkWv-0000Ys-TZ
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 08:30:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1)
+ (envelope-from <SRS0=Pi03=6E=zx2c4.com=Jason@kernel.org>)
+ id 1pPkX6-0000fR-0a
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 08:30:44 -0500
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pPkWu-0007HD-11
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 08:30:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675863031;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fVP5OCL1JriUJOVFBPGrdNwJArBCNe35xENl0MQMYnI=;
- b=H9VoQbfDGXfm18ACESyZhoQY/Ixz5xHLNBa5nMCm6XGiPd5QOH+l273anC50Hs2T779onK
- oVMXc1exf5TKZhcKUpNw4kxDlYZoCYoUH32m4cqQjCk2o+nYV7IHxl35rkW4Zfw1iNP0dC
- NCPCS73GpQlTkAyXbi6jzllhfn/XdO0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-92-ZOv_bdYKMRKUQ2hzaCBy1A-1; Wed, 08 Feb 2023 08:30:28 -0500
-X-MC-Unique: ZOv_bdYKMRKUQ2hzaCBy1A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1)
+ (envelope-from <SRS0=Pi03=6E=zx2c4.com=Jason@kernel.org>)
+ id 1pPkX3-0007NV-4S
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 08:30:43 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C75A803503;
- Wed,  8 Feb 2023 13:30:28 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.192.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 49F73C15BA0;
- Wed,  8 Feb 2023 13:30:26 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ by ams.source.kernel.org (Postfix) with ESMTPS id 4DBDDB81E26;
+ Wed,  8 Feb 2023 13:30:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72191C433EF;
+ Wed,  8 Feb 2023 13:30:34 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="SV28xcsg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1675863032;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4WvziNsxsvBoYpuP6OX1SKRsjQ4O+rxTCnXDtvEGu4I=;
+ b=SV28xcsgLjYBMApgHNyGeWioaghQ9sgX2ONAIQ528RinOd818l3ThJiS53DLWc9AMarv0n
+ Bq1U0VbrVAvwfhpPiSc/+ZUceF05o4RzoZzxPRuGSPnlxJeaGyCim2xwa2kBUqIjWObJ+o
+ yUnNr6S0PgxhovLw0RUqPATdaDBM7HQ=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f92b60f8
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Wed, 8 Feb 2023 13:30:32 +0000 (UTC)
+Date: Wed, 8 Feb 2023 14:30:30 +0100
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Dov Murik <dovmurik@linux.ibm.com>, qemu-devel@nongnu.org,
+ Tom Lendacky <thomas.lendacky@amd.com>,
+ James Bottomley <jejb@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Yanan Wang <wangyanan55@huawei.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Eric Blake <eblake@redhat.com>
-Subject: [PATCH v3 6/6] ram: Document migration ram flags
-Date: Wed,  8 Feb 2023 14:30:10 +0100
-Message-Id: <20230208133010.17323-7-quintela@redhat.com>
-In-Reply-To: <20230208133010.17323-1-quintela@redhat.com>
-References: <20230208133010.17323-1-quintela@redhat.com>
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
+Subject: Re: [PATCH] x86: Don't add RNG seed to Linux cmdline for SEV guests
+Message-ID: <Y+Oj9tbeTfN7JRHP@zx2c4.com>
+References: <20230207084116.285787-1-dovmurik@linux.ibm.com>
+ <20230207164117-mutt-send-email-mst@kernel.org>
+ <Y+LOFgCuC9wjKpsL@zx2c4.com>
+ <20230207173008-mutt-send-email-mst@kernel.org>
+ <CAHmME9pUe48qQRDwhWSK5ba=3Jj-qNYS8ZV9ZFEZeTi=MvEm6w@mail.gmail.com>
+ <20230208041042-mutt-send-email-mst@kernel.org>
+ <0f824626-cc06-c497-b9e4-6ee75986f52a@linux.ibm.com>
+ <20230208081849-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230208081849-mutt-send-email-mst@kernel.org>
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=SRS0=Pi03=6E=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,42 +93,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-0x80 is RAM_SAVE_FLAG_HOOK, it is in qemu-file now.
-Bigger usable flag is 0x200, noticing that.
-We can reuse RAM_SAVE_FLAG_FULL.
+On Wed, Feb 08, 2023 at 08:20:17AM -0500, Michael S. Tsirkin wrote:
+> On Wed, Feb 08, 2023 at 01:23:48PM +0200, Dov Murik wrote:
+> > Hi Michael,
+> > 
+> > On 08/02/2023 11:11, Michael S. Tsirkin wrote:
+> > > On Tue, Feb 07, 2023 at 07:33:09PM -0300, Jason A. Donenfeld wrote:
+> > >> On Tue, Feb 7, 2023 at 7:31 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > >>>
+> > >>> On Tue, Feb 07, 2023 at 07:17:58PM -0300, Jason A. Donenfeld wrote:
+> > >>>> On Tue, Feb 07, 2023 at 04:45:19PM -0500, Michael S. Tsirkin wrote:
+> > >>>>> On Tue, Feb 07, 2023 at 08:41:16AM +0000, Dov Murik wrote:
+> > >>>>>> Recent feature to supply RNG seed to the guest kernel modifies the
+> > >>>>>> kernel command-line by adding extra data at its end; this breaks
+> > >>>>>> measured boot with SEV and OVMF, and possibly signed boot.
+> > >>>>>>
+> > >>>>>> Specifically SEV doesn't miss this feature because it uses UEFI/OVMF
+> > >>>>>> which has its own way of getting random seed (not to mention that
+> > >>>>>> getting the random seed from the untrusted host breaks the confidential
+> > >>>>>> computing trust model).
+> > >>>>>
+> > >>>>> Nope - getting a random seed from an untrusted source should not break
+> > >>>>> anything assuming you also have some other randomness source.
+> > >>>>> If you don't then you have other problems.
+> > >>>>>
+> > >>>>>> Disable the RNG seed feature in SEV guests.
+> > >>>>>>
+> > >>>>>> Fixes: eac7a7791bb6 ("x86: don't let decompressed kernel image clobber setup_data")
+> > >>>>>> Reported-by: Tom Lendacky <thomas.lendacky@amd.com>
+> > >>>>>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+> > >>>>>>
+> > >>>>>> ---
+> > >>>>>>
+> > >>>>>> There might be a need for a wider change to the ways setup_data entries
+> > >>>>>> are handled in x86_load_linux(); here I just try to restore the
+> > >>>>>> situation for SEV guests prior to the addition of the SETUP_RNG_SEED
+> > >>>>>> entry.
+> > >>>>>>
+> > >>>>>> Recent discussions on other (safer?) ways to pass this setup_data entry:
+> > >>>>>> [1] https://lore.kernel.org/qemu-devel/da39abab9785aea2a2e7652ed6403b6268aeb31f.camel@linux.ibm.com/
+> > >>>>>>
+> > >>>>>> Note that in qemu 7.2.0 this is broken as well -- there the
+> > >>>>>> SETUP_RNG_SEED entry is appended to the Linux kernel data (and therefore
+> > >>>>>> modifies and breaks the measurement of the kernel in SEV measured boot).
+> > >>>>>> A similar fix will be needed there (but I fear this patch cannot be
+> > >>>>>> applied as-is).
+> > >>>>>
+> > >>>>> So it's not a regression, is it?
+> > >>>>
+> > >>>> I think that note is actually wrong. There prior was the sev_enabled()
+> > >>>> check elsewhere, which should have worked. I remember we originally had
+> > >>>> that problem with 7.1 and fixed it. So this is a new issue. I'll take
+> > >>>> care of it.
+> > >>>>
+> > >>>>>
+> > >>>>>> ---
+> > >>>>>>  hw/i386/x86.c | 2 +-
+> > >>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >>>>>>
+> > >>>>>> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> > >>>>>> index eaff4227bd..e65a83f8df 100644
+> > >>>>>> --- a/hw/i386/x86.c
+> > >>>>>> +++ b/hw/i386/x86.c
+> > >>>>>> @@ -1103,7 +1103,7 @@ void x86_load_linux(X86MachineState *x86ms,
+> > >>>>>>          load_image_size(dtb_filename, setup_data->data, dtb_size);
+> > >>>>>>      }
+> > >>>>>>
+> > >>>>>> -    if (!legacy_no_rng_seed && protocol >= 0x209) {
+> > >>>>>> +    if (!legacy_no_rng_seed && protocol >= 0x209 && !sev_enabled()) {
+> > >>>>>>          setup_data_offset = cmdline_size;
+> > >>>>>>          cmdline_size += sizeof(SetupData) + RNG_SEED_LENGTH;
+> > >>>>>>          kernel_cmdline = g_realloc(kernel_cmdline, cmdline_size);
+> > >>>>>>
+> > >>>>>> base-commit: 6661b8c7fe3f8b5687d2d90f7b4f3f23d70e3e8b
+> > >>>>>
+> > >>>>> I am beginning to think we have been hasty here. no rng seed
+> > >>>>> should have been then default and requested with a flag.
+> > >>>>> Then we'd avoid all this heartburn - and SEV might not be the
+> > >>>>> only workload broken.
+> > >>>>> Maybe not too late. Jason - objections?
+> > >>>>
+> > >>>> Yes, highly object. If it's not here by default, it's completely useless
+> > >>>> from my perspective and I'll just stop working on this feature. There's
+> > >>>> no reason we can't make this work. It's turned out to have a lot of
+> > >>>> technical landmines, but that doesn't mean it's infeasible. I'll keep
+> > >>>> hammering away at it.
+> > >>>>
+> > >>>> Anyway, I'll send a v2 of this patch, and also address another thing
+> > >>>> left out of the previous fix.
+> > >>>>
+> > >>>> (And meanwhile, James and hpa@ seem to be having some discussion about
+> > >>>> introducing an even better mechanism; we'll see if that materializes.)
+> > >>>>
+> > >>>> Jason
+> > >>>
+> > >>>
+> > >>> OK I guess ... objections to a reverse flag disabling this?
+> > >>> Will at least allow a work-around for sev and friends ...
+> > >>
+> > >> I think we should generally try to make this work right as-is, without
+> > >> needing to introduce knobs. The SEV stuff seems really simple to fix.
+> > >> I'll have a 2 patch series for you in the next 20 minutes if all goes
+> > >> well.
+> > > 
+> > > Absolutely. A knob can be a fallback though in the likely case
+> > > we missed something else. I'm inclined to
+> > > an on/off/auto knob which can either force it or let qemu
+> > > decide. Objections?
+> > > 
+> > 
+> > There's already a workaround for SEV: starting QEMU with
+> > '-machine pc-q35-7.1' (instead of '-machine q35').
+> > The pc-q35-7.1 model sets
+> > 
+> >     pcmc->legacy_no_rng_seed = true;
+> > 
+> > which prevents the modification of the cmdline (or modification of the
+> > kernel, in 7.2) -- and this allows the SEV kernel hashes to match.
+> > 
+> > Of course this means that you don't get any other features of 7.2 or
+> > 8.0, if you need them.  If we want to allow that, we'll need a special
+> > knob for turning off RNG seed.
+> > 
+> > -Dov
+> 
+> Right. Besides, this will also get you old bugs from 7.1 that
+> we kept around to stay compatible.
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- migration/ram.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+I think the 7.1 machine switch ought to be sufficient for folks while we
+work out whatever hypothetical bugs might be left after you merge the
+series I posted yesterday. That's why it was added in the first place.
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 7952d5f01c..d95e26c03c 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -73,16 +73,19 @@
-  * RAM_SSAVE_FLAG_COMPRESS_PAGE just rename it.
-  */
- 
--#define RAM_SAVE_FLAG_FULL     0x01 /* Obsolete, not used anymore */
-+/* RAM_SAVE_FLAG_FULL has been obsoleted since at least 2009, we can
-+ * reuse it */
-+#define RAM_SAVE_FLAG_FULL     0x01
- #define RAM_SAVE_FLAG_ZERO     0x02
- #define RAM_SAVE_FLAG_MEM_SIZE 0x04
- #define RAM_SAVE_FLAG_PAGE     0x08
- #define RAM_SAVE_FLAG_EOS      0x10
- #define RAM_SAVE_FLAG_CONTINUE 0x20
- #define RAM_SAVE_FLAG_XBZRLE   0x40
--/* 0x80 is reserved in migration.h start with 0x100 next */
-+/* 0x80 is reserved in qemu-file.h for RAM_SAVE_FLAG_HOOK */
- #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
- #define RAM_SAVE_FLAG_MULTIFD_SYNC     0x200
-+/* We can't use any flag that is bigger that 0x200 */
- 
- XBZRLECacheStats xbzrle_counters;
- 
--- 
-2.39.1
-
+Jason
 
