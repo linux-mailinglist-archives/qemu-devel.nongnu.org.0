@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF6768F812
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:31:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8027668F817
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:31:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPq8K-0007Bw-Iu; Wed, 08 Feb 2023 14:29:32 -0500
+	id 1pPq8L-0007Cs-D8; Wed, 08 Feb 2023 14:29:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pPq83-00075v-20; Wed, 08 Feb 2023 14:29:18 -0500
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ id 1pPq85-00075z-9K; Wed, 08 Feb 2023 14:29:18 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pPq81-0006Kn-Hn; Wed, 08 Feb 2023 14:29:14 -0500
+ id 1pPq83-0006L4-1r; Wed, 08 Feb 2023 14:29:16 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 71F0021E93;
- Wed,  8 Feb 2023 19:29:11 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 78321203D3;
+ Wed,  8 Feb 2023 19:29:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675884551; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1675884553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2nF6Q1feagG1j59SSALXFHCj/mrnFM3pmdWjXUdvEyk=;
- b=sNnftqi4zStop0gseG/k/OM8AoHPXROPryXh/EtSmpXBJ5zNIZAA3zmVbVWE1H+MA5XGq5
- ntqO6UZDNKCzKsbaSeGNOIhwx4JIli5DMJVnWdBcPc87xqkDxdMF5+O+n1785Ol4z1gUwn
- 5WbmjE9dNltbmVWm6Yys7hC8Fk34L1c=
+ bh=QQQW5av6Kh1UtYK3rJBakCy3kRUaqqQloZ6W9QwpKQM=;
+ b=FBwFf+a0tu1ieaTRtj18d7TW5pbYX6tl2Wn6QBUnSCrPjW53ce8DGbCaf9VSgqh8LZBeGg
+ xCFbFuwtorb4PEYti4iU0CjCXP2gjIuXjuKOhr64qVnNH6WNHdKINVwVHcodF5JgVQx9Bj
+ ACuUyI2iVXfwG7NPzvEqPX+10kBKTxw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675884551;
+ s=susede2_ed25519; t=1675884553;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2nF6Q1feagG1j59SSALXFHCj/mrnFM3pmdWjXUdvEyk=;
- b=cjo/7+NIqmT1AqYUnoUuNpBfMjK4/DHYCutFvyxloIGtx8qU9XTDHe9YXQXIruC2/DjLAo
- l+gOvUPVPD0S7vBw==
+ bh=QQQW5av6Kh1UtYK3rJBakCy3kRUaqqQloZ6W9QwpKQM=;
+ b=cOgoDgNC2xoZJZdssKCxJUmoEWhOporDunw6Az7+tm9yuzmiTondNdLCfDB69L8GPWu98a
+ 2kF7aCCVFLuzxeCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2207513425;
- Wed,  8 Feb 2023 19:29:09 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DEC0113425;
+ Wed,  8 Feb 2023 19:29:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id YBD+NgX442NiHQAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 08 Feb 2023 19:29:09 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id qBOOKQf442NiHQAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 08 Feb 2023 19:29:11 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org
-Subject: [PATCH v2 06/10] hw/arm: Select VIRTIO_BLK for virt machine
-Date: Wed,  8 Feb 2023 16:26:50 -0300
-Message-Id: <20230208192654.8854-7-farosas@suse.de>
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-arm@nongnu.org
+Subject: [PATCH v2 07/10] hw/arm: Select XLNX_USB_SUBSYS for xlnx-zcu102
+ machine
+Date: Wed,  8 Feb 2023 16:26:51 -0300
+Message-Id: <20230208192654.8854-8-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230208192654.8854-1-farosas@suse.de>
 References: <20230208192654.8854-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -85,34 +86,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The virt machine has IF_VIRTIO as block_default_type, which causes the
-generic code to try to create a virtio-blk-pci device pair at
-configure_blockdev()/qemu_create_cli_devices().
+This machine hardcodes initialization of the USB device, so select the
+corresponding Kconfig. It is not enough to have it as "default y if
+XLNX_VERSAL" at usb/Kconfig because building --without-default-devices
+disables the default selection resulting in:
 
-Select VIRTIO_BLK and VIRTIO_PCI from CONFIG_ARM_VIRT to avoid errors
-when PCI_DEVICES=n (due to e.g. --without-default-devices):
-
-$ ./qemu-system-aarch64 -M virt -accel tcg -cpu max -nodefaults -cdrom foo.qcow2
-qemu-system-aarch64: -cdrom foo.qcow2: 'virtio-blk' (alias
-'virtio-blk-pci') is not a valid device model name
+$ ./qemu-system-aarch64 -M xlnx-zcu102
+qemu-system-aarch64: missing object type 'usb_dwc3'
+Aborted (core dumped)
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
  hw/arm/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ hw/usb/Kconfig | 1 -
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 8dcc08b7ec..296d4f5176 100644
+index 296d4f5176..552e3d04ee 100644
 --- a/hw/arm/Kconfig
 +++ b/hw/arm/Kconfig
-@@ -33,6 +33,7 @@ config ARM_VIRT
-     select ACPI_HMAT
-     select VIRTIO_PCI
-     select VIRTIO_NET
-+    select VIRTIO_BLK
+@@ -405,6 +405,7 @@ config XLNX_VERSAL
+     select OR_IRQ
+     select XLNX_BBRAM
+     select XLNX_EFUSE_VERSAL
++    select XLNX_USB_SUBSYS
  
- config CHEETAH
+ config NPCM7XX
      bool
+diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
+index ce4f433976..0ec6def4b8 100644
+--- a/hw/usb/Kconfig
++++ b/hw/usb/Kconfig
+@@ -136,5 +136,4 @@ config USB_DWC3
+ 
+ config XLNX_USB_SUBSYS
+     bool
+-    default y if XLNX_VERSAL
+     select USB_DWC3
 -- 
 2.35.3
 
