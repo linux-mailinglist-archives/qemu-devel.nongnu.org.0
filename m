@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0044E68ECCC
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 11:27:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 770FD68ECDF
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 11:30:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPhen-0006Oa-O7; Wed, 08 Feb 2023 05:26:29 -0500
+	id 1pPhi1-0007Yu-HS; Wed, 08 Feb 2023 05:29:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPheg-0006NX-D9
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 05:26:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPhee-0005lJ-KJ
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 05:26:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675851978;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rZxUOFGo/oarxfcGG9oY6hXvruRUG0pgjB7RxEKPGdc=;
- b=AH8hao8nnO9K3DA0kgVdT95CepuZFx06PIeumx4AKk+z/i4kF4cdJ+bIKuVj6p0fTvL7ZD
- Sgq1vPu+B63Qju0faL8gt7Um+VyfMmPsoPIkQxDZM+R77tM8qCKKBlUNSDf5JxoddIyBbn
- ObVPA7ljAgr+eMX5edH5KKMcChKl7V0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-312-G7KRo0L-MViExItRDzgpwA-1; Wed, 08 Feb 2023 05:26:15 -0500
-X-MC-Unique: G7KRo0L-MViExItRDzgpwA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D5AD3101B42B;
- Wed,  8 Feb 2023 10:26:14 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 73F711121314;
- Wed,  8 Feb 2023 10:26:14 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5E89E21E6A1F; Wed,  8 Feb 2023 11:26:13 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Song Gao <gaosong@loongson.cn>
-Cc: qemu-devel@nongnu.org,  richard.henderson@linaro.org,
- peter.maydell@linaro.org,  philmd@linaro.org,  thuth@redhat.com,
- mst@redhat.com,  maobibo@loongson.cn,  yangxiaojuan@loongson.cn
-Subject: Re: [PATCH v1 2/2] loongarch: Add smbios command line option.
-References: <20230208094133.2945979-1-gaosong@loongson.cn>
- <20230208094133.2945979-2-gaosong@loongson.cn>
-Date: Wed, 08 Feb 2023 11:26:13 +0100
-In-Reply-To: <20230208094133.2945979-2-gaosong@loongson.cn> (Song Gao's
- message of "Wed, 8 Feb 2023 17:41:33 +0800")
-Message-ID: <87fsbglagq.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alvaro.karsz@solid-run.com>)
+ id 1pPhhx-0007Yd-8K
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 05:29:45 -0500
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alvaro.karsz@solid-run.com>)
+ id 1pPhhv-0003aD-1o
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 05:29:44 -0500
+Received: by mail-pl1-x629.google.com with SMTP id g17so1253841ply.11
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 02:29:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=solid-run-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Uw2ZicEA5RLzfShMXQ1dwaKNDb+ZvEQ5nofhk/pEKE8=;
+ b=qNvBsfjNBF1TkmnJTB3tUs4ujn+RLEV1Twl1prVx+53gUaxKFIy+mCCT33Cg+gE5tn
+ YTdT/tgxI8JWYnb8kl1KE8f7JQWbSioraFlguQvUmbyuBrXhFrKebzHO0S6MeuaQJfv0
+ bYgsluSWWVbKreOBmLyRvaoaNDEj70uvFKRzk5sEUhhHaL2MRuZcHDpFbQKSbJxMRacu
+ gu9XR6iUMFR9ZzbRUfHW8mHUezeg0H0j0MQM8mU739C2b9DtqwRROw5VF8PvEwqUNiEB
+ O/QCPyZB18cjx8JUBDwZUaQjnEH2/jbXrpkpJhr0zqmxU79zMu3Z0+anu8mNzDXqA0f5
+ 5lzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Uw2ZicEA5RLzfShMXQ1dwaKNDb+ZvEQ5nofhk/pEKE8=;
+ b=lgl4KN0fAbIV4VsCb0DoCCOul6vdXbOkUElHu7MZfJcpct6Z8k8WTNhKQMOrIzNPJ9
+ zh8Ge5pCPMUWB26p7xpo0MlVCGR5xs0NUNVA+7ymDLtFEinXuzB4jBflQX0AFg/rokYL
+ wDHiuqvCPE6eV5j+kHZOCjzicKbfjTKH+LSyqm5W0sNwXNCccttYZ6uXO9FJMFmZP5IO
+ f6nTh8mmKtI84jJyFhQxGqHmYqVkUHc6BS61DQk+6tRE9ix+jokOMNEr00kEpHhc1u8D
+ 0Q4bRMhhNGHcKfE43qlw4i07Mf3GP1DklGiPOXBNNM3W3FeE0mX/G94vsbMsk6T6XG/Z
+ cH0w==
+X-Gm-Message-State: AO0yUKXP/nxFKH/Y4JZ4n9zxyhdTfoct/R8hWQO1xgtL+flQC4yN81FW
+ elb1RuYrdK+hbL1Gh3AFcp22/aYxI+l+7XYyeNTc/Q==
+X-Google-Smtp-Source: AK7set/D85OP4MbEUttLin1Mc4kBwGa/GSqWKwYp9esG56LQONCdHonoSsb/1780I1mBh093u4BaKZgg9Akx7nlrlwU=
+X-Received: by 2002:a17:90a:764d:b0:230:c6fa:9305 with SMTP id
+ s13-20020a17090a764d00b00230c6fa9305mr600415pjl.93.1675852181066; Wed, 08 Feb
+ 2023 02:29:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20230208094253.702672-1-eperezma@redhat.com>
+In-Reply-To: <20230208094253.702672-1-eperezma@redhat.com>
+From: Alvaro Karsz <alvaro.karsz@solid-run.com>
+Date: Wed, 8 Feb 2023 12:29:03 +0200
+Message-ID: <CAJs=3_DQQPGUYK_Fv4tuiVcdJ6V1dtRjRkUL3_EqNhwJt-+kYg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/13] Dynamycally switch to vhost shadow virtqueues at
+ vdpa net migration
+To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Harpreet Singh Anand <hanand@xilinx.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, 
+ Jason Wang <jasowang@redhat.com>, Cindy Lu <lulu@redhat.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Lei Yang <leiyang@redhat.com>, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Shannon Nelson <snelson@pensando.io>, 
+ Parav Pandit <parav@mellanox.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Eli Cohen <eli@mellanox.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ longpeng2@huawei.com, virtualization@lists.linux-foundation.org, 
+ Stefano Garzarella <sgarzare@redhat.com>, si-wei.liu@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=alvaro.karsz@solid-run.com; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,34 +93,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Song Gao <gaosong@loongson.cn> writes:
+HI Eugenio, thanks for the series!
 
-> LoongArch has enabled CONFIG_SMBIOS, but didn't enable CLI '-smbios'.
->
+I tested the series with our DPU, SolidNET.
 
-Suggest
+The test went as follow:
 
-  Fixes: 3efa6fa1e629 ("hw/loongarch: Add smbios support")
+- Create 2 virtio net vdpa devices, every device in a separated VF.
+- Start 2 VMs with the vdpa device as a single network device, without
+shadow vq.
+   The source VM with "-netdev
+vhost-vdpa,vhostdev=/dev/vhost-vdpa-0,id=hostnet0"
+   The destination VM with "-netdev
+vhost-vdpa,vhostdev=/dev/vhost-vdpa-1,id=hostnet0"
+- Boot the source VM, test the network by pinging.
+- Migrate
+- Test the destination VM network.
 
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> ---
->  qemu-options.hx | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 88e93c6103..2aa6709466 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -2592,7 +2592,7 @@ DEF("smbios", HAS_ARG, QEMU_OPTION_smbios,
->      "                specify SMBIOS type 17 fields\n"
->      "-smbios type=41[,designation=str][,kind=str][,instance=%d][,pcidev=str]\n"
->      "                specify SMBIOS type 41 fields\n",
-> -    QEMU_ARCH_I386 | QEMU_ARCH_ARM)
-> +    QEMU_ARCH_I386 | QEMU_ARCH_ARM | QEMU_ARCH_LOONGARCH)
->  SRST
->  ``-smbios file=binary``
->      Load SMBIOS entry from binary file.
+Everything worked fine.
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-
+Tested-by: Alvaro Karsz <alvaro.karsz@solid-run.com>
 
