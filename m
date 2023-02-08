@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3166368F6DE
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 19:27:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C199D68F6E9
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 19:32:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPp9O-0007vy-Ew; Wed, 08 Feb 2023 13:26:34 -0500
+	id 1pPpEH-00017C-EA; Wed, 08 Feb 2023 13:31:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pPp9N-0007vo-03
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 13:26:33 -0500
+ id 1pPpEE-000173-MY
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 13:31:34 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pPp9K-0001Z7-Rj
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 13:26:32 -0500
+ id 1pPpEC-0002h0-3d
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 13:31:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675880789;
+ s=mimecast20190719; t=1675881090;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q9vv9yyHqZq2E/SpiLWiMQ9PqVloH3vpY45k5WRM5VY=;
- b=hTtW72Q0yvYSNs53gvjd9wYFm8a5XFPQ34mYtlVaZ/LpPdz5jwjW0ikrRAKpnIwUam8R05
- AT/qNoA2JErh+1nIYmOpKYrDYoDXDhGn0zBjoUMW3gCS6yMYyb4PAZFukcZZx5AtRw0ERP
- 60bi/IHWxPCoV49ibrHWtHp4CSMw1qg=
+ bh=UjIMNt6QbEWaBTMinb5F0Mjlorq11cP4pgDkqGZEChU=;
+ b=b2HGf2K74EsmrYPN0jL2xSEf5cDryM10GJDmHZAtVV6Q5/C7eYMn5REvT9jSZZGBk/7ect
+ tzox1KUH7dNb22Fs/suC0AYhDWXNSbfjo4IatlmO644Z/gfaqXMzrF531hR9KDj34VoEKw
+ PSxvzZuJqtNCl6QBQf39j/iytgBlbi0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-149-4l1owfZ7MYuZ40Mw352O-A-1; Wed, 08 Feb 2023 13:26:28 -0500
-X-MC-Unique: 4l1owfZ7MYuZ40Mw352O-A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-533-oSN_EdKnOdenzBNxrLCtZQ-1; Wed, 08 Feb 2023 13:31:27 -0500
+X-MC-Unique: oSN_EdKnOdenzBNxrLCtZQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 851488027FD;
- Wed,  8 Feb 2023 18:26:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6372C858F0E;
+ Wed,  8 Feb 2023 18:31:26 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E77B940398A0;
- Wed,  8 Feb 2023 18:26:15 +0000 (UTC)
-Date: Wed, 8 Feb 2023 18:26:13 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E6B8BC15BA0;
+ Wed,  8 Feb 2023 18:31:23 +0000 (UTC)
+Date: Wed, 8 Feb 2023 18:31:20 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: qemu-devel@nongnu.org, x86@kernel.org, linux-kernel@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>, Dov Murik <dovmurik@linux.ibm.com>,
- Tom Lendacky <thomas.lendacky@amd.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ x86@kernel.org, linux-kernel@vger.kernel.org,
+ Dov Murik <dovmurik@linux.ibm.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  "H . Peter Anvin" <hpa@zytor.com>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Nathan Chancellor <nathan@kernel.org>,
  Borislav Petkov <bp@alien8.de>, Eric Biggers <ebiggers@kernel.org>
 Subject: Re: [PATCH] x86: temporarily remove all attempts to provide setup_data
-Message-ID: <Y+PpRUYHDc1TH2zO@redhat.com>
+Message-ID: <Y+PqePFLgp5Lel4V@redhat.com>
 References: <20230208180835.234638-1-Jason@zx2c4.com>
+ <20230208131125-mutt-send-email-mst@kernel.org>
+ <CAHmME9rMnbGDZ+Rq8ao=gZd10kBp5ni=73HcPpFC58ChoKZObA@mail.gmail.com>
+ <20230208131805-mutt-send-email-mst@kernel.org>
+ <Y+PpPRvnlakC78Is@zx2c4.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230208180835.234638-1-Jason@zx2c4.com>
+In-Reply-To: <Y+PpPRvnlakC78Is@zx2c4.com>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -90,72 +94,64 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 08, 2023 at 03:08:35PM -0300, Jason A. Donenfeld wrote:
-> All attempts at providing setup_data have been made as an iteration on
-> whatever was there before, stretching back to the original
-> implementation used for DTBs that [mis]used the kernel image itself.
-> We've now had a dozen rounds of bugs and hacks, and the result is
-> turning into a pile of unmaintainable and increasingly brittle hacks.
+On Wed, Feb 08, 2023 at 07:26:05PM +0100, Jason A. Donenfeld wrote:
+> On Wed, Feb 08, 2023 at 01:18:37PM -0500, Michael S. Tsirkin wrote:
+> > On Wed, Feb 08, 2023 at 03:14:38PM -0300, Jason A. Donenfeld wrote:
+> > > On Wed, Feb 8, 2023 at 3:13 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > >
+> > > > On Wed, Feb 08, 2023 at 03:08:35PM -0300, Jason A. Donenfeld wrote:
+> > > > > All attempts at providing setup_data have been made as an iteration on
+> > > > > whatever was there before, stretching back to the original
+> > > > > implementation used for DTBs that [mis]used the kernel image itself.
+> > > > > We've now had a dozen rounds of bugs and hacks, and the result is
+> > > > > turning into a pile of unmaintainable and increasingly brittle hacks.
+> > > > >
+> > > > > Let's just rip out all the madness and start over. We can re-architect
+> > > > > this based on having a separate standalone setup_data file, which is how
+> > > > > it should have been done in the first place. This is a larger project
+> > > > > with a few things to coordinate, but we can't really begin thinking
+> > > > > about that while trying to play whack-a-mole with the current buggy
+> > > > > implementation.
+> > > > >
+> > > > > So this commit removes the setup_data setting from x86_load_linux(),
+> > > > > while leaving intact the infrastructure we'll need in the future to try
+> > > > > again.
+> > > > >
+> > > > > Cc: Michael S. Tsirkin <mst@redhat.com>
+> > > > > Cc: Dov Murik <dovmurik@linux.ibm.com>
+> > > > > Cc: Tom Lendacky <thomas.lendacky@amd.com>
+> > > > > Cc: Gerd Hoffmann <kraxel@redhat.com>
+> > > > > Cc: Daniel P. Berrangé <berrange@redhat.com>
+> > > > > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > > > > Cc: Richard Henderson <richard.henderson@linaro.org>
+> > > > > Cc: H. Peter Anvin <hpa@zytor.com>
+> > > > > Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
+> > > > > Cc: Nathan Chancellor <nathan@kernel.org>
+> > > > > Cc: Borislav Petkov <bp@alien8.de>
+> > > > > Cc: Eric Biggers <ebiggers@kernel.org>
+> > > > > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> > > >
+> > > > I think I'll be happier if this is just a revert of
+> > > > the relevant commits in reverse order to make life easier
+> > > > for backporters.
+> > > > Unless that's too much work as we made other changes around
+> > > > this code?
+> > > 
+> > > I think that's going to be messy. And it won't handle the dtb stuff
+> > > either straightforwardly.
+> > 
+> > List of Fixes tags so people can at least figure out whether they
+> > have a version that needs this fix then?
 > 
-> Let's just rip out all the madness and start over. We can re-architect
-> this based on having a separate standalone setup_data file, which is how
-> it should have been done in the first place. This is a larger project
-> with a few things to coordinate, but we can't really begin thinking
-> about that while trying to play whack-a-mole with the current buggy
-> implementation.
-> 
-> So this commit removes the setup_data setting from x86_load_linux(),
-> while leaving intact the infrastructure we'll need in the future to try
-> again.
+> 7.2 is when the functionality started causing problems for most people.
+> But the buggy code goes back to 3cbeb524 in 2016.
 
-Technically this changes the ABI of the 7.2.0 machine type version
-which we would normally avoid.
+We can't rip out the full setup_data support back to that point. That
+is deleting significant features that would break -dtb IIUC. For that
+we would need to have a deprecation period to announce the incompatibility.
 
-In practice I think we can probably get away with doing it.
-
-The number of released guest OS that consume the RNG seed is negligible
-at this point in time. Any that do consume shouldn't mind much if it
-just disappears on next boot, since it was always just an opt-in, and
-the kernel will happily still boot without it.
-
-So I'm fine if we just put a note in the commit message acknowledging
-that this is an ABI incompatibility for the machine type, but explaining
-why it is none the less OK todo in this exceptional circumstance.
-
-> 
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Dov Murik <dovmurik@linux.ibm.com>
-> Cc: Tom Lendacky <thomas.lendacky@amd.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Daniel P. Berrangé <berrange@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Cc: H. Peter Anvin <hpa@zytor.com>
-> Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Eric Biggers <ebiggers@kernel.org>
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> ---
->  hw/i386/microvm.c |  15 ++----
->  hw/i386/x86.c     | 120 +++++-----------------------------------------
->  2 files changed, 17 insertions(+), 118 deletions(-)
-
-Presumably it should be purging all traces of the 'legacy_no_rng_seed'
-at the same time, with the view that any future implementation would be
-tied to only whatever machine type is current at the time it gets
-merged (could be 8.0.0 or 8.1.0 machine type, depending on how quickly
-the new design gets settled).
-
-$ git grep legacy_no_rng_seed
-hw/i386/pc.c:                   pcmc->pvh_enabled, pcmc->legacy_no_rng_seed);
-hw/i386/pc.c:                       pcmc->pvh_enabled, pcmc->legacy_no_rng_seed);
-hw/i386/pc_piix.c:    pcmc->legacy_no_rng_seed = true;
-hw/i386/pc_q35.c:    pcmc->legacy_no_rng_seed = true;
-hw/i386/x86.c:                    bool legacy_no_rng_seed)
-hw/i386/x86.c:    if (!legacy_no_rng_seed) {
-include/hw/i386/pc.h:    bool legacy_no_rng_seed;
-include/hw/i386/x86.h:                    bool legacy_no_rng_seed);
+I was thinking this would only revert the RNG seed pieces which have
+negligible user impact.
 
 
 With regards,
