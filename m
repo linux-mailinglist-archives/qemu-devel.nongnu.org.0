@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8027668F817
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:31:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A18068F80A
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:29:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPq8L-0007Cs-D8; Wed, 08 Feb 2023 14:29:33 -0500
+	id 1pPq8F-00078o-3T; Wed, 08 Feb 2023 14:29:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pPq85-00075z-9K; Wed, 08 Feb 2023 14:29:18 -0500
+ id 1pPq88-00076i-RO; Wed, 08 Feb 2023 14:29:20 -0500
 Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pPq83-0006L4-1r; Wed, 08 Feb 2023 14:29:16 -0500
+ id 1pPq85-0006LF-DD; Wed, 08 Feb 2023 14:29:20 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 78321203D3;
- Wed,  8 Feb 2023 19:29:13 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 49A81203D8;
+ Wed,  8 Feb 2023 19:29:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675884553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1675884555; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QQQW5av6Kh1UtYK3rJBakCy3kRUaqqQloZ6W9QwpKQM=;
- b=FBwFf+a0tu1ieaTRtj18d7TW5pbYX6tl2Wn6QBUnSCrPjW53ce8DGbCaf9VSgqh8LZBeGg
- xCFbFuwtorb4PEYti4iU0CjCXP2gjIuXjuKOhr64qVnNH6WNHdKINVwVHcodF5JgVQx9Bj
- ACuUyI2iVXfwG7NPzvEqPX+10kBKTxw=
+ bh=xIVbur1IZE6BJ0m76NSETLcCVlAKX1rvdfdJLRTJ3rU=;
+ b=z9IPxdTxpH4niUknzvtD5jQz88k2HU8EQl590fqxPiN9uwPm1Bv4+RJ0kFRcOgd79FJaev
+ LIVGNONUb0AdX5jTW+0Jj5j5zXeXsU+TT1yfjoNRfM08szsSnbHwZBLP8FqeLpDmmKKBXv
+ AykKNgvRngk/pbW5wQZGx66N4mD7o7A=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675884553;
+ s=susede2_ed25519; t=1675884555;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QQQW5av6Kh1UtYK3rJBakCy3kRUaqqQloZ6W9QwpKQM=;
- b=cOgoDgNC2xoZJZdssKCxJUmoEWhOporDunw6Az7+tm9yuzmiTondNdLCfDB69L8GPWu98a
- 2kF7aCCVFLuzxeCg==
+ bh=xIVbur1IZE6BJ0m76NSETLcCVlAKX1rvdfdJLRTJ3rU=;
+ b=kXqo1bSNPbuQy/6BnYrPaZkeROblb8vjmc7LwWheu41MuAnCUGig3KV2eeDUJhxxCVYcbQ
+ RWCGCf8pOlcevOCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DEC0113425;
- Wed,  8 Feb 2023 19:29:11 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E425113425;
+ Wed,  8 Feb 2023 19:29:13 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id qBOOKQf442NiHQAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 08 Feb 2023 19:29:11 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id uPvQKgn442NiHQAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 08 Feb 2023 19:29:13 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-arm@nongnu.org
-Subject: [PATCH v2 07/10] hw/arm: Select XLNX_USB_SUBSYS for xlnx-zcu102
- machine
-Date: Wed,  8 Feb 2023 16:26:51 -0300
-Message-Id: <20230208192654.8854-8-farosas@suse.de>
+ qemu-arm@nongnu.org
+Subject: [PATCH v2 08/10] hw/arm: Select GICV3_TCG for sbsa-ref machine
+Date: Wed,  8 Feb 2023 16:26:52 -0300
+Message-Id: <20230208192654.8854-9-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230208192654.8854-1-farosas@suse.de>
 References: <20230208192654.8854-1-farosas@suse.de>
@@ -86,43 +85,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This machine hardcodes initialization of the USB device, so select the
-corresponding Kconfig. It is not enough to have it as "default y if
-XLNX_VERSAL" at usb/Kconfig because building --without-default-devices
-disables the default selection resulting in:
-
-$ ./qemu-system-aarch64 -M xlnx-zcu102
-qemu-system-aarch64: missing object type 'usb_dwc3'
-Aborted (core dumped)
+This machine hardcodes the creation of the interrupt controller, so
+make sure the dependency is explicitly described in the Kconfig.
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
  hw/arm/Kconfig | 1 +
- hw/usb/Kconfig | 1 -
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ 1 file changed, 1 insertion(+)
 
 diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 296d4f5176..552e3d04ee 100644
+index 552e3d04ee..823f8b11f1 100644
 --- a/hw/arm/Kconfig
 +++ b/hw/arm/Kconfig
-@@ -405,6 +405,7 @@ config XLNX_VERSAL
-     select OR_IRQ
-     select XLNX_BBRAM
-     select XLNX_EFUSE_VERSAL
-+    select XLNX_USB_SUBSYS
+@@ -232,6 +232,7 @@ config SBSA_REF
+     select PL061 # GPIO
+     select USB_EHCI_SYSBUS
+     select WDT_SBSA
++    select ARM_GICV3_TCG
  
- config NPCM7XX
+ config SABRELITE
      bool
-diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
-index ce4f433976..0ec6def4b8 100644
---- a/hw/usb/Kconfig
-+++ b/hw/usb/Kconfig
-@@ -136,5 +136,4 @@ config USB_DWC3
- 
- config XLNX_USB_SUBSYS
-     bool
--    default y if XLNX_VERSAL
-     select USB_DWC3
 -- 
 2.35.3
 
