@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B05C68F44F
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 18:21:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1155B68F43E
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 18:20:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPo7X-0005VE-2g; Wed, 08 Feb 2023 12:20:35 -0500
+	id 1pPo78-0003dO-RZ; Wed, 08 Feb 2023 12:20:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pPo7V-0005Rt-6q
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 12:20:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pPo6n-0003an-O8
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 12:19:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pPo7T-0001du-4R
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 12:20:32 -0500
+ id 1pPo6m-0000bg-28
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 12:19:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675876827;
+ s=mimecast20190719; t=1675876787;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3+vL4OFtafgQgZupdNxcfjPLno/cd7zOHkTcPOHnfyg=;
- b=QsiBZ1cWAlTc9bIL0X94QsNEaGNDUb9cIFJJzkZ/N/rO0Rjd/wb+mfwc3JHfJo/S8u1Wkz
- fCoFyGVbYhFri8kDTAkw5wjIAmPcLbHcBySnYp6vji8V7OT8aw+FO1Ww5WnUsjPTQ1a9qG
- 2aoP/9hQSWyuI+I6QoF0po/CA9dKTA0=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=SPg0YieviKIWcimw6lMQluCiclXWxrWfPNu19kNHRP8=;
+ b=MjCCCQEieFy+VnT1klqxNL0F+fedjvAOMFOQHMxJ+cogk6fJc0XzjN5KvhdMaSrG5BKjcQ
+ p7jZupXgjgiwePd+5URSNPxhtqoGwGUsIaXNGV3Q+ihVQCRzln0cTbf0ykxyfoHCWbkmQD
+ ZdGLB+mzO+d7fUS79UCeChXzzGoIZ5c=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-641-N_y0A9f9OL6Uoah6VUEP5g-1; Wed, 08 Feb 2023 12:19:50 -0500
-X-MC-Unique: N_y0A9f9OL6Uoah6VUEP5g-1
-Received: by mail-ej1-f69.google.com with SMTP id
- xh12-20020a170906da8c00b007413144e87fso13618692ejb.14
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 09:19:43 -0800 (PST)
+ us-mta-620-POww_ki9Oj-g_jOVj5R3NQ-1; Wed, 08 Feb 2023 12:19:42 -0500
+X-MC-Unique: POww_ki9Oj-g_jOVj5R3NQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ p36-20020a056402502400b004aab6614de9so6257432eda.6
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 09:19:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3+vL4OFtafgQgZupdNxcfjPLno/cd7zOHkTcPOHnfyg=;
- b=y+m9ADwr3Kw5K6anyRmZXxYlkhHNQYPw7wfcq++k9Nsg9vMtGaa4RmEBpwVzpykjZN
- kfXyLFFW/T80oCFj79DmiS4RarSRMQYwszw6Ovdl2Mr+t9BfbW7B3cn8+mg9PfAdH7hw
- uVifnxVj12yGUhFAuSZpDBpUbDXt53hkIXH3pzyMz3HItulUcHq1NRLizl7uVxDtu2u8
- BWeh8CiRFjBL6C3pcS4GZms4XrqynBuEcBDM6FPqAG5V0Lej01FvMci5lrzvnrNB/iRK
- c6hOiQHzWlkB/GYEf7YXMz8DhuQ6fx95jA8hpsMIUYB0je96CZ7hIHbMS4SZfPkoYHQt
- Gi4A==
-X-Gm-Message-State: AO0yUKV5SCvOtFuBUHgKAZmr60HmrsA345/3cXMdwvG5dunYDV1mK7kU
- 8zQdOCxkWzGiqRrVwQoWCmHDS2pmo1IOFEoBHbK06VoY3TcVfRm1A1/sM9iIgJw+cu1iOHQneN6
- 0pgRZ2EhlVoDjs+bAWYqJZqKO4NOPe57TlIbkGnnFlwiq/OeJHsl6Zwip+g+d8pxFp7X9Il/E
-X-Received: by 2002:a17:906:e0c9:b0:88a:1ea9:a5ea with SMTP id
- gl9-20020a170906e0c900b0088a1ea9a5eamr8250709ejb.65.1675876770798; 
- Wed, 08 Feb 2023 09:19:30 -0800 (PST)
-X-Google-Smtp-Source: AK7set+Yj9yQmTM7V4YHfVARujIyBTHZt56S5+GmZMv2tuaECNMujeijuZdVhPE6mg3Rqqbjg22hWg==
-X-Received: by 2002:a17:906:e0c9:b0:88a:1ea9:a5ea with SMTP id
- gl9-20020a170906e0c900b0088a1ea9a5eamr8250690ejb.65.1675876770457; 
- Wed, 08 Feb 2023 09:19:30 -0800 (PST)
+ bh=SPg0YieviKIWcimw6lMQluCiclXWxrWfPNu19kNHRP8=;
+ b=eY2lW1Y6OI+HpQwC8A780N790ixyhlFh0NI/+XTYBalHMRfFoH1Mfk3PoJ+dC0y2Zs
+ tyTF7c5sMq90GDiS8d/Hcnqrlg4l8aDxaS/XT4uu2VnbClQuXE4RTfKg5nzxTjacWP/b
+ vmyk7Cz/akCPnO56ausNvFt9Jnb1iAakTcVZdX2uz23u9gRybtrEVP9j2CZpsUVfsKrT
+ UOW4jNXUnpNyhEd/p7zeosHbkXIMQQj3rUq/SfxsnslTtKA3NrThSFPvrj6ookOzh6Zc
+ gytxs8AfbD4jrdoY8/oF3619JQf33iK6aPkgKp+IznjYyanbe4UmmoVHm+FOm2vDdyCX
+ c2vw==
+X-Gm-Message-State: AO0yUKUmYteXVzreQdOQjuWlV18++/EYM1oX7/AIRKl8EJYogpSbp4OG
+ k+eqSoGDq2n4UEJUlU9QjAgzMEqI9hbkf5D7SQ/0jXDMlmrg5m1ndWo8n56YCuPMlVudamqi8bE
+ bLqAl3hFXX/yxSh3X3fa1uOnUkHY/GcIaZ6LUOTP1x7eUenM8x0BHP5Gzpd6Qp/lTTX5ebPbE
+X-Received: by 2002:a17:907:6e17:b0:8af:2af5:1191 with SMTP id
+ sd23-20020a1709076e1700b008af2af51191mr617863ejc.18.1675876778216; 
+ Wed, 08 Feb 2023 09:19:38 -0800 (PST)
+X-Google-Smtp-Source: AK7set/r9MnG71111f8UeZllNRGXNnr2OJ8hwf63t+M+M07XIuX0eM3r4ackKkmLXhKbNcii3xE87Q==
+X-Received: by 2002:a17:907:6e17:b0:8af:2af5:1191 with SMTP id
+ sd23-20020a1709076e1700b008af2af51191mr617838ejc.18.1675876777927; 
+ Wed, 08 Feb 2023 09:19:37 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
  by smtp.gmail.com with ESMTPSA id
- bn18-20020a170906c0d200b0087f68a2681bsm8593567ejb.96.2023.02.08.09.19.29
+ sb1-20020a170906edc100b008888f4120d4sm8431183ejb.129.2023.02.08.09.19.37
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 09:19:30 -0800 (PST)
+ Wed, 08 Feb 2023 09:19:37 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/11] remove unnecessary extern "C" blocks
-Date: Wed,  8 Feb 2023 18:19:13 +0100
-Message-Id: <20230208171922.95048-3-pbonzini@redhat.com>
+Subject: [PULL 03/11] block/iscsi: fix double-free on BUSY or similar statuses
+Date: Wed,  8 Feb 2023 18:19:14 +0100
+Message-Id: <20230208171922.95048-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230208171922.95048-1-pbonzini@redhat.com>
 References: <20230208171922.95048-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -99,166 +99,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-A handful of header files in QEMU are wrapped with extern "C" blocks.
-These are not necessary: there are C++ source files anymore in QEMU,
-and even where there were some, they did not include most of these
-files anyway.
+Commit 8c460269aa77 ("iscsi: base all handling of check condition on
+scsi_sense_to_errno", 2019-07-15) removed a "goto out" so that the
+same coroutine is re-entered twice; once from iscsi_co_generic_cb,
+once from the timer callback iscsi_retry_timer_expired.  This can
+cause a crash.
 
-Remove them for consistency.
-
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1378
+Reported-by: Grzegorz Zdanowski <https://gitlab.com/kiler129>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/disas/dis-asm.h  | 8 --------
- include/qemu/bswap.h     | 8 --------
- include/qemu/envlist.h   | 8 --------
- include/qemu/rcu.h       | 8 --------
- include/qemu/rcu_queue.h | 8 --------
- include/qemu/uri.h       | 7 -------
- 6 files changed, 47 deletions(-)
+ block/iscsi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
-index 64247ecb11f4..32cda9ef14c5 100644
---- a/include/disas/dis-asm.h
-+++ b/include/disas/dis-asm.h
-@@ -11,10 +11,6 @@
- 
- #include "qemu/bswap.h"
- 
--#ifdef __cplusplus
--extern "C" {
--#endif
--
- typedef void *PTR;
- typedef uint64_t bfd_vma;
- typedef int64_t bfd_signed_vma;
-@@ -506,8 +502,4 @@ static inline bfd_vma bfd_getb16(const bfd_byte *addr)
- 
- typedef bool bfd_boolean;
- 
--#ifdef __cplusplus
--}
--#endif
--
- #endif /* DISAS_DIS_ASM_H */
-diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-index 3cbe52246b81..b1650daedf9c 100644
---- a/include/qemu/bswap.h
-+++ b/include/qemu/bswap.h
-@@ -1,10 +1,6 @@
- #ifndef BSWAP_H
- #define BSWAP_H
- 
--#ifdef __cplusplus
--extern "C" {
--#endif
--
- #undef  bswap16
- #define bswap16(_x) __builtin_bswap16(_x)
- #undef  bswap32
-@@ -395,8 +391,4 @@ DO_STN_LDN_P(be)
- #undef le_bswaps
- #undef be_bswaps
- 
--#ifdef __cplusplus
--}
--#endif
--
- #endif /* BSWAP_H */
-diff --git a/include/qemu/envlist.h b/include/qemu/envlist.h
-index b9addcc11f7d..6006dfae44c3 100644
---- a/include/qemu/envlist.h
-+++ b/include/qemu/envlist.h
-@@ -1,10 +1,6 @@
- #ifndef ENVLIST_H
- #define ENVLIST_H
- 
--#ifdef __cplusplus
--extern "C" {
--#endif
--
- typedef struct envlist envlist_t;
- 
- envlist_t *envlist_create(void);
-@@ -15,8 +11,4 @@ int envlist_parse_set(envlist_t *, const char *);
- int envlist_parse_unset(envlist_t *, const char *);
- char **envlist_to_environ(const envlist_t *, size_t *);
- 
--#ifdef __cplusplus
--}
--#endif
--
- #endif /* ENVLIST_H */
-diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
-index b063c6fde81d..313fc414bc2a 100644
---- a/include/qemu/rcu.h
-+++ b/include/qemu/rcu.h
-@@ -31,10 +31,6 @@
- #include "qemu/sys_membarrier.h"
- #include "qemu/coroutine-tls.h"
- 
--#ifdef __cplusplus
--extern "C" {
--#endif
--
- /*
-  * Important !
-  *
-@@ -196,8 +192,4 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC(RCUReadAuto, rcu_read_auto_unlock)
- void rcu_add_force_rcu_notifier(Notifier *n);
- void rcu_remove_force_rcu_notifier(Notifier *n);
- 
--#ifdef __cplusplus
--}
--#endif
--
- #endif /* QEMU_RCU_H */
-diff --git a/include/qemu/rcu_queue.h b/include/qemu/rcu_queue.h
-index 0e53ddd5305e..4e6298d47307 100644
---- a/include/qemu/rcu_queue.h
-+++ b/include/qemu/rcu_queue.h
-@@ -28,11 +28,6 @@
- #include "qemu/queue.h"
- #include "qemu/atomic.h"
- 
--#ifdef __cplusplus
--extern "C" {
--#endif
--
--
- /*
-  * List access methods.
-  */
-@@ -311,7 +306,4 @@ extern "C" {
-          (var) && ((next) = qatomic_rcu_read(&(var)->field.sle_next), 1); \
-          (var) = (next))
- 
--#ifdef __cplusplus
--}
--#endif
- #endif /* QEMU_RCU_QUEUE_H */
-diff --git a/include/qemu/uri.h b/include/qemu/uri.h
-index d201c61260de..db5218c39ec0 100644
---- a/include/qemu/uri.h
-+++ b/include/qemu/uri.h
-@@ -53,10 +53,6 @@
- #ifndef QEMU_URI_H
- #define QEMU_URI_H
- 
--#ifdef __cplusplus
--extern "C" {
--#endif
--
- /**
-  * URI:
-  *
-@@ -105,7 +101,4 @@ struct QueryParams *query_params_new (int init_alloc);
- extern QueryParams *query_params_parse (const char *query);
- extern void query_params_free (QueryParams *ps);
- 
--#ifdef __cplusplus
--}
--#endif
- #endif /* QEMU_URI_H */
+diff --git a/block/iscsi.c b/block/iscsi.c
+index b3e10f40b649..3aacd0709f93 100644
+--- a/block/iscsi.c
++++ b/block/iscsi.c
+@@ -269,6 +269,7 @@ iscsi_co_generic_cb(struct iscsi_context *iscsi, int status,
+                 timer_mod(&iTask->retry_timer,
+                           qemu_clock_get_ms(QEMU_CLOCK_REALTIME) + retry_time);
+                 iTask->do_retry = 1;
++                return;
+             } else if (status == SCSI_STATUS_CHECK_CONDITION) {
+                 int error = iscsi_translate_sense(&task->sense);
+                 if (error == EAGAIN) {
 -- 
 2.39.1
 
