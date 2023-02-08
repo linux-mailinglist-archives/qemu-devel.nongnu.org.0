@@ -2,64 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A94FD68F8CA
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 21:26:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D6C68F8D0
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 21:29:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPr0a-0002Z9-Lh; Wed, 08 Feb 2023 15:25:36 -0500
+	id 1pPr3H-0003QE-6w; Wed, 08 Feb 2023 15:28:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pPr0X-0002XE-Q8
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 15:25:33 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pPr3F-0003Pu-E1
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 15:28:21 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pPr0W-0003Nx-AO
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 15:25:33 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pPr3D-00048i-KK
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 15:28:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675887930;
+ s=mimecast20190719; t=1675888099;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=IDEeVAEK3HM1sKUBiRMONicX5F2C4ylpCnPgBrRmrEk=;
- b=jAB5hdoMn4IdKCjRBXcmfxdNfh5mmsuLihFuL3GGQwoTltF6D+q1/vuTgIvP33y8HZGb8G
- b+ModIkEp7Q8hf+KO13+YTZ6jlI8BtRyDXQ6M/4GUIt0yQQg3jDM/W41j2Fcc8nAfKJVJ2
- DFPazDpSPRo+sVtpRw1tXwfFFYr0EFM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-543-c_lbMb0UOgqsX5FiI-Lgaw-1; Wed, 08 Feb 2023 15:25:29 -0500
-X-MC-Unique: c_lbMb0UOgqsX5FiI-Lgaw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 21B3029DD981;
- Wed,  8 Feb 2023 20:25:29 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 43EC71121314;
- Wed,  8 Feb 2023 20:25:28 +0000 (UTC)
-Date: Wed, 8 Feb 2023 14:25:26 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Yanan Wang <wangyanan55@huawei.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: Re: [PATCH v3 1/6] multifd: Create property
- multifd-sync-after-each-section
-Message-ID: <20230208202526.p2jmikndw5lx2ong@redhat.com>
-References: <20230208133010.17323-1-quintela@redhat.com>
- <20230208133010.17323-2-quintela@redhat.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=oaLu5JeXKA764wdFJ9O0Oog5UEyXrQ+yC82IkQKE628=;
+ b=Z0WN2ooVMTiJyzKBUpCnp6cwN73+r4KNEAyh/J/Z13bqFEzk9ZVa8rYW3Hr2YwYpvrizWo
+ IcmDGz5s/EA7m/itgrTnKv6yXGwruhQeaFedB7k0/5d2smPj2rXnyPfchoenTQO5ARdV6O
+ D+H9VRO8xWn7sOBlyF+7SJm0eQOZG0g=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-481-8kcAmU3XO12W-TfT01_Kfw-1; Wed, 08 Feb 2023 15:28:17 -0500
+X-MC-Unique: 8kcAmU3XO12W-TfT01_Kfw-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ w2-20020a0cc702000000b0055c8ef137ddso31540qvi.0
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 12:28:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=oaLu5JeXKA764wdFJ9O0Oog5UEyXrQ+yC82IkQKE628=;
+ b=7pwzbr+1RdsfH0shDm1xWLB6Vn4jM0bXss4CHZmcgjy3tBbfx/+ygSAMor1SYT4QRH
+ 3eu6+jvpKPaEIodlfGBXemxj65J9rqZEmJzz9dhZKbx26Ldz+DfnH0BTCg/NRx3z0xZj
+ XdB0jtmttZEUARp22cYIttlxgyUkWQeUO5IyQWjguCYla84L1BvLn8mAlxQn/pbeUp1U
+ kibFoAiMyjzIDHmyzZcTQJFCSyccnherYKJVBDSU4dBCGiTn9DGxKgnpJSvfjw9ClYr9
+ a7MtnlhcM21lksTM6m0RnebC8LBD45+iqYjCRT6ZWsj2JB7CoczK0l05T08BYAousoYu
+ XNGw==
+X-Gm-Message-State: AO0yUKX3DOA49/ICYiqP/S6nWBpS0IlsCygS3Uf4cfIJcwLA8NJyZpzK
+ SBruLm2XiE6TI4IVBRqrDbxlvmB8s4ZxVjmFdMMl8c1A9ipvSlK6jjZ6mnMPnlKr9DN6wRNH1GV
+ obQDm7xBy04bdyX853NLLfzFYaWVZ7Z6L5qf7M/ieO2gYKH2Tje5g2vngZzbaHnSZ/ksDaw==
+X-Received: by 2002:ac8:59c1:0:b0:3b8:6c6e:4949 with SMTP id
+ f1-20020ac859c1000000b003b86c6e4949mr16602688qtf.4.1675888095827; 
+ Wed, 08 Feb 2023 12:28:15 -0800 (PST)
+X-Google-Smtp-Source: AK7set/EDVqvRR37qZ0pbef22Gc5FFlX+ptzg2zqi7CGgsRhVmL3Xo3ZmM+Xs0QBZXJKTnZv16qsjw==
+X-Received: by 2002:ac8:59c1:0:b0:3b8:6c6e:4949 with SMTP id
+ f1-20020ac859c1000000b003b86c6e4949mr16602645qtf.4.1675888095495; 
+ Wed, 08 Feb 2023 12:28:15 -0800 (PST)
+Received: from x1n.redhat.com
+ (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca. [70.30.145.63])
+ by smtp.gmail.com with ESMTPSA id
+ g4-20020a37e204000000b0070d11191e91sm12287144qki.44.2023.02.08.12.28.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Feb 2023 12:28:14 -0800 (PST)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>, peterx@redhat.com,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Manish Mishra <manish.mishra@nutanix.com>
+Subject: [PATCH v3 0/4] migration: Fix disorder of channel creations
+Date: Wed,  8 Feb 2023 15:28:09 -0500
+Message-Id: <20230208202813.1363225-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.37.3
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230208133010.17323-2-quintela@redhat.com>
-User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -83,52 +99,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 08, 2023 at 02:30:05PM +0100, Juan Quintela wrote:
-> We used to synchronize all channels at the end of each RAM section
-> sent.  That is not needed, so preparing to only synchronize once every
-> full round in latests patches.
-> 
-> Notice that we initialize the property as true.  We will change the
-> default when we introduce the new mechanism.
-> 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> 
-> ---
-> 
-> Rename each-iteration to after-each-section
-> 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> ---
->  qapi/migration.json   |  9 ++++++++-
->  migration/migration.h |  1 +
->  hw/core/machine.c     |  1 +
->  migration/migration.c | 15 +++++++++++++--
->  4 files changed, 23 insertions(+), 3 deletions(-)
-> 
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index c84fa10e86..d712b082c8 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -478,6 +478,12 @@
->  #                    should not affect the correctness of postcopy migration.
->  #                    (since 7.1)
->  #
-> +# @multifd-sync-after-each-section: Synchronize channels after each
-> +#                                   section is sent.  We used to do
-> +#                                   that on the past, but it is
+v3
+- Fix indent for uri_supports_multi_channels() [Juan]
+- Rename migration_uri_validate() to migration_channels_and_uri_compatible() [Juan]
+- Separate the changes to migrate_postcopy_preempt() into separate patch [Juan]
 
-s/on/in/
+I can trigger disordered connections with preempt mode postcopy (1 out of a
+few attemps), which can cause migration to hang during precopy phase, if
+e.g. I set the NIC packet loss rate to 50%.
 
-> +#                                   suboptimal.
-> +#                                   (since 7.1)
+The last patch fixes the real ordering issue.  For each of the patch,
+please refer to the commit message and comments in-code.
 
-Shouldn't this be 8.0 now?
+Any comment welcomed, thanks.
+
+Peter Xu (4):
+  migration: Rework multi-channel checks on URI
+  migration: Cleanup postcopy_preempt_setup()
+  migration: Add a semaphore to count PONGs
+  migration: Postpone postcopy preempt channel to be after main
+
+ migration/migration.c    | 122 ++++++++++++++++++++++++++-------------
+ migration/migration.h    |  15 ++++-
+ migration/multifd.c      |  12 +---
+ migration/postcopy-ram.c |  31 +++++-----
+ migration/postcopy-ram.h |   4 +-
+ migration/savevm.c       |   6 +-
+ 6 files changed, 118 insertions(+), 72 deletions(-)
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.37.3
 
 
