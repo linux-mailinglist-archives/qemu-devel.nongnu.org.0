@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6918D68F102
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 15:40:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CC5468F14F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 15:55:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPlbj-0003Q9-2r; Wed, 08 Feb 2023 09:39:35 -0500
+	id 1pPlpL-0000Wl-6Z; Wed, 08 Feb 2023 09:53:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1pPlbb-0003MY-MR
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 09:39:28 -0500
-Received: from mga11.intel.com ([192.55.52.93])
+ id 1pPlpI-0000WX-Ez
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 09:53:36 -0500
+Received: from mga01.intel.com ([192.55.52.88])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1pPlbX-0007k3-RR
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 09:39:26 -0500
+ id 1pPlpF-0005a2-Pu
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 09:53:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675867163; x=1707403163;
+ t=1675868013; x=1707404013;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=jiFrQDKOqmQTDrb7R/nPaPNlvwLLNaxoVOkZR2bIi9Y=;
- b=H+dq7z9+iFz+tUljoyvImlR10xDDFgAdV1ZK4hRk9QjwzdZ04+UgGjeE
- x81Vi4sFnEudjEJIM/9ZjkkFi/a2k4ig4PDgQRz/69GyoJvUj+NUHAMG1
- 0RuRwbEdn4wf4MVIygqEKfm+rt3dUIQhK/TSGR2+hk+wKsfZIB6+33ryY
- kwp00BS7Due6cAA5C2mrlxfP/bFjJgHBtclC7LpNF5xhrH/lTqZ1u3Y7U
- Xn6rBvMf9i8ZBR+A6pG5ZpjOAY3qpoxnStyYtXOEzEQPaDcYzSbnhxG9E
- /nI0ro11gI4CONn7F8gRMkVguAWVtMgWp5duw+Qd1NwvMezqUkf5RKst8 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="327508056"
-X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; d="scan'208";a="327508056"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2023 06:39:20 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="756076633"
-X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; d="scan'208";a="756076633"
+ bh=L5AWU7glwKuBpvRARKmZlmfznpjdLw50JVGXjcp2As0=;
+ b=IvhapitOrF4wY0jHUk8D8Yt4rg8CmFWd/kYxf6l+yl3DWHebI/jTdwaM
+ ZYKxtd+v0FNORoivNlNxgwC/VwZinBCd+Vw8EhoEj/VjJY1gaIQd95fP8
+ 1tTeh8+Xk5FCQ1fsQIWTibaEOJ3Chmc7wxhCDxcD/9S/odV3nCB08sPSC
+ q5J70qPez3xGPaLDbLPY72tFvCnr4Gr4JZrzgDBzjmimcyab1ktbhEPuk
+ XFVguihaL1K14LH6J0gzneh8AckRmVLN8LB+qzW3b4KU7lNQOlGqHvfHi
+ ChoOlP77WBSj84oqEy3JifPbkArxwoNcYg3+kOzsaonMGDODtVCQuQYGc Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="357210333"
+X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; d="scan'208";a="357210333"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2023 06:53:28 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="617233041"
+X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; d="scan'208";a="617233041"
 Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.169.252])
  ([10.249.169.252])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2023 06:39:18 -0800
-Message-ID: <37f7ea7f-6021-2c96-850e-63cb3622716c@intel.com>
-Date: Wed, 8 Feb 2023 22:39:16 +0800
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2023 06:53:24 -0800
+Message-ID: <8c66c0b1-45df-0d07-3cd2-f10b98fb4362@intel.com>
+Date: Wed, 8 Feb 2023 22:53:22 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Firefox/102.0 Thunderbird/102.6.1
-Subject: Re: [PATCH v3 3/6] i386: Introduce new struct "MultiBitFeatureInfo"
- for multi-bit features
+Subject: Re: [PATCH v3 0/6] Support for new CPU model SapphireRapids
 Content-Language: en-US
-To: Lei Wang <lei4.wang@intel.com>, pbonzini@redhat.com
-Cc: qemu-devel@nongnu.org, imammedo@redhat.com, dgilbert@redhat.com,
+To: Igor Mammedov <imammedo@redhat.com>, Lei Wang <lei4.wang@intel.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
  berrange@redhat.com, yang.zhong@linux.intel.com
 References: <20230106083826.5384-1-lei4.wang@intel.com>
- <20230106083826.5384-4-lei4.wang@intel.com>
+ <20230202120533.37972585@imammedo.users.ipa.redhat.com>
 From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20230106083826.5384-4-lei4.wang@intel.com>
+In-Reply-To: <20230202120533.37972585@imammedo.users.ipa.redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.93; envelope-from=xiaoyao.li@intel.com;
- helo=mga11.intel.com
+Received-SPF: pass client-ip=192.55.52.88; envelope-from=xiaoyao.li@intel.com;
+ helo=mga01.intel.com
 X-Spam_score_int: -44
 X-Spam_score: -4.5
 X-Spam_bar: ----
 X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, NICE_REPLY_A=-1.146,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,142 +82,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/6/2023 4:38 PM, Lei Wang wrote:
-> Some features use multiple CPUID bits to form a value to be used, e.g.,
-> CPUID(0x1E,0):EBX[23:08] is regarded as the tmul_maxn value for AMX.
-> Introduce a new struct "MultiBitFeatureInfo" to hold the information for
-> those features and create a corresponding member in struct FeatureWordInfo,
-> so that the infomation can be assigned for each item in feature_word_info
-> array and used in the future.
+On 2/2/2023 7:05 PM, Igor Mammedov wrote:
+> On Fri,  6 Jan 2023 00:38:20 -0800
+> Lei Wang <lei4.wang@intel.com> wrote:
 > 
-> Signed-off-by: Lei Wang <lei4.wang@intel.com>
-> ---
->   target/i386/cpu-internal.h |  9 +++++++
->   target/i386/cpu.c          | 54 ++++++++++++++++++++++++++++++++++++++
->   2 files changed, 63 insertions(+)
+>> This series aims to add a new CPU model SapphireRapids, and tries to
+>> address the problem stated in
+>> https://lore.kernel.org/all/20220812055751.14553-1-lei4.wang@intel.com/T/#mcf67dbd1ad37c65d7988c36a2b267be9afd2fb30,
+>> so that named CPU model can define its own AMX values, and QEMU won't
+>> pass the wrong AMX values to KVM in future platforms if they have
+>> different values supported.
+>>
+>> The original patch is
+>> https://lore.kernel.org/all/20220812055751.14553-1-lei4.wang@intel.com/T/#u.
 > 
-> diff --git a/target/i386/cpu-internal.h b/target/i386/cpu-internal.h
-> index 9baac5c0b4..66b3d66cb4 100644
-> --- a/target/i386/cpu-internal.h
-> +++ b/target/i386/cpu-internal.h
-> @@ -25,6 +25,13 @@ typedef enum FeatureWordType {
->      MSR_FEATURE_WORD,
->   } FeatureWordType;
->   
-> +typedef struct MultiBitFeatureInfo {
-> +    const char *feat_name;
-> +    uint64_t mask;
-> +    unsigned high_bit_position;
-> +    unsigned low_bit_position;
-> +} MultiBitFeatureInfo;
-> +
->   typedef struct FeatureWordInfo {
->       FeatureWordType type;
->       /* feature flags names are taken from "Intel Processor Identification and
-> @@ -51,6 +58,8 @@ typedef struct FeatureWordInfo {
->       uint64_t migratable_flags; /* Feature flags known to be migratable */
->       /* Features that shouldn't be auto-enabled by "-cpu host" */
->       uint64_t no_autoenable_flags;
-> +    unsigned num_multi_bit_features;
-> +    MultiBitFeatureInfo *multi_bit_features;
->   } FeatureWordInfo;
->   
->   extern FeatureWordInfo feature_word_info[];
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 883098bc5a..88aa780566 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -1011,6 +1011,21 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
->           },
->           .migratable_flags = CPUID_AMX_PALETTE_1_TOTAL_TILE_BYTES_MASK |
->               CPUID_AMX_PALETTE_1_BYTES_PER_TILE_MASK,
-> +        .num_multi_bit_features = 2,
-> +        .multi_bit_features = (MultiBitFeatureInfo[]){
-> +            {
-> +                .feat_name = "total_tile_bytes",
-> +                .mask = CPUID_AMX_PALETTE_1_TOTAL_TILE_BYTES_MASK,
-> +                .high_bit_position = 15,
-> +                .low_bit_position = 0,
-> +            },
-> +            {
-> +                .feat_name = "bytes_per_tile",
-> +                .mask = CPUID_AMX_PALETTE_1_BYTES_PER_TILE_MASK,
-> +                .high_bit_position = 31,
-> +                .low_bit_position = 16,
-> +            },
-> +        },
+> MultiBitFeatureInfo looks like an interesting
+> idea but among fixing whatever issues this has atm,
+> you'd probably need to introduce a new  qdev_bitfield property
+> infrastructure so that such features could be treated like any
+> other qdev properties.
+> Also when MultiBitFeatureInfo is added, one should convert all
+> other usecases where it's applicable (not only for new code)
+> so that we would end up with consolidated approach instead of
+> zoo mess.
+> 
+> I'm not sure all MultiBitFeatureInfo complexity is necessary
+> just for adding a new CPU model, I'd rather use ad hoc approach
+> that we were using before for non boolean features.
 
-without Patch 4, we have no idea how MultiBitFeatureInfo will be used.
+We have to introduce MultiBitFeatureInfo for SPR cpu model if AMX is 
+supposed to be included with SPR cpu model. In fact, MultiBitFeatureInfo 
+should have been introduced when adding AMX virtualization support in 
+QEMU. I.e., current AMX virtualization design is problematic just like 
+Intel-PT virtualization.
 
-you can
+Ideally, this series can be split as two: 1) Fix AMX virtualization (by 
+introducing MultiBitFeatureInfo), 2) define SPR cpu model.
 
-1) introduce the whole MultiBitFeatureInfo infrastructure in this patch 
-by merging Patch 4.
-
-2) define real user of MultiBitFeatureInfo such as AMX in a seperate patch.
-
->       },
->       [FEAT_1D_1_EBX] = {
->           .type = CPUID_FEATURE_WORD,
-> @@ -1021,6 +1036,21 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
->           },
->           .migratable_flags = CPUID_AMX_PALETTE_1_BYTES_PER_ROW_MASK |
->               CPUID_AMX_PALETTE_1_MAX_NAMES_MASK,
-> +        .num_multi_bit_features = 2,
-> +        .multi_bit_features = (MultiBitFeatureInfo[]){
-> +            {
-> +                .feat_name = "bytes_per_row",
-> +                .mask = CPUID_AMX_PALETTE_1_BYTES_PER_ROW_MASK,
-> +                .high_bit_position = 15,
-> +                .low_bit_position = 0,
-> +            },
-> +            {
-> +                .feat_name = "max_names",
-> +                .mask = CPUID_AMX_PALETTE_1_MAX_NAMES_MASK,
-> +                .high_bit_position = 31,
-> +                .low_bit_position = 16,
-> +            },
-> +        },
->       },
->       [FEAT_1D_1_ECX] = {
->           .type = CPUID_FEATURE_WORD,
-> @@ -1030,6 +1060,15 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
->               .reg = R_ECX,
->           },
->           .migratable_flags = CPUID_AMX_PALETTE_1_MAX_ROWS_MASK,
-> +        .num_multi_bit_features = 1,
-> +        .multi_bit_features = (MultiBitFeatureInfo[]){
-> +            {
-> +                .feat_name = "max_rows",
-> +                .mask = CPUID_AMX_PALETTE_1_MAX_ROWS_MASK,
-> +                .high_bit_position = 15,
-> +                .low_bit_position = 0,
-> +            },
-> +        },
->       },
->       [FEAT_1E_0_EBX] = {
->           .type = CPUID_FEATURE_WORD,
-> @@ -1040,6 +1079,21 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
->           },
->           .migratable_flags = CPUID_AMX_TMUL_MAX_K_MASK |
->               CPUID_AMX_TMUL_MAX_N_MASK,
-> +        .num_multi_bit_features = 2,
-> +        .multi_bit_features = (MultiBitFeatureInfo[]){
-> +            {
-> +                .feat_name = "tmul_maxk",
-> +                .mask = CPUID_AMX_TMUL_MAX_K_MASK,
-> +                .high_bit_position = 7,
-> +                .low_bit_position = 0,
-> +            },
-> +            {
-> +                .feat_name = "tmul_maxn",
-> +                .mask = CPUID_AMX_TMUL_MAX_N_MASK,
-> +                .high_bit_position = 23,
-> +                .low_bit_position = 8,
-> +            },
-> +        },
->       },
->       /*Below are MSR exposed features*/
->       [FEAT_ARCH_CAPABILITIES] = {
+> 
+> And then try to develop MultiBitFeatureInfo & co as a separate
+> series to demonstrate how much it will improve current
+> cpu models definitions.
+> 
+> PS:
+>   'make check-acceptance' are broken with this
+> 
+>> ---
+>>
+>> Changelog:
+>>
+>> v3:
+>>   - Rebase on the latest QEMU (d1852caab131ea898134fdcea8c14bc2ee75fbe9).
+>>   - v2: https://lore.kernel.org/qemu-devel/20221102085256.81139-1-lei4.wang@intel.com/
+>>
+>> v2:
+>>   - Fix when passing all zeros of AMX-related CPUID, QEMU will warn
+>>     unsupported.
+>>   - Remove unnecessary function definition and make code cleaner.
+>>   - Fix some typos.
+>>   - v1: https://lore.kernel.org/qemu-devel/20221027020036.373140-1-lei4.wang@intel.com/T/#t
+>>
+>>
+>> Lei Wang (6):
+>>    i386: Introduce FeatureWordInfo for AMX CPUID leaf 0x1D and 0x1E
+>>    i386: Remove unused parameter "uint32_t bit" in
+>>      feature_word_description()
+>>    i386: Introduce new struct "MultiBitFeatureInfo" for multi-bit
+>>      features
+>>    i386: Mask and report unavailable multi-bit feature values
+>>    i386: Initialize AMX CPUID leaves with corresponding env->features[]
+>>      leaves
+>>    i386: Add new CPU model SapphireRapids
+>>
+>>   target/i386/cpu-internal.h |  11 ++
+>>   target/i386/cpu.c          | 311 +++++++++++++++++++++++++++++++++++--
+>>   target/i386/cpu.h          |  16 ++
+>>   3 files changed, 322 insertions(+), 16 deletions(-)
+>>
+>>
+>> base-commit: d1852caab131ea898134fdcea8c14bc2ee75fbe9
+> 
 
 
