@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B426268F802
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:28:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5578F68F815
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:31:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPq6i-0006Nd-7n; Wed, 08 Feb 2023 14:27:52 -0500
+	id 1pPqAD-0001be-Nn; Wed, 08 Feb 2023 14:31:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pPq6f-0006NJ-UV
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:27:49 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ id 1pPq9o-0001Q6-RX
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:31:10 -0500
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pPq6e-0006Ew-9v
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:27:49 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- on9-20020a17090b1d0900b002300a96b358so3350905pjb.1
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 11:27:47 -0800 (PST)
+ id 1pPq9m-0006po-5Q
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:31:04 -0500
+Received: by mail-pl1-x629.google.com with SMTP id u9so888066plr.9
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 11:30:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=F7wydLwGWVIqSR00/L+soQ4BqsoKEj0d3QM3Zrtq6iY=;
- b=u/5TqDSSy+6h6iwWPQhSo+t7WtsO6vniK2MqHTT0Xj98LaJMIzhUv1spGiSvEm2m7t
- IxfP14DdifsyZo4oIqhBWIoglp9TBXGLDKoXUOfJmoJloeRCGsNUGEhVDuq+BbjWnhuf
- GzIMYBvwgATkqAEfUJveeo8x2b5emRiHTS/ev4xyORcLf3lO605FBemvaaWScQ6Ulfo+
- LnY/k/DHa50IWMIGiAkVaqXxyvhYEO12hHtwSduHMGOJPRbVdRIMbWIYxkOK7var8c7n
- lthBSXdUNj6a/o23KywSZ2o3dYxmc90elxqEujl7rlpI0Uy2gq/WvxK4tJnJL+s2WerJ
- 9mAw==
+ bh=3IXRJH5taLneD9na5TOJOTS2JK21q2tHlSyF+EuRQHk=;
+ b=InWIdIQOPXt99tblXNL31mY9sJomoo+zyj3DjP6OYr+s1XdrPmgVOtMIAG8E/bT+jS
+ zqkyqqk6E/5TBdenifvIbWJTlV6nog8mskBUVSEZqgbdFfHFl1sBr+7NtRfvmpF06LAi
+ Ua6mpJaYgwtITowUtRhMg0FjJErFhg8mCwzIfggemZwOXZuzvYD5CrTdItErJgpAbPQn
+ xL+HAjpe4/BOnloZRK2L6bTjWRur4j2BPaNxCaWuEB56gL8l98C8dxIsKQJQ0+rjdPju
+ cTVknEGNza6gib639nrgHwAXBMp/j7UTdSviWNUtFKUJsAe6fIynD82pRopwgCm9oQbQ
+ 1XDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=F7wydLwGWVIqSR00/L+soQ4BqsoKEj0d3QM3Zrtq6iY=;
- b=XgbXP85UkZT7vyXKysyFvQVjEhJ8S2Yua833v5+5kbJ0Djgr+HQFz+3Bt3rOQZbcOi
- ge9wzM5pvhaL3FxK06bryYu+VpZbXzcw+RpZ3LwGxv65D6B603wR6B1ME6HR7hh8gIWn
- 4yyntOUhCA308yghu7EJL2tOEgXJ0+AWeMs/pWvb6lsMi2F0a2DIcQ4d8VSISp6ettBf
- 0Wtdsz8Z0hiZuQFIr9j6pc5NnKNfrvRsHNy9OkGMgVXXvH7fsP9OxiYtLeGSBH7YvBUu
- 7QA+arYXk6KKtiU9/kd7NK+VDKlfXS1fD0rE66U/DJIX4bcLpZZDqt01VrkeXDmRy59O
- R3cQ==
-X-Gm-Message-State: AO0yUKVGAch1yc1DUcS2O0yxF5NxYXUakZp0V5aKmcPfFCP3eTdPHq6I
- 3qSPJ2E5iOIfIKeWyh4P5qfYSw==
-X-Google-Smtp-Source: AK7set+6peDvrGfcnAdRaztCCRs548P6Nnjx7M9tKepu1hFOPLZ0h1eRNMNn7Fynr2N6vv6Sf0IhUg==
-X-Received: by 2002:a17:902:e885:b0:198:dd3f:2847 with SMTP id
- w5-20020a170902e88500b00198dd3f2847mr10133476plg.21.1675884466565; 
- Wed, 08 Feb 2023 11:27:46 -0800 (PST)
+ bh=3IXRJH5taLneD9na5TOJOTS2JK21q2tHlSyF+EuRQHk=;
+ b=eXuPWFChLadLYLOco3Iil7OwmfVTCxn3wqHTPA9ubTrnaqikjN8I2zqGAdwyPIBJFZ
+ fER51umojvNphW6mIy97P1ImJh4t1I5LcRFfF+so55i6QblVnm2RFs7jrVEOyfC9B1KL
+ YglGjGnIBkf2FG33w2ukknRKGH2ZScIfzSYEMEGweROsHjDQQ2zxdkfYgLP9Hf+RmVnp
+ NJz2dQz8b67e1OVoV20igQb9TlzfhIx2vqZ0lvijj9PprhOKlJOvRgcq0pQblkR7cQcC
+ Y0OmvGA3x5NUzXXi0YeSZqqgBhXiehnmwFgAgFLu/RXt19KytOykQbbaKJNp3GvqmPNw
+ 5WXQ==
+X-Gm-Message-State: AO0yUKUNyZtM+af7hZwyLR/nkZvMeSB0lFmigSfKe2foF26oacAIFJpN
+ O6BOW0sFyOuVoqHXAPqzvvtH7A==
+X-Google-Smtp-Source: AK7set/aQIP3LTK5ywdbqrr+5+Cjnj/dNKhAtiyPUo/RDOoBT5YfzECH09wx8nYAz1Dx7gq5bZ8pww==
+X-Received: by 2002:a17:90a:1a42:b0:230:7a3a:d4cc with SMTP id
+ 2-20020a17090a1a4200b002307a3ad4ccmr9562767pjl.43.1675884655865; 
+ Wed, 08 Feb 2023 11:30:55 -0800 (PST)
 Received: from [192.168.101.227] (rrcs-74-87-59-234.west.biz.rr.com.
  [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
- e6-20020a170902d38600b00192aa53a7d5sm6490819pld.8.2023.02.08.11.27.44
+ bj2-20020a17090b088200b0020b21019086sm4648927pjb.3.2023.02.08.11.30.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Feb 2023 11:27:46 -0800 (PST)
-Message-ID: <270529db-7822-e530-a009-6f20d789432f@linaro.org>
-Date: Wed, 8 Feb 2023 09:27:41 -1000
+ Wed, 08 Feb 2023 11:30:55 -0800 (PST)
+Message-ID: <589d77fd-6eab-ecb9-e8d8-a095aa643ebc@linaro.org>
+Date: Wed, 8 Feb 2023 09:30:51 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 1/7] hw/isa: Un-inline isa_bus_from_device()
+Subject: Re: [PATCH 2/7] hw/isa: Use isa_address_space_io() to reduce access
+ on global 'isabus'
+Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
 Cc: BALATON Zoltan <balaton@eik.bme.hu>, Paolo Bonzini <pbonzini@redhat.com>, 
@@ -68,14 +69,13 @@ Cc: BALATON Zoltan <balaton@eik.bme.hu>, Paolo Bonzini <pbonzini@redhat.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  John Snow <jsnow@redhat.com>
 References: <20230208000743.79415-1-philmd@linaro.org>
- <20230208000743.79415-2-philmd@linaro.org>
-Content-Language: en-US
+ <20230208000743.79415-3-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230208000743.79415-2-philmd@linaro.org>
+In-Reply-To: <20230208000743.79415-3-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -99,16 +99,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 2/7/23 14:07, Philippe Mathieu-Daudé wrote:
-> No point in inlining isa_bus_from_device() which is only
-> used at device realization time.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   hw/isa/isa-bus.c     | 5 +++++
->   include/hw/isa/isa.h | 5 +----
->   2 files changed, 6 insertions(+), 4 deletions(-)
+>   hw/isa/isa-bus.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
+> 
+> diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+> index 5bd99379e9..95fc1ba5f7 100644
+> --- a/hw/isa/isa-bus.c
+> +++ b/hw/isa/isa-bus.c
+> @@ -114,7 +114,7 @@ static inline void isa_init_ioport(ISADevice *dev, uint16_t ioport)
+>   
+>   void isa_register_ioport(ISADevice *dev, MemoryRegion *io, uint16_t start)
+>   {
+> -    memory_region_add_subregion(isabus->address_space_io, start, io);
+> +    memory_region_add_subregion(isa_address_space_io(dev), start, io);
+>       isa_init_ioport(dev, start);
+>   }
+>   
+> @@ -133,7 +133,7 @@ int isa_register_portio_list(ISADevice *dev,
+>       isa_init_ioport(dev, start);
+>   
+>       portio_list_register(piolist, OBJECT(dev), pio_start, opaque, name,
+> -                         isabus->address_space_io, start);
+> +                         isa_address_space_io(dev), start);
+>   
+>       return 0;
+>   }
+
 
