@@ -2,82 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6975668EFC3
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 14:31:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F0D368F023
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 14:50:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPkXB-0000ns-Dg; Wed, 08 Feb 2023 08:30:49 -0500
+	id 1pPkof-0001w3-MX; Wed, 08 Feb 2023 08:48:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=Pi03=6E=zx2c4.com=Jason@kernel.org>)
- id 1pPkX6-0000fR-0a
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 08:30:44 -0500
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pPkod-0001tF-70
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 08:48:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=Pi03=6E=zx2c4.com=Jason@kernel.org>)
- id 1pPkX3-0007NV-4S
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 08:30:43 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 4DBDDB81E26;
- Wed,  8 Feb 2023 13:30:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72191C433EF;
- Wed,  8 Feb 2023 13:30:34 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="SV28xcsg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1675863032;
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pPkob-0005UT-AL
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 08:48:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675864120;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4WvziNsxsvBoYpuP6OX1SKRsjQ4O+rxTCnXDtvEGu4I=;
- b=SV28xcsgLjYBMApgHNyGeWioaghQ9sgX2ONAIQ528RinOd818l3ThJiS53DLWc9AMarv0n
- Bq1U0VbrVAvwfhpPiSc/+ZUceF05o4RzoZzxPRuGSPnlxJeaGyCim2xwa2kBUqIjWObJ+o
- yUnNr6S0PgxhovLw0RUqPATdaDBM7HQ=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f92b60f8
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Wed, 8 Feb 2023 13:30:32 +0000 (UTC)
-Date: Wed, 8 Feb 2023 14:30:30 +0100
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Dov Murik <dovmurik@linux.ibm.com>, qemu-devel@nongnu.org,
- Tom Lendacky <thomas.lendacky@amd.com>,
- James Bottomley <jejb@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
-Subject: Re: [PATCH] x86: Don't add RNG seed to Linux cmdline for SEV guests
-Message-ID: <Y+Oj9tbeTfN7JRHP@zx2c4.com>
-References: <20230207084116.285787-1-dovmurik@linux.ibm.com>
- <20230207164117-mutt-send-email-mst@kernel.org>
- <Y+LOFgCuC9wjKpsL@zx2c4.com>
- <20230207173008-mutt-send-email-mst@kernel.org>
- <CAHmME9pUe48qQRDwhWSK5ba=3Jj-qNYS8ZV9ZFEZeTi=MvEm6w@mail.gmail.com>
- <20230208041042-mutt-send-email-mst@kernel.org>
- <0f824626-cc06-c497-b9e4-6ee75986f52a@linux.ibm.com>
- <20230208081849-mutt-send-email-mst@kernel.org>
+ bh=w6xGRznFLY9AO29VwdYeaQruVHBl1v76YNKmz0OVNrA=;
+ b=CfpDBHD1Xy+mb4dPEQ+E2JuvVOdcCjwvwlxEdssegVXGhdFxrNvGWrA9QBgIJsh31lMQNk
+ lqHcCLZmHaQzLUBJhQF0Bej7mUKqdSmZuydPhfC+0GJeGUyy7Cc3OweSH8kYpx8e9qH6nu
+ oB7rKVkwXldrV22rKmlEJwDiFnftpYI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-252-wlZ0Bp0IObOPzCKGbU34IA-1; Wed, 08 Feb 2023 08:48:39 -0500
+X-MC-Unique: wlZ0Bp0IObOPzCKGbU34IA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ bo19-20020a056000069300b002c406934513so55062wrb.14
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 05:48:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=w6xGRznFLY9AO29VwdYeaQruVHBl1v76YNKmz0OVNrA=;
+ b=1AlI676F+ARPiTY2Syb1/ha6dyfK15Hr+J1uawItt22vg4Hmor2NABxa/VnnvGFYrC
+ wJUqKVKmx9yjfa6IGzYAuqgG+C0w/w3LxIysfz3iTwAVm50KACubQLT6qzatxUeLaymP
+ kVqDOZFBBZ6IiFAMIcnVGezbXuwgT4l4x/dVXRadqoO35t+YWJG0t3IWICUDgensewGm
+ 7W91apitjhb/0Yoe6Clk5qw0+0ZoDimqZ2qoptUoC7T34BOYHiUzN901IFWjj76m7BiK
+ TaTVwZ7Yi5rOlZBvgsgqVw2zandJBYs0Yt3WDMG0fitA3nGKEiopfJAx02hJxvwO6ZVI
+ 5n6w==
+X-Gm-Message-State: AO0yUKUK7vehh6vEr4K8nNvKflg78CenTeqmK7ZDit9tRzGsWHrzFw2d
+ g2C3yepQGq+47VPc3/tp0rKC9dBl/ArWbQiqXcYqmcjQJCpTiE6sj1c5bj6zW46Swy9iCZXyoqp
+ LvMznRwGoC5MEtPU=
+X-Received: by 2002:a5d:490d:0:b0:2bf:d3ef:4c4 with SMTP id
+ x13-20020a5d490d000000b002bfd3ef04c4mr5993544wrq.52.1675864117887; 
+ Wed, 08 Feb 2023 05:48:37 -0800 (PST)
+X-Google-Smtp-Source: AK7set/uYFw9KdwGjMKkpdUoMkaQCELwzrkxml8Ce3TaIPCVpXOJFViGU9sMXYoTSxQ4SRCLs2i6zg==
+X-Received: by 2002:a5d:490d:0:b0:2bf:d3ef:4c4 with SMTP id
+ x13-20020a5d490d000000b002bfd3ef04c4mr5993527wrq.52.1675864117571; 
+ Wed, 08 Feb 2023 05:48:37 -0800 (PST)
+Received: from ?IPV6:2003:cb:c704:b300:758c:6214:cd51:8ab0?
+ (p200300cbc704b300758c6214cd518ab0.dip0.t-ipconnect.de.
+ [2003:cb:c704:b300:758c:6214:cd51:8ab0])
+ by smtp.gmail.com with ESMTPSA id
+ v18-20020a5d43d2000000b002c3dd9bb283sm11209976wrr.37.2023.02.08.05.48.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Feb 2023 05:48:37 -0800 (PST)
+Message-ID: <f5de0749-f60a-bd0e-033b-a23de5619b3a@redhat.com>
+Date: Wed, 8 Feb 2023 14:48:36 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230208081849-mutt-send-email-mst@kernel.org>
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=Pi03=6E=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH V2] memory: flat section iterator
+To: Steven Sistare <steven.sistare@oracle.com>, Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>
+References: <1675796609-235681-1-git-send-email-steven.sistare@oracle.com>
+ <Y+KwNN9v81aLKct2@x1n> <d2cf4bae-1a45-d2ae-8f47-f4ce56cf21dd@oracle.com>
+Content-Language: en-US
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <d2cf4bae-1a45-d2ae-8f47-f4ce56cf21dd@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.146, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,136 +107,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 08, 2023 at 08:20:17AM -0500, Michael S. Tsirkin wrote:
-> On Wed, Feb 08, 2023 at 01:23:48PM +0200, Dov Murik wrote:
-> > Hi Michael,
-> > 
-> > On 08/02/2023 11:11, Michael S. Tsirkin wrote:
-> > > On Tue, Feb 07, 2023 at 07:33:09PM -0300, Jason A. Donenfeld wrote:
-> > >> On Tue, Feb 7, 2023 at 7:31 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >>>
-> > >>> On Tue, Feb 07, 2023 at 07:17:58PM -0300, Jason A. Donenfeld wrote:
-> > >>>> On Tue, Feb 07, 2023 at 04:45:19PM -0500, Michael S. Tsirkin wrote:
-> > >>>>> On Tue, Feb 07, 2023 at 08:41:16AM +0000, Dov Murik wrote:
-> > >>>>>> Recent feature to supply RNG seed to the guest kernel modifies the
-> > >>>>>> kernel command-line by adding extra data at its end; this breaks
-> > >>>>>> measured boot with SEV and OVMF, and possibly signed boot.
-> > >>>>>>
-> > >>>>>> Specifically SEV doesn't miss this feature because it uses UEFI/OVMF
-> > >>>>>> which has its own way of getting random seed (not to mention that
-> > >>>>>> getting the random seed from the untrusted host breaks the confidential
-> > >>>>>> computing trust model).
-> > >>>>>
-> > >>>>> Nope - getting a random seed from an untrusted source should not break
-> > >>>>> anything assuming you also have some other randomness source.
-> > >>>>> If you don't then you have other problems.
-> > >>>>>
-> > >>>>>> Disable the RNG seed feature in SEV guests.
-> > >>>>>>
-> > >>>>>> Fixes: eac7a7791bb6 ("x86: don't let decompressed kernel image clobber setup_data")
-> > >>>>>> Reported-by: Tom Lendacky <thomas.lendacky@amd.com>
-> > >>>>>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
-> > >>>>>>
-> > >>>>>> ---
-> > >>>>>>
-> > >>>>>> There might be a need for a wider change to the ways setup_data entries
-> > >>>>>> are handled in x86_load_linux(); here I just try to restore the
-> > >>>>>> situation for SEV guests prior to the addition of the SETUP_RNG_SEED
-> > >>>>>> entry.
-> > >>>>>>
-> > >>>>>> Recent discussions on other (safer?) ways to pass this setup_data entry:
-> > >>>>>> [1] https://lore.kernel.org/qemu-devel/da39abab9785aea2a2e7652ed6403b6268aeb31f.camel@linux.ibm.com/
-> > >>>>>>
-> > >>>>>> Note that in qemu 7.2.0 this is broken as well -- there the
-> > >>>>>> SETUP_RNG_SEED entry is appended to the Linux kernel data (and therefore
-> > >>>>>> modifies and breaks the measurement of the kernel in SEV measured boot).
-> > >>>>>> A similar fix will be needed there (but I fear this patch cannot be
-> > >>>>>> applied as-is).
-> > >>>>>
-> > >>>>> So it's not a regression, is it?
-> > >>>>
-> > >>>> I think that note is actually wrong. There prior was the sev_enabled()
-> > >>>> check elsewhere, which should have worked. I remember we originally had
-> > >>>> that problem with 7.1 and fixed it. So this is a new issue. I'll take
-> > >>>> care of it.
-> > >>>>
-> > >>>>>
-> > >>>>>> ---
-> > >>>>>>  hw/i386/x86.c | 2 +-
-> > >>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >>>>>>
-> > >>>>>> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> > >>>>>> index eaff4227bd..e65a83f8df 100644
-> > >>>>>> --- a/hw/i386/x86.c
-> > >>>>>> +++ b/hw/i386/x86.c
-> > >>>>>> @@ -1103,7 +1103,7 @@ void x86_load_linux(X86MachineState *x86ms,
-> > >>>>>>          load_image_size(dtb_filename, setup_data->data, dtb_size);
-> > >>>>>>      }
-> > >>>>>>
-> > >>>>>> -    if (!legacy_no_rng_seed && protocol >= 0x209) {
-> > >>>>>> +    if (!legacy_no_rng_seed && protocol >= 0x209 && !sev_enabled()) {
-> > >>>>>>          setup_data_offset = cmdline_size;
-> > >>>>>>          cmdline_size += sizeof(SetupData) + RNG_SEED_LENGTH;
-> > >>>>>>          kernel_cmdline = g_realloc(kernel_cmdline, cmdline_size);
-> > >>>>>>
-> > >>>>>> base-commit: 6661b8c7fe3f8b5687d2d90f7b4f3f23d70e3e8b
-> > >>>>>
-> > >>>>> I am beginning to think we have been hasty here. no rng seed
-> > >>>>> should have been then default and requested with a flag.
-> > >>>>> Then we'd avoid all this heartburn - and SEV might not be the
-> > >>>>> only workload broken.
-> > >>>>> Maybe not too late. Jason - objections?
-> > >>>>
-> > >>>> Yes, highly object. If it's not here by default, it's completely useless
-> > >>>> from my perspective and I'll just stop working on this feature. There's
-> > >>>> no reason we can't make this work. It's turned out to have a lot of
-> > >>>> technical landmines, but that doesn't mean it's infeasible. I'll keep
-> > >>>> hammering away at it.
-> > >>>>
-> > >>>> Anyway, I'll send a v2 of this patch, and also address another thing
-> > >>>> left out of the previous fix.
-> > >>>>
-> > >>>> (And meanwhile, James and hpa@ seem to be having some discussion about
-> > >>>> introducing an even better mechanism; we'll see if that materializes.)
-> > >>>>
-> > >>>> Jason
-> > >>>
-> > >>>
-> > >>> OK I guess ... objections to a reverse flag disabling this?
-> > >>> Will at least allow a work-around for sev and friends ...
-> > >>
-> > >> I think we should generally try to make this work right as-is, without
-> > >> needing to introduce knobs. The SEV stuff seems really simple to fix.
-> > >> I'll have a 2 patch series for you in the next 20 minutes if all goes
-> > >> well.
-> > > 
-> > > Absolutely. A knob can be a fallback though in the likely case
-> > > we missed something else. I'm inclined to
-> > > an on/off/auto knob which can either force it or let qemu
-> > > decide. Objections?
-> > > 
-> > 
-> > There's already a workaround for SEV: starting QEMU with
-> > '-machine pc-q35-7.1' (instead of '-machine q35').
-> > The pc-q35-7.1 model sets
-> > 
-> >     pcmc->legacy_no_rng_seed = true;
-> > 
-> > which prevents the modification of the cmdline (or modification of the
-> > kernel, in 7.2) -- and this allows the SEV kernel hashes to match.
-> > 
-> > Of course this means that you don't get any other features of 7.2 or
-> > 8.0, if you need them.  If we want to allow that, we'll need a special
-> > knob for turning off RNG seed.
-> > 
-> > -Dov
+On 07.02.23 22:28, Steven Sistare wrote:
+> On 2/7/2023 3:10 PM, Peter Xu wrote:
+>> On Tue, Feb 07, 2023 at 11:03:29AM -0800, Steve Sistare wrote:
+>>> Add an iterator over the sections of a flattened address space.
+>>> This will be needed by cpr to issue vfio ioctl's on the same memory
+>>> ranges that are already programmed.
+>>
+>> Should this better be proposed with the context of using it?  Or I don't
+>> know how to justify this new interface is needed.
+>>
+>> For example, any explanations on why memory region listeners cannot work?
 > 
-> Right. Besides, this will also get you old bugs from 7.1 that
-> we kept around to stay compatible.
+> For context, the new interfaces is used in the patch
+>    "vfio-pci: recover from unmap-all-vaddr failure"
+> in the original live update series:
+>    https://lore.kernel.org/qemu-devel/1658851843-236870-1-git-send-email-steven.sistare@oracle.com/
+> 
+> More succinctly, the memory region listeners already ran, and the vfio
+> callbacks created vfio memory regions.  Now we want to perform live update,
+> and are in steady state, so no listeners are being called.  We need the
+> flat section iterator to reproduce the same addresses and extents that were
+> produced by the listeners, to make a state change on each distinct vfio
+> memory region.
 
-I think the 7.1 machine switch ought to be sufficient for folks while we
-work out whatever hypothetical bugs might be left after you merge the
-series I posted yesterday. That's why it was added in the first place.
+Would a "replay" functionality on a registered memory notifier 
+eventually be cleaner?
 
-Jason
+-- 
+Thanks,
+
+David / dhildenb
+
 
