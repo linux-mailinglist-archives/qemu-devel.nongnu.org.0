@@ -2,93 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C91768EAA6
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 10:10:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5AB068EAAF
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 10:12:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPgRR-0008It-Q5; Wed, 08 Feb 2023 04:08:37 -0500
+	id 1pPgUm-0001l1-35; Wed, 08 Feb 2023 04:12:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pPgRO-0008IQ-Jg
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 04:08:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pPgUS-0001im-NQ; Wed, 08 Feb 2023 04:11:44 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pPgRM-0006r2-UF
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 04:08:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675847311;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=84WN5CccIb4mlx3XnB4r9pQcdCoy0CLHpPREkMqoI80=;
- b=MYrlvPpyX8SRPmr48U15Y9BGe7jbq7BszNzXLdJMTZQUCmn9brM4bHWUmjHLx5lHWC3gTI
- kReO6Umtcqhm7e3Lm2/kjUYGK0SRld2sE/RjsCpJ77w1PRumDXfxapTtP2F1H4qYfPT7rP
- rAiL9eH998mFJUqxHH9tsAnGLvQ44KM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-160-nxchuAMfO_Cx_6gdfzd4NQ-1; Wed, 08 Feb 2023 04:08:30 -0500
-X-MC-Unique: nxchuAMfO_Cx_6gdfzd4NQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- f14-20020a0560001a8e00b002c3b562d76cso2614976wry.12
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 01:08:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=84WN5CccIb4mlx3XnB4r9pQcdCoy0CLHpPREkMqoI80=;
- b=E2jHprE9PEoucY4TcJsc30Co/E5hOl4F/ALFkire9o3ed+AnW7MfjkaMp0g9Iwnyfi
- 9A/OTsf6uoZ6nmzK9ivzSrKkh2UpoP5U/DlYCZXyMcJIt95Uh47u3PoKnPUHm1wgxAQu
- 0Ag7ycP9iDUtjQZGDKyvwAMPUZEia2DxQg6sMXgz6Zo8aAZ8agRw3jAAw/Hc5VCit3xU
- Jjuaz5NuOInBkdefMX9M9B5C2DKZbox9YXSVXxKQsJOP+cQdu+7YZphjck2RCF+1DP1m
- pzDM6Suf8SXUw8duOpBybJPm3DN+tHX+j1Y+jVtT775r+SRfEfmobZSdmij9IyC4R03Q
- KA5A==
-X-Gm-Message-State: AO0yUKVFasMiIazW9064YVGo68fveCL6ky/LorvtX1jU6m5K0UyxNiwf
- 6iWyMhpTFfNLGLfxuSAva8k2k3km/mYEjZIEbFgj67OJ05XBRCQNhgmnyguYaOdhjbF7Q/qAWv7
- TkS72ZNAc7UeR5HY=
-X-Received: by 2002:a05:600c:1613:b0:3df:b5ae:5289 with SMTP id
- m19-20020a05600c161300b003dfb5ae5289mr5679002wmn.8.1675847309379; 
- Wed, 08 Feb 2023 01:08:29 -0800 (PST)
-X-Google-Smtp-Source: AK7set9z5VUKniyrQYEpwuPl5CI/zKdtztjkfCIw6xLsMrr1OJE5WOLXnLsTryhFiEI397FeJ0OTzw==
-X-Received: by 2002:a05:600c:1613:b0:3df:b5ae:5289 with SMTP id
- m19-20020a05600c161300b003dfb5ae5289mr5678996wmn.8.1675847309244; 
- Wed, 08 Feb 2023 01:08:29 -0800 (PST)
-Received: from ?IPV6:2003:cf:d71d:64b4:b0d4:7b71:b8bd:d2cc?
- (p200300cfd71d64b4b0d47b71b8bdd2cc.dip0.t-ipconnect.de.
- [2003:cf:d71d:64b4:b0d4:7b71:b8bd:d2cc])
- by smtp.gmail.com with ESMTPSA id
- c12-20020a05600c0a4c00b003dc34edacf8sm1419544wmq.31.2023.02.08.01.08.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Feb 2023 01:08:28 -0800 (PST)
-Message-ID: <648e9201-eb76-61bd-d127-11c8605c9531@redhat.com>
-Date: Wed, 8 Feb 2023 10:08:27 +0100
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pPgUQ-0007LS-Jn; Wed, 08 Feb 2023 04:11:44 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 31890e5D002210; Wed, 8 Feb 2023 09:11:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=RbCGstQko5UnARpdo7FY0O9kFxj/15ou8qnisEudruw=;
+ b=WFwj6IpDvC24+M3iIgM7iO3X4ELJLatAxDEU/54GcyGLQdX965Vo/mxRvpZe/LKppyek
+ 65zcbJz45AZvTHSRJfqwKUxb9DkZj7ZErhjTiiRIrAzgoVJe5F38cjhr3t0byiBe6PMi
+ v7kggL+UJIBmo+qpr+5Skc1JxeuPOu7xPWYZ1nsisS3o9M9a6Wu8zEjjs9SnPV++XASI
+ IU9g0EIvz9vFY6uUAHZAmPLfhVBN6MtPkW8w3K9ZSeQpOOwm9W+riCOR3lS1xpdoYKir
+ h0+7q/o+GR371FAwqI1r/JCGQZXZHG1agrs1wYKgzHH3O+UCPfgWuTo7lsdXqVeSiD1P Gw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nm8qwgebr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Feb 2023 09:11:29 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31892Bxk007411;
+ Wed, 8 Feb 2023 09:11:28 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nm8qwgeax-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Feb 2023 09:11:28 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 317Lk5Xn011173;
+ Wed, 8 Feb 2023 09:11:26 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+ by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3nhf06u98h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Feb 2023 09:11:26 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
+ [10.20.54.104])
+ by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 3189BMek49152440
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 8 Feb 2023 09:11:22 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 53B9B2004E;
+ Wed,  8 Feb 2023 09:11:22 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D77AF20043;
+ Wed,  8 Feb 2023 09:11:21 +0000 (GMT)
+Received: from [9.152.222.242] (unknown [9.152.222.242])
+ by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed,  8 Feb 2023 09:11:21 +0000 (GMT)
+Message-ID: <048defd7-f472-4249-10b7-bf05ed2f5e95@linux.ibm.com>
+Date: Wed, 8 Feb 2023 10:11:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v4 3/4] qemu-io: add -r option to register I/O buffer
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Fiona Ebner <f.ebner@proxmox.com>,
- qemu-block@nongnu.org, Fam Zheng <fam@euphon.net>,
- Eric Blake <eblake@redhat.com>
-References: <20230207203719.242926-1-stefanha@redhat.com>
- <20230207203719.242926-4-stefanha@redhat.com>
+Subject: Re: [PATCH v15 09/11] machine: adding s390 topology to query-cpu-fast
+To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230201132051.126868-1-pmorel@linux.ibm.com>
+ <20230201132051.126868-10-pmorel@linux.ibm.com>
+ <4cbe99ff13f1f8e917481e6d85daf2957dad8247.camel@linux.ibm.com>
 Content-Language: en-US
-From: Hanna Czenczek <hreitz@redhat.com>
-In-Reply-To: <20230207203719.242926-4-stefanha@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <4cbe99ff13f1f8e917481e6d85daf2957dad8247.camel@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: H-qjDO_NP9Ytq_YyTNZQaDA-BQTUUnOX
+X-Proofpoint-ORIG-GUID: dnkJKBzPuh6Xh_sSZ7j_1FDLCmIZXnjH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-08_03,2023-02-06_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0
+ spamscore=0 lowpriorityscore=0 mlxscore=0 priorityscore=1501
+ mlxlogscore=999 phishscore=0 adultscore=0 malwarescore=0 impostorscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302080082
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,50 +120,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 07.02.23 21:37, Stefan Hajnoczi wrote:
-> The blk_register_buf() API is an optimization hint that allows some
-> block drivers to avoid I/O buffer housekeeping or bounce buffers.
->
-> Add an -r option to register the I/O buffer so that qemu-io can be used
-> to test the blk_register_buf() API. The next commit will add a test that
-> uses the new option.
->
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->   qemu-io-cmds.c | 204 +++++++++++++++++++++++++++++++------------------
->   1 file changed, 129 insertions(+), 75 deletions(-)
 
-Reviewed-by: Hanna Czenczek <hreitz@redhat.com>
 
-> diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-> index 1f60c23ba4..e7a02f5b99 100644
-> --- a/qemu-io-cmds.c
-> +++ b/qemu-io-cmds.c
-> @@ -414,24 +419,23 @@ static void *qemu_io_alloc_from_file(BlockBackend *blk, size_t len,
->       fclose(f);
->       f = NULL;
->   
-> -    if (len > pattern_len) {
-> -        len -= pattern_len;
-> -        buf += pattern_len;
-> -
-> -        while (len > 0) {
-> -            size_t len_to_copy = MIN(pattern_len, len);
-> -
-> -            memcpy(buf, buf_origin, len_to_copy);
-> +    if (register_buf) {
-> +        blk_register_buf(blk, alloc_buf, alloc_len, &error_abort);
-> +    }
->   
-> -            len -= len_to_copy;
-> -            buf += len_to_copy;
-> -        }
-> +    end = buf + len;
-> +    for (char *p = buf + pattern_len; p < end; p += pattern_len) {
-> +        memcpy(p, buf, MIN(pattern_len, end - p));
->       }
+On 2/7/23 19:26, Nina Schoetterl-Glausch wrote:
+> On Wed, 2023-02-01 at 14:20 +0100, Pierre Morel wrote:
+>> S390x provides two more topology containers above the sockets,
+>> books and drawers.
+>>
+>> Let's add these CPU attributes to the QAPI command query-cpu-fast.
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+>>   qapi/machine.json          | 13 ++++++++++---
+>>   hw/core/machine-qmp-cmds.c |  2 ++
+>>   2 files changed, 12 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/qapi/machine.json b/qapi/machine.json
+>> index 3036117059..e36c39e258 100644
+>> --- a/qapi/machine.json
+>> +++ b/qapi/machine.json
+>> @@ -53,11 +53,18 @@
+>>   #
+>>   # Additional information about a virtual S390 CPU
+>>   #
+>> -# @cpu-state: the virtual CPU's state
+>> +# @cpu-state: the virtual CPU's state (since 2.12)
+>> +# @dedicated: the virtual CPU's dedication (since 8.0)
+>> +# @polarity: the virtual CPU's polarity (since 8.0)
+>>   #
+>>   # Since: 2.12
+>>   ##
+>> -{ 'struct': 'CpuInfoS390', 'data': { 'cpu-state': 'CpuS390State' } }
+>> +{ 'struct': 'CpuInfoS390',
+>> +    'data': { 'cpu-state': 'CpuS390State',
+>> +              'dedicated': 'bool',
+>> +              'polarity': 'int'
+>> +    }
+>> +}
+>>   
+>>   ##
+>>   # @CpuInfoFast:
+>> @@ -70,7 +77,7 @@
+>>   #
+>>   # @thread-id: ID of the underlying host thread
+>>   #
+>> -# @props: properties describing to which node/socket/core/thread
+>> +# @props: properties describing to which node/drawer/book/socket/core/thread
+>>   #         virtual CPU belongs to, provided if supported by board
+>>   #
+>>   # @target: the QEMU system emulation target, which determines which
+>> diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+>> index 80d5e59651..e6d93cf2a0 100644
+>> --- a/hw/core/machine-qmp-cmds.c
+>> +++ b/hw/core/machine-qmp-cmds.c
+>> @@ -30,6 +30,8 @@ static void cpustate_to_cpuinfo_s390(CpuInfoS390 *info, const CPUState *cpu)
+>>       CPUS390XState *env = &s390_cpu->env;
+>>   
+>>       info->cpu_state = env->cpu_state;
+>> +    info->dedicated = env->dedicated;
+>> +    info->polarity = env->entitlement;
+> 
+> Might want to do s/polarity/entitlement on the whole patch to make this more coherent.
+> Reviewed-by: Nina Schoetterl-Glausch if you fix the issues in Thomas' first reply.
+> 
 
-Cool rewrite of this loop!
+OK, substitution done and Thomas changes already done.
+Thanks.
 
+Regards,
+Pierre
+
+
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
