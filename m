@@ -2,150 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18BE368EFAA
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 14:19:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B19C768EFAE
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 14:21:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPkLM-0005Yk-7f; Wed, 08 Feb 2023 08:18:36 -0500
+	id 1pPkNO-0006NO-HG; Wed, 08 Feb 2023 08:20:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1pPkLG-0005Xw-6p; Wed, 08 Feb 2023 08:18:30 -0500
-Received: from mail-dm6nam12on20629.outbound.protection.outlook.com
- ([2a01:111:f400:fe59::629]
- helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pPkNB-0006Me-L3
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 08:20:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1pPkLE-0006nF-9G; Wed, 08 Feb 2023 08:18:29 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Wq1MHBgTdjvdhunyHLMP8XHZ8xXQQLYTEjpVOHWzI3qKvvnDavi1aPHosJGG4mAF3kltSrOZqakxNcljes6mnclcthq+II9WoJznRN48dEXxbCQ+oxA2/0ZOLPks+Vv128zyRE4VQw362WkHVHCQFGoQiOSzHxfZbZyLhj4IJUUhGMpwjTnKf5rXuE8DA9fGSeWs7wIgeI9IalgV48jIZDEFChJjwF7+eMy4vVmLlVEKA5XJENOisdj3mwfOeKT/dffjAXeXsOq1orJSUq+fAjK9RxPOmMwvyuFhpLUGjD4ij4ioke92AmUv4lVYD5QS9aXP9pvesdbKQiPUV2R7zQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JYRS7ppDCgXm2KQCTo3homVa9JwYf44oC1bxFemCKDs=;
- b=eSAngVvoLHiE6hJd3vPUlHCRVRDEPOebeT6dtgzRB9hObfPr0KdIJNoSDYSbLJyXNtWn2Z9AGLosivgq2E2v55c+i4NH2tkET1mE9Y+gwtQp4/fhbwNXUm7bwaFRHTIDSvQIHwURdooaIXqZjP1VO7hswaOhOqfWEvTQbY0ixwCtzMxg7q46V4nnV+RwkJ4q9Q/a02fnIsCVyuaVMs02+LVg4Xg4FerGZaHIH+xe3tkqKuI+oBKB+ChtL2XTDub1DXPTt1mPJyaNPhWFcpv8V6eVn0zi/fHsG3v2mmgnwarBzAc3XhWnwsupRvqiihZ17+Zi8swcpmQUIPnLl4ua7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JYRS7ppDCgXm2KQCTo3homVa9JwYf44oC1bxFemCKDs=;
- b=BqqFGToy8H2izwADUfvLvbG+jaMcAFPVXkqqKSF3BeBrAcg4pJR/BnQX1XHrSDhHKFnty0NriWPba8PGT70EqXfYLHBCk4faGKMQbECaDx25RkOGYy9EOV9KAi/nY+/yLrxQmYXOM/8bhvHkBK7bYazwDASc0C9K/OKZi8HECUasz4EhmIo3Sl2UB6zZVuZBEUTtmX7iq1EvofZsbkHKgc+d1idd6lCOIp5CoPv7cyAPk9fjOiwOpVnH02iXYrzCYJXrlz8fCHb5vs8jpkJ/unlwZpxUPCgMMojopqelDl5hETwneoMzu2OoBCatJrCT2zsZ5uQSYCiEzsfP5cBFdw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB5549.namprd12.prod.outlook.com (2603:10b6:5:209::13)
- by PH7PR12MB8106.namprd12.prod.outlook.com (2603:10b6:510:2ba::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.34; Wed, 8 Feb
- 2023 13:18:24 +0000
-Received: from DM6PR12MB5549.namprd12.prod.outlook.com
- ([fe80::451d:1f37:aa83:f425]) by DM6PR12MB5549.namprd12.prod.outlook.com
- ([fe80::451d:1f37:aa83:f425%5]) with mapi id 15.20.6086.017; Wed, 8 Feb 2023
- 13:18:24 +0000
-Message-ID: <e464ff0a-80de-09be-e952-641073b4a494@nvidia.com>
-Date: Wed, 8 Feb 2023 15:18:12 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v9 14/14] docs/devel: Align VFIO migration docs to v2
- protocol
-Content-Language: en-US
-To: Alex Williamson <alex.williamson@redhat.com>
-Cc: qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>,
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pPkN9-00021O-4R
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 08:20:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675862425;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BGIa2Y3zxmOlM5ZOe4SI8GFqrl7ArMXOXgMS2370yB0=;
+ b=Fh7rR1mouAbDBDURUXGLteMwictrnydR5XhCZClt4EWTmnzH5GOrZJQvM7BHvePeN5b4o6
+ 8YD83sRuH5o8La14RZDh7wqqaDEoOLRRPB+1wjnVtsSBnjwVdFoNdxcSEUiRk9fTUxNtcI
+ cjz3GlnFafDogtdHE0n19NFxr307kOo=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-543-uTZPxBnsMMuHavB2uhRA2Q-1; Wed, 08 Feb 2023 08:20:23 -0500
+X-MC-Unique: uTZPxBnsMMuHavB2uhRA2Q-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ i9-20020a0560001ac900b002bfda39265aso2864744wry.13
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 05:20:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BGIa2Y3zxmOlM5ZOe4SI8GFqrl7ArMXOXgMS2370yB0=;
+ b=MFg+AubErO1WQpLUMLeb2VBw0q5AtnZJInSZ31+1HWGL8jRlyJzZdL3nY9d6x7LePd
+ tsig24PJYlRS4WmpoMeQVSl9YqtKcWc++2Rc4NBoDq/hBLyOy1ZDvdFo6ddscY+AuvUp
+ fCszWJCmtJZaCkq1lWwqT80/+W0vzNecRMljeu7LtlL6gO0gF36ptnlX6mkoqzH/Z9sk
+ ByU2hOg1SCe9bLHh7evihw2N8DeYVWGVi1lOqlPdgOk/i2u4OcU3MPWcHZWLZWv66/iQ
+ AgIaM8MmbPnXG5Hv2qiI4/NYRIAm0Ah9Sy0/W9pkGgqmzOd2bPJC9xijsjANgAcWHAPD
+ zJlw==
+X-Gm-Message-State: AO0yUKWd1h5VIA4vouGm6GFO/JU8fVo1Y6O3KGQfUHp+iz8g8ytRrG8i
+ qSxihNvU2W09sLXrNB6X6y+romED9z29u50mmCkJH+h2SKQ4cU42A6klqvrvBELAKWx4rHcwY16
+ vvHXrX+TCIkLDVpA=
+X-Received: by 2002:adf:f349:0:b0:2c3:eda4:ade4 with SMTP id
+ e9-20020adff349000000b002c3eda4ade4mr6639052wrp.58.1675862422419; 
+ Wed, 08 Feb 2023 05:20:22 -0800 (PST)
+X-Google-Smtp-Source: AK7set8gK+ruU4/sbJqZHwmjGCe5DI+WFtTGh5cjriRUgHVI2+RMCD6wpAM38OmNV24yi0KRQgiWvg==
+X-Received: by 2002:adf:f349:0:b0:2c3:eda4:ade4 with SMTP id
+ e9-20020adff349000000b002c3eda4ade4mr6639028wrp.58.1675862422119; 
+ Wed, 08 Feb 2023 05:20:22 -0800 (PST)
+Received: from redhat.com ([2.52.132.212]) by smtp.gmail.com with ESMTPSA id
+ y6-20020a5d4ac6000000b002c3e18119f2sm10207636wrs.29.2023.02.08.05.20.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Feb 2023 05:20:21 -0800 (PST)
+Date: Wed, 8 Feb 2023 08:20:17 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Dov Murik <dovmurik@linux.ibm.com>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, qemu-devel@nongnu.org,
+ Tom Lendacky <thomas.lendacky@amd.com>,
+ James Bottomley <jejb@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- John Snow <jsnow@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@redhat.com>, qemu-s390x@nongnu.org, qemu-block@nongnu.org,
- Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-References: <20230206123137.31149-1-avihaih@nvidia.com>
- <20230206123137.31149-15-avihaih@nvidia.com>
- <20230207164934.26833971.alex.williamson@redhat.com>
-From: Avihai Horon <avihaih@nvidia.com>
-In-Reply-To: <20230207164934.26833971.alex.williamson@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0070.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:49::20) To DM6PR12MB5549.namprd12.prod.outlook.com
- (2603:10b6:5:209::13)
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
+Subject: Re: [PATCH] x86: Don't add RNG seed to Linux cmdline for SEV guests
+Message-ID: <20230208081849-mutt-send-email-mst@kernel.org>
+References: <20230207084116.285787-1-dovmurik@linux.ibm.com>
+ <20230207164117-mutt-send-email-mst@kernel.org>
+ <Y+LOFgCuC9wjKpsL@zx2c4.com>
+ <20230207173008-mutt-send-email-mst@kernel.org>
+ <CAHmME9pUe48qQRDwhWSK5ba=3Jj-qNYS8ZV9ZFEZeTi=MvEm6w@mail.gmail.com>
+ <20230208041042-mutt-send-email-mst@kernel.org>
+ <0f824626-cc06-c497-b9e4-6ee75986f52a@linux.ibm.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB5549:EE_|PH7PR12MB8106:EE_
-X-MS-Office365-Filtering-Correlation-Id: 133b2c4a-d2a0-4676-4bc8-08db09d6f4c4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: s+NgCDeZJvAfaRndV+MFRZwk31XQNO6mZRPo7KBdMeHDVgPOu25Vv3XcUS60ki7bV29N9Kc6nTVO1cUUJi4xa1Cz/gtekV0OOf+BjU+Er9svBNzA0CxFLzRn+UUcNVRtrTLNxpKjFVla79iiR2GQndAIPGMZruURaXNdnK2ZoulM1WIUYrLJmY8ePD8WQ9VWQCm6IFxIB88pvSWy+bzgEEWkOduXr57tEzhjOLP3LuDZwsFGzdnsZl+sFV8TuVtBLwQNcU8LreKx+3h7z5/HvKKMlyhuOXXBQ0AKWqh+vsntWBO92MU5UVVUVRqieiNLpsEQbgMiGa348d1n7j7q/gjFQ6ceC2lMuav7GIxPKlzYKFYPpJOCVeTyHKCvvR5Xz0Mw/UDB152Y7VLib9ZmW55xOo3cHhTTA4Bz639AZ9ahn0cF9gZO5xlRd2vodghJjkOWt8O2jEZt7nhPjpO1xSTom4LdHrOfxzr4EezSfsxIOrA7lDrvD6Dhx19nG/p1KoNSmaK1TQjhVlI383IAHAhU6qbuo3d667/LLlthPrIyelXRLInJJxidy/dvcjrbE3/Z+JkGvxG+kqDiBFL1NSr9lA0JN0FMiF5d9MIJ0Ijiu54u5umzGQviLJ/uRHYvZ9/SPccoz0wjJjYEI/cn/opKPfjR48doHk4wqesLkTPD1Qzr4z4IU4nxdMUs0mQmB+rreMuu+vQUyyYhhCYDTdHQ48Z7JIWO1+ejPfflNdk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB5549.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(396003)(39860400002)(366004)(136003)(346002)(376002)(451199018)(66574015)(31696002)(38100700002)(86362001)(4744005)(2906002)(316002)(54906003)(41300700001)(36756003)(66556008)(5660300002)(7416002)(8936002)(83380400001)(6916009)(8676002)(4326008)(66476007)(66946007)(6666004)(6506007)(6486002)(53546011)(478600001)(26005)(186003)(6512007)(31686004)(2616005)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VTFwZElkVklSSjh5ZzU1ZEpVcWlwOFBGazFnVVlIaFpWV01OYzFOYjc0ZnBD?=
- =?utf-8?B?S3J4eUJ1dVdHY2o0TzJkeXh1a2dpcXcvQnB3RVZvRHlLaTVEdVg3NCs3TzJo?=
- =?utf-8?B?VTllaDIxTFBRbjlyaVRqKzIvZXhKNEV4Wlo1VjF2SmtnN1VvMFgzTDFhSmkw?=
- =?utf-8?B?UENXUVVsU2JxZi9qbkJsZitUUm5DZGRnNGpnMU5vdzJGanhjY1YwQ3lUOGVy?=
- =?utf-8?B?WC93b1B2Mmc0Nm4ydkhPYk5HQU9rcUIzR0treUo0K1lYUVhVSUE4T2pRdDZG?=
- =?utf-8?B?MWxjYlltSUtMaGlVYU9YNGxZb0R4MHZJTVV1KzZuN0hkUTdabFJMN3BhbG05?=
- =?utf-8?B?b2VIdk8xNnVDeGVmVmx0MEI0UlJHSElFeUgycTNsd1RuOGsyaTZOeUt6L1VL?=
- =?utf-8?B?MzFDMnd2bmZ4UHVoeHVlUVNuL084V2NCaWQwb1ljckIzT0pxSm1lb1crbDl6?=
- =?utf-8?B?d3hJTnR6VTFaVXVzTTN0dHVUZlNseVY4SjRYbGxvanh6M2lhdU1tdmNObU5E?=
- =?utf-8?B?UWFKdjBraDNHZXNRcmVvOHNyMUFOSnNsdDlrQmlBU0wxbkZaR1lCTjM4eFRu?=
- =?utf-8?B?Nnd4d2VSa2JXZUs5RXg2c1lsU2MwRzlHcmRGajk0MmtSVlk2WTRuaDZIRDU4?=
- =?utf-8?B?cHd5UkRGZ3l1MUQreTlmQ1dkb2hzdFdncnJnK25TV2E0WUljWE9yNVJoTURo?=
- =?utf-8?B?NERTMUVjVk1WdEFzQVJXOUlaU1hmSFpqWXlvYTZjdDRmbDJMellkVUlPMXVk?=
- =?utf-8?B?ZXpMR1M2OUVWbCtmNVlLRFNjRG1jNEpnWkRDMEovcVdvRE5QcnhPbDhoRUVn?=
- =?utf-8?B?bWM5Ym01Qi94NDRlbVJlK01oUDUzcVVGejlwWmlQcFZjV1RhbTl4QUFrTHBW?=
- =?utf-8?B?TjJ1M1pjZzJIVWdub2VSbGVyeGNPTFM5R1hzNDVwYmlJL3NrWDZ0dm9qQ1o1?=
- =?utf-8?B?RE1MVXhDMnEwclRYMDNpRVkvSnp3U0xSNmhOWGVYdjFJWlppejhGNzRUeUFS?=
- =?utf-8?B?RGFMUVpoNldHWkl5bEVmWlpZQ0dpeUNrTmZ2M1NlbWw0S0JFSk8wNm9uYmls?=
- =?utf-8?B?TDdkSitDd3RYMVVnMG84RDFZUjBVNGVTblNBcS8zZnhmR1hTbjlnek5uRSta?=
- =?utf-8?B?dHJUaThxWnZGWXFUSTJrek81UzJzLytDS3VVcXovK2JmcHBSTmp5aVJIY3Iv?=
- =?utf-8?B?RTJ2emVsTkFST24xRTkyUzlSMkpNc1hWbzRaNE9wVXM2bERuUVFPZzBDVUVV?=
- =?utf-8?B?WkFOYitWZ0t2SVNEU0pQUUZSV1lqMmFCbFlMNFI3MzVpOFY0Q09jU3NKZmtm?=
- =?utf-8?B?Tm1jK3JQUzQwaEdXeUVMZktPTU5HTDdmV3NiaTVVR1M0MjU4RHJEaVMxMytK?=
- =?utf-8?B?WThoZ0llcUNaYjkyaFNlVHphbkdTWVhlZFVpNW45QVl0aHBJbG8rR2hrdHhS?=
- =?utf-8?B?RXFiZVQ5a3ZRdEJHQnpIZVFuSTE1dGlkUnFXcFNWWUJHOGJnemQwU3ArN0c5?=
- =?utf-8?B?RjEvM2p6S1hlUDNkZGRBbnJsSXIxN1BTb2pOQUtZdFBLVjFBdEhYT3JMcnVz?=
- =?utf-8?B?N2ZuWlJiaFNuZGVkVmV6N0xPZEZuWmpYam94bHhveGdYWVd3empEY1FzVTdN?=
- =?utf-8?B?OU8rUmNJSzlZMzI0R1FFcE51ZjRiS0dtbTFOSE1YT0VPbGgrUVdKMWVkcHAy?=
- =?utf-8?B?aVlhYWpqVHVBa3cvRE5RRVQreEszUHYvVytKellNSHBVN25kVDcvdEV6ejRF?=
- =?utf-8?B?MkRCK1pxa0xYYWpGbmdHYXFDWG1SSzZqQkNWVUc3SWpuMXBBbVNKRWdMSDFW?=
- =?utf-8?B?WEhiamdFYmFkV2U2WVpCT0N4bUFnTmM3VzBJY1Zzc0NQeHEyWnVkcDZBUXNh?=
- =?utf-8?B?b3dnRkdMejhBK2VKbmptT2dxQlNDT1diYXNTeitTWXgrSzR4Z21ETXB4bUJR?=
- =?utf-8?B?c3p2dDRtUWoxeXQrd2R3VHNTM0hSbEtDVUpWZWtCTWxzV3ptbEVMUWtLRmVW?=
- =?utf-8?B?bHR6OUFyN1VYZHdHTGpZRkdUeTY2VUc4MjEvT0V4Vm5Gd20vN3hQVXpINWxK?=
- =?utf-8?B?WG1sZ2VhdzlwSnhOUzlUblZGanVNUlZVVlpkaU9jWGowYW5sTmpPQk5xMjJq?=
- =?utf-8?Q?Uq8qLtHqZ8BsRIgrNBLqteYUv?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 133b2c4a-d2a0-4676-4bc8-08db09d6f4c4
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB5549.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2023 13:18:23.9849 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: psTqhcKo1eQ3HP9qX7RyjiSkKlZ38H6aPodurxjcFX+ltv4uPpYdOPufjSfXMhBMsiLvacnLgcZF3Xh/OluXkw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8106
-Received-SPF: softfail client-ip=2a01:111:f400:fe59::629;
- envelope-from=avihaih@nvidia.com;
- helo=NAM12-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0f824626-cc06-c497-b9e4-6ee75986f52a@linux.ibm.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.146, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -162,28 +108,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, Feb 08, 2023 at 01:23:48PM +0200, Dov Murik wrote:
+> Hi Michael,
+> 
+> On 08/02/2023 11:11, Michael S. Tsirkin wrote:
+> > On Tue, Feb 07, 2023 at 07:33:09PM -0300, Jason A. Donenfeld wrote:
+> >> On Tue, Feb 7, 2023 at 7:31 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> >>>
+> >>> On Tue, Feb 07, 2023 at 07:17:58PM -0300, Jason A. Donenfeld wrote:
+> >>>> On Tue, Feb 07, 2023 at 04:45:19PM -0500, Michael S. Tsirkin wrote:
+> >>>>> On Tue, Feb 07, 2023 at 08:41:16AM +0000, Dov Murik wrote:
+> >>>>>> Recent feature to supply RNG seed to the guest kernel modifies the
+> >>>>>> kernel command-line by adding extra data at its end; this breaks
+> >>>>>> measured boot with SEV and OVMF, and possibly signed boot.
+> >>>>>>
+> >>>>>> Specifically SEV doesn't miss this feature because it uses UEFI/OVMF
+> >>>>>> which has its own way of getting random seed (not to mention that
+> >>>>>> getting the random seed from the untrusted host breaks the confidential
+> >>>>>> computing trust model).
+> >>>>>
+> >>>>> Nope - getting a random seed from an untrusted source should not break
+> >>>>> anything assuming you also have some other randomness source.
+> >>>>> If you don't then you have other problems.
+> >>>>>
+> >>>>>> Disable the RNG seed feature in SEV guests.
+> >>>>>>
+> >>>>>> Fixes: eac7a7791bb6 ("x86: don't let decompressed kernel image clobber setup_data")
+> >>>>>> Reported-by: Tom Lendacky <thomas.lendacky@amd.com>
+> >>>>>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+> >>>>>>
+> >>>>>> ---
+> >>>>>>
+> >>>>>> There might be a need for a wider change to the ways setup_data entries
+> >>>>>> are handled in x86_load_linux(); here I just try to restore the
+> >>>>>> situation for SEV guests prior to the addition of the SETUP_RNG_SEED
+> >>>>>> entry.
+> >>>>>>
+> >>>>>> Recent discussions on other (safer?) ways to pass this setup_data entry:
+> >>>>>> [1] https://lore.kernel.org/qemu-devel/da39abab9785aea2a2e7652ed6403b6268aeb31f.camel@linux.ibm.com/
+> >>>>>>
+> >>>>>> Note that in qemu 7.2.0 this is broken as well -- there the
+> >>>>>> SETUP_RNG_SEED entry is appended to the Linux kernel data (and therefore
+> >>>>>> modifies and breaks the measurement of the kernel in SEV measured boot).
+> >>>>>> A similar fix will be needed there (but I fear this patch cannot be
+> >>>>>> applied as-is).
+> >>>>>
+> >>>>> So it's not a regression, is it?
+> >>>>
+> >>>> I think that note is actually wrong. There prior was the sev_enabled()
+> >>>> check elsewhere, which should have worked. I remember we originally had
+> >>>> that problem with 7.1 and fixed it. So this is a new issue. I'll take
+> >>>> care of it.
+> >>>>
+> >>>>>
+> >>>>>> ---
+> >>>>>>  hw/i386/x86.c | 2 +-
+> >>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>>>>
+> >>>>>> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> >>>>>> index eaff4227bd..e65a83f8df 100644
+> >>>>>> --- a/hw/i386/x86.c
+> >>>>>> +++ b/hw/i386/x86.c
+> >>>>>> @@ -1103,7 +1103,7 @@ void x86_load_linux(X86MachineState *x86ms,
+> >>>>>>          load_image_size(dtb_filename, setup_data->data, dtb_size);
+> >>>>>>      }
+> >>>>>>
+> >>>>>> -    if (!legacy_no_rng_seed && protocol >= 0x209) {
+> >>>>>> +    if (!legacy_no_rng_seed && protocol >= 0x209 && !sev_enabled()) {
+> >>>>>>          setup_data_offset = cmdline_size;
+> >>>>>>          cmdline_size += sizeof(SetupData) + RNG_SEED_LENGTH;
+> >>>>>>          kernel_cmdline = g_realloc(kernel_cmdline, cmdline_size);
+> >>>>>>
+> >>>>>> base-commit: 6661b8c7fe3f8b5687d2d90f7b4f3f23d70e3e8b
+> >>>>>
+> >>>>> I am beginning to think we have been hasty here. no rng seed
+> >>>>> should have been then default and requested with a flag.
+> >>>>> Then we'd avoid all this heartburn - and SEV might not be the
+> >>>>> only workload broken.
+> >>>>> Maybe not too late. Jason - objections?
+> >>>>
+> >>>> Yes, highly object. If it's not here by default, it's completely useless
+> >>>> from my perspective and I'll just stop working on this feature. There's
+> >>>> no reason we can't make this work. It's turned out to have a lot of
+> >>>> technical landmines, but that doesn't mean it's infeasible. I'll keep
+> >>>> hammering away at it.
+> >>>>
+> >>>> Anyway, I'll send a v2 of this patch, and also address another thing
+> >>>> left out of the previous fix.
+> >>>>
+> >>>> (And meanwhile, James and hpa@ seem to be having some discussion about
+> >>>> introducing an even better mechanism; we'll see if that materializes.)
+> >>>>
+> >>>> Jason
+> >>>
+> >>>
+> >>> OK I guess ... objections to a reverse flag disabling this?
+> >>> Will at least allow a work-around for sev and friends ...
+> >>
+> >> I think we should generally try to make this work right as-is, without
+> >> needing to introduce knobs. The SEV stuff seems really simple to fix.
+> >> I'll have a 2 patch series for you in the next 20 minutes if all goes
+> >> well.
+> > 
+> > Absolutely. A knob can be a fallback though in the likely case
+> > we missed something else. I'm inclined to
+> > an on/off/auto knob which can either force it or let qemu
+> > decide. Objections?
+> > 
+> 
+> There's already a workaround for SEV: starting QEMU with
+> '-machine pc-q35-7.1' (instead of '-machine q35').
+> The pc-q35-7.1 model sets
+> 
+>     pcmc->legacy_no_rng_seed = true;
+> 
+> which prevents the modification of the cmdline (or modification of the
+> kernel, in 7.2) -- and this allows the SEV kernel hashes to match.
+> 
+> Of course this means that you don't get any other features of 7.2 or
+> 8.0, if you need them.  If we want to allow that, we'll need a special
+> knob for turning off RNG seed.
+> 
+> -Dov
 
-On 08/02/2023 1:49, Alex Williamson wrote:
-> External email: Use caution opening links or attachments
->
->
-> On Mon, 6 Feb 2023 14:31:37 +0200
-> Avihai Horon <avihaih@nvidia.com> wrote:
->
->> Now that VFIO migration protocol v2 has been implemented and v1 protocol
->> has been removed, update the documentation according to v2 protocol.
->>
->> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
->> Reviewed-by: Cédric Le Goater <clg@redhat.com>
->> ---
->>   docs/devel/vfio-migration.rst | 68 ++++++++++++++++-------------------
->>   1 file changed, 30 insertions(+), 38 deletions(-)
-> A note about the single device limitation should be added here.
+Right. Besides, this will also get you old bugs from 7.1 that
+we kept around to stay compatible.
 
-Ah, right, I forgot about that.
-
-I will add a note.
-
-Thanks.
+-- 
+MST
 
 
