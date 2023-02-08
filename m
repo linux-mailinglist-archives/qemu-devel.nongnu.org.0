@@ -2,80 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0390D68F44E
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 18:21:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8688F68F453
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 18:23:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPo7F-00043N-Pj; Wed, 08 Feb 2023 12:20:17 -0500
+	id 1pPo9l-0003rd-5p; Wed, 08 Feb 2023 12:22:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pPo75-0003kX-5Y
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 12:20:09 -0500
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pPo9j-0003pW-4g
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 12:22:51 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pPo73-00017V-2M
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 12:20:06 -0500
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pPo9g-0004Qw-WF
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 12:22:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675876804;
+ s=mimecast20190719; t=1675876968;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jB8iGgjchWNfETDP05maM1RKtaDKHRq7+F3cH+2o8Ho=;
- b=Ysfm9xAC5KOtsqURGMmY2J9AGk7slaVF341u41+B2xmARtDVVpkb50bVNmIJPaL0mZRj18
- Vp4xiHOSK9d8SPWs9TbcFd/D3KazqAFH3wkOVbZqf7PGNdgMwqSANGSsWsVKMzE/+kKwiO
- 2IBTwRh/cQbpmxpKIcmfekzOHbLKOmY=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5LL366kTfz+5BkQ47LznpGHZIZET1JzPPAV38zSApow=;
+ b=f6weGUjUP3r5Q5z/D+hA6scIJeNp+sunzKXzaY2YY+n2y+eQShZDS17KMS3BwSaoAVQTfR
+ L6UOUQCge+nXs6kHrjqZjnmov00yqoxoVK0X2kY4hR1qhkDYWHDimY1JB+mp/+OflVkrYT
+ ud1Cb7qIfVxwPqviviQQQzLs49dDnNw=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-94-mznrKaLQOB2GDvPoDRKHhw-1; Wed, 08 Feb 2023 12:20:03 -0500
-X-MC-Unique: mznrKaLQOB2GDvPoDRKHhw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- i7-20020a17090685c700b008ab19875638so1771540ejy.3
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 09:20:02 -0800 (PST)
+ us-mta-258-aE2n3KW6PMqyZPkFwqcy8g-1; Wed, 08 Feb 2023 12:22:46 -0500
+X-MC-Unique: aE2n3KW6PMqyZPkFwqcy8g-1
+Received: by mail-io1-f71.google.com with SMTP id
+ d8-20020a6b6e08000000b00722d8d9c432so11591990ioh.19
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 09:22:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jB8iGgjchWNfETDP05maM1RKtaDKHRq7+F3cH+2o8Ho=;
- b=GpuCmDPcznEt2JQ9HTO4vN9OrAAd4q1tEJUl27yp9TgZgKnB8QnY7HTcTcJo+xZHXK
- Cc6uupOxOiRnCeEi4Wi5mRIvawm2OWcxJyPJrDiJOQoBxX7uBF1rStRCZxBgOAUjw1br
- abH3BytACHTnKlHW+I77xRte4qok9J4YBV4HpcQbQuhsTEG7sDblHJVLkxLdS8iaHT6b
- eWU4ZOzMpcGqSGsvAwzWPbhHcnpC5wRNARfIJMK/gYpqSiCTrYXq1zN3mXyt2qifwaZ3
- cdbtMSBT+0JXmIMkXxA+aTDXjnIiJ1JsuDDRbubQLCYWGJXGOQ8J9nBGC5+kf33y9r24
- RY4Q==
-X-Gm-Message-State: AO0yUKVrNd0dD9o6HCjV4sNkrBqYs23tOEGj6plWPG67scoTE1Hm2Dij
- HsqfzAuZOuxjgjP+zPQkwOPF+4KpD6Ez/AO1R+tiYariYf8F3GuOWZSropM2H0gsUkQRVSjy/DF
- LdUDVbAxW2uTCY+Up7VgiZPkgKTa+blZZH/VfasFdGes2PDFlBAD1uMoSXAMbCV2Es2q2Kd2+
-X-Received: by 2002:a50:f698:0:b0:49e:f062:99e6 with SMTP id
- d24-20020a50f698000000b0049ef06299e6mr8674309edn.28.1675876801057; 
- Wed, 08 Feb 2023 09:20:01 -0800 (PST)
-X-Google-Smtp-Source: AK7set8iwLAucetKzzcQvoUit0pR7mxeRaMCW4ieFfy7q8wB3xGUBELaYU0z8n+FBkans70xvu5VCw==
-X-Received: by 2002:a50:f698:0:b0:49e:f062:99e6 with SMTP id
- d24-20020a50f698000000b0049ef06299e6mr8674289edn.28.1675876800770; 
- Wed, 08 Feb 2023 09:20:00 -0800 (PST)
-Received: from avogadro.local ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id
- et6-20020a056402378600b004a21263bbaasm8075143edb.49.2023.02.08.09.20.00
+ bh=5LL366kTfz+5BkQ47LznpGHZIZET1JzPPAV38zSApow=;
+ b=RpAZmqZPWIc3mLm5oWhEESjkKahgWlhMbh8DPVqkmYnonmZ9y0tvGTosbP7uoLe763
+ 05VKw/eH5PnANKv2sQyePqKHDR2ZQ8/Dng5wAUNnthqZVmU+iNLhS13I7+O7a/ennIga
+ xe1oxg3Bf9MuAHqnWVndozzDHDXfmjA6eYXPEIWvAglV0c3GFIyqWKAnhzzwRiP03QhE
+ E+LjhOT1Oe3YqBCwIfnba/pjjhxXXI/UGi1u+I9U7uM3M4g8ArU+fZHpaqbqzmpv+xyI
+ eFgOtqaa9RyoM5eHmh2f29R0dfWqoHBZ0SkCyRDvHxOkdOoBbAfeHApr5TGuaK216yGW
+ Fq4Q==
+X-Gm-Message-State: AO0yUKXpgD+xbOH9rNTTpPyX0LjNqio1Sjyqv9ErANXWCY1qatC3Smkw
+ TUV+XMN11Dl0wFdC69F8PKtuyKPqoMPbAuT3PnxF7zxCLGI/tnDhZruVN2i5kHG9PUG96Hl3hae
+ HzIMe+ejT3VzL/qc=
+X-Received: by 2002:a05:6e02:1649:b0:30c:436d:a6ab with SMTP id
+ v9-20020a056e02164900b0030c436da6abmr8673584ilu.12.1675876965875; 
+ Wed, 08 Feb 2023 09:22:45 -0800 (PST)
+X-Google-Smtp-Source: AK7set/MaoCD3rlj72AkM1nNFIutzn+XYNUPAxAu4APTnZErfuOI+bdbtuq1Gb+GyqMsDDUR29fAGw==
+X-Received: by 2002:a05:6e02:1649:b0:30c:436d:a6ab with SMTP id
+ v9-20020a056e02164900b0030c436da6abmr8673545ilu.12.1675876965548; 
+ Wed, 08 Feb 2023 09:22:45 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ d71-20020a0285cd000000b003b02df3521dsm5534035jai.93.2023.02.08.09.22.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 09:20:00 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org
-Subject: [PULL 11/11] target/i386: fix ADOX followed by ADCX
-Date: Wed,  8 Feb 2023 18:19:22 +0100
-Message-Id: <20230208171922.95048-12-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230208171922.95048-1-pbonzini@redhat.com>
-References: <20230208171922.95048-1-pbonzini@redhat.com>
+ Wed, 08 Feb 2023 09:22:44 -0800 (PST)
+Date: Wed, 8 Feb 2023 10:22:42 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Avihai Horon <avihaih@nvidia.com>
+Cc: qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Eric Farman
+ <farman@linux.ibm.com>, Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>, "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng
+ <fam@euphon.net>, Eric Blake <eblake@redhat.com>, Vladimir
+ Sementsov-Ogievskiy <vsementsov@yandex-team.ru>, John Snow
+ <jsnow@redhat.com>, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@redhat.com>,
+ qemu-s390x@nongnu.org, qemu-block@nongnu.org, Yishai Hadas
+ <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
+ <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
+ <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH v9 07/14] vfio/migration: Block multiple devices migration
+Message-ID: <20230208102242.5d028021.alex.williamson@redhat.com>
+In-Reply-To: <238b17d1-17a3-e5d1-2973-4bda83928d6e@nvidia.com>
+References: <20230206123137.31149-1-avihaih@nvidia.com>
+ <20230206123137.31149-8-avihaih@nvidia.com>
+ <20230207153454.4e1a0c51.alex.williamson@redhat.com>
+ <238b17d1-17a3-e5d1-2973-4bda83928d6e@nvidia.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -99,192 +116,273 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When ADCX is followed by ADOX or vice versa, the second instruction's
-carry comes from EFLAGS and the condition codes use the CC_OP_ADCOX
-operation.  Retrieving the carry from EFLAGS is handled by this bit
-of gen_ADCOX:
+On Wed, 8 Feb 2023 15:08:15 +0200
+Avihai Horon <avihaih@nvidia.com> wrote:
 
-        tcg_gen_extract_tl(carry_in, cpu_cc_src,
-            ctz32(cc_op == CC_OP_ADCX ? CC_C : CC_O), 1);
+> On 08/02/2023 0:34, Alex Williamson wrote:
+> > External email: Use caution opening links or attachments
+> >
+> >
+> > On Mon, 6 Feb 2023 14:31:30 +0200
+> > Avihai Horon <avihaih@nvidia.com> wrote:
+> > =20
+> >> Currently VFIO migration doesn't implement some kind of intermediate
+> >> quiescent state in which P2P DMAs are quiesced before stopping or
+> >> running the device. This can cause problems in multi-device migration
+> >> where the devices are doing P2P DMAs, since the devices are not stopped
+> >> together at the same time.
+> >>
+> >> Until such support is added, block migration of multiple devices.
+> >>
+> >> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
+> >> ---
+> >>   include/hw/vfio/vfio-common.h |  2 ++
+> >>   hw/vfio/common.c              | 51 +++++++++++++++++++++++++++++++++=
+++
+> >>   hw/vfio/migration.c           |  6 +++++
+> >>   3 files changed, 59 insertions(+)
+> >>
+> >> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-comm=
+on.h
+> >> index e573f5a9f1..56b1683824 100644
+> >> --- a/include/hw/vfio/vfio-common.h
+> >> +++ b/include/hw/vfio/vfio-common.h
+> >> @@ -218,6 +218,8 @@ typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) VFIOG=
+roupList;
+> >>   extern VFIOGroupList vfio_group_list;
+> >>
+> >>   bool vfio_mig_active(void);
+> >> +int vfio_block_multiple_devices_migration(Error **errp);
+> >> +void vfio_unblock_multiple_devices_migration(void);
+> >>   int64_t vfio_mig_bytes_transferred(void);
+> >>
+> >>   #ifdef CONFIG_LINUX
+> >> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> >> index 3a35f4afad..01db41b735 100644
+> >> --- a/hw/vfio/common.c
+> >> +++ b/hw/vfio/common.c
+> >> @@ -41,6 +41,7 @@
+> >>   #include "qapi/error.h"
+> >>   #include "migration/migration.h"
+> >>   #include "migration/misc.h"
+> >> +#include "migration/blocker.h"
+> >>   #include "sysemu/tpm.h"
+> >>
+> >>   VFIOGroupList vfio_group_list =3D
+> >> @@ -337,6 +338,56 @@ bool vfio_mig_active(void)
+> >>       return true;
+> >>   }
+> >>
+> >> +Error *multiple_devices_migration_blocker;
+> >> +
+> >> +static unsigned int vfio_migratable_device_num(void)
+> >> +{
+> >> +    VFIOGroup *group;
+> >> +    VFIODevice *vbasedev;
+> >> +    unsigned int device_num =3D 0;
+> >> +
+> >> +    QLIST_FOREACH(group, &vfio_group_list, next) {
+> >> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
+> >> +            if (vbasedev->migration) {
+> >> +                device_num++;
+> >> +            }
+> >> +        }
+> >> +    }
+> >> +
+> >> +    return device_num;
+> >> +}
+> >> +
+> >> +int vfio_block_multiple_devices_migration(Error **errp)
+> >> +{
+> >> +    int ret;
+> >> +
+> >> +    if (vfio_migratable_device_num() !=3D 2) {
+> >> +        return 0;
+> >> +    }
+> >> +
+> >> +    error_setg(&multiple_devices_migration_blocker,
+> >> +               "Migration is currently not supported with multiple "
+> >> +               "VFIO devices");
+> >> +    ret =3D migrate_add_blocker(multiple_devices_migration_blocker, e=
+rrp);
+> >> +    if (ret < 0) {
+> >> +        error_free(multiple_devices_migration_blocker);
+> >> +        multiple_devices_migration_blocker =3D NULL;
+> >> +    }
+> >> +
+> >> +    return ret;
+> >> +}
+> >> +
+> >> +void vfio_unblock_multiple_devices_migration(void)
+> >> +{
+> >> +    if (vfio_migratable_device_num() !=3D 2) {
+> >> +        return;
+> >> +    }
+> >> +
+> >> +    migrate_del_blocker(multiple_devices_migration_blocker);
+> >> +    error_free(multiple_devices_migration_blocker);
+> >> +    multiple_devices_migration_blocker =3D NULL;
+> >> +} =20
+> > A couple awkward things here.  First I wish we could do something
+> > cleaner or more intuitive than the !=3D 2 test.  I get that we're trying
+> > to do this on the addition of the 2nd device supporting migration, or
+> > the removal of the next to last device independent of all other devices,
+> > but I wonder if it wouldn't be better to remove the multiple-device
+> > blocker after migration is torn down for the device so we can test
+> > device >1 or =3D=3D1 in combination with whether
+> > multiple_devices_migration_blocker is NULL.
+> >
+> > Which comes to the second awkwardness, if we fail to add the blocker we
+> > free and clear the blocker, but when we tear down the device due to that
+> > failure we'll remove the blocker that doesn't exist, free NULL, and
+> > clear it again.  Thanks to the glib slist the migration blocker is
+> > using, I think that all works, but I'd rather not be dependent on that
+> > implementation to avoid a segfault here.  Incorporating a test of
+> > multiple_devices_migration_blocker as above would avoid this too. =20
+>=20
+> You mean something like this?
+>=20
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 3a35f4afad..f3e08eff58 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+>=20
+> [...]
+>=20
+> +int vfio_block_multiple_devices_migration(Error **errp)
+> +{
+> +=C2=A0=C2=A0=C2=A0 int ret;
+> +
+> +=C2=A0=C2=A0=C2=A0 if (vfio_migratable_device_num() <=3D 1 ||
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 multiple_devices_migration_bl=
+ocker) {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+> +=C2=A0=C2=A0=C2=A0 }
 
-Unfortunately, in this case cc_op has been overwritten by the previous
-"if" statement to CC_OP_ADCOX.  This works by chance when the first
-instruction is ADCX; however, if the first instruction is ADOX,
-ADCX will incorrectly take its carry from OF instead of CF.
+Nit, I'd reverse the order of the test here and below, otherwise yes,
+this is what I was thinking of.
 
-Fix by moving the computation of the new cc_op at the end of the function.
-The included exhaustive test case fails without this patch and passes
-afterwards.
+> +
+> +=C2=A0=C2=A0=C2=A0 error_setg(&multiple_devices_migration_blocker,
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 "Migration is currently not supported with multiple "
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 "VFIO devices");
+> +=C2=A0=C2=A0=C2=A0 ret =3D migrate_add_blocker(multiple_devices_migratio=
+n_blocker, errp);
+> +=C2=A0=C2=A0=C2=A0 if (ret < 0) {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_free(multiple_devices_m=
+igration_blocker);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 multiple_devices_migration_bl=
+ocker =3D NULL;
+> +=C2=A0=C2=A0=C2=A0 }
+> +
+> +=C2=A0=C2=A0=C2=A0 return ret;
+> +}
+> +
+> +void vfio_unblock_multiple_devices_migration(void)
+> +{
+> +=C2=A0=C2=A0=C2=A0 if (vfio_migratable_device_num() > 1 ||
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 !multiple_devices_migration_b=
+locker) {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+> +=C2=A0=C2=A0=C2=A0 }
+> +
+> +=C2=A0=C2=A0=C2=A0 migrate_del_blocker(multiple_devices_migration_blocke=
+r);
+> +=C2=A0=C2=A0=C2=A0 error_free(multiple_devices_migration_blocker);
+> +=C2=A0=C2=A0=C2=A0 multiple_devices_migration_blocker =3D NULL;
+> +}
+> +
+>  =C2=A0static bool vfio_devices_all_dirty_tracking(VFIOContainer *contain=
+er)
+>  =C2=A0{
+>  =C2=A0=C2=A0=C2=A0=C2=A0 VFIOGroup *group;
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index 552c2313b2..15b446c0ec 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -880,6 +880,11 @@ int vfio_migration_probe(VFIODevice *vbasedev,=20
+> Error **errp)
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto add_blocker;
+>  =C2=A0=C2=A0=C2=A0=C2=A0 }
+>=20
+> +=C2=A0=C2=A0=C2=A0 ret =3D vfio_block_multiple_devices_migration(errp);
+> +=C2=A0=C2=A0=C2=A0 if (ret) {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+> +=C2=A0=C2=A0=C2=A0 }
+> +
+>  =C2=A0=C2=A0=C2=A0=C2=A0 trace_vfio_migration_probe(vbasedev->name, info=
+->index);
+>  =C2=A0=C2=A0=C2=A0=C2=A0 g_free(info);
+>  =C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+> @@ -906,6 +911,7 @@ void vfio_migration_finalize(VFIODevice *vbasedev)
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_del_vm_change_stat=
+e_handler(migration->vm_state);
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unregister_savevm(VMSTA=
+TE_IF(vbasedev->dev), "vfio", vbasedev);
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vfio_migration_exit(vba=
+sedev);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vfio_unblock_multiple_devices=
+_migration();
+>  =C2=A0=C2=A0=C2=A0=C2=A0 }
+>=20
+>  =C2=A0=C2=A0=C2=A0=C2=A0 if (vbasedev->migration_blocker) {
+>=20
+>=20
+> Maybe also negate the if conditions and put the add/remove blocker code=20
+> inside it? Is it more readable this way?
 
-Because ADCX/ADOX need not be invoked through the VEX prefix, this
-regression bisects to commit 16fc5726a6e2 ("target/i386: reimplement
-0x0f 0x38, add AVX", 2022-10-18).  However, the mistake happened a
-little earlier, when BMI instructions were rewritten using the new
-decoder framework.
+I think the previous aligns more with the success oriented flow that
+Jason like to promote.  Thanks,
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1471
-Reported-by: Paul Jolly <https://gitlab.com/myitcv>
-Fixes: 1d0b926150e5 ("target/i386: move scalar 0F 38 and 0F 3A instruction to new decoder", 2022-10-18)
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/tcg/emit.c.inc       | 20 +++++----
- tests/tcg/i386/Makefile.target   |  6 ++-
- tests/tcg/i386/test-i386-adcox.c | 75 ++++++++++++++++++++++++++++++++
- 3 files changed, 91 insertions(+), 10 deletions(-)
- create mode 100644 tests/tcg/i386/test-i386-adcox.c
+Alex
 
-diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
-index 4d7702c106bf..0d7c6e80ae87 100644
---- a/target/i386/tcg/emit.c.inc
-+++ b/target/i386/tcg/emit.c.inc
-@@ -1015,6 +1015,7 @@ VSIB_AVX(VPGATHERQ, vpgatherq)
- 
- static void gen_ADCOX(DisasContext *s, CPUX86State *env, MemOp ot, int cc_op)
- {
-+    int opposite_cc_op;
-     TCGv carry_in = NULL;
-     TCGv carry_out = (cc_op == CC_OP_ADCX ? cpu_cc_dst : cpu_cc_src2);
-     TCGv zero;
-@@ -1022,14 +1023,8 @@ static void gen_ADCOX(DisasContext *s, CPUX86State *env, MemOp ot, int cc_op)
-     if (cc_op == s->cc_op || s->cc_op == CC_OP_ADCOX) {
-         /* Re-use the carry-out from a previous round.  */
-         carry_in = carry_out;
--        cc_op = s->cc_op;
--    } else if (s->cc_op == CC_OP_ADCX || s->cc_op == CC_OP_ADOX) {
--        /* Merge with the carry-out from the opposite instruction.  */
--        cc_op = CC_OP_ADCOX;
--    }
--
--    /* If we don't have a carry-in, get it out of EFLAGS.  */
--    if (!carry_in) {
-+    } else {
-+        /* We don't have a carry-in, get it out of EFLAGS.  */
-         if (s->cc_op != CC_OP_ADCX && s->cc_op != CC_OP_ADOX) {
-             gen_compute_eflags(s);
-         }
-@@ -1053,7 +1048,14 @@ static void gen_ADCOX(DisasContext *s, CPUX86State *env, MemOp ot, int cc_op)
-         tcg_gen_add2_tl(s->T0, carry_out, s->T0, carry_out, s->T1, zero);
-         break;
-     }
--    set_cc_op(s, cc_op);
-+
-+    opposite_cc_op = cc_op == CC_OP_ADCX ? CC_OP_ADOX : CC_OP_ADCX;
-+    if (s->cc_op == CC_OP_ADCOX || s->cc_op == opposite_cc_op) {
-+        /* Merge with the carry-out from the opposite instruction.  */
-+        set_cc_op(s, CC_OP_ADCOX);
-+    } else {
-+        set_cc_op(s, cc_op);
-+    }
- }
- 
- static void gen_ADCX(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-diff --git a/tests/tcg/i386/Makefile.target b/tests/tcg/i386/Makefile.target
-index 81831cafbce4..bafd8c2180fc 100644
---- a/tests/tcg/i386/Makefile.target
-+++ b/tests/tcg/i386/Makefile.target
-@@ -14,7 +14,7 @@ config-cc.mak: Makefile
- I386_SRCS=$(notdir $(wildcard $(I386_SRC)/*.c))
- ALL_X86_TESTS=$(I386_SRCS:.c=)
- SKIP_I386_TESTS=test-i386-ssse3 test-avx test-3dnow test-mmx
--X86_64_TESTS:=$(filter test-i386-bmi2 $(SKIP_I386_TESTS), $(ALL_X86_TESTS))
-+X86_64_TESTS:=$(filter test-i386-adcox test-i386-bmi2 $(SKIP_I386_TESTS), $(ALL_X86_TESTS))
- 
- test-i386-sse-exceptions: CFLAGS += -msse4.1 -mfpmath=sse
- run-test-i386-sse-exceptions: QEMU_OPTS += -cpu max
-@@ -28,6 +28,10 @@ test-i386-bmi2: CFLAGS=-O2
- run-test-i386-bmi2: QEMU_OPTS += -cpu max
- run-plugin-test-i386-bmi2-%: QEMU_OPTS += -cpu max
- 
-+test-i386-adcox: CFLAGS=-O2
-+run-test-i386-adcox: QEMU_OPTS += -cpu max
-+run-plugin-test-i386-adcox-%: QEMU_OPTS += -cpu max
-+
- #
- # hello-i386 is a barebones app
- #
-diff --git a/tests/tcg/i386/test-i386-adcox.c b/tests/tcg/i386/test-i386-adcox.c
-new file mode 100644
-index 000000000000..16169efff823
---- /dev/null
-+++ b/tests/tcg/i386/test-i386-adcox.c
-@@ -0,0 +1,75 @@
-+/* See if various BMI2 instructions give expected results */
-+#include <assert.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+
-+#define CC_C 1
-+#define CC_O (1 << 11)
-+
-+#ifdef __x86_64__
-+#define REG uint64_t
-+#else
-+#define REG uint32_t
-+#endif
-+
-+void test_adox_adcx(uint32_t in_c, uint32_t in_o, REG adcx_operand, REG adox_operand)
-+{
-+    REG flags;
-+    REG out_adcx, out_adox;
-+
-+    asm("pushf; pop %0" : "=r"(flags));
-+    flags &= ~(CC_C | CC_O);
-+    flags |= (in_c ? CC_C : 0);
-+    flags |= (in_o ? CC_O : 0);
-+
-+    out_adcx = adcx_operand;
-+    out_adox = adox_operand;
-+    asm("push %0; popf;"
-+        "adox %3, %2;"
-+        "adcx %3, %1;"
-+        "pushf; pop %0"
-+        : "+r" (flags), "+r" (out_adcx), "+r" (out_adox)
-+        : "r" ((REG)-1), "0" (flags), "1" (out_adcx), "2" (out_adox));
-+
-+    assert(out_adcx == in_c + adcx_operand - 1);
-+    assert(out_adox == in_o + adox_operand - 1);
-+    assert(!!(flags & CC_C) == (in_c || adcx_operand));
-+    assert(!!(flags & CC_O) == (in_o || adox_operand));
-+}
-+
-+void test_adcx_adox(uint32_t in_c, uint32_t in_o, REG adcx_operand, REG adox_operand)
-+{
-+    REG flags;
-+    REG out_adcx, out_adox;
-+
-+    asm("pushf; pop %0" : "=r"(flags));
-+    flags &= ~(CC_C | CC_O);
-+    flags |= (in_c ? CC_C : 0);
-+    flags |= (in_o ? CC_O : 0);
-+
-+    out_adcx = adcx_operand;
-+    out_adox = adox_operand;
-+    asm("push %0; popf;"
-+        "adcx %3, %1;"
-+        "adox %3, %2;"
-+        "pushf; pop %0"
-+        : "+r" (flags), "+r" (out_adcx), "+r" (out_adox)
-+        : "r" ((REG)-1), "0" (flags), "1" (out_adcx), "2" (out_adox));
-+
-+    assert(out_adcx == in_c + adcx_operand - 1);
-+    assert(out_adox == in_o + adox_operand - 1);
-+    assert(!!(flags & CC_C) == (in_c || adcx_operand));
-+    assert(!!(flags & CC_O) == (in_o || adox_operand));
-+}
-+
-+int main(int argc, char *argv[]) {
-+    /* try all combinations of input CF, input OF, CF from op1+op2,  OF from op2+op1 */
-+    int i;
-+    for (i = 0; i <= 15; i++) {
-+        printf("%d\n", i);
-+        test_adcx_adox(!!(i & 1), !!(i & 2), !!(i & 4), !!(i & 8));
-+        test_adox_adcx(!!(i & 1), !!(i & 2), !!(i & 4), !!(i & 8));
-+    }
-+    return 0;
-+}
-+
--- 
-2.39.1
+> E.g.:
+>=20
+> +int vfio_block_multiple_devices_migration(Error **errp)
+> +{
+> +=C2=A0=C2=A0=C2=A0 int ret =3D 0;
+> +
+> +=C2=A0=C2=A0=C2=A0 if (vfio_migratable_device_num() > 1 &&
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 !multiple_devices_migration_b=
+locker) {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(&multiple_devices_=
+migration_blocker,
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "Migration is currently not supported =
+with multiple "
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "VFIO devices");
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D migrate_add_blocker(m=
+ultiple_devices_migration_blocker,=20
+> errp);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret < 0) {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error=
+_free(multiple_devices_migration_blocker);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 multi=
+ple_devices_migration_blocker =3D NULL;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> +=C2=A0=C2=A0=C2=A0 }
+> +
+> +=C2=A0=C2=A0=C2=A0 return ret;
+> +}
+> +
+> +void vfio_unblock_multiple_devices_migration(void)
+> +{
+> +=C2=A0=C2=A0=C2=A0 if (vfio_migratable_device_num() <=3D 1 &&
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 multiple_devices_migration_bl=
+ocker) {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 migrate_del_blocker(multiple_=
+devices_migration_blocker);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_free(multiple_devices_m=
+igration_blocker);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 multiple_devices_migration_bl=
+ocker =3D NULL;
+> +=C2=A0=C2=A0=C2=A0 }
+> +}
+>=20
+> Thanks.
+>=20
 
 
