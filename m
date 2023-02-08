@@ -2,97 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8688F68F453
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 18:23:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6871E68F459
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 18:23:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPo9l-0003rd-5p; Wed, 08 Feb 2023 12:22:53 -0500
+	id 1pPoAD-0004XL-Vm; Wed, 08 Feb 2023 12:23:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pPo9j-0003pW-4g
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 12:22:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pPoAA-0004Mk-EY
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 12:23:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pPo9g-0004Qw-WF
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 12:22:50 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pPoA8-0004zh-JG
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 12:23:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675876968;
+ s=mimecast20190719; t=1675876995;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5LL366kTfz+5BkQ47LznpGHZIZET1JzPPAV38zSApow=;
- b=f6weGUjUP3r5Q5z/D+hA6scIJeNp+sunzKXzaY2YY+n2y+eQShZDS17KMS3BwSaoAVQTfR
- L6UOUQCge+nXs6kHrjqZjnmov00yqoxoVK0X2kY4hR1qhkDYWHDimY1JB+mp/+OflVkrYT
- ud1Cb7qIfVxwPqviviQQQzLs49dDnNw=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vOW4+waIiZmM+Kp3mkQXrU9qnOkabndxARrBQ2vuWiE=;
+ b=EkoqD0iNiJ/oJg27P9uBP6AeIy5ktQV6XKhjkGc7mxH7Rs7x4/WUr8aO9zIOFyFvxMer/o
+ Mug+vWAmxisD+7V4mou/hBZpe4QLVyrXF7d/ZvYbI5i4/7kzcw+hrn7DnE8TyvAUVpfQna
+ 8nOD05vFm55hrXeQdnOmHX/p0SoAPCc=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-258-aE2n3KW6PMqyZPkFwqcy8g-1; Wed, 08 Feb 2023 12:22:46 -0500
-X-MC-Unique: aE2n3KW6PMqyZPkFwqcy8g-1
-Received: by mail-io1-f71.google.com with SMTP id
- d8-20020a6b6e08000000b00722d8d9c432so11591990ioh.19
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 09:22:46 -0800 (PST)
+ us-mta-635-rSkECo1QMjK2Ah7FoEDrkg-1; Wed, 08 Feb 2023 12:23:07 -0500
+X-MC-Unique: rSkECo1QMjK2Ah7FoEDrkg-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ f40-20020ab049eb000000b006780ae44d28so8088677uad.1
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 09:23:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5LL366kTfz+5BkQ47LznpGHZIZET1JzPPAV38zSApow=;
- b=RpAZmqZPWIc3mLm5oWhEESjkKahgWlhMbh8DPVqkmYnonmZ9y0tvGTosbP7uoLe763
- 05VKw/eH5PnANKv2sQyePqKHDR2ZQ8/Dng5wAUNnthqZVmU+iNLhS13I7+O7a/ennIga
- xe1oxg3Bf9MuAHqnWVndozzDHDXfmjA6eYXPEIWvAglV0c3GFIyqWKAnhzzwRiP03QhE
- E+LjhOT1Oe3YqBCwIfnba/pjjhxXXI/UGi1u+I9U7uM3M4g8ArU+fZHpaqbqzmpv+xyI
- eFgOtqaa9RyoM5eHmh2f29R0dfWqoHBZ0SkCyRDvHxOkdOoBbAfeHApr5TGuaK216yGW
- Fq4Q==
-X-Gm-Message-State: AO0yUKXpgD+xbOH9rNTTpPyX0LjNqio1Sjyqv9ErANXWCY1qatC3Smkw
- TUV+XMN11Dl0wFdC69F8PKtuyKPqoMPbAuT3PnxF7zxCLGI/tnDhZruVN2i5kHG9PUG96Hl3hae
- HzIMe+ejT3VzL/qc=
-X-Received: by 2002:a05:6e02:1649:b0:30c:436d:a6ab with SMTP id
- v9-20020a056e02164900b0030c436da6abmr8673584ilu.12.1675876965875; 
- Wed, 08 Feb 2023 09:22:45 -0800 (PST)
-X-Google-Smtp-Source: AK7set/MaoCD3rlj72AkM1nNFIutzn+XYNUPAxAu4APTnZErfuOI+bdbtuq1Gb+GyqMsDDUR29fAGw==
-X-Received: by 2002:a05:6e02:1649:b0:30c:436d:a6ab with SMTP id
- v9-20020a056e02164900b0030c436da6abmr8673545ilu.12.1675876965548; 
- Wed, 08 Feb 2023 09:22:45 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- d71-20020a0285cd000000b003b02df3521dsm5534035jai.93.2023.02.08.09.22.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 09:22:44 -0800 (PST)
-Date: Wed, 8 Feb 2023 10:22:42 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>
-Cc: qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>, Christian
- Borntraeger <borntraeger@linux.ibm.com>, Eric Farman
- <farman@linux.ibm.com>, Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>, "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng
- <fam@euphon.net>, Eric Blake <eblake@redhat.com>, Vladimir
- Sementsov-Ogievskiy <vsementsov@yandex-team.ru>, John Snow
- <jsnow@redhat.com>, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@redhat.com>,
- qemu-s390x@nongnu.org, qemu-block@nongnu.org, Yishai Hadas
- <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
- <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
- <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v9 07/14] vfio/migration: Block multiple devices migration
-Message-ID: <20230208102242.5d028021.alex.williamson@redhat.com>
-In-Reply-To: <238b17d1-17a3-e5d1-2973-4bda83928d6e@nvidia.com>
-References: <20230206123137.31149-1-avihaih@nvidia.com>
- <20230206123137.31149-8-avihaih@nvidia.com>
- <20230207153454.4e1a0c51.alex.williamson@redhat.com>
- <238b17d1-17a3-e5d1-2973-4bda83928d6e@nvidia.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vOW4+waIiZmM+Kp3mkQXrU9qnOkabndxARrBQ2vuWiE=;
+ b=6GBUAbYsA1/8BXeXRVBVH7Kni2BOSEJ3vHfSncXX+Xiff7lxOg4LhUhiUDTDPvK3Vy
+ IXzn98HaF7VrOScaGepit/KyT0L55UyVQiAaGJ+EneMpcrkjX9DJsxfir3oF3Dke7IgQ
+ QEaOIuJ4TT5xiWxWZLsRu5GW3xFE9/32iigAtCsF96b3o+GFeS3rH2zZGPisjc4OcUWX
+ HZZs748faaFGKT5BAQXqYUmU/nqM86jNN0BxFAa4EwE4dC0c/BCl1Z14gmEzQflMW/Qp
+ VJbVOuuZA++Vex+oO6y/f33oPAQBjwAWeMRtwtv3V/XPlIk87klaePQhXtuCp5ZUp9Lp
+ f3cw==
+X-Gm-Message-State: AO0yUKUCEVct5kSJ028fTNdODvUU6S+4R1TzPbFFt5huALVc5Ij+dDQ+
+ 0wtWOPbJo/FSaFiyozZTSwaxbhDnoFv7UiFf2+FDC9zOwQ/v7bSiyVUnWqMi3Oul7mHtcUZpLSs
+ GoWqOTSRIBoJFonYoJIf1OlyYrew+NRIsGVru
+X-Received: by 2002:a05:6102:9ca:b0:411:c0cc:ba77 with SMTP id
+ g10-20020a05610209ca00b00411c0ccba77mr325534vsi.54.1675876980595; 
+ Wed, 08 Feb 2023 09:23:00 -0800 (PST)
+X-Google-Smtp-Source: AK7set9SGf5AtvGXd5jTOljZntbToelEsRv4xMN5MEx2ffs0VUgNRG/fF+IXVnJo4iyT66Du9wl6aGOCRCRljAlx1xw=
+X-Received: by 2002:a05:6102:9ca:b0:411:c0cc:ba77 with SMTP id
+ g10-20020a05610209ca00b00411c0ccba77mr325524vsi.54.1675876980304; Wed, 08 Feb
+ 2023 09:23:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
+References: <20230117091638.50523-1-pbonzini@redhat.com>
+In-Reply-To: <20230117091638.50523-1-pbonzini@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 8 Feb 2023 18:22:48 +0100
+Message-ID: <CABgObfaEyii9gyEPLb+so_7aWWsqrBhT_FKqTQaKE+F46b3v_Q@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/4] Update CentOS and OpenSUSE CI to Python >=3.7
+To: qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, berrange@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -116,273 +91,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 8 Feb 2023 15:08:15 +0200
-Avihai Horon <avihaih@nvidia.com> wrote:
+Ping.
 
-> On 08/02/2023 0:34, Alex Williamson wrote:
-> > External email: Use caution opening links or attachments
-> >
-> >
-> > On Mon, 6 Feb 2023 14:31:30 +0200
-> > Avihai Horon <avihaih@nvidia.com> wrote:
-> > =20
-> >> Currently VFIO migration doesn't implement some kind of intermediate
-> >> quiescent state in which P2P DMAs are quiesced before stopping or
-> >> running the device. This can cause problems in multi-device migration
-> >> where the devices are doing P2P DMAs, since the devices are not stopped
-> >> together at the same time.
-> >>
-> >> Until such support is added, block migration of multiple devices.
-> >>
-> >> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> >> ---
-> >>   include/hw/vfio/vfio-common.h |  2 ++
-> >>   hw/vfio/common.c              | 51 +++++++++++++++++++++++++++++++++=
-++
-> >>   hw/vfio/migration.c           |  6 +++++
-> >>   3 files changed, 59 insertions(+)
-> >>
-> >> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-comm=
-on.h
-> >> index e573f5a9f1..56b1683824 100644
-> >> --- a/include/hw/vfio/vfio-common.h
-> >> +++ b/include/hw/vfio/vfio-common.h
-> >> @@ -218,6 +218,8 @@ typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) VFIOG=
-roupList;
-> >>   extern VFIOGroupList vfio_group_list;
-> >>
-> >>   bool vfio_mig_active(void);
-> >> +int vfio_block_multiple_devices_migration(Error **errp);
-> >> +void vfio_unblock_multiple_devices_migration(void);
-> >>   int64_t vfio_mig_bytes_transferred(void);
-> >>
-> >>   #ifdef CONFIG_LINUX
-> >> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> >> index 3a35f4afad..01db41b735 100644
-> >> --- a/hw/vfio/common.c
-> >> +++ b/hw/vfio/common.c
-> >> @@ -41,6 +41,7 @@
-> >>   #include "qapi/error.h"
-> >>   #include "migration/migration.h"
-> >>   #include "migration/misc.h"
-> >> +#include "migration/blocker.h"
-> >>   #include "sysemu/tpm.h"
-> >>
-> >>   VFIOGroupList vfio_group_list =3D
-> >> @@ -337,6 +338,56 @@ bool vfio_mig_active(void)
-> >>       return true;
-> >>   }
-> >>
-> >> +Error *multiple_devices_migration_blocker;
-> >> +
-> >> +static unsigned int vfio_migratable_device_num(void)
-> >> +{
-> >> +    VFIOGroup *group;
-> >> +    VFIODevice *vbasedev;
-> >> +    unsigned int device_num =3D 0;
-> >> +
-> >> +    QLIST_FOREACH(group, &vfio_group_list, next) {
-> >> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
-> >> +            if (vbasedev->migration) {
-> >> +                device_num++;
-> >> +            }
-> >> +        }
-> >> +    }
-> >> +
-> >> +    return device_num;
-> >> +}
-> >> +
-> >> +int vfio_block_multiple_devices_migration(Error **errp)
-> >> +{
-> >> +    int ret;
-> >> +
-> >> +    if (vfio_migratable_device_num() !=3D 2) {
-> >> +        return 0;
-> >> +    }
-> >> +
-> >> +    error_setg(&multiple_devices_migration_blocker,
-> >> +               "Migration is currently not supported with multiple "
-> >> +               "VFIO devices");
-> >> +    ret =3D migrate_add_blocker(multiple_devices_migration_blocker, e=
-rrp);
-> >> +    if (ret < 0) {
-> >> +        error_free(multiple_devices_migration_blocker);
-> >> +        multiple_devices_migration_blocker =3D NULL;
-> >> +    }
-> >> +
-> >> +    return ret;
-> >> +}
-> >> +
-> >> +void vfio_unblock_multiple_devices_migration(void)
-> >> +{
-> >> +    if (vfio_migratable_device_num() !=3D 2) {
-> >> +        return;
-> >> +    }
-> >> +
-> >> +    migrate_del_blocker(multiple_devices_migration_blocker);
-> >> +    error_free(multiple_devices_migration_blocker);
-> >> +    multiple_devices_migration_blocker =3D NULL;
-> >> +} =20
-> > A couple awkward things here.  First I wish we could do something
-> > cleaner or more intuitive than the !=3D 2 test.  I get that we're trying
-> > to do this on the addition of the 2nd device supporting migration, or
-> > the removal of the next to last device independent of all other devices,
-> > but I wonder if it wouldn't be better to remove the multiple-device
-> > blocker after migration is torn down for the device so we can test
-> > device >1 or =3D=3D1 in combination with whether
-> > multiple_devices_migration_blocker is NULL.
-> >
-> > Which comes to the second awkwardness, if we fail to add the blocker we
-> > free and clear the blocker, but when we tear down the device due to that
-> > failure we'll remove the blocker that doesn't exist, free NULL, and
-> > clear it again.  Thanks to the glib slist the migration blocker is
-> > using, I think that all works, but I'd rather not be dependent on that
-> > implementation to avoid a segfault here.  Incorporating a test of
-> > multiple_devices_migration_blocker as above would avoid this too. =20
->=20
-> You mean something like this?
->=20
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 3a35f4afad..f3e08eff58 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
->=20
-> [...]
->=20
-> +int vfio_block_multiple_devices_migration(Error **errp)
-> +{
-> +=C2=A0=C2=A0=C2=A0 int ret;
-> +
-> +=C2=A0=C2=A0=C2=A0 if (vfio_migratable_device_num() <=3D 1 ||
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 multiple_devices_migration_bl=
-ocker) {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
-> +=C2=A0=C2=A0=C2=A0 }
+Paolo
 
-Nit, I'd reverse the order of the test here and below, otherwise yes,
-this is what I was thinking of.
-
-> +
-> +=C2=A0=C2=A0=C2=A0 error_setg(&multiple_devices_migration_blocker,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 "Migration is currently not supported with multiple "
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 "VFIO devices");
-> +=C2=A0=C2=A0=C2=A0 ret =3D migrate_add_blocker(multiple_devices_migratio=
-n_blocker, errp);
-> +=C2=A0=C2=A0=C2=A0 if (ret < 0) {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_free(multiple_devices_m=
-igration_blocker);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 multiple_devices_migration_bl=
-ocker =3D NULL;
-> +=C2=A0=C2=A0=C2=A0 }
-> +
-> +=C2=A0=C2=A0=C2=A0 return ret;
-> +}
-> +
-> +void vfio_unblock_multiple_devices_migration(void)
-> +{
-> +=C2=A0=C2=A0=C2=A0 if (vfio_migratable_device_num() > 1 ||
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 !multiple_devices_migration_b=
-locker) {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
-> +=C2=A0=C2=A0=C2=A0 }
-> +
-> +=C2=A0=C2=A0=C2=A0 migrate_del_blocker(multiple_devices_migration_blocke=
-r);
-> +=C2=A0=C2=A0=C2=A0 error_free(multiple_devices_migration_blocker);
-> +=C2=A0=C2=A0=C2=A0 multiple_devices_migration_blocker =3D NULL;
-> +}
-> +
->  =C2=A0static bool vfio_devices_all_dirty_tracking(VFIOContainer *contain=
-er)
->  =C2=A0{
->  =C2=A0=C2=A0=C2=A0=C2=A0 VFIOGroup *group;
-> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> index 552c2313b2..15b446c0ec 100644
-> --- a/hw/vfio/migration.c
-> +++ b/hw/vfio/migration.c
-> @@ -880,6 +880,11 @@ int vfio_migration_probe(VFIODevice *vbasedev,=20
-> Error **errp)
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto add_blocker;
->  =C2=A0=C2=A0=C2=A0=C2=A0 }
->=20
-> +=C2=A0=C2=A0=C2=A0 ret =3D vfio_block_multiple_devices_migration(errp);
-> +=C2=A0=C2=A0=C2=A0 if (ret) {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
-> +=C2=A0=C2=A0=C2=A0 }
-> +
->  =C2=A0=C2=A0=C2=A0=C2=A0 trace_vfio_migration_probe(vbasedev->name, info=
-->index);
->  =C2=A0=C2=A0=C2=A0=C2=A0 g_free(info);
->  =C2=A0=C2=A0=C2=A0=C2=A0 return 0;
-> @@ -906,6 +911,7 @@ void vfio_migration_finalize(VFIODevice *vbasedev)
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_del_vm_change_stat=
-e_handler(migration->vm_state);
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unregister_savevm(VMSTA=
-TE_IF(vbasedev->dev), "vfio", vbasedev);
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vfio_migration_exit(vba=
-sedev);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vfio_unblock_multiple_devices=
-_migration();
->  =C2=A0=C2=A0=C2=A0=C2=A0 }
->=20
->  =C2=A0=C2=A0=C2=A0=C2=A0 if (vbasedev->migration_blocker) {
->=20
->=20
-> Maybe also negate the if conditions and put the add/remove blocker code=20
-> inside it? Is it more readable this way?
-
-I think the previous aligns more with the success oriented flow that
-Jason like to promote.  Thanks,
-
-Alex
-
-> E.g.:
->=20
-> +int vfio_block_multiple_devices_migration(Error **errp)
-> +{
-> +=C2=A0=C2=A0=C2=A0 int ret =3D 0;
-> +
-> +=C2=A0=C2=A0=C2=A0 if (vfio_migratable_device_num() > 1 &&
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 !multiple_devices_migration_b=
-locker) {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(&multiple_devices_=
-migration_blocker,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "Migration is currently not supported =
-with multiple "
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "VFIO devices");
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D migrate_add_blocker(m=
-ultiple_devices_migration_blocker,=20
-> errp);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret < 0) {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error=
-_free(multiple_devices_migration_blocker);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 multi=
-ple_devices_migration_blocker =3D NULL;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> +=C2=A0=C2=A0=C2=A0 }
-> +
-> +=C2=A0=C2=A0=C2=A0 return ret;
-> +}
-> +
-> +void vfio_unblock_multiple_devices_migration(void)
-> +{
-> +=C2=A0=C2=A0=C2=A0 if (vfio_migratable_device_num() <=3D 1 &&
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 multiple_devices_migration_bl=
-ocker) {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 migrate_del_blocker(multiple_=
-devices_migration_blocker);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_free(multiple_devices_m=
-igration_blocker);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 multiple_devices_migration_bl=
-ocker =3D NULL;
-> +=C2=A0=C2=A0=C2=A0 }
-> +}
->=20
-> Thanks.
->=20
+On Tue, Jan 17, 2023 at 10:16 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> QEMU build and test scripts would like to use some new features that
+> were added to Python 3.7.  Useful additions include removing the need
+> for OrderedDict, improved handling of default text encoding, postponed
+> evaluation of type annotations, and improvements to asyncio.
+>
+> Using new features that were added to Meson 0.63 is also being blocked
+> by usage of EOL'd versions of Python; Meson 0.63 does not work with the
+> 3.6 version of Python that is provided by CentOS Stream 8 and OpenSUSE
+> LEAP 15.  Therefore, this series upgrades the CentOS Stream 8 and OpenSUSE
+> LEAP 15 dockerfiles to use the alternative Python runtimes provided by
+> the distros.
+>
+> The main obstacle here is updating the lcitool-generated Dockerfiles;
+> lcitool is (by design) quite opinionated on the mapping between
+> "generic" package names and target-specific package names, and it
+> caters to Libvirt's needs in terms of package versions.
+>
+> There are two possibilities to change this.
+>
+> First, lately I have been working on allowing lcitool to be used as
+> a library.  As of this morning, it is possible for QEMU to use
+> lcitool's databases and formatters directly from Python, and only
+> replace the search mechanism to allow mappings and target paths to
+> be overridden.  This is the approach that is implemented in this RFC:
+> the first two patches in this series use libvirt-ci as library, while
+> the third implements the custom search path.
+>
+> However, I have also proposed the custom search mechanism directly
+> upstream (https://gitlab.com/libvirt/libvirt-ci/-/merge_requests/341).
+> If this is accepted, patch 3 will become much smaller and will not
+> need to know any lcitool internals; in addition, using lcitool as
+> a library could be evaluated on its own merits because command-line
+> operation would be a possibility as well.
+>
+> With the lcitool changes in place, the final patch shows how to
+> install custom package mappings and update CentOS and OpenSUSE Python
+> respectively to 3.8 and 3.9.
+>
+> Thanks,
+>
+> Paolo
+>
+> Paolo Bonzini (4):
+>   lcitool: update submodule
+>   lcitool: use libvirt-ci as library
+>   lcitool: allow overriding package mappings and target facts
+>   ci, docker: update CentOS and OpenSUSE Python to non-EOL versions
+>
+>  .gitlab-ci.d/cirrus/freebsd-12.vars           |  8 +-
+>  .gitlab-ci.d/cirrus/freebsd-13.vars           |  8 +-
+>  .gitlab-ci.d/cirrus/macos-12.vars             |  8 +-
+>  scripts/ci/setup/build-environment.yml        |  2 +-
+>  tests/docker/dockerfiles/alpine.docker        |  7 +-
+>  tests/docker/dockerfiles/centos8.docker       | 29 +++---
+>  .../dockerfiles/debian-amd64-cross.docker     |  7 +-
+>  tests/docker/dockerfiles/debian-amd64.docker  |  7 +-
+>  .../dockerfiles/debian-arm64-cross.docker     |  7 +-
+>  .../dockerfiles/debian-armel-cross.docker     |  7 +-
+>  .../dockerfiles/debian-armhf-cross.docker     |  7 +-
+>  .../dockerfiles/debian-mips64el-cross.docker  |  7 +-
+>  .../dockerfiles/debian-mipsel-cross.docker    |  7 +-
+>  .../dockerfiles/debian-ppc64el-cross.docker   |  7 +-
+>  .../dockerfiles/debian-s390x-cross.docker     |  7 +-
+>  .../dockerfiles/fedora-win32-cross.docker     |  7 +-
+>  .../dockerfiles/fedora-win64-cross.docker     |  7 +-
+>  tests/docker/dockerfiles/fedora.docker        |  7 +-
+>  tests/docker/dockerfiles/opensuse-leap.docker | 29 +++---
+>  tests/docker/dockerfiles/ubuntu2004.docker    |  9 +-
+>  tests/lcitool/libvirt-ci                      |  2 +-
+>  tests/lcitool/mappings.yml                    | 80 ++++++++++++++++
+>  tests/lcitool/projects/qemu.yml               |  1 +
+>  tests/lcitool/refresh                         | 96 ++++++++++++-------
+>  tests/lcitool/targets/centos-stream-8.yml     |  3 +
+>  tests/lcitool/targets/opensuse-leap-153.yml   |  3 +
+>  26 files changed, 215 insertions(+), 154 deletions(-)
+>  create mode 100644 tests/lcitool/mappings.yml
+>  create mode 100644 tests/lcitool/targets/centos-stream-8.yml
+>  create mode 100644 tests/lcitool/targets/opensuse-leap-153.yml
+>
+> --
+> 2.38.1
 
 
