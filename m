@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94DCC68F814
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:31:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 126CF68F80E
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:30:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPq8A-00076l-3J; Wed, 08 Feb 2023 14:29:22 -0500
+	id 1pPq8G-0007Ac-9r; Wed, 08 Feb 2023 14:29:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pPq7t-00074i-RY
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:29:06 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pPq7u-00074k-NG
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:29:07 -0500
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pPq7q-0006Jc-T9
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:29:04 -0500
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pPq7s-0006Ju-Nh
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:29:06 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 947413454B;
- Wed,  8 Feb 2023 19:29:00 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 0D13C3454C;
+ Wed,  8 Feb 2023 19:29:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675884540; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1675884543; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uyfUYc0B33oj02TbKuSJMosXEyFH976pOmwInyqMw8c=;
- b=0X+QcHm82ppNInYAIU97HHfOKh59eJ7gsIZOZ7MNA3DCUc+ixGGS2JDcgmUN0MHzUXEGlE
- 8XiWOUG2Zq2uRhaCE2lt3cntoQJePB1GL6v12Olsdgk/XORj6wlPLwjR+u7Q976p4i3jDY
- BQ2/gkvVljfvCTnXhT6isBxuT3LOMHc=
+ bh=Mef5ZqLTqAINFfJfqMdp61PqTV8PGJZNnHNPUxXYP9I=;
+ b=O5ltR9Y8nED7aLoRdJl1cDzs9BQnysvOm5Z5EIj4cK25nrPLYla/KRWx6QwlRdCOsiXny9
+ dP23YXdlW9rR11kABfaFRrySo09PsY+pOrUx0QW7DjREXSNGElrlffynfuNjl2bE7xN1pM
+ j8GLDJXXC6g0J3ZiH+8gGz7DkZwM5n4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675884540;
+ s=susede2_ed25519; t=1675884543;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uyfUYc0B33oj02TbKuSJMosXEyFH976pOmwInyqMw8c=;
- b=/h0ZOFO+KRTD4gfKmgm+x0loEnAv3bGYLwZSTL3dw5qygsvJ0y3ZpEkgOET4OPG9BTQaEw
- sPlT+Qmiqg9PxrBA==
+ bh=Mef5ZqLTqAINFfJfqMdp61PqTV8PGJZNnHNPUxXYP9I=;
+ b=trV7+M+GnQb3u67oQ9qAPhmB8wj7ePqsZFpU2SVTzc5VsTstiVyOkZWSJDIrs+LwKl6AyH
+ Dgr6Dp/7mIIr8NDA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9657B13425;
- Wed,  8 Feb 2023 19:28:58 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 104A513425;
+ Wed,  8 Feb 2023 19:29:00 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id YP+rF/r342NiHQAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 08 Feb 2023 19:28:58 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id cPF6Mvz342NiHQAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 08 Feb 2023 19:29:00 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
@@ -56,15 +56,15 @@ Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>
-Subject: [PATCH v2 01/10] hw/i386: Select CONFIG_PARALLEL for PC machines
-Date: Wed,  8 Feb 2023 16:26:45 -0300
-Message-Id: <20230208192654.8854-2-farosas@suse.de>
+Subject: [PATCH v2 02/10] hw/i386: Select E1000E for q35
+Date: Wed,  8 Feb 2023 16:26:46 -0300
+Message-Id: <20230208192654.8854-3-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230208192654.8854-1-farosas@suse.de>
 References: <20230208192654.8854-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
  helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -88,37 +88,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently the isa-parallel driver is always added by the PC machines
-regardless of the presence of the actual code in the build, which can
-lead to a crash:
-
-qemu-system-i386: unknown type 'isa-parallel'
-Aborted (core dumped)
+The e1000e network adapter is the default network card for the q35
+machine. Make sure that CONFIG is always selected for that machine.
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
  hw/i386/Kconfig | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index 1bf47b0b0b..d3c340e053 100644
+index d3c340e053..51379c3999 100644
 --- a/hw/i386/Kconfig
 +++ b/hw/i386/Kconfig
-@@ -20,7 +20,6 @@ config PC
-     imply PCI_IPMI_BT
-     imply IPMI_SSIF
-     imply ISA_DEBUG
--    imply PARALLEL
-     imply PCI_DEVICES
-     imply PVPANIC_ISA
-     imply QXL
-@@ -46,6 +45,7 @@ config PC
-     select ACPI_VMGENID
-     select VIRTIO_PMEM_SUPPORTED
-     select VIRTIO_MEM_SUPPORTED
-+    select PARALLEL
+@@ -93,7 +93,6 @@ config Q35
+     bool
+     imply VTD
+     imply AMD_IOMMU
+-    imply E1000E_PCI_EXPRESS
+     imply VMPORT
+     imply VMMOUSE
+     select PC_PCI
+@@ -104,6 +103,7 @@ config Q35
+     select DIMM
+     select SMBIOS
+     select FW_CFG_DMA
++    select E1000E_PCI_EXPRESS
  
- config PC_PCI
+ config MICROVM
      bool
 -- 
 2.35.3
