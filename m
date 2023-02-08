@@ -2,80 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2938568EF30
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 13:41:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2DC868EEEF
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 13:26:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPjHQ-0007Ny-FU; Wed, 08 Feb 2023 07:10:28 -0500
+	id 1pPjV0-0001jl-Fb; Wed, 08 Feb 2023 07:24:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pPjHK-0007MF-6b
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 07:10:23 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
+ id 1pPjUx-0001jL-LT
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 07:24:27 -0500
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pPjHI-0001sn-Er
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 07:10:21 -0500
-Received: by mail-wm1-x330.google.com with SMTP id z13so5702061wmp.2
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 04:10:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
+ id 1pPjUv-0002Ic-Cu
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 07:24:27 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id f6so251781pln.12
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 04:24:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Yj7A2Iy7u3FcfZSHeT9reKcl3NMlbOAZlTdVmXK/d/Y=;
- b=WwVDVsVQ93fMO+mrgqv7RKjIm5mHJFBTCXK2DuEpBhfgbEPn1+cPSjFnXo3hIB9I2/
- aaqGj8OIV0lCsHDBrDrqGL/Yx8mpLdnxItSVNIl+/dfFm9sHXuYq3R4D3A7+GTfWbPOm
- OKDj/1PTIOuiwW/5Wwr7qYyIeXsPz62eE0ZMb+f0FdcmNtPIrIbB+KQf6suV9kfGV1ac
- Su97Vu2qimhbS/2Nuzj8/1P50PF42GGSENT+9bfxndb1wxSuSPaEJlfDaJg9u/NRD0Ng
- lyGJtoODLkAV4wdTpUGt9ipfGxJ6Rc4uTzGkDrXXtAnFc9DWVa3igFWloKCtW6jKQJDg
- dy4A==
+ bh=Eww0bGHARNDro+m4qM4alVSDjm0iyW4r5Bw76JD/1d0=;
+ b=UwDzNnVKuF/8eUzNV/aymL9+YcldSIDvjEKmYPNChw9tl/cW29Zad264smZsYHW8Qe
+ 3K+A+0a2pom4OZZbxKrjZjNutSB5FHodxpuAzzRchE6kaJcQ+5/lupwMD0s9d0crb4Sa
+ E2m54aLLmCbokqcbW9FYc9zQr3zWZnOqTWppeVRy7ISY2XtRs4xPRjU02s++w/HKJlFl
+ kg04wIBDr54WQd38+rYVn2umHbHARWKII1ybL4idTSuoiziEp1hZqzFvsUqhl59swDNr
+ Yi7r6xIUpqFdwY449R217+sVKup3An5sYZWWhbEK3lIoH3KXY5u5fLczWnZjy4KAyIPb
+ 6UgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Yj7A2Iy7u3FcfZSHeT9reKcl3NMlbOAZlTdVmXK/d/Y=;
- b=iQLThzC/Z2WEuuTweOWummhjUebeuO68Xu8xk/B4NYWMWZvR0dNqJOdELIV75UCo6n
- bnEe+yu/snQcM4PIkPV1Z/p+doS6gnFvO2piuP1IjQK+ToNFesZGSi3qBQVIbQRyag+X
- U5T9GDg3q50dwBPz9y6vUHtjoFdBou8ea/k2tm2qemm93gC4XtSA9CyRYRT1Ua89g+s9
- wR/JojYzDLfUkpGc8dH3Go5gwz95LCmQzbXkWUpzuDf6EIQkz9g5lc00RGfN0wWA/+VX
- TOfUXmlPymoM75GPEV93nVBibEsRHDRKNgIMJpyqx1Rp6qrFUzyBFizM6W1wuiMAl/aK
- 3AOw==
-X-Gm-Message-State: AO0yUKVRW2sDxCGTHYV0+PbUmYFBvBbsMbXudu3DWDa8BiJ0IGIxuqLI
- 63ugA8zpDCzxBF8TU1PvnI+u1w==
-X-Google-Smtp-Source: AK7set+V+TidhEf70JlG5vUum881/TglNroruZGMt5W5dh9HSuDU3mexIT3cOm9iB/6wOPi+l649fg==
-X-Received: by 2002:a05:600c:3093:b0:3dd:37a5:dc90 with SMTP id
- g19-20020a05600c309300b003dd37a5dc90mr6412487wmn.32.1675858218617; 
- Wed, 08 Feb 2023 04:10:18 -0800 (PST)
-Received: from myrica (054592b0.skybroadband.com. [5.69.146.176])
- by smtp.gmail.com with ESMTPSA id
- c63-20020a1c3542000000b003df14531724sm1812791wma.21.2023.02.08.04.10.18
+ bh=Eww0bGHARNDro+m4qM4alVSDjm0iyW4r5Bw76JD/1d0=;
+ b=BKn/tJeOXz2JeimlONr7SeKyrJga5/1g6cXynanSf0/liWoZObI7ED1Z9XWjInT5Ig
+ jgwBdM8ygCHypKNBN7Wo/uy4I4pR9GE1SLHMAFUEKL3KTTzwXSbJ06dwfg2gk8nMS/QN
+ A8nwxbbfnZLXcQsEj28rdBDxygYD7YXj6FjtwfHL1p12bgdzZeeZbxyCBDmhJTIFD2LF
+ Kjd2ihHm8E1U16hHTlikprVUqisYvrv65fxCqq55ahXUEURGQHCn30IkAJ96iBeD8LQG
+ qeuVs+L57UAfwlGh712uVx2gN+YhWR07AJ0O1Ba9mi+YmZIZfOC912f8Bqb+dM1GeANX
+ oe3w==
+X-Gm-Message-State: AO0yUKU2RGAoga6aYQnIkl84Hl7aHSHQ2edWsBEvIRuZbFKvOljsUII+
+ ymqD7tztn7JXjImuL4OC0QI=
+X-Google-Smtp-Source: AK7set/EW3iOkejUiaBMrPtlYGHcnCsU5yA10F1vOHdYEM6oZRjOqRVew+hXFhEI9WsmU30z7oOHew==
+X-Received: by 2002:a05:6a21:38c8:b0:be:bf28:b7da with SMTP id
+ yk8-20020a056a2138c800b000bebf28b7damr5858337pzb.20.1675859063311; 
+ Wed, 08 Feb 2023 04:24:23 -0800 (PST)
+Received: from localhost ([192.55.54.55]) by smtp.gmail.com with ESMTPSA id
+ p22-20020aa78616000000b0058d9b68042fsm1546476pfn.14.2023.02.08.04.24.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 04:10:18 -0800 (PST)
-Date: Wed, 8 Feb 2023 12:10:13 +0000
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- pbonzini@redhat.com, eblake@redhat.com, armbru@redhat.com,
- berrange@redhat.com, eduardo@habkost.net, alex.bennee@linaro.org
-Subject: Re: [RFC PATCH 08/16] target/arm/kvm-rme: Populate the realm with
- boot images
-Message-ID: <Y+ORJftuXd2DjV3F@myrica>
-References: <20230127150727.612594-1-jean-philippe@linaro.org>
- <20230127150727.612594-9-jean-philippe@linaro.org>
- <e43446dd-e6d9-3591-aea8-c77dc83dcd8b@linaro.org>
+ Wed, 08 Feb 2023 04:24:22 -0800 (PST)
+Date: Wed, 8 Feb 2023 04:24:21 -0800
+From: Isaku Yamahata <isaku.yamahata@gmail.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Isaku Yamahata <isaku.yamahata@gmail.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
+Message-ID: <20230208122421.GA4175971@ls.amr.corp.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <Y8H5Z3e4hZkFxAVS@google.com>
+ <20230119111308.GC2976263@ls.amr.corp.intel.com>
+ <Y8lg1G2lRIrI/hld@google.com>
+ <20230119223704.GD2976263@ls.amr.corp.intel.com>
+ <Y880FiYF7YCtsw/i@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e43446dd-e6d9-3591-aea8-c77dc83dcd8b@linaro.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x330.google.com
+In-Reply-To: <Y880FiYF7YCtsw/i@google.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=isaku.yamahata@gmail.com; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,41 +119,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 27, 2023 at 01:54:23PM -1000, Richard Henderson wrote:
-> >   static void rme_vm_state_change(void *opaque, bool running, RunState state)
-> >   {
-> >       int ret;
-> > @@ -72,6 +115,9 @@ static void rme_vm_state_change(void *opaque, bool running, RunState state)
-> >           }
-> >       }
-> > +    g_slist_foreach(rme_images, rme_populate_realm, NULL);
-> > +    g_slist_free_full(g_steal_pointer(&rme_images), g_free);
+On Tue, Jan 24, 2023 at 01:27:50AM +0000,
+Sean Christopherson <seanjc@google.com> wrote:
+
+> On Thu, Jan 19, 2023, Isaku Yamahata wrote:
+> > On Thu, Jan 19, 2023 at 03:25:08PM +0000,
+> > Sean Christopherson <seanjc@google.com> wrote:
+> > 
+> > > On Thu, Jan 19, 2023, Isaku Yamahata wrote:
+> > > > On Sat, Jan 14, 2023 at 12:37:59AM +0000,
+> > > > Sean Christopherson <seanjc@google.com> wrote:
+> > > > 
+> > > > > On Fri, Dec 02, 2022, Chao Peng wrote:
+> > > > > > This patch series implements KVM guest private memory for confidential
+> > > > > > computing scenarios like Intel TDX[1]. If a TDX host accesses
+> > > > > > TDX-protected guest memory, machine check can happen which can further
+> > > > > > crash the running host system, this is terrible for multi-tenant
+> > > > > > configurations. The host accesses include those from KVM userspace like
+> > > > > > QEMU. This series addresses KVM userspace induced crash by introducing
+> > > > > > new mm and KVM interfaces so KVM userspace can still manage guest memory
+> > > > > > via a fd-based approach, but it can never access the guest memory
+> > > > > > content.
+> > > > > > 
+> > > > > > The patch series touches both core mm and KVM code. I appreciate
+> > > > > > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
+> > > > > > reviews are always welcome.
+> > > > > >   - 01: mm change, target for mm tree
+> > > > > >   - 02-09: KVM change, target for KVM tree
+> > > > > 
+> > > > > A version with all of my feedback, plus reworked versions of Vishal's selftest,
+> > > > > is available here:
+> > > > > 
+> > > > >   git@github.com:sean-jc/linux.git x86/upm_base_support
+> > > > > 
+> > > > > It compiles and passes the selftest, but it's otherwise barely tested.  There are
+> > > > > a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
+> > > > > a WIP.
+> > > > > 
+> > > > > As for next steps, can you (handwaving all of the TDX folks) take a look at what
+> > > > > I pushed and see if there's anything horrifically broken, and that it still works
+> > > > > for TDX?
+> > > > > 
+> > > > > Fuad (and pKVM folks) same ask for you with respect to pKVM.  Absolutely no rush
+> > > > > (and I mean that).
+> > > > > 
+> > > > > On my side, the two things on my mind are (a) tests and (b) downstream dependencies
+> > > > > (SEV and TDX).  For tests, I want to build a lists of tests that are required for
+> > > > > merging so that the criteria for merging are clear, and so that if the list is large
+> > > > > (haven't thought much yet), the work of writing and running tests can be distributed.
+> > > > > 
+> > > > > Regarding downstream dependencies, before this lands, I want to pull in all the
+> > > > > TDX and SNP series and see how everything fits together.  Specifically, I want to
+> > > > > make sure that we don't end up with a uAPI that necessitates ugly code, and that we
+> > > > > don't miss an opportunity to make things simpler.  The patches in the SNP series to
+> > > > > add "legacy" SEV support for UPM in particular made me slightly rethink some minor
+> > > > > details.  Nothing remotely major, but something that needs attention since it'll
+> > > > > be uAPI.
+> > > > 
+> > > > Although I'm still debuging with TDX KVM, I needed the following.
+> > > > kvm_faultin_pfn() is called without mmu_lock held.  the race to change
+> > > > private/shared is handled by mmu_seq.  Maybe dedicated function only for
+> > > > kvm_faultin_pfn().
+> > > 
+> > > Gah, you're not on the other thread where this was discussed[*].  Simply deleting
+> > > the lockdep assertion is safe, for guest types that rely on the attributes to
+> > > define shared vs. private, KVM rechecks the attributes under the protection of
+> > > mmu_seq.
+> > > 
+> > > I'll get a fixed version pushed out today.
+> > > 
+> > > [*] https://lore.kernel.org/all/Y8gpl+LwSuSgBFks@google.com
+> > 
+> > Now I have tdx kvm working. I've uploaded at the followings.
+> > It's rebased to v6.2-rc3.
+> >         git@github.com:yamahata/linux.git tdx/upm
+> >         git@github.com:yamahata/qemu.git tdx/upm
 > 
-> I suppose this technically works because you clear the list, and thus the
-> hook is called only on the first transition to RUNNING.  On all subsequent
-> transitions the list is empty.
+> And I finally got a working, building version updated and pushed out (again to):
 > 
-> I see that i386 sev does this immediately during machine init, alongside the
-> kernel setup.  Since kvm_init has already been called, that seems workable,
-> rather than queuing anything for later.
+>   git@github.com:sean-jc/linux.git x86/upm_base_support
+> 
 
-The problem I faced was that RME_POPULATE_REALM needs to be called after
-rom_reset(), which copies all the blobs into guest memory, and that
-happens at device reset time, after machine init and
-kvm_cpu_synchronize_post_init().
+Ok, I rebased TDX part to the updated branch.
+        git@github.com:yamahata/linux.git tdx/upm
+        git@github.com:yamahata/qemu.git tdx/upm
 
-> But I think ideally this would be handled generically in (approximately)
-> kvm_cpu_synchronize_post_init, looping over all blobs.  This would handle
-> any usage of '-device loader,...', instead of the 4 specific things you
-> handle in the next patch.
-
-I'd definitely prefer something generic that hooks into the loader, I'll
-look into that. I didn't do it right away because the arm64 Linux kernel
-loading is special, requires reserving extra RAM in addition to the blob
-(hence the two parameters to kvm_arm_rme_add_blob()). But we could just
-have a special case for the extra memory needed by Linux and make the rest
-generic.
-
-Thanks,
-Jean
+Now it's v6.2-rc7 based.
+qemu needs more patches to avoid registering memory slot for SMM. 
+-- 
+Isaku Yamahata <isaku.yamahata@gmail.com>
 
