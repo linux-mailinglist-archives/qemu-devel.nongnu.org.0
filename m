@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A64668EF43
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 13:44:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2938568EF30
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 13:41:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPjGe-0006HF-Nb; Wed, 08 Feb 2023 07:09:40 -0500
+	id 1pPjHQ-0007Ny-FU; Wed, 08 Feb 2023 07:10:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pPjGQ-0006Bk-20
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 07:09:27 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ id 1pPjHK-0007MF-6b
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 07:10:23 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pPjGL-0007vU-Tj
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 07:09:25 -0500
-Received: by mail-wr1-x431.google.com with SMTP id h16so16499274wrz.12
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 04:09:21 -0800 (PST)
+ id 1pPjHI-0001sn-Er
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 07:10:21 -0500
+Received: by mail-wm1-x330.google.com with SMTP id z13so5702061wmp.2
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 04:10:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=R1KjEsIGivqmk2K1yIzvCiCv9uH4m8neXzHqtilaC7k=;
- b=Cp3dCR699ZdvJSjIVe0PStARxtmQYIkDU5fFBGXcYp4+OCs37zq3GkGzYxOZWRiRek
- 5eZ94pCZ/4Kyd5YfIrmsDxac2ObV1+Rx1+Vvn0T6GEitaa68+koFH9NRE6iER57aNINg
- 4hbFtFJ9cTv9BEZ/APRjOHJtIuFddAD6IVOrSLPkcQarP6jCLsL7jt1Gp0AHK2LbAO89
- YHFu67RS4kvnrpVKcIovb0FvjyR28Iw1HNZVhLS4NRdR8ZoRnCo4aFlwwACJkBOu9/z8
- Rt0KpNzxWPhDF9S2f0ofJJhkpwPADC5zl8JbYOjRtznuCxaPu35qkSCnj1GMGP42X3gN
- ffnQ==
+ bh=Yj7A2Iy7u3FcfZSHeT9reKcl3NMlbOAZlTdVmXK/d/Y=;
+ b=WwVDVsVQ93fMO+mrgqv7RKjIm5mHJFBTCXK2DuEpBhfgbEPn1+cPSjFnXo3hIB9I2/
+ aaqGj8OIV0lCsHDBrDrqGL/Yx8mpLdnxItSVNIl+/dfFm9sHXuYq3R4D3A7+GTfWbPOm
+ OKDj/1PTIOuiwW/5Wwr7qYyIeXsPz62eE0ZMb+f0FdcmNtPIrIbB+KQf6suV9kfGV1ac
+ Su97Vu2qimhbS/2Nuzj8/1P50PF42GGSENT+9bfxndb1wxSuSPaEJlfDaJg9u/NRD0Ng
+ lyGJtoODLkAV4wdTpUGt9ipfGxJ6Rc4uTzGkDrXXtAnFc9DWVa3igFWloKCtW6jKQJDg
+ dy4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=R1KjEsIGivqmk2K1yIzvCiCv9uH4m8neXzHqtilaC7k=;
- b=wEQDwGPAn9/iz6WB52haQfiaTNZh/P0h7aoCIJO48EbxFRxXEc5FuVSMhEWHzONE17
- nippW3OO4XAvg/FkOo+ZfA+09ddb/3MWrP85HbT+ln6bMzbqNFEqIlpak5UHPAbEn9KY
- v+0VTVdUl4Ih53P3jcXGpW/gMg97czkjI7N7F9NgDkwi77UJcNVr8O+xQSHOk4E14MiX
- mceykrMP8OO350W8cUY62Mf+VD7bj1EAY1jTd3nmFG9C+O/4gZRYX9ZYEYZ4Hxtlfss4
- IsKwpoxOxizGAF4QO3MvT/TIOYOujx4ps3vqgvMPADZbaufeak5GC7yWn0mWLKVOkCbk
- GgYA==
-X-Gm-Message-State: AO0yUKUFit6GgXPFLdUblhJN9LkOb0WibTrCcb+Ykn98hM5X4O2xvuT8
- 6MNYYERhkeJmhSDqGPpg6DeN9w==
-X-Google-Smtp-Source: AK7set9L3g0peABdtqjI1GwvyHk90RkErGk1b06C4BXzbvCj3ut0E+ZzfImbb6LtKGqEoYU+vSIwcA==
-X-Received: by 2002:adf:e688:0:b0:2c3:e378:41d5 with SMTP id
- r8-20020adfe688000000b002c3e37841d5mr1549591wrm.60.1675858160331; 
- Wed, 08 Feb 2023 04:09:20 -0800 (PST)
+ bh=Yj7A2Iy7u3FcfZSHeT9reKcl3NMlbOAZlTdVmXK/d/Y=;
+ b=iQLThzC/Z2WEuuTweOWummhjUebeuO68Xu8xk/B4NYWMWZvR0dNqJOdELIV75UCo6n
+ bnEe+yu/snQcM4PIkPV1Z/p+doS6gnFvO2piuP1IjQK+ToNFesZGSi3qBQVIbQRyag+X
+ U5T9GDg3q50dwBPz9y6vUHtjoFdBou8ea/k2tm2qemm93gC4XtSA9CyRYRT1Ua89g+s9
+ wR/JojYzDLfUkpGc8dH3Go5gwz95LCmQzbXkWUpzuDf6EIQkz9g5lc00RGfN0wWA/+VX
+ TOfUXmlPymoM75GPEV93nVBibEsRHDRKNgIMJpyqx1Rp6qrFUzyBFizM6W1wuiMAl/aK
+ 3AOw==
+X-Gm-Message-State: AO0yUKVRW2sDxCGTHYV0+PbUmYFBvBbsMbXudu3DWDa8BiJ0IGIxuqLI
+ 63ugA8zpDCzxBF8TU1PvnI+u1w==
+X-Google-Smtp-Source: AK7set+V+TidhEf70JlG5vUum881/TglNroruZGMt5W5dh9HSuDU3mexIT3cOm9iB/6wOPi+l649fg==
+X-Received: by 2002:a05:600c:3093:b0:3dd:37a5:dc90 with SMTP id
+ g19-20020a05600c309300b003dd37a5dc90mr6412487wmn.32.1675858218617; 
+ Wed, 08 Feb 2023 04:10:18 -0800 (PST)
 Received: from myrica (054592b0.skybroadband.com. [5.69.146.176])
  by smtp.gmail.com with ESMTPSA id
- u17-20020adfdb91000000b002bdd96d88b4sm13684240wri.75.2023.02.08.04.09.19
+ c63-20020a1c3542000000b003df14531724sm1812791wma.21.2023.02.08.04.10.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 04:09:19 -0800 (PST)
-Date: Wed, 8 Feb 2023 12:09:15 +0000
+ Wed, 08 Feb 2023 04:10:18 -0800 (PST)
+Date: Wed, 8 Feb 2023 12:10:13 +0000
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
  pbonzini@redhat.com, eblake@redhat.com, armbru@redhat.com,
  berrange@redhat.com, eduardo@habkost.net, alex.bennee@linaro.org
-Subject: Re: [RFC PATCH 06/16] target/arm/kvm-rme: Initialize vCPU
-Message-ID: <Y+OQ607mAYqONH98@myrica>
+Subject: Re: [RFC PATCH 08/16] target/arm/kvm-rme: Populate the realm with
+ boot images
+Message-ID: <Y+ORJftuXd2DjV3F@myrica>
 References: <20230127150727.612594-1-jean-philippe@linaro.org>
- <20230127150727.612594-7-jean-philippe@linaro.org>
- <85606bc0-5e48-9280-781f-b9641c36ce03@linaro.org>
+ <20230127150727.612594-9-jean-philippe@linaro.org>
+ <e43446dd-e6d9-3591-aea8-c77dc83dcd8b@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <85606bc0-5e48-9280-781f-b9641c36ce03@linaro.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x431.google.com
+In-Reply-To: <e43446dd-e6d9-3591-aea8-c77dc83dcd8b@linaro.org>
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,41 +93,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 27, 2023 at 12:37:12PM -1000, Richard Henderson wrote:
-> On 1/27/23 05:07, Jean-Philippe Brucker wrote:
-> > +static int kvm_arm_rme_get_core_regs(CPUState *cs)
-> > +{
-> > +    int i, ret;
-> > +    struct kvm_one_reg reg;
-> > +    ARMCPU *cpu = ARM_CPU(cs);
-> > +    CPUARMState *env = &cpu->env;
-> > +
-> > +    for (i = 0; i < 8; i++) {
-> > +        reg.id = AARCH64_CORE_REG(regs.regs[i]);
-> > +        reg.addr = (uintptr_t) &env->xregs[i];
-> > +        ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
-> > +        if (ret) {
-> > +            return ret;
-> > +        }
-> > +    }
-> > +
-> > +    return 0;
-> > +}
+On Fri, Jan 27, 2023 at 01:54:23PM -1000, Richard Henderson wrote:
+> >   static void rme_vm_state_change(void *opaque, bool running, RunState state)
+> >   {
+> >       int ret;
+> > @@ -72,6 +115,9 @@ static void rme_vm_state_change(void *opaque, bool running, RunState state)
+> >           }
+> >       }
+> > +    g_slist_foreach(rme_images, rme_populate_realm, NULL);
+> > +    g_slist_free_full(g_steal_pointer(&rme_images), g_free);
 > 
-> Wow, this is quite the restriction.
+> I suppose this technically works because you clear the list, and thus the
+> hook is called only on the first transition to RUNNING.  On all subsequent
+> transitions the list is empty.
 > 
-> I get that this is just enough to seed the guest for boot, and take SMC
-> traps, but I'm concerned that we can't do much with the machine underneath,
-> when it comes to other things like "info registers" or gdbstub will be
-> silently unusable.  I would prefer if we can somehow make this loudly
-> unusable.
+> I see that i386 sev does this immediately during machine init, alongside the
+> kernel setup.  Since kvm_init has already been called, that seems workable,
+> rather than queuing anything for later.
 
-For "info registers", which currently displays zero values for all regs,
-we can instead return an error message in aarch64_cpu_dump_state().
+The problem I faced was that RME_POPULATE_REALM needs to be called after
+rom_reset(), which copies all the blobs into guest memory, and that
+happens at device reset time, after machine init and
+kvm_cpu_synchronize_post_init().
 
-For gdbstub, I suspect we should disable it entirely since it seems
-fundamentally incompatible with confidential VMs, but I need to spend more
-time on this.
+> But I think ideally this would be handled generically in (approximately)
+> kvm_cpu_synchronize_post_init, looping over all blobs.  This would handle
+> any usage of '-device loader,...', instead of the 4 specific things you
+> handle in the next patch.
+
+I'd definitely prefer something generic that hooks into the loader, I'll
+look into that. I didn't do it right away because the arm64 Linux kernel
+loading is special, requires reserving extra RAM in addition to the blob
+(hence the two parameters to kvm_arm_rme_add_blob()). But we could just
+have a special case for the extra memory needed by Linux and make the rest
+generic.
 
 Thanks,
 Jean
