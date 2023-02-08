@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3CF768EAE8
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 10:16:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84CC668EAF9
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 10:17:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPgXh-0003VP-Tg; Wed, 08 Feb 2023 04:15:06 -0500
+	id 1pPgZf-0002Ag-CR; Wed, 08 Feb 2023 04:17:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1pPgXe-0003UV-4a
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 04:15:02 -0500
+ id 1pPgZa-00024i-KN
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 04:17:02 -0500
 Received: from zuban.uni-paderborn.de ([2001:638:502:c003::17])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1pPgXb-0007q4-6H
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 04:15:01 -0500
+ id 1pPgZY-0000HP-Nc
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 04:17:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version
- :References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=jKObQU9Z5cglN9gU4ODEMzyjf+gD+v9D+U0m4sA0Ydg=; b=p1HyDYR0sE9zLUFYAwQrxVztL7
- F7TvWH7s6xrbrGr/lFvWORhKMeEfvxZpONEfzcPrbBlClDBwUHMylxDvxSvSujll0376/YtdeQQR/
- N1SpAgMZrNUcM7651nv27U47IbQKR3amUz3uydp3Rffptwd9BZmSibEaSyFqEjxyOcug=;
+ d=mail.uni-paderborn.de; s=20170601; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=U4O98BK7B3gB27TbMzZW+OrwtBhiXUn8oGBv7u7JQJk=; b=nqkpl7hlBi2P6Zt8COJoCcehfm
+ 5Kg+5Pt2rNH1/V+TeVsH4gzucv4+i2JMhigTng4f2dJT9FNJ85w2AjpEfEp3A8W6kpK6ymICshmwu
+ b4vGsTPnrpPF3TmEwd+MKhuOCVC6BBcRmmTlCgATw5c/EalfISjsx/OpRE6QcyrvxNG0=;
+Date: Wed, 8 Feb 2023 10:16:55 +0100
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org
-Subject: [PULL 12/12] tests/tcg/tricore: Add test for ld.h
-Date: Wed,  8 Feb 2023 10:14:22 +0100
-Message-Id: <20230208091422.1243084-13-kbastian@mail.uni-paderborn.de>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230208091422.1243084-1-kbastian@mail.uni-paderborn.de>
-References: <20230208091422.1243084-1-kbastian@mail.uni-paderborn.de>
+To: Anton Kochkov <anton.kochkov@proton.me>
+Cc: qemu-devel@nongnu.org, eitan_eliahu@hotmail.com
+Subject: Re: [PATCH] target/tricore: Fix OPC1_16_SRO_LD_H translation
+Message-ID: <20230208091655.r4wkjvmjqv7xbjum@schnipp-desktop>
+References: <20230112142258.514079-1-anton.kochkov@proton.me>
+ <20230112210350.2y67zmep37menm6d@schnipp-desktop>
+ <zVKqNjvXXybofvAQ1peoJ-6Qv2YI4evjBePkbPAKl57D1kPiq3yTQxRytUED9AwfV2EDfROy9BPQhK-e1aoCqUZrfw3yCWMVN15_B7yk_WY=@proton.me>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <zVKqNjvXXybofvAQ1peoJ-6Qv2YI4evjBePkbPAKl57D1kPiq3yTQxRytUED9AwfV2EDfROy9BPQhK-e1aoCqUZrfw3yCWMVN15_B7yk_WY=@proton.me>
 X-IMT-Source: Extern
 X-IMT-Spam-Score: 0.0 ()
-X-Sophos-SenderHistory: ip=84.154.177.181, fs=778835, da=163456751, mc=23, sc=0,
- hc=23, sp=0, fso=778835, re=0, sd=0, hd=0
+X-Sophos-SenderHistory: ip=84.154.177.181, fs=778966, da=163456882, mc=24, sc=0,
+ hc=24, sp=0, fso=778966, re=0, sd=0, hd=0
 X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
  Antispam-Data: 2023.2.8.90317, AntiVirus-Engine: 5.96.0,
  AntiVirus-Data: 2023.1.24.5960001
-X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
+X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
 Received-SPF: pass client-ip=2001:638:502:c003::17;
  envelope-from=kbastian@mail.uni-paderborn.de; helo=zuban.uni-paderborn.de
 X-Spam_score_int: -42
@@ -69,84 +71,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-this exercises the error reported in
-https://gitlab.com/qemu-project/qemu/-/issues/652.
+On Thu, Feb 02, 2023 at 03:55:53PM +0000, Anton Kochkov wrote:
+> ------- Original Message -------
+> On Friday, January 13th, 2023 at 5:03 AM, Bastian Koppelmann <kbastian@mail.uni-paderborn.de> wrote:
+> 
+> 
+> > 
+> > 
+> > On Thu, Jan 12, 2023 at 02:24:02PM +0000, Anton Kochkov wrote:
+> > 
+> > > Signed-off-by: Eitan Eliahu eitan_eliahu@hotmail.com
+> > > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/652
+> > > ---
+> > > target/tricore/translate.c | 2 +-
+> > > 1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/target/tricore/translate.c b/target/tricore/translate.c
+> > > index df9e46c649..b2a5e11778 100644
+> > > --- a/target/tricore/translate.c
+> > > +++ b/target/tricore/translate.c
+> > > @@ -3878,7 +3878,7 @@ static void decode_sro_opc(DisasContext *ctx, int op1)
+> > > gen_offset_ld(ctx, cpu_gpr_d[15], cpu_gpr_a[r2], address, MO_UB);
+> > > break;
+> > > case OPC1_16_SRO_LD_H:
+> > > - gen_offset_ld(ctx, cpu_gpr_d[15], cpu_gpr_a[r2], address, MO_LESW);
+> > > + gen_offset_ld(ctx, cpu_gpr_d[15], cpu_gpr_a[r2], address * 2, MO_LESW);
+> > > break;
+> > > case OPC1_16_SRO_LD_W:
+> > > gen_offset_ld(ctx, cpu_gpr_d[15], cpu_gpr_a[r2], address * 4, MO_LESL);
+> > > --
+> > > 2.39.0
+> > 
+> > 
+> > Reviewed-by: Bastian Koppelmann kbastian@mail.uni-paderborn.de
+> > 
+> > 
+> > As Phil said, good catch. I added it to my TriCore queue.
+> > 
+> > I saw on the bugtracker that you have testcase. Are you interested in adding it to
+> > tests/tcg/tricore?
+> 
+> Sorry for the late answer - it's not me who initially opened the original issue thus I don't have a test case.
 
-Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Message-Id: <20230203132132.511254-1-kbastian@mail.uni-paderborn.de>
-Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
----
- tests/tcg/tricore/Makefile.softmmu-target |  1 +
- tests/tcg/tricore/macros.h                | 13 +++++++++++++
- tests/tcg/tricore/test_ld_h.S             | 15 +++++++++++++++
- 3 files changed, 29 insertions(+)
- create mode 100644 tests/tcg/tricore/test_ld_h.S
+No worries. I created a test myself (see
+https://lore.kernel.org/qemu-devel/20230203132132.511254-1-kbastian@mail.uni-paderborn.de/)
 
-diff --git a/tests/tcg/tricore/Makefile.softmmu-target b/tests/tcg/tricore/Makefile.softmmu-target
-index b6c19dbecd..d2446af8b4 100644
---- a/tests/tcg/tricore/Makefile.softmmu-target
-+++ b/tests/tcg/tricore/Makefile.softmmu-target
-@@ -14,6 +14,7 @@ TESTS += test_ftoi.tst
- TESTS += test_imask.tst
- TESTS += test_insert.tst
- TESTS += test_ld_bu.tst
-+TESTS += test_ld_h.tst
- TESTS += test_madd.tst
- TESTS += test_msub.tst
- TESTS += test_muls.tst
-diff --git a/tests/tcg/tricore/macros.h b/tests/tcg/tricore/macros.h
-index 109ef62a4d..ec4f5bff52 100644
---- a/tests/tcg/tricore/macros.h
-+++ b/tests/tcg/tricore/macros.h
-@@ -21,6 +21,7 @@
- #define DREG_TEMP %d11
- #define DREG_TEST_NUM %d14
- #define DREG_CORRECT_RESULT %d15
-+#define DREG_CORRECT_RESULT_2 %d13
- 
- #define AREG_ADDR %a0
- #define AREG_CORRECT_RESULT %a3
-@@ -79,6 +80,18 @@ test_ ## num:                                               \
-     LI(DREG_CORRECT_RESULT, addr_result)                    \
-     jne DREG_CALC_RESULT, DREG_CORRECT_RESULT, fail;
- 
-+#define TEST_LD_SRO(insn, num, result, addr_result, ld_pattern)  \
-+test_ ## num:                                                    \
-+    LIA(AREG_ADDR, test_data)                                    \
-+    insn %d15, ld_pattern;                                       \
-+    LI(DREG_CORRECT_RESULT_2, result)                            \
-+    mov DREG_TEST_NUM, num;                                      \
-+    jne %d15, DREG_CORRECT_RESULT_2, fail;                       \
-+    mov.d DREG_CALC_RESULT, AREG_ADDR;                           \
-+    LI(DREG_CORRECT_RESULT, addr_result)                         \
-+    jne DREG_CALC_RESULT, DREG_CORRECT_RESULT, fail;
-+
-+
- /* Actual test case type
-  * e.g inst %dX, %dY      -> TEST_D_D
-  *     inst %dX, %dY, %dZ -> TEST_D_DD
-diff --git a/tests/tcg/tricore/test_ld_h.S b/tests/tcg/tricore/test_ld_h.S
-new file mode 100644
-index 0000000000..d3c157a046
---- /dev/null
-+++ b/tests/tcg/tricore/test_ld_h.S
-@@ -0,0 +1,15 @@
-+#include "macros.h"
-+.data
-+test_data:
-+    .word 0xaffedead
-+    .word 0x001122ff
-+.text
-+.global _start
-+_start:
-+#                               expect. addr reg val after load
-+#              insn  num  expect. load value |          pattern for loading
-+#                |    |     |                |              |
-+    TEST_LD    (ld.h, 1, 0xffffaffe, MEM_BASE_ADDR, [AREG_ADDR]2)
-+    TEST_LD_SRO(ld.h, 2, 0x000022ff, MEM_BASE_ADDR, [AREG_ADDR]4)
-+
-+    TEST_PASSFAIL
--- 
-2.39.1
+Cheers,
+Bastian
 
+
+> 
 
