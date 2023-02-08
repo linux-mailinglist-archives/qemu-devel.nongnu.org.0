@@ -2,93 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84CAB68E8BA
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 08:11:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED2DD68E8E8
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 08:31:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPead-0004Qi-N3; Wed, 08 Feb 2023 02:09:59 -0500
+	id 1pPetX-0001Hf-O6; Wed, 08 Feb 2023 02:29:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPeab-0004QB-5g
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 02:09:57 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pPeaY-0002rC-Vw
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 02:09:56 -0500
-Received: by mail-wm1-x329.google.com with SMTP id z13so5164851wmp.2
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 23:09:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=gg+auhqgAMv70fUhrtnXtTJv4YtDRXtXA6xhvOT20XA=;
- b=NlnJmxPRq0ksC6/u59o91rgROhe3WjeCz4HyMLYfgkfG0bDWgiGiQcCvdnibCxkbBv
- E62ZCt2PMQAM4eWhHtOPeGfmUS5tB1qvQKPFLROkMvGQ/Ou7sHagSIYrgxzY6HVALNXm
- iRE3L8SW8gOaW34UMXSLTThOPcGOWiIRa76wAV7IZDAQ53wMLtRouJxjop1bSIfbP6iD
- 7UEVxE+DhQ8bJQl4hW8tb6/fiHocWYA2AQN/kNDKRObLWtxZFJR/HlkoHGWcMmzOLkaq
- sZh4As4BZNWlgUT/8lpE+e5su7o55VQS+cev9ROcj4MG1KV3yVAwuUguEj7ML22u9d+r
- u3sg==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1pPetN-0001Fp-J0
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 02:29:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1pPetI-00066b-NG
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 02:29:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675841354;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3abdPSz0m23x23JBMnjmM2iuKOEDvFUzq1LlDVmxiTk=;
+ b=d3K0M3NPB/qWksVJia62aGCt1pgcDmlhmJl3F8ibRsIpz1hqglQkPBBgSIuVuYDOfF/WrK
+ CKkE214IxJ5klVc+jmh8geDfbyEef1FE8cjcfPAsfR4POhDtIVnDMIC9daAQE8mNz9k+QX
+ JDNqDAxMXIthDh6bRJwY2MRFnzXIPPM=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-649-TOvZt51kNia1ZPbsVnF4Fw-1; Wed, 08 Feb 2023 02:29:08 -0500
+X-MC-Unique: TOvZt51kNia1ZPbsVnF4Fw-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ hp2-20020a1709073e0200b0084d47e3fe82so12491177ejc.8
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 23:29:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gg+auhqgAMv70fUhrtnXtTJv4YtDRXtXA6xhvOT20XA=;
- b=M98oW8EvKJRgUxPVD5Gk7VITUWwmwz+Qqs29fTNSCAZm5WMCsC6UCvRe6PDioq97Sk
- Ifaj1HmObsw5bzyvgqmsLkGwT2vtaSugTaXrojSCGDqPQvZ7Cu35K/5hbwfjJfDpcxj1
- 0oFfwzS8QqUzHzUMMP/bhltxJhInJjfpi+LEndI6oi41pw2MIfNWXtCudLPhyGUK+Bsk
- JnU8Is0UKr2+zO2q3M2FDoHdc/zwh3Pg7AQu50ZXG1ZJbNaws9EKTYkzGVGnjhvn1zzd
- RTYveh3NghU+wPjsX60sqR39dVgqreDrRbee5Qcvh3jYKaxel92u6jZvsY8cQAXqQ/2g
- jA4w==
-X-Gm-Message-State: AO0yUKW2Rij8oEqGjgSNwDGLY07CX3O/MnhoVeopn9F/FzFJkMs68WqS
- /tWrbRvIRTQ7CLxNd3k4KdFLaw==
-X-Google-Smtp-Source: AK7set9HuJYzlHy4imO3J9sAV8IK885TEJowquQCS0XqLKsHgqI0oaH84kedoFP3ChQbzXUG5pDf0g==
-X-Received: by 2002:a05:600c:1f14:b0:3df:e659:f9d9 with SMTP id
- bd20-20020a05600c1f1400b003dfe659f9d9mr5566689wmb.34.1675840193243; 
- Tue, 07 Feb 2023 23:09:53 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- o41-20020a05600c512900b003dc4aae4739sm1034148wms.27.2023.02.07.23.09.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Feb 2023 23:09:51 -0800 (PST)
-Message-ID: <cdf3bffb-f743-a5ed-b864-5d20b8d2595a@linaro.org>
-Date: Wed, 8 Feb 2023 08:09:50 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3abdPSz0m23x23JBMnjmM2iuKOEDvFUzq1LlDVmxiTk=;
+ b=eDMhajLVqRWlq4IfoZ5ZLcPQhzwGkHGY+jdWNrBoRqtWtlpSaekSAiI6palqdUPC2B
+ GFRfqEr/k2jNp37AT+Gsa2wXc59kQdqLAxI4gXByE2It1nLxnwreIeXWLZZJMBwuXVpU
+ nnr3VI8WvhFy5sDXzpa/WwMZ6Ha0TIgw3889DMtfqcur9uQ5mG+uoIs7hVhAGv7rn5GI
+ Q7b+tAE5AVsjxBm7SXpr6eSO65jXnVCFAxAMZk1VQV9Td50dKrrbo2VWwQWgpNpKQ6yv
+ XA9H+vCSkrMW0jfBHohZvU59mE+WfK91MlJ9jPWI6epZP2EMkbcnwm5XeAnArj+0J+JT
+ aq0Q==
+X-Gm-Message-State: AO0yUKV+8rEzRB6TT0PULZwl7xKblZA0As5Ht9wOpmPWVXVheyANf42Y
+ Pt99QuykhI470yltxLkijIKUvBcEhO+DY9lIVoGQ0lon14NUJuMtkUctRhM/HeWdol35IK44Jb6
+ 6ViSK34WBkZg27LN3bhjBaNqboipvMI8=
+X-Received: by 2002:a17:906:9386:b0:8aa:1801:32bc with SMTP id
+ l6-20020a170906938600b008aa180132bcmr1122668ejx.125.1675841346954; 
+ Tue, 07 Feb 2023 23:29:06 -0800 (PST)
+X-Google-Smtp-Source: AK7set9Xe3W+u0HY8OeI/+9OVGd8lWJwJreNW3VZ7LvP1jxUOCAJJ9hfhXbpJG7af2LT2xHW+0XDhSB7sf/IndP0IhA=
+X-Received: by 2002:a17:906:9386:b0:8aa:1801:32bc with SMTP id
+ l6-20020a170906938600b008aa180132bcmr1122656ejx.125.1675841346603; Tue, 07
+ Feb 2023 23:29:06 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 07/10] hw/ide/piix: Require an ISABus only for
- user-created instances
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, Bernhard Beschow <shentey@gmail.com>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, David Hildenbrand <david@redhat.com>,
- Peter Xu <peterx@redhat.com>, qemu-ppc@nongnu.org, qemu-block@nongnu.org,
- John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20230126211740.66874-1-shentey@gmail.com>
- <20230126211740.66874-8-shentey@gmail.com>
- <fb287888-c88c-60b1-20a4-1e50ddbf1daf@ilande.co.uk>
- <alpine.LMD.2.03.2302052308460.32269@eik.bme.hu>
- <935ae2a8-4327-53c6-1649-36698a00901d@ilande.co.uk>
- <00D45BF9-CA37-42FF-BDE1-F742B04F60F4@gmail.com>
- <b38987d5-5530-ecd9-2fd2-3a57e1a611dd@ilande.co.uk>
- <69A70C66-E623-437A-964F-795C464B5B10@gmail.com>
- <d16f3f47-7bfa-b691-4534-fedc789b8f1b@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <d16f3f47-7bfa-b691-4534-fedc789b8f1b@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
+ <20230207142535.1153722-9-marcandre.lureau@redhat.com>
+ <Y+JmJQEhAejYwS/T@redhat.com>
+In-Reply-To: <Y+JmJQEhAejYwS/T@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Wed, 8 Feb 2023 11:28:55 +0400
+Message-ID: <CAMxuvaw4TKheJbwKtdP8Q97ZYKYmO1c6Z6qmjh+AqR9tsYeaoQ@mail.gmail.com>
+Subject: Re: [PATCH v3 08/10] qmp: teach 'getfd' to import sockets on win32
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000002a1dba05f42b3851"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,209 +102,273 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/2/23 01:43, BALATON Zoltan wrote:
-> On Wed, 8 Feb 2023, Bernhard Beschow wrote:
->> Am 7. Februar 2023 20:52:02 UTC schrieb Mark Cave-Ayland 
->> <mark.cave-ayland@ilande.co.uk>:
->>> On 06/02/2023 23:40, Bernhard Beschow wrote:
->>>> Am 5. Februar 2023 22:32:03 UTC schrieb Mark Cave-Ayland 
->>>> <mark.cave-ayland@ilande.co.uk>:
->>>>> On 05/02/2023 22:21, BALATON Zoltan wrote:
->>>>>> On Sun, 5 Feb 2023, Mark Cave-Ayland wrote:
->>>>>>> On 26/01/2023 21:17, Bernhard Beschow wrote:
->>>>>>>> Internal instances now defer interrupt wiring to the caller which
->>>>>>>> decouples them from the ISABus. User-created devices still fish 
->>>>>>>> out the
->>>>>>>> ISABus from the QOM tree and the interrupt wiring remains in 
->>>>>>>> PIIX IDE.
->>>>>>>> The latter mechanism is considered a workaround and intended to be
->>>>>>>> removed once a deprecation period for user-created PIIX IDE 
->>>>>>>> devices is
->>>>>>>> over.
->>>>>>>>
->>>>>>>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->>>>>>>> ---
->>>>>>>>    include/hw/ide/pci.h |  1 +
->>>>>>>>    hw/ide/piix.c        | 64 
->>>>>>>> ++++++++++++++++++++++++++++++++++----------
->>>>>>>>    hw/isa/piix.c        |  5 ++++
->>>>>>>>    3 files changed, 56 insertions(+), 14 deletions(-)
+--0000000000002a1dba05f42b3851
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+On Tue, Feb 7, 2023 at 6:54 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+>
+wrote:
+
+> On Tue, Feb 07, 2023 at 06:25:33PM +0400, marcandre.lureau@redhat.com
+> wrote:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > A process with enough capabilities can duplicate a socket to QEMU.
+> > Modify 'getfd' to import it and add it to the monitor fd list, so it ca=
+n
+> > be later used by other commands.
+> >
+> > Note that we actually store the SOCKET in the FD list, appropriate care
+> > must now be taken to use the correct socket functions (similar approach
+> > is taken by our io/ code and in glib, this is internal and shouldn't
+> > affect the QEMU/QMP users)
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  qapi/misc.json     | 16 ++++++++--
+> >  monitor/fds.c      | 79 ++++++++++++++++++++++++++++++++++++----------
+> >  monitor/hmp-cmds.c |  6 +++-
+> >  3 files changed, 81 insertions(+), 20 deletions(-)
+> >
+> > diff --git a/qapi/misc.json b/qapi/misc.json
+> > index 27ef5a2b20..cd36d8befb 100644
+> > --- a/qapi/misc.json
+> > +++ b/qapi/misc.json
+> > @@ -249,10 +249,18 @@
+> >  ##
+> >  # @getfd:
+> >  #
+> > -# Receive a file descriptor via SCM rights and assign it a name
+> > +# On UNIX, receive a file descriptor via SCM rights and assign it a
+> name.
+> > +#
+> > +# On Windows, (where ancillary socket fd-passing isn't an option yet),
+> add a
+> > +# socket that was duplicated to QEMU process with WSADuplicateSocketW(=
+)
+> via
+> > +# WSASocket() & WSAPROTOCOL_INFOW structure and assign it a name. A
+> SOCKET is
+> > +# considered as a kind of "file descriptor" in QMP context, for
+> historical
+> > +# reasons and simplicity. QEMU takes care to use socket functions
+> appropriately.
+> >  #
+> >  # @fdname: file descriptor name
+> >  #
+> > +# @wsa-info: a WSAPROTOCOL_INFOW structure (encoded in base64). Since
+> 8.0.
+>
+> This is a clever trick, but it also feels pretty gross from
+> POV of QMP design normal practice, which would be to define
+> a struct in QAPI to represent the WSAPROTOCOL_INFOW contents.
+>
+> The main downside would be that its more verbose to convert
+> between the windows and QAPI structs.
 
 
->>>>>>>>    diff --git a/hw/isa/piix.c b/hw/isa/piix.c
->>>>>>>> index 54a1246a9d..f9974c2a77 100644
->>>>>>>> --- a/hw/isa/piix.c
->>>>>>>> +++ b/hw/isa/piix.c
->>>>>>>> @@ -345,9 +345,14 @@ static void pci_piix_realize(PCIDevice 
->>>>>>>> *dev, const char *uhci_type,
->>>>>>>>          /* IDE */
->>>>>>>>        qdev_prop_set_int32(DEVICE(&d->ide), "addr", dev->devfn + 
->>>>>>>> 1);
->>>>>>>> +    qdev_prop_set_bit(DEVICE(&d->ide), "user-created", false);
->>>>>>>>        if (!qdev_realize(DEVICE(&d->ide), BUS(pci_bus), errp)) {
->>>>>>>>            return;
->>>>>>>>        }
->>>>>>>> +    qdev_connect_gpio_out(DEVICE(&d->ide), 0,
->>>>>>>> +                          qdev_get_gpio_in(DEVICE(&d->pic), 14));
->>>>>>>> +    qdev_connect_gpio_out(DEVICE(&d->ide), 1,
->>>>>>>> +                          qdev_get_gpio_in(DEVICE(&d->pic), 15));
->>>>>>>>          /* USB */
->>>>>>>>        if (d->has_usb) {
->>>>>>>
->>>>>>> I haven't checked the datasheet, but I suspect this will be 
->>>>>>> similar to the cmd646/via PCI-IDE interfaces in that there will 
->>>>>>> be a PCI configuration register that will switch between ISA 
->>>>>>> compatibility mode (and ISA irqs) and PCI mode (with PCI IRQs). 
->>>>>>> So it would be the device configuration that would specify PCI or 
->>>>>>> ISA mode, rather than the presence of an ISABus.
->>>>>>
->>>>>> I forgot about this topic already and haven't follwed this series 
->>>>>> either so what I say may not fully make sense but I think CMD646 
->>>>>> and via-ide are different. CMD646 is a PCI device and should use 
->>>>>> PCI interrupts while via-ide is part of a southbridge/superio 
->>>>>> complex and connected to the ISA PICs within that southbride, so I 
->>>>>> think via-ide always uses ISA IRQs and the ISA btidge within the 
->>>>>> same chip may convert that to PCI IRQs or not (that part is where 
->>>>>> I'm lost also because we may not actually model it that way). 
->>>>>> After a long debate we managed to find a solution back then that 
->>>>>> works for every guest we use it for now so I think we don't want 
->>>>>> to touch it now until some real need arises. It does not worth the 
->>>>>> trouble and added complexity to model something that is not used 
->>>>>> just for the sake of correctness. By the time we find a use for 
->>>>>> that, the ISA emulation may evolve so it's easier to implement the 
->>>>>> missing switching between isa and native mode or we may want to do 
->>>>>> it differently
->   (such as we do things differently now compared to what we did years 
-> ago). So I think it does not worth keeping the ISA model from being 
-> simplified for some theoretical uses in the future which we may not 
-> actually do any time soon.
+WSAPROTOCOL_INFOW is a fairly big structure, with private/reserved files,
+it contains another structure (WSAPROTOCOLCHAIN), has fixed-length arrays,
+GUID, and utf16 string. QAPI-fying is going to be painful for no real gain.
+It is opaque and simply given back to WSASocketW.
 
-Indeed we don't want (and have the time) to model features we don't need
-or will never use. However taking the time to correctly understand these
-devices help us to correctly model them. In particular when design flaws
-have been identified in some models.
+Markus, did you have a chance to look at the series? Can you review/comment
+before I do further work?
 
-> But I don't want to get into this again so 
-> just shared my thoughts and feel free to ignore it. I don't care where 
-> these patches go as long as the VIA model keeps working for me.
+thanks
 
-We certainly want to keep what we currently have working :)
 
->>>>> I have a vague memory that ISA compatibility mode was part of the 
->>>>> original PCI-BMDMA specification, but it has been a while since I 
->>>>> last looked.
->>>>>
->>>>> Bernhard, is there any mention of this in the PIIX datasheet(s)? 
->>>>> For reference the cmd646 datasheet specifies that ISA mode or PCI 
->>>>> mode is determined by register PROG_IF (0x9) in PCI configuration 
->>>>> space.
->>>>
->>>> I've found the following:
->>>>
->>>>    "Only PCI masters have access to the IDE port. ISA Bus masters 
->>>> cannot access the IDE I/O port addresses. Memory targeted by the IDE 
->>>> interface acting as a PCI Bus master on behalf of IDE DMA slaves 
->>>> must reside on PCI, usually main memory implemented by the 
->>>> host-to-PCI bridge."
->>>>
->>>> And:
->>>>
->>>>    "PIIX4 can act as a PCI Bus master on behalf of an IDE slave 
->>>> device."
->>>>
->>>> Does this perhaps mean that piix-ide does indeed have no ISA bus?
->>>
->>> I'd be amazed if that were the case: certainly when the first 
->>> motherboards came out with PCI and ISA slots, I'd expect the IDE 
->>> legacy mode to be enabled by default since BIOSes and OSs such as DOS 
->>> wouldn't have been PCI aware and would access the ISA ioports 
->>> directly. From memory the OF PCI specification has mention of 
->>> workarounds such as mapping the old VGA memory to PCI MMIO space for 
->>> compatibility reasons, so I'd be surprised if there wasn't something 
->>> similar for IDE.
->>>
->>> The wording above is a bit ambiguous because I can see the above 
->>> statements would be true if the PCI-IDE device were already switched 
->>> to PCI mode, and what we're looking for is whether a switch between 
->>> the two is supported or possible.
->>
->> PIIX4's description of PROG_IF (0x9):
->>  "Programming Interface (PI). 80h=Capable of IDE bus master operation."
->>
->> VT82C686B in comparison:
->>  7 Master IDE Capability...........fixed at 1 (Supported)
->>  3 Programmable Indicator - Secondary......fixed at 1 Supports both modes
->>  1 Programmable Indicator - Primary..........fixed at 1 Supports both 
->> modes
->>
->> So VT82C686B can switch modes while PIIX can't. Right?
-> 
-> Unless there's some other bit somewhere... These all-in-one chips can be 
-> confusing.
-> 
->> Furthermore, from the PIIX4 documentation of bit 2 of the bus master 
->> status register BMISX (IO):
->>
->>  "IDE Interrupt Status (IDEINTS)—R/WC. This bit, when set to a 1, 
->> indicates when an IDE device has asserted its interrupt line. When bit 
->> 2=1, all read data from the IDE device has been transferred to main 
->> memory and all write data has been transferred to the IDE device. 
->> Software sets this bit to a 0 by writing a 1 to it. IRQ14 is used for 
->> the primary channel and IRQ15 is used for the secondary channel. Note 
->> that, if the interrupt status bit is set to a 0 by writing a 1 to this 
->> bit while the interrupt line is still at the active level, this bit 
->> remains 0 until another assertion edge is detected on the interrupt 
->> line."
->>
->> So the legacy ISA IRQs seem to be used always.
->>
->> The VIA documentation offers a control register where "native" or 
->> "legacy" mode interrupt routing can be selected. I haven't found a 
->> similar register for PIIX4.
-> 
-> While from the docs it looks like that we have found before that on some 
-> machines this does not work and even after writing some value the 
-> control reg irqs remain set to legacy and software expects that. This is 
-> the case on pegasos2 where the firmware does write the reg but then OSes 
-> still use IRQ 14/15 for ide. Not sure about the fuloong2e but I think 
-> different Linux kernels did different things on that machine. We have 
-> spent a lot of time with this back then and I think found that just 
-> strapping the IRQ to legacy and setting the regs on reset as we set now 
-> works for all guests we tried so I'd be wary to touch this again. Out 
-> cuttent model may be incomplete only modeling one mode of the chip but 
-> this mode is what's used so I don't think it's worth trying to umplement 
-> an unused state that will be reset by the firmware anyway so nothing 
-> will use that.
-> 
-> (We're spamming a lot of people with this, maybe you could prune the cc 
-> if this is not any more relevant to the original patch.)
+> > @@ -270,7 +278,11 @@
+> >  # <- { "return": {} }
+> >  #
+> >  ##
+> > -{ 'command': 'getfd', 'data': {'fdname': 'str'} }
+> > +{ 'command': 'getfd', 'data': {
+> > +    'fdname': 'str',
+> > +    '*wsa-info': {'type': 'str', 'if': 'CONFIG_WIN32'}
+> > +  }
+> > +}
+>
+> snip
+>
+> > +void qmp_getfd(const char *fdname,
+> > +#ifdef WIN32
+> > +               const char *wsa_info,
+> > +#endif
+> > +               Error **errp)
+> > +{
+> > +    Monitor *cur_mon =3D monitor_cur();
+> > +    int fd;
+> > +
+> > +#ifdef WIN32
+> > +    if (wsa_info) {
+> > +        g_autofree WSAPROTOCOL_INFOW *info =3D NULL;
+> > +        gsize len;
+> > +        SOCKET sk;
+> > +
+> > +        info =3D (void *)g_base64_decode(wsa_info, &len);
+> > +        if (len !=3D sizeof(*info)) {
+> > +            error_setg(errp, "Invalid WSAPROTOCOL_INFOW value");
+> > +            return;
+> > +        }
+>
+>
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-
+> https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-
+> https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-
+> https://www.instagram.com/dberrange :|
+>
+>
 
-Don't worry too much about that, it is easier to filter out message than
-figuring you are interested and try to filter in everything. Better safe
-than sorry!
+--0000000000002a1dba05f42b3851
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->> So it seems to me that PIIX can't switch modes...
->>
->>>
->>> The cmd646 datasheet section 1.4 has a fleeting mention of a document 
->>> called "PCI IDE Controller Specification Revision 1.0" which if you 
->>> can find it, may provide more information as to whether this ability 
->>> is specific to the cmd646 or whether it is also relevant to generic 
->>> PCI-IDE controllers such as the PIIX series too.
->>
->> I used VT82C686B above instead of cmd646 if that's okay. I'd need to 
->> read the IDE controller specification still. But perhaps we're already 
->> wiser?
->>
->> Best regards,
->> Bernhard
->>
->>>
->>>
->>> ATB,
->>>
->>> Mark.
->>
->>
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 7, 2023 at 6:54 PM Dani=
+el P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@red=
+hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">On Tue, Feb 07, 2023 at 06:25:33PM +0400, <a href=3D"mailto:marcandr=
+e.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a> wrot=
+e:<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt; <br>
+&gt; A process with enough capabilities can duplicate a socket to QEMU.<br>
+&gt; Modify &#39;getfd&#39; to import it and add it to the monitor fd list,=
+ so it can<br>
+&gt; be later used by other commands.<br>
+&gt; <br>
+&gt; Note that we actually store the SOCKET in the FD list, appropriate car=
+e<br>
+&gt; must now be taken to use the correct socket functions (similar approac=
+h<br>
+&gt; is taken by our io/ code and in glib, this is internal and shouldn&#39=
+;t<br>
+&gt; affect the QEMU/QMP users)<br>
+&gt; <br>
+&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
+lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
+>
+&gt; ---<br>
+&gt;=C2=A0 qapi/misc.json=C2=A0 =C2=A0 =C2=A0| 16 ++++++++--<br>
+&gt;=C2=A0 monitor/fds.c=C2=A0 =C2=A0 =C2=A0 | 79 +++++++++++++++++++++++++=
++++++++++++----------<br>
+&gt;=C2=A0 monitor/hmp-cmds.c |=C2=A0 6 +++-<br>
+&gt;=C2=A0 3 files changed, 81 insertions(+), 20 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/qapi/misc.json b/qapi/misc.json<br>
+&gt; index 27ef5a2b20..cd36d8befb 100644<br>
+&gt; --- a/qapi/misc.json<br>
+&gt; +++ b/qapi/misc.json<br>
+&gt; @@ -249,10 +249,18 @@<br>
+&gt;=C2=A0 ##<br>
+&gt;=C2=A0 # @getfd:<br>
+&gt;=C2=A0 #<br>
+&gt; -# Receive a file descriptor via SCM rights and assign it a name<br>
+&gt; +# On UNIX, receive a file descriptor via SCM rights and assign it a n=
+ame.<br>
+&gt; +#<br>
+&gt; +# On Windows, (where ancillary socket fd-passing isn&#39;t an option =
+yet), add a<br>
+&gt; +# socket that was duplicated to QEMU process with WSADuplicateSocketW=
+() via<br>
+&gt; +# WSASocket() &amp; WSAPROTOCOL_INFOW structure and assign it a name.=
+ A SOCKET is<br>
+&gt; +# considered as a kind of &quot;file descriptor&quot; in QMP context,=
+ for historical<br>
+&gt; +# reasons and simplicity. QEMU takes care to use socket functions app=
+ropriately.<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 # @fdname: file descriptor name<br>
+&gt;=C2=A0 #<br>
+&gt; +# @wsa-info: a WSAPROTOCOL_INFOW structure (encoded in base64). Since=
+ 8.0.<br>
+<br>
+This is a clever trick, but it also feels pretty gross from<br>
+POV of QMP design normal practice, which would be to define<br>
+a struct in QAPI to represent the WSAPROTOCOL_INFOW contents.<br>
+<br>
+The main downside would be that its more verbose to convert<br>
+between the windows and QAPI structs.</blockquote><div><br></div><div>WSAPR=
+OTOCOL_INFOW is a fairly big structure, with private/reserved files, it con=
+tains another structure (WSAPROTOCOLCHAIN), has fixed-length arrays, GUID, =
+and utf16 string. QAPI-fying is going to be painful for no real gain. It is=
+ opaque and simply given back to WSASocketW.<br></div><div>=C2=A0</div><div=
+>Markus, did you have a chance to look at the series? Can you review/commen=
+t before I do further work?</div><div><br></div><div>thanks<br></div><div><=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; @@ -270,7 +278,11 @@<br>
+&gt;=C2=A0 # &lt;- { &quot;return&quot;: {} }<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 ##<br>
+&gt; -{ &#39;command&#39;: &#39;getfd&#39;, &#39;data&#39;: {&#39;fdname&#3=
+9;: &#39;str&#39;} }<br>
+&gt; +{ &#39;command&#39;: &#39;getfd&#39;, &#39;data&#39;: {<br>
+&gt; +=C2=A0 =C2=A0 &#39;fdname&#39;: &#39;str&#39;,<br>
+&gt; +=C2=A0 =C2=A0 &#39;*wsa-info&#39;: {&#39;type&#39;: &#39;str&#39;, &#=
+39;if&#39;: &#39;CONFIG_WIN32&#39;}<br>
+&gt; +=C2=A0 }<br>
+&gt; +}<br>
+<br>
+snip<br>
+<br>
+&gt; +void qmp_getfd(const char *fdname,<br>
+&gt; +#ifdef WIN32<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const char *ws=
+a_info,<br>
+&gt; +#endif<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Error **errp)<=
+br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 Monitor *cur_mon =3D monitor_cur();<br>
+&gt; +=C2=A0 =C2=A0 int fd;<br>
+&gt; +<br>
+&gt; +#ifdef WIN32<br>
+&gt; +=C2=A0 =C2=A0 if (wsa_info) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_autofree WSAPROTOCOL_INFOW *info =3D NU=
+LL;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 gsize len;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 SOCKET sk;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 info =3D (void *)g_base64_decode(wsa_info=
+, &amp;len);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (len !=3D sizeof(*info)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;Inva=
+lid WSAPROTOCOL_INFOW value&quot;);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+<br>
+With regards,<br>
+Daniel<br>
+-- <br>
+|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
+tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
+s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://www.flickr.com/photos/dberrange</a> :|<br>
+|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
+oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
+|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
+nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
+"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
+https://www.instagram.com/dberrange</a> :|<br>
+<br>
+</blockquote></div></div>
+
+--0000000000002a1dba05f42b3851--
 
 
