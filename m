@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B884768EAF6
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 10:16:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 443F368EAF0
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 10:16:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPgXN-0003PA-5F; Wed, 08 Feb 2023 04:14:46 -0500
+	id 1pPgXS-0003S7-B2; Wed, 08 Feb 2023 04:14:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1pPgXJ-0003Nc-3U
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 04:14:41 -0500
+ id 1pPgXK-0003Og-In
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 04:14:42 -0500
 Received: from zuban.uni-paderborn.de ([2001:638:502:c003::17])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1pPgXH-0007oI-9C
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 04:14:40 -0500
+ id 1pPgXI-0007og-T9
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 04:14:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version
  :References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=U+H99P/o3Yz3p+L9CSN3ysqLcKeDdjkkYhPd5M/a9WE=; b=PRZ2F03Qk/QUz6ybeEfRgoJa90
- XvFyFaxGnJh8uy03lFVRVD9tJEAMZiKeRQc92bwcWtTFkuNAB5yH2swZMFaruMkeqiBA7oYwx0TUD
- Vz/uO/XgOYg7HtunB1Vu+ztstSNl2g9oJghFFCzqbO1kdrPivmjBXRL8/vJ5w0JoA/S0=;
+ bh=xxeQSJVleLPCCCtNE8WBufV0egiuTRUDvMSheKWpm1A=; b=WZawSDEKV55cgAZTsbyRog3I5T
+ 7ztV2S/p+keIA52jKy58r+oEZMbCVt9KVH5fs/TpcMT3uLrsaFIK8ozlCLjZi2toge8LznFGtPSQX
+ OVCkEc/mwglEGs1ZoLHGWBrDYvx2iWympJCpmTF0lWfb3Iktu7FMrdXDGNcngyRrEcUc=;
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org
-Subject: [PULL 06/12] tests/tcg/tricore: Add tests for RRPW_DEXTR
-Date: Wed,  8 Feb 2023 10:14:16 +0100
-Message-Id: <20230208091422.1243084-7-kbastian@mail.uni-paderborn.de>
+Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 07/12] target/tricore: Fix OPC2_32_RRRR_DEXTR
+Date: Wed,  8 Feb 2023 10:14:17 +0100
+Message-Id: <20230208091422.1243084-8-kbastian@mail.uni-paderborn.de>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230208091422.1243084-1-kbastian@mail.uni-paderborn.de>
 References: <20230208091422.1243084-1-kbastian@mail.uni-paderborn.de>
@@ -40,8 +40,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-IMT-Source: Extern
 X-IMT-Spam-Score: 0.0 ()
-X-Sophos-SenderHistory: ip=84.154.177.181, fs=778825, da=163456741, mc=17, sc=0,
- hc=17, sp=0, fso=778825, re=0, sd=0, hd=0
+X-Sophos-SenderHistory: ip=84.154.177.181, fs=778827, da=163456743, mc=18, sc=0,
+ hc=18, sp=0, fso=778827, re=0, sd=0, hd=0
 X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
  Antispam-Data: 2023.2.8.90317, AntiVirus-Engine: 5.96.0,
  AntiVirus-Data: 2023.1.24.5960001
@@ -69,93 +69,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+if cpu_gpr_d[r3] == 0 then we were shifting the lower register to the
+right by 32 which is undefined behaviour. In this case the TriCore would
+do nothing an just return the higher register cpu_reg_d[r1]. We fixed
+that by detecting whether cpu_gpr_d[r3] was zero and cleared the lower
+register.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Message-Id: <20230202120432.1268-7-kbastian@mail.uni-paderborn.de>
+Message-Id: <20230202120432.1268-8-kbastian@mail.uni-paderborn.de>
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 ---
- tests/tcg/tricore/Makefile.softmmu-target |  1 +
- tests/tcg/tricore/macros.h                |  8 +++++
- tests/tcg/tricore/test_dextr.S            | 40 +++++++++++++++++++++++
- 3 files changed, 49 insertions(+)
- create mode 100644 tests/tcg/tricore/test_dextr.S
+ target/tricore/translate.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/tests/tcg/tricore/Makefile.softmmu-target b/tests/tcg/tricore/Makefile.softmmu-target
-index afabba8631..e83cc4b7cd 100644
---- a/tests/tcg/tricore/Makefile.softmmu-target
-+++ b/tests/tcg/tricore/Makefile.softmmu-target
-@@ -6,6 +6,7 @@ ASFLAGS =
- TESTS += test_abs.tst
- TESTS += test_bmerge.tst
- TESTS += test_clz.tst
-+TESTS += test_dextr.tst
- TESTS += test_dvstep.tst
- TESTS += test_fadd.tst
- TESTS += test_fmul.tst
-diff --git a/tests/tcg/tricore/macros.h b/tests/tcg/tricore/macros.h
-index 4f2bc3cb0f..8bc0faf1e4 100644
---- a/tests/tcg/tricore/macros.h
-+++ b/tests/tcg/tricore/macros.h
-@@ -95,6 +95,14 @@ test_ ## num:                                                      \
-     insn DREG_CALC_RESULT, DREG_RS1, DREG_RS2, DREG_RS3;      \
-     )
- 
-+#define TEST_D_DDI(insn, num, result, rs1, rs2, imm) \
-+    TEST_CASE(num, DREG_CALC_RESULT, result,         \
-+    LI(DREG_RS1, rs1);                               \
-+    LI(DREG_RS2, rs2);                               \
-+    rstv;                                            \
-+    insn DREG_CALC_RESULT, DREG_RS1, DREG_RS2, imm;  \
-+    )
-+
- #define TEST_D_DDI_PSW(insn, num, result, psw, rs1, rs2, imm) \
-     TEST_CASE_PSW(num, DREG_CALC_RESULT, result, psw,         \
-     LI(DREG_RS1, rs1);                                        \
-diff --git a/tests/tcg/tricore/test_dextr.S b/tests/tcg/tricore/test_dextr.S
-new file mode 100644
-index 0000000000..c8a9fc453a
---- /dev/null
-+++ b/tests/tcg/tricore/test_dextr.S
-@@ -0,0 +1,40 @@
-+#include "macros.h"
-+.text
-+.global _start
-+_start:
-+#               insn  num    result      rs1          rs2    imm
-+#                |     |       |          |            |      |
-+    TEST_D_DDI(dextr,  1, 0xabcdef01, 0xabcdef01, 0x23456789, 0)
-+    TEST_D_DDI(dextr,  2, 0x579bde02, 0xabcdef01, 0x23456789, 1)
-+    TEST_D_DDI(dextr,  3, 0xaf37bc04, 0xabcdef01, 0x23456789, 2)
-+    TEST_D_DDI(dextr,  4, 0x5e6f7809, 0xabcdef01, 0x23456789, 3)
-+    TEST_D_DDI(dextr,  5, 0xbcdef012, 0xabcdef01, 0x23456789, 4)
-+    TEST_D_DDI(dextr,  6, 0x79bde024, 0xabcdef01, 0x23456789, 5)
-+    TEST_D_DDI(dextr,  7, 0xf37bc048, 0xabcdef01, 0x23456789, 6)
-+    TEST_D_DDI(dextr,  8, 0xe6f78091, 0xabcdef01, 0x23456789, 7)
-+    TEST_D_DDI(dextr,  9, 0xcdef0123, 0xabcdef01, 0x23456789, 8)
-+    TEST_D_DDI(dextr, 10, 0x9bde0246, 0xabcdef01, 0x23456789, 9)
-+    TEST_D_DDI(dextr, 11, 0x37bc048d, 0xabcdef01, 0x23456789, 10)
-+    TEST_D_DDI(dextr, 12, 0x6f78091a, 0xabcdef01, 0x23456789, 11)
-+    TEST_D_DDI(dextr, 13, 0xdef01234, 0xabcdef01, 0x23456789, 12)
-+    TEST_D_DDI(dextr, 14, 0xbde02468, 0xabcdef01, 0x23456789, 13)
-+    TEST_D_DDI(dextr, 15, 0x7bc048d1, 0xabcdef01, 0x23456789, 14)
-+    TEST_D_DDI(dextr, 16, 0xf78091a2, 0xabcdef01, 0x23456789, 15)
-+    TEST_D_DDI(dextr, 17, 0xef012345, 0xabcdef01, 0x23456789, 16)
-+    TEST_D_DDI(dextr, 18, 0xde02468a, 0xabcdef01, 0x23456789, 17)
-+    TEST_D_DDI(dextr, 19, 0xbc048d15, 0xabcdef01, 0x23456789, 18)
-+    TEST_D_DDI(dextr, 20, 0x78091a2b, 0xabcdef01, 0x23456789, 19)
-+    TEST_D_DDI(dextr, 21, 0xf0123456, 0xabcdef01, 0x23456789, 20)
-+    TEST_D_DDI(dextr, 22, 0xe02468ac, 0xabcdef01, 0x23456789, 21)
-+    TEST_D_DDI(dextr, 23, 0xc048d159, 0xabcdef01, 0x23456789, 22)
-+    TEST_D_DDI(dextr, 24, 0x8091a2b3, 0xabcdef01, 0x23456789, 23)
-+    TEST_D_DDI(dextr, 25, 0x01234567, 0xabcdef01, 0x23456789, 24)
-+    TEST_D_DDI(dextr, 26, 0x02468acf, 0xabcdef01, 0x23456789, 25)
-+    TEST_D_DDI(dextr, 27, 0x048d159e, 0xabcdef01, 0x23456789, 26)
-+    TEST_D_DDI(dextr, 28, 0x091a2b3c, 0xabcdef01, 0x23456789, 27)
-+    TEST_D_DDI(dextr, 29, 0x12345678, 0xabcdef01, 0x23456789, 28)
-+    TEST_D_DDI(dextr, 30, 0x2468acf1, 0xabcdef01, 0x23456789, 29)
-+    TEST_D_DDI(dextr, 31, 0x48d159e2, 0xabcdef01, 0x23456789, 30)
-+    TEST_D_DDI(dextr, 32, 0x91a2b3c4, 0xabcdef01, 0x23456789, 31)
-+
-+    TEST_PASSFAIL
+diff --git a/target/tricore/translate.c b/target/tricore/translate.c
+index 3b4ec530b1..8bf78b46d0 100644
+--- a/target/tricore/translate.c
++++ b/target/tricore/translate.c
+@@ -8245,10 +8245,19 @@ static void decode_rrrr_extract_insert(DisasContext *ctx)
+         if (r1 == r2) {
+             tcg_gen_rotl_tl(cpu_gpr_d[r4], cpu_gpr_d[r1], tmp_pos);
+         } else {
++            TCGv msw = tcg_temp_new();
++            TCGv zero = tcg_constant_tl(0);
+             tcg_gen_shl_tl(tmp_width, cpu_gpr_d[r1], tmp_pos);
+-            tcg_gen_subfi_tl(tmp_pos, 32, tmp_pos);
+-            tcg_gen_shr_tl(tmp_pos, cpu_gpr_d[r2], tmp_pos);
+-            tcg_gen_or_tl(cpu_gpr_d[r4], tmp_width, tmp_pos);
++            tcg_gen_subfi_tl(msw, 32, tmp_pos);
++            tcg_gen_shr_tl(msw, cpu_gpr_d[r2], msw);
++            /*
++             * if pos == 0, then we do cpu_gpr_d[r2] << 32, which is undefined
++             * behaviour. So check that case here and set the low bits to zero
++             * which effectivly returns cpu_gpr_d[r1]
++             */
++            tcg_gen_movcond_tl(TCG_COND_EQ, msw, tmp_pos, zero, zero, msw);
++            tcg_gen_or_tl(cpu_gpr_d[r4], tmp_width, msw);
++            tcg_temp_free(msw);
+         }
+         break;
+     case OPC2_32_RRRR_EXTR:
 -- 
 2.39.1
 
