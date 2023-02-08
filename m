@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19E468F8BE
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 21:20:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A94FD68F8CA
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 21:26:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPqvE-0001Ta-32; Wed, 08 Feb 2023 15:20:04 -0500
+	id 1pPr0a-0002Z9-Lh; Wed, 08 Feb 2023 15:25:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pPqvB-0001TC-9A
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 15:20:01 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pPr0X-0002XE-Q8
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 15:25:33 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pPqv8-0001uG-WC
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 15:20:00 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pPr0W-0003Nx-AO
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 15:25:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675887598;
+ s=mimecast20190719; t=1675887930;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Fs1rKLXjSXHaYK1gFbakgnfYEnWIh6q+WFM+AnkdJWs=;
- b=Jrib5wSUhFhOK6n2HePEhemMFJKsv0crskxGcwaAuofbu4nPtUKG4VFCa33uBvTyTSnOyE
- M+cKUkqmu5E7w314RXvd+4jRjPzugXA4cUJR0zIa8TC0RbTrnNtT1XlkTufI6IbzNsg7M7
- aSbjlTRCzf2qNeoul20Jejj7BUVjUv0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=IDEeVAEK3HM1sKUBiRMONicX5F2C4ylpCnPgBrRmrEk=;
+ b=jAB5hdoMn4IdKCjRBXcmfxdNfh5mmsuLihFuL3GGQwoTltF6D+q1/vuTgIvP33y8HZGb8G
+ b+ModIkEp7Q8hf+KO13+YTZ6jlI8BtRyDXQ6M/4GUIt0yQQg3jDM/W41j2Fcc8nAfKJVJ2
+ DFPazDpSPRo+sVtpRw1tXwfFFYr0EFM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-595-rKafjtPzP02FHJc3ryAHDQ-1; Wed, 08 Feb 2023 15:19:54 -0500
-X-MC-Unique: rKafjtPzP02FHJc3ryAHDQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-543-c_lbMb0UOgqsX5FiI-Lgaw-1; Wed, 08 Feb 2023 15:25:29 -0500
+X-MC-Unique: c_lbMb0UOgqsX5FiI-Lgaw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 350981871D94;
- Wed,  8 Feb 2023 20:19:54 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 21B3029DD981;
+ Wed,  8 Feb 2023 20:25:29 +0000 (UTC)
 Received: from redhat.com (unknown [10.2.16.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 627062166B29;
- Wed,  8 Feb 2023 20:19:53 +0000 (UTC)
-Date: Wed, 8 Feb 2023 14:19:51 -0600
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 43EC71121314;
+ Wed,  8 Feb 2023 20:25:28 +0000 (UTC)
+Date: Wed, 8 Feb 2023 14:25:26 -0600
 From: Eric Blake <eblake@redhat.com>
-To: Het Gala <het.gala@nutanix.com>
-Cc: qemu-devel@nongnu.org, prerna.saxena@nutanix.com, quintela@redhat.com,
- dgilbert@redhat.com, pbonzini@redhat.com, berrange@redhat.com,
- armbru@redhat.com, manish.mishra@nutanix.com,
- aravind.retnakaran@nutanix.com
-Subject: Re: [PATCH v2 5/6] migration: Modified 'migrate-incoming' QAPI and
- HMP side changes on the destination interface.
-Message-ID: <20230208201951.3lcbpppp7vt2nqap@redhat.com>
-References: <20230208093600.242665-1-het.gala@nutanix.com>
- <20230208093600.242665-6-het.gala@nutanix.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: Re: [PATCH v3 1/6] multifd: Create property
+ multifd-sync-after-each-section
+Message-ID: <20230208202526.p2jmikndw5lx2ong@redhat.com>
+References: <20230208133010.17323-1-quintela@redhat.com>
+ <20230208133010.17323-2-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230208093600.242665-6-het.gala@nutanix.com>
+In-Reply-To: <20230208133010.17323-2-quintela@redhat.com>
 User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -81,50 +83,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 08, 2023 at 09:35:59AM +0000, Het Gala wrote:
-> 'migrate-incoming' QAPI design have been modified into well-defined
-> MigrateChannel struct to prevent multiple encoding of uri strings on
-> the destination side.'uri' parameter is kept for backward compatibility.
+On Wed, Feb 08, 2023 at 02:30:05PM +0100, Juan Quintela wrote:
+> We used to synchronize all channels at the end of each RAM section
+> sent.  That is not needed, so preparing to only synchronize once every
+> full round in latests patches.
 > 
-> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
-> Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
-> Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
-> Signed-off-by: Het Gala <het.gala@nutanix.com>
+> Notice that we initialize the property as true.  We will change the
+> default when we introduce the new mechanism.
+> 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> 
 > ---
->  migration/migration-hmp-cmds.c |  8 +++++++-
->  migration/migration.c          |  3 ++-
->  qapi/migration.json            | 22 ++++++++++++++++++++--
->  softmmu/vl.c                   |  2 +-
->  4 files changed, 30 insertions(+), 5 deletions(-)
-
+> 
+> Rename each-iteration to after-each-section
+> 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> ---
+>  qapi/migration.json   |  9 ++++++++-
+>  migration/migration.h |  1 +
+>  hw/core/machine.c     |  1 +
+>  migration/migration.c | 15 +++++++++++++--
+>  4 files changed, 23 insertions(+), 3 deletions(-)
+> 
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index c84fa10e86..d712b082c8 100644
+> --- a/qapi/migration.json
 > +++ b/qapi/migration.json
-> @@ -1623,7 +1623,11 @@
->  # with -incoming defer
+> @@ -478,6 +478,12 @@
+>  #                    should not affect the correctness of postcopy migration.
+>  #                    (since 7.1)
 >  #
->  # @uri: The Uniform Resource Identifier identifying the source or
-> -#       address to listen on
-> +#       the address to listen on
-> +#
-> +# @channel: Struct containing migration channel type, along with
-> +#           all the details of the destination interface required
-> +#           for the address to listen on for migration stream.
+> +# @multifd-sync-after-each-section: Synchronize channels after each
+> +#                                   section is sent.  We used to do
+> +#                                   that on the past, but it is
 
-Missing a '(since 8.0)' tag.
+s/on/in/
 
->  #
->  # Returns: nothing on success
->  #
-> @@ -1640,14 +1644,28 @@
->  #
->  # 3. The uri format is the same as for -incoming
->  #
-> +# 4. The 'uri' and 'channel' arguments are mutually exclusive but, atleast
-> +#    one of the two arguments should be present.
+> +#                                   suboptimal.
+> +#                                   (since 7.1)
 
-Grammar:
-
-The 'uri' and 'channel' arguments are mutually exclusive; exactly one
-of the two should be present.
+Shouldn't this be 8.0 now?
 
 -- 
 Eric Blake, Principal Software Engineer
