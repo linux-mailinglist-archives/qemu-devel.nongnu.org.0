@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE4368F444
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 18:20:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F94168F44B
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 18:21:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPo7G-00044q-32; Wed, 08 Feb 2023 12:20:18 -0500
+	id 1pPo7G-00047o-OK; Wed, 08 Feb 2023 12:20:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pPo7C-0003sZ-Bj
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 12:20:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pPo76-0003ku-SI
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 12:20:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pPo79-0001Do-Np
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 12:20:13 -0500
+ id 1pPo74-00019e-R6
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 12:20:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675876810;
+ s=mimecast20190719; t=1675876806;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JRoAe9ECLPd8dIco7IoMD9qC7H0WOGm1xgJWWsd7V30=;
- b=VHaD9b8wU6PoiOj0gRFrzrHwkvmaxbSDrc5b62M9DST36dJpKla58UQ+rZUFGrYJ10rNHh
- KsxWDzCMqcprqUHG5ri/0cGurKsaH2immJ+Zfea/gbulrHyFn9Ri5FFwQJyKw/Cxgdlv63
- LcIvRuM5r6Ujs/f7DRyYhXWyX1b3R/0=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=n6S8f8jSlQQI+M5AqaNQXoEME6tyNRUu5phS9LX667o=;
+ b=SwWUINfzAQAx1ntqg/qw8jDHgM6boMaKf33Gj+na0VbfmkxgqTEVFyXaHcqeRauJADkaaX
+ kUAjUfn3lt40xFH2kKG2+cz7POFSiYi0Y+25Y/OMYIMhQMpyF8m4z1d/Yafv6z9DdXdb6U
+ ANDESElbFVkVtXUHpCR4O6YgsVq6gf0=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-619--QbbN_iSOfKhotgYP0AYAQ-1; Wed, 08 Feb 2023 12:19:54 -0500
-X-MC-Unique: -QbbN_iSOfKhotgYP0AYAQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- s3-20020a50ab03000000b0049ec3a108beso12740239edc.7
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 09:19:52 -0800 (PST)
+ us-mta-590-SWWpO--2Nt-lnQkMpBY_ug-1; Wed, 08 Feb 2023 12:19:58 -0500
+X-MC-Unique: SWWpO--2Nt-lnQkMpBY_ug-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ wz4-20020a170906fe4400b0084c7e7eb6d0so13639978ejb.19
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 09:19:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=JRoAe9ECLPd8dIco7IoMD9qC7H0WOGm1xgJWWsd7V30=;
- b=rVz0b3AT6SBIgW5bpuKKX7rVS5JjGUmluPQWYFhMBE5GJe5rsOWjq/vjQuOQatinhN
- UJNKYObLvK3reLbxmfI8y1I+EbGTlb0PlpAWrxU02PtjWKf8+JhX5jUITyidpw6x4H2j
- qMlD8voLk0HdPftFI2/M4emnGvKzu3Bty5cpT9sfo+H7oxi4ztN8r5EYmCWcNEPIZPS2
- 47F6xBL0sarpa6aGWV8t9tCUG7IsjmpmuLdHCrErWx4q3BkJM/WlNS64NFNxkv3AANJ7
- ASH7jiQXPNmEOr/dBS7qh57P3mx54qvRbRgdpOsgC1YvWf42jjRpzDJHjx+oDw2fFiEQ
- DuQw==
-X-Gm-Message-State: AO0yUKX+3lGlizlbbmMCEAqkDwz4Jq9d3v0LcjjEkqSw2ANzQYjznmC4
- DNeJ4pakr8UqdKNgFkvUo76KDXUDJzE/276MMsVRE0T0R6Y0Cs4ViTr7QoQqxY/cUY6IPZ44H7b
- X/4fA9jaTPZcD+dpPpZv6+00nD1KF0KqvrH172eslQydK32KDfzfrOs63d7LkZ4K/oozSf7cp
-X-Received: by 2002:a50:d7cd:0:b0:4a0:af87:b3ab with SMTP id
- m13-20020a50d7cd000000b004a0af87b3abmr7970793edj.36.1675876788598; 
- Wed, 08 Feb 2023 09:19:48 -0800 (PST)
-X-Google-Smtp-Source: AK7set/ztC8DvRzx+dQRZZSHl8UroLCyiZKC0mr8PCo1Ft8Zlpp4QUEdN+5xgZ/vz+23qcjLdCNH7g==
-X-Received: by 2002:a50:d7cd:0:b0:4a0:af87:b3ab with SMTP id
- m13-20020a50d7cd000000b004a0af87b3abmr7970774edj.36.1675876788217; 
- Wed, 08 Feb 2023 09:19:48 -0800 (PST)
+ bh=n6S8f8jSlQQI+M5AqaNQXoEME6tyNRUu5phS9LX667o=;
+ b=anARRZBDEX8BjkVwQ63cEnD5AWbFc/ZaZ8liDDfItt4c/MnWW23oNfWytrcwoqLmjd
+ VOcB7DdWtiBykwtXtIEiOGCUB1ypVHEe90Wk0n1Jz/6Y7VpqscVVKbOVa9XpjvfeyQ9w
+ i1q60ARr1QrjldH6AeER9vr9xFcSn7HF/CeJCdIXfcoFK3fMaQeQWUwtS4+cuM908mZR
+ 7hCJXvT5uRx04PAj9W+BKKZxVPAqjvpcRhVZHSXoybxgHTOAxn4qcdM6corJa7gv1xKN
+ f5qSpBsAQm1k/6YtiR4cvau08LQUDlvjaAo/GlllkMnDh4fbzNkuO1SNgexCTfxXPH2d
+ jZ2w==
+X-Gm-Message-State: AO0yUKVf2JuQXkni0/4fUNkD5AIhCq1mZbfiv940Q87nyAsLZZgWvLk6
+ ozd647s9zvvg2+qXi6turVAiBuOSdVkRulNIvZBHYJ3KY/HplR3GZhfV2EyNwofGuw5SzZ9aIJG
+ tKacoijhDUKcYudwQRYkJbj0Ie3vnUbcyP+s6ObOiYUetOOyznVe8l1xUazdXF3sBxGd39fmV
+X-Received: by 2002:a17:907:2d92:b0:8aa:9c54:a285 with SMTP id
+ gt18-20020a1709072d9200b008aa9c54a285mr8099781ejc.12.1675876791503; 
+ Wed, 08 Feb 2023 09:19:51 -0800 (PST)
+X-Google-Smtp-Source: AK7set/D+/KbhvaNBuxgnpHcJ8HA5o5/VLuJb/jEtfcwzCtTmj3KCUAKxybOXOVE/cSTSt91uzeUEA==
+X-Received: by 2002:a17:907:2d92:b0:8aa:9c54:a285 with SMTP id
+ gt18-20020a1709072d9200b008aa9c54a285mr8099757ejc.12.1675876791204; 
+ Wed, 08 Feb 2023 09:19:51 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
  by smtp.gmail.com with ESMTPSA id
- r3-20020a50d683000000b004aabb714230sm3695347edi.35.2023.02.08.09.19.47
- for <qemu-devel@nongnu.org>
+ de48-20020a1709069bf000b0088cf92eb0e1sm8540034ejc.150.2023.02.08.09.19.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 09:19:47 -0800 (PST)
+ Wed, 08 Feb 2023 09:19:50 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/11] readconfig-test: add test for accelerator configuration
-Date: Wed,  8 Feb 2023 18:19:18 +0100
-Message-Id: <20230208171922.95048-8-pbonzini@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 08/11] tests/tcg/i386: Introduce and use reg_t consistently
+Date: Wed,  8 Feb 2023 18:19:19 +0100
+Message-Id: <20230208171922.95048-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230208171922.95048-1-pbonzini@redhat.com>
 References: <20230208171922.95048-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -99,166 +101,283 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Test that it does not cause a SIGSEGV, and cover a valid configuration
-as well.
+From: Richard Henderson <richard.henderson@linaro.org>
 
+Define reg_t based on the actual register width.
+Define the inlines using that type.  This will allow
+input registers to 32-bit insns to be set to 64-bit
+values on x86-64, which allows testing various edge cases.
+
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230114230542.3116013-2-richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/qtest/libqtest.c        | 28 +++++++++++++++++-----
- tests/qtest/libqtest.h        | 12 ++++++++++
- tests/qtest/readconfig-test.c | 45 ++++++++++++++++++++++++++++-------
- 3 files changed, 70 insertions(+), 15 deletions(-)
+ tests/tcg/i386/test-i386-bmi2.c | 182 ++++++++++++++++----------------
+ 1 file changed, 93 insertions(+), 89 deletions(-)
 
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index ce5f235e25f1..4fba2bb27f06 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -420,6 +420,26 @@ static QTestState *G_GNUC_PRINTF(1, 2) qtest_spawn_qemu(const char *fmt, ...)
-     return s;
- }
+diff --git a/tests/tcg/i386/test-i386-bmi2.c b/tests/tcg/i386/test-i386-bmi2.c
+index 5fadf47510f2..3c3ef85513e1 100644
+--- a/tests/tcg/i386/test-i386-bmi2.c
++++ b/tests/tcg/i386/test-i386-bmi2.c
+@@ -3,34 +3,40 @@
+ #include <stdint.h>
+ #include <stdio.h>
  
-+QTestState *G_GNUC_PRINTF(1, 0) qtest_init_bare(const char *args)
-+{
-+    QTestState *s = qtest_spawn_qemu("%s", args);
-+
-+    /*
-+     * Stopping QEMU for debugging is not supported on Windows.
-+     *
-+     * Using DebugActiveProcess() API can suspend the QEMU process,
-+     * but gdb cannot attach to the process. Using the undocumented
-+     * NtSuspendProcess() can suspend the QEMU process and gdb can
-+     * attach to the process, but gdb cannot resume it.
-+     */
-+#ifndef _WIN32
-+    if (getenv("QTEST_STOP")) {
-+        kill(s->qemu_pid, SIGSTOP);
-+    }
++#ifdef __x86_64
++typedef uint64_t reg_t;
++#else
++typedef uint32_t reg_t;
 +#endif
-+    return s;
-+}
 +
- QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
- {
-     QTestState *s;
-@@ -477,12 +497,8 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
-     }
- 
-     /*
--     * Stopping QEMU for debugging is not supported on Windows.
--     *
--     * Using DebugActiveProcess() API can suspend the QEMU process,
--     * but gdb cannot attach to the process. Using the undocumented
--     * NtSuspendProcess() can suspend the QEMU process and gdb can
--     * attach to the process, but gdb cannot resume it.
-+     * Stopping QEMU for debugging is not supported on Windows;
-+     * see qtest_init_bare for more information.
-      */
- #ifndef _WIN32
-     if (getenv("QTEST_STOP")) {
-diff --git a/tests/qtest/libqtest.h b/tests/qtest/libqtest.h
-index fcf1c3c3b36f..7ca7df26a2c0 100644
---- a/tests/qtest/libqtest.h
-+++ b/tests/qtest/libqtest.h
-@@ -23,6 +23,18 @@
- 
- typedef struct QTestState QTestState;
- 
-+/**
-+ * qtest_init_bare:
-+ * @extra_args: other arguments to pass to QEMU.  CAUTION: these
-+ * arguments are subject to word splitting and shell evaluation.
-+ *
-+ * Return a QTestState instance without automatically creating any
-+ * sockets for QMP and qtest communication.
-+ *
-+ * Returns: #QTestState instance.
-+ */
-+QTestState *qtest_init_bare(const char *args);
-+
- /**
-  * qtest_initf:
-  * @fmt: Format for creating other arguments to pass to QEMU, formatted
-diff --git a/tests/qtest/readconfig-test.c b/tests/qtest/readconfig-test.c
-index 9ef870643dcd..4c11883e36eb 100644
---- a/tests/qtest/readconfig-test.c
-+++ b/tests/qtest/readconfig-test.c
-@@ -19,13 +19,11 @@
- #include "qapi/qmp/qstring.h"
- #include "qemu/units.h"
- 
--static QTestState *qtest_init_with_config(const char *cfgdata)
-+static char *qtest_write_config(const char *cfgdata)
- {
-     GError *error = NULL;
--    g_autofree char *args = NULL;
-     int cfgfd = -1;
--    g_autofree char *cfgpath = NULL;
--    QTestState *qts;
-+    char *cfgpath;
-     ssize_t ret;
- 
-     cfgfd = g_file_open_tmp("readconfig-test-XXXXXX", &cfgpath, &error);
-@@ -38,13 +36,14 @@ static QTestState *qtest_init_with_config(const char *cfgdata)
-         unlink(cfgpath);
-     }
-     g_assert_cmpint(ret, ==, strlen(cfgdata));
-+    return cfgpath;
-+}
- 
--    args = g_strdup_printf("-nodefaults -machine none -readconfig %s", cfgpath);
--
--    qts = qtest_init(args);
--
-+static QTestState *qtest_init_with_config(const char *cfgdata)
-+{
-+    g_autofree char *cfgpath = qtest_write_config(cfgdata);
-+    QTestState *qts = qtest_initf("-nodefaults -machine none -readconfig %s", cfgpath);
-     unlink(cfgpath);
--
-     return qts;
+ #define insn1q(name, arg0)                                                           \
+-static inline uint64_t name##q(uint64_t arg0)                                        \
++static inline reg_t name##q(reg_t arg0)                                              \
+ {                                                                                    \
+-    uint64_t result64;                                                               \
++    reg_t result64;                                                                  \
+     asm volatile (#name "q   %1, %0" : "=r"(result64) : "rm"(arg0));                 \
+     return result64;                                                                 \
  }
  
-@@ -176,6 +175,32 @@ static void test_object_rng(void)
-     qtest_quit(qts);
+ #define insn1l(name, arg0)                                                           \
+-static inline uint32_t name##l(uint32_t arg0)                                        \
++static inline reg_t name##l(reg_t arg0)                                              \
+ {                                                                                    \
+-    uint32_t result32;                                                               \
++    reg_t result32;                                                                  \
+     asm volatile (#name "l   %k1, %k0" : "=r"(result32) : "rm"(arg0));               \
+     return result32;                                                                 \
  }
  
-+static void test_valid_accel(void)
-+{
-+    const char *cfgdata =
-+        "[accel]\n"
-+        "accel = \"qtest\"\n";
-+
-+    QTestState *qts = qtest_init_with_config(cfgdata);
-+    qtest_quit(qts);
-+}
-+
-+static void test_invalid_accel(void)
-+{
-+    const char *cfgdata =
-+        "[accel]\n"
-+        "foo = \"bar\"\n";
-+
-+    g_autofree char *cfgpath = qtest_write_config(cfgdata);
-+    g_autofree char *args = g_strdup_printf("-nodefaults -machine none -readconfig %s", cfgpath);
-+    QTestState *qts = qtest_init_bare(args);
-+
-+    qtest_set_expected_status(qts, 1);
-+    qtest_wait_qemu(qts);
-+    g_free(qts);
-+    unlink(cfgpath);
-+}
-+
- int main(int argc, char *argv[])
- {
-     const char *arch;
-@@ -192,6 +217,8 @@ int main(int argc, char *argv[])
+ #define insn2q(name, arg0, c0, arg1, c1)                                             \
+-static inline uint64_t name##q(uint64_t arg0, uint64_t arg1)                         \
++static inline reg_t name##q(reg_t arg0, reg_t arg1)                                  \
+ {                                                                                    \
+-    uint64_t result64;                                                               \
++    reg_t result64;                                                                  \
+     asm volatile (#name "q   %2, %1, %0" : "=r"(result64) : c0(arg0), c1(arg1));     \
+     return result64;                                                                 \
+ }
+ 
+ #define insn2l(name, arg0, c0, arg1, c1)                                             \
+-static inline uint32_t name##l(uint32_t arg0, uint32_t arg1)                         \
++static inline reg_t name##l(reg_t arg0, reg_t arg1)                                  \
+ {                                                                                    \
+-    uint32_t result32;                                                               \
++    reg_t result32;                                                                  \
+     asm volatile (#name "l   %k2, %k1, %k0" : "=r"(result32) : c0(arg0), c1(arg1));  \
+     return result32;                                                                 \
+ }
+@@ -65,130 +71,128 @@ insn1l(blsr, src)
+ int main(int argc, char *argv[]) {
+     uint64_t ehlo = 0x202020204f4c4845ull;
+     uint64_t mask = 0xa080800302020001ull;
+-    uint32_t result32;
++    reg_t result;
+ 
+ #ifdef __x86_64
+-    uint64_t result64;
+-
+     /* 64 bits */
+-    result64 = andnq(mask, ehlo);
+-    assert(result64 == 0x002020204d4c4844);
++    result = andnq(mask, ehlo);
++    assert(result == 0x002020204d4c4844);
+ 
+-    result64 = pextq(ehlo, mask);
+-    assert(result64 == 133);
++    result = pextq(ehlo, mask);
++    assert(result == 133);
+ 
+-    result64 = pdepq(result64, mask);
+-    assert(result64 == (ehlo & mask));
++    result = pdepq(result, mask);
++    assert(result == (ehlo & mask));
+ 
+-    result64 = pextq(-1ull, mask);
+-    assert(result64 == 511); /* mask has 9 bits set */
++    result = pextq(-1ull, mask);
++    assert(result == 511); /* mask has 9 bits set */
+ 
+-    result64 = pdepq(-1ull, mask);
+-    assert(result64 == mask);
++    result = pdepq(-1ull, mask);
++    assert(result == mask);
+ 
+-    result64 = bextrq(mask, 0x3f00);
+-    assert(result64 == (mask & ~INT64_MIN));
++    result = bextrq(mask, 0x3f00);
++    assert(result == (mask & ~INT64_MIN));
+ 
+-    result64 = bextrq(mask, 0x1038);
+-    assert(result64 == 0xa0);
++    result = bextrq(mask, 0x1038);
++    assert(result == 0xa0);
+ 
+-    result64 = bextrq(mask, 0x10f8);
+-    assert(result64 == 0);
++    result = bextrq(mask, 0x10f8);
++    assert(result == 0);
+ 
+-    result64 = blsiq(0x30);
+-    assert(result64 == 0x10);
++    result = blsiq(0x30);
++    assert(result == 0x10);
+ 
+-    result64 = blsiq(0x30ull << 32);
+-    assert(result64 == 0x10ull << 32);
++    result = blsiq(0x30ull << 32);
++    assert(result == 0x10ull << 32);
+ 
+-    result64 = blsmskq(0x30);
+-    assert(result64 == 0x1f);
++    result = blsmskq(0x30);
++    assert(result == 0x1f);
+ 
+-    result64 = blsrq(0x30);
+-    assert(result64 == 0x20);
++    result = blsrq(0x30);
++    assert(result == 0x20);
+ 
+-    result64 = blsrq(0x30ull << 32);
+-    assert(result64 == 0x20ull << 32);
++    result = blsrq(0x30ull << 32);
++    assert(result == 0x20ull << 32);
+ 
+-    result64 = bzhiq(mask, 0x3f);
+-    assert(result64 == (mask & ~INT64_MIN));
++    result = bzhiq(mask, 0x3f);
++    assert(result == (mask & ~INT64_MIN));
+ 
+-    result64 = bzhiq(mask, 0x1f);
+-    assert(result64 == (mask & ~(-1 << 30)));
++    result = bzhiq(mask, 0x1f);
++    assert(result == (mask & ~(-1 << 30)));
+ 
+-    result64 = rorxq(0x2132435465768798, 8);
+-    assert(result64 == 0x9821324354657687);
++    result = rorxq(0x2132435465768798, 8);
++    assert(result == 0x9821324354657687);
+ 
+-    result64 = sarxq(0xffeeddccbbaa9988, 8);
+-    assert(result64 == 0xffffeeddccbbaa99);
++    result = sarxq(0xffeeddccbbaa9988, 8);
++    assert(result == 0xffffeeddccbbaa99);
+ 
+-    result64 = sarxq(0x77eeddccbbaa9988, 8 | 64);
+-    assert(result64 == 0x0077eeddccbbaa99);
++    result = sarxq(0x77eeddccbbaa9988, 8 | 64);
++    assert(result == 0x0077eeddccbbaa99);
+ 
+-    result64 = shrxq(0xffeeddccbbaa9988, 8);
+-    assert(result64 == 0x00ffeeddccbbaa99);
++    result = shrxq(0xffeeddccbbaa9988, 8);
++    assert(result == 0x00ffeeddccbbaa99);
+ 
+-    result64 = shrxq(0x77eeddccbbaa9988, 8 | 192);
+-    assert(result64 == 0x0077eeddccbbaa99);
++    result = shrxq(0x77eeddccbbaa9988, 8 | 192);
++    assert(result == 0x0077eeddccbbaa99);
+ 
+-    result64 = shlxq(0xffeeddccbbaa9988, 8);
+-    assert(result64 == 0xeeddccbbaa998800);
++    result = shlxq(0xffeeddccbbaa9988, 8);
++    assert(result == 0xeeddccbbaa998800);
  #endif
  
-     qtest_add_func("readconfig/object-rng", test_object_rng);
-+    qtest_add_func("readconfig/invalid-accel", test_invalid_accel);
-+    qtest_add_func("readconfig/valid-accel", test_valid_accel);
+     /* 32 bits */
+-    result32 = andnl(mask, ehlo);
+-    assert(result32 == 0x04d4c4844);
++    result = andnl(mask, ehlo);
++    assert(result == 0x04d4c4844);
  
-     return g_test_run();
+-    result32 = pextl((uint32_t) ehlo, mask);
+-    assert(result32 == 5);
++    result = pextl((uint32_t) ehlo, mask);
++    assert(result == 5);
+ 
+-    result32 = pdepl(result32, mask);
+-    assert(result32 == (uint32_t)(ehlo & mask));
++    result = pdepl(result, mask);
++    assert(result == (uint32_t)(ehlo & mask));
+ 
+-    result32 = pextl(-1u, mask);
+-    assert(result32 == 7); /* mask has 3 bits set */
++    result = pextl(-1u, mask);
++    assert(result == 7); /* mask has 3 bits set */
+ 
+-    result32 = pdepl(-1u, mask);
+-    assert(result32 == (uint32_t)mask);
++    result = pdepl(-1u, mask);
++    assert(result == (uint32_t)mask);
+ 
+-    result32 = bextrl(mask, 0x1f00);
+-    assert(result32 == (mask & ~INT32_MIN));
++    result = bextrl(mask, 0x1f00);
++    assert(result == (mask & ~INT32_MIN));
+ 
+-    result32 = bextrl(ehlo, 0x1018);
+-    assert(result32 == 0x4f);
++    result = bextrl(ehlo, 0x1018);
++    assert(result == 0x4f);
+ 
+-    result32 = bextrl(mask, 0x1038);
+-    assert(result32 == 0);
++    result = bextrl(mask, 0x1038);
++    assert(result == 0);
+ 
+-    result32 = blsil(0xffff);
+-    assert(result32 == 1);
++    result = blsil(0xffff);
++    assert(result == 1);
+ 
+-    result32 = blsmskl(0x300);
+-    assert(result32 == 0x1ff);
++    result = blsmskl(0x300);
++    assert(result == 0x1ff);
+ 
+-    result32 = blsrl(0xffc);
+-    assert(result32 == 0xff8);
++    result = blsrl(0xffc);
++    assert(result == 0xff8);
+ 
+-    result32 = bzhil(mask, 0xf);
+-    assert(result32 == 1);
++    result = bzhil(mask, 0xf);
++    assert(result == 1);
+ 
+-    result32 = rorxl(0x65768798, 8);
+-    assert(result32 == 0x98657687);
++    result = rorxl(0x65768798, 8);
++    assert(result == 0x98657687);
+ 
+-    result32 = sarxl(0xffeeddcc, 8);
+-    assert(result32 == 0xffffeedd);
++    result = sarxl(0xffeeddcc, 8);
++    assert(result == 0xffffeedd);
+ 
+-    result32 = sarxl(0x77eeddcc, 8 | 32);
+-    assert(result32 == 0x0077eedd);
++    result = sarxl(0x77eeddcc, 8 | 32);
++    assert(result == 0x0077eedd);
+ 
+-    result32 = shrxl(0xffeeddcc, 8);
+-    assert(result32 == 0x00ffeedd);
++    result = shrxl(0xffeeddcc, 8);
++    assert(result == 0x00ffeedd);
+ 
+-    result32 = shrxl(0x77eeddcc, 8 | 128);
+-    assert(result32 == 0x0077eedd);
++    result = shrxl(0x77eeddcc, 8 | 128);
++    assert(result == 0x0077eedd);
+ 
+-    result32 = shlxl(0xffeeddcc, 8);
+-    assert(result32 == 0xeeddcc00);
++    result = shlxl(0xffeeddcc, 8);
++    assert(result == 0xeeddcc00);
+ 
+     return 0;
  }
 -- 
 2.39.1
