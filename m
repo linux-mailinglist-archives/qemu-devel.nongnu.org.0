@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72D3A68F8A1
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 21:12:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E7FC68F8B8
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 21:18:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPqms-0006U8-Tc; Wed, 08 Feb 2023 15:11:26 -0500
+	id 1pPqsf-0000Pi-NE; Wed, 08 Feb 2023 15:17:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pPqmp-0006SR-2l
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 15:11:24 -0500
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pPqmm-0008S4-CR
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 15:11:22 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1D6F3345C6;
- Wed,  8 Feb 2023 20:11:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675887077; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pPqsa-0000Mh-Ma
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 15:17:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pPqsY-0001OF-Hz
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 15:17:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675887437;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=+9mRGmXVZ0HyUQf2RW+N7SsIJQhIVQOzeJOvFsODXsI=;
- b=QDdGcZXxPhLuuIypWTS9/71KQDmNUc6fDy5Cug3J9mauCCQ3vUIdUMaWpIbPbzq+77eJNh
- 87GFODkPleF+8XCvGvqTKnbjKOWIDx2UpV/ZZFU4o/nLvVhZt7F+mxeVQAJJlRmlhWdnNr
- jypU8asr3uPwF4bBkDZgTSUGydOEAe0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675887077;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+9mRGmXVZ0HyUQf2RW+N7SsIJQhIVQOzeJOvFsODXsI=;
- b=OM04SyvIW+XaT9p4KfETx4Eu7lNuUgwehGackF+1HPxrUF/F8NyoOgoOJnCINSPfCDkB+7
- /dyEFXicX4oCnhBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=SzJ2jg7gOAPuK7eojaO3K+xFnEbZfpLaBArnmcXk2y8=;
+ b=AZPf8XFelCijwZHpUStiCRUtVBhwVTndud/cHUO0Xi67/ylftll0Q7VpVQZQUazBJmM8er
+ uGjF4D4jM0/5d/3wPynyG00u6Z9pyS8d98bPXaRbqwwFwa3rJat6iZrbYaMPtkeNrAKh8I
+ /HOevM5Ffbf2LntnI50C6zvB5TAvWWg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-439-qIy3piJTPmGhLl6IsSS1UA-1; Wed, 08 Feb 2023 15:17:15 -0500
+X-MC-Unique: qIy3piJTPmGhLl6IsSS1UA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A3EF413425;
- Wed,  8 Feb 2023 20:11:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id hVqUG+QB5GOvKgAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 08 Feb 2023 20:11:16 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Alex =?utf-8?Q?Benn=C3=A9e?=
- <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 00/10] Kconfig vs. default devices
-In-Reply-To: <f859ba36-c39a-4f86-741d-7920d28c9aaf@linaro.org>
-References: <20230208192654.8854-1-farosas@suse.de>
- <f859ba36-c39a-4f86-741d-7920d28c9aaf@linaro.org>
-Date: Wed, 08 Feb 2023 17:11:14 -0300
-Message-ID: <87edqzj4t9.fsf@suse.de>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 455F8811E6E;
+ Wed,  8 Feb 2023 20:17:15 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5CC3140B3FE1;
+ Wed,  8 Feb 2023 20:17:14 +0000 (UTC)
+Date: Wed, 8 Feb 2023 14:17:12 -0600
+From: Eric Blake <eblake@redhat.com>
+To: Het Gala <het.gala@nutanix.com>
+Cc: qemu-devel@nongnu.org, prerna.saxena@nutanix.com, quintela@redhat.com,
+ dgilbert@redhat.com, pbonzini@redhat.com, berrange@redhat.com,
+ armbru@redhat.com, manish.mishra@nutanix.com,
+ aravind.retnakaran@nutanix.com
+Subject: Re: [PATCH v2 2/6] migration: Updated QAPI format for 'migrate' qemu
+ monitor command
+Message-ID: <20230208201712.b3a5xtufscrvncqt@redhat.com>
+References: <20230208093600.242665-1-het.gala@nutanix.com>
+ <20230208093600.242665-3-het.gala@nutanix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230208093600.242665-3-het.gala@nutanix.com>
+User-Agent: NeoMutt/20220429
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,59 +81,244 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+On Wed, Feb 08, 2023 at 09:35:56AM +0000, Het Gala wrote:
+> Existing 'migrate' QAPI design enforces transport mechanism, ip address
+> of destination interface and corresponding port number in the form
+> of a unified string 'uri' parameter for initiating a migration stream.
+> This scheme has a significant flaw in it - double encoding of existing
+> URIs to extract migration info.
+> 
+> The current patch maps QAPI uri design onto well defined MigrateChannel
+> struct. This modified QAPI helps in preventing multi-level uri
+> encodings ('uri' parameter is kept for backward compatibility).
+> 
+> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
+> Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
+> Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
+> Signed-off-by: Het Gala <het.gala@nutanix.com>
+> ---
+>  qapi/migration.json | 131 +++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 129 insertions(+), 2 deletions(-)
+> 
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index c84fa10e86..79acfcfe4e 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -1449,12 +1449,108 @@
+>  ##
+>  { 'command': 'migrate-continue', 'data': {'state': 'MigrationStatus'} }
+>  
+> +##
+> +# @MigrateTransport:
+> +#
+> +# The supported communication transport mechanisms for migration
+> +#
+> +# @socket: Supported communication type between two devices for migration.
+> +#          Socket is able to cover all of 'tcp', 'unix', 'vsock' and
+> +#          'fd' already
+> +#
+> +# @exec: Supported communication type to redirect migration stream into file.
+> +#
+> +# @rdma: Supported communication type to redirect rdma type migration stream.
+> +#
+> +# Since 8.0
+> +##
+> +{ 'enum': 'MigrateTransport',
+> +  'data': ['socket', 'exec', 'rdma'] }
+> +
+> +##
+> +# @MigrateSocketAddr:
+> +#
+> +# To support different type of socket.
+> +#
+> +# @socket-type: Different type of socket connections.
+> +#
+> +# Since 8.0
+> +##
+> +{ 'struct': 'MigrateSocketAddr',
+> +  'data': {'socket-type': 'SocketAddress' } }
 
-> On 8/2/23 20:26, Fabiano Rosas wrote:
->
->> We currently have a situation where disabling a Kconfig might result
->> in a runtime error when QEMU selects the corresponding device as a
->> default value for an option. But first a disambiguation:
->>=20
->> Kconfig default::
->>    a device "Foo" for which there's "config FOO default y" or "config X
->>    imply FOO" in Kconfig.
->>=20
->> QEMU hardcoded default::
->>    a fallback; a device "Foo" that is chosen in case no corresponding
->>    option is given in the command line.
->>=20
->> The issue I'm trying to solve is that there is no link between the two
->> "defaults" above, which means that when the user at build time
->> de-selects a Kconfig default, either via configs/devices/*/*.mak or
->> --without-default-devices, the subsequent invocation at runtime might
->> continue to try to create the missing device due to QEMU defaults.
->
-> This will keep bitrotting if we don't cover such configs in our CI.
->
-> Why do you want to get this fixed BTW? I'm not sure there is a big
-> interest (as in "almost no users").
->
-> I tried to do that few years ago [*] and Thomas said:
->
-> "in our CI, we should test what users really need,
->   and not each and every distantly possible combination."
->
-> [*]=20
-> https://lore.kernel.org/qemu-devel/81aca179-4320-f00b-d9dc-7eca449ebce7@r=
-edhat.com/
+Here, you use 'socket-type',...
 
-If we're talking about turning the defaults off
-(--without-default-devices), we already have that in the CI, we just
-cannot ensure that it works because we cannot run 'make check' on
-it. I'm just trying to improve that situation.
+> +
+> +##
+> +# @MigrateExecAddr:
+> + #
+> + # Since 8.0
+> + ##
+> +{ 'struct': 'MigrateExecAddr',
+> +   'data' : {'data': ['str'] } }
 
-(not sure if that is clear, but this goes along with this other series
-https://lore.kernel.org/r/20230208194700.11035-1-farosas@suse.de to fix
-make check)
+Inconsistent on whether you have a space before :.  Most of our qapi
+files prefer the layout:
 
-If we're talking about general fiddling with CONFIGS, then I'm inclined
-to agree with Thomas that the CI doesn't need to test every single
-combination. However, it's a basic maintenance task to ensure that if
-your project has toggles, that they can actually be toggled.
+'key': 'value'
 
-As for use-cases, I don't have a specific one for disabling all the
-defaults. For individual CONFIGs I would like to be able to produce a
-slimmer build sometime in the distant future once we untangle everything
-that's tangled today.
+that is, no space before, one space after.  It doesn't affect
+correctness, but a consistent visual style is worth striving for.
+
+> +
+> +##
+> +# @MigrateRdmaAddr:
+> +#
+> +# Since 8.0
+> +##
+> +{ 'struct': 'MigrateRdmaAddr',
+> +   'data' : {'data': 'InetSocketAddress' } }
+
+...while these branches supply everything else under 'data'. Also,
+while you documented @socket-type above, you did not document @data in
+either of these two types.  [1]
+
+> +
+> +##
+> +# @MigrateAddress:
+> +#
+> +# The options available for communication transport mechanisms for migration
+> +#
+> +# Since 8.0
+> +##
+> +{ 'union' : 'MigrateAddress',
+> +  'base' : { 'transport' : 'MigrateTransport'},
+> +  'discriminator' : 'transport',
+> +  'data' : {
+> +    'socket' : 'MigrateSocketAddr',
+> +    'exec' : 'MigrateExecAddr',
+> +    'rdma': 'MigrateRdmaAddr' } }
+
+Another example of inconsistent spacing around :.
+
+I'm guessing the reason you didn't go with 'socket': 'SocketAddress'
+is that SocketAddress is itself a discriminated union, and Markus does
+not yet have the QAPI generator wired up to support one union as a
+branch of another larger union?  It leads to extra nesting on the wire
+[2]
+
+> +
+> +##
+> +# @MigrateChannelType:
+> +#
+> +# The supported options for migration channel type requests
+> +#
+> +# @main: Support request for main outbound migration control channel
+> +#
+> +# Since 8.0
+> +##
+> +{ 'enum': 'MigrateChannelType',
+> +  'data': [ 'main'] }
+
+A different spacing issue: most arrays in QAPI either have spaces at
+both ends (as in [ 'string' ]) or neither (as in ['string']).  Here,
+it looks lopsided with space at the front but not the back.
+
+> +
+> +##
+> +# @MigrateChannel:
+> +#
+> +# Information regarding migration Channel-type for transferring packets,
+> +# source and corresponding destination interface for socket connection
+> +# and number of multifd channels over the interface.
+> +#
+> +# @channeltype: Name of Channel type for transfering packet information
+> +#
+> +# @addr: SocketAddress of destination interface
+
+More than just a SocketAddress, per the discriminated union type defined above.
+
+> +#
+> +# Since 8.0
+> +##
+> +{ 'struct': 'MigrateChannel',
+> +  'data' : {
+> +	'channeltype' : 'MigrateChannelType',
+> +	'addr' : 'MigrateAddress' } }
+> +
+>  ##
+>  # @migrate:
+>  #
+>  # Migrates the current running guest to another Virtual Machine.
+>  #
+>  # @uri: the Uniform Resource Identifier of the destination VM
+> +#       for migration thread
+> +#
+> +# @channel: Struct containing migration channel type, along with all
+> +#           the details of destination interface required for initiating
+> +#           a migration stream.
+>  #
+>  # @blk: do block migration (full disk copy)
+>  #
+> @@ -1479,15 +1575,46 @@
+>  # 3. The user Monitor's "detach" argument is invalid in QMP and should not
+>  #    be used
+>  #
+> +# 4. The uri argument should have the Uniform Resource Identifier of default
+> +#    destination VM. This connection will be bound to default network
+> +#
+> +# 5. Both 'uri' and 'channel' arguments, are mutually exclusive but, at least
+> +#    one of the two arguments should be present.
+
+Grammar suggestion:
+
+'uri' and 'channel' are mutually exclusive; exactly one of the two
+should be present.
+
+> +#
+>  # Example:
+>  #
+>  # -> { "execute": "migrate", "arguments": { "uri": "tcp:0:4446" } }
+>  # <- { "return": {} }
+>  #
+> +# -> { "execute": "migrate",
+> +#      "arguments": {
+> +#          "channel": { "channeltype": "main",
+> +#                        "addr": { "transport": "socket",
+> +#                                  "socket-type": { "type': "inet',
+> +#                                                   "host": "10.12.34.9",
+> +#                                                   "port": "1050" } } } } }
+
+[2] This is the extra nesting that occurs because of the
+'socket-type':'MigrateSocketAddr' above; getting rid of the nesting
+would require 'socket-type':'SocketAddress', but QAPI would need to
+support that first.
+
+> +# <- { "return": {} }
+> +#
+> +# -> { "execute": "migrate",
+> +#      "arguments": {
+> +#          "channel": { "channeltype": "main",
+> +#                       "addr": { "transport": "exec",
+> +#                                 "exec": ["/bin/nc", "-U",
+> +#                                          "/some/sock" ] } } } }
+
+Another lopsided spacing in [].
+
+> +# <- { "return": {} }
+> +#
+> +# -> { "execute": "migrate",
+> +#      "arguments": {
+> +#          "channel": { "channeltype": "main",
+> +#                       "addr": { "transport": "rdma",
+> +#                                 "rdma": { "host": "10.12.34.9",
+> +#                                           "port": "1050" } } } } }
+
+[1] These examples look wrong; above, the schema named the nesting as 'data', rather than 'exec' or 'rdma'.
+
+> +# <- { "return": {} }
+> +#
+>  ##
+>  { 'command': 'migrate',
+> -  'data': {'uri': 'str', '*blk': 'bool', '*inc': 'bool',
+> -           '*detach': 'bool', '*resume': 'bool' } }
+> +  'data': {'*uri': 'str', '*channel': 'MigrateChannel', '*blk': 'bool',
+> +           '*inc': 'bool', '*detach': 'bool', '*resume': 'bool' } }
+>
+
+But overall, I'm a fan of using a more type-accurate description of
+the channel than the open-coded 'uri':'str'.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
