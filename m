@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C4F668F7F7
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:23:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D93968F80B
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:29:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPq2e-0004mk-Rt; Wed, 08 Feb 2023 14:23:40 -0500
+	id 1pPq89-00076H-9a; Wed, 08 Feb 2023 14:29:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPq2b-0004m7-Iy
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:23:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPq2Z-0005ME-TA
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:23:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675884211;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WxBVQWvtV/aawV7jPIrjgAv15SXqVJVUYMjJJSkpsFg=;
- b=fjWLs9H58Z//rvNi1pY1xkRC4Jeo1HCk5l/OtuvnQSjgWB5etCFf+Bfrb76+dY9IoAjN1s
- t/Ba8VrdftJbx8DQQfnZmEO++Za4+xXuBZw6BlvITSCQTFLdF2VOptLIbm95EeCvpm/Qmk
- zuyoPYB0nPtdlE5925rW6N16cSIGhRo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-124-3Gg_7N3ePyWW5Y8oiEN4hQ-1; Wed, 08 Feb 2023 14:23:27 -0500
-X-MC-Unique: 3Gg_7N3ePyWW5Y8oiEN4hQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pPq7t-00074g-Lj
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:29:06 -0500
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pPq7q-0006JU-Rn
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:29:04 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 479FA8564E1;
- Wed,  8 Feb 2023 19:23:26 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 206C51121315;
- Wed,  8 Feb 2023 19:23:26 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0E5A421E6A1F; Wed,  8 Feb 2023 20:23:25 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-Cc: Pierre Morel <pmorel@linux.ibm.com>,  qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org,  borntraeger@de.ibm.com,  pasic@linux.ibm.com,
- richard.henderson@linaro.org,  david@redhat.com,  thuth@redhat.com,
- cohuck@redhat.com,  mst@redhat.com,  pbonzini@redhat.com,
- kvm@vger.kernel.org,  ehabkost@redhat.com,  marcel.apfelbaum@gmail.com,
- eblake@redhat.com,  seiden@linux.ibm.com,  nrb@linux.ibm.com,
- frankja@linux.ibm.com,  berrange@redhat.com,  clg@kaod.org
-Subject: Re: [PATCH v15 10/11] qapi/s390x/cpu topology: CPU_POLARITY_CHANGE
- qapi event
-References: <20230201132051.126868-1-pmorel@linux.ibm.com>
- <20230201132051.126868-11-pmorel@linux.ibm.com>
- <5b26ee514ccbbfaf5670cbf0cb006d8e706fe5ae.camel@linux.ibm.com>
-Date: Wed, 08 Feb 2023 20:23:25 +0100
-In-Reply-To: <5b26ee514ccbbfaf5670cbf0cb006d8e706fe5ae.camel@linux.ibm.com>
- (Nina Schoetterl-Glausch's message of "Wed, 08 Feb 2023 18:35:39
- +0100")
-Message-ID: <87y1p8q7v6.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2920D203D3;
+ Wed,  8 Feb 2023 19:28:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1675884538; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=mo1y+IkB88GXLqQq4oQLXPwA8G31nYRTPHHNkmjP/Wg=;
+ b=H/sU/PmTwQP82O7kgtXh5h1qIj6IN1YIO6gZDGbes8lbf7xv/vYUP8dNEiPfYQivWucivX
+ 6fZtmFOtsVkJVmp27GYqVhPnJ3Q9IR9W4DIb8StGu+2zh+4HEHRzEFuI7Ee7Ihlq73VNGG
+ cwkaBpAxJ4w3C6XrQJCn5Dv8ryRDeV4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1675884538;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=mo1y+IkB88GXLqQq4oQLXPwA8G31nYRTPHHNkmjP/Wg=;
+ b=56sxkkRvZkXnqhl8dN7EiHSFy4kje5JkOx1/z2IiC5JQPiB0lmQd4PwO9w1o9nSx/vA80e
+ VAd57nohkqOPjpDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4427C13425;
+ Wed,  8 Feb 2023 19:28:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id cFinA/n342NiHQAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 08 Feb 2023 19:28:57 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>
+Subject: [PATCH v2 00/10] Kconfig vs. default devices
+Date: Wed,  8 Feb 2023 16:26:44 -0300
+Message-Id: <20230208192654.8854-1-farosas@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,102 +78,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Nina Schoetterl-Glausch <nsg@linux.ibm.com> writes:
+v2:
+Applying the feedback received, all small tweaks.
 
-> On Wed, 2023-02-01 at 14:20 +0100, Pierre Morel wrote:
->> When the guest asks to change the polarity this change
->> is forwarded to the admin using QAPI.
->> The admin is supposed to take according decisions concerning
->> CPU provisioning.
->> 
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>  qapi/machine-target.json | 30 ++++++++++++++++++++++++++++++
->>  hw/s390x/cpu-topology.c  |  2 ++
->>  2 files changed, 32 insertions(+)
->> 
->> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
->> index 58df0f5061..5883c3b020 100644
->> --- a/qapi/machine-target.json
->> +++ b/qapi/machine-target.json
->> @@ -371,3 +371,33 @@
->>    },
->>    'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
->>  }
->> +
->> +##
->> +# @CPU_POLARITY_CHANGE:
->> +#
->> +# Emitted when the guest asks to change the polarity.
->> +#
->> +# @polarity: polarity specified by the guest
->> +#
->> +# The guest can tell the host (via the PTF instruction) whether the
->> +# CPUs should be provisioned using horizontal or vertical polarity.
->> +#
->> +# On horizontal polarity the host is expected to provision all vCPUs
->> +# equally.
->> +# On vertical polarity the host can provision each vCPU differently.
->> +# The guest will get information on the details of the provisioning
->> +# the next time it uses the STSI(15) instruction.
->> +#
->> +# Since: 8.0
->> +#
->> +# Example:
->> +#
->> +# <- { "event": "CPU_POLARITY_CHANGE",
->> +#      "data": { "polarity": 0 },
->> +#      "timestamp": { "seconds": 1401385907, "microseconds": 422329 } }
->> +#
->> +##
->> +{ 'event': 'CPU_POLARITY_CHANGE',
->> +  'data': { 'polarity': 'int' },
->> +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM'] }
->
-> I wonder if you should depend on CONFIG_KVM or not. If tcg gets topology
-> support it will use the same event and right now it would just never be emitted.
-> On the other hand it's more conservative this way.
+Patch 6 still needs consensus on whether to apply the fix to Kconfig
+or elsewhere. Link to the previous version:
+https://lore.kernel.org/r/461ba038-31bf-49c4-758b-94ece36f136f@redhat.com
 
-TCG vs. KVM should be as transparent as we can make it.
+changelog:
 
-If only KVM can get into the state where the event is emitted, say
-because the state is only possible with features only KVM supports, then
-making the event conditional on KVM makes sense.  Of course, when
-another accelerator acquires these features, we need to emit the event
-there as well, which will involve adjusting the condition.
+- patch 1: moved isa-parallel to a build time check like the other
+           patches;
+- patch 3: tweaked commit message;
+- patch 7: removed the default from XLNX_USB_SUBSYS.
 
-> I also wonder if you should add 'feature' : [ 'unstable' ].
-> On the upside, it would mark the event as unstable, but I don't know what the
-> consequences are exactly.
+v1:
+https://lore.kernel.org/r/20230206140809.26028-1-farosas@suse.de
 
-docs/devel/qapi-code-gen.rst:
+We currently have a situation where disabling a Kconfig might result
+in a runtime error when QEMU selects the corresponding device as a
+default value for an option. But first a disambiguation:
 
-    Special features
-    ~~~~~~~~~~~~~~~~
+Kconfig default::
+  a device "Foo" for which there's "config FOO default y" or "config X
+  imply FOO" in Kconfig.
 
-    Feature "deprecated" marks a command, event, enum value, or struct
-    member as deprecated.  It is not supported elsewhere so far.
-    Interfaces so marked may be withdrawn in future releases in accordance
-    with QEMU's deprecation policy.
+QEMU hardcoded default::
+  a fallback; a device "Foo" that is chosen in case no corresponding
+  option is given in the command line.
 
-    Feature "unstable" marks a command, event, enum value, or struct
-    member as unstable.  It is not supported elsewhere so far.  Interfaces
-    so marked may be withdrawn or changed incompatibly in future releases.
+The issue I'm trying to solve is that there is no link between the two
+"defaults" above, which means that when the user at build time
+de-selects a Kconfig default, either via configs/devices/*/*.mak or
+--without-default-devices, the subsequent invocation at runtime might
+continue to try to create the missing device due to QEMU defaults.
 
-See also -compat parameters unstable-input, unstable-output, both
-intended for "testing the future".
+Even a experienced user that tweaks the build via .mak files is not
+required to know about what QEMU developers chose to use as fallbacks
+in the code. Moreover, the person/entity that builds the code might
+not be the same that runs it, which makes it even more confusing.
 
-> Also I guess one can remove qemu events without breaking backwards compatibility,
-> since they just won't be emitted? Unless I guess you specify that a event must
-> occur under certain situations and the client waits on it?
+We do have -nodefaults in the command line, but that doesn't include
+all types of fallbacks that might be set in the code. It also does not
+cover individual CONFIGs and their respective use as a fallback in the
+code.
 
-Events are part of the interface just like command returns are.  Not
-emitting an event in a situation where it was emitted before can easily
-break things.  Only when the situation is no longer possible, the event
-can be removed safely.
+So my proposal here is actually simple: Let's make sure every fallback
+device creation *without* a validation check gets a hard dependency in
+Kconfig. A validation check being something like:
 
-Questions?
+if (has_defaults && object_get_class("foo") {
+   create_foo();
+}
 
-[...]
+Fabiano Rosas (10):
+  hw/i386: Select CONFIG_PARALLEL for PC machines
+  hw/i386: Select E1000E for q35
+  hw/i386: Select VGA_PCI in Kconfig
+  hw/i386: Select E1000_PCI for i440fx
+  hw/arm: Select VIRTIO_NET for virt machine
+  hw/arm: Select VIRTIO_BLK for virt machine
+  hw/arm: Select XLNX_USB_SUBSYS for xlnx-zcu102 machine
+  hw/arm: Select GICV3_TCG for sbsa-ref machine
+  hw/arm: Select e1000e for sbsa-ref machine
+  hw/arm: Select VGA_PCI for sbsa-ref machine
+
+ hw/arm/Kconfig  | 7 +++++++
+ hw/i386/Kconfig | 8 ++++----
+ hw/usb/Kconfig  | 1 -
+ 3 files changed, 11 insertions(+), 5 deletions(-)
+
+-- 
+2.35.3
 
 
