@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED2DD68E8E8
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 08:31:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47A6A68E934
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 08:43:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPetX-0001Hf-O6; Wed, 08 Feb 2023 02:29:32 -0500
+	id 1pPf5q-0004BO-V3; Wed, 08 Feb 2023 02:42:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1pPetN-0001Fp-J0
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 02:29:22 -0500
+ (Exim 4.90_1) (envelope-from <yvugenfi@redhat.com>)
+ id 1pPf5T-0004Ay-FS
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 02:41:53 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1pPetI-00066b-NG
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 02:29:19 -0500
+ (Exim 4.90_1) (envelope-from <yvugenfi@redhat.com>)
+ id 1pPf5P-0000Qc-3C
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 02:41:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675841354;
+ s=mimecast20190719; t=1675842105;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3abdPSz0m23x23JBMnjmM2iuKOEDvFUzq1LlDVmxiTk=;
- b=d3K0M3NPB/qWksVJia62aGCt1pgcDmlhmJl3F8ibRsIpz1hqglQkPBBgSIuVuYDOfF/WrK
- CKkE214IxJ5klVc+jmh8geDfbyEef1FE8cjcfPAsfR4POhDtIVnDMIC9daAQE8mNz9k+QX
- JDNqDAxMXIthDh6bRJwY2MRFnzXIPPM=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VVnyAPLW7YaLDKPKR0EMEzm/HU4nVXdUvGC9vhqUoy8=;
+ b=M8ND/xPY0Uwn5iw8BgoA/N0PB9kwN+9aJoDraz8TQTJGP37w+QEj6Ojwc1hDaScbN8JYhG
+ Hp1vTTHWzSrAkbA3qcxmh+mddTwPJYWRGdb1LjIEBkPCOnB9J9bG3+JP/gHv6B8hII+ixq
+ oIUcTVHCx2kJSIxzXWfp3GqrSpGdCgk=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-649-TOvZt51kNia1ZPbsVnF4Fw-1; Wed, 08 Feb 2023 02:29:08 -0500
-X-MC-Unique: TOvZt51kNia1ZPbsVnF4Fw-1
-Received: by mail-ej1-f70.google.com with SMTP id
- hp2-20020a1709073e0200b0084d47e3fe82so12491177ejc.8
- for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 23:29:07 -0800 (PST)
+ us-mta-501-aKFc1BvtOla6D3byq5AH7g-1; Wed, 08 Feb 2023 02:41:44 -0500
+X-MC-Unique: aKFc1BvtOla6D3byq5AH7g-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ g4-20020ab01304000000b0060d5bfd73b5so7649279uae.16
+ for <qemu-devel@nongnu.org>; Tue, 07 Feb 2023 23:41:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=3abdPSz0m23x23JBMnjmM2iuKOEDvFUzq1LlDVmxiTk=;
- b=eDMhajLVqRWlq4IfoZ5ZLcPQhzwGkHGY+jdWNrBoRqtWtlpSaekSAiI6palqdUPC2B
- GFRfqEr/k2jNp37AT+Gsa2wXc59kQdqLAxI4gXByE2It1nLxnwreIeXWLZZJMBwuXVpU
- nnr3VI8WvhFy5sDXzpa/WwMZ6Ha0TIgw3889DMtfqcur9uQ5mG+uoIs7hVhAGv7rn5GI
- Q7b+tAE5AVsjxBm7SXpr6eSO65jXnVCFAxAMZk1VQV9Td50dKrrbo2VWwQWgpNpKQ6yv
- XA9H+vCSkrMW0jfBHohZvU59mE+WfK91MlJ9jPWI6epZP2EMkbcnwm5XeAnArj+0J+JT
- aq0Q==
-X-Gm-Message-State: AO0yUKV+8rEzRB6TT0PULZwl7xKblZA0As5Ht9wOpmPWVXVheyANf42Y
- Pt99QuykhI470yltxLkijIKUvBcEhO+DY9lIVoGQ0lon14NUJuMtkUctRhM/HeWdol35IK44Jb6
- 6ViSK34WBkZg27LN3bhjBaNqboipvMI8=
-X-Received: by 2002:a17:906:9386:b0:8aa:1801:32bc with SMTP id
- l6-20020a170906938600b008aa180132bcmr1122668ejx.125.1675841346954; 
- Tue, 07 Feb 2023 23:29:06 -0800 (PST)
-X-Google-Smtp-Source: AK7set9Xe3W+u0HY8OeI/+9OVGd8lWJwJreNW3VZ7LvP1jxUOCAJJ9hfhXbpJG7af2LT2xHW+0XDhSB7sf/IndP0IhA=
-X-Received: by 2002:a17:906:9386:b0:8aa:1801:32bc with SMTP id
- l6-20020a170906938600b008aa180132bcmr1122656ejx.125.1675841346603; Tue, 07
- Feb 2023 23:29:06 -0800 (PST)
+ bh=VVnyAPLW7YaLDKPKR0EMEzm/HU4nVXdUvGC9vhqUoy8=;
+ b=xpRyqpgLp1EZj3Jj7ggK9RJHWiIQNCC3ftoxUg4bYpYRSBIUaI0iurAA6reiStZ2z3
+ YWNyYcybGiyLV3HJwl5B7T/UlbiGXo8vP7XV8a4wpy/JuPlaB6dSQdKEXyB0O6+c06TY
+ cx/uP9x1o9yWUI5FoEPEranFJ8bm74M9F41wTGKDrHYzJA+FLRPxEZCZiecRHclP0n+1
+ 7+2Fn0QeXSWzBO1CW8jRgNH3PwXWDpMeXBz9UKiZyDm3LFrGyEnvTrqGbtDu0n5nIepJ
+ G7kHFgL3Vkwu6BrktbptBhQh2vB2GYIgwaSZlp7CJXWG8u5orRwBBOyue1fU1KDY5aOt
+ r6EQ==
+X-Gm-Message-State: AO0yUKXftwk98dKqDx1EfbO+24ZdeZv/URv4StVxtnUtdMIWQrv0qlB4
+ iPWu+ECiFHf74YfpuR4zqRge1/Lb+i8cppMOH6+VdyADfH8nP79xZ6TUdlU2xyKBkHsI3nXdvVn
+ C2ka9B9eRTwZogOlSmqup2m8CYHJKEF2Spo1OVUc=
+X-Received: by 2002:a1f:5a02:0:b0:3ea:8029:d3e3 with SMTP id
+ o2-20020a1f5a02000000b003ea8029d3e3mr1361315vkb.4.1675842103328; 
+ Tue, 07 Feb 2023 23:41:43 -0800 (PST)
+X-Google-Smtp-Source: AK7set/gZdKuXQG3ZhNbuXuZYu/VREvEx3y/4hNUmpiLLVgT81z5WuvVw+Szprs2Z1kPzuOx6NyMU8J79rPZPRWf2pk=
+X-Received: by 2002:a1f:5a02:0:b0:3ea:8029:d3e3 with SMTP id
+ o2-20020a1f5a02000000b003ea8029d3e3mr1361310vkb.4.1675842103067; Tue, 07 Feb
+ 2023 23:41:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
- <20230207142535.1153722-9-marcandre.lureau@redhat.com>
- <Y+JmJQEhAejYwS/T@redhat.com>
-In-Reply-To: <Y+JmJQEhAejYwS/T@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 8 Feb 2023 11:28:55 +0400
-Message-ID: <CAMxuvaw4TKheJbwKtdP8Q97ZYKYmO1c6Z6qmjh+AqR9tsYeaoQ@mail.gmail.com>
-Subject: Re: [PATCH v3 08/10] qmp: teach 'getfd' to import sockets on win32
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>,
- Eric Blake <eblake@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Michael Roth <michael.roth@amd.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000002a1dba05f42b3851"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
+References: <BLAPR05MB73459DB71B55CA0ACBD88304C8D89@BLAPR05MB7345.namprd05.prod.outlook.com>
+ <b3de26d8-4992-df8a-8b31-4c7a07704195@linaro.org>
+In-Reply-To: <b3de26d8-4992-df8a-8b31-4c7a07704195@linaro.org>
+From: Yan Vugenfirer <yvugenfi@redhat.com>
+Date: Wed, 8 Feb 2023 09:41:31 +0200
+Message-ID: <CAGoVJZywT2xMMfujMCKKZrXFE6cxPJt4hgCkirbMiHjn_curMg@mail.gmail.com>
+Subject: Re: Porting the QEMU build architecture to Visual Studio
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: Andrew Numrich <anumrich@hotmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "qemu-discuss@nongnu.org" <qemu-discuss@nongnu.org>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000040daf005f42b659e"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=yvugenfi@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,7 +79,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,273 +95,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000002a1dba05f42b3851
+--00000000000040daf005f42b659e
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+Hi Andrew,
 
-On Tue, Feb 7, 2023 at 6:54 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
->
+I created a Visual Studio project a long time ago for qemu-ga. It is an
+ugly unsustainable hack that was done in the time before QEMU moved to
+meson and I had to deal with GCC extension that MS compiler couldn't handle=
+.
+Today I would experiment with meson that should be able to create VS
+projects: https://mesonbuild.com/Using-with-Visual-Studio.html and use
+clang on Windows (info in the same link).
+
+Best regards,
+Yan.
+
+
+On Wed, Feb 8, 2023 at 8:57 AM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.o=
+rg>
 wrote:
 
-> On Tue, Feb 07, 2023 at 06:25:33PM +0400, marcandre.lureau@redhat.com
-> wrote:
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Hi Andrew,
+>
+> On 8/2/23 05:56, Andrew Numrich wrote:
+> > Hello, I=E2=80=99m looking to experiment with QEMU in a Windows specifi=
+c
+> > environment. For that I=E2=80=99ll need to build QEMU=E2=80=99s source =
+code in Visual
+> > Studio 2017.
 > >
-> > A process with enough capabilities can duplicate a socket to QEMU.
-> > Modify 'getfd' to import it and add it to the monitor fd list, so it ca=
-n
-> > be later used by other commands.
+> > I=E2=80=99m seeing that QEMU=E2=80=99s sources calls for a `config-host=
+.h` file
+> > generated by a `create_config` script. I don=E2=80=99t see said script =
+anywhere
+> > in the source tree.
 > >
-> > Note that we actually store the SOCKET in the FD list, appropriate care
-> > must now be taken to use the correct socket functions (similar approach
-> > is taken by our io/ code and in glib, this is internal and shouldn't
-> > affect the QEMU/QMP users)
+> > By googling I can see various creations of both these files in random
+> > forks of QEMU around the internet, but I couldn=E2=80=99t be sure to us=
+e any of
+> > them.
 > >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >  qapi/misc.json     | 16 ++++++++--
-> >  monitor/fds.c      | 79 ++++++++++++++++++++++++++++++++++++----------
-> >  monitor/hmp-cmds.c |  6 +++-
-> >  3 files changed, 81 insertions(+), 20 deletions(-)
+> > I=E2=80=99m guessing these are somehow created by meson or ninja, but I=
+ don=E2=80=99t
+> > have those easily on hand, being on Windows.
 > >
-> > diff --git a/qapi/misc.json b/qapi/misc.json
-> > index 27ef5a2b20..cd36d8befb 100644
-> > --- a/qapi/misc.json
-> > +++ b/qapi/misc.json
-> > @@ -249,10 +249,18 @@
-> >  ##
-> >  # @getfd:
-> >  #
-> > -# Receive a file descriptor via SCM rights and assign it a name
-> > +# On UNIX, receive a file descriptor via SCM rights and assign it a
-> name.
-> > +#
-> > +# On Windows, (where ancillary socket fd-passing isn't an option yet),
-> add a
-> > +# socket that was duplicated to QEMU process with WSADuplicateSocketW(=
-)
-> via
-> > +# WSASocket() & WSAPROTOCOL_INFOW structure and assign it a name. A
-> SOCKET is
-> > +# considered as a kind of "file descriptor" in QMP context, for
-> historical
-> > +# reasons and simplicity. QEMU takes care to use socket functions
-> appropriately.
-> >  #
-> >  # @fdname: file descriptor name
-> >  #
-> > +# @wsa-info: a WSAPROTOCOL_INFOW structure (encoded in base64). Since
-> 8.0.
+> > Is there anyone that can point me in the right direction
 >
-> This is a clever trick, but it also feels pretty gross from
-> POV of QMP design normal practice, which would be to define
-> a struct in QAPI to represent the WSAPROTOCOL_INFOW contents.
+> Paolo posted a patch to adapt QEMU build system to VSCode few
+> years ago:
 >
-> The main downside would be that its more verbose to convert
-> between the windows and QAPI structs.
-
-
-WSAPROTOCOL_INFOW is a fairly big structure, with private/reserved files,
-it contains another structure (WSAPROTOCOLCHAIN), has fixed-length arrays,
-GUID, and utf16 string. QAPI-fying is going to be painful for no real gain.
-It is opaque and simply given back to WSASocketW.
-
-Markus, did you have a chance to look at the series? Can you review/comment
-before I do further work?
-
-thanks
-
-
-> > @@ -270,7 +278,11 @@
-> >  # <- { "return": {} }
-> >  #
-> >  ##
-> > -{ 'command': 'getfd', 'data': {'fdname': 'str'} }
-> > +{ 'command': 'getfd', 'data': {
-> > +    'fdname': 'str',
-> > +    '*wsa-info': {'type': 'str', 'if': 'CONFIG_WIN32'}
-> > +  }
-> > +}
+> https://lore.kernel.org/qemu-devel/20210512100906.621504-1-pbonzini@redha=
+t.com/
 >
-> snip
+> > or explain how
+> > this is generated?
+> >
+> > Thanks
+> >
+> >   * Andrew Numrich
+> >
+> > http://github.com/toastmod
+> >
 >
-> > +void qmp_getfd(const char *fdname,
-> > +#ifdef WIN32
-> > +               const char *wsa_info,
-> > +#endif
-> > +               Error **errp)
-> > +{
-> > +    Monitor *cur_mon =3D monitor_cur();
-> > +    int fd;
-> > +
-> > +#ifdef WIN32
-> > +    if (wsa_info) {
-> > +        g_autofree WSAPROTOCOL_INFOW *info =3D NULL;
-> > +        gsize len;
-> > +        SOCKET sk;
-> > +
-> > +        info =3D (void *)g_base64_decode(wsa_info, &len);
-> > +        if (len !=3D sizeof(*info)) {
-> > +            error_setg(errp, "Invalid WSAPROTOCOL_INFOW value");
-> > +            return;
-> > +        }
->
->
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :|
 >
 >
 
---0000000000002a1dba05f42b3851
+--00000000000040daf005f42b659e
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 7, 2023 at 6:54 PM Dani=
-el P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@red=
-hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">On Tue, Feb 07, 2023 at 06:25:33PM +0400, <a href=3D"mailto:marcandr=
-e.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a> wrot=
-e:<br>
-&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+<div dir=3D"ltr">Hi Andrew,<div><br></div><div>I created a Visual Studio pr=
+oject a long=C2=A0time ago for qemu-ga. It is an ugly unsustainable hack th=
+at was done in the time before QEMU moved to meson and I had to deal with=
+=C2=A0GCC extension that MS compiler=C2=A0couldn&#39;t handle.</div><div>To=
+day I would experiment with meson that should be able to create VS projects=
+:=C2=A0<a href=3D"https://mesonbuild.com/Using-with-Visual-Studio.html">htt=
+ps://mesonbuild.com/Using-with-Visual-Studio.html</a> and use clang on Wind=
+ows (info in the same link).</div><div><br></div><div>Best regards,</div><d=
+iv>Yan.</div><div><br></div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Wed, Feb 8, 2023 at 8:57 AM Philippe Mathi=
+eu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linaro.org">philmd@linaro.org</a=
+>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-co=
+lor:rgb(204,204,204);padding-left:1ex">Hi Andrew,<br>
+<br>
+On 8/2/23 05:56, Andrew Numrich wrote:<br>
+&gt; Hello, I=E2=80=99m looking to experiment with QEMU in a Windows specif=
+ic <br>
+&gt; environment. For that I=E2=80=99ll need to build QEMU=E2=80=99s source=
+ code in Visual <br>
+&gt; Studio 2017.<br>
 &gt; <br>
-&gt; A process with enough capabilities can duplicate a socket to QEMU.<br>
-&gt; Modify &#39;getfd&#39; to import it and add it to the monitor fd list,=
- so it can<br>
-&gt; be later used by other commands.<br>
+&gt; I=E2=80=99m seeing that QEMU=E2=80=99s sources calls for a `config-hos=
+t.h` file <br>
+&gt; generated by a `create_config` script. I don=E2=80=99t see said script=
+ anywhere <br>
+&gt; in the source tree.<br>
 &gt; <br>
-&gt; Note that we actually store the SOCKET in the FD list, appropriate car=
-e<br>
-&gt; must now be taken to use the correct socket functions (similar approac=
-h<br>
-&gt; is taken by our io/ code and in glib, this is internal and shouldn&#39=
-;t<br>
-&gt; affect the QEMU/QMP users)<br>
+&gt; By googling I can see various creations of both these files in random =
+<br>
+&gt; forks of QEMU around the internet, but I couldn=E2=80=99t be sure to u=
+se any of <br>
+&gt; them.<br>
 &gt; <br>
-&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
-lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
->
-&gt; ---<br>
-&gt;=C2=A0 qapi/misc.json=C2=A0 =C2=A0 =C2=A0| 16 ++++++++--<br>
-&gt;=C2=A0 monitor/fds.c=C2=A0 =C2=A0 =C2=A0 | 79 +++++++++++++++++++++++++=
-+++++++++++----------<br>
-&gt;=C2=A0 monitor/hmp-cmds.c |=C2=A0 6 +++-<br>
-&gt;=C2=A0 3 files changed, 81 insertions(+), 20 deletions(-)<br>
+&gt; I=E2=80=99m guessing these are somehow created by meson or ninja, but =
+I don=E2=80=99t <br>
+&gt; have those easily on hand, being on Windows.<br>
 &gt; <br>
-&gt; diff --git a/qapi/misc.json b/qapi/misc.json<br>
-&gt; index 27ef5a2b20..cd36d8befb 100644<br>
-&gt; --- a/qapi/misc.json<br>
-&gt; +++ b/qapi/misc.json<br>
-&gt; @@ -249,10 +249,18 @@<br>
-&gt;=C2=A0 ##<br>
-&gt;=C2=A0 # @getfd:<br>
-&gt;=C2=A0 #<br>
-&gt; -# Receive a file descriptor via SCM rights and assign it a name<br>
-&gt; +# On UNIX, receive a file descriptor via SCM rights and assign it a n=
-ame.<br>
-&gt; +#<br>
-&gt; +# On Windows, (where ancillary socket fd-passing isn&#39;t an option =
-yet), add a<br>
-&gt; +# socket that was duplicated to QEMU process with WSADuplicateSocketW=
-() via<br>
-&gt; +# WSASocket() &amp; WSAPROTOCOL_INFOW structure and assign it a name.=
- A SOCKET is<br>
-&gt; +# considered as a kind of &quot;file descriptor&quot; in QMP context,=
- for historical<br>
-&gt; +# reasons and simplicity. QEMU takes care to use socket functions app=
-ropriately.<br>
-&gt;=C2=A0 #<br>
-&gt;=C2=A0 # @fdname: file descriptor name<br>
-&gt;=C2=A0 #<br>
-&gt; +# @wsa-info: a WSAPROTOCOL_INFOW structure (encoded in base64). Since=
- 8.0.<br>
+&gt; Is there anyone that can point me in the right direction<br>
 <br>
-This is a clever trick, but it also feels pretty gross from<br>
-POV of QMP design normal practice, which would be to define<br>
-a struct in QAPI to represent the WSAPROTOCOL_INFOW contents.<br>
+Paolo posted a patch to adapt QEMU build system to VSCode few<br>
+years ago:<br>
+<a href=3D"https://lore.kernel.org/qemu-devel/20210512100906.621504-1-pbonz=
+ini@redhat.com/" rel=3D"noreferrer" target=3D"_blank">https://lore.kernel.o=
+rg/qemu-devel/20210512100906.621504-1-pbonzini@redhat.com/</a><br>
 <br>
-The main downside would be that its more verbose to convert<br>
-between the windows and QAPI structs.</blockquote><div><br></div><div>WSAPR=
-OTOCOL_INFOW is a fairly big structure, with private/reserved files, it con=
-tains another structure (WSAPROTOCOLCHAIN), has fixed-length arrays, GUID, =
-and utf16 string. QAPI-fying is going to be painful for no real gain. It is=
- opaque and simply given back to WSASocketW.<br></div><div>=C2=A0</div><div=
->Markus, did you have a chance to look at the series? Can you review/commen=
-t before I do further work?</div><div><br></div><div>thanks<br></div><div><=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; @@ -270,7 +278,11 @@<br>
-&gt;=C2=A0 # &lt;- { &quot;return&quot;: {} }<br>
-&gt;=C2=A0 #<br>
-&gt;=C2=A0 ##<br>
-&gt; -{ &#39;command&#39;: &#39;getfd&#39;, &#39;data&#39;: {&#39;fdname&#3=
-9;: &#39;str&#39;} }<br>
-&gt; +{ &#39;command&#39;: &#39;getfd&#39;, &#39;data&#39;: {<br>
-&gt; +=C2=A0 =C2=A0 &#39;fdname&#39;: &#39;str&#39;,<br>
-&gt; +=C2=A0 =C2=A0 &#39;*wsa-info&#39;: {&#39;type&#39;: &#39;str&#39;, &#=
-39;if&#39;: &#39;CONFIG_WIN32&#39;}<br>
-&gt; +=C2=A0 }<br>
-&gt; +}<br>
-<br>
-snip<br>
-<br>
-&gt; +void qmp_getfd(const char *fdname,<br>
-&gt; +#ifdef WIN32<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const char *ws=
-a_info,<br>
-&gt; +#endif<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Error **errp)<=
-br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 Monitor *cur_mon =3D monitor_cur();<br>
-&gt; +=C2=A0 =C2=A0 int fd;<br>
-&gt; +<br>
-&gt; +#ifdef WIN32<br>
-&gt; +=C2=A0 =C2=A0 if (wsa_info) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_autofree WSAPROTOCOL_INFOW *info =3D NU=
-LL;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 gsize len;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 SOCKET sk;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 info =3D (void *)g_base64_decode(wsa_info=
-, &amp;len);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (len !=3D sizeof(*info)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;Inva=
-lid WSAPROTOCOL_INFOW value&quot;);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; or explain how <br>
+&gt; this is generated?<br>
+&gt; <br>
+&gt; Thanks<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0* Andrew Numrich<br>
+&gt; <br>
+&gt; <a href=3D"http://github.com/toastmod" rel=3D"noreferrer" target=3D"_b=
+lank">http://github.com/toastmod</a><br>
+&gt; <br>
 <br>
 <br>
-With regards,<br>
-Daniel<br>
--- <br>
-|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
-tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
-s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://www.flickr.com/photos/dberrange</a> :|<br>
-|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
-oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
-|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
-nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
-"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
-https://www.instagram.com/dberrange</a> :|<br>
-<br>
-</blockquote></div></div>
+</blockquote></div>
 
---0000000000002a1dba05f42b3851--
+--00000000000040daf005f42b659e--
 
 
