@@ -2,78 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB0B68EC30
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 10:52:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0044E68ECCC
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 11:27:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPh7Z-0006ji-Ig; Wed, 08 Feb 2023 04:52:09 -0500
+	id 1pPhen-0006Oa-O7; Wed, 08 Feb 2023 05:26:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pPh7X-0006jD-36
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 04:52:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPheg-0006NX-D9
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 05:26:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pPh7V-0006Lb-JU
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 04:52:06 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPhee-0005lJ-KJ
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 05:26:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675849924;
+ s=mimecast20190719; t=1675851978;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=JzL3frmR6RoX3zMUonRRbVRcAnSnWvxoFRwA3IbUUhM=;
- b=gG3Yzn8ydWUJUIsRAoaNE38qoIWsQKeFRQkVdLOYrpm2+42ZmnYh+fRd4TATDqkWdSEAMd
- arTEykaSy8RTFIVJJTdqbjUhE9qkKpCFxXYFWpuCFSwDkzqYCFzsbaIpDCwuMO6CdAqnnk
- UsAOKvMiUnKuK5LBVLcqcCLbgMrb35Y=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-255-x8COXM0yMt2OZnGi92-pDA-1; Wed, 08 Feb 2023 04:52:03 -0500
-X-MC-Unique: x8COXM0yMt2OZnGi92-pDA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- s11-20020a05600c384b00b003dffc7343c3so4375684wmr.0
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 01:52:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JzL3frmR6RoX3zMUonRRbVRcAnSnWvxoFRwA3IbUUhM=;
- b=rHJRh4muPb/fzxmrQS0vbGivC1kz+fpt1aPNq7pi50PqcINqZ+12V1Aa0gbm6kEja4
- XZWbYbygGOoaPTb5OksKNN54NViGynBRtpO8NbHNPNYgtkaPgi7+Vo2rzDAXhXf6l3M7
- CunfrvlcbObGUx31f48yCnwNTtRPWSMcgvjx3BzZesfFbFgqdiv6yNxzLUru8YVSACkp
- t9wl9T+RcGXBO2MJJmp9s4ZV6deXJSTGg6WDDy7ZmKt8i1aKsnflTi3PB60U/9BDqhvY
- B8zf4VFz0cXx51M+zA7BClMLKOEO1tXrzrz5J8tppAe/LomRD+1chgdQb57FDSSGeoMG
- NS9A==
-X-Gm-Message-State: AO0yUKX6cW1VkmTVO7H8Yvwv0qk2LK/tszgiMqVewJdXcW0Wpt7s8MZk
- y2Id/vzeDFsqYKn8VR2axS/rLXb9cFi4wiu/D6V2yy+4rkl+hV1c4VQynShB2bSCwENYXGowueP
- Q0C1p+K1x0KwmSqE=
-X-Received: by 2002:a5d:4d01:0:b0:2c3:f021:da55 with SMTP id
- z1-20020a5d4d01000000b002c3f021da55mr5701583wrt.28.1675849922470; 
- Wed, 08 Feb 2023 01:52:02 -0800 (PST)
-X-Google-Smtp-Source: AK7set/5WMbaLClqWYjipgZHNarJ1v4MKZ9YvSmj3zuOAuPlPX6Y8dAOa54/CqE6jzKA08Iry2wNrA==
-X-Received: by 2002:a5d:4d01:0:b0:2c3:f021:da55 with SMTP id
- z1-20020a5d4d01000000b002c3f021da55mr5701566wrt.28.1675849922306; 
- Wed, 08 Feb 2023 01:52:02 -0800 (PST)
-Received: from redhat.com ([2.52.156.127]) by smtp.gmail.com with ESMTPSA id
- n4-20020a7bc5c4000000b003dfe57f6f61sm1400853wmk.33.2023.02.08.01.52.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 01:52:01 -0800 (PST)
-Date: Wed, 8 Feb 2023 04:51:58 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
+ bh=rZxUOFGo/oarxfcGG9oY6hXvruRUG0pgjB7RxEKPGdc=;
+ b=AH8hao8nnO9K3DA0kgVdT95CepuZFx06PIeumx4AKk+z/i4kF4cdJ+bIKuVj6p0fTvL7ZD
+ Sgq1vPu+B63Qju0faL8gt7Um+VyfMmPsoPIkQxDZM+R77tM8qCKKBlUNSDf5JxoddIyBbn
+ ObVPA7ljAgr+eMX5edH5KKMcChKl7V0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-312-G7KRo0L-MViExItRDzgpwA-1; Wed, 08 Feb 2023 05:26:15 -0500
+X-MC-Unique: G7KRo0L-MViExItRDzgpwA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D5AD3101B42B;
+ Wed,  8 Feb 2023 10:26:14 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 73F711121314;
+ Wed,  8 Feb 2023 10:26:14 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5E89E21E6A1F; Wed,  8 Feb 2023 11:26:13 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
 To: Song Gao <gaosong@loongson.cn>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org,
- peter.maydell@linaro.org, philmd@linaro.org, armbru@redhat.com,
- thuth@redhat.com, maobibo@loongson.cn, yangxiaojuan@loongson.cn
+Cc: qemu-devel@nongnu.org,  richard.henderson@linaro.org,
+ peter.maydell@linaro.org,  philmd@linaro.org,  thuth@redhat.com,
+ mst@redhat.com,  maobibo@loongson.cn,  yangxiaojuan@loongson.cn
 Subject: Re: [PATCH v1 2/2] loongarch: Add smbios command line option.
-Message-ID: <20230208045151-mutt-send-email-mst@kernel.org>
 References: <20230208094133.2945979-1-gaosong@loongson.cn>
  <20230208094133.2945979-2-gaosong@loongson.cn>
+Date: Wed, 08 Feb 2023 11:26:13 +0100
+In-Reply-To: <20230208094133.2945979-2-gaosong@loongson.cn> (Song Gao's
+ message of "Wed, 8 Feb 2023 17:41:33 +0800")
+Message-ID: <87fsbglagq.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230208094133.2945979-2-gaosong@loongson.cn>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -97,18 +81,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 08, 2023 at 05:41:33PM +0800, Song Gao wrote:
+Song Gao <gaosong@loongson.cn> writes:
+
 > LoongArch has enabled CONFIG_SMBIOS, but didn't enable CLI '-smbios'.
-> 
+>
+
+Suggest
+
+  Fixes: 3efa6fa1e629 ("hw/loongarch: Add smbios support")
+
 > Signed-off-by: Song Gao <gaosong@loongson.cn>
-
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-
-
 > ---
 >  qemu-options.hx | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+>
 > diff --git a/qemu-options.hx b/qemu-options.hx
 > index 88e93c6103..2aa6709466 100644
 > --- a/qemu-options.hx
@@ -122,7 +108,7 @@ Acked-by: Michael S. Tsirkin <mst@redhat.com>
 >  SRST
 >  ``-smbios file=binary``
 >      Load SMBIOS entry from binary file.
-> -- 
-> 2.31.1
+
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
