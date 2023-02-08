@@ -2,174 +2,149 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A92E768EF7F
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 14:06:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 897DA68EF83
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 14:09:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPk8k-0000Kg-Q1; Wed, 08 Feb 2023 08:05:34 -0500
+	id 1pPkBm-00022Y-0r; Wed, 08 Feb 2023 08:08:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1pPk8h-0000Jz-D3
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 08:05:31 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+ (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
+ id 1pPkBf-00021J-Cj; Wed, 08 Feb 2023 08:08:35 -0500
+Received: from mail-dm6nam10on20621.outbound.protection.outlook.com
+ ([2a01:111:f400:7e88::621]
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1pPk8d-0007d4-S6
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 08:05:30 -0500
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 318CxPon029179; Wed, 8 Feb 2023 13:05:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2022-7-12;
- bh=s1pt1cK7ezxY6vLGpOZ2vfQkKhECogE1N9hPEVj2ff4=;
- b=106FYgpS0mr+7Po5s/KI5ThDbvXvQBXHTUzv/SW839Lp4mH1L3U+MsnP4q0E/ZnqUgdW
- Ea1IH2QT5wyVL9qyBh6On3OkIWOqreZhxwG00cy8BwODN4LA+5+YcfOAwvnvN2aPCFjl
- GhmAej4ApXNJqMnrU4mjI1bpdZXcv4SWYi1n3WP1Gdyt3nFV4ImIFd2ESAUQIv0k1Gs5
- F7xjUcmWXSr+pjRzpntZBPcKT5FYuyTbHTYw4UOFgMl4yBFHQMg1Hi6aBfKcQlMsblZM
- 4YDBV3+oed4MF5doRLShkLT9mPqu6kUJOFOAqiO0+I54SI4inMTuhqTgy8zSXTPhmYeE cA== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nhfwu810v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 08 Feb 2023 13:05:21 +0000
-Received: from pps.filterd
- (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 318AqmwS016115; Wed, 8 Feb 2023 13:05:21 GMT
-Received: from nam04-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam04lp2176.outbound.protection.outlook.com [104.47.73.176])
- by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3njrbbnsev-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 08 Feb 2023 13:05:21 +0000
+ (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
+ id 1pPkBb-0008FH-JW; Wed, 08 Feb 2023 08:08:33 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EPYT8atNsgbqmaAe2e8iEMY8w2PrnpNo7hI10i+xtTThj1I4YYTl+cYFwlqGGWGWZjLBpAkDu7kN40a799ZdhFEWB7ySK9ABfnrZOFN6wsADyHN5u2iDYzJZTRCDmlr7a8mw2cinP3iJ2XjfR0pK9ZxPQ/cRVYQgOMk1psTgilaL+LSaKZzDpdrwG8sIfKfkt5A2fZZdP3wvZDB/dVVZVNyVtNVcfcXa6FURZeF3hDLYGW537WU2vrpgtP/cn0CmnlxdwS11E/0Xv3oehz3bhIYNB2Vx1A0cZN+QHzjA0Al9DJVAtgse3k2nHPn5nZ5SnQPYtqogIrG3vuah/E4ZBA==
+ b=TTUGY4ZoF9VGbcGnuM4YOLpGrD+neFHBftRNy+ay1BhfiYAzbkOEKGabEY2lycp5Df5ShOcsEmrdYFmakPrLFQkxlGQ1Up6S7LmDVadBCrTShK/WjA8ow4HENE4n2MPB4y5MceXn8mMEMrlM1cw5jQ/Q9rKsAoIZR14kjrgSz42Tp3CZTZTGljyYT/BgFJ6Rr2DwDcrchKIby10QQnfm6GhY95Bi10gLoGTEDEbwzBULAiYt64iRQ+Mp6wsqZEmI3Gs9rszgPEJypkJ6utIIxM52VY1qBDcCWvGcb3m4VNtkuiGJp8BNzU/yWfPLr+1OlCvqo+0AvCeExA25WacA1w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s1pt1cK7ezxY6vLGpOZ2vfQkKhECogE1N9hPEVj2ff4=;
- b=bzJAwJMQ1sRW7cFjT8f7rWLHkJ65ccQlPHbVqcbIT4mr06xyYWPhQuswNofXes41L7XXe0K5oRzge+gTRVhVVWpoEbe6Yf1NxnzHsOcHSMQ6/L3nR2SFixaJivS3LaYuejnjWB5KWTwHx9kNUSCYFsMfsgNluzwDXkmMR+CLDhrMOaVkriUJjwCSWnB0enldZc8iBLd8zU02/Ds5yV2c0xCeHWEH05Xu0ikDcW00V+8E1FGDszR/tKWbXZQsGGYOrhWBhKat0t7VI5pFtPKSzomLpprXmD0Kp2rGXzs1s6D2pR7k8Ir1hvoWC5RKACAFxV4MgRIDYhOw+ziIAvSBVw==
+ bh=ZNPUIieB81x8f6YC581WjWBsZf2P9qlcg4uYJt6ohOw=;
+ b=EEEK7rTgFactaMj+fSOCzNRLOkwttj/LQQI7e4IE+j1Q1SLrrqD50rWUeI6qBK+JPxu/4jcbFwEpDWB/QdiojhvFnI+wR9T0jjEHeAbrQg57elqISoxwwgRyf6P9wEduCGd9JpFUN0QZgfhHCIr8e/RlZkyiiFAOvVluO0Xv1tpsZn9J1axLS4NFM0Ck1fT0y6IEtu2LqLuxmC7f7iv7a44Wc8IjOwm1TDb3Vbp3R2GeBasS3rQotWTHz9L0nmD8oaiXZMo7i7DseXFrZiNPsG7FDAWmdHqYdtzvpu/SjtYs+eNKAIn+SFYNh31kRkzaB0l8ePQaLggn0Z+9+6wYHg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s1pt1cK7ezxY6vLGpOZ2vfQkKhECogE1N9hPEVj2ff4=;
- b=qQrBnCj0pMyS4mnfOFGtNjb4yf7r6IsJ4HsAl+0WbKpOYpVe7mZ2B+GfMWJqnbPEVAPD4QcwIt27w7E/+V5nR2MYJNgHsSeQ12jJTitqbAvc3VtmYo5prTun1SINuvUIItr2b6Naig3uKwuP3DwlK0p1ZOQaajxQxO3c1sSihM8=
-Received: from SA2PR10MB4684.namprd10.prod.outlook.com (2603:10b6:806:119::14)
- by DM4PR10MB7527.namprd10.prod.outlook.com (2603:10b6:8:182::20) with
+ bh=ZNPUIieB81x8f6YC581WjWBsZf2P9qlcg4uYJt6ohOw=;
+ b=DgcnJmuA546tnT5XkKv6/zVIT6uKQ5X+4Dj79V9iGMyq30T9QBGm2O0JGH9mtWdgcR736yCyoFIgc/tT0w74LcC67+t7vIYTLaqJ+iQtcOvaybF3FmOOlQbmu028T2Jr/X6ioUPtu/WzVA+wukfvOBMono5JFgKWkoMXlM0hasfbF7+uqy3SfRBf91YkD1567L5j6GzmXy2JjW1x4TLbhQdxnoa8CUEiUmJuK2tDdQS523ZfFPp2AYjARzvMbaNn+FFe1vZQPaFEA9WVpNkGPyAgcary1ZRoKQrb+h0hCq8qhCCe8ryKsZco0aF1dBA7GCt3wte+KJ3E6LISNbX5Lg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB5549.namprd12.prod.outlook.com (2603:10b6:5:209::13)
+ by CY8PR12MB7363.namprd12.prod.outlook.com (2603:10b6:930:51::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.17; Wed, 8 Feb
- 2023 13:05:18 +0000
-Received: from SA2PR10MB4684.namprd10.prod.outlook.com
- ([fe80::ed27:2f6f:22b1:39c]) by SA2PR10MB4684.namprd10.prod.outlook.com
- ([fe80::ed27:2f6f:22b1:39c%9]) with mapi id 15.20.6086.017; Wed, 8 Feb 2023
- 13:05:18 +0000
-Message-ID: <32f34f74-213d-7107-907d-dda0a509878e@oracle.com>
-Date: Wed, 8 Feb 2023 08:05:13 -0500
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.36; Wed, 8 Feb
+ 2023 13:08:25 +0000
+Received: from DM6PR12MB5549.namprd12.prod.outlook.com
+ ([fe80::451d:1f37:aa83:f425]) by DM6PR12MB5549.namprd12.prod.outlook.com
+ ([fe80::451d:1f37:aa83:f425%5]) with mapi id 15.20.6086.017; Wed, 8 Feb 2023
+ 13:08:25 +0000
+Message-ID: <238b17d1-17a3-e5d1-2973-4bda83928d6e@nvidia.com>
+Date: Wed, 8 Feb 2023 15:08:15 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH V2 1/4] qapi: strList_from_string
+Subject: Re: [PATCH v9 07/14] vfio/migration: Block multiple devices migration
 Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Michael Roth <michael.roth@amd.com>
-References: <1675795727-235010-1-git-send-email-steven.sistare@oracle.com>
- <1675795727-235010-2-git-send-email-steven.sistare@oracle.com>
- <CAJ+F1CLFMUDvaOq2QXCKpb8Zj4PRr-tKV1q9L8m2EfgORPLj7A@mail.gmail.com>
-From: Steven Sistare <steven.sistare@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <CAJ+F1CLFMUDvaOq2QXCKpb8Zj4PRr-tKV1q9L8m2EfgORPLj7A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ John Snow <jsnow@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@redhat.com>, qemu-s390x@nongnu.org, qemu-block@nongnu.org,
+ Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
+References: <20230206123137.31149-1-avihaih@nvidia.com>
+ <20230206123137.31149-8-avihaih@nvidia.com>
+ <20230207153454.4e1a0c51.alex.williamson@redhat.com>
+From: Avihai Horon <avihaih@nvidia.com>
+In-Reply-To: <20230207153454.4e1a0c51.alex.williamson@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BYAPR06CA0009.namprd06.prod.outlook.com
- (2603:10b6:a03:d4::22) To SA2PR10MB4684.namprd10.prod.outlook.com
- (2603:10b6:806:119::14)
+X-ClientProxiedBy: FR3P281CA0186.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a4::13) To DM6PR12MB5549.namprd12.prod.outlook.com
+ (2603:10b6:5:209::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PR10MB4684:EE_|DM4PR10MB7527:EE_
-X-MS-Office365-Filtering-Correlation-Id: 11ae183b-916f-40ef-aba4-08db09d520be
+X-MS-TrafficTypeDiagnostic: DM6PR12MB5549:EE_|CY8PR12MB7363:EE_
+X-MS-Office365-Filtering-Correlation-Id: 22a3576b-a0a0-4f31-4351-08db09d58ff1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: baTcBugq8zWAmi08hRidAfJqlOS3RcLQNsTf+kb+QHxhmY+gHrA1Mz6yjFlD5yodUs2FM+N/hY9rNx3wTVtVRjdQyre8/+SHAemTf3PoKukwmWu/ZfVqPImhYZMOlkca9HYsHSAcCA2deZ2GKkIZwYW84QvNlO8a1qNNf2MsvUpjttbNi96jpRgyeDM4h/+x+9piWPLR46O9s4dUcb0F9sn5ofFGaMh5Er31EQQZHuqzch3FtQ3zH7LOigmxQZUTy/VJ8oM/5HUrBhXSsa8Evj/tXl/QXPvq8cWsBAjiFNRTGZgi5ihGdg9Xv3dQ0jDMfn1T9/gc62PLfp6QphjgARfbVeN52mqAeuYVHilx29Nkp05VnLz2H9+C0x2VoFbP3xbriW3BK7pGsnIdGPO8LtVR2FrKSGewFGIkv0jFP4m9Lnp7mS/y/w+4Cc4HCFVziHMSDGhwxH0l+ReTS8WrwbqxN5iIDpnCZoasDtTHq7WAl9Xu30cdpEM6JUfuwpJRQ78x18QzCBgKTCwisVEH2j1mE4g2b/JIoKtYfQrOu9MedaInsPB/yXbgvQlUNS8L2bj+ssiLLq8BdBriQsCe3Z6Vqnf7tJ5h9d4z3YJJvGVWxkw8q1PE5RUjjHkWdBGNdY8sXcvSNOUFqix+CMIZbpdQ8EytJUJtvni3wyUJMckUfO7yz374FeTNFXTrAz/p6sH6Zk8Q4jYyglC+lazLalEsG6rEcziXkm5hp24Fbtw=
+X-Microsoft-Antispam-Message-Info: F4U4V6PUzhdrCuMjwbmJyWT50yLSpcqCqYzuHh3Enp8nxfteSVvaUk+Fw+Gye1wbEGt7zw1UIRzY87raxim5Blz0sEJXH3By1aiyFxERIG2nB1ohXluzHxgXtahJ6/9MnEP8iI1gx0JZFPe/TCW3y8TLnOOFqlV7WWRvz/EWvRFZMAjxN9KUkG29TasRMvofGUUxPOPHVBvLHZUgYT3Op4B0fqARklVKhnNsItICrN0l6wa/jXd+aafd0KiRooGR/6xfghxz6QqaBzCc8+plRMf15BIzV/XS5YgT4vRiQ4ylQ+F1KCb+nFu3o9m1JCtw66y5Bh+x+IBPSgdBdUNMVq725ur2pBeWgBfQrD8lLm20A3CDRdcjTbo0JpuABkl0cqXe0+wxcFv1lZ6t9UcwSSGpfikYcPrFiTKea9dEpPGXyV2ipLGP+OYqn+BVdy+jhJm4w2CDLae0W5WHDGx2+s8QxkQ4JeLSeUg4DrS+CfREV69f6HQAh3u7gH3PIemaySyJi3xeYggtrkIO97+hn1KaKY3aBejhZm2WNf2kxf+CYHviEt6y7nQrZxxpcw6OhjtdfXD0PJjw14kTIXwH1lg5uTIXTuCrSRqr0IIY5kYqGqEYRAlnPt+Di6dxrsjs/6OpujlU0IDnmKvTE8lMR7uMZuaym8JHD+dIIaR9Usme5J2eqDrjpJt2g9ya0pmD0Y8M87NSPbs6RIW7OPwXLIt28eBhXSAWVgBPE6eGcIA=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA2PR10MB4684.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(376002)(346002)(39860400002)(396003)(366004)(136003)(451199018)(186003)(26005)(478600001)(6512007)(6666004)(44832011)(36916002)(6486002)(316002)(83380400001)(54906003)(31686004)(2616005)(53546011)(6506007)(66556008)(66946007)(6916009)(4326008)(41300700001)(5660300002)(38100700002)(8936002)(66476007)(8676002)(86362001)(31696002)(2906002)(36756003)(43740500002)(45980500001);
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB5549.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(376002)(366004)(39860400002)(136003)(396003)(346002)(451199018)(6512007)(26005)(186003)(6506007)(53546011)(2906002)(6666004)(36756003)(7416002)(5660300002)(31686004)(478600001)(6486002)(41300700001)(8936002)(2616005)(8676002)(66946007)(66476007)(4326008)(6916009)(83380400001)(66556008)(86362001)(31696002)(54906003)(316002)(38100700002)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZCs3SDNESzJWMlJ4b2JCVDJJTnZGczdVbXpNZU4yMzlkRy9QZFlRRk8rYkZC?=
- =?utf-8?B?a1h6SXBDWjZUSE5FMjh5Zmh4NWJjV2JXMXBKaXJpb0ZubzlnSi9TV1Ira2lR?=
- =?utf-8?B?MVlYUUIybXoxRS9IY3dMcktJOFE1Q0J6VVZieWNhbG5rUHVzdThucEl5cTBP?=
- =?utf-8?B?V2FhdjJWMXR5b1Z1TlRTejlSTUtlWnFiUmRSZW5LQ24vYlVNREQybnV5Mm5m?=
- =?utf-8?B?eml4NHVRaHpuQ3JOVmJva0NvZ1Z5MkR5Q1I1eFNtZVQveFJMVEgrc2l5cVVL?=
- =?utf-8?B?RktkcGVsL2RySkUwT05rZ1NoNzVoR3VMeVphTXlubWY3eXZrRU9YbEpGTk1T?=
- =?utf-8?B?Wms2QUxwMTNYczFoZk4vSFpTakwwRGIrcU0xK2pOVjNDckRKYjNjNnRGazY0?=
- =?utf-8?B?cmhKaUhFNTVNTlNjbHZkWW54cTBVaGNsMW8vWXhoL25sTE1hMUFMQ0FWTDVV?=
- =?utf-8?B?SFp0Q3d3RWkrckd6WXdVMGp6WlRLY3hxbENjQWhIdi9OTGtaN3NiZ1d6c1NL?=
- =?utf-8?B?Mi85Z3RZcDVqa1FzODBYM2FjY3JRTUV3TmFRRkE2OERrS1NXOWQ1T3lCSEZj?=
- =?utf-8?B?VHNtWVQ4SklPVzRLVkRuN1JlajZRRlc5NUp6d2xqZUtXN3NmSFNGWG1MdXJy?=
- =?utf-8?B?MUhVVE03S3U1Y0sxUG8rUzYyWnVLaXBxSlFKK3Q1cjRmMUxBcDg1Rkg1eDZI?=
- =?utf-8?B?bk9CQnNlNXYrdHlkNTIxNjFNQVNVOTJUdWRDdld6VVhkZDdhN09DQTJmWmhY?=
- =?utf-8?B?OENmZFEzRGl6NnNxcmJ2TFhhVHNuMGpvOHdVekRWOXRTNnJaY2l3VmV2Ty9T?=
- =?utf-8?B?NjNQZEJTYTJuZ0FZejZQT3ZpaG9ncnhUS21ZZm1Ebm96MldWdjJ2V2VNbGxl?=
- =?utf-8?B?ekkvMDZLbDE0TzQrNWR1R2FlR3VRQUZ1Um9Semc5SVVmR3d5MmhwZ1hhKzBw?=
- =?utf-8?B?a0lENG90MVNtUEpGMm5VVEVWVmtIaXo3eDROczBRUUtud3B3NFljNFdFRGNm?=
- =?utf-8?B?czQ3dG1WdTJxamU4Y002Q29qUldEZVc5dVVkU0d4R3FhdWZuK040eUFxVWhx?=
- =?utf-8?B?NmtteXFJYnNYNHZOK0llS2o4TkYxM2NObnY3MmtIVllJSG9TUUc5SGRDNWRZ?=
- =?utf-8?B?M2N6NUVaUUUva3F0QnZpcHltYlJJN0lMZ243b3JDM0JxQTl5b3ltZnl2MmNS?=
- =?utf-8?B?S01ITE5IOXcwM3RGZ0Q4eWNGMWNsOXZqZzh4NUlUQjlHSitXcnpyNzcxY2tF?=
- =?utf-8?B?YlM0d3Q1VUVRa2NqdjJhMnhDVnhDZkR3UEE4VUIrVld4QTg0UlhSa2wrZG12?=
- =?utf-8?B?a1hJTGFnUWJYWUZTK3NVTytrUzZISGR3UUlQT2ZzdkwwbHkrS3RZRksxTjNK?=
- =?utf-8?B?Q1lhRDdVbllDQVJEUTEyUXlJcklJL2hKZndIZ2NUL0lVZWUvbkpFT0tkUXU1?=
- =?utf-8?B?bm9lYUxqK0kyRmRrMm9ab0NyVVdDZzdTc3hHcFh6UksweWFYTElBMk11MGN2?=
- =?utf-8?B?bHl1OGdWQzhoaXptWXRNZDIwUUJnRW9jTmpmaXdTRHRaa2VsN050SDZSampY?=
- =?utf-8?B?b2ZOcjh2azZNM01RSStTM3VCRGdXWk9IeFZhd1dzaE1Na3crd2JOMStvaWtG?=
- =?utf-8?B?RHQvU2hIa0Z5VEtBbDd2YTF6aEdNNkxBanZRQjhvd1ZWZUt4Tkx2cmlBMVhn?=
- =?utf-8?B?ZkZtR2EwMkE4YXJhWmtHeWhhOGVndSt1bEFldktwM1BEeFI4TkFJNEZVY1o5?=
- =?utf-8?B?ZzBReDdKVzFCTlNyL2x6d1R3MG1YVE5mT0RRSkdQdGh2Nm1UZHB6QkF1bytw?=
- =?utf-8?B?RG9ieEpXSEQrWWxRZFBTaERadFB5UjdRaFo1NENlclk0NWwydGI1UFlNaFM5?=
- =?utf-8?B?Uy8vWXhsODgwai9zOEJKUFNuVk9yaXhuOWd5bXJUUER3dXVyYkpnc2NkS1A2?=
- =?utf-8?B?bW54cUFvU2JlTEJVNkhRZDJwemFMaVJxL3dLSmIwMDdFUFhVVEJtbTJIQmln?=
- =?utf-8?B?R2g1WkEzQ0tMakwrRThSams3RFRIVHJWbWVuSXdIUkVlNzVza1JZUUl6R3dB?=
- =?utf-8?B?SjBXS2luTzMrVExGUFF6Z3luQW8vVzEvUkF5dlhXdE9GOGZobWd1dlJWaVVL?=
- =?utf-8?B?WDRIR1kzcitTRm1xd0FZSm5iSUJ5cnB5WHNxRXpkYTJwdzlZdzRpUmZNLzZE?=
- =?utf-8?B?MlE9PQ==?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: NCEUfdYEivWXqAcXS0LXSnHedNNq5haOj/EoXfQI6OwdJTH4IhTyO3Knu0XBpKN9LjWHUdYWGBVlut1oYofL+0/yDZ20yq8cOG+7vVpMI+uT9Zq2pWB2wITqL+mAB1KKwkOxBf8QCc+6LU4Tv9+mPtDVrbMonlMH8pyhU/xf6DVSVvJ+gw+IGASHwBGKpem9vTolV3zVFekd8WISd4gSwrOOZ06Jt1wGavxZCYCR6gCXY8SYJie69xtHabd0f5GYv3N6xA1H52Ls9ONl5deSoBsOoxuyUtKU+XUzGFCC31ocn8Vsl5J/DOpDgmJrcd00w/9vTu1fVQRFT82Hdgel+LAawJkg3a21uYrIz/Y8eUTEca2sVgte5rL9P7vD3W4oQ8jVAn4sLb96UgVua9ZKbr0hJT5G6JaYgtKc4z7w07eTui3QeruYcmQ0l8F9iETRy4cxfo8Ck8gMbiVTaCQEguFmbfiwJJf7kp47sNTIzpn3mgDfpnZQwg4Kpdcg81gmbMq/ZOAG7GXyhFl/yScvwGX+ggCfR0MOMz9l559FVdvaP7TuqPmxPWUG9emRT7+dMGYXk4au5e+NPoyF+F8qUA8Vjrd3zeNl1Gvhd1K+1+hETfCxWU49nENze9a5EA8P78+V2wxBC5IDR6Fp/naDJPUzFexxXZKrIjJseAAd+N1TgAvO6BqxfOX7Ah6f6ESVcKpyWgKP7yCMoB06Yk50mHHhwPgWm5ARCg9iYCEdnKtv1KhyDLx0xqWyuHamXhcnYC+71o9wJ0PkS/b4/2OaHgIlM5R3J4BJoBckZclVqmxIEeuOjuzjq3kGsaYh58vb
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11ae183b-916f-40ef-aba4-08db09d520be
-X-MS-Exchange-CrossTenant-AuthSource: SA2PR10MB4684.namprd10.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TGR1L1VRWExOa2FoeDZrOW5LV0lBUE12aWFkK1JDVUl6YUZxeWlsWG1TeWRp?=
+ =?utf-8?B?bEJBRXRMT0VSVG9lKzlta0tpdlVnaUExcEJxbzhuWDBjcnNOMmk3d3ZCcnpV?=
+ =?utf-8?B?VnAzc3R6UHpKWUFuR2RTc0pPUk1USVcvSitoVjNHMVdMZkV4T3Vrem1nK1la?=
+ =?utf-8?B?VWx3eFVKemE5NHZ5Rk10MTI1THp6UGVCcjlmeno0Tlg4c2dVeUp1cWVzdG9x?=
+ =?utf-8?B?cjN2MUhpV3JqRUxkT0hFbnQ1cUFOdXNBN1IrTVFFLzRnT01xZExZNWJXcXJ5?=
+ =?utf-8?B?SkJRbXZpWkY1U08yY25Rb3BFbm9XRURwMG52OEZuUUIxV1l4Q1E0NVRKUFVW?=
+ =?utf-8?B?dElvSUtZcjNvQ1pqVnZxYmdqUjRLL1JGT0lLL3pZQUFoaUhVNy9CN0lxaTMw?=
+ =?utf-8?B?SnJBS0VwaDBOQk93dXJIdTNGbkxDMkNFelNyQjlxRm5pQS94ckNLODlTd293?=
+ =?utf-8?B?YlR6bU1VK0JoQ2VtZjJ3bGJMcG1sVmRCMWQrWWxDZlZRYk5jMWdGQjBHWUFk?=
+ =?utf-8?B?S2J5RGNKTkZMdzJVdGFCRGFwbUdZaFhMZ3o0NzBNb200L2UxcEJMWmVtMkhD?=
+ =?utf-8?B?Ymd5Z3hWTVMvZ0lIYThKR0Y0N2Joa2JEYVJuYmRzalFLZWZSbzNLRmpSSk9S?=
+ =?utf-8?B?WlZ4NU8yOHRkZ0ZYSyszMlpxZmVZbWFCS1FEY1VFNE1EcXE4b2JuNUxqY1Jk?=
+ =?utf-8?B?SHVsZDlXZHBRbS9FMFhjR1VEV2pFS3B2bnZtOEYrV1luQ3pUR28xaGFCb29l?=
+ =?utf-8?B?dFMzaWg3WW41UHcyMmRFbmxiNFZoZTdBMmQ4SkZoUzhxRWNTWnZ0WGkvSTBh?=
+ =?utf-8?B?VnNDb3NBZ0Z1UXBGQ01qbW9YMDdLR05aaERLRHNzb2RLdWRCNDhBMUJwMUNl?=
+ =?utf-8?B?NXF5Zm92ckNEemhldVhzVldIWno0ZDJUcmx0TDBuMEpJU2xWMkNGTHNCWGIx?=
+ =?utf-8?B?YlFPeGNJdjF1Vy9IN3VwUGcrMk95M3ZhUVpnRGNRUU12OHNBZS9WS2ZkUzFO?=
+ =?utf-8?B?MDdxcWlMMXg5djliMm92TWoxeU1ubTUvSVVRSEVFTXNrWDUzVGNMRHJ0NUd4?=
+ =?utf-8?B?dHNIaGJlU1V2SmdJNU16ajArVFRhZ1B0U25QcitQSlBnbE5LR2QvbUJvd3VK?=
+ =?utf-8?B?NFpHdm53WjA3NlJFQ0VvYmM1VWNDOUZsWGRVWFgvT2cxMEFYQ0xTOWkrM3k5?=
+ =?utf-8?B?ZlUxMjVxazR2TnMrS1VpaGY2dS9mQmVtTzdqeXFJWjV1NnFWb1Z3NmxoZllF?=
+ =?utf-8?B?TitzNy9PdzhVMSs4SnAwRmMvYnh1OGJWb2x6VjFRQUs1eG0ramVFOThRckNQ?=
+ =?utf-8?B?bUNQb1R3ZVo1cVBWMW4yQlNXcGhBR2VrM0p0dWYrUC8wNXBGOU95QktsZTgz?=
+ =?utf-8?B?akRsSmYxVVlBK284VzFFT0U3YlkwY3VlNG03YVhBbk90SlA3aGZzZXVORFVi?=
+ =?utf-8?B?WTdQODBuUytoMnoxaGk5cjAyRnNtM29IUFFsTk1kTTJ0RUdDN2dpR3o1TjhC?=
+ =?utf-8?B?VUpkajFSWU1OZ0o5WitpY2M0ZDZuclc4N0xBNy9uZjRwTk5jeTZyVHNHeVZ0?=
+ =?utf-8?B?RXFrZzB3emxkQ0RKalhUdEdsakxPS0xaUEEvZW9qV25WTmZ0b3FFVTlVaHNO?=
+ =?utf-8?B?Q2VSVlJ4elc0d2xCZWJuQk5iV2JKVUFSOTROTU5heWhNemdyTlJEdmNLck5s?=
+ =?utf-8?B?QjF1Q05nU2J2RFRBSW50NEh6WDM1ejEwK0g3VEdCd0Jwd21WMXpsWTZLUDMx?=
+ =?utf-8?B?SGxtdGhHeS9sd25tT3BZc2xqK1diREowRHI4ZTM3UHBSbk1iTkRlcEtwS0RO?=
+ =?utf-8?B?MjRQMFBPS2p3bGpLazhoVTMzdGtzNHFTQ2tpV1ZYSTRuV1RwQU0zTHpBdTVP?=
+ =?utf-8?B?RG83U0VxMVJkTEpCODRZMTdQaGJ5cGJnUTBYWFU1cGc5a0pXYTh5bjVKeng1?=
+ =?utf-8?B?VFVhSW1IN0lWaXB4ZVBsdVl4cGF5d004VFZoWURWaXYzWmhibUVEK0V2S1pt?=
+ =?utf-8?B?UlVRaWlINlFacDRYOVB0Q2hVQ0hHL2lZakhvT1NNUDRpZmRPcmxsdnFxRDRJ?=
+ =?utf-8?B?ZTFQeWErZFJXa0k0Rzd4d1dwb2VpTzY1Z29wVURuMGM3T3VyMFJGak1LS0wr?=
+ =?utf-8?Q?s9rpnke/mL4acDmn2wIWUa0uk?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22a3576b-a0a0-4f31-4351-08db09d58ff1
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB5549.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2023 13:05:18.6670 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2023 13:08:25.4600 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: a/svGM9oYLZpUeTpOWzyYUjwCEeoJCDORglynEsjodHhbMTw3acydY/VXKHdQjJ1dsyZz6Lz0JF3tuiMiNTLCnGW6Jir0Vk/FGxHV9xEE4Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR10MB7527
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-08_04,2023-02-08_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- phishscore=0 spamscore=0
- malwarescore=0 suspectscore=0 mlxscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2302080116
-X-Proofpoint-GUID: c-gwahJ-G7zKMo9IRzw4dQDwbE6dhBCY
-X-Proofpoint-ORIG-GUID: c-gwahJ-G7zKMo9IRzw4dQDwbE6dhBCY
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2lEQNCvLhauB6zoGHsjdzhkERUZM3yNSD126E4h3HRGDNTU1znhH5AX+XIk/kUAg8/OpNHvHDuSgJ++bVTewIw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7363
+Received-SPF: softfail client-ip=2a01:111:f400:7e88::621;
+ envelope-from=avihaih@nvidia.com;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.146,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.146, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -186,173 +161,229 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/8/2023 1:43 AM, Marc-André Lureau wrote:
-> Hi
-> 
-> On Tue, Feb 7, 2023 at 10:50 PM Steve Sistare <steven.sistare@oracle.com> wrote:
+
+On 08/02/2023 0:34, Alex Williamson wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> On Mon, 6 Feb 2023 14:31:30 +0200
+> Avihai Horon <avihaih@nvidia.com> wrote:
+>
+>> Currently VFIO migration doesn't implement some kind of intermediate
+>> quiescent state in which P2P DMAs are quiesced before stopping or
+>> running the device. This can cause problems in multi-device migration
+>> where the devices are doing P2P DMAs, since the devices are not stopped
+>> together at the same time.
 >>
->> Generalize hmp_split_at_comma() to take any delimiter character, rename
->> as strList_from_string(), and move it to qapi/util.c.
+>> Until such support is added, block migration of multiple devices.
 >>
->> No functional change.
-> 
-> The g_strsplit() version was a bit simpler, but if you want to
-> optimize it a bit for 1 char delimiter only, ok.
-> 
-> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-
-Yes, and it saves a malloc+free for the array.  Small stuff, but I
-thought it worth a few lines of code.  Thanks for the speedy review!
-
-- Steve
-
->> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+>> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
 >> ---
->>  include/monitor/hmp.h  |  1 -
->>  include/qapi/util.h    |  9 +++++++++
->>  monitor/hmp-cmds.c     | 19 -------------------
->>  net/net-hmp-cmds.c     |  2 +-
->>  qapi/qapi-util.c       | 23 +++++++++++++++++++++++
->>  stats/stats-hmp-cmds.c |  2 +-
->>  6 files changed, 34 insertions(+), 22 deletions(-)
+>>   include/hw/vfio/vfio-common.h |  2 ++
+>>   hw/vfio/common.c              | 51 +++++++++++++++++++++++++++++++++++
+>>   hw/vfio/migration.c           |  6 +++++
+>>   3 files changed, 59 insertions(+)
 >>
->> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
->> index 2220f14..e80848f 100644
->> --- a/include/monitor/hmp.h
->> +++ b/include/monitor/hmp.h
->> @@ -19,7 +19,6 @@
+>> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+>> index e573f5a9f1..56b1683824 100644
+>> --- a/include/hw/vfio/vfio-common.h
+>> +++ b/include/hw/vfio/vfio-common.h
+>> @@ -218,6 +218,8 @@ typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) VFIOGroupList;
+>>   extern VFIOGroupList vfio_group_list;
 >>
->>  bool hmp_handle_error(Monitor *mon, Error *err);
->>  void hmp_help_cmd(Monitor *mon, const char *name);
->> -strList *hmp_split_at_comma(const char *str);
+>>   bool vfio_mig_active(void);
+>> +int vfio_block_multiple_devices_migration(Error **errp);
+>> +void vfio_unblock_multiple_devices_migration(void);
+>>   int64_t vfio_mig_bytes_transferred(void);
 >>
->>  void hmp_info_name(Monitor *mon, const QDict *qdict);
->>  void hmp_info_version(Monitor *mon, const QDict *qdict);
->> diff --git a/include/qapi/util.h b/include/qapi/util.h
->> index 81a2b13..7d88b09 100644
->> --- a/include/qapi/util.h
->> +++ b/include/qapi/util.h
->> @@ -22,6 +22,8 @@ typedef struct QEnumLookup {
->>      const int size;
->>  } QEnumLookup;
+>>   #ifdef CONFIG_LINUX
+>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+>> index 3a35f4afad..01db41b735 100644
+>> --- a/hw/vfio/common.c
+>> +++ b/hw/vfio/common.c
+>> @@ -41,6 +41,7 @@
+>>   #include "qapi/error.h"
+>>   #include "migration/migration.h"
+>>   #include "migration/misc.h"
+>> +#include "migration/blocker.h"
+>>   #include "sysemu/tpm.h"
 >>
->> +struct strList;
+>>   VFIOGroupList vfio_group_list =
+>> @@ -337,6 +338,56 @@ bool vfio_mig_active(void)
+>>       return true;
+>>   }
+>>
+>> +Error *multiple_devices_migration_blocker;
 >> +
->>  const char *qapi_enum_lookup(const QEnumLookup *lookup, int val);
->>  int qapi_enum_parse(const QEnumLookup *lookup, const char *buf,
->>                      int def, Error **errp);
->> @@ -31,6 +33,13 @@ bool qapi_bool_parse(const char *name, const char *value, bool *obj,
->>  int parse_qapi_name(const char *name, bool complete);
->>
->>  /*
->> + * Produce a strList from the character delimited string @in.
->> + * All strings are g_strdup'd.
->> + * A NULL or empty input string returns NULL.
->> + */
->> +struct strList *strList_from_string(const char *in, char delim);
->> +
->> +/*
->>   * For any GenericList @list, insert @element at the front.
->>   *
->>   * Note that this macro evaluates @element exactly once, so it is safe
->> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
->> index 34bd8c6..9665e6e 100644
->> --- a/monitor/hmp-cmds.c
->> +++ b/monitor/hmp-cmds.c
->> @@ -39,25 +39,6 @@ bool hmp_handle_error(Monitor *mon, Error *err)
->>      return false;
->>  }
->>
->> -/*
->> - * Split @str at comma.
->> - * A null @str defaults to "".
->> - */
->> -strList *hmp_split_at_comma(const char *str)
->> -{
->> -    char **split = g_strsplit(str ?: "", ",", -1);
->> -    strList *res = NULL;
->> -    strList **tail = &res;
->> -    int i;
->> -
->> -    for (i = 0; split[i]; i++) {
->> -        QAPI_LIST_APPEND(tail, split[i]);
->> -    }
->> -
->> -    g_free(split);
->> -    return res;
->> -}
->> -
->>  void hmp_info_name(Monitor *mon, const QDict *qdict)
->>  {
->>      NameInfo *info;
->> diff --git a/net/net-hmp-cmds.c b/net/net-hmp-cmds.c
->> index 41d326b..30422d9 100644
->> --- a/net/net-hmp-cmds.c
->> +++ b/net/net-hmp-cmds.c
->> @@ -72,7 +72,7 @@ void hmp_announce_self(Monitor *mon, const QDict *qdict)
->>                                              migrate_announce_params());
->>
->>      qapi_free_strList(params->interfaces);
->> -    params->interfaces = hmp_split_at_comma(interfaces_str);
->> +    params->interfaces = strList_from_string(interfaces_str, ',');
->>      params->has_interfaces = params->interfaces != NULL;
->>      params->id = g_strdup(id);
->>      qmp_announce_self(params, NULL);
->> diff --git a/qapi/qapi-util.c b/qapi/qapi-util.c
->> index 63596e1..b61c73c 100644
->> --- a/qapi/qapi-util.c
->> +++ b/qapi/qapi-util.c
->> @@ -15,6 +15,7 @@
->>  #include "qapi/error.h"
->>  #include "qemu/ctype.h"
->>  #include "qapi/qmp/qerror.h"
->> +#include "qapi/qapi-builtin-types.h"
->>
->>  CompatPolicy compat_policy;
->>
->> @@ -152,3 +153,25 @@ int parse_qapi_name(const char *str, bool complete)
->>      }
->>      return p - str;
->>  }
->> +
->> +strList *strList_from_string(const char *in, char delim)
+>> +static unsigned int vfio_migratable_device_num(void)
 >> +{
->> +    strList *res = NULL;
->> +    strList **tail = &res;
+>> +    VFIOGroup *group;
+>> +    VFIODevice *vbasedev;
+>> +    unsigned int device_num = 0;
 >> +
->> +    while (in && in[0]) {
->> +        char *next = strchr(in, delim);
->> +        char *value;
->> +
->> +        if (next) {
->> +            value = g_strndup(in, next - in);
->> +            in = next + 1; /* skip the delim */
->> +        } else {
->> +            value = g_strdup(in);
->> +            in = NULL;
+>> +    QLIST_FOREACH(group, &vfio_group_list, next) {
+>> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
+>> +            if (vbasedev->migration) {
+>> +                device_num++;
+>> +            }
 >> +        }
->> +        QAPI_LIST_APPEND(tail, value);
 >> +    }
 >> +
->> +    return res;
+>> +    return device_num;
 >> +}
->> diff --git a/stats/stats-hmp-cmds.c b/stats/stats-hmp-cmds.c
->> index 531e35d..4a2adf8 100644
->> --- a/stats/stats-hmp-cmds.c
->> +++ b/stats/stats-hmp-cmds.c
->> @@ -174,7 +174,7 @@ static StatsFilter *stats_filter(StatsTarget target, const char *names,
->>              request->provider = provider_idx;
->>              if (names && !g_str_equal(names, "*")) {
->>                  request->has_names = true;
->> -                request->names = hmp_split_at_comma(names);
->> +                request->names = strList_from_string(names, ',');
->>              }
->>              QAPI_LIST_PREPEND(request_list, request);
->>          }
->> --
->> 1.8.3.1
->>
->>
-> 
-> 
+>> +
+>> +int vfio_block_multiple_devices_migration(Error **errp)
+>> +{
+>> +    int ret;
+>> +
+>> +    if (vfio_migratable_device_num() != 2) {
+>> +        return 0;
+>> +    }
+>> +
+>> +    error_setg(&multiple_devices_migration_blocker,
+>> +               "Migration is currently not supported with multiple "
+>> +               "VFIO devices");
+>> +    ret = migrate_add_blocker(multiple_devices_migration_blocker, errp);
+>> +    if (ret < 0) {
+>> +        error_free(multiple_devices_migration_blocker);
+>> +        multiple_devices_migration_blocker = NULL;
+>> +    }
+>> +
+>> +    return ret;
+>> +}
+>> +
+>> +void vfio_unblock_multiple_devices_migration(void)
+>> +{
+>> +    if (vfio_migratable_device_num() != 2) {
+>> +        return;
+>> +    }
+>> +
+>> +    migrate_del_blocker(multiple_devices_migration_blocker);
+>> +    error_free(multiple_devices_migration_blocker);
+>> +    multiple_devices_migration_blocker = NULL;
+>> +}
+> A couple awkward things here.  First I wish we could do something
+> cleaner or more intuitive than the != 2 test.  I get that we're trying
+> to do this on the addition of the 2nd device supporting migration, or
+> the removal of the next to last device independent of all other devices,
+> but I wonder if it wouldn't be better to remove the multiple-device
+> blocker after migration is torn down for the device so we can test
+> device >1 or ==1 in combination with whether
+> multiple_devices_migration_blocker is NULL.
+>
+> Which comes to the second awkwardness, if we fail to add the blocker we
+> free and clear the blocker, but when we tear down the device due to that
+> failure we'll remove the blocker that doesn't exist, free NULL, and
+> clear it again.  Thanks to the glib slist the migration blocker is
+> using, I think that all works, but I'd rather not be dependent on that
+> implementation to avoid a segfault here.  Incorporating a test of
+> multiple_devices_migration_blocker as above would avoid this too.
+
+You mean something like this?
+
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 3a35f4afad..f3e08eff58 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+
+[...]
+
++int vfio_block_multiple_devices_migration(Error **errp)
++{
++    int ret;
++
++    if (vfio_migratable_device_num() <= 1 ||
++        multiple_devices_migration_blocker) {
++        return 0;
++    }
++
++    error_setg(&multiple_devices_migration_blocker,
++               "Migration is currently not supported with multiple "
++               "VFIO devices");
++    ret = migrate_add_blocker(multiple_devices_migration_blocker, errp);
++    if (ret < 0) {
++        error_free(multiple_devices_migration_blocker);
++        multiple_devices_migration_blocker = NULL;
++    }
++
++    return ret;
++}
++
++void vfio_unblock_multiple_devices_migration(void)
++{
++    if (vfio_migratable_device_num() > 1 ||
++        !multiple_devices_migration_blocker) {
++        return;
++    }
++
++    migrate_del_blocker(multiple_devices_migration_blocker);
++    error_free(multiple_devices_migration_blocker);
++    multiple_devices_migration_blocker = NULL;
++}
++
+  static bool vfio_devices_all_dirty_tracking(VFIOContainer *container)
+  {
+      VFIOGroup *group;
+diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+index 552c2313b2..15b446c0ec 100644
+--- a/hw/vfio/migration.c
++++ b/hw/vfio/migration.c
+@@ -880,6 +880,11 @@ int vfio_migration_probe(VFIODevice *vbasedev, 
+Error **errp)
+          goto add_blocker;
+      }
+
++    ret = vfio_block_multiple_devices_migration(errp);
++    if (ret) {
++        return ret;
++    }
++
+      trace_vfio_migration_probe(vbasedev->name, info->index);
+      g_free(info);
+      return 0;
+@@ -906,6 +911,7 @@ void vfio_migration_finalize(VFIODevice *vbasedev)
+          qemu_del_vm_change_state_handler(migration->vm_state);
+          unregister_savevm(VMSTATE_IF(vbasedev->dev), "vfio", vbasedev);
+          vfio_migration_exit(vbasedev);
++        vfio_unblock_multiple_devices_migration();
+      }
+
+      if (vbasedev->migration_blocker) {
+
+
+Maybe also negate the if conditions and put the add/remove blocker code 
+inside it? Is it more readable this way?
+E.g.:
+
++int vfio_block_multiple_devices_migration(Error **errp)
++{
++    int ret = 0;
++
++    if (vfio_migratable_device_num() > 1 &&
++        !multiple_devices_migration_blocker) {
++        error_setg(&multiple_devices_migration_blocker,
++                   "Migration is currently not supported with multiple "
++                   "VFIO devices");
++        ret = migrate_add_blocker(multiple_devices_migration_blocker, 
+errp);
++        if (ret < 0) {
++            error_free(multiple_devices_migration_blocker);
++            multiple_devices_migration_blocker = NULL;
++        }
++    }
++
++    return ret;
++}
++
++void vfio_unblock_multiple_devices_migration(void)
++{
++    if (vfio_migratable_device_num() <= 1 &&
++        multiple_devices_migration_blocker) {
++        migrate_del_blocker(multiple_devices_migration_blocker);
++        error_free(multiple_devices_migration_blocker);
++        multiple_devices_migration_blocker = NULL;
++    }
++}
+
+Thanks.
 
