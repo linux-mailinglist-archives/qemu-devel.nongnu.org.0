@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3376768F857
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:50:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 348AA68F859
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:50:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPqRg-0000jc-So; Wed, 08 Feb 2023 14:49:32 -0500
+	id 1pPqRf-0000cc-DS; Wed, 08 Feb 2023 14:49:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pPqRU-0000WQ-5K
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:49:20 -0500
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pPqRW-0000Ww-GC
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:49:22 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pPqRS-00029s-Oy
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:49:19 -0500
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pPqRU-0002AS-Le
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:49:22 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B549A204C8;
- Wed,  8 Feb 2023 19:49:16 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E529620494;
+ Wed,  8 Feb 2023 19:49:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675885756; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1675885758; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y2g1+kQhjpByv+mFsWvtFRGNKbGq3IAYJvv3KGAB81A=;
- b=ULu2fQegugbCDaDfh2yLGTDkheG0QtWVzwnOEMs/OPo9AtqKFxt6omlpFXq/keTPN9EpOw
- dzfDus49wjMQSq5meEThAtf0tS2mcKguKkYcfYIxvBVbrg05Hq7QChYxiWJGbYR3WzNOl+
- yqvisKHctFY6d3zhy6nEQwoo7r74pH8=
+ bh=7KofdD8kQOCDl5fEESn1wqAGvGzSotgFEHsnJ+jaPQ8=;
+ b=1ttzVWJdXzurt3nNpFfIKAZLrOmtI7gtj6+MJ+jztN6l3oBUo8QRuGzye88MXgSgTrG+kd
+ pO4lri2/5HhKKp3y4J0KiEw/uViCFps0GbJcIsPL47yHuVQVtxDXuEJ7i8mrjbUEwy4O1f
+ JSC9yEanrwLh39KROTY0sa3z8uOa1OQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675885756;
+ s=susede2_ed25519; t=1675885758;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y2g1+kQhjpByv+mFsWvtFRGNKbGq3IAYJvv3KGAB81A=;
- b=AmrPCQoN5HLapTuyp16Ch6r1HxnAoP1wn6wq2CrQWGwa5Y+UDhMuW8gcjvx9oBBAif51an
- A5xaasgeX8wBE9BQ==
+ bh=7KofdD8kQOCDl5fEESn1wqAGvGzSotgFEHsnJ+jaPQ8=;
+ b=ILGOVEv/iPKYUVCGacw9OYZYYcnScjitzVgHCQg0fcex4iuX6CMePQTkHKFF5psmQjq0+4
+ V6RoRDxQWUqoxMAg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6469913425;
- Wed,  8 Feb 2023 19:49:15 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2DB9F13425;
+ Wed,  8 Feb 2023 19:49:16 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id qNSQC7v842OZIwAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 08 Feb 2023 19:49:15 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id IGrDObz842OZIwAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 08 Feb 2023 19:49:16 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 06/12] test/qtest: Fix coding style in device-plug-test.c
-Date: Wed,  8 Feb 2023 16:46:54 -0300
-Message-Id: <20230208194700.11035-7-farosas@suse.de>
+Subject: [PATCH v2 07/12] tests/qtest: Skip unplug tests that use missing
+ devices
+Date: Wed,  8 Feb 2023 16:46:55 -0300
+Message-Id: <20230208194700.11035-8-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230208194700.11035-1-farosas@suse.de>
 References: <20230208194700.11035-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
  helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -85,52 +86,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We should not mix declarations and statements in QEMU code.
-
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- tests/qtest/device-plug-test.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ tests/qtest/device-plug-test.c | 33 +++++++++++++++++++++++++++------
+ 1 file changed, 27 insertions(+), 6 deletions(-)
 
 diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
-index 5a6afa2b57..4f92617335 100644
+index 4f92617335..01cecd6e20 100644
 --- a/tests/qtest/device-plug-test.c
 +++ b/tests/qtest/device-plug-test.c
-@@ -64,6 +64,7 @@ static void process_device_remove(QTestState *qtest, const char *id)
- 
- static void test_pci_unplug_request(void)
- {
-+    QTestState *qtest;
+@@ -68,6 +68,11 @@ static void test_pci_unplug_request(void)
      const char *arch = qtest_get_arch();
      const char *machine_addition = "";
  
-@@ -71,8 +72,8 @@ static void test_pci_unplug_request(void)
++    if (!qtest_has_device("virtio-mouse-pci")) {
++        g_test_skip("Device virtio-mouse-pci not available");
++        return;
++    }
++
+     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
          machine_addition = "-machine pc";
      }
+@@ -82,11 +87,17 @@ static void test_pci_unplug_request(void)
  
--    QTestState *qtest = qtest_initf("%s -device virtio-mouse-pci,id=dev0",
--                                    machine_addition);
-+    qtest = qtest_initf("%s -device virtio-mouse-pci,id=dev0",
-+                        machine_addition);
+ static void test_q35_pci_unplug_request(void)
+ {
++    QTestState *qtest;
++
++    if (!qtest_has_device("virtio-mouse-pci")) {
++        g_test_skip("Device virtio-mouse-pci not available");
++        return;
++    }
+ 
+-    QTestState *qtest = qtest_initf("-machine q35 "
+-                                    "-device pcie-root-port,id=p1 "
+-                                    "-device pcie-pci-bridge,bus=p1,id=b1 "
+-                                    "-device virtio-mouse-pci,bus=b1,id=dev0");
++    qtest = qtest_initf("-machine q35 "
++                        "-device pcie-root-port,id=p1 "
++                        "-device pcie-pci-bridge,bus=p1,id=b1 "
++                        "-device virtio-mouse-pci,bus=b1,id=dev0");
  
      process_device_remove(qtest, "dev0");
  
-@@ -94,6 +95,7 @@ static void test_q35_pci_unplug_request(void)
- 
- static void test_pci_unplug_json_request(void)
- {
-+    QTestState *qtest;
+@@ -99,6 +110,11 @@ static void test_pci_unplug_json_request(void)
      const char *arch = qtest_get_arch();
      const char *machine_addition = "";
  
-@@ -101,7 +103,7 @@ static void test_pci_unplug_json_request(void)
++    if (!qtest_has_device("virtio-mouse-pci")) {
++        g_test_skip("Device virtio-mouse-pci not available");
++        return;
++    }
++
+     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
          machine_addition = "-machine pc";
      }
+@@ -114,6 +130,7 @@ static void test_pci_unplug_json_request(void)
  
--    QTestState *qtest = qtest_initf(
-+    qtest = qtest_initf(
-         "%s -device \"{'driver': 'virtio-mouse-pci', 'id': 'dev0'}\"",
-         machine_addition);
+ static void test_q35_pci_unplug_json_request(void)
+ {
++    QTestState *qtest;
+     const char *port = "-device \"{'driver': 'pcie-root-port', "
+                                   "'id': 'p1'}\"";
+ 
+@@ -125,8 +142,12 @@ static void test_q35_pci_unplug_json_request(void)
+                                     "'bus': 'b1', "
+                                     "'id': 'dev0'}\"";
+ 
+-    QTestState *qtest = qtest_initf("-machine q35 %s %s %s",
+-                                    port, bridge, device);
++    if (!qtest_has_device("virtio-mouse-pci")) {
++        g_test_skip("Device virtio-mouse-pci not available");
++        return;
++    }
++
++    qtest = qtest_initf("-machine q35 %s %s %s", port, bridge, device);
+ 
+     process_device_remove(qtest, "dev0");
  
 -- 
 2.35.3
