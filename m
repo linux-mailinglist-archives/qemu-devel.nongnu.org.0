@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94F9168F851
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:49:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43FB668F858
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:50:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPqRk-0000yr-6x; Wed, 08 Feb 2023 14:49:36 -0500
+	id 1pPqRj-0000sS-3g; Wed, 08 Feb 2023 14:49:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pPqRb-0000Zx-9d
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:49:27 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pPqRd-0000cJ-9A; Wed, 08 Feb 2023 14:49:29 -0500
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pPqRZ-0002Bd-Qa
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:49:27 -0500
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pPqRb-0002Bv-T0; Wed, 08 Feb 2023 14:49:29 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 79176204C8;
- Wed,  8 Feb 2023 19:49:24 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7AF8D34584;
+ Wed,  8 Feb 2023 19:49:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675885764; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1675885766; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0LWcPXd+cMTdYpxhngoCilyYTgKComXqOkG1xXMqbgc=;
- b=br6xNbPRjd/8vQ1+qa4ESvegAMoYIr2l4vnlB5zwUvZ8UYDLFqnH2IBP9O6znsTUUcsDrC
- vlsRMjdQnnJwpL6aVPX3XDw3LYe9AHnx4GsoCKqmyOOQ/AgRv6h7FOAvC0mOcrt1JjbjlD
- CMpgfKqQRLfbDoscW8s7dwNCBDOvHtg=
+ bh=lNOgaxaBqZWtL1bb/vPjoRU9TOyq+Glv5gJiTpPG2Ec=;
+ b=UZD9JC1OWez1NtQGRiFOvVF/ub+yBdwJtPxRI4jCY92dFn7r8Ac5i9V9Rf/dF46AxXRU6x
+ s69fecBLj3sO/QE3rn6+A0ScRDXAaQWy9lipoWDgunkQWol+e5XlmFQknDQGi17CMK1sRQ
+ WsL98m/0424gHip/5hxOBPfu7d0aWt8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675885764;
+ s=susede2_ed25519; t=1675885766;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0LWcPXd+cMTdYpxhngoCilyYTgKComXqOkG1xXMqbgc=;
- b=9/9dahdSC+Dg0gAZk4brxrhfJSvp0R+/Mz3VAMr7ivK8LFkcntrFjA552l0s33MFbgljzv
- klUs30dched6/jAg==
+ bh=lNOgaxaBqZWtL1bb/vPjoRU9TOyq+Glv5gJiTpPG2Ec=;
+ b=cwvVvBqMB6l4CSg2K+WDtG4R42KajW69QM6L4WOY/xP6gvx7kBd15hf2zJKCYIroH5oGC5
+ bPuCcmInqVtvwzBw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2881113425;
- Wed,  8 Feb 2023 19:49:22 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E1F9313425;
+ Wed,  8 Feb 2023 19:49:24 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id MJ6yOML842OZIwAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 08 Feb 2023 19:49:22 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id gOFLKsT842OZIwAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 08 Feb 2023 19:49:24 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 10/12] tests/qtest: Do not include hexloader-test if loader
- device is not present
-Date: Wed,  8 Feb 2023 16:46:58 -0300
-Message-Id: <20230208194700.11035-11-farosas@suse.de>
+Cc: Thomas Huth <thuth@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+Subject: [PATCH v2 11/12] tests/qemu-iotests: Require virtio-scsi-pci
+Date: Wed,  8 Feb 2023 16:46:59 -0300
+Message-Id: <20230208194700.11035-12-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230208194700.11035-1-farosas@suse.de>
 References: <20230208194700.11035-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -86,29 +85,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Fabiano Rosas <farosas@suse.de>
----
- tests/qtest/meson.build | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Check that virtio-scsi-pci is present in the QEMU build before running
+the tests.
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index eccdfca235..c6dba4f87e 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -197,11 +197,11 @@ qtests_arm = \
-   (config_all_devices.has_key('CONFIG_PFLASH_CFI02') ? ['pflash-cfi02-test'] : []) +         \
-   (config_all_devices.has_key('CONFIG_ASPEED_SOC') ? qtests_aspeed : []) + \
-   (config_all_devices.has_key('CONFIG_NPCM7XX') ? qtests_npcm7xx : []) + \
-+  (config_all_devices.has_key('CONFIG_GENERIC_LOADER') ? ['hexloader-test'] : []) + \
-   ['arm-cpu-features',
-    'microbit-test',
-    'test-arm-mptimer',
--   'boot-serial-test',
--   'hexloader-test']
-+   'boot-serial-test']
+Signed-off-by: Fabiano Rosas <farosas@suse.de>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/qemu-iotests/186 | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/tests/qemu-iotests/186 b/tests/qemu-iotests/186
+index 072e54e62b..eaf13c7a33 100755
+--- a/tests/qemu-iotests/186
++++ b/tests/qemu-iotests/186
+@@ -40,6 +40,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file fuse
+ _require_drivers null-co
++_require_devices virtio-scsi-pci
  
- # TODO: once aarch64 TCG is fixed on ARM 32 bit host, make bios-tables-test unconditional
- qtests_aarch64 = \
+ if [ "$QEMU_DEFAULT_MACHINE" != "pc" ]; then
+     _notrun "Requires a PC machine"
 -- 
 2.35.3
 
