@@ -2,151 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC1D568F434
+	by mail.lfdr.de (Postfix) with ESMTPS id AD2A268F433
 	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 18:18:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPo43-0001up-Lp; Wed, 08 Feb 2023 12:16:59 -0500
+	id 1pPo52-0002la-Kr; Wed, 08 Feb 2023 12:18:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1pPo3x-0001u0-GK; Wed, 08 Feb 2023 12:16:53 -0500
-Received: from mail-mw2nam10on20621.outbound.protection.outlook.com
- ([2a01:111:f400:7e89::621]
- helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pPo51-0002lJ-Dt
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 12:17:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1pPo3u-0005iB-C9; Wed, 08 Feb 2023 12:16:52 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ht0U5W3nkKpb1N+lYGCrLpnqi8TTPgMQsuGhWkBLvyevDETCFOwi4JiybK3KRn0i7N28m1z6fpWK1aRvdQQVOf/2jawk5CUf78zpB28Jv5X4u/S6HVJkBMLhfYuf98feqcqxheNFebfBcisoDCwrSrhX31qU9Ap4aUNsP7dZaFuNd6hUPE+7yKytLzKUJyNki98J5DGqdUqVktrOxZn8imFWKuCOHH4aa8X5ARODtbv9tmnpdCC9/O57XRDEObzjeq6VQ7UP178kgDfAbUpNUEWqpK96ewk6oC0grCXIMSj7qkODW35PfkXZM4pkpqYul1B0MkMvcjBlD7QgEUxADg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KVMSnPtaFhxOk8rKO2vO07JuzMBU0UC5XWWCi4p792w=;
- b=FJdeiuQ3RKVaHcyKlLSrYof9IJAq0vje15ulwYs2A9/rp7uXOm4nyo+/8Eh8vKukVuHRN3zJpd+ebQoLxqgmiXxJo0ChTzybPlSvf/Vfmfs+36rOTxOS8SIILC480njuYQeOsygXF7rPqI3Klr2QzpfgUh5DeJgTMEvtnU0J9FREj9F0BP2woidJK4+2YAXgjdoQpVMxxrUzi7/SdKRD6BAizPd5qxsur1vLW6PeW5ozT5fyYHeahrLun3eTC7Rq8X3WBFZdxnSkIjqpOmh68hxicC/rEnP+vPzqZ959NgEj6Gh0R17pSs/WGqoBfst/774MhNPEnBIrZ0stnx+oPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KVMSnPtaFhxOk8rKO2vO07JuzMBU0UC5XWWCi4p792w=;
- b=Zg9g4d0EQzGRFRl3iJBIEwb1p29IEk4x/l6MJ+ukUBFXQPDW70iCmKiOLS3ZSUnwFpc1NueHMQPvPOW8isfiIdOi2c7Hw6n+KjR1lXeuMCOP/+6TlIApeoXfC+1LpLdPbiPJnlqiz/Epg78T2odKCwHA3tNEgpcoHxIaKYbTXG89kO+LLtKh9I8gWvJwxdT1A3KJfdp+T8cgedWPDhbg1ONKBwdilmTAPZ/zybJPgguzuGHpm9+5DFpMZF2+8Cexst0BtVK5uyFwnBruVvZNVyfudNkONN5kRKU+SsCBLrfVfdR4mkIVeWcRUE38/L9DYX+RBFo3BbtQy6b/IIheUA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB5549.namprd12.prod.outlook.com (2603:10b6:5:209::13)
- by IA0PR12MB7649.namprd12.prod.outlook.com (2603:10b6:208:437::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.34; Wed, 8 Feb
- 2023 17:16:44 +0000
-Received: from DM6PR12MB5549.namprd12.prod.outlook.com
- ([fe80::451d:1f37:aa83:f425]) by DM6PR12MB5549.namprd12.prod.outlook.com
- ([fe80::451d:1f37:aa83:f425%5]) with mapi id 15.20.6086.017; Wed, 8 Feb 2023
- 17:16:44 +0000
-Message-ID: <581f7d29-00f3-ee0b-c14c-42fdae308699@nvidia.com>
-Date: Wed, 8 Feb 2023 19:16:34 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v9 07/14] vfio/migration: Block multiple devices migration
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>
-Cc: qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- John Snow <jsnow@redhat.com>, qemu-s390x@nongnu.org, qemu-block@nongnu.org,
- Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-References: <20230206123137.31149-1-avihaih@nvidia.com>
- <20230206123137.31149-8-avihaih@nvidia.com>
- <20230207153454.4e1a0c51.alex.williamson@redhat.com>
- <238b17d1-17a3-e5d1-2973-4bda83928d6e@nvidia.com>
- <fcb9bda8-6d95-6109-ae5b-beeb9aa63af2@redhat.com>
-From: Avihai Horon <avihaih@nvidia.com>
-In-Reply-To: <fcb9bda8-6d95-6109-ae5b-beeb9aa63af2@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO2P123CA0052.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1::16) To DM6PR12MB5549.namprd12.prod.outlook.com
- (2603:10b6:5:209::13)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pPo4x-0006xp-Ll
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 12:17:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675876674;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=icxbo8DGfkmmT9ZQXJ2JYP1sgFYnwUBmXDcj1IPgq4k=;
+ b=DiXNbrHx+AGZNvRThqSuDJci2EsXuxyPl64+DedKul7VyIzUljSeQNwmRG7/3SzbmmY8/U
+ 626R48nCjaXejadClAN2/AN4V0lwt6QOPqv6gLO7/W6BadGahGKl09uNgjri36gbUOw7K3
+ uq/Uga0hxfa21wbO0fsVvonF2K5tmyk=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-651-6MDKBl-INUuaU15KExEACA-1; Wed, 08 Feb 2023 12:17:52 -0500
+X-MC-Unique: 6MDKBl-INUuaU15KExEACA-1
+Received: by mail-pg1-f197.google.com with SMTP id
+ 84-20020a630257000000b00477f88d334eso8532196pgc.11
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 09:17:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=icxbo8DGfkmmT9ZQXJ2JYP1sgFYnwUBmXDcj1IPgq4k=;
+ b=8FdBDgQ8bSRZ9grXzXXn/lfhRxD0vKbj1QONQ/vroI+HiXzc6cVQAmX2JvRG+X8Ge2
+ zy9dWN+OcFOgRWpo4LTsVJBR0jc2qqocachOHK3DUf7ydkLWboWYZK6zc6mi4j/h0mEO
+ yZKXTM2nCjfhOpId7SmGt6dhckpZ7niPPBWEBmG3ydWVOptrzdtK2mFPuwDsiAHS90sR
+ 8jovNxbFDXYaV3Uda647SCpn2OP9j+g+CY0GDIRpJH/Th5YVfv23uwA+90WTZBM6Hth1
+ tcQLeFFtQn/x25QoiCQ9aVqS3LcYt0QkCWQgwbf2A5iqPYDknNaVS/6SRtzs6fVglopo
+ ckbg==
+X-Gm-Message-State: AO0yUKXkGa2jli8813x2Vy27/G6JkqycvvHLb5/jofFik6FFd5lnHv06
+ h9c7qtGamX83RxBPUXmqE2wipLounVjL88i+2d3V8vCZvmPRS5+H8zMyaDjxFjHc0IQXrXJ7FXC
+ CMjXO+/ZfSDcqNo9B6/XzbpU/rENu1IA=
+X-Received: by 2002:a17:90a:474e:b0:231:2375:4c7b with SMTP id
+ y14-20020a17090a474e00b0023123754c7bmr352506pjg.64.1675876671026; 
+ Wed, 08 Feb 2023 09:17:51 -0800 (PST)
+X-Google-Smtp-Source: AK7set+Z6KtVb+idNtoJY/XtS/UYOJ73Vqs6GsRwsYTHDgABLp15b47Iyz6103P62JDm8XpSBc9j32hoi6fYjtROBTQ=
+X-Received: by 2002:a17:90a:474e:b0:231:2375:4c7b with SMTP id
+ y14-20020a17090a474e00b0023123754c7bmr352492pjg.64.1675876670290; Wed, 08 Feb
+ 2023 09:17:50 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB5549:EE_|IA0PR12MB7649:EE_
-X-MS-Office365-Filtering-Correlation-Id: 350e6d6e-5a41-4ff8-55f5-08db09f840b2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: o71NO84KG2eWjEl4NGqkB/1IxTQE1HXsRsmFtgWECRusYrhSrk9WtRpsPz7FrJ6iUMlw+EuQ9f1JmUMpTptmSl6l/A8rsdpA0IajzGw7aO8I7LQ5WZkAgIUuBMCJYyrOoKPMkIUfSt9hPM/2XRy0YwRMS0yZmkz6uuM6SXPNoFlvhCZ4mlSCq5TP6Hs0awzAN8F62KqrCxgMUm+0PdhoYtJ1jXeIGPx1KWFWXwl10QCFWjWcuPaXZTi1okkjFM+FC9ndc8OP+DVo8fK1jefLelBKX7+I87udieFcMzms6BD/GTweUijE0yFjnmpW8SinIdXy2/18Zaek/CdLmIgNFNyzjqJabLmCHAzLEuQD63at9pS9rh3Zyh5AALkG9wW7JrZA6swsz5+zI3a2sNaYWMawD5bP3t9LLDNVzOXweNmChscKyjs1buUXZmqvHUPcKlQjPG6cIEofU079kxsJ3aUXVZuLv6btCRRey9p02pHbISyiVY2G3CRVOrj58P/p4T2vYGbbMp9igetINpXgM3gTazj4gZGAR3QyyVd7RXfJcs3/1ZB/QY80FD5nlN5T9xZc/kbTZ0k4n+40pxWRAWCs94WJGJQvgmBlgb+G6/4+12A+v8WObOJCqK9YBOKJV3CtfL3bLICKmG58Y4qRb9Lw2/pkwxVlpl65DC4CY30n+mNI0GE2naly+u0N9mDbkJ6iceJyVM9sr6fQcpHwS57e+fQSs+MSglbafTG9IA0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB5549.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(39860400002)(366004)(346002)(136003)(396003)(376002)(451199018)(2906002)(31696002)(5660300002)(7416002)(38100700002)(6486002)(478600001)(31686004)(6506007)(53546011)(6512007)(83380400001)(66574015)(26005)(36756003)(86362001)(6666004)(186003)(2616005)(41300700001)(66476007)(66556008)(8676002)(4326008)(8936002)(316002)(66946007)(54906003)(110136005)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RGxPV3BNbVROa2VDU3BXM3ZQRFAyMVZNYlhtV1pqdmJXQkZEUG5iZVN4dlZr?=
- =?utf-8?B?VnN5Vi9qaW5US0sreXRNZTJLWWgrV1VYKzRtbE4wam0zUWx4M0F0aG00bXFm?=
- =?utf-8?B?aFVVcHhyUmpaeGJNMXova2drVUFSQmMxR09WQUZhb296amd1dDBvM3A0Uk9T?=
- =?utf-8?B?YzVoTWxieExlbHMrdjFQNXpmZUJrT2pqaTR2bFRCSDF0OGROb3BVaEVZcW1a?=
- =?utf-8?B?aHovaGExUE5HUVh3Skk4N3ZUVUhFaDkrMWQ2bzVjN2lTRFhmcmdDZXNyYzV2?=
- =?utf-8?B?OWc4dlpRMFUyLy9obHRqRVh4SHA4SitIK3hqV3FYSlZienVHM05VUGVFMW9i?=
- =?utf-8?B?RWtBWWR4YWhMbkFpUXFPR25mSGUyYUcrSlRETEZXbkpWSjlzam1zOHc0SmQy?=
- =?utf-8?B?cWgyODM0NEcwSzdyUEtxYUdoOHZldnhINGxVZ0xBOHJnN2dzNEh1RHQzeG5U?=
- =?utf-8?B?REUxbCtSc2k1OGN3Y1VTa1BoZFFrOFErUEdXdDBKWEtRVkpGZUEza1UvbjFE?=
- =?utf-8?B?SjJzUVJacExqSW1iTFBoSGNhSWJ0VUhYRjVXNEgrZU5ZdGZheTI1UzNwc011?=
- =?utf-8?B?YU1GWEN1ZE9CTmNMZ2ZKaXRIUTJ5K1R4Qm1zOXVTL1o4aFkySmwrenFMbWtB?=
- =?utf-8?B?NzJKUlN6ZWs5dytkVzZUNW9kN3pDaWRwMHVpRERQQWZZZk0rVDZTVlZYRDlW?=
- =?utf-8?B?T0F0czhtTE5PNDY5dFBaTThJTWZzR01kYzVqb2dBeFcwZ2JVcnNwWWdYNFBi?=
- =?utf-8?B?aUFESlk1M2h4RUFEVDJhaXNoV1JWU2RRYk1uZEU1RHgyUTJOOUkrWGFoUXZh?=
- =?utf-8?B?SHE2ZEUxMFFLdGlzbFhzcG92dG9Ib3grZFZWZmVGU081YkYzSXNKeVVzMXhC?=
- =?utf-8?B?TzRvc2hrNFRCUncxd0NjMDBJaWZmVEFOMkJxcVJmNEhFR0FBKzZoVG01Vm5x?=
- =?utf-8?B?MzR0RFRxOGplRjcrallNdTBwTXBhTXVpdEhnU2hSVWZPa0kvS2tpb2g3Y1F0?=
- =?utf-8?B?K29WU0FsUThtSzVjOTJ2cUxnVlJBZVUxMjJ2N2ZNQjBnMUVQeEkwZjhVQk1z?=
- =?utf-8?B?cGIrMWxjQ3IxWmJ5NWt2VFJveUlsV2c4L01oTVRST3VQZXE3NVlYSmhiaFR3?=
- =?utf-8?B?RFdFMzM2TFN4c0Y0LzFhVGZZOEIrSVd5Nm1KcVNJc1VOajdKN1N6S1JOZzlj?=
- =?utf-8?B?MWRIR2gwK0tDbUx5YWl2dmhtRXBYaHM5a3k5VWVLMkRoaUVvYTNMWFlrMDUx?=
- =?utf-8?B?Zis2bFFGMFBlSDFhdjg0Vm4vQUZycE1VS25oUU1lbWRBVDZFRFNPWGNRTnQ5?=
- =?utf-8?B?Vk1EclV1ZUFjd24rbWlVUzBZWk1uNnRiV2ZoZElJalNWV1F0T094cU9KV2E2?=
- =?utf-8?B?dnp6MlpLWVZ3bHlEMHozbVlubEltSi8wYWthVTE2ckE3VE1JUnErZ3hLVHg0?=
- =?utf-8?B?SUU3Qkd5b2JVai9veWV5UHhHWDJ3bmN3ak9rZlM0dTNxMS9KVUp1QmZLMUhq?=
- =?utf-8?B?bzc4OGl2a3FSU3htRkdWTU5sczNYQmE2TEprdHJGWUZOYWNRZDVOZVJ2aHBP?=
- =?utf-8?B?VVhocy9iKzlqcmRVVm9INFN1bW44dmNjalEzL0lyd2tTVDlLNTFDbXRPREQv?=
- =?utf-8?B?Y2Z6Tzl6dUhDQk5OWnNibDV1NTZXblgyV2JuNS9od09tMk93Nk4xQWhPRTEw?=
- =?utf-8?B?djN6VGNqMEJ5V29UZnVUblREVmtHWUdNVGF6YnVUVU94VEVpRnRoOEE2clhV?=
- =?utf-8?B?MlVOVEhmaDlpUklVNllQeTlwTEI3T2NsbVI4aVpUTDJnNkN4Ym5ML1JZemRZ?=
- =?utf-8?B?bjNvdlQzakd6VzgraDZrQUdLaGNodjBtdHdhaDhSVkVxRXNwVEFEQWR3bFNQ?=
- =?utf-8?B?YlhsMklHaVdPQ2ovU256Z0dhS2VLOVc5WWJDV0FyTlovcDdOR2ZNNE9rTk9o?=
- =?utf-8?B?QlBwamtGeHFFVGJVdUVQQkZVcmgvbVJHWkNsVEtSS3JWRndiOTU3bWQ1WnZX?=
- =?utf-8?B?OUJWSmRtZ0hLdk5OTkRNRmVmWGRqYURSeUJQVlhONW0rZzhFMW91VXVGK0NQ?=
- =?utf-8?B?dzJWZzdOU0RDcThWQzBOSkt6dElJay8rOEZ2T0xCeHpTeXdDMlErcnk4YW1V?=
- =?utf-8?Q?v01GDcVO8ZiJDMpuTJwKkTpQ1?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 350e6d6e-5a41-4ff8-55f5-08db09f840b2
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB5549.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2023 17:16:44.7055 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lkcw1+Sp3wEgPYHOCtp4q2aVoiuaSA+WV2o9bp2OMNKHUpdFK1GSRtSaGsDnj+VqgEPVDLkTN0JxMsysVxKudg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7649
-Received-SPF: softfail client-ip=2a01:111:f400:7e89::621;
- envelope-from=avihaih@nvidia.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+References: <20230208021306.870657-1-jsnow@redhat.com>
+ <20230208021306.870657-6-jsnow@redhat.com>
+ <87cz6kunnv.fsf@pond.sub.org>
+In-Reply-To: <87cz6kunnv.fsf@pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 8 Feb 2023 12:17:39 -0500
+Message-ID: <CAFn=p-YzaURtQnTbPDSMZsYDj2BDhn8b+mg4Mogtpow=engcqw@mail.gmail.com>
+Subject: Re: [PATCH v2 5/7] qapi/parser: [RFC] add QAPIExpression
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.146, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -163,80 +93,789 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-On 08/02/2023 18:44, Cédric Le Goater wrote:
-> External email: Use caution opening links or attachments
+On Wed, Feb 8, 2023 at 11:28 AM Markus Armbruster <armbru@redhat.com> wrote=
+:
 >
+> John Snow <jsnow@redhat.com> writes:
 >
-> On 2/8/23 14:08, Avihai Horon wrote:
->>
->> On 08/02/2023 0:34, Alex Williamson wrote:
->>> External email: Use caution opening links or attachments
->>>
->>>
->>> On Mon, 6 Feb 2023 14:31:30 +0200
->>> Avihai Horon <avihaih@nvidia.com> wrote:
->>>
->>>> Currently VFIO migration doesn't implement some kind of intermediate
->>>> quiescent state in which P2P DMAs are quiesced before stopping or
->>>> running the device. This can cause problems in multi-device migration
->>>> where the devices are doing P2P DMAs, since the devices are not 
->>>> stopped
->>>> together at the same time.
->>>>
->>>> Until such support is added, block migration of multiple devices.
->>>>
->>>> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
->>>> ---
->>>>   include/hw/vfio/vfio-common.h |  2 ++
->>>>   hw/vfio/common.c              | 51 
->>>> +++++++++++++++++++++++++++++++++++
->>>>   hw/vfio/migration.c           |  6 +++++
->>>>   3 files changed, 59 insertions(+)
->>>>
->>>> diff --git a/include/hw/vfio/vfio-common.h 
->>>> b/include/hw/vfio/vfio-common.h
->>>> index e573f5a9f1..56b1683824 100644
->>>> --- a/include/hw/vfio/vfio-common.h
->>>> +++ b/include/hw/vfio/vfio-common.h
->>>> @@ -218,6 +218,8 @@ typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) 
->>>> VFIOGroupList;
->>>>   extern VFIOGroupList vfio_group_list;
->>>>
->>>>   bool vfio_mig_active(void);
->>>> +int vfio_block_multiple_devices_migration(Error **errp);
->>>> +void vfio_unblock_multiple_devices_migration(void);
->>>>   int64_t vfio_mig_bytes_transferred(void);
->>>>
->>>>   #ifdef CONFIG_LINUX
->>>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->>>> index 3a35f4afad..01db41b735 100644
->>>> --- a/hw/vfio/common.c
->>>> +++ b/hw/vfio/common.c
->>>> @@ -41,6 +41,7 @@
->>>>   #include "qapi/error.h"
->>>>   #include "migration/migration.h"
->>>>   #include "migration/misc.h"
->>>> +#include "migration/blocker.h"
->>>>   #include "sysemu/tpm.h"
->>>>
->>>>   VFIOGroupList vfio_group_list =
->>>> @@ -337,6 +338,56 @@ bool vfio_mig_active(void)
->>>>       return true;
->>>>   }
->>>>
->>>> +Error *multiple_devices_migration_blocker;
+> > The idea here is to combine 'TopLevelExpr' and 'ParsedExpression' into
+> > one type that accomplishes the purposes of both types;
+> >
+> > 1. TopLevelExpr is meant to represent a JSON Object, but only those tha=
+t
+> > represent what qapi-schema calls a TOP-LEVEL-EXPR, i.e. definitions,
+> > pragmas, and includes.
+> >
+> > 2. ParsedExpression is meant to represent a container around the above
+> > type, alongside QAPI-specific metadata -- the QAPISourceInfo and QAPIDo=
+c
+> > objects.
+> >
+> > We can actually just roll these up into one type: A python mapping that
+> > has the metadata embedded directly inside of it.
 >
-> static ?
+> On the general idea: yes, please!  Gets rid of "TopLevelExpr and
+> _JSONObject are the same, except semantically, but nothing checks that",
+> which I never liked.
+
+I prefer them to be checked/enforced too; I'll admit to trying to do
+"a little less" to try and invoke less magic, especially in Python
+3.6. The best magic comes in later versions.
+
 >
-Yes, I will add.
+> > NB: This necessitates a change of typing for check_if() and
+> > check_keys(), because mypy does not believe UserDict[str, object] =E2=
+=8A=86
+> > Dict[str, object]. It will, however, accept Mapping or
+> > MutableMapping. In this case, the immutable form is preferred as an
+> > input parameter because we don't actually mutate the input.
+> >
+> > Without this change, we will observe:
+> > qapi/expr.py:631: error: Argument 1 to "check_keys" has incompatible
+> > type "QAPIExpression"; expected "Dict[str, object]"
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >  scripts/qapi/expr.py   | 133 +++++++++++++++++++----------------------
+> >  scripts/qapi/parser.py |  43 ++++++++-----
+> >  scripts/qapi/schema.py | 105 ++++++++++++++++----------------
+> >  3 files changed, 142 insertions(+), 139 deletions(-)
+> >
+> > diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+> > index 95a25758fed..83fa7a85b06 100644
+> > --- a/scripts/qapi/expr.py
+> > +++ b/scripts/qapi/expr.py
+> > @@ -34,9 +34,9 @@
+> >  import re
+> >  from typing import (
+> >      Collection,
+> > -    Dict,
+> >      Iterable,
+> >      List,
+> > +    Mapping,
+> >      Optional,
+> >      Union,
+> >      cast,
+> > @@ -44,7 +44,7 @@
+> >
+> >  from .common import c_name
+> >  from .error import QAPISemError
+> > -from .parser import ParsedExpression, TopLevelExpr
+> > +from .parser import QAPIExpression
+> >  from .source import QAPISourceInfo
+> >
+> >
+> > @@ -53,7 +53,7 @@
+> >  # here (and also not practical as long as mypy lacks recursive
+> >  # types), because the purpose of this module is to interrogate that
+> >  # type.
+> > -_JSONObject =3D Dict[str, object]
+> > +_JSONObject =3D Mapping[str, object]
+> >
+> >
+> >  # See check_name_str(), below.
+> > @@ -229,12 +229,11 @@ def pprint(elems: Iterable[str]) -> str:
+> >                 pprint(unknown), pprint(allowed)))
+> >
+> >
+> > -def check_flags(expr: TopLevelExpr, info: QAPISourceInfo) -> None:
+> > +def check_flags(expr: QAPIExpression) -> None:
+> >      """
+> >      Ensure flag members (if present) have valid values.
+> >
+> > -    :param expr: The `TopLevelExpr` to validate.
+> > -    :param info: QAPI schema source file information.
+> > +    :param expr: The `QAPIExpression` to validate.
+> >
+> >      :raise QAPISemError:
+> >          When certain flags have an invalid value, or when
+> > @@ -243,18 +242,18 @@ def check_flags(expr: TopLevelExpr, info: QAPISou=
+rceInfo) -> None:
+> >      for key in ('gen', 'success-response'):
+> >          if key in expr and expr[key] is not False:
+> >              raise QAPISemError(
+> > -                info, "flag '%s' may only use false value" % key)
+> > +                expr.info, "flag '%s' may only use false value" % key)
+> >      for key in ('boxed', 'allow-oob', 'allow-preconfig', 'coroutine'):
+> >          if key in expr and expr[key] is not True:
+> >              raise QAPISemError(
+> > -                info, "flag '%s' may only use true value" % key)
+> > +                expr.info, "flag '%s' may only use true value" % key)
+> >      if 'allow-oob' in expr and 'coroutine' in expr:
+> >          # This is not necessarily a fundamental incompatibility, but
+> >          # we don't have a use case and the desired semantics isn't
+> >          # obvious.  The simplest solution is to forbid it until we get
+> >          # a use case for it.
+> > -        raise QAPISemError(info, "flags 'allow-oob' and 'coroutine' "
+> > -                                 "are incompatible")
+> > +        raise QAPISemError(
+> > +            expr.info, "flags 'allow-oob' and 'coroutine' are incompat=
+ible")
+> >
+> >
+> >  def check_if(expr: _JSONObject, info: QAPISourceInfo, source: str) -> =
+None:
+> > @@ -447,12 +446,11 @@ def check_features(features: Optional[object],
+> >          check_if(feat, info, source)
+> >
+> >
+> > -def check_enum(expr: TopLevelExpr, info: QAPISourceInfo) -> None:
+> > +def check_enum(expr: QAPIExpression) -> None:
+> >      """
+> > -    Normalize and validate this `TopLevelExpr` as an ``enum`` definiti=
+on.
+> > +    Normalize and validate this `QAPIExpression` as an ``enum`` defini=
+tion.
+> >
+> >      :param expr: The expression to validate.
+> > -    :param info: QAPI schema source file information.
+> >
+> >      :raise QAPISemError: When ``expr`` is not a valid ``enum``.
+> >      :return: None, ``expr`` is normalized in-place as needed.
+> > @@ -462,36 +460,35 @@ def check_enum(expr: TopLevelExpr, info: QAPISour=
+ceInfo) -> None:
+> >      prefix =3D expr.get('prefix')
+> >
+> >      if not isinstance(members, list):
+> > -        raise QAPISemError(info, "'data' must be an array")
+> > +        raise QAPISemError(expr.info, "'data' must be an array")
+> >      if prefix is not None and not isinstance(prefix, str):
+> > -        raise QAPISemError(info, "'prefix' must be a string")
+> > +        raise QAPISemError(expr.info, "'prefix' must be a string")
+> >
+> > -    permissive =3D name in info.pragma.member_name_exceptions
+> > +    permissive =3D name in expr.info.pragma.member_name_exceptions
+> >
+> >      members[:] =3D [m if isinstance(m, dict) else {'name': m}
+> >                    for m in members]
+> >      for member in members:
+> >          source =3D "'data' member"
+> > -        check_keys(member, info, source, ['name'], ['if', 'features'])
+> > +        check_keys(member, expr.info, source, ['name'], ['if', 'featur=
+es'])
+> >          member_name =3D member['name']
+> > -        check_name_is_str(member_name, info, source)
+> > +        check_name_is_str(member_name, expr.info, source)
+> >          source =3D "%s '%s'" % (source, member_name)
+> >          # Enum members may start with a digit
+> >          if member_name[0].isdigit():
+> >              member_name =3D 'd' + member_name  # Hack: hide the digit
+> > -        check_name_lower(member_name, info, source,
+> > +        check_name_lower(member_name, expr.info, source,
+> >                           permit_upper=3Dpermissive,
+> >                           permit_underscore=3Dpermissive)
+> > -        check_if(member, info, source)
+> > -        check_features(member.get('features'), info)
+> > +        check_if(member, expr.info, source)
+> > +        check_features(member.get('features'), expr.info)
+> >
+> >
+> > -def check_struct(expr: TopLevelExpr, info: QAPISourceInfo) -> None:
+> > +def check_struct(expr: QAPIExpression) -> None:
+> >      """
+> > -    Normalize and validate this `TopLevelExpr` as a ``struct`` definit=
+ion.
+> > +    Normalize and validate this `QAPIExpression` as a ``struct`` defin=
+ition.
+> >
+> >      :param expr: The expression to validate.
+> > -    :param info: QAPI schema source file information.
+> >
+> >      :raise QAPISemError: When ``expr`` is not a valid ``struct``.
+> >      :return: None, ``expr`` is normalized in-place as needed.
+> > @@ -499,16 +496,15 @@ def check_struct(expr: TopLevelExpr, info: QAPISo=
+urceInfo) -> None:
+> >      name =3D cast(str, expr['struct'])  # Checked in check_exprs
+> >      members =3D expr['data']
+> >
+> > -    check_type(members, info, "'data'", allow_dict=3Dname)
+> > -    check_type(expr.get('base'), info, "'base'")
+> > +    check_type(members, expr.info, "'data'", allow_dict=3Dname)
+> > +    check_type(expr.get('base'), expr.info, "'base'")
+> >
+> >
+> > -def check_union(expr: TopLevelExpr, info: QAPISourceInfo) -> None:
+> > +def check_union(expr: QAPIExpression) -> None:
+> >      """
+> > -    Normalize and validate this `TopLevelExpr` as a ``union`` definiti=
+on.
+> > +    Normalize and validate this `QAPIExpression` as a ``union`` defini=
+tion.
+> >
+> >      :param expr: The expression to validate.
+> > -    :param info: QAPI schema source file information.
+> >
+> >      :raise QAPISemError: when ``expr`` is not a valid ``union``.
+> >      :return: None, ``expr`` is normalized in-place as needed.
+> > @@ -518,25 +514,24 @@ def check_union(expr: TopLevelExpr, info: QAPISou=
+rceInfo) -> None:
+> >      discriminator =3D expr['discriminator']
+> >      members =3D expr['data']
+> >
+> > -    check_type(base, info, "'base'", allow_dict=3Dname)
+> > -    check_name_is_str(discriminator, info, "'discriminator'")
+> > +    check_type(base, expr.info, "'base'", allow_dict=3Dname)
+> > +    check_name_is_str(discriminator, expr.info, "'discriminator'")
+> >
+> >      if not isinstance(members, dict):
+> > -        raise QAPISemError(info, "'data' must be an object")
+> > +        raise QAPISemError(expr.info, "'data' must be an object")
+> >
+> >      for (key, value) in members.items():
+> >          source =3D "'data' member '%s'" % key
+> > -        check_keys(value, info, source, ['type'], ['if'])
+> > -        check_if(value, info, source)
+> > -        check_type(value['type'], info, source, allow_array=3Dnot base=
+)
+> > +        check_keys(value, expr.info, source, ['type'], ['if'])
+> > +        check_if(value, expr.info, source)
+> > +        check_type(value['type'], expr.info, source, allow_array=3Dnot=
+ base)
+> >
+> >
+> > -def check_alternate(expr: TopLevelExpr, info: QAPISourceInfo) -> None:
+> > +def check_alternate(expr: QAPIExpression) -> None:
+> >      """
+> > -    Normalize and validate this `TopLevelExpr` as an ``alternate`` def=
+inition.
+> > +    Normalize and validate a `QAPIExpression` as an ``alternate`` defi=
+nition.
+> >
+> >      :param expr: The expression to validate.
+> > -    :param info: QAPI schema source file information.
+> >
+> >      :raise QAPISemError: When ``expr`` is not a valid ``alternate``.
+> >      :return: None, ``expr`` is normalized in-place as needed.
+> > @@ -544,25 +539,24 @@ def check_alternate(expr: TopLevelExpr, info: QAP=
+ISourceInfo) -> None:
+> >      members =3D expr['data']
+> >
+> >      if not members:
+> > -        raise QAPISemError(info, "'data' must not be empty")
+> > +        raise QAPISemError(expr.info, "'data' must not be empty")
+> >
+> >      if not isinstance(members, dict):
+> > -        raise QAPISemError(info, "'data' must be an object")
+> > +        raise QAPISemError(expr.info, "'data' must be an object")
+> >
+> >      for (key, value) in members.items():
+> >          source =3D "'data' member '%s'" % key
+> > -        check_name_lower(key, info, source)
+> > -        check_keys(value, info, source, ['type'], ['if'])
+> > -        check_if(value, info, source)
+> > -        check_type(value['type'], info, source, allow_array=3DTrue)
+> > +        check_name_lower(key, expr.info, source)
+> > +        check_keys(value, expr.info, source, ['type'], ['if'])
+> > +        check_if(value, expr.info, source)
+> > +        check_type(value['type'], expr.info, source, allow_array=3DTru=
+e)
+> >
+> >
+> > -def check_command(expr: TopLevelExpr, info: QAPISourceInfo) -> None:
+> > +def check_command(expr: QAPIExpression) -> None:
+> >      """
+> > -    Normalize and validate this `TopLevelExpr` as a ``command`` defini=
+tion.
+> > +    Normalize and validate this `QAPIExpression` as a ``command`` defi=
+nition.
+> >
+> >      :param expr: The expression to validate.
+> > -    :param info: QAPI schema source file information.
+> >
+> >      :raise QAPISemError: When ``expr`` is not a valid ``command``.
+> >      :return: None, ``expr`` is normalized in-place as needed.
+> > @@ -572,17 +566,16 @@ def check_command(expr: TopLevelExpr, info: QAPIS=
+ourceInfo) -> None:
+> >      boxed =3D expr.get('boxed', False)
+> >
+> >      if boxed and args is None:
+> > -        raise QAPISemError(info, "'boxed': true requires 'data'")
+> > -    check_type(args, info, "'data'", allow_dict=3Dnot boxed)
+> > -    check_type(rets, info, "'returns'", allow_array=3DTrue)
+> > +        raise QAPISemError(expr.info, "'boxed': true requires 'data'")
+> > +    check_type(args, expr.info, "'data'", allow_dict=3Dnot boxed)
+> > +    check_type(rets, expr.info, "'returns'", allow_array=3DTrue)
+> >
+> >
+> > -def check_event(expr: TopLevelExpr, info: QAPISourceInfo) -> None:
+> > +def check_event(expr: QAPIExpression) -> None:
+> >      """
+> > -    Normalize and validate this `TopLevelExpr` as an ``event`` definit=
+ion.
+> > +    Normalize and validate this `QAPIExpression` as an ``event`` defin=
+ition.
+> >
+> >      :param expr: The expression to validate.
+> > -    :param info: QAPI schema source file information.
+> >
+> >      :raise QAPISemError: When ``expr`` is not a valid ``event``.
+> >      :return: None, ``expr`` is normalized in-place as needed.
+> > @@ -591,25 +584,23 @@ def check_event(expr: TopLevelExpr, info: QAPISou=
+rceInfo) -> None:
+> >      boxed =3D expr.get('boxed', False)
+> >
+> >      if boxed and args is None:
+> > -        raise QAPISemError(info, "'boxed': true requires 'data'")
+> > -    check_type(args, info, "'data'", allow_dict=3Dnot boxed)
+> > +        raise QAPISemError(expr.info, "'boxed': true requires 'data'")
+> > +    check_type(args, expr.info, "'data'", allow_dict=3Dnot boxed)
+> >
+> >
+> > -def check_expr(pexpr: ParsedExpression) -> None:
+> > +def check_expr(expr: QAPIExpression) -> None:
+> >      """
+> > -    Validate and normalize a `ParsedExpression`.
+> > +    Validate and normalize a `QAPIExpression`.
+> >
+> > -    :param pexpr: The parsed expression to normalize and validate.
+> > +    :param expr: The parsed expression to normalize and validate.
+> >
+> >      :raise QAPISemError: When this expression fails validation.
+> > -    :return: None, ``pexpr`` is normalized in-place as needed.
+> > +    :return: None, ``expr`` is normalized in-place as needed.
+> >      """
+> > -    expr =3D pexpr.expr
+> > -    info =3D pexpr.info
+> > -
+> >      if 'include' in expr:
+> >          return
+> >
+> > +    info =3D expr.info
+> >      metas =3D set(expr.keys() & {
+> >          'enum', 'struct', 'union', 'alternate', 'command', 'event'})
+> >      if len(metas) !=3D 1:
+> > @@ -625,7 +616,7 @@ def check_expr(pexpr: ParsedExpression) -> None:
+> >      info.set_defn(meta, name)
+> >      check_defn_name_str(name, info, meta)
+> >
+> > -    doc =3D pexpr.doc
+> > +    doc =3D expr.doc
+> >      if doc:
+> >          if doc.symbol !=3D name:
+> >              raise QAPISemError(
+> > @@ -638,24 +629,24 @@ def check_expr(pexpr: ParsedExpression) -> None:
+> >      if meta =3D=3D 'enum':
+> >          check_keys(expr, info, meta,
+> >                     ['enum', 'data'], ['if', 'features', 'prefix'])
+> > -        check_enum(expr, info)
+> > +        check_enum(expr)
+> >      elif meta =3D=3D 'union':
+> >          check_keys(expr, info, meta,
+> >                     ['union', 'base', 'discriminator', 'data'],
+> >                     ['if', 'features'])
+> >          normalize_members(expr.get('base'))
+> >          normalize_members(expr['data'])
+> > -        check_union(expr, info)
+> > +        check_union(expr)
+> >      elif meta =3D=3D 'alternate':
+> >          check_keys(expr, info, meta,
+> >                     ['alternate', 'data'], ['if', 'features'])
+> >          normalize_members(expr['data'])
+> > -        check_alternate(expr, info)
+> > +        check_alternate(expr)
+> >      elif meta =3D=3D 'struct':
+> >          check_keys(expr, info, meta,
+> >                     ['struct', 'data'], ['base', 'if', 'features'])
+> >          normalize_members(expr['data'])
+> > -        check_struct(expr, info)
+> > +        check_struct(expr)
+> >      elif meta =3D=3D 'command':
+> >          check_keys(expr, info, meta,
+> >                     ['command'],
+> > @@ -663,21 +654,21 @@ def check_expr(pexpr: ParsedExpression) -> None:
+> >                      'gen', 'success-response', 'allow-oob',
+> >                      'allow-preconfig', 'coroutine'])
+> >          normalize_members(expr.get('data'))
+> > -        check_command(expr, info)
+> > +        check_command(expr)
+> >      elif meta =3D=3D 'event':
+> >          check_keys(expr, info, meta,
+> >                     ['event'], ['data', 'boxed', 'if', 'features'])
+> >          normalize_members(expr.get('data'))
+> > -        check_event(expr, info)
+> > +        check_event(expr)
+> >      else:
+> >          assert False, 'unexpected meta type'
+> >
+> >      check_if(expr, info, meta)
+> >      check_features(expr.get('features'), info)
+> > -    check_flags(expr, info)
+> > +    check_flags(expr)
+> >
+> >
+> > -def check_exprs(exprs: List[ParsedExpression]) -> List[ParsedExpressio=
+n]:
+> > +def check_exprs(exprs: List[QAPIExpression]) -> List[QAPIExpression]:
+> >      """
+> >      Validate and normalize a list of parsed QAPI schema expressions.
+> >
+> > diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+> > index f897dffbfd4..88f6fdfa67b 100644
+> > --- a/scripts/qapi/parser.py
+> > +++ b/scripts/qapi/parser.py
+> > @@ -14,14 +14,14 @@
+> >  # This work is licensed under the terms of the GNU GPL, version 2.
+> >  # See the COPYING file in the top-level directory.
+> >
+> > -from collections import OrderedDict
+> > +from collections import OrderedDict, UserDict
+> >  import os
+> >  import re
+> >  from typing import (
+> >      TYPE_CHECKING,
+> >      Dict,
+> >      List,
+> > -    NamedTuple,
+> > +    Mapping,
+> >      Optional,
+> >      Set,
+> >      Union,
+> > @@ -38,21 +38,32 @@
+> >      from .schema import QAPISchemaFeature, QAPISchemaMember
+> >
+> >
+> > -#: Represents a single Top Level QAPI schema expression.
+> > -TopLevelExpr =3D Dict[str, object]
+> > -
+> >  # Return value alias for get_expr().
+> >  _ExprValue =3D Union[List[object], Dict[str, object], str, bool]
+> >
+> > -# FIXME: Consolidate and centralize definitions for TopLevelExpr,
+> > -# _ExprValue, _JSONValue, and _JSONObject; currently scattered across
+> > -# several modules.
+> >
+> > +# FIXME: Consolidate and centralize definitions for _ExprValue,
+> > +# JSONValue, and _JSONObject; currently scattered across several
+> > +# modules.
+> >
+> > -class ParsedExpression(NamedTuple):
+> > -    expr: TopLevelExpr
+> > -    info: QAPISourceInfo
+> > -    doc: Optional['QAPIDoc']
+> > +
+> > +# 3.6 workaround: can be removed when Python 3.7+ is our required vers=
+ion.
+> > +if TYPE_CHECKING:
+> > +    _UserDict =3D UserDict[str, object]
+> > +else:
+> > +    _UserDict =3D UserDict
+>
+> Worth mentioning in the commit message?  Genuine question; I'm not sure
+> :)
+>
 
-> So we have two migration blockers, one per device and one global. I guess
-> it is easier that way than trying to update the per device Error*.
+If you please! My only consideration here was leaving a comment with
+both "3.6" and "3.7" so that when I git grep to upgrade from 3.6 to
+3.7, there's a shining spotlight on this particular wart.
 
-Yes, because this blocker is not related to a specific device but rather 
-to how many devices we have at a specific moment.
+The problem here is that Python 3.6 does not believe that you can
+subscript UserDict, because UserDict is not generic in its
+*implementation*, it's only generic in its type stub. Short-sighted
+problem that was corrected for 3.7; here's a bug filed by Papa Guido
+heself: https://github.com/python/typing/issues/60
 
-Thanks.
+(This bug is where I found this workaround from.)
+
+> > +
+> > +
+> > +class QAPIExpression(_UserDict):
+> > +    def __init__(
+> > +        self,
+> > +        initialdata: Mapping[str, object],
+>
+> I'd prefer to separate words: initial_data.
+>
+
+Wasn't my choice:
+https://docs.python.org/3/library/collections.html#collections.UserDict
+
+> > +        info: QAPISourceInfo,
+> > +        doc: Optional['QAPIDoc'] =3D None,
+> > +    ):
+> > +        super().__init__(initialdata)
+> > +        self.info =3D info
+> > +        self.doc: Optional['QAPIDoc'] =3D doc
+> >
+> >
+> >  class QAPIParseError(QAPISourceError):
+> > @@ -107,7 +118,7 @@ def __init__(self,
+> >          self.line_pos =3D 0
+> >
+> >          # Parser output:
+> > -        self.exprs: List[ParsedExpression] =3D []
+> > +        self.exprs: List[QAPIExpression] =3D []
+> >          self.docs: List[QAPIDoc] =3D []
+> >
+> >          # Showtime!
+> > @@ -178,10 +189,10 @@ def _parse(self) -> None:
+> >              cur_doc =3D None
+> >          self.reject_expr_doc(cur_doc)
+> >
+> > -    def _add_expr(self, expr: TopLevelExpr,
+> > +    def _add_expr(self, expr: Mapping[str, object],
+> >                    info: QAPISourceInfo,
+> >                    doc: Optional['QAPIDoc'] =3D None) -> None:
+> > -        self.exprs.append(ParsedExpression(expr, info, doc))
+> > +        self.exprs.append(QAPIExpression(expr, info, doc))
+> >
+> >      @staticmethod
+> >      def reject_expr_doc(doc: Optional['QAPIDoc']) -> None:
+> > @@ -791,7 +802,7 @@ def connect_feature(self, feature: 'QAPISchemaFeatu=
+re') -> None:
+> >                                 % feature.name)
+> >          self.features[feature.name].connect(feature)
+> >
+> > -    def check_expr(self, expr: TopLevelExpr) -> None:
+> > +    def check_expr(self, expr: QAPIExpression) -> None:
+> >          if self.has_section('Returns') and 'command' not in expr:
+> >              raise QAPISemError(self.info,
+> >                                 "'Returns:' is only valid for commands"=
+)
+> > diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> > index 89f8e60db36..295c21eab22 100644
+> > --- a/scripts/qapi/schema.py
+> > +++ b/scripts/qapi/schema.py
+> > @@ -17,7 +17,7 @@
+> >  from collections import OrderedDict
+> >  import os
+> >  import re
+> > -from typing import Optional
+> > +from typing import List, Optional
+> >
+> >  from .common import (
+> >      POINTER_SUFFIX,
+> > @@ -29,7 +29,7 @@
+> >  )
+> >  from .error import QAPIError, QAPISemError, QAPISourceError
+> >  from .expr import check_exprs
+> > -from .parser import QAPISchemaParser
+> > +from .parser import QAPIExpression, QAPISchemaParser
+> >
+> >
+> >  class QAPISchemaIfCond:
+> > @@ -964,10 +964,11 @@ def module_by_fname(self, fname):
+> >          name =3D self._module_name(fname)
+> >          return self._module_dict[name]
+> >
+> > -    def _def_include(self, expr, info, doc):
+> > +    def _def_include(self, expr: QAPIExpression):
+> >          include =3D expr['include']
+> > -        assert doc is None
+> > -        self._def_entity(QAPISchemaInclude(self._make_module(include),=
+ info))
+> > +        assert expr.doc is None
+> > +        self._def_entity(
+> > +            QAPISchemaInclude(self._make_module(include), expr.info))
+> >
+> >      def _def_builtin_type(self, name, json_type, c_type):
+> >          self._def_entity(QAPISchemaBuiltinType(name, json_type, c_type=
+))
+> > @@ -1045,15 +1046,15 @@ def _make_implicit_object_type(self, name, info=
+, ifcond, role, members):
+> >                  name, info, None, ifcond, None, None, members, None))
+> >          return name
+> >
+> > -    def _def_enum_type(self, expr, info, doc):
+> > +    def _def_enum_type(self, expr: QAPIExpression):
+> >          name =3D expr['enum']
+> >          data =3D expr['data']
+> >          prefix =3D expr.get('prefix')
+> >          ifcond =3D QAPISchemaIfCond(expr.get('if'))
+> > -        features =3D self._make_features(expr.get('features'), info)
+> > +        features =3D self._make_features(expr.get('features'), expr.in=
+fo)
+> >          self._def_entity(QAPISchemaEnumType(
+> > -            name, info, doc, ifcond, features,
+> > -            self._make_enum_members(data, info), prefix))
+> > +            name, expr.info, expr.doc, ifcond, features,
+> > +            self._make_enum_members(data, expr.info), prefix))
+> >
+> >      def _make_member(self, name, typ, ifcond, features, info):
+> >          optional =3D False
+> > @@ -1072,15 +1073,15 @@ def _make_members(self, data, info):
+> >                                    value.get('features'), info)
+> >                  for (key, value) in data.items()]
+> >
+> > -    def _def_struct_type(self, expr, info, doc):
+> > +    def _def_struct_type(self, expr: QAPIExpression):
+> >          name =3D expr['struct']
+> >          base =3D expr.get('base')
+> >          data =3D expr['data']
+> >          ifcond =3D QAPISchemaIfCond(expr.get('if'))
+> > -        features =3D self._make_features(expr.get('features'), info)
+> > +        features =3D self._make_features(expr.get('features'), expr.in=
+fo)
+> >          self._def_entity(QAPISchemaObjectType(
+> > -            name, info, doc, ifcond, features, base,
+> > -            self._make_members(data, info),
+> > +            name, expr.info, expr.doc, ifcond, features, base,
+> > +            self._make_members(data, expr.info),
+> >              None))
+> >
+> >      def _make_variant(self, case, typ, ifcond, info):
+> > @@ -1089,46 +1090,49 @@ def _make_variant(self, case, typ, ifcond, info=
+):
+> >              typ =3D self._make_array_type(typ[0], info)
+> >          return QAPISchemaVariant(case, info, typ, ifcond)
+> >
+> > -    def _def_union_type(self, expr, info, doc):
+> > +    def _def_union_type(self, expr: QAPIExpression):
+> >          name =3D expr['union']
+> >          base =3D expr['base']
+> >          tag_name =3D expr['discriminator']
+> >          data =3D expr['data']
+> > +        assert isinstance(data, dict)
+> >          ifcond =3D QAPISchemaIfCond(expr.get('if'))
+> > -        features =3D self._make_features(expr.get('features'), info)
+> > +        features =3D self._make_features(expr.get('features'), expr.in=
+fo)
+> >          if isinstance(base, dict):
+> >              base =3D self._make_implicit_object_type(
+> > -                name, info, ifcond,
+> > -                'base', self._make_members(base, info))
+> > +                name, expr.info, ifcond,
+> > +                'base', self._make_members(base, expr.info))
+> >          variants =3D [
+> >              self._make_variant(key, value['type'],
+> >                                 QAPISchemaIfCond(value.get('if')),
+> > -                               info)
+> > +                               expr.info)
+> >              for (key, value) in data.items()]
+> > -        members =3D []
+> > +        members: List[QAPISchemaObjectTypeMember] =3D []
+> >          self._def_entity(
+> > -            QAPISchemaObjectType(name, info, doc, ifcond, features,
+> > +            QAPISchemaObjectType(name, expr.info, expr.doc, ifcond, fe=
+atures,
+> >                                   base, members,
+> >                                   QAPISchemaVariants(
+> > -                                     tag_name, info, None, variants)))
+> > +                                     tag_name, expr.info, None, varian=
+ts)))
+> >
+> > -    def _def_alternate_type(self, expr, info, doc):
+> > +    def _def_alternate_type(self, expr: QAPIExpression):
+> >          name =3D expr['alternate']
+> >          data =3D expr['data']
+> > +        assert isinstance(data, dict)
+> >          ifcond =3D QAPISchemaIfCond(expr.get('if'))
+> > -        features =3D self._make_features(expr.get('features'), info)
+> > +        features =3D self._make_features(expr.get('features'), expr.in=
+fo)
+> >          variants =3D [
+> >              self._make_variant(key, value['type'],
+> >                                 QAPISchemaIfCond(value.get('if')),
+> > -                               info)
+> > +                               expr.info)
+> >              for (key, value) in data.items()]
+> > -        tag_member =3D QAPISchemaObjectTypeMember('type', info, 'QType=
+', False)
+> > +        tag_member =3D QAPISchemaObjectTypeMember(
+> > +            'type', expr.info, 'QType', False)
+> >          self._def_entity(
+> > -            QAPISchemaAlternateType(name, info, doc, ifcond, features,
+> > -                                    QAPISchemaVariants(
+> > -                                        None, info, tag_member, varian=
+ts)))
+> > +            QAPISchemaAlternateType(
+> > +                name, expr.info, expr.doc, ifcond, features,
+> > +                QAPISchemaVariants(None, expr.info, tag_member, varian=
+ts)))
+> >
+> > -    def _def_command(self, expr, info, doc):
+> > +    def _def_command(self, expr: QAPIExpression):
+> >          name =3D expr['command']
+> >          data =3D expr.get('data')
+> >          rets =3D expr.get('returns')
+> > @@ -1139,52 +1143,49 @@ def _def_command(self, expr, info, doc):
+> >          allow_preconfig =3D expr.get('allow-preconfig', False)
+> >          coroutine =3D expr.get('coroutine', False)
+> >          ifcond =3D QAPISchemaIfCond(expr.get('if'))
+> > -        features =3D self._make_features(expr.get('features'), info)
+> > +        features =3D self._make_features(expr.get('features'), expr.in=
+fo)
+> >          if isinstance(data, OrderedDict):
+> >              data =3D self._make_implicit_object_type(
+> > -                name, info, ifcond,
+> > -                'arg', self._make_members(data, info))
+> > +                name, expr.info, ifcond,
+> > +                'arg', self._make_members(data, expr.info))
+> >          if isinstance(rets, list):
+> >              assert len(rets) =3D=3D 1
+> > -            rets =3D self._make_array_type(rets[0], info)
+> > -        self._def_entity(QAPISchemaCommand(name, info, doc, ifcond, fe=
+atures,
+> > -                                           data, rets,
+> > +            rets =3D self._make_array_type(rets[0], expr.info)
+> > +        self._def_entity(QAPISchemaCommand(name, expr.info, expr.doc, =
+ifcond,
+> > +                                           features, data, rets,
+> >                                             gen, success_response,
+> >                                             boxed, allow_oob, allow_pre=
+config,
+> >                                             coroutine))
+> >
+> > -    def _def_event(self, expr, info, doc):
+> > +    def _def_event(self, expr: QAPIExpression):
+> >          name =3D expr['event']
+> >          data =3D expr.get('data')
+> >          boxed =3D expr.get('boxed', False)
+> >          ifcond =3D QAPISchemaIfCond(expr.get('if'))
+> > -        features =3D self._make_features(expr.get('features'), info)
+> > +        features =3D self._make_features(expr.get('features'), expr.in=
+fo)
+> >          if isinstance(data, OrderedDict):
+> >              data =3D self._make_implicit_object_type(
+> > -                name, info, ifcond,
+> > -                'arg', self._make_members(data, info))
+> > -        self._def_entity(QAPISchemaEvent(name, info, doc, ifcond, feat=
+ures,
+> > -                                         data, boxed))
+> > +                name, expr.info, ifcond,
+> > +                'arg', self._make_members(data, expr.info))
+> > +        self._def_entity(QAPISchemaEvent(name, expr.info, expr.doc, if=
+cond,
+> > +                                         features, data, boxed))
+> >
+> >      def _def_exprs(self, exprs):
+> > -        for expr_elem in exprs:
+> > -            expr =3D expr_elem.expr
+> > -            info =3D expr_elem.info
+> > -            doc =3D expr_elem.doc
+> > +        for expr in exprs:
+> >              if 'enum' in expr:
+> > -                self._def_enum_type(expr, info, doc)
+> > +                self._def_enum_type(expr)
+> >              elif 'struct' in expr:
+> > -                self._def_struct_type(expr, info, doc)
+> > +                self._def_struct_type(expr)
+> >              elif 'union' in expr:
+> > -                self._def_union_type(expr, info, doc)
+> > +                self._def_union_type(expr)
+> >              elif 'alternate' in expr:
+> > -                self._def_alternate_type(expr, info, doc)
+> > +                self._def_alternate_type(expr)
+> >              elif 'command' in expr:
+> > -                self._def_command(expr, info, doc)
+> > +                self._def_command(expr)
+> >              elif 'event' in expr:
+> > -                self._def_event(expr, info, doc)
+> > +                self._def_event(expr)
+> >              elif 'include' in expr:
+> > -                self._def_include(expr, info, doc)
+> > +                self._def_include(expr)
+> >              else:
+> >                  assert False
+>
+> The insertion of expr. makes the patch a bit tiresome to review.  I
+> only skimmed it for now.
+
+There's indeed a lot of mechanical churn. It appears to work via
+testing; both make check and the full CI job.
+"It compiles, how wrong could it be!?"
+
+*ducks*
+
+--js
 
 
