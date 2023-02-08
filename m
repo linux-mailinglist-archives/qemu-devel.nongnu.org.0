@@ -2,68 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD22568F496
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 18:31:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFCE768F572
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 18:36:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPoHr-0008L5-Ts; Wed, 08 Feb 2023 12:31:15 -0500
+	id 1pPoMV-0001EX-9l; Wed, 08 Feb 2023 12:36:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pPoHp-0008KR-4p
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 12:31:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pPoMS-0001Do-Tr; Wed, 08 Feb 2023 12:36:00 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pPoHl-0005Io-Di
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 12:31:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675877468;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=lbCD0qKrlw7zpd2rWv6gG9kGyhwm4EfP0xV8jCeTmNA=;
- b=i8Z074z73rntEgtsnRf7U5M5MfhuA/RZP/2UqN4ZiYVvm14WIquxoTjy4mh94VYogN1SrH
- ehpXsMM2kyhFwjWHoaG3ZaWrq6MS8mfCKJ+JDxM1WnXlkKhF8IA3f/FfRtwC3pCVgCr/1Z
- dVgdxKKr51dXkmMhJONaHobMYC/ItQg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-519-1xI6j7jJN1mZ4R-OJzXdzQ-1; Wed, 08 Feb 2023 12:31:05 -0500
-X-MC-Unique: 1xI6j7jJN1mZ4R-OJzXdzQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D864F29AA39B;
- Wed,  8 Feb 2023 17:31:04 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B4FE2166B29;
- Wed,  8 Feb 2023 17:31:04 +0000 (UTC)
-Date: Wed, 8 Feb 2023 17:31:01 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org
-Subject: Re: [RFC PATCH 3/4] lcitool: allow overriding package mappings and
- target facts
-Message-ID: <Y+PcVRXC0acaf8Iz@redhat.com>
-References: <20230117091638.50523-1-pbonzini@redhat.com>
- <20230117091638.50523-4-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pPoMQ-0001bX-QI; Wed, 08 Feb 2023 12:36:00 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 318HHkBr007085; Wed, 8 Feb 2023 17:35:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=3e+TvheiF+fdtK1QK2+Uo224EadXn+FIV8P/yMJYbVw=;
+ b=ZZGDs9ZS0T+UK/dETyVwYHtmyj62pRFmRU7iBV/A2M2fGusrXkdL23yrtnhP/pTD3IEi
+ pvemlsVeA/uMCdbUCFmGNS4dqMMOnu1+pbncDcU+L9ID5bT9Xh4A+RlHproyojHGemMI
+ 454KJWdJx7UNvn0TGJ7Wi0rKoUR+QjQ3mTxYlJ5PG+kShpXLHPuQgA9MHd6Ve7Df/fxp
+ vYjh9yEvCZagnwlDZIQpZx/ZGn8evMXuPlgahcEAvz3FvaxbBKaH85V6ugfOCyAQDWdA
+ jKB2VMyIX1eppVjQ/ADKL+tA0XwTewTrggy5xd2kGFDoVOJaBh4DFGUax0V+pkw6f9j4 TA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nmfx08vxr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Feb 2023 17:35:47 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 318HIUg1009785;
+ Wed, 8 Feb 2023 17:35:47 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nmfx08vvc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Feb 2023 17:35:47 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 318ET4ZI005567;
+ Wed, 8 Feb 2023 17:35:44 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+ by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3nhf06kpeu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Feb 2023 17:35:44 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 318HZe2B26149376
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 8 Feb 2023 17:35:40 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 507682004D;
+ Wed,  8 Feb 2023 17:35:40 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DA55820040;
+ Wed,  8 Feb 2023 17:35:39 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.183.35]) by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed,  8 Feb 2023 17:35:39 +0000 (GMT)
+Message-ID: <5b26ee514ccbbfaf5670cbf0cb006d8e706fe5ae.camel@linux.ibm.com>
+Subject: Re: [PATCH v15 10/11] qapi/s390x/cpu topology: CPU_POLARITY_CHANGE
+ qapi event
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+Date: Wed, 08 Feb 2023 18:35:39 +0100
+In-Reply-To: <20230201132051.126868-11-pmorel@linux.ibm.com>
+References: <20230201132051.126868-1-pmorel@linux.ibm.com>
+ <20230201132051.126868-11-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230117091638.50523-4-pbonzini@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 8x_Ui5fLsP_nVMUSEeIrgX6LwcJ66i7d
+X-Proofpoint-GUID: mlGdi0OwGWc_PMjcBfskW7CmJF8Vumd5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-08_08,2023-02-08_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ lowpriorityscore=0 adultscore=0 clxscore=1015 priorityscore=1501
+ impostorscore=0 phishscore=0 malwarescore=0 spamscore=0 mlxlogscore=999
+ mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302080153
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,35 +114,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 17, 2023 at 10:16:37AM +0100, Paolo Bonzini wrote:
-> lcitool has generally catered to the Libvirt's needs in terms of
-> package versions, which are pretty conservative. For example, lcitool
-> is hardcoding a version of Meson equal to 0.56. QEMU on the other hand
-> has different needs since some features were added to Meson for the
-> project's benefit in versions as recent as 0.63.
-> 
-> Until now, QEMU has managed to avoid the problem by shipping its own
-> version of Meson. However, the next release of QEMU will face a breaking
-> point in that Meson 0.63 does not work with the 3.6 version of Python
-> that is provided by CentOS Stream 8 and OpenSUSE LEAP 15.3.
-> 
-> Implement locally the functionality provided by
-> https://gitlab.com/libvirt/libvirt-ci/-/merge_requests/341, so that
-> QEMU can override the mappings and target paths that are used for its CI.
+On Wed, 2023-02-01 at 14:20 +0100, Pierre Morel wrote:
+> When the guest asks to change the polarity this change
+> is forwarded to the admin using QAPI.
+> The admin is supposed to take according decisions concerning
+> CPU provisioning.
+>=20
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>  qapi/machine-target.json | 30 ++++++++++++++++++++++++++++++
+>  hw/s390x/cpu-topology.c  |  2 ++
+>  2 files changed, 32 insertions(+)
+>=20
+> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+> index 58df0f5061..5883c3b020 100644
+> --- a/qapi/machine-target.json
+> +++ b/qapi/machine-target.json
+> @@ -371,3 +371,33 @@
+>    },
+>    'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
+>  }
+> +
+> +##
+> +# @CPU_POLARITY_CHANGE:
+> +#
+> +# Emitted when the guest asks to change the polarity.
+> +#
+> +# @polarity: polarity specified by the guest
+> +#
+> +# The guest can tell the host (via the PTF instruction) whether the
+> +# CPUs should be provisioned using horizontal or vertical polarity.
+> +#
+> +# On horizontal polarity the host is expected to provision all vCPUs
+> +# equally.
+> +# On vertical polarity the host can provision each vCPU differently.
+> +# The guest will get information on the details of the provisioning
+> +# the next time it uses the STSI(15) instruction.
+> +#
+> +# Since: 8.0
+> +#
+> +# Example:
+> +#
+> +# <- { "event": "CPU_POLARITY_CHANGE",
+> +#      "data": { "polarity": 0 },
+> +#      "timestamp": { "seconds": 1401385907, "microseconds": 422329 } }
+> +#
+> +##
+> +{ 'event': 'CPU_POLARITY_CHANGE',
+> +  'data': { 'polarity': 'int' },
+> +   'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM'] }
 
-I'd like to just push ahead with getting that merged so we
-use the lcitool --data-dir arg to do what QEMU needs, and
-stay away from the internal python code.
+I wonder if you should depend on CONFIG_KVM or not. If tcg gets topology
+support it will use the same event and right now it would just never be emi=
+tted.
+On the other hand it's more conservative this way.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+I also wonder if you should add 'feature' : [ 'unstable' ].
+On the upside, it would mark the event as unstable, but I don't know what t=
+he
+consequences are exactly.
+Also I guess one can remove qemu events without breaking backwards compatib=
+ility,
+since they just won't be emitted? Unless I guess you specify that a event m=
+ust
+occur under certain situations and the client waits on it?
+
+Patch looks good.
+
+> +}
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> index 6c50050991..2f8e1b60cf 100644
+> --- a/hw/s390x/cpu-topology.c
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -19,6 +19,7 @@
+>  #include "hw/s390x/s390-virtio-ccw.h"
+>  #include "hw/s390x/cpu-topology.h"
+>  #include "qapi/qapi-commands-machine-target.h"
+> +#include "qapi/qapi-events-machine-target.h"
+>  #include "qapi/qmp/qdict.h"
+>  #include "monitor/hmp.h"
+>  #include "monitor/monitor.h"
+> @@ -163,6 +164,7 @@ void s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintpt=
+r_t ra)
+>              s390_topology.polarity =3D fc;
+>              s390_cpu_topology_set_modified();
+>              s390_topology_set_cpus_polarity(fc);
+> +            qapi_event_send_cpu_polarity_change(fc);
+>              setcc(cpu, 0);
+>          }
+>          break;
 
 
