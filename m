@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBE8B68FB36
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E9B68FB37
 	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 00:33:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPtuU-000395-GZ; Wed, 08 Feb 2023 18:31:31 -0500
+	id 1pPtuW-0003Be-Py; Wed, 08 Feb 2023 18:31:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dinahbaum123@gmail.com>)
- id 1pPtuN-00038a-6B
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 18:31:23 -0500
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e])
+ id 1pPtuO-00038i-Kc
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 18:31:24 -0500
+Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dinahbaum123@gmail.com>)
- id 1pPtuL-0005ps-Ja
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 18:31:22 -0500
-Received: by mail-qt1-x82e.google.com with SMTP id m12so210531qth.4
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 15:31:20 -0800 (PST)
+ id 1pPtuM-0005rH-Rx
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 18:31:24 -0500
+Received: by mail-qv1-xf2f.google.com with SMTP id i1so278856qvo.9
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 15:31:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=y0VoMb5LKRZn1sREeyuooTRGjooxlrZhXzYyToK86h4=;
- b=aJ7Ot9QqokvZ5YpXBWlG4++vePcWke7iZ/r2q6k4or7UQb+8x0wEP8N2cY1uglJ/BB
- /qLz4BWw3xC9mC28dkyPPHQH76QCeDMnUyVyiwshy+ZQ1My59xbO8cPOmYROFK6XyKZs
- knx4bdqxwlHnzskULD0Q1kPz1ldDB0a4UAtJa4vPja+ceaYH2iAy/y/ZfpJNmmtrf+C/
- 0WPDWUmA6J1DX5Jb3IerzIXCwyb0X8th2gIWFXQZI4T2QJHdlyf6bIdSIFSggki+WnRq
- DnZYdKW1C6aQ+zaTZJXNPQDJv7VC6ffEIQzMBKBSkDIP+EPWNTSF1XMUAGpt5EDd/Z44
- AqKA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OnazYuHyxNSCi+Fg8vSUtnrPTevUheyj/KShdTnQ70o=;
+ b=mHuinZ+Pr+r6EOgQDbjF8TD67lBunn2GBRphwRQIOym43bAB38hKJH1TFMVLzDN+Up
+ DljKawni9RFSoKLW+NpgYApHWiPp5SqbTc+KMK2oloxrWbGcwILZNUlEav3wHgwJyk0t
+ cMLojlfN9rUYDRo39ey0psbs1eYG/iysirNYJ//ulkEg1SpKGUa0y2OxEhE1z/t8GiCC
+ 4ZCRE4Wa1CrwXS5ZH0RAutFwXUNuChogC7bySP7JeVmR9w4C51Q3SOy+JMUUpNilyunw
+ PXCOtdLzdOzbLl7mD5bZzoEwTPBqwrc4KRrbEzuWUR5h5qhKJZ4vy7FM8w+/qyc5oWnY
+ LbeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=y0VoMb5LKRZn1sREeyuooTRGjooxlrZhXzYyToK86h4=;
- b=L+f0Lagkmy+unSGrTSfFqXK1kfqjTloLkCjTK0e2dCqWdB18ANkyDu2+bPHHG5tkg/
- LgxjxKhC7igmWp7F2Xe2YwxMBogAh1tTNPyIp5MB3zl5ZKUbr1Uvvd0MZUJQ3/GoTJaG
- rw4L1mx9YWGIZn6a+9YjZZd9HGg/urf76gsSyQ7Tafn8hh8y6qt4jopUhhfyDgZW9DmA
- 1aP9lWSqHVOfOmeoFK7nZkDbmG4pBXNBBHaeoswXEgALnW4QAGSCWG3ISyt7/S2kDzOS
- PJEK++J4YkzKdxla6NsdrJMolI9e1eEh1e+b/W1IBwCqApxA9Ob4+34HnBWopfhAxr6p
- uRng==
-X-Gm-Message-State: AO0yUKX/SJLQoWXo9Lkrr6Iqpqv2MKg9eoUgPuEh7QNz47IE5nNf7dhQ
- PC5wJEwLuboiBfYn4c9cuKQe3V03Ghs=
-X-Google-Smtp-Source: AK7set82dujN+J9HF5hw2OcHPizFmhuUbmIIiO3Anpw0jsBKGICw9r2uBefrtvsBr22HxvfR+Pslcw==
-X-Received: by 2002:ac8:7f0e:0:b0:3b4:d5be:a2e0 with SMTP id
- f14-20020ac87f0e000000b003b4d5bea2e0mr17046103qtk.20.1675899079023; 
- Wed, 08 Feb 2023 15:31:19 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=OnazYuHyxNSCi+Fg8vSUtnrPTevUheyj/KShdTnQ70o=;
+ b=VlGj54vk/GD6/2trVvmXcQpbQ9689RoPA0E6n/+bnbuXnXAUu9ZIAAk6HS0WpJiXWi
+ YOcIP1XBkLzpkUQKnkuqsypYK8Mc3G3sDYMYuuLsFo7blg4/qKOujAmAPJxV+KOCneoo
+ o9Z4M3h2HKfUoovHaBgdZDoK03l0y1fIlSbn3fW7kEnZlrQqjJ/wHkn9Fq+23w79DhOD
+ aHa878nzLW6FBxhQHgEC+lKIobfQp6yZTuZNAODe2MFHWDNI7gz7+CQ+iol4lECDMW+6
+ zmnJwiIylHQZVwzY1Zo8QjLUZEjemRDIC4WZc/3XdyovYq7er6pINglGTYrMfR4fB4Km
+ GFpg==
+X-Gm-Message-State: AO0yUKXjI+9uodKaEndx1Bk2SPyezgwUMmRpn6cCUZ3dkHTk6H9dj2a9
+ 9SLJPGr0k8kOl32UpHxY5s7bYmlLYoaLjw==
+X-Google-Smtp-Source: AK7set/5Llpnr8HWLOGRexJaCTj0JxO3y/ZkEUG4GC1ioJI5ZezGaI1S2WbAMWoR1M7lV21nMf1oPg==
+X-Received: by 2002:a05:6214:5299:b0:536:ba5e:6aa8 with SMTP id
+ kj25-20020a056214529900b00536ba5e6aa8mr14039909qvb.49.1675899081369; 
+ Wed, 08 Feb 2023 15:31:21 -0800 (PST)
 Received: from debian.hsd1.ma.comcast.net ([2601:182:cc00:77b0::2bf5])
  by smtp.gmail.com with ESMTPSA id
- s63-20020a37a942000000b0071c9eea2056sm168048qke.14.2023.02.08.15.31.18
+ s63-20020a37a942000000b0071c9eea2056sm168048qke.14.2023.02.08.15.31.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 15:31:18 -0800 (PST)
+ Wed, 08 Feb 2023 15:31:20 -0800 (PST)
 From: Dinah Baum <dinahbaum123@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: Dinah Baum <dinahbaum123@gmail.com>
-Subject: [PATCH 0/2] *** configure: Add 'mkdir build' check ***
-Date: Wed,  8 Feb 2023 18:31:09 -0500
-Message-Id: <20230208233111.398577-1-dinahbaum123@gmail.com>
+Cc: Dinah Baum <dinahbaum123@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>
+Subject: [PATCH 1/2] configure: Add 'mkdir build' check
+Date: Wed,  8 Feb 2023 18:31:10 -0500
+Message-Id: <20230208233111.398577-2-dinahbaum123@gmail.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230208233111.398577-1-dinahbaum123@gmail.com>
+References: <20230208233111.398577-1-dinahbaum123@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
- envelope-from=dinahbaum123@gmail.com; helo=mail-qt1-x82e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
+ envelope-from=dinahbaum123@gmail.com; helo=mail-qv1-xf2f.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -90,22 +95,47 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 QEMU configure script goes into an infinite error printing loop
 when in read only directory due to 'build' dir never being created.
 
-1 - Checking if 'mkdir dir' succeeds and if the directory is
-writeable prevents this error.
+Checking if 'mkdir dir' succeeds prevents this error.
 
-2 - Since we exit early on error in (1), code for reading in
-arguments has been moved before that
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/321
+---
+ configure | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-Changes since v1:
-- Fix review comments from Peter Maydell 
-
-Dinah Baum (2):
-  configure: Add 'mkdir build' check
-  configure: './configure --help' should work
-
- configure | 691 +++++++++++++++++++++++++++---------------------------
- 1 file changed, 348 insertions(+), 343 deletions(-)
-
+diff --git a/configure b/configure
+index 64960c6000..3b384914ce 100755
+--- a/configure
++++ b/configure
+@@ -31,10 +31,11 @@ then
+         fi
+     fi
+ 
+-    mkdir build
+-    touch $MARKER
++    if mkdir build
++    then
++        touch $MARKER
+ 
+-    cat > GNUmakefile <<'EOF'
++        cat > GNUmakefile <<'EOF'
+ # This file is auto-generated by configure to support in-source tree
+ # 'make' command invocation
+ 
+@@ -56,8 +57,12 @@ force: ;
+ GNUmakefile: ;
+ 
+ EOF
+-    cd build
+-    exec "$source_path/configure" "$@"
++        cd build
++        exec "$source_path/configure" "$@"
++    else
++        echo "ERROR: Unable to use ./build dir, try using a ../qemu/configure build"
++        exit 1
++    fi
+ fi
+ 
+ # Temporary directory used for files created while
 -- 
 2.30.2
 
