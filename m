@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17E668F7F6
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:23:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C4F668F7F7
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:23:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPq2H-0004Uu-Ci; Wed, 08 Feb 2023 14:23:17 -0500
+	id 1pPq2e-0004mk-Rt; Wed, 08 Feb 2023 14:23:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pPq28-0004TX-3P
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:23:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPq2b-0004m7-Iy
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:23:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pPq24-0005KQ-LO
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:23:05 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPq2Z-0005ME-TA
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:23:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675884183;
+ s=mimecast20190719; t=1675884211;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/94s6I4YbTxjC01lGBt97XzQLm6hN9JfLajFzidXVjY=;
- b=hyOJx56d3ABGr1WX3R+1F/M2vnDqdY3Wr7sO+pG0NIPNwUobvrDJ7qMQb92ur5t+EKTNvD
- nxMfC/3WNw6jzQ5oFzFOwIDjTrPUQgg0IjNft2KkWXmYCXtwRHeejMZcAUTQEa3LGbd+Vt
- u+tDxcsLppdetQrB+TbQ6G+0WY/HGiA=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-157-AyOk-6aCOkyHMGiLt58KNQ-1; Wed, 08 Feb 2023 14:23:02 -0500
-X-MC-Unique: AyOk-6aCOkyHMGiLt58KNQ-1
-Received: by mail-qt1-f200.google.com with SMTP id
- a24-20020ac84d98000000b003b9a4958f0cso11251722qtw.3
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 11:23:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/94s6I4YbTxjC01lGBt97XzQLm6hN9JfLajFzidXVjY=;
- b=huWfsBDHafhmaSFUDyqNgvHQ87VCtjmeKhiPYpHcC+wHotQz8e8qrcg2M86MZ2CA4b
- uVsYc06NA3XwVCwR1vSBi3PgebF314vskTRa7vMX2lfub9ZbR2mIE1ysDDQ71ks+Pc6D
- /wQFMMhDuBZY7ipC1t0aORQLHVEkdKjJ5DJxF57JCyk9Q16pUvr/8iPCru55wVRYpJx9
- T7eKreVPusS6Vyw+a3apakz894ce5Ys+TJ3E1kMLyTg9m1kq9znLfk9T036esBpG43GB
- mzL6ioiHY8qjScKV00D1SSKXPKHTGs9jvjHwMwg1APoU1pwg0GOR/9L6/cemeyCw1ZPk
- S3Ow==
-X-Gm-Message-State: AO0yUKUZRr9EJ/1G/iU88pqqUM9k2uwcl+fOGRXXLb//2iVGAZPOQsZ4
- DB76LkOB31N5DYTz+MWl/+9wpZyZHUZi2oeQ2jlP3FTyF7l3NwNTQ/+TpbGg2dCl2aOaDb2CM9N
- OwHuZTZloJQ6Brqo=
-X-Received: by 2002:a05:622a:1744:b0:3b8:5dfe:c3dc with SMTP id
- l4-20020a05622a174400b003b85dfec3dcmr16420081qtk.3.1675884181430; 
- Wed, 08 Feb 2023 11:23:01 -0800 (PST)
-X-Google-Smtp-Source: AK7set9JiU5QU1ZOfg5hh25K81aKYz0ExQVwGCJ6vHplef0R9xj//C+78MsP3r+B06v3nDzbuPg2zg==
-X-Received: by 2002:a05:622a:1744:b0:3b8:5dfe:c3dc with SMTP id
- l4-20020a05622a174400b003b85dfec3dcmr16420042qtk.3.1675884181165; 
- Wed, 08 Feb 2023 11:23:01 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- d11-20020ac8614b000000b003b856b73e8bsm12015197qtm.16.2023.02.08.11.23.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 11:23:00 -0800 (PST)
-Date: Wed, 8 Feb 2023 14:22:59 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Steven Sistare <steven.sistare@oracle.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
- David Hildenbrand <david@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH V2] memory: RAM_NAMED_FILE flag
-Message-ID: <Y+P2k6iDQc0x0xtT@x1n>
-References: <1675796613-235716-1-git-send-email-steven.sistare@oracle.com>
- <Y+KzMDdc+F9zHMh2@x1n>
- <25b316ac-18da-cd63-fd36-472db6ae9b51@oracle.com>
+ bh=WxBVQWvtV/aawV7jPIrjgAv15SXqVJVUYMjJJSkpsFg=;
+ b=fjWLs9H58Z//rvNi1pY1xkRC4Jeo1HCk5l/OtuvnQSjgWB5etCFf+Bfrb76+dY9IoAjN1s
+ t/Ba8VrdftJbx8DQQfnZmEO++Za4+xXuBZw6BlvITSCQTFLdF2VOptLIbm95EeCvpm/Qmk
+ zuyoPYB0nPtdlE5925rW6N16cSIGhRo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-124-3Gg_7N3ePyWW5Y8oiEN4hQ-1; Wed, 08 Feb 2023 14:23:27 -0500
+X-MC-Unique: 3Gg_7N3ePyWW5Y8oiEN4hQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 479FA8564E1;
+ Wed,  8 Feb 2023 19:23:26 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 206C51121315;
+ Wed,  8 Feb 2023 19:23:26 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0E5A421E6A1F; Wed,  8 Feb 2023 20:23:25 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+Cc: Pierre Morel <pmorel@linux.ibm.com>,  qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org,  borntraeger@de.ibm.com,  pasic@linux.ibm.com,
+ richard.henderson@linaro.org,  david@redhat.com,  thuth@redhat.com,
+ cohuck@redhat.com,  mst@redhat.com,  pbonzini@redhat.com,
+ kvm@vger.kernel.org,  ehabkost@redhat.com,  marcel.apfelbaum@gmail.com,
+ eblake@redhat.com,  seiden@linux.ibm.com,  nrb@linux.ibm.com,
+ frankja@linux.ibm.com,  berrange@redhat.com,  clg@kaod.org
+Subject: Re: [PATCH v15 10/11] qapi/s390x/cpu topology: CPU_POLARITY_CHANGE
+ qapi event
+References: <20230201132051.126868-1-pmorel@linux.ibm.com>
+ <20230201132051.126868-11-pmorel@linux.ibm.com>
+ <5b26ee514ccbbfaf5670cbf0cb006d8e706fe5ae.camel@linux.ibm.com>
+Date: Wed, 08 Feb 2023 20:23:25 +0100
+In-Reply-To: <5b26ee514ccbbfaf5670cbf0cb006d8e706fe5ae.camel@linux.ibm.com>
+ (Nina Schoetterl-Glausch's message of "Wed, 08 Feb 2023 18:35:39
+ +0100")
+Message-ID: <87y1p8q7v6.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <25b316ac-18da-cd63-fd36-472db6ae9b51@oracle.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -85,7 +72,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,66 +88,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 08, 2023 at 01:34:18PM -0500, Steven Sistare wrote:
-> On 2/7/2023 3:23 PM, Peter Xu wrote:
-> > On Tue, Feb 07, 2023 at 11:03:33AM -0800, Steve Sistare wrote:
-> >> migrate_ignore_shared() is an optimization that avoids copying memory
-> >> that is visible and can be mapped on the target.  However, a
-> >> memory-backend-ram or a memory-backend-memfd block with the RAM_SHARED
-> >> flag set is not migrated when migrate_ignore_shared() is true.  This is
-> >> wrong, because the block has no named backing store, and its contents will
-> >> be lost.  To fix, ignore shared memory iff it is a named file.  Define a
-> >> new flag RAM_NAMED_FILE to distinguish this case.
-> > 
-> > There's also TYPE_MEMORY_BACKEND_EPC.  Reading the commit message it seems
-> > it can still be used in similar ways.  Pasting commit message from c6c0232:
-> > 
-> >     Because of its unique requirements, Linux manages EPC separately from
-> >     normal memory.  Similar to memfd, the device /dev/sgx_vepc can be
-> >     opened to obtain a file descriptor which can in turn be used to mmap()
-> >     EPC memory.
-> > 
-> > I'm not sure whether it means that should apply for RAM_NAMED_FILE too,
-> > neither do I think it's super important..  Still better to define it
-> > properly.
-> 
-> The RAM_NAMED_FILE flag will be false for TYPE_MEMORY_BACKEND_EPC, so 
-> ramblock_is_ignored will return false, and the contents will be copied
-> over the socket to the target, and the segment will be recreated there.
-> 
-> However, perhaps I do not understand your point.
+Nina Schoetterl-Glausch <nsg@linux.ibm.com> writes:
 
-My point was it looked like it should apply RAM_NAMED_FILE too, because
-it's also a named file.
+> On Wed, 2023-02-01 at 14:20 +0100, Pierre Morel wrote:
+>> When the guest asks to change the polarity this change
+>> is forwarded to the admin using QAPI.
+>> The admin is supposed to take according decisions concerning
+>> CPU provisioning.
+>> 
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+>>  qapi/machine-target.json | 30 ++++++++++++++++++++++++++++++
+>>  hw/s390x/cpu-topology.c  |  2 ++
+>>  2 files changed, 32 insertions(+)
+>> 
+>> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+>> index 58df0f5061..5883c3b020 100644
+>> --- a/qapi/machine-target.json
+>> +++ b/qapi/machine-target.json
+>> @@ -371,3 +371,33 @@
+>>    },
+>>    'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
+>>  }
+>> +
+>> +##
+>> +# @CPU_POLARITY_CHANGE:
+>> +#
+>> +# Emitted when the guest asks to change the polarity.
+>> +#
+>> +# @polarity: polarity specified by the guest
+>> +#
+>> +# The guest can tell the host (via the PTF instruction) whether the
+>> +# CPUs should be provisioned using horizontal or vertical polarity.
+>> +#
+>> +# On horizontal polarity the host is expected to provision all vCPUs
+>> +# equally.
+>> +# On vertical polarity the host can provision each vCPU differently.
+>> +# The guest will get information on the details of the provisioning
+>> +# the next time it uses the STSI(15) instruction.
+>> +#
+>> +# Since: 8.0
+>> +#
+>> +# Example:
+>> +#
+>> +# <- { "event": "CPU_POLARITY_CHANGE",
+>> +#      "data": { "polarity": 0 },
+>> +#      "timestamp": { "seconds": 1401385907, "microseconds": 422329 } }
+>> +#
+>> +##
+>> +{ 'event': 'CPU_POLARITY_CHANGE',
+>> +  'data': { 'polarity': 'int' },
+>> +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM'] }
+>
+> I wonder if you should depend on CONFIG_KVM or not. If tcg gets topology
+> support it will use the same event and right now it would just never be emitted.
+> On the other hand it's more conservative this way.
 
-But..  I don't think another QEMU can share the same data if opening the
-same file.  Based on my zero knowledge on it... I quickly looked up
-sgx_vepc_open() in the Linux impl where sgx_vepc.page_array plays a role of
-page cache iiuc, while it's private per vma even if VM_SHARED.
+TCG vs. KVM should be as transparent as we can make it.
 
-So please ignore my comment..
+If only KVM can get into the state where the event is emitted, say
+because the state is only possible with features only KVM supports, then
+making the event conditional on KVM makes sense.  Of course, when
+another accelerator acquires these features, we need to emit the event
+there as well, which will involve adjusting the condition.
 
-> 
-> > Another comment is, AFAIK this patch will modify senamtics of the old
-> > capability "x-ignore-shared".  But I'd say in a sensible way.  Maybe worth
-> > directly modify qapi/migration.json to reflect it (especially it's x-
-> > prefixed) to something like:
-> > 
-> > # @x-ignore-shared: If enabled, QEMU will not migrate named shared memory
-> > #                   (since 4.0) 
-> 
-> Good idea.  I propose:
-> 
-> # @x-ignore-shared: If enabled, QEMU will not migrate shared memory that is
-> #                   accessible on the target. (since 4.0)
+> I also wonder if you should add 'feature' : [ 'unstable' ].
+> On the upside, it would mark the event as unstable, but I don't know what the
+> consequences are exactly.
 
-I would use s/target/destination host/ because target can be misread as the
-VM itself (at least a general term in migration code base).  Other than
-that looks good to me.
+docs/devel/qapi-code-gen.rst:
 
-Thanks,
+    Special features
+    ~~~~~~~~~~~~~~~~
 
--- 
-Peter Xu
+    Feature "deprecated" marks a command, event, enum value, or struct
+    member as deprecated.  It is not supported elsewhere so far.
+    Interfaces so marked may be withdrawn in future releases in accordance
+    with QEMU's deprecation policy.
+
+    Feature "unstable" marks a command, event, enum value, or struct
+    member as unstable.  It is not supported elsewhere so far.  Interfaces
+    so marked may be withdrawn or changed incompatibly in future releases.
+
+See also -compat parameters unstable-input, unstable-output, both
+intended for "testing the future".
+
+> Also I guess one can remove qemu events without breaking backwards compatibility,
+> since they just won't be emitted? Unless I guess you specify that a event must
+> occur under certain situations and the client waits on it?
+
+Events are part of the interface just like command returns are.  Not
+emitting an event in a situation where it was emitted before can easily
+break things.  Only when the situation is no longer possible, the event
+can be removed safely.
+
+Questions?
+
+[...]
 
 
