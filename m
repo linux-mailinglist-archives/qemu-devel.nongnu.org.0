@@ -2,90 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820AE68F0C9
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 15:27:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E32A668F0CC
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 15:27:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPlOd-0005aK-F4; Wed, 08 Feb 2023 09:26:06 -0500
+	id 1pPlPR-0006FV-D5; Wed, 08 Feb 2023 09:26:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pPlOX-0005Zw-Me
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 09:25:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <ninad@linux.vnet.ibm.com>)
+ id 1pPlPO-00068d-20
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 09:26:50 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pPlOW-0006JL-5d
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 09:25:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675866355;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QwbEE/Z2PtfDHwYKJkjB0059AR56kLzY/K6nHOFGm18=;
- b=LMfwZF+CGuIlfw2rlTU24RQU4NAHvnFf989nVxIlBLGZGdXdXML8dmrlpC+qvSF073iSLE
- gYRXmip/HoSXIjgfdL8l/zF8mWCw2Er3lnUdg3OtJDJbiq/Sp437bHCCZeHnEWD+7ZBC7Y
- /zluOnCdsGPM9A363IUilo6VC5ch0oU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-518-U5oWYiv2Nda8cQaCRNpUvA-1; Wed, 08 Feb 2023 09:25:54 -0500
-X-MC-Unique: U5oWYiv2Nda8cQaCRNpUvA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j20-20020a05600c1c1400b003dc5dd44c0cso8971125wms.8
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 06:25:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QwbEE/Z2PtfDHwYKJkjB0059AR56kLzY/K6nHOFGm18=;
- b=uvxCzjeFN8VgmUYuU0wIEk+z3pqKL4e3l/pocKTCNvWtIojNqiaGM2rCIJ2WXWCrnj
- AYYuy4si0iIYqFa939lzKZrDADR832AwRWJzQ5iwwvkSb9Mioc28A6+DD2JDO/nerDor
- h6Z2i3Q3SPLv+88aufbrmMn2Y3EqZ0PL7AIM6h9qffkv/HWS5WaZekEfA+mIPfwm+9aX
- IiP02Dm6GbkYf4NbPddIYDdhncgeRufRfaJ5TrKPN7G8QpzwDJEdQHPsSO9F/wf9Rzbf
- s+gYyl3Oyd8xdRjF3MKIJ4cGfHmvkjC0Uy6s2+4jrFFrxcZrFb/VhqkDpwfgmVaQ8Slb
- UO5w==
-X-Gm-Message-State: AO0yUKVAcieFxKxUwlWzeBw0jT0XyKt/cYWx5dBPAzcR1L4sWQyx2npV
- I7opxloX9SZwN298UXASx1EogeRPQg/fxcLY75S4KB86UTX3F1lxiVDUzH/c+L6Z54sBsS9A46I
- 8dCK58dDR60vjTEg=
-X-Received: by 2002:a05:600c:1c87:b0:3dc:42d2:aee4 with SMTP id
- k7-20020a05600c1c8700b003dc42d2aee4mr6810378wms.25.1675866353050; 
- Wed, 08 Feb 2023 06:25:53 -0800 (PST)
-X-Google-Smtp-Source: AK7set+WYvAJxafaawg2sIGovwNT/Am9e1k3MOtQL3FMBpbTl+hPNEE6l+f/qdSVN/Ioj0ig8YHISQ==
-X-Received: by 2002:a05:600c:1c87:b0:3dc:42d2:aee4 with SMTP id
- k7-20020a05600c1c8700b003dc42d2aee4mr6810363wms.25.1675866352860; 
- Wed, 08 Feb 2023 06:25:52 -0800 (PST)
-Received: from redhat.com ([2.52.132.212]) by smtp.gmail.com with ESMTPSA id
- h1-20020a05600c2ca100b003dc3f3d77e3sm2184361wmc.7.2023.02.08.06.25.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 06:25:52 -0800 (PST)
-Date: Wed, 8 Feb 2023 09:25:48 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Fabiano Rosas <farosas@suse.de>,
- qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH 11/12] tests/qtest: bios-tables-test: Skip if missing
- configs
-Message-ID: <20230208092220-mutt-send-email-mst@kernel.org>
-References: <20230206150416.4604-1-farosas@suse.de>
- <20230206150416.4604-12-farosas@suse.de>
- <218e02c0-efed-1461-e9d5-6bee0a5ecbbc@redhat.com>
- <20230207094103-mutt-send-email-mst@kernel.org>
- <20230208115238.3083843f@imammedo.users.ipa.redhat.com>
+ (Exim 4.90_1) (envelope-from <ninad@linux.vnet.ibm.com>)
+ id 1pPlPG-0006lY-Uu
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 09:26:49 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 318EBqLo013272
+ for <qemu-devel@nongnu.org>; Wed, 8 Feb 2023 14:26:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date : to :
+ from : subject : content-type : content-transfer-encoding : mime-version;
+ s=pp1; bh=X+jHQmmJPgVsds/J0IuBMl1rwObGNIazPH5H/zLGbqo=;
+ b=al/KhStaJtb4WG2pILMFoseBt6lpKN0c+NqduRJ9He5+AidKMkRoNyYEaeECMOYWxL9P
+ dYlEcvz434F6xLHP6I5ltJGhyyZm1t4lIRbEU1x4QpNrGbM7zmFGZIlspApH9zPHj4Qs
+ tZI03bEcxktyb421zrfwX+egAN5eO+A0uMjZ9+qUAy/kz0cUvvhCAj0NBQB1A/3r5UC6
+ mX4UT7SHqOIjdLlV7F/40VNvljzDYAJzIGmX8wiOXxenxSFhZeShYusYEFJ34wk/Vlh4
+ Hy44A+rdtV4vywdTbGb64BtgihWYXKnA9Oqwu0H9w1z9mPxv2ipocq7kglxG9Kd+Ea9H ug== 
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nmd9n0ctn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 14:26:39 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 318C7ACP001953
+ for <qemu-devel@nongnu.org>; Wed, 8 Feb 2023 14:26:38 GMT
+Received: from smtprelay05.dal12v.mail.ibm.com ([9.208.130.101])
+ by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3nhf07k2ws-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 14:26:38 +0000
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com
+ [10.241.53.104])
+ by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 318EQbiV7143990
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+ for <qemu-devel@nongnu.org>; Wed, 8 Feb 2023 14:26:37 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6FC785804C
+ for <qemu-devel@nongnu.org>; Wed,  8 Feb 2023 14:26:37 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 56F3358056
+ for <qemu-devel@nongnu.org>; Wed,  8 Feb 2023 14:26:37 +0000 (GMT)
+Received: from [9.163.39.56] (unknown [9.163.39.56])
+ by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP
+ for <qemu-devel@nongnu.org>; Wed,  8 Feb 2023 14:26:37 +0000 (GMT)
+Message-ID: <0bdde867-d769-1146-76a7-b8cbe89a13fa@linux.vnet.ibm.com>
+Date: Wed, 8 Feb 2023 08:26:37 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.0
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+From: Ninad Palsule <ninad@linux.vnet.ibm.com>
+Subject: rainier-bmc machine dumping core with latest qemu
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: GsfQ7ni6Oi7zN7q4ZiHHflH7LYemNQUC
+X-Proofpoint-ORIG-GUID: GsfQ7ni6Oi7zN7q4ZiHHflH7LYemNQUC
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230208115238.3083843f@imammedo.users.ipa.redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-08_06,2023-02-08_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0
+ malwarescore=0 spamscore=0 impostorscore=0 bulkscore=0 mlxlogscore=999
+ lowpriorityscore=0 priorityscore=1501 mlxscore=0 clxscore=1011
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302080124
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=ninad@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,67 +105,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 08, 2023 at 11:52:38AM +0100, Igor Mammedov wrote:
-> On Tue, 7 Feb 2023 09:42:45 -0500
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> 
-> > On Tue, Feb 07, 2023 at 03:35:56PM +0100, Thomas Huth wrote:
-> > > On 06/02/2023 16.04, Fabiano Rosas wrote:  
-> > > > If we build with --without-default-devices, CONFIG_HPET and
-> > > > CONFIG_PARALLEL are set to N, which makes the respective devices go
-> > > > missing from acpi tables.
-> > > > 
-> > > > Signed-off-by: Fabiano Rosas <farosas@suse.de>
-> > > > ---
-> > > > I currently don't see a way of allowing the tests to pass in the
-> > > > absence of these two configs. As far as I understand, we would need to
-> > > > have one set of expected table files (tests/data/acpi) for each
-> > > > combination of machine vs. possible CONFIG that can be toggled.  
-> > > 
-> > > I think you're right ... maintaining tables for each combination does not
-> > > scale. Disabling the test in that case is likely the best we can do here
-> > > right now.
-> > >   
-> > > > diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-> > > > index a930706a43..2829eda2c9 100644
-> > > > --- a/tests/qtest/meson.build
-> > > > +++ b/tests/qtest/meson.build
-> > > > @@ -78,7 +78,9 @@ qtests_i386 = \
-> > > >      config_all_devices.has_key('CONFIG_Q35') and                                             \
-> > > >      config_all_devices.has_key('CONFIG_VIRTIO_PCI') and                                      \
-> > > >      slirp.found() ? ['virtio-net-failover'] : []) +                                          \
-> > > > -  (unpack_edk2_blobs ? ['bios-tables-test'] : []) +                                         \
-> > > > +  (unpack_edk2_blobs and                                                                    \
-> > > > +   config_all_devices.has_key('CONFIG_HPET') and                                            \
-> > > > +   config_all_devices.has_key('CONFIG_PARALLEL') ? ['bios-tables-test'] : []) +             \
-> > > >     qtests_pci +                                                                              \
-> > > >     qtests_cxl +                                                                              \
-> > > >     ['fdc-test',  
-> > > 
-> > > Reviewed-by: Thomas Huth <thuth@redhat.com>  
-> > 
-> > 
-> > One thing we could do is move this code to an SSDT by itself.  Then
-> > there's two variants of e.g. HPET SSDT: with and without CONFIG_HPET.
-> > Needs ACPI work though. Igor what do you think? Worth it?
-> 
-> I'd go with just disabling test in this case.
+Hello,
 
-ok for now.
+I am hitting core dump while running qemu with rainier-bmc machine. I 
+started
+hitting it after I rebased to latest qemu from master.
+Can someone please help?
 
-> having dedicated ACPI tables for each permutation config changes
-> might cause doesn't look to me as sustainable.
-> 
-
-I feel I was unclear. What I am proposing is not that we add SSDT
-for each permutation.
-
-What I am saying is basically this: we have build_hpet_aml.  call it
-from a separate SSDT. Now with HPET we check this expected SSDT.
-Without HPET we don't have this SSDT so nothing to check.
+/home/abc/dev/qemu/build/qemu-system-arm -M rainier-bmc -nographic \
+   -kernel 
+./fitImage-linux.bin--${LINUX_VERSION}-r0-p10bmc-${BLD_VERSION}.bin \
+   -dtb 
+./aspeed-bmc-ibm-rainier--${LINUX_VERSION}-r0-p10bmc-${BLD_VERSION}.dtb \
+   -initrd ./obmc-phosphor-initramfs-p10bmc-${BLD_VERSION}.rootfs.cpio.xz \
+   -drive 
+file=./obmc-phosphor-image-p10bmc-${BLD_VERSION}.rootfs.wic.qcow2,if=sd,index=2 
+\
+   -append 'rootwait console=ttyS4,115200n8 root=PARTLABEL=rofs-a'
 
 
--- 
-MST
+
+[  OK  ] Started Journal Service.
+          Starting Flush Journal to Persistent Storage...
+[   45.873184] systemd-journald[156]: Received client request to flush 
+runtime journal.
+[   45.932231] systemd-journald[156]: File 
+/var/log/journal/97cd620eaa284caf980533438c7355c4/system.journal 
+corrupted or uncleanly shut down, renaming and replacing.
+qemu-system-arm: /home/abc/dev/qemu/block/block-gen.h:43: bdrv_poll_co: 
+Assertion `qemu_get_current_aio_context() == qemu_get_aio_context()' failed.
+
+Thread 3 "qemu-system-arm" received signal SIGABRT, Aborted.
+[Switching to Thread 0x7ffff6896640 (LWP 3898452)]
+__pthread_kill_implementation (no_tid=0, signo=6, 
+threadid=140737329587776) at ./nptl/pthread_kill.c:44
+44  ./nptl/pthread_kill.c: No such file or directory.
+
+
+#6  0x00007ffff77e8e96 in __GI___assert_fail
+     (assertion=assertion@entry=0x55555603e798 
+"qemu_get_current_aio_context() ==
+qemu_get_aio_context()", file=file@entry=0x5555560aef28 
+"/home/abc/dev/qemu/block/block-gen.h", line=line@entry=43, 
+function=function@entry=0x5555560af080 <__PRETTY_FUNCTION__.9> 
+"bdrv_poll_co") at ./assert/assert.c:101
+#7  0x0000555555da91f9 in bdrv_poll_co (s=0x7ffff68957f0) at 
+/home/abc/dev/qemu/block/block-gen.h:43
+#8  bdrv_poll_co (s=0x7ffff68957f0) at 
+/home/abc/dev/qemu/block/block-gen.h:38
+#9  bdrv_getlength (bs=<optimized out>) at block/block-gen.c:310
+#10 0x0000555555e3558e in handle_aiocb_write_zeroes 
+(opaque=0x7fff419965f0) at ../block/file-posix.c:1741
+#11 0x0000555555ef80fd in worker_thread 
+(opaque=opaque@entry=0x5555569e2300) at ../util/thread-pool.c:110
+#12 0x0000555555ee3901 in qemu_thread_start (args=<optimized out>) at 
+../util/qemu-thread-posix.c:505
+#13 0x00007ffff7843b43 in start_thread (arg=<optimized out>) at 
+./nptl/pthread_create.c:442
+#14 0x00007ffff78d5a00 in clone3 () at 
+../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+
+(gdb) p qemu_aio_context
+$1 = (AioContext *) 0x5555568b13d0
+
+---------------------------------------
+
+
+Reproduction steps:
+
+1. Clone and build qemu from https://github.com/qemu/qemu
+2. Download following eBMC images
+
+BLD_VERSION=20230205025034
+LINUX_VERSION="6.0.19+git0+67c9407e1f"
+wget 
+https://jenkins.openbmc.org/view/latest/job/latest-master/label=docker-builder,target=p10bmc/lastStableBuild/artifact/openbmc/build/tmp/deploy/images/p10bmc/obmc-phosphor-initramfs-p10bmc-${BLD_VERSION}.rootfs.cpio.xz
+
+wget 
+https://jenkins.openbmc.org/view/latest/job/latest-master/label=docker-builder,target=p10bmc/lastStableBuild/artifact/openbmc/build/tmp/deploy/images/p10bmc/aspeed-bmc-ibm-rainier--${LINUX_VERSION}-r0-p10bmc-${BLD_VERSION}.dtb
+
+wget 
+https://jenkins.openbmc.org/view/latest/job/latest-master/label=docker-builder,target=p10bmc/lastStableBuild/artifact/openbmc/build/tmp/deploy/images/p10bmc/fitImage-linux.bin--${LINUX_VERSION}-r0-p10bmc-${BLD_VERSION}.bin
+
+wget 
+https://jenkins.openbmc.org/view/latest/job/latest-master/label=docker-builder,target=p10bmc/lastStableBuild/artifact/openbmc/build/tmp/deploy/images/p10bmc/obmc-phosphor-image-p10bmc-${BLD_VERSION}.rootfs.wic.qcow2
+qemu-img resize 
+obmc-phosphor-image-p10bmc-${BLD_VERSION}.rootfs.wic.qcow2 16G
+
+3. Run the qemu command as show at the start
+
 
 
