@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E41F68F855
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:50:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F13DE68F853
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:50:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPqRg-0000eG-3F; Wed, 08 Feb 2023 14:49:32 -0500
+	id 1pPqRc-0000Ws-OJ; Wed, 08 Feb 2023 14:49:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pPqRP-0000VE-EI
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pPqRQ-0000VM-62
  for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:49:16 -0500
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pPqRN-00028W-7H
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pPqRO-00028p-ML
  for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:49:15 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 60D9521F4C;
- Wed,  8 Feb 2023 19:49:11 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2AF37222AC;
+ Wed,  8 Feb 2023 19:49:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675885751; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1675885753; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Wk5tyFVmpl6h3EyIQrlUnuh/vSR/G3a7AQazD/WDsdg=;
- b=OpzM7ctr7Y3LxWX51bWfIhPw01P0L8VYz7W5ZaxiUj4AsgSZgOXJaQ+ba689BfevDITKvA
- Xq4XhvKPgwkCX+rr35Jb8L10mT4EdsmhRtABv2CTHqahMX1Mvt1Dbcu3b2muBEKOINc8km
- dSSd3tqTgi35NSAJrF7u3nFOqfAyotA=
+ bh=hXeLkHUow7UwrfWEOu1KcF69qHO/LKshH+BxasVyWII=;
+ b=UELZmKcmHP/1iB0fMTiYssHkSqrfokQhSoenyGNG3oXPL8VMiRpAcReloXjUW0FO93Iul1
+ lvz9J6fR9F9uvYneSFHYRuULbT6yAhZajVvNEtfRYcz1nWZ3TNOB8Vm3eKzNcaiNZHKfBx
+ q0RVT+AlF6lau/bpqrDhM/1KXvclCcg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675885751;
+ s=susede2_ed25519; t=1675885753;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Wk5tyFVmpl6h3EyIQrlUnuh/vSR/G3a7AQazD/WDsdg=;
- b=qNwlx/tuSrBWDKwSeXErNH93c5jAwJUn+ftcfNNqbc2vG07eFggHRYtirHihBtD0VCs1fK
- SL3gwGf8POXIl3Bw==
+ bh=hXeLkHUow7UwrfWEOu1KcF69qHO/LKshH+BxasVyWII=;
+ b=S3S4E7/xoDd+0AJm1n74cWfiRg6hU96tC0Lb3TP1LJ0gmQ32h94dG+6t9IpVcN4ge9vHpR
+ nD+u+JR7BLI/11DQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9777A13425;
- Wed,  8 Feb 2023 19:49:09 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CED2013425;
+ Wed,  8 Feb 2023 19:49:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 2NUCGLX842OZIwAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 08 Feb 2023 19:49:09 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id wNxvJbf842OZIwAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 08 Feb 2023 19:49:11 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 03/12] tests/qtest: Add dependence on PCIE_PORT for
- virtio-net-failover.c
-Date: Wed,  8 Feb 2023 16:46:51 -0300
-Message-Id: <20230208194700.11035-4-farosas@suse.de>
+Subject: [PATCH v2 04/12] tests/qtest: Don't build virtio-serial-test.c if
+ device not present
+Date: Wed,  8 Feb 2023 16:46:52 -0300
+Message-Id: <20230208194700.11035-5-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230208194700.11035-1-farosas@suse.de>
 References: <20230208194700.11035-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
  helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -86,28 +86,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This test depends on the presence of the pcie-root-port device. Add a
-build time dependency.
+The virtconsole device might not be present in the QEMU build that is
+being tested.
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- tests/qtest/meson.build | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tests/qtest/meson.build | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index e97616d327..5c8b031ce0 100644
+index 5c8b031ce0..eccdfca235 100644
 --- a/tests/qtest/meson.build
 +++ b/tests/qtest/meson.build
-@@ -73,7 +73,8 @@ qtests_i386 = \
-   (config_all_devices.has_key('CONFIG_ESP_PCI') ? ['am53c974-test'] : []) +                 \
-   (config_host.has_key('CONFIG_POSIX') and                                                  \
-    config_all_devices.has_key('CONFIG_ACPI_ERST') ? ['erst-test'] : []) +                   \
--  (config_all_devices.has_key('CONFIG_VIRTIO_NET') and                                      \
-+  (config_all_devices.has_key('CONFIG_PCIE_PORT') and                                       \
-+   config_all_devices.has_key('CONFIG_VIRTIO_NET') and                                      \
-    config_all_devices.has_key('CONFIG_Q35') and                                             \
-    config_all_devices.has_key('CONFIG_VIRTIO_PCI') and                                      \
-    slirp.found() ? ['virtio-net-failover'] : []) +                                          \
+@@ -255,10 +255,14 @@ qos_test_ss.add(
+   'virtio-net-test.c',
+   'virtio-rng-test.c',
+   'virtio-scsi-test.c',
+-  'virtio-serial-test.c',
+   'virtio-iommu-test.c',
+   'vmxnet3-test.c',
+ )
++
++qos_test_ss.add(
++  (config_all_devices.has_key('CONFIG_VIRTIO_SERIAL') ? ['virtio-serial-test.c'] : [])
++)
++
+ if config_host.has_key('CONFIG_POSIX')
+   qos_test_ss.add(files('e1000e-test.c'))
+ endif
 -- 
 2.35.3
 
