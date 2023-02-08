@@ -2,75 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 643BD68F797
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:00:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D8A668F7D2
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 20:06:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPpeo-0002CI-KP; Wed, 08 Feb 2023 13:59:02 -0500
+	id 1pPpl0-0005KE-1n; Wed, 08 Feb 2023 14:05:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pPpel-0002Bt-V1
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 13:59:00 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pPpku-0005Hn-GR
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:05:20 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pPpej-0000eC-J3
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 13:58:59 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pPpko-0001zo-Vx
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 14:05:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675882736;
+ s=mimecast20190719; t=1675883109;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oZ9ibrCR5RbDtCsjqILP7FESVL3t0DXajptKZqNboi0=;
- b=MwiBSN3cSvGYma39RxPJGrjMEoIV5o2UuuOyXoy3VhlVg35/a+gDANwQ2V3x9gp+ITWbXx
- F3Y66XlSJFYOA8QOwtg404+ljFWDf6XZa2358hiP/om4AqCTuLgE018RmI+TEocNAmljp8
- Ky1wFTfz23HEgfbHsk8M2qKCRnS+cqg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-154-I0uVy-OfNX-hksdP0k93yw-1; Wed, 08 Feb 2023 13:58:50 -0500
-X-MC-Unique: I0uVy-OfNX-hksdP0k93yw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 196C5800050;
- Wed,  8 Feb 2023 18:58:50 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 72A4D18EC2;
- Wed,  8 Feb 2023 18:58:47 +0000 (UTC)
-Date: Wed, 8 Feb 2023 18:58:45 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- x86@kernel.org, linux-kernel@vger.kernel.org,
- Dov Murik <dovmurik@linux.ibm.com>, Tom Lendacky <thomas.lendacky@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "H . Peter Anvin" <hpa@zytor.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Borislav Petkov <bp@alien8.de>, Eric Biggers <ebiggers@kernel.org>
-Subject: Re: [PATCH] x86: temporarily remove all attempts to provide setup_data
-Message-ID: <Y+Pw5St+8kBXSCFx@redhat.com>
-References: <20230208180835.234638-1-Jason@zx2c4.com>
- <20230208131125-mutt-send-email-mst@kernel.org>
- <CAHmME9rMnbGDZ+Rq8ao=gZd10kBp5ni=73HcPpFC58ChoKZObA@mail.gmail.com>
- <20230208131805-mutt-send-email-mst@kernel.org>
- <Y+PpPRvnlakC78Is@zx2c4.com> <Y+PqePFLgp5Lel4V@redhat.com>
- <Y+PrNmq5nuWKWfGw@zx2c4.com>
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=YidgLrxEx9n1Bia+JpgFFjrQgzDHDJyYkpDRxYItnXM=;
+ b=A4ADnqBKDVCH7UvEuOfTycXeoPXFrD+W2QW8vBENuxlHnhWkytjXOPcLmMsADsbB1IsztY
+ dFspAwMToMTYJvTPtT0vLxXIZFarBblbk/Tpa+Vt9++qe5JVoDAE4t2lZCAIFmRXOfJLhf
+ aOKy42Vo16YsA8vFLN7vzcEEGBEXgew=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-454-CprmNvjZMHCphOE-yE08Yg-1; Wed, 08 Feb 2023 14:05:08 -0500
+X-MC-Unique: CprmNvjZMHCphOE-yE08Yg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ d14-20020a05600c34ce00b003dd07ce79c8so1475927wmq.1
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 11:05:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YidgLrxEx9n1Bia+JpgFFjrQgzDHDJyYkpDRxYItnXM=;
+ b=kYLltKrtijdxIvIfNwnanXe/wHeHgDZxT5jFonM/Ihjb11S1rsJJ+yYUrX5QOqTM5z
+ PH89I6WiGKJesL2WXGVJGgBCbW2Y3DP5KWomElYpG0w1B8Y2QXynNT1lytS2mSFuDxn/
+ QLcdXBhMmMSKxpL+1U5tUf+s2/bFG511P+AmbFiIbTdhun25BDzeKDJuPXK91y6XikzO
+ XpJyRcHJRPgwVvWQT9jrqKrgyRBpXFMUxxnjVAAuUysHh8zmGERJngV93gW1Y0UwtReu
+ AxuypNQDUQlcZbsYh8VkX6mYHpBV0jpkq2Ik5SfrUDENUC3n+IcGWM2dbqJB9LksUv+z
+ N0ig==
+X-Gm-Message-State: AO0yUKXn/WJg8bwhxNxuq7P/9e9noVEIgewrQ36CHwOeueVRH5v9NXkx
+ 8Zd8J7HuIiTAxf3MQasnkJ1SxqD/zgROkTFBGlIV0hMeGS0lTZGGxm+oBN65sVoo4rC1/FYfdHE
+ 0pCdcL6Tu7vQpf9s=
+X-Received: by 2002:a05:600c:704:b0:3df:d8c5:ec18 with SMTP id
+ i4-20020a05600c070400b003dfd8c5ec18mr7631854wmn.13.1675883106991; 
+ Wed, 08 Feb 2023 11:05:06 -0800 (PST)
+X-Google-Smtp-Source: AK7set93XwwWDgu98ydH3B07hkHEmC9mxKczn74rh1QqHezVv+m2/CtbwRoPcSbrdleOqJ0CFCY+Cg==
+X-Received: by 2002:a05:600c:704:b0:3df:d8c5:ec18 with SMTP id
+ i4-20020a05600c070400b003dfd8c5ec18mr7631835wmn.13.1675883106826; 
+ Wed, 08 Feb 2023 11:05:06 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ g20-20020a7bc4d4000000b003a3442f1229sm2747014wmk.29.2023.02.08.11.05.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Feb 2023 11:05:04 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,
+ Michal =?utf-8?B?UHLDrXZvem7DrWs=?= <mprivozn@redhat.com>,  Leonardo Bras
+ Soares Passos
+ <lsoaresp@redhat.com>,  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Daniel P . =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH v3 1/2] linux-headers: Update to v6.1
+In-Reply-To: <20230207205711.1187216-2-peterx@redhat.com> (Peter Xu's message
+ of "Tue, 7 Feb 2023 15:57:10 -0500")
+References: <20230207205711.1187216-1-peterx@redhat.com>
+ <20230207205711.1187216-2-peterx@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Wed, 08 Feb 2023 20:05:03 +0100
+Message-ID: <871qn0asgw.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y+PrNmq5nuWKWfGw@zx2c4.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -91,89 +100,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 08, 2023 at 07:34:30PM +0100, Jason A. Donenfeld wrote:
-> On Wed, Feb 08, 2023 at 06:31:20PM +0000, Daniel P. Berrangé wrote:
-> > On Wed, Feb 08, 2023 at 07:26:05PM +0100, Jason A. Donenfeld wrote:
-> > > On Wed, Feb 08, 2023 at 01:18:37PM -0500, Michael S. Tsirkin wrote:
-> > > > On Wed, Feb 08, 2023 at 03:14:38PM -0300, Jason A. Donenfeld wrote:
-> > > > > On Wed, Feb 8, 2023 at 3:13 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > > > >
-> > > > > > On Wed, Feb 08, 2023 at 03:08:35PM -0300, Jason A. Donenfeld wrote:
-> > > > > > > All attempts at providing setup_data have been made as an iteration on
-> > > > > > > whatever was there before, stretching back to the original
-> > > > > > > implementation used for DTBs that [mis]used the kernel image itself.
-> > > > > > > We've now had a dozen rounds of bugs and hacks, and the result is
-> > > > > > > turning into a pile of unmaintainable and increasingly brittle hacks.
-> > > > > > >
-> > > > > > > Let's just rip out all the madness and start over. We can re-architect
-> > > > > > > this based on having a separate standalone setup_data file, which is how
-> > > > > > > it should have been done in the first place. This is a larger project
-> > > > > > > with a few things to coordinate, but we can't really begin thinking
-> > > > > > > about that while trying to play whack-a-mole with the current buggy
-> > > > > > > implementation.
-> > > > > > >
-> > > > > > > So this commit removes the setup_data setting from x86_load_linux(),
-> > > > > > > while leaving intact the infrastructure we'll need in the future to try
-> > > > > > > again.
-> > > > > > >
-> > > > > > > Cc: Michael S. Tsirkin <mst@redhat.com>
-> > > > > > > Cc: Dov Murik <dovmurik@linux.ibm.com>
-> > > > > > > Cc: Tom Lendacky <thomas.lendacky@amd.com>
-> > > > > > > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > > > > > > Cc: Daniel P. Berrangé <berrange@redhat.com>
-> > > > > > > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > > > > > > Cc: Richard Henderson <richard.henderson@linaro.org>
-> > > > > > > Cc: H. Peter Anvin <hpa@zytor.com>
-> > > > > > > Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
-> > > > > > > Cc: Nathan Chancellor <nathan@kernel.org>
-> > > > > > > Cc: Borislav Petkov <bp@alien8.de>
-> > > > > > > Cc: Eric Biggers <ebiggers@kernel.org>
-> > > > > > > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> > > > > >
-> > > > > > I think I'll be happier if this is just a revert of
-> > > > > > the relevant commits in reverse order to make life easier
-> > > > > > for backporters.
-> > > > > > Unless that's too much work as we made other changes around
-> > > > > > this code?
-> > > > > 
-> > > > > I think that's going to be messy. And it won't handle the dtb stuff
-> > > > > either straightforwardly.
-> > > > 
-> > > > List of Fixes tags so people can at least figure out whether they
-> > > > have a version that needs this fix then?
-> > > 
-> > > 7.2 is when the functionality started causing problems for most people.
-> > > But the buggy code goes back to 3cbeb524 in 2016.
-> > 
-> > We can't rip out the full setup_data support back to that point. That
-> > is deleting significant features that would break -dtb IIUC. For that
-> > we would need to have a deprecation period to announce the incompatibility.
-> > 
-> > I was thinking this would only revert the RNG seed pieces which have
-> > negligible user impact.
-> 
-> I'm pretty sure -dtb is used by nobody...
+Peter Xu <peterx@redhat.com> wrote:
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>  include/standard-headers/drm/drm_fourcc.h     |  34 ++++-
+>  include/standard-headers/linux/ethtool.h      |  63 +++++++-
+>  include/standard-headers/linux/fuse.h         |   6 +-
+>  .../linux/input-event-codes.h                 |   1 +
+>  include/standard-headers/linux/virtio_blk.h   |  19 +++
+>  linux-headers/asm-generic/hugetlb_encode.h    |  26 ++--
+>  linux-headers/asm-generic/mman-common.h       |   2 +
+>  linux-headers/asm-mips/mman.h                 |   2 +
+>  linux-headers/asm-riscv/kvm.h                 |   4 +
+>  linux-headers/linux/kvm.h                     |   1 +
+>  linux-headers/linux/psci.h                    |  14 ++
+>  linux-headers/linux/userfaultfd.h             |   4 +
+>  linux-headers/linux/vfio.h                    | 142 ++++++++++++++++++
+>  13 files changed, 298 insertions(+), 20 deletions(-)
 
-Unless it can be demonstrated it is so broken it is technically
-impossible to successfully use in any way, then QEMU policy is to
-assume that there are users.
-
-The QEMU deprecation policy exists to handle the scenario where we
-want to remove a feature and need to alert potential users ahead
-of time, so they have an opportunity to object to the breakage.
-This is described here:
-
-  https://www.qemu.org/docs/master/about/deprecated.html
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
 
