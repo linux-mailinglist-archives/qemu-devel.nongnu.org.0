@@ -2,56 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 489AE68E87E
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 07:50:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 129E868E87D
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 07:50:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPeH6-0007YS-Qg; Wed, 08 Feb 2023 01:49:48 -0500
+	id 1pPeH6-0007YK-J5; Wed, 08 Feb 2023 01:49:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPeH5-0007Xw-Fh
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 01:49:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPeH4-0007Xo-3P
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 01:49:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPeH3-0007Pk-RK
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 01:49:47 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pPeH2-0007PV-Bw
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 01:49:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675838985;
+ s=mimecast20190719; t=1675838982;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=s0JdhfmEikmbpZuOmyTzXyn+VJTx6EigFRIVw4cUivI=;
- b=SbDFTNrRjSloK9sXIcn5LgRCZZROxHmDW7dFWmGJl+ELvzbrw5ZxSGUy70XUPlNbFQYTAN
- rL1sOZPsk5FB7bcf/YnciKdrPASFccjEkfBCjFtGYz6wWm37kzlWjmGtvMUzpAOGF/9jxr
- rUMurpeCC8VE3pgbEzhDT5VoCsX97EY=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O76mWNEUW6jccVtSAxsmeZkbf9/xBLSw7TXXHT3Dy54=;
+ b=OCEyB+YM4mbsfRO2Gcl5Sbhd/RjXojKJ3WSsdjNfatAq1ntagnvDW1pkPo/6A9bMgFLCxi
+ 7cMzbkvlui2uJl8GRP9P7yvszbXf0xtyLfew9QvSgPeDCnN/tLhfw+5lhci7VErg+H/2NM
+ kpDnfdXxq9a2a56PpC5hqLp4Ns74xms=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-400-8xKpPy-bOT6ESIIIjMq3vg-1; Wed, 08 Feb 2023 01:49:41 -0500
-X-MC-Unique: 8xKpPy-bOT6ESIIIjMq3vg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-231-X7r_d2vVPDaKB9WogMhF7A-1; Wed, 08 Feb 2023 01:49:41 -0500
+X-MC-Unique: X7r_d2vVPDaKB9WogMhF7A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 062A6181E3EE;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1CF2387B2A0;
  Wed,  8 Feb 2023 06:49:41 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B6A0F2026D4B;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B60A240398A0;
  Wed,  8 Feb 2023 06:49:40 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8EBAE21E6A1F; Wed,  8 Feb 2023 07:49:39 +0100 (CET)
+ id 9050521E6A20; Wed,  8 Feb 2023 07:49:39 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org
-Subject: [PULL v2 00/19] Header cleanup patches for 2023-02-06
-Date: Wed,  8 Feb 2023 07:49:38 +0100
-Message-Id: <20230208064939.226818-1-armbru@redhat.com>
+Cc: peter.maydell@linaro.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>
+Subject: [PULL v2 11/19] migration: Clean up includes
+Date: Wed,  8 Feb 2023 07:49:39 +0100
+Message-Id: <20230208064939.226818-2-armbru@redhat.com>
+In-Reply-To: <20230208064939.226818-1-armbru@redhat.com>
+References: <20230208064939.226818-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -75,134 +79,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 969d09c3a6186c0a4bc8a41db0c1aba1c76081fc:
+This commit was created with scripts/clean-includes.
 
-  Merge tag 'pull-aspeed-20230207' of https://github.com/legoater/qemu into staging (2023-02-07 20:13:38 +0000)
+All .c should include qemu/osdep.h first.  The script performs three
+related cleanups:
 
-are available in the Git repository at:
+* Ensure .c files include qemu/osdep.h first.
+* Including it in a .h is redundant, since the .c  already includes
+  it.  Drop such inclusions.
+* Likewise, including headers qemu/osdep.h includes is redundant.
+  Drop these, too.
 
-  https://repo.or.cz/qemu/armbru.git tags/pull-include-2023-02-06-v2
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Message-Id: <20230202133830.2152150-12-armbru@redhat.com>
+[Straightforward conflict with commit d5890ea0722 resolved]
+---
+ include/qemu/userfaultfd.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-for you to fetch changes up to a67dfa660b0dd944c8fedfac02806de75b0c08b1:
-
-  Drop duplicate #include (2023-02-08 07:28:05 +0100)
-
-----------------------------------------------------------------
-Header cleanup patches for 2023-02-06
-
-----------------------------------------------------------------
-Markus Armbruster (19):
-      scripts/clean-includes: Fully skip / ignore files
-      scripts/clean-includes: Don't claim duplicate headers found when not
-      scripts/clean-includes: Skip symbolic links
-      scripts/clean-includes: Improve --git commit message
-      bsd-user: Clean up includes
-      crypto: Clean up includes
-      hw/cxl: Clean up includes
-      hw/input: Clean up includes
-      hw/tricore: Clean up includes
-      qga: Clean up includes
-      migration: Clean up includes
-      net: Clean up includes
-      target/hexagon: Clean up includes
-      riscv: Clean up includes
-      block: Clean up includes
-      accel: Clean up includes
-      Fix non-first inclusions of qemu/osdep.h
-      Don't include headers already included by qemu/osdep.h
-      Drop duplicate #include
-
- backends/tpm/tpm_ioctl.h          |  2 --
- bsd-user/bsd-proc.h               |  4 ----
- bsd-user/qemu.h                   |  1 -
- crypto/block-luks-priv.h          |  1 -
- fsdev/p9array.h                   |  2 --
- include/block/graph-lock.h        |  1 -
- include/block/write-threshold.h   |  2 --
- include/hw/arm/fsl-imx6ul.h       |  1 -
- include/hw/arm/fsl-imx7.h         |  1 -
- include/hw/cxl/cxl_component.h    |  2 --
- include/hw/cxl/cxl_host.h         |  1 -
- include/hw/cxl/cxl_pci.h          |  1 -
- include/hw/input/pl050.h          |  1 -
- include/hw/misc/aspeed_lpc.h      |  2 --
- include/hw/pci/pcie_doe.h         |  1 -
- include/hw/tricore/triboard.h     |  1 -
- include/qemu/async-teardown.h     |  2 --
- include/qemu/dbus.h               |  1 -
- include/qemu/host-utils.h         |  1 -
- include/qemu/userfaultfd.h        |  1 -
- include/sysemu/accel-blocker.h    |  1 -
- include/sysemu/event-loop-base.h  |  1 -
- net/vmnet_int.h                   |  1 -
- qga/cutils.h                      |  2 --
- target/hexagon/hex_arch_types.h   |  1 -
- target/hexagon/mmvec/macros.h     |  1 -
- target/riscv/pmu.h                |  1 -
- accel/tcg/cpu-exec.c              |  1 -
- audio/sndioaudio.c                |  2 +-
- backends/hostmem-epc.c            |  2 +-
- backends/tpm/tpm_emulator.c       |  1 -
- block/export/vduse-blk.c          |  2 +-
- block/qapi.c                      |  1 -
- bsd-user/arm/signal.c             |  1 +
- bsd-user/arm/target_arch_cpu.c    |  2 ++
- bsd-user/freebsd/os-sys.c         |  1 +
- bsd-user/i386/signal.c            |  1 +
- bsd-user/i386/target_arch_cpu.c   |  3 +--
- bsd-user/main.c                   |  4 +---
- bsd-user/strace.c                 |  1 -
- bsd-user/x86_64/signal.c          |  1 +
- bsd-user/x86_64/target_arch_cpu.c |  3 +--
- hw/9pfs/9p.c                      |  2 --
- hw/acpi/piix4.c                   |  1 -
- hw/alpha/dp264.c                  |  1 -
- hw/arm/virt.c                     |  1 -
- hw/arm/xlnx-versal.c              |  1 -
- hw/block/pflash_cfi01.c           |  1 -
- hw/core/machine.c                 |  1 -
- hw/display/virtio-gpu-udmabuf.c   |  1 -
- hw/hppa/machine.c                 |  1 -
- hw/hyperv/syndbg.c                |  2 +-
- hw/i2c/pmbus_device.c             |  1 -
- hw/i386/acpi-build.c              |  1 -
- hw/input/tsc210x.c                |  1 -
- hw/loongarch/acpi-build.c         |  1 -
- hw/misc/macio/cuda.c              |  1 -
- hw/misc/macio/pmu.c               |  1 -
- hw/net/xilinx_axienet.c           |  1 -
- hw/ppc/ppc405_uc.c                |  2 --
- hw/ppc/ppc440_bamboo.c            |  1 -
- hw/ppc/spapr_drc.c                |  1 -
- hw/rdma/vmw/pvrdma_dev_ring.c     |  1 -
- hw/remote/machine.c               |  1 -
- hw/remote/proxy-memory-listener.c |  1 -
- hw/remote/remote-obj.c            |  1 -
- hw/rtc/mc146818rtc.c              |  1 -
- hw/s390x/virtio-ccw-serial.c      |  1 -
- hw/sensor/adm1272.c               |  1 -
- hw/usb/dev-storage-bot.c          |  1 -
- hw/usb/dev-storage-classic.c      |  1 -
- migration/postcopy-ram.c          |  2 --
- qga/commands-posix.c              |  1 -
- qga/cutils.c                      |  3 ++-
- softmmu/dirtylimit.c              |  1 -
- softmmu/runstate.c                |  1 -
- softmmu/vl.c                      |  3 ---
- target/loongarch/translate.c      |  1 -
- target/mips/tcg/translate.c       |  1 -
- target/nios2/translate.c          |  2 --
- tcg/tci.c                         |  1 -
- tests/unit/test-cutils.c          |  1 -
- tests/unit/test-seccomp.c         |  1 -
- ui/gtk.c                          |  1 -
- ui/udmabuf.c                      |  1 -
- util/async-teardown.c             | 12 ++++--------
- util/main-loop.c                  |  1 -
- util/oslib-posix.c                |  6 ------
- scripts/clean-includes            | 27 +++++++++++++++++++--------
- 89 files changed, 38 insertions(+), 123 deletions(-)
-
+diff --git a/include/qemu/userfaultfd.h b/include/qemu/userfaultfd.h
+index d764496f0b..18a4314212 100644
+--- a/include/qemu/userfaultfd.h
++++ b/include/qemu/userfaultfd.h
+@@ -15,7 +15,6 @@
+ 
+ #ifdef CONFIG_LINUX
+ 
+-#include "qemu/osdep.h"
+ #include "exec/hwaddr.h"
+ #include <linux/userfaultfd.h>
+ 
 -- 
 2.39.0
 
