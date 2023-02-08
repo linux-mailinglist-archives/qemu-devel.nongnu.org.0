@@ -2,80 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98FF968F700
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 19:35:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DCEE68F746
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Feb 2023 19:42:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPpHI-00024y-0R; Wed, 08 Feb 2023 13:34:44 -0500
+	id 1pPpNm-0005h1-23; Wed, 08 Feb 2023 13:41:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=Pi03=6E=zx2c4.com=Jason@kernel.org>)
- id 1pPpHF-00024Z-Ec
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 13:34:41 -0500
-Received: from ams.source.kernel.org ([145.40.68.75])
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pPpNd-0005bx-IT; Wed, 08 Feb 2023 13:41:18 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=Pi03=6E=zx2c4.com=Jason@kernel.org>)
- id 1pPpHD-0003Jq-7K
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 13:34:41 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 5A518B81F2E;
- Wed,  8 Feb 2023 18:34:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55C01C433EF;
- Wed,  8 Feb 2023 18:34:33 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="aZhH/gPf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1675881270;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cao7atRAj5EzOKn7eWRiDQw9TlKsKb+eWA3SfBqNxKE=;
- b=aZhH/gPfn495K6PdMZdHWMGLi/CCfz6UzfxXWADnJFFzW+i5jJSz2x7UekVwYPfaeEmPZR
- jvUYaB6HKdjporxvFcqQkcGZoMtyXxLr8nkRLFTFQjuglHH6qyRZlk0GQ5ZmJ4rv0GyZCh
- W5ztMFOymgobnq0ocsqDtvU5Tj3bjOc=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 84942535
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Wed, 8 Feb 2023 18:34:30 +0000 (UTC)
-Date: Wed, 8 Feb 2023 19:34:30 +0100
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- x86@kernel.org, linux-kernel@vger.kernel.org,
- Dov Murik <dovmurik@linux.ibm.com>, Tom Lendacky <thomas.lendacky@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "H . Peter Anvin" <hpa@zytor.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Borislav Petkov <bp@alien8.de>, Eric Biggers <ebiggers@kernel.org>
-Subject: Re: [PATCH] x86: temporarily remove all attempts to provide setup_data
-Message-ID: <Y+PrNmq5nuWKWfGw@zx2c4.com>
-References: <20230208180835.234638-1-Jason@zx2c4.com>
- <20230208131125-mutt-send-email-mst@kernel.org>
- <CAHmME9rMnbGDZ+Rq8ao=gZd10kBp5ni=73HcPpFC58ChoKZObA@mail.gmail.com>
- <20230208131805-mutt-send-email-mst@kernel.org>
- <Y+PpPRvnlakC78Is@zx2c4.com> <Y+PqePFLgp5Lel4V@redhat.com>
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pPpNb-0004wp-2A; Wed, 08 Feb 2023 13:41:17 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 318HSgRc003826; Wed, 8 Feb 2023 18:41:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=zD/jVmvRFVSK3cqs4J7KfaDgF1ly3z6JESPcbbTc64k=;
+ b=qITC8tMEcpabTSUI+cS3gDiHTpsgQBsyAOH0C5zJqOfV+WbLOSZd9W0ov8zK7OEoJUuJ
+ F0zAbyW+84Qg0FwJKcf5CdqwyXsv9hcTRuLcSighm+gPlL2Mc1FiVuIPOTBqs9lorOFq
+ ZA22ohdBIVHqXUIT9ASu5RmAo15pNppNlXK4XKoqHyiZKNyrsRjlOJVo8+DIop1DAeXW
+ 4et2A2LmhXiqGeE21VEclD9o1qYVA4Y/qgJ3DMli/WfYFBcbNrvXgJWDpFBOTTrI2x3v
+ HDPCJrvv2voUnbi41tscq4yL3p08j3ElIsdcFUSz8i4Zb3iB1R1hIh9KSE+8G6IgqeEA xg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nmg5tac5c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Feb 2023 18:41:03 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 318I735f005716;
+ Wed, 8 Feb 2023 18:41:03 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nmg5tac31-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Feb 2023 18:41:03 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3185boHx001883;
+ Wed, 8 Feb 2023 18:41:00 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+ by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3nhf06n7ym-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Feb 2023 18:41:00 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 318Ieu4k47907150
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 8 Feb 2023 18:40:56 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 711BC20043;
+ Wed,  8 Feb 2023 18:40:56 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 04C3920040;
+ Wed,  8 Feb 2023 18:40:56 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.183.35]) by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed,  8 Feb 2023 18:40:55 +0000 (GMT)
+Message-ID: <5775d58faf9505e561c81baa3807f01a1e0621b4.camel@linux.ibm.com>
+Subject: Re: [PATCH v15 08/11] qapi/s390x/cpu topology: x-set-cpu-topology
+ monitor command
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+Date: Wed, 08 Feb 2023 19:40:55 +0100
+In-Reply-To: <20230201132051.126868-9-pmorel@linux.ibm.com>
+References: <20230201132051.126868-1-pmorel@linux.ibm.com>
+ <20230201132051.126868-9-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y+PqePFLgp5Lel4V@redhat.com>
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=SRS0=Pi03=6E=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: MOwkDGlapOGCwE8AMdju5tAoNa87nBPD
+X-Proofpoint-GUID: 1V7LA3Du5uZYBtG85sM1QGUr4-dV2ELf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-08_09,2023-02-08_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0
+ adultscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0
+ mlxlogscore=999 mlxscore=0 impostorscore=0 priorityscore=1501 spamscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302080161
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,67 +117,242 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 08, 2023 at 06:31:20PM +0000, Daniel P. Berrangé wrote:
-> On Wed, Feb 08, 2023 at 07:26:05PM +0100, Jason A. Donenfeld wrote:
-> > On Wed, Feb 08, 2023 at 01:18:37PM -0500, Michael S. Tsirkin wrote:
-> > > On Wed, Feb 08, 2023 at 03:14:38PM -0300, Jason A. Donenfeld wrote:
-> > > > On Wed, Feb 8, 2023 at 3:13 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > > >
-> > > > > On Wed, Feb 08, 2023 at 03:08:35PM -0300, Jason A. Donenfeld wrote:
-> > > > > > All attempts at providing setup_data have been made as an iteration on
-> > > > > > whatever was there before, stretching back to the original
-> > > > > > implementation used for DTBs that [mis]used the kernel image itself.
-> > > > > > We've now had a dozen rounds of bugs and hacks, and the result is
-> > > > > > turning into a pile of unmaintainable and increasingly brittle hacks.
-> > > > > >
-> > > > > > Let's just rip out all the madness and start over. We can re-architect
-> > > > > > this based on having a separate standalone setup_data file, which is how
-> > > > > > it should have been done in the first place. This is a larger project
-> > > > > > with a few things to coordinate, but we can't really begin thinking
-> > > > > > about that while trying to play whack-a-mole with the current buggy
-> > > > > > implementation.
-> > > > > >
-> > > > > > So this commit removes the setup_data setting from x86_load_linux(),
-> > > > > > while leaving intact the infrastructure we'll need in the future to try
-> > > > > > again.
-> > > > > >
-> > > > > > Cc: Michael S. Tsirkin <mst@redhat.com>
-> > > > > > Cc: Dov Murik <dovmurik@linux.ibm.com>
-> > > > > > Cc: Tom Lendacky <thomas.lendacky@amd.com>
-> > > > > > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > > > > > Cc: Daniel P. Berrangé <berrange@redhat.com>
-> > > > > > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > > > > > Cc: Richard Henderson <richard.henderson@linaro.org>
-> > > > > > Cc: H. Peter Anvin <hpa@zytor.com>
-> > > > > > Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
-> > > > > > Cc: Nathan Chancellor <nathan@kernel.org>
-> > > > > > Cc: Borislav Petkov <bp@alien8.de>
-> > > > > > Cc: Eric Biggers <ebiggers@kernel.org>
-> > > > > > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> > > > >
-> > > > > I think I'll be happier if this is just a revert of
-> > > > > the relevant commits in reverse order to make life easier
-> > > > > for backporters.
-> > > > > Unless that's too much work as we made other changes around
-> > > > > this code?
-> > > > 
-> > > > I think that's going to be messy. And it won't handle the dtb stuff
-> > > > either straightforwardly.
-> > > 
-> > > List of Fixes tags so people can at least figure out whether they
-> > > have a version that needs this fix then?
-> > 
-> > 7.2 is when the functionality started causing problems for most people.
-> > But the buggy code goes back to 3cbeb524 in 2016.
-> 
-> We can't rip out the full setup_data support back to that point. That
-> is deleting significant features that would break -dtb IIUC. For that
-> we would need to have a deprecation period to announce the incompatibility.
-> 
-> I was thinking this would only revert the RNG seed pieces which have
-> negligible user impact.
+On Wed, 2023-02-01 at 14:20 +0100, Pierre Morel wrote:
+> The modification of the CPU attributes are done through a monitor
+> command.
+>=20
+> It allows to move the core inside the topology tree to optimise
+> the cache usage in the case the host's hypervisor previously
+> moved the CPU.
+>=20
+> The same command allows to modify the CPU attributes modifiers
+> like polarization entitlement and the dedicated attribute to notify
+> the guest if the host admin modified scheduling or dedication of a vCPU.
+>=20
+> With this knowledge the guest has the possibility to optimize the
+> usage of the vCPUs.
+>=20
+> The command is made experimental for the moment.
+>=20
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>  qapi/machine-target.json | 29 +++++++++++++
+>  include/monitor/hmp.h    |  1 +
+>  hw/s390x/cpu-topology.c  | 88 ++++++++++++++++++++++++++++++++++++++++
+>  hmp-commands.hx          | 16 ++++++++
+>  4 files changed, 134 insertions(+)
+>=20
+> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+> index 2e267fa458..58df0f5061 100644
+> --- a/qapi/machine-target.json
+> +++ b/qapi/machine-target.json
+> @@ -342,3 +342,32 @@
+>                     'TARGET_S390X',
+>                     'TARGET_MIPS',
+>                     'TARGET_LOONGARCH64' ] } }
+> +
+> +##
+> +# @x-set-cpu-topology:
+> +#
+> +# @core: the vCPU ID to be moved
+> +# @socket: the destination socket where to move the vCPU
+> +# @book: the destination book where to move the vCPU
+> +# @drawer: the destination drawer where to move the vCPU
 
-I'm pretty sure -dtb is used by nobody...
+I wonder if it wouldn't be more convenient for the caller if everything is =
+optional.
 
-Jason
+> +# @polarity: optional polarity, default is last polarity set by the gues=
+t
+> +# @dedicated: optional, if the vCPU is dedicated to a real CPU
+> +#
+> +# Modifies the topology by moving the CPU inside the topology
+> +# tree or by changing a modifier attribute of a CPU.
+> +#
+> +# Returns: Nothing on success, the reason on failure.
+> +#
+> +# Since: <next qemu stable release, eg. 1.0>
+> +##
+> +{ 'command': 'x-set-cpu-topology',
+> +  'data': {
+> +      'core': 'int',
+> +      'socket': 'int',
+> +      'book': 'int',
+> +      'drawer': 'int',
+
+Did you consider naming those core-id, etc.? It would be consistent with
+query-cpus-fast/CpuInstanceProperties. Also all your variables end with _id=
+.
+I don't care really just wanted to point it out.
+
+> +      '*polarity': 'int',
+> +      '*dedicated': 'bool'
+> +  },
+> +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
+> +}
+
+So apparently this is the old way of doing an experimental api.
+
+> Names beginning with ``x-`` used to signify "experimental".  This
+> convention has been replaced by special feature "unstable".
+
+> Feature "unstable" marks a command, event, enum value, or struct
+> member as unstable.  It is not supported elsewhere so far.  Interfaces
+> so marked may be withdrawn or changed incompatibly in future releases.
+
+> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+> index 1b3bdcb446..12827479cf 100644
+> --- a/include/monitor/hmp.h
+> +++ b/include/monitor/hmp.h
+> @@ -151,5 +151,6 @@ void hmp_human_readable_text_helper(Monitor *mon,
+>                                      HumanReadableText *(*qmp_handler)(Er=
+ror **));
+>  void hmp_info_stats(Monitor *mon, const QDict *qdict);
+>  void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict);
+> +void hmp_x_set_cpu_topology(Monitor *mon, const QDict *qdict);
+> =20
+>  #endif
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> index c33378577b..6c50050991 100644
+> --- a/hw/s390x/cpu-topology.c
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -18,6 +18,10 @@
+>  #include "target/s390x/cpu.h"
+>  #include "hw/s390x/s390-virtio-ccw.h"
+>  #include "hw/s390x/cpu-topology.h"
+> +#include "qapi/qapi-commands-machine-target.h"
+> +#include "qapi/qmp/qdict.h"
+> +#include "monitor/hmp.h"
+> +#include "monitor/monitor.h"
+> =20
+>  /*
+>   * s390_topology is used to keep the topology information.
+> @@ -379,3 +383,87 @@ void s390_topology_set_cpu(MachineState *ms, S390CPU=
+ *cpu, Error **errp)
+>      /* topology tree is reflected in props */
+>      s390_update_cpu_props(ms, cpu);
+>  }
+> +
+> +/*
+> + * qmp and hmp implementations
+> + */
+> +
+> +static void s390_change_topology(int64_t core_id, int64_t socket_id,
+> +                                 int64_t book_id, int64_t drawer_id,
+> +                                 int64_t polarity, bool dedicated,
+> +                                 Error **errp)
+> +{
+> +    MachineState *ms =3D current_machine;
+> +    S390CPU *cpu;
+> +    ERRP_GUARD();
+> +
+> +    cpu =3D (S390CPU *)ms->possible_cpus->cpus[core_id].cpu;
+> +    if (!cpu) {
+> +        error_setg(errp, "Core-id %ld does not exist!", core_id);
+> +        return;
+> +    }
+> +
+> +    /* Verify the new topology */
+> +    s390_topology_check(cpu, errp);
+> +    if (*errp) {
+> +        return;
+> +    }
+> +
+> +    /* Move the CPU into its new socket */
+> +    s390_set_core_in_socket(cpu, drawer_id, book_id, socket_id, true, er=
+rp);
+
+The cpu isn't being created, so that should be false instead of true, right=
+?
+
+> +
+> +    /* All checks done, report topology in environment */
+> +    cpu->env.drawer_id =3D drawer_id;
+> +    cpu->env.book_id =3D book_id;
+> +    cpu->env.socket_id =3D socket_id;
+> +    cpu->env.dedicated =3D dedicated;
+> +    cpu->env.entitlement =3D polarity;
+> +
+> +    /* topology tree is reflected in props */
+> +    s390_update_cpu_props(ms, cpu);
+> +
+> +    /* Advertise the topology change */
+> +    s390_cpu_topology_set_modified();
+> +}
+> +
+> +void qmp_x_set_cpu_topology(int64_t core, int64_t socket,
+> +                         int64_t book, int64_t drawer,
+> +                         bool has_polarity, int64_t polarity,
+> +                         bool has_dedicated, bool dedicated,
+> +                         Error **errp)
+> +{
+> +    ERRP_GUARD();
+> +
+> +    if (!s390_has_topology()) {
+> +        error_setg(errp, "This machine doesn't support topology");
+> +        return;
+> +    }
+> +    if (!has_polarity) {
+> +        polarity =3D POLARITY_VERTICAL_MEDIUM;
+> +    }
+> +    if (!has_dedicated) {
+> +        dedicated =3D false;
+> +    }
+> +    s390_change_topology(core, socket, book, drawer, polarity, dedicated=
+, errp);
+> +}
+> +
+> +void hmp_x_set_cpu_topology(Monitor *mon, const QDict *qdict)
+> +{
+> +    const int64_t core =3D qdict_get_int(qdict, "core");
+> +    const int64_t socket =3D qdict_get_int(qdict, "socket");
+> +    const int64_t book =3D qdict_get_int(qdict, "book");
+> +    const int64_t drawer =3D qdict_get_int(qdict, "drawer");
+> +    bool has_polarity    =3D qdict_haskey(qdict, "polarity");
+> +    const int64_t polarity =3D qdict_get_try_int(qdict, "polarity", 0);
+> +    bool has_dedicated    =3D qdict_haskey(qdict, "dedicated");
+> +    const bool dedicated =3D qdict_get_try_bool(qdict, "dedicated", fals=
+e);
+> +    Error *local_err =3D NULL;
+> +
+> +    qmp_x_set_cpu_topology(core, socket, book, drawer,
+> +                           has_polarity, polarity,
+> +                           has_dedicated, dedicated,
+> +                           &local_err);
+> +    if (hmp_handle_error(mon, local_err)) {
+> +        return;
+> +    }
+
+What is the if for? The function ends anyway.
+
+> +}
+> diff --git a/hmp-commands.hx b/hmp-commands.hx
+> index 673e39a697..bb3c908356 100644
+> --- a/hmp-commands.hx
+> +++ b/hmp-commands.hx
+> @@ -1815,3 +1815,19 @@ SRST
+>    Dump the FDT in dtb format to *filename*.
+>  ERST
+>  #endif
+> +
+> +#if defined(TARGET_S390X) && defined(CONFIG_KVM)
+> +    {
+> +        .name       =3D "x-set-cpu-topology",
+> +        .args_type  =3D "core:l,socket:l,book:l,drawer:l,polarity:l?,ded=
+icated:b?",
+> +        .params     =3D "core socket book drawer [polarity] [dedicated]"=
+,
+> +        .help       =3D "Move CPU 'core' to 'socket/book/drawer' "
+> +                      "optionaly modifies polarity and dedication",
+> +        .cmd        =3D hmp_x_set_cpu_topology,
+> +    },
+> +
+> +SRST
+> +``x-set-cpu-topology`` *core* *socket* *book* *drawer* *polarity* *dedic=
+ated*
+> +  Moves the CPU  *core* to *socket* *book* *drawer* with *polarity* *ded=
+icated*.
+> +ERST
+> +#endif
+
 
