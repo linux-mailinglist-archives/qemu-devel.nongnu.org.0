@@ -2,123 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3665869113E
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 20:23:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D764691163
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 20:32:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQCUf-0004UU-Q7; Thu, 09 Feb 2023 14:22:05 -0500
+	id 1pQCdO-00073R-KH; Thu, 09 Feb 2023 14:31:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1pQCUZ-0004TP-7r
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 14:21:59 -0500
-Received: from mail-dm6nam04on2060e.outbound.protection.outlook.com
- ([2a01:111:f400:7e8b::60e]
- helo=NAM04-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pQCdG-0006zZ-2K
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 14:30:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1pQCUW-0005bi-Td
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 14:21:58 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MUikY/Ir+tDujBxYzsYFCUlw/sUCLcqgl9iTd91CxZV275okvVyLZHMlMWEIuJ7pIXCzkRUdrJZ47NFNXThEZCQENQlth52Kt9E1d0wrpzwV8j+6zJj8lHILYXexzToh3/BMBy9ktsBTGNK955DE7Kgh4Z5K6FGQrlwy55rWs76Hu5I6DnhWNbR3uxYz3pmOPlda9qBDJzO1z/9Wy0ulR1gixDHFShMAPO5INww36YnLjEx/naoCHV6WKr3upCRMwaUxnq7iEsvGearjXASrfIXPewCAZLKFL8b6GZjQJAM3uHJ9X6OslszMHbbZRp0vOO8rVKBvxIcw6960WvITOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K8KWvGJ0YRJVfp4ghFj1imko8yVkspj/Fhaf1w7s4MM=;
- b=QDYXl8SV8n7uAiLDEgLHAMlpawClJuRtCvalaJmqTF7Gpfk21wtNZKrMFhRsl8TSJwZwE2+2HcVBq6sIhyiGVvt/gOny8dhLPiX1hlsA6B0pitFZXAUlMkvSSWSpAsHrPFbcwQ7U9S2NSO0oDPBn2YQfrl4kLMCqlKjPjnqkgd4OE97ATBCB8VX1z6+fPpJlRsmNT7Rc0SP2v2QHfZBDI8vQMU36xd0RJVKUVjpM5z5nmqqH18ZrIS4i0Qo+LH9wE+wv3EE/psty3eHcGv0tW7NsciNS9r/6WfKpWdt9g+fw/W8YqrM1avaR6R3v6bVoQZsnWv5Mdc4GHGTbntMwFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.233) smtp.rcpttodomain=nongnu.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K8KWvGJ0YRJVfp4ghFj1imko8yVkspj/Fhaf1w7s4MM=;
- b=HzKzYitmskZb97AyaI+g/aBragmpSV18niDkk0fv+s3Z0HpG5u++Poc2Mj6DIBuZrwJjY/+OVIcOLzurXdhn2y5x/ZMzyi7tlVXTtyJikQuD1KrCplS5YNMFw6CEQkbuf6+c8ok/0oFo6avWfX2x+NAcsblm4QnZDZgiszdZd4QyQ5wKuygcFr0TTP0BKgtncR7DEUktStey2SEj+JhFyTJqVKO35OF5BFrXwN3IdjbmL4HgV2qJGzz8syixO+eIBFA4xTBBoPwedQdt1E4ci3kTWxgdVPxdBRloiRQGFaswWna0umZcAaX5iZCaOwGbbf5U6L4ew9VeMm14fkGaDw==
-Received: from DS7PR03CA0269.namprd03.prod.outlook.com (2603:10b6:5:3b3::34)
- by CH2PR12MB4874.namprd12.prod.outlook.com (2603:10b6:610:64::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.17; Thu, 9 Feb
- 2023 19:21:53 +0000
-Received: from DS1PEPF0000E62F.namprd02.prod.outlook.com
- (2603:10b6:5:3b3:cafe::70) by DS7PR03CA0269.outlook.office365.com
- (2603:10b6:5:3b3::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.36 via Frontend
- Transport; Thu, 9 Feb 2023 19:21:53 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.233) by
- DS1PEPF0000E62F.mail.protection.outlook.com (10.167.17.133) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6086.16 via Frontend Transport; Thu, 9 Feb 2023 19:21:53 +0000
-Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
- (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 9 Feb 2023
- 11:21:38 -0800
-Received: from drhqmail203.nvidia.com (10.126.190.182) by
- drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Thu, 9 Feb 2023 11:21:38 -0800
-Received: from vdi.nvidia.com (10.127.8.9) by mail.nvidia.com (10.126.190.182)
- with Microsoft SMTP Server id 15.2.986.36 via Frontend Transport;
- Thu, 9 Feb 2023 11:21:34 -0800
-From: Avihai Horon <avihaih@nvidia.com>
-To: <qemu-devel@nongnu.org>
-CC: Alex Williamson <alex.williamson@redhat.com>, Juan Quintela
- <quintela@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Vladimir Sementsov-Ogievskiy
- <vsementsov@yandex-team.ru>, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?=
- <clg@redhat.com>, Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe
- <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Avihai Horon
- <avihaih@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
- <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-Subject: [PATCH v10 12/12] docs/devel: Align VFIO migration docs to v2 protocol
-Date: Thu, 9 Feb 2023 21:20:43 +0200
-Message-ID: <20230209192043.14885-13-avihaih@nvidia.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20230209192043.14885-1-avihaih@nvidia.com>
-References: <20230209192043.14885-1-avihaih@nvidia.com>
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pQCdE-0007uJ-57
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 14:30:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675971053;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=+DSVQSi3gfaAgcQtvyqSpmcehwr3/bIGrp4MA3Ngy8E=;
+ b=O4JgIWXjJKdaPZRbeXGcH4KSkNHBIvAw7NyBJEUsGKnvUtUGgjZ5UQQDSW7i8RLRlP3icG
+ U/YN5a/gi7x5qmX+MBw0kKs6knljNWf9m9JE+uODTE16mvBbh9tURh3W+XQkNXjvJrcFxs
+ Ll9Lo3em4jlzeLTr09EDWAz/1LpFl5Y=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-660-bEvYFWrYPYSllP-sN-gKFg-1; Thu, 09 Feb 2023 14:30:52 -0500
+X-MC-Unique: bEvYFWrYPYSllP-sN-gKFg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ p7-20020a5d48c7000000b002c53d342406so681406wrs.2
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 11:30:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+DSVQSi3gfaAgcQtvyqSpmcehwr3/bIGrp4MA3Ngy8E=;
+ b=dArgtbMul4mBDXjOROkaNAcoNEfnHvuWqpIBf+6Kil15BDvUwbxMm2ovi9FgJwJu6+
+ SuNQv3CsbQ2iBYSTrf9fm8GS8BK1e955p/380D2/GO3OtcNEx6tTo44jGK6ibA/DCDHC
+ 3C1iDm3citE/v157SsViRokCIjBS1EXx88VmhwOgqQTI9wbJ2Xg0aMoDgHasufV063Sl
+ VQbrK2zrUxsjPbSEszKCVtvt4W5fr4B973mm6HiMJBAenxDG+g4CP7+AQcK8gQffwxID
+ LHJrTlncpGj0JkCU4LI55nsniLarKlMhyfuUU8ykf9IIp4tU5Fx5H/DL4hvB3DaiCfIq
+ N6IQ==
+X-Gm-Message-State: AO0yUKV779c9q+UQSsdNluNnbrHHnfGQL1K3YR5VOrw39KA4EKzFqNNG
+ YJXNsQi0wLkDNwTNivVzsYIQzPJ0T/M11z6+dTKrLSsvdC8/kUppiGhEc2QHFmODp1WfUWH0F0K
+ 4IpqMx7QfqhwWMXk=
+X-Received: by 2002:a5d:5192:0:b0:2c2:d59d:d36e with SMTP id
+ k18-20020a5d5192000000b002c2d59dd36emr11529790wrv.58.1675971051251; 
+ Thu, 09 Feb 2023 11:30:51 -0800 (PST)
+X-Google-Smtp-Source: AK7set/F7Jnbsk6/3S19tjXB/9P6ZXknW6hxv0T5cEhfj18KAnmSo6LcJVl1eIAvrbVUACxxGepi/g==
+X-Received: by 2002:a5d:5192:0:b0:2c2:d59d:d36e with SMTP id
+ k18-20020a5d5192000000b002c2d59dd36emr11529778wrv.58.1675971051053; 
+ Thu, 09 Feb 2023 11:30:51 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ b4-20020adfee84000000b002bfb0c5527esm1931013wro.109.2023.02.09.11.30.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Feb 2023 11:30:50 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: ling xu <ling1.xu@intel.com>
+Cc: qemu-devel@nongnu.org,  dgilbert@redhat.com,  Zhou Zhao
+ <zhou.zhao@intel.com>,  Jun Jin <jun.i.jin@intel.com>
+Subject: Re: [PATCH v7 1/2] AVX512 support for xbzrle_encode_buffer
+In-Reply-To: <20221116152923.1087185-2-ling1.xu@intel.com> (ling xu's message
+ of "Wed, 16 Nov 2022 23:29:22 +0800")
+References: <20221116152923.1087185-1-ling1.xu@intel.com>
+ <20221116152923.1087185-2-ling1.xu@intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 09 Feb 2023 20:30:49 +0100
+Message-ID: <87a61m3ac6.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF0000E62F:EE_|CH2PR12MB4874:EE_
-X-MS-Office365-Filtering-Correlation-Id: 94ce28fd-539a-4ee5-2179-08db0ad2e6d7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0HkpmOSNf9K0ySd7+jnS5+NtR2YNoadNDZ6MwuNtGt+iGY9mcBMPIHi1p2+xP1GFT9gur3akIn7fRmDPpdrKS6cv5Ep2NQyODS1QjLALemrQ5zPov7cL4P/0CJgDss2hNwd1fnbxIe/izue5m3cjZMNFr2T++LoKVNrX7NVHOsFhwYNuoiVlkKWHRCiwU5QBWJKoHHVhnkO3iW+xxbAb+u36kJQtc+kYBMpL+V76/gyVqvyoEIhQWkmDGAxNsqo2cEwlRCkQVznGsXWG7jf53Hv56hvZJaDl88U4ZOCsmf/BZiV9PaPjshtJjy0+jzGL6x4xJ6W9NqxxA706DOBx1Dehsjv1Z4my/iWMGivBVzCsDpKf9A6p5kh+QJVc4WSoLDR/iDG6IThbvulKTHlv68w/tGchAaieCQ96xHaqcG3XU2d1eNQrOnQbBmaGELr00SCtVjNMx6Kej505XNbigPC1C+Dk4jwpy7bSuNNK0HeCwdxn1HDkU5pbm50gW8iQW2wm8R00Ktdm/ERRbFDaJjiEh6woKDo1Cd/CFcSGNPhzhQPb8zuBe0E1/qMVPoLyZRWj/0Ll9xz0x/ImDN6fsgAfoTiQh740xmb4DaaK67nu7z8a9SPzkHOSoh4297toU9B7qGNNIF5ijz8pazFIXHunV9ZmbXm1E0V3/94KITCGXJKPQWhG9FBrXs/eOcgReuL3K9CaLFlwC8UTlEX3NQ==
-X-Forefront-Antispam-Report: CIP:216.228.118.233; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc7edge2.nvidia.com; CAT:NONE;
- SFS:(13230025)(4636009)(376002)(346002)(396003)(39860400002)(136003)(451199018)(46966006)(36840700001)(40470700004)(7636003)(82740400003)(36860700001)(40480700001)(8936002)(7416002)(186003)(26005)(5660300002)(336012)(356005)(66574015)(2616005)(82310400005)(426003)(36756003)(47076005)(478600001)(6666004)(4326008)(70586007)(316002)(70206006)(8676002)(40460700003)(6916009)(86362001)(41300700001)(7696005)(1076003)(2906002)(54906003)(83380400001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2023 19:21:53.3763 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 94ce28fd-539a-4ee5-2179-08db0ad2e6d7
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.118.233];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E62F.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4874
-Received-SPF: softfail client-ip=2a01:111:f400:7e8b::60e;
- envelope-from=avihaih@nvidia.com;
- helo=NAM04-DM6-obe.outbound.protection.outlook.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -131,150 +96,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Now that VFIO migration protocol v2 has been implemented and v1 protocol
-has been removed, update the documentation according to v2 protocol.
+ling xu <ling1.xu@intel.com> wrote:
+> This commit is the same with [PATCH v6 1/2], and provides avx512 support for xbzrle_encode_buffer
+> function to accelerate xbzrle encoding speed. Runtime check of avx512
+> support and benchmark for this feature are added. Compared with C
+> version of xbzrle_encode_buffer function, avx512 version can achieve
+> 50%-70% performance improvement on benchmarking. In addition, if dirty
+> data is randomly located in 4K page, the avx512 version can achieve
+> almost 140% performance gain.
+>
+> Signed-off-by: ling xu <ling1.xu@intel.com>
+> Co-authored-by: Zhou Zhao <zhou.zhao@intel.com>
+> Co-authored-by: Jun Jin <jun.i.jin@intel.com>
 
-Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-Reviewed-by: Cédric Le Goater <clg@redhat.com>
----
- docs/devel/vfio-migration.rst | 72 +++++++++++++++++------------------
- 1 file changed, 34 insertions(+), 38 deletions(-)
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-diff --git a/docs/devel/vfio-migration.rst b/docs/devel/vfio-migration.rst
-index 673057c90d..c214c73e28 100644
---- a/docs/devel/vfio-migration.rst
-+++ b/docs/devel/vfio-migration.rst
-@@ -7,46 +7,43 @@ the guest is running on source host and restoring this saved state on the
- destination host. This document details how saving and restoring of VFIO
- devices is done in QEMU.
- 
--Migration of VFIO devices consists of two phases: the optional pre-copy phase,
--and the stop-and-copy phase. The pre-copy phase is iterative and allows to
--accommodate VFIO devices that have a large amount of data that needs to be
--transferred. The iterative pre-copy phase of migration allows for the guest to
--continue whilst the VFIO device state is transferred to the destination, this
--helps to reduce the total downtime of the VM. VFIO devices can choose to skip
--the pre-copy phase of migration by returning pending_bytes as zero during the
--pre-copy phase.
-+Migration of VFIO devices currently consists of a single stop-and-copy phase.
-+During the stop-and-copy phase the guest is stopped and the entire VFIO device
-+data is transferred to the destination.
-+
-+The pre-copy phase of migration is currently not supported for VFIO devices.
-+Support for VFIO pre-copy will be added later on.
-+
-+Note that currently VFIO migration is supported only for a single device. This
-+is due to VFIO migration's lack of P2P support. However, P2P support is planned
-+to be added later on.
- 
- A detailed description of the UAPI for VFIO device migration can be found in
--the comment for the ``vfio_device_migration_info`` structure in the header
--file linux-headers/linux/vfio.h.
-+the comment for the ``vfio_device_mig_state`` structure in the header file
-+linux-headers/linux/vfio.h.
- 
- VFIO implements the device hooks for the iterative approach as follows:
- 
--* A ``save_setup`` function that sets up the migration region and sets _SAVING
--  flag in the VFIO device state.
-+* A ``save_setup`` function that sets up migration on the source.
- 
--* A ``load_setup`` function that sets up the migration region on the
--  destination and sets _RESUMING flag in the VFIO device state.
-+* A ``load_setup`` function that sets the VFIO device on the destination in
-+  _RESUMING state.
- 
- * A ``state_pending_exact`` function that reads pending_bytes from the vendor
-   driver, which indicates the amount of data that the vendor driver has yet to
-   save for the VFIO device.
- 
--* A ``save_live_iterate`` function that reads the VFIO device's data from the
--  vendor driver through the migration region during iterative phase.
--
- * A ``save_state`` function to save the device config space if it is present.
- 
--* A ``save_live_complete_precopy`` function that resets _RUNNING flag from the
--  VFIO device state and iteratively copies the remaining data for the VFIO
--  device until the vendor driver indicates that no data remains (pending bytes
--  is zero).
-+* A ``save_live_complete_precopy`` function that sets the VFIO device in
-+  _STOP_COPY state and iteratively copies the data for the VFIO device until
-+  the vendor driver indicates that no data remains.
- 
- * A ``load_state`` function that loads the config section and the data
--  sections that are generated by the save functions above
-+  sections that are generated by the save functions above.
- 
- * ``cleanup`` functions for both save and load that perform any migration
--  related cleanup, including unmapping the migration region
-+  related cleanup.
- 
- 
- The VFIO migration code uses a VM state change handler to change the VFIO
-@@ -71,13 +68,13 @@ tracking can identify dirtied pages, but any page pinned by the vendor driver
- can also be written by the device. There is currently no device or IOMMU
- support for dirty page tracking in hardware.
- 
--By default, dirty pages are tracked when the device is in pre-copy as well as
--stop-and-copy phase. So, a page pinned by the vendor driver will be copied to
--the destination in both phases. Copying dirty pages in pre-copy phase helps
--QEMU to predict if it can achieve its downtime tolerances. If QEMU during
--pre-copy phase keeps finding dirty pages continuously, then it understands
--that even in stop-and-copy phase, it is likely to find dirty pages and can
--predict the downtime accordingly.
-+By default, dirty pages are tracked during pre-copy as well as stop-and-copy
-+phase. So, a page pinned by the vendor driver will be copied to the destination
-+in both phases. Copying dirty pages in pre-copy phase helps QEMU to predict if
-+it can achieve its downtime tolerances. If QEMU during pre-copy phase keeps
-+finding dirty pages continuously, then it understands that even in stop-and-copy
-+phase, it is likely to find dirty pages and can predict the downtime
-+accordingly.
- 
- QEMU also provides a per device opt-out option ``pre-copy-dirty-page-tracking``
- which disables querying the dirty bitmap during pre-copy phase. If it is set to
-@@ -111,23 +108,22 @@ Live migration save path
-                                   |
-                      migrate_init spawns migration_thread
-                 Migration thread then calls each device's .save_setup()
--                    (RUNNING, _SETUP, _RUNNING|_SAVING)
-+                       (RUNNING, _SETUP, _RUNNING)
-                                   |
--                    (RUNNING, _ACTIVE, _RUNNING|_SAVING)
-+                      (RUNNING, _ACTIVE, _RUNNING)
-              If device is active, get pending_bytes by .state_pending_exact()
-           If total pending_bytes >= threshold_size, call .save_live_iterate()
--                  Data of VFIO device for pre-copy phase is copied
-         Iterate till total pending bytes converge and are less than threshold
-                                   |
-   On migration completion, vCPU stops and calls .save_live_complete_precopy for
--   each active device. The VFIO device is then transitioned into _SAVING state
--                   (FINISH_MIGRATE, _DEVICE, _SAVING)
-+  each active device. The VFIO device is then transitioned into _STOP_COPY state
-+                  (FINISH_MIGRATE, _DEVICE, _STOP_COPY)
-                                   |
-      For the VFIO device, iterate in .save_live_complete_precopy until
-                          pending data is 0
--                   (FINISH_MIGRATE, _DEVICE, _STOPPED)
-+                   (FINISH_MIGRATE, _DEVICE, _STOP)
-                                   |
--                 (FINISH_MIGRATE, _COMPLETED, _STOPPED)
-+                 (FINISH_MIGRATE, _COMPLETED, _STOP)
-              Migraton thread schedules cleanup bottom half and exits
- 
- Live migration resume path
-@@ -136,7 +132,7 @@ Live migration resume path
- ::
- 
-               Incoming migration calls .load_setup for each device
--                       (RESTORE_VM, _ACTIVE, _STOPPED)
-+                       (RESTORE_VM, _ACTIVE, _STOP)
-                                  |
-        For each device, .load_state is called for that device section data
-                        (RESTORE_VM, _ACTIVE, _RESUMING)
--- 
-2.26.3
+But there were a lot of "but's":
+
+> diff --git a/meson.build b/meson.build
+> index cf3e517e56..d0d28f5c9e 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2344,6 +2344,22 @@ config_host_data.set('CONFIG_AVX512F_OPT', get_option('avx512f') \
+>      int main(int argc, char *argv[]) { return bar(argv[argc - 1]); }
+>    '''), error_message: 'AVX512F not available').allowed())
+>  
+> +config_host_data.set('CONFIG_AVX512BW_OPT', get_option('avx512bw') \
+> +  .require(have_cpuid_h, error_message: 'cpuid.h not available, cannot enable AVX512BW') \
+> +  .require(cc.links('''
+> +    #pragma GCC push_options
+> +    #pragma GCC target("avx512bw")
+> +    #include <cpuid.h>
+> +    #include <immintrin.h>
+> +    static int bar(void *a) {
+> +
+> +      __m512i *x = a;
+> +      __m512i res= _mm512_abs_epi8(*x);
+> +      return res[1];
+> +    }
+> +    int main(int argc, char *argv[]) { return bar(argv[0]); }
+> +  '''), error_message: 'AVX512BW not available').allowed())
+> +
+>  have_pvrdma = get_option('pvrdma') \
+>    .require(rdma.found(), error_message: 'PVRDMA requires OpenFabrics libraries') \
+>    .require(cc.compiles(gnu_source_prefix + '''
+
+This file misses:
+
+@@ -3783,6 +3799,7 @@ summary_info += {'debug stack usage': get_option('debug_stack_usage')}
+ summary_info += {'mutex debugging':   get_option('debug_mutex')}
+ summary_info += {'memory allocator':  get_option('malloc')}
+ summary_info += {'avx2 optimization': config_host_data.get('CONFIG_AVX2_OPT')}
++summary_info += {'avx512bw optimization': config_host_data.get('CONFIG_AVX512BW_OPT')}
+ summary_info += {'avx512f optimization': config_host_data.get('CONFIG_AVX512F_OPT')}
+ summary_info += {'gprof enabled':     get_option('gprof')}
+ summary_info += {'gcov':              get_option('b_coverage')}
+diff --git a/meson_options.txt b/meson_options.txt
+index 559a571b6b..e5f199119e 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -104,6 +104,8 @@ option('avx2', type: 'feature', value: 'auto',
+        description: 'AVX2 optimizations')
+ option('avx512f', type: 'feature', value: 'disabled',
+        description: 'AVX512F optimizations')
++option('avx512bw', type: 'feature', value: 'auto',
++       description: 'AVX512BW optimizations')
+ option('keyring', type: 'feature', value: 'auto',
+        description: 'Linux keyring support')
+
+And you are missing:
+
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 0f71e92dcb..c2982ea087 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -70,6 +70,7 @@ meson_options_help() {
+   printf "%s\n" '  attr            attr/xattr support'
+   printf "%s\n" '  auth-pam        PAM access control'
+   printf "%s\n" '  avx2            AVX2 optimizations'
++  printf "%s\n" '  avx512bw        AVX512BW optimizations'
+   printf "%s\n" '  avx512f         AVX512F optimizations'
+   printf "%s\n" '  blkio           libblkio block device driver'
+   printf "%s\n" '  bochs           bochs image format support'
+@@ -198,6 +199,8 @@ _meson_option_parse() {
+     --disable-auth-pam) printf "%s" -Dauth_pam=disabled ;;
+     --enable-avx2) printf "%s" -Davx2=enabled ;;
+     --disable-avx2) printf "%s" -Davx2=disabled ;;
++    --enable-avx512bw) printf "%s" -Davx512bw=enabled ;;
++    --disable-avx512bw) printf "%s" -Davx512bw=disabled ;;
+     --enable-avx512f) printf "%s" -Davx512f=enabled ;;
+     --disable-avx512f) printf "%s" -Davx512f=disabled ;;
+     --enable-gcov) printf "%s" -Db_coverage=true ;;
 
 
