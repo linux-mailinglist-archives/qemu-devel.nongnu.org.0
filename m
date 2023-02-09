@@ -2,83 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7732690FBA
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 18:59:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCCAD690FE1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 19:04:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQBBn-0000xl-ON; Thu, 09 Feb 2023 12:58:31 -0500
+	id 1pQBGr-0002v9-8i; Thu, 09 Feb 2023 13:03:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pQBBl-0000xJ-SV
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 12:58:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pQBGp-0002tt-3e
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 13:03:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pQBBk-0001Tm-B1
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 12:58:29 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pQBGm-0002vi-Jy
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 13:03:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675965507;
+ s=mimecast20190719; t=1675965818;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=HOvKl24992JL9p3BDeHzRrDjv+QC8EU2k3xSLUYGuzE=;
- b=fAY2LdweQGqiVv1gF/LOrx1hlZljGiem4ElE8Jgvn/cICR94+raC9R/lYyeDS+5YQsdTNR
- 95ke1VS7ah6cNi92SxgOOcn1mEJr2htjv9kiE8pQq7JS1tmEZaJa9k1SzZcXnEi2Px/TMx
- G3YqUqFB1G/m3ZrBopmGY++eybeKf/Y=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-18-WclFGt-rMbi0AHEpV7OwTg-1; Thu, 09 Feb 2023 12:58:25 -0500
-X-MC-Unique: WclFGt-rMbi0AHEpV7OwTg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- bd21-20020a05600c1f1500b003dc5cb10dcfso1379201wmb.9
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 09:58:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=HOvKl24992JL9p3BDeHzRrDjv+QC8EU2k3xSLUYGuzE=;
- b=K4eCV/cQsBPO6rTloMvT3a/UlBGAOK3A6dHRciWpLqnSiFuI/zc2nRl1TNL5C2kpTg
- ctg+UsNo+TryAqzuAmBA6mVn+foldeRn+2AHs/Eqw2tS9rQOp7k7QSqo57SnUf8JL2Cs
- Ld9L0Vn/a1iaAXhJmO4wMARhELe5rGpwNnrIkd6vqsr4GsbwuWM0NGUd/yPZeY+ROuOZ
- i/kuGYImwV1KmrKhg4MNfiMLWtsfcRqdpNUh6BthC6tOS9eaSnqoJviFziDf3xHCkxmt
- ePL1Bw1DMQtTObNwAGPoqu1hPxFICeT09WEbQBDPit/hLe6UzzcD1iK0o3Vp9Zo8Tq3F
- HWvQ==
-X-Gm-Message-State: AO0yUKXOifHe9TOdxR/FoKZFMiY3WsIZe9OZTU+znI8eo1wsztCNQq7t
- 7siALjNuDFCOY/7YKFoaIkba6Ue4E/jHe1zcGkulK2IvsOn228t7HcNvG0eGDObnc0QVVing4tC
- x0VrjCxqR3SVn/Vs=
-X-Received: by 2002:a05:600c:43d2:b0:3db:3e8:feca with SMTP id
- f18-20020a05600c43d200b003db03e8fecamr193974wmn.15.1675965504568; 
- Thu, 09 Feb 2023 09:58:24 -0800 (PST)
-X-Google-Smtp-Source: AK7set9c+r5jFFwyDMenlnRtmyycJYpzfLWT6qRUbMUvzSQuheZINkRC4foTrPWuwVv6ieeZJHk0mA==
-X-Received: by 2002:a05:600c:43d2:b0:3db:3e8:feca with SMTP id
- f18-20020a05600c43d200b003db03e8fecamr193960wmn.15.1675965504340; 
- Thu, 09 Feb 2023 09:58:24 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- iv12-20020a05600c548c00b003dc521f336esm2871488wmb.14.2023.02.09.09.58.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Feb 2023 09:58:23 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org,  "Michael S. Tsirkin" <mst@redhat.com>,  Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>,  Gerd Hoffmann
- <kraxel@redhat.com>,  libvir-list@redhat.com,  Paolo Bonzini
- <pbonzini@redhat.com>,  Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,  "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>
-Subject: Re: [PATCH] hw/misc/sga: Remove the deprecated "sga" device
-In-Reply-To: <20230209161540.1054669-1-thuth@redhat.com> (Thomas Huth's
- message of "Thu, 9 Feb 2023 17:15:40 +0100")
-References: <20230209161540.1054669-1-thuth@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 09 Feb 2023 18:58:23 +0100
-Message-ID: <87v8ka3em8.fsf@secure.mitica>
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cHNZPrhZogaxuhmMWoFu4aV4fXVM9gQOxV8GXwQIm48=;
+ b=Q239VuyuU5S3BhrZpE2vRRe/3wB/Fvk4NPV2ZFVy2YUjj2t4gozYMOGVwLNqPKNyuW6CIT
+ rOBGbkrl3xltdeTsVTNu/NSpnxVyxGuAAdW3t9K/Piyod9VI7k2Z5Vj9x1ELjXmxmUu0RZ
+ HNGpATA4VasMqj3JLK1DVb5Xf49ICag=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-657-733JvFqkNCm8SV8y5IVdVA-1; Thu, 09 Feb 2023 13:03:35 -0500
+X-MC-Unique: 733JvFqkNCm8SV8y5IVdVA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1A1BE1C08970;
+ Thu,  9 Feb 2023 18:03:35 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9738EC158BB;
+ Thu,  9 Feb 2023 18:03:31 +0000 (UTC)
+Date: Thu, 9 Feb 2023 18:03:28 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH 7/7] Python: Drop support for Python 3.6
+Message-ID: <Y+U1cHFfdpGOyEop@redhat.com>
+References: <20230209154034.983044-1-jsnow@redhat.com>
+ <20230209154034.983044-8-jsnow@redhat.com>
+ <Y+Ue2/Xn+ZbOc+B+@redhat.com>
+ <CAFn=p-aEOO4QDfPuYB2LpnwkP-bWyFdOKrQEmcH0iD-f3dJ-mg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFn=p-aEOO4QDfPuYB2LpnwkP-bWyFdOKrQEmcH0iD-f3dJ-mg@mail.gmail.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -99,16 +89,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Thomas Huth <thuth@redhat.com> wrote:
-> It's been deprecated since QEMU v6.2, so it should be OK to
-> finally remove this now.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On Thu, Feb 09, 2023 at 11:40:57AM -0500, John Snow wrote:
+> On Thu, Feb 9, 2023 at 11:27 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
+> >
+> > On Thu, Feb 09, 2023 at 10:40:34AM -0500, John Snow wrote:
+> > > Python 3.6 was EOL 2021-12-31. Newer versions of upstream libraries have
+> > > begun dropping support for this version and it is becoming more
+> > > cumbersome to support. Avocado-framework and qemu.qmp each have their
+> > > own reasons for wanting to drop Python 3.6.
+> > >
+> > > Since it is safe to under our supported platform policy, do so.
+> >
+> > Upstream EOL dates are essentially irrelevant from our platform
+> > support policy for deciding min versions
+> >
+> 
+> It's relevant because as other Python packages drop support, the
+> burden of support is pushed onto Cleber and I, as explained in the
+> cover letter. It is not a justification in and of itself, but it
+> summarizes the ecosystem conditions that prompt the desire for the
+> change.
+> > QEMU aims to target released OS distributions, and their vendors
+> > may choose to support software for arbitrarily longer periods of
+> > time than upstream. This extended support is one of the key
+> > value adds of OS distributions.
+> >
+> > To justify dropping python 3.6, the commit message needs to
+> > illustrate that all our targetted distros are capable of
+> > supporting the new proposed new min version.
+> 
+> That is the point of this series: illustrating that it is indeed safe
+> to drop Python 3.6. I am not clear on what you are actually requesting
+> as a change.
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Essentially it should explain what versions are available in each
+distro. See for example commit 5890258aeeba303704ec1adca415e46067800777.
+
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
