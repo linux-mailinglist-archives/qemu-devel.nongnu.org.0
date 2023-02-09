@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F2B969005E
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 07:31:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CD6769005D
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 07:31:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ0SV-0007qM-Ac; Thu, 09 Feb 2023 01:31:03 -0500
+	id 1pQ0SR-0007k8-87; Thu, 09 Feb 2023 01:30:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
- id 1pQ0S2-0007Yi-Hg
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:30:39 -0500
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
+ id 1pQ0S2-0007YO-31
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:30:34 -0500
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
- id 1pQ0Rz-0000n2-MV
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:30:34 -0500
-Received: by mail-pg1-x52d.google.com with SMTP id 7so957747pga.1
+ id 1pQ0S0-0000jX-0c
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:30:33 -0500
+Received: by mail-pg1-x533.google.com with SMTP id 24so936914pgt.7
  for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 22:30:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jRqJiEOrxr+Lg5i/nVzezfWn+WGoCCcHshuxculEll8=;
- b=5IG3vAmvGgDwZGq7tnJZUkEBMgvW9CoqYKt7nNLRl7akcceSNKNMbO8fijFeRU5dVf
- jMDfCEFfnT6VU1ZxjZ3rsp9PlfccUqCFWrDPYi3kuQlHYfXWvz+9DsVAz/q3CS0b/9UF
- hf8W9MX+qEpMcC+vqvcsMtKcYpCLl9GfXvJPlEKtG15qQhV5nvKpJha02Qdh58QkQCjK
- 6ogDUoUJein3G/K+06+21NVMDWob3QPm+XUAJZxoSqfIn260togiKLN9JGWPay6XYCTe
- R2CZu6fHB2lgQSU0fkiAZygAR1Suwp/eND9M7sYp3dppRrDRQosyczI8D0HNAaW1g4DS
- THzQ==
+ bh=TofwhUrqur+nfz+vYUg5s7uS+g1axympVTaiH26ziSo=;
+ b=EHhumVzDciJDtBOM4uqAKPsy2YjiZ44T7DJBiVN0Qk7baGOaJJf1XBqIESAzuKUqid
+ lnJrR8ubx2dNM1Bup32Pb0DkXXYUayLpmwX1J0/p5TQhgyBUU39D3LR+dTmfwXuoGE5J
+ lPn0GLbtR1B18Sw7VFlr8Q/QtrlT4yyFqFEwQtZVCkoSh8wikYnE7QyY7tKcaWdFE/uE
+ tQRne0hW17ghts6U7XtMP/W9VHFW2bxAoR9A489/bgErJyzL2Vsmt+p+vgIEV2cIHzEy
+ 4Yxq3ah7kiGEy/u8uCOiISyLe138H7OxvzIO9Z5QD/Jw1qsrsj4ZAOPBPIhNTy+Y3MVt
+ s1Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jRqJiEOrxr+Lg5i/nVzezfWn+WGoCCcHshuxculEll8=;
- b=bBB0+mJIL/1PsPMD0Xup39cfC02kTdyhLwSBL1Fks/Cyhbz8fFnJ6oV8rbCF/t01ay
- NeEOQFNECR2PovVaNiuX2H9TxJtXfMhh6y3wxitHPHM7TSqTs+7RsiCIi0zZX5xiLxb5
- 0FWlg3qCj2aBlECwa1etRFYSqbzZLj3UBOLK7ZbvyeEnN000ZqzFHI2nfNs9fJF2MhoR
- zxp7lttUIMjlP4Q7kacJ9fBzwDqt637LGgU91EcHNehIKOxYoSKQXkihLrojnHH4ctOe
- VkAN/Pz+s7JhR63rXnHxoOkxrezlC28sozsxg6C7OHTDFl6X0wVRcShBnfc64O0IzBnq
- S5Zg==
-X-Gm-Message-State: AO0yUKXl5HYbQrKuuSsEEtB/QsdMlR+xoYuxXE42zvhyyGB7HJujh1st
- 2BJJFDAUMl1RBljDcvf/b1c/AeYPV+3lGOnh
-X-Google-Smtp-Source: AK7set8ckSPtC1lVgoDHoNm3ES3BFmQnr+QN69AJNFLIWYMu/Bwy8BZZ1I2Y2vSQn0QgwvRiondujQ==
-X-Received: by 2002:a62:1503:0:b0:5a8:4c7e:bb01 with SMTP id
- 3-20020a621503000000b005a84c7ebb01mr2775706pfv.6.1675924229745; 
- Wed, 08 Feb 2023 22:30:29 -0800 (PST)
+ bh=TofwhUrqur+nfz+vYUg5s7uS+g1axympVTaiH26ziSo=;
+ b=0p1/FNBunCSvn32Q+y56AedwIyUdB/7qG0epFwWc6lO77l7LhsL2ZcccAGd40OX/lQ
+ /WJptg8TTC+KWtTRErqPrHfUJTceRjRe4gOqHAC0RfrOyqvb1CZ8efjgzdkMTtpKiuhg
+ 6ExEMtPloeQW4foyEQDCSJzFq971G+pVelwWWiudQJi5Jxqr+0Kwq9oA9ndY6dpSYcMS
+ 8C9+gGW/w7pk0pdVT4QSAUMWhQWjA+6/8Tg7c+hyjtp3GJ7zEvAvHCd/dqnAgcMFJYdD
+ N0PI+lyUxDB7VOP/di3CxtIfTvH7FVIDP0OWOf6rbshrBMjSbnqCRERVyLgs33Xo6PM5
+ 4HnA==
+X-Gm-Message-State: AO0yUKWR2I47g4o11vtwtgzTCsmoolhOSlabOgibP9V72czDIAKV+kxS
+ XEGUljLY8qFmdG4KV1eEFUq3pPdDIGAbOsez
+X-Google-Smtp-Source: AK7set/cyIZgNCxvo7M/OYJYSUxwE3yk8syJYNMLCVrixfj1cWHCDbPHlr3PWIBHvxJvx0hsld+s7Q==
+X-Received: by 2002:aa7:9575:0:b0:5a8:4861:af7d with SMTP id
+ x21-20020aa79575000000b005a84861af7dmr4237442pfq.20.1675924230864; 
+ Wed, 08 Feb 2023 22:30:30 -0800 (PST)
 Received: from debug.ba.rivosinc.com ([66.220.2.162])
  by smtp.gmail.com with ESMTPSA id
- u15-20020aa7848f000000b00593c434b1b8sm543649pfn.48.2023.02.08.22.30.28
+ u15-20020aa7848f000000b00593c434b1b8sm543649pfn.48.2023.02.08.22.30.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 22:30:29 -0800 (PST)
+ Wed, 08 Feb 2023 22:30:30 -0800 (PST)
 From: Deepak Gupta <debug@rivosinc.com>
 To: qemu-devel@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>,
  Bin Meng <bin.meng@windriver.com>
 Cc: Deepak Gupta <debug@rivosinc.com>, Kip Walker <kip@rivosinc.com>,
  qemu-riscv@nongnu.org
-Subject: [PATCH v1 RFC Zisslpcfi 6/9] target/riscv: MMU changes for back cfi's
- shadow stack
-Date: Wed,  8 Feb 2023 22:29:44 -0800
-Message-Id: <20230209062947.3585481-7-debug@rivosinc.com>
+Subject: [PATCH v1 RFC Zisslpcfi 7/9] target/riscv: Tracking indirect branches
+ (fcfi) using TCG
+Date: Wed,  8 Feb 2023 22:29:45 -0800
+Message-Id: <20230209062947.3585481-8-debug@rivosinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230209062947.3585481-1-debug@rivosinc.com>
 References: <20230209062947.3585481-1-debug@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=debug@rivosinc.com; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=debug@rivosinc.com; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,354 +93,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-zisslpcfi protects returns(back cfi) using shadow stack. If compiled with
-enabled compiler, function prologs will have `sspush ra` instruction to
-push return address on shadow stack and function epilogs will have
-`sspop t0; sschckra` instruction sequences. `sspop t0` will pop the
-value from top of the shadow stack in t0. `sschckra` will compare `t0`
-and `x1` and if they don't match then hart will raise an illegal
+zisslpcfi protects forward control flow (if enabled) by enforcing all
+indirect call and jmp must land on a landing pad instruction `lpcll`
+short for landing pad and check lower label value. If target of an
+indirect call or jmp is not `lpcll` then cpu/hart must raise an illegal
 instruction exception.
 
-Shadow stack is read-only memory except stores can be performed via
-`sspush` and `ssamoswap` instructions. This requires new PTE encoding for
-shadow stack. zisslpcfi uses R=0, W=1, X=0 (an existing reserved encoding
-) to encode a shadow stack. If backward cfi is not enabled for current
-mode, shadow stack PTE encodings remain reserved. Regular stores to
-shadow stack raise AMO/store access fault. Shadow stack loads/stores on
-regular memory raise load access/store access fault.
+This patch implements the mechanism using TCG. Target architecture branch
+instruction must define the end of a TB. Using this property, during
+translation of branch instruction, TB flag = FCFI_LP_EXPECTED can be set.
+Translation of target TB can check if FCFI_LP_EXPECTED flag is set and a
+flag (fcfi_lp_expected) can be set in DisasContext. If `lpcll` gets
+translated, fcfi_lp_expected flag in DisasContext can be cleared. Else
+it'll fault.
 
-This patch creates a new MMU TLB index for shadow stack and flushes TLB
-for shadow stack on privileges changes. This patch doesn't implement
-`Smepmp` related enforcement on shadow stack pmp entry. Reason being qemu
-doesn't have `Smepmp` implementation yet. `Smepmp` enforcement should come
-whenever it is implemented.
+This patch also also adds flag for forward and backward cfi in
+DisasContext.
 
 Signed-off-by: Deepak Gupta <debug@rivosinc.com>
 Signed-off-by: Kip Walker  <kip@rivosinc.com>
 ---
- target/riscv/cpu-param.h  |   1 +
- target/riscv/cpu.c        |   2 +
- target/riscv/cpu.h        |   3 ++
- target/riscv/cpu_helper.c | 107 +++++++++++++++++++++++++++++++-------
- 4 files changed, 94 insertions(+), 19 deletions(-)
+ target/riscv/cpu.h        |  3 +++
+ target/riscv/cpu_helper.c | 12 +++++++++
+ target/riscv/translate.c  | 52 +++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 67 insertions(+)
 
-diff --git a/target/riscv/cpu-param.h b/target/riscv/cpu-param.h
-index ebaf26d26d..a1e379beb7 100644
---- a/target/riscv/cpu-param.h
-+++ b/target/riscv/cpu-param.h
-@@ -25,6 +25,7 @@
-  *  - M mode 0b011
-  *  - U mode HLV/HLVX/HSV 0b100
-  *  - S mode HLV/HLVX/HSV 0b101
-+ *  - BCFI shadow stack   0b110
-  *  - M mode HLV/HLVX/HSV 0b111
-  */
- #define NB_MMU_MODES 8
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 6b4e90eb91..14cfb93288 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -584,6 +584,8 @@ static void riscv_cpu_reset_hold(Object *obj)
-     }
-     /* mmte is supposed to have pm.current hardwired to 1 */
-     env->mmte |= (PM_EXT_INITIAL | MMTE_M_PM_CURRENT);
-+    /* Initialize ss_priv to current priv. */
-+    env->ss_priv = env->priv;
- #endif
-     env->xl = riscv_cpu_mxl(env);
-     riscv_cpu_update_mask(env);
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index d14ea4f91d..8803ea6426 100644
+index 8803ea6426..98b272bcad 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -379,6 +379,7 @@ struct CPUArchState {
-     uint64_t sstateen[SMSTATEEN_MAX_COUNT];
-     target_ulong senvcfg;
-     uint64_t henvcfg;
-+    target_ulong ss_priv;
- #endif
-     target_ulong cur_pmmask;
-     target_ulong cur_pmbase;
-@@ -617,6 +618,8 @@ void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
- #define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 2)
- #define TB_FLAGS_MSTATUS_FS MSTATUS_FS
- #define TB_FLAGS_MSTATUS_VS MSTATUS_VS
-+/* TLB MMU index for shadow stack accesses */
-+#define MMU_IDX_SS_ACCESS    6
+@@ -644,6 +644,9 @@ FIELD(TB_FLAGS, VMA, 25, 1)
+ /* Native debug itrigger */
+ FIELD(TB_FLAGS, ITRIGGER, 26, 1)
  
- #include "exec/cpu-all.h"
- 
++/* Zisslpcfi needs a TB flag to track indirect branches */
++FIELD(TB_FLAGS, FCFI_LP_EXPECTED, 27, 1)
++
+ #ifdef TARGET_RISCV32
+ #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
+ #else
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index fc188683c9..63377abc2f 100644
+index 63377abc2f..d15918f534 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -657,7 +657,8 @@ void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable)
+@@ -129,6 +129,18 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+         flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
+     }
  
- bool riscv_cpu_two_stage_lookup(int mmu_idx)
- {
--    return mmu_idx & TB_FLAGS_PRIV_HYP_ACCESS_MASK;
-+    return (mmu_idx & TB_FLAGS_PRIV_HYP_ACCESS_MASK) &&
-+           (mmu_idx != MMU_IDX_SS_ACCESS);
- }
- 
- int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint64_t interrupts)
-@@ -745,6 +746,38 @@ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
-      * preemptive context switch. As a result, do both.
-      */
-     env->load_res = -1;
-+
-+    if (cpu_get_bcfien(env) && (env->priv != env->ss_priv)) {
++    if (cpu->cfg.ext_cfi) {
 +        /*
-+         * If backward CFI is enabled in the new privilege state, the
-+         * shadow stack TLB needs to be flushed - unless the most recent
-+         * use of the SS TLB was for the same privilege mode.
++         * For Forward CFI, only the expectation of a lpcll at
++         * the start of the block is tracked (which can only happen
++         * when FCFI is enabled for the current processor mode). A jump
++         * or call at the end of the previous TB will have updated
++         * env->elp to indicate the expectation.
 +         */
-+        tlb_flush_by_mmuidx(env_cpu(env), 1 << MMU_IDX_SS_ACCESS);
-+        /*
-+         * Ignoring env->virt here since currently every time it flips,
-+         * all TLBs are flushed anyway.
-+         */
-+        env->ss_priv = env->priv;
++        flags = FIELD_DP32(flags, TB_FLAGS, FCFI_LP_EXPECTED,
++                           env->elp != NO_LP_EXPECTED);
 +    }
-+}
 +
-+typedef enum {
-+    SSTACK_NO,          /* Access is not for a shadow stack instruction */
-+    SSTACK_YES,         /* Access is for a shadow stack instruction */
-+    SSTACK_DC           /* Don't care about SS attribute in PMP */
-+} SStackPmpMode;
-+
-+static bool legal_sstack_access(int access_type, bool sstack_inst,
-+                                bool sstack_attribute)
-+{
-+    /*
-+     * Read/write/execution permissions are checked as usual. Shadow
-+     * stack enforcement is just that (1) instruction type must match
-+     * the attribute unless (2) a non-SS load to an SS region.
-+     */
-+    return (sstack_inst == sstack_attribute) ||
-+        ((access_type == MMU_DATA_LOAD) && sstack_attribute);
+ #ifdef CONFIG_USER_ONLY
+     flags |= TB_FLAGS_MSTATUS_FS;
+     flags |= TB_FLAGS_MSTATUS_VS;
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index df38db7553..7d43d20fc3 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -41,6 +41,7 @@ static TCGv load_val;
+ /* globals for PM CSRs */
+ static TCGv pm_mask;
+ static TCGv pm_base;
++static TCGOp *cfi_lp_check;
+ 
+ #include "exec/gen-icount.h"
+ 
+@@ -116,6 +117,10 @@ typedef struct DisasContext {
+     bool itrigger;
+     /* TCG of the current insn_start */
+     TCGOp *insn_start;
++    /* CFI extension */
++    bool bcfi_enabled;
++    bool fcfi_enabled;
++    bool fcfi_lp_expected;
+ } DisasContext;
+ 
+ static inline bool has_ext(DisasContext *ctx, uint32_t ext)
+@@ -1166,11 +1171,44 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->pm_mask_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_MASK_ENABLED);
+     ctx->pm_base_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_BASE_ENABLED);
+     ctx->itrigger = FIELD_EX32(tb_flags, TB_FLAGS, ITRIGGER);
++    ctx->bcfi_enabled = cpu_get_bcfien(env);
++    ctx->fcfi_enabled = cpu_get_fcfien(env);
++    ctx->fcfi_lp_expected = FIELD_EX32(tb_flags, TB_FLAGS, FCFI_LP_EXPECTED);
+     ctx->zero = tcg_constant_tl(0);
  }
  
- /*
-@@ -764,7 +797,7 @@ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
- static int get_physical_address_pmp(CPURISCVState *env, int *prot,
-                                     target_ulong *tlb_size, hwaddr addr,
-                                     int size, MMUAccessType access_type,
--                                    int mode)
-+                                    int mode, SStackPmpMode sstack)
+ static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
  {
-     pmp_priv_t pmp_priv;
-     int pmp_index = -1;
-@@ -812,13 +845,16 @@ static int get_physical_address_pmp(CPURISCVState *env, int *prot,
-  *               Second stage is used for hypervisor guest translation
-  * @two_stage: Are we going to perform two stage translation
-  * @is_debug: Is this access from a debugger or the monitor?
-+ * @sstack: Is this access for a shadow stack? Passed by reference so
-+            it can be forced to SSTACK_DC when the SS check is completed
-+            based on a PTE - so the PMP SS attribute will be ignored.
-  */
- static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-                                 int *prot, target_ulong addr,
-                                 target_ulong *fault_pte_addr,
-                                 int access_type, int mmu_idx,
-                                 bool first_stage, bool two_stage,
--                                bool is_debug)
-+                                bool is_debug, SStackPmpMode *sstack)
- {
-     /* NOTE: the env->pc value visible here will not be
-      * correct, but the value visible to the exception handler
-@@ -830,6 +866,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-     hwaddr ppn;
-     RISCVCPU *cpu = env_archcpu(env);
-     int napot_bits = 0;
-+    bool is_sstack = (sstack != NULL) && (*sstack == SSTACK_YES);
-     target_ulong napot_mask;
- 
-     /*
-@@ -851,6 +888,8 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-         if (get_field(env->mstatus, MSTATUS_MPRV)) {
-             mode = get_field(env->mstatus, MSTATUS_MPP);
-         }
-+    } else if (mmu_idx == MMU_IDX_SS_ACCESS) {
-+        mode = env->priv;
-     }
- 
-     if (first_stage == false) {
-@@ -966,7 +1005,7 @@ restart:
-             int vbase_ret = get_physical_address(env, &vbase, &vbase_prot,
-                                                  base, NULL, MMU_DATA_LOAD,
-                                                  mmu_idx, false, true,
--                                                 is_debug);
-+                                                 is_debug, NULL);
- 
-             if (vbase_ret != TRANSLATE_SUCCESS) {
-                 if (fault_pte_addr) {
-@@ -983,7 +1022,7 @@ restart:
-         int pmp_prot;
-         int pmp_ret = get_physical_address_pmp(env, &pmp_prot, NULL, pte_addr,
-                                                sizeof(target_ulong),
--                                               MMU_DATA_LOAD, PRV_S);
-+                                               MMU_DATA_LOAD, PRV_S, SSTACK_NO);
-         if (pmp_ret != TRANSLATE_SUCCESS) {
-             return TRANSLATE_PMP_FAIL;
-         }
-@@ -1010,6 +1049,18 @@ restart:
-             }
-         }
- 
-+        /*
-+         * When backward CFI is enabled, the R=0, W=1, X=0 reserved encoding
-+         * is used to mark Shadow Stack (SS) pages. If back CFI enabled, allow
-+         * normal loads on SS pages, regular stores raise store access fault
-+         * and avoid hitting the reserved-encoding case. Only shadow stack
-+         * stores are allowed on SS pages. Shadow stack loads and stores on
-+         * regular memory (non-SS) raise load and store/AMO access fault.
-+         * Second stage translations don't participate in Shadow Stack.
-+         */
-+        bool sstack_page = (cpu_get_bcfien(env) && first_stage &&
-+                            ((pte & (PTE_R | PTE_W | PTE_X)) == PTE_W));
++    DisasContext *ctx = container_of(db, DisasContext, base);
 +
-         if (!(pte & PTE_V)) {
-             /* Invalid PTE */
-             return TRANSLATE_FAIL;
-@@ -1021,7 +1072,7 @@ restart:
-                 return TRANSLATE_FAIL;
-             }
-             base = ppn << PGSHIFT;
--        } else if ((pte & (PTE_R | PTE_W | PTE_X)) == PTE_W) {
-+        } else if (((pte & (PTE_R | PTE_W | PTE_X)) == PTE_W) && !sstack_page) {
-             /* Reserved leaf PTE flags: PTE_W */
-             return TRANSLATE_FAIL;
-         } else if ((pte & (PTE_R | PTE_W | PTE_X)) == (PTE_W | PTE_X)) {
-@@ -1038,16 +1089,21 @@ restart:
-         } else if (ppn & ((1ULL << ptshift) - 1)) {
-             /* Misaligned PPN */
-             return TRANSLATE_FAIL;
--        } else if (access_type == MMU_DATA_LOAD && !((pte & PTE_R) ||
--                   ((pte & PTE_X) && mxr))) {
-+        } else if (access_type == MMU_DATA_LOAD && !(((pte & PTE_R) ||
-+                   sstack_page) || ((pte & PTE_X) && mxr))) {
-             /* Read access check failed */
-             return TRANSLATE_FAIL;
--        } else if (access_type == MMU_DATA_STORE && !(pte & PTE_W)) {
-+        } else if ((access_type == MMU_DATA_STORE && !is_sstack) &&
-+                   !(pte & PTE_W)) {
-             /* Write access check failed */
-             return TRANSLATE_FAIL;
-         } else if (access_type == MMU_INST_FETCH && !(pte & PTE_X)) {
-             /* Fetch access check failed */
-             return TRANSLATE_FAIL;
-+        } else if (!legal_sstack_access(access_type, is_sstack,
-+                                        sstack_page)) {
-+            /* Illegal combo of instruction type and page attribute */
-+            return TRANSLATE_PMP_FAIL;
-         } else {
-             /* if necessary, set accessed and dirty bits. */
-             target_ulong updated_pte = pte | PTE_A |
-@@ -1107,18 +1163,27 @@ restart:
-                          ) << PGSHIFT) | (addr & ~TARGET_PAGE_MASK);
++    if (ctx->fcfi_lp_expected) {
++        /*
++         * Since we can't look ahead to confirm that the first
++         * instruction is a legal landing pad instruction, emit
++         * compare-and-branch sequence that will be fixed-up in
++         * riscv_tr_tb_stop() to either statically hit or skip an
++         * illegal instruction exception depending on whether the
++         * flag was lowered by translation of a CJLP or JLP as
++         * the first instruction in the block.
++         */
++        TCGv_i32 immediate;
++        TCGLabel *l;
++        l = gen_new_label();
++        immediate = tcg_temp_local_new_i32();
++        tcg_gen_movi_i32(immediate, 0);
++        cfi_lp_check = tcg_last_op();
++        tcg_gen_brcondi_i32(TCG_COND_EQ, immediate, 0, l);
++        tcg_temp_free_i32(immediate);
++        gen_exception_illegal(ctx);
++        gen_set_label(l);
++        /*
++         * Despite the use of gen_exception_illegal(), the rest of
++         * the TB needs to be generated. The TCG optimizer will
++         * clean things up depending on which path ends up being
++         * active.
++         */
++        ctx->base.is_jmp = DISAS_NEXT;
++    }
+ }
  
-             /* set permissions on the TLB entry */
--            if ((pte & PTE_R) || ((pte & PTE_X) && mxr)) {
-+            if ((pte & PTE_R) || ((pte & PTE_X) && mxr) || sstack_page) {
-                 *prot |= PAGE_READ;
-             }
-             if ((pte & PTE_X)) {
-                 *prot |= PAGE_EXEC;
-             }
--            /* add write permission on stores or if the page is already dirty,
--               so that we TLB miss on later writes to update the dirty bit */
-+            /*
-+             * add write permission on stores or if the page is already dirty,
-+             * so that we TLB miss on later writes to update the dirty bit
-+             */
-             if ((pte & PTE_W) &&
-                     (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
-                 *prot |= PAGE_WRITE;
-             }
-+            if (sstack) {
-+                /*
-+                 * Tell the caller to skip the SS bit in the PMP since we
-+                 * resolved the attributes via the page table.
-+                 */
-+                *sstack = SSTACK_DC;
-+            }
-             return TRANSLATE_SUCCESS;
-         }
+ static void riscv_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
+@@ -1225,6 +1263,7 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+ static void riscv_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+ {
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
++    CPURISCVState *env = cpu->env_ptr;
+ 
+     switch (ctx->base.is_jmp) {
+     case DISAS_TOO_MANY:
+@@ -1235,6 +1274,19 @@ static void riscv_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+     default:
+         g_assert_not_reached();
      }
-@@ -1190,13 +1255,13 @@ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-     int mmu_idx = cpu_mmu_index(&cpu->env, false);
++
++    if (ctx->fcfi_lp_expected) {
++        /*
++         * If the "lp expected" flag is still up, the block needs to take an
++         * illegal instruction exception.
++         */
++        tcg_set_insn_param(cfi_lp_check, 1, tcgv_i32_arg(tcg_constant_i32(1)));
++    } else {
++        /*
++        * LP instruction requirement was met, clear up LP expected
++        */
++        env->elp = NO_LP_EXPECTED;
++    }
+ }
  
-     if (get_physical_address(env, &phys_addr, &prot, addr, NULL, 0, mmu_idx,
--                             true, riscv_cpu_virt_enabled(env), true)) {
-+                             true, riscv_cpu_virt_enabled(env), true, NULL)) {
-         return -1;
-     }
- 
-     if (riscv_cpu_virt_enabled(env)) {
-         if (get_physical_address(env, &phys_addr, &prot, phys_addr, NULL,
--                                 0, mmu_idx, false, true, true)) {
-+                                 0, mmu_idx, false, true, true, NULL)) {
-             return -1;
-         }
-     }
-@@ -1291,6 +1356,8 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     bool two_stage_indirect_error = false;
-     int ret = TRANSLATE_FAIL;
-     int mode = mmu_idx;
-+    bool sstack = (mmu_idx == MMU_IDX_SS_ACCESS);
-+    SStackPmpMode ssmode = sstack ? SSTACK_YES : SSTACK_NO;
-     /* default TLB page size */
-     target_ulong tlb_size = TARGET_PAGE_SIZE;
- 
-@@ -1318,7 +1385,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-         /* Two stage lookup */
-         ret = get_physical_address(env, &pa, &prot, address,
-                                    &env->guest_phys_fault_addr, access_type,
--                                   mmu_idx, true, true, false);
-+                                   mmu_idx, true, true, false, &ssmode);
- 
-         /*
-          * A G-stage exception may be triggered during two state lookup.
-@@ -1342,7 +1409,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
- 
-             ret = get_physical_address(env, &pa, &prot2, im_address, NULL,
-                                        access_type, mmu_idx, false, true,
--                                       false);
-+                                       false, NULL);
- 
-             qemu_log_mask(CPU_LOG_MMU,
-                     "%s 2nd-stage address=%" VADDR_PRIx " ret %d physical "
-@@ -1353,7 +1420,8 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
- 
-             if (ret == TRANSLATE_SUCCESS) {
-                 ret = get_physical_address_pmp(env, &prot_pmp, &tlb_size, pa,
--                                               size, access_type, mode);
-+                                               size, access_type, mode,
-+                                               SSTACK_NO);
- 
-                 qemu_log_mask(CPU_LOG_MMU,
-                               "%s PMP address=" HWADDR_FMT_plx " ret %d prot"
-@@ -1377,7 +1445,8 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     } else {
-         /* Single stage lookup */
-         ret = get_physical_address(env, &pa, &prot, address, NULL,
--                                   access_type, mmu_idx, true, false, false);
-+                                   access_type, mmu_idx, true, false,
-+                                   false, &ssmode);
- 
-         qemu_log_mask(CPU_LOG_MMU,
-                       "%s address=%" VADDR_PRIx " ret %d physical "
-@@ -1386,7 +1455,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
- 
-         if (ret == TRANSLATE_SUCCESS) {
-             ret = get_physical_address_pmp(env, &prot_pmp, &tlb_size, pa,
--                                           size, access_type, mode);
-+                                           size, access_type, mode, ssmode);
- 
-             qemu_log_mask(CPU_LOG_MMU,
-                           "%s PMP address=" HWADDR_FMT_plx " ret %d prot"
+ static void riscv_tr_disas_log(const DisasContextBase *dcbase,
 -- 
 2.25.1
 
