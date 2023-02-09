@@ -2,159 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DADC7690995
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 14:13:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2590D6909A5
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 14:15:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ6ih-000438-B5; Thu, 09 Feb 2023 08:12:11 -0500
+	id 1pQ6lB-0006Fi-FJ; Thu, 09 Feb 2023 08:14:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <het.gala@nutanix.com>)
- id 1pQ6ie-000403-Hu
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 08:12:09 -0500
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pQ6l4-0006AC-DG; Thu, 09 Feb 2023 08:14:38 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <het.gala@nutanix.com>)
- id 1pQ6ib-0006yy-BZ
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 08:12:08 -0500
-Received: from pps.filterd (m0127839.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 319CYimf016552; Thu, 9 Feb 2023 05:11:59 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pQ6l2-0007Ce-0g; Thu, 09 Feb 2023 08:14:38 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 319DDo0w009793; Thu, 9 Feb 2023 13:14:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=proofpoint20171006;
- bh=m9L1Vz37CZNbu/VPGm6BNnC7u+ev6jK6ctIZZBQt4aI=;
- b=ovRhLbSwFsia9/UziGwAKj4fpOslTmlDo8m2J80T67wXaQCIJT3L27OUiHIKWtLreY9j
- 80o7/ts2BXqXjfMa1hSnY1hMOo8h5TpeaJyehr9v4o3EAf2L7hOjpTy/B4Wrt+yQF/Lf
- BPFvHXKrnyRkd2CthTXiqrgoyHDSy/24s1xiTWExyDygZbJr827aT14zIKcFwZ1hmnFZ
- hxQdKHgN8njWG5L3k7QQzXKaEeqtOcdUDtNnWC2YbMJl4G+wuaZOD4a7z3a7uBuJCbIY
- tivhwQxZx3csf8i45m+5MmYOKzoMaoQM7c7ORroMgaErELGcr968mjNhnoUr14B41NGV cw== 
-Received: from nam02-sn1-obe.outbound.protection.outlook.com
- (mail-sn1nam02lp2047.outbound.protection.outlook.com [104.47.57.47])
- by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3nhqanqj69-1
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=FwyOYX2SShSmncmXz1UnTHi5I7coZZqMI3Ba4yi4sSo=;
+ b=CAufNiIVHnl/3uzSk0y1IjIRsPLjI93wD7XDzM4jD091Y6/p6bsnP1onwjjKCV0RVghX
+ MCfFjN2b8HpZkjBfOPDRmOn+Xp5AD5xBk7UX/NP+RDkPhYWjXnWB9bU8scVnYVnD7k0w
+ mv+5MF1SS159GX0ineVqMQ5H8OdGJA0nDZLMjzMgY8p5VDpNOVMlYTFMm/VqThCqFbUO
+ MKB2gLdvBnWaROcQd18GhyXeCJLZW93Bj1XgtNeFfFHjgcmlxxjezLhyqmqVBDjENr4K
+ e8C4w967BsUSk0Q2VYFBkCtTZYg1gOXXG6MFTRjtsHOjQg2rmvpwr32j9dKeFWrqpUOp 3g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nn1hgr0b0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Feb 2023 05:11:59 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UAfbRGN/LoBbGonODMrWgXc/jwF5Rg49mAjMOgdQbD6YPYLq72WPhpZKl5RzEtEu6lKId+jU359V2QBUwOuz/Ai5LCFcYRwtkKgMLSzoMeZlIKtFokVJ1csXSI8771vhLev3D0Fo5Hgam0F4aLZK26qcFBUT6pt5+nXk+6z0kPUNJe1ZKjCDIR0Ct6kC0l9Fkc8utQ1tVhmoucfwh3ire2DnmD1+OQGuM9HRuAH/MCooiFQS5Gtp1kwbNOSTDpTfUl0u6arfCBzzRaUU7aKzYW/jjRZCOC869+o3zEAKrRqdxpDNhtvwX+SNolzoysppUqZy1uZ7NJyUB3K+8VxcAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m9L1Vz37CZNbu/VPGm6BNnC7u+ev6jK6ctIZZBQt4aI=;
- b=LmIdpE380+DzwkzDwv3WDibC8VkCAj3g5qQ+y1MsPwOYE1G7MzqerhCtPi0B3HaWajdlRZcCSlD+5L1zf5kv9AkxpI2yaGAYo7hm0diOw1senwlC55OQj7Bj0E89HWHmtNzyk9h9+cdg+TzyIkNP9Fv+pv6dS1KEeJNCm6ppv6XN8ZexAMPEcPD7Yx2ywZSVscmn6NF+KL4iDHyRIJcrZVweqxDePvQ1lWX/IRNCC1zhZ6WpBHrec6u9di4n6WUitqzvV2my7g7Hbi4BHS5zZr7CnRuxo8WQLp88eYyep/IHNmGtG9DzRefkEjkuusGBJkgp9/9gC7IV9g+7ZLRRkg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m9L1Vz37CZNbu/VPGm6BNnC7u+ev6jK6ctIZZBQt4aI=;
- b=wIpjtBeaw/wJqq5s9RRvMrgLlEEDdYdkn2Q/JacZO7SdAFhmSrelJvipptCXmWpgkd3RjS5qn5xOC4JTlIcQ5MpYtMfw3OTHYmSIzfGDU+MlvyiXMHjVaQ67We2iiz6/jnZ5A+Ntw+7hWm3eL4WSSCqCih5W9buWo/k/S2xqxc8gR89A3a3JsKSzbNwHhG/RltMAAuVqjCFGDQ2VeKi8MujvaEyVfmKwxD3pulnwRoNp5cxfQsLAcj/kw+O/aQewMH3qCT8F130+cPZ9Jv8pgnrhMhTWgteyhg1thxCZJNOGHFO4WhUUVXpZqpdA+wRvKTKx2fg7YDpIolmDl6Vgdg==
-Received: from BYAPR02MB4343.namprd02.prod.outlook.com (2603:10b6:a03:57::18)
- by BY5PR02MB6852.namprd02.prod.outlook.com (2603:10b6:a03:207::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.19; Thu, 9 Feb
- 2023 13:11:53 +0000
-Received: from BYAPR02MB4343.namprd02.prod.outlook.com
- ([fe80::707d:b1c1:e895:94ac]) by BYAPR02MB4343.namprd02.prod.outlook.com
- ([fe80::707d:b1c1:e895:94ac%3]) with mapi id 15.20.6064.036; Thu, 9 Feb 2023
- 13:11:53 +0000
-Message-ID: <ce476f1c-a2ec-9dd5-c36a-d60bb2a29286@nutanix.com>
-Date: Thu, 9 Feb 2023 18:41:41 +0530
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 2/6] migration: Updated QAPI format for 'migrate' qemu
- monitor command
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, prerna.saxena@nutanix.com, quintela@redhat.com,
- dgilbert@redhat.com, pbonzini@redhat.com, armbru@redhat.com,
- eblake@redhat.com, manish.mishra@nutanix.com,
- aravind.retnakaran@nutanix.com
-References: <20230208093600.242665-1-het.gala@nutanix.com>
- <20230208093600.242665-3-het.gala@nutanix.com> <Y+TLJ9Ui790bIR3b@redhat.com>
-From: Het Gala <het.gala@nutanix.com>
-In-Reply-To: <Y+TLJ9Ui790bIR3b@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA0PR01CA0070.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:ad::15) To BYAPR02MB4343.namprd02.prod.outlook.com
- (2603:10b6:a03:57::18)
+ Thu, 09 Feb 2023 13:14:27 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 319DEQsk012313;
+ Thu, 9 Feb 2023 13:14:26 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nn1hgr0ak-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 09 Feb 2023 13:14:26 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 319CXVMN023824;
+ Thu, 9 Feb 2023 13:14:24 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3nhf06x890-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 09 Feb 2023 13:14:24 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
+ [10.20.54.101])
+ by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 319DEKWq24773016
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 9 Feb 2023 13:14:20 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B36062004B;
+ Thu,  9 Feb 2023 13:14:20 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 47BF920040;
+ Thu,  9 Feb 2023 13:14:19 +0000 (GMT)
+Received: from [9.179.24.44] (unknown [9.179.24.44])
+ by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Thu,  9 Feb 2023 13:14:19 +0000 (GMT)
+Message-ID: <71a18622-ad84-834c-7981-9f5b6da6dc84@linux.ibm.com>
+Date: Thu, 9 Feb 2023 14:14:18 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR02MB4343:EE_|BY5PR02MB6852:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc31cb59-7a60-4aa4-5dca-08db0a9f3639
-x-proofpoint-crosstenant: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: z52/g5rSEUg1Iil1GSowxms1IRLwaOz8szdDFTTpgCHyCRjwDUDDU96Jb+4OI6laDtgJefaD78vw4E7GluoWW5W7YjOsmzITPfkD3LV9i4Lz6lXpnT2RWl0BL0OejqX0qHd0Ro2Hh6H3HKaxPbh3vShRO19QnMWWqpu7ijhIWXgcnIfhKcMI4gRirHNYMaHRww8V2S8vPkyBROqofvfQRbiYdMhyk/oQgYnI2fjICuMIADYbomCpovDUhAS3JiRJJVbYbxyiT3UvnmmNw74qgcWbGctWDCDOnpKVyZokvTG6aDdNxmNdw3/IjF0ltVgMs1vUJqL6VzjITEUYSc4CkwNNWeBBXpASwCyFEbQnoJTR50SmWJ4djvMQOyNtgOzYNbCQf0PYW20z+SBFbk1ghexfebwCNFCJMgu/ZXxNA8LX4Dk4v7HxHZwYT9ghdOzk6nzP4/COHX31WIH32f1BkrZFqR4ERCtWmxBQoN4ctSuYEvMyyGN7JeaTtkDA3M11+RGpPCDTtawqbstP5ecXgYMFtNTQc3VkIClWQu27Zd8WBG6w4oEzRUPLnYBkq62s31Fmo7qv7JfAs2l8828v8LPnZbZdi5L3lcxQLFUyj10XMOUswzhqa+kceUM8tMkeJUaWvqxx8hknMm37u+cWZiaWBcg5BQdELiHWULFB0BpWdqH9TK6WVDu+/6Am+5CU561sMstoH14FWgNUT4BV4gooiTS02wrnC+MZzzq4fnA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR02MB4343.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(346002)(376002)(136003)(39850400004)(396003)(366004)(451199018)(66899018)(2906002)(44832011)(186003)(31696002)(86362001)(2616005)(8936002)(5660300002)(26005)(36756003)(6486002)(107886003)(53546011)(478600001)(6666004)(6506007)(31686004)(83380400001)(6512007)(38100700002)(316002)(6916009)(66946007)(41300700001)(4326008)(8676002)(66476007)(66556008)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OTRmQTZSK29YWDVxUzVjSnh5L1JONGJaeFdJWkRNSFVMVnQ5aDVKZWJUdTNJ?=
- =?utf-8?B?c0YvNFhFMm8ybUY1L2gvT3ZtNkR6Y3o5YzhMZHhYNTVBZzdyc2hUdHBvRHkv?=
- =?utf-8?B?M1pxQXkzSUZDQ2RxdGVicnBnNDVKZnR1Wk9uSUtjZGJwNHlFbUl6OFFlTjFm?=
- =?utf-8?B?bENQMmZCaFMyaklBWFFyNG5EMUZHVVcwaER0UlpydXZUK0FYZUE4WGsvY1ZD?=
- =?utf-8?B?MGxtZ3BnTUpjTlBXS2tZTUNyd3NZV3BudUQ4TzQrSWYrRVdLa2RPTVBhOERr?=
- =?utf-8?B?TUpWYkI1dTROZ2F5N0ZsOVB3V0Y3Und3ZXlhazl5THd4U2NvRzVoQnpMd3lX?=
- =?utf-8?B?N3FUN21UdFlvZWVKSndKd25lbXZJR3RCSUR3YTRzeXdsVzVBNEFBeUY5c2Ja?=
- =?utf-8?B?S09RS0I2RjV4WFRvTWxrL1BwcXVOT3VCOEtTelJNZm81SklZbmdZSXhsUTFn?=
- =?utf-8?B?MUJYUEVxc0JrcjRHOVl1dHRBOWFSa3FxSXdRWjdJZnhnTVJvL0tyT0QwYlht?=
- =?utf-8?B?cWR2WS93VnBKaGFwV3RYU3RmN3N5YW93QzloTFZGUWwxS3pXYnhOMVg4WUhT?=
- =?utf-8?B?M0Z5ZVVjZ283azFObS96dFk3WnVqbDRhaXNubkJUeXN3aXBQcllOOFp6Sndo?=
- =?utf-8?B?c09BZU5HT25XRG5vM0kxdkNkQ28weCt4ZXJubUFBcGJSYkg0NDRmTzJFWnJM?=
- =?utf-8?B?b1B4cEdlL3BlR05sbVlST1hZTDkvaGh2enJsWjhGaGFZQzRjZHNaUVJmdnNv?=
- =?utf-8?B?MUlIUXluMmU1YWpCeitpUWJTMkhrK1VhYU5XbG5kUHpqTVpaVjhVandlTTZR?=
- =?utf-8?B?djVYM2tkOWhoT2ZJYUlnMStWSUpaT2tiZlJDWHZsbTYyamNRTjFyb3BPdU9v?=
- =?utf-8?B?aU9mTXRDT2E2Wm9RQXFNSFRyMHgyR1pnY0pnd1F0cWlhaXJaNVZ4SmFsRlVk?=
- =?utf-8?B?eTQrVFhlVW11TytHaWVNTmZyU2hJVVZ0T2JVK21JanRrVkhUMnZXY1N6UXZp?=
- =?utf-8?B?YUQ3NDFJZC9pTHNnZVZLNHBwZFAxeW5zWWdNYytsZVZlc0JaZW9LRUV6M3Nv?=
- =?utf-8?B?WlJvS29xWFNreXNUZTBvZEh1RENsT2h0UENrMlM1clRJS3U3RkxnQXdSY3Zx?=
- =?utf-8?B?bEp1N3VrRThjWWIxVUx1My91NTM4NkVaSjU2YzlKRGxiQU94QzZCamZuZGJP?=
- =?utf-8?B?MWJSQjBVdlBKOWdObklsSTc4RlF1ais4UG45Q2UrNlhreEE5YWdFSFhXeFFL?=
- =?utf-8?B?RE1weDZVWFZSOWgwWi9rRWRtblNOdkE2YjZTQ21rQlladXZSK1l3VnNpN0pK?=
- =?utf-8?B?L2RYUENOaXc4cng0dWZNaVZZRGdVYlVNYkpsNkRoTUxHcW1ROW1rQWJic0JP?=
- =?utf-8?B?SXVublM0NVZ5dDNINi9TS3ozd0o0c2xNZ0lpRVE2K1BUSFI5TG5xY1JwOWlC?=
- =?utf-8?B?TkxiZFVSRk12RkVLUFo2VTJLWDdQc1JlRzVUOWduc3cyTHkyL3hURVZjdjlm?=
- =?utf-8?B?MlNjRmdlM3lhYkxianJJY1FVYm5ES2hmYkNpVldoLzQ5NVZlMy9SSWpPKzF2?=
- =?utf-8?B?SFY5bjVWbS83cW54Z2xIYnBwTkprelp1ZGlXQ0NMYlNmV0VYK0VnNWRSWmRw?=
- =?utf-8?B?cUNNNXUwa2w4cmJKb1YyODB4NmN1am4zK0hQZERwY1ZrOXNkMlJmRjd2SFRJ?=
- =?utf-8?B?cUpqYnQ5QkJEd2w0emEwcVRQb2grL3hoOTgvZy9JTUdjSUdrLzZmeFhwaFFw?=
- =?utf-8?B?bkVLclR2Z3N3ekxuQUpMdmJQV2FVRjdaTUU3d2Y5Tk00MEpKZG9BWkVxS25O?=
- =?utf-8?B?REcwYTdXbG5vQW1mNUhnYmIraDlyelFIVkpyTXlsVFhieVc3R1RrSVZ6ZUdW?=
- =?utf-8?B?c1hoZ093MXloRXduaWRTc2I3TDlCS1kwMzdsN21lZGhITTMyR2sxT1lrMk5K?=
- =?utf-8?B?eGJ2YXo3cnRCaDI2aE9qWlkybklvd2NiMnhRMDlBMDRxRXJFNDZzODJUSVo2?=
- =?utf-8?B?eXYzZFBXK04wY1J6UDkwRjFjUTlGOXh6VUJ5RS8vMXN6czRjWXZXRmJqY0Jl?=
- =?utf-8?B?KzBmcFZ0aGNiTnFxb2tTSmZIL28vU1A4cjg3ejZILzZtejVmYUVGcmUyZ1BP?=
- =?utf-8?B?WjN4b1RXV2VoTjVQMWRNQllMNW9ZOE5YR1dDZmkzTmdMYVBnTjlKeXFtVUd3?=
- =?utf-8?B?TVE9PQ==?=
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc31cb59-7a60-4aa4-5dca-08db0a9f3639
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4343.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2023 13:11:53.2926 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tIFzYAGLAxp8g4sKv5nQCeUfli17aYRQeKWAnehG2R8uYjRqod0qw7LF+Btncz5LYwJ9/ABqxftJq9d7ZXCsQA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6852
-X-Proofpoint-GUID: k_Tuf-tYky3STqa9TUyU78BDDx4uvTbf
-X-Proofpoint-ORIG-GUID: k_Tuf-tYky3STqa9TUyU78BDDx4uvTbf
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v15 08/11] qapi/s390x/cpu topology: x-set-cpu-topology
+ monitor command
+Content-Language: en-US
+To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230201132051.126868-1-pmorel@linux.ibm.com>
+ <20230201132051.126868-9-pmorel@linux.ibm.com>
+ <5775d58faf9505e561c81baa3807f01a1e0621b4.camel@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <5775d58faf9505e561c81baa3807f01a1e0621b4.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: CYqsLdtJU5yG64TLrTjvKZUaNX3ttDp1
+X-Proofpoint-ORIG-GUID: cS0mPsPUKjeVd5_c9ZOHLrNMpFNvhoeL
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-09_10,2023-02-09_03,2022-06-22_01
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.151.68; envelope-from=het.gala@nutanix.com;
- helo=mx0a-002c1b01.pphosted.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+ definitions=2023-02-09_08,2023-02-08_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0
+ priorityscore=1501 adultscore=0 malwarescore=0 spamscore=0 mlxlogscore=999
+ impostorscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0
+ clxscore=1015 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302090125
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.148, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -172,161 +122,226 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-On 09/02/23 3:59 pm, Daniel P. Berrangé wrote:
-> On Wed, Feb 08, 2023 at 09:35:56AM +0000, Het Gala wrote:
->> Existing 'migrate' QAPI design enforces transport mechanism, ip address
->> of destination interface and corresponding port number in the form
->> of a unified string 'uri' parameter for initiating a migration stream.
->> This scheme has a significant flaw in it - double encoding of existing
->> URIs to extract migration info.
+
+On 2/8/23 19:40, Nina Schoetterl-Glausch wrote:
+> On Wed, 2023-02-01 at 14:20 +0100, Pierre Morel wrote:
+>> The modification of the CPU attributes are done through a monitor
+>> command.
 >>
->> The current patch maps QAPI uri design onto well defined MigrateChannel
->> struct. This modified QAPI helps in preventing multi-level uri
->> encodings ('uri' parameter is kept for backward compatibility).
+>> It allows to move the core inside the topology tree to optimise
+>> the cache usage in the case the host's hypervisor previously
+>> moved the CPU.
 >>
->> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
->> Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
->> Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
->> Signed-off-by: Het Gala <het.gala@nutanix.com>
+>> The same command allows to modify the CPU attributes modifiers
+>> like polarization entitlement and the dedicated attribute to notify
+>> the guest if the host admin modified scheduling or dedication of a vCPU.
+>>
+>> With this knowledge the guest has the possibility to optimize the
+>> usage of the vCPUs.
+>>
+>> The command is made experimental for the moment.
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 >> ---
->>   qapi/migration.json | 131 +++++++++++++++++++++++++++++++++++++++++++-
->>   1 file changed, 129 insertions(+), 2 deletions(-)
+>>   qapi/machine-target.json | 29 +++++++++++++
+>>   include/monitor/hmp.h    |  1 +
+>>   hw/s390x/cpu-topology.c  | 88 ++++++++++++++++++++++++++++++++++++++++
+>>   hmp-commands.hx          | 16 ++++++++
+>>   4 files changed, 134 insertions(+)
 >>
->> diff --git a/qapi/migration.json b/qapi/migration.json
->> index c84fa10e86..79acfcfe4e 100644
->> --- a/qapi/migration.json
->> +++ b/qapi/migration.json
->> @@ -1449,12 +1449,108 @@
->>   ##
->>   { 'command': 'migrate-continue', 'data': {'state': 'MigrationStatus'} }
+>> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+>> index 2e267fa458..58df0f5061 100644
+>> --- a/qapi/machine-target.json
+>> +++ b/qapi/machine-target.json
+>> @@ -342,3 +342,32 @@
+>>                      'TARGET_S390X',
+>>                      'TARGET_MIPS',
+>>                      'TARGET_LOONGARCH64' ] } }
+>> +
+>> +##
+>> +# @x-set-cpu-topology:
+>> +#
+>> +# @core: the vCPU ID to be moved
+>> +# @socket: the destination socket where to move the vCPU
+>> +# @book: the destination book where to move the vCPU
+>> +# @drawer: the destination drawer where to move the vCPU
+> 
+> I wonder if it wouldn't be more convenient for the caller if everything is optional.
+
+Yes, it is a good point.
+
+> 
+>> +# @polarity: optional polarity, default is last polarity set by the guest
+>> +# @dedicated: optional, if the vCPU is dedicated to a real CPU
+>> +#
+>> +# Modifies the topology by moving the CPU inside the topology
+>> +# tree or by changing a modifier attribute of a CPU.
+>> +#
+>> +# Returns: Nothing on success, the reason on failure.
+>> +#
+>> +# Since: <next qemu stable release, eg. 1.0>
+>> +##
+>> +{ 'command': 'x-set-cpu-topology',
+>> +  'data': {
+>> +      'core': 'int',
+>> +      'socket': 'int',
+>> +      'book': 'int',
+>> +      'drawer': 'int',
+> 
+> Did you consider naming those core-id, etc.? It would be consistent with
+> query-cpus-fast/CpuInstanceProperties. Also all your variables end with _id.
+> I don't care really just wanted to point it out.
+
+OK, core-id etc. looks better
+
+> 
+>> +      '*polarity': 'int',
+>> +      '*dedicated': 'bool'
+>> +  },
+>> +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
+>> +}
+> 
+> So apparently this is the old way of doing an experimental api.
+> 
+>> Names beginning with ``x-`` used to signify "experimental".  This
+>> convention has been replaced by special feature "unstable".
+> 
+>> Feature "unstable" marks a command, event, enum value, or struct
+>> member as unstable.  It is not supported elsewhere so far.  Interfaces
+>> so marked may be withdrawn or changed incompatibly in future releases.
+
+OK
+
+> 
+>> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+>> index 1b3bdcb446..12827479cf 100644
+>> --- a/include/monitor/hmp.h
+>> +++ b/include/monitor/hmp.h
+>> @@ -151,5 +151,6 @@ void hmp_human_readable_text_helper(Monitor *mon,
+>>                                       HumanReadableText *(*qmp_handler)(Error **));
+>>   void hmp_info_stats(Monitor *mon, const QDict *qdict);
+>>   void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict);
+>> +void hmp_x_set_cpu_topology(Monitor *mon, const QDict *qdict);
 >>   
+>>   #endif
+>> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+>> index c33378577b..6c50050991 100644
+>> --- a/hw/s390x/cpu-topology.c
+>> +++ b/hw/s390x/cpu-topology.c
+>> @@ -18,6 +18,10 @@
+>>   #include "target/s390x/cpu.h"
+>>   #include "hw/s390x/s390-virtio-ccw.h"
+>>   #include "hw/s390x/cpu-topology.h"
+>> +#include "qapi/qapi-commands-machine-target.h"
+>> +#include "qapi/qmp/qdict.h"
+>> +#include "monitor/hmp.h"
+>> +#include "monitor/monitor.h"
+>>   
+>>   /*
+>>    * s390_topology is used to keep the topology information.
+>> @@ -379,3 +383,87 @@ void s390_topology_set_cpu(MachineState *ms, S390CPU *cpu, Error **errp)
+>>       /* topology tree is reflected in props */
+>>       s390_update_cpu_props(ms, cpu);
+>>   }
 >> +
->> +##
->> +# @MigrateSocketAddr:
->> +#
->> +# To support different type of socket.
->> +#
->> +# @socket-type: Different type of socket connections.
->> +#
->> +# Since 8.0
->> +##
->> +{ 'struct': 'MigrateSocketAddr',
->> +  'data': {'socket-type': 'SocketAddress' } }
-> I'd really like this struct to go away, but if it must exist,
-> then call this field 'addr', as I think 'socket-type' is overly
-> verbose.
-In v3 patchset, I have already changed from 'socket-type' to 'data'.
+>> +/*
+>> + * qmp and hmp implementations
+>> + */
 >> +
->> +##
->> +# @MigrateExecAddr:
->> + #
->> + # Since 8.0
->> + ##
->> +{ 'struct': 'MigrateExecAddr',
->> +   'data' : {'data': ['str'] } }
-> Instead of having the field called 'data' lets me more
-> descriptive, and perhaps rename the struct too:
->
->   { 'struct': 'MigrateCommand',
->      'data' : {'args': ['str'] } }
->
-> Any thoughts on whether we should allow for setting env varibles
-> too ?
-
-Daniel, won't 'MigrateCommand' be too generic ? I am of the opinion 
-that, if its related to 'exec' transport, the struct name should reflect 
-that ?
-
-I did not get your question allowing setting environment variables. 
-Could you explain it in more detail ?
-
->> +##
->> +# @MigrateRdmaAddr:
->> +#
->> +# Since 8.0
->> +##
->> +{ 'struct': 'MigrateRdmaAddr',
->> +   'data' : {'data': 'InetSocketAddress' } }
-> InetSocketAddress is a plain struct, so I think we can use
-> that directly, no ?
-Yes, we can use it directly. Just to keep consistency with other 
-transport mechanisms, I made a separate struct even for rdma.
+>> +static void s390_change_topology(int64_t core_id, int64_t socket_id,
+>> +                                 int64_t book_id, int64_t drawer_id,
+>> +                                 int64_t polarity, bool dedicated,
+>> +                                 Error **errp)
+>> +{
+>> +    MachineState *ms = current_machine;
+>> +    S390CPU *cpu;
+>> +    ERRP_GUARD();
 >> +
->> +##
->> +# @MigrateAddress:
->> +#
->> +# The options available for communication transport mechanisms for migration
->> +#
->> +# Since 8.0
->> +##
->> +{ 'union' : 'MigrateAddress',
->> +  'base' : { 'transport' : 'MigrateTransport'},
->> +  'discriminator' : 'transport',
->> +  'data' : {
->> +    'socket' : 'MigrateSocketAddr',
->> +    'exec' : 'MigrateExecAddr',
->> +    'rdma': 'MigrateRdmaAddr' } }
-> Ideally this would be
->
->     'data' : {
->       'socket' : 'SocketAddress',
->       'exec' : 'MigrateCommand',
->       'rdma': 'InetSocketAddress' } }
->
-> though the first SocketAddress isn't possible unless it is easy to
-> lift the QAPI limitation.
+>> +    cpu = (S390CPU *)ms->possible_cpus->cpus[core_id].cpu;
+>> +    if (!cpu) {
+>> +        error_setg(errp, "Core-id %ld does not exist!", core_id);
+>> +        return;
+>> +    }
+>> +
+>> +    /* Verify the new topology */
+>> +    s390_topology_check(cpu, errp);
+>> +    if (*errp) {
+>> +        return;
+>> +    }
+>> +
+>> +    /* Move the CPU into its new socket */
+>> +    s390_set_core_in_socket(cpu, drawer_id, book_id, socket_id, true, errp);
+> 
+> The cpu isn't being created, so that should be false instead of true, right?
 
-Yes, I agree with you Daniel. If we can fix the first one - 
-SocketAddress one, can we also allow ['str'] to also be directly 
-represented by modifying QAPI ?
+Yes right, should be "false"
 
-ex: 'exec': ['str'] ... something like this ?
+> 
+>> +
+>> +    /* All checks done, report topology in environment */
+>> +    cpu->env.drawer_id = drawer_id;
+>> +    cpu->env.book_id = book_id;
+>> +    cpu->env.socket_id = socket_id;
+>> +    cpu->env.dedicated = dedicated;
+>> +    cpu->env.entitlement = polarity;
+>> +
+>> +    /* topology tree is reflected in props */
+>> +    s390_update_cpu_props(ms, cpu);
+>> +
+>> +    /* Advertise the topology change */
+>> +    s390_cpu_topology_set_modified();
+>> +}
+>> +
+>> +void qmp_x_set_cpu_topology(int64_t core, int64_t socket,
+>> +                         int64_t book, int64_t drawer,
+>> +                         bool has_polarity, int64_t polarity,
+>> +                         bool has_dedicated, bool dedicated,
+>> +                         Error **errp)
+>> +{
+>> +    ERRP_GUARD();
+>> +
+>> +    if (!s390_has_topology()) {
+>> +        error_setg(errp, "This machine doesn't support topology");
+>> +        return;
+>> +    }
+>> +    if (!has_polarity) {
+>> +        polarity = POLARITY_VERTICAL_MEDIUM;
+>> +    }
+>> +    if (!has_dedicated) {
+>> +        dedicated = false;
+>> +    }
+>> +    s390_change_topology(core, socket, book, drawer, polarity, dedicated, errp);
+>> +}
+>> +
+>> +void hmp_x_set_cpu_topology(Monitor *mon, const QDict *qdict)
+>> +{
+>> +    const int64_t core = qdict_get_int(qdict, "core");
+>> +    const int64_t socket = qdict_get_int(qdict, "socket");
+>> +    const int64_t book = qdict_get_int(qdict, "book");
+>> +    const int64_t drawer = qdict_get_int(qdict, "drawer");
+>> +    bool has_polarity    = qdict_haskey(qdict, "polarity");
+>> +    const int64_t polarity = qdict_get_try_int(qdict, "polarity", 0);
+>> +    bool has_dedicated    = qdict_haskey(qdict, "dedicated");
+>> +    const bool dedicated = qdict_get_try_bool(qdict, "dedicated", false);
+>> +    Error *local_err = NULL;
+>> +
+>> +    qmp_x_set_cpu_topology(core, socket, book, drawer,
+>> +                           has_polarity, polarity,
+>> +                           has_dedicated, dedicated,
+>> +                           &local_err);
+>> +    if (hmp_handle_error(mon, local_err)) {
+>> +        return;
+>> +    }
+> 
+> What is the if for? The function ends anyway.
 
->> +# -> { "execute": "migrate",
->> +#      "arguments": {
->> +#          "channel": { "channeltype": "main",
->> +#                        "addr": { "transport": "socket",
->> +#                                  "socket-type": { "type': "inet',
->> +#                                                   "host": "10.12.34.9",
->> +#                                                   "port": "1050" } } } } }
->> +# <- { "return": {} }
->> +#
->> +# -> { "execute": "migrate",
->> +#      "arguments": {
->> +#          "channel": { "channeltype": "main",
->> +#                       "addr": { "transport": "exec",
->> +#                                 "exec": ["/bin/nc", "-U",
->> +#                                          "/some/sock" ] } } } }
->> +# <- { "return": {} }
->> +#
->> +# -> { "execute": "migrate",
->> +#      "arguments": {
->> +#          "channel": { "channeltype": "main",
->> +#                       "addr": { "transport": "rdma",
->> +#                                 "rdma": { "host": "10.12.34.9",
->> +#                                           "port": "1050" } } } } }
->> +# <- { "return": {} }
->> +#
->>   ##
->>   { 'command': 'migrate',
->> -  'data': {'uri': 'str', '*blk': 'bool', '*inc': 'bool',
->> -           '*detach': 'bool', '*resume': 'bool' } }
->> +  'data': {'*uri': 'str', '*channel': 'MigrateChannel', '*blk': 'bool',
->> +           '*inc': 'bool', '*detach': 'bool', '*resume': 'bool' } }
-> IIRC, the intention was to allow multiple channels to be set in a
-> follow up to this series. If so that would require adding yet another
-> field as an array of MigrateChannel.  Should we just go for the
-> array straight away, and just limit it to 1 element  as a runtime
-> check ? eg
->
->    'data': {'*uri': 'str', '*channels': ['MigrateChannel'], '*blk': 'bool',
->             '*inc': 'bool', '*detach': 'bool', '*resume': 'bool' } }
-Yes, I got your point Daniel. But I feel it is better to introduce it in 
-follow up series along with introducing different channel types (main, 
-data, postcopy). It would then also make sense to introduce a list of 
-'MigrateChannel'.
-> With regards,
-> Daniel
+Right, I take it away.
+Thanks.
+
 Regards,
-Het Gala
+Pierre
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
