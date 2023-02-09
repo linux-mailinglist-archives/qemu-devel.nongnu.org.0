@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B0C69043B
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 10:53:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7278690463
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 11:03:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ3ag-0004ok-HR; Thu, 09 Feb 2023 04:51:43 -0500
+	id 1pQ3ku-00005m-FQ; Thu, 09 Feb 2023 05:02:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pQ3ad-0004oS-WE
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 04:51:40 -0500
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pQ3ac-0001fJ-FY
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 04:51:39 -0500
-Received: by mail-oi1-x234.google.com with SMTP id n132so1179415oih.7
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 01:51:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ue2ZZcDSQs+H906Kb+OyhYBl32Zw+rvGJJ3KlqJX77Q=;
- b=j4xh508AF8sGZ94slpGsVkk9QmMGsypjxFucv46r5/bJ2WmI7tX6LGsWJ+SG6euRch
- 1zH9nFJ2jxePouxfTXs7NaeF82G0Fj9bZLXvbOddRtLD263lVjlChjhw8faBma0oqG0t
- nONmBTW0S6rc9cWmmL0kpWNp2DAY4RFiOVpnWRrHPVOwecCIvpEPQn/bV6kYNm9t9hAv
- yOCCdzc4rjnkbKRIjQ4nmT3SfktBxDfC9bLXkPc/BUW9bBq0rGIuKLfSw4rdsGebabFa
- qu0bN9OfL5kpUeQtL4x9cMJdUCy2jhawi66NC/dHc86BrKhHT9Zef+NxWRUIaw6AlLhN
- cjhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ue2ZZcDSQs+H906Kb+OyhYBl32Zw+rvGJJ3KlqJX77Q=;
- b=rBJxP0AhBlNZdi7dVYbQ49dJidO2N5TyBz3uZOroM9kY/xRD9XL21rrUO/ynw4+JDS
- E5t8bi1KWUoBbdR2ujsOwBxMhv7WxragH/uzhTMe8nLtw7thbYZMiUKdt8zmwy06samx
- Mt9FBsjtsehllMx23iUIcFa4d/ch/sKudDzbhjuuCyqELV51qaxOZi3KNBCNByGVCqUv
- kTkQzjPtEfPi5glFx6Z6XPuM9PsUHrix/UZMXcqzQJ9XK9C1hP8XNsuXcUSxTtGJt/7Y
- chY+Fz7aKyBDxglH3x66VXxzw4bMyn7kROR/3TR6W54vVVknrvEeQWIfCApgDHUWKAtG
- ISuQ==
-X-Gm-Message-State: AO0yUKU75CBbjTfz4xt+M467/L4tZKzRXMrc98LFMdEqltM3BYsNtmde
- 91Bvy1MM+IrpJBZZfP1aAkPBOA==
-X-Google-Smtp-Source: AK7set/fms9cMmOpuVPyvXUQD4fISs8V15BrubXAHNw+z5oXO4uVnG2+HNiFhJaaq9hK01cSoDj70A==
-X-Received: by 2002:a54:470a:0:b0:364:eafd:2697 with SMTP id
- k10-20020a54470a000000b00364eafd2697mr4024706oik.58.1675936297007; 
- Thu, 09 Feb 2023 01:51:37 -0800 (PST)
-Received: from [192.168.68.107] ([191.19.125.138])
- by smtp.gmail.com with ESMTPSA id
- q203-20020acad9d4000000b0037adc5702d4sm565583oig.38.2023.02.09.01.51.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Feb 2023 01:51:36 -0800 (PST)
-Message-ID: <67782c1b-7195-f5f0-4839-0cbacebc43f9@ventanamicro.com>
-Date: Thu, 9 Feb 2023 06:51:33 -0300
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQ3kq-0008WQ-Ay
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 05:02:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQ3ko-0003EL-2I
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 05:02:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675936927;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/pC7vIC1Cxccwlx4Ewo46yC1Hazy1UdSNcsr6xrK6yw=;
+ b=eOm9ZIzf4BmyJ4fvgApJZ84vsxUQiWkSCx1vhfzuJ8pBJwSSyGJTMGnzxSDjPS9noylNQi
+ LousQLE3WTEpa50KxtxWGk13GQ71hRnC5NQwol3TOlsbaXOa9UFTW31aVnM2yp5cn8EFlH
+ shTWgMxZrv1vOOuX9ZjEgd8fGJQmHp4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-378-oaxDrfa8MRqC1aXdeh33aw-1; Thu, 09 Feb 2023 05:02:05 -0500
+X-MC-Unique: oaxDrfa8MRqC1aXdeh33aw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 75B80101A52E;
+ Thu,  9 Feb 2023 10:02:05 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 504E3492C3F;
+ Thu,  9 Feb 2023 10:02:05 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B58AD21E6A1F; Thu,  9 Feb 2023 11:02:03 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Steven Sistare <steven.sistare@oracle.com>,  =?utf-8?Q?Marc-Andr=C3=A9?=
+ Lureau <marcandre.lureau@gmail.com>,  "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>,  Michael Roth <michael.roth@amd.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH V2 1/4] qapi: strList_from_string
+References: <1675795727-235010-1-git-send-email-steven.sistare@oracle.com>
+ <1675795727-235010-2-git-send-email-steven.sistare@oracle.com>
+ <CAJ+F1CLFMUDvaOq2QXCKpb8Zj4PRr-tKV1q9L8m2EfgORPLj7A@mail.gmail.com>
+ <32f34f74-213d-7107-907d-dda0a509878e@oracle.com>
+ <87h6vwnstx.fsf@linaro.org>
+Date: Thu, 09 Feb 2023 11:02:03 +0100
+In-Reply-To: <87h6vwnstx.fsf@linaro.org> ("Alex =?utf-8?Q?Benn=C3=A9e=22's?=
+ message of "Wed, 08 Feb 2023 14:17:54 +0000")
+Message-ID: <87cz6j6tt0.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] target/riscv: Smepmp: Skip applying default rules when
- address matches
-Content-Language: en-US
-To: Himanshu Chauhan <hchauhan@ventanamicro.com>, qemu-riscv@nongnu.org
-Cc: qemu-devel@nongnu.org
-References: <20230209055206.229392-1-hchauhan@ventanamicro.com>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230209055206.229392-1-hchauhan@ventanamicro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x234.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.146,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,50 +87,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
+> Steven Sistare <steven.sistare@oracle.com> writes:
+>
+>> On 2/8/2023 1:43 AM, Marc-Andr=C3=A9 Lureau wrote:
+>>> Hi
+>>>=20
+>>> On Tue, Feb 7, 2023 at 10:50 PM Steve Sistare <steven.sistare@oracle.co=
+m> wrote:
+>>>>
+>>>> Generalize hmp_split_at_comma() to take any delimiter character, rename
+>>>> as strList_from_string(), and move it to qapi/util.c.
+>>>>
+>>>> No functional change.
+>>>=20
+>>> The g_strsplit() version was a bit simpler, but if you want to
+>>> optimize it a bit for 1 char delimiter only, ok.
+>>>=20
+>>> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>>
+>> Yes, and it saves a malloc+free for the array.  Small stuff, but I
+>> thought it worth a few lines of code.  Thanks for the speedy review!
+>
+> But is the HMP path that performance critical? Otherwise I'd favour
+> consistent use of the glib APIs because its one less thing to get wrong.
 
-On 2/9/23 02:52, Himanshu Chauhan wrote:
-> When MSECCFG.MML is set, after checking the address range in PMP if the
-> asked permissions are not same as programmed in PMP, the default
-> permissions are applied. This should only be the case when there
-> is no matching address is found.
-> 
-> This patch skips applying default rules when matching address range
-> is found. It returns the index of the match PMP entry.
-> 
-> fixes: 824cac681c3 (target/riscv: Fix PMP propagation for tlb)
+The patch reverts my recent commit 0d79271b570 "hmp: Rewrite
+strlist_from_comma_list() as hmp_split_at_comma()", with a different
+function name and place, and an additional parameter.
 
-Nit: tag starts with capital "F":
+There is no explanation for the revert.
 
-Fixes: 824cac681c3 (target/riscv: Fix PMP propagation for tlb)
+An intentional revert without even mentioning it would be uncourteous.
+I don't think this is the case here.  I figure you wrote this patch
+before you saw my commit, then rebased, keeping the old code.  A simple
+rebase mistake, easy enough to correct.
 
-> 
-> Signed-off-by: Himanshu Chauhan <hchauhan@ventanamicro.com>
-> ---
-
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-
->   target/riscv/pmp.c | 9 ++++++---
->   1 file changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-> index d85ad07caa..0dfdb35828 100644
-> --- a/target/riscv/pmp.c
-> +++ b/target/riscv/pmp.c
-> @@ -446,9 +446,12 @@ int pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
->                   }
->               }
->   
-> -            if ((privs & *allowed_privs) == privs) {
-> -                ret = i;
-> -            }
-> +            /*
-> +             * If matching address range was found, the protection bits
-> +             * defined with PMP must be used. We shouldn't fallback on
-> +             * finding default privileges.
-> +             */
-> +            ret = i;
->               break;
->           }
->       }
 
