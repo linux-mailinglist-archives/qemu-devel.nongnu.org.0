@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED81D690043
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 07:17:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B63B869004F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 07:25:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ0E5-0007Og-Ve; Thu, 09 Feb 2023 01:16:10 -0500
+	id 1pQ0Lw-0000sm-T4; Thu, 09 Feb 2023 01:24:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
- id 1pQ0Do-0007No-0F
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:15:52 -0500
-Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
- id 1pQ0Dl-0006B4-QE
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:15:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675923349; x=1707459349;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=k7Ew0JGG3YIFR2ch2nYbF0c5gQLydijK08afxiTmfjs=;
- b=aBMYFKOtz/8CSwc4kIc7/Xype/OsV6R+Fh0Jv/66PXNFg6HcqrNDbCwJ
- k7S8NQPhUXEmwHP7BVvzadR1TlWYlONl/BAJEwuUwys61Tiw6nTxMY7kd
- hP8dtlSAnYXZ1YHfOvHzaIW9VsKa/crYLTq0omKOSH3QoGh5Slek1t/LL
- WvAntfzyaoJPvgNXlqz6ZCgyqp1LaoSzQfUfnH4AMSYBc3bidCGu2uFbK
- Hb6VmwKSZzMaPZx0dtSTifoUK9oHEV6Xrm/Eip3za2cClF/gxGgMwuNlj
- a7PvPxkOoYEsLQ9ABZ+tTXeVTS4hzlulACUY/fOb/Pa6H5DrUxOY5iVwq A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="392414915"
-X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; d="scan'208";a="392414915"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2023 22:15:46 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="660888274"
-X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; d="scan'208";a="660888274"
-Received: from leiwang7-mobl.ccr.corp.intel.com (HELO [10.238.212.95])
- ([10.238.212.95])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2023 22:15:44 -0800
-Message-ID: <15cef658-e2b1-a264-1e63-1524335e64a9@intel.com>
-Date: Thu, 9 Feb 2023 14:15:41 +0800
+ (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
+ id 1pQ0Lu-0000s9-3c
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:24:14 -0500
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
+ id 1pQ0Ls-0007vq-5X
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:24:13 -0500
+Received: by mail-pg1-x530.google.com with SMTP id r18so912727pgr.12
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 22:24:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7CUYidC2PYJ4aSSo65h6OAHrCirLGNVfJL1zZ8fOzVI=;
+ b=ZiI62LHWMC7KlKecQDIy1C3+ekw76I6k4j1WyE6ErWJ8Fv2Pl17SA34CvnfjBOFSj+
+ ZlQOKDdVgroh/eRt6cLdUoqdTvFaltt4V1FW7KtuTO+1GVhKS5JT7yOCZg0FBhYIFFt3
+ xrcVOiNARQGlSMsNoW6g+YhAf+//Gex2Imns6s2tMxrUB5Pv4hnnqcnwvexfZzjKkaB0
+ jYAznpXYkJFA/ydBmfRGx2IFa+TSXShJ8NJ/iWjWKKYOzG0xjQCNyBx2GzrB87WEX9pu
+ dqYPhJHuSN+JDWPH3KPkG+tgPY7g1PDaMYvp6wbhfNJCvohomp39ZfrdFqEqHPeC/fb4
+ BCEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7CUYidC2PYJ4aSSo65h6OAHrCirLGNVfJL1zZ8fOzVI=;
+ b=bXW/Optznz+KQKn9T75MP6BYHU8f7DAmz4zYvnm892t1VK02XwNQ8RGuLVxebBwZH0
+ 4Zsn2NVHlpw0Q9ejQHqrkJx45UVLQJ8QRGYeGEq1jbnRDEpuh+7UEkyflNFI3q0LC6b6
+ GZyXCdJCkUK72Tm24XHdZJDr2+TbYiCzPlvj5WU6aYMg5HSo79kH2oUDDUcrqnyr8uX9
+ qIBymJHD3Oq85xd29pXH0oiPwOFP1ZFqY0atsXOP6DsRX6IN2fBZPqKZgcE7K8rWCLN2
+ xWIYETG4bvD49Pnbaiu9hIKzoEkQt11FlwHO+15xpMnXzWo7WES/nDI3tTAntDzufd69
+ 8VYQ==
+X-Gm-Message-State: AO0yUKWezOjDlLYaqRzNNpNRdHXEadhels1QBJwwsDyiZYq3UO+Zhlhx
+ jlMJ75XikkLSukmKVRKMUme9BQ==
+X-Google-Smtp-Source: AK7set9f5ri3wD2OEEyMPyCqVcZGtrOhgEtsPIj7qAs7gAeNw5XGMcIHaPzeIxfY7NaBz7abj+jTFw==
+X-Received: by 2002:a62:150a:0:b0:59c:8937:435e with SMTP id
+ 10-20020a62150a000000b0059c8937435emr9399084pfv.28.1675923849835; 
+ Wed, 08 Feb 2023 22:24:09 -0800 (PST)
+Received: from debug.ba.rivosinc.com ([66.220.2.162])
+ by smtp.gmail.com with ESMTPSA id
+ j14-20020aa7800e000000b00571cdbd0771sm521919pfi.102.2023.02.08.22.24.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Feb 2023 22:24:09 -0800 (PST)
+From: Deepak Gupta <debug@rivosinc.com>
+To: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>
+Cc: Deepak Gupta <debug@rivosinc.com>, Kip Walker <kip@rivosinc.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v1 RFC Zisslpcfi 1/9] target/riscv: adding zimops and
+ zisslpcfi extension to RISCV cpu config
+Date: Wed,  8 Feb 2023 22:23:56 -0800
+Message-Id: <20230209062404.3582018-2-debug@rivosinc.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230209062404.3582018-1-debug@rivosinc.com>
+References: <20230209062404.3582018-1-debug@rivosinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.6.1
-Subject: Re: [PATCH v3 4/6] i386: Mask and report unavailable multi-bit
- feature values
-Content-Language: en-US
-To: Xiaoyao Li <xiaoyao.li@intel.com>, Yuan Yao <yuan.yao@linux.intel.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, imammedo@redhat.com,
- dgilbert@redhat.com, berrange@redhat.com, yang.zhong@linux.intel.com
-References: <20230106083826.5384-1-lei4.wang@intel.com>
- <20230106083826.5384-5-lei4.wang@intel.com>
- <20230206074320.bkeuh3eep7kauhg7@yy-desk-7060>
- <d99625d9-af63-72d6-2cb9-8f2a1819b825@intel.com>
- <9cffc221-979b-ac71-d2ff-76a6f4698641@intel.com>
- <6ae0be93-edc8-97d8-04a8-4db2fa3fd291@intel.com>
- <2aba083e-451e-56bd-304a-4738388329e9@intel.com>
-From: "Wang, Lei" <lei4.wang@intel.com>
-In-Reply-To: <2aba083e-451e-56bd-304a-4738388329e9@intel.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.31; envelope-from=lei4.wang@intel.com;
- helo=mga06.intel.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.146, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=debug@rivosinc.com; helo=mail-pg1-x530.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,48 +93,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/9/2023 1:59 PM, Xiaoyao Li wrote:
-> On 2/9/2023 12:21 PM, Wang, Lei wrote:
->>>>>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->>>>>> index 88aa780566..e638a31d34 100644
->>>>>> --- a/target/i386/cpu.c
->>>>>> +++ b/target/i386/cpu.c
->>>>>> @@ -4377,6 +4377,28 @@ static bool x86_cpu_have_filtered_features(X86CPU
->>>>>> *cpu)
->>>>>>        return false;
->>>>>>    }
->>>>>>
->>>>>> +static void mark_unavailable_multi_bit_default(X86CPU *cpu, FeatureWord w,
->>>>>> +                                               int index,
->>>>>> +                                               const char *verbose_prefix)
->>>>>> +{
->>>>>> +    FeatureWordInfo *f = &feature_word_info[w];
->>>>>> +    g_autofree char *feat_word_str = feature_word_description(f);
->>>>>> +    uint64_t host_feat = x86_cpu_get_supported_feature_word(w, false);
->>>>>> +    MultiBitFeatureInfo mf = f->multi_bit_features[index];
->>>>>> +
->>>>>> +    if ((cpu->env.features[w] & mf.mask) &&
->>>>> With this checking bits are all 0 but covered by mf.mask's range are skippped,
->>>>> even if they're different from the host_feat, please check whether it's
->>>>> desried
->>>>> behavior.
->>>> This is the intended design because there are quite a number of multi-bit
->>>> CPUIDs
->>>> should support passing all 0 to them.
->>> you didn't answer the question. The question is why the handling can be skipped
->>> when the value of multi-bit feature is 0.
->> I think the default function should handle the most common case, which is,
->> passing all 0 multi-bits to KVM is valid and shouldn't be warned. E.g, when we
->> are using some earlier CPU models which doesn't support AMX, we shouldn't be
->> warned that all 0 values don't match the CPUID reported by KVM.
->>
-> 
-> passing value 0 to KVM is valid, is not the reason why the handling can be skipped.
-> 
-> The correct reason is that when value is 0, it means the multi-bit feature is
-> not enabled/requested. It's always legal and doesn't need any handling. So it
-> can be just skipped.
+Introducing riscv `zisslpcfi` extension to riscv target. `zisslpcfi`
+extension provides hardware assistance to riscv hart to enable control
+flow integrity (CFI) for software.
 
-Currently, we can say yes, but I doubt if there will be a multi-bit field in the
-future that only accepts the non-zero value specified.
+`zisslpcfi` extension expects hart to implement `zimops`. `zimops` stands
+for "unprivileged integer maybe operations". `zimops` carve out certain
+reserved opcodes encodings from integer spec to "may be operations"
+encodings. `zimops` opcode encodings simply move 0 to rd.
+`zisslpcfi` claims some of the `zimops` encodings and use them for shadow
+stack management or indirect branch tracking. Any future extension can
+also claim `zimops` encodings.
+
+This patch also adds a dependency check for `zimops` to be enabled if
+`zisslpcfi` is enabled on the hart.
+
+Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+Signed-off-by: Kip Walker  <kip@rivosinc.com>
+---
+ target/riscv/cpu.c | 13 +++++++++++++
+ target/riscv/cpu.h |  2 ++
+ 2 files changed, 15 insertions(+)
+
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index cc75ca7667..6b4e90eb91 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -110,6 +110,8 @@ static const struct isa_ext_data isa_edata_arr[] = {
+     ISA_EXT_DATA_ENTRY(svnapot, true, PRIV_VERSION_1_12_0, ext_svnapot),
+     ISA_EXT_DATA_ENTRY(svpbmt, true, PRIV_VERSION_1_12_0, ext_svpbmt),
+     ISA_EXT_DATA_ENTRY(xventanacondops, true, PRIV_VERSION_1_12_0, ext_XVentanaCondOps),
++    ISA_EXT_DATA_ENTRY(zimops, true, PRIV_VERSION_1_12_0, ext_zimops),
++    ISA_EXT_DATA_ENTRY(zisslpcfi, true, PRIV_VERSION_1_12_0, ext_cfi),
+ };
+ 
+ static bool isa_ext_is_enabled(RISCVCPU *cpu,
+@@ -792,6 +794,11 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+             return;
+         }
+ 
++        if (cpu->cfg.ext_cfi && !cpu->cfg.ext_zimops) {
++            error_setg(errp, "Zisslpcfi extension requires Zimops extension");
++            return;
++        }
++
+         /* Set the ISA extensions, checks should have happened above */
+         if (cpu->cfg.ext_zdinx || cpu->cfg.ext_zhinx ||
+             cpu->cfg.ext_zhinxmin) {
+@@ -1102,6 +1109,12 @@ static Property riscv_cpu_properties[] = {
+ #ifndef CONFIG_USER_ONLY
+     DEFINE_PROP_UINT64("resetvec", RISCVCPU, env.resetvec, DEFAULT_RSTVEC),
+ #endif
++    /*
++     * Zisslpcfi CFI extension, Zisslpcfi implicitly means Zimops is
++     * implemented
++     */
++    DEFINE_PROP_BOOL("zisslpcfi", RISCVCPU, cfg.ext_cfi, true),
++    DEFINE_PROP_BOOL("zimops", RISCVCPU, cfg.ext_zimops, true),
+ 
+     DEFINE_PROP_BOOL("short-isa-string", RISCVCPU, cfg.short_isa_string, false),
+ 
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index f5609b62a2..9a923760b2 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -471,6 +471,8 @@ struct RISCVCPUConfig {
+     uint32_t mvendorid;
+     uint64_t marchid;
+     uint64_t mimpid;
++    bool ext_zimops;
++    bool ext_cfi;
+ 
+     /* Vendor-specific custom extensions */
+     bool ext_XVentanaCondOps;
+-- 
+2.25.1
+
 
