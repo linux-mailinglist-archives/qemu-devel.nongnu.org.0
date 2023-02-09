@@ -2,90 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2233C69026D
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 09:48:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C44B369027E
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 09:51:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ2Zm-0005vM-8R; Thu, 09 Feb 2023 03:46:42 -0500
+	id 1pQ2dR-0006zY-3o; Thu, 09 Feb 2023 03:50:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pQ2Zi-0005un-MQ
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 03:46:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pQ2Zg-00077J-AW
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 03:46:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675932384;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=64KGhJoWU3dP7xMkQYbD11H30C53vCj4+NCZ/6ApNcU=;
- b=aH++1/MqhkUFZfWNyYMaFNBr9Hnm3dL+UPQ7qU+h9GKUwdOhRKDj+TUbZQnLh/i8wEyV6j
- jsAhRkJUgMeLY+Py4kvhSNEcRd/TtKHHzqY3bGceiSMrElm+pkH1Hi9ZDjXL0rpXRxaj1/
- ds2mgk7fgZImRjyVQ55LWQbWDqaKKdo=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-340-hJTmpgDKOAuY_4vB2TzaJA-1; Thu, 09 Feb 2023 03:46:22 -0500
-X-MC-Unique: hJTmpgDKOAuY_4vB2TzaJA-1
-Received: by mail-qk1-f198.google.com with SMTP id
- x7-20020a05620a098700b007242aa494ddso801257qkx.19
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 00:46:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kfir@daynix.com>) id 1pQ2dE-0006y1-So
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 03:50:18 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <kfir@daynix.com>) id 1pQ2dC-0007i2-OW
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 03:50:16 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ f47-20020a05600c492f00b003dc584a7b7eso3323457wmp.3
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 00:50:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=83K8gJv8m+rAMAu5jjvXWH4/jsnR7tI2aYVC1+Boe0c=;
+ b=laRSCcTl6qWyzZKlCJv9dwuZVzM/oaRjSzrzASmNJR4gV6HFn2XTivXT0a3firBncu
+ vvTFRjfb/Ic/pj7+kXiSDwck3zongGXaX7i2hNgg4K1Zqd+hxxVrAjlbn9+QYiOIkr0r
+ 3rUBTDzXpxPbq+SXXdsPk1ShBQvHZxTmoXoLICV14wA/BdjdlaP6nmF8qa8cijHIUS11
+ c4lk7dnpUc+fLGF6L0GNnPWtinClABdk0BT5mg1LJcNOIflyH4wl9sVkQ5BPJmK8vwPr
+ FAZoSepM/4fHPGJQQhxHgZ8sk5Am2f5OIUtGEh++KcGfx3uEk4n4Fg9dmkspg58lohRP
+ jmnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=64KGhJoWU3dP7xMkQYbD11H30C53vCj4+NCZ/6ApNcU=;
- b=I6v0W/c1bCO9nEsvHiFB1MU7MQOj/AGUdI+/F/bM3dQZv4+cOcWy3B9YDlcbvqS2lK
- ZUxlYHvc/KF6G/0NsULx5PZNTb+SVCfQoa2Cw7TJBCsv2m+gR6AI3wFFgnOJDCdw7Px+
- 9RcvOY03gnN2X3zPzG71DXJbXk252tb5UBZwjreSfAHFMdxAtnFeRvx7XPQtwYmOR3DN
- xv+6eHNpcZyhi8ZXu7X0nL2zrXnv1cWZur1oWJezc3pFehTrI/Senu3e4mNuoa3azhfE
- Vk2cqgBYBWJb1nRckE/8hN5NWmE3EQ/GhRXXmMw9TJYgQSK3/hy9CoGZxuqBeDnPuIBj
- bKZA==
-X-Gm-Message-State: AO0yUKU+fi2w54BWhawYnmraEwawfLj9EAuoUgqmg/+MNhgmPrcI+LZ7
- K0ifU1qdd2+9CJfrXvITR5ZvhBgJysTk+ruy6la79/j5SDGCn6yXXPxk69OPHBlTydNcDpHd/h6
- fqTP9IZt1DXLUQEY=
-X-Received: by 2002:a05:622a:91:b0:3b8:629e:68a8 with SMTP id
- o17-20020a05622a009100b003b8629e68a8mr18039624qtw.20.1675932382422; 
- Thu, 09 Feb 2023 00:46:22 -0800 (PST)
-X-Google-Smtp-Source: AK7set+WkXsCDd2w/CsCdP1DINtqN7uUOFxghSMhx23qtOaCW947OczmPzisZqN1ZcMeCFo0ue5lhQ==
-X-Received: by 2002:a05:622a:91:b0:3b8:629e:68a8 with SMTP id
- o17-20020a05622a009100b003b8629e68a8mr18039610qtw.20.1675932382185; 
- Thu, 09 Feb 2023 00:46:22 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-209.web.vodafone.de.
- [109.43.176.209]) by smtp.gmail.com with ESMTPSA id
- o24-20020ac84298000000b003b880ef08acsm885429qtl.35.2023.02.09.00.46.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Feb 2023 00:46:21 -0800 (PST)
-Message-ID: <a81b78ca-6d1d-a201-1754-efd3e44dd838@redhat.com>
-Date: Thu, 9 Feb 2023 09:46:19 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=83K8gJv8m+rAMAu5jjvXWH4/jsnR7tI2aYVC1+Boe0c=;
+ b=lTwWqNTdlpYQVq8ZKFrcUwtbp1DTYPMyfEMQZMTKgTunjdDP6BKhfW5nSolLMaww/S
+ xAOpqSuN6lRloJ/toxI4dhzidhmiKz3AL7a2mtytbzNpGV6WG8FzkAPLgkImp83jkQfe
+ mRco6sv+QoOx5u0MIwmwEyY2L/b27UrVwxzFMUGQqdkypXprNt2QLjHd3TzR7APD033Q
+ +1gYSyMaQJcLSLxUkMgHRHPK8gjR9W9GQRvVFrozhiiptOAa5t5+c5tuiipTVQtN/XNa
+ zcyRDCSZZI38kGwXjLp6Vn2OSl/rWqqllRr5mxvsxL12rRAkjzQ/fEdAVecm4B/n1Mqo
+ PT6g==
+X-Gm-Message-State: AO0yUKXFhsIKLI2MopXX/R4ra8yMtTMJxYXOIVV+l5mVgfFpBehAo9bu
+ fdE1j2yDvkTVUYlmNM6wpQBwYZbM1jteUZd4
+X-Google-Smtp-Source: AK7set8KXiQeu+kHoiUl7GInxPfx69ErqaFexzrbFc0CFrbtIj91FHU8Z2tTtsvQ1CvkHjzXL/l6yA==
+X-Received: by 2002:a05:600c:993:b0:3e1:577:80f5 with SMTP id
+ w19-20020a05600c099300b003e1057780f5mr6887001wmp.31.1675932611681; 
+ Thu, 09 Feb 2023 00:50:11 -0800 (PST)
+Received: from bark.. (bzq-84-110-34-91.static-ip.bezeqint.net. [84.110.34.91])
+ by smtp.gmail.com with ESMTPSA id
+ ay42-20020a05600c1e2a00b003dffe312925sm4169535wmb.15.2023.02.09.00.50.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Feb 2023 00:50:11 -0800 (PST)
+From: Kfir Manor <kfir@daynix.com>
+To: qemu-devel@nongnu.org, Konstantin Kostiuk <kkostiuk@redhat.com>,
+ Michael Roth <michael.roth@amd.com>
+Cc: Yan Vugenfirer <yan@daynix.com>
+Subject: [PATCH 0/3] qga/win/vss: add VSS backup type options
+Date: Thu,  9 Feb 2023 10:50:01 +0200
+Message-Id: <20230209085004.2745131-1-kfir@daynix.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 10/12] tests/qtest: Do not include hexloader-test if
- loader device is not present
-Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20230208194700.11035-1-farosas@suse.de>
- <20230208194700.11035-11-farosas@suse.de>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230208194700.11035-11-farosas@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.146, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2a00:1450:4864:20::330;
+ envelope-from=kfir@daynix.com; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, URI_TRY_3LD=1.167 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,31 +86,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 08/02/2023 20.46, Fabiano Rosas wrote:
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
-> ---
->   tests/qtest/meson.build | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-> index eccdfca235..c6dba4f87e 100644
-> --- a/tests/qtest/meson.build
-> +++ b/tests/qtest/meson.build
-> @@ -197,11 +197,11 @@ qtests_arm = \
->     (config_all_devices.has_key('CONFIG_PFLASH_CFI02') ? ['pflash-cfi02-test'] : []) +         \
->     (config_all_devices.has_key('CONFIG_ASPEED_SOC') ? qtests_aspeed : []) + \
->     (config_all_devices.has_key('CONFIG_NPCM7XX') ? qtests_npcm7xx : []) + \
-> +  (config_all_devices.has_key('CONFIG_GENERIC_LOADER') ? ['hexloader-test'] : []) + \
->     ['arm-cpu-features',
->      'microbit-test',
->      'test-arm-mptimer',
-> -   'boot-serial-test',
-> -   'hexloader-test']
-> +   'boot-serial-test']
->   
->   # TODO: once aarch64 TCG is fixed on ARM 32 bit host, make bios-tables-test unconditional
->   qtests_aarch64 = \
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/775
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+The problem, VSS backup type VSS-FULL (the only available VSS backup type currently) can break other backups that use VSS-FULL(for example, Bareos-Fullbackup).
+
+Fix, add other backup types.
+
+Implementation, put the desired backup type number inside Regkey value HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\QEMU Guest Agent VSS Provider\VssOption, so that the program can query the desired backup type.
+
+VSS backup types:
+number   type
+1        VSS_BT_FULL
+2        VSS_BT_INCREMENTAL
+3        VSS_BT_DIFFERENTIAL
+4        VSS_BT_LOG
+5        VSS_BT_COPY
+
+for more information about the different backup types https://learn.microsoft.com/en-us/windows/win32/vss/vss-backup-state
+
+Additionally, the program would work as before with VSS-FULL in cases where VssOption doesn't exist, or VssOption value isn't a known backup type.
+
+Kfir Manor (3):
+  add VssOption to installer
+  query VSS backup type
+  requester_freeze changes
+
+ qga/installer/qemu-ga.wxs   |  4 ++++
+ qga/vss-win32/requester.cpp | 41 ++++++++++++++++++++++++++++++++++++-
+ qga/vss-win32/vss-handles.h |  3 +++
+ 3 files changed, 47 insertions(+), 1 deletion(-)
+
+-- 
+2.38.1
 
 
