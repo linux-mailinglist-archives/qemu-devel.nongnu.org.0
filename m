@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E0F691169
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 20:35:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D7F6691193
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 20:50:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQCh0-0001Fa-F4; Thu, 09 Feb 2023 14:34:50 -0500
+	id 1pQCuC-0005vx-Jw; Thu, 09 Feb 2023 14:48:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pQCgw-0001E4-WC
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 14:34:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pQCu5-0005vP-SB
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 14:48:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pQCgv-0000M5-Je
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 14:34:46 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pQCu4-0004kv-A4
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 14:48:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675971284;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=dIYY8fkF37+cdEheAhnUQ0pjxuNORqEQoRcD1cTReck=;
- b=GW94WhFkaqzj68gM1HHdh0/boVE4FnpH5iP+yLdNNBkzUUAmWUfz6kIorfHpSKSMT7YbUD
- Qx6ylhD5IbV6PXWPnCsiiUfV7aNyKpREgxWSR3hUY+ygZyO2G6YxGo+5HNk1f1zI8ksYFX
- FKsntYMTie1zODkk+RNIpjw+yBuHcNM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1675972098;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=49k5dHSfFHAuH+GfZp3woB7SltOb5x6HuuT9s9fP7AQ=;
+ b=KJNwx0q/LPLDuy5KzfBWGVJPEbZ7tAC5/A8zOcxNtZV8CedOF30cWZE+FS97I8K5WkBaAw
+ EO2SziBT2TYlY/DCC2UkMvTWsq0x1aqq2sJGDvWHb2mOZbfFOzvkIcMnMm/4a3M9x7aPYN
+ Ln3oA1u9aShhY1G+5+t+/DMp+zJgN7c=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-57-6Uu1HevCOfCmq1OwsorQ5Q-1; Thu, 09 Feb 2023 14:34:43 -0500
-X-MC-Unique: 6Uu1HevCOfCmq1OwsorQ5Q-1
-Received: by mail-wr1-f72.google.com with SMTP id
- h5-20020adff185000000b002c3e68f9d6fso801880wro.10
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 11:34:42 -0800 (PST)
+ us-mta-202-eXJBOxGzMUqvyivRolQ09w-1; Thu, 09 Feb 2023 14:48:16 -0500
+X-MC-Unique: eXJBOxGzMUqvyivRolQ09w-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ a198-20020ae9e8cf000000b007259083a3c8so1931521qkg.7
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 11:48:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dIYY8fkF37+cdEheAhnUQ0pjxuNORqEQoRcD1cTReck=;
- b=VxKv3t7md6WU/16Br/dXaZ4BemoxB+stwb33HipVLbVK21pPX2khy1I3Cgjo9aqjGY
- 9A4yzlvJNaO5803V8p6Q/JAFvCr4y5++9oLTY5wlYhZwXo7UW/RqkLOxEXHWuWbFVXTx
- MpiXvlu7OHwlhk7abWmnjuoCeb1lBsgcjYDcvx5KWK2H+3soqmJ8W+LxNLNY9q13eXq8
- MpApdAr3i4fxD9sYzMR3bAxUikpHTu2HAhKEBmMTljLP0WTQppiKtVtxCBsOa1LSIDuy
- oXaBNArR9SK4Pwaye6nyX/6ZnLv8xFurM9yJXbTpuXEbXQ9dvgLw2OzXzeq1e/0HPTc7
- AkaQ==
-X-Gm-Message-State: AO0yUKVFLCnrXZLgmb1f/W5B7pmfzXioKEhD7zvb0EWK4vwpPpy0uAqp
- MFt7ziVmcZOWOmNT+w4A5eQH5ENQirPp7OfLCZfHKoTnYZU4tQL3SWcA+T4FEIk5JgRAVRyK/xG
- jp+ROWTT1ga/VjzDTN7zkemU=
-X-Received: by 2002:a05:600c:4d97:b0:3de:e8c5:d833 with SMTP id
- v23-20020a05600c4d9700b003dee8c5d833mr14174441wmp.22.1675971281679; 
- Thu, 09 Feb 2023 11:34:41 -0800 (PST)
-X-Google-Smtp-Source: AK7set+f9rlOw5MFnVb6ZWxtenunRXbJciQ6WCCQLvDxSEhPhmR5Mi9nTrBqGV4O0w1lIqD0nsZ7gA==
-X-Received: by 2002:a05:600c:4d97:b0:3de:e8c5:d833 with SMTP id
- v23-20020a05600c4d9700b003dee8c5d833mr14174432wmp.22.1675971281471; 
- Thu, 09 Feb 2023 11:34:41 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- c12-20020a05600c0a4c00b003dc34edacf8sm6487390wmq.31.2023.02.09.11.34.40
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=49k5dHSfFHAuH+GfZp3woB7SltOb5x6HuuT9s9fP7AQ=;
+ b=pDAoLSzo+EJYWiYb/Fd+PgcWbJP5KiBhOl7Edf8Q/uSIDNU2efuEIKfx5eY+LfBOwi
+ ODT+uyF9TlS8prGQGt0YqtoDB5dsEsLl4bSqDHkDaXYotIdICqglLwY8gN8OYuUF2puq
+ h8VnLWzxiybd6g304oIMZAdeKl1V3QVM6AAcQnDpklnbp2w7nLjw8qg9QwoSTDevgSUH
+ BBgz393I+WYtdiYxrWxVLoftRmXlU5AjI/LLTGO9Dtgj4H4Xtm1b6ZCQTnKUT9gRyIui
+ l/GHr4SwC1g5gKGERaGCpCgbio3oSwXSMEm/+Zsnch928pypfyaJ/OqhyVkm0fPMIzKE
+ GRAw==
+X-Gm-Message-State: AO0yUKXjLS+Gcxw2wO2pQ/u1WOWHOtBr0HhPyK0Om3/MUZYIKepidury
+ PYU19y8yApIvXIRym+QDn1VT2pNtjPliXVZ/Czt87mXGKqtKXcUI0ZyuCvb0JWIufdsuQ84hVA7
+ uqArQ8BihNn4L+Yo=
+X-Received: by 2002:ac8:4e8d:0:b0:3ba:1ace:8bae with SMTP id
+ 13-20020ac84e8d000000b003ba1ace8baemr22355151qtp.0.1675972096497; 
+ Thu, 09 Feb 2023 11:48:16 -0800 (PST)
+X-Google-Smtp-Source: AK7set+9MK3rviNvRzC7JCVVyRwITyo8s9SkB3XQTiJ8OgHdOFC0ba2ns2EdOKGBXPHp8u9feT3+yw==
+X-Received: by 2002:ac8:4e8d:0:b0:3ba:1ace:8bae with SMTP id
+ 13-20020ac84e8d000000b003ba1ace8baemr22355117qtp.0.1675972096257; 
+ Thu, 09 Feb 2023 11:48:16 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ e6-20020ac81306000000b003b8484fdfccsm1879077qtj.42.2023.02.09.11.48.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Feb 2023 11:34:40 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org,  Leonardo Bras Soares Passos
- <lsoaresp@redhat.com>,  "Daniel P . Berrange" <berrange@redhat.com>,  "Dr
- . David Alan Gilbert" <dgilbert@redhat.com>,  Manish Mishra
- <manish.mishra@nutanix.com>
-Subject: Re: [PATCH v3 2/4] migration: Cleanup postcopy_preempt_setup()
-In-Reply-To: <20230208202813.1363225-3-peterx@redhat.com> (Peter Xu's message
- of "Wed, 8 Feb 2023 15:28:11 -0500")
-References: <20230208202813.1363225-1-peterx@redhat.com>
- <20230208202813.1363225-3-peterx@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 09 Feb 2023 20:34:39 +0100
-Message-ID: <871qmy3a5s.fsf@secure.mitica>
+ Thu, 09 Feb 2023 11:48:15 -0800 (PST)
+Date: Thu, 9 Feb 2023 14:48:14 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Gavin Shan <gshan@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, pbonzini@redhat.com,
+ peter.maydell@linaro.org, david@redhat.com, philmd@linaro.org,
+ mst@redhat.com, cohuck@redhat.com, quintela@redhat.com,
+ dgilbert@redhat.com, maz@kernel.org, zhenyzha@redhat.com,
+ shan.gavin@gmail.com
+Subject: Re: [PATCH RFCv1 2/8] memory: Add last stage indicator to global
+ dirty log synchronization
+Message-ID: <Y+VN/vWvdO2IxL3C@x1n>
+References: <20230206112010.99871-1-gshan@redhat.com>
+ <20230206112010.99871-3-gshan@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230206112010.99871-3-gshan@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -85,7 +85,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,18 +98,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Xu <peterx@redhat.com> wrote:
-> Since we just dropped the only case where postcopy_preempt_setup() can
-> return an error, it doesn't need a retval anymore because it never fails.
-> Move the preempt check to the caller, preparing it to be used elsewhere to
-> do nothing but as simple as kicking the async connection.
->
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+On Mon, Feb 06, 2023 at 07:20:04PM +0800, Gavin Shan wrote:
+> The global dirty log synchronization is used when KVM and dirty ring
+> are enabled. There is a particularity for ARM64 where the backup
+> bitmap is used to track dirty pages in non-running-vcpu situations.
+> It means the dirty ring works with the combination of ring buffer
+> and backup bitmap. The dirty bits in the backup bitmap needs to
+> collected in the last stage of live migration.
+> 
+> In order to identify the last stage of live migration and pass it
+> down, an extra parameter is added to the relevant functions and
+> callback. This last stage information isn't used yet.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> ---
+>  accel/kvm/kvm-all.c   |  2 +-
+>  include/exec/memory.h |  5 +++--
+>  migration/dirtyrate.c |  4 ++--
+>  migration/ram.c       |  6 +++---
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Better move the migration/ changes into the next patch.
+
+Thanks,
+
+-- 
+Peter Xu
 
 
