@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E5D3690E88
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 17:41:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 959A0690E9D
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 17:48:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ9z4-0004Ga-12; Thu, 09 Feb 2023 11:41:18 -0500
+	id 1pQA4t-000829-DZ; Thu, 09 Feb 2023 11:47:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQ9yz-0004Ek-QO
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 11:41:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQA4M-0007yg-UP
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 11:46:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQ9yy-0008Hj-3q
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 11:41:13 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQA4K-0000zL-Tx
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 11:46:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675960871;
+ s=mimecast20190719; t=1675961203;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oTfDSVOmeXkkYcX6uSgbXcKk5+sdOrjlBYguoQQ+I5A=;
- b=dL1b4ab8D1rbqh75rFlAt5Z48Kka7hg/vWKMWFG5+rooLYhZdVMayl4TVaZejJdzJ/5FEZ
- lxg1SyiJiUwa0gwVbwY6yKcM/wQ0wH3VBMpV+S/F6WMaKr+ipORZbKoy+GNDLPDtMR9AvY
- WjmDs/RM6xa5t7I8KsAPutxulY/BgfE=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-55-mOd7-czjOqaiJnx1bLosbA-1; Thu, 09 Feb 2023 11:41:10 -0500
-X-MC-Unique: mOd7-czjOqaiJnx1bLosbA-1
-Received: by mail-pj1-f69.google.com with SMTP id
- s24-20020a17090aa11800b00230ffd3f340so1201684pjp.9
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 08:41:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oTfDSVOmeXkkYcX6uSgbXcKk5+sdOrjlBYguoQQ+I5A=;
- b=CTjiF0D/G0dJF1e8PYfO4f+h/a+tvXkpgnjGHLNPPN3ilU3pmyt/TQDHe8GGWYAt0U
- PZJ5EL3UdLFv8CSJ0Q9jhv3/gWX+SMF2gJVSP0uyVRrGaquVXG3I0p66Yi8KYBBPoGtM
- Yr0TJdsvW7Pdsc81gE5WRbUTI7tBYdJkiMtUH3bz5MOscR3Pst9OfOd/5hh+cEltreMA
- wewLnTty9TGlgdjqfiyi40bmUjnR9SSzZLUVY8wuQEFekaWA1g9hlezWTjoqHpXUx+mB
- oEq9L5PPfj6sYLeteAARmn/AeJsS3o2iL5gSipBPD/iXbIGRF0yG1d8yZOEei1tPaeO2
- nfXA==
-X-Gm-Message-State: AO0yUKXWBYUCLKdo7Fdn7n67KisuM+FCwuwWWsJKkMY77S/1h0LZYzXy
- nTIHX7jHdKDLdQLDp7RBRjC41vgAOQsufl8Zu13BRRsK6DE2VVsiodtPapLbaycb9Tj4iooc8An
- eXy66NjHNWTmKgSAtCVKPW96iWX3dx84=
-X-Received: by 2002:a17:902:9890:b0:199:3483:e920 with SMTP id
- s16-20020a170902989000b001993483e920mr2656450plp.33.1675960868980; 
- Thu, 09 Feb 2023 08:41:08 -0800 (PST)
-X-Google-Smtp-Source: AK7set/kKWHrzG5NtmGWFhYPL9uk2VAz8bZ+BpzPsI5FnFVosKoNSFDNQf8NoplynW0WFnJI6scLrXmfoMPYniP23N0=
-X-Received: by 2002:a17:902:9890:b0:199:3483:e920 with SMTP id
- s16-20020a170902989000b001993483e920mr2656444plp.33.1675960868575; Thu, 09
- Feb 2023 08:41:08 -0800 (PST)
+ bh=8KZ2ELYENmOGuVk45VHOZpX+gcRkoMBnzuUqPP3MhxU=;
+ b=KCo7U6Y1MflHKZpD0tuDZfYJaI8fdJNzY3fbJaLYm14cnyEWN9Bsmf+LLfDL2mt3XqiGAV
+ qvn8mk3gs9B/mqsXEttK4XcGkfpV/FnqsuZpZxhKtcdaFHSOR0+NtgskUTBOjIvC+pImAF
+ BDE06FObY61MkELaDkwh4b44GHUFMGU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-202-iKlS4r6KOe22aigo0V0_pA-1; Thu, 09 Feb 2023 11:46:40 -0500
+X-MC-Unique: iKlS4r6KOe22aigo0V0_pA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 94123185A7A4;
+ Thu,  9 Feb 2023 16:46:39 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 65DBF51FF;
+ Thu,  9 Feb 2023 16:46:39 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0A87C21E6A1F; Thu,  9 Feb 2023 17:46:38 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Steven Sistare <steven.sistare@oracle.com>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,  =?utf-8?Q?Marc?=
+ =?utf-8?Q?-Andr=C3=A9?= Lureau
+ <marcandre.lureau@gmail.com>,  "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>,  Michael Roth <michael.roth@amd.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH V2 1/4] qapi: strList_from_string
+References: <1675795727-235010-1-git-send-email-steven.sistare@oracle.com>
+ <1675795727-235010-2-git-send-email-steven.sistare@oracle.com>
+ <CAJ+F1CLFMUDvaOq2QXCKpb8Zj4PRr-tKV1q9L8m2EfgORPLj7A@mail.gmail.com>
+ <32f34f74-213d-7107-907d-dda0a509878e@oracle.com>
+ <87h6vwnstx.fsf@linaro.org> <87cz6j6tt0.fsf@pond.sub.org>
+ <d25846e4-13fd-c683-b5e1-1660f4470d35@oracle.com>
+Date: Thu, 09 Feb 2023 17:46:38 +0100
+In-Reply-To: <d25846e4-13fd-c683-b5e1-1660f4470d35@oracle.com> (Steven
+ Sistare's message of "Thu, 9 Feb 2023 09:41:46 -0500")
+Message-ID: <875yca23dd.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20230209154034.983044-1-jsnow@redhat.com>
- <20230209154034.983044-8-jsnow@redhat.com>
- <Y+Ue2/Xn+ZbOc+B+@redhat.com>
-In-Reply-To: <Y+Ue2/Xn+ZbOc+B+@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 9 Feb 2023 11:40:57 -0500
-Message-ID: <CAFn=p-aEOO4QDfPuYB2LpnwkP-bWyFdOKrQEmcH0iD-f3dJ-mg@mail.gmail.com>
-Subject: Re: [PATCH 7/7] Python: Drop support for Python 3.6
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, 
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -101,62 +89,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 9, 2023 at 11:27 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
->
-> On Thu, Feb 09, 2023 at 10:40:34AM -0500, John Snow wrote:
-> > Python 3.6 was EOL 2021-12-31. Newer versions of upstream libraries hav=
-e
-> > begun dropping support for this version and it is becoming more
-> > cumbersome to support. Avocado-framework and qemu.qmp each have their
-> > own reasons for wanting to drop Python 3.6.
-> >
-> > Since it is safe to under our supported platform policy, do so.
->
-> Upstream EOL dates are essentially irrelevant from our platform
-> support policy for deciding min versions
->
+Steven Sistare <steven.sistare@oracle.com> writes:
 
-It's relevant because as other Python packages drop support, the
-burden of support is pushed onto Cleber and I, as explained in the
-cover letter. It is not a justification in and of itself, but it
-summarizes the ecosystem conditions that prompt the desire for the
-change.
+> On 2/9/2023 5:02 AM, Markus Armbruster wrote:
+>> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+>>=20
+>>> Steven Sistare <steven.sistare@oracle.com> writes:
+>>>
+>>>> On 2/8/2023 1:43 AM, Marc-Andr=C3=A9 Lureau wrote:
+>>>>> Hi
+>>>>>
+>>>>> On Tue, Feb 7, 2023 at 10:50 PM Steve Sistare <steven.sistare@oracle.=
+com> wrote:
+>>>>>>
+>>>>>> Generalize hmp_split_at_comma() to take any delimiter character, ren=
+ame
+>>>>>> as strList_from_string(), and move it to qapi/util.c.
+>>>>>>
+>>>>>> No functional change.
+>>>>>
+>>>>> The g_strsplit() version was a bit simpler, but if you want to
+>>>>> optimize it a bit for 1 char delimiter only, ok.
+>>>>>
+>>>>> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>>>>
+>>>> Yes, and it saves a malloc+free for the array.  Small stuff, but I
+>>>> thought it worth a few lines of code.  Thanks for the speedy review!
+>>>
+>>> But is the HMP path that performance critical? Otherwise I'd favour
+>>> consistent use of the glib APIs because its one less thing to get wrong.
+>>=20
+>> The patch reverts my recent commit 0d79271b570 "hmp: Rewrite
+>> strlist_from_comma_list() as hmp_split_at_comma()", with a different
+>> function name and place, and an additional parameter.
+>>=20
+>> There is no explanation for the revert.
+>>=20
+>> An intentional revert without even mentioning it would be uncourteous.
+>> I don't think this is the case here.  I figure you wrote this patch
+>> before you saw my commit, then rebased, keeping the old code.  A simple
+>> rebase mistake, easy enough to correct.
+>
+> Hi Markus, I am sorry, I intended no slight.
 
-> QEMU aims to target released OS distributions, and their vendors
-> may choose to support software for arbitrarily longer periods of
-> time than upstream. This extended support is one of the key
-> value adds of OS distributions.
->
-> To justify dropping python 3.6, the commit message needs to
-> illustrate that all our targetted distros are capable of
-> supporting the new proposed new min version.
+Certainly no offense taken :)
 
-That is the point of this series: illustrating that it is indeed safe
-to drop Python 3.6. I am not clear on what you are actually requesting
-as a change.
+>                                               I will document your commit
+> in this commit message.  And in response to Alex' comment, I will use your
+> version as the basis of the new function.
+>
+> For more context, this patch has been part of my larger series for live u=
+pdate,
+> and I am submitting this separately to reduce the size of that series and=
+ make
+> forward progress:
+>     https://lore.kernel.org/qemu-devel/1658851843-236870-1-git-send-email=
+-steven.sistare@oracle.com/
+>
+> In that series, strList_from_string is used to parse a space-separated li=
+st of args
+> in an HMP command, and pass them to the new qemu binary.
+>     https://lore.kernel.org/qemu-devel/1658851843-236870-16-git-send-emai=
+l-steven.sistare@oracle.com/
+>
+> I moved and renamed the generalized function because I thought it might b=
+e useful
+> to others in the future, along with the other functions in this 'string l=
+ist functions'
+> patch series.  But if you disagree, I can minimally modify hmp_split_at_c=
+omma() in its=20
+> current location.
 
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
-> >  docs/conf.py             |  4 ++--
-> >  configure                |  8 ++++----
-> >  python/Makefile          | 10 +++++-----
-> >  python/setup.cfg         |  7 +++----
-> >  python/tests/minreqs.txt |  2 +-
-> >  scripts/qapi/mypy.ini    |  2 +-
-> >  6 files changed, 16 insertions(+), 17 deletions(-)
->
->
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
->
+I'm fine with moving it out of monitor/ if there are uses outside the
+monitor.  I just don't think qapi/ is the right home.
+
+I'm also fine with generalizing the function to better serve new uses.
 
 
