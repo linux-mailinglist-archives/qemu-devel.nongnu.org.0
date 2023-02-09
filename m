@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F32726914BB
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 00:38:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54DD16914C2
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 00:40:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQGU9-0002Lv-R2; Thu, 09 Feb 2023 18:37:49 -0500
+	id 1pQGWK-0005kf-Pg; Thu, 09 Feb 2023 18:40:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pQGU7-0002Kw-Ra
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 18:37:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pQGU6-0007gE-8b
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 18:37:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675985865;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BOoM/jysyMMLXInKHjz8rdvH/wPBwEQg/f/iK2pEkbw=;
- b=TpzXHI9d41t0buCY9x9cy/q7gS1OsH0yZMBrYLwnH7M+9pJGM3c2Q/9F8x5mh7zypcD4Iw
- 2bQ+BSwsMI/VQCBb86jLDIlXT3WsP7U5b014HxSE5XMagRMeGQ/vcolqDdS4Iu0stURXoe
- cHUMcmyQxo6VRIsX1aW8ghZytVXgZxI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-414-pCdLGbQNPNyJnD1-_BfgaA-1; Thu, 09 Feb 2023 18:37:40 -0500
-X-MC-Unique: pCdLGbQNPNyJnD1-_BfgaA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2056A3806102;
- Thu,  9 Feb 2023 23:37:40 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.192.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A6938140EBF6;
- Thu,  9 Feb 2023 23:37:38 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
- Yanan Wang <wangyanan55@huawei.com>, Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Eric Blake <eblake@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v4 4/4] ram: Document migration ram flags
-Date: Fri, 10 Feb 2023 00:37:30 +0100
-Message-Id: <20230209233730.38288-5-quintela@redhat.com>
-In-Reply-To: <20230209233730.38288-1-quintela@redhat.com>
-References: <20230209233730.38288-1-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pQGWG-0005hs-7S; Thu, 09 Feb 2023 18:40:00 -0500
+Received: from mail-vk1-xa2a.google.com ([2607:f8b0:4864:20::a2a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pQGWE-0007zB-KT; Thu, 09 Feb 2023 18:39:59 -0500
+Received: by mail-vk1-xa2a.google.com with SMTP id t190so1809580vkb.13;
+ Thu, 09 Feb 2023 15:39:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=QxWQehmYBgDBl2n+cS2zVxGK5IMTsnfyhVvkD3u2YGg=;
+ b=Z2RTPySJDxP1aQxLg7d8I3irp/le0qZbLcQ5F52SWBMjShl362UEZVq8aak6YVWXUs
+ UHn3OkpKPSFQ2gLXj7myxpmBnwL+N21oABVGmrvsRU9wGj1QwSdLjRnt14aC1Kx3VD2e
+ 4qIOMg0YBHJjUHL0LMFG3Y4DR/o/iPFx7fMzS6HXGynQLLuHj5gqmVx/kg4rz+inb75d
+ DgMQ75z8RosAvAs2f+adwsUFEAIXliTmBUTRCI/8cw9m21Rhoht7qMLWS4Da0qC+P1/K
+ PecCXce5KVY9/1EX13OWU48v5j2nGdHZRkIFbMfaCjm8I4JdLgiFzSzC3A4AgMhLCvAT
+ 3whg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QxWQehmYBgDBl2n+cS2zVxGK5IMTsnfyhVvkD3u2YGg=;
+ b=0z9bo03rlmWEcNIT/iDJPSIZBSwUZdTbB4KSF22xE/+2CUhl99daD+Z7oqAxfiF1L4
+ T8dT2MXH4uVBor0MftWYgrBDiAOlI2hokJmW+xXQ4bdO6UNXtjXGS7IPvbKL/DkqcHUV
+ jIGr1O1X2HMyDLzeDQkFkKWhMEUwZpCNpGi40NKTyxc65GklAl46yQIGdqqn2P+QxRhn
+ ZH1pWMVYhnYHX35J2YtKQ1neyjIlNthxdeNVJtiuSyObYKblzbomV915vPyISTPT8Mtw
+ o6KuMpGMsaV8xMIGcwmpf46dWgrVMQ25cC4SKDqzVJrHvRcbYfI5pSKFcxSRpOPSMu+f
+ vcEA==
+X-Gm-Message-State: AO0yUKXEGp5F36AOqMPE/whAZp1QMl+43zxTdHt1KQQCkWeeHCfOeqSR
+ scT9i06uBwfiTI22h96Nix/8lxB/yu9f7J/uOhd6ZK040gfDug==
+X-Google-Smtp-Source: AK7set9bfzcRD7qpxjhSPUR4Z8SdtRy/gzABremQoRAz+x4Lqa8cRq31IS6HAcQCr+F3Ec7rnih5HuSc5NFs8G4Mkp8=
+X-Received: by 2002:a1f:2ac9:0:b0:3e5:7064:1bf9 with SMTP id
+ q192-20020a1f2ac9000000b003e570641bf9mr2883529vkq.30.1675985997144; Thu, 09
+ Feb 2023 15:39:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20230209055206.229392-1-hchauhan@ventanamicro.com>
+In-Reply-To: <20230209055206.229392-1-hchauhan@ventanamicro.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 10 Feb 2023 09:39:30 +1000
+Message-ID: <CAKmqyKPnrWorMTsA-dmPpVDJrZmBkGUdVCNmWzAEjDP7L7dQBw@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Smepmp: Skip applying default rules when
+ address matches
+To: Himanshu Chauhan <hchauhan@ventanamicro.com>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2a;
+ envelope-from=alistair23@gmail.com; helo=mail-vk1-xa2a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,51 +82,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-0x80 is RAM_SAVE_FLAG_HOOK, it is in qemu-file now.
-Bigger usable flag is 0x200, noticing that.
-We can reuse RAM_SAVe_FLAG_FULL.
+On Thu, Feb 9, 2023 at 3:53 PM Himanshu Chauhan
+<hchauhan@ventanamicro.com> wrote:
+>
+> When MSECCFG.MML is set, after checking the address range in PMP if the
+> asked permissions are not same as programmed in PMP, the default
+> permissions are applied. This should only be the case when there
+> is no matching address is found.
+>
+> This patch skips applying default rules when matching address range
+> is found. It returns the index of the match PMP entry.
+>
+> fixes: 824cac681c3 (target/riscv: Fix PMP propagation for tlb)
+>
+> Signed-off-by: Himanshu Chauhan <hchauhan@ventanamicro.com>
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- migration/ram.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 32fab7b5ee..3648cfc357 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -67,22 +67,26 @@
- /***********************************************************/
- /* ram save/restore */
- 
--/* RAM_SAVE_FLAG_ZERO used to be named RAM_SAVE_FLAG_COMPRESS, it
-+/*
-+ * RAM_SAVE_FLAG_ZERO used to be named RAM_SAVE_FLAG_COMPRESS, it
-  * worked for pages that where filled with the same char.  We switched
-  * it to only search for the zero value.  And to avoid confusion with
-  * RAM_SSAVE_FLAG_COMPRESS_PAGE just rename it.
-  */
--
--#define RAM_SAVE_FLAG_FULL     0x01 /* Obsolete, not used anymore */
-+/*
-+ * RAM_SAVE_FLAG_FULL was obsoleted in 2009, it can be reused now
-+ */
-+#define RAM_SAVE_FLAG_FULL     0x01
- #define RAM_SAVE_FLAG_ZERO     0x02
- #define RAM_SAVE_FLAG_MEM_SIZE 0x04
- #define RAM_SAVE_FLAG_PAGE     0x08
- #define RAM_SAVE_FLAG_EOS      0x10
- #define RAM_SAVE_FLAG_CONTINUE 0x20
- #define RAM_SAVE_FLAG_XBZRLE   0x40
--/* 0x80 is reserved in migration.h start with 0x100 next */
-+/* 0x80 is reserved in qemu-file.h for RAM_SAVE_FLAG_HOOK */
- #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
- #define RAM_SAVE_FLAG_MULTIFD_SYNC     0x200
-+/* We can't use any flag that is bigger than 0x200 */
- 
- int (*xbzrle_encode_buffer_func)(uint8_t *, uint8_t *, int,
-      uint8_t *, int) = xbzrle_encode_buffer;
--- 
-2.39.1
+Alistair
 
+> ---
+>  target/riscv/pmp.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+> index d85ad07caa..0dfdb35828 100644
+> --- a/target/riscv/pmp.c
+> +++ b/target/riscv/pmp.c
+> @@ -446,9 +446,12 @@ int pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+>                  }
+>              }
+>
+> -            if ((privs & *allowed_privs) == privs) {
+> -                ret = i;
+> -            }
+> +            /*
+> +             * If matching address range was found, the protection bits
+> +             * defined with PMP must be used. We shouldn't fallback on
+> +             * finding default privileges.
+> +             */
+> +            ret = i;
+>              break;
+>          }
+>      }
+> --
+> 2.39.1
+>
+>
 
