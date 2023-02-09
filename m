@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB7856901D7
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 09:09:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29CAF6901E9
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 09:12:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ1ym-0003r7-Oc; Thu, 09 Feb 2023 03:08:28 -0500
+	id 1pQ21Y-0005Pr-9u; Thu, 09 Feb 2023 03:11:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pQ1yk-0003qa-Tk
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 03:08:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pQ21Q-0005LW-FC
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 03:11:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pQ1yj-0008TR-Fm
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 03:08:26 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pQ21O-0000a8-Gr
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 03:11:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675930104;
+ s=mimecast20190719; t=1675930269;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3zJYWli+gCH5XtfHWYg4O8/ODgX1N9zx8H0WiJjT8nc=;
- b=TpUQ+XjRN6tyG1UheHsiBCOE6A8XWq1JdSD5AwP1F2BN5js1OdybZjnSFd2b/NDqs0qpXO
- eqVGrAvSuFlLkIKCLL3JWDNsVPjVO2stQwMGNhsrrMlJeO7/4OdJni4kPpWEVv3EMcn+jg
- 8T7V+MpdnHRy0LdNaSd4jJ77pgkFkIk=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=OtZrGUWL0dyLmh4ez+DCVWOMOKohu88CNJaw5mZn+pA=;
+ b=IuZu1zOW1/v4PJKkSZNbxm/hdWyKmXUTLwculTr3KBECX4vVDyBmtM5SmbzqwELeM47HCr
+ s1wXWlqv1zexeyiCu3xl0q4wOSxPrtF1YL59kcxUUi4KHR2+h+ARxmB/SGXPyEc3zvKjKv
+ kntvLJiAveYrlGW9urMZOcP2rUlol4k=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-660-G78jwPb8N-Wd5DPEjU6J4g-1; Thu, 09 Feb 2023 03:08:23 -0500
-X-MC-Unique: G78jwPb8N-Wd5DPEjU6J4g-1
-Received: by mail-qt1-f197.google.com with SMTP id
- x16-20020ac87ed0000000b003b82d873b38so667668qtj.13
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 00:08:23 -0800 (PST)
+ us-mta-287-K086-NbiOxWHBY45KRjZRw-1; Thu, 09 Feb 2023 03:11:07 -0500
+X-MC-Unique: K086-NbiOxWHBY45KRjZRw-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ k15-20020a0cd68f000000b00535261af1b1so833830qvi.13
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 00:11:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3zJYWli+gCH5XtfHWYg4O8/ODgX1N9zx8H0WiJjT8nc=;
- b=xf6vYd4GTsVpXXWFIbgXdfsi2mo6W/I8vb5182nlvJVElLRO4LQExnsdISJ9Subg3N
- KaVKGf1VNMuv7+614FLNqe9icc8OUDYz+b0M4nb1AInDMQlAZQ0XrHH5w8N1ffseMg3t
- OtHq71sNwiWicaFXHdLEnOhr/+Uv85qznl+w9MUSb1WsmE65BdEjUuymjbOGRx12Txg/
- hIQl6G07Gi9y1o+4PPnDAfFgl01W6YeWle4FlaXk9bCIwc7KVti4wd5Xqe6UFM7ITQDw
- i1mmRucMot1KtP7SXLQuDazHeqh1TNFZkwXbzDU+1THIveqyEw0zhLIZKRTqzR+RbiuJ
- nhUg==
-X-Gm-Message-State: AO0yUKU6TzOgmTy6RLOja4BdZJeNq2d1eQzOOAERqSnylSN70+ZBmFoB
- PBS1a3e4MZf3e71SrQ3wxWI/1uPdmWH9U6uRa6AV796R0VD9aE8+GRxBahx25SR0yyyqEPN0jsX
- /kLipvuX32JTow6A=
-X-Received: by 2002:a05:622a:1044:b0:3ba:1696:87cf with SMTP id
- f4-20020a05622a104400b003ba169687cfmr19384191qte.44.1675930102626; 
- Thu, 09 Feb 2023 00:08:22 -0800 (PST)
-X-Google-Smtp-Source: AK7set/fC0KEdmuZwIUjz3cedBUjdfilLzgefJdT4gI3bIpyo6tAMnFi50tO1IhYC5xeS40oF1ZVcw==
-X-Received: by 2002:a05:622a:1044:b0:3ba:1696:87cf with SMTP id
- f4-20020a05622a104400b003ba169687cfmr19384178qte.44.1675930102447; 
- Thu, 09 Feb 2023 00:08:22 -0800 (PST)
+ bh=OtZrGUWL0dyLmh4ez+DCVWOMOKohu88CNJaw5mZn+pA=;
+ b=Z6mGjLdWuEe3G3QTs0xUdCrOgTSd3bSrjmXjMqwEh8+bmfJlKqDwl45z1JrzU0NavX
+ 2a4qrW7tCR+2IgKr2Mshu+kjwpYKXTUT07qlLigek9CFheoJomVmBHd/m7XNMzPoX3fd
+ 1DV7Aq//GTa259hDPt3wbkwiEzHifTw9UX8yOLVRcGK7m5bIPujHTslpeOziHKNCj3W7
+ rR5pWHjFNn3pDXXqg6m8Cn9ZnLnz6gWWVoKkp1k4KsCK2CVh9mRrLjuDdYBBO1d2yz7m
+ qX3u6ov7wU/XwZ6+gc6x68NNIG4lC22iZaiPpXEdBByR/cPV8Ex2NMYDN7khiGvGTbZv
+ 6NcA==
+X-Gm-Message-State: AO0yUKV0wW0hfXY/b9wCETe2mzbpo0xPczyrUI+gwZQvb81/HaKRepow
+ qu+BOhwyc3y1w4zGoJB9vpQR8grVHuG+CJQuGpxSwKwX0q8zUR7pCXBHWOOzCUSOyqcL1F7WUB6
+ cGvUEAr4kWitatpw=
+X-Received: by 2002:a05:6214:21aa:b0:56b:fd8c:746f with SMTP id
+ t10-20020a05621421aa00b0056bfd8c746fmr17194810qvc.39.1675930267206; 
+ Thu, 09 Feb 2023 00:11:07 -0800 (PST)
+X-Google-Smtp-Source: AK7set9lW1dYcoV/M5iO5EiCIGBsuzb/p7EFe0B17fGn3zSVIjQi21PkkE6DiozUAQaF4d5EJHFbKQ==
+X-Received: by 2002:a05:6214:21aa:b0:56b:fd8c:746f with SMTP id
+ t10-20020a05621421aa00b0056bfd8c746fmr17194795qvc.39.1675930266990; 
+ Thu, 09 Feb 2023 00:11:06 -0800 (PST)
 Received: from [192.168.0.2] (ip-109-43-176-209.web.vodafone.de.
  [109.43.176.209]) by smtp.gmail.com with ESMTPSA id
- p73-20020a37424c000000b0072692330190sm876309qka.64.2023.02.09.00.08.21
+ t185-20020a37aac2000000b0071eddd3bebbsm875536qke.81.2023.02.09.00.11.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Feb 2023 00:08:22 -0800 (PST)
-Message-ID: <83e17f5a-ff9a-7fbd-417c-b0918368bf4f@redhat.com>
-Date: Thu, 9 Feb 2023 09:08:20 +0100
+ Thu, 09 Feb 2023 00:11:06 -0800 (PST)
+Message-ID: <502e011a-39a1-4a28-64a3-63411aef9713@redhat.com>
+Date: Thu, 9 Feb 2023 09:11:04 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH v2 06/12] test/qtest: Fix coding style in
- device-plug-test.c
+Subject: Re: [PATCH v2 07/12] tests/qtest: Skip unplug tests that use missing
+ devices
 Content-Language: en-US
 To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
 Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 References: <20230208194700.11035-1-farosas@suse.de>
- <20230208194700.11035-7-farosas@suse.de>
+ <20230208194700.11035-8-farosas@suse.de>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230208194700.11035-7-farosas@suse.de>
+In-Reply-To: <20230208194700.11035-8-farosas@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -102,12 +102,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 08/02/2023 20.46, Fabiano Rosas wrote:
-> We should not mix declarations and statements in QEMU code.
-> 
 > Signed-off-by: Fabiano Rosas <farosas@suse.de>
 > ---
->   tests/qtest/device-plug-test.c | 8 +++++---
->   1 file changed, 5 insertions(+), 3 deletions(-)
+>   tests/qtest/device-plug-test.c | 33 +++++++++++++++++++++++++++------
+>   1 file changed, 27 insertions(+), 6 deletions(-)
+> 
+> diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
+> index 4f92617335..01cecd6e20 100644
+> --- a/tests/qtest/device-plug-test.c
+> +++ b/tests/qtest/device-plug-test.c
+> @@ -68,6 +68,11 @@ static void test_pci_unplug_request(void)
+>       const char *arch = qtest_get_arch();
+>       const char *machine_addition = "";
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
