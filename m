@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE4E690B2C
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 15:01:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C81690B57
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 15:07:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ7Td-0005NA-CS; Thu, 09 Feb 2023 09:00:41 -0500
+	id 1pQ7ZU-00073K-1M; Thu, 09 Feb 2023 09:06:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pQ7TS-0005MR-9e
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 09:00:36 -0500
+ id 1pQ7ZR-00072z-JE
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 09:06:41 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pQ7TQ-0006tU-4K
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 09:00:29 -0500
+ id 1pQ7ZP-0007rC-Be
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 09:06:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675951227;
+ s=mimecast20190719; t=1675951598;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=e83hUa/85/KOdomnw67J5NZjz4cB7tONUcZPlnb3JwE=;
- b=Ieo9UAP5L4WPcj/dgkaOFw1qgMovwP35lVkRXiesaRWqJ4h6hWgmr5dRJrOfMFJdw2+7c1
- Q3mISyqGObUb6U6nD2qo2kbPq3z9/BqdWr2JOmEqF3LRvnbX0UbKDXKiSTIEzhTApSmWRR
- da3/nkNkZfsBkAZcFQ37FVZ7vgZ1SFw=
+ bh=PI41cjApvkQyOOse8Y3Wf5wohdJ1UWChsiUePvRDBi4=;
+ b=V7NxSOQpsHdIUhM/F2k+nYtZQta+oCnHFQ4Hq1GEZURgTNFxfZVVk0EFtESh/Od/wg9mWJ
+ 6Zler81PsqdYLI71iAkBOzFzoxY5OWmYQJCOhlgRLvT12zWtrbUHQH/mfhMiCw0Nj5Udsf
+ xXVzNUw6O50VzXjYeyCeSpOXFX2uUao=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-21-7iuZNfsjOAWUcptzEN6TEA-1; Thu, 09 Feb 2023 09:00:23 -0500
-X-MC-Unique: 7iuZNfsjOAWUcptzEN6TEA-1
+ us-mta-503-kHHKX2JmOoGtWHGuJXTSgw-1; Thu, 09 Feb 2023 09:06:35 -0500
+X-MC-Unique: kHHKX2JmOoGtWHGuJXTSgw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0136E87B2CC;
- Thu,  9 Feb 2023 14:00:22 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 368071875042;
+ Thu,  9 Feb 2023 14:06:33 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F22FC2026D68;
- Thu,  9 Feb 2023 14:00:18 +0000 (UTC)
-Date: Thu, 9 Feb 2023 14:00:16 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E7CB52026D68;
+ Thu,  9 Feb 2023 14:06:30 +0000 (UTC)
+Date: Thu, 9 Feb 2023 14:06:28 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Het Gala <het.gala@nutanix.com>
 Cc: qemu-devel@nongnu.org, prerna.saxena@nutanix.com, quintela@redhat.com,
  dgilbert@redhat.com, pbonzini@redhat.com, armbru@redhat.com,
  eblake@redhat.com, manish.mishra@nutanix.com,
  aravind.retnakaran@nutanix.com
-Subject: Re: [PATCH v2 3/6] migration: HMP side changes for modified
- 'migrate' QAPI design
-Message-ID: <Y+T8cGXoOvxYtipv@redhat.com>
+Subject: Re: [PATCH v2 4/6] migration: Avoid multiple parsing of uri in
+ migration code flow
+Message-ID: <Y+T95ChV/BW09/pN@redhat.com>
 References: <20230208093600.242665-1-het.gala@nutanix.com>
- <20230208093600.242665-4-het.gala@nutanix.com>
- <Y+ThkshD8G3ca7Lx@redhat.com>
- <3bf69a6e-f2e1-6335-392b-5e383f0c665b@nutanix.com>
+ <20230208093600.242665-5-het.gala@nutanix.com>
+ <Y+TicReIdgA9P6q3@redhat.com>
+ <fbc3dc05-181b-9a13-1707-a42227eb0824@nutanix.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3bf69a6e-f2e1-6335-392b-5e383f0c665b@nutanix.com>
+In-Reply-To: <fbc3dc05-181b-9a13-1707-a42227eb0824@nutanix.com>
 User-Agent: Mutt/2.2.9 (2022-11-12)
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
@@ -89,116 +89,122 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 09, 2023 at 07:08:13PM +0530, Het Gala wrote:
+On Thu, Feb 09, 2023 at 07:24:48PM +0530, Het Gala wrote:
 > 
-> On 09/02/23 5:35 pm, Daniel P. Berrangé wrote:
-> > On Wed, Feb 08, 2023 at 09:35:57AM +0000, Het Gala wrote:
-> > > hmp_migrate() stores modified QAPI 'migrate' arguments from qdict
-> > > into well defined MigrateChannel struct with help of
-> > > migrate_channel_from_qdict().
-> > > hmp_migrate() also accepts uri string as modified QAPI a 'migrate'
-> > > argument (for backward compatibility).
+> On 09/02/23 5:39 pm, Daniel P. Berrangé wrote:
+> > On Wed, Feb 08, 2023 at 09:35:58AM +0000, Het Gala wrote:
+> > > In existing senario, 'migrate' QAPI argument - string uri, is encoded
+> > > twice to extract migration parameters for stream connection. This is
+> > > not a good representation of migration wire protocol as it is a data
+> > > encoding scheme within a data encoding scheme. Qemu should be able to
+> > > directly work with results from QAPI without having to do a second
+> > > level parsing.
+> > > Modified 'migrate' QAPI design supports well defined MigrateChannel
+> > > struct which plays important role in avoiding double encoding
+> > > of uri strings.
 > > > 
-> > > Suggested-by: Daniel P. Berrange <berrange@redhat.com>
-> > > Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
-> > > Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
-> > > Signed-off-by: Het Gala <het.gala@nutanix.com>
+> > > qemu_uri_parsing() parses uri string (kept for backward
+> > > compatibility) and populate the MigrateChannel struct parameters.
+> > > Migration code flow for all required migration transport types -
+> > > socket, exec and rdma is modified.
+> > > 
+> > > Suggested-by: Daniel P. Berrange<berrange@redhat.com>
+> > > Suggested-by: Manish Mishra<manish.mishra@nutanix.com>
+> > > Suggested-by: Aravind Retnakaran<aravind.retnakaran@nutanix.com>
+> > > Signed-off-by: Het Gala<het.gala@nutanix.com>
 > > > ---
-> > >   migration/migration-hmp-cmds.c | 105 ++++++++++++++++++++++++++++++++-
-> > >   migration/migration.c          |  15 ++++-
-> > >   2 files changed, 116 insertions(+), 4 deletions(-)
+> > >   migration/exec.c      | 31 ++++++++++++++++--
+> > >   migration/exec.h      |  4 ++-
+> > >   migration/migration.c | 75 +++++++++++++++++++++++++++++++++++--------
+> > >   migration/rdma.c      | 30 +++++------------
+> > >   migration/rdma.h      |  3 +-
+> > >   migration/socket.c    | 21 ++++--------
+> > >   migration/socket.h    |  3 +-
+> > >   7 files changed, 110 insertions(+), 57 deletions(-)
 > > > 
-
-
-> > > diff --git a/migration/migration.c b/migration/migration.c
-> > > index 7a14aa98d8..f6dd8dbb03 100644
-> > > --- a/migration/migration.c
-> > > +++ b/migration/migration.c
-> > > @@ -2463,9 +2463,9 @@ static bool migrate_prepare(MigrationState *s, bool blk, bool blk_inc,
-> > >       return true;
-> > >   }
-> > > -void qmp_migrate(const char *uri, bool has_blk, bool blk,
-> > > -                 bool has_inc, bool inc, bool has_detach, bool detach,
-> > > -                 bool has_resume, bool resume, Error **errp)
-> > > +void qmp_migrate(const char *uri, MigrateChannel *channel, bool has_blk,
-> > > +                 bool blk, bool has_inc, bool inc, bool has_detach,
-> > > +                 bool detach, bool has_resume, bool resume, Error **errp)
-> > >   {
-> > >       Error *local_err = NULL;
-> > >       MigrationState *s = migrate_get_current();
-> > > @@ -2483,6 +2483,15 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
-> > >           }
-> > >       }
-> > > +    /*
-> > > +     * Having preliminary checks for uri and channel
-> > > +     */
-> > > +    if (uri && channel) {
-> > > +        error_setg(errp, "uri and channels options should be"
-> > s/should be/are/, also best to quote parameter names, eg
-> > 
-> >      error_setg(errp,
-> >                 "'uri' and 'channels' options are mutually exclusive");
-> Ack.
-> > > +                          "mutually exclusive");
-> > > +        return;
+> > > diff --git a/migration/exec.c b/migration/exec.c
+> > > index 375d2e1b54..4fa9819792 100644
+> > > --- a/migration/exec.c
+> > > +++ b/migration/exec.c
+> > > @@ -23,14 +23,39 @@
+> > >   #include "migration.h"
+> > >   #include "io/channel-command.h"
+> > >   #include "trace.h"
+> > > +#include "qapi/error.h"
+> > > -void exec_start_outgoing_migration(MigrationState *s, const char *command, Error **errp)
+> > > +void init_exec_array(strList *command, const char *argv[], Error **errp)
+> > > +{
+> > > +    int i = 0;
+> > > +    strList *lst;
+> > > +
+> > > +    for (lst = command; lst ; lst = lst->next) {
+> > > +        argv[i++] = lst->value;
 > > > +    }
 > > > +
-> > This change for qmp_migrate will need to be in patch 2.
+> > > +    /*
+> > > +     * Considering exec command always has 3 arguments to execute
+> > > +     * a command directly from the bash itself.
+> > > +     */
+> > > +    if (i > 3) {
+> > > +        error_setg(errp, "exec accepts maximum of 3 arguments in the list");
+> > > +        return;
+> > > +    }
+> > By the time this check fires, the for() loop above has already
+> > done out of bounds writes on argv[].
+> Ack. check should be before for loop.
+> > > +
+> > > +    argv[i] = NULL;
+> > > +    return;
+> > > +}
+> > > +
+> > > +void exec_start_outgoing_migration(MigrationState *s, strList *command,
+> > > +                                   Error **errp)
+> > >   {
+> > >       QIOChannel *ioc;
+> > > -    const char *argv[] = { "/bin/sh", "-c", command, NULL };
+> > > +    const char *argv[4];
+> > > +    init_exec_array(command, argv, errp);
+> > If someone invokes 'migrate' with the old URI style, the
+> > strList will be 3 elements, and thus argv[4] is safe.
 > > 
-> > QEMU needs to compile & pass tests successfully after each individual
-> > patch. Currently it'll fail on patch 2, because the code generator
-> > wil emit the new qmp_migrate API declaration signature, but the change
-> > to the implementation signature is here in patch 3.
+> > If someone invokes 'migrate' with thue new MigrateChannel style,
+> > the strList can be arbitrarily long and thus argv[4] will be
+> > risk of overflow.
 > 
-> Yes Daniel, it will fail on patch 2. My understanding was that, even if
-> sometimes individual patches dont compile properly, the final series of all
-> the patches should be compiled properly. But I understand your point.
+> Okay, Can you give me an example where strList can be very long in the new
+> MigrateChannel ? because in that case,
 
-No, unfortunately we require the strict behaviour, where *every* individual
-commit must compile and pass unit tests.
+The new MigrateAddress struct allows the user to have arbitrary
+command args, so for example I would expect to be able to do
 
-The reason for this is that when chasing regression bugs, it is common for
-developers to use 'git bisect' to test compilation across a range of
-releases. 'git bisect' will land on completely arbitrary commits, so it
-is critical that every QEMU commit in the repo must compile and pass
-tests. It isn't sufficient for just the end of the series to compile.
 
-> I have a small concern here Daniel, if you could help me resolve it?
-> - There is a similar issue in patch 4. Where some function parameters are to
-> be changed. But that function responds to both source and destination side
-> changes. So though patch 4 contains all the source side changes, it does not
-> take into account destination side changes and it does not compile entirely.
-> And after destination side changes are inside patch 6, the dependencies are
-> resolved. How is it possible to compile individual patches in this case,
-> because then each patch should also have some significant meaning to all the
-> changes. So, in that way, source side changes in one commit and destination
-> side changes in another commit makes more sense right ?
+ { "execute": "migrate",
+     "arguments": {
+         "channel": { "channeltype": "main",
+                      "addr": { "transport": "exec",
+                                "exec": ["/bin/ssh",
+				         "-p", "6000",
+					 "-l", "root",
+					 "-o", "CheckHostIP=no",
+					 "-o", "ConnectTimeout=15",
+                                         "somehost" ] } } } }
 
-If there is code that is shared between src + dst, that may put constraints
-on how you split up the patches.
 
-Possibly a split like this may avoid having dependancy problems:
 
-  * Patch intoduces the 'MigrateAddress' struct and related child
-    objects, but *not* the MigrateChannel struct.
-    
-  * Patch introduces code that can parse a 'uri' and spit out a
-    'MigrateAddress' struct.
-    
-  * Patch converts internal socket backend to accept MigrateAddress,
-    with 'migrate/migrate_incoming' impl convert from uri -> MigrateAddress
-    
-  * Patch converts internal exec backend to accept MigrateAddress
-    with 'migrate/migrate_incoming' impl convert from uri -> MigrateAddress
-    
-  * Patch converts internal rdma backend to accept MigrateAddress
-    with 'migrate/migrate_incoming' impl convert from uri -> MigrateAddress
-    
-  * Patch converts 'migrate' command to accept MigrateChannel param
-    directly
-  
-  * Patch converts 'migrate_incoming' command to accept MigrateChannel
-    param directly.
+> 
+> trace_migration_exec_outgoing(argv[2]);
+> 
+> will also be not correct right. Will have to come up with something that is
+> dynamic ?
+
+Yes, that will need addressing too.
+
+We already need to convert from strList to char ** in order
+to call qio_channel_command_new_spawn.
+
+Given that, you can use g_strjoinv(" ", argv) to generate a
+combined string that can be given to the trace func.
+
 
 With regards,
 Daniel
