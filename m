@@ -2,80 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CC7C690117
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 08:19:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB6869013C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 08:26:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ1Bi-0002uO-Fy; Thu, 09 Feb 2023 02:17:46 -0500
+	id 1pQ1JK-00053K-Ky; Thu, 09 Feb 2023 02:25:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ1BQ-0002rb-Mf
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:17:31 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
+ id 1pQ1JH-000535-De
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:25:35 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ1BO-0008Fl-Ra
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:17:28 -0500
-Received: by mail-wr1-x436.google.com with SMTP id bk16so769848wrb.11
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 23:17:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=tbbPjDnPudgU1eF55ucotaUlTyYhWOp9K1zYbcU8oc0=;
- b=bzQ+6tCvcqkCZ9gO0jBBCZ+kk6uMXObFuidSSx/94OiNYYBy271TbOfWY/Ayyy01hn
- US5Si3OiPIG49IGrBN+WZjcEfWBrBEdWimSWF0xQEoyZtTYn0D7ScUkSrJRqjqAo9vdJ
- 5rlODSQoD8QHGCp11fWCWcKd7wNvJhZiMlcpDmBX1J1owg3vJ6SdwHRVs4CW5FU6euBB
- Omm3YthlffCQzV0rE9g8GwuEe0GjZGypWYp/ntebpaFOokEzttApuUhmB1AGvLR4wcIj
- YuZ6vVeMvrG1CPZUTH1MwPRkFF6gHpYt/FoiIfayXICjlisA/XemGTaa3Z4u7ustqBY/
- XfxQ==
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
+ id 1pQ1JF-00016v-8o
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:25:34 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ v18-20020a17090ae99200b00230f079dcd9so5219885pjy.1
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 23:25:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=rmVDDhkBD33dRebxUB6WkABikP1v8rHGLOz9oy+lzOw=;
+ b=Qqsr8VuFj/cb61lWwBfIJiwftaSsXtTbIODDj9kMRlVfS2CUTcXAcnkVENwaHeFXCc
+ eXeZ9Y66+6ildCk3obb8k3r83H0DWVz4TJzYVPAXagF7GXjgZ3GxGOCw/EF1i0/rp5IN
+ pgGJSBfHppwSSxlu/WOaFOQm7D96GzMtKBjclGwqHDQYZ8V5NNbTw5oahMvkY62J4Bcv
+ xvuULTn8M1jB7ooQLdS2tItxTCRS2SNix0Lv5msweEF06EcK/+YQoovw+ALLc950AbCO
+ dNuYMGg/puoIQ39KxeNIBvRe2lqaJj+1rlej0C5Dhe4aDgkWXgpDufZzv1pwpPPiB1NX
+ cjLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tbbPjDnPudgU1eF55ucotaUlTyYhWOp9K1zYbcU8oc0=;
- b=FYNclgteGCoN4FhEbbf/thsc+J4o4hlFmGvOPLLPr6GC/H5Ct6bBEwCPFOlvhUeQlC
- Psr+p+aSX8Q6yjKmacm2Udxh58YwtNuahvwhwxM0PDQCyr7Q3ywjhZ9c/7nkRb30z1rc
- uMjLqC+RyRfdqgmD2D401/eIJpSJfUKXIS3JmH0U96v3ET7ro4+TJh+pPqWBULfKbejj
- 3DARblQck6UTJpw/NTmOue0an7kaXVrhr+dVTlOaw+SFF7H8hR6wy9WYHtv1YGzjeYWR
- Jg7F4fKLLeqCbkwDnnCqMxYG6CPja5VT2E+lynH2cbvmu5grV9J012GLEJgKvXrOGuRN
- 9ygw==
-X-Gm-Message-State: AO0yUKXM+WCqoUdvM/vjYw+QA/vurbkB8/rKv32wF0N9zvJxsvq46zPF
- bhvAP1qfpMHRjgIXhq3uSMf+Tg==
-X-Google-Smtp-Source: AK7set+u2i1imx+EH/8CiM6SOcrpB0QEW741EUBrrWy7COQNFPXEo5G/HGNwbOYo8Uverzbi92paqg==
-X-Received: by 2002:adf:f287:0:b0:2c5:3d1c:efda with SMTP id
- k7-20020adff287000000b002c53d1cefdamr258774wro.31.1675927045297; 
- Wed, 08 Feb 2023 23:17:25 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- c63-20020a1c3542000000b003df14531724sm4186729wma.21.2023.02.08.23.17.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Feb 2023 23:17:24 -0800 (PST)
-Message-ID: <08bdc197-7f4e-7fa4-05d5-d05934662dbe@linaro.org>
-Date: Thu, 9 Feb 2023 08:17:23 +0100
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rmVDDhkBD33dRebxUB6WkABikP1v8rHGLOz9oy+lzOw=;
+ b=ShK9QvMd/uCcKxyeFNoA3kiDlUzN7s6dLbKSVI7w3hHFKVh6Yg1e//5jrHuoM3zc+O
+ sao3NFAITadTeFBrjICWk+mPEemlNG1udA+f4OIMxoMaXNKOkVKylNA/M7Pj004chB1d
+ hs/O+SqlifbBXIeJxl0bSlUyKQJyQd6iN417aqjCBrKYGd5Tnj/jIVl8MNlocAwlDgZ6
+ rHg1W9a6gVTvsMfmgGyHRYF9Td8JNR37DgvyWN6qtMwneAUk1mtzDrZBxmTvjuTdYbvU
+ elFXGlvmaRwlK7v1L1KY+O5qMZXUrE/PlrD6ojDt8jIRd+fEAkNCphnOypiijiRIimyt
+ YESQ==
+X-Gm-Message-State: AO0yUKXc3dgwVGeIOY+rj+EtkkV7BZzoKiBkgrJbDjSrEdWcUsGPjaIc
+ 5P+G0HguLPE2YuIdEPoLerM=
+X-Google-Smtp-Source: AK7set81TKZAFzmOrFzSNHYZptbc1qRIgjmsCDass4PkbAdTYVS+WfbfkwETMnLWvQHYBCaWiFrNHA==
+X-Received: by 2002:a17:902:f2c9:b0:19a:6098:103a with SMTP id
+ h9-20020a170902f2c900b0019a6098103amr325179plc.23.1675927531617; 
+ Wed, 08 Feb 2023 23:25:31 -0800 (PST)
+Received: from localhost ([192.55.54.55]) by smtp.gmail.com with ESMTPSA id
+ n20-20020a170902d0d400b0019948184c33sm664782pln.243.2023.02.08.23.25.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Feb 2023 23:25:30 -0800 (PST)
+Date: Wed, 8 Feb 2023 23:25:29 -0800
+From: Isaku Yamahata <isaku.yamahata@gmail.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ wei.w.wang@intel.com, isaku.yamahata@gmail.com
+Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
+Message-ID: <20230209072529.GB4175971@ls.amr.corp.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH 1/3] hw/gpio: add PCA6414 i2c GPIO expander
-Content-Language: en-US
-To: Titus Rwantare <titusr@google.com>, Thomas Huth <thuth@redhat.com>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Hao Wu <wuhaotsh@google.com>
-References: <20230206194936.168843-1-titusr@google.com>
- <20230206194936.168843-2-titusr@google.com>
- <3863220f-08b2-6cf2-20e7-eb67691d525b@linaro.org>
- <CAMvPwGqsB3vMRhdMLiBJs51Xhy7izQ_wVUWu6UfL=8Q2UGHmLA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <CAMvPwGqsB3vMRhdMLiBJs51Xhy7izQ_wVUWu6UfL=8Q2UGHmLA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.146,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=isaku.yamahata@gmail.com; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,66 +115,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/2/23 23:40, Titus Rwantare wrote:
-> On Mon, 6 Feb 2023 at 13:38, Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
->>
->> Hi Titus,
->>
->> On 6/2/23 20:49, Titus Rwantare wrote:
->>> This is a simple i2c device that allows i2c capable devices to have
->>> GPIOs.
->>>
->>> Reviewed-by: Hao Wu <wuhaotsh@google.com>
->>> Signed-off-by: Titus Rwantare <titusr@google.com>
->>> ---
->>>    hw/arm/Kconfig                  |   1 +
->>>    hw/gpio/meson.build             |   1 +
->>>    hw/gpio/pca_i2c_gpio.c          | 362 ++++++++++++++++++++++++++++++++
->>>    hw/gpio/trace-events            |   5 +
->>>    hw/i2c/Kconfig                  |   4 +
->>>    include/hw/gpio/pca_i2c_gpio.h  |  72 +++++++
->>>    tests/qtest/meson.build         |   1 +
->>>    tests/qtest/pca_i2c_gpio-test.c | 169 +++++++++++++++
->>>    8 files changed, 615 insertions(+)
->>>    create mode 100644 hw/gpio/pca_i2c_gpio.c
->>>    create mode 100644 include/hw/gpio/pca_i2c_gpio.h
->>>    create mode 100644 tests/qtest/pca_i2c_gpio-test.c
+On Fri, Dec 02, 2022 at 02:13:40PM +0800,
+Chao Peng <chao.p.peng@linux.intel.com> wrote:
 
->>> +#define PCA6416_INPUT_PORT_0                 0x00 /* read */
->>> +#define PCA6416_INPUT_PORT_1                 0x01 /* read */
->>> +#define PCA6416_OUTPUT_PORT_0                0x02 /* read/write */
->>> +#define PCA6416_OUTPUT_PORT_1                0x03 /* read/write */
->>> +#define PCA6416_POLARITY_INVERSION_PORT_0    0x04 /* read/write */
->>> +#define PCA6416_POLARITY_INVERSION_PORT_1    0x05 /* read/write */
->>> +#define PCA6416_CONFIGURATION_PORT_0         0x06 /* read/write */
->>> +#define PCA6416_CONFIGURATION_PORT_1         0x07 /* read/write */
->>> +
->>> +#define PCA6416_OUTPUT_DEFAULT               0xFFFF
->>> +#define PCA6416_CONFIG_DEFAULT               0xFFFF
->>> +
->>> +#define PCA_I2C_OUTPUT_DEFAULT               0xFFFF
->>> +#define PCA_I2C_CONFIG_DEFAULT               0xFFFF
->>
->> (These register definitions could be kept internal in pca_i2c_gpio.c).
-> 
-> I put these here to use them in the qtests.
+> +static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
+> +					   struct kvm_memory_attributes *attrs)
+> +{
+> +	gfn_t start, end;
+> +	unsigned long i;
+> +	void *entry;
+> +	u64 supported_attrs = kvm_supported_mem_attributes(kvm);
+> +
+> +	/* flags is currently not used. */
+> +	if (attrs->flags)
+> +		return -EINVAL;
+> +	if (attrs->attributes & ~supported_attrs)
+> +		return -EINVAL;
+> +	if (attrs->size == 0 || attrs->address + attrs->size < attrs->address)
+> +		return -EINVAL;
+> +	if (!PAGE_ALIGNED(attrs->address) || !PAGE_ALIGNED(attrs->size))
+> +		return -EINVAL;
+> +
+> +	start = attrs->address >> PAGE_SHIFT;
+> +	end = (attrs->address + attrs->size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
+> +
+> +	entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
+> +
+> +	mutex_lock(&kvm->lock);
+> +	for (i = start; i < end; i++)
+> +		if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
+> +				    GFP_KERNEL_ACCOUNT)))
+> +			break;
+> +	mutex_unlock(&kvm->lock);
+> +
+> +	attrs->address = i << PAGE_SHIFT;
+> +	attrs->size = (end - i) << PAGE_SHIFT;
+> +
+> +	return 0;
+> +}
+> +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
+> +
 
-Oh right, I missed that.
+If memslot isn't private, it should return error if private attribute is set.
+Something like following check is needed.
 
->>> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
->>> index e97616d327..49f406af6b 100644
->>> --- a/tests/qtest/meson.build
->>> +++ b/tests/qtest/meson.build
->>> @@ -241,6 +241,7 @@ qos_test_ss.add(
->>>      'ne2000-test.c',
->>>      'tulip-test.c',
->>>      'nvme-test.c',
->>> +  'pca_i2c_gpio-test.c',
->>
->> Should this be conditional to
->> config_all_devices.has_key('CONFIG_PCA_I2C_GPIO')?
-> 
-> Is that the guidance for qos tests? All these tests would also need to
-> be separated out.
-This is not clear to me, adding Thomas.
++       if (attrs->flags & KVM_MEM_PRIVATE) {
++               /* non-private memory slot doesn't allow KVM_MEM_PRIVATE */
++               for (i = 0; i < kvm_arch_nr_memslot_as_ids(kvm); i++) {
++                       struct kvm_memslot_iter iter;
++                       struct kvm_memslots *slots;
++
++                       slots = __kvm_memslots(kvm, i);
++                       kvm_for_each_memslot_in_gfn_range(&iter, slots, start, end) {
++                               if (!kvm_slot_can_be_private(iter.slot)) {
++                                       mutex_unlock(&kvm->slots_lock);
++                                       return -EINVAL;
++                               }
++                       }
++               }
++       }
++
+
+
+-- 
+Isaku Yamahata <isaku.yamahata@gmail.com>
 
