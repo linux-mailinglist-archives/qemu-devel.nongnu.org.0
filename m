@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5BAE690282
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 09:51:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E47690283
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 09:51:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ2dP-0006z2-LO; Thu, 09 Feb 2023 03:50:27 -0500
+	id 1pQ2dP-0006yu-Ii; Thu, 09 Feb 2023 03:50:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kfir@daynix.com>) id 1pQ2dF-0006y6-QH
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 03:50:22 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ (Exim 4.90_1) (envelope-from <kfir@daynix.com>) id 1pQ2dH-0006yA-3w
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 03:50:24 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kfir@daynix.com>) id 1pQ2dD-0007iC-4p
+ (Exim 4.90_1) (envelope-from <kfir@daynix.com>) id 1pQ2dE-0007iH-Mo
  for qemu-devel@nongnu.org; Thu, 09 Feb 2023 03:50:17 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- m16-20020a05600c3b1000b003dc4050c94aso924923wms.4
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 00:50:14 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id o36so923548wms.1
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 00:50:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VrYWLwdpop3m2KNW8eg+gDmihIX9bgIE0wBNkGgT27I=;
- b=y+mzMTm6sfjkNPI1aAccx6Sq1RH8gJ+cFvJZGqjy2lHV8toYhXGDz6x4FQ7YFhtekh
- uE9oYrhBv/wvBI1TBEFAZJ8gARZ/gUx2BZ4tEfLXZedaoXlCdF0W00TdOlCvLHsIUNai
- 5bRZUX0guZaI98FMLfNmNPGvBMl4ZuAldwDNIjHW8Y5qpCJnsj4ZV00fwf4fHG7HsBjN
- o+ZpGqPHg2cGy/RRuW/4N0tWLcizVeFNuSD5mpEbDKWaJYNPGWaWn3A8muSfFsFOVMn5
- ZBp5oFqiDqsOFeBdUw5MFsotTkZmm7uBypdh9Y0NPTj76KBnGjM/dvV/xNPyHPP+AgVF
- 6lJQ==
+ bh=cOyK1xwkRtmIF35qit/32W4WDgM+0CBPhABx7HpojiY=;
+ b=P0ea7NRJC/KcW2mhn5pcuJL4IWuWkve7FVLSeOV5twBqEzADfN8XgO/dUH+N7E8bRQ
+ Ha/XwsFsGRgHFmiQL504WaU1bqTdmuX5uAAc9VAOwGOLOnu9OK7itv+bVcdsAhuMRKFt
+ d+bnUirz3GWQx0B12j2GHVDHTTaaWNrLjhnlnRLMbrZbQOY0WLgTRAMEIc95VNldih6U
+ iBYDtVJyfHaZAeCnqYSifybEd3Z621DwQfTWe+AyIsJFyZ4DDI84CDA6uW6yzbrBUvt4
+ hPgxn9QS+D/y1w/4WGwc/lrvpd0Zdc5MXjKMUGlOF49vF6FUyFVJsNgv/SxpRQDoMWhd
+ 5wEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VrYWLwdpop3m2KNW8eg+gDmihIX9bgIE0wBNkGgT27I=;
- b=JfKpmE6R6MJADN+lLxcAx0AQMNSGXbUOfPbGOlcsJoDApDXWHR5KfOtDJFuZLzb9Vw
- LL3aNcTKZSOP8cTTvSdOgQXQNa33zD8D9gg9uYW8gbnQ3qWx5My/MsQICN6uCSsJQOtH
- RMmPQ3T1yi3skCt5qWIYTATqSq0BivvW8qsIztKSVtM8aQMAxTY9V5616s8xyLsfy/fi
- 4ke3cQDaPn1FlhFgIiYG/YvcMQxvnxp1jN4nmx8cKSwq4DVhfskZ04MtN6ophS56Ewd0
- a8ZEwE2YSZ7QZw6fsktV1AOTnb77I9vPhuCdyhDoEVZJj5BYSj/2JevXN+TzqWfvn/ao
- +6PQ==
-X-Gm-Message-State: AO0yUKWQNslI7rzyBwzVgcLjsQIQ0iEj0ldGFKlW4Z8+MIJyJKwhhiNw
- zIlszPQwdeAF/EFgD0eTcTNHWNKd9cd3BJtp
-X-Google-Smtp-Source: AK7set/8iRQFMNo7p1/rEv/Nh/xFGs8ZnpIpqD5Qh6j0t3OBXHb4WKNGkW/k1cybk+BjWq4DcKcnkA==
-X-Received: by 2002:a05:600c:45cf:b0:3df:9858:c03c with SMTP id
- s15-20020a05600c45cf00b003df9858c03cmr5235629wmo.17.1675932613572; 
- Thu, 09 Feb 2023 00:50:13 -0800 (PST)
+ bh=cOyK1xwkRtmIF35qit/32W4WDgM+0CBPhABx7HpojiY=;
+ b=dauRlxDGLtyMIG+6DBlAEvfb9nqV0Bo0xooWQ6HF1srKpTzNoWOdqd3pWiM9V4nOXI
+ 41ro+aVQrZNOp0slHjN139VwqTsHiA2nk2fQaGaPNmC/c95GD978PxqnuzC4qiKNxttN
+ 2STXqoD14OWpEw8aOogw0/leopaWuRZ+E311qJtoodwlY4Q8irS2W0fqWQqKP02mFADz
+ K4E/oDKDlY/1JsVk/pSjaRFvAzVeja3vlEY36j0krQES27mPD5yv+LDeYFxgaCLH58+3
+ 4x/ziCWvZrA8BxoAEeVTaDumv+b5XqHAby8uZG1XoTNA+X0vkFNDFwhmvyEbrpgBg/Hz
+ NbgQ==
+X-Gm-Message-State: AO0yUKXXbWJ2HMmuN1nfSRs/MJd5hqhzxKBEkrVC562xfg29Dhi1DuqS
+ sOKuBd6K7bW56M2m4upRwzYAUGq9kZc4sD+Q
+X-Google-Smtp-Source: AK7set/VE8XyOH28Eu3PMgFpWhQCOE/Fky7BVpV7mtIAiNYJyjKxX1dsN0OCgGPhqLbj/cfC50NBhw==
+X-Received: by 2002:a05:600c:1894:b0:3de:1d31:1048 with SMTP id
+ x20-20020a05600c189400b003de1d311048mr9279827wmp.29.1675932614526; 
+ Thu, 09 Feb 2023 00:50:14 -0800 (PST)
 Received: from bark.. (bzq-84-110-34-91.static-ip.bezeqint.net. [84.110.34.91])
  by smtp.gmail.com with ESMTPSA id
- ay42-20020a05600c1e2a00b003dffe312925sm4169535wmb.15.2023.02.09.00.50.12
+ ay42-20020a05600c1e2a00b003dffe312925sm4169535wmb.15.2023.02.09.00.50.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Feb 2023 00:50:13 -0800 (PST)
+ Thu, 09 Feb 2023 00:50:14 -0800 (PST)
 From: Kfir Manor <kfir@daynix.com>
 To: qemu-devel@nongnu.org, Konstantin Kostiuk <kkostiuk@redhat.com>,
  Michael Roth <michael.roth@amd.com>
 Cc: Yan Vugenfirer <yan@daynix.com>
-Subject: [PATCH 2/3] qga/win/vss: query VSS backup type
-Date: Thu,  9 Feb 2023 10:50:03 +0200
-Message-Id: <20230209085004.2745131-3-kfir@daynix.com>
+Subject: [PATCH 3/3] qga/win/vss: requester_freeze changes
+Date: Thu,  9 Feb 2023 10:50:04 +0200
+Message-Id: <20230209085004.2745131-4-kfir@daynix.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230209085004.2745131-1-kfir@daynix.com>
 References: <20230209085004.2745131-1-kfir@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::32d;
- envelope-from=kfir@daynix.com; helo=mail-wm1-x32d.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::32e;
+ envelope-from=kfir@daynix.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,88 +88,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Query VSS backup type number (DWORD) from QEMU Guest Agent VSS Provider registry key registry value VssOption
-
-Translate the VSS backup type number (DWORD) into its VSS backup type (VSS_BACKUP_TYPE)
-
-Returns the queried VSS backup type if the program encounters unexpected behaviors or values return default VSS backup type VSS_BT_FULL instead
+Change requester_freeze so that the VSS backup type queried from the registry
 
 Signed-off-by: Kfir Manor <kfir@daynix.com>
 ---
- qga/vss-win32/requester.cpp | 38 +++++++++++++++++++++++++++++++++++++
- qga/vss-win32/vss-handles.h |  3 +++
- 2 files changed, 41 insertions(+)
+ qga/vss-win32/requester.cpp | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/qga/vss-win32/requester.cpp b/qga/vss-win32/requester.cpp
-index b371affeab..27fdb9236b 100644
+index 27fdb9236b..163b3870b9 100644
 --- a/qga/vss-win32/requester.cpp
 +++ b/qga/vss-win32/requester.cpp
-@@ -23,6 +23,8 @@
- /* Call QueryStatus every 10 ms while waiting for frozen event */
- #define VSS_TIMEOUT_EVENT_MSEC 10
+@@ -285,6 +285,7 @@ void requester_freeze(int *num_vols, void *mountpoints, ErrorSet *errset)
+     DWORD wait_status;
+     int num_fixed_drives = 0, i;
+     int num_mount_points = 0;
++    VSS_BACKUP_TYPE vss_bt = get_vss_backup_type();
  
-+#define DEFAULT_VSS_BACKUP_TYPE VSS_BT_FULL
-+
- #define err_set(e, err, fmt, ...)                                           \
-     ((e)->error_setg_win32_wrapper((e)->errp, __FILE__, __LINE__, __func__, \
-                                    err, fmt, ## __VA_ARGS__))
-@@ -234,6 +236,42 @@ out:
+     if (vss_ctx.pVssbc) { /* already frozen */
+         *num_vols = 0;
+@@ -332,7 +333,7 @@ void requester_freeze(int *num_vols, void *mountpoints, ErrorSet *errset)
+         goto out;
      }
- }
  
-+DWORD get_reg_dword_value(HKEY baseKey, LPCSTR subKey, LPCSTR valueName,
-+                          DWORD defaultData)
-+{
-+    DWORD regGetValueError;
-+    DWORD dwordData;
-+    DWORD dataSize = sizeof(DWORD);
-+
-+    regGetValueError = RegGetValue(baseKey, subKey, valueName, RRF_RT_DWORD,
-+                                   NULL, &dwordData, &dataSize);
-+    if (regGetValueError  != ERROR_SUCCESS) {
-+        return defaultData;
-+    }
-+    return dwordData;
-+}
-+
-+bool is_valid_vss_backup_type(VSS_BACKUP_TYPE vssBT)
-+{
-+    return (vssBT > VSS_BT_UNDEFINED && vssBT < VSS_BT_OTHER);
-+}
-+
-+VSS_BACKUP_TYPE get_vss_backup_type(
-+    VSS_BACKUP_TYPE defaultVssBT = DEFAULT_VSS_BACKUP_TYPE)
-+{
-+    VSS_BACKUP_TYPE vssBackupType;
-+
-+    vssBackupType = static_cast<VSS_BACKUP_TYPE>(
-+                            get_reg_dword_value(HKEY_LOCAL_MACHINE,
-+                                                QGA_PROVIDER_REGISTRY_ADDRESS,
-+                                                "VssOption",
-+                                                defaultVssBT));
-+    if (!is_valid_vss_backup_type(vssBackupType)) {
-+        return defaultVssBT;
-+    }
-+    return vssBackupType;
-+}
-+
- void requester_freeze(int *num_vols, void *mountpoints, ErrorSet *errset)
- {
-     COMPointer<IVssAsync> pAsync;
-diff --git a/qga/vss-win32/vss-handles.h b/qga/vss-win32/vss-handles.h
-index 0f8a741ad2..1a7d842129 100644
---- a/qga/vss-win32/vss-handles.h
-+++ b/qga/vss-win32/vss-handles.h
-@@ -6,6 +6,9 @@
- #define QGA_PROVIDER_NAME "QEMU Guest Agent VSS Provider"
- #define QGA_PROVIDER_LNAME L(QGA_PROVIDER_NAME)
- #define QGA_PROVIDER_VERSION L(QEMU_VERSION)
-+#define QGA_PROVIDER_REGISTRY_ADDRESS "SYSTEM\\CurrentControlSet"\
-+                                      "\\Services"\
-+                                      "\\" QGA_PROVIDER_NAME
- 
- #define EVENT_NAME_FROZEN  "Global\\QGAVSSEvent-frozen"
- #define EVENT_NAME_THAW    "Global\\QGAVSSEvent-thaw"
+-    hr = vss_ctx.pVssbc->SetBackupState(true, true, VSS_BT_FULL, false);
++    hr = vss_ctx.pVssbc->SetBackupState(true, true, vss_bt, false);
+     if (FAILED(hr)) {
+         err_set(errset, hr, "failed to set backup state");
+         goto out;
 -- 
 2.38.1
 
