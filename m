@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 516A16902C3
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 10:03:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 212E26902D1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 10:05:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ2pH-0004EV-Hz; Thu, 09 Feb 2023 04:02:43 -0500
+	id 1pQ2rh-0005LB-C5; Thu, 09 Feb 2023 04:05:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pQ2pB-00047W-8e
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 04:02:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pQ2p9-0001hA-G8
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 04:02:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675933354;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vWUCBTo1lMvvLcyS4H8yQ6avzslaXH9oPrjPRQxPTh8=;
- b=iGv1YwAL82yk07af9KcSvG2JWZHQG2ZsSp39uqumhcaHeqzbkRKKY+rtjpj6Y0n1NegdCg
- sofgctMa9iQ6rgsu82eMnuSL8nhn0J1+ulOm2Yy4wLsLS3HeRqMI70FaiV460x7b0JQGFV
- QqPxAorWInyBQHO2MXNna4/CZCeRtYo=
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-475-Kh5L_l3CNSqvp-kCDHW-IA-1; Thu, 09 Feb 2023 04:02:31 -0500
-X-MC-Unique: Kh5L_l3CNSqvp-kCDHW-IA-1
-Received: by mail-vk1-f200.google.com with SMTP id
- o28-20020a056122179c00b00400dddd79c5so569689vkf.11
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 01:02:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pQ2rb-0005Jy-Cf; Thu, 09 Feb 2023 04:05:07 -0500
+Received: from mail-vk1-xa35.google.com ([2607:f8b0:4864:20::a35])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pQ2rX-0001u9-JR; Thu, 09 Feb 2023 04:05:06 -0500
+Received: by mail-vk1-xa35.google.com with SMTP id n13so598667vkl.8;
+ Thu, 09 Feb 2023 01:05:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=uqzsfhEIXKdrO9Tam0qXi3MfapJssPlYXfjwWN7G7FA=;
+ b=Lr37icpyT/nSxXJx2nsWlks2brs227n6pPGyy/Gb40Tjov9xZ5CsDpOZu4j8ar128K
+ Qk7eDBFMi74YE/1bCOuH45sJ3fEBui7IP1YdhXq3IzybR1WVTh8/o9HelgyH8MWMIx2m
+ 7b6FSD+UlUtl8LtQm9/slWyxJgfGDIIPWPoUEAmgofV+hHP1yuxHG2BbEeHgJrUMEKeg
+ SkA8R3jo4wtP6pJTTcosTTjE6yrW3MreUa/Yo06RH4GsEB0ZqD6dHRYGidMmDEzsEXEB
+ wRN8hSHJLHtMKYMxjXQCa0iufv8WB/5F9zO9ppJY9jtH2c28FzJC/eigqjBZHfMjylDO
+ JTsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=vWUCBTo1lMvvLcyS4H8yQ6avzslaXH9oPrjPRQxPTh8=;
- b=7R1lPhusvd6YoLQCqIJhUy+i+YPk3JWJqSQzwHlJ1SRAIywt7OTdC+fBWPUWteybyj
- 3vzPikP+5JTjHbRQ63+MFtliVhFBYg9O65QeMOZzmRJu7x925WleoSWwuSSEW3QYui8/
- RBzjMXTWks2gQR6Jpv6M/ES7psFXn5BrJvf6B4oMpc2Mrb4qqJ/Xhjp0KfYUTg+Cc9P/
- 5aytRsKq7iLj+xjDpVCG2XreJFu/ZxXe3K1P2UIteuviyAJ+rJVWwtdGMmTBK91yohqA
- Y3JNUS4UyA1j38xvz/F4MF6ChwjK7R5uDTX2Uij7Jk08t1EKAZQhPZ0eOjORmsus6KI+
- qhww==
-X-Gm-Message-State: AO0yUKWVxFh3Pik6Ib/Qqk7wikPke4OLJXFfF8xpKnm1313MSzHWCOKx
- W1jcqWRQ3eo+1nkq660YS1GlaUB3nGpgnBJ+t10c/NCbjx66z6YmA4L8iLhVAXd1WZkge+m1n9C
- vM/et2kxGHXJX6d9s+ADo9DvkQZsoi8U=
-X-Received: by 2002:a1f:a101:0:b0:3ea:342a:dc34 with SMTP id
- k1-20020a1fa101000000b003ea342adc34mr2189482vke.19.1675933351144; 
- Thu, 09 Feb 2023 01:02:31 -0800 (PST)
-X-Google-Smtp-Source: AK7set+O8WdVK4QKd/BHEhpNbLdzGfh4IEC8Y9cxS1mq7qyPhPUYnEfDXTZaMlhGWRN2yNwoO4OzEbD4Z3gIQwbqew8=
-X-Received: by 2002:a1f:a101:0:b0:3ea:342a:dc34 with SMTP id
- k1-20020a1fa101000000b003ea342adc34mr2189480vke.19.1675933350831; Thu, 09 Feb
- 2023 01:02:30 -0800 (PST)
+ bh=uqzsfhEIXKdrO9Tam0qXi3MfapJssPlYXfjwWN7G7FA=;
+ b=O4eJQdiiPpVwn6afDbkbXgPRNQZt56eOensfMNei7k6rvwydqpa9rNVTt47ZiKI5W9
+ xnqpKHgWfVNT7Ztk9LHVwgmDO6tHM2qMHY5Vb3N0KZq6p00xrW9+AbFGQ+TN8chuoOx4
+ EKZJKi3X5Cj6d6D1awKO7+aKaalDA/iDdl0aJvcRC9eyVFW9RGNhplX5te59PtUvOURF
+ 6QX0DN2DczcsgvAIaWSMn2/11Gj+dr0nxtPkUG9xHn4pxRHKyf48ITQZPhHtG0Xaj3hm
+ v9b1Xqnz1QmnD3OI2tElS1qGhyIvLSdA8CkDj04cmZvCzwcehJS1y85sXJ2j7iMTYYcD
+ gMIQ==
+X-Gm-Message-State: AO0yUKU9nxth7dYRyPbkX9nRWeXfalDjyoz+KjYqEXyCYsIYbsdI02zN
+ l9boQ0GpNOnEqXvLJoGZs9obeZzUEMpveAL5eMA=
+X-Google-Smtp-Source: AK7set9ezJRGLtM6+85GTGM53JqKqtibGL+AmsDYq5+/+G/blbtXtoByb04E937trBE/wiIzn21fir1ESbrEwLM/R9Q=
+X-Received: by 2002:a1f:abd0:0:b0:3e9:ffc0:fb54 with SMTP id
+ u199-20020a1fabd0000000b003e9ffc0fb54mr2321997vke.9.1675933500698; Thu, 09
+ Feb 2023 01:05:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20230208171922.95048-1-pbonzini@redhat.com>
- <95cab180-a34b-858d-e360-5083a7d7ecf8@redhat.com>
- <d6c35d9e-9a6c-4715-6532-4241e3d86a65@linaro.org>
-In-Reply-To: <d6c35d9e-9a6c-4715-6532-4241e3d86a65@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Thu, 9 Feb 2023 10:02:19 +0100
-Message-ID: <CABgObfYf3+EHgi=P71+xJ-oeSgZtO61jH3wuD9xALSeGa73tNA@mail.gmail.com>
-Subject: Re: [PULL 00/11] Misc patches for 2022-02-08
+References: <20230208000743.79415-1-philmd@linaro.org>
+ <20230208000743.79415-6-philmd@linaro.org>
+In-Reply-To: <20230208000743.79415-6-philmd@linaro.org>
+From: Bernhard Beschow <shentey@gmail.com>
+Date: Thu, 9 Feb 2023 10:04:49 +0100
+Message-ID: <CAG4p6K4qnDXjM+7=B1iRjUNX1astmg0Pofco+aOOPWkJG2ajFQ@mail.gmail.com>
+Subject: Re: [PATCH 5/7] hw/ide/piix: Use generic ide_init_ioport()
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="0000000000000b441205f440a49f"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Cc: qemu-devel@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>, 
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org, 
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, John Snow <jsnow@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000f9f6b605f440ac5e"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a35;
+ envelope-from=shentey@gmail.com; helo=mail-vk1-xa35.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,123 +83,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000000b441205f440a49f
+--000000000000f9f6b605f440ac5e
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Yeah it's the same but it should use errp. Sorry to both of you!
+On Wed, Feb 8, 2023 at 1:08 AM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.o=
+rg>
+wrote:
 
-Paolo
-
-Il gio 9 feb 2023, 08:09 Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> ha
-scritto:
-
-> On 9/2/23 06:19, Thomas Huth wrote:
-> > On 08/02/2023 18.19, Paolo Bonzini wrote:
-> >> The following changes since commit
-> >> ae2b5d8381a73b27f35f19c988d45c78bb4d5768:
-> >>
-> >>    Merge tag 'pull-include-2023-02-06-v2' of
-> >> https://repo.or.cz/qemu/armbru into staging (2023-02-08 10:40:06 +0000=
-)
-> >>
-> >> are available in the Git repository at:
-> >>
-> >>    https://gitlab.com/bonzini/qemu.git tags/for-upstream
-> >>
-> >> for you to fetch changes up to e0de04cf9bd7cf03db16f33276679caf1724b75=
-c:
-> >>
-> >>    target/i386: fix ADOX followed by ADCX (2023-02-08 18:16:55 +0100)
-> >>
-> >> ----------------------------------------------------------------
-> >> * block/iscsi: fix double-free on BUSY or similar statuses
-> >> * catch [accel] entry without accelerator
-> >> * target/i386: various fixes for BMI and ADX instructions
-> >> * make the contents of meson-buildoptions.sh stable
-> >>
-> >> ----------------------------------------------------------------
-> >> Paolo Bonzini (8):
-> >>        build: make meson-buildoptions.sh stable
-> >>        remove unnecessary extern "C" blocks
-> >>        block/iscsi: fix double-free on BUSY or similar statuses
-> >>        vl: catch [accel] entry without accelerator
-> >
-> > You missed Philippe's review comment for that patch:
-> >
-> >
-> https://lore.kernel.org/qemu-devel/8ec3abf5-f4aa-db40-cb7e-2f5733d93de3@l=
-inaro.org/
+> TYPE_PIIX3_IDE is a PCI function inheriting from QOM
+> TYPE_PCI_DEVICE. To be able to call the ISA specific
+> ide_init_ioport_isa(), we call this function passing
+> a NULL ISADevice argument. Remove this hack by calling
+> the recently added generic ide_init_ioport(), which
+> doesn't expect any ISADevice.
 >
-> I interpreted "no response" as "the result is the same".
+> Inspired-by: Bernhard Beschow <shentey@gmail.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> ---
+>  hw/ide/piix.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
 >
+> diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+> index a587541bb2..1cd4389611 100644
+> --- a/hw/ide/piix.c
+> +++ b/hw/ide/piix.c
+> @@ -136,15 +136,13 @@ static int pci_piix_init_ports(PCIIDEState *d)
+>          {0x1f0, 0x3f6, 14},
+>          {0x170, 0x376, 15},
+>      };
+> -    int i, ret;
+> +    int i;
 >
+>      for (i =3D 0; i < 2; i++) {
+>          ide_bus_init(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
+> -        ret =3D ide_init_ioport_isa(&d->bus[i], NULL,
+> -                                  port_info[i].iobase,
+> port_info[i].iobase2);
+> -        if (ret) {
+> -            return ret;
+> -        }
+> +        ide_init_ioport(&d->bus[i], OBJECT(d),
+> +                        pci_address_space_io(PCI_DEVICE(d)),
+> +                        port_info[i].iobase, port_info[i].iobase2);
+>          ide_init2(&d->bus[i], isa_get_irq(NULL, port_info[i].isairq));
+>
+>          bmdma_init(&d->bus[i], &d->bmdma[i], d);
+> --
+> 2.38.1
+>
+> This patch essentially circumvents the mitigations introduced by
+https://lore.kernel.org/qemu-devel/20210416125256.2039734-1-thuth@redhat.co=
+m/
+"hw/ide: Fix crash when plugging a piix3-ide device into the x-remote
+machine": `qemu-system-x86_64 -M x-remote -device piix3-ide` now crashes.
+This has been considered in
+https://lore.kernel.org/qemu-devel/20230126211740.66874-1-shentey@gmail.com=
+/
+-- see cover letter there. TBH it's not entirely clear to me why we need
+two competing series here at all.
 
---0000000000000b441205f440a49f
+Best regards,
+Bernhard
+
+--000000000000f9f6b605f440ac5e
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div dir=3D"auto">Yeah it&#39;s the same but it should us=
-e errp. Sorry to both of you!</div><div dir=3D"auto"><br></div><div dir=3D"=
-auto">Paolo</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
-mail_attr">Il gio 9 feb 2023, 08:09 Philippe Mathieu-Daud=C3=A9 &lt;<a href=
-=3D"mailto:philmd@linaro.org" target=3D"_blank" rel=3D"noreferrer">philmd@l=
-inaro.org</a>&gt; ha scritto:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 9/=
-2/23 06:19, Thomas Huth wrote:<br>
-&gt; On 08/02/2023 18.19, Paolo Bonzini wrote:<br>
-&gt;&gt; The following changes since commit <br>
-&gt;&gt; ae2b5d8381a73b27f35f19c988d45c78bb4d5768:<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0 Merge tag &#39;pull-include-2023-02-06-v2&#39; of <br=
->
-&gt;&gt; <a href=3D"https://repo.or.cz/qemu/armbru" rel=3D"noreferrer noref=
-errer noreferrer" target=3D"_blank">https://repo.or.cz/qemu/armbru</a> into=
- staging (2023-02-08 10:40:06 +0000)<br>
-&gt;&gt;<br>
-&gt;&gt; are available in the Git repository at:<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0 <a href=3D"https://gitlab.com/bonzini/qemu.git" rel=
-=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://gitlab.com/=
-bonzini/qemu.git</a> tags/for-upstream<br>
-&gt;&gt;<br>
-&gt;&gt; for you to fetch changes up to e0de04cf9bd7cf03db16f33276679caf172=
-4b75c:<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0 target/i386: fix ADOX followed by ADCX (2023-02-08 18=
-:16:55 +0100)<br>
-&gt;&gt;<br>
-&gt;&gt; ----------------------------------------------------------------<b=
-r>
-&gt;&gt; * block/iscsi: fix double-free on BUSY or similar statuses<br>
-&gt;&gt; * catch [accel] entry without accelerator<br>
-&gt;&gt; * target/i386: various fixes for BMI and ADX instructions<br>
-&gt;&gt; * make the contents of meson-buildoptions.sh stable<br>
-&gt;&gt;<br>
-&gt;&gt; ----------------------------------------------------------------<b=
-r>
-&gt;&gt; Paolo Bonzini (8):<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 build: make meson-buildoption=
-s.sh stable<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 remove unnecessary extern &qu=
-ot;C&quot; blocks<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 block/iscsi: fix double-free =
-on BUSY or similar statuses<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vl: catch [accel] entry witho=
-ut accelerator<br>
-&gt; <br>
-&gt; You missed Philippe&#39;s review comment for that patch:<br>
-&gt; <br>
-&gt; <a href=3D"https://lore.kernel.org/qemu-devel/8ec3abf5-f4aa-db40-cb7e-=
-2f5733d93de3@linaro.org/" rel=3D"noreferrer noreferrer noreferrer" target=
-=3D"_blank">https://lore.kernel.org/qemu-devel/8ec3abf5-f4aa-db40-cb7e-2f57=
-33d93de3@linaro.org/</a><br>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 8, 2023 at 1:08 AM Philip=
+pe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linaro.org">philmd@linar=
+o.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">TYPE_PIIX3_IDE is a PCI function inheriting from QOM<br>
+TYPE_PCI_DEVICE. To be able to call the ISA specific<br>
+ide_init_ioport_isa(), we call this function passing<br>
+a NULL ISADevice argument. Remove this hack by calling<br>
+the recently added generic ide_init_ioport(), which<br>
+doesn&#39;t expect any ISADevice.<br>
 <br>
-I interpreted &quot;no response&quot; as &quot;the result is the same&quot;=
-.<br>
+Inspired-by: Bernhard Beschow &lt;<a href=3D"mailto:shentey@gmail.com" targ=
+et=3D"_blank">shentey@gmail.com</a>&gt;<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@lin=
+aro.org" target=3D"_blank">philmd@linaro.org</a>&gt;<br>
+---<br>
+=C2=A0hw/ide/piix.c | 10 ++++------<br>
+=C2=A01 file changed, 4 insertions(+), 6 deletions(-)<br>
 <br>
-</blockquote></div></div>
+diff --git a/hw/ide/piix.c b/hw/ide/piix.c<br>
+index a587541bb2..1cd4389611 100644<br>
+--- a/hw/ide/piix.c<br>
++++ b/hw/ide/piix.c<br>
+@@ -136,15 +136,13 @@ static int pci_piix_init_ports(PCIIDEState *d)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{0x1f0, 0x3f6, 14},<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{0x170, 0x376, 15},<br>
+=C2=A0 =C2=A0 =C2=A0};<br>
+-=C2=A0 =C2=A0 int i, ret;<br>
++=C2=A0 =C2=A0 int i;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; 2; i++) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ide_bus_init(&amp;d-&gt;bus[i], sizeof(d-=
+&gt;bus[i]), DEVICE(d), i, 2);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D ide_init_ioport_isa(&amp;d-&gt;bus[i],=
+ NULL,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 port_info[i].iobase, port_inf=
+o[i].iobase2);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ide_init_ioport(&amp;d-&gt;bus[i], OBJECT(d),<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 pci_address_space_io(PCI_DEVICE(d)),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 port_info[i].iobase, port_info[i].iobase2);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ide_init2(&amp;d-&gt;bus[i], isa_get_irq(=
+NULL, port_info[i].isairq));<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bmdma_init(&amp;d-&gt;bus[i], &amp;d-&gt;=
+bmdma[i], d);<br>
+-- <br>
+2.38.1<br>
+<br></blockquote><div>This patch essentially circumvents the mitigations in=
+troduced  by <a href=3D"https://lore.kernel.org/qemu-devel/20210416125256.2=
+039734-1-thuth@redhat.com/">https://lore.kernel.org/qemu-devel/202104161252=
+56.2039734-1-thuth@redhat.com/</a> &quot;hw/ide: Fix crash when plugging a =
+piix3-ide device into the x-remote machine&quot;:=C2=A0`qemu-system-x86_64 =
+-M x-remote -device piix3-ide` now crashes. This has been considered in <a =
+href=3D"https://lore.kernel.org/qemu-devel/20230126211740.66874-1-shentey@g=
+mail.com/">https://lore.kernel.org/qemu-devel/20230126211740.66874-1-shente=
+y@gmail.com/</a> -- see cover letter there. TBH it&#39;s not entirely clear=
+ to me why we need two competing series here at all.</div><div><br></div><d=
+iv>Best regards,</div><div>Bernhard<br></div></div></div>
 
---0000000000000b441205f440a49f--
-
+--000000000000f9f6b605f440ac5e--
 
