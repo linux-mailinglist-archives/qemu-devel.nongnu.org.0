@@ -2,80 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2FE36901AA
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 09:00:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E436901AD
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 09:02:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ1r0-0007k8-0G; Thu, 09 Feb 2023 03:00:26 -0500
+	id 1pQ1sH-0008FJ-Dh; Thu, 09 Feb 2023 03:01:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ1qu-0007f8-AQ
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 03:00:21 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ1qr-0007BG-3v
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 03:00:20 -0500
-Received: by mail-wm1-x329.google.com with SMTP id r18so813326wmq.5
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 00:00:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=lxrPYIlp1MU6tgnEenBlW/qQepoXWpw1NFTaSp8m2YU=;
- b=TPZdyVaw/XRGOElZAHQAyMvx+KOp9cP15FpRF72nniRvBwankz8yvVKUWzDiqqdB9e
- NiersMB102mhwFNgj5/5AYwXMNWwJr4nh6YQGYWUeRRwwtrcUn6a1Cdqs2tqtpTcQIM3
- iPQa7xiz66MeG75B/dQo+f3e19NkH5m6EDCUDHlC4Lt2UIVza8BzKAuUT9Zsyhj4+Qr7
- nOw1wM7GP2/Wl5/kC1HyC68rSQQhDw1mZgtLdbFNZqDkaKCVXOPvkx2s4n8XgRmk7uN1
- 0FhsegWdTWXF3XKkYQGt/ncvq2jE/z2n1TcwGA4eQ2BOS1PZTugJjsIWgjG816isR4l6
- nxTg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pQ1rP-00088u-Hl
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 03:00:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pQ1rN-0007Gr-42
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 03:00:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675929648;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+yr2PcjDIcbH4djd/yC/zum9DITHy2/yPLBUzLulYmQ=;
+ b=iD0NusjhAneiAHMFMDc90e0zceOqUSjXHmgLnycac/sk9VJwTUKiihxtyYKfAS/n3YCYKB
+ Lipi3+hRLvedszJj0GiF2J5VREezK/kzJpqPjOvgyBjsUQvNifpkadA/UJdhVJYxVmuxsO
+ WaYvCYum80ec4qvyR7LuZ3pshYRKpsQ=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-299-rA-SqT0jOpOfpRKvx46ozw-1; Thu, 09 Feb 2023 03:00:46 -0500
+X-MC-Unique: rA-SqT0jOpOfpRKvx46ozw-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ x17-20020a05620a449100b00731b7a45b7fso779971qkp.2
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 00:00:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lxrPYIlp1MU6tgnEenBlW/qQepoXWpw1NFTaSp8m2YU=;
- b=wR3t2uMFwh3EpSqsH1tGMXmF/xkAknFG+rGzPcEoH0MY30BncCHAfZkQeW+cxmx+jg
- oc5VVXVU8OhodK+GFo2FffK5dODi2uuy879edw+gzylMuLw7jctPw/KxgX99WiJH58XZ
- KQ7TZLlc2CBAwGI7q4PVaiXH+vdGZU7wf4WVguor7Nnh5M1VXGZdTJfrdYd8VSpKsJ2t
- T8ZDiv0dnpULi/TcvEyOkHORkUhgVUnJwJeRxhPvmjBzuXNlig7QafxldWghrJYYRO61
- QBsrWwSsCpDUDZREnlHGO7nXHLBz6FbGsxEK4vJ9gZHsQ1O8vdQkfVBY8WxfKaOklDUd
- NWIA==
-X-Gm-Message-State: AO0yUKULVWbh0xrqEml8rKx+hykmTzBTVQyvCFPBNnVnzgw6vzwyqnE1
- K9vA8V5yKGnPS6HR/QqcEQt3I67ex/4Q2+KX
-X-Google-Smtp-Source: AK7set9tW1Ewh6BgEbbh5oWbergq52mQiBPOYyGT1Mx8sSw6+gV5vM4RE0sWvT2+RDt9oHUuvYUcmg==
-X-Received: by 2002:a05:600c:331a:b0:3df:eeaa:816d with SMTP id
- q26-20020a05600c331a00b003dfeeaa816dmr3503378wmp.28.1675929615505; 
- Thu, 09 Feb 2023 00:00:15 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- e1-20020a05600c4e4100b003dc49e0132asm4249911wmq.1.2023.02.09.00.00.14
+ bh=+yr2PcjDIcbH4djd/yC/zum9DITHy2/yPLBUzLulYmQ=;
+ b=LY+DorP3jqFNkI+2qQsluV5oY+2YWNqiWFA2+HfY3x7whyBpArJoL+TRN+obcPSsRQ
+ 1/JfhSDlGB4+hHBA7eBbMIeAQ9UiCcFoWMDhJKmBkf5WEf3bBBPGCiGZmKIp5qO/+fIU
+ 9YlDkoQL6pTB0/QgAsXb19t1oW/OFx6CMH8IWOAV2Ka4y40vH2Jd+Co14Icapyj1w5La
+ 6ny5mBh476pJ7K9Sk8BfvGMJP7K7GX0sasqdJbq87C8m4g2+ihRmUn+OBuunc51sCAMd
+ Jcng9BbEb75FchfpkHgBghZrCm6MTP8E6TBHDvpeugDbpykJYn5F3jK80i44yvzm4M3t
+ clJQ==
+X-Gm-Message-State: AO0yUKVXe124mvIv0E2CNbxvVWvOG9Er9Bb6PnTzbAl+YjoTqBEzWdZG
+ NjsexGqUvJHIk/ANV2WuFSHNiOCZ9BFK+JKnAIeiXAvFKgo1qmSdvk1TeJrL4q1HAaghn8ccXlL
+ BqJLXFjVx5vJ2DDQ=
+X-Received: by 2002:ac8:5f85:0:b0:3b6:35a2:bb04 with SMTP id
+ j5-20020ac85f85000000b003b635a2bb04mr18856365qta.7.1675929645993; 
+ Thu, 09 Feb 2023 00:00:45 -0800 (PST)
+X-Google-Smtp-Source: AK7set8/oheNWSxdGutGsHfemr37nbB7Oolcxw/93bly04+lQAyksAvW8ftmdZ8cUidnf+hwGrPn2Q==
+X-Received: by 2002:ac8:5f85:0:b0:3b6:35a2:bb04 with SMTP id
+ j5-20020ac85f85000000b003b635a2bb04mr18856335qta.7.1675929645738; 
+ Thu, 09 Feb 2023 00:00:45 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-209.web.vodafone.de.
+ [109.43.176.209]) by smtp.gmail.com with ESMTPSA id
+ f18-20020ac80692000000b003b9e1d3a502sm818179qth.54.2023.02.09.00.00.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Feb 2023 00:00:14 -0800 (PST)
-Message-ID: <f1d5840f-5ead-a2b1-29f4-33360c00610f@linaro.org>
-Date: Thu, 9 Feb 2023 09:00:13 +0100
+ Thu, 09 Feb 2023 00:00:45 -0800 (PST)
+Message-ID: <bd4c3e54-b603-562e-1694-e8da5e839590@redhat.com>
+Date: Thu, 9 Feb 2023 09:00:42 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH v2 3/4] hw/gpio: add PCA9536 i2c gpio expander
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 03/12] tests/qtest: Add dependence on PCIE_PORT for
+ virtio-net-failover.c
 Content-Language: en-US
-To: Titus Rwantare <titusr@google.com>, minyard@acm.org, eddie.dong@intel.com
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, joel@jms.id.au,
- Hao Wu <wuhaotsh@google.com>
-References: <20230208224339.270589-1-titusr@google.com>
- <20230208224339.270589-4-titusr@google.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230208224339.270589-4-titusr@google.com>
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20230208194700.11035-1-farosas@suse.de>
+ <20230208194700.11035-4-farosas@suse.de>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230208194700.11035-4-farosas@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.146,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.146, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,33 +101,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/2/23 23:43, Titus Rwantare wrote:
-> This device has the same register layout as the pca9538, but 4 fewer
-> gpio pins. This commit lowers the number of pins initialised, and reuses
-> the pca9538 logic.
+On 08/02/2023 20.46, Fabiano Rosas wrote:
+> This test depends on the presence of the pcie-root-port device. Add a
+> build time dependency.
 > 
-> Reviewed-by: Hao Wu <wuhaotsh@google.com>
-> Signed-off-by: Titus Rwantare <titusr@google.com>
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
 > ---
->   hw/gpio/pca_i2c_gpio.c         | 18 ++++++++++++++++++
->   include/hw/gpio/pca_i2c_gpio.h |  2 ++
->   2 files changed, 20 insertions(+)
+>   tests/qtest/meson.build | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> index e97616d327..5c8b031ce0 100644
+> --- a/tests/qtest/meson.build
+> +++ b/tests/qtest/meson.build
+> @@ -73,7 +73,8 @@ qtests_i386 = \
+>     (config_all_devices.has_key('CONFIG_ESP_PCI') ? ['am53c974-test'] : []) +                 \
+>     (config_host.has_key('CONFIG_POSIX') and                                                  \
+>      config_all_devices.has_key('CONFIG_ACPI_ERST') ? ['erst-test'] : []) +                   \
+> -  (config_all_devices.has_key('CONFIG_VIRTIO_NET') and                                      \
+> +  (config_all_devices.has_key('CONFIG_PCIE_PORT') and                                       \
+> +   config_all_devices.has_key('CONFIG_VIRTIO_NET') and                                      \
+>      config_all_devices.has_key('CONFIG_Q35') and                                             \
+>      config_all_devices.has_key('CONFIG_VIRTIO_PCI') and                                      \
+>      slirp.found() ? ['virtio-net-failover'] : []) +                                          \
 
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-> +static void pca9536_gpio_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    I2CSlaveClass *k = I2C_SLAVE_CLASS(klass);
-> +    PCAGPIOClass *pc = PCA_I2C_GPIO_CLASS(klass);
-> +
-> +    dc->desc = "PCA9536 4-bit I/O expander";
-> +    pc->num_pins = PCA9536_NUM_PINS;
-> +
-> +    k->recv = pca9538_recv;
-> +    k->send = pca9538_send;
-
-Can we rename as pca953x_recv() / pca953x_send() in previous patch?
-
-Otherwise,
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
