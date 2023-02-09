@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE9F6911FC
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 21:12:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 894CA691200
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 21:13:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQDDw-0001eg-Qh; Thu, 09 Feb 2023 15:08:52 -0500
+	id 1pQDDy-0001g7-Ee; Thu, 09 Feb 2023 15:08:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pQDDp-0001cG-2E
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 15:08:45 -0500
-Received: from forwardcorp1b.mail.yandex.net
- ([2a02:6b8:c02:900:1:45:d181:df01])
+ id 1pQDDq-0001cq-Fd
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 15:08:46 -0500
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pQDDn-0002iO-EW
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 15:08:44 -0500
+ id 1pQDDn-0002iT-QK
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 15:08:46 -0500
 Received: from myt5-8800bd68420f.qloud-c.yandex.net
  (myt5-8800bd68420f.qloud-c.yandex.net
  [IPv6:2a02:6b8:c12:4615:0:640:8800:bd68])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 1A54C61B11;
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id E482060724;
  Thu,  9 Feb 2023 23:08:33 +0300 (MSK)
 Received: from vsementsov-win.yandex-team.ru (unknown
  [2a02:6b8:b081:6518::1:1])
  by myt5-8800bd68420f.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- A8lCI60OTGk1-OTmHMsOM; Thu, 09 Feb 2023 23:08:32 +0300
+ A8lCI60OTGk1-1zmbNGSD; Thu, 09 Feb 2023 23:08:33 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1675973312; bh=WVgSKgGG36n1TOJJrrRuMGWVoKX83pTHkt6Jw3wTYMU=;
+ t=1675973313; bh=wtLpRKD+34nSNrWfdyB3ApaJ12n1OZ5huD/Mn1RffKM=;
  h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=YvKAK985xcOo2K1duddZYHuVZqNGkHHYGcBGkeVJ9cnY6I8KGblg4vpMqoSBLciwx
- 1I3Zzs4iRnhd3b9RtnRTOjg5t1J9Afy2nxT3SrZmi7dCtY3bgPB8B9BR5pCAhfUN71
- KkQvXJw8P4+u/VlyVdELOLRbXb+1hu287zkvCg4I=
+ b=kaWlqgJCshHNavJYPEaTCHDy95F0mN6GY9KXRMO//FU8nE4Q9sqjEyeTQHkkiMtOW
+ QgKeGPzeeDx68jTyODP7rLodNcT1H6FqY9FarT/h9U1w/PzFFQ6TbdPmjAVMQaGINm
+ hH1ZxPTMhVprjh7vqeShjqbFEm4oVtqUEn3V9+R0=
 Authentication-Results: myt5-8800bd68420f.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
@@ -43,16 +43,16 @@ To: qemu-devel@nongnu.org
 Cc: armbru@redhat.com, eblake@redhat.com, eduardo@habkost.net,
  berrange@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
  mst@redhat.com, vsementsov@yandex-team.ru, den-plotnikov@yandex-team.ru
-Subject: [PATCH v3 11/15] pcie: set power indicator to off on reset by default
-Date: Thu,  9 Feb 2023 23:08:04 +0300
-Message-Id: <20230209200808.869275-12-vsementsov@yandex-team.ru>
+Subject: [PATCH v3 12/15] pci: introduce pci_find_the_only_child()
+Date: Thu,  9 Feb 2023 23:08:05 +0300
+Message-Id: <20230209200808.869275-13-vsementsov@yandex-team.ru>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230209200808.869275-1-vsementsov@yandex-team.ru>
 References: <20230209200808.869275-1-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -74,25 +74,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It should be zero, the only valid values are ON, OFF and BLINK.
+To be used in further patch to identify the device hot-plugged into
+pcie-root-port.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 ---
- hw/pci/pcie.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/hw/pci/pci.h |  1 +
+ hw/pci/pci.c         | 33 +++++++++++++++++++++++++++++++++
+ 2 files changed, 34 insertions(+)
 
-diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index e2da00742c..774ce85619 100644
---- a/hw/pci/pcie.c
-+++ b/hw/pci/pcie.c
-@@ -684,6 +684,7 @@ void pcie_cap_slot_reset(PCIDevice *dev)
-                                  PCI_EXP_SLTCTL_PDCE |
-                                  PCI_EXP_SLTCTL_ABPE);
-     pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTCTL,
-+                               PCI_EXP_SLTCTL_PWR_IND_OFF |
-                                PCI_EXP_SLTCTL_ATTN_IND_OFF);
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index d5a40cd058..b6c9c44527 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -341,6 +341,7 @@ void pci_for_each_device_under_bus_reverse(PCIBus *bus,
+ void pci_for_each_bus_depth_first(PCIBus *bus, pci_bus_ret_fn begin,
+                                   pci_bus_fn end, void *parent_state);
+ PCIDevice *pci_get_function_0(PCIDevice *pci_dev);
++PCIDevice *pci_find_the_only_child(PCIBus *bus, int bus_num, Error **errp);
  
-     if (dev->cap_present & QEMU_PCIE_SLTCAP_PCP) {
+ /* Use this wrapper when specific scan order is not required. */
+ static inline
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 208c16f450..34fd1fb5b8 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -1771,6 +1771,39 @@ void pci_for_each_device(PCIBus *bus, int bus_num,
+     }
+ }
+ 
++typedef struct TheOnlyChild {
++    PCIDevice *dev;
++    int count;
++} TheOnlyChild;
++
++static void the_only_child_fn(PCIBus *bus, PCIDevice *dev, void *opaque)
++{
++    TheOnlyChild *s = opaque;
++
++    s->dev = dev;
++    s->count++;
++}
++
++PCIDevice *pci_find_the_only_child(PCIBus *bus, int bus_num, Error **errp)
++{
++    TheOnlyChild res = {0};
++
++    pci_for_each_device(bus, bus_num, the_only_child_fn, &res);
++
++    if (!res.dev) {
++        assert(res.count == 0);
++        error_setg(errp, "No child devices found");
++        return NULL;
++    }
++
++    if (res.count > 1) {
++        error_setg(errp, "Several child devices found");
++        return NULL;
++    }
++
++    return res.dev;
++}
++
+ const pci_class_desc *get_class_desc(int class)
+ {
+     const pci_class_desc *desc;
 -- 
 2.34.1
 
