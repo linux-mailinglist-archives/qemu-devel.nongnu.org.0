@@ -2,91 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0558690860
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 13:12:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 981E8690867
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 13:12:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ5mj-00086i-Si; Thu, 09 Feb 2023 07:12:17 -0500
+	id 1pQ5n1-0008Mz-Qw; Thu, 09 Feb 2023 07:12:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pQ5mh-00086N-Vu
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 07:12:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pQ5mz-0008MN-Ms; Thu, 09 Feb 2023 07:12:33 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pQ5mg-0002Zm-0m
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 07:12:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675944733;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=gBuwSjRANvfiweFg8pVwL8BlLuU2P7A08EQ4vpQsDME=;
- b=Eu+M9T7Ecm7bPT4g5k5aE8DjIXVKJo6risogtcHUeAAHJeOtV6kg5oue4vCPWMIzrXBrJW
- TJQctE8UKR/yNMJI4M1xPd//IZJFm2dUaRe/ay24Ak3zPokCdhkJ0lNKhtK5sKPRuLlTSl
- SEa5VOb5g9/esIQc0dJqRrpu+gWqHDM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-358-mis-v0tONkSprCrAMjArcw-1; Thu, 09 Feb 2023 07:12:12 -0500
-X-MC-Unique: mis-v0tONkSprCrAMjArcw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j20-20020a05600c1c1400b003dc5dd44c0cso967351wms.8
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 04:12:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gBuwSjRANvfiweFg8pVwL8BlLuU2P7A08EQ4vpQsDME=;
- b=43GfzraTqLBNCmLH96bS9QqALMGddXwDApDMudmWL+jlBU/KJvfcAI19lHZI2s3RT2
- +ZopZeEFVS9XlCWzyMKLRmZltCY1RPl6Ak7TpFIxRDKlgcmzIxc6i5OkNWK0xHJMUhkF
- m1FFkw/MXSGyAOQgHqsld4Y1mkBAo1SukeTt4gh4QiH6aNnu9Eu5UlJG9ahFtuky0tr+
- VPbJdVL5xdh15UEHiPee+o9mTyHadypaKhY7Xm5719r1wX0lKHquQ/D7pW842DDHYKlc
- YUrD+5jfZVnHqS1Bt6wMYEZLP3dWTAsuD7TrQk+sNbJncc8bkABnfDABIJ1Eds7Gba29
- Df5w==
-X-Gm-Message-State: AO0yUKX+2HByzooQkLVH+1i4oxn7C7xEMfS3GPZ9W0RKI4yhJ8yB7Q6M
- XpGdHEItGg3gbl3Wuh6TjLUFxA8hudDRhsbVNm/HCdMBMi4a/TJx3JvihnIOJdJxD/1PQADQHJJ
- mT7u99aybEV+Qo3o=
-X-Received: by 2002:a05:600c:920:b0:3dc:5390:6499 with SMTP id
- m32-20020a05600c092000b003dc53906499mr9906776wmp.1.1675944730910; 
- Thu, 09 Feb 2023 04:12:10 -0800 (PST)
-X-Google-Smtp-Source: AK7set86YfF7FyG3XfEYBy6zmJ6FP/azSId1MTwPzU4IFiEBQb0lLeTo44bZluO+r27kp0Uvarv7Qw==
-X-Received: by 2002:a05:600c:920:b0:3dc:5390:6499 with SMTP id
- m32-20020a05600c092000b003dc53906499mr9906755wmp.1.1675944730719; 
- Thu, 09 Feb 2023 04:12:10 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- f5-20020adff445000000b002c53f5b13f9sm344263wrp.0.2023.02.09.04.12.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Feb 2023 04:12:09 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Het Gala <het.gala@nutanix.com>,  qemu-devel@nongnu.org,
- prerna.saxena@nutanix.com,  dgilbert@redhat.com,  pbonzini@redhat.com,
- berrange@redhat.com,  eblake@redhat.com,  manish.mishra@nutanix.com,
- aravind.retnakaran@nutanix.com
-Subject: Re: [PATCH v2 1/6] migration: moved hmp_split_at_commma() helper
- func to qapi-util.c file
-In-Reply-To: <87y1p73v6u.fsf@pond.sub.org> (Markus Armbruster's message of
- "Thu, 09 Feb 2023 13:00:25 +0100")
-References: <20230208093600.242665-1-het.gala@nutanix.com>
- <20230208093600.242665-2-het.gala@nutanix.com>
- <87y1p73v6u.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 09 Feb 2023 13:12:09 +0100
-Message-ID: <87sfff597q.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pQ5mx-0002cW-Rq; Thu, 09 Feb 2023 07:12:33 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 319C0dju016569; Thu, 9 Feb 2023 12:12:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=DNHKKgk9PqtgWqi8kDgp7zxoSSh4f18Y0BzdDWUb9Yg=;
+ b=XDaoHYmwLN193M40/PMWvYFwsiaJ7BZmNjSiBb/2pt+ozSeYW6UPc/U6+A8lxMJb3rzn
+ SPLw3pwInTLsFudibszXWBNmw3ch+MZxPvcvGTGdmWn0ouHI+9vwpEvIkkLlexOr5N0Z
+ eNvu9nA5myBplx2rVu0MGuuJ1JUhfpMfRUdKdjUKm6jsa251ELXNOAOrTrYjxi58BDuf
+ C9fkukceAED8ucU5Wd8E/qRfQOA/uqAKKXX6QeSwNaec+YSHEafulFvPWaoAzusTM6XC
+ CfFSyiWFko60lAqpRh5K66m/fARH1HSe9fWikO+zme8H0PTUNoVYX8nBjnKqFpbzss4r KA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nn0f9gcyx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 09 Feb 2023 12:12:25 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 319C17jj020425;
+ Thu, 9 Feb 2023 12:12:24 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nn0f9gcy3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 09 Feb 2023 12:12:24 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3194sPbh018248;
+ Thu, 9 Feb 2023 12:12:22 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+ by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3nhf06mbgn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 09 Feb 2023 12:12:21 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
+ [10.20.54.101])
+ by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 319CCHYd50266414
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 9 Feb 2023 12:12:18 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DCA032004B;
+ Thu,  9 Feb 2023 12:12:17 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 74AD120040;
+ Thu,  9 Feb 2023 12:12:17 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.135.170])
+ by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Thu,  9 Feb 2023 12:12:17 +0000 (GMT)
+Message-ID: <4622b3c1e565b89132be8b5a8cda61aef9c5d0f6.camel@linux.ibm.com>
+Subject: Re: [PATCH v15 10/11] qapi/s390x/cpu topology: CPU_POLARITY_CHANGE
+ qapi event
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: "Daniel P." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>
+Cc: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, clg@kaod.org
+Date: Thu, 09 Feb 2023 13:12:17 +0100
+In-Reply-To: <Y+TFRNoOAfZ7QTvp@redhat.com>
+References: <20230201132051.126868-1-pmorel@linux.ibm.com>
+ <20230201132051.126868-11-pmorel@linux.ibm.com>
+ <5b26ee514ccbbfaf5670cbf0cb006d8e706fe5ae.camel@linux.ibm.com>
+ <Y+TFRNoOAfZ7QTvp@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: -JX1S8K_g0O9nBPlUzquX3j3ffVzMzJX
+X-Proofpoint-GUID: oNcO3-iylCci_b6u-xk_we-Ogsqhlehu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-09_08,2023-02-08_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ mlxlogscore=999 priorityscore=1501 bulkscore=0 lowpriorityscore=0
+ suspectscore=0 spamscore=0 adultscore=0 clxscore=1015 phishscore=0
+ malwarescore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302090115
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,70 +118,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Markus Armbruster <armbru@redhat.com> wrote:
-> Het Gala <het.gala@nutanix.com> writes:
->
->> renamed hmp_split_at_comma() --> str_split_at_comma()
->> Shifted helper function to qapi-util.c file.
->
-> Not an appropriate home.
+On Thu, 2023-02-09 at 10:04 +0000, Daniel P. Berrang=C3=A9 wrote:
+> On Wed, Feb 08, 2023 at 06:35:39PM +0100, Nina Schoetterl-Glausch wrote:
+> > On Wed, 2023-02-01 at 14:20 +0100, Pierre Morel wrote:
+> > > When the guest asks to change the polarity this change
+> > > is forwarded to the admin using QAPI.
+> > > The admin is supposed to take according decisions concerning
+> > > CPU provisioning.
+> > >=20
+> > > Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> > > ---
+> > >  qapi/machine-target.json | 30 ++++++++++++++++++++++++++++++
+> > >  hw/s390x/cpu-topology.c  |  2 ++
+> > >  2 files changed, 32 insertions(+)
+> > >=20
+> > > diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+> > > index 58df0f5061..5883c3b020 100644
+> > > --- a/qapi/machine-target.json
+> > > +++ b/qapi/machine-target.json
+> > > @@ -371,3 +371,33 @@
+> > >    },
+> > >    'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
+> > >  }
+> > > +
+> > > +##
+> > > +# @CPU_POLARITY_CHANGE:
+> > > +#
+> > > +# Emitted when the guest asks to change the polarity.
+> > > +#
+> > > +# @polarity: polarity specified by the guest
+> > > +#
+> > > +# The guest can tell the host (via the PTF instruction) whether the
+> > > +# CPUs should be provisioned using horizontal or vertical polarity.
+> > > +#
+> > > +# On horizontal polarity the host is expected to provision all vCPUs
+> > > +# equally.
+> > > +# On vertical polarity the host can provision each vCPU differently.
+> > > +# The guest will get information on the details of the provisioning
+> > > +# the next time it uses the STSI(15) instruction.
+> > > +#
+> > > +# Since: 8.0
+> > > +#
+> > > +# Example:
+> > > +#
+> > > +# <- { "event": "CPU_POLARITY_CHANGE",
+> > > +#      "data": { "polarity": 0 },
+> > > +#      "timestamp": { "seconds": 1401385907, "microseconds": 422329 =
+} }
+> > > +#
+> > > +##
+> > > +{ 'event': 'CPU_POLARITY_CHANGE',
+> > > +  'data': { 'polarity': 'int' },
+> > > +   'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM'] }
+> >=20
+> > I wonder if you should depend on CONFIG_KVM or not. If tcg gets topolog=
+y
+> > support it will use the same event and right now it would just never be=
+ emitted.
+> > On the other hand it's more conservative this way.
+> >=20
+> > I also wonder if you should add 'feature' : [ 'unstable' ].
+> > On the upside, it would mark the event as unstable, but I don't know wh=
+at the
+> > consequences are exactly.
+>=20
+> The intention of this flag is to allow mgmt apps to make a usage policy
+> decision.
+>=20
+> Libvirt's policy is that we'll never use features marked unstable.
 
-I don't have an opinion here.
+Does it enforce that, e.g via compat policies?
+If so, I assume there is some way to allow use of unstable features in libv=
+irt for development?
+If for example you're prototyping a new mgmt feature that uses unstable com=
+mands.
 
-> If we have to split up a string in QAPI/QMP, we screwed up.  Let me
-> explain.
->
-> In QAPI/QMP, data is not to be encoded in strings, it is to be
-> represented directly in JSON.  Thus, ["a", "b", "c"], *not* "a,b,c".
-
-In this case, we are already screwed up O:-)
-
-the uri value in migration has to be split.
-What this series does is creating a new way to express the command
-(something on the lines that you describe), but we still have to
-maintain the old way of doing it for some time, so we need this
-function.
-
-> When you find yourself parsing QAPI/QMP string values, you're dealing
-> with a case where we violated this interface design principle.  Happens,
-> but the proper home for code helping to deal with this is *not* qapi/.
-> Simply because QAPI is not about parsing strings.
-
-Ok, I drop my review-by.
-
-See why I was asking for reviews from QAPI libvirt folks for this code O:-)
-
->>                                              Give external linkage, as
->> this function will be handy in coming commit for migration.
->
-> It already has external linkage.
->
->> Minor correction:
->> g_strsplit(str ?: "", ",", -1) --> g_strsplit(str ? str : "", ",", -1)
->
-> This is not actually a correction :)
->
-> Omitting the second operand of a conditional expression like x ?: y is
-> equivalent to x ? x : y, except it evaluates x only once.
-
-You are (way) more C layer than me.
-
-Once told that, I think that what he wanted to do is making this c
-standard, no gcc standard.
-
-Once told that, I think that every C compiler worth its salt has this
-extension.
-
-> https://gcc.gnu.org/onlinedocs/gcc/Conditionals.html
->
-> Besides, please don't mix code motion with code changes.
-
-Agreed.
-
-Later, Juan.
+>=20
+> IOW, the consequence of marking it unstable is that it'll likely
+> go unused until the unstable marker gets removed.
+>=20
+> Using 'unstable' is useful if you want to get complex code merged
+> before you're quite happy with the design, and then iterate on the
+> impl in-tree. This is OK if there's no urgent need for apps to
+> consume the feature. If you want the feature to be used for real
+> though, the unstable flag is not desirable and you need to finalize
+> the design.
+>=20
+> > Also I guess one can remove qemu events without breaking backwards comp=
+atibility,
+> > since they just won't be emitted? Unless I guess you specify that a eve=
+nt must
+> > occur under certain situations and the client waits on it?
+>=20
+> As Markus says, that's not a safe assumption. If a mgmt app is expecting
+> to receive an event, ceasing to emit it would likely be considered a
+> regression.
+>=20
+>=20
+> With regards,
+> Daniel
 
 
