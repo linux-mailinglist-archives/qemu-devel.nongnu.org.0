@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A0668FBB0
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 00:55:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8EA768FBE6
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 01:19:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPuH7-0002Ut-EA; Wed, 08 Feb 2023 18:54:53 -0500
+	id 1pPudQ-000193-S5; Wed, 08 Feb 2023 19:17:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3QjbkYwgKCmUZXKDRWVKJRRJOH.FRPTHPX-GHYHOQRQJQX.RUJ@flex--wuhaotsh.bounces.google.com>)
- id 1pPuH1-0002U7-Sm
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 18:54:47 -0500
-Received: from mail-pf1-x449.google.com ([2607:f8b0:4864:20::449])
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pPudN-00018L-Bf; Wed, 08 Feb 2023 19:17:53 -0500
+Received: from mail-vs1-xe34.google.com ([2607:f8b0:4864:20::e34])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3QjbkYwgKCmUZXKDRWVKJRRJOH.FRPTHPX-GHYHOQRQJQX.RUJ@flex--wuhaotsh.bounces.google.com>)
- id 1pPuH0-0003X7-16
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 18:54:47 -0500
-Received: by mail-pf1-x449.google.com with SMTP id
- s8-20020a056a00178800b00593e2189278so110986pfg.19
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 15:54:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1675900483;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=0+NgHraPggD1/G/0Zic2rQg5R0ycbmNyiemBx69rPPw=;
- b=TGqzduTXpM4UcqOd9A9Fd8NwGd2CGYTtAhHKkgCE0F+vCNnVqUNakxa3xxk8PZRmw/
- kAyxu/dUHRYK4zOnqmsm0zUMyWzN2nmNVPKhaUyqxVG5Ky4jVrE11kztbxgXyaEf+miA
- oK6WOT6u7Dop7k8P2L1+8O0r08ilBMgjI0VP+AU+692Qf4zk1fPny1Y0U+ZulawShBgN
- QD2OTu15kC3naQ3SZGDFTifH75HmnopIXWrVpjgnrG/pzoeMSogqn4NvrQ8PtIq4BA4A
- b5X9wEDVveRmpVwL6AZi6soJ/Cz+0CyhLpT3+Clcg25B60MAaNmeDxrgrXKHWOktv42C
- ZxmA==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pPudL-0001jO-H3; Wed, 08 Feb 2023 19:17:52 -0500
+Received: by mail-vs1-xe34.google.com with SMTP id x8so455284vso.2;
+ Wed, 08 Feb 2023 16:17:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Smn1Xnblguf/oi4/pk7XQeGtrWjPbGtdslUr0J2AFcE=;
+ b=e04IltaJxoJ2vo4J5P5RurhHo52xISzoWYt/7KmmOl66h4jkJLgftLWI6FlKgVhQw6
+ BafQ4CgeFTglKeazrMJh9BLLR7LInjIuDbrlYIt4Q+qCqxiN6JNDFi6/5wZboWkgWC0G
+ DG5ghdLENoVDss7KOzOq+P1NbjFBxg6CvReJtKAOulLPNpxPXMjZ//sFwhytXePGPfl3
+ 3Mz63YnxBYe8RzaN3hA+p1mwBZd3FE4nZRHtgnRkrdpdnxG76Nf+QOv/umYCR4bV/AVA
+ bko69rF/jWVbfTh2zcGtK5885f1PXKzhEJc/EVt6pLh0a6l+s9+9nn4Vai7LiyNMrYMX
+ g4Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1675900483;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0+NgHraPggD1/G/0Zic2rQg5R0ycbmNyiemBx69rPPw=;
- b=h4dHK4spGA7/62baAiMdCG98lhk0i1/rPk0SM01EbOWVFfSeZh7wbuO5Xv+myTidZz
- Ne7a6qcn4pN5PnIz6afYvfffKBN6kmUfjrjkLPc2xofiXLblZKE9eZywA4gnki1POZ5e
- 5OJpf3uGCIHTKiGuqO7sFlqT/QS6THVwpUofHzpAPusUw2n3JTVmxcYAYmDPZhE8+tgS
- NhzzQhZCeypwjLqS5kLeL0V+lUtHFipI4McXvUp1IODGOHn2U/TfhP3BYG6NaRqxW68b
- UhGYqXuiHzAgsfaPxhu1c3dB4c2tCqg26XnlT/hiCUueBsv/n3XhLbKQY40wViaocItt
- 0agQ==
-X-Gm-Message-State: AO0yUKXrq9M6zeL/VLNIurGNOBxz+IlFvrWRXtVMzPM+2HwOtIO4rAZm
- 6c+FnPiv5qqH1tfc5GhRirXIOr/HH1bqog==
-X-Google-Smtp-Source: AK7set+1jQeuNmeT/igKY1msI+ttU78zetVqp7ySXDXQPYTTP8js00dB+l3h0/XVNP24JjmxKbuiGAp2gTceHA==
-X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4e])
- (user=wuhaotsh job=sendgmr) by 2002:a62:4e93:0:b0:5a2:d581:efe1 with SMTP id
- c141-20020a624e93000000b005a2d581efe1mr2225919pfb.28.1675900482733; Wed, 08
- Feb 2023 15:54:42 -0800 (PST)
-Date: Wed,  8 Feb 2023 15:54:33 -0800
-In-Reply-To: <20230208235433.3989937-1-wuhaotsh@google.com>
-Mime-Version: 1.0
-References: <20230208235433.3989937-1-wuhaotsh@google.com>
-X-Mailer: git-send-email 2.39.1.519.gcb327c4b5f-goog
-Message-ID: <20230208235433.3989937-4-wuhaotsh@google.com>
-Subject: [PATCH v3 3/3] hw/arm: Attach PSPI module to NPCM7XX SoC
-From: Hao Wu <wuhaotsh@google.com>
-To: peter.maydell@linaro.org
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, wuhaotsh@google.com, 
- venture@google.com, Avi.Fishman@nuvoton.com, kfting@nuvoton.com, 
- hskinnemoen@google.com, titusr@google.com, 
- Philippe Mathieu-Daude <philmd@linaro.org>
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Smn1Xnblguf/oi4/pk7XQeGtrWjPbGtdslUr0J2AFcE=;
+ b=BTQzpCQWHSh/Iwrh1QPwAkggVdvA4XgHxXCMETHjiuaelNsZFShdy7f4tcdOlab0wp
+ x9C04JRKN99xx/NdkX0g47MctOuNTZszbrVikzdgEOqyEJ+gKMQ2JJtf8tMjR81gFb+/
+ zEzTFYusZWb7UZdJISMk6ESl9z5qXGGppAxAoF/LOZ9rIrKRDaxvuoFXP49ewAuDpNg4
+ a3rHg/I6a55lTuCrQNfPedY3ECeaYmQqh/8z6xLgFSe2LTARrfx8G/zzMV72YQjs0WOo
+ YNkIgoaos0YnIrtCLhmRxuIuuNjFICHdBIaWqZeXJ+73robL4yj2JKQE/AH+ZFRwsq3B
+ SGkg==
+X-Gm-Message-State: AO0yUKXZClB7PnvFzvHBljgqJzY+Jw4vNTikK2Bhw72JBpdAv2LCkAhe
+ NUahKowywTtMB8f+CHGLlVKsHY+2RnBXEckVsf8=
+X-Google-Smtp-Source: AK7set8lgh3pWridEWtQPyxGiUs92vd22kjsaHkdHUHjzUtlMfrBjOSK6k+5vNmw68807cNqCG9XBv8dNkBlwr0/JlI=
+X-Received: by 2002:a67:a208:0:b0:3ee:4ef8:45d3 with SMTP id
+ l8-20020a67a208000000b003ee4ef845d3mr1920428vse.64.1675901869588; Wed, 08 Feb
+ 2023 16:17:49 -0800 (PST)
+MIME-Version: 1.0
+References: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
+ <20230202045223.2594627-2-sunilvl@ventanamicro.com>
+In-Reply-To: <20230202045223.2594627-2-sunilvl@ventanamicro.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 9 Feb 2023 10:17:23 +1000
+Message-ID: <CAKmqyKNZrYOtLqhTSbABpP2ktJYUj1Jgf2czoOwJoQYDCP1itg@mail.gmail.com>
+Subject: Re: [PATCH 01/10] hw/riscv/virt: Add OEM_ID and OEM_TABLE_ID fields
+To: Sunil V L <sunilvl@ventanamicro.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Andrew Jones <ajones@ventanamicro.com>, Anup Patel <apatel@ventanamicro.com>, 
+ Atish Kumar Patra <atishp@rivosinc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::449;
- envelope-from=3QjbkYwgKCmUZXKDRWVKJRRJOH.FRPTHPX-GHYHOQRQJQX.RUJ@flex--wuhaotsh.bounces.google.com;
- helo=mail-pf1-x449.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e34;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe34.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,120 +86,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Hao Wu <wuhaotsh@google.com>
-Reviewed-by: Titus Rwantare <titusr@google.com>
-Reviewed-by: Philippe Mathieu-Daude <philmd@linaro.org>
----
- docs/system/arm/nuvoton.rst |  2 +-
- hw/arm/npcm7xx.c            | 25 +++++++++++++++++++++++--
- include/hw/arm/npcm7xx.h    |  2 ++
- 3 files changed, 26 insertions(+), 3 deletions(-)
+On Thu, Feb 2, 2023 at 2:54 PM Sunil V L <sunilvl@ventanamicro.com> wrote:
+>
+> ACPI needs OEM_ID and OEM_TABLE_ID for the machine. Add these fields
+> in the RISCVVirtState structure and initialize with default values.
+>
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 
-diff --git a/docs/system/arm/nuvoton.rst b/docs/system/arm/nuvoton.rst
-index c38df32bde..0424cae4b0 100644
---- a/docs/system/arm/nuvoton.rst
-+++ b/docs/system/arm/nuvoton.rst
-@@ -49,6 +49,7 @@ Supported devices
-  * SMBus controller (SMBF)
-  * Ethernet controller (EMC)
-  * Tachometer
-+ * Peripheral SPI controller (PSPI)
- 
- Missing devices
- ---------------
-@@ -64,7 +65,6 @@ Missing devices
- 
-  * Ethernet controller (GMAC)
-  * USB device (USBD)
-- * Peripheral SPI controller (PSPI)
-  * SD/MMC host
-  * PECI interface
-  * PCI and PCIe root complex and bridges
-diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
-index d85cc02765..15ff21d047 100644
---- a/hw/arm/npcm7xx.c
-+++ b/hw/arm/npcm7xx.c
-@@ -86,6 +86,8 @@ enum NPCM7xxInterrupt {
-     NPCM7XX_EMC1RX_IRQ          = 15,
-     NPCM7XX_EMC1TX_IRQ,
-     NPCM7XX_MMC_IRQ             = 26,
-+    NPCM7XX_PSPI2_IRQ           = 28,
-+    NPCM7XX_PSPI1_IRQ           = 31,
-     NPCM7XX_TIMER0_IRQ          = 32,   /* Timer Module 0 */
-     NPCM7XX_TIMER1_IRQ,
-     NPCM7XX_TIMER2_IRQ,
-@@ -220,6 +222,12 @@ static const hwaddr npcm7xx_emc_addr[] = {
-     0xf0826000,
- };
- 
-+/* Register base address for each PSPI Module */
-+static const hwaddr npcm7xx_pspi_addr[] = {
-+    0xf0200000,
-+    0xf0201000,
-+};
-+
- static const struct {
-     hwaddr regs_addr;
-     uint32_t unconnected_pins;
-@@ -444,6 +452,10 @@ static void npcm7xx_init(Object *obj)
-         object_initialize_child(obj, "emc[*]", &s->emc[i], TYPE_NPCM7XX_EMC);
-     }
- 
-+    for (i = 0; i < ARRAY_SIZE(s->pspi); i++) {
-+        object_initialize_child(obj, "pspi[*]", &s->pspi[i], TYPE_NPCM_PSPI);
-+    }
-+
-     object_initialize_child(obj, "mmc", &s->mmc, TYPE_NPCM7XX_SDHCI);
- }
- 
-@@ -715,6 +727,17 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->mmc), 0,
-             npcm7xx_irq(s, NPCM7XX_MMC_IRQ));
- 
-+    /* PSPI */
-+    QEMU_BUILD_BUG_ON(ARRAY_SIZE(npcm7xx_pspi_addr) != ARRAY_SIZE(s->pspi));
-+    for (i = 0; i < ARRAY_SIZE(s->pspi); i++) {
-+        SysBusDevice *sbd = SYS_BUS_DEVICE(&s->pspi[i]);
-+        int irq = (i == 0) ? NPCM7XX_PSPI1_IRQ : NPCM7XX_PSPI2_IRQ;
-+
-+        sysbus_realize(sbd, &error_abort);
-+        sysbus_mmio_map(sbd, 0, npcm7xx_pspi_addr[i]);
-+        sysbus_connect_irq(sbd, 0, npcm7xx_irq(s, irq));
-+    }
-+
-     create_unimplemented_device("npcm7xx.shm",          0xc0001000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.vdmx",         0xe0800000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.pcierc",       0xe1000000,  64 * KiB);
-@@ -724,8 +747,6 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
-     create_unimplemented_device("npcm7xx.peci",         0xf0100000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.siox[1]",      0xf0101000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.siox[2]",      0xf0102000,   4 * KiB);
--    create_unimplemented_device("npcm7xx.pspi1",        0xf0200000,   4 * KiB);
--    create_unimplemented_device("npcm7xx.pspi2",        0xf0201000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.ahbpci",       0xf0400000,   1 * MiB);
-     create_unimplemented_device("npcm7xx.mcphy",        0xf05f0000,  64 * KiB);
-     create_unimplemented_device("npcm7xx.gmac1",        0xf0802000,   8 * KiB);
-diff --git a/include/hw/arm/npcm7xx.h b/include/hw/arm/npcm7xx.h
-index f1b7e4a48d..72c7722096 100644
---- a/include/hw/arm/npcm7xx.h
-+++ b/include/hw/arm/npcm7xx.h
-@@ -32,6 +32,7 @@
- #include "hw/nvram/npcm7xx_otp.h"
- #include "hw/timer/npcm7xx_timer.h"
- #include "hw/ssi/npcm7xx_fiu.h"
-+#include "hw/ssi/npcm_pspi.h"
- #include "hw/usb/hcd-ehci.h"
- #include "hw/usb/hcd-ohci.h"
- #include "target/arm/cpu.h"
-@@ -104,6 +105,7 @@ struct NPCM7xxState {
-     NPCM7xxFIUState     fiu[2];
-     NPCM7xxEMCState     emc[2];
-     NPCM7xxSDHCIState   mmc;
-+    NPCMPSPIState       pspi[2];
- };
- 
- #define TYPE_NPCM7XX    "npcm7xx"
--- 
-2.39.1.519.gcb327c4b5f-goog
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
+Alistair
+
+> ---
+>  hw/riscv/virt.c         | 4 ++++
+>  include/hw/riscv/virt.h | 2 ++
+>  2 files changed, 6 insertions(+)
+>
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index a061151a6f..7ad9fda20c 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -49,6 +49,7 @@
+>  #include "hw/pci/pci.h"
+>  #include "hw/pci-host/gpex.h"
+>  #include "hw/display/ramfb.h"
+> +#include "hw/acpi/aml-build.h"
+>
+>  /*
+>   * The virt machine physical address space used by some of the devices
+> @@ -1512,6 +1513,9 @@ static void virt_machine_init(MachineState *machine)
+>      }
+>      virt_flash_map(s, system_memory);
+>
+> +    s->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
+> +    s->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
+> +
+>      /* create device tree */
+>      create_fdt(s, memmap);
+>
+> diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
+> index b3d26135c0..6c7885bf89 100644
+> --- a/include/hw/riscv/virt.h
+> +++ b/include/hw/riscv/virt.h
+> @@ -56,6 +56,8 @@ struct RISCVVirtState {
+>      bool have_aclint;
+>      RISCVVirtAIAType aia_type;
+>      int aia_guests;
+> +    char *oem_id;
+> +    char *oem_table_id;
+>  };
+>
+>  enum {
+> --
+> 2.38.0
+>
+>
 
