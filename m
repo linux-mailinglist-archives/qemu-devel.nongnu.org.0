@@ -2,70 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB3C69009F
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 07:59:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B9516900A7
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 08:03:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ0sf-0002eY-Km; Thu, 09 Feb 2023 01:58:05 -0500
+	id 1pQ0wv-0003hH-PY; Thu, 09 Feb 2023 02:02:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQ0sb-0002eG-Vg
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:58:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQ0sZ-0004o3-OQ
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:58:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675925878;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CaadVHDzcw82bzJR4BhEOYOfkFKANwFi9vmRtlAGUdU=;
- b=AoKeS/hIC7uVuRXTNLW/IlolIRSJphWgMJ9VYdE1VE11+WTlcYKc4wh2ENtRZUySHZuerd
- tS8QO2HYvLOcgo8buEiT5rULBlZCIC2F8JAZXsn1wW4qkbsdLOxsdHkWgOrzHUyY4S+HxP
- 9kuyrJkU147/xLYpjC7jR6WSSeoO46c=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-490-pWWrhMmjMV6OaTJ8vOoSEg-1; Thu, 09 Feb 2023 01:57:51 -0500
-X-MC-Unique: pWWrhMmjMV6OaTJ8vOoSEg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3DF6F87B2A0;
- Thu,  9 Feb 2023 06:57:51 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AE8762166B29;
- Thu,  9 Feb 2023 06:57:50 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 99BD121E6A1F; Thu,  9 Feb 2023 07:57:49 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel@nongnu.org,  Michael Roth <michael.roth@amd.com>,  Markus
- Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2 5/7] qapi/parser: [RFC] add QAPIExpression
-References: <20230208021306.870657-1-jsnow@redhat.com>
- <20230208021306.870657-6-jsnow@redhat.com>
-Date: Thu, 09 Feb 2023 07:57:49 +0100
-In-Reply-To: <20230208021306.870657-6-jsnow@redhat.com> (John Snow's message
- of "Tue, 7 Feb 2023 21:13:04 -0500")
-Message-ID: <87357fqqaa.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ0wo-0003fa-4g
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:02:22 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ0wm-0005rk-Cn
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:02:21 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ n28-20020a05600c3b9c00b003ddca7a2bcbso758109wms.3
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 23:02:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=pTAaucdDP7AfstX/axwCqvdniRYz73E1iQO7ilLjLck=;
+ b=y163eE01cOG0fQuyJkfSgExwPB2ukCJ+DnJkWVrMjomU6P4nO2IRN0tVXZhp0CTaEG
+ +1qYp10jgOQd+Ne/J3dWYY6Cphal7JbSPT50folwhr0n70yfzbyaVvdlrQCS/Y3A8yz6
+ +uYYrC8Shh4eF1yfrYVX168IuNq7tzZWuV2g2vfO+CqJUSJpn6/lxvyc6NwXVhqMuco3
+ u9HpFRIksJUIpmQFj0TIz3X43WVyoxyqr8yQfQ2oJICLLGMq6X9JoqelfS1RCFSyrFDH
+ 6t8+7AU5DHXlSvfmiPfzLlnN3AOXKKOOQeX6VC+BQm/jx6mBPONFwtAeDRlwibsdYCxS
+ /nNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pTAaucdDP7AfstX/axwCqvdniRYz73E1iQO7ilLjLck=;
+ b=ERxwzpdSCxltENdVGWN1RjPlEJ93E5hWlUaNGo8NAftscCUfmdAhbi3ODhF/xkHHyJ
+ VcUWNzfqMQ1iVzwAQS9inLcUkX0UU4Pir6jeVpnW7NGy0/lQBOpmFA5mZ6ftz1euMNbK
+ I9XySJSDz5qDBrvTWxhWrrS//+feexU5iYjxGXw/k6lssX3ytP+s09xZFQHTa20ZesTZ
+ AB0kjYfLNTZ8c0T588a60G3WQarNc5B2uckkjd4ByYEGUElO91M2rU/aMQagIqYPoWRB
+ aFtQzpwHvuPypj7SIMuSodtzcMlpdpoI2baR7EJsHuljaLx18R7ezmNUBbLUHZkuNCH3
+ xJpA==
+X-Gm-Message-State: AO0yUKWhD8ouMpOY1Y4xC8/2OL+IJ11zF0AyjzGi2a4lGl0CzVwZq5sk
+ /HfL92G05WVSBVY8NkRkWaExjQ==
+X-Google-Smtp-Source: AK7set8Ve9C9snI0KUC2BKmgUVJpYqQW/eUeCk5kJp7ORlNc+foeSNJywaO6E5YiipQ8SGVRqCWWjA==
+X-Received: by 2002:a05:600c:18a6:b0:3e0:e77:3056 with SMTP id
+ x38-20020a05600c18a600b003e00e773056mr8815682wmp.30.1675926138566; 
+ Wed, 08 Feb 2023 23:02:18 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ h2-20020a05600c350200b003dc434b39c7sm8225204wmq.0.2023.02.08.23.02.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Feb 2023 23:02:17 -0800 (PST)
+Message-ID: <0f9d4ec3-5ee9-9643-a95f-e3a429f6150c@linaro.org>
+Date: Thu, 9 Feb 2023 08:02:16 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH v2 0/3] Vhost-user: replace _SLAVE_ with _BACKEND_
+Content-Language: en-US
+To: Maxime Coquelin <maxime.coquelin@redhat.com>, qemu-devel@nongnu.org,
+ mst@redhat.com, pbonzini@redhat.com, stephen@networkplumber.org,
+ chenbo.xia@intel.com, thomas@monjalon.net, dmarchan@redhat.com
+References: <20230208203259.381326-1-maxime.coquelin@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230208203259.381326-1-maxime.coquelin@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.146,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,94 +91,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-John Snow <jsnow@redhat.com> writes:
+On 8/2/23 21:32, Maxime Coquelin wrote:
 
-> The idea here is to combine 'TopLevelExpr' and 'ParsedExpression' into
-> one type that accomplishes the purposes of both types;
->
-> 1. TopLevelExpr is meant to represent a JSON Object, but only those that
-> represent what qapi-schema calls a TOP-LEVEL-EXPR, i.e. definitions,
-> pragmas, and includes.
->
-> 2. ParsedExpression is meant to represent a container around the above
-> type, alongside QAPI-specific metadata -- the QAPISourceInfo and QAPIDoc
-> objects.
->
-> We can actually just roll these up into one type: A python mapping that
-> has the metadata embedded directly inside of it.
->
-> NB: This necessitates a change of typing for check_if() and
-> check_keys(), because mypy does not believe UserDict[str, object] =E2=8A=
-=86
-> Dict[str, object]. It will, however, accept Mapping or
-> MutableMapping. In this case, the immutable form is preferred as an
-> input parameter because we don't actually mutate the input.
->
-> Without this change, we will observe:
-> qapi/expr.py:631: error: Argument 1 to "check_keys" has incompatible
-> type "QAPIExpression"; expected "Dict[str, object]"
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
+> Maxime Coquelin (3):
+>    docs: vhost-user: replace _SLAVE_ with _BACKEND_
+>    libvhost-user: Adopt new backend naming
+>    vhost-user: Adopt new backend naming
+> 
+>   docs/interop/vhost-user.rst               | 40 +++++++++++------------
+>   hw/virtio/vhost-user.c                    | 30 ++++++++---------
+>   hw/virtio/virtio-qmp.c                    | 12 +++----
+>   subprojects/libvhost-user/libvhost-user.c | 20 ++++++------
+>   subprojects/libvhost-user/libvhost-user.h | 20 ++++++------
+>   5 files changed, 61 insertions(+), 61 deletions(-)
 
-[...]
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-> index f897dffbfd4..88f6fdfa67b 100644
-> --- a/scripts/qapi/parser.py
-> +++ b/scripts/qapi/parser.py
-
-[...]
-
-> @@ -38,21 +38,32 @@
->      from .schema import QAPISchemaFeature, QAPISchemaMember
->=20=20
->=20=20
-> -#: Represents a single Top Level QAPI schema expression.
-> -TopLevelExpr =3D Dict[str, object]
-> -
->  # Return value alias for get_expr().
->  _ExprValue =3D Union[List[object], Dict[str, object], str, bool]
->=20=20
-> -# FIXME: Consolidate and centralize definitions for TopLevelExpr,
-> -# _ExprValue, _JSONValue, and _JSONObject; currently scattered across
-> -# several modules.
->=20=20
-> +# FIXME: Consolidate and centralize definitions for _ExprValue,
-> +# JSONValue, and _JSONObject; currently scattered across several
-> +# modules.
->=20=20
-> -class ParsedExpression(NamedTuple):
-> -    expr: TopLevelExpr
-> -    info: QAPISourceInfo
-> -    doc: Optional['QAPIDoc']
-> +
-> +# 3.6 workaround: can be removed when Python 3.7+ is our required versio=
-n.
-> +if TYPE_CHECKING:
-> +    _UserDict =3D UserDict[str, object]
-> +else:
-> +    _UserDict =3D UserDict
-> +
-> +
-> +class QAPIExpression(_UserDict):
-> +    def __init__(
-> +        self,
-> +        initialdata: Mapping[str, object],
-> +        info: QAPISourceInfo,
-> +        doc: Optional['QAPIDoc'] =3D None,
-> +    ):
-
-Style nitpick:
-
-           doc: Optional['QAPIDoc'] =3D None):
-
-> +        super().__init__(initialdata)
-> +        self.info =3D info
-> +        self.doc: Optional['QAPIDoc'] =3D doc
->=20=20
->=20=20
->  class QAPIParseError(QAPISourceError):
-
-[...]
 
 
