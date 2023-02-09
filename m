@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA4C86900B5
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 08:09:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CC7C690117
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 08:19:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ13n-0006l7-6r; Thu, 09 Feb 2023 02:09:35 -0500
+	id 1pQ1Bi-0002uO-Fy; Thu, 09 Feb 2023 02:17:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ13k-0006kV-BQ
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:09:32 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ1BQ-0002rb-Mf
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:17:31 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ13i-0006rB-EI
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:09:31 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- hn2-20020a05600ca38200b003dc5cb96d46so3164471wmb.4
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 23:09:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ1BO-0008Fl-Ra
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:17:28 -0500
+Received: by mail-wr1-x436.google.com with SMTP id bk16so769848wrb.11
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 23:17:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=HhxI/DG5vxRva6yGLFc4SZcMOYY1hk+f3b5QDolobE0=;
- b=RTDctZZYgMyb1ERGPBSb6erS8IvPESifn1bG1egqXg41nG9J+BkXb5aA4TwtGNF5Qs
- VdMZqNIDtI7iBfsJQh4DPQUoNOoBuXetZAbNPi2PmmFb3TrdkUQ/bV38u9eqjxnteDTj
- jAhEeHpi3PWZ/zv8ZPcDR4yA1HJ5JMZvfQsBbjUvK2wOpo7WEMn7mMLI84dIrtn6FDIW
- yhUg5sd4S8Z16hlwMk+s/SC8jRJzYTeTMtHLg6ezeH4ejrRuTsjEd7vR1us5NQ89fZ60
- LPv/NCD+CJFha3Pab077OCMNetGYc00U6w6ELeQWk+D2nMQz8sjliyL2c1QR1nNK/RKP
- 388g==
+ bh=tbbPjDnPudgU1eF55ucotaUlTyYhWOp9K1zYbcU8oc0=;
+ b=bzQ+6tCvcqkCZ9gO0jBBCZ+kk6uMXObFuidSSx/94OiNYYBy271TbOfWY/Ayyy01hn
+ US5Si3OiPIG49IGrBN+WZjcEfWBrBEdWimSWF0xQEoyZtTYn0D7ScUkSrJRqjqAo9vdJ
+ 5rlODSQoD8QHGCp11fWCWcKd7wNvJhZiMlcpDmBX1J1owg3vJ6SdwHRVs4CW5FU6euBB
+ Omm3YthlffCQzV0rE9g8GwuEe0GjZGypWYp/ntebpaFOokEzttApuUhmB1AGvLR4wcIj
+ YuZ6vVeMvrG1CPZUTH1MwPRkFF6gHpYt/FoiIfayXICjlisA/XemGTaa3Z4u7ustqBY/
+ XfxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HhxI/DG5vxRva6yGLFc4SZcMOYY1hk+f3b5QDolobE0=;
- b=PEIXIDbI4rnwQ7msNnuoYtaqtE53uUIsXKyToLY1sPn9bxfSrLym9kJz8MH407P4CC
- 7LCCPoo4jU2TO0f8cWwf+lX7v4ocmR0OrCZfiYYDsxt176hwamgP2veG57KwUIlqILBA
- iv9bcBYH6RIbJ69q4a+Ts1ACQnas+nPJUzcFiRgNuh+7NeXZX/yabdbCIisdoDB2WtYG
- k+c/bCNsSOLU5ceQPtf2cVaXDHG187ziPVTJkRrNcm09qgzpzsdygxINZ5C+CXK6tHGK
- blc1Hh+QBph/t8ldWxvOTVySqsLsd8JNKa3en/1mtcbhoTjySW3Hs0Hyxz6LEyKjDo8+
- LfeQ==
-X-Gm-Message-State: AO0yUKUZN4bJ2w9JxpoZjaZza/Ty4V0JhIumPVHnIMWRE58VbUGo6Oa1
- S1m4ddIKBrijVih2ad4nyjno3Q==
-X-Google-Smtp-Source: AK7set+QfPv9BNaOa9pI0JBosZB72rKSPrRp0dCzU6FP5U6EewVurNoZmwtVyqFOwbwGPe0LOUfzeQ==
-X-Received: by 2002:a05:600c:1d17:b0:3df:efdc:6505 with SMTP id
- l23-20020a05600c1d1700b003dfefdc6505mr4977081wms.0.1675926567534; 
- Wed, 08 Feb 2023 23:09:27 -0800 (PST)
+ bh=tbbPjDnPudgU1eF55ucotaUlTyYhWOp9K1zYbcU8oc0=;
+ b=FYNclgteGCoN4FhEbbf/thsc+J4o4hlFmGvOPLLPr6GC/H5Ct6bBEwCPFOlvhUeQlC
+ Psr+p+aSX8Q6yjKmacm2Udxh58YwtNuahvwhwxM0PDQCyr7Q3ywjhZ9c/7nkRb30z1rc
+ uMjLqC+RyRfdqgmD2D401/eIJpSJfUKXIS3JmH0U96v3ET7ro4+TJh+pPqWBULfKbejj
+ 3DARblQck6UTJpw/NTmOue0an7kaXVrhr+dVTlOaw+SFF7H8hR6wy9WYHtv1YGzjeYWR
+ Jg7F4fKLLeqCbkwDnnCqMxYG6CPja5VT2E+lynH2cbvmu5grV9J012GLEJgKvXrOGuRN
+ 9ygw==
+X-Gm-Message-State: AO0yUKXM+WCqoUdvM/vjYw+QA/vurbkB8/rKv32wF0N9zvJxsvq46zPF
+ bhvAP1qfpMHRjgIXhq3uSMf+Tg==
+X-Google-Smtp-Source: AK7set+u2i1imx+EH/8CiM6SOcrpB0QEW741EUBrrWy7COQNFPXEo5G/HGNwbOYo8Uverzbi92paqg==
+X-Received: by 2002:adf:f287:0:b0:2c5:3d1c:efda with SMTP id
+ k7-20020adff287000000b002c53d1cefdamr258774wro.31.1675927045297; 
+ Wed, 08 Feb 2023 23:17:25 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- c12-20020a05600c0a4c00b003dc34edacf8sm4486706wmq.31.2023.02.08.23.09.26
+ c63-20020a1c3542000000b003df14531724sm4186729wma.21.2023.02.08.23.17.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Feb 2023 23:09:26 -0800 (PST)
-Message-ID: <d6c35d9e-9a6c-4715-6532-4241e3d86a65@linaro.org>
-Date: Thu, 9 Feb 2023 08:09:24 +0100
+ Wed, 08 Feb 2023 23:17:24 -0800 (PST)
+Message-ID: <08bdc197-7f4e-7fa4-05d5-d05934662dbe@linaro.org>
+Date: Thu, 9 Feb 2023 08:17:23 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PULL 00/11] Misc patches for 2022-02-08
+Subject: Re: [PATCH 1/3] hw/gpio: add PCA6414 i2c GPIO expander
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org
-References: <20230208171922.95048-1-pbonzini@redhat.com>
- <95cab180-a34b-858d-e360-5083a7d7ecf8@redhat.com>
+To: Titus Rwantare <titusr@google.com>, Thomas Huth <thuth@redhat.com>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Hao Wu <wuhaotsh@google.com>
+References: <20230206194936.168843-1-titusr@google.com>
+ <20230206194936.168843-2-titusr@google.com>
+ <3863220f-08b2-6cf2-20e7-eb67691d525b@linaro.org>
+ <CAMvPwGqsB3vMRhdMLiBJs51Xhy7izQ_wVUWu6UfL=8Q2UGHmLA@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <95cab180-a34b-858d-e360-5083a7d7ecf8@redhat.com>
+In-Reply-To: <CAMvPwGqsB3vMRhdMLiBJs51Xhy7izQ_wVUWu6UfL=8Q2UGHmLA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -91,38 +93,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 9/2/23 06:19, Thomas Huth wrote:
-> On 08/02/2023 18.19, Paolo Bonzini wrote:
->> The following changes since commit 
->> ae2b5d8381a73b27f35f19c988d45c78bb4d5768:
+On 8/2/23 23:40, Titus Rwantare wrote:
+> On Mon, 6 Feb 2023 at 13:38, Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
 >>
->>    Merge tag 'pull-include-2023-02-06-v2' of 
->> https://repo.or.cz/qemu/armbru into staging (2023-02-08 10:40:06 +0000)
+>> Hi Titus,
 >>
->> are available in the Git repository at:
->>
->>    https://gitlab.com/bonzini/qemu.git tags/for-upstream
->>
->> for you to fetch changes up to e0de04cf9bd7cf03db16f33276679caf1724b75c:
->>
->>    target/i386: fix ADOX followed by ADCX (2023-02-08 18:16:55 +0100)
->>
->> ----------------------------------------------------------------
->> * block/iscsi: fix double-free on BUSY or similar statuses
->> * catch [accel] entry without accelerator
->> * target/i386: various fixes for BMI and ADX instructions
->> * make the contents of meson-buildoptions.sh stable
->>
->> ----------------------------------------------------------------
->> Paolo Bonzini (8):
->>        build: make meson-buildoptions.sh stable
->>        remove unnecessary extern "C" blocks
->>        block/iscsi: fix double-free on BUSY or similar statuses
->>        vl: catch [accel] entry without accelerator
-> 
-> You missed Philippe's review comment for that patch:
-> 
-> https://lore.kernel.org/qemu-devel/8ec3abf5-f4aa-db40-cb7e-2f5733d93de3@linaro.org/
+>> On 6/2/23 20:49, Titus Rwantare wrote:
+>>> This is a simple i2c device that allows i2c capable devices to have
+>>> GPIOs.
+>>>
+>>> Reviewed-by: Hao Wu <wuhaotsh@google.com>
+>>> Signed-off-by: Titus Rwantare <titusr@google.com>
+>>> ---
+>>>    hw/arm/Kconfig                  |   1 +
+>>>    hw/gpio/meson.build             |   1 +
+>>>    hw/gpio/pca_i2c_gpio.c          | 362 ++++++++++++++++++++++++++++++++
+>>>    hw/gpio/trace-events            |   5 +
+>>>    hw/i2c/Kconfig                  |   4 +
+>>>    include/hw/gpio/pca_i2c_gpio.h  |  72 +++++++
+>>>    tests/qtest/meson.build         |   1 +
+>>>    tests/qtest/pca_i2c_gpio-test.c | 169 +++++++++++++++
+>>>    8 files changed, 615 insertions(+)
+>>>    create mode 100644 hw/gpio/pca_i2c_gpio.c
+>>>    create mode 100644 include/hw/gpio/pca_i2c_gpio.h
+>>>    create mode 100644 tests/qtest/pca_i2c_gpio-test.c
 
-I interpreted "no response" as "the result is the same".
+>>> +#define PCA6416_INPUT_PORT_0                 0x00 /* read */
+>>> +#define PCA6416_INPUT_PORT_1                 0x01 /* read */
+>>> +#define PCA6416_OUTPUT_PORT_0                0x02 /* read/write */
+>>> +#define PCA6416_OUTPUT_PORT_1                0x03 /* read/write */
+>>> +#define PCA6416_POLARITY_INVERSION_PORT_0    0x04 /* read/write */
+>>> +#define PCA6416_POLARITY_INVERSION_PORT_1    0x05 /* read/write */
+>>> +#define PCA6416_CONFIGURATION_PORT_0         0x06 /* read/write */
+>>> +#define PCA6416_CONFIGURATION_PORT_1         0x07 /* read/write */
+>>> +
+>>> +#define PCA6416_OUTPUT_DEFAULT               0xFFFF
+>>> +#define PCA6416_CONFIG_DEFAULT               0xFFFF
+>>> +
+>>> +#define PCA_I2C_OUTPUT_DEFAULT               0xFFFF
+>>> +#define PCA_I2C_CONFIG_DEFAULT               0xFFFF
+>>
+>> (These register definitions could be kept internal in pca_i2c_gpio.c).
+> 
+> I put these here to use them in the qtests.
+
+Oh right, I missed that.
+
+>>> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+>>> index e97616d327..49f406af6b 100644
+>>> --- a/tests/qtest/meson.build
+>>> +++ b/tests/qtest/meson.build
+>>> @@ -241,6 +241,7 @@ qos_test_ss.add(
+>>>      'ne2000-test.c',
+>>>      'tulip-test.c',
+>>>      'nvme-test.c',
+>>> +  'pca_i2c_gpio-test.c',
+>>
+>> Should this be conditional to
+>> config_all_devices.has_key('CONFIG_PCA_I2C_GPIO')?
+> 
+> Is that the guidance for qos tests? All these tests would also need to
+> be separated out.
+This is not clear to me, adding Thomas.
 
