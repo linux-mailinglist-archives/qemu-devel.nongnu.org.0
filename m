@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CB0F68FDF8
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 04:30:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00CBE68FE41
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 05:12:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPxcj-0008RI-N4; Wed, 08 Feb 2023 22:29:25 -0500
+	id 1pPyHH-0000A2-6j; Wed, 08 Feb 2023 23:11:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1pPxce-0008R5-93
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 22:29:20 -0500
-Received: from mga05.intel.com ([192.55.52.43])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1pPxcb-0003XL-G7
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 22:29:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675913357; x=1707449357;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=r3U+XVuTGpYVdxGpOGMQm1RfqgZSnYKaBdcmOTKMt/s=;
- b=UZs+nrdp57aeGLr34mFx5R4LNxAYqgvtirHYu85u/ndPOtInfL3UIygv
- tgdmZR2k9LoOzwddI5r29SznAdjiDMl8POHHhmaK1xBemhh2xDrX+qYAr
- cktcfl856mD1kIo0HABA27nTzPTfJkd534+DkEz04pUD6maPhNy+2ieer
- e3u1su7OvtA385Bcjgjmqg60pvKnI+UIQG9kmtbNddXtn2n4avsXTXr/f
- k2PtF+iCX+k1YdY27dob5it+dLaSrTbYIZdHw2OB8Z9HuBeboq2jA+Dou
- TP2H/4nTp+ZEc49VueWjp5FD36l+zO8PRxyth+P5eptWMvUkrspz2dprM A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="416222909"
-X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; d="scan'208";a="416222909"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2023 19:29:10 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="756265924"
-X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; d="scan'208";a="756265924"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.254.212.139])
- ([10.254.212.139])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2023 19:29:08 -0800
-Message-ID: <9cffc221-979b-ac71-d2ff-76a6f4698641@intel.com>
-Date: Thu, 9 Feb 2023 11:29:06 +0800
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pPyHF-00009p-MA; Wed, 08 Feb 2023 23:11:17 -0500
+Received: from mail-vk1-xa29.google.com ([2607:f8b0:4864:20::a29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pPyHD-00027A-WC; Wed, 08 Feb 2023 23:11:17 -0500
+Received: by mail-vk1-xa29.google.com with SMTP id v81so340730vkv.5;
+ Wed, 08 Feb 2023 20:11:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=7IE5u3CF7FHo+qmTBvA4yART64kFGIAhneCLwymihsc=;
+ b=ea4yl6EWvNaqeP46PC5nibKvWp8uUX1s3cg0LpV3kvfvf+t+dB8IwTYW36mKB7VMo+
+ xf5dXmodMinVXdU0rOl92rDC56W6k9UC8cPkpNUvsNpo6DBWX+o2PV9uaI1qZW5VPID5
+ 4YAEOkHNQWohLknQoqfWfBktwZSk+BZGX0QoKM19dTK50y5P8t+TjsBtWL29WicDeHxt
+ VYyTbsfNpFLp/pE4YZFAboW5LO3jmzIAqQVs+JFGLsOFb3vVoGqQWAbEbHAURpQQpyzO
+ GiQJ7q6+aeC4aAy8PL6Xy3EqD12XfiBDvKDt1B/mGg0ydSxLEkYR3GXXPxmjHRcXMFX6
+ qbCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7IE5u3CF7FHo+qmTBvA4yART64kFGIAhneCLwymihsc=;
+ b=y0+Dj12TTs2ceHzJPLOdPKjYUFL2R9uS3qMh2MnDjMSeZUFvt+GjBKIqU33a+9rxuM
+ kFTMzH57IwB3XNyDmZyE6HwW4pYevCGg4nSYmyWvW0xD2TY6SUAww/NfA5IeFXu0U+Yv
+ HeNXuzL8iiKP16rVhALrv96LL02xZ2wCEUbfXJWdzDeaLZ5BtKgQqBHuZGdW7EC7gXPh
+ Zk2/fC9e4lLvhrW87hKOWjycpDBX58/j9LcPVa1rhyawR88BSZiwJOjeZj7bz8S5THC/
+ ZSv+Npjn2w5Q0YTgi1ViIQoQ4WMSPuzHOn7vFjjw4PSuawWE+psWzrMxgEykYw1jsZ4N
+ T9Kw==
+X-Gm-Message-State: AO0yUKUUYz9dlWJTxh+FvVMw+aGDEgFK3l9znINUiVyohWKraDc40dlr
+ P0tP/Tyv37eBG/P8gOZQtW2WNEZJv5wLEYDz+IY=
+X-Google-Smtp-Source: AK7set+jiTylY88M6QZxqLxLLwNeFnPH1BBQgpEy/mTBK87trmPfcLg+eq3dG/k927zICFpYd1TWXvohh0P9/u/0dlk=
+X-Received: by 2002:a1f:2ac9:0:b0:3e5:7064:1bf9 with SMTP id
+ q192-20020a1f2ac9000000b003e570641bf9mr2361453vkq.30.1675915874485; Wed, 08
+ Feb 2023 20:11:14 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.6.1
-Subject: Re: [PATCH v3 4/6] i386: Mask and report unavailable multi-bit
- feature values
-Content-Language: en-US
-To: "Wang, Lei" <lei4.wang@intel.com>, Yuan Yao <yuan.yao@linux.intel.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, imammedo@redhat.com,
- dgilbert@redhat.com, berrange@redhat.com, yang.zhong@linux.intel.com
-References: <20230106083826.5384-1-lei4.wang@intel.com>
- <20230106083826.5384-5-lei4.wang@intel.com>
- <20230206074320.bkeuh3eep7kauhg7@yy-desk-7060>
- <d99625d9-af63-72d6-2cb9-8f2a1819b825@intel.com>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <d99625d9-af63-72d6-2cb9-8f2a1819b825@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=xiaoyao.li@intel.com;
- helo=mga05.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, NICE_REPLY_A=-1.146,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <20230208063209.27279-1-frank.chang@sifive.com>
+In-Reply-To: <20230208063209.27279-1-frank.chang@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 9 Feb 2023 14:10:48 +1000
+Message-ID: <CAKmqyKMTQA6eK+HoSt0hFAf-smxdK1gqAms1dFrgyK5i=yHMJw@mail.gmail.com>
+Subject: Re: [PATCH v2] target/riscv: Remove privileged spec version
+ restriction for RVV
+To: frank.chang@sifive.com
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, Bin Meng <bmeng@tinylab.org>,
+ LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a29;
+ envelope-from=alistair23@gmail.com; helo=mail-vk1-xa29.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,137 +84,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/9/2023 9:04 AM, Wang, Lei wrote:
-> On 2/6/2023 3:43 PM, Yuan Yao wrote:
->> On Fri, Jan 06, 2023 at 12:38:24AM -0800, Lei Wang wrote:
->>> Some feature words, e.g., feature words in AMX-related CPUID leaf 0x1D and
->>> 0x1E are not bit-wise but multiple bits represents one value. Handle this
->>> situation when the values specified are not the same as which are reported
->>> by KVM. The handling includes:
->>>
->>>   - The responsibility of masking bits and giving warnings are delegated to
->>>     the feature enabler. A framework is also provided to enable this.
->>>   - To simplify the initialization, a default function is provided if the
->>>     the function is not specified.
+On Wed, Feb 8, 2023 at 4:32 PM <frank.chang@sifive.com> wrote:
+>
+> From: Frank Chang <frank.chang@sifive.com>
+>
+> The RVV specification does not require that the core needs to support
+> the privileged specification v1.12.0 to support RVV, and there is no
+> dependency from ISA level.
+>
+> This commit removes the restriction from both RVV CSRs and extension CPU
+> ISA string.
+>
+> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+> Reviewed-by: Bin Meng <bmeng@tinylab.org>
+> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 
-What's the behavior of default ? you need to call out it clearly.
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
->>> The reason why delegating this responsibility rather than just marking
->>> them as zeros when they are not same is because different multi-bit
->>> features may have different logic, which is case by case, for example:
->>>
->>>   1. CPUID.0x14_0x1:EBX[15:0]. Even though it's multi-bits field, it's a
->>>      bitmap and each bit represents a separate capability.
->>>
->>>   2. CPUID.0x14_0x1:EAX[2:0] represents the number of configurable Address
->>>      Ranges. 3 bits as a whole to represent a integer value. It means the
->>>      maximum capability of HW. If KVM reports M, then M to 0 is legal
->>>      value to configure (because KVM can emulate each value correctly).
->>>
->>>   3. CPUID.0x1D_0x1:EAX[31:16] represents palette 1 bytes_per_tile. 16 bits
->>>      as a whole represent an integer value. It's not like case 2 and SW
->>>      needs to configure the same value as reported. Because it's not
->>>      possible for SW to configure to a different value and KVM cannot
->>>      emulate it.
->>>
->>> So marking them blindly as zeros is incorrect, and delegating this
->>> responsibility can let each multi-bit feature have its own way to mask bits.
+Alistair
 
-you can first describe there are such 3 cases of multi-bit features and 
-they need different handling for checking whether configured value is 
-supported by KVM or not. So introduce a handling callback function that 
-each multi-bit feature can implement their own. Meanwhile, provide a 
-default handling callback that handles case x: when configured value is 
-not the same as the one reported by KVM, clearing it to zero to mark it 
-as unavailable.
-
->>> Signed-off-by: Lei Wang <lei4.wang@intel.com>
->>> ---
->>>   target/i386/cpu-internal.h |  2 ++
->>>   target/i386/cpu.c          | 36 ++++++++++++++++++++++++++++++++++++
->>>   2 files changed, 38 insertions(+)
->>>
->>> diff --git a/target/i386/cpu-internal.h b/target/i386/cpu-internal.h
->>> index 66b3d66cb4..83c7b53926 100644
->>> --- a/target/i386/cpu-internal.h
->>> +++ b/target/i386/cpu-internal.h
->>> @@ -30,6 +30,8 @@ typedef struct MultiBitFeatureInfo {
->>>       uint64_t mask;
->>>       unsigned high_bit_position;
->>>       unsigned low_bit_position;
->>> +    void (*mark_unavailable_multi_bit)(X86CPU *cpu, FeatureWord w, int index,
->>> +                                       const char *verbose_prefix);
->>>   } MultiBitFeatureInfo;
->>>
->>>   typedef struct FeatureWordInfo {
->>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->>> index 88aa780566..e638a31d34 100644
->>> --- a/target/i386/cpu.c
->>> +++ b/target/i386/cpu.c
->>> @@ -4377,6 +4377,28 @@ static bool x86_cpu_have_filtered_features(X86CPU *cpu)
->>>       return false;
->>>   }
->>>
->>> +static void mark_unavailable_multi_bit_default(X86CPU *cpu, FeatureWord w,
->>> +                                               int index,
->>> +                                               const char *verbose_prefix)
->>> +{
->>> +    FeatureWordInfo *f = &feature_word_info[w];
->>> +    g_autofree char *feat_word_str = feature_word_description(f);
->>> +    uint64_t host_feat = x86_cpu_get_supported_feature_word(w, false);
->>> +    MultiBitFeatureInfo mf = f->multi_bit_features[index];
->>> +
->>> +    if ((cpu->env.features[w] & mf.mask) &&
->>
->> With this checking bits are all 0 but covered by mf.mask's range are skippped,
->> even if they're different from the host_feat, please check whether it's desried
->> behavior.
-> 
-> This is the intended design because there are quite a number of multi-bit CPUIDs
-> should support passing all 0 to them.
-
-you didn't answer the question. The question is why the handling can be 
-skipped when the value of multi-bit feature is 0.
-
->>> +        ((cpu->env.features[w] ^ host_feat) & mf.mask)) {
->>> +        if (!cpu->force_features) {
->>> +            cpu->env.features[w] &= ~mf.mask;
->>> +        }
->>> +        cpu->filtered_features[w] |= mf.mask;
->>> +        if (verbose_prefix)
->>> +            warn_report("%s: %s.%s [%u:%u]", verbose_prefix, feat_word_str,
->>> +                        mf.feat_name, mf.high_bit_position,
->>> +                        mf.low_bit_position);
->>> +    }
->>> +}
->>> +
->>>   static void mark_unavailable_features(X86CPU *cpu, FeatureWord w, uint64_t mask,
->>>                                         const char *verbose_prefix)
->>>   {
->>> @@ -6442,6 +6464,20 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
->>>               x86_cpu_get_supported_feature_word(w, false);
->>>           uint64_t requested_features = env->features[w];
->>>           uint64_t unavailable_features = requested_features & ~host_feat;
->>> +        FeatureWordInfo f = feature_word_info[w];
->>> +        int i;
->>> +
->>> +        for (i = 0; i < f.num_multi_bit_features; i++) {
->>> +            MultiBitFeatureInfo mf = f.multi_bit_features[i];
->>> +            if (mf.mark_unavailable_multi_bit) {
->>> +                mf.mark_unavailable_multi_bit(cpu, w, i, prefix);
->>> +            } else {
->>> +                mark_unavailable_multi_bit_default(cpu, w, i, prefix);
->>> +            }
->>> +
->>> +            unavailable_features &= ~mf.mask;
->>> +        }
->>> +
->>>           mark_unavailable_features(cpu, w, unavailable_features, prefix);
->>>       }
->>>
->>> --
->>> 2.34.1
->>>
->>>
-
+> ---
+>  target/riscv/cpu.c |  2 +-
+>  target/riscv/csr.c | 21 +++++++--------------
+>  2 files changed, 8 insertions(+), 15 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 0dd2f0c753..93b52b826c 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -73,7 +73,7 @@ struct isa_ext_data {
+>   */
+>  static const struct isa_ext_data isa_edata_arr[] = {
+>      ISA_EXT_DATA_ENTRY(h, false, PRIV_VERSION_1_12_0, ext_h),
+> -    ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_12_0, ext_v),
+> +    ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_10_0, ext_v),
+>      ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
+>      ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei),
+>      ISA_EXT_DATA_ENTRY(zihintpause, true, PRIV_VERSION_1_10_0, ext_zihintpause),
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index fa17d7770c..1b0a0c1693 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -3980,20 +3980,13 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>      [CSR_FRM]      = { "frm",      fs,     read_frm,     write_frm    },
+>      [CSR_FCSR]     = { "fcsr",     fs,     read_fcsr,    write_fcsr   },
+>      /* Vector CSRs */
+> -    [CSR_VSTART]   = { "vstart",   vs,     read_vstart,  write_vstart,
+> -                       .min_priv_ver = PRIV_VERSION_1_12_0            },
+> -    [CSR_VXSAT]    = { "vxsat",    vs,     read_vxsat,   write_vxsat,
+> -                       .min_priv_ver = PRIV_VERSION_1_12_0            },
+> -    [CSR_VXRM]     = { "vxrm",     vs,     read_vxrm,    write_vxrm,
+> -                       .min_priv_ver = PRIV_VERSION_1_12_0            },
+> -    [CSR_VCSR]     = { "vcsr",     vs,     read_vcsr,    write_vcsr,
+> -                       .min_priv_ver = PRIV_VERSION_1_12_0            },
+> -    [CSR_VL]       = { "vl",       vs,     read_vl,
+> -                       .min_priv_ver = PRIV_VERSION_1_12_0            },
+> -    [CSR_VTYPE]    = { "vtype",    vs,     read_vtype,
+> -                       .min_priv_ver = PRIV_VERSION_1_12_0            },
+> -    [CSR_VLENB]    = { "vlenb",    vs,     read_vlenb,
+> -                       .min_priv_ver = PRIV_VERSION_1_12_0            },
+> +    [CSR_VSTART]   = { "vstart",   vs,     read_vstart,  write_vstart },
+> +    [CSR_VXSAT]    = { "vxsat",    vs,     read_vxsat,   write_vxsat  },
+> +    [CSR_VXRM]     = { "vxrm",     vs,     read_vxrm,    write_vxrm   },
+> +    [CSR_VCSR]     = { "vcsr",     vs,     read_vcsr,    write_vcsr   },
+> +    [CSR_VL]       = { "vl",       vs,     read_vl                    },
+> +    [CSR_VTYPE]    = { "vtype",    vs,     read_vtype                 },
+> +    [CSR_VLENB]    = { "vlenb",    vs,     read_vlenb                 },
+>      /* User Timers and Counters */
+>      [CSR_CYCLE]    = { "cycle",    ctr,    read_hpmcounter  },
+>      [CSR_INSTRET]  = { "instret",  ctr,    read_hpmcounter  },
+> --
+> 2.36.1
+>
+>
 
