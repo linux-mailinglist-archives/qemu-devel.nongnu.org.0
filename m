@@ -2,95 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F3D969147C
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 00:34:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54757691483
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 00:35:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQGQO-0007Dd-RX; Thu, 09 Feb 2023 18:33:56 -0500
+	id 1pQGR2-0007su-2S; Thu, 09 Feb 2023 18:34:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pQGQN-00079l-1P
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 18:33:55 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pQGQz-0007rz-L9
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 18:34:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pQGQK-0006Ug-MP
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 18:33:54 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 319NXZpQ032309; Thu, 9 Feb 2023 23:33:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=qrGoWsc1iohu99knMVKEeH26blpxToUhvoUHQSTGgis=;
- b=Y/3cQxcro4I0d9WrkJ8E7ifEPsdKGNDqXKU1nMXKkpDBE2t9z1b1s4aC+f31i8wnJoWe
- v4aXmjMhnTmk4GPMsGpWhUIeRa/B67DdtyFoaUMTcY6a0RHV6Lun4zk6mlSsgyYItVuH
- zsrE8+kW0ah5vKu+Lp3bTmsgxwR9g59IIR97dqVfiVKwHw5MZukVCcw2qI3L9hgJTFmh
- vrgj6EVpxXmt7Hl25fSe2Fk7sD9ZKGL27QjSeD6cw+zRPFjfNZjKwy+7Ls/b9N7C3hCI
- rZDYvroExmcorXT90Gjx7L/2luBZAP1j7rjgzJ4MrNDHTeugBLm5t09qPPVXdG78POgz bg== 
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nnam28052-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Feb 2023 23:33:49 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 319E3NC5026561;
- Thu, 9 Feb 2023 23:33:47 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
- by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3nhf06vu52-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Feb 2023 23:33:47 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
- [10.20.54.103])
- by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 319NXiAD42860880
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 9 Feb 2023 23:33:44 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B7EBF20043;
- Thu,  9 Feb 2023 23:33:44 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7227A20040;
- Thu,  9 Feb 2023 23:33:44 +0000 (GMT)
-Received: from [9.171.74.186] (unknown [9.171.74.186])
- by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu,  9 Feb 2023 23:33:44 +0000 (GMT)
-Message-ID: <694693aeffdf74cd30aa46aa925a67616c2ee169.camel@linux.ibm.com>
-Subject: Re: Linker failures trying to build static qemu-user binary
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Peter Maydell <peter.maydell@linaro.org>, John Paul Adrian Glaubitz
- <glaubitz@physik.fu-berlin.de>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
-Date: Fri, 10 Feb 2023 00:33:44 +0100
-In-Reply-To: <CAFEAcA-Le_YbaYn6i15EesDMan+OF0S7uteanSXrWYK37HbdvQ@mail.gmail.com>
-References: <f71df8f625e4110b84b6c4fefd9e95619b3ab92e.camel@physik.fu-berlin.de>
- <CAFEAcA-Le_YbaYn6i15EesDMan+OF0S7uteanSXrWYK37HbdvQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pQGQx-0006ba-9r
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 18:34:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675985670;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=TYT45XB4DWXycv/oNPbZHzoL4jOw/uhzINL37WWviCI=;
+ b=FicduKT4MJ+Vwfo22N37oevqYSIo+LN+iIl1JEEtldgTHxZTJBxShyrZ36FwXC1yyAiYV5
+ oI3LcXPx5KghUEgqFa7dO0wnOCHMK2uhpak3tjVqLkpBGrPpyCmxd4KnxIrlRsOb1ZWBFH
+ 8t6Mzfm8mmpS9hgayS0SozE8EjO5jwE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-288-Ny2QYQhtMr--h0DAvMYLsw-1; Thu, 09 Feb 2023 18:34:29 -0500
+X-MC-Unique: Ny2QYQhtMr--h0DAvMYLsw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0D77C1C05AB0;
+ Thu,  9 Feb 2023 23:34:29 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.192.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 11BEF440BC;
+ Thu,  9 Feb 2023 23:34:26 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: kvm@vger.kernel.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PULL 00/17] Migration 20230209 patches
+Date: Fri, 10 Feb 2023 00:34:09 +0100
+Message-Id: <20230209233426.37811-1-quintela@redhat.com>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: doCRjvuuyVUgWC1SGlfsHsor_KaeVirl
-X-Proofpoint-ORIG-GUID: doCRjvuuyVUgWC1SGlfsHsor_KaeVirl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-09_15,2023-02-09_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- priorityscore=1501 spamscore=0 malwarescore=0 mlxscore=0 suspectscore=0
- mlxlogscore=999 adultscore=0 phishscore=0 lowpriorityscore=0 clxscore=1011
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302090212
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,88 +82,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 2023-02-09 at 14:14 +0000, Peter Maydell wrote:
-> On Thu, 9 Feb 2023 at 13:54, John Paul Adrian Glaubitz
-> <glaubitz@physik.fu-berlin.de> wrote:
-> >=20
-> > Hi!
-> >=20
-> > I usually build a static qemu-user binary from the git source using
-> > the following
-> > configure line:
-> >=20
-> > export ARCH=3Dm68k && ./configure --target-list=3D$ARCH-linux-user --
-> > static --disable-rdma \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 --disable-pie --disable-syste=
-m --disable-xen --
-> > disable-pvrdma \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 --disable-libssh --disable-we=
-rror --disable-
-> > glusterfs
-> >=20
-> > However, that stopped working some time ago with the linker error
-> > below.
-> >=20
-> > Does anyone know how to fix this?
->=20
-> The "Using getpwuid in statically linked applications" etc warnings
-> are expected, so we can ignore those; this is the key error:
->=20
-> > /usr/bin/ld: /usr/lib/x86_64-linux-gnu/libdw.a(debuginfod-
-> > client.o): in function `__libdwfl_debuginfod_init':
-> > (.text.startup+0x17): undefined reference to `dlopen'
-> > /usr/bin/ld: (.text.startup+0x32): undefined reference to `dlsym'
-> > /usr/bin/ld: (.text.startup+0x4b): undefined reference to `dlsym'
-> > /usr/bin/ld: (.text.startup+0x64): undefined reference to `dlsym'
-> > /usr/bin/ld: (.text.startup+0x7d): undefined reference to `dlsym'
-> > /usr/bin/ld: (.text.startup+0xdc): undefined reference to `dlclose'
-> > collect2: error: ld returned 1 exit status
->=20
-> We use pkg-config to find out what the libdw library needs on
-> the compiler/linker command line to link successfully, so
-> maybe your distro's pkg-config info isn't right. What does
-> "pkg-config --static --libs libdw" say ? If libdw needs libdl
-> then it ought to list it in that output, I think. IME pkg-config
-> information is often incorrect for static linking, though.
-> I guess this one happened to work previously because glibc didn't
-> actually mandate linking with '-ldl', and now on your system it
-> apparently does. On my system pkg-config says
-> -ldw -lbz2 -llzma -pthread -lpthread -lelf -lz
-> which looks like it's missing -ldl, but the link succeeds anyway,
-> presumably because the symbols are provided by the main glibc .a.
->=20
-> On the other hand, if libdw wants to use dlopen/dlsym then
-> I wonder if we should just suppress it for static linking:
-> on my (Ubuntu 22.04) ld warns:
-> /usr/bin/ld: /usr/lib/x86_64-linux-gnu/libdw.a(debuginfod-client.o):
-> in function `__libdwfl_debuginfod_init':
-> (.text.startup+0x1b): warning: Using 'dlopen' in statically linked
-> applications requires at runtime the shared libraries from the glibc
-> version used for linking
->=20
-> so whatever libdw is trying to do will likely not work in most
-> statically-linked situations anyway.
->=20
-> I've cc'd the author of the commit that added the libdw
-> dependency.
->=20
-> thanks
-> -- PMM
+The following changes since commit 417296c8d8588f782018d01a317f88957e9786d6:
 
-Hi,
+  tests/qtest/netdev-socket: Raise connection timeout to 60 seconds (2023-02-09 11:23:53 +0000)
 
-libdw uses dlopen() and friends for debuginfod integration, which QEMU
-does not currently use. So in principle --extra-ldflags=3D"-ldl"
-should be safe.
+are available in the Git repository at:
 
-That said, the functionality provided by libdw is needed for analyzing
-performance of JITed code, which is mostly useful to developers and
-researchers. Therefore, in order to avoid unpleasant surprises for
-people who don't need this, I will send a patch that disables libdw
-for static builds.
+  https://gitlab.com/juan.quintela/qemu.git tags/migration-20230209-pull-request
 
-Best regards,
-Ilya
+for you to fetch changes up to 858191aebda251a4d1e3bc77b238096673241cdd:
+
+  migration: Postpone postcopy preempt channel to be after main (2023-02-09 21:26:02 +0100)
+
+----------------------------------------------------------------
+Migration Pull request
+
+Hi
+
+This are all the reviewed patches for migration:
+- AVX512 support for xbzrle (Ling Xu)
+- /dev/userfaultd support (Peter Xu)
+- Improve ordering of channels (Peter Xu)
+- multifd cleanups (Li Zhang)
+- Remove spurious files from last merge (me)
+  Rebase makes that to you
+- Fix mixup between state_pending_{exact,estimate} (me)
+- Cache RAM size during migration (me)
+- cleanup several functions (me)
+
+Please apply.
+
+----------------------------------------------------------------
+
+Juan Quintela (7):
+  migration: Remove spurious files
+  migration: Simplify ram_find_and_save_block()
+  migration: Make find_dirty_block() return a single parameter
+  migration: Split ram_bytes_total_common() in two functions
+  migration: Calculate ram size once
+  migration: Make ram_save_target_page() a pointer
+  migration: I messed state_pending_exact/estimate
+
+Li Zhang (2):
+  multifd: cleanup the function multifd_channel_connect
+  multifd: Remove some redundant code
+
+Peter Xu (6):
+  linux-headers: Update to v6.1
+  util/userfaultfd: Support /dev/userfaultfd
+  migration: Rework multi-channel checks on URI
+  migration: Cleanup postcopy_preempt_setup()
+  migration: Add a semaphore to count PONGs
+  migration: Postpone postcopy preempt channel to be after main
+
+ling xu (2):
+  AVX512 support for xbzrle_encode_buffer
+  Update bench-code for addressing CI problem
+
+ MAINTAINERS                                   |    1 +
+ .../x86_64-quintela-devices.mak               |    7 -
+ .../x86_64-quintela2-devices.mak              |    6 -
+ meson.build                                   |   17 +
+ include/standard-headers/drm/drm_fourcc.h     |   34 +-
+ include/standard-headers/linux/ethtool.h      |   63 +-
+ include/standard-headers/linux/fuse.h         |    6 +-
+ .../linux/input-event-codes.h                 |    1 +
+ include/standard-headers/linux/virtio_blk.h   |   19 +
+ linux-headers/asm-generic/hugetlb_encode.h    |   26 +-
+ linux-headers/asm-generic/mman-common.h       |    2 +
+ linux-headers/asm-mips/mman.h                 |    2 +
+ linux-headers/asm-riscv/kvm.h                 |    4 +
+ linux-headers/linux/kvm.h                     |    1 +
+ linux-headers/linux/psci.h                    |   14 +
+ linux-headers/linux/userfaultfd.h             |    4 +
+ linux-headers/linux/vfio.h                    |  142 ++
+ migration/migration.h                         |   15 +-
+ migration/postcopy-ram.h                      |    4 +-
+ migration/xbzrle.h                            |    4 +
+ migration/migration.c                         |  122 +-
+ migration/multifd.c                           |   70 +-
+ migration/postcopy-ram.c                      |   31 +-
+ migration/ram.c                               |  136 +-
+ migration/savevm.c                            |   56 +-
+ migration/xbzrle.c                            |  124 ++
+ tests/bench/xbzrle-bench.c                    |  473 ++++++
+ tests/unit/test-xbzrle.c                      |   42 +-
+ util/userfaultfd.c                            |   32 +
+ meson_options.txt                             |    2 +
+ migration/multifd.c.orig                      | 1274 -----------------
+ scripts/meson-buildoptions.sh                 |    3 +
+ tests/bench/meson.build                       |    4 +
+ util/trace-events                             |    1 +
+ 34 files changed, 1257 insertions(+), 1485 deletions(-)
+ delete mode 100644 configs/devices/x86_64-softmmu/x86_64-quintela-devices.mak
+ delete mode 100644 configs/devices/x86_64-softmmu/x86_64-quintela2-devices.mak
+ create mode 100644 tests/bench/xbzrle-bench.c
+ delete mode 100644 migration/multifd.c.orig
+
+-- 
+2.39.1
+
 
