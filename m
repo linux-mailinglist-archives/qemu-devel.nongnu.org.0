@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23BE1690E54
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 17:27:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 346AC690E55
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 17:28:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ9kb-00051H-KH; Thu, 09 Feb 2023 11:26:21 -0500
+	id 1pQ9lg-0006EY-68; Thu, 09 Feb 2023 11:27:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQ9kY-00050u-MA
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 11:26:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pQ9ld-0006Dv-V5
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 11:27:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQ9kX-0004Kg-9N
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 11:26:18 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pQ9lc-0004UF-5f
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 11:27:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675959976;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wDbs5FzmbeeZUYVCFsYesv24TonLYQSzaKxu6fWOFsc=;
- b=LRAhgpInUzzM9KQv2Wlzv00bSrCBDM1L0NgadSfd7WOOFgXzCXufEAjKwSjrYIfhYvZ+nd
- JFbJooOstugS3zwdKzDWTbFdItkienb75+BS+tQdMH2so7FlBhaoKIOMwmwpQ2+7j+GGZ1
- ACag5RuaT/DIR0ItNLiz1/IDEIh3Oos=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1675960043;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=wsy4xSBwmaUF1MHjsVJC/0+4n0N/6JbCEXkL9AKJ5+A=;
+ b=ONuYZgwDj2RzL8In5GLuNOeBdqF7cGPqj5LrpjjCza4Q0EfWo35TAghq7onPnwQWp9dfTU
+ Kh9gK2Xp1Xb96SpcItCFTBPYkFzH0b3imbGPlU5KzVYF9ZEp1Gc0on457b0swZwbVzCxTJ
+ xnS+OG9NKafh3UEYC5juHYZawU1hZ68=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-564-nZiRs3VrNOGWcc1FRljf7g-1; Thu, 09 Feb 2023 11:26:11 -0500
-X-MC-Unique: nZiRs3VrNOGWcc1FRljf7g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-61-NvevEL2xP9y2sV0YNQOk9Q-1; Thu, 09 Feb 2023 11:27:20 -0500
+X-MC-Unique: NvevEL2xP9y2sV0YNQOk9Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 67DAB85A588;
- Thu,  9 Feb 2023 16:26:11 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 41A8E2166B29;
- Thu,  9 Feb 2023 16:26:11 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 37BDE21E6A1F; Thu,  9 Feb 2023 17:26:10 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Eric Blake <eblake@redhat.com>,  Het Gala <het.gala@nutanix.com>,
- qemu-devel@nongnu.org,  prerna.saxena@nutanix.com,  quintela@redhat.com,
- dgilbert@redhat.com,  pbonzini@redhat.com,  manish.mishra@nutanix.com,
- aravind.retnakaran@nutanix.com
-Subject: Re: [PATCH v2 2/6] migration: Updated QAPI format for 'migrate'
- qemu monitor command
-References: <20230208093600.242665-1-het.gala@nutanix.com>
- <20230208093600.242665-3-het.gala@nutanix.com>
- <20230208201712.b3a5xtufscrvncqt@redhat.com>
- <Y+TJr7An261VcVJ/@redhat.com>
-Date: Thu, 09 Feb 2023 17:26:10 +0100
-In-Reply-To: <Y+TJr7An261VcVJ/@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Thu, 9 Feb 2023 10:23:43 +0000")
-Message-ID: <87bkm23ivx.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7FD0C3C1022A;
+ Thu,  9 Feb 2023 16:27:19 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DE50E2026D68;
+ Thu,  9 Feb 2023 16:27:15 +0000 (UTC)
+Date: Thu, 9 Feb 2023 16:27:07 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH 7/7] Python: Drop support for Python 3.6
+Message-ID: <Y+Ue2/Xn+ZbOc+B+@redhat.com>
+References: <20230209154034.983044-1-jsnow@redhat.com>
+ <20230209154034.983044-8-jsnow@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Disposition: inline
+In-Reply-To: <20230209154034.983044-8-jsnow@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -85,30 +84,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
-
-> On Wed, Feb 08, 2023 at 02:17:12PM -0600, Eric Blake wrote:
-
-[...]
-
->> I'm guessing the reason you didn't go with 'socket': 'SocketAddress'
->> is that SocketAddress is itself a discriminated union, and Markus does
->> not yet have the QAPI generator wired up to support one union as a
->> branch of another larger union?  It leads to extra nesting on the wire
->> [2]
+On Thu, Feb 09, 2023 at 10:40:34AM -0500, John Snow wrote:
+> Python 3.6 was EOL 2021-12-31. Newer versions of upstream libraries have
+> begun dropping support for this version and it is becoming more
+> cumbersome to support. Avocado-framework and qemu.qmp each have their
+> own reasons for wanting to drop Python 3.6.
 >
-> I don't know the backstory on this limitation. Is it something that
-> is very difficult to resolve ? I think it is highly desirable to have
-> 'socket': 'SocketAddress' here. It would be a shame to introduce this
-> better migration API design and then have it complicated by a possibly
-> short term limitation of QAPI.
+> Since it is safe to under our supported platform policy, do so.
 
-We evolve the QAPI language to satisfy concrete use cases.  If you could
-use a language improvement, make a case for it, and we'll see what we
-can do within a time frame that works for you.  Better than ugly
-work-arounds on the silent assumption the language cannot be adapted.
+Upstream EOL dates are essentially irrelevant from our platform
+support policy for deciding min versions
+
+QEMU aims to target released OS distributions, and their vendors
+may choose to support software for arbitrarily longer periods of
+time than upstream. This extended support is one of the key
+value adds of OS distributions.
+
+To justify dropping python 3.6, the commit message needs to
+illustrate that all our targetted distros are capable of
+supporting the new proposed new min version. 
+
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  docs/conf.py             |  4 ++--
+>  configure                |  8 ++++----
+>  python/Makefile          | 10 +++++-----
+>  python/setup.cfg         |  7 +++----
+>  python/tests/minreqs.txt |  2 +-
+>  scripts/qapi/mypy.ini    |  2 +-
+>  6 files changed, 16 insertions(+), 17 deletions(-)
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
