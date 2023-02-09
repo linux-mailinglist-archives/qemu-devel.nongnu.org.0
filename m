@@ -2,79 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCAD7690DF4
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 17:07:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E31DF690E06
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 17:12:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ9Rj-0004nH-0K; Thu, 09 Feb 2023 11:06:51 -0500
+	id 1pQ9Ve-0006Uq-I5; Thu, 09 Feb 2023 11:10:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ9Re-0004mF-GB
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 11:06:46 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ9Rc-000080-Rc
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 11:06:46 -0500
-Received: by mail-wr1-x434.google.com with SMTP id j23so2327442wra.0
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 08:06:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Wdtizu36a5eXn34BesiDt7CtJbbQT6ym+8eOV1CvoK0=;
- b=gvL0IfS7pPsWvrbwkBWDf+lDuRjoAxxfvUmNotGnzFd4c+mglYQpKbk3pOMYn93biY
- +BU5MLYwXEy/ydJNW/rGyYsgDvqY27LEPbXP+ukJ3oR3cG5W6uDA8DptfOH2phAGV+dw
- uSr9nXp/f81106IOe4+kOKGvnySdafbOOuO7nMLyEhTSw0JzGCPDeB4eka8SJVhqZga9
- 3rQxCcJKFCkCkDjf+Nza7nFUArDBXo0jKUtdMNTHbmmy87Y+V1nMH4t7BDXK1HTpahKg
- eVR50lBBW0sCSJaY/uF+lbBGu5QmWKf+aqXd9EQi4oEma0CgIhEYJfw9MiYdjt74J+u8
- uT5g==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQ9VZ-0006To-Sb
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 11:10:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQ9VX-0001AA-Qc
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 11:10:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675959046;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=j6ZbuHMLSRX16HKNFJWZ5Zjgqh4/L8aS5dYZUyyZJEM=;
+ b=MIY+UAKG1NaDUvDoSQiixrK+7ZkhnjzhAWngvCC7uY8d1/Gjy+esJ88SiH6RersaM/H9Ie
+ 53wYqqeh3jsiyT55Mh36VqfDOZC8bJqnWxPnPsY4Kl1iWmm39AfT+fo3g6IGySkbB3/umO
+ dSOpECA5hbn2KYMVqOo0l0dVge7st1c=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-322-cwA7hy5wPrS-OxuXANLKEA-1; Thu, 09 Feb 2023 11:10:38 -0500
+X-MC-Unique: cwA7hy5wPrS-OxuXANLKEA-1
+Received: by mail-pg1-f200.google.com with SMTP id
+ s76-20020a632c4f000000b0049ceb0f185eso1274140pgs.7
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 08:10:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Wdtizu36a5eXn34BesiDt7CtJbbQT6ym+8eOV1CvoK0=;
- b=qPd9efB3/S8pW6q/XNdvsHJMYWlCjn+GlNpyse6LqnUFZyI5lweM+zQCPlu0JG1kDA
- VDNvoXptE/bR8J91TVq12wrvFR0dSFCh2ll/DGyBqhdJUVEfidgAx1ooLdqv4yuXoIp0
- 3cOAc0400BqzUTXVAsXObXxQwwKuZg5OP6zFo5efaoKgmQg72ezictYPHEMtsDJUtcnM
- gpPyLhUnKgy2TYsyWARh4/yIHYChr2TtqHgF+L/Fd5e4wREcCznx3xLcTREo2QPgCXSQ
- KRnRQ603EozemkNQgNmAducS3p/QNBcdfSL1QeyEKHKtk3pbnAyOoId192y90/Fin62w
- Boyw==
-X-Gm-Message-State: AO0yUKUrr1mFIYOKtmjphrKg9D6k2vDTNyzr/vQJKhSBvT8hdSjDj1Ij
- Wc+cOp+DZICuJfzq//Xt8Fh5tw==
-X-Google-Smtp-Source: AK7set+XcjmD0BOEyEvgJ3XTdXZ3zZwJRDr2wKAgjrkoOFJdLKMZWWJBfb7xR5WCkpH9PaWImWqU2Q==
-X-Received: by 2002:a5d:5231:0:b0:2c3:da8a:192 with SMTP id
- i17-20020a5d5231000000b002c3da8a0192mr12185614wra.15.1675958803129; 
- Thu, 09 Feb 2023 08:06:43 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- o26-20020a5d58da000000b002c3f1223059sm1583248wrf.36.2023.02.09.08.06.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Feb 2023 08:06:42 -0800 (PST)
-Message-ID: <9ad7b26e-009f-61d3-f453-2fe982af3fbe@linaro.org>
-Date: Thu, 9 Feb 2023 17:06:41 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=j6ZbuHMLSRX16HKNFJWZ5Zjgqh4/L8aS5dYZUyyZJEM=;
+ b=Otcf0A54b5YW10J7tZ/NvGEgyntFKIidDSEhENBtUDWjkx7tKOPOhmKMAOmRVPxUWU
+ jzlkNotZBy47cHz6Y2d0Hltuq1jt3ku/A4gLjeMVPzO7FAs9YaTI9VfLxJ259X+eRRIo
+ 3Bb1FELY41O0GpwwJ6rzz2ul/KsGu7G8VfcHkepeKaV/vLFQ94sEGO2I032mrquPxEsD
+ frxG7qAgfOQ0kgG4suQVRQ1Ka/7nzkCjZZQDxNYIJxPO8b3mBQZrzyeDzqQltFpbtn0Z
+ Gd+TT1AaLgR8ZQdaFPQnF/KixVAyFY9gb0ekaV5RsDqsuxu4bdencqCYr+DvyfK4/V14
+ W29w==
+X-Gm-Message-State: AO0yUKUwOQEweT35uJ6n5EvmsqhYoK70PP8RUnfmcuX83pMQUypffIVQ
+ 700YxniuKoxxpHR3om+P3mzeHfzS2hRVA/bcFBl99c0AEOI848KBFy3saPhhKK3QWcquRWt7mkK
+ zljmODJna/H3P+Vb+I3H67Xo43Us/VGM=
+X-Received: by 2002:a17:90a:bd92:b0:22b:aa69:ccc3 with SMTP id
+ z18-20020a17090abd9200b0022baa69ccc3mr1643098pjr.35.1675959036926; 
+ Thu, 09 Feb 2023 08:10:36 -0800 (PST)
+X-Google-Smtp-Source: AK7set9h/WmsV59TNLXI4WTiTq2HNq4tfVNuMI5DRvRh82CLXKQgs+K7Lk2fT9rbjaeez5V63yvlDlHQyIAR2Nrl8M8=
+X-Received: by 2002:a17:90a:bd92:b0:22b:aa69:ccc3 with SMTP id
+ z18-20020a17090abd9200b0022baa69ccc3mr1643083pjr.35.1675959036588; Thu, 09
+ Feb 2023 08:10:36 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH] block/file-posix: don't use functions calling
- AIO_WAIT_WHILE in worker threads
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Ninad Palsule <ninad@linux.vnet.ibm.com>, qemu-devel@nongnu.org
-References: <20230209154522.1164401-1-eesposit@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230209154522.1164401-1-eesposit@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20230209154034.983044-1-jsnow@redhat.com>
+ <20230209154034.983044-6-jsnow@redhat.com>
+ <273ab983-338b-1aa2-6317-ed5a9099b574@redhat.com>
+In-Reply-To: <273ab983-338b-1aa2-6317-ed5a9099b574@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 9 Feb 2023 11:10:25 -0500
+Message-ID: <CAFn=p-aT8r4qMo6s3e=oPkubVCU3gDf5Zq=qfjQ0p8_UsYxfiw@mail.gmail.com>
+Subject: Re: [PATCH 5/7] testing: Add Python >= 3.7 to Centos, OpenSuSE
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Daniel Berrange <berrange@redhat.com>, 
+ Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,44 +99,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 9/2/23 16:45, Emanuele Giuseppe Esposito wrote:
-> When calling bdrv_getlength() in handle_aiocb_write_zeroes(), the
-> function creates a new coroutine and then waits that it finishes using
-> AIO_WAIT_WHILE.
-> The problem is that this function could also run in a worker thread,
-> that has a different AioContext from main loop and iothreads, therefore
-> in AIO_WAIT_WHILE we will have in_aio_context_home_thread(ctx) == false
-> and therefore
-> assert(qemu_get_current_aio_context() == qemu_get_aio_context());
-> in the else branch will fail, crashing QEMU.
-> 
-> Aside from that, bdrv_getlength() is wrong also conceptually, because
-> it reads the BDS graph from another thread and is not protected by
-> any lock.
-> 
-> Replace it with raw_co_getlength, that doesn't create a coroutine and
-> doesn't read the BDS graph.
+On Thu, Feb 9, 2023 at 10:56 AM Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 09/02/2023 16.40, John Snow wrote:
+> > This is just a proof-of-concept patch, as these files are lcitool
+> > generated. The real fix will involve updating the lcitool configuration
+> > and updating these files that way.
+>
+> I think it would be good to have a RFC or DONOTMERGE in the patch title, so
+> that it is clear right from the start that this should not get merged.
 
-Reported-by: Ninad Palsule <ninad@linux.vnet.ibm.com>
-Suggested-by: Kevin Wolf <kwolf@redhat.com>
+Apologies. I just assumed there'd be no risk of this passing review :)
+If there's any point in me respinning this with the proof-of-concept
+again, I'll add a DO-NOT-MERGE tag.
 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->   block/file-posix.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index d3073a7caa..9a99111f45 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -1738,7 +1738,7 @@ static int handle_aiocb_write_zeroes(void *opaque)
->   #ifdef CONFIG_FALLOCATE
->       /* Last resort: we are trying to extend the file with zeroed data. This
->        * can be done via fallocate(fd, 0) */
-> -    len = bdrv_getlength(aiocb->bs);
-> +    len = raw_co_getlength(aiocb->bs);
->       if (s->has_fallocate && len >= 0 && aiocb->aio_offset >= len) {
->           int ret = do_fallocate(s->fd, 0, aiocb->aio_offset, aiocb->aio_nbytes);
->           if (ret == 0 || ret != -ENOTSUP) {
+>
+> > Note that this requires OpenSuSE Leap 15.3; 15.2 won't cut it.
+>
+> Looking at https://en.wikipedia.org/wiki/OpenSUSE#Version_history it seems
+> like even 15.3 is EOL already, so I think we can switch to 15.4 immediately.
+>
+
+Noted. Some of the patches in this series are a bit old, admittedly,
+so I'll re-review these requirements.
+
+I'm hoping to hear from Dan/Alex on the subject of coverage, because I
+don't really know what our current strategy is or what our coverage
+ought to be. If CI minutes were infinitely free, I'd suggest we test
+both CentOS 8 and 9 simultaneously, alongside with every currently
+supported OpenSuSE version, but I imagine that's not really truly on
+the table.
+
+I imagine we want to have a mixture of "cutting edge" with "oldest we
+still support" to try and cover the spread of likely scenarios, but I
+am not sure what the strategies for which to keep at which versions
+are.
+
+>   Thomas
+>
 
 
