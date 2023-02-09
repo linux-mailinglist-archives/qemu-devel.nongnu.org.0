@@ -2,112 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2411569006D
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 07:35:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DB3C69009F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 07:59:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ0WZ-0006IM-KT; Thu, 09 Feb 2023 01:35:15 -0500
+	id 1pQ0sf-0002eY-Km; Thu, 09 Feb 2023 01:58:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1pQ0WW-0006Ht-C9
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:35:12 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQ0sb-0002eG-Vg
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:58:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1pQ0WU-0001QR-5c
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:35:12 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3195D3CE018242; Thu, 9 Feb 2023 06:35:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=rB36vccKTiiPwGxXF2HfP6GEE+S1aNGUQr5qYPVvOFw=;
- b=YtSEd2Y6ECsjVQlTO/bFeatapdHwYrs27x49KmbcSbLv6KM/3tUhl6DN+3Et+IbBd7FK
- qcFEl4vXJxhLN3wx7fGsxqTUjyLrS25PP2FDXRlQZza4BeBIzgEdCdr1VsZtOMfA/wBD
- Co4Gwvb0oagq4MWtLUr+R/u4pS4uAwtPqX4brRKU4/aULg+u9eTTVEE+bXXC2RBZahSN
- ZV+aCp1u8PpvSzvMkXdp+wnsrvf7NQOcFyfTQLXyiqjHnVhXB1HIbBvw2EXuRg1GN5ez
- 40agY9zkxoe2WCFUHk6leBALJfEfMqyRLEwmNpmtUsft04omNCPtFIojK4X6l+wgy4+d fA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nmtfj9pra-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Feb 2023 06:35:00 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3196VneM020577;
- Thu, 9 Feb 2023 06:34:59 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nmtfj9pqe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Feb 2023 06:34:59 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3194jtf9002578;
- Thu, 9 Feb 2023 06:34:58 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([9.208.130.97])
- by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3nhf07y981-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Feb 2023 06:34:58 +0000
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com
- [10.241.53.103])
- by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 3196YvFW45548160
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 9 Feb 2023 06:34:57 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1882E5805A;
- Thu,  9 Feb 2023 06:34:57 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AEE9C5804E;
- Thu,  9 Feb 2023 06:34:53 +0000 (GMT)
-Received: from [9.160.93.69] (unknown [9.160.93.69])
- by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Thu,  9 Feb 2023 06:34:53 +0000 (GMT)
-Message-ID: <a23739f6-cdb9-a181-8eb3-bb1b7f9c24ad@linux.ibm.com>
-Date: Thu, 9 Feb 2023 08:34:51 +0200
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQ0sZ-0004o3-OQ
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:58:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675925878;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CaadVHDzcw82bzJR4BhEOYOfkFKANwFi9vmRtlAGUdU=;
+ b=AoKeS/hIC7uVuRXTNLW/IlolIRSJphWgMJ9VYdE1VE11+WTlcYKc4wh2ENtRZUySHZuerd
+ tS8QO2HYvLOcgo8buEiT5rULBlZCIC2F8JAZXsn1wW4qkbsdLOxsdHkWgOrzHUyY4S+HxP
+ 9kuyrJkU147/xLYpjC7jR6WSSeoO46c=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-490-pWWrhMmjMV6OaTJ8vOoSEg-1; Thu, 09 Feb 2023 01:57:51 -0500
+X-MC-Unique: pWWrhMmjMV6OaTJ8vOoSEg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3DF6F87B2A0;
+ Thu,  9 Feb 2023 06:57:51 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AE8762166B29;
+ Thu,  9 Feb 2023 06:57:50 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 99BD121E6A1F; Thu,  9 Feb 2023 07:57:49 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org,  Michael Roth <michael.roth@amd.com>,  Markus
+ Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 5/7] qapi/parser: [RFC] add QAPIExpression
+References: <20230208021306.870657-1-jsnow@redhat.com>
+ <20230208021306.870657-6-jsnow@redhat.com>
+Date: Thu, 09 Feb 2023 07:57:49 +0100
+In-Reply-To: <20230208021306.870657-6-jsnow@redhat.com> (John Snow's message
+ of "Tue, 7 Feb 2023 21:13:04 -0500")
+Message-ID: <87357fqqaa.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH RFC 0/7] revert RNG seed mess
-Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: x86@kernel.org, linux-kernel@vger.kernel.org,
- Tom Lendacky <thomas.lendacky@amd.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "H . Peter Anvin" <hpa@zytor.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>,
- Nathan Chancellor <nathan@kernel.org>, Borislav Petkov <bp@alien8.de>,
- Eric Biggers <ebiggers@kernel.org>, Dov Murik <dovmurik@linux.ibm.com>
-References: <20230208211212.41951-1-mst@redhat.com>
- <beea0477-f850-90dc-eb7e-7665492491b1@linux.ibm.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-In-Reply-To: <beea0477-f850-90dc-eb7e-7665492491b1@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: KxV1Ll7SNn8KIT5_nFn0m3_Tlb1227ek
-X-Proofpoint-GUID: hczNohOTEEUK0NYG9iujPA2UVDYZxXTr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-09_04,2023-02-08_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- impostorscore=0 mlxscore=0 spamscore=0 lowpriorityscore=0 phishscore=0
- adultscore=0 clxscore=1015 suspectscore=0 priorityscore=1501
- mlxlogscore=999 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2302090060
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.146, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -124,74 +82,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+John Snow <jsnow@redhat.com> writes:
 
+> The idea here is to combine 'TopLevelExpr' and 'ParsedExpression' into
+> one type that accomplishes the purposes of both types;
+>
+> 1. TopLevelExpr is meant to represent a JSON Object, but only those that
+> represent what qapi-schema calls a TOP-LEVEL-EXPR, i.e. definitions,
+> pragmas, and includes.
+>
+> 2. ParsedExpression is meant to represent a container around the above
+> type, alongside QAPI-specific metadata -- the QAPISourceInfo and QAPIDoc
+> objects.
+>
+> We can actually just roll these up into one type: A python mapping that
+> has the metadata embedded directly inside of it.
+>
+> NB: This necessitates a change of typing for check_if() and
+> check_keys(), because mypy does not believe UserDict[str, object] =E2=8A=
+=86
+> Dict[str, object]. It will, however, accept Mapping or
+> MutableMapping. In this case, the immutable form is preferred as an
+> input parameter because we don't actually mutate the input.
+>
+> Without this change, we will observe:
+> qapi/expr.py:631: error: Argument 1 to "check_keys" has incompatible
+> type "QAPIExpression"; expected "Dict[str, object]"
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
 
-On 09/02/2023 8:03, Dov Murik wrote:
-> Hi Michael,
-> 
-> On 08/02/2023 23:12, Michael S. Tsirkin wrote:
->> All attempts to fix up passing RNG seed via setup_data entry failed.
->> Let's just rip out all of it.  We'll start over.
->>
->>
->> Warning: all I did was git revert the relevant patches and resolve the
->> (trivial) conflicts. Not even compiled - it's almost midnight here.
->>
->> Jason this is the kind of approach I'd like to see, not yet another
->> pointer math rich patch I need to spend time reviewing. Just get us back
->> to where we started. We can redo "x86: use typedef for SetupData struct"
->> later if we want, it's benign.
->>
->> Could you do something like this pls?
->> Or test and ack if this patchset happens to work by luck.
->>
->> Michael S. Tsirkin (7):
->>   Revert "x86: don't let decompressed kernel image clobber setup_data"
->>   Revert "x86: do not re-randomize RNG seed on snapshot load"
->>   Revert "x86: re-initialize RNG seed when selecting kernel"
->>   Revert "x86: reinitialize RNG seed on system reboot"
->>   Revert "x86: use typedef for SetupData struct"
->>   Revert "x86: return modified setup_data only if read as memory, not as
->>     file"
->>   Revert "hw/i386: pass RNG seed via setup_data entry"
->>
->>  include/hw/i386/microvm.h |   5 +-
->>  include/hw/i386/pc.h      |   3 -
->>  include/hw/i386/x86.h     |   3 +-
->>  include/hw/nvram/fw_cfg.h |  31 ----------
->>  hw/i386/microvm.c         |  17 ++----
->>  hw/i386/pc.c              |   4 +-
->>  hw/i386/pc_piix.c         |   2 -
->>  hw/i386/pc_q35.c          |   2 -
->>  hw/i386/x86.c             | 122 ++++++++++----------------------------
->>  hw/nvram/fw_cfg.c         |  21 ++-----
->>  10 files changed, 49 insertions(+), 161 deletions(-)
->>
-> 
-> 
-> I tested this series with SEV measured boot using AmdSev OVMF.  The boot
-> succeeds, and the hashes computed for kernel/initrd/cmdline are
-> identical to the ones computed by qemu 7.1.0, which are the hashes that
-> the guest owner would expect.
-> 
+[...]
 
-I also tested that backporting this series to 7.2.0 (skipping
-PATCH 1/7 because it was added after the 7.2.0 release) works OK for
-booting SEV guest with AmdSev measured boot (and retains the same
-kernel/initrd/cmdline hashes as qemu 7.1.0).
+> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+> index f897dffbfd4..88f6fdfa67b 100644
+> --- a/scripts/qapi/parser.py
+> +++ b/scripts/qapi/parser.py
 
--Dov
+[...]
 
+> @@ -38,21 +38,32 @@
+>      from .schema import QAPISchemaFeature, QAPISchemaMember
+>=20=20
+>=20=20
+> -#: Represents a single Top Level QAPI schema expression.
+> -TopLevelExpr =3D Dict[str, object]
+> -
+>  # Return value alias for get_expr().
+>  _ExprValue =3D Union[List[object], Dict[str, object], str, bool]
+>=20=20
+> -# FIXME: Consolidate and centralize definitions for TopLevelExpr,
+> -# _ExprValue, _JSONValue, and _JSONObject; currently scattered across
+> -# several modules.
+>=20=20
+> +# FIXME: Consolidate and centralize definitions for _ExprValue,
+> +# JSONValue, and _JSONObject; currently scattered across several
+> +# modules.
+>=20=20
+> -class ParsedExpression(NamedTuple):
+> -    expr: TopLevelExpr
+> -    info: QAPISourceInfo
+> -    doc: Optional['QAPIDoc']
+> +
+> +# 3.6 workaround: can be removed when Python 3.7+ is our required versio=
+n.
+> +if TYPE_CHECKING:
+> +    _UserDict =3D UserDict[str, object]
+> +else:
+> +    _UserDict =3D UserDict
+> +
+> +
+> +class QAPIExpression(_UserDict):
+> +    def __init__(
+> +        self,
+> +        initialdata: Mapping[str, object],
+> +        info: QAPISourceInfo,
+> +        doc: Optional['QAPIDoc'] =3D None,
+> +    ):
 
-> As for non-EFI (non-SEV) guests, I did a very simple test of starting a
-> non-EFI guest and it looks OK, but more testing is needed.
-> 
-> So:
-> 
-> Tested-by: Dov Murik <dovmurik@linux.ibm.com>
-> 
-> 
-> Thank you!
-> 
-> -Dov
+Style nitpick:
+
+           doc: Optional['QAPIDoc'] =3D None):
+
+> +        super().__init__(initialdata)
+> +        self.info =3D info
+> +        self.doc: Optional['QAPIDoc'] =3D doc
+>=20=20
+>=20=20
+>  class QAPIParseError(QAPISourceError):
+
+[...]
+
 
