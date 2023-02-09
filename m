@@ -2,97 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C27A68FFC7
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 06:17:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7BC768FFD3
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 06:20:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPzHV-00020H-C2; Thu, 09 Feb 2023 00:15:37 -0500
+	id 1pPzLa-00030Q-9V; Thu, 09 Feb 2023 00:19:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPzHS-0001zw-EA
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 00:15:34 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPzLY-0002zy-3V
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 00:19:48 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPzHQ-0003kv-CP
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 00:15:34 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPzLW-0004hd-8A
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 00:19:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675919731;
+ s=mimecast20190719; t=1675919978;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mhW8CkHlcvSvhLwWv6/6rkCwpFOkIh/h49Kp1hKoVZc=;
- b=HtHN0Arhwy5X4EKBk7wy5NBjBmhPzmweS1GvIhSpnK3Z6cuc4JWAnc0bEZUHcdk5JQm/aw
- /HxXqZNnHYEqeURVj+Da0NqrVHKAhFhsJM+XJAe4xphL0yOOAMxVO6SpKTzXGV4D+wYnLK
- LXJySrG621sshJ50Cf8jQ2D1lDAfnR8=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=YrdTI5Kck3bXnnjgv4UgkZDZCU+w/hxsvErH1FdgMo0=;
+ b=UA61L0eQVXMK91zfgSFpb4AL6qhg1DO2j1oaHq4RprXLLUjYnrUk9Up5XfjUQAcPq938YD
+ O4vYELzhvyFxC0K3u8ge/618Af6cEj294hGjeAqDMxm34JMJW9oI9kg7VtfXeCFI2YLRN+
+ DRLOHGYIEQeggNr+1xApFDwd5LET0qg=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-381-ZTBMsoVUMsykb3Z_idUF8A-1; Thu, 09 Feb 2023 00:15:29 -0500
-X-MC-Unique: ZTBMsoVUMsykb3Z_idUF8A-1
-Received: by mail-qt1-f197.google.com with SMTP id
- l3-20020a05622a174300b003b9b6101f65so472816qtk.11
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 21:15:29 -0800 (PST)
+ us-mta-583-KfnZjKQ-PWOz8n4tsGtdNA-1; Thu, 09 Feb 2023 00:19:37 -0500
+X-MC-Unique: KfnZjKQ-PWOz8n4tsGtdNA-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ w17-20020a05620a425100b00706bf3b459eso582825qko.11
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 21:19:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mhW8CkHlcvSvhLwWv6/6rkCwpFOkIh/h49Kp1hKoVZc=;
- b=bE45/L6rvHceRRM+9N+mL14rw+1ZhA4kUq+0cE+BopIXw32hkK6qjdwA4WWtzTDTAw
- cWhNvD67v7xuvEYFUBbWM9h5ie7C1I12Z2J72nWZ5zgHlXyGn5qAdn9jQbXWjRQAWkpk
- e+rXFz1EuuJssw0sAEDqsu1hkGfuKhbOY/ABmV45KzNRUQ0uRnMNFeEvOADxMjLq/ezE
- V5U0p2DCJvJ+xdqoXo8EZ0IxURZeEdZoKWAqVEvUUqO3eRbyjf1acahSy9GGknjErzJ3
- UM5CUc3s4vZTGmRsSr87zdIdLtQG2tnmvZJqf89qpdlRZohclp14KASGfGXmkusvjQWa
- Z2SA==
-X-Gm-Message-State: AO0yUKUWS8wJjLlPtX64TZftPnkjoqKCZq1Fh5Jz5Dw4CVA7Jr2u7NFP
- X/67YJUkGvSx+U7k+WkLMLa/7WIrtmaSNcdsmJoyiPyH8VXLMrotkQY5RCAzJlMktJhsSoup8HE
- EcaWXwQZwBFgawN4=
-X-Received: by 2002:a05:622a:1749:b0:3b8:6b19:7f95 with SMTP id
- l9-20020a05622a174900b003b86b197f95mr17923015qtk.19.1675919729243; 
- Wed, 08 Feb 2023 21:15:29 -0800 (PST)
-X-Google-Smtp-Source: AK7set8zRKABTKn4r9BxQ1XfrdoWE5KrnsNtRXuQSGOECOGu+bSwii0gO/np88RoQHZ/J28NV0WHtA==
-X-Received: by 2002:a05:622a:1749:b0:3b8:6b19:7f95 with SMTP id
- l9-20020a05622a174900b003b86b197f95mr17922977qtk.19.1675919728955; 
- Wed, 08 Feb 2023 21:15:28 -0800 (PST)
+ bh=YrdTI5Kck3bXnnjgv4UgkZDZCU+w/hxsvErH1FdgMo0=;
+ b=00cmJnV2qO6CABdoHXgBzAhSLUvYJA/EK1yF6XIu1/lB4Ih2A0QuGXEBzXy0t1VCeT
+ PMppKFOILtWnpMRATBoL7bClEYgAR7qzsPSyQa6LvROClHFqLJiCPlMkNLLa8D2DKskt
+ JHgDjbvLb3QPQZw/I1MjY5tJuEXpubVBdBUWg96QGX+VT3LoBKDuI2xGydWzDyfQ3edP
+ WdW9iTqpR2OOBPkbSb70u+XvPhiCA1Sh2ixr3EzbUbic68glq3PmlkKCyScsBW27P/ZH
+ 8DkLVkoj1WsQmT58ZBXtQsoe8k5n8c+S1wAos8+WXBcFI3pd9Kg7GZ3usRVtls3xa0lt
+ Fcng==
+X-Gm-Message-State: AO0yUKU9nYx1lrQ4S29P3ebnaDiVSxjw9wiELl5cIrHRObEmWnMha0TA
+ zoSQc5x11rdG+VYuhXZNQyLz8hV3y8YSvi0ABygJOfGlnDxZegOPtaSB1YtV3qQki1vTWS3LdbK
+ Vu18GalEAxwHNBJc=
+X-Received: by 2002:ac8:5f92:0:b0:3ba:13d8:67b5 with SMTP id
+ j18-20020ac85f92000000b003ba13d867b5mr15431626qta.36.1675919976709; 
+ Wed, 08 Feb 2023 21:19:36 -0800 (PST)
+X-Google-Smtp-Source: AK7set8veuFfXigKAeHPMnogK1JvwWNJzwIdeHK2LyneTjZNwtgSmAqQLrp7QmNV8LnQDaw+YJOW/Q==
+X-Received: by 2002:ac8:5f92:0:b0:3ba:13d8:67b5 with SMTP id
+ j18-20020ac85f92000000b003ba13d867b5mr15431615qta.36.1675919976482; 
+ Wed, 08 Feb 2023 21:19:36 -0800 (PST)
 Received: from [192.168.8.105] (tmo-099-228.customers.d1-online.com.
  [80.187.99.228]) by smtp.gmail.com with ESMTPSA id
- 65-20020a370c44000000b007059c5929b8sm679427qkm.21.2023.02.08.21.15.24
+ b124-20020a379982000000b0071bfeaf5688sm645729qke.72.2023.02.08.21.19.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Feb 2023 21:15:27 -0800 (PST)
-Message-ID: <dbdd2b09-7d9b-b929-cc2b-f93d8ed42868@redhat.com>
-Date: Thu, 9 Feb 2023 06:15:23 +0100
+ Wed, 08 Feb 2023 21:19:35 -0800 (PST)
+Message-ID: <95cab180-a34b-858d-e360-5083a7d7ecf8@redhat.com>
+Date: Thu, 9 Feb 2023 06:19:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
+Subject: Re: [PULL 00/11] Misc patches for 2022-02-08
 Content-Language: en-US
-To: Andrea Bolognani <abologna@redhat.com>,
- Andrew Jones <ajones@ventanamicro.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Sunil V L <sunilvl@ventanamicro.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Anup Patel <apatel@ventanamicro.com>,
- Atish Kumar Patra <atishp@rivosinc.com>, Ani Sinha <ani@anisinha.ca>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster
- <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Bernhard Beschow <shentey@gmail.com>
-References: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
- <20230202045223.2594627-3-sunilvl@ventanamicro.com>
- <CABJz62PFGT1H-AArbfTkpiX24mHU=q3wk7h-bpduZhJyy7tTLw@mail.gmail.com>
- <fe3b5794-be2a-eec7-9d4e-9a13eab48378@linaro.org>
- <20230207102353.hpg2gxh22urjbebu@orel>
- <CABJz62M+n4DFqMPttzaDrSRzDcjkyEduX_NAv=-9J58mmUe+Ng@mail.gmail.com>
- <9c05b850-ae25-12aa-c6d0-b7a813a5ee03@redhat.com>
- <CABJz62PuT+kG2X9OEBQRfybWn2ESJ3aNaEBkvDG=XK_43ZC_8w@mail.gmail.com>
- <20230207192031.pu5uy2yppv3htjw5@orel>
- <CABJz62O6U88GzAuVT78wVOk0f232hhTw35CjOBJL+eBAUfbpCg@mail.gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20230208171922.95048-1-pbonzini@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 02/10] hw/riscv/virt: Add a switch to enable/disable ACPI
-In-Reply-To: <CABJz62O6U88GzAuVT78wVOk0f232hhTw35CjOBJL+eBAUfbpCg@mail.gmail.com>
+In-Reply-To: <20230208171922.95048-1-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -117,59 +98,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 08/02/2023 17.48, Andrea Bolognani wrote:
-> On Tue, Feb 07, 2023 at 08:20:31PM +0100, Andrew Jones wrote:
->> On Tue, Feb 07, 2023 at 06:38:15AM -0800, Andrea Bolognani wrote:
->>> Well, it looks like -no-acpi will come for free after all, thanks to
->>> the code you pasted above, as long as the machine property follows
->>> the convention established by x86, arm and (I just noticed this one)
->>> loongarch.
->>
->> Not quite, because we also have
->>
->> $ grep -A1 '"no-acpi"' qemu-options.hx
->> DEF("no-acpi", 0, QEMU_OPTION_no_acpi,
->>             "-no-acpi        disable ACPI\n", QEMU_ARCH_I386 | QEMU_ARCH_ARM)
->>
->> So that means neither riscv nor loongarch get -no-acpi just by adding
->> the "acpi" machine property.
->>
->> If the plan is to deprecate -no-acpi, then riscv can be like loongarch
->> and only have the "acpi" property from the start.
+On 08/02/2023 18.19, Paolo Bonzini wrote:
+> The following changes since commit ae2b5d8381a73b27f35f19c988d45c78bb4d5768:
 > 
-> Makes sense.
+>    Merge tag 'pull-include-2023-02-06-v2' of https://repo.or.cz/qemu/armbru into staging (2023-02-08 10:40:06 +0000)
 > 
+> are available in the Git repository at:
 > 
-> For the libvirt integration, do I understand correctly that the
-> machine property was added by commit
+>    https://gitlab.com/bonzini/qemu.git tags/for-upstream
 > 
->    commit 17e89077b7e3bc1d96540e21ddc7451c3e077049
->    Author: Gerd Hoffmann <kraxel@redhat.com>
->    Date:   Fri Mar 20 11:01:36 2020 +0100
+> for you to fetch changes up to e0de04cf9bd7cf03db16f33276679caf1724b75c:
 > 
->      acpi: add acpi=OnOffAuto machine property to x86 and arm virt
+>    target/i386: fix ADOX followed by ADCX (2023-02-08 18:16:55 +0100)
 > 
->      Remove the global acpi_enabled bool and replace it with an
->      acpi OnOffAuto machine property.
+> ----------------------------------------------------------------
+> * block/iscsi: fix double-free on BUSY or similar statuses
+> * catch [accel] entry without accelerator
+> * target/i386: various fixes for BMI and ADX instructions
+> * make the contents of meson-buildoptions.sh stable
 > 
->      qemu throws an error now if you use -no-acpi while the machine
->      type you are using doesn't support acpi in the first place.
-> 
->      Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
->      Message-Id: <20200320100136.11717-1-kraxel@redhat.com>
->      Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->      Acked-by: Paolo Bonzini <pbonzini@redhat.com>
->      Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
->      Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> included in QEMU 5.0? libvirt still officially supports QEMU 4.2, so
-> we'll have to make the use of the machine property conditional.
+> ----------------------------------------------------------------
+> Paolo Bonzini (8):
+>        build: make meson-buildoptions.sh stable
+>        remove unnecessary extern "C" blocks
+>        block/iscsi: fix double-free on BUSY or similar statuses
+>        vl: catch [accel] entry without accelerator
 
-Sounds right, and testing for the machine option should be possible with the 
-upcoming QEMU 8.0. FWIW, I assume this is similar to the -no-hpet option 
-which has been turned into a machine property, too:
+You missed Philippe's review comment for that patch:
 
-https://gitlab.com/libvirt/libvirt/-/commit/3c508e7d4310aeb8
+https://lore.kernel.org/qemu-devel/8ec3abf5-f4aa-db40-cb7e-2f5733d93de3@linaro.org/
 
   Thomas
 
