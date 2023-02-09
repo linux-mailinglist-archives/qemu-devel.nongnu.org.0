@@ -2,94 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC0C6690176
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 08:42:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5AE69017A
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 08:45:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ1YT-0000iT-9c; Thu, 09 Feb 2023 02:41:17 -0500
+	id 1pQ1bP-0001TR-Sb; Thu, 09 Feb 2023 02:44:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pQ1YR-0000iJ-5h
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:41:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pQ1YP-0003xg-IF
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:41:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675928472;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tBVnWOxZN0l6o+QuVuNWanJQCILIO8H7yQ/rQtmhRzc=;
- b=YKmtVutHCz5ZD+4lWbrqSzfIPu6BLDA2WczQdogTskYuqdZGXJD9iPkz8GqUKm55KH3FD1
- zBLnPbQipDQz2rjf9IZ60wYexkowSO4F012/n6vCSH05+GOMDPhKlbwQMAANe+8OcKwMN1
- fL3hovYbQC91Su3RNaIGY2VEvdfLsE8=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-91-32Srf7qGO4ygaO0B-4iLeg-1; Thu, 09 Feb 2023 02:41:10 -0500
-X-MC-Unique: 32Srf7qGO4ygaO0B-4iLeg-1
-Received: by mail-ed1-f69.google.com with SMTP id
- fd23-20020a056402389700b004aaa054d189so896426edb.11
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 23:41:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ1bN-0001T9-30
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:44:17 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ1bL-0004Ap-3H
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:44:16 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ n28-20020a05600c3b9c00b003ddca7a2bcbso818067wms.3
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 23:44:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=cGyY6FbE8zsJUrBYhfART7wwWlWbqWHQeHDnszkJ5jk=;
+ b=CXcX9+h4lIktamScyorzeB1ug2jDmkIy39P4LGS4dSs7Vt+QWrI2HxIx1pC7I645NY
+ z2pqzZeEceG1srrmInFQyTPbUWWO1naiP9nYN3cyJ/yP2e5nmO6bf824bBRpwJpCad7h
+ NHg4UXhjQAZNID8RUM4lZcn1sVHqrqsBc1XJJ7vh7GIHD933yRXGKe08kwqa0g2BJ3BH
+ z4u49BOmIbZMzjTO+XvwJHd4HYYAQvncANb8Tvl4Ak2qypGabpudEdzqTTioc02WbJmc
+ /D6lA0I0QrjwabVCfhXWf8m/SO1wkxW1hcRetBiJvADBqR6U6Rhg6becj3pHRJtRhJ5R
+ 01rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tBVnWOxZN0l6o+QuVuNWanJQCILIO8H7yQ/rQtmhRzc=;
- b=pVBFqgYzVtvKONqOUd6DWDK6DgUNVtNUMGgmgxgpKzWpJtmaZQRnyAzZU8VoMD6uLW
- KXyS5m44SyhYFZFIX2L2IPjv80O/tx+DinKBwUgaApJIvz+BFA5/BCq9liF1O1H1iIHA
- sgRk1LzznyBmyy32yN/qjIYyUD49HMyTY0SCqTwhpqcGvkwcf7ncRMagtHnrFL5rBdla
- 9rqlr0LJnd2AvzLwLSE7PG747+80EpG4zEIhJJGb9HxhPHS46Kyf//PgzsQyXGOanIl2
- GSr/Dw5JTJWmxi/AvAsphj4ydVFTF5O1fQLVpYL9hxnrpI0kmiK+ZH52FC5beBsKSsJW
- waog==
-X-Gm-Message-State: AO0yUKXQIGFRU3aarGYk4GKo4dI6miml3ZH4IU93BsZu0yc/CFryYWi+
- awW0yHf+LuTvLkBcjgQoP1sRkV3ahE+aZr1xoSHzTh8PbLEsjviMWDFgHWr+ehWO1LUQ6rlEQDz
- blBvhO3W+eIZLfgGrsg1ZXy2jZC8C36ieXeK0Bcm7dJSjwRglL9bWpscDBKmMnW1sulq0
-X-Received: by 2002:a17:907:608b:b0:8aa:c105:f0bf with SMTP id
- ht11-20020a170907608b00b008aac105f0bfmr10478738ejc.17.1675928468963; 
- Wed, 08 Feb 2023 23:41:08 -0800 (PST)
-X-Google-Smtp-Source: AK7set9aH2PzEPPLo0YJUlnsK16u0uIVA5yC1U6lk43TVGarqiJIZI5lcQAf2CtyoaWTt+6rE9LS/w==
-X-Received: by 2002:a17:907:608b:b0:8aa:c105:f0bf with SMTP id
- ht11-20020a170907608b00b008aac105f0bfmr10478695ejc.17.1675928468677; 
- Wed, 08 Feb 2023 23:41:08 -0800 (PST)
-Received: from redhat.com ([2.52.132.212]) by smtp.gmail.com with ESMTPSA id
- b15-20020a170906660f00b00871075bfcfesm515007ejp.133.2023.02.08.23.41.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 23:41:07 -0800 (PST)
-Date: Thu, 9 Feb 2023 02:41:03 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org, "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: x86@kernel.org, linux-kernel@vger.kernel.org,
- Dov Murik <dovmurik@linux.ibm.com>, Tom Lendacky <thomas.lendacky@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "H . Peter Anvin" <hpa@zytor.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Borislav Petkov <bp@alien8.de>, Eric Biggers <ebiggers@kernel.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH RFC 5/7] Revert "x86: use typedef for SetupData struct"
-Message-ID: <20230209024011-mutt-send-email-mst@kernel.org>
-References: <20230208211212.41951-1-mst@redhat.com>
- <20230208211212.41951-6-mst@redhat.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=cGyY6FbE8zsJUrBYhfART7wwWlWbqWHQeHDnszkJ5jk=;
+ b=i/Y6siYN92T18UTmjHPXWyH6zVWMUF/HhL3lIMyTDdIdjmHOL9Xhk0/SsQDJZTaFIl
+ umrL2d4hwsg40J7NW+rzXFAZu4JYwHOf/vVioNoo/k0O+VVa8z9Ylobf9NHB2JOXo9iV
+ jGX1Poy5Pqi3GGmEB8RhHVESvPq99KxvpR1wkaEoGKmKjlc+m3Ezz8uWV8ChqnXqKzlu
+ 1SnFlI+lCvjZZSByzgHebhKv9vmIjj4iKN25QrSm0RxSAo59LTaEPSY31MXkyKIzODAR
+ XTTH7OAvVHdbGfLitpm/IYdFmR8HisunoK+mXr34VIgPuY+MlOjKofETtdRCPfLZmV/A
+ 5OAw==
+X-Gm-Message-State: AO0yUKWP18JfsP5B8bOhHgRSZEfoKlI5Va3H9PfaboHJyj0OP1j9BAZU
+ SaMahxA1WipSWM/6jfZQrqJG/w==
+X-Google-Smtp-Source: AK7set9ERxNeBXwgVwglXH4HUqnpjsSH8BTPK9bnTM2d+ZycGzxbBC5DM4ezGsyZBN3nlH0F2jDlZQ==
+X-Received: by 2002:a05:600c:1716:b0:3df:f7cc:4da2 with SMTP id
+ c22-20020a05600c171600b003dff7cc4da2mr8949795wmn.16.1675928653400; 
+ Wed, 08 Feb 2023 23:44:13 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ o32-20020a05600c512000b003e0238d9101sm1062080wms.31.2023.02.08.23.44.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Feb 2023 23:44:12 -0800 (PST)
+Message-ID: <4c7d5d77-4001-69d5-7a95-eb546a627b70@linaro.org>
+Date: Thu, 9 Feb 2023 08:44:10 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230208211212.41951-6-mst@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH v2 1/4] hw/gpio: add PCA6416 i2c GPIO expander
+Content-Language: en-US
+To: Titus Rwantare <titusr@google.com>, minyard@acm.org, eddie.dong@intel.com
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, joel@jms.id.au,
+ Hao Wu <wuhaotsh@google.com>
+References: <20230208224339.270589-1-titusr@google.com>
+ <20230208224339.270589-2-titusr@google.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230208224339.270589-2-titusr@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.146,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,78 +92,186 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 08, 2023 at 04:12:51PM -0500, Michael S. Tsirkin wrote:
-> This reverts commit eebb38a5633a77f5fa79d6486d5b2fcf8fbe3c07.
+Hi Titus,
+
+On 8/2/23 23:43, Titus Rwantare wrote:
+> The PCA6416 is an i2c device with 16 GPIOs.
 > 
-> Fixes: eebb38a563 ("x86: use typedef for SetupData struct")
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-
-
-This one was actually good, I reverted so other reverts are clean.
-Jason I would appreciate it if you can rebase this on top
-of the revert.
-
-
+> Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> Signed-off-by: Titus Rwantare <titusr@google.com>
 > ---
->  hw/i386/x86.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
+>   hw/arm/Kconfig                  |   1 +
+>   hw/gpio/Kconfig                 |   4 +
+>   hw/gpio/meson.build             |   1 +
+>   hw/gpio/pca_i2c_gpio.c          | 388 ++++++++++++++++++++++++++++++++
+>   hw/gpio/trace-events            |   5 +
+>   include/hw/gpio/pca_i2c_gpio.h  |  69 ++++++
+>   tests/lcitool/libvirt-ci        |   2 +-
+>   tests/qtest/meson.build         |   1 +
+>   tests/qtest/pca_i2c_gpio-test.c | 169 ++++++++++++++
+>   9 files changed, 639 insertions(+), 1 deletion(-)
+>   create mode 100644 hw/gpio/pca_i2c_gpio.c
+>   create mode 100644 include/hw/gpio/pca_i2c_gpio.h
+>   create mode 100644 tests/qtest/pca_i2c_gpio-test.c
 > 
-> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> index 32f37ab7c2..76b12108b4 100644
-> --- a/hw/i386/x86.c
-> +++ b/hw/i386/x86.c
-> @@ -657,12 +657,12 @@ DeviceState *ioapic_init_secondary(GSIState *gsi_state)
->      return dev;
->  }
->  
-> -typedef struct SetupData {
-> +struct setup_data {
->      uint64_t next;
->      uint32_t type;
->      uint32_t len;
->      uint8_t data[];
-> -} __attribute__((packed)) SetupData;
-> +} __attribute__((packed));
->  
->  
->  /*
-> @@ -803,7 +803,7 @@ void x86_load_linux(X86MachineState *x86ms,
->      FILE *f;
->      char *vmode;
->      MachineState *machine = MACHINE(x86ms);
-> -    SetupData *setup_data;
-> +    struct setup_data *setup_data;
->      const char *kernel_filename = machine->kernel_filename;
->      const char *initrd_filename = machine->initrd_filename;
->      const char *dtb_filename = machine->dtb;
-> @@ -1086,11 +1086,11 @@ void x86_load_linux(X86MachineState *x86ms,
->          }
->  
->          setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
-> -        kernel_size = setup_data_offset + sizeof(SetupData) + dtb_size;
-> +        kernel_size = setup_data_offset + sizeof(struct setup_data) + dtb_size;
->          kernel = g_realloc(kernel, kernel_size);
->  
->  
-> -        setup_data = (SetupData *)(kernel + setup_data_offset);
-> +        setup_data = (struct setup_data *)(kernel + setup_data_offset);
->          setup_data->next = cpu_to_le64(first_setup_data);
->          first_setup_data = prot_addr + setup_data_offset;
->          setup_data->type = cpu_to_le32(SETUP_DTB);
-> @@ -1101,9 +1101,9 @@ void x86_load_linux(X86MachineState *x86ms,
->  
->      if (!legacy_no_rng_seed) {
->          setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
-> -        kernel_size = setup_data_offset + sizeof(SetupData) + RNG_SEED_LENGTH;
-> +        kernel_size = setup_data_offset + sizeof(struct setup_data) + RNG_SEED_LENGTH;
->          kernel = g_realloc(kernel, kernel_size);
-> -        setup_data = (SetupData *)(kernel + setup_data_offset);
-> +        setup_data = (struct setup_data *)(kernel + setup_data_offset);
->          setup_data->next = cpu_to_le64(first_setup_data);
->          first_setup_data = prot_addr + setup_data_offset;
->          setup_data->type = cpu_to_le32(SETUP_RNG_SEED);
-> -- 
-> MST
-> 
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 2d157de9b8..1b533ddd76 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -418,6 +418,7 @@ config NPCM7XX
+>       select SSI
+>       select UNIMP
+>       select PCA954X
+> +    select PCA_I2C_GPIO
 
+Shouldn't this be s/select/imply/? See docs/devel/kconfig.rst:
+
+   Boards specify their constituent devices using ``imply`` and
+   ``select``  directives.  A device should be listed under ``select``
+   if the board cannot be started at all without it.  It should be
+   listed under ``imply`` if (depending on the QEMU command line) the
+   board may or may not be started without it.  Boards also default to
+   false; they are  enabled by the ``default-configs/*.mak`` for the
+   target they apply to.
+
+Better to split this as another "hw/arm: Allow NPCM7xx machines to use
+the PCA6416 i2c GPIO expander" patch.
+
+> +/*
+> + * compare new_output to curr_output and update irq to match new_output
+> + *
+> + * The Input port registers (registers 0 and 1) reflect the incoming logic
+> + * levels of the pins, regardless of whether the pin is defined as an input or
+> + * an output by the Configuration register.
+> + */
+> +static void pca_i2c_update_irqs(PCAGPIOState *ps)
+> +{
+> +    PCAGPIOClass *pc = PCA_I2C_GPIO_GET_CLASS(ps);
+> +    uint16_t out_diff = ps->new_output ^ ps->curr_output;
+> +    uint16_t in_diff = ps->new_input ^ ps->curr_input;
+> +    uint16_t mask, pin_i;
+> +
+> +    if (in_diff || out_diff) {
+> +        for (int i = 0; i < pc->num_pins; i++) {
+> +            mask = BIT(i);
+> +            /* pin must be configured as an output to be set here */
+> +            if (out_diff & ~ps->config & mask) {
+> +                pin_i = mask & ps->new_output;
+> +                qemu_set_irq(ps->output[i], pin_i > 0);
+> +                ps->curr_output &= ~mask;
+> +                ps->curr_output |= pin_i;
+> +            }
+> +
+> +            if (in_diff & mask) {
+> +                ps->curr_input &= ~mask;
+> +                ps->curr_input |= mask & ps->new_input;
+> +            }
+> +        }
+> +        /* make diff = 0 */
+> +        ps->new_input = ps->curr_input;
+> +    }
+> +}
+
+> +static void pca_i2c_enter_reset(Object *obj, ResetType type)
+> +{
+> +    PCAGPIOState *ps = PCA_I2C_GPIO(obj);
+> +    PCAGPIOClass *pc = PCA_I2C_GPIO_GET_CLASS(obj);
+> +
+> +    for (int i = 0; i < pc->num_pins; i++) {
+> +        qemu_irq_lower(ps->output[i]);
+> +    }
+> +
+> +    ps->polarity_inv = 0;
+> +    ps->config = 0;
+> +    ps->curr_input = 0;
+> +    ps->curr_output = 0;
+> +    ps->new_input = 0;
+> +    ps->new_output = 0;
+> +    ps->command = 0;
+> +}
+> +
+> +static void pca_i2c_realize(DeviceState *dev, Error **errp)
+> +{
+> +    PCAGPIOState *ps = PCA_I2C_GPIO(dev);
+> +    pca_i2c_update_irqs(ps);
+> +}
+
+pca_i2c_realize() occurs once before the reset() handler, so it
+seems redundant. We can probably remove it.
+
+> +static void pca_i2c_gpio_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +    I2CSlaveClass *k = I2C_SLAVE_CLASS(klass);
+> +    ResettableClass *rc = RESETTABLE_CLASS(klass);
+> +
+> +    dc->realize = pca_i2c_realize;
+> +    dc->vmsd = &vmstate_pca_i2c_gpio;
+> +    rc->phases.enter = pca_i2c_enter_reset;
+> +    k->event = pca_i2c_event;
+> +}
+
+> +static const TypeInfo pca_gpio_types[] = {
+> +    {
+> +    .name = TYPE_PCA_I2C_GPIO,
+> +    .parent = TYPE_I2C_SLAVE,
+> +    .instance_size = sizeof(PCAGPIOState),
+> +    .instance_init = pca_i2c_gpio_init,
+> +    .class_size = sizeof(PCAGPIOClass),
+> +    .class_init = pca_i2c_gpio_class_init,
+> +    .abstract = true,
+
+Per CODING_STYLE this should be indented +4 spaces.
+
+> +    },
+> +    {
+> +    .name = TYPE_PCA6416_GPIO,
+> +    .parent = TYPE_PCA_I2C_GPIO,
+> +    .class_init = pca6416_gpio_class_init,
+> +    },
+> +};
+
+
+> +#define PCA6416_INPUT_PORT_0                 0x00 /* read */
+> +#define PCA6416_INPUT_PORT_1                 0x01 /* read */
+> +#define PCA6416_OUTPUT_PORT_0                0x02 /* read/write */
+> +#define PCA6416_OUTPUT_PORT_1                0x03 /* read/write */
+> +#define PCA6416_POLARITY_INVERSION_PORT_0    0x04 /* read/write */
+> +#define PCA6416_POLARITY_INVERSION_PORT_1    0x05 /* read/write */
+> +#define PCA6416_CONFIGURATION_PORT_0         0x06 /* read/write */
+> +#define PCA6416_CONFIGURATION_PORT_1         0x07 /* read/write */
+
+IIUC the registers are 16-bit but the I2CSlaveClass API forces you
+to process 8-bit at a time. Possible simpler to use the extract /
+deposit API:
+
+     #define PCA6416_INPUT_PORT                 0x00 /* read */
+     #define PCA6416_OUTPUT_PORT                0x02 /* read/write */
+
+     static uint8_t pca6416_recv(I2CSlave *i2c)
+     {
+         PCAGPIOState *ps = PCA_I2C_GPIO(i2c);
+         unsigned shift = (ps->command) & 1 ? 8 : 0;
+         uint8_t data;
+
+         switch (ps->command) {
+         case PCA6416_INPUT_PORT:
+             data = extract16(ps->curr_input, shift, 8);
+             break;
+
+     static int pca6416_send(I2CSlave *i2c, uint8_t data)
+     {
+         PCAGPIOState *ps = PCA_I2C_GPIO(i2c);
+         unsigned shift = (ps->command) & 1 ? 0 : 8;
+         ...
+         switch (ps->command) {
+         ...
+         case PCA6416_OUTPUT_PORT:
+             ps->new_output = deposit32(ps->new_output, shift 8,
+                                        extract16(data, shift, 8));
+             break;
+
+Regards,
+
+Phil.
 
