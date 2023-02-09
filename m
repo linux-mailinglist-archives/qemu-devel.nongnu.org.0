@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E5456902C2
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 10:03:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 516A16902C3
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 10:03:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ2oL-0003oA-Dg; Thu, 09 Feb 2023 04:01:45 -0500
+	id 1pQ2pH-0004EV-Hz; Thu, 09 Feb 2023 04:02:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pQ2oI-0003nt-W4
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 04:01:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pQ2pB-00047W-8e
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 04:02:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pQ2oG-0001YG-Rw
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 04:01:42 -0500
+ id 1pQ2p9-0001hA-G8
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 04:02:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675933299;
+ s=mimecast20190719; t=1675933354;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=s9hnBHL/pBOFYYIMELTax65xaLNpCom4O26mRJQporA=;
- b=f1NE923/ACrjXggAS+TaEY5ksL0Fn520VBiSBvZQxOBjQumXMozh1uL40dC0E9nxUR5E7+
- Z7kkek+KiCFeTQal7x7/iMU/NWElrNZsBFMnVt0TiigxYjZNZBQFky/x5J5Qg8wNj5QJOL
- 6oYsyGs3A4hU7A9v1flL0aB1id7aLb0=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vWUCBTo1lMvvLcyS4H8yQ6avzslaXH9oPrjPRQxPTh8=;
+ b=iGv1YwAL82yk07af9KcSvG2JWZHQG2ZsSp39uqumhcaHeqzbkRKKY+rtjpj6Y0n1NegdCg
+ sofgctMa9iQ6rgsu82eMnuSL8nhn0J1+ulOm2Yy4wLsLS3HeRqMI70FaiV460x7b0JQGFV
+ QqPxAorWInyBQHO2MXNna4/CZCeRtYo=
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-608-mXuMwPEzNzae-QTxiFqQ2w-1; Thu, 09 Feb 2023 04:01:37 -0500
-X-MC-Unique: mXuMwPEzNzae-QTxiFqQ2w-1
-Received: by mail-ua1-f72.google.com with SMTP id
- u5-20020a9f35c5000000b0068398735344so668133uad.15
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 01:01:36 -0800 (PST)
+ us-mta-475-Kh5L_l3CNSqvp-kCDHW-IA-1; Thu, 09 Feb 2023 04:02:31 -0500
+X-MC-Unique: Kh5L_l3CNSqvp-kCDHW-IA-1
+Received: by mail-vk1-f200.google.com with SMTP id
+ o28-20020a056122179c00b00400dddd79c5so569689vkf.11
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 01:02:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=s9hnBHL/pBOFYYIMELTax65xaLNpCom4O26mRJQporA=;
- b=bQfOiO/+fIwMIkD8qjI0B+SErmBQudkG/6SJfAisVRNJSkTv0lDPCgBazI1QAAbPUw
- 0fVS1/GHN4hNHkKUPwJBmG8m40be6ZAuFEI+3iI3uGhZzsOM4wPAubHy6e2kaYPEHCLY
- F7n/I/9Rom4PSXWKpBcM7fAjGE7SV/CrvffCannZO5N8zPY2vHwvIjQsERk6/QJolZpf
- gvSNQsTEq1q0k5jH1lNaXpCgoysnbzyza/PtKfo3Hq3EHoBhAX/7zixyiXQa8nMwVugq
- RE0rweENIQd1kpl8cl6mgOxo+qCKAv33uC8FHw/WWXpKkMS7ObIr3oHmxPwm+01LGw37
- Hrzg==
-X-Gm-Message-State: AO0yUKUQHjloS0cQL3Re7E5OOqQnk33NW34IQfraFc5qm/mbaU57wkJw
- mrRws8aHG7Jk++Wca2APgWiGvfQKsL2u9AHO7QbwlxotAWvmAvECDNCESXFtoM3ITgRgSR9Cl5n
- OkNh3caM+mMPyvkZ4ltpZWvM3vhkScIc=
-X-Received: by 2002:ab0:6592:0:b0:683:cba5:ad90 with SMTP id
- v18-20020ab06592000000b00683cba5ad90mr2302957uam.59.1675933296357; 
- Thu, 09 Feb 2023 01:01:36 -0800 (PST)
-X-Google-Smtp-Source: AK7set9qxp+0viv03gbEMkWp+EC5GwAVObWikKfurhWg+laE6H2nslru+zCT2map26XiZJAkPQ9aGSpHo7OCUA0HP5w=
-X-Received: by 2002:ab0:6592:0:b0:683:cba5:ad90 with SMTP id
- v18-20020ab06592000000b00683cba5ad90mr2302954uam.59.1675933296044; Thu, 09
- Feb 2023 01:01:36 -0800 (PST)
+ bh=vWUCBTo1lMvvLcyS4H8yQ6avzslaXH9oPrjPRQxPTh8=;
+ b=7R1lPhusvd6YoLQCqIJhUy+i+YPk3JWJqSQzwHlJ1SRAIywt7OTdC+fBWPUWteybyj
+ 3vzPikP+5JTjHbRQ63+MFtliVhFBYg9O65QeMOZzmRJu7x925WleoSWwuSSEW3QYui8/
+ RBzjMXTWks2gQR6Jpv6M/ES7psFXn5BrJvf6B4oMpc2Mrb4qqJ/Xhjp0KfYUTg+Cc9P/
+ 5aytRsKq7iLj+xjDpVCG2XreJFu/ZxXe3K1P2UIteuviyAJ+rJVWwtdGMmTBK91yohqA
+ Y3JNUS4UyA1j38xvz/F4MF6ChwjK7R5uDTX2Uij7Jk08t1EKAZQhPZ0eOjORmsus6KI+
+ qhww==
+X-Gm-Message-State: AO0yUKWVxFh3Pik6Ib/Qqk7wikPke4OLJXFfF8xpKnm1313MSzHWCOKx
+ W1jcqWRQ3eo+1nkq660YS1GlaUB3nGpgnBJ+t10c/NCbjx66z6YmA4L8iLhVAXd1WZkge+m1n9C
+ vM/et2kxGHXJX6d9s+ADo9DvkQZsoi8U=
+X-Received: by 2002:a1f:a101:0:b0:3ea:342a:dc34 with SMTP id
+ k1-20020a1fa101000000b003ea342adc34mr2189482vke.19.1675933351144; 
+ Thu, 09 Feb 2023 01:02:31 -0800 (PST)
+X-Google-Smtp-Source: AK7set+O8WdVK4QKd/BHEhpNbLdzGfh4IEC8Y9cxS1mq7qyPhPUYnEfDXTZaMlhGWRN2yNwoO4OzEbD4Z3gIQwbqew8=
+X-Received: by 2002:a1f:a101:0:b0:3ea:342a:dc34 with SMTP id
+ k1-20020a1fa101000000b003ea342adc34mr2189480vke.19.1675933350831; Thu, 09 Feb
+ 2023 01:02:30 -0800 (PST)
 MIME-Version: 1.0
 References: <20230208171922.95048-1-pbonzini@redhat.com>
- <20230208171922.95048-8-pbonzini@redhat.com>
- <905f792c-bac7-f88f-a538-b5c10135944d@redhat.com>
-In-Reply-To: <905f792c-bac7-f88f-a538-b5c10135944d@redhat.com>
+ <95cab180-a34b-858d-e360-5083a7d7ecf8@redhat.com>
+ <d6c35d9e-9a6c-4715-6532-4241e3d86a65@linaro.org>
+In-Reply-To: <d6c35d9e-9a6c-4715-6532-4241e3d86a65@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Thu, 9 Feb 2023 10:01:24 +0100
-Message-ID: <CABgObfbJOm7ddrGzMNJZJ_v16gYsoCcGDCfYWRPT=cz=RFDP8w@mail.gmail.com>
-Subject: Re: [PULL 07/11] readconfig-test: add test for accelerator
- configuration
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000c7453c05f440a0c5"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Date: Thu, 9 Feb 2023 10:02:19 +0100
+Message-ID: <CABgObfYf3+EHgi=P71+xJ-oeSgZtO61jH3wuD9xALSeGa73tNA@mail.gmail.com>
+Subject: Re: [PULL 00/11] Misc patches for 2022-02-08
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="0000000000000b441205f440a49f"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -94,136 +93,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000c7453c05f440a0c5
+--0000000000000b441205f440a49f
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Oops yes I did. I will respin it.
+Yeah it's the same but it should use errp. Sorry to both of you!
 
 Paolo
 
-Il gio 9 feb 2023, 06:21 Thomas Huth <thuth@redhat.com> ha scritto:
+Il gio 9 feb 2023, 08:09 Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> ha
+scritto:
 
-> On 08/02/2023 18.19, Paolo Bonzini wrote:
-> > Test that it does not cause a SIGSEGV, and cover a valid configuration
-> > as well.
+> On 9/2/23 06:19, Thomas Huth wrote:
+> > On 08/02/2023 18.19, Paolo Bonzini wrote:
+> >> The following changes since commit
+> >> ae2b5d8381a73b27f35f19c988d45c78bb4d5768:
+> >>
+> >>    Merge tag 'pull-include-2023-02-06-v2' of
+> >> https://repo.or.cz/qemu/armbru into staging (2023-02-08 10:40:06 +0000=
+)
+> >>
+> >> are available in the Git repository at:
+> >>
+> >>    https://gitlab.com/bonzini/qemu.git tags/for-upstream
+> >>
+> >> for you to fetch changes up to e0de04cf9bd7cf03db16f33276679caf1724b75=
+c:
+> >>
+> >>    target/i386: fix ADOX followed by ADCX (2023-02-08 18:16:55 +0100)
+> >>
+> >> ----------------------------------------------------------------
+> >> * block/iscsi: fix double-free on BUSY or similar statuses
+> >> * catch [accel] entry without accelerator
+> >> * target/i386: various fixes for BMI and ADX instructions
+> >> * make the contents of meson-buildoptions.sh stable
+> >>
+> >> ----------------------------------------------------------------
+> >> Paolo Bonzini (8):
+> >>        build: make meson-buildoptions.sh stable
+> >>        remove unnecessary extern "C" blocks
+> >>        block/iscsi: fix double-free on BUSY or similar statuses
+> >>        vl: catch [accel] entry without accelerator
 > >
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > ---
-> >   tests/qtest/libqtest.c        | 28 +++++++++++++++++-----
-> >   tests/qtest/libqtest.h        | 12 ++++++++++
-> >   tests/qtest/readconfig-test.c | 45 ++++++++++++++++++++++++++++-------
-> >   3 files changed, 70 insertions(+), 15 deletions(-)
+> > You missed Philippe's review comment for that patch:
 > >
-> > diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-> > index ce5f235e25f1..4fba2bb27f06 100644
-> > --- a/tests/qtest/libqtest.c
-> > +++ b/tests/qtest/libqtest.c
-> > @@ -420,6 +420,26 @@ static QTestState *G_GNUC_PRINTF(1, 2)
-> qtest_spawn_qemu(const char *fmt, ...)
-> >       return s;
-> >   }
 > >
-> > +QTestState *G_GNUC_PRINTF(1, 0) qtest_init_bare(const char *args)
-> > +{
-> > +    QTestState *s = qtest_spawn_qemu("%s", args);
-> > +
-> > +    /*
-> > +     * Stopping QEMU for debugging is not supported on Windows.
-> > +     *
-> > +     * Using DebugActiveProcess() API can suspend the QEMU process,
-> > +     * but gdb cannot attach to the process. Using the undocumented
-> > +     * NtSuspendProcess() can suspend the QEMU process and gdb can
-> > +     * attach to the process, but gdb cannot resume it.
-> > +     */
-> > +#ifndef _WIN32
-> > +    if (getenv("QTEST_STOP")) {
-> > +        kill(s->qemu_pid, SIGSTOP);
-> > +    }
-> > +#endif
-> > +    return s;
-> > +}
+> https://lore.kernel.org/qemu-devel/8ec3abf5-f4aa-db40-cb7e-2f5733d93de3@l=
+inaro.org/
 >
-> You missed my review comments here:
->
->
-> https://lore.kernel.org/qemu-devel/2f17c06f-90a9-9bac-8e9a-a1a2842665d2@redhat.com/
->
->   Thomas
+> I interpreted "no response" as "the result is the same".
 >
 >
 
---000000000000c7453c05f440a0c5
+--0000000000000b441205f440a49f
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Oops yes I did. I will respin it.<div dir=3D"auto"><br></=
-div><div dir=3D"auto">Paolo</div></div><br><div class=3D"gmail_quote"><div =
-dir=3D"ltr" class=3D"gmail_attr">Il gio 9 feb 2023, 06:21 Thomas Huth &lt;<=
-a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; ha scritto:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex">On 08/02/2023 18.19, Paolo Bonzini wro=
-te:<br>
-&gt; Test that it does not cause a SIGSEGV, and cover a valid configuration=
+<div dir=3D"auto"><div dir=3D"auto">Yeah it&#39;s the same but it should us=
+e errp. Sorry to both of you!</div><div dir=3D"auto"><br></div><div dir=3D"=
+auto">Paolo</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
+mail_attr">Il gio 9 feb 2023, 08:09 Philippe Mathieu-Daud=C3=A9 &lt;<a href=
+=3D"mailto:philmd@linaro.org" target=3D"_blank" rel=3D"noreferrer">philmd@l=
+inaro.org</a>&gt; ha scritto:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 9/=
+2/23 06:19, Thomas Huth wrote:<br>
+&gt; On 08/02/2023 18.19, Paolo Bonzini wrote:<br>
+&gt;&gt; The following changes since commit <br>
+&gt;&gt; ae2b5d8381a73b27f35f19c988d45c78bb4d5768:<br>
+&gt;&gt;<br>
+&gt;&gt; =C2=A0=C2=A0 Merge tag &#39;pull-include-2023-02-06-v2&#39; of <br=
+>
+&gt;&gt; <a href=3D"https://repo.or.cz/qemu/armbru" rel=3D"noreferrer noref=
+errer noreferrer" target=3D"_blank">https://repo.or.cz/qemu/armbru</a> into=
+ staging (2023-02-08 10:40:06 +0000)<br>
+&gt;&gt;<br>
+&gt;&gt; are available in the Git repository at:<br>
+&gt;&gt;<br>
+&gt;&gt; =C2=A0=C2=A0 <a href=3D"https://gitlab.com/bonzini/qemu.git" rel=
+=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://gitlab.com/=
+bonzini/qemu.git</a> tags/for-upstream<br>
+&gt;&gt;<br>
+&gt;&gt; for you to fetch changes up to e0de04cf9bd7cf03db16f33276679caf172=
+4b75c:<br>
+&gt;&gt;<br>
+&gt;&gt; =C2=A0=C2=A0 target/i386: fix ADOX followed by ADCX (2023-02-08 18=
+:16:55 +0100)<br>
+&gt;&gt;<br>
+&gt;&gt; ----------------------------------------------------------------<b=
+r>
+&gt;&gt; * block/iscsi: fix double-free on BUSY or similar statuses<br>
+&gt;&gt; * catch [accel] entry without accelerator<br>
+&gt;&gt; * target/i386: various fixes for BMI and ADX instructions<br>
+&gt;&gt; * make the contents of meson-buildoptions.sh stable<br>
+&gt;&gt;<br>
+&gt;&gt; ----------------------------------------------------------------<b=
+r>
+&gt;&gt; Paolo Bonzini (8):<br>
+&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 build: make meson-buildoption=
+s.sh stable<br>
+&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 remove unnecessary extern &qu=
+ot;C&quot; blocks<br>
+&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 block/iscsi: fix double-free =
+on BUSY or similar statuses<br>
+&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vl: catch [accel] entry witho=
+ut accelerator<br>
+&gt; <br>
+&gt; You missed Philippe&#39;s review comment for that patch:<br>
+&gt; <br>
+&gt; <a href=3D"https://lore.kernel.org/qemu-devel/8ec3abf5-f4aa-db40-cb7e-=
+2f5733d93de3@linaro.org/" rel=3D"noreferrer noreferrer noreferrer" target=
+=3D"_blank">https://lore.kernel.org/qemu-devel/8ec3abf5-f4aa-db40-cb7e-2f57=
+33d93de3@linaro.org/</a><br>
 <br>
-&gt; as well.<br>
-&gt; <br>
-&gt; Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com=
-" target=3D"_blank" rel=3D"noreferrer">pbonzini@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0tests/qtest/libqtest.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 28 +++=
-++++++++++++++-----<br>
-&gt;=C2=A0 =C2=A0tests/qtest/libqtest.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 12 +++=
-+++++++<br>
-&gt;=C2=A0 =C2=A0tests/qtest/readconfig-test.c | 45 +++++++++++++++++++++++=
-+++++-------<br>
-&gt;=C2=A0 =C2=A03 files changed, 70 insertions(+), 15 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c<br>
-&gt; index ce5f235e25f1..4fba2bb27f06 100644<br>
-&gt; --- a/tests/qtest/libqtest.c<br>
-&gt; +++ b/tests/qtest/libqtest.c<br>
-&gt; @@ -420,6 +420,26 @@ static QTestState *G_GNUC_PRINTF(1, 2) qtest_spaw=
-n_qemu(const char *fmt, ...)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return s;<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +QTestState *G_GNUC_PRINTF(1, 0) qtest_init_bare(const char *args)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 QTestState *s =3D qtest_spawn_qemu(&quot;%s&quot;, args=
-);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 /*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* Stopping QEMU for debugging is not supported on=
- Windows.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* Using DebugActiveProcess() API can suspend the =
-QEMU process,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* but gdb cannot attach to the process. Using the=
- undocumented<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* NtSuspendProcess() can suspend the QEMU process=
- and gdb can<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* attach to the process, but gdb cannot resume it=
+I interpreted &quot;no response&quot; as &quot;the result is the same&quot;=
 .<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
-&gt; +#ifndef _WIN32<br>
-&gt; +=C2=A0 =C2=A0 if (getenv(&quot;QTEST_STOP&quot;)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 kill(s-&gt;qemu_pid, SIGSTOP);<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +#endif<br>
-&gt; +=C2=A0 =C2=A0 return s;<br>
-&gt; +}<br>
 <br>
-You missed my review comments here:<br>
-<br>
-<a href=3D"https://lore.kernel.org/qemu-devel/2f17c06f-90a9-9bac-8e9a-a1a28=
-42665d2@redhat.com/" rel=3D"noreferrer noreferrer" target=3D"_blank">https:=
-//lore.kernel.org/qemu-devel/2f17c06f-90a9-9bac-8e9a-a1a2842665d2@redhat.co=
-m/</a><br>
-<br>
-=C2=A0 Thomas<br>
-<br>
-</blockquote></div>
+</blockquote></div></div>
 
---000000000000c7453c05f440a0c5--
+--0000000000000b441205f440a49f--
 
 
