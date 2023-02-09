@@ -2,93 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52C0B68FE4B
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 05:16:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E873568FE70
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 05:21:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPyLN-0002dj-84; Wed, 08 Feb 2023 23:15:33 -0500
+	id 1pPyQw-0000T2-J7; Wed, 08 Feb 2023 23:21:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1pPyLH-0002XQ-TY
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 23:15:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
+ id 1pPyQr-0000Sm-6W
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 23:21:13 -0500
+Received: from mga03.intel.com ([134.134.136.65])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1pPyLF-0002qQ-Oy
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 23:15:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675916124;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dX8S+ZUZb3YLmb5HSu6nG6dLaiYQI1MtXZiJ8QEy+rE=;
- b=f58eo7JoH++DAOKIO4o9zeSnZxjphMzhdbXixlxbIycDt2Cs/vZetN/fx9SC38/2IJ38hf
- qqkWaxGcy1vUiCw9Nsh97oMW+J8Br74LELVCgpPQtYFX6/gYRxqE63TwPrqhQ6JWjpUDEJ
- ZVvJBCvKNgA6XfgBEfkPDp44MlplPQs=
-Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
- [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-81-Tk8hU96lOza--IDU-PZxfA-1; Wed, 08 Feb 2023 23:14:18 -0500
-X-MC-Unique: Tk8hU96lOza--IDU-PZxfA-1
-Received: by mail-oa1-f70.google.com with SMTP id
- 586e51a60fabf-163da91d8edso442910fac.1
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 20:14:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=dX8S+ZUZb3YLmb5HSu6nG6dLaiYQI1MtXZiJ8QEy+rE=;
- b=tqJBcuUujIi5JYlRcRbxcmFYOgLoELPT7tIX1KoLasaGMfPYWANSQaOv0cUN2nDRVR
- K7KCCCcoWhyKBiBM5wq6MYLBBU5xgPQoDVtHPsTfk1ITqVVFwOXQwnP5Uxwyd0UN7U/e
- BPlAMbFJtCQSC5HhMt2Y8uoB86kwleSKNNIllFSYIXafug2KhdmjVPp3m+66gNrMpCYR
- FAme8X07zjD1QYTQdzUld9216q+A6aDsN+TkP49qZy94iMiowV8bAfienmllmpNW9GJS
- yDxSLDIpQzBirG17AK8bWcUVkDZiar4Y1cgyZdgOJkATj2tOs/bbYpl4rwZK8+Oi97tJ
- AmuQ==
-X-Gm-Message-State: AO0yUKXxoUaDfpK6B5TBRPe/a2cxIpgnqEYoXLrDU4crfdBnq7tPl7QF
- KZgU8A9U+bGrtlzjlgJ9eKj5it+E9OmNtXiSA+3u+oePDMRzmnQ4E42Bx79Uu2GHeIpQCpoXkVA
- XDPQS7Zruw1uzmKo=
-X-Received: by 2002:a05:6870:5607:b0:163:5760:240b with SMTP id
- m7-20020a056870560700b001635760240bmr5450608oao.36.1675916057673; 
- Wed, 08 Feb 2023 20:14:17 -0800 (PST)
-X-Google-Smtp-Source: AK7set+MPaYtgP/wgaNVdr9GePklU1vehVdWp4om33SwbHIB8DSqB9X/A+cBXRqA9BxO9eJv3BDOGA==
-X-Received: by 2002:a05:6870:5607:b0:163:5760:240b with SMTP id
- m7-20020a056870560700b001635760240bmr5450601oao.36.1675916057392; 
- Wed, 08 Feb 2023 20:14:17 -0800 (PST)
-Received: from ?IPv6:2804:1b3:a800:9aa9:fdcb:7dec:9680:8417?
- ([2804:1b3:a800:9aa9:fdcb:7dec:9680:8417])
- by smtp.gmail.com with ESMTPSA id
- ec22-20020a0568708c1600b00143824af059sm206397oab.7.2023.02.08.20.14.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 20:14:16 -0800 (PST)
-Message-ID: <038b3c6d5f0ee3b3da5c9e53029a51b8b39d4922.camel@redhat.com>
-Subject: Re: [PATCH v1 1/1] migration: Fix yank on postcopy multifd crashing
- guest after migration
-From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, qemu-devel@nongnu.org, Li Xiaohui
- <xiaohli@redhat.com>
-Date: Thu, 09 Feb 2023 01:14:12 -0300
-In-Reply-To: <Y4ZwhZVDh9ac6MH8@x1n>
-References: <20221109055629.789795-1-leobras@redhat.com> <Y3+WGof3MQtaCYdS@x1n>
- <CAJ6HWG4KaEbUYHe75i4ty66nosHEM8ZJW0c1W4Q=s4YeNnP_rA@mail.gmail.com>
- <Y4ZwhZVDh9ac6MH8@x1n>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 
+ (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
+ id 1pPyQm-00045g-GE
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 23:21:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675916468; x=1707452468;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=i5sHvCnVohV+g/UMmihfWZGV7RYwKyOSGomUzN+MgMo=;
+ b=SZ66joHokNB/1YNuOmHVrgrDgJP9KS9NguZFixKpua6NOFc/gHdvv0EW
+ Z8VkuDzo4yeLxyvVHdcIBz0uBt8gx5aRKyQ3Sy4LLJ4Un1BnUBpCxAZqE
+ UzEW6tGveErmLsvqlt39m0Yf6hO2eakLBmkRVaZc5z8WsNgl3kCzkvPDs
+ B704v2vJKphWQFx+jUHSWx/EIZjL6Ce8WaCZTwO8W79uas4BJV9/tWn/R
+ D0vnYcU6e3N7Im/KnVLaj0lqZEBCTMevBeM9kbMH+ARhm9rb8B4UQrXJt
+ EyKJYB8aLXbjTUFAX4ydIyDEbZBSERW/VWVxeFHjhErh07QtGSKPaugYR w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="332129900"
+X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; d="scan'208";a="332129900"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2023 20:21:05 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="617449088"
+X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; d="scan'208";a="617449088"
+Received: from leiwang7-mobl.ccr.corp.intel.com (HELO [10.238.212.95])
+ ([10.238.212.95])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2023 20:21:03 -0800
+Message-ID: <6ae0be93-edc8-97d8-04a8-4db2fa3fd291@intel.com>
+Date: Thu, 9 Feb 2023 12:21:01 +0800
 MIME-Version: 1.0
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=leobras@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.6.1
+Subject: Re: [PATCH v3 4/6] i386: Mask and report unavailable multi-bit
+ feature values
+To: Xiaoyao Li <xiaoyao.li@intel.com>, Yuan Yao <yuan.yao@linux.intel.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, imammedo@redhat.com,
+ dgilbert@redhat.com, berrange@redhat.com, yang.zhong@linux.intel.com
+References: <20230106083826.5384-1-lei4.wang@intel.com>
+ <20230106083826.5384-5-lei4.wang@intel.com>
+ <20230206074320.bkeuh3eep7kauhg7@yy-desk-7060>
+ <d99625d9-af63-72d6-2cb9-8f2a1819b825@intel.com>
+ <9cffc221-979b-ac71-d2ff-76a6f4698641@intel.com>
+From: "Wang, Lei" <lei4.wang@intel.com>
+Content-Language: en-US
+In-Reply-To: <9cffc221-979b-ac71-d2ff-76a6f4698641@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=134.134.136.65; envelope-from=lei4.wang@intel.com;
+ helo=mga03.intel.com
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-1.146, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,89 +85,148 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 2022-11-29 at 15:50 -0500, Peter Xu wrote:
-> On Tue, Nov 29, 2022 at 05:28:26PM -0300, Leonardo Bras Soares Passos wro=
-te:
-> > Hello Peter,
->=20
-> Leo,
->=20
-> >=20
-> > On Thu, Nov 24, 2022 at 1:04 PM Peter Xu <peterx@redhat.com> wrote:
-> > >=20
-> > > On Wed, Nov 09, 2022 at 02:56:29AM -0300, Leonardo Bras wrote:
-> > > > diff --git a/migration/savevm.c b/migration/savevm.c
-> > > > index a0cdb714f7..250caff7f4 100644
-> > > > --- a/migration/savevm.c
-> > > > +++ b/migration/savevm.c
-> > > > @@ -1889,6 +1889,8 @@ static void *postcopy_ram_listen_thread(void =
-*opaque)
-> > > >          exit(EXIT_FAILURE);
-> > > >      }
-> > > >=20
-> > > > +    migration_load_cleanup();
-> > >=20
-> > > It's a bit weird to call multifd-load-clean in a listen phase..
-> >=20
-> > I agree.
-> >=20
-> > >=20
-> > > How about moving it right above
-> > > trace_process_incoming_migration_co_postcopy_end_main()?  Then the ne=
-w
-> > > helper can also be static.
-> >=20
-> > Seems a nice Idea to have this function to be static.
-> >=20
-> > We have to guarantee this is run after the migration finished, but
-> > before migration_incoming_state_destroy().
->=20
-> IIUC it doesn't need to be when migration finished.  It should be fine as
-> long as we finished precopy phase, and that's what the migration coroutin=
-e
-> does, iiuc.  The thing is postcopy doesn't use multifd at all, so logical=
-ly
-> it can be released before postcopy starts.
->=20
-> Actually, IMHO it'll be safer to do it like that, just to make sure we
-> won't accidentally receive multifd pages _after_ postcopy starts, because
-> that'll be another more severe and hard to debug issue since the guest ca=
-n
-> see partial copied pages from multifd recv channels.
->=20
-> >=20
-> > You suggested calling it right above of
-> > trace_process_incoming_migration_co_postcopy_end_main(), which git
-> > grep pointed me to an if clause in process_incoming_migration_co().
-> > If I got the location correctly, it would not help: this coroutine is
-> > ran just after the VM went to the target host, and not when the
-> > migration finished.
-> >=20
-> > If we are using multifd channels, this will break the migration with
-> > segmentation fault (SIGSEGV), since the channels have not finished
-> > sending yet.
->=20
-> If this happens, then I had a feeling that there's something else that
-> needs syncs.  As I discussed above, we should make sure multifd pages all
-> landed before we start vcpu threads.
->=20
-> Said that, now I think I'm not against your original proposal to fix this
-> immediate crash.  However I am still wondering whether we really should
-> disable multifd with postcopy, as there seem to be still a few missing
-> pieces even to enable multifd during precopy-only.
->=20
-> Thanks,
->=20
+On 2/9/2023 11:29 AM, Xiaoyao Li wrote:
+> On 2/9/2023 9:04 AM, Wang, Lei wrote:
+>> On 2/6/2023 3:43 PM, Yuan Yao wrote:
+>>> On Fri, Jan 06, 2023 at 12:38:24AM -0800, Lei Wang wrote:
+>>>> Some feature words, e.g., feature words in AMX-related CPUID leaf 0x1D and
+>>>> 0x1E are not bit-wise but multiple bits represents one value. Handle this
+>>>> situation when the values specified are not the same as which are reported
+>>>> by KVM. The handling includes:
+>>>>
+>>>>   - The responsibility of masking bits and giving warnings are delegated to
+>>>>     the feature enabler. A framework is also provided to enable this.
+>>>>   - To simplify the initialization, a default function is provided if the
+>>>>     the function is not specified.
+> 
+> What's the behavior of default ? you need to call out it clearly.
+> 
+>>>> The reason why delegating this responsibility rather than just marking
+>>>> them as zeros when they are not same is because different multi-bit
+>>>> features may have different logic, which is case by case, for example:
+>>>>
+>>>>   1. CPUID.0x14_0x1:EBX[15:0]. Even though it's multi-bits field, it's a
+>>>>      bitmap and each bit represents a separate capability.
+>>>>
+>>>>   2. CPUID.0x14_0x1:EAX[2:0] represents the number of configurable Address
+>>>>      Ranges. 3 bits as a whole to represent a integer value. It means the
+>>>>      maximum capability of HW. If KVM reports M, then M to 0 is legal
+>>>>      value to configure (because KVM can emulate each value correctly).
+>>>>
+>>>>   3. CPUID.0x1D_0x1:EAX[31:16] represents palette 1 bytes_per_tile. 16 bits
+>>>>      as a whole represent an integer value. It's not like case 2 and SW
+>>>>      needs to configure the same value as reported. Because it's not
+>>>>      possible for SW to configure to a different value and KVM cannot
+>>>>      emulate it.
+>>>>
+>>>> So marking them blindly as zeros is incorrect, and delegating this
+>>>> responsibility can let each multi-bit feature have its own way to mask bits.
+> 
+> you can first describe there are such 3 cases of multi-bit features and they
+> need different handling for checking whether configured value is supported by
+> KVM or not. So introduce a handling callback function that each multi-bit
+> feature can implement their own. Meanwhile, provide a default handling callback
+> that handles case x: when configured value is not the same as the one reported
+> by KVM, clearing it to zero to mark it as unavailable.
 
+OK, will rephrase the commit message.
 
-I got side-tracked on this issue.
+> 
+>>>> Signed-off-by: Lei Wang <lei4.wang@intel.com>
+>>>> ---
+>>>>   target/i386/cpu-internal.h |  2 ++
+>>>>   target/i386/cpu.c          | 36 ++++++++++++++++++++++++++++++++++++
+>>>>   2 files changed, 38 insertions(+)
+>>>>
+>>>> diff --git a/target/i386/cpu-internal.h b/target/i386/cpu-internal.h
+>>>> index 66b3d66cb4..83c7b53926 100644
+>>>> --- a/target/i386/cpu-internal.h
+>>>> +++ b/target/i386/cpu-internal.h
+>>>> @@ -30,6 +30,8 @@ typedef struct MultiBitFeatureInfo {
+>>>>       uint64_t mask;
+>>>>       unsigned high_bit_position;
+>>>>       unsigned low_bit_position;
+>>>> +    void (*mark_unavailable_multi_bit)(X86CPU *cpu, FeatureWord w, int index,
+>>>> +                                       const char *verbose_prefix);
+>>>>   } MultiBitFeatureInfo;
+>>>>
+>>>>   typedef struct FeatureWordInfo {
+>>>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+>>>> index 88aa780566..e638a31d34 100644
+>>>> --- a/target/i386/cpu.c
+>>>> +++ b/target/i386/cpu.c
+>>>> @@ -4377,6 +4377,28 @@ static bool x86_cpu_have_filtered_features(X86CPU *cpu)
+>>>>       return false;
+>>>>   }
+>>>>
+>>>> +static void mark_unavailable_multi_bit_default(X86CPU *cpu, FeatureWord w,
+>>>> +                                               int index,
+>>>> +                                               const char *verbose_prefix)
+>>>> +{
+>>>> +    FeatureWordInfo *f = &feature_word_info[w];
+>>>> +    g_autofree char *feat_word_str = feature_word_description(f);
+>>>> +    uint64_t host_feat = x86_cpu_get_supported_feature_word(w, false);
+>>>> +    MultiBitFeatureInfo mf = f->multi_bit_features[index];
+>>>> +
+>>>> +    if ((cpu->env.features[w] & mf.mask) &&
+>>>
+>>> With this checking bits are all 0 but covered by mf.mask's range are skippped,
+>>> even if they're different from the host_feat, please check whether it's desried
+>>> behavior.
+>>
+>> This is the intended design because there are quite a number of multi-bit CPUIDs
+>> should support passing all 0 to them.
+> 
+> you didn't answer the question. The question is why the handling can be skipped
+> when the value of multi-bit feature is 0.
 
-Is there any patch disabling multifd + postcopy, or would it be fine to go =
-back
-working on a V2 for this one?
+I think the default function should handle the most common case, which is,
+passing all 0 multi-bits to KVM is valid and shouldn't be warned. E.g, when we
+are using some earlier CPU models which doesn't support AMX, we shouldn't be
+warned that all 0 values don't match the CPUID reported by KVM.
 
-Best regards,
-Leo
-
-
+> 
+>>>> +        ((cpu->env.features[w] ^ host_feat) & mf.mask)) {
+>>>> +        if (!cpu->force_features) {
+>>>> +            cpu->env.features[w] &= ~mf.mask;
+>>>> +        }
+>>>> +        cpu->filtered_features[w] |= mf.mask;
+>>>> +        if (verbose_prefix)
+>>>> +            warn_report("%s: %s.%s [%u:%u]", verbose_prefix, feat_word_str,
+>>>> +                        mf.feat_name, mf.high_bit_position,
+>>>> +                        mf.low_bit_position);
+>>>> +    }
+>>>> +}
+>>>> +
+>>>>   static void mark_unavailable_features(X86CPU *cpu, FeatureWord w, uint64_t
+>>>> mask,
+>>>>                                         const char *verbose_prefix)
+>>>>   {
+>>>> @@ -6442,6 +6464,20 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool
+>>>> verbose)
+>>>>               x86_cpu_get_supported_feature_word(w, false);
+>>>>           uint64_t requested_features = env->features[w];
+>>>>           uint64_t unavailable_features = requested_features & ~host_feat;
+>>>> +        FeatureWordInfo f = feature_word_info[w];
+>>>> +        int i;
+>>>> +
+>>>> +        for (i = 0; i < f.num_multi_bit_features; i++) {
+>>>> +            MultiBitFeatureInfo mf = f.multi_bit_features[i];
+>>>> +            if (mf.mark_unavailable_multi_bit) {
+>>>> +                mf.mark_unavailable_multi_bit(cpu, w, i, prefix);
+>>>> +            } else {
+>>>> +                mark_unavailable_multi_bit_default(cpu, w, i, prefix);
+>>>> +            }
+>>>> +
+>>>> +            unavailable_features &= ~mf.mask;
+>>>> +        }
+>>>> +
+>>>>           mark_unavailable_features(cpu, w, unavailable_features, prefix);
+>>>>       }
+>>>>
+>>>> -- 
+>>>> 2.34.1
+>>>>
+>>>>
+> 
 
