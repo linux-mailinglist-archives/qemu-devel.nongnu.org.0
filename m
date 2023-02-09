@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BC768FFD3
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 06:20:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 408AC68FFDC
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 06:22:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPzLa-00030Q-9V; Thu, 09 Feb 2023 00:19:50 -0500
+	id 1pPzNN-0003lm-Jp; Thu, 09 Feb 2023 00:21:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPzLY-0002zy-3V
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 00:19:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPzNL-0003lb-BP
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 00:21:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPzLW-0004hd-8A
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 00:19:47 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pPzNJ-0005SS-MI
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 00:21:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675919978;
+ s=mimecast20190719; t=1675920096;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YrdTI5Kck3bXnnjgv4UgkZDZCU+w/hxsvErH1FdgMo0=;
- b=UA61L0eQVXMK91zfgSFpb4AL6qhg1DO2j1oaHq4RprXLLUjYnrUk9Up5XfjUQAcPq938YD
- O4vYELzhvyFxC0K3u8ge/618Af6cEj294hGjeAqDMxm34JMJW9oI9kg7VtfXeCFI2YLRN+
- DRLOHGYIEQeggNr+1xApFDwd5LET0qg=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7ZgfY8sTtq4QhkP3QmH/UxFnj3beD38pwl3ma4lbOLs=;
+ b=cWSuHLjxuzDlYWweDImqzwU/JWBDGtcUjeuqT9kDxQnLAUUllXr2Z6ltVEdQd3TTI2gaJx
+ 9OBKbbao4ied5uOWkzLIucjFgNHqqU+J2aeJaSCEGQ8mdkCsaLutgKFz2dyCOK7vs7bQ+0
+ pIcOPXHeMiU4L+5KgZay75tpRhMWrJI=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-583-KfnZjKQ-PWOz8n4tsGtdNA-1; Thu, 09 Feb 2023 00:19:37 -0500
-X-MC-Unique: KfnZjKQ-PWOz8n4tsGtdNA-1
-Received: by mail-qk1-f197.google.com with SMTP id
- w17-20020a05620a425100b00706bf3b459eso582825qko.11
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 21:19:37 -0800 (PST)
+ us-mta-554-tymLpc3bMrS-ZnTOMAENUw-1; Thu, 09 Feb 2023 00:21:35 -0500
+X-MC-Unique: tymLpc3bMrS-ZnTOMAENUw-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ ec11-20020ad44e6b000000b0056c2005684aso615769qvb.23
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 21:21:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YrdTI5Kck3bXnnjgv4UgkZDZCU+w/hxsvErH1FdgMo0=;
- b=00cmJnV2qO6CABdoHXgBzAhSLUvYJA/EK1yF6XIu1/lB4Ih2A0QuGXEBzXy0t1VCeT
- PMppKFOILtWnpMRATBoL7bClEYgAR7qzsPSyQa6LvROClHFqLJiCPlMkNLLa8D2DKskt
- JHgDjbvLb3QPQZw/I1MjY5tJuEXpubVBdBUWg96QGX+VT3LoBKDuI2xGydWzDyfQ3edP
- WdW9iTqpR2OOBPkbSb70u+XvPhiCA1Sh2ixr3EzbUbic68glq3PmlkKCyScsBW27P/ZH
- 8DkLVkoj1WsQmT58ZBXtQsoe8k5n8c+S1wAos8+WXBcFI3pd9Kg7GZ3usRVtls3xa0lt
- Fcng==
-X-Gm-Message-State: AO0yUKU9nYx1lrQ4S29P3ebnaDiVSxjw9wiELl5cIrHRObEmWnMha0TA
- zoSQc5x11rdG+VYuhXZNQyLz8hV3y8YSvi0ABygJOfGlnDxZegOPtaSB1YtV3qQki1vTWS3LdbK
- Vu18GalEAxwHNBJc=
-X-Received: by 2002:ac8:5f92:0:b0:3ba:13d8:67b5 with SMTP id
- j18-20020ac85f92000000b003ba13d867b5mr15431626qta.36.1675919976709; 
- Wed, 08 Feb 2023 21:19:36 -0800 (PST)
-X-Google-Smtp-Source: AK7set8veuFfXigKAeHPMnogK1JvwWNJzwIdeHK2LyneTjZNwtgSmAqQLrp7QmNV8LnQDaw+YJOW/Q==
-X-Received: by 2002:ac8:5f92:0:b0:3ba:13d8:67b5 with SMTP id
- j18-20020ac85f92000000b003ba13d867b5mr15431615qta.36.1675919976482; 
- Wed, 08 Feb 2023 21:19:36 -0800 (PST)
+ bh=7ZgfY8sTtq4QhkP3QmH/UxFnj3beD38pwl3ma4lbOLs=;
+ b=MedjgnbOhLuFsLwoU3c6b8ea57kujSa7mzYQD/TXcA9fOdvWwtJDoMvaqvyT8EKx34
+ 6gHsO86eLkH0UmZ6yOZlmA9hDkJknjgXoL+4hPM0OIdcrQmipUQ2ylc7I2cn66uqTZnl
+ d9Wr3rA6xSa7T3N5N4PZftt5UT7MSJIsJTXyJXjwSY3mNt+lyYTrUaLRC88W+TzeA6zk
+ 1mXpKUElsgJ0Gg/f1C0q3pIKdnvOSzWzFGh+l21RFWpUX3/gTWPo2lVnGos6pGEuFNAO
+ AP9Rn0HTn+Ts3Od5q496O/AN+Ne/nmpfd4E7PFxcflluggkwVClk9K1zkjI0m9onPdD1
+ s9Eg==
+X-Gm-Message-State: AO0yUKVD3jW9WJVEAFt0hy9AuRgKdFgAbgqT89Yfn9JSVJa5WnFBVsr+
+ Kds51qchaJfP7L0dB7VkzVvCH4y17SvWs/0qZDBOE0TM5yMnzFl62Mrw64XNVcf1Rrh41FgxBgM
+ lxAhLiXcXLD0Ewek=
+X-Received: by 2002:a05:622a:493:b0:3b8:3391:bde5 with SMTP id
+ p19-20020a05622a049300b003b83391bde5mr17737531qtx.26.1675920094504; 
+ Wed, 08 Feb 2023 21:21:34 -0800 (PST)
+X-Google-Smtp-Source: AK7set9cD/vSiroOAE+9EqHjgMQPdKwhPDWr8J9ib8kcB5tF4TLXsQ0Ts/0zqbli4j2WOeNqafnASQ==
+X-Received: by 2002:a05:622a:493:b0:3b8:3391:bde5 with SMTP id
+ p19-20020a05622a049300b003b83391bde5mr17737516qtx.26.1675920094281; 
+ Wed, 08 Feb 2023 21:21:34 -0800 (PST)
 Received: from [192.168.8.105] (tmo-099-228.customers.d1-online.com.
  [80.187.99.228]) by smtp.gmail.com with ESMTPSA id
- b124-20020a379982000000b0071bfeaf5688sm645729qke.72.2023.02.08.21.19.35
+ p205-20020a3742d6000000b0072a375c291csm673731qka.30.2023.02.08.21.21.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Feb 2023 21:19:35 -0800 (PST)
-Message-ID: <95cab180-a34b-858d-e360-5083a7d7ecf8@redhat.com>
-Date: Thu, 9 Feb 2023 06:19:34 +0100
+ Wed, 08 Feb 2023 21:21:33 -0800 (PST)
+Message-ID: <905f792c-bac7-f88f-a538-b5c10135944d@redhat.com>
+Date: Thu, 9 Feb 2023 06:21:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PULL 00/11] Misc patches for 2022-02-08
+Subject: Re: [PULL 07/11] readconfig-test: add test for accelerator
+ configuration
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20230208171922.95048-1-pbonzini@redhat.com>
+ <20230208171922.95048-8-pbonzini@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230208171922.95048-1-pbonzini@redhat.com>
+In-Reply-To: <20230208171922.95048-8-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -99,34 +101,47 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 08/02/2023 18.19, Paolo Bonzini wrote:
-> The following changes since commit ae2b5d8381a73b27f35f19c988d45c78bb4d5768:
+> Test that it does not cause a SIGSEGV, and cover a valid configuration
+> as well.
 > 
->    Merge tag 'pull-include-2023-02-06-v2' of https://repo.or.cz/qemu/armbru into staging (2023-02-08 10:40:06 +0000)
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   tests/qtest/libqtest.c        | 28 +++++++++++++++++-----
+>   tests/qtest/libqtest.h        | 12 ++++++++++
+>   tests/qtest/readconfig-test.c | 45 ++++++++++++++++++++++++++++-------
+>   3 files changed, 70 insertions(+), 15 deletions(-)
 > 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/bonzini/qemu.git tags/for-upstream
-> 
-> for you to fetch changes up to e0de04cf9bd7cf03db16f33276679caf1724b75c:
-> 
->    target/i386: fix ADOX followed by ADCX (2023-02-08 18:16:55 +0100)
-> 
-> ----------------------------------------------------------------
-> * block/iscsi: fix double-free on BUSY or similar statuses
-> * catch [accel] entry without accelerator
-> * target/i386: various fixes for BMI and ADX instructions
-> * make the contents of meson-buildoptions.sh stable
-> 
-> ----------------------------------------------------------------
-> Paolo Bonzini (8):
->        build: make meson-buildoptions.sh stable
->        remove unnecessary extern "C" blocks
->        block/iscsi: fix double-free on BUSY or similar statuses
->        vl: catch [accel] entry without accelerator
+> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+> index ce5f235e25f1..4fba2bb27f06 100644
+> --- a/tests/qtest/libqtest.c
+> +++ b/tests/qtest/libqtest.c
+> @@ -420,6 +420,26 @@ static QTestState *G_GNUC_PRINTF(1, 2) qtest_spawn_qemu(const char *fmt, ...)
+>       return s;
+>   }
+>   
+> +QTestState *G_GNUC_PRINTF(1, 0) qtest_init_bare(const char *args)
+> +{
+> +    QTestState *s = qtest_spawn_qemu("%s", args);
+> +
+> +    /*
+> +     * Stopping QEMU for debugging is not supported on Windows.
+> +     *
+> +     * Using DebugActiveProcess() API can suspend the QEMU process,
+> +     * but gdb cannot attach to the process. Using the undocumented
+> +     * NtSuspendProcess() can suspend the QEMU process and gdb can
+> +     * attach to the process, but gdb cannot resume it.
+> +     */
+> +#ifndef _WIN32
+> +    if (getenv("QTEST_STOP")) {
+> +        kill(s->qemu_pid, SIGSTOP);
+> +    }
+> +#endif
+> +    return s;
+> +}
 
-You missed Philippe's review comment for that patch:
+You missed my review comments here:
 
-https://lore.kernel.org/qemu-devel/8ec3abf5-f4aa-db40-cb7e-2f5733d93de3@linaro.org/
+https://lore.kernel.org/qemu-devel/2f17c06f-90a9-9bac-8e9a-a1a2842665d2@redhat.com/
 
   Thomas
 
