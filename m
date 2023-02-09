@@ -2,73 +2,172 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA9CD68FCA0
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 02:25:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 839CA68FCA1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 02:28:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPvh3-0008K1-WA; Wed, 08 Feb 2023 20:25:46 -0500
+	id 1pPvjS-0000qT-2n; Wed, 08 Feb 2023 20:28:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pPvh2-0008Jd-FO
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 20:25:44 -0500
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pPvh0-0001fI-1h
- for qemu-devel@nongnu.org; Wed, 08 Feb 2023 20:25:44 -0500
-Received: by mail-yb1-xb34.google.com with SMTP id q9so660259ybk.2
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 17:25:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=zlD1dJi/BZR32qy29073xPTAr3hvz4F/Euc0BZ1YlMc=;
- b=o+5AXyPf4N7P86fOohQbIVyeeytAhU91B6Ze+oEisI3coowJ/LcH7VTld9vDv3XdZ5
- DqPlb1z3GNgNXttqPl48qlgsnJQQaxC//L6hCyQ7sCKIa+GFMB7IBrx2BqI249ObyyJ0
- BiR2xpd01gMDZt0gNGC6wdT44nbxftc2C6r15SXE1Gjn9xSj6fmA6XM+VHer/C1oilNL
- GCLg37bVe05+063+9VvRpAy9Og9LHjtSvq9kD9EEYFxZTNivx+zZbtFYrEtIZeDM1SFS
- J1puDVrMGxIqB0PWL6cEzKsyDIfSgFeGH9pjVQZR9NCD5814mb8rWLdm0wOQSDEQuASm
- q8+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=zlD1dJi/BZR32qy29073xPTAr3hvz4F/Euc0BZ1YlMc=;
- b=ptXXk+dOazymNH9ERmTNNggy3HBg6fvwTM0zT+1NpqOr18psDph9EIGv402LItLxIY
- Owb9T1l6Jz50Rk+JYvIfA+Pi8oOLqp5R9MMrmSIBb7hEl4GlC0XDGJOFHCI+4ME2tK38
- QTcwC42KbtyVMwLm/x5fPMose5vk8PdKcOUQ9U6rHbDGbNrOl3YMPxOTEd1i0CW7OIZO
- Xdxmcpy9oKmhJ9ep8zk7Nn4ag3CATMc1Hx8IimyCUQuazx97LPy5uGEH4Tzb7t+jgAmK
- 9KM96DpxknvVQllXr06dQGiU0kgh8x0JsrVxq3pNdpJE3JwqaW8/5bzQuwjGQVamVhmF
- c/8g==
-X-Gm-Message-State: AO0yUKXVD8VjNlDnBzyGlCt5TOrDsMRvz6+49FuhD2Xxo1gEIYUvpz3P
- S0g1nBT3Zg13WPHmdFYdayJ9z+dU0XVu8r1eES3DHVMQ4Ns=
-X-Google-Smtp-Source: AK7set8vYJX50vSQw43thJOSE58hreINvBZJVSTZBqB9XQitoLMk2fGaRKU0E8atJ6Xd+7TV/QTalvizcJnLNo3zhYs=
-X-Received: by 2002:a5b:b8f:0:b0:8ca:26ed:3f5b with SMTP id
- l15-20020a5b0b8f000000b008ca26ed3f5bmr260343ybq.366.1675905940850; Wed, 08
- Feb 2023 17:25:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
+ id 1pPvjP-0000q6-Da; Wed, 08 Feb 2023 20:28:11 -0500
+Received: from mga04.intel.com ([192.55.52.120])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
+ id 1pPvjL-0003KK-Dh; Wed, 08 Feb 2023 20:28:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675906087; x=1707442087;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=vXDZ1Ai9Xm2rIUzOiluxcME0BPQJp1QRJMSGG4Cc+gY=;
+ b=ISYexMtaGyKWaM1FW5vz8c/DuKGVCMg/MUsyeihFzJhqxfKejhb6FH4p
+ /Avf8oQfNtC6C7kcgpUW4B/WiFN84+cEBJAuxOwC6CPhLo5j01S5NBate
+ ggOacqqnrYPvjY0gC5PLd0/dq7uMohIByS2Qobs6dKAWySS14Adr+CZxU
+ rJ9HUbYlt/fReDJ6/EJzgxOAD5J61lMDD7W1wbN/332GQgqLjoUnkIftc
+ h+P1oFBcg0h5hJLhLpCwFJqLYjnUuZ5GoJPYr08TpsF2FVcX8lhSMy/Nt
+ Mq0a0GDF5FnxKbbMZGUAuZPD4xScGmRDNMJmvzRm0/Mk/AgtF23JyI6dZ w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="328629432"
+X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; d="scan'208";a="328629432"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2023 17:27:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="810148140"
+X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; d="scan'208";a="810148140"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga001.fm.intel.com with ESMTP; 08 Feb 2023 17:27:58 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Wed, 8 Feb 2023 17:27:57 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Wed, 8 Feb 2023 17:27:56 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Wed, 8 Feb 2023 17:27:56 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Wed, 8 Feb 2023 17:27:55 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SDgdxzmqHDFdjVbTEAE9Mr1K699ODUyw5VdOdwXeeWbNcW5ULW0ZrWxyUzBX4WH4QmjwNy7R6+NIzd5ozCMC+Wu6W21jcPCl1ItrLx3QNVmFii/UJMNKo++rQBCFj4H+X1niIpFSii25Pe7O3bc96+7/ByBEdlW88kJFbF+09m+VeFUnMi3p8N5wGLV5COrgslmrvACxfyNi7zDI50xkKfXVW52Y6JgDCr6zliWD+jZA3YCaWkLP4OM58IX0lv7DKjMATq8pTa5+8x24q4beOUDfn9GVMzeMVvMnz7RLusNXzd9wYUPbebtjvQSTXSSG+LX/UvPtvVSLIxVoEgyqJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3xaD7WYNaiAgDZ7oU5oISMh+5+TZr68Axi4/9YI0ZFU=;
+ b=KOao5ZXXQtcjA7TFgPKQ6hDxmmluQmYNzcuViD0M3fgCWwhoYfdLXQm/XcwNWTzKrEa23Zf9Mi8TjeD2BcnKellknvuoxozyNsiNOFp97yuSJ7OIAk/sPiXVptZ2n0SWwXlIV/CBV4VnFQClcRuBaYb4gi5AZo4lVzOj7XvyoGpY/IeRtnka6K1h5hi6BsJSc1zeLnljiRcIkyoqk/v6nk9EVKgBj4CDRL766kutj/LqBHBx3Wu6qrcIhsbbhZtnLAUZ5fTBDX48UPdXgFDYFPuY1xXVo6Pz9B3Bwnkw7olMKMPykTNbE4mhe7chGmitCK9xhagmNj7T4aTf2TK10Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ0PR11MB6744.namprd11.prod.outlook.com (2603:10b6:a03:47d::10)
+ by PH7PR11MB6353.namprd11.prod.outlook.com (2603:10b6:510:1ff::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.34; Thu, 9 Feb
+ 2023 01:27:52 +0000
+Received: from SJ0PR11MB6744.namprd11.prod.outlook.com
+ ([fe80::f42a:63d9:2c7:356a]) by SJ0PR11MB6744.namprd11.prod.outlook.com
+ ([fe80::f42a:63d9:2c7:356a%5]) with mapi id 15.20.6064.036; Thu, 9 Feb 2023
+ 01:27:52 +0000
+From: "Duan, Zhenzhong" <zhenzhong.duan@intel.com>
+To: Juan Quintela <quintela@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+CC: "qemu-block@nongnu.org" <qemu-block@nongnu.org>, Stefan Berger
+ <stefanb@linux.vnet.ibm.com>, Stefan Hajnoczi <stefanha@redhat.com>, "Halil
+ Pasic" <pasic@linux.ibm.com>, John Snow <jsnow@redhat.com>, David Hildenbrand
+ <david@redhat.com>, Fam Zheng <fam@euphon.net>, Thomas Huth
+ <thuth@redhat.com>, =?iso-8859-1?Q?Daniel_P=2E_Berrang=E9?=
+ <berrange@redhat.com>, Laurent Vivier <lvivier@redhat.com>, "Vladimir
+ Sementsov-Ogievskiy" <vsementsov@yandex-team.ru>, "qemu-s390x@nongnu.org"
+ <qemu-s390x@nongnu.org>, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>, "Michael
+ S. Tsirkin" <mst@redhat.com>, =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?=
+ <philmd@linaro.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>, "Marcel
+ Apfelbaum" <marcel.apfelbaum@gmail.com>, Coiby Xu <Coiby.Xu@gmail.com>, "Ilya
+ Leoshkevich" <iii@linux.ibm.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Yanan Wang <wangyanan55@huawei.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Markus Armbruster <armbru@redhat.com>, "Paolo
+ Bonzini" <pbonzini@redhat.com>, Alex Williamson <alex.williamson@redhat.com>, 
+ Eric Blake <eblake@redhat.com>, Eric Farman <farman@linux.ibm.com>
+Subject: RE: [PULL 28/30] multifd: Fix flush of zero copy page send request
+Thread-Topic: [PULL 28/30] multifd: Fix flush of zero copy page send request
+Thread-Index: AQHZOo93pEsyahZS1EeHD4x7aKRmsq7F1NGA
+Date: Thu, 9 Feb 2023 01:27:52 +0000
+Message-ID: <SJ0PR11MB67440DCD9ABD1087E59456FF92D99@SJ0PR11MB6744.namprd11.prod.outlook.com>
+References: <20230207005650.1810-1-quintela@redhat.com>
+ <20230207005650.1810-29-quintela@redhat.com>
+In-Reply-To: <20230207005650.1810-29-quintela@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ0PR11MB6744:EE_|PH7PR11MB6353:EE_
+x-ms-office365-filtering-correlation-id: 4580b311-bee9-4c76-1a62-08db0a3cdcbc
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: maTwJ+vrr0DryFQ2dzB8ECU/jRp/ylOMmd0W5sy7/E9t2o0qCkG5DIOJBSSo+W6t4DyCP9Y+mEN+vZ6c2Yw0ZK55UIuSIppZbvfLuAOMkk5UIrmAiuuLSSUea8ve49LU+TT4WrXpkE89fyH/MjdOsFgNODd53T9ZOxgfbCNhjBklT999Zk8GqyCixDyT3g7Y+bn4PRCgGwsnaRWg23XQA1a9oStddnJXrIttJYyY2dTN4pPYwQ1Tc59vOqQQrDJ7Fkog4M9WGSccwiryjvorpG/OooSVkiGYDcXloOozBovszwbil9OEcLbkmxC7MShoGYUpt/NVZBkro5ELa99+99HpjmRcIwpx9sD8Dx0/5wCQ8CirVVgGdBfK1qxmUE02vtAYqSXVosvBXosVoJyT9F0xVTEBvuxHu9GCEsD0/2+hoB7Nk7D/08Yqd15gGHOol7v9Nw6lQk73HeAP7GnaZmawtEjcCZVceSo/tR0/WboF9qFWLUlJMqthnCCKDpcaDApsiROtOrkaa6PNCCvC32bdjn58E/Rs0uDO81u98MnGgMmqVCXhbc+Lnpoi7WGTt0HJVAKy0/QAEaxV/VI6lHS1amgQAnoqQWrlOjYnKk5aAJKb/FnhmcWrlSJErZRcMvF4T9IDYVcmRWHSQrEtnyyB/RemeLhM3KIwVv0WyW+tcH53kxwb7ei0FIpClUey
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR11MB6744.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(346002)(136003)(39860400002)(366004)(396003)(376002)(451199018)(7416002)(5660300002)(7406005)(8936002)(2906002)(83380400001)(122000001)(52536014)(66946007)(82960400001)(186003)(316002)(26005)(38100700002)(6506007)(54906003)(41300700001)(76116006)(66556008)(64756008)(66476007)(8676002)(66446008)(86362001)(4326008)(478600001)(55016003)(71200400001)(7696005)(38070700005)(110136005)(9686003)(33656002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?3p1yl40VmFb43Wn6XdmL7Hv9+gdAl3O52Bdd1pYHzX/ohhbC8z2GrfUk+l?=
+ =?iso-8859-1?Q?8aSFJ7HGvhBJGrsF5hp+qkL+cmGsCZVw1T5gzyu3Q77uynql6OrhPWzY6s?=
+ =?iso-8859-1?Q?wd9LxA1vk44n1BV84Z11PewWoysLQNPt+D7ZGlGQlBSLNClsUCV0Yw+C1I?=
+ =?iso-8859-1?Q?7NrHfhUIgMNs3RmTsAqOkUil4WkucoWSuydQB8lxckVGylhAIMY66MbZk3?=
+ =?iso-8859-1?Q?3oU9xlhGMp80FZbs+/QZE0jvd67s3DI8UQXxEXl08wQNQfIH0FubIXYaSu?=
+ =?iso-8859-1?Q?8dSBsO0cMMm38dlaCWwc0N7qIwsT2qPpUzpqidFFRNFiMr8WMAloWwqgFm?=
+ =?iso-8859-1?Q?oVIHUa56h75/I83aGCHX+4p6Wc0/8L7C4W1gYVLFP9yMxZR7cYGCJW7gGG?=
+ =?iso-8859-1?Q?oltHa/CNrmUKa1hIbgCxTuWXbrOJPDB2EuAR0xxdsUwAuFCkWuntZu3d72?=
+ =?iso-8859-1?Q?f2q5EmBg5hnms1MrWAI0Sjm9JCN6taFZJg0hw6pGMI7g8iuAMshaYfVbzt?=
+ =?iso-8859-1?Q?J0XcrSbyTfIZHOYFr3rXe/PQ9/l0Cmw4WCcRLcOrv8T0NeGPNsg0naUr65?=
+ =?iso-8859-1?Q?qNOotM4XQI3GGELFPclOCKdpa27vvCRFHkCviIUACf2/KMEC14pcZ59iHO?=
+ =?iso-8859-1?Q?uCHuOaTHBIKozYYjS/DOvZlqDMzpE+0wFXATPBGkwjO01DU5hwpAp4gohO?=
+ =?iso-8859-1?Q?TN+k5jGhOurkJ51w6oWjQtqXKxo4sJp/MTTy/G6ThdMYF9WDMnx641v5xc?=
+ =?iso-8859-1?Q?jfBLeBmtPKaW+Jj9Tcf7uXpZZHntqsCZ4kxwKkA81C6LpBLasLph8zkjxe?=
+ =?iso-8859-1?Q?cg9kjMgFWqt6cIMrtWIW7o4GuhNHi4mDm7dGWGp1HIxIP1Rm7fpVneOL85?=
+ =?iso-8859-1?Q?DEStuapF0OGsn8lrXRf16XDmMVXNQJmcHsWn/jIUBQDjaj6ADNVnbmfV5U?=
+ =?iso-8859-1?Q?wcdrCU4uiR+dIAmC03bOiq4PHOxA2TmGS4hFci+QD+gmtncbqC9qNjEYky?=
+ =?iso-8859-1?Q?9SOM/qaauCKLSgR4QvY+VdfQAtpana8zu4ZuGTK4GkvPPGVzng4ur/vOW9?=
+ =?iso-8859-1?Q?7t8hnQOhV/fJSiufTq8+uxkUoz69G1QLrOKUyAn/o3emy5V5AYXWWmOxz0?=
+ =?iso-8859-1?Q?xn0RSTMWVfSWKwsR/1REVi09DUYIUPAWENAGm/SNLYOYehB13l+xkdSxAV?=
+ =?iso-8859-1?Q?a/TmcYTEVkQ85XVolYWIdzVzEGLx6/ZemUk65gCU0G7MZDA0JFvUuE0Wxa?=
+ =?iso-8859-1?Q?DtcLelsyOR1xqe4U37xUI8viJRYrSa4bC9sz8m+CSZqpmRpy73J7yGXHWK?=
+ =?iso-8859-1?Q?6nATWXsqj/+It4RD5oGDkDK+anf9S1x+COjewpJsNRMoii2q6qAKxqYmnW?=
+ =?iso-8859-1?Q?e1BGZu897lHAZpMcLFiuIVFzT63+BZBwOY21CwknWXQvO2pIJcz/3Ev+CH?=
+ =?iso-8859-1?Q?WfuQKdZXR5x2EDC9VOZ7wXCefOnsKECtu0Ewy4+KJnicakOUFMHr9vb2EN?=
+ =?iso-8859-1?Q?IsAnNMoZIi1FsJtlDOx6VRpa+4yDQK5/0RVSUj5xB4TJqXytWTsY5SvzQ4?=
+ =?iso-8859-1?Q?6Gjk4OqqMtYBlhGgJ9uINTsZ32nSP3kfdznFxPUvjZzq07yoofZgg0pNs7?=
+ =?iso-8859-1?Q?2KYkxELu2n7WKkkUfynob/cl1DHu0iIznK?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <CAJSP0QUuuZLC0DJNEfZ7amyd3XnRhRNr1k+1OgLfDeF77X1ZDQ@mail.gmail.com>
- <CANCZdfo=Ay6ZYniYLYC=L2DCYKQ2-sS8zxwx+J_N5jZ3PO8XPQ@mail.gmail.com>
- <CAJSP0QXFcUq4XTA6_oQAzvhs_A-PGrjTRDqhQ8N-We0jtHnRNg@mail.gmail.com>
- <CANCZdfp0LJTkG1cPF0W0Oc8cJ2wW_+mxeSW7YWWtkCNjdkx3Jg@mail.gmail.com>
-In-Reply-To: <CANCZdfp0LJTkG1cPF0W0Oc8cJ2wW_+mxeSW7YWWtkCNjdkx3Jg@mail.gmail.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Wed, 8 Feb 2023 20:25:28 -0500
-Message-ID: <CAJSP0QXOgUgkF9St9MyBw=02WRPSwg4fX4R5EsPfZLoL0a1yRA@mail.gmail.com>
-Subject: Re: Call for GSoC and Outreachy project ideas for summer 2023
-To: Warner Losh <imp@bsdimp.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb34.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB6744.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4580b311-bee9-4c76-1a62-08db0a3cdcbc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Feb 2023 01:27:52.0531 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SxtafJbHFSZKjmQgzQw04jDpkxmLZj/nyXYu7eRH4aeLmWFcEXzHCp8zs8YHEEgiyUlEY1AqHOsgn3n3h4nzF17t5URfijtSjQpg+dr7Pcw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6353
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.120;
+ envelope-from=zhenzhong.duan@intel.com; helo=mga04.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,148 +184,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 8 Feb 2023 at 18:02, Warner Losh <imp@bsdimp.com> wrote:
-> On Fri, Jan 27, 2023 at 3:02 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
->>
->> On Fri, 27 Jan 2023 at 12:10, Warner Losh <imp@bsdimp.com> wrote:
->> >
->> > [[ cc list trimmed to just qemu-devel ]]
->> >
->> > On Fri, Jan 27, 2023 at 8:18 AM Stefan Hajnoczi <stefanha@gmail.com> wrote:
->> >>
->> >> Dear QEMU, KVM, and rust-vmm communities,
->> >> QEMU will apply for Google Summer of Code 2023
->> >> (https://summerofcode.withgoogle.com/) and has been accepted into
->> >> Outreachy May 2023 (https://www.outreachy.org/). You can now
->> >> submit internship project ideas for QEMU, KVM, and rust-vmm!
->> >>
->> >> Please reply to this email by February 6th with your project ideas.
->> >>
->> >> If you have experience contributing to QEMU, KVM, or rust-vmm you can
->> >> be a mentor. Mentors support interns as they work on their project. It's a
->> >> great way to give back and you get to work with people who are just
->> >> starting out in open source.
->> >>
->> >> Good project ideas are suitable for remote work by a competent
->> >> programmer who is not yet familiar with the codebase. In
->> >> addition, they are:
->> >> - Well-defined - the scope is clear
->> >> - Self-contained - there are few dependencies
->> >> - Uncontroversial - they are acceptable to the community
->> >> - Incremental - they produce deliverables along the way
->> >>
->> >> Feel free to post ideas even if you are unable to mentor the project.
->> >> It doesn't hurt to share the idea!
->> >
->> >
->> > I've been a GSoC mentor for the FreeBSD project on and off for maybe
->> > 10-15 years now. I thought I'd share this for feedback here.
->> >
->> > My project idea falls between the two projects. I've been trying
->> > to get bsd-user reviewed and upstreamed for some time now and my
->> > time available to do the upstreaming has been greatly diminished lately.
->> > It got me thinking: upstreaming is more than just getting patches reviewed
->> > often times. While there is a rather mechanical aspect to it (and I could likely
->> > automate that aspect more), the real value of going through the review process
->> > is that it points out things that had been done wrong, things that need to be
->> > redone or refactored, etc. It's often these suggestions that lead to the biggest
->> > investment of time on my part: Is this idea good? if I do it, does it break things?
->> > Is the feedback right about what's wrong, but wrong about how to fix it? etc.
->> > Plus the inevitable, I thought this was a good idea, implemented it only to find
->> > it broke other things, and how do I explain that and provide feedback to the
->> > reviewer about that breakage to see if it is worth pursuing further or not?
->> >
->> > So my idea for a project is two fold: First, to create scripts to automate the
->> > upstreaming process: to break big files into bite-sized chunks for review on
->> > this list. git publish does a great job from there. The current backlog to upstream
->> > is approximately " 175 files changed, 30270 insertions(+), 640 deletions(-)" which
->> > is 300-600 patches at the 50-100 line patch guidance I've been given. So even
->> > at .1hr (6 minutes) per patch (which is about 3x faster than I can do it by hand),
->> > that's ~60 hours just to create the patches. Writing automation should take
->> > much less time. Realistically, this is on the order of 10-20 hours to get done.
->> >
->> > Second, it's to take feedback from the reviews for refactoring
->> > the bsd-user code base (which will eventually land in upstream). I often spend
->> > a few hours creating my patches each quarter, then about 10 or so hours for the
->> > 30ish patches that I do processing the review feedback by refactoring other things
->> > (typically other architectures), checking details of other architectures (usually by
->> > looking at the FreeBSD kernel), or looking for ways to refactor to share code with
->> > linux-user  (though so far only the safe signals is upstream: elf could be too), or
->> > chatting online about the feedback to better understand it, to see what I can mine
->> > from linux-user (since the code is derived from that, but didn't pick up all the changes
->> > linus-user has), etc. This would be on the order of 100 hours.
->> >
->> > Third, the testing infrastructure that exists for linux-user is not well leveraged to test
->> > bsd-user. I've done some tests from time to time with it, but it's not in a state that it
->> > can be used as, say, part of a CI pipeline. In addition, the FreeBSD project has some
->> > very large jobs, a subset of which could be used to further ensure that critical bits of
->> > infrastructure don't break (or are working if not in a CI pipeline). Things like building
->> > and using go, rust and the like are constantly breaking for reasons too long to enumerate
->> > here. This job could be as little as 50 hours to do a minimal but complete enough for CI job,
->> > or as much as 200 hours to do a more complete jobs that could be used to bisect breakage
->> > more quickly and give good assurance that at any given time bsd-user is useful and working.
->> >
->> > That's in addition to growing the number of people that can work on this code and
->> > on the *-user code in general since they are quite similar.
->> >
->> > Some of these tasks are squarely in the qemu-realm, while others are in the FreeBSD realm,
->> > but that's similar to linux-user which requires very heavy interfacing with the linux realm. It's
->> > just that a lot of that work is already complete so the needs are substantially less there on an
->> > ongoing basis. Since it does stratal the two projects, I'm unsure where to propose this project
->> > be housed. But since this is a call for ideas, I thought I'd float it to see what the feedback is. I'm
->> > happy to write this up in a more formal sense if it would be seriously considered, but want to get
->> > feedback as to what areas I might want to emphasize in such a proposal.
->> >
->> > Comments?
->>
->> Hi Warner,
->> Don't worry about it spanning FreeBSD and QEMU, you're welcome to list
->> the project idea through QEMU. You can have co-mentors that are not
->> part of the QEMU community in order to bring in additional FreeBSD
->> expertise.
->>
->> My main thought is that getting all code upstream sounds like a
->> sprawling project that likely won't be finished within one internship.
->> Can you pick just a subset of what you described? It should be a
->> well-defined project that depends minimally on other people finishing
->> stuff or reaching agreement on something controversial? That way the
->> intern will be able to come up with specific tasks for their project
->> plan and there is little risk that they can't complete them due to
->> outside factors.
->
->
-> I like this notion of limiting the  scope. There's three or maybe four main areas
-> that I can call out. I got to thinking about all the details I have to do for how
-> I've been upstreaming things, and realized that there's a lot due to the complicated
-> history here...
->
->> One way to go about this might be for you to define a milestone that
->> involves completing, testing, and upstreaming just a subset of the
->> out-of-tree code. For example, it might implement a limited set of
->> core syscall families. The intern will then focus on delivering that
->> instead of worrying about the daunting task of getting everything
->> merged. Finishing this subset would advance bsd-user FreeBSD support
->> by a useful degree (e.g. ability to run certain applications).
->>
->> Does that sound good?
->
->
-> Yes. I like this, but it's hard to know what that might be because many things are
-> hidden behind the scenes... But I'll try running a quick build to see if I can gather
-> enough stats to come up with a good set of tests... But maybe I'll start with building
-> 'hello world' with clang on armv7 running on an amd64 host to see what's missing
-> today. I also have an aarch64 set of patches I might try hard to get in ASAP so that
-> might be the target instead (since it might be a bit more useful).
+Hi Juan,
 
-Hi Warner,
-Great to hear back from you. Don't worry if you don't have the details
-right now. I have created a placeholder on the ideas list that you can
-fill in over the coming days:
-https://wiki.qemu.org/Internships/ProjectIdeas/FreeBSDUser
+>-----Original Message-----
+>From: Juan Quintela <quintela@redhat.com>
+>Sent: Tuesday, February 7, 2023 8:57 AM
+>To: qemu-devel@nongnu.org
+>Cc: qemu-block@nongnu.org; Stefan Berger <stefanb@linux.vnet.ibm.com>;
+>Stefan Hajnoczi <stefanha@redhat.com>; Halil Pasic <pasic@linux.ibm.com>;
+>John Snow <jsnow@redhat.com>; David Hildenbrand <david@redhat.com>;
+>Fam Zheng <fam@euphon.net>; Thomas Huth <thuth@redhat.com>; Daniel P.
+>Berrang=E9 <berrange@redhat.com>; Laurent Vivier <lvivier@redhat.com>;
+>Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>; qemu-
+>s390x@nongnu.org; Christian Borntraeger <borntraeger@linux.ibm.com>;
+>Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>; Michael S. Tsirkin
+><mst@redhat.com>; Juan Quintela <quintela@redhat.com>; Philippe
+>Mathieu-Daud=E9 <philmd@linaro.org>; Dr. David Alan Gilbert
+><dgilbert@redhat.com>; Marcel Apfelbaum <marcel.apfelbaum@gmail.com>;
+>Coiby Xu <Coiby.Xu@gmail.com>; Ilya Leoshkevich <iii@linux.ibm.com>;
+>Eduardo Habkost <eduardo@habkost.net>; Yanan Wang
+><wangyanan55@huawei.com>; Richard Henderson
+><richard.henderson@linaro.org>; Markus Armbruster <armbru@redhat.com>;
+>Paolo Bonzini <pbonzini@redhat.com>; Alex Williamson
+><alex.williamson@redhat.com>; Eric Blake <eblake@redhat.com>; Eric
+>Farman <farman@linux.ibm.com>; Duan, Zhenzhong
+><zhenzhong.duan@intel.com>
+>Subject: [PULL 28/30] multifd: Fix flush of zero copy page send request
+>
+>From: Zhenzhong Duan <zhenzhong.duan@intel.com>
+>
+>Make IO channel flush call after the inflight request has been drained in
+>multifd thread, or else we may missed to flush the inflight request.
+>
+>Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
+>Reviewed-by: Juan Quintela <quintela@redhat.com>
+>Signed-off-by: Juan Quintela <quintela@redhat.com>
+>---
+> .../x86_64-quintela-devices.mak               |    7 +
+> .../x86_64-quintela2-devices.mak              |    6 +
+> migration/multifd.c                           |    8 +-
+> migration/multifd.c.orig                      | 1274 +++++++++++++++++
+> 4 files changed, 1291 insertions(+), 4 deletions(-)  create mode 100644
+>configs/devices/x86_64-softmmu/x86_64-quintela-devices.mak
+> create mode 100644 configs/devices/x86_64-softmmu/x86_64-quintela2-
+>devices.mak
+> create mode 100644 migration/multifd.c.orig
+>
+Just back from vacation, hoping it's not too late to report: x86_64-quintel=
+a-devices.mak x86_64-quintela2-devices.mak and multifd.c.orig might be unre=
+lated to this patch?
 
-You can either reply via email and I'll post your project description
-on the wiki, or feel free to edit the above wiki page directly.
-
-Thanks,
-Stefan
+Thanks
+Zhenzhong
 
