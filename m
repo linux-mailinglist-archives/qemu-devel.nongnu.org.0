@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF66E69005C
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 07:31:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6339D690067
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 07:33:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ0SS-0007ln-SL; Thu, 09 Feb 2023 01:31:00 -0500
+	id 1pQ0SQ-0007jb-QP; Thu, 09 Feb 2023 01:30:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
- id 1pQ0Rw-0007XF-8x
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:30:30 -0500
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
+ id 1pQ0Ry-0007XJ-Iw
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:30:33 -0500
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
- id 1pQ0Ru-0000lA-Co
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:30:27 -0500
-Received: by mail-pg1-x530.google.com with SMTP id n3so925510pgr.9
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 22:30:25 -0800 (PST)
+ id 1pQ0Rv-0000lz-P9
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:30:29 -0500
+Received: by mail-pf1-x42d.google.com with SMTP id ay1so677349pfb.7
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 22:30:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qlPh49wlbxVVcOm0Ok3pVswLtoV2NRPuPBXAw/YmxdU=;
- b=wp7Yab735sy01MLbrgfsOESNTTb0h03RSrJ/08EgpczVM5M4TOzymFCeAMkBPWNKNm
- /g1h/CZZe0fb3FfaFNqX+OAFyjrcrBdPVjnQq0Kx7qAHYBLyEBm78e3RoNJxISh7jQhJ
- MJJ/Yav2m4F8+LFZFtFrtG7K8gIiW5DwvLnQSrUBM6CwE7hd7dVoqIUWa7ZEfcmj3ju1
- MG2GO6wEykuI4qOei9WjgWfNJCK2D3lr3rhUeawqFWlHLSGl1m5iMggZmHi2wr9aPqJ/
- AeAgOPh1/r98lGKVpSrfuygrqNxG1PcOCEM+7dmG0HKtN7W1Ebfwl8PP6UZ4eSaHC6kK
- QdyA==
+ bh=OjYZ/J+fuGuBPvfefUWdX1uo98embzdFhANJFdid3iE=;
+ b=rAR8VWF9zlhYCpSTouQKKoTw01SlrbXB0M9SwvjXoxxidhTccal3yizJHUAJZ+xP7b
+ WMsS+0beUbd+46D3KwrBDjJwa+c/fUgJkDQEwryNS1k35rau8xASVilNiDmeS+OKylym
+ +XrpFiUxvfcajaEO/XnGgdv0ACknAn7S++s72aAD9iUXdWfCd4g/zvGdtkYyq3MrtDQ+
+ GLXQ+EgXdVO0so8wsb0e7HdtlqTcmUUPSUnueAMlomrxVy84nDoIOZvuWJ23IS8WbHKE
+ KTxK+lsHgdQ7Wadsc8lNsudJpe36bvNgz4xq0lkU5BIr+oOE+bvqkJ10Lf6eqD5iAHBl
+ R/Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qlPh49wlbxVVcOm0Ok3pVswLtoV2NRPuPBXAw/YmxdU=;
- b=R34bNpzY34RB881wQjfnI9fhXBReXhIb/9ZOgv9J9hBTCr3ICoCI8p2gQla9u7cv00
- Enqeif+cahIaL8koRl3HzaDXT2nshBAqb9a3DRVNOsW/qWJjOHTsCWMuZsY5LJTO+KKj
- dQvmfBiuq1cK/vMguz7D/n/w49MmayBVe7sjGeTa7yc411Ofom+QN6l7QvE3z22lF/C9
- b5BOM/qRksgkFNpeITh1yjVVj796TBR2Y+Ft4alfLKImNAMcUrMKFAJVrMFxo398bnF6
- qw9Q+4Qj7Mul3KgMp+uqf3fondp+YzsJsXw6yDY3L2Tmxl5jqYb8Loddyx8Gk4BhaJax
- G+JQ==
-X-Gm-Message-State: AO0yUKVTeqpGIXqyzsdupqzklHAh57aNkdu64trA90vqMnC9u46VUigb
- jQg+VV1nRm3l9A1/WYtaKq9B7OrEd2Jz9X40
-X-Google-Smtp-Source: AK7set+aIDc0/0LKIFdjo4kcedHR8xbTL6xdARubTtD7bXEb5o15/SNrwLDEuTLZt/kWuRc8gRkwVA==
-X-Received: by 2002:a62:1a4f:0:b0:593:b491:40b8 with SMTP id
- a76-20020a621a4f000000b00593b49140b8mr8361545pfa.4.1675924224570; 
- Wed, 08 Feb 2023 22:30:24 -0800 (PST)
+ bh=OjYZ/J+fuGuBPvfefUWdX1uo98embzdFhANJFdid3iE=;
+ b=eL4BAdXilMRuWOIYcV145JfCtrFtufU6IzybLeCAmotho14eu+/LcULo62krrahUsv
+ aZdDZKPJ+rtuRqr+6v7BWkCbj2QPwMx0L+NiqBi7YXRtCj94I7nXoLeTl+x59LMBEj5B
+ UZdPVp0nqjI/s0kf4AcvuluGpN+KYDqI+jGl2fgqptDXY+u2k/ShdlS8bdFOZ3pJHos3
+ ZkTrNe/4tisbb8P8E8Gita4WFkg9oCFMcqhesqPD/EYK2i3PxOxdCyAa45t1mQDSvVGs
+ qOhkKzaV+2qZLiWzNTqNycvb+KQv/XHYmo2+OHRlSkWMW6qT/0F4qRMcWdzZQik5RT2B
+ EXFA==
+X-Gm-Message-State: AO0yUKVtafew/xMkFf+74jSJMiPtBzIRpBjjDB792W+5JXfTRiYmikkH
+ v1eZTTdjyP4CGtNbIxzP7/5RptLxcBJBOqPh
+X-Google-Smtp-Source: AK7set9mCoTyNmsch3hUqxj7KNogzcy+Nv/CUfbPbZeDbhaQyMWcIQd3C/uE5MLCRozN5149jta9Hw==
+X-Received: by 2002:aa7:9eca:0:b0:5a8:4b4a:8480 with SMTP id
+ r10-20020aa79eca000000b005a84b4a8480mr3225343pfq.23.1675924225831; 
+ Wed, 08 Feb 2023 22:30:25 -0800 (PST)
 Received: from debug.ba.rivosinc.com ([66.220.2.162])
  by smtp.gmail.com with ESMTPSA id
- u15-20020aa7848f000000b00593c434b1b8sm543649pfn.48.2023.02.08.22.30.23
+ u15-20020aa7848f000000b00593c434b1b8sm543649pfn.48.2023.02.08.22.30.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 22:30:24 -0800 (PST)
+ Wed, 08 Feb 2023 22:30:25 -0800 (PST)
 From: Deepak Gupta <debug@rivosinc.com>
 To: qemu-devel@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>,
  Bin Meng <bin.meng@windriver.com>
 Cc: Deepak Gupta <debug@rivosinc.com>, Kip Walker <kip@rivosinc.com>,
  qemu-riscv@nongnu.org
-Subject: [PATCH v1 RFC Zisslpcfi 2/9] target/riscv: zisslpcfi CSR,
- bit positions and other definitions
-Date: Wed,  8 Feb 2023 22:29:40 -0800
-Message-Id: <20230209062947.3585481-3-debug@rivosinc.com>
+Subject: [PATCH v1 RFC Zisslpcfi 3/9] target/riscv: implements CSRs and new
+ bits in existing CSRs in zisslpcfi
+Date: Wed,  8 Feb 2023 22:29:41 -0800
+Message-Id: <20230209062947.3585481-4-debug@rivosinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230209062947.3585481-1-debug@rivosinc.com>
 References: <20230209062947.3585481-1-debug@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=debug@rivosinc.com; helo=mail-pg1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=debug@rivosinc.com; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,148 +93,284 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-`zisslpcfi` extension adds two new CSRs. CSR_SSP and CSR_LPLR.
-- CSR_SSP: This CSR holds shadow stack pointer for current privilege mode
-           CSR_SSP is accessible in all modes. Each mode must establish
-           it's own CSR_SSP.
+CSR_SSP and CSR_LPLR are new CSR additions to cpu/hart. This patch allows
+access to these CSRs. A predicate routine handles access to these CSR as
+per specification.
 
-- CSR_LPLR: This CSR holds label value set at the callsite by compiler.
-            On call target label check instructions are emitted by
-            compiler which check label value against value present in
-            CSR_LPRL.
+This patch also implments new bit definitions in menvcfg/henvcfg/mstatus/
+sstatus CSRs to master enabled cfi and enable forward cfi in S and M mode.
+mstatus CSR holds forward and backward cfi enabling for U mode.
 
-Enabling of `zisslpcfi` is controlled via menvcfg (for S/HS/VS/U/VU) and
-henvcfg (for VS/VU) at bit position 60.
-
-Each mode has enable/disable bits for forward cfi. Backward cfi doesn't
-have separate enable/disable bits for S and M mode. User forward cfi and
-user backward cfi enable/disable bits are in mstatus/sstatus CSR.
-Supervisor forward cfi enable/disable bit are in menvcfg and henvcfg CSR.
-Machine mode forward cfi enable/disable bit is in mseccfg CSR.
-
-If forward cfi enabled, all indirect branches must land on a landing pad
-instruction (`lpcll`, introduced in later commits). CPU/hart tracks this
-internally using a landing pad tracker called `elp` short for `expecting
-landing pad`. An interrupt can occur between an indirect branch and
-target. If such an event occurs `elp` is saved away in mstatus/sstatus
-CSR
+There is no enabling bit for backward cfi in S and M mode. It is always
+enabled if extension is implemented by CPU.
 
 Signed-off-by: Deepak Gupta <debug@rivosinc.com>
 Signed-off-by: Kip Walker  <kip@rivosinc.com>
 ---
- target/riscv/cpu.h      |  5 +++++
- target/riscv/cpu_bits.h | 25 +++++++++++++++++++++++++
- target/riscv/pmp.h      |  3 ++-
- 3 files changed, 32 insertions(+), 1 deletion(-)
+ target/riscv/csr.c | 137 ++++++++++++++++++++++++++++++++++++++++++++-
+ target/riscv/pmp.c |   9 +++
+ 2 files changed, 145 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 9a923760b2..18db61a06a 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -181,6 +181,11 @@ struct CPUArchState {
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 0db2c233e5..24e208ebed 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -163,6 +163,50 @@ static RISCVException ctr32(CPURISCVState *env, int csrno)
+     return ctr(env, csrno);
+ }
  
-     uint32_t features;
- 
-+    /* CFI Extension user mode registers and state */
-+    uint32_t     lplr;
-+    target_ulong ssp;
-+    cfi_elp      elp;
++static RISCVException cfi(CPURISCVState *env, int csrno)
++{
++    /* no cfi extension */
++    if (!env_archcpu(env)->cfg.ext_cfi) {
++        return RISCV_EXCP_ILLEGAL_INST;
++    }
++    /*
++     * CONFIG_USER_MODE always allow access for now. Better for user mode only
++     * functionality
++     */
++#if !defined(CONFIG_USER_ONLY)
++    /* current priv not M */
++    if (env->priv != PRV_M) {
++        /* menvcfg says no CFI */
++        if (!get_field(env->menvcfg, MENVCFG_CFI)) {
++            return RISCV_EXCP_ILLEGAL_INST;
++        }
 +
- #ifdef CONFIG_USER_ONLY
-     uint32_t elf_flags;
++        /* V = 1 and henvcfg says no CFI. raise virtual instr fault */
++        if (riscv_cpu_virt_enabled(env) &&
++            !get_field(env->henvcfg, HENVCFG_CFI)) {
++            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
++        }
++
++        /*
++         * LPLR and SSP are not accessible to U mode if disabled via status
++         * CSR
++         */
++        if (env->priv == PRV_U) {
++            if (csrno == CSR_LPLR &&
++                !get_field(env->mstatus, MSTATUS_UFCFIEN)) {
++                return RISCV_EXCP_ILLEGAL_INST;
++            }
++            if (csrno == CSR_SSP &&
++                !get_field(env->mstatus, MSTATUS_UBCFIEN)) {
++                return RISCV_EXCP_ILLEGAL_INST;
++            }
++        }
++    }
++#endif
++
++    return RISCV_EXCP_NONE;
++}
++
+ #if !defined(CONFIG_USER_ONLY)
+ static RISCVException mctr(CPURISCVState *env, int csrno)
+ {
+@@ -485,6 +529,32 @@ static RISCVException seed(CPURISCVState *env, int csrno)
  #endif
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 8b0d7e20ea..1663ba5775 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -39,6 +39,10 @@
+ }
  
- /* Control and Status Registers */
- 
-+/* CFI CSRs */
-+#define CSR_LPLR            0x006
-+#define CSR_SSP             0x020
++/* Zisslpcfi CSR_LPLR read/write */
++static int read_lplr(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->lplr;
++    return RISCV_EXCP_NONE;
++}
 +
- /* User Trap Setup */
- #define CSR_USTATUS         0x000
- #define CSR_UIE             0x004
-@@ -542,6 +546,10 @@
- #define MSTATUS_TVM         0x00100000 /* since: priv-1.10 */
- #define MSTATUS_TW          0x00200000 /* since: priv-1.10 */
- #define MSTATUS_TSR         0x00400000 /* since: priv-1.10 */
-+#define MSTATUS_UFCFIEN     0x00800000 /* Zisslpcfi-0.1 */
-+#define MSTATUS_UBCFIEN     0x01000000 /* Zisslpcfi-0.1 */
-+#define MSTATUS_SPELP       0x02000000 /* Zisslpcfi-0.1 */
-+#define MSTATUS_MPELP       0x04000000 /* Zisslpcfi-0.1 */
- #define MSTATUS_GVA         0x4000000000ULL
- #define MSTATUS_MPV         0x8000000000ULL
- 
-@@ -572,12 +580,21 @@ typedef enum {
- #define SSTATUS_XS          0x00018000
- #define SSTATUS_SUM         0x00040000 /* since: priv-1.10 */
- #define SSTATUS_MXR         0x00080000
-+#define SSTATUS_UFCFIEN     MSTATUS_UFCFIEN /* Zisslpcfi-0.1 */
-+#define SSTATUS_UBCFIEN     MSTATUS_UBCFIEN /* Zisslpcfi-0.1 */
-+#define SSTATUS_SPELP       MSTATUS_SPELP   /* Zisslpcfi-0.1 */
- 
- #define SSTATUS64_UXL       0x0000000300000000ULL
- 
- #define SSTATUS32_SD        0x80000000
- #define SSTATUS64_SD        0x8000000000000000ULL
- 
-+#define CFISTATUS_M_MASK    (MSTATUS_UFCFIEN | MSTATUS_UBCFIEN | \
-+                             MSTATUS_MPELP | MSTATUS_SPELP)
++static int write_lplr(CPURISCVState *env, int csrno, target_ulong val)
++{
++    env->lplr = val & (LPLR_UL | LPLR_ML | LPLR_LL);
++    return RISCV_EXCP_NONE;
++}
 +
-+#define CFISTATUS_S_MASK    (SSTATUS_UFCFIEN | SSTATUS_UBCFIEN | \
-+                             SSTATUS_SPELP)
++/* Zisslpcfi CSR_SSP read/write */
++static int read_ssp(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->ssp;
++    return RISCV_EXCP_NONE;
++}
 +
- /* hstatus CSR bits */
- #define HSTATUS_VSBE         0x00000020
- #define HSTATUS_GVA          0x00000040
-@@ -747,10 +764,14 @@ typedef enum RISCVException {
- #define MENVCFG_CBIE                       (3UL << 4)
- #define MENVCFG_CBCFE                      BIT(6)
- #define MENVCFG_CBZE                       BIT(7)
-+#define MENVCFG_SFCFIEN                    BIT(59)
-+#define MENVCFG_CFI                        BIT(60)
- #define MENVCFG_PBMTE                      (1ULL << 62)
- #define MENVCFG_STCE                       (1ULL << 63)
++static int write_ssp(CPURISCVState *env, int csrno, target_ulong val)
++{
++    env->ssp = val;
++    return RISCV_EXCP_NONE;
++}
++
+ /* User Floating-Point CSRs */
+ static RISCVException read_fflags(CPURISCVState *env, int csrno,
+                                   target_ulong *val)
+@@ -1227,7 +1297,7 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
  
- /* For RV32 */
-+#define MENVCFGH_SFCFIEN                   BIT(27)
-+#define MENVCFGH_CFI                       BIT(28)
- #define MENVCFGH_PBMTE                     BIT(30)
- #define MENVCFGH_STCE                      BIT(31)
+     /* flush tlb on mstatus fields that affect VM */
+     if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
+-            MSTATUS_MPRV | MSTATUS_SUM)) {
++            MSTATUS_MPRV | MSTATUS_SUM | MSTATUS_UFCFIEN | MSTATUS_UBCFIEN)) {
+         tlb_flush(env_cpu(env));
+     }
+     mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
+@@ -1250,6 +1320,11 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
+         }
+     }
  
-@@ -763,10 +784,14 @@ typedef enum RISCVException {
- #define HENVCFG_CBIE                       MENVCFG_CBIE
- #define HENVCFG_CBCFE                      MENVCFG_CBCFE
- #define HENVCFG_CBZE                       MENVCFG_CBZE
-+#define HENVCFG_SFCFIEN                    MENVCFG_SFCFIEN
-+#define HENVCFG_CFI                        MENVCFG_CFI
- #define HENVCFG_PBMTE                      MENVCFG_PBMTE
- #define HENVCFG_STCE                       MENVCFG_STCE
++    /* If cfi extension is available, then apply cfi status mask */
++    if (env_archcpu(env)->cfg.ext_cfi) {
++        mask |= CFISTATUS_M_MASK;
++    }
++
+     mstatus = (mstatus & ~mask) | (val & mask);
  
- /* For RV32 */
-+#define HENVCFGH_SFCFIEN                    MENVCFGH_SFCFIEN
-+#define HENVCFGH_CFI                        MENVCFGH_CFI
- #define HENVCFGH_PBMTE                      MENVCFGH_PBMTE
- #define HENVCFGH_STCE                       MENVCFGH_STCE
+     if (xl > MXL_RV32) {
+@@ -1880,9 +1955,17 @@ static RISCVException write_menvcfg(CPURISCVState *env, int csrno,
+                                   target_ulong val)
+ {
+     uint64_t mask = MENVCFG_FIOM | MENVCFG_CBIE | MENVCFG_CBCFE | MENVCFG_CBZE;
++    uint64_t cfi_mask = MENVCFG_CFI | MENVCFG_SFCFIEN;
  
-diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
-index da32c61c85..f5bfc4955b 100644
---- a/target/riscv/pmp.h
-+++ b/target/riscv/pmp.h
-@@ -43,7 +43,8 @@ typedef enum {
-     MSECCFG_MMWP  = 1 << 1,
-     MSECCFG_RLB   = 1 << 2,
-     MSECCFG_USEED = 1 << 8,
--    MSECCFG_SSEED = 1 << 9
-+    MSECCFG_SSEED = 1 << 9,
-+    MSECCFG_MFCFIEN =  1 << 10
- } mseccfg_field_t;
+     if (riscv_cpu_mxl(env) == MXL_RV64) {
+         mask |= MENVCFG_PBMTE | MENVCFG_STCE;
++        if (env_archcpu(env)->cfg.ext_cfi) {
++            mask |= cfi_mask;
++            /* If any cfi enabling bit changes in menvcfg, flush tlb */
++            if ((val ^ env->menvcfg) & cfi_mask) {
++                tlb_flush(env_cpu(env));
++            }
++        }
+     }
+     env->menvcfg = (env->menvcfg & ~mask) | (val & mask);
  
- typedef struct {
+@@ -1900,8 +1983,17 @@ static RISCVException write_menvcfgh(CPURISCVState *env, int csrno,
+                                   target_ulong val)
+ {
+     uint64_t mask = MENVCFG_PBMTE | MENVCFG_STCE;
++    uint64_t cfi_mask = MENVCFG_CFI | MENVCFG_SFCFIEN;
+     uint64_t valh = (uint64_t)val << 32;
+ 
++    if (env_archcpu(env)->cfg.ext_cfi) {
++            mask |= cfi_mask;
++            /* If any cfi enabling bit changes in menvcfg, flush tlb */
++            if ((val ^ env->menvcfg) & cfi_mask) {
++                tlb_flush(env_cpu(env));
++            }
++    }
++
+     env->menvcfg = (env->menvcfg & ~mask) | (valh & mask);
+ 
+     return RISCV_EXCP_NONE;
+@@ -1954,6 +2046,7 @@ static RISCVException write_henvcfg(CPURISCVState *env, int csrno,
+                                   target_ulong val)
+ {
+     uint64_t mask = HENVCFG_FIOM | HENVCFG_CBIE | HENVCFG_CBCFE | HENVCFG_CBZE;
++    uint64_t cfi_mask = HENVCFG_CFI | HENVCFG_SFCFIEN;
+     RISCVException ret;
+ 
+     ret = smstateen_acc_ok(env, 0, SMSTATEEN0_HSENVCFG);
+@@ -1963,6 +2056,18 @@ static RISCVException write_henvcfg(CPURISCVState *env, int csrno,
+ 
+     if (riscv_cpu_mxl(env) == MXL_RV64) {
+         mask |= HENVCFG_PBMTE | HENVCFG_STCE;
++        /*
++         * If cfi available and menvcfg.CFI = 1, then apply cfi mask for
++         * henvcfg
++         */
++        if (env_archcpu(env)->cfg.ext_cfi &&
++            get_field(env->menvcfg, MENVCFG_CFI)) {
++            mask |= cfi_mask;
++            /* If any cfi enabling bit changes in henvcfg, flush tlb */
++            if ((val ^ env->henvcfg) & cfi_mask) {
++                tlb_flush(env_cpu(env));
++            }
++        }
+     }
+ 
+     env->henvcfg = (env->henvcfg & ~mask) | (val & mask);
+@@ -1988,9 +2093,19 @@ static RISCVException write_henvcfgh(CPURISCVState *env, int csrno,
+                                   target_ulong val)
+ {
+     uint64_t mask = HENVCFG_PBMTE | HENVCFG_STCE;
++    uint64_t cfi_mask = HENVCFG_CFI | HENVCFG_SFCFIEN;
+     uint64_t valh = (uint64_t)val << 32;
+     RISCVException ret;
+ 
++    if (env_archcpu(env)->cfg.ext_cfi &&
++        get_field(env->menvcfg, MENVCFG_CFI)) {
++        mask |= cfi_mask;
++        /* If any cfi enabling bit changes in henvcfg, flush tlb */
++        if ((val ^ env->henvcfg) & cfi_mask) {
++            tlb_flush(env_cpu(env));
++        }
++    }
++
+     ret = smstateen_acc_ok(env, 0, SMSTATEEN0_HSENVCFG);
+     if (ret != RISCV_EXCP_NONE) {
+         return ret;
+@@ -2270,6 +2385,11 @@ static RISCVException read_sstatus_i128(CPURISCVState *env, int csrno,
+         mask |= SSTATUS64_UXL;
+     }
+ 
++    if ((env_archcpu(env)->cfg.ext_cfi) &&
++         get_field(env->menvcfg, MENVCFG_CFI)) {
++        mask |= CFISTATUS_S_MASK;
++    }
++
+     *val = int128_make128(sstatus, add_status_sd(MXL_RV128, sstatus));
+     return RISCV_EXCP_NONE;
+ }
+@@ -2281,6 +2401,11 @@ static RISCVException read_sstatus(CPURISCVState *env, int csrno,
+     if (env->xl != MXL_RV32 || env->debugger) {
+         mask |= SSTATUS64_UXL;
+     }
++
++    if ((env_archcpu(env)->cfg.ext_cfi) &&
++         get_field(env->menvcfg, MENVCFG_CFI)) {
++        mask |= CFISTATUS_S_MASK;
++    }
+     /* TODO: Use SXL not MXL. */
+     *val = add_status_sd(riscv_cpu_mxl(env), env->mstatus & mask);
+     return RISCV_EXCP_NONE;
+@@ -2296,6 +2421,12 @@ static RISCVException write_sstatus(CPURISCVState *env, int csrno,
+             mask |= SSTATUS64_UXL;
+         }
+     }
++
++    /* If cfi available and menvcfg.CFI = 1, apply CFI mask for sstatus */
++    if ((env_archcpu(env)->cfg.ext_cfi) &&
++         get_field(env->menvcfg, MENVCFG_CFI)) {
++        mask |= CFISTATUS_S_MASK;
++    }
+     target_ulong newval = (env->mstatus & ~mask) | (val & mask);
+     return write_mstatus(env, CSR_MSTATUS, newval);
+ }
+@@ -4001,6 +4132,10 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     /* Crypto Extension */
+     [CSR_SEED] = { "seed", seed, NULL, NULL, rmw_seed },
+ 
++    /* User mode CFI CSR */
++    [CSR_LPLR] = { "lplr", cfi, read_lplr, write_lplr },
++    [CSR_SSP]  = { "ssp", cfi, read_ssp, write_ssp },
++
+ #if !defined(CONFIG_USER_ONLY)
+     /* Machine Timers and Counters */
+     [CSR_MCYCLE]    = { "mcycle",    any,   read_hpmcounter,
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index d1126a6066..89745d46cd 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -579,6 +579,15 @@ void mseccfg_csr_write(CPURISCVState *env, target_ulong val)
+     /* Sticky bits */
+     val |= (env->mseccfg & (MSECCFG_MMWP | MSECCFG_MML));
+ 
++    /* M-mode forward cfi to be enabled if cfi extension is implemented */
++    if (env_archcpu(env)->cfg.ext_cfi) {
++        val |= (val & MSECCFG_MFCFIEN);
++        /* If forward cfi in mseccfg is being toggled, flush tlb */
++        if ((env->mseccfg ^ val) & MSECCFG_MFCFIEN) {
++                tlb_flush(env_cpu(env));
++        }
++    }
++
+     env->mseccfg = val;
+ }
+ 
 -- 
 2.25.1
 
