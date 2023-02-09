@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A6D690A89
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 14:39:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C26690A93
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 14:41:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ792-0002mT-93; Thu, 09 Feb 2023 08:39:24 -0500
+	id 1pQ7AZ-0004VA-At; Thu, 09 Feb 2023 08:41:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pQ78e-0002dh-Th
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 08:39:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pQ78c-000366-4N
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 08:39:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675949936;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VITWNizGwZHNM7//mbvMr6smIPcFwMt9nrNh6w107Cs=;
- b=JAmjEbtdMOJIpVmsZb/6uYA+GIZdXZOHKjqE1Ae/13qfuWpaYVL9nArFzcRoeHQNkkgorz
- CFjwIjMBlzh2dS7oOp0h822AlT0bkwfSEfCHYwAEtNkj70oKCmRBHmCop8QfgHIYAPZ2nI
- +GsF2z5J8hCVXJoJ/UCG6Ijh2+1LW2Q=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-153-ZzO3K7FgNEm6vy7deCtmNw-1; Thu, 09 Feb 2023 08:38:55 -0500
-X-MC-Unique: ZzO3K7FgNEm6vy7deCtmNw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DCFA938123AA;
- Thu,  9 Feb 2023 13:38:54 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D97EB492C3F;
- Thu,  9 Feb 2023 13:38:52 +0000 (UTC)
-Date: Thu, 9 Feb 2023 13:38:50 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Eric Blake <eblake@redhat.com>, Het Gala <het.gala@nutanix.com>,
- qemu-devel@nongnu.org, prerna.saxena@nutanix.com,
- quintela@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com,
- armbru@redhat.com, manish.mishra@nutanix.com,
- aravind.retnakaran@nutanix.com
-Subject: Re: [PATCH v2 2/6] migration: Updated QAPI format for 'migrate' qemu
- monitor command
-Message-ID: <Y+T3apJYMdQ3nxu2@redhat.com>
-References: <20230208093600.242665-1-het.gala@nutanix.com>
- <20230208093600.242665-3-het.gala@nutanix.com>
- <20230208201712.b3a5xtufscrvncqt@redhat.com>
- <Y+TJr7An261VcVJ/@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ7AX-0004UV-PT
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 08:40:57 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ7AV-0003jl-Qk
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 08:40:57 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id h16so1770102wrz.12
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 05:40:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=FGDQiE3NL84hYR/PEIYO4vMfaNU2vrZh1P+ENe6stto=;
+ b=nIt4AkVMEXF8wwvyfNfJEBPGbUaYSgZlj7JUDU2L2Qfdf9JmT/1SYQa1wxTarMD1P1
+ kdNxsZ/49WJy1lnE5ztb16zIovT8Gt2GkqfFe6B691ncdhx9uNDQ/wFHRY+SXMX4pxj4
+ gaiDrunxpZam3Bh/8eF3MQ+McSK7XIhBytSUlCYQHRmrnXmFOWZGuj3pHFpctvxcT5Zv
+ HXr/uVi5ncCi2uONfzQ2uWe6ubTVtng2FkY/msPE/jhgikkGywsOcAKPpwqnjggJCfSG
+ oko+rIzN+lXUXngk/dv1Z6Lmj/I0TrYOM83Sa49Vz1uqnJdKlB/HX68K1Q+bpuxm66oV
+ JRaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FGDQiE3NL84hYR/PEIYO4vMfaNU2vrZh1P+ENe6stto=;
+ b=4nF0YXy1uRu00NzJ88QxDwqNWk3+KyOiK8TCsx9srIeJ23Xi6lf8I7D0qrh+hCiAMe
+ Q5YnCL9Hbm9s+a+tunaIcyPv2wz/tkkICVQp/I5Md3RhnACFwLqVZFjgU2IKJxKiIoqQ
+ S1i+VKH0flTC11vQnAU0Qqh/07iVOKWflkEUIQBvdz+tZH8aHnwTkYMFjt8rtogbIAdE
+ WLDHhT2suiPyEN5pwdaFYSeNAxMOFt0j0otAJi/gWCtugTHRto3qWAsrPmxW5EAbbudT
+ 4WHZTLKCwitNdqbb6FdMuIBoWEXH7RQW/UYl+QMXZQsIohNVFCfSNUMxbjDkpJ8xQXA4
+ Ah4g==
+X-Gm-Message-State: AO0yUKX/OzH5pAlF11HFeaWz71azFxpkI6LwXTdYjWpiU140jKFG5B+B
+ 9RSy/08cNctDIkW88msE9V55egSFFNoc/AVe
+X-Google-Smtp-Source: AK7set+cw5Ev1kFkzE2yxlbVkVGDSRJaJ6zw7kvozMXSP63CBhTilzDJ6YW/IogjKhyhznpCUQE2Gg==
+X-Received: by 2002:a05:6000:1b0e:b0:2bf:e05f:53ac with SMTP id
+ f14-20020a0560001b0e00b002bfe05f53acmr11182891wrz.45.1675950054201; 
+ Thu, 09 Feb 2023 05:40:54 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ f3-20020a056000128300b002c3e600d1a8sm1314339wrx.95.2023.02.09.05.40.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Feb 2023 05:40:53 -0800 (PST)
+Message-ID: <a09080c1-c033-4442-fd17-d88ae9b7aff3@linaro.org>
+Date: Thu, 9 Feb 2023 14:40:52 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH] migration: Remove spurious files
+Content-Language: en-US
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+References: <20230209121449.30232-1-quintela@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230209121449.30232-1-quintela@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y+TJr7An261VcVJ/@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,233 +85,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 09, 2023 at 10:23:43AM +0000, Daniel P. Berrangé wrote:
-> On Wed, Feb 08, 2023 at 02:17:12PM -0600, Eric Blake wrote:
-> > On Wed, Feb 08, 2023 at 09:35:56AM +0000, Het Gala wrote:
-> > > Existing 'migrate' QAPI design enforces transport mechanism, ip address
-> > > of destination interface and corresponding port number in the form
-> > > of a unified string 'uri' parameter for initiating a migration stream.
-> > > This scheme has a significant flaw in it - double encoding of existing
-> > > URIs to extract migration info.
-> > > 
-> > > The current patch maps QAPI uri design onto well defined MigrateChannel
-> > > struct. This modified QAPI helps in preventing multi-level uri
-> > > encodings ('uri' parameter is kept for backward compatibility).
-> > > 
-> > > Suggested-by: Daniel P. Berrange <berrange@redhat.com>
-> > > Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
-> > > Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
-> > > Signed-off-by: Het Gala <het.gala@nutanix.com>
-> > > ---
-> > >  qapi/migration.json | 131 +++++++++++++++++++++++++++++++++++++++++++-
-> > >  1 file changed, 129 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/qapi/migration.json b/qapi/migration.json
-> > > index c84fa10e86..79acfcfe4e 100644
-> > > --- a/qapi/migration.json
-> > > +++ b/qapi/migration.json
-> > > @@ -1449,12 +1449,108 @@
-> > >  ##
-> > >  { 'command': 'migrate-continue', 'data': {'state': 'MigrationStatus'} }
-> > >  
-> > > +##
-> > > +# @MigrateTransport:
-> > > +#
-> > > +# The supported communication transport mechanisms for migration
-> > > +#
-> > > +# @socket: Supported communication type between two devices for migration.
-> > > +#          Socket is able to cover all of 'tcp', 'unix', 'vsock' and
-> > > +#          'fd' already
-> > > +#
-> > > +# @exec: Supported communication type to redirect migration stream into file.
-> > > +#
-> > > +# @rdma: Supported communication type to redirect rdma type migration stream.
-> > > +#
-> > > +# Since 8.0
-> > > +##
-> > > +{ 'enum': 'MigrateTransport',
-> > > +  'data': ['socket', 'exec', 'rdma'] }
-> > > +
-> > > +##
-> > > +# @MigrateSocketAddr:
-> > > +#
-> > > +# To support different type of socket.
-> > > +#
-> > > +# @socket-type: Different type of socket connections.
-> > > +#
-> > > +# Since 8.0
-> > > +##
-> > > +{ 'struct': 'MigrateSocketAddr',
-> > > +  'data': {'socket-type': 'SocketAddress' } }
-> > 
-> > Here, you use 'socket-type',...
-> > 
-> > > +
-> > > +##
-> > > +# @MigrateExecAddr:
-> > > + #
-> > > + # Since 8.0
-> > > + ##
-> > > +{ 'struct': 'MigrateExecAddr',
-> > > +   'data' : {'data': ['str'] } }
-> > 
-> > Inconsistent on whether you have a space before :.  Most of our qapi
-> > files prefer the layout:
-> > 
-> > 'key': 'value'
-> > 
-> > that is, no space before, one space after.  It doesn't affect
-> > correctness, but a consistent visual style is worth striving for.
-> > 
-> > > +
-> > > +##
-> > > +# @MigrateRdmaAddr:
-> > > +#
-> > > +# Since 8.0
-> > > +##
-> > > +{ 'struct': 'MigrateRdmaAddr',
-> > > +   'data' : {'data': 'InetSocketAddress' } }
-> > 
-> > ...while these branches supply everything else under 'data'. Also,
-> > while you documented @socket-type above, you did not document @data in
-> > either of these two types.  [1]
-> > 
-> > > +
-> > > +##
-> > > +# @MigrateAddress:
-> > > +#
-> > > +# The options available for communication transport mechanisms for migration
-> > > +#
-> > > +# Since 8.0
-> > > +##
-> > > +{ 'union' : 'MigrateAddress',
-> > > +  'base' : { 'transport' : 'MigrateTransport'},
-> > > +  'discriminator' : 'transport',
-> > > +  'data' : {
-> > > +    'socket' : 'MigrateSocketAddr',
-> > > +    'exec' : 'MigrateExecAddr',
-> > > +    'rdma': 'MigrateRdmaAddr' } }
-> > 
-> > Another example of inconsistent spacing around :.
-> > 
-> > I'm guessing the reason you didn't go with 'socket': 'SocketAddress'
-> > is that SocketAddress is itself a discriminated union, and Markus does
-> > not yet have the QAPI generator wired up to support one union as a
-> > branch of another larger union?  It leads to extra nesting on the wire
-> > [2]
+On 9/2/23 13:14, Juan Quintela wrote:
+> I introduced spurious files on my tree during a rebase:
 > 
-> I don't know the backstory on this limitation. Is it something that
-> is very difficult to resolve ? I think it is highly desirable to have
-> 'socket': 'SocketAddress' here. It would be a shame to introduce this
-> better migration API design and then have it complicated by a possibly
-> short term limitation of QAPI.
+> commit ebfc57871506b3fe36cc41f69ee3ad31a34afd63
+> Author: Zhenzhong Duan <zhenzhong.duan@intel.com>
+> Date:   Mon Oct 17 15:53:51 2022 +0800
+> 
+>      multifd: Fix flush of zero copy page send request
+> 
+>      Make IO channel flush call after the inflight request has been drained
+>      in multifd thread, or else we may missed to flush the inflight request.
+> 
+>      Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
+>      Reviewed-by: Juan Quintela <quintela@redhat.com>
+>      Signed-off-by: Juan Quintela <quintela@redhat.com>
+> 
+> To make things worse, it appears like Zhenzhong is the one to blame.
+> 
+> for(int i=0; i < 1000000; i++) {
+> 	printf("I will not do rebases when I am tired\n");
+> }
+> 
+> Sorry, Juan.
+> 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> ---
+>   .../x86_64-quintela-devices.mak               |    7 -
+>   .../x86_64-quintela2-devices.mak              |    6 -
+>   migration/multifd.c.orig                      | 1274 -----------------
+>   3 files changed, 1287 deletions(-)
 
-So to understand this better I did this change on top of Het's
-patch:
+Nice diff-stat! ;P
 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 79acfcfe4e..bbc3e66ad6 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1467,18 +1467,6 @@
- { 'enum': 'MigrateTransport',
-   'data': ['socket', 'exec', 'rdma'] }
- 
--##
--# @MigrateSocketAddr:
--#
--# To support different type of socket.
--#
--# @socket-type: Different type of socket connections.
--#
--# Since 8.0
--##
--{ 'struct': 'MigrateSocketAddr',
--  'data': {'socket-type': 'SocketAddress' } }
--
- ##
- # @MigrateExecAddr:
-  #
-@@ -1487,14 +1475,6 @@
- { 'struct': 'MigrateExecAddr',
-    'data' : {'data': ['str'] } }
- 
--##
--# @MigrateRdmaAddr:
--#
--# Since 8.0
--##
--{ 'struct': 'MigrateRdmaAddr',
--   'data' : {'data': 'InetSocketAddress' } }
--
- ##
- # @MigrateAddress:
- #
-@@ -1506,9 +1486,9 @@
-   'base' : { 'transport' : 'MigrateTransport'},
-   'discriminator' : 'transport',
-   'data' : {
--    'socket' : 'MigrateSocketAddr',
-+    'socket' : 'SocketAddress',
-     'exec' : 'MigrateExecAddr',
--    'rdma': 'MigrateRdmaAddr' } }
-+    'rdma': 'InetSocketAddress' } }
- 
- ##
- # @MigrateChannelType:
-
-
-That results in a build error
-
-  /home/berrange/src/virt/qemu/scripts/qapi-gen.py: In file included from ../qapi/qapi-schema.json:79:
-  ../qapi/migration.json: In union 'MigrateAddress':
-  ../qapi/migration.json:1505: branch 'socket' cannot use union type 'SocketAddress'
-
-To understand what the limitation of QAPI generation is, I blindly
-disabled this check
-
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index cd8661125c..cb5c0385bd 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -653,7 +653,7 @@ def check(self, schema, seen):
-                         "branch '%s' is not a value of %s"
-                         % (v.name, self.tag_member.type.describe()))
-                 if (not isinstance(v.type, QAPISchemaObjectType)
--                        or v.type.variants):
-+                        or v.type.variants) and False:
-                     raise QAPISemError(
-                         self.info,
-                         "%s cannot use %s"
-@@ -664,7 +664,8 @@ def check_clash(self, info, seen):
-         for v in self.variants:
-             # Reset seen map for each variant, since qapi names from one
-             # branch do not affect another branch
--            v.type.check_clash(info, dict(seen))
-+            #v.type.check_clash(info, dict(seen))
-+            pass
- 
- 
- class QAPISchemaMember:
-
-
-After doing that, the QAPI code generated handled the union-inside-union
-case without any problems that I can see. The generated code looks sane
-and it compiles correctly.
-
-So is this actually just a case of overly strict input validation  in
-the QAPI schema parser ?  If so, what's the correct way to adapt the
-checks to permit this usage.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
