@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECDB069000A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 06:53:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84952690024
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 07:04:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPzr4-0000IV-Ps; Thu, 09 Feb 2023 00:52:22 -0500
+	id 1pQ01S-0003Jo-SH; Thu, 09 Feb 2023 01:03:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hchauhan@ventanamicro.com>)
- id 1pPzr1-0000GX-Bk
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 00:52:19 -0500
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hchauhan@ventanamicro.com>)
- id 1pPzqz-0002az-RD
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 00:52:19 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id z1so1738063plg.6
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 21:52:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=0Tjk0KykcTHvlsxmURAi3rKTnl8MoQpYJfzoeZtBo1M=;
- b=oJWOVQAMqM/Cxn3yRO8YboqXKeCQxM6s73TmbbnSJ9IO8b9WE49QDVQV/ZXTtL6VQV
- lznbbTAJoG83n2Z8E5zANKOaCffqxhxCzatD35NCiVr/Nm2+NXqDxP6uhn/QVRJyfyPv
- /zMOH+Na0K4+XjCKTwiboabNCfs2JSbzMAQA5Ju/x8kozOFFuCbdlKYkOL1odyK+sDI4
- hWwvCixOjj+QWG4xeb9sdgr+hZgz8//TFAg6mU5vXMxjj9dOVkzzStQ53DEgu/m1RiEN
- GFUJCzEhNPQNVQom/x1jVFbhpLGRlcyJfqG1GuSeZAgOUpWzfnmhLpne6jdNI1OwdIBF
- +Y3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0Tjk0KykcTHvlsxmURAi3rKTnl8MoQpYJfzoeZtBo1M=;
- b=gdCWFjtspuAwnag/q5b1BFgZpzzXLIJThFa8mmUq4cYt8CiOOWvM1iYGbWJ9afzc7w
- CqEls36wnhqtPtjQwDDea2FPMPoffPhPjB+/bu2S07QsVCB/F+cYz88wjwmecQrLsz0P
- KflmDZHdYA3gyYv3MJ7zz9YipDl5Fgiy3DD4UC3FL872a0e2Y1aP0tyq8XgPrAQ2vWPm
- tIoLFeOQpDA5ehkzV9zA7l4bJfqUUaOIpRlVeH28Q9qnTapqA6ff7C/mhrDx2LqeNDbz
- ZsXiUF9CoKxjoprrcnX7iwq/ffNl2xa7Vy7d33AVDuTelJzQAaZs9nI3QY3P32HKG8MA
- Q++Q==
-X-Gm-Message-State: AO0yUKVrQC7hybXjLDVa7XiL9tH0vEvXJaTD4FCtIWJEWJ2C+dBNvZcy
- g+49QouPmzqyvdqHXYwyvD+x8w==
-X-Google-Smtp-Source: AK7set+vhaNC32y+r2ftx3v/y3Qh76xJNxEZuntPWHzVydmClgJAaB4moI4MI0AGS4Ew9vfmHoGI8w==
-X-Received: by 2002:a17:90a:be08:b0:22c:4b10:39de with SMTP id
- a8-20020a17090abe0800b0022c4b1039demr2652663pjs.3.1675921933757; 
- Wed, 08 Feb 2023 21:52:13 -0800 (PST)
-Received: from gram.dc1.ventanamicro.com
- ([2405:201:d019:c0a2:db4c:93fc:9135:d16f])
- by smtp.gmail.com with ESMTPSA id
- n12-20020a17090a928c00b0022c326ad011sm452436pjo.46.2023.02.08.21.52.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 21:52:13 -0800 (PST)
-From: Himanshu Chauhan <hchauhan@ventanamicro.com>
-To: qemu-riscv@nongnu.org
-Cc: qemu-devel@nongnu.org,
-	Himanshu Chauhan <hchauhan@ventanamicro.com>
-Subject: [PATCH] target/riscv: Smepmp: Skip applying default rules when
- address matches
-Date: Thu,  9 Feb 2023 11:22:06 +0530
-Message-Id: <20230209055206.229392-1-hchauhan@ventanamicro.com>
-X-Mailer: git-send-email 2.39.1
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1pQ01I-0003He-St
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:02:58 -0500
+Received: from mga07.intel.com ([134.134.136.100])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1pQ01F-00046i-WB
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:02:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675922574; x=1707458574;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=kON92z/3VAlvPTuV73ReY1j20IWIhOz592C57559Vmo=;
+ b=kxK89cBxmd9NepomDKA5U1VhBBpSJHILDEdjVKzIBXE0XTwKpoQlqTWd
+ FrFPrbMjznGuGgylPJhonpK2fkONv/gTztJ8FrzOkU4avbmOSoPqLbqHC
+ W3f7CYdUIWxaJQLcVJ1fgNRy/YogFv4Lsb8jjEpECFwYUdAQ5W1U3LrUL
+ i3Nqum6bprM3TOnqaqpgMfwW8iUKS5MKFIh7LT7P6nyHrZGzc6MCXTw6J
+ /Su/qEvMOHVnuOyAzZ4ESzbTM6W1ihJeB0S0y2TBNsgxlGonCuX/Nhzc6
+ /KXH41FlYWT7NOFa2E7Qngw/urxm+bjbImubM6JbKBT7sJpPyVwR5lAx/ A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="394617612"
+X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; d="scan'208";a="394617612"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2023 21:59:46 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="669468292"
+X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; d="scan'208";a="669468292"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.254.212.139])
+ ([10.254.212.139])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2023 21:59:43 -0800
+Message-ID: <2aba083e-451e-56bd-304a-4738388329e9@intel.com>
+Date: Thu, 9 Feb 2023 13:59:40 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.6.1
+Subject: Re: [PATCH v3 4/6] i386: Mask and report unavailable multi-bit
+ feature values
+Content-Language: en-US
+To: "Wang, Lei" <lei4.wang@intel.com>, Yuan Yao <yuan.yao@linux.intel.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, imammedo@redhat.com,
+ dgilbert@redhat.com, berrange@redhat.com, yang.zhong@linux.intel.com
+References: <20230106083826.5384-1-lei4.wang@intel.com>
+ <20230106083826.5384-5-lei4.wang@intel.com>
+ <20230206074320.bkeuh3eep7kauhg7@yy-desk-7060>
+ <d99625d9-af63-72d6-2cb9-8f2a1819b825@intel.com>
+ <9cffc221-979b-ac71-d2ff-76a6f4698641@intel.com>
+ <6ae0be93-edc8-97d8-04a8-4db2fa3fd291@intel.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <6ae0be93-edc8-97d8-04a8-4db2fa3fd291@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=hchauhan@ventanamicro.com; helo=mail-pl1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=134.134.136.100;
+ envelope-from=xiaoyao.li@intel.com; helo=mga07.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, NICE_REPLY_A=-1.146,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,42 +87,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When MSECCFG.MML is set, after checking the address range in PMP if the
-asked permissions are not same as programmed in PMP, the default
-permissions are applied. This should only be the case when there
-is no matching address is found.
+On 2/9/2023 12:21 PM, Wang, Lei wrote:
+>>>>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+>>>>> index 88aa780566..e638a31d34 100644
+>>>>> --- a/target/i386/cpu.c
+>>>>> +++ b/target/i386/cpu.c
+>>>>> @@ -4377,6 +4377,28 @@ static bool x86_cpu_have_filtered_features(X86CPU *cpu)
+>>>>>        return false;
+>>>>>    }
+>>>>>
+>>>>> +static void mark_unavailable_multi_bit_default(X86CPU *cpu, FeatureWord w,
+>>>>> +                                               int index,
+>>>>> +                                               const char *verbose_prefix)
+>>>>> +{
+>>>>> +    FeatureWordInfo *f = &feature_word_info[w];
+>>>>> +    g_autofree char *feat_word_str = feature_word_description(f);
+>>>>> +    uint64_t host_feat = x86_cpu_get_supported_feature_word(w, false);
+>>>>> +    MultiBitFeatureInfo mf = f->multi_bit_features[index];
+>>>>> +
+>>>>> +    if ((cpu->env.features[w] & mf.mask) &&
+>>>> With this checking bits are all 0 but covered by mf.mask's range are skippped,
+>>>> even if they're different from the host_feat, please check whether it's desried
+>>>> behavior.
+>>> This is the intended design because there are quite a number of multi-bit CPUIDs
+>>> should support passing all 0 to them.
+>> you didn't answer the question. The question is why the handling can be skipped
+>> when the value of multi-bit feature is 0.
+> I think the default function should handle the most common case, which is,
+> passing all 0 multi-bits to KVM is valid and shouldn't be warned. E.g, when we
+> are using some earlier CPU models which doesn't support AMX, we shouldn't be
+> warned that all 0 values don't match the CPUID reported by KVM.
+> 
 
-This patch skips applying default rules when matching address range
-is found. It returns the index of the match PMP entry.
+passing value 0 to KVM is valid, is not the reason why the handling can 
+be skipped.
 
-fixes: 824cac681c3 (target/riscv: Fix PMP propagation for tlb)
-
-Signed-off-by: Himanshu Chauhan <hchauhan@ventanamicro.com>
----
- target/riscv/pmp.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index d85ad07caa..0dfdb35828 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -446,9 +446,12 @@ int pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-                 }
-             }
- 
--            if ((privs & *allowed_privs) == privs) {
--                ret = i;
--            }
-+            /*
-+             * If matching address range was found, the protection bits
-+             * defined with PMP must be used. We shouldn't fallback on
-+             * finding default privileges.
-+             */
-+            ret = i;
-             break;
-         }
-     }
--- 
-2.39.1
-
+The correct reason is that when value is 0, it means the multi-bit 
+feature is not enabled/requested. It's always legal and doesn't need any 
+handling. So it can be just skipped.
 
