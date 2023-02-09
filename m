@@ -2,55 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B999C690B9A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 15:22:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12588690BA1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 15:23:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ7o4-0006NX-Jo; Thu, 09 Feb 2023 09:21:48 -0500
+	id 1pQ7pH-0007Ki-Ex; Thu, 09 Feb 2023 09:23:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1pQ7nz-0006N1-4T
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 09:21:43 -0500
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pQ7pF-0007Jd-0L
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 09:23:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1pQ7nw-000323-Cr
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 09:21:42 -0500
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
- by outpost.zedat.fu-berlin.de (Exim 4.95) with esmtps (TLS1.3)
- tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1pQ7nt-002GDD-PK; Thu, 09 Feb 2023 15:21:37 +0100
-Received: from p57bd9464.dip0.t-ipconnect.de ([87.189.148.100]
- helo=[192.168.178.81]) by inpost2.zedat.fu-berlin.de (Exim 4.95)
- with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@physik.fu-berlin.de>)
- id 1pQ7nt-0028DE-II; Thu, 09 Feb 2023 15:21:37 +0100
-Message-ID: <48f42e259498adc7953853572eb481279ee06e71.camel@physik.fu-berlin.de>
-Subject: Re: Linker failures trying to build static qemu-user binary
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Ilya Leoshkevich <iii@linux.ibm.com>
-Date: Thu, 09 Feb 2023 15:21:36 +0100
-In-Reply-To: <CAFEAcA-Le_YbaYn6i15EesDMan+OF0S7uteanSXrWYK37HbdvQ@mail.gmail.com>
-References: <f71df8f625e4110b84b6c4fefd9e95619b3ab92e.camel@physik.fu-berlin.de>
- <CAFEAcA-Le_YbaYn6i15EesDMan+OF0S7uteanSXrWYK37HbdvQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pQ7pD-0003EQ-CY
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 09:23:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675952578;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/4PEDUA4ZHwOiKFMnmioDw5G9w75wZZDXHjawbe7jQk=;
+ b=J8qBu6wUFyGOqjRCIsei9V4OMgjdHhKm7XZJQ25PogcqIxLDcfRV36rEk6MCXnhbjd2xjl
+ XqJliuxbIkhUhivq9VyQHqfjNM1Z50TLJ4K+aVRwrOvanysH3ECuqMRKL4ZAsyfMXn6pQy
+ 8Djc4resJH4nVUJ752wekfNnSc72TxA=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-407-PFrBYn78NeC_iI6zdOdfBg-1; Thu, 09 Feb 2023 09:22:57 -0500
+X-MC-Unique: PFrBYn78NeC_iI6zdOdfBg-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ i7-20020a056214020700b004ffce246a2bso1322831qvt.3
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 06:22:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/4PEDUA4ZHwOiKFMnmioDw5G9w75wZZDXHjawbe7jQk=;
+ b=1UAGXaKqCNyE5QbPB9n07Jug8ATzNScf2fPZ+BZEAmIQ775Rm1Fheg512BJDjnak+Y
+ +QWv49s6eIoSNAlGDPOG7JDETH9lH8fs9jsy5ze4llquVf5w5pOmy4uIKmoQswoOFEkQ
+ U7eelwBMtSEVeEQUu3IANBO5CO0ZmPVR9Oxk6CgSrDU1E+fKUQK+WitC49T4NBhmGiWS
+ 5IXKi7LSF+nrDdGhuU/HQU7IHeZ7EfvuMSw7S3b38gbc8jW1JCriOQ/b12qk9rO/M02B
+ AvfTG1/cVz+0Jagqmr8B7qE/qljbtMkIatKasFAsfs0GXVlb+luAdFIkpDsrj36LHtuq
+ SUsA==
+X-Gm-Message-State: AO0yUKWLitkG/maIXmArSMFm2q7Z54bYKFogHtESPwAzDVWKlmPqqEdD
+ of63H+7qtFwIrfZ5x5my36I4XkkV9i10MANf/J7Q8RsgQeG9nBWHoEz2RS8cD+x7j4//oiHo95C
+ bnkt4IrFZeG/1GxA=
+X-Received: by 2002:ac8:4e8d:0:b0:3ba:1ace:8bae with SMTP id
+ 13-20020ac84e8d000000b003ba1ace8baemr20501227qtp.0.1675952575871; 
+ Thu, 09 Feb 2023 06:22:55 -0800 (PST)
+X-Google-Smtp-Source: AK7set8ZSUwJwrQFORKi9+R+64M73mVFZHgz0aHv0gyRFVUunGQw2xhnE+N9KGE22EB4s5RqpTy06w==
+X-Received: by 2002:ac8:4e8d:0:b0:3ba:1ace:8bae with SMTP id
+ 13-20020ac84e8d000000b003ba1ace8baemr20501194qtp.0.1675952575531; 
+ Thu, 09 Feb 2023 06:22:55 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ hf22-20020a05622a609600b003b80a69d353sm797462qtb.49.2023.02.09.06.22.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Feb 2023 06:22:54 -0800 (PST)
+Date: Thu, 9 Feb 2023 09:22:53 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Leonardo =?utf-8?B?QnLDoXM=?= <leobras@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, Li Xiaohui <xiaohli@redhat.com>
+Subject: Re: [PATCH v1 1/1] migration: Fix yank on postcopy multifd crashing
+ guest after migration
+Message-ID: <Y+UBvUfHlkqFcoUn@x1n>
+References: <20221109055629.789795-1-leobras@redhat.com> <Y3+WGof3MQtaCYdS@x1n>
+ <CAJ6HWG4KaEbUYHe75i4ty66nosHEM8ZJW0c1W4Q=s4YeNnP_rA@mail.gmail.com>
+ <Y4ZwhZVDh9ac6MH8@x1n>
+ <038b3c6d5f0ee3b3da5c9e53029a51b8b39d4922.camel@redhat.com>
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 87.189.148.100
-Received-SPF: pass client-ip=130.133.4.66;
- envelope-from=glaubitz@zedat.fu-berlin.de; helo=outpost1.zedat.fu-berlin.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <038b3c6d5f0ee3b3da5c9e53029a51b8b39d4922.camel@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,69 +103,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi!
+On Thu, Feb 09, 2023 at 01:14:12AM -0300, Leonardo Brás wrote:
+> I got side-tracked on this issue.
+> 
+> Is there any patch disabling multifd + postcopy, or would it be fine to go back
+> working on a V2 for this one?
 
-On Thu, 2023-02-09 at 14:14 +0000, Peter Maydell wrote:
-> The "Using getpwuid in statically linked applications" etc warnings
-> are expected, so we can ignore those; this is the key error:
+IMHO it'll always make sense to post a new version for the immediate crash.
 
-OK.
+Personally I still think we should disable the two features being present
+together until the full solution, but that can be discussed separately.
 
-> > /usr/bin/ld: /usr/lib/x86_64-linux-gnu/libdw.a(debuginfod-client.o): in=
- function `__libdwfl_debuginfod_init':
-> > (.text.startup+0x17): undefined reference to `dlopen'
-> > /usr/bin/ld: (.text.startup+0x32): undefined reference to `dlsym'
-> > /usr/bin/ld: (.text.startup+0x4b): undefined reference to `dlsym'
-> > /usr/bin/ld: (.text.startup+0x64): undefined reference to `dlsym'
-> > /usr/bin/ld: (.text.startup+0x7d): undefined reference to `dlsym'
-> > /usr/bin/ld: (.text.startup+0xdc): undefined reference to `dlclose'
-> > collect2: error: ld returned 1 exit status
->=20
-> We use pkg-config to find out what the libdw library needs on
-> the compiler/linker command line to link successfully, so
-> maybe your distro's pkg-config info isn't right. What does
-> "pkg-config --static --libs libdw" say ?
+Thanks,
 
-glaubitz@nofan:~> pkg-config --static --libs libdw
--ldw -lbz2 -llzma -pthread -lpthread -lelf -lz
-glaubitz@nofan:~>
+-- 
+Peter Xu
 
-I'm building on Debian stable (Bullseye).
-
-> If libdw needs libdl
-> then it ought to list it in that output, I think. IME pkg-config
-> information is often incorrect for static linking, though.
-> I guess this one happened to work previously because glibc didn't
-> actually mandate linking with '-ldl', and now on your system it
-> apparently does. On my system pkg-config says
-> -ldw -lbz2 -llzma -pthread -lpthread -lelf -lz
-> which looks like it's missing -ldl, but the link succeeds anyway,
-> presumably because the symbols are provided by the main glibc .a.
->=20
-> On the other hand, if libdw wants to use dlopen/dlsym then
-> I wonder if we should just suppress it for static linking:
-> on my (Ubuntu 22.04) ld warns:
-> /usr/bin/ld: /usr/lib/x86_64-linux-gnu/libdw.a(debuginfod-client.o):
-> in function `__libdwfl_debuginfod_init':
-> (.text.startup+0x1b): warning: Using 'dlopen' in statically linked
-> applications requires at runtime the shared libraries from the glibc
-> version used for linking
->=20
-> so whatever libdw is trying to do will likely not work in most
-> statically-linked situations anyway.
-
-So, just include "-ldl" in LD_FLAGS?
-
-> I've cc'd the author of the commit that added the libdw
-> dependency.
-
-Thank you!
-
-Adrian
-
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
