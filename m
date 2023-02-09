@@ -2,106 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B459690EFC
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 18:16:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67AB9690F4E
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 18:33:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQAVP-00058q-Il; Thu, 09 Feb 2023 12:14:43 -0500
+	id 1pQAlp-0000r5-Nl; Thu, 09 Feb 2023 12:31:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pQAVH-00058S-Fz; Thu, 09 Feb 2023 12:14:35 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pQAln-0000qp-L2
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 12:31:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pQAVF-0006te-QI; Thu, 09 Feb 2023 12:14:35 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 319H1kZP024067; Thu, 9 Feb 2023 17:14:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=lvSzpAz+N2vwasHmBwgxtzvNVnUWEG4aIwNbw07xED0=;
- b=iVuEBlOWzii20dv4km9NpZhFVdB7k2yE7FWUd+z8TmlOXgfl2D5en0zq6T6M0bjBQmAH
- PzhvD0Ljg5E1UgOlvIkyBqTjCJ+aXG/NPtEci4h+6tepHPXXVrR7hs5hYMbZthdClrNe
- eP5mxNV5RPH2PvuYR+GbR7jVcsBp1vBv+NmuYo6xX/MaTcZajYqKGnZAcx6vSPBLiKCo
- DRKU4CiQ4kQ8aTrH6thUQpA+O1LJ2HjjH0MqAOhr6m9IbRQt6L6/aFhe0x7UfmQRirc8
- wWQdTNHanjVMhuyQUbperIeGb6g+mxh3eNIh9sUdBTFyn0iiUoVVPzKeVzilmDISaU8i 2Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nn4vdgu8w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Feb 2023 17:14:30 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 319H4ehU003535;
- Thu, 9 Feb 2023 17:14:29 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nn4vdgu82-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Feb 2023 17:14:29 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 318L1Kd5016027;
- Thu, 9 Feb 2023 17:14:27 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
- by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3nhf06vm8a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Feb 2023 17:14:27 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
- [10.20.54.104])
- by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 319HENl437486878
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 9 Feb 2023 17:14:23 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6CEC920049;
- Thu,  9 Feb 2023 17:14:23 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0D47420043;
- Thu,  9 Feb 2023 17:14:23 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.156.204])
- by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu,  9 Feb 2023 17:14:22 +0000 (GMT)
-Message-ID: <74229e1f3cbb45a92e8b1f26cc8ad744453985a7.camel@linux.ibm.com>
-Subject: Re: [PATCH v15 00/11] s390x: CPU Topology
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Date: Thu, 09 Feb 2023 18:14:22 +0100
-In-Reply-To: <20230201132051.126868-1-pmorel@linux.ibm.com>
-References: <20230201132051.126868-1-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pQAll-0002sV-Ta
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 12:31:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675963896;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8XW37cEQie/Vhgzf43OavzT2dkUBsoOwlL+k9GTIkvo=;
+ b=T1YYzEjPV59JDBHEnA6dziNZfh8W/oeziQgYEAqSocHbalVdgu+N+MMQFen/whqnUL3nIJ
+ 8VSANHDRvDDSZW8mztCZGxglWsn0pTgdnIMEbDJRTYt6C+0yP7/jx606LJNhwsFfI+7Uv3
+ YTJjSogr4TfMFsl87szvHXWHcX2t7g8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-392-_wHWCHGJPnCoC_Hnc_00og-1; Thu, 09 Feb 2023 12:31:34 -0500
+X-MC-Unique: _wHWCHGJPnCoC_Hnc_00og-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6EA8F80280C;
+ Thu,  9 Feb 2023 17:31:34 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 322F351FF;
+ Thu,  9 Feb 2023 17:31:32 +0000 (UTC)
+Date: Thu, 9 Feb 2023 18:31:31 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Ninad Palsule <ninad@linux.vnet.ibm.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH] block/file-posix: don't use functions calling
+ AIO_WAIT_WHILE in worker threads
+Message-ID: <Y+Ut88Ks6WCB2Dn9@redhat.com>
+References: <20230209154522.1164401-1-eesposit@redhat.com>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: mAdlDBKcYxIUM7OgnKcYkxLXUieXUbS2
-X-Proofpoint-GUID: aifQs9QIqiAsZg4xd5P5puPpuMwVUWTs
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-09_13,2023-02-09_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 malwarescore=0 mlxscore=0 lowpriorityscore=0 spamscore=0
- clxscore=1015 impostorscore=0 mlxlogscore=998 bulkscore=0 phishscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302090162
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=nsg@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230209154522.1164401-1-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,30 +79,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-IMO this series looks good overall and like it's nearing the final stages.
+Am 09.02.2023 um 16:45 hat Emanuele Giuseppe Esposito geschrieben:
+> When calling bdrv_getlength() in handle_aiocb_write_zeroes(), the
+> function creates a new coroutine and then waits that it finishes using
+> AIO_WAIT_WHILE.
+> The problem is that this function could also run in a worker thread,
+> that has a different AioContext from main loop and iothreads, therefore
+> in AIO_WAIT_WHILE we will have in_aio_context_home_thread(ctx) == false
+> and therefore
+> assert(qemu_get_current_aio_context() == qemu_get_aio_context());
+> in the else branch will fail, crashing QEMU.
+> 
+> Aside from that, bdrv_getlength() is wrong also conceptually, because
+> it reads the BDS graph from another thread and is not protected by
+> any lock.
+> 
+> Replace it with raw_co_getlength, that doesn't create a coroutine and
+> doesn't read the BDS graph.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  block/file-posix.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index d3073a7caa..9a99111f45 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -1738,7 +1738,7 @@ static int handle_aiocb_write_zeroes(void *opaque)
+>  #ifdef CONFIG_FALLOCATE
+>      /* Last resort: we are trying to extend the file with zeroed data. This
+>       * can be done via fallocate(fd, 0) */
+> -    len = bdrv_getlength(aiocb->bs);
+> +    len = raw_co_getlength(aiocb->bs);
+>      if (s->has_fallocate && len >= 0 && aiocb->aio_offset >= len) {
+>          int ret = do_fallocate(s->fd, 0, aiocb->aio_offset, aiocb->aio_nbytes);
+>          if (ret == 0 || ret != -ENOTSUP) {
 
-You use "polarity" instead of "polarization" a lot.
-Since the PoP uses polarization I think that term would be preferred.
+Obviously this relies on the fact that raw_co_getlength() doesn't
+actually depend on running in coroutine context. Could be done in a
+separate patch, but I think we should rename it back to raw_getlength()
+and remove the coroutine_fn annotation again. Seems commit c86422c5549
+was a little too eager.
 
-With the series as it is, one cannot set the polarization via qmp,
-only the entitlement of individual cpus. So only the VM can change
-the polarization.
-Would it be desirable to also be able to set the polarization from the outs=
-ide?
+Kevin
 
-Like I said in one response, it would be good to consider if we need an
-polarization_change_in_progress state that refuses requests.
-I'm guessing not, if a request is always completed before the next is handl=
-ed
-and there is no way to lose requests.
-I don't know how long it would take to change the CPU assignment and if the=
-re
-is a chance that could be overwhelmed by too many requests.
-Probably not but something worth thinking about.
-
-Might be a good idea to add a test case that performs test via qmp.
-So starts an instance with some cpu topology assignments, checks that
-qmp returns the correct topology, hot plugs a cpu and does another check,
-Changes topology attributes, etc.
-I guess this would be an avocado test.
 
