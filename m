@@ -2,81 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7528A6912B1
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 22:38:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B3F6912DC
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 22:55:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQEbk-0003oJ-5s; Thu, 09 Feb 2023 16:37:32 -0500
+	id 1pQErc-00009j-LI; Thu, 09 Feb 2023 16:53:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQEbi-0003oB-F9
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 16:37:30 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pQErb-00009b-FG
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 16:53:55 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQEbe-00047c-Pt
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 16:37:30 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id j23so3289439wra.0
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 13:37:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=tMfah7tF96VwCvAduM1NURqgd3P+O4Kf95GCCHFShbw=;
- b=FIN9Rvkbq0wus88bnNJ9h/UWu6s+pu1Uvb95WRrWYVLjC/lhPnMtANaFtht8vhkSXP
- MzY8crpzSIIYFfmf4CRC7Uw2S3L3SNoegvQ08rAjZQ/czKMpGg66y6DfylC1KG7VdYle
- TKCIGlmullevQnw6TwXk1kxt9TeQrhgkCxSJ6BbVx5ha26FC8akjYgg9JkdzRWZsZfhS
- DdJq5/dIINaiMC8s0F6wDxgaDQs3BEA8Er4dfuxLFVidqlM9Kc7hGzeUMA201pPYrQ6V
- TJLUnm7KQUH2ye9InG7I3EUYMTxDOKP2HgEENZDIlyT9iRrRPUKLyxjgYyod6rTUodtB
- X+nQ==
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pQErZ-0000K8-J6
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 16:53:55 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id qw12so10733723ejc.2
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 13:53:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=itT7CNNYwIbGw/NdhBVioMq1qk/0q2en8jeZiTvu8fM=;
+ b=gvkdPO+ea8gbJrkwujaXuq7jqd/x4q/yoZr/60V6ZoeTTF6CXPrsxdbDvp58h25VsY
+ gMCOWNcSa8jF3Z7//UFAWiQIDoN9oOAvoPxiQpMeFziN3CCAwwMJ6GJ1zrartjupv+ZG
+ grh6lZGDFObX5DwdUHW8wwXlMMISHQubCBP0pXVVualrI4IHsFeFvDXp61y6n9JvotOr
+ JW4rtSkplS8r0DJZxifuoVbFWSom8YloiJ9CKfnW6TaK1TNNHrkkBsjuAFxpML2kCxV1
+ wTt4V7NnWFpOa80BgYPhVfH+Hgk2Wqb47ehOk/qi9VoRyjUzG3edsXPnpzq+Ca/44qoP
+ KE+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tMfah7tF96VwCvAduM1NURqgd3P+O4Kf95GCCHFShbw=;
- b=Jqu+yJWXDkwNtk5IK7Jg3tNIJ+g4Xa1ENsX777qsvSOxSteijiEbuXiC/FrVnict0R
- VZravyKfCZp+804NI0AG+dXu7esF0uEIrfJHwHDNDvujVMUaExqnPjRoFUdhQFWIgolX
- 0LcTPDOJapdi6tuQFLipuun8f1y60f+SIydzube/B2yTrZMJIvKqjW8E+nJ/W8bXWhjW
- s+7V1IxAYQpWxOTEtjAWAT1KJhyWKdU6qUx6tsnTxf22Ztux0i3nKmQh4IWMvXuRdMrp
- u75KxibxBNz2MQfwLgKRGV73k5pO7eRKN3veiUSvzU+mwa4oJ1eHPdvdResjYVkOu6XN
- Nx9Q==
-X-Gm-Message-State: AO0yUKVig9IdgS8NaWXz+0Gl99VVuK6XQQ3T0Gsbt6fTG9Sz/xJOeyn1
- fG3C0BZAELmNHhtB4Of2ecU7fQ==
-X-Google-Smtp-Source: AK7set+g4mKKhb6fY2GSwh1OWkPF9xQRpnCgjfIMSgNVfpGs8LXO8Bx4DS7VaSi+p+2eVyR/PLxwMw==
-X-Received: by 2002:a5d:40d2:0:b0:2c3:db98:3e97 with SMTP id
- b18-20020a5d40d2000000b002c3db983e97mr12154835wrq.21.1675978642609; 
- Thu, 09 Feb 2023 13:37:22 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- v14-20020adfe28e000000b0027cb20605e3sm2094848wri.105.2023.02.09.13.37.21
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=itT7CNNYwIbGw/NdhBVioMq1qk/0q2en8jeZiTvu8fM=;
+ b=7roDZe+Lxf0U4RMkOHcKD1oi+fWRklk+KkmqJ/LDPIXjZm7yXn0siSvNirCipqQieZ
+ xHEhE+K4ttowNSfXfvkR9voLR4/WsFNx7xtRUhOnVY6E6VxWDjOQiBo3WkjgF7qp+MUO
+ oHsqCLbPxUiIre0952dl3vJvnqPqFtGnmy/rkrG6lTeQxMIj2+4GcE23eqhRMRKTB7sP
+ DlTpxFk6phUe/v4Av5myrChXJJD4v6+r4JQ1QYM2FNJ9km+6iV7XruPuIB4rCz5Qck+6
+ Eke+bKckNg+r7y6F/r9GxQlEILjmneCwa+hjxgJmAitfLkXyEzLuLrmUUH6480UYlHFe
+ 2LDg==
+X-Gm-Message-State: AO0yUKV9wK5j49nBTF8Cw3H035TKiH/V3Yt5jsoVppcL34EQHYXq/1ch
+ Kpi8enVG0yOaNamyVzIV1wo=
+X-Google-Smtp-Source: AK7set+8AOKT8imCofnKhSOXuWnoO7CZmbZIKmaAC/5ETBa5KX7LXmOcaqdQ1HR9CDMB3Tr6dFoSnA==
+X-Received: by 2002:a17:906:1252:b0:889:7781:f62e with SMTP id
+ u18-20020a170906125200b008897781f62emr14288663eja.22.1675979631428; 
+ Thu, 09 Feb 2023 13:53:51 -0800 (PST)
+Received: from [127.0.0.1] (dynamic-077-011-177-219.77.11.pool.telefonica.de.
+ [77.11.177.219]) by smtp.gmail.com with ESMTPSA id
+ q25-20020a50cc99000000b004a24b8b58cbsm1318598edi.16.2023.02.09.13.53.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Feb 2023 13:37:22 -0800 (PST)
-Message-ID: <37ebba4c-b522-37ee-dab8-c88061848d34@linaro.org>
-Date: Thu, 9 Feb 2023 22:37:20 +0100
+ Thu, 09 Feb 2023 13:53:50 -0800 (PST)
+Date: Thu, 09 Feb 2023 21:53:41 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: Anthony PERARD <anthony.perard@citrix.com>
+CC: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Paul Durrant <paul@xen.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Chuck Zmudzinski <brchuckz@aol.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v2 0/6] Resolve TYPE_PIIX3_XEN_DEVICE
+In-Reply-To: <96A4863B-D6BA-48B5-B5E4-54DD103FEBAA@gmail.com>
+References: <20230104144437.27479-1-shentey@gmail.com>
+ <20230118051230-mutt-send-email-mst@kernel.org>
+ <Y9ADQ/Yu8QQD0oyD@perard.uk.xensource.com>
+ <0C2B1FE4-BB48-4C38-9161-6569BA1D6226@gmail.com>
+ <96A4863B-D6BA-48B5-B5E4-54DD103FEBAA@gmail.com>
+Message-ID: <6C8AA4D4-FF57-4E43-A464-7F64C576ED5B@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH v3 14/15] qapi: introduce DEVICE_ON event
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Cc: armbru@redhat.com, eblake@redhat.com, eduardo@habkost.net,
- berrange@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
- mst@redhat.com, den-plotnikov@yandex-team.ru
-References: <20230209200808.869275-1-vsementsov@yandex-team.ru>
- <20230209200808.869275-15-vsementsov@yandex-team.ru>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230209200808.869275-15-vsementsov@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,93 +99,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 9/2/23 21:08, Vladimir Sementsov-Ogievskiy wrote:
-> We have DEVICE_DELETED event, that signals that device_del command is
-> actually complited. But we don't have a counter-part for device_add.
-> Still it's sensible for SHPC and PCIe-native hotplug, as there are time
-> when the device in some intermediate state. Let's add an event that say
-> that the device is finally powered on, power indicator is on and
-> everything is OK for next manipulation on that device.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> ---
->   qapi/qdev.json | 24 ++++++++++++++++++++++++
->   hw/pci/pcie.c  | 12 ++++++++++++
->   hw/pci/shpc.c  | 12 ++++++++++++
->   3 files changed, 48 insertions(+)
-> 
-> diff --git a/qapi/qdev.json b/qapi/qdev.json
-> index 40dc34f091..94da7ca228 100644
-> --- a/qapi/qdev.json
-> +++ b/qapi/qdev.json
-> @@ -220,3 +220,27 @@
->   ##
->   { 'event': 'HOTPLUG_STATE',
->     'data': 'HotplugState' }
-> +
-> +
-> +##
-> +# @DEVICE_ON:
-> +#
-> +# Emitted whenever the device insertion completion is acknowledged by the guest.
-> +# For now only emitted for SHPC and PCIe-native hotplug.
-> +#
-> +# @device: device name
-> +#
-> +# @path: device path
-> +#
-> +# Since: 8.0
-> +#
-> +# Example:
-> +#
-> +# <- { "event": "DEVICE_ON",
-> +#      "data": { "device": "virtio-net-pci-0",
-> +#                "path": "/machine/peripheral/virtio-net-pci-0" },
 
-Why provide both device & path? Could the type_name be helpful?
 
-> +#      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
-> +#
-> +##
-> +{ 'event': 'DEVICE_ON',
-> +  'data': { '*device': 'str', 'path': 'str' } }
-> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> index 37e2979b3c..bc7e60ff9d 100644
-> --- a/hw/pci/pcie.c
-> +++ b/hw/pci/pcie.c
-> @@ -45,6 +45,13 @@ static bool pcie_sltctl_powered_off(uint16_t sltctl)
->           (sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_OFF;
->   }
->   
-> +static bool pcie_sltctl_powered_on(uint16_t sltctl)
-> +{
-> +    return (sltctl & PCI_EXP_SLTCTL_PCC) == PCI_EXP_SLTCTL_PWR_ON &&
-> +        (sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_ON &&
-> +        (sltctl & PCI_EXP_SLTCTL_AIC) == PCI_EXP_SLTCTL_ATTN_IND_OFF;
-> +}
-> +
->   static HotplugLedState pcie_led_state_to_qapi(uint16_t value)
->   {
->       switch (value) {
-> @@ -816,6 +823,11 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
->                               0, 0, /* no state */
->                               pcie_power_state_to_qapi(old_pcc),
->                               pcie_power_state_to_qapi(pcc));
-> +    if ((sltsta & PCI_EXP_SLTSTA_PDS) && pcie_sltctl_powered_on(val) &&
-> +        !pcie_sltctl_powered_on(old_slt_ctl) && child_dev)
-> +    {
-> +        qapi_event_send_device_on(child_dev->id, child_dev->canonical_path);
-> +    }
+Am 1=2E Februar 2023 08:11:10 UTC schrieb Bernhard Beschow <shentey@gmail=
+=2Ecom>:
+>
+>
+>Am 24=2E Januar 2023 17:07:30 UTC schrieb Bernhard Beschow <shentey@gmail=
+=2Ecom>:
+>>
+>>
+>>Am 24=2E Januar 2023 16:11:47 UTC schrieb Anthony PERARD <anthony=2Epera=
+rd@citrix=2Ecom>:
+>>>On Wed, Jan 18, 2023 at 05:13:03AM -0500, Michael S=2E Tsirkin wrote:
+>>>> On Wed, Jan 04, 2023 at 03:44:31PM +0100, Bernhard Beschow wrote:
+>>>> > This series first renders TYPE_PIIX3_XEN_DEVICE redundant and final=
+ly removes
+>>>> > it=2E The motivation is to 1/ decouple PIIX from Xen and 2/ to make=
+ Xen in the PC
+>>>> > machine agnostic to the precise southbridge being used=2E 2/ will b=
+ecome
+>>>> > particularily interesting once PIIX4 becomes usable in the PC machi=
+ne, avoiding
+>>>> > the "Frankenstein" use of PIIX4_ACPI in PIIX3=2E
+>>>>=20
+>>>> Looks ok to me=2E
+>>>> Reviewed-by: Michael S=2E Tsirkin <mst@redhat=2Ecom>
+>>>>=20
+>>>> Feel free to merge through Xen tree=2E
+>>>
+>>>Hi Bernhard,
+>>
+>>Hi Anthony,
+>>
+>>>The series currently doesn't apply on master=2E And a quick try at
+>>>applying the series it is based on also failed=2E Could you rebase it ,=
+ or
+>>>maybe you would prefer to wait until the other series "Consolidate
+>>>PIIX=2E=2E=2E" is fully applied?
+>>
+>>Thanks for looking into it!
+>>
+>>You can get the compilable series from https://patchew=2Eorg/QEMU/202301=
+04144437=2E27479-1-shentey@gmail=2Ecom/ =2E If it doesn't work for you let =
+me know, then I can rebase onto master=2E All necessary dependencies for th=
+e series are upstreamed meanwhile=2E
+>
+>Ping
 
-Beside this series aims, but this probably belong to the QDev layer;
-if we ever model power domains & co some day.
-Then this would be refactored to something like:
+Ping^2
 
-           qdev_set_power_on(DEVICE(child_dev));
-
-which itself emit the event.
-
-Regards,
-
-Phil.
+>
+>>
+>>Thanks,
+>>Bernhard
+>>>
+>>>Thanks=2E
+>>>
+>>>> > Testing done:
+>>>> > None, because I don't know how to conduct this properly :(
+>>>> >=20
+>>>> > Based-on: <20221221170003=2E2929-1-shentey@gmail=2Ecom>
+>>>> >           "[PATCH v4 00/30] Consolidate PIIX south bridges"
+>>>
 
