@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB80268FD12
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 03:25:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D4FE68FD1D
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 03:28:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPwbK-0006DC-9r; Wed, 08 Feb 2023 21:23:54 -0500
+	id 1pPwfM-0007I8-5U; Wed, 08 Feb 2023 21:28:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pPwbI-0006Ck-80; Wed, 08 Feb 2023 21:23:52 -0500
-Received: from mail-vs1-xe2c.google.com ([2607:f8b0:4864:20::e2c])
+ id 1pPwfH-0007HR-ST
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 21:28:00 -0500
+Received: from mail-vs1-xe2d.google.com ([2607:f8b0:4864:20::e2d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pPwbF-00015I-Ob; Wed, 08 Feb 2023 21:23:51 -0500
-Received: by mail-vs1-xe2c.google.com with SMTP id g8so693809vso.3;
- Wed, 08 Feb 2023 18:23:49 -0800 (PST)
+ id 1pPwfF-0001uq-EL
+ for qemu-devel@nongnu.org; Wed, 08 Feb 2023 21:27:58 -0500
+Received: by mail-vs1-xe2d.google.com with SMTP id l8so653228vsi.12
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 18:27:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=nO/zYB/D+7sZtAtEqF6/49Bw7nHtlppc32ReUMG0U+c=;
- b=pdaFASEn4svP4rah2le89A2gXw3/J3nzMC+FpN7geOOsPY2FlaDnpQDC8EZNtm7hQB
- nvSJuceuUAnUgay+tuG83h0wkJa1ag1NRt/P1ihvNWZARVBv+nhlPJGbosnKPwikU285
- FSg98AMEWl7iKt4Aa0PeKuCWvL2kygQAZ/+8Lrp8XI94GIscPE7vh/nL2dUTD1jVn1QR
- qp8LGRQCVcBT9jTZLxO2VO2BlgabMLrWtZ+p1kogBMHD7mCcSs/bbNzPhZZloqHSSiUn
- 9IoSi57MLNwcUk9FVEgWLZF7pXH0NSOKdBBI5QicgshgYRyRemAeksyTFTAfAUz7JIvS
- tj4A==
+ bh=raExKNmwx6bqZrMIio4sHAC5BrRj4c3S6EjlpfyZLqA=;
+ b=L3kczzoC4w6vn98NiLf3iy8nAxm15CICMt6HzW7nPKLlnOa18upGgsebi3VTh3zVdH
+ /6EJ6yDos4JpIoKIaC57QmQh2OdJaWYjKJjAg0jVBBa0tWma7d9MRNxy7/qhSk7tcaob
+ yn77KmNkG6WkxIsuCedhEEoid27f5+WSfoFfMz7ub8W6csO3HudNgpmJPKMpRohwL+Jp
+ FnkYaPKi/mycgLh79VIr4wJNPJsSgu1p8AWu/dAbzuZC9HFhS2ZvGweWDh8RxempiNSH
+ FKX+sS0QcYH2+K5K6H2zbEGd4+OM+GJP6+H3rJ9gKXsk4XVI6kFAmRPqOECtIalBirgK
+ JlhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=nO/zYB/D+7sZtAtEqF6/49Bw7nHtlppc32ReUMG0U+c=;
- b=5YdKBmu0v7KrhTstwnPTjS4g0jm3YeE2fzMYTJ0RBL08LMOM9mmLFS1iXp+UgQfK+r
- dJChudzqJ5PK1jXhuukqlQ5SkgI09opzU5uOpO4ox/LLcYzHMVAtr/HYbAl08NUOVka/
- YVlNRb79OPy0xlItLAYtK1DeQgcdyQW6ZdW2ezvWgcalkzeCe1rGyRWxuVwPKm2fB8lk
- IcykUte2J8fqqcGfH5WfXiUo0bkjud53v2TMGsu7MzjPw9kMmA4L7LBJw0IJDvx+2QxY
- d57OicUlamG61aYwTbF50aVXVjqidKUuDXgfPkVUr5WTTgZJtUHhhbM9yMY6pxo9PBW7
- ML0w==
-X-Gm-Message-State: AO0yUKUCI2uxLI0gILm3j53sG2fiUiV/tIzqD+eFq2H0zOCebI7aCXnw
- 1VTk37s5D/KgjvXdMKraD4I9RwWQNiXJYNwV1dwREqUB10I=
-X-Google-Smtp-Source: AK7set+tp1wXDLfp6jNWVBpl8tghcztJVmj9qbH2IfqT+EbP21CIEwexXhkdUNYWDObr4U4c7Y+bVCgeyzAbvTuSVA4=
-X-Received: by 2002:a67:a407:0:b0:3f0:89e1:7c80 with SMTP id
- n7-20020a67a407000000b003f089e17c80mr1981378vse.72.1675909428286; Wed, 08 Feb
- 2023 18:23:48 -0800 (PST)
+ bh=raExKNmwx6bqZrMIio4sHAC5BrRj4c3S6EjlpfyZLqA=;
+ b=WJ9TdYUUnleYnB33iookem5SQfI+RsqJbr4Usg1YPVodE8sODpMMJ2SgPz8hKr2UpN
+ OrxUIe95dufCHPuZQcFXM4S+5+Qilp09hl7UPN8JBA4oEKCifGGvPEwU02DrftYCT8j8
+ lZMXDhg+lItln1tnGr6jqCBLLW4zRPnz6muA7kzEIBJ6f385IKlScfigNnZTLQ+yIN5A
+ IGIeAUzYyRJkugR0XZK1M4tsG6QFMKll5kmXy+h/7D1rbUt4OShoBEenWfchHVxyzczy
+ wJS9IMa/szBGMrwMPFZ0cBO7VXZwNGmbcYpCXb0ktLGrlURldm3ZXG3GmKfv41qyOPo0
+ S3Qg==
+X-Gm-Message-State: AO0yUKVTdapCZXoy4CjeSm2ppo4nOqhlCxpywId5a89NwNp36gweeJyd
+ udyH6mdF5RmTxN9re3BmVwXGju5nFf4IzywXKPM=
+X-Google-Smtp-Source: AK7set9Oxty4Prvf+kpillR4SSzUk+Ux3L9fJX6Z5q3egvU0JjXfQ+kzYK5XGvumzbCL/Ls6kwWojoCuWF/Q4scTDkw=
+X-Received: by 2002:a67:e11e:0:b0:3f9:3f38:ca46 with SMTP id
+ d30-20020a67e11e000000b003f93f38ca46mr2403585vsl.73.1675909674597; Wed, 08
+ Feb 2023 18:27:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20230207044003.3669059-1-bmeng@tinylab.org>
-In-Reply-To: <20230207044003.3669059-1-bmeng@tinylab.org>
+References: <20230206234220.8414-1-dongli.zhang@oracle.com>
+In-Reply-To: <20230206234220.8414-1-dongli.zhang@oracle.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 9 Feb 2023 12:23:22 +1000
-Message-ID: <CAKmqyKM0JtZCLrV+Q8fjk+QCS3E0HbT_Zx4Kdk5db9jWKvcJDA@mail.gmail.com>
-Subject: Re: [PATCH] roms/opensbi: Upgrade from v1.1 to v1.2
-To: Bin Meng <bmeng@tinylab.org>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
+Date: Thu, 9 Feb 2023 12:27:28 +1000
+Message-ID: <CAKmqyKOFsYTkpb-1j3_3Rqcz7c0OK4TMg4XEjDFcFvo9n6M0Qg@mail.gmail.com>
+Subject: Re: [PATCH 1/1] hw/core/cpu: always print cpu index with cpu state
+To: Dongli Zhang <dongli.zhang@oracle.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, richard.henderson@linaro.org, 
+ pbonzini@redhat.com, joe.jin@oracle.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2c;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2d;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2d.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -82,172 +84,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 7, 2023 at 2:41 PM Bin Meng <bmeng@tinylab.org> wrote:
+On Tue, Feb 7, 2023 at 9:46 AM Dongli Zhang <dongli.zhang@oracle.com> wrote:
 >
-> Upgrade OpenSBI from v1.1 to v1.2 and the pre-built bios images.
+> The cpu_dump_state() does not print the cpu index. When the
+> cpu_dump_state() is invoked due to the KVM failure, we are not able to tell
+> from which CPU the state is. The below is an example.
 >
-> The v1.2 release includes the following commits:
+> KVM internal error. Suberror: 764064
+> RAX=0000000000000002 RBX=ffff8a9e57c38400 RCX=00000000ffffffff RDX=ffff8a9cc00ba8a0
+> RSI=0000000000000003 RDI=ffff8a9e57c38400 RBP=ffffb6120c5b3c50 RSP=ffffb6120c5b3c40
+> R8 =0000000000000000 R9 =ffff8a9cc00ba8a0 R10=ffffffff8e467350 R11=0000000000000007
+> R12=000000000000000a R13=ffffffff8f987e25 R14=ffffffff8f988a01 R15=0000000000000000
+> RIP=ffffffff8e51bb04 RFL=00010046 [---Z-P-] CPL=0 II=0 A20=1 SMM=0 HLT=0
+> ES =0000 0000000000000000 ffffffff 00c00000
+> CS =0010 0000000000000000 ffffffff 00a09b00 DPL=0 CS64 [-RA]
+> SS =0000 0000000000000000 ffffffff 00c00000
+> DS =0000 0000000000000000 ffffffff 00c00000
+> FS =0000 0000000000000000 ffffffff 00c00000
+> GS =0000 ffff8ac27fcc0000 ffffffff 00c00000
+> LDT=0000 0000000000000000 ffffffff 00c00000
+> TR =0040 fffffe0000096000 0000206f 00008b00 DPL=0 TSS64-busy
+> GDT=     fffffe0000094000 0000007f
+> IDT=     fffffe0000000000 00000fff
+> CR0=80050033 CR2=0000000000000000 CR3=00000010ca40a001 CR4=003606e0
+> DR0=0000000000000000 DR1=0000000000000000 DR2=0000000000000000 DR3=0000000000000000
+> DR6=00000000fffe0ff0 DR7=0000000000000400
+> EFER=0000000000000d01
+> Code=0f 1f ... ...
 >
-> 994c8cf lib: sbi_timer: Added a conditional wait function which can timeout
-> caa5eea lib: sbi: add check for ipi device for hsm start
-> 0374ccf lib: sbi_hart: Shorten the code to set MPV bit
-> 4e21cca lib: utils/serial: Update Shakti UART based on latest implementation
-> 88b790f lib: sbi: Fix sbi_snprintf
-> 1545afd lib: sbi: Fix counter index sanity check
-> 83db3af lib: sbi: Add the bound check for events during config match
-> 860a376 lib: sbi: Fix possible buffer overrun in counter validation
-> 11c0008 lib: sbi: Fix fw_event_map initialization
-> 8e86b23 lib: utils/fdt: Factor out common uart node code
-> 7d28d3b lib: utils/serial: Initialize platform_uart_data to zero
-> 7198e1d lib: serial: Clean up coding style in sifive-uart.c
-> f272035 lib: utils/serial: Ensure baudrate is non-zero before using
-> b9edf49 lib: sbi: Fix printf handling of long long
-> 422f0e0 scripts: Add Kconfiglib v14.1.0 under scripts directory
-> 662e631 Makefile: Add initial kconfig support for each platform
-> de80e93 Makefile: Compile lib/utils sources separately for each platform
-> 26bbff5 lib: utils/serial: Use kconfig for enabling/disabling drivers
-> 2adc94b lib: utils/reset: Use kconfig for enabling/disabling drivers
-> 3e76a60 lib: utils/sys: Use kconfig for enabling/disabling drivers
-> 013dbb3 lib: utils/timer: Use kconfig for enabling/disabling drivers
-> 76af9d4 lib: utils/ipi: Use kconfig for enabling/disabling drivers
-> 0b1cf2f lib: utils/irqchip: Use kconfig for enabling/disabling drivers
-> b126ce4 lib: utils/i2c: Use kconfig for enabling/disabling drivers
-> 5616aa4 lib: utils/gpio: Use kconfig for enabling/disabling drivers
-> 68d7b85 lib: utils/fdt: Use kconfig for enabling/disabling
-> d514a8f platform: generic: Use kconfig for enabling/disabling overrides
-> bc317a3 platform: generic: Use kconfig to set platform version and default name
-> eccb9df platform: Remove redundant config.mk from all platforms
-> 0723bab docs: Update documentation for kconfig support
-> a6a8557 Makefile: Fix typo related to object.mk
-> 9529e36 include: Add mstatus[h].GVA encodings
-> 1fbe777 lib: sbi_trap: Save mstatus[h].GVA in trap->gva
-> 1c4ce74 lib: sbi: Set gva when creating sbi_trap_info
-> 5a0ca09 lib: sbi_trap: Set hypervisor CSRs for HS-mode
-> a69eb6c lib: sbi_trap: Set hstatus.GVA when going to HS-mode
-> 111afc1 lib: sbi_illegal_insn: Fix FENCE.TSO emulation infinite trap loop
-> adf44b5 lib: sbi: Use the official extension name for AIA M-mode CSRs
-> cbaa9b0 lib: utils: serial: Add Cadence UART driver
-> 622cc5f include: Remove sideleg and sedeleg
-> a90cf6b lib: sbi_pmu: Remove "event_idx" member from struct sbi_pmu_fw_event
-> 1664d0e lib: sbi_pmu: Replace sbi_pmu_ctr_read() with sbi_pmu_ctr_fw_read()
-> e238459 lib: sbi_pmu: Firmware counters are always 64 bits wide
-> c9b388d lib: sbi_pmu: Simplify FW counters to reduce memory usage
-> d10c1f4 lib: sbi_pmu: Add custom PMU device operations
-> ee69f8e lib: sbi: Print platform PMU device at boot-time
-> 5019fd1 include: sbi: Reduce includes in sbi_pmu.h
-> d32b0a9 docs: pmu: fix Unmatched example typo
-> 19664f6 docs: pmu: extend bindings example for Unmatched
-> 37a0d83 lib: sbi_trap: Add helper to get GVA in sbi_trap_regs
-> 46e744a lib: sbi_misaligned_ldst: Set GVA if not emulating
-> 8ce486a lib: utils/fdt: Fix DT parsing in fdt_pmu_setup()
-> 49372f2 lib: sbi: Fix sbi_strnlen wrong count decrement
-> 7f09fba lib: utils/serial: add semihosting support
-> 7105c18 docs/firmware: Update FW_JUMP documentation
-> 3f3d401 docs: Fix some typos
-> e54cb32 lib: sbi_pmu: move pmu irq information into pmu itself
-> c316fa3 lib: sbi_hart: move hart_features struct to a public location
-> 4f2acb5 lib: sbi_platform: expose hart_features to extension_init callback
-> 2f63f24 platform: generic: add extensions_init handler and platform-override
-> b6e520b platform: generic: allwinner: add support for c9xx pmu
-> 98aa127 include: sbi: Fix typo in comment
-> 11d14ae lib: sbi: Fix typo in comment
-> 60b78fe include: sbi: Fix grammar in comment
-> dcdaf30 lib: sbi: Add sbi_domain_root_add_memrange() API
-> bd7ef41 platform: andes/ae350: Remove enabling cache from an350_final_init
-> 9899b59 platform: andes/ae350: Use kconfig to set platform version and default name
-> 88f58a3 platform: andes/ae350: Use fdt serial driver
-> ef9f02e lib: utils/timer: Add Andes fdt timer support
-> 8234fc1 lib: utils/reset: Add Andes fdt reset driver support
-> 127a3f2 platform: andes/ae350: Use fdt irqchip driver
-> 6f3258e platform: andes/ae350: Add fw_platform_init for platform initialization
-> ce7c490 lib: utils/ipi: Add Andes fdt ipi driver support
-> c8683c5 platform: andes/ae350: Add AE350 domain support
-> d682a0a docs: andes-ae350.md: Update ae350 documentation for fdt driver support
-> 0fee0bf Makefile: Add cscope support
-> 51acd49 docs/firmware: update the document
-> 9d54f43 Makefile: Add rules for carray sources in lib/sbi
-> 56bed1a lib: sbi_ecall: Generate extensions list with carray
-> 22f38ee lib: sbi_ecall: Add Kconfig option for each extension
-> 85cf56c lib: utils/fdt: Remove redundant code
-> 21ba418 lib: utils/fdt: Simplified code
-> 8e9966c docs: fix some typos
-> 7b29264 lib: utils/serial: Fix semihosting compile error using LLVM
-> 14f5c4c lib: sbi_ecall: Split up sbi_ecall_replace
-> 8e63716 firmware: payloads: Optimize usage of "ALIGN"
-> 1b0d71b platform: generic/allwinner: Remove unused header files
-> 9a740f5 platform: generic/allwinner: Remove ghostly type cast
-> ba32021 Makefile: replace `echo` with `printf` for compatibility
-> 49b0e35 Makefile: bugfix for handling platform paths
-> 74e2029 lib: sbi: Simplified mmio match checking
-> fc82e84 lib: sbi: Fix is_region_valid()
-> f8eec91 lib: simplify fdt_parse_plmt_node()
-> cc54184 lib: simplify fdt_parse_plicsw_node()
-> e9bc7f1 lib: fix fdt_parse_plmt_node()
-> 5daa0ef lib: fix fdt_parse_plicsw_node()
-> 1f6866e lib: simplify fdt_translate_address()
-> ad2ac29 lib: fix fdt_parse_aclint_node()
-> cfbabb9 firmware: Minor optimization for relocate
-> a36d455 platform: generic/andes: Enable generic platform support for AE350
-> 6cd4b9b docs: platform: Update AE350 and generic platform documentation
-> d3fcff7 docs: andes-ae350.md: fix watchdog nodename in dts example
-> 4640d04 scripts/create-binary-archive.sh: remove andes/ae350 build directory
-> e977512 lib: utils: Add fdt_fixup_node() helper function
-> e1a0cb0 gitignore: add vim swap files
-> ed8b8f5 platform: generic: Make use of fdt_match_node()
-> 8b00be6 lib: fix is_region_valid()
-> c2be214 lib: fix __fdt_parse_region()
-> 7b08778 lib: fix irqchip_plic_update_hartid_table
-> cb568b9 lib: sbi: Synchronize PMP settings with virtual memory system
-> 506928a scripts: use env to invoke bash
-> 64e8b9f lib: utils: serial: Add Renesas SCIF driver
-> 0021b43 lib: utils: serial: Add FDT driver for Renesas SCIF
-> 6840902 lib: utils/irqchip: Add compatible string for Andestech NCEPLIC100
-> 8b1617d platform: generic: Add Renesas RZ/Five initial support
-> 7a3354a docs: platform: Add documentation for Renesas RZ/Five SoC
-> 34da663 lib: utils/irqchip: plic: Fix the off-by-one error in priority save/restore helpers
-> 8509e46 lib: utils/irqchip: plic: Ensure no out-of-bound access in priority save/restore helpers
-> 91c8a7d lib: utils/irqchip: plic: Fix the off-by-one error in plic_context_init()
-> fabbc00 lib: utils/irqchip: plic: Fix the off-by-one error in context save/restore helpers
-> 9a2eeb4 lib: utils/irqchip: plic: Ensure no out-of-bound access in context save/restore helpers
-> a8ee82c lib: utils/ipi: mswi: add T-Head C9xx CLINT compatible
-> ca7810a lib: utils/timer: mtimer: add a quirk for lacking mtime register
-> b848d87 lib: utils/timer: mtimer: add T-Head C9xx CLINT compatible
-> 391ec85 docs: pmu: fix binding example
-> 0412460 docs: pmu: update a reference to a deprecated property name
-> d5d12a9 docs: pmu: Update the pmu doc with removal of mcountinhbit restriction
-> 6b5188c include: Bump-up version to 1.2
+> Print the cpu->cpu_index in cpu_dump_state() and remove it from the caller.
 >
-> Signed-off-by: Bin Meng <bmeng@tinylab.org>
+> Cc: Joe Jin <joe.jin@oracle.com>
+> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
 
-Thanks!
-
-Applied to riscv-to-apply.next
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
-> Please pull the full contents from https://github.com/lbmeng/qemu/ opensbi branch
+>  hw/core/cpu-common.c      | 1 +
+>  monitor/hmp-cmds-target.c | 2 --
+>  softmmu/cpus.c            | 1 -
+>  3 files changed, 1 insertion(+), 3 deletions(-)
 >
->  .../opensbi-riscv32-generic-fw_dynamic.bin    | Bin 117704 -> 123072 bytes
->  .../opensbi-riscv64-generic-fw_dynamic.bin    | Bin 115344 -> 121800 bytes
->  roms/opensbi                                  |   2 +-
->  3 files changed, 1 insertion(+), 1 deletion(-)
+> diff --git a/hw/core/cpu-common.c b/hw/core/cpu-common.c
+> index 5ccc3837b6..d2503f2d09 100644
+> --- a/hw/core/cpu-common.c
+> +++ b/hw/core/cpu-common.c
+> @@ -105,6 +105,7 @@ void cpu_dump_state(CPUState *cpu, FILE *f, int flags)
 >
-> diff --git a/pc-bios/opensbi-riscv32-generic-fw_dynamic.bin b/pc-bios/opensbi-riscv32-generic-fw_dynamic.bin
-> index 81bab1adc9..6a8425885c 100644
-> Binary files a/pc-bios/opensbi-riscv32-generic-fw_dynamic.bin and b/pc-bios/opensbi-riscv32-generic-fw_dynamic.bin differ
-> diff --git a/pc-bios/opensbi-riscv64-generic-fw_dynamic.bin b/pc-bios/opensbi-riscv64-generic-fw_dynamic.bin
-> index 5eb0a74326..80bdbf2170 100644
-> Binary files a/pc-bios/opensbi-riscv64-generic-fw_dynamic.bin and b/pc-bios/opensbi-riscv64-generic-fw_dynamic.bin differ
-> diff --git a/roms/opensbi b/roms/opensbi
-> index 4489876e93..6b5188ca14 160000
-> --- a/roms/opensbi
-> +++ b/roms/opensbi
-> @@ -1 +1 @@
-> -Subproject commit 4489876e933d8ba0d8bc6c64bae71e295d45faac
-> +Subproject commit 6b5188ca14e59ce7bf71afe4e7d3d557c3d31bf8
+>      if (cc->dump_state) {
+>          cpu_synchronize_state(cpu);
+> +        qemu_fprintf(f, "\nCPU#%d\n", cpu->cpu_index);
+>          cc->dump_state(cpu, f, flags);
+>      }
+>  }
+> diff --git a/monitor/hmp-cmds-target.c b/monitor/hmp-cmds-target.c
+> index 0d3e84d960..f7dd354d2a 100644
+> --- a/monitor/hmp-cmds-target.c
+> +++ b/monitor/hmp-cmds-target.c
+> @@ -99,7 +99,6 @@ void hmp_info_registers(Monitor *mon, const QDict *qdict)
+>
+>      if (all_cpus) {
+>          CPU_FOREACH(cs) {
+> -            monitor_printf(mon, "\nCPU#%d\n", cs->cpu_index);
+>              cpu_dump_state(cs, NULL, CPU_DUMP_FPU);
+>          }
+>      } else {
+> @@ -114,7 +113,6 @@ void hmp_info_registers(Monitor *mon, const QDict *qdict)
+>              return;
+>          }
+>
+> -        monitor_printf(mon, "\nCPU#%d\n", cs->cpu_index);
+>          cpu_dump_state(cs, NULL, CPU_DUMP_FPU);
+>      }
+>  }
+> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+> index 9cbc8172b5..f69bbe6abc 100644
+> --- a/softmmu/cpus.c
+> +++ b/softmmu/cpus.c
+> @@ -122,7 +122,6 @@ void hw_error(const char *fmt, ...)
+>      vfprintf(stderr, fmt, ap);
+>      fprintf(stderr, "\n");
+>      CPU_FOREACH(cpu) {
+> -        fprintf(stderr, "CPU #%d:\n", cpu->cpu_index);
+>          cpu_dump_state(cpu, stderr, CPU_DUMP_FPU);
+>      }
+>      va_end(ap);
 > --
-> 2.25.1
+> 2.34.1
 >
 >
 
