@@ -2,90 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 451AF69050B
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 11:38:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0270369052D
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 11:42:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ4J5-00027n-QA; Thu, 09 Feb 2023 05:37:35 -0500
+	id 1pQ4Ma-0004jE-D8; Thu, 09 Feb 2023 05:41:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pQ4J3-00027I-Mi
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 05:37:33 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pQ4MY-0004iz-Ck
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 05:41:10 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pQ4J1-0001K4-Kl
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 05:37:33 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pQ4MV-00022q-RT
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 05:41:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675939050;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=q/z6V6/GgHBEnnUe/vEutixKORWAHigHqqLRxixDZnI=;
- b=T7tEGWQLoR6fU89Ucm1z3D26xlloYUyhApewswXWFWPLgzeLnCAt9eFXWws5svnjJLxYIe
- zxs3OmadEYIIn7u6NZTVeD12Fqbydl5G7XsbOZ4KqRnCIxrIXADORo5+xYWZvRlyd3O2IC
- RUb7QbA8hDC1utdbz8DtvKUO9pOiNxU=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-42-Wp8n-GPKORyxhbgfOqpAGg-1; Thu, 09 Feb 2023 05:37:28 -0500
-X-MC-Unique: Wp8n-GPKORyxhbgfOqpAGg-1
-Received: by mail-qk1-f198.google.com with SMTP id
- bp30-20020a05620a459e00b00738e1fe2470so933091qkb.23
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 02:37:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=q/z6V6/GgHBEnnUe/vEutixKORWAHigHqqLRxixDZnI=;
- b=4QRl8vQboRY3A2tX9dKn9G9GsPNAn4KXNzJ8QTlkhSZSKTwZzQl/cBauq8H2YZmSzt
- Iy6YTfSJoL0zr7CqboqR9wItR441ax2gupE59nIAyyzNAZiRz6NlOKg3hwz9usxSIz/i
- ScS33q+tRllGPHHyesKQiwG+coi0DM7EGxtcGFza1MUv5yj9xXqRdLvJPueYAhDmBIY4
- TpCClmY2VShhHv8NufC1DuztQyipb4Rg88RFu/iWJzogQ6DjPXtasF+6ujHVbrHeU+iC
- gSSflD/GscXNMS2Hu98QRnQVMJ0OrzYGDCLKpV++W9kKgdYmg5CR4fHQusOYJ9FRBIVE
- VWNQ==
-X-Gm-Message-State: AO0yUKVjQQxCJoZjRTaXZ35bgOnTRN/6uK8VhTuXQ46rGKtS0qRJv5ae
- 97cwCMH/oiMVAf5aTFHxYulLZ7Dtu4pNj8w0cpiEX74sl/y03Jk4CdlPfJHE1QMFFYd9Ip9KORF
- IkCktOiFnwY2aspE=
-X-Received: by 2002:ac8:5f0d:0:b0:3b8:4cba:e26e with SMTP id
- x13-20020ac85f0d000000b003b84cbae26emr19313661qta.51.1675939048314; 
- Thu, 09 Feb 2023 02:37:28 -0800 (PST)
-X-Google-Smtp-Source: AK7set//X+BztfJPqhGvM5F0GfUSfrgKPkdw0Fy2znBY6T/Roa3bE43bDpNriJykIMZBXpCADlhSGg==
-X-Received: by 2002:ac8:5f0d:0:b0:3b8:4cba:e26e with SMTP id
- x13-20020ac85f0d000000b003b84cbae26emr19313642qta.51.1675939048019; 
- Thu, 09 Feb 2023 02:37:28 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-209.web.vodafone.de.
- [109.43.176.209]) by smtp.gmail.com with ESMTPSA id
- d19-20020ae9ef13000000b0071ddbe8fe23sm1092443qkg.24.2023.02.09.02.37.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Feb 2023 02:37:27 -0800 (PST)
-Message-ID: <5fbc69eb-c5a3-3f0e-265b-3bbbbc0cfc4e@redhat.com>
-Date: Thu, 9 Feb 2023 11:37:24 +0100
+ s=mimecast20190719; t=1675939266;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=nakx4X7pvi8S290W3kAVthSbYpqUvut6vkOvNILFq3I=;
+ b=SXBJVIFyNGJNY5h9VJODHNfiBakk633rY0Vs1lPUmrpwtFM1R9hzi7J2kkhS/TdKImFnE/
+ nP5O3R9PAsUMzrljFFF1qOzBQv86lmOC62mIXzZ3SuDb8Z8hCj0o964NQlXYcAfPkwzM+z
+ 3GO/ck5Rn9j2XweojK3bqZA6IN2ou2U=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-342-Xi7iKZGqMYKMjMmrsue5sw-1; Thu, 09 Feb 2023 05:41:03 -0500
+X-MC-Unique: Xi7iKZGqMYKMjMmrsue5sw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B8EC11C04194;
+ Thu,  9 Feb 2023 10:41:01 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F3E41121314;
+ Thu,  9 Feb 2023 10:40:59 +0000 (UTC)
+Date: Thu, 9 Feb 2023 10:40:57 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Het Gala <het.gala@nutanix.com>
+Cc: qemu-devel@nongnu.org, prerna.saxena@nutanix.com, quintela@redhat.com,
+ dgilbert@redhat.com, pbonzini@redhat.com, armbru@redhat.com,
+ eblake@redhat.com, manish.mishra@nutanix.com,
+ aravind.retnakaran@nutanix.com
+Subject: Re: [PATCH v2 4/6] migration: Avoid multiple parsing of uri in
+ migration code flow
+Message-ID: <Y+TNuesEEUeYqF/u@redhat.com>
+References: <20230208093600.242665-1-het.gala@nutanix.com>
+ <20230208093600.242665-5-het.gala@nutanix.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>, qemu-devel@nongnu.org
-Cc: ysato@users.sourceforge.jp, alex.bennee@linaro.org, pbonzini@redhat.com,
- fam@euphon.net, peter.maydell@linaro.org, philmd@linaro.org,
- kwolf@redhat.com, hreitz@redhat.com
-References: <d1500fe9389a1f6964a2b132466d5be2a44d205f.1675858906.git.kkamran.bese16seecs@seecs.edu.pk>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] Updated the FSF address to <https://www.gnu.org/licenses/>
-In-Reply-To: <d1500fe9389a1f6964a2b132466d5be2a44d205f.1675858906.git.kkamran.bese16seecs@seecs.edu.pk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230208093600.242665-5-het.gala@nutanix.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.146, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,157 +80,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, Feb 08, 2023 at 09:35:58AM +0000, Het Gala wrote:
+> In existing senario, 'migrate' QAPI argument - string uri, is encoded
+> twice to extract migration parameters for stream connection. This is
+> not a good representation of migration wire protocol as it is a data
+> encoding scheme within a data encoding scheme. Qemu should be able to
+> directly work with results from QAPI without having to do a second
+> level parsing.
+> Modified 'migrate' QAPI design supports well defined MigrateChannel
+> struct which plays important role in avoiding double encoding
+> of uri strings.
+> 
+> qemu_uri_parsing() parses uri string (kept for backward
+> compatibility) and populate the MigrateChannel struct parameters.
+> Migration code flow for all required migration transport types -
+> socket, exec and rdma is modified.
+> 
+> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
+> Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
+> Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
+> Signed-off-by: Het Gala <het.gala@nutanix.com>
+> ---
+>  migration/exec.c      | 31 ++++++++++++++++--
+>  migration/exec.h      |  4 ++-
+>  migration/migration.c | 75 +++++++++++++++++++++++++++++++++++--------
+>  migration/rdma.c      | 30 +++++------------
+>  migration/rdma.h      |  3 +-
+>  migration/socket.c    | 21 ++++--------
+>  migration/socket.h    |  3 +-
+>  7 files changed, 110 insertions(+), 57 deletions(-)
+> 
+> diff --git a/migration/exec.c b/migration/exec.c
+> index 375d2e1b54..4fa9819792 100644
+> --- a/migration/exec.c
+> +++ b/migration/exec.c
+> @@ -23,14 +23,39 @@
+>  #include "migration.h"
+>  #include "io/channel-command.h"
+>  #include "trace.h"
+> +#include "qapi/error.h"
+>  
+>  
+> -void exec_start_outgoing_migration(MigrationState *s, const char *command, Error **errp)
+> +void init_exec_array(strList *command, const char *argv[], Error **errp)
+> +{
+> +    int i = 0;
+> +    strList *lst;
+> +
+> +    for (lst = command; lst ; lst = lst->next) {
+> +        argv[i++] = lst->value;
+> +    }
+> +
+> +    /*
+> +     * Considering exec command always has 3 arguments to execute
+> +     * a command directly from the bash itself.
+> +     */
+> +    if (i > 3) {
+> +        error_setg(errp, "exec accepts maximum of 3 arguments in the list");
+> +        return;
+> +    }
+> +
+> +    argv[i] = NULL;
+> +    return;
+> +}
+> +
+> +void exec_start_outgoing_migration(MigrationState *s, strList *command,
+> +                                   Error **errp)
+>  {
+>      QIOChannel *ioc;
+> -    const char *argv[] = { "/bin/sh", "-c", command, NULL };
+> +    const char *argv[4];
+> +    init_exec_array(command, argv, errp);
+>  
+> -    trace_migration_exec_outgoing(command);
+> +    trace_migration_exec_outgoing(argv[2]);
+>      ioc = QIO_CHANNEL(qio_channel_command_new_spawn(argv,
+>                                                      O_RDWR,
+>                                                      errp));
+> diff --git a/migration/exec.h b/migration/exec.h
+> index b210ffde7a..5b39ba6cbb 100644
+> --- a/migration/exec.h
+> +++ b/migration/exec.h
+> @@ -19,8 +19,10 @@
+>  
+>  #ifndef QEMU_MIGRATION_EXEC_H
+>  #define QEMU_MIGRATION_EXEC_H
+> +void init_exec_array(strList *command, const char *argv[], Error **errp);
+> +
+>  void exec_start_incoming_migration(const char *host_port, Error **errp);
+>  
+> -void exec_start_outgoing_migration(MigrationState *s, const char *host_port,
+> +void exec_start_outgoing_migration(MigrationState *s, strList *host_port,
+>                                     Error **errp);
+>  #endif
+> diff --git a/migration/migration.c b/migration/migration.c
+> index f6dd8dbb03..accbf72a18 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -63,6 +63,7 @@
+>  #include "sysemu/cpus.h"
+>  #include "yank_functions.h"
+>  #include "sysemu/qtest.h"
+> +#include "qemu/sockets.h"
+>  #include "ui/qemu-spice.h"
+>  
+>  #define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throttling */
+> @@ -489,6 +490,44 @@ void migrate_add_address(SocketAddress *address)
+>                        QAPI_CLONE(SocketAddress, address));
+>  }
+>  
+> +static bool migrate_uri_parse(const char *uri,
+> +                              MigrateChannel **channel,
+> +                              Error **errp)
+> +{
+> +    Error *local_err = NULL;
+> +    MigrateChannel *val = g_new0(MigrateChannel, 1);
+> +    MigrateAddress *addrs = g_new0(MigrateAddress, 1);
+> +    SocketAddress *saddr = g_new0(SocketAddress, 1);
+> +    InetSocketAddress *isock = g_new0(InetSocketAddress, 1);
+> +
+> +    if (strstart(uri, "exec:", NULL)) {
+> +        addrs->transport = MIGRATE_TRANSPORT_EXEC;
+> +        addrs->u.exec.data = str_split_at_comma(uri + strlen("exec:"));
 
-  Hi Khadija,
+Huh, what is the purpose of using 'str_split_at_comma' ? The format
+of this is  "exec:<shell command>", because it is run as:
 
-the diffs below look fine now ... but unfortunately the commit description 
-is now lacking your "Signed-off-by" line as we require it for QEMU:
+     const char *argv[] = { "/bin/sh", "-c", command, NULL };
 
- 
-https://www.qemu.org/docs/master/devel/submitting-a-patch.html#patch-emails-must-include-a-signed-off-by-line
+we should not be trying to parse the bit after 'exec:' at all,
+and certainly not splitting it on commas which makes no sense
+for a shell command.
 
-You can edit the commit description easily by running "git commit --amend" 
-again in the branch where you have your commit (assuming it is the topmost 
-one), or by running "git rebase -i master" and then mark the commit with 
-"reword" instead of "pick".
+I would have expected something more like this:
 
-While you're at it, it would also be nice to re-add the description and the 
-"Resolves:" line that you had in earlier version of the patches.
-
-  HTH,
-   Thomas
+    strList **tail = &addrs->u.exec.data;
+    QAPI_LIST_APPEND(tail, g_strdup("/bin/sh"));
+    QAPI_LIST_APPEND(tail, g_strdup("-c"));
+    QAPI_LIST_APPEND(tail, g_strdup(uri + strlen("exec:")));
 
 
-On 08/02/2023 13.51, Khadija Kamran wrote:
-> diff --git a/contrib/gitdm/filetypes.txt b/contrib/gitdm/filetypes.txt
-> index d2d6f6db8d..b1d01c0992 100644
-> --- a/contrib/gitdm/filetypes.txt
-> +++ b/contrib/gitdm/filetypes.txt
-> @@ -12,8 +12,7 @@
->   # GNU Library General Public License for more details.
->   #
->   # You should have received a copy of the GNU General Public License
-> -# along with this program; if not, write to the Free Software
-> -# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-> +# along with this program. If not, see <https://www.gnu.org/licenses/>.
->   #
->   # Authors : Gregorio Robles <grex@gsyc.escet.urjc.es>
->   # Authors : Germán Póo-Caamaño <gpoo@gnome.org>
-> diff --git a/hw/scsi/viosrp.h b/hw/scsi/viosrp.h
-> index e5f9768e8f..58c29aa925 100644
-> --- a/hw/scsi/viosrp.h
-> +++ b/hw/scsi/viosrp.h
-> @@ -16,8 +16,7 @@
->   /* GNU General Public License for more details.                              */
->   /*                                                                           */
->   /* You should have received a copy of the GNU General Public License         */
-> -/* along with this program; if not, write to the Free Software               */
-> -/* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-> +/* along with this program. If not, see <https://www.gnu.org/licenses/>.     */
->   /*                                                                           */
->   /*                                                                           */
->   /* This file contains structures and definitions for IBM RPA (RS/6000        */
-> diff --git a/hw/sh4/sh7750_regs.h b/hw/sh4/sh7750_regs.h
-> index beb571d5e9..94043431e6 100644
-> --- a/hw/sh4/sh7750_regs.h
-> +++ b/hw/sh4/sh7750_regs.h
-> @@ -22,8 +22,7 @@
->    * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
->    * General Public License for more details. You should have received
->    * a copy of the GNU General Public License along with RTEMS; see
-> - * file COPYING. If not, write to the Free Software Foundation, 675
-> - * Mass Ave, Cambridge, MA 02139, USA.
-> + * file COPYING. If not, see <https://www.gnu.org/licenses/>.
->    *
->    * As a special exception, including RTEMS header files in a file,
->    * instantiating RTEMS generics or templates, or linking other files
-> diff --git a/include/hw/arm/raspi_platform.h b/include/hw/arm/raspi_platform.h
-> index e0e6c8ce94..4a56dd4b89 100644
-> --- a/include/hw/arm/raspi_platform.h
-> +++ b/include/hw/arm/raspi_platform.h
-> @@ -18,8 +18,7 @@
->    * GNU General Public License for more details.
->    *
->    * You should have received a copy of the GNU General Public License
-> - * along with this program; if not, write to the Free Software
-> - * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-> + * along with this program. If not, see <https://www.gnu.org/licenses/>.
->    *
->    * Various undocumented addresses and names come from Herman Hermitage's VC4
->    * documentation:
-> diff --git a/include/qemu/uri.h b/include/qemu/uri.h
-> index d201c61260..cf8ec70356 100644
-> --- a/include/qemu/uri.h
-> +++ b/include/qemu/uri.h
-> @@ -41,8 +41,7 @@
->    * Lesser General Public License for more details.
->    *
->    * You should have received a copy of the GNU Lesser General Public
-> - * License along with this library; if not, write to the Free Software
-> - * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
-> + * License along with this library. If not, see <https://www.gnu.org/licenses/>.
->    *
->    * Authors:
->    *    Richard W.M. Jones <rjones@redhat.com>
-> diff --git a/tests/qemu-iotests/022 b/tests/qemu-iotests/022
-> index a116cfe255..d98d1ea90f 100755
-> --- a/tests/qemu-iotests/022
-> +++ b/tests/qemu-iotests/022
-> @@ -16,9 +16,7 @@
->   # GNU General Public License for more details.
->   #
->   # You should have received a copy of the GNU General Public License
-> -# along with this program; if not, write to the Free Software
-> -# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
-> -# USA
-> +# along with this program. If not, see <https://www.gnu.org/licenses/>.
->   #
->   
->   # creator
-> diff --git a/tests/unit/rcutorture.c b/tests/unit/rcutorture.c
-> index 495a4e6f42..7662081683 100644
-> --- a/tests/unit/rcutorture.c
-> +++ b/tests/unit/rcutorture.c
-> @@ -50,8 +50,7 @@
->    * GNU General Public License for more details.
->    *
->    * You should have received a copy of the GNU General Public License
-> - * along with this program; if not, write to the Free Software
-> - * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-> + * along with this program. If not, see <https://www.gnu.org/licenses/>.
->    *
->    * Copyright (c) 2008 Paul E. McKenney, IBM Corporation.
->    */
-> diff --git a/tests/unit/test-rcu-list.c b/tests/unit/test-rcu-list.c
-> index 64b81ae058..9964171da4 100644
-> --- a/tests/unit/test-rcu-list.c
-> +++ b/tests/unit/test-rcu-list.c
-> @@ -14,8 +14,7 @@
->    * GNU General Public License for more details.
->    *
->    * You should have received a copy of the GNU General Public License
-> - * along with this program; if not, write to the Free Software
-> - * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-> + * along with this program. If not, see <https://www.gnu.org/licenses/>.
->    *
->    * Copyright (c) 2013 Mike D. Day, IBM Corporation.
->    */
-> diff --git a/util/uri.c b/util/uri.c
-> index ff72c6005f..dcb3305236 100644
-> --- a/util/uri.c
-> +++ b/util/uri.c
-> @@ -43,8 +43,7 @@
->    * Lesser General Public License for more details.
->    *
->    * You should have received a copy of the GNU Lesser General Public
-> - * License along with this library; if not, write to the Free Software
-> - * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
-> + * License along with this library. If not, see <https://www.gnu.org/licenses/>.
->    *
->    * Authors:
->    *    Richard W.M. Jones <rjones@redhat.com>
+> +    addrs = channel->addr;
+> +    saddr = channel->addr->u.socket.socket_type;
+> +    if (addrs->transport == MIGRATE_TRANSPORT_SOCKET) {
+> +        if (saddr->type == SOCKET_ADDRESS_TYPE_INET ||
+> +            saddr->type == SOCKET_ADDRESS_TYPE_UNIX ||
+> +            saddr->type == SOCKET_ADDRESS_TYPE_VSOCK) {
+> +            migrate_protocol_allow_multi_channels(true);
+> +            socket_start_outgoing_migration(s, saddr, &local_err);
+> +        } else if (saddr->type == SOCKET_ADDRESS_TYPE_FD) {
+> +            fd_start_outgoing_migration(s, saddr->u.fd.str, &local_err);
+
+This is probably a sign that  fd_start_outgoing_migration() should
+be folded into the socket_start_outgoing_migration() method, but
+that's a separate cleanup from this patch.
+
+> +        }
+> +    #ifdef CONFIG_RDMA
+> +    } else if (addrs->transport == MIGRATE_TRANSPORT_RDMA) {
+> +        rdma_start_outgoing_migration(s, addrs->u.rdma.data, &local_err);
+> +    #endif
+> +    } else if (addrs->transport == MIGRATE_TRANSPORT_EXEC) {
+> +        exec_start_outgoing_migration(s, addrs->u.exec.data, &local_err);
+>      } else {
+>          if (!(has_resume && resume)) {
+>              yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
