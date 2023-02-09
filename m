@@ -2,79 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5435690C43
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 15:56:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8DC690C4E
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 15:59:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ8Kr-000714-No; Thu, 09 Feb 2023 09:55:41 -0500
+	id 1pQ8NW-000848-Nb; Thu, 09 Feb 2023 09:58:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ8Ko-00070M-LS
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 09:55:38 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ8Kj-0002tB-3O
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 09:55:34 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id m14so2007222wrg.13
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 06:55:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=coDwj6ZOpBZEhCOwnd4teFTDz9H1p5c3IkknQvQUlAs=;
- b=tAFqsTyKaSF+w42/CQ/CHEIyJn2N/Z0rbLmaXBhigI87Gf6Y+TqREP9zVCSBsCqvcz
- wgIBymqHDxBD0q7OQVpdWUrM691PK+zgo+nzO7NYBD091IaHlgkNtgs8PVKms9OpmjEM
- G3WDCFNpZD9ezpKhdt7U8gwyQMrlo/6acc2DHV/Kx5t76UrP/g9w7ikC10p6zLwX5m1c
- GATgJJrHMgSu/SVWW7IUAsepCyKXcs+0TsLUx2c4/tqO3Mg0Jbmedw5Qwl9K1sVZpysz
- JJAZXcjjnPl75IO9yTpvSP2SOGrf3Uq3KzcE3KKQhlg6L15uHhJ9Ta2spO68IrT95NTF
- Z1Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=coDwj6ZOpBZEhCOwnd4teFTDz9H1p5c3IkknQvQUlAs=;
- b=nC6zbrfSbn/0TNnyPLf0HXLl2nYgx9JOKIzYjeu08Zg0iVyOAug54tKOvH3aMfs4rU
- CM9isYnNIBQ5jS1MkWWWZpfzn4FNwnCUumJu7ckQEnzzq7AbxRI3O8Xe8uw/nWzEhu7b
- ZWgjzPBrjJMWVXF3VDbFDlpGBZL0riDWXn7HxI9IOLPOe6yHY3yYolahGER3G+2qO/oB
- ogZLXupBIEOXIk1ZSeHEqdqCdZpJkN7HZ7eSICeLJCVEp4hrcj5FXGWMEVD30lQFDqxQ
- tSpIZrn3x8BFZRbc1ccoyEc3eZW/M37OChV/4EvDwvea2WGUP/4DBxhPA++7tzOWZPvI
- iSrw==
-X-Gm-Message-State: AO0yUKWR1CCaicAstwXzL8vvFLOKbV8CTenSiE8im59+uUhMrI6Bc87z
- woYrXdc/LrH1AGaDBZLHcE1Tnw==
-X-Google-Smtp-Source: AK7set8QemOAxhDLACoP3BwJicVaZqtl96Pr19CxPjZm5z7OdCWKoYU+KOGAtwWXibE2TBlY81SCYw==
-X-Received: by 2002:a5d:61cb:0:b0:2bc:67d:c018 with SMTP id
- q11-20020a5d61cb000000b002bc067dc018mr10750827wrv.48.1675954531239; 
- Thu, 09 Feb 2023 06:55:31 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- d16-20020a5d5390000000b002c4008f0daasm1341845wrv.107.2023.02.09.06.55.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Feb 2023 06:55:30 -0800 (PST)
-Message-ID: <11ede763-00d4-5498-53ae-492a7d4482b0@linaro.org>
-Date: Thu, 9 Feb 2023 15:55:28 +0100
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1pQ8NU-00083o-3X
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 09:58:24 -0500
+Received: from doohan.uni-paderborn.de ([2001:638:502:c003::16])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1pQ8NR-0003H7-IZ
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 09:58:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version
+ :Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=lsOrNQ00wGnGG5SBnSBkBadSuJyFrclya1ZMgAbJOzw=; b=MZ4tAYCwXiRsx/6F57JNGJMEM0
+ assfwJ7d2PTCQvluYOeVzJD8+johxubpeUTs7HTbTWzgPSv+l1KI0P0eC7sycscStatl7u10N9N7i
+ z/Pp8KiMy0PcEu5YXCQVdKOHqyTi3wnBkUigO+ov7FgL+jr5OPi4rpm+1mRlMW24Zvt0=;
+From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org,
+	alex.bennee@linaro.org,
+	philmd@linaro.org
+Subject: [PATCH v3] tests/docker: Use binaries for debian-tricore-cross
+Date: Thu,  9 Feb 2023 15:58:12 +0100
+Message-Id: <20230209145812.46730-1-kbastian@mail.uni-paderborn.de>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH] tests/qtest/npcm7xx_pwm-test: Be less verbose unless V=2
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Havard Skinnemoen
- <hskinnemoen@google.com>, Tyrone Ting <kfting@nuvoton.com>
-References: <20230209135047.1753081-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230209135047.1753081-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-IMT-Source: Intern
+X-IMT-Spam-Score: 0.0 ()
+X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
+ Antispam-Data: 2023.2.9.145117, AntiVirus-Engine: 5.96.0,
+ AntiVirus-Data: 2023.1.24.5960001
+X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
+Received-SPF: pass client-ip=2001:638:502:c003::16;
+ envelope-from=kbastian@mail.uni-paderborn.de; helo=doohan.uni-paderborn.de
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,22 +67,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 9/2/23 14:50, Peter Maydell wrote:
-> The npcm7xx_pwm-test produces a lot of output at V=1, which
-> means that on our CI tests the log files exceed the gitlab
-> 500KB limit. Suppress the messages about exactly what is
-> being tested unless at V=2 and above.
-> 
-> This follows the pattern we use with qom-test.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> An example job log that got truncated because of this is:
-> https://gitlab.com/qemu-project/qemu/-/jobs/3742560168
-> 
->   tests/qtest/npcm7xx_pwm-test.c | 27 +++++++++++++++++++++------
->   1 file changed, 21 insertions(+), 6 deletions(-)
+since binutils is pretty old, it fails our CI repeatedly during the
+compilation of tricore-binutils. We created a precompiled version using
+the debian docker image and download it instead of building it ourself.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+We also updated the package to include a newer version of binutils, gcc,
+and newlib. The default TriCore ISA version used by tricore-as changed
+from the old version, so we have to specify it now. If we don't
+'test_fadd' fails with 'unknown opcode'.
+
+The new assembler also picks a new encoding in ld.h which fails the
+'test_ld_h' test. We fix that by using the newest TriCore CPU for QEMU.
+
+The old assembler accepted an extra ')' in 'test_imask'. The new one
+does not, so lets remove it.
+
+Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+---
+Phil, 
+after my tricore queue got merged today, I realized that this patch will break
+CI, once it gets merged, so I included the fixes in this patch. Is this patch
+going through your tree?
+
+v1 -> v2:
+    - Reverted package removal
+    - Use updated tricore toolchain that contains gcc and newlib as well
+    - updated LD/AS flags in tests/tcg/tricore, as the new binutils would fail
+      tests.
+
+v2 -> v3:
+    - Added -cpu tc27x to QEMU cmdline
+    - Removed extra ')' from 'test_imask'
+
+
+ tests/docker/dockerfiles/debian-tricore-cross.docker | 10 +++-------
+ tests/tcg/tricore/Makefile.softmmu-target            |  6 +++---
+ tests/tcg/tricore/macros.h                           |  2 +-
+ 3 files changed, 7 insertions(+), 11 deletions(-)
+
+diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
+index 5ae58efa09..82e4576485 100644
+--- a/tests/docker/dockerfiles/debian-tricore-cross.docker
++++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
+@@ -20,6 +20,7 @@ RUN apt update && \
+        bzip2 \
+        ca-certificates \
+        ccache \
++       curl \
+        flex \
+        g++ \
+        gcc \
+@@ -34,13 +35,8 @@ RUN apt update && \
+        python3-setuptools \
+        python3-wheel
+
+-RUN git clone --single-branch \
+-        https://github.com/bkoppelmann/tricore-binutils.git \
+-        /usr/src/binutils && \
+-    cd /usr/src/binutils && chmod +x missing && \
+-    CFLAGS=-w ./configure --prefix=/usr/local --disable-nls --target=tricore && \
+-    make && make install && \
+-    rm -rf /usr/src/binutils
++RUN curl -#SL https://github.com/bkoppelmann/package_940/releases/download/tricore-toolchain-9.40/tricore-toolchain-9.4.0.tar.gz \
++    | tar -xzC /usr/local/
+
+ # This image can only build a very minimal QEMU as well as the tests
+ ENV DEF_TARGET_LIST tricore-softmmu
+diff --git a/tests/tcg/tricore/Makefile.softmmu-target b/tests/tcg/tricore/Makefile.softmmu-target
+index d2446af8b4..b3cd56fffc 100644
+--- a/tests/tcg/tricore/Makefile.softmmu-target
++++ b/tests/tcg/tricore/Makefile.softmmu-target
+@@ -1,7 +1,7 @@
+ TESTS_PATH = $(SRC_PATH)/tests/tcg/tricore
+
+-LDFLAGS = -T$(TESTS_PATH)/link.ld
+-ASFLAGS =
++LDFLAGS = -T$(TESTS_PATH)/link.ld --mcpu=tc162
++ASFLAGS = -mtc162
+
+ TESTS += test_abs.tst
+ TESTS += test_bmerge.tst
+@@ -19,7 +19,7 @@ TESTS += test_madd.tst
+ TESTS += test_msub.tst
+ TESTS += test_muls.tst
+
+-QEMU_OPTS += -M tricore_testboard -nographic -kernel
++QEMU_OPTS += -M tricore_testboard -cpu tc27x -nographic -kernel
+
+ %.pS: $(TESTS_PATH)/%.S
+ 	$(HOST_CC) -E -o $@ $<
+diff --git a/tests/tcg/tricore/macros.h b/tests/tcg/tricore/macros.h
+index ec4f5bff52..3df2e0de82 100644
+--- a/tests/tcg/tricore/macros.h
++++ b/tests/tcg/tricore/macros.h
+@@ -174,7 +174,7 @@ test_ ## num:                                                    \
+     TEST_CASE_E(num, res_lo, res_hi,                           \
+     LI(DREG_RS1, rs1);                                         \
+     rstv;                                                      \
+-    insn EREG_CALC_RESULT, imm1, DREG_RS1, imm2);              \
++    insn EREG_CALC_RESULT, imm1, DREG_RS1, imm2;               \
+     )
+
+
+--
+2.39.1
 
 
