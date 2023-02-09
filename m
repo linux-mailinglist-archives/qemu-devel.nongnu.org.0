@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E71B69148B
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 00:35:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A30576914A0
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 00:36:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQGRC-0007vc-ID; Thu, 09 Feb 2023 18:34:46 -0500
+	id 1pQGRI-00081Z-QW; Thu, 09 Feb 2023 18:34:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pQGR5-0007v8-S9
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 18:34:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pQGR9-0007vf-41
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 18:34:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pQGR4-0006dU-5s
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 18:34:39 -0500
+ id 1pQGR7-0006dx-8a
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 18:34:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675985677;
+ s=mimecast20190719; t=1675985680;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JInKtzC6RF655Lncv3TKfNncp1aYsh6hnMBdswU/+NM=;
- b=ZOI8ziZAfDWuR30IcxXwX5q945FoOtMhif+gdbtQBxhiP0CLkNdn/sNJP5ZGq7fFCMEMKN
- N+zmCU/xoSl2wMdThS55zrY7KQnU9TtcDqTQ8kWJDZ1HEWiCA3oEGFU+zGIci5cAa/qP/1
- S0LNJ/cXAAmAX5ImwA6ZjERAQsghjnw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fijRSvjFkArAa0ryGscnf/miuX0tMpTEdiQbyj+yK9k=;
+ b=PbeT0w68rJ+qWqV8C/TtNWS/IOLVTYwGYv/jX5mFmZqpPHo50vPee5XeT+3OSDyPcFdnUq
+ bqA8RsFFhkQ164h3wsP4Weti8EvCA0DuYIUbJV/hRQsDU48ASSYvAoSTeXpe+gFW+N+B4y
+ t+lFf3fS0r1Vc4Nq4PkrfXDLBYnJZkk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-528-uGnPQdBcOLSAauHZwLs_aQ-1; Thu, 09 Feb 2023 18:34:34 -0500
-X-MC-Unique: uGnPQdBcOLSAauHZwLs_aQ-1
+ us-mta-507-ByzmAmSfMpiH7YTJqk-JtQ-1; Thu, 09 Feb 2023 18:34:36 -0500
+X-MC-Unique: ByzmAmSfMpiH7YTJqk-JtQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0BAE98027EB;
- Thu,  9 Feb 2023 23:34:34 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4033729A9D35;
+ Thu,  9 Feb 2023 23:34:36 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 01C62175AD;
- Thu,  9 Feb 2023 23:34:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4EEC7175AD;
+ Thu,  9 Feb 2023 23:34:34 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: kvm@vger.kernel.org,
@@ -53,15 +53,15 @@ Cc: kvm@vger.kernel.org,
  "Michael S. Tsirkin" <mst@redhat.com>, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Li Zhang <lizhang@suse.de>
-Subject: [PULL 02/17] multifd: cleanup the function multifd_channel_connect
-Date: Fri, 10 Feb 2023 00:34:11 +0100
-Message-Id: <20230209233426.37811-3-quintela@redhat.com>
+Subject: [PULL 03/17] multifd: Remove some redundant code
+Date: Fri, 10 Feb 2023 00:34:12 +0100
+Message-Id: <20230209233426.37811-4-quintela@redhat.com>
 In-Reply-To: <20230209233426.37811-1-quintela@redhat.com>
 References: <20230209233426.37811-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -87,71 +87,53 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Li Zhang <lizhang@suse.de>
 
-Cleanup multifd_channel_connect
+Clean up some unnecessary code
 
 Signed-off-by: Li Zhang <lizhang@suse.de>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/multifd.c | 43 +++++++++++++++++++++----------------------
- 1 file changed, 21 insertions(+), 22 deletions(-)
+ migration/multifd.c | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
 
 diff --git a/migration/multifd.c b/migration/multifd.c
-index b7ad7002e0..c8132ab7e8 100644
+index c8132ab7e8..7aa030fb19 100644
 --- a/migration/multifd.c
 +++ b/migration/multifd.c
-@@ -843,30 +843,29 @@ static bool multifd_channel_connect(MultiFDSendParams *p,
-         ioc, object_get_typename(OBJECT(ioc)),
-         migrate_get_current()->hostname, error);
+@@ -892,19 +892,15 @@ static void multifd_new_send_channel_async(QIOTask *task, gpointer opaque)
+     Error *local_err = NULL;
  
--    if (!error) {
--        if (migrate_channel_requires_tls_upgrade(ioc)) {
--            multifd_tls_channel_connect(p, ioc, &error);
--            if (!error) {
--                /*
--                 * tls_channel_connect will call back to this
--                 * function after the TLS handshake,
--                 * so we mustn't call multifd_send_thread until then
--                 */
--                return true;
--            } else {
--                return false;
--            }
-+    if (error) {
-+        return false;
-+    }
-+    if (migrate_channel_requires_tls_upgrade(ioc)) {
-+        multifd_tls_channel_connect(p, ioc, &error);
-+        if (!error) {
-+            /*
-+             * tls_channel_connect will call back to this
-+             * function after the TLS handshake,
-+             * so we mustn't call multifd_send_thread until then
-+             */
-+            return true;
-         } else {
--            migration_ioc_register_yank(ioc);
--            p->registered_yank = true;
--            p->c = ioc;
--            qemu_thread_create(&p->thread, p->name, multifd_send_thread, p,
--                                   QEMU_THREAD_JOINABLE);
--       }
--       return true;
-+            return false;
-+        }
-+    } else {
-+        migration_ioc_register_yank(ioc);
-+        p->registered_yank = true;
-+        p->c = ioc;
-+        qemu_thread_create(&p->thread, p->name, multifd_send_thread, p,
-+                           QEMU_THREAD_JOINABLE);
+     trace_multifd_new_send_channel_async(p->id);
+-    if (qio_task_propagate_error(task, &local_err)) {
+-        goto cleanup;
+-    } else {
++    if (!qio_task_propagate_error(task, &local_err)) {
+         p->c = QIO_CHANNEL(sioc);
+         qio_channel_set_delay(p->c, false);
+         p->running = true;
+-        if (!multifd_channel_connect(p, sioc, local_err)) {
+-            goto cleanup;
++        if (multifd_channel_connect(p, sioc, local_err)) {
++            return;
+         }
+-        return;
      }
--
--    return false;
-+    return true;
+ 
+-cleanup:
+     multifd_new_send_channel_cleanup(p, sioc, local_err);
  }
  
- static void multifd_new_send_channel_cleanup(MultiFDSendParams *p,
+@@ -1115,10 +1111,7 @@ static void *multifd_recv_thread(void *opaque)
+ 
+         ret = qio_channel_read_all_eof(p->c, (void *)p->packet,
+                                        p->packet_len, &local_err);
+-        if (ret == 0) {   /* EOF */
+-            break;
+-        }
+-        if (ret == -1) {   /* Error */
++        if (ret == 0 || ret == -1) {   /* 0: EOF  -1: Error */
+             break;
+         }
+ 
 -- 
 2.39.1
 
