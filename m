@@ -2,80 +2,152 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F5AE69017A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 08:45:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E443D690194
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 08:50:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ1bP-0001TR-Sb; Thu, 09 Feb 2023 02:44:19 -0500
+	id 1pQ1g2-0002rv-AK; Thu, 09 Feb 2023 02:49:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ1bN-0001T9-30
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:44:17 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ1bL-0004Ap-3H
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:44:16 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- n28-20020a05600c3b9c00b003ddca7a2bcbso818067wms.3
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 23:44:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cGyY6FbE8zsJUrBYhfART7wwWlWbqWHQeHDnszkJ5jk=;
- b=CXcX9+h4lIktamScyorzeB1ug2jDmkIy39P4LGS4dSs7Vt+QWrI2HxIx1pC7I645NY
- z2pqzZeEceG1srrmInFQyTPbUWWO1naiP9nYN3cyJ/yP2e5nmO6bf824bBRpwJpCad7h
- NHg4UXhjQAZNID8RUM4lZcn1sVHqrqsBc1XJJ7vh7GIHD933yRXGKe08kwqa0g2BJ3BH
- z4u49BOmIbZMzjTO+XvwJHd4HYYAQvncANb8Tvl4Ak2qypGabpudEdzqTTioc02WbJmc
- /D6lA0I0QrjwabVCfhXWf8m/SO1wkxW1hcRetBiJvADBqR6U6Rhg6becj3pHRJtRhJ5R
- 01rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cGyY6FbE8zsJUrBYhfART7wwWlWbqWHQeHDnszkJ5jk=;
- b=i/Y6siYN92T18UTmjHPXWyH6zVWMUF/HhL3lIMyTDdIdjmHOL9Xhk0/SsQDJZTaFIl
- umrL2d4hwsg40J7NW+rzXFAZu4JYwHOf/vVioNoo/k0O+VVa8z9Ylobf9NHB2JOXo9iV
- jGX1Poy5Pqi3GGmEB8RhHVESvPq99KxvpR1wkaEoGKmKjlc+m3Ezz8uWV8ChqnXqKzlu
- 1SnFlI+lCvjZZSByzgHebhKv9vmIjj4iKN25QrSm0RxSAo59LTaEPSY31MXkyKIzODAR
- XTTH7OAvVHdbGfLitpm/IYdFmR8HisunoK+mXr34VIgPuY+MlOjKofETtdRCPfLZmV/A
- 5OAw==
-X-Gm-Message-State: AO0yUKWP18JfsP5B8bOhHgRSZEfoKlI5Va3H9PfaboHJyj0OP1j9BAZU
- SaMahxA1WipSWM/6jfZQrqJG/w==
-X-Google-Smtp-Source: AK7set9ERxNeBXwgVwglXH4HUqnpjsSH8BTPK9bnTM2d+ZycGzxbBC5DM4ezGsyZBN3nlH0F2jDlZQ==
-X-Received: by 2002:a05:600c:1716:b0:3df:f7cc:4da2 with SMTP id
- c22-20020a05600c171600b003dff7cc4da2mr8949795wmn.16.1675928653400; 
- Wed, 08 Feb 2023 23:44:13 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- o32-20020a05600c512000b003e0238d9101sm1062080wms.31.2023.02.08.23.44.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Feb 2023 23:44:12 -0800 (PST)
-Message-ID: <4c7d5d77-4001-69d5-7a95-eb546a627b70@linaro.org>
-Date: Thu, 9 Feb 2023 08:44:10 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH v2 1/4] hw/gpio: add PCA6416 i2c GPIO expander
+ (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
+ id 1pQ1fy-0002qx-Rc; Thu, 09 Feb 2023 02:49:02 -0500
+Received: from mail-mw2nam10on2062f.outbound.protection.outlook.com
+ ([2a01:111:f400:7e89::62f]
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
+ id 1pQ1fv-00057S-PJ; Thu, 09 Feb 2023 02:49:02 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ihaaQuBXrOVtB+j0kpm76VPOwfEuBJu5u3XZBvQQW8zM3WxCuKGe+YXyXfVrednGNaSzlYW2NkEaU9kAYbWh7WucDZGW20t1rrQiCoBalpoJ1lLPLBm+2uwqtF/2BxuIoO4ef5H3sEZHsSqP9vDNIgkTiQgtn1yrVsZjzVxIIDenYSqTbWL5oxgMCgd8jAnbAJ27LtY31jTpKWkNaadzjwrW1Bet/ezUiTLkZWGMj2yqHmgIoyikSC5Heq4UoME3ZbXc4jBEM5CMG2h0JjOTg7seTuQNgyp9yb3ri+K8H4aMWAmhfS6iK/7or2UGU9d7+GnLjik/+f2vDlsTgMAOvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2EDOWMwPo0J4ln6OOqTGCPA5HPO8S4H0HBUzXzdI624=;
+ b=KX6vHRA6d1SjMIFS6KJRt6M17HvIT7hwiTWlALd++HU6FzOZgYH91HPfSCKRxwidCbnv6KWv0roWTz38mCl06+2gVlz0c134plH2Gwa9UBnSgYpko9SOwzhTbcN1zbaUpO74RZhbcmCa7mIv/uV5DZykFEOpx/3VjLVfWeH4XMCIG27cvh1DHotMWOLDBeyHJsS3jgdIVFhR6lFXSAzp70Hzf69wTAgHRt59aR1N4DRJ3KtQtpuewblD9JB701wMh7PuHqrP31dbXv8Bx2rMGv3kl8nFiA7/Yxjm8o1sg93eAF2j3IWewaCkPB1U3sczvyEADSLvGPpRo9JrSBMDNg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2EDOWMwPo0J4ln6OOqTGCPA5HPO8S4H0HBUzXzdI624=;
+ b=Lh//oEnt1XuwWO1/2UAtdv+t4GrfxsZq3i92xcZxi2LvEtecpfWkiXdUVcDGxLJCRMEPonYJp14YhzsgaNcU84J0f0CeVHpqhJR58Bn040VPKGdW/RK3LSfvCCcbO+P94dA7EG6LcGSfXT+zSzgckx/a1VUyK7kjioFYWlzv121DzdmESQjZmNfZ8zRgvlCGPPZkMA4iUqn1yZPAneidcLfitPgmZzlpVwzZluGJTcEGuPfidXKNWpnr09xBgAfZXNcKL053/fce3kP+5+tk6hIDNdMsbXXXq8WIzlNyusGjVFzKuOocObU8zFZuAoPd7QXrwVPSZA9KI3+dYwbHzg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BY5PR12MB5544.namprd12.prod.outlook.com (2603:10b6:a03:1d9::22)
+ by IA1PR12MB6603.namprd12.prod.outlook.com (2603:10b6:208:3a1::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.36; Thu, 9 Feb
+ 2023 07:48:50 +0000
+Received: from BY5PR12MB5544.namprd12.prod.outlook.com
+ ([fe80::3287:efd8:14bb:c5f6]) by BY5PR12MB5544.namprd12.prod.outlook.com
+ ([fe80::3287:efd8:14bb:c5f6%6]) with mapi id 15.20.6086.019; Thu, 9 Feb 2023
+ 07:48:49 +0000
+Message-ID: <2c982100-990b-dcdd-bd4a-ff8dce33e59f@nvidia.com>
+Date: Thu, 9 Feb 2023 09:48:37 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PULL 03/30] migration: Split save_live_pending() into
+ state_pending_*
 Content-Language: en-US
-To: Titus Rwantare <titusr@google.com>, minyard@acm.org, eddie.dong@intel.com
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, joel@jms.id.au,
- Hao Wu <wuhaotsh@google.com>
-References: <20230208224339.270589-1-titusr@google.com>
- <20230208224339.270589-2-titusr@google.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230208224339.270589-2-titusr@google.com>
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ John Snow <jsnow@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Coiby Xu
+ <Coiby.Xu@gmail.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Eric Blake
+ <eblake@redhat.com>, Eric Farman <farman@linux.ibm.com>
+References: <20230207005650.1810-1-quintela@redhat.com>
+ <20230207005650.1810-4-quintela@redhat.com>
+From: Avihai Horon <avihaih@nvidia.com>
+In-Reply-To: <20230207005650.1810-4-quintela@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+X-ClientProxiedBy: FR2P281CA0097.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9c::12) To BY5PR12MB5544.namprd12.prod.outlook.com
+ (2603:10b6:a03:1d9::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR12MB5544:EE_|IA1PR12MB6603:EE_
+X-MS-Office365-Filtering-Correlation-Id: a30184ce-4691-4d9e-33fb-08db0a7214a9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: D5VQWQuCXkZHFncYur37gzB01KhTOaltHj4mG2g/WyufhxIV2T4cTKqx2NJoNSRW98j9M/pQapnjUAgkSe9HTxGucuu8jap7XB/fdRXRTaeXwUKx84ktRQcQ4EucRpOypv955bxubumIMIrEroYjC++6EkJfjO6TTXcIWkqM4iy3GJ1uZg86di+TsGk1Tu+fmH5hsMzLtbEo0LdFcKeBAT8pk/uMWo+hyfUndxXsrHJ2Z/joGe4uc051dXhXlfuFYJ3ZLHB4KevXXN3x7+ZChgLtQ5c+FAq6R35LUql8ULgqBMaTssDoq/svnOvBC6tf9X2OYhE/oU9bTB9jX7BTIiQ6lVDETv+QztB1TyzRdb8vuz9msYb9GXl645FnJ/Vh15+KRRlPi2K8/Oju5s/kbTLK8aRSDr4wvxpOd+8eyi2BmFWYlFLU/6iaIgR4pcbQ94gm4Bc6fOM6AY8iKb46BYygt4iJS96lQ9ridA/hgJr2Jp0D4RiJYPFobbJu8l2Jn3QPgfm6iSZxTm1sfNZb/yiH/HoXHsM8A5yFDXF/5mgJ7f444UEX5SBH/LnIsi6mtSwompp1Kc53EdSXpaEiQfS4SbJ5Rb3K5gU1KXaVtb785jMl9vwxEfbfaMBWMhPoAbx6HKDm1n53I0ZRTmV+nltXWNh3fwBpHW1tAgSNGeis5uTyvy0fAuLN25pbVc4q/zlrlgvATCX+9djHcUO5/22I2t9xhlqN87G0tRxKWRQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR12MB5544.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(136003)(376002)(39860400002)(346002)(366004)(396003)(451199018)(4326008)(83380400001)(36756003)(316002)(54906003)(6666004)(53546011)(6486002)(478600001)(6506007)(2616005)(26005)(186003)(6512007)(8936002)(7416002)(7406005)(5660300002)(86362001)(31696002)(2906002)(66946007)(66476007)(8676002)(38100700002)(41300700001)(66556008)(31686004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b3BCK2V3b1d0RDFVQ0dudG5MR1ZxOHJMd1J0Y1lwNlVZOGVpaG5ZT2UvVHl3?=
+ =?utf-8?B?VlY2SFl6QXBOaEF2d0hwazk1WXdXeEQyeFI3eWpZM2V4S0ZVS052VTlSSFhC?=
+ =?utf-8?B?dm5zRytKWnFSQkd5U1BLTXpxVU9uRnlIeUdDRDR0QUhINEZZNnVqODY4N3Mv?=
+ =?utf-8?B?a28xRERybFFyd1FUOGFSYnVtYStXcmFrWE84Y0hud3hjUzdvY0M5VVBkTTY0?=
+ =?utf-8?B?dVJmWjJXTFp2bjFmbUdOUXVFL3A3RGJOQU9nSUFaalJEZjJLQnB2V1p3YjhW?=
+ =?utf-8?B?TERpU3VZR1o5MTB0VVBvdlI3eTYyK1hMQXRzTUMzamFTRWFQS09OSWlkakYr?=
+ =?utf-8?B?THZBZW9qM3RWcVNrTFpZSDNQQ2s5aXZtVUJFemVYdmNMWjNEN1R3c09sZkhG?=
+ =?utf-8?B?VHhoOG1QODlLTUpxZDhQaUhmMVU2WFZxdnVDeDlhN0NOa051Z0FCbWFUd1dv?=
+ =?utf-8?B?QlljMHhON1RjeFYvOUVKNWhTTkoyUzdSYktCZ0lub0p0ZEtvNW1UdC9JQmN0?=
+ =?utf-8?B?Z2dleGw5T0dQVGpsdmxPc0pYeXIrb0NpQWd3dERUU2J4M3RRMVIwYlJ5YThi?=
+ =?utf-8?B?UDNQcVJrMEN3MXJidkVBRXFaRUJXdkF3SDVLNDJpWXhacjJ2WWFDeTArN3gv?=
+ =?utf-8?B?Y2w0VENyYjVUTExNak1HNnVDWFBjRHZ5MWU0cXRNaytHUVJBQjNPSjBiblNS?=
+ =?utf-8?B?ajF2VGxZVm9sTGJ2TThJSFR2eENWZ1g4TFV4Q3NVVHBOeEhybXIzMFBrK0E0?=
+ =?utf-8?B?VU8ya1gwZlh6QU9EaGIwQ3ZyYzZJS1h4OWJDbkhHN2dVL0wzbGxNMDJnVm81?=
+ =?utf-8?B?K0hrNDZyYmxrd2VLbWQrekdNSDY0ZnNhSk5XendmaEhnSE9sRXZYWkhhZUhK?=
+ =?utf-8?B?M1hCeDJDWHMvdjkyc0pteUVYRGFZNFUrKzBkcWRiUXNrRmdlWGxubUdXajNs?=
+ =?utf-8?B?YnlBcHBLZlBjd0F0SEZBdXpUKzdJSktmL3JRMkNtV1FxYzZoR2c2dlUzNUtx?=
+ =?utf-8?B?aGl2Sld6VU1wd2RjVUw0YzV0dEJPSml2aUZ4WWo1d0J0ZllHSnlUMFMweXZX?=
+ =?utf-8?B?dXZTS3BIRDZEZjllSmZVUm43VUY1VXN6VE5ybjBMOXNkbU12bUxPc1dTSTU3?=
+ =?utf-8?B?N3VXZTZwMEQ0KythaDEvU1NKUUxpRTdrQjVEQVBFc2xJeDIrQmJFaThHQTZZ?=
+ =?utf-8?B?VFFVZnBmNXFqUHhESG1JYkRzbUZuS3lITG1KakFpTi9NZ2hFOUNiSGQ4L0RS?=
+ =?utf-8?B?eFhUZnJMR1p3ajlIVzZ4ZlllMnFleGZkV09TT3VKUDBSdWNDRlJWdEQ3OFFU?=
+ =?utf-8?B?RG5NZUNRYzNCVFZweENUN2hVdzFVcXhHdllwSmowR200bnBjZVo0UjFtUHJJ?=
+ =?utf-8?B?QkJiL0MwVEUyRlJickxlcGNocFZzZlQ4Vmt0MnR5NGxObVZrZmp4aWhRczNh?=
+ =?utf-8?B?UStnOE1vMHJyalJsTWJKQmhIK2VDd0V1MnJTZWJWUTZhWVg4U3dzSjVvM1N2?=
+ =?utf-8?B?MHd1bTZmbnR0STZVM04wRFJ5bng0SUlZRWdMVXNoTW5aTnBMdFY3QkYrMDZj?=
+ =?utf-8?B?U3JYRENUMmdsZEFrOVlncDA1RnRFaTB6YWttb3RiNTc5T09haDJhSVpiamVH?=
+ =?utf-8?B?RndMMG9wUXhhdEc5bElDa2FkSHJGZFM4TGx4MmtPRzhjQ1hYMndMVU1vRFJk?=
+ =?utf-8?B?L21BT2dSbjdBNWVRNitHaktqSVA5R0RHdUhBcXNjelJJdlBhUm0zMnZEYllT?=
+ =?utf-8?B?a21JNDBTdUFDMTBSblBhWDJFcDNjbzhvWFFlajNScUg3QUJFTkRNcjBBa29L?=
+ =?utf-8?B?M3F6ZER2VDZPYUJIVFdUN3lWMWhGY1BGRUJXaG1uQTNyRCtCanFLZ1lTUk03?=
+ =?utf-8?B?b0FtNVdXQnE0cy9IWnZTdkJyWDVlSGlOM1YzUDMzUTZ0b3FYSmlRUmtFZHZN?=
+ =?utf-8?B?KytXVGZDUXRFdnJiTEFlblBGMzk2MFZyQnFMenNoT2YrZVdJU1N4ajFCNTdt?=
+ =?utf-8?B?NCtsaTUzYkpkc3VUY1ViYVVLYkovM1UzL0NGamdSOTFtcjVRR200OUZRUHdJ?=
+ =?utf-8?B?UUN0SStMam5JK05ObllJQm53aXpWMDVLemFEZmJ4cDJWWk5FZFQ2QzVxVnI2?=
+ =?utf-8?Q?wBHbHHGG9rvUH4c6G1FmVbIk/?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a30184ce-4691-4d9e-33fb-08db0a7214a9
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB5544.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2023 07:48:49.7372 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BvrbkoU2x66QC6Sxp+MBACho9n74Pf4fpZ/aEPit/3T8nk3xfMu/dsNKIpQ2GZXbpWqpbBb593uLx8qyNwu+pg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6603
+Received-SPF: softfail client-ip=2a01:111:f400:7e89::62f;
+ envelope-from=avihaih@nvidia.com;
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.146,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.146, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,186 +164,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Titus,
 
-On 8/2/23 23:43, Titus Rwantare wrote:
-> The PCA6416 is an i2c device with 16 GPIOs.
-> 
-> Reviewed-by: Hao Wu <wuhaotsh@google.com>
-> Signed-off-by: Titus Rwantare <titusr@google.com>
+On 07/02/2023 2:56, Juan Quintela wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> We split the function into to:
+>
+> - state_pending_estimate: We estimate the remaining state size without
+>    stopping the machine.
+>
+> - state pending_exact: We calculate the exact amount of remaining
+>    state.
+>
+> The only "device" that implements different functions for _estimate()
+> and _exact() is ram.
+>
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > ---
->   hw/arm/Kconfig                  |   1 +
->   hw/gpio/Kconfig                 |   4 +
->   hw/gpio/meson.build             |   1 +
->   hw/gpio/pca_i2c_gpio.c          | 388 ++++++++++++++++++++++++++++++++
->   hw/gpio/trace-events            |   5 +
->   include/hw/gpio/pca_i2c_gpio.h  |  69 ++++++
->   tests/lcitool/libvirt-ci        |   2 +-
->   tests/qtest/meson.build         |   1 +
->   tests/qtest/pca_i2c_gpio-test.c | 169 ++++++++++++++
->   9 files changed, 639 insertions(+), 1 deletion(-)
->   create mode 100644 hw/gpio/pca_i2c_gpio.c
->   create mode 100644 include/hw/gpio/pca_i2c_gpio.h
->   create mode 100644 tests/qtest/pca_i2c_gpio-test.c
-> 
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index 2d157de9b8..1b533ddd76 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -418,6 +418,7 @@ config NPCM7XX
->       select SSI
->       select UNIMP
->       select PCA954X
-> +    select PCA_I2C_GPIO
+>   docs/devel/migration.rst       | 18 ++++++++-------
+>   docs/devel/vfio-migration.rst  |  4 ++--
+>   include/migration/register.h   | 19 +++++++++------
+>   migration/savevm.h             | 12 ++++++----
+>   hw/s390x/s390-stattrib.c       | 11 +++++----
+>   hw/vfio/migration.c            | 21 +++++++++--------
+>   migration/block-dirty-bitmap.c | 15 ++++++------
+>   migration/block.c              | 13 ++++++-----
+>   migration/migration.c          | 20 +++++++++++-----
+>   migration/ram.c                | 35 ++++++++++++++++++++--------
+>   migration/savevm.c             | 42 +++++++++++++++++++++++++++-------
+>   hw/vfio/trace-events           |  2 +-
+>   migration/trace-events         |  7 +++---
+>   13 files changed, 143 insertions(+), 76 deletions(-)
 
-Shouldn't this be s/select/imply/? See docs/devel/kconfig.rst:
+[snip]
 
-   Boards specify their constituent devices using ``imply`` and
-   ``select``  directives.  A device should be listed under ``select``
-   if the board cannot be started at all without it.  It should be
-   listed under ``imply`` if (depending on the QEMU command line) the
-   board may or may not be started without it.  Boards also default to
-   false; they are  enabled by the ``default-configs/*.mak`` for the
-   target they apply to.
-
-Better to split this as another "hw/arm: Allow NPCM7xx machines to use
-the PCA6416 i2c GPIO expander" patch.
-
-> +/*
-> + * compare new_output to curr_output and update irq to match new_output
-> + *
-> + * The Input port registers (registers 0 and 1) reflect the incoming logic
-> + * levels of the pins, regardless of whether the pin is defined as an input or
-> + * an output by the Configuration register.
-> + */
-> +static void pca_i2c_update_irqs(PCAGPIOState *ps)
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index 5e4bccb966..7f9f770c1e 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -1472,10 +1472,10 @@ flush:
+>    * the result is split into the amount for units that can and
+>    * for units that can't do postcopy.
+>    */
+> -void qemu_savevm_state_pending(uint64_t threshold_size,
+> -                               uint64_t *res_precopy_only,
+> -                               uint64_t *res_compatible,
+> -                               uint64_t *res_postcopy_only)
+> +void qemu_savevm_state_pending_estimate(uint64_t threshold_size,
+> +                                        uint64_t *res_precopy_only,
+> +                                        uint64_t *res_compatible,
+> +                                        uint64_t *res_postcopy_only)
+>   {
+>       SaveStateEntry *se;
+>
+> @@ -1485,7 +1485,7 @@ void qemu_savevm_state_pending(uint64_t threshold_size,
+>
+>
+>       QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
+> -        if (!se->ops || !se->ops->save_live_pending) {
+> +        if (!se->ops || !se->ops->state_pending_exact) {
+>               continue;
+>           }
+>           if (se->ops->is_active) {
+> @@ -1493,9 +1493,35 @@ void qemu_savevm_state_pending(uint64_t threshold_size,
+>                   continue;
+>               }
+>           }
+> -        se->ops->save_live_pending(se->opaque, threshold_size,
+> -                                   res_precopy_only, res_compatible,
+> -                                   res_postcopy_only);
+> +        se->ops->state_pending_exact(se->opaque, threshold_size,
+> +                                     res_precopy_only, res_compatible,
+> +                                     res_postcopy_only);
+> +    }
+> +}
+> +
+> +void qemu_savevm_state_pending_exact(uint64_t threshold_size,
+> +                                     uint64_t *res_precopy_only,
+> +                                     uint64_t *res_compatible,
+> +                                     uint64_t *res_postcopy_only)
 > +{
-> +    PCAGPIOClass *pc = PCA_I2C_GPIO_GET_CLASS(ps);
-> +    uint16_t out_diff = ps->new_output ^ ps->curr_output;
-> +    uint16_t in_diff = ps->new_input ^ ps->curr_input;
-> +    uint16_t mask, pin_i;
+> +    SaveStateEntry *se;
 > +
-> +    if (in_diff || out_diff) {
-> +        for (int i = 0; i < pc->num_pins; i++) {
-> +            mask = BIT(i);
-> +            /* pin must be configured as an output to be set here */
-> +            if (out_diff & ~ps->config & mask) {
-> +                pin_i = mask & ps->new_output;
-> +                qemu_set_irq(ps->output[i], pin_i > 0);
-> +                ps->curr_output &= ~mask;
-> +                ps->curr_output |= pin_i;
-> +            }
+> +    *res_precopy_only = 0;
+> +    *res_compatible = 0;
+> +    *res_postcopy_only = 0;
 > +
-> +            if (in_diff & mask) {
-> +                ps->curr_input &= ~mask;
-> +                ps->curr_input |= mask & ps->new_input;
+> +    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
+> +        if (!se->ops || !se->ops->state_pending_estimate) {
+> +            continue;
+> +        }
+> +        if (se->ops->is_active) {
+> +            if (!se->ops->is_active(se->opaque)) {
+> +                continue;
 > +            }
 > +        }
-> +        /* make diff = 0 */
-> +        ps->new_input = ps->curr_input;
-> +    }
-> +}
+> +        se->ops->state_pending_estimate(se->opaque, threshold_size,
+> +                                        res_precopy_only, res_compatible,
+> +                                        res_postcopy_only);
+>       }
+>   }
 
-> +static void pca_i2c_enter_reset(Object *obj, ResetType type)
-> +{
-> +    PCAGPIOState *ps = PCA_I2C_GPIO(obj);
-> +    PCAGPIOClass *pc = PCA_I2C_GPIO_GET_CLASS(obj);
-> +
-> +    for (int i = 0; i < pc->num_pins; i++) {
-> +        qemu_irq_lower(ps->output[i]);
-> +    }
-> +
-> +    ps->polarity_inv = 0;
-> +    ps->config = 0;
-> +    ps->curr_input = 0;
-> +    ps->curr_output = 0;
-> +    ps->new_input = 0;
-> +    ps->new_output = 0;
-> +    ps->command = 0;
-> +}
-> +
-> +static void pca_i2c_realize(DeviceState *dev, Error **errp)
-> +{
-> +    PCAGPIOState *ps = PCA_I2C_GPIO(dev);
-> +    pca_i2c_update_irqs(ps);
-> +}
+Hi Juan,
 
-pca_i2c_realize() occurs once before the reset() handler, so it
-seems redundant. We can probably remove it.
+I only noticed it now while rebasing my series on top of yours.
 
-> +static void pca_i2c_gpio_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    I2CSlaveClass *k = I2C_SLAVE_CLASS(klass);
-> +    ResettableClass *rc = RESETTABLE_CLASS(klass);
-> +
-> +    dc->realize = pca_i2c_realize;
-> +    dc->vmsd = &vmstate_pca_i2c_gpio;
-> +    rc->phases.enter = pca_i2c_enter_reset;
-> +    k->event = pca_i2c_event;
-> +}
+I think the exact and estimate callbacks got mixed up here: we call 
+.state_pending_estimate() in qemu_savevm_state_pending_exact() and 
+.state_pending_exact() in qemu_savevm_state_pending_estimate().
+Also need to switch the !se->ops->state_pending_exact/estimate checks.
 
-> +static const TypeInfo pca_gpio_types[] = {
-> +    {
-> +    .name = TYPE_PCA_I2C_GPIO,
-> +    .parent = TYPE_I2C_SLAVE,
-> +    .instance_size = sizeof(PCAGPIOState),
-> +    .instance_init = pca_i2c_gpio_init,
-> +    .class_size = sizeof(PCAGPIOClass),
-> +    .class_init = pca_i2c_gpio_class_init,
-> +    .abstract = true,
+Thanks.
 
-Per CODING_STYLE this should be indented +4 spaces.
-
-> +    },
-> +    {
-> +    .name = TYPE_PCA6416_GPIO,
-> +    .parent = TYPE_PCA_I2C_GPIO,
-> +    .class_init = pca6416_gpio_class_init,
-> +    },
-> +};
-
-
-> +#define PCA6416_INPUT_PORT_0                 0x00 /* read */
-> +#define PCA6416_INPUT_PORT_1                 0x01 /* read */
-> +#define PCA6416_OUTPUT_PORT_0                0x02 /* read/write */
-> +#define PCA6416_OUTPUT_PORT_1                0x03 /* read/write */
-> +#define PCA6416_POLARITY_INVERSION_PORT_0    0x04 /* read/write */
-> +#define PCA6416_POLARITY_INVERSION_PORT_1    0x05 /* read/write */
-> +#define PCA6416_CONFIGURATION_PORT_0         0x06 /* read/write */
-> +#define PCA6416_CONFIGURATION_PORT_1         0x07 /* read/write */
-
-IIUC the registers are 16-bit but the I2CSlaveClass API forces you
-to process 8-bit at a time. Possible simpler to use the extract /
-deposit API:
-
-     #define PCA6416_INPUT_PORT                 0x00 /* read */
-     #define PCA6416_OUTPUT_PORT                0x02 /* read/write */
-
-     static uint8_t pca6416_recv(I2CSlave *i2c)
-     {
-         PCAGPIOState *ps = PCA_I2C_GPIO(i2c);
-         unsigned shift = (ps->command) & 1 ? 8 : 0;
-         uint8_t data;
-
-         switch (ps->command) {
-         case PCA6416_INPUT_PORT:
-             data = extract16(ps->curr_input, shift, 8);
-             break;
-
-     static int pca6416_send(I2CSlave *i2c, uint8_t data)
-     {
-         PCAGPIOState *ps = PCA_I2C_GPIO(i2c);
-         unsigned shift = (ps->command) & 1 ? 0 : 8;
-         ...
-         switch (ps->command) {
-         ...
-         case PCA6416_OUTPUT_PORT:
-             ps->new_output = deposit32(ps->new_output, shift 8,
-                                        extract16(data, shift, 8));
-             break;
-
-Regards,
-
-Phil.
 
