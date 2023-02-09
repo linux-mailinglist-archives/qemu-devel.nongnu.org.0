@@ -2,103 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FB6869013C
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 08:26:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC0C6690176
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 08:42:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ1JK-00053K-Ky; Thu, 09 Feb 2023 02:25:38 -0500
+	id 1pQ1YT-0000iT-9c; Thu, 09 Feb 2023 02:41:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1pQ1JH-000535-De
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:25:35 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1pQ1JF-00016v-8o
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:25:34 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id
- v18-20020a17090ae99200b00230f079dcd9so5219885pjy.1
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 23:25:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=rmVDDhkBD33dRebxUB6WkABikP1v8rHGLOz9oy+lzOw=;
- b=Qqsr8VuFj/cb61lWwBfIJiwftaSsXtTbIODDj9kMRlVfS2CUTcXAcnkVENwaHeFXCc
- eXeZ9Y66+6ildCk3obb8k3r83H0DWVz4TJzYVPAXagF7GXjgZ3GxGOCw/EF1i0/rp5IN
- pgGJSBfHppwSSxlu/WOaFOQm7D96GzMtKBjclGwqHDQYZ8V5NNbTw5oahMvkY62J4Bcv
- xvuULTn8M1jB7ooQLdS2tItxTCRS2SNix0Lv5msweEF06EcK/+YQoovw+ALLc950AbCO
- dNuYMGg/puoIQ39KxeNIBvRe2lqaJj+1rlej0C5Dhe4aDgkWXgpDufZzv1pwpPPiB1NX
- cjLw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pQ1YR-0000iJ-5h
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:41:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pQ1YP-0003xg-IF
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:41:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675928472;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tBVnWOxZN0l6o+QuVuNWanJQCILIO8H7yQ/rQtmhRzc=;
+ b=YKmtVutHCz5ZD+4lWbrqSzfIPu6BLDA2WczQdogTskYuqdZGXJD9iPkz8GqUKm55KH3FD1
+ zBLnPbQipDQz2rjf9IZ60wYexkowSO4F012/n6vCSH05+GOMDPhKlbwQMAANe+8OcKwMN1
+ fL3hovYbQC91Su3RNaIGY2VEvdfLsE8=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-91-32Srf7qGO4ygaO0B-4iLeg-1; Thu, 09 Feb 2023 02:41:10 -0500
+X-MC-Unique: 32Srf7qGO4ygaO0B-4iLeg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ fd23-20020a056402389700b004aaa054d189so896426edb.11
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 23:41:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rmVDDhkBD33dRebxUB6WkABikP1v8rHGLOz9oy+lzOw=;
- b=ShK9QvMd/uCcKxyeFNoA3kiDlUzN7s6dLbKSVI7w3hHFKVh6Yg1e//5jrHuoM3zc+O
- sao3NFAITadTeFBrjICWk+mPEemlNG1udA+f4OIMxoMaXNKOkVKylNA/M7Pj004chB1d
- hs/O+SqlifbBXIeJxl0bSlUyKQJyQd6iN417aqjCBrKYGd5Tnj/jIVl8MNlocAwlDgZ6
- rHg1W9a6gVTvsMfmgGyHRYF9Td8JNR37DgvyWN6qtMwneAUk1mtzDrZBxmTvjuTdYbvU
- elFXGlvmaRwlK7v1L1KY+O5qMZXUrE/PlrD6ojDt8jIRd+fEAkNCphnOypiijiRIimyt
- YESQ==
-X-Gm-Message-State: AO0yUKXc3dgwVGeIOY+rj+EtkkV7BZzoKiBkgrJbDjSrEdWcUsGPjaIc
- 5P+G0HguLPE2YuIdEPoLerM=
-X-Google-Smtp-Source: AK7set81TKZAFzmOrFzSNHYZptbc1qRIgjmsCDass4PkbAdTYVS+WfbfkwETMnLWvQHYBCaWiFrNHA==
-X-Received: by 2002:a17:902:f2c9:b0:19a:6098:103a with SMTP id
- h9-20020a170902f2c900b0019a6098103amr325179plc.23.1675927531617; 
- Wed, 08 Feb 2023 23:25:31 -0800 (PST)
-Received: from localhost ([192.55.54.55]) by smtp.gmail.com with ESMTPSA id
- n20-20020a170902d0d400b0019948184c33sm664782pln.243.2023.02.08.23.25.30
+ bh=tBVnWOxZN0l6o+QuVuNWanJQCILIO8H7yQ/rQtmhRzc=;
+ b=pVBFqgYzVtvKONqOUd6DWDK6DgUNVtNUMGgmgxgpKzWpJtmaZQRnyAzZU8VoMD6uLW
+ KXyS5m44SyhYFZFIX2L2IPjv80O/tx+DinKBwUgaApJIvz+BFA5/BCq9liF1O1H1iIHA
+ sgRk1LzznyBmyy32yN/qjIYyUD49HMyTY0SCqTwhpqcGvkwcf7ncRMagtHnrFL5rBdla
+ 9rqlr0LJnd2AvzLwLSE7PG747+80EpG4zEIhJJGb9HxhPHS46Kyf//PgzsQyXGOanIl2
+ GSr/Dw5JTJWmxi/AvAsphj4ydVFTF5O1fQLVpYL9hxnrpI0kmiK+ZH52FC5beBsKSsJW
+ waog==
+X-Gm-Message-State: AO0yUKXQIGFRU3aarGYk4GKo4dI6miml3ZH4IU93BsZu0yc/CFryYWi+
+ awW0yHf+LuTvLkBcjgQoP1sRkV3ahE+aZr1xoSHzTh8PbLEsjviMWDFgHWr+ehWO1LUQ6rlEQDz
+ blBvhO3W+eIZLfgGrsg1ZXy2jZC8C36ieXeK0Bcm7dJSjwRglL9bWpscDBKmMnW1sulq0
+X-Received: by 2002:a17:907:608b:b0:8aa:c105:f0bf with SMTP id
+ ht11-20020a170907608b00b008aac105f0bfmr10478738ejc.17.1675928468963; 
+ Wed, 08 Feb 2023 23:41:08 -0800 (PST)
+X-Google-Smtp-Source: AK7set9aH2PzEPPLo0YJUlnsK16u0uIVA5yC1U6lk43TVGarqiJIZI5lcQAf2CtyoaWTt+6rE9LS/w==
+X-Received: by 2002:a17:907:608b:b0:8aa:c105:f0bf with SMTP id
+ ht11-20020a170907608b00b008aac105f0bfmr10478695ejc.17.1675928468677; 
+ Wed, 08 Feb 2023 23:41:08 -0800 (PST)
+Received: from redhat.com ([2.52.132.212]) by smtp.gmail.com with ESMTPSA id
+ b15-20020a170906660f00b00871075bfcfesm515007ejp.133.2023.02.08.23.41.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 23:25:30 -0800 (PST)
-Date: Wed, 8 Feb 2023 23:25:29 -0800
-From: Isaku Yamahata <isaku.yamahata@gmail.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- wei.w.wang@intel.com, isaku.yamahata@gmail.com
-Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
-Message-ID: <20230209072529.GB4175971@ls.amr.corp.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
+ Wed, 08 Feb 2023 23:41:07 -0800 (PST)
+Date: Thu, 9 Feb 2023 02:41:03 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org, "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: x86@kernel.org, linux-kernel@vger.kernel.org,
+ Dov Murik <dovmurik@linux.ibm.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "H . Peter Anvin" <hpa@zytor.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Borislav Petkov <bp@alien8.de>, Eric Biggers <ebiggers@kernel.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: Re: [PATCH RFC 5/7] Revert "x86: use typedef for SetupData struct"
+Message-ID: <20230209024011-mutt-send-email-mst@kernel.org>
+References: <20230208211212.41951-1-mst@redhat.com>
+ <20230208211212.41951-6-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=isaku.yamahata@gmail.com; helo=mail-pj1-x1031.google.com
+In-Reply-To: <20230208211212.41951-6-mst@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,68 +106,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 02, 2022 at 02:13:40PM +0800,
-Chao Peng <chao.p.peng@linux.intel.com> wrote:
-
-> +static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
-> +					   struct kvm_memory_attributes *attrs)
-> +{
-> +	gfn_t start, end;
-> +	unsigned long i;
-> +	void *entry;
-> +	u64 supported_attrs = kvm_supported_mem_attributes(kvm);
-> +
-> +	/* flags is currently not used. */
-> +	if (attrs->flags)
-> +		return -EINVAL;
-> +	if (attrs->attributes & ~supported_attrs)
-> +		return -EINVAL;
-> +	if (attrs->size == 0 || attrs->address + attrs->size < attrs->address)
-> +		return -EINVAL;
-> +	if (!PAGE_ALIGNED(attrs->address) || !PAGE_ALIGNED(attrs->size))
-> +		return -EINVAL;
-> +
-> +	start = attrs->address >> PAGE_SHIFT;
-> +	end = (attrs->address + attrs->size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
-> +
-> +	entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
-> +
-> +	mutex_lock(&kvm->lock);
-> +	for (i = start; i < end; i++)
-> +		if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
-> +				    GFP_KERNEL_ACCOUNT)))
-> +			break;
-> +	mutex_unlock(&kvm->lock);
-> +
-> +	attrs->address = i << PAGE_SHIFT;
-> +	attrs->size = (end - i) << PAGE_SHIFT;
-> +
-> +	return 0;
-> +}
-> +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
-> +
-
-If memslot isn't private, it should return error if private attribute is set.
-Something like following check is needed.
-
-+       if (attrs->flags & KVM_MEM_PRIVATE) {
-+               /* non-private memory slot doesn't allow KVM_MEM_PRIVATE */
-+               for (i = 0; i < kvm_arch_nr_memslot_as_ids(kvm); i++) {
-+                       struct kvm_memslot_iter iter;
-+                       struct kvm_memslots *slots;
-+
-+                       slots = __kvm_memslots(kvm, i);
-+                       kvm_for_each_memslot_in_gfn_range(&iter, slots, start, end) {
-+                               if (!kvm_slot_can_be_private(iter.slot)) {
-+                                       mutex_unlock(&kvm->slots_lock);
-+                                       return -EINVAL;
-+                               }
-+                       }
-+               }
-+       }
-+
+On Wed, Feb 08, 2023 at 04:12:51PM -0500, Michael S. Tsirkin wrote:
+> This reverts commit eebb38a5633a77f5fa79d6486d5b2fcf8fbe3c07.
+> 
+> Fixes: eebb38a563 ("x86: use typedef for SetupData struct")
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 
 
--- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+This one was actually good, I reverted so other reverts are clean.
+Jason I would appreciate it if you can rebase this on top
+of the revert.
+
+
+> ---
+>  hw/i386/x86.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> index 32f37ab7c2..76b12108b4 100644
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -657,12 +657,12 @@ DeviceState *ioapic_init_secondary(GSIState *gsi_state)
+>      return dev;
+>  }
+>  
+> -typedef struct SetupData {
+> +struct setup_data {
+>      uint64_t next;
+>      uint32_t type;
+>      uint32_t len;
+>      uint8_t data[];
+> -} __attribute__((packed)) SetupData;
+> +} __attribute__((packed));
+>  
+>  
+>  /*
+> @@ -803,7 +803,7 @@ void x86_load_linux(X86MachineState *x86ms,
+>      FILE *f;
+>      char *vmode;
+>      MachineState *machine = MACHINE(x86ms);
+> -    SetupData *setup_data;
+> +    struct setup_data *setup_data;
+>      const char *kernel_filename = machine->kernel_filename;
+>      const char *initrd_filename = machine->initrd_filename;
+>      const char *dtb_filename = machine->dtb;
+> @@ -1086,11 +1086,11 @@ void x86_load_linux(X86MachineState *x86ms,
+>          }
+>  
+>          setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
+> -        kernel_size = setup_data_offset + sizeof(SetupData) + dtb_size;
+> +        kernel_size = setup_data_offset + sizeof(struct setup_data) + dtb_size;
+>          kernel = g_realloc(kernel, kernel_size);
+>  
+>  
+> -        setup_data = (SetupData *)(kernel + setup_data_offset);
+> +        setup_data = (struct setup_data *)(kernel + setup_data_offset);
+>          setup_data->next = cpu_to_le64(first_setup_data);
+>          first_setup_data = prot_addr + setup_data_offset;
+>          setup_data->type = cpu_to_le32(SETUP_DTB);
+> @@ -1101,9 +1101,9 @@ void x86_load_linux(X86MachineState *x86ms,
+>  
+>      if (!legacy_no_rng_seed) {
+>          setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
+> -        kernel_size = setup_data_offset + sizeof(SetupData) + RNG_SEED_LENGTH;
+> +        kernel_size = setup_data_offset + sizeof(struct setup_data) + RNG_SEED_LENGTH;
+>          kernel = g_realloc(kernel, kernel_size);
+> -        setup_data = (SetupData *)(kernel + setup_data_offset);
+> +        setup_data = (struct setup_data *)(kernel + setup_data_offset);
+>          setup_data->next = cpu_to_le64(first_setup_data);
+>          first_setup_data = prot_addr + setup_data_offset;
+>          setup_data->type = cpu_to_le32(SETUP_RNG_SEED);
+> -- 
+> MST
+> 
+
 
