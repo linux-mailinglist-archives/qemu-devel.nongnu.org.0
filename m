@@ -2,72 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0206690720
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 12:24:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 208D369072A
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 12:24:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ51K-0005JU-I6; Thu, 09 Feb 2023 06:23:18 -0500
+	id 1pQ52S-00066x-Ed; Thu, 09 Feb 2023 06:24:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pQ51I-0005JG-UR
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 06:23:16 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pQ51H-0001FH-2m
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 06:23:16 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- v18-20020a17090ae99200b00230f079dcd9so5602463pjy.1
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 03:23:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Sb01PK28yrxED/OT9BB/QXvhwzXKmz+6cTYlY1LGV5U=;
- b=OdmJ0TCgqkcmUpnRDWaQL9WhhtzxnE7jVb61mF6qG3aZj0Fc/BYIGCuL/2xWFb5CVG
- N2bgn3D65WWo5nO8Trv+8MvzJko4g1kV6PNjnhPtMohaDW5f+oYz2qcbCo9ZrqgIMSJQ
- bcePsgSFXSU93o6mdOB2jLKTbw9mSm+c/IK57KxWfMM7bCFStjzRXE61rmWO+lEeLQOM
- uf0e/EVSAXI+bHFIjteIf00jbhjeIRTJtCv3GgmYHHIUibma/R3N3fxJfQn61wDxldmW
- 1f5J08EwZg1Ub9seyj/eOxfzBNseoAg+GQ8uEHszZlyvpGrS2qHRdZuDWY3NjQ92z2VR
- q8fA==
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1pQ52P-0005y8-Gs
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 06:24:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1pQ52N-0001Kv-FF
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 06:24:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675941861;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/DpsDwzBjdQHZ3OTDAK3xLtrHgr2l1HQtQkuNm6AiJQ=;
+ b=XiLpAkqEGFMlhPj5IDL9Wr7DUBS0H3rpe2KtU8ngwZujycT8bCxFpdv8kV0H7ontN9lOc5
+ BEwWMwhNDWTwvew9b4dQKJ1d8dyJO70qB2BCRqSonl7sslNnL+9L3uCmX8IHb8l8WW/FIY
+ 6H9uNKseYMw4p2fJcGeP3MXDsw6eClI=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-375-bq4YztcVPQGUtcAlC1xz1A-1; Thu, 09 Feb 2023 06:24:20 -0500
+X-MC-Unique: bq4YztcVPQGUtcAlC1xz1A-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ 98-20020a0c806b000000b0056c2797aa8bso882169qva.2
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 03:24:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Sb01PK28yrxED/OT9BB/QXvhwzXKmz+6cTYlY1LGV5U=;
- b=j6VlqRHVhfoABC5PhDitSVDMCZ7wILwlEYUmOrfxCsWj5DFoNrd11ZP6yoZnSXe+A9
- vfR4GauccYTlonOqjg8xko2Y0qNHnVAGXAV7qmA6QoWJRlFegzumGJjin0GzEeD0HG3s
- i4WcY3khVy0PrpSCa8jb4BPSVQpGUmctni7XNyZe06/x9ABCmgxGAOeGjGCnvo/e38Rj
- UsHGLjEu2zYKzmwK1K7F0NO3vhYnweIr4RnUrRenKBEiL8F60N22bdFfIRN5Bew4lMm7
- c+ndv0IwY4V7R1lYgtmqSeop4uEuwo6o9WmbgpwRNt9/wdDHqq3bvmHg+hqKPFxmvUQU
- 31Wg==
-X-Gm-Message-State: AO0yUKUqoAwwVhYzIGq+a7CoUrULHDZfeV5RmQeXCe2SgC74kfMbsf4X
- 1rHB0y4Fz2BeL80hvcY9CBqTRlY1alA99xomX8GGOKI15SnaYw==
-X-Google-Smtp-Source: AK7set/TemDTNPQTBz7yc9L+3X/djekF1GZdrTL/xMyAH3C8z8JGKYCvOBG7uhsogo75iAERoj5cLYDNMCH+a6PfMUY=
-X-Received: by 2002:a17:902:6b88:b0:199:1458:6c67 with SMTP id
- p8-20020a1709026b8800b0019914586c67mr2930335plk.28.1675941793064; Thu, 09 Feb
- 2023 03:23:13 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/DpsDwzBjdQHZ3OTDAK3xLtrHgr2l1HQtQkuNm6AiJQ=;
+ b=lQuw84AqZP6PliNAczkyq9DO4S8WYQIuBA+0V6QDg6ieafciqF03LNGQLE4fRYLkq3
+ L4qfilK/Uf85HlJE7tPV9m7RdmGdXVvSScE0qO/tDbAS9rqISZGk+hVn8ByfgujX9gU1
+ v874ya5yX0zc2mHLY+h8NkASN/7ntF5kK49LFyT/nEzHXEGsNR/ZnTAPaIfORKAnYgng
+ 9R+An3y6zjbikaeixmqp7/mEVco9T3XnqBoNYcGbZbtZHDzQJkI1DWpIN+DH6iKkDcYg
+ 9B5ByWeXgx4RwWWkJcHYjd2SzUftuidW8wktm0PfLu/vIuDjWbkNv+tt1K6mPj7CAOHK
+ o8Jw==
+X-Gm-Message-State: AO0yUKWRSjNjVtFBGoeAoVHcqjECA9hPA/SdgGAB7CGKMJgqRKRP+Bfw
+ x/Lc5uLQ75rrInGXaTTQ0TxzArovzRNIkufBOLxnp6HRGkuR960+BuW6XVpYwn/ckL+dTZDjolF
+ ztcKN+yhtJKZn05w=
+X-Received: by 2002:ad4:5ece:0:b0:537:67d7:3c28 with SMTP id
+ jm14-20020ad45ece000000b0053767d73c28mr19534896qvb.11.1675941859872; 
+ Thu, 09 Feb 2023 03:24:19 -0800 (PST)
+X-Google-Smtp-Source: AK7set9ZzKr8SOZ8OLEeE0Av9ciOYgNASzDLrvJrrVl72YHofdn80yCTLzMFAqMGRosfFyn8Pa22BA==
+X-Received: by 2002:ad4:5ece:0:b0:537:67d7:3c28 with SMTP id
+ jm14-20020ad45ece000000b0053767d73c28mr19534869qvb.11.1675941859567; 
+ Thu, 09 Feb 2023 03:24:19 -0800 (PST)
+Received: from [192.168.149.123]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ c20-20020ae9ed14000000b00720ae160601sm1155144qkg.22.2023.02.09.03.24.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Feb 2023 03:24:19 -0800 (PST)
+Message-ID: <5239d7f8-15ac-9922-13b6-14a8bc0dff45@redhat.com>
+Date: Thu, 9 Feb 2023 12:24:16 +0100
 MIME-Version: 1.0
-References: <20230208091422.1243084-1-kbastian@mail.uni-paderborn.de>
-In-Reply-To: <20230208091422.1243084-1-kbastian@mail.uni-paderborn.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 9 Feb 2023 11:23:01 +0000
-Message-ID: <CAFEAcA__8r6cVaaqQ++Uf9LLt9fndcQP7jewrEm8qUj+R71fFQ@mail.gmail.com>
-Subject: Re: [PULL 00/12] tricore queue
-To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: rainier-bmc machine dumping core with latest qemu
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Ninad Palsule <ninad@linux.vnet.ibm.com>
+Cc: qemu-devel@nongnu.org, qemu-block <qemu-block@nongnu.org>,
+ Kevin Wolf <kwolf@redhat.com>
+References: <0bdde867-d769-1146-76a7-b8cbe89a13fa@linux.vnet.ibm.com>
+ <0853197a-6bf9-cd11-180c-7f110e32a812@linaro.org>
+Content-Language: de-CH
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <0853197a-6bf9-cd11-180c-7f110e32a812@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.146, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,31 +105,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 8 Feb 2023 at 09:14, Bastian Koppelmann
-<kbastian@mail.uni-paderborn.de> wrote:
->
-> The following changes since commit 969d09c3a6186c0a4bc8a41db0c1aba1c76081fc:
->
->   Merge tag 'pull-aspeed-20230207' of https://github.com/legoater/qemu into staging (2023-02-07 20:13:38 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/bkoppelmann/qemu.git tags/pull-tricore-20230208
->
-> for you to fetch changes up to 6e34f54d88184b25db4fbc4dd1665d9be1a9e21c:
->
->   tests/tcg/tricore: Add test for ld.h (2023-02-08 10:02:46 +0100)
->
-> ----------------------------------------------------------------
-> tricore insn bugfixes for qemu 8.0
->
-> ----------------------------------------------------------------
+Adding Kevin too.
 
+I can't reproduce your issue. I tried the exact steps showed in your
+mail, both with BLD_VERSION=20230205025034 (not anymore latest compose)
+and BLD_VERSION=20230209025037 (currently latest), and the VM boots till
+the login screen.
 
-Applied, thanks.
+Talking with Kevin it looks like handle_aiocb_write_zeroes() should not
+use bdrv_getlength() but rather raw_co_getlength().
+Could you try replacing it in block/file-posix.c line 1741 and rebuild
+and see if it works?
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
+Thank you,
+Emanuele
 
--- PMM
+Am 08/02/2023 um 15:56 schrieb Philippe Mathieu-Daudé:
+> Cc'ing Emanuele.
+> 
+> On 8/2/23 15:26, Ninad Palsule wrote:
+>> Hello,
+>>
+>> I am hitting core dump while running qemu with rainier-bmc machine. I
+>> started
+>> hitting it after I rebased to latest qemu from master.
+>> Can someone please help?
+>>
+>> /home/abc/dev/qemu/build/qemu-system-arm -M rainier-bmc -nographic \
+>>    -kernel
+>> ./fitImage-linux.bin--${LINUX_VERSION}-r0-p10bmc-${BLD_VERSION}.bin \
+>>    -dtb
+>> ./aspeed-bmc-ibm-rainier--${LINUX_VERSION}-r0-p10bmc-${BLD_VERSION}.dtb \
+>>    -initrd
+>> ./obmc-phosphor-initramfs-p10bmc-${BLD_VERSION}.rootfs.cpio.xz \
+>>    -drive
+>> file=./obmc-phosphor-image-p10bmc-${BLD_VERSION}.rootfs.wic.qcow2,if=sd,index=2 \
+>>    -append 'rootwait console=ttyS4,115200n8 root=PARTLABEL=rofs-a'
+>>
+>>
+>>
+>> [  OK  ] Started Journal Service.
+>>           Starting Flush Journal to Persistent Storage...
+>> [   45.873184] systemd-journald[156]: Received client request to flush
+>> runtime journal.
+>> [   45.932231] systemd-journald[156]: File
+>> /var/log/journal/97cd620eaa284caf980533438c7355c4/system.journal
+>> corrupted or uncleanly shut down, renaming and replacing.
+>> qemu-system-arm: /home/abc/dev/qemu/block/block-gen.h:43:
+>> bdrv_poll_co: Assertion `qemu_get_current_aio_context() ==
+>> qemu_get_aio_context()' failed.
+>>
+>> Thread 3 "qemu-system-arm" received signal SIGABRT, Aborted.
+>> [Switching to Thread 0x7ffff6896640 (LWP 3898452)]
+>> __pthread_kill_implementation (no_tid=0, signo=6,
+>> threadid=140737329587776) at ./nptl/pthread_kill.c:44
+>> 44  ./nptl/pthread_kill.c: No such file or directory.
+>>
+>>
+>> #6  0x00007ffff77e8e96 in __GI___assert_fail
+>>      (assertion=assertion@entry=0x55555603e798
+>> "qemu_get_current_aio_context() ==
+>> qemu_get_aio_context()", file=file@entry=0x5555560aef28
+>> "/home/abc/dev/qemu/block/block-gen.h", line=line@entry=43,
+>> function=function@entry=0x5555560af080 <__PRETTY_FUNCTION__.9>
+>> "bdrv_poll_co") at ./assert/assert.c:101
+>> #7  0x0000555555da91f9 in bdrv_poll_co (s=0x7ffff68957f0) at
+>> /home/abc/dev/qemu/block/block-gen.h:43
+>> #8  bdrv_poll_co (s=0x7ffff68957f0) at
+>> /home/abc/dev/qemu/block/block-gen.h:38
+>> #9  bdrv_getlength (bs=<optimized out>) at block/block-gen.c:310
+>> #10 0x0000555555e3558e in handle_aiocb_write_zeroes
+>> (opaque=0x7fff419965f0) at ../block/file-posix.c:1741
+>> #11 0x0000555555ef80fd in worker_thread
+>> (opaque=opaque@entry=0x5555569e2300) at ../util/thread-pool.c:110
+>> #12 0x0000555555ee3901 in qemu_thread_start (args=<optimized out>) at
+>> ../util/qemu-thread-posix.c:505
+>> #13 0x00007ffff7843b43 in start_thread (arg=<optimized out>) at
+>> ./nptl/pthread_create.c:442
+>> #14 0x00007ffff78d5a00 in clone3 () at
+>> ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+>>
+>> (gdb) p qemu_aio_context
+>> $1 = (AioContext *) 0x5555568b13d0
+>>
+>> ---------------------------------------
+>>
+>>
+>> Reproduction steps:
+>>
+>> 1. Clone and build qemu from https://github.com/qemu/qemu
+>> 2. Download following eBMC images
+>>
+>> BLD_VERSION=20230205025034
+>> LINUX_VERSION="6.0.19+git0+67c9407e1f"
+>> wget
+>> https://jenkins.openbmc.org/view/latest/job/latest-master/label=docker-builder,target=p10bmc/lastStableBuild/artifact/openbmc/build/tmp/deploy/images/p10bmc/obmc-phosphor-initramfs-p10bmc-${BLD_VERSION}.rootfs.cpio.xz
+>>
+>> wget
+>> https://jenkins.openbmc.org/view/latest/job/latest-master/label=docker-builder,target=p10bmc/lastStableBuild/artifact/openbmc/build/tmp/deploy/images/p10bmc/aspeed-bmc-ibm-rainier--${LINUX_VERSION}-r0-p10bmc-${BLD_VERSION}.dtb
+>>
+>> wget
+>> https://jenkins.openbmc.org/view/latest/job/latest-master/label=docker-builder,target=p10bmc/lastStableBuild/artifact/openbmc/build/tmp/deploy/images/p10bmc/fitImage-linux.bin--${LINUX_VERSION}-r0-p10bmc-${BLD_VERSION}.bin
+>>
+>> wget
+>> https://jenkins.openbmc.org/view/latest/job/latest-master/label=docker-builder,target=p10bmc/lastStableBuild/artifact/openbmc/build/tmp/deploy/images/p10bmc/obmc-phosphor-image-p10bmc-${BLD_VERSION}.rootfs.wic.qcow2
+>> qemu-img resize
+>> obmc-phosphor-image-p10bmc-${BLD_VERSION}.rootfs.wic.qcow2 16G
+>>
+>> 3. Run the qemu command as show at the start
+>>
+>>
+>>
+> 
+
 
