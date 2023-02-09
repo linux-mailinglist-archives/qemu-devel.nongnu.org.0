@@ -2,72 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CC586914CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 00:42:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF3296914EC
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 00:51:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQGY2-0006se-Rv; Thu, 09 Feb 2023 18:41:50 -0500
+	id 1pQGgt-0000AV-7L; Thu, 09 Feb 2023 18:50:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pQGY1-0006sR-Ju; Thu, 09 Feb 2023 18:41:49 -0500
-Received: from mail-ua1-x92f.google.com ([2607:f8b0:4864:20::92f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pQGY0-00007B-1H; Thu, 09 Feb 2023 18:41:49 -0500
-Received: by mail-ua1-x92f.google.com with SMTP id r12so664226uan.12;
- Thu, 09 Feb 2023 15:41:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=wCtcVf0tIwR14HKBOOQRiVUTYh3j0a29RLHMVsEWsLs=;
- b=bwRS2mk79RcZh4NT7IcT/jYDug1Jd6IG0MnE6aIZYYvfocCeabw+Ps8oQvlrzXizyF
- cFOmJ8Q3uk8Qd6xZCzN609Iaft+H723P1nUTUAYu1tORZtszIG8iP6OES/dy8pjGuHIf
- m89iU0kHUuayuoqZAzatcGJrZmDFTSfbKuBDtqm5GiT+4yqTctNLtXL4CwTQX5Q6Qz4T
- MTQhGeTUpbK95EQV66+0S6bkwf5sIEhOLZC0E6T4Fgl9asdQyelvwPYkEgI/kZeQzI9g
- 5CS+kIT9mr30u3Co2c1/fZ9pbf6nDIATrU/1MIfGgSSR1QaLENKkUplG/kTOx9Y9EQWA
- MZTw==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pQGgi-0008WM-Qd
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 18:50:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pQGge-000237-6L
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 18:50:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675986642;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/LmzMiG9ZWfC0slZgIS8E7QOPYR2iwyK5gNfVNidwks=;
+ b=FAp35QKjQaQ1XDaapLVSoF77a8nq1PI+cBZkVwbzIkQPoJ6ZKgsdi2daVoVV/wGYWR2puO
+ GNCRRkmwxvbfhIBUSbY4oDhO9vXS1pnVJTmzvFMtHf46enXkmlTH0T+wujlc2ULVZlwuPI
+ 1pt8njIuKEk+tiKaOFFwmh7kja9yWVc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-537-ONVn5UD_N2epxySGbb6RdQ-1; Thu, 09 Feb 2023 18:50:41 -0500
+X-MC-Unique: ONVn5UD_N2epxySGbb6RdQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ h9-20020a05600c350900b003e000facbb1so3608131wmq.9
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 15:50:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wCtcVf0tIwR14HKBOOQRiVUTYh3j0a29RLHMVsEWsLs=;
- b=Ve8iMMEHVyHPkSCa7Jvv6Au5vYBglumhYc7pvylrQRdQahWkOK1FsBQwgBFrfphB8k
- SXGmEAi7cnQRnhio7H/8dPn+QWfBDvNNTM+vEHcf39Y5dywJ2XlP55iwFl2u0vjSYwCJ
- yEB6ATv7X8E1ljaE1ZvlOH0XjibhzfwMGx405ECZxk1JKhB7sd6zyvJ0IbukISVQoTa3
- E1cR6Get8G0Sadl4DnZd2Ds3yh3hkHnqwaiw7jFzpdyyuul7ivDWyA8YT6C9327su3MR
- +0UM4RxqtWWs6MdeDjS4uKMYDzQJmfb15pe7VUSWVU1lMyaqr1H1R3NPgYmiVn7QBrfa
- P5Bg==
-X-Gm-Message-State: AO0yUKU9eLSh75r8Esmz19+Q6dLV6nlg+/Lo+0NyaGe8/SLrk+k6orL1
- lIFfcYVqq7br+s1K7DzZxYe7QnNjk8tcsHg16b2B3WwxrGtrbg==
-X-Google-Smtp-Source: AK7set9Nl/f5TIqv1Mpz+T6QaQl/b+C/yOu1edUgRsIfRL70pOxNDNv0tScAgQZ/zPXMbfgSR2v05qj12uj19/oDEc0=
-X-Received: by 2002:ab0:2401:0:b0:683:8d8f:2671 with SMTP id
- f1-20020ab02401000000b006838d8f2671mr3144127uan.24.1675986106192; Thu, 09 Feb
- 2023 15:41:46 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/LmzMiG9ZWfC0slZgIS8E7QOPYR2iwyK5gNfVNidwks=;
+ b=nQesCKXSlKUI12mvm1xJ6YN8DhvsELC7w1Q1jYR2PattxZO+aaLCNqfNE4t8HWKXXO
+ XBg3hc/4Q7q6c3WC3W4ilSZi9KTgXWlE6YbC9ebb3blfNRI5omw+XmktgroGq5I3HfnY
+ qNdFZRmP6AnWbLlZMF3MK2bIMnFOXasMB90AzoKmlzX8rQplA1XuxsQVLuofcYGoc1xY
+ N0hcr4XzuO9I9saOJfzKOG0C+W8Jx+8fIsGV/DYhZOEr039ET6nuRyzawaFwn2kgGInd
+ J03fz3u69rcwy9skiL0saaGFYgWQFjIsa3JFFVBqr/MAHk4GWo+UqxLraJMzBvHWzfmM
+ gwiA==
+X-Gm-Message-State: AO0yUKUhfkRbapLPVujbsnGYLkg49xE9fINSKFBUJmM8ca84/cWqFty8
+ zCHQOymppMGH19hnD9tn0EyknltUXDzgrVKYx7r3RWmW0SRU4BpMOfk2Kl+QpEEP7SDuXy5ADmf
+ +YUAHIdDCSSxKhbc=
+X-Received: by 2002:adf:e351:0:b0:2bf:d680:e37a with SMTP id
+ n17-20020adfe351000000b002bfd680e37amr12204275wrj.67.1675986640163; 
+ Thu, 09 Feb 2023 15:50:40 -0800 (PST)
+X-Google-Smtp-Source: AK7set9CwQ6yH9O+Kran1lZfbzcn7DdfyFiuOznj0P04g2oAHBSz0ovsnxb0lhHG0JCKinbII0PKvg==
+X-Received: by 2002:adf:e351:0:b0:2bf:d680:e37a with SMTP id
+ n17-20020adfe351000000b002bfd680e37amr12204256wrj.67.1675986639837; 
+ Thu, 09 Feb 2023 15:50:39 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ o8-20020a5d58c8000000b002c3f0a4ce98sm2230523wrf.98.2023.02.09.15.50.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Feb 2023 15:50:39 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: ling xu <ling1.xu@intel.com>,  qemu-devel@nongnu.org,
+ dgilbert@redhat.com,  Zhou Zhao <zhou.zhao@intel.com>,  Jun Jin
+ <jun.i.jin@intel.com>,  Thomas Huth <thuth@redhat.com>,  Markus Armbruster
+ <armbru@redhat.com>
+Subject: Re: [PATCH v7 2/2] Update bench-code for addressing CI problem
+In-Reply-To: <9a51b2a6-2e56-d090-5083-b710048fdbbc@linaro.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 9 Feb 2023 23:46:24
+ +0100")
+References: <20221116152923.1087185-1-ling1.xu@intel.com>
+ <20221116152923.1087185-3-ling1.xu@intel.com>
+ <9a51b2a6-2e56-d090-5083-b710048fdbbc@linaro.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Fri, 10 Feb 2023 00:50:38 +0100
+Message-ID: <87sffez9dd.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20230208063209.27279-1-frank.chang@sifive.com>
-In-Reply-To: <20230208063209.27279-1-frank.chang@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 10 Feb 2023 09:41:20 +1000
-Message-ID: <CAKmqyKO6m9pvQZb-1F75fZdvJJEpB_2aJ5Hv7822AHDb63ybfg@mail.gmail.com>
-Subject: Re: [PATCH v2] target/riscv: Remove privileged spec version
- restriction for RVV
-To: frank.chang@sifive.com
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, Bin Meng <bmeng@tinylab.org>,
- LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92f;
- envelope-from=alistair23@gmail.com; helo=mail-ua1-x92f.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,82 +103,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 8, 2023 at 4:32 PM <frank.chang@sifive.com> wrote:
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
+> On 16/11/22 16:29, ling xu wrote:
+>> Unit test code is in test-xbzrle.c, and benchmark code is in xbzrle-benc=
+h.c
+>> for performance benchmarking. we have modified xbzrle-bench.c to address
+>> CI problem.
+>> Signed-off-by: ling xu <ling1.xu@intel.com>
+>> Co-authored-by: Zhou Zhao <zhou.zhao@intel.com>
+>> Co-authored-by: Jun Jin <jun.i.jin@intel.com>
+>> ---
+>>   tests/bench/meson.build    |   4 +
+>>   tests/bench/xbzrle-bench.c | 469 +++++++++++++++++++++++++++++++++++++
+>>   tests/unit/test-xbzrle.c   |  39 ++-
+>>   3 files changed, 507 insertions(+), 5 deletions(-)
+>>   create mode 100644 tests/bench/xbzrle-bench.c
 >
-> From: Frank Chang <frank.chang@sifive.com>
 >
-> The RVV specification does not require that the core needs to support
-> the privileged specification v1.12.0 to support RVV, and there is no
-> dependency from ISA level.
+>> diff --git a/tests/bench/xbzrle-bench.c b/tests/bench/xbzrle-bench.c
+>> new file mode 100644
+>> index 0000000000..8848a3a32d
+>> --- /dev/null
+>> +++ b/tests/bench/xbzrle-bench.c
+>> @@ -0,0 +1,469 @@
+>> +/*
+>> + * Xor Based Zero Run Length Encoding unit tests.
+>> + *
+>> + * Copyright 2013 Red Hat, Inc. and/or its affiliates
+>> + *
+>> + * Authors:
+>> + *  Orit Wasserman  <owasserm@redhat.com>
 >
-> This commit removes the restriction from both RVV CSRs and extension CPU
-> ISA string.
->
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
-> Reviewed-by: Bin Meng <bmeng@tinylab.org>
-> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+> Is Orit the real author? Or is it based on migration/xbzrle.c?
 
-Thanks!
+Based on as far as I can se.
 
-Applied to riscv-to-apply.next
+>> + * This work is licensed under the terms of the GNU GPL, version 2 or l=
+ater.
+>> + * See the COPYING file in the top-level directory.
+>> + *
+>> + */
+>> +#include "qemu/osdep.h"
+>> +#include "qemu/cutils.h"
+>> +#include "../migration/xbzrle.h"
+>
+> Interesting migration include path. Similarly:
 
-Alistair
+xbzrle.h is only exported for migration.  Nothing else can use them.
+So we can't put that on include/migration/*
 
-> ---
->  target/riscv/cpu.c |  2 +-
->  target/riscv/csr.c | 21 +++++++--------------
->  2 files changed, 8 insertions(+), 15 deletions(-)
+> $ git grep -F '#include "../' tests | egrep -v
+> '(../libqtest.h|tests/tcg/mips|../multiarch)'
+> tests/qtest/netdev-socket.c:12:#include "../unit/socket-helpers.h"
+> tests/unit/test-qgraph.c:20:#include "../qtest/libqos/qgraph.h"
+> tests/unit/test-qgraph.c:21:#include "../qtest/libqos/qgraph_internal.h"
 >
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 0dd2f0c753..93b52b826c 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -73,7 +73,7 @@ struct isa_ext_data {
->   */
->  static const struct isa_ext_data isa_edata_arr[] = {
->      ISA_EXT_DATA_ENTRY(h, false, PRIV_VERSION_1_12_0, ext_h),
-> -    ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_12_0, ext_v),
-> +    ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_10_0, ext_v),
->      ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
->      ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei),
->      ISA_EXT_DATA_ENTRY(zihintpause, true, PRIV_VERSION_1_10_0, ext_zihintpause),
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index fa17d7770c..1b0a0c1693 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -3980,20 +3980,13 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->      [CSR_FRM]      = { "frm",      fs,     read_frm,     write_frm    },
->      [CSR_FCSR]     = { "fcsr",     fs,     read_fcsr,    write_fcsr   },
->      /* Vector CSRs */
-> -    [CSR_VSTART]   = { "vstart",   vs,     read_vstart,  write_vstart,
-> -                       .min_priv_ver = PRIV_VERSION_1_12_0            },
-> -    [CSR_VXSAT]    = { "vxsat",    vs,     read_vxsat,   write_vxsat,
-> -                       .min_priv_ver = PRIV_VERSION_1_12_0            },
-> -    [CSR_VXRM]     = { "vxrm",     vs,     read_vxrm,    write_vxrm,
-> -                       .min_priv_ver = PRIV_VERSION_1_12_0            },
-> -    [CSR_VCSR]     = { "vcsr",     vs,     read_vcsr,    write_vcsr,
-> -                       .min_priv_ver = PRIV_VERSION_1_12_0            },
-> -    [CSR_VL]       = { "vl",       vs,     read_vl,
-> -                       .min_priv_ver = PRIV_VERSION_1_12_0            },
-> -    [CSR_VTYPE]    = { "vtype",    vs,     read_vtype,
-> -                       .min_priv_ver = PRIV_VERSION_1_12_0            },
-> -    [CSR_VLENB]    = { "vlenb",    vs,     read_vlenb,
-> -                       .min_priv_ver = PRIV_VERSION_1_12_0            },
-> +    [CSR_VSTART]   = { "vstart",   vs,     read_vstart,  write_vstart },
-> +    [CSR_VXSAT]    = { "vxsat",    vs,     read_vxsat,   write_vxsat  },
-> +    [CSR_VXRM]     = { "vxrm",     vs,     read_vxrm,    write_vxrm   },
-> +    [CSR_VCSR]     = { "vcsr",     vs,     read_vcsr,    write_vcsr   },
-> +    [CSR_VL]       = { "vl",       vs,     read_vl                    },
-> +    [CSR_VTYPE]    = { "vtype",    vs,     read_vtype                 },
-> +    [CSR_VLENB]    = { "vlenb",    vs,     read_vlenb                 },
->      /* User Timers and Counters */
->      [CSR_CYCLE]    = { "cycle",    ctr,    read_hpmcounter  },
->      [CSR_INSTRET]  = { "instret",  ctr,    read_hpmcounter  },
-> --
-> 2.36.1
+> tests/migration/aarch64/a-b-kernel.S:14:#include "../migration-test.h"
+> tests/unit/test-vmstate.c:27:#include "../migration/migration.h"
+> tests/unit/test-vmstate.c:30:#include "../migration/qemu-file.h"
+> tests/unit/test-vmstate.c:31:#include "../migration/savevm.h"
+> tests/unit/test-xbzrle.c:15:#include "../migration/xbzrle.h"
 >
+> $ ls -1 migration/*.h
+> migration/block.h
+> migration/channel-block.h
+> migration/channel.h
+> migration/dirtyrate.h
+> migration/exec.h
+> migration/fd.h
+> migration/migration.h      [*]
+> migration/multifd.h
+> migration/page_cache.h
+> migration/postcopy-ram.h
+> migration/qemu-file.h      [*]
+> migration/ram.h
+> migration/rdma.h
+> migration/savevm.h         [*]
+> migration/socket.h
+> migration/threadinfo.h
+> migration/tls.h
+> migration/trace.h
+> migration/xbzrle.h         [*]
+> migration/yank_functions.h
 >
+> $ ls -1 include/migration/*.h
+> include/migration/blocker.h
+> include/migration/colo.h
+> include/migration/cpu.h
+> include/migration/failover.h
+> include/migration/global_state.h
+> include/migration/misc.h
+> include/migration/qemu-file-types.h
+> include/migration/register.h
+> include/migration/snapshot.h
+> include/migration/vmstate.h
+>
+> Do the 4 files marked [*] belong to include/migration/?
+
+The split is:
+include/migration/* <- exported for everybody to use
+migration/*.h       <- Only for migration
+
+Now, doing tests for migration makes this difference complicated,
+because some tests really need things that are not exported.
+
+This is the way that it is normally used in the tree, no?
+
+Later, Juan.
+
 
