@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D41D7690E41
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 17:20:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23BE1690E54
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 17:27:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ9eH-0002Sy-2t; Thu, 09 Feb 2023 11:19:49 -0500
+	id 1pQ9kb-00051H-KH; Thu, 09 Feb 2023 11:26:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQ9eF-0002Sp-8s
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 11:19:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQ9kY-00050u-MA
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 11:26:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQ9eC-0002yx-VG
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 11:19:46 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQ9kX-0004Kg-9N
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 11:26:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675959584;
+ s=mimecast20190719; t=1675959976;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Uop4UFz5G91zIp8SKxOkuyFift67EtT/TzXPPlOOGCg=;
- b=Iw/Uu+ztJ0vfj1EbdGdIHG57yrDGqy6V3XVwcFue7kyfsLfztgweD/eysExVLa9YfPx4T5
- PZiSsk4HTNPrlaK/jWs1urKJVC73aGbxzN5S3h7WAwj6nTMIKXYJeqad9Z5w5d6SbdZZA/
- GniuCwJN41v89vObGx3sG4aT45iWnpo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wDbs5FzmbeeZUYVCFsYesv24TonLYQSzaKxu6fWOFsc=;
+ b=LRAhgpInUzzM9KQv2Wlzv00bSrCBDM1L0NgadSfd7WOOFgXzCXufEAjKwSjrYIfhYvZ+nd
+ JFbJooOstugS3zwdKzDWTbFdItkienb75+BS+tQdMH2so7FlBhaoKIOMwmwpQ2+7j+GGZ1
+ ACag5RuaT/DIR0ItNLiz1/IDEIh3Oos=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-473-qybDieYGOuG-7U2oHyMhDg-1; Thu, 09 Feb 2023 11:19:43 -0500
-X-MC-Unique: qybDieYGOuG-7U2oHyMhDg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-564-nZiRs3VrNOGWcc1FRljf7g-1; Thu, 09 Feb 2023 11:26:11 -0500
+X-MC-Unique: nZiRs3VrNOGWcc1FRljf7g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5B2F33804510;
- Thu,  9 Feb 2023 16:19:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 67DAB85A588;
+ Thu,  9 Feb 2023 16:26:11 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 388521415113;
- Thu,  9 Feb 2023 16:19:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 41A8E2166B29;
+ Thu,  9 Feb 2023 16:26:11 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1E66C21E6A1F; Thu,  9 Feb 2023 17:19:41 +0100 (CET)
+ id 37BDE21E6A1F; Thu,  9 Feb 2023 17:26:10 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: Het Gala <het.gala@nutanix.com>,  qemu-devel@nongnu.org,
- prerna.saxena@nutanix.com,  dgilbert@redhat.com,  pbonzini@redhat.com,
- berrange@redhat.com,  eblake@redhat.com,  manish.mishra@nutanix.com,
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>,  Het Gala <het.gala@nutanix.com>,
+ qemu-devel@nongnu.org,  prerna.saxena@nutanix.com,  quintela@redhat.com,
+ dgilbert@redhat.com,  pbonzini@redhat.com,  manish.mishra@nutanix.com,
  aravind.retnakaran@nutanix.com
-Subject: Re: [PATCH v2 1/6] migration: moved hmp_split_at_commma() helper
- func to qapi-util.c file
+Subject: Re: [PATCH v2 2/6] migration: Updated QAPI format for 'migrate'
+ qemu monitor command
 References: <20230208093600.242665-1-het.gala@nutanix.com>
- <20230208093600.242665-2-het.gala@nutanix.com>
- <87y1p73v6u.fsf@pond.sub.org> <87sfff597q.fsf@secure.mitica>
-Date: Thu, 09 Feb 2023 17:19:41 +0100
-In-Reply-To: <87sfff597q.fsf@secure.mitica> (Juan Quintela's message of "Thu, 
- 09 Feb 2023 13:12:09 +0100")
-Message-ID: <87fsbe3j6q.fsf@pond.sub.org>
+ <20230208093600.242665-3-het.gala@nutanix.com>
+ <20230208201712.b3a5xtufscrvncqt@redhat.com>
+ <Y+TJr7An261VcVJ/@redhat.com>
+Date: Thu, 09 Feb 2023 17:26:10 +0100
+In-Reply-To: <Y+TJr7An261VcVJ/@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Thu, 9 Feb 2023 10:23:43 +0000")
+Message-ID: <87bkm23ivx.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -84,79 +88,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Juan Quintela <quintela@redhat.com> writes:
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> Markus Armbruster <armbru@redhat.com> wrote:
->> Het Gala <het.gala@nutanix.com> writes:
->>
->>> renamed hmp_split_at_comma() --> str_split_at_comma()
->>> Shifted helper function to qapi-util.c file.
->>
->> Not an appropriate home.
+> On Wed, Feb 08, 2023 at 02:17:12PM -0600, Eric Blake wrote:
+
+[...]
+
+>> I'm guessing the reason you didn't go with 'socket': 'SocketAddress'
+>> is that SocketAddress is itself a discriminated union, and Markus does
+>> not yet have the QAPI generator wired up to support one union as a
+>> branch of another larger union?  It leads to extra nesting on the wire
+>> [2]
 >
-> I don't have an opinion here.
->
->> If we have to split up a string in QAPI/QMP, we screwed up.  Let me
->> explain.
->>
->> In QAPI/QMP, data is not to be encoded in strings, it is to be
->> represented directly in JSON.  Thus, ["a", "b", "c"], *not* "a,b,c".
->
-> In this case, we are already screwed up O:-)
+> I don't know the backstory on this limitation. Is it something that
+> is very difficult to resolve ? I think it is highly desirable to have
+> 'socket': 'SocketAddress' here. It would be a shame to introduce this
+> better migration API design and then have it complicated by a possibly
+> short term limitation of QAPI.
 
-A loooong time ago :)
-
-> the uri value in migration has to be split.
-> What this series does is creating a new way to express the command
-> (something on the lines that you describe), but we still have to
-> maintain the old way of doing it for some time, so we need this
-> function.
-
-And that's fine.  I just want it to stay out of qapi/, to avoid giving
-people the idea that splitting string is something QAPI wants you to do.
-
->> When you find yourself parsing QAPI/QMP string values, you're dealing
->> with a case where we violated this interface design principle.  Happens,
->> but the proper home for code helping to deal with this is *not* qapi/.
->> Simply because QAPI is not about parsing strings.
->
-> Ok, I drop my review-by.
->
-> See why I was asking for reviews from QAPI libvirt folks for this code O:-)
-
-Better late than never (I hope).
-
->>>                                              Give external linkage, as
->>> this function will be handy in coming commit for migration.
->>
->> It already has external linkage.
->>
->>> Minor correction:
->>> g_strsplit(str ?: "", ",", -1) --> g_strsplit(str ? str : "", ",", -1)
->>
->> This is not actually a correction :)
->>
->> Omitting the second operand of a conditional expression like x ?: y is
->> equivalent to x ? x : y, except it evaluates x only once.
->
-> You are (way) more C layer than me.
-
-Guilty as charged.
-
-> Once told that, I think that what he wanted to do is making this c
-> standard, no gcc standard.
->
-> Once told that, I think that every C compiler worth its salt has this
-> extension.
-
-There are hundreds of uses in the tree.
-
->> https://gcc.gnu.org/onlinedocs/gcc/Conditionals.html
->>
->> Besides, please don't mix code motion with code changes.
->
-> Agreed.
->
-> Later, Juan.
+We evolve the QAPI language to satisfy concrete use cases.  If you could
+use a language improvement, make a case for it, and we'll see what we
+can do within a time frame that works for you.  Better than ugly
+work-arounds on the silent assumption the language cannot be adapted.
 
 
