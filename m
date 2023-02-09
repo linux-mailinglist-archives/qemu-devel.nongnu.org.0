@@ -2,63 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DA76690A3D
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 14:31:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1267E690A43
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 14:33:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ71I-0007E6-Sk; Thu, 09 Feb 2023 08:31:24 -0500
+	id 1pQ72T-0008JH-SQ; Thu, 09 Feb 2023 08:32:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pQ71G-0007Cg-Sg
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 08:31:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pQ71F-0001w8-2x
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 08:31:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675949479;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=/dQMdDZ6EHDQmECi4uHJQ0hjPtB+r2nYOB5KxartlFg=;
- b=jFaHw+TnGs1Eag5k5S5KANiBZMqWjVFN06In9JuZW44dobPHBnXRLp4DkLgewqZT+0r4Wm
- BRhKn42JpUdvp1r2ikE3ptKM4AMCKhyZUgkJH/JTOHgvYLDrkJ8IixXPygnPQOEmGPS+e7
- 6pa3hECWDGxlTQow4Sbr3W+rc/K863I=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-106-mDVuZbXsOPOKkqSuvWOuvA-1; Thu, 09 Feb 2023 08:31:18 -0500
-X-MC-Unique: mDVuZbXsOPOKkqSuvWOuvA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1pQ722-0008DV-Gw
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 08:32:15 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1pQ71z-00025G-O1
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 08:32:09 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 03EEF8027EB
- for <qemu-devel@nongnu.org>; Thu,  9 Feb 2023 13:31:18 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.192.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 48050C16022;
- Thu,  9 Feb 2023 13:31:17 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: [PATCH] migration: I messed state_pending_exact/estimate
-Date: Thu,  9 Feb 2023 14:31:15 +0100
-Message-Id: <20230209133115.31681-1-quintela@redhat.com>
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B545D37513;
+ Thu,  9 Feb 2023 13:32:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1675949522; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mu/YD6hN92LKeskca1XoCsIYJ1QoLKXbfE8d4xZOc6o=;
+ b=TjuWvSczo8kJmuSpojSJfaczgJI9C0OnX5gCIVTDD7Z/ixzvQf55zYxD4Dv91MMst4fBwK
+ 8FmEOUhg5kKIriSBNyD+ebdr/1kQFcNd5pfB6v6gSg2IOQc43jLf9C0iOuqc+CAJBkdvre
+ lKzSk+PK4ARJDq4yENXjj21IXEqt0ek=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1675949522;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mu/YD6hN92LKeskca1XoCsIYJ1QoLKXbfE8d4xZOc6o=;
+ b=t4NDsTrZvBFGZWaGvAJ5wTXCaXgUGyXLQvAeZxLhIw7YqWmssC5jJCUeDT4JgGiyCY/9GF
+ VSY4dI8/E1EFIwDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6FE8B1339E;
+ Thu,  9 Feb 2023 13:32:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id k51tGdL15GNHdAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 09 Feb 2023 13:32:02 +0000
+Message-ID: <734376eb-0098-8885-190f-f328ddedf81b@suse.de>
+Date: Thu, 9 Feb 2023 14:32:01 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v3 00/14] File-based migration support and fixed-ram
+ features
+Content-Language: en-US
+To: Nikolay Borisov <nborisov@suse.com>, dgilbert@redhat.com,
+ berrange@redhat.com
+Cc: qemu-devel@nongnu.org, jfehlig@suse.com, Claudio.Fontana@suse.com,
+ dfaggioli@suse.com
+References: <20221028103914.908728-1-nborisov@suse.com>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <20221028103914.908728-1-nborisov@suse.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,84 +90,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-And called then in the wrong place.
+Hello Daniel and all,
 
-Thanks to Avihai Horon <avihaih@nvidia.com> for finding it.
+resurrecting this series from end of last year,
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- migration/savevm.c | 50 +++++++++++++++++++++++-----------------------
- 1 file changed, 25 insertions(+), 25 deletions(-)
+do we think that this is the right approach and first step to be able to provide good performance for virsh save and virsh restore?
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index e9cf4999ad..ce181e21e1 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1551,31 +1551,6 @@ void qemu_savevm_state_pending_estimate(uint64_t *res_precopy_only,
-     *res_compatible = 0;
-     *res_postcopy_only = 0;
- 
--    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
--        if (!se->ops || !se->ops->state_pending_exact) {
--            continue;
--        }
--        if (se->ops->is_active) {
--            if (!se->ops->is_active(se->opaque)) {
--                continue;
--            }
--        }
--        se->ops->state_pending_exact(se->opaque,
--                                     res_precopy_only, res_compatible,
--                                     res_postcopy_only);
--    }
--}
--
--void qemu_savevm_state_pending_exact(uint64_t *res_precopy_only,
--                                     uint64_t *res_compatible,
--                                     uint64_t *res_postcopy_only)
--{
--    SaveStateEntry *se;
--
--    *res_precopy_only = 0;
--    *res_compatible = 0;
--    *res_postcopy_only = 0;
--
-     QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
-         if (!se->ops || !se->ops->state_pending_estimate) {
-             continue;
-@@ -1591,6 +1566,31 @@ void qemu_savevm_state_pending_exact(uint64_t *res_precopy_only,
-     }
- }
- 
-+void qemu_savevm_state_pending_exact(uint64_t *res_precopy_only,
-+                                     uint64_t *res_compatible,
-+                                     uint64_t *res_postcopy_only)
-+{
-+    SaveStateEntry *se;
-+
-+    *res_precopy_only = 0;
-+    *res_compatible = 0;
-+    *res_postcopy_only = 0;
-+
-+    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
-+        if (!se->ops || !se->ops->state_pending_exact) {
-+            continue;
-+        }
-+        if (se->ops->is_active) {
-+            if (!se->ops->is_active(se->opaque)) {
-+                continue;
-+            }
-+        }
-+        se->ops->state_pending_exact(se->opaque,
-+                                     res_precopy_only, res_compatible,
-+                                     res_postcopy_only);
-+    }
-+}
-+
- void qemu_savevm_state_cleanup(void)
- {
-     SaveStateEntry *se;
--- 
-2.39.1
+For reference, our previous attempt to get the performance for our use case (libvirt + qemu virsh save and restore under 5 seconds for a 30GB VM on NVMe disk) is here:
+
+https://listman.redhat.com/archives/libvir-list/2022-June/232252.html
+
+However since the option of a libvirt-only solution is not acceptable for upstream libvirt, Nikolay's attempt to create a file:/// migration target in QEMU
+seemed to be the next preparatory step.
+
+Do we still agree on this way forward, any comments? Thanks,
+
+Claudio
+
+On 10/28/22 12:39, Nikolay Borisov wrote:
+> Here's the 3rd version of file-based migration support [0]. For background
+> check the cover letter of the initial. The main changes are :
+> 
+> - Updated commit message as per Daniel Berrange's suggestino for Patches 1-2
+> 
+> - Fixed tab in various pages
+> 
+> - Added comments better explaining how json_writer_start_object in
+> qemu_savevm_state_header is matched and also squashed the analyze-migration.py
+> parts into patch 3
+> 
+> - Reworked the way pwritv/preadv are introduced. Now there are generic
+> callbacks in QIOChannel that are implemented for the QIOChannelFile.
+> 
+> - Separated the introduction of QEMUFile-related helpers from the patch
+> introducing the io interfaces.
+> 
+> - Added qtests for the file-based migration as well as for the fixed-ram
+> feature.
+> 
+> [0] https://lore.kernel.org/qemu-devel/20221004123733.2745519-1-nborisov@suse.com/
+> 
+> Nikolay Borisov (14):
+>   migration: support file: uri for source migration
+>   migration: Add support for 'file:' uri for incoming migration
+>   migration: Initial support of fixed-ram feature for
+>     analyze-migration.py
+>   io: Add generic pwritev/preadv interface
+>   io: implement io_pwritev for QIOChannelFile
+>   io: add and implement QIO_CHANNEL_FEATURE_SEEKABLE for channel file
+>   migration/qemu-file: add utility methods for working with seekable
+>     channels
+>   io: Add preadv support to QIOChannelFile
+>   migration: add qemu_get_buffer_at
+>   migration/ram: Introduce 'fixed-ram' migration stream capability
+>   migration: Refactor precopy ram loading code
+>   migration: Add support for 'fixed-ram' migration restore
+>   tests: Add migrate_incoming_qmp helper
+>   tests/qtest: migration-test: Add tests for file-based migration
+> 
+>  include/exec/ramblock.h             |   7 +
+>  include/io/channel.h                |  50 +++++
+>  include/migration/qemu-file-types.h |   2 +
+>  io/channel-file.c                   |  61 ++++++
+>  io/channel.c                        |  26 +++
+>  migration/file.c                    |  38 ++++
+>  migration/file.h                    |  10 +
+>  migration/meson.build               |   1 +
+>  migration/migration.c               |  61 +++++-
+>  migration/migration.h               |   6 +
+>  migration/qemu-file.c               |  82 +++++++
+>  migration/qemu-file.h               |   4 +
+>  migration/ram.c                     | 328 +++++++++++++++++++++-------
+>  migration/savevm.c                  |  48 ++--
+>  qapi/migration.json                 |   2 +-
+>  scripts/analyze-migration.py        |  49 ++++-
+>  tests/qtest/migration-helpers.c     |  19 ++
+>  tests/qtest/migration-helpers.h     |   4 +
+>  tests/qtest/migration-test.c        |  46 ++++
+>  19 files changed, 743 insertions(+), 101 deletions(-)
+>  create mode 100644 migration/file.c
+>  create mode 100644 migration/file.h
+> 
+> --
+> 2.34.1
+> 
+> 
 
 
