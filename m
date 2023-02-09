@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B9516900A7
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 08:03:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B61EE6900B0
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 08:07:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ0wv-0003hH-PY; Thu, 09 Feb 2023 02:02:29 -0500
+	id 1pQ10c-0005IO-1N; Thu, 09 Feb 2023 02:06:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ0wo-0003fa-4g
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:02:22 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ10Z-0005Hd-2V
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:06:15 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ0wm-0005rk-Cn
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:02:21 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- n28-20020a05600c3b9c00b003ddca7a2bcbso758109wms.3
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 23:02:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ10X-0006dy-5G
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 02:06:14 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ c4-20020a1c3504000000b003d9e2f72093so3178834wma.1
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 23:06:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=pTAaucdDP7AfstX/axwCqvdniRYz73E1iQO7ilLjLck=;
- b=y163eE01cOG0fQuyJkfSgExwPB2ukCJ+DnJkWVrMjomU6P4nO2IRN0tVXZhp0CTaEG
- +1qYp10jgOQd+Ne/J3dWYY6Cphal7JbSPT50folwhr0n70yfzbyaVvdlrQCS/Y3A8yz6
- +uYYrC8Shh4eF1yfrYVX168IuNq7tzZWuV2g2vfO+CqJUSJpn6/lxvyc6NwXVhqMuco3
- u9HpFRIksJUIpmQFj0TIz3X43WVyoxyqr8yQfQ2oJICLLGMq6X9JoqelfS1RCFSyrFDH
- 6t8+7AU5DHXlSvfmiPfzLlnN3AOXKKOOQeX6VC+BQm/jx6mBPONFwtAeDRlwibsdYCxS
- /nNA==
+ bh=iRuTkb3w4DYwZGdSllWXBXTGBdpSnpukaC5Bgij9Ov8=;
+ b=qc6TvSzz13e5xf8RDVnlvF+td7+rrdZ8knnkNrYzP9Ir879bq4LytglVEK09sf9LdR
+ wEJoHMrZVI2f+ZQWOUyAHHntqZPXILBOR2+6P4MYUYy+ZKtB0QnMbtiUVUx4qNkCgwNc
+ m1sygcsgoas3YnWPH5lFz1sCP8cEd+707qStywEqyAV85ypgIlr/MXJKrY1Ni4COZ92C
+ 1JyuISgcmJU21VE/bDV23YWiw/eUWhc5qHai3/W58kCOGWVIKs/lC7G4+5R3PXH5Thle
+ lMtX762PzkJ5XfT8PkBLGK+9VErCZnynjSDx0ux37vaHpopdVKndSEkNdmBgEdqnfAmb
+ TLnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pTAaucdDP7AfstX/axwCqvdniRYz73E1iQO7ilLjLck=;
- b=ERxwzpdSCxltENdVGWN1RjPlEJ93E5hWlUaNGo8NAftscCUfmdAhbi3ODhF/xkHHyJ
- VcUWNzfqMQ1iVzwAQS9inLcUkX0UU4Pir6jeVpnW7NGy0/lQBOpmFA5mZ6ftz1euMNbK
- I9XySJSDz5qDBrvTWxhWrrS//+feexU5iYjxGXw/k6lssX3ytP+s09xZFQHTa20ZesTZ
- AB0kjYfLNTZ8c0T588a60G3WQarNc5B2uckkjd4ByYEGUElO91M2rU/aMQagIqYPoWRB
- aFtQzpwHvuPypj7SIMuSodtzcMlpdpoI2baR7EJsHuljaLx18R7ezmNUBbLUHZkuNCH3
- xJpA==
-X-Gm-Message-State: AO0yUKWhD8ouMpOY1Y4xC8/2OL+IJ11zF0AyjzGi2a4lGl0CzVwZq5sk
- /HfL92G05WVSBVY8NkRkWaExjQ==
-X-Google-Smtp-Source: AK7set8Ve9C9snI0KUC2BKmgUVJpYqQW/eUeCk5kJp7ORlNc+foeSNJywaO6E5YiipQ8SGVRqCWWjA==
-X-Received: by 2002:a05:600c:18a6:b0:3e0:e77:3056 with SMTP id
- x38-20020a05600c18a600b003e00e773056mr8815682wmp.30.1675926138566; 
- Wed, 08 Feb 2023 23:02:18 -0800 (PST)
+ bh=iRuTkb3w4DYwZGdSllWXBXTGBdpSnpukaC5Bgij9Ov8=;
+ b=iBB2s2+RD2EJAlCetRxT1sNDNO8tLmwC3C0aAoZQjgkU0OkLlCfS+96tT1fzRhvDUi
+ 1anC0ThNphcPqAE02wCsbxbqzDF1coEVIZJBen6i/gvOaoq6swM3H8nWz5/MiK8rXDqk
+ dzysh1O6r0SyRkJUuCBRVsAVadIkAvHETiYy4lhsxBhNoLSAwYs8aOXLMLrB/iFkd63m
+ fKQ+NVBrcmmo37Q0pov0brf2wh2fsaRipGXWCmnjqVFVgShg8whUEp7Od9bI4eEYIrbr
+ tu6bgR/EMfpxJZ+Qqqae/ls0bjI1n4lpD4OwhjoWKyY0lcjEXt0AGbUlfqHvDnsf4v2L
+ Ks+Q==
+X-Gm-Message-State: AO0yUKWgPaFFvbJ4LN+wvE4/0A5LU+8Ye1g6CeLVKGOSnnnQzlwOMHrb
+ /VXV0Tzoa3r3pVHFbSdYBq800Q==
+X-Google-Smtp-Source: AK7set9/BYBU6AOBnQKu0jvWU7ZU5Tb0dACjKFSmMQhox7dZq/uO5oeS0U+ijoMyTM5TsIOF7YcTQw==
+X-Received: by 2002:a05:600c:993:b0:3dc:4fd7:31e9 with SMTP id
+ w19-20020a05600c099300b003dc4fd731e9mr9975045wmp.7.1675926371595; 
+ Wed, 08 Feb 2023 23:06:11 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h2-20020a05600c350200b003dc434b39c7sm8225204wmq.0.2023.02.08.23.02.17
+ ja13-20020a05600c556d00b003dc4b4dea31sm875798wmb.27.2023.02.08.23.06.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Feb 2023 23:02:17 -0800 (PST)
-Message-ID: <0f9d4ec3-5ee9-9643-a95f-e3a429f6150c@linaro.org>
-Date: Thu, 9 Feb 2023 08:02:16 +0100
+ Wed, 08 Feb 2023 23:06:11 -0800 (PST)
+Message-ID: <6744fece-c121-c6da-c811-de88d65e0b89@linaro.org>
+Date: Thu, 9 Feb 2023 08:06:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH v2 0/3] Vhost-user: replace _SLAVE_ with _BACKEND_
+Subject: Re: [PATCH] MAINTAINERS: Add some RISC-V reviewers
 Content-Language: en-US
-To: Maxime Coquelin <maxime.coquelin@redhat.com>, qemu-devel@nongnu.org,
- mst@redhat.com, pbonzini@redhat.com, stephen@networkplumber.org,
- chenbo.xia@intel.com, thomas@monjalon.net, dmarchan@redhat.com
-References: <20230208203259.381326-1-maxime.coquelin@redhat.com>
+To: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: bmeng.cn@gmail.com, alistair23@gmail.com, dbarboza@ventanamicro.com,
+ alistair.francis@wdc.com, palmer@dabbelt.com, zhiwei_liu@linux.alibaba.com,
+ liweiwei@iscas.ac.cn
+References: <20230209003308.738237-1-alistair.francis@opensource.wdc.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230208203259.381326-1-maxime.coquelin@redhat.com>
+In-Reply-To: <20230209003308.738237-1-alistair.francis@opensource.wdc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -91,19 +93,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/2/23 21:32, Maxime Coquelin wrote:
-
-> Maxime Coquelin (3):
->    docs: vhost-user: replace _SLAVE_ with _BACKEND_
->    libvhost-user: Adopt new backend naming
->    vhost-user: Adopt new backend naming
+On 9/2/23 01:33, Alistair Francis wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
 > 
->   docs/interop/vhost-user.rst               | 40 +++++++++++------------
->   hw/virtio/vhost-user.c                    | 30 ++++++++---------
->   hw/virtio/virtio-qmp.c                    | 12 +++----
->   subprojects/libvhost-user/libvhost-user.c | 20 ++++++------
->   subprojects/libvhost-user/libvhost-user.h | 20 ++++++------
->   5 files changed, 61 insertions(+), 61 deletions(-)
+> This patch adds some active RISC-V members as reviewers to the
+> MAINTAINERS file.
+> 
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>   MAINTAINERS | 3 +++
+>   1 file changed, 3 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
