@@ -2,90 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7F6691193
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 20:50:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F7D66911F0
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 21:10:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQCuC-0005vx-Jw; Thu, 09 Feb 2023 14:48:29 -0500
+	id 1pQDDp-0001bZ-Uq; Thu, 09 Feb 2023 15:08:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pQCu5-0005vP-SB
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 14:48:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pQDDk-0001Zq-Qe
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 15:08:40 -0500
+Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pQCu4-0004kv-A4
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 14:48:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675972098;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=49k5dHSfFHAuH+GfZp3woB7SltOb5x6HuuT9s9fP7AQ=;
- b=KJNwx0q/LPLDuy5KzfBWGVJPEbZ7tAC5/A8zOcxNtZV8CedOF30cWZE+FS97I8K5WkBaAw
- EO2SziBT2TYlY/DCC2UkMvTWsq0x1aqq2sJGDvWHb2mOZbfFOzvkIcMnMm/4a3M9x7aPYN
- Ln3oA1u9aShhY1G+5+t+/DMp+zJgN7c=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-202-eXJBOxGzMUqvyivRolQ09w-1; Thu, 09 Feb 2023 14:48:16 -0500
-X-MC-Unique: eXJBOxGzMUqvyivRolQ09w-1
-Received: by mail-qk1-f198.google.com with SMTP id
- a198-20020ae9e8cf000000b007259083a3c8so1931521qkg.7
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 11:48:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=49k5dHSfFHAuH+GfZp3woB7SltOb5x6HuuT9s9fP7AQ=;
- b=pDAoLSzo+EJYWiYb/Fd+PgcWbJP5KiBhOl7Edf8Q/uSIDNU2efuEIKfx5eY+LfBOwi
- ODT+uyF9TlS8prGQGt0YqtoDB5dsEsLl4bSqDHkDaXYotIdICqglLwY8gN8OYuUF2puq
- h8VnLWzxiybd6g304oIMZAdeKl1V3QVM6AAcQnDpklnbp2w7nLjw8qg9QwoSTDevgSUH
- BBgz393I+WYtdiYxrWxVLoftRmXlU5AjI/LLTGO9Dtgj4H4Xtm1b6ZCQTnKUT9gRyIui
- l/GHr4SwC1g5gKGERaGCpCgbio3oSwXSMEm/+Zsnch928pypfyaJ/OqhyVkm0fPMIzKE
- GRAw==
-X-Gm-Message-State: AO0yUKXjLS+Gcxw2wO2pQ/u1WOWHOtBr0HhPyK0Om3/MUZYIKepidury
- PYU19y8yApIvXIRym+QDn1VT2pNtjPliXVZ/Czt87mXGKqtKXcUI0ZyuCvb0JWIufdsuQ84hVA7
- uqArQ8BihNn4L+Yo=
-X-Received: by 2002:ac8:4e8d:0:b0:3ba:1ace:8bae with SMTP id
- 13-20020ac84e8d000000b003ba1ace8baemr22355151qtp.0.1675972096497; 
- Thu, 09 Feb 2023 11:48:16 -0800 (PST)
-X-Google-Smtp-Source: AK7set+9MK3rviNvRzC7JCVVyRwITyo8s9SkB3XQTiJ8OgHdOFC0ba2ns2EdOKGBXPHp8u9feT3+yw==
-X-Received: by 2002:ac8:4e8d:0:b0:3ba:1ace:8bae with SMTP id
- 13-20020ac84e8d000000b003ba1ace8baemr22355117qtp.0.1675972096257; 
- Thu, 09 Feb 2023 11:48:16 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- e6-20020ac81306000000b003b8484fdfccsm1879077qtj.42.2023.02.09.11.48.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Feb 2023 11:48:15 -0800 (PST)
-Date: Thu, 9 Feb 2023 14:48:14 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Gavin Shan <gshan@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, pbonzini@redhat.com,
- peter.maydell@linaro.org, david@redhat.com, philmd@linaro.org,
- mst@redhat.com, cohuck@redhat.com, quintela@redhat.com,
- dgilbert@redhat.com, maz@kernel.org, zhenyzha@redhat.com,
- shan.gavin@gmail.com
-Subject: Re: [PATCH RFCv1 2/8] memory: Add last stage indicator to global
- dirty log synchronization
-Message-ID: <Y+VN/vWvdO2IxL3C@x1n>
-References: <20230206112010.99871-1-gshan@redhat.com>
- <20230206112010.99871-3-gshan@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pQDDd-0002fo-LG
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 15:08:36 -0500
+Received: from myt5-8800bd68420f.qloud-c.yandex.net
+ (myt5-8800bd68420f.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:4615:0:640:8800:bd68])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id C553B60356;
+ Thu,  9 Feb 2023 23:08:22 +0300 (MSK)
+Received: from vsementsov-win.yandex-team.ru (unknown
+ [2a02:6b8:b081:6518::1:1])
+ by myt5-8800bd68420f.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ A8lCI60OTGk1-ni2o8D07; Thu, 09 Feb 2023 23:08:22 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1675973302; bh=cYEK15D8jL3X8QMlruWQ9AyLi/0Fnlu2ZqSHBM4EoJA=;
+ h=Message-Id:Date:Cc:Subject:To:From;
+ b=Db8VjstLA/QPhDmJZmzIIq4oS/v7M/dF3mlnziod2DM+Femxu3P5T6i5XETqqHy5O
+ Y5H9nP9coV8oAPpiQbIiXgsEHYUOmWZIPRbywCaha9EWCya4X2miih8MOXsSV4MCxk
+ xlzn6nqXMcWNrvo1jliiHUaVZ3MdEqW5vo9iN5kk=
+Authentication-Results: myt5-8800bd68420f.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Cc: armbru@redhat.com, eblake@redhat.com, eduardo@habkost.net,
+ berrange@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
+ mst@redhat.com, vsementsov@yandex-team.ru, den-plotnikov@yandex-team.ru
+Subject: [PATCH v3 00/15] pci hotplug tracking
+Date: Thu,  9 Feb 2023 23:07:53 +0300
+Message-Id: <20230209200808.869275-1-vsementsov@yandex-team.ru>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230206112010.99871-3-gshan@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=178.154.239.200;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,32 +72,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 06, 2023 at 07:20:04PM +0800, Gavin Shan wrote:
-> The global dirty log synchronization is used when KVM and dirty ring
-> are enabled. There is a particularity for ARM64 where the backup
-> bitmap is used to track dirty pages in non-running-vcpu situations.
-> It means the dirty ring works with the combination of ring buffer
-> and backup bitmap. The dirty bits in the backup bitmap needs to
-> collected in the last stage of live migration.
-> 
-> In order to identify the last stage of live migration and pass it
-> down, an extra parameter is added to the relevant functions and
-> callback. This last stage information isn't used yet.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Gavin Shan <gshan@redhat.com>
-> ---
->  accel/kvm/kvm-all.c   |  2 +-
->  include/exec/memory.h |  5 +++--
->  migration/dirtyrate.c |  4 ++--
->  migration/ram.c       |  6 +++---
+Hi all!
 
-Better move the migration/ changes into the next patch.
+That's called v3, as it includes "[PATCH v2 0/3] pcie: cleanup code":
+Supersedes: <20230207121116.325456-1-vsementsov@yandex-team.ru>
+Supersedes: <20230204174758.234951-1-vsementsov@yandex-team.ru>
+Supersedes: <20230207120922.325203-1-vsementsov@yandex-team.ru>
 
-Thanks,
+Ok, what's this about?
+
+The main patches are the last three ones:
+
+- introduce HOTPLUG_STATE event, that inform when hotplug controller
+change it's state, especially indicator leds
+
+- query-hotplug command, that provides same information as event on
+demand
+
+- DEVICE_ON event - a kind of counterpart for DEVICE_DELETED, signals
+when device is finally accepted by guest, power indicator is on and so
+on.
+
+That's all for smarter handling of SHPC and PCIe-native hotplug.
+
+Vladimir Sementsov-Ogievskiy (15):
+  pci/shpc: set attention led to OFF on reset
+  pci/shpc: change shpc_get_status() return type to uint8_t
+  pci/shpc: shpc_slot_command(): handle PWRONLY -> ENABLED transition
+  pci/shpc: more generic handle hot-unplug in shpc_slot_command()
+  pci/shpc: pass PCIDevice pointer to shpc_slot_command()
+  pcie: pcie_cap_slot_write_config(): use correct macro
+  pcie_regs: drop duplicated indicator value macros
+  pcie: drop unused PCIExpressIndicator
+  pcie: pcie_cap_slot_enable_power() use correct helper
+  pcie: introduce pcie_sltctl_powered_off() helper
+  pcie: set power indicator to off on reset by default
+  pci: introduce pci_find_the_only_child()
+  qapi: add HOTPLUG_STATE event
+  qapi: introduce DEVICE_ON event
+  qapi: introduce query-hotplug command
+
+ qapi/qdev.json                  |  97 ++++++++++++++++
+ include/hw/hotplug.h            |  12 ++
+ include/hw/pci/pci.h            |  16 +++
+ include/hw/pci/pci_bridge.h     |   2 +
+ include/hw/pci/pcie.h           |  10 +-
+ include/hw/pci/pcie_regs.h      |  14 ---
+ include/hw/pci/shpc.h           |   2 +
+ hw/core/hotplug.c               |  13 +++
+ hw/pci-bridge/pci_bridge_dev.c  |  14 +++
+ hw/pci-bridge/pcie_pci_bridge.c |   1 +
+ hw/pci/pci.c                    |  66 +++++++++++
+ hw/pci/pcie.c                   | 119 +++++++++++++++++--
+ hw/pci/pcie_port.c              |   1 +
+ hw/pci/shpc.c                   | 196 ++++++++++++++++++++++++--------
+ softmmu/qdev-monitor.c          |  30 +++++
+ 15 files changed, 509 insertions(+), 84 deletions(-)
 
 -- 
-Peter Xu
+2.34.1
 
 
