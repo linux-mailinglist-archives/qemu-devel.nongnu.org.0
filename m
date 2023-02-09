@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 975B76908AC
+	by mail.lfdr.de (Postfix) with ESMTPS id 87FCD6908AB
 	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 13:27:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ60L-0005t8-Iu; Thu, 09 Feb 2023 07:26:21 -0500
+	id 1pQ60N-0005tS-2E; Thu, 09 Feb 2023 07:26:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pQ60H-0005sI-Jj
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 07:26:17 -0500
+ id 1pQ60I-0005sR-0U
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 07:26:19 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pQ60F-00052K-U5
+ id 1pQ60G-00052O-Jf
  for qemu-devel@nongnu.org; Thu, 09 Feb 2023 07:26:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675945574;
+ s=mimecast20190719; t=1675945576;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V8w5Ka0ybNaD15mAS2C68Hr2HUUwCdDnDVr6HYyi6ik=;
- b=UUiyBEWk83foNm3RRdeO996x2Q5Efp4IWRoNxEnogSZN/njXtEByZWk2rVffWXQY4wrmou
- xW5rEWqJQQ/9YGa+CdLS8Mg4xBYir8FYYkg93rO6PAPqSkF2ZMf0+7xmd+PTnGgE+t+f5W
- nkDD8oeG0KTcwdpv4VYfGDSapn/NuGY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KRtMech7tMvOsZcwcrIdFM+19xc5plbprMzNdQCJqlc=;
+ b=YWbcCqA+dvTBq4ZtvYgsEhlIa4Pkfy3HLRAG/MErYdGBjxyMa93DgSQpE3sms3uk0WhWfl
+ Y553DdpgAliQejDtDFkzbOwjorj3dc4L05kqHtamjUM4tiCHgwwgZuDe2BkWcznzlCiaOy
+ kb1TVQA87d8hlT8WPJ6l6cSNy91LgxM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-471-3ul6gQIpOIOepflmirNMoQ-1; Thu, 09 Feb 2023 07:26:13 -0500
-X-MC-Unique: 3ul6gQIpOIOepflmirNMoQ-1
+ us-mta-385-uf02dnQ7MEGVXew0reL2oQ-1; Thu, 09 Feb 2023 07:26:14 -0500
+X-MC-Unique: uf02dnQ7MEGVXew0reL2oQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4374E811E6E
- for <qemu-devel@nongnu.org>; Thu,  9 Feb 2023 12:26:13 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4961B380606E;
+ Thu,  9 Feb 2023 12:26:14 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A53D32166B29;
- Thu,  9 Feb 2023 12:26:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8822A2166B29;
+ Thu,  9 Feb 2023 12:26:13 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: [PATCH v4 1/2] migration: Split ram_bytes_total_common() in two
- functions
-Date: Thu,  9 Feb 2023 13:26:09 +0100
-Message-Id: <20230209122610.30712-2-quintela@redhat.com>
+ Juan Quintela <quintela@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v4 2/2] migration: Calculate ram size once
+Date: Thu,  9 Feb 2023 13:26:10 +0100
+Message-Id: <20230209122610.30712-3-quintela@redhat.com>
 In-Reply-To: <20230209122610.30712-1-quintela@redhat.com>
 References: <20230209122610.30712-1-quintela@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
@@ -79,73 +80,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It is just a big if in the middle of the function, and we need two
-functions anways.
+We are recalculating ram size continously, when we know that it don't
+change during migration.  Create a field in RAMState to track it.
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
-
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
-
-Reindent to make Phillipe happy (and CODING_STYLE)
----
- migration/ram.c | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
+ migration/ram.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index b966e148c2..70d907b524 100644
+index 70d907b524..0d92ea6699 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -2596,28 +2596,30 @@ void acct_update_position(QEMUFile *f, size_t size, bool zero)
+@@ -330,6 +330,8 @@ struct RAMState {
+     PageSearchStatus pss[RAM_CHANNEL_MAX];
+     /* UFFD file descriptor, used in 'write-tracking' migration */
+     int uffdio_fd;
++    /* total ram size in bytes */
++    uint64_t ram_bytes_total;
+     /* Last block that we have visited searching for dirty pages */
+     RAMBlock *last_seen_block;
+     /* Last dirty target page we have sent */
+@@ -2545,7 +2547,7 @@ static int ram_find_and_save_block(RAMState *rs)
+     bool again, found;
+ 
+     /* No dirty page as there is zero RAM */
+-    if (!ram_bytes_total()) {
++    if (!rs->ram_bytes_total) {
+         return pages;
      }
- }
  
--static uint64_t ram_bytes_total_common(bool count_ignored)
-+static uint64_t ram_bytes_total_with_ignored(void)
- {
-     RAMBlock *block;
-     uint64_t total = 0;
+@@ -3004,13 +3006,14 @@ static int ram_state_init(RAMState **rsp)
+     qemu_mutex_init(&(*rsp)->bitmap_mutex);
+     qemu_mutex_init(&(*rsp)->src_page_req_mutex);
+     QSIMPLEQ_INIT(&(*rsp)->src_page_requests);
++    (*rsp)->ram_bytes_total = ram_bytes_total();
  
-     RCU_READ_LOCK_GUARD();
+     /*
+      * Count the total number of pages used by ram blocks not including any
+      * gaps due to alignment or unplugs.
+      * This must match with the initial values of dirty bitmap.
+      */
+-    (*rsp)->migration_dirty_pages = ram_bytes_total() >> TARGET_PAGE_BITS;
++    (*rsp)->migration_dirty_pages = (*rsp)->ram_bytes_total >> TARGET_PAGE_BITS;
+     ram_state_reset(*rsp);
  
--    if (count_ignored) {
--        RAMBLOCK_FOREACH_MIGRATABLE(block) {
--            total += block->used_length;
--        }
--    } else {
--        RAMBLOCK_FOREACH_NOT_IGNORED(block) {
--            total += block->used_length;
--        }
-+    RAMBLOCK_FOREACH_MIGRATABLE(block) {
-+        total += block->used_length;
-     }
-     return total;
- }
- 
- uint64_t ram_bytes_total(void)
- {
--    return ram_bytes_total_common(false);
-+    RAMBlock *block;
-+    uint64_t total = 0;
-+
-+    RCU_READ_LOCK_GUARD();
-+
-+    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-+        total += block->used_length;
-+    }
-+    return total;
- }
- 
- static void xbzrle_load_setup(void)
-@@ -3222,7 +3224,8 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
-     (*rsp)->pss[RAM_CHANNEL_PRECOPY].pss_channel = f;
- 
-     WITH_RCU_READ_LOCK_GUARD() {
--        qemu_put_be64(f, ram_bytes_total_common(true) | RAM_SAVE_FLAG_MEM_SIZE);
-+        qemu_put_be64(f, ram_bytes_total_with_ignored()
-+                         | RAM_SAVE_FLAG_MEM_SIZE);
- 
-         RAMBLOCK_FOREACH_MIGRATABLE(block) {
-             qemu_put_byte(f, strlen(block->idstr));
+     return 0;
 -- 
 2.39.1
 
