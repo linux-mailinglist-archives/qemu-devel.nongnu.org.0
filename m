@@ -2,107 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43A1690E83
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 17:41:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E5D3690E88
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 17:41:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ9yg-0003dT-Dt; Thu, 09 Feb 2023 11:40:54 -0500
+	id 1pQ9z4-0004Ga-12; Thu, 09 Feb 2023 11:41:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pQ9yV-0003X5-2w; Thu, 09 Feb 2023 11:40:44 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQ9yz-0004Ek-QO
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 11:41:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pQ9yJ-0007eQ-67; Thu, 09 Feb 2023 11:40:32 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 319GVfBl030180; Thu, 9 Feb 2023 16:39:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=dbsEsCmzF9fS6ROFbhEfgY/NWOMxGQVEOSsTBmsFrnY=;
- b=hBBSgrBAdga87uuKdI5qfuRPRIcRubLNgnGqCrCBr9DjtfNE+LBHWl1HMM+bOlK1bLUW
- ArIfcGp5NfjGAoDcQpKQIE/b6qTxI1syOuDLHu2YWgHcEeuKjJGr1wvsrbKsfPReTcPZ
- +wk/9AucYZmFdw8HL5iEBM7P0RDemma0f50WreaFcllOyihoqOHzg7EP6L2aeV/BypsX
- VtZuzniVIM/PmkJBy+Vap6aVeEh6dWTKow25iWLjd+5c25+3rgN5L0Y+5mJL0Vucu2qO
- x1OFlqNXs96LNM7bQBXzXzUm3PqgQbx/gFWK9+AA0sAhxb+bssB0zc8LjtY0HPzZK8Qt OA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nn4e2897r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Feb 2023 16:39:24 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 319GWl2S000541;
- Thu, 9 Feb 2023 16:39:24 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nn4e2896f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Feb 2023 16:39:24 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 319CKrOo020939;
- Thu, 9 Feb 2023 16:39:22 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
- by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3nhemfpfmx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Feb 2023 16:39:22 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
- [10.20.54.102])
- by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 319GdII233948108
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 9 Feb 2023 16:39:18 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6AED62004B;
- Thu,  9 Feb 2023 16:39:18 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0E2AB20043;
- Thu,  9 Feb 2023 16:39:18 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.156.204])
- by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu,  9 Feb 2023 16:39:17 +0000 (GMT)
-Message-ID: <224677259469c69c61e120a24b7fd0754fd52956.camel@linux.ibm.com>
-Subject: Re: [PATCH v15 03/11] target/s390x/cpu topology: handle STSI(15)
- and build the SYSIB
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Date: Thu, 09 Feb 2023 17:39:17 +0100
-In-Reply-To: <20230201132051.126868-4-pmorel@linux.ibm.com>
-References: <20230201132051.126868-1-pmorel@linux.ibm.com>
- <20230201132051.126868-4-pmorel@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQ9yy-0008Hj-3q
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 11:41:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675960871;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oTfDSVOmeXkkYcX6uSgbXcKk5+sdOrjlBYguoQQ+I5A=;
+ b=dL1b4ab8D1rbqh75rFlAt5Z48Kka7hg/vWKMWFG5+rooLYhZdVMayl4TVaZejJdzJ/5FEZ
+ lxg1SyiJiUwa0gwVbwY6yKcM/wQ0wH3VBMpV+S/F6WMaKr+ipORZbKoy+GNDLPDtMR9AvY
+ WjmDs/RM6xa5t7I8KsAPutxulY/BgfE=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-55-mOd7-czjOqaiJnx1bLosbA-1; Thu, 09 Feb 2023 11:41:10 -0500
+X-MC-Unique: mOd7-czjOqaiJnx1bLosbA-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ s24-20020a17090aa11800b00230ffd3f340so1201684pjp.9
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 08:41:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oTfDSVOmeXkkYcX6uSgbXcKk5+sdOrjlBYguoQQ+I5A=;
+ b=CTjiF0D/G0dJF1e8PYfO4f+h/a+tvXkpgnjGHLNPPN3ilU3pmyt/TQDHe8GGWYAt0U
+ PZJ5EL3UdLFv8CSJ0Q9jhv3/gWX+SMF2gJVSP0uyVRrGaquVXG3I0p66Yi8KYBBPoGtM
+ Yr0TJdsvW7Pdsc81gE5WRbUTI7tBYdJkiMtUH3bz5MOscR3Pst9OfOd/5hh+cEltreMA
+ wewLnTty9TGlgdjqfiyi40bmUjnR9SSzZLUVY8wuQEFekaWA1g9hlezWTjoqHpXUx+mB
+ oEq9L5PPfj6sYLeteAARmn/AeJsS3o2iL5gSipBPD/iXbIGRF0yG1d8yZOEei1tPaeO2
+ nfXA==
+X-Gm-Message-State: AO0yUKXWBYUCLKdo7Fdn7n67KisuM+FCwuwWWsJKkMY77S/1h0LZYzXy
+ nTIHX7jHdKDLdQLDp7RBRjC41vgAOQsufl8Zu13BRRsK6DE2VVsiodtPapLbaycb9Tj4iooc8An
+ eXy66NjHNWTmKgSAtCVKPW96iWX3dx84=
+X-Received: by 2002:a17:902:9890:b0:199:3483:e920 with SMTP id
+ s16-20020a170902989000b001993483e920mr2656450plp.33.1675960868980; 
+ Thu, 09 Feb 2023 08:41:08 -0800 (PST)
+X-Google-Smtp-Source: AK7set/kKWHrzG5NtmGWFhYPL9uk2VAz8bZ+BpzPsI5FnFVosKoNSFDNQf8NoplynW0WFnJI6scLrXmfoMPYniP23N0=
+X-Received: by 2002:a17:902:9890:b0:199:3483:e920 with SMTP id
+ s16-20020a170902989000b001993483e920mr2656444plp.33.1675960868575; Thu, 09
+ Feb 2023 08:41:08 -0800 (PST)
+MIME-Version: 1.0
+References: <20230209154034.983044-1-jsnow@redhat.com>
+ <20230209154034.983044-8-jsnow@redhat.com>
+ <Y+Ue2/Xn+ZbOc+B+@redhat.com>
+In-Reply-To: <Y+Ue2/Xn+ZbOc+B+@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 9 Feb 2023 11:40:57 -0500
+Message-ID: <CAFn=p-aEOO4QDfPuYB2LpnwkP-bWyFdOKrQEmcH0iD-f3dJ-mg@mail.gmail.com>
+Subject: Re: [PATCH 7/7] Python: Drop support for Python 3.6
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: iO60dT4BFXYxll-OMTI1Bo3C8VGapX5S
-X-Proofpoint-ORIG-GUID: DWeoHxMrdO3uJ8VEOkETEvXP-XOVtlFH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-09_12,2023-02-09_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 spamscore=0 priorityscore=1501 clxscore=1015
- adultscore=0 bulkscore=0 mlxscore=0 malwarescore=0 suspectscore=0
- phishscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2302090157
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=nsg@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,62 +101,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 2023-02-01 at 14:20 +0100, Pierre Morel wrote:
-> On interception of STSI(15.1.x) the System Information Block
-> (SYSIB) is built from the list of pre-ordered topology entries.
->=20
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->  include/hw/s390x/cpu-topology.h |  22 +++
->  include/hw/s390x/sclp.h         |   1 +
->  target/s390x/cpu.h              |  72 +++++++
->  hw/s390x/cpu-topology.c         |  10 +
->  target/s390x/kvm/cpu_topology.c | 335 ++++++++++++++++++++++++++++++++
->  target/s390x/kvm/kvm.c          |   5 +-
->  target/s390x/kvm/meson.build    |   3 +-
->  7 files changed, 446 insertions(+), 2 deletions(-)
->  create mode 100644 target/s390x/kvm/cpu_topology.c
->=20
-[...]
-> +
-> +/**
-> + * s390_topology_from_cpu:
-> + * @cpu: The S390CPU
-> + *
-> + * Initialize the topology id from the CPU environment.
-> + */
-> +static s390_topology_id s390_topology_from_cpu(S390CPU *cpu)
-> +{
-> +    s390_topology_id topology_id =3D {0};
-> +
-> +    topology_id.drawer =3D cpu->env.drawer_id;
-> +    topology_id.book =3D cpu->env.book_id;
-> +    topology_id.socket =3D cpu->env.socket_id;
-> +    topology_id.origin =3D cpu->env.core_id / 64;
-> +    topology_id.type =3D S390_TOPOLOGY_CPU_IFL;
-> +    topology_id.dedicated =3D cpu->env.dedicated;
-> +
-> +    if (s390_topology.polarity =3D=3D POLARITY_VERTICAL) {
-> +        /*
-> +         * Vertical polarity with dedicated CPU implies
-> +         * vertical high entitlement.
-> +         */
-> +        if (topology_id.dedicated) {
-> +            topology_id.polarity |=3D POLARITY_VERTICAL_HIGH;
-> +        } else {
-> +            topology_id.polarity |=3D cpu->env.entitlement;
-> +        }
+On Thu, Feb 9, 2023 at 11:27 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Thu, Feb 09, 2023 at 10:40:34AM -0500, John Snow wrote:
+> > Python 3.6 was EOL 2021-12-31. Newer versions of upstream libraries hav=
+e
+> > begun dropping support for this version and it is becoming more
+> > cumbersome to support. Avocado-framework and qemu.qmp each have their
+> > own reasons for wanting to drop Python 3.6.
+> >
+> > Since it is safe to under our supported platform policy, do so.
+>
+> Upstream EOL dates are essentially irrelevant from our platform
+> support policy for deciding min versions
+>
 
-Why |=3D instead of an assignment?
-Anyway, I think you can get rid of this in the next version.
-If you define the entitlement via qapi you can just put a little switch
-here and convert it to the hardware definition of polarization.
-(Or you just do +1, but I think the switch is easier to understand)
+It's relevant because as other Python packages drop support, the
+burden of support is pushed onto Cleber and I, as explained in the
+cover letter. It is not a justification in and of itself, but it
+summarizes the ecosystem conditions that prompt the desire for the
+change.
 
-> +    }
-> +
-> +    return topology_id;
-> +}
-> +
-[...]
+> QEMU aims to target released OS distributions, and their vendors
+> may choose to support software for arbitrarily longer periods of
+> time than upstream. This extended support is one of the key
+> value adds of OS distributions.
+>
+> To justify dropping python 3.6, the commit message needs to
+> illustrate that all our targetted distros are capable of
+> supporting the new proposed new min version.
+
+That is the point of this series: illustrating that it is indeed safe
+to drop Python 3.6. I am not clear on what you are actually requesting
+as a change.
+
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >  docs/conf.py             |  4 ++--
+> >  configure                |  8 ++++----
+> >  python/Makefile          | 10 +++++-----
+> >  python/setup.cfg         |  7 +++----
+> >  python/tests/minreqs.txt |  2 +-
+> >  scripts/qapi/mypy.ini    |  2 +-
+> >  6 files changed, 16 insertions(+), 17 deletions(-)
+>
+>
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
+
 
