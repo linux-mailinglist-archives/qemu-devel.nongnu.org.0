@@ -2,57 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD42C690BAA
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 15:26:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC20690C14
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 15:41:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ7rr-0000Oy-Cw; Thu, 09 Feb 2023 09:25:43 -0500
+	id 1pQ864-0006Id-P4; Thu, 09 Feb 2023 09:40:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1pQ7ri-0000Nk-Fa
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 09:25:34 -0500
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
+ (Exim 4.90_1) (envelope-from <leiyang@redhat.com>)
+ id 1pQ861-0006IE-LN
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 09:40:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1pQ7rf-0003no-K0
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 09:25:34 -0500
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
- by outpost.zedat.fu-berlin.de (Exim 4.95) with esmtps (TLS1.3)
- tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1pQ7rZ-002IKL-Ai; Thu, 09 Feb 2023 15:25:25 +0100
-Received: from p57bd9464.dip0.t-ipconnect.de ([87.189.148.100]
- helo=[192.168.178.81]) by inpost2.zedat.fu-berlin.de (Exim 4.95)
- with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@physik.fu-berlin.de>)
- id 1pQ7rZ-0028mB-0d; Thu, 09 Feb 2023 15:25:25 +0100
-Message-ID: <97f27a5278d031978b0c1ec777d24eb495fe0084.camel@physik.fu-berlin.de>
-Subject: Re: Linker failures trying to build static qemu-user binary
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Ilya Leoshkevich <iii@linux.ibm.com>
-Date: Thu, 09 Feb 2023 15:25:24 +0100
-In-Reply-To: <CAFEAcA8=L-S+41wCZ7z-JUzt5Cg_CQH_ruOTCUeWud6vfy1F4w@mail.gmail.com>
-References: <f71df8f625e4110b84b6c4fefd9e95619b3ab92e.camel@physik.fu-berlin.de>
- <CAFEAcA-Le_YbaYn6i15EesDMan+OF0S7uteanSXrWYK37HbdvQ@mail.gmail.com>
- <48f42e259498adc7953853572eb481279ee06e71.camel@physik.fu-berlin.de>
- <CAFEAcA8=L-S+41wCZ7z-JUzt5Cg_CQH_ruOTCUeWud6vfy1F4w@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <leiyang@redhat.com>)
+ id 1pQ860-0007XX-3x
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 09:40:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675953618;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=M2saHMvhWJVXyGwY4wsGmSgx120+ZgJRgfQe0Y2C81Q=;
+ b=Y2IKtYCcG8dN0YK5Vnm6xpEjNuc2tQ7d2miq+G2/x/gtSY4IZ4NB+UUBMk+tTNk6cL8wUn
+ 3LBGhimcB04bSDOQr8cp7HP2ayc5wiR/0UlfNqGnOQmCcryAiK0UCk0ytAPgVfvrGCCmod
+ BVMFNr29CQaLIQaJIbrizmk1J0Bluw4=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-115-U27dnGawPiuO7PKZYcIoSw-1; Thu, 09 Feb 2023 09:39:04 -0500
+X-MC-Unique: U27dnGawPiuO7PKZYcIoSw-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ ti11-20020a170907c20b00b00886244203fcso1628171ejc.2
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 06:39:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=M2saHMvhWJVXyGwY4wsGmSgx120+ZgJRgfQe0Y2C81Q=;
+ b=zvSyG6QROUhaQyobf0X/UVESWi2ZpLvjq6ZnwwjvX/d2djEaqPqzNZ6msXljXqBy5E
+ E7SjHFQdUKY6vJT33FOLCikwcerXN0IL+3nHIdEoGISdEpzXGIgiF3qK6da+mRDvnu6S
+ wfOKm88XPBauNvbMd9k5H7KUlDJu7kek/+l1EPU2T1AvwSpZ4822vG8j/YJbgAMkuAb8
+ sjaReBNGZLAg0KjQZnFzlGoMbNm95GLKhJtC0D8+7PKTG2j73Zlyf/ytf9iUFHZTo0pk
+ 9m8z/cihuWDbRZB8ObT4mned2/QDvIj7MiPY48SuV+PUp0isz2xWcEJbrsPykoPculA7
+ jDTw==
+X-Gm-Message-State: AO0yUKUheA+CU22dnwd7/aQeG7HzZdLS2YiXxem8E7HmHLXptqaACZN8
+ oC4P12rITiNFAKXzw+1/ZgLOwH83P4UOPq0FAEwdlicYoj5DLEELKIhxNvOqkqbsqm169Q5VYvJ
+ qIbZfAmgIpAvZQ+LTIlxn60snKjVT5cQ=
+X-Received: by 2002:a17:906:3385:b0:88e:e46a:6c2 with SMTP id
+ v5-20020a170906338500b0088ee46a06c2mr566013eja.15.1675953543784; 
+ Thu, 09 Feb 2023 06:39:03 -0800 (PST)
+X-Google-Smtp-Source: AK7set/SKFEKSB6RqYIctoudZ7K2r9qxVLVU+TPp60s/JHSFVyGqN9q+3Ny/j7+RY3fUSjZGVOEpGu4Sc1ojQlEDzy8=
+X-Received: by 2002:a17:906:3385:b0:88e:e46a:6c2 with SMTP id
+ v5-20020a170906338500b0088ee46a06c2mr565991eja.15.1675953543567; Thu, 09 Feb
+ 2023 06:39:03 -0800 (PST)
+MIME-Version: 1.0
+References: <20230208094253.702672-1-eperezma@redhat.com>
+ <CAJs=3_DQQPGUYK_Fv4tuiVcdJ6V1dtRjRkUL3_EqNhwJt-+kYg@mail.gmail.com>
+In-Reply-To: <CAJs=3_DQQPGUYK_Fv4tuiVcdJ6V1dtRjRkUL3_EqNhwJt-+kYg@mail.gmail.com>
+From: Lei Yang <leiyang@redhat.com>
+Date: Thu, 9 Feb 2023 22:38:27 +0800
+Message-ID: <CAPpAL=zmoqr3PY8gJ10xDWh-S3YOK5+wn9X0J1FQzu9+7HOJow@mail.gmail.com>
+Subject: Re: [PATCH v2 00/13] Dynamycally switch to vhost shadow virtqueues at
+ vdpa net migration
+To: Alvaro Karsz <alvaro.karsz@solid-run.com>
+Cc: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+ qemu-devel@nongnu.org, Harpreet Singh Anand <hanand@xilinx.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, 
+ Jason Wang <jasowang@redhat.com>, Cindy Lu <lulu@redhat.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Shannon Nelson <snelson@pensando.io>, Parav Pandit <parav@mellanox.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ longpeng2@huawei.com, virtualization@lists.linux-foundation.org, 
+ Stefano Garzarella <sgarzare@redhat.com>, si-wei.liu@oracle.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 
-MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 87.189.148.100
-Received-SPF: pass client-ip=130.133.4.66;
- envelope-from=glaubitz@zedat.fu-berlin.de; helo=outpost1.zedat.fu-berlin.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=leiyang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,22 +105,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 2023-02-09 at 14:23 +0000, Peter Maydell wrote:
-> > So, just include "-ldl" in LD_FLAGS?
->=20
-> If this is necessary, then pkg-config should tell us to do it :-)
->=20
-> But in the usual situation that you put the statically linked
-> QEMU binary into a chroot, the dlopen() that libdw is going to
-> try to do won't work anyway...
+QE tested this series on the rhel. Creating two vdpa_sim devices, and
+boot two VMs without shadow vq. The migration was successful and
+everything worked fine
 
-FWIW, passing --extra-ldflags=3D"-ldl" fixes the issue for me.
+Tested-by: Lei Yang <leiyang@redhat.com>
 
-Adrian
+Alvaro Karsz <alvaro.karsz@solid-run.com> =E4=BA=8E2023=E5=B9=B42=E6=9C=888=
+=E6=97=A5=E5=91=A8=E4=B8=89 18:29=E5=86=99=E9=81=93=EF=BC=9A
+>
+> HI Eugenio, thanks for the series!
+>
+> I tested the series with our DPU, SolidNET.
+>
+> The test went as follow:
+>
+> - Create 2 virtio net vdpa devices, every device in a separated VF.
+> - Start 2 VMs with the vdpa device as a single network device, without
+> shadow vq.
+>    The source VM with "-netdev
+> vhost-vdpa,vhostdev=3D/dev/vhost-vdpa-0,id=3Dhostnet0"
+>    The destination VM with "-netdev
+> vhost-vdpa,vhostdev=3D/dev/vhost-vdpa-1,id=3Dhostnet0"
+> - Boot the source VM, test the network by pinging.
+> - Migrate
+> - Test the destination VM network.
+>
+> Everything worked fine.
+>
+> Tested-by: Alvaro Karsz <alvaro.karsz@solid-run.com>
+>
 
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
