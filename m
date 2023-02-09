@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C26690A93
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 14:41:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABDF3690AE3
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 14:52:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ7AZ-0004VA-At; Thu, 09 Feb 2023 08:41:00 -0500
+	id 1pQ7KC-00012i-Iu; Thu, 09 Feb 2023 08:50:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ7AX-0004UV-PT
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 08:40:57 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pQ7KA-00012F-4b
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 08:50:54 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQ7AV-0003jl-Qk
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 08:40:57 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id h16so1770102wrz.12
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 05:40:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pQ7K8-0005RR-Bm
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 08:50:53 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id bg26so1511569wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 05:50:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FGDQiE3NL84hYR/PEIYO4vMfaNU2vrZh1P+ENe6stto=;
- b=nIt4AkVMEXF8wwvyfNfJEBPGbUaYSgZlj7JUDU2L2Qfdf9JmT/1SYQa1wxTarMD1P1
- kdNxsZ/49WJy1lnE5ztb16zIovT8Gt2GkqfFe6B691ncdhx9uNDQ/wFHRY+SXMX4pxj4
- gaiDrunxpZam3Bh/8eF3MQ+McSK7XIhBytSUlCYQHRmrnXmFOWZGuj3pHFpctvxcT5Zv
- HXr/uVi5ncCi2uONfzQ2uWe6ubTVtng2FkY/msPE/jhgikkGywsOcAKPpwqnjggJCfSG
- oko+rIzN+lXUXngk/dv1Z6Lmj/I0TrYOM83Sa49Vz1uqnJdKlB/HX68K1Q+bpuxm66oV
- JRaQ==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=jKQEXo8yQGsYQylJFf2Ag/MzExR4yu93T7xGgURWHb8=;
+ b=uCY7S2Lka/QZt+cVELKAez8u/CSYM4uh75vnXxDQ0g8D0Rf9+FD/iW1NkGQtFH0Q6x
+ 76Vstc0jKdiz67sC4F07EprLR6XviG8oy/2YNLgw+7hw+7WNj9FUrL3yygOGN0fnebCz
+ nsqTRH6ZcysYlezBfc75wqbt07ib6rCUldF0Hw7OsDzW9JA59+oqtVzCRS+6FcBErQwG
+ Rc6yE2BxBh5UJGIDXJbjmf2n/782B3glDVDKnltpusVwBPEIbLNMgHFrja+fO7+l9cdv
+ oMEFoIOkelZ17wGf1XkyI4hGrtsNXZwAjFLpzhUrZb6yN2olSYllrn3K/82+bd+8yFRO
+ aayw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FGDQiE3NL84hYR/PEIYO4vMfaNU2vrZh1P+ENe6stto=;
- b=4nF0YXy1uRu00NzJ88QxDwqNWk3+KyOiK8TCsx9srIeJ23Xi6lf8I7D0qrh+hCiAMe
- Q5YnCL9Hbm9s+a+tunaIcyPv2wz/tkkICVQp/I5Md3RhnACFwLqVZFjgU2IKJxKiIoqQ
- S1i+VKH0flTC11vQnAU0Qqh/07iVOKWflkEUIQBvdz+tZH8aHnwTkYMFjt8rtogbIAdE
- WLDHhT2suiPyEN5pwdaFYSeNAxMOFt0j0otAJi/gWCtugTHRto3qWAsrPmxW5EAbbudT
- 4WHZTLKCwitNdqbb6FdMuIBoWEXH7RQW/UYl+QMXZQsIohNVFCfSNUMxbjDkpJ8xQXA4
- Ah4g==
-X-Gm-Message-State: AO0yUKX/OzH5pAlF11HFeaWz71azFxpkI6LwXTdYjWpiU140jKFG5B+B
- 9RSy/08cNctDIkW88msE9V55egSFFNoc/AVe
-X-Google-Smtp-Source: AK7set+cw5Ev1kFkzE2yxlbVkVGDSRJaJ6zw7kvozMXSP63CBhTilzDJ6YW/IogjKhyhznpCUQE2Gg==
-X-Received: by 2002:a05:6000:1b0e:b0:2bf:e05f:53ac with SMTP id
- f14-20020a0560001b0e00b002bfe05f53acmr11182891wrz.45.1675950054201; 
- Thu, 09 Feb 2023 05:40:54 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- f3-20020a056000128300b002c3e600d1a8sm1314339wrx.95.2023.02.09.05.40.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Feb 2023 05:40:53 -0800 (PST)
-Message-ID: <a09080c1-c033-4442-fd17-d88ae9b7aff3@linaro.org>
-Date: Thu, 9 Feb 2023 14:40:52 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jKQEXo8yQGsYQylJFf2Ag/MzExR4yu93T7xGgURWHb8=;
+ b=wZFYFc7xAOhO/2Gbl8jlG6HtMcy+fvHdpID0N0ytJ3FvWNiQeYgrrKQ3SWr7Voa+mL
+ sOofYLVFX7ZE4cQfsCNsLVtgBdlxzXhUcWMTB4vGNERpAUu56QjaVqjPACoIG8PtO6nt
+ kQnFPbIs1NpW+L8IphFyfGjYBJW7rAAwgMqSv7QGD5bjtbpabGmzZDYWWg9cyFLiZqfb
+ Q1Em16v9lUJZATxUVYE0lHU7aZi74NbazGxMC0xgE3HLxxPRRyc6Nq828K8TKL0MlJ4P
+ H5BbNKlnB/XFVqK02e/m9ZITdIBYhw9rvM6fM4VYpe6bwPrBIrE2XZq+2Fzc2/b/y7+H
+ /eDg==
+X-Gm-Message-State: AO0yUKXz/esh1tv44cWD3bclNcZbAW1ydUgxkUtkHDKLSrzu9a6pEKdz
+ AYBVEj4qC/Hw4sU3IDDb61TdM5ynEIGyTt7a
+X-Google-Smtp-Source: AK7set9X501mqJYSHuhpxTp4NiUpYUMGgxzrfVjOqKOsqvN2ljDt4ICFiTcsrn9KqcrpzBCQ9Vwbiw==
+X-Received: by 2002:a05:600c:43d2:b0:3df:eedf:df32 with SMTP id
+ f18-20020a05600c43d200b003dfeedfdf32mr11417388wmn.17.1675950650424; 
+ Thu, 09 Feb 2023 05:50:50 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ p13-20020a05600c358d00b003dd19baf45asm2151748wmq.40.2023.02.09.05.50.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Feb 2023 05:50:49 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Havard Skinnemoen <hskinnemoen@google.com>,
+ Tyrone Ting <kfting@nuvoton.com>
+Subject: [PATCH] tests/qtest/npcm7xx_pwm-test: Be less verbose unless V=2
+Date: Thu,  9 Feb 2023 13:50:47 +0000
+Message-Id: <20230209135047.1753081-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH] migration: Remove spurious files
-Content-Language: en-US
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-References: <20230209121449.30232-1-quintela@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230209121449.30232-1-quintela@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,38 +87,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 9/2/23 13:14, Juan Quintela wrote:
-> I introduced spurious files on my tree during a rebase:
-> 
-> commit ebfc57871506b3fe36cc41f69ee3ad31a34afd63
-> Author: Zhenzhong Duan <zhenzhong.duan@intel.com>
-> Date:   Mon Oct 17 15:53:51 2022 +0800
-> 
->      multifd: Fix flush of zero copy page send request
-> 
->      Make IO channel flush call after the inflight request has been drained
->      in multifd thread, or else we may missed to flush the inflight request.
-> 
->      Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
->      Reviewed-by: Juan Quintela <quintela@redhat.com>
->      Signed-off-by: Juan Quintela <quintela@redhat.com>
-> 
-> To make things worse, it appears like Zhenzhong is the one to blame.
-> 
-> for(int i=0; i < 1000000; i++) {
-> 	printf("I will not do rebases when I am tired\n");
-> }
-> 
-> Sorry, Juan.
-> 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> ---
->   .../x86_64-quintela-devices.mak               |    7 -
->   .../x86_64-quintela2-devices.mak              |    6 -
->   migration/multifd.c.orig                      | 1274 -----------------
->   3 files changed, 1287 deletions(-)
+The npcm7xx_pwm-test produces a lot of output at V=1, which
+means that on our CI tests the log files exceed the gitlab
+500KB limit. Suppress the messages about exactly what is
+being tested unless at V=2 and above.
 
-Nice diff-stat! ;P
+This follows the pattern we use with qom-test.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+An example job log that got truncated because of this is:
+https://gitlab.com/qemu-project/qemu/-/jobs/3742560168
+
+ tests/qtest/npcm7xx_pwm-test.c | 27 +++++++++++++++++++++------
+ 1 file changed, 21 insertions(+), 6 deletions(-)
+
+diff --git a/tests/qtest/npcm7xx_pwm-test.c b/tests/qtest/npcm7xx_pwm-test.c
+index e320a625c4b..ea4ca1d106e 100644
+--- a/tests/qtest/npcm7xx_pwm-test.c
++++ b/tests/qtest/npcm7xx_pwm-test.c
+@@ -20,6 +20,8 @@
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qnum.h"
+ 
++static int verbosity_level;
++
+ #define REF_HZ          25000000
+ 
+ /* Register field definitions. */
+@@ -221,7 +223,9 @@ static uint64_t pwm_qom_get(QTestState *qts, const char *path, const char *name)
+     QDict *response;
+     uint64_t val;
+ 
+-    g_test_message("Getting properties %s from %s", name, path);
++    if (verbosity_level >= 2) {
++        g_test_message("Getting properties %s from %s", name, path);
++    }
+     response = qtest_qmp(qts, "{ 'execute': 'qom-get',"
+             " 'arguments': { 'path': %s, 'property': %s}}",
+             path, name);
+@@ -260,8 +264,10 @@ static void mft_qom_set(QTestState *qts, int index, const char *name,
+     QDict *response;
+     char *path = g_strdup_printf("/machine/soc/mft[%d]", index);
+ 
+-    g_test_message("Setting properties %s of mft[%d] with value %u",
+-                   name, index, value);
++    if (verbosity_level >= 2) {
++        g_test_message("Setting properties %s of mft[%d] with value %u",
++                       name, index, value);
++    }
+     response = qtest_qmp(qts, "{ 'execute': 'qom-set',"
+             " 'arguments': { 'path': %s, "
+             " 'property': %s, 'value': %u}}",
+@@ -506,9 +512,12 @@ static void mft_verify_rpm(QTestState *qts, const TestData *td, uint64_t duty)
+     int32_t expected_cnt = mft_compute_cnt(rpm, clk);
+ 
+     qtest_irq_intercept_in(qts, "/machine/soc/a9mpcore/gic");
+-    g_test_message(
+-        "verifying rpm for mft[%d]: clk: %" PRIu64 ", duty: %" PRIu64 ", rpm: %u, cnt: %d",
+-        index, clk, duty, rpm, expected_cnt);
++    if (verbosity_level >= 2) {
++        g_test_message(
++            "verifying rpm for mft[%d]: clk: %" PRIu64 ", duty: %" PRIu64
++            ", rpm: %u, cnt: %d",
++            index, clk, duty, rpm, expected_cnt);
++    }
+ 
+     /* Verify rpm for fan A */
+     /* Stop capture */
+@@ -670,6 +679,12 @@ int main(int argc, char **argv)
+ {
+     TestData test_data_list[ARRAY_SIZE(pwm_module_list) * ARRAY_SIZE(pwm_list)];
+ 
++    char *v_env = getenv("V");
++
++    if (v_env) {
++        verbosity_level = atoi(v_env);
++    }
++
+     g_test_init(&argc, &argv, NULL);
+ 
+     for (int i = 0; i < ARRAY_SIZE(pwm_module_list); ++i) {
+-- 
+2.34.1
+
 
