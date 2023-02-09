@@ -2,172 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 839CA68FCA1
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 02:28:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07D3968FCAC
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 02:40:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pPvjS-0000qT-2n; Wed, 08 Feb 2023 20:28:14 -0500
+	id 1pPvtb-0002u8-1Y; Wed, 08 Feb 2023 20:38:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1pPvjP-0000q6-Da; Wed, 08 Feb 2023 20:28:11 -0500
-Received: from mga04.intel.com ([192.55.52.120])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1pPvjL-0003KK-Dh; Wed, 08 Feb 2023 20:28:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675906087; x=1707442087;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=vXDZ1Ai9Xm2rIUzOiluxcME0BPQJp1QRJMSGG4Cc+gY=;
- b=ISYexMtaGyKWaM1FW5vz8c/DuKGVCMg/MUsyeihFzJhqxfKejhb6FH4p
- /Avf8oQfNtC6C7kcgpUW4B/WiFN84+cEBJAuxOwC6CPhLo5j01S5NBate
- ggOacqqnrYPvjY0gC5PLd0/dq7uMohIByS2Qobs6dKAWySS14Adr+CZxU
- rJ9HUbYlt/fReDJ6/EJzgxOAD5J61lMDD7W1wbN/332GQgqLjoUnkIftc
- h+P1oFBcg0h5hJLhLpCwFJqLYjnUuZ5GoJPYr08TpsF2FVcX8lhSMy/Nt
- Mq0a0GDF5FnxKbbMZGUAuZPD4xScGmRDNMJmvzRm0/Mk/AgtF23JyI6dZ w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="328629432"
-X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; d="scan'208";a="328629432"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2023 17:27:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="810148140"
-X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; d="scan'208";a="810148140"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmsmga001.fm.intel.com with ESMTP; 08 Feb 2023 17:27:58 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Wed, 8 Feb 2023 17:27:57 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Wed, 8 Feb 2023 17:27:56 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Wed, 8 Feb 2023 17:27:56 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Wed, 8 Feb 2023 17:27:55 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SDgdxzmqHDFdjVbTEAE9Mr1K699ODUyw5VdOdwXeeWbNcW5ULW0ZrWxyUzBX4WH4QmjwNy7R6+NIzd5ozCMC+Wu6W21jcPCl1ItrLx3QNVmFii/UJMNKo++rQBCFj4H+X1niIpFSii25Pe7O3bc96+7/ByBEdlW88kJFbF+09m+VeFUnMi3p8N5wGLV5COrgslmrvACxfyNi7zDI50xkKfXVW52Y6JgDCr6zliWD+jZA3YCaWkLP4OM58IX0lv7DKjMATq8pTa5+8x24q4beOUDfn9GVMzeMVvMnz7RLusNXzd9wYUPbebtjvQSTXSSG+LX/UvPtvVSLIxVoEgyqJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3xaD7WYNaiAgDZ7oU5oISMh+5+TZr68Axi4/9YI0ZFU=;
- b=KOao5ZXXQtcjA7TFgPKQ6hDxmmluQmYNzcuViD0M3fgCWwhoYfdLXQm/XcwNWTzKrEa23Zf9Mi8TjeD2BcnKellknvuoxozyNsiNOFp97yuSJ7OIAk/sPiXVptZ2n0SWwXlIV/CBV4VnFQClcRuBaYb4gi5AZo4lVzOj7XvyoGpY/IeRtnka6K1h5hi6BsJSc1zeLnljiRcIkyoqk/v6nk9EVKgBj4CDRL766kutj/LqBHBx3Wu6qrcIhsbbhZtnLAUZ5fTBDX48UPdXgFDYFPuY1xXVo6Pz9B3Bwnkw7olMKMPykTNbE4mhe7chGmitCK9xhagmNj7T4aTf2TK10Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ0PR11MB6744.namprd11.prod.outlook.com (2603:10b6:a03:47d::10)
- by PH7PR11MB6353.namprd11.prod.outlook.com (2603:10b6:510:1ff::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.34; Thu, 9 Feb
- 2023 01:27:52 +0000
-Received: from SJ0PR11MB6744.namprd11.prod.outlook.com
- ([fe80::f42a:63d9:2c7:356a]) by SJ0PR11MB6744.namprd11.prod.outlook.com
- ([fe80::f42a:63d9:2c7:356a%5]) with mapi id 15.20.6064.036; Thu, 9 Feb 2023
- 01:27:52 +0000
-From: "Duan, Zhenzhong" <zhenzhong.duan@intel.com>
-To: Juan Quintela <quintela@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-CC: "qemu-block@nongnu.org" <qemu-block@nongnu.org>, Stefan Berger
- <stefanb@linux.vnet.ibm.com>, Stefan Hajnoczi <stefanha@redhat.com>, "Halil
- Pasic" <pasic@linux.ibm.com>, John Snow <jsnow@redhat.com>, David Hildenbrand
- <david@redhat.com>, Fam Zheng <fam@euphon.net>, Thomas Huth
- <thuth@redhat.com>, =?iso-8859-1?Q?Daniel_P=2E_Berrang=E9?=
- <berrange@redhat.com>, Laurent Vivier <lvivier@redhat.com>, "Vladimir
- Sementsov-Ogievskiy" <vsementsov@yandex-team.ru>, "qemu-s390x@nongnu.org"
- <qemu-s390x@nongnu.org>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- =?iso-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>, "Michael
- S. Tsirkin" <mst@redhat.com>, =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?=
- <philmd@linaro.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>, "Marcel
- Apfelbaum" <marcel.apfelbaum@gmail.com>, Coiby Xu <Coiby.Xu@gmail.com>, "Ilya
- Leoshkevich" <iii@linux.ibm.com>, Eduardo Habkost <eduardo@habkost.net>,
- Yanan Wang <wangyanan55@huawei.com>, Richard Henderson
- <richard.henderson@linaro.org>, Markus Armbruster <armbru@redhat.com>, "Paolo
- Bonzini" <pbonzini@redhat.com>, Alex Williamson <alex.williamson@redhat.com>, 
- Eric Blake <eblake@redhat.com>, Eric Farman <farman@linux.ibm.com>
-Subject: RE: [PULL 28/30] multifd: Fix flush of zero copy page send request
-Thread-Topic: [PULL 28/30] multifd: Fix flush of zero copy page send request
-Thread-Index: AQHZOo93pEsyahZS1EeHD4x7aKRmsq7F1NGA
-Date: Thu, 9 Feb 2023 01:27:52 +0000
-Message-ID: <SJ0PR11MB67440DCD9ABD1087E59456FF92D99@SJ0PR11MB6744.namprd11.prod.outlook.com>
-References: <20230207005650.1810-1-quintela@redhat.com>
- <20230207005650.1810-29-quintela@redhat.com>
-In-Reply-To: <20230207005650.1810-29-quintela@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ0PR11MB6744:EE_|PH7PR11MB6353:EE_
-x-ms-office365-filtering-correlation-id: 4580b311-bee9-4c76-1a62-08db0a3cdcbc
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: maTwJ+vrr0DryFQ2dzB8ECU/jRp/ylOMmd0W5sy7/E9t2o0qCkG5DIOJBSSo+W6t4DyCP9Y+mEN+vZ6c2Yw0ZK55UIuSIppZbvfLuAOMkk5UIrmAiuuLSSUea8ve49LU+TT4WrXpkE89fyH/MjdOsFgNODd53T9ZOxgfbCNhjBklT999Zk8GqyCixDyT3g7Y+bn4PRCgGwsnaRWg23XQA1a9oStddnJXrIttJYyY2dTN4pPYwQ1Tc59vOqQQrDJ7Fkog4M9WGSccwiryjvorpG/OooSVkiGYDcXloOozBovszwbil9OEcLbkmxC7MShoGYUpt/NVZBkro5ELa99+99HpjmRcIwpx9sD8Dx0/5wCQ8CirVVgGdBfK1qxmUE02vtAYqSXVosvBXosVoJyT9F0xVTEBvuxHu9GCEsD0/2+hoB7Nk7D/08Yqd15gGHOol7v9Nw6lQk73HeAP7GnaZmawtEjcCZVceSo/tR0/WboF9qFWLUlJMqthnCCKDpcaDApsiROtOrkaa6PNCCvC32bdjn58E/Rs0uDO81u98MnGgMmqVCXhbc+Lnpoi7WGTt0HJVAKy0/QAEaxV/VI6lHS1amgQAnoqQWrlOjYnKk5aAJKb/FnhmcWrlSJErZRcMvF4T9IDYVcmRWHSQrEtnyyB/RemeLhM3KIwVv0WyW+tcH53kxwb7ei0FIpClUey
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR11MB6744.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(346002)(136003)(39860400002)(366004)(396003)(376002)(451199018)(7416002)(5660300002)(7406005)(8936002)(2906002)(83380400001)(122000001)(52536014)(66946007)(82960400001)(186003)(316002)(26005)(38100700002)(6506007)(54906003)(41300700001)(76116006)(66556008)(64756008)(66476007)(8676002)(66446008)(86362001)(4326008)(478600001)(55016003)(71200400001)(7696005)(38070700005)(110136005)(9686003)(33656002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?3p1yl40VmFb43Wn6XdmL7Hv9+gdAl3O52Bdd1pYHzX/ohhbC8z2GrfUk+l?=
- =?iso-8859-1?Q?8aSFJ7HGvhBJGrsF5hp+qkL+cmGsCZVw1T5gzyu3Q77uynql6OrhPWzY6s?=
- =?iso-8859-1?Q?wd9LxA1vk44n1BV84Z11PewWoysLQNPt+D7ZGlGQlBSLNClsUCV0Yw+C1I?=
- =?iso-8859-1?Q?7NrHfhUIgMNs3RmTsAqOkUil4WkucoWSuydQB8lxckVGylhAIMY66MbZk3?=
- =?iso-8859-1?Q?3oU9xlhGMp80FZbs+/QZE0jvd67s3DI8UQXxEXl08wQNQfIH0FubIXYaSu?=
- =?iso-8859-1?Q?8dSBsO0cMMm38dlaCWwc0N7qIwsT2qPpUzpqidFFRNFiMr8WMAloWwqgFm?=
- =?iso-8859-1?Q?oVIHUa56h75/I83aGCHX+4p6Wc0/8L7C4W1gYVLFP9yMxZR7cYGCJW7gGG?=
- =?iso-8859-1?Q?oltHa/CNrmUKa1hIbgCxTuWXbrOJPDB2EuAR0xxdsUwAuFCkWuntZu3d72?=
- =?iso-8859-1?Q?f2q5EmBg5hnms1MrWAI0Sjm9JCN6taFZJg0hw6pGMI7g8iuAMshaYfVbzt?=
- =?iso-8859-1?Q?J0XcrSbyTfIZHOYFr3rXe/PQ9/l0Cmw4WCcRLcOrv8T0NeGPNsg0naUr65?=
- =?iso-8859-1?Q?qNOotM4XQI3GGELFPclOCKdpa27vvCRFHkCviIUACf2/KMEC14pcZ59iHO?=
- =?iso-8859-1?Q?uCHuOaTHBIKozYYjS/DOvZlqDMzpE+0wFXATPBGkwjO01DU5hwpAp4gohO?=
- =?iso-8859-1?Q?TN+k5jGhOurkJ51w6oWjQtqXKxo4sJp/MTTy/G6ThdMYF9WDMnx641v5xc?=
- =?iso-8859-1?Q?jfBLeBmtPKaW+Jj9Tcf7uXpZZHntqsCZ4kxwKkA81C6LpBLasLph8zkjxe?=
- =?iso-8859-1?Q?cg9kjMgFWqt6cIMrtWIW7o4GuhNHi4mDm7dGWGp1HIxIP1Rm7fpVneOL85?=
- =?iso-8859-1?Q?DEStuapF0OGsn8lrXRf16XDmMVXNQJmcHsWn/jIUBQDjaj6ADNVnbmfV5U?=
- =?iso-8859-1?Q?wcdrCU4uiR+dIAmC03bOiq4PHOxA2TmGS4hFci+QD+gmtncbqC9qNjEYky?=
- =?iso-8859-1?Q?9SOM/qaauCKLSgR4QvY+VdfQAtpana8zu4ZuGTK4GkvPPGVzng4ur/vOW9?=
- =?iso-8859-1?Q?7t8hnQOhV/fJSiufTq8+uxkUoz69G1QLrOKUyAn/o3emy5V5AYXWWmOxz0?=
- =?iso-8859-1?Q?xn0RSTMWVfSWKwsR/1REVi09DUYIUPAWENAGm/SNLYOYehB13l+xkdSxAV?=
- =?iso-8859-1?Q?a/TmcYTEVkQ85XVolYWIdzVzEGLx6/ZemUk65gCU0G7MZDA0JFvUuE0Wxa?=
- =?iso-8859-1?Q?DtcLelsyOR1xqe4U37xUI8viJRYrSa4bC9sz8m+CSZqpmRpy73J7yGXHWK?=
- =?iso-8859-1?Q?6nATWXsqj/+It4RD5oGDkDK+anf9S1x+COjewpJsNRMoii2q6qAKxqYmnW?=
- =?iso-8859-1?Q?e1BGZu897lHAZpMcLFiuIVFzT63+BZBwOY21CwknWXQvO2pIJcz/3Ev+CH?=
- =?iso-8859-1?Q?WfuQKdZXR5x2EDC9VOZ7wXCefOnsKECtu0Ewy4+KJnicakOUFMHr9vb2EN?=
- =?iso-8859-1?Q?IsAnNMoZIi1FsJtlDOx6VRpa+4yDQK5/0RVSUj5xB4TJqXytWTsY5SvzQ4?=
- =?iso-8859-1?Q?6Gjk4OqqMtYBlhGgJ9uINTsZ32nSP3kfdznFxPUvjZzq07yoofZgg0pNs7?=
- =?iso-8859-1?Q?2KYkxELu2n7WKkkUfynob/cl1DHu0iIznK?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pPvtZ-0002tq-0Z; Wed, 08 Feb 2023 20:38:41 -0500
+Received: from mail-vs1-xe2c.google.com ([2607:f8b0:4864:20::e2c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pPvtW-0002Bs-It; Wed, 08 Feb 2023 20:38:40 -0500
+Received: by mail-vs1-xe2c.google.com with SMTP id d66so582525vsd.9;
+ Wed, 08 Feb 2023 17:38:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=YbXxzkH73mLEgzLe8FneMvuDHdfcMFHpA+H440F931w=;
+ b=mvlAbSY3lvORKOlfIf2GFaWqSHHcLvEh48UuFO5bV3iuuwbrRRbSToqSah6/E4ywdq
+ dpPjUwn8qODBQE2utKXnOCF1JZdZi7egmwHJhWjOQ+Pr9S5Is7tz4WcAzjbRo/MXOlKf
+ V/w9a+3SvnzKWPeCTzkVEknQwmL1lYYP/bMNywzWW0OkMLDgkfcig0haWhXYn2anRApj
+ Tb2qc9il3FuawwOPUYaHNxDfQ1MOKh0wOPlSFDoUjJ9N0VPL+OF+ty6ynJf6anAOJp1u
+ gCqzMPCYKYcBydpFnHbHL94ZxRDdaU7InCdJX+61kSEY0JX9bQVDEZqsEWA3fhEeO/Vz
+ CvZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YbXxzkH73mLEgzLe8FneMvuDHdfcMFHpA+H440F931w=;
+ b=2zD+cTQS5HGcvjoCGuYKnN+8XJdBYIuTDwQtHlk70KKs1RJALGjSft9b4QG8cTPwPB
+ y5Hf6LFO7OtFo86tUWhK+daP95io6jlcZppdEdRyBw23sy8DZGw2ftuGuOLcKclSVn4u
+ xSJ4Pufi4NL0R6ywQmD9r/VkGHCfWRb9p7aWAEcngfam7J6ioUuFWfpTPUB8zfO83gO6
+ IPs2IA/UfLYdgVRvnuMaa6ALMvHJmZUGudbDKE9k2hPz0AmnfeTKTSjt6MiK7JaPGlrI
+ DKVvoRY0rfJdPpKxG9KXkyXjlIN282oydJDBjpDB+Qz57X9R0lBgCBd12RbDqRPePKpa
+ gqCg==
+X-Gm-Message-State: AO0yUKVrVqCgvvSgLyPOrqEWfe8t6rK3L3x3bmBmClxTo6pa6NPITKPV
+ g0+jeJEQaEZoQtagOpkdNVroCAdWpCBFVVVOYIY=
+X-Google-Smtp-Source: AK7set/xf7WrRWnRd+hZruKRztJYCSD+jf1Ixr9FCF93MIxiXFYFC0rSYtCtwkH/E+GJ1X+aYcX4cjSqANA7vDkQwfY=
+X-Received: by 2002:a67:ab07:0:b0:401:5ed:9a8 with SMTP id
+ u7-20020a67ab07000000b0040105ed09a8mr2164469vse.10.1675906716765; 
+ Wed, 08 Feb 2023 17:38:36 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB6744.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4580b311-bee9-4c76-1a62-08db0a3cdcbc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Feb 2023 01:27:52.0531 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SxtafJbHFSZKjmQgzQw04jDpkxmLZj/nyXYu7eRH4aeLmWFcEXzHCp8zs8YHEEgiyUlEY1AqHOsgn3n3h4nzF17t5URfijtSjQpg+dr7Pcw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6353
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.120;
- envelope-from=zhenzhong.duan@intel.com; helo=mga04.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <20230207044003.3669059-1-bmeng@tinylab.org>
+In-Reply-To: <20230207044003.3669059-1-bmeng@tinylab.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 9 Feb 2023 11:38:10 +1000
+Message-ID: <CAKmqyKMM+fPJ1MXY_Gy9oK0J9hJQ-TQW7cTN=eom9gG_BSexbA@mail.gmail.com>
+Subject: Re: [PATCH] roms/opensbi: Upgrade from v1.1 to v1.2
+To: Bin Meng <bmeng@tinylab.org>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2c;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -184,56 +82,170 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Juan,
+On Tue, Feb 7, 2023 at 2:41 PM Bin Meng <bmeng@tinylab.org> wrote:
+>
+> Upgrade OpenSBI from v1.1 to v1.2 and the pre-built bios images.
+>
+> The v1.2 release includes the following commits:
+>
+> 994c8cf lib: sbi_timer: Added a conditional wait function which can timeout
+> caa5eea lib: sbi: add check for ipi device for hsm start
+> 0374ccf lib: sbi_hart: Shorten the code to set MPV bit
+> 4e21cca lib: utils/serial: Update Shakti UART based on latest implementation
+> 88b790f lib: sbi: Fix sbi_snprintf
+> 1545afd lib: sbi: Fix counter index sanity check
+> 83db3af lib: sbi: Add the bound check for events during config match
+> 860a376 lib: sbi: Fix possible buffer overrun in counter validation
+> 11c0008 lib: sbi: Fix fw_event_map initialization
+> 8e86b23 lib: utils/fdt: Factor out common uart node code
+> 7d28d3b lib: utils/serial: Initialize platform_uart_data to zero
+> 7198e1d lib: serial: Clean up coding style in sifive-uart.c
+> f272035 lib: utils/serial: Ensure baudrate is non-zero before using
+> b9edf49 lib: sbi: Fix printf handling of long long
+> 422f0e0 scripts: Add Kconfiglib v14.1.0 under scripts directory
+> 662e631 Makefile: Add initial kconfig support for each platform
+> de80e93 Makefile: Compile lib/utils sources separately for each platform
+> 26bbff5 lib: utils/serial: Use kconfig for enabling/disabling drivers
+> 2adc94b lib: utils/reset: Use kconfig for enabling/disabling drivers
+> 3e76a60 lib: utils/sys: Use kconfig for enabling/disabling drivers
+> 013dbb3 lib: utils/timer: Use kconfig for enabling/disabling drivers
+> 76af9d4 lib: utils/ipi: Use kconfig for enabling/disabling drivers
+> 0b1cf2f lib: utils/irqchip: Use kconfig for enabling/disabling drivers
+> b126ce4 lib: utils/i2c: Use kconfig for enabling/disabling drivers
+> 5616aa4 lib: utils/gpio: Use kconfig for enabling/disabling drivers
+> 68d7b85 lib: utils/fdt: Use kconfig for enabling/disabling
+> d514a8f platform: generic: Use kconfig for enabling/disabling overrides
+> bc317a3 platform: generic: Use kconfig to set platform version and default name
+> eccb9df platform: Remove redundant config.mk from all platforms
+> 0723bab docs: Update documentation for kconfig support
+> a6a8557 Makefile: Fix typo related to object.mk
+> 9529e36 include: Add mstatus[h].GVA encodings
+> 1fbe777 lib: sbi_trap: Save mstatus[h].GVA in trap->gva
+> 1c4ce74 lib: sbi: Set gva when creating sbi_trap_info
+> 5a0ca09 lib: sbi_trap: Set hypervisor CSRs for HS-mode
+> a69eb6c lib: sbi_trap: Set hstatus.GVA when going to HS-mode
+> 111afc1 lib: sbi_illegal_insn: Fix FENCE.TSO emulation infinite trap loop
+> adf44b5 lib: sbi: Use the official extension name for AIA M-mode CSRs
+> cbaa9b0 lib: utils: serial: Add Cadence UART driver
+> 622cc5f include: Remove sideleg and sedeleg
+> a90cf6b lib: sbi_pmu: Remove "event_idx" member from struct sbi_pmu_fw_event
+> 1664d0e lib: sbi_pmu: Replace sbi_pmu_ctr_read() with sbi_pmu_ctr_fw_read()
+> e238459 lib: sbi_pmu: Firmware counters are always 64 bits wide
+> c9b388d lib: sbi_pmu: Simplify FW counters to reduce memory usage
+> d10c1f4 lib: sbi_pmu: Add custom PMU device operations
+> ee69f8e lib: sbi: Print platform PMU device at boot-time
+> 5019fd1 include: sbi: Reduce includes in sbi_pmu.h
+> d32b0a9 docs: pmu: fix Unmatched example typo
+> 19664f6 docs: pmu: extend bindings example for Unmatched
+> 37a0d83 lib: sbi_trap: Add helper to get GVA in sbi_trap_regs
+> 46e744a lib: sbi_misaligned_ldst: Set GVA if not emulating
+> 8ce486a lib: utils/fdt: Fix DT parsing in fdt_pmu_setup()
+> 49372f2 lib: sbi: Fix sbi_strnlen wrong count decrement
+> 7f09fba lib: utils/serial: add semihosting support
+> 7105c18 docs/firmware: Update FW_JUMP documentation
+> 3f3d401 docs: Fix some typos
+> e54cb32 lib: sbi_pmu: move pmu irq information into pmu itself
+> c316fa3 lib: sbi_hart: move hart_features struct to a public location
+> 4f2acb5 lib: sbi_platform: expose hart_features to extension_init callback
+> 2f63f24 platform: generic: add extensions_init handler and platform-override
+> b6e520b platform: generic: allwinner: add support for c9xx pmu
+> 98aa127 include: sbi: Fix typo in comment
+> 11d14ae lib: sbi: Fix typo in comment
+> 60b78fe include: sbi: Fix grammar in comment
+> dcdaf30 lib: sbi: Add sbi_domain_root_add_memrange() API
+> bd7ef41 platform: andes/ae350: Remove enabling cache from an350_final_init
+> 9899b59 platform: andes/ae350: Use kconfig to set platform version and default name
+> 88f58a3 platform: andes/ae350: Use fdt serial driver
+> ef9f02e lib: utils/timer: Add Andes fdt timer support
+> 8234fc1 lib: utils/reset: Add Andes fdt reset driver support
+> 127a3f2 platform: andes/ae350: Use fdt irqchip driver
+> 6f3258e platform: andes/ae350: Add fw_platform_init for platform initialization
+> ce7c490 lib: utils/ipi: Add Andes fdt ipi driver support
+> c8683c5 platform: andes/ae350: Add AE350 domain support
+> d682a0a docs: andes-ae350.md: Update ae350 documentation for fdt driver support
+> 0fee0bf Makefile: Add cscope support
+> 51acd49 docs/firmware: update the document
+> 9d54f43 Makefile: Add rules for carray sources in lib/sbi
+> 56bed1a lib: sbi_ecall: Generate extensions list with carray
+> 22f38ee lib: sbi_ecall: Add Kconfig option for each extension
+> 85cf56c lib: utils/fdt: Remove redundant code
+> 21ba418 lib: utils/fdt: Simplified code
+> 8e9966c docs: fix some typos
+> 7b29264 lib: utils/serial: Fix semihosting compile error using LLVM
+> 14f5c4c lib: sbi_ecall: Split up sbi_ecall_replace
+> 8e63716 firmware: payloads: Optimize usage of "ALIGN"
+> 1b0d71b platform: generic/allwinner: Remove unused header files
+> 9a740f5 platform: generic/allwinner: Remove ghostly type cast
+> ba32021 Makefile: replace `echo` with `printf` for compatibility
+> 49b0e35 Makefile: bugfix for handling platform paths
+> 74e2029 lib: sbi: Simplified mmio match checking
+> fc82e84 lib: sbi: Fix is_region_valid()
+> f8eec91 lib: simplify fdt_parse_plmt_node()
+> cc54184 lib: simplify fdt_parse_plicsw_node()
+> e9bc7f1 lib: fix fdt_parse_plmt_node()
+> 5daa0ef lib: fix fdt_parse_plicsw_node()
+> 1f6866e lib: simplify fdt_translate_address()
+> ad2ac29 lib: fix fdt_parse_aclint_node()
+> cfbabb9 firmware: Minor optimization for relocate
+> a36d455 platform: generic/andes: Enable generic platform support for AE350
+> 6cd4b9b docs: platform: Update AE350 and generic platform documentation
+> d3fcff7 docs: andes-ae350.md: fix watchdog nodename in dts example
+> 4640d04 scripts/create-binary-archive.sh: remove andes/ae350 build directory
+> e977512 lib: utils: Add fdt_fixup_node() helper function
+> e1a0cb0 gitignore: add vim swap files
+> ed8b8f5 platform: generic: Make use of fdt_match_node()
+> 8b00be6 lib: fix is_region_valid()
+> c2be214 lib: fix __fdt_parse_region()
+> 7b08778 lib: fix irqchip_plic_update_hartid_table
+> cb568b9 lib: sbi: Synchronize PMP settings with virtual memory system
+> 506928a scripts: use env to invoke bash
+> 64e8b9f lib: utils: serial: Add Renesas SCIF driver
+> 0021b43 lib: utils: serial: Add FDT driver for Renesas SCIF
+> 6840902 lib: utils/irqchip: Add compatible string for Andestech NCEPLIC100
+> 8b1617d platform: generic: Add Renesas RZ/Five initial support
+> 7a3354a docs: platform: Add documentation for Renesas RZ/Five SoC
+> 34da663 lib: utils/irqchip: plic: Fix the off-by-one error in priority save/restore helpers
+> 8509e46 lib: utils/irqchip: plic: Ensure no out-of-bound access in priority save/restore helpers
+> 91c8a7d lib: utils/irqchip: plic: Fix the off-by-one error in plic_context_init()
+> fabbc00 lib: utils/irqchip: plic: Fix the off-by-one error in context save/restore helpers
+> 9a2eeb4 lib: utils/irqchip: plic: Ensure no out-of-bound access in context save/restore helpers
+> a8ee82c lib: utils/ipi: mswi: add T-Head C9xx CLINT compatible
+> ca7810a lib: utils/timer: mtimer: add a quirk for lacking mtime register
+> b848d87 lib: utils/timer: mtimer: add T-Head C9xx CLINT compatible
+> 391ec85 docs: pmu: fix binding example
+> 0412460 docs: pmu: update a reference to a deprecated property name
+> d5d12a9 docs: pmu: Update the pmu doc with removal of mcountinhbit restriction
+> 6b5188c include: Bump-up version to 1.2
+>
+> Signed-off-by: Bin Meng <bmeng@tinylab.org>
 
->-----Original Message-----
->From: Juan Quintela <quintela@redhat.com>
->Sent: Tuesday, February 7, 2023 8:57 AM
->To: qemu-devel@nongnu.org
->Cc: qemu-block@nongnu.org; Stefan Berger <stefanb@linux.vnet.ibm.com>;
->Stefan Hajnoczi <stefanha@redhat.com>; Halil Pasic <pasic@linux.ibm.com>;
->John Snow <jsnow@redhat.com>; David Hildenbrand <david@redhat.com>;
->Fam Zheng <fam@euphon.net>; Thomas Huth <thuth@redhat.com>; Daniel P.
->Berrang=E9 <berrange@redhat.com>; Laurent Vivier <lvivier@redhat.com>;
->Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>; qemu-
->s390x@nongnu.org; Christian Borntraeger <borntraeger@linux.ibm.com>;
->Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>; Michael S. Tsirkin
-><mst@redhat.com>; Juan Quintela <quintela@redhat.com>; Philippe
->Mathieu-Daud=E9 <philmd@linaro.org>; Dr. David Alan Gilbert
-><dgilbert@redhat.com>; Marcel Apfelbaum <marcel.apfelbaum@gmail.com>;
->Coiby Xu <Coiby.Xu@gmail.com>; Ilya Leoshkevich <iii@linux.ibm.com>;
->Eduardo Habkost <eduardo@habkost.net>; Yanan Wang
-><wangyanan55@huawei.com>; Richard Henderson
-><richard.henderson@linaro.org>; Markus Armbruster <armbru@redhat.com>;
->Paolo Bonzini <pbonzini@redhat.com>; Alex Williamson
-><alex.williamson@redhat.com>; Eric Blake <eblake@redhat.com>; Eric
->Farman <farman@linux.ibm.com>; Duan, Zhenzhong
-><zhenzhong.duan@intel.com>
->Subject: [PULL 28/30] multifd: Fix flush of zero copy page send request
->
->From: Zhenzhong Duan <zhenzhong.duan@intel.com>
->
->Make IO channel flush call after the inflight request has been drained in
->multifd thread, or else we may missed to flush the inflight request.
->
->Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
->Reviewed-by: Juan Quintela <quintela@redhat.com>
->Signed-off-by: Juan Quintela <quintela@redhat.com>
->---
-> .../x86_64-quintela-devices.mak               |    7 +
-> .../x86_64-quintela2-devices.mak              |    6 +
-> migration/multifd.c                           |    8 +-
-> migration/multifd.c.orig                      | 1274 +++++++++++++++++
-> 4 files changed, 1291 insertions(+), 4 deletions(-)  create mode 100644
->configs/devices/x86_64-softmmu/x86_64-quintela-devices.mak
-> create mode 100644 configs/devices/x86_64-softmmu/x86_64-quintela2-
->devices.mak
-> create mode 100644 migration/multifd.c.orig
->
-Just back from vacation, hoping it's not too late to report: x86_64-quintel=
-a-devices.mak x86_64-quintela2-devices.mak and multifd.c.orig might be unre=
-lated to this patch?
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Thanks
-Zhenzhong
+Alistair
+
+> ---
+> Please pull the full contents from https://github.com/lbmeng/qemu/ opensbi branch
+>
+>  .../opensbi-riscv32-generic-fw_dynamic.bin    | Bin 117704 -> 123072 bytes
+>  .../opensbi-riscv64-generic-fw_dynamic.bin    | Bin 115344 -> 121800 bytes
+>  roms/opensbi                                  |   2 +-
+>  3 files changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/pc-bios/opensbi-riscv32-generic-fw_dynamic.bin b/pc-bios/opensbi-riscv32-generic-fw_dynamic.bin
+> index 81bab1adc9..6a8425885c 100644
+> Binary files a/pc-bios/opensbi-riscv32-generic-fw_dynamic.bin and b/pc-bios/opensbi-riscv32-generic-fw_dynamic.bin differ
+> diff --git a/pc-bios/opensbi-riscv64-generic-fw_dynamic.bin b/pc-bios/opensbi-riscv64-generic-fw_dynamic.bin
+> index 5eb0a74326..80bdbf2170 100644
+> Binary files a/pc-bios/opensbi-riscv64-generic-fw_dynamic.bin and b/pc-bios/opensbi-riscv64-generic-fw_dynamic.bin differ
+> diff --git a/roms/opensbi b/roms/opensbi
+> index 4489876e93..6b5188ca14 160000
+> --- a/roms/opensbi
+> +++ b/roms/opensbi
+> @@ -1 +1 @@
+> -Subproject commit 4489876e933d8ba0d8bc6c64bae71e295d45faac
+> +Subproject commit 6b5188ca14e59ce7bf71afe4e7d3d557c3d31bf8
+> --
+> 2.25.1
+>
+>
 
