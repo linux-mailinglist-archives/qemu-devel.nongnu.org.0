@@ -2,54 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E690690EA0
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 17:50:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD21C690ECA
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 18:02:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQA7U-0002mZ-JS; Thu, 09 Feb 2023 11:50:00 -0500
+	id 1pQAHo-0006Tc-OM; Thu, 09 Feb 2023 12:00:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
- id 1pQA7R-0002kP-CS; Thu, 09 Feb 2023 11:49:57 -0500
-Received: from muminek.juszkiewicz.com.pl ([213.251.184.221])
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pQAHR-0006E7-Eb
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 12:00:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
- id 1pQA7O-0001f1-Ur; Thu, 09 Feb 2023 11:49:57 -0500
-Received: from localhost (localhost [127.0.0.1])
- by muminek.juszkiewicz.com.pl (Postfix) with ESMTP id A076C260241;
- Thu,  9 Feb 2023 17:49:51 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at juszkiewicz.com.pl
-Received: from muminek.juszkiewicz.com.pl ([127.0.0.1])
- by localhost (muminek.juszkiewicz.com.pl [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gMc70V6Gu04z; Thu,  9 Feb 2023 17:49:49 +0100 (CET)
-Received: from puchatek.com (83.11.36.13.ipv4.supernova.orange.pl
- [83.11.36.13])
- by muminek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 6E808260096;
- Thu,  9 Feb 2023 17:49:48 +0100 (CET)
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-To: Radoslaw Biernacki <rad@semihalf.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Leif Lindholm <quic_llindhol@quicinc.com>
-Cc: qemu-arm@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Shashi Mallela <shashi.mallela@linaro.org>,
- Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Subject: [PATCH] tests/avocado: Add set of boot tests on SBSA-ref
-Date: Thu,  9 Feb 2023 17:49:24 +0100
-Message-Id: <20230209164924.976571-1-marcin.juszkiewicz@linaro.org>
-X-Mailer: git-send-email 2.39.1
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pQAHP-00048W-Lm
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 12:00:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675962014;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=t4BHCHdT1w0EG7MYuWUG8TmXFQlCJLQm4PToxYUOF3Y=;
+ b=LeikSnlUAxl54EYUD8ZlUSjnJkYX0rvQTmYHAdGnCQay27sOpjAqmKI4ANomgDJ1AAympY
+ VTrMJPHm2VEzcdjXYcsdH7iopfov/APkUwEIvZRgBbrzqIsX5aEYN4EX4lhWUNXNqbrb/C
+ x1Xyod0uGEU3Aptzkwgh5D37buW4PWI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-70-1iPmsG_7OcypTX01ETFKhw-1; Thu, 09 Feb 2023 12:00:11 -0500
+X-MC-Unique: 1iPmsG_7OcypTX01ETFKhw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 447F138173F1;
+ Thu,  9 Feb 2023 17:00:08 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.195.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CCEC7492C3E;
+ Thu,  9 Feb 2023 17:00:06 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-stable@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
+ Lei Yang <leiyang@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Subject: [PATCH] vdpa: stop all svq on device deletion
+Date: Thu,  9 Feb 2023 18:00:04 +0100
+Message-Id: <20230209170004.899472-1-eperezma@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: softfail client-ip=213.251.184.221;
- envelope-from=marcin.juszkiewicz@linaro.org; helo=muminek.juszkiewicz.com.pl
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,201 +74,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: 20221213155025.40920-1-philmd@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+Not stopping them leave the device in a bad state when virtio-net
+fronted device is unplugged with device_del monitor command.
 
-This change adds set of boot tests on SBSA-ref machine:
+This is not triggable in regular poweroff or qemu forces shutdown
+because cleanup is called right after vhost_vdpa_dev_start(false).  But
+devices hot unplug does not call vdpa device cleanups.  This lead to all
+the vhost_vdpa devices without stop the SVQ but the last.
 
-1. boot TF-A up to the EDK2 banner
-2. boot Linux kernel/initrd up to Busybox shell
+Fix it and clean the code, making it symmetric with
+vhost_vdpa_svqs_start.
 
-Prebuilt flash volumes are included, built using upstream documentation.
-EDK2 and TF-A are updated to have SVE/SME properly enabled for 'max'
-cpu.
-
-Linux kernel/initrd are from Debian 'bookworm' installer with
-"init=/bin/sh" kernel argument.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Fixes: dff4426fa656 ("vhost: Add Shadow VirtQueue kick forwarding capabilities")
+Reported-by: Lei Yang <leiyang@redhat.com>
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- MAINTAINERS                              |   1 +
- tests/avocado/machine_aarch64_sbsaref.py | 150 +++++++++++++++++++++++
- 2 files changed, 151 insertions(+)
- create mode 100644 tests/avocado/machine_aarch64_sbsaref.py
+ hw/virtio/vhost-vdpa.c | 17 ++---------------
+ 1 file changed, 2 insertions(+), 15 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 96e25f62ac..84cbcfd0bf 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -911,6 +911,7 @@ L: qemu-arm@nongnu.org
- S: Maintained
- F: hw/arm/sbsa-ref.c
- F: docs/system/arm/sbsa.rst
-+F: tests/avocado/machine_aarch64_sbsaref.py
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 542e003101..df3a1e92ac 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -689,26 +689,11 @@ static int vhost_vdpa_get_device_id(struct vhost_dev *dev,
+     return ret;
+ }
  
- Sharp SL-5500 (Collie) PDA
- M: Peter Maydell <peter.maydell@linaro.org>
-diff --git a/tests/avocado/machine_aarch64_sbsaref.py b/tests/avocado/machine_aarch64_sbsaref.py
-new file mode 100644
-index 0000000000..e36e53d4d5
---- /dev/null
-+++ b/tests/avocado/machine_aarch64_sbsaref.py
-@@ -0,0 +1,150 @@
-+# Functional test that boots a Linux kernel and checks the console
-+#
-+# SPDX-FileCopyrightText: 2023 Linaro Ltd.
-+# SPDX-FileContributor: Philippe Mathieu-Daudé <philmd@linaro.org>
-+# SPDX-FileContributor: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
+-static void vhost_vdpa_reset_svq(struct vhost_vdpa *v)
+-{
+-    if (!v->shadow_vqs_enabled) {
+-        return;
+-    }
+-
+-    for (unsigned i = 0; i < v->shadow_vqs->len; ++i) {
+-        VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
+-        vhost_svq_stop(svq);
+-    }
+-}
+-
+ static int vhost_vdpa_reset_device(struct vhost_dev *dev)
+ {
+-    struct vhost_vdpa *v = dev->opaque;
+     int ret;
+     uint8_t status = 0;
+ 
+-    vhost_vdpa_reset_svq(v);
+-
+     ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
+     trace_vhost_vdpa_reset_device(dev, status);
+     return ret;
+@@ -1100,6 +1085,8 @@ static void vhost_vdpa_svqs_stop(struct vhost_dev *dev)
+ 
+     for (unsigned i = 0; i < v->shadow_vqs->len; ++i) {
+         VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
 +
-+import os
-+import shutil
-+
-+from avocado.utils import archive
-+
-+from avocado_qemu import QemuSystemTest
-+from avocado_qemu import wait_for_console_pattern
-+from avocado_qemu import interrupt_interactive_console_until_pattern
-+
-+
-+class Aarch64SbsarefMachine(QemuSystemTest):
-+    """
-+    :avocado: tags=arch:aarch64
-+    :avocado: tags=machine:sbsa-ref
-+    """
-+
-+    def fetch_firmware(self):
-+        """
-+        Flash volumes generated using:
-+
-+        - Fedora GNU Toolchain version 12.2.1 20220819 (Red Hat Cross 12.2.1-2)
-+
-+        - Trusted Firmware-A
-+          https://github.com/ARM-software/arm-trusted-firmware/tree/6264643a
-+
-+        - Tianocore EDK II
-+          https://github.com/tianocore/edk2/tree/f6ce1a5c
-+          https://github.com/tianocore/edk2-non-osi/tree/74d4da60
-+          https://github.com/tianocore/edk2-platforms/tree/0540e1a2
-+        """
-+
-+        # Secure BootRom (TF-A code)
-+        fs0_xz_url = ('https://fileserver.linaro.org/s/sZay4ZCCfHSXPKj/'
-+                      'download/SBSA_FLASH0.fd.xz')
-+        fs0_xz_hash = 'e74778cbb8e1aa0b77f8883565b9a18db638f6bb'
-+        tar_xz_path = self.fetch_asset(fs0_xz_url, asset_hash=fs0_xz_hash)
-+        archive.extract(tar_xz_path, self.workdir)
-+        fs0_path = os.path.join(self.workdir, 'SBSA_FLASH0.fd')
-+
-+        # Non-secure rom (UEFI and EFI variables)
-+        fs1_xz_url = ('https://fileserver.linaro.org/s/osHNaypByLa9xDK/'
-+                      'download/SBSA_FLASH1.fd.xz')
-+        fs1_xz_hash = '7d9f1a6b8964b8b99144f7e905a4083f31e31ad3'
-+        tar_xz_path = self.fetch_asset(fs1_xz_url, asset_hash=fs1_xz_hash)
-+        archive.extract(tar_xz_path, self.workdir)
-+        fs1_path = os.path.join(self.workdir, 'SBSA_FLASH1.fd')
-+
-+        for path in [fs0_path, fs1_path]:
-+            with open(path, 'ab+') as fd:
-+                fd.truncate(256 << 20)  # Expand volumes to 256MiB
-+
-+        self.vm.set_console()
-+        self.vm.add_args('-drive', f'if=pflash,file={fs0_path},format=raw',
-+                         '-drive', f'if=pflash,file={fs1_path},format=raw')
-+
-+    def test_sbsaref_tfa_v2_8(self):
-+        """
-+        :avocado: tags=cpu:cortex-a57
-+        """
-+
-+        self.fetch_firmware()
-+        self.vm.launch()
-+
-+        # TF-A boot sequence:
-+        #
-+        # https://github.com/ARM-software/arm-trusted-firmware/blob/v2.8.0/\
-+        #     docs/design/trusted-board-boot.rst#trusted-board-boot-sequence
-+        # https://trustedfirmware-a.readthedocs.io/en/v2.8/\
-+        #     design/firmware-design.html#cold-boot
-+
-+        # AP Trusted ROM
-+        wait_for_console_pattern(self, 'Booting Trusted Firmware')
-+        wait_for_console_pattern(self, 'BL1: v2.8(release):v2.8')
-+        wait_for_console_pattern(self, 'BL1: Booting BL2')
-+
-+        # Trusted Boot Firmware
-+        wait_for_console_pattern(self, 'BL2: v2.8(release)')
-+        wait_for_console_pattern(self, 'Booting BL31')
-+
-+        # EL3 Runtime Software
-+        wait_for_console_pattern(self, 'BL31: v2.8(release)')
-+
-+        # Non-trusted Firmware
-+        wait_for_console_pattern(self, 'UEFI firmware (version 1.0')
-+        interrupt_interactive_console_until_pattern(self,
-+                                                    'QEMU SBSA-REF Machine')
-+
-+    def boot_linux(self, cpu='cortex-a57'):
-+        """
-+        :avocado: tags=cpu:cortex-a57
-+        """
-+        self.fetch_firmware()
-+
-+        os.makedirs(f'{self.workdir}/vfat/efi/boot')
-+
-+        # UEFI shell binary
-+        shell_url = ('https://fileserver.linaro.org/s/SGoyRrEzkmW8C8Y/'
-+                     'download/bootaa64.efi')
-+        shell_sha1 = '5a8791eb130406d1a659e538b1a194a604a29a78'
-+        shell_path = self.fetch_asset(shell_url, shell_sha1)
-+        shutil.copyfile(shell_path,
-+                        f'{self.workdir}/vfat/efi/boot/bootaa64.efi')
-+
-+        # Debian 'bookworm' d-i kernel from 8th Feb 2023
-+        linux_url = ('https://fileserver.linaro.org/s/L8JMwEZQK8SDR39/'
-+                     'download/linux')
-+        linux_sha1 = '39a75284783ab63626642228fbac1863492d30b5'
-+        linux_path = self.fetch_asset(linux_url, linux_sha1)
-+        shutil.copyfile(linux_path, f'{self.workdir}/vfat/linux')
-+
-+        # Debian 'bookworm' d-i initrd.gz from 8th Feb 2023
-+        initrd_url = ('https://fileserver.linaro.org/s/NmYTxezZNKGF5P4/'
-+                      'download/initrd.gz')
-+        initrd_sha1 = '1404d0129cbd0bff7aaa589ddbea3cdb7c0d4c1d'
-+        initrd_path = self.fetch_asset(initrd_url, initrd_sha1)
-+        shutil.copyfile(initrd_path, f'{self.workdir}/vfat/initrd.gz')
-+
-+        with open(f'{self.workdir}/vfat/startup.nsh', 'w') as script:
-+            script.write('fs0:\\linux initrd=\\initrd.gz init=/bin/sh')
-+
-+        self.vm.add_args('-cpu', cpu,
-+                         '-drive',
-+                         f'file=fat:rw:{self.workdir}/vfat/,format=raw')
-+        self.vm.launch()
-+
-+        # Exit UEFI
-+        wait_for_console_pattern(self, 'EFI stub: Exiting boot services...')
-+
-+        # init=/bin/sh started
-+        wait_for_console_pattern(self, 'BusyBox v1.35.0 (Debian')
-+
-+    def test_sbsaref_linux_a57(self):
-+        """
-+        :avocado: tags=cpu:cortex-a57
-+        """
-+        self.boot_linux('cortex-a57')
-+
-+    def test_sbsaref_linux_max(self):
-+        """
-+        :avocado: tags=cpu:max
-+        """
-+        self.boot_linux('max')
++        vhost_svq_stop(svq);
+         vhost_vdpa_svq_unmap_rings(dev, svq);
+ 
+         event_notifier_cleanup(&svq->hdev_kick);
 -- 
-2.39.1
+2.31.1
 
 
