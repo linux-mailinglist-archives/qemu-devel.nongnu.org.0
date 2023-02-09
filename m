@@ -2,81 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54E956913AF
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 23:47:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E348369147A
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 00:34:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQFgW-0005cc-HM; Thu, 09 Feb 2023 17:46:32 -0500
+	id 1pQGPO-000682-Sa; Thu, 09 Feb 2023 18:32:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQFgT-0005c3-TG
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 17:46:29 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQFgS-00069o-48
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 17:46:29 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id o36so2585551wms.1
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 14:46:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=HVKJaPqjeSA03fz8B69YBoP2f+1NhoBzN/XPmsAD3sU=;
- b=cV9wWTlMLZkZSUIiymBRaNQgD7FO8ozXzemYhK45uBu/eV6TvFjy3WqMigY/M/RF56
- zmRz1myWY05O7TuUwj9jVkgcP6BNW6HgnLkQNUPvJTmkW9DFBZ0m1SunzSJ+vGqISBAz
- p7U8pA9CuJ7oUpmpR1XbFPgREJA1QloO/TAKXN6FlOv0+OPkZHCElenGntlliRLk8SdS
- ip+IXnWF77uXYNjQNiLua9TvZ3CiPEOkAFt4AnPsCvHOxQ75qD/8wdv2SHiYm3DKc1zg
- QPxuZm+blGzK3gVu9elb2YTvFb9FmnK64ohH1UkJcnTTCwxjdzGbLFqyWJUqIa3vBvyK
- 8Fmw==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQGPM-00067j-TL
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 18:32:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQGPL-0006OD-39
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 18:32:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675985569;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hdwhtRuz3Tc2X5o2eLs7X8BMjdVhWEIsCZT8gaqU8i0=;
+ b=EPSroPni8d2vnTVsDmvcjhgOKXAN++5KuJysURPPgZFhpXdIN2WQIskl9QsgqNtuF0n9ty
+ 8C3wT4YW8AmP1NOpQzwme0aC8H1Fr/Vb99b+KxkYrg3nsZXK1MGuU5hgcXEVa7PXNmP2gM
+ x4skHSgMrKasqWbymiZkXrwM/QJFoGs=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-315-Avhah4r7PhetmAjSKe7h-w-1; Thu, 09 Feb 2023 18:32:48 -0500
+X-MC-Unique: Avhah4r7PhetmAjSKe7h-w-1
+Received: by mail-pf1-f198.google.com with SMTP id
+ e9-20020a62ee09000000b0058db55a8d7aso1725130pfi.21
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 15:32:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HVKJaPqjeSA03fz8B69YBoP2f+1NhoBzN/XPmsAD3sU=;
- b=SC9jllTEW7rzGnpiLUUIfAcOvdntFhTg3PecOWvf6QRJx+8m4jYzzMduJlqs0VcXSR
- 9+890OzWDdBHocKV2hqdj2IqEXeJaVIA5ZwCPDUe2RHWWL6VPGZ7DYCsgvS1cjDPEAPz
- 73FDoqAAToajSilAoEoNMYyQo/VnLjXNwY/+IiKz/etRtXSlFTV07ZOoPOUozHkMWDn1
- OVF8szxPekdHcxQMQoTh/zVSDlLqjKN0ePHV/q9ebLr0mEezLK/SErc5agCn5mQrZ7k9
- YJA9pVPp2+qg1a0n+one3IYSiKyyKDFxWVCzzEO2gdMIiHi6usX6u/60x8HCBQFHlMoj
- fdZw==
-X-Gm-Message-State: AO0yUKWp/sapnF6m4VMliwjuNYY86VMlBfiO52IymBdUMpAAHiz1d15H
- epVJB2d6lwubkcL7UyTknifibQ==
-X-Google-Smtp-Source: AK7set8yRrFHt+oQhDnHnRObTvxTvnfoxt4lDA7U2XnpW5hcn8itZtaAvs/vqnFHvRoixX55GoVDTA==
-X-Received: by 2002:a05:600c:3b8b:b0:3df:f124:f997 with SMTP id
- n11-20020a05600c3b8b00b003dff124f997mr7766057wms.19.1675982786102; 
- Thu, 09 Feb 2023 14:46:26 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- g10-20020a05600c4eca00b003dec22de1b1sm3424052wmq.10.2023.02.09.14.46.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Feb 2023 14:46:25 -0800 (PST)
-Message-ID: <9a51b2a6-2e56-d090-5083-b710048fdbbc@linaro.org>
-Date: Thu, 9 Feb 2023 23:46:24 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hdwhtRuz3Tc2X5o2eLs7X8BMjdVhWEIsCZT8gaqU8i0=;
+ b=IXMeHMBtfcJrWwuFucKc18jZvzZiReJJ6u5Dt5rLAuguF/TOOaK/y3ARqAz7ja6p8Y
+ TVqNRNKdnre9lcV35HyQSlSy+31N0EsVHLBrdklUpRzq4OKn5hi7DVBBLmRCc4B3CGae
+ dDzDgxNWrMTCF2+XNnSI06WanKj0Jt+g5E9sfC2/uByi7ae3nAhthlczuyUCEg4WXNRj
+ T9Up6cxMDufb64ZsNd900desZPwyqsB4QWuSY6vxwoMo+SDR5BiFJC2ek6gZLE7nJ+Oe
+ MKhJEllnrxoTbu+dW73SPJhntrGsUmxBhZurMhL70GzvOWCNJujZ268Z2K+FivsAOO5F
+ BACA==
+X-Gm-Message-State: AO0yUKV/XT5SFQXPM/Df3OwPjJXQSvoIMUmKSh3S4YXKiEPNpYKYHhcx
+ 8709VIIrSHHBGyUB8ZgbPhVMTa8kSwIIx0dpIdc6kIn4zJ9OtsP5CcabegCbOxiOgSFOFZxpS5p
+ HfIIhvtayA7jKtu4rDPbr354A7Cw+CqY=
+X-Received: by 2002:a17:90a:474e:b0:231:2375:4c7b with SMTP id
+ y14-20020a17090a474e00b0023123754c7bmr1539043pjg.64.1675985567672; 
+ Thu, 09 Feb 2023 15:32:47 -0800 (PST)
+X-Google-Smtp-Source: AK7set9dZysLQXOTGdncePmXJRPyzDc9vJXhq15rJM1/Lg/3CTbfOs1ONDrl2S6vUo2ILU0vVr4jcjcRcvgWj6ogbWA=
+X-Received: by 2002:a17:90a:474e:b0:231:2375:4c7b with SMTP id
+ y14-20020a17090a474e00b0023123754c7bmr1539028pjg.64.1675985567341; Thu, 09
+ Feb 2023 15:32:47 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH v7 2/2] Update bench-code for addressing CI problem
-Content-Language: en-US
-To: ling xu <ling1.xu@intel.com>, qemu-devel@nongnu.org
-Cc: quintela@redhat.com, dgilbert@redhat.com, Zhou Zhao
- <zhou.zhao@intel.com>, Jun Jin <jun.i.jin@intel.com>,
- Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <20221116152923.1087185-1-ling1.xu@intel.com>
- <20221116152923.1087185-3-ling1.xu@intel.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221116152923.1087185-3-ling1.xu@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20230209154034.983044-1-jsnow@redhat.com>
+ <20230209154034.983044-7-jsnow@redhat.com>
+ <CABgObfZ3taU=6=JB4MGeLfDsg6MhkLSUuYNH9unO0UjMSF4ciA@mail.gmail.com>
+In-Reply-To: <CABgObfZ3taU=6=JB4MGeLfDsg6MhkLSUuYNH9unO0UjMSF4ciA@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 9 Feb 2023 18:32:36 -0500
+Message-ID: <CAFn=p-b=RiZvOHOVYMByn1-awhO_cniSW4LVZ+h+fDMWHH7Crw@mail.gmail.com>
+Subject: Re: [PATCH 6/7] CI: Stop building docs on centos8
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>, 
+ Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Markus Armbruster <armbru@redhat.com>, Daniel Berrange <berrange@redhat.com>, 
+ Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,93 +100,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/11/22 16:29, ling xu wrote:
-> Unit test code is in test-xbzrle.c, and benchmark code is in xbzrle-bench.c
-> for performance benchmarking. we have modified xbzrle-bench.c to address
-> CI problem.
-> 
-> Signed-off-by: ling xu <ling1.xu@intel.com>
-> Co-authored-by: Zhou Zhao <zhou.zhao@intel.com>
-> Co-authored-by: Jun Jin <jun.i.jin@intel.com>
-> ---
->   tests/bench/meson.build    |   4 +
->   tests/bench/xbzrle-bench.c | 469 +++++++++++++++++++++++++++++++++++++
->   tests/unit/test-xbzrle.c   |  39 ++-
->   3 files changed, 507 insertions(+), 5 deletions(-)
->   create mode 100644 tests/bench/xbzrle-bench.c
+On Thu, Feb 9, 2023 at 5:43 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+>
+>
+> Il gio 9 feb 2023, 16:40 John Snow <jsnow@redhat.com> ha scritto:
+>>
+>> CentOS 8 does not ship with a sphinx new enough for our purposes (It
+>> necessarily uses Python 3.6), so drop this from this build. We can
+>> resume building docs on CentOS 9 if we wish, but we also currently test
+>> and build docs on Fedora, Ubuntu, Alpine and Debian.
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>
+>
+> It's possible to teach lcitool to use pip instead to install docutils, sphinx and sphinx-rtd-theme
+> Once we can drop the previous patch this one can go as well; as soon as the last lcitool prerequisite is in (https://gitlab.com/libvirt/libvirt-ci/-/merge_requests/341) I will pick the rest of this series, if that's okay for you.
 
+OK - Dan requested extra version information in the commit message to
+7, which I am researching a bit more exhaustively now. I can reply to
+that patch with the requested info and if you'd like to pick 1-4 & 7,
+you can be my guest.
 
-> diff --git a/tests/bench/xbzrle-bench.c b/tests/bench/xbzrle-bench.c
-> new file mode 100644
-> index 0000000000..8848a3a32d
-> --- /dev/null
-> +++ b/tests/bench/xbzrle-bench.c
-> @@ -0,0 +1,469 @@
-> +/*
-> + * Xor Based Zero Run Length Encoding unit tests.
-> + *
-> + * Copyright 2013 Red Hat, Inc. and/or its affiliates
-> + *
-> + * Authors:
-> + *  Orit Wasserman  <owasserm@redhat.com>
+I will say that once upon a time, Peter Maydell expressed a preference
+to use the version(s) of sphinx managed by the distro instead of
+swallowing it into the python-managed parts of the codebase. It seemed
+like a reasonable request at the time. We can revisit it once I get
+the patches in to add a venv at configure time. (Which I was intending
+to visit next.)
 
-Is Orit the real author? Or is it based on migration/xbzrle.c?
+>
+> Paolo
+>
 
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + *
-> + */
-> +#include "qemu/osdep.h"
-> +#include "qemu/cutils.h"
-> +#include "../migration/xbzrle.h"
-
-Interesting migration include path. Similarly:
-
-$ git grep -F '#include "../' tests | egrep -v 
-'(../libqtest.h|tests/tcg/mips|../multiarch)'
-tests/qtest/netdev-socket.c:12:#include "../unit/socket-helpers.h"
-tests/unit/test-qgraph.c:20:#include "../qtest/libqos/qgraph.h"
-tests/unit/test-qgraph.c:21:#include "../qtest/libqos/qgraph_internal.h"
-
-tests/migration/aarch64/a-b-kernel.S:14:#include "../migration-test.h"
-tests/unit/test-vmstate.c:27:#include "../migration/migration.h"
-tests/unit/test-vmstate.c:30:#include "../migration/qemu-file.h"
-tests/unit/test-vmstate.c:31:#include "../migration/savevm.h"
-tests/unit/test-xbzrle.c:15:#include "../migration/xbzrle.h"
-
-$ ls -1 migration/*.h
-migration/block.h
-migration/channel-block.h
-migration/channel.h
-migration/dirtyrate.h
-migration/exec.h
-migration/fd.h
-migration/migration.h      [*]
-migration/multifd.h
-migration/page_cache.h
-migration/postcopy-ram.h
-migration/qemu-file.h      [*]
-migration/ram.h
-migration/rdma.h
-migration/savevm.h         [*]
-migration/socket.h
-migration/threadinfo.h
-migration/tls.h
-migration/trace.h
-migration/xbzrle.h         [*]
-migration/yank_functions.h
-
-$ ls -1 include/migration/*.h
-include/migration/blocker.h
-include/migration/colo.h
-include/migration/cpu.h
-include/migration/failover.h
-include/migration/global_state.h
-include/migration/misc.h
-include/migration/qemu-file-types.h
-include/migration/register.h
-include/migration/snapshot.h
-include/migration/vmstate.h
-
-Do the 4 files marked [*] belong to include/migration/?
 
