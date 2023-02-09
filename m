@@ -2,85 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F0926909C9
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 14:23:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD016909D1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 14:25:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ6t6-0002bD-3w; Thu, 09 Feb 2023 08:22:56 -0500
+	id 1pQ6vg-0004IA-2U; Thu, 09 Feb 2023 08:25:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pQ6t3-0002SC-3A
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 08:22:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pQ6vd-0004I2-UJ
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 08:25:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pQ6t1-0000R3-8k
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 08:22:52 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pQ6vc-00014k-2D
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 08:25:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675948970;
+ s=mimecast20190719; t=1675949131;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=78Rqg3ctoDBequlUNCz9nlj7OXzdJSDKpEUVy63KjRI=;
- b=SxSkL4ZHVbqGJPPOIBX0LPH6RonmaQcmvcrdfqq745hIRAqDEoGc9MEt51gyPwLh60AaTI
- 1CpBA5CNQKW7wQdDmX7t7+/nzu9OeJkJMbrtJNFPJsBW2V5bUk+BJMopbJZzn1FEJ7V8Jj
- LnNnQkEFqXPGL+56PioJdyklB6zKdDk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-658-IhumfXoFPjS-MFvKNY7LPA-1; Thu, 09 Feb 2023 08:22:49 -0500
-X-MC-Unique: IhumfXoFPjS-MFvKNY7LPA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- h9-20020a05600c350900b003e000facbb1so2824533wmq.9
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 05:22:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=78Rqg3ctoDBequlUNCz9nlj7OXzdJSDKpEUVy63KjRI=;
- b=1jCO9Acx//G80heeAscPrs7w06sjJm7FNs4G2KDxjeW5BlvpoSXm0Am4FO+m/3yO4T
- lM1vSqQX9j8/Dwvz7SK9TZ8zZK0XanzY0f7QOAxfFhsAMPjnoSptb1j0RkjZi8Djgal/
- m5WCWyKbvucgobWgAVxhQ5+ggvN+UBvM0LYjViXDpQ5IP2ZR1nc+CM9NvmwLcuzEcdK5
- FwSJgArjyyH5Bhluvik8hpxvuTBSnUDuGgN+bBv12XSJyqOabM0kW1ffZpm8JxlDX3lH
- ENQwLKuK26UIm5GEpTLCHmJ0NYwIsUsuEWksSwQafvcK91mvzE8KnsNDgaQs3L9HZ7+F
- vHag==
-X-Gm-Message-State: AO0yUKU2GF1pwMTA8F7oP+ROm7Eq4muA++g25Wg0YpO8HPuS4cFLWnS2
- 7ucfBidrLdN1PZZGX/puuh6T6DckMX/m6TQTYKgVn3eEZJdjyuxkQr3ogdHuEFiPgp8M3scc49w
- UXZmFPsury4B/BT8=
-X-Received: by 2002:a5d:6108:0:b0:2c4:3d5:46dc with SMTP id
- v8-20020a5d6108000000b002c403d546dcmr5463405wrt.37.1675948968054; 
- Thu, 09 Feb 2023 05:22:48 -0800 (PST)
-X-Google-Smtp-Source: AK7set9Q5lOWo2Y+kgMZziIfNgbVzOx+tzHw/JmOoJal1RB+NCRiwm89s0dmdwr3E+6zUQqvRmSpkw==
-X-Received: by 2002:a5d:6108:0:b0:2c4:3d5:46dc with SMTP id
- v8-20020a5d6108000000b002c403d546dcmr5463384wrt.37.1675948967863; 
- Thu, 09 Feb 2023 05:22:47 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- t12-20020adfe44c000000b002c3dd9bb283sm1288369wrm.37.2023.02.09.05.22.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Feb 2023 05:22:47 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Cc: qemu-devel@nongnu.org,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,  Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>,  Yanan Wang <wangyanan55@huawei.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  Eduardo
- Habkost <eduardo@habkost.net>
-Subject: Re: [PATCH v3 1/6] multifd: Create property
- multifd-sync-after-each-section
-In-Reply-To: <20230208202526.p2jmikndw5lx2ong@redhat.com> (Eric Blake's
- message of "Wed, 8 Feb 2023 14:25:26 -0600")
-References: <20230208133010.17323-1-quintela@redhat.com>
- <20230208133010.17323-2-quintela@redhat.com>
- <20230208202526.p2jmikndw5lx2ong@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 09 Feb 2023 14:22:46 +0100
-Message-ID: <87ttzv3rdl.fsf@secure.mitica>
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=E4Pdoi+/7Sd77tLvXx6ChiusT1YXD9s67HqT/AG8wg0=;
+ b=AJ1TogNV1ATC/aFg1YDHP6F6A2nYYGPyUXLv9XIara3yd56UWX51y8mIUcvXnRsqdYVSmc
+ rAi+51+y2JUMVtFilCCR+K5kQzSEBrZ+PCdNfFk+OlqCXCHAzUh5J5gI65AtJWSF6enDW4
+ NpMcm0o6Wh3YXM8dwvKo2m9be8VGkms=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-607-U7SRK08hMn-4E8EdJlNfUQ-1; Thu, 09 Feb 2023 08:25:30 -0500
+X-MC-Unique: U7SRK08hMn-4E8EdJlNfUQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 80F9185D061;
+ Thu,  9 Feb 2023 13:25:29 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 97EAC40398A3;
+ Thu,  9 Feb 2023 13:25:27 +0000 (UTC)
+Date: Thu, 9 Feb 2023 13:25:24 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Het Gala <het.gala@nutanix.com>
+Cc: qemu-devel@nongnu.org, prerna.saxena@nutanix.com, quintela@redhat.com,
+ dgilbert@redhat.com, pbonzini@redhat.com, armbru@redhat.com,
+ eblake@redhat.com, manish.mishra@nutanix.com,
+ aravind.retnakaran@nutanix.com
+Subject: Re: [PATCH v2 5/6] migration: Modified 'migrate-incoming' QAPI and
+ HMP side changes on the destination interface.
+Message-ID: <Y+T0RENYkqr11QfI@redhat.com>
+References: <20230208093600.242665-1-het.gala@nutanix.com>
+ <20230208093600.242665-6-het.gala@nutanix.com>
+ <Y+TLgrcmC4tdOpU0@redhat.com>
+ <d91f29f2-75e4-71d8-2b33-da5d16770cf9@nutanix.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d91f29f2-75e4-71d8-2b33-da5d16770cf9@nutanix.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -101,58 +85,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Eric Blake <eblake@redhat.com> wrote:
-> On Wed, Feb 08, 2023 at 02:30:05PM +0100, Juan Quintela wrote:
->> We used to synchronize all channels at the end of each RAM section
->> sent.  That is not needed, so preparing to only synchronize once every
->> full round in latests patches.
->> 
->> Notice that we initialize the property as true.  We will change the
->> default when we introduce the new mechanism.
->> 
->> Signed-off-by: Juan Quintela <quintela@redhat.com>
->> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> Signed-off-by: Juan Quintela <quintela@redhat.com>
->> 
->> ---
->> 
->> Rename each-iteration to after-each-section
->> 
->> Signed-off-by: Juan Quintela <quintela@redhat.com>
->> ---
->>  qapi/migration.json   |  9 ++++++++-
->>  migration/migration.h |  1 +
->>  hw/core/machine.c     |  1 +
->>  migration/migration.c | 15 +++++++++++++--
->>  4 files changed, 23 insertions(+), 3 deletions(-)
->> 
->> diff --git a/qapi/migration.json b/qapi/migration.json
->> index c84fa10e86..d712b082c8 100644
->> --- a/qapi/migration.json
->> +++ b/qapi/migration.json
->> @@ -478,6 +478,12 @@
->>  #                    should not affect the correctness of postcopy migration.
->>  #                    (since 7.1)
->>  #
->> +# @multifd-sync-after-each-section: Synchronize channels after each
->> +#                                   section is sent.  We used to do
->> +#                                   that on the past, but it is
->
-> s/on/in/
+On Thu, Feb 09, 2023 at 06:44:40PM +0530, Het Gala wrote:
+> 
+> On 09/02/23 4:01 pm, Daniel P. Berrangé wrote:
+> > On Wed, Feb 08, 2023 at 09:35:59AM +0000, Het Gala wrote:
+> > > 'migrate-incoming' QAPI design have been modified into well-defined
+> > > MigrateChannel struct to prevent multiple encoding of uri strings on
+> > > the destination side.'uri' parameter is kept for backward compatibility.
+> > > 
+> > > Suggested-by: Daniel P. Berrange <berrange@redhat.com>
+> > > Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
+> > > Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
+> > > Signed-off-by: Het Gala <het.gala@nutanix.com>
+> > > ---
+> > >   migration/migration-hmp-cmds.c |  8 +++++++-
+> > >   migration/migration.c          |  3 ++-
+> > >   qapi/migration.json            | 22 ++++++++++++++++++++--
+> > >   softmmu/vl.c                   |  2 +-
+> > >   4 files changed, 30 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/migration/migration-hmp-cmds.c b/migration/migration-hmp-cmds.c
+> > > index a9f65ded7a..ae3c5ea5b2 100644
+> > > --- a/migration/migration-hmp-cmds.c
+> > > +++ b/migration/migration-hmp-cmds.c
+> > > @@ -500,8 +500,14 @@ void hmp_migrate_incoming(Monitor *mon, const QDict *qdict)
+> > >       Error *err = NULL;
+> > >       const char *uri = qdict_get_str(qdict, "uri");
+> > > -    qmp_migrate_incoming(uri, &err);
+> > > +    MigrateChannel *channel = g_new0(MigrateChannel, 1);
+> > > +    if (!migrate_channel_from_qdict(&channel, qdict, &err)) {
+> > > +        error_setg(&err, "error in retrieving channel from qdict");
+> > > +        return;
+> > > +    }
+> > > +    qmp_migrate_incoming(uri, channel, &err);
+> > > +    qapi_free_MigrateChannel(channel);
+> > >       hmp_handle_error(mon, err);
+> > >   }
+> > > diff --git a/migration/migration.c b/migration/migration.c
+> > > index accbf72a18..e22ce2dd15 100644
+> > > --- a/migration/migration.c
+> > > +++ b/migration/migration.c
+> > > @@ -2314,7 +2314,8 @@ void migrate_del_blocker(Error *reason)
+> > >       migration_blockers = g_slist_remove(migration_blockers, reason);
+> > >   }
+> > > -void qmp_migrate_incoming(const char *uri, Error **errp)
+> > > +void qmp_migrate_incoming(const char *uri, MigrateChannel *channel,
+> > > +                          Error **errp)
+> > >   {
+> > >       Error *local_err = NULL;
+> > >       static bool once = true;
+> > > diff --git a/qapi/migration.json b/qapi/migration.json
+> > > index 79acfcfe4e..3a88912f4d 100644
+> > > --- a/qapi/migration.json
+> > > +++ b/qapi/migration.json
+> > > @@ -1623,7 +1623,11 @@
+> > >   # with -incoming defer
+> > >   #
+> > >   # @uri: The Uniform Resource Identifier identifying the source or
+> > > -#       address to listen on
+> > > +#       the address to listen on
+> > > +#
+> > > +# @channel: Struct containing migration channel type, along with
+> > > +#           all the details of the destination interface required
+> > > +#           for the address to listen on for migration stream.
+> > >   #
+> > >   # Returns: nothing on success
+> > >   #
+> > > @@ -1640,14 +1644,28 @@
+> > >   #
+> > >   # 3. The uri format is the same as for -incoming
+> > >   #
+> > > +# 4. The 'uri' and 'channel' arguments are mutually exclusive but, atleast
+> > > +#    one of the two arguments should be present.
+> > > +#
+> > >   # Example:
+> > >   #
+> > >   # -> { "execute": "migrate-incoming",
+> > >   #      "arguments": { "uri": "tcp::4446" } }
+> > >   # <- { "return": {} }
+> > >   #
+> > > +# -> { "execute": "migrate-incoming",
+> > > +#      "arguments": {
+> > > +#          "channel": { "channeltype": "main",
+> > > +#                        "addr": { "transport": "socket",
+> > > +#                                  "socket-type": { "type": "inet",
+> > > +#                                                   "host": "10.12.34.9",
+> > > +#                                                   "port": "1050" } } } } }
+> > > +# <- { "return": {} }
+> > > +#
+> > >   ##
+> > > -{ 'command': 'migrate-incoming', 'data': {'uri': 'str' } }
+> > > +{ 'command': 'migrate-incoming',
+> > > +             'data': {'*uri': 'str',
+> > > +                      '*channel': 'MigrateChannel'} }
+> > Same question of whether we need to future proof now by making this
+> > 
+> >    '*channels': ['MigrateChannel']
+> > 
+> > ?
+> > 
+> > Otherwise we'll have to add this 'channels' field later, and
+> > end up with 'channel' and 'channels' and 'uri'
+> 
+> Why do we need 3 fields ? We can directly convert 'channel' into 'channels'.
 
-good catch.
+That isnt guaranteed to be permitted
 
->> +#                                   suboptimal.
->> +#                                   (since 7.1)
->
-> Shouldn't this be 8.0 now?
+Once QEMU is released, the API guarantee applies (unless it was
+marked 'feature: unsable'.
 
-You are right (as always).
+IOW, if we release QEMU with 'channel' parameter and then the
+'channels' parameter isn't merged until the next release, we're
+stuck with both and have to go through the deprecation process
+for 'channel'.
 
-Changing it.  Thanks.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
