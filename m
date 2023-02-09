@@ -2,77 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C12A69039C
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 10:27:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC7DB6903EE
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 10:36:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ3CP-00031e-Vd; Thu, 09 Feb 2023 04:26:38 -0500
+	id 1pQ3KJ-0005Sb-DQ; Thu, 09 Feb 2023 04:34:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1pQ3CN-000317-K2
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 04:26:35 -0500
-Received: from mga04.intel.com ([192.55.52.120])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1pQ3CK-0005cn-Fs
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 04:26:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675934792; x=1707470792;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=FnHDpDgCQ+gYTwu5vc/hovYT7YuN+r68evKcn7ZOxRE=;
- b=gJwpTMofqk+FeDlEZIQuW1FikBiwD+JQVvVzHlDfP+4ZqJz9orjFmu6V
- telg6SqRYN9pKrtVNNVmckg3BAbd0VMlm899WK6M2oUdbr5ay7sXyBBwC
- IPciWtcSexOtihANS76wmaGvuKVFnvGdP06BM6toHNMkOQqidUTyrDeqi
- GTnuehoXazJ2YhVTvBcw4Yg0ePO4NoITyklBdLU4l2ZoOuI977CqD3wo2
- 3aZvn58xOyVFb6P3CDirKOs4sVX1F81lYQNPAfPGNCuCDaHuS+XRVG/vB
- YpA9Z9CeUWzK1/KOdbwGdIYWoHzn3By6bieJkzPNEpRLsiOCkdhgdMAon A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="328706586"
-X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; d="scan'208";a="328706586"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2023 01:26:29 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="731193351"
-X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; d="scan'208";a="731193351"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.254.212.139])
- ([10.254.212.139])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2023 01:26:27 -0800
-Message-ID: <2dad511e-7b58-da75-941d-66ca5d4f57dd@intel.com>
-Date: Thu, 9 Feb 2023 17:26:25 +0800
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pQ3KH-0005SK-7n
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 04:34:45 -0500
+Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pQ3KF-0006rw-IH
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 04:34:44 -0500
+Received: by mail-oi1-x234.google.com with SMTP id bx13so1127713oib.13
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 01:34:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=G1lmfvxAWzUgVJy3T6U8BQVMZEKMgEo2vXB3KHcfUqg=;
+ b=nmcIsJpKM2TPSP2Xo+aCq86pon3Hiha2k97OgkfFZvpB0b5zpsnEwN5lkVzyznKAe1
+ UKGLZ+DopKsSVjbHFJGjJdOrFtxFKIwSk42gSzj5aYBz0HOnzU7znaL6d8rep26DL3Y7
+ WMM2A+vEhQqwvHAdrRxAzf8VJlnt9Ca8qi5Law5fxwQ3GgPISfi2hwEtZfOnn5Gew71X
+ hnMaD8WS374wZDhFB+jRZ+H6wJay3qQkVLsMACfmqJhsug9kb0dZEB98L2KullRETlzP
+ p8mtmg3rmRLPKyO03ikQOtEEypU1aT0l7nrbz5KupfKtO4Fjdv5dTRbLeNboxcMbDMFS
+ PKbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=G1lmfvxAWzUgVJy3T6U8BQVMZEKMgEo2vXB3KHcfUqg=;
+ b=KXcGZBWPLb+HCL54MQl9Ev0eS6WcMPeWOyeE9rMgoS3mzjsGKlPwQmE5/mkWBGQI1G
+ ZNMO1PPLvG26/NXYd5TVlcLp50EYAcfnO01z6Nj4+NyQkDbTkHk1fhDpm0lUaffStyTb
+ eoHX/Zy40AJDhuIKr3u+YIXRzoEfbkrPrKF92oZ/S+00v8grCs3AMRfao2NmItzjDKgm
+ rC3jwkLO0G81hlsS6yoPswlYa6u3YnJ8gyy5tMqzUdTCWzpgakzn2YSWrLx3srzxotsi
+ 89BvCVAv9HaNtqx2/FTjWXC/8lB5wWzcTOYC5BqJmtnuEtHh1wfER+zd6t3i2Rs+ba4n
+ XulQ==
+X-Gm-Message-State: AO0yUKUVBRzyADUMFgUrKANfJJ9V65Vit8VWc/n+gmWtxr8E7qAdVpD3
+ ksZkzLRi+0c1iP56Dw9xJQvpqw==
+X-Google-Smtp-Source: AK7set9rX+7qq6zGdDPRocisZFntESM6ZIN8B1nyWUCzQtFY3P/KdTCW3/ODEP/TzJwtp1BQB8w0dg==
+X-Received: by 2002:a05:6808:dc7:b0:378:6396:13cc with SMTP id
+ g7-20020a0568080dc700b00378639613ccmr3802297oic.56.1675935281972; 
+ Thu, 09 Feb 2023 01:34:41 -0800 (PST)
+Received: from [192.168.68.107] ([191.19.125.138])
+ by smtp.gmail.com with ESMTPSA id
+ x133-20020acae08b000000b0037868f9e657sm564747oig.37.2023.02.09.01.34.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Feb 2023 01:34:41 -0800 (PST)
+Message-ID: <9e5accd3-9602-ac66-fc17-2d341ffe2821@ventanamicro.com>
+Date: Thu, 9 Feb 2023 06:34:37 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.6.1
-Subject: Re: [PATCH v3 4/6] i386: Mask and report unavailable multi-bit
- feature values
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] MAINTAINERS: Add some RISC-V reviewers
 Content-Language: en-US
-To: "Wang, Lei" <lei4.wang@intel.com>, Yuan Yao <yuan.yao@linux.intel.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, imammedo@redhat.com,
- dgilbert@redhat.com, berrange@redhat.com, yang.zhong@linux.intel.com
-References: <20230106083826.5384-1-lei4.wang@intel.com>
- <20230106083826.5384-5-lei4.wang@intel.com>
- <20230206074320.bkeuh3eep7kauhg7@yy-desk-7060>
- <d99625d9-af63-72d6-2cb9-8f2a1819b825@intel.com>
- <9cffc221-979b-ac71-d2ff-76a6f4698641@intel.com>
- <6ae0be93-edc8-97d8-04a8-4db2fa3fd291@intel.com>
- <2aba083e-451e-56bd-304a-4738388329e9@intel.com>
- <15cef658-e2b1-a264-1e63-1524335e64a9@intel.com>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <15cef658-e2b1-a264-1e63-1524335e64a9@intel.com>
+To: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: bmeng.cn@gmail.com, alistair23@gmail.com, alistair.francis@wdc.com,
+ palmer@dabbelt.com, zhiwei_liu@linux.alibaba.com, liweiwei@iscas.ac.cn
+References: <20230209003308.738237-1-alistair.francis@opensource.wdc.com>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20230209003308.738237-1-alistair.francis@opensource.wdc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.120; envelope-from=xiaoyao.li@intel.com;
- helo=mga04.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, NICE_REPLY_A=-1.146,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x234.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.146,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,59 +95,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/9/2023 2:15 PM, Wang, Lei wrote:
-> On 2/9/2023 1:59 PM, Xiaoyao Li wrote:
->> On 2/9/2023 12:21 PM, Wang, Lei wrote:
->>>>>>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->>>>>>> index 88aa780566..e638a31d34 100644
->>>>>>> --- a/target/i386/cpu.c
->>>>>>> +++ b/target/i386/cpu.c
->>>>>>> @@ -4377,6 +4377,28 @@ static bool x86_cpu_have_filtered_features(X86CPU
->>>>>>> *cpu)
->>>>>>>         return false;
->>>>>>>     }
->>>>>>>
->>>>>>> +static void mark_unavailable_multi_bit_default(X86CPU *cpu, FeatureWord w,
->>>>>>> +                                               int index,
->>>>>>> +                                               const char *verbose_prefix)
->>>>>>> +{
->>>>>>> +    FeatureWordInfo *f = &feature_word_info[w];
->>>>>>> +    g_autofree char *feat_word_str = feature_word_description(f);
->>>>>>> +    uint64_t host_feat = x86_cpu_get_supported_feature_word(w, false);
->>>>>>> +    MultiBitFeatureInfo mf = f->multi_bit_features[index];
->>>>>>> +
->>>>>>> +    if ((cpu->env.features[w] & mf.mask) &&
->>>>>> With this checking bits are all 0 but covered by mf.mask's range are skippped,
->>>>>> even if they're different from the host_feat, please check whether it's
->>>>>> desried
->>>>>> behavior.
->>>>> This is the intended design because there are quite a number of multi-bit
->>>>> CPUIDs
->>>>> should support passing all 0 to them.
->>>> you didn't answer the question. The question is why the handling can be skipped
->>>> when the value of multi-bit feature is 0.
->>> I think the default function should handle the most common case, which is,
->>> passing all 0 multi-bits to KVM is valid and shouldn't be warned. E.g, when we
->>> are using some earlier CPU models which doesn't support AMX, we shouldn't be
->>> warned that all 0 values don't match the CPUID reported by KVM.
->>>
->>
->> passing value 0 to KVM is valid, is not the reason why the handling can be skipped.
->>
->> The correct reason is that when value is 0, it means the multi-bit feature is
->> not enabled/requested. It's always legal and doesn't need any handling. So it
->> can be just skipped.
+
+
+On 2/8/23 21:33, Alistair Francis wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
 > 
-> Currently, we can say yes, but I doubt if there will be a multi-bit field in the
-> future that only accepts the non-zero value specified.
+> This patch adds some active RISC-V members as reviewers to the
+> MAINTAINERS file.
+> 
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
 
-If so, then the multi-bit field cannot fall into the default handling 
-category and it requires its own special handling callback.
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
-It's also the reason I asked "What's the behavior of default ? you need 
-to call out it clearly."
-
-This patch should define well the behavior of default handler and 
-describe it in the commit message. Moreover, it's better to comment it 
-as well above the implementation of mark_unavailable_multi_bit_default()
+>   MAINTAINERS | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 96e25f62ac..847bc7f131 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -287,6 +287,9 @@ RISC-V TCG CPUs
+>   M: Palmer Dabbelt <palmer@dabbelt.com>
+>   M: Alistair Francis <alistair.francis@wdc.com>
+>   M: Bin Meng <bin.meng@windriver.com>
+> +R: Weiwei Li <liweiwei@iscas.ac.cn>
+> +R: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> +R: Liu Zhiwei <zhiwei_liu@linux.alibaba.com>
+>   L: qemu-riscv@nongnu.org
+>   S: Supported
+>   F: target/riscv/
 
