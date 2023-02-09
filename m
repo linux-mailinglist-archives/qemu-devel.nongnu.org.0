@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD6769005D
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 07:31:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F9E69005F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Feb 2023 07:31:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQ0SR-0007k8-87; Thu, 09 Feb 2023 01:30:59 -0500
+	id 1pQ0SV-0007q9-7a; Thu, 09 Feb 2023 01:31:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
- id 1pQ0S2-0007YO-31
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:30:34 -0500
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
+ id 1pQ0S5-0007Yy-2O
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:30:39 -0500
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
- id 1pQ0S0-0000jX-0c
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:30:33 -0500
-Received: by mail-pg1-x533.google.com with SMTP id 24so936914pgt.7
- for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 22:30:31 -0800 (PST)
+ id 1pQ0S2-0000nV-7m
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 01:30:36 -0500
+Received: by mail-pg1-x529.google.com with SMTP id a23so915288pga.13
+ for <qemu-devel@nongnu.org>; Wed, 08 Feb 2023 22:30:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=TofwhUrqur+nfz+vYUg5s7uS+g1axympVTaiH26ziSo=;
- b=EHhumVzDciJDtBOM4uqAKPsy2YjiZ44T7DJBiVN0Qk7baGOaJJf1XBqIESAzuKUqid
- lnJrR8ubx2dNM1Bup32Pb0DkXXYUayLpmwX1J0/p5TQhgyBUU39D3LR+dTmfwXuoGE5J
- lPn0GLbtR1B18Sw7VFlr8Q/QtrlT4yyFqFEwQtZVCkoSh8wikYnE7QyY7tKcaWdFE/uE
- tQRne0hW17ghts6U7XtMP/W9VHFW2bxAoR9A489/bgErJyzL2Vsmt+p+vgIEV2cIHzEy
- 4Yxq3ah7kiGEy/u8uCOiISyLe138H7OxvzIO9Z5QD/Jw1qsrsj4ZAOPBPIhNTy+Y3MVt
- s1Fg==
+ bh=9Jpx55XSl5ZxIppesj8mRIonMpJl9Kp5E0HS//vv/Ps=;
+ b=j+azb1Kz/1+LoMUMSplcOtGgQhwxIguegMsgcMARZa9pws3BV5KeFtOfIiZxSBsrP4
+ zyKSPRMA/9Q/5fDN0daNctWKH3IGJH0yrDfSN/VCDvn6uEWM8VybsLF/Hj+WIKZZajr1
+ oCyr5oK4xEn0m/9mQtqoWPNA1BbqO/yX7IfbokLyJANL5hOB8ktFN/1JRS/fHR7wFB2y
+ 32idjuTaN3vFydVVG/DkaUUP6ZSqW6ytS0XKj1h1aE+YBmDbb0NFTAQ9hMWn3sJBlQcR
+ v78tXLYcL5dQDVkAbB9wZruo6Fh1Oq+uLE1Nm8OQeLWwkAXSbm9hufXaDn7Fmk80vtrn
+ rjWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=TofwhUrqur+nfz+vYUg5s7uS+g1axympVTaiH26ziSo=;
- b=0p1/FNBunCSvn32Q+y56AedwIyUdB/7qG0epFwWc6lO77l7LhsL2ZcccAGd40OX/lQ
- /WJptg8TTC+KWtTRErqPrHfUJTceRjRe4gOqHAC0RfrOyqvb1CZ8efjgzdkMTtpKiuhg
- 6ExEMtPloeQW4foyEQDCSJzFq971G+pVelwWWiudQJi5Jxqr+0Kwq9oA9ndY6dpSYcMS
- 8C9+gGW/w7pk0pdVT4QSAUMWhQWjA+6/8Tg7c+hyjtp3GJ7zEvAvHCd/dqnAgcMFJYdD
- N0PI+lyUxDB7VOP/di3CxtIfTvH7FVIDP0OWOf6rbshrBMjSbnqCRERVyLgs33Xo6PM5
- 4HnA==
-X-Gm-Message-State: AO0yUKWR2I47g4o11vtwtgzTCsmoolhOSlabOgibP9V72czDIAKV+kxS
- XEGUljLY8qFmdG4KV1eEFUq3pPdDIGAbOsez
-X-Google-Smtp-Source: AK7set/cyIZgNCxvo7M/OYJYSUxwE3yk8syJYNMLCVrixfj1cWHCDbPHlr3PWIBHvxJvx0hsld+s7Q==
-X-Received: by 2002:aa7:9575:0:b0:5a8:4861:af7d with SMTP id
- x21-20020aa79575000000b005a84861af7dmr4237442pfq.20.1675924230864; 
- Wed, 08 Feb 2023 22:30:30 -0800 (PST)
+ bh=9Jpx55XSl5ZxIppesj8mRIonMpJl9Kp5E0HS//vv/Ps=;
+ b=uHM13r5WFsXG+eL0KVY63AsfkxfOtL3VsuSj/x+H6rQaz0x5IyUr1kgzHxvG0WABdz
+ TujBQoxsml+3rN43eenIE+zqwQVKyJEgMCEROLhEAGlHKPPaajAN3LgOKmxRxJ1dJ1c6
+ ktgcDZ9EnXWK6NmwXVZtibdK8cHFnycgLKcmCngZVS2cVOWGi8J9uSaSX1KT/SDesJDo
+ 23RBwoWpuZt9R5tv3qknjv44beq3Q+DBHc5FPCWIBmCaLMnoiJbjZCjKeuSNFC/5c2oy
+ gUMrwl7pdpGUuz+3Llb7NaaP18JwzzFEn1HugalmCReg6yc4543EJkcywKkFRRMaE6tI
+ x2Hw==
+X-Gm-Message-State: AO0yUKUgK3ANBiqpTllQ9YSzSoTKxXqJmjux1h8LDsU/6o9dtCTvdau0
+ sfHJStqg8dt9NtToCD6o5W1EFjHcM4rqNN9b
+X-Google-Smtp-Source: AK7set8f6Mr+6M2Ck3Fgqx++ypnlj255d4fG6kx+KRgA4hQvhUnrDithtp9Ix9UbZZEh79h9aCA96A==
+X-Received: by 2002:aa7:9aca:0:b0:592:61e2:f598 with SMTP id
+ x10-20020aa79aca000000b0059261e2f598mr10054923pfp.26.1675924232146; 
+ Wed, 08 Feb 2023 22:30:32 -0800 (PST)
 Received: from debug.ba.rivosinc.com ([66.220.2.162])
  by smtp.gmail.com with ESMTPSA id
- u15-20020aa7848f000000b00593c434b1b8sm543649pfn.48.2023.02.08.22.30.29
+ u15-20020aa7848f000000b00593c434b1b8sm543649pfn.48.2023.02.08.22.30.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 22:30:30 -0800 (PST)
+ Wed, 08 Feb 2023 22:30:31 -0800 (PST)
 From: Deepak Gupta <debug@rivosinc.com>
 To: qemu-devel@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>,
  Bin Meng <bin.meng@windriver.com>
 Cc: Deepak Gupta <debug@rivosinc.com>, Kip Walker <kip@rivosinc.com>,
  qemu-riscv@nongnu.org
-Subject: [PATCH v1 RFC Zisslpcfi 7/9] target/riscv: Tracking indirect branches
- (fcfi) using TCG
-Date: Wed,  8 Feb 2023 22:29:45 -0800
-Message-Id: <20230209062947.3585481-8-debug@rivosinc.com>
+Subject: [PATCH v1 RFC Zisslpcfi 8/9] target/riscv: Instructions encodings,
+ implementation and handlers
+Date: Wed,  8 Feb 2023 22:29:46 -0800
+Message-Id: <20230209062947.3585481-9-debug@rivosinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230209062947.3585481-1-debug@rivosinc.com>
 References: <20230209062947.3585481-1-debug@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=debug@rivosinc.com; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=debug@rivosinc.com; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,164 +93,631 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-zisslpcfi protects forward control flow (if enabled) by enforcing all
-indirect call and jmp must land on a landing pad instruction `lpcll`
-short for landing pad and check lower label value. If target of an
-indirect call or jmp is not `lpcll` then cpu/hart must raise an illegal
-instruction exception.
+This patch implements instruction encodings for zisslpcfi instructions.
+Additionally this patch implements zimops encodings as well. If Zisslpcfi
+is supported by CPU but not enabled then all Zisslpcfi instructions
+default to Zimops instuction behavior i.e. mov 0 to rd.
 
-This patch implements the mechanism using TCG. Target architecture branch
-instruction must define the end of a TB. Using this property, during
-translation of branch instruction, TB flag = FCFI_LP_EXPECTED can be set.
-Translation of target TB can check if FCFI_LP_EXPECTED flag is set and a
-flag (fcfi_lp_expected) can be set in DisasContext. If `lpcll` gets
-translated, fcfi_lp_expected flag in DisasContext can be cleared. Else
-it'll fault.
+zisslpcfi defines following instructions.
+- Backward control flow
+    - sspush x1/x5 : Decrement shadow stack pointer and pushes x1 or x5
+                     on shadow stack.
+    - sspop x1/x5 : Pops from shadow stack into x1 or x5. Increments
+                    shadow stack pointer.
+    - ssprr : Reads current shadow stack pointer into a destination
+              register.
+    - sscheckra : Compares x1 with x5. Raises illegal instr fault if
+                x1 != x5
+    - ssamoswap : Atomically swaps value on top of shadow stack
 
-This patch also also adds flag for forward and backward cfi in
-DisasContext.
+- Forward control flow
+    - lpsll, lpsml, lpsul : sets lower (9bit), mid (8bit) and upper
+                            (8bit) label values in CSR_ULLP respectively.
+    - lpcll, lpcml, lpcul : checks lower (9bit), mid (8bit) and upper
+                            (8bit) label values with CSR_ULLP
+                            respectively.
+    Check label instructions raise illegal instruction fault when labels
+    mismatch.
 
 Signed-off-by: Deepak Gupta <debug@rivosinc.com>
 Signed-off-by: Kip Walker  <kip@rivosinc.com>
 ---
- target/riscv/cpu.h        |  3 +++
- target/riscv/cpu_helper.c | 12 +++++++++
- target/riscv/translate.c  | 52 +++++++++++++++++++++++++++++++++++++++
- 3 files changed, 67 insertions(+)
+ target/riscv/cpu_bits.h                       |  10 +
+ target/riscv/helper.h                         |   7 +
+ target/riscv/insn32.decode                    |  29 ++
+ target/riscv/insn_trans/trans_rvi.c.inc       |  14 +
+ target/riscv/insn_trans/trans_zimops.c.inc    |  53 +++
+ target/riscv/insn_trans/trans_zisslpcfi.c.inc | 310 ++++++++++++++++++
+ target/riscv/op_helper.c                      |  67 ++++
+ target/riscv/translate.c                      |   2 +
+ 8 files changed, 492 insertions(+)
+ create mode 100644 target/riscv/insn_trans/trans_zimops.c.inc
+ create mode 100644 target/riscv/insn_trans/trans_zisslpcfi.c.inc
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 8803ea6426..98b272bcad 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -644,6 +644,9 @@ FIELD(TB_FLAGS, VMA, 25, 1)
- /* Native debug itrigger */
- FIELD(TB_FLAGS, ITRIGGER, 26, 1)
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 37100ec8f6..b2d527c626 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -600,6 +600,16 @@ typedef enum {
+     LP_EXPECTED = 1,
+ } cfi_elp;
  
-+/* Zisslpcfi needs a TB flag to track indirect branches */
-+FIELD(TB_FLAGS, FCFI_LP_EXPECTED, 27, 1)
++#define LPLR_UL            (((1 << 8) - 1) << 17)
++#define LPLR_ML            (((1 << 8) - 1) << 9)
++#define LPLR_LL            ((1 << 9) - 1)
 +
- #ifdef TARGET_RISCV32
- #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
- #else
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 63377abc2f..d15918f534 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -129,6 +129,18 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-         flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
++typedef enum {
++    FCFI_LPLL = 0,
++    FCFI_ML = 1,
++    FCFI_UL = 2,
++} cfi_label_inst;
++
+ /* hstatus CSR bits */
+ #define HSTATUS_VSBE         0x00000020
+ #define HSTATUS_GVA          0x00000040
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index 227c7122ef..6484415612 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -97,6 +97,11 @@ DEF_HELPER_FLAGS_2(fcvt_h_l, TCG_CALL_NO_RWG, i64, env, tl)
+ DEF_HELPER_FLAGS_2(fcvt_h_lu, TCG_CALL_NO_RWG, i64, env, tl)
+ DEF_HELPER_FLAGS_2(fclass_h, TCG_CALL_NO_RWG_SE, tl, env, i64)
+ 
++/* Forward CFI label checking */
++DEF_HELPER_2(cfi_jalr, void, env, int)
++DEF_HELPER_3(cfi_check_landing_pad, void, env, int, int)
++DEF_HELPER_3(cfi_set_landing_pad, void, env, int, int)
++
+ /* Special functions */
+ DEF_HELPER_2(csrr, tl, env, int)
+ DEF_HELPER_3(csrw, void, env, int, tl)
+@@ -112,6 +117,8 @@ DEF_HELPER_1(tlb_flush, void, env)
+ /* Native Debug */
+ DEF_HELPER_1(itrigger_match, void, env)
+ #endif
++/* helper for back cfi mismatch */
++DEF_HELPER_1(sschkra_mismatch, void, env)
+ 
+ /* Hypervisor functions */
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index b7e7613ea2..cd734f03ae 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -37,6 +37,8 @@
+ %imm_u    12:s20                 !function=ex_shift_12
+ %imm_bs   30:2                   !function=ex_shift_3
+ %imm_rnum 20:4
++%imm_cfi9  15:9
++%imm_cfi8  15:8
+ 
+ # Argument sets:
+ &empty
+@@ -163,6 +165,33 @@ csrrwi   ............     ..... 101 ..... 1110011 @csr
+ csrrsi   ............     ..... 110 ..... 1110011 @csr
+ csrrci   ............     ..... 111 ..... 1110011 @csr
+ 
++# zimops (unpriv integer may be operations) instructions with system opcode
++# These're superset of for cfi encodings. zimops_r and zimops_rr should be last
++# entry in below overlapping patterns so that it acts as final sink for overlapping patterns.
++# Any new encoding that can be used should be placed above mop.r and mop.rr
++
++# cfi instructions carved out of mop.r
++{
++  sspush    100000 0 11100     ..... 100 00000 1110011 %rs1
++  sspop     100000 0 11100     00000 100 ..... 1110011 %rd
++  ssprr     100000 0 11101     00000 100 ..... 1110011 %rd
++  zimops_r  1-00-- 0 111--     ----- 100 ..... 1110011 %rd
++}
++
++# cfi instructions carved out of mop.rr
++{
++  sschckra  100010 1 00001     00101 100 00000 1110011
++  ssamoswap 100000 1 .....     ..... 100 ..... 1110011 @r
++
++  lpsll     100000 1 0 .........    100 00000 1110011 %imm_cfi9
++  lpcll     100000 1 1 .........    100 00000 1110011 %imm_cfi9
++  lpsml     100001 1 0 0........    100 00000 1110011 %imm_cfi8
++  lpcml     100001 1 0 1........    100 00000 1110011 %imm_cfi8
++  lpsul     100010 1 1 0........    100 00000 1110011 %imm_cfi8
++  lpcul     100010 1 1 1........    100 00000 1110011 %imm_cfi8
++  zimops_rr 1-00-- 1 - ---------    100 ..... 1110011 %rd
++}
++
+ # *** RV64I Base Instruction Set (in addition to RV32I) ***
+ lwu      ............   ..... 110 ..... 0000011 @i
+ ld       ............   ..... 011 ..... 0000011 @i
+diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+index 5c69b88d1e..4a4f1ca778 100644
+--- a/target/riscv/insn_trans/trans_rvi.c.inc
++++ b/target/riscv/insn_trans/trans_rvi.c.inc
+@@ -66,6 +66,20 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
      }
  
-+    if (cpu->cfg.ext_cfi) {
+     gen_set_gpri(ctx, a->rd, ctx->pc_succ_insn);
++
++    if (ctx->cfg_ptr->ext_cfi) {
 +        /*
-+         * For Forward CFI, only the expectation of a lpcll at
-+         * the start of the block is tracked (which can only happen
-+         * when FCFI is enabled for the current processor mode). A jump
-+         * or call at the end of the previous TB will have updated
-+         * env->elp to indicate the expectation.
++         * Rely on a helper to check the forward CFI enable for the
++         * current process mode. The alternatives would be (1) include
++         * "fcfi enabled" in the cflags or (2) maintain a "fcfi
++         * currently enabled" in cpu_env and emit TCG code to access
++         * and test it.
 +         */
-+        flags = FIELD_DP32(flags, TB_FLAGS, FCFI_LP_EXPECTED,
-+                           env->elp != NO_LP_EXPECTED);
++        if (a->rd == xRA || a->rd == xT0 || (a->rs1 != xRA && a->rs1 != xT0)) {
++            gen_helper_cfi_jalr(cpu_env, tcg_constant_i32(LP_EXPECTED));
++        }
 +    }
 +
- #ifdef CONFIG_USER_ONLY
-     flags |= TB_FLAGS_MSTATUS_FS;
-     flags |= TB_FLAGS_MSTATUS_VS;
+     lookup_and_goto_ptr(ctx);
+ 
+     if (misaligned) {
+diff --git a/target/riscv/insn_trans/trans_zimops.c.inc b/target/riscv/insn_trans/trans_zimops.c.inc
+new file mode 100644
+index 0000000000..51748637b9
+--- /dev/null
++++ b/target/riscv/insn_trans/trans_zimops.c.inc
+@@ -0,0 +1,53 @@
++/*
++ * RISC-V translation routines for the Control-Flow Integrity Extension
++ *
++ * Copyright (c) 2022-2023 Rivos Inc.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++ static bool trans_zimops_r(DisasContext *ctx, arg_zimops_r * a)
++ {
++      /* zimops not implemented, raise illegal instruction & return true */
++      if (!ctx->cfg_ptr->ext_zimops) {
++            gen_exception_illegal(ctx);
++            return true;
++      }
++
++      /*
++       * zimops implemented, simply grab destination and mov zero.
++       * return true
++       */
++      TCGv dest = dest_gpr(ctx, a->rd);
++      dest = tcg_const_tl(0);
++      gen_set_gpr(ctx, a->rd, dest);
++      return true;
++ }
++
++ static bool trans_zimops_rr(DisasContext *ctx, arg_zimops_rr * a)
++ {
++      /* zimops not implemented, raise illegal instruction & return true */
++      if (!ctx->cfg_ptr->ext_zimops) {
++            gen_exception_illegal(ctx);
++            return true;
++      }
++
++      /*
++       * zimops implemented, simply grab destination and mov zero.
++       * return true
++       */
++      TCGv dest = dest_gpr(ctx, a->rd);
++      dest = tcg_const_tl(0);
++      gen_set_gpr(ctx, a->rd, dest);
++      return true;
++ }
+diff --git a/target/riscv/insn_trans/trans_zisslpcfi.c.inc b/target/riscv/insn_trans/trans_zisslpcfi.c.inc
+new file mode 100644
+index 0000000000..fe27bb73f6
+--- /dev/null
++++ b/target/riscv/insn_trans/trans_zisslpcfi.c.inc
+@@ -0,0 +1,310 @@
++/*
++ * RISC-V translation routines for the Control-Flow Integrity Extension
++ *
++ * Copyright (c) 2022-2023 Rivos Inc.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++static MemOp mxl_memop(DisasContext *ctx)
++{
++    switch (get_xl(ctx)) {
++    case MXL_RV32:
++        return MO_TEUL;
++
++    case MXL_RV64:
++        return MO_TEUQ;
++
++    case MXL_RV128:
++        return MO_TEUO;
++
++    default:
++        g_assert_not_reached();
++    }
++}
++
++static bool trans_sspop(DisasContext *ctx, arg_sspop *a)
++{
++    /* cfi only supported on 32bit and 64bit */
++    if (get_xl(ctx) != MXL_RV32 && get_xl(ctx) != MXL_RV64) {
++        return false;
++    }
++
++    /* back cfi not enabled, should go to trans_zimops. return false */
++    if (!ctx->bcfi_enabled) {
++        return false;
++    }
++
++    /* sspop can only load into x1 or x5. Everything else defaults to zimops */
++    if (a->rd != 1 && a->rd != 5) {
++        return false;
++    }
++
++    /*
++     * get data in TCGv using get_gpr
++     * get addr in TCGv using gen_helper_csrr on CSR_SSP
++     * use some tcg subtract arithmetic (subtract by XLEN) on addr
++     * perform ss store on computed address
++     */
++
++    TCGv addr = tcg_temp_new();
++    int tmp = (get_xl(ctx) == MXL_RV64) ? 8 : 4;
++    TCGv_i32 ssp_csr = tcg_constant_i32(CSR_SSP);
++    TCGv data = get_gpr(ctx, a->rd, EXT_NONE);
++    gen_helper_csrr(addr, cpu_env, ssp_csr);
++    tcg_gen_qemu_ld_tl(data, addr, MMU_IDX_SS_ACCESS,
++                       mxl_memop(ctx) | MO_ALIGN);
++
++    /*
++     * add XLEN/bitwidth to addr, align to XLEN . How do i do that? Is below
++     * the right way
++     */
++    tcg_gen_addi_tl(addr, addr, tmp);
++    gen_set_gpr(ctx, a->rd, data);
++    gen_helper_csrw(cpu_env, ssp_csr, addr);
++
++    return true;
++}
++
++static bool trans_sspush(DisasContext *ctx, arg_sspush *a)
++{
++    /* cfi only supported on 32bit and 64bit */
++    if (get_xl(ctx) != MXL_RV32 && get_xl(ctx) != MXL_RV64) {
++        return false;
++    }
++
++    /* back cfi not enabled, should go to trans_zimops. return false */
++    if (!ctx->bcfi_enabled) {
++        return false;
++    }
++
++    /*
++     * sspush can only push from x1 or x5. Everything else defaults to zimops
++     */
++    if (a->rs1 != 1 && a->rs1 != 5) {
++        return false;
++    }
++
++    /*
++     * get data in TCGv using get_gpr
++     * get addr in TCGv using gen_helper_csrr on CSR_SSP
++     * use some tcg subtract arithmetic (subtract by XLEN) on addr
++     * perform ss store on computed address
++     */
++
++    TCGv addr = tcg_temp_new();
++    int tmp = (get_xl(ctx) == MXL_RV64) ? -8 : -4;
++    TCGv_i32 ssp_csr = tcg_constant_i32(CSR_SSP);
++    TCGv data = get_gpr(ctx, a->rs1, EXT_NONE);
++    gen_helper_csrr(addr, cpu_env, ssp_csr);
++
++    /*
++     * subtract XLEN from addr, align to XLEN . How do i do that? Is below the
++     * right way
++     */
++    tcg_gen_addi_tl(addr, addr, tmp);
++    tcg_gen_qemu_st_tl(data, addr, MMU_IDX_SS_ACCESS,
++                       mxl_memop(ctx) | MO_ALIGN);
++
++    gen_helper_csrw(cpu_env, ssp_csr, addr);
++
++    return true;
++}
++
++static bool trans_sschckra(DisasContext *ctx, arg_sschckra *a)
++{
++    /* cfi only supported on 32bit and 64bit */
++    if (get_xl(ctx) != MXL_RV32 && get_xl(ctx) != MXL_RV64) {
++        return false;
++    }
++
++    /* back cfi not enabled, should go to trans_zimops. return false */
++    if (!ctx->bcfi_enabled) {
++        return false;
++    }
++
++    gen_helper_sschkra_mismatch(cpu_env);
++
++    return true;
++}
++
++static bool trans_ssprr(DisasContext *ctx, arg_ssprr *a)
++{
++    /* cfi only supported on 32bit and 64bit */
++    if (get_xl(ctx) != MXL_RV32 && get_xl(ctx) != MXL_RV64) {
++        return false;
++    }
++
++    /* back cfi not enabled, should go to trans_zimops. return false */
++    if (!ctx->bcfi_enabled) {
++        return false;
++    }
++
++    TCGv dest = get_gpr(ctx, a->rd, EXT_NONE);
++    TCGv_i32 ssp_csr = tcg_constant_i32(CSR_SSP);
++    gen_helper_csrr(dest, cpu_env, ssp_csr);
++    gen_set_gpr(ctx, a->rd, dest);
++
++    return true;
++}
++
++static bool trans_ssamoswap(DisasContext *ctx, arg_ssamoswap *a)
++{
++    /* cfi only supported on 32bit and 64bit */
++    if (get_xl(ctx) != MXL_RV32 && get_xl(ctx) != MXL_RV64) {
++        return false;
++    }
++
++    /* back cfi not enabled, should go to trans_zimops. return false */
++    if (!ctx->bcfi_enabled) {
++        return false;
++    }
++
++    /* If cfi is enabled then, then rd must be != 0 */
++
++    if (a->rd == 0) {
++        return false;
++    }
++
++    TCGv dest = dest_gpr(ctx, a->rd);
++    TCGv src1 = get_address(ctx, a->rs1, 0);
++    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
++    MemOp mop = (MO_ALIGN | ((get_xl(ctx) == MXL_RV32) ? MO_TESL : MO_TESQ));
++
++    tcg_gen_atomic_xchg_tl(dest, src1, src2, MMU_IDX_SS_ACCESS, mop);
++    gen_set_gpr(ctx, a->rd, dest);
++    return true;
++}
++
++static bool trans_lpcll(DisasContext *ctx, arg_lpcll *a)
++{
++    /* cfi only supported on 32bit and 64bit */
++    if (get_xl(ctx) != MXL_RV32 && get_xl(ctx) != MXL_RV64) {
++        return false;
++    }
++
++    /*
++     * If this is the first instruction of the TB, let the translator
++     * know the landing pad requirement was satisfied. No need to bother
++     * checking for CFI feature or enablement.
++     */
++
++    if (ctx->base.pc_next == ctx->base.pc_first) {
++        ctx->fcfi_lp_expected = false;
++        /* PC must be 4 byte aligned */
++        if (ctx->fcfi_enabled && ((ctx->base.pc_next) & 0x3)) {
++            /*
++             * misaligned, according to spec we should raise illegal instead
++             * of mis-aligned
++             */
++            gen_exception_illegal(ctx);
++        }
++    }
++
++    /* forward cfi not enabled, should go to trans_zimops. return false */
++    if (!ctx->fcfi_enabled) {
++        return false;
++    }
++
++    gen_helper_cfi_check_landing_pad(cpu_env, tcg_constant_i32(a->imm_cfi9),
++                               tcg_constant_i32(FCFI_LPLL));
++    return true;
++}
++
++static bool trans_lpcml(DisasContext *ctx, arg_lpcml *a)
++{
++    /* cfi only supported on 32bit and 64bit */
++    if (get_xl(ctx) != MXL_RV32 && get_xl(ctx) != MXL_RV64) {
++        return false;
++    }
++
++    /* forward cfi not enabled, should go to trans_zimops. return false */
++    if (!ctx->fcfi_enabled) {
++        return false;
++    }
++
++    gen_helper_cfi_check_landing_pad(cpu_env, tcg_constant_i32(a->imm_cfi8),
++                               tcg_constant_i32(FCFI_ML));
++    return true;
++}
++
++static bool trans_lpcul(DisasContext *ctx, arg_lpcul *a)
++{
++    /* cfi only supported on 32bit and 64bit */
++    if (get_xl(ctx) != MXL_RV32 && get_xl(ctx) != MXL_RV64) {
++        return false;
++    }
++
++    /* forward cfi not enabled, should go to trans_zimops. return false */
++    if (!ctx->fcfi_enabled) {
++        return false;
++    }
++
++    gen_helper_cfi_check_landing_pad(cpu_env, tcg_constant_i32(a->imm_cfi8),
++                               tcg_constant_i32(FCFI_UL));
++    return true;
++}
++
++static bool trans_lpsll(DisasContext *ctx, arg_lpsll *a)
++{
++    /* cfi only supported on 32bit and 64bit */
++    if (get_xl(ctx) != MXL_RV32 && get_xl(ctx) != MXL_RV64) {
++        return false;
++    }
++
++    /* forward cfi not enabled, should go to trans_zimops. return false */
++    if (!ctx->fcfi_enabled) {
++        return false;
++    }
++
++    gen_helper_cfi_set_landing_pad(cpu_env, tcg_constant_i32(a->imm_cfi9),
++                                   tcg_constant_i32(FCFI_LPLL));
++
++    return true;
++}
++
++static bool trans_lpsml(DisasContext *ctx, arg_lpsml *a)
++{
++    /* cfi only supported on 32bit and 64bit */
++    if (get_xl(ctx) != MXL_RV32 && get_xl(ctx) != MXL_RV64) {
++        return false;
++    }
++
++    /* forward cfi not enabled, should go to trans_zimops. return false */
++    if (!ctx->fcfi_enabled) {
++        return false;
++    }
++
++    gen_helper_cfi_set_landing_pad(cpu_env, tcg_constant_i32(a->imm_cfi8),
++                                   tcg_constant_i32(FCFI_ML));
++
++    return true;
++}
++
++static bool trans_lpsul(DisasContext *ctx, arg_lpsul *a)
++{
++    /* cfi only supported on 32bit and 64bit */
++    if (get_xl(ctx) != MXL_RV32 && get_xl(ctx) != MXL_RV64) {
++        return false;
++    }
++
++    /* forward cfi not enabled, should go to trans_zimops. return false */
++    if (!ctx->fcfi_enabled) {
++        return false;
++    }
++
++    gen_helper_cfi_set_landing_pad(cpu_env, tcg_constant_i32(a->imm_cfi8),
++                                   tcg_constant_i32(FCFI_UL));
++
++    return true;
++}
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index d15893aa82..c14b76aabb 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -123,6 +123,73 @@ target_ulong helper_csrrw_i128(CPURISCVState *env, int csr,
+     return int128_getlo(rv);
+ }
+ 
++void helper_sschkra_mismatch(CPURISCVState *env)
++{
++    if (env->gpr[xRA] != env->gpr[xT0]) {
++        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
++    }
++}
++
++void helper_cfi_jalr(CPURISCVState *env, int elp)
++{
++    /*
++     * The translation routine doesn't know if forward CFI is enabled
++     * in the current processor mode or not. It's not worth burning a
++     * cflags bit to encode this, or tracking the current-mode-fcfi
++     * enable in a dedicated member of 'env'. Just come out to a helper
++     * for jump/call on a core with CFI.
++     */
++    if (cpu_get_fcfien(env)) {
++        env->elp = elp;
++    }
++}
++
++void helper_cfi_check_landing_pad(CPURISCVState *env, int lbl, int inst_type)
++{
++    if (cpu_get_fcfien(env)) {
++        switch (inst_type) {
++        case FCFI_LPLL:
++            /*
++             * Check for a lower label match. We already checked 4 byte
++             * alignment in tcg
++             */
++            if (lbl != get_field(env->lplr, LPLR_LL)) {
++                riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
++            }
++            env->elp = NO_LP_EXPECTED;
++            break;
++        case FCFI_ML:
++            if (lbl != get_field(env->lplr,  LPLR_ML)) {
++                riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
++            }
++            break;
++        case FCFI_UL:
++            if (lbl != get_field(env->lplr,  LPLR_UL)) {
++                riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
++            }
++        }
++    }
++}
++
++void helper_cfi_set_landing_pad(CPURISCVState *env, int lbl, int inst_type)
++{
++    if (cpu_get_fcfien(env)) {
++        switch (inst_type) {
++        case FCFI_LPLL:
++            /* setting lower label always clears up entire field */
++            env->lplr = 0;
++            env->lplr = set_field(env->lplr, LPLR_LL, lbl);
++            break;
++        case FCFI_ML:
++            env->lplr = set_field(env->lplr, LPLR_ML, lbl);
++            break;
++        case FCFI_UL:
++            env->lplr = set_field(env->lplr, LPLR_UL, lbl);
++            break;
++        }
++    }
++}
++
+ #ifndef CONFIG_USER_ONLY
+ 
+ target_ulong helper_sret(CPURISCVState *env)
 diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index df38db7553..7d43d20fc3 100644
+index 7d43d20fc3..b1a965d192 100644
 --- a/target/riscv/translate.c
 +++ b/target/riscv/translate.c
-@@ -41,6 +41,7 @@ static TCGv load_val;
- /* globals for PM CSRs */
- static TCGv pm_mask;
- static TCGv pm_base;
-+static TCGOp *cfi_lp_check;
+@@ -1071,6 +1071,8 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
+ #include "insn_trans/trans_privileged.c.inc"
+ #include "insn_trans/trans_svinval.c.inc"
+ #include "insn_trans/trans_xventanacondops.c.inc"
++#include "insn_trans/trans_zisslpcfi.c.inc"
++#include "insn_trans/trans_zimops.c.inc"
  
- #include "exec/gen-icount.h"
- 
-@@ -116,6 +117,10 @@ typedef struct DisasContext {
-     bool itrigger;
-     /* TCG of the current insn_start */
-     TCGOp *insn_start;
-+    /* CFI extension */
-+    bool bcfi_enabled;
-+    bool fcfi_enabled;
-+    bool fcfi_lp_expected;
- } DisasContext;
- 
- static inline bool has_ext(DisasContext *ctx, uint32_t ext)
-@@ -1166,11 +1171,44 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->pm_mask_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_MASK_ENABLED);
-     ctx->pm_base_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_BASE_ENABLED);
-     ctx->itrigger = FIELD_EX32(tb_flags, TB_FLAGS, ITRIGGER);
-+    ctx->bcfi_enabled = cpu_get_bcfien(env);
-+    ctx->fcfi_enabled = cpu_get_fcfien(env);
-+    ctx->fcfi_lp_expected = FIELD_EX32(tb_flags, TB_FLAGS, FCFI_LP_EXPECTED);
-     ctx->zero = tcg_constant_tl(0);
- }
- 
- static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
- {
-+    DisasContext *ctx = container_of(db, DisasContext, base);
-+
-+    if (ctx->fcfi_lp_expected) {
-+        /*
-+         * Since we can't look ahead to confirm that the first
-+         * instruction is a legal landing pad instruction, emit
-+         * compare-and-branch sequence that will be fixed-up in
-+         * riscv_tr_tb_stop() to either statically hit or skip an
-+         * illegal instruction exception depending on whether the
-+         * flag was lowered by translation of a CJLP or JLP as
-+         * the first instruction in the block.
-+         */
-+        TCGv_i32 immediate;
-+        TCGLabel *l;
-+        l = gen_new_label();
-+        immediate = tcg_temp_local_new_i32();
-+        tcg_gen_movi_i32(immediate, 0);
-+        cfi_lp_check = tcg_last_op();
-+        tcg_gen_brcondi_i32(TCG_COND_EQ, immediate, 0, l);
-+        tcg_temp_free_i32(immediate);
-+        gen_exception_illegal(ctx);
-+        gen_set_label(l);
-+        /*
-+         * Despite the use of gen_exception_illegal(), the rest of
-+         * the TB needs to be generated. The TCG optimizer will
-+         * clean things up depending on which path ends up being
-+         * active.
-+         */
-+        ctx->base.is_jmp = DISAS_NEXT;
-+    }
- }
- 
- static void riscv_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
-@@ -1225,6 +1263,7 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
- static void riscv_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
- {
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
-+    CPURISCVState *env = cpu->env_ptr;
- 
-     switch (ctx->base.is_jmp) {
-     case DISAS_TOO_MANY:
-@@ -1235,6 +1274,19 @@ static void riscv_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-     default:
-         g_assert_not_reached();
-     }
-+
-+    if (ctx->fcfi_lp_expected) {
-+        /*
-+         * If the "lp expected" flag is still up, the block needs to take an
-+         * illegal instruction exception.
-+         */
-+        tcg_set_insn_param(cfi_lp_check, 1, tcgv_i32_arg(tcg_constant_i32(1)));
-+    } else {
-+        /*
-+        * LP instruction requirement was met, clear up LP expected
-+        */
-+        env->elp = NO_LP_EXPECTED;
-+    }
- }
- 
- static void riscv_tr_disas_log(const DisasContextBase *dcbase,
+ /* Include the auto-generated decoder for 16 bit insn */
+ #include "decode-insn16.c.inc"
 -- 
 2.25.1
 
