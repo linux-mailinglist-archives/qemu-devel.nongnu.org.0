@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEB64691A79
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 09:58:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66047691ADA
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 10:08:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQPDi-0005pe-7w; Fri, 10 Feb 2023 03:57:26 -0500
+	id 1pQPNF-0007mF-Eu; Fri, 10 Feb 2023 04:07:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQPDc-0005pK-W9
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 03:57:21 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQPNC-0007m2-7G
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 04:07:14 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQPDb-0001jm-75
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 03:57:20 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQPN7-00047G-AR
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 04:07:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676019438;
+ s=mimecast20190719; t=1676020028;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ux8ZyFGl4mov/lFuusOWE5nTtNcD16XuNOyCpXA2dqQ=;
- b=FXT/gfcgZ3m9uFJR6zcs1Nz815PVBXzHeIWFeBuQdt95rax6+y20A0Zxr/3rUF82SpiRCB
- fTZywMrULExmTG03FY4Oba1JjZWrL/phthcX8qFhf0HRvbMz+ChpKxfCBuTwZ/177Prqf4
- bGMwlkmeMEOsgZs3l8EzcbD2BL/KoQk=
+ bh=bOd/9dQpjU9I0RDwvChgOJHBdGSWb79TqewbtKNFvNU=;
+ b=D1cr847qCIEFkrF3NPTh1CeQ/pxjEdKtWR8sFHER7t+kAJUzo7n/8KZsT4mnqX+lChu3uT
+ VpwW/I/WOTAV1iVr6LIOdyDCgfefUZNCptsAXybFHMufUg7PrHNMzbP8OLdoTglHhvhiwU
+ FNeeaDU106e8jXOFA4mRlvqM1SleVLs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-269-wr2UPCa5PwWK3TVLGmxqXQ-1; Fri, 10 Feb 2023 03:57:12 -0500
-X-MC-Unique: wr2UPCa5PwWK3TVLGmxqXQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-63-hiVPpXSkNiCfxNijxK_DXw-1; Fri, 10 Feb 2023 04:07:03 -0500
+X-MC-Unique: hiVPpXSkNiCfxNijxK_DXw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5C9F3811E9C;
- Fri, 10 Feb 2023 08:57:12 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1548D803D50;
+ Fri, 10 Feb 2023 09:07:03 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 344901121315;
- Fri, 10 Feb 2023 08:57:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E714F400DFAC;
+ Fri, 10 Feb 2023 09:07:02 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1F0A821E6A1F; Fri, 10 Feb 2023 09:57:11 +0100 (CET)
+ id D017221E6A1F; Fri, 10 Feb 2023 10:07:01 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Steve Sistare <steven.sistare@oracle.com>,  qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,  "Dr.
- David Alan
- Gilbert" <dgilbert@redhat.com>,  Michael Roth <michael.roth@amd.com>
-Subject: Re: [PATCH V2 0/4] string list functions
-References: <1675795727-235010-1-git-send-email-steven.sistare@oracle.com>
- <Y+TPbIIV34wyZMuW@redhat.com>
-Date: Fri, 10 Feb 2023 09:57:11 +0100
-In-Reply-To: <Y+TPbIIV34wyZMuW@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Thu, 9 Feb 2023 10:48:12 +0000")
-Message-ID: <877cwpx5i0.fsf@pond.sub.org>
+To: Het Gala <het.gala@nutanix.com>
+Cc: qemu-devel@nongnu.org,  prerna.saxena@nutanix.com,  quintela@redhat.com,
+ dgilbert@redhat.com,  pbonzini@redhat.com,  berrange@redhat.com,
+ eblake@redhat.com,  manish.mishra@nutanix.com,
+ aravind.retnakaran@nutanix.com
+Subject: Re: [PATCH v3 2/6] migration: Updated QAPI format for 'migrate'
+ qemu monitor command
+References: <20230209102754.81578-1-het.gala@nutanix.com>
+ <20230209102754.81578-3-het.gala@nutanix.com>
+Date: Fri, 10 Feb 2023 10:07:01 +0100
+In-Reply-To: <20230209102754.81578-3-het.gala@nutanix.com> (Het Gala's message
+ of "Thu, 9 Feb 2023 10:27:50 +0000")
+Message-ID: <87ttztvqh6.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -85,43 +83,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+Just a quick one on naming before I forget:
 
-> On Tue, Feb 07, 2023 at 10:48:43AM -0800, Steve Sistare wrote:
->> Add some handy string list functions, for general use now, and for
->> eventual use in the cpr/live update patches.
->>=20
->> Steve Sistare (4):
->>   qapi: strList_from_string
->>   qapi: QAPI_LIST_LENGTH
->>   qapi: strv_from_strList
->>   qapi: strList unit tests
+Het Gala <het.gala@nutanix.com> writes:
+
+> Existing 'migrate' QAPI design enforces transport mechanism, ip address
+> of destination interface and corresponding port number in the form
+> of a unified string 'uri' parameter for initiating a migration stream.
+> This scheme has a significant flaw in it - double encoding of existing
+> URIs to extract migration info.
 >
-> I know that the 'strList' type falls out naturally from the
-> QAPI type generator for arrays, but I've always considered
-> it to be a rather awkward result.  The normal C approach
-> would be to use 'char **' NULL terminated, which conveniently
-> already has a bunch of helper APIs from glib, and is also
-> accepted or returned by various other functions we might
-> like to use.
+> The current patch maps QAPI uri design onto well defined MigrateChannel
+> struct. This modified QAPI helps in preventing multi-level uri
+> encodings ('uri' parameter is kept for backward compatibility).
 >
-> Should we consider making the QAPI generator handle string
-> lists as a special case, emitting 'char **' instead of this
-> series ?
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
+> Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
+> Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
+> Signed-off-by: Het Gala <het.gala@nutanix.com>
+> ---
+>  qapi/migration.json | 129 +++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 127 insertions(+), 2 deletions(-)
+>
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index c84fa10e86..261a6770e7 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -1449,12 +1449,106 @@
+>  ##
+>  { 'command': 'migrate-continue', 'data': {'state': 'MigrationStatus'} }
+>  
+> +##
+> +# @MigrateTransport:
+> +#
+> +# The supported communication transport mechanisms for migration
+> +#
+> +# @socket: Supported communication type between two devices for migration.
+> +#          Socket is able to cover all of 'tcp', 'unix', 'vsock' and
+> +#          'fd' already
+> +#
+> +# @exec: Supported communication type to redirect migration stream into file.
+> +#
+> +# @rdma: Supported communication type to redirect rdma type migration stream.
+> +#
+> +# Since 8.0
+> +##
+> +{ 'enum': 'MigrateTransport',
+> +  'data': ['socket', 'exec', 'rdma'] }
+> +
+> +##
+> +# @MigrateSocketAddr:
+> +#
+> +# To support different type of socket.
+> +#
+> +# Since 8.0
+> +##
+> +{ 'struct': 'MigrateSocketAddr',
 
-I don't like special cases.  I also don't like GenericList in any case.
+We tend to avoid abbreviations in QAPI schema names.  For instance, it's
+SocketAddress, not SocketAddr.  Please use Address, not Addr, for
+consistency.
 
-I believe a linked list was chosen because it results in a fairly simple
-visitor interface and implementation.  But it's a poor data structure
-for a homogeneous sequence that rarely if ever changes: lots of pointer
-chasing, waste of memory when the elements are small.
+> +  'data': {'data': 'SocketAddress' } }
+> +
 
-Output visitors walk the sequence in order.  An array would be perfect.
-
-Input visitors build the sequence by appending elements in order.
-A flexible array like GArray would do.
-
-I'm not aware of other code mutating GenericLists or its descendants.
-It might exist.  I'd be surprised if there's much of it, though.
+[...]
 
 
