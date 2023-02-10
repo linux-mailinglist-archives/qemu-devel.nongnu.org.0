@@ -2,79 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B2E691F42
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 13:46:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC2D2691F45
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 13:47:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQSmO-0006Va-Kw; Fri, 10 Feb 2023 07:45:28 -0500
+	id 1pQSnl-0007T8-BE; Fri, 10 Feb 2023 07:46:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQSmM-0006Um-FF
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 07:45:26 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQSmL-0005BF-0h
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 07:45:26 -0500
-Received: by mail-wr1-x433.google.com with SMTP id a2so4958661wrd.6
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 04:45:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=0fSnH1e4vyd2u4Kryqx30mRURqd4lKi6QXrHiBpdw1s=;
- b=J8JlCuZYTh+hV/zbDLNGUIYLAst+EWpykoyqRcl//txtLxFtff1UQT6kNpk7M4gtGI
- d7C+i7G5upIkEBXdntNuvl7ltMNpbvhDbgIPLE/djkf/tvuFB4yxRC7tSpmcOUYOwiD7
- l743THN21Qjq/rh8iCbhbdKemhMfEyX33TSObtU1D5+e1FxkvyPeZRiI57HN2qVsDJoO
- BpXp4HKY1cTjqptm6GRP+nAhfvmVj1ys37HCreoVGeFAuVpfImDRM33LOZWlW7cCwOMQ
- 7ouuZgCJWE1CYbLx24iIUv7cHxdqJAOLflHOCNaNIEFORLuVM4efgbuBk+aIZ0WPM2IY
- E0XQ==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pQSnc-0007Sl-Gp
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 07:46:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pQSna-0005TV-TT
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 07:46:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676033201;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=IZo3wK8xgJC1T9YK8L9DdfqrUKybTeaNeiMijZHw+tQ=;
+ b=AVDIJ9Z6fpsxfAoKJnK1HMHZE5DTJ+B/SmcHfEIQozKIgkmc5AFF/Abpt8IBLBn6DsHhJx
+ TenPDJyKE9SdriFQyzAyMARACDRPM5Hy/0mtYhUI0Ln2Q2Ol4i9LJ2ADHbo8OJP8Jxp9NE
+ o6AxLHRrwnRmWPAOGFzG1+Nq7Gdh088=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-327-z1qrhRbQOJ6bwcpvIKMX9w-1; Fri, 10 Feb 2023 07:46:40 -0500
+X-MC-Unique: z1qrhRbQOJ6bwcpvIKMX9w-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ n7-20020a05600c3b8700b003dc55dcb298so2510200wms.8
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 04:46:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0fSnH1e4vyd2u4Kryqx30mRURqd4lKi6QXrHiBpdw1s=;
- b=HyFiGZ7jq1JneSdxz19lm2p3Wb/UmzTl6UppvkgHZhlLYzA4YVzTaRuwHkBq5PWyN3
- V2FYDmwcaRcZFN4QeEkJSFC/kluVrgU8C1/CMCaDIVqUW40jZfHbA2texH5KT2eTAP3I
- Hquyrl5WlvG2gQIXnRD4P1ALeXG+B78DwCDPyb7QBEWXBBZSj5XOv6lrqNPDXFYbM0oS
- efcQX7yoxOBuPOjBxoCVp0miDSkj/XFo7/QFqLmbzTfDQ+9MVoMiPIFuckrPqdv/i8ZQ
- sOZpawtPd6/i/U58WI7ILwh6on90NJ22A2KBs2OD32cPWT53cyxYCeqpZbUSj5aPCzKy
- PzPQ==
-X-Gm-Message-State: AO0yUKWePuMWGDlksyKIIZhCJAUTIKG+piX3Ysimqyl+6UBXXJZK2atn
- +hRY6qNcT8HvSrT7cfPvi1cMeg==
-X-Google-Smtp-Source: AK7set/J6FxMFQ1jau/ankFu1DXRadpO2AsUdYuE5mtyAsMo2HwU9ylbZZGoEyZskPFQj1rz4ew0sQ==
-X-Received: by 2002:adf:f145:0:b0:2c3:ee0d:563 with SMTP id
- y5-20020adff145000000b002c3ee0d0563mr16133249wro.28.1676033122576; 
- Fri, 10 Feb 2023 04:45:22 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- v18-20020a5d4a52000000b002c3f210e8c0sm3682578wrs.19.2023.02.10.04.45.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Feb 2023 04:45:22 -0800 (PST)
-Message-ID: <09b35ac7-367c-d039-b544-70b5cb1ab795@linaro.org>
-Date: Fri, 10 Feb 2023 13:45:21 +0100
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=IZo3wK8xgJC1T9YK8L9DdfqrUKybTeaNeiMijZHw+tQ=;
+ b=bufZiWpd7cg0p47hyEnw+O6XAr8X37iHZ4VfX5l/P/QeBGHbkTjzmyN5ZF5pPZZLnR
+ RFyzQG7gJke7dTpyR+Gx+lkPj6EE5nI29jkm9r6YAQz9B0Fy1n4sfCsmGyYIl0lD8ODT
+ sU7sNIxOaAK7Ey7XbRdrrPJFboCN0bWCErdUziYazdJi2IHDvS49JfjAGzBI5lnsz/f5
+ 3fU6bqeQ0HKsb7mAhu34N+WUuIn3y33jr7xmpfRgV2JBcOJJc/N+5OGs9hCL71yUPU+d
+ UrZElXZwHORFuhA3ZYxUFppSlsGBUxyoxsTvT0cyB5ka9op7fGiiT8FIXdPEV6Ks2YM9
+ sXuw==
+X-Gm-Message-State: AO0yUKXCYknmz5e9sIR8OUvYm4qta5PkzgZWXkJnYazaIXP/3RO/hYP0
+ wi8fgu9ysWfe7wxsk0Ih8l5KWMT/q7GykfxYUJO/kBrEUjYOtAuknle8ulDDHDexPksMkcO+4y0
+ DA5Xc2yLd1wnxOS0=
+X-Received: by 2002:adf:d081:0:b0:2c3:e4f5:18a with SMTP id
+ y1-20020adfd081000000b002c3e4f5018amr14304606wrh.33.1676033199248; 
+ Fri, 10 Feb 2023 04:46:39 -0800 (PST)
+X-Google-Smtp-Source: AK7set+ktstPA2//IqzF77Tw4nWoFuB2/SdB2o3xzwOmSwCi0mt5dQx4XwX4m2Wi8Bas2JEsVB++DA==
+X-Received: by 2002:adf:d081:0:b0:2c3:e4f5:18a with SMTP id
+ y1-20020adfd081000000b002c3e4f5018amr14304594wrh.33.1676033199055; 
+ Fri, 10 Feb 2023 04:46:39 -0800 (PST)
+Received: from redhat.com (nat-252.udc.es. [193.144.61.252])
+ by smtp.gmail.com with ESMTPSA id
+ q4-20020a05600000c400b002c54737e908sm1899138wrx.91.2023.02.10.04.46.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Feb 2023 04:46:38 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,  Peter Xu
+ <peterx@redhat.com>,  qemu-devel@nongnu.org
+Subject: Re: [PATCH v1 1/4] migration/multifd: Change multifd_load_cleanup()
+ signature and usage
+In-Reply-To: <20230210063630.532185-1-leobras@redhat.com> (Leonardo Bras's
+ message of "Fri, 10 Feb 2023 03:36:28 -0300")
+References: <20230210063630.532185-1-leobras@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Fri, 10 Feb 2023 13:46:37 +0100
+Message-ID: <87sffdhemq.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH] include/hw: Do not include hw.h from headers
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Markus Armbruster <armbru@redhat.com>
-References: <20230210112835.1117966-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230210112835.1117966-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,27 +97,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/2/23 12:28, Thomas Huth wrote:
-> This include is not needed here, so drop that line.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   include/hw/ssi/ibex_spi_host.h          | 1 -
->   include/hw/tricore/tricore_testdevice.h | 1 -
->   2 files changed, 2 deletions(-)
+Leonardo Bras <leobras@redhat.com> wrote:
+> Since it's introduction in commit f986c3d256 ("migration: Create multifd
+> migration threads"), multifd_load_cleanup() never returned any value
+> different than 0, neither set up any error on errp.
+>
+> Even though, on process_incoming_migration_bh() an if clause uses it's
+> return value to decide on setting autostart = false, which will never
+> happen.
+>
+> In order to simplify the codebase, change multifd_load_cleanup() signature
+> to 'void multifd_load_cleanup(void)', and for every usage remove error
+> handling or decision made based on return value != 0.
+>
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
 
-Possibly more?
-
-$ git grep hw/hw.h $(git grep -L -w hw_error)
-hw/pci-host/mv64361.c:14:#include "hw/hw.h"
-hw/ppc/pegasos2.c:13:#include "hw/hw.h"
-hw/sensor/dps310.c:12:#include "hw/hw.h"
-include/hw/ssi/ibex_spi_host.h:31:#include "hw/hw.h"
-include/hw/tricore/tricore_testdevice.h:22:#include "hw/hw.h"
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
 
