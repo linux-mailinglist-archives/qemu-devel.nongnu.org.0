@@ -2,88 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FB9F6922E2
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 17:02:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C82D26922E6
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 17:03:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQVqM-0005gR-0N; Fri, 10 Feb 2023 11:01:46 -0500
+	id 1pQVr1-0006GO-I2; Fri, 10 Feb 2023 11:02:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQVqE-0005fU-SW
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:01:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQVqD-0001ii-5o
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:01:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676044896;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=38BEHx6hNHMfsKewiIfSZs7i86UloC5/pij1MGmR1Ws=;
- b=MacAsJDrmIQovPNdu0uT+wbDYuxfTjJhkG20easd2R1RKMEUSeYzRcvJQ4BGvhQwZFLMTI
- Hp/fv3Rrh6OzSQpyW/sMzFWNl0vrUXNjpzLNAxyaH/6gPZh6RNbJmBZbZFnp9vfqN1DuD4
- WiQQ0YIIGpJsgvPrUNO8rczmc2+GOdM=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-100-Cbw9f4yGMfm1E67eNilgvw-1; Fri, 10 Feb 2023 11:01:31 -0500
-X-MC-Unique: Cbw9f4yGMfm1E67eNilgvw-1
-Received: by mail-pf1-f200.google.com with SMTP id
- x21-20020a056a000bd500b005a84de949aeso2860939pfu.18
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 08:01:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pQVqv-0006BM-2w
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:02:21 -0500
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pQVqs-0001n0-9H
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:02:20 -0500
+Received: by mail-pf1-x42d.google.com with SMTP id d4so506687pfo.4
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 08:02:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=TORpY+CV4pZM0oxj7Ob80QOc34Qbno2BF1gpgA/A9PU=;
+ b=R3fea7sOdlptBe5Rph6s8IGQgZqW/mUm37+zJ4DCKC73JnWfrEKuZCWcYrxnZFpxpu
+ etCzs1gASdLxNmW8s4pVp2RQMJws84eO4DGja6UlrAlqIhWMKzZ/JKayaXYT1lmFbdxb
+ FkUlN53xK5V2L4AZK7SzxsaI2/E0vcOaGRhQhQJTsA+Xb7j292SH29CLGTNbU19Juno2
+ 2KWz7jfvGPoZyIdgTN5ONc5ELyewCkuGWmdUco4NtHzmGoL38Ip0typjnQBr5HUeDVgK
+ l2IFG/vppPDdSyhfVTqAxYL81w8dxvC15S49cEangYC0LLkbNyHXKZ5TmoG4MPX3w19I
+ nLVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=38BEHx6hNHMfsKewiIfSZs7i86UloC5/pij1MGmR1Ws=;
- b=Ri36GclBf/QtMAwqAqOJq+Tqsk+DZTB5Y4ni+PNJhyo+46Z1jOq5Q5v/HlxC6b+4Kg
- Np1vGGgWAR1Cf0hh1RpVjMTdVbj4bbbEY6/y5h15N5GN72NhHEn454bGk2hCedRkivXf
- gCZvtRZnLn6JQD8Fjh0uRI8WQfPZD4jwV8DubiRY4MqlUtCIFgQIiGbpMZL+F3moumdh
- qoVFI7IKSEvU+H7H030BiCCM8IHjGwLPGJSJryg8FLNM2vraTr9t5SLLVIbWACqQoBIz
- ECutnXp3AABsXjURg6p3TZts/xtqw+rMi18Tk8bORPDLX2M7WMHC7qZVOpgvmgGxDPlB
- IQKg==
-X-Gm-Message-State: AO0yUKWZ8v3ODgEC3DB/Wl4iA58CG109QYVTpdrz2ORIIAMPmu9Hiy/c
- 8HsNKH2AI9O+c8EQPd3EPkNm+c+n6iY0H8koFlTcWNDfUkTp7JWqkp4n4+LEGwVPA0AS8jjncsX
- Eq9opN4aIgkBXemJ/GoMS9Czn67maqOs=
-X-Received: by 2002:a17:902:b20f:b0:199:1e59:fdf6 with SMTP id
- t15-20020a170902b20f00b001991e59fdf6mr3543591plr.29.1676044890156; 
- Fri, 10 Feb 2023 08:01:30 -0800 (PST)
-X-Google-Smtp-Source: AK7set/J3QTr5CPRITDpa3qYRpEWFEuAynfU3xJoC4RRO7Atu2dKITHHAxpHq/dFINzYrjnpAGmHgyVNgt6Uo/x3vyE=
-X-Received: by 2002:a17:902:b20f:b0:199:1e59:fdf6 with SMTP id
- t15-20020a170902b20f00b001991e59fdf6mr3543579plr.29.1676044889829; Fri, 10
- Feb 2023 08:01:29 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=TORpY+CV4pZM0oxj7Ob80QOc34Qbno2BF1gpgA/A9PU=;
+ b=qbYfoGjb/i15rl9ib6l9lKpSUvBKRAwWjtKoB9IkDPt6NrkdMqr7k/OJSZLJoC6Bqz
+ lvViRoRmClhTQMTFbDk979oIuXpFXLcxFiiDOnQIqf+SQsq6+m0L8jjd5tmUrAFnMn86
+ Yln98VVQaTRBcvaYgLIF/dbpnapy2g/cvnqodvJ33BXkrGkHwWIJR308jaR+ePA0Odvy
+ ZLRWtdP9NRv/VEp2d9V0P96GVsoE4iZekvbZW+Sk3PyaHRhIBedt7Ii6aKicUxxBqdW2
+ Wk11xRpMHTT1EPsDWgOo0UqSHlYWGleK+N8lTJev2WbwavAKt7Dg2aS0ojO1CqMYIk8m
+ fRfg==
+X-Gm-Message-State: AO0yUKXikzENERsyrusXoedj/eEQ6fBNFaU2R+iCkBbHxPACmILOqkeG
+ 7VK+XPXx9EYqYgbN0iNN2gbbVHpxhAXqbpJUHDY7/g==
+X-Google-Smtp-Source: AK7set/U32jTF0RgFaTiY06aSsGrCH19g/hOYgFTof02bxiroD1/EI/WvM4TrCxPI7HHr4dIoGCr6ZLNgb/RL63pjqc=
+X-Received: by 2002:a62:53c6:0:b0:58d:a84a:190b with SMTP id
+ h189-20020a6253c6000000b0058da84a190bmr3420526pfb.48.1676044936361; Fri, 10
+ Feb 2023 08:02:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20230210003147.1309376-1-jsnow@redhat.com>
- <20230210003147.1309376-7-jsnow@redhat.com>
- <CAFEAcA-c5y0TR8vYg_FYEmGv3mOOmBgeD0cyb+mVotsP=r-Dsw@mail.gmail.com>
-In-Reply-To: <CAFEAcA-c5y0TR8vYg_FYEmGv3mOOmBgeD0cyb+mVotsP=r-Dsw@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Fri, 10 Feb 2023 11:01:18 -0500
-Message-ID: <CAFn=p-aDV9=vG6hjTWRE6c52TpYSjDBU22nthTuejDCv_XrYMQ@mail.gmail.com>
-Subject: Re: [PATCH v2 6/7] CI: Stop building docs on centos8
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Qemu-block <qemu-block@nongnu.org>, Hanna Reitz <hreitz@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Kevin Wolf <kwolf@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000049505505f45a9c45"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230206223502.25122-1-philmd@linaro.org>
+In-Reply-To: <20230206223502.25122-1-philmd@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Feb 2023 16:02:05 +0000
+Message-ID: <CAFEAcA_o_aoKpSeR-YFj8xPsdHR6GUgvBtYF-iTO0+qnYi7H+A@mail.gmail.com>
+Subject: Re: [PATCH v2 00/11] target/arm: Housekeeping around NVIC
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
+ Laurent Vivier <laurent@vivier.eu>,
+ Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,157 +86,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000049505505f45a9c45
-Content-Type: text/plain; charset="UTF-8"
-
-On Fri, Feb 10, 2023, 5:41 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
-
-> On Fri, 10 Feb 2023 at 00:31, John Snow <jsnow@redhat.com> wrote:
-> >
-> > CentOS 8 does not ship with a sphinx new enough for our purposes (It
-> > necessarily uses Python 3.6), so drop this from this build. We can
-> > resume building docs on CentOS 9 if we wish, but we also currently test
-> > and build docs on Fedora, Ubuntu, Alpine and Debian.
+On Mon, 6 Feb 2023 at 22:35, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org=
+> wrote:
 >
-> This confuses me. We work fine with Python 3.6 today.
+> Missing review: 1-3, 5, 9-10
 >
-
-That won't last - Many tools such as mypy, pylint and flake8 which I use to
-manage our python codebase have been dropping support for 3.6 and I've had
-to implement an increasing number of workarounds to help keep it possible
-to test 3.6 via CI while also ensuring our newest platforms work as dev
-environments.
-
-Our testing matrix for Python is novel and thorough enough that it's
-revealed  several bugs in other downstream Python distributions for Debian
-and Fedora, and dozens of bugs for the linters themselves.
-
-I'm concerned that when 3.7 is EOL'd in just a few months that the support
-and testing gap is going to get even uglier.
-
-In addition, Avocado framework has been asking me to drop 3.6 so they can
-follow suit, for much of the same reasons - maintenance cost.
-
-The typing work we've been pursuing for our testing and qapi libraries
-would also be greatly helped by dropping 3.6, but it's really the
-maintenance argument that's driving this.
-
-Anyway, just trying to explain that it's not just a frivolous thing I'm
-doing for the sake of itself.
-
-Either:
->  * CentOS 8 has fallen off the end of our "supported build platforms"
->    list -- if so, we don't need to be CI'ing anything on it.
->  * CentOS 8 is still a supported platform -- in this case building
->    the docs is something we need to continue to support, and we
->    can't drop Python 3.6 until all of our supported build
->    platforms have a newer Python available.
+> Few cleanups while using link properties between CPU/NVIC:
+> - Simplify ID_PFR1 on useremu
+> - Move NVIC helpers to "hw/intc/armv7m_nvic.h"
 >
-
-The argument I'm making is:
-
-- CentOS 8 is a supported build platform
-- All platforms *do* have a Python modern enough to allow us to drop 3.6
-- CentOS's repo version of sphinx is hardcoded to use the older 3.6, though
-- You expressed a preference to me in the past to NOT use a pip installed
-version of sphinx in preference to the system version in "configure"
-- It's still possible to build docs on CentOS 8 after this patchset, you
-just need a pip version.
-- We've used the justification that our build platform promise does not
-necessarily extend to docs and tests in the past.
-- So just skip docs building for CentOS 8, only in the CI.
-
-If you believe docs in CI for CentOS 8 is a hard deal breaker, then I want
-to go back to discussing the possibility of using sphinx versions from pip.
-
-Paolo mentioned wanting to do similar in reply to another patch on this
-series (#5) to preserve docs building on the platform.
+> Since v1: addressed Richard's reviews
+> - Do not restrict v7-M MMU helpers to TCG sysemu since they can be
+>   used for user-emu. Hardcode ARMMMUIdx_MUser
+> - Convert CPUARMState::eabi to boolean
+> - Split 'Restrict nvic to sysemu and store as NVICState' in 3 patches
+> - Dropped following (RFC) patches:
+>   - neg_prio_requested / unrealized property problem
+>   - use object_property_add_const_link()
 
 
-> thanks
-> -- PMM
->
->
 
---00000000000049505505f45a9c45
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Applied to target-arm.next, thanks.
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Fri, Feb 10, 2023, 5:41 AM Peter Maydell &lt;<a hre=
-f=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex">On Fri, 10 Feb 2023 at 00:31, Jo=
-hn Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"_blank" rel=3D"no=
-referrer">jsnow@redhat.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; CentOS 8 does not ship with a sphinx new enough for our purposes (It<b=
-r>
-&gt; necessarily uses Python 3.6), so drop this from this build. We can<br>
-&gt; resume building docs on CentOS 9 if we wish, but we also currently tes=
-t<br>
-&gt; and build docs on Fedora, Ubuntu, Alpine and Debian.<br>
-<br>
-This confuses me. We work fine with Python 3.6 today.<br></blockquote></div=
-></div><div dir=3D"auto"><br></div><div dir=3D"auto">That won&#39;t last - =
-Many tools such as mypy, pylint and flake8 which I use to manage our python=
- codebase have been dropping support for 3.6 and I&#39;ve had to implement =
-an increasing number of workarounds to help keep it possible to test 3.6 vi=
-a CI while also ensuring our newest platforms work as dev environments.</di=
-v><div dir=3D"auto"><br></div><div dir=3D"auto">Our testing matrix for Pyth=
-on is novel and thorough enough that it&#39;s revealed=C2=A0 several bugs i=
-n other downstream Python distributions for Debian and Fedora, and dozens o=
-f bugs for the linters themselves.</div><div dir=3D"auto"><br></div><div di=
-r=3D"auto">I&#39;m concerned that when 3.7 is EOL&#39;d in just a few month=
-s that the support and testing gap is going to get even uglier.</div><div d=
-ir=3D"auto"><br></div><div dir=3D"auto">In addition, Avocado framework has =
-been asking me to drop 3.6 so they can follow suit, for much of the same re=
-asons - maintenance cost.</div><div dir=3D"auto"><br></div><div dir=3D"auto=
-">The typing work we&#39;ve been pursuing for our testing and qapi librarie=
-s would also be greatly helped by dropping 3.6, but it&#39;s really the mai=
-ntenance argument that&#39;s driving this.</div><div dir=3D"auto"><br></div=
-><div dir=3D"auto">Anyway, just trying to explain that it&#39;s not just a =
-frivolous thing I&#39;m doing for the sake of itself.</div><div dir=3D"auto=
-"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">
-Either:<br>
-=C2=A0* CentOS 8 has fallen off the end of our &quot;supported build platfo=
-rms&quot;<br>
-=C2=A0 =C2=A0list -- if so, we don&#39;t need to be CI&#39;ing anything on =
-it.<br>
-=C2=A0* CentOS 8 is still a supported platform -- in this case building<br>
-=C2=A0 =C2=A0the docs is something we need to continue to support, and we<b=
-r>
-=C2=A0 =C2=A0can&#39;t drop Python 3.6 until all of our supported build<br>
-=C2=A0 =C2=A0platforms have a newer Python available.<br></blockquote></div=
-></div><div dir=3D"auto"><br></div><div dir=3D"auto">The argument I&#39;m m=
-aking is:</div><div dir=3D"auto"><br></div><div dir=3D"auto">- CentOS 8 is =
-a supported build platform</div><div dir=3D"auto">- All platforms *do* have=
- a Python modern enough to allow us to drop 3.6</div><div dir=3D"auto">- Ce=
-ntOS&#39;s repo version of sphinx is hardcoded to use the older 3.6, though=
-</div><div dir=3D"auto">- You expressed a preference to me in the past to N=
-OT use a pip installed version of sphinx in preference to the system versio=
-n in &quot;configure&quot;</div><div dir=3D"auto">- It&#39;s still possible=
- to build docs on CentOS 8 after this patchset, you just need a pip version=
-.</div><div dir=3D"auto">- We&#39;ve used the justification that our build =
-platform promise does not necessarily extend to docs and tests in the past.=
-</div><div dir=3D"auto">- So just skip docs building for CentOS 8, only in =
-the CI.</div><div dir=3D"auto"><br></div><div dir=3D"auto">If you believe d=
-ocs in CI for CentOS 8 is a hard deal breaker, then I want to go back to di=
-scussing the possibility of using sphinx versions from pip.</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">Paolo mentioned wanting to do similar=
- in reply to another patch on this series (#5) to preserve docs building on=
- the platform.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div clas=
-s=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-thanks<br>
--- PMM<br>
-<br>
-</blockquote></div></div></div>
-
---00000000000049505505f45a9c45--
-
+-- PMM
 
