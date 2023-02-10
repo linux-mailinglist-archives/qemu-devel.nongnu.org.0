@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E196669188A
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 07:33:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A4F9691886
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 07:32:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQMx6-00056t-TS; Fri, 10 Feb 2023 01:32:08 -0500
+	id 1pQMx9-00057l-7y; Fri, 10 Feb 2023 01:32:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras.c@gmail.com>)
- id 1pQMx4-00056Y-8c
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 01:32:06 -0500
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d])
+ id 1pQMx6-00056u-C1
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 01:32:08 -0500
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <leobras.c@gmail.com>)
- id 1pQMx2-0007g5-C4
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 01:32:05 -0500
-Received: by mail-oi1-x22d.google.com with SMTP id n132so3684081oih.7
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 22:32:03 -0800 (PST)
+ id 1pQMx4-0007gD-LI
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 01:32:07 -0500
+Received: by mail-ot1-x329.google.com with SMTP id
+ bv2-20020a0568300d8200b0068dc615ee44so1274290otb.10
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 22:32:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=2OC0+N8bmkMf5K9Lhs0x8cPe/2V5a2HvI4ivvTW8fNQ=;
- b=n597P01IaHyqihMvnik1HEsUlM0SUZbZm8N5pEs0Bk7U/VHMpZB2qtSjH0EAyTKS85
- aQbytKjU5a9dFfdhSwR64BF6822y5foMLJaE/TbKNYSWh5FbYNg1u0xokn7pZvXKG66X
- LhyZteZTEtosdjGN9rQ0WSrOGpF4ierSUGbZZBYcuzc0uMd58xx0oGWrapfbUBFocAzI
- nkDiJXMTjEQ+DkWKODx9QIkkN9AxM4PFEHrReNIISNrixUXWH4CdZ2G0AS4JSreK3a/p
- hmKeIu0vCLkHaTQDgzZuTf5kO9L+/KvwaZpgSfzmkvCqRrTIVLnz18mJYRmlJLZ25d11
- T1gg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=b0JhpVPOTJNunW/+RFyMjuxpZq9yWKqBvO16ePPxhWc=;
+ b=XeXVMLFl/DFm1/l89eR+Uq12dUEsUWTsxCgOMFt7M1xr5ofJ7GcP8TbJAjZZY/witF
+ k7S3mSFUCAC/d7USas5mSxf3jCaq2CNQeER2uNArWeYYfeAWT7ivGRJ4pdfxLxLfIxIF
+ PsZJpdw5kdZOKr6DfOLgy7DzigOtOcnQRhHbC0MwuWb38yibN6T0oSN/zqio33asQvHY
+ JLnoR7QdLx5i3y5GPbJfbS77JbemxR9y2mH+R/MKUR/gwFuXA5Kdx4mXZV8upkYiPxtW
+ BMyAHVHQD3LN7PN1XZhxaDJ/hWK2rXzY3gVPetnAduoYWCnwwHQE2MxTucjUp7Kh8iRu
+ NDug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=2OC0+N8bmkMf5K9Lhs0x8cPe/2V5a2HvI4ivvTW8fNQ=;
- b=nnn5goKlg0jPntMmZUFrSHK56/4sI/nAJxm6N37h7qArz4ln8gd0jw1AkvktMH0/su
- bKpG2Hz/o9X6XB9Em0JjaDinI/CX+0Wh/2NYnHE46SGW/ApI37D8tTe995OeGgwQStfO
- iab03tdAXvLB31TQ5R1nQmKTMmfg+pP19i+i/VOvPSW80g6GcN7+DuhHAoqq70dmF1zO
- +7t91GjIEjSm7ODHBpgs5PZYuzFWXSZokhdDXxdq9ux2++bV/u9Mt/VjUgl16eVw6gIj
- KtTZbY0rh75Dpf7GaIMIA6fkQFlwiFC6yo50kdBa6oW7jP0m1fNHcc3PC4g18oZr9cHi
- e4uQ==
-X-Gm-Message-State: AO0yUKVYE1PrzeKqay95HLM+4iglHlxyqG9N63d1FMROILErY2305pRl
- cm/ZTDE93yq+P6oZVWbct3s=
-X-Google-Smtp-Source: AK7set8xYPA4UEnWre4Tc1FzVOF+TO81RZetBAA2crW4cshUrFUDVVjy3QEJ6iAGpPgjmq8ELqbVmw==
-X-Received: by 2002:a05:6808:3cf:b0:36e:bb55:d51a with SMTP id
- o15-20020a05680803cf00b0036ebb55d51amr6522550oie.52.1676010722617; 
- Thu, 09 Feb 2023 22:32:02 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=b0JhpVPOTJNunW/+RFyMjuxpZq9yWKqBvO16ePPxhWc=;
+ b=0sZMSXVYiZKntIUwv5CO/GxZ/82oHBzW93/LzGaXZ8uFwejY1BkDu4iELnT2nvL6ro
+ 6OQ8gNaAg9ijAGFwBgHKV2K+lbCl/gvHvJ4+Px/jFlIaEL50eoAYF/fNP649zQwitpiO
+ XIZGWT8ZlvHjavpMz1/zJHmC0deYKGFSxtvGt/ZI+miLWreUDrg971UrFyRlDRmkJhtY
+ 4MXVia3JHjGudx8AbUZ5x2oAI6IDwmaozjst4o/A7nIz1RZVfpKVCG/NMwnW+0eaHe01
+ OqCHVVtHu+neFVHRHkrGeINY76V05/QbYjdxYp/fC63IHfemv/o54pTruGiEkrmgI263
+ uVAA==
+X-Gm-Message-State: AO0yUKWiQnO1ZPw1XE2dKUd0BEwiSDhIMrZq01a8ZDrXaGbq8rtf4BmD
+ OTcsvnCi+pQPUPlGSmMyWZc=
+X-Google-Smtp-Source: AK7set/UUa3NmF+czS02gsUIk+R1uf1Uz6g7mU+Uc8kmoiULGyxlyrsyZRdpfl0UeoCUgoFwaLFNLw==
+X-Received: by 2002:a05:6830:923:b0:684:d3d1:6df8 with SMTP id
+ v35-20020a056830092300b00684d3d16df8mr10548377ott.29.1676010725111; 
+ Thu, 09 Feb 2023 22:32:05 -0800 (PST)
 Received: from LeoBras.redhat.com ([2804:1b3:a800:9aa9:fdcb:7dec:9680:8417])
  by smtp.gmail.com with ESMTPSA id
- h18-20020a9d6a52000000b00688449397d3sm1686285otn.15.2023.02.09.22.32.00
+ h18-20020a9d6a52000000b00688449397d3sm1686285otn.15.2023.02.09.22.32.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Feb 2023 22:32:02 -0800 (PST)
+ Thu, 09 Feb 2023 22:32:04 -0800 (PST)
 From: Leonardo Bras <leobras.c@gmail.com>
 To: Juan Quintela <quintela@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Peter Xu <peterx@redhat.com>
 Cc: Leonardo Bras <leobras.c@gmail.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v1 1/4] migration/multifd: Change multifd_load_cleanup()
- signature and usage
-Date: Fri, 10 Feb 2023 03:31:42 -0300
-Message-Id: <20230210063145.530952-1-leobras.c@gmail.com>
+Subject: [PATCH v1 2/4] migration/multifd: Remove unnecessary assignment on
+ multifd_load_cleanup()
+Date: Fri, 10 Feb 2023 03:31:43 -0300
+Message-Id: <20230210063145.530952-2-leobras.c@gmail.com>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230210063145.530952-1-leobras.c@gmail.com>
+References: <20230210063145.530952-1-leobras.c@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=leobras.c@gmail.com; helo=mail-oi1-x22d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
+ envelope-from=leobras.c@gmail.com; helo=mail-ot1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,98 +94,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since it's introduction in commit f986c3d256 ("migration: Create multifd
-migration threads"), multifd_load_cleanup() never returned any value
-different than 0, neither set up any error on errp.
+Before assigning "p->quit = true" for every multifd channel,
+multifd_load_cleanup() will call multifd_recv_terminate_threads() which
+already does the same assignment, while protected by a mutex.
 
-Even though, on process_incoming_migration_bh() an if clause uses it's
-return value to decide on setting autostart = false, which will never
-happen.
-
-In order to simplify the codebase, change multifd_load_cleanup() signature
-to 'void multifd_load_cleanup(void)', and for every usage remove error
-handling or decision made based on return value != 0.
+So there is no point doing the same assignment again.
 
 Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
 ---
- migration/multifd.h   |  2 +-
- migration/migration.c | 14 ++++----------
- migration/multifd.c   |  6 ++----
- 3 files changed, 7 insertions(+), 15 deletions(-)
+ migration/multifd.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/migration/multifd.h b/migration/multifd.h
-index ff3aa2e2e9..9a7e1a8826 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -16,7 +16,7 @@
- int multifd_save_setup(Error **errp);
- void multifd_save_cleanup(void);
- int multifd_load_setup(Error **errp);
--int multifd_load_cleanup(Error **errp);
-+void multifd_load_cleanup(void);
- bool multifd_recv_all_channels_created(void);
- void multifd_recv_new_channel(QIOChannel *ioc, Error **errp);
- void multifd_recv_sync_main(void);
-diff --git a/migration/migration.c b/migration/migration.c
-index 7a14aa98d8..ce962ea577 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -543,13 +543,7 @@ static void process_incoming_migration_bh(void *opaque)
-      */
-     qemu_announce_self(&mis->announce_timer, migrate_announce_params());
- 
--    if (multifd_load_cleanup(&local_err) != 0) {
--        error_report_err(local_err);
--        autostart = false;
--    }
--    /* If global state section was not received or we are in running
--       state, we need to obey autostart. Any other state is set with
--       runstate_set. */
-+    multifd_load_cleanup();
- 
-     dirty_bitmap_mig_before_vm_start();
- 
-@@ -649,9 +643,9 @@ fail:
-     migrate_set_state(&mis->state, MIGRATION_STATUS_ACTIVE,
-                       MIGRATION_STATUS_FAILED);
-     qemu_fclose(mis->from_src_file);
--    if (multifd_load_cleanup(&local_err) != 0) {
--        error_report_err(local_err);
--    }
-+
-+    multifd_load_cleanup();
-+
-     exit(EXIT_FAILURE);
- }
- 
 diff --git a/migration/multifd.c b/migration/multifd.c
-index b7ad7002e0..174726982c 100644
+index 174726982c..1a445b36f1 100644
 --- a/migration/multifd.c
 +++ b/migration/multifd.c
-@@ -1022,12 +1022,12 @@ static void multifd_recv_terminate_threads(Error *err)
-     }
- }
+@@ -1034,7 +1034,6 @@ void multifd_load_cleanup(void)
+         MultiFDRecvParams *p = &multifd_recv_state->params[i];
  
--int multifd_load_cleanup(Error **errp)
-+void multifd_load_cleanup(void)
- {
-     int i;
- 
-     if (!migrate_use_multifd() || !migrate_multi_channels_is_allowed()) {
--        return 0;
-+        return;
-     }
-     multifd_recv_terminate_threads(NULL);
-     for (i = 0; i < migrate_multifd_channels(); i++) {
-@@ -1067,8 +1067,6 @@ int multifd_load_cleanup(Error **errp)
-     multifd_recv_state->params = NULL;
-     g_free(multifd_recv_state);
-     multifd_recv_state = NULL;
--
--    return 0;
- }
- 
- void multifd_recv_sync_main(void)
+         if (p->running) {
+-            p->quit = true;
+             /*
+              * multifd_recv_thread may hung at MULTIFD_FLAG_SYNC handle code,
+              * however try to wakeup it without harm in cleanup phase.
 -- 
 2.39.1
 
