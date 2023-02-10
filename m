@@ -2,80 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD2A691D0C
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 11:42:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 431D7691D24
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 11:47:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQQqq-0000Sc-Lb; Fri, 10 Feb 2023 05:41:56 -0500
+	id 1pQQv1-0001r1-2x; Fri, 10 Feb 2023 05:46:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pQQqX-0000RH-JY
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 05:41:37 -0500
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pQQqW-00006N-1G
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 05:41:37 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id u9so6021330plr.9
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 02:41:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1676025694;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=vZs7WaUOHF7l8G5R1+wZSqhhz5Yh8+TVj1k5ZiESzb0=;
- b=GMkO9yDSSEnzaTRM/7Xyb6S53MC0xoyMWDBuQkBucWqUHNvXuP8S2gfVlu+IAag6y7
- Inynd6aOONNEbHNPPgk9j/NSCrxaGyNZWYtVdyrlxjTyK3033uqoFE9MM/Ybke9sOh5C
- 6bA+GbG39vYaYpBG3ruiSFHJxhu0nNedCYOFQ7BVGlI4HUWexUWtIndUuL4Jb1YTEf74
- AZvxHu5YwyCbYwku852pfHA0rT/F1nmv6B/K92ZHymJ6iUMb1MrsfkBjUuL2vd7zLfb5
- SAQyKQzma/T6TiyVSU/4rDgXjGppqfD9aMEAZ74Zua0D8LnZEnbAKZZKQqSbXUjukv52
- n2VA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pQQuw-0001pB-II
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 05:46:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pQQur-0001Lh-Mv
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 05:46:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676025965;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=v4etviLD1fWGyLk5zx8zBi1X/ROwY1fOCC4dI5t9A2A=;
+ b=B+ZskwCg5DkKPK4w8L5sKhTSeejX9BJHdTdv4MaGnFs3MhQfQinHALE/+PiyXaK0o4VssR
+ uMyxey/aunfWWvcnpS82kqtQjvY+/p4nYLVQPEKgdNDmbetIsKpR8VYAzfsCwvocDz9Tjd
+ eSPtv6oV9S+3lNoqewvCRJFIKKqqrdE=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-70-6eLj9J0JO6ueOYhme-G6ZQ-1; Fri, 10 Feb 2023 05:46:03 -0500
+X-MC-Unique: 6eLj9J0JO6ueOYhme-G6ZQ-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ 21-20020a170906225500b0088b953a6df6so3399432ejr.20
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 02:46:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1676025694;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vZs7WaUOHF7l8G5R1+wZSqhhz5Yh8+TVj1k5ZiESzb0=;
- b=tAOG0Mxkx1WjA/PdHvvHeqiITvQIzme4WoHkFvoSlo4o7aDeMLufXTWwUyHwhbubm6
- X/GNH1DsInDfEXx0jA9SUyiPMXCAsbMHIHrEfhqijmuScia2tnX8UYcC/U5E4eNreMqm
- 3z4fKn2VCPesqAQM6MX1YVrlCukOztgW5eGbMZ4ymcg0CLsAmf+27wUNOoYKbzzc6/Zv
- 3AOl5YvUX+gqV5WyeC4hTwYUyYNnqxU0HtNKkEczVEVXNwjZdc9pbMPk4oQIXZJuu9ff
- mhHaXA1M1m2MScVZxcpPowdVdu9uNns2bKxF9yD3okKFhq9fAGM/o25+hCfpXbbGXSqA
- aYIg==
-X-Gm-Message-State: AO0yUKUijzz67bGVWAXTaBJ4FBV8Z1/dd0bzhTJSVJNT3qkvjYs0TQ+C
- ZXQK9iUq3SF2ChNIf4L++hsoJtXajLtzzwyO9wNk6A==
-X-Google-Smtp-Source: AK7set/oLpdJb7c63Ht4PGMZCQmIiwVUob5dqtQT2LU7XsjfU9BwYWPML93e7ObYpxCLVWD9hIrTuUGQLX9KvdcE8KY=
-X-Received: by 2002:a17:902:ec8b:b0:19a:75da:ab4 with SMTP id
- x11-20020a170902ec8b00b0019a75da0ab4mr223447plg.9.1676025694342; Fri, 10 Feb
- 2023 02:41:34 -0800 (PST)
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=v4etviLD1fWGyLk5zx8zBi1X/ROwY1fOCC4dI5t9A2A=;
+ b=Gp9I27AoKnav3aQUfNBLCOXF27A9aUEHnnyxWfBfSjIFjRmxDIRqC+Gl5Qj+LS6pE+
+ 6GzptlUFcvg2/8ujhMiT9suT6p2/kuUMckT3NE60EwUOripuGU4SettlZjJnh6g+XazM
+ ZAmJ1uTbI7R4FGJL6ej3kQN3FnIo/g27mklcs2+3aweH3JZUVVDMEeNGSVc33uKHTjZS
+ lZaQ2U36S8RBENiqE+Kteiny9Fzp7SpWHTPTSadVpApMVESzjuox26mJM9zeBP9pqVIj
+ Mhk9VsvXcINV5mBcRsSgJ8j6pvtdR88RHP/owDdAM43e6hmiHT3g3hnDCgA9sIvEGED7
+ cgvg==
+X-Gm-Message-State: AO0yUKUaRtrVKFzZ2y3Nn0+F4CAaA50Xp0y68gT6EeNcLe2Hur/uD+kH
+ Pue7661Ih9CveSV5iignWF0gj+vSkGKaA8XYSG5QbxPSGjR1wTcJEE3lDBNLkM5tcUjaisWTzSD
+ gkyqBDvLf1S4Jm2Q=
+X-Received: by 2002:a17:907:c586:b0:8af:4418:8700 with SMTP id
+ tr6-20020a170907c58600b008af44188700mr4476203ejc.47.1676025962338; 
+ Fri, 10 Feb 2023 02:46:02 -0800 (PST)
+X-Google-Smtp-Source: AK7set9Oxg1/Ws6+Tu7si6JAf9hibqbVtgibFPbyqi40IjbWLbyklea+VQa7Thpl1D2XTXsd/0CcMQ==
+X-Received: by 2002:a17:907:c586:b0:8af:4418:8700 with SMTP id
+ tr6-20020a170907c58600b008af44188700mr4476185ejc.47.1676025962137; 
+ Fri, 10 Feb 2023 02:46:02 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.googlemail.com with ESMTPSA id
+ z12-20020a17090674cc00b008aac25d8f7fsm2246234ejl.97.2023.02.10.02.45.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Feb 2023 02:46:01 -0800 (PST)
+Message-ID: <3bb14d43-4dbe-62f3-679f-4b7823b29d41@redhat.com>
+Date: Fri, 10 Feb 2023 11:45:57 +0100
 MIME-Version: 1.0
-References: <20230210003147.1309376-1-jsnow@redhat.com>
- <20230210003147.1309376-7-jsnow@redhat.com>
-In-Reply-To: <20230210003147.1309376-7-jsnow@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Feb 2023 10:41:23 +0000
-Message-ID: <CAFEAcA-c5y0TR8vYg_FYEmGv3mOOmBgeD0cyb+mVotsP=r-Dsw@mail.gmail.com>
-Subject: Re: [PATCH v2 6/7] CI: Stop building docs on centos8
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH v2 3/7] configure: Look for auxiliary Python installations
+Content-Language: en-US
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
  Beraldo Leal <bleal@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Kevin Wolf <kwolf@redhat.com>
+References: <20230210003147.1309376-1-jsnow@redhat.com>
+ <20230210003147.1309376-4-jsnow@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20230210003147.1309376-4-jsnow@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,22 +110,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 10 Feb 2023 at 00:31, John Snow <jsnow@redhat.com> wrote:
->
-> CentOS 8 does not ship with a sphinx new enough for our purposes (It
-> necessarily uses Python 3.6), so drop this from this build. We can
-> resume building docs on CentOS 9 if we wish, but we also currently test
-> and build docs on Fedora, Ubuntu, Alpine and Debian.
+On 2/10/23 01:31, John Snow wrote:
+> At the moment, we look for just "python3" and "python", which is good
+> enough almost all of the time. But ... if you are on a platform that
+> uses an older Python by default and only offers a newer Python as an
+> option, you'll have to specify --python=/usr/bin/foo every time.
+> 
+> We can be kind and instead make a cursory attempt to locate a suitable
+> Python binary ourselves, looking for the remaining well-known binaries.
+> 
+> This configure loop will prefer, in order:
+> 
+> 1. Whatever is specified in $PYTHON
+> 2. python3
+> 3. python
+> 4. python3.11 down through python3.6
+> 
+> Notes:
+> 
+> - Python virtual environment provides binaries for "python3", "python",
+>    and whichever version you used to create the venv,
+>    e.g. "python3.8". If configure is invoked from inside of a venv, this
+>    configure loop will not "break out" of that venv unless that venv is
+>    created using an explicitly non-suitable version of Python that we
+>    cannot use.
+> 
+> - In the event that no suitable python is found, the first python found
+>    is the version used to generate the human-readable error message.
+> 
+> - The error message isn't printed right away to allow later
+>    configuration code to pick up an explicitly configured python.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   configure | 33 +++++++++++++++++++++++++--------
+>   1 file changed, 25 insertions(+), 8 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index 64960c6000f..ea8c973d13b 100755
+> --- a/configure
+> +++ b/configure
+> @@ -592,20 +592,39 @@ esac
+>   
+>   : ${make=${MAKE-make}}
+>   
+> -# We prefer python 3.x. A bare 'python' is traditionally
+> -# python 2.x, but some distros have it as python 3.x, so
+> -# we check that too
+> +
+> +check_py_version() {
+> +    # We require python >= 3.6.
+> +    # NB: a True python conditional creates a non-zero return code (Failure)
+> +    "$1" -c 'import sys; sys.exit(sys.version_info < (3,6))'
+> +}
+> +
+>   python=
+> +first_python=
+>   explicit_python=no
+> -for binary in "${PYTHON-python3}" python
+> +# A bare 'python' is traditionally python 2.x, but some distros
+> +# have it as python 3.x, so check in both places.
+> +for binary in "${PYTHON-python3}" python python3.{11..6}
 
-This confuses me. We work fine with Python 3.6 today.
-Either:
- * CentOS 8 has fallen off the end of our "supported build platforms"
-   list -- if so, we don't need to be CI'ing anything on it.
- * CentOS 8 is still a supported platform -- in this case building
-   the docs is something we need to continue to support, and we
-   can't drop Python 3.6 until all of our supported build
-   platforms have a newer Python available.
+This is not available in e.g. dash, so we need to use {11,10,9,8,7,6}.
+Just a nit, I can fix it myself.
 
-thanks
--- PMM
+Paolo
+
 
