@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A626769230E
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 17:14:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8EAA692321
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 17:18:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQW2F-0005na-0R; Fri, 10 Feb 2023 11:14:03 -0500
+	id 1pQW5u-0007TC-Fb; Fri, 10 Feb 2023 11:17:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pQW2A-0005mo-87
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:13:58 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pQW5t-0007Sz-5b
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:17:49 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pQW28-0003rZ-24
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:13:57 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pQW5r-0004dj-Bu
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:17:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676045635;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=1TNtnMSuwgAJ9TPeJHingwuTeeAD7DgHLp5+nrvN9js=;
- b=LJcIDNawHan22T0L92dEJDoBGOOesTxZ7HsnZAp07DSmmYWg4ABcpVndAOiFAZ7HXa3e3O
- gxWQOW+GgERCwPc+H3O2YTg0MnwicpA+8+JXYLv4NySSQM2spu2a6bq7yC8hRA3B3QuizC
- VCnz+fCsItvQcpFXg00hXRvD6Duz+RQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1676045866;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FCtAT0haHCypsfrh43Fl6PLFZykTYxH9tSKKS+ZHSGI=;
+ b=UUhz7HjI7a1PjlnqbQRAO0sv2GzlNuOCO0Clc5iHdXWO1Szef18qDLW0WRt8w3nRcSnrsW
+ l9Z6i1l7B6A4ZlhwLmjNkclOj+DxHEEje5hON8IW7HKaoXerwPUc1NyQ4s3TsbN/PcTPVR
+ TSqVf6aHvmEhcFhDRIqFfTAQTXGkK9M=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-17-qy4hfANUOauHN6j1S_P-Gw-1; Fri, 10 Feb 2023 11:13:52 -0500
-X-MC-Unique: qy4hfANUOauHN6j1S_P-Gw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j20-20020a05600c1c1400b003dc5dd44c0cso2837909wms.8
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 08:13:51 -0800 (PST)
+ us-mta-93-bCmlcr1HPfKdvB6gNRnPyg-1; Fri, 10 Feb 2023 11:17:45 -0500
+X-MC-Unique: bCmlcr1HPfKdvB6gNRnPyg-1
+Received: by mail-ua1-f69.google.com with SMTP id
+ 89-20020a9f26e2000000b004183c5c5b7aso2038854uay.10
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 08:17:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1TNtnMSuwgAJ9TPeJHingwuTeeAD7DgHLp5+nrvN9js=;
- b=BlYnHElZUU5X4srVVcT+jCoiojL9NWj1f1g/1GKtkSWEIEedEYXVqriIxqh0AEBJ4E
- bQnMaX0ROTUU2cTmkqEvHuvGw1smsX7nTDQrwtAIBNMFRLHYfQpKbAL5z75/EXt1oK/8
- EsqSxR/6buXz3s0BlkujroGIa/yFyXv+slrnsIT7xIp4SY4dR7pKaLW3Inbjv7Xb1LU3
- ox8XK6z3xbjRt8nOCEXAV5HvE/Qu45fRBx8iUe747b3oI9LUFxsmfQ2o5YkA8Raayvdo
- ZprJHPBVEJdoir6NCbvFIYzWs9/Ov2WfaNBeuK8Fuo09lNTKZnprXppzfDuRKNJszNlY
- AyTQ==
-X-Gm-Message-State: AO0yUKWM7wwBV/DDeD4XNuvEAkI1kcdgdq6SXrpqY8dpSuMsmqEINiFO
- TJb5i95Ore29pLVRqcZWiKgeBKVCkewyujVE1dCNvYnnoP5dku9iZahsrukE18aRWItNjlWqQI+
- FV17+xo8sG2sA/pM=
-X-Received: by 2002:a05:600c:a295:b0:3dd:1bcc:eb17 with SMTP id
- hu21-20020a05600ca29500b003dd1bcceb17mr13404078wmb.28.1676045630885; 
- Fri, 10 Feb 2023 08:13:50 -0800 (PST)
-X-Google-Smtp-Source: AK7set9vnc3om7YV+x9nJQ2aqeEn0pJA7h8pK/a9Tc5Z9TxsVzavz8MU+5m5dqGzAkrTQ+stETKGtA==
-X-Received: by 2002:a05:600c:a295:b0:3dd:1bcc:eb17 with SMTP id
- hu21-20020a05600ca29500b003dd1bcceb17mr13404058wmb.28.1676045630666; 
- Fri, 10 Feb 2023 08:13:50 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- t15-20020a05600c328f00b003dc5b59ed7asm5177576wmp.11.2023.02.10.08.13.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Feb 2023 08:13:49 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org,  kvm@vger.kernel.org,  Philippe =?utf-8?Q?Mathi?=
- =?utf-8?Q?eu-Daud=C3=A9?=
- <philmd@linaro.org>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Paolo Bonzini
- <pbonzini@redhat.com>,  Cornelia Huck <cohuck@redhat.com>,  "Michael S.
- Tsirkin" <mst@redhat.com>,  Thomas Huth <thuth@redhat.com>,  =?utf-8?Q?Ma?=
- =?utf-8?Q?rc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PULL 00/17] Migration 20230209 patches
-In-Reply-To: <CAFEAcA-SOpRiX+s14OxCJ+Lwx6kzUdroM9ufugzTVLM9Tq2gHA@mail.gmail.com>
- (Peter Maydell's message of "Fri, 10 Feb 2023 14:33:02 +0000")
-References: <20230209233426.37811-1-quintela@redhat.com>
- <CAFEAcA-qSWck=ga4XBGvGXJohtGrSPO6t6+U4KqRvJdN8hrAug@mail.gmail.com>
- <87r0uxy528.fsf@secure.mitica>
- <CAFEAcA-SOpRiX+s14OxCJ+Lwx6kzUdroM9ufugzTVLM9Tq2gHA@mail.gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Fri, 10 Feb 2023 17:13:48 +0100
-Message-ID: <87edqxxzur.fsf@secure.mitica>
+ bh=FCtAT0haHCypsfrh43Fl6PLFZykTYxH9tSKKS+ZHSGI=;
+ b=tK7ix/zKHOuygBut0tCHFZP5e33+IBLI7zt9crgJJT3lgximCf19ZUadtGdPjJJmj8
+ ZVPsAi62yPAD5cUEZA/TCk5OAxVkAz9anyPlXDgIB2OuNdGnTXfWAHcpPA52bbkvLgXX
+ gR6hcheOR1L2Zqrgf5P5MiicvPjlCfHAd64tZ/uVUmWZ08j9JlWeQ28se/EhUHBTf/Uh
+ 9VlrLqB8mmt12nNsPswsa1FolKjRpdZ4e+C4SKEWfgM/kTbEeH+bd0cJLW1ahWIsRHQj
+ iqxxLzUGZ0IXm8S/y9ytnGsMYSXHUdYdEkgiMYZ9jf6F2Ye8dkwuQloudLlZX4mqUk0w
+ VnAQ==
+X-Gm-Message-State: AO0yUKV16pFNx1CA+7QaJVEquHSJmiVKa1Hbo3fDQBAyOrj+3iOYzZt6
+ 5ki4XzsaM/mQ84DuIT2DVhYjiBTEXvTMMEl3s/gBCVWmcVsbnJiZNt1aCOvWgK4C5sAqLXThpDc
+ AvbXQsN0MDLumq7KBHtehrdKenuAHFqU=
+X-Received: by 2002:a05:6102:32c7:b0:40e:46ce:29cf with SMTP id
+ o7-20020a05610232c700b0040e46ce29cfmr3627043vss.27.1676045864803; 
+ Fri, 10 Feb 2023 08:17:44 -0800 (PST)
+X-Google-Smtp-Source: AK7set+HZZB1GW0TpSNlksPJQVngbTvtYoox85CvV0RYYaavM0gDFumrI9751EaDHKSY8GGsjiJR8ZQ5BwzTIWWFTCk=
+X-Received: by 2002:a05:6102:32c7:b0:40e:46ce:29cf with SMTP id
+ o7-20020a05610232c700b0040e46ce29cfmr3627026vss.27.1676045864489; Fri, 10 Feb
+ 2023 08:17:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+References: <20230210003147.1309376-1-jsnow@redhat.com>
+ <20230210003147.1309376-4-jsnow@redhat.com>
+ <3bb14d43-4dbe-62f3-679f-4b7823b29d41@redhat.com>
+ <CAFn=p-Yyus2zipaUgLwonpMRdfZp-CKEisiXgZBLjgG6UxXagw@mail.gmail.com>
+In-Reply-To: <CAFn=p-Yyus2zipaUgLwonpMRdfZp-CKEisiXgZBLjgG6UxXagw@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Fri, 10 Feb 2023 17:17:32 +0100
+Message-ID: <CABgObfa79AStZ8DnGEs2GmdZeLecijW3Um9O4XmguVNLwdfs2g@mail.gmail.com>
+Subject: Re: [PATCH v2 3/7] configure: Look for auxiliary Python installations
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>, Qemu-block <qemu-block@nongnu.org>, 
+ Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -103,126 +102,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Maydell <peter.maydell@linaro.org> wrote:
-> On Fri, 10 Feb 2023 at 14:21, Juan Quintela <quintela@redhat.com> wrote:
->>
->> Peter Maydell <peter.maydell@linaro.org> wrote:
->> > Fails to build the user-mode emulators:
->>
->> This is weird.
->
->> > https://gitlab.com/qemu-project/qemu/-/jobs/3749435025
->> >
->> > In file included from ../authz/base.c:24:
->> > ../authz/trace.h:1:10: fatal error: trace/trace-authz.h: No such file
->> > or directory
->> > 1 | #include "trace/trace-authz.h"
->>
->> This series only have one change for traces:
->>
->> diff --git a/util/trace-events b/util/trace-events
->> index c8f53d7d9f..16f78d8fe5 100644
->> --- a/util/trace-events
->> +++ b/util/trace-events
->> @@ -93,6 +93,7 @@ qemu_vfio_region_info(const char *desc, uint64_t region_ofs, uint64_t region_siz
->>  qemu_vfio_pci_map_bar(int index, uint64_t region_ofs, uint64_t
->> region_size, int ofs, void *host) "map region bar#%d addr
->> 0x%"PRIx64" size 0x%"PRIx64" ofs 0x%x host %p"
->>
->>  #userfaultfd.c
->> +uffd_detect_open_mode(int mode) "%d"
->>  uffd_query_features_nosys(int err) "errno: %i"
->>  uffd_query_features_api_failed(int err) "errno: %i"
->>  uffd_create_fd_nosys(int err) "errno: %i"
->>
->> Rest of trace mentions are for the removal of migration.multifd.c.orig
->>
->> And I don't play with authentication at all.
->>
->> This is Fedora 37.
->>
->> > https://gitlab.com/qemu-project/qemu/-/jobs/3749435094
->> > In file included from ../authz/simple.c:23:
->> > ../authz/trace.h:1:10: fatal error: trace/trace-authz.h: No such file
->> > or directory
->>
->> Problem is that this trace file is not generated, but I can think how
->> any change that I did can influence this.
->>
->> > 1 | #include "trace/trace-authz.h"
->> >
->> >
->> > https://gitlab.com/qemu-project/qemu/-/jobs/3749434963
->> > In file included from ../authz/listfile.c:23:
->> > ../authz/trace.h:1:10: fatal error: trace/trace-authz.h: No such file
->> > or directory
->> > 1 | #include "trace/trace-authz.h"
->>
->> Looking at the ouptut of these, they are not informatives at all.
->>
->> I am going to try to compile linux-user without system, and see if that
->> brings a clue.
->
-> Yes, I suspect this is a "user-mode only build" specific failure
-> (you may need --disable-system --disable-tools to see it).
+On Fri, Feb 10, 2023 at 4:28 PM John Snow <jsnow@redhat.com> wrote:
+> PS, while you're here, how does this new loop interfere with your "custom=
+ python specified" flag for meson? I think meson uses the version of python=
+ *it* detects and not the configure script identified one, right? Does that=
+ mean that e.g. the qapi generator gets run with the system default/meson v=
+ersion and not the config version?
 
-git-bisect is my friend O:-)
+Yes, if neither --python nor --meson are specified, then it could
+happen that a different python is used during ninja's execution vs.
+what is used for "other stuff" (docker cross compilers and other
+Makefile invocations of $(PYTHON)).
 
-And yes, the problem was in my PULL request.
+The meson version of Python is guaranteed to be at least 3.7 as soon
+as we update to 0.63.x (which will be Real Soon Now), but it's ugly.
+The main issue I anticipate could be a problem when running from a
+virtual environment, so perhaps we can force usage of the internal
+meson if neither --python nor --meson are specified, and VIRTUAL_ENV
+is set and $VIRTUAL_ENV/bin/meson does not exist?
 
-Again, I don't know why it fails.
+diff --git a/configure b/configure
+index 06bcd9031903..001a79a90170 100755
+--- a/configure
++++ b/configure
+@@ -870,8 +870,18 @@ fi
+ # Suppress writing compiled files
+ python=3D"$python -B"
 
-diff --git a/tests/bench/meson.build b/tests/bench/meson.build
-index daefead58d..7477a1f401 100644
---- a/tests/bench/meson.build
-+++ b/tests/bench/meson.build
-@@ -3,9 +3,11 @@ qht_bench = executable('qht-bench',
-                        sources: 'qht-bench.c',
-                        dependencies: [qemuutil])
- 
-+if have_system
- xbzrle_bench = executable('xbzrle-bench',
-                        sources: 'xbzrle-bench.c',
-                        dependencies: [qemuutil,migration])
-+endif
- 
- executable('atomic_add-bench',
-            sources: files('atomic_add-bench.c'),
++has_meson() {
++  if test "${VIRTUAL_ENV:+set}" =3D set; then
++    # Ensure that Meson and Python come from the same virtual environment
++    test -x "$(VIRTUAL_ENV}/bin/meson" &&
++      test "$(command -v meson)" -ef "$(VIRTUAL_ENV}/bin/meson"
++  else
++    has meson
++  fi
++}
++
+ if test -z "$meson"; then
+-    if test "$explicit_python" =3D no && has meson && version_ge
+"$(meson --version)" 0.63.0; then
++    if test "$explicit_python" =3D no && has_meson && version_ge
+"$(meson --version)" 0.63.0; then
+         meson=3Dmeson
+     elif test "$git_submodules_action" !=3D 'ignore' ; then
+         meson=3Dgit
 
-This make it works.
+I will include it when posting the final series.
 
-And no, I still not have a single clue how creating a new executable in
-tests/bench/ can make trace files not to be generated somewhere else.
+> Do I need to adjust this loop to consider more binaries as "explicitly sp=
+ecified"?
 
-> meson.build only puts authz into trace_events_subdirs "if have_block"
-> (which is to say "if have_system or have_tools"). However the
-> bit of meson.build that says "subdir('authz') does not have
-> the same condition on it -- it's just been put in the list without
-> any condition on it. So I think that in a build-only-user-emulators
-> config meson will not generate trace events for the subdirectory
-> but will try to build it, which falls over.
->
-> Contrast 'block', 'nbd', 'scsi', which are all guarded by
-> 'if have_block' for their subdir() lines, to match the guard on
-> the trace_events_subdirs. OTOH 'io' is also mismatched-guards...
->
-> Why this only shows up with your pullreq I have no idea.
+I don't think it's a huge problem. Outside virtual environments, the
+most likely setting is that Meson uses python3 which in turn is the
+most recent python3.X, so it should be fine overall.
 
-xbzrle_bench.
-Notice that dependency on migration.
+Though part of me thinks that your new loop is slightly overengineered
+and we should just require /usr/bin/env python3 and call it a day.
 
-As said, I compile every user and system targets that compile in fedora
-before I submit a PULL request.
-But it is getting clear than that is not enough anymore.
-
-Sorry about the noise.
-
-Will resubmit the PULL requset.
-
-Later, Juan.
+Paolo
 
 
