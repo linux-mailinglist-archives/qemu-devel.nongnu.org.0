@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0975691FC5
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 14:32:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A32F7691FC9
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 14:33:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQTVD-0002KE-49; Fri, 10 Feb 2023 08:31:47 -0500
+	id 1pQTWQ-00034d-BQ; Fri, 10 Feb 2023 08:33:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pQTVB-0002Jz-9Z
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 08:31:45 -0500
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pQTWO-00034I-Ex
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 08:33:00 -0500
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pQTV8-0006UF-Jz
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 08:31:45 -0500
-Received: by mail-ot1-x32c.google.com with SMTP id
- r34-20020a05683044a200b0068d4a8a8d2dso1511109otv.12
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 05:31:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pQTWM-0006es-Rw
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 08:33:00 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id n2so3716510pgb.2
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 05:32:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=NiJ5PCwDTQoChsxOyh6ryxHsj0w230XsvFO7l1LuRvA=;
- b=H5QxgVv3WHoQ8uc7OAmkq4lTHagMHH1DjGdqlOYw+iZ3ISwbQwY/k2A61zhn1E8YEw
- Gbi05+ZSbLpDhPZfHY9AUNb5pQ8JZpr7IjB1HvRDlBiKTHA3RbzkWgxChEwHIYToYd6L
- iRS3qM3YZSLnEK5/kfN9TLBSkK1rYUXNqPYpcL57Ld1ZSvfT/P2TmOdVfdnlnBKskyUd
- 3v4j79Tt3gEz/nPPFKYzUV3hIGXcBrPQLrZDlcGfwhomxlY7ZvERlenki0csD0beZaPi
- he2isAcleiwAL3nIhahKAqWpAZKiiM1L+BCDuclscj9oQO6zNJCK/xjPUPB5PYOZYyO9
- qQqw==
+ d=linaro.org; s=google; t=1676035977;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=+uzsZum9W/Fslcbo+RgotMW/hjV78iD5VQlw4fHoZwY=;
+ b=czvrYVmZpsW+115qeYh67rBsZUClzW4VjfubZyiwM/u6uVbmH8pNNScxAamEQ4gVim
+ prwxdk+lDBxgKRdVz/QoF7abiB+MfOQUQg0aZM6AJVHmccqJ34SGy0844SDkUF8LsNiQ
+ p6E3zsB9kuJ7+Q5c4/cCqsJDtlcQpXXxPsDL5WLk1Ro6skDFxkZl7Z3zID0xeyJcp085
+ nO+hJObrMyPgT/beuC9SKQ7hs3WjS/qPlZIbKJWTO37E/IkWI8taZIDIDDjWabDuHkcy
+ b5RlLgSp2bHuiXKgBSfG7jQ5mfV/ljqw0BGClCDuSuVPdc1u15cl/BlV3vAGWuBobOfV
+ 86Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NiJ5PCwDTQoChsxOyh6ryxHsj0w230XsvFO7l1LuRvA=;
- b=DlthgyTVvD1cTXQel8buuZPPgcTIH5FDjgBysBuU0lMJ6WBIggzDm/kBv3iANCkSLa
- bS8ag3VwgFTRg5akLu9r/Uk1ImAtQO/oyxxguy+PfXUqn6rmvdZreX3U44RGALmPgY3J
- awsqsrTeiaRX7Je7IDXIKCYyo1QXM1uWJuMrFAp8lXkTOc7y3FAjzjmBfpiOFe3jtCWD
- pjVxUo9y/zG8YYKLWS+yfHe5FtDlPTiKIbDmlIgIFH4UvAYt3z/kUsiMB0HyYSiPGRGb
- xX/o3ChGMYs0CCmg9B8348rWsOb5QHXn+xcwsj8ZlGFYzcry353XpThbEgkjKHG7BnqB
- llDg==
-X-Gm-Message-State: AO0yUKUTDGZuPW/+f6GXSiCRa8EAImk/0lgySSBMeRMw5PDSrJGvOUcJ
- LQnhnkfpOKJcqoYtKsXYSRuLFw==
-X-Google-Smtp-Source: AK7set9DOI+POHMPoyV+GRt5vHa2SZsj08DT6RQQ0ucS4bz92FF8Kp7VwL0foeFXGhPuUvxE+9Dbhw==
-X-Received: by 2002:a9d:775a:0:b0:684:eca3:fa4a with SMTP id
- t26-20020a9d775a000000b00684eca3fa4amr7504855otl.31.1676035901118; 
- Fri, 10 Feb 2023 05:31:41 -0800 (PST)
-Received: from [192.168.68.107] ([191.19.125.138])
- by smtp.gmail.com with ESMTPSA id
- g6-20020a9d6486000000b0068bcef4f543sm1993050otl.21.2023.02.10.05.31.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Feb 2023 05:31:40 -0800 (PST)
-Message-ID: <08fe08cc-9e9a-8d5d-9c66-3068f347a9b5@ventanamicro.com>
-Date: Fri, 10 Feb 2023 10:31:37 -0300
+ d=1e100.net; s=20210112; t=1676035977;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+uzsZum9W/Fslcbo+RgotMW/hjV78iD5VQlw4fHoZwY=;
+ b=qtPP0WIE2SfJS/7INakmBGxhstpLqmbhogF2iJ7+CrHzBSSC8FTbT1a+HXnHgcxUNi
+ YY8kYo594AQBleT3NDHfnRgyr14i9FQc+Qlq9z0+vTfFuOCUkXciVeGqIKSlmFr7vjkI
+ XXvFROpoImfXlJ8SLGGJ001cVluleKmGKJvqs8At6lHL/5RYH1xWD6Z8Ah5mpbzQxjmM
+ wLEH1sMA8RjKgPFN+SbL76174ybhMMlGIJVwmIhxrp/Igr1/pLEVdjwemD7YUV1iSwni
+ GYjaR9LBV1BdjceCiQPEW9qZNSlH28PyUh1phBFN4+kLgF01zPCXcEfMis0Dwet6zcUb
+ v3jA==
+X-Gm-Message-State: AO0yUKV2Gf8e1rVMzzhe3vnZxHNSlu/AZy9k+2aR/Dq/DbUaUplPhetU
+ LI6BU/VqqA4pkhpPW+C5asTdMcCUI79VWu02zpgoRA==
+X-Google-Smtp-Source: AK7set/yZZtOEOSjibXNh+obpk3AT+qAeBApwFOyr7xmQSCAbubRJ6GES1T6K+Yu/r7pTJuIt4tfp84CxT8sJlOesqs=
+X-Received: by 2002:aa7:9e5a:0:b0:5a8:482f:c328 with SMTP id
+ z26-20020aa79e5a000000b005a8482fc328mr1939752pfq.39.1676035977208; Fri, 10
+ Feb 2023 05:32:57 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] target/i386: Remove pointless env_archcpu() in
- helper_rdmsr()
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
-References: <20230210125700.13474-1-philmd@linaro.org>
-Content-Language: en-US
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230210125700.13474-1-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x32c.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
+References: <20230124000027.3565716-1-richard.henderson@linaro.org>
+ <20230124000027.3565716-19-richard.henderson@linaro.org>
+In-Reply-To: <20230124000027.3565716-19-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Feb 2023 13:32:46 +0000
+Message-ID: <CAFEAcA_Gqzf6FZbVuPdkk_MvKbaPDY7Aa86CRqwVFDOPfh-o3w@mail.gmail.com>
+Subject: Re: [PATCH 18/22] target/arm: Add GPC syndrome
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, yier.jin@huawei.com, 
+ jonathan.cameron@huawei.com, leonardo.garcia@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,32 +85,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 2/10/23 09:57, Philippe Mathieu-Daudé wrote:
-> We have a X86CPU *cpu pointer available at the start of the function.
-> 
-> Inspired-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+On Tue, 24 Jan 2023 at 00:02, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> The function takes the fields as filled in by
+> the Arm ARM pseudocode for TakeGPCException.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
+>  target/arm/syndrome.h | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
+> diff --git a/target/arm/syndrome.h b/target/arm/syndrome.h
+> index 73df5e3793..3fa926d115 100644
+> --- a/target/arm/syndrome.h
+> +++ b/target/arm/syndrome.h
+> @@ -49,6 +49,7 @@ enum arm_exception_class {
+>      EC_SYSTEMREGISTERTRAP     = 0x18,
+>      EC_SVEACCESSTRAP          = 0x19,
+>      EC_SMETRAP                = 0x1d,
+> +    EC_GPC                    = 0x1e,
+>      EC_INSNABORT              = 0x20,
+>      EC_INSNABORT_SAME_EL      = 0x21,
+>      EC_PCALIGNMENT            = 0x22,
+> @@ -237,6 +238,14 @@ static inline uint32_t syn_bxjtrap(int cv, int cond, int rm)
+>          (cv << 24) | (cond << 20) | rm;
+>  }
+>
+> +static inline uint32_t syn_gpc(int s2ptw, int ind, int gpcsc,
+> +                               int cm, int s1ptw, int wnr, int fsc)
+> +{
+> +    return (EC_GPC << ARM_EL_EC_SHIFT) | ARM_EL_IL | (s2ptw << 21)
+> +            | (ind << 20) | (gpcsc << 14) | (cm << 8) | (s1ptw << 7)
+> +            | (wnr << 6) | fsc;
+> +}
 
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+I guess we can add VNCR (bit 13) when we implement FEAT_NV2...
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
->   target/i386/tcg/sysemu/misc_helper.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
-> index e1528b7f80..e47db9376e 100644
-> --- a/target/i386/tcg/sysemu/misc_helper.c
-> +++ b/target/i386/tcg/sysemu/misc_helper.c
-> @@ -326,7 +326,7 @@ void helper_rdmsr(CPUX86State *env)
->           val = env->sysenter_eip;
->           break;
->       case MSR_IA32_APICBASE:
-> -        val = cpu_get_apic_base(env_archcpu(env)->apic_state);
-> +        val = cpu_get_apic_base(x86_cpu->apic_state);
->           break;
->       case MSR_EFER:
->           val = env->efer;
+thanks
+-- PMM
 
