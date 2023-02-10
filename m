@@ -2,84 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3CE9691E17
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 12:21:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9CF5691E24
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 12:24:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQRSC-0000NF-D2; Fri, 10 Feb 2023 06:20:32 -0500
+	id 1pQRV9-0001qY-Pn; Fri, 10 Feb 2023 06:23:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQRS9-0000Jz-4n
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:20:29 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQRS7-0001Tx-Dm
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:20:28 -0500
-Received: by mail-wm1-x335.google.com with SMTP id u10so3569440wmj.3
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 03:20:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=s6/m+SW4QLI2ZUo3Q5+2Yg0VsvgY9fu1meplRPt9Cbo=;
- b=j/McQTKr7Kcn44LD1AMa+P/DsgLKKt4+DL2n/7GorOMcAOWSRjrHDKbV/UBdvVAqhw
- GrfHPWkn/xH8vc1ht+x+gepPaEP+VBc8GRUR6H50E850GN+QV30mEmv2cRyC4SenWzU6
- MmaLsudrqAfGgH0MHthj9JFEnvcNCy782+DCysnRzPLWAwV95n1v24LRbvbzz5W+sUu/
- JR99GJPY7g9wX9SHiTNnmBQWdZ588C/Zpx78n15V0Tm7qc3Ik243S/6ME/1mPCe78orJ
- onyOrZ0D7XJMuhu/vLuk+GfaehF+y4n1vGR7UBxQhAQB7e2QQizDXc0ktyeht8rNssTt
- HXXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=s6/m+SW4QLI2ZUo3Q5+2Yg0VsvgY9fu1meplRPt9Cbo=;
- b=GXxcKzD4GFp5kAHsO6lrih12pBZfIKdxZufXUGfatVg1X3lGBWnMLLT5yz7NiLB4LK
- Dmv/najah0CdBRuKaMa2Jy9wohE/2yK6xhu41YUeDYlLwwbI4L/iwW0CMprNEAgQgjSj
- VHdPpkle+oOzi+eH27HLxvdlcHne/BQcRwAsrHO7REfCNGQRYyINYsnCfTaC4a8CK46M
- K/CHdBSD+y8Z0PzW0UyD5nmhgzR+/dQ5Xc/rnWqujZziQDOsOMiiRWHfrGdk3dwLxmcV
- dfdJQScVYhTWyfDpH46IGQaHiMLtUy6cz+XKjKFLFl3BzRL0mQmCnTtJiw/cO5Ynf5P9
- uNGg==
-X-Gm-Message-State: AO0yUKXpMFW9iDKXQpc8CeR588GVQna+KbUhmacqE5w97ZqMJeOqvA5J
- 4Z+iQszLj5UfyobDyNEzTD5OvA==
-X-Google-Smtp-Source: AK7set90bte7I1UAbFf8OdYGpxr+Hlv4GlhrI6+QJTwzi1uHAxARNDMfHxFBHprLuKcb8BX0SvkN9Q==
-X-Received: by 2002:a05:600c:4da5:b0:3df:fbc7:5b1d with SMTP id
- v37-20020a05600c4da500b003dffbc75b1dmr12610260wmp.2.1676028025770; 
- Fri, 10 Feb 2023 03:20:25 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- g20-20020a7bc4d4000000b003a3442f1229sm7916315wmk.29.2023.02.10.03.20.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Feb 2023 03:20:25 -0800 (PST)
-Message-ID: <66928ea5-039a-7c62-1776-a43a61cc578b@linaro.org>
-Date: Fri, 10 Feb 2023 12:20:24 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pQRV2-0001op-4G
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:23:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pQRUy-00026Q-M9
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:23:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676028204;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=v1T7ptjdCtR+okGONlmX/SNevHClnPw1rdkZl7CH4iY=;
+ b=GZuu6yhShp9NQsrC1d7w9985biNSnFhdZPkm2do7vsr49NhQLb6a0fPTZEmKMrLtjlI7mL
+ VKl8bYdJtoD+Qrmni9MFhaHjbtgxMffybCUXepHUGBpNe+NmRMrPfyJ3tgTV5lkl7hwz+w
+ exs+DVO2aRDFIb0IC2jPFgPj+xLttP0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-573-ClTHhPrOPQqREDMu799B-A-1; Fri, 10 Feb 2023 06:23:20 -0500
+X-MC-Unique: ClTHhPrOPQqREDMu799B-A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0784C87B2A4;
+ Fri, 10 Feb 2023 11:23:20 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C5E8D1121315;
+ Fri, 10 Feb 2023 11:23:18 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>
+Cc: qemu-arm@nongnu.org,
+	qemu-trivial@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH] include/hw: Do not include "hw/registerfields.h" in headers
+ that don't need it
+Date: Fri, 10 Feb 2023 12:23:15 +0100
+Message-Id: <20230210112315.1116966-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH v3 13/15] qapi: add HOTPLUG_STATE event
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org
-Cc: armbru@redhat.com, eblake@redhat.com, eduardo@habkost.net,
- berrange@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
- mst@redhat.com, den-plotnikov@yandex-team.ru
-References: <20230209200808.869275-1-vsementsov@yandex-team.ru>
- <20230209200808.869275-14-vsementsov@yandex-team.ru>
- <c6613d1d-b489-5094-fd8c-1795159d0a80@linaro.org>
- <5ac6f2a0-ff4f-1c18-dfed-9ec24056f18f@yandex-team.ru>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <5ac6f2a0-ff4f-1c18-dfed-9ec24056f18f@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,44 +77,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/2/23 11:47, Vladimir Sementsov-Ogievskiy wrote:
-> On 10.02.23 00:28, Philippe Mathieu-Daudé wrote:
->> On 9/2/23 21:08, Vladimir Sementsov-Ogievskiy wrote:
->>> For PCIe and SHPC hotplug it's important to track led indicators,
->>> especially the power led. Add an event that helps.
->>>
->>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->>> ---
->>>   qapi/qdev.json       | 62 ++++++++++++++++++++++++++++++++++++++++++++
->>>   include/hw/pci/pci.h | 15 +++++++++++
->>>   hw/pci/pci.c         | 33 +++++++++++++++++++++++
->>>   hw/pci/pcie.c        | 49 ++++++++++++++++++++++++++++++++++
->>>   hw/pci/shpc.c        | 42 ++++++++++++++++++++++++++++++
->>>   5 files changed, 201 insertions(+)
->>>
->>> diff --git a/qapi/qdev.json b/qapi/qdev.json
->>> index 2708fb4e99..40dc34f091 100644
->>> --- a/qapi/qdev.json
->>> +++ b/qapi/qdev.json
->>> @@ -158,3 +158,65 @@
->>>   ##
->>>   { 'event': 'DEVICE_UNPLUG_GUEST_ERROR',
->>>     'data': { '*device': 'str', 'path': 'str' } }
->>> +
->>> +##
->>> +# @HotplugLedState:
->>> +#
->>> +# Since: 8.0
->>> +##
->>> +{ 'enum': 'HotplugLedState',
->>> +  'data': [ 'on', 'blink', 'off' ] }
->>
->> Could this be more helpful as generic state in "hw/misc/led.h"?
-> 
-> Hmm. LEDState ? Doesn't look similar..
+Include "hw/registerfields.h" in the .c files instead (if needed).
 
-Name 'LedActivity' so we can reuse in LEDState?
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ include/hw/arm/smmuv3.h        | 1 -
+ include/hw/char/ibex_uart.h    | 1 -
+ include/hw/ssi/ibex_spi_host.h | 1 -
+ hw/char/ibex_uart.c            | 1 +
+ hw/ssi/ibex_spi_host.c         | 1 +
+ 5 files changed, 2 insertions(+), 3 deletions(-)
 
-   { 'enum': 'LedActivity',
-     'data': [ 'on', 'blink', 'off' ] }
+diff --git a/include/hw/arm/smmuv3.h b/include/hw/arm/smmuv3.h
+index f1921fdf9e..b6dd087526 100644
+--- a/include/hw/arm/smmuv3.h
++++ b/include/hw/arm/smmuv3.h
+@@ -20,7 +20,6 @@
+ #define HW_ARM_SMMUV3_H
+ 
+ #include "hw/arm/smmu-common.h"
+-#include "hw/registerfields.h"
+ #include "qom/object.h"
+ 
+ #define TYPE_SMMUV3_IOMMU_MEMORY_REGION "smmuv3-iommu-memory-region"
+diff --git a/include/hw/char/ibex_uart.h b/include/hw/char/ibex_uart.h
+index a39985516a..9deadf223b 100644
+--- a/include/hw/char/ibex_uart.h
++++ b/include/hw/char/ibex_uart.h
+@@ -26,7 +26,6 @@
+ #define HW_IBEX_UART_H
+ 
+ #include "hw/sysbus.h"
+-#include "hw/registerfields.h"
+ #include "chardev/char-fe.h"
+ #include "qemu/timer.h"
+ #include "qom/object.h"
+diff --git a/include/hw/ssi/ibex_spi_host.h b/include/hw/ssi/ibex_spi_host.h
+index 1f6d077766..8089cc1c31 100644
+--- a/include/hw/ssi/ibex_spi_host.h
++++ b/include/hw/ssi/ibex_spi_host.h
+@@ -32,7 +32,6 @@
+ #include "hw/ssi/ssi.h"
+ #include "qemu/fifo8.h"
+ #include "qom/object.h"
+-#include "hw/registerfields.h"
+ #include "qemu/timer.h"
+ 
+ #define TYPE_IBEX_SPI_HOST "ibex-spi"
+diff --git a/hw/char/ibex_uart.c b/hw/char/ibex_uart.c
+index e58181fcf4..f70adb5308 100644
+--- a/hw/char/ibex_uart.c
++++ b/hw/char/ibex_uart.c
+@@ -31,6 +31,7 @@
+ #include "hw/qdev-clock.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/qdev-properties-system.h"
++#include "hw/registerfields.h"
+ #include "migration/vmstate.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+diff --git a/hw/ssi/ibex_spi_host.c b/hw/ssi/ibex_spi_host.c
+index 57df462e3c..1ee7d88c22 100644
+--- a/hw/ssi/ibex_spi_host.c
++++ b/hw/ssi/ibex_spi_host.c
+@@ -26,6 +26,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
++#include "hw/registerfields.h"
+ #include "hw/ssi/ibex_spi_host.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
+-- 
+2.31.1
+
 
