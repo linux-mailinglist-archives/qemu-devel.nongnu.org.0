@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC2D2691F45
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 13:47:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7FF5691F50
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 13:48:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQSnl-0007T8-BE; Fri, 10 Feb 2023 07:46:53 -0500
+	id 1pQSpC-0008J2-Gh; Fri, 10 Feb 2023 07:48:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pQSnc-0007Sl-Gp
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 07:46:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pQSp9-0008IB-MS
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 07:48:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pQSna-0005TV-TT
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 07:46:44 -0500
+ id 1pQSp8-0005fe-9c
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 07:48:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676033201;
+ s=mimecast20190719; t=1676033297;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=IZo3wK8xgJC1T9YK8L9DdfqrUKybTeaNeiMijZHw+tQ=;
- b=AVDIJ9Z6fpsxfAoKJnK1HMHZE5DTJ+B/SmcHfEIQozKIgkmc5AFF/Abpt8IBLBn6DsHhJx
- TenPDJyKE9SdriFQyzAyMARACDRPM5Hy/0mtYhUI0Ln2Q2Ol4i9LJ2ADHbo8OJP8Jxp9NE
- o6AxLHRrwnRmWPAOGFzG1+Nq7Gdh088=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=BcXYJH3i+y1TT/U2nZy+Ny3ldVGLyUDD1mxU7KuZFDk=;
+ b=FsUAvOq2fbkvNTH3oUm76v9Raxo74PCPJnD7bgELx6S59e3jmFJGlQWKparXrh2vQPhBT+
+ 3JbVoqOa9R6fpZmSTjuHtAii0SVTZ6hrhhUpHt1K442fePyWjFYjoRhc/rffLub+pt2alL
+ mxLz0liEGb347EboHQw6wv+xTfA+rnQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-327-z1qrhRbQOJ6bwcpvIKMX9w-1; Fri, 10 Feb 2023 07:46:40 -0500
-X-MC-Unique: z1qrhRbQOJ6bwcpvIKMX9w-1
-Received: by mail-wm1-f70.google.com with SMTP id
- n7-20020a05600c3b8700b003dc55dcb298so2510200wms.8
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 04:46:40 -0800 (PST)
+ us-mta-186-CL85OYcEMUmdV3nkdxxzDQ-1; Fri, 10 Feb 2023 07:48:15 -0500
+X-MC-Unique: CL85OYcEMUmdV3nkdxxzDQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ r14-20020a05600c35ce00b003e10bfcd160so2514242wmq.6
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 04:48:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IZo3wK8xgJC1T9YK8L9DdfqrUKybTeaNeiMijZHw+tQ=;
- b=bufZiWpd7cg0p47hyEnw+O6XAr8X37iHZ4VfX5l/P/QeBGHbkTjzmyN5ZF5pPZZLnR
- RFyzQG7gJke7dTpyR+Gx+lkPj6EE5nI29jkm9r6YAQz9B0Fy1n4sfCsmGyYIl0lD8ODT
- sU7sNIxOaAK7Ey7XbRdrrPJFboCN0bWCErdUziYazdJi2IHDvS49JfjAGzBI5lnsz/f5
- 3fU6bqeQ0HKsb7mAhu34N+WUuIn3y33jr7xmpfRgV2JBcOJJc/N+5OGs9hCL71yUPU+d
- UrZElXZwHORFuhA3ZYxUFppSlsGBUxyoxsTvT0cyB5ka9op7fGiiT8FIXdPEV6Ks2YM9
- sXuw==
-X-Gm-Message-State: AO0yUKXCYknmz5e9sIR8OUvYm4qta5PkzgZWXkJnYazaIXP/3RO/hYP0
- wi8fgu9ysWfe7wxsk0Ih8l5KWMT/q7GykfxYUJO/kBrEUjYOtAuknle8ulDDHDexPksMkcO+4y0
- DA5Xc2yLd1wnxOS0=
-X-Received: by 2002:adf:d081:0:b0:2c3:e4f5:18a with SMTP id
- y1-20020adfd081000000b002c3e4f5018amr14304606wrh.33.1676033199248; 
- Fri, 10 Feb 2023 04:46:39 -0800 (PST)
-X-Google-Smtp-Source: AK7set+ktstPA2//IqzF77Tw4nWoFuB2/SdB2o3xzwOmSwCi0mt5dQx4XwX4m2Wi8Bas2JEsVB++DA==
-X-Received: by 2002:adf:d081:0:b0:2c3:e4f5:18a with SMTP id
- y1-20020adfd081000000b002c3e4f5018amr14304594wrh.33.1676033199055; 
- Fri, 10 Feb 2023 04:46:39 -0800 (PST)
+ bh=BcXYJH3i+y1TT/U2nZy+Ny3ldVGLyUDD1mxU7KuZFDk=;
+ b=Yj0lUyf3+6ZBv0tXN1TE8zcuZFG0g2z3VGm+fgenNbVXMUD+Dl00se1XULbcuIP4mc
+ I8MfNSc0KaVXFGAVbUHnedJbR7rCtOHaQtxZD+B4Dc1pAczZEetsl2Hj13o9eCz2g+ET
+ CyXfLSU/Eoyaea0U9DxYRtfQn/t7Mu9YdbyVLW8hSWXSKmvlh/b9y7jKUa4h1UY1k2CB
+ ZGaxlBmpxm9XkZYWtf/2+lf+VP89ie9cSFLKzbzl2oUYCzLLQ/2QLlfXXsEe1k6iS0eM
+ MYO3VQINlJ+SYQ6lntdYC6nW37EoMwS95JUZCe2UQVOGCkaa++yZpnnJ+JYfpdy0ln49
+ FVMw==
+X-Gm-Message-State: AO0yUKUbo1MH+zjNZwnjXAaewbZQgqZmfx70Ko7g3x7cu6Dxu/MR46TY
+ 5E9ITtWUGuyULQ2RasZQXJef8cgQB8tvs66ohcOG9d5Y7tIoPmyvsYG2mClXHLOrnO3DxeQUh5f
+ 4BjDOB82UPw1+rIcWbc65t7k=
+X-Received: by 2002:adf:e3c4:0:b0:2c5:4ad6:b929 with SMTP id
+ k4-20020adfe3c4000000b002c54ad6b929mr1545660wrm.18.1676033294439; 
+ Fri, 10 Feb 2023 04:48:14 -0800 (PST)
+X-Google-Smtp-Source: AK7set+R4u9i2CS7LTqhtt7k3xpBy3+Wl12eGfLFXNKehPFQ8YEi6t0KsAYDMFuw/3Xeqz0WdAyItQ==
+X-Received: by 2002:adf:e3c4:0:b0:2c5:4ad6:b929 with SMTP id
+ k4-20020adfe3c4000000b002c54ad6b929mr1545649wrm.18.1676033294252; 
+ Fri, 10 Feb 2023 04:48:14 -0800 (PST)
 Received: from redhat.com (nat-252.udc.es. [193.144.61.252])
  by smtp.gmail.com with ESMTPSA id
- q4-20020a05600000c400b002c54737e908sm1899138wrx.91.2023.02.10.04.46.37
+ q12-20020adfdfcc000000b002c3ebbc9248sm3517649wrn.66.2023.02.10.04.48.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Feb 2023 04:46:38 -0800 (PST)
+ Fri, 10 Feb 2023 04:48:13 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: Leonardo Bras <leobras@redhat.com>
 Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,  Peter Xu
  <peterx@redhat.com>,  qemu-devel@nongnu.org
-Subject: Re: [PATCH v1 1/4] migration/multifd: Change multifd_load_cleanup()
- signature and usage
-In-Reply-To: <20230210063630.532185-1-leobras@redhat.com> (Leonardo Bras's
- message of "Fri, 10 Feb 2023 03:36:28 -0300")
+Subject: Re: [PATCH v1 2/4] migration/multifd: Remove unnecessary assignment
+ on multifd_load_cleanup()
+In-Reply-To: <20230210063630.532185-2-leobras@redhat.com> (Leonardo Bras's
+ message of "Fri, 10 Feb 2023 03:36:29 -0300")
 References: <20230210063630.532185-1-leobras@redhat.com>
+ <20230210063630.532185-2-leobras@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Fri, 10 Feb 2023 13:46:37 +0100
-Message-ID: <87sffdhemq.fsf@secure.mitica>
+Date: Fri, 10 Feb 2023 13:48:12 +0100
+Message-ID: <87o7q1hek3.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -102,20 +103,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Leonardo Bras <leobras@redhat.com> wrote:
-> Since it's introduction in commit f986c3d256 ("migration: Create multifd
-> migration threads"), multifd_load_cleanup() never returned any value
-> different than 0, neither set up any error on errp.
+> Before assigning "p->quit = true" for every multifd channel,
+> multifd_load_cleanup() will call multifd_recv_terminate_threads() which
+> already does the same assignment, while protected by a mutex.
 >
-> Even though, on process_incoming_migration_bh() an if clause uses it's
-> return value to decide on setting autostart = false, which will never
-> happen.
->
-> In order to simplify the codebase, change multifd_load_cleanup() signature
-> to 'void multifd_load_cleanup(void)', and for every usage remove error
-> handling or decision made based on return value != 0.
+> So there is no point doing the same assignment again.
 >
 > Signed-off-by: Leonardo Bras <leobras@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
+
+good catch
 
 
