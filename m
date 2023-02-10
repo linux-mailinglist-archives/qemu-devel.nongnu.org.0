@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE7069244A
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 18:18:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC2A169244E
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 18:20:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQX2P-0000je-QU; Fri, 10 Feb 2023 12:18:17 -0500
+	id 1pQX4A-0001zc-44; Fri, 10 Feb 2023 12:20:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pQX2O-0000jV-9N
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 12:18:16 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pQX46-0001zK-VH
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 12:20:04 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pQX2M-0000LE-Qz
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 12:18:16 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pQX44-0000bN-1G
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 12:20:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676049494;
+ s=mimecast20190719; t=1676049599;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=7z3PLu4lCZWvVsjGwmylwj3y7DxZB8zXqqZSy9meVwU=;
- b=DsD7XhzqaZQgi5zKt3w5fpbUrLgQRc9SKQNcDRl3idxfUdU8Bhw6CRAazXCWPmI1OFtRXO
- JK8E9X4YH1Qx2MdZAwTWb2DR5T+VpzpNv/XmePxWah/ygd9ZSrwveZWNTaWMasdGcXXOxa
- lQWC4845UiikVkHFGJQYBPllDeNIfAg=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=DRaL47+ogTD5ZQB8cWEoGTxmwFyHhj4D6ep64+k7WEc=;
+ b=WSP7BDN6AWVnJHa7Yrp/EVk2vhwH1iLOOkWhPl+7F5prkgWPDQpT1QLpWFlOmWw7BI/8DV
+ DnTuBRYk3Mo3R1s54VhT80iRbmYcARq7GI/7q/HPiUL87XrEcWhDJkObMBQ6o8vUM0ZTiT
+ 2R/keSruAYp3yQRWCvwMhN4Rd9Skec4=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-16--N1tiV7JOWGqlbBF1oH0xQ-1; Fri, 10 Feb 2023 12:18:12 -0500
-X-MC-Unique: -N1tiV7JOWGqlbBF1oH0xQ-1
-Received: by mail-qk1-f200.google.com with SMTP id
- 130-20020a370588000000b0072fcbe20069so3694225qkf.22
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 09:18:12 -0800 (PST)
+ us-mta-196--C7SN4fCOSqjeb8PrD37LA-1; Fri, 10 Feb 2023 12:19:58 -0500
+X-MC-Unique: -C7SN4fCOSqjeb8PrD37LA-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ kd28-20020a056214401c00b0053cd4737a42so3512128qvb.22
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 09:19:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7z3PLu4lCZWvVsjGwmylwj3y7DxZB8zXqqZSy9meVwU=;
- b=S0nF+3EaVAb0rYZ/Go+OMKaRp9vEPV/ctFwLiCjioUQvKZxGstzoqtkf//b4fEHUjw
- z0Q2iYB7BPcL6yCOu8NgQB152rvuWFsyV6CS5G/nar9hRQO7AJPJoC1EYcUVWMelWV3o
- puphj5GiZ96D1q+IKZR8ocCiKlMM/VTdqNoNlGYSN/PenCeg/HiWx5GV1iL9/XmeDc5m
- /P4skYnvLnC8AP2R0yl70jwttluu7NRYtBNNuBuds7FUAJR7uKtmxkZYENQopOpWpGDC
- S0cqdJfNGD0Vfz7TgVrPwmJU0UqQaaHzhvB6d/kLNOyH3loVZIAesbUx0vkV2ayYgdbm
- jEtA==
-X-Gm-Message-State: AO0yUKXNzdDm2JMwBfEofsFN/yVr6ycjrhjbIHwe+XLzgmojbx6sBaCa
- T1cxe7v7ZTxcmPM1qtEAjTz0w2pHW87HqE1+Pewi2vfouVepi+fabIOxKHr0UbDMz0suOP3pAlt
- ycJ0YrRenEmdpDWg=
-X-Received: by 2002:ac8:5809:0:b0:3b5:87db:f979 with SMTP id
- g9-20020ac85809000000b003b587dbf979mr33086135qtg.5.1676049491801; 
- Fri, 10 Feb 2023 09:18:11 -0800 (PST)
-X-Google-Smtp-Source: AK7set9GIHV333YbARYc+/P301jZDpLn8XvAHjKOLFvUGPIXPVOSGl6T56I4HAQ9xirtwfdEfr8DMw==
-X-Received: by 2002:ac8:5809:0:b0:3b5:87db:f979 with SMTP id
- g9-20020ac85809000000b003b587dbf979mr33086095qtg.5.1676049491512; 
- Fri, 10 Feb 2023 09:18:11 -0800 (PST)
+ bh=DRaL47+ogTD5ZQB8cWEoGTxmwFyHhj4D6ep64+k7WEc=;
+ b=Jqur0loCQQZBAu1qfZ5MMTSbZSWVNgEVua1z9QOHA3nodUoTN9Wy5dwKiBPqkuWVQB
+ BjiTNdpIRLdG7lvWQ4ZfdN/vVWqP0QPkBeEjYyR5hHL2j2XH2VyiaKZ5yuSQTFt/bWGe
+ n0TwVhPDmtkNfJKevsXSkDe7hnLpx8ChSUothyFTibX4EtWjiTBG4MjbLI/a2KzhQPOO
+ rE7JZjkA/bgXpAchL6i16ckvo3972vWpj9r8/dq4LPrb9vjYVohzFXuGfmCBA6ZnowAo
+ NpwWkEvG1EfeNgqAZLhSbi4ljolDoY6BQy1X2mgte634biMNKSY4m8yKKA9zb5xmfrTq
+ BrWQ==
+X-Gm-Message-State: AO0yUKVmQXSf8fdPed6t/TaHNbu6brlSGINvMQt46xituci5ffNVTT0N
+ Rx4tnyPogU0ssz6M1vWhagLsh8vvQJuc4CdbKNIwAMXC7bXaG+mmg3aUT81sASet/MjNSE3tyTf
+ 2V+GVrN9gHz54jRU=
+X-Received: by 2002:a05:622a:1d5:b0:3b6:309e:dfe1 with SMTP id
+ t21-20020a05622a01d500b003b6309edfe1mr29306806qtw.3.1676049597872; 
+ Fri, 10 Feb 2023 09:19:57 -0800 (PST)
+X-Google-Smtp-Source: AK7set8+M1iTp+1HbLSczWtkKmSMVaLe5za4D/KTqSUQYfsQBpLOPBKPABVlgDCnRFVypq9y6YBNUQ==
+X-Received: by 2002:a05:622a:1d5:b0:3b6:309e:dfe1 with SMTP id
+ t21-20020a05622a01d500b003b6309edfe1mr29306770qtw.3.1676049597616; 
+ Fri, 10 Feb 2023 09:19:57 -0800 (PST)
 Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
  [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- i184-20020a3786c1000000b00719165e9e72sm3987475qkd.91.2023.02.10.09.18.10
+ p18-20020ac84092000000b003a7eb5baf3csm3693151qtl.69.2023.02.10.09.19.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Feb 2023 09:18:10 -0800 (PST)
-Date: Fri, 10 Feb 2023 12:18:10 -0500
+ Fri, 10 Feb 2023 09:19:56 -0800 (PST)
+Date: Fri, 10 Feb 2023 12:19:55 -0500
 From: Peter Xu <peterx@redhat.com>
 To: Leonardo Bras <leobras@redhat.com>
 Cc: Juan Quintela <quintela@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v1 1/4] migration/multifd: Change multifd_load_cleanup()
- signature and usage
-Message-ID: <Y+Z8UgSgRNs8Umln@x1n>
+Subject: Re: [PATCH v1 2/4] migration/multifd: Remove unnecessary assignment
+ on multifd_load_cleanup()
+Message-ID: <Y+Z8u5bcNI0I+so3@x1n>
 References: <20230210063630.532185-1-leobras@redhat.com>
+ <20230210063630.532185-2-leobras@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230210063630.532185-1-leobras@redhat.com>
+In-Reply-To: <20230210063630.532185-2-leobras@redhat.com>
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -97,28 +98,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Leo,
-
-Please still provide a cover letter as long as >1 patches will be posted as
-a set.
-
-Not only because it still always help to provide an overview for reviewers
-before reading each of them (e.g. I have a habit of prioritizing reviews
-based on cover letters first), but also when you're confident enough the
-reviewer(s) can ACK the patches in one reply. :-)
-
-On Fri, Feb 10, 2023 at 03:36:28AM -0300, Leonardo Bras wrote:
-> Since it's introduction in commit f986c3d256 ("migration: Create multifd
-> migration threads"), multifd_load_cleanup() never returned any value
-> different than 0, neither set up any error on errp.
+On Fri, Feb 10, 2023 at 03:36:29AM -0300, Leonardo Bras wrote:
+> Before assigning "p->quit = true" for every multifd channel,
+> multifd_load_cleanup() will call multifd_recv_terminate_threads() which
+> already does the same assignment, while protected by a mutex.
 > 
-> Even though, on process_incoming_migration_bh() an if clause uses it's
-> return value to decide on setting autostart = false, which will never
-> happen.
-> 
-> In order to simplify the codebase, change multifd_load_cleanup() signature
-> to 'void multifd_load_cleanup(void)', and for every usage remove error
-> handling or decision made based on return value != 0.
+> So there is no point doing the same assignment again.
 > 
 > Signed-off-by: Leonardo Bras <leobras@redhat.com>
 
