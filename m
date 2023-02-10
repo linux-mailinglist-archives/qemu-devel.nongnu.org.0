@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCAE7692382
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 17:40:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8224369236D
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 17:38:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQWRG-0007My-Lb; Fri, 10 Feb 2023 11:39:54 -0500
+	id 1pQWPJ-0000OM-OU; Fri, 10 Feb 2023 11:37:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pQWR7-0006gu-F3
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:39:45 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQWPH-0000Nc-21
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:37:51 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pQWR4-0000UZ-BJ
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:39:45 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- k8-20020a05600c1c8800b003dc57ea0dfeso6715085wms.0
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 08:39:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQWPF-00008K-JT
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:37:50 -0500
+Received: by mail-wm1-x335.google.com with SMTP id o36so4249668wms.1
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 08:37:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=m6P8HLBt4ufHIqb717DBvHQgjnd6QfYZ+mBBlnxbNRQ=;
- b=VJoB1KSgexIV3gWjsTTMEKj446wJyahxrcZeqJrmrBlKlC8xGv/qJ7QoG1pDASCo4w
- BdUrrn9KkID9LCIto5dfMmwuGrbdKowocC7jt/gncawiFUg7YMXAiutXTFBgS8I/4Vk9
- gE2VTna3Mzk/63Eq9t7Sn80Ij5k2v1mKeu0vd7HU/KDLOAePCYmvc99UnF5onPO5UK0/
- Y3rCzRQzcFbvndn+GHrEQ1RuafMb/8knyPgIZ8F37wznjjF3dmtuNRlchETf/AXtAafr
- ECnz3WaGVt0DGDKf2o7O5nMX6Y2bGWJpqpWNl2JOclPZTcg0H5ZJwkwSzQJmgeMmlx4Z
- Agag==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=uZyX7beYR1/8hPTlA0f9tYFKMMepz6hOSd4CeavM+Z0=;
+ b=n2E46jbzRFXkWkurdBdqhfVXcQEU6sfSDwelBGxbchDXm5tcLSzEv/jFqOejZhc1qp
+ LDLq0laVFaSRITc8/oj71udMNZKpvZSWPZ4JH2cdXTdE/dZautGLL4wt/Cc42Coi8iOo
+ lxbfevijWcYfhofNoVCHybJo8tFth8zZZiRH+RNpz5oSw5X+68chdL+Hvc4E5L3LBneM
+ Cfr+209RyvzIoUqB6/u9dQp/q4Pjtb7SFa+rQCpCSj321qrtWJjzbAlzr1/wvpaUnzRc
+ qZTNUbFWlsMCvG01CX5FbpOODlva0mF5HOnR4iE47fNy1QZGXFs/XCt/XXAed47glHpO
+ pihg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=m6P8HLBt4ufHIqb717DBvHQgjnd6QfYZ+mBBlnxbNRQ=;
- b=HstIIqe9QkYSbAzphXkXvpgLpBrZ/FQlXPjForYluWhKDTtC3LDD/bqGbkMijl2nNZ
- EEWlWH6osaLdNJGhU4OceiLwHEW+57DczuEDPNPQoVXfullHOeCf+ZN4nB4fMkNNKWPF
- sv4DF9+3Fp/3Z0b5VhIp6jUQD3rVzkPQYEISgY/h7GxI30dAbwLtttYBpYA0hFez9CU+
- 60Ap6+/Z+7ShmlLnF2CMiz+irm3gEsa5x3jFzZEoTLqo2nUiwDlvyO4NLnGhijyfm2Hv
- wqtGODnqypxzN2tZAWWH6SSZRESqAOobX5WbpKmB+PF5ov6gqSee0TBTsmywynd36OBW
- MFNA==
-X-Gm-Message-State: AO0yUKWbjFAXSeyZ5wIgyuGk0r7cnWdJjVUH/LTgX7Z0Nqii+oRbZ8A3
- cA/icjRu9Zoe2O2JG0lFBQjJDg==
-X-Google-Smtp-Source: AK7set986a6ZuITYZjpWkgwGA/7MvxUdmzEgn0uhNpK5w5AKZKIkEBrRHYEZUgtGbby7+SdtORCCpw==
-X-Received: by 2002:a05:600c:4387:b0:3da:b40f:7a55 with SMTP id
- e7-20020a05600c438700b003dab40f7a55mr2585644wmn.6.1676047180517; 
- Fri, 10 Feb 2023 08:39:40 -0800 (PST)
-Received: from localhost.localdomain (054592b0.skybroadband.com.
- [5.69.146.176]) by smtp.gmail.com with ESMTPSA id
- f8-20020a05600c4e8800b003da28dfdedcsm6312144wmq.5.2023.02.10.08.39.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Feb 2023 08:39:40 -0800 (PST)
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: eric.auger@redhat.com
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- ola.hugosson@arm.com, Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: [PATCH 2/2] hw/arm/smmu-common: Fix TTB1 handling
-Date: Fri, 10 Feb 2023 16:37:32 +0000
-Message-Id: <20230210163731.970130-3-jean-philippe@linaro.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230210163731.970130-1-jean-philippe@linaro.org>
-References: <20230210163731.970130-1-jean-philippe@linaro.org>
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=uZyX7beYR1/8hPTlA0f9tYFKMMepz6hOSd4CeavM+Z0=;
+ b=ECmyjLHlTJmH1yg648KB2utTYR8HBUeZSVsjrbP4WYkfEZaeYoH64mf19KoDKgjDuJ
+ MjLBuFnDiw1jufrwD7m1ZbEBzfz0toFuRVrYHJIO+jV+EPJyvAi+yB31TxmLtBPKyVeg
+ 9O29ac2SiLfhgNiYt7UZ+xtPgg16ImsS5sbFU/B43f41TYV5AdyhHSkyTl9zoVwWaWSq
+ iWnJHvDlcWaXpJs4ePjjB+pc44UMt/7LPXu0WM8yt5Ota9pd0evb2dbx2Rbe72aWo9lh
+ rdXzmj3qL9fmIptWTjhpoNq/e1iLJBzkbYoKst0SscAuh4u1NkjgScfcoQXG3QfevOsX
+ faUw==
+X-Gm-Message-State: AO0yUKVomabBLXwApX/099Bxbrq/jnWPdAOvUL9/opU7HBI+pi06dOSL
+ kgnem9fU02AX4WMAGkf8WZgxzJZQVNeowhCJ
+X-Google-Smtp-Source: AK7set8tRCs5K37T+TRrODXDevwery3AdR/K0e67cRTo6LkNBrReWC7kTZTQi5NFVVLfRt0qX9MM7Q==
+X-Received: by 2002:a05:600c:1656:b0:3db:742:cfe9 with SMTP id
+ o22-20020a05600c165600b003db0742cfe9mr14904890wmn.34.1676047066785; 
+ Fri, 10 Feb 2023 08:37:46 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
+ by smtp.gmail.com with ESMTPSA id
+ x2-20020a1c7c02000000b003df30c94850sm8496952wmc.25.2023.02.10.08.37.45
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Fri, 10 Feb 2023 08:37:46 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH 00/11] hw/isa: More housekeeping
+Date: Fri, 10 Feb 2023 17:37:33 +0100
+Message-Id: <20230210163744.32182-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,30 +87,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Addresses targeting the second translation table (TTB1) in the SMMU have
-all upper bits set (except for the top byte when TBI is enabled). Fix
-the TTB1 check.
+Trying to clarify the ISA API.
+Most patches should be trivial enough,
+so not much to describe here :)
 
-Reported-by: Ola Hugosson <ola.hugosson@arm.com>
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
----
- hw/arm/smmu-common.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Philippe Mathieu-Daudé (11):
+  hw/intc/i8259: Document i8259_init()
+  hw/isa/i82378: Rename output IRQ as 'cpu_intr'
+  hw/isa/i82378: Remove intermediate IRQ forwarder
+  hw/isa/vt82c686: Remove intermediate IRQ forwarder
+  hw/mips/jazz: Rename ISA input IRQs as 'isa_irqs_in'
+  hw/sparc64/sun4u: Keep reference to ISA input IRQs in EbusState
+  hw/isa: Reorder to separate ISABus* vs ISADevice* functions
+  hw/isa: Un-inline isa_bus_from_device()
+  hw/isa: Rename isa_bus_irqs() -> isa_bus_register_input_irqs()
+  hw/isa: Use isa_address_space_io() to reduce access on global 'isabus'
+  hw/isa: Factor isa_bus_get_irq() out of isa_get_irq()
 
-diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
-index 2b8c67b9a1..0a5a60ca1e 100644
---- a/hw/arm/smmu-common.c
-+++ b/hw/arm/smmu-common.c
-@@ -249,7 +249,7 @@ SMMUTransTableInfo *select_tt(SMMUTransCfg *cfg, dma_addr_t iova)
-         /* there is a ttbr0 region and we are in it (high bits all zero) */
-         return &cfg->tt[0];
-     } else if (cfg->tt[1].tsz &&
--           !extract64(iova, 64 - cfg->tt[1].tsz, cfg->tt[1].tsz - tbi_byte)) {
-+        sextract64(iova, 64 - cfg->tt[1].tsz, cfg->tt[1].tsz - tbi_byte) == -1) {
-         /* there is a ttbr1 region and we are in it (high bits all one) */
-         return &cfg->tt[1];
-     } else if (!cfg->tt[0].tsz) {
+ hw/hppa/machine.c       |  2 +-
+ hw/i386/microvm.c       |  2 +-
+ hw/i386/pc_piix.c       |  2 +-
+ hw/intc/i8259.c         |  4 ++--
+ hw/isa/i82378.c         | 19 ++++++-------------
+ hw/isa/isa-bus.c        | 29 ++++++++++++++++++++---------
+ hw/isa/lpc_ich9.c       |  2 +-
+ hw/isa/piix4.c          |  2 +-
+ hw/isa/vt82c686.c       | 16 ++++------------
+ hw/mips/jazz.c          |  6 +++---
+ hw/ppc/pnv_lpc.c        |  2 +-
+ hw/sparc64/sun4u.c      | 12 ++++++------
+ include/hw/intc/i8259.h | 10 +++++++++-
+ include/hw/isa/isa.h    | 27 ++++++++++++++++-----------
+ 14 files changed, 72 insertions(+), 63 deletions(-)
+
 -- 
-2.39.0
+2.38.1
 
 
