@@ -2,91 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA438692334
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 17:22:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88F0F69233E
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 17:27:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQWA7-0000gu-OU; Fri, 10 Feb 2023 11:22:11 -0500
+	id 1pQWEM-0001k8-7B; Fri, 10 Feb 2023 11:26:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQWA0-0000g9-QM
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:22:04 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pQWEK-0001jv-OA
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:26:32 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQW9v-0005Je-1j
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:22:04 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pQWEI-0006Gc-Oj
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:26:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676046117;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QO5gV/0WZhL6Re6jW/V5wFJRCcmsEbY6wv4VkC4tupo=;
- b=BpX0vtuSFFTXlfoj2KzCRbzCKBX5qn4gHlCwjX6xay7mH+vmY9H8/HVv+L83tvDTyEYJaa
- gPHvxQMAk+vIQgwGf6Vth+Tcm80/dOXBfL6ixNKVrJN9LQgIGFMvewTmMWO/6rlNMBQCHm
- Fa3GEt+LN3CQ9PopNFcofHgCh41iNH0=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-644-jSu16kobN6Kzxp69xdiV0w-1; Fri, 10 Feb 2023 11:21:56 -0500
-X-MC-Unique: jSu16kobN6Kzxp69xdiV0w-1
-Received: by mail-pj1-f72.google.com with SMTP id
- nn5-20020a17090b38c500b0023391b53fd5so1580070pjb.2
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 08:21:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=QO5gV/0WZhL6Re6jW/V5wFJRCcmsEbY6wv4VkC4tupo=;
- b=pvS8KvJMy4ZsCXd6DWeqX8bJIL/GMzxTJwF881SfX15HNTB7cLshd4ET7OGtuQHvhu
- odKpnqlot7wN//Yv6/oBC546mfDBMyHw8FQ/cGtv78wyGQMe/Xbaj4W1jiJKedaES1ja
- 6yrzpqr+uxjF4EDbRTGhUlErK+LyoT+SkIUtFADyizztLCFXbHdNpXfNyhL3ZP8USJFc
- cd712zhVyL6g5C7W4O61lR45RXdnzltWoEqzQiJ/AndXaPxKTa4LDu+OXjz9JSGoKyXF
- mo2gLlD7lMkkR2fALpXO75YK8ibgLZioEhuSEnizsSX1TBa6w7/S0GOlaC8cDMhI2af4
- Tbww==
-X-Gm-Message-State: AO0yUKVxg5EdS90DyPLWxdSTE/CWScUkzTuEJx7vMM+LGy96rncZDvod
- UgeSOyjnGWd1iS7neWAicdftnRFdAhc4nQu46mkecI2G2zN1+y7lZwj9hEbKCANBNYVMOVi1K/B
- fJZdGj4qAMcVx+b293UV6aFwYpmgzQ3k=
-X-Received: by 2002:a17:90a:4d44:b0:233:b7df:104d with SMTP id
- l4-20020a17090a4d4400b00233b7df104dmr339425pjh.64.1676046115305; 
- Fri, 10 Feb 2023 08:21:55 -0800 (PST)
-X-Google-Smtp-Source: AK7set8XI6S93+vx0fzrwn8BY2WriWnpTNE7DGliQEwNLPV1g8oAgXfiaHgw20LNuzrIjfeZ7cjCa0uZAUxsMqvBFQQ=
-X-Received: by 2002:a17:90a:4d44:b0:233:b7df:104d with SMTP id
- l4-20020a17090a4d4400b00233b7df104dmr339405pjh.64.1676046114883; Fri, 10 Feb
- 2023 08:21:54 -0800 (PST)
+ s=mimecast20190719; t=1676046390;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=WoR0q5DjEfQwMsEUeiwduIdjmgYRww9ETQe+IZQmfxI=;
+ b=chu5sXPEAKD3CHMzh0YPZQm693hp76BMqIKy/bPwcdYI0bzslKBEe2bBbqLpa9hwk+cBX4
+ adQWfadyC4q0QUpRXCqUPvn9yYUiNKhTffN+KPhCHeb/ZytdD/aprSDV9U/UqINGUZXhsZ
+ EDojsomdjXo5sk94sQeDzoP/u6BcT1o=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-208-gs_SEUPiOZ2_BOF78texhg-1; Fri, 10 Feb 2023 11:26:27 -0500
+X-MC-Unique: gs_SEUPiOZ2_BOF78texhg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2E16A971080;
+ Fri, 10 Feb 2023 16:26:26 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.76])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0EA451731B;
+ Fri, 10 Feb 2023 16:26:24 +0000 (UTC)
+Date: Fri, 10 Feb 2023 16:26:22 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Nikolay Borisov <nborisov@suse.com>
+Cc: dgilbert@redhat.com, qemu-devel@nongnu.org, jfehlig@suse.com,
+ Claudio.Fontana@suse.com, dfaggioli@suse.com
+Subject: Re: [PATCH v3 04/14] io: Add generic pwritev/preadv interface
+Message-ID: <Y+ZwLm52JzNaGT8N@redhat.com>
+References: <20221028103914.908728-1-nborisov@suse.com>
+ <20221028103914.908728-5-nborisov@suse.com>
 MIME-Version: 1.0
-References: <20230210003147.1309376-1-jsnow@redhat.com>
- <20230210003147.1309376-4-jsnow@redhat.com>
- <3bb14d43-4dbe-62f3-679f-4b7823b29d41@redhat.com>
- <CAFn=p-Yyus2zipaUgLwonpMRdfZp-CKEisiXgZBLjgG6UxXagw@mail.gmail.com>
- <CABgObfa79AStZ8DnGEs2GmdZeLecijW3Um9O4XmguVNLwdfs2g@mail.gmail.com>
-In-Reply-To: <CABgObfa79AStZ8DnGEs2GmdZeLecijW3Um9O4XmguVNLwdfs2g@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Fri, 10 Feb 2023 11:21:44 -0500
-Message-ID: <CAFn=p-bWLfV7miK5NB3XqVEJXA1MHK26aN07otLJhUa2xbDHTg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/7] configure: Look for auxiliary Python installations
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Qemu-block <qemu-block@nongnu.org>, 
- Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Kevin Wolf <kwolf@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000004e1dbe05f45ae533"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221028103914.908728-5-nborisov@suse.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,166 +77,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000004e1dbe05f45ae533
-Content-Type: text/plain; charset="UTF-8"
+On Fri, Oct 28, 2022 at 01:39:04PM +0300, Nikolay Borisov wrote:
+> Introduce basic pwriteve/preadv support in the generic channel layer.
+> SPecific implementation will follow for the file channel as this is
+> required in order to support migration streams with fixed location of
+> each ram page.
+> 
+> Signed-off-by: Nikolay Borisov <nborisov@suse.com>
+> ---
+>  include/io/channel.h | 49 ++++++++++++++++++++++++++++++++++++++++++++
+>  io/channel.c         | 26 +++++++++++++++++++++++
+>  2 files changed, 75 insertions(+)
+> 
+> diff --git a/include/io/channel.h b/include/io/channel.h
+> index c680ee748021..6b10bce8bbdf 100644
+> --- a/include/io/channel.h
+> +++ b/include/io/channel.h
+> @@ -124,6 +124,16 @@ struct QIOChannelClass {
+>                             Error **errp);
+>  
+>      /* Optional callbacks */
+> +    ssize_t (*io_pwritev)(QIOChannel *ioc,
+> +                       const struct iovec *iov,
+> +                       size_t niov,
+> +                       off_t offset,
+> +                       Error **errp);
+> +    ssize_t (*io_preadv)(QIOChannel *ioc,
+> +                      const struct iovec *iov,
+> +                      size_t niov,
+> +                      off_t offset,
+> +                      Error **errp);
 
-On Fri, Feb 10, 2023, 11:17 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+nit-pick the alignment of the 2nd line of parameters onwards,
+needs to be indented by 3 more spaces.
 
-> On Fri, Feb 10, 2023 at 4:28 PM John Snow <jsnow@redhat.com> wrote:
-> > PS, while you're here, how does this new loop interfere with your
-> "custom python specified" flag for meson? I think meson uses the version of
-> python *it* detects and not the configure script identified one, right?
-> Does that mean that e.g. the qapi generator gets run with the system
-> default/meson version and not the config version?
->
-> Yes, if neither --python nor --meson are specified, then it could
-> happen that a different python is used during ninja's execution vs.
-> what is used for "other stuff" (docker cross compilers and other
-> Makefile invocations of $(PYTHON)).
->
-> The meson version of Python is guaranteed to be at least 3.7 as soon
-> as we update to 0.63.x (which will be Real Soon Now), but it's ugly.
-> The main issue I anticipate could be a problem when running from a
-> virtual environment, so perhaps we can force usage of the internal
-> meson if neither --python nor --meson are specified, and VIRTUAL_ENV
-> is set and $VIRTUAL_ENV/bin/meson does not exist?
->
-> diff --git a/configure b/configure
-> index 06bcd9031903..001a79a90170 100755
-> --- a/configure
-> +++ b/configure
-> @@ -870,8 +870,18 @@ fi
->  # Suppress writing compiled files
->  python="$python -B"
->
-> +has_meson() {
-> +  if test "${VIRTUAL_ENV:+set}" = set; then
-> +    # Ensure that Meson and Python come from the same virtual environment
-> +    test -x "$(VIRTUAL_ENV}/bin/meson" &&
-> +      test "$(command -v meson)" -ef "$(VIRTUAL_ENV}/bin/meson"
-> +  else
-> +    has meson
-> +  fi
+
+> +/**
+> + * qio_channel_io_pwritev
+> + * @ioc: the channel object
+> + * @iov: the array of memory regions to write data from
+> + * @niov: the length of the @iov array
+> + * @offset: offset in the channel where writes should begin
+> + * @errp: pointer to a NULL-initialized error object
+> + *
+> + * Not all implementations will support this facility, so may report an error.
+> + * To avoid errors, the caller may check for the feature flag
+> + * QIO_CHANNEL_FEATURE_SEEKABLE prior to calling this method.
+> + *
+> + * Behaves as qio_channel_writev_full, apart from not supporting sending of file
+
+Given this, we should have  "_full" suffix on these methods
+too for consistent naming policy.
+
+> + * handles as well as beginning the write at the passed @offset
+> + *
+> + */
+> +ssize_t qio_channel_io_pwritev(QIOChannel *ioc, const struct iovec *iov,
+> +                               size_t niov, off_t offset, Error **errp);
+> +
+> +
+> +/**
+> + * qio_channel_io_preadv
+> + * @ioc: the channel object
+> + * @iov: the array of memory regions to read data into
+> + * @niov: the length of the @iov array
+> + * @offset: offset in the channel where writes should begin
+> + * @errp: pointer to a NULL-initialized error object
+> + *
+> + * Not all implementations will support this facility, so may report an error.
+> + * To avoid errors, the caller may check for the feature flag
+> + * QIO_CHANNEL_FEATURE_SEEKABLE prior to calling this method.
+> + *
+> + * Behaves as qio_channel_readv_full, apart from not supporting receiving of file
+> + * handles as well as beginning the read at the passed @offset
+> + *
+> + */
+> +ssize_t qio_channel_io_preadv(QIOChannel *ioc, const struct iovec *iov,
+> +                             size_t niov, off_t offset, Error **errp);
+>  /**
+>   * qio_channel_shutdown:
+>   * @ioc: the channel object
+> diff --git a/io/channel.c b/io/channel.c
+> index 0640941ac573..f5ac9499a7ad 100644
+> --- a/io/channel.c
+> +++ b/io/channel.c
+> @@ -437,6 +437,32 @@ GSource *qio_channel_add_watch_source(QIOChannel *ioc,
+>  }
+>  
+>  
+> +ssize_t qio_channel_io_pwritev(QIOChannel *ioc, const struct iovec *iov,
+> +                               size_t niov, off_t offset, Error **errp)
+> +{
+> +    QIOChannelClass *klass = QIO_CHANNEL_GET_CLASS(ioc);
+> +
+> +    if (!klass->io_pwritev) {
+> +        error_setg(errp, "Channel does not support pwritev");
+> +        return -1;
+> +    }
+
+This also possibly benefits from a validation check
+
+    if (!qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_SEEKABLE)) {
+        error_setg_errno(errp, EINVAL,
+                         "Requested channel is not seekable")
+        return -1;
+    }
+
+because the QIOChannelFile impl will support io_pwritev callback,
+but not all the FDs it can use will support seeking.
+
+Same check for preadv
+
+> +
+> +    return klass->io_pwritev(ioc, iov, niov, offset, errp);
 > +}
 > +
->  if test -z "$meson"; then
-> -    if test "$explicit_python" = no && has meson && version_ge
-> "$(meson --version)" 0.63.0; then
-> +    if test "$explicit_python" = no && has_meson && version_ge
-> "$(meson --version)" 0.63.0; then
->          meson=meson
->      elif test "$git_submodules_action" != 'ignore' ; then
->          meson=git
->
-> I will include it when posting the final series.
->
-> > Do I need to adjust this loop to consider more binaries as "explicitly
-> specified"?
->
-> I don't think it's a huge problem. Outside virtual environments, the
-> most likely setting is that Meson uses python3 which in turn is the
-> most recent python3.X, so it should be fine overall.
->
-> Though part of me thinks that your new loop is slightly overengineered
-> and we should just require /usr/bin/env python3 and call it a day.
->
+> +ssize_t qio_channel_io_preadv(QIOChannel *ioc, const struct iovec *iov,
+> +                               size_t niov, off_t offset, Error **errp)
+> +{
+> +    QIOChannelClass *klass = QIO_CHANNEL_GET_CLASS(ioc);
+> +
+> +    if (!klass->io_preadv) {
+> +        error_setg(errp, "Channel does not support preadv");
+> +        return -1;
+> +    }
+> +
+> +    return klass->io_preadv(ioc, iov, niov, offset, errp);
+> +}
+> +
+>  int qio_channel_shutdown(QIOChannel *ioc,
+>                           QIOChannelShutdown how,
+>                           Error **errp)
+> -- 
+> 2.34.1
+> 
 
-Well, but that'd be a problem for CentOS 8, wouldn't it? python3 is gonna
-resolve to python3.6.
-
-
-> Paolo
->
->
-
---0000000000004e1dbe05f45ae533
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Fri, Feb 10, 2023, 11:17 AM Paolo Bonzini &lt;<a hr=
-ef=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt; wrote:<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">On Fri, Feb 10, 2023 at 4:28 PM John Snow=
- &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"_blank" rel=3D"noreferre=
-r">jsnow@redhat.com</a>&gt; wrote:<br>
-&gt; PS, while you&#39;re here, how does this new loop interfere with your =
-&quot;custom python specified&quot; flag for meson? I think meson uses the =
-version of python *it* detects and not the configure script identified one,=
- right? Does that mean that e.g. the qapi generator gets run with the syste=
-m default/meson version and not the config version?<br>
-<br>
-Yes, if neither --python nor --meson are specified, then it could<br>
-happen that a different python is used during ninja&#39;s execution vs.<br>
-what is used for &quot;other stuff&quot; (docker cross compilers and other<=
-br>
-Makefile invocations of $(PYTHON)).<br>
-<br>
-The meson version of Python is guaranteed to be at least 3.7 as soon<br>
-as we update to 0.63.x (which will be Real Soon Now), but it&#39;s ugly.<br=
->
-The main issue I anticipate could be a problem when running from a<br>
-virtual environment, so perhaps we can force usage of the internal<br>
-meson if neither --python nor --meson are specified, and VIRTUAL_ENV<br>
-is set and $VIRTUAL_ENV/bin/meson does not exist?<br>
-<br>
-diff --git a/configure b/configure<br>
-index 06bcd9031903..001a79a90170 100755<br>
---- a/configure<br>
-+++ b/configure<br>
-@@ -870,8 +870,18 @@ fi<br>
-=C2=A0# Suppress writing compiled files<br>
-=C2=A0python=3D&quot;$python -B&quot;<br>
-<br>
-+has_meson() {<br>
-+=C2=A0 if test &quot;${VIRTUAL_ENV:+set}&quot; =3D set; then<br>
-+=C2=A0 =C2=A0 # Ensure that Meson and Python come from the same virtual en=
-vironment<br>
-+=C2=A0 =C2=A0 test -x &quot;$(VIRTUAL_ENV}/bin/meson&quot; &amp;&amp;<br>
-+=C2=A0 =C2=A0 =C2=A0 test &quot;$(command -v meson)&quot; -ef &quot;$(VIRT=
-UAL_ENV}/bin/meson&quot;<br>
-+=C2=A0 else<br>
-+=C2=A0 =C2=A0 has meson<br>
-+=C2=A0 fi<br>
-+}<br>
-+<br>
-=C2=A0if test -z &quot;$meson&quot;; then<br>
--=C2=A0 =C2=A0 if test &quot;$explicit_python&quot; =3D no &amp;&amp; has m=
-eson &amp;&amp; version_ge<br>
-&quot;$(meson --version)&quot; 0.63.0; then<br>
-+=C2=A0 =C2=A0 if test &quot;$explicit_python&quot; =3D no &amp;&amp; has_m=
-eson &amp;&amp; version_ge<br>
-&quot;$(meson --version)&quot; 0.63.0; then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0meson=3Dmeson<br>
-=C2=A0 =C2=A0 =C2=A0elif test &quot;$git_submodules_action&quot; !=3D &#39;=
-ignore&#39; ; then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0meson=3Dgit<br>
-<br>
-I will include it when posting the final series.<br>
-<br>
-&gt; Do I need to adjust this loop to consider more binaries as &quot;expli=
-citly specified&quot;?<br>
-<br>
-I don&#39;t think it&#39;s a huge problem. Outside virtual environments, th=
-e<br>
-most likely setting is that Meson uses python3 which in turn is the<br>
-most recent python3.X, so it should be fine overall.<br>
-<br>
-Though part of me thinks that your new loop is slightly overengineered<br>
-and we should just require /usr/bin/env python3 and call it a day.<br></blo=
-ckquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Well, but=
- that&#39;d be a problem for CentOS 8, wouldn&#39;t it? python3 is gonna re=
-solve to python3.6.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div=
- class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Paolo<br>
-<br>
-</blockquote></div></div></div>
-
---0000000000004e1dbe05f45ae533--
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
