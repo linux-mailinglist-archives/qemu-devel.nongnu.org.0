@@ -2,55 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26A6D692A1C
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E728692A1D
 	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 23:29:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQbrv-0002Gf-9j; Fri, 10 Feb 2023 17:27:47 -0500
+	id 1pQbrv-0002Hu-Sm; Fri, 10 Feb 2023 17:27:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pQbrq-0002Fh-Kj
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 17:27:43 -0500
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+ id 1pQbrs-0002GD-Fy
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 17:27:44 -0500
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pQbro-0007jB-Rb
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 17:27:42 -0500
+ id 1pQbrq-0007jv-9q
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 17:27:44 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B86EF61E9C;
+ by ams.source.kernel.org (Postfix) with ESMTPS id CF55CB825FE;
+ Fri, 10 Feb 2023 22:27:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D803AC4339B;
  Fri, 10 Feb 2023 22:27:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C56E3C4339E;
- Fri, 10 Feb 2023 22:27:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1676068059;
- bh=OA2AgeMCx7RRv0Vx8WIP0aooYg/Xp/x/p0wt5RQQtoU=;
+ s=k20201202; t=1676068060;
+ bh=1muLhh2SpXPFOFywdWq/BvDLZkKQntHqhpnKPhAgHkw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=h8ZbXBMCGQYQXrnTKCFbMyM8HuqL3yFVVbiWrHbEFiOqXQSlC0dxgnnUZfGnrMbo/
- PSo5C++W89CwVzKAUnkkV+TKrIzMLr3pltBDbr8q5wq8YYJ2JdZqOUKf8aVAMt05WC
- ZBvrHov/s82Enw7CUeGj3pGO1SZOgYyP6e7nmq1xS49TiUVpiEDyrC+iFZg0ohHSNM
- eqmeS6lf1eYuPsR4PJdpGP4dEqOBjHQHoiWu2QcofSvQCsEuE8bFJt7GoWrQj0+6Tx
- arKdZHt4B0EnU9p+a49iH+2BjtLi0NP3WSxktNIH2VMuKWothh0kZGCUz6dUFyleRb
- 7VowIZkT5SoWw==
+ b=ZEy+Rlx91nk8lCf9WZKthNdDz2CzvVy1LHF0Rv00F8PhG1DbO+Jt+ZWYPsl6XccQ2
+ 7XO+bVlc5eLr5cnaWoFRfKzWy/4N8DOVMsipBkCo1P9gt9Aufb69NuU3+MQKfT7Rfo
+ z1KhL9G4ho0pbjVOr3EaP1pxBsFJ3giKIQ9yEpYuvK76SKKvkBR+6S3J1YDghu69EL
+ f7SR4inBrvU0rnqx65cB1Tu+p5e2QX4tXisIPL7qqYXBnto7RU1Lsl9l7x7eTj76oQ
+ y6tjXNuBRv53aA4MFd8UWDfktTbTEq+bLzV1A5qIgUQsml2wkeon3qSqeIENrv7GUb
+ gDXONsrYq3ryQ==
 From: Stefano Stabellini <sstabellini@kernel.org>
 To: qemu-devel@nongnu.org
 Cc: sstabellini@kernel.org, peter.maydell@linaro.org,
- Stefano Stabellini <stefano.stabellini@amd.com>,
  Vikram Garhwal <vikram.garhwal@amd.com>, Paul Durrant <paul@xen.org>
-Subject: [PULL 06/10] hw/xen/xen-hvm-common: skip ioreq creation on ioreq
- registration failure
-Date: Fri, 10 Feb 2023 14:27:25 -0800
-Message-Id: <20230210222729.957168-6-sstabellini@kernel.org>
+Subject: [PULL 07/10] hw/xen/xen-hvm-common: Use g_new and error_report
+Date: Fri, 10 Feb 2023 14:27:26 -0800
+Message-Id: <20230210222729.957168-7-sstabellini@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <alpine.DEB.2.22.394.2302101420510.4661@ubuntu-linux-20-04-desktop>
 References: <alpine.DEB.2.22.394.2302101420510.4661@ubuntu-linux-20-04-desktop>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=sstabellini@kernel.org; helo=dfw.source.kernel.org
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=sstabellini@kernel.org; helo=ams.source.kernel.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -73,102 +71,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Stefano Stabellini <stefano.stabellini@amd.com>
+From: Vikram Garhwal <vikram.garhwal@amd.com>
 
-On ARM it is possible to have a functioning xenpv machine with only the
-PV backends and no IOREQ server. If the IOREQ server creation fails continue
-to the PV backends initialization.
+Replace g_malloc with g_new and perror with error_report.
 
-Also, moved the IOREQ registration and mapping subroutine to new function
-xen_do_ioreq_register().
-
-Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
 Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
 Reviewed-by: Stefano Stabellini <sstabellini@kernel.org>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- hw/xen/xen-hvm-common.c | 53 ++++++++++++++++++++++++++++-------------
- 1 file changed, 36 insertions(+), 17 deletions(-)
+ hw/xen/xen-hvm-common.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/hw/xen/xen-hvm-common.c b/hw/xen/xen-hvm-common.c
-index c2e1e08124..5e3c7b073f 100644
+index 5e3c7b073f..077c8dae5b 100644
 --- a/hw/xen/xen-hvm-common.c
 +++ b/hw/xen/xen-hvm-common.c
-@@ -781,25 +781,12 @@ err:
-     exit(1);
- }
+@@ -34,7 +34,7 @@ void xen_ram_alloc(ram_addr_t ram_addr, ram_addr_t size, MemoryRegion *mr,
+     trace_xen_ram_alloc(ram_addr, size);
  
--void xen_register_ioreq(XenIOState *state, unsigned int max_cpus,
--                        MemoryListener xen_memory_listener)
-+static void xen_do_ioreq_register(XenIOState *state,
-+                                           unsigned int max_cpus,
-+                                           MemoryListener xen_memory_listener)
- {
-     int i, rc;
+     nr_pfn = size >> TARGET_PAGE_BITS;
+-    pfn_list = g_malloc(sizeof (*pfn_list) * nr_pfn);
++    pfn_list = g_new(xen_pfn_t, nr_pfn);
  
--    state->xce_handle = xenevtchn_open(NULL, 0);
--    if (state->xce_handle == NULL) {
+     for (i = 0; i < nr_pfn; i++) {
+         pfn_list[i] = (ram_addr >> TARGET_PAGE_BITS) + i;
+@@ -731,7 +731,7 @@ void destroy_hvm_domain(bool reboot)
+             return;
+         }
+         if (errno != ENOTTY /* old Xen */) {
+-            perror("xendevicemodel_shutdown failed");
++            error_report("xendevicemodel_shutdown failed with error %d", errno);
+         }
+         /* well, try the old thing then */
+     }
+@@ -801,7 +801,7 @@ static void xen_do_ioreq_register(XenIOState *state,
+     }
+ 
+     /* Note: cpus is empty at this point in init */
+-    state->cpu_by_vcpu_id = g_malloc0(max_cpus * sizeof(CPUState *));
++    state->cpu_by_vcpu_id = g_new0(CPUState *, max_cpus);
+ 
+     rc = xen_set_ioreq_server_state(xen_domid, state->ioservid, true);
+     if (rc < 0) {
+@@ -810,7 +810,7 @@ static void xen_do_ioreq_register(XenIOState *state,
+         goto err;
+     }
+ 
+-    state->ioreq_local_port = g_malloc0(max_cpus * sizeof (evtchn_port_t));
++    state->ioreq_local_port = g_new0(evtchn_port_t, max_cpus);
+ 
+     /* FIXME: how about if we overflow the page here? */
+     for (i = 0; i < max_cpus; i++) {
+@@ -864,13 +864,13 @@ void xen_register_ioreq(XenIOState *state, unsigned int max_cpus,
+ 
+     state->xce_handle = xenevtchn_open(NULL, 0);
+     if (state->xce_handle == NULL) {
 -        perror("xen: event channel open");
--        goto err;
--    }
--
--    state->xenstore = xs_daemon_open();
--    if (state->xenstore == NULL) {
++        error_report("xen: event channel open failed with error %d", errno);
+         goto err;
+     }
+ 
+     state->xenstore = xs_daemon_open();
+     if (state->xenstore == NULL) {
 -        perror("xen: xenstore open");
--        goto err;
--    }
--
--    xen_create_ioreq_server(xen_domid, &state->ioservid);
--
-     state->exit.notify = xen_exit_notifier;
-     qemu_add_exit_notifier(&state->exit);
++        error_report("xen: xenstore open failed with error %d", errno);
+         goto err;
+     }
  
-@@ -863,12 +850,44 @@ void xen_register_ioreq(XenIOState *state, unsigned int max_cpus,
-     QLIST_INIT(&state->dev_list);
-     device_listener_register(&state->device_listener);
- 
-+    return;
-+
-+err:
-+    error_report("xen hardware virtual machine initialisation failed");
-+    exit(1);
-+}
-+
-+void xen_register_ioreq(XenIOState *state, unsigned int max_cpus,
-+                        MemoryListener xen_memory_listener)
-+{
-+    int rc;
-+
-+    state->xce_handle = xenevtchn_open(NULL, 0);
-+    if (state->xce_handle == NULL) {
-+        perror("xen: event channel open");
-+        goto err;
-+    }
-+
-+    state->xenstore = xs_daemon_open();
-+    if (state->xenstore == NULL) {
-+        perror("xen: xenstore open");
-+        goto err;
-+    }
-+
-+    rc = xen_create_ioreq_server(xen_domid, &state->ioservid);
-+    if (!rc) {
-+        xen_do_ioreq_register(state, max_cpus, xen_memory_listener);
-+    } else {
-+        warn_report("xen: failed to create ioreq server");
-+    }
-+
-     xen_bus_init();
- 
-     xen_register_backend(state);
- 
-     return;
-+
- err:
--    error_report("xen hardware virtual machine initialisation failed");
-+    error_report("xen hardware virtual machine backend registration failed");
-     exit(1);
- }
 -- 
 2.25.1
 
