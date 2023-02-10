@@ -2,51 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF41D692A16
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 23:28:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC2F8692A18
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 23:28:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQbra-0002Cc-Pb; Fri, 10 Feb 2023 17:27:26 -0500
+	id 1pQbrm-0002Dq-Sh; Fri, 10 Feb 2023 17:27:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pQbrY-0002CQ-8v
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 17:27:24 -0500
-Received: from ams.source.kernel.org ([145.40.68.75])
+ id 1pQbrk-0002DT-GC
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 17:27:36 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pQbrW-0007Wh-0F
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 17:27:23 -0500
+ id 1pQbri-0007h3-Pp
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 17:27:36 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 1D7E3B825FC;
- Fri, 10 Feb 2023 22:27:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66D21C433EF;
- Fri, 10 Feb 2023 22:27:11 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6BFAB61EB1;
+ Fri, 10 Feb 2023 22:27:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61EDBC433EF;
+ Fri, 10 Feb 2023 22:27:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1676068031;
- bh=rRv0xdCzFAKIzZZ+AQhtkDFcCCKYHz5v68d2WAeBPpg=;
- h=Date:From:To:cc:Subject:From;
- b=cTcOSOpJYYLjLe8tksGkR5S34ucCkxg1iOs9F1WEvegiPqJDCupkNrdfHvvOdFafj
- d5JilkPhRYN+utHbVE1dwe4pSrtMUB9qsq0tP71lvbhOdopZLpmXxlIb7Zv7y/ZuE4
- YOOiQLByl9nSCNPRWCRh/6iEVezkSDeaFUBDrop+nMK+ZVoNQG7LJ2Nqgfip5a/8gW
- 31phu9Yyk2o8nT6FWDDBRrj9GgL0WIzksALgvEx0uBUP3rndTdvlvHKrcrJH+tLbek
- wLDFPQ7uSAGaT36PgYUssk9H1XtQlDepeBDiK+KHEctbsrH7MxlndV0rQY2Qebg5aR
- PezFUenfV9Ocg==
-Date: Fri, 10 Feb 2023 14:27:09 -0800 (PST)
+ s=k20201202; t=1676068053;
+ bh=kvIsppqJuGvkfwd1Y2Myje/RnRXHGaBztlU7IYWKzag=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=gDkfsNDaRkqXT0f54vPAlFR9WAhGLWPVYiNLNeNkSvhHlRSQg0UqKnd2PZUdmJr/G
+ w3nQheGAcBS9R8ZFtuboIxxAFI7cTpeHn5UcqJXLJtng8ZFUOfvggoN8t6uEhNrflP
+ xzQerah7ss1urPTrjx6zezwz7USdVo37x5P76ZAOOm8UfPDvJGpryamDbT9YxB8Ah+
+ aNB0mGTgHxnynEcnabkAlfz1cqw+pcUvL5AF9dvj6BFBYDjYMAWCkWdMrbDI4gcejd
+ VcjxCjmvxzeY6JaIEcB3+y+nNCmURTYHSG6eGpCjaap2XLpRrmgJZprS+VeGN7I+kA
+ e/+HXRJH29FDQ==
 From: Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
 To: qemu-devel@nongnu.org
-cc: sstabellini@kernel.org, peter.maydell@linaro.org
-Subject: [PULL 00/10] xenpvh machine
-Message-ID: <alpine.DEB.2.22.394.2302101420510.4661@ubuntu-linux-20-04-desktop>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+Cc: sstabellini@kernel.org, peter.maydell@linaro.org,
+ Vikram Garhwal <vikram.garhwal@amd.com>,
+ Stefano Stabellini <stefano.stabellini@amd.com>,
+ Paul Durrant <paul@xen.org>
+Subject: [PULL 01/10] hw/i386/xen/: move xen-mapcache.c to hw/xen/
+Date: Fri, 10 Feb 2023 14:27:20 -0800
+Message-Id: <20230210222729.957168-1-sstabellini@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <alpine.DEB.2.22.394.2302101420510.4661@ubuntu-linux-20-04-desktop>
+References: <alpine.DEB.2.22.394.2302101420510.4661@ubuntu-linux-20-04-desktop>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=145.40.68.75; envelope-from=sstabellini@kernel.org;
- helo=ams.source.kernel.org
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=sstabellini@kernel.org; helo=dfw.source.kernel.org
 X-Spam_score_int: -70
 X-Spam_score: -7.1
 X-Spam_bar: -------
@@ -69,58 +73,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 90595cc9396bb910b148391fea2e78dd8c6c8b27:
+From: Vikram Garhwal <vikram.garhwal@amd.com>
 
-  Merge tag 'migration-20230209-pull-request' of https://gitlab.com/juan.quintela/qemu into staging (2023-02-10 10:50:21 +0000)
+xen-mapcache.c contains common functions which can be used for enabling Xen on
+aarch64 with IOREQ handling. Moving it out from hw/i386/xen to hw/xen to make it
+accessible for both aarch64 and x86.
 
-are available in the Git repository at:
-
-  https://gitlab.com/sstabellini/qemu.git xenpvh
-
-for you to fetch changes up to 3f8ee848693872e3783cdcf2862be5421bb9cbcb:
-
-  meson.build: enable xenpv machine build for ARM (2023-02-10 14:23:47 -0800)
-
-----------------------------------------------------------------
-Stefano Stabellini (5):
-      hw/i386/xen/xen-hvm: move x86-specific fields out of XenIOState
-      xen-hvm: reorganize xen-hvm and move common function to xen-hvm-common
-      include/hw/xen/xen_common: return error from xen_create_ioreq_server
-      hw/xen/xen-hvm-common: skip ioreq creation on ioreq registration failure
-      meson.build: do not set have_xen_pci_passthrough for aarch64 targets
-
-Vikram Garhwal (5):
-      hw/i386/xen/: move xen-mapcache.c to hw/xen/
-      hw/i386/xen: rearrange xen_hvm_init_pc
-      hw/xen/xen-hvm-common: Use g_new and error_report
-      hw/arm: introduce xenpvh machine
-      meson.build: enable xenpv machine build for ARM
-
- docs/system/arm/xenpvh.rst       |   34 ++
- docs/system/target-arm.rst       |    1 +
- hw/arm/meson.build               |    2 +
- hw/arm/xen_arm.c                 |  182 +++++++
- hw/i386/meson.build              |    1 +
- hw/i386/xen/meson.build          |    1 -
- hw/i386/xen/trace-events         |   19 -
- hw/i386/xen/xen-hvm.c            | 1078 ++++----------------------------------
- hw/xen/meson.build               |    7 +
- hw/xen/trace-events              |   19 +
- hw/xen/xen-hvm-common.c          |  893 +++++++++++++++++++++++++++++++
- hw/{i386 => }/xen/xen-mapcache.c |    0
- include/hw/arm/xen_arch_hvm.h    |    9 +
- include/hw/i386/xen_arch_hvm.h   |   11 +
- include/hw/xen/arch_hvm.h        |    5 +
- include/hw/xen/xen-hvm-common.h  |   98 ++++
- include/hw/xen/xen_common.h      |   13 +-
- meson.build                      |    4 +-
- 18 files changed, 1364 insertions(+), 1013 deletions(-)
- create mode 100644 docs/system/arm/xenpvh.rst
- create mode 100644 hw/arm/xen_arm.c
- create mode 100644 hw/xen/xen-hvm-common.c
+Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
+Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
+Reviewed-by: Paul Durrant <paul@xen.org>
+---
+ hw/i386/meson.build              | 1 +
+ hw/i386/xen/meson.build          | 1 -
+ hw/i386/xen/trace-events         | 5 -----
+ hw/xen/meson.build               | 4 ++++
+ hw/xen/trace-events              | 5 +++++
+ hw/{i386 => }/xen/xen-mapcache.c | 0
+ 6 files changed, 10 insertions(+), 6 deletions(-)
  rename hw/{i386 => }/xen/xen-mapcache.c (100%)
- create mode 100644 include/hw/arm/xen_arch_hvm.h
- create mode 100644 include/hw/i386/xen_arch_hvm.h
- create mode 100644 include/hw/xen/arch_hvm.h
- create mode 100644 include/hw/xen/xen-hvm-common.h
+
+diff --git a/hw/i386/meson.build b/hw/i386/meson.build
+index 213e2e82b3..cfdbfdcbcb 100644
+--- a/hw/i386/meson.build
++++ b/hw/i386/meson.build
+@@ -33,5 +33,6 @@ subdir('kvm')
+ subdir('xen')
+ 
+ i386_ss.add_all(xenpv_ss)
++i386_ss.add_all(xen_ss)
+ 
+ hw_arch += {'i386': i386_ss}
+diff --git a/hw/i386/xen/meson.build b/hw/i386/xen/meson.build
+index be84130300..2fcc46e6ca 100644
+--- a/hw/i386/xen/meson.build
++++ b/hw/i386/xen/meson.build
+@@ -1,6 +1,5 @@
+ i386_ss.add(when: 'CONFIG_XEN', if_true: files(
+   'xen-hvm.c',
+-  'xen-mapcache.c',
+   'xen_apic.c',
+   'xen_platform.c',
+   'xen_pvdevice.c',
+diff --git a/hw/i386/xen/trace-events b/hw/i386/xen/trace-events
+index 5d6be61090..a0c89d91c4 100644
+--- a/hw/i386/xen/trace-events
++++ b/hw/i386/xen/trace-events
+@@ -21,8 +21,3 @@ xen_map_resource_ioreq(uint32_t id, void *addr) "id: %u addr: %p"
+ cpu_ioreq_config_read(void *req, uint32_t sbdf, uint32_t reg, uint32_t size, uint32_t data) "I/O=%p sbdf=0x%x reg=%u size=%u data=0x%x"
+ cpu_ioreq_config_write(void *req, uint32_t sbdf, uint32_t reg, uint32_t size, uint32_t data) "I/O=%p sbdf=0x%x reg=%u size=%u data=0x%x"
+ 
+-# xen-mapcache.c
+-xen_map_cache(uint64_t phys_addr) "want 0x%"PRIx64
+-xen_remap_bucket(uint64_t index) "index 0x%"PRIx64
+-xen_map_cache_return(void* ptr) "%p"
+-
+diff --git a/hw/xen/meson.build b/hw/xen/meson.build
+index ae0ace3046..19d0637c46 100644
+--- a/hw/xen/meson.build
++++ b/hw/xen/meson.build
+@@ -22,3 +22,7 @@ else
+ endif
+ 
+ specific_ss.add_all(when: ['CONFIG_XEN', xen], if_true: xen_specific_ss)
++
++xen_ss = ss.source_set()
++
++xen_ss.add(when: 'CONFIG_XEN', if_true: files('xen-mapcache.c'))
+diff --git a/hw/xen/trace-events b/hw/xen/trace-events
+index 3da3fd8348..2c8f238f42 100644
+--- a/hw/xen/trace-events
++++ b/hw/xen/trace-events
+@@ -41,3 +41,8 @@ xs_node_vprintf(char *path, char *value) "%s %s"
+ xs_node_vscanf(char *path, char *value) "%s %s"
+ xs_node_watch(char *path) "%s"
+ xs_node_unwatch(char *path) "%s"
++
++# xen-mapcache.c
++xen_map_cache(uint64_t phys_addr) "want 0x%"PRIx64
++xen_remap_bucket(uint64_t index) "index 0x%"PRIx64
++xen_map_cache_return(void* ptr) "%p"
+diff --git a/hw/i386/xen/xen-mapcache.c b/hw/xen/xen-mapcache.c
+similarity index 100%
+rename from hw/i386/xen/xen-mapcache.c
+rename to hw/xen/xen-mapcache.c
+-- 
+2.25.1
+
 
