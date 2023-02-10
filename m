@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716E16922B7
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 16:55:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C3C6922D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 17:00:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQVj7-0000f9-GX; Fri, 10 Feb 2023 10:54:17 -0500
+	id 1pQVne-0004Qd-09; Fri, 10 Feb 2023 10:58:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pQVj3-0000ef-CZ
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 10:54:13 -0500
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pQVj1-0008FW-La
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 10:54:13 -0500
-Received: by mail-pf1-x435.google.com with SMTP id s20so3745335pfe.2
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 07:54:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1676044450;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=o0nDHn2k0XZgqgliNfxyN9EGssbq+GBBMLySNrVwQK8=;
- b=YfxoiGBD0AtwvINTLCfJT+lgUaIup5OarM+yRTb6kt1fMyi9WYlNH3YA20AePuc8gW
- FgLPfyEPOp6MlgdmsrujPqaVNIHSpVD5qx5u3of0z+HxfiwOyXbYGncr2f8Wwx+VhL7r
- hjNIMu02k8QQrC87saLCLXjIi+KJY2vV+aMnS5FXSPCedbinpyDxKAvir5JXGw/ynZqf
- QDVtBEZ0qB39gcmZWXtnw6MO3+mTuTs9q1nzYgD7CuFmMQpDUMXkym9aAdVCKdMvFkZD
- geDR6+XfIk/4k/eHbw3NoKz/fYqh8gPAxrV4mOT7GKSlDB8DUoxFFQLDRtKh5+XQnd6E
- iU0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1676044450;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=o0nDHn2k0XZgqgliNfxyN9EGssbq+GBBMLySNrVwQK8=;
- b=qhVz1NcdkC4fmcC44Z0jVDqMpc2jy1OfuYilKySB9iRSo7hLASMAIc2zwo5JvDHZAs
- zwOWS21QqKhHDuohqr7uWTru9YYGWWJU29M+6+3NRC73Uz4SySmuh61aDneqqnRyCHUT
- aHzj3HLrDLDoXNWroEKDrG8baPbVBQV4O/4usKWKM0y9QD+fkQTBnVtXsjuHydhhelOy
- X34PQ1GTAjFResxtzqs/Ksag5cSjIt22KhQJZ140Y8POa9zM17HE1jm/cWlOy46gEiI/
- WbWK3Fu9wF/oeUBH0wf1uVxUkf/JDvljKVAggoYTDW/orpTVCu1bKe+nzA3/piRzlBas
- 5MCw==
-X-Gm-Message-State: AO0yUKW23T1zIfj6Co3PwbNuobVrFyVBT+VE7FrqJQPPVlDbcp1PbPEC
- xVz6iW+0MbVvEg8c/wvyX9cu5zQFj0bDee2RcpU1dg==
-X-Google-Smtp-Source: AK7set+6TvcTG+5zhekLpyDgPDbrGG5jaosjzZA29X4xZkIEZ6c6oReYMoyrYpTjv9fuCo99mSegwdAWejy29/+7M0M=
-X-Received: by 2002:a62:484:0:b0:5a8:447c:b45d with SMTP id
- 126-20020a620484000000b005a8447cb45dmr2322015pfe.23.1676044450031; Fri, 10
- Feb 2023 07:54:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pQVnb-0004QU-LL
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 10:58:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pQVnZ-0000wL-Ls
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 10:58:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676044732;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=piwTNZp44K47tpJAxW13pMuna0jDefK3vVDR3j5ZpPM=;
+ b=VqCRzDFofSm7R/TVoYrRCbZl/DBL/YcO8HoDK2CCqdiR9aUBpE2/L+Fk1Pb7hhWCVTarWk
+ eVRSIyg09SE9VbFp2zMKPcfmu1bKXZyaEgVu/L9O+CMaiavPAhrhPYp7Id3SlFpbarZGuM
+ LHf3JQFf+4tWIG00OEOled+bRsRv4qI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-656-SuyMIu7ZNE-QVPQ62Tu6mQ-1; Fri, 10 Feb 2023 10:58:49 -0500
+X-MC-Unique: SuyMIu7ZNE-QVPQ62Tu6mQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F2EA185A588;
+ Fri, 10 Feb 2023 15:58:48 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.76])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D41FC492B00;
+ Fri, 10 Feb 2023 15:58:47 +0000 (UTC)
+Date: Fri, 10 Feb 2023 15:58:45 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Nikolay Borisov <nborisov@suse.com>
+Cc: dgilbert@redhat.com, qemu-devel@nongnu.org, jfehlig@suse.com,
+ Claudio.Fontana@suse.com, dfaggioli@suse.com
+Subject: Re: [PATCH v3 02/14] migration: Add support for 'file:' uri for
+ incoming migration
+Message-ID: <Y+ZptUYkSv5fqqUM@redhat.com>
+References: <20221028103914.908728-1-nborisov@suse.com>
+ <20221028103914.908728-3-nborisov@suse.com>
 MIME-Version: 1.0
-References: <20230210003147.1309376-1-jsnow@redhat.com>
- <20230210003147.1309376-4-jsnow@redhat.com>
- <3bb14d43-4dbe-62f3-679f-4b7823b29d41@redhat.com>
- <CAFn=p-Yyus2zipaUgLwonpMRdfZp-CKEisiXgZBLjgG6UxXagw@mail.gmail.com>
-In-Reply-To: <CAFn=p-Yyus2zipaUgLwonpMRdfZp-CKEisiXgZBLjgG6UxXagw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Feb 2023 15:53:58 +0000
-Message-ID: <CAFEAcA-tL90w6-saYVTwAVB32p1rbQ5K6UFxzGz75POYy32ieA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/7] configure: Look for auxiliary Python installations
-To: John Snow <jsnow@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Qemu-block <qemu-block@nongnu.org>, 
- Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x435.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221028103914.908728-3-nborisov@suse.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,48 +81,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 10 Feb 2023 at 15:28, John Snow <jsnow@redhat.com> wrote:
->
->
->
-> On Fri, Feb 10, 2023, 5:46 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
->>
->> On 2/10/23 01:31, John Snow wrote:
->> > +for binary in "${PYTHON-python3}" python python3.{11..6}
->>
->> This is not available in e.g. dash, so we need to use {11,10,9,8,7,6}.
->> Just a nit, I can fix it myself.
->
->
-> What platforms use dash by default?
+On Fri, Oct 28, 2022 at 01:39:02PM +0300, Nikolay Borisov wrote:
+> This is a counterpart to the 'file:' uri support for source migration,
+> now a file can also serve as the source of an incoming migration.
+> 
+> Unlike other migration protocol backends, the 'file' protocol cannot
+> honour non-blocking mode. POSIX file/block storage will always report
+> ready to read/write, regardless of how slow the underlying storage
+> will be at servicing the request.
+> 
+> For incoming migration this limitation may result in the main event
+> loop not being fully responsive while loading the VM state. This
+> won't impact the VM since it is not running at this phase, however,
+> it may impact management applications.
 
-Ubuntu and Debian default to /bin/sh being dash. The BSDs will
-also have some non-bash /bin/sh I expect.
+Looking at the QEMU incoming migration code, we're relying on
+coroutines. Specifically we initiate the load of state / RAM
+in process_incoming_migration_co, and the coroutine magic
+is handled in qemu_fill_buffer in migration/qemu-file.c which
+does the coroutine yield.
 
-shellcheck will catch this non-portability:
+This should be allowing the QMP monitor to be functional while
+incoming migration is loaded. That said, I expect a great many
+QMP commands will cause problems if invoked, especially any
+that hotplug/unplug stuff. IOW, probably only safe to use the
+query-xxx commands in general.
 
-$ cat /tmp/foo.sh
-#!/bin/sh
+With the unhelpful POSIX semantics for poll() on plain files /
+block devices, the qemu_fill_buffer method is unlikely to ever
+see  QIO_CHANNEL_ERR_BLOCK, so is unlikely to ever yield in the
+coroutine. Thus the QMP monitor will not process data until the
+migration load is finished.
 
-echo {11..6}
-$ shellcheck /tmp/foo.sh
+For libvirt this is not actually a problem in practice from what
+I understand, as we don't try to run any QMP commands, we merely
+wait until we see an even indicating migration is finished. 
 
-In /tmp/foo.sh line 3:
-echo {11..6}
-     ^-----^ SC3009 (warning): In POSIX sh, brace expansion is undefined.
+To solve this problem we would need to make the incoming migration
+run inside a thread, instead of coroutine. This does not appear
+like it would be too hard, mostly just need to replace the
+coroutine creation command with a thread creation command and
+switch the QEMUFile to blocking  mode.
 
-For more information:
-  https://www.shellcheck.net/wiki/SC3009 -- In POSIX sh, brace expansion is u...
+The open question is whether there are any locking/concurrency
+concerns with doing this. To some extent those concerns would
+already exist, even with using coroutines, as there are other
+threads present, and QMP commands can change state in the
+middle of a migration load if an app is foolish enough to
+request it.  So maybe switching to threads isn't actually
+that hard ?
 
+Either way, I think libvirt could live with the blocked QMP
+monitor during incoming migrate in the short/medium term.
+So this doesn't look like a blocker to me currently.
 
-though if you try it on configure right now there are a ton
-of unaddressed warnings (some of which are harmless and some
-of which are probably technically portability bugs) so it's
-a bit tricky to use to sanity-check new changes.
+> 
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Nikolay Borisov <nborisov@suse.com>
+> ---
+>  migration/file.c      | 15 +++++++++++++++
+>  migration/file.h      |  1 +
+>  migration/migration.c |  2 ++
+>  3 files changed, 18 insertions(+)
+> 
+> diff --git a/migration/file.c b/migration/file.c
+> index 02896a7cab99..93eb718aa0f4 100644
+> --- a/migration/file.c
+> +++ b/migration/file.c
+> @@ -21,3 +21,18 @@ void file_start_outgoing_migration(MigrationState *s, const char *fname, Error *
+>  }
+>  
+>  
+> +void file_start_incoming_migration(const char *fname, Error **errp)
+> +{
+> +	QIOChannelFile *ioc;
+> +
+> +	ioc = qio_channel_file_new_path(fname, O_RDONLY, 0, errp);
+> +	if (!ioc) {
+> +		error_report("Error creating a channel");
+> +		return;
+> +	}
+> +
+> +	qio_channel_set_name(QIO_CHANNEL(ioc), "migration-file-incoming");
+> +	migration_channel_process_incoming(QIO_CHANNEL(ioc));
+> +	object_unref(OBJECT(ioc));
+> +}
+> +
+> diff --git a/migration/file.h b/migration/file.h
+> index d476eb1157f9..cdbd291322d4 100644
+> --- a/migration/file.h
+> +++ b/migration/file.h
+> @@ -5,5 +5,6 @@ void file_start_outgoing_migration(MigrationState *s,
+>                                     const char *filename,
+>                                     Error **errp);
+>  
+> +void file_start_incoming_migration(const char *fname, Error **errp);
+>  #endif
+>  
+> diff --git a/migration/migration.c b/migration/migration.c
+> index b5373db38535..eafd887254dd 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -506,6 +506,8 @@ static void qemu_start_incoming_migration(const char *uri, Error **errp)
+>          exec_start_incoming_migration(p, errp);
+>      } else if (strstart(uri, "fd:", &p)) {
+>          fd_start_incoming_migration(p, errp);
+> +    } else if (strstart(uri, "file:", &p)) {
+> +        file_start_incoming_migration(p, errp);
+>      } else {
+>          error_setg(errp, "unknown migration protocol: %s", uri);
+>      }
+> -- 
+> 2.34.1
+> 
 
-thanks
--- PMM
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
