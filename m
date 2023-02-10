@@ -2,58 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9CF5691E24
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 12:24:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06EF5691E46
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 12:30:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQRV9-0001qY-Pn; Fri, 10 Feb 2023 06:23:35 -0500
+	id 1pQRaE-0003v8-HH; Fri, 10 Feb 2023 06:28:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pQRV2-0001op-4G
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:23:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pQRaD-0003us-5a
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:28:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pQRUy-00026Q-M9
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:23:26 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pQRaB-0003LQ-Q0
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:28:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676028204;
+ s=mimecast20190719; t=1676028527;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=v1T7ptjdCtR+okGONlmX/SNevHClnPw1rdkZl7CH4iY=;
- b=GZuu6yhShp9NQsrC1d7w9985biNSnFhdZPkm2do7vsr49NhQLb6a0fPTZEmKMrLtjlI7mL
- VKl8bYdJtoD+Qrmni9MFhaHjbtgxMffybCUXepHUGBpNe+NmRMrPfyJ3tgTV5lkl7hwz+w
- exs+DVO2aRDFIb0IC2jPFgPj+xLttP0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zDbZlrbJ/utXp3myhk3LBSwncrLko7ExuWpjzcEFVJo=;
+ b=BbaKieuzpny8ZRz9y4JuPA5lkGGpufv98xyRYq/G3QVAO1Pp81xK9iyCl3L3mPlWlfzIEY
+ MImEpSdhlnfe/VE0FgRocmA92b4dvKJ0c6lyAmk1tZ3HPnP2R34Lzaai0pT8kalk1doyI0
+ gltFI9y17ONeIC4rKEvsqKeY6gWOLdY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-573-ClTHhPrOPQqREDMu799B-A-1; Fri, 10 Feb 2023 06:23:20 -0500
-X-MC-Unique: ClTHhPrOPQqREDMu799B-A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-644-Wj8STmPJNrqFH4MFy4KWMA-1; Fri, 10 Feb 2023 06:28:44 -0500
+X-MC-Unique: Wj8STmPJNrqFH4MFy4KWMA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0784C87B2A4;
- Fri, 10 Feb 2023 11:23:20 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 837243C0D1AA;
+ Fri, 10 Feb 2023 11:28:43 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C5E8D1121315;
- Fri, 10 Feb 2023 11:23:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 547E4140EBF4;
+ Fri, 10 Feb 2023 11:28:42 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Eric Auger <eric.auger@redhat.com>
-Cc: qemu-arm@nongnu.org,
-	qemu-trivial@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH] include/hw: Do not include "hw/registerfields.h" in headers
- that don't need it
-Date: Fri, 10 Feb 2023 12:23:15 +0100
-Message-Id: <20230210112315.1116966-1-thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: [PATCH] include/hw: Do not include hw.h from headers
+Date: Fri, 10 Feb 2023 12:28:35 +0100
+Message-Id: <20230210112835.1117966-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -77,77 +74,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Include "hw/registerfields.h" in the .c files instead (if needed).
+This include is not needed here, so drop that line.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- include/hw/arm/smmuv3.h        | 1 -
- include/hw/char/ibex_uart.h    | 1 -
- include/hw/ssi/ibex_spi_host.h | 1 -
- hw/char/ibex_uart.c            | 1 +
- hw/ssi/ibex_spi_host.c         | 1 +
- 5 files changed, 2 insertions(+), 3 deletions(-)
+ include/hw/ssi/ibex_spi_host.h          | 1 -
+ include/hw/tricore/tricore_testdevice.h | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/include/hw/arm/smmuv3.h b/include/hw/arm/smmuv3.h
-index f1921fdf9e..b6dd087526 100644
---- a/include/hw/arm/smmuv3.h
-+++ b/include/hw/arm/smmuv3.h
-@@ -20,7 +20,6 @@
- #define HW_ARM_SMMUV3_H
- 
- #include "hw/arm/smmu-common.h"
--#include "hw/registerfields.h"
- #include "qom/object.h"
- 
- #define TYPE_SMMUV3_IOMMU_MEMORY_REGION "smmuv3-iommu-memory-region"
-diff --git a/include/hw/char/ibex_uart.h b/include/hw/char/ibex_uart.h
-index a39985516a..9deadf223b 100644
---- a/include/hw/char/ibex_uart.h
-+++ b/include/hw/char/ibex_uart.h
-@@ -26,7 +26,6 @@
- #define HW_IBEX_UART_H
- 
- #include "hw/sysbus.h"
--#include "hw/registerfields.h"
- #include "chardev/char-fe.h"
- #include "qemu/timer.h"
- #include "qom/object.h"
 diff --git a/include/hw/ssi/ibex_spi_host.h b/include/hw/ssi/ibex_spi_host.h
-index 1f6d077766..8089cc1c31 100644
+index 8089cc1c31..5bd5557b9a 100644
 --- a/include/hw/ssi/ibex_spi_host.h
 +++ b/include/hw/ssi/ibex_spi_host.h
-@@ -32,7 +32,6 @@
+@@ -28,7 +28,6 @@
+ #define IBEX_SPI_HOST_H
+ 
+ #include "hw/sysbus.h"
+-#include "hw/hw.h"
  #include "hw/ssi/ssi.h"
  #include "qemu/fifo8.h"
  #include "qom/object.h"
--#include "hw/registerfields.h"
- #include "qemu/timer.h"
+diff --git a/include/hw/tricore/tricore_testdevice.h b/include/hw/tricore/tricore_testdevice.h
+index 1e2b8942ac..8b4fe15f24 100644
+--- a/include/hw/tricore/tricore_testdevice.h
++++ b/include/hw/tricore/tricore_testdevice.h
+@@ -19,7 +19,6 @@
+ #define HW_TRICORE_TESTDEVICE_H
  
- #define TYPE_IBEX_SPI_HOST "ibex-spi"
-diff --git a/hw/char/ibex_uart.c b/hw/char/ibex_uart.c
-index e58181fcf4..f70adb5308 100644
---- a/hw/char/ibex_uart.c
-+++ b/hw/char/ibex_uart.c
-@@ -31,6 +31,7 @@
- #include "hw/qdev-clock.h"
- #include "hw/qdev-properties.h"
- #include "hw/qdev-properties-system.h"
-+#include "hw/registerfields.h"
- #include "migration/vmstate.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-diff --git a/hw/ssi/ibex_spi_host.c b/hw/ssi/ibex_spi_host.c
-index 57df462e3c..1ee7d88c22 100644
---- a/hw/ssi/ibex_spi_host.c
-+++ b/hw/ssi/ibex_spi_host.c
-@@ -26,6 +26,7 @@
- #include "qemu/osdep.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-+#include "hw/registerfields.h"
- #include "hw/ssi/ibex_spi_host.h"
- #include "hw/irq.h"
- #include "hw/qdev-properties.h"
+ #include "hw/sysbus.h"
+-#include "hw/hw.h"
+ 
+ #define TYPE_TRICORE_TESTDEVICE "tricore_testdevice"
+ #define TRICORE_TESTDEVICE(obj) \
 -- 
 2.31.1
 
