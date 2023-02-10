@@ -2,73 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32F7691FC9
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 14:33:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE6C691FC8
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 14:33:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQTWQ-00034d-BQ; Fri, 10 Feb 2023 08:33:02 -0500
+	id 1pQTWs-0003Pe-UB; Fri, 10 Feb 2023 08:33:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pQTWO-00034I-Ex
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 08:33:00 -0500
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pQTWq-0003NZ-Mm
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 08:33:28 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pQTWM-0006es-Rw
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 08:33:00 -0500
-Received: by mail-pg1-x52f.google.com with SMTP id n2so3716510pgb.2
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 05:32:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1676035977;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=+uzsZum9W/Fslcbo+RgotMW/hjV78iD5VQlw4fHoZwY=;
- b=czvrYVmZpsW+115qeYh67rBsZUClzW4VjfubZyiwM/u6uVbmH8pNNScxAamEQ4gVim
- prwxdk+lDBxgKRdVz/QoF7abiB+MfOQUQg0aZM6AJVHmccqJ34SGy0844SDkUF8LsNiQ
- p6E3zsB9kuJ7+Q5c4/cCqsJDtlcQpXXxPsDL5WLk1Ro6skDFxkZl7Z3zID0xeyJcp085
- nO+hJObrMyPgT/beuC9SKQ7hs3WjS/qPlZIbKJWTO37E/IkWI8taZIDIDDjWabDuHkcy
- b5RlLgSp2bHuiXKgBSfG7jQ5mfV/ljqw0BGClCDuSuVPdc1u15cl/BlV3vAGWuBobOfV
- 86Hg==
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pQTWp-0006iW-52
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 08:33:28 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id j25so5090566wrc.4
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 05:33:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9NBBRHxtStivSysogZGFTrvRHkfzDuerEVsMGPS6iAs=;
+ b=HVN66hHqd4XIbrw6tKuALkgmc9GeR3Pb0Uqwb78ZvRoIEn8yGbLTqr8ehSwKdDg9BR
+ EE4jGUa/6mQwZGzTQ7EVLtNATT+8TcxGr05Ft6TTHlkWmjchjkXUvgfThYoVxwDih8os
+ uDcAFJft1Sf3U0xizq//AqpU8FighfDsLGZ2VdCgvU5F6OgfrofwOhHvKV2RP2uOtxq8
+ K3KOFiESKQwVYguiq66NyTpoJqKg52QcSIfHs9IYfiHHshISQXzqRraAIIwhUVXrlFfo
+ V7mwYVu74Yb/VHxLY5EVRcwe9vbbbfRHSZZWqqfXYNM6dt0xOEt5TggsxhGVtcMCs3/R
+ OzTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1676035977;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+uzsZum9W/Fslcbo+RgotMW/hjV78iD5VQlw4fHoZwY=;
- b=qtPP0WIE2SfJS/7INakmBGxhstpLqmbhogF2iJ7+CrHzBSSC8FTbT1a+HXnHgcxUNi
- YY8kYo594AQBleT3NDHfnRgyr14i9FQc+Qlq9z0+vTfFuOCUkXciVeGqIKSlmFr7vjkI
- XXvFROpoImfXlJ8SLGGJ001cVluleKmGKJvqs8At6lHL/5RYH1xWD6Z8Ah5mpbzQxjmM
- wLEH1sMA8RjKgPFN+SbL76174ybhMMlGIJVwmIhxrp/Igr1/pLEVdjwemD7YUV1iSwni
- GYjaR9LBV1BdjceCiQPEW9qZNSlH28PyUh1phBFN4+kLgF01zPCXcEfMis0Dwet6zcUb
- v3jA==
-X-Gm-Message-State: AO0yUKV2Gf8e1rVMzzhe3vnZxHNSlu/AZy9k+2aR/Dq/DbUaUplPhetU
- LI6BU/VqqA4pkhpPW+C5asTdMcCUI79VWu02zpgoRA==
-X-Google-Smtp-Source: AK7set/yZZtOEOSjibXNh+obpk3AT+qAeBApwFOyr7xmQSCAbubRJ6GES1T6K+Yu/r7pTJuIt4tfp84CxT8sJlOesqs=
-X-Received: by 2002:aa7:9e5a:0:b0:5a8:482f:c328 with SMTP id
- z26-20020aa79e5a000000b005a8482fc328mr1939752pfq.39.1676035977208; Fri, 10
- Feb 2023 05:32:57 -0800 (PST)
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9NBBRHxtStivSysogZGFTrvRHkfzDuerEVsMGPS6iAs=;
+ b=EnWtXzRXEm5IyQfEBvWjjMjglEeyfaVjxZyMLVftUTZbukJO4Z9u975lUQ4lqdBeQh
+ 5PGpFf1VbS2ojVkGBWf0E+SbYcE6zkjZr9yDcIOGN3ZJB/O/z0JQiWpKeHnojQ4rI0ck
+ XvLDgxDQg8cQgNwKjhhgGNBrln1x1ybGD8IM4dhKiZJGjCIMnTvjEt0DXNvUTNqEoJZp
+ PAVJU0Y+NhdK2DzQWm1eAYdTU6eT3KOWCtPvD63JVzbOu9JommWJwHo7v4S7d23F388S
+ 5SWZY2vcrij+PEf73SObLST2nkc2OdCmmxqgvb2NCnd4ZfNNfbzTvNTy3wix0vi0KTrf
+ OA2Q==
+X-Gm-Message-State: AO0yUKV6wbCH2Hq56fp+qcESoiq6VPF5ZJweUIVrt59u0K7DHTD9MHIL
+ TcJUSBwsSmAP5WGqSae7dtE=
+X-Google-Smtp-Source: AK7set/JxfkLBoVaUrlnvudP8O7HnA62XZ1VF5kRy0hCyPuj8gZrk1pELzaABTGyOyxa8nB7koR9rA==
+X-Received: by 2002:adf:e650:0:b0:2c4:616c:fd07 with SMTP id
+ b16-20020adfe650000000b002c4616cfd07mr4159803wrn.34.1676036004074; 
+ Fri, 10 Feb 2023 05:33:24 -0800 (PST)
+Received: from [192.168.15.58] (54-240-197-232.amazon.com. [54.240.197.232])
+ by smtp.gmail.com with ESMTPSA id
+ p18-20020a5d68d2000000b0029100e8dedasm3680509wrw.28.2023.02.10.05.33.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Feb 2023 05:33:23 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <d2aabb04-bfec-bb35-3f80-9115ffa67d37@xen.org>
+Date: Fri, 10 Feb 2023 13:33:22 +0000
 MIME-Version: 1.0
-References: <20230124000027.3565716-1-richard.henderson@linaro.org>
- <20230124000027.3565716-19-richard.henderson@linaro.org>
-In-Reply-To: <20230124000027.3565716-19-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Feb 2023 13:32:46 +0000
-Message-ID: <CAFEAcA_Gqzf6FZbVuPdkk_MvKbaPDY7Aa86CRqwVFDOPfh-o3w@mail.gmail.com>
-Subject: Re: [PATCH 18/22] target/arm: Add GPC syndrome
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, yier.jin@huawei.com, 
- jonathan.cameron@huawei.com, leonardo.garcia@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v10 31/59] hw/xen: Implement EVTCHNOP_unmask
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
+References: <20230201143148.1744093-1-dwmw2@infradead.org>
+ <20230201143148.1744093-32-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20230201143148.1744093-32-dwmw2@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-1.149, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,48 +103,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 24 Jan 2023 at 00:02, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The function takes the fields as filled in by
-> the Arm ARM pseudocode for TakeGPCException.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 01/02/2023 14:31, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
+> 
+> This finally comes with a mechanism for actually injecting events into
+> the guest vCPU, with all the atomic-test-and-set that's involved in
+> setting the bit in the shinfo, then the index in the vcpu_info, and
+> injecting either the lapic vector as MSI, or letting KVM inject the
+> bare vector.
+> 
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
->  target/arm/syndrome.h | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/target/arm/syndrome.h b/target/arm/syndrome.h
-> index 73df5e3793..3fa926d115 100644
-> --- a/target/arm/syndrome.h
-> +++ b/target/arm/syndrome.h
-> @@ -49,6 +49,7 @@ enum arm_exception_class {
->      EC_SYSTEMREGISTERTRAP     = 0x18,
->      EC_SVEACCESSTRAP          = 0x19,
->      EC_SMETRAP                = 0x1d,
-> +    EC_GPC                    = 0x1e,
->      EC_INSNABORT              = 0x20,
->      EC_INSNABORT_SAME_EL      = 0x21,
->      EC_PCALIGNMENT            = 0x22,
-> @@ -237,6 +238,14 @@ static inline uint32_t syn_bxjtrap(int cv, int cond, int rm)
->          (cv << 24) | (cond << 20) | rm;
->  }
->
-> +static inline uint32_t syn_gpc(int s2ptw, int ind, int gpcsc,
-> +                               int cm, int s1ptw, int wnr, int fsc)
-> +{
-> +    return (EC_GPC << ARM_EL_EC_SHIFT) | ARM_EL_IL | (s2ptw << 21)
-> +            | (ind << 20) | (gpcsc << 14) | (cm << 8) | (s1ptw << 7)
-> +            | (wnr << 6) | fsc;
-> +}
+>   hw/i386/kvm/xen_evtchn.c  | 175 ++++++++++++++++++++++++++++++++++++++
+>   hw/i386/kvm/xen_evtchn.h  |   2 +
+>   target/i386/kvm/xen-emu.c |  12 +++
+>   3 files changed, 189 insertions(+)
+> 
 
-I guess we can add VNCR (bit 13) when we implement FEAT_NV2...
+Reviewed-by: Paul Durrant <paul@xen.org>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
 
