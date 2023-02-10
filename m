@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C180A691E6F
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 12:37:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09E3D691E6C
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 12:37:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQRi0-0006yY-JR; Fri, 10 Feb 2023 06:36:52 -0500
+	id 1pQRi4-0006zX-6b; Fri, 10 Feb 2023 06:36:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pQRhy-0006y0-0O
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:36:50 -0500
-Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pQRhv-0005HR-Iy
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:36:49 -0500
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id 057D65FFE6;
- Fri, 10 Feb 2023 14:36:38 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:1310::1:f] (unknown
- [2a02:6b8:b081:1310::1:f])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- badksF0OjuQ1-Fm0XHJ04; Fri, 10 Feb 2023 14:36:37 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1676028997; bh=M6iPjpcHBv+j4DOwjRn1puL7FcRw7GL+dkTTs1aPO+I=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=SsMBukJh0mNNC0+iMpayP5ZHPsyFXKKFPJju+M/9H2l24ACNSp1nfsoLu2sWwp3Q7
- Eo2GiB9Lf5OFwcL8iQeqnmEDgXJHxo+R6n/AsZDX+glC7vQNNA98iUIlIWdTKltN+q
- mEIgoIT/tI2NiW6M7zmRL/MR1rZWWqtQEbK4+XM4=
-Authentication-Results: vla1-81430ab5870b.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <c361c5f3-c623-09e9-0519-cf9ba68ae0a1@yandex-team.ru>
-Date: Fri, 10 Feb 2023 14:36:37 +0300
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pQRi2-0006zF-Rv
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:36:54 -0500
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pQRhz-0005NY-PB
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:36:54 -0500
+Received: by mail-pf1-x434.google.com with SMTP id r17so3268502pff.9
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 03:36:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ip7UkIHts0+zQA/dQ3VZu7KHBdu0EYIXCjbxhc6k/5A=;
+ b=bAyjyQCkvb5jdMFWxMLDDggqQKiFYyaQ6uq3yNPuz9bf5nzJv6y86KsmK2sfwS0NRc
+ TvuZXFjWdul2CWGurmKRden7GhdbLrJRYhgKLI255VZ9csSHsnSNceahnvEPT1pDZf7f
+ BJH2BmUau8GlwhQuuIm7OVOWn+iD95JAkDazmpM26S76nvkbSwAeHoVrMi9Z9lYzjJOi
+ 68SeAFuAaD2Ij+V4i7MAjj/iOUefPAby+BPKVEi6xaXlytAAwwdEjbIbd7uGC6wHH7GX
+ lFUm7l3pTuGhWESibYyFCX2cabezs0p+XUTE62R/W/1VMt1D+jGyfhsZVpQjKJqIev5e
+ iJjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ip7UkIHts0+zQA/dQ3VZu7KHBdu0EYIXCjbxhc6k/5A=;
+ b=70l6EAfRhHQ7tK1hDH3IQZ1BIEQq9Kz8YDHd+9fo17wDSAx8WK3pLLF2ahSX3SJy07
+ fzrJITg6FT3ykfoMDyNodUxSV7Og56jSbYs/LRrslK2uJSQT2TFnuUHXJfeOsWegXtZW
+ 5ylzMxGyZA4oFYHEzYeCX9C9T9N7FQNctgD82EvKBhaEsfqicrl4Y5rLELCvYfJ0RSQ+
+ Ds8WK24+nE+PWCBvvMkdqkGkS8RGXkATgLwMkVZxg6dwIa3mAdwTynrmaW8v+R30bbFJ
+ 8NKsQpAn3OW5inFbmxhN3AoV175cv8Kw/UwPCmpLtlPnDPzDCOOt4nwmVMHeoNoCPnq+
+ pM3g==
+X-Gm-Message-State: AO0yUKVaQVuuBKE2SfkMGW+iTY8dO0yTyn0c/75KZobx2jc8dIgefFG3
+ UVPTugLrF0K/4zXfmkVrblImQ56lXyKcbe8hai558w==
+X-Google-Smtp-Source: AK7set9wbxVeCpxsI6VijOCUlcWxheShzBZtjfqxxJLu8uDZ/yLOLI335JtG7ImFhpjcFlF0pbhKl5c+R8dp7FKfa98=
+X-Received: by 2002:a62:53c6:0:b0:58d:a84a:190b with SMTP id
+ h189-20020a6253c6000000b0058da84a190bmr3256174pfb.48.1676029009493; Fri, 10
+ Feb 2023 03:36:49 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 13/15] qapi: add HOTPLUG_STATE event
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, eblake@redhat.com, eduardo@habkost.net,
- berrange@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
- mst@redhat.com, den-plotnikov@yandex-team.ru
-References: <20230209200808.869275-1-vsementsov@yandex-team.ru>
- <20230209200808.869275-14-vsementsov@yandex-team.ru>
- <875yc9vmxz.fsf@pond.sub.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <875yc9vmxz.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.72;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230124000027.3565716-1-richard.henderson@linaro.org>
+ <20230124000027.3565716-13-richard.henderson@linaro.org>
+In-Reply-To: <20230124000027.3565716-13-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Feb 2023 11:36:38 +0000
+Message-ID: <CAFEAcA_wApEJEweyoGc_oSmyt6xcTKKRPW1X8xYkFO3agjS8jA@mail.gmail.com>
+Subject: Re: [PATCH 12/22] target/arm: NSTable is RES0 for the RME EL3 regime
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, yier.jin@huawei.com, 
+ jonathan.cameron@huawei.com, leonardo.garcia@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,174 +84,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10.02.23 13:23, Markus Armbruster wrote:
-> Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> writes:
-> 
->> For PCIe and SHPC hotplug it's important to track led indicators,
->> especially the power led. Add an event that helps.
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->> ---
->>   qapi/qdev.json       | 62 ++++++++++++++++++++++++++++++++++++++++++++
->>   include/hw/pci/pci.h | 15 +++++++++++
->>   hw/pci/pci.c         | 33 +++++++++++++++++++++++
->>   hw/pci/pcie.c        | 49 ++++++++++++++++++++++++++++++++++
->>   hw/pci/shpc.c        | 42 ++++++++++++++++++++++++++++++
->>   5 files changed, 201 insertions(+)
->>
->> diff --git a/qapi/qdev.json b/qapi/qdev.json
->> index 2708fb4e99..40dc34f091 100644
->> --- a/qapi/qdev.json
->> +++ b/qapi/qdev.json
->> @@ -158,3 +158,65 @@
->>   ##
->>   { 'event': 'DEVICE_UNPLUG_GUEST_ERROR',
->>     'data': { '*device': 'str', 'path': 'str' } }
->> +
->> +##
->> +# @HotplugLedState:
->> +#
-> 
-> No documentation?
+On Tue, 24 Jan 2023 at 00:01, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Test in_space instead of in_secure so that we don't switch
+> out of Root space.  Handle the output space change immediately,
+> rather than try and combine the NSTable and NS bits later.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/ptw.c | 31 ++++++++++++++-----------------
+>  1 file changed, 14 insertions(+), 17 deletions(-)
+>
+> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+> index c1b0b8e610..ddafb1f329 100644
+> --- a/target/arm/ptw.c
+> +++ b/target/arm/ptw.c
+> @@ -1240,7 +1240,6 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+>  {
+>      ARMCPU *cpu = env_archcpu(env);
+>      ARMMMUIdx mmu_idx = ptw->in_mmu_idx;
+> -    bool is_secure = ptw->in_secure;
+>      int32_t level;
+>      ARMVAParameters param;
+>      uint64_t ttbr;
+> @@ -1256,7 +1255,6 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+>      uint64_t descaddrmask;
+>      bool aarch64 = arm_el_is_aa64(env, el);
+>      uint64_t descriptor, new_descriptor;
+> -    bool nstable;
+>
+>      /* TODO: This code does not support shareability levels. */
+>      if (aarch64) {
+> @@ -1417,29 +1415,29 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+>          descaddrmask = MAKE_64BIT_MASK(0, 40);
+>      }
+>      descaddrmask &= ~indexmask_grainsize;
+> -
+> -    /*
+> -     * Secure accesses start with the page table in secure memory and
+> -     * can be downgraded to non-secure at any step. Non-secure accesses
+> -     * remain non-secure. We implement this by just ORing in the NSTable/NS
+> -     * bits at each step.
+> -     */
+> -    tableattrs = is_secure ? 0 : (1 << 4);
+> +    tableattrs = 0;
+>
+>   next_level:
+>      descaddr |= (address >> (stride * (4 - level))) & indexmask;
+>      descaddr &= ~7ULL;
+> -    nstable = extract32(tableattrs, 4, 1);
+> -    if (nstable && ptw->in_secure) {
+> -        /*
+> -         * Stage2_S -> Stage2 or Phys_S -> Phys_NS
+> -         * Assert that the non-secure idx are even, and relative order.
+> -         */
+> +
+> +    /*
+> +     * Process the NSTable bit from the previous level.  This changes
+> +     * the table address space and the output space from Secure to
+> +     * NonSecure.  With RME, the EL3 translation regime does not change
+> +     * from Root to NonSecure.
+> +     */
 
-Will do!
+To check my understanding, this means that the bit that the spec
+describes as FEAT_RME changing the behaviour of NSTable in the EL3
+stage 1 translation regime is implemented by us by having the
+in_space for EL3 be different for FEAT_RME and not-FEAT_RME ?
 
-> 
->> +# Since: 8.0
->> +##
->> +{ 'enum': 'HotplugLedState',
->> +  'data': [ 'on', 'blink', 'off' ] }
->> +
->> +##
->> +# @HotplugPowerState:
-> 
-> No documentation?
-> 
->> +#
->> +# Since: 8.0
->> +##
->> +{ 'enum': 'HotplugPowerState',
->> +  'data': [ 'on', 'off' ] }
-> 
-> Why not bool?
+> +    if (extract32(tableattrs, 4, 1) && ptw->in_space == ARMSS_Secure) {
+> +        /* Stage2_S -> Stage2 or Phys_S -> Phys_NS */
+>          QEMU_BUILD_BUG_ON(ARMMMUIdx_Phys_S + 1 != ARMMMUIdx_Phys_NS);
+>          QEMU_BUILD_BUG_ON(ARMMMUIdx_Stage2_S + 1 != ARMMMUIdx_Stage2);
+>          ptw->in_ptw_idx += 1;
+>          ptw->in_secure = false;
+> +        ptw->in_space = ARMSS_NonSecure;
+> +        result->f.attrs.secure = false;
+> +        result->f.attrs.space = ARMSS_NonSecure;
+>      }
+> +
+>      if (!S1_ptw_translate(env, ptw, descaddr, fi)) {
+>          goto do_fault;
+>      }
+> @@ -1542,7 +1540,6 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+>       */
+>      attrs = new_descriptor & (MAKE_64BIT_MASK(2, 10) | MAKE_64BIT_MASK(50, 14));
+>      if (!regime_is_stage2(mmu_idx)) {
+> -        attrs |= nstable << 5; /* NS */
 
-I wanted to reflect PCI_EXP_SLTCTL_PWR_ON and PCI_EXP_SLTCTL_PWR_OFF.
+This removes the code where we copy the NSTable bit across to attrs,
+but there's still code below here that assumes it can get the combined
+NS bit from bit 5 of attrs, isn't there? (It passes it to get_S1prot().)
 
-On the other hand, it's just a bit in the config. Power Controller Control. An unobvious thing that
-
-  0 = Power On
-  1 = Power Off
-
-for that bit. So with proper documentation we can use boolean. But on/off is more obvious.
-
-> 
->> +##
->> +# @HotplugSlotState:
-> 
-> No documentation?
-> 
->> +#
->> +# Since: 8.0
->> +##
->> +{ 'enum': 'HotplugSlotState',
->> +  'data': [ 'power-only', 'enabled', 'disabled' ] }
->> +
->> +##
->> +# @HotplugState:
->> +#
->> +# @hotplug-device: hotplug device id
->> +# @hotplug-path: hotplug device path
->> +# @hotplug-slot: hotplug device slot (only for SHPC)
->> +# @device: device name
->> +# @path: device path
->> +# @power-led: Power Indicator
->> +# @attention-led: Attention Indicator
->> +# @state: slot state, only for SHPC hotplug controller
->> +# @power: Power Controller state, only for PCIe hotplug
-> 
-> 
-> 
->> +#
->> +# Since: 8.0
->> +##
->> +{ 'struct': 'HotplugState',
->> +  'data': { '*hotplug-device': 'str',
->> +            'hotplug-path': 'str',
->> +            '*hotplug-slot': 'int',
->> +            '*device': 'str',
->> +            'path': 'str',
->> +            '*power-led': 'HotplugLedState',
->> +            '*attention-led': 'HotplugLedState',
->> +            '*state': 'HotplugSlotState',
->> +            '*power': 'HotplugPowerState' } }
-> 
-> Too terse.
-
-Will fix)
-
-> 
-> What do @hotplug-device and @device name?  Are these qdev-id?
-> 
-> What kind of paths are @hotplug-path and @path?  Are these paths to an
-> object device in the QOM tree?  Which object?
-
-device / path is same name and path as for DEVICE_DELETED
-
-> 
-> What's a @hotplug-slot?
-
-pci slot. Significant for SHPC
-
-> 
->> +
->> +##
->> +# @HOTPLUG_STATE:
->> +#
->> +# Emitted whenever the state of hotplug controller is changed.
-> 
-> Suggest "the state of hotplug controller changes."
-> 
-> Regardless, too terse.  What state changes exactly trigger the event?
-
-Any change of power-led / attention-led / state / power.
-
-Will add a description
-
-> 
->> +# Only changed values are included into event.
-> 
-> "in the event"
-> 
-> Which values are included for each event trigger?
-
-- device ids and names always included
-- power-led / attention-led / state / power  - only those who changed
-
-> 
->> +# Only SHPC and PCIe-native hotplug are supported.
-> 
-> Suggest something like "only ... provide this event."
-> 
-> Are parts of HotplugState specific to "SHPC and PCIe-native"?  Or asked
-> differently: when we make other kinds of hotplug send the event, what
-> would we need to change here?
-
-Hmm. Looks like I'd better use a union with type discriminator. This way we'll be able to add any other hotplug later.
-
-(and even now it's better, as not all 4 state fields are shared for PCIe and SHPC)
-
-> 
->> +#
->> +# Since: 8.0
->> +##
->> +{ 'event': 'HOTPLUG_STATE',
->> +  'data': 'HotplugState' }
-> 
-> [...]
-> 
-
--- 
-Best regards,
-Vladimir
-
+thanks
+-- PMM
 
