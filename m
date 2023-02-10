@@ -2,70 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 034ED691C63
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 11:11:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEFF6691CA4
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 11:25:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQQMD-0007Lc-10; Fri, 10 Feb 2023 05:10:17 -0500
+	id 1pQQZ7-0002bB-6x; Fri, 10 Feb 2023 05:23:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQQLt-0007JW-Of
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 05:10:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1pQQYs-0002ae-0E; Fri, 10 Feb 2023 05:23:23 -0500
+Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQQLr-0000q4-VG
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 05:09:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676023794;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Vm2NCGewBhTv8mNSBbpE7M3DaYqj50515t0oVSluZQ8=;
- b=dOvvoaIGHp5GY2fWox52JzDBPt3uika9kFI9sTHoUReol4fgFo4SGoKWY8kmJ8051j4Qjq
- mp1p72fOjS7FUDv9eIyjhXsmgV7Qohifw/STL5jnI4Jgc8isUio8ziNU9qK56EeXl0tjf6
- SBgj7FIb/SSXv1pDjM9RgqWKI5xUsuA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-422-uPMcDnLdOdy18CiaIslUOQ-1; Fri, 10 Feb 2023 05:09:51 -0500
-X-MC-Unique: uPMcDnLdOdy18CiaIslUOQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1A6F180D0E0;
- Fri, 10 Feb 2023 10:09:51 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BF9FB2166B2A;
- Fri, 10 Feb 2023 10:09:50 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id ACE5421E6A1F; Fri, 10 Feb 2023 11:09:49 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org,  eblake@redhat.com,  eduardo@habkost.net,
- berrange@redhat.com,  pbonzini@redhat.com,  marcel.apfelbaum@gmail.com,
- mst@redhat.com,  den-plotnikov@yandex-team.ru
-Subject: Re: [PATCH v3 15/15] qapi: introduce query-hotplug command
-References: <20230209200808.869275-1-vsementsov@yandex-team.ru>
- <20230209200808.869275-16-vsementsov@yandex-team.ru>
-Date: Fri, 10 Feb 2023 11:09:49 +0100
-In-Reply-To: <20230209200808.869275-16-vsementsov@yandex-team.ru> (Vladimir
- Sementsov-Ogievskiy's message of "Thu, 9 Feb 2023 23:08:08 +0300")
-Message-ID: <87k00pvnki.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1pQQYp-0003ac-Hw; Fri, 10 Feb 2023 05:23:21 -0500
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id 983EB400BA;
+ Fri, 10 Feb 2023 13:23:15 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id E9344F;
+ Fri, 10 Feb 2023 13:23:14 +0300 (MSK)
+Message-ID: <c9a33772-734c-dc27-8075-e0c8f83e105d@msgid.tls.msk.ru>
+Date: Fri, 10 Feb 2023 13:23:14 +0300
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PULL 09/11] target/i386: Fix BEXTR instruction
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-stable@nongnu.org
+References: <20230208171922.95048-1-pbonzini@redhat.com>
+ <20230208171922.95048-10-pbonzini@redhat.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
+In-Reply-To: <20230208171922.95048-10-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -79
+X-Spam_score: -8.0
+X-Spam_bar: --------
+X-Spam_report: (-8.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,20 +60,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> writes:
+08.02.2023 20:19, Paolo Bonzini wrote:
+> From: Richard Henderson <richard.henderson@linaro.org>
+> 
+> There were two problems here: not limiting the input to operand bits,
+> and not correctly handling large extraction length.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1372
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-Id: <20230114230542.3116013-3-richard.henderson@linaro.org>
+> Cc: qemu-stable@nongnu.org
+> Fixes: 1d0b926150e5 ("target/i386: move scalar 0F 38 and 0F 3A instruction to new decoder", 2022-10-18)
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-> Add a command that returns same information like HOTPLUG_STATE event.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+FWIW, for -stable, previous patch is needed too
+(08/11 tests/tcg/i386: Introduce and use reg_t consistently)
+or else changes for tests/tcg/i386/test-i386-bmi2.c don't apply.
 
-Events and queries commonly come paired: management applications want
-the event so they don't have to poll, and they want the query so they
-can resynchronize after a disconnect.  Adding an event without a query
-should make reviewers ask why no query.
-
-You add the event in PATCH 13, and the query now.  I'd add them both in
-a single patch.  Matter of taste.  If you keep them separate, please
-have the first patch mention the second will follow shortly, to help
-reviewers.
-
+/mjt
 
