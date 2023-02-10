@@ -2,108 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1297B691FB6
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 14:24:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78CDC691FB9
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 14:25:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQTNm-0005wK-Sv; Fri, 10 Feb 2023 08:24:06 -0500
+	id 1pQTP2-0007D9-MX; Fri, 10 Feb 2023 08:25:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pQTNc-0005mN-4R; Fri, 10 Feb 2023 08:23:57 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pQTNZ-0004zF-6V; Fri, 10 Feb 2023 08:23:54 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31ADDVjD013157; Fri, 10 Feb 2023 13:23:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=rVSF2IQryK//tOkrM85NEUI0d6F1GBt0GrNsD7+cSgk=;
- b=EuQj+yrnwf5Mw5ajcWQD7tLEcqBpgswBI3HTKfuinx6Z1CUGzcnxmtzQzWItTytBGHtI
- bvfE+UlUhSy/P53AyY8o1pSbQrZjFGbRO9b82Ub2PGlSOXNxRBaeCm2Hk2lQGJ/JKA2B
- 4K0Qmi5N9C1xe7AXzI2HMhLf2NovOcjj3aG2a5cILOX/gDirHfrfLUg5wHJcG/q4jUpK
- GINLFNWaPBbeETGn3KfAh/yUZcXzaj3x5Q9hS+BlpllSuErNbO/4PhK6csZogiDLCQcJ
- ppceHJLxvV9j3GfoUPKdFPWVVZO1JgALQ9gaYCxo3GNhPAkuI/e7ZVJWG3NLyM/IfigQ sA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nnpm9r87k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 10 Feb 2023 13:23:42 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31ADDXgT013201;
- Fri, 10 Feb 2023 13:23:42 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nnpm9r86m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 10 Feb 2023 13:23:41 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31A6Fcu6020984;
- Fri, 10 Feb 2023 13:23:39 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
- by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3nhemfqk3w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 10 Feb 2023 13:23:39 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
- [10.20.54.104])
- by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 31ADNZMs34275802
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 10 Feb 2023 13:23:35 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C6FC420049;
- Fri, 10 Feb 2023 13:23:35 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9D93720040;
- Fri, 10 Feb 2023 13:23:34 +0000 (GMT)
-Received: from [9.171.75.239] (unknown [9.171.75.239])
- by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Fri, 10 Feb 2023 13:23:34 +0000 (GMT)
-Message-ID: <eac977cd-b325-418d-8ac7-cf26077bd243@linux.ibm.com>
-Date: Fri, 10 Feb 2023 14:23:34 +0100
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pQTOv-0007CS-TC
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 08:25:17 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pQTOu-0005HF-AX
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 08:25:17 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ bg5-20020a05600c3c8500b003e00c739ce4so4039422wmb.5
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 05:25:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=jHZkOaNzPDSQYGpWlqknupqXvvN/RW68o4X3EzlqsYU=;
+ b=BeMdTN82hy1N3BMu2f+QwsuZ668c25Y5e9+QfoYOeiVf5z9cu0/TtVjtp4/2Cjmb5V
+ YTHNqRY7tzoZeZgIqBa1Giip98QOIvvA01lTZV+BgC69Ngf0ono45taNNF8y78R5sRhI
+ Rg57wLE+Tyd+CrtyouEV7QCR8u9hPKar1+t1c9CkuiCf86UGl9m5UyPNuXzTFQx5LQjZ
+ e4fF4g0LbLVT7ZuA/5ZsBo5d1AKArzEMALBdbsqywUQHtx5+dkR+AzrVrHAHE7T18DkY
+ hPJ0e1nGwajRYtt/hk/sVjmRWjpuWOzoebYCcJq8bhwQ4MKp43twaVrr9s62xzPlmS+d
+ uJaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jHZkOaNzPDSQYGpWlqknupqXvvN/RW68o4X3EzlqsYU=;
+ b=Lp5U8kccC5qBFwkNCoUJZ8+0V+KXGNbYL/IHcu3+e2+09SkhfTVZUI85YXsFaM/sve
+ EKXbB0Y1uHjlrzWRxfjKnf8x9in6uqhujka9ZOxPDjyUwgp4iuZXDYKCF+iTID+QdrWK
+ 8VRP4toBtkhK+S+lfggKKrUWR1wElGd/zHczpKD+SybL8QXXYFk+tFg+TQjDsIjFZ/DH
+ 0MLhAysyFaKKy9MDDir8nY1JhUc2X7ts9Qe1EnPm5EHvw1BpZDJnAdSgYeN+V/YwAy6N
+ EmisqlAW5A7pt1ZuqQOuLqVMMjf/4Hq2fN/QDm+ErSmvM4Go70VrhfS8nP+QX7x3IcbQ
+ 1+xg==
+X-Gm-Message-State: AO0yUKVlreyJqcSuN2n19squo6Ex/djXW2y90G6FxWYnWYpol7YGb282
+ 9eem5dEmCsIPBm90CXth6p4=
+X-Google-Smtp-Source: AK7set98xFFC5RN+aGv6ONw5jJOcTBweNdYnxW0/NGiOzj6t1jDDftIiuVbl3YbQBK2u2Xl52zsqFA==
+X-Received: by 2002:a05:600c:1685:b0:3db:2e06:4091 with SMTP id
+ k5-20020a05600c168500b003db2e064091mr14609794wmn.37.1676035513891; 
+ Fri, 10 Feb 2023 05:25:13 -0800 (PST)
+Received: from [192.168.15.58] (54-240-197-232.amazon.com. [54.240.197.232])
+ by smtp.gmail.com with ESMTPSA id
+ z6-20020a1c4c06000000b003d1d5a83b2esm7798960wmf.35.2023.02.10.05.25.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Feb 2023 05:25:13 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <5ff185ea-7170-bc66-3f4e-38810ec07add@xen.org>
+Date: Fri, 10 Feb 2023 13:25:11 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v15 00/11] s390x: CPU Topology
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v10 30/59] hw/xen: Implement EVTCHNOP_close
 Content-Language: en-US
-To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230201132051.126868-1-pmorel@linux.ibm.com>
- <74229e1f3cbb45a92e8b1f26cc8ad744453985a7.camel@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <74229e1f3cbb45a92e8b1f26cc8ad744453985a7.camel@linux.ibm.com>
+To: David Woodhouse <dwmw2@infradead.org>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
+References: <20230201143148.1744093-1-dwmw2@infradead.org>
+ <20230201143148.1744093-31-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20230201143148.1744093-31-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: i3Y2-LLQekPHBaaif49FT9PFsqsX9Gwv
-X-Proofpoint-GUID: HBydW-djqsN5eTnQmyt0TVy5dpb_6LRN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-10_07,2023-02-09_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0
- malwarescore=0 spamscore=0 adultscore=0 phishscore=0 clxscore=1015
- mlxscore=0 impostorscore=0 lowpriorityscore=0 mlxlogscore=999
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302100108
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-1.149, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,73 +104,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 2/9/23 18:14, Nina Schoetterl-Glausch wrote:
-> IMO this series looks good overall and like it's nearing the final stages.
-
-Thank you for your helping this.
-
+On 01/02/2023 14:31, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> You use "polarity" instead of "polarization" a lot.
-> Since the PoP uses polarization I think that term would be preferred.
-
-OK
-
+> It calls an internal close_port() helper which will also be used from
+> EVTCHNOP_reset and will actually do the work to disconnect/unbind a port
+> once any of that is actually implemented in the first place.
 > 
-> With the series as it is, one cannot set the polarization via qmp,
-> only the entitlement of individual cpus. So only the VM can change
-> the polarization.
-> Would it be desirable to also be able to set the polarization from the outside?
-
-I do not think so, AFAIK this is not foreseen by the architecture.
-My point of view on this is that the application running on the guest is 
-the one knowing if it can get use of the heterogeneous CPU provisioning 
-provided by the vertical polarization or not.
-Horizontal polarization being the default with an homogeneous, or 
-considered as default, provisioning.
-
-
+> That in turn calls a free_port() internal function which will be in
+> error paths after allocation.
 > 
-> Like I said in one response, it would be good to consider if we need an
-> polarization_change_in_progress state that refuses requests.
-> I'm guessing not, if a request is always completed before the next is handled
-> and there is no way to lose requests.
-> I don't know how long it would take to change the CPU assignment and if there
-> is a chance that could be overwhelmed by too many requests.
-> Probably not but something worth thinking about.
-
-Currently, guest request for a topology change is done via the sysfs 
-interface by a userland process.
-The value returned by the kernel to userland is -BUSY, for both DONE and 
-IN_PROGRESS.
-So at first sight I do not see a overwhelming problem but having a 
-completion indication looks like a good thing to have in a future 
-extension in both QEMU and Kernel
-
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>   hw/i386/kvm/xen_evtchn.c  | 121 ++++++++++++++++++++++++++++++++++++++
+>   hw/i386/kvm/xen_evtchn.h  |   2 +
+>   target/i386/kvm/xen-emu.c |  12 ++++
+>   3 files changed, 135 insertions(+)
 > 
-> Might be a good idea to add a test case that performs test via qmp.
-> So starts an instance with some cpu topology assignments, checks that
-> qmp returns the correct topology, hot plugs a cpu and does another check,
-> Changes topology attributes, etc.
-> I guess this would be an avocado test.
 
-Yes you are right there is a lot to test.
-There is already a test for kvm_unit_tests in review to test PTF and 
-STSI instruction's interception.
-We do not use avocado as far as I know but our hades tests framework for 
-the kind of tests you propose.
-I never used avocado for now but at first sight, avocado and hades look 
-similar.
+Reviewed-by: Paul Durrant <paul@xen.org>
 
-Regards,
-Pierre
-
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
 
