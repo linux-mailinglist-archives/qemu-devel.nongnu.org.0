@@ -2,87 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2200691952
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 08:44:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95D14691953
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 08:46:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQO4B-000223-IW; Fri, 10 Feb 2023 02:43:31 -0500
+	id 1pQO6s-0002v8-F3; Fri, 10 Feb 2023 02:46:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pQO43-00021J-K4
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 02:43:23 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pQO6S-0002uZ-23
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 02:45:52 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pQO42-0003hw-5I
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 02:43:23 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pQO6O-00044d-Kw
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 02:45:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676015001;
+ s=mimecast20190719; t=1676015146;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a7HohraEnnLuS7SCGV4RgDXKY3P8/2UTebn28HhlcUQ=;
- b=fVQ3E2RClk4kF0LjI/pQZSmzDGwfpB3VPgrdQZaA0pINdqYH3GLVAH7IcMsCsCg45iVShS
- cgnlFtzIIcrDuNgvLCiMTN58ZmUDq8KR3AZaQFH4V1N6kOUVS9YaiPZetnU9xT8Ak8tyn1
- wHNUkVCKNAnmLAcITxCryXrhHR+5zhc=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5TojVq2EprzgUawDdrIhzzJGeBNwrZegYMZWc71Cea4=;
+ b=YIjkVrpKD/1New9uVfp/L2ckj/Apg9j83TgB7haK1X1xSf4JkPDnGlhxZrNpuulzS691Sp
+ +wDTAv47txg39V9H4V9RiaVygWvPqUdOHDjXPprFm1K/x/LQKVUzzIdDWCf9nBxDk0Hxus
+ uaHQ0a9Ep9agiM5Nc8VaL2wk4bPdDRE=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-547-RyWYpgf9Otu26z95sYjMbw-1; Fri, 10 Feb 2023 02:43:19 -0500
-X-MC-Unique: RyWYpgf9Otu26z95sYjMbw-1
-Received: by mail-qk1-f198.google.com with SMTP id
- g22-20020a05620a13d600b00726e7ad3f44so2798475qkl.8
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 23:43:19 -0800 (PST)
+ us-mta-57-a74EdGMWPbaPf__nHzweFg-1; Fri, 10 Feb 2023 02:45:44 -0500
+X-MC-Unique: a74EdGMWPbaPf__nHzweFg-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ v3-20020a05622a188300b003ba183e8272so2644686qtc.0
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 23:45:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=a7HohraEnnLuS7SCGV4RgDXKY3P8/2UTebn28HhlcUQ=;
- b=IHXGgSZpPYuaYzrw6zs6Zb92W0rqw4btoaJR8wJziKEthW3KKAkiuuIfPyX/JdLuJB
- sLqz3jwV9YjILqdvZuwP8uuqWs8exZPYKFULLZnbh5zPMnsiPmqatw1VrxnSX+PCqOG9
- LvxsXhrjl5MkWQQbEOSN6dLc0RVCI2fF1EgMX+kY6pFjCjhckICxbM0LdkBE64zMVF9q
- xghGWnhVw0b8TIQ5kl7Rb6L8Z9II/Z/gysTyT7hyYCzerJnB62nrg7rSZ9dEU+Wx1lV4
- OHlXWBfuPR+UGYjvx0cBPiD/NekFrpyimLLz+2RPcRKVCxSG8VnaF0NJIpuT4TvQK6xq
- 5uoQ==
-X-Gm-Message-State: AO0yUKV3k/Y5Y6+NaanVfYIS7xRst/nbZO0fWZgd064TKO4pF+aBO0Rv
- u4pOrjI9p8ckSeqy0cnOHj0WQAfIY1C9sD+KvMIbbvDdq70TtGJE0jRIb5F12QHh1Bx7OlEQir3
- mY34z2gLTefxI7Fg=
-X-Received: by 2002:ac8:4e8d:0:b0:3b8:6c97:e5de with SMTP id
- 13-20020ac84e8d000000b003b86c97e5demr24592131qtp.41.1676014999372; 
- Thu, 09 Feb 2023 23:43:19 -0800 (PST)
-X-Google-Smtp-Source: AK7set+caySjIQAZ74Bz7BqJMfnNlYYmnsvPLuaw6J545d9z9xW+fbcW/Ef6xisosG/7GJyZGl40yA==
-X-Received: by 2002:ac8:4e8d:0:b0:3b8:6c97:e5de with SMTP id
- 13-20020ac84e8d000000b003b86c97e5demr24592123qtp.41.1676014999157; 
- Thu, 09 Feb 2023 23:43:19 -0800 (PST)
+ bh=5TojVq2EprzgUawDdrIhzzJGeBNwrZegYMZWc71Cea4=;
+ b=jTETJt3VCLE9v+Mq4vI5sLr+DSHzoT6W4U3135wBRuNgKhT06YGxp03bQJPLBKIK9S
+ pWvOVCmNqSfMGBNpEcjILn8uc1rFJK3S4d6MJ1iKACbQOU6Dzbl5+uAdK+oTn8MXdmlh
+ FkT7/NHayVxfHqOrpQ+T4kL6WKwJLC8Aa+NqfpBHWrXD6deHvd+chAOI0Jzin2vNETJB
+ emkByLnMdW67jXJcOom5tvGeM+qzBkStWRKUfc0SVm5wFPnB7L6Z8udQIcSHE9dYFFBi
+ lEB9Qs5XjvoUUIvbBaHYfXNoJrj8QIq0Vu4W+1NlDrwGLnwTeWkdutGZvXE6Ul1LqyUg
+ bscA==
+X-Gm-Message-State: AO0yUKVGHMqkfyqu6mjwahrOYx03Gz1qLBYCUCIa+GTEsun+6yDgM9/o
+ ne0Y02LNWqpD65DP8JZRg5VZCfcDdFz+/xhHlaPhQWmuY9Q9nXEkej829qaa+7XWXFDc7sJHAOV
+ NMkVRU2BxZibcxzg=
+X-Received: by 2002:a05:622a:1804:b0:3b1:4a8:4665 with SMTP id
+ t4-20020a05622a180400b003b104a84665mr23719482qtc.62.1676015144374; 
+ Thu, 09 Feb 2023 23:45:44 -0800 (PST)
+X-Google-Smtp-Source: AK7set9sHSIvHuLnZ6Id1QuiNEWfk7qxwkbub5lnfDEVHeykZz6qe8xcTXiuWhF+Pb4KkFbl/eT0Qg==
+X-Received: by 2002:a05:622a:1804:b0:3b1:4a8:4665 with SMTP id
+ t4-20020a05622a180400b003b104a84665mr23719460qtc.62.1676015144141; 
+ Thu, 09 Feb 2023 23:45:44 -0800 (PST)
 Received: from [192.168.0.2] (ip-109-43-178-85.web.vodafone.de.
  [109.43.178.85]) by smtp.gmail.com with ESMTPSA id
- c18-20020a05622a025200b003b85ed59fa2sm2919674qtx.50.2023.02.09.23.43.16
+ x21-20020ac87a95000000b003b869f71eedsm2827418qtr.66.2023.02.09.23.45.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Feb 2023 23:43:18 -0800 (PST)
-Message-ID: <31bc059c-dc8c-36ee-8288-209811d9ba98@redhat.com>
-Date: Fri, 10 Feb 2023 08:43:15 +0100
+ Thu, 09 Feb 2023 23:45:43 -0800 (PST)
+Message-ID: <c9fbb361-bf79-2196-aafd-68a831f0a1c5@redhat.com>
+Date: Fri, 10 Feb 2023 08:45:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PULL 12/17] AVX512 support for xbzrle_encode_buffer
+Subject: Re: [PATCH v2 4/7] configure: Add nice hint to Python failure message
 Content-Language: en-US
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- ling xu <ling1.xu@intel.com>
-Cc: kvm@vger.kernel.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Zhou Zhao <zhou.zhao@intel.com>, Jun Jin <jun.i.jin@intel.com>
-References: <20230209233426.37811-1-quintela@redhat.com>
- <20230209233426.37811-13-quintela@redhat.com>
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Michael Roth <michael.roth@amd.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20230210003147.1309376-1-jsnow@redhat.com>
+ <20230210003147.1309376-5-jsnow@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230209233426.37811-13-quintela@redhat.com>
+In-Reply-To: <20230210003147.1309376-5-jsnow@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -107,22 +108,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/02/2023 00.34, Juan Quintela wrote:
-> From: ling xu <ling1.xu@intel.com>
+On 10/02/2023 01.31, John Snow wrote:
+> If we begin requiring Python 3.7+, a few platforms are going to need to
+> install an additional package.
 > 
-> This commit is the same with [PATCH v6 1/2], and provides avx512 support for xbzrle_encode_buffer
-> function to accelerate xbzrle encoding speed.
+> This is at least mildly annoying to the user (and I hate negative
+> attention), so solve the user's problem for them before they get a
+> chance to become irritated while searching on Google for how to install
+> newer Python packages.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   configure | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/configure b/configure
+> index ea8c973d13b..bf512273f44 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1058,7 +1058,10 @@ fi
+>   
+>   if ! check_py_version "$python"; then
+>     error_exit "Cannot use '$python', Python >= 3.6 is required." \
+> -      "Use --python=/path/to/python to specify a supported Python."
+> +             "Use --python=/path/to/python to specify a supported Python." \
+> +             "Maybe try:" \
+> +             "  openSUSE Leap 15.3+: zypper install python39" \
+> +             "  CentOS 8: dnf install python38"
 
-  Hi!
+IMHO the "Python > 3.6" is already pretty clear, and the hints that you 
+provide here will expire pretty fast (unless you bump them regularly), so 
+I'd rather drop this patch. Just my 0.02 €.
 
-Just a hint for future patches: Please don't put version information into 
-the patch description itself, this "PATCH v6 1/2" will now end up in the git 
-history without its context.
-
-Information like that should go into cover letters or below the "---" marker 
-only.
-
-  Thanks,
-   Thomas
+  Thomas
 
 
