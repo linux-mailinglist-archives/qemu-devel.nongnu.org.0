@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9C00691D29
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 11:47:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05DE2691D43
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 11:52:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQQw3-0002tA-F4; Fri, 10 Feb 2023 05:47:19 -0500
+	id 1pQQzc-0004wP-Um; Fri, 10 Feb 2023 05:51:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pQQw0-0002sZ-D6
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 05:47:16 -0500
-Received: from forwardcorp1a.mail.yandex.net
- ([2a02:6b8:c0e:500:1:45:d181:df01])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pQQvy-0001Zs-1Q
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 05:47:15 -0500
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id C31C55FF42;
- Fri, 10 Feb 2023 13:47:06 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:1310::1:f] (unknown
- [2a02:6b8:b081:1310::1:f])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 5lc1IF0OjSw1-DnGgAxZL; Fri, 10 Feb 2023 13:47:06 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1676026026; bh=Ta6P80ITA/P8IRuGA/eAU1Jfx85ZS6E5jwprw9gAPaU=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=dcvlMoYTePWOTC/hFGCCp6vURP1zjq1YA9qypNfvVVwREI7EUwhZkIgTJu3sSg8Si
- tGOLWfhbdIlc+jU9FCY9omFJ079N2mwe4GAyPtozkdQ8ZR/c7h7pFSjHCBm7qGZ7Ct
- 5odBJnYLGi0hu8vcOzI/AV9BWIdBqATiQdBfpmN8=
-Authentication-Results: vla1-81430ab5870b.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <5ac6f2a0-ff4f-1c18-dfed-9ec24056f18f@yandex-team.ru>
-Date: Fri, 10 Feb 2023 13:47:05 +0300
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pQQyj-0004si-Bv
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 05:50:06 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pQQyh-00021M-KK
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 05:50:04 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id v3so3212852pfn.6
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 02:50:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=kvHX3mpuSE60duCiFn6IKQuKCW0qYmKxPbhEGLYYiww=;
+ b=J1mrolRRWq8Qu0XiMlZz7mccs750p6eJtH7Uey4+GoQJ8alNtu69mG0xXlHXR21MyX
+ ufvIgCBgu18R7cjehi6aIyWy/UHTCudSsyxVCkX2xySATycdR4YRtx7hT9xKkRqEQTR8
+ ghto8bluPPl+6aEKfXsGnRrleJozPsHoPldszBfBm16rfX6OXr8glS5XyLP3dqWXLk3f
+ yH4DnFHWLoXGs+iGpVm+JWIWGvC3ipPb0+CKxmydBPuRgvA10+RVCvJzVehCnkYOzIoQ
+ OMedaGTqrOzaaXTVcnAXePIPOcXZdKJXD15oqXXpGCT3PGGx3gCo9w9CfM8voA1ODeR4
+ f2zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kvHX3mpuSE60duCiFn6IKQuKCW0qYmKxPbhEGLYYiww=;
+ b=P/2iyKJ5/j7rGBA6evsxr2V+7XX7pFvZKhBO5zkJpDt9C05uGPVKmj4aS4Gpj0CBbH
+ X7iziEqWZIzYbwH0ZONjbBukBitH8F4I/sBLsjGrJHJVskLaaYvLFzOWnoSYDhMm90Rx
+ 0wjnexe3xkeN84dNHGAoVvaGW/bPPCd0204sKT2apgr1LV7Yq6SaVXPLwpjjn0XW9Ip1
+ iygmB6ADdSVpTlZ2zBCucqd3kyg1Jh4K9hahobWC33SGBX2pplIs31b8NmzPeQDzcRGx
+ P7fP633zN6wc1Ca/nUlbs50AbT9pGA1WoOke8hBAxyl8EVEE1R2HW7UmGlOoGTJAyxK1
+ ujag==
+X-Gm-Message-State: AO0yUKVylld3v5GBQJt6LHWKVWNfnFgDQXpYHdZpWd1ePqaB1w2RA67f
+ qPjkaHf/5jvQOZhcVK6y9IZCJt9ypuhlSZJE/gsQCA==
+X-Google-Smtp-Source: AK7set/RSSW69TmIPZF5301f0DfiEySuwDmuJUEjWY9wSBrtVPxEMLnIbmZbgTkVJjpXN0FgK+PBhHIACR3Knc6m1Yo=
+X-Received: by 2002:a62:53c6:0:b0:58d:a84a:190b with SMTP id
+ h189-20020a6253c6000000b0058da84a190bmr3231569pfb.48.1676026201840; Fri, 10
+ Feb 2023 02:50:01 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 13/15] qapi: add HOTPLUG_STATE event
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: armbru@redhat.com, eblake@redhat.com, eduardo@habkost.net,
- berrange@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
- mst@redhat.com, den-plotnikov@yandex-team.ru
-References: <20230209200808.869275-1-vsementsov@yandex-team.ru>
- <20230209200808.869275-14-vsementsov@yandex-team.ru>
- <c6613d1d-b489-5094-fd8c-1795159d0a80@linaro.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <c6613d1d-b489-5094-fd8c-1795159d0a80@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c0e:500:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230209152520.434183-1-stefanha@redhat.com>
+In-Reply-To: <20230209152520.434183-1-stefanha@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Feb 2023 10:49:50 +0000
+Message-ID: <CAFEAcA8E_egc6qL=htY-QAvWZb-rPoQOosVMTykiA2Fp+wJn-w@mail.gmail.com>
+Subject: Re: [PULL 0/6] Block patches
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>, 
+ Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ virtio-fs@redhat.com, qemu-block@nongnu.org, Fam Zheng <fam@euphon.net>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,58 +85,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10.02.23 00:28, Philippe Mathieu-Daudé wrote:
-> On 9/2/23 21:08, Vladimir Sementsov-Ogievskiy wrote:
->> For PCIe and SHPC hotplug it's important to track led indicators,
->> especially the power led. Add an event that helps.
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->> ---
->>   qapi/qdev.json       | 62 ++++++++++++++++++++++++++++++++++++++++++++
->>   include/hw/pci/pci.h | 15 +++++++++++
->>   hw/pci/pci.c         | 33 +++++++++++++++++++++++
->>   hw/pci/pcie.c        | 49 ++++++++++++++++++++++++++++++++++
->>   hw/pci/shpc.c        | 42 ++++++++++++++++++++++++++++++
->>   5 files changed, 201 insertions(+)
->>
->> diff --git a/qapi/qdev.json b/qapi/qdev.json
->> index 2708fb4e99..40dc34f091 100644
->> --- a/qapi/qdev.json
->> +++ b/qapi/qdev.json
->> @@ -158,3 +158,65 @@
->>   ##
->>   { 'event': 'DEVICE_UNPLUG_GUEST_ERROR',
->>     'data': { '*device': 'str', 'path': 'str' } }
->> +
->> +##
->> +# @HotplugLedState:
->> +#
->> +# Since: 8.0
->> +##
->> +{ 'enum': 'HotplugLedState',
->> +  'data': [ 'on', 'blink', 'off' ] }
-> 
-> Could this be more helpful as generic state in "hw/misc/led.h"?
-
-Hmm. LEDState ? Doesn't look similar..
-
-> 
->> +##
->> +# @HotplugPowerState:
->> +#
->> +# Since: 8.0
->> +##
->> +{ 'enum': 'HotplugPowerState',
->> +  'data': [ 'on', 'off' ] }
-> 
-> Could it be better to have a generic SwitchState in qapi/common.json?
-> 
-
-Hmm not sure. This way I stress that it's part of PCIe spec.. Hmm. But still I didn't call it PCIE_*... Maybe generic OnOff in qapi/common.json would be the best.
+On Thu, 9 Feb 2023 at 15:25, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>
+> The following changes since commit 417296c8d8588f782018d01a317f88957e9786d6:
+>
+>   tests/qtest/netdev-socket: Raise connection timeout to 60 seconds (2023-02-09 11:23:53 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+>
+> for you to fetch changes up to acbc8aee5b09222dc6a5cb88306b67bcbe37e30b:
+>
+>   iotests/detect-zeroes-registered-buf: add new test (2023-02-09 10:22:30 -0500)
+>
+> ----------------------------------------------------------------
+> Pull request
+>
+> A few fixes that I've picked up.
+>
 
 
--- 
-Best regards,
-Vladimir
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
+
+-- PMM
 
