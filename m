@@ -2,101 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B25906915EA
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 01:53:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4F13691632
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 02:26:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQHeL-0003bN-MC; Thu, 09 Feb 2023 19:52:25 -0500
+	id 1pQI9x-0001cI-Cy; Thu, 09 Feb 2023 20:25:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pQHeJ-0003aU-3o
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 19:52:23 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pQHeH-00061a-4k
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 19:52:22 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31A0fw9I015524; Fri, 10 Feb 2023 00:52:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=USX81/a9Ds27Y6elROOmsWEYLuq0jCswa0Q/Q5Zy2j4=;
- b=iSpkPdFx+LdN+QrZg68eEXSosLfLHz79v553jteZR1/eLrEVZbPmeeAy3DGwISR9jgHo
- P3NBAZl6+VMe8rSvHaMRz4Va2dyh/HXzku31ISMT2r/fROuQLTkiGDsVIli2zO9+bbq7
- uR8Bu8MauHaB592Yp16e/84RBWDrjN3563rHk8HHk8P1yR6ugVg0baXnAZYwyyG9hnIK
- CuoC8WTi9cqIO7VAu1l2lVmbVZG91w6ZORkq7wuIoUZC8jspkDQYmXSjecHrWNLO4oIf
- A+32O6vUztmowquyUzcY0qdgRCUzKu9xfiD1PHBnKmSWBYSmT/b7WQ6Pu/UY0uV7/J53 NQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nnbm105k3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 10 Feb 2023 00:52:18 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31A0qIGW015311;
- Fri, 10 Feb 2023 00:52:18 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nnbm105jj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 10 Feb 2023 00:52:17 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 319N2xpl024624;
- Fri, 10 Feb 2023 00:52:15 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
- by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3nhemfpun4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 10 Feb 2023 00:52:15 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
- [10.20.54.102])
- by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 31A0qBjM31719768
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 10 Feb 2023 00:52:12 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D462620043;
- Fri, 10 Feb 2023 00:52:11 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 57F1220040;
- Fri, 10 Feb 2023 00:52:11 +0000 (GMT)
-Received: from heavy.ibmuc.com (unknown [9.171.74.186])
- by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Fri, 10 Feb 2023 00:52:11 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Cc: Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-devel@nongnu.org, 
- Ilya Leoshkevich <iii@linux.ibm.com>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Subject: [PATCH v2 2/2] meson: Disable libdw for static builds by default
-Date: Fri, 10 Feb 2023 01:52:08 +0100
-Message-Id: <20230210005208.438142-2-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230210005208.438142-1-iii@linux.ibm.com>
-References: <20230210005208.438142-1-iii@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pQI9v-0001br-Fc; Thu, 09 Feb 2023 20:25:03 -0500
+Received: from mail-vs1-xe35.google.com ([2607:f8b0:4864:20::e35])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pQI9t-0003qS-V0; Thu, 09 Feb 2023 20:25:03 -0500
+Received: by mail-vs1-xe35.google.com with SMTP id g3so4113646vsr.10;
+ Thu, 09 Feb 2023 17:24:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=+asVm7u65dXPQ36PhG8wEvnGhi/T3yC98Hy4eT60BXg=;
+ b=XrRlhJYg54QhlzYoboi2C76u9uP1qUMe8CALWWviLctk0McLf7BTzKOqIFzkV082y+
+ Z8gJTcwj/5SrTzMrV6AE+zpSueJJ79/A3GsWTybrG7tkYknhFbBtw7+tFuQ/F0SXymD1
+ FoWmnVWXDPPm+XUymJ2+Fxo9QT44udv5wjQ5KYnJ4wFL7XThYZoYbzMRMIciIR6qmApo
+ 92W0nvvp6eT9y/sd+fcBKrpYOH76GalSNsBx2/0wanErH2PbV81/P2V/L+XWBb6b+eau
+ iO3Ii5XPkqddgZPklGHxUgCwOMnqDD79Vqnt242QMsItcYrd8vSBEmz7WcSO389UgVTQ
+ ub8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+asVm7u65dXPQ36PhG8wEvnGhi/T3yC98Hy4eT60BXg=;
+ b=ml/kx0aCAxc8sSUNwzUTrEBuoYEqlQiPLea14+JYGfHHWkjCn50hEGtjf4AJfaJ0n0
+ Xf2cByGN7xStndSh9Kma3wjSP4dx5YeL6VGEFADzpr8YL51wKg31WJ86JR3PCvbNzYp6
+ Fh85EG279qWE9kvFmqbBypblUjZGBq4dXzDyJK2uXSGwCzd0Dlsn1j8b+jQgUoKBb0j6
+ MUF/M4vnaIrDOAmIvKYO0/m/cuzC8LDzw6+ma0YJiBXz8yG+mc2tIDHJMOaUSRpFwzal
+ pwDqMEh00DalOeesiRwStewoncd2xawzicpbeJ/Gzn9SmFtAPnxbuKaxb8xFqCYwUrKf
+ JV0g==
+X-Gm-Message-State: AO0yUKUf22sm8h1k1lK8efICuCnCyRFewz2g93KbqiBsFdRZUqOh64lh
+ KRWQiDaC6Ay6A8B2gzNCISqxgzyAeTtJGpv0NGE=
+X-Google-Smtp-Source: AK7set9/SLH62mB3LZ6uwssO2HgvVVhQLfDVbKEY0lSFrNFVLxtV0AnutiKTxXeNX8K5flMAX6wBftE0Gu+hiOttroA=
+X-Received: by 2002:a67:a407:0:b0:3f0:89e1:7c80 with SMTP id
+ n7-20020a67a407000000b003f089e17c80mr2494304vse.72.1675992298230; Thu, 09 Feb
+ 2023 17:24:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: XKatuiB6ulgez76fOmA7SExfxidFIF0M
-X-Proofpoint-ORIG-GUID: keN1Tg4puPnQqruq_WPamZ7abd1I7b5E
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-09_17,2023-02-09_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0
- phishscore=0 clxscore=1015 mlxscore=0 spamscore=0 impostorscore=0
- priorityscore=1501 adultscore=0 lowpriorityscore=0 malwarescore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302100002
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+References: <20230209003308.738237-1-alistair.francis@opensource.wdc.com>
+In-Reply-To: <20230209003308.738237-1-alistair.francis@opensource.wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 10 Feb 2023 11:24:19 +1000
+Message-ID: <CAKmqyKMd4e_UQQNobcWKB0chi8ZETq8Dc=dZSYdJn=3n65wwFg@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Add some RISC-V reviewers
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, bmeng.cn@gmail.com, 
+ dbarboza@ventanamicro.com, alistair.francis@wdc.com, palmer@dabbelt.com, 
+ zhiwei_liu@linux.alibaba.com, liweiwei@iscas.ac.cn
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e35;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe35.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,51 +83,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Static QEMU build fails on Debian Bullseye:
+On Thu, Feb 9, 2023 at 10:33 AM Alistair Francis
+<alistair.francis@opensource.wdc.com> wrote:
+>
+> From: Alistair Francis <alistair.francis@wdc.com>
+>
+> This patch adds some active RISC-V members as reviewers to the
+> MAINTAINERS file.
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 
-    /usr/bin/ld: /usr/lib/x86_64-linux-gnu/libdw.a(debuginfod-client.o): in function `__libdwfl_debuginfod_init':
-    (.text.startup+0x17): undefined reference to `dlopen'
+Thanks!
 
-The reason is that pkg-config does not suggest -ldl for libdw, and
-adding --extra-ldflags="-ldl" resolves the issue. However, static
-linking with libdw is an unclear topic:
+Applied to riscv-to-apply.next
 
-* Linux perf does it.
-* Debian's libdw-dev description says:
+Alistair
 
-      Only link to the static version for special cases and when you
-      don't need anything from the ebl backends.
-
-* As the error message above indicates, -ldl is also needed for
-  debuginfod support.
-
-The functionality provided by libdw is needed for analyzing performance
-of JITed code, which is mostly useful to developers and researchers.
-Therefore, in order to avoid unpleasant surprises for people who don't
-need this, simply disable libdw for static builds by default. It can
-still be enabled explicitly if needed.
-
-Reported-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- meson.build | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meson.build b/meson.build
-index 87bc720f912..9bd6278f268 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1650,7 +1650,8 @@ endif
- 
- # libdw
- libdw = not_found
--if not get_option('libdw').auto() or have_system or have_user
-+if not get_option('libdw').auto() or \
-+        (not enable_static and (have_system or have_user))
-     libdw = dependency('libdw',
-                        method: 'pkg-config',
-                        kwargs: static_kwargs,
--- 
-2.39.1
-
+> ---
+>  MAINTAINERS | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 96e25f62ac..847bc7f131 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -287,6 +287,9 @@ RISC-V TCG CPUs
+>  M: Palmer Dabbelt <palmer@dabbelt.com>
+>  M: Alistair Francis <alistair.francis@wdc.com>
+>  M: Bin Meng <bin.meng@windriver.com>
+> +R: Weiwei Li <liweiwei@iscas.ac.cn>
+> +R: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> +R: Liu Zhiwei <zhiwei_liu@linux.alibaba.com>
+>  L: qemu-riscv@nongnu.org
+>  S: Supported
+>  F: target/riscv/
+> --
+> 2.39.1
+>
 
