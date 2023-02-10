@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8224369236D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 17:38:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21D0B692385
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 17:40:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQWPJ-0000OM-OU; Fri, 10 Feb 2023 11:37:54 -0500
+	id 1pQWPT-0000Oi-Ia; Fri, 10 Feb 2023 11:38:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQWPH-0000Nc-21
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:37:51 -0500
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQWPK-0000OO-9E
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:37:54 -0500
 Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQWPF-00008K-JT
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:37:50 -0500
-Received: by mail-wm1-x335.google.com with SMTP id o36so4249668wms.1
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 08:37:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQWPI-00008K-G7
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:37:53 -0500
+Received: by mail-wm1-x335.google.com with SMTP id o36so4249824wms.1
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 08:37:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=uZyX7beYR1/8hPTlA0f9tYFKMMepz6hOSd4CeavM+Z0=;
- b=n2E46jbzRFXkWkurdBdqhfVXcQEU6sfSDwelBGxbchDXm5tcLSzEv/jFqOejZhc1qp
- LDLq0laVFaSRITc8/oj71udMNZKpvZSWPZ4JH2cdXTdE/dZautGLL4wt/Cc42Coi8iOo
- lxbfevijWcYfhofNoVCHybJo8tFth8zZZiRH+RNpz5oSw5X+68chdL+Hvc4E5L3LBneM
- Cfr+209RyvzIoUqB6/u9dQp/q4Pjtb7SFa+rQCpCSj321qrtWJjzbAlzr1/wvpaUnzRc
- qZTNUbFWlsMCvG01CX5FbpOODlva0mF5HOnR4iE47fNy1QZGXFs/XCt/XXAed47glHpO
- pihg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9wz1BonRBA4qQZKRmLhECiyYteaw1n0xGhljex2JkKU=;
+ b=iNaBr1JtiKBuEPP9K33XyQEly/Bh6gg3B0lqoU27fmR9rHb2x0926RKsHnI8dWPFRY
+ ZsySQhqZraW52yu7HCr2uDMeC4vHD+sMEH4cFtDR2qCf1mwAwHhwHPAj9meLzqiMdOdo
+ 4nUDdwxyUWmZS0JWMDCP5C0It0PT+xtxH5gtGnvCMzgVS4T6oWafkIY0xx2CGEo9j9pW
+ E5NgLOGLFMe//W5kyfIWifdk5JI112fqJPmiMBMAFBDQSbA+dK7NFHIf8l8WRKGU9Mdb
+ L/T6TGGNLND0T8koDv1Z0TSHcoEIpWgjOJ+0HgV4BkmWe4lek/6dTS5oC81c12zoE/fH
+ bhbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=uZyX7beYR1/8hPTlA0f9tYFKMMepz6hOSd4CeavM+Z0=;
- b=ECmyjLHlTJmH1yg648KB2utTYR8HBUeZSVsjrbP4WYkfEZaeYoH64mf19KoDKgjDuJ
- MjLBuFnDiw1jufrwD7m1ZbEBzfz0toFuRVrYHJIO+jV+EPJyvAi+yB31TxmLtBPKyVeg
- 9O29ac2SiLfhgNiYt7UZ+xtPgg16ImsS5sbFU/B43f41TYV5AdyhHSkyTl9zoVwWaWSq
- iWnJHvDlcWaXpJs4ePjjB+pc44UMt/7LPXu0WM8yt5Ota9pd0evb2dbx2Rbe72aWo9lh
- rdXzmj3qL9fmIptWTjhpoNq/e1iLJBzkbYoKst0SscAuh4u1NkjgScfcoQXG3QfevOsX
- faUw==
-X-Gm-Message-State: AO0yUKVomabBLXwApX/099Bxbrq/jnWPdAOvUL9/opU7HBI+pi06dOSL
- kgnem9fU02AX4WMAGkf8WZgxzJZQVNeowhCJ
-X-Google-Smtp-Source: AK7set8tRCs5K37T+TRrODXDevwery3AdR/K0e67cRTo6LkNBrReWC7kTZTQi5NFVVLfRt0qX9MM7Q==
-X-Received: by 2002:a05:600c:1656:b0:3db:742:cfe9 with SMTP id
- o22-20020a05600c165600b003db0742cfe9mr14904890wmn.34.1676047066785; 
- Fri, 10 Feb 2023 08:37:46 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9wz1BonRBA4qQZKRmLhECiyYteaw1n0xGhljex2JkKU=;
+ b=7i8JoKZN08w51AcFGfBnofrskCHeoAjD+Tcqx+s8aRB8DnZRGkHndPEG/mIjnZYF3R
+ INphokFIz1Kj24y9W4jwNTitWKDTK7LNv+wjHgGcQnct8bfU7kiuwrHf1r7MGqdUyR2O
+ wHEHTujwvsWOtalkQ3yJpud/DC7A2r6lFxxN2n58wAAnJFczveBLmZAgf/P5+z7ZzTMd
+ 6ULNHa3CGiXkvvz9RRUAvm6PNfb9X/2TZa6bWG+WHhSO8wYYTKgZjlmSKALwKTBZlaRx
+ SxTsUXxIVnd0Kq+s9imOC3rLyOFkKmcppFMDIQ4p5hGFrX0nx/m1hN8P4yrvPvemy/DD
+ HlCQ==
+X-Gm-Message-State: AO0yUKWhot7TGKOkwwLsAqFMJMGMoxXes096kqBwmDNff/pICC6AuF4H
+ 11253h9WvdwOTeoRRhJa6/sa9VD/JI+7DvIJ
+X-Google-Smtp-Source: AK7set8svLAEe0K82s5i/+b2Oldxnb9NR1kM+cDADv8a6EZLVgmDRVwe0QSG7cGIC2ixLD2UK4XN9w==
+X-Received: by 2002:a05:600c:3420:b0:3dc:4548:abe6 with SMTP id
+ y32-20020a05600c342000b003dc4548abe6mr13354159wmp.12.1676047071696; 
+ Fri, 10 Feb 2023 08:37:51 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- x2-20020a1c7c02000000b003df30c94850sm8496952wmc.25.2023.02.10.08.37.45
+ n19-20020a05600c3b9300b003daf7721bb3sm9399325wms.12.2023.02.10.08.37.50
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 10 Feb 2023 08:37:46 -0800 (PST)
+ Fri, 10 Feb 2023 08:37:51 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Sergio Lopez <slp@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 00/11] hw/isa: More housekeeping
-Date: Fri, 10 Feb 2023 17:37:33 +0100
-Message-Id: <20230210163744.32182-1-philmd@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH 01/11] hw/intc/i8259: Document i8259_init()
+Date: Fri, 10 Feb 2023 17:37:34 +0100
+Message-Id: <20230210163744.32182-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230210163744.32182-1-philmd@linaro.org>
+References: <20230210163744.32182-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::335;
  envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
@@ -71,7 +75,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,39 +91,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Trying to clarify the ISA API.
-Most patches should be trivial enough,
-so not much to describe here :)
+i8259_init() helper creates a i8259 device on an ISA bus,
+connects its IRQ output to the parent's input IRQ, and
+returns an array of 16 ISA input IRQs.
 
-Philippe Mathieu-Daudé (11):
-  hw/intc/i8259: Document i8259_init()
-  hw/isa/i82378: Rename output IRQ as 'cpu_intr'
-  hw/isa/i82378: Remove intermediate IRQ forwarder
-  hw/isa/vt82c686: Remove intermediate IRQ forwarder
-  hw/mips/jazz: Rename ISA input IRQs as 'isa_irqs_in'
-  hw/sparc64/sun4u: Keep reference to ISA input IRQs in EbusState
-  hw/isa: Reorder to separate ISABus* vs ISADevice* functions
-  hw/isa: Un-inline isa_bus_from_device()
-  hw/isa: Rename isa_bus_irqs() -> isa_bus_register_input_irqs()
-  hw/isa: Use isa_address_space_io() to reduce access on global 'isabus'
-  hw/isa: Factor isa_bus_get_irq() out of isa_get_irq()
-
- hw/hppa/machine.c       |  2 +-
- hw/i386/microvm.c       |  2 +-
- hw/i386/pc_piix.c       |  2 +-
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
  hw/intc/i8259.c         |  4 ++--
- hw/isa/i82378.c         | 19 ++++++-------------
- hw/isa/isa-bus.c        | 29 ++++++++++++++++++++---------
- hw/isa/lpc_ich9.c       |  2 +-
- hw/isa/piix4.c          |  2 +-
- hw/isa/vt82c686.c       | 16 ++++------------
- hw/mips/jazz.c          |  6 +++---
- hw/ppc/pnv_lpc.c        |  2 +-
- hw/sparc64/sun4u.c      | 12 ++++++------
  include/hw/intc/i8259.h | 10 +++++++++-
- include/hw/isa/isa.h    | 27 ++++++++++++++++-----------
- 14 files changed, 72 insertions(+), 63 deletions(-)
+ 2 files changed, 11 insertions(+), 3 deletions(-)
 
+diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
+index 0261f087b2..17910f3bcb 100644
+--- a/hw/intc/i8259.c
++++ b/hw/intc/i8259.c
+@@ -406,7 +406,7 @@ static void pic_realize(DeviceState *dev, Error **errp)
+     pc->parent_realize(dev, errp);
+ }
+ 
+-qemu_irq *i8259_init(ISABus *bus, qemu_irq parent_irq)
++qemu_irq *i8259_init(ISABus *bus, qemu_irq parent_irq_in)
+ {
+     qemu_irq *irq_set;
+     DeviceState *dev;
+@@ -418,7 +418,7 @@ qemu_irq *i8259_init(ISABus *bus, qemu_irq parent_irq)
+     isadev = i8259_init_chip(TYPE_I8259, bus, true);
+     dev = DEVICE(isadev);
+ 
+-    qdev_connect_gpio_out(dev, 0, parent_irq);
++    qdev_connect_gpio_out(dev, 0, parent_irq_in);
+     for (i = 0 ; i < 8; i++) {
+         irq_set[i] = qdev_get_gpio_in(dev, i);
+     }
+diff --git a/include/hw/intc/i8259.h b/include/hw/intc/i8259.h
+index a0e34dd990..c412575775 100644
+--- a/include/hw/intc/i8259.h
++++ b/include/hw/intc/i8259.h
+@@ -4,7 +4,15 @@
+ /* i8259.c */
+ 
+ extern PICCommonState *isa_pic;
+-qemu_irq *i8259_init(ISABus *bus, qemu_irq parent_irq);
++
++/*
++ * i8259_init()
++ *
++ * Create a i8259 device on an ISA @bus,
++ * connect its output to @parent_irq_in,
++ * return an (allocated) array of 16 input IRQs.
++ */
++qemu_irq *i8259_init(ISABus *bus, qemu_irq parent_irq_in);
+ qemu_irq *kvm_i8259_init(ISABus *bus);
+ int pic_get_output(PICCommonState *s);
+ int pic_read_irq(PICCommonState *s);
 -- 
 2.38.1
 
