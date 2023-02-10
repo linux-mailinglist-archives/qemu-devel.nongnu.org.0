@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDA11691C3F
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 11:06:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 034ED691C63
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 11:11:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQQGj-0005uM-Jh; Fri, 10 Feb 2023 05:04:37 -0500
+	id 1pQQMD-0007Lc-10; Fri, 10 Feb 2023 05:10:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQQGg-0005u0-VO
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 05:04:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQQLt-0007JW-Of
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 05:10:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQQGf-0008Ag-Bi
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 05:04:34 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQQLr-0000q4-VG
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 05:09:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676023470;
+ s=mimecast20190719; t=1676023794;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=iaEzEEluAqVCVENX0eNE8jnrsHm2s2Ti0s9AoTyIkHw=;
- b=OGcYbYffFd7Toc+y8PisuGXcHdB9tMIAtB5pi8OjSsL5uHPoivRG9EgktgvaDhzwPTDMN7
- tQdKKsY3UkBfzszT0txzax7nnOeI5aHsKmAmTaxZX8tQS0Z+etoR3fm2LZeXmygudGzYZS
- KVh36C7NjpGlcTnu9k8Wfj+1eFZ4Zss=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Vm2NCGewBhTv8mNSBbpE7M3DaYqj50515t0oVSluZQ8=;
+ b=dOvvoaIGHp5GY2fWox52JzDBPt3uika9kFI9sTHoUReol4fgFo4SGoKWY8kmJ8051j4Qjq
+ mp1p72fOjS7FUDv9eIyjhXsmgV7Qohifw/STL5jnI4Jgc8isUio8ziNU9qK56EeXl0tjf6
+ SBgj7FIb/SSXv1pDjM9RgqWKI5xUsuA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-599-Akan1RTkMna0nRkCKiiqKg-1; Fri, 10 Feb 2023 05:04:27 -0500
-X-MC-Unique: Akan1RTkMna0nRkCKiiqKg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-422-uPMcDnLdOdy18CiaIslUOQ-1; Fri, 10 Feb 2023 05:09:51 -0500
+X-MC-Unique: uPMcDnLdOdy18CiaIslUOQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2BE823810B15;
- Fri, 10 Feb 2023 10:04:27 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1A6F180D0E0;
+ Fri, 10 Feb 2023 10:09:51 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 00A0E1121315;
- Fri, 10 Feb 2023 10:04:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BF9FB2166B2A;
+ Fri, 10 Feb 2023 10:09:50 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id CC94C21E6A1F; Fri, 10 Feb 2023 11:04:25 +0100 (CET)
+ id ACE5421E6A1F; Fri, 10 Feb 2023 11:09:49 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel@nongnu.org,  Peter Maydell <peter.maydell@linaro.org>,
- Cleber Rosa <crosa@redhat.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,  Thomas Huth <thuth@redhat.com>,  Daniel Berrange
- <berrange@redhat.com>,  Beraldo Leal <bleal@redhat.com>,  Michael Roth
- <michael.roth@amd.com>,  Wainer dos Santos Moschetta
- <wainersm@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- qemu-block@nongnu.org,  Hanna Reitz <hreitz@redhat.com>,  Alex
- =?utf-8?Q?Benn=C3=A9e?=
- <alex.bennee@linaro.org>,  Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v2 0/7] Python: Drop support for Python 3.6
-References: <20230210003147.1309376-1-jsnow@redhat.com>
-Date: Fri, 10 Feb 2023 11:04:25 +0100
-In-Reply-To: <20230210003147.1309376-1-jsnow@redhat.com> (John Snow's message
- of "Thu, 9 Feb 2023 19:31:40 -0500")
-Message-ID: <87o7q1vnti.fsf@pond.sub.org>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org,  eblake@redhat.com,  eduardo@habkost.net,
+ berrange@redhat.com,  pbonzini@redhat.com,  marcel.apfelbaum@gmail.com,
+ mst@redhat.com,  den-plotnikov@yandex-team.ru
+Subject: Re: [PATCH v3 15/15] qapi: introduce query-hotplug command
+References: <20230209200808.869275-1-vsementsov@yandex-team.ru>
+ <20230209200808.869275-16-vsementsov@yandex-team.ru>
+Date: Fri, 10 Feb 2023 11:09:49 +0100
+In-Reply-To: <20230209200808.869275-16-vsementsov@yandex-team.ru> (Vladimir
+ Sementsov-Ogievskiy's message of "Thu, 9 Feb 2023 23:08:08 +0300")
+Message-ID: <87k00pvnki.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,9 +81,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-First, a plea.  Supporting 3.6 has made a few of us prisoners dragging
-ball and chain.  So, please, *please* let us cut of these leg irons!
+Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> writes:
 
-The series does not include follow-up cleanups.  Fine with me.
+> Add a command that returns same information like HOTPLUG_STATE event.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+
+Events and queries commonly come paired: management applications want
+the event so they don't have to poll, and they want the query so they
+can resynchronize after a disconnect.  Adding an event without a query
+should make reviewers ask why no query.
+
+You add the event in PATCH 13, and the query now.  I'd add them both in
+a single patch.  Matter of taste.  If you keep them separate, please
+have the first patch mention the second will follow shortly, to help
+reviewers.
 
 
