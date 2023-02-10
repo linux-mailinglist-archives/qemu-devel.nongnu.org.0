@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF5F691EAB
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 12:54:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F860691EC2
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 13:00:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQRy3-0003PO-Ac; Fri, 10 Feb 2023 06:53:27 -0500
+	id 1pQS4L-0005H3-EE; Fri, 10 Feb 2023 06:59:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pQRxy-0003P5-PC
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:53:22 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ id 1pQS4I-0005GU-9f
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:59:54 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pQRxw-00020f-Rg
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:53:22 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- s89-20020a17090a2f6200b0023125ebb4b1so5275702pjd.3
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 03:53:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1676029999;
+ id 1pQS4G-0003JJ-3R
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:59:54 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id bx22so4968526pjb.3
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 03:59:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=hPqb8suVsM7i1ekI7lM0jiH7JJSZYrPLQeYTwm8jU1U=;
- b=gBIxjoKKoldtEMy1huQdBeCPqkzrP/GgQNgLAu8hViYG3ylej2ZfJvvU8HomNOiElD
- XuDOD9DQ17RjQS3r98ta2bg5jx+/8Xv+WQiCwAUBOpqe4y8+Z+S8IJkO6qYIQUErEn/X
- 7O+cjWD5Wfv+Xz6iW3VyAZFpk3gEnR48yHdi6pX0qARjsR7T8ln6gpNYIXfhX3j/mJar
- kNSF4LI/x3j/27AGBR4+JsTj77LO8z9swA6ykcmHy597AGRAMjCeYlzHx8ksvacmp110
- oalDFJjpLMvi3MVeAdEgw9xkxN11UpmzEPm5YWRSVAO+nP8PgBx+iZvu5nzTDY3m/aRB
- hF6w==
+ bh=DDZ67SLNNPRsaZN9bHK+bGZcgO93TL52PIhwm17RW2E=;
+ b=xisb4DHQ8zhCtHzS8smBAIbLfsMon7d/HU4BBpwyd6R/JRjNmzbViISsEeZsM7bhzc
+ w2W9SrNFTiLZaYA3fmqyuf7O8FKn3UaK22J2gYYHVtkqCQ4XKR1LKAAQOOrSMLcfB4cj
+ Sh+kCAyk71QDIenps73rvjjEq9WplK4tV8Nw0BrcosWcn2ovgIaKErh7zJGFtuJ2zKSz
+ p8saOlNx+NrtvNM/pTp07hRQ35Z/EZEek4JLXUoAZrVHO3xs2PG9KTKD3s8lw0zgYN2p
+ RrvyjzJpmWCAmME+a7oJlRz4OBcc+0iRTVtAgyaosgTCU+xHEAFTST9JZRCcbaJd92TN
+ ddMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1676029999;
+ d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=hPqb8suVsM7i1ekI7lM0jiH7JJSZYrPLQeYTwm8jU1U=;
- b=vujYbGS0DP5suqNK7Tx1QquVDExwxroDWaJxZME6Enrv8U1oA3kigij8oMZiGV8X00
- UxSpAUJIQWew2mszu72ah9SRvS4+/k4Zl2jIjkcf4o9yVRykdLnDlgjmCz1Lf6EuYmZv
- AG+ofxR0qWWN+W6Ox1HviUV9/Je80dh5MBnbhPXq9ftwuJDmbLS0LJLSUOW8ij11C8m+
- r9gurqwsMzKEmM+RGqrW0kLE+gVrxMvwIioo/4stg+nHH+Gn0jXIFDtBwl573ReNZz5l
- IdVPwx33+cU6T0Lox/ceq0scfMR0JcgjvmrAgIr9Kj7iH7YsOz+Vxt+0VPMmddiAW1vo
- PePQ==
-X-Gm-Message-State: AO0yUKWSIrv3zO5Q1eTlrWIyC7MFDSSEkYREidB/LQ9Sw0csLYG+fMm7
- 3C2UUA2O/xX9U9NHCmxwe6FBGgNLgSNzDgT+Os8WuQ==
-X-Google-Smtp-Source: AK7set/qlMu2TGq2hn5Whc08cmMeah3j3LCyEkfd0bF634bCYGqqb4xZgAmZi5tnVqSVzqzdKKGhWe6QbkkOATV8p9M=
-X-Received: by 2002:a17:902:9a87:b0:199:5374:b831 with SMTP id
- w7-20020a1709029a8700b001995374b831mr2003773plp.11.1676029999244; Fri, 10 Feb
- 2023 03:53:19 -0800 (PST)
+ bh=DDZ67SLNNPRsaZN9bHK+bGZcgO93TL52PIhwm17RW2E=;
+ b=IKStU1PrxT3KM6nOAgdMqKFJRjMHD/7eFGb5prB2epMhkzEr3KoKekhay4OG3J27lk
+ izQTmrozTk2H6b87RMjhgYnWqf4uKmvyXYf4+mZ3zEtoX9xmNsspijIllrvJWh3IMRYd
+ A6UtZCJRiffUdoi54e93Q2zheEaCN9dxQH+Ioc6XLMJYy6IiveMEK0Nz/OvAw0G6GBGQ
+ XaDG1f99iskGIvJ/PsrlXFwvaFeaqVlTZzGL2KemeLaRT2EHX/L2RRd3CWmAV91yGirE
+ XSIr/h5weRoszPMzarcRfm+/ByEd3TH4Ueypaz83SV0Fsfu4EKiH9kXOBXX2D7rX2zD9
+ 9P2Q==
+X-Gm-Message-State: AO0yUKUl9Z/cnInc97udDKP5qtNWmyFo/w0o59+f96j5JgqhsHlZeciJ
+ +rjZuwDw646G8HtG9qrUf+WM+MQun+qZOG5LIa4Ejg==
+X-Google-Smtp-Source: AK7set8fRmvkSOxiuSIc70AYnSeDPip/0j+padFClgN3AFwF2Ty0uoet7wsmjx4/0FSXbucqc8ocme+fY7ApWeO8SWM=
+X-Received: by 2002:a17:90a:2c07:b0:233:48e0:95e1 with SMTP id
+ m7-20020a17090a2c0700b0023348e095e1mr823313pjd.137.1676030389891; Fri, 10 Feb
+ 2023 03:59:49 -0800 (PST)
 MIME-Version: 1.0
 References: <20230124000027.3565716-1-richard.henderson@linaro.org>
- <20230124000027.3565716-14-richard.henderson@linaro.org>
-In-Reply-To: <20230124000027.3565716-14-richard.henderson@linaro.org>
+ <20230124000027.3565716-15-richard.henderson@linaro.org>
+In-Reply-To: <20230124000027.3565716-15-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Feb 2023 11:53:07 +0000
-Message-ID: <CAFEAcA8JECH9dCjGhDM18bJTuTMEAsMQUOwLM-FZEgPJ7f+ijQ@mail.gmail.com>
-Subject: Re: [PATCH 13/22] target/arm: Handle Block and Page bits for security
- space
+Date: Fri, 10 Feb 2023 11:59:38 +0000
+Message-ID: <CAFEAcA8w4PHhEZ_Uepm62LFq56w46gmApmX13UdJj6TJmckQrg@mail.gmail.com>
+Subject: Re: [PATCH 14/22] target/arm: Handle no-execute for Realm and Root
+ regimes
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, yier.jin@huawei.com, 
  jonathan.cameron@huawei.com, leonardo.garcia@linaro.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,133 +85,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 24 Jan 2023 at 00:06, Richard Henderson
+On Tue, 24 Jan 2023 at 00:02, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> With Realm security state, bit 55 of a block or page descriptor during
-> the stage2 walk becomes the NS bit; during the stage1 walk the bit 5
-> NS bit is RES0.  With Root security state, bit 11 of the block or page
-> descriptor during the stage1 walk becomes the NSE bit.
+> While Root and Realm may read and write data from other spaces,
+> neither may execute from other pa spaces.
 >
-> Rather than collecting an NS bit and applying it later, compute the
-> output pa space from the input pa space and unconditionally assign.
-> This means that we no longer need to adjust the output space earlier
-> for the NSTable bit.
+> This happens for Stage1 EL3, EL2, EL2&0, but stage2 EL1&0.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/ptw.c | 74 +++++++++++++++++++++++++++++++++++++++---------
->  1 file changed, 60 insertions(+), 14 deletions(-)
+>  target/arm/ptw.c | 66 ++++++++++++++++++++++++++++++++++++++++++------
+>  1 file changed, 58 insertions(+), 8 deletions(-)
 >
 > diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-> index ddafb1f329..849f5e89ca 100644
+> index 849f5e89ca..6b6f8195eb 100644
 > --- a/target/arm/ptw.c
 > +++ b/target/arm/ptw.c
-> @@ -1250,11 +1250,12 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
->      int32_t stride;
->      int addrsize, inputsize, outputsize;
->      uint64_t tcr = regime_tcr(env, mmu_idx);
-> -    int ap, ns, xn, pxn;
-> +    int ap, xn, pxn;
->      uint32_t el = regime_el(env, mmu_idx);
->      uint64_t descaddrmask;
->      bool aarch64 = arm_el_is_aa64(env, el);
->      uint64_t descriptor, new_descriptor;
-> +    ARMSecuritySpace out_space;
+> @@ -909,7 +909,7 @@ do_fault:
+>   * @xn:      XN (execute-never) bits
+>   * @s1_is_el0: true if this is S2 of an S1+2 walk for EL0
+>   */
+> -static int get_S2prot(CPUARMState *env, int s2ap, int xn, bool s1_is_el0)
+> +static int get_S2prot_noexecute(int s2ap)
+>  {
+>      int prot = 0;
 >
->      /* TODO: This code does not support shareability levels. */
->      if (aarch64) {
-> @@ -1434,8 +1435,6 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
->          ptw->in_ptw_idx += 1;
->          ptw->in_secure = false;
->          ptw->in_space = ARMSS_NonSecure;
-> -        result->f.attrs.secure = false;
-> -        result->f.attrs.space = ARMSS_NonSecure;
+> @@ -919,6 +919,12 @@ static int get_S2prot(CPUARMState *env, int s2ap, int xn, bool s1_is_el0)
+>      if (s2ap & 2) {
+>          prot |= PAGE_WRITE;
+>      }
+> +    return prot;
+> +}
+> +
+> +static int get_S2prot(CPUARMState *env, int s2ap, int xn, bool s1_is_el0)
+> +{
+> +    int prot = get_S2prot_noexecute(s2ap);
+>
+>      if (cpu_isar_feature(any_tts2uxn, env_archcpu(env))) {
+>          switch (xn) {
+> @@ -956,12 +962,14 @@ static int get_S2prot(CPUARMState *env, int s2ap, int xn, bool s1_is_el0)
+>   * @mmu_idx: MMU index indicating required translation regime
+>   * @is_aa64: TRUE if AArch64
+>   * @ap:      The 2-bit simple AP (AP[2:1])
+> - * @ns:      NS (non-secure) bit
+>   * @xn:      XN (execute-never) bit
+>   * @pxn:     PXN (privileged execute-never) bit
+> + * @in_pa:   The original input pa space
+> + * @out_pa:  The output pa space, modified by NSTable, NS, and NSE
+>   */
+>  static int get_S1prot(CPUARMState *env, ARMMMUIdx mmu_idx, bool is_aa64,
+> -                      int ap, int ns, int xn, int pxn)
+> +                      int ap, int xn, int pxn,
+> +                      ARMSecuritySpace in_pa, ARMSecuritySpace out_pa)
+>  {
+>      bool is_user = regime_is_user(env, mmu_idx);
+>      int prot_rw, user_rw;
+> @@ -982,8 +990,39 @@ static int get_S1prot(CPUARMState *env, ARMMMUIdx mmu_idx, bool is_aa64,
+>          }
 >      }
 >
->      if (!S1_ptw_translate(env, ptw, descaddr, fi)) {
-> @@ -1552,12 +1551,66 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
->      }
->
->      ap = extract32(attrs, 6, 2);
-> +    out_space = ptw->in_space;
->      if (regime_is_stage2(mmu_idx)) {
-> -        ns = mmu_idx == ARMMMUIdx_Stage2;
-> +        /*
-> +         * R_GYNXY: For stage2 in Realm security state, bit 55 is NS.
-> +         * The bit remains ignored for other security states.
-> +         */
-> +        if (out_space == ARMSS_Realm && extract64(attrs, 55, 1)) {
-> +            out_space = ARMSS_NonSecure;
-> +        }
->          xn = extract64(attrs, 53, 2);
->          result->f.prot = get_S2prot(env, ap, xn, s1_is_el0);
->      } else {
-> -        ns = extract32(attrs, 5, 1);
-> +        int ns = extract32(attrs, 5, 1);
-> +        switch (out_space) {
+> -    if (ns && arm_is_secure(env) && (env->cp15.scr_el3 & SCR_SIF)) {
+> -        return prot_rw;
+
+Ah, this looks like it fixes the bug introduced in patch 12;
+I guess some of this needs rearranging between patches.
+
+> +    if (in_pa != out_pa) {
+> +        switch (in_pa) {
 > +        case ARMSS_Root:
 > +            /*
-> +             * R_GVZML: Bit 11 becomes the NSE field in the EL3 regime.
-> +             * R_XTYPW: NSE and NS together select the output pa space.
+> +             * R_ZWRVD: permission fault for insn fetched from non-Root,
+> +             * I_WWBFB: SIF has no effect in EL3.
 > +             */
-> +            int nse = extract32(attrs, 11, 1);
-> +            out_space = (nse << 1) | ns;
-> +            if (out_space == ARMSS_Secure &&
-> +                !cpu_isar_feature(aa64_sel2, cpu)) {
-> +                out_space = ARMSS_NonSecure;
-> +            }
-> +            break;
-> +        case ARMSS_Secure:
-> +            if (ns) {
-> +                out_space = ARMSS_NonSecure;
-> +            }
-> +            break;
+> +            return prot_rw;
 > +        case ARMSS_Realm:
+> +            /*
+> +             * R_PKTDS: permission fault for insn fetched from non-Realm,
+> +             * for Realm EL2 or EL2&0.  The corresponding fault for EL1&0
+> +             * happens during any stage2 translation.
+> +             */
 > +            switch (mmu_idx) {
-> +            case ARMMMUIdx_Stage1_E0:
-> +            case ARMMMUIdx_Stage1_E1:
-> +            case ARMMMUIdx_Stage1_E1_PAN:
-> +                /* I_CZPRF: For Realm EL1&0 stage1, NS bit is RES0. */
-> +                break;
 > +            case ARMMMUIdx_E2:
 > +            case ARMMMUIdx_E20_0:
 > +            case ARMMMUIdx_E20_2:
 > +            case ARMMMUIdx_E20_2_PAN:
-> +                /*
-> +                 * R_LYKFZ, R_WGRZN: For Realm EL2 and EL2&1,
-> +                 * NS changes the output to non-secure space.
-> +                 */
-> +                if (ns) {
-> +                    out_space = ARMSS_NonSecure;
-> +                }
-> +                break;
+> +                return prot_rw;
 > +            default:
-> +                g_assert_not_reached();
+> +                break;
 > +            }
 > +            break;
-> +        case ARMSS_NonSecure:
-> +            /* R_QRMFF: For NonSecure state, the NS bit is RES0. */
+> +        case ARMSS_Secure:
+> +            if (env->cp15.scr_el3 & SCR_SIF) {
+> +                return prot_rw;
+> +            }
 > +            break;
 > +        default:
+> +            /* Input NonSecure must have output NonSecure. */
 > +            g_assert_not_reached();
 > +        }
+>      }
+>
+>      /* TODO have_wxn should be replaced with
+> @@ -1556,12 +1595,16 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+>          /*
+>           * R_GYNXY: For stage2 in Realm security state, bit 55 is NS.
+>           * The bit remains ignored for other security states.
+> +         * R_YMCSL: Executing an insn fetched from non-Realm causes
+> +         * a stage2 permission fault.
+>           */
+>          if (out_space == ARMSS_Realm && extract64(attrs, 55, 1)) {
+>              out_space = ARMSS_NonSecure;
+> +            result->f.prot = get_S2prot_noexecute(ap);
+> +        } else {
+> +            xn = extract64(attrs, 53, 2);
+> +            result->f.prot = get_S2prot(env, ap, xn, s1_is_el0);
+>          }
+> -        xn = extract64(attrs, 53, 2);
+> -        result->f.prot = get_S2prot(env, ap, xn, s1_is_el0);
+>      } else {
+>          int ns = extract32(attrs, 5, 1);
+>          switch (out_space) {
+> @@ -1613,7 +1656,14 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+>          }
 >          xn = extract64(attrs, 54, 1);
 >          pxn = extract64(attrs, 53, 1);
->          result->f.prot = get_S1prot(env, mmu_idx, aarch64, ap, ns, xn, pxn);
-
-Various of these cases say "NS is RES0", but the code is
-still extracting it from the attrs bit 5 and passing it
-to get_S1prot(), which relies on being passed 1 for any case
-where the translation table indicates that the memory is
-Non-secure, whether the NS bit in the final block or page descriptor
-was 1 or not (it uses it to implement the SCR_EL3.SIF bit).
-This used to happen automatically because we set tableattrs to
-1 << 4 if the initial access was non-secure, and then that bit
-would always end up in attrs bit 5 regardless of what the various
-NSTable and NS bits in the descriptors were, but the refactoring
-in the previous patch changes that and so we need to do something
-else I think.
+> -        result->f.prot = get_S1prot(env, mmu_idx, aarch64, ap, ns, xn, pxn);
+> +
+> +        /*
+> +         * Note that we modified ptw->in_space earlier for NSTable,
+> +         * and result->f.attrs was initialized by get_phys_addr, so
+> +         * that retains a copy of the original security space.
+> +         */
+> +        result->f.prot = get_S1prot(env, mmu_idx, aarch64, ap, xn, pxn,
+> +                                    result->f.attrs.space, out_space);
+>      }
+>
+>      if (!(result->f.prot & (1 << access_type))) {
+> --
+> 2.34.1
 
 thanks
 -- PMM
