@@ -2,65 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCCC3691ECA
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 13:02:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6817691EE0
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 13:13:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQS5i-0006N0-G8; Fri, 10 Feb 2023 07:01:22 -0500
+	id 1pQSGG-0001zQ-3Q; Fri, 10 Feb 2023 07:12:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQS5g-0006MW-2J
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 07:01:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pQSFj-0001dD-Pl
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 07:11:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQS5d-0003oG-QW
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 07:01:19 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pQSFi-0006u4-0X
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 07:11:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676030476;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=o81EEe7V7LrbjPz3jmPqvJyEGnpkhQAnvLjNgbFKfKM=;
- b=BoKJai+i+KVIQ67OPYUrbWDJ8UQCF9MdHhcllr17XR6OOA27ku2baMmmJFzq/Os3Pvk1+G
- vQ9cWHk3ZnDgZWKay3FHBE4gg9oDJi2Gwn9pbC5PN1bNaczmPRVN0PMzDrp90mzh21ESyD
- M5DUXpK3wDE09PF8RjLOxII370jrAps=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-249-tXcv98ilN9WP4XMaNYosRQ-1; Fri, 10 Feb 2023 07:01:15 -0500
-X-MC-Unique: tXcv98ilN9WP4XMaNYosRQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 080BA87A9EF;
- Fri, 10 Feb 2023 12:01:15 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A269FC158BB;
- Fri, 10 Feb 2023 12:01:14 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E76E221E6A1F; Fri, 10 Feb 2023 13:01:12 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: Markus Armbruster <armbru@redhat.com>,  qemu-devel@nongnu.org,
- eblake@redhat.com,  eduardo@habkost.net,  berrange@redhat.com,
- pbonzini@redhat.com,  marcel.apfelbaum@gmail.com,  mst@redhat.com,
- den-plotnikov@yandex-team.ru
-Subject: Re: [PATCH v3 13/15] qapi: add HOTPLUG_STATE event
-References: <20230209200808.869275-1-vsementsov@yandex-team.ru>
- <20230209200808.869275-14-vsementsov@yandex-team.ru>
- <875yc9vmxz.fsf@pond.sub.org>
- <c361c5f3-c623-09e9-0519-cf9ba68ae0a1@yandex-team.ru>
-Date: Fri, 10 Feb 2023 13:01:12 +0100
-In-Reply-To: <c361c5f3-c623-09e9-0519-cf9ba68ae0a1@yandex-team.ru> (Vladimir
- Sementsov-Ogievskiy's message of "Fri, 10 Feb 2023 14:36:37 +0300")
-Message-ID: <874jrtsp9z.fsf@pond.sub.org>
+ s=mimecast20190719; t=1676031099;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=oSvy1CVUqvLeFCKQgKxtW1DjhhdKHWUHS8ZTQ/7b49w=;
+ b=ZJtYwFFeUK5yzJsi6FjYrjwrzQcN0OyoHjgkuXBrCjdNoOhFfFuJ2EZuFS4PCycEdNZA4k
+ 0F/NE3AyxuVKhu//2TDe9awAmGwQ/NVE/rAibSWXQuHI8mRHWxlCxSj2Z6OV0QL4PFVwL1
+ 0/HgetMauXZMBBdyx1qvEFJ4cIX340U=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-34-X4NOLm8hPMayq0SkF1jOzw-1; Fri, 10 Feb 2023 07:11:38 -0500
+X-MC-Unique: X4NOLm8hPMayq0SkF1jOzw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ h9-20020a05600c350900b003e000facbb1so4476519wmq.9
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 04:11:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oSvy1CVUqvLeFCKQgKxtW1DjhhdKHWUHS8ZTQ/7b49w=;
+ b=CbON45Pi8BM+Hf0sdxAD5ENL8Y1taUJDDgRrvKCElSV937mf6lOpl/fQJLbNV8wPks
+ AuMnXWYZjZMPTRmbTh9kjt7MvwNUAJZWMDR3TOqIEGc5/l9jm067+3+s9uxkqFRcSieh
+ /qdtqacgSJhAkW6Xlw67OkfZhk93m4clKqXmT3MUBThgF+4rCcdHYLS1NS9xjRyeAJBO
+ tbIQIeHxydsDnkrvPXmOJ5Lu9RlghsQOEYnM1mqjnk9A0kaV6KDwCvctvn/e0FvWnwEd
+ pm5Z1hfDnSQzzvz0WA80hnArwJ727yqgiBlNHj60b+1E4WMQR1MymOz86ako3aAxWO2E
+ s06Q==
+X-Gm-Message-State: AO0yUKWyHAbxwwsm/wiGeBWcJDKmTcBBWya6j9EDcLITlOZ8ms0TrfJ5
+ b8WPQ2boVnB1zhVd0wk5POmWQQBqVwhYUfslYrFcPNY+pWDcjguAvyXZJiXxos6RZh4OTANqIZw
+ pKaxUUcG70UkJjeY=
+X-Received: by 2002:a05:600c:a295:b0:3dd:1bcc:eb17 with SMTP id
+ hu21-20020a05600ca29500b003dd1bcceb17mr12788834wmb.28.1676031096970; 
+ Fri, 10 Feb 2023 04:11:36 -0800 (PST)
+X-Google-Smtp-Source: AK7set87RnUq0aik/Njw/9YRbChmVgXis0TpEQo0FiPR0W/WG6oqf1ha5zTSqpaGL+Yfr+D66+PQhw==
+X-Received: by 2002:a05:600c:a295:b0:3dd:1bcc:eb17 with SMTP id
+ hu21-20020a05600ca29500b003dd1bcceb17mr12788817wmb.28.1676031096639; 
+ Fri, 10 Feb 2023 04:11:36 -0800 (PST)
+Received: from redhat.com (nat-252.udc.es. [193.144.61.252])
+ by smtp.gmail.com with ESMTPSA id
+ q11-20020a7bce8b000000b003dd9232f036sm7780024wmj.23.2023.02.10.04.11.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Feb 2023 04:11:36 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Michael Tokarev <mjt@tls.msk.ru>
+Cc: qemu-devel@nongnu.org,  Peter Xu <peterx@redhat.com>,
+ qemu-stable@nongnu.org
+Subject: Re: [PULL 01/30] migration: Fix migration crash when target psize
+ larger than host
+In-Reply-To: <0dd85902-0071-a915-2655-8aff8d0074d1@msgid.tls.msk.ru> (Michael
+ Tokarev's message of "Fri, 10 Feb 2023 12:32:47 +0300")
+References: <20230207005650.1810-1-quintela@redhat.com>
+ <20230207005650.1810-2-quintela@redhat.com>
+ <0dd85902-0071-a915-2655-8aff8d0074d1@msgid.tls.msk.ru>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Fri, 10 Feb 2023 13:11:34 +0100
+Message-ID: <87ilg9iutl.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,124 +99,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> writes:
+Michael Tokarev <mjt@tls.msk.ru> wrote:
+> 07.02.2023 03:56, Juan Quintela wrote:
+>> From: Peter Xu <peterx@redhat.com>
+>> Commit d9e474ea56 overlooked the case where the target psize is even
+>> larger
+>> than the host psize.  One example is Alpha has 8K page size and migration
+>> will start to crash the source QEMU when running Alpha migration on x86.
+>> Fix it by detecting that case and set host start/end just to cover
+>> the
+>> single page to be migrated.
+>
+> FWIW, commit in question, which is d9e474ea56, has been applied after the
+> last released version to date, which is 7.2.0.  So I guess this change is
+> not applicable to -stable.
 
-> On 10.02.23 13:23, Markus Armbruster wrote:
->> Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> writes:
->> 
->>> For PCIe and SHPC hotplug it's important to track led indicators,
->>> especially the power led. Add an event that helps.
->>>
->>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->>> ---
+I think it should.
 
-[...]
+This is a bug that can happen when your host page is smaller than the
+guest size.
 
->>> +##
->>> +# @HotplugState:
->>> +#
->>> +# @hotplug-device: hotplug device id
->>> +# @hotplug-path: hotplug device path
->>> +# @hotplug-slot: hotplug device slot (only for SHPC)
->>> +# @device: device name
->>> +# @path: device path
->>> +# @power-led: Power Indicator
->>> +# @attention-led: Attention Indicator
->>> +# @state: slot state, only for SHPC hotplug controller
->>> +# @power: Power Controller state, only for PCIe hotplug
->> 
->> 
->> 
->>> +#
->>> +# Since: 8.0
->>> +##
->>> +{ 'struct': 'HotplugState',
->>> +  'data': { '*hotplug-device': 'str',
->>> +            'hotplug-path': 'str',
->>> +            '*hotplug-slot': 'int',
->>> +            '*device': 'str',
->>> +            'path': 'str',
->>> +            '*power-led': 'HotplugLedState',
->>> +            '*attention-led': 'HotplugLedState',
->>> +            '*state': 'HotplugSlotState',
->>> +            '*power': 'HotplugPowerState' } }
->> 
->> Too terse.
->
-> Will fix)
->
->> 
->> What do @hotplug-device and @device name?  Are these qdev-id?
->> 
->> What kind of paths are @hotplug-path and @path?  Are these paths to an
->> object device in the QOM tree?  Which object?
->
-> device / path is same name and path as for DEVICE_DELETED
+And has been that way for a long time.
+Once told that, people don't migrate alpha guests a lot, but it can also
+happens with funny combinations of large pages.
 
-Got it.  But there we have just one device, and here we have two.  Which
-two?
+Peter Xu knows more about this.
 
-Also, DEVICE_DELETED's doc comment is better:
-
-    # @device: the device's ID if it has one
-    #
-    # @path: the device's QOM path
-
-Suggest to steal from there.
-
->> What's a @hotplug-slot?
->
-> pci slot. Significant for SHPC
->
->> 
->>> +
->>> +##
->>> +# @HOTPLUG_STATE:
->>> +#
->>> +# Emitted whenever the state of hotplug controller is changed.
->> 
->> Suggest "the state of hotplug controller changes."
->> 
->> Regardless, too terse.  What state changes exactly trigger the event?
->
-> Any change of power-led / attention-led / state / power.
->
-> Will add a description
->
->> 
->>> +# Only changed values are included into event.
->> 
->> "in the event"
->> 
->> Which values are included for each event trigger?
->
-> - device ids and names always included
-> - power-led / attention-led / state / power  - only those who changed
->
->> 
->>> +# Only SHPC and PCIe-native hotplug are supported.
->> 
->> Suggest something like "only ... provide this event."
->> 
->> Are parts of HotplugState specific to "SHPC and PCIe-native"?  Or asked
->> differently: when we make other kinds of hotplug send the event, what
->> would we need to change here?
->
-> Hmm. Looks like I'd better use a union with type discriminator. This way we'll be able to add any other hotplug later.
->
-> (and even now it's better, as not all 4 state fields are shared for PCIe and SHPC)
-
-A union feels like the way to go.
-
->>> +#
->>> +# Since: 8.0
->>> +##
->>> +{ 'event': 'HOTPLUG_STATE',
->>> +  'data': 'HotplugState' }
->> 
->> [...]
+Later, Juan.
 
 
