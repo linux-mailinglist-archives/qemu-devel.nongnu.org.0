@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40D306923D6
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 17:59:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C7EE6923D3
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 17:59:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQWj2-0003Xv-EQ; Fri, 10 Feb 2023 11:58:16 -0500
+	id 1pQWj7-0003Yu-0j; Fri, 10 Feb 2023 11:58:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQWj0-0003XQ-0y
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:58:14 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQWj5-0003Yi-8c
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:58:19 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQWiy-0003z8-8a
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:58:13 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id a2so5682738wrd.6
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 08:58:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQWj3-0003zc-IE
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:58:18 -0500
+Received: by mail-wm1-x333.google.com with SMTP id z13so4286078wmp.2
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 08:58:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dNEqdjb5NZIGVTLErJKFkoWmPaX64LganiXA1CDJfHw=;
- b=UEMiEvGJzFHxvU4A1blkzFaEmMHOnbvRPw6m47FBQoC2w2uczRfUj/37XbibPQHcjz
- 0ligFQv/iNZw9csj2GXAy7V67flZpVzDJS1utmAp3tJHinN0RV7an2q/Px1bCx/kxljW
- ouYI6bvES2F1YERmsPUPLWEr/3TzRNFQqNZZFMvQ9YVe5tNyGPW7aay7cNBFJCB49pk3
- eH6KQx1OwDYjyRrLZ53ntzVdjJViFVss6hLDP6V1Mr8mxIdppn/CIYGQGP96OJCd9bol
- SbekdamD0H4VqwnFcpmdn+sCOiwT1X53GXyTzIvpHogCozPA2NyWd7wsBaDrfEA1y2Ay
- QbTg==
+ bh=76WGhaMeuPYXbX/pWJbcrHLrwrtrG1g1D4hmZur00GA=;
+ b=qWkoEjoOVmCqr1OiTv613fwL4i8yn6qDJ3BoIC2oamGES+NCsMCI0XZHfy3bQYqdya
+ +ccw38zjVDi3QnECFPfE29HG36boSUEXSOdroeZM9pjZKxvOCtGyYGc9y4PsE7JZgh+2
+ OuAYUqCQSO8qDbK/AcGzZBfRSa2RHRiKAe6zGUiaCi8ZG8VfFxasAqNIEVMIDEF/5CVt
+ uoVqXbIbm/+a1G07m7Yyv+z0ad5R8ykSJ7ehGpKG+xCQUzBm4WuzO0XHlVS1/LDiL9IC
+ uJiC9uboEtxeD58PAXvP+kGKsUxLOvF6QJwLeaDZoKX7YnhhCIaCFWFeCMEbzBkvitLf
+ 5jXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dNEqdjb5NZIGVTLErJKFkoWmPaX64LganiXA1CDJfHw=;
- b=LCp+DMQoz8CPWMTvUdJ5+Uq6dGJs+Vq8oCEftsSBnJCjFy3WhyrgXZPbEpSka0gfOG
- 0P5K/QyS501GennDYHOIWB0sJHz/qZeuEW5WW01V1dnKFFYnN6TrMIW5uEY7526WY2lv
- +QmDjjvmNjgSHWDh7WucCieXSUhMuZtf6ia6i/9WWD4DWzHY6vPrE648rScvmfGXnZaO
- g+iKi8tkX2KOcnl05jdEnHL4AMzrh3ZIJ5vC2BBdMkBnbl9+eMrqu87StapWJySlpYsA
- MHhhG7u0rPT2kB5C8VSljip0gK60l/JVZwApCtSpP8/476M9VqQRFfsrJM+5U0umWI98
- /Lpw==
-X-Gm-Message-State: AO0yUKWH83KtxQNtcedTiS2CR8Q3qQtFRRMdwOFQbEGgw/9Tki/PuSk+
- uUVakLRCRVnS4ZJWbiZMdjtiRPB4U0sheNzD
-X-Google-Smtp-Source: AK7set+FojVK+j/vTFrfnTFrUR8aX1iKLEIjUU+vE3WbMD6H55c9HqbpQa0KNVlxIfDPYgVJgVgbMw==
-X-Received: by 2002:a5d:5583:0:b0:2c3:da89:bc50 with SMTP id
- i3-20020a5d5583000000b002c3da89bc50mr14350872wrv.52.1676048290787; 
- Fri, 10 Feb 2023 08:58:10 -0800 (PST)
+ bh=76WGhaMeuPYXbX/pWJbcrHLrwrtrG1g1D4hmZur00GA=;
+ b=fPYmk6TVpveoMUqRmjYIMlwhSCVeP/q+sFYpEAwsVy4CGsB6xYPiaoxQYhazwUhQTL
+ AqBJ/fwhlWOOlEZf5fI5XQQREKhIcfI53p3+LPwHUH6GF6dppooyIMMQdTHOstWfMuFW
+ K698CiSjTo0aqNHAKXcG3LK6u25tiU5hZwDS8/g77Bc6dYZUX1tNg9B+812mhLGoX2Hk
+ gk+lXb2bDUAjrzds+is9W9mi/doRQ7yYOhRdaMPBgRncVoIJzWbDAQ6B9y32qTURtpEJ
+ tHS66OjmLbM8ZCPOLQDzZfyWgUkj6elYUYT0lFjZm9EYGXi8e+wI3eDjf7hwr955Uyy9
+ EBzg==
+X-Gm-Message-State: AO0yUKU6wPpw+AM9+ZqQEuj7hFwFok0N0q8NV9NuPsp1opBlLw178sTI
+ SLwbTSBi3vHoemYAw4sFOR4U8oh5r0UU54st
+X-Google-Smtp-Source: AK7set8R23J4Quk8coo0UTN9zV1cs6lVG9SYrU+lgJ/9a415LhmVEcP01REND0769t7xMjBxWRB4sA==
+X-Received: by 2002:a05:600c:331a:b0:3dd:f286:5ae9 with SMTP id
+ q26-20020a05600c331a00b003ddf2865ae9mr13493365wmp.9.1676048296006; 
+ Fri, 10 Feb 2023 08:58:16 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- v15-20020adfebcf000000b002c3f81c51b6sm4087828wrn.90.2023.02.10.08.58.09
+ b39-20020a05600c4aa700b003dc433bb5e1sm5519466wmp.9.2023.02.10.08.58.14
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 10 Feb 2023 08:58:10 -0800 (PST)
+ Fri, 10 Feb 2023 08:58:15 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Eduardo Habkost <eduardo@habkost.net>, Thomas Huth <thuth@redhat.com>,
@@ -59,19 +59,22 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
-Subject: [PATCH 3/4] hw/isa/piix: Unify QOM type name of PIIX ISA function
-Date: Fri, 10 Feb 2023 17:57:53 +0100
-Message-Id: <20230210165754.34342-4-philmd@linaro.org>
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PATCH 4/4] hw/isa/piix: Unify PIIX-ISA QOM type names using qdev
+ aliases
+Date: Fri, 10 Feb 2023 17:57:54 +0100
+Message-Id: <20230210165754.34342-5-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230210165754.34342-1-philmd@linaro.org>
 References: <20230210165754.34342-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,203 +97,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Mechanical change doing:
+Unify PIIX ISA (PCI function #0) as:
 
-  $ sed -i -e 's/PIIX4_PCI_DEVICE/PIIX4_ISA/g' $(git grep -l PIIX4_PCI_DEVICE)
-  $ sed -i -e 's/PIIX3_XEN_DEVICE/PIIX3_ISA_XEN/g' $(git grep -l PIIX3_XEN_DEVICE)
-  $ sed -i -e 's/PIIX3_DEVICE/PIIX3_ISA/g' $(git grep -l PIIX3_DEVICE)
-  $ sed -i -e 's/PIIX3_PCI_DEVICE/PIIX_ISA/g' $(git grep -l PIIX3_PCI_DEVICE)
+ pci-piix3 -> piix-isa       (abstract base class)
+ PIIX3     -> piix3-isa      (PIIX3 implementation)
+ PIIX3-xen -> piix3-isa-xen  (PIIX3 implementation with Xen extensions)
+ piix4-isa -> piix4-isa      (PIIX4 implementation)
+
+Alias previous names in the QDevAlias table.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/i386/pc_piix.c             |  5 ++---
- hw/isa/piix3.c                | 20 ++++++++++----------
- hw/isa/piix4.c                | 10 +++++-----
- hw/mips/malta.c               |  2 +-
- include/hw/southbridge/piix.h | 10 +++++-----
- 5 files changed, 23 insertions(+), 24 deletions(-)
+ include/hw/southbridge/piix.h | 6 +++---
+ softmmu/qdev-monitor.c        | 3 +++
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 7c48ba30e0..afef5ed115 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -220,8 +220,7 @@ static void pc_init1(MachineState *machine,
-     if (pcmc->pci_enabled) {
-         PIIX3State *piix3;
-         PCIDevice *pci_dev;
--        const char *type = xen_enabled() ? TYPE_PIIX3_XEN_DEVICE
--                                         : TYPE_PIIX3_DEVICE;
-+        const char *type = xen_enabled() ? TYPE_PIIX3_ISA_XEN : TYPE_PIIX3_ISA;
- 
-         pci_bus = i440fx_init(pci_type,
-                               i440fx_host,
-@@ -235,7 +234,7 @@ static void pc_init1(MachineState *machine,
-         pcms->bus = pci_bus;
- 
-         pci_dev = pci_create_simple_multifunction(pci_bus, -1, true, type);
--        piix3 = PIIX3_PCI_DEVICE(pci_dev);
-+        piix3 = PIIX3_ISA(pci_dev);
-         piix3->pic = x86ms->gsi;
-         piix3_devfn = piix3->dev.devfn;
-         isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix3), "isa.0"));
-diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-index 0ee94a2313..38e0c269ae 100644
---- a/hw/isa/piix3.c
-+++ b/hw/isa/piix3.c
-@@ -112,7 +112,7 @@ static void piix3_write_config(PCIDevice *dev,
- {
-     pci_default_write_config(dev, address, val, len);
-     if (ranges_overlap(address, len, PIIX_PIRQCA, 4)) {
--        PIIX3State *piix3 = PIIX3_PCI_DEVICE(dev);
-+        PIIX3State *piix3 = PIIX3_ISA(dev);
-         int pic_irq;
- 
-         pci_bus_fire_intx_routing_notifier(pci_get_bus(&piix3->dev));
-@@ -145,7 +145,7 @@ static void piix3_write_config_xen(PCIDevice *dev,
- 
- static void piix3_reset(DeviceState *dev)
- {
--    PIIX3State *d = PIIX3_PCI_DEVICE(dev);
-+    PIIX3State *d = PIIX3_ISA(dev);
-     uint8_t *pci_conf = d->dev.config;
- 
-     pci_conf[0x04] = 0x07; /* master, memory and I/O */
-@@ -286,7 +286,7 @@ static const MemoryRegionOps rcr_ops = {
- 
- static void pci_piix3_realize(PCIDevice *dev, Error **errp)
- {
--    PIIX3State *d = PIIX3_PCI_DEVICE(dev);
-+    PIIX3State *d = PIIX3_ISA(dev);
-     ISABus *isa_bus;
- 
-     isa_bus = isa_bus_new(DEVICE(d), pci_address_space(dev),
-@@ -349,7 +349,7 @@ static void pci_piix3_class_init(ObjectClass *klass, void *data)
- static void piix3_realize(PCIDevice *dev, Error **errp)
- {
-     ERRP_GUARD();
--    PIIX3State *piix3 = PIIX3_PCI_DEVICE(dev);
-+    PIIX3State *piix3 = PIIX3_ISA(dev);
-     PCIBus *pci_bus = pci_get_bus(dev);
- 
-     pci_piix3_realize(dev, errp);
-@@ -372,7 +372,7 @@ static void piix3_class_init(ObjectClass *klass, void *data)
- static void piix3_xen_realize(PCIDevice *dev, Error **errp)
- {
-     ERRP_GUARD();
--    PIIX3State *piix3 = PIIX3_PCI_DEVICE(dev);
-+    PIIX3State *piix3 = PIIX3_ISA(dev);
-     PCIBus *pci_bus = pci_get_bus(dev);
- 
-     pci_piix3_realize(dev, errp);
-@@ -399,7 +399,7 @@ static void piix3_xen_class_init(ObjectClass *klass, void *data)
- 
- static const TypeInfo piix_isa_types[] = {
-     {
--        .name           = TYPE_PIIX3_PCI_DEVICE,
-+        .name           = TYPE_PIIX_ISA,
-         .parent         = TYPE_PCI_DEVICE,
-         .instance_size  = sizeof(PIIX3State),
-         .class_init     = pci_piix3_class_init,
-@@ -410,12 +410,12 @@ static const TypeInfo piix_isa_types[] = {
-             { },
-         },
-     }, {
--        .name           = TYPE_PIIX3_DEVICE,
--        .parent         = TYPE_PIIX3_PCI_DEVICE,
-+        .name           = TYPE_PIIX3_ISA,
-+        .parent         = TYPE_PIIX_ISA,
-         .class_init     = piix3_class_init,
-     }, {
--        .name           = TYPE_PIIX3_XEN_DEVICE,
--        .parent         = TYPE_PIIX3_PCI_DEVICE,
-+        .name           = TYPE_PIIX3_ISA_XEN,
-+        .parent         = TYPE_PIIX_ISA,
-         .class_init     = piix3_xen_class_init,
-     }
- };
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index ef24826993..8c51b523e5 100644
---- a/hw/isa/piix4.c
-+++ b/hw/isa/piix4.c
-@@ -56,7 +56,7 @@ struct PIIX4State {
-     uint8_t rcr;
- };
- 
--OBJECT_DECLARE_SIMPLE_TYPE(PIIX4State, PIIX4_PCI_DEVICE)
-+OBJECT_DECLARE_SIMPLE_TYPE(PIIX4State, PIIX4_ISA)
- 
- static void piix4_set_irq(void *opaque, int irq_num, int level)
- {
-@@ -81,7 +81,7 @@ static void piix4_set_irq(void *opaque, int irq_num, int level)
- 
- static void piix4_isa_reset(DeviceState *dev)
- {
--    PIIX4State *d = PIIX4_PCI_DEVICE(dev);
-+    PIIX4State *d = PIIX4_ISA(dev);
-     uint8_t *pci_conf = d->dev.config;
- 
-     pci_conf[0x04] = 0x07; // master, memory and I/O
-@@ -186,7 +186,7 @@ static const MemoryRegionOps piix4_rcr_ops = {
- 
- static void piix4_realize(PCIDevice *dev, Error **errp)
- {
--    PIIX4State *s = PIIX4_PCI_DEVICE(dev);
-+    PIIX4State *s = PIIX4_ISA(dev);
-     PCIBus *pci_bus = pci_get_bus(dev);
-     ISABus *isa_bus;
-     qemu_irq *i8259_out_irq;
-@@ -251,7 +251,7 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
- 
- static void piix4_init(Object *obj)
- {
--    PIIX4State *s = PIIX4_PCI_DEVICE(obj);
-+    PIIX4State *s = PIIX4_ISA(obj);
- 
-     object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
-     object_initialize_child(obj, "ide", &s->ide, TYPE_PIIX4_IDE);
-@@ -283,7 +283,7 @@ static void piix4_class_init(ObjectClass *klass, void *data)
- }
- 
- static const TypeInfo piix4_info = {
--    .name          = TYPE_PIIX4_PCI_DEVICE,
-+    .name          = TYPE_PIIX4_ISA,
-     .parent        = TYPE_PCI_DEVICE,
-     .instance_size = sizeof(PIIX4State),
-     .instance_init = piix4_init,
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index ec172b111a..5aefeba581 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -1255,7 +1255,7 @@ void mips_malta_init(MachineState *machine)
- 
-     /* Southbridge */
-     piix4 = pci_create_simple_multifunction(pci_bus, PIIX4_PCI_DEVFN, true,
--                                            TYPE_PIIX4_PCI_DEVICE);
-+                                            TYPE_PIIX4_ISA);
-     isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix4), "isa.0"));
- 
-     dev = DEVICE(object_resolve_path_component(OBJECT(piix4), "ide"));
 diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
-index a58bf13a41..71a82ef266 100644
+index 71a82ef266..cce65e8f44 100644
 --- a/include/hw/southbridge/piix.h
 +++ b/include/hw/southbridge/piix.h
-@@ -58,11 +58,11 @@ struct PIIX3State {
+@@ -58,9 +58,9 @@ struct PIIX3State {
      MemoryRegion rcr_mem;
  };
  
--#define TYPE_PIIX3_PCI_DEVICE "pci-piix3"
--#define TYPE_PIIX3_DEVICE "PIIX3"
--#define TYPE_PIIX3_XEN_DEVICE "PIIX3-xen"
--#define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
-+#define TYPE_PIIX_ISA       "pci-piix3"
-+#define TYPE_PIIX3_ISA      "PIIX3"
-+#define TYPE_PIIX3_ISA_XEN  "PIIX3-xen"
-+#define TYPE_PIIX4_ISA      "piix4-isa"
+-#define TYPE_PIIX_ISA       "pci-piix3"
+-#define TYPE_PIIX3_ISA      "PIIX3"
+-#define TYPE_PIIX3_ISA_XEN  "PIIX3-xen"
++#define TYPE_PIIX_ISA       "piix-isa"
++#define TYPE_PIIX3_ISA      "piix3-isa"
++#define TYPE_PIIX3_ISA_XEN  "piix3-isa-xen"
+ #define TYPE_PIIX4_ISA      "piix4-isa"
  
--OBJECT_DECLARE_SIMPLE_TYPE(PIIX3State, PIIX3_PCI_DEVICE)
-+OBJECT_DECLARE_SIMPLE_TYPE(PIIX3State, PIIX3_ISA)
- 
- #endif
+ OBJECT_DECLARE_SIMPLE_TYPE(PIIX3State, PIIX3_ISA)
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index b8d2c4dadd..820e7f52ad 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -72,6 +72,9 @@ static const QDevAlias qdev_alias_table[] = {
+     { "ES1370", "es1370" }, /* -soundhw name */
+     { "ich9-ahci", "ahci" },
+     { "lsi53c895a", "lsi" },
++    { "piix-isa", "pci-piix3" },
++    { "piix3-isa", "PIIX3" },
++    { "piix3-isa-xen", "PIIX3-xen" },
+     { "virtio-9p-device", "virtio-9p", QEMU_ARCH_VIRTIO_MMIO },
+     { "virtio-9p-ccw", "virtio-9p", QEMU_ARCH_VIRTIO_CCW },
+     { "virtio-9p-pci", "virtio-9p", QEMU_ARCH_VIRTIO_PCI },
 -- 
 2.38.1
 
