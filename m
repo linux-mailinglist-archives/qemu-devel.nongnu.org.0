@@ -2,94 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D9D692341
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 17:27:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B92692342
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 17:28:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQWFF-0002P7-UR; Fri, 10 Feb 2023 11:27:29 -0500
+	id 1pQWG0-0003bG-MI; Fri, 10 Feb 2023 11:28:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pQWFA-0002N3-9W
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:27:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pQWF9-0006Qg-11
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:27:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676046442;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/d/iPl2DxI0v9T3Ad+bwX/0tJyJox1a5yxtcIsCUNkE=;
- b=gPF4y5xmBJHS9U7DxHw/SwovfouNUWZGyFft+ck/eFw1kDcieJtNb8wtmP7LUmvBl1Fk+a
- YLA2ObOjWVfGJPYrjXeHuMzDHn9jBZLx9eZuNMCmevVVLvWFW8yn0cXx7h9wuAuwXgehR3
- VgjddCCDbbV86J905NVVsR0VXXItaUA=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-173-jVFOOL0xNoOEMNDEpsxexg-1; Fri, 10 Feb 2023 11:27:13 -0500
-X-MC-Unique: jVFOOL0xNoOEMNDEpsxexg-1
-Received: by mail-ua1-f70.google.com with SMTP id
- o6-20020ab01506000000b004f8c11096a9so2034402uae.20
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 08:27:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pQWFw-0003au-CU; Fri, 10 Feb 2023 11:28:12 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pQWFt-0006Wd-Nd; Fri, 10 Feb 2023 11:28:11 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id dr8so17220476ejc.12;
+ Fri, 10 Feb 2023 08:28:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4+fTemlH1kvHhEdSlGQFxAeDKMGKhyDOGppbfWUQ7xM=;
+ b=WRjR9MqkV/rSACDiqZIev4ZsDNMbG42OqxD272LUs5QarnaLCUARPluXU3IPZf7PKx
+ IfLVWXbNAzmPVl/lGeEEb15/rSVAvEv7gE0FmxQCRi0BhTfChDSYcQsxad66juCkJdQ0
+ ANUEwFNsJ8+uYRxDVFCz7JjjNCfn0t50cRMDRIB8SKWC3slymCJf7yJ5K+sQfqatVeFG
+ bPeu6X1EOdwfojldVdBzhTT1zqyG38xPsFxhFsoGX+/2WWkrlv4GFCGQ4Tb6HpNZML7y
+ kgORzTl7irwmDKrtxxKgpEfTime9u7OTV1aWwXo2LzB0dHSR4UsEEeXR/ClMtTGZG0+8
+ 7LRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/d/iPl2DxI0v9T3Ad+bwX/0tJyJox1a5yxtcIsCUNkE=;
- b=hGIo15aceGCPArtLLuK5ocABt4BOIh6psZoLYU4NwsQWIYo9bHAKWLmyKVi8nD7q1X
- ZYFOKMXhg0dwaz8npZgfYevUNLT03MT1PL0MjXEQwC97ZlyOaK/xrngvsLxjfIWYQbH2
- Y1rnfegUrZEHhjwKzGvb+2u2AyzZ1HeMhqD3yeSve/o2im5uIvaQncpVwVy80a+0+JAu
- Lk3ruKjfeMa5oGcFbIDPJ0GVoj1FN0IS46iUWfWP2jwb2u+HNeO/xbC03mnGlBlqOouf
- d8ghH+83Jt7KRLNyz0tY5GdGWouccZTuj797oP76QfY/0WWYW9gHFaCR2w8BX3F6ld45
- lLlg==
-X-Gm-Message-State: AO0yUKXHi8onUSkC8LPUAuRgVSbhgfTsmU7vvh7aomdUABm9A1dAbix+
- nk7j6KeAv81rSVPZUAEO16pVyk8G1a3WQv5jXCaLXEBzFJjilHihuo271cEozBDyqSQfwo+n0X+
- rFyOLSmqDayKsw6O1jKBijroA2Our3Hg=
-X-Received: by 2002:a1f:72cd:0:b0:400:b9b1:a650 with SMTP id
- n196-20020a1f72cd000000b00400b9b1a650mr3140921vkc.10.1676046433218; 
- Fri, 10 Feb 2023 08:27:13 -0800 (PST)
-X-Google-Smtp-Source: AK7set99mwgEnbfuIsLSrvntbIwkpdLFgeOrbWDXt4yRywbkT6JpBBDbE/+pjwhqPqBixaEUMyJR6HNlZhHEo3P7qp4=
-X-Received: by 2002:a1f:72cd:0:b0:400:b9b1:a650 with SMTP id
- n196-20020a1f72cd000000b00400b9b1a650mr3140916vkc.10.1676046432917; Fri, 10
- Feb 2023 08:27:12 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=4+fTemlH1kvHhEdSlGQFxAeDKMGKhyDOGppbfWUQ7xM=;
+ b=qSzIShMCQkGg99qC5OiphydIJWwchmo7o6m0So15EpErKMkT69ofBXfb9W7LJ/I910
+ oJVuTAftnM8dxGf3udTk+b1q76NM94AuAwc+JlIw9gTXue16IeaqtUSm2K0qr/sbpuLb
+ yVraW/yugvUX0P5ia1gls02NmYD0CytF/EoqwKhIhW58qlXlzuvI3MJWYnp8KMtnG4KZ
+ 0K4A7NLR1LkS2pIZW4Tvid/9jgy4qnq6Xi39Ah2ANp1T2/LmMWsv7tySAS97JU8KeuBv
+ +OMHvCKPKk7uFjpJ3JgmMB4EIm+CRUSpanwpxrBgRTI+0iJ/KoSolYgpcSRs7IEdgYhD
+ xNvA==
+X-Gm-Message-State: AO0yUKXN8qxGAWXdcIihyTV8/Ww1RqrfyVdgyrqEOIqdht6HuTWobtQn
+ KYG7+qeu+pWSV649YXPO49A=
+X-Google-Smtp-Source: AK7set/pHIvXsXkgrUAPEon1XQgF29cP8v4eVxnokwlaoGHpvxhYxJNAOcuAb58RyxmaHb4mhU6t0g==
+X-Received: by 2002:a17:906:a3da:b0:878:5c36:a14a with SMTP id
+ ca26-20020a170906a3da00b008785c36a14amr14787346ejb.23.1676046485668; 
+ Fri, 10 Feb 2023 08:28:05 -0800 (PST)
+Received: from [127.0.0.1] (dynamic-077-191-141-225.77.191.pool.telefonica.de.
+ [77.191.141.225]) by smtp.gmail.com with ESMTPSA id
+ u19-20020a1709067d1300b0088b93bfa765sm2563972ejo.138.2023.02.10.08.28.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Feb 2023 08:28:04 -0800 (PST)
+Date: Fri, 10 Feb 2023 16:27:55 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+CC: John G Johnson <john.g.johnson@oracle.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>, Ani Sinha <ani@anisinha.ca>,
+ Eduardo Habkost <eduardo@habkost.net>, Gerd Hoffmann <kraxel@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ qemu-ppc@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-arm@nongnu.org,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>
+Subject: Re: [PATCH v6 00/33] Consolidate PIIX south bridges
+In-Reply-To: <36BB4E64-8163-44BA-B622-8943E1C1DCE8@gmail.com>
+References: <20230109172347.1830-1-shentey@gmail.com>
+ <211e791a-9d37-9655-ca93-9e3bda2e21c3@linaro.org>
+ <6D8095E7-E540-4D7E-B976-D71522F8664A@gmail.com>
+ <752135A6-44DC-4504-8E16-C2E71EC76872@gmail.com>
+ <9578e7ca-5f3d-2d00-7288-16ae486fb8c0@linaro.org>
+ <36BB4E64-8163-44BA-B622-8943E1C1DCE8@gmail.com>
+Message-ID: <50FA07E9-C8DA-4D6E-9A87-F40BB9C2D324@gmail.com>
 MIME-Version: 1.0
-References: <20230210003147.1309376-1-jsnow@redhat.com>
- <20230210003147.1309376-4-jsnow@redhat.com>
- <3bb14d43-4dbe-62f3-679f-4b7823b29d41@redhat.com>
- <CAFn=p-Yyus2zipaUgLwonpMRdfZp-CKEisiXgZBLjgG6UxXagw@mail.gmail.com>
- <CABgObfa79AStZ8DnGEs2GmdZeLecijW3Um9O4XmguVNLwdfs2g@mail.gmail.com>
- <CAFn=p-bWLfV7miK5NB3XqVEJXA1MHK26aN07otLJhUa2xbDHTg@mail.gmail.com>
-In-Reply-To: <CAFn=p-bWLfV7miK5NB3XqVEJXA1MHK26aN07otLJhUa2xbDHTg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Fri, 10 Feb 2023 17:26:59 +0100
-Message-ID: <CABgObfaSGLKUXXJJf2S-C5cMhDHPNxvQfXS7YL2=vM6SXtg6RQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/7] configure: Look for auxiliary Python installations
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Qemu-block <qemu-block@nongnu.org>, 
- Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,21 +106,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Feb 10, 2023 at 5:22 PM John Snow <jsnow@redhat.com> wrote:
->> Though part of me thinks that your new loop is slightly overengineered
->> and we should just require /usr/bin/env python3 and call it a day.
+
+
+Am 23=2E Januar 2023 15:51:49 UTC schrieb Bernhard Beschow <shentey@gmail=
+=2Ecom>:
 >
-> Well, but that'd be a problem for CentOS 8, wouldn't it? python3 is gonna resolve to python3.6.
+>
+>Am 23=2E Januar 2023 09:25:51 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <=
+philmd@linaro=2Eorg>:
+>>On 20/1/23 13:22, Bernhard Beschow wrote:
+>>> Am 13=2E Januar 2023 17:39:45 UTC schrieb Bernhard Beschow <shentey@gm=
+ail=2Ecom>:
+>>>> Am 13=2E Januar 2023 08:46:53 UTC schrieb "Philippe Mathieu-Daud=C3=
+=A9" <philmd@linaro=2Eorg>:
+>>>>> On 9/1/23 18:23, Bernhard Beschow wrote:
+>>>>>> This series consolidates the implementations of the PIIX3 and PIIX4=
+ south
+>>>>>> bridges and is an extended version of [1]=2E The motivation is to s=
+hare as much
+>>>>>> code as possible and to bring both device models to feature parity =
+such that
+>>>>>> perhaps PIIX4 can become a drop-in-replacement for PIIX3 in the pc =
+machine=2E This
+>>>>>> could resolve the "Frankenstein" PIIX4-PM problem in PIIX3 discusse=
+d on this
+>>>>>> list before=2E
+>>>>>=20
+>>>>>> Bernhard Beschow (30):
+>>>>>>     hw/pci/pci: Factor out pci_bus_map_irqs() from pci_bus_irqs()
+>>>>>>     hw/isa/piix3: Decouple INTx-to-LNKx routing which is board-spec=
+ific
+>>>>>>     hw/isa/piix4: Decouple INTx-to-LNKx routing which is board-spec=
+ific
+>>>>>>     hw/mips/Kconfig: Track Malta's PIIX dependencies via Kconfig
+>>>>>>     hw/usb/hcd-uhci: Introduce TYPE_ defines for device models
+>>>>>>     hw/intc/i8259: Make using the isa_pic singleton more type-safe
+>>>>>>     hw/intc/i8259: Introduce i8259 proxy TYPE_ISA_PIC
+>>>>>>     hw/i386/pc: Create RTC controllers in south bridges
+>>>>>>     hw/i386/pc: No need for rtc_state to be an out-parameter
+>>>>>>     hw/i386/pc_piix: Allow for setting properties before realizing =
+PIIX3
+>>>>>>       south bridge
+>>>>>>     hw/isa/piix3: Create USB controller in host device
+>>>>>>     hw/isa/piix3: Create power management controller in host device
+>>>>>>     hw/isa/piix3: Create TYPE_ISA_PIC in host device
+>>>>>>     hw/isa/piix3: Create IDE controller in host device
+>>>>>>     hw/isa/piix3: Wire up ACPI interrupt internally
+>>>>>>     hw/isa/piix3: Resolve redundant PIIX_NUM_PIC_IRQS
+>>>>>>     hw/isa/piix3: Rename pci_piix3_props for sharing with PIIX4
+>>>>>>     hw/isa/piix3: Rename piix3_reset() for sharing with PIIX4
+>>>>>>     hw/isa/piix3: Drop the "3" from PIIX base class
+>>>>>>     hw/isa/piix4: Make PIIX4's ACPI and USB functions optional
+>>>>>>     hw/isa/piix4: Remove unused inbound ISA interrupt lines
+>>>>>>     hw/isa/piix4: Use TYPE_ISA_PIC device
+>>>>>>     hw/isa/piix4: Reuse struct PIIXState from PIIX3
+>>>>>>     hw/isa/piix4: Rename reset control operations to match PIIX3
+>>>>>>     hw/isa/piix3: Merge hw/isa/piix4=2Ec
+>>>>>>     hw/isa/piix: Harmonize names of reset control memory regions
+>>>>>>     hw/isa/piix: Reuse PIIX3 base class' realize method in PIIX4
+>>>>>>     hw/isa/piix: Rename functions to be shared for interrupt trigge=
+ring
+>>>>>>     hw/isa/piix: Consolidate IRQ triggering
+>>>>>>     hw/isa/piix: Share PIIX3's base class with PIIX4
+>>>>>>=20
+>>>>>> Philippe Mathieu-Daud=C3=A9 (3):
+>>>>>>     hw/mips/malta: Introduce PIIX4_PCI_DEVFN definition
+>>>>>>     hw/mips/malta: Set PIIX4 IRQ routes in embedded bootloader
+>>>>>>     hw/isa/piix4: Correct IRQRC[A:D] reset values
+>>>>>=20
+>>>>> I'm queuing the first 10 patches for now to alleviate the size of th=
+is
+>>>>> series, and I'll respin a v7 with the rest to avoid making you suffe=
+r
+>>>>> any longer :/ Thanks for insisting in this effort and I apologize it
+>>>>> is taking me so long=2E=2E=2E
+>>>>=20
+>>>> Okay=2E=2E=2E What's the further plan? Is there anything missing?
+>>>=20
+>>> Ping
+>>
+>>The plan is "I'll respin a v7 with the rest"=2E
+>
+>I understood that part=2E I wonder what the blocking issue is/was=2E
 
-The user would have to specify --python=/usr/bin/python3.8, or could
-also set up "alternatives" so that python3 resolves to modular Python
-(3.8 or newer). I think it's a fair requirement for users of
-enterprise distributions, and it works because it forces usage of
-QEMU's meson submodule.
+The first part of this series contains piix3 changes such as the ISA proxy=
+ pic and movement of rtc=2E This seems the riskier part of the series to me=
+ which I'd like to get feedback on from the field rather sooner than later=
+=2E The reason is that I can't currently forsee how fast I could react if t=
+hese changes were merged during (soft) freeze=2E
 
-My lcitool update does the former by placing ENV PYTHON
-"/usr/bin/python3.8" in the Dockerfile.
+Is there a possibility to at least get the piix3 part merged already? Mayb=
+e perhaps via the pc tree?
 
-Paolo
+Thanks,
+Bernhard
 
+>
+>Best regards,
+>Bernhard
 
