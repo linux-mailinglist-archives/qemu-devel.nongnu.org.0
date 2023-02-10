@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A3B6691E5B
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 12:33:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C180A691E6F
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 12:37:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQReR-0005XC-Nx; Fri, 10 Feb 2023 06:33:11 -0500
+	id 1pQRi0-0006yY-JR; Fri, 10 Feb 2023 06:36:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pQReP-0005X2-Q3
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:33:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pQRhy-0006y0-0O
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:36:50 -0500
+Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pQReO-0004Gx-67
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:33:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676028787;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=YZtTCvjUY3Bplco/nrch2W/siWy5iQ7rmzXTCAqINh0=;
- b=feg08sBC9SfltuhrAZcZW2AowYp3osmfYKnG1VmDvN1ac/LGwaBU4QXpnVM1NP2uWGOYXc
- 9Zh5AF+hylQLN2cNsrN8aW6uFl9l41DryBmFWUAcIh3bvFf/Ad+et+XnnQy/qrnygpIm7M
- d+hVIdh+Id5uhno+LrCA81PWDwCwN1o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-43-Q9sCMfavMO2mVJJ_AgjtQQ-1; Fri, 10 Feb 2023 06:33:04 -0500
-X-MC-Unique: Q9sCMfavMO2mVJJ_AgjtQQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5E068857F42;
- Fri, 10 Feb 2023 11:33:03 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.76])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 269E42026D68;
- Fri, 10 Feb 2023 11:33:00 +0000 (UTC)
-Date: Fri, 10 Feb 2023 11:32:58 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- x86@kernel.org, linux-kernel@vger.kernel.org,
- Dov Murik <dovmurik@linux.ibm.com>, Tom Lendacky <thomas.lendacky@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "H . Peter Anvin" <hpa@zytor.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Borislav Petkov <bp@alien8.de>, Eric Biggers <ebiggers@kernel.org>
-Subject: Re: [PATCH RFC 0/7] revert RNG seed mess
-Message-ID: <Y+YratFIX/WHWbFy@redhat.com>
-References: <20230208211212.41951-1-mst@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pQRhv-0005HR-Iy
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:36:49 -0500
+Received: from vla1-81430ab5870b.qloud-c.yandex.net
+ (vla1-81430ab5870b.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0d:35a1:0:640:8143:ab5])
+ by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id 057D65FFE6;
+ Fri, 10 Feb 2023 14:36:38 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:1310::1:f] (unknown
+ [2a02:6b8:b081:1310::1:f])
+ by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ badksF0OjuQ1-Fm0XHJ04; Fri, 10 Feb 2023 14:36:37 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1676028997; bh=M6iPjpcHBv+j4DOwjRn1puL7FcRw7GL+dkTTs1aPO+I=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=SsMBukJh0mNNC0+iMpayP5ZHPsyFXKKFPJju+M/9H2l24ACNSp1nfsoLu2sWwp3Q7
+ Eo2GiB9Lf5OFwcL8iQeqnmEDgXJHxo+R6n/AsZDX+glC7vQNNA98iUIlIWdTKltN+q
+ mEIgoIT/tI2NiW6M7zmRL/MR1rZWWqtQEbK4+XM4=
+Authentication-Results: vla1-81430ab5870b.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <c361c5f3-c623-09e9-0519-cf9ba68ae0a1@yandex-team.ru>
+Date: Fri, 10 Feb 2023 14:36:37 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230208211212.41951-1-mst@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3 13/15] qapi: add HOTPLUG_STATE event
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, eblake@redhat.com, eduardo@habkost.net,
+ berrange@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
+ mst@redhat.com, den-plotnikov@yandex-team.ru
+References: <20230209200808.869275-1-vsementsov@yandex-team.ru>
+ <20230209200808.869275-14-vsementsov@yandex-team.ru>
+ <875yc9vmxz.fsf@pond.sub.org>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <875yc9vmxz.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.72;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,61 +75,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 08, 2023 at 04:12:23PM -0500, Michael S. Tsirkin wrote:
-> All attempts to fix up passing RNG seed via setup_data entry failed.
-> Let's just rip out all of it.  We'll start over.
+On 10.02.23 13:23, Markus Armbruster wrote:
+> Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> writes:
 > 
+>> For PCIe and SHPC hotplug it's important to track led indicators,
+>> especially the power led. Add an event that helps.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>> ---
+>>   qapi/qdev.json       | 62 ++++++++++++++++++++++++++++++++++++++++++++
+>>   include/hw/pci/pci.h | 15 +++++++++++
+>>   hw/pci/pci.c         | 33 +++++++++++++++++++++++
+>>   hw/pci/pcie.c        | 49 ++++++++++++++++++++++++++++++++++
+>>   hw/pci/shpc.c        | 42 ++++++++++++++++++++++++++++++
+>>   5 files changed, 201 insertions(+)
+>>
+>> diff --git a/qapi/qdev.json b/qapi/qdev.json
+>> index 2708fb4e99..40dc34f091 100644
+>> --- a/qapi/qdev.json
+>> +++ b/qapi/qdev.json
+>> @@ -158,3 +158,65 @@
+>>   ##
+>>   { 'event': 'DEVICE_UNPLUG_GUEST_ERROR',
+>>     'data': { '*device': 'str', 'path': 'str' } }
+>> +
+>> +##
+>> +# @HotplugLedState:
+>> +#
 > 
-> Warning: all I did was git revert the relevant patches and resolve the
-> (trivial) conflicts. Not even compiled - it's almost midnight here.
-> 
-> Jason this is the kind of approach I'd like to see, not yet another
-> pointer math rich patch I need to spend time reviewing. Just get us back
-> to where we started. We can redo "x86: use typedef for SetupData struct"
-> later if we want, it's benign.
+> No documentation?
 
-This approach looks suitable for applying to the 7.2 tree too,
-which will be good for fixing the regressions in stable.
+Will do!
 
 > 
-> Could you do something like this pls?
-> Or test and ack if this patchset happens to work by luck.
+>> +# Since: 8.0
+>> +##
+>> +{ 'enum': 'HotplugLedState',
+>> +  'data': [ 'on', 'blink', 'off' ] }
+>> +
+>> +##
+>> +# @HotplugPowerState:
 > 
-> Michael S. Tsirkin (7):
->   Revert "x86: don't let decompressed kernel image clobber setup_data"
->   Revert "x86: do not re-randomize RNG seed on snapshot load"
->   Revert "x86: re-initialize RNG seed when selecting kernel"
->   Revert "x86: reinitialize RNG seed on system reboot"
->   Revert "x86: use typedef for SetupData struct"
->   Revert "x86: return modified setup_data only if read as memory, not as
->     file"
->   Revert "hw/i386: pass RNG seed via setup_data entry"
+> No documentation?
 > 
->  include/hw/i386/microvm.h |   5 +-
->  include/hw/i386/pc.h      |   3 -
->  include/hw/i386/x86.h     |   3 +-
->  include/hw/nvram/fw_cfg.h |  31 ----------
->  hw/i386/microvm.c         |  17 ++----
->  hw/i386/pc.c              |   4 +-
->  hw/i386/pc_piix.c         |   2 -
->  hw/i386/pc_q35.c          |   2 -
->  hw/i386/x86.c             | 122 ++++++++++----------------------------
->  hw/nvram/fw_cfg.c         |  21 ++-----
->  10 files changed, 49 insertions(+), 161 deletions(-)
+>> +#
+>> +# Since: 8.0
+>> +##
+>> +{ 'enum': 'HotplugPowerState',
+>> +  'data': [ 'on', 'off' ] }
 > 
-> -- 
-> MST
+> Why not bool?
+
+I wanted to reflect PCI_EXP_SLTCTL_PWR_ON and PCI_EXP_SLTCTL_PWR_OFF.
+
+On the other hand, it's just a bit in the config. Power Controller Control. An unobvious thing that
+
+  0 = Power On
+  1 = Power Off
+
+for that bit. So with proper documentation we can use boolean. But on/off is more obvious.
+
+> 
+>> +##
+>> +# @HotplugSlotState:
+> 
+> No documentation?
+> 
+>> +#
+>> +# Since: 8.0
+>> +##
+>> +{ 'enum': 'HotplugSlotState',
+>> +  'data': [ 'power-only', 'enabled', 'disabled' ] }
+>> +
+>> +##
+>> +# @HotplugState:
+>> +#
+>> +# @hotplug-device: hotplug device id
+>> +# @hotplug-path: hotplug device path
+>> +# @hotplug-slot: hotplug device slot (only for SHPC)
+>> +# @device: device name
+>> +# @path: device path
+>> +# @power-led: Power Indicator
+>> +# @attention-led: Attention Indicator
+>> +# @state: slot state, only for SHPC hotplug controller
+>> +# @power: Power Controller state, only for PCIe hotplug
+> 
+> 
+> 
+>> +#
+>> +# Since: 8.0
+>> +##
+>> +{ 'struct': 'HotplugState',
+>> +  'data': { '*hotplug-device': 'str',
+>> +            'hotplug-path': 'str',
+>> +            '*hotplug-slot': 'int',
+>> +            '*device': 'str',
+>> +            'path': 'str',
+>> +            '*power-led': 'HotplugLedState',
+>> +            '*attention-led': 'HotplugLedState',
+>> +            '*state': 'HotplugSlotState',
+>> +            '*power': 'HotplugPowerState' } }
+> 
+> Too terse.
+
+Will fix)
+
+> 
+> What do @hotplug-device and @device name?  Are these qdev-id?
+> 
+> What kind of paths are @hotplug-path and @path?  Are these paths to an
+> object device in the QOM tree?  Which object?
+
+device / path is same name and path as for DEVICE_DELETED
+
+> 
+> What's a @hotplug-slot?
+
+pci slot. Significant for SHPC
+
+> 
+>> +
+>> +##
+>> +# @HOTPLUG_STATE:
+>> +#
+>> +# Emitted whenever the state of hotplug controller is changed.
+> 
+> Suggest "the state of hotplug controller changes."
+> 
+> Regardless, too terse.  What state changes exactly trigger the event?
+
+Any change of power-led / attention-led / state / power.
+
+Will add a description
+
+> 
+>> +# Only changed values are included into event.
+> 
+> "in the event"
+> 
+> Which values are included for each event trigger?
+
+- device ids and names always included
+- power-led / attention-led / state / power  - only those who changed
+
+> 
+>> +# Only SHPC and PCIe-native hotplug are supported.
+> 
+> Suggest something like "only ... provide this event."
+> 
+> Are parts of HotplugState specific to "SHPC and PCIe-native"?  Or asked
+> differently: when we make other kinds of hotplug send the event, what
+> would we need to change here?
+
+Hmm. Looks like I'd better use a union with type discriminator. This way we'll be able to add any other hotplug later.
+
+(and even now it's better, as not all 4 state fields are shared for PCIe and SHPC)
+
+> 
+>> +#
+>> +# Since: 8.0
+>> +##
+>> +{ 'event': 'HOTPLUG_STATE',
+>> +  'data': 'HotplugState' }
+> 
+> [...]
 > 
 
-With regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Best regards,
+Vladimir
 
 
