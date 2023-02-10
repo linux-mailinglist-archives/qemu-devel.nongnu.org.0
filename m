@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE2569275F
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 20:47:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F47769276B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 20:50:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQZL7-00011x-MJ; Fri, 10 Feb 2023 14:45:45 -0500
+	id 1pQZOp-0002GJ-PO; Fri, 10 Feb 2023 14:49:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pQZL4-00011Y-2e
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 14:45:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pQZL2-0002Je-3F
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 14:45:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676058336;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=STSD8yZGCAV9mtLPtDaMORo+2JIiEAzwGWp9kwNIonQ=;
- b=SAipjbEnqqvd85VtyhnqkCR4yXlApJHddSLp1zuIpuFyGdJnQgsGz/kH0QCBHa+KSZGaCx
- lfY53lOJ/R9/j91fpZtoZ9IjX6CmzgFuZuFZDJzA+Yd9Y5W9PSb167BGHztoE2miU+63sa
- ZcqR9UutUV5U9c/0JjWl3Ky8IsnMjQg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-9-azEHGEYAN6OImHFbknKcCQ-1; Fri, 10 Feb 2023 14:45:32 -0500
-X-MC-Unique: azEHGEYAN6OImHFbknKcCQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E57FB3C0E469;
- Fri, 10 Feb 2023 19:45:30 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D5EA1121315;
- Fri, 10 Feb 2023 19:45:29 +0000 (UTC)
-Date: Fri, 10 Feb 2023 13:45:27 -0600
-From: Eric Blake <eblake@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- Daniel Berrange <berrange@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- Beraldo Leal <bleal@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH 3/7] configure: Look for auxiliary Python installations
-Message-ID: <20230210194527.d622oiaitb43utl2@redhat.com>
-References: <20230209154034.983044-1-jsnow@redhat.com>
- <20230209154034.983044-4-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pQZOo-0002G9-Fs
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 14:49:34 -0500
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pQZOm-00032I-3k
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 14:49:34 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ n20-20020a17090aab9400b00229ca6a4636so11030608pjq.0
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 11:49:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=QAaKHUL5/K4AWMd7yIpsN6lMrAsxy9enfdkkiYwDE/E=;
+ b=nkXazfLo8TsTZykzhpLiIOgI3RG1KiT+DPxST6ssFNto5/b5gwVAgMNTWZccnAZPFk
+ MAin9xVV/qL17dtp1+dkMR57P5bGpHofiBPnc35LZg5X5VrlkzSG6VfQUIAZJtshWkMS
+ yai5rkSWHTYz0np39uI1YjrAXofx7a3ChAB0YSLZnt6KjYUXXIXwXS6wp1m3MBZ+C1xn
+ SeKCSqH1m8tlVgRvX++s4dWkUX6F6X666l3P6aHIdALHowus0X5nqXf9TQVVWvdtonr7
+ ieliWV0p/dGMY0SOEGWcPEaGdlG3oyAG3BPNJDPiA/8ijefa1P7Gcr9QE/BVeGjMgNNS
+ H2Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QAaKHUL5/K4AWMd7yIpsN6lMrAsxy9enfdkkiYwDE/E=;
+ b=cE2lHLFiCtbLcq8YhbSj/2so++4Ms3P3pi3bbgFafK3DwVoLFoWXjwMKsyu2uRHzAF
+ +K1HouFeGWPhcSgkPh6BTJfepSBFdWwWISMzXn2cO9EbpgygZ/udLGy+r8Uto1KUitLW
+ D68/IsSqemStFDjCbFJqK7Vz1QfRPSeRfPJCG3aty2bsF6PRoGUS+guBoSjASJSQZBTf
+ WTYcfmCFRyN8BEvgaGPtGypwB/N1Pl9YbkkxDpzweMAxIVuO47cJe5QSMkKN3bKSrdXU
+ z1kE6ElH/6n1H+I6wVQ9WFOZ68c33Nj8KJASKgRWrmbzJ3eLxe9NqhLTNMUZ/WXvlagb
+ NKDQ==
+X-Gm-Message-State: AO0yUKVx8aQYNbYtxJn1CPx/4Iw3cx1vxefN9U/FvO0ofP8S/9G0SEf/
+ HM7OfxwliuYjDXzZ+N9pDKUovg==
+X-Google-Smtp-Source: AK7set/XCHFML9FI67TQRG3vr9GsSUgpKyUq8iXmSvisOgfT0U3ki9GP+bKU/j4LnvNx2ZAe3+X56A==
+X-Received: by 2002:a17:90b:3b87:b0:230:9f49:4335 with SMTP id
+ pc7-20020a17090b3b8700b002309f494335mr17715448pjb.11.1676058570167; 
+ Fri, 10 Feb 2023 11:49:30 -0800 (PST)
+Received: from [172.20.101.43] (rrcs-74-87-59-235.west.biz.rr.com.
+ [74.87.59.235]) by smtp.gmail.com with ESMTPSA id
+ y5-20020a17090a134500b0023317104415sm1413037pjf.17.2023.02.10.11.49.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Feb 2023 11:49:29 -0800 (PST)
+Message-ID: <858e9f86-672c-9be3-1826-0267b43969b1@linaro.org>
+Date: Fri, 10 Feb 2023 09:49:13 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230209154034.983044-4-jsnow@redhat.com>
-User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 12/22] target/arm: NSTable is RES0 for the RME EL3 regime
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, yier.jin@huawei.com,
+ jonathan.cameron@huawei.com, leonardo.garcia@linaro.org
+References: <20230124000027.3565716-1-richard.henderson@linaro.org>
+ <20230124000027.3565716-13-richard.henderson@linaro.org>
+ <CAFEAcA_wApEJEweyoGc_oSmyt6xcTKKRPW1X8xYkFO3agjS8jA@mail.gmail.com>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA_wApEJEweyoGc_oSmyt6xcTKKRPW1X8xYkFO3agjS8jA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,56 +96,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 09, 2023 at 10:40:30AM -0500, John Snow wrote:
-> At the moment, we look for just "python3" and "python", which is good
-> enough almost all of the time. But ... if you are on a platform that
-> uses an older Python by default and only offers a newer Python as an
-> option, you'll have to specify --python=/usr/bin/foo every time.
+On 2/10/23 01:36, Peter Maydell wrote:
+> On Tue, 24 Jan 2023 at 00:01, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Test in_space instead of in_secure so that we don't switch
+>> out of Root space.  Handle the output space change immediately,
+>> rather than try and combine the NSTable and NS bits later.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   target/arm/ptw.c | 31 ++++++++++++++-----------------
+>>   1 file changed, 14 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+>> index c1b0b8e610..ddafb1f329 100644
+>> --- a/target/arm/ptw.c
+>> +++ b/target/arm/ptw.c
+>> @@ -1240,7 +1240,6 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+>>   {
+>>       ARMCPU *cpu = env_archcpu(env);
+>>       ARMMMUIdx mmu_idx = ptw->in_mmu_idx;
+>> -    bool is_secure = ptw->in_secure;
+>>       int32_t level;
+>>       ARMVAParameters param;
+>>       uint64_t ttbr;
+>> @@ -1256,7 +1255,6 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+>>       uint64_t descaddrmask;
+>>       bool aarch64 = arm_el_is_aa64(env, el);
+>>       uint64_t descriptor, new_descriptor;
+>> -    bool nstable;
+>>
+>>       /* TODO: This code does not support shareability levels. */
+>>       if (aarch64) {
+>> @@ -1417,29 +1415,29 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+>>           descaddrmask = MAKE_64BIT_MASK(0, 40);
+>>       }
+>>       descaddrmask &= ~indexmask_grainsize;
+>> -
+>> -    /*
+>> -     * Secure accesses start with the page table in secure memory and
+>> -     * can be downgraded to non-secure at any step. Non-secure accesses
+>> -     * remain non-secure. We implement this by just ORing in the NSTable/NS
+>> -     * bits at each step.
+>> -     */
+>> -    tableattrs = is_secure ? 0 : (1 << 4);
+>> +    tableattrs = 0;
+>>
+>>    next_level:
+>>       descaddr |= (address >> (stride * (4 - level))) & indexmask;
+>>       descaddr &= ~7ULL;
+>> -    nstable = extract32(tableattrs, 4, 1);
+>> -    if (nstable && ptw->in_secure) {
+>> -        /*
+>> -         * Stage2_S -> Stage2 or Phys_S -> Phys_NS
+>> -         * Assert that the non-secure idx are even, and relative order.
+>> -         */
+>> +
+>> +    /*
+>> +     * Process the NSTable bit from the previous level.  This changes
+>> +     * the table address space and the output space from Secure to
+>> +     * NonSecure.  With RME, the EL3 translation regime does not change
+>> +     * from Root to NonSecure.
+>> +     */
 > 
-> We can be kind and instead make a cursory attempt to locate a suitable
-> Python binary ourselves, looking for the remaining well-known binaries.
+> To check my understanding, this means that the bit that the spec
+> describes as FEAT_RME changing the behaviour of NSTable in the EL3
+> stage 1 translation regime is implemented by us by having the
+> in_space for EL3 be different for FEAT_RME and not-FEAT_RME ?
+
+Correct -- space is Secure for non-RME EL3, and Root for RME EL3.
+
+>>       attrs = new_descriptor & (MAKE_64BIT_MASK(2, 10) | MAKE_64BIT_MASK(50, 14));
+>>       if (!regime_is_stage2(mmu_idx)) {
+>> -        attrs |= nstable << 5; /* NS */
 > 
-> This configure loop will prefer, in order:
-> 
-> 1. Whatever is specified in $PYTHON
-> 2. python3
-> 3. python
-> 4. python3.11 down through python3.6
+> This removes the code where we copy the NSTable bit across to attrs,
+> but there's still code below here that assumes it can get the combined
+> NS bit from bit 5 of attrs, isn't there? (It passes it to get_S1prot().)
 
-Makes sense.
+Oops.  This gets fixed in patch 14.  Some reordering needed...
 
 
->  python=
-> +first_python=
->  explicit_python=no
-> -for binary in "${PYTHON-python3}" python
-> +# A bare 'python' is traditionally python 2.x, but some distros
-> +# have it as python 3.x, so check in both places.
-> +for binary in "${PYTHON-python3}" python python3.{11..6}
-
-This does not match your commit message. If $PYTHON is set but fails,
-you never check python3.  Pre-existing, but now that you're calling it
-out as intended, it may be better to write the list prefix as:
-
-for binary in $PYTHON python3 python ...
-
-except that it mishandles $PYTHON containing space, so you want the
-quotes, but you don't want to test an empty binary or waste time
-testing python3 twice, so more precise could be:
-
-for binary in "${PYTHON-python3}" ${PYTHON:+python3} python ...
-
-Meanwhioe, your use of {11.6} is a bashism, but configure is /bin/sh.
-It would be nice if you could use $(seq -f python3.%g 11 -1 6), but
-that's probably too specific to GNU Coreutils and won't work on other
-platforms; and open-coding it in a shell loop isn't going to be any
-prettier.  So you'll be safest if you just manually spell it out:
-
-python3.11 python3.10 ...
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+r~
 
 
