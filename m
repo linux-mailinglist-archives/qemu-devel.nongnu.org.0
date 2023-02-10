@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C66691F61
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 13:57:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D02C3691FFC
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 14:44:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQSxf-0003a0-A3; Fri, 10 Feb 2023 07:57:07 -0500
+	id 1pQTgj-0007r7-Rx; Fri, 10 Feb 2023 08:43:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQSxd-0003Zk-C8
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 07:57:05 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <clopez@suse.de>) id 1pQQgb-0004fP-94
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 05:31:21 -0500
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQSxb-0007sR-SG
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 07:57:05 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- bg5-20020a05600c3c8500b003e00c739ce4so3984330wmb.5
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 04:57:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=rBGJ/ZhXy98VsBlus7Z3MhlRHFgf7EUoDXRfC8PcIpw=;
- b=zPtFjQLaG+k122FoRvxVizF0tDnponl7Rw/xkpqgSIb+cBLSn+iFMxEMyva+qEl8SL
- 8r8xJCA2wjFTvUw+u7Kr4+w3qZc+lFvP4q4hlI1rr4HQTDuNoMrhZojYae5ytgs/ie4B
- iBTbVGp4wGuq75uGxE+ZkO2zJdY9eKHXr9LW3h+k/MrgjPIzN+gtDiyRkdcZPXWFlVuh
- vLU0rzIrTphHY5DuJf0Z2PtEBQe8UuMebSEwNEp5KVJNBFHdPjHDYnpM/E8+9XUVLo8m
- GUyOwtM+nay/z/VbI2CTBo2xRQOlDqPQbSno5wYgYYK0qfnY9V+G3/4Ulg217iEnyrj/
- EPOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=rBGJ/ZhXy98VsBlus7Z3MhlRHFgf7EUoDXRfC8PcIpw=;
- b=ckZ0dDX26LiPBXd0HK9jg3QcJuFgQUZwputJNwJlE5GkvtcSBTiSyezLJ57CkE61Se
- v0KFZlS0TifdFkpCf+taJ94nUzmS/CNPlSv7pC0vfr/fjdnbBzP7vuf73OzCvBgmxctC
- 58+tDgfpsXKU32ooH9yzQao7N7I1M3K7bzkceoWyMVpQhE411+FZQj2V+edD8LRgy03D
- rBz7fzC8hPse6NvK3rFrUzlwKbTxrUpkfce6p3zBs/8PJcy2oSxPHzymWo0yMuhEpnaR
- ibuI0d+qc0gasWdHnFAV+jayvFRNmpvolsRnAbYg1XWlo2GOy7ZbbR85T3Qhwl92/PuT
- a+BQ==
-X-Gm-Message-State: AO0yUKWZLy/ibF7nbgbBfUSPwkbxt1walMVdcxPAkBN8w7O5XyH+wu8l
- QZz3XCp9PqV2kDdo8nHo7jBFvmNHw8cDVD4G
-X-Google-Smtp-Source: AK7set/MWYifCooo/yeKs2nEwqIOWeyNeAQTMwwJOFV8Y6l44/OuZf6mRM+CgJ3QcunFSkLn2U+IDw==
-X-Received: by 2002:a05:600c:16c4:b0:3df:f71b:3f68 with SMTP id
- l4-20020a05600c16c400b003dff71b3f68mr12771925wmn.39.1676033822113; 
- Fri, 10 Feb 2023 04:57:02 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- l3-20020a05600012c300b002c54911f50bsm1596725wrx.84.2023.02.10.04.57.01
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 10 Feb 2023 04:57:01 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+ (Exim 4.90_1) (envelope-from <clopez@suse.de>) id 1pQQgY-0005YQ-P1
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 05:31:20 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id AAB655CE73;
+ Fri, 10 Feb 2023 10:31:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1676025069; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ktUrLnnMcAnwwJarkW/Ld8qE3cFm+TzJ9spwOLA+Vbk=;
+ b=kdvVdfEVJe/7aSD3YUs8mjgkJtJhbZHWBwofbdJVK0O5K2ZdlqcWIQjP++4lJ9qnVf2SMf
+ HBLpXlywy9H3x6IS34P37fAEdEOUGALczSMgNWC3x972FAMVCiVWCg11l4a8n3Tr+hZG7J
+ uDzrTEZ51HjrNhV6al2yveonTfWFhqs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1676025069;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ktUrLnnMcAnwwJarkW/Ld8qE3cFm+TzJ9spwOLA+Vbk=;
+ b=UJ9j/v53lS9H58vP+96zUQ7p6+fFCE2HjpF00vAAsFg1NV8TKcjKskzfPFQCjYmI24LUF0
+ yUoh9QjWC19CvOBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3EDCD1325E;
+ Fri, 10 Feb 2023 10:31:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id SXshC+0c5mMQTAAAMHmgww
+ (envelope-from <clopez@suse.de>); Fri, 10 Feb 2023 10:31:09 +0000
+From: =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>
 To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH] target/i386: Remove pointless env_archcpu() in helper_rdmsr()
-Date: Fri, 10 Feb 2023 13:57:00 +0100
-Message-Id: <20230210125700.13474-1-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
+Cc: =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Subject: [PATCH] vhost: avoid a potential use of an uninitialized variable in
+ vhost_svq_poll()
+Date: Fri, 10 Feb 2023 11:29:16 +0100
+Message-Id: <20230210102915.8707-1-clopez@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=clopez@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 10 Feb 2023 08:43:40 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,28 +84,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We have a X86CPU *cpu pointer available at the start of the function.
+In vhost_svq_poll(), if vhost_svq_get_buf() fails due to a device
+providing invalid descriptors, len is left uninitialized and returned
+to the caller, potentally leaking stack data or causing undefined
+behavior.
 
-Inspired-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Fix this by initializing len to 0.
+
+Found with GCC 13 and -fanalyzer (abridged):
+
+../hw/virtio/vhost-shadow-virtqueue.c: In function ‘vhost_svq_poll’:
+../hw/virtio/vhost-shadow-virtqueue.c:538:12: warning: use of uninitialized value ‘len’ [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+  538 |     return len;
+      |            ^~~
+  ‘vhost_svq_poll’: events 1-4
+    |
+    |  522 | size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
+    |      |        ^~~~~~~~~~~~~~
+    |      |        |
+    |      |        (1) entry to ‘vhost_svq_poll’
+    |......
+    |  525 |     uint32_t len;
+    |      |              ~~~
+    |      |              |
+    |      |              (2) region created on stack here
+    |      |              (3) capacity: 4 bytes
+    |......
+    |  528 |         if (vhost_svq_more_used(svq)) {
+    |      |             ~
+    |      |             |
+    |      |             (4) inlined call to ‘vhost_svq_more_used’ from ‘vhost_svq_poll’
+
+    (...)
+
+    |  528 |         if (vhost_svq_more_used(svq)) {
+    |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+    |      |            ||
+    |      |            |(8) ...to here
+    |      |            (7) following ‘true’ branch...
+    |......
+    |  537 |     vhost_svq_get_buf(svq, &len);
+    |      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    |      |     |
+    |      |     (9) calling ‘vhost_svq_get_buf’ from ‘vhost_svq_poll’
+    |
+    +--> ‘vhost_svq_get_buf’: events 10-11
+           |
+           |  416 | static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
+           |      |                          ^~~~~~~~~~~~~~~~~
+           |      |                          |
+           |      |                          (10) entry to ‘vhost_svq_get_buf’
+           |......
+           |  423 |     if (!vhost_svq_more_used(svq)) {
+           |      |          ~
+           |      |          |
+           |      |          (11) inlined call to ‘vhost_svq_more_used’ from ‘vhost_svq_get_buf’
+           |
+
+           (...)
+
+           |
+         ‘vhost_svq_get_buf’: event 14
+           |
+           |  423 |     if (!vhost_svq_more_used(svq)) {
+           |      |        ^
+           |      |        |
+           |      |        (14) following ‘false’ branch...
+           |
+         ‘vhost_svq_get_buf’: event 15
+           |
+           |cc1:
+           | (15): ...to here
+           |
+    <------+
+    |
+  ‘vhost_svq_poll’: events 16-17
+    |
+    |  537 |     vhost_svq_get_buf(svq, &len);
+    |      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    |      |     |
+    |      |     (16) returning to ‘vhost_svq_poll’ from ‘vhost_svq_get_buf’
+    |  538 |     return len;
+    |      |            ~~~
+    |      |            |
+    |      |            (17) use of uninitialized value ‘len’ here
+
+Signed-off-by: Carlos López <clopez@suse.de>
 ---
- target/i386/tcg/sysemu/misc_helper.c | 2 +-
+ hw/virtio/vhost-shadow-virtqueue.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
-index e1528b7f80..e47db9376e 100644
---- a/target/i386/tcg/sysemu/misc_helper.c
-+++ b/target/i386/tcg/sysemu/misc_helper.c
-@@ -326,7 +326,7 @@ void helper_rdmsr(CPUX86State *env)
-         val = env->sysenter_eip;
-         break;
-     case MSR_IA32_APICBASE:
--        val = cpu_get_apic_base(env_archcpu(env)->apic_state);
-+        val = cpu_get_apic_base(x86_cpu->apic_state);
-         break;
-     case MSR_EFER:
-         val = env->efer;
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+index 4307296358..515ccf870d 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.c
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -522,7 +522,7 @@ static void vhost_svq_flush(VhostShadowVirtqueue *svq,
+ size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
+ {
+     int64_t start_us = g_get_monotonic_time();
+-    uint32_t len;
++    uint32_t len = 0;
+ 
+     do {
+         if (vhost_svq_more_used(svq)) {
 -- 
-2.38.1
+2.35.3
 
 
