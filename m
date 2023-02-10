@@ -2,95 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ECEE692093
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 15:13:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4015869209D
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 15:16:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQU9S-0000I5-DF; Fri, 10 Feb 2023 09:13:22 -0500
+	id 1pQUCH-0001Vc-Dz; Fri, 10 Feb 2023 09:16:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pQU9Q-0000Hp-Lv
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 09:13:20 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pQU9O-0005qo-HL
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 09:13:20 -0500
-Received: by mail-wr1-x433.google.com with SMTP id co8so1450014wrb.1
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 06:13:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=vyqv3n5VAQyCByn77+Gl8r6UPKeuA4IEsWTZ4PPephk=;
- b=QTeMsHYgrVXYg+UmT3HauNpWNGIchQ07y9wPlEf1yyRpurpwG+Qqc35YscACiyY6BW
- U70dNt+KAVk8xS6gRb4ipxQqviiQbdIwMIKyD8PfxEwjR1KUw4DvMGbQhj3Hg9XfC3HH
- hrnRmffQTDOgPIyEpHzwddvMJK+GOf2cmiIQhtq0kEjjMs+CncQz0uKS0gnsOFal/1MP
- HX3mxlMSsnqz0ONP1IVgwp+W/vfZqQV13n1mQA7FiBHY46bBp5J02YdyVH2C/xGfRy+Q
- ys/c0igvoDW/yT/SUFG3fi03o0Ie7ll7LJNmRxbeB2BvegcrrOHUblH+I64QMSgao2cH
- Pf/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vyqv3n5VAQyCByn77+Gl8r6UPKeuA4IEsWTZ4PPephk=;
- b=bVNcZ7OZeLSC+wZCP28UXArzoLGw0wKfJiMqqQx5flnKx7fQWyxf5YPFxhtRz+yrWv
- 7En7yI0D0e/cP2mhweuRLud240PQD+4c2wc+CaMNH/kzo9VebTjdzxRMRVVEEW/rifNC
- GrwSsOPRSD0cxNogQk3W0mXzaIZsiGeeXRf5TB65PkigpUbcw+NLWf9eXiroI9tBVbbR
- c2XonnjDE9Hm50voMXdUOwDkfd7rxe1n0+k5HjigbQHP5wEvbFTlrp5rRQbViVhpHOHB
- Iu8JUNeqLbjmzIUQurJQ3byrf7LCigEStnx2l7lufpbctr1x4WZEb6RagAgyTUZYQrEf
- SRzQ==
-X-Gm-Message-State: AO0yUKU+jv47Sw8a1391qHcL9igNr5Yq52ozlkArtq61Axm0IYkXH/lk
- X/FFsNQoYqS1Mk7aD2OP6P0=
-X-Google-Smtp-Source: AK7set/a/CUcm4Fip96cjlzzhti0B5cdKNyZ+YqkLjXUaFUiOb1IHyJBTvYYVC+mM+vUjB588qaI/w==
-X-Received: by 2002:adf:e7ca:0:b0:2c5:4b22:bce9 with SMTP id
- e10-20020adfe7ca000000b002c54b22bce9mr1636823wrn.47.1676038391473; 
- Fri, 10 Feb 2023 06:13:11 -0800 (PST)
-Received: from [192.168.15.58] (54-240-197-232.amazon.com. [54.240.197.232])
- by smtp.gmail.com with ESMTPSA id
- w1-20020a5d4041000000b002c546d169ddsm2205150wrp.11.2023.02.10.06.13.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Feb 2023 06:13:11 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <9c20c26e-8c7c-8ad2-a339-a30fc98c0ada@xen.org>
-Date: Fri, 10 Feb 2023 14:13:09 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v10 35/59] hw/xen: Implement EVTCHNOP_alloc_unbound
-Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
+ (Exim 4.90_1) (envelope-from
+ <BATV+4caca4848705d9bb931f+7110+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pQUCC-0001Us-Mn
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 09:16:13 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+4caca4848705d9bb931f+7110+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pQUCA-0006Lg-5z
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 09:16:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=omSMZerWOMZ3m3Td2n60JUZTHc8HjwOHF8c+9ejeyz0=; b=tVzyEQjj0tmtGpQbmmyA8jBq4Y
+ 1CBxihpbq4wz4mVhsdma2Q2g20Uw8vyqh9W+MxmXSWG8Tfquvrff7EOadvWQ2QzNqrs0ErBwu/UYn
+ +iwDTJSuW4CafPsBiRAaSwhuSA3CIJlSgt6yJ8eF/1p/lYkWzMcu8o/StctkcEHdQHB8yKlq7swJD
+ y+FEZ9v+0U9/UVr8We2QvpIiWYhfYrzkWFv5RIIdTGTyD8ksJdzWAPFopq10g5wNg/DijVEE7TEL0
+ XSTWvcgpahzbGUaxoa1gbFtirtrJPrDNvADA17cqj14GLOBAlEAMnqTFtrlh/vHqUfNg4lEw+QaNm
+ JCdZ0Jyw==;
+Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pQUBw-003AcA-57; Fri, 10 Feb 2023 14:15:56 +0000
+Message-ID: <6d690ae541c5714242d933a4b63cd6803ee63527.camel@infradead.org>
+Subject: Re: [PATCH v10 33/59] hw/xen: Implement EVTCHNOP_bind_ipi
+From: David Woodhouse <dwmw2@infradead.org>
+To: paul@xen.org, Peter Maydell <peter.maydell@linaro.org>, 
+ qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Joao Martins
+ <joao.m.martins@oracle.com>, Ankur Arora <ankur.a.arora@oracle.com>, 
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, Thomas Huth
+ <thuth@redhat.com>, Alex =?ISO-8859-1?Q?Benn=E9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>, "Dr . David
+ Alan Gilbert" <dgilbert@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Julien Grall <julien@xen.org>,  "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,  armbru@redhat.com
+Date: Fri, 10 Feb 2023 14:15:54 +0000
+In-Reply-To: <165620ad-7a99-8287-d5fa-0fd2d4b4aa6f@xen.org>
 References: <20230201143148.1744093-1-dwmw2@infradead.org>
- <20230201143148.1744093-36-dwmw2@infradead.org>
-Organization: Xen Project
-In-Reply-To: <20230201143148.1744093-36-dwmw2@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-1.149, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <20230201143148.1744093-34-dwmw2@infradead.org>
+ <165620ad-7a99-8287-d5fa-0fd2d4b4aa6f@xen.org>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-sht79OpqjxQdASGDalac"
+User-Agent: Evolution 3.44.4-0ubuntu1 
+MIME-Version: 1.0
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+4caca4848705d9bb931f+7110+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,111 +80,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 01/02/2023 14:31, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
-> 
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->   hw/i386/kvm/xen_evtchn.c  | 32 ++++++++++++++++++++++++++++++++
->   hw/i386/kvm/xen_evtchn.h  |  2 ++
->   target/i386/kvm/xen-emu.c | 15 +++++++++++++++
->   3 files changed, 49 insertions(+)
-> 
-> diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-> index a97d6ba61d..9dc5a98d94 100644
-> --- a/hw/i386/kvm/xen_evtchn.c
-> +++ b/hw/i386/kvm/xen_evtchn.c
-> @@ -835,6 +835,38 @@ int xen_evtchn_bind_ipi_op(struct evtchn_bind_ipi *ipi)
->       return ret;
->   }
->   
-> +int xen_evtchn_alloc_unbound_op(struct evtchn_alloc_unbound *alloc)
-> +{
-> +    XenEvtchnState *s = xen_evtchn_singleton;
-> +    uint16_t type_val;
-> +    int ret;
-> +
-> +    if (!s) {
-> +        return -ENOTSUP;
-> +    }
-> +
-> +    if (alloc->dom != DOMID_SELF && alloc->dom != xen_domid) {
-> +        return -ESRCH;
-> +    }
-> +
-> +    if (alloc->remote_dom == DOMID_QEMU) {
-> +        type_val = PORT_INFO_TYPEVAL_REMOTE_QEMU;
-> +    } else if (alloc->remote_dom == DOMID_SELF ||
-> +               alloc->remote_dom == xen_domid) {
-> +        type_val = 0;
-> +    } else {
-> +        return -EPERM;
-> +    }
-> +
-> +    qemu_mutex_lock(&s->port_lock);
-> +
-> +    ret = allocate_port(s, 0, EVTCHNSTAT_unbound, type_val, &alloc->port);
-> +
-> +    qemu_mutex_unlock(&s->port_lock);
-> +
-> +    return ret;
-> +}
-> +
->   int xen_evtchn_send_op(struct evtchn_send *send)
->   {
->       XenEvtchnState *s = xen_evtchn_singleton;
-> diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
-> index 500fdbe8b8..fc080138e3 100644
-> --- a/hw/i386/kvm/xen_evtchn.h
-> +++ b/hw/i386/kvm/xen_evtchn.h
-> @@ -21,11 +21,13 @@ struct evtchn_unmask;
->   struct evtchn_bind_virq;
->   struct evtchn_bind_ipi;
->   struct evtchn_send;
-> +struct evtchn_alloc_unbound;
->   int xen_evtchn_status_op(struct evtchn_status *status);
->   int xen_evtchn_close_op(struct evtchn_close *close);
->   int xen_evtchn_unmask_op(struct evtchn_unmask *unmask);
->   int xen_evtchn_bind_virq_op(struct evtchn_bind_virq *virq);
->   int xen_evtchn_bind_ipi_op(struct evtchn_bind_ipi *ipi);
->   int xen_evtchn_send_op(struct evtchn_send *send);
-> +int xen_evtchn_alloc_unbound_op(struct evtchn_alloc_unbound *alloc);
->   
->   #endif /* QEMU_XEN_EVTCHN_H */
-> diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-> index 5299614d3c..e186dec9a9 100644
-> --- a/target/i386/kvm/xen-emu.c
-> +++ b/target/i386/kvm/xen-emu.c
-> @@ -918,6 +918,21 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit, X86CPU *cpu,
->           err = xen_evtchn_send_op(&send);
->           break;
->       }
-> +    case EVTCHNOP_alloc_unbound: {
-> +        struct evtchn_alloc_unbound alloc;
-> +
-> +        qemu_build_assert(sizeof(alloc) == 8);
 
-Why?
+--=-sht79OpqjxQdASGDalac
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-   Paul
+On Fri, 2023-02-10 at 13:55 +0000, Paul Durrant wrote:
+>=20
+> > +=C2=A0=C2=A0=C2=A0 ret =3D allocate_port(s, ipi->vcpu, EVTCHNSTAT_ipi,=
+ 0, &ipi->port);
+> > +=C2=A0=C2=A0=C2=A0 if (!ret && s->evtchn_in_kernel) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 assign_kernel_port(EVTCHNST=
+AT_ipi, ipi->port, ipi->vcpu);
+>=20
+> Should the error not be propagated here?
 
-> +        if (kvm_copy_from_gva(cs, arg, &alloc, sizeof(alloc))) {
-> +            err = -EFAULT;
-> +            break;
-> +        }
-> +
-> +        err = xen_evtchn_alloc_unbound_op(&alloc);
-> +        if (!err && kvm_copy_to_gva(cs, arg, &alloc, sizeof(alloc))) {
-> +            err = -EFAULT;
-> +        }
-> +        break;
-> +    }
->       default:
->           return false;
->       }
 
+Nah, we'll just fall back to doing it in userspace.
+
+The kernel acceleration is nice to have (and I mean *really* nice to
+have, for IPIs), but it works without.
+
+--=-sht79OpqjxQdASGDalac
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMjEwMTQxNTU0WjAvBgkqhkiG9w0BCQQxIgQgnOTxNB6G
+P6uWzDDWw5MupjGNJ+lgkBKPPHzOYIqUqQ8wgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBKUh6l16PrbHMEiPb0ls5UuGWbR1JT0ORe
+5KAPrtlr3ZvJehKzBeOKB/pe9F70W4pqKzo5sM//va+xrSP0IbsExFZAnKmEBfaPrxuH9kARM8XI
+2SLQmN0PHqXwHhHiAeZXRRZYWPBh3fi/KqilXjU/2wg9C48F2CNskpIybT7Mb/U2vd8HDzQeWJa3
+zNcbiODnTcqcujEt1POSUpAQTFuqaWvFtBoEfwB2EqsSEv9p3NZDdffXE/idpAsJj0jZ94zbN7wI
+dC5mVf0A/i2PG/pbxyN5fcZDwsT2U187+8b/o51uvwx8crkbYGGkP7XrM8Z9csLRYDMw9T9Yo9yB
+/1vlSR0saPaFu8JMVEo+Z0Fkge6KsuUJgYyME3srm3Jazh7ez+XQ4iw4YteLtcbxzPqUWdR0iASq
+f9SwFWy16E0B6x616j4tLd5gHIQ++8bUsib7xXwXAHHdJjnU6MwM5vx4HrdCQtwnra08TQJchxHY
+mn8Hr91amxj7tKT5l4g9vHovnrZcyx3ClN4ExHOpO6k7qiM8X3c87PO9Z5IktVhkVyiqp/YKEug1
+EkSJ1HObbpgoBtX7Ojw/XB9KPwbWQq3ZQ/Yx+EuzBKxisbtE8hLBh5rQYmMXGkeLnlne08EXdgP1
+ZKsIGj9BmjUa4+YTMYG8co6cxx/TM0itYpV1v/IXEwAAAAAAAA==
+
+
+--=-sht79OpqjxQdASGDalac--
 
