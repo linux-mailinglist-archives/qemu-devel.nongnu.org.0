@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCBE369158A
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 01:33:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8364C691584
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 01:33:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQHKZ-0001Q5-Ml; Thu, 09 Feb 2023 19:31:59 -0500
+	id 1pQHKb-0001RV-54; Thu, 09 Feb 2023 19:32:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQHKW-0001O1-OL
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 19:31:56 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQHKY-0001P7-F4
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 19:31:58 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQHKT-0001dt-Gb
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 19:31:56 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQHKU-0001eU-Ht
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 19:31:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675989112;
+ s=mimecast20190719; t=1675989114;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=zpc7elwnoNJPYSftblMgwXaNQ2QvlvKWAxVYfrjuheY=;
- b=ILR6O948tpfUc5KEerm12lgO7eOtwWayO5LMKpSYYvcY7M98xofYjRLWxyZJnmIgMW6Oi5
- W7FdUC3GRrL+eN8/XnpQgQBOMzBZXBFemDbi051CUm9GSUuZJCFaG8j+0jM/A+k1fwWEtE
- BL7c6jw1u2Y2lLh8J0MVoHtJ6Uy+xnw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CxBJgQP8hyYfa3hpHF5QONrR/RKO9zw67w0iNrZpmgA=;
+ b=VBDUSpLZ1Z2/jXFrg4J+fft1k695OcEfiDpzXKCzsDnrKiJncCrcjG8JOs1pj39lyUw7Rc
+ 3nhO7fWXgPzv3ZVPFQr5B208fmkKW2/KgTFmDIE4ZhLbKktCB5iAJFCq7OTnAOB0x/57yg
+ yNR5MCJyGOYxysoOOjxz56nsLh8+i9k=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-261-xcI5tYYfPB6sIG2j8iH4QQ-1; Thu, 09 Feb 2023 19:31:49 -0500
-X-MC-Unique: xcI5tYYfPB6sIG2j8iH4QQ-1
+ us-mta-127-UYawN0PSMWqbjxdO-uCJcA-1; Thu, 09 Feb 2023 19:31:49 -0500
+X-MC-Unique: UYawN0PSMWqbjxdO-uCJcA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A05401C04B64;
- Fri, 10 Feb 2023 00:31:48 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 42D76802314;
+ Fri, 10 Feb 2023 00:31:49 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0BD8018EC1;
- Fri, 10 Feb 2023 00:31:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE68918EC1;
+ Fri, 10 Feb 2023 00:31:48 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
@@ -51,12 +52,14 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
  qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Kevin Wolf <kwolf@redhat.com>
-Subject: [PATCH v2 0/7] Python: Drop support for Python 3.6
-Date: Thu,  9 Feb 2023 19:31:40 -0500
-Message-Id: <20230210003147.1309376-1-jsnow@redhat.com>
+Subject: [PATCH v2 1/7] python: support pylint 2.16
+Date: Thu,  9 Feb 2023 19:31:41 -0500
+Message-Id: <20230210003147.1309376-2-jsnow@redhat.com>
+In-Reply-To: <20230210003147.1309376-1-jsnow@redhat.com>
+References: <20230210003147.1309376-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -82,81 +85,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Howdy, this series increases our minimum python version to 3.7.=0D
-=0D
-CI: https://gitlab.com/jsnow/qemu/-/pipelines/771780626=0D
-    (All green!)=0D
-GL: https://gitlab.com/jsnow/qemu/-/commits/python-require-37=0D
-=0D
-Patches 1 and 2 are loose pre-requisites; I'd like to merge them into=0D
-qemu.git within the week whether or not we take this series. I'd=0D
-appreciate an "ACK" on those specifically. They're just riding along=0D
-here because they make this series a bit nicer.=0D
-=0D
-Patches 3-6 are the hard pre-requisites, and 7 does the dirty work.=0D
-=0D
-The motivation for this series is that Python 3.6 was EOL at the end of=0D
-2021; upstream tools are beginning to drop support for it, including=0D
-setuptools, pylint, mypy, etc. As time goes by, it becomes more=0D
-difficult to support and test against the full range of Python versions=0D
-that QEMU supports. The closer we get to Python 3.12, the harder it will=0D
-be to cover that full spread of versions.=0D
-=0D
-The qemu.qmp library and the avocado testing framework both have=0D
-motivations for dropping 3.6 support, but are committed to not doing so=0D
-until QEMU drops support.=0D
-=0D
-So, I'd like to talk about doing it.=0D
-=0D
-V2:=0D
-- Added R-Bs to patch 1=0D
-- Updated commit message for patch 7 with explicit version info=0D
-- Added DO-NOT-MERGE to patch 5's title=0D
-- Tested tests/vm/freebsd, netbsd, and openbsd in addition to full CI=0D
-=0D
-RFC:=0D
- - Patch 5 is just a proof-of-concept; we need to update lcitool instead.=0D
- - Cleber, I need to update your ansible scripts. How do I test them?=0D
-=0D
-Thanks!=0D
---js=0D
-=0D
-John Snow (7):=0D
-  python: support pylint 2.16=0D
-  python: drop pipenv=0D
-  configure: Look for auxiliary Python installations=0D
-  configure: Add nice hint to Python failure message=0D
-  DO-NOT-MERGE: testing: Add Python >=3D 3.7 to Centos, OpenSuSE=0D
-  CI: Stop building docs on centos8=0D
-  Python: Drop support for Python 3.6=0D
-=0D
- docs/conf.py                                  |   4 +-=0D
- python/README.rst                             |   3 -=0D
- configure                                     |  40 +-=0D
- .gitlab-ci.d/buildtest.yml                    |   2 +-=0D
- .gitlab-ci.d/static_checks.yml                |   4 +-=0D
- python/.gitignore                             |   4 +-=0D
- python/Makefile                               |  57 ++-=0D
- python/Pipfile                                |  13 -=0D
- python/Pipfile.lock                           | 347 ------------------=0D
- python/qemu/qmp/protocol.py                   |   2 +-=0D
- python/qemu/qmp/qmp_client.py                 |   2 +-=0D
- python/qemu/utils/qemu_ga_client.py           |   6 +-=0D
- python/setup.cfg                              |  11 +-=0D
- python/tests/minreqs.txt                      |  45 +++=0D
- scripts/qapi/mypy.ini                         |   2 +-=0D
- tests/docker/dockerfiles/centos8.docker       |   1 +=0D
- tests/docker/dockerfiles/opensuse-leap.docker |   1 +=0D
- tests/docker/dockerfiles/python.docker        |   1 -=0D
- tests/qemu-iotests/iotests.py                 |   4 +-=0D
- .../tests/migrate-bitmaps-postcopy-test       |   2 +-=0D
- 20 files changed, 135 insertions(+), 416 deletions(-)=0D
- delete mode 100644 python/Pipfile=0D
- delete mode 100644 python/Pipfile.lock=0D
- create mode 100644 python/tests/minreqs.txt=0D
-=0D
--- =0D
-2.39.0=0D
-=0D
+Pylint 2.16 adds a few new checks that cause the optional check-tox CI
+job to fail.
+
+1. The superfluous-parens check seems to be a bit more aggressive,
+2. broad-exception-raised is new; it discourages "raise Exception".
+
+Fix these minor issues and turn the lights green.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Beraldo Leal <bleal@redhat.com>
+---
+ python/qemu/qmp/protocol.py                            | 2 +-
+ python/qemu/qmp/qmp_client.py                          | 2 +-
+ python/qemu/utils/qemu_ga_client.py                    | 6 +++---
+ tests/qemu-iotests/iotests.py                          | 4 ++--
+ tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test | 2 +-
+ 5 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/python/qemu/qmp/protocol.py b/python/qemu/qmp/protocol.py
+index 6d3d739daa7..22e60298d28 100644
+--- a/python/qemu/qmp/protocol.py
++++ b/python/qemu/qmp/protocol.py
+@@ -207,7 +207,7 @@ class AsyncProtocol(Generic[T]):
+     logger = logging.getLogger(__name__)
+ 
+     # Maximum allowable size of read buffer
+-    _limit = (64 * 1024)
++    _limit = 64 * 1024
+ 
+     # -------------------------
+     # Section: Public interface
+diff --git a/python/qemu/qmp/qmp_client.py b/python/qemu/qmp/qmp_client.py
+index b5772e7f32b..9d73ae6e7ad 100644
+--- a/python/qemu/qmp/qmp_client.py
++++ b/python/qemu/qmp/qmp_client.py
+@@ -198,7 +198,7 @@ async def run(self, address='/tmp/qemu.socket'):
+     logger = logging.getLogger(__name__)
+ 
+     # Read buffer limit; 10MB like libvirt default
+-    _limit = (10 * 1024 * 1024)
++    _limit = 10 * 1024 * 1024
+ 
+     # Type alias for pending execute() result items
+     _PendingT = Union[Message, ExecInterruptedError]
+diff --git a/python/qemu/utils/qemu_ga_client.py b/python/qemu/utils/qemu_ga_client.py
+index 8c38a7ac9c0..d8411bb2d0b 100644
+--- a/python/qemu/utils/qemu_ga_client.py
++++ b/python/qemu/utils/qemu_ga_client.py
+@@ -155,7 +155,7 @@ def ping(self, timeout: Optional[float]) -> bool:
+ 
+     def fsfreeze(self, cmd: str) -> object:
+         if cmd not in ['status', 'freeze', 'thaw']:
+-            raise Exception('Invalid command: ' + cmd)
++            raise ValueError('Invalid command: ' + cmd)
+         # Can be int (freeze, thaw) or GuestFsfreezeStatus (status)
+         return getattr(self.qga, 'fsfreeze' + '_' + cmd)()
+ 
+@@ -167,7 +167,7 @@ def fstrim(self, minimum: int) -> Dict[str, object]:
+ 
+     def suspend(self, mode: str) -> None:
+         if mode not in ['disk', 'ram', 'hybrid']:
+-            raise Exception('Invalid mode: ' + mode)
++            raise ValueError('Invalid mode: ' + mode)
+ 
+         try:
+             getattr(self.qga, 'suspend' + '_' + mode)()
+@@ -178,7 +178,7 @@ def suspend(self, mode: str) -> None:
+ 
+     def shutdown(self, mode: str = 'powerdown') -> None:
+         if mode not in ['powerdown', 'halt', 'reboot']:
+-            raise Exception('Invalid mode: ' + mode)
++            raise ValueError('Invalid mode: ' + mode)
+ 
+         try:
+             self.qga.shutdown(mode=mode)
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 94aeb3f3b20..3e82c634cfe 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -720,7 +720,7 @@ def __exit__(self, exc_type, value, traceback):
+         signal.setitimer(signal.ITIMER_REAL, 0)
+         return False
+     def timeout(self, signum, frame):
+-        raise Exception(self.errmsg)
++        raise TimeoutError(self.errmsg)
+ 
+ def file_pattern(name):
+     return "{0}-{1}".format(os.getpid(), name)
+@@ -804,7 +804,7 @@ def remote_filename(path):
+     elif imgproto == 'ssh':
+         return "ssh://%s@127.0.0.1:22%s" % (os.environ.get('USER'), path)
+     else:
+-        raise Exception("Protocol %s not supported" % (imgproto))
++        raise ValueError("Protocol %s not supported" % (imgproto))
+ 
+ class VM(qtest.QEMUQtestMachine):
+     '''A QEMU VM'''
+diff --git a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
+index fc9c4b4ef41..dda55fad284 100755
+--- a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
++++ b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
+@@ -84,7 +84,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+                 e['vm'] = 'SRC'
+             for e in self.vm_b_events:
+                 e['vm'] = 'DST'
+-            events = (self.vm_a_events + self.vm_b_events)
++            events = self.vm_a_events + self.vm_b_events
+             events = [(e['timestamp']['seconds'],
+                        e['timestamp']['microseconds'],
+                        e['vm'],
+-- 
+2.39.0
 
 
