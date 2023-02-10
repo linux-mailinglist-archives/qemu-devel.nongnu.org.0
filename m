@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06C98691D06
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 11:39:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FD2A691D0C
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 11:42:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQQnh-0007Nt-Jw; Fri, 10 Feb 2023 05:38:42 -0500
+	id 1pQQqq-0000Sc-Lb; Fri, 10 Feb 2023 05:41:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pQQnS-0007MI-7y
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 05:38:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pQQnQ-0007Z4-5y
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 05:38:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676025502;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=o7vgTnGymwWG8MToQqGZ4FoWij6p7czkIhFvV6LzVzM=;
- b=Ngrv8UTrhozgXrrfvdzXXo7NIb6KEc/HElfx5P5TDv4Bi0eV7KVzNC53fYM1H+47QetQYB
- ptDKUeFEM6Vphi7l69xs0peJTNUDG94yf4NCf58tTGmRsG/OugwlME72QjfDgBTSPW5pA7
- QLPZb34rRa8KO3DDLyMGdSIVB0eRJoo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-210-L1aL80eCOdKcAXc_oC1m_Q-1; Fri, 10 Feb 2023 05:38:19 -0500
-X-MC-Unique: L1aL80eCOdKcAXc_oC1m_Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C51373C0E460;
- Fri, 10 Feb 2023 10:38:18 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.76])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D4D1140EBF4;
- Fri, 10 Feb 2023 10:38:16 +0000 (UTC)
-Date: Fri, 10 Feb 2023 10:38:13 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- Beraldo Leal <bleal@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH 5/7] testing: Add Python >= 3.7 to Centos, OpenSuSE
-Message-ID: <Y+YelalmW43ePE53@redhat.com>
-References: <20230209154034.983044-1-jsnow@redhat.com>
- <20230209154034.983044-6-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pQQqX-0000RH-JY
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 05:41:37 -0500
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pQQqW-00006N-1G
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 05:41:37 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id u9so6021330plr.9
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 02:41:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1676025694;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=vZs7WaUOHF7l8G5R1+wZSqhhz5Yh8+TVj1k5ZiESzb0=;
+ b=GMkO9yDSSEnzaTRM/7Xyb6S53MC0xoyMWDBuQkBucWqUHNvXuP8S2gfVlu+IAag6y7
+ Inynd6aOONNEbHNPPgk9j/NSCrxaGyNZWYtVdyrlxjTyK3033uqoFE9MM/Ybke9sOh5C
+ 6bA+GbG39vYaYpBG3ruiSFHJxhu0nNedCYOFQ7BVGlI4HUWexUWtIndUuL4Jb1YTEf74
+ AZvxHu5YwyCbYwku852pfHA0rT/F1nmv6B/K92ZHymJ6iUMb1MrsfkBjUuL2vd7zLfb5
+ SAQyKQzma/T6TiyVSU/4rDgXjGppqfD9aMEAZ74Zua0D8LnZEnbAKZZKQqSbXUjukv52
+ n2VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1676025694;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vZs7WaUOHF7l8G5R1+wZSqhhz5Yh8+TVj1k5ZiESzb0=;
+ b=tAOG0Mxkx1WjA/PdHvvHeqiITvQIzme4WoHkFvoSlo4o7aDeMLufXTWwUyHwhbubm6
+ X/GNH1DsInDfEXx0jA9SUyiPMXCAsbMHIHrEfhqijmuScia2tnX8UYcC/U5E4eNreMqm
+ 3z4fKn2VCPesqAQM6MX1YVrlCukOztgW5eGbMZ4ymcg0CLsAmf+27wUNOoYKbzzc6/Zv
+ 3AOl5YvUX+gqV5WyeC4hTwYUyYNnqxU0HtNKkEczVEVXNwjZdc9pbMPk4oQIXZJuu9ff
+ mhHaXA1M1m2MScVZxcpPowdVdu9uNns2bKxF9yD3okKFhq9fAGM/o25+hCfpXbbGXSqA
+ aYIg==
+X-Gm-Message-State: AO0yUKUijzz67bGVWAXTaBJ4FBV8Z1/dd0bzhTJSVJNT3qkvjYs0TQ+C
+ ZXQK9iUq3SF2ChNIf4L++hsoJtXajLtzzwyO9wNk6A==
+X-Google-Smtp-Source: AK7set/oLpdJb7c63Ht4PGMZCQmIiwVUob5dqtQT2LU7XsjfU9BwYWPML93e7ObYpxCLVWD9hIrTuUGQLX9KvdcE8KY=
+X-Received: by 2002:a17:902:ec8b:b0:19a:75da:ab4 with SMTP id
+ x11-20020a170902ec8b00b0019a75da0ab4mr223447plg.9.1676025694342; Fri, 10 Feb
+ 2023 02:41:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230209154034.983044-6-jsnow@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230210003147.1309376-1-jsnow@redhat.com>
+ <20230210003147.1309376-7-jsnow@redhat.com>
+In-Reply-To: <20230210003147.1309376-7-jsnow@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Feb 2023 10:41:23 +0000
+Message-ID: <CAFEAcA-c5y0TR8vYg_FYEmGv3mOOmBgeD0cyb+mVotsP=r-Dsw@mail.gmail.com>
+Subject: Re: [PATCH v2 6/7] CI: Stop building docs on centos8
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,29 +89,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 09, 2023 at 10:40:32AM -0500, John Snow wrote:
-> This is just a proof-of-concept patch, as these files are lcitool
-> generated. The real fix will involve updating the lcitool configuration
-> and updating these files that way.
+On Fri, 10 Feb 2023 at 00:31, John Snow <jsnow@redhat.com> wrote:
+>
+> CentOS 8 does not ship with a sphinx new enough for our purposes (It
+> necessarily uses Python 3.6), so drop this from this build. We can
+> resume building docs on CentOS 9 if we wish, but we also currently test
+> and build docs on Fedora, Ubuntu, Alpine and Debian.
 
-Paolo has been working on this
+This confuses me. We work fine with Python 3.6 today.
+Either:
+ * CentOS 8 has fallen off the end of our "supported build platforms"
+   list -- if so, we don't need to be CI'ing anything on it.
+ * CentOS 8 is still a supported platform -- in this case building
+   the docs is something we need to continue to support, and we
+   can't drop Python 3.6 until all of our supported build
+   platforms have a newer Python available.
 
-  https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg03547.html
-
-though I requested we adapt it a little:
-
-  https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg02237.html
-  https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg02239.html
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
