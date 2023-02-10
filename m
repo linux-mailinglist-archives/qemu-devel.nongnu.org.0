@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCB3069225D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 16:36:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D23E969228D
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 16:45:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQVRF-0007Sp-Ll; Fri, 10 Feb 2023 10:35:49 -0500
+	id 1pQVZZ-0002oF-UB; Fri, 10 Feb 2023 10:44:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQVRC-0007SY-Ob
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 10:35:46 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQVRA-000529-Nm
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 10:35:46 -0500
-Received: by mail-wm1-x331.google.com with SMTP id n13so4088035wmr.4
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 07:35:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=jHgdmBRHVjGTYPD9Y0o8gLfGeHL7CZKVv4AeFHMIbvg=;
- b=oaQS9xmyOaAl0WW8px7NLNl5f89y1sXQEKGozrDyFvE+dFpqhZxIQH8bjXEeC9Bb3y
- /V9Io174rTldFCBnsAC0L5AcQADSdoHQJmJAOMJZW2tGE/2OG95zQJRIvaqYkXl+CpMB
- +F4Gn+heoet72CQKxZ7bTU4b+9X98Iqd0ws14ZSVUIj5z15QgSCWROHlkhxjxs+FZB9k
- jahLcCZvlRkIpljdJMrwPfucv+zwAjLJExAjz8H+AvYIrg948PseJwz48a0dYdZM9Z+2
- y8to9b+Y4ZQ+fEMus6dYmdyIVFN0UKDOd+VXgQKXYLPPY7ZnZ4iq8MCsGTepLqWNXF7C
- ZKxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jHgdmBRHVjGTYPD9Y0o8gLfGeHL7CZKVv4AeFHMIbvg=;
- b=BCxIVh8hzDTmu3QZvTFnutlB72yrWIDOQdhxJNwcbdmgFVo6iHtsan+2niCtJFcnwU
- MukWRWw9UlS3+Xx228e1q6nyWe5KK6UdsouD8iV9M/ePI0JrOrJcrmcylOm5n/sO5VeI
- j8d3OytfLtaFfVvQDCvIaPXDglmWH/1ZRPbDQtNLSqvQJSXsv8uZm/u7ToRDaW6/YjqW
- lkuMRXaL3TNc1egOwD+DkHgyPau3T2wvrMocbUNiWvVvKKrSDYODjcX44zGLkMj/KekH
- PN9NQoQ1jZ3LjVoXA7hCLSZL2NYgd7VqsI4fJEMRxgk8YRfoe6riMvzGsTqkR3ZXrcyR
- hD8A==
-X-Gm-Message-State: AO0yUKXg2Ezy7dZsoAFnpulXvNWY1hpXe+/W+D02pHYzFKR1H+ASYSnv
- I6LirPa5rY0Qf/Bbm5JZdO7LYQ==
-X-Google-Smtp-Source: AK7set/PfKRHR4bUnjuF7p9kH9ZUIsiBWFPjzVbI20JAHIV4WIIdfkbn7ZK1GfKeC3HG6pLbV2/UgQ==
-X-Received: by 2002:a05:600c:9a2:b0:3dc:576c:ab07 with SMTP id
- w34-20020a05600c09a200b003dc576cab07mr13088960wmp.14.1676043342728; 
- Fri, 10 Feb 2023 07:35:42 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- l40-20020a05600c1d2800b003dd1b00bd9asm6263016wms.32.2023.02.10.07.35.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Feb 2023 07:35:42 -0800 (PST)
-Message-ID: <957c3a01-a39e-f967-ac35-f73bb8e2063d@linaro.org>
-Date: Fri, 10 Feb 2023 16:35:40 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQVZX-0002ny-JW
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 10:44:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQVZV-0006SR-IN
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 10:44:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676043860;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uI4d0JQ2YR8owrwq7q25+R1RLKwG/nIEgPpWwzQSIXc=;
+ b=gl8DqhfK+PyoHUXfbnj6d0Q39wdsSBNtiNrIP4BvbyljKIf0G/wZDYgTjxnvD384qkFyzf
+ xPa3UwYGTp1XnLIfpI4MdlZ0vhXgFnqmeNHAPDrD0qXwLP2CPbBBoncICaRwQmDBqAp2lT
+ rzGEtLZPezC5cPzdtO4Lv9TPWvq23Rk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-554-SLuM8bybM_aXbeiwY9mQwQ-1; Fri, 10 Feb 2023 10:44:19 -0500
+X-MC-Unique: SLuM8bybM_aXbeiwY9mQwQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C9192857F4E;
+ Fri, 10 Feb 2023 15:44:18 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A1952140EBF4;
+ Fri, 10 Feb 2023 15:44:18 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8F22421E6A1F; Fri, 10 Feb 2023 16:44:17 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org,  Michael Roth <michael.roth@amd.com>
+Subject: Re: [PATCH v3 4/7] qapi/expr: add typing workaround for AbstractSet
+References: <20230209184758.1017863-1-jsnow@redhat.com>
+ <20230209184758.1017863-5-jsnow@redhat.com>
+Date: Fri, 10 Feb 2023 16:44:17 +0100
+In-Reply-To: <20230209184758.1017863-5-jsnow@redhat.com> (John Snow's message
+ of "Thu, 9 Feb 2023 13:47:55 -0500")
+Message-ID: <87sffd5xv2.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: Byte-swapping issue on qemu-user for sparc64 guest
-Content-Language: en-US
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <d7002aa7ea4bc165e51b84fc5e591f03d8a9d29d.camel@physik.fu-berlin.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <d7002aa7ea4bc165e51b84fc5e591f03d8a9d29d.camel@physik.fu-berlin.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,39 +79,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/2/23 16:23, John Paul Adrian Glaubitz wrote:
-> Hi!
-> 
-> There is an unaddressed issue in qemu-user [1] which results in getresuid()
-> returning an incorrect UID due to a byte-swapping issue on sparc64.
-> 
-> This issue is fixed by the patch below which was suggested by Phillippe
-> Mathieu-Daudé, but the corresponding line [2] has not been patched yet.
-> 
-> Could anyone step up and fix the bug?
+John Snow <jsnow@redhat.com> writes:
 
-Sorry Adrian, this is in my TODO list, but I couldn't find the time to
-write a good commit description to this fix yet :~(
+> mypy can only narrow the type of `Mapping[str, ...].keys() & Set[str]`
+> to `AbstractSet[str]` and not a `Set[str]`. As a result, if the type of
+> an expression is changed to a Mapping[], mypy is unsure if the .pop() is
+> safe.
+>
+> A forthcoming commit does exactly that, so wrap the expression in a
+> set() constructor to force the intermediate expression to be resolved as
+> a mutable type.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi/expr.py | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+> index b56353bdf84..af802367eff 100644
+> --- a/scripts/qapi/expr.py
+> +++ b/scripts/qapi/expr.py
+> @@ -622,8 +622,8 @@ def check_expr(expr_elem: _JSONObject) -> None:
+>      if 'include' in expr:
+>          return
+>  
+> -    metas = expr.keys() & {'enum', 'struct', 'union', 'alternate',
+> -                           'command', 'event'}
+> +    metas = set(expr.keys() & {
+> +        'enum', 'struct', 'union', 'alternate', 'command', 'event'})
+>      if len(metas) != 1:
+>          raise QAPISemError(
+>              info,
+                   "expression must have exactly one key"
+                   " 'enum', 'struct', 'union', 'alternate',"
+                   " 'command', 'event'")
+           meta = metas.pop()
 
-> Thanks,
-> Adrian
-> 
-> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-> index 77864de57f..4d4b4a22e8 100644
-> --- a/linux-user/syscall_defs.h
-> +++ b/linux-user/syscall_defs.h
-> @@ -61,7 +61,7 @@
->    
->    #if (defined(TARGET_I386) && defined(TARGET_ABI32)) \
->        || (defined(TARGET_ARM) && defined(TARGET_ABI32)) \
-> -     || defined(TARGET_SPARC) \
-> +     || (defined(TARGET_SPARC) && defined(TARGET_ABI32)) \
->        || defined(TARGET_M68K) || defined(TARGET_SH4) || defined(TARGET_CRIS)
->        /* 16 bit uid wrappers emulation */
->    #define USE_UID16
-> 
->> [1] https://gitlab.com/qemu-project/qemu/-/issues/1394
->> [2] https://gitlab.com/qemu-project/qemu/-/blob/master/linux-user/syscall_defs.h#L64
-> 
+I'm mildly surprised that the result of operator & is considered
+immutable.  How could it *not* be a freshly created set?  Oh well.
+
+Passing a set to set() is a no-op, so
+
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+
+Regardless, the code feels a bit too clever to me.  It actually did
+already when I wrote it, but I the less clever ways I could think of
+were also much more verbose.
+
+The code checks that exactly one of a set of keys is present, and which
+one it is.  Any ideas?
 
 
