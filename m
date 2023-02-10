@@ -2,116 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93AFE69212D
+	by mail.lfdr.de (Postfix) with ESMTPS id 3653D69212C
 	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 15:55:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQUn0-0005uO-GG; Fri, 10 Feb 2023 09:54:14 -0500
+	id 1pQUnP-00065Z-U8; Fri, 10 Feb 2023 09:54:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <webczat@outlook.com>)
- id 1pQUmy-0005u0-0N
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 09:54:12 -0500
-Received: from mail-bn7nam10olkn2033.outbound.protection.outlook.com
- ([40.92.40.33] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <webczat@outlook.com>)
- id 1pQUmv-00051h-UP
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 09:54:11 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Yx2xuAfHfcGra6yiuUBKrv6WGoEsnmqvP+mZf6cluT8hyUQQ+nN3kQHHOPDI6HDcgbKBSwvFj5Eyu/znmO9bf71h7Sz3cmCK0fEn/4UTwhAyPwvxxhMd3ZjtEq6vDkle3mYI5MRQm6O0ZnxqX00UmrWRW4e0j87j77g/20hfFiw6cw2EjfYccmrOu5df8JCxrTd0KWKdqdZ46NyoE3sKa7waLJEcCucw0T4sx7rmjvlCEggnUXnM2SC4if3Xnxj83pcJ3RCGtNrLjzoVNt9mo9jEaEnSiLp4c6n3K1DwWMPCSsbtWmKEk+Y52aAKpOWNREMn5Xs2nt7VHbnGRQkfhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sBVw/YdDcChPx1fqCxllZyHzk/dW4E+JTKmKmb5/mQI=;
- b=UAhOX60rJZ/HM4x0GVdK3IPNFjJnTcDJGd3Mtm69nK4Q3W4DPmgTWFFVgPrXOPN2S6qWbduiXhsl87aU3j2Z3mC7GaLn1CcqFBVSb1htmod2e67YbYIG/QS5eXh7p7txgCiUF0w9qZtPmwMqDQch6LppBeE/YtbE9GX4KCml2ZTNPv4io0oOALFC0XZS8hzIoOPO8owx7tDWnTAwwI5n1TxQca08E8AeUN1HyR0yTa/6Z7Enr83U50mTC6VUnxS63Pqj4Pi3D+VDB20Q7rbdIBjBLkJ6bGgx99BWgOKtYPfjLJizPxEXkT+vL0X6KApyDWxnhxttDL2t5+d0YxIoiw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sBVw/YdDcChPx1fqCxllZyHzk/dW4E+JTKmKmb5/mQI=;
- b=jf/h/sMRjmbav1JEOJYlFWRWsXW6L7C/fU6DCFkHTX+7/ap/ipJxmdOcjrM4In6Qu+uZc7kAZKLM5vFCiLgsXo0OeoNnH2WWVyw8R27DHLR+nn1OYafO1tArzAGtm/IuKuiFj9Zxfuyx46kbWQxIBwq/CgHjobp4fx4HNIAMu47zm+yMmdpXwprE5+RqR9we4Abav0Y0W2UIbMoQso22Za0kSDr8pLTdHp7/3ATYzUu9cTKPnYzQSOBl2JrhHEIhvm+xLn6w9wgwU+8iqSck4499+yFd6e1x5KzFFUhcDCjPOwnFO9foGUOm1wbpBOfmdUdbQ563xkCtzzj8LNeiEw==
-Received: from BYAPR12MB3014.namprd12.prod.outlook.com (2603:10b6:a03:d8::11)
- by BL1PR12MB5317.namprd12.prod.outlook.com (2603:10b6:208:31f::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.21; Fri, 10 Feb
- 2023 14:49:02 +0000
-Received: from BYAPR12MB3014.namprd12.prod.outlook.com
- ([fe80::a666:b29d:dedf:c853]) by BYAPR12MB3014.namprd12.prod.outlook.com
- ([fe80::a666:b29d:dedf:c853%7]) with mapi id 15.20.6086.017; Fri, 10 Feb 2023
- 14:49:02 +0000
-Message-ID: <BYAPR12MB301412EC9E732167345922F2A0DE9@BYAPR12MB3014.namprd12.prod.outlook.com>
-Date: Fri, 10 Feb 2023 15:48:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pQUnN-000658-Qf
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 09:54:37 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pQUnL-00056L-FR
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 09:54:37 -0500
+Received: by mail-wr1-x431.google.com with SMTP id co8so1576058wrb.1
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 06:54:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=MHYx6/XJNHeqvGdyUtlD7LsYlEPTsCrmiHtW3RmbCeM=;
+ b=oSJY8PvLIqDL+5lma4SIUMI7LLQphCmrnzHJ+ZLyQTckE8vuSTzOn7zOd+kMGpCKY2
+ 4DRYZwi/akqTK+irabmFNAyDpe+Yx/N6J/JuI3OokFHKGm1fIp/+1vRom6sZI21kABi3
+ 08SUZcfvR6uW2TzhT/r6VEPl9qPj5FurkOAFY1dRNu5TmK7grMmn1NRjqizyEVGfRonJ
+ wcAKJm0X13uMFV3wqiw0IQloOnc9T1X8r+DLwVAH9e8S+vBMIZ4yjbSy/c7ddyoB0Pd7
+ CMijuipAt6k7kPo6jD8ybbJIcvu6metkY3bPjNnpawpSo0d9IOXQsgQHjRrhFSFxYQfA
+ gRzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MHYx6/XJNHeqvGdyUtlD7LsYlEPTsCrmiHtW3RmbCeM=;
+ b=5U5wkuhMyMcPPNlSJmqo+WM69e6G6YQytp2bcoUP+t+hxDbLnohJLmR1sv+bjkKEWr
+ QYLfUkbcbLqcutaGBbvEj4vl44m3Ox4K63iDx6J+AVofkKUly3xJobJFq463Pp/wHTkB
+ iPl01+XeDG5ikwr/z29Nawi6naKvmZtXwyU8QF3gYP8RH583W0nF1bPngxlRgOo4wP/O
+ N2Mc5ZvD1sh7B6Vjw2JDrSRp4SOI9Xwge+z4e4RUjLfpkmpZMifKIyWzZ6o6BihroF9S
+ FXSljXUtqSeUBR1tQmRiEWj2HT4nxydrVk4z4zAjyUoEKJ0qBjD1BK6uv5pqtUlIdjUq
+ h27Q==
+X-Gm-Message-State: AO0yUKVmSdF+87JHFeVr9MY7uxKwLaeHzcf+Z1bCFnKVuAykZGpR5g30
+ UHw80IcydYLS+Hjkc7ex3fE=
+X-Google-Smtp-Source: AK7set8AqhaVZb9gMaD+4AYJgbZX8FzTjueLi8FmfOhUkHA7xXVGWRUL6kUqM2aK2bg4G/uF2iTiyw==
+X-Received: by 2002:a5d:4e0f:0:b0:2c3:be89:7c36 with SMTP id
+ p15-20020a5d4e0f000000b002c3be897c36mr7508598wrt.25.1676040873729; 
+ Fri, 10 Feb 2023 06:54:33 -0800 (PST)
+Received: from [192.168.15.58] (54-240-197-232.amazon.com. [54.240.197.232])
+ by smtp.gmail.com with ESMTPSA id
+ c13-20020a5d63cd000000b002c3f0e94e94sm3789845wrw.14.2023.02.10.06.54.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Feb 2023 06:54:33 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <be2420d5-b267-9e9b-d3e6-cdfa30d57640@xen.org>
+Date: Fri, 10 Feb 2023 14:54:31 +0000
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v10 39/59] i386/xen: add monitor commands to test event
+ injection
 Content-Language: en-US
-To: qemu-devel@nongnu.org
-From: =?UTF-8?Q?Micha=c5=82_Zegan?= <webczat@outlook.com>
-Subject: Windows 11 guest crashing supposedly in smm after some time of use
+To: David Woodhouse <dwmw2@infradead.org>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
+References: <20230201143148.1744093-1-dwmw2@infradead.org>
+ <20230201143148.1744093-40-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20230201143148.1744093-40-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TMN: [hthl7LGuFgebNargjdmIZkanjjY26p2X]
-X-ClientProxiedBy: BE1P281CA0032.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:22::20) To BYAPR12MB3014.namprd12.prod.outlook.com
- (2603:10b6:a03:d8::11)
-X-Microsoft-Original-Message-ID: <c0bf0011-a697-da29-c2d2-8c16e9df21cf@outlook.com>
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3014:EE_|BL1PR12MB5317:EE_
-X-MS-Office365-Filtering-Correlation-Id: 47d8a350-b79d-4fac-0553-08db0b75f33a
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OKJXuljiUUapafMZ/c9fIcFVIrAOTIT64olREhsMJrF6N83OPKsdlt59R/QONJqEqc6nXJTpSZhIrtCvpioP+0hh/b1BbhRkkFJ9WIZAIo59BHtf3HaZ0NMMn8i57nRuNQXvvfTqZyDX05HeLmbp1rA7N+DNEiAd8ZJbck2AzlHJFpJ0c2CObGVOaWZaAHUEAangBsfF5m8haP9PtoWk9YyTBTHfAoziw56zHnktX2WiWsijoAyX0YjvfjC55WZCNVZfoRazMWgYxCa1bFMd/KjaOGsHvaiKXhmEHCvm2rnFS2l9f92wEdGT9OSyJxjEvOKvUv9YC0wXrKEeDsX1pzZcRnSfQ3VMOYmtzyJnaxyEOYNF5eNEMqYjvNUtgi9ZS1YrtiB+yB9WCFyiw0QQlX0UVUCQk5CMNWil1FHos3aPy5RPFTU/tm5nuFnqBe6EPruPknPfYfpY4uadIvIWDadqTiv8F/CLq9cMkH3+1jrqhwn9Dut4ht7qfQWFJkbmhzdFIRqwMNu6VVHi4a/g7qPH/VONFa6WIPyow1IvP2DzcaCJDNsngmsjDb4Sa5MvLh7ZotEeb6vmG24PGnEaPg==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dTJDb294M0swN0J3QWZrNGQyMjExNTZXNm4yQk5QWVNHV0ExV2dnKy9FU25I?=
- =?utf-8?B?VG14RDZhbCtITEZEdGFHUGFGakJ6S2N3dGxiRG5YM3JjYnR5eTNWUU9nbmpx?=
- =?utf-8?B?T3V6OVVia0xCVE5IOEhvdC8zU1Jpb2NucFBPZE9UUUJSbTNOdDFEOE01cU1k?=
- =?utf-8?B?b1orK0dnK2c5eWtNTk9ob3gyT1VWelV0Nm1laEplcFdHa3VQVVpzYmplR1Nt?=
- =?utf-8?B?TCtmV3grVEZMZDlxZlc5Y3VoNGl0RnZKdW1nK0IyZUtFdU1OUE9MbHBrOXdD?=
- =?utf-8?B?Vml2WHQyditMblFBSlV4ZTd0cGJMa25PUTJuZDl5NEtTVS9paitNekwyZzJG?=
- =?utf-8?B?R2VjejJ3OVp3RmFjdmg3THZlaUhwdHhNVGxyQ1BISVAwaFlReEJ6K1NObWx2?=
- =?utf-8?B?bE9KYWlQTUpXZUdWdTlISmNGK25zUWdJREFIbTNCK01aYzBIb1ovdFVVamRx?=
- =?utf-8?B?ODZ5YVVkRjhZYlZUc1RScG5iWjBvTEJUTkdjblpRU0xqT3VuMTgzN2o5Yjlu?=
- =?utf-8?B?LzAxaWx1VkhmbFJlMWdSZHdPa2xwNWRncmNqRm5hcktSQitTK01pcmRoNkpy?=
- =?utf-8?B?SmRQTWIyVHJCd0ZJS0lWbVBKdUdtUk5RbUc2a0IycFJEYkVNa1V1dURLK05y?=
- =?utf-8?B?VXBwTCtmY0t4RUlneUtnZ01IRm5lWUI2Q0xRaklRNEtobjdoSlk5dDZLc2tP?=
- =?utf-8?B?Q2ZIKzE2RXpNYVNJck85bDZOTys5SlBpd1NCTTM4MW1BcjBUejdrZTVIeVBl?=
- =?utf-8?B?NTIydkRGYWpsM3FwOFBhbitJL1kyRzY0WkI0YzNkeGtFbmM2SVJXK2g4dnRa?=
- =?utf-8?B?T25Zb2NuWDhTZ1owRTFwZTVjaDNUMGpBNWMwYWY1bWJWaVBZOHlnYXZObEdl?=
- =?utf-8?B?VVlocnNHYW91Q0NraHZpVzN6N1BYYjhYUm1iNFJneXUyaS9BWkw3R1lmSm14?=
- =?utf-8?B?dnBpaWxZNG5adWRldEs3UGZ5ZGQydWh1OVQyV3YrTDNjdTkzZ1YrZ202OVoz?=
- =?utf-8?B?a0c1OUlBNFVDNjBDVzZXcVBxaWVUSVIzU0dYckRCdEJPZTdYdk50cFArR2NU?=
- =?utf-8?B?bHp4Y280Znh6UlYya0g4d3RUNlg4bnJpVmhPQ2hlYW9uSkt0V3o3NUI0TDZE?=
- =?utf-8?B?QkFvQzZ2RkR5SFhVUVJEZVBvUUR2enN1N2lEc0hOTElpVWdwdHROZGN4aklF?=
- =?utf-8?B?OEF1WVI1Y0tqci81SHNDSzdON3A4ZHJ6elY1NlJjR1R2bDE5OThZbUhMclFs?=
- =?utf-8?B?THUzNi9CVGhURGszUWlEa1g3UWZlVkFSWVE1WnJaNzV5aUM0UHl5U01LeXB5?=
- =?utf-8?B?WXJHazhNUzlkMzV3Mm5tc3FkaURvd0prZ25GVTFGaDJIUEVYajVvWkE5MGI1?=
- =?utf-8?B?OXdyTG9OVVVMVTlPSURFejc4QVUvZ1RaanNPT2RwdksvdTVVTXVPdzRZMFZJ?=
- =?utf-8?B?Q2xTaHBDa3lqdkx2MElTMk1PVklWUmlRUGFGSDUrcVUrR09lbStSUVVMNmlv?=
- =?utf-8?B?NWl6MFlwQUpRMHRoTHRrZDlYUWVVQjllclI0cDJRSU5pWFM1YkF1cndTYjlp?=
- =?utf-8?B?Rkx2NklCWXN1VVV4NU5OU05telRPNHRvZ09Ba1FjQlNsZDdxMzFDTVNvdUxz?=
- =?utf-8?B?WHJ3SUJneVZ0RGpqQ0R2ek1qZ2FaRmhJS2p4N25tQjVkOHBveG8wNW4rdUcv?=
- =?utf-8?B?RmpIZ3IwWE40OGQvYkZ0Qng5YVlDOThDeEhZbC9QbVBiQjhZaG9Mdi9BPT0=?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 47d8a350-b79d-4fac-0553-08db0b75f33a
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3014.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2023 14:49:02.6708 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5317
-Received-SPF: pass client-ip=40.92.40.33; envelope-from=webczat@outlook.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-Spam_score_int: 2
-X-Spam_score: 0.2
-X-Spam_bar: /
-X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_MUA_MOZILLA=2.309,
- FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-1.149, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -124,50 +104,359 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello.
+On 01/02/2023 14:31, David Woodhouse wrote:
+> From: Joao Martins <joao.m.martins@oracle.com>
+> 
+> Specifically add listing, injection of event channels.
+> 
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>   hmp-commands.hx          |  29 +++++++++
+>   hw/i386/kvm/xen_evtchn.c | 137 +++++++++++++++++++++++++++++++++++++++
+>   include/monitor/hmp.h    |   2 +
+>   qapi/misc-target.json    | 116 +++++++++++++++++++++++++++++++++
+>   4 files changed, 284 insertions(+)
+> 
+> diff --git a/hmp-commands.hx b/hmp-commands.hx
+> index 673e39a697..fd77c432c0 100644
+> --- a/hmp-commands.hx
+> +++ b/hmp-commands.hx
+> @@ -1815,3 +1815,32 @@ SRST
+>     Dump the FDT in dtb format to *filename*.
+>   ERST
+>   #endif
+> +
+> +#if defined(CONFIG_XEN_EMU)
+> +    {
+> +        .name       = "xen-event-inject",
+> +        .args_type  = "port:i",
+> +        .params     = "port",
+> +        .help       = "inject event channel",
+> +        .cmd        = hmp_xen_event_inject,
+> +    },
+> +
+> +SRST
+> +``xen-event-inject`` *port*
+> +  Notify guest via event channel on port *port*.
+> +ERST
+> +
+> +
+> +    {
+> +        .name       = "xen-event-list",
+> +        .args_type  = "",
+> +        .params     = "",
+> +        .help       = "list event channel state",
+> +        .cmd        = hmp_xen_event_list,
+> +    },
+> +
+> +SRST
+> +``xen-event-list``
+> +  List event channels in the guest
+> +ERST
+> +#endif
+> diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
+> index 9b1fb47e85..fa54d185cd 100644
+> --- a/hw/i386/kvm/xen_evtchn.c
+> +++ b/hw/i386/kvm/xen_evtchn.c
+> @@ -15,7 +15,11 @@
+>   #include "qemu/lockable.h"
+>   #include "qemu/main-loop.h"
+>   #include "qemu/log.h"
+> +#include "monitor/monitor.h"
+> +#include "monitor/hmp.h"
+>   #include "qapi/error.h"
+> +#include "qapi/qapi-commands-misc-target.h"
+> +#include "qapi/qmp/qdict.h"
+>   #include "qom/object.h"
+>   #include "exec/target_page.h"
+>   #include "exec/address-spaces.h"
+> @@ -1067,3 +1071,136 @@ int xen_evtchn_send_op(struct evtchn_send *send)
+>       return ret;
+>   }
+>   
+> +EvtchnInfoList *qmp_xen_event_list(Error **errp)
+> +{
+> +    XenEvtchnState *s = xen_evtchn_singleton;
+> +    EvtchnInfoList *head = NULL, **tail = &head;
+> +    void *shinfo, *pending, *mask;
+> +    int i;
+> +
+> +    if (!s) {
+> +        error_setg(errp, "Xen event channel emulation not enabled");
+> +        return NULL;
+> +    }
+> +
+> +    shinfo = xen_overlay_get_shinfo_ptr();
+> +    if (!shinfo) {
+> +        error_setg(errp, "Xen shared info page not allocated");
+> +        return NULL;
+> +    }
+> +
+> +    if (xen_is_long_mode()) {
+> +        pending = shinfo + offsetof(struct shared_info, evtchn_pending);
+> +        mask = shinfo + offsetof(struct shared_info, evtchn_mask);
+> +    } else {
+> +        pending = shinfo + offsetof(struct compat_shared_info, evtchn_pending);
+> +        mask = shinfo + offsetof(struct compat_shared_info, evtchn_mask);
+> +    }
+> +
+> +    QEMU_LOCK_GUARD(&s->port_lock);
+> +
+> +    for (i = 0; i < s->nr_ports; i++) {
+> +        XenEvtchnPort *p = &s->port_table[i];
+> +        EvtchnInfo *info;
+> +
+> +        if (p->type == EVTCHNSTAT_closed) {
+> +            continue;
+> +        }
+> +
+> +        info = g_new0(EvtchnInfo, 1);
+> +
+> +        info->port = i;
+> +        qemu_build_assert(EVTCHN_PORT_TYPE_CLOSED == EVTCHNSTAT_closed);
+> +        qemu_build_assert(EVTCHN_PORT_TYPE_UNBOUND == EVTCHNSTAT_unbound);
+> +        qemu_build_assert(EVTCHN_PORT_TYPE_INTERDOMAIN == EVTCHNSTAT_interdomain);
+> +        qemu_build_assert(EVTCHN_PORT_TYPE_PIRQ == EVTCHNSTAT_pirq);
+> +        qemu_build_assert(EVTCHN_PORT_TYPE_VIRQ == EVTCHNSTAT_virq);
+> +        qemu_build_assert(EVTCHN_PORT_TYPE_IPI == EVTCHNSTAT_ipi);
+> +
+> +        info->type = p->type;
+> +        if (p->type == EVTCHNSTAT_interdomain) {
+> +            info->remote_domain = g_strdup((p->type_val & PORT_INFO_TYPEVAL_REMOTE_QEMU) ?
+> +                                           "qemu" : "loopback");
+> +            info->target = p->type_val & PORT_INFO_TYPEVAL_REMOTE_PORT_MASK;
+> +        } else {
+> +            info->target = p->type_val;
+> +        }
 
-I have windows11 installed on a vm. This vm generally works properly, 
-but then might crash unexpectedly at any point, this includes situation 
-like logging onto the system and leaving it intact for like an hour or 
-less. This can be reproduced by waiting long enough but there is no 
-single known action causing it.
+Given that this patch only provides a command to inject an event on a 
+specific port, I think it's be useful to have the target field report 
+the type of a VIRQ. PV drivers often hook VIRQ_DEBUG for dumping debug 
+info, so knowing which of the VIRQ ports that is would be useful.
 
-What could be the problem?
+   Paul
 
-
-Configuration and error details:
-
-My host is a msi vector gp76 laptop with intel core i7 12700h, 32gb of 
-memory, host os is fedora linux 37 with custom compiled linux kernel 
-(fedora patches). Current kernel version is 6.1.10 but when I installed 
-the vm it was 6.0 or less, don't quite remember exactly, and this bug 
-was present. Not sure if bios is up to date, but microcode is, if that 
-matters.
-
-Hardware virtualization enabled, nested virtualization enabled in module 
-params for kvm_intel.
-
-For vm using libvirt, qemu 7.0.0. Virtual machine is q35, smm enabled, 
-processor model set to host, firmware is uefi with secureboot and 
-preenrolled keys, tpm is enabled. Most/all hyperv enlightenments are 
-enabled.
-
-Using virtio for what I can including virtio-scsi, virtio-input, 
-virtio-net, virtio-balloon, etc... installed windows drivers for all of 
-these things.
-
-Guest is windows 11 pro 64 bit.
-
-What crashes is qemu itself, not that the guest is bsod'ing.
-
-Below is the link containing libvirt qemu log, containing the full qemu 
-command line and also the crash messages. Note virtualization is 
-disabled in vm even though nested virtualization enabled on host, and 
-hyperv not installed on windows, so it's likely not the cause.
-
-https://gist.github.com/webczat/1f224e7ecdc17c5c26316e0121f4ed43
+> +        info->vcpu = p->vcpu;
+> +        info->pending = test_bit(i, pending);
+> +        info->masked = test_bit(i, mask);
+> +
+> +        QAPI_LIST_APPEND(tail, info);
+> +    }
+> +
+> +    return head;
+> +}
+> +
+> +void qmp_xen_event_inject(uint32_t port, Error **errp)
+> +{
+> +    XenEvtchnState *s = xen_evtchn_singleton;
+> +
+> +    if (!s) {
+> +        error_setg(errp, "Xen event channel emulation not enabled");
+> +        return;
+> +    }
+> +
+> +    if (!valid_port(port)) {
+> +        error_setg(errp, "Invalid port %u", port);
+> +    }
+> +
+> +    QEMU_LOCK_GUARD(&s->port_lock);
+> +
+> +    if (set_port_pending(s, port)) {
+> +        error_setg(errp, "Failed to set port %u", port);
+> +        return;
+> +    }
+> +}
+> +
+> +void hmp_xen_event_list(Monitor *mon, const QDict *qdict)
+> +{
+> +    EvtchnInfoList *iter, *info_list;
+> +    Error *err = NULL;
+> +
+> +    info_list = qmp_xen_event_list(&err);
+> +    if (err) {
+> +        hmp_handle_error(mon, err);
+> +        return;
+> +    }
+> +
+> +    for (iter = info_list; iter; iter = iter->next) {
+> +        EvtchnInfo *info = iter->value;
+> +
+> +        monitor_printf(mon, "port %4lu: vcpu: %ld %s", info->port, info->vcpu,
+> +                       EvtchnPortType_str(info->type));
+> +        if (info->type != EVTCHN_PORT_TYPE_IPI) {
+> +            monitor_printf(mon,  "(");
+> +            if (info->remote_domain) {
+> +                monitor_printf(mon, "%s:", info->remote_domain);
+> +            }
+> +            monitor_printf(mon, "%ld)", info->target);
+> +        }
+> +        if (info->pending) {
+> +            monitor_printf(mon, " PENDING");
+> +        }
+> +        if (info->masked) {
+> +            monitor_printf(mon, " MASKED");
+> +        }
+> +        monitor_printf(mon, "\n");
+> +    }
+> +
+> +    qapi_free_EvtchnInfoList(info_list);
+> +}
+> +
+> +void hmp_xen_event_inject(Monitor *mon, const QDict *qdict)
+> +{
+> +    int port = qdict_get_int(qdict, "port");
+> +    Error *err = NULL;
+> +
+> +    qmp_xen_event_inject(port, &err);
+> +    if (err) {
+> +        hmp_handle_error(mon, err);
+> +    } else {
+> +        monitor_printf(mon, "Delivered port %d\n", port);
+> +    }
+> +}
+> +
+> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+> index 1b3bdcb446..cbc6e9bb91 100644
+> --- a/include/monitor/hmp.h
+> +++ b/include/monitor/hmp.h
+> @@ -108,6 +108,8 @@ void hmp_virtio_status(Monitor *mon, const QDict *qdict);
+>   void hmp_virtio_queue_status(Monitor *mon, const QDict *qdict);
+>   void hmp_vhost_queue_status(Monitor *mon, const QDict *qdict);
+>   void hmp_virtio_queue_element(Monitor *mon, const QDict *qdict);
+> +void hmp_xen_event_inject(Monitor *mon, const QDict *qdict);
+> +void hmp_xen_event_list(Monitor *mon, const QDict *qdict);
+>   void object_add_completion(ReadLineState *rs, int nb_args, const char *str);
+>   void object_del_completion(ReadLineState *rs, int nb_args, const char *str);
+>   void device_add_completion(ReadLineState *rs, int nb_args, const char *str);
+> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+> index 5b6a8e9185..652e6e0b37 100644
+> --- a/qapi/misc-target.json
+> +++ b/qapi/misc-target.json
+> @@ -380,3 +380,119 @@
+>   #
+>   ##
+>   { 'command': 'query-sgx-capabilities', 'returns': 'SGXInfo', 'if': 'TARGET_I386' }
+> +
+> +
+> +##
+> +# @EvtchnPortType:
+> +#
+> +# An enumeration of Xen event channel port types.
+> +#
+> +# @closed: The port is unused.
+> +#
+> +# @unbound: The port is allocated and ready to be bound.
+> +#
+> +# @interdomain: The port is connected as an interdomain interrupt.
+> +#
+> +# @pirq: The port is bound to a physical IRQ (PIRQ).
+> +#
+> +# @virq: The port is bound to a virtual IRQ (VIRQ).
+> +#
+> +# @ipi: The post is an inter-processor interrupt (IPI).
+> +#
+> +# Since: 8.0.0
+> +##
+> +{ 'enum': 'EvtchnPortType',
+> +  'data': ['closed', 'unbound', 'interdomain', 'pirq', 'virq', 'ipi'],
+> +  'if': 'TARGET_I386' }
+> +
+> +##
+> +# @EvtchnInfo:
+> +#
+> +# Information about a Xen event channel port
+> +#
+> +# @port: the port number
+> +#
+> +# @vcpu: target vCPU for this port
+> +#
+> +# @type: the port type
+> +#
+> +# @remote-domain: remote domain for interdomain ports
+> +#
+> +# @target: remote port ID, or virq/pirq number
+> +#
+> +# @pending: port is currently active pending delivery
+> +#
+> +# @masked: port is masked
+> +#
+> +# Since: 8.0.0
+> +##
+> +{ 'struct': 'EvtchnInfo',
+> +  'data': {'port': 'int',
+> +           'vcpu': 'int',
+> +           'type': 'EvtchnPortType',
+> +           'remote-domain': 'str',
+> +           'target': 'int',
+> +           'pending': 'bool',
+> +           'masked': 'bool'},
+> +  'if': 'TARGET_I386' }
+> +
+> +
+> +##
+> +# @xen-event-list:
+> +#
+> +# Query the Xen event channels opened by the guest.
+> +#
+> +# Returns: list of open event channel ports.
+> +#
+> +# Since: 8.0.0
+> +#
+> +# Example:
+> +#
+> +# -> { "execute": "xen-event-list" }
+> +# <- { "return": [
+> +#         {
+> +#             "pending": false,
+> +#             "port": 1,
+> +#             "vcpu": 1,
+> +#             "remote-domain": "qemu",
+> +#             "masked": false,
+> +#             "type": "interdomain",
+> +#             "target": 1
+> +#         },
+> +#         {
+> +#             "pending": false,
+> +#             "port": 2,
+> +#             "vcpu": 0,
+> +#             "remote-domain": "",
+> +#             "masked": false,
+> +#             "type": "virq",
+> +#             "target": 0
+> +#         }
+> +#      ]
+> +#    }
+> +#
+> +##
+> +{ 'command': 'xen-event-list',
+> +  'returns': ['EvtchnInfo'],
+> +  'if': 'TARGET_I386' }
+> +
+> +##
+> +# @xen-event-inject:
+> +#
+> +# Inject a Xen event channel port (interrupt) to the guest.
+> +#
+> +# @port: The port number
+> +#
+> +# Returns: - Nothing on success.
+> +#
+> +# Since: 8.0.0
+> +#
+> +# Example:
+> +#
+> +# -> { "execute": "xen-event-inject", "arguments": { "port": 1 } }
+> +# <- { "return": { } }
+> +#
+> +##
+> +{ 'command': 'xen-event-inject',
+> +  'data': { 'port': 'uint32' },
+> +  'if': 'TARGET_I386' }
 
 
