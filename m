@@ -2,95 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6464692857
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 21:33:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 577A76928D2
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 21:58:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQa3a-0002W3-5i; Fri, 10 Feb 2023 15:31:42 -0500
+	id 1pQaRf-00005S-Dk; Fri, 10 Feb 2023 15:56:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pQa3U-0002VO-NT
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 15:31:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pQaRb-00005E-Hx
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 15:56:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pQa3P-0002ur-1A
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 15:31:34 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pQaRZ-0001EF-D5
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 15:56:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676061090;
+ s=mimecast20190719; t=1676062588;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=37+SP7aohWlyOokGIfyhVoqX33Gb1snzlmetALNxkh8=;
- b=c8dvqu53qyhv/Tkuz2rhhiGfqKGm+J2i1YoJLUUQZlqSeU2MfWT50tpXkO2U1EbNehXTsi
- nDtG/N8HLb7OHokY4C/WDkTe5W1FsoFx/N/JlhMBQNGCIaSVXeN9woJtiIp/T99Z+6fWqZ
- 0LB1HhFLvWNjKJFcCAiPV1FgX7ez0ec=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-644-J6DQqMMGNkmH2ZXPm9ftwQ-1; Fri, 10 Feb 2023 15:31:28 -0500
-X-MC-Unique: J6DQqMMGNkmH2ZXPm9ftwQ-1
-Received: by mail-ua1-f70.google.com with SMTP id
- s6-20020a9f2986000000b00683c94d9881so2232610uas.3
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 12:31:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=37+SP7aohWlyOokGIfyhVoqX33Gb1snzlmetALNxkh8=;
- b=e4mkX6D5sK4iHqokneIo/LXCGXMmJkMktpTm6WnUeOtsQf8PoUegYr9Ee+RjPuEdEi
- +L/BfxmXk7LRkHdCVpyq19QTHjk6ceEFAs3qK+LsbAq7jhs55gXna4QXBI9MuI4q6hMd
- Jq/fafSx0WC1HGy/7OgbId0A5lvR4AFS/nqpBv5oqIc70IZfk2wr22+mENZPnDo4FbCF
- YOVY0t/KhphJ7O/JbXMbMlRX7FvPx9oXR/5M1/ojk5/nW0R55e6dlGFr73SrFviINx/l
- b3H4CYKr/MMQaOhgG/DRIJHHKsni4M0IFhLJ4WhqapCLiS21L6eI2IpsqNGGusLkUEKz
- E7pQ==
-X-Gm-Message-State: AO0yUKX75Udt+nP6fy1AEJgmQOnxL0T8OMGJoKKeVE5/m4WCCttKPMgn
- aobQ36dvXd0P+ZkvV4DTlP2r3IySKcTN645pCFGKdKWyJVzQs1oOil7ZXNMhiCx5oRD78Z+WmT4
- svWt3ItNqWyOGm2cSfQXsCAI6MUe7Rpo=
-X-Received: by 2002:a05:6102:162b:b0:3e8:ba0d:ffa9 with SMTP id
- cu43-20020a056102162b00b003e8ba0dffa9mr3886113vsb.85.1676061087630; 
- Fri, 10 Feb 2023 12:31:27 -0800 (PST)
-X-Google-Smtp-Source: AK7set9mTq2vh310q+OiwH67oBBM3tvLiMwy695ws6iZF4S7Jel65Hh/PAUyA+qhWyziBTlAucEssZRmLnHvwiAIoXU=
-X-Received: by 2002:a05:6102:162b:b0:3e8:ba0d:ffa9 with SMTP id
- cu43-20020a056102162b00b003e8ba0dffa9mr3886096vsb.85.1676061087398; Fri, 10
- Feb 2023 12:31:27 -0800 (PST)
+ bh=4A0bbNtWezaOUgInMGL9UdAdGELBxrNdIvl0jo4bH0M=;
+ b=LLRJ2Oy8LQE7beCzQT9SKF0DDDiq1x+9zS5yoqW0KT+iVQj+JIbxm0iTk1WxSemnU264UC
+ k8indQ7MwwYTRoXVzBMRXd44Dv1KxOIM49QjWUUqHIDsD6Wc7W5zAlAdtc61HvxttBP/nH
+ 9TObBElQGdFdYDiKOze4Yx17CcqiVvE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-135-wpBp-MMEMOiNFgbuJLn77Q-1; Fri, 10 Feb 2023 15:56:24 -0500
+X-MC-Unique: wpBp-MMEMOiNFgbuJLn77Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 55361811E9C;
+ Fri, 10 Feb 2023 20:56:24 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 78CC12166B29;
+ Fri, 10 Feb 2023 20:56:23 +0000 (UTC)
+Date: Fri, 10 Feb 2023 14:56:21 -0600
+From: Eric Blake <eblake@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
+ Yanan Wang <wangyanan55@huawei.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: Re: [PATCH v4 4/4] ram: Document migration ram flags
+Message-ID: <20230210205621.jmtqbyd2gsjeycrg@redhat.com>
+References: <20230209233730.38288-1-quintela@redhat.com>
+ <20230209233730.38288-5-quintela@redhat.com>
 MIME-Version: 1.0
-References: <20230210003147.1309376-1-jsnow@redhat.com>
- <20230210003147.1309376-7-jsnow@redhat.com>
- <CAFEAcA-c5y0TR8vYg_FYEmGv3mOOmBgeD0cyb+mVotsP=r-Dsw@mail.gmail.com>
- <CAFn=p-aDV9=vG6hjTWRE6c52TpYSjDBU22nthTuejDCv_XrYMQ@mail.gmail.com>
- <CAFEAcA_eGvz_BQVLhVWtedRh2mcBuMEhv0RKF+6DW4t+9FdPAw@mail.gmail.com>
- <CAFn=p-aLGgf-tWA5kXeTXWjKicCb+T0MZ3M6eFEP3YQxf4MKPg@mail.gmail.com>
- <CAFEAcA-FhKp7EitQ016dNc_6epra--pqnVOC8XtEdLEJnCZdXQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA-FhKp7EitQ016dNc_6epra--pqnVOC8XtEdLEJnCZdXQ@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Fri, 10 Feb 2023 21:31:15 +0100
-Message-ID: <CABgObfY+g_OoUU3v1TTfK6WyMNFGe8Yg0csy-4HO1Cprqi2F0Q@mail.gmail.com>
-Subject: Re: [PATCH v2 6/7] CI: Stop building docs on centos8
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Qemu-block <qemu-block@nongnu.org>, 
- Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Kevin Wolf <kwolf@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000bc941205f45e6114"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230209233730.38288-5-quintela@redhat.com>
+User-Agent: NeoMutt/20220429
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,75 +81,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000bc941205f45e6114
-Content-Type: text/plain; charset="UTF-8"
+On Fri, Feb 10, 2023 at 12:37:30AM +0100, Juan Quintela wrote:
+> 0x80 is RAM_SAVE_FLAG_HOOK, it is in qemu-file now.
+> Bigger usable flag is 0x200, noticing that.
+> We can reuse RAM_SAVe_FLAG_FULL.
 
-Il ven 10 feb 2023, 19:09 Peter Maydell <peter.maydell@linaro.org> ha
-scritto:
+SAVE
 
-> On Fri, 10 Feb 2023 at 17:55, John Snow <jsnow@redhat.com> wrote:
-> > (The problem with just allowing sphinx to be a black box and
-> > continuing to happily use the 3.6-based versions is that we are
-> > using QAPIDoc extensions from our own codebase, which would lock
-> > those to 3.6. A big motivator for Markus is dropping some 3.6
-> > kludges we're carrying for qapi, so I looked to the opposite
-> > solution - nudging Sphinx forward instead.)
->
-> Mmm. Where on the pain spectrum does "allow python 3.8
-> because CentosOS ships that, except that where our python
-> code gets run via Sphinx that part of the codebase must
-> retain 3.6 compatibility" sit ?
->
+> 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> ---
+>  migration/ram.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 32fab7b5ee..3648cfc357 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -67,22 +67,26 @@
+>  /***********************************************************/
+>  /* ram save/restore */
+>  
+> -/* RAM_SAVE_FLAG_ZERO used to be named RAM_SAVE_FLAG_COMPRESS, it
+> +/*
+> + * RAM_SAVE_FLAG_ZERO used to be named RAM_SAVE_FLAG_COMPRESS, it
+>   * worked for pages that where filled with the same char.  We switched
 
-As far as the build system is concerned no changes are required, however
-Python 3.7 support was requested by Markus for scripts/qapi/ for quite some
-time. So it would not be painful to implement but it would remove most of
-the benefits of dropping support for 3.6.
+As long as you're in the area,
 
-Paolo
+s/where/were/
+
+>   * it to only search for the zero value.  And to avoid confusion with
+>   * RAM_SSAVE_FLAG_COMPRESS_PAGE just rename it.
+
+s/SSAVE/SAVE/
+
+>   */
+> -
+> -#define RAM_SAVE_FLAG_FULL     0x01 /* Obsolete, not used anymore */
+> +/*
+> + * RAM_SAVE_FLAG_FULL was obsoleted in 2009, it can be reused now
+> + */
+> +#define RAM_SAVE_FLAG_FULL     0x01
+>  #define RAM_SAVE_FLAG_ZERO     0x02
+>  #define RAM_SAVE_FLAG_MEM_SIZE 0x04
+>  #define RAM_SAVE_FLAG_PAGE     0x08
+>  #define RAM_SAVE_FLAG_EOS      0x10
+>  #define RAM_SAVE_FLAG_CONTINUE 0x20
+>  #define RAM_SAVE_FLAG_XBZRLE   0x40
+> -/* 0x80 is reserved in migration.h start with 0x100 next */
+> +/* 0x80 is reserved in qemu-file.h for RAM_SAVE_FLAG_HOOK */
+>  #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
+>  #define RAM_SAVE_FLAG_MULTIFD_SYNC     0x200
+> +/* We can't use any flag that is bigger than 0x200 */
+
+Spelling fixes are trivial; feel free to add:
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
 
-> thanks
-> -- PMM
->
->
-
---000000000000bc941205f45e6114
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il ven 10 feb 2023, 19:09 Peter Maydell &lt;<a href=3D=
-"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; ha scrit=
-to:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex">On Fri, 10 Feb 2023 at 17:55, J=
-ohn Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"_blank" rel=3D"n=
-oreferrer">jsnow@redhat.com</a>&gt; wrote:<br>
-&gt; (The problem with just allowing sphinx to be a black box and<br>
-&gt; continuing to happily use the 3.6-based versions is that we are<br>
-&gt; using QAPIDoc extensions from our own codebase, which would lock<br>
-&gt; those to 3.6. A big motivator for Markus is dropping some 3.6<br>
-&gt; kludges we&#39;re carrying for qapi, so I looked to the opposite<br>
-&gt; solution - nudging Sphinx forward instead.)<br>
-<br>
-Mmm. Where on the pain spectrum does &quot;allow python 3.8<br>
-because CentosOS ships that, except that where our python<br>
-code gets run via Sphinx that part of the codebase must<br>
-retain 3.6 compatibility&quot; sit ?<br></blockquote></div></div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">As far as the build system is concern=
-ed no changes are required, however Python 3.7 support was requested by Mar=
-kus for scripts/qapi/ for quite some time. So it would not be painful to im=
-plement but it would remove most of the benefits of dropping support for 3.=
-6.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
-id;padding-left:1ex">
-<br>
-thanks<br>
--- PMM<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000bc941205f45e6114--
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
