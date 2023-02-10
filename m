@@ -2,60 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D23E969228D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 16:45:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA7E6922A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 16:49:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQVZZ-0002oF-UB; Fri, 10 Feb 2023 10:44:25 -0500
+	id 1pQVdc-000508-WF; Fri, 10 Feb 2023 10:48:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQVZX-0002ny-JW
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 10:44:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pQVdZ-0004zS-10
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 10:48:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQVZV-0006SR-IN
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 10:44:23 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pQVdX-0007BW-EP
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 10:48:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676043860;
+ s=mimecast20190719; t=1676044110;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uI4d0JQ2YR8owrwq7q25+R1RLKwG/nIEgPpWwzQSIXc=;
- b=gl8DqhfK+PyoHUXfbnj6d0Q39wdsSBNtiNrIP4BvbyljKIf0G/wZDYgTjxnvD384qkFyzf
- xPa3UwYGTp1XnLIfpI4MdlZ0vhXgFnqmeNHAPDrD0qXwLP2CPbBBoncICaRwQmDBqAp2lT
- rzGEtLZPezC5cPzdtO4Lv9TPWvq23Rk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-554-SLuM8bybM_aXbeiwY9mQwQ-1; Fri, 10 Feb 2023 10:44:19 -0500
-X-MC-Unique: SLuM8bybM_aXbeiwY9mQwQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C9192857F4E;
- Fri, 10 Feb 2023 15:44:18 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A1952140EBF4;
- Fri, 10 Feb 2023 15:44:18 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8F22421E6A1F; Fri, 10 Feb 2023 16:44:17 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel@nongnu.org,  Michael Roth <michael.roth@amd.com>
-Subject: Re: [PATCH v3 4/7] qapi/expr: add typing workaround for AbstractSet
-References: <20230209184758.1017863-1-jsnow@redhat.com>
- <20230209184758.1017863-5-jsnow@redhat.com>
-Date: Fri, 10 Feb 2023 16:44:17 +0100
-In-Reply-To: <20230209184758.1017863-5-jsnow@redhat.com> (John Snow's message
- of "Thu, 9 Feb 2023 13:47:55 -0500")
-Message-ID: <87sffd5xv2.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ bh=bMVOtYugOWR0vORIoTsICJzFiXPyZrbDScepc2BcXe0=;
+ b=OX72cU50nVquc81yd6ynuCrEONHMVyt0McblF4dNUeCVYyR+3SMf0NFrk8x78MV/8BHT6+
+ WxQU+5NSbNcd4vWi2mshf5SW4SsigU+Un+xdRGZ01yAnBUdeuuHUpdUM1hCGpsT/UIFx2o
+ YMG1yjB3WRjW8QwQv+zxst4z8xQHeVo=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-587-5J_GbOZrO4-Th1LvZStLhg-1; Fri, 10 Feb 2023 10:48:29 -0500
+X-MC-Unique: 5J_GbOZrO4-Th1LvZStLhg-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ bp30-20020a05620a459e00b00738e1fe2470so3522928qkb.23
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 07:48:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bMVOtYugOWR0vORIoTsICJzFiXPyZrbDScepc2BcXe0=;
+ b=tM6NFDuVGL3K1dTJ9pfTKfcKJZx+kw3HUSR355Ka4vrSisVkwp7TO2GwomjUZWF9Dw
+ 6DI1Scxo7crN3DK92yy9MJ4pEYxRiWN3sF0j8YaErLS1nBQUlktCXF9nYBfj2IoZyCpo
+ pEkghAc5lHsKUla7sh/0CK2mq2P2OPikpVG/OTHevcTWrwGQwsG6eWHdyYwWEmjuZwRC
+ Ri3y5dvVv6nd4C/hyA89LzHM77LLLWacFN9UfzqviC2HA0b1CmsBl9+vYNJ8WkucdxYa
+ eMLs/EKoSMIevjNl73eHCZGGGhKCv4oYU9rr7t3fJFjuJYskzc4PPvRj7P8SlEoVUQqT
+ SrJw==
+X-Gm-Message-State: AO0yUKWSeM/Ci9vXRvKIpGKTMfCHN0DDpav2qu0Z1enku5k/6RvRcYaE
+ HI2Ye5pD6QJgS9PJxu5gABqfxCF6UBEnfcqlFLgwUHqbFJHtPyDEee07J8nQLuWQbjuopoIVBQ+
+ jTQQ9Yt+vx+LJevQ=
+X-Received: by 2002:a05:622a:4d2:b0:3b8:58d0:b4d4 with SMTP id
+ q18-20020a05622a04d200b003b858d0b4d4mr29358734qtx.2.1676044108626; 
+ Fri, 10 Feb 2023 07:48:28 -0800 (PST)
+X-Google-Smtp-Source: AK7set+qS+kpY9EHux5e51QFsvWDXvZ4AM53GEOHPhWHDG5wEWpcHKG/Z8mEWOEhZlyLKavjHpw4Fw==
+X-Received: by 2002:a05:622a:4d2:b0:3b8:58d0:b4d4 with SMTP id
+ q18-20020a05622a04d200b003b858d0b4d4mr29358708qtx.2.1676044108379; 
+ Fri, 10 Feb 2023 07:48:28 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ t23-20020ac87397000000b003ab7aee56a0sm3540523qtp.39.2023.02.10.07.48.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Feb 2023 07:48:27 -0800 (PST)
+Date: Fri, 10 Feb 2023 10:48:26 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Michael Tokarev <mjt@tls.msk.ru>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ qemu-stable@nongnu.org
+Subject: Re: [PULL 01/30] migration: Fix migration crash when target psize
+ larger than host
+Message-ID: <Y+ZnSivyNX1WxzDc@x1n>
+References: <20230207005650.1810-1-quintela@redhat.com>
+ <20230207005650.1810-2-quintela@redhat.com>
+ <0dd85902-0071-a915-2655-8aff8d0074d1@msgid.tls.msk.ru>
+ <87ilg9iutl.fsf@secure.mitica> <Y+ZcVkhRr8rYU6Az@x1n>
+ <357699ba-2949-2c4e-fd65-1ff078718792@msgid.tls.msk.ru>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <357699ba-2949-2c4e-fd65-1ff078718792@msgid.tls.msk.ru>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,54 +103,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-John Snow <jsnow@redhat.com> writes:
+On Fri, Feb 10, 2023 at 06:28:36PM +0300, Michael Tokarev wrote:
+> 10.02.2023 18:01, Peter Xu пишет:
+> 
+> > Thanks, Juan.
+> > 
+> > I think Michael was correct that d9e474ea56 is only merged after our most
+> > recent release (which is v7.2.0).  So it doesn't need to have stable copied
+> > (aka, it doesn't need to be applied to any QEMU's stable tree).
+> > 
+> > Juan, could you help drop the "cc: stable" line if the pull is going to
+> > have a new version?
+> 
+> It has been applied to master already, - this is where I picked it from.
 
-> mypy can only narrow the type of `Mapping[str, ...].keys() & Set[str]`
-> to `AbstractSet[str]` and not a `Set[str]`. As a result, if the type of
-> an expression is changed to a Mapping[], mypy is unsure if the .pop() is
-> safe.
->
-> A forthcoming commit does exactly that, so wrap the expression in a
-> set() constructor to force the intermediate expression to be resolved as
-> a mutable type.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  scripts/qapi/expr.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-> index b56353bdf84..af802367eff 100644
-> --- a/scripts/qapi/expr.py
-> +++ b/scripts/qapi/expr.py
-> @@ -622,8 +622,8 @@ def check_expr(expr_elem: _JSONObject) -> None:
->      if 'include' in expr:
->          return
->  
-> -    metas = expr.keys() & {'enum', 'struct', 'union', 'alternate',
-> -                           'command', 'event'}
-> +    metas = set(expr.keys() & {
-> +        'enum', 'struct', 'union', 'alternate', 'command', 'event'})
->      if len(metas) != 1:
->          raise QAPISemError(
->              info,
-                   "expression must have exactly one key"
-                   " 'enum', 'struct', 'union', 'alternate',"
-                   " 'command', 'event'")
-           meta = metas.pop()
+Ah I didn't notice that.
 
-I'm mildly surprised that the result of operator & is considered
-immutable.  How could it *not* be a freshly created set?  Oh well.
+> 
+> > Side note: I think in the case where we have wrongly have the cc:stable it
+> > shouldn't hurt either, because when the stable tree tries to pick it up
+> > it'll find it doesn't apply at all, then a downstream-only patch will be
+> > needed, then we'll also figure all things out, just later.
+> 
+> There's absolutely nothing wrong with that.  I was just not sure about my
+> own sanity here, and decided to ask.  Maybe the problem was deeper and a
+> more careful backport is needed.
 
-Passing a set to set() is a no-op, so
+Thanks for raising this.
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+The old tree should be good with guest psize > host psize not only because
+the assertion was not there before, but also because we used the right
+boundary (as hostpage_boundary here):
 
-Regardless, the code feels a bit too clever to me.  It actually did
-already when I wrote it, but I the less clever ways I could think of
-were also much more verbose.
+     size_t pagesize_bits =
+         qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
+     unsigned long hostpage_boundary =
+         QEMU_ALIGN_UP(pss->page + 1, pagesize_bits);
 
-The code checks that exactly one of a set of keys is present, and which
-one it is.  Any ideas?
+And it also matches with Thomas's bisection result, where the bug report
+came from.
+
+TL;DR: I'm pretty sure the old code was good, hence no explicit backport
+needed.
+
+> 
+> Speaking of -stable, on my view, it is better if "too many" things will be
+> tagged for it and filtered out, than some important things will not be
+> tagged.
+
+Agreed.
+
+I guess we shouldn't blindly apply cc:stable because it'll add unnecessary
+burden to the stable tree maintainers on figuring things out later, IOW it
+should be a question being thought thoroughly when the developer was
+working on the patch.
+
+Normally it should be the maintainers' role to double check especially when
+one patch should apply stable but it got missing (which should happen more
+frequently..).
+
+In the ideal world of perfect developers and active tree maintainers, the
+cc:stable should be 100% accurate because the judgement should be able to
+have been made with existing knowledge, then stable maintainance should be
+hopefully even smoother than the reality.
+
+In this case definitely my fault to applied the cc:stable wrongly, luckily
+in the healthy way rather than losing one of them when really needed.
+
+> 
+> Thank you!
+
+Thanks again to both!
+
+-- 
+Peter Xu
 
 
