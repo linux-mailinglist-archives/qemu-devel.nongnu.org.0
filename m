@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30B5F69236E
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 17:38:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C412692380
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 17:40:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQWPl-0000yP-Vx; Fri, 10 Feb 2023 11:38:22 -0500
+	id 1pQWPm-00010E-32; Fri, 10 Feb 2023 11:38:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQWPh-0000gz-Vk
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQWPj-0000k8-Bc
  for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:38:19 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQWPg-00008w-Cu
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:38:17 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id bg26so4278105wmb.0
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 08:38:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQWPh-0000B9-Ot
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:38:19 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id u10so4231028wmj.3
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 08:38:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AoAgqkkVaW/90nUxacTI0iLIaEIQyrnwnsSs7qVHgZI=;
- b=h/VgQ1mxtjpmlfyI6vqQAuS3QYkgq5B2uf+HVCT2KccHs39TESlkSOCk1euN7ognzZ
- yUFx2OAm8Bh4Qe/tWSPrq+TloufGjebkKamwLDGcw7UThdB/KlZCYKZ42WqggndsIt1o
- Tvu/IyTNVYqQWFzUZULT2Z0RGeAa3CSF4Zo6pYqYVaQKYD42vwC7ssK8n7gH6fOM1Yb8
- VjTaNIOO++IDPZT7cSIBPmQMIbg34yIzw8Jmc6Siyd2Ny402Ef11MDqRV91xNa98+Pod
- t1+oTAxnA4ODOZ8WCY/gfqa0N1K5mqhWOG4f4UHtDOkzSVUwx6C0jvQRmgcZeYRqvAIa
- dA0A==
+ bh=PEO0iz2+8eqHQfeG9sdi6MqymoLkqqNq3DUXOt6Jl6Y=;
+ b=j1qSxQ+kCoZA57myLtiQ65H3pOAdWI9GlycxEiDAF+nhOm/SYM0ZRGe3/UQp+I/O7w
+ vXDxg/eJ+zoyjiSZibgc8Yi2pDhjZL35gyU5Qfl53udVtiqDweOTRStbbq+YxMfj3Hhi
+ KHipVrLA+H2LxsjLGHXtqnpIikYOMs3U8kRjuuQShMZk9W+Td2fE5crNiNSojjSuCGqy
+ OPadiwder4UxG+E1mhI/0mmvnJjISQgSi13LIqzWHSELQJf7RVE65WfXUhlTQoMWhCLl
+ +nNWzVTUOgAe6y5Za8aKuUgIxRLHn5w/BX6xXLbgo8rtnTBVf2D0QObvPI6y49wkL8K7
+ kMSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=AoAgqkkVaW/90nUxacTI0iLIaEIQyrnwnsSs7qVHgZI=;
- b=Rt4EasstF3VkZNoI9rmSk5IvSbBD5+PY1R3FY/8PF/Qw4E5fpAE0tSFmVXdIziy27x
- qZbxijQFm5d7HPFf+GASjILhCstTqpXjALCVVHnx//ZKl1+hLS78afhx2kM0TcgA0iC4
- UDzDFUk1+7t+A7EXl+SqJA9y8E2Lhi4Mlsec96llyTT47hf+A85GQaCCNZPP3fp6Apfe
- or9nvmc4Pa1rwvNi2t8qwSlOO9iNIe25TjakuO104KhsQXTm2m5Ru9xcI1d4Xnedg6ed
- ILR79ABlfj40FtBYA5wjSICZPkSBaBMLkDQt3XiCeebC5/sYjJEcaLovXrPF0BqIDRjO
- qz8Q==
-X-Gm-Message-State: AO0yUKWl6c28xHRm9n00ETExSFMZ79zqoH3l7lrSLl4btrF+vJW8Kw55
- j8TM/adjYK8PeZ7e+JtwMTj7QsbC7sqdFQar
-X-Google-Smtp-Source: AK7set9EdAeDWb2j5hBDCkRPvdxPVfg+jo+dg5GyDUz/6cKQI8Y/3Tp6BJWWuIYRVi0PtJ5ZZzi4Nw==
-X-Received: by 2002:a05:600c:308a:b0:3dc:43a0:83bb with SMTP id
- g10-20020a05600c308a00b003dc43a083bbmr13562208wmn.3.1676047092078; 
- Fri, 10 Feb 2023 08:38:12 -0800 (PST)
+ bh=PEO0iz2+8eqHQfeG9sdi6MqymoLkqqNq3DUXOt6Jl6Y=;
+ b=w6UscxnDvBVaYuUhjahmQ0zNAVb4+IhKf2S3GIIe69ncTNJAyPpeJG2+5EPm418irv
+ R0GEOljfuZDdIKk3KsZc+2a55af8n29M1a/CYYQjPsT/7GKxBYATuL2HzjYi7Hawjw4Y
+ LUNaqEsWmBzddFashbcjlBlrTRT7cBbBvEfkGdVf4a3dktAuDFmJqosi243IPMsTbe/e
+ Il9F3hjFxt0OqACmck+Ufh+reFPHAr7yzqVUPQETfo+B1Qkdajqz04WJsj8lOlqQHewj
+ YAa23eryqSe3Vb2SJqg4Cp3Mxlb5DVVgwiXtIfqRW/JcGsEWdF8S1laNX/udspTtWC4G
+ UyJQ==
+X-Gm-Message-State: AO0yUKXP5KYwECu04VhAjlkA0gFIYS6mxjHrCYBr5fpJshY4HLe1GAWM
+ olQuNfOc8hD++IKHV/x4bZd/9Vs6/XAEp2z/
+X-Google-Smtp-Source: AK7set9VLlIRig0HWeJjLFKonGbxTegs8CIEeDb3sgpGVQDrQB/Hxq8YSQ2bH15Ks3auiSEkWHq05A==
+X-Received: by 2002:a05:600c:4496:b0:3dc:de85:5007 with SMTP id
+ e22-20020a05600c449600b003dcde855007mr13279149wmo.21.1676047096878; 
+ Fri, 10 Feb 2023 08:38:16 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- p1-20020a1c7401000000b003cfa622a18asm8969649wmc.3.2023.02.10.08.38.11
+ k7-20020a05600c080700b003daf672a616sm5110843wmp.22.2023.02.10.08.38.15
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 10 Feb 2023 08:38:11 -0800 (PST)
+ Fri, 10 Feb 2023 08:38:16 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Sergio Lopez <slp@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [PATCH 05/11] hw/mips/jazz: Rename ISA input IRQs as 'isa_irqs_in'
-Date: Fri, 10 Feb 2023 17:37:38 +0100
-Message-Id: <20230210163744.32182-6-philmd@linaro.org>
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
+Subject: [PATCH 06/11] hw/sparc64/sun4u: Keep reference to ISA input IRQs in
+ EbusState
+Date: Fri, 10 Feb 2023 17:37:39 +0100
+Message-Id: <20230210163744.32182-7-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230210163744.32182-1-philmd@linaro.org>
 References: <20230210163744.32182-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,47 +93,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following code:
+Keep reference to ISA input IRQs in EbusState.
 
-     /* ISA devices */
-     i8259 = i8259_init(isa_bus, ...);
-
-gives the false idea that the function is creating a i8259
-device. Instead this function returns an array of input IRQs.
-Rename the variable to clarify:
-
-     /* ISA devices */
-     isa_irqs_in = i8259_init(isa_bus, ...);
+To emphasize input/output distinction, rename arrays
+as isa_irqs_in / isa_irqs_out.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/mips/jazz.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/sparc64/sun4u.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
-index 6aefe9a61b..fc7898006c 100644
---- a/hw/mips/jazz.c
-+++ b/hw/mips/jazz.c
-@@ -130,7 +130,7 @@ static void mips_jazz_init(MachineState *machine,
-     MIPSCPU *cpu;
-     MIPSCPUClass *mcc;
-     CPUMIPSState *env;
--    qemu_irq *i8259;
-+    qemu_irq *isa_irqs_in;
-     rc4030_dma *dmas;
-     IOMMUMemoryRegion *rc4030_dma_mr;
-     MemoryRegion *isa_mem = g_new(MemoryRegion, 1);
-@@ -248,8 +248,8 @@ static void mips_jazz_init(MachineState *machine,
-     isa_bus = isa_bus_new(NULL, isa_mem, isa_io, &error_abort);
+diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+index 387181ff77..8fe47e2c22 100644
+--- a/hw/sparc64/sun4u.c
++++ b/hw/sparc64/sun4u.c
+@@ -84,7 +84,8 @@ struct EbusState {
+     PCIDevice parent_obj;
  
-     /* ISA devices */
--    i8259 = i8259_init(isa_bus, env->irq[4]);
--    isa_bus_irqs(isa_bus, i8259);
-+    isa_irqs_in = i8259_init(isa_bus, env->irq[4]);
-+    isa_bus_irqs(isa_bus, isa_irqs_in);
-     i8257_dma_init(isa_bus, 0);
-     pit = i8254_pit_init(isa_bus, 0x40, 0, NULL);
-     pcspk_init(isa_new(TYPE_PC_SPEAKER), isa_bus, pit);
+     ISABus *isa_bus;
+-    qemu_irq isa_bus_irqs[ISA_NUM_IRQS];
++    qemu_irq *isa_irqs_in;
++    qemu_irq isa_irqs_out[ISA_NUM_IRQS];
+     uint64_t console_serial_base;
+     MemoryRegion bar0;
+     MemoryRegion bar1;
+@@ -287,7 +288,7 @@ static const TypeInfo power_info = {
+ static void ebus_isa_irq_handler(void *opaque, int n, int level)
+ {
+     EbusState *s = EBUS(opaque);
+-    qemu_irq irq = s->isa_bus_irqs[n];
++    qemu_irq irq = s->isa_irqs_out[n];
+ 
+     /* Pass ISA bus IRQs onto their gpio equivalent */
+     trace_ebus_isa_irq_handler(n, level);
+@@ -303,7 +304,6 @@ static void ebus_realize(PCIDevice *pci_dev, Error **errp)
+     ISADevice *isa_dev;
+     SysBusDevice *sbd;
+     DeviceState *dev;
+-    qemu_irq *isa_irq;
+     DriveInfo *fd[MAX_FD];
+     int i;
+ 
+@@ -315,9 +315,9 @@ static void ebus_realize(PCIDevice *pci_dev, Error **errp)
+     }
+ 
+     /* ISA bus */
+-    isa_irq = qemu_allocate_irqs(ebus_isa_irq_handler, s, ISA_NUM_IRQS);
+-    isa_bus_irqs(s->isa_bus, isa_irq);
+-    qdev_init_gpio_out_named(DEVICE(s), s->isa_bus_irqs, "isa-irq",
++    s->isa_irqs_in = qemu_allocate_irqs(ebus_isa_irq_handler, s, ISA_NUM_IRQS);
++    isa_bus_irqs(s->isa_bus, s->isa_irqs_in);
++    qdev_init_gpio_out_named(DEVICE(s), s->isa_irqs_out, "isa-irq",
+                              ISA_NUM_IRQS);
+ 
+     /* Serial ports */
 -- 
 2.38.1
 
