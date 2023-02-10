@@ -2,88 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC0C06914ED
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 00:51:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCBE369158A
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 01:33:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQGgt-0000Bm-DI; Thu, 09 Feb 2023 18:50:59 -0500
+	id 1pQHKZ-0001Q5-Ml; Thu, 09 Feb 2023 19:31:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pQGgm-00007m-2A
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 18:50:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQHKW-0001O1-OL
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 19:31:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pQGgj-00023x-Bs
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 18:50:51 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQHKT-0001dt-Gb
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 19:31:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675986648;
+ s=mimecast20190719; t=1675989112;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2VZQAueKlU0uXZUou5sGelGvxOO0p1Tqu8N8i6ud6ig=;
- b=I8m3ed395M8+fT07L+l1smE893USrfT+ZUHS4Hrw0VTxpzyq/BodRkw4vyshZtHdxgTwAc
- oE0qECbrCyVKzO91SPd9olMKG6PpwOlhm4v6JbW+10+ckkG1MKXzX1IJbh1uZzu+XJFI/h
- 9i0WjQLbTydXKqEyvJLHh3sv1WO0mVk=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-232-5efR9C7PNIquZTwavmoS-g-1; Thu, 09 Feb 2023 18:50:47 -0500
-X-MC-Unique: 5efR9C7PNIquZTwavmoS-g-1
-Received: by mail-il1-f200.google.com with SMTP id
- g1-20020a92cda1000000b0030c45d93884so2814912ild.16
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 15:50:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2VZQAueKlU0uXZUou5sGelGvxOO0p1Tqu8N8i6ud6ig=;
- b=xtHakhNLr/QnyaioGnogxegwMZiGirYTwRR9T2lzqabBQkXz9qGk0ba1Iuww+C4jxH
- Tgr7ni4QRHVsmunPkOM0emydvQXzXsnkwJhvOkQW0Qf2Vokxh3Hn8DGtSxh8rqdQGADF
- oQZdc2l3HZSK5qo0ahE6AFYUIMQ3AGgJ4+91gQNFN3UbDFGMLRW3xF5LK6ZahdIstI0W
- VTCDTidwdjzjI9KwAOSKLcUTTEXiYmqC2SCcrYNFVKvxETtAaJMApG2cnjlNt8m9I9oi
- dXfG2Pm4IqgXU+r+/gb0CZle8H4IHVpLTYz6x7NT1c+abNyFMxvvvHS+HDu4PHZ04N1H
- vpHA==
-X-Gm-Message-State: AO0yUKXnDJmTxVXbPwxhlSPPlB6oMBb78KSL/2afjWdtG6iqlvejb9D0
- 4xSdZTF1FUAxuWORDkP52NMFTth1Bl5Ae+Wljt1YW3Wj/nxolItWfoILnh00YAzguEZClwYHl6E
- gF2lVH9416sF6J7s=
-X-Received: by 2002:a05:6e02:1cac:b0:313:d385:3e98 with SMTP id
- x12-20020a056e021cac00b00313d3853e98mr14680312ill.18.1675986646277; 
- Thu, 09 Feb 2023 15:50:46 -0800 (PST)
-X-Google-Smtp-Source: AK7set/kzJ8pRre9r12fTfeoEIA/ftzgK6zqRSy09e3p/7XZfFRaCEz9uo3ja6D6NbJ2ed1ypAtL4w==
-X-Received: by 2002:a05:6e02:1cac:b0:313:d385:3e98 with SMTP id
- x12-20020a056e021cac00b00313d3853e98mr14680298ill.18.1675986646050; 
- Thu, 09 Feb 2023 15:50:46 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- z10-20020a92d18a000000b0030c0217dde6sm886816ilz.0.2023.02.09.15.50.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Feb 2023 15:50:45 -0800 (PST)
-Date: Thu, 9 Feb 2023 16:50:44 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>, Juan Quintela <quintela@redhat.com>
-Cc: <qemu-devel@nongnu.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Vladimir Sementsov-Ogievskiy
- <vsementsov@yandex-team.ru>, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater
- <clg@redhat.com>, Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe
- <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede
- <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>, Joao Martins
- <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v10 04/12] migration/qemu-file: Add qemu_file_get_to_fd()
-Message-ID: <20230209165044.1015f029.alex.williamson@redhat.com>
-In-Reply-To: <20230209192043.14885-5-avihaih@nvidia.com>
-References: <20230209192043.14885-1-avihaih@nvidia.com>
- <20230209192043.14885-5-avihaih@nvidia.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zpc7elwnoNJPYSftblMgwXaNQ2QvlvKWAxVYfrjuheY=;
+ b=ILR6O948tpfUc5KEerm12lgO7eOtwWayO5LMKpSYYvcY7M98xofYjRLWxyZJnmIgMW6Oi5
+ W7FdUC3GRrL+eN8/XnpQgQBOMzBZXBFemDbi051CUm9GSUuZJCFaG8j+0jM/A+k1fwWEtE
+ BL7c6jw1u2Y2lLh8J0MVoHtJ6Uy+xnw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-261-xcI5tYYfPB6sIG2j8iH4QQ-1; Thu, 09 Feb 2023 19:31:49 -0500
+X-MC-Unique: xcI5tYYfPB6sIG2j8iH4QQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A05401C04B64;
+ Fri, 10 Feb 2023 00:31:48 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.16.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0BD8018EC1;
+ Fri, 10 Feb 2023 00:31:47 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>
+Subject: [PATCH v2 0/7] Python: Drop support for Python 3.6
+Date: Thu,  9 Feb 2023 19:31:40 -0500
+Message-Id: <20230210003147.1309376-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -91,7 +66,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,82 +82,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Hey Juan,
-
-I think we're close, please ack this if it looks ok.  Thanks,
-
-Alex
-
-On Thu, 9 Feb 2023 21:20:35 +0200
-Avihai Horon <avihaih@nvidia.com> wrote:
-
-> Add new function qemu_file_get_to_fd() that allows reading data from
-> QEMUFile and writing it straight into a given fd.
->=20
-> This will be used later in VFIO migration code.
->=20
-> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> Reviewed-by: C=C3=A9dric Le Goater <clg@redhat.com>
-> ---
->  migration/qemu-file.h |  1 +
->  migration/qemu-file.c | 34 ++++++++++++++++++++++++++++++++++
->  2 files changed, 35 insertions(+)
->=20
-> diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-> index fa13d04d78..9d0155a2a1 100644
-> --- a/migration/qemu-file.h
-> +++ b/migration/qemu-file.h
-> @@ -148,6 +148,7 @@ int qemu_file_shutdown(QEMUFile *f);
->  QEMUFile *qemu_file_get_return_path(QEMUFile *f);
->  void qemu_fflush(QEMUFile *f);
->  void qemu_file_set_blocking(QEMUFile *f, bool block);
-> +int qemu_file_get_to_fd(QEMUFile *f, int fd, size_t size);
-> =20
->  void ram_control_before_iterate(QEMUFile *f, uint64_t flags);
->  void ram_control_after_iterate(QEMUFile *f, uint64_t flags);
-> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-> index 2d5f74ffc2..102ab3b439 100644
-> --- a/migration/qemu-file.c
-> +++ b/migration/qemu-file.c
-> @@ -940,3 +940,37 @@ QIOChannel *qemu_file_get_ioc(QEMUFile *file)
->  {
->      return file->ioc;
->  }
-> +
-> +/*
-> + * Read size bytes from QEMUFile f and write them to fd.
-> + */
-> +int qemu_file_get_to_fd(QEMUFile *f, int fd, size_t size)
-> +{
-> +    while (size) {
-> +        size_t pending =3D f->buf_size - f->buf_index;
-> +        ssize_t rc;
-> +
-> +        if (!pending) {
-> +            rc =3D qemu_fill_buffer(f);
-> +            if (rc < 0) {
-> +                return rc;
-> +            }
-> +            if (rc =3D=3D 0) {
-> +                return -EIO;
-> +            }
-> +            continue;
-> +        }
-> +
-> +        rc =3D write(fd, f->buf + f->buf_index, MIN(pending, size));
-> +        if (rc < 0) {
-> +            return -errno;
-> +        }
-> +        if (rc =3D=3D 0) {
-> +            return -EIO;
-> +        }
-> +        f->buf_index +=3D rc;
-> +        size -=3D rc;
-> +    }
-> +
-> +    return 0;
-> +}
+Howdy, this series increases our minimum python version to 3.7.=0D
+=0D
+CI: https://gitlab.com/jsnow/qemu/-/pipelines/771780626=0D
+    (All green!)=0D
+GL: https://gitlab.com/jsnow/qemu/-/commits/python-require-37=0D
+=0D
+Patches 1 and 2 are loose pre-requisites; I'd like to merge them into=0D
+qemu.git within the week whether or not we take this series. I'd=0D
+appreciate an "ACK" on those specifically. They're just riding along=0D
+here because they make this series a bit nicer.=0D
+=0D
+Patches 3-6 are the hard pre-requisites, and 7 does the dirty work.=0D
+=0D
+The motivation for this series is that Python 3.6 was EOL at the end of=0D
+2021; upstream tools are beginning to drop support for it, including=0D
+setuptools, pylint, mypy, etc. As time goes by, it becomes more=0D
+difficult to support and test against the full range of Python versions=0D
+that QEMU supports. The closer we get to Python 3.12, the harder it will=0D
+be to cover that full spread of versions.=0D
+=0D
+The qemu.qmp library and the avocado testing framework both have=0D
+motivations for dropping 3.6 support, but are committed to not doing so=0D
+until QEMU drops support.=0D
+=0D
+So, I'd like to talk about doing it.=0D
+=0D
+V2:=0D
+- Added R-Bs to patch 1=0D
+- Updated commit message for patch 7 with explicit version info=0D
+- Added DO-NOT-MERGE to patch 5's title=0D
+- Tested tests/vm/freebsd, netbsd, and openbsd in addition to full CI=0D
+=0D
+RFC:=0D
+ - Patch 5 is just a proof-of-concept; we need to update lcitool instead.=0D
+ - Cleber, I need to update your ansible scripts. How do I test them?=0D
+=0D
+Thanks!=0D
+--js=0D
+=0D
+John Snow (7):=0D
+  python: support pylint 2.16=0D
+  python: drop pipenv=0D
+  configure: Look for auxiliary Python installations=0D
+  configure: Add nice hint to Python failure message=0D
+  DO-NOT-MERGE: testing: Add Python >=3D 3.7 to Centos, OpenSuSE=0D
+  CI: Stop building docs on centos8=0D
+  Python: Drop support for Python 3.6=0D
+=0D
+ docs/conf.py                                  |   4 +-=0D
+ python/README.rst                             |   3 -=0D
+ configure                                     |  40 +-=0D
+ .gitlab-ci.d/buildtest.yml                    |   2 +-=0D
+ .gitlab-ci.d/static_checks.yml                |   4 +-=0D
+ python/.gitignore                             |   4 +-=0D
+ python/Makefile                               |  57 ++-=0D
+ python/Pipfile                                |  13 -=0D
+ python/Pipfile.lock                           | 347 ------------------=0D
+ python/qemu/qmp/protocol.py                   |   2 +-=0D
+ python/qemu/qmp/qmp_client.py                 |   2 +-=0D
+ python/qemu/utils/qemu_ga_client.py           |   6 +-=0D
+ python/setup.cfg                              |  11 +-=0D
+ python/tests/minreqs.txt                      |  45 +++=0D
+ scripts/qapi/mypy.ini                         |   2 +-=0D
+ tests/docker/dockerfiles/centos8.docker       |   1 +=0D
+ tests/docker/dockerfiles/opensuse-leap.docker |   1 +=0D
+ tests/docker/dockerfiles/python.docker        |   1 -=0D
+ tests/qemu-iotests/iotests.py                 |   4 +-=0D
+ .../tests/migrate-bitmaps-postcopy-test       |   2 +-=0D
+ 20 files changed, 135 insertions(+), 416 deletions(-)=0D
+ delete mode 100644 python/Pipfile=0D
+ delete mode 100644 python/Pipfile.lock=0D
+ create mode 100644 python/tests/minreqs.txt=0D
+=0D
+-- =0D
+2.39.0=0D
+=0D
 
 
