@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D0B692385
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 17:40:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0C03692375
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 17:39:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQWPT-0000Oi-Ia; Fri, 10 Feb 2023 11:38:03 -0500
+	id 1pQWPW-0000Re-4T; Fri, 10 Feb 2023 11:38:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQWPK-0000OO-9E
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:37:54 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQWPR-0000Ow-Sb
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:38:02 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQWPI-00008K-G7
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:37:53 -0500
-Received: by mail-wm1-x335.google.com with SMTP id o36so4249824wms.1
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 08:37:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQWPP-0000BB-At
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 11:38:01 -0500
+Received: by mail-wm1-x330.google.com with SMTP id r18so4223142wmq.5
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 08:37:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9wz1BonRBA4qQZKRmLhECiyYteaw1n0xGhljex2JkKU=;
- b=iNaBr1JtiKBuEPP9K33XyQEly/Bh6gg3B0lqoU27fmR9rHb2x0926RKsHnI8dWPFRY
- ZsySQhqZraW52yu7HCr2uDMeC4vHD+sMEH4cFtDR2qCf1mwAwHhwHPAj9meLzqiMdOdo
- 4nUDdwxyUWmZS0JWMDCP5C0It0PT+xtxH5gtGnvCMzgVS4T6oWafkIY0xx2CGEo9j9pW
- E5NgLOGLFMe//W5kyfIWifdk5JI112fqJPmiMBMAFBDQSbA+dK7NFHIf8l8WRKGU9Mdb
- L/T6TGGNLND0T8koDv1Z0TSHcoEIpWgjOJ+0HgV4BkmWe4lek/6dTS5oC81c12zoE/fH
- bhbA==
+ bh=xNlUpknHvw0osLPPGBJk+hOEoEjuFtxnaLdXgn2w/R4=;
+ b=vX/w/p/6O5JBsyxWOZmL3GOzN+zJsYokWdjeQFcq+omHmB+nnO2CwOcPe/lnzLf5JR
+ jh4cKYI4EMe0vp0LPii0th6alavptAn/nmxKFOsVJJDNN2/WMMrgkYocsKOrutLv+lS5
+ OgxvCVUBm/gLccdHwl/ZGMwePW8+kmXI+GgQ11eK3bTLa7799y4Qc2dP4FP1dnKGfaYN
+ lwbFiW8tllrc1Dnz7Z2wBJxLqR02Ag/F7DZKOc2xk/ta7gKdgul5FwutsbLMgGIEg5jr
+ Of2E8Mqc8bIGyXJzwaRojEK4kw9fOj1Gc//2gDz8XjV4B20TiOmS6wJgexPnC3SAsrQQ
+ 3mzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9wz1BonRBA4qQZKRmLhECiyYteaw1n0xGhljex2JkKU=;
- b=7i8JoKZN08w51AcFGfBnofrskCHeoAjD+Tcqx+s8aRB8DnZRGkHndPEG/mIjnZYF3R
- INphokFIz1Kj24y9W4jwNTitWKDTK7LNv+wjHgGcQnct8bfU7kiuwrHf1r7MGqdUyR2O
- wHEHTujwvsWOtalkQ3yJpud/DC7A2r6lFxxN2n58wAAnJFczveBLmZAgf/P5+z7ZzTMd
- 6ULNHa3CGiXkvvz9RRUAvm6PNfb9X/2TZa6bWG+WHhSO8wYYTKgZjlmSKALwKTBZlaRx
- SxTsUXxIVnd0Kq+s9imOC3rLyOFkKmcppFMDIQ4p5hGFrX0nx/m1hN8P4yrvPvemy/DD
- HlCQ==
-X-Gm-Message-State: AO0yUKWhot7TGKOkwwLsAqFMJMGMoxXes096kqBwmDNff/pICC6AuF4H
- 11253h9WvdwOTeoRRhJa6/sa9VD/JI+7DvIJ
-X-Google-Smtp-Source: AK7set8svLAEe0K82s5i/+b2Oldxnb9NR1kM+cDADv8a6EZLVgmDRVwe0QSG7cGIC2ixLD2UK4XN9w==
-X-Received: by 2002:a05:600c:3420:b0:3dc:4548:abe6 with SMTP id
- y32-20020a05600c342000b003dc4548abe6mr13354159wmp.12.1676047071696; 
- Fri, 10 Feb 2023 08:37:51 -0800 (PST)
+ bh=xNlUpknHvw0osLPPGBJk+hOEoEjuFtxnaLdXgn2w/R4=;
+ b=7R/CBAnT3V1dMe2lJ96aP71zB0JOLB2dB+5kRVJ0P74bTfi+rzRHbiCQwYDd2TVBGh
+ nWVS6mZJvw6+MmrkD8a96VyMujh7GKT8EDscMjsH7vJczwiaEqlpTMEA55z7drGHnSdX
+ 72g+y2IrHfDH8GUm5s7OGmONHxdNatSdi9IdRIXArxRHCbuDQpi7e61MCsdOExujmgyr
+ kHKl8mHX77zWacOxzkNZIpMAefIm8I0eyJO+9EUZPWE/W0Snv9WVmL21E4Us7QDtQp/j
+ VEMygzTJ1+jm8WJsFRR5gmciNzScZQu09Mwq6rZ/KeZWgzfm22t6fyb+C8h6eO7qcu8D
+ 4dFQ==
+X-Gm-Message-State: AO0yUKV32YhKLkqHqZOEYmK4TW+DlSmYGeJCcfTeUZlrzztgJg4L5Oct
+ OE1IxEypR+21ekOtg6sL1gspXclEjBhlHUdr
+X-Google-Smtp-Source: AK7set9VqjnlGN54TQsy5YMWW0VR9/8+JTf5DV07UYHZI8TAmvbtAGmOkGLQGGTdS8GGQwCmhn1Hjw==
+X-Received: by 2002:a05:600c:81b:b0:3c6:e63e:23e9 with SMTP id
+ k27-20020a05600c081b00b003c6e63e23e9mr16782869wmp.24.1676047076763; 
+ Fri, 10 Feb 2023 08:37:56 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- n19-20020a05600c3b9300b003daf7721bb3sm9399325wms.12.2023.02.10.08.37.50
+ e19-20020a05600c439300b003dd7edcc960sm5239763wmn.45.2023.02.10.08.37.55
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 10 Feb 2023 08:37:51 -0800 (PST)
+ Fri, 10 Feb 2023 08:37:56 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Sergio Lopez <slp@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 01/11] hw/intc/i8259: Document i8259_init()
-Date: Fri, 10 Feb 2023 17:37:34 +0100
-Message-Id: <20230210163744.32182-2-philmd@linaro.org>
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>
+Subject: [PATCH 02/11] hw/isa/i82378: Rename output IRQ as 'cpu_intr'
+Date: Fri, 10 Feb 2023 17:37:35 +0100
+Message-Id: <20230210163744.32182-3-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230210163744.32182-1-philmd@linaro.org>
 References: <20230210163744.32182-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,59 +91,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-i8259_init() helper creates a i8259 device on an ISA bus,
-connects its IRQ output to the parent's input IRQ, and
-returns an array of 16 ISA input IRQs.
+Commit a04ff94097 ("prep: Add i82378 PCI-to-ISA bridge
+emulation") aimed to model the 2 output IRQs: CPU intr
+and NMI. Commit 5039d6e235 ("i8257: remove cpu_request_exit
+irq") removed the NMI IRQ.
+Since this model only use the CPU interrupt, replace the
+'out[2]' array by a single 'cpu_intr'.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/intc/i8259.c         |  4 ++--
- include/hw/intc/i8259.h | 10 +++++++++-
- 2 files changed, 11 insertions(+), 3 deletions(-)
+ hw/isa/i82378.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
-index 0261f087b2..17910f3bcb 100644
---- a/hw/intc/i8259.c
-+++ b/hw/intc/i8259.c
-@@ -406,7 +406,7 @@ static void pic_realize(DeviceState *dev, Error **errp)
-     pc->parent_realize(dev, errp);
+diff --git a/hw/isa/i82378.c b/hw/isa/i82378.c
+index e3322e03bf..84ce761f5f 100644
+--- a/hw/isa/i82378.c
++++ b/hw/isa/i82378.c
+@@ -32,7 +32,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(I82378State, I82378)
+ struct I82378State {
+     PCIDevice parent_obj;
+ 
+-    qemu_irq out[2];
++    qemu_irq cpu_intr;
+     qemu_irq *i8259;
+     MemoryRegion io;
+ };
+@@ -50,7 +50,7 @@ static const VMStateDescription vmstate_i82378 = {
+ static void i82378_request_out0_irq(void *opaque, int irq, int level)
+ {
+     I82378State *s = opaque;
+-    qemu_set_irq(s->out[0], level);
++    qemu_set_irq(s->cpu_intr, level);
  }
  
--qemu_irq *i8259_init(ISABus *bus, qemu_irq parent_irq)
-+qemu_irq *i8259_init(ISABus *bus, qemu_irq parent_irq_in)
- {
-     qemu_irq *irq_set;
-     DeviceState *dev;
-@@ -418,7 +418,7 @@ qemu_irq *i8259_init(ISABus *bus, qemu_irq parent_irq)
-     isadev = i8259_init_chip(TYPE_I8259, bus, true);
-     dev = DEVICE(isadev);
+ static void i82378_request_pic_irq(void *opaque, int irq, int level)
+@@ -113,7 +113,7 @@ static void i82378_init(Object *obj)
+     DeviceState *dev = DEVICE(obj);
+     I82378State *s = I82378(obj);
  
--    qdev_connect_gpio_out(dev, 0, parent_irq);
-+    qdev_connect_gpio_out(dev, 0, parent_irq_in);
-     for (i = 0 ; i < 8; i++) {
-         irq_set[i] = qdev_get_gpio_in(dev, i);
-     }
-diff --git a/include/hw/intc/i8259.h b/include/hw/intc/i8259.h
-index a0e34dd990..c412575775 100644
---- a/include/hw/intc/i8259.h
-+++ b/include/hw/intc/i8259.h
-@@ -4,7 +4,15 @@
- /* i8259.c */
+-    qdev_init_gpio_out(dev, s->out, 1);
++    qdev_init_gpio_out(dev, &s->cpu_intr, 1);
+     qdev_init_gpio_in(dev, i82378_request_pic_irq, 16);
+ }
  
- extern PICCommonState *isa_pic;
--qemu_irq *i8259_init(ISABus *bus, qemu_irq parent_irq);
-+
-+/*
-+ * i8259_init()
-+ *
-+ * Create a i8259 device on an ISA @bus,
-+ * connect its output to @parent_irq_in,
-+ * return an (allocated) array of 16 input IRQs.
-+ */
-+qemu_irq *i8259_init(ISABus *bus, qemu_irq parent_irq_in);
- qemu_irq *kvm_i8259_init(ISABus *bus);
- int pic_get_output(PICCommonState *s);
- int pic_read_irq(PICCommonState *s);
 -- 
 2.38.1
 
