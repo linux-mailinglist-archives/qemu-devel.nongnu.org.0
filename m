@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22D6691FFD
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 14:44:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8824691FFF
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 14:44:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQTgk-0007rb-PA; Fri, 10 Feb 2023 08:43:42 -0500
+	id 1pQTgm-0007v1-F2; Fri, 10 Feb 2023 08:43:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clopez@suse.de>) id 1pQRYA-0003cP-Ul
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:26:42 -0500
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ (Exim 4.90_1) (envelope-from <pkarthikeyan1509@gmail.com>)
+ id 1pQSVP-0000Vo-Ic; Fri, 10 Feb 2023 07:27:55 -0500
+Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <clopez@suse.de>) id 1pQRY6-00033g-7E
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 06:26:41 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 98F316752D;
- Fri, 10 Feb 2023 11:26:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1676028392; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=rPO7Tl5ZAji92Jbza+uQUlcMvktjS3fjWKiTWL5j7g4=;
- b=N/KCXa/W8Tbj7axofwqyfOqjM1Ues5oEo2SlSiRGFsbQbCZMra4g0AJNBu9bECivfzCZXn
- MWpdajzVA1KQGLeDPnAMllap8wIosiRXaKhVV5d8EidcweEBrCgJ1MbuHNV0bYsV7aOisX
- 5XawODh/lYnHD1HpbHRAoDUyVVMwui4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1676028392;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=rPO7Tl5ZAji92Jbza+uQUlcMvktjS3fjWKiTWL5j7g4=;
- b=rbAAouO3MbP1b4OPm2WktKL4q4OsvSWnACKKPDDGloA50V0Fo27no0/NziaiIPRT4o3lLd
- b/ZODcAqk0vgbUDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4BCAE1325E;
- Fri, 10 Feb 2023 11:26:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id TRrwDugp5mM3aQAAMHmgww
- (envelope-from <clopez@suse.de>); Fri, 10 Feb 2023 11:26:32 +0000
-From: =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>,
- "Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PATCH] libvhost-user: check for NULL when allocating a virtqueue
- element
-Date: Fri, 10 Feb 2023 12:25:15 +0100
-Message-Id: <20230210112514.16858-1-clopez@suse.de>
-X-Mailer: git-send-email 2.35.3
+ (Exim 4.90_1) (envelope-from <pkarthikeyan1509@gmail.com>)
+ id 1pQSVO-0001Xl-1l; Fri, 10 Feb 2023 07:27:55 -0500
+Received: by mail-io1-xd2a.google.com with SMTP id j4so1853143iog.8;
+ Fri, 10 Feb 2023 04:27:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=8L7H/6QJCXJg3ajtUMRvItZ/TPKzQzJOf82w8gkPTbs=;
+ b=Vt5YUPeB0/6FgFau2fouDONMa4s9MIwj+nLCbvZjhrQBVWz1V+BWP5QW5uydnn5jnA
+ bC3jOltFH5GGsPlWPcq0PkaWGtMN+Sqaj1eVzIqKloOI+ZCS5VcXvNIMG426CEhtYvYJ
+ X7sBNNOHcxwRG5UGT88I9BW8x3Nf3GvtA1FfqpFCt9EnzYJljlfZlE9TIuzreuaceY0S
+ 1GuQfyow/uvlSfJorg5T8K+3GhWOXpSHGwtYrltM0/ZDuDjfgkg3CNMmZlqvLMTxTm7f
+ /QLM0kDuGC00RTNrHOdtgnD2U6+G+9dRn8g8uuCz2ErirJSpDb//FbDN03XrBZq7oEEL
+ k7bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=8L7H/6QJCXJg3ajtUMRvItZ/TPKzQzJOf82w8gkPTbs=;
+ b=2Xf9sEsB8YyWt+4ofWe62SCrvZUb36TgZluRKeeXJxQjcavv/Up9LyIan/dST4bwVb
+ tlkD3SK30562akiVW85sNeSHh3zGD5W4JvPn6b6CP+0ilbTPRYfk6G1VzAqfXGvKa+lX
+ PNXyVtWle7QgVUglBvu6yMro7nQLGHJmVo3dm1/KX580F5Wzibkvp2lzgWi+7P1JAvXW
+ yaYDrAaqyV1B10US8JEKvYe+UvL45ObQJG07pAv5bKdq+TTZTQg2YVLIL5Fs8qHy2C1r
+ 1+fB+moBNDPK+CGPTeySUxy+EzFIh/fIXHjpDOPoap8O9P56BMsls77FJjlKUjzujBBT
+ 5v+Q==
+X-Gm-Message-State: AO0yUKW2EJxXz6MCKwlyd42vaskPi5UosA82dySZRDZYmu1OHzyk6aAw
+ mUfPVpb0QKJSOiPxZ7UdTeg=
+X-Google-Smtp-Source: AK7set/bpCQombAvv0Fj4ZJy2G32dIzsjXPJWHD8xkB7ILh8LibNwTXhD1af0bv80SKFi05EJCLJZA==
+X-Received: by 2002:a5d:8751:0:b0:71b:d76c:fadd with SMTP id
+ k17-20020a5d8751000000b0071bd76cfaddmr11024599iol.3.1676032072076; 
+ Fri, 10 Feb 2023 04:27:52 -0800 (PST)
+Received: from hcl-ThinkPad-T495.hclt.corp.hcl.in ([192.8.226.44])
+ by smtp.gmail.com with ESMTPSA id
+ c6-20020a6bcc06000000b00724768be183sm1291523iog.13.2023.02.10.04.27.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Feb 2023 04:27:51 -0800 (PST)
+From: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
+To: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
+Subject: [PATCH v1] Adding new machine Tiogapass in QEMU
+Date: Fri, 10 Feb 2023 17:56:42 +0530
+Message-Id: <20230210122641.837614-1-pkarthikeyan1509@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=clopez@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
+ envelope-from=pkarthikeyan1509@gmail.com; helo=mail-io1-xd2a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Fri, 10 Feb 2023 08:43:40 -0500
@@ -84,66 +87,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Check the return value for malloc(), avoiding a NULL pointer
-dereference, and propagate error in function callers.
+This patch support tiogapass in QEMU environment.
 
-Found with GCC 13 and -fanalyzer:
-
-../subprojects/libvhost-user/libvhost-user.c: In function ‘virtqueue_alloc_element’:
-../subprojects/libvhost-user/libvhost-user.c:2556:19: error: dereference of possibly-NULL ‘elem’ [CWE-690] [-Werror=analyzer-possible-null-dereference]
- 2556 |     elem->out_num = out_num;
-      |     ~~~~~~~~~~~~~~^~~~~~~~~
-  ‘virtqueue_alloc_element’: event 1
-    |
-    | 2554 |     assert(sz >= sizeof(VuVirtqElement));
-    |      |     ^~~~~~
-    |      |     |
-    |      |     (1) following ‘true’ branch (when ‘sz > 31’)...
-    |
-  ‘virtqueue_alloc_element’: events 2-4
-    |
-    | 2555 |     elem = malloc(out_sg_end);
-    |      |     ^~~~   ~~~~~~~~~~~~~~~~~~
-    |      |     |      |
-    |      |     |      (3) this call could return NULL
-    |      |     (2) ...to here
-    | 2556 |     elem->out_num = out_num;
-    |      |     ~~~~~~~~~~~~~~~~~~~~~~~
-    |      |                   |
-    |      |                   (4) ‘elem’ could be NULL: unchecked value from (3)
-    |
-
-Signed-off-by: Carlos López <clopez@suse.de>
+Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
 ---
- subprojects/libvhost-user/libvhost-user.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ hw/arm/aspeed.c | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
-index fc69783d2b..225bbbe3c8 100644
---- a/subprojects/libvhost-user/libvhost-user.c
-+++ b/subprojects/libvhost-user/libvhost-user.c
-@@ -2553,6 +2553,10 @@ virtqueue_alloc_element(size_t sz,
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 27dda58338..279ba60743 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -521,6 +521,14 @@ static void ast2600_evb_i2c_init(AspeedMachineState *bmc)
+                      TYPE_TMP105, 0x4d);
+ }
  
-     assert(sz >= sizeof(VuVirtqElement));
-     elem = malloc(out_sg_end);
-+    if (!elem) {
-+        DPRINT("%s: failed to malloc virtqueue element\n", __func__);
-+        return NULL;
-+    }
-     elem->out_num = out_num;
-     elem->in_num = in_num;
-     elem->in_sg = (void *)elem + in_sg_ofs;
-@@ -2639,6 +2643,9 @@ vu_queue_map_desc(VuDev *dev, VuVirtq *vq, unsigned int idx, size_t sz)
++static void fb_bmc_i2c_init(AspeedMachineState *bmc)
++{
++    AspeedSoCState *soc = &bmc->soc;
++
++    /* The FB board AST2500 compatible with ds1338 */
++    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 11), "ds1338", 0x32);
++}
++
+ static void romulus_bmc_i2c_init(AspeedMachineState *bmc)
+ {
+     AspeedSoCState *soc = &bmc->soc;
+@@ -1174,6 +1182,25 @@ static void aspeed_machine_ast2500_evb_class_init(ObjectClass *oc, void *data)
+         aspeed_soc_num_cpus(amc->soc_name);
+ };
  
-     /* Now copy what we have collected and mapped */
-     elem = virtqueue_alloc_element(sz, out_num, in_num);
-+    if (!elem) {
-+        return NULL;
-+    }
-     elem->index = idx;
-     for (i = 0; i < out_num; i++) {
-         elem->out_sg[i] = iov[i];
++static void aspeed_machine_tp_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
++
++    mc->desc       = "Facebook Tiogapass BMC (ARM1176)";
++    amc->soc_name  = "ast2500-a1";
++    amc->hw_strap1 = AST2500_EVB_HW_STRAP1;
++    amc->hw_strap2 = 0;
++    amc->fmc_model = "n25q256a";
++    amc->spi_model = "mx25l25635e";
++    amc->num_cs    = 2;
++    amc->i2c_init  = fb_bmc_i2c_init;
++    mc->default_ram_size       = 1 * GiB;
++    mc->default_cpus = mc->min_cpus = mc->max_cpus =
++        aspeed_soc_num_cpus(amc->soc_name);
++        aspeed_soc_num_cpus(amc->soc_name);
++};
++
+ static void aspeed_machine_romulus_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
+@@ -1562,6 +1589,10 @@ static const TypeInfo aspeed_machine_types[] = {
+         .name          = MACHINE_TYPE_NAME("ast2600-evb"),
+         .parent        = TYPE_ASPEED_MACHINE,
+         .class_init    = aspeed_machine_ast2600_evb_class_init,
++    }, {
++        .name          = MACHINE_TYPE_NAME("tp-bmc"),
++        .parent        = TYPE_ASPEED_MACHINE,
++        .class_init    = aspeed_machine_tp_class_init,
+     }, {
+         .name          = MACHINE_TYPE_NAME("tacoma-bmc"),
+         .parent        = TYPE_ASPEED_MACHINE,
 -- 
-2.35.3
+2.25.1
 
 
