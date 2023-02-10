@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31BC691F38
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 13:39:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14FA9691F39
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 13:39:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQSfx-00033O-Ca; Fri, 10 Feb 2023 07:38:49 -0500
+	id 1pQSgg-0003FJ-V3; Fri, 10 Feb 2023 07:39:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pQSft-00032g-7P
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 07:38:45 -0500
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQSgY-0003Ed-5o
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 07:39:28 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pQSfr-0003px-Aj
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 07:38:44 -0500
-Received: by mail-oi1-x22a.google.com with SMTP id v15so4290537oie.9
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 04:38:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=eqDEVzEJSAV8K2Jys7ja335ZZIehAyBdNW6Zbc2eCcA=;
- b=aKNlho6esE/EfTvMyLi6EzNDr/vFhQfrB89oEuW3BsEVFDYwGwvs4e71x7oC8JyvsY
- 0MmPE9M4/hDEgo4T9zMGxoVSuXO+2BiHAbcuoVPIIV/efpo0+pRFS2KJ4G0G2tVHyT8p
- X0hXVWERTaV+oalS+mQLifpn165W0oo6RxbIsGq0ysQZVycCzSq+fVy+vQvzZEIrTj1U
- Nl0qsglIscBGU2buezeWcUy83A3XcM7dX62aqqElGTy7Psp3Awr67tWEtyi6HIRRzBua
- JhtIR1mTlgIHoi2WJPttgLYBefHo4+ost8irTjLCdc+frpOq6R8QMXjA2T9VS9yrwDUZ
- 4SuQ==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQSgV-0003um-Vl
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 07:39:25 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id o18so4955923wrj.3
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 04:39:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=aNsvsSAqwcg+4xbViCFC+/j3Ki0z4tY5GQRWMiE6ROI=;
+ b=R7VLD82W8+phs23c/3pOt7HebcDyz+RAnfrRyQq+/IwpVordqzLpC6OMNIK3bIKu4V
+ 3dBdf3Na0D0Np2537n9KyAozG5qEKHhMe3+gcTEnjWIXIe2XclezffZQl/P3CW7BZ6DO
+ bL9bfYf27Q9vqpjUXUlbr/sdKfz9MJNuL8bjuD3Y8UKGMHrqbfQ3h/NyzW13COQtyxdZ
+ y9YSkACCk7cU85QS19LP5Aqqf+smJw8vVDGvxuaZQrmijIm5ERZfvu+vAQYfi5cFLaDP
+ pDfTP2buKFkPu1U9tM9o0jTUvs2bnQeJQnJEk/IrKVAvyip/vl650A/IBrLW+LQ0iqTa
+ sAUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=eqDEVzEJSAV8K2Jys7ja335ZZIehAyBdNW6Zbc2eCcA=;
- b=lLSOSTiW+I50ksl4LlCtPQBl2NJmno3g/MleI/WjVuWm6HDJO/OLuH1bb6FJQm+bc7
- k+6wiqcrq+ERSec/weCjkn2h8VOHdtMtV9ClFwiHSrlj35abIFUME7w/VQkAvoADvrkr
- 1vllmKTNLWhKlGQvfNkBL9Wf8oUsp8F8KlsGGq9xmDKL8RTPHLVT856/i7sotIwG7adv
- Yafd42rUj0lpCf7yOnO/dj5OSl49p82D0jopGJO4CMZeWdps14iqjh/SymkM2Gwu4O54
- jIeTDid8snw0mWKJAr3BXKM+hmK5ph/sbAeIgn8gutZYNd/Www8c0r5CyyVWA/pHH4lo
- qmhQ==
-X-Gm-Message-State: AO0yUKVxlytnPb4zxjvH9jsU0mU5CAqwpAqBTwkHLbUVIJnK/txWoSAL
- eyAPs6gSGqo3IU0oOswG6ub5VTPrGqRa5QeW
-X-Google-Smtp-Source: AK7set9gtlyP5LzqeSuaP5cFOuF517Tuga4WcxlTp7Kxdil6151WAbl3l9i2optEOSAulHgctyyJ8g==
-X-Received: by 2002:a05:6808:aae:b0:35b:abe2:b46b with SMTP id
- r14-20020a0568080aae00b0035babe2b46bmr6808814oij.23.1676032721175; 
- Fri, 10 Feb 2023 04:38:41 -0800 (PST)
-Received: from grind.dc1.ventanamicro.com ([191.19.125.138])
- by smtp.gmail.com with ESMTPSA id
- l9-20020a9d7a89000000b0068d4dda3d61sm1913613otn.39.2023.02.10.04.38.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Feb 2023 04:38:40 -0800 (PST)
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH] target/riscv: avoid env_archcpu() in cpu_get_tb_cpu_state()
-Date: Fri, 10 Feb 2023 09:38:36 -0300
-Message-Id: <20230210123836.506286-1-dbarboza@ventanamicro.com>
-X-Mailer: git-send-email 2.39.1
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aNsvsSAqwcg+4xbViCFC+/j3Ki0z4tY5GQRWMiE6ROI=;
+ b=PhuufUO0hn4BvKrccglJMPD+reyg1F5JPG5LYROkdjKF91MdipYkrM8aCkDra5Ks9j
+ bcvXtUZkbKiBIImxG11kh9ZzcMTkDlvY5xesYysVD+GHqC89lSRQwUQpdlTAT+4Rhh4F
+ 9BUe3FCNPISnAoFmHif/UMecGc6Pdbh7pnDQuNwl/Vr7+lTdp36+smmfzLUle3tvc1YF
+ +pXclcjo+s4Vt0PQ8O+bnZ9F5WLPIUE6RLN3zG6+6VE21TpZV2iPkTOV5/kUmfriPei0
+ bvyko1hoYP/rV3+rXQQgEaSzg4rD7mH/D+EMnLIOOxHCs/NQTqEM/I9LmD80qyWHymGj
+ QPCA==
+X-Gm-Message-State: AO0yUKWLIyv0WYYy16aHna+LbXVHSFwKszZ8A7XwWGyLl2j7Djdt8nYh
+ Lki9XhOFlg/qHYPjqweXYfUz+g==
+X-Google-Smtp-Source: AK7set/oWm69VERfmHNj+gfJ47eo94tn/HuBH9/yrAlsYlU6MsTFu0zMznyFpMCL0PciPL+FYS9KAg==
+X-Received: by 2002:adf:f350:0:b0:2c3:da3f:1def with SMTP id
+ e16-20020adff350000000b002c3da3f1defmr15690303wrp.7.1676032762461; 
+ Fri, 10 Feb 2023 04:39:22 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ d15-20020a056000114f00b002c53e8d86basm2946009wrx.83.2023.02.10.04.39.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Feb 2023 04:39:22 -0800 (PST)
+Message-ID: <a65c42ff-6e96-1051-558d-91c84432b5e8@linaro.org>
+Date: Fri, 10 Feb 2023 13:39:20 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [RFC PATCH] Do not include "qemu/error-report.h" in headers that
+ do not need it
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-trivial@nongnu.org,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Strahinja Jankovic <strahinja.p.jankovic@gmail.com>,
+ Coiby Xu <Coiby.Xu@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20230210111931.1115489-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230210111931.1115489-1-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,27 +96,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We have a RISCVCPU *cpu pointer available at the start of the function.
+On 10/2/23 12:19, Thomas Huth wrote:
+> Include it in the .c files instead that use the error reporting
+> functions.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   RFC since it's more lines of code - but I think it's still cleaner
+>   this way.
 
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
----
- target/riscv/cpu_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is less pressure on the various .c files including these .h,
+so it is an improvement IMO.
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index ad8d82662c..3a9472a2ff 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -60,7 +60,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-          * which is not supported by GVEC. So we set vl_eq_vlmax flag to true
-          * only when maxsz >= 8 bytes.
-          */
--        uint32_t vlmax = vext_get_vlmax(env_archcpu(env), env->vtype);
-+        uint32_t vlmax = vext_get_vlmax(cpu, env->vtype);
-         uint32_t sew = FIELD_EX64(env->vtype, VTYPE, VSEW);
-         uint32_t maxsz = vlmax << sew;
-         bool vl_eq_vlmax = (env->vstart == 0) && (vlmax == env->vl) &&
--- 
-2.39.1
+>   include/hw/arm/allwinner-a10.h   | 1 -
+>   include/qemu/vhost-user-server.h | 1 -
+>   include/ui/console.h             | 1 -
+>   hw/display/vhost-user-gpu.c      | 1 +
+>   hw/display/virtio-gpu-virgl.c    | 1 +
+>   hw/misc/applesmc.c               | 1 +
+>   ui/console.c                     | 1 +
+>   ui/egl-headless.c                | 1 +
+>   ui/spice-app.c                   | 1 +
+>   ui/spice-display.c               | 1 +
+>   ui/udmabuf.c                     | 1 +
+>   ui/vdagent.c                     | 1 +
+>   util/vhost-user-server.c         | 1 +
+>   13 files changed, 10 insertions(+), 3 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
