@@ -2,99 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AAE16921B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 16:13:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1075F6921CA
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 16:17:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQV4U-0004rP-M7; Fri, 10 Feb 2023 10:12:18 -0500
+	id 1pQV82-0006oK-P5; Fri, 10 Feb 2023 10:15:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pQV4S-0004r2-RS
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 10:12:16 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pQV4R-0000b5-3M
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 10:12:16 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- l37-20020a05600c1d2500b003dfe46a9801so4332266wms.0
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 07:12:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=/5xKzpdfFdMzt5UFIip1Hxf07GmyY1XivypXJzcxFLM=;
- b=dcoeFKt8+Zcbjk7p9Y+DsGEhJ8Vt6KTQzqGFZWPKWUpRpHlVYHWPCOygJBEaMl1sj6
- OZOCFj4L8n3l7nI1RkGpge5ntvLHF33KiaH4DUzeTfy/m4yBPz4eMTZBFb9W6zOTQxwh
- LwkmRfTUiQJCJ1jVeoMPEW2330nH3QuHjaWtw21Q21pIOgT+/mraenaE0lOuV+8s7J2V
- 7GJu3TI902i6ONvtPb3Y5OvSBFkwjiak4AfvGTNDqBYPain3LyukfDPmZCNKSAhqJVIp
- 9lyjTq8vo1Hs54ElUi6Vdt7ICWZrV5fn09Wbd0IPsonhTI0V3Mq6d7tXKfG8yxsFi0Ky
- P4bw==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pQV7v-0006ng-Gq
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 10:15:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pQV7t-0001Pm-Vk
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 10:15:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676042149;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CxLxIR8L4AKiXD2Oy5ixxZ4GEws06ZFqD81tVBGpVUI=;
+ b=anjbBnms4i2lOjJ0z2uucMOytAB/RtezVnZrJE0bvQBvm2AYe+1KNMLW1Hdd6t/xtJ+KEk
+ JTbOivFh+OyN/E79FBqtsE8vDw25nzHZKku4Ll4pml6pU4MWGvLumXvtueVcMdKhDSJtge
+ D7QWE3Ay648RiBrqUsPYSUr08zbLWmE=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-218-_4No3mmZM0KSq2vYM_knxA-1; Fri, 10 Feb 2023 10:15:46 -0500
+X-MC-Unique: _4No3mmZM0KSq2vYM_knxA-1
+Received: by mail-pg1-f197.google.com with SMTP id
+ 201-20020a6300d2000000b004ccf545f44fso2694578pga.12
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 07:15:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/5xKzpdfFdMzt5UFIip1Hxf07GmyY1XivypXJzcxFLM=;
- b=c/rjnFpf2D4hirCmeOozg3MXnZkpwptV5DhKeWsYNwoVHYq7USobC47Mj4iSJN5IKW
- zyNU+fY/57PHfNqhSvNOp1IKZajnSuVar9lCyRtWSAGAqxRgwlYmug8pCFKx9AfRhnwi
- He/aP1Xb27JWXYl3PxfuKSfiHsw32AdCKwO8vndxnsH+xxBwwhfYLYe4Bp4r9EX5FF+p
- PAzW+R2oZ+o0fBQDvfht9Tzbe1xtHVzCGH8kgoriS1E01a8oEtEF01NvC+m0GfZ2osTd
- PUmF9Cpt7CcJrWTgX0BaAScsK2cepmfuNDJp6g6VdaJon12ASQ7UfX0eOz6A1kjKkFQj
- rxZA==
-X-Gm-Message-State: AO0yUKWK1i/m1s0k0zsAb9iOeHvNZEBY3p9C2xBhzWFAMPQJmaaM2m38
- dqQe9AwVEhkSw1tmi/9FCsE=
-X-Google-Smtp-Source: AK7set+OffuAkGWuggoW0+PPViEo7CH6f/fjVxM5LhXlaGpjYqRH9R8cX3v3L0nV+GThLaAQ9luh0A==
-X-Received: by 2002:a05:600c:1f12:b0:3e1:541:2b56 with SMTP id
- bd18-20020a05600c1f1200b003e105412b56mr8837708wmb.30.1676041933362; 
- Fri, 10 Feb 2023 07:12:13 -0800 (PST)
-Received: from [192.168.15.58] (54-240-197-232.amazon.com. [54.240.197.232])
- by smtp.gmail.com with ESMTPSA id
- h4-20020a1ccc04000000b003dc4a47605fsm8737781wmb.8.2023.02.10.07.12.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Feb 2023 07:12:13 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <6b51db04-97bf-2e59-8aad-e4d0beb0b040@xen.org>
-Date: Fri, 10 Feb 2023 15:12:11 +0000
+ d=1e100.net; s=20210112; t=1676042145;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=CxLxIR8L4AKiXD2Oy5ixxZ4GEws06ZFqD81tVBGpVUI=;
+ b=hQ4NNmGNd69OLerYIz4v8SB7FwlHm2vM+KDwDZQqqu+xv5SaJ/Xrz/ey3svT4Knq6Y
+ cG5O6F901eZLY4555/jEdPOo1F5KAWnQttPUCceCevNUa+L+6I2kM4rLtSOw0BowaBsm
+ S0piInCtE+CstewPc7fq+Lpe60xuI8RTF78w32TcxNnesgEYHbkYx+leFPHZLPdqWZNZ
+ Hc9HBOvtHejNxphgGmnst9TBHiPjeJxjSUIxWIdvSdMCUDi8tc1wp4BJSiWCAvgJ+o7v
+ t0wT936/ljHBWEtGqtTGkH9leBqBLcFCf2lBuCd0mxIGQ3l4GkQ0YkbDujsjcH9HqoqD
+ iKJw==
+X-Gm-Message-State: AO0yUKUteYWhT81R83but2Dvjw9jEynZM4urnVbNnZYyF6bK6DStFUcU
+ +O8SZtoQqFaiNYRshRalXS7A8R3aWGYav+mqKq5wA/rRKIp8RqP/GYqQHvzcUu1DvvNmw37jxwD
+ hQwAQIc1HI5zjS8Wgwd5IdJSJoM486Kk=
+X-Received: by 2002:aa7:9618:0:b0:592:e66f:6c77 with SMTP id
+ q24-20020aa79618000000b00592e66f6c77mr3257471pfg.34.1676042145630; 
+ Fri, 10 Feb 2023 07:15:45 -0800 (PST)
+X-Google-Smtp-Source: AK7set/I6DZnnBJ8JA99aPPmvM6mgY5K32gNcz3a8pmaRQm6yTp3w0GhDKd7pLfmnTJKQizDvk+SSwHLfZBu4bsQDgU=
+X-Received: by 2002:aa7:9618:0:b0:592:e66f:6c77 with SMTP id
+ q24-20020aa79618000000b00592e66f6c77mr3257461pfg.34.1676042145235; Fri, 10
+ Feb 2023 07:15:45 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v10 39/59] i386/xen: add monitor commands to test event
- injection
-Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-References: <20230201143148.1744093-1-dwmw2@infradead.org>
- <20230201143148.1744093-40-dwmw2@infradead.org>
- <be2420d5-b267-9e9b-d3e6-cdfa30d57640@xen.org>
- <77aacace96f80eaa4e16ea9a60417b64b4c1e7ef.camel@infradead.org>
-Organization: Xen Project
-In-Reply-To: <77aacace96f80eaa4e16ea9a60417b64b4c1e7ef.camel@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-1.149, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230207005650.1810-1-quintela@redhat.com>
+ <20230207005650.1810-2-quintela@redhat.com>
+ <0dd85902-0071-a915-2655-8aff8d0074d1@msgid.tls.msk.ru>
+ <87ilg9iutl.fsf@secure.mitica> <Y+ZcVkhRr8rYU6Az@x1n>
+In-Reply-To: <Y+ZcVkhRr8rYU6Az@x1n>
+From: Juan Quintela <quintela@redhat.com>
+Date: Fri, 10 Feb 2023 16:15:33 +0100
+Message-ID: <CAGiv1-UWTO02TM==+uG1r1-wBpTjDsBa5bQQ3DAp2d4yYnXdyQ@mail.gmail.com>
+Subject: Re: [PULL 01/30] migration: Fix migration crash when target psize
+ larger than host
+To: Peter Xu <peterx@redhat.com>
+Cc: Michael Tokarev <mjt@tls.msk.ru>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ qemu-stable@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000b219d705f459f8c7"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,26 +94,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/02/2023 15:05, David Woodhouse wrote:
-> On Fri, 2023-02-10 at 14:54 +0000, Paul Durrant wrote:
->>
->> Given that this patch only provides a command to inject an event on a
->> specific port, I think it's be useful to have the target field report
->> the type of a VIRQ. PV drivers often hook VIRQ_DEBUG for dumping debug
->> info, so knowing which of the VIRQ ports
-> 
-> It's there in type_val, Wary of overengineering I hadn't actually
-> translated it to strings but frankly if you don't know VIRQ_DEBUG is 1
-> you don't deserve to play...
-> 
+--000000000000b219d705f459f8c7
+Content-Type: text/plain; charset="UTF-8"
 
-Ah, it's already in there... good. And indeed a number is all that's 
-needed. In which case...
+On Fri, Feb 10, 2023, 16:01 Peter Xu <peterx@redhat.com> wrote:
 
-Reviewed-by: Paul Durrant <paul@xen.org>
+> On Fri, Feb 10, 2023 at 01:11:34PM +0100, Juan Quintela wrote:
+> > Michael Tokarev <mjt@tls.msk.ru> wrote:
+> > > 07.02.2023 03:56, Juan Quintela wrote:
+> > >> From: Peter Xu <peterx@redhat.com>
+> > >> Commit d9e474ea56 overlooked the case where the target psize is even
+> > >> larger
+> > >> than the host psize.  One example is Alpha has 8K page size and
+> migration
+> > >> will start to crash the source QEMU when running Alpha migration on
+> x86.
+> > >> Fix it by detecting that case and set host start/end just to cover
+> > >> the
+> > >> single page to be migrated.
+> > >
+> > > FWIW, commit in question, which is d9e474ea56, has been applied after
+> the
+> > > last released version to date, which is 7.2.0.  So I guess this change
+> is
+> > > not applicable to -stable.
+> >
+> > I think it should.
+> >
+> > This is a bug that can happen when your host page is smaller than the
+> > guest size.
+> >
+> > And has been that way for a long time.
+> > Once told that, people don't migrate alpha guests a lot, but it can also
+> > happens with funny combinations of large pages.
+> >
+> > Peter Xu knows more about this.
+>
+> Thanks, Juan.
+>
+> I think Michael was correct that d9e474ea56 is only merged after our most
+> recent release (which is v7.2.0).  So it doesn't need to have stable copied
+> (aka, it doesn't need to be applied to any QEMU's stable tree).
+>
+> Juan, could you help drop the "cc: stable" line if the pull is going to
+> have a new version?
+>
+
+
+Sure.
+
+I hope the problem is somewhere else.
+
+>
+> Side note: I think in the case where we have wrongly have the cc:stable it
+> shouldn't hurt either, because when the stable tree tries to pick it up
+> it'll find it doesn't apply at all, then a downstream-only patch will be
+> needed, then we'll also figure all things out, just later.
+>
+> Thanks,
+>
+> --
+> Peter Xu
+>
+>
+
+--000000000000b219d705f459f8c7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Fri, Feb 10, 2023, 16:01 Peter Xu &lt;<a href=3D"ma=
+ilto:peterx@redhat.com">peterx@redhat.com</a>&gt; wrote:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
+lid;padding-left:1ex">On Fri, Feb 10, 2023 at 01:11:34PM +0100, Juan Quinte=
+la wrote:<br>
+&gt; Michael Tokarev &lt;<a href=3D"mailto:mjt@tls.msk.ru" target=3D"_blank=
+" rel=3D"noreferrer">mjt@tls.msk.ru</a>&gt; wrote:<br>
+&gt; &gt; 07.02.2023 03:56, Juan Quintela wrote:<br>
+&gt; &gt;&gt; From: Peter Xu &lt;<a href=3D"mailto:peterx@redhat.com" targe=
+t=3D"_blank" rel=3D"noreferrer">peterx@redhat.com</a>&gt;<br>
+&gt; &gt;&gt; Commit d9e474ea56 overlooked the case where the target psize =
+is even<br>
+&gt; &gt;&gt; larger<br>
+&gt; &gt;&gt; than the host psize.=C2=A0 One example is Alpha has 8K page s=
+ize and migration<br>
+&gt; &gt;&gt; will start to crash the source QEMU when running Alpha migrat=
+ion on x86.<br>
+&gt; &gt;&gt; Fix it by detecting that case and set host start/end just to =
+cover<br>
+&gt; &gt;&gt; the<br>
+&gt; &gt;&gt; single page to be migrated.<br>
+&gt; &gt;<br>
+&gt; &gt; FWIW, commit in question, which is d9e474ea56, has been applied a=
+fter the<br>
+&gt; &gt; last released version to date, which is 7.2.0.=C2=A0 So I guess t=
+his change is<br>
+&gt; &gt; not applicable to -stable.<br>
+&gt; <br>
+&gt; I think it should.<br>
+&gt; <br>
+&gt; This is a bug that can happen when your host page is smaller than the<=
+br>
+&gt; guest size.<br>
+&gt; <br>
+&gt; And has been that way for a long time.<br>
+&gt; Once told that, people don&#39;t migrate alpha guests a lot, but it ca=
+n also<br>
+&gt; happens with funny combinations of large pages.<br>
+&gt; <br>
+&gt; Peter Xu knows more about this.<br>
+<br>
+Thanks, Juan.<br>
+<br>
+I think Michael was correct that d9e474ea56 is only merged after our most<b=
+r>
+recent release (which is v7.2.0).=C2=A0 So it doesn&#39;t need to have stab=
+le copied<br>
+(aka, it doesn&#39;t need to be applied to any QEMU&#39;s stable tree).<br>
+<br>
+Juan, could you help drop the &quot;cc: stable&quot; line if the pull is go=
+ing to<br>
+have a new version?<br></blockquote></div></div><div dir=3D"auto"><br></div=
+><div dir=3D"auto"><br></div><div dir=3D"auto">Sure.</div><div dir=3D"auto"=
+><br></div><div dir=3D"auto">I hope the problem is somewhere else.</div><di=
+v dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+Side note: I think in the case where we have wrongly have the cc:stable it<=
+br>
+shouldn&#39;t hurt either, because when the stable tree tries to pick it up=
+<br>
+it&#39;ll find it doesn&#39;t apply at all, then a downstream-only patch wi=
+ll be<br>
+needed, then we&#39;ll also figure all things out, just later.<br>
+<br>
+Thanks,<br>
+<br>
+-- <br>
+Peter Xu<br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000b219d705f459f8c7--
 
 
