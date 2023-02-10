@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A4F9691886
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 07:32:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE90C691888
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 07:32:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQMx9-00057l-7y; Fri, 10 Feb 2023 01:32:11 -0500
+	id 1pQMxB-00058F-5s; Fri, 10 Feb 2023 01:32:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras.c@gmail.com>)
- id 1pQMx6-00056u-C1
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 01:32:08 -0500
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329])
+ id 1pQMx8-00057k-Ls
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 01:32:10 -0500
+Received: from mail-ot1-x32a.google.com ([2607:f8b0:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <leobras.c@gmail.com>)
- id 1pQMx4-0007gD-LI
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 01:32:07 -0500
-Received: by mail-ot1-x329.google.com with SMTP id
- bv2-20020a0568300d8200b0068dc615ee44so1274290otb.10
- for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 22:32:06 -0800 (PST)
+ id 1pQMx7-0007gR-0F
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 01:32:10 -0500
+Received: by mail-ot1-x32a.google.com with SMTP id
+ g15-20020a9d6b0f000000b0068db1940216so1285391otp.5
+ for <qemu-devel@nongnu.org>; Thu, 09 Feb 2023 22:32:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=b0JhpVPOTJNunW/+RFyMjuxpZq9yWKqBvO16ePPxhWc=;
- b=XeXVMLFl/DFm1/l89eR+Uq12dUEsUWTsxCgOMFt7M1xr5ofJ7GcP8TbJAjZZY/witF
- k7S3mSFUCAC/d7USas5mSxf3jCaq2CNQeER2uNArWeYYfeAWT7ivGRJ4pdfxLxLfIxIF
- PsZJpdw5kdZOKr6DfOLgy7DzigOtOcnQRhHbC0MwuWb38yibN6T0oSN/zqio33asQvHY
- JLnoR7QdLx5i3y5GPbJfbS77JbemxR9y2mH+R/MKUR/gwFuXA5Kdx4mXZV8upkYiPxtW
- BMyAHVHQD3LN7PN1XZhxaDJ/hWK2rXzY3gVPetnAduoYWCnwwHQE2MxTucjUp7Kh8iRu
- NDug==
+ bh=LVKjVnaIscpJ3VchybK9zAWnObdNbO6GM/i6OX7DY8E=;
+ b=DWlRUyZUeDFI+QrwqjQ0ow3GgdafvHr9s6Lk9+rmPZe3EL3Qn0cEV+Xd5ePjiYHEpQ
+ xbWxH1PayDw76xyIa9bnIJs5deaXQSVm/dwqJpEPIrAW3HmJuIS7EHtHf8Wpdg8H4jPb
+ N9pECzVQFwSaxRB+TPMmstG0923r3trWMUHpQclzXHaVdc3vf45vIghqfxdqV9fR7fPn
+ B+XVcGXPuNfDk7QIOQlS0AOttPB7q18LeRm2xdHHjS8gNb0M6fa1AFC1MWgPKsb4LKv4
+ Os49T/nz2oCDqBR+pMV/NfQfNvyg/tf4iOUHTLwrLe+pNZsXQhiKFDDJjSqZLlq3wUYl
+ vOxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=b0JhpVPOTJNunW/+RFyMjuxpZq9yWKqBvO16ePPxhWc=;
- b=0sZMSXVYiZKntIUwv5CO/GxZ/82oHBzW93/LzGaXZ8uFwejY1BkDu4iELnT2nvL6ro
- 6OQ8gNaAg9ijAGFwBgHKV2K+lbCl/gvHvJ4+Px/jFlIaEL50eoAYF/fNP649zQwitpiO
- XIZGWT8ZlvHjavpMz1/zJHmC0deYKGFSxtvGt/ZI+miLWreUDrg971UrFyRlDRmkJhtY
- 4MXVia3JHjGudx8AbUZ5x2oAI6IDwmaozjst4o/A7nIz1RZVfpKVCG/NMwnW+0eaHe01
- OqCHVVtHu+neFVHRHkrGeINY76V05/QbYjdxYp/fC63IHfemv/o54pTruGiEkrmgI263
- uVAA==
-X-Gm-Message-State: AO0yUKWiQnO1ZPw1XE2dKUd0BEwiSDhIMrZq01a8ZDrXaGbq8rtf4BmD
- OTcsvnCi+pQPUPlGSmMyWZc=
-X-Google-Smtp-Source: AK7set/UUa3NmF+czS02gsUIk+R1uf1Uz6g7mU+Uc8kmoiULGyxlyrsyZRdpfl0UeoCUgoFwaLFNLw==
-X-Received: by 2002:a05:6830:923:b0:684:d3d1:6df8 with SMTP id
- v35-20020a056830092300b00684d3d16df8mr10548377ott.29.1676010725111; 
- Thu, 09 Feb 2023 22:32:05 -0800 (PST)
+ bh=LVKjVnaIscpJ3VchybK9zAWnObdNbO6GM/i6OX7DY8E=;
+ b=VRwmamv92Mt/zSTTmAd5bPHKilL4mK/H4brq04EtRJF+wiETCiRpmpZ8eiJaRquoHy
+ KAYQnrhzam7Gh5hTWW75nBobdT6zX4RhiZWmJW2mwcgDUtkC3ww554474qwcDYpak5NI
+ oUpzWhyA89NSeg+Zez7hcGdFXPYgyG8mZ81p/wcdTBOjmeJvkRF6PEmnxZnri2Vl/77X
+ EQzLu37r1sowvSYQk2OBIeHvmjqvH9ytK4DKdKvkEXqCkgGu5XQZG7SaZDtpSYdNfq/R
+ u8L6I8lGGxhl0TONyWkqSBtO+jj3Dhv3CfoZOEECyyTPoR8bKkMopKo1F1jGeSfLyiQx
+ gsHg==
+X-Gm-Message-State: AO0yUKVZ7qioLGrxK9ITsjmP7+Lp2DugZRV7UzzjYHRXXRhAoTT/GrXX
+ WifXqT3fHtkdEnLDewD1nWo=
+X-Google-Smtp-Source: AK7set/uHMzvCETM2zhGNx+83Yf0cQc+QInTsqRto28+Epv9/hcAQCPWWLxXiGFEj64SeYij90E22Q==
+X-Received: by 2002:a9d:734c:0:b0:68b:daba:9b2b with SMTP id
+ l12-20020a9d734c000000b0068bdaba9b2bmr7227397otk.13.1676010727534; 
+ Thu, 09 Feb 2023 22:32:07 -0800 (PST)
 Received: from LeoBras.redhat.com ([2804:1b3:a800:9aa9:fdcb:7dec:9680:8417])
  by smtp.gmail.com with ESMTPSA id
- h18-20020a9d6a52000000b00688449397d3sm1686285otn.15.2023.02.09.22.32.03
+ h18-20020a9d6a52000000b00688449397d3sm1686285otn.15.2023.02.09.22.32.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Feb 2023 22:32:04 -0800 (PST)
+ Thu, 09 Feb 2023 22:32:07 -0800 (PST)
 From: Leonardo Bras <leobras.c@gmail.com>
 To: Juan Quintela <quintela@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Peter Xu <peterx@redhat.com>
 Cc: Leonardo Bras <leobras.c@gmail.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v1 2/4] migration/multifd: Remove unnecessary assignment on
- multifd_load_cleanup()
-Date: Fri, 10 Feb 2023 03:31:43 -0300
-Message-Id: <20230210063145.530952-2-leobras.c@gmail.com>
+Subject: [PATCH v1 3/4] migration/multifd: Join all multifd threads in order
+ to avoid leaks
+Date: Fri, 10 Feb 2023 03:31:44 -0300
+Message-Id: <20230210063145.530952-3-leobras.c@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230210063145.530952-1-leobras.c@gmail.com>
 References: <20230210063145.530952-1-leobras.c@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
- envelope-from=leobras.c@gmail.com; helo=mail-ot1-x329.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32a;
+ envelope-from=leobras.c@gmail.com; helo=mail-ot1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,29 +94,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Before assigning "p->quit = true" for every multifd channel,
-multifd_load_cleanup() will call multifd_recv_terminate_threads() which
-already does the same assignment, while protected by a mutex.
+Current approach will only join threads that are still running.
 
-So there is no point doing the same assignment again.
+For the threads not joined, resources or private memory are always kept in
+the process space and never reclaimed before process end, and this risks
+serious memory leaks.
+
+This should usually not represent a big problem, since multifd migration
+is usually just ran at most a few times, and after it succeeds there is
+not much to be done before exiting the process.
+
+Yet still, it should not hurt performance to join all of them.
 
 Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
 ---
- migration/multifd.c | 1 -
- 1 file changed, 1 deletion(-)
+ migration/multifd.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/migration/multifd.c b/migration/multifd.c
-index 174726982c..1a445b36f1 100644
+index 1a445b36f1..7e37a459ed 100644
 --- a/migration/multifd.c
 +++ b/migration/multifd.c
-@@ -1034,7 +1034,6 @@ void multifd_load_cleanup(void)
-         MultiFDRecvParams *p = &multifd_recv_state->params[i];
- 
-         if (p->running) {
--            p->quit = true;
-             /*
-              * multifd_recv_thread may hung at MULTIFD_FLAG_SYNC handle code,
+@@ -1039,8 +1039,9 @@ void multifd_load_cleanup(void)
               * however try to wakeup it without harm in cleanup phase.
+              */
+             qemu_sem_post(&p->sem_sync);
+-            qemu_thread_join(&p->thread);
+         }
++
++        qemu_thread_join(&p->thread);
+     }
+     for (i = 0; i < migrate_multifd_channels(); i++) {
+         MultiFDRecvParams *p = &multifd_recv_state->params[i];
 -- 
 2.39.1
 
