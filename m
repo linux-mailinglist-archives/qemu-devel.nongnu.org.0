@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42C70691591
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 01:33:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0EAB691589
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 01:33:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQHKW-0001NW-B7; Thu, 09 Feb 2023 19:31:56 -0500
+	id 1pQHKY-0001PA-VV; Thu, 09 Feb 2023 19:31:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQHKV-0001N7-4I
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 19:31:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQHKW-0001Nx-L0
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 19:31:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQHKT-0001dv-HP
- for qemu-devel@nongnu.org; Thu, 09 Feb 2023 19:31:54 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pQHKU-0001eH-5J
+ for qemu-devel@nongnu.org; Thu, 09 Feb 2023 19:31:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675989112;
+ s=mimecast20190719; t=1675989113;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oARPzcd2LalPqfG8XtD5ejL2C6ow0gh9FdoUtiDmSyg=;
- b=EZDky59/xMxs2qypqPiK/Dnxayahfn7eLLFqo/3GheyDDznjAKdvQl/9vXf7oz0eA16iM8
- h7OkRBAkXDXtkIROd5ferynUGvylnR3FicxdbXbBpfXjZcubNTau8P9SL4+NMTSfL+MBFf
- iHge+j/Tmu0/fVEjkVkdVJ3+S2sCBFQ=
+ bh=JEMmHVXKwLYZ3+jNDnUUS2kXEpufF4iEYW/w8I6VeHI=;
+ b=FVLwRAXpmGiB+M53JoEu/5JXFTQM5NyVZzvD3aqmQGrWIoVJ7OCzKmOOBmxnqBDHKiXSWe
+ xxh7glU2dsouoWvxklKlpABOWxHakmciJJ+8R2fvqyCO4KIUmoJkuMzH63Eo3qYFFL/XjU
+ xT/3OCawK896j3faBclbuYfYdAeogLs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-237-crhAQukZPl6W3HEDtzU8PQ-1; Thu, 09 Feb 2023 19:31:51 -0500
-X-MC-Unique: crhAQukZPl6W3HEDtzU8PQ-1
+ us-mta-6-sSWcC9C9OOezLCHZyobDrw-1; Thu, 09 Feb 2023 19:31:52 -0500
+X-MC-Unique: sSWcC9C9OOezLCHZyobDrw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 25F86101A55E;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C43C285C1D2;
  Fri, 10 Feb 2023 00:31:51 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8F9E718EC1;
- Fri, 10 Feb 2023 00:31:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 35D7D18EC1;
+ Fri, 10 Feb 2023 00:31:51 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
@@ -52,15 +52,16 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
  qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Kevin Wolf <kwolf@redhat.com>
-Subject: [PATCH v2 4/7] configure: Add nice hint to Python failure message
-Date: Thu,  9 Feb 2023 19:31:44 -0500
-Message-Id: <20230210003147.1309376-5-jsnow@redhat.com>
+Subject: [PATCH v2 5/7] DO-NOT-MERGE: testing: Add Python >= 3.7 to Centos,
+ OpenSuSE
+Date: Thu,  9 Feb 2023 19:31:45 -0500
+Message-Id: <20230210003147.1309376-6-jsnow@redhat.com>
 In-Reply-To: <20230210003147.1309376-1-jsnow@redhat.com>
 References: <20230210003147.1309376-1-jsnow@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -84,35 +85,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-If we begin requiring Python 3.7+, a few platforms are going to need to
-install an additional package.
+This is just a proof-of-concept patch, as these files are lcitool
+generated. The real fix will involve updating the lcitool configuration
+and updating these files that way.
 
-This is at least mildly annoying to the user (and I hate negative
-attention), so solve the user's problem for them before they get a
-chance to become irritated while searching on Google for how to install
-newer Python packages.
+This is just to prove that bumping our dependency works.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- configure | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ tests/docker/dockerfiles/centos8.docker       | 1 +
+ tests/docker/dockerfiles/opensuse-leap.docker | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/configure b/configure
-index ea8c973d13b..bf512273f44 100755
---- a/configure
-+++ b/configure
-@@ -1058,7 +1058,10 @@ fi
- 
- if ! check_py_version "$python"; then
-   error_exit "Cannot use '$python', Python >= 3.6 is required." \
--      "Use --python=/path/to/python to specify a supported Python."
-+             "Use --python=/path/to/python to specify a supported Python." \
-+             "Maybe try:" \
-+             "  openSUSE Leap 15.3+: zypper install python39" \
-+             "  CentOS 8: dnf install python38"
- fi
- 
- # Suppress writing compiled files
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index fbc953c6dcc..a3bfddf382d 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -95,6 +95,7 @@ RUN dnf distro-sync -y && \
+         pkgconfig \
+         pulseaudio-libs-devel \
+         python3 \
++        python38 \
+         python3-PyYAML \
+         python3-numpy \
+         python3-pillow \
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
+index 4b2c02d6abf..9e688c1d441 100644
+--- a/tests/docker/dockerfiles/opensuse-leap.docker
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -89,6 +89,7 @@ RUN zypper update -y && \
+            pam-devel \
+            pcre-devel-static \
+            pkgconfig \
++           python39 \
+            python3-Pillow \
+            python3-PyYAML \
+            python3-Sphinx \
 -- 
 2.39.0
 
