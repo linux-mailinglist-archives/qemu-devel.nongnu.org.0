@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9BCC6920D4
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 15:29:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD3F46920D8
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 15:31:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQUOQ-0001Qb-VH; Fri, 10 Feb 2023 09:28:50 -0500
+	id 1pQUPt-000261-Df; Fri, 10 Feb 2023 09:30:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pQUOO-0001QP-PW
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 09:28:48 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ id 1pQUPq-00025l-SN
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 09:30:19 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pQUOM-0000OS-5g
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 09:28:48 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- az4-20020a05600c600400b003dff767a1f1so4201713wmb.2
- for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 06:28:45 -0800 (PST)
+ id 1pQUPp-0000i4-2b
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 09:30:18 -0500
+Received: by mail-wm1-x335.google.com with SMTP id r18so3942622wmq.5
+ for <qemu-devel@nongnu.org>; Fri, 10 Feb 2023 06:30:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:user-agent:mime-version:date
  :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=GdPSkAK9+AypJrKMaf/mtSVb5qSbxBmUidXIMoSe4g8=;
- b=FAsT6WVnnajwR3d7pUDjfEXjb1q8nTautSKSwlORRogDkAeArcYxHFBACOLaUD+dzw
- dRtv1F8TYQmbqH4JRG8SSWb/g92hIMPXafXa56Yz5qkSolFtswRXwNrC9f/Ex3HlLwjv
- xkhSJyoA5WcvRoX+yGN/nsQBbdZj0ujE9jFo9ozLyZ33ZQ/80P48S36FsB0knUs2CfGl
- b4985IUxTnE++4mKng5Q3tle6ZUgz4H7+EOFBFeXyaIBp2wj+OkIkXtWM/l30D7FF2Xg
- xgfekyOA8KHBRCFe2WKry1Vhws+0tfczdimzPYHgt1zdHArSrOqPiCf+A9VobsCzNcs7
- 9nbA==
+ bh=VbMVBuepZNykkyz8uQyjySSGuBwCVMpMjP1YIGyVCno=;
+ b=M1o2wdR/tUbYlRMungCYSO4dAD5nQaaKmTAWpev6VtTOKLAz/GJJ1kPM9Ta4F8PGjc
+ DF5ddFh0mc/1z8+X0yRJZA5pY4ngfOaFpxyx48+FuCB/pB4skjvdjctEh7QILQpWwR/X
+ U9kc1sOrICkuKFPHl7vBC5GVibSMH2y6d6Q7xZ0t/GT1UILPFqjX2qeg7+nRJZ3hWt3w
+ nx39BbL4vW6zw2KYKAUsXruhirBEG8u7R+iPc3x4vFEv1MrrgG+PYJmba1g4sMRNJy7P
+ wO511biaHLHopyE4muYM2PVvGXJD6vwcdSJ/cskbkSuLqqqQW16jgvjzel+8bRw9mfFy
+ Xz/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:user-agent:mime-version:date
  :message-id:from:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GdPSkAK9+AypJrKMaf/mtSVb5qSbxBmUidXIMoSe4g8=;
- b=nHpxRS7xX4XRKbFUERaS4MjRm1YVejhcFmMTtV1T57WZLs1HTYdl4TA1D8NnjdI0/8
- 1iGF6slbgu5AQ0Ddr1aQBbn8d42BbiIokPTsxseLtgBvlD9u/nb+rRSAnX0jwXbdOXEz
- fdGuBt6fgYH1VYqydIgQfTEQ+WvmwgM9iyFblSBp7losQAoMJrdDwykRENfeEznc99lo
- jY+k8vNRaU/asku7MAnZABqUJnlLsgnN9lnUCAnEaNSy42bw2uUwrHjlISq4p4bTPLTR
- znLXAwV+FZyWBTSQCPEsMUyMKJWXifn1u1nqVSdN+jC0hadFzLuL4HXGnC01RnljTDDP
- ONOA==
-X-Gm-Message-State: AO0yUKWavvhYj5AeQDzMsNpySYTvWLIWtaCuM6Mknexmb9f8+O443AXS
- tUBNZnK910urqPUrJ9FBZA8=
-X-Google-Smtp-Source: AK7set+nPWD5kQwy7qJlbD4jXibTa/B3z+MxLVwB8PIsp3jfL2V/9mFRe0XqNUy6wdROdIstRLTW3w==
-X-Received: by 2002:a05:600c:4b30:b0:3df:f3df:29b0 with SMTP id
- i48-20020a05600c4b3000b003dff3df29b0mr12815863wmp.14.1676039324686; 
- Fri, 10 Feb 2023 06:28:44 -0800 (PST)
+ bh=VbMVBuepZNykkyz8uQyjySSGuBwCVMpMjP1YIGyVCno=;
+ b=OjSmHf2VshWC0DN8wKbzmcR10P/KvgrhCaEKwbWKtu/vmx07OFBrkG0moqRk7aX28R
+ HOmmxpvEK/g1HDlY8TAHVimawZ2VEwt1cqFVtniy/VD0VVin0KGh8xEjrbZG9S5y/71K
+ YeGfLPhIv0Kz9CVKVXjPDGn/uj9Q5QLUxyw55Y+QD470lXvoRgc7prhCAtuQ872s7kRB
+ M0dXdcIgpDG+jclsLKCBdOWVc55j0cXfocCJF1h3h7ouBkbkuZb7yhO7yeUO4n+nYWBi
+ G1HgK0Pf9k58YoU6flQqmK25hr4NPnz4mK+9v3tPQOLKbznOr0/HfgLk0xC7FbYS5AM3
+ 9fOw==
+X-Gm-Message-State: AO0yUKVsf3STq1guri5S84TfzyqY3rH8a5ZqJIStbetkZiOYbhDW3YI8
+ cugdrONUNIItA2tlvNbuxO0=
+X-Google-Smtp-Source: AK7set9zTqbQngDhOv35Fdv38A3q2pYvEqleoMYWj3f46pjY6ahfZmaz2CqWT78sKhk8ucAChG6Slg==
+X-Received: by 2002:a05:600c:130f:b0:3e0:c5e:ad52 with SMTP id
+ j15-20020a05600c130f00b003e00c5ead52mr13282479wmf.6.1676039415043; 
+ Fri, 10 Feb 2023 06:30:15 -0800 (PST)
 Received: from [192.168.15.58] (54-240-197-232.amazon.com. [54.240.197.232])
  by smtp.gmail.com with ESMTPSA id
- m17-20020a05600c3b1100b003df5be8987esm8940828wms.20.2023.02.10.06.28.39
+ h4-20020a05600c2ca400b003dc51c48f0bsm8679391wmc.19.2023.02.10.06.30.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Feb 2023 06:28:41 -0800 (PST)
+ Fri, 10 Feb 2023 06:30:14 -0800 (PST)
 From: Paul Durrant <xadimgnik@gmail.com>
 X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <c86380fa-69e6-b589-e83b-0629f35be4cd@xen.org>
-Date: Fri, 10 Feb 2023 14:28:38 +0000
+Message-ID: <a2acab27-e6e1-a8d7-4b16-ff1b1f30ae97@xen.org>
+Date: Fri, 10 Feb 2023 14:30:13 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH v10 35/59] hw/xen: Implement EVTCHNOP_alloc_unbound
+Subject: Re: [PATCH v10 36/59] hw/xen: Implement EVTCHNOP_bind_interdomain
 Content-Language: en-US
 To: David Woodhouse <dwmw2@infradead.org>,
  Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
@@ -78,15 +77,13 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
 References: <20230201143148.1744093-1-dwmw2@infradead.org>
- <20230201143148.1744093-36-dwmw2@infradead.org>
- <9c20c26e-8c7c-8ad2-a339-a30fc98c0ada@xen.org>
- <86f8db7133f4e2fd5a759e8be7e0168318af3005.camel@infradead.org>
+ <20230201143148.1744093-37-dwmw2@infradead.org>
 Organization: Xen Project
-In-Reply-To: <86f8db7133f4e2fd5a759e8be7e0168318af3005.camel@infradead.org>
+In-Reply-To: <20230201143148.1744093-37-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x332.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -110,25 +107,16 @@ Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/02/2023 14:17, David Woodhouse wrote:
-> On Fri, 2023-02-10 at 14:13 +0000, Paul Durrant wrote:
->>> --- a/target/i386/kvm/xen-emu.c
->>> +++ b/target/i386/kvm/xen-emu.c
->>> @@ -918,6 +918,21 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit, X86CPU *cpu,
->>>             err = xen_evtchn_send_op(&send);
->>>             break;
->>>         }
->>> +    case EVTCHNOP_alloc_unbound: {
->>> +        struct evtchn_alloc_unbound alloc;
->>> +
->>> +        qemu_build_assert(sizeof(alloc) == 8);
->>
->> Why?
+On 01/02/2023 14:31, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> Because if that builds successfully for both x86_64 and i686 hosts, I
-> was right that I didn't need to do any compat handling.
-
-Ok. Fair enough.
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>   hw/i386/kvm/xen_evtchn.c  | 78 +++++++++++++++++++++++++++++++++++++++
+>   hw/i386/kvm/xen_evtchn.h  |  2 +
+>   target/i386/kvm/xen-emu.c | 16 ++++++++
+>   3 files changed, 96 insertions(+)
+> 
 
 Reviewed-by: Paul Durrant <paul@xen.org>
 
