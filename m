@@ -2,79 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52541691B40
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 10:27:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05D96691B5C
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Feb 2023 10:31:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQPf6-000444-4T; Fri, 10 Feb 2023 04:25:44 -0500
+	id 1pQPju-0005SY-LZ; Fri, 10 Feb 2023 04:30:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQPem-00043T-PH
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 04:25:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <yangming73@huawei.com>)
+ id 1pQPjq-0005S6-2A
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 04:30:39 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQPek-0008IM-QB
- for qemu-devel@nongnu.org; Fri, 10 Feb 2023 04:25:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676021117;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0lFi/k9izfZfiCfb/MetUJCN2WJ1vfcOldQQptF1Xec=;
- b=NPu8/Q/r/wYhB0oPT2O1vMhXmZG+fH4ChnuynqYj9VoE/1DbIjDlA3l7A/77+CEcUZw9D/
- zRuaEdOvuuRiZrY2fEuyd17O17mAj3hR8nr4zuMHsndLfk76pbiToCuh1BLqatgAFdob5P
- C2mWCcxQPoBdXXrcr0gZ57466K8+XBY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-77-rm4keeCINZ-PqwFvOxsj0A-1; Fri, 10 Feb 2023 04:25:15 -0500
-X-MC-Unique: rm4keeCINZ-PqwFvOxsj0A-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3ACB985A5A3;
- Fri, 10 Feb 2023 09:25:15 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D0D3492C3E;
- Fri, 10 Feb 2023 09:25:15 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E956821E6A1F; Fri, 10 Feb 2023 10:25:13 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Steven Sistare <steven.sistare@oracle.com>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,  =?utf-8?Q?Marc?=
- =?utf-8?Q?-Andr=C3=A9?= Lureau
- <marcandre.lureau@gmail.com>,  "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>,  Michael Roth <michael.roth@amd.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH V2 1/4] qapi: strList_from_string
-References: <1675795727-235010-1-git-send-email-steven.sistare@oracle.com>
- <1675795727-235010-2-git-send-email-steven.sistare@oracle.com>
- <CAJ+F1CLFMUDvaOq2QXCKpb8Zj4PRr-tKV1q9L8m2EfgORPLj7A@mail.gmail.com>
- <32f34f74-213d-7107-907d-dda0a509878e@oracle.com>
- <87h6vwnstx.fsf@linaro.org> <87cz6j6tt0.fsf@pond.sub.org>
- <d25846e4-13fd-c683-b5e1-1660f4470d35@oracle.com>
- <875yca23dd.fsf@pond.sub.org>
- <7beaf84a-008e-c9a3-3698-2a230196acf9@oracle.com>
- <87cz6izmtz.fsf@pond.sub.org>
- <1bb65a74-d444-7601-47d3-290959239831@oracle.com>
-Date: Fri, 10 Feb 2023 10:25:13 +0100
-In-Reply-To: <1bb65a74-d444-7601-47d3-290959239831@oracle.com> (Steven
- Sistare's message of "Thu, 9 Feb 2023 16:34:41 -0500")
-Message-ID: <87sffdvpmu.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <yangming73@huawei.com>)
+ id 1pQPjn-0000ye-0D
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 04:30:37 -0500
+Received: from dggpemm500001.china.huawei.com (unknown [172.30.72.54])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4PCpLY02C0z16Lt4;
+ Fri, 10 Feb 2023 17:28:05 +0800 (CST)
+Received: from dggpemm500010.china.huawei.com (7.185.36.134) by
+ dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Fri, 10 Feb 2023 17:30:18 +0800
+Received: from dggpemm500010.china.huawei.com ([7.185.36.134]) by
+ dggpemm500010.china.huawei.com ([7.185.36.134]) with mapi id 15.01.2375.034;
+ Fri, 10 Feb 2023 17:30:18 +0800
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "mst@redhat.com"
+ <mst@redhat.com>, "imammedo@redhat.com" <imammedo@redhat.com>,
+ "ani@anisinha.ca" <ani@anisinha.ca>
+CC: "wangzhigang (O)" <wangzhigang17@huawei.com>, "zhangliang (AG)"
+ <zhangliang5@huawei.com>
+Subject: VM crashed while hot-plugging memory
+Thread-Topic: VM crashed while hot-plugging memory
+Thread-Index: Adk9MaURjdan2NllRa6742+cZL6pyA==
+Date: Fri, 10 Feb 2023 09:30:18 +0000
+Message-ID: <d9e62d4914a24b63af9f94a0e99b32c9@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.184.140]
+Content-Type: multipart/alternative;
+ boundary="_000_d9e62d4914a24b63af9f94a0e99b32c9huaweicom_"
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=yangming73@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,96 +67,230 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Yangming <yangming73@huawei.com>
+From:  Yangming via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Steven Sistare <steven.sistare@oracle.com> writes:
+--_000_d9e62d4914a24b63af9f94a0e99b32c9huaweicom_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-> On 2/9/2023 1:59 PM, Markus Armbruster wrote:
->> Steven Sistare <steven.sistare@oracle.com> writes:
->>> On 2/9/2023 11:46 AM, Markus Armbruster wrote:
->>>> Steven Sistare <steven.sistare@oracle.com> writes:
+Hello all:
 
-[...]
+I found VM crashed while hot-plugging memory.
 
->>>>> For more context, this patch has been part of my larger series for live update,
->>>>> and I am submitting this separately to reduce the size of that series and make
->>>>> forward progress:
->>>>>     https://lore.kernel.org/qemu-devel/1658851843-236870-1-git-send-email-steven.sistare@oracle.com/
->>>>>
->>>>> In that series, strList_from_string is used to parse a space-separated list of args
->>>>> in an HMP command, and pass them to the new qemu binary.
->>>>>     https://lore.kernel.org/qemu-devel/1658851843-236870-16-git-send-email-steven.sistare@oracle.com/
->>>>>
->>>>> I moved and renamed the generalized function because I thought it might be useful
->>>>> to others in the future, along with the other functions in this 'string list functions'
->>>>> patch series.  But if you disagree, I can minimally modify hmp_split_at_comma() in its 
->>>>> current location.
->>>>
->>>> I'm fine with moving it out of monitor/ if there are uses outside the
->>>> monitor.  I just don't think qapi/ is the right home.
->>>
->>> I don't know where else it would go, as strList is a QAPI type.
->>> include/qapi/util.h already defines QAPI_LIST_PREPEND and QAPI_LIST_APPEND, so it
->>> seems like the natural place to add qapi strList functions.  I am open to
->>> suggestions.
->> 
->> What about util/?  Plenty of QAPI use there already.
->> 
->> Another thought.  Current hmp_split_at_comma() does two things:
->> 
->>     strList *hmp_split_at_comma(const char *str)
->>     {
->> 
->> One, split a comma-separated string into NULL-terminated a dynamically
->> allocated char *[]:
->> 
->>         char **split = g_strsplit(str ?: "", ",", -1);
->> 
->> Two, convert a dynamically allocated char *[] into a strList:
->> 
->>         strList *res = NULL;
->>         strList **tail = &res;
->>         int i;
->> 
->>         for (i = 0; split[i]; i++) {
->>             QAPI_LIST_APPEND(tail, split[i]);
->>         }
->> 
->>         g_free(split);
->>         return res;
->>     }
->> 
->> Part two could live in qapi/.
+Base infomation:
+qemu version: qemu-master
+requirements: hugepages, virtio-gpu
+
+It happens by the following steps:
+1. Booting a VM with hugepages and a virtio-gpu device.
+2. Connecting VNC of the VM.
+3. After the VM booted, hot-plugging 512G memory.
+4. Then you can find that the image in vnc is blocked and the worse thing i=
+s that the VM crashed.
+
+Actually the vcpu is blocked because of dead lock.
+
+Analysis:
+As when hot-pluging the BQL is held, at the meanwhile, virtio-gpu is trying=
+ to hold the BQL for writing date. Then a vcpu is blocked waiting for hugep=
+ages hot-plugging, specifically, waiting for touching pages. If the blocked=
+ vcpu stops for several seconds, the soft lockup will happen, if it stops f=
+or a long time, e.g. 30s, the VM will crash.
+
+I am wandering if there are some ideas to avoid VM soft lockup and even VM =
+crash ?
+
+Thank you!
+kind regards!
+
+--_000_d9e62d4914a24b63af9f94a0e99b32c9huaweicom_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
-> Works for me.
-
-Note that I'm not demanding such a split.  I'm merely throwing in
-another idea for you to use or reject.
-
-> For future reference, what is your organizing principle for putting things in 
-> qapi/ vs util/ ?  I see plenty of calls to g_str* functions from qapi/*, so I 
-> don't know why removing g_strsplit changes the answer.
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	font-size:10.5pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{mso-style-priority:34;
+	margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	text-indent:21.0pt;
+	font-size:10.5pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+/* Page Definitions */
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:1369138801;
+	mso-list-type:hybrid;
+	mso-list-template-ids:33180052 925635800 67698713 67698715 67698703 676987=
+13 67698715 67698703 67698713 67698715;}
+@list l0:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l0:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-text:"%2\)";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:42.0pt;
+	text-indent:-21.0pt;}
+@list l0:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	margin-left:63.0pt;
+	text-indent:-21.0pt;}
+@list l0:level4
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:84.0pt;
+	text-indent:-21.0pt;}
+@list l0:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-text:"%5\)";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:105.0pt;
+	text-indent:-21.0pt;}
+@list l0:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	margin-left:126.0pt;
+	text-indent:-21.0pt;}
+@list l0:level7
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:147.0pt;
+	text-indent:-21.0pt;}
+@list l0:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-text:"%8\)";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:168.0pt;
+	text-indent:-21.0pt;}
+@list l0:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	margin-left:189.0pt;
+	text-indent:-21.0pt;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"ZH-CN" link=3D"#0563C1" vlink=3D"#954F72" style=3D"text-justi=
+fy-trim:punctuation">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Hello all:<o:p></o:p></span></p=
 >
-> Per your principle, where does strv_from_strList (patch 3) belong?  And if I
-> substitute char ** for GStrv, does the answer change?
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">I found VM crashed while hot-pl=
+ugging memory.
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Base infomation:<o:p></o:p></sp=
+an></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">qemu version: qemu-master<o:p><=
+/o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">requirements: hugepages, virtio=
+-gpu<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">It happens by the following ste=
+ps:<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">1. Booting a VM with hugepages =
+and a virtio-gpu device.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">2. Connecting VNC of the VM.<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">3. After the VM booted, hot-plu=
+gging 512G memory.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">4. Then you can find that the i=
+mage in vnc is blocked and the worse thing is that the VM crashed.<o:p></o:=
+p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Actually the vcpu is blocked be=
+cause of dead lock.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Analysis:<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">As when hot-pluging the BQL is =
+held, at the meanwhile, virtio-gpu is trying to hold the BQL for writing da=
+te. Then a vcpu is blocked waiting for hugepages hot-plugging, specifically=
+, waiting for touching pages. If the
+ blocked vcpu stops for several seconds, the soft lockup will happen, if it=
+ stops for a long time, e.g. 30s, the VM will crash.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">I am wandering if there are som=
+e ideas to avoid VM soft lockup and even VM crash ?<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Thank you!<o:p></o:p></span></p=
+>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">kind regards!<o:p></o:p></span>=
+</p>
+</div>
+</body>
+</html>
 
-As is, qapi/qapi-util provides:
-
-1. Helpers for qapi/ and QAPI-generated code.  Some of them are
-   used elsewhere, too.  That's fine.
-
-2. Tools for working with QAPI data types such as GenericList.
-
-strv_from_strList() would fall under 2.  Same if you use char **
-instead.
-
-hmp_split_at_comma() admittedly also falls under 2.  I just dislike
-putting things under qapi/ that contradict QAPI design principles.
-
-util/ is a bit of a grabbag, I feel.  Perhaps we could describe it as
-"utilities that don't really fit into a particular subsystem".
-
-Does this help you along?
-
+--_000_d9e62d4914a24b63af9f94a0e99b32c9huaweicom_--
 
