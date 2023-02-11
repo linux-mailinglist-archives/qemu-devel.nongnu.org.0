@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 085EF69353D
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 00:14:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5AC693540
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 00:20:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQz4D-0002zH-MB; Sat, 11 Feb 2023 18:14:01 -0500
+	id 1pQzA6-0004Db-3y; Sat, 11 Feb 2023 18:20:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pQz47-0002y5-OT
- for qemu-devel@nongnu.org; Sat, 11 Feb 2023 18:13:55 -0500
+ id 1pQzA1-0004Cc-Kx
+ for qemu-devel@nongnu.org; Sat, 11 Feb 2023 18:20:01 -0500
 Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pQz46-0001fU-1n
- for qemu-devel@nongnu.org; Sat, 11 Feb 2023 18:13:55 -0500
+ id 1pQz9z-0002S6-S7
+ for qemu-devel@nongnu.org; Sat, 11 Feb 2023 18:20:01 -0500
 Received: by mail-pj1-x1030.google.com with SMTP id
- w20-20020a17090a8a1400b00233d7314c1cso1039325pjn.5
- for <qemu-devel@nongnu.org>; Sat, 11 Feb 2023 15:13:53 -0800 (PST)
+ d13-20020a17090ad3cd00b0023127b2d602so9056671pjw.2
+ for <qemu-devel@nongnu.org>; Sat, 11 Feb 2023 15:19:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=zwx8hYRnPUnpVHkZAcLyHNAdcAQbI3Xkb22hLfEtkQU=;
- b=W5EygCr8LaIDtYLEM2NMc2IpGtRrqi2v9Db2gJUB4VIpPcb8DhFMtnHcN61Dln7n/u
- WepN2urEZHaQwajkCixH9g/zE+FE2lQva7sWM2k4nyOaJnfFRV8SG/9W1FrEk5UQjoiH
- 2pDCHyytRS/cSsGBGoaSJEKIpXJoa3WcriThqdwG8aHxM3qj+Cbx8kXqa60TpOH0FLlA
- +yGX+Zg5lt51RRE+o6SGNqSCNGoXPX/ZKW5Qjl9N09rxPyDb6y8iugsEhyCAMplXF8Fy
- I9rlWeQ+14O4POwtY6tyV9qsiL21gxx97eonoPrh1ZP7hTzKc54tARddrOZfJAiAx34Z
- htBw==
+ bh=PRKoCM/oyUq17SQgvm6e7/4bzA7O1WLbtTIQ1jGkRw4=;
+ b=bvFyIEZSvYnhlfv5f3ER+WWYKsDAMv9z4eel8sZzLPolUzHQm7MYn99XXkE0eM+/qZ
+ nH6EQPFf7BRjqAAuMC6VAPeLUf7Kay1y+f20IPSr45ISfYsp4N/a/4L9VjLg4TTrsWp+
+ mqIwvFXl54FepODYp8Scc4/ZEgilKSsZOKXpkjbpzQ/XJxE6tzdgD8qsPUwQ9reLM9q8
+ v7gVBouy0pSrJVXljgfHNKurdhch66hn54Bu2/UrayMRDxtzslJXQAsri29Jz/9+tQWl
+ DiteOaoupLXeWV1oMbYYPCYSZTpgG7mJhSn412ClAwYjLlNFXnpL2ivGDUaxsMAdw9nw
+ A2Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zwx8hYRnPUnpVHkZAcLyHNAdcAQbI3Xkb22hLfEtkQU=;
- b=7QK1wJ5So05L9luPrxd2EH31aIZkI7etusluFB1tPFFd37UmWl3n3s6EszNPDaWH7o
- aohXcIsfLbgb9y04K6U+IJtAou29H/ar7UFQoYYkaQQkakGCCjy7jOEfyGc1Ct3nA5qt
- cuKovqgNFaizvnLtZ3hKgWOYkyW+pAQGIv+qD0smaxlavrMzGTox59xoh655z4rCyY0y
- Pgd2WF7lHMauQeuNXf+U5Z6l9GugRhtuQof7kg2mlyRLJBD6OBEgNs0xzKgtJJiXRamH
- CISNG12yVw/xaN4IQDNFvDgA0bjXBlo9akfvciWChdxmCW0KK8eLHPS5TXYaSyz54HPz
- whig==
-X-Gm-Message-State: AO0yUKX1tDcOa2sjol+MGnFZy/aNxeQ4PR/xybbAmQKlSlRKip2SQZ3U
- +voXdYDI9347Ita513hCxyvIYQ==
-X-Google-Smtp-Source: AK7set8WZl/+w40Us6bwu+KgvtGlDrkKf4O6bmRK08tJKhd9GGL0wu1EhORlXrjYnoHRfSSwTkTEqQ==
-X-Received: by 2002:a05:6a20:12c7:b0:bd:6106:423f with SMTP id
- v7-20020a056a2012c700b000bd6106423fmr12011845pzg.9.1676157231505; 
- Sat, 11 Feb 2023 15:13:51 -0800 (PST)
+ bh=PRKoCM/oyUq17SQgvm6e7/4bzA7O1WLbtTIQ1jGkRw4=;
+ b=46vS99sz/CC5UIv+exerH8WT2cnvM6lq0Zy7sSY8eDSYb577BlekH8pGl8gCquGav0
+ h7Vu9WL9XZaPjpmvjjHcyXqr4Gr58ZCFsWy1BTdaNdCBWKRWYDjGrTOkD8K/XJf5mrC0
+ X39SNDH2bBxKvPf0yPXNZ3uqL2b8I1rvJi7ccXGNi0hCNEyK4W97n7UIkq3YHa0nFzuH
+ REYpxLwOgVHR/kwizvi+vkcSuJygRaeh+2ciBuZTfsxDZagVhyIiA0vlFxfXMDRCvZxi
+ 655iJ0f6TZelqC97cFHMyMRGbjAtNsTCNA7q1rCg5UA5mmNuumiuzFYLJupFcYMdpB7X
+ mJ1g==
+X-Gm-Message-State: AO0yUKVVtAvdetW9TEQ6G2Rqqc+K6N5nCDeh5ACJU4sOJePSSNU74xyR
+ i07NnNxF+8J8Mi91O1rN+/ly9w==
+X-Google-Smtp-Source: AK7set+nnVSSKnVEdWvtZe3Nf3z7/4tDd/kwrlrPz3VHDQTGYQj2anLdy9PTz9s5ETtvPUv+nmozWw==
+X-Received: by 2002:a05:6a21:99a3:b0:bc:e2d1:dc29 with SMTP id
+ ve35-20020a056a2199a300b000bce2d1dc29mr24624618pzb.59.1676157598220; 
+ Sat, 11 Feb 2023 15:19:58 -0800 (PST)
 Received: from [192.168.101.227] (rrcs-74-87-59-234.west.biz.rr.com.
  [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
- x24-20020a63db58000000b004df4fbb9823sm4778966pgi.68.2023.02.11.15.13.49
+ 6-20020a17090a0cc600b00229bc852468sm4517507pjt.0.2023.02.11.15.19.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 11 Feb 2023 15:13:50 -0800 (PST)
-Message-ID: <16b47168-39fe-ac65-741d-5786663a7a9d@linaro.org>
-Date: Sat, 11 Feb 2023 13:13:46 -1000
+ Sat, 11 Feb 2023 15:19:57 -0800 (PST)
+Message-ID: <714e259e-06e0-2f34-ad6e-a6316625d1c2@linaro.org>
+Date: Sat, 11 Feb 2023 13:19:54 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 8/9] bsd-user: implement sysctlbyname(2)
+Subject: Re: [PATCH 9/9] bsd-user: Add -strict
 Content-Language: en-US
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Kyle Evans <kevans@freebsd.org>,
  f4bug@amsat.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>
 References: <20230210231829.39476-1-imp@bsdimp.com>
- <20230210231829.39476-9-imp@bsdimp.com>
+ <20230210231829.39476-10-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230210231829.39476-9-imp@bsdimp.com>
+In-Reply-To: <20230210231829.39476-10-imp@bsdimp.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
@@ -97,43 +97,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 2/10/23 13:18, Warner Losh wrote:
-> From: Kyle Evans <kevans@FreeBSD.org>
+> Most of the time, it's useful to make our best effort, but sometimes we
+> want to know right away when we don't implement something. First place
+> we use it is for unknown syscalls.
 > 
-> do_freebsd_sysctlbyname needs to translate the 'name' back down to a OID
-> so we can intercept the special ones. Do that and call the common wrapper
-> do_freebsd_sysctl_oid.
-> 
-> Signed-off-by: Kyle Evans <kevans@FreeBSD.org>
 > Signed-off-by: Warner Losh <imp@bsdimp.com>
 > ---
->   bsd-user/freebsd/os-sys.c     | 58 +++++++++++++++++++++++++++++++++++
->   bsd-user/freebsd/os-syscall.c |  4 +++
->   2 files changed, 62 insertions(+)
+>   bsd-user/freebsd/os-syscall.c | 4 ++++
+>   bsd-user/main.c               | 5 ++++-
+>   bsd-user/qemu.h               | 1 +
+>   3 files changed, 9 insertions(+), 1 deletion(-)
 > 
-> diff --git a/bsd-user/freebsd/os-sys.c b/bsd-user/freebsd/os-sys.c
-> index 13736936e5f..62c729dfe47 100644
-> --- a/bsd-user/freebsd/os-sys.c
-> +++ b/bsd-user/freebsd/os-sys.c
-> @@ -345,6 +345,64 @@ out:
->       return ret;
->   }
+> diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
+> index 179a20c304b..e2b26ecb8dd 100644
+> --- a/bsd-user/freebsd/os-syscall.c
+> +++ b/bsd-user/freebsd/os-syscall.c
+> @@ -508,6 +508,10 @@ static abi_long freebsd_syscall(void *cpu_env, int num, abi_long arg1,
 >   
-> +/*
-> + * This syscall was created to make sysctlbyname(3) more efficient.
-> + * Unfortunately, because we have to fake some sysctls, we can't do that.
-
-Can't do what?  Directly use sysctlbyname?
-
-> +    if (oldlenp) {
-> +        if (get_user_ual(oldlen, oldlenp)) {
-> +            return -TARGET_EFAULT;
+>       default:
+>           qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
+> +        if (bsd_user_strict) {
+> +            printf("Unimplemented system call %d\n", num);
+> +            abort();
 > +        }
 
-Same comment about verifying write early.
+I don't like the raw printf, even if you did write to stderr.
+Perhaps just the abort, letting the error message be handled by qemu_log?
 
-> +    unlock_user(holdp, oldp, holdlen);
+> @@ -396,6 +397,8 @@ int main(int argc, char **argv)
+>               trace_opt_parse(optarg);
+>           } else if (!strcmp(r, "0")) {
+>               argv0 = argv[optind++];
+> +        } else if (!strcmp(r, "strict")) {
+> +            bsd_user_strict = true;
 
-And writeback vs error.
+Perhaps force LOG_UNIMP?  Without -D, you'll get the qemu_log above to stderr.
 
 
 r~
