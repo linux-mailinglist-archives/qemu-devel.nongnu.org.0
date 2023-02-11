@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C99E6932DC
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Feb 2023 18:33:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA476932DD
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Feb 2023 18:34:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQtjz-0002yT-0Z; Sat, 11 Feb 2023 12:32:47 -0500
+	id 1pQtlS-0003hb-A5; Sat, 11 Feb 2023 12:34:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pQtjx-0002y0-B2
- for qemu-devel@nongnu.org; Sat, 11 Feb 2023 12:32:45 -0500
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pQtjv-0001Ib-MF
- for qemu-devel@nongnu.org; Sat, 11 Feb 2023 12:32:45 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id n2so5741910pgb.2
- for <qemu-devel@nongnu.org>; Sat, 11 Feb 2023 09:32:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cPrOjhz1p611cZnImhnqTCQ9Gr5n3wFl9/NSgcSlHyI=;
- b=rbpanmPIzy91sXYarSh7fUV8WDcGcI0J685cOctcnlX/6sNjJAGOcCTSFldQd74Eal
- KrmUw7HgPEMw/30T78IKHEfov2fTnx6PqfiXifPuzYFdOd2MDOeso7lXIUbeMOzngPrN
- nUFSr9StRSv4HAaBfYeIZbu6V7I0Oo948dmiwAjR+Zp3zFWFjRw0s+OTCysdWAP/BIN5
- pyxjDmSZAXjX0V17Vs025X/gLp5N8VtXLKSRP2oihrYvaKzWOPv6M1BAWvPh1TpjEHIN
- 3TpLeeQ+727hrXM+pXaXEfhK9PQutbb/yY6zkKPTHdsSBJ5B2J3yRhUB4VaVc/28EE6k
- ilmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cPrOjhz1p611cZnImhnqTCQ9Gr5n3wFl9/NSgcSlHyI=;
- b=RIO5bwVocqv60Y+UMXQa3zxRJTns1ptWpYFPjToEJQ2UKJVnE4RB9kVm1ePuT5g5+R
- SmBV1XUw4myokMtmMrhLUrjKKSCAL5gBSml2zDfw9HN/KmH19XeVDY8Ae9n79LpQxoZE
- 1McJbqU3eFSi3D0lM63Lt2p87iOhGBFXNFo0QutqNX439n/QQrB0m5LNeqAGcBttt0He
- oshl/YxslNu3d1jaKpmjkfAXasqNKpt1hGJT8x+q8jfXw8kwL0xmE4ornzJB2uPvg75L
- 7SIw0iYxAXnW7aZI9vuMoDFWS17yw3If3ktayq6hDf2wdjk/LgwkxF74ZaLKGbgHxg4u
- 1swQ==
-X-Gm-Message-State: AO0yUKVX1CgjAZs3cgxewb8VzVkcUkmP8X8JWma/epRBnWAHYnbClccW
- FcO3VIBDf2QD1J3DyUKeTMM4nA==
-X-Google-Smtp-Source: AK7set9t0Ta8ypw95Nn/WR3gd25G6XERJVlJoWQAjld4zs7mhENHXrDivxi7t5RHwloNVhPDtDmYzg==
-X-Received: by 2002:a05:6a00:148e:b0:594:1f1c:3d3a with SMTP id
- v14-20020a056a00148e00b005941f1c3d3amr14517844pfu.15.1676136761366; 
- Sat, 11 Feb 2023 09:32:41 -0800 (PST)
-Received: from [192.168.101.227] (rrcs-74-87-59-234.west.biz.rr.com.
- [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
- q22-20020a62ae16000000b005a8aab9ae7esm91981pff.216.2023.02.11.09.32.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 11 Feb 2023 09:32:40 -0800 (PST)
-Message-ID: <d8c87d99-b825-6e3f-b80a-86109fd27e8f@linaro.org>
-Date: Sat, 11 Feb 2023 07:32:36 -1000
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1pQtlO-0003hF-Es
+ for qemu-devel@nongnu.org; Sat, 11 Feb 2023 12:34:14 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1pQtlM-0001QI-18
+ for qemu-devel@nongnu.org; Sat, 11 Feb 2023 12:34:13 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 0DCD35C0095;
+ Sat, 11 Feb 2023 12:34:09 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Sat, 11 Feb 2023 12:34:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm2; t=1676136849; x=1676223249; bh=hgoBwlChWQ6oVj0t2G+1fZrKZ
+ 96mJhODfFQhdTZiJsA=; b=hNb2oQpRDH4HVKRxDCbncy9J6FonMer4ZCkDCtGwB
+ QKm+/k0iTgDTsE6D9fz3HYv0N0dTzo8eTjxNp18voWoyM9/xRtO+GEIbSXz9FaJ/
+ kDyF63//ipH/XU6xGROi9zvGeiu5gQPz0Kc4GMYF6X3ssGg7fC7Ug6z8XCSeH2K9
+ ej1xPDN1J6xsRtLE/jNO1aP9zVzB44H5YUagZrOABH1pjQC1ovStfJ2VYrqmljve
+ 0VW1tMmgyFOjdX3QeTFzYVg9T/5mHxa2Oyhi721pFyqZ2eEoyXrI69RDk/kZylU0
+ 2xcCSt3bvh+HhTHsNVVL9Ad7nikL8/gm4/34dShCNxB0w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+ 1676136849; x=1676223249; bh=hgoBwlChWQ6oVj0t2G+1fZrKZ96mJhODfFQ
+ hdTZiJsA=; b=TTiI/C00FZvNBbjN7q+vm3vqc47LvkMeWI9tqOMWKRjHa44L7k5
+ EOeS2yxaUgkerpkolo4pcD19glqu+ujSjQrJaH7ncEivxE0rv6uZDBW3/BHgrDWd
+ EDCbd3AEJ3BeCZ/bHUJTTAx32Zksf/vNumnKmD/WBYzyBn47S7S99OQagdOq0Vil
+ 5tvrmVk7W+2sA9jJEjUuD6FBdvS77/prMbCgeiRJAsNrnlt6kZIXma0l6bZafMf0
+ PgrnEN+eX/x33yjHa2jtf0mRyjPG7cqdHJFPWAAoAIp3iK0o8T38dW9tRdbCwwtk
+ ikFRTjPD+yjGDfG8KWukztRvggqNjiob6wA==
+X-ME-Sender: <xms:kNHnY6m0_qjgBm0Kra_06fzBVdpgi2ZdA4-Y6FmiQuESiEvOh2iZxw>
+ <xme:kNHnYx3ehCzvs2z8l3aiamiSuWlGJb2kn9XWA4Cw4Ggv9iRlb1tGUqfU9jUfZUA6L
+ Zs6FY8axDywTvji6HY>
+X-ME-Received: <xmr:kNHnY4r4PDTkIxOrSaXARlTbz9tehMD1NO5mqAe8XkiKlRo04O1rK-6DWU4t>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudehjedguddtvdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekre
+ dtredttdenucfhrhhomheplfhirgiguhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhg
+ sehflhihghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpefhtedutdduveeileejje
+ etffehueejudehgfffjeduhfeuleeludfffefgffevkeenucevlhhushhtvghrufhiiigv
+ pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihgh
+ horghtrdgtohhm
+X-ME-Proxy: <xmx:kNHnY-k6XRVyRqCwFVOa-P25tOrY7qdvaJrgQ_Fe9AErvi_4ws9UkA>
+ <xmx:kNHnY40vr3QPdIeyF4FRE_d99XdokEwymta-Bsn5urGiWs8Y0Gne3A>
+ <xmx:kNHnY1uJMrDvsYY4Yk7JuGOGNiqCCL0tZ6ZPoIXZh-bYwxwDWuwKBQ>
+ <xmx:kdHnY2DBSQiUqjr4FMI2-g697MwCB9cnY7FYQla5goxs1AbeQSfhKg>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 11 Feb 2023 12:34:07 -0500 (EST)
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+To: qemu-devel@nongnu.org
+Cc: philmd@linaro.org, laurent@vivier.eu, Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: [PATCH] linux-user/mips: Low down switchable NaN2008 requirement
+Date: Sat, 11 Feb 2023 17:34:01 +0000
+Message-Id: <20230211173401.13902-1-jiaxun.yang@flygoat.com>
+X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 07/11] hw/isa: Reorder to separate ISABus* vs ISADevice*
- functions
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Sergio Lopez <slp@redhat.com>,
- qemu-ppc@nongnu.org
-References: <20230210163744.32182-1-philmd@linaro.org>
- <20230210163744.32182-8-philmd@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230210163744.32182-8-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=66.111.4.29; envelope-from=jiaxun.yang@flygoat.com;
+ helo=out5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,16 +97,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/10/23 06:37, Philippe Mathieu-Daudé wrote:
-> Separate functions taking an ISABus* argument versus
-> functions taking a ISADevice* one.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
-> ---
->   include/hw/isa/isa.h | 9 +++++----
->   1 file changed, 5 insertions(+), 4 deletions(-)
+Previously switchable NaN2008 requires fcsr31.nan2008 to be writable
+for guest. However as per MIPS arch spec this bit can never be writable.
+This cause NaN2008 ELF to be rejected by QEMU.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+NaN2008 can be enabled on R2~R5 processors, just make it available
+unconditionally.
 
-r~
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+ linux-user/mips/cpu_loop.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
+index d5c1c7941d..b5c2ca4a3e 100644
+--- a/linux-user/mips/cpu_loop.c
++++ b/linux-user/mips/cpu_loop.c
+@@ -301,8 +301,7 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
+     }
+     if (((info->elf_flags & EF_MIPS_NAN2008) != 0) !=
+         ((env->active_fpu.fcr31 & (1 << FCR31_NAN2008)) != 0)) {
+-        if ((env->active_fpu.fcr31_rw_bitmask &
+-              (1 << FCR31_NAN2008)) == 0) {
++        if (!(env->insn_flags & ISA_MIPS_R2)) {
+             fprintf(stderr, "ELF binary's NaN mode not supported by CPU\n");
+             exit(1);
+         }
+-- 
+2.37.1 (Apple Git-137.1)
+
 
