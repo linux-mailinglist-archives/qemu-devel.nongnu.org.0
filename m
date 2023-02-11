@@ -2,69 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0440692DED
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Feb 2023 04:33:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9ADC692E46
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Feb 2023 05:16:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQgct-0001l3-MO; Fri, 10 Feb 2023 22:32:35 -0500
+	id 1pQhHs-0004s9-73; Fri, 10 Feb 2023 23:14:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pQgcq-0001kW-RH; Fri, 10 Feb 2023 22:32:32 -0500
-Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pQgcn-0008S8-AE; Fri, 10 Feb 2023 22:32:32 -0500
-Received: from [192.168.0.119] (unknown [114.95.238.225])
- by APP-01 (Coremail) with SMTP id qwCowABXVEBBDOdjdsaBBA--.7834S2;
- Sat, 11 Feb 2023 11:32:18 +0800 (CST)
-Message-ID: <6b182beb-7e7d-45eb-50ec-3b822759c535@iscas.ac.cn>
-Date: Sat, 11 Feb 2023 11:32:17 +0800
+ (Exim 4.90_1) (envelope-from <taisei1212@outlook.jp>)
+ id 1pQhHr-0004ru-32
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 23:14:55 -0500
+Received: from mail-psaapc01olkn2082.outbound.protection.outlook.com
+ ([40.92.52.82] helo=APC01-PSA-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <taisei1212@outlook.jp>)
+ id 1pQhHo-0007Ep-7m
+ for qemu-devel@nongnu.org; Fri, 10 Feb 2023 23:14:54 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cIJMfYyTwrj8aWGXLXjMxYzPz2bmPpoZSlmQfNFZELZq8rQTYDiRqBYzGyzbobQUeYXriZBJzRjbAHtvfYl+US/iA98Y2HjpDIApSQrEEjsKV3hgANnCUSO+1Ky8N3AzDfEgvGvK7+BgsSXMtaESY6G/5Ntyv6URt0yJOjzdqWYTOBHgEeQ72oQQDciqZCZiWII6DwzK7HFK31McPocpJI49uYCAF+7WOtFD3yFx11C5V+g4U0LKz3HZHhRVApoexnRxQuA4AXdMZzTcj/4RZaE9Nd/rUVHCyf5/epLJiddzb2v4xqB4UR15WuuN/VVDBV17no7NmRtHGAylTB6HYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SCYqZPCQwZKna/FGkyt0u1vGncCCGHozwkfz9SgReV0=;
+ b=anPawYbj+0wMrLHgzqSagGkz3KHq1xmxgcJKsY4eHZ79e6qVqwbzaR4e2l/7AHA93NdZVPYb3ayn2nKjUW1R3GBlfbmwKSmQaF2f4+h2J+r5rNQsMe3aeq+LK2E7sxuGUei45HjuZUEFz1i39lkdwPTyOsaEqpjQSVWfNvJiyuLuJFMm4/y+yh9MOXRkljJ4YrJKflrUG6hW1xvGxMXVJpFL5MkNWYk2ZKVvcAeP7PuOto3GzhIWQlp3t3jZF9syQgghyALC02M3H24CJ/er4w9ST1ZewDmqte3/Kxa0QQxwlnQQW6BuUO8+A6lFcc+yDjsrUxmiqqovya0FCPJa/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
+ (2603:1096:400:1b0::11) by PSAPR01MB3877.apcprd01.prod.exchangelabs.com
+ (2603:1096:301:49::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.22; Sat, 11 Feb
+ 2023 04:09:43 +0000
+Received: from TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
+ ([fe80::56db:1c2:8886:e624]) by
+ TY0PR0101MB4285.apcprd01.prod.exchangelabs.com ([fe80::56db:1c2:8886:e624%6])
+ with mapi id 15.20.6064.034; Sat, 11 Feb 2023 04:09:43 +0000
+From: TaiseiIto <taisei1212@outlook.jp>
+To: qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, richard.henderson@linaro.org,
+ TaiseiIto <taisei1212@outlook.jp>
+Subject: [PATCH v2] [PING^3] target/i386/gdbstub: Fix a bug about order of FPU
+ stack in 'g' packets.
+Date: Sat, 11 Feb 2023 13:09:17 +0900
+Message-ID: <TY0PR0101MB4285B3006CB19B1BF77C3961A4DF9@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <TY0PR0101MB4285923FBE9AD97CE832D95BA4E59@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com>
+References: <TY0PR0101MB4285923FBE9AD97CE832D95BA4E59@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [AyJvLEP9GsAIlrWTf2DomFrOcATOfVaE]
+X-ClientProxiedBy: TYCP286CA0240.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3c7::16) To TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
+ (2603:1096:400:1b0::11)
+X-Microsoft-Original-Message-ID: <20230211040917.741-1-taisei1212@outlook.jp>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v1 RFC Zisslpcfi 2/9] target/riscv: zisslpcfi CSR, bit
- positions and other definitions
-Content-Language: en-US
-To: Deepak Gupta <debug@rivosinc.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>
-Cc: Kip Walker <kip@rivosinc.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, liweiwei@iscas.ac.cn
-References: <20230209062404.3582018-1-debug@rivosinc.com>
- <20230209062404.3582018-3-debug@rivosinc.com>
-From: weiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230209062404.3582018-3-debug@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: qwCowABXVEBBDOdjdsaBBA--.7834S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxKrykCrykWrW7ury5JF4UCFg_yoW7WrW7pF
- 45Ga40gw48AFWxK3WftF45X3W3Jr4xCFs5uw4qg398AayrJrW8CFyDtr45JF1DXF1rAry8
- Kr1qvw1YyrWkXw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJV
- WxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAY
- IcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
- v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkG
- c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
- 0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4U
- MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUZa9-UUU
- UU=
-X-Originating-IP: [114.95.238.225]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.149,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY0PR0101MB4285:EE_|PSAPR01MB3877:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6be5d86f-18a5-447d-e24a-08db0be5cd7f
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hDZYYIq7qN1MyaJ59tp/kUwAPrKuKaQuhGQOKEz4We3MSkzeDyqmKrzpxWGsCHXIGo3iDzjsjNdf02oAyXFaoDBrC+Rj7A2Ld3z4AxS6/Ea6lFd4gYv9nr5MhFkx/kD5OsG/pwMR0LVhTJR1SHkczd7IDrrKPHs1v7KySy2pXwLdMXzKk34rSyuP6ZojY0MeGgizWdQqUIgMKe+RKVTHe9b2zAY29UMrdc74/KWdtQ2OX3VyMIe9boVP4vK8XsU6Yn63tzfNIg5uQ6/uOw/sAg2gXGqLYpvqjaZ8vuLovVbIcsXQ9Z8bFt7xYk46O54l44AHlx7qXsqr0bx5npbWrKa03pQaCJ9J4I3s4edn3hYmb0ZtrpvBu+hrnjlILHt4xnCWOCYTj5O+HSmMtI2ke714S3eEwHCBGN/N0ukKfOpoPTABVpWx1mBZ4Um9q3A0lYlxzKTa4QRo3+2qYuvwSTuzpYWI4VLtGkE1lQmPx1gH7XcqbSoSZ+yvRq/xIP0BatgjVAZjOy5Hw5livIMqVUeKse5r0Z3zLbLhIvo50we10KiVba1hv4kalIqkWUgjGEuruhXFVlFVOpVGKAEEQCcjFq4U9QaXdGX/ix9dwLWRaplO4CG++aRoU/aF9GWMlkdLM0yYRNct3E35tiEsmw==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?S6y2pQb53o5nafkNjDbGWP2DxMCxj1lUOXL9Hiz0Z/S4XbqoyHKJOpUbKP91?=
+ =?us-ascii?Q?JSYWFExCzc2Xxf+ywVDLZcWpNed6zOJ9DEpt3gyfn7MPFXfKBtdTr0glvJnW?=
+ =?us-ascii?Q?nlnInUOjTRS4uX6hKn2q/yiR4AYMbVPMbijy5dAOJNVzqq1Y9QG//dxbB507?=
+ =?us-ascii?Q?NCceG4W3+/T+U4Qqk7uYluO0SlumvzfoRA9RkDOM98r5AUYO/D/hVnZUiMi4?=
+ =?us-ascii?Q?LhVQm+Ejc1Q8MCpojM9pBRfMdq409+1A+NVxTVlF+e4Z59RXcWIFd8KFurUL?=
+ =?us-ascii?Q?1bMQXpVpC9OFTO+px5pNqDerHk1dP3q1JQo6dE87s472zdvk8XMp5dgK6kpq?=
+ =?us-ascii?Q?v/VADNr14AW8/9mUgCKpD0x9qJP3OD+zKJhvZ76kp8ODBzuCkBCWi2ChcEHL?=
+ =?us-ascii?Q?xMJWilsMtPPueWrE5RG8QroRDBhj4JmAsJTrXlg6tJ09xWPCQ4+Tohk2Zg2m?=
+ =?us-ascii?Q?3RJfDlTek8rqIiFjlY6166iqP8+q8ZS29mz/Y7pVv3zTmM7Maaosa8b/+OtU?=
+ =?us-ascii?Q?8bgyHax5VhJRq0tVni8FRyJWig8xY+PjjmVX76B4P4eLUnqxjxQj8CeltvLG?=
+ =?us-ascii?Q?sUbV2ZadUfGQTbLXqcPCjdCFlp/GeYhTZvKfZ8JxZv4UkQURraXw4axP9gQy?=
+ =?us-ascii?Q?IMnuOpc6w+1Jj2avDJg3o9OzouxIqfxT27daLUXh2uYAX/YAM70S+K7MCHtJ?=
+ =?us-ascii?Q?FkF6wbA7jL0XfPm13FsiuTH+SOFrVZIw3Yc6ddnBe7TZ4lgHOU8Za+iKkorV?=
+ =?us-ascii?Q?m+J01Vb3J/JLmoZleI4wq+lweY+ZjcVuuDfb86r2Ofj1+OHf6HwFfc96Oe9e?=
+ =?us-ascii?Q?qTzANSW1D52KCbO/ZpW2s6yX8YyuxF15DkppVo5SjHnx8wkgI7vdR3fo3GbF?=
+ =?us-ascii?Q?CvFXfAZ+nG0QaKjyqLgk/OwIKFewxYYbVFl9x0LdRYU2fLjBLMRZVCFTb8ij?=
+ =?us-ascii?Q?jybnv5bh/q+5+4Kvj+4GDhrl1YhlZa/SP5hk6mv23tJVSoH3XbLc//NFrrPv?=
+ =?us-ascii?Q?dHrjK6t77kFxdNbB6BB8//S2KJCMjhojovubefKIsCc+C8yXLNNKZSXiCSr+?=
+ =?us-ascii?Q?RYYpsCLgbofQogb1W98QoZDTav+namIEshWKWF02jOKpyr02jFsNMCIgt9mH?=
+ =?us-ascii?Q?dQfHs+WS5b7CroTBr53pKh3zPDF/uoNcVMRjBC8TxMaYSVwvmrvJvv2895F0?=
+ =?us-ascii?Q?jS6sgxHVUj3pcgYoIBFjS5nk3nboBuhF2j6z2kWZnaM3nUXhjW9jL2yEiMZ5?=
+ =?us-ascii?Q?TorL69IZ5gaeslQ+gZO8Jf9RTwprBsHmzMb3sJNiyQ=3D=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-d8e84.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6be5d86f-18a5-447d-e24a-08db0be5cd7f
+X-MS-Exchange-CrossTenant-AuthSource: TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2023 04:09:43.3682 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PSAPR01MB3877
+Received-SPF: pass client-ip=40.92.52.82; envelope-from=taisei1212@outlook.jp;
+ helo=APC01-PSA-obe.outbound.protection.outlook.com
+X-Spam_score_int: -2
+X-Spam_score: -0.3
+X-Spam_bar: /
+X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FROM=0.001, RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_VALIDITY_RPBL=1.31,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,160 +117,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This is a ping to the patch below.
 
-On 2023/2/9 14:23, Deepak Gupta wrote:
-> `zisslpcfi` extension adds two new CSRs. CSR_SSP and CSR_LPLR.
-> - CSR_SSP: This CSR holds shadow stack pointer for current privilege mode
->             CSR_SSP is accessible in all modes. Each mode must establish
->             it's own CSR_SSP.
->
-> - CSR_LPLR: This CSR holds label value set at the callsite by compiler.
->              On call target label check instructions are emitted by
->              compiler which check label value against value present in
->              CSR_LPRL.
->
-> Enabling of `zisslpcfi` is controlled via menvcfg (for S/HS/VS/U/VU) and
-> henvcfg (for VS/VU) at bit position 60.
->
-> Each mode has enable/disable bits for forward cfi. Backward cfi doesn't
-> have separate enable/disable bits for S and M mode. User forward cfi and
-> user backward cfi enable/disable bits are in mstatus/sstatus CSR.
-> Supervisor forward cfi enable/disable bit are in menvcfg and henvcfg CSR.
-> Machine mode forward cfi enable/disable bit is in mseccfg CSR.
->
-> If forward cfi enabled, all indirect branches must land on a landing pad
-> instruction (`lpcll`, introduced in later commits). CPU/hart tracks this
-> internally using a landing pad tracker called `elp` short for `expecting
-> landing pad`. An interrupt can occur between an indirect branch and
-> target. If such an event occurs `elp` is saved away in mstatus/sstatus
-> CSR
->
-> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
-> Signed-off-by: Kip Walker  <kip@rivosinc.com>
-> ---
->   target/riscv/cpu.h      |  5 +++++
->   target/riscv/cpu_bits.h | 25 +++++++++++++++++++++++++
->   target/riscv/pmp.h      |  3 ++-
->   3 files changed, 32 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 9a923760b2..18db61a06a 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -181,6 +181,11 @@ struct CPUArchState {
->   
->       uint32_t features;
->   
-> +    /* CFI Extension user mode registers and state */
-> +    uint32_t     lplr;
-> +    target_ulong ssp;
-> +    cfi_elp      elp;
-> +
+https://patchew.org/QEMU/TY0PR0101MB4285923FBE9AD97CE832D95BA4E59@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com/
 
-cfi_elp is not defined in current or previous patch.
+Before this commit, when GDB attached an OS working on QEMU, order of FPU
+stack registers printed by GDB command 'info float' was wrong. There was a
+bug causing the problem in 'g' packets sent by QEMU to GDB. The packets have
+values of registers of machine emulated by QEMU containing FPU stack
+registers. There are 2 ways to specify a x87 FPU stack register. The first
+is specifying by absolute indexed register names (R0, ..., R7). The second
+is specifying by stack top relative indexed register names (ST0, ..., ST7).
+Values of the FPU stack registers should be located in 'g' packet and be
+ordered by the relative index. But QEMU had located these registers ordered
+by the absolute index. After this commit, when QEMU reads registers to make
+a 'g' packet, QEMU specifies FPU stack registers by the relative index.
+Then, the registers are ordered correctly in the packet. As a result, GDB,
+the packet receiver, can print FPU stack registers in the correct order.
 
->   #ifdef CONFIG_USER_ONLY
->       uint32_t elf_flags;
->   #endif
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 8b0d7e20ea..1663ba5775 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -39,6 +39,10 @@
->   
->   /* Control and Status Registers */
->   
-> +/* CFI CSRs */
-> +#define CSR_LPLR            0x006
-> +#define CSR_SSP             0x020
-> +
->   /* User Trap Setup */
->   #define CSR_USTATUS         0x000
->   #define CSR_UIE             0x004
-> @@ -542,6 +546,10 @@
->   #define MSTATUS_TVM         0x00100000 /* since: priv-1.10 */
->   #define MSTATUS_TW          0x00200000 /* since: priv-1.10 */
->   #define MSTATUS_TSR         0x00400000 /* since: priv-1.10 */
-> +#define MSTATUS_UFCFIEN     0x00800000 /* Zisslpcfi-0.1 */
-> +#define MSTATUS_UBCFIEN     0x01000000 /* Zisslpcfi-0.1 */
-> +#define MSTATUS_SPELP       0x02000000 /* Zisslpcfi-0.1 */
-> +#define MSTATUS_MPELP       0x04000000 /* Zisslpcfi-0.1 */
->   #define MSTATUS_GVA         0x4000000000ULL
->   #define MSTATUS_MPV         0x8000000000ULL
->   
-> @@ -572,12 +580,21 @@ typedef enum {
->   #define SSTATUS_XS          0x00018000
->   #define SSTATUS_SUM         0x00040000 /* since: priv-1.10 */
->   #define SSTATUS_MXR         0x00080000
-> +#define SSTATUS_UFCFIEN     MSTATUS_UFCFIEN /* Zisslpcfi-0.1 */
-> +#define SSTATUS_UBCFIEN     MSTATUS_UBCFIEN /* Zisslpcfi-0.1 */
-> +#define SSTATUS_SPELP       MSTATUS_SPELP   /* Zisslpcfi-0.1 */
->   
->   #define SSTATUS64_UXL       0x0000000300000000ULL
->   
->   #define SSTATUS32_SD        0x80000000
->   #define SSTATUS64_SD        0x8000000000000000ULL
->   
-> +#define CFISTATUS_M_MASK    (MSTATUS_UFCFIEN | MSTATUS_UBCFIEN | \
-> +                             MSTATUS_MPELP | MSTATUS_SPELP)
-> +
-> +#define CFISTATUS_S_MASK    (SSTATUS_UFCFIEN | SSTATUS_UBCFIEN | \
-> +                             SSTATUS_SPELP)
-> +
->   /* hstatus CSR bits */
->   #define HSTATUS_VSBE         0x00000020
->   #define HSTATUS_GVA          0x00000040
-> @@ -747,10 +764,14 @@ typedef enum RISCVException {
->   #define MENVCFG_CBIE                       (3UL << 4)
->   #define MENVCFG_CBCFE                      BIT(6)
->   #define MENVCFG_CBZE                       BIT(7)
-> +#define MENVCFG_SFCFIEN                    BIT(59)
-> +#define MENVCFG_CFI                        BIT(60)
-We should use 1ULL << 59/60 here.
->   #define MENVCFG_PBMTE                      (1ULL << 62)
->   #define MENVCFG_STCE                       (1ULL << 63)
->   
->   /* For RV32 */
-> +#define MENVCFGH_SFCFIEN                   BIT(27)
-> +#define MENVCFGH_CFI                       BIT(28)
->   #define MENVCFGH_PBMTE                     BIT(30)
->   #define MENVCFGH_STCE                      BIT(31)
->   
-> @@ -763,10 +784,14 @@ typedef enum RISCVException {
->   #define HENVCFG_CBIE                       MENVCFG_CBIE
->   #define HENVCFG_CBCFE                      MENVCFG_CBCFE
->   #define HENVCFG_CBZE                       MENVCFG_CBZE
-> +#define HENVCFG_SFCFIEN                    MENVCFG_SFCFIEN
-> +#define HENVCFG_CFI                        MENVCFG_CFI
->   #define HENVCFG_PBMTE                      MENVCFG_PBMTE
->   #define HENVCFG_STCE                       MENVCFG_STCE
->   
->   /* For RV32 */
-> +#define HENVCFGH_SFCFIEN                    MENVCFGH_SFCFIEN
-> +#define HENVCFGH_CFI                        MENVCFGH_CFI
->   #define HENVCFGH_PBMTE                      MENVCFGH_PBMTE
->   #define HENVCFGH_STCE                       MENVCFGH_STCE
->   
-> diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
-> index da32c61c85..f5bfc4955b 100644
-> --- a/target/riscv/pmp.h
-> +++ b/target/riscv/pmp.h
-> @@ -43,7 +43,8 @@ typedef enum {
->       MSECCFG_MMWP  = 1 << 1,
->       MSECCFG_RLB   = 1 << 2,
->       MSECCFG_USEED = 1 << 8,
-> -    MSECCFG_SSEED = 1 << 9
-> +    MSECCFG_SSEED = 1 << 9,
-> +    MSECCFG_MFCFIEN =  1 << 10
+Signed-off-by: TaiseiIto <taisei1212@outlook.jp>
+---
+ target/i386/gdbstub.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-It's unnecessary to use multiple space after '='.
-
-Regards,
-
-Weiwei Li
-
->   } mseccfg_field_t;
->   
->   typedef struct {
+diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
+index c3a2cf6f28..786971284a 100644
+--- a/target/i386/gdbstub.c
++++ b/target/i386/gdbstub.c
+@@ -121,7 +121,9 @@ int x86_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+             return gdb_get_reg32(mem_buf, env->regs[gpr_map32[n]]);
+         }
+     } else if (n >= IDX_FP_REGS && n < IDX_FP_REGS + 8) {
+-        floatx80 *fp = (floatx80 *) &env->fpregs[n - IDX_FP_REGS];
++        int st_index = n - IDX_FP_REGS;
++        int r_index = (st_index + env->fpstt) % 8;
++        floatx80 *fp = &env->fpregs[r_index].d;
+         int len = gdb_get_reg64(mem_buf, cpu_to_le64(fp->low));
+         len += gdb_get_reg16(mem_buf, cpu_to_le16(fp->high));
+         return len;
+-- 
+2.34.1
 
 
