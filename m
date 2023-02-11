@@ -2,69 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE30692FE4
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Feb 2023 11:07:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 671C36930A4
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Feb 2023 12:52:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQmm7-0003JZ-Qx; Sat, 11 Feb 2023 05:06:31 -0500
+	id 1pQoOs-00017b-84; Sat, 11 Feb 2023 06:50:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQmm5-0003Fe-0g
- for qemu-devel@nongnu.org; Sat, 11 Feb 2023 05:06:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pQmm2-0008GZ-H5
- for qemu-devel@nongnu.org; Sat, 11 Feb 2023 05:06:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676109985;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ylbCv6HUkisP01xe7akPPHagbWAjiqZq6mYxMiRImk0=;
- b=N0D0fNWSUO6kvSpdySqj19IKg5JmG4t7PlTPRakGjXNiodtaCKxycMfib9fzK00SRJwGFP
- Kbpb+qCUzclEePQNmTvXk4Gl+c61Eni2pRg8+OAjcjFFiEgOATlMRIZoPOX/+ajuO1EpXL
- 7X6+SorRsoEiLUqkaZHSnm9FCbFEzBo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-91-aSsgAwPxPk2T8em5t29PoQ-1; Sat, 11 Feb 2023 05:06:23 -0500
-X-MC-Unique: aSsgAwPxPk2T8em5t29PoQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E3CD61C05145;
- Sat, 11 Feb 2023 10:06:22 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F9CC51FF;
- Sat, 11 Feb 2023 10:06:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A5F5721E6A1F; Sat, 11 Feb 2023 11:06:21 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,  Michael Roth <michael.roth@amd.com>
-Subject: Re: [PATCH v3 3/7] qapi/expr: Split check_expr out from check_exprs
-References: <20230209184758.1017863-1-jsnow@redhat.com>
- <20230209184758.1017863-4-jsnow@redhat.com>
- <87pmahr983.fsf@pond.sub.org>
- <CAFn=p-bSS_0A2cpWce01Oy7c4gGtDYzMYjSpc4azniYPcPN7CQ@mail.gmail.com>
-Date: Sat, 11 Feb 2023 11:06:21 +0100
-In-Reply-To: <CAFn=p-bSS_0A2cpWce01Oy7c4gGtDYzMYjSpc4azniYPcPN7CQ@mail.gmail.com>
- (John Snow's message of "Fri, 10 Feb 2023 10:20:11 -0500")
-Message-ID: <874jrs349u.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pQoOq-000169-DS
+ for qemu-devel@nongnu.org; Sat, 11 Feb 2023 06:50:36 -0500
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pQoOd-0002RF-I9
+ for qemu-devel@nongnu.org; Sat, 11 Feb 2023 06:50:25 -0500
+Received: by mail-oi1-x22c.google.com with SMTP id bh15so6611283oib.4
+ for <qemu-devel@nongnu.org>; Sat, 11 Feb 2023 03:50:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=qtGdEfk8WPql0LZtZNsxPzMi28Bb5PgTELpcE7OsZf4=;
+ b=N17wnB9A0wKDEeeyeCKK4ELX/PXjprIDwv2ZAbDXlfTb+4ORYFIsIqmRrAmlDxS5HK
+ 1SA2kYWc/lzu/X0PnqAurK/MvChfYhgaHkb2gCez11BNx4XaT47DeEwzfOv8SX0Lnao/
+ Fg7MdP6Yxx2VZB9J3/S+/MqdC+X7kYS4bSm+a22tgN5y5KL6fyB+oSw8tKMJv1zpCSdx
+ Y+kib8DAZpRrXQZQBPYuxWG7NXb/CjF1LuCF5fPiIolASJet8RLpRHLdaeqDJCxun65P
+ 6gJMFMbH5yv38WlI8Qu2O3lrS2LAUn5I1oKhoQjjDhIUleuVsE2uPcnItydk5+wTZHS/
+ EDjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qtGdEfk8WPql0LZtZNsxPzMi28Bb5PgTELpcE7OsZf4=;
+ b=xuJXPEsZjQvI3mnSOwCN1kfSqQy+QSEMvthK7hOo7AuX0oOFj6PMJAr0oK+OE8kPvP
+ QaVl+3jNI0h4Dmy1VqyLJ7CCxKssSozSAOWJcU63SoPY3kCFaK8947m86dBxqE8FMarm
+ DLCTHPJUTmCRumcE+6Yz3fnm4xMyfhrw32a5PFUWs+GV4iQ1ikl6mK1yD5esuh7NLxhZ
+ mlEyvxmbr0mPKDq5bCP1w4A2Vh8eiIGLje9fhK+4zv5uSTihXnOF8AH401Hzq7Pbu9w/
+ jMUVuzSJadCB4+p+3KYVDNPEu83QNeAvAx7Lfji5ZWzDbTeTVs4bRiWqx+T0EPgxCKYn
+ xYPw==
+X-Gm-Message-State: AO0yUKUfVvpag3PmNTbxcrvQ+tPRLFjagLccooltULHGRxzlMFQZ2Oxs
+ 5UpNLoFNWKfCoOuTytwEiSKC4Q==
+X-Google-Smtp-Source: AK7set+16H3Bb1KpBe29Zy0soxEtCXcLXvNdSrMf2i0bPus7PVf8FJDiue2Mu64lwuUMzM5dL8mKdQ==
+X-Received: by 2002:a54:4013:0:b0:36e:fe3f:a02 with SMTP id
+ x19-20020a544013000000b0036efe3f0a02mr9609281oie.19.1676116222217; 
+ Sat, 11 Feb 2023 03:50:22 -0800 (PST)
+Received: from [192.168.68.107] ([191.19.125.138])
+ by smtp.gmail.com with ESMTPSA id
+ dj6-20020a0568303a8600b0068d542f630fsm3015703otb.76.2023.02.11.03.50.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 11 Feb 2023 03:50:21 -0800 (PST)
+Message-ID: <0d853c1b-7554-1813-693f-e31a62ef9298@ventanamicro.com>
+Date: Sat, 11 Feb 2023 08:50:18 -0300
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 02/11] target/riscv: allow users to actually write the
+ MISA CSR
+Content-Language: en-US
+To: weiwei <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com
+References: <20230210133635.589647-1-dbarboza@ventanamicro.com>
+ <20230210133635.589647-3-dbarboza@ventanamicro.com>
+ <2a0d5e1e-f2ff-6502-0f88-f6b3005bcaf3@iscas.ac.cn>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <2a0d5e1e-f2ff-6502-0f88-f6b3005bcaf3@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22c.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,124 +96,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-John Snow <jsnow@redhat.com> writes:
 
-> --0000000000003b01fe05f45a096a
-> Content-Type: text/plain; charset="UTF-8"
->
-> On Fri, Feb 10, 2023, 7:33 AM Markus Armbruster <armbru@redhat.com> wrote:
->
->> Another observation...
+
+On 2/10/23 23:43, weiwei wrote:
+> 
+> On 2023/2/10 21:36, Daniel Henrique Barboza wrote:
+>> At this moment, and apparently since ever, we have no way of enabling
+>> RISCV_FEATURE_MISA. This means that all the code from write_misa(), all
+>> the nuts and bolts that handles how to properly write this CSR, has
+>> always been a no-op as well because write_misa() will always exit
+>> earlier.
 >>
->> John Snow <jsnow@redhat.com> writes:
+>> This seems to be benign in the majority of cases. Booting an Ubuntu
+>> 'virt' guest and logging all the calls to 'write_misa' shows that no
+>> writes to MISA CSR was attempted. Writing MISA, i.e. enabling/disabling
+>> RISC-V extensions after the machine is powered on, seems to be a niche
+>> use.
 >>
->> > Primarily, this reduces a nesting level of a particularly long
->> > block. It's mostly code movement, but a new docstring is created.
->> >
->> > It also has the effect of creating a fairly convenient "catch point" in
->> > check_exprs for exception handling without making the nesting level even
->> > worse.
+>> There is a good chance that the code in write_misa() hasn't been
+>> properly tested. Allowing users to write MISA can open the floodgates of
+>> new breeds of bugs. We could instead remove most (if not all) of
+>> write_misa() since it's never used. Well, as a hardware emulator,
+>> dealing with crashes because a register write went wrong is what we're
+>> here for.
 >>
->
-> What I mean is: If you want to handle exceptions without this patch, a
-> try/catch will add another nesting level to this hundred line function.
->
-> By splitting it, you can use the outer looping function as a choke point to
-> write the handler.
->
-> I had a branch once where I use this fact to stop routing "info" into 99%
-> of expr.py. I did this to use an off the shelf JSON validator while
-> preserving your custom source info error reporting that identifies the
-> precise location of the error.
-
-When you have to reindent anyway, the drawback "makes git-blame less
-useful" evaporates.  When the reindent is due to another level of
-nesting, the benefit "reduces nesting" becomes more valuable.
-
-> I took that out for now, in the interest of staying focused on the minimum
-> viable to achieve strict typing, but found this change to be helpful anyway.
->
-> Admit that it does muddy the waters with git blame, but... my calculus on
-> that might just be different from yours.
->
-> (To me, git blame is almost always something I have to trace back through
-> several refactors anyway, so I see the battle as lost before I started.)
->
-> I can omit this patch for now if you'd like, it isn't crucial. I just think
-> I'd still "kinda like to have it". I'll leave it up to you.
-
-I'd prefer to shelve it for now.  Bring it back when we have to reindent
-anyway.
-
->> > Signed-off-by: John Snow <jsnow@redhat.com>
->> >
->> > ---
->> >
->> > This patch was originally written as part of my effort to factor out
->> > QAPISourceInfo from this file by having expr.py raise a simple
->> > exception, then catch and wrap it at the higher level.
->> >
->> > This series doesn't do that anymore, but reducing the nesting level
->> > still seemed subjectively nice. It's not crucial.
->> >
->> > Signed-off-by: John Snow <jsnow@redhat.com>
+>> Create a 'misa-w' CPU property to allow users to choose whether writes
+>> to MISA should be allowed. The default is set to 'false' for all RISC-V
+>> machines to keep compatibility with what we´ve been doing so far.
 >>
->
-> Whoops, script doesn't understand when I add notes.
->
+>> Read cpu->cfg.misa_w directly in write_misa(), instead of executing
+>> riscv_set_feature(RISCV_FEATURE_MISA) in riscv_cpu_realize(), that would
+>> simply reflect the cpu->cfg.misa_w bool value in 'env->features' and
+>> require a riscv_feature() call to read it back.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 >> ---
->> >  scripts/qapi/expr.py | 179 +++++++++++++++++++++++--------------------
->> >  1 file changed, 95 insertions(+), 84 deletions(-)
->> >
->> > diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
->> > index 5a1782b57ea..b56353bdf84 100644
->> > --- a/scripts/qapi/expr.py
->> > +++ b/scripts/qapi/expr.py
->> > @@ -595,6 +595,99 @@ def check_event(expr: _JSONObject, info:
->> QAPISourceInfo) -> None:
->> >      check_type(args, info, "'data'", allow_dict=not boxed)
->> >
->> >
->> > +def check_expr(expr_elem: _JSONObject) -> None:
+>>   target/riscv/cpu.c | 1 +
+>>   target/riscv/cpu.h | 1 +
+>>   target/riscv/csr.c | 4 +++-
+>>   3 files changed, 5 insertions(+), 1 deletion(-)
 >>
->> [...]
->>
->> >  def check_exprs(exprs: List[_JSONObject]) -> List[_JSONObject]:
->> >      """
->> >      Validate and normalize a list of parsed QAPI schema expressions.
->>
->> The typing is kind of wrong.
->>
->> The list is the value of QAPISchemaParser.exprs, which is (losely) typed
->> as List[Dict[str, object]].  It is actually a dict mapping
->>
->>    'expr' -> _ExprValue
->>    'info' -> QAPISourceInfo
->>    'doc'  -> Optional[QAPIDoc]
->>
->> Thet's not what _JSONObject is!  Its doc string describes it as
->> "Deserialized JSON objects as returned by the parser", i.e. the same as
->> _ExprValue.
->>
->> Works only because _JSONObject is a dict mapping arbitrary keys to
->> _JSONObject, str or bool.
->>
->> This patch spreads the flawed typing to the new function.
->>
->> Gets healed later in the series.
->>
->
-> Oops...!
->
-> Symptom of patch reordering that happened some time ago, I think. Mea
-> culpa. Will fix.
->
-> (Possibly with some ugly intermediate type that goes away by end of series.)
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index 93b52b826c..69fb9e123f 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -1197,6 +1197,7 @@ static void register_cpu_props(DeviceState *dev)
+>>   static Property riscv_cpu_properties[] = {
+>>       DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, true),
+>> +    DEFINE_PROP_BOOL("misa-w", RISCVCPU, cfg.misa_w, false),
+>>       DEFINE_PROP_UINT32("mvendorid", RISCVCPU, cfg.mvendorid, 0),
+>>       DEFINE_PROP_UINT64("marchid", RISCVCPU, cfg.marchid, RISCV_CPU_MARCHID),
+>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> index 7128438d8e..103963b386 100644
+>> --- a/target/riscv/cpu.h
+>> +++ b/target/riscv/cpu.h
+>> @@ -498,6 +498,7 @@ struct RISCVCPUConfig {
+>>       bool pmp;
+>>       bool epmp;
+>>       bool debug;
+>> +    bool misa_w;
+>>       bool short_isa_string;
+>>   };
+>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>> index e149b453da..4f9cc501b2 100644
+>> --- a/target/riscv/csr.c
+>> +++ b/target/riscv/csr.c
+>> @@ -1329,7 +1329,9 @@ static RISCVException read_misa(CPURISCVState *env, int csrno,
+>>   static RISCVException write_misa(CPURISCVState *env, int csrno,
+>>                                    target_ulong val)
+>>   {
+>> -    if (!riscv_feature(env, RISCV_FEATURE_MISA)) {
+>> +    RISCVCPU *cpu = env_archcpu(env);
+>> +
+>> +    if (!cpu->cfg.misa_w) {
+> 
+> It's Ok to get it directly from cfg. However, personally, I prefer to keep the non-isa features in a separate list.
 
-Only if it's dead easy.
+I don't mind a separated non-isa list. cpu->cfg has everything contained in it
+though, ISA and non-ISA (e.g. vendor extensions that weren't ratified yet), and
+the current RISCV_FEATURES_* list is just a duplicate of it that we need to
+update it during riscv_cpu_realize().
 
-Simply have the commit message point out there's problem being fixed?
+In my opinion we can spare the extra effort of keeping a separated, up-to-date
+non-ISA extension/features list, by just reading everything from cfg.
 
->> [...]
 
+Thanks,
+
+
+Daniel
+
+> 
+> Regards,
+> 
+> Weiwei Li
+> 
+>>           /* drop write to misa */
+>>           return RISCV_EXCP_NONE;
+>>       }
+> 
 
