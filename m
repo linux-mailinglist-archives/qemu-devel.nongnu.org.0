@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D13C6931F2
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Feb 2023 16:24:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048BB6931F4
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Feb 2023 16:24:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQriJ-0004nO-Ca; Sat, 11 Feb 2023 10:22:55 -0500
+	id 1pQriM-0004np-Ur; Sat, 11 Feb 2023 10:22:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQriF-0004m3-EC
- for qemu-devel@nongnu.org; Sat, 11 Feb 2023 10:22:51 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQriK-0004nY-Hh
+ for qemu-devel@nongnu.org; Sat, 11 Feb 2023 10:22:56 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQriD-00085p-Un
- for qemu-devel@nongnu.org; Sat, 11 Feb 2023 10:22:51 -0500
-Received: by mail-wr1-x434.google.com with SMTP id h16so7970253wrz.12
- for <qemu-devel@nongnu.org>; Sat, 11 Feb 2023 07:22:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pQriI-00087k-TU
+ for qemu-devel@nongnu.org; Sat, 11 Feb 2023 10:22:56 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ j29-20020a05600c1c1d00b003dc52fed235so6056226wms.1
+ for <qemu-devel@nongnu.org>; Sat, 11 Feb 2023 07:22:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BBVEmZrqr4evLXhyxNSwpcErgC+DGTQFF+QpIR9ORpA=;
- b=NnVpU2cUih7b5fx1AAlNeRR5XXSQhqwUjtyrebMbJzEP8+mNkmMczGroqiZoEEyJD0
- aELarYqgyZ7JWMeae88GWPu4sWGsIZdZeTyilhVbbUZZqWyWC8IX0Jk2MMMVwWEXdR1I
- xuCsbANIchG+Npt9l+gczGF3cFCP3m/ekaxgAL624b15R+aC7olXEDn2c17ddZI/BLZG
- FaL+34Eb8Iw/8SNzcFICigqjt1NHjRx73z+m/7nkxMqCN5BilWYFK/D28DI6dimPHSPn
- QW189+nwqum2/EruLkTORrwaPoCMB1Z+69M5BTSTBRh/wnDNCv4OLwL6f7RntaEd+QsR
- TZgg==
+ bh=oudN0ASg8WpOow+Q4IYDvspGobmx6uMh2/lX2Axv37c=;
+ b=tg8p9k4xXfFAKgELEkd7QptgNKlP7d1rqcUd5RmT9AqeXvFCqNuUv1ijiWcRcW9tpR
+ +HTZtk+Pc6pewsSvSeCPmmX/Xj0gt6J1ZfSoYvTbRyXW4kFx6uDvr7oFSRMn29sBSZfr
+ CyRRqEBFwIoqgerchD9Jq677g9eh1D//a8/k1H1sEa/qiGFmbPuyrtolnmQJNgf7TzED
+ JQkMBa1cyaTGigm6/Iw4Ia6oyp810XkfP9nW1TAAOnPWcoH8tXLU67xClkkPzN3xgqF+
+ AmUtsn70/PVaQ0RRi8OnfInGs3obtbklyQIbncaK8UrRLaKP1sAqh8l9I3az9YFcAeyS
+ +qpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BBVEmZrqr4evLXhyxNSwpcErgC+DGTQFF+QpIR9ORpA=;
- b=2SQiZ8Rm10jbGlxAMaku/3lwWRTorlXRe9OeoWd174gAeFuHRqRZn5aB378dKNPiDl
- KnCUWEhV/A1rcpw86HI1he/MUdq1MjReyAkV3vOrgrVfPKv0d99ZOpNENAfmc4wOqqbm
- B3w5OEDb/1692tgMTLJ7LPrtk/bSrCy4y+tkVbTD0HjIGXcvzu+C/UU5Ki/zU/Vi94eN
- K4TVu/TaMwi6FeiufgxKTE6JxF3LExdGEvWZl1pkqXaKPOjetGTt9GYOm0mS+B/SDKY0
- LVG+njaNZDTYqozfUKtwVGkFEdFFyGvCoohDrbbGsI9Eowp2DUS98+T75bT5yGyY51OP
- BB9Q==
-X-Gm-Message-State: AO0yUKWbglSw1VTGuoFlZN429OFrIJV0b3kYYEL27/wUqEJFPvOtlktS
- zoWeoqMTgCbflTGhDHv+Zb7TbgX/nE3HRT2i
-X-Google-Smtp-Source: AK7set9htTGCe2Wban0FU1vU2vOOwyrYTwI5iw7+tau/N0EvBgur1cRBZdICzZsYvY3cTN6EzAMxVQ==
-X-Received: by 2002:adf:e106:0:b0:2c3:e20b:82aa with SMTP id
- t6-20020adfe106000000b002c3e20b82aamr16394296wrz.22.1676128968289; 
- Sat, 11 Feb 2023 07:22:48 -0800 (PST)
+ bh=oudN0ASg8WpOow+Q4IYDvspGobmx6uMh2/lX2Axv37c=;
+ b=X9yGD0flh87rfjIPG6E1WOK5PyDxudu+9lP528Cie1QDfGlDR9U1TUezl7zzmtLM5b
+ MFeawOsvce4LW+ZU1tJ0mZt46Fzy8/rh4Qpj38ZOdH6D4FVGNNBDAwlYIMxwjDWcci4o
+ hBdJVUwCczszuikuVYYls65BODE7C6nei1eJCQrGrLAAYhq/c6unVrfzEhQK4IU0HJls
+ G8FPd65SLGTCPQH1AnLw9aVaEeiEuX4U3ad9pICVxi76fBJHrT4olCANulD8AU7TxFdv
+ L6a9aVSQox2fMhzTfhGEAXvb8fJud6ypNxiS/DQrhwOGXuxqFNPIv3NFr46Y9496oyiV
+ j0Jg==
+X-Gm-Message-State: AO0yUKWBn/C/dudsDyIuFQBJL8A12Ez7vJYhU+RWO/G/45I/UG5s3xHx
+ 8p1+bfX7TX0jO1vkETT2yD/7ao9zlccMBS+9
+X-Google-Smtp-Source: AK7set+mQZtBIhbbiEbbzYK22hl69rBGku4CD5UBTkfpKHF7hR7r6vUZ+g2tdHHdw8WDV21hMO8yhg==
+X-Received: by 2002:a05:600c:1816:b0:3e1:374:8b66 with SMTP id
+ n22-20020a05600c181600b003e103748b66mr11234795wmp.40.1676128973415; 
+ Sat, 11 Feb 2023 07:22:53 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- p13-20020a05600c468d00b003e001afa274sm9048631wmo.2.2023.02.11.07.22.47
+ n19-20020a05600c3b9300b003daf7721bb3sm12470451wms.12.2023.02.11.07.22.52
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 11 Feb 2023 07:22:47 -0800 (PST)
+ Sat, 11 Feb 2023 07:22:53 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 1/2] hw/pci: Fix a typo
-Date: Sat, 11 Feb 2023 16:22:38 +0100
-Message-Id: <20230211152239.88106-2-philmd@linaro.org>
+Subject: [PATCH 2/2] hw/pci: Trace IRQ routing on PCI topology
+Date: Sat, 11 Feb 2023 16:22:39 +0100
+Message-Id: <20230211152239.88106-3-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230211152239.88106-1-philmd@linaro.org>
 References: <20230211152239.88106-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,26 +91,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fix 'interrutp' typo.
+Trace how IRQ are rooted from EP to RC.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/pci/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/pci/pci.c        | 8 ++++++++
+ hw/pci/trace-events | 1 +
+ 2 files changed, 9 insertions(+)
 
 diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 208c16f450..805e4b0c68 100644
+index 805e4b0c68..2e785e3aef 100644
 --- a/hw/pci/pci.c
 +++ b/hw/pci/pci.c
-@@ -1648,7 +1648,7 @@ void pci_device_set_intx_routing_notifier(PCIDevice *dev,
-  * 9.1: Interrupt routing. Table 9-1
-  *
-  * the PCI Express Base Specification, Revision 2.1
-- * 2.2.8.1: INTx interrutp signaling - Rules
-+ * 2.2.8.1: INTx interrupt signaling - Rules
-  *          the Implementation Note
-  *          Table 2-20
-  */
+@@ -279,9 +279,13 @@ static void pci_change_irq_level(PCIDevice *pci_dev, int irq_num, int change)
+ {
+     PCIBus *bus;
+     for (;;) {
++        int dev_irq = irq_num;
+         bus = pci_get_bus(pci_dev);
+         assert(bus->map_irq);
+         irq_num = bus->map_irq(pci_dev, irq_num);
++        trace_pci_route_irq(dev_irq, DEVICE(pci_dev)->canonical_path, irq_num,
++                            pci_bus_is_root(bus) ? "root-complex"
++                                    : DEVICE(bus->parent_dev)->canonical_path);
+         if (bus->set_irq)
+             break;
+         pci_dev = bus->parent_dev;
+@@ -1600,8 +1604,12 @@ PCIINTxRoute pci_device_route_intx_to_irq(PCIDevice *dev, int pin)
+     PCIBus *bus;
+ 
+     do {
++        int dev_irq = pin;
+         bus = pci_get_bus(dev);
+         pin = bus->map_irq(dev, pin);
++        trace_pci_route_irq(dev_irq, DEVICE(dev)->canonical_path, pin,
++                            pci_bus_is_root(bus) ? "root-complex"
++                                    : DEVICE(bus->parent_dev)->canonical_path);
+         dev = bus->parent_dev;
+     } while (dev);
+ 
+diff --git a/hw/pci/trace-events b/hw/pci/trace-events
+index aaf46bc92d..42430869ce 100644
+--- a/hw/pci/trace-events
++++ b/hw/pci/trace-events
+@@ -3,6 +3,7 @@
+ # pci.c
+ pci_update_mappings_del(const char *dev, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size) "%s %02x:%02x.%x %d,0x%"PRIx64"+0x%"PRIx64
+ pci_update_mappings_add(const char *dev, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size) "%s %02x:%02x.%x %d,0x%"PRIx64"+0x%"PRIx64
++pci_route_irq(int dev_irq, const char *dev_path, int parent_irq, const char *parent_path) "IRQ %d @%s -> IRQ %d @%s"
+ 
+ # pci_host.c
+ pci_cfg_read(const char *dev, uint32_t bus, uint32_t slot, uint32_t func, unsigned offs, unsigned val) "%s %02x:%02x.%x @0x%x -> 0x%x"
 -- 
 2.38.1
 
