@@ -2,61 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2066B693703
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 12:33:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1621269374D
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 13:40:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRAZu-0002ak-BR; Sun, 12 Feb 2023 06:31:30 -0500
+	id 1pRBdM-0007b9-Sm; Sun, 12 Feb 2023 07:39:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hc981@poolhem.se>) id 1pRAZr-0002aL-Pl
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 06:31:27 -0500
-Received: from mailout12.inleed.net ([2a0b:dc80:cafe:112::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hc981@poolhem.se>) id 1pRAZo-0003p0-VB
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 06:31:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=poolhem.se; 
- s=x;
- h=Content-Transfer-Encoding:Content-Type:Mime-Version:References:
- In-Reply-To:Message-Id:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=xkCFxC6JU02zMDn5EHGLV+ztJVNOCZS/pi0OC+pqrsw=; b=SFVhCNJ68/vgEpr4wn1dg2tEUJ
- DzEm5ecSuo7+EHUDIpaFug0phSfk+uA785tMUi2Hvkijua6CS1jsHztaxsEPvf/+1i+vEvMvYku4p
- l1fTguV5C/6Q3vgwKEiSx42skH9fNjBWtPQSsZdFHWd7KToxcBzYl6e0oJZ2JerV6Y38h8Z22FfFP
- UVfxXiUePa8oAOl0psOmBX2ljojDknjJx288zdnJRTrXWFqHosKYxykqceR3toqPDr3z/9oj9S6nl
- 5yxjM5GlJjjVvwrbmzrH/PxQBUBpZreTm3LC2L5T3iZLTA0pDvt+jFUC/+U97Rva9dMA1gmM2yGX5
- iLidJKqw==;
-Received: from [213.115.245.47] (helo=balrog.lkp.se)
- by ns12.inleed.net with esmtpa (Exim 4.96)
- (envelope-from <hc981@poolhem.se>) id 1pRAZn-0044il-2S;
- Sun, 12 Feb 2023 12:31:23 +0100
-Date: Sun, 12 Feb 2023 12:31:09 +0100
-From: Henrik Carlqvist <hc981@poolhem.se>
-To: Henrik Carlqvist <hc981@poolhem.se>
-Cc: mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org,
- pbonzini@redhat.com, atar4qemu@gmail.com, marcandre.lureau@redhat.com
-Subject: Ping [PATCH v5] Emulate dip switch language layout settings on SUN
- keyboard
-Message-Id: <20230212123109.5c869840.hc981@poolhem.se>
-In-Reply-To: <20230114153853.76b68899.hc94@poolhem.se>
-References: <20230114125029.7395a547.hc981@poolhem.se>
- <20230114153853.76b68899.hc94@poolhem.se>
-X-Mailer: Sylpheed version 0.9.7 (GTK+ 1.2.10; i686-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Id: henrik@poolhem.se
-Received-SPF: none client-ip=2a0b:dc80:cafe:112::1;
- envelope-from=hc981@poolhem.se; helo=mailout12.inleed.net
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pRBcx-0007Z3-LW; Sun, 12 Feb 2023 07:38:43 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pRBcu-0001IL-D6; Sun, 12 Feb 2023 07:38:43 -0500
+Received: by mail-ej1-x634.google.com with SMTP id rp23so25842752ejb.7;
+ Sun, 12 Feb 2023 04:38:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ltcxifq61V4rDMel4CBHsMiq2/OUsO7+K0soBC8TVN0=;
+ b=KJIm/2i/WgflfeDbvGJfuBn4toj0pPgExD8g8wjWkY86F2VhEPYHWfCHX599NQFnlh
+ XN8NyKeKn2UxltziChyHhGjCEgSdnaxTnjR+SnfsK/r9EUTlrw2OJcVb1Mv+rAEtjp7a
+ Q+o0YwCU0XIX7vah+UJa0K0AsSP7vIRi7cEw1ggesMXdRC8XUYuwmirNjTAf7RTiS/TN
+ 5VYSpS9D1XVMJnGl+Yjo9JQgkT8IyeQO7YEdta2UUDB+x2rKf5R0c+apjeyPaM/MS+Lk
+ DOe2aLK6Uj9IExYvMxVRRRC2fhWt6tv+Uyriu6LZj0zeNyr1GC1PdoBEcZpd0E5zwpsw
+ LKuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ltcxifq61V4rDMel4CBHsMiq2/OUsO7+K0soBC8TVN0=;
+ b=vE9+AqPfQ1RBbjAQCuxjez+ntmELPinIbPgKb+tGTwMUyfxnKN486OkVzhpFS7rVyH
+ QifCrbU91xFLivbI2fdU4BaKrh1HhdLWggju1wLcQyZBQZaRikRjgh4KJCCotKH4qVC2
+ 005ic5gKROWWdrK0lcrJziXUEh8IbTkYKIz70ExyJdT1zi5A6kQi0tsbBAQZHgWktrIT
+ Ik39edEH94DgyDsCtGE72tNkQDLnO2FOePHjUPYlEvKkXmxs7ghEiWjdozEN3Zl5kMaH
+ BxrewbsHZiavBG1S6+l+PEjrY+MLChUHzy3oIKw0/PJIl2CRhXenQM4u8Ew6/L+bUl1z
+ PHqA==
+X-Gm-Message-State: AO0yUKU5qO31EctipxljQPAr6N5sDaPhC/iFR/pS4khoTRzneQifi6gf
+ f/2X7Mo49S0f+tdLT4czspLWJyqVH1k=
+X-Google-Smtp-Source: AK7set83exuNgP5ptDTO/++1m2/rnDJrTdm7v6XCAxFiwdfjQVp+3jP1GgblpdepviRu5oUKsqfa6g==
+X-Received: by 2002:a17:906:c401:b0:88d:ba89:1837 with SMTP id
+ u1-20020a170906c40100b0088dba891837mr16759280ejz.8.1676205516618; 
+ Sun, 12 Feb 2023 04:38:36 -0800 (PST)
+Received: from localhost.localdomain
+ (dynamic-077-011-172-153.77.11.pool.telefonica.de. [77.11.172.153])
+ by smtp.gmail.com with ESMTPSA id
+ qw14-20020a170906fcae00b008af1f1bee79sm5233164ejb.9.2023.02.12.04.38.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 12 Feb 2023 04:38:36 -0800 (PST)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ qemu-arm@nongnu.org, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ qemu-block@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ John Snow <jsnow@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-ppc@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH v7 00/23] Consolidate PIIX south bridges
+Date: Sun, 12 Feb 2023 13:37:42 +0100
+Message-Id: <20230212123805.30799-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.39.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,165 +103,205 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Would you please consider this patch or let me know if you want me to somehow
-update it before it can be accepted?
-
-Best regards Henrik
-
-On Sat, 14 Jan 2023 15:38:53 +0100
-Henrik Carlqvist <hc94@poolhem.se> wrote:
-
-> https://patchew.org/QEMU/20230114125029.7395a547.hc981@poolhem.se/ 
-> complains that "patch is empty", so here is my fifth attempt...
-> 
-> regards Henrik
-> 
-> SUN Type 4, 5 and 5c keyboards have dip switches to choose the language
-> layout of the keyboard. Solaris makes an ioctl to query the value of the
-> dipswitches and uses that value to select keyboard layout. Also the SUN
-> bios like the one in the file ss5.bin uses this value to support at least
-> some keyboard layouts. However, the OpenBIOS provided with qemu is
-> hardcoded to always use an US keyboard layout.
-> 
-> Before this patch, qemu allways gave dip switch value 0x21 (US keyboard),
-> this patch uses the command line switch "-k" (keyboard layout) to select
-> dip switch value. A table is used to lookup values from arguments like:
-> 
-> -k fr
-> -k es
-> 
-> But the patch also accepts numeric dip switch values directly to the -k
-> switch:
-> 
-> -k 0x2b
-> -k 43
-> 
-> Both values above are the same and select swedish keyboard as explained in
-> table 3-15 at
-> https://docs.oracle.com/cd/E19683-01/806-6642/new-43/index.html
-> 
-> Unless you want to do a full Solaris installation but happen to have
-> access to a bios file, the easiest way to test that the patch works is to:
-> 
-> qemu-system-sparc -k sv -bios /path/to/ss5.bin
-> 
-> If you already happen to have a Solaris installation in a qemu disk image
-> file you can easily try different keyboard layouts after this patch is
-> applied.
-> 
-> Signed-off-by: Henrik Carlqvist <hc1245@poolhem.se>
-> ---
->  hw/char/escc.c | 74 +++++++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 73 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/char/escc.c b/hw/char/escc.c
-> index 17a908c59b..53022ccf39 100644
-> --- a/hw/char/escc.c
-> +++ b/hw/char/escc.c
-> @@ -31,6 +31,8 @@
->  #include "qemu/module.h"
->  #include "hw/char/escc.h"
->  #include "ui/console.h"
-> +#include "sysemu/sysemu.h"
-> +#include "qemu/cutils.h"
->  #include "trace.h"
->  
->  /*
-> @@ -190,6 +192,7 @@
->  #define R_MISC1I 14
->  #define R_EXTINT 15
->  
-> +static unsigned char sun_keyboard_layout_dip_switch(void);
->  static void handle_kbd_command(ESCCChannelState *s, int val);
->  static int serial_can_receive(void *opaque);
->  static void serial_receive_byte(ESCCChannelState *s, int ch);
-> @@ -846,6 +849,75 @@ static QemuInputHandler sunkbd_handler = {
->      .event = sunkbd_handle_event,
->  };
->  
-> +static unsigned char sun_keyboard_layout_dip_switch(void)
-> +{
-> +    /* Return the value of the dip-switches in a SUN Type 5 keyboard */
-> +    static unsigned char ret = 0xff;
-> +
-> +    if ((ret == 0xff) && keyboard_layout) {
-> +        int i;
-> +        struct layout_values {
-> +            const char *lang;
-> +            unsigned char dip;
-> +        } languages[] =
-> +    /* Dip values from table 3-16 Layouts for Type 4, 5, and 5c Keyboards
-> */+            {
-> +                {"en-us", 0x21}, /* U.S.A. (US5.kt) */
-> +                                 /* 0x22 is some other US (US_UNIX5.kt)*/
-> +                {"fr",    0x23}, /* France (France5.kt) */
-> +                {"da",    0x24}, /* Denmark (Denmark5.kt) */
-> +                {"de",    0x25}, /* Germany (Germany5.kt) */
-> +                {"it",    0x26}, /* Italy (Italy5.kt) */
-> +                {"nl",    0x27}, /* The Netherlands (Netherland5.kt) */
-> +                {"no",    0x28}, /* Norway (Norway.kt) */
-> +                {"pt",    0x29}, /* Portugal (Portugal5.kt) */
-> +                {"es",    0x2a}, /* Spain (Spain5.kt) */
-> +                {"sv",    0x2b}, /* Sweden (Sweden5.kt) */
-> +                {"fr-ch", 0x2c}, /* Switzerland/French (Switzer_Fr5.kt) */
-> +                {"de-ch", 0x2d}, /* Switzerland/German (Switzer_Ge5.kt) */
-> +                {"en-gb", 0x2e}, /* Great Britain (UK5.kt) */
-> +                {"ko",    0x2f}, /* Korea (Korea5.kt) */
-> +                {"tw",    0x30}, /* Taiwan (Taiwan5.kt) */
-> +                {"ja",    0x31}, /* Japan (Japan5.kt) */
-> +                {"fr-ca", 0x32}, /* Canada/French (Canada_Fr5.kt) */
-> +                {"hu",    0x33}, /* Hungary (Hungary5.kt) */
-> +                {"pl",    0x34}, /* Poland (Poland5.kt) */
-> +                {"cz",    0x35}, /* Czech (Czech5.kt) */
-> +                {"ru",    0x36}, /* Russia (Russia5.kt) */
-> +                {"lv",    0x37}, /* Latvia (Latvia5.kt) */
-> +                {"tr",    0x38}, /* Turkey-Q5 (TurkeyQ5.kt) */
-> +                {"gr",    0x39}, /* Greece (Greece5.kt) */
-> +                {"ar",    0x3a}, /* Arabic (Arabic5.kt) */
-> +                {"lt",    0x3b}, /* Lithuania (Lithuania5.kt) */
-> +                {"nl-be", 0x3c}, /* Belgium (Belgian5.kt) */
-> +                {"be",    0x3c}, /* Belgium (Belgian5.kt) */
-> +            };
-> +
-> +        for (i = 0;
-> +             i < sizeof(languages) / sizeof(struct layout_values);
-> +             i++) {
-> +            if (!strcmp(keyboard_layout, languages[i].lang)) {
-> +                ret = languages[i].dip;
-> +                return ret;
-> +            }
-> +        }
-> +        /* Found no known language code */
-> +
-> +        if ((keyboard_layout[0] >= '0') && (keyboard_layout[0] <= '9')) {
-> +            unsigned int tmp;
-> +            /* As a fallback we also accept numeric dip switch value */
-> +            if (!qemu_strtoui(keyboard_layout, NULL, 0, &tmp)) {
-> +                ret = (unsigned char)tmp;
-> +            }
-> +        }
-> +    }
-> +    if (ret == 0xff) {
-> +        /* Final fallback if keyboard_layout was not set or recognized */
-> +        ret = 0x21; /* en-us layout */
-> +    }
-> +    return ret;
-> +}
-> +
->  static void handle_kbd_command(ESCCChannelState *s, int val)
->  {
->      trace_escc_kbd_command(val);
-> @@ -867,7 +939,7 @@ static void handle_kbd_command(ESCCChannelState *s, int
-> val)
->      case 0xf:
->          clear_queue(s);
->          put_queue(s, 0xfe);
-> -        put_queue(s, 0x21); /*  en-us layout */
-> +        put_queue(s, sun_keyboard_layout_dip_switch());
->          break;
->      default:
->          break;
-> -- 
-> 2.35.1
-> 
+This series consolidates the implementations of the PIIX3 and PIIX4 south=0D
+bridges and is an extended version of [1]. The motivation is to share as mu=
+ch=0D
+code as possible and to bring both device models to feature parity such tha=
+t=0D
+perhaps PIIX4 can become a drop-in-replacement for PIIX3 in the pc machine.=
+ This=0D
+could resolve the "Frankenstein" PIIX4-PM problem in PIIX3 discussed on thi=
+s=0D
+list before.=0D
+=0D
+The series is structured as follows:=0D
+=0D
+Move sub devices into the PIIX3 south bridge, like PIIX4 does already:=0D
+* hw/i386/pc: Create RTC controllers in south bridges=0D
+* hw/i386/pc: No need for rtc_state to be an out-parameter=0D
+* hw/i386/pc_piix: Allow for setting properties before realizing PIIX3 sout=
+h bridge=0D
+* hw/isa/piix3: Create USB controller in host device=0D
+* hw/isa/piix3: Create power management controller in host device=0D
+* hw/isa/piix3: Move ISA bus IRQ assignments into host device=0D
+* hw/isa/piix3: Create IDE controller in host device=0D
+* hw/isa/piix3: Wire up ACPI interrupt internally=0D
+=0D
+Make PIIX3 and PIIX4 south bridges more similar:=0D
+* hw/isa/piix3: Resolve redundant PIIX_NUM_PIC_IRQS=0D
+* hw/isa/piix3: Rename pci_piix3_props for sharing with PIIX4=0D
+* hw/isa/piix3: Rename piix3_reset() for sharing with PIIX4=0D
+* hw/isa/piix3: Drop the "3" from PIIX base class=0D
+* hw/isa/piix4: Make PIIX4's ACPI and USB functions optional=0D
+* hw/isa/piix4: Remove unused inbound ISA interrupt lines=0D
+* hw/isa/piix4: Reuse struct PIIXState from PIIX3=0D
+* hw/isa/piix4: Create the "intr" property during init() already=0D
+* hw/isa/piix4: Rename reset control operations to match PIIX3=0D
+=0D
+This patch achieves the main goal of the series:=0D
+* hw/isa/piix3: Merge hw/isa/piix4.c=0D
+=0D
+Perform some further consolidations which were easier to do after the merge=
+:=0D
+* hw/isa/piix: Harmonize names of reset control memory regions=0D
+* hw/isa/piix: Reuse PIIX3 base class' realize method in PIIX4=0D
+* hw/isa/piix: Rename functions to be shared for interrupt triggering=0D
+* hw/isa/piix: Consolidate IRQ triggering=0D
+* hw/isa/piix: Share PIIX3's base class with PIIX4=0D
+=0D
+One challenge was dealing with optional devices where Peter already gave ad=
+vice=0D
+in [1] which this series implements.=0D
+=0D
+There are still some differences in the device models:=0D
+- PIIX4 instantiates its own PIC and PIT while PIIX3 doesn't=0D
+- PIIX4 wires up the RTC IRQ itself while PIIX3 doesn't=0D
+- Different binary layout in VM state=0D
+=0D
+v7:=0D
+- Rebase onto master=0D
+- Avoid the PIC proxy (Phil)=0D
+  The motivation for the PIC proxy was to allow for wiring up ISA interrupt=
+s in=0D
+  the south bridges. ISA interrupt wiring requires the GPIO lines to be=0D
+  populated already but pc_piix assigned the interrupts only after realizin=
+g=0D
+  PIIX3. By shifting interrupt assignment before realizing, the ISA interru=
+pts=0D
+  are already populated during PIIX3's realize phase where the ISA interrup=
+ts=0D
+  are wired up.=0D
+- New patches:=0D
+  * hw/isa/piix4: Reuse struct PIIXState from PIIX3=0D
+  * hw/isa/piix4: Create the "intr" property during init() already=0D
+- Patches with substantial changes (Reviewed-by dropped):=0D
+  * hw/isa/piix3: Move ISA bus IRQ assignments into host device=0D
+=0D
+Testing done:=0D
+* `make check`=0D
+* Boot live CD:=0D
+  * `qemu-system-x86_64 -M pc -m 2G -accel kvm -cpu host -cdrom manjaro-kde=
+-21.3.2-220704-linux515.iso`=0D
+  * `qemu-system-x86_64 -M q35 -m 2G -accel kvm -cpu host -cdrom manjaro-kd=
+e-21.3.2-220704-linux515.iso`=0D
+* 'qemu-system-mips64el -M malta -kernel vmlinux-3.2.0-4-5kc-malta -hda deb=
+ian_wheezy_mipsel_standard.qcow2 -append "root=3D/dev/sda1 console=3DttyS0"=
+`=0D
+* Run HVM domU guest under Xen with manjaro-kde-21.3.2-220704-linux515.iso =
+image=0D
+=0D
+v6:=0D
+- Fix some comments about TYPE_ISA_PIC (Mark) ... and use it consistently=0D
+  within the patch series.=0D
+- Incorporate series "[PATCH v2 0/3] Decouple INTx-to-LNKx routing from sou=
+th=0D
+  bridges" [2] for maintainer convenience.=0D
+- Merge v5's 'hw/i386/pc_piix: Associate pci_map_irq_fn as soon as PCI bus =
+is=0D
+  created' into=0D
+  https://lists.nongnu.org/archive/html/qemu-devel/2022-11/msg03312.html . =
+Do=0D
+  similar for Malta.=0D
+- Rebase onto latest master (d6271b657286 "Merge tag 'for_upstream' of=0D
+  https://git.kernel.org/pub/scm/virt/kvm/mst/qemu into staging")=0D
+=0D
+v5:=0D
+- Pick up Reviewed-by tags from https://lists.nongnu.org/archive/html/qemu-=
+devel/2023-01/msg00116.html=0D
+- Add patch to make usage of the isa_pic global more type-safe=0D
+- Re-introduce isa-pic as PIC specific proxy (Mark)=0D
+=0D
+v4:=0D
+- Rebase onto "[PATCH v2 0/3] Decouple INTx-to-LNKx routing from south brid=
+ges"=0D
+  since it is already queued via mips-next. This eliminates patches=0D
+  'hw/isa/piix3: Prefix pci_slot_get_pirq() with "piix3_"' and 'hw/isa/piix=
+4:=0D
+  Prefix pci_slot_get_pirq() with "piix4_"'.=0D
+- Squash 'hw/isa/piix: Drop the "3" from the PIIX base class' into=0D
+  'hw/isa/piix3: Rename typedef PIIX3State to PIIXState'. I originally only=
+=0D
+  split these patches since I wasn't sure whether renaming a type was allow=
+ed.=0D
+- Add new patch 'hw/i386/pc_piix: Associate pci_map_irq_fn as soon as PCI b=
+us is=0D
+  created' for forther cleanup of INTx-to-LNKx route decoupling.=0D
+=0D
+v3:=0D
+- Introduce one TYPE_ICH9_USB_UHCI(fn) rather than several TYPE_ICH9_USB_UH=
+CIx=0D
+  (Philippe)=0D
+- Make proxy PIC generic (Philippe)=0D
+- Track Malta's PIIX dependencies through KConfig=0D
+- Rebase onto Philippe's 'hw/isa/piix4: Remove MIPS Malta specific bits' se=
+ries [3]=0D
+- Also rebase onto latest master to resolve merge conflicts. This required=
+=0D
+  copying Philippe's series as first three patches - please ignore.=0D
+=0D
+v2:=0D
+- Introduce TYPE_ defines for IDE and USB device models (Mark)=0D
+- Omit unexporting of PIIXState (Mark)=0D
+- Improve commit message of patch 5 to mention reset triggering through PCI=
+=0D
+  configuration space (Mark)=0D
+- Move reviewed patches w/o dependencies to the bottom of the series for ea=
+rly=0D
+  upstreaming=0D
+=0D
+[1] https://lists.nongnu.org/archive/html/qemu-devel/2022-07/msg02348.html=
+=0D
+[2] https://lists.nongnu.org/archive/html/qemu-devel/2022-11/msg03310.html=
+=0D
+[3] https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg05367.html=
+=0D
+=0D
+Bernhard Beschow (23):=0D
+  hw/i386/pc: Create RTC controllers in south bridges=0D
+  hw/i386/pc: No need for rtc_state to be an out-parameter=0D
+  hw/i386/pc_piix: Allow for setting properties before realizing PIIX3=0D
+    south bridge=0D
+  hw/isa/piix3: Create USB controller in host device=0D
+  hw/isa/piix3: Create power management controller in host device=0D
+  hw/isa/piix3: Move ISA bus IRQ assignments into host device=0D
+  hw/isa/piix3: Create IDE controller in host device=0D
+  hw/isa/piix3: Wire up ACPI interrupt internally=0D
+  hw/isa/piix3: Resolve redundant PIIX_NUM_PIC_IRQS=0D
+  hw/isa/piix3: Rename pci_piix3_props for sharing with PIIX4=0D
+  hw/isa/piix3: Rename piix3_reset() for sharing with PIIX4=0D
+  hw/isa/piix3: Drop the "3" from PIIX base class=0D
+  hw/isa/piix4: Make PIIX4's ACPI and USB functions optional=0D
+  hw/isa/piix4: Remove unused inbound ISA interrupt lines=0D
+  hw/isa/piix4: Reuse struct PIIXState from PIIX3=0D
+  hw/isa/piix4: Create the "intr" property during init() already=0D
+  hw/isa/piix4: Rename reset control operations to match PIIX3=0D
+  hw/isa/piix3: Merge hw/isa/piix4.c=0D
+  hw/isa/piix: Harmonize names of reset control memory regions=0D
+  hw/isa/piix: Reuse PIIX3 base class' realize method in PIIX4=0D
+  hw/isa/piix: Rename functions to be shared for interrupt triggering=0D
+  hw/isa/piix: Consolidate IRQ triggering=0D
+  hw/isa/piix: Share PIIX3's base class with PIIX4=0D
+=0D
+ MAINTAINERS                   |   6 +-=0D
+ include/hw/i386/ich9.h        |   2 +=0D
+ include/hw/i386/pc.h          |   2 +-=0D
+ include/hw/southbridge/piix.h |  28 +++-=0D
+ hw/i386/pc.c                  |  16 +-=0D
+ hw/i386/pc_piix.c             |  67 ++++----=0D
+ hw/i386/pc_q35.c              |   3 +-=0D
+ hw/isa/lpc_ich9.c             |   8 +=0D
+ hw/isa/{piix3.c =3D> piix.c}    | 306 ++++++++++++++++++++++++++--------=0D
+ hw/isa/piix4.c                | 302 ---------------------------------=0D
+ hw/mips/malta.c               |   6 +-=0D
+ hw/i386/Kconfig               |   3 +-=0D
+ hw/isa/Kconfig                |   8 +-=0D
+ hw/isa/meson.build            |   3 +-=0D
+ hw/mips/Kconfig               |   2 +-=0D
+ 15 files changed, 333 insertions(+), 429 deletions(-)=0D
+ rename hw/isa/{piix3.c =3D> piix.c} (55%)=0D
+ delete mode 100644 hw/isa/piix4.c=0D
+=0D
+-- =0D
+2.39.1=0D
+=0D
 
