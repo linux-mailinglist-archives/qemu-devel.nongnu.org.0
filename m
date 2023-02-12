@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1621269374D
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F8A769374B
 	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 13:40:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRBdM-0007b9-Sm; Sun, 12 Feb 2023 07:39:09 -0500
+	id 1pRBdF-0007Zi-Jo; Sun, 12 Feb 2023 07:39:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pRBcx-0007Z3-LW; Sun, 12 Feb 2023 07:38:43 -0500
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
+ id 1pRBcx-0007Z1-Ej; Sun, 12 Feb 2023 07:38:43 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pRBcu-0001IL-D6; Sun, 12 Feb 2023 07:38:43 -0500
-Received: by mail-ej1-x634.google.com with SMTP id rp23so25842752ejb.7;
- Sun, 12 Feb 2023 04:38:38 -0800 (PST)
+ id 1pRBcu-0001IU-Qn; Sun, 12 Feb 2023 07:38:43 -0500
+Received: by mail-ej1-x633.google.com with SMTP id ml19so26032170ejb.0;
+ Sun, 12 Feb 2023 04:38:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ltcxifq61V4rDMel4CBHsMiq2/OUsO7+K0soBC8TVN0=;
- b=KJIm/2i/WgflfeDbvGJfuBn4toj0pPgExD8g8wjWkY86F2VhEPYHWfCHX599NQFnlh
- XN8NyKeKn2UxltziChyHhGjCEgSdnaxTnjR+SnfsK/r9EUTlrw2OJcVb1Mv+rAEtjp7a
- Q+o0YwCU0XIX7vah+UJa0K0AsSP7vIRi7cEw1ggesMXdRC8XUYuwmirNjTAf7RTiS/TN
- 5VYSpS9D1XVMJnGl+Yjo9JQgkT8IyeQO7YEdta2UUDB+x2rKf5R0c+apjeyPaM/MS+Lk
- DOe2aLK6Uj9IExYvMxVRRRC2fhWt6tv+Uyriu6LZj0zeNyr1GC1PdoBEcZpd0E5zwpsw
- LKuA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=c1Na9cciasVrkgG2lgTIflwBSXkta5QHNZUnEEg6Lr4=;
+ b=Hsj6EKOmeK+R+VkIueD8UrBgAiiEgkHDEcS+O564iF3qBnC7enNZ4IMb10t8j+YQud
+ +9iv3NRS0j+CI4IUg17xkeYhDGqaab4PQxMy2IDUYtbRTBYWiLi1UKTCN3x7uZDqPPXE
+ YkBxT9QkoSIxwg/HWW98X6Ynj5HCQbwI/MUA5Voku0gUqykF28CFSozM6OobMCd1MD0P
+ 4W/LhPNCdGhjKfhpynepFfxxZzRytYbpegKJLm632UlXQ977U0rgt7rbsSzaOUXgf4TJ
+ dhQQxDNI0TgGA8huPeBQTvv94+fJNoOn7PEnmRh6vUslaThbfuRFgvIVV0mGM4PvIF4a
+ h9Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ltcxifq61V4rDMel4CBHsMiq2/OUsO7+K0soBC8TVN0=;
- b=vE9+AqPfQ1RBbjAQCuxjez+ntmELPinIbPgKb+tGTwMUyfxnKN486OkVzhpFS7rVyH
- QifCrbU91xFLivbI2fdU4BaKrh1HhdLWggju1wLcQyZBQZaRikRjgh4KJCCotKH4qVC2
- 005ic5gKROWWdrK0lcrJziXUEh8IbTkYKIz70ExyJdT1zi5A6kQi0tsbBAQZHgWktrIT
- Ik39edEH94DgyDsCtGE72tNkQDLnO2FOePHjUPYlEvKkXmxs7ghEiWjdozEN3Zl5kMaH
- BxrewbsHZiavBG1S6+l+PEjrY+MLChUHzy3oIKw0/PJIl2CRhXenQM4u8Ew6/L+bUl1z
- PHqA==
-X-Gm-Message-State: AO0yUKU5qO31EctipxljQPAr6N5sDaPhC/iFR/pS4khoTRzneQifi6gf
- f/2X7Mo49S0f+tdLT4czspLWJyqVH1k=
-X-Google-Smtp-Source: AK7set83exuNgP5ptDTO/++1m2/rnDJrTdm7v6XCAxFiwdfjQVp+3jP1GgblpdepviRu5oUKsqfa6g==
-X-Received: by 2002:a17:906:c401:b0:88d:ba89:1837 with SMTP id
- u1-20020a170906c40100b0088dba891837mr16759280ejz.8.1676205516618; 
- Sun, 12 Feb 2023 04:38:36 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=c1Na9cciasVrkgG2lgTIflwBSXkta5QHNZUnEEg6Lr4=;
+ b=M5sB2p2VmZNQW/hvmPkqrqTkcr+wyqhaKYAR4OTmRrvZl6l0WbiQ2ZuJ4FU05OOb27
+ zS2k9XDMvnZVj5W9PfuRuTcqo84tmyxB9QHBKmJhZKpbDwggHARk6rxjRgj+N1Frlc05
+ kTgTkUCMvBWcuT1UiwlQ6ut3xCI401Bi+tlRb9ZbIhPVQepw/daTFGlHZc2V0PwMHRHf
+ GYc22mFHlzbVH0v6kXTs1dkYNm8/FiycbWmUHL67FLk59lpbZR/oXzZKtoAHEyL/hXmU
+ UGK4SM9ySyombHnyNJ+/zxEDxDQFyIEj2tLjvKw7KmcGwsOHeSWfi6iIuDwbLuvtlkSi
+ g4wA==
+X-Gm-Message-State: AO0yUKVks5r4IHFM4vZvXjEL45wS8lKAH2Wm9hA/wyySbxX2bTwSoH/2
+ bddcoCEfp8rtmDx/PtXP9soxOlJ6g+I=
+X-Google-Smtp-Source: AK7set+TJBdeykzc90lXd3xJrEhNo7DOL96JgiiAbjW/2dpRK+OjOxVLIiSlN4+uJbalMki6/czzAg==
+X-Received: by 2002:a17:907:8b8b:b0:8aa:f2f2:7543 with SMTP id
+ tb11-20020a1709078b8b00b008aaf2f27543mr23772244ejc.29.1676205518129; 
+ Sun, 12 Feb 2023 04:38:38 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-077-011-172-153.77.11.pool.telefonica.de. [77.11.172.153])
  by smtp.gmail.com with ESMTPSA id
- qw14-20020a170906fcae00b008af1f1bee79sm5233164ejb.9.2023.02.12.04.38.34
+ qw14-20020a170906fcae00b008af1f1bee79sm5233164ejb.9.2023.02.12.04.38.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Feb 2023 04:38:36 -0800 (PST)
+ Sun, 12 Feb 2023 04:38:37 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
@@ -71,16 +72,17 @@ Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Igor Mammedov <imammedo@redhat.com>,
  John G Johnson <john.g.johnson@oracle.com>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v7 00/23] Consolidate PIIX south bridges
-Date: Sun, 12 Feb 2023 13:37:42 +0100
-Message-Id: <20230212123805.30799-1-shentey@gmail.com>
+ Bernhard Beschow <shentey@gmail.com>, Thomas Huth <thuth@redhat.com>
+Subject: [PATCH v7 01/23] hw/i386/pc: Create RTC controllers in south bridges
+Date: Sun, 12 Feb 2023 13:37:43 +0100
+Message-Id: <20230212123805.30799-2-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230212123805.30799-1-shentey@gmail.com>
+References: <20230212123805.30799-1-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x634.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,205 +105,222 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This series consolidates the implementations of the PIIX3 and PIIX4 south=0D
-bridges and is an extended version of [1]. The motivation is to share as mu=
-ch=0D
-code as possible and to bring both device models to feature parity such tha=
-t=0D
-perhaps PIIX4 can become a drop-in-replacement for PIIX3 in the pc machine.=
- This=0D
-could resolve the "Frankenstein" PIIX4-PM problem in PIIX3 discussed on thi=
-s=0D
-list before.=0D
-=0D
-The series is structured as follows:=0D
-=0D
-Move sub devices into the PIIX3 south bridge, like PIIX4 does already:=0D
-* hw/i386/pc: Create RTC controllers in south bridges=0D
-* hw/i386/pc: No need for rtc_state to be an out-parameter=0D
-* hw/i386/pc_piix: Allow for setting properties before realizing PIIX3 sout=
-h bridge=0D
-* hw/isa/piix3: Create USB controller in host device=0D
-* hw/isa/piix3: Create power management controller in host device=0D
-* hw/isa/piix3: Move ISA bus IRQ assignments into host device=0D
-* hw/isa/piix3: Create IDE controller in host device=0D
-* hw/isa/piix3: Wire up ACPI interrupt internally=0D
-=0D
-Make PIIX3 and PIIX4 south bridges more similar:=0D
-* hw/isa/piix3: Resolve redundant PIIX_NUM_PIC_IRQS=0D
-* hw/isa/piix3: Rename pci_piix3_props for sharing with PIIX4=0D
-* hw/isa/piix3: Rename piix3_reset() for sharing with PIIX4=0D
-* hw/isa/piix3: Drop the "3" from PIIX base class=0D
-* hw/isa/piix4: Make PIIX4's ACPI and USB functions optional=0D
-* hw/isa/piix4: Remove unused inbound ISA interrupt lines=0D
-* hw/isa/piix4: Reuse struct PIIXState from PIIX3=0D
-* hw/isa/piix4: Create the "intr" property during init() already=0D
-* hw/isa/piix4: Rename reset control operations to match PIIX3=0D
-=0D
-This patch achieves the main goal of the series:=0D
-* hw/isa/piix3: Merge hw/isa/piix4.c=0D
-=0D
-Perform some further consolidations which were easier to do after the merge=
-:=0D
-* hw/isa/piix: Harmonize names of reset control memory regions=0D
-* hw/isa/piix: Reuse PIIX3 base class' realize method in PIIX4=0D
-* hw/isa/piix: Rename functions to be shared for interrupt triggering=0D
-* hw/isa/piix: Consolidate IRQ triggering=0D
-* hw/isa/piix: Share PIIX3's base class with PIIX4=0D
-=0D
-One challenge was dealing with optional devices where Peter already gave ad=
-vice=0D
-in [1] which this series implements.=0D
-=0D
-There are still some differences in the device models:=0D
-- PIIX4 instantiates its own PIC and PIT while PIIX3 doesn't=0D
-- PIIX4 wires up the RTC IRQ itself while PIIX3 doesn't=0D
-- Different binary layout in VM state=0D
-=0D
-v7:=0D
-- Rebase onto master=0D
-- Avoid the PIC proxy (Phil)=0D
-  The motivation for the PIC proxy was to allow for wiring up ISA interrupt=
-s in=0D
-  the south bridges. ISA interrupt wiring requires the GPIO lines to be=0D
-  populated already but pc_piix assigned the interrupts only after realizin=
-g=0D
-  PIIX3. By shifting interrupt assignment before realizing, the ISA interru=
-pts=0D
-  are already populated during PIIX3's realize phase where the ISA interrup=
-ts=0D
-  are wired up.=0D
-- New patches:=0D
-  * hw/isa/piix4: Reuse struct PIIXState from PIIX3=0D
-  * hw/isa/piix4: Create the "intr" property during init() already=0D
-- Patches with substantial changes (Reviewed-by dropped):=0D
-  * hw/isa/piix3: Move ISA bus IRQ assignments into host device=0D
-=0D
-Testing done:=0D
-* `make check`=0D
-* Boot live CD:=0D
-  * `qemu-system-x86_64 -M pc -m 2G -accel kvm -cpu host -cdrom manjaro-kde=
--21.3.2-220704-linux515.iso`=0D
-  * `qemu-system-x86_64 -M q35 -m 2G -accel kvm -cpu host -cdrom manjaro-kd=
-e-21.3.2-220704-linux515.iso`=0D
-* 'qemu-system-mips64el -M malta -kernel vmlinux-3.2.0-4-5kc-malta -hda deb=
-ian_wheezy_mipsel_standard.qcow2 -append "root=3D/dev/sda1 console=3DttyS0"=
-`=0D
-* Run HVM domU guest under Xen with manjaro-kde-21.3.2-220704-linux515.iso =
-image=0D
-=0D
-v6:=0D
-- Fix some comments about TYPE_ISA_PIC (Mark) ... and use it consistently=0D
-  within the patch series.=0D
-- Incorporate series "[PATCH v2 0/3] Decouple INTx-to-LNKx routing from sou=
-th=0D
-  bridges" [2] for maintainer convenience.=0D
-- Merge v5's 'hw/i386/pc_piix: Associate pci_map_irq_fn as soon as PCI bus =
-is=0D
-  created' into=0D
-  https://lists.nongnu.org/archive/html/qemu-devel/2022-11/msg03312.html . =
-Do=0D
-  similar for Malta.=0D
-- Rebase onto latest master (d6271b657286 "Merge tag 'for_upstream' of=0D
-  https://git.kernel.org/pub/scm/virt/kvm/mst/qemu into staging")=0D
-=0D
-v5:=0D
-- Pick up Reviewed-by tags from https://lists.nongnu.org/archive/html/qemu-=
-devel/2023-01/msg00116.html=0D
-- Add patch to make usage of the isa_pic global more type-safe=0D
-- Re-introduce isa-pic as PIC specific proxy (Mark)=0D
-=0D
-v4:=0D
-- Rebase onto "[PATCH v2 0/3] Decouple INTx-to-LNKx routing from south brid=
-ges"=0D
-  since it is already queued via mips-next. This eliminates patches=0D
-  'hw/isa/piix3: Prefix pci_slot_get_pirq() with "piix3_"' and 'hw/isa/piix=
-4:=0D
-  Prefix pci_slot_get_pirq() with "piix4_"'.=0D
-- Squash 'hw/isa/piix: Drop the "3" from the PIIX base class' into=0D
-  'hw/isa/piix3: Rename typedef PIIX3State to PIIXState'. I originally only=
-=0D
-  split these patches since I wasn't sure whether renaming a type was allow=
-ed.=0D
-- Add new patch 'hw/i386/pc_piix: Associate pci_map_irq_fn as soon as PCI b=
-us is=0D
-  created' for forther cleanup of INTx-to-LNKx route decoupling.=0D
-=0D
-v3:=0D
-- Introduce one TYPE_ICH9_USB_UHCI(fn) rather than several TYPE_ICH9_USB_UH=
-CIx=0D
-  (Philippe)=0D
-- Make proxy PIC generic (Philippe)=0D
-- Track Malta's PIIX dependencies through KConfig=0D
-- Rebase onto Philippe's 'hw/isa/piix4: Remove MIPS Malta specific bits' se=
-ries [3]=0D
-- Also rebase onto latest master to resolve merge conflicts. This required=
-=0D
-  copying Philippe's series as first three patches - please ignore.=0D
-=0D
-v2:=0D
-- Introduce TYPE_ defines for IDE and USB device models (Mark)=0D
-- Omit unexporting of PIIXState (Mark)=0D
-- Improve commit message of patch 5 to mention reset triggering through PCI=
-=0D
-  configuration space (Mark)=0D
-- Move reviewed patches w/o dependencies to the bottom of the series for ea=
-rly=0D
-  upstreaming=0D
-=0D
-[1] https://lists.nongnu.org/archive/html/qemu-devel/2022-07/msg02348.html=
-=0D
-[2] https://lists.nongnu.org/archive/html/qemu-devel/2022-11/msg03310.html=
-=0D
-[3] https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg05367.html=
-=0D
-=0D
-Bernhard Beschow (23):=0D
-  hw/i386/pc: Create RTC controllers in south bridges=0D
-  hw/i386/pc: No need for rtc_state to be an out-parameter=0D
-  hw/i386/pc_piix: Allow for setting properties before realizing PIIX3=0D
-    south bridge=0D
-  hw/isa/piix3: Create USB controller in host device=0D
-  hw/isa/piix3: Create power management controller in host device=0D
-  hw/isa/piix3: Move ISA bus IRQ assignments into host device=0D
-  hw/isa/piix3: Create IDE controller in host device=0D
-  hw/isa/piix3: Wire up ACPI interrupt internally=0D
-  hw/isa/piix3: Resolve redundant PIIX_NUM_PIC_IRQS=0D
-  hw/isa/piix3: Rename pci_piix3_props for sharing with PIIX4=0D
-  hw/isa/piix3: Rename piix3_reset() for sharing with PIIX4=0D
-  hw/isa/piix3: Drop the "3" from PIIX base class=0D
-  hw/isa/piix4: Make PIIX4's ACPI and USB functions optional=0D
-  hw/isa/piix4: Remove unused inbound ISA interrupt lines=0D
-  hw/isa/piix4: Reuse struct PIIXState from PIIX3=0D
-  hw/isa/piix4: Create the "intr" property during init() already=0D
-  hw/isa/piix4: Rename reset control operations to match PIIX3=0D
-  hw/isa/piix3: Merge hw/isa/piix4.c=0D
-  hw/isa/piix: Harmonize names of reset control memory regions=0D
-  hw/isa/piix: Reuse PIIX3 base class' realize method in PIIX4=0D
-  hw/isa/piix: Rename functions to be shared for interrupt triggering=0D
-  hw/isa/piix: Consolidate IRQ triggering=0D
-  hw/isa/piix: Share PIIX3's base class with PIIX4=0D
-=0D
- MAINTAINERS                   |   6 +-=0D
- include/hw/i386/ich9.h        |   2 +=0D
- include/hw/i386/pc.h          |   2 +-=0D
- include/hw/southbridge/piix.h |  28 +++-=0D
- hw/i386/pc.c                  |  16 +-=0D
- hw/i386/pc_piix.c             |  67 ++++----=0D
- hw/i386/pc_q35.c              |   3 +-=0D
- hw/isa/lpc_ich9.c             |   8 +=0D
- hw/isa/{piix3.c =3D> piix.c}    | 306 ++++++++++++++++++++++++++--------=0D
- hw/isa/piix4.c                | 302 ---------------------------------=0D
- hw/mips/malta.c               |   6 +-=0D
- hw/i386/Kconfig               |   3 +-=0D
- hw/isa/Kconfig                |   8 +-=0D
- hw/isa/meson.build            |   3 +-=0D
- hw/mips/Kconfig               |   2 +-=0D
- 15 files changed, 333 insertions(+), 429 deletions(-)=0D
- rename hw/isa/{piix3.c =3D> piix.c} (55%)=0D
- delete mode 100644 hw/isa/piix4.c=0D
-=0D
--- =0D
-2.39.1=0D
-=0D
+Just like in the real hardware (and in PIIX4), create the RTC
+controllers in the south bridges.
+
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20221022150508.26830-11-shentey@gmail.com>
+---
+ include/hw/i386/ich9.h        |  2 ++
+ include/hw/southbridge/piix.h |  4 ++++
+ hw/i386/pc.c                  | 12 +++++++++++-
+ hw/i386/pc_piix.c             |  8 ++++++++
+ hw/i386/pc_q35.c              |  1 +
+ hw/isa/lpc_ich9.c             |  8 ++++++++
+ hw/isa/piix3.c                | 15 +++++++++++++++
+ hw/isa/Kconfig                |  2 ++
+ 8 files changed, 51 insertions(+), 1 deletion(-)
+
+diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
+index 222781e8b9..dab309d5e3 100644
+--- a/include/hw/i386/ich9.h
++++ b/include/hw/i386/ich9.h
+@@ -7,6 +7,7 @@
+ #include "hw/isa/apm.h"
+ #include "hw/acpi/acpi.h"
+ #include "hw/acpi/ich9.h"
++#include "hw/rtc/mc146818rtc.h"
+ #include "qom/object.h"
+ 
+ void ich9_lpc_set_irq(void *opaque, int irq_num, int level);
+@@ -35,6 +36,7 @@ struct ICH9LPCState {
+     */
+     uint8_t irr[PCI_SLOT_MAX][PCI_NUM_PINS];
+ 
++    RTCState rtc;
+     APMState apm;
+     ICH9LPCPMRegs pm;
+     uint32_t sci_level; /* track sci level */
+diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
+index 0bf48e936d..b06d26fa11 100644
+--- a/include/hw/southbridge/piix.h
++++ b/include/hw/southbridge/piix.h
+@@ -13,6 +13,8 @@
+ #define HW_SOUTHBRIDGE_PIIX_H
+ 
+ #include "hw/pci/pci_device.h"
++#include "qom/object.h"
++#include "hw/rtc/mc146818rtc.h"
+ 
+ /* PIRQRC[A:D]: PIRQx Route Control Registers */
+ #define PIIX_PIRQCA 0x60
+@@ -51,6 +53,8 @@ struct PIIXState {
+     /* This member isn't used. Just for save/load compatibility */
+     int32_t pci_irq_levels_vmstate[PIIX_NUM_PIRQS];
+ 
++    RTCState rtc;
++
+     /* Reset Control Register contents */
+     uint8_t rcr;
+ 
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 6e592bd969..44daa36338 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1304,7 +1304,17 @@ void pc_basic_device_init(struct PCMachineState *pcms,
+         pit_alt_irq = qdev_get_gpio_in(hpet, HPET_LEGACY_PIT_INT);
+         rtc_irq = qdev_get_gpio_in(hpet, HPET_LEGACY_RTC_INT);
+     }
+-    *rtc_state = mc146818_rtc_init(isa_bus, 2000, rtc_irq);
++
++    if (rtc_irq) {
++        qdev_connect_gpio_out(DEVICE(*rtc_state), 0, rtc_irq);
++    } else {
++        uint32_t irq = object_property_get_uint(OBJECT(*rtc_state),
++                                                "irq",
++                                                &error_fatal);
++        isa_connect_gpio_out(*rtc_state, 0, irq);
++    }
++    object_property_add_alias(OBJECT(pcms), "rtc-time", OBJECT(*rtc_state),
++                              "date");
+ 
+     qemu_register_boot_set(pc_boot_set, *rtc_state);
+ 
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index df64dd8dcc..8f894714e5 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -32,6 +32,7 @@
+ #include "hw/i386/pc.h"
+ #include "hw/i386/apic.h"
+ #include "hw/pci-host/i440fx.h"
++#include "hw/rtc/mc146818rtc.h"
+ #include "hw/southbridge/piix.h"
+ #include "hw/display/ramfb.h"
+ #include "hw/firmware/smbios.h"
+@@ -239,10 +240,17 @@ static void pc_init1(MachineState *machine,
+         piix3->pic = x86ms->gsi;
+         piix3_devfn = piix3->dev.devfn;
+         isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix3), "isa.0"));
++        rtc_state = ISA_DEVICE(object_resolve_path_component(OBJECT(pci_dev),
++                                                             "rtc"));
+     } else {
+         pci_bus = NULL;
+         isa_bus = isa_bus_new(NULL, get_system_memory(), system_io,
+                               &error_abort);
++
++        rtc_state = isa_new(TYPE_MC146818_RTC);
++        qdev_prop_set_int32(DEVICE(rtc_state), "base_year", 2000);
++        isa_realize_and_unref(rtc_state, isa_bus, &error_fatal);
++
+         i8257_dma_init(isa_bus, 0);
+         pcms->hpet_enabled = false;
+     }
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 66cd718b70..3b1a0d0cfd 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -239,6 +239,7 @@ static void pc_q35_init(MachineState *machine)
+     lpc = pci_create_simple_multifunction(host_bus, PCI_DEVFN(ICH9_LPC_DEV,
+                                           ICH9_LPC_FUNC), true,
+                                           TYPE_ICH9_LPC_DEVICE);
++    rtc_state = ISA_DEVICE(object_resolve_path_component(OBJECT(lpc), "rtc"));
+ 
+     object_property_add_link(OBJECT(machine), PC_MACHINE_ACPI_DEVICE_PROP,
+                              TYPE_HOTPLUG_HANDLER,
+diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+index 1fba3c210c..b9efae0797 100644
+--- a/hw/isa/lpc_ich9.c
++++ b/hw/isa/lpc_ich9.c
+@@ -663,6 +663,8 @@ static void ich9_lpc_initfn(Object *obj)
+     static const uint8_t acpi_enable_cmd = ICH9_APM_ACPI_ENABLE;
+     static const uint8_t acpi_disable_cmd = ICH9_APM_ACPI_DISABLE;
+ 
++    object_initialize_child(obj, "rtc", &lpc->rtc, TYPE_MC146818_RTC);
++
+     object_property_add_uint8_ptr(obj, ACPI_PM_PROP_SCI_INT,
+                                   &lpc->sci_gsi, OBJ_PROP_FLAG_READ);
+     object_property_add_uint8_ptr(OBJECT(lpc), ACPI_PM_PROP_ACPI_ENABLE_CMD,
+@@ -728,6 +730,12 @@ static void ich9_lpc_realize(PCIDevice *d, Error **errp)
+     isa_bus_irqs(isa_bus, lpc->gsi);
+ 
+     i8257_dma_init(isa_bus, 0);
++
++    /* RTC */
++    qdev_prop_set_int32(DEVICE(&lpc->rtc), "base_year", 2000);
++    if (!qdev_realize(DEVICE(&lpc->rtc), BUS(isa_bus), errp)) {
++        return;
++    }
+ }
+ 
+ static bool ich9_rst_cnt_needed(void *opaque)
+diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
+index a9cb39bf21..f9103ea45a 100644
+--- a/hw/isa/piix3.c
++++ b/hw/isa/piix3.c
+@@ -28,6 +28,7 @@
+ #include "hw/dma/i8257.h"
+ #include "hw/southbridge/piix.h"
+ #include "hw/irq.h"
++#include "hw/qdev-properties.h"
+ #include "hw/isa/isa.h"
+ #include "hw/xen/xen.h"
+ #include "sysemu/runstate.h"
+@@ -301,6 +302,12 @@ static void pci_piix3_realize(PCIDevice *dev, Error **errp)
+                                         PIIX_RCR_IOPORT, &d->rcr_mem, 1);
+ 
+     i8257_dma_init(isa_bus, 0);
++
++    /* RTC */
++    qdev_prop_set_int32(DEVICE(&d->rtc), "base_year", 2000);
++    if (!qdev_realize(DEVICE(&d->rtc), BUS(isa_bus), errp)) {
++        return;
++    }
+ }
+ 
+ static void build_pci_isa_aml(AcpiDevAmlIf *adev, Aml *scope)
+@@ -324,6 +331,13 @@ static void build_pci_isa_aml(AcpiDevAmlIf *adev, Aml *scope)
+     qbus_build_aml(bus, scope);
+ }
+ 
++static void pci_piix3_init(Object *obj)
++{
++    PIIX3State *d = PIIX3_PCI_DEVICE(obj);
++
++    object_initialize_child(obj, "rtc", &d->rtc, TYPE_MC146818_RTC);
++}
++
+ static void pci_piix3_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -350,6 +364,7 @@ static const TypeInfo piix3_pci_type_info = {
+     .name = TYPE_PIIX3_PCI_DEVICE,
+     .parent = TYPE_PCI_DEVICE,
+     .instance_size = sizeof(PIIX3State),
++    .instance_init = pci_piix3_init,
+     .abstract = true,
+     .class_init = pci_piix3_class_init,
+     .interfaces = (InterfaceInfo[]) {
+diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
+index 0156a66889..c10cbc5fc1 100644
+--- a/hw/isa/Kconfig
++++ b/hw/isa/Kconfig
+@@ -35,6 +35,7 @@ config PIIX3
+     bool
+     select I8257
+     select ISA_BUS
++    select MC146818RTC
+ 
+ config PIIX4
+     bool
+@@ -79,3 +80,4 @@ config LPC_ICH9
+     select I8257
+     select ISA_BUS
+     select ACPI_ICH9
++    select MC146818RTC
+-- 
+2.39.1
+
 
