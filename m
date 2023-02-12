@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 974EF693558
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 01:02:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 984E169355A
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 01:09:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQzpM-0007VL-H9; Sat, 11 Feb 2023 19:02:44 -0500
+	id 1pQzun-0000n3-Ux; Sat, 11 Feb 2023 19:08:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pQzpK-0007V4-T3
- for qemu-devel@nongnu.org; Sat, 11 Feb 2023 19:02:42 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ id 1pQzum-0000mm-Fu
+ for qemu-devel@nongnu.org; Sat, 11 Feb 2023 19:08:20 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pQzpJ-0000Yv-3f
- for qemu-devel@nongnu.org; Sat, 11 Feb 2023 19:02:42 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- z14-20020a17090abd8e00b00233bb9d6bdcso3904242pjr.4
- for <qemu-devel@nongnu.org>; Sat, 11 Feb 2023 16:02:40 -0800 (PST)
+ id 1pQzuk-0001HU-LF
+ for qemu-devel@nongnu.org; Sat, 11 Feb 2023 19:08:20 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ e10-20020a17090a630a00b0022bedd66e6dso13711062pjj.1
+ for <qemu-devel@nongnu.org>; Sat, 11 Feb 2023 16:08:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Nco/IXBD2gUlUS9VPuSry9W58QZxkXuZT1RjXzDeOXI=;
- b=dDCvsij1vgsYAJ6PCAaKkJvS3H6Jm5P4hTNSGSwOWFL1sxPFmBCWVSRRPvAG5iP1FX
- xQLjSZVE6OZhasxDjarDhuqZ/pkVM6lHnuVYUXLgY57p1F9NbQMDQhaMd/mvQPz1iTwq
- 41gSQg/oBwJtB7VVw46Q+EkSG4HxKfxjTipGwt9uBWSlDPKbYuUJFQIAL+VolOZuzbj6
- PfQujdg77VOBPOA/+LvB7D/W7W06NKfD/8Cg2ShZJnPVIezpmDuS/1puwuOWwwO4E9Lu
- yUjgpOZ1Q+44oyuXqKEXZPm/CjH8Q5mWGNdA/6PhPayzNu5m7HpE085EyE6qyDSRoqhg
- 6wOQ==
+ bh=A4YU9H9iyDQkLuGwiGD8LGQACWCwxDP/251C2WOg68o=;
+ b=NT7yIr+SK9wloOXtec8Jlv5NcZ1TC/gHtwaZrDjpvSeP8v58R0dMfxPgcA2hZxYj59
+ qfPhQkRPM7IpkHWiS0F4T+uWXC6hroNk0wtr80EPgXmwhk8qEiOpk4XUTMo9/lu0mZSF
+ w/Ohjs8BejkbEqqzI+T2wgQ6xaf4HdPY/DNRcPnwLsDjfptSLStYYjbJOJQ9fR6HsEWq
+ gySmf2ajlG3I3gs6NzLnD89dXLWeKag4YmaN/epp30CtAUTnO0FcUZmqHo/v934mwOOi
+ pKPJ7A/jpNQCXof0M0MKfpijIhOjwneyraRDU+MnPDiokrxT1pETraaJJFufmBGnm7Ii
+ lLDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Nco/IXBD2gUlUS9VPuSry9W58QZxkXuZT1RjXzDeOXI=;
- b=rBxMkfrZuWRIbHuERLWGLnMTpt0dIyq957MGBAa0MnH/IhMq3HY4rxmhNId4TO3M3g
- nzINqp8q5UKQrIk8tk2Te77fqaH/qrElPM9SYUyys8Z+iAI38b6ngYbKVqhD6lAayC//
- Xc6TKM8jz+99N66/eVm4N9qYLVA4X5E3juGT/HaZ6AfdsnvBDKOvjSwI5gcVa5WpTu6f
- G6nSdzY+b3aPO4azCTFuiDM8YMULx86QRfqjL1ogr1YVSRUj+E0uevFeiLSRGIZspfF5
- 96fAems+xtVq4O58f4+rOxw4oFHncAaqKa7yc5vniJQzSLquLEGpW+N4V7sdGHwsFQPR
- IBfw==
-X-Gm-Message-State: AO0yUKWUloZm7Ov93KwRT0pzEozM9Av2bb7Yu06FU0hhde62I5sMDxR6
- p2jhMqnhNOD7lVWoIng+iCnjkw==
-X-Google-Smtp-Source: AK7set+TQXGVZj387f/7di22d8vtWaeUC5p9W9iGKBErk/zDgDt53nWEj3PGIwY1Mo5vpt1szWHs3g==
-X-Received: by 2002:a17:902:e285:b0:19a:7156:4168 with SMTP id
- o5-20020a170902e28500b0019a71564168mr6177752plc.9.1676160159321; 
- Sat, 11 Feb 2023 16:02:39 -0800 (PST)
+ bh=A4YU9H9iyDQkLuGwiGD8LGQACWCwxDP/251C2WOg68o=;
+ b=aeA+xcMu7Wftn7RemMQ+5uFOxdZLM90qbQ/xnBqsyJu4e65ryXeHxQpTl9D17y1P8z
+ r5RxJjs2yybpQDLN6OkO9rXdnAOsK6Tg7q0bEsTpOLButtp9TmsyPud43WMKYTCJN3N5
+ Kd3IVZFbisGrpD2FKmZH2rWUpgr7OxfM9ALDZxXcX6eb6S23eufTFLp+58vd0l4UBe0E
+ i+qK3ogieDZlXD7WVCr/QaSMGrGJjPqZR4Qdb5pPSE8MD61zSCmZReKYAq7/miigVrX7
+ LxD71IXK8WgWB7sMf4LrlTtBCvm3NDSknZ0Wos+MPAGoc+IOQO/7mPYkgwN74z8JwfqC
+ 6niQ==
+X-Gm-Message-State: AO0yUKXYBgaT8JgkgYo7kK6VJFV0U/re6ALyMVD2/C07Oyux2ltyvF8C
+ eh1GX+NYfXJKQwTacrphdjiOKQ==
+X-Google-Smtp-Source: AK7set/O8TF2y+g6fkWt0zAXoC+v+14gjsEEbkENK+Dndz0UtPcQAIgIrlFHDhMIi/i/yaGq+zx4wg==
+X-Received: by 2002:a05:6a20:7f8f:b0:be:e450:69b3 with SMTP id
+ d15-20020a056a207f8f00b000bee45069b3mr28306938pzj.0.1676160497081; 
+ Sat, 11 Feb 2023 16:08:17 -0800 (PST)
 Received: from [192.168.101.227] (rrcs-74-87-59-234.west.biz.rr.com.
  [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
- w3-20020a1709027b8300b0019a70a85ea0sm3628098pll.229.2023.02.11.16.02.37
+ d6-20020a170902c18600b0019a83f2c99bsm1712185pld.28.2023.02.11.16.08.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 11 Feb 2023 16:02:38 -0800 (PST)
-Message-ID: <a732e9d4-8161-b9fe-bfca-06028b90ea1a@linaro.org>
-Date: Sat, 11 Feb 2023 14:02:34 -1000
+ Sat, 11 Feb 2023 16:08:16 -0800 (PST)
+Message-ID: <586b26cb-6fa3-1ef0-5941-de00523f3399@linaro.org>
+Date: Sat, 11 Feb 2023 14:08:12 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 2/3] hw/rtc/mc146818rtc: Pass MC146818RtcState instead of
- ISADevice argument
+Subject: Re: [PATCH 3/3] hw/rtc: Rename rtc_[get|set]_memory ->
+ mc146818rtc_[get|set]_cmos_data
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
@@ -71,13 +71,13 @@ Cc: qemu-ppc@nongnu.org, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
  Paolo Bonzini <pbonzini@redhat.com>, Sergio Lopez <slp@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 References: <20230210233116.80311-1-philmd@linaro.org>
- <20230210233116.80311-3-philmd@linaro.org>
+ <20230210233116.80311-4-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230210233116.80311-3-philmd@linaro.org>
+In-Reply-To: <20230210233116.80311-4-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -101,20 +101,28 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 2/10/23 13:31, Philippe Mathieu-Daudé wrote:
-> rtc_get_memory() and rtc_set_memory() methods can not take any
-> TYPE_ISA_DEVICE object. They expect a TYPE_MC146818_RTC one.
+> rtc_get_memory() and rtc_set_memory() helpers only work with
+> TYPE_MC146818_RTC devices. 'memory' in their name refer to
+> the CMOS region. Rename them as mc146818rtc_get_cmos_data()
+> and mc146818rtc_set_cmos_data() to be explicit about what
+> they are doing.
 > 
-> Simplify the API by passing a MC146818RtcState.
+> Mechanical change doing:
+> 
+>    $ sed -i -e 's/rtc_set_memory/mc146818rtc_set_cmos_data/g' \
+>          $(git grep -wl rtc_set_memory)
+>    $ sed -i -e 's/rtc_get_memory/mc146818rtc_get_cmos_data/g' \
+>          $(git grep -wl rtc_get_memory)
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
 > ---
->   hw/i386/microvm.c            |  6 ++----
->   hw/i386/pc.c                 | 16 +++++++++-------
->   hw/i386/x86.c                |  4 +++-
->   hw/ppc/prep.c                |  3 +--
->   hw/rtc/mc146818rtc.c         | 13 ++++++-------
->   include/hw/rtc/mc146818rtc.h |  8 ++++----
->   6 files changed, 25 insertions(+), 25 deletions(-)
+>   hw/i386/microvm.c            | 22 +++++++-------
+>   hw/i386/pc.c                 | 58 ++++++++++++++++++------------------
+>   hw/i386/x86.c                |  4 +--
+>   hw/ppc/prep.c                |  8 ++---
+>   hw/rtc/mc146818rtc.c         |  6 ++--
+>   include/hw/rtc/mc146818rtc.h |  4 +--
+>   6 files changed, 51 insertions(+), 51 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
