@@ -2,81 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 266D66937DD
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 16:08:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2ABD6937E7
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 16:20:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRDx2-00089X-Tj; Sun, 12 Feb 2023 10:07:36 -0500
+	id 1pRE7s-0002sx-HR; Sun, 12 Feb 2023 10:18:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pRDwe-0007yu-O3
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 10:07:12 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ id 1pRE7m-0002sX-Ia
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 10:18:43 -0500
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pRDwd-0005aS-3x
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 10:07:12 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- on9-20020a17090b1d0900b002300a96b358so9973408pjb.1
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 07:07:10 -0800 (PST)
+ id 1pRE7k-0007YH-TR
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 10:18:42 -0500
+Received: by mail-pf1-x431.google.com with SMTP id r3so993067pfh.4
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 07:18:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=f3xxBQN9GcNCJ9e6uf5bBBGYH9g6FrgRxB8QSQG1ltM=;
- b=AWg5s7grTDbd4lLbVOneoL2d2FSLnTUmUp/KuHWVidrjhEMpixF/DTYkMZxVs/sgJC
- lCwR09t8nOClLyPwNhvqvl9jaXJhcsJm2lAaDx+pwV/cJ5mCCSIIollHUZ1fhO6Nat/O
- H/qx6m1dTcyQhR7icxdoTXnBkr7JXLK+P5CGhk8FC1C0rySZmqTx/HZc+FQ1zhTJs1vt
- OSQcTLKuTBjLSDxJZHcMbQ3OANq+gibTefQheGCVZ+t+9SHq4aG1J2E+3XrZCalsKp7h
- vyGCPHEpeVjro1Z2rKfKVhjoxyWoc3dc0THq6ef6zoDTQHPRnLp6NuEY+joc0DGG2883
- Xl/A==
+ bh=mQr+ntmI4/lwq9bLSqAKH0XQE2Ljg2VTPyjKdUOb6wI=;
+ b=URtxRHSKiixIMIZ9OfDeAWt/RZ0MEjlAOGrZKd6DFq4AhPrYx0uyz26g1cIM7E9zaK
+ gnuVujcLhkKzo5OjhEsDNFKxbcawu3xKd0UwnjRIHQ1dkjlmwDq6eDxX9qGD6behwC+7
+ NFXDqiDxGRs5G2xGJE5s4OsylxpJ262itjeZ5Wb1AYlf3AKIvFqYFbArfVWFUoougvW5
+ t1SwyUTB/bUouHBLpUr1x80iV8KbXkh0DLrD2bPxfTYtnR+hX/iP5nfnCv+NuJDPPgE+
+ tRcLp1PoOrdpE6KNADZg9XXWrvlO5ZB8FtXDSUnEXEXXM6wGxcPB7dCws68Z7c87+xD9
+ 3Tyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=f3xxBQN9GcNCJ9e6uf5bBBGYH9g6FrgRxB8QSQG1ltM=;
- b=vw5Y/3VT51d5kUq8hJyloxOLB14OBOWEiN3KVxHO3demKlnwaYQwlYdmekryIMeA8d
- jlLjpPurwt1D9EUH8dvZdugP0zPPhdh/r8xIHohA+lBOTbkGcd8KNJHQtGE3XVqvRq3q
- TOqdCK3oyLtGhN7iXC4pGHYRZQLLxrvJnVx3nsh/4NLwFgPM3JPiwNpoannHojrQUY5c
- ORbMe16BFKq+8xPfUeW0CIB49zEVWPHtGB6gcS1IQbta6ySKbv2mwGQbiQ2Tj0b84keO
- uDKuZAZOml8EwaayHh3W8euR+2JyQern4n9omUOF9Ll7NRU/S+ohJzHG6JbeeES2acWv
- Ve/g==
-X-Gm-Message-State: AO0yUKXnRZNscS2WlHnh7HjsWAkN25DCXBAdTx7z34roydvIDRs3ZJu1
- rOQ62hQ6HoOZAyZtLxkCZEGL6Q==
-X-Google-Smtp-Source: AK7set8U2Ry1HtSgLn0WY6hwgGxr7TWJbIsrIz2CQ636s1Xdn8Db/T79i0b7QoNH6zIqxhr30v709g==
-X-Received: by 2002:a17:902:f0d2:b0:199:535e:8d09 with SMTP id
- v18-20020a170902f0d200b00199535e8d09mr11526131pla.40.1676214429147; 
- Sun, 12 Feb 2023 07:07:09 -0800 (PST)
+ bh=mQr+ntmI4/lwq9bLSqAKH0XQE2Ljg2VTPyjKdUOb6wI=;
+ b=lNGnMbx0NkNjo+a//tzXE4R2/Ul8VxCvmIrx2oaifRIuY6FmZ1XLnxM3ZMJryeJwyI
+ O2gaNfHrJCHo1wMqdKmE/ThpMXAeDiOREUr/JXjwZKVyD3p8rOh+M83KNYkAY2E/8nr4
+ G5303z3mXYq5iK6oaO4R0DlFsjdJtzqHH+i6Y8VdjyVCWvWfrxaNC2vpAYLoz/fd89/a
+ p7aG9NpzVwIqOv86co55GW/S9Cy3w1lbUTTUenfzujzhVk94pHQmO7ObGBB/xxZD9eT4
+ zhF8IEP2NlrKHiPKyrPUtTUt48I9K8P37nnxR0CaQ75omjRXi8TaMHxSXyuuDF8HbKM4
+ nM1A==
+X-Gm-Message-State: AO0yUKUcpFlhTvZGo3/iCmmkknxTCpWvMlBE3ylE6Gu5lQjIypkJHk+f
+ EBIx1Nj1fQykT4mhmc25kfz5yw==
+X-Google-Smtp-Source: AK7set9cD10Ya4l7eBjFQqmO0U/YiJpBZRoX525Y4YMScaYmbMnVfNSfhJrnyYlDltJrrQzP46lwEw==
+X-Received: by 2002:a62:7b4b:0:b0:5a8:ab7c:981c with SMTP id
+ w72-20020a627b4b000000b005a8ab7c981cmr1942477pfc.29.1676215119222; 
+ Sun, 12 Feb 2023 07:18:39 -0800 (PST)
 Received: from [192.168.101.227] (rrcs-74-87-59-234.west.biz.rr.com.
  [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
- w8-20020a63af08000000b004f27761a9e7sm5675810pge.12.2023.02.12.07.07.06
+ a9-20020aa78649000000b005a817ff3903sm917252pfo.3.2023.02.12.07.18.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Feb 2023 07:07:08 -0800 (PST)
-Message-ID: <91bd9c01-83db-0144-3ea3-044fed1643c9@linaro.org>
-Date: Sun, 12 Feb 2023 05:07:00 -1000
+ Sun, 12 Feb 2023 07:18:38 -0800 (PST)
+Message-ID: <e920aa91-c153-0898-d2d3-da141233d60d@linaro.org>
+Date: Sun, 12 Feb 2023 05:18:33 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 8/9] bsd-user: implement sysctlbyname(2)
+Subject: Re: [PATCH v4] hw/arm/smmuv3: Add GBPA register
 Content-Language: en-US
-To: Kyle Evans <kevans@freebsd.org>
-Cc: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org,
- Thomas Huth <thuth@redhat.com>, f4bug@amsat.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20230210231829.39476-1-imp@bsdimp.com>
- <20230210231829.39476-9-imp@bsdimp.com>
- <16b47168-39fe-ac65-741d-5786663a7a9d@linaro.org>
- <CACNAnaHx1LD=7ksd_pZ2sPqHj84y-384ZtMJbgcPFcEmy94NhA@mail.gmail.com>
+To: Mostafa Saleh <smostafa@google.com>
+Cc: qemu-devel@nongnu.org, jean-philippe@linaro.org, eric.auger@redhat.com,
+ peter.maydell@linaro.org, qemu-arm@nongnu.org
+References: <20230210221951.1298668-1-smostafa@google.com>
+ <9619db1f-5595-b95b-7643-ae345759a59c@linaro.org>
+ <Y+joYrG4aKC5cje5@google.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CACNAnaHx1LD=7ksd_pZ2sPqHj84y-384ZtMJbgcPFcEmy94NhA@mail.gmail.com>
+In-Reply-To: <Y+joYrG4aKC5cje5@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -99,26 +95,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/11/23 18:23, Kyle Evans wrote:
->>> +/*
->>> + * This syscall was created to make sysctlbyname(3) more efficient.
->>> + * Unfortunately, because we have to fake some sysctls, we can't do that.
+On 2/12/23 03:23, Mostafa Saleh wrote:
+> On Sat, Feb 11, 2023 at 01:48:57PM -1000, Richard Henderson wrote:
+> 
+>> Just "return s->gbpa != SMMU_GBPA_RESET_VAL;".
+> 
+> I will update it.
+> 
+>>> @@ -1512,6 +1553,10 @@ static const VMStateDescription vmstate_smmuv3 = {
+>>>            VMSTATE_END_OF_LIST(),
+>>>        },
+>>> +    .subsections = (const VMStateDescription * []) {
+>>> +        &vmstate_gbpa,
+>>> +        NULL
+>>> +    }
 >>
->> Can't do what?  Directly use sysctlbyname?
+>> Actually, I suspect that you need a pre_load hook that resets gbpa, which
+>> will then be overwritten if and only if the saved value != reset value.
 >>
 > 
-> How about:
+> Please correct me if I am wrong. From what I see, the initial for value
+> GBPA will be set from smmu_reset_hold which is called from context of
+> qemu_system_reset from qemu_init context.
+> And migration will start after that in migration_incoming_process from
+> qemu_main_loop context.
 > 
-> /*
->   * This syscall was created to make sysctlbyname(3) more efficient, but
->   * we can't really provide it in bsd-user.  Notably, we must always translate
->   * the names independently since some sysctl values have to be faked
->   * for the target environment, so it still has to break down to two syscalls
->   * for the underlying implementation.
->   */
+> I validated that also by printing the value of GBPA from vmstate_smmuv3
+> pre_load at migration without GPBA, and it is the same as
+> SMMU_GBPA_RESET_VAL.
 
-Better, thanks.
+Is that from -loadvm on the command-line, or the loadvm command from the monitor?  It's 
+the latter that I suspect requires the pre_load.
 
 
 r~
+
 
