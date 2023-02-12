@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2AD9693933
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 18:54:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 229D4693A07
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 21:51:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRGXP-0006Rw-0K; Sun, 12 Feb 2023 12:53:19 -0500
+	id 1pRJJ1-0004l0-Ix; Sun, 12 Feb 2023 15:50:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pRGXM-0006R6-2P
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 12:53:16 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pRGXJ-0002j1-QP
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 12:53:15 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id ud5so26830737ejc.4
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 09:53:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=WEJyhjlM6BxfVEM70e4b2Ur8XWpjL0eBz0in/YOy61M=;
- b=Ygky6EyGozZ2Yt9AqST/PXBQKlNR0JMQRUsTJckH0pY+YzTxl1is0ue4GOMlLyS9CV
- gdkWGhF0EhulTx1dsIpvehyFBVklxjuGfttJZbtv8nq4OylR/mcMpN1BNurzmCiBASMI
- GQecWyQXGQd2+BL/smNKBB81jTAYt8kluLDTwTuf2/6mMhOo2/N7Xkyw8PQFy0eQ88ce
- gtmFlknmFMAgCteynu3Kh8nb5+gVOkw+p39lnzhDaw48DhLf3wru4ab6AkFcc6XyshbB
- 9YzVpHk+8HZoaIojuJe/Nf4vIJQ3EwjInzZE58U04DZIJuI3qkIS2x/nsf9Rllf5q+1A
- 6Faw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=WEJyhjlM6BxfVEM70e4b2Ur8XWpjL0eBz0in/YOy61M=;
- b=0NpcBScXW49XrKKZjZYrcM+mV6rpAC2AMTN8cYrjcjsEWa224FVnxpgcGZvnNHpJIX
- eUSoDWAZ7QFd1D2zyB6q20lSSEmnvTBsdkZWp9uHe0MCWoKI7u2u6RGK4Yh2frf8Limi
- X6sUL9icu5+9CFohk3XQHBygt8WgYYf8KvC8sx3N2ObHVsQ9RcsiAV7L1mQBUSFi/2BC
- 6krJsByQbTkGlcjadm5nAmgWkY40x785VFdBrK4nocbIbmm4Zv2LpYNb3XJ37Wcqgbxw
- VZIhcaEjiJkzg/FLoEyDDSoZksOBwsCBlNdZA55UMoqP3SAn6N1NVCU9Hu5RNHCVnKvh
- DQAQ==
-X-Gm-Message-State: AO0yUKVh3LQQvkc0rmuLZ6+xLL6IsbIJpDphYzJQXpyibTKS5ga1+caH
- 2jyVWZpp6cCwuRLIborUSNYpOvaxT/M/fV0O/Cv4rw==
-X-Google-Smtp-Source: AK7set+LaA50l1hyGYH0xC3LpsCeF25HNf9T0hogmaebMptMFW59zL/hl6OaxWa3Ay3K7R1bNxs7xYVdjRx2hr0VNn0=
-X-Received: by 2002:a17:906:8403:b0:8b0:7c88:e869 with SMTP id
- n3-20020a170906840300b008b07c88e869mr1789396ejx.2.1676224390767; Sun, 12 Feb
- 2023 09:53:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1pRJIJ-0004QU-Id
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 15:50:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1pRJIH-0001um-Uk
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 15:49:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676234992;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=AWJRN+1k+pBoacGNyyWxXe1tjB/zApUQNYAWv69Id1o=;
+ b=L8iJ0e6sbmE8gDkg9og3ig5qa1XHbnY8KGsNftHHzEK+ncwsjTh4Q7Q0FXKpqpmaYGYSSs
+ eGsacjnBkJ81qO3bdJlGPR4yo1Cj6PBCtreK93ZrY8wJHLHAcC8dF2ki6ULI6zbWwnVvIl
+ VitjEwhMLdKh8/lS/iIat4cxm6gcIPU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-480-QafuaRsWOBuMzbxyeGAQbw-1; Sun, 12 Feb 2023 15:49:49 -0500
+X-MC-Unique: QafuaRsWOBuMzbxyeGAQbw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3E1D085A5A3;
+ Sun, 12 Feb 2023 20:49:47 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 483E6140EBF4;
+ Sun, 12 Feb 2023 20:49:44 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Joel Stanley <joel@jms.id.au>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-arm@nongnu.org,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PATCH 0/4] win32: do not mix SOCKET and fd space
+Date: Mon, 13 Feb 2023 00:49:38 +0400
+Message-Id: <20230212204942.1905959-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-References: <20230210231829.39476-1-imp@bsdimp.com>
- <20230210231829.39476-8-imp@bsdimp.com>
- <3277df5d-7c6a-d33a-1cab-6506742c66db@linaro.org>
-In-Reply-To: <3277df5d-7c6a-d33a-1cab-6506742c66db@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Sun, 12 Feb 2023 10:53:06 -0700
-Message-ID: <CANCZdfoZm3QwOFMo-aSYhKjzdP-cuKrgtSaVnj9kq2kD0E2c3g@mail.gmail.com>
-Subject: Re: [PATCH 7/9] bsd-user: do_freebsd_sysctl helper for sysctl(2)
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, 
- Kyle Evans <kevans@freebsd.org>, f4bug@amsat.org, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Juergen Lock <nox@jelal.kn-bremen.de>, 
- Stacey Son <sson@freebsd.org>
-Content-Type: multipart/alternative; boundary="00000000000060382505f48467d4"
-Received-SPF: none client-ip=2a00:1450:4864:20::62f;
- envelope-from=wlosh@bsdimp.com; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,107 +82,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000060382505f48467d4
-Content-Type: text/plain; charset="UTF-8"
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-On Sat, Feb 11, 2023 at 4:09 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+Hi,
 
-> On 2/10/23 13:18, Warner Losh wrote:
-> > +abi_long do_freebsd_sysctl(CPUArchState *env, abi_ulong namep, int32_t
-> namelen,
-> > +        abi_ulong oldp, abi_ulong oldlenp, abi_ulong newp, abi_ulong
-> newlen)
-> > +{
-> > +    abi_long ret;
-> > +    void *hnamep, *holdp = NULL, *hnewp = NULL;
-> > +    size_t holdlen;
-> > +    abi_ulong oldlen = 0;
-> > +    int32_t *snamep = g_malloc(sizeof(int32_t) * namelen), *p, *q, i;
-> > +
-> > +    if (oldlenp) {
-> > +        if (get_user_ual(oldlen, oldlenp)) {
-> > +            return -TARGET_EFAULT;
-> > +        }
-> > +    }
->
-> You need to check for write early.  Either access_ok, or lock_user.
->
-> > +    for (p = hnamep, q = snamep, i = 0; i < namelen; p++, i++) {
-> > +        *q++ = tswap32(*p);
-> > +    }
->
-> Why the inconsistent increments?
->
+A win32 SOCKET handle is often cast to an int file descriptor, as this is what
+other OS use for sockets. When necessary, QEMU eventually queries whether it's a
+socket with the help of fd_is_socket(). However, there is no guarantee of
+conflict between the fd and SOCKET space. Such conflict would have surprising
+consequences. We can fix this by using FDs only.
 
-no reason... Fixed.
+After fixing a few missed closesocket(), this patch series makes the win32
+socket API wrappers take FDs. It finally get rid of closesocket() usage by using
+a close() wrapper instead. (note that fdopen/fclose would not be enough either
+to close the underlying socket appropriately)
 
+Marc-André Lureau (4):
+  tests: use closesocket()
+  io: use closesocket()
+  win32: stop mixing SOCKET and file descriptor space
+  win32: replace closesocket() with close() wrapper
 
-> > +    unlock_user(holdp, oldp, holdlen);
->
-> Usually we don't want writeback on error.
->
+ include/sysemu/os-posix.h   |   1 -
+ include/sysemu/os-win32.h   |   8 +-
+ backends/tpm/tpm_emulator.c |   6 +-
+ crypto/afalg.c              |   6 +-
+ hw/hyperv/syndbg.c          |   4 +-
+ io/channel-socket.c         |  22 +++--
+ io/channel-watch.c          |  17 ++--
+ net/dgram.c                 |  14 +--
+ net/socket.c                |  22 ++---
+ tests/qtest/libqtest.c      |   8 +-
+ tests/qtest/microbit-test.c |   2 +-
+ tests/qtest/netdev-socket.c |  10 +--
+ tests/unit/socket-helpers.c |   2 +-
+ util/oslib-win32.c          | 169 ++++++++++++++++++++++++++++++------
+ util/qemu-sockets.c         |  22 ++---
+ 15 files changed, 221 insertions(+), 92 deletions(-)
 
-Indeed. Fixed as well.. in the other fixes for error handling.
+-- 
+2.39.1
 
-Warner
-
-
->
-> r~
->
-
---00000000000060382505f48467d4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Feb 11, 2023 at 4:09 PM Richa=
-rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
-nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On 2/10/23 13:18, Warner Losh wrote:<br>
-&gt; +abi_long do_freebsd_sysctl(CPUArchState *env, abi_ulong namep, int32_=
-t namelen,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 abi_ulong oldp, abi_ulong oldlenp, abi_ul=
-ong newp, abi_ulong newlen)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 abi_long ret;<br>
-&gt; +=C2=A0 =C2=A0 void *hnamep, *holdp =3D NULL, *hnewp =3D NULL;<br>
-&gt; +=C2=A0 =C2=A0 size_t holdlen;<br>
-&gt; +=C2=A0 =C2=A0 abi_ulong oldlen =3D 0;<br>
-&gt; +=C2=A0 =C2=A0 int32_t *snamep =3D g_malloc(sizeof(int32_t) * namelen)=
-, *p, *q, i;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if (oldlenp) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (get_user_ual(oldlen, oldlenp)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -TARGET_EFAULT;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-<br>
-You need to check for write early.=C2=A0 Either access_ok, or lock_user.<br=
->
-<br>
-&gt; +=C2=A0 =C2=A0 for (p =3D hnamep, q =3D snamep, i =3D 0; i &lt; namele=
-n; p++, i++) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 *q++ =3D tswap32(*p);<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-<br>
-Why the inconsistent increments?<br></blockquote><div><br></div><div>no rea=
-son... Fixed.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">
-&gt; +=C2=A0 =C2=A0 unlock_user(holdp, oldp, holdlen);<br>
-<br>
-Usually we don&#39;t want writeback on error.<br></blockquote><div><br></di=
-v>Indeed. Fixed as well.. in the other fixes for error handling.</div><div =
-class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">Warner<br></div>=
-<div class=3D"gmail_quote"><div>=C2=A0</div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">
-<br>
-r~<br>
-</blockquote></div></div>
-
---00000000000060382505f48467d4--
 
