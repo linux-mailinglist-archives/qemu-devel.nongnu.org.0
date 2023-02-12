@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A37C693AAB
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 23:54:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79662693AA7
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 23:53:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRLDo-0000pV-Rh; Sun, 12 Feb 2023 17:53:24 -0500
+	id 1pRLDu-0001Ki-KR; Sun, 12 Feb 2023 17:53:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRLDn-0000mI-8u
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 17:53:23 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRLDs-0001E8-FF
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 17:53:28 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRLDk-0004Ai-Hn
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 17:53:22 -0500
-Received: by mail-wr1-x431.google.com with SMTP id h16so10418122wrz.12
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 14:53:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRLDp-0004E7-Qz
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 17:53:28 -0500
+Received: by mail-wr1-x433.google.com with SMTP id bu23so10432791wrb.8
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 14:53:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=yI1y6XZsaobmGFW1lR+eKSaDWZj5kiLu704LCMt3Xc4=;
- b=OWPqsAb0SuWg82E34DR/JsqG0wasmdZB/YM1XLoRpg6AGc/kJOUtWaoaWg4Xx/VMNk
- 3tLkJbJa8XeISnO2rI6xZIPfPslQS7Ym8WxI78EwlsAIumsuMtFWBNumhOSv3rIJqnFR
- BXHNCULiwpzCb8QzmcWKgij02Lm721vz+PiWM6m50YPWgPPiw57whsM4aVFUWbvahMlD
- TQV+W3222datHAf+6D+bt5LPesgVuV5ra4M3t7WCzKxmtE6iVNWapQKpERfHtY1qlR6N
- X72fgsVIbpbeX3tUjjhhnIGl/dk4UloS0uMhM3v91MAP9IJv6JhYW+rDYK49MaGuJ1ns
- WVnw==
+ bh=pQvt0NVqKQRnGWvOIKjTRBY46uNvNG89/oXED2HfaRM=;
+ b=BheFvmqQeN4YY4MY9Iok1QofNVvjoYfVCmL3wRsf/3VwDQDPIyhhqhCanffPUqIWm3
+ Ye5TiNdL2tv7gxLvyQZD7dp6SdxmXgiq3ZTuVlae+zEl57f0mf2b1epkvBESDKF8/sX9
+ g5NqdBXPUeGmjukfGReg9HE0LJUbCiKvdShr2ehqrECWBRk65DCJomIIlGvdEzKUnNhz
+ q0fbydOjP76o6rr/bdvWrIfablZThSFWYjxcdrSlRqZgA7a7jHX/d2Upd4tjcptswd99
+ INKvGIuV1dS+dLlIswLkcHApoXUbW0uWGq+zPTWd3w2bCS5Fl+6maSkFuq36l1akqdpq
+ qwNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yI1y6XZsaobmGFW1lR+eKSaDWZj5kiLu704LCMt3Xc4=;
- b=ISTNXN/Ea9eXVYyVjIREigdG/vf1tnXS+Snu6NXRDAT/Ewn9kzg753ogTX0W4rZR1r
- p3wZxweFdKfghDSYSacBuyJmS3y+X/LwL4NkK2zS9962RWroshjezZKX/q84DCshirY/
- yfpHQn4M7BDAquehJWl3engi3EG1Og9I2/SP7nxy/iZGhmv+FfMwOTONaBQbksw9hBhf
- rjGZO6pUJDXQlvdzR3z/rvoXBLauPzINgMHkSVvxxqBScicABhontAqkH5J3oFOe/szd
- AI2aApHxutK6wi13QIn07FRyFr5pbwDUpio63DOxuW2GAwsL1bEwINSfbSHIBZXpzIAi
- xGoQ==
-X-Gm-Message-State: AO0yUKXtCcgLAaMbhBg4JHP5azHMDhm9xWJfKECIkS5cssx+xKQHf2cn
- 8/SsxqPgNieNGhNHv2BVN9DeQg==
-X-Google-Smtp-Source: AK7set8/KXuNJHlV1B8JpS1qfBYPU5EIPV/F3pzy6ODSruecYa0lBEQqfjTeOTA3aDJdCcLTPFOKuQ==
-X-Received: by 2002:a05:6000:1b88:b0:2c3:ea8b:2724 with SMTP id
- r8-20020a0560001b8800b002c3ea8b2724mr17542808wru.21.1676242399794; 
- Sun, 12 Feb 2023 14:53:19 -0800 (PST)
+ bh=pQvt0NVqKQRnGWvOIKjTRBY46uNvNG89/oXED2HfaRM=;
+ b=Qv84Nan8wvIUZ4GKgTzztd5PZA0iogQjRHwAiHqL87MtUSYhf5r48YxTaZURfrNg/8
+ eTZ9uDh23rJlB2/6cIdmkycf6RBWEYT8FEk20O8cyG2xeTfFbBirA+JDYFGACsCpfs8Y
+ HJtnOHMPnsjuphtr6mwa+J6+DAlOsAIBIb634ZTbM9XAy9dSVO6+gEADujgqTgnEi6ur
+ TEOJjn4Xo4WylsIbdUZSuBrTVq2RPjuCXWdoZbl5fPcREzeJ3ssvPfWJkuZjEibk/4Wg
+ j6myKP4i8nGaiAFST55GBZ7hpjUGRazObFAnwdSoLCUM1IMIFRUaT0Z1MPnDRSnEdSoW
+ fZiw==
+X-Gm-Message-State: AO0yUKXBsRR8+6X1IaRII6XcHjRfqqdNzV8LkM6yIZxfY0bfC30X4d/6
+ 0oKQ6jnSGLDUS1slT8Yh47ICFg==
+X-Google-Smtp-Source: AK7set8Jb5xmutZHP0jBQDVW2ykbAnGrZv10UT88eS/p+9DZtJx9WA+ByxNyxLrPYjzDmnjRrgRm/Q==
+X-Received: by 2002:adf:f301:0:b0:2c5:52b7:8436 with SMTP id
+ i1-20020adff301000000b002c552b78436mr3518656wro.21.1676242405168; 
+ Sun, 12 Feb 2023 14:53:25 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- k1-20020adff5c1000000b002bff574a250sm9202140wrp.2.2023.02.12.14.53.18
+ u13-20020a5d514d000000b002c3f50228afsm8940260wrt.3.2023.02.12.14.53.23
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 12 Feb 2023 14:53:19 -0800 (PST)
+ Sun, 12 Feb 2023 14:53:24 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: Eduardo Habkost <eduardo@habkost.net>,
 	qemu-devel@nongnu.org
@@ -62,18 +62,17 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Cao jin <caoj.fnst@cn.fujitsu.com>, Li Qiang <liq3ea@163.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 17/19] hw/usb/dev-hub: Use QOM USB_HUB() macro instead of
- casting
-Date: Sun, 12 Feb 2023 23:51:42 +0100
-Message-Id: <20230212225144.58660-18-philmd@linaro.org>
+Subject: [PATCH 18/19] hw/usb: Replace DO_UPCAST(USBBus) by USB_BUS()
+Date: Sun, 12 Feb 2023 23:51:43 +0100
+Message-Id: <20230212225144.58660-19-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230212225144.58660-1-philmd@linaro.org>
 References: <20230212225144.58660-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,44 +95,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use the safer USB_HUB() QOM type-checking macro instead of casts.
+Replace accesses to qdev->parent_bus by qdev_get_parent_bus(qdev).
+Use the USB_BUS() QOM type-checking macro to avoid DO_UPCAST().
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/usb/dev-hub.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/hw/usb.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/usb/dev-hub.c b/hw/usb/dev-hub.c
-index a6b50dbc8d..4734700e3e 100644
---- a/hw/usb/dev-hub.c
-+++ b/hw/usb/dev-hub.c
-@@ -350,7 +350,7 @@ static const char *feature_name(int feature)
- static void usb_hub_handle_control(USBDevice *dev, USBPacket *p,
-                int request, int value, int index, int length, uint8_t *data)
+diff --git a/include/hw/usb.h b/include/hw/usb.h
+index 32c23a5ca2..f743a5e945 100644
+--- a/include/hw/usb.h
++++ b/include/hw/usb.h
+@@ -520,7 +520,7 @@ void usb_check_attach(USBDevice *dev, Error **errp);
+ 
+ static inline USBBus *usb_bus_from_device(USBDevice *d)
  {
--    USBHubState *s = (USBHubState *)dev;
-+    USBHubState *s = USB_HUB(dev);
-     int ret;
+-    return DO_UPCAST(USBBus, qbus, d->qdev.parent_bus);
++    return USB_BUS(qdev_get_parent_bus(DEVICE(d)));
+ }
  
-     trace_usb_hub_control(s->dev.addr, request, value, index, length);
-@@ -523,7 +523,7 @@ static void usb_hub_handle_control(USBDevice *dev, USBPacket *p,
- 
- static void usb_hub_handle_data(USBDevice *dev, USBPacket *p)
- {
--    USBHubState *s = (USBHubState *)dev;
-+    USBHubState *s = USB_HUB(dev);
- 
-     switch(p->pid) {
-     case USB_TOKEN_IN:
-@@ -568,7 +568,7 @@ static void usb_hub_handle_data(USBDevice *dev, USBPacket *p)
- 
- static void usb_hub_unrealize(USBDevice *dev)
- {
--    USBHubState *s = (USBHubState *)dev;
-+    USBHubState *s = USB_HUB(dev);
-     int i;
- 
-     for (i = 0; i < s->num_ports; i++) {
+ extern const VMStateDescription vmstate_usb_device;
 -- 
 2.38.1
 
