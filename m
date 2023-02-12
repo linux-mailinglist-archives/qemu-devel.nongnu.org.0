@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F05693A9F
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 23:53:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F18693AA4
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 23:53:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRLCg-0005K3-Rk; Sun, 12 Feb 2023 17:52:14 -0500
+	id 1pRLCl-0005Sj-KJ; Sun, 12 Feb 2023 17:52:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRLCe-0005Io-Qq
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 17:52:12 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRLCk-0005Rp-1X
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 17:52:18 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRLCd-00041D-1b
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 17:52:12 -0500
-Received: by mail-wr1-x430.google.com with SMTP id co8so6695713wrb.1
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 14:52:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRLCi-00041p-Cz
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 17:52:17 -0500
+Received: by mail-wm1-x329.google.com with SMTP id o36so7556816wms.1
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 14:52:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kdvTBIlDDxD/zp1XWppgssK6e1Eedl76M1G0yZJNLN8=;
- b=EJRxRY3hKHa/rfUJGZCoJCOVgu23RJ/r3/Y057Zb8/O4CMg83atUO9tLTnLclreGV9
- ZRR0kPasfIFz86dStzCOuzartlgwXN/FmIUGsSvMKKGymnNzQWuEunrSW5NtNgrjXWfu
- eR+/mZHBiZ7pnZ+BmMnlnHCKnmyKkoRZuSCBwHyJR58o+6UGG3MZkmVC+IkYkvb+gITj
- BS6gDQ/8He8DskDgAkoT1/xiPo0uKqs4iUo7gTE3Iz5kaIjoGdp+veoIK+jjUITTS9cO
- 7fVD+YQRYc8cDSox1VVgKUMz2Baot4mL4FV390r9ADoQp+ozENWRfkW0v+xdebgct8Es
- OM2g==
+ bh=t/FK4XDdiJG7RHelAiRbUeIilzHxima3ZnBYQtTcGTM=;
+ b=Pl/YOU5sCUDXy9RjtOx6r+bcOaYy7Iq7XoPUh++c3bxi6GFvxkiI0uneFr4HwxhXIc
+ j7hvJ9WGwjmKNCDDBlaMygLGHtV4fSsSn0vu+bxdX9eMt685+ZOmvxbKAGpSA7ZXJrEI
+ FciKrPg8YFGoIJYzvEP6H5mZBqyvi8CWQMxLr0YGCMRHfdxSaxQSuPB5xWd2oDE0ZYD0
+ auakyNFUI6tprd8HjA2iDXpLJHwz+O67dIhA1cMU52bwq+3O/mzvkk1SJC91wuyO8sq0
+ CR1BiKKCp2zZtLOstX22i4da227YJ6BmWPz2WPU7LMNyWJIIA1hDnV2CcLd7S5KEt57f
+ J0ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kdvTBIlDDxD/zp1XWppgssK6e1Eedl76M1G0yZJNLN8=;
- b=2DxsInK2ohvE8Nv2dyTCo+MoeFzzGCMB8IC5xv4J7DahjMAE4n2P27HMVnZXxguNaU
- 5dZcH+7D29rWOAYRNGa3FmvC4SXlPbVwSxsH8tSEBsq7zK9H8DAL7OHccquDwrZ3H4nf
- Qh2SEGXsvrGmr1ZLj6LbR3uvqow4gy3DbjZyFnH8wOd4ld2Ce7cN/McnCVjDawXj5WcC
- AJ2/aH/Oo4QfnkS/HPiVdc1NwfaAJrnIY3c6J++p64aImf1KnEeyx5gNxktRDHdRX897
- 89JiG6+4Nc44aUdDNQAlZZmLZE0v4J+JqT9ieIkatOfaeWtF9+VCKmeXvdP3540ZLeRn
- C21Q==
-X-Gm-Message-State: AO0yUKUCY3iQH7R7AHTaK7jnyxSSfcp2CS4L1Na4coz04wndxR3IM43j
- X2reQ1wc3icdgld3umy6Z85kzw==
-X-Google-Smtp-Source: AK7set+SJAxsXABXefqFPHeeSLX3q7BMcZv4AIfvXUlqJuqZxfgg405F/4YoJbHsHBaaHi6HoyaXjw==
-X-Received: by 2002:a5d:6108:0:b0:2c4:3d5:46dc with SMTP id
- v8-20020a5d6108000000b002c403d546dcmr13444357wrt.37.1676242329773; 
- Sun, 12 Feb 2023 14:52:09 -0800 (PST)
+ bh=t/FK4XDdiJG7RHelAiRbUeIilzHxima3ZnBYQtTcGTM=;
+ b=LyS2WvKQo2KXKohJHALMQlW+1FwoFzkjkEeeb8j5slJKi6qkEaSasjqcz57ZsOSKRT
+ NFGXMOMgT1zKtXsiih+IZJsWQyIWskjMQj6V1R/JuS6jBQ56yL4wJWt5637IICFze06T
+ OBaNH3DlaXiun+9/vKNjudXuk0v90o3LKOf74fJxNws7juI3Ofyb3vdr9dAUhDezz25q
+ RghJNv5+rH3oVXfyU2zlYnu8MWV+BVl83OnBjoGVv41OmZA7xYM0FgjJQ/dZGfTBHUey
+ 1k1TJtT/5hdu6j1JnD1Kk5mGnGVuLpIJqI7Bm30JShVghrC3Hi7Ji8kHHl75APPab5KM
+ ci2A==
+X-Gm-Message-State: AO0yUKW8tka9Iz2vHgnDvpcWj9+R2AevSzNMdmesfNIQwZlGUSRd6eHV
+ fSvgG8iaK/cHTycj9jNeLNBg8Q==
+X-Google-Smtp-Source: AK7set9AHbXl8hfBqiLLt4rwgSl6LAL9ryXlTL1jjQF9APwkOIGnK8WH4nBitAYEfRh3gYQQ4Cs6Dw==
+X-Received: by 2002:a05:600c:2b46:b0:3dc:557f:6123 with SMTP id
+ e6-20020a05600c2b4600b003dc557f6123mr17732128wmf.1.1676242335157; 
+ Sun, 12 Feb 2023 14:52:15 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- f15-20020adff98f000000b002c5583ab017sm1630002wrr.15.2023.02.12.14.52.08
+ o7-20020a05600c4fc700b003db0ad636d1sm16780161wmq.28.2023.02.12.14.52.13
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 12 Feb 2023 14:52:09 -0800 (PST)
+ Sun, 12 Feb 2023 14:52:14 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: Eduardo Habkost <eduardo@habkost.net>,
 	qemu-devel@nongnu.org
@@ -63,18 +63,18 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH 04/19] hw/char/serial-pci-multi: Factor
- multi_serial_class_initfn() out
-Date: Sun, 12 Feb 2023 23:51:29 +0100
-Message-Id: <20230212225144.58660-5-philmd@linaro.org>
+Subject: [PATCH 05/19] hw/char/serial-pci-multi: Replace DO_UPCAST() by
+ PCI_MULTISERIAL()
+Date: Sun, 12 Feb 2023 23:51:30 +0100
+Message-Id: <20230212225144.58660-6-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230212225144.58660-1-philmd@linaro.org>
 References: <20230212225144.58660-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,73 +97,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Extract code common to multi_2x_serial_pci_class_initfn() and
-multi_4x_serial_pci_class_initfn() to multi_serial_class_initfn().
+Use the PCI_MULTISERIAL() QOM type-checking macro to avoid the few
+DO_UPCAST(PCIMultiSerialState) calls.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/char/serial-pci-multi.c | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+ hw/char/serial-pci-multi.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/hw/char/serial-pci-multi.c b/hw/char/serial-pci-multi.c
-index faeb0a9476..cd5af24bd2 100644
+index cd5af24bd2..6f4491210d 100644
 --- a/hw/char/serial-pci-multi.c
 +++ b/hw/char/serial-pci-multi.c
-@@ -155,14 +155,14 @@ static Property multi_4x_serial_pci_properties[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
+@@ -58,7 +58,7 @@ struct PCIMultiSerialState {
  
--static void multi_2x_serial_pci_class_initfn(ObjectClass *klass, void *data)
-+static void multi_serial_class_initfn(ObjectClass *klass, void *data)
+ static void multi_serial_pci_exit(PCIDevice *dev)
  {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *pc = PCI_DEVICE_CLASS(klass);
-+
-     pc->realize = multi_serial_pci_realize;
-     pc->exit = multi_serial_pci_exit;
-     pc->vendor_id = PCI_VENDOR_ID_REDHAT;
--    pc->device_id = PCI_DEVICE_ID_REDHAT_SERIAL2;
-     pc->revision = 1;
-     pc->class_id = PCI_CLASS_COMMUNICATION_SERIAL;
-     dc->vmsd = &vmstate_pci_multi_serial;
-@@ -170,19 +170,22 @@ static void multi_2x_serial_pci_class_initfn(ObjectClass *klass, void *data)
-     set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
+-    PCIMultiSerialState *pci = DO_UPCAST(PCIMultiSerialState, dev, dev);
++    PCIMultiSerialState *pci = PCI_MULTISERIAL(dev);
+     SerialState *s;
+     int i;
+ 
+@@ -97,11 +97,10 @@ static size_t multi_serial_get_port_count(PCIDeviceClass *pc)
+     g_assert_not_reached();
  }
  
-+static void multi_2x_serial_pci_class_initfn(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    PCIDeviceClass *pc = PCI_DEVICE_CLASS(klass);
-+
-+    pc->device_id = PCI_DEVICE_ID_REDHAT_SERIAL2;
-+    device_class_set_props(dc, multi_2x_serial_pci_properties);
-+}
-+
- static void multi_4x_serial_pci_class_initfn(ObjectClass *klass, void *data)
+-
+ static void multi_serial_pci_realize(PCIDevice *dev, Error **errp)
  {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *pc = PCI_DEVICE_CLASS(klass);
--    pc->realize = multi_serial_pci_realize;
--    pc->exit = multi_serial_pci_exit;
--    pc->vendor_id = PCI_VENDOR_ID_REDHAT;
-+
-     pc->device_id = PCI_DEVICE_ID_REDHAT_SERIAL4;
--    pc->revision = 1;
--    pc->class_id = PCI_CLASS_COMMUNICATION_SERIAL;
--    dc->vmsd = &vmstate_pci_multi_serial;
-     device_class_set_props(dc, multi_4x_serial_pci_properties);
--    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
- }
+     PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(dev);
+-    PCIMultiSerialState *pci = DO_UPCAST(PCIMultiSerialState, dev, dev);
++    PCIMultiSerialState *pci = PCI_MULTISERIAL(dev);
+     SerialState *s;
+     size_t i, nports = multi_serial_get_port_count(pc);
+ 
+@@ -190,9 +189,8 @@ static void multi_4x_serial_pci_class_initfn(ObjectClass *klass, void *data)
  
  static void multi_serial_init(Object *o)
-@@ -202,6 +205,7 @@ static const TypeInfo multi_serial_pci_types[] = {
-         .parent         = TYPE_PCI_DEVICE,
-         .instance_size  = sizeof(PCIMultiSerialState),
-         .instance_init  = multi_serial_init,
-+        .class_init     = multi_serial_class_initfn,
-         .abstract       = true,
-         .interfaces     = (InterfaceInfo[]) {
-             { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+ {
+-    PCIDevice *dev = PCI_DEVICE(o);
+-    PCIMultiSerialState *pms = DO_UPCAST(PCIMultiSerialState, dev, dev);
+-    size_t i, nports = multi_serial_get_port_count(PCI_DEVICE_GET_CLASS(dev));
++    PCIMultiSerialState *pms = PCI_MULTISERIAL(o);
++    size_t i, nports = multi_serial_get_port_count(PCI_DEVICE_GET_CLASS(o));
+ 
+     for (i = 0; i < nports; i++) {
+         object_initialize_child(o, "serial[*]", &pms->state[i], TYPE_SERIAL);
 -- 
 2.38.1
 
