@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5AAB693554
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 01:01:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 974EF693558
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 01:02:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pQznS-0005rO-2C; Sat, 11 Feb 2023 19:00:46 -0500
+	id 1pQzpM-0007VL-H9; Sat, 11 Feb 2023 19:02:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pQznQ-0005pE-0X
- for qemu-devel@nongnu.org; Sat, 11 Feb 2023 19:00:44 -0500
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+ id 1pQzpK-0007V4-T3
+ for qemu-devel@nongnu.org; Sat, 11 Feb 2023 19:02:42 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pQznO-0000Al-Eb
- for qemu-devel@nongnu.org; Sat, 11 Feb 2023 19:00:43 -0500
-Received: by mail-pl1-x636.google.com with SMTP id v23so10241271plo.1
- for <qemu-devel@nongnu.org>; Sat, 11 Feb 2023 16:00:41 -0800 (PST)
+ id 1pQzpJ-0000Yv-3f
+ for qemu-devel@nongnu.org; Sat, 11 Feb 2023 19:02:42 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id
+ z14-20020a17090abd8e00b00233bb9d6bdcso3904242pjr.4
+ for <qemu-devel@nongnu.org>; Sat, 11 Feb 2023 16:02:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=xTrcLB1do0E5yfI+fqAWUeefbBzHbkoDmONeyXQw/6U=;
- b=Vxb35Fql4CCH2u7jRsNwNYKtk9JvbmPURaX4wl+d3v9aqqzKFA7lZasrF7y+Q2DHtC
- wB+HjKS4mes7gq4QU+M57evNY37QwqZVf7Q2lhJoyDs95LplUj6rTQ7HIJ4Ytn0Ig+mJ
- hskncNVk5Dn0mqN8g1Z40vR3/Wy1vQA8hN06SXGabbiuFdSGwr6TZoE30juN0335mLtM
- 3VmgqMk1mdaD0afhP75QfezZ+dW1WwOCHHfO34fHeXdrZ6AJt71IMZ8QDijV5jENE5QJ
- VBlT2PEH0bqX/+NKLEk9ItcVTtzDFKWJtRj6XOu3AVaXvtHOsNWUxFBQiuYJ3u68zKUh
- Vk0w==
+ bh=Nco/IXBD2gUlUS9VPuSry9W58QZxkXuZT1RjXzDeOXI=;
+ b=dDCvsij1vgsYAJ6PCAaKkJvS3H6Jm5P4hTNSGSwOWFL1sxPFmBCWVSRRPvAG5iP1FX
+ xQLjSZVE6OZhasxDjarDhuqZ/pkVM6lHnuVYUXLgY57p1F9NbQMDQhaMd/mvQPz1iTwq
+ 41gSQg/oBwJtB7VVw46Q+EkSG4HxKfxjTipGwt9uBWSlDPKbYuUJFQIAL+VolOZuzbj6
+ PfQujdg77VOBPOA/+LvB7D/W7W06NKfD/8Cg2ShZJnPVIezpmDuS/1puwuOWwwO4E9Lu
+ yUjgpOZ1Q+44oyuXqKEXZPm/CjH8Q5mWGNdA/6PhPayzNu5m7HpE085EyE6qyDSRoqhg
+ 6wOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xTrcLB1do0E5yfI+fqAWUeefbBzHbkoDmONeyXQw/6U=;
- b=Pa8SqRCjTzSd0UI7vx5luZ6Tg9Q0DVnQzwk5yh41AMFwOAaP9nZI5lZTbCQa5hi0XU
- +jnhOEStfhUbQEGJ6iWKezGhuHSkLn+VF1HIz/FaX44yI4ed7dHQ51HhalF4VLp+2V8b
- xA4QYqL4ur8jp+H9Hotu51S7Ud48VqTWpeHThzYxkbL45xRwI2lPLhhUkzTJjj9DWBfm
- PHLe5EkqEuXZ3A4Z6pKbVR7jiSs0MGW4MZcCyrVPsDl/Jm92glZhb5I1frhQJHy33IOO
- 22a2MpJ/19n/s9FwBNfn3DI3QrcZsP/pLbt02pFzv9jn7JHOanbZm+pR4F9S6vKtMx3S
- GsSQ==
-X-Gm-Message-State: AO0yUKWV5+WFS/mCA0sL38ZhDXZNnj4aU0gBqPu8y3v2Okl66Beo/UHo
- K1gEoV8a5xBmWNpwpOkjycg+Vw==
-X-Google-Smtp-Source: AK7set/QS4rzq5K3A27bO41ExgjazZT21pTZmkAsqEF7tnAW+TKkbo8BTLzfOoiLJ3r6FNam7BemMw==
-X-Received: by 2002:a05:6a21:300b:b0:bc:d4cf:d647 with SMTP id
- yd11-20020a056a21300b00b000bcd4cfd647mr14892063pzb.6.1676160041006; 
- Sat, 11 Feb 2023 16:00:41 -0800 (PST)
+ bh=Nco/IXBD2gUlUS9VPuSry9W58QZxkXuZT1RjXzDeOXI=;
+ b=rBxMkfrZuWRIbHuERLWGLnMTpt0dIyq957MGBAa0MnH/IhMq3HY4rxmhNId4TO3M3g
+ nzINqp8q5UKQrIk8tk2Te77fqaH/qrElPM9SYUyys8Z+iAI38b6ngYbKVqhD6lAayC//
+ Xc6TKM8jz+99N66/eVm4N9qYLVA4X5E3juGT/HaZ6AfdsnvBDKOvjSwI5gcVa5WpTu6f
+ G6nSdzY+b3aPO4azCTFuiDM8YMULx86QRfqjL1ogr1YVSRUj+E0uevFeiLSRGIZspfF5
+ 96fAems+xtVq4O58f4+rOxw4oFHncAaqKa7yc5vniJQzSLquLEGpW+N4V7sdGHwsFQPR
+ IBfw==
+X-Gm-Message-State: AO0yUKWUloZm7Ov93KwRT0pzEozM9Av2bb7Yu06FU0hhde62I5sMDxR6
+ p2jhMqnhNOD7lVWoIng+iCnjkw==
+X-Google-Smtp-Source: AK7set+TQXGVZj387f/7di22d8vtWaeUC5p9W9iGKBErk/zDgDt53nWEj3PGIwY1Mo5vpt1szWHs3g==
+X-Received: by 2002:a17:902:e285:b0:19a:7156:4168 with SMTP id
+ o5-20020a170902e28500b0019a71564168mr6177752plc.9.1676160159321; 
+ Sat, 11 Feb 2023 16:02:39 -0800 (PST)
 Received: from [192.168.101.227] (rrcs-74-87-59-234.west.biz.rr.com.
  [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
- v19-20020a637a13000000b004f198707cdbsm4898988pgc.55.2023.02.11.16.00.38
+ w3-20020a1709027b8300b0019a70a85ea0sm3628098pll.229.2023.02.11.16.02.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 11 Feb 2023 16:00:40 -0800 (PST)
-Message-ID: <b82afa34-3290-668d-fa98-7a0e6042397d@linaro.org>
-Date: Sat, 11 Feb 2023 14:00:36 -1000
+ Sat, 11 Feb 2023 16:02:38 -0800 (PST)
+Message-ID: <a732e9d4-8161-b9fe-bfca-06028b90ea1a@linaro.org>
+Date: Sat, 11 Feb 2023 14:02:34 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 1/3] hw/rtc/mc146818rtc: Rename RTCState ->
- MC146818RtcState
+Subject: Re: [PATCH 2/3] hw/rtc/mc146818rtc: Pass MC146818RtcState instead of
+ ISADevice argument
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
  <hpoussin@reactos.org>, "Michael S. Tsirkin" <mst@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>
+ Paolo Bonzini <pbonzini@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 References: <20230210233116.80311-1-philmd@linaro.org>
- <20230210233116.80311-2-philmd@linaro.org>
+ <20230210233116.80311-3-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230210233116.80311-2-philmd@linaro.org>
+In-Reply-To: <20230210233116.80311-3-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -100,19 +101,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 2/10/23 13:31, Philippe Mathieu-Daudé wrote:
-> RTCState only represents a Motorola MC146818 model,
-> not any RTC chipset. Rename the structure as MC146818RtcState
-> using:
+> rtc_get_memory() and rtc_set_memory() methods can not take any
+> TYPE_ISA_DEVICE object. They expect a TYPE_MC146818_RTC one.
 > 
->    $ sed -i -e s/RTCState/MC146818RtcState/g $(git grep -wl RTCState)
+> Simplify the API by passing a MC146818RtcState.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
 > ---
->   hw/isa/piix4.c               |   2 +-
->   hw/isa/vt82c686.c            |   2 +-
->   hw/rtc/mc146818rtc.c         | 116 +++++++++++++++++------------------
->   include/hw/rtc/mc146818rtc.h |   6 +-
->   4 files changed, 63 insertions(+), 63 deletions(-)
+>   hw/i386/microvm.c            |  6 ++----
+>   hw/i386/pc.c                 | 16 +++++++++-------
+>   hw/i386/x86.c                |  4 +++-
+>   hw/ppc/prep.c                |  3 +--
+>   hw/rtc/mc146818rtc.c         | 13 ++++++-------
+>   include/hw/rtc/mc146818rtc.h |  8 ++++----
+>   6 files changed, 25 insertions(+), 25 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
