@@ -2,83 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AECA3693AAF
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 23:54:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A6F0693AFC
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 00:05:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRLE6-00025z-Qf; Sun, 12 Feb 2023 17:53:42 -0500
+	id 1pRLNi-0003G4-8z; Sun, 12 Feb 2023 18:03:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRLE4-0001v9-Ux
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 17:53:40 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRLNf-0003Fj-TB
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 18:03:35 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRLE2-0004Hn-Sw
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 17:53:40 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id z13so7552017wmp.2
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 14:53:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRLNd-0005wt-0J
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 18:03:35 -0500
+Received: by mail-wr1-x429.google.com with SMTP id o18so10478906wrj.3
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 15:03:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Y7MPn97FcL/7BFhSjHMb1CUqDm78YK7bxAD/KSpYvWc=;
- b=K5kR2iIAlG/tgEloMhNQllCw7HWJqgY/l2CMffXFBlhZK70onVOm5WRQkBPMYna3mN
- fcDkLZISPcEdzsFhbEVQ+ZYsqbfT0TATIhpGDpfnXLQQkArLkwR3ar1ER5li+nx7stNn
- 6r7xKcHvxIeWzdQ+cTnGZR2PKK+xXkPXgku8N9f+FI0ZrUgeEWV3kraWlUWieCaOh/qK
- ATxXz2paOpGfrRQpBKhNGp2LnkglodiQYHeNtsIKcBx6XTJtn8S7+s8UdgFI1XZxkK64
- gcy/xM3KCG+VphBitmP949kJdom9DqpkBakjy/b/iF2hDHnL6BIWqOMroQBb9Ou8khoz
- Qshg==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=MzvAIS83b6VjIDeqZccxvmP1NDso4YaWFeNvh3H89PM=;
+ b=FXJbwjocXNke03u0qpwzdsPE/Wf6qk8ACR0cSx75aACEXj4gUJx2+uj38kZpridQBT
+ UguaizSfzi2/Rsf168gRE+3xMm93q83HpvN3ynxC8rskuwW2gOAsLPNa9Ig2FFxvJ5GF
+ ETJ2K34VbZRisGlUjYUzQYLVxDxiOljhLoyUZ8TTmStDNHEwB3sekkTMb5YemZzqdatl
+ q6jdN2rLQAW3p9KIp0w2IBkG//G6r6n7UmhXijUAjxagOJ4R6XS2DB8r+TkJg2pKmWzi
+ i2SHTTEc381hcj6DtVt9smLT8P6oLq/Ewfs9Uo9P0iV6CoZx0d6wsC9NZ/p9mwoUHu+j
+ ug6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Y7MPn97FcL/7BFhSjHMb1CUqDm78YK7bxAD/KSpYvWc=;
- b=RQ1gFaUbRTg3URgYMSseBKzn4ay8awBryfIMkNCTTHP7TlfBZ7nuNd13ncHZRhSJn2
- Oal3s6r3InPE2q+Uv2E/Z4KX/P0CfNs2HI7sljuV119xuu6fMUp8KlYsj0ji4B4V3MR4
- pjoMkkqTag+caArkr27RyMLGyhYHfH+Z/N420APJMvNq8qTugIfoENuS8DuSg7nldyVB
- ztPb/XjhwTEK6LxW7UWrGzGa38XIyDEceusfKXd21Jxlw6E/DG9bWctsulbsdBPemh+Y
- IeoPU5zThcIF3TgN/zAWvLxnGUBNmIANsUa5dc/iKYZJRTjV1cq9eT54aFykEe3t+gjS
- TPvg==
-X-Gm-Message-State: AO0yUKUxeUQjkkpCQDR+yVwHbgaDaT0IGfh9oRMznSBTEttu8aF8FK01
- xWwZUhU0XByQPXASVK2e147Qjg==
-X-Google-Smtp-Source: AK7set+HtjaxVgYpUJCpkgf7zMVYf5+eLQiNPj8we1EpLcPt6O7wgtdbbDICyBEYUUd5+Cn03Bdagw==
-X-Received: by 2002:a05:600c:4b1b:b0:3df:fbc7:5b10 with SMTP id
- i27-20020a05600c4b1b00b003dffbc75b10mr17047531wmp.0.1676242417442; 
- Sun, 12 Feb 2023 14:53:37 -0800 (PST)
-Received: from localhost.localdomain ([185.126.107.38])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MzvAIS83b6VjIDeqZccxvmP1NDso4YaWFeNvh3H89PM=;
+ b=5y0pWiwqa8tNyV8sAV/5vFpIFYq68ZYGPPdN4xIeGZOdb099eUZ7Acj80maQb4ZqfT
+ d0ITYAaD1sNtz7saRKuhNr9/8xTarv2M+HZD4RXHJT65rRxjXz+3YyGQAzlP/Vfh9xmK
+ rvq7BR9SIgO6QBwdb3vSlHfnAkra5hqFFu6Vdw8Gb4/X56fZ67nSgP2LUjWs1nLtcfuI
+ Q1aMHS8Uvy2bt9ogxoyX8/oMU9B6dC0M/JAGMLYgq+QgPNE8JBPiDCBQpZgGhpburNzE
+ G9RTroaqqAg4PLUo4EZeCOcGFYfiGQxlJWhFCrtt6WAX4QRkKLQaJkx0uFNAaQDfcYhN
+ ZeSg==
+X-Gm-Message-State: AO0yUKWsBsTSRNTuUMtdcYtnbjmGLI0ZE1/xi+oH1m7hHfsq2R1Cp1gn
+ grlrnLDwgEuC8j3yJ0XoNQ+pSjpPjEETo+qD
+X-Google-Smtp-Source: AK7set/P81jL5s2D8Mlb0vtqaKH5/VtnY/Wx3qa3m7ftFjt50YvkqqWJFsnFGTSdqNo3actka+nKOw==
+X-Received: by 2002:a5d:4d8f:0:b0:2bf:d428:a768 with SMTP id
+ b15-20020a5d4d8f000000b002bfd428a768mr18529326wru.49.1676243010883; 
+ Sun, 12 Feb 2023 15:03:30 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- p5-20020a1c5445000000b003dc492e4430sm12040317wmi.28.2023.02.12.14.53.36
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 12 Feb 2023 14:53:37 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: Eduardo Habkost <eduardo@habkost.net>,
-	qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- xiaoqiang zhao <zxq_yx_007@163.com>, Hu Tao <hutao@cn.fujitsu.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- qemu-s390x@nongnu.org, Gonglei Arei <arei.gonglei@huawei.com>,
- Cao jin <caoj.fnst@cn.fujitsu.com>, Li Qiang <liq3ea@163.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>
-Subject: [RFC PATCH 19/19] hw/usb: Inline usb_bus_from_device()
-Date: Sun, 12 Feb 2023 23:51:44 +0100
-Message-Id: <20230212225144.58660-20-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230212225144.58660-1-philmd@linaro.org>
-References: <20230212225144.58660-1-philmd@linaro.org>
+ u13-20020a5d514d000000b002c3f50228afsm8952275wrt.3.2023.02.12.15.03.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 12 Feb 2023 15:03:30 -0800 (PST)
+Message-ID: <88026156-1838-bb8e-c637-b59a26759cc3@linaro.org>
+Date: Mon, 13 Feb 2023 00:03:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH 2/4] hw: Replace dev->parent_bus by
+ qdev_get_parent_bus(dev)
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Laurent Vivier <laurent@vivier.eu>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Fam Zheng <fam@euphon.net>
+References: <20230212224730.51438-1-philmd@linaro.org>
+ <20230212224730.51438-3-philmd@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230212224730.51438-3-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.348,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,201 +98,224 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
-RFC Other devices don't use such helper. Maybe it should
-    be the other way around, introduce more bus_from_device()
-    helpers?
----
- hw/usb/bus.c        | 10 +++++-----
- hw/usb/core.c       |  6 +++---
- hw/usb/dev-hub.c    |  4 ++--
- hw/usb/dev-serial.c | 10 +++++-----
- hw/usb/hcd-xhci.c   |  2 +-
- include/hw/usb.h    |  5 -----
- 6 files changed, 16 insertions(+), 21 deletions(-)
+On 12/2/23 23:47, Philippe Mathieu-Daudé wrote:
+> DeviceState::parent_bus is an internal field and should be
+> accessed by the qdev_get_parent_bus() helper. Replace all
+> uses in hw/ except the QDev uses in hw/core/.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   hw/audio/intel-hda.c                |  2 +-
+>   hw/block/fdc.c                      |  2 +-
+>   hw/block/swim.c                     |  2 +-
+>   hw/ide/qdev.c                       |  4 ++--
+>   hw/net/virtio-net.c                 |  2 +-
+>   hw/pci-bridge/pci_expander_bridge.c |  2 +-
+>   hw/scsi/scsi-bus.c                  |  2 +-
+>   hw/usb/bus.c                        |  2 +-
+>   hw/usb/desc.c                       |  2 +-
+>   hw/usb/dev-smartcard-reader.c       | 16 ++++++++--------
+>   10 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/hw/usb/bus.c b/hw/usb/bus.c
-index d7c3c71435..4a1b67761c 100644
---- a/hw/usb/bus.c
-+++ b/hw/usb/bus.c
-@@ -427,7 +427,7 @@ void usb_unregister_port(USBBus *bus, USBPort *port)
- 
- void usb_claim_port(USBDevice *dev, Error **errp)
- {
--    USBBus *bus = usb_bus_from_device(dev);
-+    USBBus *bus = USB_BUS(qdev_get_parent_bus(DEVICE(dev)));
-     USBPort *port;
-     USBDevice *hub;
- 
-@@ -473,7 +473,7 @@ void usb_claim_port(USBDevice *dev, Error **errp)
- 
- void usb_release_port(USBDevice *dev)
- {
--    USBBus *bus = usb_bus_from_device(dev);
-+    USBBus *bus = USB_BUS(qdev_get_parent_bus(DEVICE(dev)));
-     USBPort *port = dev->port;
- 
-     assert(port != NULL);
-@@ -517,7 +517,7 @@ static void usb_mask_to_str(char *dest, size_t size,
- 
- void usb_check_attach(USBDevice *dev, Error **errp)
- {
--    USBBus *bus = usb_bus_from_device(dev);
-+    USBBus *bus = USB_BUS(qdev_get_parent_bus(DEVICE(dev)));
-     USBPort *port = dev->port;
-     char devspeed[32], portspeed[32];
- 
-@@ -555,7 +555,7 @@ void usb_device_attach(USBDevice *dev, Error **errp)
- 
- int usb_device_detach(USBDevice *dev)
- {
--    USBBus *bus = usb_bus_from_device(dev);
-+    USBBus *bus = USB_BUS(qdev_get_parent_bus(DEVICE(dev)));
-     USBPort *port = dev->port;
- 
-     assert(port != NULL);
-@@ -583,7 +583,7 @@ static const char *usb_speed(unsigned int speed)
- static void usb_bus_dev_print(Monitor *mon, DeviceState *qdev, int indent)
- {
-     USBDevice *dev = USB_DEVICE(qdev);
--    USBBus *bus = usb_bus_from_device(dev);
-+    USBBus *bus = USB_BUS(qdev_get_parent_bus(qdev));
- 
-     monitor_printf(mon, "%*saddr %d.%d, port %s, speed %s, name %s%s\n",
-                    indent, "", bus->busnr, dev->addr,
-diff --git a/hw/usb/core.c b/hw/usb/core.c
-index 975f76250a..f358f0313a 100644
---- a/hw/usb/core.c
-+++ b/hw/usb/core.c
-@@ -95,7 +95,7 @@ void usb_device_reset(USBDevice *dev)
- void usb_wakeup(USBEndpoint *ep, unsigned int stream)
- {
-     USBDevice *dev = ep->dev;
--    USBBus *bus = usb_bus_from_device(dev);
-+    USBBus *bus = USB_BUS(qdev_get_parent_bus(DEVICE(dev)));
- 
-     if (!phase_check(PHASE_MACHINE_READY)) {
-         /*
-@@ -556,7 +556,7 @@ void usb_packet_check_state(USBPacket *p, USBPacketState expected)
-         return;
-     }
-     dev = p->ep->dev;
--    bus = usb_bus_from_device(dev);
-+    bus = USB_BUS(qdev_get_parent_bus(DEVICE(dev)));
-     trace_usb_packet_state_fault(bus->busnr, dev->port->path, p->ep->nr, p,
-                                  usb_packet_state_name(p->state),
-                                  usb_packet_state_name(expected));
-@@ -567,7 +567,7 @@ void usb_packet_set_state(USBPacket *p, USBPacketState state)
- {
-     if (p->ep) {
-         USBDevice *dev = p->ep->dev;
--        USBBus *bus = usb_bus_from_device(dev);
-+        USBBus *bus = USB_BUS(qdev_get_parent_bus(DEVICE(dev)));
-         trace_usb_packet_state_change(bus->busnr, dev->port->path, p->ep->nr, p,
-                                       usb_packet_state_name(p->state),
-                                       usb_packet_state_name(state));
-diff --git a/hw/usb/dev-hub.c b/hw/usb/dev-hub.c
-index 4734700e3e..4a0bcc4093 100644
---- a/hw/usb/dev-hub.c
-+++ b/hw/usb/dev-hub.c
-@@ -572,7 +572,7 @@ static void usb_hub_unrealize(USBDevice *dev)
-     int i;
- 
-     for (i = 0; i < s->num_ports; i++) {
--        usb_unregister_port(usb_bus_from_device(dev),
-+        usb_unregister_port(USB_BUS(qdev_get_parent_bus(DEVICE(dev))),
-                             &s->ports[i].port);
-     }
- 
-@@ -611,7 +611,7 @@ static void usb_hub_realize(USBDevice *dev, Error **errp)
-     s->intr = usb_ep_get(dev, USB_TOKEN_IN, 1);
-     for (i = 0; i < s->num_ports; i++) {
-         port = &s->ports[i];
--        usb_register_port(usb_bus_from_device(dev),
-+        usb_register_port(USB_BUS(qdev_get_parent_bus(DEVICE(dev))),
-                           &port->port, s, i, &usb_hub_port_ops,
-                           USB_SPEED_MASK_LOW | USB_SPEED_MASK_FULL);
-         usb_port_location(&port->port, dev->port, i+1);
-diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-index 63047d79cf..0194bb541b 100644
---- a/hw/usb/dev-serial.c
-+++ b/hw/usb/dev-serial.c
-@@ -190,7 +190,7 @@ static void usb_serial_set_flow_control(USBSerialState *s,
-                                         uint8_t flow_control)
- {
-     USBDevice *dev = USB_DEVICE(s);
--    USBBus *bus = usb_bus_from_device(dev);
-+    USBBus *bus = USB_BUS(qdev_get_parent_bus(DEVICE(dev)));
- 
-     /* TODO: ioctl */
-     s->flow_control = flow_control;
-@@ -200,7 +200,7 @@ static void usb_serial_set_flow_control(USBSerialState *s,
- static void usb_serial_set_xonxoff(USBSerialState *s, int xonxoff)
- {
-     USBDevice *dev = USB_DEVICE(s);
--    USBBus *bus = usb_bus_from_device(dev);
-+    USBBus *bus = USB_BUS(qdev_get_parent_bus(DEVICE(dev)));
- 
-     s->xon = xonxoff & 0xff;
-     s->xoff = (xonxoff >> 8) & 0xff;
-@@ -221,7 +221,7 @@ static void usb_serial_reset(USBSerialState *s)
- static void usb_serial_handle_reset(USBDevice *dev)
- {
-     USBSerialState *s = USB_SERIAL(dev);
--    USBBus *bus = usb_bus_from_device(dev);
-+    USBBus *bus = USB_BUS(qdev_get_parent_bus(DEVICE(dev)));
- 
-     trace_usb_serial_reset(bus->busnr, dev->addr);
- 
-@@ -261,7 +261,7 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
-                                       int length, uint8_t *data)
- {
-     USBSerialState *s = USB_SERIAL(dev);
--    USBBus *bus = usb_bus_from_device(dev);
-+    USBBus *bus = USB_BUS(qdev_get_parent_bus(DEVICE(dev)));
-     int ret;
- 
-     trace_usb_serial_handle_control(bus->busnr, dev->addr, request, value);
-@@ -479,7 +479,7 @@ static void usb_serial_token_in(USBSerialState *s, USBPacket *p)
- static void usb_serial_handle_data(USBDevice *dev, USBPacket *p)
- {
-     USBSerialState *s = USB_SERIAL(dev);
--    USBBus *bus = usb_bus_from_device(dev);
-+    USBBus *bus = USB_BUS(qdev_get_parent_bus(DEVICE(dev)));
-     uint8_t devep = p->ep->nr;
-     struct iovec *iov;
-     int i;
-diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
-index b89b618ec2..94c2e58aaf 100644
---- a/hw/usb/hcd-xhci.c
-+++ b/hw/usb/hcd-xhci.c
-@@ -3268,7 +3268,7 @@ static void xhci_complete(USBPort *port, USBPacket *packet)
- 
- static void xhci_child_detach(USBPort *uport, USBDevice *child)
- {
--    USBBus *bus = usb_bus_from_device(child);
-+    USBBus *bus = USB_BUS(qdev_get_parent_bus(DEVICE(child)));
-     XHCIState *xhci = container_of(bus, XHCIState, bus);
- 
-     xhci_detach_slot(xhci, child->port);
+I missed:
+
+-- >8 --
+diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
+index 6bc239a981..ec38828da0 100644
+--- a/hw/audio/intel-hda.c
++++ b/hw/audio/intel-hda.c
+@@ -103,14 +103,14 @@ HDACodecDevice *hda_codec_find(HDACodecBus *bus, 
+uint32_t cad)
+
+  void hda_codec_response(HDACodecDevice *dev, bool solicited, uint32_t 
+response)
+  {
+-    HDACodecBus *bus = HDA_BUS(dev->qdev.parent_bus);
++    HDACodecBus *bus = HDA_BUS(qdev_get_parent_bus(DEVICE(dev)));
+      bus->response(dev, solicited, response);
+  }
+
+  bool hda_codec_xfer(HDACodecDevice *dev, uint32_t stnr, bool output,
+                      uint8_t *buf, uint32_t len)
+  {
+-    HDACodecBus *bus = HDA_BUS(dev->qdev.parent_bus);
++    HDACodecBus *bus = HDA_BUS(qdev_get_parent_bus(DEVICE(dev)));
+      return bus->xfer(dev, stnr, output, buf, len);
+  }
+
+@@ -344,7 +344,7 @@ static void intel_hda_corb_run(IntelHDAState *d)
+  static void intel_hda_response(HDACodecDevice *dev, bool solicited, 
+uint32_t response)
+  {
+      const MemTxAttrs attrs = { .memory = true };
+-    HDACodecBus *bus = HDA_BUS(dev->qdev.parent_bus);
++    HDACodecBus *bus = HDA_BUS(qdev_get_parent_bus(DEVICE(dev)));
+      IntelHDAState *d = container_of(bus, IntelHDAState, codecs);
+      hwaddr addr;
+      uint32_t wp, ex;
+@@ -399,7 +399,7 @@ static bool intel_hda_xfer(HDACodecDevice *dev, 
+uint32_t stnr, bool output,
+                             uint8_t *buf, uint32_t len)
+  {
+      const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
+-    HDACodecBus *bus = HDA_BUS(dev->qdev.parent_bus);
++    HDACodecBus *bus = HDA_BUS(qdev_get_parent_bus(DEVICE(dev)));
+      IntelHDAState *d = container_of(bus, IntelHDAState, codecs);
+      hwaddr addr;
+      uint32_t s, copy, left;
+diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
+index 96582ce49b..6ae2627a56 100644
+--- a/hw/ide/qdev.c
++++ b/hw/ide/qdev.c
+@@ -164,7 +164,7 @@ typedef struct IDEDrive {
+
+  static void ide_dev_initfn(IDEDevice *dev, IDEDriveKind kind, Error 
+**errp)
+  {
+-    IDEBus *bus = DO_UPCAST(IDEBus, qbus, dev->qdev.parent_bus);
++    IDEBus *bus = DO_UPCAST(IDEBus, qbus, 
+qdev_get_parent_bus(DEVICE(dev)));
+      IDEState *s = bus->ifs + dev->unit;
+      int ret;
+
+diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
+index 9d4fec2c04..dfc5c436bd 100644
+--- a/hw/ppc/spapr_vio.c
++++ b/hw/ppc/spapr_vio.c
+@@ -382,7 +382,7 @@ static void rtas_quiesce(PowerPCCPU *cpu, 
+SpaprMachineState *spapr,
+
+  static SpaprVioDevice *reg_conflict(SpaprVioDevice *dev)
+  {
+-    SpaprVioBus *bus = SPAPR_VIO_BUS(dev->qdev.parent_bus);
++    SpaprVioBus *bus = SPAPR_VIO_BUS(qdev_get_parent_bus(DEVICE(dev)));
+      BusChild *kid;
+      SpaprVioDevice *other;
+
+@@ -492,7 +492,7 @@ static void spapr_vio_busdev_realize(DeviceState 
+*qdev, Error **errp)
+          }
+      } else {
+          /* Need to assign an address */
+-        SpaprVioBus *bus = SPAPR_VIO_BUS(dev->qdev.parent_bus);
++        SpaprVioBus *bus = SPAPR_VIO_BUS(qdev_get_parent_bus(DEVICE(dev)));
+
+          do {
+              dev->reg = bus->next_reg++;
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index 3127cd7273..7b2a82b335 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -104,7 +104,7 @@ static void scsi_device_unrealize(SCSIDevice *s)
+  int scsi_bus_parse_cdb(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
+                         size_t buf_len, void *hba_private)
+  {
+-    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, dev->qdev.parent_bus);
++    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, 
+qdev_get_parent_bus(DEVICE(dev)));
+      int rc;
+
+      assert(cmd->len == 0);
+@@ -250,7 +250,7 @@ static bool scsi_bus_check_address(BusState *qbus, 
+DeviceState *qdev, Error **er
+  static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
+  {
+      SCSIDevice *dev = SCSI_DEVICE(qdev);
+-    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, dev->qdev.parent_bus);
++    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, 
+qdev_get_parent_bus(DEVICE(dev)));
+      bool is_free;
+      Error *local_err = NULL;
+
+@@ -705,7 +705,7 @@ SCSIRequest *scsi_req_alloc(const SCSIReqOps 
+*reqops, SCSIDevice *d,
+  SCSIRequest *scsi_req_new(SCSIDevice *d, uint32_t tag, uint32_t lun,
+                            uint8_t *buf, size_t buf_len, void *hba_private)
+  {
+-    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, d->qdev.parent_bus);
++    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, 
+qdev_get_parent_bus(DEVICE(d)));
+      const SCSIReqOps *ops;
+      SCSIDeviceClass *sc = SCSI_DEVICE_GET_CLASS(d);
+      SCSIRequest *req;
+@@ -1353,7 +1353,7 @@ int scsi_req_parse_cdb(SCSIDevice *dev, 
+SCSICommand *cmd, uint8_t *buf,
+
+  void scsi_device_report_change(SCSIDevice *dev, SCSISense sense)
+  {
+-    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, dev->qdev.parent_bus);
++    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, 
+qdev_get_parent_bus(DEVICE(dev)));
+
+      scsi_device_set_ua(dev, sense);
+      if (bus->info->change) {
+@@ -1372,7 +1372,7 @@ void scsi_req_unref(SCSIRequest *req)
+  {
+      assert(req->refcount > 0);
+      if (--req->refcount == 0) {
+-        BusState *qbus = req->dev->qdev.parent_bus;
++        BusState *qbus = qdev_get_parent_bus(DEVICE(req->dev));
+          SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, qbus);
+
+          if (bus->info->free_request && req->hba_private) {
+@@ -1444,7 +1444,7 @@ void scsi_req_print(SCSIRequest *req)
+      int i;
+
+      fprintf(fp, "[%s id=%d] %s",
+-            req->dev->qdev.parent_bus->name,
++            qdev_get_parent_bus(DEVICE(req->dev))->name,
+              req->dev->id,
+              scsi_command_name(req->cmd.buf[0]));
+      for (i = 1; i < req->cmd.len; i++) {
+@@ -1698,7 +1698,7 @@ static int put_scsi_requests(QEMUFile *f, void 
+*pv, size_t size,
+                               const VMStateField *field, JSONWriter 
+*vmdesc)
+  {
+      SCSIDevice *s = pv;
+-    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, s->qdev.parent_bus);
++    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, 
+qdev_get_parent_bus(DEVICE(s)));
+      SCSIRequest *req;
+
+      QTAILQ_FOREACH(req, &s->requests, next) {
+@@ -1726,7 +1726,7 @@ static int get_scsi_requests(QEMUFile *f, void 
+*pv, size_t size,
+                               const VMStateField *field)
+  {
+      SCSIDevice *s = pv;
+-    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, s->qdev.parent_bus);
++    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, 
+qdev_get_parent_bus(DEVICE(s)));
+      int8_t sbyte;
+
+      while ((sbyte = qemu_get_sbyte(f)) > 0) {
+diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
+index 6ea4b64fe7..843dde8851 100644
+--- a/include/hw/scsi/scsi.h
++++ b/include/hw/scsi/scsi.h
+@@ -177,7 +177,7 @@ static inline void scsi_bus_init(SCSIBus *bus, 
+size_t bus_size,
+
+  static inline SCSIBus *scsi_bus_from_device(SCSIDevice *d)
+  {
+-    return DO_UPCAST(SCSIBus, qbus, d->qdev.parent_bus);
++    return DO_UPCAST(SCSIBus, qbus, qdev_get_parent_bus(DEVICE(d)));
+  }
+
+  SCSIDevice *scsi_bus_legacy_add_drive(SCSIBus *bus, BlockBackend *blk,
 diff --git a/include/hw/usb.h b/include/hw/usb.h
-index f743a5e945..4a2987c477 100644
+index 32c23a5ca2..b2111bb1c7 100644
 --- a/include/hw/usb.h
 +++ b/include/hw/usb.h
-@@ -518,11 +518,6 @@ void usb_device_attach(USBDevice *dev, Error **errp);
- int usb_device_detach(USBDevice *dev);
- void usb_check_attach(USBDevice *dev, Error **errp);
- 
--static inline USBBus *usb_bus_from_device(USBDevice *d)
--{
--    return USB_BUS(qdev_get_parent_bus(DEVICE(d)));
--}
--
- extern const VMStateDescription vmstate_usb_device;
- 
- #define VMSTATE_USB_DEVICE(_field, _state) {                         \
--- 
-2.38.1
+@@ -520,7 +520,7 @@ void usb_check_attach(USBDevice *dev, Error **errp);
 
+  static inline USBBus *usb_bus_from_device(USBDevice *d)
+  {
+-    return DO_UPCAST(USBBus, qbus, d->qdev.parent_bus);
++    return DO_UPCAST(USBBus, qbus, qdev_get_parent_bus(DEVICE(d)));
+  }
+
+  extern const VMStateDescription vmstate_usb_device;
+---
 
