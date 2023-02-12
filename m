@@ -2,91 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69A6269357B
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 02:15:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 237B56935FA
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 05:13:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pR0vm-0002jg-JH; Sat, 11 Feb 2023 20:13:27 -0500
+	id 1pR3iU-0001D1-4n; Sat, 11 Feb 2023 23:11:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pR0vd-0002jV-MH
- for qemu-devel@nongnu.org; Sat, 11 Feb 2023 20:13:17 -0500
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pR3iR-0001CY-SP
+ for qemu-devel@nongnu.org; Sat, 11 Feb 2023 23:11:51 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pR0vb-0002Hx-W7
- for qemu-devel@nongnu.org; Sat, 11 Feb 2023 20:13:17 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id h4so2473559pll.9
- for <qemu-devel@nongnu.org>; Sat, 11 Feb 2023 17:13:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Z2zAdtYO4yqAAcHlmTInRWp1yn2M6RpXlhdk26oOdH4=;
- b=bME+FamSbYUSftLlVuUXFr/+k9cgbnzEFpsLxH38b4jtSh5zDc4vx8fk8Ib1mPxpI8
- i0OQtDzeUAzW9Dsh/5Ds0TvVEqtqekgKUoZMJ57C1B4ljcwLnf2PhTqf5UAAq5XmLrZ7
- mdRHlzOCobOO4QcmaXfZQjUroTqk3adsZeNiKb4nsBZBfxx7PWa+svvh0Ss/JmBxCzzw
- 2LrQ4JFv3yODe9hy2AEy2ME0ZL3VtorESeJ0wa6oK8reyEwqtxl9quSa2T4gLAEZUoYh
- bas11YyG+LK8KR60mQ+P+rvD0ceIEntRwzcYdoKDC96+OdEf5G+gd5FPy6vaz8b31+rX
- cgew==
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pR3iP-0003IU-LO
+ for qemu-devel@nongnu.org; Sat, 11 Feb 2023 23:11:51 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id s11so1167750edd.10
+ for <qemu-devel@nongnu.org>; Sat, 11 Feb 2023 20:11:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=wlY6alUIjjWyAkD1Tp0mWEEH/vu2Uh5xd5p8vIAGr+8=;
+ b=phAyZr/xKw/DzlYz3dF8ojGyymYv0cJHmij4l+EKgMEhZV9ghVJ/quxkz173dgf+K+
+ /Yb3oOic2oFQa0wYgtbu/8H6piqhymkIqFOWj/bKAz3R2JsggMV2KkqffWBzPDFY4jTk
+ 0J0nNXcXcwec8SCUwvh/1R2eOt6CXGd0obE+a+MqnDuyjgH9df0i2WlsTs9Igfv2oNmr
+ 5wylhCVol0eBm9eRaTVXZuMjAbAVuUpSRacM5dEnc5E7mvRjIabE5/8KZty2ixcgZcJi
+ uwuOGmZZu3nsJfgMtC00XKhvT8zbN2u2aFbkMIB+Xx6k9Goh4wPHa0XLTEKiHY/eQHMd
+ DN1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Z2zAdtYO4yqAAcHlmTInRWp1yn2M6RpXlhdk26oOdH4=;
- b=hvCH9/EnVVIvcfMm521JwXCXCw1O94vLHNnquAVO6bMwvv7btK0WDFT1VY96Hxt67E
- ymNmMsLq50S2avxaJ/Vc9vUuKjLgcWemRKmCZPZcXCp/xNyxEMREheOOQdkU5d7/JHLW
- JYwbs/gJIK3wIEmgG5mO/ewXE+sOZg+emowwM92svGdyfRwbc3yDlKEIriKoTiRksxiT
- pCc0vra+pNroFJyrBaiJkumgTRc6imDR4tfQFnBoouqMwM8jinNRkA/4paN7vagorrB0
- tnjaXSMwQQY/hBjnWjIqcpP1qJk8N0+7vVnPU5Lz1GL/5BfhLqyCepiKgMgTk5eDxGjr
- 9dKg==
-X-Gm-Message-State: AO0yUKUOeIXgjGHOfV4IbaeECsrr9tD4fb2HEq5S/A6OrbVtfykFpz1G
- bR4UrAhCuRaZA3tsI1TxjOdAuw==
-X-Google-Smtp-Source: AK7set/Y0WIieaxCU6U0DgitG5AF1nOeLG/OQiZi9THTLBpNe5PBBQKeQgCQSk18FLBKdbE8PkJiTA==
-X-Received: by 2002:a17:902:db01:b0:196:1678:3060 with SMTP id
- m1-20020a170902db0100b0019616783060mr12205267plx.0.1676164394264; 
- Sat, 11 Feb 2023 17:13:14 -0800 (PST)
-Received: from [172.20.101.111] (rrcs-74-87-59-235.west.biz.rr.com.
- [74.87.59.235]) by smtp.gmail.com with ESMTPSA id
- t23-20020a170902b21700b00196047fc25dsm5559159plr.42.2023.02.11.17.13.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 11 Feb 2023 17:13:13 -0800 (PST)
-Message-ID: <e4eeb2fc-d777-e7a8-17e8-38bd0104bf70@linaro.org>
-Date: Sat, 11 Feb 2023 15:13:10 -1000
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wlY6alUIjjWyAkD1Tp0mWEEH/vu2Uh5xd5p8vIAGr+8=;
+ b=5fZKYbNh6C2CsBTEJ8HbOAsZQ6RJ4RqY723pzZqLXRuEqDT9KTnbt7ew/EDh1MKCOR
+ i4jV9wVioIGqkzuWplmk9yWZ/t3jY7KtoP/eEm3aiBTUx5l5xq7PHAdesOBngjuFBsS6
+ o2dBPiKyhYP41dH/51J2QFMoIdYGEAjca9A+Sqfk+BgYKKLD9fkKosW7c2e3xL9yrxBn
+ mJzOUgrxAPsmZQFdmPbK1ySQ2gHFPWY07JxWOET5eh9C/r1WC/V7tnkyx4/IQlaEEsxn
+ Hjv/VrSM+10ZZ4zLTpldaPJK92zkipBWm+7c4EhbbSBIem8pzNY7rmWhAb/CDd2bSVUm
+ W7nA==
+X-Gm-Message-State: AO0yUKXV0G0S7YN9OBkSUbk3B/2hWBP1kQpM8YJaa7/L1O7cm0YrmMnH
+ z4afSLAoAXujXDrPAC7W0/bQy5RWlAkh3Gx0U09SoA==
+X-Google-Smtp-Source: AK7set8FtWSctk0qtkrE1tZsSx8UMdRmXuyacHiNF36zPks0on9zMBf2sx1M8DY1CKTZqlX0fcQSwFBsnnTdrcJVric=
+X-Received: by 2002:a50:d51d:0:b0:4ac:b74b:a6a3 with SMTP id
+ u29-20020a50d51d000000b004acb74ba6a3mr1273387edi.0.1676175107699; Sat, 11 Feb
+ 2023 20:11:47 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 6/9] bsd-user: common routine do_freebsd_sysctl_oid for
- all sysctl variants
-Content-Language: en-US
-To: Warner Losh <imp@bsdimp.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Kyle Evans <kevans@freebsd.org>, f4bug@amsat.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Juergen Lock <nox@jelal.kn-bremen.de>,
- Stacey Son <sson@freebsd.org>
 References: <20230210231829.39476-1-imp@bsdimp.com>
- <20230210231829.39476-7-imp@bsdimp.com>
- <b56a7205-0c22-16aa-f73b-267576b9950e@linaro.org>
- <CANCZdfp394rACvjVDdEao626pSdin1yPvYHW9sf0mNbVwoyeVg@mail.gmail.com>
- <30289ed3-7cf4-d50e-59a6-603ee15cf5e9@linaro.org>
- <CANCZdfr=fFU8w6wEPWR77qTCAXe+a+HMj-Ubnsv=04Y3+qDX+Q@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CANCZdfr=fFU8w6wEPWR77qTCAXe+a+HMj-Ubnsv=04Y3+qDX+Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <20230210231829.39476-5-imp@bsdimp.com>
+ <f7a5c2d4-f8d2-9dc6-d34f-a12154dbc87e@linaro.org>
+In-Reply-To: <f7a5c2d4-f8d2-9dc6-d34f-a12154dbc87e@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Sat, 11 Feb 2023 21:11:36 -0700
+Message-ID: <CANCZdfpHM8YKUqhiVx5re1c8GU-hHbiEXREz9HrmWtvOAiUUOA@mail.gmail.com>
+Subject: Re: [PATCH 4/9] bsd-user: Two helper routines oidfmt and sysctl_oldcvt
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, 
+ Kyle Evans <kevans@freebsd.org>, f4bug@amsat.org, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Stacey Son <sson@freebsd.org>,
+ Sean Bruno <sbruno@freebsd.org>, Juergen Lock <nox@jelal.kn-bremen.de>,
+ Raphael Kubo da Costa <rakuco@freebsd.org>
+Content-Type: multipart/alternative; boundary="000000000000e057d705f478ed89"
+Received-SPF: none client-ip=2a00:1450:4864:20::52c;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,23 +87,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/11/23 14:40, Warner Losh wrote:
-> I was going to do something like:
-> 
-> +    if (host_page_size != TARGET_PAGE_SIZE) {
-> +        if (host_page_size > TARGET_PAGE_SIZE) {
-> +            /* Scale up */
-> +            pages *= host_page_size / TARGET_PAGE_SIZE;
-> +        } else {
-> +            /* Scale down with truncation */
-> +            pages /= TARGET_PAGE_SIZE / host_page_size;
-> +        }
-> +    }
-> in a helper function. Does multdiv64 replace that?
+--000000000000e057d705f478ed89
+Content-Type: text/plain; charset="UTF-8"
 
-Yes, it uses a 128-bit intermediate result, so no overflow.
-Obviously the above works as well, but perhaps premature optimization.
+On Sat, Feb 11, 2023 at 3:17 PM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
+> On 2/10/23 13:18, Warner Losh wrote:
+> > +static int sysctl_oldcvt(void *holdp, size_t *holdlen, uint32_t kind)
+> > +{
+> > +    switch (kind & CTLTYPE) {
+> > +    case CTLTYPE_INT:
+> > +    case CTLTYPE_UINT:
+> > +        *(uint32_t *)holdp = tswap32(*(uint32_t *)holdp);
+> > +        break;
+> > +
+> > +#ifdef TARGET_ABI32
+> > +    case CTLTYPE_LONG:
+> > +    case CTLTYPE_ULONG:
+> > +        /*
+> > +         * If the sysctl has a type of long/ulong but seems to be
+> bigger than
+> > +         * these data types, its probably an array.  Double check that
+> its
+> > +         * evenly divisible by the size of long and convert holdp to a
+> series of
+> > +         * 32bit elements instead, adjusting holdlen to the new size.
+> > +         */
+> > +        if ((*holdlen > sizeof(abi_ulong)) &&
+> > +            ((*holdlen % sizeof(abi_ulong)) == 0)) {
+> > +            int array_size = *holdlen / sizeof(long);
+> > +            int i;
+> > +            if (holdp) {
+> > +                for (i = 0; i < array_size; i++) {
+> > +                    ((uint32_t *)holdp)[i] = tswap32(((long
+> *)holdp)[i]);
+> > +                }
+> > +                *holdlen = array_size * sizeof(abi_ulong);
+> > +            } else {
+> > +                *holdlen = sizeof(abi_ulong);
+> > +            }
+> > +        } else {
+> > +            *(uint32_t *)holdp = tswap32(*(long *)holdp);
+> > +            *holdlen = sizeof(uint32_t);
+>
+> This is totally confusing.  Why would it ever be an array?
+> Why is this section the only place we ever assign back into holdlen?
+>
+> Can you point to anything similar in the freebsd source?  The whole thing
+> is pretty hard
+> to track, starting from sys/kern/kern_sysctl.c.
+>
 
-r~
+I need to understand this... I've been looking for where we export an
+array, and we just don't.
+
+I've asked the original author who said it had something to do with
+different size longs. I'll
+look into that a bit and get back to this.
+
+I think we assign back into holdlen in a weird attempt adjust for the
+difference of LONG between
+the two. But I'm not sure that that's where we should assign.
+
+Warner
+
+--000000000000e057d705f478ed89
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Feb 11, 2023 at 3:17 PM Richa=
+rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
+nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">On 2/10/23 13:18, Warner Losh wrote:<br>
+&gt; +static int sysctl_oldcvt(void *holdp, size_t *holdlen, uint32_t kind)=
+<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 switch (kind &amp; CTLTYPE) {<br>
+&gt; +=C2=A0 =C2=A0 case CTLTYPE_INT:<br>
+&gt; +=C2=A0 =C2=A0 case CTLTYPE_UINT:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 *(uint32_t *)holdp =3D tswap32(*(uint32_t=
+ *)holdp);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +<br>
+&gt; +#ifdef TARGET_ABI32<br>
+&gt; +=C2=A0 =C2=A0 case CTLTYPE_LONG:<br>
+&gt; +=C2=A0 =C2=A0 case CTLTYPE_ULONG:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* If the sysctl has a type of long/=
+ulong but seems to be bigger than<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* these data types, its probably an=
+ array.=C2=A0 Double check that its<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* evenly divisible by the size of l=
+ong and convert holdp to a series of<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* 32bit elements instead, adjusting=
+ holdlen to the new size.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((*holdlen &gt; sizeof(abi_ulong)) &am=
+p;&amp;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ((*holdlen % sizeof(abi_ulo=
+ng)) =3D=3D 0)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int array_size =3D *holdlen=
+ / sizeof(long);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int i;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (holdp) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D 0;=
+ i &lt; array_size; i++) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ ((uint32_t *)holdp)[i] =3D tswap32(((long *)holdp)[i]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *holdlen =3D =
+array_size * sizeof(abi_ulong);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *holdlen =3D =
+sizeof(abi_ulong);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *(uint32_t *)holdp =3D tswa=
+p32(*(long *)holdp);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *holdlen =3D sizeof(uint32_=
+t);<br>
+<br>
+This is totally confusing.=C2=A0 Why would it ever be an array?<br>
+Why is this section the only place we ever assign back into holdlen?<br>
+<br>
+Can you point to anything similar in the freebsd source?=C2=A0 The whole th=
+ing is pretty hard <br>
+to track, starting from sys/kern/kern_sysctl.c.<br></blockquote><div><br></=
+div><div>I need to understand this... I&#39;ve been looking for where we ex=
+port an array, and we just don&#39;t.</div><div><br></div><div>I&#39;ve ask=
+ed the original author who said it had something to do with different size =
+longs. I&#39;ll</div><div>look into that a bit and get back to this.</div><=
+div><br></div><div>I think we assign back into holdlen=C2=A0in a weird atte=
+mpt adjust for the difference of LONG between</div><div>the two. But I&#39;=
+m not sure that that&#39;s where we should assign.</div><div><br></div><div=
+>Warner=C2=A0</div></div></div>
+
+--000000000000e057d705f478ed89--
 
