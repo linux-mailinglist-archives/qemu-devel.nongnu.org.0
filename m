@@ -2,146 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 526C2693839
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 16:50:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C9D56938F9
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 18:03:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pREbi-0005lF-5g; Sun, 12 Feb 2023 10:49:38 -0500
+	id 1pRFjE-0006TV-VK; Sun, 12 Feb 2023 12:01:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1pREbg-0005l1-20
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 10:49:36 -0500
-Received: from mail-bn7nam10on20619.outbound.protection.outlook.com
- ([2a01:111:f400:7e8a::619]
- helo=NAM10-BN7-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1pREbe-0005QU-1w
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 10:49:35 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z1U22PXIYAtdcLVjWX+fFXRbgjQdektdWg+F/g+upQEHAzQfkTbbziWVJRCJdPC1ruPNaVIABxKrquiM8WQ3pWgMstEJLlT9cYKp/U8k1CHXGp+v7aKdkbRoP0/9s0DW4tiQEh425CvGeaOrhQpGVQEIcTEAk7/p/TneDjf/w5dyCPRNgHYW+xRnLB4DGaDDx0z/lLFGKK/j0AupfpbYJQAAEbYBffpi7taLmZKNfS6MkPuuJH4IvhK8kjJ+XJkWF9mrDHu6z+KDwpMZiULphctiiU06PONufJBCB9V5ZEk7bIbfI37rOVQZVsm7R0yNIhqGXXFJr3ArV683T+IFyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oJGRQPyo4sR8G52yh30/5wvQiuic7IgVvipEIXTwaIk=;
- b=AIp98PX+SHrpRyk40g0aoqdU6QZ0k/mA80kYNFarSqG662GTyM+GmbnaWztOAXlM7FFv8i//ZSw7p+uI3T3uM7rMW4URvYbFbqQCyO/v/8DCGVayakHqpfD+kZXSUTDUpEu5iRBz1tDQuXA1x/frY6bVsKTn45OfCiuSaS1lGN2dZrhVfijiUXJvi6CeP+we0W+AA3C+T7CZsNgBQtKNcEwvEamOECl5gsfKAQG8ibbse12L6ifmrElggjy/F9Au6MrEcf5msl+icMG56W16mQ3MLyzJHGZSeXV/QEPbE0CChimxXf6ksRr9OLjdQJVIOdSuD2Zz2sZzPgBZV+2fBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oJGRQPyo4sR8G52yh30/5wvQiuic7IgVvipEIXTwaIk=;
- b=YmkSJPg8KUuc2wM+Efx4z/iX1pKjSjcaIN/EIFPMYEQBebcLU3ws+13vZtK1U1JyR78SREAsuBa/pTRc9QhKg15UueIVbrm5N9N7EauuBfpZF2q987lDm7jKFnK4HOU2LArix9zPCMu3tdSa5wU4TIZiepH/qtHttjRFgYgdfP8c64qGKhmVbyY8XmF1K00T0Ik7au9CHIb23zG4p4FW4794H0YEr1V7xKgHfm9XHlH9Km1bSs1sU8LUgCf0pI6/N14m/lvljeJXPjkEMXaX4fpE/LugYhCbnbqY2BZBhhDOmwl60ZB1fhfNvVlV1JW7UGHBKv+AgOTPe+tRdIyhSw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB5549.namprd12.prod.outlook.com (2603:10b6:5:209::13)
- by SN7PR12MB6713.namprd12.prod.outlook.com (2603:10b6:806:273::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.23; Sun, 12 Feb
- 2023 15:49:30 +0000
-Received: from DM6PR12MB5549.namprd12.prod.outlook.com
- ([fe80::451d:1f37:aa83:f425]) by DM6PR12MB5549.namprd12.prod.outlook.com
- ([fe80::451d:1f37:aa83:f425%7]) with mapi id 15.20.6086.023; Sun, 12 Feb 2023
- 15:49:30 +0000
-Message-ID: <4745af4b-0c32-62ac-6820-debed76ecace@nvidia.com>
-Date: Sun, 12 Feb 2023 17:49:21 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 11/18] vfio/common: Add device dirty page bitmap sync
-Content-Language: en-US
-To: Alex Williamson <alex.williamson@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-References: <20230126184948.10478-1-avihaih@nvidia.com>
- <20230126184948.10478-12-avihaih@nvidia.com>
- <20230127163719.43e8729c.alex.williamson@redhat.com>
-From: Avihai Horon <avihaih@nvidia.com>
-In-Reply-To: <20230127163719.43e8729c.alex.williamson@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO2P123CA0092.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:139::7) To DM6PR12MB5549.namprd12.prod.outlook.com
- (2603:10b6:5:209::13)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pRFiy-0006N9-Oq
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 12:01:19 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pRFiu-0000oA-Sp
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 12:01:12 -0500
+Received: by mail-ed1-x529.google.com with SMTP id d40so8799036eda.8
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 09:01:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=S96u2gSAUqjBMD3ji2QlWCu+RYaoE+ZTwPZr7pq+Qow=;
+ b=QJaj0b+tD+BTIon+39C5ryJPsJEpO+emv8GToh5EfYmCWO5SSiO9NYPOj0nT+tt+iw
+ EJi7xoItzF2oQO63RecL/0VCioJPVMIu+tWD76cepm7J93z5npXuJj+HqRopvYrLBqE4
+ 6l4C7DXXqwTTvHOHR0U3Y2Ux1XUrJk9o1pE0eFa/Lxnkq1HreBWsFTuVfGQ5M86bI68n
+ u1zh80MHR76qSbCiBDcUmzUqmc278g3Pbrn/4r7UTBi6xUXmcC9ruf0HJZjGCF3Zz1LY
+ 41nCQtYpX9p1HW753QijlDq9f8A8KvvVnbFEuxNv5qNMuGGdANlu+dCwo7kRsz6cP2PC
+ 1Wyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=S96u2gSAUqjBMD3ji2QlWCu+RYaoE+ZTwPZr7pq+Qow=;
+ b=cwKfVDCR3wWUCy0noZfBJixv2FP7qC+OUFdi8I9aOh0uEBeolAvpuHtXsHDI/q1wUd
+ d+fwgXr5pTKguIlHGaC06ceJ/0XYXUIe+q6WJisrMV8SBwqtRBoZSNFy27HfAQPNOTae
+ +Mig5ls60mvTuloloEiKSBI2BIntCRsF9ozBHhzdKmCRB5+U6qRH8JDmS2LNtFXEsLPQ
+ sSpUDj8MgkzOib38Y7okf77z5tM3uORk45s/OaC3tNo1b/e8GBiFteMa9NxwrBOyrrFt
+ wzVnsOr4u7ewGEMObGuZaiI3fEZG21EhJpIBRmFlLmxGam1UueYXgFkTMUfQhNEPvETu
+ VTOQ==
+X-Gm-Message-State: AO0yUKX1qYoBBT92bO/wcOK5jIqclp3zbzhAsnqan47RJ10i/uMfcx3T
+ g7OiwD5oNIjayTnG7KcAikG8wxv4Kzp7WZ0UlZNcWA==
+X-Google-Smtp-Source: AK7set9Ht3ZsPLa48yybMEGnhEKnN54TU8P1F+3LFgp1saqFg0Anmzq/jVrHOd3YOmdwWs741/8LuJzKZ2D4TR46/q0=
+X-Received: by 2002:a50:aa98:0:b0:4ac:6ad5:4138 with SMTP id
+ q24-20020a50aa98000000b004ac6ad54138mr2501936edc.0.1676221265901; Sun, 12 Feb
+ 2023 09:01:05 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB5549:EE_|SN7PR12MB6713:EE_
-X-MS-Office365-Filtering-Correlation-Id: a73a69c4-32cb-40b5-6819-08db0d10ba48
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gZ+VMGzGbz0LxVP1cS/9C9wYXol+Ay1Kw6GO7cqRRrQG5zK7E0TmdLeHdShKFlrF13M2t3phOTiia5MhYNltBgcClkRtUVtIZ8ZqBp6l/sHa1NEIid1ft26PsbpyDW76livebIO4H/F8C2XeLoSXpye4zh2unxN8DFlGenoj5CjGS+8frt32eYd4WO5ZL1OQBn15mWHq1BJDBa7Z3CWCFp6t1WCS8MnEUyybsF5TDr4ts0mw7hd2woxwCovVy6LvP3Iu3ON4VbxIFwHq6Cja859hEOGZKfeE/FgFYlrppX+wnaB5KnnGdriR/3uswawysF8QH4KjtAj3Hz+oAEJtfO4quz+HUD48HkFtOIvJDPCvddSAYRjDdMbcXlGaklsTSCdb448ej51aQMyOiOcL6JsOjQd6jfJ7D10ihMPTQrhTMXRiBLXnIul+XVli9AQXO+SDTLjOk5Ml5FilO2OSeFDdJ2vlhlS3whF8wZaFkIm7TfbQR5RJpP4enowFFT/OG+Wj1pJARqSxZ3P2ZkDAu/RCGj6+mx7nOewd8+yB8w5Xt2YVB4HX/+jS2xDbHJ8nkB44ejknOaovGghi9feXOrzxOHGpdfeHRUgJQoxAytERTxlDJxMZUSqqgtbjcetarx8k6Y2+ycMoHbBJDfJ/GmGx1rRn5mCRsOmyKR4VvA9hcqf0bGJTuhPhrfHzgQApQvqu+fGFHGjhPWny9alxSirGmbcHurTzTM82OOVKqiwHmNIZ8IQckjMauLiScJaD
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB5549.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(39860400002)(136003)(396003)(376002)(346002)(366004)(451199018)(38100700002)(86362001)(31696002)(316002)(7416002)(54906003)(66946007)(66556008)(66476007)(41300700001)(36756003)(8676002)(6916009)(4326008)(5660300002)(8936002)(2906002)(83380400001)(53546011)(6506007)(6666004)(2616005)(6512007)(186003)(26005)(31686004)(6486002)(478600001)(66899018)(14143004)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TEdkVy9Mdkh0dXFVL1hzdW1LVjZ4TDUxaWRhbmg1MTU0VThoN2pPVThVbTMr?=
- =?utf-8?B?c0tGaUgyWGdReURLWHNCTnllRis0TDZSYTYyMlRvT1JycUhzK1hMa3NNeFNC?=
- =?utf-8?B?bWsrV0NqU3FFMXY2T25jdlNvU3d5L2tCcmRNdGI0bHFQM0xxejU3NzFwUUE5?=
- =?utf-8?B?VndwN3psNDNha3NiVVltNWZRbHZnK1NjQmxsdWNRclVoWVRsc2NBbHJ4VTlz?=
- =?utf-8?B?M1JieUVpemlGY2lEUE85VGNPMTBGdVpmSFZzOEwxcHBLcXRWY09zbk1BUjdS?=
- =?utf-8?B?Wnk3VjdOR0dONWdhTllrS1IyMXF1TmRodUFzdkdnQmpPQ2pvRHNvWHp2UEJY?=
- =?utf-8?B?dys5QkFqelkwM2svckpPQzFsSlBDVXkvaHIrRlRwd3AraHdoanlNanducmZl?=
- =?utf-8?B?NEdaMjFLSEtST2FtRFJvaDJTRHFUZnp3c1ZQUWxxeXpVMkpieVZENU9HbnI4?=
- =?utf-8?B?cnNqOWlCQ1RVa05hVFd0VDlIMzZGbGhDQW1xNG9LU245V25TaS93V1dXVnBu?=
- =?utf-8?B?azl1eEIwaDlSTEw3SFVGUW9BWkpxY0lmQTFzdGU1WjdxaW95UGRudDlUcm9F?=
- =?utf-8?B?L283ZXloeWh6QnN0a0tPbTFnbXBpY0FjUk5KaGFKYXY0Q2JKeG44SVp5c3Vi?=
- =?utf-8?B?R0FTSnlJZXVIUXdIR3BuM3VJN2hvbmgzMDUzK1VPV2UrVUgxbkIvKzFHOW8w?=
- =?utf-8?B?VUlMQ3JjODZIQ3RySVlvUVdseHNBZ3VIWXQxOTZDbjhVQWM3RVJORGwwZnJN?=
- =?utf-8?B?UXVPVCthNktMT0JQczhnU21WTHBHcFVnUnU0eTBTaklHS25yNVdzWU15MllX?=
- =?utf-8?B?T3U1cEpmMzEzQkUwTEM5bVl1by9RSUNjcThiWDhuYzNIcGNURnVkUmsrNmZt?=
- =?utf-8?B?ZWtUTThPaTVsMG0rd0w1aVYxaVdHcHlxQnorUjhOQkQ3Rit2RWJScnUvV1BS?=
- =?utf-8?B?THVCWkQ0ajV6bkh6RFVPMEN1WUo3SDJiVXRleS9NSmwrTmFOaFZ1RGUwTjZh?=
- =?utf-8?B?OTQ4NG5oMnBoblFSMytZQ0g2MktSTHBhS1ZtaG5kbG1hMXRnQzhUQU54NVdo?=
- =?utf-8?B?M3NWQi90WFppZEpaK1R6NDBkOWZVVlA5Z2g2VElkQS9hVkFKQy91NWFKSWw1?=
- =?utf-8?B?dVpUSFh3WWNJTThWSnVrSFFpelU0UVE5Q2hSaFJqOGw5cmNvZG5oS3RXSTNa?=
- =?utf-8?B?b3pkYXZVcytJcnBCYjd3SktDM0d6UFY0S0lMbmgxUzNKU3ZEaTk5OGV1SlhK?=
- =?utf-8?B?bHVtcXIzVitPVUJSbU1qbGdjZlN4K2ZoNXhiclZsSFJtM3EvaFdJKzMwRzFW?=
- =?utf-8?B?QWplSFpLajVtaGxPd0NzWlF2R21UU3VzRWxmWCs4WkpSbldTaVl4ZFlyV0FV?=
- =?utf-8?B?ZTdOcXZsZjJRa0NicGhYeG8vS3RwOXRVNnlvSFNZcjExN0xINVJjNDVaQ3hY?=
- =?utf-8?B?UStpdkdsQ0ljU04vS1VzT09kSmhzemt6dWF1Ky9QUWdLeEJFYTZWMFZlbEk1?=
- =?utf-8?B?V3hVUnI0eEUrYXRJcmhMU3FieU4rY1FTZG5uNkFYbnFKRTFkOG9RYXdVcVJR?=
- =?utf-8?B?bnExTEZpNllSekFIaWQyVG92NzR4ZjBGYS9HdkpXZWVhUHgyamxZcTFIU0k4?=
- =?utf-8?B?LytsSnJ1a3hncTRvTHRTd2lENGllY2VRM2lzTnUxSTZyVDdrYTFOT05SVEhz?=
- =?utf-8?B?QzZIYmlpaGRSNWdkb25Iam5ucXlWczVIRHRtUlMyM0cxUVpKN0NXNyszOGh4?=
- =?utf-8?B?dVo4YUdLK25LYllsVzZJR0dUbDhsNGRvdE9MZnRKUlFKaGdaeFVDYXdZVGJm?=
- =?utf-8?B?Z0dzcW5jTk93Sm1Xa05JN2ZqR29xRWhIWkhRVHRBZ3Z4NklhVitCREpDbVZh?=
- =?utf-8?B?MlJlLzZOYXJlRFVpYlZQcDViVXdoTDlkVzkyZFlpeDFDdEZxWjJUdThoaWU3?=
- =?utf-8?B?UGNyMytabG94cXJkOWRhU0p3TDNIWE45Nk1TR2xXQzQrTTd2YldpcldqVVZE?=
- =?utf-8?B?UlFVNGVmUENxY3dWQndiQzRiMlNNWkdpMXVBSXE1UEhCUEtLMGdtUXB2NEpQ?=
- =?utf-8?B?UGNYaXU0OWRxc2hINWRpMFdYZTRuaFU2VFpDMDlLSjZLUktBRllUY1V4MTR4?=
- =?utf-8?Q?gNq7/vlRpSJb1qjUu2U23kabR?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a73a69c4-32cb-40b5-6819-08db0d10ba48
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB5549.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2023 15:49:30.1515 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: udf0p0+0ihwdPDd4RqR4riRrnR+xq+Dl65HH59JW5L6Mo/2RloBY6fS61VaoTa6NIn/eySx6toaxscu1Ft/k/A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6713
-Received-SPF: softfail client-ip=2a01:111:f400:7e8a::619;
- envelope-from=avihaih@nvidia.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.348, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230210231829.39476-1-imp@bsdimp.com>
+ <20230210231829.39476-5-imp@bsdimp.com>
+ <f7a5c2d4-f8d2-9dc6-d34f-a12154dbc87e@linaro.org>
+ <CANCZdfpHM8YKUqhiVx5re1c8GU-hHbiEXREz9HrmWtvOAiUUOA@mail.gmail.com>
+In-Reply-To: <CANCZdfpHM8YKUqhiVx5re1c8GU-hHbiEXREz9HrmWtvOAiUUOA@mail.gmail.com>
+From: Warner Losh <imp@bsdimp.com>
+Date: Sun, 12 Feb 2023 10:01:01 -0700
+Message-ID: <CANCZdfpbw1fPXEQzXS+epVOY=TetEguC70Y5t8kaPf-G+fC13Q@mail.gmail.com>
+Subject: Re: [PATCH 4/9] bsd-user: Two helper routines oidfmt and sysctl_oldcvt
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, 
+ Kyle Evans <kevans@freebsd.org>, f4bug@amsat.org, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Stacey Son <sson@freebsd.org>,
+ Sean Bruno <sbruno@freebsd.org>, Juergen Lock <nox@jelal.kn-bremen.de>,
+ Raphael Kubo da Costa <rakuco@freebsd.org>
+Content-Type: multipart/alternative; boundary="0000000000001e8f4005f483ad4f"
+Received-SPF: none client-ip=2a00:1450:4864:20::529;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -157,70 +88,246 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+--0000000000001e8f4005f483ad4f
+Content-Type: text/plain; charset="UTF-8"
 
-On 28/01/2023 1:37, Alex Williamson wrote:
-> External email: Use caution opening links or attachments
+Hey Richard
+
+Thanks for the very interesting question... This kept me up...
+
+Kyle,
+
+Please double check what I've written below to make sure I've not missed
+anything.
+This might well be the source of some of the weird errors we're seeing on
+some
+ports, but sysctl is rare enough I'm guessing that any of the overflows are
+in the
+end benign.
+
+On Sat, Feb 11, 2023 at 9:11 PM Warner Losh <imp@bsdimp.com> wrote:
+
 >
 >
-> On Thu, 26 Jan 2023 20:49:41 +0200
-> Avihai Horon <avihaih@nvidia.com> wrote:
+> On Sat, Feb 11, 2023 at 3:17 PM Richard Henderson <
+> richard.henderson@linaro.org> wrote:
 >
->> From: Joao Martins <joao.m.martins@oracle.com>
+>> On 2/10/23 13:18, Warner Losh wrote:
+>> > +static int sysctl_oldcvt(void *holdp, size_t *holdlen, uint32_t kind)
+>> > +{
+>> > +    switch (kind & CTLTYPE) {
+>> > +    case CTLTYPE_INT:
+>> > +    case CTLTYPE_UINT:
+>> > +        *(uint32_t *)holdp = tswap32(*(uint32_t *)holdp);
+>> > +        break;
+>> > +
+>> > +#ifdef TARGET_ABI32
+>> > +    case CTLTYPE_LONG:
+>> > +    case CTLTYPE_ULONG:
+>> > +        /*
+>> > +         * If the sysctl has a type of long/ulong but seems to be
+>> bigger than
+>> > +         * these data types, its probably an array.  Double check that
+>> its
+>> > +         * evenly divisible by the size of long and convert holdp to a
+>> series of
+>> > +         * 32bit elements instead, adjusting holdlen to the new size.
+>> > +         */
+>> > +        if ((*holdlen > sizeof(abi_ulong)) &&
+>> > +            ((*holdlen % sizeof(abi_ulong)) == 0)) {
+>> > +            int array_size = *holdlen / sizeof(long);
+>> > +            int i;
+>> > +            if (holdp) {
+>> > +                for (i = 0; i < array_size; i++) {
+>> > +                    ((uint32_t *)holdp)[i] = tswap32(((long
+>> *)holdp)[i]);
+>> > +                }
+>> > +                *holdlen = array_size * sizeof(abi_ulong);
+>> > +            } else {
+>> > +                *holdlen = sizeof(abi_ulong);
+>> > +            }
+>> > +        } else {
+>> > +            *(uint32_t *)holdp = tswap32(*(long *)holdp);
+>> > +            *holdlen = sizeof(uint32_t);
 >>
->> Add device dirty page bitmap sync functionality. This uses the device
->> DMA logging uAPI to sync dirty page bitmap from the device.
+>> This is totally confusing.  Why would it ever be an array?
+>> Why is this section the only place we ever assign back into holdlen?
 >>
->> Device dirty page bitmap sync is used only if all devices within a
->> container support device dirty page tracking.
+>> Can you point to anything similar in the freebsd source?  The whole thing
+>> is pretty hard
+>> to track, starting from sys/kern/kern_sysctl.c.
 >>
->> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
->> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
->> ---
->>   hw/vfio/common.c | 93 ++++++++++++++++++++++++++++++++++++++++++------
->>   1 file changed, 82 insertions(+), 11 deletions(-)
->>
->> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->> index 3caa73d6f7..0003f2421d 100644
->> --- a/hw/vfio/common.c
->> +++ b/hw/vfio/common.c
->> @@ -355,6 +355,9 @@ static void vfio_bitmap_dealloc(VFIOBitmap *vbmap)
->>       g_free(vbmap);
->>   }
->>
->> +static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
->> +                                 uint64_t size, ram_addr_t ram_addr);
->> +
->>   bool vfio_mig_active(void)
->>   {
->>       VFIOGroup *group;
->> @@ -582,10 +585,19 @@ static int vfio_dma_unmap(VFIOContainer *container,
->>           .iova = iova,
->>           .size = size,
->>       };
->> +    int ret;
->>
->> -    if (iotlb && container->dirty_pages_supported &&
->> -        vfio_devices_all_running_and_mig_active(container)) {
->> -        return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
->> +    if (iotlb && vfio_devices_all_running_and_mig_active(container)) {
->> +        if (!vfio_devices_all_device_dirty_tracking(container) &&
->> +            container->dirty_pages_supported) {
->> +            return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
->> +        }
->> +
->> +        ret = vfio_get_dirty_bitmap(container, iova, size,
->> +                                    iotlb->translated_addr);
->> +        if (ret) {
->> +            return ret;
->> +        }
-> Isn't the ordering backwards here?  Only after the range is unmapped
-> can we know that this container can no longer dirty pages within the
-> range.
+>
+> I need to understand this... I've been looking for where we export an
+> array, and we just don't.
+>
+> I've asked the original author who said it had something to do with
+> different size longs. I'll
+> look into that a bit and get back to this.
+>
+> I think we assign back into holdlen in a weird attempt adjust for the
+> difference of LONG between
+> the two. But I'm not sure that that's where we should assign.
+>
 
-Oops, I thought that it's OK to query the dirty bitmap when we get the 
-vIOMMU unmap notification.
-I will reverse the order.
+OK. I understand what's going on. If you look at kern_sysctl.c
+sysctl_old_ddb or
+sbin/sysctl/sysctl.c show_var, you'll see that these values canbe arrays.
+This code
+only implements the array part for long and ulong, most likely because
+that's
+all that was encountered in the field.
 
-Thanks.
+ So the code is right, as far as it goes.... But if the value is bigger
+than a long, it
+will be truncated, which strikes me as a rather weird thing to do since
+most longs
+are for sizes of things, so I'd think it would be better to saturate.
 
+We also adjust the length here because the host's memory requirements
+are larger than tha targets. This also means that we're likely returning an
+error for long/ulong fetches since the target would pass in 4 and the host
+would want 8, and would return ENOMEM. There's no code to cope with
+this at all, but I think there needs to be a temporary host buffer that's
+then copied to the target buffer once it's converted. So I need to write
+that code.
+
+Also, this code doesn't handle the newer types that FreeBSD has grown
+in the last few years: _{S,U}{8,16,32,64}. At least those are fixed between
+the two different ABIs that freebsd supports (ILP32 and LP64).
+
+Also, there's a size issue. *holdlen is a size_t, so we need to do a similar
+brokering for ABI32 targets. The interface is such that we need to
+read/write
+this variable because that's what the kernel is doing (reading it to make
+sure
+it's big enough, and then writing it to the actual size).
+
+Also (not relevant to this patch), we must not set sysctls very often. newp
+needs similar treatment tooldp (except the reverse direction), but isn't
+getting any of the tswaptreatment, so it's broken for long/ulong types as
+well
+as on powerpc which we have out-of-tree now and is the only big-endian
+port we have left.
+
+tl;dr: I think I'm going to have to do a bit of a rewrite here...
+
+Warner
+
+--0000000000001e8f4005f483ad4f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hey Richard</div><div><br></div><div>Thanks for the v=
+ery interesting question... This kept me up...</div><div><br></div><div>Kyl=
+e,</div><div><br></div><div>Please double check what I&#39;ve written below=
+ to make sure I&#39;ve not missed anything.</div><div>This might well be th=
+e source of some of the weird errors we&#39;re seeing on some</div><div>por=
+ts, but sysctl is rare enough I&#39;m guessing that any of the overflows ar=
+e in the</div><div>end benign.<br></div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Sat, Feb 11, 2023 at 9:11 PM Warner Lo=
+sh &lt;<a href=3D"mailto:imp@bsdimp.com">imp@bsdimp.com</a>&gt; wrote:<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><di=
+v dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cla=
+ss=3D"gmail_attr">On Sat, Feb 11, 2023 at 3:17 PM Richard Henderson &lt;<a =
+href=3D"mailto:richard.henderson@linaro.org" target=3D"_blank">richard.hend=
+erson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex">On 2/10/23 13:18, Warner Losh wrote:<br>
+&gt; +static int sysctl_oldcvt(void *holdp, size_t *holdlen, uint32_t kind)=
+<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 switch (kind &amp; CTLTYPE) {<br>
+&gt; +=C2=A0 =C2=A0 case CTLTYPE_INT:<br>
+&gt; +=C2=A0 =C2=A0 case CTLTYPE_UINT:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 *(uint32_t *)holdp =3D tswap32(*(uint32_t=
+ *)holdp);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +<br>
+&gt; +#ifdef TARGET_ABI32<br>
+&gt; +=C2=A0 =C2=A0 case CTLTYPE_LONG:<br>
+&gt; +=C2=A0 =C2=A0 case CTLTYPE_ULONG:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* If the sysctl has a type of long/=
+ulong but seems to be bigger than<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* these data types, its probably an=
+ array.=C2=A0 Double check that its<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* evenly divisible by the size of l=
+ong and convert holdp to a series of<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* 32bit elements instead, adjusting=
+ holdlen to the new size.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((*holdlen &gt; sizeof(abi_ulong)) &am=
+p;&amp;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ((*holdlen % sizeof(abi_ulo=
+ng)) =3D=3D 0)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int array_size =3D *holdlen=
+ / sizeof(long);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int i;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (holdp) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D 0;=
+ i &lt; array_size; i++) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ ((uint32_t *)holdp)[i] =3D tswap32(((long *)holdp)[i]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *holdlen =3D =
+array_size * sizeof(abi_ulong);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *holdlen =3D =
+sizeof(abi_ulong);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *(uint32_t *)holdp =3D tswa=
+p32(*(long *)holdp);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *holdlen =3D sizeof(uint32_=
+t);<br>
+<br>
+This is totally confusing.=C2=A0 Why would it ever be an array?<br>
+Why is this section the only place we ever assign back into holdlen?<br>
+<br>
+Can you point to anything similar in the freebsd source?=C2=A0 The whole th=
+ing is pretty hard <br>
+to track, starting from sys/kern/kern_sysctl.c.<br></blockquote><div><br></=
+div><div>I need to understand this... I&#39;ve been looking for where we ex=
+port an array, and we just don&#39;t.</div><div><br></div><div>I&#39;ve ask=
+ed the original author who said it had something to do with different size =
+longs. I&#39;ll</div><div>look into that a bit and get back to this.</div><=
+div><br></div><div>I think we assign back into holdlen=C2=A0in a weird atte=
+mpt adjust for the difference of LONG between</div><div>the two. But I&#39;=
+m not sure that that&#39;s where we should assign.</div></div></div></block=
+quote><div><br></div><div>OK. I understand what&#39;s going on. If you look=
+ at kern_sysctl.c sysctl_old_ddb or</div><div>sbin/sysctl/sysctl.c show_var=
+, you&#39;ll see that these values canbe arrays. This code</div><div>only i=
+mplements the array part for long and ulong, most likely because that&#39;s=
+</div><div>all that was encountered in the field.</div><div><br></div><div>=
+=C2=A0So the code is right, as far as it goes.... But if the value is bigge=
+r than a long, it</div><div>will be truncated, which strikes me as a rather=
+ weird thing to do since most longs</div><div>are for sizes of things, so I=
+&#39;d think it would be better to saturate.</div><div><br></div><div>We al=
+so adjust the length here because the host&#39;s memory requirements</div><=
+div>are larger than tha targets. This also means that we&#39;re likely retu=
+rning an</div><div>error for long/ulong fetches since the target would pass=
+ in 4 and the host</div><div>would want 8, and would return ENOMEM. There&#=
+39;s no code to cope with</div><div>this at all, but I think there needs to=
+ be a temporary host buffer that&#39;s</div><div>then copied to the target =
+buffer once it&#39;s converted. So I need to write</div><div>that code.</di=
+v><div><br></div><div>Also, this code doesn&#39;t handle the newer types th=
+at FreeBSD has grown</div><div>in the last few years: _{S,U}{8,16,32,64}. A=
+t least those are fixed between</div><div>the two different ABIs that freeb=
+sd supports (ILP32 and LP64).</div><div><br></div><div>Also, there&#39;s a =
+size issue. *holdlen is a size_t, so we need to do a similar</div><div>brok=
+ering for ABI32 targets. The interface is such that we need to read/write</=
+div><div>this variable because that&#39;s what the kernel is doing (reading=
+ it to make sure</div><div>it&#39;s big enough, and then writing it to the =
+actual size).</div><div><br></div><div>Also (not relevant to this patch), w=
+e must not set sysctls very often. newp</div><div>needs similar treatment t=
+ooldp (except the reverse direction), but isn&#39;t</div><div>getting any o=
+f the tswaptreatment, so it&#39;s broken for long/ulong types as well</div>=
+<div>as on powerpc which we have out-of-tree now and is the only big-endian=
+</div><div>port we have left.</div><div><br></div><div>tl;dr: I think I&#39=
+;m going to have to do a bit of a rewrite here...</div><div><br></div><div>=
+Warner<br></div></div></div>
+
+--0000000000001e8f4005f483ad4f--
 
