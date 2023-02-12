@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90707693AB1
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 23:54:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6C0A693AAA
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 23:53:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRLDQ-0006rJ-Q5; Sun, 12 Feb 2023 17:53:00 -0500
+	id 1pRLDY-0007EY-C4; Sun, 12 Feb 2023 17:53:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRLDA-0006hK-Lt
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 17:52:44 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRLDF-0006yK-Dd
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 17:52:51 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRLD8-00046u-VD
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 17:52:44 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id u10so7536732wmj.3
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 14:52:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRLDD-00040T-Lx
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 17:52:49 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ az4-20020a05600c600400b003dff767a1f1so7765007wmb.2
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 14:52:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VotmsYo6EZx1VvqMFkr1+QDMy3wRb1XAiA9w0UCQyq8=;
- b=Ywlz/uy9Jxzl38ShTUU5KnBeIep9MrDy9Q2HGidtumag+9jQvq+5/fe3Yk6paa7HEP
- 4qkuGAr3GMkfEjTjfqankAwmcMsCumxRjumc0e7qrOGS2OzuRDv1Laik5MtWf5kkTB+J
- 9HmTTfVFfzhPQmnxiMh3ydpbbqOQrvxj3Fpq6GxC3q3IsSdDsBvgzGU7qsd/2TDFDYvG
- q+X0pQUvlhul+Fy5x3IYIAXKPS7JGU7vVynI+QIoyf1HnmH9cncbk8IsEY35GBb38KHU
- qbEK286zA53KkRWJcHPr1S/jzAbddbIaKH1hokAF/ZDDBON9oqTC2+kB7IdBnkBc2xzt
- JycA==
+ bh=fD8XsrjHaA7eijBs8OwmQ3XFemQ30TcP+DXj6h7knEg=;
+ b=q0W+X9xbRaw7fVi7Mdp/WWatdkTm+Q+44jmjN9sFJ1HWn89XJMmxLzr/HnzMjIWwTv
+ u54H1gvj5F/GHcG3oKpbV93tNUT8XOMxhtwqON8UMuYX+D0T3BbAuKvuRfXHVCAD55Xf
+ cq3CCLbGSdyRCdaH+YCxKRzxU+TjXX4BZeVzskhVQbQ/XuyXbgJKz1QHeW6MnZM+MUkN
+ e+afSxlsEhxzQBtMmauUEZ925IWr0liNzlqa+13cH7lVxlRfHZOyYYVlCyHhpgIJXawC
+ ogeZd9AQNu5BwkdVmVulYWZRHIXZBEC5EGYVhOjLUVkHHZErVTPkXB+at+Q2FlgheGea
+ 6ZVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VotmsYo6EZx1VvqMFkr1+QDMy3wRb1XAiA9w0UCQyq8=;
- b=e98+OUU8/826FAjcsiS+b8n7GfpJ7Ins+cjNHChmevT8L6IYZQl58yhoEWslDPHz+Y
- KRLtEwXHESZUgXXKVOaL7xXaMLVsHpQtD5f5sNv4wyJtk/3ATun8NIBP3h6IEdtQCARm
- g4lFdIjAmrdGe1Cftm5GRFFHHrpcC+q340xK1jL9arcmts2rRQycEoaC8c/zu7N/8ffN
- bC15jK/rMFqU5SlKPd6YkXah61u5rDHqIsYQuiVEUplLmk8Wa4SMP3qCbr5xA2y+HW5M
- b3IueUVfhVt85MBb6ptFrHcAQtPsdVZWgSMHPKqZo+Glp3JfQ4FrxULl71xafLTI/kPu
- YLuw==
-X-Gm-Message-State: AO0yUKVDmt4wfwbo/AqNWSXYvt4ZSXPM37LamLl8tsOhvc4180OOtItD
- oXqW7YtT1z6MVQwi5FRIvoIJcA==
-X-Google-Smtp-Source: AK7set/MkRBDwyU2o5NvHsna4T9N9lZrt4alhNmJlxwcMpMATSGkB3xPHQjWOxN4zzJPDydUo3SMDQ==
-X-Received: by 2002:a05:600c:a290:b0:3dc:5a9f:1c7a with SMTP id
- hu16-20020a05600ca29000b003dc5a9f1c7amr17931410wmb.30.1676242361653; 
- Sun, 12 Feb 2023 14:52:41 -0800 (PST)
+ bh=fD8XsrjHaA7eijBs8OwmQ3XFemQ30TcP+DXj6h7knEg=;
+ b=K/jHmBh32hWDgmJIYsN2CHsQp3VMqeOdX6whTzkyeUvjNSagBIoc53kR7qRBCQgm49
+ d8dIssHAjNwNlXn29kfqZKfPhyi0m0gZaSuD980bZ2DuKfDh1k3oyjXO5pIpbTrs3J60
+ iD/uTSysQW5+aE01XyJ+82Q3ckziHq0vJ31UGyH3FtgSa7IVoLO174Ayido/kexOaCeU
+ 7lOkRpNSUVvr2FzmwB6EDCNuPtEuAhrJJKp6uXeypdMJswm3DxupcW4tXo0LiWqIjIIi
+ p1mOp7vMrF01pJAOCy87iaG99kXeilOKYCLU5SCHYwmgZp6U723c5yjNE8kUk+YXnDgK
+ KPvw==
+X-Gm-Message-State: AO0yUKV8+R6JzA4ACqlzpakBGotFePb59AU7rNgWcbaHIERcNI/pyID1
+ KIy+4I3BpVbxPN50DFpN3oKKLA==
+X-Google-Smtp-Source: AK7set/WKgnXdI79rkt8qNX2r2WmUg8gKiBTsR0tN6EH20J1MINOpOAKtXu8U21ZRM8ABx4ljCZT7A==
+X-Received: by 2002:a05:600c:30d2:b0:3dc:4fd7:31f7 with SMTP id
+ h18-20020a05600c30d200b003dc4fd731f7mr16490756wmn.41.1676242366923; 
+ Sun, 12 Feb 2023 14:52:46 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- i14-20020adff30e000000b00241fab5a296sm9102845wro.40.2023.02.12.14.52.40
+ v15-20020adfebcf000000b002c3f81c51b6sm9089746wrn.90.2023.02.12.14.52.45
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 12 Feb 2023 14:52:41 -0800 (PST)
+ Sun, 12 Feb 2023 14:52:46 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: Eduardo Habkost <eduardo@habkost.net>,
 	qemu-devel@nongnu.org
@@ -61,26 +62,25 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  qemu-s390x@nongnu.org, Gonglei Arei <arei.gonglei@huawei.com>,
  Cao jin <caoj.fnst@cn.fujitsu.com>, Li Qiang <liq3ea@163.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Jason Wang <jasowang@redhat.com>
-Subject: [PATCH 10/19] hw/net/ne2000-pci: Replace DO_UPCAST(PCINE2000State) by
- PCI_NE2000()
-Date: Sun, 12 Feb 2023 23:51:35 +0100
-Message-Id: <20230212225144.58660-11-philmd@linaro.org>
+ Sven Schnelle <svens@stackframe.org>, Jason Wang <jasowang@redhat.com>
+Subject: [PATCH 11/19] hw/net/tulip: Finish QOM conversion
+Date: Sun, 12 Feb 2023 23:51:36 +0100
+Message-Id: <20230212225144.58660-12-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230212225144.58660-1-philmd@linaro.org>
 References: <20230212225144.58660-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,73 +96,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Define TYPE_PCI_NE2000 and the QOM PCI_NE2000() macro.
-Use PCI_NE2000() instead of DO_UPCAST().
+Use the TULIP() and DEVICE() QOM type-checking macros.
+Remove uses of DO_UPCAST().
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/net/ne2000-pci.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ hw/net/tulip.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/hw/net/ne2000-pci.c b/hw/net/ne2000-pci.c
-index edc6689d33..0332e7f616 100644
---- a/hw/net/ne2000-pci.c
-+++ b/hw/net/ne2000-pci.c
-@@ -30,10 +30,16 @@
- #include "ne2000.h"
- #include "sysemu/sysemu.h"
+diff --git a/hw/net/tulip.c b/hw/net/tulip.c
+index 915e5fb595..990507859d 100644
+--- a/hw/net/tulip.c
++++ b/hw/net/tulip.c
+@@ -19,7 +19,10 @@
+ #include "net/eth.h"
  
--typedef struct PCINE2000State {
-+#define TYPE_PCI_NE2000 "ne2k_pci"
-+OBJECT_DECLARE_SIMPLE_TYPE(PCINE2000State, PCI_NE2000)
-+
-+struct PCINE2000State {
+ struct TULIPState {
 +    /*< private >*/
      PCIDevice dev;
 +    /*< public >*/
 +
-     NE2000State ne2000;
--} PCINE2000State;
-+};
+     MemoryRegion io;
+     MemoryRegion memory;
+     NICConf c;
+@@ -959,7 +962,7 @@ static void tulip_fill_eeprom(TULIPState *s)
  
- static const VMStateDescription vmstate_pci_ne2000 = {
-     .name = "ne2000",
-@@ -54,7 +60,7 @@ static NetClientInfo net_ne2000_info = {
- 
- static void pci_ne2000_realize(PCIDevice *pci_dev, Error **errp)
+ static void pci_tulip_realize(PCIDevice *pci_dev, Error **errp)
  {
--    PCINE2000State *d = DO_UPCAST(PCINE2000State, dev, pci_dev);
-+    PCINE2000State *d = PCI_NE2000(pci_dev);
-     NE2000State *s;
+-    TULIPState *s = DO_UPCAST(TULIPState, dev, pci_dev);
++    TULIPState *s = TULIP(pci_dev);
      uint8_t *pci_conf;
  
-@@ -77,7 +83,7 @@ static void pci_ne2000_realize(PCIDevice *pci_dev, Error **errp)
+     pci_conf = s->dev.config;
+@@ -967,7 +970,7 @@ static void pci_tulip_realize(PCIDevice *pci_dev, Error **errp)
  
- static void pci_ne2000_exit(PCIDevice *pci_dev)
- {
--    PCINE2000State *d = DO_UPCAST(PCINE2000State, dev, pci_dev);
-+    PCINE2000State *d = PCI_NE2000(pci_dev);
-     NE2000State *s = &d->ne2000;
+     qemu_macaddr_default_if_unset(&s->c.macaddr);
  
-     qemu_del_nic(s->nic);
-@@ -87,7 +93,7 @@ static void pci_ne2000_exit(PCIDevice *pci_dev)
- static void ne2000_instance_init(Object *obj)
- {
-     PCIDevice *pci_dev = PCI_DEVICE(obj);
--    PCINE2000State *d = DO_UPCAST(PCINE2000State, dev, pci_dev);
-+    PCINE2000State *d = PCI_NE2000(pci_dev);
-     NE2000State *s = &d->ne2000;
+-    s->eeprom = eeprom93xx_new(&pci_dev->qdev, 64);
++    s->eeprom = eeprom93xx_new(DEVICE(pci_dev), 64);
+     tulip_fill_eeprom(s);
  
-     device_add_bootindex_property(obj, &s->c.bootindex,
-@@ -117,7 +123,7 @@ static void ne2000_class_init(ObjectClass *klass, void *data)
+     memory_region_init_io(&s->io, OBJECT(&s->dev), &tulip_ops, s,
+@@ -983,27 +986,26 @@ static void pci_tulip_realize(PCIDevice *pci_dev, Error **errp)
+ 
+     s->nic = qemu_new_nic(&net_tulip_info, &s->c,
+                           object_get_typename(OBJECT(pci_dev)),
+-                          pci_dev->qdev.id, s);
++                          DEVICE(pci_dev)->id, s);
+     qemu_format_nic_info_str(qemu_get_queue(s->nic), s->c.macaddr.a);
  }
  
- static const TypeInfo ne2000_info = {
--    .name          = "ne2k_pci",
-+    .name          = TYPE_PCI_NE2000,
-     .parent        = TYPE_PCI_DEVICE,
-     .instance_size = sizeof(PCINE2000State),
-     .class_init    = ne2000_class_init,
+ static void pci_tulip_exit(PCIDevice *pci_dev)
+ {
+-    TULIPState *s = DO_UPCAST(TULIPState, dev, pci_dev);
++    TULIPState *s = TULIP(pci_dev);
+ 
+     qemu_del_nic(s->nic);
+     qemu_free_irq(s->irq);
+-    eeprom93xx_free(&pci_dev->qdev, s->eeprom);
++    eeprom93xx_free(DEVICE(s), s->eeprom);
+ }
+ 
+ static void tulip_instance_init(Object *obj)
+ {
+-    PCIDevice *pci_dev = PCI_DEVICE(obj);
+-    TULIPState *d = DO_UPCAST(TULIPState, dev, pci_dev);
++    TULIPState *s = TULIP(obj);
+ 
+-    device_add_bootindex_property(obj, &d->c.bootindex,
++    device_add_bootindex_property(obj, &s->c.bootindex,
+                                   "bootindex", "/ethernet-phy@0",
+-                                  &pci_dev->qdev);
++                                  DEVICE(obj));
+ }
+ 
+ static Property tulip_properties[] = {
 -- 
 2.38.1
 
