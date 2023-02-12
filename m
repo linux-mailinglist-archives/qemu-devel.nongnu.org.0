@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE488693765
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 13:45:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F240369376C
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Feb 2023 13:47:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRBiB-0004iV-L2; Sun, 12 Feb 2023 07:44:08 -0500
+	id 1pRBiZ-0005ah-UT; Sun, 12 Feb 2023 07:44:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pRBdK-0007hh-W1; Sun, 12 Feb 2023 07:39:08 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
+ id 1pRBdO-0007lI-5d; Sun, 12 Feb 2023 07:39:10 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pRBdI-0001J7-Ed; Sun, 12 Feb 2023 07:39:06 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id sb24so1914117ejb.8;
- Sun, 12 Feb 2023 04:39:03 -0800 (PST)
+ id 1pRBdM-0001QS-9F; Sun, 12 Feb 2023 07:39:09 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id jg8so25874725ejc.6;
+ Sun, 12 Feb 2023 04:39:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LEU93Wx4BA8i3bA5LtOhAUmc0Begw/dol5OJq6wYHaM=;
- b=lpFOH0rdwfHvhvusVfWsMnxYEayP+92QgnqqjJyHaQ4KqYW99Q9RSWhLkv/gjytiWx
- FAfbsvnJmlDiGcfw7RCDq2WtjSy70svmeFUz7V017co8krt61FjCjnIy9uVRF2hDbPyA
- +Dw/a0LYvSrlhneoOg6RKtDQeAo+vAZPMXTqrHsrNVtm3Ok1QndStw7ZXgGLcPPDlfKl
- w9JQtEAqSebN5p/EH+WiETVt+JCEsWIX8ktE6X1L7vHYMfMbBcSZNV6Ah7/D3Ip1LzE7
- f0W32l9KlRKD68LRVwVKu9cF6MJ6n1ePw/5er+g/9wsNUjUGy1kFr1LdFTFlhNbyG+Ot
- Z5Rg==
+ bh=uJKX+iHDZZxUElS601grp2c7YsdwIFko9wLSh73qHuo=;
+ b=bUWDIuQ1XkIeu2xP6zC6iU8fxx1Ajw1Og1tMbsjXgD6jwGOWRP74wLjLOvbeMAp8sR
+ 7APi1Iz4HCObfmJWPjEzN6fgvn2aHKSKAD1BI/lIHwQCCaXXYjmbUAeUfBXt5tgyBHSP
+ Qm8IoAnQ0mKXxbN3rSYunHb6MruthXoqA0Wp89iDR2sv8s9kY2RDwuObC3rXrJ0tFn4n
+ AEYTq9v2UJagsPS7RAJdX9ZAWxr2Eh2uOO0+dUiuBxJIzwfI06OOzLY9pQTa9nag3u//
+ n/dVaDrkDDReYoavXdQV7S9NhWdK08B0eDYQwKytdd6a/1a+kRepbjv1oRW3U4Z/mO/A
+ qb9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LEU93Wx4BA8i3bA5LtOhAUmc0Begw/dol5OJq6wYHaM=;
- b=B5x3bJa8AgcaV6VN0HKCTwb+n42Bdsc0WKe6Xt7O7mXwVq/aiwRTUZB32jyN0W1ufz
- 6zYAw4zTFrLhKOa2SKMCR6ZyHNBnlieNNR26uSRvy72hqj+9GTwTj1y6j2XXKnEtw9N6
- SNc+DPr09hMyiJsHEVfVvFABTV0qYGs82qgp4jlBBkugWS20nmvk8OS9vypD3pY/tDcI
- T3upd413fV2t7+L6MKFI+CUVsTMTi4OlornLB6MiwwYjFo377VStsahEAI6vMB/4VTDf
- vnJJMrFzag5E5ZI9H23LBILIEsbqYUBVEeoA+C7EqZ0xB9DV4OAVBChuOyMY0wYrNKpg
- Jaag==
-X-Gm-Message-State: AO0yUKWQXC9aCXqiB/hd3l9aibayiHSHGGcuNb2RWtBGmme+Dp7PcRVp
- 64hdIgAH6DrrTp8kbK2areJK7XRoTaA=
-X-Google-Smtp-Source: AK7set8Yxh+Ul9OaBeFi9j6T3b2thW3WdMDa7eBDR3Tqwc8CDgsa1Mc3uIxPGd0SMGi3gKxjalg3QQ==
-X-Received: by 2002:a17:907:1707:b0:877:5dbc:da84 with SMTP id
- le7-20020a170907170700b008775dbcda84mr22586430ejc.72.1676205542661; 
- Sun, 12 Feb 2023 04:39:02 -0800 (PST)
+ bh=uJKX+iHDZZxUElS601grp2c7YsdwIFko9wLSh73qHuo=;
+ b=M058HQnvB0aB8k9UdhqP7irYnjaNNu1N0CfhR+3thCUT0+R+sPn6/m3VNdnEqRg4Pa
+ SvNCapaXJdJXjzyOUFbxVxcxeuB78sKcmOqj3IPmejHEjvZcBkQXTG0IAE8wBiVzRE7k
+ edReUSGwCcMZ81m30QTUmR10W4Zj508lvB2CVk3F8kh83QIYp+LcD1h2xF9FSWntxl6s
+ 2/CYno0LBSHvGls+EJY0FdfZe5TnfZ/Zn5QYE1gnRkDv5HbjY3WNXb2+47zggNvRZRkq
+ d8yBny5MQ/DMOoU0WIRVH7Q6W0O+BKFCnxf4WGSr+sofQGH1DJHNrgmo28Zcqgx2Lei0
+ R6YA==
+X-Gm-Message-State: AO0yUKV51u5+3sFZZ0TFG2RVJOz/GhHgIzTJg/ekzWWveJaqDPPpzDdo
+ IJBNtDRnAf/edmK9pNQ5E0vzQ4fTMLg=
+X-Google-Smtp-Source: AK7set8Bt3cCxIHp4Ru4PCN+yrQM7tVY0EdTONLKTLKooR9K4aMfnkDODw1NmefVNG3VuZ6HiHYngg==
+X-Received: by 2002:a17:906:69c6:b0:881:f614:44ed with SMTP id
+ g6-20020a17090669c600b00881f61444edmr24813537ejs.30.1676205544114; 
+ Sun, 12 Feb 2023 04:39:04 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-077-011-172-153.77.11.pool.telefonica.de. [77.11.172.153])
  by smtp.gmail.com with ESMTPSA id
- qw14-20020a170906fcae00b008af1f1bee79sm5233164ejb.9.2023.02.12.04.38.59
+ qw14-20020a170906fcae00b008af1f1bee79sm5233164ejb.9.2023.02.12.04.39.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Feb 2023 04:39:01 -0800 (PST)
+ Sun, 12 Feb 2023 04:39:03 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
@@ -73,17 +73,18 @@ Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Igor Mammedov <imammedo@redhat.com>,
  John G Johnson <john.g.johnson@oracle.com>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v7 16/23] hw/isa/piix4: Create the "intr" property during
- init() already
-Date: Sun, 12 Feb 2023 13:37:58 +0100
-Message-Id: <20230212123805.30799-17-shentey@gmail.com>
+Subject: [PATCH v7 17/23] hw/isa/piix4: Rename reset control operations to
+ match PIIX3
+Date: Sun, 12 Feb 2023 13:37:59 +0100
+Message-Id: <20230212123805.30799-18-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230212123805.30799-1-shentey@gmail.com>
 References: <20230212123805.30799-1-shentey@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -106,41 +107,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Only PIIX4 provides this property while PIIX3 doesn't.
-
-Unlike initialize() methods, init() methods allow for device-specific
-quirks without having to call the parent method. So move the creation of
-the property into PIIX4's init() method as a preparation of the code
-merge and the subsequent cleanup of the realize methods.
+Both implementations are the same and will be shared upon merging.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <20221022150508.26830-35-shentey@gmail.com>
 ---
- hw/isa/piix4.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/isa/piix4.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index df22c81cc2..7d4a66af49 100644
+index 7d4a66af49..4538676ea5 100644
 --- a/hw/isa/piix4.c
 +++ b/hw/isa/piix4.c
-@@ -176,9 +176,6 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+@@ -133,8 +133,8 @@ static void piix4_request_i8259_irq(void *opaque, int irq, int level)
+     qemu_set_irq(s->cpu_intr, level);
+ }
+ 
+-static void piix4_rcr_write(void *opaque, hwaddr addr, uint64_t val,
+-                            unsigned int len)
++static void rcr_write(void *opaque, hwaddr addr, uint64_t val,
++                      unsigned int len)
+ {
+     PIIXState *s = opaque;
+ 
+@@ -146,16 +146,16 @@ static void piix4_rcr_write(void *opaque, hwaddr addr, uint64_t val,
+     s->rcr = val & 2; /* keep System Reset type only */
+ }
+ 
+-static uint64_t piix4_rcr_read(void *opaque, hwaddr addr, unsigned int len)
++static uint64_t rcr_read(void *opaque, hwaddr addr, unsigned int len)
+ {
+     PIIXState *s = opaque;
+ 
+     return s->rcr;
+ }
+ 
+-static const MemoryRegionOps piix4_rcr_ops = {
+-    .read = piix4_rcr_read,
+-    .write = piix4_rcr_write,
++static const MemoryRegionOps rcr_ops = {
++    .read = rcr_read,
++    .write = rcr_write,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+     .impl = {
+         .min_access_size = 1,
+@@ -176,7 +176,7 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
          return;
      }
  
--    qdev_init_gpio_out_named(DEVICE(dev), &s->cpu_intr,
--                             "intr", 1);
--
-     memory_region_init_io(&s->rcr_mem, OBJECT(dev), &piix4_rcr_ops, s,
+-    memory_region_init_io(&s->rcr_mem, OBJECT(dev), &piix4_rcr_ops, s,
++    memory_region_init_io(&s->rcr_mem, OBJECT(dev), &rcr_ops, s,
                            "reset-control", 1);
      memory_region_add_subregion_overlap(pci_address_space_io(dev),
-@@ -239,6 +236,8 @@ static void piix4_init(Object *obj)
- {
-     PIIXState *s = PIIX_PCI_DEVICE(obj);
- 
-+    qdev_init_gpio_out_named(DEVICE(obj), &s->cpu_intr, "intr", 1);
-+
-     object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
-     object_initialize_child(obj, "ide", &s->ide, TYPE_PIIX4_IDE);
- }
+                                         PIIX_RCR_IOPORT, &s->rcr_mem, 1);
 -- 
 2.39.1
 
