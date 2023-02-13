@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18DEC6946F5
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 14:27:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A408E6946FC
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 14:27:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRYqu-0006VS-M8; Mon, 13 Feb 2023 08:26:41 -0500
+	id 1pRYrp-0007Ja-Az; Mon, 13 Feb 2023 08:27:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRYqI-0006Tv-Kl
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 08:26:13 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRYrb-0007Iw-Tv
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 08:27:27 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRYqF-0006nN-D6
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 08:26:01 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id n33so2692157wms.0
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 05:25:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRYra-0007Dk-9M
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 08:27:23 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id by3so10903321wrb.10
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 05:27:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=l2W4wuwDVZ1RsnuJP0+S4eoWgL7Bmi6pdUcoaEe/Fp8=;
- b=jd4lvcZ2nPue1WGv2tcrh7TysddpMuh8sWXY3LAZm7SuYT4GNIQaQqiX1s0KUFkoGh
- tTIfJAXai/W64Xn1IEwZr97p9J6JRNyJjOWcq2he5FWeE8/BzvPUMCyPhaKXiqqyxECd
- 5HlSSTOAsdcSf0Ev5w7xhF63kfrCvxiqp6rChfYcGOagMZ1qY6cBrYfKUc8nM/T2pYfo
- UfV0goSSDZz1rZoNmC4TIhm+Ppm49HaePkdTXmBHiHqrUzgtVX2KtOEte3e/V6uhv9n+
- iVbcwzgWITHLxsw5aRXL3WNWUUebfYfKASgDQ62RrVb1OXXJcptmDkbEN7OTT2IIvhYl
- DD2Q==
+ bh=RJIBKtS/lHTkghuD4YRwfAwG4vCkQ6X1h+pfowf5/Q8=;
+ b=ETBUphBKFz4MMxvs6L6pazsau5pA9i+QVzzuCzrTk6mpVudWS3FNpQPbDqtH5FiJej
+ N7mI59/xZzg0prXXHwUFusapDaLHhhGhN+eTGvhSNadScKPoQVFMtAaC/sBcgoe1qRlL
+ ti+ttBRWZ9sHtoHrfS95CSxt+aVa7+TBGICzU8FDyHL+vfjdO85VczdnYXoayp8XC3qk
+ 7vCeLuh39J9xSC79rJorUkVJseok0ZFCjejDgZeaBXkX/jWrGK+b34uum/j06QK+Rqd6
+ YPCxbVDD5+h/qy6u4DQrXlkVTPfzdF7/6ZCIkxjSR6nZMPi+r6w7+zkg8IfBp49wvNsG
+ r5GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=l2W4wuwDVZ1RsnuJP0+S4eoWgL7Bmi6pdUcoaEe/Fp8=;
- b=UmKcCvzz0+ktY0DHzaf2d94HYnKQA/oFwivPnbkyJHTpCqF5+Dr3iHC9j5KanoEYIj
- LmUf06Q6bRKaXtNj03jiT1qn+OeEyp+2HkPLUeK2U8H49o4jJilvWaJh4bvjpme6EpQY
- bA6svAGhK9x/5kjHF9OfHHwjJI0kabrdCimn4Gq8dGcLAgeoYa59vJ4YdmKiQtyZQlSI
- XN1EpdOiHBpmyhDYhS1youZQ/+x0qKpa6TbPpzz21SJa9CLU+0ZhQuIp/76txI0trpcF
- iXkyv9qAn1P1CPpuDxxrBHx3+FuKnCEtzWz5FJSSIStzuxQwIUWbXUPv2HXkfWgD5DmJ
- i0jg==
-X-Gm-Message-State: AO0yUKVoEPsmu4p2zuasIYSkoKPh0yCZZBpU5g1r/1XGMjkYY5J4MBY7
- k2651CqForvQJGConTGJuP4ihQ==
-X-Google-Smtp-Source: AK7set9UkkKOw5g4COhrRiJKFhoRirjFvtSqZNdEYqEmvOXTtPPnTcflRYSTttzW7/NSNe911D6fZw==
-X-Received: by 2002:a05:600c:2ac8:b0:3d9:fb59:c16b with SMTP id
- t8-20020a05600c2ac800b003d9fb59c16bmr18719663wme.36.1676294724576; 
- Mon, 13 Feb 2023 05:25:24 -0800 (PST)
+ bh=RJIBKtS/lHTkghuD4YRwfAwG4vCkQ6X1h+pfowf5/Q8=;
+ b=Ks5wl5L0eb/Nf9ZZBea/uWjKlunIeg1KaDtbVtBiNqc5jUUw55mYNGqYpvRRMGsqC9
+ SFNFUbqgsDvgF0rg03eGJze5Zin25nTamVaABGJweWUcovCGLVFFqRejOBzNNiJV2vLA
+ XLVODcydgKRUwrmRN3YYSOOC+nk5Q2Lvn3ADnSQLmql3kY/VhQVpWPGevVpLdG58KwjW
+ ABEtDoE9/nRIzyjMC9PNcPtgtCyrH//cZhTXQuYmpuLHvr6/Pw+bLNi3NVKUM5ViaWRs
+ IUdHyLc8yx85Ww41PkIFFJ0mVExc73+5OOUxfMTLxcbvPlTwdPI1EvNQovSpNvEdGUyT
+ mm4Q==
+X-Gm-Message-State: AO0yUKWGNQLZv70dlJZwC0D1jO1y2Q2ZBIC9xHUMsCyxqndY8K67w3A3
+ C8Q0/YAq98algvxDBCYBa7SLJA==
+X-Google-Smtp-Source: AK7set+erlPCxb5RzY4HIGBSRiV1SJyGnKRMBj965NN38VsZTDbPWorHWb5Ld+J/H18PWZrzIlVwIg==
+X-Received: by 2002:a5d:488b:0:b0:2c3:db9e:4b07 with SMTP id
+ g11-20020a5d488b000000b002c3db9e4b07mr19501876wrq.64.1676294840200; 
+ Mon, 13 Feb 2023 05:27:20 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- z4-20020a05600c220400b003dfe8c4c497sm17195195wml.39.2023.02.13.05.25.23
+ s11-20020adfeccb000000b002bfcc9d9607sm10458880wro.68.2023.02.13.05.27.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 05:25:24 -0800 (PST)
-Message-ID: <ba5a7345-0ef2-45f5-855b-b7e26919a6b1@linaro.org>
-Date: Mon, 13 Feb 2023 14:25:22 +0100
+ Mon, 13 Feb 2023 05:27:19 -0800 (PST)
+Message-ID: <d43f8d3b-2376-5004-ef92-24e3aac36af9@linaro.org>
+Date: Mon, 13 Feb 2023 14:27:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [RFC 32/52] i386: Rename X86CPUTopoInfo and its members to
- reflect relationship with APIC ID
+Subject: Re: [RFC 33/52] i386: Rename init_topo_info() to init_apic_topo_info()
 Content-Language: en-US
 To: Zhao Liu <zhao1.liu@linux.intel.com>,
  Eduardo Habkost <eduardo@habkost.net>,
@@ -72,13 +71,13 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
  Zhao Liu <zhao1.liu@intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
- <20230213095035.158240-33-zhao1.liu@linux.intel.com>
+ <20230213095035.158240-34-zhao1.liu@linux.intel.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230213095035.158240-33-zhao1.liu@linux.intel.com>
+In-Reply-To: <20230213095035.158240-34-zhao1.liu@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -104,29 +103,35 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 13/2/23 10:50, Zhao Liu wrote:
 > From: Zhao Liu <zhao1.liu@intel.com>
 > 
-> Rename X86CPUTopoInfo to X86ApicidTopoInfo, and also rename its members
-> to max_{dies, modules, cores, threads} to avoid confusion with
-> CPUState.topo.
-> 
-> Now the names can better reflect their relationship with APIC ID.
-> 
-> For hybrid CPU topology, X86ApicidTopoInfo will be different with
-> CPUState.topo and keep the maximum possible number of topology
-> structures in each topology level other than the actual topology
-> information of a certain CPU. This is required for the APIC ID under the
-> hybrid CPU topology.
+> Rename init_topo_info() to init_apic_topo_info() to adapt
+> X86ApicidTopoInfo.
 > 
 > Co-Developed-by: Zhuocheng Ding <zhuocheng.ding@intel.com>
 > Signed-off-by: Zhuocheng Ding <zhuocheng.ding@intel.com>
 > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 > ---
->   hw/i386/x86.c                | 18 ++++-----
->   include/hw/i386/topology.h   | 72 +++++++++++++++++++++++-------------
->   include/hw/i386/x86.h        |  2 +-
->   target/i386/cpu.c            | 20 +++++-----
->   tests/unit/test-x86-apicid.c | 50 ++++++++++++-------------
->   5 files changed, 91 insertions(+), 71 deletions(-)
+>   hw/i386/x86.c         | 12 ++++++------
+>   include/hw/i386/x86.h |  3 ++-
+>   2 files changed, 8 insertions(+), 7 deletions(-)
+
+
+> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+> index ac6f1e4a74af..d84f7717900c 100644
+> --- a/include/hw/i386/x86.h
+> +++ b/include/hw/i386/x86.h
+> @@ -98,7 +98,8 @@ struct X86MachineState {
+>   #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
+>   OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
+>   
+> -void init_topo_info(X86ApicidTopoInfo *topo_info, const X86MachineState *x86ms);
+> +void init_apicid_topo_info(X86ApicidTopoInfo *topo_info,
+> +                           const X86MachineState *x86ms);
+
+Maybe s/init_apicid_topo_info/init_apic_topo_info/?
+
+Otherwise,
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
 
