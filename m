@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BFB16951F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 21:35:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 155006951FE
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 21:37:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRfV0-0004oN-Il; Mon, 13 Feb 2023 15:32:30 -0500
+	id 1pRfV8-0004wX-JH; Mon, 13 Feb 2023 15:32:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pRfUx-0004ga-CB; Mon, 13 Feb 2023 15:32:27 -0500
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ id 1pRfV1-0004u0-Ve; Mon, 13 Feb 2023 15:32:32 -0500
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pRfUv-0002gl-Kr; Mon, 13 Feb 2023 15:32:27 -0500
+ id 1pRfUz-0002hF-5P; Mon, 13 Feb 2023 15:32:30 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4996C22349;
- Mon, 13 Feb 2023 20:32:24 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C79BC1FDEA;
+ Mon, 13 Feb 2023 20:32:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1676320344; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1676320347; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1T3TnKP2MjQv80C8A3VAmJwBzc5aqW5OXcCsxIF8bTY=;
- b=sANU5mPXn8QjJkBW0eFC0LzlP3Z6N4cp3ksoafKJb/NVusj5wBH399zJpSlhLDe+q5CFlx
- 8nAyPVNFP6tuw6MaPJOqSJJkZYsekiBSucs6d65ayzQbQdNmVvVqyJCPruqAPbUodGjqSO
- W5NUkx9d4JBZRSVY9UQffO3u40bvXyw=
+ bh=zVRXNM0AgsWsO2zpgPZaekbf//B8pg0/noEILVOS+ac=;
+ b=E8gg5vQIiefqVJohjV9zNKtnQseGCKgt+75eGRpWU5GmQzcZsgKBTBPZJw1zPewDWdSaSn
+ uaM+ybagOPAj5Go+cW3tLUkF9LlhzDlUJA/Jafy4nERX/6EBvBLcvy3G1P+AlfrPAgHNXa
+ qZ1vPej7PmordtXl1ubxsLPaWWxy0VY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1676320344;
+ s=susede2_ed25519; t=1676320347;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1T3TnKP2MjQv80C8A3VAmJwBzc5aqW5OXcCsxIF8bTY=;
- b=qaphAfAOMYARzI9U3/ocawfhTt6Q/DLPcZYYnfTYRcqFKCw+/InCbFJqVlD9M9+mY8c6J8
- HMp7uwLkk486VBDw==
+ bh=zVRXNM0AgsWsO2zpgPZaekbf//B8pg0/noEILVOS+ac=;
+ b=C4z+2lSEbzOl4R/qLeKQZ7vKaeDw7yREQtIPj2ohfcScmgG+rnIvdy+Q0TGPU+SIb5S7bI
+ fLLA25sdR24h0QCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 39FD81391B;
- Mon, 13 Feb 2023 20:32:21 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BD1DA1391B;
+ Mon, 13 Feb 2023 20:32:24 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 6NExAFWe6mOVMwAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 13 Feb 2023 20:32:21 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id MJ1dIFie6mOVMwAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 13 Feb 2023 20:32:24 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -58,18 +58,18 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
  Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH RESEND v5 14/28] target/arm: Move regime_using_lpae_format
- into internal.h
-Date: Mon, 13 Feb 2023 17:29:13 -0300
-Message-Id: <20230213202927.28992-15-farosas@suse.de>
+Subject: [PATCH RESEND v5 15/28] target/arm: Don't access TCG code when
+ debugging with KVM
+Date: Mon, 13 Feb 2023 17:29:14 -0300
+Message-Id: <20230213202927.28992-16-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230213202927.28992-1-farosas@suse.de>
 References: <20230213202927.28992-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -92,86 +92,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This function is needed by common code (ptw.c), so move it along with
-the other regime_* functions in internal.h. When we enable the build
-without TCG, the tlb_helper.c file will not be present.
+When TCG is disabled this part of the code should not be reachable, so
+wrap it with an ifdef for now.
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- target/arm/internals.h      | 21 ++++++++++++++++++---
- target/arm/tcg/tlb_helper.c | 18 ------------------
- 2 files changed, 18 insertions(+), 21 deletions(-)
+ target/arm/ptw.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 880b97be0d..4aa3bf974e 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -614,9 +614,6 @@ ARMMMUIdx arm_v7m_mmu_idx_for_secstate_and_priv(CPUARMState *env,
- /* Return the MMU index for a v7M CPU in the specified security state */
- ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate);
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index 2b125fff44..be0cc6bc15 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -254,6 +254,7 @@ static bool S1_ptw_translate(CPUARMState *env, S1Translate *ptw,
+         ptw->out_host = NULL;
+         ptw->out_rw = false;
+     } else {
++#ifdef CONFIG_TCG
+         CPUTLBEntryFull *full;
+         int flags;
  
--/* Return true if the translation regime is using LPAE format page tables */
--bool regime_using_lpae_format(CPUARMState *env, ARMMMUIdx mmu_idx);
--
- /*
-  * Return true if the stage 1 translation regime is using LPAE
-  * format page tables
-@@ -781,6 +778,24 @@ static inline uint64_t regime_tcr(CPUARMState *env, ARMMMUIdx mmu_idx)
-     return env->cp15.tcr_el[regime_el(env, mmu_idx)];
- }
+@@ -270,6 +271,9 @@ static bool S1_ptw_translate(CPUARMState *env, S1Translate *ptw,
+         ptw->out_rw = full->prot & PAGE_WRITE;
+         pte_attrs = full->pte_attrs;
+         pte_secure = full->attrs.secure;
++#else
++        g_assert_not_reached();
++#endif
+     }
  
-+/* Return true if the translation regime is using LPAE format page tables */
-+static inline bool regime_using_lpae_format(CPUARMState *env, ARMMMUIdx mmu_idx)
-+{
-+    int el = regime_el(env, mmu_idx);
-+    if (el == 2 || arm_el_is_aa64(env, el)) {
-+        return true;
-+    }
-+    if (arm_feature(env, ARM_FEATURE_PMSA) &&
-+        arm_feature(env, ARM_FEATURE_V8)) {
-+        return true;
-+    }
-+    if (arm_feature(env, ARM_FEATURE_LPAE)
-+        && (regime_tcr(env, mmu_idx) & TTBCR_EAE)) {
-+        return true;
-+    }
-+    return false;
-+}
-+
- /**
-  * arm_num_brps: Return number of implemented breakpoints.
-  * Note that the ID register BRPS field is "number of bps - 1",
-diff --git a/target/arm/tcg/tlb_helper.c b/target/arm/tcg/tlb_helper.c
-index 60abcbebe6..31eb77f7df 100644
---- a/target/arm/tcg/tlb_helper.c
-+++ b/target/arm/tcg/tlb_helper.c
-@@ -12,24 +12,6 @@
- #include "exec/helper-proto.h"
- 
- 
--/* Return true if the translation regime is using LPAE format page tables */
--bool regime_using_lpae_format(CPUARMState *env, ARMMMUIdx mmu_idx)
--{
--    int el = regime_el(env, mmu_idx);
--    if (el == 2 || arm_el_is_aa64(env, el)) {
--        return true;
--    }
--    if (arm_feature(env, ARM_FEATURE_PMSA) &&
--        arm_feature(env, ARM_FEATURE_V8)) {
--        return true;
--    }
--    if (arm_feature(env, ARM_FEATURE_LPAE)
--        && (regime_tcr(env, mmu_idx) & TTBCR_EAE)) {
--        return true;
--    }
--    return false;
--}
--
- /*
-  * Returns true if the stage 1 translation regime is using LPAE format page
-  * tables. Used when raising alignment exceptions, whose FSR changes depending
+     if (regime_is_stage2(s2_mmu_idx)) {
 -- 
 2.35.3
 
