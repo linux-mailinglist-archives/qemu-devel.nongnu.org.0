@@ -2,85 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 307A4694274
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 11:12:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BCCA6942C8
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 11:25:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVp2-0007xH-GJ; Mon, 13 Feb 2023 05:12:32 -0500
+	id 1pRW0R-0007UA-1r; Mon, 13 Feb 2023 05:24:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRVoo-0007c4-Nf
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 05:12:20 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pRW0H-0007T3-T8
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 05:24:10 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRVok-0003kC-Dc
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 05:12:17 -0500
-Received: by mail-wr1-x431.google.com with SMTP id o15so8240586wrc.9
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 02:12:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pRW0F-0008VB-UV
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 05:24:09 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id co8so7833129wrb.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 02:24:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=K2hibvpiLHVEpfVQdlQcSMJSIPHHnaEFPTuotKSTueE=;
- b=wwNuAZoUz6ZrfdsE+lGgeRBrG1hkRVca+c+vyIaCWFXEIYE0+vexAMA0BDHCFJrly2
- x0737YKlNumiO8YWlSjcHzKJXGIO57InTTbl4ZTXhkp3Qw7rbnzGwKZEhnDKXCPt42t9
- mhF03gznwfLVR+twxaedPszoKdG0mXbMcKN291EBebiYR7P4u9sRtiDXjsa1pnLPV/Cf
- 12RGvEqxaFrkVi0wPxzCTaz36fIFsCofNtvLEzI3wkiEYqNjECy5MKfPr4IoWYGovgLC
- pjRyW5L0unSIPZXPM0511szUMD1Ff8sMB6WgOI1r3rO9qileu1+ONjxiQ0XP8KQzF7X6
- tkxQ==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=IjUOJLlno5H6pHQMqX+/O+Frwp0/yqk1zxxD5H4a/pY=;
+ b=ZyhFcfBNM0U5WCKgYzgB8kfnA5hHHDclcBa5i0U3ZADCE67xUMMdPlmf+2u/8vsFB5
+ Fed/NkGF29yBV6Z6Uh9eZQTgquE63zBD37qkezMD4jo95J9QDZv8rDV6caR/2+BDfFwG
+ X6MkK9zVgyyfeI5ZIouxI9jD0U+gBV0A6KWKlHnY0svX2Lvq21y7gJYrA05Wd0v1EF/y
+ ERk2CcM0Bn22sEYeCPwwlIV7NkAkdWW4L7sc6weovsK/Fnj5M1yAt0KOIa+79VANPEFp
+ UmYjFVW/mF5uII5Yjmvgzry+WIw91gjkd2H5rbz2BoVdN1hRvKrdDAnx1b+nVK727RQt
+ xXbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=K2hibvpiLHVEpfVQdlQcSMJSIPHHnaEFPTuotKSTueE=;
- b=DQQcz2vkzRh42DV6L6zeK58DptJx8GyzWGumyiM4Elf4TsSG7En/iNdiHwoQV2AfYi
- Mc9chHA5S04vQPQ6OaqteWZ8AM0mAa14n7NsYa7WfC8tpSUG0056jw309mVF1+6R1vU0
- ElnpilC4WigY3ji9+5gFCyw6VLc8/2s98Np8KIMcg8yG54oVHFpwi4EIdb9jVtS956pG
- qESa7wJGul8OCP8fu6OEdvgeUtdSpgt7rfXggm7TxQz36O+99cvXv7s61HpTdOeNHwP6
- I9n+1ZcK5FFhLPUXzP+lrnlqLDNsi1tw21S1Iz9/CfA0Nzt3TF9YRPtqIjOJJ2E1GwAM
- +zmQ==
-X-Gm-Message-State: AO0yUKXdBLppG34KT4Wix8sCizOMajdFneB3wod3JxlFoAV375bmP6EH
- l/yJrRg5atO93b1yxfOTxhyGAd6ej1qnPRbI
-X-Google-Smtp-Source: AK7set83/vHlZPvTPC72gDvBKlqCyFhl4d9MPVusx7bPAH0SwLHNdnKocSxmPaemWn5zMrYi2hZQYw==
-X-Received: by 2002:adf:aa98:0:b0:2c5:4c07:9593 with SMTP id
- h24-20020adfaa98000000b002c54c079593mr7864069wrc.16.1676283129147; 
- Mon, 13 Feb 2023 02:12:09 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h5-20020a5d5045000000b002c54d9fbea5sm5979647wrt.73.2023.02.13.02.12.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 02:12:08 -0800 (PST)
-Message-ID: <6870a3fe-384d-c802-0d9b-41a4405176b2@linaro.org>
-Date: Mon, 13 Feb 2023 11:12:06 +0100
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=IjUOJLlno5H6pHQMqX+/O+Frwp0/yqk1zxxD5H4a/pY=;
+ b=l6jhKhUaEtSYrV837rGjmGeoSXceCU9g3KPT/a+7HT0Dlm0AoKcWVGhkHjvG3O/xbu
+ sSE6ZF3PMMbrcn6htHuggGcrC/Do/YDs1H6VQpFqlXYQz3Bs+nIzgRijkR5JCUvnmG/U
+ cRSOPmxInXJBXwBcQ0Ve6o8F8jwxBM1pbZ4QmzyE0we4d2P66N5JEL0alk1tl9uXYRZS
+ TvgPreNK7zKWVpEgdPLOZGTc3Yoy29FrdSTHwYRoH4iAVWm3MSmUvu0559TziCdoFSZf
+ a9dggFn8lklHdX6U7lHLtv2YWrhJYEkMHtPck2wPPHsgjXs1ZqssqKZQuroongd511MU
+ DnRw==
+X-Gm-Message-State: AO0yUKWPbrgVgVMz6X/aYP/yGUfeuKkyMl01ncd8ZAAjyN5U6m11ey/E
+ 9bWL+0vmXVmC7ZkPG7Z26iM1/A==
+X-Google-Smtp-Source: AK7set8IlrWGJ385e51swnmC/LlGQ4OJ+vXwgwSGI0WTQfMvtITJyoNwwrRVewnt/ZpfGOGBKH/Myw==
+X-Received: by 2002:adf:ef05:0:b0:2c5:5298:893f with SMTP id
+ e5-20020adfef05000000b002c55298893fmr4944110wro.43.1676283845935; 
+ Mon, 13 Feb 2023 02:24:05 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ d16-20020a5d5390000000b002c4008f0daasm10147957wrv.107.2023.02.13.02.24.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Feb 2023 02:24:05 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 26FD01FFB7;
+ Mon, 13 Feb 2023 10:24:05 +0000 (GMT)
+References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
+User-agent: mu4e 1.9.20; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Zhao Liu <zhao1.liu@linux.intel.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>, "Michael S . Tsirkin"
+ <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>, Paolo
+ Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>, Markus
+ Armbruster <armbru@redhat.com>, Zhenyu Wang <zhenyu.z.wang@intel.com>,
+ Dapeng Mi <dapeng1.mi@intel.com>, Zhuocheng Ding
+ <zhuocheng.ding@intel.com>, Robert Hoo <robert.hu@linux.intel.com>, Sean
+ Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
+ Zhao Liu <zhao1.liu@intel.com>, qemu-devel@nongnu.org
+Subject: Re: [RFC 00/52] Introduce hybrid CPU topology
+Date: Mon, 13 Feb 2023 10:14:22 +0000
+In-reply-to: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
+Message-ID: <87y1p1c18a.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH v2 08/19] hw/net/eepro100: Introduce TYPE_EEPRO100 QOM
- abstract parent
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>
-Cc: qemu-block@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Li Qiang <liq3ea@163.com>, qemu-s390x@nongnu.org,
- Hu Tao <hutao@cn.fujitsu.com>, Gonglei Arei <arei.gonglei@huawei.com>,
- Cao jin <caoj.fnst@cn.fujitsu.com>, xiaoqiang zhao <zxq_yx_007@163.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefan Weil <sw@weilnetz.de>, Jason Wang <jasowang@redhat.com>
-References: <20230213070820.76881-1-philmd@linaro.org>
- <20230213070820.76881-9-philmd@linaro.org>
- <a39dff9f-d205-a381-0d75-54d191f93320@linaro.org>
-In-Reply-To: <a39dff9f-d205-a381-0d75-54d191f93320@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.348,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,29 +103,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/2/23 09:36, Philippe Mathieu-Daudé wrote:
-> On 13/2/23 08:08, Philippe Mathieu-Daudé wrote:
->> Have all the EEPRO100-based devices share a common (abstract)
->> QOM parent.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->> ---
->>   hw/net/eepro100.c | 40 ++++++++++++++++++++++++++--------------
->>   1 file changed, 26 insertions(+), 14 deletions(-)
->>
->> diff --git a/hw/net/eepro100.c b/hw/net/eepro100.c
->> index dc07984ae9..dac42ba17b 100644
->> --- a/hw/net/eepro100.c
->> +++ b/hw/net/eepro100.c
->> @@ -235,8 +235,14 @@ typedef enum {
->>       ru_ready = 4
->>   } ru_state_t;
->> -typedef struct {
->> +#define TYPE_EEPRO100 "eepro100"
->> +OBJECT_DECLARE_SIMPLE_TYPE(EEPRO100State, EEPRO100)
-> 
-> Self-NACK, I'll respin also introducing EEPRO100Class for completeness.
 
-Respin posted here:
-https://lore.kernel.org/qemu-devel/20230213101048.94519-1-philmd@linaro.org/
+Zhao Liu <zhao1.liu@linux.intel.com> writes:
+
+> From: Zhao Liu <zhao1.liu@intel.com>
+>
+> Hi list,
+>
+> This RFC series is to introduce hybrid topology in QEMU, and is based
+> on our previous patches about cluster support for x86 [1] ([PATCH RESEND
+> 00/18] Support smp.clusters for x86).
+>
+> Though our cluster support patches [1] has not yet accepted, we are
+> still posting the hybrid topology support patches in advance, hoping to
+> get discussion and feedbacks.
+>
+> In this RFC series, we mainly have the following work:
+> * Introduce the new cpu topology under heterogeneous architecture, which
+>   we called "hybrid" cpu topology.
+>       - since the name "hmp" is already used in QEMU and "hybrid" is
+>         also a synonym for heterogeneous.
+> * Reorganized the relevant topology information in qemu to adapt to the
+>   hybrid topology.
+> * Introduce a new command "hybrid", which allows user to set a custom
+>   hybrid topology.
+>       - currently limited to custom cluster and custom core
+> * Support hybrid topology in i386 PC machine.
+> * Expose basic topology information (topology type and core type) in
+>   query_cpus_fast.
+>
+> We hope that the hybrid topology can be general enough to be compatible
+> with the needs of hybrids with various architectures in the future.
+>
+> Welcome your feedbacks!
+>
+>
+> # 1. Background
+>
+> Heterogeneous computing refers to systems that use more than one kind of
+> processor or cores [2]. Now there are more and more heterogeneous
+> computing architectures, typically including arm's big.LITTLE [3] and
+> intel hybrid architecture [4].
+>
+> The development of heterogeneous computing brings new challenges to
+> virtualization. The first problem we face is how to support the vCPU
+> topology under the heterogeneous architecture.
+>
+> Here, to distinguish it from "smp" cpu topology, we call it "hybrid" cpu
+> topology.
+>
+>
+> # 2. Motivation
+>
+> In a typical hybrid system, different types of core may have different
+> capabilities. This difference may be reflected in different capacities,
+> performance or power efficiencies, and even different instruction-per-
+> cycle (IPC) capabilities. The direct consequence of these differences is
+> to affect the performance of the workload.
+
+This elides a use case for heterogeneous computing under emulation where
+different cores can have totally different ISA's. We already support
+emulation models where we have varying classes of the same ISA, for
+example xlnx-zyncmp supports 4 A profile and 2 R profile Arm chips.
+
+I've glanced over the patch set and I don't think there is any direct
+clash with that as this is mainly about representing the topology for
+x86 non-emulation accelerators but I just want ensure we don't end up
+stepping on each others toes.
+
+> For a virtual machines, vCPUs are just threads, although we can bind
+> vCPUs to different cores to benefit from the different advantages of
+> these physical cores, it's obviously not enough since CPU topology (and
+> cache topology) will still have a significant impact on scheduling
+> performance.
+>
+<snip>
+> ## 3.3. "-hybrid" command
+>
+> For hybrid cpu topology configuration, the original "-smp" lack of
+> flexibility to expand, and unables to customize different cores.
+>
+> So we introduce "-hybrid" command and implement it as the multi-
+> line command. The multi-line command format is more complex than the
+> single-line one, but it can bring stronger scalability and
+> intuitiveness. In the future, it can also be easily extended to more
+> heterogeneous topology levels.
+>
+> "-hybrid" command is as follows:
+>
+> -hybrid socket,sockets=3Dn
+> -hybrid die,dies=3Dn
+> -hybrid cluster,clusters=3Dn
+> -hybrid core,cores=3Dn,type=3Dcore_type[,threads=3Dthreads]
+>         [,clusterid=3Dcluster]
+>
+> Here, we first define the corresponding qapi options for these 4
+> topology levels: core, cluster, die and socket.
+>
+> We doesn't need a thread level since thread doesn't have different
+> type.
+>
+> For example:
+>
+> -hybrid socket,sockets=3D1
+> -hybrid die,dies=3D1
+> -hybrid cluster,clusters=3D4
+> -hybrid core,cores=3D1,coretype=3D"core",threads=3D2,clusterid=3D0-2
+> -hybrid core,cores=3D4,coretype=3D"atom",threads=3D1
+>
+> Here we can build a hybrid cpu topology, which has 1 socket, 1 die per
+> socket, 4 clusters per die. And in each die, every clusters has 4 "atom"
+> core with 1 threads, and cluster0, cluster1 and cluster2 have 1 "core"
+> cores with 2 threads.
+>
+> Please note this example is not an actual machine topology, but it shows
+> the powerful flexibility of "hybrid" command.
+
+Is there any intention to apply this command to emulation or will it
+only be for hardware virtualisation? For example the x86 translator
+should be capable of emulating two different classes of x86 with
+different subsets of instructions. It requires ensuring each CPU is
+assigned to the correct TYPE_CPU_CLUSTER so we don't re-use TBs from
+the "wrong" CPU.
+
+<snip>
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
