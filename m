@@ -2,59 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5468C69522D
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 21:49:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D853695085
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 20:20:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRfkt-0000lI-Gp; Mon, 13 Feb 2023 15:48:55 -0500
+	id 1pReLz-0003Mo-K6; Mon, 13 Feb 2023 14:19:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matoro_mailinglist_qemu@matoro.tk>)
- id 1pReO4-0005U4-9b
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 14:21:21 -0500
-Received: from [2600:1700:4b10:9d80::2] (helo=matoro.tk)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <matoro_mailinglist_qemu@matoro.tk>)
- id 1pReO2-0006YF-5o
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 14:21:16 -0500
-DKIM-Signature: a=rsa-sha256; bh=GM3MlQR3nW7zVGDZxvDxDKtZInW/6E0LPtgHxL54XH4=; 
- c=relaxed/relaxed; d=matoro.tk;
- h=Subject:Subject:Sender:To:To:Cc:Cc:From:From:Date:Date:MIME-Version:MIME-Version:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Reply-To:In-Reply-To:Message-Id:Message-Id:References:Autocrypt:Openpgp;
- i=@matoro.tk; s=20221223; t=1676311254; v=1; x=1676743254;
- b=QLhjdK87gMv5lFhnZcG/VF/NyKK3EbLPvzrMSosF+jVwTTOdqTMWL3XE8Q0b1BcQ9yL0jp7q
- Y+zvlVCDiHdUayXa1iqn8PYAGx/7IoIHhc44fWYX9md1w9Qt1czWc+Swb+OOiIe7tywgnN15PnW
- AL0dQLbcb53Sp2XHeULJF7xzPkbBfrqyXbOFQLLtFqaNihLNQdZAwT6ppE56bJN9i+Ro75UULYp
- MPDo/pDSzke8u/DQhbXyK69OQ92K61gRpafyMBDGYqDhZ+jvw9O73hP7rf+2mPd4mzxPpUnA8FI
- Az58CkYTI5im9zajL0BsP0c1cNkyUSE91YHJMu0foILYEBOqBc1DZp8zbuuFA6wO6opFc/YDEd4
- nX00FYsIVLsJZA6VFg83UT01uDXOsuufqd1g7VVj+LcFZVoAHghsCPNJG/n/Isku0z6nz00bL/w
- ORxHdHGTxdljknAQ5FqX+rJE5jCDCInzfih0R27hyItFGLBUL3wimlIdZdGTgWaUUQHEU+1WeDS
- YQsHpJcrI+FIRTjeNTzWHoKnyZhNBeNxT20ENTJTPC8ZgkD9mpPnglWS2HERx9uTRDhobebxBqE
- 4QdpauuRuShPelhc8kCFrUVM1ylCSVOU8yMJOqgHRigs9MiO1RygblLZfXXxVSd38P+yq1BTFHU
- 4500CXkVj1Q=
-Received: by matoro.tk (envelope-sender <matoro_mailinglist_qemu@matoro.tk>)
- with ESMTPS id 40107b43; Mon, 13 Feb 2023 13:00:54 -0500
-To: qemu-devel@nongnu.org
-Cc: berrange@redhat.com, matoro <matoro@users.noreply.github.com>,
- matoro <matoro_mailinglist_qemu@matoro.tk>
-Subject: [PATCH] crypto: allow client/server cert chains
-Date: Mon, 13 Feb 2023 13:00:49 -0500
-Message-Id: <20230213180049.19093-1-matoro_mailinglist_qemu@matoro.tk>
-X-Mailer: git-send-email 2.39.1
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pReLw-0003MV-EF
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 14:19:04 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pReLu-0005xN-UD
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 14:19:04 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ v6-20020a17090ad58600b00229eec90a7fso14510387pju.0
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 11:19:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=VHqbPugPLFtp52xzsuULDOUwWtU/kX4UW3Vuzg5hhBw=;
+ b=e24oE+HFnc+Q2V/EITsTmGHNXTsgaGCwQrlNFBzY2+KSfFDEVHIDa+LKaqCK1f4Bcn
+ ZsuCR9TpD/rQWIJ1J20PcmNeNosYdB9iKshWJGkDK/0FMOJIlpeCKuN7zu82idGtJIRs
+ dAveIYDzj42rdoPAymv1G1Lz8+dfGlzhG3NOAf3RE8L+ssCeZ7Z6SJGfSoaHfDTDuluj
+ pDnLYdbjwE0KNLyy/r+lhv5kXbD/aj78EzmFRRxKTFfDkOY7auIpdY8G/7XnmDoLYfYF
+ /ybABo/dMyi2mCtlie3tdP4XtOYZbMZ4tWJty+hiaEIxZoA2mnWPrWo1wSl66FSMj5hS
+ /iBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VHqbPugPLFtp52xzsuULDOUwWtU/kX4UW3Vuzg5hhBw=;
+ b=wMCY0Voa5vIzu9/iXTHCKiTNe3H6BqKk9xk9QffYAljekbOOIuvRCq42hPdtqSVTAG
+ VsAlziELOncrU+zI8MFvd0TOQSIOngpx85TyHE+GLAX2tW4vZTuZ6FOh1R3lb9IReVMe
+ r0ATOWwfD9L1YbRylsWIzwfBxjSlvczi5fh4IuZ5PEiRUJTZZhrom7r/cbz5RcG5dhID
+ 8Pxj09PD/eQ2Pig0HgmCaFvR0JBkZkRsXechwwCqUN4TNAM92+8pyU/5YtkaZhQweTqC
+ acuSzoGBgHW2uNDJTjp9sOW1DbG8/3hBjFkUb9+cso+CXovcgLymZtjrhUVbZxas3UnL
+ xpeA==
+X-Gm-Message-State: AO0yUKVREaeCr8BzLtPhlVSJpobajU4ZgEdOBsX/x4c6d9opSwNQrkFP
+ lhRwwakOzdlrUyk8CREl5uP6eoEn/GTuNmtb4Hw=
+X-Google-Smtp-Source: AK7set9/rxeCcHt9Y+nQDrzZxi9Rdtj9qAJIF8hzCYUGe5Or4SYmkUNkddksIlHgAHDvUYRXM9w/4g==
+X-Received: by 2002:a17:90b:4acd:b0:234:f77:d6d2 with SMTP id
+ mh13-20020a17090b4acd00b002340f77d6d2mr2734852pjb.45.1676315940958; 
+ Mon, 13 Feb 2023 11:19:00 -0800 (PST)
+Received: from [192.168.145.227] (rrcs-74-87-59-234.west.biz.rr.com.
+ [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
+ s23-20020a17090a075700b0023377b98c7csm6383857pje.38.2023.02.13.11.18.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Feb 2023 11:19:00 -0800 (PST)
+Message-ID: <cb062199-897d-469c-959d-a06f9876bb19@linaro.org>
+Date: Mon, 13 Feb 2023 09:18:55 -1000
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [RFC PATCH 01/43] target/loongarch: Add vector data type vec_t
+Content-Language: en-US
+To: gaosong <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <20221224081633.4185445-1-gaosong@loongson.cn>
+ <20221224081633.4185445-2-gaosong@loongson.cn>
+ <fd5e8513-8890-ca06-194c-4ea4538bc7f3@linaro.org>
+ <0b2940dc-d058-4b87-9f54-b80bf700f2fe@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <0b2940dc-d058-4b87-9f54-b80bf700f2fe@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2600:1700:4b10:9d80::2
- (failed)
-Received-SPF: pass client-ip=2600:1700:4b10:9d80::2;
- envelope-from=matoro_mailinglist_qemu@matoro.tk; helo=matoro.tk
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.345,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 13 Feb 2023 15:48:53 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,349 +92,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  matoro_mailinglist_qemu@matoro.tk
-From: matoro_mailinglist_qemu--- via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: matoro <matoro@users.noreply.github.com>
+On 2/12/23 22:24, gaosong wrote:
+> Hi,  Richard
+> 
+> 在 2022/12/25 上午1:32, Richard Henderson 写道:
+>> On 12/24/22 00:15, Song Gao wrote:
+>>> +union vec_t {
+>>> +    int8_t   B[LSX_LEN / 8];
+>>> +    int16_t  H[LSX_LEN / 16];
+>>> +    int32_t  W[LSX_LEN / 32];
+>>> +    int64_t  D[LSX_LEN / 64];
+>>> +    __int128 Q[LSX_LEN / 128];
+>>
+>> Oh, you can't use __int128 directly.
+>> It won't compile on 32-bit hosts.
+>>
+>>
+> Can we  use Int128  after include "qem/int128.h" ?
+> So,   some  vxx_q  instructions  can  use   int128_ xx(a, b).
 
-The existing implementation assumes that client/server certificates are
-single individual certificates.  If using publicly-issued certificates,
-or internal CAs that use an intermediate issuer, this is unlikely to be
-the case, and they will instead be certificate chains.  While this can
-be worked around by moving the intermediate certificates to the CA
-certificate, which DOES currently support multiple certificates, this
-instead allows the issued certificate chains to be used as-is, without
-requiring the overhead of shuffling certificates around.
+Yes, certainly.
 
-Corresponding libvirt change is available here:
-https://gitlab.com/libvirt/libvirt/-/merge_requests/222
-
-Signed-off-by: matoro <matoro_mailinglist_qemu@matoro.tk>
----
- crypto/tlscredsx509.c                 | 130 +++++++++-----------------
- tests/unit/test-crypto-tlscredsx509.c |  78 ++++++++++++++++
- 2 files changed, 122 insertions(+), 86 deletions(-)
-
-diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
-index d14313925d..5bb793e2c7 100644
---- a/crypto/tlscredsx509.c
-+++ b/crypto/tlscredsx509.c
-@@ -317,7 +317,8 @@ qcrypto_tls_creds_check_cert(QCryptoTLSCredsX509 *creds,
- 
- 
- static int
--qcrypto_tls_creds_check_cert_pair(gnutls_x509_crt_t cert,
-+qcrypto_tls_creds_check_cert_pair(gnutls_x509_crt_t *certs,
-+                                  size_t ncerts,
-                                   const char *certFile,
-                                   gnutls_x509_crt_t *cacerts,
-                                   size_t ncacerts,
-@@ -327,7 +328,7 @@ qcrypto_tls_creds_check_cert_pair(gnutls_x509_crt_t cert,
- {
-     unsigned int status;
- 
--    if (gnutls_x509_crt_list_verify(&cert, 1,
-+    if (gnutls_x509_crt_list_verify(certs, ncerts,
-                                     cacerts, ncacerts,
-                                     NULL, 0,
-                                     0, &status) < 0) {
-@@ -369,67 +370,15 @@ qcrypto_tls_creds_check_cert_pair(gnutls_x509_crt_t cert,
- }
- 
- 
--static gnutls_x509_crt_t
--qcrypto_tls_creds_load_cert(QCryptoTLSCredsX509 *creds,
--                            const char *certFile,
--                            bool isServer,
--                            Error **errp)
--{
--    gnutls_datum_t data;
--    gnutls_x509_crt_t cert = NULL;
--    g_autofree char *buf = NULL;
--    gsize buflen;
--    GError *gerr = NULL;
--    int ret = -1;
--    int err;
--
--    trace_qcrypto_tls_creds_x509_load_cert(creds, isServer, certFile);
--
--    err = gnutls_x509_crt_init(&cert);
--    if (err < 0) {
--        error_setg(errp, "Unable to initialize certificate: %s",
--                   gnutls_strerror(err));
--        goto cleanup;
--    }
--
--    if (!g_file_get_contents(certFile, &buf, &buflen, &gerr)) {
--        error_setg(errp, "Cannot load CA cert list %s: %s",
--                   certFile, gerr->message);
--        g_error_free(gerr);
--        goto cleanup;
--    }
--
--    data.data = (unsigned char *)buf;
--    data.size = strlen(buf);
--
--    err = gnutls_x509_crt_import(cert, &data, GNUTLS_X509_FMT_PEM);
--    if (err < 0) {
--        error_setg(errp, isServer ?
--                   "Unable to import server certificate %s: %s" :
--                   "Unable to import client certificate %s: %s",
--                   certFile,
--                   gnutls_strerror(err));
--        goto cleanup;
--    }
--
--    ret = 0;
--
-- cleanup:
--    if (ret != 0) {
--        gnutls_x509_crt_deinit(cert);
--        cert = NULL;
--    }
--    return cert;
--}
--
--
- static int
--qcrypto_tls_creds_load_ca_cert_list(QCryptoTLSCredsX509 *creds,
--                                    const char *certFile,
--                                    gnutls_x509_crt_t *certs,
--                                    unsigned int certMax,
--                                    size_t *ncerts,
--                                    Error **errp)
-+qcrypto_tls_creds_load_cert_list(QCryptoTLSCredsX509 *creds,
-+                                 const char *certFile,
-+                                 gnutls_x509_crt_t *certs,
-+                                 unsigned int certMax,
-+                                 size_t *ncerts,
-+                                 bool isServer,
-+                                 bool isCA,
-+                                 Error **errp)
- {
-     gnutls_datum_t data;
-     g_autofree char *buf = NULL;
-@@ -450,9 +399,15 @@ qcrypto_tls_creds_load_ca_cert_list(QCryptoTLSCredsX509 *creds,
-     data.size = strlen(buf);
- 
-     if (gnutls_x509_crt_list_import(certs, &certMax, &data,
--                                    GNUTLS_X509_FMT_PEM, 0) < 0) {
-+                                    GNUTLS_X509_FMT_PEM,
-+                                    isCA ?
-+                                    GNUTLS_X509_CRT_LIST_IMPORT_FAIL_IF_EXCEED :
-+                                    GNUTLS_X509_CRT_LIST_IMPORT_FAIL_IF_EXCEED |
-+                                    GNUTLS_X509_CRT_LIST_FAIL_IF_UNSORTED) < 0){
-         error_setg(errp,
--                   "Unable to import CA certificate list %s",
-+                   isCA ? "Unable to import CA certificate list %s" :
-+                   (isServer ? "Unable to import server certificate %s" :
-+                   "Unable to import client certificate %s"),
-                    certFile);
-         return -1;
-     }
-@@ -462,7 +417,7 @@ qcrypto_tls_creds_load_ca_cert_list(QCryptoTLSCredsX509 *creds,
- }
- 
- 
--#define MAX_CERTS 16
-+#define MAX_CERTS 200
- static int
- qcrypto_tls_creds_x509_sanity_check(QCryptoTLSCredsX509 *creds,
-                                     bool isServer,
-@@ -470,36 +425,39 @@ qcrypto_tls_creds_x509_sanity_check(QCryptoTLSCredsX509 *creds,
-                                     const char *certFile,
-                                     Error **errp)
- {
--    gnutls_x509_crt_t cert = NULL;
-+    gnutls_x509_crt_t certs[MAX_CERTS];
-     gnutls_x509_crt_t cacerts[MAX_CERTS];
--    size_t ncacerts = 0;
-+    size_t ncerts = 0, ncacerts = 0;
-     size_t i;
-     int ret = -1;
- 
-+    memset(certs, 0, sizeof(certs));
-     memset(cacerts, 0, sizeof(cacerts));
-     if (certFile &&
-         access(certFile, R_OK) == 0) {
--        cert = qcrypto_tls_creds_load_cert(creds,
--                                           certFile, isServer,
--                                           errp);
--        if (!cert) {
-+        if (qcrypto_tls_creds_load_cert_list(creds,
-+                                             certFile, certs,
-+                                             MAX_CERTS, &ncerts,
-+                                             isServer, false, errp) < 0) {
-             goto cleanup;
-         }
-     }
--    if (access(cacertFile, R_OK) == 0) {
--        if (qcrypto_tls_creds_load_ca_cert_list(creds,
--                                                cacertFile, cacerts,
--                                                MAX_CERTS, &ncacerts,
--                                                errp) < 0) {
-+    if (cacertFile &&
-+        access(cacertFile, R_OK) == 0) {
-+        if (qcrypto_tls_creds_load_cert_list(creds,
-+                                             cacertFile, cacerts,
-+                                             MAX_CERTS, &ncacerts,
-+                                             isServer, true, errp) < 0) {
-             goto cleanup;
-         }
-     }
- 
--    if (cert &&
--        qcrypto_tls_creds_check_cert(creds,
--                                     cert, certFile, isServer,
--                                     false, errp) < 0) {
--        goto cleanup;
-+    for (i = 0; i < ncerts; i++) {
-+        if (qcrypto_tls_creds_check_cert(creds,
-+                                         certs[i], certFile,
-+                                         isServer, (i != 0), errp) < 0) {
-+            goto cleanup;
-+        }
-     }
- 
-     for (i = 0; i < ncacerts; i++) {
-@@ -510,9 +468,9 @@ qcrypto_tls_creds_x509_sanity_check(QCryptoTLSCredsX509 *creds,
-         }
-     }
- 
--    if (cert && ncacerts &&
--        qcrypto_tls_creds_check_cert_pair(cert, certFile, cacerts,
--                                          ncacerts, cacertFile,
-+    if (ncerts && ncacerts &&
-+        qcrypto_tls_creds_check_cert_pair(certs, ncerts, certFile,
-+                                          cacerts, ncacerts, cacertFile,
-                                           isServer, errp) < 0) {
-         goto cleanup;
-     }
-@@ -520,8 +478,8 @@ qcrypto_tls_creds_x509_sanity_check(QCryptoTLSCredsX509 *creds,
-     ret = 0;
- 
-  cleanup:
--    if (cert) {
--        gnutls_x509_crt_deinit(cert);
-+    for (i = 0; i < ncerts; i++) {
-+        gnutls_x509_crt_deinit(certs[i]);
-     }
-     for (i = 0; i < ncacerts; i++) {
-         gnutls_x509_crt_deinit(cacerts[i]);
-diff --git a/tests/unit/test-crypto-tlscredsx509.c b/tests/unit/test-crypto-tlscredsx509.c
-index 3c25d75ca1..660335ce98 100644
---- a/tests/unit/test-crypto-tlscredsx509.c
-+++ b/tests/unit/test-crypto-tlscredsx509.c
-@@ -577,6 +577,12 @@ int main(int argc, char **argv)
-                  true, true, GNUTLS_KEY_KEY_CERT_SIGN,
-                  false, false, NULL, NULL,
-                  0, 0);
-+    TLS_ROOT_REQ(someotherrootreq,
-+                 "UK", "some other random CA", NULL, NULL, NULL, NULL,
-+                 true, true, true,
-+                 true, true, GNUTLS_KEY_KEY_CERT_SIGN,
-+                 false, false, NULL, NULL,
-+                 0, 0);
-     TLS_CERT_REQ(cacertlevel1areq, cacertrootreq,
-                  "UK", "qemu level 1a", NULL, NULL, NULL, NULL,
-                  true, true, true,
-@@ -617,6 +623,33 @@ int main(int argc, char **argv)
-         cacertlevel2areq.crt,
-     };
- 
-+    gnutls_x509_crt_t cabundle[] = {
-+        someotherrootreq.crt,
-+        cacertrootreq.crt,
-+    };
-+
-+    gnutls_x509_crt_t servercertchain[] = {
-+        servercertlevel3areq.crt,
-+        cacertlevel2areq.crt,
-+        cacertlevel1areq.crt,
-+    };
-+
-+    gnutls_x509_crt_t servercertchain_incomplete[] = {
-+        servercertlevel3areq.crt,
-+        cacertlevel2areq.crt,
-+    };
-+
-+    gnutls_x509_crt_t servercertchain_unsorted[] = {
-+        servercertlevel3areq.crt,
-+        cacertlevel1areq.crt,
-+        cacertlevel2areq.crt,
-+    };
-+
-+    gnutls_x509_crt_t clientcertchain[] = {
-+        clientcertlevel2breq.crt,
-+        cacertlevel1breq.crt,
-+    };
-+
-     test_tls_write_cert_chain(WORKDIR "cacertchain-ctx.pem",
-                               certchain,
-                               G_N_ELEMENTS(certchain));
-@@ -628,6 +661,46 @@ int main(int argc, char **argv)
-                  WORKDIR "cacertchain-ctx.pem",
-                  clientcertlevel2breq.filename, false);
- 
-+    test_tls_write_cert_chain(WORKDIR "servercertchain-ctx.pem",
-+                              servercertchain,
-+                              G_N_ELEMENTS(servercertchain));
-+
-+    TLS_TEST_REG(serverchain, true,
-+                 cacertrootreq.filename,
-+                 WORKDIR "servercertchain-ctx.pem", false);
-+
-+    test_tls_write_cert_chain(WORKDIR "cabundle-ctx.pem",
-+                              cabundle,
-+                              G_N_ELEMENTS(cabundle));
-+
-+    TLS_TEST_REG(multiplecaswithchain, true,
-+                 WORKDIR "cabundle-ctx.pem",
-+                 WORKDIR "servercertchain-ctx.pem", false);
-+
-+    test_tls_write_cert_chain(WORKDIR "servercertchain_incomplete-ctx.pem",
-+                              servercertchain_incomplete,
-+                              G_N_ELEMENTS(servercertchain_incomplete));
-+
-+    TLS_TEST_REG(incompleteserverchain, true,
-+                 cacertrootreq.filename,
-+                 WORKDIR "servercertchain_incomplete-ctx.pem", true);
-+
-+    test_tls_write_cert_chain(WORKDIR "servercertchain_unsorted-ctx.pem",
-+                              servercertchain_unsorted,
-+                              G_N_ELEMENTS(servercertchain_unsorted));
-+
-+    TLS_TEST_REG(unsortedserverchain, true,
-+                 cacertrootreq.filename,
-+                 WORKDIR "servercertchain_unsorted-ctx.pem", true);
-+
-+    test_tls_write_cert_chain(WORKDIR "clientcertchain-ctx.pem",
-+                              clientcertchain,
-+                              G_N_ELEMENTS(clientcertchain));
-+
-+    TLS_TEST_REG(clientchain, false,
-+                 cacertrootreq.filename,
-+                 WORKDIR "clientcertchain-ctx.pem", false);
-+
-     /* Some missing certs - first two are fatal, the last
-      * is ok
-      */
-@@ -697,7 +770,12 @@ int main(int argc, char **argv)
-     test_tls_discard_cert(&cacertlevel2areq);
-     test_tls_discard_cert(&servercertlevel3areq);
-     test_tls_discard_cert(&clientcertlevel2breq);
-+    test_tls_discard_cert(&someotherrootreq);
-     unlink(WORKDIR "cacertchain-ctx.pem");
-+    unlink(WORKDIR "servercertchain-ctx.pem");
-+    unlink(WORKDIR "servercertchain_incomplete-ctx.pem");
-+    unlink(WORKDIR "servercertchain_unsorted-ctx.pem");
-+    unlink(WORKDIR "clientcertchain-ctx.pem");
- 
-     test_tls_cleanup(KEYFILE);
-     rmdir(WORKDIR);
--- 
-2.39.1
+r~
 
 
