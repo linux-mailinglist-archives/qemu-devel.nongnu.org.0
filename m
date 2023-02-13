@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B2EF693C5C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 03:32:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F57C693C56
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 03:31:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pROb1-0001XC-FB; Sun, 12 Feb 2023 21:29:35 -0500
+	id 1pROb8-0001Zp-BI; Sun, 12 Feb 2023 21:29:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pROay-0001Wy-0L
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:29:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pROb6-0001ZK-Vx
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:29:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pROaw-00033w-Gp
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:29:31 -0500
+ id 1pROb5-000358-Fr
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:29:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676255370;
+ s=mimecast20190719; t=1676255378;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UptCkJZZ1oFnZpYoUHipdojg2SHE5Vc15YVv+FVTq60=;
- b=C/R1S3Qj05XImtPv4bua4UgfLw8mvoZ7vNEVOTbNHmBTjC6Y9Kl+CskRvTSNReN6GaWWqG
- mYwUGfZ/jicTObehWLDZe1clzm+OFVvnhJJawdW416/s6ewQxboi5TZWAwAVqu9SkxnXZe
- PlDzRvvD26dCgfTPuYM1oR0Ug0/Av5E=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=x9OoujK3z66uinkW5o8sulP0PBTebtU4f6y178F9c/w=;
+ b=cbCtnHfQe2nmbdn9BhihHuB+0mdDcS3r1hBwq6XmUTrGJECYCd48t5MYkBRmGpGH5vhBDN
+ /HpQFk5kTXiLxN9bXwC07AFhNOPQZioAw3R66PzhHTfp3cDaSx5FAA2egUXDMp38nfx3Cl
+ l0WGoo/kBrML1G9oeT8N2Ultp7XKgsk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-544-PKx16lsoO5KaEwtWTzsTZg-1; Sun, 12 Feb 2023 21:29:28 -0500
-X-MC-Unique: PKx16lsoO5KaEwtWTzsTZg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- o31-20020a05600c511f00b003dc53da325dso8356344wms.8
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 18:29:28 -0800 (PST)
+ us-mta-281-RTe50vzsPPuB0-LGGk4lSg-1; Sun, 12 Feb 2023 21:29:30 -0500
+X-MC-Unique: RTe50vzsPPuB0-LGGk4lSg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ i4-20020a5d5224000000b002c559840c76so63752wra.3
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 18:29:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UptCkJZZ1oFnZpYoUHipdojg2SHE5Vc15YVv+FVTq60=;
- b=n9lCo4VH3PG98hgs3xxhV83C08zAfBE9UPEuOwfz6fdjXfEqHi5VghuVkybdwURiuU
- 4KYLWu6rFQOMx2jVp7Y3DU2EszMi6eRv0fAHNqIe8rGlg/9fjCsos5JbL9jOjrlO64dg
- VSylvjaZSVvV9soVyYE+m6zA5clC3rgfnm6CUHwiEgjn1QXwVwflKjx3ZPs5aE8xndOk
- GcaYpKXqCp+qEA5ergUTI2pL8PHxMQyDWmK5i3TsXC/Nd1Yq1IYV65hGb4cTafIHwdfP
- pSCumDvzGpVFX1Tv3Uegpln6mDcZCMxxUcE9kGIWJRJEXgKvIQYbgjqMVX6ugl02AfV/
- lPzg==
-X-Gm-Message-State: AO0yUKXf7ldfHBOqjfI5m3h6xNzByRECAxwOib2R8ivpfF3LVE/toAsv
- OowqkZb0POFF1XbV5TUvEZwdt37UiX9Dx+2R7yHFU7V60NCD3j2IorSj2j9S7mbYc12veKOZyoc
- DZ0RgD60ONk/SYdzVm/Dm6tT1CpgduNahH+n023MDUYDR+zqcQ8icryiEuq2TWF5uFFI9Sv48
-X-Received: by 2002:a05:600c:920:b0:3df:d817:df98 with SMTP id
- m32-20020a05600c092000b003dfd817df98mr18108859wmp.10.1676255366925; 
- Sun, 12 Feb 2023 18:29:26 -0800 (PST)
-X-Google-Smtp-Source: AK7set/ZZNvjk2tGZ5tQzckq/asqm2AH0dpNmfP8JVO5494f3UTMZP5AV7bWiTgPrGjmhPGeypFXpw==
-X-Received: by 2002:a05:600c:920:b0:3df:d817:df98 with SMTP id
- m32-20020a05600c092000b003dfd817df98mr18108841wmp.10.1676255366678; 
- Sun, 12 Feb 2023 18:29:26 -0800 (PST)
+ bh=x9OoujK3z66uinkW5o8sulP0PBTebtU4f6y178F9c/w=;
+ b=XG2Mempcas7sn/Vu5xIhWC4bSED1ET7ae90CTcdpgIbOjHEeylyoWmd2qtZ5Dl1fr7
+ UVOhsq2xUzSB4eZ7V7d0xkMlUY0NLN50tVBjTr0t/268rj4gPUKRRpki6Jn597jPOApr
+ 3s7FTmJjKxu45BKhub1b8vuNTbunYRwoxz9GD8zBCcHMZwguNunqbghULBqkXQYTz+N4
+ 50HvJS74cEDFiyBMA83mekSfFYGcH+X6C2IG1c9dAYLjGPVY8CMmjS1/gMsoX+0yei++
+ MvTrUxOT6rPVDUrCE7TmlvRWOICYQzfhvPp3Nk0e5aKPDJU/2ke6vdh793a/lvCs5JuP
+ 3UwA==
+X-Gm-Message-State: AO0yUKUmS+ZF56Hfttouvn2qMaZh5p8K/0VwtuYRIEZUF0G/NHSB0+Xy
+ dqRDRUH8T56LSEQGJGsmsiG4ft7bkdH+sMCXrjfhTCzabYH21r9K3htMUDLG8zZjZUz3DzT40qH
+ 4AOgxXN9ZAdWbw5GzNJ625V5fIm8fIa5FDxm4Pc1u2wvBSIYqW3mkrKtmzkSFX8oZJLOh1gja
+X-Received: by 2002:adf:dc04:0:b0:2c3:ea92:3494 with SMTP id
+ t4-20020adfdc04000000b002c3ea923494mr18343390wri.55.1676255368416; 
+ Sun, 12 Feb 2023 18:29:28 -0800 (PST)
+X-Google-Smtp-Source: AK7set+I1g+CjQEsCE9I+sUqcpmuWn8GMN5Pg5a9hM8lnrQcitUKUf6RFY2A0VQFHTwHB+L4NfTg3g==
+X-Received: by 2002:adf:dc04:0:b0:2c3:ea92:3494 with SMTP id
+ t4-20020adfdc04000000b002c3ea923494mr18343372wri.55.1676255368146; 
+ Sun, 12 Feb 2023 18:29:28 -0800 (PST)
 Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- s21-20020a1cf215000000b003e001119927sm15091501wmc.24.2023.02.12.18.29.25
+ a7-20020a056000050700b002c3e3ee7d1asm9338278wrf.79.2023.02.12.18.29.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Feb 2023 18:29:26 -0800 (PST)
+ Sun, 12 Feb 2023 18:29:27 -0800 (PST)
 From: Xxx Xx <quintela@redhat.com>
 X-Google-Original-From: Xxx Xx <xxx.xx@gmail.com>
 To: qemu-devel@nongnu.org
@@ -72,17 +72,16 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, kvm@vger.kernel.org,
  "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 08/22] migration: Split ram_bytes_total_common() in two
- functions
-Date: Mon, 13 Feb 2023 03:28:57 +0100
-Message-Id: <20230213022911.68490-9-xxx.xx@gmail.com>
+Subject: [PULL 09/22] migration: Calculate ram size once
+Date: Mon, 13 Feb 2023 03:28:58 +0100
+Message-Id: <20230213022911.68490-10-xxx.xx@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230213022911.68490-1-xxx.xx@gmail.com>
 References: <20230213022911.68490-1-xxx.xx@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -108,74 +107,53 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Juan Quintela <quintela@redhat.com>
 
-It is just a big if in the middle of the function, and we need two
-functions anways.
+We are recalculating ram size continously, when we know that it don't
+change during migration.  Create a field in RAMState to track it.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
-
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
-
-Reindent to make Phillipe happy (and CODING_STYLE)
----
- migration/ram.c | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
+ migration/ram.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index cf577fce5c..1727fe5ef6 100644
+index 1727fe5ef6..6abfe075f2 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -2601,28 +2601,30 @@ void acct_update_position(QEMUFile *f, size_t size, bool zero)
+@@ -330,6 +330,8 @@ struct RAMState {
+     PageSearchStatus pss[RAM_CHANNEL_MAX];
+     /* UFFD file descriptor, used in 'write-tracking' migration */
+     int uffdio_fd;
++    /* total ram size in bytes */
++    uint64_t ram_bytes_total;
+     /* Last block that we have visited searching for dirty pages */
+     RAMBlock *last_seen_block;
+     /* Last dirty target page we have sent */
+@@ -2546,7 +2548,7 @@ static int ram_find_and_save_block(RAMState *rs)
+     int pages = 0;
+ 
+     /* No dirty page as there is zero RAM */
+-    if (!ram_bytes_total()) {
++    if (!rs->ram_bytes_total) {
+         return pages;
      }
- }
  
--static uint64_t ram_bytes_total_common(bool count_ignored)
-+static uint64_t ram_bytes_total_with_ignored(void)
- {
-     RAMBlock *block;
-     uint64_t total = 0;
+@@ -3009,13 +3011,14 @@ static int ram_state_init(RAMState **rsp)
+     qemu_mutex_init(&(*rsp)->bitmap_mutex);
+     qemu_mutex_init(&(*rsp)->src_page_req_mutex);
+     QSIMPLEQ_INIT(&(*rsp)->src_page_requests);
++    (*rsp)->ram_bytes_total = ram_bytes_total();
  
-     RCU_READ_LOCK_GUARD();
+     /*
+      * Count the total number of pages used by ram blocks not including any
+      * gaps due to alignment or unplugs.
+      * This must match with the initial values of dirty bitmap.
+      */
+-    (*rsp)->migration_dirty_pages = ram_bytes_total() >> TARGET_PAGE_BITS;
++    (*rsp)->migration_dirty_pages = (*rsp)->ram_bytes_total >> TARGET_PAGE_BITS;
+     ram_state_reset(*rsp);
  
--    if (count_ignored) {
--        RAMBLOCK_FOREACH_MIGRATABLE(block) {
--            total += block->used_length;
--        }
--    } else {
--        RAMBLOCK_FOREACH_NOT_IGNORED(block) {
--            total += block->used_length;
--        }
-+    RAMBLOCK_FOREACH_MIGRATABLE(block) {
-+        total += block->used_length;
-     }
-     return total;
- }
- 
- uint64_t ram_bytes_total(void)
- {
--    return ram_bytes_total_common(false);
-+    RAMBlock *block;
-+    uint64_t total = 0;
-+
-+    RCU_READ_LOCK_GUARD();
-+
-+    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-+        total += block->used_length;
-+    }
-+    return total;
- }
- 
- static void xbzrle_load_setup(void)
-@@ -3227,7 +3229,8 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
-     (*rsp)->pss[RAM_CHANNEL_PRECOPY].pss_channel = f;
- 
-     WITH_RCU_READ_LOCK_GUARD() {
--        qemu_put_be64(f, ram_bytes_total_common(true) | RAM_SAVE_FLAG_MEM_SIZE);
-+        qemu_put_be64(f, ram_bytes_total_with_ignored()
-+                         | RAM_SAVE_FLAG_MEM_SIZE);
- 
-         RAMBLOCK_FOREACH_MIGRATABLE(block) {
-             qemu_put_byte(f, strlen(block->idstr));
+     return 0;
 -- 
 2.39.1
 
