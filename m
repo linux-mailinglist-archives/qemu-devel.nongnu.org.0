@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C8D694208
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:55:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 548BD6941DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:48:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVQW-0003Sc-Re; Mon, 13 Feb 2023 04:47:12 -0500
+	id 1pRVQV-0003Je-0c; Mon, 13 Feb 2023 04:47:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVQP-000372-A3
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:47:05 -0500
+ id 1pRVQQ-00038i-Q8
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:47:06 -0500
 Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVQI-0002o2-Cr
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:47:02 -0500
+ id 1pRVQL-0002n2-Qu
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:47:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676281618; x=1707817618;
+ t=1676281621; x=1707817621;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=7NJLNBryoXSzXJiJoYo302BIRIEezDxIPG/22JmzpoE=;
- b=nWTC1UBOtCQYXpaPR0EDiE0Xp0E9sI+UNl+bOyCBTuBjroM3bGF+RMFY
- iBymcpU1ydvNYOBh16xUzYKnngYPUGPS4M2hQqjx3urmUVX6wtvoVClCI
- RrICkRNUEV+GGBV11RlCvPOL6jbApE13OLsK+xMytRpQnIhOeRtgbGHKx
- zWtsHXEA6SMkNAmpbCQpBOPtNGldOb0JWOPeSq5iy+bvyCT55FhOwwc2J
- AgJZFofmi+r82IThVNvLXtEah5hhlW79VbmsV/01SCDC+9iTbeEGIavLI
- W+yeD2eGPYz4W2/g3iiAO3Vhe9HS7ye+ZW65fuumhhINA1dNC5vjlzANh g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310487228"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310487228"
+ bh=nATIvyObSqS7z2gThE9LIe4eFSlwW3dlvnMdQdlNaW8=;
+ b=VLz7FIPzzDeUtjMdGY0ix4GMPxRtefrmBE4rpZBPZJj4lngoLm8sezcM
+ gFYYa7AMrZekfpO8Dcvq7XVdIpDJKFLSn8FvkeC8DzpNdAT43E+P4P2BB
+ S4/ClB+KhTs1MUDqLZe3sVhe+kbteFXl2ixGxAc7kckx983c70y3AGTK6
+ APfCguIarqhMND3LWbZTyMCgb0qgKhxFP6AiOM9Y0UJvWr8UXXDnDZK4O
+ 5Estls4VP1h5Dt4CXyf1ElVW+PmScEoxKyqW7kGl9g+rVQ9wuwGQu3Zd3
+ ltQVL1l9J44JowVt1qb4MdUWAFsN/SMV4nlO2s9P0scR9GeHAcdBrHlbD Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310487253"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310487253"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 01:46:04 -0800
+ 13 Feb 2023 01:46:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670760677"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670760677"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670760682"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670760682"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:46:00 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:46:04 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -55,10 +55,9 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
  Zhao Liu <zhao1.liu@intel.com>
-Subject: [RFC 46/52] hw/machine: build core level hybrid topology form
- HybridCorePack
-Date: Mon, 13 Feb 2023 17:50:29 +0800
-Message-Id: <20230213095035.158240-47-zhao1.liu@linux.intel.com>
+Subject: [RFC 47/52] hw/machine: Use opts_visitor to parse hybrid topo
+Date: Mon, 13 Feb 2023 17:50:30 +0800
+Message-Id: <20230213095035.158240-48-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
@@ -89,110 +88,93 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
-After verifying the hybrid topology, we need to convert the topology
-structure of the core level from a single linked list to an array,
-so that we can make full use of the core-id to quickly access the
-corresponding core.
+Because of the "-hybrid" format, it cannot be defined as the machine
+property to use input_visitor to parse as what "-smp" did.
+
+So here we use opts_visitor to parse hybrid topology.
 
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- hw/core/machine-topo.c | 48 ++++++++++++++++++++++++++++++++----------
- hw/core/machine.c      |  1 +
- include/hw/boards.h    |  1 +
- 3 files changed, 39 insertions(+), 11 deletions(-)
+ hw/core/machine-topo.c | 36 +++++++++++++++++++++++++++++++++---
+ include/hw/boards.h    |  4 +---
+ 2 files changed, 34 insertions(+), 6 deletions(-)
 
 diff --git a/hw/core/machine-topo.c b/hw/core/machine-topo.c
-index 2cf71cc466aa..ebd2c40396a2 100644
+index ebd2c40396a2..9e37de04ce75 100644
 --- a/hw/core/machine-topo.c
 +++ b/hw/core/machine-topo.c
-@@ -604,22 +604,13 @@ void set_hybrid_options(MachineState *ms,
+@@ -20,6 +20,8 @@
+ #include "qemu/osdep.h"
+ #include "hw/boards.h"
+ #include "qapi/error.h"
++#include "qapi/opts-visitor.h"
++#include "qapi/qapi-visit-machine.h"
+ 
+ unsigned int machine_topo_get_sockets(const MachineState *ms)
+ {
+@@ -571,9 +573,9 @@ static void parse_hybrid_core(MachineState *ms,
+     }
+ }
+ 
+-void set_hybrid_options(MachineState *ms,
+-                        const HybridOptions *config,
+-                        Error **errp)
++static void set_hybrid_options(MachineState *ms,
++                               const HybridOptions *config,
++                               Error **errp)
+ {
+     MachineClass *mc = MACHINE_GET_CLASS(ms);
+ 
+@@ -601,6 +603,34 @@ void set_hybrid_options(MachineState *ms,
+     }
+ }
+ 
++static int parse_hybrid(void *opaque, QemuOpts *opts, Error **errp)
++{
++    g_autoptr(HybridOptions) config = NULL;
++    MachineState *ms = MACHINE(opaque);
++    Error *err = NULL;
++    Visitor *v = opts_visitor_new(opts);
++
++    visit_type_HybridOptions(v, NULL, &config, errp);
++    visit_free(v);
++    if (!config) {
++        return -1;
++    }
++
++    set_hybrid_options(ms, config, &err);
++
++    if (err) {
++        error_propagate(errp, err);
++        return -1;
++    }
++
++    return 0;
++}
++
++void parse_hybrid_opts(MachineState *ms)
++{
++    qemu_opts_foreach(qemu_find_opts("hybrid"), parse_hybrid, ms, &error_fatal);
++}
++
  void machine_free_hybrid_topology(MachineState *ms)
  {
      HybridCluster *cluster;
--    HybridCorePack *core_pack;
--    HybridCorePack *tmp;
- 
-     if (ms->topo.hybrid.clusters) {
-         for (int i = 0; i < ms->topo.hybrid.clusters; i++) {
-             cluster = &ms->topo.hybrid.cluster_list[i];
- 
--            /*
--             * TODO: Temporarily free core_pack_list here. When the
--             * building of core_list array is supported, it will be
--             * freeed there.
--             */
--            QSLIST_FOREACH_SAFE(core_pack, &cluster->core_pack_list,
--                                node, tmp) {
--                QSLIST_REMOVE_HEAD(&cluster->core_pack_list, node);
--                g_free(core_pack);
-+            if (cluster->core_list != NULL) {
-+                g_free(cluster->core_list);
-             }
-         }
-         g_free(ms->topo.hybrid.cluster_list);
-@@ -751,3 +742,38 @@ void machine_validate_hybrid_topology(MachineState *ms, Error **errp)
-         exit(1);
-     }
- }
-+
-+void machine_consolidate_hybrid_topology(MachineState *ms)
-+{
-+    HybridCluster *cluster;
-+    HybridCorePack *core_pack;
-+    HybridCorePack *tmp;
-+    int core_num;
-+
-+    for (int i = 0; i < ms->topo.hybrid.clusters; i++) {
-+        cluster = &ms->topo.hybrid.cluster_list[i];
-+        cluster->core_list = g_malloc0(sizeof(HybridCore) * cluster->cores);
-+
-+        core_num = cluster->cores;
-+        QSLIST_FOREACH_SAFE(core_pack, &cluster->core_pack_list, node, tmp) {
-+            QSLIST_REMOVE_HEAD(&cluster->core_pack_list, node);
-+
-+            /*
-+             * Here we add cores in "reverse order" because core_pack_list uses
-+             * "QSLIST_INSERT_HEAD()" to collect the cores in the "-hybrid"
-+             * command line in reverse order.
-+             *
-+             * The "reverse order" here can ensure that the growth of core-id
-+             * is consistent with the order of adding cores in "-hybrid".
-+             */
-+            for (int j = 0; j < core_pack->core_num; j++) {
-+                cluster->core_list[core_num - j - 1].core_type =
-+                    core_pack->core.core_type;
-+                cluster->core_list[core_num - j - 1].threads =
-+                    core_pack->core.threads;
-+            }
-+            core_num -= core_pack->core_num;
-+            g_free(core_pack);
-+        }
-+    }
-+}
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 630934317e3c..08a0c117ce1b 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -1329,6 +1329,7 @@ void machine_run_board_init(MachineState *machine, const char *mem_path, Error *
- 
-     if (!machine_topo_is_smp(machine)) {
-         machine_validate_hybrid_topology(machine, errp);
-+        machine_consolidate_hybrid_topology(machine);
-     }
- 
-     if (machine->memdev) {
 diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 9156982e4de6..0f865c21e2a8 100644
+index 0f865c21e2a8..0395990139bc 100644
 --- a/include/hw/boards.h
 +++ b/include/hw/boards.h
-@@ -42,6 +42,7 @@ void set_hybrid_options(MachineState *ms,
-                         Error **errp);
+@@ -37,9 +37,7 @@ void machine_set_cpu_numa_node(MachineState *machine,
+ void machine_parse_smp_config(MachineState *ms,
+                               const SMPConfiguration *config, Error **errp);
+ int machine_parse_hybrid_core_type(MachineState *ms, const char *coretype);
+-void set_hybrid_options(MachineState *ms,
+-                        const HybridOptions *config,
+-                        Error **errp);
++void parse_hybrid_opts(MachineState *ms);
  void machine_free_hybrid_topology(MachineState *ms);
  void machine_validate_hybrid_topology(MachineState *ms, Error **errp);
-+void machine_consolidate_hybrid_topology(MachineState *ms);
- 
- /**
-  * machine_class_allow_dynamic_sysbus_dev: Add type to list of valid devices
+ void machine_consolidate_hybrid_topology(MachineState *ms);
 -- 
 2.34.1
 
