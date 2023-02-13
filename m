@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7369269421C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:58:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F97A694219
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:57:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVNP-0004Ul-W7; Mon, 13 Feb 2023 04:44:00 -0500
+	id 1pRVNP-0004R4-Ii; Mon, 13 Feb 2023 04:43:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVNM-0004Nt-K0
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:56 -0500
+ id 1pRVNN-0004Q7-Ro
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:57 -0500
 Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVNI-0002hK-99
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:56 -0500
+ id 1pRVNM-0002i2-CH
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676281432; x=1707817432;
+ t=1676281436; x=1707817436;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Fb5Jd3+FlLcShrL7GG+M+7BkM921fep/ZX2beGWD3A8=;
- b=d6LOVPpEM9Ht4ZrRh0ebxTKFeXxugowY0/RMHYqOFN6vFNhL58wr4vOa
- DMl1QPZr7f2Z1yLvfHF5YFvAbjf4dCtMsrVIQbjJZsBupeNl2o53HJcRz
- 9WHr9fQ1pZFEqvYuT6a5k5wUNCLX0GMwjcNIxcwM37BCx4LmEAtC21d+m
- ONm77cXVtmZlMdfI2W9MqlDP1oJWB5ThbT/VcffTdxHpwWcPoKDoNFnOR
- tvbHiySOkP7egDMZcT8aKHfmaLQiYytDhlietAf3a2PZq7lzeJRdICIqb
- eUf+IcQZZZUu8gExfAbLFWJTo/JNIeQty5vhl3CoP0VmV3GR8qus6uT0a w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486525"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486525"
+ bh=aVeL9lXSm+9rImx8FaSdczi3Rn44hbMbKwjHVwkwjYI=;
+ b=gp3Zig8+h2pl1cYDtQeqtPmcoXP0NTgbmH2hBQ19JepqYwwyXzJfZllB
+ +oNrnikRrgNJOoVS8hWFAl8LRut8ITt2NswLwGQuBRE6tNIU/Xi5Augux
+ RLVB/8jYtzg+UK7X9YW/NGKKpyUXvCXygx1vSTwu4nDaWU3AUrxRWGxVH
+ txd6JA5mp+l5LHZOCSXs24Ndzn0l3M4ShBKIdGPxgnQl6fY1UItCvP+QE
+ Aq/KvQ4nLXrAEnh6n/Z89hXoeNdKdku7LoN9jHSZz/xTwEmKzfoX6A0Jt
+ hsYvzfBp9D7eyRaVhtZVzTRa2ST0mKM2zMzL1p6GcNxnZojd4KTQss99A Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486539"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486539"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 01:43:51 -0800
+ 13 Feb 2023 01:43:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670759858"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670759858"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670759862"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670759862"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:43:47 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:43:51 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -54,11 +54,11 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Zhuocheng Ding <zhuocheng.ding@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
- Zhao Liu <zhao1.liu@intel.com>
-Subject: [RFC 13/52] cpu/core: Use generic topology helper for "help" to set
- nr_threads
-Date: Mon, 13 Feb 2023 17:49:56 +0800
-Message-Id: <20230213095035.158240-14-zhao1.liu@linux.intel.com>
+ Zhao Liu <zhao1.liu@intel.com>, Igor Mammedov <imammedo@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>
+Subject: [RFC 14/52] hw/smbios: Use generic topology name and helper
+Date: Mon, 13 Feb 2023 17:49:57 +0800
+Message-Id: <20230213095035.158240-15-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
@@ -89,45 +89,69 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
-The commit 0b47ec4 (cpu/core: Fix "help" of CPU core device types) sets
-nr_threads with current_machine's smp.threads for "help".
+As the generic code, smbios should respect the different topologies: smp
+or hybrid.
 
-This will break if current_machine has hybrid topology. Though core
-device now is only used by PPC, as the general code, hybrid topology
-deserves to be handled more gracefully and does not depend on whether
-the specific architecture supports hybrid topology.
+So rename smbios_smp_sockets to smbios_topo_sockets to decouple with smp
+topology.
 
-So use a generic topology helper to get threads info (of CPU 0) from
-current_machine. For smp case, this helper returns "threads per core"
-as the original smp.threads, and for hybrid case, it returns threads of
-the core that CPU 0 is located.
+And use generic topology helpers to get topology information.
 
-Since that nr_threads is just to make "help" happy and it isn't used
-afterwards, give it the threads of CPU 0 can work.
-
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- hw/cpu/core.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/smbios/smbios.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/hw/cpu/core.c b/hw/cpu/core.c
-index 987607515574..bc5ab4e01038 100644
---- a/hw/cpu/core.c
-+++ b/hw/cpu/core.c
-@@ -71,10 +71,12 @@ static void cpu_core_instance_init(Object *obj)
-     /*
-      * Only '-device something-cpu-core,help' can get us there before
-      * the machine has been created. We don't care to set nr_threads
--     * in this case since it isn't used afterwards.
-+     * in this case since it isn't used afterwards, so we fetch the
-+     * threads of the core where the CPU 0 is located, no matter whether
-+     * the topology is smp or hybrid.
-      */
-     if (current_machine) {
--        core->nr_threads = current_machine->smp.threads;
-+        core->nr_threads = machine_topo_get_threads_by_idx(current_machine, 0);
-     }
- }
+diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+index cd4aa331cb3e..2ce1f2b1d94e 100644
+--- a/hw/smbios/smbios.c
++++ b/hw/smbios/smbios.c
+@@ -70,7 +70,8 @@ static SmbiosEntryPoint ep;
+ static int smbios_type4_count = 0;
+ static bool smbios_immutable;
+ static bool smbios_have_defaults;
+-static uint32_t smbios_cpuid_version, smbios_cpuid_features, smbios_smp_sockets;
++static uint32_t smbios_cpuid_version, smbios_cpuid_features;
++static uint32_t smbios_topo_sockets;
+ 
+ static DECLARE_BITMAP(have_binfile_bitmap, SMBIOS_MAX_TYPE+1);
+ static DECLARE_BITMAP(have_fields_bitmap, SMBIOS_MAX_TYPE+1);
+@@ -461,7 +462,7 @@ opts_init(smbios_register_config);
+ static void smbios_validate_table(MachineState *ms)
+ {
+     uint32_t expect_t4_count = smbios_legacy ?
+-                                        ms->smp.cpus : smbios_smp_sockets;
++                               machine_topo_get_cpus(ms) : smbios_topo_sockets;
+ 
+     if (smbios_type4_count && smbios_type4_count != expect_t4_count) {
+         error_report("Expected %d SMBIOS Type 4 tables, got %d instead",
+@@ -713,8 +714,8 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
+ {
+     char sock_str[128];
+     size_t tbl_len = SMBIOS_TYPE_4_LEN_V28;
+-    unsigned cpus_per_socket = ms->smp.max_cpus / ms->smp.sockets;
+-    unsigned cores_per_socket = cpus_per_socket / ms->smp.threads;
++    unsigned cpus_per_socket = machine_topo_get_threads_per_socket(ms);
++    unsigned cores_per_socket = machine_topo_get_cores_per_socket(ms);
+ 
+     if (smbios_ep_type == SMBIOS_ENTRY_POINT_TYPE_64) {
+         tbl_len = SMBIOS_TYPE_4_LEN_V30;
+@@ -1088,10 +1089,10 @@ void smbios_get_tables(MachineState *ms,
+         smbios_build_type_2_table();
+         smbios_build_type_3_table();
+ 
+-        smbios_smp_sockets = ms->smp.sockets;
+-        assert(smbios_smp_sockets >= 1);
++        smbios_topo_sockets = machine_topo_get_sockets(ms);
++        assert(smbios_topo_sockets >= 1);
+ 
+-        for (i = 0; i < smbios_smp_sockets; i++) {
++        for (i = 0; i < smbios_topo_sockets; i++) {
+             smbios_build_type_4_table(ms, i);
+         }
  
 -- 
 2.34.1
