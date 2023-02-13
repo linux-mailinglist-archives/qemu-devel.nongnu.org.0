@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 617FD693EC9
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 08:12:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3DB693EC8
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 08:12:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRSxc-0001R0-Ah; Mon, 13 Feb 2023 02:09:12 -0500
+	id 1pRSxf-0001lR-61; Mon, 13 Feb 2023 02:09:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRSxX-0001DW-OQ
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:09:07 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRSxc-0001Yg-Jt
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:09:12 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRSxV-0001ll-20
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:09:07 -0500
-Received: by mail-wr1-x434.google.com with SMTP id r2so11040065wrv.7
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 23:09:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRSxa-0001ny-72
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:09:12 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id o18so11075070wrj.3
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 23:09:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XrL23td/SqJ6TLHwH0jeBHZYA8cTqwvHD0D623uYOIU=;
- b=LWxWbfPUIPzqD8om+TUcUCM4IthTRA43s8m8VW+ekjLsvBhu2aDOqgJLgpb+7fVNJC
- P4b5w2aZcqDBQmkbWcGDl+NL87/RYKvxZfNLw7crODYFdGGv3WawqTFq3YWutxc6bnJ+
- CIATB2FyLCeYVfYWE4BQuS9q0AXrae+Luw2dYDMy/QvLpfKaQ+jgBGnvwJ6gmKpqbaKq
- Yg/y/AkAQiQZttCiWKRNXk7wfT2GbEzoke6PtZz70HA9A5W9hQFwdpmwMgMPQI3/FBJL
- kmOkULLnIAX+T2Qgdi+4ba8DbkCGVs+fpHEJ3GW8TKDiHNiNySv8KUAMZ1PAEDSwTy5R
- pRKw==
+ bh=3aGr4pdXOmnCeHpCx27ssdrfJ2Facg5vKvJw+VkmOyc=;
+ b=qMllGUGA7JoyWdxTdjkmgcJSrE8ykvf29RBUdYxXZ5mjkJ2m4WCwIk3+YU83fSsiG8
+ H6xS0I63Lr+E8/XQbKa22b3H1dJj2N9J3zUyU3n0G3S8aJZd+WFJsV9JAYZ5awtGXdws
+ s2L9tXbtB4d1boZ8EW3sqryIYZRKDaHou1w03ktLIsqQxQyuAKiAiuuZ3f/B64XKUvzH
+ +Kkye24IcxKeOLn8cQtlMKopsCsF8Y050R8pwFf7D5dR824hagf5syp05DzSQYusqo0P
+ 6P8JYS8jmZDP88Hn+9Tx6qIrypUKFWGA60ytycARcktRuZM2hDidOO4fZWQXIdeEj92z
+ FHrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XrL23td/SqJ6TLHwH0jeBHZYA8cTqwvHD0D623uYOIU=;
- b=smEtqt0dooFRBU0B3CXZ0RSPUrm/FBCTLmPlGN8yKjuaHBZG68OD34QZZumwkiG3Ug
- dWYVjm7n00a72LNCHszmc/zclD/IDQnNo5/1r3l+DjquA2CqUk78K0mv+6g8gdOr4LpB
- 96tXSFWh9MFwYvxLEQbU5fg+WimJ3oFNifSAA6Mg/lv+9JI+PFvwRaoglCGo/VokMI+8
- etGscupT6ufnNoSdKG0LvJ0eha+YcCIKMpJ+CIqJcNkPK+xBQLzNginXnOT5RKyqHpUg
- Mt42YQ9Q3GK7LkaSRzOTwG6M472LC3Rbb4CCkFMtp9Io635gB1lmyBGfaI0Ha00S85in
- ZJlw==
-X-Gm-Message-State: AO0yUKWzrgRtpZ82j3IKzEx+lGzuKVJjJLTdSJZ91iSeTsPkiiMfiSZd
- 5DOSFo4PAkTnZ1+a8dNrpRokecITZdpQ3crM
-X-Google-Smtp-Source: AK7set+2S2xGqRInh67xIdNdobiMcWHRbGlNVEP21sfLm46I4RhZaVBE3B5wORZFn9Aoq/xloGAvdA==
-X-Received: by 2002:adf:d08a:0:b0:236:695b:82d4 with SMTP id
- y10-20020adfd08a000000b00236695b82d4mr21142772wrh.30.1676272144053; 
- Sun, 12 Feb 2023 23:09:04 -0800 (PST)
+ bh=3aGr4pdXOmnCeHpCx27ssdrfJ2Facg5vKvJw+VkmOyc=;
+ b=dgUsIvp3m3DFn9eBYzrnRo6nW4oHa+ViXcL75nBS2qlxSpnNIgy59ZeZk4zTEasSJU
+ rf7NiqBUKubWPxYqHUzespxeFsdBog3hLdIHjC4jaX9mCu/1G3vFRs9UqThQ7Nlryoln
+ fr7/v2f07uuFxm1AUWnWW1sI7iiKec7FYosMWNHH950jBja0LYr7Z2VoDMEhOtSEC/Wo
+ ioQK25ZHG03cXKiQLMII8KFLU9iJgq5/usbCcCdyWfm7cXz6tVBveEKHFc9r9v0pdoTk
+ PALPyGo5ItBAeXEqfDYpXkQlc/OkSw0RZE5ftXpSeAySWjnxsqrki9BBY3SN05nYPoTd
+ CRUA==
+X-Gm-Message-State: AO0yUKV3HznAs+YLTOinMM6+k5/SKhmuCX+6dPZu1cZCf25DmldfEmQb
+ K+oRJkVBQaWZOuGD076EE+eKegncf5nn26YY
+X-Google-Smtp-Source: AK7set8yeoq2BbCG6/rYVfT9J5EyNlf3fUxPZ1tulB76AS0XatADC3plbog8jMjDcUx3RGsEHWZepA==
+X-Received: by 2002:a5d:6292:0:b0:2c5:52ef:b46b with SMTP id
+ k18-20020a5d6292000000b002c552efb46bmr3887840wru.6.1676272149281; 
+ Sun, 12 Feb 2023 23:09:09 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- p3-20020adff203000000b002c3f6d7d5fesm9817057wro.44.2023.02.12.23.09.02
+ d7-20020adff2c7000000b002c55ed9e314sm328399wrp.64.2023.02.12.23.09.08
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 12 Feb 2023 23:09:03 -0800 (PST)
+ Sun, 12 Feb 2023 23:09:08 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org,
 	Eduardo Habkost <eduardo@habkost.net>
@@ -63,18 +63,18 @@ Cc: qemu-block@nongnu.org, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Stefan Weil <sw@weilnetz.de>, Jason Wang <jasowang@redhat.com>
-Subject: [PATCH v2 08/19] hw/net/eepro100: Introduce TYPE_EEPRO100 QOM
- abstract parent
-Date: Mon, 13 Feb 2023 08:08:09 +0100
-Message-Id: <20230213070820.76881-9-philmd@linaro.org>
+Subject: [PATCH v2 09/19] hw/net/eepro100: Replace DO_UPCAST(EEPRO100State) by
+ EEPRO100()
+Date: Mon, 13 Feb 2023 08:08:10 +0100
+Message-Id: <20230213070820.76881-10-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230213070820.76881-1-philmd@linaro.org>
 References: <20230213070820.76881-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,83 +97,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Have all the EEPRO100-based devices share a common (abstract)
-QOM parent.
+Use the EEPRO100() QOM type-checking macro to avoid DO_UPCAST().
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/net/eepro100.c | 40 ++++++++++++++++++++++++++--------------
- 1 file changed, 26 insertions(+), 14 deletions(-)
+ hw/net/eepro100.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/hw/net/eepro100.c b/hw/net/eepro100.c
-index dc07984ae9..dac42ba17b 100644
+index dac42ba17b..915935a818 100644
 --- a/hw/net/eepro100.c
 +++ b/hw/net/eepro100.c
-@@ -235,8 +235,14 @@ typedef enum {
-     ru_ready = 4
- } ru_state_t;
+@@ -1828,7 +1828,7 @@ static const VMStateDescription vmstate_eepro100 = {
  
--typedef struct {
-+#define TYPE_EEPRO100 "eepro100"
-+OBJECT_DECLARE_SIMPLE_TYPE(EEPRO100State, EEPRO100)
-+
-+struct EEPRO100State {
-+    /*< private >*/
-     PCIDevice dev;
-+    /*< public >*/
-+
-     /* Hash register (multicast mask array, multiple individual addresses). */
-     uint8_t mult[8];
-     MemoryRegion mmio_bar;
-@@ -279,7 +285,7 @@ typedef struct {
-     /* Quasi static device properties (no need to save them). */
-     uint16_t stats_size;
-     bool has_extended_tcb_support;
--} EEPRO100State;
-+};
- 
- /* Word indices in EEPROM. */
- typedef enum {
-@@ -2082,21 +2088,27 @@ static void eepro100_class_init(ObjectClass *klass, void *data)
-     k->subsystem_id = info->subsystem_id;
- }
- 
-+static const TypeInfo eepro100_info = {
-+    .name          = TYPE_EEPRO100,
-+    .parent        = TYPE_PCI_DEVICE,
-+    .class_init    = eepro100_class_init,
-+    .abstract      = true,
-+    .instance_size = sizeof(EEPRO100State),
-+    .instance_init = eepro100_instance_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-+        { },
-+    },
-+};
-+
- static void eepro100_register_types(void)
+ static void pci_nic_uninit(PCIDevice *pci_dev)
  {
--    size_t i;
--    for (i = 0; i < ARRAY_SIZE(e100_devices); i++) {
--        TypeInfo type_info = {};
--        E100PCIDeviceInfo *info = &e100_devices[i];
-+    type_register_static(&eepro100_info);
+-    EEPRO100State *s = DO_UPCAST(EEPRO100State, dev, pci_dev);
++    EEPRO100State *s = EEPRO100(pci_dev);
  
--        type_info.name = info->name;
--        type_info.parent = TYPE_PCI_DEVICE;
--        type_info.class_init = eepro100_class_init;
--        type_info.instance_size = sizeof(EEPRO100State);
--        type_info.instance_init = eepro100_instance_init;
--        type_info.interfaces = (InterfaceInfo[]) {
--            { INTERFACE_CONVENTIONAL_PCI_DEVICE },
--            { },
-+    for (size_t i = 0; i < ARRAY_SIZE(e100_devices); i++) {
-+        TypeInfo type_info = {
-+            .name   = e100_devices[i].name,
-+            .parent = TYPE_EEPRO100,
-         };
+     vmstate_unregister(VMSTATE_IF(&pci_dev->qdev), s->vmstate, s);
+     g_free(s->vmstate);
+@@ -1844,7 +1844,7 @@ static NetClientInfo net_eepro100_info = {
  
-         type_register(&type_info);
+ static void e100_nic_realize(PCIDevice *pci_dev, Error **errp)
+ {
+-    EEPRO100State *s = DO_UPCAST(EEPRO100State, dev, pci_dev);
++    EEPRO100State *s = EEPRO100(pci_dev);
+     E100PCIDeviceInfo *info = eepro100_get_class(s);
+     Error *local_err = NULL;
+ 
+@@ -1895,7 +1895,7 @@ static void e100_nic_realize(PCIDevice *pci_dev, Error **errp)
+ 
+ static void eepro100_instance_init(Object *obj)
+ {
+-    EEPRO100State *s = DO_UPCAST(EEPRO100State, dev, PCI_DEVICE(obj));
++    EEPRO100State *s = EEPRO100(obj);
+     device_add_bootindex_property(obj, &s->conf.bootindex,
+                                   "bootindex", "/ethernet-phy@0",
+                                   DEVICE(s));
 -- 
 2.38.1
 
