@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DD1D6941EB
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:50:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D5936941F5
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:51:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVOr-0000AQ-Gg; Mon, 13 Feb 2023 04:45:29 -0500
+	id 1pRVOo-0008Me-7q; Mon, 13 Feb 2023 04:45:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVOj-00086J-AL
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:45:21 -0500
+ id 1pRVOk-0008DF-O2
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:45:22 -0500
 Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVOc-0002kj-DT
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:45:20 -0500
+ id 1pRVOg-0002o2-0J
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:45:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676281514; x=1707817514;
+ t=1676281518; x=1707817518;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=oKB6GgoCo/BzOtEhJhVfmhnZ7QnPb4S9n1ggdhgGhBQ=;
- b=h9oH22cUY6noSATxpocUOPN+BhExgOE2UoFJ/9m0o8q/1B6a4TyAsazG
- DGZErrPTsYs9mVRGU040iZB6f8E9x3TPKPRDmp217xi9Sp0t6E/vFA5gv
- iBC+mgDEKXfPIfWLQiK7diHL3manPxFXICumUmQYMwS2b8LAdDWLa2ejL
- 9I7m1LxzTj/VlydvcPCguFswcf5pr8C7RxgmF5yWfuA7t/fKjmq53CR1m
- PYfWsCk4lcDEjjGDGzLcBjwqrx+ScLYcm6eUSL3we5Mc6XXBcDiOwFGkY
- JAQrqU63pk+gCPDMcwgcH74JWSABQXRungvqUjI8bGxg3DF7hQJA0ORIc Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486804"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486804"
+ bh=KMrei+EtNL/UOGEdOXu/70OFLOch1lKNzTCYU64RxRc=;
+ b=XY4YUIk8sWXnkopEPgpBHxBKTdB3Tsd2Gw7SHY5QgCQVxTCYUMH0f8jX
+ UFLVW0FV65KSMz+Pm26r/nrFYwRoeIZS2foF9oaSUjf9WM+1CJ/ef8+YM
+ KfbgOuXcfrtGvC5Oxdemd6uTC4FznUaiBTeUQUouKn3EcpLaUgRikvCP8
+ WWnVlqlfYmjTY+KSjaoXcEiA8+sN6AmYkVbV7X14eEjA9cdBAzW7lPuy/
+ BUrBbdSRmSwvBFuSAV6x0PEkSAhAIFBbDPylIQgocvYInP2kZKgJFMVNM
+ JhYAMmE6RsLvPCbTP5vvmGR4wf9FfieAHoHgTDlrDv7MfbC8OCBSU8bGk w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486814"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486814"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 01:44:52 -0800
+ 13 Feb 2023 01:44:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670760579"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670760579"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670760582"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670760582"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:44:48 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:44:52 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -55,9 +55,9 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
  Zhao Liu <zhao1.liu@intel.com>
-Subject: [RFC 27/52] test/test-smp-parse: Check fields of MachineState.topo.smp
-Date: Mon, 13 Feb 2023 17:50:10 +0800
-Message-Id: <20230213095035.158240-28-zhao1.liu@linux.intel.com>
+Subject: [RFC 28/52] hw/core/machine: Remove support of MachineState.smp
+Date: Mon, 13 Feb 2023 17:50:11 +0800
+Message-Id: <20230213095035.158240-29-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
@@ -88,162 +88,136 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
-MachineState.smp is being replaced by MachineState.topo.smp, so test
-MachineState.topo.smp fields parsing for smp command.
+Now the all uses of MachineState.smp are replaced by MachineState.topo.
+It's time to completely remove smp field.
+
+And clean up the struct CpuTopology in include/hw/boards.h.
 
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- tests/unit/test-smp-parse.c | 62 ++++++++++++++++++++++---------------
- 1 file changed, 37 insertions(+), 25 deletions(-)
+ hw/core/machine-topo.c        |  8 --------
+ hw/core/machine.c             |  9 +--------
+ include/hw/boards.h           | 23 +----------------------
+ include/hw/cpu/cpu-topology.h | 11 +++--------
+ 4 files changed, 5 insertions(+), 46 deletions(-)
 
-diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
-index fdc39a846ca6..d6816f109084 100644
---- a/tests/unit/test-smp-parse.c
-+++ b/tests/unit/test-smp-parse.c
-@@ -41,10 +41,13 @@
- #define CPU_TOPOLOGY_GENERIC(a, b, c, d, e)                   \
-         {                                                     \
-             .cpus     = a,                                    \
--            .sockets  = b,                                    \
--            .cores    = c,                                    \
--            .threads  = d,                                    \
-             .max_cpus = e,                                    \
-+            .topo_type = CPU_TOPO_TYPE_SMP,                   \
-+            .smp = {                                          \
-+                .sockets  = b,                                \
-+                .cores    = c,                                \
-+                .threads  = d,                                \
-+            }                                                 \
-         }
+diff --git a/hw/core/machine-topo.c b/hw/core/machine-topo.c
+index cdbe65ffd9fd..12c05510c1b5 100644
+--- a/hw/core/machine-topo.c
++++ b/hw/core/machine-topo.c
+@@ -307,14 +307,6 @@ void machine_parse_smp_config(MachineState *ms,
+     maxcpus = maxcpus > 0 ? maxcpus : sockets * dies * clusters * cores * threads;
+     cpus = cpus > 0 ? cpus : maxcpus;
  
- /*
-@@ -406,8 +409,8 @@ static char *cpu_topology_to_string(const CpuTopology *topo)
-         "    .threads  = %u,\n"
-         "    .max_cpus = %u,\n"
-         "}",
--        topo->cpus, topo->sockets, topo->dies, topo->clusters,
--        topo->cores, topo->threads, topo->max_cpus);
-+        topo->cpus, topo->smp.sockets, topo->smp.dies, topo->smp.clusters,
-+        topo->smp.cores, topo->smp.threads, topo->max_cpus);
- }
- 
- static void check_parse(MachineState *ms, const SMPConfiguration *config,
-@@ -422,18 +425,19 @@ static void check_parse(MachineState *ms, const SMPConfiguration *config,
-     /* call the generic parser */
-     machine_parse_smp_config(ms, config, &err);
- 
--    output_topo_str = cpu_topology_to_string(&ms->smp);
-+    output_topo_str = cpu_topology_to_string(&ms->topo);
- 
-     /* when the configuration is supposed to be valid */
-     if (is_valid) {
-         if ((err == NULL) &&
--            (ms->smp.cpus == expect_topo->cpus) &&
--            (ms->smp.sockets == expect_topo->sockets) &&
--            (ms->smp.dies == expect_topo->dies) &&
--            (ms->smp.clusters == expect_topo->clusters) &&
--            (ms->smp.cores == expect_topo->cores) &&
--            (ms->smp.threads == expect_topo->threads) &&
--            (ms->smp.max_cpus == expect_topo->max_cpus)) {
-+            (machine_topo_is_smp(ms) == true) &&
-+            (machine_topo_get_cpus(ms) == expect_topo->cpus) &&
-+            (machine_topo_get_sockets(ms) == expect_topo->smp.sockets) &&
-+            (machine_topo_get_dies(ms) == expect_topo->smp.dies) &&
-+            (machine_topo_get_clusters(ms) == expect_topo->smp.clusters) &&
-+            (machine_topo_get_smp_cores(ms) == expect_topo->smp.cores) &&
-+            (machine_topo_get_smp_threads(ms) == expect_topo->smp.threads) &&
-+            (machine_topo_get_max_cpus(ms) == expect_topo->max_cpus)) {
-             return;
-         }
- 
-@@ -509,13 +513,13 @@ static void smp_parse_test(MachineState *ms, SMPTestData *data, bool is_valid)
- static void unsupported_params_init(const MachineClass *mc, SMPTestData *data)
- {
-     if (!mc->smp_props.dies_supported) {
--        data->expect_prefer_sockets.dies = 1;
--        data->expect_prefer_cores.dies = 1;
-+        data->expect_prefer_sockets.smp.dies = 1;
-+        data->expect_prefer_cores.smp.dies = 1;
+-    ms->smp.cpus = cpus;
+-    ms->smp.sockets = sockets;
+-    ms->smp.dies = dies;
+-    ms->smp.clusters = clusters;
+-    ms->smp.cores = cores;
+-    ms->smp.threads = threads;
+-    ms->smp.max_cpus = maxcpus;
+-
+     ms->topo.cpus = cpus;
+     ms->topo.max_cpus = maxcpus;
+     ms->topo.smp.sockets = sockets;
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 56e796c18873..fad990f49b03 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -1093,16 +1093,9 @@ static void machine_initfn(Object *obj)
      }
  
-     if (!mc->smp_props.clusters_supported) {
--        data->expect_prefer_sockets.clusters = 1;
--        data->expect_prefer_cores.clusters = 1;
-+        data->expect_prefer_sockets.smp.clusters = 1;
-+        data->expect_prefer_cores.smp.clusters = 1;
-     }
- }
- 
-@@ -529,6 +533,13 @@ static void machine_base_class_init(ObjectClass *oc, void *data)
-     mc->name = g_strdup(SMP_MACHINE_NAME);
- }
- 
-+static void machine_smp_topo_initfn(Object *obj)
-+{
-+    MachineState *ms = MACHINE(obj);
+     /* default to mc->default_cpus */
+-    ms->smp.cpus = mc->default_cpus;
+-    ms->smp.max_cpus = mc->default_cpus;
+-    ms->smp.sockets = 1;
+-    ms->smp.dies = 1;
+-    ms->smp.clusters = 1;
+-    ms->smp.cores = 1;
+-    ms->smp.threads = 1;
+-
+     ms->topo.cpus = mc->default_cpus;
+     ms->topo.max_cpus = mc->default_cpus;
 +
-+    ms->topo.topo_type = CPU_TOPO_TYPE_SMP;
-+}
-+
- static void machine_generic_invalid_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -610,8 +621,8 @@ static void test_with_dies(const void *opaque)
-         unsupported_params_init(mc, &data);
+     ms->topo.topo_type = CPU_TOPO_TYPE_SMP;
+     ms->topo.smp.sockets = 1;
+     ms->topo.smp.dies = 1;
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 78e52af38cb1..9364c90d5f1a 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -299,26 +299,6 @@ typedef struct DeviceMemoryState {
+     MemoryRegion mr;
+ } DeviceMemoryState;
  
-         /* when dies parameter is omitted, it will be set as 1 */
--        data.expect_prefer_sockets.dies = 1;
--        data.expect_prefer_cores.dies = 1;
-+        data.expect_prefer_sockets.smp.dies = 1;
-+        data.expect_prefer_cores.smp.dies = 1;
+-/**
+- * CpuTopology:
+- * @cpus: the number of present logical processors on the machine
+- * @sockets: the number of sockets on the machine
+- * @dies: the number of dies in one socket
+- * @clusters: the number of clusters in one die
+- * @cores: the number of cores in one cluster
+- * @threads: the number of threads in one core
+- * @max_cpus: the maximum number of logical processors on the machine
+- */
+-typedef struct CpuTopology {
+-    unsigned int cpus;
+-    unsigned int sockets;
+-    unsigned int dies;
+-    unsigned int clusters;
+-    unsigned int cores;
+-    unsigned int threads;
+-    unsigned int max_cpus;
+-} CpuTopology;
+-
+ /**
+  * MachineState:
+  */
+@@ -360,8 +340,7 @@ struct MachineState {
+     const char *cpu_type;
+     AccelState *accelerator;
+     CPUArchIdList *possible_cpus;
+-    CpuTopology smp;
+-    GeneralCpuTopology topo; /* TODO: Completely replace MachineState.smp */
++    CpuTopology topo;
+     struct NVDIMMState *nvdimms_state;
+     struct NumaState *numa_state;
+ };
+diff --git a/include/hw/cpu/cpu-topology.h b/include/hw/cpu/cpu-topology.h
+index 87d832556229..829f98d3a73f 100644
+--- a/include/hw/cpu/cpu-topology.h
++++ b/include/hw/cpu/cpu-topology.h
+@@ -88,7 +88,7 @@ typedef struct HybridCpuTopology {
+ } HybridCpuTopology;
  
-         smp_parse_test(ms, &data, true);
+ /**
+- * GeneralCpuTopology - General cpu topology defination.
++ * CpuTopology - General cpu topology defination.
+  *
+  * It supports one of two topologies: smp topology or hybrid topology.
+  *
+@@ -101,7 +101,7 @@ typedef struct HybridCpuTopology {
+  * @hybrid: the hybrid cpu topology informantion. Only valid when
+  *          topo_type is CPU_TOPO_TYPE_HYBRID.
+  */
+-typedef struct GeneralCpuTopology {
++typedef struct CpuTopology {
+     unsigned int cpus;
+     unsigned int max_cpus;
+     CpuTopoType topo_type;
+@@ -109,11 +109,6 @@ typedef struct GeneralCpuTopology {
+         SmpCpuTopology smp;
+         HybridCpuTopology hybrid;
+     };
+-} GeneralCpuTopology; /*
+-                       * TODO: This name is temporary, just to distinguish it
+-                       * from the CpuTopology in boards.h. When CpuTopology in
+-                       * boards.h is merged here, it will be uniformly named as
+-                       * CpuTopology.
+-                       */
++} CpuTopology;
  
-@@ -625,10 +636,10 @@ static void test_with_dies(const void *opaque)
-             data.config.maxcpus *= num_dies;
-         }
- 
--        data.expect_prefer_sockets.dies = num_dies;
-+        data.expect_prefer_sockets.smp.dies = num_dies;
-         data.expect_prefer_sockets.cpus *= num_dies;
-         data.expect_prefer_sockets.max_cpus *= num_dies;
--        data.expect_prefer_cores.dies = num_dies;
-+        data.expect_prefer_cores.smp.dies = num_dies;
-         data.expect_prefer_cores.cpus *= num_dies;
-         data.expect_prefer_cores.max_cpus *= num_dies;
- 
-@@ -660,8 +671,8 @@ static void test_with_clusters(const void *opaque)
-         unsupported_params_init(mc, &data);
- 
-         /* when clusters parameter is omitted, it will be set as 1 */
--        data.expect_prefer_sockets.clusters = 1;
--        data.expect_prefer_cores.clusters = 1;
-+        data.expect_prefer_sockets.smp.clusters = 1;
-+        data.expect_prefer_cores.smp.clusters = 1;
- 
-         smp_parse_test(ms, &data, true);
- 
-@@ -675,10 +686,10 @@ static void test_with_clusters(const void *opaque)
-             data.config.maxcpus *= num_clusters;
-         }
- 
--        data.expect_prefer_sockets.clusters = num_clusters;
-+        data.expect_prefer_sockets.smp.clusters = num_clusters;
-         data.expect_prefer_sockets.cpus *= num_clusters;
-         data.expect_prefer_sockets.max_cpus *= num_clusters;
--        data.expect_prefer_cores.clusters = num_clusters;
-+        data.expect_prefer_cores.smp.clusters = num_clusters;
-         data.expect_prefer_cores.cpus *= num_clusters;
-         data.expect_prefer_cores.max_cpus *= num_clusters;
- 
-@@ -704,6 +715,7 @@ static const TypeInfo smp_machine_types[] = {
-         .class_init     = machine_base_class_init,
-         .class_size     = sizeof(MachineClass),
-         .instance_size  = sizeof(MachineState),
-+        .instance_init  = machine_smp_topo_initfn,
-     }, {
-         .name           = MACHINE_TYPE_NAME("smp-generic-valid"),
-         .parent         = TYPE_MACHINE,
+ #endif /* CPU_TOPOLOGY_H */
 -- 
 2.34.1
 
