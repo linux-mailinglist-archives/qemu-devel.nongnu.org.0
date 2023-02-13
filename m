@@ -2,104 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D90693C0D
+	by mail.lfdr.de (Postfix) with ESMTPS id 38BB8693C0E
 	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 03:12:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pROJV-0006e8-IB; Sun, 12 Feb 2023 21:11:29 -0500
+	id 1pROJt-0006hG-95; Sun, 12 Feb 2023 21:11:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pROJT-0006e0-Ag
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:11:27 -0500
-Received: from esa7.hc2706-39.iphmx.com ([216.71.137.80])
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pROJr-0006gT-9r
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:11:51 -0500
+Received: from esa12.hc2706-39.iphmx.com ([216.71.137.82])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pROJR-0000Hb-6O
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:11:27 -0500
-X-IronPort-RemoteIP: 209.85.160.198
-X-IronPort-MID: 259497414
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pROJp-0000Uh-FB
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:11:51 -0500
+X-IronPort-RemoteIP: 209.85.219.71
+X-IronPort-MID: 258359055
 X-IronPort-Reputation: None
 X-IronPort-Listener: OutgoingMail
 X-IronPort-SenderGroup: RELAY_GSUITE
 X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:8cx3r6MEYIUPuHHvrR0blcFynXyQoLVcMsEvi/4bfWQNrUp3hjxSy
- TMYD2qObq3ZYDagc90jPdy28kgHsJXdnd9jSQZtpSBmQkwRlceUXt7xwmUcns+xwm8vaGo9s
- q3yv/GZdJhcokf0/0vraf656yEnj8lkf5KkYMbcICd9WAR4fykojBNnioYRj5VhxNO0GGthg
- /uryyHkEALjimEc3l48sfrZ80s15a6q4lv0g3RlDRx1lA6G/5UqJM9HTU2BByOQapVZGOe8W
- 9HCwNmRlo8O105wYj8Nuu+TnnwiG9Y+DyDX4pZlc/HKbix5m8AH+v1T2MzwyKtgo27hc9hZk
- L2hvHErIOsjFvSkdO81CnG0H8ziVEHvFXCuzXWX6KSuI0P6n3TE29dqDVMIGKkh0LxSOH13y
- fgBFhIkV0XW7w626OrTpuhEg80iKIzyINpatCgxnXfWCvEpRZ2FSKLPjTNa9G1o14YeQLCHO
- ZJfMGs/BPjDS0Qn1lM/AZYumuuyrnPiNTBUtTp5oIJtvjmPnVMtieSF3Nz9U92lWOlqtUKhl
- ln3wGLzJxhEaOekxm/Qmp6rrqqV9c/hY6oLGbils/JnnlCX7moUDhIQSB28u/bRt6Klc9dWK
- khR4zZ36KZrpRztQd76UBm15nWDu3bwRuZtLgHz0ynVooK83upTLjFsouJpADD+iPILeA==
-IronPort-HdrOrdr: A9a23:rJU02KP4NCfrNcBcTvCjsMiBIKoaSvp037BL7TEWdfUxSKfzqy
- nApoVi6faZslgssVsb+exoQZPwJU80rKQFhrX5Xo3CYOCFghrQEGgK1+KL/9SKIUHDH4BmuJ
- uJGMNFeb/N5TAQt7eY3ODBKbkdKS68gcWVuds=
-Received: from mail-qt1-f198.google.com ([209.85.160.198])
+IronPort-Data: A9a23:Dq6AFKomGLMzmuLEh3PBATlnUrReBmKlZxIvgKrLsJaIsI4StFCzt
+ garIBmGaP/fM2fxfd8gYY2w/R8H7MDQmtdgGwc+qH03H3xA9JacVYWSI3mrAy7DdceroGCLT
+ ik9hnssCOhuExcwcz/0auCJQUFUjP3OHfykTrafYEidfCc8IA85kxVvhuUltYBhhNm9Emult
+ Mj75sbSIzdJ4RYtWo4vw//F+UwHUMja4mtC5QRkPKoT5jcyqlFOZH4hDfDpR5fHatQMdgKKb
+ 76r5K20+Grf4yAsBruN+losWhRXKlJ6FVHmZkt+AsBOsDAbzsAB+v9T2M4nVKtio27hc+ada
+ Tl6ncfYpQ8BZsUgkQmGOvVSO3gW0aZuodcrLZUj2CA6IoKvn3bEmp1T4E8K0YIwxvZOXDwJx
+ PYjJT1UcEq7mM+Sg5yURbw57igjBJGD0II3v3hhyXTAE69jT8+aBarN4tBc0XE7gcUm8fT2P
+ ZJIL2oyKk6ZMlsQYz/7C7pn9AusrnD7YztUsnqfuOw673W7IAlZiuW9a4eEIoHXLSlTtmnJ+
+ X/5+mbCOAM9EICP4jy46immmcaayEsXX6pXTtVU7MVCmVCW2ykfBQMbUXO9pv+2jFP4XMhQQ
+ 3H44QIrpKk2sVW1F5zzAET+r3mDsRoRHdFXFoXW9T2w90Yd2C7BbkBsc9KLQIVOWBMeLdDy6
+ mK0og==
+IronPort-HdrOrdr: A9a23:M/XrwKABfNdSUpHlHel055DYdb4zR+YMi2TDGXoBMSC9E/bo7P
+ xG+c5w6faaskd0ZJhNo6HkBEDEewK/yXcX2+ks1NWZLW7bUQKTRekI0WKh+UyCJ8SUzJ866U
+ 4PSdkGNPTASXJXt4LV2jWZLvoX6OW70cmT9J3jJrRWIT2CqZsM0+60MGim+4RNK2h7OaY=
+Received: from mail-qv1-f71.google.com ([209.85.219.71])
  by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 12 Feb 2023 21:11:20 -0500
-Received: by mail-qt1-f198.google.com with SMTP id
- bs11-20020ac86f0b000000b003b9b4ec27c4so6627370qtb.19
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 18:11:20 -0800 (PST)
+ 12 Feb 2023 21:11:46 -0500
+Received: by mail-qv1-f71.google.com with SMTP id
+ dz7-20020ad45887000000b0056e9274a7e1so4070480qvb.5
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 18:11:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=zf3WFpu5qlCtZNfTGc0HFG8UGYMt1sCTtR5zKMP/ujw=;
- b=Z3YPjgAnKrr4ERB+KGHNlF0N05My7Fj0KUOKdNeaXhj7MzUE3TOIpOflw1zuyrRIRB
- CJ0X+Gw2fR3xCPLi+gbFQBlfFWxqECG+xodzCp8cCTFDRrIsKjFyEcIkd8gUmqNiOV2i
- r9q+CpvV1SmzsKKBkgcnlePyu1O6bFe5Mk5+TYMf5OLYe9E0SFAZecjBoaZ3fl/bJ+Dn
- RcO/hueCZtLTzjCH2hvBzm253XuXo8MgYaZ0oSLP/y1nn+8/QnzN68SEfUFQhqNtr5fr
- 0RPRXi2OXGfQOdUCbh+rsELUzEnF5FrSIJugRKW76LVbgB/2v1Cn7F0C84tB7qtWuywq
- guRA==
+ bh=xVP9tgev/ijYnlxQWpm2EfE9Wd14pn9bgswlyO8HLdY=;
+ b=K177wMwB/bUlbJhYWA8M5eG0/a0JzD2MUkJFWNLhHDcxZslhKxOuiZv/yezO1vR9Ts
+ qDKeYqdwKrtNllI3mWgxIXU2XuSO/YHtyOt2eH5g1TXXGLSMYt9XDPQycRNfVsF0doU4
+ VEGpwtKHUb5AaZbY1f/qEivc+LOw4OVDUXPXFhoE0u9B3v1JiyUdIYV83PxEw5xcMjZB
+ rh2uLgR5Y1BLksfIPzrHRltITJjUW20che6DV6FP+YljxF16qvzYdG47j8MbQJlgpIL6
+ SpbiUvwbDy3Qu7EZ2MilxGgXkpLXkGQbagU0SebVdrdSeMxZf8NMiCgwABKoACz0NNVp
+ LGIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=zf3WFpu5qlCtZNfTGc0HFG8UGYMt1sCTtR5zKMP/ujw=;
- b=PgPxYbwt3hOrxeMzryFyaGNj/6AwBpSpc6bIQ2ENtZkO2SZzCpdnrZkDJc0Iqp4o6R
- kIVMrNMDyENMXYBhwvnkc51ty1EVi2H72rA6eOdD3Tmp/+RjeDwf9l/Ld6lRWp7iUvzP
- SniUw8h+OfC9W16342IB3WDgR65ejfLEFuF0ESbqpZbtI2e6D+yvSn5WzYJH8Z4F1PUo
- CuK7TJ+0w6MH5PQsWIbzN2wdVcaHfcArOwvO+XyiXskXCHzGj4xHchwqupEG0pNSdji6
- HTklfGpuPtSmGJPDZo8CeZdFCPHSGgrt1WXDALeZ2OtsFq5a8qk9sbw1X7WFkO1nlf6r
- xx3w==
-X-Gm-Message-State: AO0yUKXrB8qsIC9Ns4hsNPGXd+Z1jxyfZBB3I/Z0KHlhwALto24wG28F
- OZkfREC+fkVDhBn/NLM3yWaCjdsKseV9R+PWT3ycmO4lCT3aj2ci0bkQwy80imgTyQAdC1TlGnC
- Z9NZSkG+rN7ZR8QNrbBS8C75WJNRZxDqLfHQ=
-X-Received: by 2002:ac8:5b4d:0:b0:3b5:87db:f99e with SMTP id
- n13-20020ac85b4d000000b003b587dbf99emr40382922qtw.39.1676254278745; 
- Sun, 12 Feb 2023 18:11:18 -0800 (PST)
-X-Google-Smtp-Source: AK7set/GvXqXDgsvghC1Jcct4vA6b5YvOYS8X0DUmvfxxFiJBuMRNhN8asVF+pnkJYFH5P4n2oQBIw==
-X-Received: by 2002:ac8:5b4d:0:b0:3b5:87db:f99e with SMTP id
- n13-20020ac85b4d000000b003b587dbf99emr40382907qtw.39.1676254278401; 
- Sun, 12 Feb 2023 18:11:18 -0800 (PST)
+ bh=xVP9tgev/ijYnlxQWpm2EfE9Wd14pn9bgswlyO8HLdY=;
+ b=B81SfK3tVVXA3T6647xSRqPH/NIYQwRccZOAZeckd3B3MD9Hay/TWhbJw5xuixE2LE
+ c8709mDRvsxUjRsCoN2PKjUfEBrFnsNCVepstuAsufK1ccDNCJWlAvcuLSedKY/WuLJH
+ 1mqlMecBAFiwXJVGYqB0celqXuUGIIF6bD2sj60+5ohbDzUvSfaoWymYNKj+DC+tQAfa
+ 275dG/sxAThDCjyYTaPQzixQQJQFDVfvVoBkwsvfNzDB3ftFvaBOUoAy+E72s+BGHBUb
+ kh2gMLq6mkkjbXT3D+WqvTCTWPXUD/JRaA6yrgnOeNUXkn93DBTxffeCoez/sKRWqXvZ
+ voVA==
+X-Gm-Message-State: AO0yUKWeoOem7KBJax0MFHTN9NUNvMC+3vgm25biz8sfOtHG/Ecp3UxG
+ ov+Mh81Pyrs/3GtoHtBJ0hEQdvri1oChcn3oOS0Efk1CH09xkMnjb3Vlz68YezkFFZDkeD7HEDF
+ AQ8yml6rxQthx9h1aUjQkInewQzq5O7iSg8XP2A==
+X-Received: by 2002:ac8:5c50:0:b0:3b9:ec46:bf95 with SMTP id
+ j16-20020ac85c50000000b003b9ec46bf95mr39630180qtj.49.1676254305665; 
+ Sun, 12 Feb 2023 18:11:45 -0800 (PST)
+X-Google-Smtp-Source: AK7set+wXRi3FxtzYwQ0a9CKwkvcIW+haoxUAqDUGudbVqo31QS9JCDf683G08rfjXxaujmKAiaK6Q==
+X-Received: by 2002:ac8:5c50:0:b0:3b9:ec46:bf95 with SMTP id
+ j16-20020ac85c50000000b003b9ec46bf95mr39630143qtj.49.1676254305325; 
+ Sun, 12 Feb 2023 18:11:45 -0800 (PST)
 Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
  by smtp.gmail.com with ESMTPSA id
- d206-20020a3768d7000000b00725d8d6983asm8810504qkc.61.2023.02.12.18.11.17
+ fg10-20020a05622a580a00b003b63238615fsm8557135qtb.46.2023.02.12.18.11.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Feb 2023 18:11:17 -0800 (PST)
-Date: Sun, 12 Feb 2023 21:11:14 -0500
+ Sun, 12 Feb 2023 18:11:44 -0800 (PST)
+Date: Sun, 12 Feb 2023 21:11:41 -0500
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Bandan Das <bsd@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 00/10] Retire Fork-Based Fuzzing
-Message-ID: <20230213021114.4dppxgu2mbpx4ept@mozz.bu.edu>
-References: <20230205042951.3570008-1-alxndr@bu.edu>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Jon Maloy <jmaloy@redhat.com>, Siqi Chen <coc.cyqh@gmail.com>
+Subject: Re: [PATCH v6 0/4] memory: prevent dma-reentracy issues
+Message-ID: <20230213021141.mmzdpzj6ekmml3bx@mozz.bu.edu>
+References: <20230205040737.3567731-1-alxndr@bu.edu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230205042951.3570008-1-alxndr@bu.edu>
+In-Reply-To: <20230205040737.3567731-1-alxndr@bu.edu>
 X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.137.80; envelope-from=alxndr@bu.edu;
- helo=esa7.hc2706-39.iphmx.com
-X-Spam_score_int: 5
-X-Spam_score: 0.5
-X-Spam_bar: /
-X-Spam_report: (0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.632, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URI_DOTEDU=1.999 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.71.137.82; envelope-from=alxndr@bu.edu;
+ helo=esa12.hc2706-39.iphmx.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.632, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,90 +131,80 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 ping
 
-On 230204 2329, Alexander Bulekov wrote:
-> Hello,
-> This series removes fork-based fuzzing.
-> How does fork-based fuzzing work?
->  * A single parent process initializes QEMU
->  * We identify the devices we wish to fuzz (fuzzer-dependent)
->  * Use QTest to PCI enumerate the devices
->  * After that we start a fork-server which forks the process and executes
->    fuzzer inputs inside the disposable children.
+On 230204 2307, Alexander Bulekov wrote:
+> These patches aim to solve two types of DMA-reentrancy issues:
+>   
+> 1.) mmio -> dma -> mmio case
+> To solve this, we track whether the device is engaged in io by
+> checking/setting a reentrancy-guard within APIs used for MMIO access.
+>   
+> 2.) bh -> dma write -> mmio case
+> This case is trickier, since we dont have a generic way to associate a
+> bh with the underlying Device/DeviceState. Thus, this version allows a
+> device to associate a reentrancy-guard with a bh, when creating it.
+> (Instead of calling qemu_bh_new, you call qemu_bh_new_guarded)
+>   
+> I replaced most of the qemu_bh_new invocations with the guarded analog,
+> except for the ones where the DeviceState was not trivially accessible.
 > 
-> In a normal fuzzing process, everything happens in a single process.
+> v5 -> v6:
+>     - Only apply checkpatch checks to code in paths containing "/hw/"
+>       (/hw/ and include/hw/)
+>     - Fix a bug in a _guarded call added to hw/block/virtio-blk.c
+> v4-> v5:
+>     - Add corresponding checkpatch checks
+>     - Save/restore reentrancy-flag when entering/exiting BHs
+>     - Improve documentation
+>     - Check object_dynamic_cast return value
+>   
+> v3 -> v4: Instead of changing all of the DMA APIs, instead add an
+>     optional reentrancy guard to the BH API.
 > 
-> Pros of fork-based fuzzing:
->  * We only need to do common configuration once (e.g. PCI enumeration).
->  * Fork provides a strong guarantee that fuzzer inputs will not interfere with
->    each-other
->  * The fuzzing process can continue even after a child-process crashes
->  * We can apply our-own timers to child-processes to exit slow inputs, early
+> v2 -> v3: Bite the bullet and modify the DMA APIs, rather than
+>     attempting to guess DeviceStates in BHs.
 > 
-> Cons of fork-based fuzzing:
->  * Fork-based fuzzing is not supported by libfuzzer. We had to build our own
->    fork-server and rely on tricks using linker-scripts and shared-memory to
->    support fuzzing. ( https://physics.bu.edu/~alxndr/libfuzzer-forkserver/ )
->  * Fork-based fuzzing is currently the main blocker preventing us from enabling
->    other fuzzers such as AFL++ on OSS-Fuzz
->  * Fork-based fuzzing may be a reason why coverage-builds are failing on
->    OSS-Fuzz. Coverage is an important fuzzing metric which would allow us to
->    find parts of the code that are not well-covered.
->  * Fork-based fuzzing has high overhead. fork() is an expensive system-call,
->    especially for processes running ASAN (with large/complex) VMA layouts.
->  * Fork prevents us from effectively fuzzing devices that rely on
->    threads (e.g. qxl).
+> Alexander Bulekov (4):
+>   memory: prevent dma-reentracy issues
+>   async: Add an optional reentrancy guard to the BH API
+>   checkpatch: add qemu_bh_new/aio_bh_new checks
+>   hw: replace most qemu_bh_new calls with qemu_bh_new_guarded
 > 
-> These patches remove fork-based fuzzing and replace it with reboot-based
-> fuzzing for most cases. Misc notes about this change:
->  * libfuzzer appears to be no longer in active development. As such, the
->    current implementation of fork-based fuzzing (while having some nice
->    advantages) is likely to hold us back in the future. If these changes
->    are approved and appear to run successfully on OSS-Fuzz, we should be
->    able to easily experiment with other fuzzing engines (AFL++).
->  * Some device do not completely reset their state. This can lead to
->    non-reproducible crashes. However, in my local tests, most crashes
->    were reproducible. OSS-Fuzz shouldn't send us reports unless it can
->    consistently reproduce a crash.
->  * In theory, the corpus-format should not change, so the existing
->    corpus-inputs on OSS-Fuzz will transfer to the new reset()-able
->    fuzzers.
->  * Each fuzzing process will now exit after a single crash is found. To
->    continue the fuzzing process, use libfuzzer flags such as -jobs=-1
->  * We no long control input-timeouts (those are handled by libfuzzer).
->    Since timeouts on oss-fuzz can be many seconds long, I added a limit
->    on the number of DMA bytes written.
->  
-> 
-> Alexander Bulekov (10):
->   hw/sparse-mem: clear memory on reset
->   fuzz: add fuzz_reboot API
->   fuzz/generic-fuzz: use reboots instead of forks to reset state
->   fuzz/generic-fuzz: add a limit on DMA bytes written
->   fuzz/virtio-scsi: remove fork-based fuzzer
->   fuzz/virtio-net: remove fork-based fuzzer
->   fuzz/virtio-blk: remove fork-based fuzzer
->   fuzz/i440fx: remove fork-based fuzzer
->   fuzz: remove fork-fuzzing scaffolding
->   docs/fuzz: remove mentions of fork-based fuzzing
-> 
->  docs/devel/fuzzing.rst              |  22 +-----
->  hw/mem/sparse-mem.c                 |  13 +++-
->  meson.build                         |   4 -
->  tests/qtest/fuzz/fork_fuzz.c        |  41 ----------
->  tests/qtest/fuzz/fork_fuzz.h        |  23 ------
->  tests/qtest/fuzz/fork_fuzz.ld       |  56 --------------
->  tests/qtest/fuzz/fuzz.c             |   6 ++
->  tests/qtest/fuzz/fuzz.h             |   2 +-
->  tests/qtest/fuzz/generic_fuzz.c     | 111 +++++++---------------------
->  tests/qtest/fuzz/i440fx_fuzz.c      |  27 +------
->  tests/qtest/fuzz/meson.build        |   6 +-
->  tests/qtest/fuzz/virtio_blk_fuzz.c  |  51 ++-----------
->  tests/qtest/fuzz/virtio_net_fuzz.c  |  54 ++------------
->  tests/qtest/fuzz/virtio_scsi_fuzz.c |  51 ++-----------
->  14 files changed, 72 insertions(+), 395 deletions(-)
->  delete mode 100644 tests/qtest/fuzz/fork_fuzz.c
->  delete mode 100644 tests/qtest/fuzz/fork_fuzz.h
->  delete mode 100644 tests/qtest/fuzz/fork_fuzz.ld
+>  docs/devel/multiple-iothreads.txt |  7 +++++++
+>  hw/9pfs/xen-9p-backend.c          |  4 +++-
+>  hw/block/dataplane/virtio-blk.c   |  3 ++-
+>  hw/block/dataplane/xen-block.c    |  5 +++--
+>  hw/char/virtio-serial-bus.c       |  3 ++-
+>  hw/display/qxl.c                  |  9 ++++++---
+>  hw/display/virtio-gpu.c           |  6 ++++--
+>  hw/ide/ahci.c                     |  3 ++-
+>  hw/ide/core.c                     |  3 ++-
+>  hw/misc/imx_rngc.c                |  6 ++++--
+>  hw/misc/macio/mac_dbdma.c         |  2 +-
+>  hw/net/virtio-net.c               |  3 ++-
+>  hw/nvme/ctrl.c                    |  6 ++++--
+>  hw/scsi/mptsas.c                  |  3 ++-
+>  hw/scsi/scsi-bus.c                |  3 ++-
+>  hw/scsi/vmw_pvscsi.c              |  3 ++-
+>  hw/usb/dev-uas.c                  |  3 ++-
+>  hw/usb/hcd-dwc2.c                 |  3 ++-
+>  hw/usb/hcd-ehci.c                 |  3 ++-
+>  hw/usb/hcd-uhci.c                 |  2 +-
+>  hw/usb/host-libusb.c              |  6 ++++--
+>  hw/usb/redirect.c                 |  6 ++++--
+>  hw/usb/xen-usb.c                  |  3 ++-
+>  hw/virtio/virtio-balloon.c        |  5 +++--
+>  hw/virtio/virtio-crypto.c         |  3 ++-
+>  include/block/aio.h               | 18 ++++++++++++++++--
+>  include/hw/qdev-core.h            |  7 +++++++
+>  include/qemu/main-loop.h          |  7 +++++--
+>  scripts/checkpatch.pl             |  8 ++++++++
+>  softmmu/memory.c                  | 17 +++++++++++++++++
+>  softmmu/trace-events              |  1 +
+>  tests/unit/ptimer-test-stubs.c    |  3 ++-
+>  util/async.c                      | 18 +++++++++++++++++-
+>  util/main-loop.c                  |  5 +++--
+>  util/trace-events                 |  1 +
+>  35 files changed, 147 insertions(+), 41 deletions(-)
 > 
 > -- 
 > 2.39.0
