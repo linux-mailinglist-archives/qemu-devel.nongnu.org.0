@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5193694197
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:44:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 366EB6941B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:45:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVMm-0003Tp-4h; Mon, 13 Feb 2023 04:43:20 -0500
+	id 1pRVMm-0003UF-UW; Mon, 13 Feb 2023 04:43:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVMj-0003TH-Mu
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:17 -0500
+ id 1pRVMl-0003Tu-Sd
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:19 -0500
 Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVMe-0002YE-MQ
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:16 -0500
+ id 1pRVMh-0002Wd-8m
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676281392; x=1707817392;
+ t=1676281395; x=1707817395;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=8kkJWY4G1XWoH363of9NnicYQ9neuibkxPMg03d5LqQ=;
- b=CgQir2InGjk8embtn40mLvUBaZR8G7tVPQG2RwY/dSr/TQZJdUPNuHfM
- YQXLLlLoDWvEjo7D7O0ImBPStlZvTYq6Psu6OMg+CSWVkzBAPh8LiewX0
- nc+5NulIEfqgFnh/A02NznJGb8k7BMDD7wlSRPj5TrG1VfANn7YKcS/+n
- W3mIZmY0jXuaDVIzAvj2e3ENC+4rWLF9CIdM0q4/yl8PnXU94ene80Lcz
- ToKYa5ZOeXr+ybHV1zbvshpmKbnx/GfBgsSst7ngCq7h/OXf5/D8c5jgM
- EKS8arkVzX1KjnYyyVthZu4mDiAAkV8RuEdyvGZIGoz3S3WYmyHihYOcM w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486318"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486318"
+ bh=/E7k/NTHks3kjh661e475eJSmR+9SbGlLKePVDzqsFE=;
+ b=VV3IxpXBLRNDTlPLF1N6OFNtgYCihzCj6P7m6ih7hl7nmhN7TYCmeAUs
+ ypK1jyiw5JPAY7BGe/uemxHkGjFathTB6zZ4RpPsTl2Qls9ECmcHCUV8D
+ tCKc8FjSvjzKC/Fe/sUE6lg+gXts967TUSgUbDJDjfE1Qa+TXVaIuSo05
+ +OKBPqwC3uUu8ja5Q7dv3aToseHdDm4WnBwysmt3/IpL02gVKQwPxJsQ7
+ ywkFC/kNUTjcj2/zVTBLXj87V55KQdKTXtHrUJiAn28kr3VLAfDlh5XTY
+ YxWL97qWnm1SANYVoHAlXWgQL4Sq78qtvxsj2NXgKNW+Fukm8jNPHY+zw w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486333"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486333"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 01:43:10 -0800
+ 13 Feb 2023 01:43:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670759794"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670759794"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670759800"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670759800"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:43:06 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:43:10 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -56,9 +56,9 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
  Zhao Liu <zhao1.liu@intel.com>, Igor Mammedov <imammedo@redhat.com>,
  Ani Sinha <ani@anisinha.ca>
-Subject: [RFC 02/52] hw/smbios: Fix thread count in type4
-Date: Mon, 13 Feb 2023 17:49:45 +0800
-Message-Id: <20230213095035.158240-3-zhao1.liu@linux.intel.com>
+Subject: [RFC 03/52] hw/smbios: Fix core count in type4
+Date: Mon, 13 Feb 2023 17:49:46 +0800
+Message-Id: <20230213095035.158240-4-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
@@ -89,48 +89,57 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
-From SMBIOS 3.0 specification, thread count field means:
+From SMBIOS 3.0 specification, core count field means:
 
-Thread Count is the total number of threads detected by the BIOS for
-this processor socket. It is a processor-wide count, not a
-thread-per-core count. [1]
+Core Count is the number of cores detected by the BIOS for this
+processor socket. [1]
 
-So here we should use threads per socket other than threads per core.
+Before 003f230 (machine: Tweak the order of topology members in struct
+CpuTopology), MachineState.smp.cores means "the number of cores in one
+package", and it's correct to use smp.cores for core count.
 
-[1] SMBIOS 3.0.0, section 7.5.8, Processor Information - Thread Count
+But 003f230 changes the smp.cores' meaning to "the number of cores in
+one die" and doesn't change the original smp.cores' use in smbios as
+well, which makes core count in type4 go wrong.
+
+Fix this issue with the correct "cores per socket" caculation.
+
+[1] SMBIOS 3.0.0, section 7.5.6, Processor Information - Core Count
 
 Cc: Michael S. Tsirkin <mst@redhat.com>
 Cc: Igor Mammedov <imammedo@redhat.com>
 Cc: Ani Sinha <ani@anisinha.ca>
-Fixes: c97294e (SMBIOS: Build aggregate smbios tables and entry point)
+Fixes: 003f230 (machine: Tweak the order of topology members in struct CpuTopology)
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
  hw/smbios/smbios.c | 5 +++--
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-index 993e8d899b9a..5e6d4584edbb 100644
+index 5e6d4584edbb..cd4aa331cb3e 100644
 --- a/hw/smbios/smbios.c
 +++ b/hw/smbios/smbios.c
-@@ -713,6 +713,7 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
- {
+@@ -714,6 +714,7 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
      char sock_str[128];
      size_t tbl_len = SMBIOS_TYPE_4_LEN_V28;
-+    unsigned cpus_per_socket = ms->smp.max_cpus / ms->smp.sockets;
+     unsigned cpus_per_socket = ms->smp.max_cpus / ms->smp.sockets;
++    unsigned cores_per_socket = cpus_per_socket / ms->smp.threads;
  
      if (smbios_ep_type == SMBIOS_ENTRY_POINT_TYPE_64) {
          tbl_len = SMBIOS_TYPE_4_LEN_V30;
-@@ -752,8 +753,8 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
+@@ -748,10 +749,10 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
+     SMBIOS_TABLE_SET_STR(4, asset_tag_number_str, type4.asset);
+     SMBIOS_TABLE_SET_STR(4, part_number_str, type4.part);
  
-     t->core_count2 = t->core_enabled2 = cpu_to_le16(ms->smp.cores);
+-    t->core_count = (ms->smp.cores > 255) ? 0xFF : ms->smp.cores;
++    t->core_count = (cores_per_socket > 255) ? 0xFF : cores_per_socket;
+     t->core_enabled = t->core_count;
  
--    t->thread_count = (ms->smp.threads > 255) ? 0xFF : ms->smp.threads;
--    t->thread_count2 = cpu_to_le16(ms->smp.threads);
-+    t->thread_count = (cpus_per_socket > 255) ? 0xFF : cpus_per_socket;
-+    t->thread_count2 = cpu_to_le16(cpus_per_socket);
+-    t->core_count2 = t->core_enabled2 = cpu_to_le16(ms->smp.cores);
++    t->core_count2 = t->core_enabled2 = cpu_to_le16(cores_per_socket);
  
-     t->processor_characteristics = cpu_to_le16(0x02); /* Unknown */
-     t->processor_family2 = cpu_to_le16(0x01); /* Other */
+     t->thread_count = (cpus_per_socket > 255) ? 0xFF : cpus_per_socket;
+     t->thread_count2 = cpu_to_le16(cpus_per_socket);
 -- 
 2.34.1
 
