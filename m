@@ -2,98 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D918169459E
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 13:16:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B13F6694661
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 13:54:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRXjU-00066m-BE; Mon, 13 Feb 2023 07:14:56 -0500
+	id 1pRYK2-0004r4-LT; Mon, 13 Feb 2023 07:52:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRXjR-000660-Ff
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 07:14:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1pRYK0-0004qv-72
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 07:52:40 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRXjO-0001hB-DL
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 07:14:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676290489;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=C2F6FpKR94YCDsnFPyZ/eeXk1LbhpfoIw6pZ5QnGrHY=;
- b=HdWswY88adMEAiWxvIN0X4ez14aV2pVr4WSOt6mxBdney+HO93x8N29RiBHQTx0nE/xvuX
- OwY1nXaF3t8yXSrmtUeMwybTsPaEjwuXBtvcBWRMi0hhFjnKj7JqMftFwSSyw8zcIJj+/S
- ohqZGHcEL6qfbOoHw8Ohif7qq2Bn8nA=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-31-vWcLQLHeOqKWl_X_EgIvYQ-1; Mon, 13 Feb 2023 07:14:48 -0500
-X-MC-Unique: vWcLQLHeOqKWl_X_EgIvYQ-1
-Received: by mail-qt1-f198.google.com with SMTP id
- v8-20020a05622a144800b003ba0dc5d798so7338687qtx.22
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 04:14:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=C2F6FpKR94YCDsnFPyZ/eeXk1LbhpfoIw6pZ5QnGrHY=;
- b=u810FIiDD2fldsgQOe/rYvrIJpjPB7qA27b/xwnhYltmgYUK7spkOqH8oNKi8T/9HY
- P2TD3peFr6NpPTZjDk4LtWVG8MDJAapNUpUHmdfwP88F+qYjPJNV39lYAubqCSXtF9zz
- 7Bj+BQWiMK4zHazMYTXzO8t1i2wUeBv/4piDBScTKxwSXbcDKBgKkADM3N0Qk3fMEkGl
- p452ZbOcTRB6AJbyuQGRAhE34wUSSf02kHODJq0T1n5i2jCwzrdYuCwLbM8ryHd8+m+8
- dqNmv+2CSLZ9HPv1DR6Sc+gLE5hbqYAsKiCtufJ0otrEDP3M94GKPTG5YLmbvsY5dD5X
- QTmA==
-X-Gm-Message-State: AO0yUKVHW1UeQpsngGy9e+o+H1hR6Qr/cxKxUSzxLzTLr35FNEWO5EzE
- 6rvruYOF7CqsQlurmJTYqJL6lerVPPf/0FbRgtmWszisp7ofO0n1hXdpEChmRFNlKMIp240l4DH
- Yx2SqDUbGZccrsaE=
-X-Received: by 2002:a05:622a:1653:b0:3b9:c153:f169 with SMTP id
- y19-20020a05622a165300b003b9c153f169mr44811766qtj.0.1676290487707; 
- Mon, 13 Feb 2023 04:14:47 -0800 (PST)
-X-Google-Smtp-Source: AK7set8gQJnHrpsOwE+sXXrO7aBs99T2i+jwlBKZ4rdMuLht5/7s1zh+0mYUoqojqFbEthjdT468Ww==
-X-Received: by 2002:a05:622a:1653:b0:3b9:c153:f169 with SMTP id
- y19-20020a05622a165300b003b9c153f169mr44811734qtj.0.1676290487474; 
- Mon, 13 Feb 2023 04:14:47 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-177-185.web.vodafone.de.
- [109.43.177.185]) by smtp.gmail.com with ESMTPSA id
- v66-20020a37dc45000000b006fba0a389a4sm9701247qki.88.2023.02.13.04.14.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 04:14:46 -0800 (PST)
-Message-ID: <022e89f0-4f45-ac24-6589-22350f8a4ae7@redhat.com>
-Date: Mon, 13 Feb 2023 13:14:43 +0100
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1pRYJu-0008SS-55
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 07:52:38 -0500
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4PFkgr6GVZzRs2H;
+ Mon, 13 Feb 2023 20:49:44 +0800 (CST)
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.6; Mon, 13 Feb 2023 20:52:14 +0800
+Message-ID: <6270bfbe-ab8c-80a2-4e27-27adfdcbb854@huawei.com>
+Date: Mon, 13 Feb 2023 20:52:13 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 15/19] hw/s390x/event-facility: Replace
- DO_UPCAST(SCLPEvent) by SCLP_EVENT()
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- xiaoqiang zhao <zxq_yx_007@163.com>, Hu Tao <hutao@cn.fujitsu.com>,
- qemu-block@nongnu.org, qemu-s390x@nongnu.org,
- Gonglei Arei <arei.gonglei@huawei.com>, Cao jin <caoj.fnst@cn.fujitsu.com>,
- Li Qiang <liq3ea@163.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>
-References: <20230212225144.58660-1-philmd@linaro.org>
- <20230212225144.58660-16-philmd@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230212225144.58660-16-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [RFC 05/52] hw/core/machine: Rename machine-smp.c to
+ machine-topo.c
+To: Zhao Liu <zhao1.liu@linux.intel.com>
+CC: <qemu-devel@nongnu.org>, Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi
+ <dapeng1.mi@intel.com>, Zhuocheng Ding <zhuocheng.ding@intel.com>,
+ Robert Hoo
+ <robert.hu@linux.intel.com>, Sean Christopherson <seanjc@google.com>, Like Xu
+ <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>, Eduardo Habkost
+ <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, "Michael S .
+ Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>, Markus
+ Armbruster <armbru@redhat.com>
+References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
+ <20230213095035.158240-6-zhao1.liu@linux.intel.com>
+In-Reply-To: <20230213095035.158240-6-zhao1.liu@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.345, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.345,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,32 +72,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
+From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/02/2023 23.51, Philippe Mathieu-Daudé wrote:
-> Use the SCLP_EVENT() QOM type-checking macro to avoid DO_UPCAST().
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Hi Zhao，
+在 2023/2/13 17:49, Zhao Liu 写道:
+> From: Zhao Liu <zhao1.liu@intel.com>
+>
+> Hybrid topology support will also be added to this file.
+>
+> In order to maintain the semantic consistency of the file name and
+> content, the file name is changed to "machine-topo.c".
+>
+> This file will handle all cpu topology related things, thus also change
+> the file description comment.
+>
+> Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 > ---
->   hw/s390x/event-facility.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
-> index faa51aa4c7..6891e3cd73 100644
-> --- a/hw/s390x/event-facility.c
-> +++ b/hw/s390x/event-facility.c
-> @@ -64,8 +64,7 @@ static bool event_pending(SCLPEventFacility *ef)
->       SCLPEventClass *event_class;
->   
->       QTAILQ_FOREACH(kid, &ef->sbus.qbus.children, sibling) {
-> -        DeviceState *qdev = kid->child;
-> -        event = DO_UPCAST(SCLPEvent, qdev, qdev);
-> +        event = SCLP_EVENT(kid->child);
->           event_class = SCLP_EVENT_GET_CLASS(event);
->           if (event->event_pending &&
->               event_class->get_send_mask() & ef->receive_mask) {
+>   MAINTAINERS                               | 2 +-
+>   hw/core/{machine-smp.c => machine-topo.c} | 2 +-
+>   hw/core/meson.build                       | 2 +-
+>   tests/unit/meson.build                    | 2 +-
+>   4 files changed, 4 insertions(+), 4 deletions(-)
+>   rename hw/core/{machine-smp.c => machine-topo.c} (99%)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 71c1bc24371b..58794885ced3 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1733,7 +1733,7 @@ F: cpu.c
+>   F: hw/core/cpu.c
+>   F: hw/core/machine-qmp-cmds.c
+>   F: hw/core/machine.c
+> -F: hw/core/machine-smp.c
+> +F: hw/core/machine-topo.c
+>   F: hw/core/null-machine.c
+>   F: hw/core/numa.c
+>   F: hw/cpu/cluster.c
+> diff --git a/hw/core/machine-smp.c b/hw/core/machine-topo.c
+> similarity index 99%
+> rename from hw/core/machine-smp.c
+> rename to hw/core/machine-topo.c
+Better named as cpu-topology.c? So that it's consistent with the
+header "cpu-topology.h" in a following patch.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Thanks,
+Yanan
+> index 3fd9e641efde..8066d2c46bef 100644
+> --- a/hw/core/machine-smp.c
+> +++ b/hw/core/machine-topo.c
+> @@ -1,5 +1,5 @@
+>   /*
+> - * QEMU Machine core (related to -smp parsing)
+> + * QEMU Machine core (related to CPU topology)
+>    *
+>    * Copyright (c) 2021 Huawei Technologies Co., Ltd
+>    *
+> diff --git a/hw/core/meson.build b/hw/core/meson.build
+> index 7a4d02b6c050..71d523dc6826 100644
+> --- a/hw/core/meson.build
+> +++ b/hw/core/meson.build
+> @@ -23,7 +23,7 @@ else
+>   endif
+>   
+>   common_ss.add(files('cpu-common.c'))
+> -common_ss.add(files('machine-smp.c'))
+> +common_ss.add(files('machine-topo.c'))
+>   softmmu_ss.add(when: 'CONFIG_FITLOADER', if_true: files('loader-fit.c'))
+>   softmmu_ss.add(when: 'CONFIG_GENERIC_LOADER', if_true: files('generic-loader.c'))
+>   softmmu_ss.add(when: ['CONFIG_GUEST_LOADER', fdt], if_true: files('guest-loader.c'))
+> diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+> index a9df2843e92e..1720a769f1a2 100644
+> --- a/tests/unit/meson.build
+> +++ b/tests/unit/meson.build
+> @@ -46,7 +46,7 @@ tests = {
+>     'test-uuid': [],
+>     'ptimer-test': ['ptimer-test-stubs.c', meson.project_source_root() / 'hw/core/ptimer.c'],
+>     'test-qapi-util': [],
+> -  'test-smp-parse': [qom, meson.project_source_root() / 'hw/core/machine-smp.c'],
+> +  'test-smp-parse': [qom, meson.project_source_root() / 'hw/core/machine-topo.c'],
+>     'test-interval-tree': [],
+>   }
+>   
 
 
