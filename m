@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DDE26941A7
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:44:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F08866941D2
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:47:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVNL-0004G5-7Z; Mon, 13 Feb 2023 04:43:55 -0500
+	id 1pRVNN-0004Pr-SJ; Mon, 13 Feb 2023 04:43:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVNH-00041K-QS
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:52 -0500
+ id 1pRVNL-0004Hb-8f
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:55 -0500
 Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVNB-0002hK-OO
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:51 -0500
+ id 1pRVNG-0002i2-H2
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676281425; x=1707817425;
+ t=1676281430; x=1707817430;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=4M0z9yNsrbhYGo+OfiupESLvaU6qlabl6B0Z2SSQh64=;
- b=hieL/rmi0EYDmziPfxbPziJ+pppWYy6wSfZMDu0pz99RxmJqX2G4P/v1
- vy7jjOsz1vzP4E37g49dEtNEFBEHbL8KcHMAEEMkTVMEyOylZrVJN4NJC
- 6ZFI1PrrTv+UzIJwMU5ot3HYqB2W9xvJOhxPFH5Ik63ThJmQEYx0KyuyU
- db/9UepXo8mopitlhwFBnJjT7oNPt5URS5f7YUlGVjEXxbK3kEWFFH5qR
- D6/XvFn6bwbyWITZQyMM76/x/tK6lxtlh30azPocvVk3P3T4Mss7KyLvR
- 093buBx1tRGzkE8JEPaXbaoxfKagl756ZsSQtjDe4ZWkwHHQVgvGR+4sA g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486484"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486484"
+ bh=811gUxvADhZ3dwi0IeGEhJDp1HkFCqdTtYf+9jChy4g=;
+ b=nQarSsjOfZI8hfPxH4Kvscmw7W69oS3xj+3QOLJl6QdBHwuKNh6bIVd7
+ t1lNDK7nsc3l0E52Q9FOT49Ao/cf/B/91VjvTU2lndveueTJfV69q9y2d
+ kSTKga5yKawTqOqcXsazN+zX5cKSIHqBL8H/giVa+PVQ9th+HXrELCM/Y
+ 9sxUy2Wh2d2xq+/MNN3hECJHC0f4SFFnyQ4EoIk3cl7d4IGHrU5kmds1y
+ j5NX5NTQkvWeLTKHm9MVedmgIxpAcm1vcu4m+WDmcyZDQCp4A6RM+yw5P
+ KgZ8Yl0/g16xsylVAzagbt00G6xsiHhTJlfph88yXjABl1MnbJ2s/TD4U Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486505"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486505"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 01:43:44 -0800
+ 13 Feb 2023 01:43:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670759849"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670759849"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670759855"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670759855"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:43:40 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:43:44 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -54,10 +54,12 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Zhuocheng Ding <zhuocheng.ding@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
- Zhao Liu <zhao1.liu@intel.com>
-Subject: [RFC 11/52] accel/kvm: Add hybrid info when check cpu num
-Date: Mon, 13 Feb 2023 17:49:54 +0800
-Message-Id: <20230213095035.158240-12-zhao1.liu@linux.intel.com>
+ Zhao Liu <zhao1.liu@intel.com>, Igor Mammedov <imammedo@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>
+Subject: [RFC 12/52] hw/acpi: Replace MachineState.smp access with topology
+ helpers
+Date: Mon, 13 Feb 2023 17:49:55 +0800
+Message-Id: <20230213095035.158240-13-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
@@ -88,37 +90,33 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
-As the generic code, kvm should respect the different topologies: smp
-or hybrid.
+At present, in QEMU only arm needs PPTT table to build cpu topology.
 
-So improve the topology related informantion here.
+Before QEMU's arm supports hybrid architectures, it's enough to limit
+the cpu topology of PPTT to smp type through the explicit smp interface
+(machine_topo_get_smp_threads()).
 
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- accel/kvm/kvm-all.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/acpi/aml-build.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 9b2658265561..e62df7b579d0 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -2361,12 +2361,13 @@ static int kvm_init(MachineState *ms)
-     static const char upgrade_note[] =
-         "Please upgrade to at least kernel 2.6.29 or recent kvm-kmod\n"
-         "(see http://sourceforge.net/projects/kvm).\n";
-+    const char *cpu_name = machine_topo_is_smp(ms) ? "SMP" : "Hybrid";
-     struct {
-         const char *name;
-         int num;
-     } num_cpus[] = {
--        { "SMP",          ms->smp.cpus },
--        { "hotpluggable", ms->smp.max_cpus },
-+        { cpu_name,       machine_topo_get_cpus(ms) },
-+        { "hotpluggable", machine_topo_get_max_cpus(ms) },
-         { NULL, }
-     }, *nc = num_cpus;
-     int soft_vcpus_limit, hard_vcpus_limit;
+diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+index ea331a20d131..693bd8833d10 100644
+--- a/hw/acpi/aml-build.c
++++ b/hw/acpi/aml-build.c
+@@ -2044,7 +2044,7 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+             cluster_offset = socket_offset;
+         }
+ 
+-        if (ms->smp.threads == 1) {
++        if (machine_topo_get_smp_threads(ms) == 1) {
+             build_processor_hierarchy_node(table_data,
+                 (1 << 1) | /* ACPI Processor ID valid */
+                 (1 << 3),  /* Node is a Leaf */
 -- 
 2.34.1
 
