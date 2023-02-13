@@ -2,89 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C46AF6952FD
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 22:26:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 217106953D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 23:23:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRgKI-00044T-R0; Mon, 13 Feb 2023 16:25:30 -0500
+	id 1pRhD3-0003jM-8z; Mon, 13 Feb 2023 17:22:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pRgKF-0003ui-Dx
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 16:25:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pRhCu-0003ik-Al
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 17:21:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pRgKC-0004gr-3x
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 16:25:27 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pRhCs-0000qm-EI
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 17:21:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676323523;
+ s=mimecast20190719; t=1676326911;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=B5l5mXUBLjCuA2UxIkB2LG3H7rLYvWZupjlYKPi16KQ=;
- b=WgfB7qMuVJ2E9FTXh5Uj3YuWqO41Lbx2MYiSAshUngrbMGX+lLaORU8+P744W2+Lsp8qpu
- qx1+/+6sKExfUM14iSzGS/3aDthLaGb8/lqLqfDSTUb5/PtyjilZNNgUgrzOW0E7Mh88kh
- yHMgD4Ciwl3skzSHknS3+zDqvEESv84=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=sSQcYC16Ci0ylTy8/lK1q91S06E+4VD6d7BoVdyawOI=;
+ b=L+DL3ru79c44KtIJxhotXRPAZGQSOsloLxiWn5JBQmdwvEiIVzT3a0t9mWu78XI7sGjLNa
+ KVXXmChKBI2M8XO17Cr3Dqae4vsusHr1KFnh/Aj+iI4FTzpC4wHOz/nGT2e6kpJABo1pCP
+ BNPUWacS523rvL9PgD+8+k3ZGfmeIAE=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-284-r73ORCorNiisO2sLj5jR4Q-1; Mon, 13 Feb 2023 16:25:22 -0500
-X-MC-Unique: r73ORCorNiisO2sLj5jR4Q-1
-Received: by mail-qt1-f197.google.com with SMTP id
- c16-20020ac85190000000b003b841d1118aso8204900qtn.17
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 13:25:22 -0800 (PST)
+ us-mta-13-ayYUJXdjM1CPV7U7TSASvg-1; Mon, 13 Feb 2023 17:21:48 -0500
+X-MC-Unique: ayYUJXdjM1CPV7U7TSASvg-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ u11-20020a05620a0c4b00b0073b328e7d17so2808881qki.9
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 14:21:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=B5l5mXUBLjCuA2UxIkB2LG3H7rLYvWZupjlYKPi16KQ=;
- b=KU6JjA7n6aI9a3Lz7JCq1OXx0oyayyzfPd+t5Ouxdf+Y75L84lC+vm9VJ4GH1tsgOm
- 4GoPZhEJ8l6xNeC6s2Zfq/el99B+uwmHlXJfV7yEPR0mfyiQrKakDK0XUpT1XJKjY/8L
- +nZnRwuezgNoN24PNhMyTIOUa/RlwX0yashU8u1F/m8djdm6P/e+gIKL4BGhy4e7NEjV
- 55nCs8fZu6bwUEVXPGXwUjiUHM9jg9pMEFv7vp865YHt5n+OcJYp0S0hD//nbxhwDS2A
- MU/2LpkzdFgpaZF0plFYoOQjnfRtBV/O/NWR09vJ22GjCsa5EoNK3PiK8ZtrnuqrnB3F
- pliQ==
-X-Gm-Message-State: AO0yUKUOPi+kf1EsP7jGpdp5NAaynyTDz6tkc/PaJew3vW7KaEAQpifg
- 3+IB/dwiJvmY4in3thjqS1E3TjIAdsa9KP1mWVMJpnMVgxh3pKLkyFLf8inHMmqC5PhVn4gQSR3
- IJMoZsz9r5S1GAiNJG567
-X-Received: by 2002:ac8:5fd2:0:b0:3b8:6d5a:3457 with SMTP id
- k18-20020ac85fd2000000b003b86d5a3457mr53076660qta.6.1676323521118; 
- Mon, 13 Feb 2023 13:25:21 -0800 (PST)
-X-Google-Smtp-Source: AK7set9V7cpwlyyGINRYz1jqRM8BHeasch17gNe6CH0ZOzST0XEpF2p26ESY5whCXg2y32xULQPUdg==
-X-Received: by 2002:ac8:5fd2:0:b0:3b8:6d5a:3457 with SMTP id
- k18-20020ac85fd2000000b003b86d5a3457mr53076623qta.6.1676323520782; 
- Mon, 13 Feb 2023 13:25:20 -0800 (PST)
+ bh=sSQcYC16Ci0ylTy8/lK1q91S06E+4VD6d7BoVdyawOI=;
+ b=n74Pv0sKmZand3iSF7qxKtXHv9FrlqluPuZym8qfSrcwVLOJoT1yoR884Ow3OQfALA
+ r8EsDp5d7KUbPjCYbpx6wSLKvoQmhYnyJKWVMpoxQnOuyWjxL7tC23AVIr9+Z7nb283g
+ qSthMea5AluS0rQREsJ+XIMsNFGUZIM8sXCjh/F8ETPZUS9gX2zw9NAt9sEUek0iulaI
+ 06PUJlWtQWEyGGuW0Hk03vUB+UytgP20ivoQv0WkW0ZWJXRsVRt2OrcK6718vdaGrCW8
+ 49mAm55Ml3bqCw7bx057iQBTGSymX12C6GMHnjJn0GDi3pB/5TAUb/OSF9Ul/Bmt4Wnc
+ 2s/g==
+X-Gm-Message-State: AO0yUKW/TOznQa5A4Ja8nhJ0N78wAMP9xUotRVLeSkn4Qc8oVZ3t2kwH
+ G+fMh2K9HuUgLLk/J5sLtwP0oDBlQu8M1Bfgb7ppmDQgHjlYP+cIBKt3h89Lgnb9SHCVHGc+ryi
+ 2TMyk3rNdvsG8vzM=
+X-Received: by 2002:a05:622a:1987:b0:3b8:5f47:aac2 with SMTP id
+ u7-20020a05622a198700b003b85f47aac2mr79770qtc.1.1676326908360; 
+ Mon, 13 Feb 2023 14:21:48 -0800 (PST)
+X-Google-Smtp-Source: AK7set9vLcT1prxFoXF+ikhRP5BxWpOOjIgyL/v9PY+SpxTVNVD5Q6hUYMe78CbIqXKYiPdhvTnuVw==
+X-Received: by 2002:a05:622a:1987:b0:3b8:5f47:aac2 with SMTP id
+ u7-20020a05622a198700b003b85f47aac2mr79737qtc.1.1676326908033; 
+ Mon, 13 Feb 2023 14:21:48 -0800 (PST)
 Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
  [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- i185-20020a3786c2000000b006fa4ac86bfbsm10422211qkd.55.2023.02.13.13.25.19
+ e4-20020ac84904000000b003b691385327sm10096789qtq.6.2023.02.13.14.21.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Feb 2023 13:25:19 -0800 (PST)
-Date: Mon, 13 Feb 2023 16:25:18 -0500
+ Mon, 13 Feb 2023 14:21:47 -0800 (PST)
+Date: Mon, 13 Feb 2023 17:21:45 -0500
 From: Peter Xu <peterx@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Hildenbrand <david@redhat.com>, philmd@linaro.org,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 1/2] log: Add separate debug option for logging invalid
- memory accesses
-Message-ID: <Y+qqvqW/K8yJWrTm@x1n>
-References: <20230119214032.4BF1E7457E7@zero.eik.bme.hu>
- <ad4783ee-20ce-06d2-7c2f-1f915bd684d0@eik.bme.hu>
- <413edbc1-8af1-4b0e-70ab-41d49f1bbbcd@eik.bme.hu>
- <fcd09b07-c0ac-d617-8503-a5ecef947cfe@redhat.com>
- <Y+pM+H1PvTUUHrhx@x1n>
- <7ae34a52-13a5-05e0-3cea-10a9fb89ec1c@eik.bme.hu>
- <Y+piDukOkeg+xs9G@x1n>
- <0d85fc1d-4c97-5874-d49c-03ac3c265e2f@eik.bme.hu>
- <Y+pwnar8b17Mu0u4@x1n>
- <d3ebfc88-8b03-cfb7-bc4f-9952521b3ba8@eik.bme.hu>
+To: Major Saheb <majosaheb@gmail.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Bjorn Helgaas <helgaas@kernel.org>,
+ Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: DMAR fault with qemu 7.2 and Ubuntu 22.04 base image
+Message-ID: <Y+q3+eXdYz0qOtDT@x1n>
+References: <CANBBZXMpWOj5fE2YF8XGvWmBtbc=9YKiMCSfUKC7AoP5Ros9QA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <d3ebfc88-8b03-cfb7-bc4f-9952521b3ba8@eik.bme.hu>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+In-Reply-To: <CANBBZXMpWOj5fE2YF8XGvWmBtbc=9YKiMCSfUKC7AoP5Ros9QA@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -108,149 +97,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 13, 2023 at 07:34:55PM +0100, BALATON Zoltan wrote:
-> On Mon, 13 Feb 2023, Peter Xu wrote:
-> > On Mon, Feb 13, 2023 at 05:34:04PM +0100, BALATON Zoltan wrote:
-> > > On Mon, 13 Feb 2023, Peter Xu wrote:
-> > > > On Mon, Feb 13, 2023 at 03:47:42PM +0100, BALATON Zoltan wrote:
-> > > > > On Mon, 13 Feb 2023, Peter Xu wrote:
-> > > > > > On Mon, Feb 13, 2023 at 12:41:29PM +0100, Thomas Huth wrote:
-> > > > > > > On 07/02/2023 17.33, BALATON Zoltan wrote:
-> > > > > > > > On Tue, 31 Jan 2023, BALATON Zoltan wrote:
-> > > > > > > > > On Thu, 19 Jan 2023, BALATON Zoltan wrote:
-> > > > > > > > > > Currently -d guest_errors enables logging of different invalid actions
-> > > > > > > > > > by the guest such as misusing hardware, accessing missing features or
-> > > > > > > > > > invalid memory areas. The memory access logging can be quite verbose
-> > > > > > > > > > which obscures the other messages enabled by this debug switch so
-> > > > > > > > > > separate it by adding a new -d memaccess option to make it possible to
-> > > > > > > > > > control it independently of other guest error logs.
-> > > > > > > > > > 
-> > > > > > > > > > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> > > > > > > > > 
-> > > > > > > > > Ping? Could somebody review and pick it up please?
-> > > > > > > > 
-> > > > > > > > Ping?
-> > > > > > > 
-> > > > > > > Patch makes sense to me and looks fine, so:
-> > > > > > > 
-> > > > > > > Reviewed-by: Thomas Huth <thuth@redhat.com>
-> > > > > > > 
-> > > > > > > ... I think this should go via one of the "Memory API" maintainers branches?
-> > > > > > > Paolo? Peter? David?
-> > > > > > 
-> > > > > > Paolo normally does the pull, I assume that'll still be the case.  The
-> > > > > > patch looks good to me if Phil's comment will be addressed on merging with
-> > > > > > the old mask, which makes sense to me:
-> > > > > 
-> > > > > Keeping the old mask kind of defies the purpose. I've tried to explain that
-> > > > > in the commit message but now that two of you did not get it maybe that
-> > > > > message needs to be clarified instead?
-> > > > 
-> > > > I think it's clear enough.  My fault to not read carefully into the
-> > > > message, sorry.
-> > > > 
-> > > > However, could you explain why a memory_region_access_valid() failure
-> > > > shouldn't belong to LOG_GUEST_ERROR?
-> > > > 
-> > > > commit e54eba1986f6c4bac2951e7f90a849cd842e25e4
-> > > > Author: Peter Maydell <peter.maydell@linaro.org>
-> > > > Date:   Thu Oct 18 14:11:35 2012 +0100
-> > > > 
-> > > >    qemu-log: Add new log category for guest bugs
-> > > > 
-> > > >    Add a new category for device models to log guest behaviour
-> > > >    which is likely to be a guest bug of some kind (accessing
-> > > >    nonexistent registers, reading 32 bit wide registers with
-> > > >    a byte access, etc). Making this its own log category allows
-> > > >    those who care (mostly guest OS authors) to see the complaints
-> > > >    without bothering most users.
-> > > > 
-> > > > Such an illegal memory access is definitely a suitable candidate of guest
-> > > > misbehave to me.
-> > > 
-> > > Problem is that a lot of machines have unimplemented hardware that are valid
-> > > on real machine but we don't model them so running guests which access these
-> > > generate constant flow of unassigned memory access log which obscures the
-> > > actual guest_errors when an modelled device is accessed in unexpected ways.
-> > > For an example you can try booting MorphOS on mac99,via=pmu as described
-> > > here: http://zero.eik.bme.hu/~balaton/qemu/amiga/#morphos
-> > > (or the pegasos2 command too). We could add dummy registers to silence these
-> > > but I think it's better to either implement it correctly or leave it
-> > > unimplemented so we don't hide errors by the dummy implementation.
-> > > 
-> > > > Not to mention Phil always have a good point that you may be violating
-> > > > others using guest_error already so what they wanted to capture can
-> > > > misterious going away without noticing, even if it may service your goal.
-> > > > IOW it's a slight ABI and I think we ned justification to break it.
-> > > 
-> > > Probably this should be documented in changelog or do we need depracation
-> > > for a debug option meant for developers mostly? I did not think so. Also I
-> > > can't think of other way to solve this without changing what guest_erorrs do
-> > > unless we change the name of that flag as well. Also not that when this was
-> > > originally added it did not contain mem access logs as those were controlled
-> > > by a define in memory.c until Philippe changed it and added them to
-> > > guest_errors. So in a way I want the previous functionality back.
-> > 
-> > I see, thanks.
-> > 
-> > Indeed it's only a debug option, so I don't know whether the abi needs the
-> > attention here.
-> > 
-> > I quickly looked at all the masks and afaict this is really a special and
-> > very useful one that if I'm a cloud provider I can run some script trying
-> > to capture those violations using this bit to identify suspecious guests.
-> > 
-> > So I think it would still be great to not break it if possible, IMHO.
-> > 
-> > Since currently I don't see an immediate limitation of having qemu log mask
-> > being a single bit for each of the entry, one way to satisfy your need (and
-> > also keep the old behavior, iiuc), is to make guest_errors a sugar syntax
-> > to cover 2 bits.  It shouldn't be complicated at all, I assume:
-> > 
-> > +/* This covers the generic guest errors besides memory violations */
-> > #define LOG_GUEST_ERROR    (1 << 11)
-> > 
-> > +/*
-> > + * This covers the guest errors on memory violations; see LOG_GUEST_ERROR
-> > + * for generic guest errors.
-> > + */
-> > +#define LOG_GUEST_ERROR_MEM      (1 << 21)
-> > +#define LOG_GUEST_ERROR_ALL      (LOG_GUEST_ERROR | LOG_GUEST_ERROR_MEM)
-> > 
-> > -    { LOG_GUEST_ERROR, "guest_errors",
-> > +    { LOG_GUEST_ERROR_ALL, "guest_errors",
-> > 
-> > Then somehow squashed with your changes.  It'll make "guest_errors" not
-> > exactly matching the name of LOG_* but I think it may not be a big concern.
+On Mon, Feb 13, 2023 at 10:15:34PM +0530, Major Saheb wrote:
+> Hi All,
+
+Hi, Major,
+
 > 
-> I'm not sure I understand this. So -d memaccess would give me the unassigned
-> logs, that's fine and -d guest_errors are both LOG_GUEST_ERROR and memaccess
-> like currently but what option would give me just the guest_Errors before
-> mem access started to use this flag too? (I could not locate the commit that
-> changed this but I remember previously the unassigned mem logs were enabled
-> with a define in memory.c.) Do we need another -d option for just the guest
-> errors then? What should that be called?
+> I am facing an issue with qemu 7.2 rc2 with nvme. I have a container
 
-I forgot to add those two definitions into qemu_log_items just now.  It can
-be defined as:
+Is there any known working qemu version?  Or should I assume it's failing
+always?
 
-  - "guest_errors_common" for !mem errors
-  - "guest_errors_mem" for mem errors
-  - "guest_errors" for mem+!mem (compatible to the old code)
+> running Ubuntu 22.04 base image and host is running Ubuntu 22.04
+> (Linux node-1 5.15.0-60-generic #66-Ubuntu SMP Fri Jan 20 14:29:49 UTC
+> 2023 x86_64 x86_64 x86_64 GNU/Linux), and I am using vfio-pci to
+> communicate with nvme devices. I am observing DMAR fault as following
+> 
+> [ 3761.999996] DMAR: DRHD: handling fault status reg 2
+> [ 3762.001609] DMAR: [DMA Read NO_PASID] Request device [0b:00.0]
+> fault addr 0x1187a9000 [fault reason 0x06] PTE Read access is not set
+> 
+> I also enabled vtd_iommu_translate and vtd_dmar_fault traces which is
+> showing the following
+> 
+> 2023-02-13T07:02:37.074397Z qemu-system-x86_64: vtd_iova_to_slpte:
+> detected slpte permission error (iova=0x1187a9000, level=0x3,
+> slpte=0x0, write=0, pasid=0xffffffff)
 
-With the two lines added:
+I think slpte=0x0 means the device pgtable entry does not exist at all,
+rather than an explicit permission issue.
 
--    { LOG_GUEST_ERROR, "guest_errors",
-+    { LOG_GUEST_ERROR_ALL, "guest_errors",
-       "log when the guest OS does something invalid (eg accessing a\n"
-       "non-existent register)" },
-+    { LOG_GUEST_ERROR, "guest_errors_common", "..." },
-+    { LOG_GUEST_ERROR_MEM, "guest_errors_mem", "..." },
+Is the guest using generic Intel IOMMU driver?  Could it possible that for
+some reason the pgtable update was not flushed to the guest pages when the
+driver sent the IOTLB invalidation (probably via QI interface)?
 
-I saw that Phil revoked his concern, I don't have a strong opinion
-personally, assuming Phil knows better on that since he modified the memory
-loggings before.  If all are happy with this, please proceed with either
-way.
+I saw that you mentioned your driver is using 0x800000000 as iova base
+address, then why here the iova being mapped is 0x1187a9000?  Anything
+special on the device driver being used?
+
+> 236498@1676271757.075075:vtd_dmar_fault sid 0xb00 fault 6 addr
+> 0x1187a9000 write 0
+> 2023-02-13T07:02:37.075174Z qemu-system-x86_64: vtd_iommu_translate:
+> detected translation failure (dev=0b:00:00, iova=0x1187a9000)
+> 
+> It seems 'vtd_iova_to_slpte()' it is returning 0 slpte resulting this
+> issue. In our driver code (which is running in a container) we are
+> using 0x800000000 as our IOVA base address. We have 10 nvme devices
+> that we are initializing, and we start initialization by sending
+> identify controller and get log page commands. Observation is
+> sometimes the first device is getting DMAR fault, sometimes first is
+> successfully completed identify and get log page, and second device is
+> getting DMAR fault. Also if I use Ubuntu 20.04 as base image for the
+> container, then this issue is not seens as seen in the following trace
+> output
+> 
+> 278365@1676297375.587477:vtd_dmar_slpte sid 0xb00 slpte 0x1f2556003
+> addr 0x800000000 write 0
+> 278365@1676297375.587513:vtd_dmar_translate pasid 0xffffffff: dev
+> 0b:00.00 iova 0x800000000 -> gpa 0x1f2556000 mask 0xfff
+> 278365@1676297375.587527:vtd_dmar_slpte sid 0xb00 slpte 0x1f25fc003
+> addr 0x80020a000 write 1
+> 278365@1676297375.587532:vtd_dmar_translate pasid 0xffffffff: dev
+> 0b:00.00 iova 0x80020a000 -> gpa 0x1f25fc000 mask 0xfff
+> 278365@1676297375.587566:vtd_dmar_slpte sid 0xb00 slpte 0x1f2560003
+> addr 0x800008000 write 1
+> 278365@1676297375.587572:vtd_dmar_translate pasid 0xffffffff: dev
+> 0b:00.00 iova 0x800008000 -> gpa 0x1f2560000 mask 0xfff
+> 278365@1676297375.587814:vtd_dmar_translate pasid 0xffffffff: dev
+> 0b:00.00 iova 0x800000000 -> gpa 0x1f2556000 mask 0xfff
+> 278365@1676297375.587850:vtd_dmar_translate pasid 0xffffffff: dev
+> 0b:00.00 iova 0x800008000 -> gpa 0x1f2560000 mask 0xfff
+> 278365@1676297375.588455:vtd_dmar_translate pasid 0xffffffff: dev
+> 0b:00.00 iova 0x800000000 -> gpa 0x1f2556000 mask 0xfff
+> 278365@1676297375.588473:vtd_dmar_slpte sid 0xb00 slpte 0x1f25fe003
+> addr 0x80020b000 write 1
+> 278365@1676297375.588479:vtd_dmar_translate pasid 0xffffffff: dev
+> 0b:00.00 iova 0x80020b000 -> gpa 0x1f25fe000 mask 0xfff
+> 278365@1676297375.588507:vtd_dmar_translate pasid 0xffffffff: dev
+> 0b:00.00 iova 0x800008000 -> gpa 0x1f2560000 mask 0xfff
+> 278365@1676297375.588737:vtd_dmar_translate pasid 0xffffffff: dev
+> 0b:00.00 iova 0x800000000 -> gpa 0x1f2556000 mask 0xfff
+> 
+> Following is the partial qemu command line that I am using
+> 
+> -device intel-iommu,intremap=on,caching-mode=on,eim=on,device-iotlb=on,aw-bits=48
+> 
+> -device pcie-root-port,id=pcie-root-port0,slot=1 -drive
+> file=/home/raghu/lfd/datadir/rs-bdc0/storage/rs-bdc0-0-0,format=qcow2,cache=unsafe,if=none,id=NVME0
+> -device nvme,serial=rs-bdc0-0_0,id=NVME0,bus=pcie-root-port0 -device
+> nvme-ns,drive=NVME0,eui64=0,uuid=30303030-3030-3030-3030-303030303030
+> 
+> cat /proc/cmdline
+> BOOT_IMAGE=/boot/vmlinuz-5.15.0-60-generic
+> root=UUID=102c974c-7a1c-49cf-9bdd-a8e4638cf5c4 ro console=ttyS0,115200
+> intel_iommu=on iommu=pt
+> 
+> I have also tried without 'iommu=pt' producing same result in Ubuntu
+> 22.04 base image in container, also the host OS version remains same
+> in both cases.
+
+Did you mean using iommu=pt on the host or guest, or both?
+
+IIUC iommu=pt on the host at least won't make a difference, because when
+it's assigned to QEMU it'll ignore the pt setting.
 
 Thanks,
 
