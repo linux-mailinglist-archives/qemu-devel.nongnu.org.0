@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE80E694DA4
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 18:05:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA1A694D9E
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 18:04:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRcE9-0003XE-77; Mon, 13 Feb 2023 12:02:53 -0500
+	id 1pRcEA-0003mT-VJ; Mon, 13 Feb 2023 12:02:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRcDX-0002qp-26
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRcDa-0002sq-JX
  for qemu-devel@nongnu.org; Mon, 13 Feb 2023 12:02:22 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRcD8-0007Vu-QK
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 12:02:01 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id k3so5330769wrv.5
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 09:01:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRcDW-0007WZ-IX
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 12:02:17 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id r18so9152801wmq.5
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 09:01:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=MtWTM0K5tkV+XNFmYaOZt2Z0nk1lvVSTdkNElUqYwac=;
- b=ODjl6QyYnPud3MNFuMKMuU6rgE1dn9yJu9M0pkEBcTDcs4PhOR9ktxoGyEP8sfHA8/
- xd5EkPoBLyggjkPHoJEM31Ps3ia9P1SeriVDb4mxgDa+o51ZjBjhBHLd2Vo/foVqilkU
- zNU3SZJ0o5nImBy1Mhc1e5uJhcQmf1NhSmmlZTMwQAtorU2cl1cdmfmBInMNaMKKSvoL
- B5d0bBQ0qUAAO4VxpDyM1dQ+of5Js5CIKkufzzOz5nJxrTLFUHtjApBWd9gzyCAnJWcW
- J7YComyyECXX80BVpLGhX1YOEk9zzpowtCpR7e6mcH0eRjoijhjIEWmgIQiVIpcsQvbZ
- tlfw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nyLbjeolJt6ZW4phcgy63TammsHqUZyvpx842CmDisc=;
+ b=QWZY9CryGlVdSgTHbSKoxaymnHl/VL20bVgsjMRsyeRrPD4tWapd+Q+ZUowArWE1io
+ C/SEk2oDUKV00XPiz8spGIz7NfWF/Cbfwqp7OohHcIT3VZ3Hr//J4II+Y5JOEAGN+E9d
+ ZN4ic1Jhx6PLkQ+uk2cvMvTKIGGuMLqTONZPDkJDWBumxS+duku+h3Xtvi3X9f8aJZT+
+ W7Z9rYkBzIcpFfotGVRSvLIgEuGWqyXFmVulFLLfOOcKGwcuwEMoZC1yw05esN+MJfK3
+ 448F8HaNlaRE5fNT7X0FIkd4SriBeTFQv00zE5eMkW+C4YRU5DkkB4biVFeEL603O0am
+ PfCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=MtWTM0K5tkV+XNFmYaOZt2Z0nk1lvVSTdkNElUqYwac=;
- b=OREz5lTIxlyUJVdfEaTLLsFaoraTV6IuypYAH+0EKIO9risziMmh+J0641ErINQ0Kn
- yMnTDStCTiEBw4AIoKdac4HB6GBVzU8kdpXtyHN5V27TOZLS7+ZgceFhSQKKcOY9W1nR
- NmfDPRzS1c8xI0XSXpe29JHgBBIjAjhlWThqmV5NN2BPhP1/9MsiBw7y9L+Xx3wgecQe
- gjaI3N3Skfqtc8k7WjqRQhTx4W31rXke/Yh2VMmNkxJS5JTnfIxHzWK6hplYIoJOQjWA
- Xj8Y8qcyvS/hDJDTlz2ZpjO5B9MYenkoqowyWkMkR+xSuVKE9YFTsyhPMDImqbtql6KK
- 08fg==
-X-Gm-Message-State: AO0yUKXOS/mhS0xyvxueGx9t32itqzJdenXxjPqoWp+kzB+59ueagaiF
- PJ9Rj5Vcfzl90NfXPZNVfNdfQA==
-X-Google-Smtp-Source: AK7set/9lKrUcx+3GHh4C/XYWyg7Z+hzArIuBJzBWGAtUEo1XsCgTNTLuI7nEdQBSA7czrEbYly7Ag==
-X-Received: by 2002:adf:f249:0:b0:2c5:4ce5:4cd9 with SMTP id
- b9-20020adff249000000b002c54ce54cd9mr7752341wrp.34.1676307708944; 
- Mon, 13 Feb 2023 09:01:48 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nyLbjeolJt6ZW4phcgy63TammsHqUZyvpx842CmDisc=;
+ b=yK2CaFeZZ/T1CHRy7jL2o0TzoRLDBRgQOTRcw0eA0RqP7i5uP9EzDTq4WsyNrrVme9
+ dYAvliu92qpDx1TDV9UFeObLrUfTPyTBCF5na9daJpOAh27G3MZeN8KWW3NnsFMojUO5
+ hW62BnR/r8utVu35YH9bPEGV83z5iUNpPgqBuSg9AeC4DJztTQWHPgniut7xMiIja/Qj
+ y8VtjBzzWyayl6e/t5ePYjLESaTyOPQ77xr2QBEwj9/K+u+y8r0PsxjrASh0NGK14O6A
+ 6Fl0REJ9XKKfGDuN/0/Pub3p8aM2HhhgotZcDq0xTENoitCgSEYJTjw8E4GxGktLh2bH
+ O6+g==
+X-Gm-Message-State: AO0yUKW7kyGsiJHHq2r0tZPYuUWQPFfHKmxbuyAvE6kTedxgxqBNfvSt
+ rLFwwid8Z2v4EMsKCcNrmlVZDA==
+X-Google-Smtp-Source: AK7set90CkhHSo3LRsKyc6A6piIY1o8Y6F8Z1bO4UvTahltfRn9lEtVp7/BCbt0V4d+08aaXCfg/Pw==
+X-Received: by 2002:a05:600c:43d3:b0:3da:1357:4ca2 with SMTP id
+ f19-20020a05600c43d300b003da13574ca2mr21719945wmn.11.1676307714869; 
+ Mon, 13 Feb 2023 09:01:54 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- h5-20020a5d5045000000b002c54d9fbea5sm6813911wrt.73.2023.02.13.09.01.47
+ f15-20020adff98f000000b002c5583ab017sm3517148wrr.15.2023.02.13.09.01.53
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 13 Feb 2023 09:01:48 -0800 (PST)
+ Mon, 13 Feb 2023 09:01:54 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: Eduardo Habkost <eduardo@habkost.net>, Eric Farman <farman@linux.ibm.com>,
  qemu-devel@nongnu.org
@@ -61,16 +62,18 @@ Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
  Christian Borntraeger <borntraeger@linux.ibm.com>,
  Halil Pasic <pasic@linux.ibm.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v3 0/6] hw/vfio/ccw: hw: Use QOM macros and remove DO_UPCAST()
- uses
-Date: Mon, 13 Feb 2023 18:01:39 +0100
-Message-Id: <20230213170145.45666-1-philmd@linaro.org>
+Subject: [PATCH v3 1/6] hw/s390x/event-facility: Replace DO_UPCAST(SCLPEvent)
+ by SCLP_EVENT()
+Date: Mon, 13 Feb 2023 18:01:40 +0100
+Message-Id: <20230213170145.45666-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230213170145.45666-1-philmd@linaro.org>
+References: <20230213170145.45666-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,29 +96,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-QOM housekeeping series which replace the DO_UPCAST() macro
-uses by equivalent QOM ones (and few more trivial cleanups).
+Use the SCLP_EVENT() QOM type-checking macro to avoid DO_UPCAST().
 
-Since v2:
-- Split of bigger series
-- Split in simpler patches
-- Added Eric R-b tags
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Eric Farman <farman@linux.ibm.com>
+---
+ hw/s390x/event-facility.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-v2:
-https://lore.kernel.org/qemu-devel/20230213070820.76881-17-philmd@linaro.org/
-
-Philippe Mathieu-Daudé (6):
-  hw/s390x/event-facility: Replace DO_UPCAST(SCLPEvent) by SCLP_EVENT()
-  hw/vfio/ccw: Simplify using DEVICE() macro
-  hw/vfio/ccw: Use intermediate S390CCWDevice variable
-  hw/vfio/ccw: Replace DO_UPCAST(S390CCWDevice) by S390_CCW_DEVICE()
-  hw/vfio/ccw: Remove pointless S390CCWDevice variable
-  hw/vfio/ccw: Replace DO_UPCAST(VFIOCCWDevice) by VFIO_CCW()
-
- hw/s390x/event-facility.c |  3 +--
- hw/vfio/ccw.c             | 40 ++++++++++++++++-----------------------
- 2 files changed, 17 insertions(+), 26 deletions(-)
-
+diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
+index faa51aa4c7..6891e3cd73 100644
+--- a/hw/s390x/event-facility.c
++++ b/hw/s390x/event-facility.c
+@@ -64,8 +64,7 @@ static bool event_pending(SCLPEventFacility *ef)
+     SCLPEventClass *event_class;
+ 
+     QTAILQ_FOREACH(kid, &ef->sbus.qbus.children, sibling) {
+-        DeviceState *qdev = kid->child;
+-        event = DO_UPCAST(SCLPEvent, qdev, qdev);
++        event = SCLP_EVENT(kid->child);
+         event_class = SCLP_EVENT_GET_CLASS(event);
+         if (event->event_pending &&
+             event_class->get_send_mask() & ef->receive_mask) {
 -- 
 2.38.1
 
