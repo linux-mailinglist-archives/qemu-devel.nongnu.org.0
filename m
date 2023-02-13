@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2FD269419C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:44:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 610AC69419E
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:44:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVNG-0003uB-Cp; Mon, 13 Feb 2023 04:43:51 -0500
+	id 1pRVNJ-00041q-03; Mon, 13 Feb 2023 04:43:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVN5-0003pn-Pf
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:40 -0500
+ id 1pRVNB-0003uC-Vy
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:46 -0500
 Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVN1-0002cM-1M
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:39 -0500
+ id 1pRVN4-0002ea-8k
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676281415; x=1707817415;
+ t=1676281418; x=1707817418;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=tNC10zinauHJ3yTUZ2MrmP1L2dxhNC2A7s59Nk82eVE=;
- b=JB2dIn77ht/VazlsiH2jOtffMzc//lArLM9r8W7AOdmeSWc3SKv0nF0X
- 1pLvS4x3nxImEg/H7PNWYdhF6g52U5n3kOLPHNEitN2Q1b+C0d7ac8HaH
- XSlq28YkVS1hTt5x3vRTqEYN7S3jAhL2vv64byYIwjKcRhUbtYiQ670aA
- 5VqBCCGGSjD8vyOvEe5+2UnRNbg91H9Fj/mChq7MO/oA2A2iqlYMScqlw
- zr7AHcet/iKseNOkS3Iy7g2VDa5WiV8EehTtFzVCXB5/iemqh1eHSVX2q
- k5emhLc6smceVN36jQTP5rO1UiaSflMM4kNOncvFVPSDHzJHZXlVHMK3J A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486430"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486430"
+ bh=3VrwrZM8cijXlYI5X1fGYyYv2/UyVxTYkrVwAR2eG78=;
+ b=OZFanbQ6oDtbLuRmwkYLT6TYYfjbAUKTimtcxxyN2dellvMXpZkLLJRP
+ rlFZgMmPvW+BJQZsuTpDge71sh6AM8MUSf3ZBPeAhfK30rvoKJaXD1H2N
+ YuWzj4eANitWdZmaI1h49wXSIoiwT0mILIo4sCvztfdl5iD1SeCZXsmKi
+ GfJSZh/4/g5H82Knrsfyv8GBNso2UrWsZ7xwcybVeTMbQD21nj9xIEAPu
+ yPD6EQtcEFuLjAaJQRxw0I+/wStSsb8v90fAmFBlLxyABkBm7Z28iCkGq
+ vy37Ju4LURLvyVCDmbHhImJ55q4MhDJEbb/JL3JaIRMMW+j6/gBLRqKFW g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486456"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486456"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 01:43:33 -0800
+ 13 Feb 2023 01:43:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670759832"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670759832"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670759838"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670759838"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:43:29 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:43:33 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -55,10 +55,9 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
  Zhao Liu <zhao1.liu@intel.com>
-Subject: [RFC 08/52] machine: Add helpers to get cpu topology info from
- MachineState.topo
-Date: Mon, 13 Feb 2023 17:49:51 +0800
-Message-Id: <20230213095035.158240-9-zhao1.liu@linux.intel.com>
+Subject: [RFC 09/52] hw/machine: Introduce core type for hybrid topology
+Date: Mon, 13 Feb 2023 17:49:52 +0800
+Message-Id: <20230213095035.158240-10-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
@@ -89,248 +88,80 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
-When MachineState.topo is introduced, the topology related structures
-become complicated. In the general case (hybrid or smp topology),
-accessing the topology information needs to determine whether it is
-currently smp or hybrid topology, and then access the corresponding
-MachineState.topo.smp or MachineState.topo.hybrid.
+Under the hybrid cpu topology, some CPUs care about the core type.
+For example, Intel's Alder Lake series CPU contains two types of cores:
+Intel Core and Intel Atom. The type information of these two types is
+exposed in 1A leaf of CPUID.
 
-The best way to do this is to wrap the access to the topology to
-avoid having to check each time it is accessed.
+Core type should also be part of the hybrid topology, and
+MachineState.cpu_type cannot provide different type information for
+different cpus in the same machine, so add a type field for the core
+level in the hybrid cpu topology.
 
-The following helpers are provided here:
-
-- General interfaces - no need to worry about whether the underlying
-  topology is smp or hybrid:
-
-* machine_topo_get_cpus()
-* machine_topo_get_max_cpus()
-* machine_topo_is_smp()
-* machine_topo_get_sockets()
-* machine_topo_get_dies()
-* machine_topo_get_clusters()
-* machine_topo_get_threads();
-* machine_topo_get_cores();
-* machine_topo_get_threads_by_idx()
-* machine_topo_get_cores_by_idx()
-* machine_topo_get_cores_per_socket()
-* machine_topo_get_threads_per_socket()
-
-- SMP-specific interfaces - provided for the cases that are clearly
-known to be smp topology:
-
-* machine_topo_get_smp_cores()
-* machine_topo_get_smp_threads()
-
-Since for hybrid topology, each core may has different threads, if
-someone wants "cpus per core", the cpu_index is need to target a
-specific core (machine_topo_get_threads_by_idx()). But for smp, there is
-no need to be so troublesome, so for this case, we provide smp-specific
-interfaces.
+Additionally, add a helper to get core type information from
+MachineState. Though core_type is only used in hybrid case, don't
+use assert since it may be used to initialize some generic fields.
 
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- hw/core/machine-topo.c | 142 +++++++++++++++++++++++++++++++++++++++++
- include/hw/boards.h    |  35 ++++++++++
- 2 files changed, 177 insertions(+)
+ hw/core/machine-topo.c        | 12 ++++++++++++
+ include/hw/boards.h           |  3 +++
+ include/hw/cpu/cpu-topology.h |  2 ++
+ 3 files changed, 17 insertions(+)
 
 diff --git a/hw/core/machine-topo.c b/hw/core/machine-topo.c
-index 7223f73f99b0..b20160479629 100644
+index b20160479629..e0ec07b53d42 100644
 --- a/hw/core/machine-topo.c
 +++ b/hw/core/machine-topo.c
-@@ -21,6 +21,148 @@
- #include "hw/boards.h"
- #include "qapi/error.h"
+@@ -51,6 +51,18 @@ unsigned int machine_topo_get_smp_threads(const MachineState *ms)
+     return ms->topo.smp.threads;
+ }
  
-+unsigned int machine_topo_get_sockets(const MachineState *ms)
++unsigned int machine_topo_get_hybrid_core_type(const MachineState *ms,
++                                               unsigned int cluster_id,
++                                               unsigned int core_id)
 +{
-+    return machine_topo_is_smp(ms) ? ms->topo.smp.sockets :
-+                                     ms->topo.hybrid.sockets;
-+}
-+
-+unsigned int machine_topo_get_dies(const MachineState *ms)
-+{
-+    return machine_topo_is_smp(ms) ? ms->topo.smp.dies :
-+                                     ms->topo.hybrid.dies;
-+}
-+
-+unsigned int machine_topo_get_clusters(const MachineState *ms)
-+{
-+    return machine_topo_is_smp(ms) ? ms->topo.smp.clusters :
-+                                     ms->topo.hybrid.clusters;
-+}
-+
-+unsigned int machine_topo_get_smp_cores(const MachineState *ms)
-+{
-+    g_assert(machine_topo_is_smp(ms));
-+    return ms->topo.smp.cores;
-+}
-+
-+unsigned int machine_topo_get_smp_threads(const MachineState *ms)
-+{
-+    g_assert(machine_topo_is_smp(ms));
-+    return ms->topo.smp.threads;
-+}
-+
-+unsigned int machine_topo_get_threads(const MachineState *ms,
-+                                      unsigned int cluster_id,
-+                                      unsigned int core_id)
-+{
-+    if (machine_topo_is_smp(ms)) {
-+        return ms->topo.smp.threads;
-+    } else {
++    if (!machine_topo_is_smp(ms)) {
 +        return ms->topo.hybrid.cluster_list[cluster_id]
-+                   .core_list[core_id].threads;
-+    }
-+
-+    return 0;
-+}
-+
-+unsigned int machine_topo_get_cores(const MachineState *ms,
-+                                    unsigned int cluster_id)
-+{
-+    if (machine_topo_is_smp(ms)) {
-+        return ms->topo.smp.cores;
++                       .core_list[core_id].core_type;
 +    } else {
-+        return ms->topo.hybrid.cluster_list[cluster_id].cores;
++        return 0;
 +    }
 +}
 +
-+unsigned int machine_topo_get_threads_by_idx(const MachineState *ms,
-+                                             unsigned int cpu_index)
-+{
-+    unsigned cpus_per_die;
-+    unsigned tmp_idx;
-+    HybridCluster *cluster;
-+    HybridCore *core;
-+
-+    if (machine_topo_is_smp(ms)) {
-+        return ms->topo.smp.threads;
-+    }
-+
-+    cpus_per_die = ms->topo.max_cpus / (ms->topo.hybrid.sockets *
-+                            ms->topo.hybrid.dies);
-+    tmp_idx = cpu_index % cpus_per_die;
-+
-+    for (int i = 0; i < ms->topo.hybrid.clusters; i++) {
-+        cluster = &ms->topo.hybrid.cluster_list[i];
-+
-+        for (int j = 0; j < cluster->cores; j++) {
-+            core = &cluster->core_list[j];
-+
-+            if (tmp_idx < core->threads) {
-+                return core->threads;
-+            } else {
-+                tmp_idx -= core->threads;
-+            }
-+        }
-+    }
-+
-+    return 0;
-+}
-+
-+unsigned int machine_topo_get_cores_by_idx(const MachineState *ms,
-+                                           unsigned int cpu_index)
-+{
-+    unsigned cpus_per_die;
-+    unsigned tmp_idx;
-+    HybridCluster *cluster;
-+    HybridCore *core;
-+
-+    if (machine_topo_is_smp(ms)) {
-+        return ms->topo.smp.cores;
-+    }
-+
-+    cpus_per_die = ms->topo.max_cpus / (ms->topo.hybrid.sockets *
-+                            ms->topo.hybrid.dies);
-+    tmp_idx = cpu_index % cpus_per_die;
-+
-+    for (int i = 0; i < ms->topo.hybrid.clusters; i++) {
-+        cluster = &ms->topo.hybrid.cluster_list[i];
-+
-+        for (int j = 0; j < cluster->cores; j++) {
-+            core = &cluster->core_list[j];
-+
-+            if (tmp_idx < core->threads) {
-+                return cluster->cores;
-+            } else {
-+                tmp_idx -= core->threads;
-+            }
-+        }
-+    }
-+
-+    return 0;
-+}
-+
-+unsigned int machine_topo_get_cores_per_socket(const MachineState *ms)
-+{
-+    unsigned int cores_per_die = 0;
-+
-+    if (machine_topo_is_smp(ms)) {
-+        return ms->topo.smp.cores * ms->topo.smp.clusters * ms->topo.smp.dies;
-+    }
-+
-+    for (int i = 0; i < ms->topo.hybrid.clusters; i++) {
-+        cores_per_die += ms->topo.hybrid.cluster_list[i].cores;
-+    }
-+
-+    return cores_per_die * ms->topo.hybrid.dies;
-+}
-+
-+unsigned int machine_topo_get_threads_per_socket(const MachineState *ms)
-+{
-+    unsigned int sockets = machine_topo_is_smp(ms) ? ms->topo.smp.sockets :
-+                           ms->topo.hybrid.sockets;
-+    return ms->topo.max_cpus / sockets;
-+}
-+
- /*
-  * Report information of a machine's supported CPU topology hierarchy.
-  * Topology members will be ordered from the largest to the smallest
+ unsigned int machine_topo_get_threads(const MachineState *ms,
+                                       unsigned int cluster_id,
+                                       unsigned int core_id)
 diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 0a61855499e3..34b64b012022 100644
+index 34b64b012022..78e52af38cb1 100644
 --- a/include/hw/boards.h
 +++ b/include/hw/boards.h
-@@ -461,4 +461,39 @@ extern const size_t hw_compat_2_2_len;
- extern GlobalProperty hw_compat_2_1[];
- extern const size_t hw_compat_2_1_len;
+@@ -484,6 +484,9 @@ unsigned int machine_topo_get_dies(const MachineState *ms);
+ unsigned int machine_topo_get_clusters(const MachineState *ms);
+ unsigned int machine_topo_get_smp_cores(const MachineState *ms);
+ unsigned int machine_topo_get_smp_threads(const MachineState *ms);
++unsigned int machine_topo_get_hybrid_core_type(const MachineState *ms,
++                                               unsigned int cluster_id,
++                                               unsigned int core_id);
+ unsigned int machine_topo_get_threads(const MachineState *ms,
+                                       unsigned int cluster_id,
+                                       unsigned int core_id);
+diff --git a/include/hw/cpu/cpu-topology.h b/include/hw/cpu/cpu-topology.h
+index 8268ea3a8569..87d832556229 100644
+--- a/include/hw/cpu/cpu-topology.h
++++ b/include/hw/cpu/cpu-topology.h
+@@ -45,9 +45,11 @@ typedef struct SmpCpuTopology {
+ /**
+  * HybridCore - hybrid core topology defination:
+  * @threads: the number of threads in one core.
++ * @core_type: the type of current core.
+  */
+ typedef struct HybridCore {
+     unsigned int threads;
++    unsigned int core_type;
+ } HybridCore;
  
-+static inline
-+unsigned int machine_topo_get_cpus(const MachineState *ms)
-+{
-+    return ms->topo.cpus;
-+}
-+
-+static inline
-+unsigned int machine_topo_get_max_cpus(const MachineState *ms)
-+{
-+    return ms->topo.max_cpus;
-+}
-+
-+static inline
-+bool machine_topo_is_smp(const MachineState *ms)
-+{
-+    return ms->topo.topo_type == CPU_TOPO_TYPE_SMP;
-+}
-+
-+unsigned int machine_topo_get_sockets(const MachineState *ms);
-+unsigned int machine_topo_get_dies(const MachineState *ms);
-+unsigned int machine_topo_get_clusters(const MachineState *ms);
-+unsigned int machine_topo_get_smp_cores(const MachineState *ms);
-+unsigned int machine_topo_get_smp_threads(const MachineState *ms);
-+unsigned int machine_topo_get_threads(const MachineState *ms,
-+                                      unsigned int cluster_id,
-+                                      unsigned int core_id);
-+unsigned int machine_topo_get_cores(const MachineState *ms,
-+                                    unsigned int cluster_id);
-+unsigned int machine_topo_get_threads_by_idx(const MachineState *ms,
-+                                             unsigned int cpu_index);
-+unsigned int machine_topo_get_cores_by_idx(const MachineState *ms,
-+                                           unsigned int cpu_index);
-+unsigned int machine_topo_get_cores_per_socket(const MachineState *ms);
-+unsigned int machine_topo_get_threads_per_socket(const MachineState *ms);
-+
- #endif
+ /**
 -- 
 2.34.1
 
