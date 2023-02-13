@@ -2,95 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6DD5694CC8
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 17:30:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62A7C694D06
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 17:37:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRbig-0000eC-Rz; Mon, 13 Feb 2023 11:30:22 -0500
+	id 1pRbot-0005MH-Uk; Mon, 13 Feb 2023 11:36:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pRbiW-0000dZ-6G
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 11:30:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pRboq-0005Ls-V9
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 11:36:45 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pRbiU-0001Dq-Ko
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 11:30:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676305809;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sVLBHbrpXo0m9vJga87dodkJsh7A80CQNRlkXo7DKsI=;
- b=Q08DvQL3m6WtIS2OCoyaQLZetcphSBkTn3x1RcIYsHnccMBfqYbs5MtVJMb031XwDeAMeA
- TEXAsgVkIGVbofZErf4e760+yUAKKvHwXLeTvR6F0u6u2+ztaJFZD3I9onfkptxHtI7vbS
- fWP+g33MpLgmg93HQhVW0HQ9y1EdXQw=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-629-KOQfo-hgMpOH4L8pj1aJZQ-1; Mon, 13 Feb 2023 11:30:08 -0500
-X-MC-Unique: KOQfo-hgMpOH4L8pj1aJZQ-1
-Received: by mail-qk1-f197.google.com with SMTP id
- w17-20020a05620a425100b00706bf3b459eso7824652qko.11
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 08:30:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sVLBHbrpXo0m9vJga87dodkJsh7A80CQNRlkXo7DKsI=;
- b=Ia/dGwSYB5JfxpzSH1WPez7oHdRMqVVA9fVeZ5nqhkE6j8q14B6eRHU+1cD1g9lz2v
- V21tlFlXpkt/cNH+V5/V8WihSWfsZebuh1OTaQWl8SmwPYBoh7RrLiF0jyLmaI8sHhQh
- v/t2loPBZcyUDax/ykKobr+6DFUY0+2LppbpMTokwXm3eBUl7FYT128XYtfhJviBLmMh
- ASIhdp7/PB2Y+qsbGZXZh4eLpuef9QEOpBd7HMo5jSSS9CtJBjBwbSgevuRelLytlPn+
- KaVt+i08pePPQsPUw8x+79Yg/sFLJYARDEPZ1wASWdmEQEQ84ce8lWotD1gPseODAKJh
- O9sg==
-X-Gm-Message-State: AO0yUKVVnoVrWUlZEf1rIMFVK4+/fOYptZaggjKCFJ9s1dzz/QA1pQEJ
- FXlkAiFuyKKn1B1VPlvXk0sZXGLpfLMFH55TMwdlp6R1Rfpx23Efb4Mk4grYGY89f71jkLgjZ3A
- HD+HTKAgErSn8o4vsxRmB
-X-Received: by 2002:a05:622a:11d3:b0:3b8:67c4:b11d with SMTP id
- n19-20020a05622a11d300b003b867c4b11dmr40912090qtk.49.1676305806811; 
- Mon, 13 Feb 2023 08:30:06 -0800 (PST)
-X-Google-Smtp-Source: AK7set9YDCapomdHiG5Sfh9+tCkLohCWERIfRj9iwhdPn/mMki/jkKMTLFFqmRflaK+B8uuiD7Hjhw==
-X-Received: by 2002:a05:622a:11d3:b0:3b8:67c4:b11d with SMTP id
- n19-20020a05622a11d300b003b867c4b11dmr40912051qtk.49.1676305806492; 
- Mon, 13 Feb 2023 08:30:06 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- t71-20020a37aa4a000000b006fc2f74ad12sm10124541qke.92.2023.02.13.08.30.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 08:30:05 -0800 (PST)
-Message-ID: <1964d20f-e18b-5875-914b-16f2f3acee37@redhat.com>
-Date: Mon, 13 Feb 2023 17:30:03 +0100
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pRbon-0002OV-Th
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 11:36:44 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 871A6746324;
+ Mon, 13 Feb 2023 17:34:04 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 3BA0E7457E7; Mon, 13 Feb 2023 17:34:04 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 38569745706;
+ Mon, 13 Feb 2023 17:34:04 +0100 (CET)
+Date: Mon, 13 Feb 2023 17:34:04 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Peter Xu <peterx@redhat.com>
+cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>, 
+ philmd@linaro.org, Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 1/2] log: Add separate debug option for logging invalid
+ memory accesses
+In-Reply-To: <Y+piDukOkeg+xs9G@x1n>
+Message-ID: <0d85fc1d-4c97-5874-d49c-03ac3c265e2f@eik.bme.hu>
+References: <20230119214032.4BF1E7457E7@zero.eik.bme.hu>
+ <ad4783ee-20ce-06d2-7c2f-1f915bd684d0@eik.bme.hu>
+ <413edbc1-8af1-4b0e-70ab-41d49f1bbbcd@eik.bme.hu>
+ <fcd09b07-c0ac-d617-8503-a5ecef947cfe@redhat.com> <Y+pM+H1PvTUUHrhx@x1n>
+ <7ae34a52-13a5-05e0-3cea-10a9fb89ec1c@eik.bme.hu>
+ <Y+piDukOkeg+xs9G@x1n>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH 2/2] hw/arm/smmu-common: Fix TTB1 handling
-Content-Language: en-US
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- ola.hugosson@arm.com
-References: <20230210163731.970130-1-jean-philippe@linaro.org>
- <20230210163731.970130-3-jean-philippe@linaro.org>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <20230210163731.970130-3-jean-philippe@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.345, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,45 +64,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Jean,
-
-On 2/10/23 17:37, Jean-Philippe Brucker wrote:
-> Addresses targeting the second translation table (TTB1) in the SMMU have
-> all upper bits set (except for the top byte when TBI is enabled). Fix
-> the TTB1 check.
+On Mon, 13 Feb 2023, Peter Xu wrote:
+> On Mon, Feb 13, 2023 at 03:47:42PM +0100, BALATON Zoltan wrote:
+>> On Mon, 13 Feb 2023, Peter Xu wrote:
+>>> On Mon, Feb 13, 2023 at 12:41:29PM +0100, Thomas Huth wrote:
+>>>> On 07/02/2023 17.33, BALATON Zoltan wrote:
+>>>>> On Tue, 31 Jan 2023, BALATON Zoltan wrote:
+>>>>>> On Thu, 19 Jan 2023, BALATON Zoltan wrote:
+>>>>>>> Currently -d guest_errors enables logging of different invalid actions
+>>>>>>> by the guest such as misusing hardware, accessing missing features or
+>>>>>>> invalid memory areas. The memory access logging can be quite verbose
+>>>>>>> which obscures the other messages enabled by this debug switch so
+>>>>>>> separate it by adding a new -d memaccess option to make it possible to
+>>>>>>> control it independently of other guest error logs.
+>>>>>>>
+>>>>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>>>>>
+>>>>>> Ping? Could somebody review and pick it up please?
+>>>>>
+>>>>> Ping?
+>>>>
+>>>> Patch makes sense to me and looks fine, so:
+>>>>
+>>>> Reviewed-by: Thomas Huth <thuth@redhat.com>
+>>>>
+>>>> ... I think this should go via one of the "Memory API" maintainers branches?
+>>>> Paolo? Peter? David?
+>>>
+>>> Paolo normally does the pull, I assume that'll still be the case.  The
+>>> patch looks good to me if Phil's comment will be addressed on merging with
+>>> the old mask, which makes sense to me:
+>>
+>> Keeping the old mask kind of defies the purpose. I've tried to explain that
+>> in the commit message but now that two of you did not get it maybe that
+>> message needs to be clarified instead?
 >
-> Reported-by: Ola Hugosson <ola.hugosson@arm.com>
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
->  hw/arm/smmu-common.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> I think it's clear enough.  My fault to not read carefully into the
+> message, sorry.
 >
-> diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
-> index 2b8c67b9a1..0a5a60ca1e 100644
-> --- a/hw/arm/smmu-common.c
-> +++ b/hw/arm/smmu-common.c
-> @@ -249,7 +249,7 @@ SMMUTransTableInfo *select_tt(SMMUTransCfg *cfg, dma_addr_t iova)
->          /* there is a ttbr0 region and we are in it (high bits all zero) */
->          return &cfg->tt[0];
->      } else if (cfg->tt[1].tsz &&
-> -           !extract64(iova, 64 - cfg->tt[1].tsz, cfg->tt[1].tsz - tbi_byte)) {
-> +        sextract64(iova, 64 - cfg->tt[1].tsz, cfg->tt[1].tsz - tbi_byte) == -1) {
->          /* there is a ttbr1 region and we are in it (high bits all one) */
->          return &cfg->tt[1];
->      } else if (!cfg->tt[0].tsz) {
+> However, could you explain why a memory_region_access_valid() failure
+> shouldn't belong to LOG_GUEST_ERROR?
+>
+> commit e54eba1986f6c4bac2951e7f90a849cd842e25e4
+> Author: Peter Maydell <peter.maydell@linaro.org>
+> Date:   Thu Oct 18 14:11:35 2012 +0100
+>
+>    qemu-log: Add new log category for guest bugs
+>
+>    Add a new category for device models to log guest behaviour
+>    which is likely to be a guest bug of some kind (accessing
+>    nonexistent registers, reading 32 bit wide registers with
+>    a byte access, etc). Making this its own log category allows
+>    those who care (mostly guest OS authors) to see the complaints
+>    without bothering most users.
+>
+> Such an illegal memory access is definitely a suitable candidate of guest
+> misbehave to me.
 
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Problem is that a lot of machines have unimplemented hardware that are 
+valid on real machine but we don't model them so running guests which 
+access these generate constant flow of unassigned memory access log which 
+obscures the actual guest_errors when an modelled device is accessed in 
+unexpected ways. For an example you can try booting MorphOS on 
+mac99,via=pmu as described here: 
+http://zero.eik.bme.hu/~balaton/qemu/amiga/#morphos
+(or the pegasos2 command too). We could add dummy registers to silence 
+these but I think it's better to either implement it correctly or leave it 
+unimplemented so we don't hide errors by the dummy implementation.
 
-While reading the spec again, I noticed we do not support VAX. Is it
-something that we would need to support?
+> Not to mention Phil always have a good point that you may be violating
+> others using guest_error already so what they wanted to capture can
+> misterious going away without noticing, even if it may service your goal.
+> IOW it's a slight ABI and I think we ned justification to break it.
 
-Thanks!
+Probably this should be documented in changelog or do we need depracation 
+for a debug option meant for developers mostly? I did not think so. Also I 
+can't think of other way to solve this without changing what guest_erorrs 
+do unless we change the name of that flag as well. Also not that when this 
+was originally added it did not contain mem access logs as those were 
+controlled by a define in memory.c until Philippe changed it and added 
+them to guest_errors. So in a way I want the previous functionality back.
 
-Eric
-
-
+Regards,
+BALATON Zoltan
 
