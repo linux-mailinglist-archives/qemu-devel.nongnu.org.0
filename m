@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CED5693EA5
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 08:06:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42DB3693EB6
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 08:09:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRStr-0001B9-3N; Mon, 13 Feb 2023 02:05:19 -0500
+	id 1pRSwu-0000BP-JI; Mon, 13 Feb 2023 02:08:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRSto-00019Q-FM
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:05:16 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRSws-0000Ac-ED
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:08:26 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRStm-0000t0-2e
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:05:16 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id o18so11066882wrj.3
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 23:05:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRSwq-0001jR-01
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:08:26 -0500
+Received: by mail-wm1-x329.google.com with SMTP id z13so8013938wmp.2
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 23:08:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=md/V7qS9+MXg+4Y+2ycjl2bad9V4Bp92Z+1RWOwRBno=;
- b=PxDf/SH2ShPie6GsyT7i2RpbRLYGrgkKYImchGuWskFRsYoqJSH7lQbPOm3eAFYU79
- 18r/Xy+f0XqBBjDGMNFAs/UBJtaYfvoms7YLgjf27v01gjU2XvlHoNZHPJ42XG169Og4
- 21H7iUdXWn/A0d4kkP+jsfrYRMeIBBjgFQi74Xw9HwBetHgUdtovTeuTxWJGFmCq6Z0B
- 2uBXbxFZrzQ+RFF1QB8P7qCywR9B3eb9zRcX7MxZYhVDYNUrW0JRY+R0nNdbEJLEDxmA
- Rq7Ue09fW/DH6THeCIo72737OK0+Y3jtGp5pFj6PqMy2DvO3i8iS4bkR6uLKo9VlqNjB
- CIiw==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=lux5rTS8ete4gNLpWbokw3KelMLn0CF7PB03N10HR70=;
+ b=FvqA53n3zkQfr9Jo+aypzx12tCj+waCcNC53O93elgm6I8dMe6Xdhp+vT3D8MoL7VP
+ 4pMzoC1GiUsFj288dr0wn5IwNCJHeTart1whkzGyhur9Y/A0a1wv9fMK7H+2R3Ev3UkR
+ oNBJyVfh00eHvmIGayKWlkkSDHznBg/zLyXFMYxssyPRZREANgs/vygxzO4XiLqHKdzL
+ QOkNuVgssGiVUDkQwZBf7P3J5VWpzLOd4oTLhMiblC61VGFlUQSisXDU/a2ZxTnVpfJG
+ /h/PGUeUN+4NliBm/taLkBzd8eKCr4tcxPqbLdGYwypz+n8Gpqcm01yUbRucF7VCmOBZ
+ VVlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=md/V7qS9+MXg+4Y+2ycjl2bad9V4Bp92Z+1RWOwRBno=;
- b=M+8tYf9do1rKyNeTcWadLNq20C7yygnsAvVmngbdHFRIBeZU9k1CJ75ibGXmYoE2Jm
- 0Aa/JDbeUHnOACau4CUm7km/eccI+vBABV8iZIA/dERH7waBKqjCPiNsLtkXvqDogfP0
- pWfec2khvkJTxw/CGiEbE5jL0e0d1dFs+iCNONXhYVFiV4wmc7pg6I90gPLmv/SaKwb1
- r5oTXA9MnGebd2niTSYE4h8ogmZRHR9whONoxzXB/L38BaAv7c3QE2E046sUxOyoTK75
- Tebt78OZkhp9VcOhReDWJ+Ux3tfYBMt/aC6Vsh7EFeSQZDWiR2cT1lXdFyQMyxy1vRlL
- 27Wg==
-X-Gm-Message-State: AO0yUKVpYn4xE0WE0cFBc7JfyJP5Zb976VvlfedKGVzPMpGuGy+LFLp9
- eCqeBLEI2VKkH6Zq63aSKHgFM43vyeACMKSR
-X-Google-Smtp-Source: AK7set+tW1x2hijghuCuuG1y5DKtns9TyCUs9YzcCzQtSrD4XYy9g2AYNQpwm7udj7HOkmdBc8fhlA==
-X-Received: by 2002:a05:6000:c8:b0:2c3:db98:3e87 with SMTP id
- q8-20020a05600000c800b002c3db983e87mr18419813wrx.20.1676271912399; 
- Sun, 12 Feb 2023 23:05:12 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lux5rTS8ete4gNLpWbokw3KelMLn0CF7PB03N10HR70=;
+ b=j/W34yGPwhCf82Doo4UmvhNh4W8kffuvh6QTK2T3gwwbZP2NNEo753i4xNRtwBmEsb
+ B1K8Rhxvg+Ubp7KqaQkub/8X4eFSVs4Zwu04xKvJHpCGc79s8q4fuhyT9EYNJQehxcCF
+ 3+V5zBSsdUbp444nJJRmbmFf+bjzRWliXz4E4NbmGItMf5+DSK1ptCIu38oPNsKGK8HO
+ NYSmip4aKcmjk5CzfafJDsHNyeUN6TZZg3ixPxs7zwqafFCa+RF2nUMdXAwfvke3ediA
+ 89VOV1A8Q/ZCm+qfHCXNUoumlCEVhpm98ICd3o8Cq5iCkPg3ttQe92Ln1vhEGfUaoCgB
+ 2GvQ==
+X-Gm-Message-State: AO0yUKVSpV6dOroG/1ipD7PBc+wk6i2x+gHeBysx8SKAeNVFQQdGj0Jz
+ qDCYwHr9thrjlw25/iIwI+R1s3/sEuODHF0C
+X-Google-Smtp-Source: AK7set//BJE1zsWj+1MD3B/p0jOFwEYkKGT7rI0XQ1meOXLFD4NZ+9qKhOe/VuRd7SY8ZnkOcfjYWw==
+X-Received: by 2002:a05:600c:4d09:b0:3de:db64:a56f with SMTP id
+ u9-20020a05600c4d0900b003dedb64a56fmr22756503wmp.13.1676272102269; 
+ Sun, 12 Feb 2023 23:08:22 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- t15-20020a5d534f000000b002c55306f6edsm3759375wrv.54.2023.02.12.23.05.11
+ g10-20020a05600c310a00b003e1e8d794e1sm3989019wmo.13.2023.02.12.23.08.21
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 12 Feb 2023 23:05:12 -0800 (PST)
+ Sun, 12 Feb 2023 23:08:21 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org,
 	Eduardo Habkost <eduardo@habkost.net>
-Cc: Gonglei Arei <arei.gonglei@huawei.com>, Li Qiang <liq3ea@163.com>,
- Cao jin <caoj.fnst@cn.fujitsu.com>, Hu Tao <hutao@cn.fujitsu.com>,
- qemu-block@nongnu.org, qemu-ppc@nongnu.org,
- xiaoqiang zhao <zxq_yx_007@163.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+Cc: qemu-block@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Li Qiang <liq3ea@163.com>, qemu-s390x@nongnu.org,
+ Hu Tao <hutao@cn.fujitsu.com>, Gonglei Arei <arei.gonglei@huawei.com>,
+ Cao jin <caoj.fnst@cn.fujitsu.com>, xiaoqiang zhao <zxq_yx_007@163.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v2 9/9] qdev-monitor: Use qdev_get_parent_bus() in
- bus_print_dev()
-Date: Mon, 13 Feb 2023 08:04:23 +0100
-Message-Id: <20230213070423.76428-10-philmd@linaro.org>
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v2 00/19] hw: Use QOM macros and remove DO_UPCAST() uses
+Date: Mon, 13 Feb 2023 08:08:01 +0100
+Message-Id: <20230213070820.76881-1-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230213070423.76428-1-philmd@linaro.org>
-References: <20230213070423.76428-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,39 +92,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-No need to pass 'dev' and 'dev->parent_bus' when we can
-retrieve 'parent_bus' with qdev_get_parent_bus().
+v2: Rebased
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- softmmu/qdev-monitor.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+QOM housekeeping series which replace the DO_UPCAST() macro
+uses by equivalent QOM ones. Also:
+- Use DEVICE() macro
+- Define some TYPE_xxx
+- Define some type arrays using DEFINE_TYPES() macro
+- Introduce abstract QOM (QDev) parent when relevant.
 
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 820e7f52ad..12e4899f0d 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -770,9 +770,9 @@ static void qdev_print_props(Monitor *mon, DeviceState *dev, Property *props,
-     }
- }
- 
--static void bus_print_dev(BusState *bus, Monitor *mon, DeviceState *dev, int indent)
-+static void bus_print_dev(Monitor *mon, DeviceState *dev, int indent)
- {
--    BusClass *bc = BUS_GET_CLASS(bus);
-+    BusClass *bc = BUS_GET_CLASS(qdev_get_parent_bus(dev));
- 
-     if (bc->print_dev) {
-         bc->print_dev(mon, dev, indent);
-@@ -811,7 +811,7 @@ static void qdev_print(Monitor *mon, DeviceState *dev, int indent)
-         qdev_print_props(mon, dev, DEVICE_CLASS(class)->props_, indent);
-         class = object_class_get_parent(class);
-     } while (class != object_class_by_name(TYPE_DEVICE));
--    bus_print_dev(dev->parent_bus, mon, dev, indent);
-+    bus_print_dev(mon, dev, indent);
-     QLIST_FOREACH(child, &dev->child_bus, sibling) {
-         qbus_print(mon, child, indent);
-     }
+Based-on: <20230213070423.76428-1-philmd@linaro.org>
+          hw/qdev: Housekeeping around qdev_get_parent_bus()
+
+Philippe Mathieu-Daudé (19):
+  hw/char/serial-pci: Replace DO_UPCAST(PCISerialState) by PCI_SERIAL()
+  hw/char/serial-pci-multi: Batch register types using DEFINE_TYPES
+    macro
+  hw/char/serial-pci-multi: Introduce PCI_MULTISERIAL QOM abstract
+    parent
+  hw/char/serial-pci-multi: Factor multi_serial_class_initfn() out
+  hw/char/serial-pci-multi: Replace DO_UPCAST() by PCI_MULTISERIAL()
+  hw/ide/qdev: Replace DO_UPCAST(IDEDevice) by IDE_DEVICE()
+  hw/ide/qdev: Replace DO_UPCAST(IDEBus) by IDE_BUS()
+  hw/net/eepro100: Introduce TYPE_EEPRO100 QOM abstract parent
+  hw/net/eepro100: Replace DO_UPCAST(EEPRO100State) by EEPRO100()
+  hw/net/ne2000-pci: Replace DO_UPCAST(PCINE2000State) by PCI_NE2000()
+  hw/net/tulip: Finish QOM conversion
+  hw/pci/pci: Replace DO_UPCAST(PCIBus) by PCI_BUS()
+  hw/scsi/scsi-bus: Replace DO_UPCAST(SCSIBus) by SCSI_BUS()
+  hw/scsi/scsi-bus: Inline two uses of scsi_bus_from_device()
+  hw/s390x/event-facility: Replace DO_UPCAST(SCLPEvent) by SCLP_EVENT()
+  hw/vfio/ccw: Replace DO_UPCAST(VFIOCCWDevice) by VFIO_CCW()
+  hw/usb/dev-hub: Use QOM USB_HUB() macro instead of casting
+  hw/usb: Replace DO_UPCAST(USBBus) by USB_BUS()
+  hw/usb: Inline usb_bus_from_device()
+
+ hw/char/serial-pci-multi.c | 93 +++++++++++++++++++-------------------
+ hw/char/serial-pci.c       |  7 ++-
+ hw/ide/qdev.c              | 10 ++--
+ hw/net/eepro100.c          | 46 ++++++++++++-------
+ hw/net/ne2000-pci.c        | 18 +++++---
+ hw/net/tulip.c             | 20 ++++----
+ hw/pci/pci.c               |  2 +-
+ hw/s390x/event-facility.c  |  3 +-
+ hw/s390x/ipl.c             |  7 +--
+ hw/scsi/scsi-bus.c         | 14 +++---
+ hw/usb/bus.c               | 10 ++--
+ hw/usb/core.c              |  6 +--
+ hw/usb/dev-hub.c           | 10 ++--
+ hw/usb/dev-serial.c        | 10 ++--
+ hw/usb/hcd-xhci.c          |  2 +-
+ hw/vfio/ccw.c              | 35 +++++++-------
+ include/hw/scsi/scsi.h     |  5 --
+ include/hw/usb.h           |  5 --
+ 18 files changed, 155 insertions(+), 148 deletions(-)
+
 -- 
 2.38.1
 
