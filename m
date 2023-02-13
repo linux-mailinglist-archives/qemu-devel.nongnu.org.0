@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32D6693C8A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 03:53:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8E74693CAE
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 03:57:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pROxK-0002Vn-UN; Sun, 12 Feb 2023 21:52:38 -0500
+	id 1pRP1n-0007Yx-ET; Sun, 12 Feb 2023 21:57:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pROxJ-0002OK-BT
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:52:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pRP1m-0007Yh-6U
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:57:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pROxG-0006wx-7k
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:52:35 -0500
+ id 1pRP1k-0007eG-IF
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:57:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676256753;
+ s=mimecast20190719; t=1676257031;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=c995lDB1JAKlZY84gYHtgOp10ZlGZIqADTn8Uc7TQdI=;
- b=BgC6Pb6T2PWAsrJyzv+M9fnTAZqy2SzqOGPr7mGz7cASHb78R+94wjh7pkvQonYj6eWfXC
- QAir+I/GoLCZy3UW0iS7snkTV/44rg+aw87v3rXNVwCli8r45zQvGzVNwDRyndaPbgGpcZ
- M01HgXXrQn9J8PTGGu4AO3n1WQ0DkdY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=nWhoZvQXwpek6MRzDbzXaJKp87waVT0jUTHO9m0cu6A=;
+ b=iPEka2jkJ1oVqQVTTo3CzoLaOnwcZxDhKHWo4IYs5LyjuB+mH25aSFK2orBBlS+//hz0Wc
+ hDxQGjEyXyp7I5Kv3xLSZb3p4kdV2KHwGcPbudrgYe33hl5CdRNtFKevdoZyj7I+//a5qf
+ 38QY+75UToPZPfq1ZNYH9/h7AnfTAnQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-336-CIoZz1gJNYeuxkypfXTHDg-1; Sun, 12 Feb 2023 21:52:32 -0500
-X-MC-Unique: CIoZz1gJNYeuxkypfXTHDg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- p14-20020a05600c468e00b003e0107732f4so5448031wmo.1
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 18:52:31 -0800 (PST)
+ us-mta-231-IlmXlot0MPuiNhXoUfbJpA-1; Sun, 12 Feb 2023 21:57:10 -0500
+X-MC-Unique: IlmXlot0MPuiNhXoUfbJpA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ ay19-20020a05600c1e1300b003dc54daba42so5440107wmb.7
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 18:57:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=c995lDB1JAKlZY84gYHtgOp10ZlGZIqADTn8Uc7TQdI=;
- b=vEF8np5PpQnjIhPuNrXESDHVJnx1on5Xx8Nbjn1tNUV+tv3YrHwFJhtygr9EbsiHnr
- +u+b5cMMFbfRWFuf7p78jfbMGQSZd3wbIos+DT+d8lBwb/k4CakPh0wWHOtsXkAARjOc
- TNuRuvUysq612n41ujckUsptrCYpQpqiXdgY1gjscIsRTwbAyzWL+9EWaAeNvKS+FWob
- 5vZSxfNpFjhA9dwqM/km56junThkdKmH3KslMqe8S6vxWr/7uUsUOpwuXCZtmBtNdsKp
- Yf+lRfR5a1nwY7okRjAQFkko5n/J+9o9w+v/igfxVk3Fx36P6lEZ37IQtP0Uix0SGJgW
- wA2A==
-X-Gm-Message-State: AO0yUKVcxZ7BrMsWmCScYFXGluBPzDz/ZF/otNEn/jHA8gVd/dMcpaOb
- 5A+bROHm7t4VNmUydMhg1mBPgZjSn/jCi/i2h48QQQ8/xRUPAn0CGhwY1oFOPXUVKCzCo69lhQT
- D8IVMi9c/L/du+mZdtwgjD58nS1peOTsq2F1EomxNyhy87fEwhMIGfK/63cgEc7N8bSEoqPpN
-X-Received: by 2002:a05:600c:1688:b0:3dd:caa8:3ae2 with SMTP id
- k8-20020a05600c168800b003ddcaa83ae2mr18149191wmn.6.1676256750520; 
- Sun, 12 Feb 2023 18:52:30 -0800 (PST)
-X-Google-Smtp-Source: AK7set/dMZ2ZUSJfLWqLY2UApnuV78OOZJsuUZ90EHofczH2jOt/9V9vmU4+7z/snj4nrMRv4huVAg==
-X-Received: by 2002:a05:600c:1688:b0:3dd:caa8:3ae2 with SMTP id
- k8-20020a05600c168800b003ddcaa83ae2mr18149171wmn.6.1676256750269; 
- Sun, 12 Feb 2023 18:52:30 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nWhoZvQXwpek6MRzDbzXaJKp87waVT0jUTHO9m0cu6A=;
+ b=bXhvSsOEyR71UAeEBawNmphOWRbKd6zHoGu73Z5ZEI9cFN4VLxg8X9EQtqmy5reiXv
+ IHM9mpiZl11fXQIzQJoyD39I7NinZh9hzvmfitYQS+XkZvOQXy3EQTpDnEvEreXZSR+o
+ WSw8Pz9+3SH+u/b4QG67Q8pGFmx7aY5lAuLwj2D6xj61Nmkyjwm1b/G+7Qnux020xGP8
+ Jsh5IiV/boUiqU4+T0Z+sxtQx6Ky9roSvRJAXdGa1YouDZQTQwqh7M8vLKpy/bEL5C7V
+ bhoM/2TrFHu3u9+i1elx2bFR2GMeHqPA1XfaW/TdVYCbsaBC/qvw/HPkswjmYw0YwCNS
+ 2oSQ==
+X-Gm-Message-State: AO0yUKVfc6yOtXs8e4xGKM7UU821n0ZXwwcmnOcvJoaCT0e0ZXhwLGZc
+ Th/27Q2wSO09SD9p6cOCuAuMz+L8WJnAL+knyiWQpd239xKUfKbRhJRKEIm70eZ22JHkzhJcuI/
+ LdXXn9Vok/KwCz/IJgPXMOwwI1TpwuPC3v/7U5C5ypjeH8qUlT/nNQdEBRzSZdlVnHt9TDAf2
+X-Received: by 2002:a05:600c:4d90:b0:3de:1d31:1042 with SMTP id
+ v16-20020a05600c4d9000b003de1d311042mr22198974wmp.23.1676257029151; 
+ Sun, 12 Feb 2023 18:57:09 -0800 (PST)
+X-Google-Smtp-Source: AK7set8AobCcIBWolTaervOiO4Y+BjG8F0oxvaq2PxCW5ODPP4qb5AAJ5ijFhWmRZx8Un1hLumO6ww==
+X-Received: by 2002:a05:600c:4d90:b0:3de:1d31:1042 with SMTP id
+ v16-20020a05600c4d9000b003de1d311042mr22198961wmp.23.1676257028839; 
+ Sun, 12 Feb 2023 18:57:08 -0800 (PST)
 Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- q14-20020a5d574e000000b002bfb02153d1sm9399532wrw.45.2023.02.12.18.52.28
+ n6-20020a7bcbc6000000b003dfe57f6f61sm11780243wmi.33.2023.02.12.18.57.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Feb 2023 18:52:29 -0800 (PST)
+ Sun, 12 Feb 2023 18:57:08 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Yanan Wang <wangyanan55@huawei.com>,
  Juan Quintela <quintela@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Eric Blake <eblake@redhat.com>
-Subject: [PULL 22/22] ram: Document migration ram flags
-Date: Mon, 13 Feb 2023 03:51:50 +0100
-Message-Id: <20230213025150.71537-23-quintela@redhat.com>
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Eric Blake <eblake@redhat.com>
+Subject: [PATCH v5 0/3] Eliminate multifd flush
+Date: Mon, 13 Feb 2023 03:57:04 +0100
+Message-Id: <20230213025707.72229-1-quintela@redhat.com>
 X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230213025150.71537-1-quintela@redhat.com>
-References: <20230213025150.71537-1-quintela@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -104,52 +100,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-0x80 is RAM_SAVE_FLAG_HOOK, it is in qemu-file now.
-Bigger usable flag is 0x200, noticing that.
-We can reuse RAM_SAVe_FLAG_FULL.
+Hi
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- migration/ram.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+In this v5:
+- Remove RAM Flags documentation (already on PULL request)
+- rebase on top of PULL request.
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 18ac68b181..521912385d 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -67,21 +67,25 @@
- /***********************************************************/
- /* ram save/restore */
- 
--/* RAM_SAVE_FLAG_ZERO used to be named RAM_SAVE_FLAG_COMPRESS, it
-- * worked for pages that where filled with the same char.  We switched
-+/*
-+ * RAM_SAVE_FLAG_ZERO used to be named RAM_SAVE_FLAG_COMPRESS, it
-+ * worked for pages that were filled with the same char.  We switched
-  * it to only search for the zero value.  And to avoid confusion with
-- * RAM_SSAVE_FLAG_COMPRESS_PAGE just rename it.
-+ * RAM_SAVE_FLAG_COMPRESS_PAGE just rename it.
-  */
--
--#define RAM_SAVE_FLAG_FULL     0x01 /* Obsolete, not used anymore */
-+/*
-+ * RAM_SAVE_FLAG_FULL was obsoleted in 2009, it can be reused now
-+ */
-+#define RAM_SAVE_FLAG_FULL     0x01
- #define RAM_SAVE_FLAG_ZERO     0x02
- #define RAM_SAVE_FLAG_MEM_SIZE 0x04
- #define RAM_SAVE_FLAG_PAGE     0x08
- #define RAM_SAVE_FLAG_EOS      0x10
- #define RAM_SAVE_FLAG_CONTINUE 0x20
- #define RAM_SAVE_FLAG_XBZRLE   0x40
--/* 0x80 is reserved in migration.h start with 0x100 next */
-+/* 0x80 is reserved in qemu-file.h for RAM_SAVE_FLAG_HOOK */
- #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
-+/* We can't use any flag that is bigger than 0x200 */
- 
- int (*xbzrle_encode_buffer_func)(uint8_t *, uint8_t *, int,
-      uint8_t *, int) = xbzrle_encode_buffer;
+Please review.
+
+Based-on: <20230213025150.71537-1-quintela@redhat.com>
+          Migration 20230213 patches
+
+In this v4:
+- Rebased on top of migration-20230209 PULL request
+- Integrate two patches in that pull request
+- Rebase
+- Address Eric reviews.
+
+Please review.
+
+In this v3:
+- update to latest upstream.
+- fix checkpatch errors.
+
+Please, review.
+
+In this v2:
+- update to latest upstream
+- change 0, 1, 2 values to defines
+- Add documentation for SAVE_VM_FLAGS
+- Add missing qemu_fflush(), it made random hangs for migration test
+  (only for tls, no clue why).
+
+Please, review.
+
+[v1]
+Upstream multifd code synchronize all threads after each RAM section.  This is suboptimal.
+Change it to only flush after we go trough all ram.
+
+Preserve all semantics for old machine types.
+
+Juan Quintela (3):
+  multifd: Create property multifd-sync-after-each-section
+  multifd: Protect multifd_send_sync_main() calls
+  multifd: Only sync once each full round of memory
+
+ qapi/migration.json   | 10 +++++++++-
+ migration/migration.h |  1 +
+ hw/core/machine.c     |  1 +
+ migration/migration.c | 13 +++++++++++--
+ migration/ram.c       | 44 +++++++++++++++++++++++++++++++++++++------
+ 5 files changed, 60 insertions(+), 9 deletions(-)
+
 -- 
 2.39.1
 
