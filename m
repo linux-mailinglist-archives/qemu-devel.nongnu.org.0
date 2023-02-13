@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AFD569473B
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 14:41:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CFA3694752
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 14:46:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRZ5L-00069u-T5; Mon, 13 Feb 2023 08:41:35 -0500
+	id 1pRZ9W-0007J7-KQ; Mon, 13 Feb 2023 08:45:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pRZ5J-00069L-8d
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 08:41:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pRZ5H-00029q-No
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 08:41:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676295690;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=lePZeUeDiJKkZXpc5paQK08CVkUShdrgVou8Zzwyzmg=;
- b=fDPy3+PBbQqRSv3SJQW7di5grJDLV6ZK7ht1Tip1JsYh6bDqjZ4iPdUbEjgvIn4d1YPNEM
- Vr+rP5jG95u0BTsY/Hyyq6NYF0MdqrOkMK/O61rKcDhJS+z67b4NEqKoW+jUy/tNTjpnKM
- YC+AJ75YX7ek/9R1a5jyzVI8Uwv0mCM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-547-wE09DJ26Mt6pAACXtHsoQQ-1; Mon, 13 Feb 2023 08:41:27 -0500
-X-MC-Unique: wE09DJ26Mt6pAACXtHsoQQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6B9D82A59575;
- Mon, 13 Feb 2023 13:41:26 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.54])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F18D2166B26;
- Mon, 13 Feb 2023 13:41:22 +0000 (UTC)
-Date: Mon, 13 Feb 2023 13:41:19 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Zhao Liu <zhao1.liu@linux.intel.com>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Yanan Wang <wangyanan55@huawei.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi <dapeng1.mi@intel.com>,
- Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo <robert.hu@linux.intel.com>,
- Sean Christopherson <seanjc@google.com>,
- Like Xu <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>
-Subject: Re: [RFC 04/52] i386/WHPX: Fix error message when fail to set
- ProcessorCount
-Message-ID: <Y+o9/45iHAn2+eUv@redhat.com>
-References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
- <20230213095035.158240-5-zhao1.liu@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRZ9K-0007HA-QM
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 08:45:46 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRZ9H-0002z6-9B
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 08:45:42 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ c4-20020a1c3504000000b003d9e2f72093so11329247wma.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 05:45:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=dNAzM32kwtHynYxcsQ2za0rZKez6T2DwGuAmV99K5Wk=;
+ b=tQuimiDN8SnFwlr0SEW+S6TlFNSItT0WMbbgXlgtj42R8D7ak21ppdPgICFBfS8aXU
+ Lx6oCmqUP1mNloeUXiAg1kdJi8J0jbJLWRoM68vg6Iv/2p4fI5ruYwS774p2Sn+q5AHc
+ HQ+4N4ZzO9lvqRp48hJ4rOdH3IMFrrnjl++5wNpxQNx8dSWT2UBqVGZ1oh/NoDjRqmBM
+ lvf7ODMY63c/rTGMcTYzv9N2HELR9SS6KYW7ceKU9ULITjHdAthd0aqfe8C6xU1DwC8M
+ f1DFckzwkM9lYs67TqzQWP4Oms/fxVpTRjCRJmsDEFzXwm2TpjAvgFSm41BKkFBTCDm4
+ obwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=dNAzM32kwtHynYxcsQ2za0rZKez6T2DwGuAmV99K5Wk=;
+ b=7+e3FZhnetsMiJ2jqrBJcRrtALyeUvZs00S6mHwT/lhJoHL99tRkIX8zYd/3GLypih
+ mi4O2GbTnq/xA0wmRxbfBR9nDD8SmbqR9RIzpHlEZJuoSYXcStzH8RNiHNzjP5xC4XWB
+ finJE8K7NoAbwT01VWsM/UDTRK0u0pGptKQ349IckOe09J5DrmJon67mU2j3UaIqO2OT
+ DCbG0iUhsHFqXFgrUlAOalSHe4mrvpbH8SRA+5s/1VFsWBves+GuCxILLeg2a5OO/GaI
+ BD8a2SYS/Twh1IMoQp8pgi+yP5dnZ/c+RTE+jb0Jvuu+jyPWMfHhOFt6rpO2OT5TEs3u
+ fEHQ==
+X-Gm-Message-State: AO0yUKVXc+OXgDhfX5bjdJyDqzr8NabVGgAXRlc0DkFji0eIRzRFYT0S
+ l1+9SnW/aKVCYVNfWON/RkmX6V4o6I92L6HL
+X-Google-Smtp-Source: AK7set+V5FuxfWVaAObbcBfYxJuQyS4UPWp3FVll2p3tL6FnY8/olv3Ikpiw93XzOfveSTh0OS/Tew==
+X-Received: by 2002:a05:600c:5112:b0:3da:2a59:8a4f with SMTP id
+ o18-20020a05600c511200b003da2a598a4fmr18840591wms.38.1676295934006; 
+ Mon, 13 Feb 2023 05:45:34 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ p24-20020a05600c1d9800b003dd1bd0b915sm16866152wms.22.2023.02.13.05.45.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Feb 2023 05:45:33 -0800 (PST)
+Message-ID: <8a2a0ec1-6708-5126-3007-e4112959fd4a@linaro.org>
+Date: Mon, 13 Feb 2023 14:45:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230213095035.158240-5-zhao1.liu@linux.intel.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH 1/2] log: Add separate debug option for logging invalid
+ memory accesses
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
+References: <20230119214032.4BF1E7457E7@zero.eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230119214032.4BF1E7457E7@zero.eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.345,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,67 +87,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 13, 2023 at 05:49:47PM +0800, Zhao Liu wrote:
-> From: Zhao Liu <zhao1.liu@intel.com>
+On 19/1/23 22:40, BALATON Zoltan wrote:
+> Currently -d guest_errors enables logging of different invalid actions
+> by the guest such as misusing hardware, accessing missing features or
+> invalid memory areas. The memory access logging can be quite verbose
+> which obscures the other messages enabled by this debug switch so
+> separate it by adding a new -d memaccess option to make it possible to
+> control it independently of other guest error logs.
 > 
-> 003f230 (machine: Tweak the order of topology members in struct
-> CpuTopology) changes the meaning of MachineState.smp.cores from "the
-> number of cores in one package" to "the number of cores in one die"
-> and doesn't fix other uses of MachineState.smp.cores. And because of
-> the introduction of cluster, now smp.cores just means "the number of
-> cores in one cluster". This clearly does not fit the semantics here.
-> 
-> And before this error message, WHvSetPartitionProperty() is called to
-> set prop.ProcessorCount.
-> 
-> So the error message should show the prop.ProcessorCount other than
-> "cores per cluster" or "cores per package".
-> 
-> Cc: Sunil Muthuswamy <sunilmut@microsoft.com>
-> Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->  target/i386/whpx/whpx-all.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-
-This patch and the 3 patches before it all look like basic bug
-fixes to current code, not really part of the new hybrid topology
-feature work.
-
-As such I'd suggest sending these first four patches as a separate
-series, so the bug fixes can be merged fairly quickly. I expect the
-rest of the hybrid topology series is going to take a long time to
-get agreement on, so no need to delay the easy bug fixes.
-
+>   include/qemu/log.h | 1 +
+>   softmmu/memory.c   | 6 +++---
+>   softmmu/physmem.c  | 2 +-
+>   util/log.c         | 2 ++
+>   4 files changed, 7 insertions(+), 4 deletions(-)
 > 
-> diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
-> index e738d83e8191..fc349f887e47 100644
-> --- a/target/i386/whpx/whpx-all.c
-> +++ b/target/i386/whpx/whpx-all.c
-> @@ -2613,8 +2613,8 @@ static int whpx_accel_init(MachineState *ms)
->          sizeof(WHV_PARTITION_PROPERTY));
->  
->      if (FAILED(hr)) {
-> -        error_report("WHPX: Failed to set partition core count to %d,"
-> -                     " hr=%08lx", ms->smp.cores, hr);
-> +        error_report("WHPX: Failed to set partition processor count to %d,"
-> +                     " hr=%08lx", prop.ProcessorCount, hr);
->          ret = -EINVAL;
->          goto error;
->      }
-> -- 
-> 2.34.1
-> 
-> 
+> diff --git a/include/qemu/log.h b/include/qemu/log.h
+> index c5643d8dd5..4bf0a65a85 100644
+> --- a/include/qemu/log.h
+> +++ b/include/qemu/log.h
+> @@ -35,6 +35,7 @@ bool qemu_log_separate(void);
+>   /* LOG_STRACE is used for user-mode strace logging. */
+>   #define LOG_STRACE         (1 << 19)
+>   #define LOG_PER_THREAD     (1 << 20)
+> +#define LOG_MEM_ACCESS     (1 << 21)
+>   
+>   /* Lock/unlock output. */
+>   
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index 9d64efca26..0a9fa67d32 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -1379,7 +1379,7 @@ bool memory_region_access_valid(MemoryRegion *mr,
+>   {
+>       if (mr->ops->valid.accepts
+>           && !mr->ops->valid.accepts(mr->opaque, addr, size, is_write, attrs)) {
+> -        qemu_log_mask(LOG_GUEST_ERROR, "Invalid %s at addr 0x%" HWADDR_PRIX
+> +        qemu_log_mask(LOG_MEM_ACCESS, "Invalid %s at addr 0x%" HWADDR_PRIX
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Can we use LOG_GUEST_ERROR|LOG_MEM_ACCESS to keep current behavior?
 
