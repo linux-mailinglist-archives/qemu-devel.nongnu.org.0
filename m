@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FCC56941EA
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:50:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 198C869421D
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:58:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVQJ-0002zs-Pb; Mon, 13 Feb 2023 04:46:59 -0500
+	id 1pRVQR-000376-Fg; Mon, 13 Feb 2023 04:47:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVQ8-0002cI-Fb
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:46:48 -0500
+ id 1pRVQB-0002pq-Ka
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:46:51 -0500
 Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVQ2-0002o2-V1
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:46:47 -0500
+ id 1pRVQ6-0002n2-Fw
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:46:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676281602; x=1707817602;
+ t=1676281606; x=1707817606;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=BydP1o1ekiw5I6MG/yQma39JCAMbtJKoPz6lfR2PK3M=;
- b=QDApEW3iAIpzPETkP5Ex76Yz+TcQ6GqtZ0KJ+0CPiw04vft8uCCiBWVS
- 2XipzxCt1rusELOf/3DpU+KzUTB8ADmSnltqY9nWnvhw/CPYyqugQEYPs
- lSyzZqeqrdouBhwfRp+x5lTDq4uwvSrzO9eUwL4NycSl6dEGFjHCvaUMu
- kcsX5ur2Sdn3vyDtqyzu4yYlxxcZNxtGKabjEo2TBMREjYS2k4SBdF1ZR
- U1CP2auraZPT0Ok/iX9+H7Rn07nmTwN9kAojWW9Uvua/p1EBkxOaSECun
- /aeARiMfGIJtQq6+ItCbyk+MmBj8F1RSXIfb5y/XWuP5/L+i0+5aihhJB w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310487176"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310487176"
+ bh=g1K5klHHTTwTv1FCc72EbH4ILWvTTsSMGOHgih3qbPo=;
+ b=OTq7wemwdo8dQkHDQixOI5icRZ46EeRBHkLZlVLkbuqc770bKc8NjJ5l
+ sLomQYRgTgqvYUOskkJDZqNbN18gFT2s6EpO43SN7lQset3ut8PzYDWMj
+ jKqjol0p4aCJZEQjywvt5hAysNbetki5gKKVIuq25voiHlkKgcefJgosQ
+ 1V0dMBokqID+OEQ5ve8bPK1A+jYpNwVK11r1Pe9p4UcP54Ba3myv6XlNf
+ okJmpTnJUO7dZgmsZ/iKwXunlQGUXdolIdtdYc1SsdND/bgkaXRFRgq2/
+ G89pe17hYYF32PvBV59TUcCqjy1lLuCSYeOMzyqX87w9Gu/OcT/j88BfR w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310487198"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310487198"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 01:45:52 -0800
+ 13 Feb 2023 01:45:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670760659"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670760659"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670760666"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670760666"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:45:49 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:45:53 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -55,10 +55,9 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
  Zhao Liu <zhao1.liu@intel.com>
-Subject: [RFC 43/52] hw/machine: Rename MachineClass.smp_props to
- MachineClass.topo_props
-Date: Mon, 13 Feb 2023 17:50:26 +0800
-Message-Id: <20230213095035.158240-44-zhao1.liu@linux.intel.com>
+Subject: [RFC 44/52] machine: Add "-hybrid" parsing rule
+Date: Mon, 13 Feb 2023 17:50:27 +0800
+Message-Id: <20230213095035.158240-45-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
@@ -89,247 +88,377 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
-MachineClass.topo_props is better to be compatible with both hybrid
-topology and smp topology properties.
+The "-hybrid" format is like:
+-hybrid socket,sockets=n
+-hybrid die,dies=n
+-hybrid cluster,clusters=n
+-hybrid core,cores=n,type=core_type[,threads=threads]
+        [,clusterid=cluster]
+
+For example:
+-hybrid socket,sockets=1
+-hybrid die,dies=1
+-hybrid cluster,clusters=4
+-hybrid core,cores=1,coretype="core",threads=2,clusterid=0-1
+-hybrid core,cores=1,coretype="core",threads=2,clusterid=0-1,clusterid=3
+-hybrid core,cores=4,coretype="atom",threads=1,clusterid=3
+
+In order to support "-hybrid core" can be inserted into the specified
+cluster, introduce HybridCorePack to pack HybridCore and help to parse
+"-hybrid core" command. HybridCorePack will be used to build core level
+topology later.
+
+Since hybrid cpu topology allocates memory by g_malloc0(), free the
+memory when machine finalizes.
 
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- hw/acpi/aml-build.c         |  2 +-
- hw/arm/virt.c               |  6 +++---
- hw/core/machine-topo.c      | 12 ++++++------
- hw/i386/pc.c                |  4 ++--
- hw/i386/pc_piix.c           |  2 +-
- hw/i386/pc_q35.c            |  2 +-
- hw/ppc/spapr.c              |  2 +-
- hw/s390x/s390-virtio-ccw.c  |  2 +-
- include/hw/boards.h         |  2 +-
- tests/unit/test-smp-parse.c | 12 ++++++------
- 10 files changed, 23 insertions(+), 23 deletions(-)
+ hw/core/machine-topo.c        | 259 ++++++++++++++++++++++++++++++++++
+ hw/core/machine.c             |   4 +
+ include/hw/boards.h           |   4 +
+ include/hw/cpu/cpu-topology.h |  23 +++
+ 4 files changed, 290 insertions(+)
 
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index 693bd8833d10..51634cfd2776 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -2030,7 +2030,7 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
-                 0, socket_id, NULL, 0);
-         }
- 
--        if (mc->smp_props.clusters_supported && mc->smp_props.has_clusters) {
-+        if (mc->topo_props.clusters_supported && mc->topo_props.has_clusters) {
-             if (cpus->cpus[n].props.cluster_id != cluster_id) {
-                 assert(cpus->cpus[n].props.cluster_id > cluster_id);
-                 cluster_id = cpus->cpus[n].props.cluster_id;
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index ae65ba2c929c..5f0517423d8f 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2687,7 +2687,7 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
-         ms->possible_cpus->cpus[n].arch_id =
-             virt_cpu_mp_affinity(vms, n);
- 
--        assert(!mc->smp_props.dies_supported);
-+        assert(!mc->topo_props.dies_supported);
-         ms->possible_cpus->cpus[n].props.has_socket_id = true;
-         ms->possible_cpus->cpus[n].props.socket_id =
-             n / (smp_clusters * smp_cores * smp_threads);
-@@ -3029,7 +3029,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-     hc->unplug_request = virt_machine_device_unplug_request_cb;
-     hc->unplug = virt_machine_device_unplug_cb;
-     mc->nvdimm_supported = true;
--    mc->smp_props.clusters_supported = true;
-+    mc->topo_props.clusters_supported = true;
-     mc->auto_enable_numa_with_memhp = true;
-     mc->auto_enable_numa_with_memdev = true;
-     mc->default_ram_id = "mach-virt.ram";
-@@ -3280,7 +3280,7 @@ static void virt_machine_6_1_options(MachineClass *mc)
- 
-     virt_machine_6_2_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
--    mc->smp_props.prefer_sockets = true;
-+    mc->topo_props.prefer_sockets = true;
-     vmc->no_cpu_topology = true;
- 
-     /* qemu ITS was introduced with 6.2 */
 diff --git a/hw/core/machine-topo.c b/hw/core/machine-topo.c
-index f9ab08a1252e..8540b473b8db 100644
+index 8540b473b8db..6e4a9ec1495d 100644
 --- a/hw/core/machine-topo.c
 +++ b/hw/core/machine-topo.c
-@@ -187,11 +187,11 @@ static char *cpu_hierarchy_to_string(MachineState *ms)
+@@ -366,3 +366,262 @@ int machine_parse_hybrid_core_type(MachineState *ms, const char *coretype)
  
-     g_string_append_printf(s, "sockets (%u)", machine_topo_get_sockets(ms));
- 
--    if (mc->smp_props.dies_supported) {
-+    if (mc->topo_props.dies_supported) {
-         g_string_append_printf(s, " * dies (%u)", machine_topo_get_dies(ms));
-     }
- 
--    if (mc->smp_props.clusters_supported) {
-+    if (mc->topo_props.clusters_supported) {
-         g_string_append_printf(s, " * clusters (%u)",
-                                machine_topo_get_clusters(ms));
-     }
-@@ -256,11 +256,11 @@ void machine_parse_smp_config(MachineState *ms,
-      * If not supported by the machine, a topology parameter must be
-      * omitted or specified equal to 1.
-      */
--    if (!mc->smp_props.dies_supported && dies > 1) {
-+    if (!mc->topo_props.dies_supported && dies > 1) {
-         error_setg(errp, "dies not supported by this machine's CPU topology");
-         return;
-     }
--    if (!mc->smp_props.clusters_supported && clusters > 1) {
-+    if (!mc->topo_props.clusters_supported && clusters > 1) {
-         error_setg(errp, "clusters not supported by this machine's CPU topology");
-         return;
-     }
-@@ -276,7 +276,7 @@ void machine_parse_smp_config(MachineState *ms,
-     } else {
-         maxcpus = maxcpus > 0 ? maxcpus : cpus;
- 
--        if (mc->smp_props.prefer_sockets) {
-+        if (mc->topo_props.prefer_sockets) {
-             /* prefer sockets over cores before 6.2 */
-             if (sockets == 0) {
-                 cores = cores > 0 ? cores : 1;
-@@ -315,7 +315,7 @@ void machine_parse_smp_config(MachineState *ms,
-     ms->topo.smp.cores = cores;
-     ms->topo.smp.threads = threads;
- 
--    mc->smp_props.has_clusters = config->has_clusters;
-+    mc->topo_props.has_clusters = config->has_clusters;
- 
-     /* sanity-check of the computed topology */
-     if (sockets * dies * clusters * cores * threads != maxcpus) {
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index c329df56ebd2..9a7ee0affd87 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1928,8 +1928,8 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
-     hc->unplug = pc_machine_device_unplug_cb;
-     mc->default_cpu_type = TARGET_DEFAULT_CPU_TYPE;
-     mc->nvdimm_supported = true;
--    mc->smp_props.dies_supported = true;
--    mc->smp_props.clusters_supported = true;
-+    mc->topo_props.dies_supported = true;
-+    mc->topo_props.clusters_supported = true;
-     mc->default_ram_id = "pc.ram";
- 
-     object_class_property_add(oc, PC_MACHINE_MAX_RAM_BELOW_4G, "size",
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index df64dd8dcc66..ce725b3d2927 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -513,7 +513,7 @@ static void pc_i440fx_6_1_machine_options(MachineClass *m)
-     pc_i440fx_6_2_machine_options(m);
-     compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
-     compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
--    m->smp_props.prefer_sockets = true;
-+    m->topo_props.prefer_sockets = true;
+     return -1;
+ }
++
++static void parse_hybrid_socket(MachineState *ms,
++                                const HybridSocketOptions *config,
++                                Error **errp)
++{
++    if (ms->topo.hybrid.sockets != 1) {
++        error_setg(errp, "socket cannot be set repeatedly");
++        return;
++    }
++
++    /*
++     * Since sockets = 0 is deprecated CPU topology for -smp,
++     * now -hybrid returns error directly.
++     */
++    if (!config->sockets) {
++        error_setg(errp, "Invalid sockets. sockets mustn't be zero");
++        return;
++    }
++
++    ms->topo.hybrid.sockets = config->sockets;
++
++    /*
++     * Even though we require that the "socket" must be set before the "core",
++     * in order to simplify the code logic, we do not check the order of the
++     * "socket" subcommand. Instead, multiply the "sockets" for the cpus and
++     * max_cpus here as a compensation measure.
++     */
++    ms->topo.cpus *= ms->topo.hybrid.sockets;
++    ms->topo.max_cpus *= ms->topo.hybrid.sockets;
++}
++
++static void parse_hybrid_die(MachineState *ms,
++                             const HybridDieOptions *config, Error **errp)
++{
++    MachineClass *mc = MACHINE_GET_CLASS(ms);
++
++    if (ms->topo.hybrid.dies != 1) {
++        error_setg(errp, "die cannot be set repeatedly");
++        return;
++    }
++
++    /*
++     * Since dies = 0 is deprecated CPU topology for -smp,
++     * now -hybrid returns error directly.
++     */
++    if (!config->dies) {
++        error_setg(errp, "Invalid dies. dies mustn't be zero");
++        return;
++    }
++    if (!mc->topo_props.dies_supported && config->dies > 1) {
++        error_setg(errp, "dies not supported by this machine's CPU topology");
++        return;
++    }
++
++    ms->topo.hybrid.dies = config->dies;
++
++    /*
++     * Even though we require that the "die" must be set before the "core",
++     * in order to simplify the code logic, we do not check the order of the
++     * "die" subcommand. Instead, multiply the "dies" for the cpus and
++     * max_cpus here as a compensation measure.
++     */
++    ms->topo.cpus *= ms->topo.hybrid.dies;
++    ms->topo.max_cpus *= ms->topo.hybrid.dies;
++}
++
++static void parse_hybrid_cluster(MachineState *ms,
++                                 const HybridClusterOptions *config,
++                                 Error **errp)
++{
++    MachineClass *mc = MACHINE_GET_CLASS(ms);
++
++    if (ms->topo.hybrid.cluster_list != NULL) {
++        error_setg(errp, "The cluster configuration "
++                   "clusters=%" PRIu32 " should be provided before"
++                   "core configuration", config->clusters);
++        return;
++    }
++
++    /*
++     * Since clusters = 0 is deprecated CPU topology for -smp,
++     * now -hybrid returns error directly.
++     */
++    if (!config->clusters) {
++        error_setg(errp, "Invalid clusters. clusters mustn't be zero");
++        return;
++    }
++
++    if (!mc->topo_props.clusters_supported && config->clusters > 1) {
++        error_setg(errp, "clusters not supported by this "
++                   "machine's CPU topology");
++        return;
++    }
++
++    mc->topo_props.has_clusters = true;
++
++    ms->topo.hybrid.clusters = config->clusters;
++    ms->topo.hybrid.cluster_list = g_malloc0(sizeof(HybridCluster) *
++                                             ms->topo.hybrid.clusters);
++
++    for (int i = 0; i < ms->topo.hybrid.clusters; i++) {
++        QSLIST_INIT(&ms->topo.hybrid.cluster_list[i].core_pack_list);
++    }
++}
++
++static void insert_core_into_cluster(MachineState *ms,
++                                     HybridCluster *cluster,
++                                     const HybridCoreOptions *config,
++                                     Error **errp)
++{
++    MachineClass *mc = MACHINE_GET_CLASS(ms);
++    HybridCorePack *core_pack;
++    int ret;
++
++    /*
++     * Since cores = 0 or threads = 0 is deprecated CPU topology for
++     * -smp, now -hybrid return error directly.
++     */
++    if (!config->cores) {
++        error_setg(errp, "Invalid cores. cores=%u mustn't be zero",
++                   config->cores);
++        return;
++    }
++    if (config->has_threads && !config->threads) {
++        error_setg(errp, "Invalid threads. threads=%u mustn't be zero",
++                   config->threads);
++        return;
++    }
++
++    core_pack = g_malloc0(sizeof(*core_pack));
++    core_pack->core_num = config->cores;
++    core_pack->core.threads = config->has_threads ? config->threads : 1;
++
++    ret = mc->core_type(ms, config->coretype);
++    if (!ret) {
++        error_setg(errp, "Invalid coretype=%s", config->coretype);
++    }
++    core_pack->core.core_type = ret;
++
++    QSLIST_INSERT_HEAD(&cluster->core_pack_list, core_pack, node);
++    cluster->cores += core_pack->core_num;
++
++    /*
++     * Note here we just multiply by "dies" and "sockets" other that
++     * "clusters".
++     *
++     * This function caculates cluster's topology one by one, and different
++     * cluster in the same die may have different topology. So we can't
++     * multiply by "clusters". But for current hybrid topology support, we
++     * suppose sockets and dies are same. So "sockets" and "dies" should be
++     * considerred.
++     */
++    ms->topo.cpus += core_pack->core.threads * core_pack->core_num *
++                     ms->topo.hybrid.dies * ms->topo.hybrid.sockets;
++    /*
++     * Because of the "-hybrid" format limitation, before all the cores are
++     * configured, the cpus and max_cpus cannot be obtained. At the same
++     * time, because of heterogeneous, if user wants to specify the online
++     * cpus, user must subdivide it into a specific core. So currently,
++     * temporarily limit max_cpus to be consistent with cpus.
++     *
++     * TODO: Consider adding more complete online cpus configuration support
++     * in the future.
++     */
++    ms->topo.max_cpus = ms->topo.cpus;
++}
++
++static void parse_hybrid_core(MachineState *ms,
++                              const HybridCoreOptions *config, Error **errp)
++{
++    if (!ms->topo.hybrid.cluster_list) {
++        if (config->has_clusterid) {
++            error_setg(errp, "The core configuration clusterid "
++                       "should be provided after"
++                       "cluster configuration");
++            return;
++        }
++        /* Set 1 cluster per die by default. */
++        ms->topo.hybrid.clusters = 1;
++        ms->topo.hybrid.cluster_list = g_malloc0(sizeof(HybridCluster) *
++                                                 ms->topo.hybrid.clusters);
++        QSLIST_INIT(&ms->topo.hybrid.cluster_list[0].core_pack_list);
++    }
++
++    if (config->has_clusterid) {
++        for (uint32List *clusterid = config->clusterid; clusterid;
++             clusterid = clusterid->next) {
++            if (clusterid->value >= ms->topo.hybrid.clusters) {
++                error_setg(errp, "Invalid clusterid. "
++                           "clusterid=%" PRIu32 " is out of range "
++                           "(only %" PRIu32 "clusters)",
++                           clusterid->value, ms->topo.hybrid.clusters);
++                return;
++            }
++            insert_core_into_cluster(ms,
++                &ms->topo.hybrid.cluster_list[clusterid->value], config, errp);
++        }
++    } else {
++        for (int i = 0; i < ms->topo.hybrid.clusters; i++) {
++            insert_core_into_cluster(ms,
++                &ms->topo.hybrid.cluster_list[i], config, errp);
++        }
++    }
++}
++
++void set_hybrid_options(MachineState *ms,
++                        const HybridOptions *config,
++                        Error **errp)
++{
++    MachineClass *mc = MACHINE_GET_CLASS(ms);
++
++    if (!mc->topo_props.hybrid_supported) {
++        error_setg(errp, "hybrid topology not supported "
++                   "by this machine's CPU");
++        return;
++    }
++
++    switch (config->type) {
++    case HYBRID_OPTIONS_TYPE_SOCKET:
++        parse_hybrid_socket(ms, &config->u.socket, errp);
++        break;
++    case HYBRID_OPTIONS_TYPE_DIE:
++        parse_hybrid_die(ms, &config->u.die, errp);
++        break;
++    case HYBRID_OPTIONS_TYPE_CLUSTER:
++        parse_hybrid_cluster(ms, &config->u.cluster, errp);
++        break;
++    case HYBRID_OPTIONS_TYPE_CORE:
++        parse_hybrid_core(ms, &config->u.core, errp);
++        break;
++    default:
++        abort();
++    }
++}
++
++void machine_free_hybrid_topology(MachineState *ms)
++{
++    HybridCluster *cluster;
++    HybridCorePack *core_pack;
++    HybridCorePack *tmp;
++
++    if (ms->topo.hybrid.clusters) {
++        for (int i = 0; i < ms->topo.hybrid.clusters; i++) {
++            cluster = &ms->topo.hybrid.cluster_list[i];
++
++            /*
++             * TODO: Temporarily free core_pack_list here. When the
++             * building of core_list array is supported, it will be
++             * freeed there.
++             */
++            QSLIST_FOREACH_SAFE(core_pack, &cluster->core_pack_list,
++                                node, tmp) {
++                QSLIST_REMOVE_HEAD(&cluster->core_pack_list, node);
++                g_free(core_pack);
++            }
++        }
++        g_free(ms->topo.hybrid.cluster_list);
++    }
++}
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index acc32b3be5f6..f2c6aac4ef94 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -1122,6 +1122,10 @@ static void machine_finalize(Object *obj)
+     g_free(ms->device_memory);
+     g_free(ms->nvdimms_state);
+     g_free(ms->numa_state);
++
++    if (!machine_topo_is_smp(ms)) {
++        machine_free_hybrid_topology(ms);
++    }
  }
  
- DEFINE_I440FX_MACHINE(v6_1, "pc-i440fx-6.1", NULL,
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 66cd718b7081..94352f2b8ea8 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -432,7 +432,7 @@ static void pc_q35_6_1_machine_options(MachineClass *m)
-     pc_q35_6_2_machine_options(m);
-     compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
-     compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
--    m->smp_props.prefer_sockets = true;
-+    m->topo_props.prefer_sockets = true;
- }
- 
- DEFINE_Q35_MACHINE(v6_1, "pc-q35-6.1", NULL,
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 6faad75afd70..b2e2420af870 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4801,7 +4801,7 @@ static void spapr_machine_6_1_class_options(MachineClass *mc)
-     spapr_machine_6_2_class_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
-     smc->pre_6_2_numa_affinity = true;
--    mc->smp_props.prefer_sockets = true;
-+    mc->topo_props.prefer_sockets = true;
- }
- 
- DEFINE_SPAPR_MACHINE(6_1, "6.1", false);
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 9b5020a0d395..28cc3c048d78 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -912,7 +912,7 @@ static void ccw_machine_6_1_class_options(MachineClass *mc)
- {
-     ccw_machine_6_2_class_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
--    mc->smp_props.prefer_sockets = true;
-+    mc->topo_props.prefer_sockets = true;
- }
- DEFINE_CCW_MACHINE(6_1, "6.1", false);
- 
+ bool machine_usb(MachineState *machine)
 diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 17be3485e823..48444ab7275b 100644
+index 48444ab7275b..09b93c17a245 100644
 --- a/include/hw/boards.h
 +++ b/include/hw/boards.h
-@@ -288,7 +288,7 @@ struct MachineClass {
-     bool nvdimm_supported;
-     bool numa_mem_supported;
-     bool auto_enable_numa;
--    TopoCompatProps smp_props;
-+    TopoCompatProps topo_props;
-     const char *default_ram_id;
+@@ -37,6 +37,10 @@ void machine_set_cpu_numa_node(MachineState *machine,
+ void machine_parse_smp_config(MachineState *ms,
+                               const SMPConfiguration *config, Error **errp);
+ int machine_parse_hybrid_core_type(MachineState *ms, const char *coretype);
++void set_hybrid_options(MachineState *ms,
++                        const HybridOptions *config,
++                        Error **errp);
++void machine_free_hybrid_topology(MachineState *ms);
  
-     HotplugHandler *(*get_hotplug_handler)(MachineState *machine,
-diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
-index d6816f109084..b6dd5fafd3dd 100644
---- a/tests/unit/test-smp-parse.c
-+++ b/tests/unit/test-smp-parse.c
-@@ -500,11 +500,11 @@ static void smp_parse_test(MachineState *ms, SMPTestData *data, bool is_valid)
- {
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
+ /**
+  * machine_class_allow_dynamic_sysbus_dev: Add type to list of valid devices
+diff --git a/include/hw/cpu/cpu-topology.h b/include/hw/cpu/cpu-topology.h
+index 829f98d3a73f..eef752d5168d 100644
+--- a/include/hw/cpu/cpu-topology.h
++++ b/include/hw/cpu/cpu-topology.h
+@@ -52,15 +52,38 @@ typedef struct HybridCore {
+     unsigned int core_type;
+ } HybridCore;
  
--    mc->smp_props.prefer_sockets = true;
-+    mc->topo_props.prefer_sockets = true;
-     check_parse(ms, &data->config, &data->expect_prefer_sockets,
-                 data->expect_error, is_valid);
++/**
++ * HybridCorePack - Wrapper of HybridCore to pack the same
++ *                  cores in one cluster.
++ *
++ * HybridCorePack is used for `-hybrid` parsing and will help to build
++ * core_list array.
++ *
++ * @core_num: the number of threads in one core.
++ * @core: the specific core information of current core pack.
++ * @node: the singly-linked list node of current core pack. This node
++ *        is added to the core_pack_list of a cluster which the current
++ *        core pack belongs to.
++ */
++typedef struct HybridCorePack {
++    unsigned int core_num;
++    HybridCore core;
++    QSLIST_ENTRY(HybridCorePack) node;
++} HybridCorePack;
++
+ /**
+  * HybridCluster - hybrid cluster topology defination:
+  * @cores: the number of cores in current cluster.
+  * @core_list: the array includes all the cores that belong to current
+  *             cluster.
++ * @core_pack_list: the list that links all the core packs that belong to
++ *                  current cluster. It is used for `-hybrid` parsing and
++ *                  will help to build core_list array.
+  */
+ typedef struct HybridCluster {
+     unsigned int cores;
+     HybridCore *core_list;
++    QSLIST_HEAD(, HybridCorePack) core_pack_list;
+ } HybridCluster;
  
--    mc->smp_props.prefer_sockets = false;
-+    mc->topo_props.prefer_sockets = false;
-     check_parse(ms, &data->config, &data->expect_prefer_cores,
-                 data->expect_error, is_valid);
- }
-@@ -512,12 +512,12 @@ static void smp_parse_test(MachineState *ms, SMPTestData *data, bool is_valid)
- /* The parsed results of the unsupported parameters should be 1 */
- static void unsupported_params_init(const MachineClass *mc, SMPTestData *data)
- {
--    if (!mc->smp_props.dies_supported) {
-+    if (!mc->topo_props.dies_supported) {
-         data->expect_prefer_sockets.smp.dies = 1;
-         data->expect_prefer_cores.smp.dies = 1;
-     }
- 
--    if (!mc->smp_props.clusters_supported) {
-+    if (!mc->topo_props.clusters_supported) {
-         data->expect_prefer_sockets.smp.clusters = 1;
-         data->expect_prefer_cores.smp.clusters = 1;
-     }
-@@ -553,14 +553,14 @@ static void machine_with_dies_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
- 
--    mc->smp_props.dies_supported = true;
-+    mc->topo_props.dies_supported = true;
- }
- 
- static void machine_with_clusters_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
- 
--    mc->smp_props.clusters_supported = true;
-+    mc->topo_props.clusters_supported = true;
- }
- 
- static void test_generic_valid(const void *opaque)
+ /**
 -- 
 2.34.1
 
