@@ -2,92 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A301694C36
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 17:16:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D878A694C5F
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 17:21:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRbUa-0000Ez-9B; Mon, 13 Feb 2023 11:15:48 -0500
+	id 1pRbZL-0004Zs-Qe; Mon, 13 Feb 2023 11:20:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pRbUW-0000B5-TM
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 11:15:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pRbUT-0006Ag-Pk
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 11:15:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676304940;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SHcJmuWryCkOlUEcENVKPKPhB1uQztKB43EMuRuG4EY=;
- b=Sqe3Nd6CqLrC7K2kHxiUGxOfydCcT3kncNhjDjrAbJRZAT6AgQrz64v0Vz9CAuOZ2n6E7F
- F7v4ZFxhwl9OPNiVbBwGmOAd9bH/Tlk7zPwp552RTay4GREV5PToFW0YVzdCwp2y7gnHwd
- 6MC9p3vLY3/KIF4juUbwZMCQz5vBO7M=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-136-YNFh3BodPu26EjdOVTu-9g-1; Mon, 13 Feb 2023 11:15:39 -0500
-X-MC-Unique: YNFh3BodPu26EjdOVTu-9g-1
-Received: by mail-yw1-f200.google.com with SMTP id
- 00721157ae682-52ecbe73389so96545597b3.0
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 08:15:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pRbZI-0004YF-Q0; Mon, 13 Feb 2023 11:20:40 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pRbZG-0007vD-RT; Mon, 13 Feb 2023 11:20:40 -0500
+Received: by mail-ej1-x631.google.com with SMTP id sb24so9244869ejb.8;
+ Mon, 13 Feb 2023 08:20:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=CWeQEhkJ06ecAyh8L7LOO2aEbqr7bNhwpy+DgMqY1Vo=;
+ b=nKV+BRiPyBDuKBpBkqn9HNgy41DijQu6VM/A+nU6M3AXCpLwZMx/q+YmlCe7dp8kBY
+ 5pDCtzOx2Z1O/vNSDumF1IJcwNuEF7f8A/hA4ZZC0lzblSqqxGyikPFqtM7NBYKaze4p
+ 2ApvoRKuyBv92hpvGChinzrSIFWIp1emMGMKStR3B9Aorqeic2dzFp7zMBzZb/BVOVcq
+ Wwx2WjPwrrjKMonhNJ8wAXKn80VFId583SciwzILLm+ooOpL3+9cOy4v5koeiiOxiKeC
+ /MvT3e4NCBYSzjXOSkSjwXrD61efmRxGqbXBDO9R3uwwU032InLfGJtx5+9N6uC+16gO
+ b8/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1676304939;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SHcJmuWryCkOlUEcENVKPKPhB1uQztKB43EMuRuG4EY=;
- b=ujHfFBDRBx4p+KUkYwG51Gv731jeB0+uyvJJzA0e8rrNY+EvhYJ9DJg2pPaz+hemA2
- sauxRiNH/hhgp1xhoohuM8p3lXPeNf1jqBrPtllkKoGXAXUrEAZEihJO7Vul0WVSBhom
- W35pqp3xHAuqKFwE/qcVHImLRUz7VtkXxvOfIi7WGdP+nPeIzMQcMu8awqSn1WKTJmGc
- mmtPxKT94HNdnPm8idBrnGNRyKdUWK3CWWjT3VT5exZ4MMivL93lA5PgHgt3w9BxNAd4
- Wo5Lt2tcMXlZES1TK0OtHdk/DAf7nZja+cYC2MwT3UqjzQUNlTNpYVEpYBiUmwC3/Ofj
- tdNA==
-X-Gm-Message-State: AO0yUKXibErBvE3GkdirL74LclHe57tsF8HX1AmQS+/AcaikCk7aBgMF
- rj4WORZkyOLTb0J6aEwohSw4Av1O8dWfnkZfYW8nwcNwuhYMAlud5M3BPdQueSsKMq0NKufRMVa
- d2NEXLE26/HwhhK4=
-X-Received: by 2002:a81:441a:0:b0:52f:f2c:a8b9 with SMTP id
- r26-20020a81441a000000b0052f0f2ca8b9mr4388601ywa.1.1676304938714; 
- Mon, 13 Feb 2023 08:15:38 -0800 (PST)
-X-Google-Smtp-Source: AK7set8n96GUOm+exk3UNR+o72wnq1d8yNzrAkfLPVsEa5lIsoCHxsieyw6Wu6LhpPDycxWrOxYDaw==
-X-Received: by 2002:a81:441a:0:b0:52f:f2c:a8b9 with SMTP id
- r26-20020a81441a000000b0052f0f2ca8b9mr4388568ywa.1.1676304938343; 
- Mon, 13 Feb 2023 08:15:38 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- m123-20020a375881000000b0073b4cdb0745sm966950qkb.116.2023.02.13.08.15.37
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=CWeQEhkJ06ecAyh8L7LOO2aEbqr7bNhwpy+DgMqY1Vo=;
+ b=ttpY/2L/lNqNH6Ix7q5JVczlQCu7j0OBJrqZI6vVGgjkS3eHDk8UCfiu6D5bsjYQr4
+ 6KcXC1h/3so76NqNWjh45fDE9MR2rp037LhsfdUjHPyrcTUEFrR0KmgtvToQrhvKky3H
+ MJeOu1XtE7zV9a2aMCfO4knnZzBgXyztUXxJTHFcd+Jz+OLIeMCLyzGDuxLd3hI1Aq/Q
+ xOSuZQspqtvi40Y+dB5JmH/p5DtKLA/QxR/cbJJP4DhRyUxiLUo4hfskodzn5eyO/Prq
+ /5SuyeQyAyIvxIlZLeUOumoOdyZrSYxjlzj9QiOHok8g1dSJ9CbveGuTtEs5F6aDsF51
+ PPVg==
+X-Gm-Message-State: AO0yUKWB5bVaOzEwu/HGkHNG81rBEE6eOoijtKfzEOqQWBmkCy4dWjlv
+ qXqWWugob2EOfiHbUxdzmqfVOBBrbGI=
+X-Google-Smtp-Source: AK7set8aYYsDPd/KMfDz0y0+kDDszQX7lhOPzyw8fZI+ej451czJ9tiUtvmeIypTjC7DPl4Qe9BnXQ==
+X-Received: by 2002:a17:906:fe49:b0:8aa:c0d6:2dc6 with SMTP id
+ wz9-20020a170906fe4900b008aac0d62dc6mr27539000ejb.29.1676305236320; 
+ Mon, 13 Feb 2023 08:20:36 -0800 (PST)
+Received: from localhost.localdomain
+ (dynamic-078-055-133-198.78.55.pool.telefonica.de. [78.55.133.198])
+ by smtp.gmail.com with ESMTPSA id
+ 20-20020a170906025400b008841aa86484sm6979952ejl.211.2023.02.13.08.20.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Feb 2023 08:15:37 -0800 (PST)
-Date: Mon, 13 Feb 2023 11:15:36 -0500
-From: Peter Xu <peterx@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Hildenbrand <david@redhat.com>, philmd@linaro.org,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 1/2] log: Add separate debug option for logging invalid
- memory accesses
-Message-ID: <Y+piDukOkeg+xs9G@x1n>
-References: <20230119214032.4BF1E7457E7@zero.eik.bme.hu>
- <ad4783ee-20ce-06d2-7c2f-1f915bd684d0@eik.bme.hu>
- <413edbc1-8af1-4b0e-70ab-41d49f1bbbcd@eik.bme.hu>
- <fcd09b07-c0ac-d617-8503-a5ecef947cfe@redhat.com>
- <Y+pM+H1PvTUUHrhx@x1n>
- <7ae34a52-13a5-05e0-3cea-10a9fb89ec1c@eik.bme.hu>
+ Mon, 13 Feb 2023 08:20:35 -0800 (PST)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-trivial@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Juan Quintela <quintela@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Thomas Huth <thuth@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>, Ani Sinha <ani@anisinha.ca>,
+ Laurent Vivier <lvivier@redhat.com>, Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH v4 0/9] PC cleanups
+Date: Mon, 13 Feb 2023 17:19:55 +0100
+Message-Id: <20230213162004.2797-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <7ae34a52-13a5-05e0-3cea-10a9fb89ec1c@eik.bme.hu>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,70 +95,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 13, 2023 at 03:47:42PM +0100, BALATON Zoltan wrote:
-> On Mon, 13 Feb 2023, Peter Xu wrote:
-> > On Mon, Feb 13, 2023 at 12:41:29PM +0100, Thomas Huth wrote:
-> > > On 07/02/2023 17.33, BALATON Zoltan wrote:
-> > > > On Tue, 31 Jan 2023, BALATON Zoltan wrote:
-> > > > > On Thu, 19 Jan 2023, BALATON Zoltan wrote:
-> > > > > > Currently -d guest_errors enables logging of different invalid actions
-> > > > > > by the guest such as misusing hardware, accessing missing features or
-> > > > > > invalid memory areas. The memory access logging can be quite verbose
-> > > > > > which obscures the other messages enabled by this debug switch so
-> > > > > > separate it by adding a new -d memaccess option to make it possible to
-> > > > > > control it independently of other guest error logs.
-> > > > > > 
-> > > > > > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> > > > > 
-> > > > > Ping? Could somebody review and pick it up please?
-> > > > 
-> > > > Ping?
-> > > 
-> > > Patch makes sense to me and looks fine, so:
-> > > 
-> > > Reviewed-by: Thomas Huth <thuth@redhat.com>
-> > > 
-> > > ... I think this should go via one of the "Memory API" maintainers branches?
-> > > Paolo? Peter? David?
-> > 
-> > Paolo normally does the pull, I assume that'll still be the case.  The
-> > patch looks good to me if Phil's comment will be addressed on merging with
-> > the old mask, which makes sense to me:
-> 
-> Keeping the old mask kind of defies the purpose. I've tried to explain that
-> in the commit message but now that two of you did not get it maybe that
-> message needs to be clarified instead?
-
-I think it's clear enough.  My fault to not read carefully into the
-message, sorry.
-
-However, could you explain why a memory_region_access_valid() failure
-shouldn't belong to LOG_GUEST_ERROR?
-
-commit e54eba1986f6c4bac2951e7f90a849cd842e25e4
-Author: Peter Maydell <peter.maydell@linaro.org>
-Date:   Thu Oct 18 14:11:35 2012 +0100
-
-    qemu-log: Add new log category for guest bugs
-    
-    Add a new category for device models to log guest behaviour
-    which is likely to be a guest bug of some kind (accessing
-    nonexistent registers, reading 32 bit wide registers with
-    a byte access, etc). Making this its own log category allows
-    those who care (mostly guest OS authors) to see the complaints
-    without bothering most users.
-
-Such an illegal memory access is definitely a suitable candidate of guest
-misbehave to me.
-
-Not to mention Phil always have a good point that you may be violating
-others using guest_error already so what they wanted to capture can
-misterious going away without noticing, even if it may service your goal.
-IOW it's a slight ABI and I think we ned justification to break it.
-
-Thanks,
-
--- 
-Peter Xu
-
+This series contains some cleanups I came across when working on the PC=0D
+machines. It consists of reducing the usage of global variables and elimina=
+ting=0D
+some redundancies.=0D
+=0D
+One notable change is that the SMRAM memory region gets moved from the i440=
+fx=0D
+and q35 host bridges into the x86 machine. This will simplify cleaning up t=
+hese=0D
+host bridges which will be done in a separate series. Note that the movemen=
+t of=0D
+the SMRAM memory region apparently doesn't change migration ABI for the pc =
+and=0D
+q35 machines (see below).=0D
+=0D
+Testing done:=0D
+* `make check`=0D
+' `make check-avocado`=0D
+* `qemu-system-x86_64 -M q35 -m 2G -cdrom \=0D
+   manjaro-kde-21.3.2-220704-linux515.iso`=0D
+* `qemu-system-x86_64 -M pc -m 2G -cdrom manjaro-kde-21.3.2-220704-linux515=
+.iso`=0D
+* Confirm that JSON representation of migration files (pc & q35) are empty:=
+=0D
+  1. Create four migration files {pc,q35}-{before,after}.mig by running=0D
+     `qemu-system-x86_64 -M {pc,q35} -S` with QEMU built from master and fr=
+om=0D
+     this series.=0D
+  2. Run `./scripts/analyze-migration.py -d desc -f *.mig > *.json` on the =
+four=0D
+     files=0D
+  3. Compare the diffs -> both are empty=0D
+=0D
+v4:=0D
+* Remove ram_memory variable in pc_q35 completely (Zoltan)=0D
+=0D
+v3:=0D
+* Add three patches regarding init_pam() and SMRAM.=0D
+* Drop 'hw/i386/pc_q35: Resolve redundant q35_host variable' since Phil pos=
+ted=0D
+  a similar patch in a more comprehensive series:=0D
+  https://lore.kernel.org/qemu-devel/20230203180914.49112-13-philmd@linaro.=
+org/=0D
+* Drop 'hw/isa/lpc_ich9: Reuse memory and io address space of PCI bus' sinc=
+e=0D
+  it inadvertantly changed the memory hierarchy.=0D
+* Drop ICH9 cleanups again in favor of a separate series.=0D
+=0D
+v2:=0D
+* Factor out 'hw/i386/pc_q35: Reuse machine parameter' from 'hw/i386/pc_q35=
+:=0D
+  Resolve redundant q35_host variable' (Zoltan)=0D
+* Lower type of phb to Object in 'hw/i386/pc_q35: Resolve redundant q35_hos=
+t=0D
+  variable' (Zoltan)=0D
+* Add ICH9 cleanups=0D
+=0D
+Bernhard Beschow (9):=0D
+  hw/pci-host/i440fx: Inline sysbus_add_io()=0D
+  hw/pci-host/q35: Inline sysbus_add_io()=0D
+  hw/i386/pc_q35: Reuse machine parameter=0D
+  hw/i386/pc_{q35,piix}: Reuse MachineClass::desc as SMB product name=0D
+  hw/i386/pc_{q35,piix}: Minimize usage of get_system_memory()=0D
+  hw/i386/pc: Initialize ram_memory variable directly=0D
+  hw/pci-host/pam: Make init_pam() usage more readable=0D
+  hw/i386/x86: Make TYPE_X86_MACHINE the owner of smram=0D
+  target/i386/tcg/sysemu/tcg-cpu: Avoid own opinion about smram size=0D
+=0D
+ include/hw/i386/pc.h             |  1 -=0D
+ include/hw/i386/x86.h            |  2 ++=0D
+ include/hw/pci-host/i440fx.h     |  7 ++++---=0D
+ include/hw/pci-host/pam.h        |  5 +++--=0D
+ include/hw/pci-host/q35.h        |  4 +++-=0D
+ hw/i386/pc.c                     |  2 --=0D
+ hw/i386/pc_piix.c                | 10 +++++-----=0D
+ hw/i386/pc_q35.c                 | 17 +++++++++--------=0D
+ hw/i386/x86.c                    |  4 ++++=0D
+ hw/pci-host/i440fx.c             | 28 +++++++++++++---------------=0D
+ hw/pci-host/pam.c                | 12 ++++++------=0D
+ hw/pci-host/q35.c                | 31 ++++++++++++++++---------------=0D
+ target/i386/tcg/sysemu/tcg-cpu.c |  3 +--=0D
+ 13 files changed, 66 insertions(+), 60 deletions(-)=0D
+=0D
+-- =0D
+2.39.1=0D
+=0D
 
