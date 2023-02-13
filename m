@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6D1D694EC0
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B74694EC3
 	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 19:05:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRdAi-0003BU-0C; Mon, 13 Feb 2023 13:03:24 -0500
+	id 1pRdAj-0003Eu-PH; Mon, 13 Feb 2023 13:03:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1pRdAZ-00037c-2S; Mon, 13 Feb 2023 13:03:17 -0500
-Received: from bg4.exmail.qq.com ([43.155.65.254])
+ id 1pRdAb-00037m-2j; Mon, 13 Feb 2023 13:03:18 -0500
+Received: from bg4.exmail.qq.com ([43.154.221.58])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1pRdAW-0001KP-2j; Mon, 13 Feb 2023 13:03:14 -0500
-X-QQ-mid: bizesmtp62t1676311371tk4fexa2
+ id 1pRdAX-0001Kk-N3; Mon, 13 Feb 2023 13:03:15 -0500
+X-QQ-mid: bizesmtp62t1676311374tl5plc7c
 Received: from pek-vx-bsp2.wrs.com ( [60.247.85.88])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 14 Feb 2023 02:02:50 +0800 (CST)
+ id ; Tue, 14 Feb 2023 02:02:53 +0800 (CST)
 X-QQ-SSF: 01200000000000C0D000000A0000000
-X-QQ-FEAT: XBN7tc9DADLyWcuVMnJZzYC19WYF/g/i9wmIl7DusTAioJdVRtZ+CMhJhVc0b
- hPMjS4U0nG6IflckWv8DJXqHHJf7SrMSAKw3IEYiLVBj2v+ecU1zcTXjPGyytYnL+eRyUGm
- y5Lea+e4yXDtjYmndAKwAIh447MZBIusYRlVXs2SNtf6+4e4ukgj0L0EbqZ2ZjsavGInfkY
- oIiRwCPsUE6ZBhjCTHr688jaYCGRcprbyULYmvhga5Ok4o11r/8GTHo96YRBtg1fl5seeiw
- H4bZkITopOYnfM3R/exloSazKwtNcPKphCmSQlwR0eSz3khJ6IgjeC73eXBvoBkAaiCJW/S
- OXWnJVCi5JkVGADjeTh8TgttpYb+4kNhdDvrkzUYDEgtn+HFP0=
+X-QQ-FEAT: hxncCWlH1dPrtNrhADQ1Svg2WRB5fSPCfkAPRwVnQr7HjaDQMb4JO0f11HLJe
+ yhCG3VHlymND9nPdJ5aZyXobHebGoKBSlyCgsKa7Iopq5bE6FfNd+mQz3xZP3gxLaoWQElM
+ OaSduP9jndng0D3CVCHkrXtjJWwxmcBLiiCtZFLVMa2nJZ6AYn3rcGOAqj9nNqJK1cL90UF
+ 2kf6c7NWpUPmV0QjhjqxJqeiIxv1L4IqsIgD10kb9GRO/vxFbCJDoUFfaPHr4JVPw1e0Bok
+ asNEBa8Qa+7WK7JIA+8sp8HuwWG0k09jBJNyLtKAqkMsBlsoq0ETkYNdthcZQ9GZTsAEYDr
+ d+TzKh7xQFVE8z9qbgdVbjoy3q2eG8MogzPDBIrUhh0WaCb3NY=
 X-QQ-GoodBg: 0
 From: Bin Meng <bmeng@tinylab.org>
 To: qemu-devel@nongnu.org
@@ -36,10 +36,10 @@ Cc: Alistair Francis <alistair.francis@wdc.com>,
  Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
  Palmer Dabbelt <palmer@dabbelt.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
  qemu-riscv@nongnu.org
-Subject: [PATCH 03/18] target/riscv: gdbstub: Minor change for better
- readability
-Date: Tue, 14 Feb 2023 02:01:59 +0800
-Message-Id: <20230213180215.1524938-4-bmeng@tinylab.org>
+Subject: [PATCH 04/18] target/riscv: gdbstub: Do not generate CSR XML if Zicsr
+ is disabled
+Date: Tue, 14 Feb 2023 02:02:00 +0800
+Message-Id: <20230213180215.1524938-5-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230213180215.1524938-1-bmeng@tinylab.org>
 References: <20230213180215.1524938-1-bmeng@tinylab.org>
@@ -47,7 +47,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:tinylab.org:qybglogicsvr:qybglogicsvr3
-Received-SPF: pass client-ip=43.155.65.254; envelope-from=bmeng@tinylab.org;
+Received-SPF: pass client-ip=43.154.221.58; envelope-from=bmeng@tinylab.org;
  helo=bg4.exmail.qq.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,32 +69,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use a variable 'base_reg' to represent cs->gdb_num_regs so that
-the call to ricsv_gen_dynamic_vector_xml() can be placed in one
-single line for better readability.
+There is no need to generate the CSR XML if the Zicsr extension
+is not enabled.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 ---
 
- target/riscv/gdbstub.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/riscv/gdbstub.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-index e57372db38..704f3d6922 100644
+index 704f3d6922..294f0ceb1c 100644
 --- a/target/riscv/gdbstub.c
 +++ b/target/riscv/gdbstub.c
-@@ -385,9 +385,9 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
-                                  32, "riscv-32bit-fpu.xml", 0);
+@@ -406,7 +406,10 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
+         g_assert_not_reached();
      }
-     if (env->misa_ext & RVV) {
+ 
+-    gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
+-                             riscv_gen_dynamic_csr_xml(cs, cs->gdb_num_regs),
+-                             "riscv-csr.xml", 0);
++    if (cpu->cfg.ext_icsr) {
 +        int base_reg = cs->gdb_num_regs;
-         gdb_register_coprocessor(cs, riscv_gdb_get_vector, riscv_gdb_set_vector,
--                                 ricsv_gen_dynamic_vector_xml(cs,
--                                                              cs->gdb_num_regs),
-+                                 ricsv_gen_dynamic_vector_xml(cs, base_reg),
-                                  "riscv-vector.xml", 0);
-     }
-     switch (env->misa_mxl_max) {
++        gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
++                                 riscv_gen_dynamic_csr_xml(cs, base_reg),
++                                 "riscv-csr.xml", 0);
++    }
+ }
 -- 
 2.25.1
 
