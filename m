@@ -2,81 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B48046947CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 15:16:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 032CC6947D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 15:18:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRZdC-0000kr-5k; Mon, 13 Feb 2023 09:16:34 -0500
+	id 1pRZeH-0001We-7h; Mon, 13 Feb 2023 09:17:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRZd7-0000kX-K3
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 09:16:29 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pRZe8-0001V4-De
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 09:17:32 -0500
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRZd5-0000Kz-Mm
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 09:16:29 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- l37-20020a05600c1d2500b003dfe46a9801so9182535wms.0
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 06:16:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pRZe6-0000T6-PA
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 09:17:32 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id o8so11258621pls.11
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 06:17:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=BFxk8m/A3l9GDF2CsHCPm2IsE2DccSguqHJGCG0BKpI=;
- b=TAwVUNx4CmFewlGIvSOfSTre9T9URzv1rzbhA+SZwizFc5XR/SfhBdA3byJoykQ4XN
- ZRkC1JjPMPY5ClAcGq09DRIWZPdfKW68fN2MeS1MhkoOWmj5fWS3Oq8sCN0UHncFMLXk
- mfYGBKfE1MxPQg8SRNi0ul99aujTTu2tceN+9Q0rk3rK8mf9Gixe2hjuOJAhqyWmBfEZ
- Rk4T+NpdtFMUZSP6W4Yar5jjHeBaW1qBvgwnwYOhjmV7neTocKLjE/zel4d1xqTRXRtT
- 09CmfCcJ5YyWX7ULHFzPe35KlBQxFrr/akRbnObZps0UbZBKbjuS3ngbd1sHQRkObMA0
- t1hA==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=9KxabtV8Gxta25OgC2D6SS7uLMr9UtHR7eB3HWJjlbE=;
+ b=aFq96rao8X/Yiroe/6r3zOWASKc1b6mWcASe6E/G8+ZKRiJjRasU7jzeO2kxtadwri
+ MQ2xiGTymNBE5J8wfTmtH4LTR5IP2Y7TjAU8VodzM3wUdN8e/195ItwqfS65zLQ/ugr3
+ 9I4rgW7es36VL412GAJ/ylWx8k0kc1rK3Eb/M5YNAtTQf9Mwq2X7FNRPttMQNKyJTeOO
+ RQY91eGF5UDwbeXrDU5vn8yzc5qtwgrnNvYcuSZg8fqCUyOg8EuJgNtXh26Q4rXapuWw
+ XBpcX2gF6XE+LqmoWVZIGa9ZNZnPgjbuTdi9e6ePylWXn1gHleputKOIq+ebObF0g785
+ +L8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BFxk8m/A3l9GDF2CsHCPm2IsE2DccSguqHJGCG0BKpI=;
- b=myIRNomPRK6lqKjBr+5H767kTaz7GAnB9CoNI+VoKWO2hPx6xJ/e/NaRTS+bF7OEPn
- r34TyzwlRvGhac+DAT6SLZlKXm3GjtWk0YloordoR76j16Gf9bqFT29K48O5YXk/GrMI
- 9eWkaXXFc/Ijwp02w5UHJwHnCJLMmk770GztEJgzn03FQu7+j4AzXaxRbANAfJC2y/fs
- Tbhv2I3P7PQRkvieDRLsnqqipDHU3PySQnfILA6XgkBqoZPAvV52Ph8BlyvRKi19N0HB
- QZBFN3gKG0j1sVfAChUujOq/uaZWZ9LucRmelk1i30kCpdRhL5d5OBFfSAgQaU+Bqrss
- Tt6w==
-X-Gm-Message-State: AO0yUKVcVBLVuFlKfZCShrs0u5xXEfeOyrTlTH3qrSmArg4qpzz57Ewb
- cIkCyrv7DxODNbFZdX/rXSSODQ==
-X-Google-Smtp-Source: AK7set8C05YYAgk1bsK0YrxCZp9LI6roQ36Kq3OF5TU0jAYePQijRv+FSeiQ3pQxDJAgS7gf+jXFTw==
-X-Received: by 2002:a05:600c:1817:b0:3dc:405b:99bf with SMTP id
- n23-20020a05600c181700b003dc405b99bfmr19347780wmp.15.1676297785151; 
- Mon, 13 Feb 2023 06:16:25 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- q3-20020a1ce903000000b003dfdeb57027sm17136048wmc.38.2023.02.13.06.16.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 06:16:24 -0800 (PST)
-Message-ID: <4bc420b3-ce51-12c5-5373-ac5031105709@linaro.org>
-Date: Mon, 13 Feb 2023 15:16:23 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9KxabtV8Gxta25OgC2D6SS7uLMr9UtHR7eB3HWJjlbE=;
+ b=UpLf1zHbv8kLaVZ4xvkXScxGrjh6DTcKBs7MJSr0NvezwDj9jhGzNSf/2liVuL7xy+
+ GIrLe1Z+oLLmYIWaNIleEfaDK47/iVp1XjaAHog/4Io8WpwSLcKJIYx9ktGpZghP7qGZ
+ bRWeRJN4qqkZM3smI1tQreMJ6rzvHa8YuMWgCmXWMWy0mw9TbTdF55ZoUw80GMUsy3Ts
+ vhe1BETDK/kaj0OHgvUvDjNoQfR1XeStzmEAh1tkP5Lr+Bw03iWNuw4XPMmJkdC37VmW
+ /Fn8IF7NxnI7hO84r0BDiBHScNQxfvDcx0EFk2UkE0qHv+5TWnFm6BEUE0CgENKWyWkI
+ 6wiw==
+X-Gm-Message-State: AO0yUKWGkxkPLXlSguJXJyEHTfrxnefCRFRnj/+En8bS1x9ERAzOzmd8
+ MImtMnZyf/ybcoQ7ilv/TR9eXnWgOSvc9P423GFVTw==
+X-Google-Smtp-Source: AK7set84uOX6lkHYj1JRMvvFpgKFSNkez2K6MuhdS/elvMz+u7N6gQ+j7ymKR+7pQe0UwcN+SOHzY6nqvx7muQnFe2c=
+X-Received: by 2002:a17:902:8d8e:b0:19a:8a3c:c6ea with SMTP id
+ v14-20020a1709028d8e00b0019a8a3cc6eamr1439721plo.33.1676297849288; Mon, 13
+ Feb 2023 06:17:29 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH v4 01/16] pci/shpc: set attention led to OFF on reset
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org
-Cc: armbru@redhat.com, eblake@redhat.com, eduardo@habkost.net,
- berrange@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
- mst@redhat.com, den-plotnikov@yandex-team.ru, antonkuchin@yandex-team.ru
-References: <20230213140103.1518173-1-vsementsov@yandex-team.ru>
- <20230213140103.1518173-2-vsementsov@yandex-team.ru>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230213140103.1518173-2-vsementsov@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <20230213025150.71537-1-quintela@redhat.com>
+In-Reply-To: <20230213025150.71537-1-quintela@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 13 Feb 2023 14:17:18 +0000
+Message-ID: <CAFEAcA9+CdnP_ZTO+WtCqCjm8FSPsRSU82R0mUzZz7Ya3H0Paw@mail.gmail.com>
+Subject: Re: [PULL 00/22] Migration 20230213 patches
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, kvm@vger.kernel.org, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Li Xiaohui <xiaohli@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.345,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,38 +89,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/2/23 15:00, Vladimir Sementsov-Ogievskiy wrote:
-> 0 is not a valid state for the led. Let's start with OFF.
+On Mon, 13 Feb 2023 at 02:52, Juan Quintela <quintela@redhat.com> wrote:
+>
+> The following changes since commit 3b33ae48ec28e1e0d1bc28a85c7423724bcb1a2c:
+>
+>   Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2023-02-09 15:29:14 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/juan.quintela/qemu.git tags/migration-20230213-pull-request
+>
+> for you to fetch changes up to 7b548761e5d084f2fc0fc4badebab227b51a8a84:
+>
+>   ram: Document migration ram flags (2023-02-13 03:45:47 +0100)
+>
+> ----------------------------------------------------------------
+> Migration Pull request (take3)
+>
+> Hi
+>
+> In this PULL request:
+> - Added to leonardo fixes:
+> Fixes: b5eea99ec2 ("migration: Add yank feature")
+> Reported-by: Li Xiaohui <xiaohli@redhat.com>
+>
+> Please apply.
 
-"0 is not valid" so we should abort(value != 0) in shpc_set_status(),
 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> ---
->   hw/pci/shpc.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
-> index fca7f6691a..1b3f619dc9 100644
-> --- a/hw/pci/shpc.c
-> +++ b/hw/pci/shpc.c
-> @@ -223,6 +223,7 @@ void shpc_reset(PCIDevice *d)
->                               SHPC_SLOT_STATUS_PRSNT_MASK);
->               shpc_set_status(shpc, i, SHPC_LED_OFF, SHPC_SLOT_PWR_LED_MASK);
->           }
-> +        shpc_set_status(shpc, i, SHPC_LED_OFF, SHPC_SLOT_ATTN_LED_MASK);
->           shpc_set_status(shpc, i, 0, SHPC_SLOT_STATUS_66);
+Applied, thanks.
 
-... however value=0 is used:
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
 
-hw/pci/shpc.c:215:            shpc_set_status(shpc, i, 0, 
-SHPC_SLOT_STATUS_MRL_OPEN);
-hw/pci/shpc.c:226:        shpc_set_status(shpc, i, 0, SHPC_SLOT_STATUS_66);
-hw/pci/shpc.c:522:        shpc_set_status(shpc, slot, 0, 
-SHPC_SLOT_STATUS_MRL_OPEN);
-hw/pci/shpc.c:531:        shpc_set_status(shpc, slot, 0, 
-SHPC_SLOT_STATUS_MRL_OPEN);
-hw/pci/shpc.c:543:    shpc_set_status(shpc, slot, 0, SHPC_SLOT_STATUS_66);
-hw/pci/shpc.c:589:    shpc_set_status(shpc, slot, 0, SHPC_SLOT_STATUS_66);
-
-Is this fixable?
+-- PMM
 
