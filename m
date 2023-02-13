@@ -2,62 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40758693F2D
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 08:55:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07812693F4C
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 09:04:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRTfL-0007Qg-31; Mon, 13 Feb 2023 02:54:23 -0500
+	id 1pRTo2-00012R-3Q; Mon, 13 Feb 2023 03:03:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pRTfI-0007Px-Ei
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:54:20 -0500
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRTnz-00011o-5z
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 03:03:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pRTfG-0006PA-Lb
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:54:20 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.192])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id B04B920B3D;
- Mon, 13 Feb 2023 07:54:14 +0000 (UTC)
-Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Mon, 13 Feb
- 2023 08:54:14 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002a4c2785b-6c7f-477c-a755-1540eefeef85,
- F14F4AD8ED0BD1E75D9128D0FAA1081513448E0E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <28f750f8-18ce-c8cb-eda0-fb40a5c64249@kaod.org>
-Date: Mon, 13 Feb 2023 08:54:13 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRTnx-0000mz-I0
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 03:03:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676275396;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aSitCtNhmp5AtYUbGOXfqv/6Iaoyb77s5SuNMIJ2sXg=;
+ b=NsUqfAraGiEyvt/niE6/jcbJJ+sZxfrf38WnX0+T1O6Nx6BeE99g0/onIx4i9PYOqo9ZGD
+ EV0ThB0zAk97jB87Wa8D9pgPMhYvrbZIuk9OmbHcWsqUxjWaDMQWjSMEf2Fvt3l247fizJ
+ 0/MXsTERh2AXZDMqE/A1Z/cWF9ozvJs=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-592-YUmzQ0-5OheL02dlImj8cA-1; Mon, 13 Feb 2023 03:03:11 -0500
+X-MC-Unique: YUmzQ0-5OheL02dlImj8cA-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ bp30-20020a05620a459e00b00738e1fe2470so7098006qkb.23
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 00:03:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aSitCtNhmp5AtYUbGOXfqv/6Iaoyb77s5SuNMIJ2sXg=;
+ b=RYGl5TNlOqRTKWFiiNHrxuVOkO1EJJz9LXzCzddPdl41jOJKgna78RSd5Uoufk1kGs
+ 4tCTNjQvQJN3RmDjnbRtcp5+B+leqgddkebU8Y6+phS7/YZfqmTneR31RjNnrjuA0/4q
+ JkkAmwkSNhJOi+d2Z3w4dO4bQRhF9I5f/PGjUs2ZSWJeXgshWyqBq75y7e9V36ajvtJW
+ mGefjP/QFVhlTfXqNoazycuxs2FJpwvCLQIFZv1/4D2Ma4SGMIJwCfj0rGnSeFP5f96w
+ kawF+1L10fST+obeYaoZ2t+uUUWIliTGrnVKYRGU6c/wAFaImz4UoST8er76JrAGQA7t
+ jArw==
+X-Gm-Message-State: AO0yUKXyPywHap+3RyMbsmXTGr9+leo0mZcWulvLnL0d6EZEb79tqM2N
+ PMGZ2VOe/DXQUvDjsAJgcM3HOBKH8fhM+iTzPtMsLLwdvsQpo+j/dqpap7CewBhhCoUBWpx5Xo/
+ 8sk15MryYRYJvMVo=
+X-Received: by 2002:a05:6214:765:b0:56c:20e1:2669 with SMTP id
+ f5-20020a056214076500b0056c20e12669mr27027903qvz.42.1676275390701; 
+ Mon, 13 Feb 2023 00:03:10 -0800 (PST)
+X-Google-Smtp-Source: AK7set9f1ojCDnItoOuD7SA/2zBJYjeZkv4mCMNlVymmvi5x9UQ5RD+S7YebOzIqD1IeD5G7QhNcdA==
+X-Received: by 2002:a05:6214:765:b0:56c:20e1:2669 with SMTP id
+ f5-20020a056214076500b0056c20e12669mr27027881qvz.42.1676275390477; 
+ Mon, 13 Feb 2023 00:03:10 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-185.web.vodafone.de.
+ [109.43.177.185]) by smtp.gmail.com with ESMTPSA id
+ 69-20020a370a48000000b0071b158849e5sm9330793qkk.46.2023.02.13.00.03.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Feb 2023 00:03:09 -0800 (PST)
+Message-ID: <6e4c4982-4865-8237-0dd1-a187d0ab757a@redhat.com>
+Date: Mon, 13 Feb 2023 09:03:06 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v1] Adding new machine Tiogapass in QEMU
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 1/4] tests: use closesocket()
 Content-Language: en-US
-To: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>,
- <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
- <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-References: <20230210122641.837614-1-pkarthikeyan1509@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230210122641.837614-1-pkarthikeyan1509@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 49644780-9335-4513-8bc2-c24fdb0cb7f4
-X-Ovh-Tracer-Id: 17052317042496080678
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudeitddgudduudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedthedtfeelvdeljeehueetheefudeivddvveektdelkeetieefteduveekkedugfenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpkhgrrhhthhhikhgvhigrnhduhedtleesghhmrghilhdrtghomhdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdgrnhgurhgvfiesrghjrdhiugdrrghupdhjohgvlhesjhhmshdrihgurdgruhdpqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Joel Stanley <joel@jms.id.au>,
+ Laurent Vivier <lvivier@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-arm@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>
+References: <20230212204942.1905959-1-marcandre.lureau@redhat.com>
+ <20230212204942.1905959-2-marcandre.lureau@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230212204942.1905959-2-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.348,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.348, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,78 +104,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello,
-
-On 2/10/23 13:26, Karthikeyan Pasupathi wrote:
-> This patch support tiogapass in QEMU environment.
+On 12/02/2023 21.49, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
+> Because they are actually sockets...
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->   hw/arm/aspeed.c | 31 +++++++++++++++++++++++++++++++
->   1 file changed, 31 insertions(+)
+>   tests/unit/socket-helpers.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index 27dda58338..279ba60743 100644
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -521,6 +521,14 @@ static void ast2600_evb_i2c_init(AspeedMachineState *bmc)
->                        TYPE_TMP105, 0x4d);
->   }
+> diff --git a/tests/unit/socket-helpers.c b/tests/unit/socket-helpers.c
+> index eecadf3a3c..914b3aa0cf 100644
+> --- a/tests/unit/socket-helpers.c
+> +++ b/tests/unit/socket-helpers.c
+> @@ -117,13 +117,13 @@ static int socket_can_bind_connect(const char *hostname, int family)
 >   
-> +static void fb_bmc_i2c_init(AspeedMachineState *bmc)
-> +{
-> +    AspeedSoCState *soc = &bmc->soc;
-> +
-> +    /* The FB board AST2500 compatible with ds1338 */
-> +    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 11), "ds1338", 0x32);
-> +}
-> +
->   static void romulus_bmc_i2c_init(AspeedMachineState *bmc)
->   {
->       AspeedSoCState *soc = &bmc->soc;
-> @@ -1174,6 +1182,25 @@ static void aspeed_machine_ast2500_evb_class_init(ObjectClass *oc, void *data)
->           aspeed_soc_num_cpus(amc->soc_name);
->   };
->   
-> +static void aspeed_machine_tp_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc = MACHINE_CLASS(oc);
-> +    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
-> +
-> +    mc->desc       = "Facebook Tiogapass BMC (ARM1176)";
-> +    amc->soc_name  = "ast2500-a1";
-> +    amc->hw_strap1 = AST2500_EVB_HW_STRAP1;
-> +    amc->hw_strap2 = 0;
-> +    amc->fmc_model = "n25q256a";
-> +    amc->spi_model = "mx25l25635e";
-> +    amc->num_cs    = 2;
-> +    amc->i2c_init  = fb_bmc_i2c_init;
-> +    mc->default_ram_size       = 1 * GiB;
-> +    mc->default_cpus = mc->min_cpus = mc->max_cpus =
-> +        aspeed_soc_num_cpus(amc->soc_name);
-> +        aspeed_soc_num_cpus(amc->soc_name);
-> +};
-> +
->   static void aspeed_machine_romulus_class_init(ObjectClass *oc, void *data)
->   {
->       MachineClass *mc = MACHINE_CLASS(oc);
-> @@ -1562,6 +1589,10 @@ static const TypeInfo aspeed_machine_types[] = {
->           .name          = MACHINE_TYPE_NAME("ast2600-evb"),
->           .parent        = TYPE_ASPEED_MACHINE,
->           .class_init    = aspeed_machine_ast2600_evb_class_init,
-> +    }, {
-> +        .name          = MACHINE_TYPE_NAME("tp-bmc"),
+>    cleanup:
+>       if (afd != -1) {
+> -        close(afd);
+> +        closesocket(afd);
+>       }
+>       if (cfd != -1) {
+> -        close(cfd);
+> +        closesocket(cfd);
+>       }
+>       if (lfd != -1) {
+> -        close(lfd);
+> +        closesocket(lfd);
+>       }
+>       if (res) {
+>           freeaddrinfo(res);
 
-how about "tiogapass-bmc" for a machine name instead ?
-
-Thanks,
-
-C.
-
-> +        .parent        = TYPE_ASPEED_MACHINE,
-> +        .class_init    = aspeed_machine_tp_class_init,
->       }, {
->           .name          = MACHINE_TYPE_NAME("tacoma-bmc"),
->           .parent        = TYPE_ASPEED_MACHINE,
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
