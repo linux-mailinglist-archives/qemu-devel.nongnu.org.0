@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BB55693C82
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 03:53:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0B9B693CAD
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 03:57:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pROwy-0002Cs-Ii; Sun, 12 Feb 2023 21:52:16 -0500
+	id 1pRP1c-0007Xd-TV; Sun, 12 Feb 2023 21:57:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pROww-0002CO-Em
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:52:14 -0500
+ id 1pRP1b-0007XV-IC
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:57:03 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pROwu-0006uN-Va
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:52:14 -0500
+ id 1pRP1a-0007dd-01
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:57:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676256732;
+ s=mimecast20190719; t=1676257021;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J1PvApjmhG7oH9VG9BIS8wCFWPQBXA149/Jod5H/WXU=;
- b=ei9Aisyf/YHFysCqeb2SlRvEpeK8KgXu8dLCZkvYTHtiunTKbgh8bc5o/7lDIX6r6taIq5
- xVO/gqv1hfBv0dVy30Qu5jqBvVGLeok0TxeauMjAYJKd2Y1DopmaWvD5xymCBgny0fHLOV
- 9BogUduAu6ifO2bVoJhpb9hwDGxQqxI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-442-YvSnK5zJNQOvOYBe5PNQfw-1; Sun, 12 Feb 2023 21:52:10 -0500
-X-MC-Unique: YvSnK5zJNQOvOYBe5PNQfw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- d18-20020a05600c34d200b003df901ab982so5441773wmq.4
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 18:52:10 -0800 (PST)
+ bh=eSONnSCSQzL00YkXEaKWMv/0oOpN2PHY8jE8o91oEEs=;
+ b=JjEMo6IM2McYoV2eD9F3Y2jfwBdob5HOX9ypnSGzmwOaWUGI9eRy5R+TcwCzJmvPLGHlj/
+ 8cFPWjbwgbM5bqeuGglF9hC3MKssRmyxn5mv+ebo//JLoc1ERaFj9BtsPjMLouBnLtWGY9
+ we1YcCOANELWECqTINLbhUdqsvW4Utg=
+Received: from mail-wm1-f70.google.com (209.85.128.70 [209.85.128.70]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_128_GCM_SHA256) id us-mta-383-Rs7Z1nw8O7OCk6BM9JX4Eg-1; Sun,
+ 12 Feb 2023 21:52:30 -0500
+X-MC-Unique: Rs7Z1nw8O7OCk6BM9JX4Eg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ ay19-20020a05600c1e1300b003dc54daba42so5436259wmb.7
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 18:52:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=J1PvApjmhG7oH9VG9BIS8wCFWPQBXA149/Jod5H/WXU=;
- b=BmVdJ96RwFzwcbQrYvNH6fbNEmfejEI3nhVUqjJLjxFqJUI2OGzLT5D39Cnn97w4XD
- MxV3AHLdbb34inEERSdihGJrwVIONolJNugmR1NqqNzDJKJ3Q6G58whfS/leYzpVE08c
- cuSmEWTw4DCmh1O8CG/gfU0iFW+ZuG9BUrOpWaX7471Lyn2tYIdZUVRFC3stX3ogt3r6
- +pI4hL0MM9bgpkfZcBvFWx2svHJxg37NXCY57GPN0XuigfyjpuRCqjNG59rrJqvE9kc8
- bL1Jp/74+mag/1Q2xp9ORZcJpFmgoGK9Mc+ZbB76YG22Q/etxuqWHrQVrCxYw7VyIyPh
- oXpA==
-X-Gm-Message-State: AO0yUKXelPV/VDuQZajXdArAjiP3N61C+uMD5lutrquwySQSSSlqkcZl
- XhtWtPdSXV974HrV2+1ccpqkqgHV+BgSfUqHyzESQ8j0vjG5pCAtYBJfSW979PXkT7h892ayOjj
- z/yxcrsvhcuv2mFnypNnLiipZSzOE6a3hO6IVrgRxVLTrDCN5klKtfutvU6RuPx6LVXGBcF9M
-X-Received: by 2002:a05:600c:4b1c:b0:3df:eb5d:c583 with SMTP id
- i28-20020a05600c4b1c00b003dfeb5dc583mr17722592wmp.17.1676256729465; 
- Sun, 12 Feb 2023 18:52:09 -0800 (PST)
-X-Google-Smtp-Source: AK7set80qYH099JdKFySD+5GaT3LkHTvatWgrRV2CSsU+tF2I5QJyqKHD1sZPkB+q5ZeqkpW3CZSsw==
-X-Received: by 2002:a05:600c:4b1c:b0:3df:eb5d:c583 with SMTP id
- i28-20020a05600c4b1c00b003dfeb5dc583mr17722579wmp.17.1676256729240; 
- Sun, 12 Feb 2023 18:52:09 -0800 (PST)
+ bh=eSONnSCSQzL00YkXEaKWMv/0oOpN2PHY8jE8o91oEEs=;
+ b=W50W2emxcQEF5osx+/9c4E4N/wHvGQHCx14YZDZr6yZ2UdUUVmxOOhq98F0rEyD4yg
+ iEM1HgSS3A+96fHCiczVGyAfsJ9/B+ulw2Yg6713Fc1N6g0AlFNkfugT2dm5B5pJePjH
+ CNdupr7Guwr7GAumDAHozdeL9MoHFnodNq/+9my0QpyaBNlTBHwO3PTLSbUOz3IbpeEa
+ iUb5gs0maENq3ykprk/w2S8AS8OYj09FyrJ5ArdzZyjS0obpZfCn5BGo5ZI2vOfe2vJC
+ 4mtMjkY1YYnjx4XfFFnLhw9S8KiZlVq6WNd+GMC+kNeVFMpJYUcRZtelbt1UQCfxu8Tb
+ fNSg==
+X-Gm-Message-State: AO0yUKXmz42uecMQm9S0/kBAuAK7rYKLMWVzcUI/BMleFmswwjEPlpGu
+ z5pvxzs1IfUjgf6/3GtDmED8/IWmzn2n2VW6+085ti9QWacbIi2TNwdPQyu9ACUuMeEL5wRNqOy
+ aG+BPLKZz2iZTAs9flRtQIe/Geke2jf/Jr5qjE2k4YvsOxscKDvXfA+SegjziryDiapeSibKj
+X-Received: by 2002:a05:600c:1606:b0:3e0:39:ec9d with SMTP id
+ m6-20020a05600c160600b003e00039ec9dmr17977564wmn.23.1676256731125; 
+ Sun, 12 Feb 2023 18:52:11 -0800 (PST)
+X-Google-Smtp-Source: AK7set8385UsdxLhe6Lubligoz7bwZWXr0FJrEcwvoTK4P5+p3gm9zEpVWQGyOSmkN/kZN0gZ6ssYg==
+X-Received: by 2002:a05:600c:1606:b0:3e0:39:ec9d with SMTP id
+ m6-20020a05600c160600b003e00039ec9dmr17977547wmn.23.1676256730901; 
+ Sun, 12 Feb 2023 18:52:10 -0800 (PST)
 Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- r14-20020a05600c35ce00b003dc4ecfc4d7sm13314982wmq.29.2023.02.12.18.52.08
+ r18-20020a05600c459200b003db03725e86sm13712002wmo.8.2023.02.12.18.52.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Feb 2023 18:52:08 -0800 (PST)
+ Sun, 12 Feb 2023 18:52:10 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -72,9 +72,9 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, kvm@vger.kernel.org,
  "Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PULL 10/22] migration: Make ram_save_target_page() a pointer
-Date: Mon, 13 Feb 2023 03:51:38 +0100
-Message-Id: <20230213025150.71537-11-quintela@redhat.com>
+Subject: [PULL 11/22] migration: I messed state_pending_exact/estimate
+Date: Mon, 13 Feb 2023 03:51:39 +0100
+Message-Id: <20230213025150.71537-12-quintela@redhat.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230213025150.71537-1-quintela@redhat.com>
 References: <20230213025150.71537-1-quintela@redhat.com>
@@ -104,85 +104,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We are going to create a new function for multifd latest in the series.
+I called the helper function from the wrong top level function.
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
+This code was introduced in:
+
+commit c8df4a7aeffcb46020f610526eea621fa5b0cd47
+Author: Juan Quintela <quintela@redhat.com>
+Date:   Mon Oct 3 02:00:03 2022 +0200
+
+    migration: Split save_live_pending() into state_pending_*
+
+    We split the function into to:
+
+    - state_pending_estimate: We estimate the remaining state size without
+      stopping the machine.
+
+    - state pending_exact: We calculate the exact amount of remaining
+      state.
+
+Thanks to Avihai Horon <avihaih@nvidia.com> for finding it.
+
+Fixes:c8df4a7aeffcb46020f610526eea621fa5b0cd47
+
+When we introduced that patch, we enden calling
+
+state_pending_estimate() helper from qemu_savevm_statepending_exact()
+and
+state_pending_exact() helper from qemu_savevm_statepending_estimate()
+
+This patch fixes it.
+
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ migration/savevm.c | 50 +++++++++++++++++++++++-----------------------
+ 1 file changed, 25 insertions(+), 25 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 6abfe075f2..0890816a30 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -452,6 +452,13 @@ void dirty_sync_missed_zero_copy(void)
-     ram_counters.dirty_sync_missed_zero_copy++;
+diff --git a/migration/savevm.c b/migration/savevm.c
+index e9cf4999ad..ce181e21e1 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1551,31 +1551,6 @@ void qemu_savevm_state_pending_estimate(uint64_t *res_precopy_only,
+     *res_compatible = 0;
+     *res_postcopy_only = 0;
+ 
+-    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
+-        if (!se->ops || !se->ops->state_pending_exact) {
+-            continue;
+-        }
+-        if (se->ops->is_active) {
+-            if (!se->ops->is_active(se->opaque)) {
+-                continue;
+-            }
+-        }
+-        se->ops->state_pending_exact(se->opaque,
+-                                     res_precopy_only, res_compatible,
+-                                     res_postcopy_only);
+-    }
+-}
+-
+-void qemu_savevm_state_pending_exact(uint64_t *res_precopy_only,
+-                                     uint64_t *res_compatible,
+-                                     uint64_t *res_postcopy_only)
+-{
+-    SaveStateEntry *se;
+-
+-    *res_precopy_only = 0;
+-    *res_compatible = 0;
+-    *res_postcopy_only = 0;
+-
+     QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
+         if (!se->ops || !se->ops->state_pending_estimate) {
+             continue;
+@@ -1591,6 +1566,31 @@ void qemu_savevm_state_pending_exact(uint64_t *res_precopy_only,
+     }
  }
  
-+struct MigrationOps {
-+    int (*ram_save_target_page)(RAMState *rs, PageSearchStatus *pss);
-+};
-+typedef struct MigrationOps MigrationOps;
++void qemu_savevm_state_pending_exact(uint64_t *res_precopy_only,
++                                     uint64_t *res_compatible,
++                                     uint64_t *res_postcopy_only)
++{
++    SaveStateEntry *se;
 +
-+MigrationOps *migration_ops;
++    *res_precopy_only = 0;
++    *res_compatible = 0;
++    *res_postcopy_only = 0;
 +
- CompressionStats compression_counters;
- 
- struct CompressParam {
-@@ -2295,14 +2302,14 @@ static bool save_compress_page(RAMState *rs, PageSearchStatus *pss,
- }
- 
- /**
-- * ram_save_target_page: save one target page
-+ * ram_save_target_page_legacy: save one target page
-  *
-  * Returns the number of pages written
-  *
-  * @rs: current RAM state
-  * @pss: data about the page we want to send
-  */
--static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
-+static int ram_save_target_page_legacy(RAMState *rs, PageSearchStatus *pss)
++    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++        if (!se->ops || !se->ops->state_pending_exact) {
++            continue;
++        }
++        if (se->ops->is_active) {
++            if (!se->ops->is_active(se->opaque)) {
++                continue;
++            }
++        }
++        se->ops->state_pending_exact(se->opaque,
++                                     res_precopy_only, res_compatible,
++                                     res_postcopy_only);
++    }
++}
++
+ void qemu_savevm_state_cleanup(void)
  {
-     RAMBlock *block = pss->block;
-     ram_addr_t offset = ((ram_addr_t)pss->page) << TARGET_PAGE_BITS;
-@@ -2428,7 +2435,7 @@ static int ram_save_host_page_urgent(PageSearchStatus *pss)
- 
-         if (page_dirty) {
-             /* Be strict to return code; it must be 1, or what else? */
--            if (ram_save_target_page(rs, pss) != 1) {
-+            if (migration_ops->ram_save_target_page(rs, pss) != 1) {
-                 error_report_once("%s: ram_save_target_page failed", __func__);
-                 ret = -1;
-                 goto out;
-@@ -2497,7 +2504,7 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
-             if (preempt_active) {
-                 qemu_mutex_unlock(&rs->bitmap_mutex);
-             }
--            tmppages = ram_save_target_page(rs, pss);
-+            tmppages = migration_ops->ram_save_target_page(rs, pss);
-             if (tmppages >= 0) {
-                 pages += tmppages;
-                 /*
-@@ -2697,6 +2704,8 @@ static void ram_save_cleanup(void *opaque)
-     xbzrle_cleanup();
-     compress_threads_save_cleanup();
-     ram_state_cleanup(rsp);
-+    g_free(migration_ops);
-+    migration_ops = NULL;
- }
- 
- static void ram_state_reset(RAMState *rs)
-@@ -3252,6 +3261,8 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
-     ram_control_before_iterate(f, RAM_CONTROL_SETUP);
-     ram_control_after_iterate(f, RAM_CONTROL_SETUP);
- 
-+    migration_ops = g_malloc0(sizeof(MigrationOps));
-+    migration_ops->ram_save_target_page = ram_save_target_page_legacy;
-     ret =  multifd_send_sync_main(f);
-     if (ret < 0) {
-         return ret;
+     SaveStateEntry *se;
 -- 
 2.39.1
 
