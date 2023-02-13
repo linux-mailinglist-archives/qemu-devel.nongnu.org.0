@@ -2,93 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C174E6944C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 12:42:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD3BD6944D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 12:44:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRXDI-00008R-MF; Mon, 13 Feb 2023 06:41:40 -0500
+	id 1pRXEw-00014O-Gh; Mon, 13 Feb 2023 06:43:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRXDG-00007u-DH
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 06:41:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRXDE-00036p-Fp
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 06:41:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676288495;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <vbabka@suse.cz>) id 1pRXEt-00013V-Pg
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 06:43:19 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <vbabka@suse.cz>) id 1pRXEr-0003La-Be
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 06:43:19 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 28B9E211CE;
+ Mon, 13 Feb 2023 11:43:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1676288594; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FJeYeAbS9Q2gz28RmZeQRr7tOk/WeMHaAGYfvP32YTU=;
- b=dR1pmNBlSNktM6PKmt3P3FZQ+TonIk7Kl4Ec5mfD2yxTCGi+iNmQ1LngFtZ5xA3uqtiFhE
- bfTTpFuiRUrBLH8jiSjTGSA9Zk93PaCAwNnlYkEHb+M9Xcn/hcHtFfGrsK+SSadeq/vBBF
- 6hAE1sSDXkcj6gYNXVsKt9X1vorhATw=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-308-R5s9CpRGOyKot2DChmoyYA-1; Mon, 13 Feb 2023 06:41:33 -0500
-X-MC-Unique: R5s9CpRGOyKot2DChmoyYA-1
-Received: by mail-qt1-f197.google.com with SMTP id
- j26-20020ac84c9a000000b003b9b7c60108so7247675qtv.16
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 03:41:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FJeYeAbS9Q2gz28RmZeQRr7tOk/WeMHaAGYfvP32YTU=;
- b=wk0FibJ4KWx7etI08kcJe9GJOpUxrUieiiauPlOiT0oC8ns1DtPR9c2bMGvnRr8Bp0
- EuFjDHWRw21qF+GSEyk5NvBuJpMFS4poS3lu9jJH23CWXBf9sf7/UPodAdGt5orzc8T8
- tjoH9yyYyHfgDqDg7A4u1SpLr3lPryMz0dLPaHVdXJSbxczOzAf1NXAjHR16zDBaI5Uj
- Iy8A0vIon/aTeovYHQ9S5bNDX/31EzxGNYv61kS2X3ceLZ4nJ0AWsSuMmet2puG3lNfx
- +ED/j1kQk2SixIrMLKUkvsRT7Nb+baO84XbtwUpxheROBspbMzM4dvu40MWrAUleubw0
- t3Cw==
-X-Gm-Message-State: AO0yUKUETeSzwmAAEca3BFw07d4mHuzyuEWEIWfR7LqwCqYubORFEQ2Q
- F+ocZyOzL1NzR0wApXm4oSpCdVtoZDxK12zq4S315MnG3LcnczZ5migsAYA1KuwX/6h3SMaoWkU
- 19IUy6PqbZi9mB4M=
-X-Received: by 2002:a05:6214:2a4e:b0:535:3000:41ad with SMTP id
- jf14-20020a0562142a4e00b00535300041admr45070122qvb.4.1676288493000; 
- Mon, 13 Feb 2023 03:41:33 -0800 (PST)
-X-Google-Smtp-Source: AK7set+7Y1moyyI/gavV2eJfWX881u4oN1SyQqX7MmKD8ZuG7lVechqikRLkLA+lDt8HoV4XQu3dlg==
-X-Received: by 2002:a05:6214:2a4e:b0:535:3000:41ad with SMTP id
- jf14-20020a0562142a4e00b00535300041admr45070103qvb.4.1676288492778; 
- Mon, 13 Feb 2023 03:41:32 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-177-185.web.vodafone.de.
- [109.43.177.185]) by smtp.gmail.com with ESMTPSA id
- v2-20020a379302000000b007112aa42c4fsm9429016qkd.135.2023.02.13.03.41.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 03:41:32 -0800 (PST)
-Message-ID: <fcd09b07-c0ac-d617-8503-a5ecef947cfe@redhat.com>
-Date: Mon, 13 Feb 2023 12:41:29 +0100
+ bh=F//K38rKDr15Jtx1r41i6n+4rX+CROs5Z87l81vvAWI=;
+ b=xOuYNLYRu5nLXwQb3gBau7FZPmpWmbfhwaT3PhHnYB7b3o4nqW3SEVKC421SAJlpARPJqc
+ hDesbrzZdzuLQEH1SPHURdAjHkhPlDT0AD9wcixHc28oOezpET4UgU2DJVaMYAKj82Icy7
+ ii1XMGY+PY5/fA0N9sKFNGIhEFom0V8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1676288594;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=F//K38rKDr15Jtx1r41i6n+4rX+CROs5Z87l81vvAWI=;
+ b=VmGErdeWf5NH0PyFaumSvLiOj+Keq7bHUhBfnwW5w9mOSNq+p2R76CoJJ7vjkmkUWDKULm
+ LMwZHZhqveqfOoDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5EB271391B;
+ Mon, 13 Feb 2023 11:43:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id mJIKFlEi6mPkJQAAMHmgww
+ (envelope-from <vbabka@suse.cz>); Mon, 13 Feb 2023 11:43:13 +0000
+Message-ID: <b7f61a97-c6d7-4302-d96c-bd1020c603dc@suse.cz>
+Date: Mon, 13 Feb 2023 12:43:12 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 1/2] log: Add separate debug option for logging invalid
- memory accesses
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+To: "Kirill A. Shutemov" <kirill@shutemov.name>,
+ Sean Christopherson <seanjc@google.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>, "Huang, Kai"
+ <kai.huang@intel.com>, "tglx@linutronix.de" <tglx@linutronix.de>,
+ "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "jmattson@google.com" <jmattson@google.com>,
+ "Lutomirski, Andy" <luto@kernel.org>, "ak@linux.intel.com"
+ <ak@linux.intel.com>,
+ "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+ "Hocko, Michal" <mhocko@suse.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "tabba@google.com" <tabba@google.com>, "david@redhat.com"
+ <david@redhat.com>, "michael.roth@amd.com" <michael.roth@amd.com>,
+ "corbet@lwn.net" <corbet@lwn.net>,
+ "bfields@fieldses.org" <bfields@fieldses.org>,
+ "dhildenb@redhat.com" <dhildenb@redhat.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
+ "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+ "rppt@kernel.org" <rppt@kernel.org>, "shuah@kernel.org" <shuah@kernel.org>,
+ "vkuznets@redhat.com" <vkuznets@redhat.com>,
+ "mail@maciej.szmigiero.name" <mail@maciej.szmigiero.name>,
+ "ddutile@redhat.com" <ddutile@redhat.com>,
+ "qperret@google.com" <qperret@google.com>, "arnd@arndb.de" <arnd@arndb.de>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "vannapurve@google.com" <vannapurve@google.com>,
+ "naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
+ "wanpengli@tencent.com" <wanpengli@tencent.com>,
+ "yu.c.zhang@linux.intel.com" <yu.c.zhang@linux.intel.com>,
+ "hughd@google.com" <hughd@google.com>,
+ "aarcange@redhat.com" <aarcange@redhat.com>,
+ "mingo@redhat.com" <mingo@redhat.com>, "hpa@zytor.com" <hpa@zytor.com>,
+ "Nakajima, Jun" <jun.nakajima@intel.com>,
+ "jlayton@kernel.org" <jlayton@kernel.org>, "joro@8bytes.org"
+ <joro@8bytes.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "Wang, Wei W" <wei.w.wang@intel.com>,
+ "steven.price@arm.com" <steven.price@arm.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "Hansen, Dave" <dave.hansen@intel.com>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "linmiaohe@huawei.com" <linmiaohe@huawei.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
+ <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
+ <20221219075313.GB1691829@chaop.bj.intel.com>
+ <deba096c85e41c3a15d122f2159986a74b16770f.camel@intel.com>
+ <20221220072228.GA1724933@chaop.bj.intel.com>
+ <126046ce506df070d57e6fe5ab9c92cdaf4cf9b7.camel@intel.com>
+ <20221221133905.GA1766136@chaop.bj.intel.com> <Y6SevJt6XXOsmIBD@google.com>
+ <20230123154334.mmbdpniy76zsec5m@box>
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- David Hildenbrand <david@redhat.com>
-Cc: philmd@linaro.org, Richard Henderson <richard.henderson@linaro.org>
-References: <20230119214032.4BF1E7457E7@zero.eik.bme.hu>
- <ad4783ee-20ce-06d2-7c2f-1f915bd684d0@eik.bme.hu>
- <413edbc1-8af1-4b0e-70ab-41d49f1bbbcd@eik.bme.hu>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <413edbc1-8af1-4b0e-70ab-41d49f1bbbcd@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.348, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20230123154334.mmbdpniy76zsec5m@box>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=vbabka@suse.cz;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.348,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,108 +137,255 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 07/02/2023 17.33, BALATON Zoltan wrote:
-> On Tue, 31 Jan 2023, BALATON Zoltan wrote:
->> On Thu, 19 Jan 2023, BALATON Zoltan wrote:
->>> Currently -d guest_errors enables logging of different invalid actions
->>> by the guest such as misusing hardware, accessing missing features or
->>> invalid memory areas. The memory access logging can be quite verbose
->>> which obscures the other messages enabled by this debug switch so
->>> separate it by adding a new -d memaccess option to make it possible to
->>> control it independently of other guest error logs.
->>>
->>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>
->> Ping? Could somebody review and pick it up please?
+On 1/23/23 16:43, Kirill A. Shutemov wrote:
+> On Thu, Dec 22, 2022 at 06:15:24PM +0000, Sean Christopherson wrote:
+>> On Wed, Dec 21, 2022, Chao Peng wrote:
+>> > On Tue, Dec 20, 2022 at 08:33:05AM +0000, Huang, Kai wrote:
+>> > > On Tue, 2022-12-20 at 15:22 +0800, Chao Peng wrote:
+>> > > > On Mon, Dec 19, 2022 at 08:48:10AM +0000, Huang, Kai wrote:
+>> > > > > On Mon, 2022-12-19 at 15:53 +0800, Chao Peng wrote:
+>> > > But for non-restricted-mem case, it is correct for KVM to decrease page's
+>> > > refcount after setting up mapping in the secondary mmu, otherwise the page will
+>> > > be pinned by KVM for normal VM (since KVM uses GUP to get the page).
+>> > 
+>> > That's true. Actually even true for restrictedmem case, most likely we
+>> > will still need the kvm_release_pfn_clean() for KVM generic code. On one
+>> > side, other restrictedmem users like pKVM may not require page pinning
+>> > at all. On the other side, see below.
+>> > 
+>> > > 
+>> > > So what we are expecting is: for KVM if the page comes from restricted mem, then
+>> > > KVM cannot decrease the refcount, otherwise for normal page via GUP KVM should.
+>> 
+>> No, requiring the user (KVM) to guard against lack of support for page migration
+>> in restricted mem is a terrible API.  It's totally fine for restricted mem to not
+>> support page migration until there's a use case, but punting the problem to KVM
+>> is not acceptable.  Restricted mem itself doesn't yet support page migration,
+>> e.g. explosions would occur even if KVM wanted to allow migration since there is
+>> no notification to invalidate existing mappings.
 > 
-> Ping?
+> I tried to find a way to hook into migration path from restrictedmem. It
+> is not easy because from code-mm PoV the restrictedmem page just yet
+> another shmem page.
+> 
+> It is somewhat dubious, but I think it should be safe to override
+> mapping->a_ops for the shmem mapping.
+> 
+> It also eliminates need in special treatment for the restrictedmem pages
+> from memory-failure code.
+> 
+> shmem_mapping() uses ->a_ops to detect shmem mapping. Modify the
+> implementation to still be true for restrictedmem pages.
+> 
+> Build tested only.
+> 
+> Any comments?
+> 
+> diff --git a/include/linux/restrictedmem.h b/include/linux/restrictedmem.h
+> index 6fddb08f03cc..73ded3c3bad1 100644
+> --- a/include/linux/restrictedmem.h
+> +++ b/include/linux/restrictedmem.h
+> @@ -36,8 +36,6 @@ static inline bool file_is_restrictedmem(struct file *file)
+>  	return file->f_inode->i_sb->s_magic == RESTRICTEDMEM_MAGIC;
+>  }
+>  
+> -void restrictedmem_error_page(struct page *page, struct address_space *mapping);
+> -
+>  #else
+>  
+>  static inline bool file_is_restrictedmem(struct file *file)
+> @@ -45,11 +43,6 @@ static inline bool file_is_restrictedmem(struct file *file)
+>  	return false;
+>  }
+>  
+> -static inline void restrictedmem_error_page(struct page *page,
+> -					    struct address_space *mapping)
+> -{
+> -}
+> -
+>  #endif /* CONFIG_RESTRICTEDMEM */
+>  
+>  #endif /* _LINUX_RESTRICTEDMEM_H */
+> diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
+> index d500ea967dc7..a4af160f37e4 100644
+> --- a/include/linux/shmem_fs.h
+> +++ b/include/linux/shmem_fs.h
+> @@ -9,6 +9,7 @@
+>  #include <linux/percpu_counter.h>
+>  #include <linux/xattr.h>
+>  #include <linux/fs_parser.h>
+> +#include <linux/magic.h>
+>  
+>  /* inode in-kernel data */
+>  
+> @@ -75,10 +76,9 @@ extern unsigned long shmem_get_unmapped_area(struct file *, unsigned long addr,
+>  		unsigned long len, unsigned long pgoff, unsigned long flags);
+>  extern int shmem_lock(struct file *file, int lock, struct ucounts *ucounts);
+>  #ifdef CONFIG_SHMEM
+> -extern const struct address_space_operations shmem_aops;
+>  static inline bool shmem_mapping(struct address_space *mapping)
+>  {
+> -	return mapping->a_ops == &shmem_aops;
+> +	return mapping->host->i_sb->s_magic == TMPFS_MAGIC;
 
-Patch makes sense to me and looks fine, so:
+Alternatively just check a_ops against two possible values? Fewer chained
+dereferences, no-op with !CONFIG_RESTRICTEDMEM, maybe Hugh would be less
+unhappy with that.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Besides that, IIRC Michael Roth mentioned that this approach for preventing
+migration would be simpler for SNP than the refcount elevation? Do I recall
+right and should this be pursued then?
 
-... I think this should go via one of the "Memory API" maintainers branches? 
-Paolo? Peter? David?
-
-  Thomas
-
-
->>> ---
->>> include/qemu/log.h | 1 +
->>> softmmu/memory.c   | 6 +++---
->>> softmmu/physmem.c  | 2 +-
->>> util/log.c         | 2 ++
->>> 4 files changed, 7 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/include/qemu/log.h b/include/qemu/log.h
->>> index c5643d8dd5..4bf0a65a85 100644
->>> --- a/include/qemu/log.h
->>> +++ b/include/qemu/log.h
->>> @@ -35,6 +35,7 @@ bool qemu_log_separate(void);
->>> /* LOG_STRACE is used for user-mode strace logging. */
->>> #define LOG_STRACE         (1 << 19)
->>> #define LOG_PER_THREAD     (1 << 20)
->>> +#define LOG_MEM_ACCESS     (1 << 21)
->>>
->>> /* Lock/unlock output. */
->>>
->>> diff --git a/softmmu/memory.c b/softmmu/memory.c
->>> index 9d64efca26..0a9fa67d32 100644
->>> --- a/softmmu/memory.c
->>> +++ b/softmmu/memory.c
->>> @@ -1379,7 +1379,7 @@ bool memory_region_access_valid(MemoryRegion *mr,
->>> {
->>>     if (mr->ops->valid.accepts
->>>         && !mr->ops->valid.accepts(mr->opaque, addr, size, is_write, 
->>> attrs)) {
->>> -        qemu_log_mask(LOG_GUEST_ERROR, "Invalid %s at addr 0x%" HWADDR_PRIX
->>> +        qemu_log_mask(LOG_MEM_ACCESS, "Invalid %s at addr 0x%" HWADDR_PRIX
->>>                       ", size %u, region '%s', reason: rejected\n",
->>>                       is_write ? "write" : "read",
->>>                       addr, size, memory_region_name(mr));
->>> @@ -1387,7 +1387,7 @@ bool memory_region_access_valid(MemoryRegion *mr,
->>>     }
->>>
->>>     if (!mr->ops->valid.unaligned && (addr & (size - 1))) {
->>> -        qemu_log_mask(LOG_GUEST_ERROR, "Invalid %s at addr 0x%" HWADDR_PRIX
->>> +        qemu_log_mask(LOG_MEM_ACCESS, "Invalid %s at addr 0x%" HWADDR_PRIX
->>>                       ", size %u, region '%s', reason: unaligned\n",
->>>                       is_write ? "write" : "read",
->>>                       addr, size, memory_region_name(mr));
->>> @@ -1401,7 +1401,7 @@ bool memory_region_access_valid(MemoryRegion *mr,
->>>
->>>     if (size > mr->ops->valid.max_access_size
->>>         || size < mr->ops->valid.min_access_size) {
->>> -        qemu_log_mask(LOG_GUEST_ERROR, "Invalid %s at addr 0x%" HWADDR_PRIX
->>> +        qemu_log_mask(LOG_MEM_ACCESS, "Invalid %s at addr 0x%" HWADDR_PRIX
->>>                       ", size %u, region '%s', reason: invalid size "
->>>                       "(min:%u max:%u)\n",
->>>                       is_write ? "write" : "read",
->>> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
->>> index bf585e45a8..bca679ee01 100644
->>> --- a/softmmu/physmem.c
->>> +++ b/softmmu/physmem.c
->>> @@ -2792,7 +2792,7 @@ static bool flatview_access_allowed(MemoryRegion 
->>> *mr, MemTxAttrs attrs,
->>>     if (memory_region_is_ram(mr)) {
->>>         return true;
->>>     }
->>> -    qemu_log_mask(LOG_GUEST_ERROR,
->>> +    qemu_log_mask(LOG_MEM_ACCESS,
->>>                   "Invalid access to non-RAM device at "
->>>                   "addr 0x%" HWADDR_PRIX ", size %" HWADDR_PRIu ", "
->>>                   "region '%s'\n", addr, len, memory_region_name(mr));
->>> diff --git a/util/log.c b/util/log.c
->>> index 7837ff9917..a3c097f320 100644
->>> --- a/util/log.c
->>> +++ b/util/log.c
->>> @@ -495,6 +495,8 @@ const QEMULogItem qemu_log_items[] = {
->>>       "log every user-mode syscall, its input, and its result" },
->>>     { LOG_PER_THREAD, "tid",
->>>       "open a separate log file per thread; filename must contain '%d'" },
->>> +    { LOG_MEM_ACCESS, "memaccess",
->>> +      "log invalid memory accesses" },
->>>     { 0, NULL, NULL },
->>> };
+>  }
+>  #else
+>  static inline bool shmem_mapping(struct address_space *mapping)
+> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+> index f91b444e471e..145bb561ddb3 100644
+> --- a/mm/memory-failure.c
+> +++ b/mm/memory-failure.c
+> @@ -62,7 +62,6 @@
+>  #include <linux/page-isolation.h>
+>  #include <linux/pagewalk.h>
+>  #include <linux/shmem_fs.h>
+> -#include <linux/restrictedmem.h>
+>  #include "swap.h"
+>  #include "internal.h"
+>  #include "ras/ras_event.h"
+> @@ -941,8 +940,6 @@ static int me_pagecache_clean(struct page_state *ps, struct page *p)
+>  		goto out;
+>  	}
+>  
+> -	restrictedmem_error_page(p, mapping);
+> -
+>  	/*
+>  	 * The shmem page is kept in page cache instead of truncating
+>  	 * so is expected to have an extra refcount after error-handling.
+> diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+> index 15c52301eeb9..d0ca609b82cb 100644
+> --- a/mm/restrictedmem.c
+> +++ b/mm/restrictedmem.c
+> @@ -189,6 +189,51 @@ static struct file *restrictedmem_file_create(struct file *memfd)
+>  	return file;
+>  }
+>  
+> +static int restricted_error_remove_page(struct address_space *mapping,
+> +					struct page *page)
+> +{
+> +	struct super_block *sb = restrictedmem_mnt->mnt_sb;
+> +	struct inode *inode, *next;
+> +	pgoff_t start, end;
+> +
+> +	start = page->index;
+> +	end = start + thp_nr_pages(page);
+> +
+> +	spin_lock(&sb->s_inode_list_lock);
+> +	list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) {
+> +		struct restrictedmem *rm = inode->i_mapping->private_data;
+> +		struct restrictedmem_notifier *notifier;
+> +		struct file *memfd = rm->memfd;
+> +		unsigned long index;
+> +
+> +		if (memfd->f_mapping != mapping)
+> +			continue;
+> +
+> +		xa_for_each_range(&rm->bindings, index, notifier, start, end)
+> +			notifier->ops->error(notifier, start, end);
+> +		break;
+> +	}
+> +	spin_unlock(&sb->s_inode_list_lock);
+> +
+> +	return 0;
+> +}
+> +
+> +#ifdef CONFIG_MIGRATION
+> +static int restricted_folio(struct address_space *mapping, struct folio *dst,
+> +			    struct folio *src, enum migrate_mode mode)
+> +{
+> +	return -EBUSY;
+> +}
+> +#endif
+> +
+> +static struct address_space_operations restricted_aops = {
+> +	.dirty_folio	= noop_dirty_folio,
+> +	.error_remove_page = restricted_error_remove_page,
+> +#ifdef CONFIG_MIGRATION
+> +	.migrate_folio	= restricted_folio,
+> +#endif
+> +};
+> +
+>  SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+>  {
+>  	struct file *file, *restricted_file;
+> @@ -209,6 +254,8 @@ SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+>  	file->f_mode |= FMODE_LSEEK | FMODE_PREAD | FMODE_PWRITE;
+>  	file->f_flags |= O_LARGEFILE;
+>  
+> +	file->f_mapping->a_ops = &restricted_aops;
+> +
+>  	restricted_file = restrictedmem_file_create(file);
+>  	if (IS_ERR(restricted_file)) {
+>  		err = PTR_ERR(restricted_file);
+> @@ -293,31 +340,3 @@ int restrictedmem_get_page(struct file *file, pgoff_t offset,
+>  }
+>  EXPORT_SYMBOL_GPL(restrictedmem_get_page);
+>  
+> -void restrictedmem_error_page(struct page *page, struct address_space *mapping)
+> -{
+> -	struct super_block *sb = restrictedmem_mnt->mnt_sb;
+> -	struct inode *inode, *next;
+> -	pgoff_t start, end;
+> -
+> -	if (!shmem_mapping(mapping))
+> -		return;
+> -
+> -	start = page->index;
+> -	end = start + thp_nr_pages(page);
+> -
+> -	spin_lock(&sb->s_inode_list_lock);
+> -	list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) {
+> -		struct restrictedmem *rm = inode->i_mapping->private_data;
+> -		struct restrictedmem_notifier *notifier;
+> -		struct file *memfd = rm->memfd;
+> -		unsigned long index;
+> -
+> -		if (memfd->f_mapping != mapping)
+> -			continue;
+> -
+> -		xa_for_each_range(&rm->bindings, index, notifier, start, end)
+> -			notifier->ops->error(notifier, start, end);
+> -		break;
+> -	}
+> -	spin_unlock(&sb->s_inode_list_lock);
+> -}
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index c1d8b8a1aa3b..3df4d95784b9 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -231,7 +231,7 @@ static inline void shmem_inode_unacct_blocks(struct inode *inode, long pages)
+>  }
+>  
+>  static const struct super_operations shmem_ops;
+> -const struct address_space_operations shmem_aops;
+> +static const struct address_space_operations shmem_aops;
+>  static const struct file_operations shmem_file_operations;
+>  static const struct inode_operations shmem_inode_operations;
+>  static const struct inode_operations shmem_dir_inode_operations;
+> @@ -3894,7 +3894,7 @@ static int shmem_error_remove_page(struct address_space *mapping,
+>  	return 0;
+>  }
+>  
+> -const struct address_space_operations shmem_aops = {
+> +static const struct address_space_operations shmem_aops = {
+>  	.writepage	= shmem_writepage,
+>  	.dirty_folio	= noop_dirty_folio,
+>  #ifdef CONFIG_TMPFS
+> @@ -3906,7 +3906,6 @@ const struct address_space_operations shmem_aops = {
+>  #endif
+>  	.error_remove_page = shmem_error_remove_page,
+>  };
+> -EXPORT_SYMBOL(shmem_aops);
+>  
+>  static const struct file_operations shmem_file_operations = {
+>  	.mmap		= shmem_mmap,
 
 
