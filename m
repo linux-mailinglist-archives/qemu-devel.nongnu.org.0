@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40797693C7C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 03:52:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B76693CA4
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 03:54:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pROx6-0002Es-SM; Sun, 12 Feb 2023 21:52:24 -0500
+	id 1pROx6-0002ED-6W; Sun, 12 Feb 2023 21:52:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pROx2-0002DN-R7
+ id 1pROx3-0002DU-Ij
  for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:52:22 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pROx0-0006up-CX
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:52:20 -0500
+ id 1pROx1-0006v3-QL
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:52:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676256737;
+ s=mimecast20190719; t=1676256739;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hhzdc6EJT0N0Bv1boe7/qcEnx6KstP3OPe2f+kkOVWo=;
- b=AfweUPDnPY6XgziB34UQcXPZj5e8URg1wA25pgvblcnEIkkrkrnWczAvbHqtR4bfdJua2+
- xqu0HvKV8mIeSJf3+GDNdT4sTM1o7kdWcQrthNmLgWCb5Q1uk1H7e6x3xXKlmyWylA6MmK
- 0pSDtiaWJat2XST26eVcHE7gpGMwWZ0=
+ bh=HIGquDGecZVqlPAzTK4Da5XIicRI3uO45jZdci3i9h8=;
+ b=ecN1D+H9OJXlloWj/JS/FdsB4585Gq6juTdTU3iOLS3BlYVnn/touky++tOMNOcMoDxIZA
+ skH+qyzoy0AxNtvO9yDoQsJAQmDzkIPNngqBA32aIj8e8K8tJWmiD1ILFw1dSGfLWdE5+F
+ b9Lvky6ZAyrn9UOQE6WCxakhQcrEnW0=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-665-9LcI4pIjMdqYyJK8uqFUbg-1; Sun, 12 Feb 2023 21:52:16 -0500
-X-MC-Unique: 9LcI4pIjMdqYyJK8uqFUbg-1
+ us-mta-615-nt1ELMUtPYCMMYZFEoQI4g-1; Sun, 12 Feb 2023 21:52:18 -0500
+X-MC-Unique: nt1ELMUtPYCMMYZFEoQI4g-1
 Received: by mail-wm1-f72.google.com with SMTP id
- bi16-20020a05600c3d9000b003dfeeaa8143so5437901wmb.6
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 18:52:16 -0800 (PST)
+ bg3-20020a05600c3c8300b003e1e7d3cf9fso1932356wmb.3
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 18:52:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hhzdc6EJT0N0Bv1boe7/qcEnx6KstP3OPe2f+kkOVWo=;
- b=4k9CcD5PARc5V1XSsMgauBSpO+m8TMTvB5WLkti8ApWIm7XiH4AjSHFXtcQZGgG1PQ
- y46ltzVrzvBFdacMWbwQ5BuaegttYtCA9eb6dvetywWhto0t5p0TxlO2LkwXJNzp4svg
- EHVBOxK1jKWPNMCUDOg7Lo4ee6rhJ7tjBlIbss7hntm0nDSw+x2H5F1/T9mjiLIqY34w
- kQKkLU4FkkxtgvRXTDEwYDUFv9CKrUaeyeP1fb3F8JIluG3iEYkJqu04VmECV31CFINO
- C4qLf7vk0/T7b8bzlIPkNhXZjf28UDYI4g/YBa8l9BQ3R2+z/QnWPhon6CtVOUlSy5LD
- HVCw==
-X-Gm-Message-State: AO0yUKUazK6RVaQ+60K+xKqOfGZpH3fwbRDoMseZ4HutqqCVa7l8KS3W
- LL9UAJQT5Ask+qpJ702vMF5kwQ/YLmGGg7P1X5hsN+tqGdkRogxAEE5ZJiffu1dL9RtAQ9/Fcmk
- k4YYsU5eglIAPW40svjmJ2icQJEEDoonEpngBuRcNYxVLBAzvGonTeUNpQQDNCvkj57CCi6Kk
-X-Received: by 2002:a5d:510a:0:b0:2c4:682:5639 with SMTP id
- s10-20020a5d510a000000b002c406825639mr14015596wrt.1.1676256735066; 
- Sun, 12 Feb 2023 18:52:15 -0800 (PST)
-X-Google-Smtp-Source: AK7set+ySICMoIh7WndZxB4dnwWB0jeRG+Uwzsjss38R+0TpSubmPvyNgw0nsv+woiBXYf14m4kEaw==
-X-Received: by 2002:a5d:510a:0:b0:2c4:682:5639 with SMTP id
- s10-20020a5d510a000000b002c406825639mr14015573wrt.1.1676256734607; 
- Sun, 12 Feb 2023 18:52:14 -0800 (PST)
+ bh=HIGquDGecZVqlPAzTK4Da5XIicRI3uO45jZdci3i9h8=;
+ b=UBbdATrIKP+J1i+qbuiKHKKTL+diwSnJFoyAczk6/3M77l2Ijucqp2Zj6OCUU9fFf3
+ xuqi5CvL30+k/yNrG7IdpyeGLvA+fwQP+90LYcMCd14+WaxKEEcs2Zu/Yt1H5/yuKmIU
+ szzmp8Gl/5nQG3m4KZ0bocBOX6chThr2+jAY9tj2g9WQQqTRAvehXlpHQeUyAJsh899x
+ Fe9bW7Ualrnu9OrganpwVfaTerEa1moANaRS+kdt5RN5HFItVZiBrKKJEYhTdlr21bHU
+ d0VnlxPJ/3qA4aAoPL/50RDoPb0KnHMZQ8rIVTOSEaY3Ab+7cyuKQsTm7Ngrnt5J6U1g
+ OAUQ==
+X-Gm-Message-State: AO0yUKUSmoyN94qBi9EX0Ed82fAzog6ZoXLhmWowFEZjrABnaRmprp3N
+ lz7SPxa7a6hjPNzRrXtun1SaqFxZ7SlKKhxPNszKOo9pEHm9DxsVAyqXakQNu9A3vp3/ackIokM
+ kAtaEPHmGqlxqdcpCk8rzEhVVc/sR3cfgJJCVIiBH3uDqfUxNWmOEJEEOK4HouuiBRucLINH6
+X-Received: by 2002:a05:600c:4383:b0:3dc:d5b:5f73 with SMTP id
+ e3-20020a05600c438300b003dc0d5b5f73mr17561676wmn.19.1676256736506; 
+ Sun, 12 Feb 2023 18:52:16 -0800 (PST)
+X-Google-Smtp-Source: AK7set9uTYw0YMPjdraB/O/CdQZgZ6qIH3EgR32xo2m4xPkJvDzW8J0Vh/esH1OEvdrhu530+/1gIg==
+X-Received: by 2002:a05:600c:4383:b0:3dc:d5b:5f73 with SMTP id
+ e3-20020a05600c438300b003dc0d5b5f73mr17561660wmn.19.1676256736224; 
+ Sun, 12 Feb 2023 18:52:16 -0800 (PST)
 Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- s12-20020a5d510c000000b002c55bbeefc2sm398643wrt.22.2023.02.12.18.52.13
+ o32-20020a05600c512000b003e0238d9101sm13949575wms.31.2023.02.12.18.52.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Feb 2023 18:52:14 -0800 (PST)
+ Sun, 12 Feb 2023 18:52:15 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -71,11 +71,10 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Juan Quintela <quintela@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, ling xu <ling1.xu@intel.com>,
- Zhou Zhao <zhou.zhao@intel.com>, Jun Jin <jun.i.jin@intel.com>
-Subject: [PULL 13/22] Update bench-code for addressing CI problem
-Date: Mon, 13 Feb 2023 03:51:41 +0100
-Message-Id: <20230213025150.71537-14-quintela@redhat.com>
+ "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu <peterx@redhat.com>
+Subject: [PULL 14/22] migration: Rework multi-channel checks on URI
+Date: Mon, 13 Feb 2023 03:51:42 +0100
+Message-Id: <20230213025150.71537-15-quintela@redhat.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230213025150.71537-1-quintela@redhat.com>
 References: <20230213025150.71537-1-quintela@redhat.com>
@@ -105,601 +104,225 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: ling xu <ling1.xu@intel.com>
+From: Peter Xu <peterx@redhat.com>
 
-Unit test code is in test-xbzrle.c, and benchmark code is in xbzrle-bench.c
-for performance benchmarking. we have modified xbzrle-bench.c to address
-CI problem.
+The whole idea of multi-channel checks was not properly done, IMHO.
 
-Signed-off-by: ling xu <ling1.xu@intel.com>
-Co-authored-by: Zhou Zhao <zhou.zhao@intel.com>
-Co-authored-by: Jun Jin <jun.i.jin@intel.com>
+Currently we check multi-channel in a lot of places, but actually that's
+not needed because we only need to check it right after we get the URI and
+that should be it.
+
+If the URI check succeeded, we should never need to check it again because
+we must have it.  If it check fails, we should fail immediately on either
+the qmp_migrate or qmp_migrate_incoming, instead of failingg it later after
+the connection established.
+
+Neither should we fail any set capabiliities like what we used to do here:
+
+5ad15e8614 ("migration: allow enabling mutilfd for specific protocol only", 2021-10-19)
+
+Because logically the URI will only be set later after the capability is
+set, so it doesn't make a lot of sense to check the URI type when setting
+the capability, because we're checking the cap with an old URI passed in,
+and that may not even be the URI we're going to use later.
+
+This patch mostly reverted all such checks for before, dropping the
+variable migrate_allow_multi_channels and helpers.  Instead, add a common
+helper to check URI for multi-channels for either qmp_migrate and
+qmp_migrate_incoming and that should do all the proper checks.  The failure
+will only trigger with the "migrate" or "migrate_incoming" command, or when
+user specified "-incoming xxx" where "xxx" is not "defer".
+
+Signed-off-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- tests/bench/xbzrle-bench.c | 469 +++++++++++++++++++++++++++++++++++++
- tests/unit/test-xbzrle.c   |  39 ++-
- tests/bench/meson.build    |   6 +
- 3 files changed, 509 insertions(+), 5 deletions(-)
- create mode 100644 tests/bench/xbzrle-bench.c
+ migration/migration.h    |  3 ---
+ migration/migration.c    | 49 +++++++++++++++++++++-------------------
+ migration/multifd.c      | 12 ++--------
+ migration/postcopy-ram.c |  6 -----
+ 4 files changed, 28 insertions(+), 42 deletions(-)
 
-diff --git a/tests/bench/xbzrle-bench.c b/tests/bench/xbzrle-bench.c
-new file mode 100644
-index 0000000000..8848a3a32d
---- /dev/null
-+++ b/tests/bench/xbzrle-bench.c
-@@ -0,0 +1,469 @@
-+/*
-+ * Xor Based Zero Run Length Encoding unit tests.
-+ *
-+ * Copyright 2013 Red Hat, Inc. and/or its affiliates
-+ *
-+ * Authors:
-+ *  Orit Wasserman  <owasserm@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+#include "qemu/osdep.h"
-+#include "qemu/cutils.h"
-+#include "../migration/xbzrle.h"
-+
-+#if defined(CONFIG_AVX512BW_OPT)
-+#define XBZRLE_PAGE_SIZE 4096
-+static bool is_cpu_support_avx512bw;
-+#include "qemu/cpuid.h"
-+static void __attribute__((constructor)) init_cpu_flag(void)
-+{
-+    unsigned max = __get_cpuid_max(0, NULL);
-+    int a, b, c, d;
-+    is_cpu_support_avx512bw = false;
-+    if (max >= 1) {
-+        __cpuid(1, a, b, c, d);
-+         /* We must check that AVX is not just available, but usable.  */
-+        if ((c & bit_OSXSAVE) && (c & bit_AVX) && max >= 7) {
-+            int bv;
-+            __asm("xgetbv" : "=a"(bv), "=d"(d) : "c"(0));
-+            __cpuid_count(7, 0, a, b, c, d);
-+           /* 0xe6:
-+            *  XCR0[7:5] = 111b (OPMASK state, upper 256-bit of ZMM0-ZMM15
-+            *                    and ZMM16-ZMM31 state are enabled by OS)
-+            *  XCR0[2:1] = 11b (XMM state and YMM state are enabled by OS)
-+            */
-+            if ((bv & 0xe6) == 0xe6 && (b & bit_AVX512BW)) {
-+                is_cpu_support_avx512bw = true;
-+            }
-+        }
-+    }
-+    return ;
-+}
-+
-+struct ResTime {
-+    float t_raw;
-+    float t_512;
-+};
-+
-+
-+/* Function prototypes
-+int xbzrle_encode_buffer_avx512(uint8_t *old_buf, uint8_t *new_buf, int slen,
-+                                uint8_t *dst, int dlen);
-+*/
-+static void encode_decode_zero(struct ResTime *res)
-+{
-+    uint8_t *buffer = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *buffer512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    int i = 0;
-+    int dlen = 0, dlen512 = 0;
-+    int diff_len = g_test_rand_int_range(0, XBZRLE_PAGE_SIZE - 1006);
-+
-+    for (i = diff_len; i > 0; i--) {
-+        buffer[1000 + i] = i;
-+        buffer512[1000 + i] = i;
-+    }
-+
-+    buffer[1000 + diff_len + 3] = 103;
-+    buffer[1000 + diff_len + 5] = 105;
-+
-+    buffer512[1000 + diff_len + 3] = 103;
-+    buffer512[1000 + diff_len + 5] = 105;
-+
-+    /* encode zero page */
-+    time_t t_start, t_end, t_start512, t_end512;
-+    t_start = clock();
-+    dlen = xbzrle_encode_buffer(buffer, buffer, XBZRLE_PAGE_SIZE, compressed,
-+                       XBZRLE_PAGE_SIZE);
-+    t_end = clock();
-+    float time_val = difftime(t_end, t_start);
-+    g_assert(dlen == 0);
-+
-+    t_start512 = clock();
-+    dlen512 = xbzrle_encode_buffer_avx512(buffer512, buffer512, XBZRLE_PAGE_SIZE,
-+                                       compressed512, XBZRLE_PAGE_SIZE);
-+    t_end512 = clock();
-+    float time_val512 = difftime(t_end512, t_start512);
-+    g_assert(dlen512 == 0);
-+
-+    res->t_raw = time_val;
-+    res->t_512 = time_val512;
-+
-+    g_free(buffer);
-+    g_free(compressed);
-+    g_free(buffer512);
-+    g_free(compressed512);
-+
-+}
-+
-+static void test_encode_decode_zero_avx512(void)
-+{
-+    int i;
-+    float time_raw = 0.0, time_512 = 0.0;
-+    struct ResTime res;
-+    for (i = 0; i < 10000; i++) {
-+        encode_decode_zero(&res);
-+        time_raw += res.t_raw;
-+        time_512 += res.t_512;
-+    }
-+    printf("Zero test:\n");
-+    printf("Raw xbzrle_encode time is %f ms\n", time_raw);
-+    printf("512 xbzrle_encode time is %f ms\n", time_512);
-+}
-+
-+static void encode_decode_unchanged(struct ResTime *res)
-+{
-+    uint8_t *compressed = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *test = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *test512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    int i = 0;
-+    int dlen = 0, dlen512 = 0;
-+    int diff_len = g_test_rand_int_range(0, XBZRLE_PAGE_SIZE - 1006);
-+
-+    for (i = diff_len; i > 0; i--) {
-+        test[1000 + i] = i + 4;
-+        test512[1000 + i] = i + 4;
-+    }
-+
-+    test[1000 + diff_len + 3] = 107;
-+    test[1000 + diff_len + 5] = 109;
-+
-+    test512[1000 + diff_len + 3] = 107;
-+    test512[1000 + diff_len + 5] = 109;
-+
-+    /* test unchanged buffer */
-+    time_t t_start, t_end, t_start512, t_end512;
-+    t_start = clock();
-+    dlen = xbzrle_encode_buffer(test, test, XBZRLE_PAGE_SIZE, compressed,
-+                                XBZRLE_PAGE_SIZE);
-+    t_end = clock();
-+    float time_val = difftime(t_end, t_start);
-+    g_assert(dlen == 0);
-+
-+    t_start512 = clock();
-+    dlen512 = xbzrle_encode_buffer_avx512(test512, test512, XBZRLE_PAGE_SIZE,
-+                                       compressed512, XBZRLE_PAGE_SIZE);
-+    t_end512 = clock();
-+    float time_val512 = difftime(t_end512, t_start512);
-+    g_assert(dlen512 == 0);
-+
-+    res->t_raw = time_val;
-+    res->t_512 = time_val512;
-+
-+    g_free(test);
-+    g_free(compressed);
-+    g_free(test512);
-+    g_free(compressed512);
-+
-+}
-+
-+static void test_encode_decode_unchanged_avx512(void)
-+{
-+    int i;
-+    float time_raw = 0.0, time_512 = 0.0;
-+    struct ResTime res;
-+    for (i = 0; i < 10000; i++) {
-+        encode_decode_unchanged(&res);
-+        time_raw += res.t_raw;
-+        time_512 += res.t_512;
-+    }
-+    printf("Unchanged test:\n");
-+    printf("Raw xbzrle_encode time is %f ms\n", time_raw);
-+    printf("512 xbzrle_encode time is %f ms\n", time_512);
-+}
-+
-+static void encode_decode_1_byte(struct ResTime *res)
-+{
-+    uint8_t *buffer = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *test = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed = g_malloc(XBZRLE_PAGE_SIZE);
-+    uint8_t *buffer512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *test512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed512 = g_malloc(XBZRLE_PAGE_SIZE);
-+    int dlen = 0, rc = 0, dlen512 = 0, rc512 = 0;
-+    uint8_t buf[2];
-+    uint8_t buf512[2];
-+
-+    test[XBZRLE_PAGE_SIZE - 1] = 1;
-+    test512[XBZRLE_PAGE_SIZE - 1] = 1;
-+
-+    time_t t_start, t_end, t_start512, t_end512;
-+    t_start = clock();
-+    dlen = xbzrle_encode_buffer(buffer, test, XBZRLE_PAGE_SIZE, compressed,
-+                       XBZRLE_PAGE_SIZE);
-+    t_end = clock();
-+    float time_val = difftime(t_end, t_start);
-+    g_assert(dlen == (uleb128_encode_small(&buf[0], 4095) + 2));
-+
-+    rc = xbzrle_decode_buffer(compressed, dlen, buffer, XBZRLE_PAGE_SIZE);
-+    g_assert(rc == XBZRLE_PAGE_SIZE);
-+    g_assert(memcmp(test, buffer, XBZRLE_PAGE_SIZE) == 0);
-+
-+    t_start512 = clock();
-+    dlen512 = xbzrle_encode_buffer_avx512(buffer512, test512, XBZRLE_PAGE_SIZE,
-+                                       compressed512, XBZRLE_PAGE_SIZE);
-+    t_end512 = clock();
-+    float time_val512 = difftime(t_end512, t_start512);
-+    g_assert(dlen512 == (uleb128_encode_small(&buf512[0], 4095) + 2));
-+
-+    rc512 = xbzrle_decode_buffer(compressed512, dlen512, buffer512,
-+                                 XBZRLE_PAGE_SIZE);
-+    g_assert(rc512 == XBZRLE_PAGE_SIZE);
-+    g_assert(memcmp(test512, buffer512, XBZRLE_PAGE_SIZE) == 0);
-+
-+    res->t_raw = time_val;
-+    res->t_512 = time_val512;
-+
-+    g_free(buffer);
-+    g_free(compressed);
-+    g_free(test);
-+    g_free(buffer512);
-+    g_free(compressed512);
-+    g_free(test512);
-+
-+}
-+
-+static void test_encode_decode_1_byte_avx512(void)
-+{
-+    int i;
-+    float time_raw = 0.0, time_512 = 0.0;
-+    struct ResTime res;
-+    for (i = 0; i < 10000; i++) {
-+        encode_decode_1_byte(&res);
-+        time_raw += res.t_raw;
-+        time_512 += res.t_512;
-+    }
-+    printf("1 byte test:\n");
-+    printf("Raw xbzrle_encode time is %f ms\n", time_raw);
-+    printf("512 xbzrle_encode time is %f ms\n", time_512);
-+}
-+
-+static void encode_decode_overflow(struct ResTime *res)
-+{
-+    uint8_t *compressed = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *test = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *buffer = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *test512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *buffer512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    int i = 0, rc = 0, rc512 = 0;
-+
-+    for (i = 0; i < XBZRLE_PAGE_SIZE / 2 - 1; i++) {
-+        test[i * 2] = 1;
-+        test512[i * 2] = 1;
-+    }
-+
-+    /* encode overflow */
-+    time_t t_start, t_end, t_start512, t_end512;
-+    t_start = clock();
-+    rc = xbzrle_encode_buffer(buffer, test, XBZRLE_PAGE_SIZE, compressed,
-+                              XBZRLE_PAGE_SIZE);
-+    t_end = clock();
-+    float time_val = difftime(t_end, t_start);
-+    g_assert(rc == -1);
-+
-+    t_start512 = clock();
-+    rc512 = xbzrle_encode_buffer_avx512(buffer512, test512, XBZRLE_PAGE_SIZE,
-+                                     compressed512, XBZRLE_PAGE_SIZE);
-+    t_end512 = clock();
-+    float time_val512 = difftime(t_end512, t_start512);
-+    g_assert(rc512 == -1);
-+
-+    res->t_raw = time_val;
-+    res->t_512 = time_val512;
-+
-+    g_free(buffer);
-+    g_free(compressed);
-+    g_free(test);
-+    g_free(buffer512);
-+    g_free(compressed512);
-+    g_free(test512);
-+
-+}
-+
-+static void test_encode_decode_overflow_avx512(void)
-+{
-+    int i;
-+    float time_raw = 0.0, time_512 = 0.0;
-+    struct ResTime res;
-+    for (i = 0; i < 10000; i++) {
-+        encode_decode_overflow(&res);
-+        time_raw += res.t_raw;
-+        time_512 += res.t_512;
-+    }
-+    printf("Overflow test:\n");
-+    printf("Raw xbzrle_encode time is %f ms\n", time_raw);
-+    printf("512 xbzrle_encode time is %f ms\n", time_512);
-+}
-+
-+static void encode_decode_range_avx512(struct ResTime *res)
-+{
-+    uint8_t *buffer = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed = g_malloc(XBZRLE_PAGE_SIZE);
-+    uint8_t *test = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *buffer512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed512 = g_malloc(XBZRLE_PAGE_SIZE);
-+    uint8_t *test512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    int i = 0, rc = 0, rc512 = 0;
-+    int dlen = 0, dlen512 = 0;
-+
-+    int diff_len = g_test_rand_int_range(0, XBZRLE_PAGE_SIZE - 1006);
-+
-+    for (i = diff_len; i > 0; i--) {
-+        buffer[1000 + i] = i;
-+        test[1000 + i] = i + 4;
-+        buffer512[1000 + i] = i;
-+        test512[1000 + i] = i + 4;
-+    }
-+
-+    buffer[1000 + diff_len + 3] = 103;
-+    test[1000 + diff_len + 3] = 107;
-+
-+    buffer[1000 + diff_len + 5] = 105;
-+    test[1000 + diff_len + 5] = 109;
-+
-+    buffer512[1000 + diff_len + 3] = 103;
-+    test512[1000 + diff_len + 3] = 107;
-+
-+    buffer512[1000 + diff_len + 5] = 105;
-+    test512[1000 + diff_len + 5] = 109;
-+
-+    /* test encode/decode */
-+    time_t t_start, t_end, t_start512, t_end512;
-+    t_start = clock();
-+    dlen = xbzrle_encode_buffer(test, buffer, XBZRLE_PAGE_SIZE, compressed,
-+                                XBZRLE_PAGE_SIZE);
-+    t_end = clock();
-+    float time_val = difftime(t_end, t_start);
-+    rc = xbzrle_decode_buffer(compressed, dlen, test, XBZRLE_PAGE_SIZE);
-+    g_assert(rc < XBZRLE_PAGE_SIZE);
-+    g_assert(memcmp(test, buffer, XBZRLE_PAGE_SIZE) == 0);
-+
-+    t_start512 = clock();
-+    dlen512 = xbzrle_encode_buffer_avx512(test512, buffer512, XBZRLE_PAGE_SIZE,
-+                                       compressed512, XBZRLE_PAGE_SIZE);
-+    t_end512 = clock();
-+    float time_val512 = difftime(t_end512, t_start512);
-+    rc512 = xbzrle_decode_buffer(compressed512, dlen512, test512, XBZRLE_PAGE_SIZE);
-+    g_assert(rc512 < XBZRLE_PAGE_SIZE);
-+    g_assert(memcmp(test512, buffer512, XBZRLE_PAGE_SIZE) == 0);
-+
-+    res->t_raw = time_val;
-+    res->t_512 = time_val512;
-+
-+    g_free(buffer);
-+    g_free(compressed);
-+    g_free(test);
-+    g_free(buffer512);
-+    g_free(compressed512);
-+    g_free(test512);
-+
-+}
-+
-+static void test_encode_decode_avx512(void)
-+{
-+    int i;
-+    float time_raw = 0.0, time_512 = 0.0;
-+    struct ResTime res;
-+    for (i = 0; i < 10000; i++) {
-+        encode_decode_range_avx512(&res);
-+        time_raw += res.t_raw;
-+        time_512 += res.t_512;
-+    }
-+    printf("Encode decode test:\n");
-+    printf("Raw xbzrle_encode time is %f ms\n", time_raw);
-+    printf("512 xbzrle_encode time is %f ms\n", time_512);
-+}
-+
-+static void encode_decode_random(struct ResTime *res)
-+{
-+    uint8_t *buffer = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed = g_malloc(XBZRLE_PAGE_SIZE);
-+    uint8_t *test = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *buffer512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed512 = g_malloc(XBZRLE_PAGE_SIZE);
-+    uint8_t *test512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    int i = 0, rc = 0, rc512 = 0;
-+    int dlen = 0, dlen512 = 0;
-+
-+    int diff_len = g_test_rand_int_range(0, XBZRLE_PAGE_SIZE - 1);
-+    /* store the index of diff */
-+    int dirty_index[diff_len];
-+    for (int j = 0; j < diff_len; j++) {
-+        dirty_index[j] = g_test_rand_int_range(0, XBZRLE_PAGE_SIZE - 1);
-+    }
-+    for (i = diff_len - 1; i >= 0; i--) {
-+        buffer[dirty_index[i]] = i;
-+        test[dirty_index[i]] = i + 4;
-+        buffer512[dirty_index[i]] = i;
-+        test512[dirty_index[i]] = i + 4;
-+    }
-+
-+    time_t t_start, t_end, t_start512, t_end512;
-+    t_start = clock();
-+    dlen = xbzrle_encode_buffer(test, buffer, XBZRLE_PAGE_SIZE, compressed,
-+                                XBZRLE_PAGE_SIZE);
-+    t_end = clock();
-+    float time_val = difftime(t_end, t_start);
-+    rc = xbzrle_decode_buffer(compressed, dlen, test, XBZRLE_PAGE_SIZE);
-+    g_assert(rc < XBZRLE_PAGE_SIZE);
-+
-+    t_start512 = clock();
-+    dlen512 = xbzrle_encode_buffer_avx512(test512, buffer512, XBZRLE_PAGE_SIZE,
-+                                       compressed512, XBZRLE_PAGE_SIZE);
-+    t_end512 = clock();
-+    float time_val512 = difftime(t_end512, t_start512);
-+    rc512 = xbzrle_decode_buffer(compressed512, dlen512, test512, XBZRLE_PAGE_SIZE);
-+    g_assert(rc512 < XBZRLE_PAGE_SIZE);
-+
-+    res->t_raw = time_val;
-+    res->t_512 = time_val512;
-+
-+    g_free(buffer);
-+    g_free(compressed);
-+    g_free(test);
-+    g_free(buffer512);
-+    g_free(compressed512);
-+    g_free(test512);
-+
-+}
-+
-+static void test_encode_decode_random_avx512(void)
-+{
-+    int i;
-+    float time_raw = 0.0, time_512 = 0.0;
-+    struct ResTime res;
-+    for (i = 0; i < 10000; i++) {
-+        encode_decode_random(&res);
-+        time_raw += res.t_raw;
-+        time_512 += res.t_512;
-+    }
-+    printf("Random test:\n");
-+    printf("Raw xbzrle_encode time is %f ms\n", time_raw);
-+    printf("512 xbzrle_encode time is %f ms\n", time_512);
-+}
-+#endif
-+
-+int main(int argc, char **argv)
-+{
-+    g_test_init(&argc, &argv, NULL);
-+    g_test_rand_int();
-+    #if defined(CONFIG_AVX512BW_OPT)
-+    if (likely(is_cpu_support_avx512bw)) {
-+        g_test_add_func("/xbzrle/encode_decode_zero", test_encode_decode_zero_avx512);
-+        g_test_add_func("/xbzrle/encode_decode_unchanged",
-+                        test_encode_decode_unchanged_avx512);
-+        g_test_add_func("/xbzrle/encode_decode_1_byte", test_encode_decode_1_byte_avx512);
-+        g_test_add_func("/xbzrle/encode_decode_overflow",
-+                        test_encode_decode_overflow_avx512);
-+        g_test_add_func("/xbzrle/encode_decode", test_encode_decode_avx512);
-+        g_test_add_func("/xbzrle/encode_decode_random", test_encode_decode_random_avx512);
-+    }
-+    #endif
-+    return g_test_run();
-+}
-diff --git a/tests/unit/test-xbzrle.c b/tests/unit/test-xbzrle.c
-index ef951b6e54..547046d093 100644
---- a/tests/unit/test-xbzrle.c
-+++ b/tests/unit/test-xbzrle.c
-@@ -16,6 +16,35 @@
+diff --git a/migration/migration.h b/migration/migration.h
+index 66511ce532..c351872360 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -474,7 +474,4 @@ void migration_cancel(const Error *error);
+ void populate_vfio_info(MigrationInfo *info);
+ void postcopy_temp_page_reset(PostcopyTmpPage *tmp_page);
  
- #define XBZRLE_PAGE_SIZE 4096
+-bool migrate_multi_channels_is_allowed(void);
+-void migrate_protocol_allow_multi_channels(bool allow);
+-
+ #endif
+diff --git a/migration/migration.c b/migration/migration.c
+index 7a14aa98d8..f242d657e8 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -184,16 +184,27 @@ static int migration_maybe_pause(MigrationState *s,
+                                  int new_state);
+ static void migrate_fd_cancel(MigrationState *s);
  
-+int (*xbzrle_encode_buffer_func)(uint8_t *, uint8_t *, int,
-+     uint8_t *, int) = xbzrle_encode_buffer;
-+#if defined(CONFIG_AVX512BW_OPT)
-+#include "qemu/cpuid.h"
-+static void __attribute__((constructor)) init_cpu_flag(void)
+-static bool migrate_allow_multi_channels = true;
++static bool migration_needs_multiple_sockets(void)
 +{
-+    unsigned max = __get_cpuid_max(0, NULL);
-+    int a, b, c, d;
-+    if (max >= 1) {
-+        __cpuid(1, a, b, c, d);
-+         /* We must check that AVX is not just available, but usable.  */
-+        if ((c & bit_OSXSAVE) && (c & bit_AVX) && max >= 7) {
-+            int bv;
-+            __asm("xgetbv" : "=a"(bv), "=d"(d) : "c"(0));
-+            __cpuid_count(7, 0, a, b, c, d);
-+           /* 0xe6:
-+            *  XCR0[7:5] = 111b (OPMASK state, upper 256-bit of ZMM0-ZMM15
-+            *                    and ZMM16-ZMM31 state are enabled by OS)
-+            *  XCR0[2:1] = 11b (XMM state and YMM state are enabled by OS)
-+            */
-+            if ((bv & 0xe6) == 0xe6 && (b & bit_AVX512BW)) {
-+                xbzrle_encode_buffer_func = xbzrle_encode_buffer_avx512;
-+            }
-+        }
-+    }
-+    return ;
++    return migrate_use_multifd() || migrate_postcopy_preempt();
 +}
-+#endif
-+
- static void test_uleb(void)
+ 
+-void migrate_protocol_allow_multi_channels(bool allow)
++static bool uri_supports_multi_channels(const char *uri)
  {
-     uint32_t i, val;
-@@ -54,7 +83,7 @@ static void test_encode_decode_zero(void)
-     buffer[1000 + diff_len + 5] = 105;
+-    migrate_allow_multi_channels = allow;
++    return strstart(uri, "tcp:", NULL) || strstart(uri, "unix:", NULL) ||
++           strstart(uri, "vsock:", NULL);
+ }
  
-     /* encode zero page */
--    dlen = xbzrle_encode_buffer(buffer, buffer, XBZRLE_PAGE_SIZE, compressed,
-+    dlen = xbzrle_encode_buffer_func(buffer, buffer, XBZRLE_PAGE_SIZE, compressed,
-                        XBZRLE_PAGE_SIZE);
-     g_assert(dlen == 0);
+-bool migrate_multi_channels_is_allowed(void)
++static bool
++migration_channels_and_uri_compatible(const char *uri, Error **errp)
+ {
+-    return migrate_allow_multi_channels;
++    if (migration_needs_multiple_sockets() &&
++        !uri_supports_multi_channels(uri)) {
++        error_setg(errp, "Migration requires multi-channel URIs (e.g. tcp)");
++        return false;
++    }
++
++    return true;
+ }
  
-@@ -78,7 +107,7 @@ static void test_encode_decode_unchanged(void)
-     test[1000 + diff_len + 5] = 109;
+ static gint page_request_addr_cmp(gconstpointer ap, gconstpointer bp)
+@@ -493,12 +504,15 @@ static void qemu_start_incoming_migration(const char *uri, Error **errp)
+ {
+     const char *p = NULL;
  
-     /* test unchanged buffer */
--    dlen = xbzrle_encode_buffer(test, test, XBZRLE_PAGE_SIZE, compressed,
-+    dlen = xbzrle_encode_buffer_func(test, test, XBZRLE_PAGE_SIZE, compressed,
-                                 XBZRLE_PAGE_SIZE);
-     g_assert(dlen == 0);
+-    migrate_protocol_allow_multi_channels(false); /* reset it anyway */
++    /* URI is not suitable for migration? */
++    if (!migration_channels_and_uri_compatible(uri, errp)) {
++        return;
++    }
++
+     qapi_event_send_migration(MIGRATION_STATUS_SETUP);
+     if (strstart(uri, "tcp:", &p) ||
+         strstart(uri, "unix:", NULL) ||
+         strstart(uri, "vsock:", NULL)) {
+-        migrate_protocol_allow_multi_channels(true);
+         socket_start_incoming_migration(p ? p : uri, errp);
+ #ifdef CONFIG_RDMA
+     } else if (strstart(uri, "rdma:", &p)) {
+@@ -723,11 +737,6 @@ void migration_fd_process_incoming(QEMUFile *f, Error **errp)
+     migration_incoming_process();
+ }
  
-@@ -96,7 +125,7 @@ static void test_encode_decode_1_byte(void)
+-static bool migration_needs_multiple_sockets(void)
+-{
+-    return migrate_use_multifd() || migrate_postcopy_preempt();
+-}
+-
+ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
+ {
+     MigrationIncomingState *mis = migration_incoming_get_current();
+@@ -1378,15 +1387,6 @@ static bool migrate_caps_check(bool *cap_list,
+     }
+ #endif
  
-     test[XBZRLE_PAGE_SIZE - 1] = 1;
+-
+-    /* incoming side only */
+-    if (runstate_check(RUN_STATE_INMIGRATE) &&
+-        !migrate_multi_channels_is_allowed() &&
+-        cap_list[MIGRATION_CAPABILITY_MULTIFD]) {
+-        error_setg(errp, "multifd is not supported by current protocol");
+-        return false;
+-    }
+-
+     if (cap_list[MIGRATION_CAPABILITY_POSTCOPY_PREEMPT]) {
+         if (!cap_list[MIGRATION_CAPABILITY_POSTCOPY_RAM]) {
+             error_setg(errp, "Postcopy preempt requires postcopy-ram");
+@@ -2471,6 +2471,11 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+     MigrationState *s = migrate_get_current();
+     const char *p = NULL;
  
--    dlen = xbzrle_encode_buffer(buffer, test, XBZRLE_PAGE_SIZE, compressed,
-+    dlen = xbzrle_encode_buffer_func(buffer, test, XBZRLE_PAGE_SIZE, compressed,
-                        XBZRLE_PAGE_SIZE);
-     g_assert(dlen == (uleb128_encode_small(&buf[0], 4095) + 2));
- 
-@@ -121,7 +150,7 @@ static void test_encode_decode_overflow(void)
++    /* URI is not suitable for migration? */
++    if (!migration_channels_and_uri_compatible(uri, errp)) {
++        return;
++    }
++
+     if (!migrate_prepare(s, has_blk && blk, has_inc && inc,
+                          has_resume && resume, errp)) {
+         /* Error detected, put into errp */
+@@ -2483,11 +2488,9 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+         }
      }
  
-     /* encode overflow */
--    rc = xbzrle_encode_buffer(buffer, test, XBZRLE_PAGE_SIZE, compressed,
-+    rc = xbzrle_encode_buffer_func(buffer, test, XBZRLE_PAGE_SIZE, compressed,
-                               XBZRLE_PAGE_SIZE);
-     g_assert(rc == -1);
+-    migrate_protocol_allow_multi_channels(false);
+     if (strstart(uri, "tcp:", &p) ||
+         strstart(uri, "unix:", NULL) ||
+         strstart(uri, "vsock:", NULL)) {
+-        migrate_protocol_allow_multi_channels(true);
+         socket_start_outgoing_migration(s, p ? p : uri, &local_err);
+ #ifdef CONFIG_RDMA
+     } else if (strstart(uri, "rdma:", &p)) {
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 7aa030fb19..99a59830c8 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -516,7 +516,7 @@ void multifd_save_cleanup(void)
+ {
+     int i;
  
-@@ -152,7 +181,7 @@ static void encode_decode_range(void)
-     test[1000 + diff_len + 5] = 109;
+-    if (!migrate_use_multifd() || !migrate_multi_channels_is_allowed()) {
++    if (!migrate_use_multifd()) {
+         return;
+     }
+     multifd_send_terminate_threads(NULL);
+@@ -913,10 +913,6 @@ int multifd_save_setup(Error **errp)
+     if (!migrate_use_multifd()) {
+         return 0;
+     }
+-    if (!migrate_multi_channels_is_allowed()) {
+-        error_setg(errp, "multifd is not supported by current protocol");
+-        return -1;
+-    }
  
-     /* test encode/decode */
--    dlen = xbzrle_encode_buffer(test, buffer, XBZRLE_PAGE_SIZE, compressed,
-+    dlen = xbzrle_encode_buffer_func(test, buffer, XBZRLE_PAGE_SIZE, compressed,
-                                 XBZRLE_PAGE_SIZE);
+     thread_count = migrate_multifd_channels();
+     multifd_send_state = g_malloc0(sizeof(*multifd_send_state));
+@@ -1021,7 +1017,7 @@ int multifd_load_cleanup(Error **errp)
+ {
+     int i;
  
-     rc = xbzrle_decode_buffer(compressed, dlen, test, XBZRLE_PAGE_SIZE);
-diff --git a/tests/bench/meson.build b/tests/bench/meson.build
-index 279a8fcc33..7477a1f401 100644
---- a/tests/bench/meson.build
-+++ b/tests/bench/meson.build
-@@ -3,6 +3,12 @@ qht_bench = executable('qht-bench',
-                        sources: 'qht-bench.c',
-                        dependencies: [qemuutil])
+-    if (!migrate_use_multifd() || !migrate_multi_channels_is_allowed()) {
++    if (!migrate_use_multifd()) {
+         return 0;
+     }
+     multifd_recv_terminate_threads(NULL);
+@@ -1172,10 +1168,6 @@ int multifd_load_setup(Error **errp)
+         return 0;
+     }
  
-+if have_system
-+xbzrle_bench = executable('xbzrle-bench',
-+                       sources: 'xbzrle-bench.c',
-+                       dependencies: [qemuutil,migration])
-+endif
-+
- executable('atomic_add-bench',
-            sources: files('atomic_add-bench.c'),
-            dependencies: [qemuutil],
+-    if (!migrate_multi_channels_is_allowed()) {
+-        error_setg(errp, "multifd is not supported by current protocol");
+-        return -1;
+-    }
+     thread_count = migrate_multifd_channels();
+     multifd_recv_state = g_malloc0(sizeof(*multifd_recv_state));
+     multifd_recv_state->params = g_new0(MultiFDRecvParams, thread_count);
+diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+index 53299b7a5e..9a9d0ecf49 100644
+--- a/migration/postcopy-ram.c
++++ b/migration/postcopy-ram.c
+@@ -1635,12 +1635,6 @@ int postcopy_preempt_setup(MigrationState *s, Error **errp)
+         return 0;
+     }
+ 
+-    if (!migrate_multi_channels_is_allowed()) {
+-        error_setg(errp, "Postcopy preempt is not supported as current "
+-                   "migration stream does not support multi-channels.");
+-        return -1;
+-    }
+-
+     /* Kick an async task to connect */
+     socket_send_channel_create(postcopy_preempt_send_channel_new, s);
+ 
 -- 
 2.39.1
 
