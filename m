@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17CDE693C92
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 03:53:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A32D6693C8A
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 03:53:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pROxM-0002bv-BS; Sun, 12 Feb 2023 21:52:40 -0500
+	id 1pROxK-0002Vn-UN; Sun, 12 Feb 2023 21:52:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pROxF-0002Nz-SM
+ id 1pROxJ-0002OK-BT
  for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:52:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pROxE-0006wl-2b
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:52:33 -0500
+ id 1pROxG-0006wx-7k
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:52:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676256751;
+ s=mimecast20190719; t=1676256753;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=w+iFHSuieMPGwfVC1TUB1Z5r823JrerG+nuKKfxfBVc=;
- b=UHUvUumpt4nIcKS2v3noR3LRHnq3T1+C8Y+g8TQM90uvAjNc4g34yfH7LynS4XQZUelWXS
- 8VSOc0N5MAPpMCNUY6LOAKKaisdCrTsnalaNhS9gfjcPJod8QLQwjo4f01hBkw/49waui6
- B72z1RSVNT2R91APCIYK+9o1djveCLA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=c995lDB1JAKlZY84gYHtgOp10ZlGZIqADTn8Uc7TQdI=;
+ b=BgC6Pb6T2PWAsrJyzv+M9fnTAZqy2SzqOGPr7mGz7cASHb78R+94wjh7pkvQonYj6eWfXC
+ QAir+I/GoLCZy3UW0iS7snkTV/44rg+aw87v3rXNVwCli8r45zQvGzVNwDRyndaPbgGpcZ
+ M01HgXXrQn9J8PTGGu4AO3n1WQ0DkdY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-353-jSlMHNxAPt64UezjCoylXQ-1; Sun, 12 Feb 2023 21:52:30 -0500
-X-MC-Unique: jSlMHNxAPt64UezjCoylXQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- j37-20020a05600c1c2500b003deaf780ab6so6058258wms.4
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 18:52:30 -0800 (PST)
+ us-mta-336-CIoZz1gJNYeuxkypfXTHDg-1; Sun, 12 Feb 2023 21:52:32 -0500
+X-MC-Unique: CIoZz1gJNYeuxkypfXTHDg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ p14-20020a05600c468e00b003e0107732f4so5448031wmo.1
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 18:52:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=w+iFHSuieMPGwfVC1TUB1Z5r823JrerG+nuKKfxfBVc=;
- b=pd9V3xVNM3JxNWz08PpIJlPB9j7PoXuNmonkJQ7p1vOqMmJkMHDKdA7AF/+4h4QCFg
- gMtZnq9Mp5GohHFDgggI3tADgg98d5uBNJhs7wbhgmDAumP2QlqLlKmXOvg6ATozWDU7
- yYgy3FBEh7sYtjhiXP7aB8WmTaIAvm9WH+SscgeWmz9glX6EoPIUDCXs8oVCiQhbCkM3
- BJAsQ1JvMG/gDSezz8J99cpTT0GLlicOGZVgeCW1psxDrbSUmM9CUQH2nsPvvs1jyAhN
- 59PTjpwcEDblnNtd014vXl8Vb37/AebSXF0HyJoBXpdpBtWGwejBCnWBC/Dic2HNbgYn
- gASg==
-X-Gm-Message-State: AO0yUKXwffvBvZWR0+wxVOUHNkCsnlLF1Ot24eDTewzN9grqR7zxU2hV
- zxoPJeQWKbV9Oal3mY1h9iuuQdMkAqF+Ke/x64K7EyNHJJuJlEauLEG2jd2KgQKGxMbXJq5zq88
- MIRdTMm65+z+HV2RkV00HTLGxyNSOt24omgjGrDaBy79Tl5+gefnDyHiIz+cv6PfnnJSD8+OI
-X-Received: by 2002:adf:fdc8:0:b0:2c5:5048:8a6a with SMTP id
- i8-20020adffdc8000000b002c550488a6amr3774549wrs.60.1676256748570; 
- Sun, 12 Feb 2023 18:52:28 -0800 (PST)
-X-Google-Smtp-Source: AK7set/qnbNBMTIX1+jGWEajvhQy9YxTtilAHQHXHMPXyXd1waXlUQgvS4VO0mzMy5H4N8K+izX9LA==
-X-Received: by 2002:adf:fdc8:0:b0:2c5:5048:8a6a with SMTP id
- i8-20020adffdc8000000b002c550488a6amr3774532wrs.60.1676256748301; 
- Sun, 12 Feb 2023 18:52:28 -0800 (PST)
+ bh=c995lDB1JAKlZY84gYHtgOp10ZlGZIqADTn8Uc7TQdI=;
+ b=vEF8np5PpQnjIhPuNrXESDHVJnx1on5Xx8Nbjn1tNUV+tv3YrHwFJhtygr9EbsiHnr
+ +u+b5cMMFbfRWFuf7p78jfbMGQSZd3wbIos+DT+d8lBwb/k4CakPh0wWHOtsXkAARjOc
+ TNuRuvUysq612n41ujckUsptrCYpQpqiXdgY1gjscIsRTwbAyzWL+9EWaAeNvKS+FWob
+ 5vZSxfNpFjhA9dwqM/km56junThkdKmH3KslMqe8S6vxWr/7uUsUOpwuXCZtmBtNdsKp
+ Yf+lRfR5a1nwY7okRjAQFkko5n/J+9o9w+v/igfxVk3Fx36P6lEZ37IQtP0Uix0SGJgW
+ wA2A==
+X-Gm-Message-State: AO0yUKVcxZ7BrMsWmCScYFXGluBPzDz/ZF/otNEn/jHA8gVd/dMcpaOb
+ 5A+bROHm7t4VNmUydMhg1mBPgZjSn/jCi/i2h48QQQ8/xRUPAn0CGhwY1oFOPXUVKCzCo69lhQT
+ D8IVMi9c/L/du+mZdtwgjD58nS1peOTsq2F1EomxNyhy87fEwhMIGfK/63cgEc7N8bSEoqPpN
+X-Received: by 2002:a05:600c:1688:b0:3dd:caa8:3ae2 with SMTP id
+ k8-20020a05600c168800b003ddcaa83ae2mr18149191wmn.6.1676256750520; 
+ Sun, 12 Feb 2023 18:52:30 -0800 (PST)
+X-Google-Smtp-Source: AK7set/dMZ2ZUSJfLWqLY2UApnuV78OOZJsuUZ90EHofczH2jOt/9V9vmU4+7z/snj4nrMRv4huVAg==
+X-Received: by 2002:a05:600c:1688:b0:3dd:caa8:3ae2 with SMTP id
+ k8-20020a05600c168800b003ddcaa83ae2mr18149171wmn.6.1676256750269; 
+ Sun, 12 Feb 2023 18:52:30 -0800 (PST)
 Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- i14-20020adff30e000000b00241fab5a296sm9375986wro.40.2023.02.12.18.52.27
+ q14-20020a5d574e000000b002bfb02153d1sm9399532wrw.45.2023.02.12.18.52.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Feb 2023 18:52:27 -0800 (PST)
+ Sun, 12 Feb 2023 18:52:29 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -71,18 +71,16 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Juan Quintela <quintela@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Leonardo Bras <leobras@redhat.com>,
- Li Xiaohui <xiaohli@redhat.com>, Peter Xu <peterx@redhat.com>
-Subject: [PULL 21/22] migration/multifd: Move load_cleanup inside
- incoming_state_destroy
-Date: Mon, 13 Feb 2023 03:51:49 +0100
-Message-Id: <20230213025150.71537-22-quintela@redhat.com>
+ "Michael S. Tsirkin" <mst@redhat.com>, Eric Blake <eblake@redhat.com>
+Subject: [PULL 22/22] ram: Document migration ram flags
+Date: Mon, 13 Feb 2023 03:51:50 +0100
+Message-Id: <20230213025150.71537-23-quintela@redhat.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230213025150.71537-1-quintela@redhat.com>
 References: <20230213025150.71537-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -106,100 +104,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Leonardo Bras <leobras@redhat.com>
+0x80 is RAM_SAVE_FLAG_HOOK, it is in qemu-file now.
+Bigger usable flag is 0x200, noticing that.
+We can reuse RAM_SAVe_FLAG_FULL.
 
-Currently running migration_incoming_state_destroy() without first running
-multifd_load_cleanup() will cause a yank error:
-
-qemu-system-x86_64: ../util/yank.c:107: yank_unregister_instance:
-Assertion `QLIST_EMPTY(&entry->yankfns)' failed.
-(core dumped)
-
-The above error happens in the target host, when multifd is being used
-for precopy, and then postcopy is triggered and the migration finishes.
-This will crash the VM in the target host.
-
-To avoid that, move multifd_load_cleanup() inside
-migration_incoming_state_destroy(), so that the load cleanup becomes part
-of the incoming state destroying process.
-
-Running multifd_load_cleanup() twice can become an issue, though, but the
-only scenario it could be ran twice is on process_incoming_migration_bh().
-So removing this extra call is necessary.
-
-On the other hand, this multifd_load_cleanup() call happens way before the
-migration_incoming_state_destroy() and having this happening before
-dirty_bitmap_mig_before_vm_start() and vm_start() may be a need.
-
-So introduce a new function multifd_load_shutdown() that will mainly stop
-all multifd threads and close their QIOChannels. Then use this function
-instead of multifd_load_cleanup() to make sure nothing else is received
-before dirty_bitmap_mig_before_vm_start().
-
-Fixes: b5eea99ec2 ("migration: Add yank feature")
-Reported-by: Li Xiaohui <xiaohli@redhat.com>
-Signed-off-by: Leonardo Bras <leobras@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/multifd.h   | 1 +
- migration/migration.c | 4 +++-
- migration/multifd.c   | 7 +++++++
- 3 files changed, 11 insertions(+), 1 deletion(-)
+ migration/ram.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/migration/multifd.h b/migration/multifd.h
-index 9a7e1a8826..7cfc265148 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -17,6 +17,7 @@ int multifd_save_setup(Error **errp);
- void multifd_save_cleanup(void);
- int multifd_load_setup(Error **errp);
- void multifd_load_cleanup(void);
-+void multifd_load_shutdown(void);
- bool multifd_recv_all_channels_created(void);
- void multifd_recv_new_channel(QIOChannel *ioc, Error **errp);
- void multifd_recv_sync_main(void);
-diff --git a/migration/migration.c b/migration/migration.c
-index 5bf332fdd2..90fca70cb7 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -315,6 +315,8 @@ void migration_incoming_state_destroy(void)
- {
-     struct MigrationIncomingState *mis = migration_incoming_get_current();
+diff --git a/migration/ram.c b/migration/ram.c
+index 18ac68b181..521912385d 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -67,21 +67,25 @@
+ /***********************************************************/
+ /* ram save/restore */
  
-+    multifd_load_cleanup();
-+
-     if (mis->to_src_file) {
-         /* Tell source that we are done */
-         migrate_send_rp_shut(mis, qemu_file_get_error(mis->from_src_file) != 0);
-@@ -559,7 +561,7 @@ static void process_incoming_migration_bh(void *opaque)
-      */
-     qemu_announce_self(&mis->announce_timer, migrate_announce_params());
+-/* RAM_SAVE_FLAG_ZERO used to be named RAM_SAVE_FLAG_COMPRESS, it
+- * worked for pages that where filled with the same char.  We switched
++/*
++ * RAM_SAVE_FLAG_ZERO used to be named RAM_SAVE_FLAG_COMPRESS, it
++ * worked for pages that were filled with the same char.  We switched
+  * it to only search for the zero value.  And to avoid confusion with
+- * RAM_SSAVE_FLAG_COMPRESS_PAGE just rename it.
++ * RAM_SAVE_FLAG_COMPRESS_PAGE just rename it.
+  */
+-
+-#define RAM_SAVE_FLAG_FULL     0x01 /* Obsolete, not used anymore */
++/*
++ * RAM_SAVE_FLAG_FULL was obsoleted in 2009, it can be reused now
++ */
++#define RAM_SAVE_FLAG_FULL     0x01
+ #define RAM_SAVE_FLAG_ZERO     0x02
+ #define RAM_SAVE_FLAG_MEM_SIZE 0x04
+ #define RAM_SAVE_FLAG_PAGE     0x08
+ #define RAM_SAVE_FLAG_EOS      0x10
+ #define RAM_SAVE_FLAG_CONTINUE 0x20
+ #define RAM_SAVE_FLAG_XBZRLE   0x40
+-/* 0x80 is reserved in migration.h start with 0x100 next */
++/* 0x80 is reserved in qemu-file.h for RAM_SAVE_FLAG_HOOK */
+ #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
++/* We can't use any flag that is bigger than 0x200 */
  
--    multifd_load_cleanup();
-+    multifd_load_shutdown();
- 
-     dirty_bitmap_mig_before_vm_start();
- 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 840d5814e4..5e85c3ea9b 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -1013,6 +1013,13 @@ static void multifd_recv_terminate_threads(Error *err)
-     }
- }
- 
-+void multifd_load_shutdown(void)
-+{
-+    if (migrate_use_multifd()) {
-+        multifd_recv_terminate_threads(NULL);
-+    }
-+}
-+
- void multifd_load_cleanup(void)
- {
-     int i;
+ int (*xbzrle_encode_buffer_func)(uint8_t *, uint8_t *, int,
+      uint8_t *, int) = xbzrle_encode_buffer;
 -- 
 2.39.1
 
