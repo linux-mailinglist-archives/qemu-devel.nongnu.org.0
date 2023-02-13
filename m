@@ -2,94 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6A25694B34
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 16:32:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F7EB694B8C
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 16:45:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRaoL-0001gz-KS; Mon, 13 Feb 2023 10:32:09 -0500
+	id 1pRb0N-0000Md-2P; Mon, 13 Feb 2023 10:44:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pRaoF-0001gn-Lj
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 10:32:03 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pRb0G-0000Ji-Hf
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 10:44:29 -0500
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pRaoD-0006SJ-U6
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 10:32:03 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id by3so11343217wrb.10
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 07:32:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=OYuKrJD7G/M4nWFmv0j+CKRAK52yHQNqI3M1SZS+h7I=;
- b=brtVBe74kpl4j0Mod2haiHLvtTF4PNbLVYoqYAAweER+LTSI+5BOF+C3dCUqk9wG5E
- lg43zNO8LKY/xbrx6jD/rzo3Hp5MVFMvWRIejhXU/Z+Mvxz8cQzy5gXb3Cmcs2PkF8Xw
- 7nyzKw40b3xCF2eabaoY3I8igc8qpOcgf/fLZzrmuLXokxP2GWFzlWhFUYQo+Y7ClTME
- R337BBoi572aNRq1p3Fkc+JIDiiemV52ME9LVjNnvVMIw+WySumH2CXxtcXr8LzT6ScS
- WXTwPFe4NGTCG+2+EgS+ntiU4HhvV6f6E67dgXwl3Igc0kTRDWUFE8ntHb07Q/dIDHka
- 3a/Q==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pRb0C-0008Uu-MZ
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 10:44:27 -0500
+Received: by mail-pg1-x529.google.com with SMTP id n2so8383685pgb.2
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 07:44:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1676303054;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=VitgINuCT2pYdX0aBpGyBSblWAGTg9vf0KH63awuwgc=;
+ b=OvoP1nljw3f0gT/7q7J4hFMpO36HlapBQxpa8XVIyKgpaesanyaEPKLLeByN7SGNL0
+ kalprWrFTAyriI1/CY6yKniP0Yu2UMgzedgeUrSCz2sgc2RNBkXKlijKqnWxEwnrzoFs
+ RIUy9ML99OlL/GtoUsEOWAMHbF/JaKSpUqH0KZbmm5kQWwF95TYzgvsi1Ofk123sc8X5
+ m2wfM6O355J+hHKVzhsZbRgFyu57SB2uj6zZFF4VtZz0SrNsFQFAz8QC9IakYCpXQrqS
+ w5UbEnktSv4Z70dAymNzoXexSibrWIkRY61MDTdlx5jhx9DRTE2KjzOEa+/45pAzv/UK
+ h9IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OYuKrJD7G/M4nWFmv0j+CKRAK52yHQNqI3M1SZS+h7I=;
- b=g/UnZCHRS3y5Q/rgo14M1EsVE4u4NCqShUiQcy/PEDp9kDkzowka2lA5t7goDOxBtU
- n3MrW8FRb9OmuJeJ8tVsMsNLSdS8p5+HlzhoZwRoQ9prmoRDjOQ9LwZITNMPkf9I/ft/
- B1ZYmIJ0PrOBsg9I8q2icagcgLLcIihKMnA8MQkaf5iST1bORyWVq4CfBCl5pyIAmFyD
- 7HCGGReNyyHdaD1uehVrYqE6G1qF4JlCZ9+0fUEEPLqqFJQPtsQUSWwWdIJpD4DV6Ys6
- FnnC3MYcWoNaPazX7LIGQepmfKq6pebOt+mk6C5GQFCI91dZypMDFcZ3yBDr5oGsc9+W
- nWMg==
-X-Gm-Message-State: AO0yUKXg4FZxE2YQeQX/Mt+gu/C8MGLkCsf2Jl63ImWZln75l7uxFh3Y
- +M/um8Rm1rvcHzIz10q6MB0=
-X-Google-Smtp-Source: AK7set8tcZtkZgBJfviPJiijpf/jgXSyRRYZipCTkYOoVFQ1BwWR16LZztk+fexRhEiooKfsxy6L5Q==
-X-Received: by 2002:a5d:6b4b:0:b0:2c3:ed18:2e96 with SMTP id
- x11-20020a5d6b4b000000b002c3ed182e96mr21563242wrw.13.1676302319915; 
- Mon, 13 Feb 2023 07:31:59 -0800 (PST)
-Received: from [192.168.12.67] (54-240-197-239.amazon.com. [54.240.197.239])
- by smtp.gmail.com with ESMTPSA id
- k6-20020adfe8c6000000b002c55551e6e9sm3989925wrn.108.2023.02.13.07.31.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 07:31:59 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <28fc143f-2de8-b893-0abf-210b4c34a7f7@xen.org>
-Date: Mon, 13 Feb 2023 15:31:57 +0000
+ d=1e100.net; s=20210112; t=1676303054;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VitgINuCT2pYdX0aBpGyBSblWAGTg9vf0KH63awuwgc=;
+ b=qmADf+49RiawsOENMEvLtwWuNG9fWM08zwU1rrkaQuTfRQdFYdhDcoxlewbKNBgsUs
+ Y4Qzj0r7g3vxzdcyb8culL2AaVc6iHqbtr7wFdv1LIXzzejqL/MAapK3VHZ/6FQlDOW2
+ 3Qfhj1xO4vmfbLjUCS2EMdop94N5OAvox1Zjo3toCpW/Y5jMfywu7da9TyRMFOnc21QH
+ ghOdIgwAPtO9f/LRK1YSjJwa82OT6oPSn2e6JkjvCp0xwBRbB4P80qxFoPpzJg7r+cPN
+ osRxdpNqS8DbWcHle9i5Hcl/sQn7r5xv8qqDSxPdHd71z/IuXCEEBs+MvYT7cZfdX5ib
+ +Rsg==
+X-Gm-Message-State: AO0yUKXnJ3za5V4GDpV8LwiIoZcBZurX1EUhsz0AKoex+LDBAhRjCsWW
+ BJ+cShK3yRJvSXD5ChmbDp3DO7hc/F+gQCNFw4DeIw==
+X-Google-Smtp-Source: AK7set8y0LDcOx7klQRZPsYPTh4bHE2GmDKKG8IXgIPwLzLhSILff1Y3rRx87izkivwmf2He5ArHn298KLp07Bm/dik=
+X-Received: by 2002:aa7:9ec5:0:b0:5a8:beb3:d561 with SMTP id
+ r5-20020aa79ec5000000b005a8beb3d561mr534559pfq.17.1676303054255; Mon, 13 Feb
+ 2023 07:44:14 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v10 44/59] hw/xen: Support mapping grant frames
-Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-References: <20230201143148.1744093-1-dwmw2@infradead.org>
- <20230201143148.1744093-45-dwmw2@infradead.org>
-Organization: Xen Project
-In-Reply-To: <20230201143148.1744093-45-dwmw2@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <alpine.DEB.2.22.394.2302101420510.4661@ubuntu-linux-20-04-desktop>
+In-Reply-To: <alpine.DEB.2.22.394.2302101420510.4661@ubuntu-linux-20-04-desktop>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 13 Feb 2023 15:44:02 +0000
+Message-ID: <CAFEAcA9kshowaoWFCPRmVy4G2dD+EqiG5cKAAgkJO63MNrEheQ@mail.gmail.com>
+Subject: Re: [PULL 00/10] xenpvh machine
+To: Stefano Stabellini <sstabellini@kernel.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.345, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,55 +80,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 01/02/2023 14:31, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
-> 
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->   hw/i386/kvm/xen_gnttab.c  | 74 ++++++++++++++++++++++++++++++++++++++-
->   hw/i386/kvm/xen_overlay.c |  2 +-
->   hw/i386/kvm/xen_overlay.h |  2 ++
->   3 files changed, 76 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/i386/kvm/xen_gnttab.c b/hw/i386/kvm/xen_gnttab.c
-> index ef8857e50c..cd8c3ae60d 100644
-> --- a/hw/i386/kvm/xen_gnttab.c
-> +++ b/hw/i386/kvm/xen_gnttab.c
-> @@ -37,13 +37,27 @@ OBJECT_DECLARE_SIMPLE_TYPE(XenGnttabState, XEN_GNTTAB)
->   #define XEN_PAGE_SHIFT 12
->   #define XEN_PAGE_SIZE (1ULL << XEN_PAGE_SHIFT)
->   
-> +#define ENTRIES_PER_FRAME_V1 (XEN_PAGE_SIZE / sizeof(grant_entry_v1_t))
-> +#define ENTRIES_PER_FRAME_V2 (XEN_PAGE_SIZE / sizeof(grant_entry_v2_t))
-> +
->   struct XenGnttabState {
->       /*< private >*/
->       SysBusDevice busdev;
->       /*< public >*/
->   
-> +    QemuMutex gnt_lock;
-> +
->       uint32_t nr_frames;
->       uint32_t max_frames;
-> +
-> +    union {
-> +        grant_entry_v1_t *v1;
-> +        grant_entry_v2_t *v2;
-> +    } entries;
-> +
+On Fri, 10 Feb 2023 at 22:27, Stefano Stabellini <sstabellini@kernel.org> wrote:
+>
+> The following changes since commit 90595cc9396bb910b148391fea2e78dd8c6c8b27:
+>
+>   Merge tag 'migration-20230209-pull-request' of https://gitlab.com/juan.quintela/qemu into staging (2023-02-10 10:50:21 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/sstabellini/qemu.git xenpvh
+>
+> for you to fetch changes up to 3f8ee848693872e3783cdcf2862be5421bb9cbcb:
+>
+>   meson.build: enable xenpv machine build for ARM (2023-02-10 14:23:47 -0800)
 
-If you want to have v2 support, don't you need status frames too?
+Hi -- 'xenpvh' doesn't appear to be a signed tag:
 
-   Paul
+From https://gitlab.com/sstabellini/qemu
+ * branch                    xenpvh     -> FETCH_HEAD
+error: FETCH_HEAD: cannot verify a non-tag object of type commit.
+Does not appear to be a signed tag
 
-> +    MemoryRegion gnt_frames;
-> +    MemoryRegion *gnt_aliases;
-> +    uint64_t *gnt_frame_gpas;
->   };
->   
-
+thanks
+-- PMM
 
