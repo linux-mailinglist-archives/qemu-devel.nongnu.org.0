@@ -2,86 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91341695184
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 21:14:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E20F06951DD
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 21:28:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRfC1-00076p-Ol; Mon, 13 Feb 2023 15:12:53 -0500
+	id 1pRfPj-0002IU-DP; Mon, 13 Feb 2023 15:27:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pRfBy-00076X-Lv
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 15:12:50 -0500
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pRfBx-0007fX-2L
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 15:12:50 -0500
-Received: by mail-pl1-x635.google.com with SMTP id h4so6898896pll.9
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 12:12:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=fiFLm3cwYYddw5C1t5xluJ1T/Tp5VlvKx013eSOE/3M=;
- b=LQAyMTxaYEnAzQCrBT57b1fvLcz4ZobBfasExkNK87vujD3AlkXCTRBXgLZ6mD6kyM
- 2YmFoD/+vWMNYHcGWd6zrUK+zTrh6mmkKzjYfSW6Wo6ivGFO8X/r1fhdrpQZ1zVPXnuR
- G+uOiNBbjbU8cIBBKOrPqgJzWoTYm5H7g8T7gmBSXVyu75bdJJUzPDVHAIE0hF18s0XA
- UsWT9Uv6syHYiYulcvGEOcui5fCsABYUDHwkIVzr3lZK31+FnheCzPa4FOw16tB6XQot
- sGanc2zXtQKqbSrGY+ofNGoW3mjUgsq3rF2gVuMVax0irlbWJs1atcRTsCykD7vmJekc
- F9GA==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pRfPh-0002Hr-4L
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 15:27:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pRfPf-0001fk-7F
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 15:27:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676320017;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WVlwPJiLhTOFeHJSBym7xmkx8cpWGRQPFIC6YkVQTXE=;
+ b=LHZuRBaz2V+0mFy8j8nfIRgL9m7jtAzAZ2/LN1+NLF+JDQDoB1MaP84rjetFvnhdcFRBng
+ m5tdex7dFHBLkq2y5FLm5a3Qjl3chQVlp+AuYsVHYC3e9wlbeN5B/jBEgAgMIacWbgxE2W
+ wHa4ho8rzFgdOcCw9rO9OxwMkpYSvqU=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-471-i88I1QBpN56to4RSYbKBSw-1; Mon, 13 Feb 2023 15:26:56 -0500
+X-MC-Unique: i88I1QBpN56to4RSYbKBSw-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ d14-20020a170906c20e00b00889f989d8deso8392221ejz.15
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 12:26:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fiFLm3cwYYddw5C1t5xluJ1T/Tp5VlvKx013eSOE/3M=;
- b=nZuepOwkf89NGudBTb3Lw4Nz1+emszKeKp0yYDMBYw/EU/yZ0pCraCdzOA9rpDMmA3
- jSzWDocw5srH0liqLdOyVJfbxNfFTECwNZQTDIeDH+0lMl1mlZyprjObOvwIzKO/LcUb
- xmPat0GjTPKzk68iqsZHTA4j56y8mY0OBnj0a5TGWOBhsRLmyaSUl7DrNwjGWKKCKq25
- uFcTRz+Jv8CFH8GO3uDqJy4jIEZfqwm2UIPvANVV+8FZioCvmSnUdSlK1Xz2V2Gchbea
- mhkOqB9CYGZhMd/pUnoO1noKQl5nTE+I/Ork8XGS64olQURNVscYoAO5tsptabYvTH/d
- 1cPg==
-X-Gm-Message-State: AO0yUKUIkMw07yf+lmoeSozwtSMmEftxyO2Y5SPZQSvcRWvxV7ezG/ke
- WHb5HfLZQBUTAEbbmCAI91EHPg==
-X-Google-Smtp-Source: AK7set8TZbfmuoQuKTot7V7yTztHRUYyBBcVHR3idEiNCeWlw8CWvr3KOeFKF3DRM2xeJzU+LNbXMQ==
-X-Received: by 2002:a17:903:32c6:b0:19a:aab3:c97c with SMTP id
- i6-20020a17090332c600b0019aaab3c97cmr248058plr.0.1676319167311; 
- Mon, 13 Feb 2023 12:12:47 -0800 (PST)
-Received: from [192.168.145.227] (rrcs-74-87-59-234.west.biz.rr.com.
- [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
- h16-20020a633850000000b004e25f1bb85csm7602647pgn.54.2023.02.13.12.12.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 12:12:46 -0800 (PST)
-Message-ID: <cc54f8b9-a8c6-9606-415d-fe8a26bf09bf@linaro.org>
-Date: Mon, 13 Feb 2023 10:12:42 -1000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 2/4] cpus: Make {start,end}_exclusive() recursive
-Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WVlwPJiLhTOFeHJSBym7xmkx8cpWGRQPFIC6YkVQTXE=;
+ b=q4ojhf8zbL9LgZ8tLatkRrupn0PB/sV+/BcmJ4sJeeUOCOev0y7/5FJACIj1v+4p4u
+ bazE6eVVd6wjmxFD97nneQ0sDjEl76tSbRmwYdLRLRuOnWJdybEZd6hiHj+4UT7h5TEc
+ LLl61AWjt8xz3CoMy0DDFD6fcqzO318wUFpCWPCDAWY5KMdh6J9WXK8B37rYqupT3afS
+ ubWZeSn3eoO0bD6C92HLlR13Rjm5L5mDKhtSUoCXILR2BXuZ9Bb6KDCZcH091szFvsJ1
+ egpgJb/2HEWin+8vWEzyUG6K2vOhf5mW44CMZqY3nSJ2llu9t5ZRKkuJtNSzOkWEu9nz
+ GC5g==
+X-Gm-Message-State: AO0yUKWT8cniZ9dKRZ2rDv0Hashz4HxEkqfDqQED0EwQxQtf+bJvei1i
+ H/f3bU1u3k9JATOQvdIaJilH6pcTKVmVc96eLiLQN3HM5Mjs5o6gIBKO6OoC2hWGtP5+//xTi41
+ trFro8hNglO6VWjY=
+X-Received: by 2002:a17:906:1d56:b0:88f:87f0:c919 with SMTP id
+ o22-20020a1709061d5600b0088f87f0c919mr171713ejh.64.1676320015532; 
+ Mon, 13 Feb 2023 12:26:55 -0800 (PST)
+X-Google-Smtp-Source: AK7set8Co65kPnGp9TyOC1vjmKhwg+vdIWCUNbUS6R4Z5sNpibSLNNujLzFaB0Q+zUOkOgT/BGWvdw==
+X-Received: by 2002:a17:906:1d56:b0:88f:87f0:c919 with SMTP id
+ o22-20020a1709061d5600b0088f87f0c919mr171686ejh.64.1676320015295; 
+ Mon, 13 Feb 2023 12:26:55 -0800 (PST)
+Received: from redhat.com ([2.52.132.212]) by smtp.gmail.com with ESMTPSA id
+ c10-20020a170906694a00b00856ad9108e7sm7237048ejs.70.2023.02.13.12.26.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Feb 2023 12:26:54 -0800 (PST)
+Date: Mon, 13 Feb 2023 15:26:49 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Alexander Bulekov <alxndr@bu.edu>
+Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Yanan Wang <wangyanan55@huawei.com>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>
-References: <20230213125238.331881-1-iii@linux.ibm.com>
- <20230213125238.331881-3-iii@linux.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230213125238.331881-3-iii@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Jon Maloy <jmaloy@redhat.com>, Siqi Chen <coc.cyqh@gmail.com>
+Subject: Re: [PATCH v6 0/4] memory: prevent dma-reentracy issues
+Message-ID: <20230213152618-mutt-send-email-mst@kernel.org>
+References: <20230205040737.3567731-1-alxndr@bu.edu>
+ <20230213021141.mmzdpzj6ekmml3bx@mozz.bu.edu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230213021141.mmzdpzj6ekmml3bx@mozz.bu.edu>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.345,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,52 +108,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/13/23 02:52, Ilya Leoshkevich wrote:
-> Currently dying to one of the core_dump_signal()s deadlocks, because
-> dump_core_and_abort() calls start_exclusive() two times: first via
-> stop_all_tasks(), and then via preexit_cleanup() ->
-> qemu_plugin_user_exit().
+On Sun, Feb 12, 2023 at 09:11:41PM -0500, Alexander Bulekov wrote:
+> ping
 > 
-> There are a number of ways to solve this: resume after dumping core;
-> check cpu_in_exclusive_context() in qemu_plugin_user_exit(); or make
-> {start,end}_exclusive() recursive. Pick the last option, since it's
-> the most straightforward one.
-> 
-> Fixes: da91c1920242 ("linux-user: Clean up when exiting due to a signal")
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->   cpus-common.c         | 12 ++++++++++--
->   include/hw/core/cpu.h |  4 ++--
->   2 files changed, 12 insertions(+), 4 deletions(-)
-> 
-> diff --git a/cpus-common.c b/cpus-common.c
-> index 793364dc0ed..a0c52cd187f 100644
-> --- a/cpus-common.c
-> +++ b/cpus-common.c
-> @@ -192,6 +192,11 @@ void start_exclusive(void)
->       CPUState *other_cpu;
->       int running_cpus;
->   
-> +    if (current_cpu->exclusive_context_count) {
-> +        current_cpu->exclusive_context_count++;
-> +        return;
-> +    }
-> +
->       qemu_mutex_lock(&qemu_cpu_list_lock);
->       exclusive_idle();
->   
-> @@ -219,13 +224,16 @@ void start_exclusive(void)
->        */
->       qemu_mutex_unlock(&qemu_cpu_list_lock);
->   
-> -    current_cpu->in_exclusive_context = true;
-> +    current_cpu->exclusive_context_count++;
+> On 230204 2307, Alexander Bulekov wrote:
+> > These patches aim to solve two types of DMA-reentrancy issues:
+> >   
+> > 1.) mmio -> dma -> mmio case
+> > To solve this, we track whether the device is engaged in io by
+> > checking/setting a reentrancy-guard within APIs used for MMIO access.
+> >   
+> > 2.) bh -> dma write -> mmio case
+> > This case is trickier, since we dont have a generic way to associate a
+> > bh with the underlying Device/DeviceState. Thus, this version allows a
+> > device to associate a reentrancy-guard with a bh, when creating it.
+> > (Instead of calling qemu_bh_new, you call qemu_bh_new_guarded)
+> >   
+> > I replaced most of the qemu_bh_new invocations with the guarded analog,
+> > except for the ones where the DeviceState was not trivially accessible.
+> > 
+> > v5 -> v6:
+> >     - Only apply checkpatch checks to code in paths containing "/hw/"
+> >       (/hw/ and include/hw/)
+> >     - Fix a bug in a _guarded call added to hw/block/virtio-blk.c
+> > v4-> v5:
+> >     - Add corresponding checkpatch checks
+> >     - Save/restore reentrancy-flag when entering/exiting BHs
+> >     - Improve documentation
+> >     - Check object_dynamic_cast return value
+> >   
+> > v3 -> v4: Instead of changing all of the DMA APIs, instead add an
+> >     optional reentrancy guard to the BH API.
+> > 
+> > v2 -> v3: Bite the bullet and modify the DMA APIs, rather than
+> >     attempting to guess DeviceStates in BHs.
 
-I think this line would be clearer as "= 1".
+As long as we are adding the new APIs virtio things look ok to me.
+Pls merge with rest of patches.
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
 
-r~
+> > Alexander Bulekov (4):
+> >   memory: prevent dma-reentracy issues
+> >   async: Add an optional reentrancy guard to the BH API
+> >   checkpatch: add qemu_bh_new/aio_bh_new checks
+> >   hw: replace most qemu_bh_new calls with qemu_bh_new_guarded
+> > 
+> >  docs/devel/multiple-iothreads.txt |  7 +++++++
+> >  hw/9pfs/xen-9p-backend.c          |  4 +++-
+> >  hw/block/dataplane/virtio-blk.c   |  3 ++-
+> >  hw/block/dataplane/xen-block.c    |  5 +++--
+> >  hw/char/virtio-serial-bus.c       |  3 ++-
+> >  hw/display/qxl.c                  |  9 ++++++---
+> >  hw/display/virtio-gpu.c           |  6 ++++--
+> >  hw/ide/ahci.c                     |  3 ++-
+> >  hw/ide/core.c                     |  3 ++-
+> >  hw/misc/imx_rngc.c                |  6 ++++--
+> >  hw/misc/macio/mac_dbdma.c         |  2 +-
+> >  hw/net/virtio-net.c               |  3 ++-
+> >  hw/nvme/ctrl.c                    |  6 ++++--
+> >  hw/scsi/mptsas.c                  |  3 ++-
+> >  hw/scsi/scsi-bus.c                |  3 ++-
+> >  hw/scsi/vmw_pvscsi.c              |  3 ++-
+> >  hw/usb/dev-uas.c                  |  3 ++-
+> >  hw/usb/hcd-dwc2.c                 |  3 ++-
+> >  hw/usb/hcd-ehci.c                 |  3 ++-
+> >  hw/usb/hcd-uhci.c                 |  2 +-
+> >  hw/usb/host-libusb.c              |  6 ++++--
+> >  hw/usb/redirect.c                 |  6 ++++--
+> >  hw/usb/xen-usb.c                  |  3 ++-
+> >  hw/virtio/virtio-balloon.c        |  5 +++--
+> >  hw/virtio/virtio-crypto.c         |  3 ++-
+> >  include/block/aio.h               | 18 ++++++++++++++++--
+> >  include/hw/qdev-core.h            |  7 +++++++
+> >  include/qemu/main-loop.h          |  7 +++++--
+> >  scripts/checkpatch.pl             |  8 ++++++++
+> >  softmmu/memory.c                  | 17 +++++++++++++++++
+> >  softmmu/trace-events              |  1 +
+> >  tests/unit/ptimer-test-stubs.c    |  3 ++-
+> >  util/async.c                      | 18 +++++++++++++++++-
+> >  util/main-loop.c                  |  5 +++--
+> >  util/trace-events                 |  1 +
+> >  35 files changed, 147 insertions(+), 41 deletions(-)
+> > 
+> > -- 
+> > 2.39.0
+> > 
+
 
