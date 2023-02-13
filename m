@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AAD36941A8
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:44:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C272694215
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:57:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVN2-0003i1-8a; Mon, 13 Feb 2023 04:43:36 -0500
+	id 1pRVNA-0003qJ-KD; Mon, 13 Feb 2023 04:43:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVN0-0003bT-HS
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:34 -0500
+ id 1pRVN2-0003kg-6H
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:36 -0500
 Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVMt-0002cM-Fs
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:32 -0500
+ id 1pRVMw-0002ea-QW
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676281407; x=1707817407;
+ t=1676281410; x=1707817410;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ws81cKhwe62SjXBEKPyRmLjzxrZ4g5Wn8Z243v82XX0=;
- b=VT9TLDLiItlefnsvj3S1V7HnXfkBigvV9WU14VyUEu3etutRdkupPKGL
- evxnXN32Ysd7aFI8CMfxf+mvHtAiXrS2mDBrKB9wgFEtcTFClIFZqlo+1
- DOzeuR68PdyfVb+jifs/YUPmBJ1/loUJwF0y89/7lmUdnSxWo2u9Ccz0O
- k2YL+5QGlxZ1eKEAcmZOBSTbaQJF2Rx85PYseIEtJytA7rSZ+6tUfdwvJ
- Vy49NUilOzprGCovI5PxmA8TXVSW775UuBshHg1M4eOx+OA4BWBMLBbDs
- M0uR41cgGk2rcGZfhY1LSP96nC7Uh/W5Z/6Bl2VgDIVzBuyA6KAtg34sV A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486402"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486402"
+ bh=eduXy6aAvN9CnJvzl28ZwonbiXCbTv+ZAhjbz4nyVU0=;
+ b=FeSsPDz6SHlsEui7vxqbi75g7iXopgBOwMQcqmEnb3sIqdINsJdK/POB
+ 8xRyyHJ7GjxhncZqIJCrBkr9NoTww2QgkBy1FRw8DW0qGg+lhda0mraa1
+ V4Sv1seaBp5xdUYD4UiVXhbBkVGu53WNGow+ITNn2gdttns9JXcdPjaTK
+ gwogAtlugMr2jxF1kn3wUxk4kYFBxy6E1QkdO/dlg2OtzDxt6ghLQf0Ba
+ zihA2diaCbxKcurAOohgyIILk4OKmmjAaehwIv1RXxhmPy5/BAOlH+W9R
+ cbv64TLd2wbYfzNku3niK1b+v1fWbNNZZ8p6I7LY+/GHXuT+99WW1zU8w w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486418"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486418"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 01:43:25 -0800
+ 13 Feb 2023 01:43:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670759817"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670759817"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670759823"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670759823"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:43:21 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:43:25 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -55,9 +55,10 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
  Zhao Liu <zhao1.liu@intel.com>
-Subject: [RFC 06/52] hw/cpu: Introduce hybrid CPU topology
-Date: Mon, 13 Feb 2023 17:49:49 +0800
-Message-Id: <20230213095035.158240-7-zhao1.liu@linux.intel.com>
+Subject: [RFC 07/52] hw/core/machine: Add the new topology support in
+ MachineState
+Date: Mon, 13 Feb 2023 17:49:50 +0800
+Message-Id: <20230213095035.158240-8-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
@@ -88,195 +89,149 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
-For smp systems, the parts in one topology level are the same. But now
-there are more and more systems with hybrid architectures. Different
-parts of the same topology level may have differences. For example,
-Intel's Alder Lake series CPU has two types of cores, so the CPU
-topology is no longer symmetrical.
+Add MachineState.topo to represent CPU topology, and initialize this
+field as smp topology.
 
-The hybrid topology is compatible with the smp topology type, that is,
-different parts on the same level of the hybrid topology can set to be
-the same, but the hybrid topology will introduce more complexity (need
-to allocate more memory, organized with array or linked-list), so the
-original smp topology support is retained while introducing the hybrid
-topology, and the hybrid topology is only built when the hybrid is
-explicitly required.
+Also collect topology information from MachineState.topo in
+machine_get_smp().
 
-Therefore, we introduce the definition support of hybrid cpu topology
-here. At the same time, in order to unify with the original smp, we
-introduce a new cpu topology structure that can support smp topology
-or hybrid topology. This structure will replace the CpuTopology type (in
-include/hw/boards.h) used by MachineState.smp.
-
-As for now, we only support two hybrid topology levels: core and
-cluster.
+Additionally, check the validity of MachineState.topo instead of
+MachineState.smp.
 
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- MAINTAINERS                   |   1 +
- include/hw/cpu/cpu-topology.h | 117 ++++++++++++++++++++++++++++++++++
- qapi/machine.json             |  12 ++++
- 3 files changed, 130 insertions(+)
- create mode 100644 include/hw/cpu/cpu-topology.h
+ hw/core/machine-topo.c | 26 +++++++++++++++++---------
+ hw/core/machine.c      | 23 ++++++++++++++++-------
+ include/hw/boards.h    |  2 ++
+ 3 files changed, 35 insertions(+), 16 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 58794885ced3..918a9418d98e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1742,6 +1742,7 @@ F: qapi/machine-target.json
- F: include/hw/boards.h
- F: include/hw/core/cpu.h
- F: include/hw/cpu/cluster.h
-+F: include/hw/cpu/cpu-topology.h
- F: include/sysemu/numa.h
- F: tests/unit/test-smp-parse.c
- T: git https://gitlab.com/ehabkost/qemu.git machine-next
-diff --git a/include/hw/cpu/cpu-topology.h b/include/hw/cpu/cpu-topology.h
-new file mode 100644
-index 000000000000..8268ea3a8569
---- /dev/null
-+++ b/include/hw/cpu/cpu-topology.h
-@@ -0,0 +1,117 @@
-+/*
-+ * CPU topology defination for Machine core
-+ *
-+ * Copyright (c) 2023 Intel Corporation
-+ * Author: Zhao Liu <zhao1.liu@intel.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; either version 2 of the License,
-+ * or (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef CPU_TOPOLOGY_H
-+#define CPU_TOPOLOGY_H
-+
-+#include "qemu/queue.h"
-+
-+/**
-+ * SmpCpuTopology - smp cpu topology defination.
-+ *
-+ * For smp system, the parts in one topology level are the same.
-+ *
-+ * @sockets: the number of sockets on the machine
-+ * @dies: the number of dies in one socket
-+ * @clusters: the number of clusters in one die
-+ * @cores: the number of cores in one cluster
-+ * @threads: the number of threads in one core
-+ */
-+typedef struct SmpCpuTopology {
-+    unsigned int sockets;
-+    unsigned int dies;
-+    unsigned int clusters;
-+    unsigned int cores;
-+    unsigned int threads;
-+} SmpCpuTopology;
-+
-+/**
-+ * HybridCore - hybrid core topology defination:
-+ * @threads: the number of threads in one core.
-+ */
-+typedef struct HybridCore {
-+    unsigned int threads;
-+} HybridCore;
-+
-+/**
-+ * HybridCluster - hybrid cluster topology defination:
-+ * @cores: the number of cores in current cluster.
-+ * @core_list: the array includes all the cores that belong to current
-+ *             cluster.
-+ */
-+typedef struct HybridCluster {
-+    unsigned int cores;
-+    HybridCore *core_list;
-+} HybridCluster;
-+
-+/**
-+ * HybridCpuTopology - hybrid cpu topology defination.
-+ *
-+ * At present we only support two heterogeneous topology levels: core
-+ * and cluster. For heterogeneous levels, we need additional structs
-+ * to define their custom internal topology. So here we defines
-+ * symmetric topology levels, and use a list to point to heterogeneous
-+ * levels.
-+ *
-+ * @sockets: the number of sockets on the machine. All sockets are the
-+ *           same.
-+ * @dies: the number of dies in one socket. All dies are the same.
-+ * @clusters: the number of clusters in one die. Cluster may be
-+ *            different. This field indicates the length of
-+ *            cluster_list.
-+ * @cluster_list: the array includes all the clusters in one die.
-+ */
-+typedef struct HybridCpuTopology {
-+    unsigned int sockets;
-+    unsigned int dies;
-+    unsigned int clusters;
-+    HybridCluster *cluster_list;
-+} HybridCpuTopology;
-+
-+/**
-+ * GeneralCpuTopology - General cpu topology defination.
-+ *
-+ * It supports one of two topologies: smp topology or hybrid topology.
-+ *
-+ * @cpus: the number of present logical processors on the machine
-+ * @max_cpus: the maximum number of logical processors on the machine
-+ * @topo_type: the topology type of the machine and this decides which
-+ *             member of the union to visit: smp or hybrid.
-+ * @smp: the smp cpu topology informantion. Only valid when topo_type is
-+ *       CPU_TOPO_TYPE_SMP.
-+ * @hybrid: the hybrid cpu topology informantion. Only valid when
-+ *          topo_type is CPU_TOPO_TYPE_HYBRID.
-+ */
-+typedef struct GeneralCpuTopology {
-+    unsigned int cpus;
-+    unsigned int max_cpus;
-+    CpuTopoType topo_type;
-+    union {
-+        SmpCpuTopology smp;
-+        HybridCpuTopology hybrid;
-+    };
-+} GeneralCpuTopology; /*
-+                       * TODO: This name is temporary, just to distinguish it
-+                       * from the CpuTopology in boards.h. When CpuTopology in
-+                       * boards.h is merged here, it will be uniformly named as
-+                       * CpuTopology.
-+                       */
-+
-+#endif /* CPU_TOPOLOGY_H */
-diff --git a/qapi/machine.json b/qapi/machine.json
-index b9228a5e4616..bd7303f34497 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -36,6 +36,18 @@
-              'sh4eb', 'sparc', 'sparc64', 'tricore',
-              'x86_64', 'xtensa', 'xtensaeb' ] }
+diff --git a/hw/core/machine-topo.c b/hw/core/machine-topo.c
+index 8066d2c46bef..7223f73f99b0 100644
+--- a/hw/core/machine-topo.c
++++ b/hw/core/machine-topo.c
+@@ -31,18 +31,18 @@ static char *cpu_hierarchy_to_string(MachineState *ms)
+     MachineClass *mc = MACHINE_GET_CLASS(ms);
+     GString *s = g_string_new(NULL);
  
-+##
-+# @CpuTopoType:
-+#
-+# An enumeration of cpu topology type
-+# TODO: Expose topology type in query-cpus-fast
-+#
-+# Since: 8.0
-+##
-+{ 'enum': 'CpuTopoType',
-+  'prefix': 'CPU_TOPO_TYPE',
-+  'data': [ 'smp', 'hybrid' ] }
+-    g_string_append_printf(s, "sockets (%u)", ms->smp.sockets);
++    g_string_append_printf(s, "sockets (%u)", ms->topo.smp.sockets);
+ 
+     if (mc->smp_props.dies_supported) {
+-        g_string_append_printf(s, " * dies (%u)", ms->smp.dies);
++        g_string_append_printf(s, " * dies (%u)", ms->topo.smp.dies);
+     }
+ 
+     if (mc->smp_props.clusters_supported) {
+-        g_string_append_printf(s, " * clusters (%u)", ms->smp.clusters);
++        g_string_append_printf(s, " * clusters (%u)", ms->topo.smp.clusters);
+     }
+ 
+-    g_string_append_printf(s, " * cores (%u)", ms->smp.cores);
+-    g_string_append_printf(s, " * threads (%u)", ms->smp.threads);
++    g_string_append_printf(s, " * cores (%u)", ms->topo.smp.cores);
++    g_string_append_printf(s, " * threads (%u)", ms->topo.smp.threads);
+ 
+     return g_string_free(s, false);
+ }
+@@ -159,6 +159,14 @@ void machine_parse_smp_config(MachineState *ms,
+     ms->smp.threads = threads;
+     ms->smp.max_cpus = maxcpus;
+ 
++    ms->topo.cpus = cpus;
++    ms->topo.max_cpus = maxcpus;
++    ms->topo.smp.sockets = sockets;
++    ms->topo.smp.dies = dies;
++    ms->topo.smp.clusters = clusters;
++    ms->topo.smp.cores = cores;
++    ms->topo.smp.threads = threads;
 +
- ##
- # @CpuS390State:
- #
+     mc->smp_props.has_clusters = config->has_clusters;
+ 
+     /* sanity-check of the computed topology */
+@@ -180,18 +188,18 @@ void machine_parse_smp_config(MachineState *ms,
+         return;
+     }
+ 
+-    if (ms->smp.cpus < mc->min_cpus) {
++    if (ms->topo.cpus < mc->min_cpus) {
+         error_setg(errp, "Invalid SMP CPUs %d. The min CPUs "
+                    "supported by machine '%s' is %d",
+-                   ms->smp.cpus,
++                   ms->topo.cpus,
+                    mc->name, mc->min_cpus);
+         return;
+     }
+ 
+-    if (ms->smp.max_cpus > mc->max_cpus) {
++    if (ms->topo.max_cpus > mc->max_cpus) {
+         error_setg(errp, "Invalid SMP CPUs %d. The max CPUs "
+                    "supported by machine '%s' is %d",
+-                   ms->smp.max_cpus,
++                   ms->topo.max_cpus,
+                    mc->name, mc->max_cpus);
+         return;
+     }
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index f73fc4c45c41..56e796c18873 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -829,13 +829,13 @@ static void machine_get_smp(Object *obj, Visitor *v, const char *name,
+ {
+     MachineState *ms = MACHINE(obj);
+     SMPConfiguration *config = &(SMPConfiguration){
+-        .has_cpus = true, .cpus = ms->smp.cpus,
+-        .has_sockets = true, .sockets = ms->smp.sockets,
+-        .has_dies = true, .dies = ms->smp.dies,
+-        .has_clusters = true, .clusters = ms->smp.clusters,
+-        .has_cores = true, .cores = ms->smp.cores,
+-        .has_threads = true, .threads = ms->smp.threads,
+-        .has_maxcpus = true, .maxcpus = ms->smp.max_cpus,
++        .has_cpus = true, .cpus = ms->topo.cpus,
++        .has_sockets = true, .sockets = ms->topo.smp.sockets,
++        .has_dies = true, .dies = ms->topo.smp.dies,
++        .has_clusters = true, .clusters = ms->topo.smp.clusters,
++        .has_cores = true, .cores = ms->topo.smp.cores,
++        .has_threads = true, .threads = ms->topo.smp.threads,
++        .has_maxcpus = true, .maxcpus = ms->topo.max_cpus,
+     };
+ 
+     if (!visit_type_SMPConfiguration(v, name, &config, &error_abort)) {
+@@ -1101,6 +1101,15 @@ static void machine_initfn(Object *obj)
+     ms->smp.cores = 1;
+     ms->smp.threads = 1;
+ 
++    ms->topo.cpus = mc->default_cpus;
++    ms->topo.max_cpus = mc->default_cpus;
++    ms->topo.topo_type = CPU_TOPO_TYPE_SMP;
++    ms->topo.smp.sockets = 1;
++    ms->topo.smp.dies = 1;
++    ms->topo.smp.clusters = 1;
++    ms->topo.smp.cores = 1;
++    ms->topo.smp.threads = 1;
++
+     machine_copy_boot_config(ms, &(BootConfiguration){ 0 });
+ }
+ 
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 6fbbfd56c808..0a61855499e3 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -10,6 +10,7 @@
+ #include "qemu/module.h"
+ #include "qom/object.h"
+ #include "hw/core/cpu.h"
++#include "hw/cpu/cpu-topology.h"
+ 
+ #define TYPE_MACHINE_SUFFIX "-machine"
+ 
+@@ -360,6 +361,7 @@ struct MachineState {
+     AccelState *accelerator;
+     CPUArchIdList *possible_cpus;
+     CpuTopology smp;
++    GeneralCpuTopology topo; /* TODO: Completely replace MachineState.smp */
+     struct NVDIMMState *nvdimms_state;
+     struct NumaState *numa_state;
+ };
 -- 
 2.34.1
 
