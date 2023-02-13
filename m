@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE5E694EDB
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 19:08:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E651F694EDC
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 19:09:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRdF6-0000T6-80; Mon, 13 Feb 2023 13:07:56 -0500
+	id 1pRdF7-0000Tr-7G; Mon, 13 Feb 2023 13:07:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1pRdEx-0000Qp-FD; Mon, 13 Feb 2023 13:07:48 -0500
-Received: from bg4.exmail.qq.com ([43.155.65.254])
+ id 1pRdEx-0000Qt-Ub; Mon, 13 Feb 2023 13:07:48 -0500
+Received: from bg4.exmail.qq.com ([43.154.221.58])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1pRdEs-00027P-Kf; Mon, 13 Feb 2023 13:07:47 -0500
+ id 1pRdEt-00027h-Is; Mon, 13 Feb 2023 13:07:47 -0500
 X-QQ-Spam: true
-X-QQ-mid: bizesmtp62t1676311390tnqrua0b
+X-QQ-mid: bizesmtp62t1676311393tz0rr0bn
 Received: from pek-vx-bsp2.wrs.com ( [60.247.85.88])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 14 Feb 2023 02:03:09 +0800 (CST)
+ id ; Tue, 14 Feb 2023 02:03:12 +0800 (CST)
 X-QQ-SSF: 01200000000000C0D000000A0000000
 From: Bin Meng <bmeng@tinylab.org>
 To: qemu-devel@nongnu.org
@@ -30,10 +30,10 @@ Cc: Alistair Francis <alistair.francis@wdc.com>,
  Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
  Palmer Dabbelt <palmer@dabbelt.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
  qemu-riscv@nongnu.org
-Subject: [PATCH 09/18] target/riscv: Avoid reporting odd-numbered pmpcfgX in
- the CSR XML for RV64
-Date: Tue, 14 Feb 2023 02:02:05 +0800
-Message-Id: <20230213180215.1524938-10-bmeng@tinylab.org>
+Subject: [PATCH 10/18] target/riscv: gdbstub: Turn on debugger mode before
+ calling CSR predicate()
+Date: Tue, 14 Feb 2023 02:02:06 +0800
+Message-Id: <20230213180215.1524938-11-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230213180215.1524938-1-bmeng@tinylab.org>
 References: <20230213180215.1524938-1-bmeng@tinylab.org>
@@ -41,7 +41,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:tinylab.org:qybglogicsvr:qybglogicsvr3
-Received-SPF: pass client-ip=43.155.65.254; envelope-from=bmeng@tinylab.org;
+Received-SPF: pass client-ip=43.154.221.58; envelope-from=bmeng@tinylab.org;
  helo=bg4.exmail.qq.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -63,73 +63,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-At present the odd-numbered PMP configuration registers for RV64 are
-reported in the CSR XML by QEMU gdbstub. However these registers do
-not exist on RV64 so trying to access them from gdb results in 'E14'.
+Since commit 94452ac4cf26 ("target/riscv: remove fflags, frm, and fcsr from riscv-*-fpu.xml")
+the 3 FPU CSRs are removed from the XML target decription. The
+original intent of that commit was based on the assumption that
+the 3 FPU CSRs will show up in the riscv-csr.xml so the ones in
+riscv-*-fpu.xml are redundant. But unforuantely that is not ture.
+As the FPU CSR predicate() has a run-time check on MSTATUS.FS,
+at the time when CSR XML is generated MSTATUS.FS is unset, hence
+no FPU CSRs will be reported.
 
-Move the pmpcfgX index check from the actual read/write routine to
-the PMP CSR predicate() routine, so that non-existent pmpcfgX won't
-be reported in the CSR XML for RV64.
+The FPU CSR predicate() already considered such a case of being
+accessed by a debugger. All we need to do is to turn on debugger
+mode before calling predicate().
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 ---
 
- target/riscv/csr.c | 23 ++++++++---------------
- 1 file changed, 8 insertions(+), 15 deletions(-)
+ target/riscv/gdbstub.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 0a3f2bef6f..749d0ef83e 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -412,6 +412,14 @@ static int aia_hmode32(CPURISCVState *env, int csrno)
- static RISCVException pmp(CPURISCVState *env, int csrno)
- {
-     if (riscv_feature(env, RISCV_FEATURE_PMP)) {
-+        if (csrno <= CSR_PMPCFG3) {
-+            uint32_t reg_index = csrno - CSR_PMPCFG0;
+diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+index 294f0ceb1c..ef52f41460 100644
+--- a/target/riscv/gdbstub.c
++++ b/target/riscv/gdbstub.c
+@@ -280,6 +280,10 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
+     int bitsize = 16 << env->misa_mxl_max;
+     int i;
+ 
++#if !defined(CONFIG_USER_ONLY)
++    env->debugger = true;
++#endif
 +
-+            if ((reg_index & 1) && (riscv_cpu_mxl(env) == MXL_RV64)) {
-+                return RISCV_EXCP_ILLEGAL_INST;
-+            }
-+        }
+     /* Until gdb knows about 128-bit registers */
+     if (bitsize > 64) {
+         bitsize = 64;
+@@ -308,6 +312,11 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
+     g_string_append_printf(s, "</feature>");
+ 
+     cpu->dyn_csr_xml = g_string_free(s, false);
 +
-         return RISCV_EXCP_NONE;
-     }
- 
-@@ -3334,23 +3342,11 @@ static RISCVException write_mseccfg(CPURISCVState *env, int csrno,
-     return RISCV_EXCP_NONE;
++#if !defined(CONFIG_USER_ONLY)
++    env->debugger = false;
++#endif
++
+     return CSR_TABLE_SIZE;
  }
  
--static bool check_pmp_reg_index(CPURISCVState *env, uint32_t reg_index)
--{
--    /* TODO: RV128 restriction check */
--    if ((reg_index & 1) && (riscv_cpu_mxl(env) == MXL_RV64)) {
--        return false;
--    }
--    return true;
--}
--
- static RISCVException read_pmpcfg(CPURISCVState *env, int csrno,
-                                   target_ulong *val)
- {
-     uint32_t reg_index = csrno - CSR_PMPCFG0;
- 
--    if (!check_pmp_reg_index(env, reg_index)) {
--        return RISCV_EXCP_ILLEGAL_INST;
--    }
-     *val = pmpcfg_csr_read(env, reg_index);
-     return RISCV_EXCP_NONE;
- }
-@@ -3360,9 +3356,6 @@ static RISCVException write_pmpcfg(CPURISCVState *env, int csrno,
- {
-     uint32_t reg_index = csrno - CSR_PMPCFG0;
- 
--    if (!check_pmp_reg_index(env, reg_index)) {
--        return RISCV_EXCP_ILLEGAL_INST;
--    }
-     pmpcfg_csr_write(env, reg_index, val);
-     return RISCV_EXCP_NONE;
- }
 -- 
 2.25.1
 
