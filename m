@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03AA2694FA5
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 19:46:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D7C6694FAC
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 19:47:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRdoe-0001nB-ND; Mon, 13 Feb 2023 13:44:40 -0500
+	id 1pRdop-0001tb-HW; Mon, 13 Feb 2023 13:44:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRdoc-0001hf-Bp
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 13:44:38 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRdoi-0001qI-RV
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 13:44:45 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRdoa-0008T9-Fz
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 13:44:37 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id m14so13242538wrg.13
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 10:44:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRdoh-0008Vz-6A
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 13:44:44 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id n33so3342179wms.0
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 10:44:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=3YnlWYrFQuWXt1rppNJud8kwI6R078rMYORIY8x9Pr4=;
- b=BfsZ/BP4Bj77HitzpAxlAgqnSThR1vBBm4ORMLX3gPBBk+Yt9lLoiFO5JNcCQ/CrTQ
- 5ZLRYeMaTkKUIZpiCo5h6WzLQwUf1UOFFiyIGdFE+FaRHVruAZFaQ1il4/10R0jz/yhR
- DunoSIYVsXnAXXQ+Uhl89HK6YJDbaKCdLR9emwlSoObFYTL9YvtSetyVVcK82f9C/FVU
- TzX8A7LPSwPlSWSg3JVfGUJMIPdq+X1VaftsTe3iGjOdTYDLkvGQNgTN0QFsNi9pEOv7
- ORjPr3HuW8kpgqHhaAa7KokUtEmdl0RDdSBp5W2DdLpBVAAzX5dUeUulpq23wNdmpjJE
- XVeA==
+ bh=lbFFSEwuPaiVjYWiGHnO40wk80nlXCVErHPDaxFN7V8=;
+ b=IrXHoLjJvRO9HbHPw2U4rArVJbApZYzgT816Q/pq4Jyd2LDWRJAuEVdwriT218Lzn7
+ ye/qO2wqhc68fUyeCPd7xThRwUqnuN2T3yCFCnwa6gsOaR9IEufcrVOiWnnen96v6EFc
+ e9ZV+oqDtSmMP9lb/+t9Ficg3RCWoRLrXwEPgfBwNLuZZzgxFHkmJJwAh7nylUCsm+IW
+ 7+QpvroKmoYkNWfaNE8jRpLod7LclueYvIyp93PG6fv+YWkiPYF1OtWtJHrMUG1W1m6G
+ 6N6sIlvxhh+kQiWM5xtP1EEB/3Pwlzme8VjPXAnjdo6crbpn3Hsd0nGOazZzVF99lVpF
+ XKaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3YnlWYrFQuWXt1rppNJud8kwI6R078rMYORIY8x9Pr4=;
- b=nmw52/FNX6uSzEhb+kbb2a3avtTs6j1Zj5EQxsZRuXIYAkR4QrdEL6onFXPT5XxJKB
- W+Uq/0x1YIKvhuuRakgy+wUYO9//sHYwzxQx6ubMx/EdsdLWHgXRDm8pzEOSSJ20QfEk
- vfj6XoCKdUOtk/IPflBk9EItotDH2UJaqeeOhX6BNAaxsi3GOFUbnHZL2Cd/AJuJUDmn
- HDiLHxk8Vboa0ccav2+7Zuy1ht0xQnjrV5AcUuK9LX6mo6BKAHtZFqbCgrf54xlluwP4
- 9O8QfuqsFMcl8Hdvh4Lv9Tkatakow0gc2vqV6hsUT4eO+Ele1eINxBKS0TdJH3MT/iIb
- lRjg==
-X-Gm-Message-State: AO0yUKW6JU1teBBO80QXzEyOShs1686c326ZA4mtJ5W5sCOOP5NrhfMm
- r1+KQKycKSaFitTOwPp8FfHgJ7RtOQME+QJt
-X-Google-Smtp-Source: AK7set+SNr4ZuTEvP/gd8VtjCUM0EEHTi7QjIKQsOuz3b7ITdDO+q7mpfZMBrbPVemy/B9OjZYrzFA==
-X-Received: by 2002:a5d:5044:0:b0:2c3:eaff:aae9 with SMTP id
- h4-20020a5d5044000000b002c3eaffaae9mr21611803wrt.19.1676313875408; 
- Mon, 13 Feb 2023 10:44:35 -0800 (PST)
+ bh=lbFFSEwuPaiVjYWiGHnO40wk80nlXCVErHPDaxFN7V8=;
+ b=XNTVfTbjaKl2YBzchxQIbi11DbFJ8kYANzu3bvb6rqUhRbGbKXjHrSvE3rEh+LijNR
+ IoxacG5Rl8aifVhUpWX/M/eYnNhmmLy9O/Q8HICR6XEg5AnQGmTU5wycjU4X1AENrywT
+ p2XQdfGTvVJyJONQ4TVBg4HaRU9d/hMoRc0blqQfFH/P01enakdjMRA8atP+HlAaREYi
+ oHolf3CLqWUahLfX0u6CSgPc4BKZUh+NkrOqYbMHoOX0ufyu1z0vfJf3P9nTkolyBapH
+ EbLTsNUS4M4kkNgby4m2ZWkJH2NgB7XKNMfzXHdjWkCc3729hIYYYFjBELD/9FLX7N4x
+ iZxw==
+X-Gm-Message-State: AO0yUKXexTDu4rVbXnf6/MwY5ffIbzgKRgBzlSjbAk6lwTzCzJPj+eRQ
+ Vv4MTvn6TFN8yoOqgNbRjCCJtuY1A4TELHte
+X-Google-Smtp-Source: AK7set8nIPN91DREOFKQvt+K55Z1k2Vl3+XAisCdkJ3vPKfF34AlyUm6jCwAeeVdey0Kjm76r8etMw==
+X-Received: by 2002:a05:600c:3403:b0:3dc:572f:edb7 with SMTP id
+ y3-20020a05600c340300b003dc572fedb7mr5131983wmp.1.1676313881348; 
+ Mon, 13 Feb 2023 10:44:41 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- m17-20020a05600c3b1100b003df5be8987esm19080586wms.20.2023.02.13.10.44.34
+ w19-20020a05600c475300b003e11f280b8bsm12751880wmo.44.2023.02.13.10.44.39
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 13 Feb 2023 10:44:35 -0800 (PST)
+ Mon, 13 Feb 2023 10:44:41 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org,
 	Eduardo Habkost <eduardo@habkost.net>
@@ -61,19 +61,19 @@ Cc: qemu-block@nongnu.org, Hu Tao <hutao@cn.fujitsu.com>,
  Li Qiang <liq3ea@163.com>, Thomas Huth <thuth@redhat.com>,
  Cao jin <caoj.fnst@cn.fujitsu.com>, xiaoqiang zhao <zxq_yx_007@163.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PATCH v3 10/14] hw/pci/pci: Replace DO_UPCAST(PCIBus) by PCI_BUS()
-Date: Mon, 13 Feb 2023 19:43:34 +0100
-Message-Id: <20230213184338.46712-11-philmd@linaro.org>
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>
+Subject: [PATCH v3 11/14] hw/scsi/scsi-bus: Replace DO_UPCAST(SCSIBus) by
+ SCSI_BUS()
+Date: Mon, 13 Feb 2023 19:43:35 +0100
+Message-Id: <20230213184338.46712-12-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230213184338.46712-1-philmd@linaro.org>
 References: <20230213184338.46712-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,26 +96,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use the PCI_BUS() QOM type-checking macro to avoid DO_UPCAST().
+Use the SCSI_BUS() QOM type-checking macro to avoid DO_UPCAST().
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/pci/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/scsi/scsi-bus.c     | 12 ++++++------
+ include/hw/scsi/scsi.h |  2 +-
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 2e785e3aef..ae5c33adb6 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -391,7 +391,7 @@ void pci_device_reset(PCIDevice *dev)
-  */
- static void pcibus_reset(BusState *qbus)
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index 7b2a82b335..c4525515ab 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -104,7 +104,7 @@ static void scsi_device_unrealize(SCSIDevice *s)
+ int scsi_bus_parse_cdb(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
+                        size_t buf_len, void *hba_private)
  {
--    PCIBus *bus = DO_UPCAST(PCIBus, qbus, qbus);
-+    PCIBus *bus = PCI_BUS(qbus);
-     int i;
+-    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, qdev_get_parent_bus(DEVICE(dev)));
++    SCSIBus *bus = SCSI_BUS(qdev_get_parent_bus(DEVICE(dev)));
+     int rc;
  
-     for (i = 0; i < ARRAY_SIZE(bus->devices); ++i) {
+     assert(cmd->len == 0);
+@@ -250,7 +250,7 @@ static bool scsi_bus_check_address(BusState *qbus, DeviceState *qdev, Error **er
+ static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
+ {
+     SCSIDevice *dev = SCSI_DEVICE(qdev);
+-    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, qdev_get_parent_bus(DEVICE(dev)));
++    SCSIBus *bus = SCSI_BUS(qdev_get_parent_bus(qdev));
+     bool is_free;
+     Error *local_err = NULL;
+ 
+@@ -705,7 +705,7 @@ SCSIRequest *scsi_req_alloc(const SCSIReqOps *reqops, SCSIDevice *d,
+ SCSIRequest *scsi_req_new(SCSIDevice *d, uint32_t tag, uint32_t lun,
+                           uint8_t *buf, size_t buf_len, void *hba_private)
+ {
+-    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, qdev_get_parent_bus(DEVICE(d)));
++    SCSIBus *bus = SCSI_BUS(qdev_get_parent_bus(DEVICE(d)));
+     const SCSIReqOps *ops;
+     SCSIDeviceClass *sc = SCSI_DEVICE_GET_CLASS(d);
+     SCSIRequest *req;
+@@ -1353,7 +1353,7 @@ int scsi_req_parse_cdb(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
+ 
+ void scsi_device_report_change(SCSIDevice *dev, SCSISense sense)
+ {
+-    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, qdev_get_parent_bus(DEVICE(dev)));
++    SCSIBus *bus = SCSI_BUS(qdev_get_parent_bus(DEVICE(dev)));
+ 
+     scsi_device_set_ua(dev, sense);
+     if (bus->info->change) {
+@@ -1698,7 +1698,7 @@ static int put_scsi_requests(QEMUFile *f, void *pv, size_t size,
+                              const VMStateField *field, JSONWriter *vmdesc)
+ {
+     SCSIDevice *s = pv;
+-    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, qdev_get_parent_bus(DEVICE(s)));
++    SCSIBus *bus = SCSI_BUS(qdev_get_parent_bus(DEVICE(s)));
+     SCSIRequest *req;
+ 
+     QTAILQ_FOREACH(req, &s->requests, next) {
+@@ -1726,7 +1726,7 @@ static int get_scsi_requests(QEMUFile *f, void *pv, size_t size,
+                              const VMStateField *field)
+ {
+     SCSIDevice *s = pv;
+-    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, qdev_get_parent_bus(DEVICE(s)));
++    SCSIBus *bus = SCSI_BUS(qdev_get_parent_bus(DEVICE(s)));
+     int8_t sbyte;
+ 
+     while ((sbyte = qemu_get_sbyte(f)) > 0) {
+diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
+index 843dde8851..eb558c145a 100644
+--- a/include/hw/scsi/scsi.h
++++ b/include/hw/scsi/scsi.h
+@@ -177,7 +177,7 @@ static inline void scsi_bus_init(SCSIBus *bus, size_t bus_size,
+ 
+ static inline SCSIBus *scsi_bus_from_device(SCSIDevice *d)
+ {
+-    return DO_UPCAST(SCSIBus, qbus, qdev_get_parent_bus(DEVICE(d)));
++    return SCSI_BUS(qdev_get_parent_bus(DEVICE(d)));
+ }
+ 
+ SCSIDevice *scsi_bus_legacy_add_drive(SCSIBus *bus, BlockBackend *blk,
 -- 
 2.38.1
 
