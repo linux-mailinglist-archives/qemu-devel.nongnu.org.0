@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366EB6941B7
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:45:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAE106941AB
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:45:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVMm-0003UF-UW; Mon, 13 Feb 2023 04:43:20 -0500
+	id 1pRVMx-0003V9-7E; Mon, 13 Feb 2023 04:43:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVMl-0003Tu-Sd
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:19 -0500
+ id 1pRVMu-0003Uk-6q
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:28 -0500
 Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVMh-0002Wd-8m
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:19 -0500
+ id 1pRVMm-0002aV-3B
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676281395; x=1707817395;
+ t=1676281400; x=1707817400;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=/E7k/NTHks3kjh661e475eJSmR+9SbGlLKePVDzqsFE=;
- b=VV3IxpXBLRNDTlPLF1N6OFNtgYCihzCj6P7m6ih7hl7nmhN7TYCmeAUs
- ypK1jyiw5JPAY7BGe/uemxHkGjFathTB6zZ4RpPsTl2Qls9ECmcHCUV8D
- tCKc8FjSvjzKC/Fe/sUE6lg+gXts967TUSgUbDJDjfE1Qa+TXVaIuSo05
- +OKBPqwC3uUu8ja5Q7dv3aToseHdDm4WnBwysmt3/IpL02gVKQwPxJsQ7
- ywkFC/kNUTjcj2/zVTBLXj87V55KQdKTXtHrUJiAn28kr3VLAfDlh5XTY
- YxWL97qWnm1SANYVoHAlXWgQL4Sq78qtvxsj2NXgKNW+Fukm8jNPHY+zw w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486333"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486333"
+ bh=aWyQVMR7h15uj2iD8i3nTPQv7HlrNLYz2ZcyoOyV0oA=;
+ b=LXY9kI4AxzBq9VT9TB3yS9oG1kBnck1jE5mYqHWCR4oRTpEkyPXsVCj0
+ hvMN1jp88YBNETj6x8DAEbTubXH4eJt42Ub8caFGrSLq/LqwsBdu9RR6c
+ d/edSsm5nkoHns4BbOSQriPHA+4dOQAvzytbpiezv0oVDl+eB/ENECAJI
+ sKDFfNMtLmIt3kBA2vcTdMyYvg2CqZX63qFDgwk3MthfR21Ev3ubPhGzH
+ uHZ8IyfgvBw0eaxxU8XS0m0t50T/bAUtJbYJC3wobufLdEJSCs9sEUgH8
+ 3x6iIxp1+TDJI47AdYQNsDnOSafWbi/6KJLkxiHaAXb0uWFH5FS6mlfC1 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486356"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486356"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 01:43:14 -0800
+ 13 Feb 2023 01:43:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670759800"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670759800"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670759806"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670759806"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:43:10 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:43:14 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -54,11 +54,11 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Zhuocheng Ding <zhuocheng.ding@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
- Zhao Liu <zhao1.liu@intel.com>, Igor Mammedov <imammedo@redhat.com>,
- Ani Sinha <ani@anisinha.ca>
-Subject: [RFC 03/52] hw/smbios: Fix core count in type4
-Date: Mon, 13 Feb 2023 17:49:46 +0800
-Message-Id: <20230213095035.158240-4-zhao1.liu@linux.intel.com>
+ Zhao Liu <zhao1.liu@intel.com>, Sunil Muthuswamy <sunilmut@microsoft.com>
+Subject: [RFC 04/52] i386/WHPX: Fix error message when fail to set
+ ProcessorCount
+Date: Mon, 13 Feb 2023 17:49:47 +0800
+Message-Id: <20230213095035.158240-5-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
@@ -89,57 +89,40 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
-From SMBIOS 3.0 specification, core count field means:
+003f230 (machine: Tweak the order of topology members in struct
+CpuTopology) changes the meaning of MachineState.smp.cores from "the
+number of cores in one package" to "the number of cores in one die"
+and doesn't fix other uses of MachineState.smp.cores. And because of
+the introduction of cluster, now smp.cores just means "the number of
+cores in one cluster". This clearly does not fit the semantics here.
 
-Core Count is the number of cores detected by the BIOS for this
-processor socket. [1]
+And before this error message, WHvSetPartitionProperty() is called to
+set prop.ProcessorCount.
 
-Before 003f230 (machine: Tweak the order of topology members in struct
-CpuTopology), MachineState.smp.cores means "the number of cores in one
-package", and it's correct to use smp.cores for core count.
+So the error message should show the prop.ProcessorCount other than
+"cores per cluster" or "cores per package".
 
-But 003f230 changes the smp.cores' meaning to "the number of cores in
-one die" and doesn't change the original smp.cores' use in smbios as
-well, which makes core count in type4 go wrong.
-
-Fix this issue with the correct "cores per socket" caculation.
-
-[1] SMBIOS 3.0.0, section 7.5.6, Processor Information - Core Count
-
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Cc: Ani Sinha <ani@anisinha.ca>
-Fixes: 003f230 (machine: Tweak the order of topology members in struct CpuTopology)
+Cc: Sunil Muthuswamy <sunilmut@microsoft.com>
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- hw/smbios/smbios.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ target/i386/whpx/whpx-all.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-index 5e6d4584edbb..cd4aa331cb3e 100644
---- a/hw/smbios/smbios.c
-+++ b/hw/smbios/smbios.c
-@@ -714,6 +714,7 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
-     char sock_str[128];
-     size_t tbl_len = SMBIOS_TYPE_4_LEN_V28;
-     unsigned cpus_per_socket = ms->smp.max_cpus / ms->smp.sockets;
-+    unsigned cores_per_socket = cpus_per_socket / ms->smp.threads;
+diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
+index e738d83e8191..fc349f887e47 100644
+--- a/target/i386/whpx/whpx-all.c
++++ b/target/i386/whpx/whpx-all.c
+@@ -2613,8 +2613,8 @@ static int whpx_accel_init(MachineState *ms)
+         sizeof(WHV_PARTITION_PROPERTY));
  
-     if (smbios_ep_type == SMBIOS_ENTRY_POINT_TYPE_64) {
-         tbl_len = SMBIOS_TYPE_4_LEN_V30;
-@@ -748,10 +749,10 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
-     SMBIOS_TABLE_SET_STR(4, asset_tag_number_str, type4.asset);
-     SMBIOS_TABLE_SET_STR(4, part_number_str, type4.part);
- 
--    t->core_count = (ms->smp.cores > 255) ? 0xFF : ms->smp.cores;
-+    t->core_count = (cores_per_socket > 255) ? 0xFF : cores_per_socket;
-     t->core_enabled = t->core_count;
- 
--    t->core_count2 = t->core_enabled2 = cpu_to_le16(ms->smp.cores);
-+    t->core_count2 = t->core_enabled2 = cpu_to_le16(cores_per_socket);
- 
-     t->thread_count = (cpus_per_socket > 255) ? 0xFF : cpus_per_socket;
-     t->thread_count2 = cpu_to_le16(cpus_per_socket);
+     if (FAILED(hr)) {
+-        error_report("WHPX: Failed to set partition core count to %d,"
+-                     " hr=%08lx", ms->smp.cores, hr);
++        error_report("WHPX: Failed to set partition processor count to %d,"
++                     " hr=%08lx", prop.ProcessorCount, hr);
+         ret = -EINVAL;
+         goto error;
+     }
 -- 
 2.34.1
 
