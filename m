@@ -2,83 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D853695085
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A45A695084
 	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 20:20:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pReLz-0003Mo-K6; Mon, 13 Feb 2023 14:19:07 -0500
+	id 1pReMg-0003VF-1S; Mon, 13 Feb 2023 14:19:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pReLw-0003MV-EF
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 14:19:04 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pReLu-0005xN-UD
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 14:19:04 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- v6-20020a17090ad58600b00229eec90a7fso14510387pju.0
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 11:19:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=VHqbPugPLFtp52xzsuULDOUwWtU/kX4UW3Vuzg5hhBw=;
- b=e24oE+HFnc+Q2V/EITsTmGHNXTsgaGCwQrlNFBzY2+KSfFDEVHIDa+LKaqCK1f4Bcn
- ZsuCR9TpD/rQWIJ1J20PcmNeNosYdB9iKshWJGkDK/0FMOJIlpeCKuN7zu82idGtJIRs
- dAveIYDzj42rdoPAymv1G1Lz8+dfGlzhG3NOAf3RE8L+ssCeZ7Z6SJGfSoaHfDTDuluj
- pDnLYdbjwE0KNLyy/r+lhv5kXbD/aj78EzmFRRxKTFfDkOY7auIpdY8G/7XnmDoLYfYF
- /ybABo/dMyi2mCtlie3tdP4XtOYZbMZ4tWJty+hiaEIxZoA2mnWPrWo1wSl66FSMj5hS
- /iBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VHqbPugPLFtp52xzsuULDOUwWtU/kX4UW3Vuzg5hhBw=;
- b=wMCY0Voa5vIzu9/iXTHCKiTNe3H6BqKk9xk9QffYAljekbOOIuvRCq42hPdtqSVTAG
- VsAlziELOncrU+zI8MFvd0TOQSIOngpx85TyHE+GLAX2tW4vZTuZ6FOh1R3lb9IReVMe
- r0ATOWwfD9L1YbRylsWIzwfBxjSlvczi5fh4IuZ5PEiRUJTZZhrom7r/cbz5RcG5dhID
- 8Pxj09PD/eQ2Pig0HgmCaFvR0JBkZkRsXechwwCqUN4TNAM92+8pyU/5YtkaZhQweTqC
- acuSzoGBgHW2uNDJTjp9sOW1DbG8/3hBjFkUb9+cso+CXovcgLymZtjrhUVbZxas3UnL
- xpeA==
-X-Gm-Message-State: AO0yUKVREaeCr8BzLtPhlVSJpobajU4ZgEdOBsX/x4c6d9opSwNQrkFP
- lhRwwakOzdlrUyk8CREl5uP6eoEn/GTuNmtb4Hw=
-X-Google-Smtp-Source: AK7set9/rxeCcHt9Y+nQDrzZxi9Rdtj9qAJIF8hzCYUGe5Or4SYmkUNkddksIlHgAHDvUYRXM9w/4g==
-X-Received: by 2002:a17:90b:4acd:b0:234:f77:d6d2 with SMTP id
- mh13-20020a17090b4acd00b002340f77d6d2mr2734852pjb.45.1676315940958; 
- Mon, 13 Feb 2023 11:19:00 -0800 (PST)
-Received: from [192.168.145.227] (rrcs-74-87-59-234.west.biz.rr.com.
- [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
- s23-20020a17090a075700b0023377b98c7csm6383857pje.38.2023.02.13.11.18.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 11:19:00 -0800 (PST)
-Message-ID: <cb062199-897d-469c-959d-a06f9876bb19@linaro.org>
-Date: Mon, 13 Feb 2023 09:18:55 -1000
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pReMZ-0003Uf-UK
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 14:19:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pReMU-00061e-Uj
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 14:19:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676315977;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ug4ekzcm50hXY6tkRDWzelLEtq9iqOrvykLFVg+HpX4=;
+ b=XitXYwx4e67PlyRlhRUy+Aqf6Bi4RO7ZjW8FYPf+655tU0guVuuH9vROU5fwFI/t3IrqBm
+ 56d8FckGllxBMlSBZCKPqwStlqlgN/w+7XWocgP1Rp4/MZbZbf8aNl1pAWFgl4UvT9wg71
+ VE3nv6pyuK4XTFc9FjIcavelMaVryao=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-9-uH8UPIqnMWqY6i1S0lQoPQ-1; Mon, 13 Feb 2023 14:19:34 -0500
+X-MC-Unique: uH8UPIqnMWqY6i1S0lQoPQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A6B0418ABF89;
+ Mon, 13 Feb 2023 19:19:33 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.192.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5F963C16022;
+ Mon, 13 Feb 2023 19:19:31 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org,
+	mst@redhat.com
+Cc: Jason Wang <jasowang@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Parav Pandit <parav@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ Cindy Lu <lulu@redhat.com>, longpeng2@huawei.com,
+ Eli Cohen <eli@mellanox.com>, alvaro.karsz@solid-run.com,
+ Lei Yang <leiyang@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Subject: [PATCH] vhost: accept VIRTIO_F_ORDER_PLATFORM as a valid SVQ feature
+Date: Mon, 13 Feb 2023 20:19:29 +0100
+Message-Id: <20230213191929.1547497-1-eperezma@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [RFC PATCH 01/43] target/loongarch: Add vector data type vec_t
-Content-Language: en-US
-To: gaosong <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <20221224081633.4185445-1-gaosong@loongson.cn>
- <20221224081633.4185445-2-gaosong@loongson.cn>
- <fd5e8513-8890-ca06-194c-4ea4538bc7f3@linaro.org>
- <0b2940dc-d058-4b87-9f54-b80bf700f2fe@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <0b2940dc-d058-4b87-9f54-b80bf700f2fe@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.345,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,27 +80,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/12/23 22:24, gaosong wrote:
-> Hi,  Richard
-> 
-> 在 2022/12/25 上午1:32, Richard Henderson 写道:
->> On 12/24/22 00:15, Song Gao wrote:
->>> +union vec_t {
->>> +    int8_t   B[LSX_LEN / 8];
->>> +    int16_t  H[LSX_LEN / 16];
->>> +    int32_t  W[LSX_LEN / 32];
->>> +    int64_t  D[LSX_LEN / 64];
->>> +    __int128 Q[LSX_LEN / 128];
->>
->> Oh, you can't use __int128 directly.
->> It won't compile on 32-bit hosts.
->>
->>
-> Can we  use Int128  after include "qem/int128.h" ?
-> So,   some  vxx_q  instructions  can  use   int128_ xx(a, b).
+VIRTIO_F_ORDER_PLATFORM indicates that memory accesses by the driver and
+the device are ordered in a way described by the platform.  Since vDPA
+devices may be backed by a hardware devices, let's allow
+VIRTIO_F_ORDER_PLATFORM.
 
-Yes, certainly.
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ hw/virtio/vhost-shadow-virtqueue.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-r~
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+index 4307296358..6bb1998f12 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.c
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -34,6 +34,7 @@ bool vhost_svq_valid_features(uint64_t features, Error **errp)
+         switch (b) {
+         case VIRTIO_F_ANY_LAYOUT:
+         case VIRTIO_RING_F_EVENT_IDX:
++        case VIRTIO_F_ORDER_PLATFORM:
+             continue;
+ 
+         case VIRTIO_F_ACCESS_PLATFORM:
+-- 
+2.31.1
 
 
