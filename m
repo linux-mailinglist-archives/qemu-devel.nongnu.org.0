@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B94E6941A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:44:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 844626941B4
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:45:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVNi-0005kP-4H; Mon, 13 Feb 2023 04:44:18 -0500
+	id 1pRVNr-0006gE-8w; Mon, 13 Feb 2023 04:44:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVNf-0005a7-5H
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:44:15 -0500
+ id 1pRVNp-0006b1-38
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:44:25 -0500
 Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVNZ-0002kj-OQ
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:44:14 -0500
+ id 1pRVNk-0002n2-H7
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:44:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676281449; x=1707817449;
+ t=1676281460; x=1707817460;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=p6sx2xoPeUi9UWQYIRBggQhvuX755Dv7fYyMtVhuONw=;
- b=gsSNB2KacTq5dlvaZULwApImD4PGlWklDo4l12XTWLP2pC0HB9lX/fFg
- +mCaDyaGijE030yGqb84eVusHgquhIBtZ3gzBQZUE5aVWDcQN8mEsRYKk
- EAxB4RMK1Iafl8YN7AqWpHkk8116CtwoCmF3/JX86xtHsE2H66CWrFO/t
- SMkNxdnqdVwlR+fmDCe6UmMYpSMLr6TeW82djzVDYk8divv3Ss3NfDaMd
- tcOb9IO/jpm1+2/vFqT4wl+p4QcaghWuIDzn/2kpqsdOrrasjQpQaf/ob
- h4RNUpYgctS5VW2vr/ZdQJjsrESyCO1i9iz0XQ0yMhMsTRRN5ZNfvu15L w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486570"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486570"
+ bh=ECi88NB/mwC8hYSVzTfpq/qX59dECqd3qGItUGfH3+s=;
+ b=XBthXtS0Jt3ZktO5vevOBIpm4wp3CrHNo5NLzWAT4ppv64qMN9+f8ba8
+ Re6BgQvenYLzjardzqBJv1x75U5811zuEYRr9MzJLj6gR6VTsvCqZqT/6
+ UfH7VKHbnILrr6Lh+x7u71juDjIHO62B5Cx+bvCpvkxtcVjJoYeiJSWPp
+ sLqd5I35ZrZvurPfaoR6j/7Zn0N9x7MZsrnMKlzEGmqhV5hmZbMV9T2LH
+ urOcb6583+KVOi/pVSqlkfUBFBv8Abz/sPpwkJDLL99+729P2PI+OCVR6
+ QjUGOQ6NxOV6D4f0m+9RDrSWwDNc1WJEmktSLImA22wxSV+QIfUUB5K3I Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486585"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486585"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 01:44:04 -0800
+ 13 Feb 2023 01:44:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670759892"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670759892"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670759925"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670759925"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:44:00 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:44:04 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -54,18 +54,15 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Zhuocheng Ding <zhuocheng.ding@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
- Zhao Liu <zhao1.liu@intel.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Alexandre Iooss <erdnaxe@crans.org>,
- Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: [RFC 16/52] plugins: Use generic topology name and helper
-Date: Mon, 13 Feb 2023 17:49:59 +0800
-Message-Id: <20230213095035.158240-17-zhao1.liu@linux.intel.com>
+ Zhao Liu <zhao1.liu@intel.com>
+Subject: [RFC 17/52] softmmu/cpus: Use generic topology helper in vcpus
+ initialization
+Date: Mon, 13 Feb 2023 17:50:00 +0800
+Message-Id: <20230213095035.158240-18-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: none client-ip=192.55.52.136;
  envelope-from=zhao1.liu@linux.intel.com; helo=mga12.intel.com
@@ -92,90 +89,31 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
-As the generic code, here we should respect the different topologies:
-smp or hybrid.
+As for the generic vcpu initialization, qemu_init_vcpu() should respect
+the different topologies: smp or hybrid.
 
-So rename qemu_info_t.system.smp_vcpus to qemu_info_t.system.vcpus to
-decouple with smp topology.
+Use generic topology helpers to get topology information.
 
-And use generic topology helpers to get topology information.
-
-Cc: Alex Bennée <alex.bennee@linaro.org>
-Cc: Alexandre Iooss <erdnaxe@crans.org>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- contrib/plugins/hwprofile.c | 2 +-
- include/qemu/qemu-plugin.h  | 4 ++--
- plugins/api.c               | 4 ++--
- plugins/loader.c            | 4 ++--
- 4 files changed, 7 insertions(+), 7 deletions(-)
+ softmmu/cpus.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/contrib/plugins/hwprofile.c b/contrib/plugins/hwprofile.c
-index 691d4edb0c67..839175396932 100644
---- a/contrib/plugins/hwprofile.c
-+++ b/contrib/plugins/hwprofile.c
-@@ -307,7 +307,7 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
-     }
- 
-     /* Just warn about overflow */
--    if (info->system.smp_vcpus > 64 ||
-+    if (info->system.vcpus > 64 ||
-         info->system.max_vcpus > 64) {
-         fprintf(stderr, "hwprofile: can only track up to 64 CPUs\n");
-     }
-diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-index d0e9d03adfe3..529fcc54e43e 100644
---- a/include/qemu/qemu-plugin.h
-+++ b/include/qemu/qemu-plugin.h
-@@ -74,8 +74,8 @@ typedef struct qemu_info_t {
-     union {
-         /** @system: information relevant to system emulation */
-         struct {
--            /** @system.smp_vcpus: initial number of vCPUs */
--            int smp_vcpus;
-+            /** @system.vcpus: initial number of vCPUs */
-+            int vcpus;
-             /** @system.max_vcpus: maximum possible number of vCPUs */
-             int max_vcpus;
-         } system;
-diff --git a/plugins/api.c b/plugins/api.c
-index 2078b16edb02..22018083d0cd 100644
---- a/plugins/api.c
-+++ b/plugins/api.c
-@@ -374,7 +374,7 @@ int qemu_plugin_n_vcpus(void)
- #ifdef CONFIG_USER_ONLY
-     return -1;
- #else
--    return get_ms()->smp.cpus;
-+    return machine_topo_get_cpus(get_ms());
- #endif
- }
- 
-@@ -383,7 +383,7 @@ int qemu_plugin_n_max_vcpus(void)
- #ifdef CONFIG_USER_ONLY
-     return -1;
- #else
--    return get_ms()->smp.max_cpus;
-+    return machine_topo_get_max_cpus(get_ms());
- #endif
- }
- 
-diff --git a/plugins/loader.c b/plugins/loader.c
-index 88c30bde2d6a..c17ece9acc49 100644
---- a/plugins/loader.c
-+++ b/plugins/loader.c
-@@ -298,8 +298,8 @@ int qemu_plugin_load_list(QemuPluginList *head, Error **errp)
- #ifndef CONFIG_USER_ONLY
+diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+index 9996e6a3b295..7892da9c82b5 100644
+--- a/softmmu/cpus.c
++++ b/softmmu/cpus.c
+@@ -630,8 +630,8 @@ void qemu_init_vcpu(CPUState *cpu)
+ {
      MachineState *ms = MACHINE(qdev_get_machine());
-     info->system_emulation = true;
--    info->system.smp_vcpus = ms->smp.cpus;
--    info->system.max_vcpus = ms->smp.max_cpus;
-+    info->system.vcpus = machine_topo_get_cpus(ms);
-+    info->system.max_vcpus = machine_topo_get_max_cpus(ms);
- #else
-     info->system_emulation = false;
- #endif
+ 
+-    cpu->nr_cores = ms->smp.dies * ms->smp.clusters * ms->smp.cores;
+-    cpu->nr_threads =  ms->smp.threads;
++    cpu->nr_cores = machine_topo_get_cores_per_socket(ms);
++    cpu->nr_threads = machine_topo_get_threads_by_idx(ms, cpu->cpu_index);
+     cpu->stopped = true;
+     cpu->random_seed = qemu_guest_random_seed_thread_part1();
+ 
 -- 
 2.34.1
 
