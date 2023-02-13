@@ -2,79 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66B4694265
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 11:11:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 307A4694274
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 11:12:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVo6-0006HT-62; Mon, 13 Feb 2023 05:11:34 -0500
+	id 1pRVp2-0007xH-GJ; Mon, 13 Feb 2023 05:12:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRVo4-0006C7-0i
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 05:11:32 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRVoo-0007c4-Nf
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 05:12:20 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRVo2-0003YK-60
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 05:11:31 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id he5so491170wmb.3
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 02:11:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRVok-0003kC-Dc
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 05:12:17 -0500
+Received: by mail-wr1-x431.google.com with SMTP id o15so8240586wrc.9
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 02:12:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=iAgmNlVIUOinPrwzOOaOjTPgQ/bZC+ofNOItCPLhOkw=;
- b=DADTOwmUY0Yx2wnpt7nyQKOI53EaTW5a4izqv/r3uRO6sm1J1SRuWZ+yKAuxeUGMHw
- SEy/pl630oz7JiqgPn0lf7H6FjDqEv1NfFzyRktsrPJJHfRZPf1UmwN92nrwzDNdz/xn
- Jl7GTVqzzEyaBMnJmatRQrAI+PT1keR1HHYHSosN2TXiPx8S1AmNpCahJz1eCLawxWiZ
- GQTsDZz80/XL+VOyymOmK5GqOEmdzfivdDA/xG1Y/tMREjxRDtZcdcD7RhfIVOjNzEIh
- ZtF5MIp/fvBCvxeke7LarCavukhy9ugwlKUDg3EvR0dLFpy/AF0KZYHfvDfqTCJifAqP
- BZdg==
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=K2hibvpiLHVEpfVQdlQcSMJSIPHHnaEFPTuotKSTueE=;
+ b=wwNuAZoUz6ZrfdsE+lGgeRBrG1hkRVca+c+vyIaCWFXEIYE0+vexAMA0BDHCFJrly2
+ x0737YKlNumiO8YWlSjcHzKJXGIO57InTTbl4ZTXhkp3Qw7rbnzGwKZEhnDKXCPt42t9
+ mhF03gznwfLVR+twxaedPszoKdG0mXbMcKN291EBebiYR7P4u9sRtiDXjsa1pnLPV/Cf
+ 12RGvEqxaFrkVi0wPxzCTaz36fIFsCofNtvLEzI3wkiEYqNjECy5MKfPr4IoWYGovgLC
+ pjRyW5L0unSIPZXPM0511szUMD1Ff8sMB6WgOI1r3rO9qileu1+ONjxiQ0XP8KQzF7X6
+ tkxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=iAgmNlVIUOinPrwzOOaOjTPgQ/bZC+ofNOItCPLhOkw=;
- b=POMSakKao/Zj2hu9GF2yhvcXkyZtPQN9gsSbq6g0B6xPg6CpmnMNg8VKzZyK6oqSMh
- w8QdiDPJDA49xL95hvcyWSM0SwxsoGDMDDP6CLHpD1nOkEl568ywldc28VM8WmvYpuaS
- hLZ/6CTaUtOG/PHihBRYOSB5DNTh+dL6bVgRVnPIdNlYixOl81bvm3pw4XYnXxYeND25
- UEPH0h/WNon5OP3iY2ehkPHZbgY357z1ZZuUwIqDsnt3oUrIqVHmq3E1CDc0qIjvLhX3
- ogo/q9Pl5HKDKg00I/rqXFngXfomwov0qqpJAw3Rlo3dTUEcqPEqKRH/iNeF7QwWO903
- DJTA==
-X-Gm-Message-State: AO0yUKUB5hidpNtlLsWTwki12Wv2RJ0Jjg7CNeSH8OzDBJPWxzXRaVhn
- wwVHUsFc9cFieEckrQj4O3YD/CHjmyeTvVAW
-X-Google-Smtp-Source: AK7set+NZXJaZTc8+1GrWGImIH51z1KRsdU4xeU0h4DYgTOy8mLNrNjVQYo4+zyp1E/Ur9Bav9J4cA==
-X-Received: by 2002:a05:600c:1694:b0:3de:27c3:ef13 with SMTP id
- k20-20020a05600c169400b003de27c3ef13mr18354060wmn.9.1676283084674; 
- Mon, 13 Feb 2023 02:11:24 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- o19-20020a05600c4fd300b003dc59d6f2f8sm13851336wmq.17.2023.02.13.02.11.23
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 13 Feb 2023 02:11:24 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org,
-	Eduardo Habkost <eduardo@habkost.net>
-Cc: Jason Wang <jasowang@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v2 7/7] hw/net/eepro100: Replace DO_UPCAST(EEPRO100State) by
- EEPRO100()
-Date: Mon, 13 Feb 2023 11:10:48 +0100
-Message-Id: <20230213101048.94519-8-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230213101048.94519-1-philmd@linaro.org>
-References: <20230213101048.94519-1-philmd@linaro.org>
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=K2hibvpiLHVEpfVQdlQcSMJSIPHHnaEFPTuotKSTueE=;
+ b=DQQcz2vkzRh42DV6L6zeK58DptJx8GyzWGumyiM4Elf4TsSG7En/iNdiHwoQV2AfYi
+ Mc9chHA5S04vQPQ6OaqteWZ8AM0mAa14n7NsYa7WfC8tpSUG0056jw309mVF1+6R1vU0
+ ElnpilC4WigY3ji9+5gFCyw6VLc8/2s98Np8KIMcg8yG54oVHFpwi4EIdb9jVtS956pG
+ qESa7wJGul8OCP8fu6OEdvgeUtdSpgt7rfXggm7TxQz36O+99cvXv7s61HpTdOeNHwP6
+ I9n+1ZcK5FFhLPUXzP+lrnlqLDNsi1tw21S1Iz9/CfA0Nzt3TF9YRPtqIjOJJ2E1GwAM
+ +zmQ==
+X-Gm-Message-State: AO0yUKXdBLppG34KT4Wix8sCizOMajdFneB3wod3JxlFoAV375bmP6EH
+ l/yJrRg5atO93b1yxfOTxhyGAd6ej1qnPRbI
+X-Google-Smtp-Source: AK7set83/vHlZPvTPC72gDvBKlqCyFhl4d9MPVusx7bPAH0SwLHNdnKocSxmPaemWn5zMrYi2hZQYw==
+X-Received: by 2002:adf:aa98:0:b0:2c5:4c07:9593 with SMTP id
+ h24-20020adfaa98000000b002c54c079593mr7864069wrc.16.1676283129147; 
+ Mon, 13 Feb 2023 02:12:09 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ h5-20020a5d5045000000b002c54d9fbea5sm5979647wrt.73.2023.02.13.02.12.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Feb 2023 02:12:08 -0800 (PST)
+Message-ID: <6870a3fe-384d-c802-0d9b-41a4405176b2@linaro.org>
+Date: Mon, 13 Feb 2023 11:12:06 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH v2 08/19] hw/net/eepro100: Introduce TYPE_EEPRO100 QOM
+ abstract parent
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>
+Cc: qemu-block@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Li Qiang <liq3ea@163.com>, qemu-s390x@nongnu.org,
+ Hu Tao <hutao@cn.fujitsu.com>, Gonglei Arei <arei.gonglei@huawei.com>,
+ Cao jin <caoj.fnst@cn.fujitsu.com>, xiaoqiang zhao <zxq_yx_007@163.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Weil <sw@weilnetz.de>, Jason Wang <jasowang@redhat.com>
+References: <20230213070820.76881-1-philmd@linaro.org>
+ <20230213070820.76881-9-philmd@linaro.org>
+ <a39dff9f-d205-a381-0d75-54d191f93320@linaro.org>
+In-Reply-To: <a39dff9f-d205-a381-0d75-54d191f93320@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.348,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,45 +98,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use the EEPRO100() QOM type-checking macro to avoid DO_UPCAST().
+On 13/2/23 09:36, Philippe Mathieu-Daudé wrote:
+> On 13/2/23 08:08, Philippe Mathieu-Daudé wrote:
+>> Have all the EEPRO100-based devices share a common (abstract)
+>> QOM parent.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> ---
+>>   hw/net/eepro100.c | 40 ++++++++++++++++++++++++++--------------
+>>   1 file changed, 26 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/hw/net/eepro100.c b/hw/net/eepro100.c
+>> index dc07984ae9..dac42ba17b 100644
+>> --- a/hw/net/eepro100.c
+>> +++ b/hw/net/eepro100.c
+>> @@ -235,8 +235,14 @@ typedef enum {
+>>       ru_ready = 4
+>>   } ru_state_t;
+>> -typedef struct {
+>> +#define TYPE_EEPRO100 "eepro100"
+>> +OBJECT_DECLARE_SIMPLE_TYPE(EEPRO100State, EEPRO100)
+> 
+> Self-NACK, I'll respin also introducing EEPRO100Class for completeness.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- hw/net/eepro100.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/hw/net/eepro100.c b/hw/net/eepro100.c
-index bce377688e..6db15f1ba2 100644
---- a/hw/net/eepro100.c
-+++ b/hw/net/eepro100.c
-@@ -1834,7 +1834,7 @@ static const VMStateDescription vmstate_eepro100 = {
- 
- static void pci_nic_uninit(PCIDevice *pci_dev)
- {
--    EEPRO100State *s = DO_UPCAST(EEPRO100State, dev, pci_dev);
-+    EEPRO100State *s = EEPRO100(pci_dev);
- 
-     vmstate_unregister(VMSTATE_IF(&pci_dev->qdev), s->vmstate, s);
-     g_free(s->vmstate);
-@@ -1850,7 +1850,7 @@ static NetClientInfo net_eepro100_info = {
- 
- static void e100_nic_realize(PCIDevice *pci_dev, Error **errp)
- {
--    EEPRO100State *s = DO_UPCAST(EEPRO100State, dev, pci_dev);
-+    EEPRO100State *s = EEPRO100(pci_dev);
- 
-     TRACE(OTHER, logout("\n"));
- 
-@@ -1891,7 +1891,7 @@ static void e100_nic_realize(PCIDevice *pci_dev, Error **errp)
- 
- static void eepro100_instance_init(Object *obj)
- {
--    EEPRO100State *s = DO_UPCAST(EEPRO100State, dev, PCI_DEVICE(obj));
-+    EEPRO100State *s = EEPRO100(obj);
-     device_add_bootindex_property(obj, &s->conf.bootindex,
-                                   "bootindex", "/ethernet-phy@0",
-                                   DEVICE(s));
--- 
-2.38.1
-
+Respin posted here:
+https://lore.kernel.org/qemu-devel/20230213101048.94519-1-philmd@linaro.org/
 
