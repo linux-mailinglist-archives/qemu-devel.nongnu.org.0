@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 675C9693B6C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 01:41:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96F9D693B6E
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 01:42:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRMtQ-0000AS-Q5; Sun, 12 Feb 2023 19:40:28 -0500
+	id 1pRMtT-0000D4-L9; Sun, 12 Feb 2023 19:40:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pRMtN-00009G-6A
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 19:40:25 -0500
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pRMtR-0000Bo-FM
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 19:40:29 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pRMtL-0003K6-7W
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 19:40:24 -0500
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pRMtP-0003NL-Vv
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 19:40:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676248822;
+ s=mimecast20190719; t=1676248827;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TcOL1H5G2Cy942ZvmrgRVKBMqDA5YQeeIuS/uJMngy8=;
- b=ENXxF0UWBOm39OZViumffuEOGtrD6/F0R+mendgDrVImdTmWawF9B8Nt9DPXb88yfG+auf
- BKSCpJCnlJop/n66grttYn8z+weX4O8BeEoPeqj/pgC9QuQDXMRgPcuQGZ9gi/JiK4Bok9
- x7G0sogwY1UUJ3fqWVhaavYODlwFq2g=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=yfEiMlotzwVa+BZ2vnpJRtaUaWl9FtqnjFN3oEdOp24=;
+ b=PtcGmepgU9vnSHWDQ1xUk3d70yMx09M4hYzmNnMN4mpANGiXL6X6sJTVw8/Gocfyzke/p3
+ IK+oEKe5eHSnKWcK4WIqMo9FLkScnzKd3kyUsd9uf/V9CTuCFHvy8C1TMMOlaIGvgJiCSi
+ sWI91IEDt8Fh1phtspaTiq0aGwIrocc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-590-gZW5A4BjN-GuABBKF6qyBA-1; Sun, 12 Feb 2023 19:40:19 -0500
-X-MC-Unique: gZW5A4BjN-GuABBKF6qyBA-1
+ us-mta-652-o_veNRWYNcGXPYzaYQEhSA-1; Sun, 12 Feb 2023 19:40:25 -0500
+X-MC-Unique: o_veNRWYNcGXPYzaYQEhSA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9832D3C0256D;
- Mon, 13 Feb 2023 00:40:18 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5A9BB185A78B;
+ Mon, 13 Feb 2023 00:40:25 +0000 (UTC)
 Received: from gshan.redhat.com (vpn2-54-114.bne.redhat.com [10.64.54.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9D51340B3FE1;
- Mon, 13 Feb 2023 00:40:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6034240A3607;
+ Mon, 13 Feb 2023 00:40:18 +0000 (UTC)
 From: Gavin Shan <gshan@redhat.com>
 To: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, peter.maydell@linaro.org,
  peterx@redhat.com, david@redhat.com, philmd@linaro.org, mst@redhat.com,
  cohuck@redhat.com, quintela@redhat.com, dgilbert@redhat.com,
  maz@kernel.org, zhenyzha@redhat.com, shan.gavin@gmail.com
-Subject: [PATCH v1 5/6] hw/arm/virt: Enable backup bitmap for dirty ring
-Date: Mon, 13 Feb 2023 08:39:24 +0800
-Message-Id: <20230213003925.40158-6-gshan@redhat.com>
+Subject: [PATCH v1 6/6] kvm: Enable dirty ring for arm64
+Date: Mon, 13 Feb 2023 08:39:25 +0800
+Message-Id: <20230213003925.40158-7-gshan@redhat.com>
 In-Reply-To: <20230213003925.40158-1-gshan@redhat.com>
 References: <20230213003925.40158-1-gshan@redhat.com>
 MIME-Version: 1.0
@@ -79,129 +79,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When KVM device "kvm-arm-gicv3" or "arm-its-kvm" is used, we have to
-enable the backup bitmap for the dirty ring. Otherwise, the migration
-will fail because those two devices are using the backup bitmap to track
-dirty guest memory, corresponding to various hardware tables.
+arm64 has different capability from x86 to enable the dirty ring, which
+is KVM_CAP_DIRTY_LOG_RING_ACQ_REL. To enable it in kvm_dirty_ring_init()
+when KVM_CAP_DIRTY_LOG_RING isn't supported.
 
 Signed-off-by: Gavin Shan <gshan@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 ---
- hw/arm/virt.c        | 26 ++++++++++++++++++++++++++
- target/arm/kvm64.c   | 25 +++++++++++++++++++++++++
- target/arm/kvm_arm.h | 12 ++++++++++++
- 3 files changed, 63 insertions(+)
+ accel/kvm/kvm-all.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 75f28947de..ea9bd98a65 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2024,6 +2024,8 @@ static void machvirt_init(MachineState *machine)
-     VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(machine);
-     MachineClass *mc = MACHINE_GET_CLASS(machine);
-     const CPUArchIdList *possible_cpus;
-+    const char *gictype = NULL;
-+    const char *itsclass = NULL;
-     MemoryRegion *sysmem = get_system_memory();
-     MemoryRegion *secure_sysmem = NULL;
-     MemoryRegion *tag_sysmem = NULL;
-@@ -2071,6 +2073,30 @@ static void machvirt_init(MachineState *machine)
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index e5035026c9..f6fbeae644 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -1457,6 +1457,7 @@ static int kvm_dirty_ring_init(KVMState *s)
+ {
+     uint32_t ring_size = s->kvm_dirty_ring_size;
+     uint64_t ring_bytes = ring_size * sizeof(struct kvm_dirty_gfn);
++    unsigned int capability = KVM_CAP_DIRTY_LOG_RING;
+     int ret;
+ 
+     s->kvm_dirty_ring_size = 0;
+@@ -1471,7 +1472,12 @@ static int kvm_dirty_ring_init(KVMState *s)
+      * Read the max supported pages. Fall back to dirty logging mode
+      * if the dirty ring isn't supported.
       */
-     finalize_gic_version(vms);
- 
-+    /*
-+     * When "kvm-arm-gicv3" or "arm-its-kvm" is used, the backup dirty
-+     * bitmap has to be enabled for KVM dirty ring, before any memory
-+     * slot is added. Otherwise, the migration will fail with the dirty
-+     * ring.
-+     */
-+    if (kvm_enabled()) {
-+        if (vms->gic_version != VIRT_GIC_VERSION_2) {
-+            gictype = gicv3_class_name();
-+        }
-+
-+        if (vms->gic_version != VIRT_GIC_VERSION_2 && vms->its) {
-+            itsclass = its_class_name();
-+        }
-+
-+        if (((gictype && !strcmp(gictype, "kvm-arm-gicv3")) ||
-+             (itsclass && !strcmp(itsclass, "arm-its-kvm"))) &&
-+            !kvm_arm_enable_dirty_ring_with_bitmap()) {
-+            error_report("Failed to enable the backup bitmap for "
-+                         "KVM dirty ring");
-+            exit(1);
-+        }
+-    ret = kvm_vm_check_extension(s, KVM_CAP_DIRTY_LOG_RING);
++    ret = kvm_vm_check_extension(s, capability);
++    if (ret <= 0) {
++        capability = KVM_CAP_DIRTY_LOG_RING_ACQ_REL;
++        ret = kvm_vm_check_extension(s, capability);
 +    }
 +
-     if (vms->secure) {
-         /*
-          * The Secure view of the world is the same as the NonSecure,
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index 1197253d12..91960e1cd3 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -764,6 +764,31 @@ bool kvm_arm_steal_time_supported(void)
-     return kvm_check_extension(kvm_state, KVM_CAP_STEAL_TIME);
- }
+     if (ret <= 0) {
+         warn_report("KVM dirty ring not available, using bitmap method");
+         return 0;
+@@ -1484,7 +1490,7 @@ static int kvm_dirty_ring_init(KVMState *s)
+         return -EINVAL;
+     }
  
-+bool kvm_arm_enable_dirty_ring_with_bitmap(void)
-+{
-+    int ret;
-+
-+    /* No need to enable the backup bitmap if dirty ring isn't enabled */
-+    if (!kvm_dirty_ring_enabled()) {
-+        return true;
-+    }
-+
-+    ret = kvm_check_extension(kvm_state, KVM_CAP_DIRTY_LOG_RING_WITH_BITMAP);
-+    if (!ret) {
-+        return false;
-+    }
-+
-+    ret = kvm_vm_enable_cap(kvm_state, KVM_CAP_DIRTY_LOG_RING_WITH_BITMAP,
-+                            0, 1);
-+    if (ret) {
-+        return false;
-+    }
-+
-+    kvm_state->kvm_dirty_ring_with_bitmap = true;
-+
-+    return true;
-+}
-+
- QEMU_BUILD_BUG_ON(KVM_ARM64_SVE_VQ_MIN != 1);
- 
- uint32_t kvm_arm_sve_get_vls(CPUState *cs)
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index 99017b635c..402281e61a 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -282,6 +282,13 @@ void kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp);
-  */
- bool kvm_arm_steal_time_supported(void);
- 
-+/**
-+ * kvm_arm_enable_dirty_ring_with_bitmap:
-+ * Returns: true if KVM dirty ring's backup bitmap is enabled
-+ * and false otherwise.
-+ */
-+bool kvm_arm_enable_dirty_ring_with_bitmap(void);
-+
- /**
-  * kvm_arm_aarch32_supported:
-  *
-@@ -395,6 +402,11 @@ static inline bool kvm_arm_steal_time_supported(void)
-     return false;
- }
- 
-+static inline bool kvm_arm_enable_dirty_ring_with_bitmap(void)
-+{
-+    return false;
-+}
-+
- /*
-  * These functions should never actually be called without KVM support.
-  */
+-    ret = kvm_vm_enable_cap(s, KVM_CAP_DIRTY_LOG_RING, 0, ring_bytes);
++    ret = kvm_vm_enable_cap(s, capability, 0, ring_bytes);
+     if (ret) {
+         error_report("Enabling of KVM dirty ring failed: %s. "
+                      "Suggested minimum value is 1024.", strerror(-ret));
 -- 
 2.23.0
 
