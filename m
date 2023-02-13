@@ -2,61 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74ED1694EDF
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 19:09:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8C0E694F5D
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 19:28:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRdG6-0002tK-Pr; Mon, 13 Feb 2023 13:08:58 -0500
+	id 1pRdXa-0000ro-F4; Mon, 13 Feb 2023 13:27:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pRdG5-0002su-2c
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 13:08:57 -0500
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pRdG3-0002FE-HN
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 13:08:56 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.97])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 97AAF20CF9;
- Mon, 13 Feb 2023 18:08:51 +0000 (UTC)
-Received: from kaod.org (37.59.142.107) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Mon, 13 Feb
- 2023 19:08:50 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-107S001c33e07a2-119d-499a-ba5a-803b610110a8,
- F14F4AD8ED0BD1E75D9128D0FAA1081513448E0E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <71ff166a-b31d-7f2b-f247-ad3717245c63@kaod.org>
-Date: Mon, 13 Feb 2023 19:08:45 +0100
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRdXX-0000re-3S
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 13:26:59 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRdXU-0005S3-C1
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 13:26:58 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ m20-20020a05600c3b1400b003e1e754657aso3486631wms.2
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 10:26:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=HmXLULjmK5+8zhKIDcYkQobOvuWWjA1SvS4JKomkdIc=;
+ b=d1OD0UZB+eUO5LDoPChIjuhAmroJ76ax3RY+z3wAsIhzfZ2xGkiFc8It13861esey9
+ dPvmMmFqUg8AIHKm+tPvPgcUEIoDChdR9IG5U11cAcrZzltgNvRA/lpvVPQDz0MfkKbt
+ FXgQVarZvG7qL+MrvBXPLUBmrPIQ2eU4TBIF2HfeXQKJ3xZ1Eszcuqef8XrXBM1jxf1i
+ sa1cBq+Ou2Axgw6EublJRN9WUPVk3OEMl3TQyI3Ep5kiaxvvC+w11fUINa4DfES/2C+e
+ VRPXsGofcGiE1Ac2MtpSbxckNBoJ4jEFkKUpbuwqNZrTN9Nffq8IYiRpMf1v7zj28DoE
+ Zxlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HmXLULjmK5+8zhKIDcYkQobOvuWWjA1SvS4JKomkdIc=;
+ b=NMlB+1FY5w1V/cqe7fdBntGTeTKcDvNoLpVv/EcZPC4U9hxWAFWaRQIS3CbviiJH3d
+ PMKqnYxJuQ7+hoFoIcL3FT7jouX8oIjDDCGVxdAqWGr36je/ra34xpLXh5Pb+YV9e57u
+ ITcSJdZ4mGFdd4kJ7nsKaOOsVsaRZRonqOQgIAls6KPZ8RSSuViPaZR4reFwZeKHOxZM
+ qKVAzl5q40VVIOygBrpzruzfvl4CzBXqzsn8bCJbD5yUwIJpyreRxcGnAiLJ3jz3keZu
+ +LMB6v/tnIm8ENTMiWtJlTvGNtJvApK+Ch4GtVq5DXgukTEpKe1n1nzrz9Od/LFBrace
+ LOWA==
+X-Gm-Message-State: AO0yUKUYzqishmemNzweZRNOMFLRcAy3eEx8sPLQm9qxj4i/Gad/+KDA
+ t56TvCbIk2/QID6ZBz+0Tj2CXA==
+X-Google-Smtp-Source: AK7set97f9luSPuvpAkfzhR/SBnjNVJf8OaV2UXow0/Fthq1vlKOOh9Q0K2rAMAOdQlIuxKLvt4Lpg==
+X-Received: by 2002:a05:600c:3c9c:b0:3dc:d5b:5f6a with SMTP id
+ bg28-20020a05600c3c9c00b003dc0d5b5f6amr19883228wmb.30.1676312813014; 
+ Mon, 13 Feb 2023 10:26:53 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ j23-20020a05600c1c1700b003daf681d05dsm15736124wms.26.2023.02.13.10.26.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Feb 2023 10:26:52 -0800 (PST)
+Message-ID: <b04ebfac-c434-8045-1b6f-6201686130b9@linaro.org>
+Date: Mon, 13 Feb 2023 19:26:51 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 3/4] qga/vss-win32: fix warning for clang++-15
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH] usb/dev-wacom: fix OOB write in usb_mouse_poll()
 Content-Language: en-US
-To: Pierrick Bouvier <pierrick.bouvier@linaro.org>, <qemu-devel@nongnu.org>
-CC: <sw@weilnetz.de>, <kkostiuk@redhat.com>, <richard.henderson@linaro.org>,
- <alex.bennee@linaro.org>
-References: <20230213161352.17199-1-pierrick.bouvier@linaro.org>
- <20230213161352.17199-4-pierrick.bouvier@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230213161352.17199-4-pierrick.bouvier@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 5046ab2d-ae75-404f-a3a3-060bc1e03bd5
-X-Ovh-Tracer-Id: 8985525681813424934
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudeiuddguddtiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpihgvrhhrihgtkhdrsghouhhvihgvrheslhhinhgrrhhordhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhsfiesfigvihhlnhgvthiirdguvgdpkhhkohhsthhiuhhksehrvgguhhgrthdrtghomhdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdgrlhgvgidrsggvnhhnvggvsehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+To: Mauro Matteo Cascella <mcascell@redhat.com>, qemu-devel@nongnu.org
+Cc: kraxel@redhat.com
+References: <20230213174113.591632-1-mcascell@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230213174113.591632-1-mcascell@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.345,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.345,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -74,39 +91,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/13/23 17:13, Pierrick Bouvier wrote:
-> Reported when compiling with clang-windows-arm64.
-> 
-> ../qga/vss-win32/install.cpp:537:9: error: variable 'hr' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
->      if (!(ControlService(service, SERVICE_CONTROL_STOP, NULL))) {
->          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> ../qga/vss-win32/install.cpp:545:12: note: uninitialized use occurs here
->      return hr;
->             ^~
-> Signed-off-by: Pierrick Bouvier <pierrick.bouvier@linaro.org>
+Hi Mauro,
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+On 13/2/23 18:41, Mauro Matteo Cascella wrote:
+> The guest can control the size of buf; an OOB write occurs when buf is 1 or 2
+> bytes long. Only fill in the buffer as long as there is enough space, throw
+> away any data which doesn't fit.
 
-Thanks,
+Any reproducer?
 
-C.
-
+> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
 > ---
->   qga/vss-win32/install.cpp | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   hw/usb/dev-wacom.c | 20 +++++++++++++-------
+>   1 file changed, 13 insertions(+), 7 deletions(-)
 > 
-> diff --git a/qga/vss-win32/install.cpp b/qga/vss-win32/install.cpp
-> index b57508fbe0..b8087e5baa 100644
-> --- a/qga/vss-win32/install.cpp
-> +++ b/qga/vss-win32/install.cpp
-> @@ -518,7 +518,7 @@ namespace _com_util
->   /* Stop QGA VSS provider service using Winsvc API  */
->   STDAPI StopService(void)
->   {
-> -    HRESULT hr;
-> +    HRESULT hr = S_OK;
->       SC_HANDLE manager = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
->       SC_HANDLE service = NULL;
+> diff --git a/hw/usb/dev-wacom.c b/hw/usb/dev-wacom.c
+> index 7177c17f03..ca9e6aa82f 100644
+> --- a/hw/usb/dev-wacom.c
+> +++ b/hw/usb/dev-wacom.c
+> @@ -252,14 +252,20 @@ static int usb_mouse_poll(USBWacomState *s, uint8_t *buf, int len)
+>       if (s->buttons_state & MOUSE_EVENT_MBUTTON)
+>           b |= 0x04;
 >   
+> -    buf[0] = b;
+> -    buf[1] = dx;
+> -    buf[2] = dy;
+> -    l = 3;
+> -    if (len >= 4) {
+> -        buf[3] = dz;
+> -        l = 4;
+> +    l = 0;
+> +    if (len > l) {
+> +        buf[l++] = b;
+>       }
+> +    if (len > l) {
+> +        buf[l++] = dx;
+> +    }
+
+        else { // the packet is now corrupted... }
+
+> +    if (len > l) {
+> +        buf[l++] = dy;
+> +    }
+> +    if (len > l) {
+> +        buf[l++] = dz;
+> +    }
+> +
+>       return l;
+>   }
+
+Better is to wait for enough data to process:
+
+-- >8 --
+diff --git a/hw/usb/dev-wacom.c b/hw/usb/dev-wacom.c
+index 7177c17f03..2fe2a9220e 100644
+--- a/hw/usb/dev-wacom.c
++++ b/hw/usb/dev-wacom.c
+@@ -244,6 +244,9 @@ static int usb_mouse_poll(USBWacomState *s, uint8_t 
+*buf, int len)
+      s->dy -= dy;
+      s->dz -= dz;
+
++    if (len < 3)
++        return 0;
++
+      b = 0;
+      if (s->buttons_state & MOUSE_EVENT_LBUTTON)
+          b |= 0x01;
+@@ -274,6 +277,9 @@ static int usb_wacom_poll(USBWacomState *s, uint8_t 
+*buf, int len)
+          s->mouse_grabbed = 1;
+      }
+
++    if (len < 7)
++        return 0;
++
+      b = 0;
+      if (s->buttons_state & MOUSE_EVENT_LBUTTON)
+          b |= 0x01;
+@@ -282,9 +288,6 @@ static int usb_wacom_poll(USBWacomState *s, uint8_t 
+*buf, int len)
+      if (s->buttons_state & MOUSE_EVENT_MBUTTON)
+          b |= 0x20; /* eraser */
+
+-    if (len < 7)
+-        return 0;
+-
+      buf[0] = s->mode;
+      buf[5] = 0x00 | (b & 0xf0);
+      buf[1] = s->x & 0xff;
+---
 
 
