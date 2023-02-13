@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAE106941AB
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:45:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9F57694199
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:44:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVMx-0003V9-7E; Mon, 13 Feb 2023 04:43:31 -0500
+	id 1pRVMz-0003Vg-6l; Mon, 13 Feb 2023 04:43:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVMu-0003Uk-6q
+ id 1pRVMu-0003V0-Mp
  for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:28 -0500
 Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVMm-0002aV-3B
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:27 -0500
+ id 1pRVMo-0002Wd-HM
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676281400; x=1707817400;
+ t=1676281402; x=1707817402;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=aWyQVMR7h15uj2iD8i3nTPQv7HlrNLYz2ZcyoOyV0oA=;
- b=LXY9kI4AxzBq9VT9TB3yS9oG1kBnck1jE5mYqHWCR4oRTpEkyPXsVCj0
- hvMN1jp88YBNETj6x8DAEbTubXH4eJt42Ub8caFGrSLq/LqwsBdu9RR6c
- d/edSsm5nkoHns4BbOSQriPHA+4dOQAvzytbpiezv0oVDl+eB/ENECAJI
- sKDFfNMtLmIt3kBA2vcTdMyYvg2CqZX63qFDgwk3MthfR21Ev3ubPhGzH
- uHZ8IyfgvBw0eaxxU8XS0m0t50T/bAUtJbYJC3wobufLdEJSCs9sEUgH8
- 3x6iIxp1+TDJI47AdYQNsDnOSafWbi/6KJLkxiHaAXb0uWFH5FS6mlfC1 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486356"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486356"
+ bh=3JLKYI/TmroIpzJpWyf/1+s7LOWq05BHBDSvbGiL0SI=;
+ b=hRrNHTwjYgz1sqZfn8Ck2BQj6SM/jCXUgt0DfoAymDB+UzP27FjG4lKY
+ 1d+gsicXhSrlsj8mBvQxWXYE2EFfXvf0fEbjS529J3o+IYUsWr4uT1rGT
+ 5eodZmQBsw/RyW7JJuBQbIPGW8ghYgVIWsoyv6DDyig4vqjQ5HGyw3HP+
+ U/Afnx4ZYIR7irxA8yB/nG1zn4bWF56eL0qY1Po17KB4aasWiC7I0tVP5
+ S3S4x/vYt9Lz/y7SVpbkX83+JHoEV2wPZYtCuUHhfbYOSB3NSGkB756BM
+ 5N5t6JJQEmXiSFnbY3eoxWYUTi0rkE0SKgV1EmfsVVr5bGKEOHtwcwPCh A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486376"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486376"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 01:43:18 -0800
+ 13 Feb 2023 01:43:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670759806"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670759806"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670759812"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670759812"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:43:14 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:43:18 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -54,11 +54,10 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Zhuocheng Ding <zhuocheng.ding@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
- Zhao Liu <zhao1.liu@intel.com>, Sunil Muthuswamy <sunilmut@microsoft.com>
-Subject: [RFC 04/52] i386/WHPX: Fix error message when fail to set
- ProcessorCount
-Date: Mon, 13 Feb 2023 17:49:47 +0800
-Message-Id: <20230213095035.158240-5-zhao1.liu@linux.intel.com>
+ Zhao Liu <zhao1.liu@intel.com>
+Subject: [RFC 05/52] hw/core/machine: Rename machine-smp.c to machine-topo.c
+Date: Mon, 13 Feb 2023 17:49:48 +0800
+Message-Id: <20230213095035.158240-6-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
@@ -89,40 +88,76 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
-003f230 (machine: Tweak the order of topology members in struct
-CpuTopology) changes the meaning of MachineState.smp.cores from "the
-number of cores in one package" to "the number of cores in one die"
-and doesn't fix other uses of MachineState.smp.cores. And because of
-the introduction of cluster, now smp.cores just means "the number of
-cores in one cluster". This clearly does not fit the semantics here.
+Hybrid topology support will also be added to this file.
 
-And before this error message, WHvSetPartitionProperty() is called to
-set prop.ProcessorCount.
+In order to maintain the semantic consistency of the file name and
+content, the file name is changed to "machine-topo.c".
 
-So the error message should show the prop.ProcessorCount other than
-"cores per cluster" or "cores per package".
+This file will handle all cpu topology related things, thus also change
+the file description comment.
 
-Cc: Sunil Muthuswamy <sunilmut@microsoft.com>
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- target/i386/whpx/whpx-all.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ MAINTAINERS                               | 2 +-
+ hw/core/{machine-smp.c => machine-topo.c} | 2 +-
+ hw/core/meson.build                       | 2 +-
+ tests/unit/meson.build                    | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+ rename hw/core/{machine-smp.c => machine-topo.c} (99%)
 
-diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
-index e738d83e8191..fc349f887e47 100644
---- a/target/i386/whpx/whpx-all.c
-+++ b/target/i386/whpx/whpx-all.c
-@@ -2613,8 +2613,8 @@ static int whpx_accel_init(MachineState *ms)
-         sizeof(WHV_PARTITION_PROPERTY));
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 71c1bc24371b..58794885ced3 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1733,7 +1733,7 @@ F: cpu.c
+ F: hw/core/cpu.c
+ F: hw/core/machine-qmp-cmds.c
+ F: hw/core/machine.c
+-F: hw/core/machine-smp.c
++F: hw/core/machine-topo.c
+ F: hw/core/null-machine.c
+ F: hw/core/numa.c
+ F: hw/cpu/cluster.c
+diff --git a/hw/core/machine-smp.c b/hw/core/machine-topo.c
+similarity index 99%
+rename from hw/core/machine-smp.c
+rename to hw/core/machine-topo.c
+index 3fd9e641efde..8066d2c46bef 100644
+--- a/hw/core/machine-smp.c
++++ b/hw/core/machine-topo.c
+@@ -1,5 +1,5 @@
+ /*
+- * QEMU Machine core (related to -smp parsing)
++ * QEMU Machine core (related to CPU topology)
+  *
+  * Copyright (c) 2021 Huawei Technologies Co., Ltd
+  *
+diff --git a/hw/core/meson.build b/hw/core/meson.build
+index 7a4d02b6c050..71d523dc6826 100644
+--- a/hw/core/meson.build
++++ b/hw/core/meson.build
+@@ -23,7 +23,7 @@ else
+ endif
  
-     if (FAILED(hr)) {
--        error_report("WHPX: Failed to set partition core count to %d,"
--                     " hr=%08lx", ms->smp.cores, hr);
-+        error_report("WHPX: Failed to set partition processor count to %d,"
-+                     " hr=%08lx", prop.ProcessorCount, hr);
-         ret = -EINVAL;
-         goto error;
-     }
+ common_ss.add(files('cpu-common.c'))
+-common_ss.add(files('machine-smp.c'))
++common_ss.add(files('machine-topo.c'))
+ softmmu_ss.add(when: 'CONFIG_FITLOADER', if_true: files('loader-fit.c'))
+ softmmu_ss.add(when: 'CONFIG_GENERIC_LOADER', if_true: files('generic-loader.c'))
+ softmmu_ss.add(when: ['CONFIG_GUEST_LOADER', fdt], if_true: files('guest-loader.c'))
+diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+index a9df2843e92e..1720a769f1a2 100644
+--- a/tests/unit/meson.build
++++ b/tests/unit/meson.build
+@@ -46,7 +46,7 @@ tests = {
+   'test-uuid': [],
+   'ptimer-test': ['ptimer-test-stubs.c', meson.project_source_root() / 'hw/core/ptimer.c'],
+   'test-qapi-util': [],
+-  'test-smp-parse': [qom, meson.project_source_root() / 'hw/core/machine-smp.c'],
++  'test-smp-parse': [qom, meson.project_source_root() / 'hw/core/machine-topo.c'],
+   'test-interval-tree': [],
+ }
+ 
 -- 
 2.34.1
 
