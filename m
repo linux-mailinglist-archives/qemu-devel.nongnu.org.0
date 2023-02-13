@@ -2,68 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 452136946D5
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 14:21:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D836946DB
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 14:23:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRYkq-0002ua-61; Mon, 13 Feb 2023 08:20:24 -0500
+	id 1pRYnF-0005Re-PF; Mon, 13 Feb 2023 08:22:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRYkk-0002rE-8h
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 08:20:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRYkh-0005dW-HC
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 08:20:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676294413;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=N7oqbMUKqtpz4aFfVXDJnF5J5+6Za3gx/PBBqzaeKQs=;
- b=NwMP3xEVEfegPhPN3xJyvtbqQuWEBt29YeFjhgxkqJVXaoZwcStg5ZbWa1GlwD7JC6wB7R
- 9hcVp4f9ObTSPhZsCVmL2HV6tIlGfVfFUfXpBCGNT6e0BnMOF3rLCi2vCc+bbiSBx80Ndl
- x/netl/JUjmmjAupWfKlVJD7PnC2jtA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-259-7ld9yOGaMa6tntDShF2S0A-1; Mon, 13 Feb 2023 08:20:11 -0500
-X-MC-Unique: 7ld9yOGaMa6tntDShF2S0A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E2AEA101A521;
- Mon, 13 Feb 2023 13:20:10 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.124])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C164C40B40C9;
- Mon, 13 Feb 2023 13:20:10 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 67EF821E6A21; Mon, 13 Feb 2023 14:20:09 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: michael.roth@amd.com, jsnow@redhat.com, eblake@redhat.com,
- marcandre.lureau@redhat.com
-Subject: [PATCH 2/2] docs/devel/qapi-code-gen: Fix a missing 'may',
- clarify SchemaInfo
-Date: Mon, 13 Feb 2023 14:20:09 +0100
-Message-Id: <20230213132009.918801-3-armbru@redhat.com>
-In-Reply-To: <20230213132009.918801-1-armbru@redhat.com>
-References: <20230213132009.918801-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRYnE-0005RV-Gj
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 08:22:52 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRYnD-00067v-1c
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 08:22:52 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id o36so8712146wms.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 05:22:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1A+hzqjPxT+4DOD2Clor2Rf22BWpVRoVTeuMJdjJdSQ=;
+ b=P93g+XZ0EyepZoMKeFFCK3l4vONYXE1cVkoRZ65cZfQHijuLJPscPkcdhVNcjm01gv
+ 682+zigPBptiRh72tzDHiPFcWcBArHoCzjLZxG6aRvwnpqK9HKIb/MtOBwrQ3XJ0NLdj
+ DPlNKmBgP+nLm9CanzlcQ6Fqglqc3jVLbw5haM+McBvZTUZfObBMYyAB3jsbihyw4Cp6
+ 66N+mb6LU992wHEWYa63RGakRjvYUsJyJV3Hc7QFtdE0D6LmDdAzBIbulhDDHGqFBp2j
+ qAN3qUGB3hur7nxU/lowVJ1C+/CO4IngEZ9SjDtIY0liIAnL9iRn94SCRAvR0l7CCtiM
+ qVRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1A+hzqjPxT+4DOD2Clor2Rf22BWpVRoVTeuMJdjJdSQ=;
+ b=uDZM7mV2MNU4gmF/SbeVDZcad3IzWppOHlvChDfTAtaaSqT1Ybp/2BYGrbRbciWjT7
+ L4f8jeCqf+3QhG9RQb33t/6Nrgt2ky8LTLf91EwgLdshAIDG1gd+s0h2/w7hUCDx65pL
+ ib4IohMCKBCQtqCF/7KRhr/JS4u3ViqEZeuvQJkumOCYGdlNNQZrEg2H+F+L8Jt9cE+n
+ d0J767slliNJzsF8SGRYKrUbyocBRmlnyRV+iufFYt2odi9Eg7cMjVDclBIsJuEdS+E2
+ B7v1iH32z6WNnMTb6sz+huniQ+19aK56mbD2Y6u5fVw/Ss1WCzGTl1vTmRHIQFZKnObE
+ brJw==
+X-Gm-Message-State: AO0yUKVED6fux1GaGdStxAGqZMuW98Spx4iTvUEreQKOeMC6NYKqf04K
+ n0uidR+hunoL560hXfKLIfBPCw==
+X-Google-Smtp-Source: AK7set+lw16bmHDlrGJK5QC0pramrfLc58qEd6hbSwKftWZql+/dJgUk9ksCb8Y4zotNM7S3dRzSIg==
+X-Received: by 2002:a05:600c:1713:b0:3da:fb3c:c1ab with SMTP id
+ c19-20020a05600c171300b003dafb3cc1abmr18854203wmn.0.1676294569364; 
+ Mon, 13 Feb 2023 05:22:49 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ b39-20020a05600c4aa700b003dc433bb5e1sm13821197wmp.9.2023.02.13.05.22.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Feb 2023 05:22:49 -0800 (PST)
+Message-ID: <bbb7d4dc-ff47-d363-ad6b-ffd4f8d4f9bb@linaro.org>
+Date: Mon, 13 Feb 2023 14:22:47 +0100
 MIME-Version: 1.0
-Content-type: text/plain
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [RFC 30/52] i386: Drop nr_dies and nr_modules CPUX86State
+Content-Language: en-US
+To: Zhao Liu <zhao1.liu@linux.intel.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Yanan Wang <wangyanan55@huawei.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
+ Dapeng Mi <dapeng1.mi@intel.com>, Zhuocheng Ding <zhuocheng.ding@intel.com>,
+ Robert Hoo <robert.hu@linux.intel.com>,
+ Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
+ Zhao Liu <zhao1.liu@intel.com>
+References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
+ <20230213095035.158240-31-zhao1.liu@linux.intel.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230213095035.158240-31-zhao1.liu@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.345,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,44 +100,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Documentation of enumeration value conditions lacks a 'may'.  Fix
-that.
+On 13/2/23 10:50, Zhao Liu wrote:
+> From: Zhao Liu <zhao1.liu@intel.com>
+> 
+> Since CPUState has the complete topology information, there's no need
+> to keep i386 architecture specific topology.
+> 
+> This avoids the fragmentation of topological information.
+> 
+> Co-Developed-by: Zhuocheng Ding <zhuocheng.ding@intel.com>
+> Signed-off-by: Zhuocheng Ding <zhuocheng.ding@intel.com>
+> Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
+> ---
+>   hw/i386/x86.c         | 4 ----
+>   target/i386/cpu.c     | 7 +++----
+>   target/i386/cpu.h     | 8 --------
+>   target/i386/kvm/kvm.c | 2 +-
+>   4 files changed, 4 insertions(+), 17 deletions(-)
 
-Clarify SchemaInfo documentation for struct and union types.
-
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- docs/devel/qapi-code-gen.rst | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
-
-diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
-index 566640edf8..23e7f2fb1c 100644
---- a/docs/devel/qapi-code-gen.rst
-+++ b/docs/devel/qapi-code-gen.rst
-@@ -818,8 +818,8 @@ member 'bar' ::
- 
- A union's discriminator may not be conditional.
- 
--Likewise, individual enumeration values be conditional.  This requires
--the longhand form of ENUM-VALUE_.
-+Likewise, individual enumeration values may be conditional.  This
-+requires the longhand form of ENUM-VALUE_.
- 
- Example: an enum type with unconditional value 'foo' and conditional
- value 'bar' ::
-@@ -1158,9 +1158,8 @@ Example: the SchemaInfo for EVENT_C from section Events_ ::
-     Type "q_obj-EVENT_C-arg" is an implicitly defined object type with
-     the two members from the event's definition.
- 
--The SchemaInfo for struct and union types has meta-type "object".
--
--The SchemaInfo for a struct type has variant member "members".
-+The SchemaInfo for struct and union types has meta-type "object" and
-+variant member "members".
- 
- The SchemaInfo for a union type additionally has variant members "tag"
- and "variants".
--- 
-2.39.0
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
