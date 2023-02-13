@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33FCA6954CC
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 00:31:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D38756954D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 00:32:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRiGf-0000TX-Ta; Mon, 13 Feb 2023 18:29:53 -0500
+	id 1pRiId-0001LH-6V; Mon, 13 Feb 2023 18:31:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pRiGd-0000Sk-9S
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 18:29:51 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ id 1pRiIa-0001Kl-Ug
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 18:31:52 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pRiGb-00047y-PR
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 18:29:51 -0500
-Received: by mail-pl1-x631.google.com with SMTP id k13so15297645plg.0
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 15:29:49 -0800 (PST)
+ id 1pRiIY-0004iu-W6
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 18:31:52 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id
+ a8-20020a17090a6d8800b002336b48f653so12488628pjk.3
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 15:31:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=0RzPJFJzbWo18HJVfFyebZ8LNGx+sy3IJEu5D6l82UM=;
- b=K1RVxl/pS1xBg+fBL1DNVAPB0lfGZNI3wocKtx68Ms6RQk7zyDdAb7LMmbCdMVrvkR
- qb4IkYqg4McN8BSmIMBj2DTEF3LgZ7n/NHDkdvp9dHf5KcE8WYsN10iuactYxOBONmNj
- 5H1Z/cuf/aJAO77PbmPfBeWg5qZA9/OLMBXC7R24oQq8/sBH3uYpmBwab5mpo+F9sRDF
- Q1XFo9mGQPYNTPrFifIFwTQpBWLQvzL/wV8S3J96NGadt/tmZ5cXQYyiOqkaBrsI1Po2
- nxegJhjfZrHRE9DTshTuM6dj20tlTyacSyPmxUM/jJYaSzz+ooS8e67gyXwLMPJrFTrU
- rReQ==
+ bh=x1aZwUb8jJBR0FNipYIljpUgRQflNxZaYzlM139YbQI=;
+ b=UPP+BsYbLG5rI85mJn7jRPq/gegHe7Lh/cL1mNJ+FYHy9C2xfe6iZsWjL3phzNbJoM
+ qh1suE4wOLxKCIKC1MzgP0UHpYdz3WA1qovfFRFYCfiPc8T2nOXC9RYyb1w4wFRS7wWX
+ fuWDKveKzBedZGGsNmANYljYXARPR+fOKc2KrSxLWXJnjid9ZIhmFW6amujrbnA/JuHn
+ Ke8NY5tKCgTeHlAHnK1zcR0XQi8KUXqxsV43KEKnrhWYVT7l57VKR/iD/wNky7tDMIEK
+ e70Ohf07hcGpxweQ+uixE+ItDq5qR+pIsAwlUIxPyuV7zliH3+iSY16jXVmzJGN9Gs/7
+ A4Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0RzPJFJzbWo18HJVfFyebZ8LNGx+sy3IJEu5D6l82UM=;
- b=iKj3xW5aVqeNyATjlQVkBthnrF3ttRjGJDggzr00LVeEg2ozZX0eBkPaeeRYi3ozyZ
- 5bfzXaQaYfywAXEBpLVvz4gr7nhDkzthGqdiy3sYplPSuivQuB5CN7z5utFtRgA8c4Ej
- 2exs2JiaASJ2BkolG7SZYRVawG5iMHeeEdFPxaNknJkB3OnPYa3lxihBNLhaKsFNegK3
- ngDSXG7rfu5B37BXbA8USLKuNTk0Rq+4Z0+wZproij9xF3lGGg1tsFp4Ac09hdNEwgBo
- IUwIBWgIO0Z1MnA1DhPZf/alBm85VNoaX+oU66wlWtmluqKohKTgYmQt3BC77IIQVirc
- 8NKg==
-X-Gm-Message-State: AO0yUKUFv3N845072ZPTBAy0wT+agq1l2cffIsENeSsMNS6NIibzPq2/
- UcVx7LLvHHIHoMPhlSFLqCRhuw==
-X-Google-Smtp-Source: AK7set+SqwXSHIKQYjlTcvguTNHfhJvCAwvmPO3JqN8K/lkRmkfNwev5YgUYzE4uaazDGKrktn12BQ==
-X-Received: by 2002:a05:6a20:1590:b0:be:9fff:48d9 with SMTP id
- h16-20020a056a20159000b000be9fff48d9mr301443pzj.27.1676330987893; 
- Mon, 13 Feb 2023 15:29:47 -0800 (PST)
+ bh=x1aZwUb8jJBR0FNipYIljpUgRQflNxZaYzlM139YbQI=;
+ b=HXfe7ipH+hgtGwEOB5qYMyyADNjvV8N2rYgZQxI52CHja3AkB/8DhI/VnYpKruJd+h
+ xjaLinwnvkmXjcJXBkMMMkzZ6esj9sV8dtZA45U+p4NUGaWTlhHxixeTLA927IvmnuWq
+ UwFIp2a0807QUs7rxEUAbqyZB0xoDjVaL6bQUR17ssNqJKGT8CD8t33MRok7N1HNVTsh
+ JGLv6RH2AD58OtqrDuftocN6Di48y3JLaeIRXI3pyvo74JuYSmRxnQBk+r1AY1z7yvPk
+ 7BlDvOVSz5nqB67VFyYHglW/dd744+BUBOcIlAU/Xp6oy2ZomaXWVPbd0cI8cP/d96b+
+ zTLA==
+X-Gm-Message-State: AO0yUKXvhZ4mQ8syoPM2sHmE9ByHQbxCeacHq6ggGN2OJlkZNYK+ReiA
+ tq4Al9kqHR/FYnXhTzcwd3CBzg==
+X-Google-Smtp-Source: AK7set9uG/ceAVdjVYGV9yGgC5ph8pMGYelH8un0ER4o7wanVRsRmzzWwgeBED/ricD/SGajNYsAGw==
+X-Received: by 2002:a17:90a:190f:b0:230:8c1e:a146 with SMTP id
+ 15-20020a17090a190f00b002308c1ea146mr234140pjg.25.1676331109347; 
+ Mon, 13 Feb 2023 15:31:49 -0800 (PST)
 Received: from [192.168.145.227] (rrcs-74-87-59-234.west.biz.rr.com.
  [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
- h16-20020a633850000000b004e25f1bb85csm7709140pgn.54.2023.02.13.15.29.46
+ s23-20020a17090a075700b0023377b98c7csm6529932pje.38.2023.02.13.15.31.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 15:29:47 -0800 (PST)
-Message-ID: <cc4aa3f3-910e-09f5-e326-7ef5a6f80569@linaro.org>
-Date: Mon, 13 Feb 2023 13:29:43 -1000
+ Mon, 13 Feb 2023 15:31:48 -0800 (PST)
+Message-ID: <ceb9b83c-fe81-df38-15e8-4658720fb214@linaro.org>
+Date: Mon, 13 Feb 2023 13:31:45 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 3/4] hw: Use qdev_get_parent_bus() in
- qdev_get_own_fw_dev_path_from_handler()
+Subject: Re: [PATCH 4/4] qdev-monitor: Use qdev_get_parent_bus() in
+ bus_print_dev()
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
@@ -69,13 +70,13 @@ Cc: qemu-block@nongnu.org, "Gonglei (Arei)" <arei.gonglei@huawei.com>,
  Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
  <berrange@redhat.com>
 References: <20230212224730.51438-1-philmd@linaro.org>
- <20230212224730.51438-4-philmd@linaro.org>
+ <20230212224730.51438-5-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230212224730.51438-4-philmd@linaro.org>
+In-Reply-To: <20230212224730.51438-5-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -99,41 +100,44 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 2/12/23 12:47, Philippe Mathieu-Daudé wrote:
-> -static char *qdev_get_fw_dev_path_from_handler(BusState *bus, DeviceState *dev)
-> +static char *qdev_get_fw_dev_path_from_handler(DeviceState *dev)
->   {
->       Object *obj = OBJECT(dev);
-> +    BusState *bus = qdev_get_parent_bus(dev);
->       char *d = NULL;
->   
->       while (!d && obj->parent) {
+> No need to pass 'dev' and 'dev->parent_bus' when we can
+> retrieve 'parent_bus' with qdev_get_parent_bus().
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   softmmu/qdev-monitor.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 
-This is a separate change from...
-
-> -char *qdev_get_own_fw_dev_path_from_handler(BusState *bus, DeviceState *dev)
-> +char *qdev_get_own_fw_dev_path_from_handler(DeviceState *dev)
->   {
->       Object *obj = OBJECT(dev);
->   
-> -    return fw_path_provider_try_get_dev_path(obj, bus, dev);
-> +    return fw_path_provider_try_get_dev_path(obj, qdev_get_parent_bus(dev), dev);
-
-... this, which is what $SUBJECT says.
-
-> @@ -67,7 +68,7 @@ static int qdev_get_fw_dev_path_helper(DeviceState *dev, char *p, int size)
->       if (dev && dev->parent_bus) {
->           char *d;
->           l = qdev_get_fw_dev_path_helper(dev->parent_bus->parent, p, size);
-> -        d = qdev_get_fw_dev_path_from_handler(dev->parent_bus, dev);
-> +        d = qdev_get_fw_dev_path_from_handler(dev);
-
-We've already accessed parent_bus just above
-
->           if (!d) {
->               d = bus_get_fw_dev_path(dev->parent_bus, dev);
-
-... and just below.  So, what's the cleanup?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
+
+> 
+> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+> index 820e7f52ad..12e4899f0d 100644
+> --- a/softmmu/qdev-monitor.c
+> +++ b/softmmu/qdev-monitor.c
+> @@ -770,9 +770,9 @@ static void qdev_print_props(Monitor *mon, DeviceState *dev, Property *props,
+>       }
+>   }
+>   
+> -static void bus_print_dev(BusState *bus, Monitor *mon, DeviceState *dev, int indent)
+> +static void bus_print_dev(Monitor *mon, DeviceState *dev, int indent)
+>   {
+> -    BusClass *bc = BUS_GET_CLASS(bus);
+> +    BusClass *bc = BUS_GET_CLASS(qdev_get_parent_bus(dev));
+>   
+>       if (bc->print_dev) {
+>           bc->print_dev(mon, dev, indent);
+> @@ -811,7 +811,7 @@ static void qdev_print(Monitor *mon, DeviceState *dev, int indent)
+>           qdev_print_props(mon, dev, DEVICE_CLASS(class)->props_, indent);
+>           class = object_class_get_parent(class);
+>       } while (class != object_class_by_name(TYPE_DEVICE));
+> -    bus_print_dev(dev->parent_bus, mon, dev, indent);
+> +    bus_print_dev(mon, dev, indent);
+>       QLIST_FOREACH(child, &dev->child_bus, sibling) {
+>           qbus_print(mon, child, indent);
+>       }
+
 
