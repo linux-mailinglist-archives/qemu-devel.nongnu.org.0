@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8E74693CAE
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 03:57:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AA2E693CAF
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 03:57:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRP1n-0007Yx-ET; Sun, 12 Feb 2023 21:57:15 -0500
+	id 1pRP1q-0007cL-Je; Sun, 12 Feb 2023 21:57:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pRP1m-0007Yh-6U
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:57:14 -0500
+ id 1pRP1p-0007bA-6Z
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:57:17 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pRP1k-0007eG-IF
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:57:13 -0500
+ id 1pRP1n-0007eX-IV
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:57:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676257031;
+ s=mimecast20190719; t=1676257035;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=nWhoZvQXwpek6MRzDbzXaJKp87waVT0jUTHO9m0cu6A=;
- b=iPEka2jkJ1oVqQVTTo3CzoLaOnwcZxDhKHWo4IYs5LyjuB+mH25aSFK2orBBlS+//hz0Wc
- hDxQGjEyXyp7I5Kv3xLSZb3p4kdV2KHwGcPbudrgYe33hl5CdRNtFKevdoZyj7I+//a5qf
- 38QY+75UToPZPfq1ZNYH9/h7AnfTAnQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9biWkcJ8ni5cexIWnW8T5++bGq3zkW5jWZHX1F+Gu7I=;
+ b=HuW3EIHIhgZxf1/dN17+zV1bfYjOgrIGQ9gJlxSnBoLsbhbmZKFf2QOoeqMJu9ch3eThYV
+ SacYk0nhXUtYiKQh5VAExpBVCVJ6NSoX4T2aEBtk9O9tpW9T8M6UXokWUGYuT+cFBGGS94
+ SBjJjCIxZMYPPJnfMErWZBuRYRtcwjI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-231-IlmXlot0MPuiNhXoUfbJpA-1; Sun, 12 Feb 2023 21:57:10 -0500
-X-MC-Unique: IlmXlot0MPuiNhXoUfbJpA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- ay19-20020a05600c1e1300b003dc54daba42so5440107wmb.7
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 18:57:10 -0800 (PST)
+ us-mta-533-3Nm3vVhUMxOsG9yFY8MRxQ-1; Sun, 12 Feb 2023 21:57:13 -0500
+X-MC-Unique: 3Nm3vVhUMxOsG9yFY8MRxQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ bd21-20020a05600c1f1500b003dc5cb10dcfso5437170wmb.9
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 18:57:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=nWhoZvQXwpek6MRzDbzXaJKp87waVT0jUTHO9m0cu6A=;
- b=bXhvSsOEyR71UAeEBawNmphOWRbKd6zHoGu73Z5ZEI9cFN4VLxg8X9EQtqmy5reiXv
- IHM9mpiZl11fXQIzQJoyD39I7NinZh9hzvmfitYQS+XkZvOQXy3EQTpDnEvEreXZSR+o
- WSw8Pz9+3SH+u/b4QG67Q8pGFmx7aY5lAuLwj2D6xj61Nmkyjwm1b/G+7Qnux020xGP8
- Jsh5IiV/boUiqU4+T0Z+sxtQx6Ky9roSvRJAXdGa1YouDZQTQwqh7M8vLKpy/bEL5C7V
- bhoM/2TrFHu3u9+i1elx2bFR2GMeHqPA1XfaW/TdVYCbsaBC/qvw/HPkswjmYw0YwCNS
- 2oSQ==
-X-Gm-Message-State: AO0yUKVfc6yOtXs8e4xGKM7UU821n0ZXwwcmnOcvJoaCT0e0ZXhwLGZc
- Th/27Q2wSO09SD9p6cOCuAuMz+L8WJnAL+knyiWQpd239xKUfKbRhJRKEIm70eZ22JHkzhJcuI/
- LdXXn9Vok/KwCz/IJgPXMOwwI1TpwuPC3v/7U5C5ypjeH8qUlT/nNQdEBRzSZdlVnHt9TDAf2
-X-Received: by 2002:a05:600c:4d90:b0:3de:1d31:1042 with SMTP id
- v16-20020a05600c4d9000b003de1d311042mr22198974wmp.23.1676257029151; 
- Sun, 12 Feb 2023 18:57:09 -0800 (PST)
-X-Google-Smtp-Source: AK7set8AobCcIBWolTaervOiO4Y+BjG8F0oxvaq2PxCW5ODPP4qb5AAJ5ijFhWmRZx8Un1hLumO6ww==
-X-Received: by 2002:a05:600c:4d90:b0:3de:1d31:1042 with SMTP id
- v16-20020a05600c4d9000b003de1d311042mr22198961wmp.23.1676257028839; 
- Sun, 12 Feb 2023 18:57:08 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9biWkcJ8ni5cexIWnW8T5++bGq3zkW5jWZHX1F+Gu7I=;
+ b=RC0/fthOAqQywmsX9LjWMHTjmIfA60wZiQcVbaMmGTV3vpl5SUsS8tEGTawNnDp6iv
+ q3m64FiM3Uzhvb/NWPWnDIL5GdCa1Tlx5UWCua7fuincuqWw6Rr17jkHzymXqUlno1D/
+ Y+vCOGHFsZOZ/ICBhz0HN/G9HpZqpmcRwzzduNQl7tw2i8a35AuaSeyfo5AuRCEmauvI
+ bbIaYPmG6cXIyJBcq7zbvO1o+XI5i2UD9Le2LHvsRF8bjxn3F3enLiT/BS5/BQRSkPq9
+ 3NNZ0oJCfcLzADSTVWjG7Kn7TIra+a5LOvoU4z18fy1Ivsq08+S7mcxEJ72o6IahNpaJ
+ J7Eg==
+X-Gm-Message-State: AO0yUKXNaiqqUEkKAAZ72Tf0oSZg81nPDqD4CAlbARhrngvQx53M0a+Y
+ vW8jF1MtV/Bjr9Uh/83owKaoixTipxi+EhhIDAN6XH5ZM3AS2Sbj+GHRwgDUm4xauD8qNDGjbxG
+ O6IMv4VLeu3OVCq1t23kd8evtnD1F/qsZG0hTJC0qs1fFs43DRUxLZyn5y14W0Z8BVBT52/F3
+X-Received: by 2002:a5d:58f6:0:b0:2c5:54a7:363e with SMTP id
+ f22-20020a5d58f6000000b002c554a7363emr2529882wrd.3.1676257030746; 
+ Sun, 12 Feb 2023 18:57:10 -0800 (PST)
+X-Google-Smtp-Source: AK7set/70jbftop3rauL2ks5Kab6b/hI5yUlBjtvWcWkK6l8ZfmNyrzwwW+CjvcCg6i+sMNQnnK93g==
+X-Received: by 2002:a5d:58f6:0:b0:2c5:54a7:363e with SMTP id
+ f22-20020a5d58f6000000b002c554a7363emr2529869wrd.3.1676257030418; 
+ Sun, 12 Feb 2023 18:57:10 -0800 (PST)
 Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- n6-20020a7bcbc6000000b003dfe57f6f61sm11780243wmi.33.2023.02.12.18.57.07
+ h16-20020a5d6890000000b002c553509db7sm3010518wru.52.2023.02.12.18.57.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Feb 2023 18:57:08 -0800 (PST)
+ Sun, 12 Feb 2023 18:57:09 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -69,11 +70,13 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Juan Quintela <quintela@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Eduardo Habkost <eduardo@habkost.net>, Eric Blake <eblake@redhat.com>
-Subject: [PATCH v5 0/3] Eliminate multifd flush
-Date: Mon, 13 Feb 2023 03:57:04 +0100
-Message-Id: <20230213025707.72229-1-quintela@redhat.com>
+Subject: [PATCH v5 1/3] multifd: Create property
+ multifd-sync-after-each-section
+Date: Mon, 13 Feb 2023 03:57:05 +0100
+Message-Id: <20230213025707.72229-2-quintela@redhat.com>
 X-Mailer: git-send-email 2.39.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20230213025707.72229-1-quintela@redhat.com>
+References: <20230213025707.72229-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
@@ -100,58 +103,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi
+We used to synchronize all channels at the end of each RAM section
+sent.  That is not needed, so preparing to only synchronize once every
+full round in latests patches.
 
-In this v5:
-- Remove RAM Flags documentation (already on PULL request)
-- rebase on top of PULL request.
+Notice that we initialize the property as true.  We will change the
+default when we introduce the new mechanism.
 
-Please review.
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Juan Quintela <quintela@redhat.com>
 
-Based-on: <20230213025150.71537-1-quintela@redhat.com>
-          Migration 20230213 patches
+---
 
-In this v4:
-- Rebased on top of migration-20230209 PULL request
-- Integrate two patches in that pull request
-- Rebase
-- Address Eric reviews.
+Rename each-iteration to after-each-section
 
-Please review.
-
-In this v3:
-- update to latest upstream.
-- fix checkpatch errors.
-
-Please, review.
-
-In this v2:
-- update to latest upstream
-- change 0, 1, 2 values to defines
-- Add documentation for SAVE_VM_FLAGS
-- Add missing qemu_fflush(), it made random hangs for migration test
-  (only for tls, no clue why).
-
-Please, review.
-
-[v1]
-Upstream multifd code synchronize all threads after each RAM section.  This is suboptimal.
-Change it to only flush after we go trough all ram.
-
-Preserve all semantics for old machine types.
-
-Juan Quintela (3):
-  multifd: Create property multifd-sync-after-each-section
-  multifd: Protect multifd_send_sync_main() calls
-  multifd: Only sync once each full round of memory
-
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
  qapi/migration.json   | 10 +++++++++-
  migration/migration.h |  1 +
  hw/core/machine.c     |  1 +
- migration/migration.c | 13 +++++++++++--
- migration/ram.c       | 44 +++++++++++++++++++++++++++++++++++++------
- 5 files changed, 60 insertions(+), 9 deletions(-)
+ migration/migration.c | 15 +++++++++++++--
+ 4 files changed, 24 insertions(+), 3 deletions(-)
 
+diff --git a/qapi/migration.json b/qapi/migration.json
+index c84fa10e86..2907241b9c 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -478,6 +478,13 @@
+ #                    should not affect the correctness of postcopy migration.
+ #                    (since 7.1)
+ #
++# @multifd-sync-after-each-section: Synchronize channels after each
++#                                   section is sent.  We used to do
++#                                   that in the past, but it is
++#                                   suboptimal.
++#                                   Default value is true until all code is in.
++#                                   (since 8.0)
++#
+ # Features:
+ # @unstable: Members @x-colo and @x-ignore-shared are experimental.
+ #
+@@ -492,7 +499,8 @@
+            'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
+            { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
+            'validate-uuid', 'background-snapshot',
+-           'zero-copy-send', 'postcopy-preempt'] }
++           'zero-copy-send', 'postcopy-preempt',
++           'multifd-sync-after-each-section'] }
+ 
+ ##
+ # @MigrationCapabilityStatus:
+diff --git a/migration/migration.h b/migration/migration.h
+index 2da2f8a164..cf84520196 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -424,6 +424,7 @@ int migrate_multifd_channels(void);
+ MultiFDCompression migrate_multifd_compression(void);
+ int migrate_multifd_zlib_level(void);
+ int migrate_multifd_zstd_level(void);
++bool migrate_multifd_sync_after_each_section(void);
+ 
+ #ifdef CONFIG_LINUX
+ bool migrate_use_zero_copy_send(void);
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index f73fc4c45c..dc86849402 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -54,6 +54,7 @@ const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
+ GlobalProperty hw_compat_7_0[] = {
+     { "arm-gicv3-common", "force-8-bit-prio", "on" },
+     { "nvme-ns", "eui64-default", "on"},
++    { "migration", "multifd-sync-after-each-section", "on"},
+ };
+ const size_t hw_compat_7_0_len = G_N_ELEMENTS(hw_compat_7_0);
+ 
+diff --git a/migration/migration.c b/migration/migration.c
+index 90fca70cb7..406c27bc82 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -167,7 +167,8 @@ INITIALIZE_MIGRATE_CAPS_SET(check_caps_background_snapshot,
+     MIGRATION_CAPABILITY_XBZRLE,
+     MIGRATION_CAPABILITY_X_COLO,
+     MIGRATION_CAPABILITY_VALIDATE_UUID,
+-    MIGRATION_CAPABILITY_ZERO_COPY_SEND);
++    MIGRATION_CAPABILITY_ZERO_COPY_SEND,
++    MIGRATION_CAPABILITY_MULTIFD_SYNC_AFTER_EACH_SECTION);
+ 
+ /* When we add fault tolerance, we could have several
+    migrations at once.  For now we don't need to add
+@@ -2701,6 +2702,15 @@ bool migrate_use_multifd(void)
+     return s->enabled_capabilities[MIGRATION_CAPABILITY_MULTIFD];
+ }
+ 
++bool migrate_multifd_sync_after_each_section(void)
++{
++    MigrationState *s = migrate_get_current();
++
++    return true;
++    // We will change this when code gets in.
++    return s->enabled_capabilities[MIGRATION_CAPABILITY_MULTIFD_SYNC_AFTER_EACH_SECTION];
++}
++
+ bool migrate_pause_before_switchover(void)
+ {
+     MigrationState *s;
+@@ -4535,7 +4545,8 @@ static Property migration_properties[] = {
+     DEFINE_PROP_MIG_CAP("x-zero-copy-send",
+             MIGRATION_CAPABILITY_ZERO_COPY_SEND),
+ #endif
+-
++    DEFINE_PROP_MIG_CAP("multifd-sync-after-each-section",
++                        MIGRATION_CAPABILITY_MULTIFD_SYNC_AFTER_EACH_SECTION),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 2.39.1
 
