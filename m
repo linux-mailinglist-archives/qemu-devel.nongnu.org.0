@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 495C4694853
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 15:42:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36EC0694857
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 15:42:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRa1G-0006jI-0V; Mon, 13 Feb 2023 09:41:26 -0500
+	id 1pRa1F-0006im-TH; Mon, 13 Feb 2023 09:41:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pRa12-0006PD-G3
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 09:41:13 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ id 1pRa16-0006RL-QH
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 09:41:17 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pRa10-0005Uq-Vp
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 09:41:12 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id d2so12102605pjd.5
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 06:41:10 -0800 (PST)
+ id 1pRa15-0005Ve-Cb
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 09:41:16 -0500
+Received: by mail-pl1-x630.google.com with SMTP id ja21so6107826plb.13
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 06:41:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BupoAsKzkCuUQGMRjABpAZtafv55Wlzos5b537icK1M=;
- b=X6fJqO52WK5G21xPZlaYlw76kce6n/qWl1RmSXWhddsrWkOyc1zVXl70Pn+N5PFD4m
- nrCdsYsrPfcMAayCDs8AM4mCTgtLuahTQt23wGABXDF7gCXHUhs0GdDVUfxlVqmK+86f
- 5pEt3FoyA1bNX+HqqH8WBsCwZtmGGSl/mox+oNJtAiTYUPyOZ2hs1hJ+g2bgYKu2N7Yf
- qyQOc1+CeVc/Bb+FgvUWMYhcxYKNjwNX3vHC3Mj5oNBSXVbHogX6C1eln4v+Z9xyy8Rf
- pqhciKWJzJazrS0zfTw7VGE04KC7Pe0QdfVbaYjLesgTUh4XfNelon4tCmjPRx1oULdy
- dkgg==
+ bh=L39PhdXfC8+RktTLziyz2PO6qwKRkojAvf2ARDN/TAM=;
+ b=B2P4wBxwRJbjRSe3XH2Dr9Aw2E//SDmFQrkz8VnmUQ0knOfkFYYu/Kq3bwzaoayIbx
+ sJwPR7D3DayCUaScw20vzaUFg5KAqcAQyvR95sGEfWD+65MphN33LxzMCpvlGtFJi4Os
+ eyqk4kQq26C351bOWgQYkinFttYnxqCVWmZ5l7PwU53wqHhuzUQzOWuLMCS3JKDnie4N
+ HC+//PKytHbh2U/yivM2BazU8c8MsS5HL+ElES9b4j7GvWWevnjqPNK8MJsflENpbVWW
+ 7HGYc9E43j2n8xGKzHVdg1TywtHv2w6WM/WHin06aw57V/uAFgGF6uaBz5bca7nkyfEL
+ nKQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BupoAsKzkCuUQGMRjABpAZtafv55Wlzos5b537icK1M=;
- b=e3uvyZcpcuAmUDK7hQG9NFgF0WeSJ9fzIKtsLCQYs7DL/qTXUG0r4Ts5NFqOcx/Cjp
- VUBOIuf8DsrT3a/D0G6c0bdtN3ySVSTPioF1nePO2kPw8r0ftKmFInjB1fTV7bpfrWiF
- fUaenAAur2kQy+BfjLib2dJWOba7spXgPOVNtcHyGXUFhgwaBFRjhYunMD4093Ef9PK9
- xKD0WN9wg2PLHwY83GVyb10CM7N7PFCYQBBd62dJSHkpSX66J1fbftf4a5zGyR23j5p/
- Zs3HM2rSuJLats96zj2S1BQLEihz3Dvdd017ECnNqjHVS7B4JJC9BnLJdb7DOtnDZDH3
- VFyg==
-X-Gm-Message-State: AO0yUKVvnOGy1YMiSkEUm+9pArXNQrxMA543DnzA+zFDKmxXkHyCBKzh
- iCRy8akgN56JaT6qZocRiBl6tA==
-X-Google-Smtp-Source: AK7set8Zn0RuIZXDYANn9ehg4ks0QxiuDA+hYshyO6duuJfCYDODEZco22k3TmXvqOU9qi2yTLrFNg==
-X-Received: by 2002:a05:6a20:3d8b:b0:bc:ce49:798d with SMTP id
- s11-20020a056a203d8b00b000bcce49798dmr32659043pzi.41.1676299270293; 
- Mon, 13 Feb 2023 06:41:10 -0800 (PST)
+ bh=L39PhdXfC8+RktTLziyz2PO6qwKRkojAvf2ARDN/TAM=;
+ b=3/rc37AOZDeSvnd4hgmjquhPIVplC2UpOF9BEJBPZl8LGvQjGXoRvVW/hO2HDWMENk
+ cQA9oCZPOJYs9Pq4Nlzpw+sqg2+zoXJK95KUNDC1GvJbfKDkioe906nOU2lArHxOjTXT
+ kxjMoDgMZYnYiCVwU8jSJYXJu11+MWavhtqwS4Gn0nbRDE6Vr9q5akmn6/rWO0Wa8p0L
+ iSzWk1Bke3DOd1sqHfVGGVEg2zzNmFkjYGhjQ73RA5RQ4r4SwrCQaCWdt1883zNHDqaj
+ 96PsVCfIk4dhY+3cwkLx4lb+txFg6v6FnM825huEPjuEmpgV/rx9Q3JybeFapo1/njhM
+ y+0w==
+X-Gm-Message-State: AO0yUKWO/Guom8JVWMYcrraojqFkqelmknMjRTG4PP1pvtUq9R5N8NSM
+ spx9PKFnYX6geU1mrS7MnPpQNQ==
+X-Google-Smtp-Source: AK7set8rDmutL1lEcAC8xb2+4yOwRthmMcdRUH6Zcdm7oT6wSrF3ehlrTiF/2ObwuplT8X3htG1mdg==
+X-Received: by 2002:a17:903:1390:b0:19a:84db:76ed with SMTP id
+ jx16-20020a170903139000b0019a84db76edmr6508715plb.15.1676299273529; 
+ Mon, 13 Feb 2023 06:41:13 -0800 (PST)
 Received: from kerodi.Dlink ([49.206.14.226]) by smtp.gmail.com with ESMTPSA id
- y23-20020a63de57000000b004fb8732a2f9sm3777757pgi.88.2023.02.13.06.41.07
+ y23-20020a63de57000000b004fb8732a2f9sm3777757pgi.88.2023.02.13.06.41.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Feb 2023 06:41:10 -0800 (PST)
+ Mon, 13 Feb 2023 06:41:13 -0800 (PST)
 From: Sunil V L <sunilvl@ventanamicro.com>
 To: Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>,
@@ -63,24 +63,24 @@ Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
  Anup Patel <apatel@ventanamicro.com>,
  Atish Kumar Patra <atishp@rivosinc.com>,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Sunil V L <sunilvl@ventanamicro.com>
-Subject: [PATCH V2 08/10] hw/riscv/Kconfig: virt: Enable ACPI config option
-Date: Mon, 13 Feb 2023 20:10:36 +0530
-Message-Id: <20230213144038.2547584-9-sunilvl@ventanamicro.com>
+ Sunil V L <sunilvl@ventanamicro.com>, Bin Meng <bmeng@tinylab.org>
+Subject: [PATCH V2 09/10] hw/riscv/virt.c: Initialize the ACPI tables
+Date: Mon, 13 Feb 2023 20:10:37 +0530
+Message-Id: <20230213144038.2547584-10-sunilvl@ventanamicro.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213144038.2547584-1-sunilvl@ventanamicro.com>
 References: <20230213144038.2547584-1-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=sunilvl@ventanamicro.com; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=sunilvl@ventanamicro.com; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,26 +96,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Enable ACPI related config option to build ACPI subsystem
-for virt machine.
+When the "acpi=on", ACPI tables need to be added. Detect the option
+and initialize the ACPI tables.
 
 Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+Reviewed-by: Bin Meng <bmeng@tinylab.org>
 ---
- hw/riscv/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ hw/riscv/virt.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index 4550b3b938..6528ebfa3a 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -44,6 +44,7 @@ config RISCV_VIRT
-     select VIRTIO_MMIO
-     select FW_CFG_DMA
-     select PLATFORM_BUS
-+    select ACPI
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 5017ba62ec..43c201c8cf 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -1316,6 +1316,10 @@ static void virt_machine_done(Notifier *notifier, void *data)
+     if (kvm_enabled()) {
+         riscv_setup_direct_kernel(kernel_entry, fdt_load_addr);
+     }
++
++    if (virt_is_acpi_enabled(s)) {
++        virt_acpi_setup(s);
++    }
+ }
  
- config SHAKTI_C
-     bool
+ static void virt_machine_init(MachineState *machine)
 -- 
 2.34.1
 
