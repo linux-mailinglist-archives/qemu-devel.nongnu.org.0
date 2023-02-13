@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1479694214
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:57:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8748369421B
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:58:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVQs-00040J-AF; Mon, 13 Feb 2023 04:47:34 -0500
+	id 1pRVQv-00044a-5K; Mon, 13 Feb 2023 04:47:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVQm-0003w2-Dd
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:47:28 -0500
+ id 1pRVQr-000426-10
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:47:33 -0500
 Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVQf-0002kj-Rd
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:47:27 -0500
+ id 1pRVQm-0002o2-73
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:47:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676281641; x=1707817641;
+ t=1676281648; x=1707817648;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=IWiRdBHGXgojFO0IqMVUTsFru4z7jqsB2wt3kc9yKJY=;
- b=U/mi6v0PpN1LOT4+rVP0hBq522j67e2kMVoBXnvFLlbNuOKVBHf7e0mc
- f3+dyKu+Twy6IGolZNuWpQ3DeCvVOxT9Wp0CzfyNVTVLlEkh/DXVKY86s
- Nvj7IoDVkwmPyaoai8GK/xhPWBDuAUfiMBnkYdyDpjmHkDnDWrBXMGdYN
- 6TKlNSgJn55nUG6jy51h7BPbd2jrLpIev3U8H5ImGL7hFkKAcsRM2PZmS
- uX2hTL6tIxD6VvYuUDzPoXbuU1gffzVfHN8GKHLExfIZ8DJYCpd+9gFxY
- 1HgBzIeXOoMguUN+VTZ/ltjDxx3jFWPtx7/5v6jVP9/ts8wocQgGV+eBG g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310487320"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310487320"
+ bh=ZHT8BeBElGkAL2saMHhPbqEcdepnC0wUMbvXOsAXTqU=;
+ b=UET0RKcrhg2tVUngzH1/6YKAOyRAWd2n8ytlAfqA0qt/pXerJAQw8srj
+ ZwJxfTsgtPAp0z22HX2ZotFZfvzNPL1MkOaoS0HATj2wMzi5bK9jOlriR
+ btDUL/87h4WAn893eTuC0XAUw2SgEVxhVFMLdIf6Au5a+qjgMP64j4Eva
+ +hUhwf+c7sYQfx4JODxw1nhJ6PqjE35AVWPcjF3gDW38tpSHYOfcIK1iN
+ 4BJS61eXTPAWV0jdiGk5Mk0rHOLEMwT5+J1aF/0XPNan3gcBiDDAv7vGa
+ 4crZ4dCF1PSzQtRkVvGoLUHnVeP2O2QTRP0iJb0Ac0t0FOQUFYcR2KBCu g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310487342"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310487342"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 01:46:23 -0800
+ 13 Feb 2023 01:46:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670760701"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670760701"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670760707"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670760707"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:46:19 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:46:23 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -55,9 +55,9 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
  Zhao Liu <zhao1.liu@intel.com>
-Subject: [RFC 51/52] qapi: Expose CPU topology info in query_cpus_fast
-Date: Mon, 13 Feb 2023 17:50:34 +0800
-Message-Id: <20230213095035.158240-52-zhao1.liu@linux.intel.com>
+Subject: [RFC 52/52] i386: Support cpu_index_to_core_type() for x86
+Date: Mon, 13 Feb 2023 17:50:35 +0800
+Message-Id: <20230213095035.158240-53-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
@@ -88,132 +88,67 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
-The topology type and core type are useful to users, so expose them
-in query_cpus_fast.
-
-Since the hybrid core is pre-set and does not support hotplug for
-the entire core, the topology type and core type are not exposed in
-query-hotpluggable-cpus.
+The cpu_index_to_core_type() of MachineClass is implemented in x86 to
+obtain the string name of core type, so that users can get the basic
+topology information (topology type and core type) of x86 machine
+(currently, only PC machine) in query_cpus_fast.
 
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- hw/core/machine-qmp-cmds.c | 11 +++++++++++
- hw/core/machine-topo.c     |  5 +++++
- include/hw/boards.h        |  5 +++++
- qapi/machine.json          | 19 +++++++++++++++++--
- 4 files changed, 38 insertions(+), 2 deletions(-)
+ hw/i386/x86.c | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-index 44b5da888024..6be7148a8374 100644
---- a/hw/core/machine-qmp-cmds.c
-+++ b/hw/core/machine-qmp-cmds.c
-@@ -67,6 +67,17 @@ CpuInfoFastList *qmp_query_cpus_fast(Error **errp)
-             value->props = props;
-         }
- 
-+        if (mc->cpu_index_to_core_type) {
-+            CpuTopoInfo *topo;
-+            const char *core_type;
-+
-+            topo = g_malloc0(sizeof(CpuTopoInfo));
-+            topo->topo_type = machine_topo_get_type(ms);
-+            core_type = mc->cpu_index_to_core_type(ms, cpu->cpu_index);
-+            topo->core_type = g_strdup(core_type);
-+            value->topo = topo;
-+        }
-+
-         value->target = target;
-         if (target == SYS_EMU_TARGET_S390X) {
-             cpustate_to_cpuinfo_s390(&value->u.s390x, cpu);
-diff --git a/hw/core/machine-topo.c b/hw/core/machine-topo.c
-index f38b8c683026..f0ff550a2519 100644
---- a/hw/core/machine-topo.c
-+++ b/hw/core/machine-topo.c
-@@ -177,6 +177,11 @@ unsigned int machine_topo_get_threads_per_socket(const MachineState *ms)
-     return ms->topo.max_cpus / sockets;
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index f58a90359170..67318a527c6c 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -1583,6 +1583,38 @@ static int x86_parse_hybrid_core_type(MachineState *ms, const char *coretype)
+     return type;
  }
  
-+CpuTopoType machine_topo_get_type(const MachineState *ms)
++static const char *x86_cpu_index_to_hybrid_core_type(MachineState *machine,
++                                                     unsigned cpu_index)
 +{
-+    return ms->topo.topo_type;
++    CPUState *cs;
++
++    if (machine_topo_is_smp(machine)) {
++        return NULL;
++    }
++
++    CPU_FOREACH(cs) {
++        X86CPU *cpu = X86_CPU(cs);
++        CPUX86State *env = &cpu->env;
++
++        if (cs->cpu_index == cpu_index) {
++            const char *core_type;
++
++            switch (env->hybrid_core_type) {
++            case INTEL_ATOM_TYPE:
++                core_type = "atom";
++                break;
++            case INTEL_CORE_TYPE:
++                core_type = "core";
++                break;
++            default:
++                abort();
++            }
++            return core_type;
++        }
++    }
++    return NULL;
 +}
 +
- void machine_init_topology_default(MachineState *ms, bool smp)
+ static void x86_machine_initfn(Object *obj)
  {
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index c93bb1206244..d925e8af9ed6 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -239,6 +239,8 @@ typedef struct {
-  *    purposes only.
-  *    Applies only to default memory backend, i.e., explicit memory backend
-  *    wasn't used.
-+ * @cpu_index_to_core_type:
-+ *    Return the core_type of specified CPU with @cpu_index.
-  */
- struct MachineClass {
-     /*< private >*/
-@@ -305,6 +307,8 @@ struct MachineClass {
-     const CPUArchIdList *(*possible_cpu_arch_ids)(MachineState *machine);
-     int64_t (*get_default_cpu_node_id)(const MachineState *ms, int idx);
-     ram_addr_t (*fixup_ram_size)(ram_addr_t size);
-+    const char *(*cpu_index_to_core_type)(MachineState *machine,
-+                                          unsigned cpu_index);
- };
+     X86MachineState *x86ms = X86_MACHINE(obj);
+@@ -1611,6 +1643,7 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
+     x86mc->fwcfg_dma_enabled = true;
+     nc->nmi_monitor_handler = x86_nmi;
+     mc->core_type = x86_parse_hybrid_core_type;
++    mc->cpu_index_to_core_type = x86_cpu_index_to_hybrid_core_type;
  
- /**
-@@ -496,5 +500,6 @@ unsigned int machine_topo_get_cores_by_idx(const MachineState *ms,
-                                            unsigned int cpu_index);
- unsigned int machine_topo_get_cores_per_socket(const MachineState *ms);
- unsigned int machine_topo_get_threads_per_socket(const MachineState *ms);
-+CpuTopoType machine_topo_get_type(const MachineState *ms);
- 
- #endif
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 931c6dea9819..e86778b7a777 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -40,7 +40,6 @@
- # @CpuTopoType:
- #
- # An enumeration of cpu topology type
--# TODO: Expose topology type in query-cpus-fast
- #
- # Since: 8.0
- ##
-@@ -48,6 +47,21 @@
-   'prefix': 'CPU_TOPO_TYPE',
-   'data': [ 'smp', 'hybrid' ] }
- 
-+##
-+# @CpuTopoInfo:
-+#
-+# Additional information about basic CPU topology
-+#
-+# @topo-type: the type of CPU topology
-+#
-+# @core-type: the type of CPU core
-+#
-+# Since: 8.0
-+##
-+{ 'struct' : 'CpuTopoInfo',
-+  'data'   : { 'topo-type': 'CpuTopoType',
-+               'core-type': 'str'} }
-+
- ##
- # @CpuS390State:
- #
-@@ -95,7 +109,8 @@
-                       'qom-path'     : 'str',
-                       'thread-id'    : 'int',
-                       '*props'       : 'CpuInstanceProperties',
--                      'target'       : 'SysEmuTarget' },
-+                      'target'       : 'SysEmuTarget',
-+                      '*topo'         : 'CpuTopoInfo' },
-   'discriminator' : 'target',
-   'data'          : { 's390x'        : 'CpuInfoS390' } }
- 
+     object_class_property_add(oc, X86_MACHINE_SMM, "OnOffAuto",
+         x86_machine_get_smm, x86_machine_set_smm,
 -- 
 2.34.1
 
