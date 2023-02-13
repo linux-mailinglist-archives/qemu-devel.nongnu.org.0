@@ -2,32 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDD80694EC1
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 19:05:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B57B5694ED9
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 19:08:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRdAj-0003En-5K; Mon, 13 Feb 2023 13:03:25 -0500
+	id 1pRdF6-0000Sj-8K; Mon, 13 Feb 2023 13:07:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1pRdAf-0003DH-Uj; Mon, 13 Feb 2023 13:03:23 -0500
-Received: from bg4.exmail.qq.com ([43.155.65.254])
+ id 1pRdEx-0000Qn-E0; Mon, 13 Feb 2023 13:07:48 -0500
+Received: from bg4.exmail.qq.com ([43.154.221.58])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1pRdAd-0001LW-Ud; Mon, 13 Feb 2023 13:03:21 -0500
-X-QQ-mid: bizesmtp62t1676311381tykhei98
+ id 1pRdEs-00024w-Kn; Mon, 13 Feb 2023 13:07:47 -0500
+X-QQ-Spam: true
+X-QQ-mid: bizesmtp62t1676311384t21qd7k6
 Received: from pek-vx-bsp2.wrs.com ( [60.247.85.88])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 14 Feb 2023 02:03:00 +0800 (CST)
+ id ; Tue, 14 Feb 2023 02:03:03 +0800 (CST)
 X-QQ-SSF: 01200000000000C0D000000A0000000
-X-QQ-FEAT: 9fp+MOMfZT38O25zMZxb6wkx2tUfPBoqmOOK8LK6MS9dBO/MmUMzjt2QX51np
- VomaEjrjCGzUGg+V8BoqoqYeR1tMzk0PpQVYiSN9TWOKSk3beAoEXbYGPhpwwDLfCuysxt7
- nXQdLU7TqdxmCU9QC4faOscBmRRrBWCodAuUDWzzpjF62VNdOvdlz/lVPn61ljfkc0U4fXV
- yxFL+nWHuyDsB7O7YIarKUqftYNeEDU89StYoC2QJryU9a33GlZeAwzzEJODKhjxgH00Naa
- lFTDdNsRX5ZhGpsvt/dcySY7tyYJBFzIcDAKM16npJla8r+MPwsfUDcdsC3edt8rJ3RYVze
- MwNewfj5LOTqbMfpiPX5hbnz0TwopFloOHkTbQMUtUD7yT4A0vnUG9s3Jp3EA==
-X-QQ-GoodBg: 0
 From: Bin Meng <bmeng@tinylab.org>
 To: qemu-devel@nongnu.org
 Cc: Alistair Francis <alistair.francis@wdc.com>,
@@ -36,9 +30,10 @@ Cc: Alistair Francis <alistair.francis@wdc.com>,
  Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
  Palmer Dabbelt <palmer@dabbelt.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
  qemu-riscv@nongnu.org
-Subject: [PATCH 06/18] target/riscv: Use 'bool' type for read_only
-Date: Tue, 14 Feb 2023 02:02:02 +0800
-Message-Id: <20230213180215.1524938-7-bmeng@tinylab.org>
+Subject: [PATCH 07/18] target/riscv: Simplify {read,
+ write}_pmpcfg() a little bit
+Date: Tue, 14 Feb 2023 02:02:03 +0800
+Message-Id: <20230213180215.1524938-8-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230213180215.1524938-1-bmeng@tinylab.org>
 References: <20230213180215.1524938-1-bmeng@tinylab.org>
@@ -46,7 +41,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:tinylab.org:qybglogicsvr:qybglogicsvr3
-Received-SPF: pass client-ip=43.155.65.254; envelope-from=bmeng@tinylab.org;
+Received-SPF: pass client-ip=43.154.221.58; envelope-from=bmeng@tinylab.org;
  helo=bg4.exmail.qq.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -68,28 +63,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The read_only variable is currently declared as an 'int', but it
-should really be a 'bool'.
+Use the register index that has already been calculated in the
+pmpcfg_csr_{read,write} call.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 ---
 
- target/riscv/csr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/riscv/csr.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index cc74819759..8bbc75cbfa 100644
+index 8bbc75cbfa..da3b770894 100644
 --- a/target/riscv/csr.c
 +++ b/target/riscv/csr.c
-@@ -3778,7 +3778,7 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
-                                                RISCVCPU *cpu)
- {
-     /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check fails */
--    int read_only = get_field(csrno, 0xC00) == 3;
-+    bool read_only = get_field(csrno, 0xC00) == 3;
-     int csr_min_priv = csr_ops[csrno].min_priv_ver;
+@@ -3363,7 +3363,7 @@ static RISCVException read_pmpcfg(CPURISCVState *env, int csrno,
+     if (!check_pmp_reg_index(env, reg_index)) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+-    *val = pmpcfg_csr_read(env, csrno - CSR_PMPCFG0);
++    *val = pmpcfg_csr_read(env, reg_index);
+     return RISCV_EXCP_NONE;
+ }
  
-     /* ensure the CSR extension is enabled. */
+@@ -3375,7 +3375,7 @@ static RISCVException write_pmpcfg(CPURISCVState *env, int csrno,
+     if (!check_pmp_reg_index(env, reg_index)) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+-    pmpcfg_csr_write(env, csrno - CSR_PMPCFG0, val);
++    pmpcfg_csr_write(env, reg_index, val);
+     return RISCV_EXCP_NONE;
+ }
+ 
 -- 
 2.25.1
 
