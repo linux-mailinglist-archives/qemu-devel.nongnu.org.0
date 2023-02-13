@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66366946AE
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 14:11:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC91B6946B9
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 14:14:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRYbE-0006Qi-K0; Mon, 13 Feb 2023 08:10:28 -0500
+	id 1pRYeT-0008Or-F7; Mon, 13 Feb 2023 08:13:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRYbD-0006QN-6p
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 08:10:27 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRYeP-0008N2-CC
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 08:13:48 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRYb8-0003nr-Fk
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 08:10:26 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id a2so12163485wrd.6
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 05:10:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRYeN-0004T0-Ii
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 08:13:45 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id o36so8693646wms.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 05:13:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=I3R2VSYowHdYavsVzTe5od/0gTer9oqqyhuXnBrmOqk=;
- b=oRt7QCU3TD7flN/H85gYcM3GU7701i8QU0TpDzmVnKClxGuuZ7R5W8Wgq0bA97rWUZ
- ga++KOa1a5Goexn58F/4DDW1qT4f5ESLRpP4+QE4oeB6FTu53MI//FqzIvofIZH34F10
- h1w0EVlbr7eBDgQBZ0Jk2RWumqdxdYkTR4IXXZQ03RRqmweBLqLrlg11R6E5/caUD+zN
- VyygDZrd7raqsqXgx+XPrQ/WhuZmtGKaFjtfkKzH3vBYGoEBuX5HVmzsMY1aOEUZhgLw
- keusW8EpKqTNlaIF4Hn1kIn020qHrSfFAvGX08t+V22UZeOqWWMCsAswDGSZmdC3rDep
- qIpw==
+ bh=DSpLRRP1Wl4S7nqFs66kHdZdq3jLjnNriDWCB1RcpcI=;
+ b=TtIUbjOZ6Z3gZzeSIpZVIg38tB1CxUvVcUme5nMS/KHhKhxfgbIQ/d+o/Ze7WGxhWh
+ txXcrdgFV77NdwTmAJn0IGtY/NWtwT0Nh1Vaw5yA58MNFXBHbuDhZS8YmFC5MdGpMMXq
+ 2wdAqiViAHsmDa/lgia8b2TWMt5iVAgxV+RgrscGhnhsdsHx4XxvGCrKHIwqws6gDBhf
+ Q4q7gLAA4GC2gtE6YSOuABUiJsVIcsIidzVWIHzBdBAp0ftZPW1QgbBbuvc6F2UIGkYl
+ jgqFIYyRzdfnmKcRZovwI2Qcku14yxNoIXicUQdeXgSkeNbRKJZ8LmHZ8ielzr+Mwxjf
+ NU2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=I3R2VSYowHdYavsVzTe5od/0gTer9oqqyhuXnBrmOqk=;
- b=7RD58VcwkQ6HLA8nY8c/qqttPd9MXqAraRICpkphmr+Dfepa7P/1tWkdCvV1vp2qII
- QlqQaSukkRDrbD6ov6wHozte/C+EbVWXKPYuv70D04xtzHPy+5Xvx5p7R4KQAh3IJwlL
- Ca91AUyzX15kLklZ0XU3euRdoGHl8VAUZfSZVD5dXONy9idaeym99BiFdxSyNSZbDUbu
- JlV5+b59SoZEKBeYc0CoKDmmuIwrx5LVQL2dSicnf3KhNWCeFNGM/uX4pjMiuowP3DJg
- JxwlE74INsFtc3FFX67s3s90r0i88+tsOQV8hdailA3deel8xIlgINvjy+t31GVfOWGB
- SwAw==
-X-Gm-Message-State: AO0yUKVwX3MfBZaeRJstXGpOlKTfuiVY5i7TYGow+EhXybJUxOVgcKKh
- 1XSff+sd/6kjT9ycSexrA9XLIw==
-X-Google-Smtp-Source: AK7set8gKpiSWwon351L7l+52hT5V8DJWYPom7IY0EvUGia7rwTPJcf2+dkWZsDrcQa3RNgLuz02bg==
-X-Received: by 2002:a5d:4d06:0:b0:2c4:80a:e852 with SMTP id
- z6-20020a5d4d06000000b002c4080ae852mr14319491wrt.65.1676293820827; 
- Mon, 13 Feb 2023 05:10:20 -0800 (PST)
+ bh=DSpLRRP1Wl4S7nqFs66kHdZdq3jLjnNriDWCB1RcpcI=;
+ b=sPb3AidP2zIuicACLNBNwSOitYyk+OQPbqSJWkMa2rSzlVP5j8QZtKnFdUFFRNApXm
+ lSuXBr6EyLC3bH7TVd8N03sflP7/eK1Tmh3HAB6smzI5gQqgX8yeim1DHOyNZc2i74go
+ Ed1G4Gyd7Luh6ZY5l8WNelSjzcKPkMLCopShwbAIaep9MN/BnG/GN8AMqhrN1E53CXQP
+ 5fli0hzbRxBAn1RIK59m1Qqt6pv3YW9b7JxPs6W6VQ+YsSvEm/EN75UqX7WeuPSW02bN
+ CnV70scHf+od6ChMsqbstn6s5oF4l5CScGhrXlWdwEN+wEAjudGFZ4Tn1U1/jHNlQwfY
+ TIDQ==
+X-Gm-Message-State: AO0yUKVyB0OZpif4jKq8IgSzALYJIx0i4MD5S/p3iiw6JeHn89wMGUgS
+ fO6kveEcMCcufQQKASISW0a3jw==
+X-Google-Smtp-Source: AK7set8XBNgECKa7WA9e9QXawP3G4SHT3ofRJOgSyV/vmvvSuGO5XUzgXvaX6A3Jdpm5B+PoP5ngtw==
+X-Received: by 2002:a05:600c:3ac9:b0:3df:9858:c030 with SMTP id
+ d9-20020a05600c3ac900b003df9858c030mr5706804wms.5.1676294022048; 
+ Mon, 13 Feb 2023 05:13:42 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h5-20020a5d5045000000b002c54d9fbea5sm6353798wrt.73.2023.02.13.05.10.19
+ b18-20020a05600c4e1200b003e00c453447sm17365495wmq.48.2023.02.13.05.13.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 05:10:20 -0800 (PST)
-Message-ID: <d0fa7c07-824a-6dfb-2eaf-2e8f72aa7ad6@linaro.org>
-Date: Mon, 13 Feb 2023 14:10:17 +0100
+ Mon, 13 Feb 2023 05:13:41 -0800 (PST)
+Message-ID: <9995a184-df44-6680-174f-14fc0b5c2425@linaro.org>
+Date: Mon, 13 Feb 2023 14:13:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [RFC 06/52] hw/cpu: Introduce hybrid CPU topology
+Subject: Re: [RFC 09/52] hw/machine: Introduce core type for hybrid topology
+Content-Language: en-US
 To: Zhao Liu <zhao1.liu@linux.intel.com>,
  Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -70,14 +71,13 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
  Zhao Liu <zhao1.liu@intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
- <20230213095035.158240-7-zhao1.liu@linux.intel.com>
-Content-Language: en-US
+ <20230213095035.158240-10-zhao1.liu@linux.intel.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230213095035.158240-7-zhao1.liu@linux.intel.com>
+In-Reply-To: <20230213095035.158240-10-zhao1.liu@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -103,49 +103,48 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 13/2/23 10:49, Zhao Liu wrote:
 > From: Zhao Liu <zhao1.liu@intel.com>
 > 
-> For smp systems, the parts in one topology level are the same. But now
-> there are more and more systems with hybrid architectures. Different
-> parts of the same topology level may have differences. For example,
-> Intel's Alder Lake series CPU has two types of cores, so the CPU
-> topology is no longer symmetrical.
+> Under the hybrid cpu topology, some CPUs care about the core type.
+> For example, Intel's Alder Lake series CPU contains two types of cores:
+> Intel Core and Intel Atom. The type information of these two types is
+> exposed in 1A leaf of CPUID.
 > 
-> The hybrid topology is compatible with the smp topology type, that is,
-> different parts on the same level of the hybrid topology can set to be
-> the same, but the hybrid topology will introduce more complexity (need
-> to allocate more memory, organized with array or linked-list), so the
-> original smp topology support is retained while introducing the hybrid
-> topology, and the hybrid topology is only built when the hybrid is
-> explicitly required.
+> Core type should also be part of the hybrid topology, and
+> MachineState.cpu_type cannot provide different type information for
+> different cpus in the same machine, so add a type field for the core
+> level in the hybrid cpu topology.
 > 
-> Therefore, we introduce the definition support of hybrid cpu topology
-> here. At the same time, in order to unify with the original smp, we
-> introduce a new cpu topology structure that can support smp topology
-> or hybrid topology. This structure will replace the CpuTopology type (in
-> include/hw/boards.h) used by MachineState.smp.
-> 
-> As for now, we only support two hybrid topology levels: core and
-> cluster.
+> Additionally, add a helper to get core type information from
+> MachineState. Though core_type is only used in hybrid case, don't
+> use assert since it may be used to initialize some generic fields.
 > 
 > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 > ---
->   MAINTAINERS                   |   1 +
->   include/hw/cpu/cpu-topology.h | 117 ++++++++++++++++++++++++++++++++++
->   qapi/machine.json             |  12 ++++
->   3 files changed, 130 insertions(+)
->   create mode 100644 include/hw/cpu/cpu-topology.h
+>   hw/core/machine-topo.c        | 12 ++++++++++++
+>   include/hw/boards.h           |  3 +++
+>   include/hw/cpu/cpu-topology.h |  2 ++
+>   3 files changed, 17 insertions(+)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 58794885ced3..918a9418d98e 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1742,6 +1742,7 @@ F: qapi/machine-target.json
->   F: include/hw/boards.h
->   F: include/hw/core/cpu.h
->   F: include/hw/cpu/cluster.h
-> +F: include/hw/cpu/cpu-topology.h
->   F: include/sysemu/numa.h
->   F: tests/unit/test-smp-parse.c
->   T: git https://gitlab.com/ehabkost/qemu.git machine-next
+> diff --git a/hw/core/machine-topo.c b/hw/core/machine-topo.c
+> index b20160479629..e0ec07b53d42 100644
+> --- a/hw/core/machine-topo.c
+> +++ b/hw/core/machine-topo.c
+> @@ -51,6 +51,18 @@ unsigned int machine_topo_get_smp_threads(const MachineState *ms)
+>       return ms->topo.smp.threads;
+>   }
+>   
+> +unsigned int machine_topo_get_hybrid_core_type(const MachineState *ms,
+> +                                               unsigned int cluster_id,
+> +                                               unsigned int core_id)
+> +{
+> +    if (!machine_topo_is_smp(ms)) {
+> +        return ms->topo.hybrid.cluster_list[cluster_id]
+> +                       .core_list[core_id].core_type;
+> +    } else {
+> +        return 0;
 
-Worth splitting this section in 2, machine VS numa/clusters?
+Is '0' an invalid type?
+
+> +    }
+> +}
+
 
