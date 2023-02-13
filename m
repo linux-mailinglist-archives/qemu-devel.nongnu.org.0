@@ -2,84 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50AB769499F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 16:00:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0836949DC
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 16:02:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRaIU-0007Rg-LX; Mon, 13 Feb 2023 09:59:14 -0500
+	id 1pRaKw-00017L-JH; Mon, 13 Feb 2023 10:01:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRaII-0007Qa-Hu
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 09:59:02 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRaIF-0000Ar-SE
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 09:59:02 -0500
-Received: by mail-wr1-x433.google.com with SMTP id co8so8786354wrb.1
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 06:58:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=H+vG9NKIamVI0r52cKjKpboAVj2cmG9wZOmwYOLxCdQ=;
- b=DH21emMP4ln41qu1s3Qnmacq4fxMqS4dHcrFCUX7Gljpitzv1LSel/5pCu/Ktj1GzV
- E2QZalmuaMxIbq0BnW4gvz6UnmgJ9ZtjIiuklsJYXYYx5geVeR8q5IZ4SlOvLd4ASCdB
- X4itmN589k2ak16tOX70RfuPG/+6rIl8QraXL+I+kp5JoU7//i0Lc0P2OKYLKwDJn7fy
- A6Ak85KNBd4nziE0dsTPwEMkVE6xekzwcP/xFSejpa5pR6OVQssjIBbx+x+ZSbHP1GLN
- Eg+Bc7cI63TS9XMnxHkJlRwaMFUJd09Vuk7WD5zDN9zz1a+ckb9nkXUChIGOi0XH0NTB
- 1DfA==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pRaKo-00016r-7O
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 10:01:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pRaKm-0000lR-9E
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 10:01:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676300494;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KH0+rfcrpdMFszWCQVUfZyYIQ8xRjCPW7Fa6G7tIyfc=;
+ b=GZnZKNikUp9HBkByKJUVFBDh/tgA5LrFS8fNNT5L1jMcGQmV4KPRKW7cMagKWZvllIMEoL
+ +nAyQ0B+RgANUu2U0uv7nv9ywlE2DKQdvkqZkzY9+tt2Oxt8KBGJgQtUawLOgFEiS2ManF
+ KVBTFzcdFM/Fcuom3MbIQfm8N9YscCw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-222-AJrhgtv2MOWlXnCAJDDy4g-1; Mon, 13 Feb 2023 10:01:26 -0500
+X-MC-Unique: AJrhgtv2MOWlXnCAJDDy4g-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ b19-20020a05600c4e1300b003e10d3e1c23so8923215wmq.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 07:01:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=H+vG9NKIamVI0r52cKjKpboAVj2cmG9wZOmwYOLxCdQ=;
- b=7nYlr7zHTQHDEwq3NLws7rCivLT0HvhshC3lcBdj2YIZ3QAPGK8ai3INp+SjKmVru2
- JJ9bxEgVXaAWmmeQayJ4CshZ9FDhS1kwdyfM9hCVSgwtjcfKvk0c8sqh20s0SDpEKhtu
- pwnR4pN6wGwO9euUOhmmpTCvHMna/zIJYgWJHeessa6pWzVN6bqg9t5DibpU1EhQ+EwM
- wOn+Uid+n8kncccK0ATRF1SiopTLqmho2N2EWGUvTOMDiFLvI12XHz5HbYscMz1di7ub
- tDuFKnsQCPSw72d0WW5cO+FWpUAMWo1BXbFytQysXZjK1Ck1rRbdnVfyaY+KNwZYquzQ
- 7dkg==
-X-Gm-Message-State: AO0yUKWYzxGZkaOkRx+QSzaSVGADw3dUORnXiYWIuRT2vDMrIUOShYL5
- J9HYxliV3hV5eECcl+JdC+Zvzw==
-X-Google-Smtp-Source: AK7set+Enx2NHrXZUzihViGCyajMFdWHQTy+36ptYXwC2ApvbWfJBAyzItlsRl/bOZcBLqqAPxQC3A==
-X-Received: by 2002:adf:e5ce:0:b0:2c5:4d97:4a23 with SMTP id
- a14-20020adfe5ce000000b002c54d974a23mr6688992wrn.70.1676300338304; 
- Mon, 13 Feb 2023 06:58:58 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- q1-20020a05600000c100b002c54d8b89efsm6708138wrx.26.2023.02.13.06.58.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 06:58:57 -0800 (PST)
-Message-ID: <b19dbcdd-1246-f7d1-2d8f-8f9e2978d2d0@linaro.org>
-Date: Mon, 13 Feb 2023 15:58:56 +0100
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KH0+rfcrpdMFszWCQVUfZyYIQ8xRjCPW7Fa6G7tIyfc=;
+ b=ESB71Mb5l614oxUSYzDmH8ECrv7AioIbxYMVYi62yE1F9swR8SByE3DMul3DAW/MFg
+ YdLkJMAE31kSVHSVg/tqQRfXcJWo5h0qs02cDvjpLnPeNmKKzgCL1EsBDY6k/4VvGgL0
+ 703dytRO0x2XWL+0emIn5p09/8pmZST+RAMJV90cXF8KBRtrI95OF0+5U1oYlWmN8Zuc
+ XXdUcFI6z9xibd1ByRDfYrOTDz+ubZvbV2IWAoZ0VZ6IBEykrsVb5UdKDeGy+0S3jE5L
+ 7oZXwXIWrdvTN/sqObGr1Q3hsdjKS9bF8eX5b79AvYVCHWmYNjWVU6uu6/z7Ycmibiwt
+ OCdA==
+X-Gm-Message-State: AO0yUKW1D8BTWd1b2ZVazrBPisinT9wBB8ODdgMAIS6cqhM1jiJxNRGp
+ ysv4IKUcBusz+3NMxPMQdima7p7MXzfvVp6AvXdyJg1fmthpDUUDdRNUcfGUw57mfPylcNLL4ft
+ Aeu3xo5AclvT4bOY=
+X-Received: by 2002:a05:600c:43d3:b0:3db:1919:41b5 with SMTP id
+ f19-20020a05600c43d300b003db191941b5mr18949828wmn.21.1676300485044; 
+ Mon, 13 Feb 2023 07:01:25 -0800 (PST)
+X-Google-Smtp-Source: AK7set8jXdIZ3TG5oJWtA97GjEl458+zmAMqIKb6w7Pe6eda9Pi43U3euhr2MkZvzcme4zTnnxeeaQ==
+X-Received: by 2002:a05:600c:43d3:b0:3db:1919:41b5 with SMTP id
+ f19-20020a05600c43d300b003db191941b5mr18949793wmn.21.1676300484688; 
+ Mon, 13 Feb 2023 07:01:24 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ be7-20020a05600c1e8700b003dff2b493c8sm18744710wmb.36.2023.02.13.07.01.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Feb 2023 07:01:24 -0800 (PST)
+Date: Mon, 13 Feb 2023 15:01:22 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Thomas Huth <thuth@redhat.com>,
+ Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>
+Subject: Re: [RFC PATCH 0/5] Deprecate/rename singlestep command line option
+Message-ID: <Y+pQwn3u45zVhxYo@work-vm>
+References: <20230206171359.1327671-1-peter.maydell@linaro.org>
+ <87h6vxo4em.fsf@pond.sub.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH 1/2] log: Add separate debug option for logging invalid
- memory accesses
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, Peter Xu <peterx@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20230119214032.4BF1E7457E7@zero.eik.bme.hu>
- <ad4783ee-20ce-06d2-7c2f-1f915bd684d0@eik.bme.hu>
- <413edbc1-8af1-4b0e-70ab-41d49f1bbbcd@eik.bme.hu>
- <fcd09b07-c0ac-d617-8503-a5ecef947cfe@redhat.com> <Y+pM+H1PvTUUHrhx@x1n>
- <7ae34a52-13a5-05e0-3cea-10a9fb89ec1c@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <7ae34a52-13a5-05e0-3cea-10a9fb89ec1c@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87h6vxo4em.fsf@pond.sub.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.345,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,44 +104,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/2/23 15:47, BALATON Zoltan wrote:
-> On Mon, 13 Feb 2023, Peter Xu wrote:
->> On Mon, Feb 13, 2023 at 12:41:29PM +0100, Thomas Huth wrote:
->>> On 07/02/2023 17.33, BALATON Zoltan wrote:
->>>> On Tue, 31 Jan 2023, BALATON Zoltan wrote:
->>>>> On Thu, 19 Jan 2023, BALATON Zoltan wrote:
->>>>>> Currently -d guest_errors enables logging of different invalid 
->>>>>> actions
->>>>>> by the guest such as misusing hardware, accessing missing features or
->>>>>> invalid memory areas. The memory access logging can be quite verbose
->>>>>> which obscures the other messages enabled by this debug switch so
->>>>>> separate it by adding a new -d memaccess option to make it 
->>>>>> possible to
->>>>>> control it independently of other guest error logs.
->>>>>>
->>>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>>>
->>>>> Ping? Could somebody review and pick it up please?
->>>>
->>>> Ping?
->>>
->>> Patch makes sense to me and looks fine, so:
->>>
->>> Reviewed-by: Thomas Huth <thuth@redhat.com>
->>>
->>> ... I think this should go via one of the "Memory API" maintainers 
->>> branches?
->>> Paolo? Peter? David?
->>
->> Paolo normally does the pull, I assume that'll still be the case.  The
->> patch looks good to me if Phil's comment will be addressed on merging 
->> with
->> the old mask, which makes sense to me:
+* Markus Armbruster (armbru@redhat.com) wrote:
+> Peter Maydell <peter.maydell@linaro.org> writes:
 > 
-> Keeping the old mask kind of defies the purpose. I've tried to explain 
-> that in the commit message but now that two of you did not get it maybe 
-> that message needs to be clarified instead?
+> > The command line option '-singlestep' and its HMP equivalent
+> > the 'singlestep' command are very confusingly named, because
+> > they have nothing to do with single-stepping the guest (either
+> > via the gdb stub or by emulation of guest CPU architectural
+> > debug facilities). What they actually do is put TCG into a
+> > mode where it puts only one guest instruction into each
+> > translation block. This is useful for some circumstances
+> > such as when you want the -d debug logging to be easier to
+> > interpret, or if you have a finicky guest binary that wants
+> > to see interrupts delivered at something other than the end
+> > of a basic block.
+> >
+> > The confusing name is made worse by the fact that our
+> > documentation for these is so minimal as to be useless
+> > for telling users what they really do.
+> >
+> > This series:
+> >  * renames the 'singlestep' global variable to 'one_insn_per_tb'
+> >  * Adds new '-one-insn-per-tb' command line options and a
+> >    HMP 'one-insn-per-tb' command
+> >  * Documents the '-singlestep' options and 'singlestep'
+> >    HMP command as deprecated synonyms for the new ones
+> >
+> > It does not do anything about the other place where we surface
+> > 'singlestep', which is in the QMP StatusInfo object returned by the
+> > 'query-status' command.  This is incorrectly documented as "true if
+> > VCPUs are in single-step mode" and "singlestep is enabled through
+> > the GDB stub", because what it's actually returning is the
+> > one-insn-per-tb state.
+> >
+> > Things I didn't bother with because this is only an RFC but
+> > will do if it turns into a non-RFC patchset:
+> >  * test the bsd-user changes :-)
+> >  * add text to deprecated.rst
+> >
+> > So, questions:
+> >
+> > (1) is this worth bothering with at all? We could just
+> >     name our global variable etc better, and document what
+> >     -singlestep actually does, and not bother with the new
+> >     names for the options/commands.
+> 
+> The feature is kind of esoteric.  Rather weak excuse for not fixing bad
+> UI, in my opinion.  Weaker still since you already did a good part of
+> the actual work.
+> 
+> > (2) if we do do it, do we retain the old name indefinitely,
+> >     or actively put it on the deprecate-and-drop list?
+> 
+> By "the old name", you mean the CLI option name, right?
+> 
+> I'd prefer deprecate and drop.
+> 
+> > (3) what should we do about the HMP StatusInfo object?
+> >     I'm not sure how we handle compatibility for HMP.
+> 
+> Uh, you mean *QMP*, don't you?
+> 
+> As you wrote above, StatusInfo is returned by query-status, which is a
+> stable interface.  Changes to members therefore require the usual
+> deprecation grace period.  We'd add a new member with a sane name, and
+> deprecate the old one.
+> 
+> The matching HMP command is "info status".  It shows member @singlestep
+> as " (single step mode)".  Changing that is fine; HMP is not a stable
+> interface.
 
-Is your use case memaccess enabled and guest-errors disabled?
+Right, and similarly you don't need to keep the old 'singlestep' command
+around; you can just rename.
+
+Dave
+
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
