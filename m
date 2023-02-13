@@ -2,90 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7DFD694C15
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 17:12:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A301694C36
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 17:16:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRbPz-00063V-IP; Mon, 13 Feb 2023 11:11:03 -0500
+	id 1pRbUa-0000Ez-9B; Mon, 13 Feb 2023 11:15:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRbPk-0005qX-1g
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 11:10:48 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRbPi-00051F-2z
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 11:10:47 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id by3so11478695wrb.10
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 08:10:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XWFHVGNvD7f/S2ljkWD97ZOoAvtCN1MhEKpPbAsyCNY=;
- b=Y6nV1WRPf19yYJ9FfqI8SXaMchyGeG+c0OUjtYUbJvpl8qgdFtYELiQ1N4YE6S4vf1
- n2UJRR0fz65gETUjwu6T0VwLgkfSwy+tdaPuESY+bMitdlsiGo2ACnfwFlVqkPuuAoGX
- tJxTWWLFkAGfunwqE5eueJ/20hwqLfRl42RMfkl8XoECLLJloJVSYMM8C6jtRdrqENet
- IVWzv7KkiPmvMHpaS2VV9OGAVyUnMBHpVMXvGov4Z4aej0vYmQM5yJ+sZmR6iSDJ6U3q
- djzUHD1QV97hmn8itprxLAkC1YnG1AfhVJYflOdLlFhooUQVUnWh45uhIVLevmniiqWy
- YMWA==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pRbUW-0000B5-TM
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 11:15:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pRbUT-0006Ag-Pk
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 11:15:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676304940;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SHcJmuWryCkOlUEcENVKPKPhB1uQztKB43EMuRuG4EY=;
+ b=Sqe3Nd6CqLrC7K2kHxiUGxOfydCcT3kncNhjDjrAbJRZAT6AgQrz64v0Vz9CAuOZ2n6E7F
+ F7v4ZFxhwl9OPNiVbBwGmOAd9bH/Tlk7zPwp552RTay4GREV5PToFW0YVzdCwp2y7gnHwd
+ 6MC9p3vLY3/KIF4juUbwZMCQz5vBO7M=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-136-YNFh3BodPu26EjdOVTu-9g-1; Mon, 13 Feb 2023 11:15:39 -0500
+X-MC-Unique: YNFh3BodPu26EjdOVTu-9g-1
+Received: by mail-yw1-f200.google.com with SMTP id
+ 00721157ae682-52ecbe73389so96545597b3.0
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 08:15:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XWFHVGNvD7f/S2ljkWD97ZOoAvtCN1MhEKpPbAsyCNY=;
- b=P0BaUAnUwdNLerijI8EPZYxkmYluFVge4QVPcuBQ0320L1NP97v8hrgRw8rvX/boN1
- QSzwVoiQa1OoBBnxDv4wFyuiqyK4ZLJ8lnWtA5zKjEJyepbTw2OyuUqI5sqQ/J+kEUHV
- LH1kzCikiIzjdEoCwwmMcY0iKuxHIWuMlCkUBth8eCRiI1vSTZROjZYY2YdO5yiYo7PK
- VExMAOYfemYJ2P5/HL9g49Us6LX1VCbhKWUrzi2b28q+dr/RyCx98/Oyk3Bee1kOt0T1
- 2mRtsq5YEKwkD+kPs4QWvgxIHrQICZfZ1u0bznbo7PdRz1AeeX5iDwT7PWu4LmucUl02
- djKg==
-X-Gm-Message-State: AO0yUKXVbbdWVM56wbcMWDNFfUBNEGZrndAiQgQ6tH01O+RM7tZGHISQ
- CraWOiy77g0cRsgX+Oq+BbGnDA==
-X-Google-Smtp-Source: AK7set9h4kWGcbIUn8VdTDB5AfVyoHbqhLPD9yxylkQDRrQbGGcMJAChEFVtgqKNYzIMHZTMKBM76g==
-X-Received: by 2002:a05:6000:49:b0:2c5:4c8e:ac5b with SMTP id
- k9-20020a056000004900b002c54c8eac5bmr8824138wrx.21.1676304643784; 
- Mon, 13 Feb 2023 08:10:43 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- d7-20020adfe887000000b002c551f7d452sm5580766wrm.98.2023.02.13.08.10.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 08:10:43 -0800 (PST)
-Message-ID: <b95e2be0-cf08-a04a-5667-063f7a9fc039@linaro.org>
-Date: Mon, 13 Feb 2023 17:10:41 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH v2 16/19] hw/vfio/ccw: Replace DO_UPCAST(VFIOCCWDevice) by
- VFIO_CCW()
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-To: Eric Farman <farman@linux.ibm.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <eduardo@habkost.net>
-Cc: qemu-block@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Li Qiang <liq3ea@163.com>, qemu-s390x@nongnu.org,
- Hu Tao <hutao@cn.fujitsu.com>, Gonglei Arei <arei.gonglei@huawei.com>,
- Cao jin <caoj.fnst@cn.fujitsu.com>, xiaoqiang zhao <zxq_yx_007@163.com>,
+ d=1e100.net; s=20210112; t=1676304939;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SHcJmuWryCkOlUEcENVKPKPhB1uQztKB43EMuRuG4EY=;
+ b=ujHfFBDRBx4p+KUkYwG51Gv731jeB0+uyvJJzA0e8rrNY+EvhYJ9DJg2pPaz+hemA2
+ sauxRiNH/hhgp1xhoohuM8p3lXPeNf1jqBrPtllkKoGXAXUrEAZEihJO7Vul0WVSBhom
+ W35pqp3xHAuqKFwE/qcVHImLRUz7VtkXxvOfIi7WGdP+nPeIzMQcMu8awqSn1WKTJmGc
+ mmtPxKT94HNdnPm8idBrnGNRyKdUWK3CWWjT3VT5exZ4MMivL93lA5PgHgt3w9BxNAd4
+ Wo5Lt2tcMXlZES1TK0OtHdk/DAf7nZja+cYC2MwT3UqjzQUNlTNpYVEpYBiUmwC3/Ofj
+ tdNA==
+X-Gm-Message-State: AO0yUKXibErBvE3GkdirL74LclHe57tsF8HX1AmQS+/AcaikCk7aBgMF
+ rj4WORZkyOLTb0J6aEwohSw4Av1O8dWfnkZfYW8nwcNwuhYMAlud5M3BPdQueSsKMq0NKufRMVa
+ d2NEXLE26/HwhhK4=
+X-Received: by 2002:a81:441a:0:b0:52f:f2c:a8b9 with SMTP id
+ r26-20020a81441a000000b0052f0f2ca8b9mr4388601ywa.1.1676304938714; 
+ Mon, 13 Feb 2023 08:15:38 -0800 (PST)
+X-Google-Smtp-Source: AK7set8n96GUOm+exk3UNR+o72wnq1d8yNzrAkfLPVsEa5lIsoCHxsieyw6Wu6LhpPDycxWrOxYDaw==
+X-Received: by 2002:a81:441a:0:b0:52f:f2c:a8b9 with SMTP id
+ r26-20020a81441a000000b0052f0f2ca8b9mr4388568ywa.1.1676304938343; 
+ Mon, 13 Feb 2023 08:15:38 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ m123-20020a375881000000b0073b4cdb0745sm966950qkb.116.2023.02.13.08.15.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Feb 2023 08:15:37 -0800 (PST)
+Date: Mon, 13 Feb 2023 11:15:36 -0500
+From: Peter Xu <peterx@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>
-References: <20230213070820.76881-1-philmd@linaro.org>
- <20230213070820.76881-17-philmd@linaro.org>
- <e036a2ff70eebeff03fc645685227fcc65fce40e.camel@linux.ibm.com>
- <499a75a2-5a43-6ec6-bedb-f6bc46aa60fe@linaro.org>
-In-Reply-To: <499a75a2-5a43-6ec6-bedb-f6bc46aa60fe@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+ David Hildenbrand <david@redhat.com>, philmd@linaro.org,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 1/2] log: Add separate debug option for logging invalid
+ memory accesses
+Message-ID: <Y+piDukOkeg+xs9G@x1n>
+References: <20230119214032.4BF1E7457E7@zero.eik.bme.hu>
+ <ad4783ee-20ce-06d2-7c2f-1f915bd684d0@eik.bme.hu>
+ <413edbc1-8af1-4b0e-70ab-41d49f1bbbcd@eik.bme.hu>
+ <fcd09b07-c0ac-d617-8503-a5ecef947cfe@redhat.com>
+ <Y+pM+H1PvTUUHrhx@x1n>
+ <7ae34a52-13a5-05e0-3cea-10a9fb89ec1c@eik.bme.hu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <7ae34a52-13a5-05e0-3cea-10a9fb89ec1c@eik.bme.hu>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.345,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,49 +104,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/2/23 16:51, Philippe Mathieu-Daudé wrote:
-> On 13/2/23 16:29, Eric Farman wrote:
->> On Mon, 2023-02-13 at 08:08 +0100, Philippe Mathieu-Daudé wrote:
->>> Use the VFIO_CCW() QOM type-checking macro to avoid DO_UPCAST().
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>> ---
->>>   hw/vfio/ccw.c | 35 ++++++++++++++++-------------------
->>>   1 file changed, 16 insertions(+), 19 deletions(-)
->>>
->>> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
->>> index 0354737666..a8aa5b48c4 100644
->>> --- a/hw/vfio/ccw.c
->>> +++ b/hw/vfio/ccw.c
->>
->> ...snip...
->>
->>> @@ -252,8 +248,8 @@ again:
->>>   static void vfio_ccw_reset(DeviceState *dev)
->>>   {
->>>       CcwDevice *ccw_dev = DO_UPCAST(CcwDevice, parent_obj, dev);
->>
->> If I'm not mistaken, I believe that this (and (un)realize below) could
->> be changed to:
->>
->>     CcwDevice *ccw_dev = CCW_DEVICE(dev);
+On Mon, Feb 13, 2023 at 03:47:42PM +0100, BALATON Zoltan wrote:
+> On Mon, 13 Feb 2023, Peter Xu wrote:
+> > On Mon, Feb 13, 2023 at 12:41:29PM +0100, Thomas Huth wrote:
+> > > On 07/02/2023 17.33, BALATON Zoltan wrote:
+> > > > On Tue, 31 Jan 2023, BALATON Zoltan wrote:
+> > > > > On Thu, 19 Jan 2023, BALATON Zoltan wrote:
+> > > > > > Currently -d guest_errors enables logging of different invalid actions
+> > > > > > by the guest such as misusing hardware, accessing missing features or
+> > > > > > invalid memory areas. The memory access logging can be quite verbose
+> > > > > > which obscures the other messages enabled by this debug switch so
+> > > > > > separate it by adding a new -d memaccess option to make it possible to
+> > > > > > control it independently of other guest error logs.
+> > > > > > 
+> > > > > > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> > > > > 
+> > > > > Ping? Could somebody review and pick it up please?
+> > > > 
+> > > > Ping?
+> > > 
+> > > Patch makes sense to me and looks fine, so:
+> > > 
+> > > Reviewed-by: Thomas Huth <thuth@redhat.com>
+> > > 
+> > > ... I think this should go via one of the "Memory API" maintainers branches?
+> > > Paolo? Peter? David?
+> > 
+> > Paolo normally does the pull, I assume that'll still be the case.  The
+> > patch looks good to me if Phil's comment will be addressed on merging with
+> > the old mask, which makes sense to me:
 > 
-> Even ...
-> 
->>> -    S390CCWDevice *cdev = DO_UPCAST(S390CCWDevice, parent_obj,
->>> ccw_dev);
->>> -    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
->>> +    S390CCWDevice *cdev = S390_CCW_DEVICE(ccw_dev);
->>> +    VFIOCCWDevice *vcdev = VFIO_CCW(cdev);
-> 
->          VFIOCCWDevice *vcdev = VFIO_CCW(dev);
-> 
-> But I somehow got scared to of removing too many casts...
-> 
-> Are these paths covered by a "make check-qtest" on a s390x host?
+> Keeping the old mask kind of defies the purpose. I've tried to explain that
+> in the commit message but now that two of you did not get it maybe that
+> message needs to be clarified instead?
 
-They are covered by the Avocado tests :)
+I think it's clear enough.  My fault to not read carefully into the
+message, sorry.
 
-$ avocado --show=app,console run -t arch:s390x tests/avocado
+However, could you explain why a memory_region_access_valid() failure
+shouldn't belong to LOG_GUEST_ERROR?
+
+commit e54eba1986f6c4bac2951e7f90a849cd842e25e4
+Author: Peter Maydell <peter.maydell@linaro.org>
+Date:   Thu Oct 18 14:11:35 2012 +0100
+
+    qemu-log: Add new log category for guest bugs
+    
+    Add a new category for device models to log guest behaviour
+    which is likely to be a guest bug of some kind (accessing
+    nonexistent registers, reading 32 bit wide registers with
+    a byte access, etc). Making this its own log category allows
+    those who care (mostly guest OS authors) to see the complaints
+    without bothering most users.
+
+Such an illegal memory access is definitely a suitable candidate of guest
+misbehave to me.
+
+Not to mention Phil always have a good point that you may be violating
+others using guest_error already so what they wanted to capture can
+misterious going away without noticing, even if it may service your goal.
+IOW it's a slight ABI and I think we ned justification to break it.
+
+Thanks,
+
+-- 
+Peter Xu
 
 
