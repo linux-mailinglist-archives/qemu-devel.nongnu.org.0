@@ -2,84 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B057694D9C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 18:04:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97CAB694DA0
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 18:04:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRcE9-0003dx-Nc; Mon, 13 Feb 2023 12:02:53 -0500
+	id 1pRcFG-0006vd-4o; Mon, 13 Feb 2023 12:04:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRcDi-0002y8-0P
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 12:02:31 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRcFD-0006iW-KS
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 12:03:59 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRcDg-0007cQ-9k
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 12:02:25 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- m20-20020a05600c3b1400b003e1e754657aso3320079wms.2
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 09:02:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRcFB-0007sI-Iq
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 12:03:59 -0500
+Received: by mail-wr1-x432.google.com with SMTP id bk16so12949995wrb.11
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 09:03:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cYVAD9s/RzYqbHnSs00cSURUQXlKLoiuleQHl0wgJpY=;
- b=delsgwcb3DNIP7kMSRwjO7Tz0LcKjjy/oR6vZJXvGyO/XUZVgVOSvuI/2QT8OfZFWM
- 1MTJl83QGFZk1hfLivDLxFrMWNhgaf7H1hGnmb/6KGm4wfPxScBREgvXsq6XNX9a6sz8
- LG0Fs0f5Vjo2d+QfNWUup0xbJoVagM2lPKfvUHQTo/Q/9+06+L9sG1Gn9X0wM/nRHi5b
- cecn3KSZNF+1mb7R5cnTn7oIY0Su7cXm+fmZDfVAGWLFUsPDh9J/ReSc7+hMc6bEi0RH
- D+Uj87aZhDCYU9RkI9URWqzV6UD416nS36jRpupoV6TrJaAuj8Odtjw0HvGt3Cf+fC1C
- 2enw==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=mJPaw9yfd3YExA9G5jCURDLg7P+dm36lB/tyaUi3ai0=;
+ b=ibRt9JnFlxP9/Kkd4fFnH8UnDsadnXcibEsFqT+vdFxlc03h0VbOVqjTP6jQvKHNAy
+ 5nxkvR07sw0RWL3bZhJff/w5OrLOoZ8QnczkjZ9EKH/Uht9Xu+/DRlfmtjcUDv3uv3c9
+ JUUdxySegMKUQWR18KQUzXfTV+zJVQufvry1rPdtLClHaJnqH1C6wnz496WeonIWQkcG
+ +fDgJ48DYc9BhKnNmiUixewoiQ4icO7i8UhSJQqTHLgiqJOCqabPlycBPXGN1GMcwxGx
+ XV2imJ2gU3clkPV3upye7qCbO3PIAxwZ/4LtLT63EQnoP5rR1awg+TSlUdxXqFUEdGL7
+ Wzcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cYVAD9s/RzYqbHnSs00cSURUQXlKLoiuleQHl0wgJpY=;
- b=0BoSqORudZkbcq0lgj+uEh10UBYSrhcByWfmoI+u89BSmh14UhjpNIWJ35l73VhBYy
- fSHL/TXEfY7HcbdiP+AoI3PrraapskJN1dhyo6uR5ShIJjfT0lut1OrJviA2uwu3dTvU
- szGjD6rBZZo/IEJtmbmpTv89uJ/2q7BSqbgPwaq/16gvoULgnZOukCBBdJcnrN5mXstR
- hx/EtwJv66UjR77xuLH9Ud3RlmVApKHDkCycXk3Sjxif1WZWgx6ndP9VeWK8MWq/j7po
- +vE+zAbY4nvMWo751QDURhkUUgfQTuD5Yq5fjt22UPk9TzTXV0EhYcxHq+1QVUt4Ucnx
- hMiA==
-X-Gm-Message-State: AO0yUKXXdx/EV9IaNgInb5iS8ogRWMhhmwe3hx68om29Q55/d68o46VE
- LbZ4wb6MDFoXs49udNOY+JrQzw==
-X-Google-Smtp-Source: AK7set/ZZEsOQhAjOChBrdP68tpDSj1wy4JcXDEnRr0CV5nRW9Jr+cjPJ00mLVfDx00wQOWn5j+8gA==
-X-Received: by 2002:a05:600c:a695:b0:3da:1f6a:7b36 with SMTP id
- ip21-20020a05600ca69500b003da1f6a7b36mr23731084wmb.0.1676307743071; 
- Mon, 13 Feb 2023 09:02:23 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- z4-20020a05600c220400b003dfe8c4c497sm17682712wml.39.2023.02.13.09.02.21
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 13 Feb 2023 09:02:22 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: Eduardo Habkost <eduardo@habkost.net>, Eric Farman <farman@linux.ibm.com>,
- qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
- Alex Williamson <alex.williamson@redhat.com>,
- David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v3 6/6] hw/vfio/ccw: Replace DO_UPCAST(VFIOCCWDevice) by
- VFIO_CCW()
-Date: Mon, 13 Feb 2023 18:01:45 +0100
-Message-Id: <20230213170145.45666-7-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230213170145.45666-1-philmd@linaro.org>
-References: <20230213170145.45666-1-philmd@linaro.org>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mJPaw9yfd3YExA9G5jCURDLg7P+dm36lB/tyaUi3ai0=;
+ b=GK/VzYyANMw5RnSNcx1tFjvwOrTOJyw9EqagWsUI+ZiRiUsu6mXW8/4hzBjTvmuq/d
+ EnbT4oepSFYslZWfydMuw8J/asyyo5JTeOJEZXoQ7HX8dCHBp32flcacjWnvRtsA+Fjj
+ Fd8ey4wbQGrDVKLlSV0itX3DBaSshqxmR+EiziWWZdHKH+u4vuie4fjryTeFudnp5pw9
+ CVoANtaBkljt9gUF2MovMlowEYQdb+eXbFgS/Bt6PoxwwklAoW6iskdT3Z457lftSkgp
+ gYALvDx8MDA8aYiWwkFZ5gpUmpqefPpPvJ6mKFzpEDX7yLfDnHlUiPnAgTeb+Ehzqhf+
+ 4Elg==
+X-Gm-Message-State: AO0yUKW7SXv2bmLfGz0nj8N0GOXgDLaJlnmHy45A82N3siUlpGBKz6uv
+ 2Wf1ETCF7KdwBz7PmvVTmS7xsg==
+X-Google-Smtp-Source: AK7set+fCvfw/92iBOaipDjZp3Cm0k43NVtGsmju7ow/hXd+MskQTkB7ljuYQmYnCKuiTHidFD4AtA==
+X-Received: by 2002:a5d:4604:0:b0:2c5:598a:dd0c with SMTP id
+ t4-20020a5d4604000000b002c5598add0cmr2743933wrq.0.1676307835890; 
+ Mon, 13 Feb 2023 09:03:55 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ v2-20020a5d6102000000b002be5bdbe40csm10986153wrt.27.2023.02.13.09.03.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Feb 2023 09:03:55 -0800 (PST)
+Message-ID: <39a4b977-cd94-0f77-e215-c17f8521f6e3@linaro.org>
+Date: Mon, 13 Feb 2023 18:03:53 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH v2 16/19] hw/vfio/ccw: Replace DO_UPCAST(VFIOCCWDevice) by
+ VFIO_CCW()
+Content-Language: en-US
+To: Eric Farman <farman@linux.ibm.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <eduardo@habkost.net>
+Cc: qemu-block@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Li Qiang <liq3ea@163.com>, qemu-s390x@nongnu.org,
+ Hu Tao <hutao@cn.fujitsu.com>, Gonglei Arei <arei.gonglei@huawei.com>,
+ Cao jin <caoj.fnst@cn.fujitsu.com>, xiaoqiang zhao <zxq_yx_007@163.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>
+References: <20230213070820.76881-1-philmd@linaro.org>
+ <20230213070820.76881-17-philmd@linaro.org>
+ <e036a2ff70eebeff03fc645685227fcc65fce40e.camel@linux.ibm.com>
+ <499a75a2-5a43-6ec6-bedb-f6bc46aa60fe@linaro.org>
+ <b95e2be0-cf08-a04a-5667-063f7a9fc039@linaro.org>
+ <f1a92e40dec55f77e95a4512dbf6fcd3a6ae235b.camel@linux.ibm.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <f1a92e40dec55f77e95a4512dbf6fcd3a6ae235b.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.345,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -97,87 +103,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use the VFIO_CCW() QOM type-checking macro to avoid DO_UPCAST().
+On 13/2/23 17:24, Eric Farman wrote:
+> On Mon, 2023-02-13 at 17:10 +0100, Philippe Mathieu-Daudé wrote:
+>> On 13/2/23 16:51, Philippe Mathieu-Daudé wrote:
+>>> On 13/2/23 16:29, Eric Farman wrote:
+>>>> On Mon, 2023-02-13 at 08:08 +0100, Philippe Mathieu-Daudé wrote:
+>>>>> Use the VFIO_CCW() QOM type-checking macro to avoid
+>>>>> DO_UPCAST().
+>>>>>
+>>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>>>>> ---
+>>>>>    hw/vfio/ccw.c | 35 ++++++++++++++++-------------------
+>>>>>    1 file changed, 16 insertions(+), 19 deletions(-)
 
-Reviewed-by: Eric Farman <farman@linux.ibm.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- hw/vfio/ccw.c | 19 +++++++------------
- 1 file changed, 7 insertions(+), 12 deletions(-)
+>>>>>        CcwDevice *ccw_dev = DO_UPCAST(CcwDevice, parent_obj,
+>>>>> dev);
+>>>>
+>>>> If I'm not mistaken, I believe that this (and (un)realize below)
+>>>> could
+>>>> be changed to:
+>>>>
+>>>>      CcwDevice *ccw_dev = CCW_DEVICE(dev);
+>>>
+>>> Even ...
 
-diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-index cd66b66742..1e2fce83b0 100644
---- a/hw/vfio/ccw.c
-+++ b/hw/vfio/ccw.c
-@@ -76,8 +76,7 @@ struct VFIODeviceOps vfio_ccw_ops = {
- 
- static IOInstEnding vfio_ccw_handle_request(SubchDev *sch)
- {
--    S390CCWDevice *cdev = sch->driver_data;
--    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
-+    VFIOCCWDevice *vcdev = VFIO_CCW(sch->driver_data);
-     struct ccw_io_region *region = vcdev->io_region;
-     int ret;
- 
-@@ -125,8 +124,7 @@ again:
- 
- static IOInstEnding vfio_ccw_handle_store(SubchDev *sch)
- {
--    S390CCWDevice *cdev = sch->driver_data;
--    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
-+    VFIOCCWDevice *vcdev = VFIO_CCW(sch->driver_data);
-     SCHIB *schib = &sch->curr_status;
-     struct ccw_schib_region *region = vcdev->schib_region;
-     SCHIB *s;
-@@ -170,8 +168,7 @@ static IOInstEnding vfio_ccw_handle_store(SubchDev *sch)
- 
- static int vfio_ccw_handle_clear(SubchDev *sch)
- {
--    S390CCWDevice *cdev = sch->driver_data;
--    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
-+    VFIOCCWDevice *vcdev = VFIO_CCW(sch->driver_data);
-     struct ccw_cmd_region *region = vcdev->async_cmd_region;
-     int ret;
- 
-@@ -210,8 +207,7 @@ again:
- 
- static int vfio_ccw_handle_halt(SubchDev *sch)
- {
--    S390CCWDevice *cdev = sch->driver_data;
--    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
-+    VFIOCCWDevice *vcdev = VFIO_CCW(sch->driver_data);
-     struct ccw_cmd_region *region = vcdev->async_cmd_region;
-     int ret;
- 
-@@ -251,8 +247,7 @@ again:
- 
- static void vfio_ccw_reset(DeviceState *dev)
- {
--    S390CCWDevice *cdev = S390_CCW_DEVICE(dev);
--    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
-+    VFIOCCWDevice *vcdev = VFIO_CCW(dev);
- 
-     ioctl(vcdev->vdev.fd, VFIO_DEVICE_RESET);
- }
-@@ -656,7 +651,7 @@ static void vfio_ccw_realize(DeviceState *dev, Error **errp)
- {
-     VFIOGroup *group;
-     S390CCWDevice *cdev = S390_CCW_DEVICE(dev);
--    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
-+    VFIOCCWDevice *vcdev = VFIO_CCW(cdev);
-     S390CCWDeviceClass *cdc = S390_CCW_DEVICE_GET_CLASS(cdev);
-     Error *err = NULL;
- 
-@@ -727,7 +722,7 @@ out_err_propagate:
- static void vfio_ccw_unrealize(DeviceState *dev)
- {
-     S390CCWDevice *cdev = S390_CCW_DEVICE(dev);
--    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
-+    VFIOCCWDevice *vcdev = VFIO_CCW(cdev);
-     S390CCWDeviceClass *cdc = S390_CCW_DEVICE_GET_CLASS(cdev);
-     VFIOGroup *group = vcdev->vdev.group;
- 
--- 
-2.38.1
+>>>           VFIOCCWDevice *vcdev = VFIO_CCW(dev);
+> 
+> Ha, I didn't look to see if we cared about the intermediary ones, but
+> this is true here. (Realize cares a bit, but that's easy enough.)
+> 
+>>>
+>>> But I somehow got scared to of removing too many casts...
+>>>
+>>> Are these paths covered by a "make check-qtest" on a s390x host?
+>>
+>> They are covered by the Avocado tests :)
+>>
+>> $ avocado --show=app,console run -t arch:s390x tests/avocado
+>>
+> 
+> Woo! Then I'm happy with the big squash then.
+> 
+> Reviewed-by: Eric Farman <farman@linux.ibm.com>
 
+Thanks! Posted cleaned v3 here:
+https://lore.kernel.org/qemu-devel/20230213170145.45666-1-philmd@linaro.org/
 
