@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE9FA693ECB
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 08:12:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76658693ECF
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 08:13:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRSyz-0004gV-LG; Mon, 13 Feb 2023 02:10:37 -0500
+	id 1pRSz0-0004r0-38; Mon, 13 Feb 2023 02:10:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRSyF-0003Di-MD
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:09:52 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRSyN-0003tk-D1
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:09:59 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRSyB-00022Z-Kl
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:09:50 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id by3so9741306wrb.10
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 23:09:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRSyH-00024E-9l
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:09:57 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id a2so11055231wrd.6
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 23:09:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=bInkmnburNvSek0igY2MOEI+V86XMbjL1VMr60EEqDs=;
- b=NdZ2jjxHfwKHVO3zxd9GWFL/7DG4seCf3p1lLGLysBNRih2X39+4ns8/RaqThZKT+D
- yJ8kv2NHjwfUnK0zfQAM420F2LUFUIiX/s7fg+fFcxZmpilm2EPyvL6qgdGdZf1qfLXX
- vE8XDRqb3cK9iwlfk+J0apqoKKOl13UsLSAtk9TUQnBCa4GatpguXldyht7KpgwsVLN9
- rnWczNb6TBF+dDLy7ATcAVbTrCR5KuAzaANS+0waGYK9zNspH7BLn3msI/oQzeqUe3WL
- X8k/kdODFYyScOykY8GIn5eZ4uQrvKHIvquWXmyUYaFp87C+2ZnHN1A+UVyp1jRIMkA6
- ytEw==
+ bh=yI1y6XZsaobmGFW1lR+eKSaDWZj5kiLu704LCMt3Xc4=;
+ b=PEjnApu6TTu698sYM55m8Z3E3/9k4DcRWXeMXGGS6/Ng6vwAHn2HDfe9kzhADYBZib
+ KSW5j24X7L8h4h2EafI7llrkn2FtUjcOnMgieyawDbd6go+K4pDy5VXLW64brXWD0mbv
+ e+igIDPauhKe01U2a3AAyaW7q6ln8e2zrzeJ4aNS+5zvDxT6V7E6BcCsFv7L2Q4L9UfX
+ +sC1uRltwHtHzDsxE/sZkKDR/mI2uiig3vQHF6hYw3CKAMlTGLoFEJyz1+laVhCgKFIV
+ IYIB5Em6jEeO8GtJ6ExjimV/vr0sNghViv5d4qk7/MibdMltXhMgJzL0GOevYa8D5XTi
+ YqOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bInkmnburNvSek0igY2MOEI+V86XMbjL1VMr60EEqDs=;
- b=HfR3Olsp2RintwGpOSEEc0w4T9AHRsR4rOGG3fL+99ThnE3oND1mIazSuuYpP6zmpa
- iO9R5PjUNPn9p+cP3ogmGT3Zur82W7iMrQu0n+KN+QgqtUVMzU4yifTgBJdIp9hobrH2
- P3GXAj61/CcmRoVMsZOs4lQWxNj1HTb/gVqhwJ0Ze0W5xaFMwzA7XA6S+TGjeomFvigH
- KxZXMivDF4HCgVHMXfK9OUGAZRFQooxn5Uh9RXmUmaeD+X1c7szojuwRZUIGHsAMfguK
- q9T/M1SByOsdVgb4sdDPIMS2RRVVxRrpV5LCdl5dAZtktWcxUxYNpmjsnEmZwQ99GeJI
- p87w==
-X-Gm-Message-State: AO0yUKUGuMms2gYgCqNF7Ijrs+MoI6jMlQC4t+RImF/2Tr0/WrfFw8pb
- 1rDQGHiJq9GCCYKqY8p5DL62JUZX/hWVZHy3
-X-Google-Smtp-Source: AK7set/gGI9QJmL1uQ4EbQxKn207C+qapMrShLwIQy2QvJN6FsJXLUM/ICqTUNxVSD5fYpEtOoDChA==
-X-Received: by 2002:a5d:6707:0:b0:2c3:d69a:1da7 with SMTP id
- o7-20020a5d6707000000b002c3d69a1da7mr18641043wru.0.1676272186099; 
- Sun, 12 Feb 2023 23:09:46 -0800 (PST)
+ bh=yI1y6XZsaobmGFW1lR+eKSaDWZj5kiLu704LCMt3Xc4=;
+ b=2YEU/+FfawCvkL8UZpVM/1yGAhutldb6bJ/2MSRyPrqHSmux8ZCLYijPpGgQ5cwpp5
+ OSVjPSaRCQBQwaO5OPCU0DyCveUXvL/+1bFZfuk48Y8dEZuK+NY1UVl3oY4vGP/OhQEp
+ e+FMYFqnVGOWwtdrwQRlYGdW8UQ+Rfib9aR7eatt29xQOH53/HXa0DdHX+NsOEO14yH9
+ vH3LRkQWZ0VsUVHwzhICEJmW8msMJvTJkEdoi5F1y8hadVlF9EaMAgSU9u1I14buQdNG
+ /aNQwMQjwvADraZ/IKGaSx+ELEXtH4wRbuZlGZhjOm2TICWUU5npl1ievRHTrbSEkclG
+ 4KwQ==
+X-Gm-Message-State: AO0yUKVsqFoc+9eCGPUlzjOKVb959OBtbIaxuYmUTc++yNrKn4oWwvmf
+ I2k3lbLMZ3uxywadMqnKsb7BkJHwFNq0oplo
+X-Google-Smtp-Source: AK7set90MXv09zqmIaoefOLxMczX6Sx9jjOuRqeGaiLtijK/qoF6W/IsIHcrg3v3WcGX1Eb2xkletA==
+X-Received: by 2002:a5d:6206:0:b0:2c3:e868:cf54 with SMTP id
+ y6-20020a5d6206000000b002c3e868cf54mr22337418wru.13.1676272191218; 
+ Sun, 12 Feb 2023 23:09:51 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- u10-20020a5d514a000000b002c3e28d0343sm9540429wrt.85.2023.02.12.23.09.44
+ d1-20020adffd81000000b002bfe08c566fsm9616056wrr.106.2023.02.12.23.09.50
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 12 Feb 2023 23:09:45 -0800 (PST)
+ Sun, 12 Feb 2023 23:09:50 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org,
 	Eduardo Habkost <eduardo@habkost.net>
@@ -62,20 +62,19 @@ Cc: qemu-block@nongnu.org, Thomas Huth <thuth@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Eric Farman <farman@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>
-Subject: [PATCH v2 16/19] hw/vfio/ccw: Replace DO_UPCAST(VFIOCCWDevice) by
- VFIO_CCW()
-Date: Mon, 13 Feb 2023 08:08:17 +0100
-Message-Id: <20230213070820.76881-17-philmd@linaro.org>
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v2 17/19] hw/usb/dev-hub: Use QOM USB_HUB() macro instead of
+ casting
+Date: Mon, 13 Feb 2023 08:08:18 +0100
+Message-Id: <20230213070820.76881-18-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230213070820.76881-1-philmd@linaro.org>
 References: <20230213070820.76881-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,123 +97,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use the VFIO_CCW() QOM type-checking macro to avoid DO_UPCAST().
+Use the safer USB_HUB() QOM type-checking macro instead of casts.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/vfio/ccw.c | 35 ++++++++++++++++-------------------
- 1 file changed, 16 insertions(+), 19 deletions(-)
+ hw/usb/dev-hub.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-index 0354737666..a8aa5b48c4 100644
---- a/hw/vfio/ccw.c
-+++ b/hw/vfio/ccw.c
-@@ -76,8 +76,7 @@ struct VFIODeviceOps vfio_ccw_ops = {
- 
- static IOInstEnding vfio_ccw_handle_request(SubchDev *sch)
+diff --git a/hw/usb/dev-hub.c b/hw/usb/dev-hub.c
+index a6b50dbc8d..4734700e3e 100644
+--- a/hw/usb/dev-hub.c
++++ b/hw/usb/dev-hub.c
+@@ -350,7 +350,7 @@ static const char *feature_name(int feature)
+ static void usb_hub_handle_control(USBDevice *dev, USBPacket *p,
+                int request, int value, int index, int length, uint8_t *data)
  {
--    S390CCWDevice *cdev = sch->driver_data;
--    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
-+    VFIOCCWDevice *vcdev = VFIO_CCW(sch->driver_data);
-     struct ccw_io_region *region = vcdev->io_region;
+-    USBHubState *s = (USBHubState *)dev;
++    USBHubState *s = USB_HUB(dev);
      int ret;
  
-@@ -125,8 +124,7 @@ again:
+     trace_usb_hub_control(s->dev.addr, request, value, index, length);
+@@ -523,7 +523,7 @@ static void usb_hub_handle_control(USBDevice *dev, USBPacket *p,
  
- static IOInstEnding vfio_ccw_handle_store(SubchDev *sch)
+ static void usb_hub_handle_data(USBDevice *dev, USBPacket *p)
  {
--    S390CCWDevice *cdev = sch->driver_data;
--    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
-+    VFIOCCWDevice *vcdev = VFIO_CCW(sch->driver_data);
-     SCHIB *schib = &sch->curr_status;
-     struct ccw_schib_region *region = vcdev->schib_region;
-     SCHIB *s;
-@@ -170,8 +168,7 @@ static IOInstEnding vfio_ccw_handle_store(SubchDev *sch)
+-    USBHubState *s = (USBHubState *)dev;
++    USBHubState *s = USB_HUB(dev);
  
- static int vfio_ccw_handle_clear(SubchDev *sch)
+     switch(p->pid) {
+     case USB_TOKEN_IN:
+@@ -568,7 +568,7 @@ static void usb_hub_handle_data(USBDevice *dev, USBPacket *p)
+ 
+ static void usb_hub_unrealize(USBDevice *dev)
  {
--    S390CCWDevice *cdev = sch->driver_data;
--    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
-+    VFIOCCWDevice *vcdev = VFIO_CCW(sch->driver_data);
-     struct ccw_cmd_region *region = vcdev->async_cmd_region;
-     int ret;
+-    USBHubState *s = (USBHubState *)dev;
++    USBHubState *s = USB_HUB(dev);
+     int i;
  
-@@ -210,8 +207,7 @@ again:
- 
- static int vfio_ccw_handle_halt(SubchDev *sch)
- {
--    S390CCWDevice *cdev = sch->driver_data;
--    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
-+    VFIOCCWDevice *vcdev = VFIO_CCW(sch->driver_data);
-     struct ccw_cmd_region *region = vcdev->async_cmd_region;
-     int ret;
- 
-@@ -252,8 +248,8 @@ again:
- static void vfio_ccw_reset(DeviceState *dev)
- {
-     CcwDevice *ccw_dev = DO_UPCAST(CcwDevice, parent_obj, dev);
--    S390CCWDevice *cdev = DO_UPCAST(S390CCWDevice, parent_obj, ccw_dev);
--    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
-+    S390CCWDevice *cdev = S390_CCW_DEVICE(ccw_dev);
-+    VFIOCCWDevice *vcdev = VFIO_CCW(cdev);
- 
-     ioctl(vcdev->vdev.fd, VFIO_DEVICE_RESET);
- }
-@@ -588,9 +584,10 @@ static void vfio_ccw_put_device(VFIOCCWDevice *vcdev)
- static void vfio_ccw_get_device(VFIOGroup *group, VFIOCCWDevice *vcdev,
-                                 Error **errp)
- {
--    char *name = g_strdup_printf("%x.%x.%04x", vcdev->cdev.hostid.cssid,
--                                 vcdev->cdev.hostid.ssid,
--                                 vcdev->cdev.hostid.devid);
-+    S390CCWDevice *cdev = S390_CCW_DEVICE(vcdev);
-+    char *name = g_strdup_printf("%x.%x.%04x", cdev->hostid.cssid,
-+                                 cdev->hostid.ssid,
-+                                 cdev->hostid.devid);
-     VFIODevice *vbasedev;
- 
-     QLIST_FOREACH(vbasedev, &group->device_list, next) {
-@@ -611,14 +608,14 @@ static void vfio_ccw_get_device(VFIOGroup *group, VFIOCCWDevice *vcdev,
-      */
-     vcdev->vdev.ram_block_discard_allowed = true;
- 
--    if (vfio_get_device(group, vcdev->cdev.mdevid, &vcdev->vdev, errp)) {
-+    if (vfio_get_device(group, cdev->mdevid, &vcdev->vdev, errp)) {
-         goto out_err;
-     }
- 
-     vcdev->vdev.ops = &vfio_ccw_ops;
-     vcdev->vdev.type = VFIO_DEVICE_TYPE_CCW;
-     vcdev->vdev.name = name;
--    vcdev->vdev.dev = &vcdev->cdev.parent_obj.parent_obj;
-+    vcdev->vdev.dev = &cdev->parent_obj.parent_obj;
- 
-     return;
- 
-@@ -657,9 +654,9 @@ static void vfio_ccw_realize(DeviceState *dev, Error **errp)
- {
-     VFIOGroup *group;
-     CcwDevice *ccw_dev = DO_UPCAST(CcwDevice, parent_obj, dev);
--    S390CCWDevice *cdev = DO_UPCAST(S390CCWDevice, parent_obj, ccw_dev);
--    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
-+    S390CCWDevice *cdev = S390_CCW_DEVICE(ccw_dev);
-     S390CCWDeviceClass *cdc = S390_CCW_DEVICE_GET_CLASS(cdev);
-+    VFIOCCWDevice *vcdev = VFIO_CCW(cdev);
-     Error *err = NULL;
- 
-     /* Call the class init function for subchannel. */
-@@ -729,9 +726,9 @@ out_err_propagate:
- static void vfio_ccw_unrealize(DeviceState *dev)
- {
-     CcwDevice *ccw_dev = DO_UPCAST(CcwDevice, parent_obj, dev);
--    S390CCWDevice *cdev = DO_UPCAST(S390CCWDevice, parent_obj, ccw_dev);
--    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
-+    S390CCWDevice *cdev = S390_CCW_DEVICE(ccw_dev);
-     S390CCWDeviceClass *cdc = S390_CCW_DEVICE_GET_CLASS(cdev);
-+    VFIOCCWDevice *vcdev = VFIO_CCW(cdev);
-     VFIOGroup *group = vcdev->vdev.group;
- 
-     vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_REQ_IRQ_INDEX);
+     for (i = 0; i < s->num_ports; i++) {
 -- 
 2.38.1
 
