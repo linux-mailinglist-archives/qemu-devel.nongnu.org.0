@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7602F693EB9
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 08:09:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96B2A693ED3
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 08:13:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRSxJ-0000lW-9t; Mon, 13 Feb 2023 02:08:53 -0500
+	id 1pRSxP-0000wh-Ub; Mon, 13 Feb 2023 02:08:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRSxH-0000hJ-53
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:08:51 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRSxM-0000sI-V7
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:08:57 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRSxF-0001ny-Hc
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:08:50 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id o18so11074366wrj.3
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 23:08:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRSxL-0001mt-En
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:08:56 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ k8-20020a05600c1c8800b003dc57ea0dfeso10563173wms.0
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 23:08:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=t/FK4XDdiJG7RHelAiRbUeIilzHxima3ZnBYQtTcGTM=;
- b=L3aKW+LchH1HrxXhm5hLdl6Zq1Y/TuSg7p65IwM8x599O5chOKRo2cUdBzgpL519lq
- 7o5tG7wWtNV57jlnCgQCq2dvCfjA0/JCaInFDFS9pTx3kZMQa0VVhuBd3mKu4bC33kz5
- l4tt4yr4z3i6sXmUpp1OX664e+uBYDiq56J30kLdmtpulGaa/YUZnbSDshHygCMdkoWW
- Rh7mNiEtbepJX76jMBqcilhlDo2iK3OuSrBlIi6NErF4rXJQJdqf1v1wL0kA0qMFOvkO
- LagTTyG4rnys7duHzgiIqiEBYPerTzXDDDxdVKoKZk77h/wpGzZxymkxJKTF7ALN7B2U
- AeUw==
+ bh=JeDWNjpVkKdLbShBUyGUp3JADBIyaux21T6WZ6Gmeuk=;
+ b=dlEV6i/vpB5jizGkEZriREb5mm6/PbmR09qw+yNoAxt9+icoW8iEy5C395JiR5cTo7
+ JqnCQY7udpEamijvPylmt7r9tdcBmdYgFd2DXizqKFKvP8TFVF1E0DOs53knoSJwd1/I
+ TEZUp85eDBL/tWiDRrtJWisIoF03pJcKtVlH46Xc1ta7CNfi2DUfv6cZOUj3tfABaUAw
+ 5LcIEuyVozYQFbZbqHt48Wu6YLy8JV4GoErOlnsGi4YqYWxOphdBXJbEJkaQ+n8aV5nc
+ KqldCR4ITjgBBsxEyIi+ZfCB+o2maQToIbUWRgkNXZ3GV5RhuoFWXzIL9kDvvk4HZeIH
+ aSDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=t/FK4XDdiJG7RHelAiRbUeIilzHxima3ZnBYQtTcGTM=;
- b=TMzTArKuiHH6FxwLdd5pmRlBPOv/H+YztmhG3SCqXZz01x2X8dAKXB18v2nwfxDpiN
- l6mjMpA5Fv9h+z7FbgEJ3HQ/brYMxG/iLOHGBIPmy8r7YaAx34XI6bN0MclLCODe319s
- JTlPxhuJNH7XCzksLYnqD8hpblMHyCAPi49kPZn0mYrGNeFAPKagjww9VexBxdxy9n/8
- MA6lSRMWF79pgcgy9XHFkYuiOMEkZcskmLk49z8wME6e60J1GYMN2JkO5Zyw06dSDKgz
- y/gtJLCJDPJwPw6VO+4C3NvqsgZLbowfYits29gbqRqsqUD+9GKpH/15bqPTW+Z/jMes
- u1LA==
-X-Gm-Message-State: AO0yUKUV1jy7rhWRBDKt1YCfFEcJhQer83SU/Uu9Igbwi01sO4xlMdXa
- hAD7FIYeNFj085V17cSCxpFxl9c3wjM+n9Wk
-X-Google-Smtp-Source: AK7set8xC9NZ7k58w3cn4+LDSvaO0CG9m/Wmpxf9i4G9HPbKKD8mZYddYnx6qNuivgBeWYNCN/Baxw==
-X-Received: by 2002:adf:ffc3:0:b0:2c5:4154:9f32 with SMTP id
- x3-20020adfffc3000000b002c541549f32mr8981840wrs.65.1676272128612; 
- Sun, 12 Feb 2023 23:08:48 -0800 (PST)
+ bh=JeDWNjpVkKdLbShBUyGUp3JADBIyaux21T6WZ6Gmeuk=;
+ b=pVo8fpDnZgDHSUCrMyIP6/sbN9OVID304ccopzO8iTOlFmRWZlymTuTi4GqFLU+Xgk
+ L0Q1vROwABLWm57eHrGeGYUVcYZH683x0cKShdUTJqt0m1VhvSrDcUNNAcUX3EqCxX/q
+ GzG5euCFpDp5QOW5fQ1RwjxuVzMhy4ii5u0kyVpM739+7QTcWJcf34X5P8FLaDHtIA2A
+ sscgjOt12DlnSzeQ3NEHqDX0bBMv1d8aa5HcjL0+7s3bOHTHX35Tlw1wtWAFJUM/7crt
+ X4i4UtxGW9VtD+lQTom1FhBmO3BAsZief/XMJF9rZg/8qFQRpZWckhs9wGEzcug9NtOX
+ r5yg==
+X-Gm-Message-State: AO0yUKXE5XWWp55Q7tDtCCq2CFEPgTy5+yILiBLHk5iaNR8k0QvB8CBu
+ CvyF+9O8IdsVZ4Z9FuPIHWFi4Txi8beaAJb1
+X-Google-Smtp-Source: AK7set8l02uaqF1giFIqXjhLH4vB8FQaMb7PvXJBV+SjStfhT1WVgIeiEq9cg3oOcXLEUm3wSsgkQg==
+X-Received: by 2002:a05:600c:4386:b0:3df:94c3:4725 with SMTP id
+ e6-20020a05600c438600b003df94c34725mr18034618wmn.38.1676272133800; 
+ Sun, 12 Feb 2023 23:08:53 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- d7-20020adfe887000000b002c551f7d452sm4453690wrm.98.2023.02.12.23.08.47
+ g10-20020a05600c4eca00b003dec22de1b1sm14022202wmq.10.2023.02.12.23.08.52
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 12 Feb 2023 23:08:48 -0800 (PST)
+ Sun, 12 Feb 2023 23:08:53 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org,
 	Eduardo Habkost <eduardo@habkost.net>
@@ -62,20 +63,19 @@ Cc: qemu-block@nongnu.org, Thomas Huth <thuth@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 05/19] hw/char/serial-pci-multi: Replace DO_UPCAST() by
- PCI_MULTISERIAL()
-Date: Mon, 13 Feb 2023 08:08:06 +0100
-Message-Id: <20230213070820.76881-6-philmd@linaro.org>
+ John Snow <jsnow@redhat.com>
+Subject: [PATCH v2 06/19] hw/ide/qdev: Replace DO_UPCAST(IDEDevice) by
+ IDE_DEVICE()
+Date: Mon, 13 Feb 2023 08:08:07 +0100
+Message-Id: <20230213070820.76881-7-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230213070820.76881-1-philmd@linaro.org>
 References: <20230213070820.76881-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,52 +98,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use the PCI_MULTISERIAL() QOM type-checking macro to avoid the few
-DO_UPCAST(PCIMultiSerialState) calls.
+Use the IDE_DEVICE() QOM type-checking macro to avoid DO_UPCAST().
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/char/serial-pci-multi.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ hw/ide/qdev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/char/serial-pci-multi.c b/hw/char/serial-pci-multi.c
-index cd5af24bd2..6f4491210d 100644
---- a/hw/char/serial-pci-multi.c
-+++ b/hw/char/serial-pci-multi.c
-@@ -58,7 +58,7 @@ struct PCIMultiSerialState {
- 
- static void multi_serial_pci_exit(PCIDevice *dev)
- {
--    PCIMultiSerialState *pci = DO_UPCAST(PCIMultiSerialState, dev, dev);
-+    PCIMultiSerialState *pci = PCI_MULTISERIAL(dev);
-     SerialState *s;
-     int i;
- 
-@@ -97,11 +97,10 @@ static size_t multi_serial_get_port_count(PCIDeviceClass *pc)
-     g_assert_not_reached();
+diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
+index 6ae2627a56..1ead62fd18 100644
+--- a/hw/ide/qdev.c
++++ b/hw/ide/qdev.c
+@@ -133,7 +133,7 @@ IDEDevice *ide_create_drive(IDEBus *bus, int unit, DriveInfo *drive)
+     qdev_prop_set_drive_err(dev, "drive", blk_by_legacy_dinfo(drive),
+                             &error_fatal);
+     qdev_realize_and_unref(dev, &bus->qbus, &error_fatal);
+-    return DO_UPCAST(IDEDevice, qdev, dev);
++    return IDE_DEVICE(dev);
  }
  
--
- static void multi_serial_pci_realize(PCIDevice *dev, Error **errp)
- {
-     PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(dev);
--    PCIMultiSerialState *pci = DO_UPCAST(PCIMultiSerialState, dev, dev);
-+    PCIMultiSerialState *pci = PCI_MULTISERIAL(dev);
-     SerialState *s;
-     size_t i, nports = multi_serial_get_port_count(pc);
- 
-@@ -190,9 +189,8 @@ static void multi_4x_serial_pci_class_initfn(ObjectClass *klass, void *data)
- 
- static void multi_serial_init(Object *o)
- {
--    PCIDevice *dev = PCI_DEVICE(o);
--    PCIMultiSerialState *pms = DO_UPCAST(PCIMultiSerialState, dev, dev);
--    size_t i, nports = multi_serial_get_port_count(PCI_DEVICE_GET_CLASS(dev));
-+    PCIMultiSerialState *pms = PCI_MULTISERIAL(o);
-+    size_t i, nports = multi_serial_get_port_count(PCI_DEVICE_GET_CLASS(o));
- 
-     for (i = 0; i < nports; i++) {
-         object_initialize_child(o, "serial[*]", &pms->state[i], TYPE_SERIAL);
+ int ide_get_geometry(BusState *bus, int unit,
 -- 
 2.38.1
 
