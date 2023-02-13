@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F08866941D2
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:47:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7369269421C
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:58:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVNN-0004Pr-SJ; Mon, 13 Feb 2023 04:43:57 -0500
+	id 1pRVNP-0004Ul-W7; Mon, 13 Feb 2023 04:44:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVNL-0004Hb-8f
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:55 -0500
+ id 1pRVNM-0004Nt-K0
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:56 -0500
 Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVNG-0002i2-H2
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:54 -0500
+ id 1pRVNI-0002hK-99
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:43:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676281430; x=1707817430;
+ t=1676281432; x=1707817432;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=811gUxvADhZ3dwi0IeGEhJDp1HkFCqdTtYf+9jChy4g=;
- b=nQarSsjOfZI8hfPxH4Kvscmw7W69oS3xj+3QOLJl6QdBHwuKNh6bIVd7
- t1lNDK7nsc3l0E52Q9FOT49Ao/cf/B/91VjvTU2lndveueTJfV69q9y2d
- kSTKga5yKawTqOqcXsazN+zX5cKSIHqBL8H/giVa+PVQ9th+HXrELCM/Y
- 9sxUy2Wh2d2xq+/MNN3hECJHC0f4SFFnyQ4EoIk3cl7d4IGHrU5kmds1y
- j5NX5NTQkvWeLTKHm9MVedmgIxpAcm1vcu4m+WDmcyZDQCp4A6RM+yw5P
- KgZ8Yl0/g16xsylVAzagbt00G6xsiHhTJlfph88yXjABl1MnbJ2s/TD4U Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486505"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486505"
+ bh=Fb5Jd3+FlLcShrL7GG+M+7BkM921fep/ZX2beGWD3A8=;
+ b=d6LOVPpEM9Ht4ZrRh0ebxTKFeXxugowY0/RMHYqOFN6vFNhL58wr4vOa
+ DMl1QPZr7f2Z1yLvfHF5YFvAbjf4dCtMsrVIQbjJZsBupeNl2o53HJcRz
+ 9WHr9fQ1pZFEqvYuT6a5k5wUNCLX0GMwjcNIxcwM37BCx4LmEAtC21d+m
+ ONm77cXVtmZlMdfI2W9MqlDP1oJWB5ThbT/VcffTdxHpwWcPoKDoNFnOR
+ tvbHiySOkP7egDMZcT8aKHfmaLQiYytDhlietAf3a2PZq7lzeJRdICIqb
+ eUf+IcQZZZUu8gExfAbLFWJTo/JNIeQty5vhl3CoP0VmV3GR8qus6uT0a w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486525"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486525"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 01:43:47 -0800
+ 13 Feb 2023 01:43:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670759855"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670759855"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670759858"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670759858"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:43:44 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:43:47 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -54,12 +54,11 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Zhuocheng Ding <zhuocheng.ding@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
- Zhao Liu <zhao1.liu@intel.com>, Igor Mammedov <imammedo@redhat.com>,
- Ani Sinha <ani@anisinha.ca>
-Subject: [RFC 12/52] hw/acpi: Replace MachineState.smp access with topology
- helpers
-Date: Mon, 13 Feb 2023 17:49:55 +0800
-Message-Id: <20230213095035.158240-13-zhao1.liu@linux.intel.com>
+ Zhao Liu <zhao1.liu@intel.com>
+Subject: [RFC 13/52] cpu/core: Use generic topology helper for "help" to set
+ nr_threads
+Date: Mon, 13 Feb 2023 17:49:56 +0800
+Message-Id: <20230213095035.158240-14-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
@@ -90,33 +89,46 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
-At present, in QEMU only arm needs PPTT table to build cpu topology.
+The commit 0b47ec4 (cpu/core: Fix "help" of CPU core device types) sets
+nr_threads with current_machine's smp.threads for "help".
 
-Before QEMU's arm supports hybrid architectures, it's enough to limit
-the cpu topology of PPTT to smp type through the explicit smp interface
-(machine_topo_get_smp_threads()).
+This will break if current_machine has hybrid topology. Though core
+device now is only used by PPC, as the general code, hybrid topology
+deserves to be handled more gracefully and does not depend on whether
+the specific architecture supports hybrid topology.
 
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Cc: Ani Sinha <ani@anisinha.ca>
+So use a generic topology helper to get threads info (of CPU 0) from
+current_machine. For smp case, this helper returns "threads per core"
+as the original smp.threads, and for hybrid case, it returns threads of
+the core that CPU 0 is located.
+
+Since that nr_threads is just to make "help" happy and it isn't used
+afterwards, give it the threads of CPU 0 can work.
+
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- hw/acpi/aml-build.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/cpu/core.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index ea331a20d131..693bd8833d10 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -2044,7 +2044,7 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
-             cluster_offset = socket_offset;
-         }
+diff --git a/hw/cpu/core.c b/hw/cpu/core.c
+index 987607515574..bc5ab4e01038 100644
+--- a/hw/cpu/core.c
++++ b/hw/cpu/core.c
+@@ -71,10 +71,12 @@ static void cpu_core_instance_init(Object *obj)
+     /*
+      * Only '-device something-cpu-core,help' can get us there before
+      * the machine has been created. We don't care to set nr_threads
+-     * in this case since it isn't used afterwards.
++     * in this case since it isn't used afterwards, so we fetch the
++     * threads of the core where the CPU 0 is located, no matter whether
++     * the topology is smp or hybrid.
+      */
+     if (current_machine) {
+-        core->nr_threads = current_machine->smp.threads;
++        core->nr_threads = machine_topo_get_threads_by_idx(current_machine, 0);
+     }
+ }
  
--        if (ms->smp.threads == 1) {
-+        if (machine_topo_get_smp_threads(ms) == 1) {
-             build_processor_hierarchy_node(table_data,
-                 (1 << 1) | /* ACPI Processor ID valid */
-                 (1 << 3),  /* Node is a Leaf */
 -- 
 2.34.1
 
