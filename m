@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 549D76951E5
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 21:32:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CECE695200
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 21:37:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRfUQ-0004PN-72; Mon, 13 Feb 2023 15:31:54 -0500
+	id 1pRfUR-0004Rx-R2; Mon, 13 Feb 2023 15:31:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pRfUL-0004Mm-2j; Mon, 13 Feb 2023 15:31:49 -0500
+ id 1pRfUN-0004NJ-4W; Mon, 13 Feb 2023 15:31:51 -0500
 Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pRfUE-0002TR-8n; Mon, 13 Feb 2023 15:31:43 -0500
+ id 1pRfUH-0002U3-CW; Mon, 13 Feb 2023 15:31:49 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6E52922337;
- Mon, 13 Feb 2023 20:31:40 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id EBB3F2233D;
+ Mon, 13 Feb 2023 20:31:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1676320300; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1676320303; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XRSaU42EJuvkn9pnSLpVvyMLr2VRhkEQPYljGo21NaY=;
- b=Gxe9+DbEujEn7Kxy/hVSzBwiFG0kbas2kYHk63udfUn4/nJiuzTOnqxVwytmY3l6uJdMMi
- y7HWX3t2NZ/4EqZR5fkDvgw4WUEtojWJ7uATLOv+ziJ0r5BfVebB1TcSms6LG8VxtZH0ki
- /lhLrCcjvZJk1cFHM8I7JwQsuUj3PBg=
+ bh=IneoIjeaaItZ9WFIdyjktzS9t1bCTfcOcWOa6rg90xU=;
+ b=IaJ6vp0/NLVwoFwKwXgRb1EzIUXcq0ICWyXcFPJ4dqp1x2W/JuPr3PSzzoJmfduB84Oe13
+ tGccUewKytDNUHQDEj45xQQRj20RDR5b+RiNhhcvIKHIBydOYiP5zGGQpHWfiP0VLoKSVZ
+ 1Cuv/wtKlLjNtQjA5xBljCL5r8Ob/SQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1676320300;
+ s=susede2_ed25519; t=1676320303;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XRSaU42EJuvkn9pnSLpVvyMLr2VRhkEQPYljGo21NaY=;
- b=w5edDbVZ0FGcVpDO6fxFjCPjEaY5wOrIofesN8eaTaAh6XXyj73PIweTJnTbNaTUXH9pWr
- 4JFhgNZoTzEDPBBQ==
+ bh=IneoIjeaaItZ9WFIdyjktzS9t1bCTfcOcWOa6rg90xU=;
+ b=4A3cEk7on+NDArmGFnW/RXSkNstd1Nqcom8Zi3s/f5mch21NN+pNMXb6VKwvM1KODT4v8k
+ 15/SqnrpKZvJFHAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 605831391B;
- Mon, 13 Feb 2023 20:31:37 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E07A31391B;
+ Mon, 13 Feb 2023 20:31:40 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 2HiqCSme6mOVMwAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 13 Feb 2023 20:31:37 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id eM/zKCye6mOVMwAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 13 Feb 2023 20:31:40 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -58,9 +58,10 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
  Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH RESEND v5 02/28] target/arm: wrap psci call with tcg_enabled
-Date: Mon, 13 Feb 2023 17:29:01 -0300
-Message-Id: <20230213202927.28992-3-farosas@suse.de>
+Subject: [PATCH RESEND v5 03/28] target/arm: wrap call to
+ aarch64_sve_change_el in tcg_enabled()
+Date: Mon, 13 Feb 2023 17:29:02 -0300
+Message-Id: <20230213202927.28992-4-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230213202927.28992-1-farosas@suse.de>
 References: <20230213202927.28992-1-farosas@suse.de>
@@ -93,38 +94,37 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Claudio Fontana <cfontana@suse.de>
 
-for "all" builds (tcg + kvm), we want to avoid doing
-the psci check if tcg is built-in, but not enabled.
-
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- target/arm/helper.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/arm/helper.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 190be1a64d..1fc860e039 100644
+index 1fc860e039..bd704396e0 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -22,6 +22,7 @@
- #include "hw/irq.h"
- #include "sysemu/cpu-timers.h"
- #include "sysemu/kvm.h"
-+#include "sysemu/tcg.h"
- #include "qapi/qapi-commands-machine-target.h"
- #include "qapi/error.h"
- #include "qemu/guest-random.h"
-@@ -11055,7 +11056,7 @@ void arm_cpu_do_interrupt(CPUState *cs)
-                       env->exception.syndrome);
-     }
+@@ -10819,11 +10819,13 @@ static void arm_cpu_do_interrupt_aarch64(CPUState *cs)
+     unsigned int cur_el = arm_current_el(env);
+     int rt;
  
--    if (arm_is_psci_call(cpu, cs->exception_index)) {
-+    if (tcg_enabled() && arm_is_psci_call(cpu, cs->exception_index)) {
-         arm_handle_psci_call(cpu);
-         qemu_log_mask(CPU_LOG_INT, "...handled as PSCI call\n");
-         return;
+-    /*
+-     * Note that new_el can never be 0.  If cur_el is 0, then
+-     * el0_a64 is is_a64(), else el0_a64 is ignored.
+-     */
+-    aarch64_sve_change_el(env, cur_el, new_el, is_a64(env));
++    if (tcg_enabled()) {
++        /*
++         * Note that new_el can never be 0.  If cur_el is 0, then
++         * el0_a64 is is_a64(), else el0_a64 is ignored.
++         */
++        aarch64_sve_change_el(env, cur_el, new_el, is_a64(env));
++    }
+ 
+     if (cur_el < new_el) {
+         /*
 -- 
 2.35.3
 
