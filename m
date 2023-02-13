@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FDDC694EBF
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 19:05:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35F22694EC4
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 19:05:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRdAj-0003Es-7c; Mon, 13 Feb 2023 13:03:25 -0500
+	id 1pRdAi-0003EX-Ml; Mon, 13 Feb 2023 13:03:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1pRdAY-00037b-Tv; Mon, 13 Feb 2023 13:03:15 -0500
-Received: from bg4.exmail.qq.com ([43.154.221.58])
+ id 1pRdAZ-00037e-FQ; Mon, 13 Feb 2023 13:03:18 -0500
+Received: from bg4.exmail.qq.com ([43.155.65.254])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1pRdAV-0001Ik-M8; Mon, 13 Feb 2023 13:03:14 -0500
-X-QQ-mid: bizesmtp62t1676311364tf7oryd4
+ id 1pRdAW-0001Io-Ie; Mon, 13 Feb 2023 13:03:14 -0500
+X-QQ-mid: bizesmtp62t1676311368tu64a876
 Received: from pek-vx-bsp2.wrs.com ( [60.247.85.88])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 14 Feb 2023 02:02:43 +0800 (CST)
+ id ; Tue, 14 Feb 2023 02:02:46 +0800 (CST)
 X-QQ-SSF: 01200000000000C0D000000A0000000
-X-QQ-FEAT: SdugMSrl+IMOA/kl/2+0JJ7KKDuAi3hv5oa+0wa1bnoGIBw7w2FB1inIAstP2
- KaItufkKWSnhjmQvHREvmjGln2jEjPCnjeASTHO5UqedakzjzJan994ilXbus49uu8V72PS
- oPjF9t135vZ7aYezkfFRF1VtiOj6H0xU+BttI/JjkoWGMm9xIfu6U4TW3OFo7QpGbSVnpBR
- DdmJXceKZANlLNvpiOrYVEhcOInCjQG09AMM6vm43im+qHqs46VHu+aVrqROc2DXt2rGQ7i
- HPRete33Z7XuYSwU181N+7W+IbqZzMvWHSFUTY0RevuPstLs9wMQRuHeE+j3KPH6SvdHRzf
- CtEwQ/HN+eVbh3IjZxjJWJx5qW28cbnXRI9dmlvzoqjR3IQqzg=
+X-QQ-FEAT: swyrzWPvyR2fBUeCR/eoHkWfnX3baPGJZSKsqfvd+RVyEdHiRszLxR4E025lH
+ AnzmacmydeXmEVxQMzpAMevCTEFA5y90VyKjXATzqzrKjFk5C7eT9MxkNkT0TqWOE7cOBSe
+ +3/pk3JCgSo26/jO/JnRvr9tar0OR9ZluVNe14MDkDbU0kpq8tJ0QquzC/eP4qHsCFZ3iaA
+ OKqPpDW8h4W6dDOWsepUmWlmiYzv17p4rB1GRjStU7/uSHvR0lVY6E1n+71zn3sURdxFfEy
+ ruRH9McNDLuabXT2Swug8k8d3bkIBgG4amHWMc1qPY1OJTlBu6y/Vz7MqL3TXAUN2seqCvz
+ gkE09DUyp+wfmGcysOFylKMHXlyKnXxKBd63NEHFUIRr1zAVpU=
 X-QQ-GoodBg: 0
 From: Bin Meng <bmeng@tinylab.org>
 To: qemu-devel@nongnu.org
@@ -36,10 +36,10 @@ Cc: Alistair Francis <alistair.francis@wdc.com>,
  Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
  Palmer Dabbelt <palmer@dabbelt.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
  qemu-riscv@nongnu.org
-Subject: [PATCH 01/18] target/riscv: gdbstub: Check priv spec version before
- reporting CSR
-Date: Tue, 14 Feb 2023 02:01:57 +0800
-Message-Id: <20230213180215.1524938-2-bmeng@tinylab.org>
+Subject: [PATCH 02/18] target/riscv: Correct the priority policy of
+ riscv_csrrw_check()
+Date: Tue, 14 Feb 2023 02:01:58 +0800
+Message-Id: <20230213180215.1524938-3-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230213180215.1524938-1-bmeng@tinylab.org>
 References: <20230213180215.1524938-1-bmeng@tinylab.org>
@@ -47,7 +47,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:tinylab.org:qybglogicsvr:qybglogicsvr3
-Received-SPF: pass client-ip=43.154.221.58; envelope-from=bmeng@tinylab.org;
+Received-SPF: pass client-ip=43.155.65.254; envelope-from=bmeng@tinylab.org;
  helo=bg4.exmail.qq.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,40 +69,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The gdbstub CSR XML is dynamically generated according to the result
-of the CSR predicate() result. This has been working fine until
-commit 7100fe6c2441 ("target/riscv: Enable privileged spec version 1.12")
-introduced the privilege spec version check in riscv_csrrw_check().
+The priority policy of riscv_csrrw_check() was once adjusted in
+commit eacaf4401956 ("target/riscv: Fix priority of csr related check in riscv_csrrw_check")
+whose commit message says the CSR existence check should come
+before the access control check, but the code changes did not
+agree with the commit message, that the predicate() check came
+after the read / write check.
 
-When debugging the 'sifive_u' machine whose priv spec is at 1.10,
-gdbstub reports priv spec 1.12 CSRs like menvcfg in the XML, hence
-we see "remote failure reply 'E14'" message when examining all CSRs
-via "info register system" from gdb.
-
-Add the priv spec version check in the CSR XML generation logic to
-fix this issue.
-
-Fixes: 7100fe6c2441 ("target/riscv: Enable privileged spec version 1.12")
+Fixes: eacaf4401956 ("target/riscv: Fix priority of csr related check in riscv_csrrw_check")
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 ---
 
- target/riscv/gdbstub.c | 3 +++
- 1 file changed, 3 insertions(+)
+ target/riscv/csr.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-index 6e7bbdbd5e..e57372db38 100644
---- a/target/riscv/gdbstub.c
-+++ b/target/riscv/gdbstub.c
-@@ -290,6 +290,9 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
-     g_string_append_printf(s, "<feature name=\"org.gnu.gdb.riscv.csr\">");
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 1b0a0c1693..c2dd9d5af0 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -3793,15 +3793,15 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
  
-     for (i = 0; i < CSR_TABLE_SIZE; i++) {
-+        if (env->priv_ver < csr_ops[i].min_priv_ver) {
-+            continue;
-+        }
-         predicate = csr_ops[i].predicate;
-         if (predicate && (predicate(env, i) == RISCV_EXCP_NONE)) {
-             if (csr_ops[i].name) {
+-    if (write_mask && read_only) {
+-        return RISCV_EXCP_ILLEGAL_INST;
+-    }
+-
+     RISCVException ret = csr_ops[csrno].predicate(env, csrno);
+     if (ret != RISCV_EXCP_NONE) {
+         return ret;
+     }
+ 
++    if (write_mask && read_only) {
++        return RISCV_EXCP_ILLEGAL_INST;
++    }
++
+ #if !defined(CONFIG_USER_ONLY)
+     int csr_priv, effective_priv = env->priv;
+ 
 -- 
 2.25.1
 
