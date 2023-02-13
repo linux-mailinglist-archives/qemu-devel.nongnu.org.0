@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22C76947BE
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 15:11:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0557B6947BF
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 15:12:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRZXV-00040H-1R; Mon, 13 Feb 2023 09:10:41 -0500
+	id 1pRZYx-0005xh-ON; Mon, 13 Feb 2023 09:12:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRZXR-000406-Ud
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 09:10:38 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRZYv-0005xH-2i
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 09:12:09 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRZXQ-0007VV-DN
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 09:10:37 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- f47-20020a05600c492f00b003dc584a7b7eso11361629wmp.3
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 06:10:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRZYt-0007xo-1m
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 09:12:08 -0500
+Received: by mail-wr1-x435.google.com with SMTP id a2so12377758wrd.6
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 06:12:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=xUFCpeMZVEy94xLaOvCS1bAJflJJY9Q5X8N+dIL9ZF8=;
- b=pm0RZ2v6QKdNdAKmTe+Yq+zbK6qZSWvLQnYTsmuZIOGqWAI1BtHGVlEFVgNJb6vrPF
- 3YuMCh194kClHlOfzHZhe5yP295zCaZ6fLsU62uRko+sZiivN4f7DR61ntuPdzBG6iN2
- 44u+ponKoEbJisDhfYr4IwdjDB9As6WqBlzgn4WvE+620UnyLlnMequjqmM81vm7xwq5
- r98vqQxZI+9onp76Uf3RpEKEtLbwpwjKr4+M2aRvCRuSVnMOjbhoyo/7x4cSmwNaUgVX
- m667AuqpfIq26J1Zy72Vcmt3Inz85OqjAWOcmkqAXrXsJkrwviF2BYzC18tlvyPwv0Ed
- MZFg==
+ bh=L6fNJ+RMJi5N7GKiZW7cQoLKcNQ0PW/qxkRV51xy5+c=;
+ b=JgeOzUm6RHr98O2r4XznzOBushiXwNnlt6Drk4k9xqBfhvpAe8gjm+Zoy6SVbsxZP0
+ n14PxCOoA8DgsIGa01Jzsmk5XrX9PIXjon+5v3sdkipDAlyhlKmp6amlUsF4FdjmIEDM
+ Xa5w/NTM62mbzsYhpq3IP7tQYI8NjD/dGQc7KT4h+kQVu2hhcKOpbwCBkNFHyH6yYa1N
+ gH2/ChZkg9wZfjX8Ipu4YaQ2Z0ggtYvQJYt50nyZTcldTm6gVlja0J/6m18MV0B4Wbgr
+ zCH2jjcwyqmhJ7KA1v/zGBbLBifEMLE4UX1XXksDttA+Y8V6kiCjphHWUr/NmHPFJa2a
+ n2Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xUFCpeMZVEy94xLaOvCS1bAJflJJY9Q5X8N+dIL9ZF8=;
- b=OILqd7HO5oWftCo8e+s0yttNAKKNAZ6XnIAwCGiybby7TnsizY7aw2Ni/79/Yr1cb5
- Y9Y+rvWE2rhxb/JY3wvYsI/4gD4giVtOBlXT64Q+T5cFdf5WF2CbeCcD89PX0UlrRrnw
- m4MRXe/AUu/BR7kXf/bQuoK/BQobYrnDQvnvKac6BM336hH6yWxQqcQuwNY0HxAY8Tjl
- 7V6L5NzPea8yKoDffNJsfpKBN2XZztP7fVhGpNDZtTkyTwc3dEC1qSS5I10PaxX1Gao8
- 3tU8roPYtDJ3AqGmvHwM+EDISxhP6wFhCMHL5zKUQI8naJaO9Vz3Jsj0rMqNbtrLBsSt
- HO5g==
-X-Gm-Message-State: AO0yUKWFvYWZCmAd2rw8l5EPM8qV1YvlJGXseezwLGEYsjJNad1MOAeU
- AB7i4yl7wX+XdsZCXDNl9S7zLg==
-X-Google-Smtp-Source: AK7set8gL70jkIXm8IB4zPhkwZB0zTgIlOpYLeV+sJArj0+oLLPIz3nEz5/colvKK+N5KTLSWNCIag==
-X-Received: by 2002:a05:600c:32a7:b0:3df:dea7:8ec with SMTP id
- t39-20020a05600c32a700b003dfdea708ecmr19666471wmp.20.1676297432147; 
- Mon, 13 Feb 2023 06:10:32 -0800 (PST)
+ bh=L6fNJ+RMJi5N7GKiZW7cQoLKcNQ0PW/qxkRV51xy5+c=;
+ b=yKVJuKDG87yzA9ARQLo66lofK9Kd8jyoZ7Jb69iMl0tUkuHz3giup6G2Ai/j/qNR1b
+ TtddvHGk1+oPnlgPcgSK5NQo16Pp7Qp+q8Abe3ryS1oikPPumkrlCvquAkN9VMg0Q0a7
+ eubakH6R/znuUX1naXLkk4/OaL1OCbN7oXnZVTklRwQcTuHqo6eskm7XK00wNTogcwdc
+ ZwfS+DFPwtbUy/5LRm5EhN/TWx/cmyxFXsxlQpiOqGyvK88B/MqVKw793pfmnuIRVWqm
+ vM9qN1HHTgLk2S0NkuynExO4etXEfZDHmSOW26Oiq7fKME9eNNl3acHvPhC3OczOQldr
+ oC9w==
+X-Gm-Message-State: AO0yUKWVNuSCxIVHFLZ5VIE3LlTZjr6o9IE4f1JyLesctG2w6BQGMTKm
+ OFHhLTJpoe+bgflw9zgPCqLYQg==
+X-Google-Smtp-Source: AK7set/MRgU5QXB3Jt06e74zaIQzlw54gbgVEs3wf+sm88fMfbGOuHLguqVjv2xizEvz0b0H/GdY9w==
+X-Received: by 2002:adf:e402:0:b0:2c5:592b:b70b with SMTP id
+ g2-20020adfe402000000b002c5592bb70bmr2579071wrm.50.1676297525448; 
+ Mon, 13 Feb 2023 06:12:05 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- m23-20020a7bca57000000b003de8a1b06c0sm17087061wml.7.2023.02.13.06.10.30
+ a4-20020adfeec4000000b002bfc0558ecdsm10553537wrp.113.2023.02.13.06.12.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 06:10:31 -0800 (PST)
-Message-ID: <7fc9712a-136a-d296-4a7b-194195f3b699@linaro.org>
-Date: Mon, 13 Feb 2023 15:10:29 +0100
+ Mon, 13 Feb 2023 06:12:05 -0800 (PST)
+Message-ID: <2bd9ad31-39c8-f85b-ae5a-80de8d9ec448@linaro.org>
+Date: Mon, 13 Feb 2023 15:12:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH v4 15/16] qapi: add HOTPLUG_STATE event
+Subject: Re: [PATCH v4 16/16] qapi: introduce DEVICE_ON event
 Content-Language: en-US
 To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org
-Cc: armbru@redhat.com, eblake@redhat.com, eduardo@habkost.net,
- berrange@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
- mst@redhat.com, den-plotnikov@yandex-team.ru, antonkuchin@yandex-team.ru
+ qemu-devel@nongnu.org, armbru@redhat.com
+Cc: eblake@redhat.com, eduardo@habkost.net, berrange@redhat.com,
+ pbonzini@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com,
+ den-plotnikov@yandex-team.ru, antonkuchin@yandex-team.ru
 References: <20230213140103.1518173-1-vsementsov@yandex-team.ru>
- <20230213140103.1518173-16-vsementsov@yandex-team.ru>
+ <20230213140103.1518173-17-vsementsov@yandex-team.ru>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230213140103.1518173-16-vsementsov@yandex-team.ru>
+In-Reply-To: <20230213140103.1518173-17-vsementsov@yandex-team.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -95,47 +94,52 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 13/2/23 15:01, Vladimir Sementsov-Ogievskiy wrote:
-> For PCIe and SHPC hotplug it's important to track led indicators,
-> especially the power led. Add an event that helps.
+> We have DEVICE_DELETED event, that signals that device_del command is
+> actually completed. But we don't have a counter-part for device_add.
+> Still it's sensible for SHPC and PCIe-native hotplug, as there are time
+> when the device in some intermediate state. Let's add an event that say
+> that the device is finally powered on, power indicator is on and
+> everything is OK for next manipulation on that device.
 > 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 > ---
->   qapi/qdev.json                  | 175 ++++++++++++++++++++++++++++++++
->   include/hw/hotplug.h            |  12 +++
->   include/hw/pci/pci.h            |   3 +
->   include/hw/pci/pci_bridge.h     |   2 +
->   include/hw/pci/pcie.h           |   2 +
->   include/hw/pci/shpc.h           |   2 +
->   include/monitor/qdev.h          |   5 +
->   hw/core/hotplug.c               |  13 +++
->   hw/pci-bridge/pci_bridge_dev.c  |  14 +++
->   hw/pci-bridge/pcie_pci_bridge.c |   1 +
->   hw/pci/pcie.c                   |  79 ++++++++++++++
->   hw/pci/pcie_port.c              |   1 +
->   hw/pci/shpc.c                   | 102 ++++++++++++++++++-
->   softmmu/qdev-monitor.c          |  39 +++++++
->   14 files changed, 445 insertions(+), 5 deletions(-)
-
--ETOOBIG
-
+>   qapi/qdev.json | 13 +++++++++++++
+>   hw/pci/pcie.c  | 13 +++++++++++++
+>   hw/pci/shpc.c  | 12 ++++++++++++
+>   3 files changed, 38 insertions(+)
+> 
+> diff --git a/qapi/qdev.json b/qapi/qdev.json
+> index b6ad311dd4..2143bb2792 100644
+> --- a/qapi/qdev.json
+> +++ b/qapi/qdev.json
+> @@ -341,3 +341,16 @@
+>   { 'command': 'query-hotplug',
+>     'data': { 'id': 'str' },
+>     'returns': 'HotplugInfo' }
+> +
 > +##
-> +# @HotplugSHPCSlotState:
+> +# @DEVICE_ON:
 > +#
-> +# Standard Hot-Plug Controller slot state.
+> +# Emitted whenever the device insertion completion is acknowledged by the guest.
+> +# For now only emitted for SHPC and PCIe-native hotplug.
 > +#
-> +# @power-only: Slot is powered on but neither clock nor bus are connected.
-> +#
-> +# @enabled: Slot is powered on, clock and bus are connected, the card is
-> +#           fully functional from a hardware standpoint.
-> +#
-> +# @disabled: Slot is disabled, card us safe to be removed.
-
-s/us/is/
-
+> +# @path: the hotplugged device's QOM path
 > +#
 > +# Since: 8.0
 > +##
-> +{ 'enum': 'HotplugSHPCSlotState',
-> +  'data': [ 'power-only', 'enabled', 'disabled' ] }
+> +{ 'event': 'DEVICE_ON',
+> +  'data': { 'path': 'str' } }
+
+Could 'qom-path' or 'canonical-path' be more meaningful here?
+
+> @@ -816,6 +823,12 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
+>           qdev_hotplug_state_event(DEVICE(dev), NULL, child_dev, &changed_state);
+>       }
+>   
+> +    if ((sltsta & PCI_EXP_SLTSTA_PDS) && pcie_sltctl_powered_on(val) &&
+> +        !pcie_sltctl_powered_on(old_slt_ctl) && child_dev)
+> +    {
+> +        qapi_event_send_device_on(child_dev->canonical_path);
+> +    }
 
 
