@@ -2,80 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8C0E694F5D
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 19:28:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D5B5694F85
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 19:38:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRdXa-0000ro-F4; Mon, 13 Feb 2023 13:27:02 -0500
+	id 1pRdhr-00048q-DO; Mon, 13 Feb 2023 13:37:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRdXX-0000re-3S
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 13:26:59 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRdXU-0005S3-C1
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 13:26:58 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- m20-20020a05600c3b1400b003e1e754657aso3486631wms.2
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 10:26:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=HmXLULjmK5+8zhKIDcYkQobOvuWWjA1SvS4JKomkdIc=;
- b=d1OD0UZB+eUO5LDoPChIjuhAmroJ76ax3RY+z3wAsIhzfZ2xGkiFc8It13861esey9
- dPvmMmFqUg8AIHKm+tPvPgcUEIoDChdR9IG5U11cAcrZzltgNvRA/lpvVPQDz0MfkKbt
- FXgQVarZvG7qL+MrvBXPLUBmrPIQ2eU4TBIF2HfeXQKJ3xZ1Eszcuqef8XrXBM1jxf1i
- sa1cBq+Ou2Axgw6EublJRN9WUPVk3OEMl3TQyI3Ep5kiaxvvC+w11fUINa4DfES/2C+e
- VRPXsGofcGiE1Ac2MtpSbxckNBoJ4jEFkKUpbuwqNZrTN9Nffq8IYiRpMf1v7zj28DoE
- Zxlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HmXLULjmK5+8zhKIDcYkQobOvuWWjA1SvS4JKomkdIc=;
- b=NMlB+1FY5w1V/cqe7fdBntGTeTKcDvNoLpVv/EcZPC4U9hxWAFWaRQIS3CbviiJH3d
- PMKqnYxJuQ7+hoFoIcL3FT7jouX8oIjDDCGVxdAqWGr36je/ra34xpLXh5Pb+YV9e57u
- ITcSJdZ4mGFdd4kJ7nsKaOOsVsaRZRonqOQgIAls6KPZ8RSSuViPaZR4reFwZeKHOxZM
- qKVAzl5q40VVIOygBrpzruzfvl4CzBXqzsn8bCJbD5yUwIJpyreRxcGnAiLJ3jz3keZu
- +LMB6v/tnIm8ENTMiWtJlTvGNtJvApK+Ch4GtVq5DXgukTEpKe1n1nzrz9Od/LFBrace
- LOWA==
-X-Gm-Message-State: AO0yUKUYzqishmemNzweZRNOMFLRcAy3eEx8sPLQm9qxj4i/Gad/+KDA
- t56TvCbIk2/QID6ZBz+0Tj2CXA==
-X-Google-Smtp-Source: AK7set97f9luSPuvpAkfzhR/SBnjNVJf8OaV2UXow0/Fthq1vlKOOh9Q0K2rAMAOdQlIuxKLvt4Lpg==
-X-Received: by 2002:a05:600c:3c9c:b0:3dc:d5b:5f6a with SMTP id
- bg28-20020a05600c3c9c00b003dc0d5b5f6amr19883228wmb.30.1676312813014; 
- Mon, 13 Feb 2023 10:26:53 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- j23-20020a05600c1c1700b003daf681d05dsm15736124wms.26.2023.02.13.10.26.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 10:26:52 -0800 (PST)
-Message-ID: <b04ebfac-c434-8045-1b6f-6201686130b9@linaro.org>
-Date: Mon, 13 Feb 2023 19:26:51 +0100
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pRdhm-00046T-HQ
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 13:37:34 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pRdhj-0007B0-St
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 13:37:34 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id A12A674632B;
+ Mon, 13 Feb 2023 19:34:55 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 43AB87457E7; Mon, 13 Feb 2023 19:34:55 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 4184C745706;
+ Mon, 13 Feb 2023 19:34:55 +0100 (CET)
+Date: Mon, 13 Feb 2023 19:34:55 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Peter Xu <peterx@redhat.com>
+cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>, 
+ philmd@linaro.org, Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 1/2] log: Add separate debug option for logging invalid
+ memory accesses
+In-Reply-To: <Y+pwnar8b17Mu0u4@x1n>
+Message-ID: <d3ebfc88-8b03-cfb7-bc4f-9952521b3ba8@eik.bme.hu>
+References: <20230119214032.4BF1E7457E7@zero.eik.bme.hu>
+ <ad4783ee-20ce-06d2-7c2f-1f915bd684d0@eik.bme.hu>
+ <413edbc1-8af1-4b0e-70ab-41d49f1bbbcd@eik.bme.hu>
+ <fcd09b07-c0ac-d617-8503-a5ecef947cfe@redhat.com> <Y+pM+H1PvTUUHrhx@x1n>
+ <7ae34a52-13a5-05e0-3cea-10a9fb89ec1c@eik.bme.hu>
+ <Y+piDukOkeg+xs9G@x1n> <0d85fc1d-4c97-5874-d49c-03ac3c265e2f@eik.bme.hu>
+ <Y+pwnar8b17Mu0u4@x1n>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH] usb/dev-wacom: fix OOB write in usb_mouse_poll()
-Content-Language: en-US
-To: Mauro Matteo Cascella <mcascell@redhat.com>, qemu-devel@nongnu.org
-Cc: kraxel@redhat.com
-References: <20230213174113.591632-1-mcascell@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230213174113.591632-1-mcascell@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.345,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,95 +68,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Mauro,
+On Mon, 13 Feb 2023, Peter Xu wrote:
+> On Mon, Feb 13, 2023 at 05:34:04PM +0100, BALATON Zoltan wrote:
+>> On Mon, 13 Feb 2023, Peter Xu wrote:
+>>> On Mon, Feb 13, 2023 at 03:47:42PM +0100, BALATON Zoltan wrote:
+>>>> On Mon, 13 Feb 2023, Peter Xu wrote:
+>>>>> On Mon, Feb 13, 2023 at 12:41:29PM +0100, Thomas Huth wrote:
+>>>>>> On 07/02/2023 17.33, BALATON Zoltan wrote:
+>>>>>>> On Tue, 31 Jan 2023, BALATON Zoltan wrote:
+>>>>>>>> On Thu, 19 Jan 2023, BALATON Zoltan wrote:
+>>>>>>>>> Currently -d guest_errors enables logging of different invalid actions
+>>>>>>>>> by the guest such as misusing hardware, accessing missing features or
+>>>>>>>>> invalid memory areas. The memory access logging can be quite verbose
+>>>>>>>>> which obscures the other messages enabled by this debug switch so
+>>>>>>>>> separate it by adding a new -d memaccess option to make it possible to
+>>>>>>>>> control it independently of other guest error logs.
+>>>>>>>>>
+>>>>>>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>>>>>>>
+>>>>>>>> Ping? Could somebody review and pick it up please?
+>>>>>>>
+>>>>>>> Ping?
+>>>>>>
+>>>>>> Patch makes sense to me and looks fine, so:
+>>>>>>
+>>>>>> Reviewed-by: Thomas Huth <thuth@redhat.com>
+>>>>>>
+>>>>>> ... I think this should go via one of the "Memory API" maintainers branches?
+>>>>>> Paolo? Peter? David?
+>>>>>
+>>>>> Paolo normally does the pull, I assume that'll still be the case.  The
+>>>>> patch looks good to me if Phil's comment will be addressed on merging with
+>>>>> the old mask, which makes sense to me:
+>>>>
+>>>> Keeping the old mask kind of defies the purpose. I've tried to explain that
+>>>> in the commit message but now that two of you did not get it maybe that
+>>>> message needs to be clarified instead?
+>>>
+>>> I think it's clear enough.  My fault to not read carefully into the
+>>> message, sorry.
+>>>
+>>> However, could you explain why a memory_region_access_valid() failure
+>>> shouldn't belong to LOG_GUEST_ERROR?
+>>>
+>>> commit e54eba1986f6c4bac2951e7f90a849cd842e25e4
+>>> Author: Peter Maydell <peter.maydell@linaro.org>
+>>> Date:   Thu Oct 18 14:11:35 2012 +0100
+>>>
+>>>    qemu-log: Add new log category for guest bugs
+>>>
+>>>    Add a new category for device models to log guest behaviour
+>>>    which is likely to be a guest bug of some kind (accessing
+>>>    nonexistent registers, reading 32 bit wide registers with
+>>>    a byte access, etc). Making this its own log category allows
+>>>    those who care (mostly guest OS authors) to see the complaints
+>>>    without bothering most users.
+>>>
+>>> Such an illegal memory access is definitely a suitable candidate of guest
+>>> misbehave to me.
+>>
+>> Problem is that a lot of machines have unimplemented hardware that are valid
+>> on real machine but we don't model them so running guests which access these
+>> generate constant flow of unassigned memory access log which obscures the
+>> actual guest_errors when an modelled device is accessed in unexpected ways.
+>> For an example you can try booting MorphOS on mac99,via=pmu as described
+>> here: http://zero.eik.bme.hu/~balaton/qemu/amiga/#morphos
+>> (or the pegasos2 command too). We could add dummy registers to silence these
+>> but I think it's better to either implement it correctly or leave it
+>> unimplemented so we don't hide errors by the dummy implementation.
+>>
+>>> Not to mention Phil always have a good point that you may be violating
+>>> others using guest_error already so what they wanted to capture can
+>>> misterious going away without noticing, even if it may service your goal.
+>>> IOW it's a slight ABI and I think we ned justification to break it.
+>>
+>> Probably this should be documented in changelog or do we need depracation
+>> for a debug option meant for developers mostly? I did not think so. Also I
+>> can't think of other way to solve this without changing what guest_erorrs do
+>> unless we change the name of that flag as well. Also not that when this was
+>> originally added it did not contain mem access logs as those were controlled
+>> by a define in memory.c until Philippe changed it and added them to
+>> guest_errors. So in a way I want the previous functionality back.
+>
+> I see, thanks.
+>
+> Indeed it's only a debug option, so I don't know whether the abi needs the
+> attention here.
+>
+> I quickly looked at all the masks and afaict this is really a special and
+> very useful one that if I'm a cloud provider I can run some script trying
+> to capture those violations using this bit to identify suspecious guests.
+>
+> So I think it would still be great to not break it if possible, IMHO.
+>
+> Since currently I don't see an immediate limitation of having qemu log mask
+> being a single bit for each of the entry, one way to satisfy your need (and
+> also keep the old behavior, iiuc), is to make guest_errors a sugar syntax
+> to cover 2 bits.  It shouldn't be complicated at all, I assume:
+>
+> +/* This covers the generic guest errors besides memory violations */
+> #define LOG_GUEST_ERROR    (1 << 11)
+>
+> +/*
+> + * This covers the guest errors on memory violations; see LOG_GUEST_ERROR
+> + * for generic guest errors.
+> + */
+> +#define LOG_GUEST_ERROR_MEM      (1 << 21)
+> +#define LOG_GUEST_ERROR_ALL      (LOG_GUEST_ERROR | LOG_GUEST_ERROR_MEM)
+>
+> -    { LOG_GUEST_ERROR, "guest_errors",
+> +    { LOG_GUEST_ERROR_ALL, "guest_errors",
+>
+> Then somehow squashed with your changes.  It'll make "guest_errors" not
+> exactly matching the name of LOG_* but I think it may not be a big concern.
 
-On 13/2/23 18:41, Mauro Matteo Cascella wrote:
-> The guest can control the size of buf; an OOB write occurs when buf is 1 or 2
-> bytes long. Only fill in the buffer as long as there is enough space, throw
-> away any data which doesn't fit.
+I'm not sure I understand this. So -d memaccess would give me the 
+unassigned logs, that's fine and -d guest_errors are both LOG_GUEST_ERROR 
+and memaccess like currently but what option would give me just the 
+guest_Errors before mem access started to use this flag too? (I could not 
+locate the commit that changed this but I remember previously the 
+unassigned mem logs were enabled with a define in memory.c.) Do we need 
+another -d option for just the guest errors then? What should that be 
+called?
 
-Any reproducer?
-
-> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-> ---
->   hw/usb/dev-wacom.c | 20 +++++++++++++-------
->   1 file changed, 13 insertions(+), 7 deletions(-)
-> 
-> diff --git a/hw/usb/dev-wacom.c b/hw/usb/dev-wacom.c
-> index 7177c17f03..ca9e6aa82f 100644
-> --- a/hw/usb/dev-wacom.c
-> +++ b/hw/usb/dev-wacom.c
-> @@ -252,14 +252,20 @@ static int usb_mouse_poll(USBWacomState *s, uint8_t *buf, int len)
->       if (s->buttons_state & MOUSE_EVENT_MBUTTON)
->           b |= 0x04;
->   
-> -    buf[0] = b;
-> -    buf[1] = dx;
-> -    buf[2] = dy;
-> -    l = 3;
-> -    if (len >= 4) {
-> -        buf[3] = dz;
-> -        l = 4;
-> +    l = 0;
-> +    if (len > l) {
-> +        buf[l++] = b;
->       }
-> +    if (len > l) {
-> +        buf[l++] = dx;
-> +    }
-
-        else { // the packet is now corrupted... }
-
-> +    if (len > l) {
-> +        buf[l++] = dy;
-> +    }
-> +    if (len > l) {
-> +        buf[l++] = dz;
-> +    }
-> +
->       return l;
->   }
-
-Better is to wait for enough data to process:
-
--- >8 --
-diff --git a/hw/usb/dev-wacom.c b/hw/usb/dev-wacom.c
-index 7177c17f03..2fe2a9220e 100644
---- a/hw/usb/dev-wacom.c
-+++ b/hw/usb/dev-wacom.c
-@@ -244,6 +244,9 @@ static int usb_mouse_poll(USBWacomState *s, uint8_t 
-*buf, int len)
-      s->dy -= dy;
-      s->dz -= dz;
-
-+    if (len < 3)
-+        return 0;
-+
-      b = 0;
-      if (s->buttons_state & MOUSE_EVENT_LBUTTON)
-          b |= 0x01;
-@@ -274,6 +277,9 @@ static int usb_wacom_poll(USBWacomState *s, uint8_t 
-*buf, int len)
-          s->mouse_grabbed = 1;
-      }
-
-+    if (len < 7)
-+        return 0;
-+
-      b = 0;
-      if (s->buttons_state & MOUSE_EVENT_LBUTTON)
-          b |= 0x01;
-@@ -282,9 +288,6 @@ static int usb_wacom_poll(USBWacomState *s, uint8_t 
-*buf, int len)
-      if (s->buttons_state & MOUSE_EVENT_MBUTTON)
-          b |= 0x20; /* eraser */
-
--    if (len < 7)
--        return 0;
--
-      buf[0] = s->mode;
-      buf[5] = 0x00 | (b & 0xf0);
-      buf[1] = s->x & 0xff;
----
-
+Regards,
+BALATON Zoltan
 
