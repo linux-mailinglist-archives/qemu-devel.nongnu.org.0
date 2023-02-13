@@ -2,108 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78366694B3F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 16:34:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6A25694B34
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 16:32:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRapw-0003Yi-K5; Mon, 13 Feb 2023 10:33:48 -0500
+	id 1pRaoL-0001gz-KS; Mon, 13 Feb 2023 10:32:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1pRapu-0003Ol-6E; Mon, 13 Feb 2023 10:33:46 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1pRaps-0006dM-Fo; Mon, 13 Feb 2023 10:33:45 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31DF1xOK024492; Mon, 13 Feb 2023 15:29:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=F3oaY8VaeiZqMV/qLRAnaqKuaH8wM/sTcVKgvLGcM4Q=;
- b=NDUwY4SDnBqCCZPhRQkmATC6+ddvzKVLXjHUJ7EQq0Dd0wb6/GSl3+gceAdMp8y+Q9S0
- zKowTJnECoSCgqAZ6nNBfqp/9fZqCa2Pr8MUini3t3IZxP5lAwZf16cjKH3YN0zFigFx
- yyxsxYW+rs0QxK0RBfGRwRBSCrGg04WaFG2iNhNHU7KHJmXnU/H3EmZQr0SDDOBh/DQu
- uw/5mPZAmdMr7pNTA3Yrvm8ADvtaTzbkxVhZwBVFwmJvtoPgJavSTrxFgzbGpmBXoLIt
- 5o3YsL5+RlO1ephIueWApAm05KTiDOUnWVRC10BAmaxo8R88iBZ8MdvYkihJVAoGHfwy tA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nqqg8grrs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Feb 2023 15:29:36 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31DF2VMP026844;
- Mon, 13 Feb 2023 15:29:35 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nqqg8grrm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Feb 2023 15:29:35 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31DD89ui023595;
- Mon, 13 Feb 2023 15:29:35 GMT
-Received: from smtprelay03.wdc07v.mail.ibm.com ([9.208.129.113])
- by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3np2n75x16-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Feb 2023 15:29:34 +0000
-Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com
- [10.241.53.100])
- by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 31DFTXbV63635746
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 13 Feb 2023 15:29:33 GMT
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3E17D58058;
- Mon, 13 Feb 2023 15:29:33 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4B84D58059;
- Mon, 13 Feb 2023 15:29:32 +0000 (GMT)
-Received: from li-479af74c-31f9-11b2-a85c-e4ddee11713b.ibm.com (unknown
- [9.60.89.68]) by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 13 Feb 2023 15:29:32 +0000 (GMT)
-Message-ID: <e036a2ff70eebeff03fc645685227fcc65fce40e.camel@linux.ibm.com>
-Subject: Re: [PATCH v2 16/19] hw/vfio/ccw: Replace DO_UPCAST(VFIOCCWDevice)
- by VFIO_CCW()
-From: Eric Farman <farman@linux.ibm.com>
-To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>
-Cc: qemu-block@nongnu.org, Thomas Huth <thuth@redhat.com>, Li Qiang
- <liq3ea@163.com>, qemu-s390x@nongnu.org,
- Hu Tao <hutao@cn.fujitsu.com>, Gonglei Arei <arei.gonglei@huawei.com>,
- Cao jin <caoj.fnst@cn.fujitsu.com>, xiaoqiang zhao <zxq_yx_007@163.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Alex Williamson
- <alex.williamson@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>
-Date: Mon, 13 Feb 2023 10:29:32 -0500
-In-Reply-To: <20230213070820.76881-17-philmd@linaro.org>
-References: <20230213070820.76881-1-philmd@linaro.org>
- <20230213070820.76881-17-philmd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pRaoF-0001gn-Lj
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 10:32:03 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pRaoD-0006SJ-U6
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 10:32:03 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id by3so11343217wrb.10
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 07:32:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=OYuKrJD7G/M4nWFmv0j+CKRAK52yHQNqI3M1SZS+h7I=;
+ b=brtVBe74kpl4j0Mod2haiHLvtTF4PNbLVYoqYAAweER+LTSI+5BOF+C3dCUqk9wG5E
+ lg43zNO8LKY/xbrx6jD/rzo3Hp5MVFMvWRIejhXU/Z+Mvxz8cQzy5gXb3Cmcs2PkF8Xw
+ 7nyzKw40b3xCF2eabaoY3I8igc8qpOcgf/fLZzrmuLXokxP2GWFzlWhFUYQo+Y7ClTME
+ R337BBoi572aNRq1p3Fkc+JIDiiemV52ME9LVjNnvVMIw+WySumH2CXxtcXr8LzT6ScS
+ WXTwPFe4NGTCG+2+EgS+ntiU4HhvV6f6E67dgXwl3Igc0kTRDWUFE8ntHb07Q/dIDHka
+ 3a/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OYuKrJD7G/M4nWFmv0j+CKRAK52yHQNqI3M1SZS+h7I=;
+ b=g/UnZCHRS3y5Q/rgo14M1EsVE4u4NCqShUiQcy/PEDp9kDkzowka2lA5t7goDOxBtU
+ n3MrW8FRb9OmuJeJ8tVsMsNLSdS8p5+HlzhoZwRoQ9prmoRDjOQ9LwZITNMPkf9I/ft/
+ B1ZYmIJ0PrOBsg9I8q2icagcgLLcIihKMnA8MQkaf5iST1bORyWVq4CfBCl5pyIAmFyD
+ 7HCGGReNyyHdaD1uehVrYqE6G1qF4JlCZ9+0fUEEPLqqFJQPtsQUSWwWdIJpD4DV6Ys6
+ FnnC3MYcWoNaPazX7LIGQepmfKq6pebOt+mk6C5GQFCI91dZypMDFcZ3yBDr5oGsc9+W
+ nWMg==
+X-Gm-Message-State: AO0yUKXg4FZxE2YQeQX/Mt+gu/C8MGLkCsf2Jl63ImWZln75l7uxFh3Y
+ +M/um8Rm1rvcHzIz10q6MB0=
+X-Google-Smtp-Source: AK7set8tcZtkZgBJfviPJiijpf/jgXSyRRYZipCTkYOoVFQ1BwWR16LZztk+fexRhEiooKfsxy6L5Q==
+X-Received: by 2002:a5d:6b4b:0:b0:2c3:ed18:2e96 with SMTP id
+ x11-20020a5d6b4b000000b002c3ed182e96mr21563242wrw.13.1676302319915; 
+ Mon, 13 Feb 2023 07:31:59 -0800 (PST)
+Received: from [192.168.12.67] (54-240-197-239.amazon.com. [54.240.197.239])
+ by smtp.gmail.com with ESMTPSA id
+ k6-20020adfe8c6000000b002c55551e6e9sm3989925wrn.108.2023.02.13.07.31.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Feb 2023 07:31:59 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <28fc143f-2de8-b893-0abf-210b4c34a7f7@xen.org>
+Date: Mon, 13 Feb 2023 15:31:57 +0000
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 64MaFgs0r1osV6jCAFN_8TrDiRm8lArY
-X-Proofpoint-GUID: OvWjYZsMsc228ct39rLVPk5og35Dla_w
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-13_09,2023-02-13_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxscore=0
- impostorscore=0 malwarescore=0 phishscore=0 clxscore=1015 suspectscore=0
- bulkscore=0 adultscore=0 lowpriorityscore=0 mlxlogscore=999
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302130136
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v10 44/59] hw/xen: Support mapping grant frames
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
+References: <20230201143148.1744093-1-dwmw2@infradead.org>
+ <20230201143148.1744093-45-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20230201143148.1744093-45-dwmw2@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.345, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,84 +103,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 2023-02-13 at 08:08 +0100, Philippe Mathieu-Daud=C3=A9 wrote:
-> Use the VFIO_CCW() QOM type-checking macro to avoid DO_UPCAST().
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+On 01/02/2023 14:31, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
+> 
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
-> =C2=A0hw/vfio/ccw.c | 35 ++++++++++++++++-------------------
-> =C2=A01 file changed, 16 insertions(+), 19 deletions(-)
->=20
-> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-> index 0354737666..a8aa5b48c4 100644
-> --- a/hw/vfio/ccw.c
-> +++ b/hw/vfio/ccw.c
+>   hw/i386/kvm/xen_gnttab.c  | 74 ++++++++++++++++++++++++++++++++++++++-
+>   hw/i386/kvm/xen_overlay.c |  2 +-
+>   hw/i386/kvm/xen_overlay.h |  2 ++
+>   3 files changed, 76 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/i386/kvm/xen_gnttab.c b/hw/i386/kvm/xen_gnttab.c
+> index ef8857e50c..cd8c3ae60d 100644
+> --- a/hw/i386/kvm/xen_gnttab.c
+> +++ b/hw/i386/kvm/xen_gnttab.c
+> @@ -37,13 +37,27 @@ OBJECT_DECLARE_SIMPLE_TYPE(XenGnttabState, XEN_GNTTAB)
+>   #define XEN_PAGE_SHIFT 12
+>   #define XEN_PAGE_SIZE (1ULL << XEN_PAGE_SHIFT)
+>   
+> +#define ENTRIES_PER_FRAME_V1 (XEN_PAGE_SIZE / sizeof(grant_entry_v1_t))
+> +#define ENTRIES_PER_FRAME_V2 (XEN_PAGE_SIZE / sizeof(grant_entry_v2_t))
+> +
+>   struct XenGnttabState {
+>       /*< private >*/
+>       SysBusDevice busdev;
+>       /*< public >*/
+>   
+> +    QemuMutex gnt_lock;
+> +
+>       uint32_t nr_frames;
+>       uint32_t max_frames;
+> +
+> +    union {
+> +        grant_entry_v1_t *v1;
+> +        grant_entry_v2_t *v2;
+> +    } entries;
+> +
 
-...snip...
+If you want to have v2 support, don't you need status frames too?
 
-> @@ -252,8 +248,8 @@ again:
-> =C2=A0static void vfio_ccw_reset(DeviceState *dev)
-> =C2=A0{
-> =C2=A0=C2=A0=C2=A0=C2=A0 CcwDevice *ccw_dev =3D DO_UPCAST(CcwDevice, pare=
-nt_obj, dev);
+   Paul
 
-If I'm not mistaken, I believe that this (and (un)realize below) could
-be changed to:
-
-   CcwDevice *ccw_dev =3D CCW_DEVICE(dev);
-
-> -=C2=A0=C2=A0=C2=A0 S390CCWDevice *cdev =3D DO_UPCAST(S390CCWDevice, pare=
-nt_obj,
-> ccw_dev);
-> -=C2=A0=C2=A0=C2=A0 VFIOCCWDevice *vcdev =3D DO_UPCAST(VFIOCCWDevice, cde=
-v, cdev);
-> +=C2=A0=C2=A0=C2=A0 S390CCWDevice *cdev =3D S390_CCW_DEVICE(ccw_dev);
-> +=C2=A0=C2=A0=C2=A0 VFIOCCWDevice *vcdev =3D VFIO_CCW(cdev);
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 ioctl(vcdev->vdev.fd, VFIO_DEVICE_RESET);
-> =C2=A0}
-
-...snip...
-
-> @@ -657,9 +654,9 @@ static void vfio_ccw_realize(DeviceState *dev,
-> Error **errp)
-> =C2=A0{
-> =C2=A0=C2=A0=C2=A0=C2=A0 VFIOGroup *group;
-> =C2=A0=C2=A0=C2=A0=C2=A0 CcwDevice *ccw_dev =3D DO_UPCAST(CcwDevice, pare=
-nt_obj, dev);
-> -=C2=A0=C2=A0=C2=A0 S390CCWDevice *cdev =3D DO_UPCAST(S390CCWDevice, pare=
-nt_obj,
-> ccw_dev);
-> -=C2=A0=C2=A0=C2=A0 VFIOCCWDevice *vcdev =3D DO_UPCAST(VFIOCCWDevice, cde=
-v, cdev);
-> +=C2=A0=C2=A0=C2=A0 S390CCWDevice *cdev =3D S390_CCW_DEVICE(ccw_dev);
-> =C2=A0=C2=A0=C2=A0=C2=A0 S390CCWDeviceClass *cdc =3D S390_CCW_DEVICE_GET_=
-CLASS(cdev);
-> +=C2=A0=C2=A0=C2=A0 VFIOCCWDevice *vcdev =3D VFIO_CCW(cdev);
-> =C2=A0=C2=A0=C2=A0=C2=A0 Error *err =3D NULL;
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 /* Call the class init function for subchannel. =
-*/
-> @@ -729,9 +726,9 @@ out_err_propagate:
-> =C2=A0static void vfio_ccw_unrealize(DeviceState *dev)
-> =C2=A0{
-> =C2=A0=C2=A0=C2=A0=C2=A0 CcwDevice *ccw_dev =3D DO_UPCAST(CcwDevice, pare=
-nt_obj, dev);
-> -=C2=A0=C2=A0=C2=A0 S390CCWDevice *cdev =3D DO_UPCAST(S390CCWDevice, pare=
-nt_obj,
-> ccw_dev);
-> -=C2=A0=C2=A0=C2=A0 VFIOCCWDevice *vcdev =3D DO_UPCAST(VFIOCCWDevice, cde=
-v, cdev);
-> +=C2=A0=C2=A0=C2=A0 S390CCWDevice *cdev =3D S390_CCW_DEVICE(ccw_dev);
-> =C2=A0=C2=A0=C2=A0=C2=A0 S390CCWDeviceClass *cdc =3D S390_CCW_DEVICE_GET_=
-CLASS(cdev);
-> +=C2=A0=C2=A0=C2=A0 VFIOCCWDevice *vcdev =3D VFIO_CCW(cdev);
-> =C2=A0=C2=A0=C2=A0=C2=A0 VFIOGroup *group =3D vcdev->vdev.group;
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW=
-_REQ_IRQ_INDEX);
+> +    MemoryRegion gnt_frames;
+> +    MemoryRegion *gnt_aliases;
+> +    uint64_t *gnt_frame_gpas;
+>   };
+>   
 
 
