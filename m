@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35F22694EC4
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 19:05:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6D1D694EC0
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 19:05:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRdAi-0003EX-Ml; Mon, 13 Feb 2023 13:03:24 -0500
+	id 1pRdAi-0003BU-0C; Mon, 13 Feb 2023 13:03:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1pRdAZ-00037e-FQ; Mon, 13 Feb 2023 13:03:18 -0500
+ id 1pRdAZ-00037c-2S; Mon, 13 Feb 2023 13:03:17 -0500
 Received: from bg4.exmail.qq.com ([43.155.65.254])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1pRdAW-0001Io-Ie; Mon, 13 Feb 2023 13:03:14 -0500
-X-QQ-mid: bizesmtp62t1676311368tu64a876
+ id 1pRdAW-0001KP-2j; Mon, 13 Feb 2023 13:03:14 -0500
+X-QQ-mid: bizesmtp62t1676311371tk4fexa2
 Received: from pek-vx-bsp2.wrs.com ( [60.247.85.88])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 14 Feb 2023 02:02:46 +0800 (CST)
+ id ; Tue, 14 Feb 2023 02:02:50 +0800 (CST)
 X-QQ-SSF: 01200000000000C0D000000A0000000
-X-QQ-FEAT: swyrzWPvyR2fBUeCR/eoHkWfnX3baPGJZSKsqfvd+RVyEdHiRszLxR4E025lH
- AnzmacmydeXmEVxQMzpAMevCTEFA5y90VyKjXATzqzrKjFk5C7eT9MxkNkT0TqWOE7cOBSe
- +3/pk3JCgSo26/jO/JnRvr9tar0OR9ZluVNe14MDkDbU0kpq8tJ0QquzC/eP4qHsCFZ3iaA
- OKqPpDW8h4W6dDOWsepUmWlmiYzv17p4rB1GRjStU7/uSHvR0lVY6E1n+71zn3sURdxFfEy
- ruRH9McNDLuabXT2Swug8k8d3bkIBgG4amHWMc1qPY1OJTlBu6y/Vz7MqL3TXAUN2seqCvz
- gkE09DUyp+wfmGcysOFylKMHXlyKnXxKBd63NEHFUIRr1zAVpU=
+X-QQ-FEAT: XBN7tc9DADLyWcuVMnJZzYC19WYF/g/i9wmIl7DusTAioJdVRtZ+CMhJhVc0b
+ hPMjS4U0nG6IflckWv8DJXqHHJf7SrMSAKw3IEYiLVBj2v+ecU1zcTXjPGyytYnL+eRyUGm
+ y5Lea+e4yXDtjYmndAKwAIh447MZBIusYRlVXs2SNtf6+4e4ukgj0L0EbqZ2ZjsavGInfkY
+ oIiRwCPsUE6ZBhjCTHr688jaYCGRcprbyULYmvhga5Ok4o11r/8GTHo96YRBtg1fl5seeiw
+ H4bZkITopOYnfM3R/exloSazKwtNcPKphCmSQlwR0eSz3khJ6IgjeC73eXBvoBkAaiCJW/S
+ OXWnJVCi5JkVGADjeTh8TgttpYb+4kNhdDvrkzUYDEgtn+HFP0=
 X-QQ-GoodBg: 0
 From: Bin Meng <bmeng@tinylab.org>
 To: qemu-devel@nongnu.org
@@ -36,10 +36,10 @@ Cc: Alistair Francis <alistair.francis@wdc.com>,
  Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
  Palmer Dabbelt <palmer@dabbelt.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
  qemu-riscv@nongnu.org
-Subject: [PATCH 02/18] target/riscv: Correct the priority policy of
- riscv_csrrw_check()
-Date: Tue, 14 Feb 2023 02:01:58 +0800
-Message-Id: <20230213180215.1524938-3-bmeng@tinylab.org>
+Subject: [PATCH 03/18] target/riscv: gdbstub: Minor change for better
+ readability
+Date: Tue, 14 Feb 2023 02:01:59 +0800
+Message-Id: <20230213180215.1524938-4-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230213180215.1524938-1-bmeng@tinylab.org>
 References: <20230213180215.1524938-1-bmeng@tinylab.org>
@@ -69,44 +69,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The priority policy of riscv_csrrw_check() was once adjusted in
-commit eacaf4401956 ("target/riscv: Fix priority of csr related check in riscv_csrrw_check")
-whose commit message says the CSR existence check should come
-before the access control check, but the code changes did not
-agree with the commit message, that the predicate() check came
-after the read / write check.
+Use a variable 'base_reg' to represent cs->gdb_num_regs so that
+the call to ricsv_gen_dynamic_vector_xml() can be placed in one
+single line for better readability.
 
-Fixes: eacaf4401956 ("target/riscv: Fix priority of csr related check in riscv_csrrw_check")
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 ---
 
- target/riscv/csr.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ target/riscv/gdbstub.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 1b0a0c1693..c2dd9d5af0 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -3793,15 +3793,15 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
-         return RISCV_EXCP_ILLEGAL_INST;
+diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+index e57372db38..704f3d6922 100644
+--- a/target/riscv/gdbstub.c
++++ b/target/riscv/gdbstub.c
+@@ -385,9 +385,9 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
+                                  32, "riscv-32bit-fpu.xml", 0);
      }
- 
--    if (write_mask && read_only) {
--        return RISCV_EXCP_ILLEGAL_INST;
--    }
--
-     RISCVException ret = csr_ops[csrno].predicate(env, csrno);
-     if (ret != RISCV_EXCP_NONE) {
-         return ret;
+     if (env->misa_ext & RVV) {
++        int base_reg = cs->gdb_num_regs;
+         gdb_register_coprocessor(cs, riscv_gdb_get_vector, riscv_gdb_set_vector,
+-                                 ricsv_gen_dynamic_vector_xml(cs,
+-                                                              cs->gdb_num_regs),
++                                 ricsv_gen_dynamic_vector_xml(cs, base_reg),
+                                  "riscv-vector.xml", 0);
      }
- 
-+    if (write_mask && read_only) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+
- #if !defined(CONFIG_USER_ONLY)
-     int csr_priv, effective_priv = env->priv;
- 
+     switch (env->misa_mxl_max) {
 -- 
 2.25.1
 
