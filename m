@@ -2,42 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9668C6942E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 11:32:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A6069435D
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 11:46:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRW7j-0002pW-6F; Mon, 13 Feb 2023 05:31:51 -0500
+	id 1pRWKL-0008Lf-Dh; Mon, 13 Feb 2023 05:44:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1pRW7b-0002mi-Nh; Mon, 13 Feb 2023 05:31:47 -0500
-Received: from relay.virtuozzo.com ([130.117.225.111])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pRWKJ-0008KD-6X
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 05:44:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1pRW7Y-0003Lx-RY; Mon, 13 Feb 2023 05:31:42 -0500
-Received: from [192.168.16.24] (helo=iris.sw.ru)
- by relay.virtuozzo.com with esmtp (Exim 4.95)
- (envelope-from <den@openvz.org>) id 1pRW7T-007XSn-05;
- Mon, 13 Feb 2023 11:31:35 +0100
-From: "Denis V. Lunev" <den@openvz.org>
-To: qemu-block@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: "Denis V. Lunev" <den@openvz.org>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Subject: [PATCH 1/1] block: improve error logging in bdrv_reopen_prepare()
-Date: Mon, 13 Feb 2023 11:31:34 +0100
-Message-Id: <20230213103134.1703111-1-den@openvz.org>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pRWKH-0008CZ-90
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 05:44:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676285087;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ziLjCOJgEDf0tULa8l2ZDPX+dJ/uuePOBzXFfE2NoLQ=;
+ b=K2RjXHGChU7ny7c6ZnuORellaKTZj/kKwBbdugdTls08SNmj54MWKWPZe6g+w3Oiw//4/p
+ pgHKgzQJTHeQoK9s5db33uHC22XPUj+ti5vQvjD4zvRXP2MtYAmlANNgS/DfgjIXI+kiVA
+ DGu8Cjp6N1lqLVaUt5otIZy+WSMgByY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-315-IXnZgaQlN0elMttBhc4p-A-1; Mon, 13 Feb 2023 05:44:43 -0500
+X-MC-Unique: IXnZgaQlN0elMttBhc4p-A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 07BFD100F906;
+ Mon, 13 Feb 2023 10:44:43 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.95])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 48C4C18EC5;
+ Mon, 13 Feb 2023 10:44:39 +0000 (UTC)
+Date: Mon, 13 Feb 2023 11:44:37 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-devel@nongnu.org, Warner Losh <imp@bsdimp.com>,
+ Kyle Evans <kevans@freebsd.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 0/3]  TSA: make sure QEMU compiles when using clang TSA
+Message-ID: <Y+oUlQrpTCut8L8Y@redhat.com>
+References: <20230117135203.3049709-1-eesposit@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=130.117.225.111; envelope-from=den@openvz.org;
- helo=relay.virtuozzo.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230117135203.3049709-1-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -54,98 +80,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The error generated when the option could not be changed inside
-bdrv_reopen_prepare() does not give a clue about problematic
-BlockDriverState as we could get very long tree of devices.
+Am 17.01.2023 um 14:52 hat Emanuele Giuseppe Esposito geschrieben:
+> This serie aims to enable clang Thread Safety Analysis (TSA) in QEMU.
+> The goal is to use it for our multiqueue project aiming to replace the
+> block layer AioContext lock with a rwlock and make sure the lock is taken
+> correctly everywhere [1].
+> 
+> By default, TSA covers pthread mutexes, therefore when added in QEMU it
+> immediately detects some wrappers using pthread_mutex_lock/unlock without
+> using the proper TSA macros. Since adding such macro requires scanning all
+> possible callers of the affected wrapper, simply use TSA_NO_TSA to suppress
+> the warnings.
+> 
+> [1] = https://lists.gnu.org/archive/html/qemu-devel/2022-12/msg00903.html
 
-The patch adds node name to the error report in the same way as done
-above.
+Thanks, changed the commit messages as discussed and applied to my block
+branch.
 
-Signed-off-by: Denis V. Lunev <den@openvz.org>
-CC: Kevin Wolf <kwolf@redhat.com>
-CC: Hanna Reitz <hreitz@redhat.com>
-CC: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
----
- block.c                    |  4 +++-
- tests/qemu-iotests/133     | 12 ++++++------
- tests/qemu-iotests/133.out | 12 ++++++------
- 3 files changed, 15 insertions(+), 13 deletions(-)
-
-diff --git a/block.c b/block.c
-index b4a89207ad..0da38652c3 100644
---- a/block.c
-+++ b/block.c
-@@ -4828,7 +4828,9 @@ static int bdrv_reopen_prepare(BDRVReopenState *reopen_state,
-              * so they will stay unchanged.
-              */
-             if (!qobject_is_equal(new, old)) {
--                error_setg(errp, "Cannot change the option '%s'", entry->key);
-+                error_setg(errp, "Cannot change the option '%s' on '%s'",
-+                           entry->key,
-+                           bdrv_get_device_or_node_name(reopen_state->bs));
-                 ret = -EINVAL;
-                 goto error;
-             }
-diff --git a/tests/qemu-iotests/133 b/tests/qemu-iotests/133
-index d997db1685..63fd9886ad 100755
---- a/tests/qemu-iotests/133
-+++ b/tests/qemu-iotests/133
-@@ -47,9 +47,9 @@ echo
- echo "=== Check that node-name can't be changed ==="
- echo
- 
--$QEMU_IO -c 'reopen -o node-name=foo' $TEST_IMG
--$QEMU_IO -c 'reopen -o file.node-name=foo' $TEST_IMG
--$QEMU_IO -c 'reopen -o backing.node-name=foo' $TEST_IMG
-+$QEMU_IO -c 'reopen -o node-name=foo' $TEST_IMG 2>&1 | _filter_generated_node_ids
-+$QEMU_IO -c 'reopen -o file.node-name=foo' $TEST_IMG 2>&1 | _filter_generated_node_ids
-+$QEMU_IO -c 'reopen -o backing.node-name=foo' $TEST_IMG 2>&1 | _filter_generated_node_ids
- 
- echo
- echo "=== Check that unchanged node-name is okay ==="
-@@ -69,9 +69,9 @@ echo
- echo "=== Check that driver can't be changed ==="
- echo
- 
--$QEMU_IO -c 'reopen -o driver=raw' $TEST_IMG
--$QEMU_IO -c 'reopen -o file.driver=qcow2' $TEST_IMG
--$QEMU_IO -c 'reopen -o backing.driver=file' $TEST_IMG
-+$QEMU_IO -c 'reopen -o driver=raw' $TEST_IMG 2>&1 | _filter_generated_node_ids
-+$QEMU_IO -c 'reopen -o file.driver=qcow2' $TEST_IMG 2>&1 | _filter_generated_node_ids
-+$QEMU_IO -c 'reopen -o backing.driver=file' $TEST_IMG 2>&1 | _filter_generated_node_ids
- 
- echo
- echo "=== Check that unchanged driver is okay ==="
-diff --git a/tests/qemu-iotests/133.out b/tests/qemu-iotests/133.out
-index d70c2e8041..26aad4a0fd 100644
---- a/tests/qemu-iotests/133.out
-+++ b/tests/qemu-iotests/133.out
-@@ -4,18 +4,18 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 backing_file=TEST_DIR/t
- 
- === Check that node-name can't be changed ===
- 
--qemu-io: Cannot change the option 'node-name'
--qemu-io: Cannot change the option 'node-name'
--qemu-io: Cannot change the option 'node-name'
-+qemu-io: Cannot change the option 'node-name' on 'NODE_NAME'
-+qemu-io: Cannot change the option 'node-name' on 'NODE_NAME'
-+qemu-io: Cannot change the option 'node-name' on 'NODE_NAME'
- 
- === Check that unchanged node-name is okay ===
- 
- 
- === Check that driver can't be changed ===
- 
--qemu-io: Cannot change the option 'driver'
--qemu-io: Cannot change the option 'driver'
--qemu-io: Cannot change the option 'driver'
-+qemu-io: Cannot change the option 'driver' on 'NODE_NAME'
-+qemu-io: Cannot change the option 'driver' on 'NODE_NAME'
-+qemu-io: Cannot change the option 'driver' on 'NODE_NAME'
- 
- === Check that unchanged driver is okay ===
- 
--- 
-2.34.1
+Kevin
 
 
