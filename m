@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53CBD693C53
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 03:31:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9636693C57
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 03:31:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRObH-0001es-UO; Sun, 12 Feb 2023 21:29:51 -0500
+	id 1pRObK-0001fz-KS; Sun, 12 Feb 2023 21:29:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pRObG-0001d8-HX
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:29:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pRObI-0001fO-GY
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:29:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pRObF-00037V-3t
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:29:50 -0500
+ id 1pRObH-00037l-0u
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:29:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676255388;
+ s=mimecast20190719; t=1676255390;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tSe+Gdu1AJDo4dQjmBB0UPRFbXEKMEpLnQVbJ+wkYp0=;
- b=jKXKO6meLxNJtFsUScFu2LmmQmbrP4JS94q1TP+bnlQOxg17ZwJS2K/GOJ2g101vl/DjVZ
- adIcomAp1nkcQ1R5wWK7bdE4XwD5kMLfRVWmGal1ZH52pp1zRe3vnLFbOgoQE/VR5s0iuR
- GFsAUVMfMp/lU3b1V2h2AsTkixcR8TE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=W0nw1KUXQEI1xmDznSZCB7Y0xnFRisWgzKRd5bzpoYs=;
+ b=izVUHUS6O72zYnoDEThDasLwdqv0y3xtZjyrF3HSf93hBmcfFZXRDGQc3imb+E5ywp/sc6
+ UPJ4RZUPlPuplXKNlAUHppZS+yvvltheKhNKHm2yJyOz6G5aiWPRRNa0ExHHNP5CJZ1dSS
+ vApo7CpwSHKvev3wI4czexF9uSeEV+E=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-537-xt6JjolzOhGCo1i8iU144g-1; Sun, 12 Feb 2023 21:29:47 -0500
-X-MC-Unique: xt6JjolzOhGCo1i8iU144g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- l38-20020a05600c1d2600b003ddff4b9a40so6033349wms.9
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 18:29:47 -0800 (PST)
+ us-mta-572-ER3vT6_LPK2RKfhHlnixcg-1; Sun, 12 Feb 2023 21:29:49 -0500
+X-MC-Unique: ER3vT6_LPK2RKfhHlnixcg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ j20-20020a05600c1c1400b003dc5dd44c0cso5417477wms.8
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 18:29:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=tSe+Gdu1AJDo4dQjmBB0UPRFbXEKMEpLnQVbJ+wkYp0=;
- b=20QXfmY4YTcQIVc268Po2Vhd5PQiCE1Iai+Zt5gfevFveDRjUJPHv1o0Wpl3JlNChR
- rUSCHU2vKbseTdLb2bUp84+DTqRM07C+WumUzf3AVuBv7F1IjKIdJXmIuIMWinOLnnVN
- VuIbOHLLWVOyMqY84Fnyn3YxZoCND9Cy/xwTRr8mUfm0HwDixLVG5h3U2Brf7GQQld9H
- 4SmRrorlw/r+kI+KHVz/pbeqaUmEPgP54nK929WeUh97LUVAClsPVAW0dE++IpC5tdOB
- oqFv1H8mFcwJ9QALHl/9wYGPPnb4pnvt852YwQ68pfEBSshC345kEtNcfbWs8GAZTFyx
- au3Q==
-X-Gm-Message-State: AO0yUKVNGvqQP4PdvM/Ex/cwl2Eul55+qvoTIhBkkqBgE/79a6ZWjcPS
- atVEPEd7QI+98b6dkVBr8H2Qzz5o3aH7A7dsx2/eIfh0T+2Owu9FDN6naeIzGy6oxjMnVrTdSHK
- 8xinQ44B8lppD1AIgQxu30Fy1fdXp2lS0v4KCzc+uE+5aWiLl/+xxINsuwb0WcqGGM8kAv40k
-X-Received: by 2002:adf:e608:0:b0:2c3:e0a0:93f with SMTP id
- p8-20020adfe608000000b002c3e0a0093fmr18298435wrm.8.1676255385554; 
- Sun, 12 Feb 2023 18:29:45 -0800 (PST)
-X-Google-Smtp-Source: AK7set+WKuAYOVOi5T8g/gwIH4YXlwRtin+i6T7IHgekqnQDqwh6cmXscxDcqMGyyd1yN/d6+Bf2LQ==
-X-Received: by 2002:adf:e608:0:b0:2c3:e0a0:93f with SMTP id
- p8-20020adfe608000000b002c3e0a0093fmr18298417wrm.8.1676255385331; 
- Sun, 12 Feb 2023 18:29:45 -0800 (PST)
+ bh=W0nw1KUXQEI1xmDznSZCB7Y0xnFRisWgzKRd5bzpoYs=;
+ b=2uDk0JPbVLVB2SKqWm3FqQvSHORTwlOMtRbSoH7vhq69op9evM2JKmDgpJvp86HC7y
+ j/BBg/4dbYAsIUBjKQZM1ICM+7jVhf4G6o840QE+uME0/qKUzX7b1YY19IcpIUQcrfi7
+ 4TliCi5+Cp8XfSEQ7gjRW8jwzO4z6bT3mwg8L+Szof0eBf+b7WQPWdE061QZ8HZXVhQg
+ slwMvR8ixvjwTQAyB5OAxqlaN/YpyqNNcyQCbPRkR+S7YgliQ5c9qnERD3iWHftZICHv
+ aRNHixce6hLHTbzoVMeEG6JZkZ39n+fQAGBwjclLJnBXPlA7TlytpshfAwtHqsF+wZfl
+ m8MQ==
+X-Gm-Message-State: AO0yUKUmkiXK9tFPBH0TcXUwaSug6+/Nv+S2IWChC4PpxbFrI8lBSxj0
+ t9mzOJ9hQvnFvfkjEGT1t4cf8KEhY459wh/+lENHOYOL3xfxHA6HV/6UuBPVCEzOaVJnwRfOUA/
+ /cFvv/dXHwVgMVgT2Lgan4mNVXMi/v8mp66EJfNFZSqXm76wf8e628dBsvKUerm6s1jshnxfk
+X-Received: by 2002:a5d:54c2:0:b0:2c5:5574:5d5f with SMTP id
+ x2-20020a5d54c2000000b002c555745d5fmr2753745wrv.57.1676255387500; 
+ Sun, 12 Feb 2023 18:29:47 -0800 (PST)
+X-Google-Smtp-Source: AK7set+IfMyiKrMVGyZxcMV28tfgSW1ky+Zg7v8is/7d+LHfzSAxPDuD2M7ITqxcYPHG9kILEX7i7g==
+X-Received: by 2002:a5d:54c2:0:b0:2c5:5574:5d5f with SMTP id
+ x2-20020a5d54c2000000b002c555745d5fmr2753729wrv.57.1676255387278; 
+ Sun, 12 Feb 2023 18:29:47 -0800 (PST)
 Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- h16-20020a5d6890000000b002c553509db7sm2979924wru.52.2023.02.12.18.29.44
+ h18-20020a5d4312000000b002c54d970fd8sm5217585wrq.36.2023.02.12.18.29.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Feb 2023 18:29:44 -0800 (PST)
+ Sun, 12 Feb 2023 18:29:46 -0800 (PST)
 From: Xxx Xx <quintela@redhat.com>
 X-Google-Original-From: Xxx Xx <xxx.xx@gmail.com>
 To: qemu-devel@nongnu.org
@@ -73,16 +73,16 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Leonardo Bras <leobras@redhat.com>, Peter Xu <peterx@redhat.com>
-Subject: [PULL 19/22] migration/multifd: Remove unnecessary assignment on
- multifd_load_cleanup()
-Date: Mon, 13 Feb 2023 03:29:08 +0100
-Message-Id: <20230213022911.68490-20-xxx.xx@gmail.com>
+Subject: [PULL 20/22] migration/multifd: Join all multifd threads in order to
+ avoid leaks
+Date: Mon, 13 Feb 2023 03:29:09 +0100
+Message-Id: <20230213022911.68490-21-xxx.xx@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230213022911.68490-1-xxx.xx@gmail.com>
 References: <20230213022911.68490-1-xxx.xx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -108,32 +108,41 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Leonardo Bras <leobras@redhat.com>
 
-Before assigning "p->quit = true" for every multifd channel,
-multifd_load_cleanup() will call multifd_recv_terminate_threads() which
-already does the same assignment, while protected by a mutex.
+Current approach will only join threads that are still running.
 
-So there is no point doing the same assignment again.
+For the threads not joined, resources or private memory are always kept in
+the process space and never reclaimed before process end, and this risks
+serious memory leaks.
+
+This should usually not represent a big problem, since multifd migration
+is usually just ran at most a few times, and after it succeeds there is
+not much to be done before exiting the process.
+
+Yet still, it should not hurt performance to join all of them.
 
 Signed-off-by: Leonardo Bras <leobras@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Reviewed-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/multifd.c | 1 -
- 1 file changed, 1 deletion(-)
+ migration/multifd.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/migration/multifd.c b/migration/multifd.c
-index cac8496edc..3dd569d0c9 100644
+index 3dd569d0c9..840d5814e4 100644
 --- a/migration/multifd.c
 +++ b/migration/multifd.c
-@@ -1025,7 +1025,6 @@ void multifd_load_cleanup(void)
-         MultiFDRecvParams *p = &multifd_recv_state->params[i];
- 
-         if (p->running) {
--            p->quit = true;
-             /*
-              * multifd_recv_thread may hung at MULTIFD_FLAG_SYNC handle code,
+@@ -1030,8 +1030,9 @@ void multifd_load_cleanup(void)
               * however try to wakeup it without harm in cleanup phase.
+              */
+             qemu_sem_post(&p->sem_sync);
+-            qemu_thread_join(&p->thread);
+         }
++
++        qemu_thread_join(&p->thread);
+     }
+     for (i = 0; i < migrate_multifd_channels(); i++) {
+         MultiFDRecvParams *p = &multifd_recv_state->params[i];
 -- 
 2.39.1
 
