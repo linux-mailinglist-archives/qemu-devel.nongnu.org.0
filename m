@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C596941FB
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:52:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1479694214
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:57:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVQk-0003pm-IL; Mon, 13 Feb 2023 04:47:26 -0500
+	id 1pRVQs-00040J-AF; Mon, 13 Feb 2023 04:47:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVQf-0003iW-CN
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:47:21 -0500
+ id 1pRVQm-0003w2-Dd
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:47:28 -0500
 Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVQa-0002n2-Nk
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:47:20 -0500
+ id 1pRVQf-0002kj-Rd
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:47:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676281636; x=1707817636;
+ t=1676281641; x=1707817641;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=gNTP7tofs2TK91IKiUrDYmJLPEIRl+0PcGF1dFFrCtU=;
- b=CN2Yp6YH9rB0uvdNM60lLXNWzIRg1hW8fGXb+uCJ0eDxkuPinQzdEqfP
- 95mpn2pkiu91DZSPzkzIlYzB7IJYbq5eDN3AR0NTrw7/j2wJQmCNoXGDP
- wfBkIojRutE4RYasUWUCB6/oTc/Nb++spVR+GGXX5LUeQGDgRxdhpBTYg
- MJQo06dmcev1VOaSozIe9nukh1X/VTEL2hQ0CGdjVrEDHv10dim4SqW7o
- HUJBUBJpOj/mUCJEppSdBWhdx8zN/dvbt79ptrqIQMWZwnDRe8rYu/pSo
- f0KpJFwXQIvtms6ugAMYJxsEtp57c84RftYfHvtb9k/+rj50sY0WvgsLx Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310487306"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310487306"
+ bh=IWiRdBHGXgojFO0IqMVUTsFru4z7jqsB2wt3kc9yKJY=;
+ b=U/mi6v0PpN1LOT4+rVP0hBq522j67e2kMVoBXnvFLlbNuOKVBHf7e0mc
+ f3+dyKu+Twy6IGolZNuWpQ3DeCvVOxT9Wp0CzfyNVTVLlEkh/DXVKY86s
+ Nvj7IoDVkwmPyaoai8GK/xhPWBDuAUfiMBnkYdyDpjmHkDnDWrBXMGdYN
+ 6TKlNSgJn55nUG6jy51h7BPbd2jrLpIev3U8H5ImGL7hFkKAcsRM2PZmS
+ uX2hTL6tIxD6VvYuUDzPoXbuU1gffzVfHN8GKHLExfIZ8DJYCpd+9gFxY
+ 1HgBzIeXOoMguUN+VTZ/ltjDxx3jFWPtx7/5v6jVP9/ts8wocQgGV+eBG g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310487320"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310487320"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 01:46:19 -0800
+ 13 Feb 2023 01:46:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670760697"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670760697"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670760701"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670760701"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:46:15 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:46:19 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -55,9 +55,9 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
  Zhao Liu <zhao1.liu@intel.com>
-Subject: [RFC 50/52] qemu-options: Add the document of hybrid command
-Date: Mon, 13 Feb 2023 17:50:33 +0800
-Message-Id: <20230213095035.158240-51-zhao1.liu@linux.intel.com>
+Subject: [RFC 51/52] qapi: Expose CPU topology info in query_cpus_fast
+Date: Mon, 13 Feb 2023 17:50:34 +0800
+Message-Id: <20230213095035.158240-52-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
@@ -88,102 +88,131 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
-Added the detailed introduction to the four hybrid options with specific
-examples.
+The topology type and core type are useful to users, so expose them
+in query_cpus_fast.
+
+Since the hybrid core is pre-set and does not support hotplug for
+the entire core, the topology type and core type are not exposed in
+query-hotpluggable-cpus.
 
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- qemu-options.hx | 77 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
+ hw/core/machine-qmp-cmds.c | 11 +++++++++++
+ hw/core/machine-topo.c     |  5 +++++
+ include/hw/boards.h        |  5 +++++
+ qapi/machine.json          | 19 +++++++++++++++++--
+ 4 files changed, 38 insertions(+), 2 deletions(-)
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 8987972a8d5f..2bc7a5ed51ed 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -5611,7 +5611,84 @@ DEF("hybrid", HAS_ARG, QEMU_OPTION_hybrid,
-     "-hybrid cluster,clusters=n"
-     "-hybrid core,cores=n,coretype=core_type[,threads=threads][,clusterid=cluster]",
-     QEMU_ARCH_ALL)
-+SRST
-+``-hybrid socket,sockets=n``
-+  \
-+``-hybrid die,dies=n``
-+  \
-+``-hybrid cluster,clusters=n``
-+  \
-+``-hybrid core,cores=n,coretype=core_type[,threads=threads][,clusterid=cluster]``
-+    Define a hybrid cpu topology. Currently, only i386 PC machine supports this command.
-+
-+    There're 4 levels need to be configured: socket, die, cluster and core. And the
-+    thread level is included in core level configuration.
-+
-+    Hybrid and smp cannot be set at the same time.
-+
-+    As for now, hybrid cpu topology only supports differences between the core and cluster
-+    levels (please note the differences between clusters is caused by containing different
-+    cores), and it assumes threads, dies and sockets are the same.
-+
-+    These four level options must be written in the order of "socket, die, cluster, core".
-+
-+    For example, the following options assigns 12 VCPUs which contains 8 Intel Atom cores
-+    and 2 Intel Core cores.
-+
-+    ::
-+
-+        -hybrid socket,sockets=1    \
-+        -hybrid die,dies=1          \
-+        -hybrid cluster,clusters=4  \
-+        -hybrid core,cores=1,coretype="core",threads=2,clusterid=0-1    \
-+        -hybrid core,cores=4,coretype="atom",threads=1,clusterid=2-3
-+
-+    '\ ``socket``\ ' option is used to configure how many sockets in the machine. Here
-+    '\ ``sockets``\ ' means the number of sockets in the machine. If this option is not
-+    set, the default is only 1 socket.
-+
-+    For example:
-+
-+    ::
-+
-+        -hybrid socket,sockets=1
+diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+index 44b5da888024..6be7148a8374 100644
+--- a/hw/core/machine-qmp-cmds.c
++++ b/hw/core/machine-qmp-cmds.c
+@@ -67,6 +67,17 @@ CpuInfoFastList *qmp_query_cpus_fast(Error **errp)
+             value->props = props;
+         }
  
-+    '\ ``die``\ ' option is used to configure how many dies in one socket. Here
-+    '\ ``dies``\ ' means the number of dies in one socket. If this option is not
-+    set, the default is only 1 die per socket.
++        if (mc->cpu_index_to_core_type) {
++            CpuTopoInfo *topo;
++            const char *core_type;
 +
-+    For example:
++            topo = g_malloc0(sizeof(CpuTopoInfo));
++            topo->topo_type = machine_topo_get_type(ms);
++            core_type = mc->cpu_index_to_core_type(ms, cpu->cpu_index);
++            topo->core_type = g_strdup(core_type);
++            value->topo = topo;
++        }
 +
-+    ::
-+
-+        -hybrid die,dies=1
-+
-+    '\ ``cluster``\ ' option is used to configure how many clusters in one die. Here
-+    '\ ``clusters``\ ' means the number of clusters in one die. If this option is not
-+    set, the default is only 1 cluster per die.
-+
-+    For example:
-+
-+    ::
-+
-+        -hybrid cluster,clusters=1
-+
-+    '\ ``core``\ ' option is used to configure hybrid core topology. Here '\ ``cores``\ '
-+    means the number of current type cores in one cluster. '\ ``coretype``\ ' means the
-+    type of the current core. '\ ``threads``\ ' means how many threads in one current type
-+    core (the default is 1 thread per current core). And '\ ``clusterid``\ ' means the cluster
-+    index list that the current type core belongs to (the default is all clusters have current
-+    type cores). This option cannot be omitted.
-+
-+    For i386 PC machine, the supported '\ ``coretype``\ ' are "atom" and "core".
-+
-+    For example (clusters=4):
-+
-+    ::
-+
-+        -hybrid core,cores=1,coretype="core",threads=2,clusterid=0-1,clusterid=3    \
-+        -hybrid core,cores=4,coretype="atom",threads=1,clusterid=2
-+ERST
+         value->target = target;
+         if (target == SYS_EMU_TARGET_S390X) {
+             cpustate_to_cpuinfo_s390(&value->u.s390x, cpu);
+diff --git a/hw/core/machine-topo.c b/hw/core/machine-topo.c
+index f38b8c683026..f0ff550a2519 100644
+--- a/hw/core/machine-topo.c
++++ b/hw/core/machine-topo.c
+@@ -177,6 +177,11 @@ unsigned int machine_topo_get_threads_per_socket(const MachineState *ms)
+     return ms->topo.max_cpus / sockets;
+ }
  
- HXCOMM This is the last statement. Insert new options before this line!
++CpuTopoType machine_topo_get_type(const MachineState *ms)
++{
++    return ms->topo.topo_type;
++}
++
+ void machine_init_topology_default(MachineState *ms, bool smp)
+ {
+     MachineClass *mc = MACHINE_GET_CLASS(ms);
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index c93bb1206244..d925e8af9ed6 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -239,6 +239,8 @@ typedef struct {
+  *    purposes only.
+  *    Applies only to default memory backend, i.e., explicit memory backend
+  *    wasn't used.
++ * @cpu_index_to_core_type:
++ *    Return the core_type of specified CPU with @cpu_index.
+  */
+ struct MachineClass {
+     /*< private >*/
+@@ -305,6 +307,8 @@ struct MachineClass {
+     const CPUArchIdList *(*possible_cpu_arch_ids)(MachineState *machine);
+     int64_t (*get_default_cpu_node_id)(const MachineState *ms, int idx);
+     ram_addr_t (*fixup_ram_size)(ram_addr_t size);
++    const char *(*cpu_index_to_core_type)(MachineState *machine,
++                                          unsigned cpu_index);
+ };
+ 
+ /**
+@@ -496,5 +500,6 @@ unsigned int machine_topo_get_cores_by_idx(const MachineState *ms,
+                                            unsigned int cpu_index);
+ unsigned int machine_topo_get_cores_per_socket(const MachineState *ms);
+ unsigned int machine_topo_get_threads_per_socket(const MachineState *ms);
++CpuTopoType machine_topo_get_type(const MachineState *ms);
+ 
+ #endif
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 931c6dea9819..e86778b7a777 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -40,7 +40,6 @@
+ # @CpuTopoType:
+ #
+ # An enumeration of cpu topology type
+-# TODO: Expose topology type in query-cpus-fast
+ #
+ # Since: 8.0
+ ##
+@@ -48,6 +47,21 @@
+   'prefix': 'CPU_TOPO_TYPE',
+   'data': [ 'smp', 'hybrid' ] }
+ 
++##
++# @CpuTopoInfo:
++#
++# Additional information about basic CPU topology
++#
++# @topo-type: the type of CPU topology
++#
++# @core-type: the type of CPU core
++#
++# Since: 8.0
++##
++{ 'struct' : 'CpuTopoInfo',
++  'data'   : { 'topo-type': 'CpuTopoType',
++               'core-type': 'str'} }
++
+ ##
+ # @CpuS390State:
+ #
+@@ -95,7 +109,8 @@
+                       'qom-path'     : 'str',
+                       'thread-id'    : 'int',
+                       '*props'       : 'CpuInstanceProperties',
+-                      'target'       : 'SysEmuTarget' },
++                      'target'       : 'SysEmuTarget',
++                      '*topo'         : 'CpuTopoInfo' },
+   'discriminator' : 'target',
+   'data'          : { 's390x'        : 'CpuInfoS390' } }
  
 -- 
 2.34.1
