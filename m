@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C726941E9
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:50:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CECF7694213
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:57:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVQC-0002lu-Pa; Mon, 13 Feb 2023 04:46:52 -0500
+	id 1pRVQD-0002qU-Iw; Mon, 13 Feb 2023 04:46:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVPs-00027L-K3
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:46:34 -0500
+ id 1pRVPw-0002F2-75
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:46:37 -0500
 Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVPk-0002o2-SG
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:46:30 -0500
+ id 1pRVPk-0002n2-SN
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:46:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1676281584; x=1707817584;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=QeD+vK4so9MELduw52hWTL0ikN2+DglvZKSq12m5+oI=;
- b=ItKY1GzAbVcbwWI7g92DyDdhCAVSEiza9SpAh4Yd4CxMmj1Sc57IaxJz
- iiQfSPYs8a0Z8ifI6xPwIZcwfIHQCSIA9hI4+hsmanzEjPgRxtPpsZWIo
- E29+2RKBS6tmIykvTRt0vn7dNB/54d9LB68etqRqMzDa3IqzhAoPlkBaE
- PSYMP4zJNpGTXLRCNsYXH5RbEgvA6tamZsLH+K+YboJ2Olacb7KFGeFZ/
- 4Dx/AaVPCorGcQcUFN72Yx2MzyXkWB82o/02XlYCvesF4CckMn++9afHI
- r3KrJ5oYeLut3vgjalX7dzyXKELLwzTAod+YrX22O2Vj9nGzpl/VoN2dM w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310487127"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310487127"
+ bh=7e0HqmBGarsYKxE3WIICOxyMlzjga2EZEcRvyGGYmpE=;
+ b=a4nKG/G7Xz4F4RhDW8jbikLdyMWG6+yvuYos3Pv+blBtW6P3AnH0Otuv
+ H7GHhbAVvzUiAkEWAySrMB5Z8Cv+2RwkP0oYrJ3lgBXPi7ENYjcPVeNBv
+ OPC69w7Dov0Cw1vScxqfTVVDTgaYLIyBEsxluyphcQ/mWYxIyDfFsUTCm
+ CIe156jlKH+Dvhy2WDbZ8kMIoI+OU9u0Z//NdXmAMfWn7w6cSBd9Ho5yB
+ 99dm/uPKvx6rjgHoNoHysk+LJbB7Iha9pyokH4gNU4V3N/gHvzco9qRGS
+ Fhi2DQU5b90vD+/ScaQJyuBcsqthyYvimMV+36/iy2iuyJfzPuJssYAHd Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310487143"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310487143"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 01:45:41 -0800
+ 13 Feb 2023 01:45:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670760642"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670760642"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670760647"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670760647"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:45:38 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:45:41 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -55,9 +55,9 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
  Zhao Liu <zhao1.liu@intel.com>
-Subject: [RFC 40/52] qapi: Introduce hybrid options
-Date: Mon, 13 Feb 2023 17:50:23 +0800
-Message-Id: <20230213095035.158240-41-zhao1.liu@linux.intel.com>
+Subject: [RFC 41/52] machine: Introduce core_type() hook
+Date: Mon, 13 Feb 2023 17:50:24 +0800
+Message-Id: <20230213095035.158240-42-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
@@ -88,125 +88,119 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
-For hybrid cpu topology configuration, the original "-smp" lack of
-flexibility to expand, and unables to customize different cores.
+Since supported core types are architecture specific, we need this hook
+to allow archs define its own parsing or validation method.
 
-So we introduce "-hybrid" command:
--hybrid socket,sockets=n
--hybrid die,dies=n
--hybrid cluster,clusters=n
--hybrid core,cores=n,type=core_type[,threads=threads]
-        [,clusterid=cluster]
-
-Here, we first define the corresponding qapi options for these 4
-topology levels: core, cluster, die and socket.
-
-We doesn't need a thread level since thread doesn't have different
-type.
+As the example, add the x86 core_type() which will be used in "-hybrid"
+parameter parsing.
 
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- qapi/machine.json | 90 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 90 insertions(+)
+ hw/core/machine-topo.c | 14 ++++++++++++++
+ hw/core/machine.c      |  1 +
+ hw/i386/x86.c          | 15 +++++++++++++++
+ include/hw/boards.h    |  7 +++++++
+ 4 files changed, 37 insertions(+)
 
-diff --git a/qapi/machine.json b/qapi/machine.json
-index bd7303f34497..931c6dea9819 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -1694,3 +1694,93 @@
- { 'command': 'dumpdtb',
-   'data': { 'filename': 'str' },
-   'if': 'CONFIG_FDT' }
+diff --git a/hw/core/machine-topo.c b/hw/core/machine-topo.c
+index 12c05510c1b5..f9ab08a1252e 100644
+--- a/hw/core/machine-topo.c
++++ b/hw/core/machine-topo.c
+@@ -352,3 +352,17 @@ void machine_parse_smp_config(MachineState *ms,
+         return;
+     }
+ }
 +
-+##
-+# @HybridOptionsType:
-+#
-+# @socket: socket level configuration
-+#
-+# @die: die level configuration
-+#
-+# @cluster: cluster level configuration
-+#
-+# @core: core level configuration
-+#
-+# Since: 8.0
-+##
-+{ 'enum': 'HybridOptionsType',
-+     'data': [ 'socket', 'die', 'cluster', 'core' ] }
++/*
++ * machine_parse_hybrid_core_type: the default hook to parse hybrid core
++ *                                 type corresponding to the coretype
++ *                                 string option.
++ */
++int machine_parse_hybrid_core_type(MachineState *ms, const char *coretype)
++{
++    if (strcmp(coretype, "") == 0 || strcmp(coretype, "none") == 0) {
++        return 0;
++    }
 +
-+##
-+# @HybridOptions:
-+#
-+# A discriminated record of hybrid options. (for OptsVisitor)
-+#
-+# Since: 8.0
-+##
-+{ 'union': 'HybridOptions',
-+     'base': { 'type': 'HybridOptionsType' },
-+     'discriminator': 'type',
-+     'data': {
-+       'socket': 'HybridSocketOptions',
-+       'die': 'HybridDieOptions',
-+       'cluster': 'HybridClusterOptions',
-+       'core': 'HybridCoreOptions' }}
++    return -1;
++}
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index fad990f49b03..acc32b3be5f6 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -926,6 +926,7 @@ static void machine_class_init(ObjectClass *oc, void *data)
+      * On Linux, each node's border has to be 8MB aligned
+      */
+     mc->numa_mem_align_shift = 23;
++    mc->core_type = machine_parse_hybrid_core_type;
+ 
+     object_class_property_add_str(oc, "kernel",
+         machine_get_kernel, machine_set_kernel);
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index f381fdc43180..f58a90359170 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -1569,6 +1569,20 @@ static void machine_set_sgx_epc(Object *obj, Visitor *v, const char *name,
+     qapi_free_SgxEPCList(list);
+ }
+ 
++static int x86_parse_hybrid_core_type(MachineState *ms, const char *coretype)
++{
++    X86HybridCoreType type;
 +
-+##
-+# @HybridCoreOptions:
-+#
-+# Configure core level topology for hybrid cpu topology.
-+#
-+# @cores: number of current type cores in one die.
-+#
-+# @coretype: type of current core.
-+#
-+# @threads: number of threads that current core has.
-+#
-+# @clusterid: cluster index in one die that current core will be
-+#             inserted to.
-+#
-+# Since: 8.0
-+##
-+{ 'struct': 'HybridCoreOptions', 'data': {
-+     '*cores': 'uint32',
-+     '*coretype': 'str',
-+     '*threads': 'uint32',
-+     '*clusterid': ['uint32']} }
++    if (strcmp(coretype, "atom") == 0) {
++        type = INTEL_ATOM_TYPE;
++    } else if (strcmp(coretype, "core") == 0) {
++        type = INTEL_CORE_TYPE;
++    } else {
++        type = INVALID_HYBRID_TYPE;
++    }
++    return type;
++}
 +
-+##
-+# @HybridClusterOptions:
-+#
-+# Configure cluster level topology for hybrid cpu topology.
-+#
-+# @clusters: number of clusters in one socket.
-+#
-+# Since: 8.0
-+##
-+{ 'struct': 'HybridClusterOptions', 'data': {
-+            '*clusters': 'uint32' } }
-+
-+##
-+# @HybridDieOptions:
-+#
-+# Configure die level topology for hybrid cpu topology.
-+#
-+# @dies: number of dies in one socket.
-+#
-+# Since: 8.0
-+##
-+{ 'struct': 'HybridDieOptions', 'data': {
-+            '*dies': 'uint32' } }
-+
-+##
-+# @HybridSocketOptions:
-+#
-+# Configure socket level topology for hybrid cpu topology.
-+#
-+# @sockets: number of sockets in the whole system.
-+#
-+# Since: 8.0
-+##
-+{ 'struct': 'HybridSocketOptions', 'data': {
-+            '*sockets': 'uint32' } }
+ static void x86_machine_initfn(Object *obj)
+ {
+     X86MachineState *x86ms = X86_MACHINE(obj);
+@@ -1596,6 +1610,7 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
+     x86mc->save_tsc_khz = true;
+     x86mc->fwcfg_dma_enabled = true;
+     nc->nmi_monitor_handler = x86_nmi;
++    mc->core_type = x86_parse_hybrid_core_type;
+ 
+     object_class_property_add(oc, X86_MACHINE_SMM, "OnOffAuto",
+         x86_machine_get_smm, x86_machine_set_smm,
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 9364c90d5f1a..34ec035b5c9f 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -36,6 +36,7 @@ void machine_set_cpu_numa_node(MachineState *machine,
+                                Error **errp);
+ void machine_parse_smp_config(MachineState *ms,
+                               const SMPConfiguration *config, Error **errp);
++int machine_parse_hybrid_core_type(MachineState *ms, const char *coretype);
+ 
+ /**
+  * machine_class_allow_dynamic_sysbus_dev: Add type to list of valid devices
+@@ -199,6 +200,11 @@ typedef struct {
+  *    Return the type of KVM corresponding to the kvm-type string option or
+  *    computed based on other criteria such as the host kernel capabilities.
+  *    kvm-type may be NULL if it is not needed.
++ * @core_type:
++ *    Return the type of hybrid cores corresponding to the coretype string
++ *    option. The default hook only accept "none" or "" since the most generic
++ *    core topology should not specify any specific core type. Each arch can
++ *    define its own core_type() hook to override the default one.
+  * @numa_mem_supported:
+  *    true if '--numa node.mem' option is supported and false otherwise
+  * @hotplug_allowed:
+@@ -237,6 +243,7 @@ struct MachineClass {
+     void (*reset)(MachineState *state, ShutdownCause reason);
+     void (*wakeup)(MachineState *state);
+     int (*kvm_type)(MachineState *machine, const char *arg);
++    int (*core_type)(MachineState *state, const char *type);
+ 
+     BlockInterfaceType block_default_type;
+     int units_per_default_bus;
 -- 
 2.34.1
 
