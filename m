@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55534694B36
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 16:33:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78366694B3F
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 16:34:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRapF-0002KU-8p; Mon, 13 Feb 2023 10:33:05 -0500
+	id 1pRapw-0003Yi-K5; Mon, 13 Feb 2023 10:33:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1pRapB-0002Ir-4v; Mon, 13 Feb 2023 10:33:01 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ id 1pRapu-0003Ol-6E; Mon, 13 Feb 2023 10:33:46 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1pRap9-0006Vi-57; Mon, 13 Feb 2023 10:33:00 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31DFH5No032163; Mon, 13 Feb 2023 15:28:51 GMT
+ id 1pRaps-0006dM-Fo; Mon, 13 Feb 2023 10:33:45 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 31DF1xOK024492; Mon, 13 Feb 2023 15:29:36 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : subject :
  from : to : cc : date : in-reply-to : references : content-type :
  content-transfer-encoding : mime-version; s=pp1;
- bh=BZVOVfXf0Z9IDQAtG3eQga3gQqgmjzZ9dso3WH4vlbg=;
- b=XOMsQ/C4QgF4GYgLWq2A53yezfVl+4wvbjwLEEi/33TV5eebctm3cky9i70bDxoQlB8S
- 4SwJ7wn+omnONzLURzrnS7xcxruJkXr5pNbdps5BR8FK6L8Oa48miPxDZVo0LhJ2qeNw
- cXB6q6Q1S4Gh9pckBXbIxSv+kYWhq3KLksxeuLlODYRtngxzc0NnCxe87quYB7Yxvhjd
- E+mJvpq7z39qKTsPYq4Un38HgOT2AbHj8W+8ROtzijw2JosSajDi3FQm0DsEISaEv5fP
- xvbizvreuYf+AgW66ZcThCoVfaMYUFLfZidLX99qyeqUb7+Y7JFGL7lVwY8KI1D1P8DP LA== 
+ bh=F3oaY8VaeiZqMV/qLRAnaqKuaH8wM/sTcVKgvLGcM4Q=;
+ b=NDUwY4SDnBqCCZPhRQkmATC6+ddvzKVLXjHUJ7EQq0Dd0wb6/GSl3+gceAdMp8y+Q9S0
+ zKowTJnECoSCgqAZ6nNBfqp/9fZqCa2Pr8MUini3t3IZxP5lAwZf16cjKH3YN0zFigFx
+ yyxsxYW+rs0QxK0RBfGRwRBSCrGg04WaFG2iNhNHU7KHJmXnU/H3EmZQr0SDDOBh/DQu
+ uw/5mPZAmdMr7pNTA3Yrvm8ADvtaTzbkxVhZwBVFwmJvtoPgJavSTrxFgzbGpmBXoLIt
+ 5o3YsL5+RlO1ephIueWApAm05KTiDOUnWVRC10BAmaxo8R88iBZ8MdvYkihJVAoGHfwy tA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nqqqb8a32-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nqqg8grrs-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Feb 2023 15:28:51 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31DFJHi2007219;
- Mon, 13 Feb 2023 15:28:50 GMT
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nqqqb8a2h-1
+ Mon, 13 Feb 2023 15:29:36 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31DF2VMP026844;
+ Mon, 13 Feb 2023 15:29:35 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nqqg8grrm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Feb 2023 15:28:50 +0000
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31DDMLjs009260;
- Mon, 13 Feb 2023 15:28:49 GMT
-Received: from smtprelay04.wdc07v.mail.ibm.com ([9.208.129.114])
- by ppma03wdc.us.ibm.com (PPS) with ESMTPS id 3np2n734d8-1
+ Mon, 13 Feb 2023 15:29:35 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31DD89ui023595;
+ Mon, 13 Feb 2023 15:29:35 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([9.208.129.113])
+ by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3np2n75x16-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Feb 2023 15:28:49 +0000
-Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com
- [10.39.53.232])
- by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 31DFSlWS19727100
+ Mon, 13 Feb 2023 15:29:34 +0000
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com
+ [10.241.53.100])
+ by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 31DFTXbV63635746
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 13 Feb 2023 15:28:48 GMT
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D951158043;
- Mon, 13 Feb 2023 15:28:47 +0000 (GMT)
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1CDD55805D;
- Mon, 13 Feb 2023 15:28:46 +0000 (GMT)
+ Mon, 13 Feb 2023 15:29:33 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3E17D58058;
+ Mon, 13 Feb 2023 15:29:33 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4B84D58059;
+ Mon, 13 Feb 2023 15:29:32 +0000 (GMT)
 Received: from li-479af74c-31f9-11b2-a85c-e4ddee11713b.ibm.com (unknown
- [9.60.89.68]) by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 13 Feb 2023 15:28:45 +0000 (GMT)
-Message-ID: <0dae0e66f0940920c0d654f97a03664869e4219e.camel@linux.ibm.com>
-Subject: Re: [PATCH v2 15/19] hw/s390x/event-facility: Replace
- DO_UPCAST(SCLPEvent) by SCLP_EVENT()
+ [9.60.89.68]) by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 13 Feb 2023 15:29:32 +0000 (GMT)
+Message-ID: <e036a2ff70eebeff03fc645685227fcc65fce40e.camel@linux.ibm.com>
+Subject: Re: [PATCH v2 16/19] hw/vfio/ccw: Replace DO_UPCAST(VFIOCCWDevice)
+ by VFIO_CCW()
 From: Eric Farman <farman@linux.ibm.com>
 To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>
@@ -75,31 +74,30 @@ Cc: qemu-block@nongnu.org, Thomas Huth <thuth@redhat.com>, Li Qiang
  Hu Tao <hutao@cn.fujitsu.com>, Gonglei Arei <arei.gonglei@huawei.com>,
  Cao jin <caoj.fnst@cn.fujitsu.com>, xiaoqiang zhao <zxq_yx_007@163.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Halil Pasic
- <pasic@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>
-Date: Mon, 13 Feb 2023 10:28:45 -0500
-In-Reply-To: <20230213070820.76881-16-philmd@linaro.org>
+ Richard Henderson <richard.henderson@linaro.org>, Alex Williamson
+ <alex.williamson@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>
+Date: Mon, 13 Feb 2023 10:29:32 -0500
+In-Reply-To: <20230213070820.76881-17-philmd@linaro.org>
 References: <20230213070820.76881-1-philmd@linaro.org>
- <20230213070820.76881-16-philmd@linaro.org>
+ <20230213070820.76881-17-philmd@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 91BHsd958EX8i9IU6zC-n0_-XKgiBMar
-X-Proofpoint-GUID: jaEqdyg3jbx3ZHhRqb44BVnEk7WUMrjq
+X-Proofpoint-ORIG-GUID: 64MaFgs0r1osV6jCAFN_8TrDiRm8lArY
+X-Proofpoint-GUID: OvWjYZsMsc228ct39rLVPk5og35Dla_w
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
  definitions=2023-02-13_09,2023-02-13_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- mlxlogscore=999 phishscore=0 lowpriorityscore=0 malwarescore=0 mlxscore=0
- adultscore=0 impostorscore=0 clxscore=1015 spamscore=0 suspectscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ spamscore=0 mlxscore=0
+ impostorscore=0 malwarescore=0 phishscore=0 clxscore=1015 suspectscore=0
+ bulkscore=0 adultscore=0 lowpriorityscore=0 mlxlogscore=999
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2302130136
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -122,36 +120,80 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On Mon, 2023-02-13 at 08:08 +0100, Philippe Mathieu-Daud=C3=A9 wrote:
-> Use the SCLP_EVENT() QOM type-checking macro to avoid DO_UPCAST().
+> Use the VFIO_CCW() QOM type-checking macro to avoid DO_UPCAST().
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-
-Reviewed-by: Eric Farman <farman@linux.ibm.com>
-
 > ---
-> =C2=A0hw/s390x/event-facility.c | 3 +--
-> =C2=A01 file changed, 1 insertion(+), 2 deletions(-)
+> =C2=A0hw/vfio/ccw.c | 35 ++++++++++++++++-------------------
+> =C2=A01 file changed, 16 insertions(+), 19 deletions(-)
 >=20
-> diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
-> index faa51aa4c7..6891e3cd73 100644
-> --- a/hw/s390x/event-facility.c
-> +++ b/hw/s390x/event-facility.c
-> @@ -64,8 +64,7 @@ static bool event_pending(SCLPEventFacility *ef)
-> =C2=A0=C2=A0=C2=A0=C2=A0 SCLPEventClass *event_class;
+> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
+> index 0354737666..a8aa5b48c4 100644
+> --- a/hw/vfio/ccw.c
+> +++ b/hw/vfio/ccw.c
+
+...snip...
+
+> @@ -252,8 +248,8 @@ again:
+> =C2=A0static void vfio_ccw_reset(DeviceState *dev)
+> =C2=A0{
+> =C2=A0=C2=A0=C2=A0=C2=A0 CcwDevice *ccw_dev =3D DO_UPCAST(CcwDevice, pare=
+nt_obj, dev);
+
+If I'm not mistaken, I believe that this (and (un)realize below) could
+be changed to:
+
+   CcwDevice *ccw_dev =3D CCW_DEVICE(dev);
+
+> -=C2=A0=C2=A0=C2=A0 S390CCWDevice *cdev =3D DO_UPCAST(S390CCWDevice, pare=
+nt_obj,
+> ccw_dev);
+> -=C2=A0=C2=A0=C2=A0 VFIOCCWDevice *vcdev =3D DO_UPCAST(VFIOCCWDevice, cde=
+v, cdev);
+> +=C2=A0=C2=A0=C2=A0 S390CCWDevice *cdev =3D S390_CCW_DEVICE(ccw_dev);
+> +=C2=A0=C2=A0=C2=A0 VFIOCCWDevice *vcdev =3D VFIO_CCW(cdev);
 > =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 QTAILQ_FOREACH(kid, &ef->sbus.qbus.children, sib=
-ling) {
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DeviceState *qdev =3D kid->ch=
-ild;
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 event =3D DO_UPCAST(SCLPEvent=
-, qdev, qdev);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 event =3D SCLP_EVENT(kid->chi=
-ld);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 event_class =3D SCLP_EVE=
-NT_GET_CLASS(event);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (event->event_pending=
- &&
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-event_class->get_send_mask() & ef->receive_mask) {
+> =C2=A0=C2=A0=C2=A0=C2=A0 ioctl(vcdev->vdev.fd, VFIO_DEVICE_RESET);
+> =C2=A0}
+
+...snip...
+
+> @@ -657,9 +654,9 @@ static void vfio_ccw_realize(DeviceState *dev,
+> Error **errp)
+> =C2=A0{
+> =C2=A0=C2=A0=C2=A0=C2=A0 VFIOGroup *group;
+> =C2=A0=C2=A0=C2=A0=C2=A0 CcwDevice *ccw_dev =3D DO_UPCAST(CcwDevice, pare=
+nt_obj, dev);
+> -=C2=A0=C2=A0=C2=A0 S390CCWDevice *cdev =3D DO_UPCAST(S390CCWDevice, pare=
+nt_obj,
+> ccw_dev);
+> -=C2=A0=C2=A0=C2=A0 VFIOCCWDevice *vcdev =3D DO_UPCAST(VFIOCCWDevice, cde=
+v, cdev);
+> +=C2=A0=C2=A0=C2=A0 S390CCWDevice *cdev =3D S390_CCW_DEVICE(ccw_dev);
+> =C2=A0=C2=A0=C2=A0=C2=A0 S390CCWDeviceClass *cdc =3D S390_CCW_DEVICE_GET_=
+CLASS(cdev);
+> +=C2=A0=C2=A0=C2=A0 VFIOCCWDevice *vcdev =3D VFIO_CCW(cdev);
+> =C2=A0=C2=A0=C2=A0=C2=A0 Error *err =3D NULL;
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0 /* Call the class init function for subchannel. =
+*/
+> @@ -729,9 +726,9 @@ out_err_propagate:
+> =C2=A0static void vfio_ccw_unrealize(DeviceState *dev)
+> =C2=A0{
+> =C2=A0=C2=A0=C2=A0=C2=A0 CcwDevice *ccw_dev =3D DO_UPCAST(CcwDevice, pare=
+nt_obj, dev);
+> -=C2=A0=C2=A0=C2=A0 S390CCWDevice *cdev =3D DO_UPCAST(S390CCWDevice, pare=
+nt_obj,
+> ccw_dev);
+> -=C2=A0=C2=A0=C2=A0 VFIOCCWDevice *vcdev =3D DO_UPCAST(VFIOCCWDevice, cde=
+v, cdev);
+> +=C2=A0=C2=A0=C2=A0 S390CCWDevice *cdev =3D S390_CCW_DEVICE(ccw_dev);
+> =C2=A0=C2=A0=C2=A0=C2=A0 S390CCWDeviceClass *cdc =3D S390_CCW_DEVICE_GET_=
+CLASS(cdev);
+> +=C2=A0=C2=A0=C2=A0 VFIOCCWDevice *vcdev =3D VFIO_CCW(cdev);
+> =C2=A0=C2=A0=C2=A0=C2=A0 VFIOGroup *group =3D vcdev->vdev.group;
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0 vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW=
+_REQ_IRQ_INDEX);
 
 
