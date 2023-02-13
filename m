@@ -2,64 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D197C694E43
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 18:42:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C12B1694EC2
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 19:05:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRcpZ-0003ee-Qr; Mon, 13 Feb 2023 12:41:33 -0500
+	id 1pRdAi-0003EW-Lh; Mon, 13 Feb 2023 13:03:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1pRcpX-0003eV-34
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 12:41:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
+ id 1pRdAZ-00037d-5i; Mon, 13 Feb 2023 13:03:18 -0500
+Received: from bg4.exmail.qq.com ([43.154.221.58])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1pRcpU-0007Ms-Mr
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 12:41:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676310087;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=BvY4zgEB8OftJv+2jHv8qui2lBTfZZcHg6u/DZaQs0g=;
- b=RPp8EXoJ6n7477w5ya4Oe99FzcFjKJZShIU7YnZLIGCzN++TsB7a0foPIYZXuapXZ69Dpr
- IUq0mCKoLIhW94b8vOSZsl2T/gQne+ZP/b0/pQGpIMVoDaD1otC2B2S+o9slYlbgs7XwtE
- E5fHEiRnXRyMwQVOF/Kh5DPakPzGbj4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-259-nugUuWHdM_SljrPmR1VGog-1; Mon, 13 Feb 2023 12:41:22 -0500
-X-MC-Unique: nugUuWHdM_SljrPmR1VGog-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 433DF86C169
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 17:41:21 +0000 (UTC)
-Received: from f37-work.redhat.com (unknown [10.39.193.233])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 917BE492B03;
- Mon, 13 Feb 2023 17:41:20 +0000 (UTC)
-From: Mauro Matteo Cascella <mcascell@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
+ id 1pRdAW-0001Il-I0; Mon, 13 Feb 2023 13:03:14 -0500
+X-QQ-mid: bizesmtp62t1676311361tkf80wrv
+Received: from pek-vx-bsp2.wrs.com ( [60.247.85.88])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Tue, 14 Feb 2023 02:02:16 +0800 (CST)
+X-QQ-SSF: 01200000000000C0D000000A0000000
+X-QQ-FEAT: ZGSGcAjExT9xc0SIyGJOu4cARvV8y0TJUAriy/Swp2bpXfW437wM4lDGjV0u/
+ DX5PMcA8mBYVSEpEoHVi9cxUxzX0ITtl30JlRphzpyN7ZkOTdNS/CaER3EA1CS6aK8/fktE
+ zAaFHxXzCI16XfnZLZA36XXpJ7Mq6Wovj4/rVm3D78B2gYBhRlUaqycMpEtnx/eToY8g9XV
+ +j/5e4InpoTyyVCBCxhl5SG9hI+ugVvsvUIa2nnu7hpsb6rgAEkDfcaZgZgcyhbdqEirtHd
+ FSeg3TGcEYBN/r1LPpamN8yd6JJcgVOhXMsI5xYrSg0GqdGY/tCdS9UXnqPKmxrn4hPjF+8
+ elJkpck96nbMldFn5BfTq32O7GmYw==
+X-QQ-GoodBg: 0
+From: Bin Meng <bmeng@tinylab.org>
 To: qemu-devel@nongnu.org
-Cc: mcascell@redhat.com,
-	kraxel@redhat.com
-Subject: [PATCH] usb/dev-wacom: fix OOB write in usb_mouse_poll()
-Date: Mon, 13 Feb 2023 18:41:13 +0100
-Message-Id: <20230213174113.591632-1-mcascell@redhat.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ qemu-riscv@nongnu.org
+Subject: [PATCH 00/18] target/riscv: Various fixes to gdbstub and CSR access
+Date: Tue, 14 Feb 2023 02:01:56 +0800
+Message-Id: <20230213180215.1524938-1-bmeng@tinylab.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mcascell@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:tinylab.org:qybglogicsvr:qybglogicsvr3
+Received-SPF: pass client-ip=43.154.221.58; envelope-from=bmeng@tinylab.org;
+ helo=bg4.exmail.qq.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,48 +66,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The guest can control the size of buf; an OOB write occurs when buf is 1 or 2
-bytes long. Only fill in the buffer as long as there is enough space, throw
-away any data which doesn't fit.
+At present gdbstub reports an incorrect / incomplete CSR list in the
+target description XML, for example:
 
-Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
----
- hw/usb/dev-wacom.c | 20 +++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
+- menvcfg is reported in 'sifive_u' machine
+- fcsr is missing in a F/D enabled processor
 
-diff --git a/hw/usb/dev-wacom.c b/hw/usb/dev-wacom.c
-index 7177c17f03..ca9e6aa82f 100644
---- a/hw/usb/dev-wacom.c
-+++ b/hw/usb/dev-wacom.c
-@@ -252,14 +252,20 @@ static int usb_mouse_poll(USBWacomState *s, uint8_t *buf, int len)
-     if (s->buttons_state & MOUSE_EVENT_MBUTTON)
-         b |= 0x04;
- 
--    buf[0] = b;
--    buf[1] = dx;
--    buf[2] = dy;
--    l = 3;
--    if (len >= 4) {
--        buf[3] = dz;
--        l = 4;
-+    l = 0;
-+    if (len > l) {
-+        buf[l++] = b;
-     }
-+    if (len > l) {
-+        buf[l++] = dx;
-+    }
-+    if (len > l) {
-+        buf[l++] = dy;
-+    }
-+    if (len > l) {
-+        buf[l++] = dz;
-+    }
-+
-     return l;
- }
- 
+The issue is caused by:
+- priv spec version check is missing when reporting CSRs
+- CSR predicate() routine is called without turning on the debugger flag
+
+This series aims to generate a correct and complete CSR list for gdbstub.
+
+
+Bin Meng (18):
+  target/riscv: gdbstub: Check priv spec version before reporting CSR
+  target/riscv: Correct the priority policy of riscv_csrrw_check()
+  target/riscv: gdbstub: Minor change for better readability
+  target/riscv: gdbstub: Do not generate CSR XML if Zicsr is disabled
+  target/riscv: Coding style fixes in csr.c
+  target/riscv: Use 'bool' type for read_only
+  target/riscv: Simplify {read,write}_pmpcfg() a little bit
+  target/riscv: Simplify getting RISCVCPU pointer from env
+  target/riscv: Avoid reporting odd-numbered pmpcfgX in the CSR XML for
+    RV64
+  target/riscv: gdbstub: Turn on debugger mode before calling CSR
+    predicate()
+  target/riscv: gdbstub: Drop the vector CSRs in riscv-vector.xml
+  target/riscv: Allow debugger to access user timer and counter CSRs
+  target/riscv: Allow debugger to access seed CSR
+  target/riscv: Allow debugger to access {h,s}stateen CSRs
+  target/riscv: Allow debugger to access sstc CSRs
+  target/riscv: Drop priv level check in mseccfg predicate()
+  target/riscv: Group all predicate() routines together
+  target/riscv: Move configuration check to envcfg CSRs predicate()
+
+ target/riscv/csr.c     | 360 +++++++++++++++++++++++------------------
+ target/riscv/gdbstub.c | 100 +++---------
+ 2 files changed, 221 insertions(+), 239 deletions(-)
+
 -- 
-2.39.1
+2.25.1
 
 
