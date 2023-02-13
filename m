@@ -2,60 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D8226952BB
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 22:11:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB2A6952C1
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 22:11:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRg59-00076U-1w; Mon, 13 Feb 2023 16:09:51 -0500
+	id 1pRg57-00075q-8z; Mon, 13 Feb 2023 16:09:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pRg54-00075L-Uo
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 16:09:46 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pRg55-00075S-9Y
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 16:09:47 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pRg53-0000yx-5l
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 16:09:46 -0500
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pRg53-0000z6-RQ
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 16:09:47 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 8A94020354;
- Mon, 13 Feb 2023 21:09:42 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 64D4B224AE;
+ Mon, 13 Feb 2023 21:09:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1676322582; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=DIqaw09aD/AE0VPQkv4ob/NtUBWeoIsLy9/eB9M7XTE=;
- b=zJN1truziibH5vw54aMzSEiZVuR4DQ78uLxibjTlyG7niOyrZfmeASC6IpkrFHj98gVBxB
- 2/RgTPzbgsFOlUgk8RLjW24XdXDUz8iVeZA1oyCtdVWu1Z4TggwmhpXltbR/x5RR317HHU
- IpT+Nbz6pBBRNeVO1u4aZhO8J77fclk=
+ t=1676322584; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+e4y96VVf22+nC2D5nzDeVlvErNsuSzZkd1RPow2jPs=;
+ b=gA/QyZ87vlRju1fh+IT1V/u30r6vEwbl2FFquYDuf9V9NAfKY3YV3jCPCg3Iw2xVuySkDN
+ E1H4+d8PsZiRm79K0eErMOywvlQ40U232gPjvKMtYT4/5KdDeHrPb2D3ippRkN+RVp2EbZ
+ 0t4o/hdpez/qsvFH8WPn6yqv+l/4fl4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1676322582;
+ s=susede2_ed25519; t=1676322584;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=DIqaw09aD/AE0VPQkv4ob/NtUBWeoIsLy9/eB9M7XTE=;
- b=iVVWWJ5PFNx75dPwXA5yZULW1iZJIbRC9v1RuQ1EwBViTbY+OpMJJTgaAO2bk6N44XJAjH
- cAGUHr8nq1aS9KDA==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+e4y96VVf22+nC2D5nzDeVlvErNsuSzZkd1RPow2jPs=;
+ b=3tQuSEyrACSsC5O+mchwmliBXB9hvsOxfGyQ7c6n5hZrzlfbCeR3oDR13E0BsO4F9uQ2zf
+ ddQ8IdteOEF6xuBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9821E138E6;
- Mon, 13 Feb 2023 21:09:41 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0657E138E6;
+ Mon, 13 Feb 2023 21:09:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id XZNWFxWn6mPoRAAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 13 Feb 2023 21:09:41 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id YJ+oLxan6mPoRAAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 13 Feb 2023 21:09:42 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v3 00/12] qtests vs. default devices
-Date: Mon, 13 Feb 2023 18:07:26 -0300
-Message-Id: <20230213210738.9719-1-farosas@suse.de>
+Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v3 01/12] tests/qtest: Skip PXE tests for missing devices
+Date: Mon, 13 Feb 2023 18:07:27 -0300
+Message-Id: <20230213210738.9719-2-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20230213210738.9719-1-farosas@suse.de>
+References: <20230213210738.9719-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -78,75 +85,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I based this on master this time, the Kconfig series might take
-longer.
+Check if the devices we're trying to add are present in the QEMU
+binary. They could have been removed from the build via Kconfig or the
+--without-default-devices option.
 
-patch 4 - changed conditional to use the same style as surrounding
-          code;
+Signed-off-by: Fabiano Rosas <farosas@suse.de>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/qtest/pxe-test.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-v2:
-
-patch 3 - fixed typo s/PCIE_ROOT/PCIE_PORT and dropped runtime check;
-
-patch 4 - dropped runtime check and added a dep on CONFIG_VIRTIO_SERIAL;
-
-patch 7 - added skip messages and folded look_for_device_builtin into
-          has_device_builtin;
-
-patch 9 - dropped runtime check;
-
-v1:
-https://lore.kernel.org/r/20230206150416.4604-1-farosas@suse.de
-
-Most of our tests assume the presence of default devices. When
-building --without-default-devices or with individual CONFIGs
-disabled, several tests fail.
-
-I went through them one by one and did local changes to skip or avoid
-including tests that require devices that are missing. With these
-initial changes, 'make check' now passes for the
---without-default-devices build for x86 and arm.
-
-However, the approach of making local changes seems hard to maintain:
-every time a CONFIG changes from 'y' to 'n' a test might break and all
-new tests need to remember to check before adding devices, which some
-tests add several.
-
-So the last patch in the series provides an alternative: Parse the
-command line at qtest_init and skip the test if devices are
-missing. Individual tests would have to check 'if (!qts)' and
-bail. Seems a bit heavy-weight, but it would mean we don't have to put
-a qtest_has_device check for every device in every test.
-
-Based on: <20230206140809.26028-1-farosas@suse.de>
-[PATCH 00/10] Kconfig vs. default devices
-https://lore.kernel.org/r/20230206140809.26028-1-farosas@suse.de
-
-Fabiano Rosas (12):
-  tests/qtest: Skip PXE tests for missing devices
-  tests/qtest: Do not run lsi53c895a test if device is not present
-  tests/qtest: Add dependence on PCIE_PORT for virtio-net-failover.c
-  tests/qtest: Don't build virtio-serial-test.c if device not present
-  tests/qtest: hd-geo-test: Check for missing devices
-  tests/qtest: Fix coding style in device-plug-test.c
-  tests/qtest: Skip unplug tests that use missing devices
-  tests/qtest: drive_del-test: Skip tests that require missing devices
-  tests/qtest: Check for devices in bios-tables-test
-  tests/qtest: Do not include hexloader-test if loader device is not
-    present
-  tests/qemu-iotests: Require virtio-scsi-pci
-  tests/qtest: bios-tables-test: Skip if missing configs
-
- tests/qemu-iotests/186             |  1 +
- tests/qtest/bios-tables-test.c     | 75 ++++++++++++++++++++++++++++--
- tests/qtest/device-plug-test.c     | 41 ++++++++++++----
- tests/qtest/drive_del-test.c       | 65 ++++++++++++++++++++++++++
- tests/qtest/fuzz-lsi53c895a-test.c |  4 ++
- tests/qtest/hd-geo-test.c          | 38 +++++++++------
- tests/qtest/meson.build            | 17 +++++--
- tests/qtest/pxe-test.c             |  4 ++
- 8 files changed, 214 insertions(+), 31 deletions(-)
-
+diff --git a/tests/qtest/pxe-test.c b/tests/qtest/pxe-test.c
+index 52f0b5c67c..62b6eef464 100644
+--- a/tests/qtest/pxe-test.c
++++ b/tests/qtest/pxe-test.c
+@@ -108,6 +108,10 @@ static void test_batch(const testdef_t *tests, bool ipv6)
+         const testdef_t *test = &tests[i];
+         char *testname;
+ 
++        if (!qtest_has_device(test->model)) {
++            continue;
++        }
++
+         testname = g_strdup_printf("pxe/ipv4/%s/%s",
+                                    test->machine, test->model);
+         qtest_add_data_func(testname, test, test_pxe_ipv4);
 -- 
 2.35.3
 
