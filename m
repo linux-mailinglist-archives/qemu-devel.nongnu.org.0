@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0B9B693CAD
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 03:57:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78B8B693C96
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 03:53:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRP1c-0007Xd-TV; Sun, 12 Feb 2023 21:57:04 -0500
+	id 1pROx6-0002EL-DC; Sun, 12 Feb 2023 21:52:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pRP1b-0007XV-IC
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:57:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pROx1-0002D9-3x
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:52:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pRP1a-0007dd-01
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:57:03 -0500
+ id 1pROwy-0006ui-UD
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:52:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676257021;
+ s=mimecast20190719; t=1676256736;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eSONnSCSQzL00YkXEaKWMv/0oOpN2PHY8jE8o91oEEs=;
- b=JjEMo6IM2McYoV2eD9F3Y2jfwBdob5HOX9ypnSGzmwOaWUGI9eRy5R+TcwCzJmvPLGHlj/
- 8cFPWjbwgbM5bqeuGglF9hC3MKssRmyxn5mv+ebo//JLoc1ERaFj9BtsPjMLouBnLtWGY9
- we1YcCOANELWECqTINLbhUdqsvW4Utg=
-Received: from mail-wm1-f70.google.com (209.85.128.70 [209.85.128.70]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_128_GCM_SHA256) id us-mta-383-Rs7Z1nw8O7OCk6BM9JX4Eg-1; Sun,
- 12 Feb 2023 21:52:30 -0500
-X-MC-Unique: Rs7Z1nw8O7OCk6BM9JX4Eg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- ay19-20020a05600c1e1300b003dc54daba42so5436259wmb.7
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 18:52:13 -0800 (PST)
+ bh=9ImAledL35n3b32So8PCwQBc3/Z1i939uMWYRhKZc5U=;
+ b=fVzrAZEvX5fKNwAivJr3nP8UraggvCgh48HxeLwFpwEkyxthZ62+R5FPoSIqPSozUTb72J
+ QWo8pgbtCSS4D0QUwoTffYGRyD56elPaZuMy3EWSJJRmiwB1NcVplH+uL1t/2fg4LPXcOE
+ 8B3c/v4zlsOn7xYN5wTK1nofE9T3JjU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-447-jZOjtQ3GMqq5cR34K1uleA-1; Sun, 12 Feb 2023 21:52:14 -0500
+X-MC-Unique: jZOjtQ3GMqq5cR34K1uleA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ k17-20020a05600c1c9100b003dd41ad974bso6055320wms.3
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 18:52:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=eSONnSCSQzL00YkXEaKWMv/0oOpN2PHY8jE8o91oEEs=;
- b=W50W2emxcQEF5osx+/9c4E4N/wHvGQHCx14YZDZr6yZ2UdUUVmxOOhq98F0rEyD4yg
- iEM1HgSS3A+96fHCiczVGyAfsJ9/B+ulw2Yg6713Fc1N6g0AlFNkfugT2dm5B5pJePjH
- CNdupr7Guwr7GAumDAHozdeL9MoHFnodNq/+9my0QpyaBNlTBHwO3PTLSbUOz3IbpeEa
- iUb5gs0maENq3ykprk/w2S8AS8OYj09FyrJ5ArdzZyjS0obpZfCn5BGo5ZI2vOfe2vJC
- 4mtMjkY1YYnjx4XfFFnLhw9S8KiZlVq6WNd+GMC+kNeVFMpJYUcRZtelbt1UQCfxu8Tb
- fNSg==
-X-Gm-Message-State: AO0yUKXmz42uecMQm9S0/kBAuAK7rYKLMWVzcUI/BMleFmswwjEPlpGu
- z5pvxzs1IfUjgf6/3GtDmED8/IWmzn2n2VW6+085ti9QWacbIi2TNwdPQyu9ACUuMeEL5wRNqOy
- aG+BPLKZz2iZTAs9flRtQIe/Geke2jf/Jr5qjE2k4YvsOxscKDvXfA+SegjziryDiapeSibKj
-X-Received: by 2002:a05:600c:1606:b0:3e0:39:ec9d with SMTP id
- m6-20020a05600c160600b003e00039ec9dmr17977564wmn.23.1676256731125; 
- Sun, 12 Feb 2023 18:52:11 -0800 (PST)
-X-Google-Smtp-Source: AK7set8385UsdxLhe6Lubligoz7bwZWXr0FJrEcwvoTK4P5+p3gm9zEpVWQGyOSmkN/kZN0gZ6ssYg==
-X-Received: by 2002:a05:600c:1606:b0:3e0:39:ec9d with SMTP id
- m6-20020a05600c160600b003e00039ec9dmr17977547wmn.23.1676256730901; 
- Sun, 12 Feb 2023 18:52:10 -0800 (PST)
+ bh=9ImAledL35n3b32So8PCwQBc3/Z1i939uMWYRhKZc5U=;
+ b=aEMGDtgO1NSD+m6sIrApJ5OkKJvhm6L8avWt/wF9G6O5G3EfcJzQUr4Alq47A31k9a
+ dnYlFYjhhQnCnqMXVXfCyELr3/qY7XGfYdjrZwbLNRPsWNALwtyPLCFMikEJtGeoDjp7
+ gQkZ0MMM3Hk/T3MmCzDN30gGFE/Ugq4v/YcL/vIPOmJtKoacQq+b+yzRNHmMf1KqIHBM
+ Z/+zW5kdV2oe2aLQIOdGj6g5Zvguo+h7g8VmUAYtMMO4+GvhhygA6nWsD3ntlCNwxTgt
+ nardMLqd2VjS2qUUf7pVBD0mEZJwbfBCvL3iWjPe46sNM7zUBRn3UC3sGsJVrixSTSmy
+ GdKA==
+X-Gm-Message-State: AO0yUKVR4O9VAMq3I9MSKdSDqjKJCgY+nI5fdqqqjbWoH/BBrujAxN/f
+ IFkpxPNKoLrZFH6iZAZ52CUUBUSzWmaMnoauZxQlq0Hxl1WLds231Z+k01zMc9WCRWBdtf9TePb
+ e27wFSIQm5chWsTbE6g/nOMHEPsxnAjkd3mD7UOLvk3fP/3vQQsUHuhRD1ykcXyatyoTswkYz
+X-Received: by 2002:a5d:5552:0:b0:2c5:4aad:db85 with SMTP id
+ g18-20020a5d5552000000b002c54aaddb85mr6982260wrw.37.1676256733080; 
+ Sun, 12 Feb 2023 18:52:13 -0800 (PST)
+X-Google-Smtp-Source: AK7set9aNe9B0bhYjMUBl3I4KRsMlrDrs/0ARYZFMazc2wHrM5VMHKcJ81ViehrxmqtMo6GcoSQjBA==
+X-Received: by 2002:a5d:5552:0:b0:2c5:4aad:db85 with SMTP id
+ g18-20020a5d5552000000b002c54aaddb85mr6982239wrw.37.1676256732798; 
+ Sun, 12 Feb 2023 18:52:12 -0800 (PST)
 Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- r18-20020a05600c459200b003db03725e86sm13712002wmo.8.2023.02.12.18.52.09
+ d7-20020adfe887000000b002c551f7d452sm4046097wrm.98.2023.02.12.18.52.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Feb 2023 18:52:10 -0800 (PST)
+ Sun, 12 Feb 2023 18:52:12 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -71,16 +71,17 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Juan Quintela <quintela@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PULL 11/22] migration: I messed state_pending_exact/estimate
-Date: Mon, 13 Feb 2023 03:51:39 +0100
-Message-Id: <20230213025150.71537-12-quintela@redhat.com>
+ "Michael S. Tsirkin" <mst@redhat.com>, ling xu <ling1.xu@intel.com>,
+ Zhou Zhao <zhou.zhao@intel.com>, Jun Jin <jun.i.jin@intel.com>
+Subject: [PULL 12/22] AVX512 support for xbzrle_encode_buffer
+Date: Mon, 13 Feb 2023 03:51:40 +0100
+Message-Id: <20230213025150.71537-13-quintela@redhat.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230213025150.71537-1-quintela@redhat.com>
 References: <20230213025150.71537-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -104,110 +105,296 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I called the helper function from the wrong top level function.
+From: ling xu <ling1.xu@intel.com>
 
-This code was introduced in:
+This commit is the same with [PATCH v6 1/2], and provides avx512 support for xbzrle_encode_buffer
+function to accelerate xbzrle encoding speed. Runtime check of avx512
+support and benchmark for this feature are added. Compared with C
+version of xbzrle_encode_buffer function, avx512 version can achieve
+50%-70% performance improvement on benchmarking. In addition, if dirty
+data is randomly located in 4K page, the avx512 version can achieve
+almost 140% performance gain.
 
-commit c8df4a7aeffcb46020f610526eea621fa5b0cd47
-Author: Juan Quintela <quintela@redhat.com>
-Date:   Mon Oct 3 02:00:03 2022 +0200
-
-    migration: Split save_live_pending() into state_pending_*
-
-    We split the function into to:
-
-    - state_pending_estimate: We estimate the remaining state size without
-      stopping the machine.
-
-    - state pending_exact: We calculate the exact amount of remaining
-      state.
-
-Thanks to Avihai Horon <avihaih@nvidia.com> for finding it.
-
-Fixes:c8df4a7aeffcb46020f610526eea621fa5b0cd47
-
-When we introduced that patch, we enden calling
-
-state_pending_estimate() helper from qemu_savevm_statepending_exact()
-and
-state_pending_exact() helper from qemu_savevm_statepending_estimate()
-
-This patch fixes it.
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: ling xu <ling1.xu@intel.com>
+Co-authored-by: Zhou Zhao <zhou.zhao@intel.com>
+Co-authored-by: Jun Jin <jun.i.jin@intel.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/savevm.c | 50 +++++++++++++++++++++++-----------------------
- 1 file changed, 25 insertions(+), 25 deletions(-)
+ meson.build                   |  17 +++++
+ migration/xbzrle.h            |   4 ++
+ migration/ram.c               |  34 +++++++++-
+ migration/xbzrle.c            | 124 ++++++++++++++++++++++++++++++++++
+ meson_options.txt             |   2 +
+ scripts/meson-buildoptions.sh |   3 +
+ 6 files changed, 181 insertions(+), 3 deletions(-)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index e9cf4999ad..ce181e21e1 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1551,31 +1551,6 @@ void qemu_savevm_state_pending_estimate(uint64_t *res_precopy_only,
-     *res_compatible = 0;
-     *res_postcopy_only = 0;
+diff --git a/meson.build b/meson.build
+index 4ba3bf3431..c626ccfa82 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2351,6 +2351,22 @@ config_host_data.set('CONFIG_AVX512F_OPT', get_option('avx512f') \
+     int main(int argc, char *argv[]) { return bar(argv[argc - 1]); }
+   '''), error_message: 'AVX512F not available').allowed())
  
--    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
--        if (!se->ops || !se->ops->state_pending_exact) {
--            continue;
--        }
--        if (se->ops->is_active) {
--            if (!se->ops->is_active(se->opaque)) {
--                continue;
--            }
--        }
--        se->ops->state_pending_exact(se->opaque,
--                                     res_precopy_only, res_compatible,
--                                     res_postcopy_only);
--    }
--}
--
--void qemu_savevm_state_pending_exact(uint64_t *res_precopy_only,
--                                     uint64_t *res_compatible,
--                                     uint64_t *res_postcopy_only)
--{
--    SaveStateEntry *se;
--
--    *res_precopy_only = 0;
--    *res_compatible = 0;
--    *res_postcopy_only = 0;
--
-     QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
-         if (!se->ops || !se->ops->state_pending_estimate) {
-             continue;
-@@ -1591,6 +1566,31 @@ void qemu_savevm_state_pending_exact(uint64_t *res_precopy_only,
-     }
- }
++config_host_data.set('CONFIG_AVX512BW_OPT', get_option('avx512bw') \
++  .require(have_cpuid_h, error_message: 'cpuid.h not available, cannot enable AVX512BW') \
++  .require(cc.links('''
++    #pragma GCC push_options
++    #pragma GCC target("avx512bw")
++    #include <cpuid.h>
++    #include <immintrin.h>
++    static int bar(void *a) {
++
++      __m512i *x = a;
++      __m512i res= _mm512_abs_epi8(*x);
++      return res[1];
++    }
++    int main(int argc, char *argv[]) { return bar(argv[0]); }
++  '''), error_message: 'AVX512BW not available').allowed())
++
+ have_pvrdma = get_option('pvrdma') \
+   .require(rdma.found(), error_message: 'PVRDMA requires OpenFabrics libraries') \
+   .require(cc.compiles(gnu_source_prefix + '''
+@@ -3783,6 +3799,7 @@ summary_info += {'debug stack usage': get_option('debug_stack_usage')}
+ summary_info += {'mutex debugging':   get_option('debug_mutex')}
+ summary_info += {'memory allocator':  get_option('malloc')}
+ summary_info += {'avx2 optimization': config_host_data.get('CONFIG_AVX2_OPT')}
++summary_info += {'avx512bw optimization': config_host_data.get('CONFIG_AVX512BW_OPT')}
+ summary_info += {'avx512f optimization': config_host_data.get('CONFIG_AVX512F_OPT')}
+ summary_info += {'gprof enabled':     get_option('gprof')}
+ summary_info += {'gcov':              get_option('b_coverage')}
+diff --git a/migration/xbzrle.h b/migration/xbzrle.h
+index a0db507b9c..6feb49160a 100644
+--- a/migration/xbzrle.h
++++ b/migration/xbzrle.h
+@@ -18,4 +18,8 @@ int xbzrle_encode_buffer(uint8_t *old_buf, uint8_t *new_buf, int slen,
+                          uint8_t *dst, int dlen);
  
-+void qemu_savevm_state_pending_exact(uint64_t *res_precopy_only,
-+                                     uint64_t *res_compatible,
-+                                     uint64_t *res_postcopy_only)
+ int xbzrle_decode_buffer(uint8_t *src, int slen, uint8_t *dst, int dlen);
++#if defined(CONFIG_AVX512BW_OPT)
++int xbzrle_encode_buffer_avx512(uint8_t *old_buf, uint8_t *new_buf, int slen,
++                                uint8_t *dst, int dlen);
++#endif
+ #endif
+diff --git a/migration/ram.c b/migration/ram.c
+index 0890816a30..18ac68b181 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -83,6 +83,34 @@
+ /* 0x80 is reserved in migration.h start with 0x100 next */
+ #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
+ 
++int (*xbzrle_encode_buffer_func)(uint8_t *, uint8_t *, int,
++     uint8_t *, int) = xbzrle_encode_buffer;
++#if defined(CONFIG_AVX512BW_OPT)
++#include "qemu/cpuid.h"
++static void __attribute__((constructor)) init_cpu_flag(void)
 +{
-+    SaveStateEntry *se;
-+
-+    *res_precopy_only = 0;
-+    *res_compatible = 0;
-+    *res_postcopy_only = 0;
-+
-+    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
-+        if (!se->ops || !se->ops->state_pending_exact) {
-+            continue;
-+        }
-+        if (se->ops->is_active) {
-+            if (!se->ops->is_active(se->opaque)) {
-+                continue;
++    unsigned max = __get_cpuid_max(0, NULL);
++    int a, b, c, d;
++    if (max >= 1) {
++        __cpuid(1, a, b, c, d);
++         /* We must check that AVX is not just available, but usable.  */
++        if ((c & bit_OSXSAVE) && (c & bit_AVX) && max >= 7) {
++            int bv;
++            __asm("xgetbv" : "=a"(bv), "=d"(d) : "c"(0));
++            __cpuid_count(7, 0, a, b, c, d);
++           /* 0xe6:
++            *  XCR0[7:5] = 111b (OPMASK state, upper 256-bit of ZMM0-ZMM15
++            *                    and ZMM16-ZMM31 state are enabled by OS)
++            *  XCR0[2:1] = 11b (XMM state and YMM state are enabled by OS)
++            */
++            if ((bv & 0xe6) == 0xe6 && (b & bit_AVX512BW)) {
++                xbzrle_encode_buffer_func = xbzrle_encode_buffer_avx512;
 +            }
 +        }
-+        se->ops->state_pending_exact(se->opaque,
-+                                     res_precopy_only, res_compatible,
-+                                     res_postcopy_only);
 +    }
 +}
++#endif
 +
- void qemu_savevm_state_cleanup(void)
- {
-     SaveStateEntry *se;
+ XBZRLECacheStats xbzrle_counters;
+ 
+ /* used by the search for pages to send */
+@@ -806,9 +834,9 @@ static int save_xbzrle_page(RAMState *rs, PageSearchStatus *pss,
+     memcpy(XBZRLE.current_buf, *current_data, TARGET_PAGE_SIZE);
+ 
+     /* XBZRLE encoding (if there is no overflow) */
+-    encoded_len = xbzrle_encode_buffer(prev_cached_page, XBZRLE.current_buf,
+-                                       TARGET_PAGE_SIZE, XBZRLE.encoded_buf,
+-                                       TARGET_PAGE_SIZE);
++    encoded_len = xbzrle_encode_buffer_func(prev_cached_page, XBZRLE.current_buf,
++                                            TARGET_PAGE_SIZE, XBZRLE.encoded_buf,
++                                            TARGET_PAGE_SIZE);
+ 
+     /*
+      * Update the cache contents, so that it corresponds to the data
+diff --git a/migration/xbzrle.c b/migration/xbzrle.c
+index 1ba482ded9..05366e86c0 100644
+--- a/migration/xbzrle.c
++++ b/migration/xbzrle.c
+@@ -174,3 +174,127 @@ int xbzrle_decode_buffer(uint8_t *src, int slen, uint8_t *dst, int dlen)
+ 
+     return d;
+ }
++
++#if defined(CONFIG_AVX512BW_OPT)
++#pragma GCC push_options
++#pragma GCC target("avx512bw")
++#include <immintrin.h>
++int xbzrle_encode_buffer_avx512(uint8_t *old_buf, uint8_t *new_buf, int slen,
++                             uint8_t *dst, int dlen)
++{
++    uint32_t zrun_len = 0, nzrun_len = 0;
++    int d = 0, i = 0, num = 0;
++    uint8_t *nzrun_start = NULL;
++    /* add 1 to include residual part in main loop */
++    uint32_t count512s = (slen >> 6) + 1;
++    /* countResidual is tail of data, i.e., countResidual = slen % 64 */
++    uint32_t count_residual = slen & 0b111111;
++    bool never_same = true;
++    uint64_t mask_residual = 1;
++    mask_residual <<= count_residual;
++    mask_residual -= 1;
++    __m512i r = _mm512_set1_epi32(0);
++
++    while (count512s) {
++        if (d + 2 > dlen) {
++            return -1;
++        }
++
++        int bytes_to_check = 64;
++        uint64_t mask = 0xffffffffffffffff;
++        if (count512s == 1) {
++            bytes_to_check = count_residual;
++            mask = mask_residual;
++        }
++        __m512i old_data = _mm512_mask_loadu_epi8(r,
++                                                  mask, old_buf + i);
++        __m512i new_data = _mm512_mask_loadu_epi8(r,
++                                                  mask, new_buf + i);
++        uint64_t comp = _mm512_cmpeq_epi8_mask(old_data, new_data);
++        count512s--;
++
++        bool is_same = (comp & 0x1);
++        while (bytes_to_check) {
++            if (is_same) {
++                if (nzrun_len) {
++                    d += uleb128_encode_small(dst + d, nzrun_len);
++                    if (d + nzrun_len > dlen) {
++                        return -1;
++                    }
++                    nzrun_start = new_buf + i - nzrun_len;
++                    memcpy(dst + d, nzrun_start, nzrun_len);
++                    d += nzrun_len;
++                    nzrun_len = 0;
++                }
++                /* 64 data at a time for speed */
++                if (count512s && (comp == 0xffffffffffffffff)) {
++                    i += 64;
++                    zrun_len += 64;
++                    break;
++                }
++                never_same = false;
++                num = __builtin_ctzll(~comp);
++                num = (num < bytes_to_check) ? num : bytes_to_check;
++                zrun_len += num;
++                bytes_to_check -= num;
++                comp >>= num;
++                i += num;
++                if (bytes_to_check) {
++                    /* still has different data after same data */
++                    d += uleb128_encode_small(dst + d, zrun_len);
++                    zrun_len = 0;
++                } else {
++                    break;
++                }
++            }
++            if (never_same || zrun_len) {
++                /*
++                 * never_same only acts if
++                 * data begins with diff in first count512s
++                 */
++                d += uleb128_encode_small(dst + d, zrun_len);
++                zrun_len = 0;
++                never_same = false;
++            }
++            /* has diff, 64 data at a time for speed */
++            if ((bytes_to_check == 64) && (comp == 0x0)) {
++                i += 64;
++                nzrun_len += 64;
++                break;
++            }
++            num = __builtin_ctzll(comp);
++            num = (num < bytes_to_check) ? num : bytes_to_check;
++            nzrun_len += num;
++            bytes_to_check -= num;
++            comp >>= num;
++            i += num;
++            if (bytes_to_check) {
++                /* mask like 111000 */
++                d += uleb128_encode_small(dst + d, nzrun_len);
++                /* overflow */
++                if (d + nzrun_len > dlen) {
++                    return -1;
++                }
++                nzrun_start = new_buf + i - nzrun_len;
++                memcpy(dst + d, nzrun_start, nzrun_len);
++                d += nzrun_len;
++                nzrun_len = 0;
++                is_same = true;
++            }
++        }
++    }
++
++    if (nzrun_len != 0) {
++        d += uleb128_encode_small(dst + d, nzrun_len);
++        /* overflow */
++        if (d + nzrun_len > dlen) {
++            return -1;
++        }
++        nzrun_start = new_buf + i - nzrun_len;
++        memcpy(dst + d, nzrun_start, nzrun_len);
++        d += nzrun_len;
++    }
++    return d;
++}
++#pragma GCC pop_options
++#endif
+diff --git a/meson_options.txt b/meson_options.txt
+index 559a571b6b..e5f199119e 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -104,6 +104,8 @@ option('avx2', type: 'feature', value: 'auto',
+        description: 'AVX2 optimizations')
+ option('avx512f', type: 'feature', value: 'disabled',
+        description: 'AVX512F optimizations')
++option('avx512bw', type: 'feature', value: 'auto',
++       description: 'AVX512BW optimizations')
+ option('keyring', type: 'feature', value: 'auto',
+        description: 'Linux keyring support')
+ 
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 0f71e92dcb..c2982ea087 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -70,6 +70,7 @@ meson_options_help() {
+   printf "%s\n" '  attr            attr/xattr support'
+   printf "%s\n" '  auth-pam        PAM access control'
+   printf "%s\n" '  avx2            AVX2 optimizations'
++  printf "%s\n" '  avx512bw        AVX512BW optimizations'
+   printf "%s\n" '  avx512f         AVX512F optimizations'
+   printf "%s\n" '  blkio           libblkio block device driver'
+   printf "%s\n" '  bochs           bochs image format support'
+@@ -198,6 +199,8 @@ _meson_option_parse() {
+     --disable-auth-pam) printf "%s" -Dauth_pam=disabled ;;
+     --enable-avx2) printf "%s" -Davx2=enabled ;;
+     --disable-avx2) printf "%s" -Davx2=disabled ;;
++    --enable-avx512bw) printf "%s" -Davx512bw=enabled ;;
++    --disable-avx512bw) printf "%s" -Davx512bw=disabled ;;
+     --enable-avx512f) printf "%s" -Davx512f=enabled ;;
+     --disable-avx512f) printf "%s" -Davx512f=disabled ;;
+     --enable-gcov) printf "%s" -Db_coverage=true ;;
 -- 
 2.39.1
 
