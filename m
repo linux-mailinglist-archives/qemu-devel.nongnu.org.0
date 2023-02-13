@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 546B8693EC3
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 08:10:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F254693EBA
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 08:09:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRSx4-0000Hf-6r; Mon, 13 Feb 2023 02:08:38 -0500
+	id 1pRSxA-0000OI-5R; Mon, 13 Feb 2023 02:08:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRSx2-0000HB-7X
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:08:36 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRSx7-0000MA-N3
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:08:41 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRSx0-0001lq-Ge
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:08:35 -0500
-Received: by mail-wr1-x431.google.com with SMTP id k3so3422279wrv.5
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 23:08:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRSx5-0001mt-Ij
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 02:08:41 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ k8-20020a05600c1c8800b003dc57ea0dfeso10562826wms.0
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 23:08:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=iJ+QRHFZYIqXqYbl7DIdWxHc+GN5ZGRCj3hAlbpC3f0=;
- b=u3Gh+IuxjomrsTNOql+YKiEbzndy9U+yy1HbwkQSwGAJerXhhnqmcnTLwrjVlyRFab
- f7pJBbzQwm4nb01vIXEiKRvW1/D5lY3xYsvr7taAQ91BSFC74BVe5xaMa2u2YpPwImXO
- SaTEmLCNQtxK75TAUNvXxtTlmvjcPOXNODV9+CkieieCYTcn8qwm1mKvkMIH5S37w64Q
- /3mJIQmcBzTefPnXhvn7YN20G4kBOFfu9NPxvZcF/AKlVdr7/Thv3OX0olh4Ryhv1SDw
- RXIEw80tVZP+FJ6A2CQsu81kOSQMwuvgZWOpjvFXS2HsyO5iNsTE2B7zd76c3JCBa+js
- ROFg==
+ bh=HT2d2u/vjaA1vHLklOaaqzhfI86GF9Vdz9cSYHww3bI=;
+ b=APYH9iN5Yuli2RTervmm7poWJgfdpSWNr20Bc7I0/Ru50f4lng5oJTyPtYcpccs85O
+ 6ZdRj2Qyh/oVsctPVYGy9W3OVyYfhOhwNaipyUXjuF2/RADbZRgSPy0OQxvF+ayJYeik
+ FueHekoNAt9sLAhrA/ZbH3eTJ9hfNKohUjivB2P/8R5Av7u/LdtolUzuKR3rxsyi36bV
+ X6tXwydt3wngsoqSyOuvgrxn+MKvcIj1UB0zGf6BOvhv5JwANJxzvfprcDOytVt4UUSw
+ P4wTFkZUlkZN8TdWX1uMHexMJ6spjsnDXB/p2QC+3coe3Cmh17PYNNeo956/bEcj5qUH
+ 6BCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=iJ+QRHFZYIqXqYbl7DIdWxHc+GN5ZGRCj3hAlbpC3f0=;
- b=ScgCj8cRYFmkq1CFC1oU3tpCp7+dEEPNHzDaJG8DnKr/R2f05qkUqFOWZxi03xoXkC
- V9Eh38VNA8jtx7ShzUO5YNTK2vGcNt+jEWRjb2k4LhVhbHTqmlRhE2aX2dBrV+HVVHM+
- UqlEhRYVDuGMng5kbQj6APXFLJXaCFeSvP4x6bdwbt/y1/7LoAUAg2GFyVHSd42+n4q+
- oyz3xse76vMxxb9TujUmTC6Vq4CgBoSh5coUtTYsB9W4CNbWV87+gPdlD18qs3a1Be8O
- RT67qyv0GaTxKJNGRNdymHcxEAbFaHft+XvKRVCWpnHrUs2qefc8Fyd9pK9CO3PMMasQ
- gqpg==
-X-Gm-Message-State: AO0yUKV90VzDjUufmuimwgTve7vTxzmk/Q7msEVfKvBL0wd3iny6pFYu
- 013WFBaN77oBrKbGjoUePTz6TpL11Yckswas
-X-Google-Smtp-Source: AK7set+sVDVs7jd7rASgA9rU4Sv6tXgSKrfsZbpLVkhJt2xO94GgCiHw+RBJAb1GA+vAkssUPlHFOw==
-X-Received: by 2002:a05:6000:1091:b0:2c3:e142:5fd0 with SMTP id
- y17-20020a056000109100b002c3e1425fd0mr21131243wrw.49.1676272112763; 
- Sun, 12 Feb 2023 23:08:32 -0800 (PST)
+ bh=HT2d2u/vjaA1vHLklOaaqzhfI86GF9Vdz9cSYHww3bI=;
+ b=SlAkOoxXyJrCAq3yQnxvHMfUQlYDQTJgmitAXlOBBJUej5jDxCYIbHArWhrX+JwDFc
+ 5rQpO2oQv5WTAr9+lKIIO57MKWSQDr9dRUKbeKcnl2TF7akeRKX1ucCiuG85tl40or1k
+ sympjuc/Atc+0Pxdp8k/zB+peH4yzF0zWr9UPDYDGe13nrzMV/al1/xPbI2jdirbYHG3
+ D2B3En5PDoIZ1BfG00fVVEDG6AY8IQeLT3Gk0+ABkaN1sgnGQNMYkJOV8FkYAqaZYxgh
+ Va1d441gRXCsT3JIZT/kKIBFeOfYloL3PEEuw8QSfqj0GRTLZZITgByQHTQ5zycntqt5
+ LPfQ==
+X-Gm-Message-State: AO0yUKUmIoul6l++6ESeWP7d4nXT9LQG6Yov2vMgPyQssb7CYU3WZJYs
+ nenUjDSnqoHrI/QDK0EcsPeadDXp5SpHBlxX
+X-Google-Smtp-Source: AK7set/Dk4VtJlutKXBvIeulGoMdeg5NVNgmi9afCG8NrTSAdkdirmu87YQSQpCLytf22+6Rqy252g==
+X-Received: by 2002:a05:600c:2ac8:b0:3db:66e:cfdd with SMTP id
+ t8-20020a05600c2ac800b003db066ecfddmr17990179wme.9.1676272118072; 
+ Sun, 12 Feb 2023 23:08:38 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- p3-20020adff203000000b002c3f6d7d5fesm9816027wro.44.2023.02.12.23.08.31
+ z4-20020a05600c220400b003dfe8c4c497sm16214893wml.39.2023.02.12.23.08.36
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 12 Feb 2023 23:08:32 -0800 (PST)
+ Sun, 12 Feb 2023 23:08:37 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org,
 	Eduardo Habkost <eduardo@habkost.net>
@@ -64,25 +65,25 @@ Cc: qemu-block@nongnu.org, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 02/19] hw/char/serial-pci-multi: Batch register types using
- DEFINE_TYPES macro
-Date: Mon, 13 Feb 2023 08:08:03 +0100
-Message-Id: <20230213070820.76881-3-philmd@linaro.org>
+Subject: [PATCH v2 03/19] hw/char/serial-pci-multi: Introduce PCI_MULTISERIAL
+ QOM abstract parent
+Date: Mon, 13 Feb 2023 08:08:04 +0100
+Message-Id: <20230213070820.76881-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230213070820.76881-1-philmd@linaro.org>
 References: <20230213070820.76881-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,76 +99,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-See rationale in commit 38b5d79b2e ("qom: add helper
-macro DEFINE_TYPES()").
+Introduce PCI_MULTISERIAL ("pci-serial"), QOM abstract parent of
+"pci-serial-2x" and "pci-serial-4x".
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/char/serial-pci-multi.c | 52 +++++++++++++++++---------------------
- 1 file changed, 23 insertions(+), 29 deletions(-)
+ hw/char/serial-pci-multi.c | 35 ++++++++++++++++++++---------------
+ 1 file changed, 20 insertions(+), 15 deletions(-)
 
 diff --git a/hw/char/serial-pci-multi.c b/hw/char/serial-pci-multi.c
-index f18b8dcce5..54768d3d53 100644
+index 54768d3d53..faeb0a9476 100644
 --- a/hw/char/serial-pci-multi.c
 +++ b/hw/char/serial-pci-multi.c
-@@ -189,34 +189,28 @@ static void multi_serial_init(Object *o)
-     }
- }
+@@ -38,8 +38,15 @@
  
--static const TypeInfo multi_2x_serial_pci_info = {
--    .name          = "pci-serial-2x",
--    .parent        = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(PCIMultiSerialState),
--    .instance_init = multi_serial_init,
--    .class_init    = multi_2x_serial_pci_class_initfn,
--    .interfaces = (InterfaceInfo[]) {
--        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
--        { },
--    },
-+static const TypeInfo multi_serial_pci_types[] = {
-+    {
-+        .name          = "pci-serial-2x",
-+        .parent        = TYPE_PCI_DEVICE,
-+        .instance_size = sizeof(PCIMultiSerialState),
-+        .instance_init = multi_serial_init,
-+        .class_init    = multi_2x_serial_pci_class_initfn,
-+        .interfaces = (InterfaceInfo[]) {
-+            { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-+            { },
-+        },
+ #define PCI_SERIAL_MAX_PORTS 4
+ 
+-typedef struct PCIMultiSerialState {
++#define TYPE_PCI_MULTISERIAL  "pci-serial"
++
++OBJECT_DECLARE_SIMPLE_TYPE(PCIMultiSerialState, PCI_MULTISERIAL)
++
++struct PCIMultiSerialState {
++    /*< private >*/
+     PCIDevice    dev;
++    /*< public >*/
++
+     MemoryRegion iobar;
+     uint32_t     ports;
+     char         *name[PCI_SERIAL_MAX_PORTS];
+@@ -47,7 +54,7 @@ typedef struct PCIMultiSerialState {
+     uint32_t     level[PCI_SERIAL_MAX_PORTS];
+     qemu_irq     *irqs;
+     uint8_t      prog_if;
+-} PCIMultiSerialState;
++};
+ 
+ static void multi_serial_pci_exit(PCIDevice *dev)
+ {
+@@ -191,25 +198,23 @@ static void multi_serial_init(Object *o)
+ 
+ static const TypeInfo multi_serial_pci_types[] = {
+     {
+-        .name          = "pci-serial-2x",
+-        .parent        = TYPE_PCI_DEVICE,
+-        .instance_size = sizeof(PCIMultiSerialState),
+-        .instance_init = multi_serial_init,
+-        .class_init    = multi_2x_serial_pci_class_initfn,
+-        .interfaces = (InterfaceInfo[]) {
++        .name           = TYPE_PCI_MULTISERIAL,
++        .parent         = TYPE_PCI_DEVICE,
++        .instance_size  = sizeof(PCIMultiSerialState),
++        .instance_init  = multi_serial_init,
++        .abstract       = true,
++        .interfaces     = (InterfaceInfo[]) {
+             { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+             { },
+         },
 +    }, {
-+        .name          = "pci-serial-4x",
-+        .parent        = TYPE_PCI_DEVICE,
-+        .instance_size = sizeof(PCIMultiSerialState),
-+        .instance_init = multi_serial_init,
-+        .class_init    = multi_4x_serial_pci_class_initfn,
-+        .interfaces = (InterfaceInfo[]) {
-+            { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-+            { },
-+        },
-+    }
++        .name          = "pci-serial-2x",
++        .parent        = TYPE_PCI_MULTISERIAL,
++        .class_init    = multi_2x_serial_pci_class_initfn,
+     }, {
+         .name          = "pci-serial-4x",
+-        .parent        = TYPE_PCI_DEVICE,
+-        .instance_size = sizeof(PCIMultiSerialState),
+-        .instance_init = multi_serial_init,
++        .parent        = TYPE_PCI_MULTISERIAL,
+         .class_init    = multi_4x_serial_pci_class_initfn,
+-        .interfaces = (InterfaceInfo[]) {
+-            { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+-            { },
+-        },
+     }
  };
  
--static const TypeInfo multi_4x_serial_pci_info = {
--    .name          = "pci-serial-4x",
--    .parent        = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(PCIMultiSerialState),
--    .instance_init = multi_serial_init,
--    .class_init    = multi_4x_serial_pci_class_initfn,
--    .interfaces = (InterfaceInfo[]) {
--        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
--        { },
--    },
--};
--
--static void multi_serial_pci_register_types(void)
--{
--    type_register_static(&multi_2x_serial_pci_info);
--    type_register_static(&multi_4x_serial_pci_info);
--}
--
--type_init(multi_serial_pci_register_types)
-+DEFINE_TYPES(multi_serial_pci_types)
 -- 
 2.38.1
 
