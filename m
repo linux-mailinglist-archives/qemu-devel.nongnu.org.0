@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C41B6941FD
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:52:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53C596941FB
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:52:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVQk-0003pX-7N; Mon, 13 Feb 2023 04:47:26 -0500
+	id 1pRVQk-0003pm-IL; Mon, 13 Feb 2023 04:47:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVQe-0003hL-Cw
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:47:20 -0500
+ id 1pRVQf-0003iW-CN
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:47:21 -0500
 Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVQX-0002o2-98
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:47:17 -0500
+ id 1pRVQa-0002n2-Nk
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:47:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676281633; x=1707817633;
+ t=1676281636; x=1707817636;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=uz2pnz7erb27I1fl0RWPcSALQT5lp4I5qlGbKbPX82Q=;
- b=STpqu/GXKP3cHJkoC8Fx5My/azzZxu+640p3uMBLnrARLCQIdS/by5Uh
- nb2+yc2cNnEXaBmfrvPWNMhDOgjhLARCQRB21xDTJuwwEg0CipgeU/e7Y
- iqdcirqwFTxlZEPHIUJYhNtfbYQPBW4Y9tQkabJBMYfaZ2qHf9zHNVQqO
- CKlS9JJ28oiUnK1nfOIhbiZrOGKjsCgNexSqKuq2sqxINfJZoQ3mUiRiy
- 6SQ15Z6u9Dk2b3iFswq5DjiYS+SqVlc6CZU5KZOLwDvvLqcMELd0HnHaB
- wg5R/GCIvmf+FfxTdRdbyZij9y7fgBDkiX0q5LBuJvASH3W+Z8H2lPTPc Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310487287"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310487287"
+ bh=gNTP7tofs2TK91IKiUrDYmJLPEIRl+0PcGF1dFFrCtU=;
+ b=CN2Yp6YH9rB0uvdNM60lLXNWzIRg1hW8fGXb+uCJ0eDxkuPinQzdEqfP
+ 95mpn2pkiu91DZSPzkzIlYzB7IJYbq5eDN3AR0NTrw7/j2wJQmCNoXGDP
+ wfBkIojRutE4RYasUWUCB6/oTc/Nb++spVR+GGXX5LUeQGDgRxdhpBTYg
+ MJQo06dmcev1VOaSozIe9nukh1X/VTEL2hQ0CGdjVrEDHv10dim4SqW7o
+ HUJBUBJpOj/mUCJEppSdBWhdx8zN/dvbt79ptrqIQMWZwnDRe8rYu/pSo
+ f0KpJFwXQIvtms6ugAMYJxsEtp57c84RftYfHvtb9k/+rj50sY0WvgsLx Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310487306"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310487306"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 01:46:15 -0800
+ 13 Feb 2023 01:46:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670760690"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670760690"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670760697"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670760697"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:46:12 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:46:15 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -55,9 +55,9 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
  Zhao Liu <zhao1.liu@intel.com>
-Subject: [RFC 49/52] i386/pc: Support hybrid cpu topology
-Date: Mon, 13 Feb 2023 17:50:32 +0800
-Message-Id: <20230213095035.158240-50-zhao1.liu@linux.intel.com>
+Subject: [RFC 50/52] qemu-options: Add the document of hybrid command
+Date: Mon, 13 Feb 2023 17:50:33 +0800
+Message-Id: <20230213095035.158240-51-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
@@ -88,25 +88,103 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
-Allow i386/pc to set hybrid cpu topology with "-hybrid" commands.
+Added the detailed introduction to the four hybrid options with specific
+examples.
 
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- hw/i386/pc.c | 1 +
- 1 file changed, 1 insertion(+)
+ qemu-options.hx | 77 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 77 insertions(+)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 9a7ee0affd87..5cd45921205c 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1928,6 +1928,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
-     hc->unplug = pc_machine_device_unplug_cb;
-     mc->default_cpu_type = TARGET_DEFAULT_CPU_TYPE;
-     mc->nvdimm_supported = true;
-+    mc->topo_props.hybrid_supported = true;
-     mc->topo_props.dies_supported = true;
-     mc->topo_props.clusters_supported = true;
-     mc->default_ram_id = "pc.ram";
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 8987972a8d5f..2bc7a5ed51ed 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -5611,7 +5611,84 @@ DEF("hybrid", HAS_ARG, QEMU_OPTION_hybrid,
+     "-hybrid cluster,clusters=n"
+     "-hybrid core,cores=n,coretype=core_type[,threads=threads][,clusterid=cluster]",
+     QEMU_ARCH_ALL)
++SRST
++``-hybrid socket,sockets=n``
++  \
++``-hybrid die,dies=n``
++  \
++``-hybrid cluster,clusters=n``
++  \
++``-hybrid core,cores=n,coretype=core_type[,threads=threads][,clusterid=cluster]``
++    Define a hybrid cpu topology. Currently, only i386 PC machine supports this command.
++
++    There're 4 levels need to be configured: socket, die, cluster and core. And the
++    thread level is included in core level configuration.
++
++    Hybrid and smp cannot be set at the same time.
++
++    As for now, hybrid cpu topology only supports differences between the core and cluster
++    levels (please note the differences between clusters is caused by containing different
++    cores), and it assumes threads, dies and sockets are the same.
++
++    These four level options must be written in the order of "socket, die, cluster, core".
++
++    For example, the following options assigns 12 VCPUs which contains 8 Intel Atom cores
++    and 2 Intel Core cores.
++
++    ::
++
++        -hybrid socket,sockets=1    \
++        -hybrid die,dies=1          \
++        -hybrid cluster,clusters=4  \
++        -hybrid core,cores=1,coretype="core",threads=2,clusterid=0-1    \
++        -hybrid core,cores=4,coretype="atom",threads=1,clusterid=2-3
++
++    '\ ``socket``\ ' option is used to configure how many sockets in the machine. Here
++    '\ ``sockets``\ ' means the number of sockets in the machine. If this option is not
++    set, the default is only 1 socket.
++
++    For example:
++
++    ::
++
++        -hybrid socket,sockets=1
+ 
++    '\ ``die``\ ' option is used to configure how many dies in one socket. Here
++    '\ ``dies``\ ' means the number of dies in one socket. If this option is not
++    set, the default is only 1 die per socket.
++
++    For example:
++
++    ::
++
++        -hybrid die,dies=1
++
++    '\ ``cluster``\ ' option is used to configure how many clusters in one die. Here
++    '\ ``clusters``\ ' means the number of clusters in one die. If this option is not
++    set, the default is only 1 cluster per die.
++
++    For example:
++
++    ::
++
++        -hybrid cluster,clusters=1
++
++    '\ ``core``\ ' option is used to configure hybrid core topology. Here '\ ``cores``\ '
++    means the number of current type cores in one cluster. '\ ``coretype``\ ' means the
++    type of the current core. '\ ``threads``\ ' means how many threads in one current type
++    core (the default is 1 thread per current core). And '\ ``clusterid``\ ' means the cluster
++    index list that the current type core belongs to (the default is all clusters have current
++    type cores). This option cannot be omitted.
++
++    For i386 PC machine, the supported '\ ``coretype``\ ' are "atom" and "core".
++
++    For example (clusters=4):
++
++    ::
++
++        -hybrid core,cores=1,coretype="core",threads=2,clusterid=0-1,clusterid=3    \
++        -hybrid core,cores=4,coretype="atom",threads=1,clusterid=2
++ERST
+ 
+ HXCOMM This is the last statement. Insert new options before this line!
+ 
 -- 
 2.34.1
 
