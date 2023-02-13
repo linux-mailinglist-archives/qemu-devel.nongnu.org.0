@@ -2,76 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21759694DC3
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 18:13:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77931694DD0
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 18:19:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRcMm-0007e9-0l; Mon, 13 Feb 2023 12:11:48 -0500
+	id 1pRcSH-0001lv-Up; Mon, 13 Feb 2023 12:17:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pRcMi-0007dN-V9
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 12:11:45 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pRcMg-0001Nh-P6
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 12:11:44 -0500
-Received: by mail-pl1-x629.google.com with SMTP id h4so6323304pll.9
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 09:11:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=oVX6/A3JGFds8sMuszFaaFmMhRFssJSfXrFF3tdQbtE=;
- b=tJ4tFvXRnWAObqtE+mLewg9UTQH3bnrRK5SCEb1ehqhVuJ4o/upwpt0i1/kFanxq52
- gQb+zZvXCPI37uDdRI8gtUPJdfGoZqK/oFS/UofauN6uyNDIcVs1PgPK72dOq9tzIrIl
- 0MMycRAZzQls4t8u8+8GQpCSS2J+6m7z2rwmZZlhjvzsTu8mR/Ib0LESrhWP1P1azE2N
- UGcUHEo57H8XTtCJmfhwhu3dL22LfAoxyyWdFg1aDUvJVXsa/yCY5fMbZQv/3KOFiLfg
- ABlWsmXlGWWszN9ypQsh32om/YwORE99dWnB2AJuQG0FrsoTXYeQGp0cSfVVeg40xbZw
- +DJQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pRcSE-0001lK-RT
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 12:17:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pRcSC-0002b4-BW
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 12:17:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676308643;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ohSDt8LSwHCiM5MsSn8GvqrR3bhg9U2GNpHae9Xumvg=;
+ b=TKfT9rKkWmKe2rscnZCf/lbP7tbF6QnlLA5LQa5ICpJzD3XVhZIxbu8xLlR9c7kKQZyaQB
+ V+0SxZnLSCRaOuBznvApPWKd8BFU4GjWV1DxriKkmCGpglplszSZ+eaZBikqeQYqN1XBv/
+ RW5kJT7Guh7odZmoU4ccHBr2lx4mP0k=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-204-nk0JdN90NnOhX75lCgXkuw-1; Mon, 13 Feb 2023 12:17:20 -0500
+X-MC-Unique: nk0JdN90NnOhX75lCgXkuw-1
+Received: by mail-yw1-f200.google.com with SMTP id
+ 00721157ae682-4c8e781bc0aso134069017b3.22
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 09:17:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=oVX6/A3JGFds8sMuszFaaFmMhRFssJSfXrFF3tdQbtE=;
- b=HvVuHP4W1LJ2HEAWCP4d/i4zRyePx/dV8NevwaGNoF3YJbUQOrkPyDrmGLnjYnELGO
- 9exqa1YAzVbccetTIEn6HFoogTR5KqLmAz2+kbueKzAAKL4B4MIItgnV6EkKOtSyWhba
- m53G7pT8EjLFkT7SxgLC4vCeqiW6+SdjNXDUbQm9vvdJySRPl8qOuBM1YWulqtugYaPb
- nKrbp8yQu7h468DekWb5RPNwG679h7a/Cj+VNT375J5ua6RAx+yQOTC7xAo4bDOjHTmx
- P1ijtcTs/lAPYRdgpsYr6dz3zKGuaN5yKOMsnc4cOLPdvSYfBWbW9F6KuT32hPelViaE
- RzJg==
-X-Gm-Message-State: AO0yUKVENN6Lodk8pUYb7kCGXwhe3relQhTKs5w63U819HUFKrT69Prm
- NzQZTkhp840oH540ZACjUGA6Ae9nlMZtE3FFuz4p1g==
-X-Google-Smtp-Source: AK7set8qQ6jqGJBfa0APDgrIVqOYXgGsKSKVbON+uUTCbvF/wxm/1Q1WXptLLkZX5l0G2ao5JBq7ucJ6gJv90tTPWv0=
-X-Received: by 2002:a17:90a:15d6:b0:233:dcb5:ee15 with SMTP id
- w22-20020a17090a15d600b00233dcb5ee15mr1439459pjd.92.1676308300971; Mon, 13
- Feb 2023 09:11:40 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ohSDt8LSwHCiM5MsSn8GvqrR3bhg9U2GNpHae9Xumvg=;
+ b=aOR30e1ETbhdoLF5D3MVbItFSWf5KhNAVUEIHrKUyS4aqohT3Qfjh7R5fpzGpzPd05
+ l9/NIk8kHHrPxdSKMQ5tnqLb7k4GV3Xhus+H0oMmvW2cjvgEMmXPZ/LncP84Bgk3/ySy
+ Q637scJw7M3cjweONQ9735hp8Rq1+xE7b7tl3WwSMsm3gOvLCll4syIgGGo4W9jEbqS1
+ vTIDKESGC1Rhka//VEZeiuFIGpnrTckkSklKOPiX+E3Ym4UeXTtIitQRn7VrNHFc1R2j
+ /wEGpIPA/s1jtmkDqiVFLn6ppLuzh8X3lglgvEyMlXANF6kToQPJ/aN4IVJ/VZOjF9nx
+ 6c2Q==
+X-Gm-Message-State: AO0yUKXOMqnXy2jxk3lV8ZIzZoTVly+1B2/qW9Tne9eFYL6C2BhPjVwr
+ 8Pj2ppg9EI0X9GaL1gCmnBpcvB264v1r8/dgHO6L/kViTOzJJ7fJGbSRGw1r2VpIfaqY/jTnKmI
+ q6P18TkVxNhZAfl4=
+X-Received: by 2002:a81:af68:0:b0:52e:f3f4:b78 with SMTP id
+ x40-20020a81af68000000b0052ef3f40b78mr6295292ywj.0.1676308639998; 
+ Mon, 13 Feb 2023 09:17:19 -0800 (PST)
+X-Google-Smtp-Source: AK7set83Rhk1Y+00fMV4Wt8fWIZGhkIgouos/7REbZb6DgaZfXsH3WF4wRFrMVMuHdbhjiBPkeujsA==
+X-Received: by 2002:a81:af68:0:b0:52e:f3f4:b78 with SMTP id
+ x40-20020a81af68000000b0052ef3f40b78mr6295267ywj.0.1676308639606; 
+ Mon, 13 Feb 2023 09:17:19 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ e189-20020a3769c6000000b007062139ecb3sm10206695qkc.95.2023.02.13.09.17.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Feb 2023 09:17:18 -0800 (PST)
+Date: Mon, 13 Feb 2023 12:17:17 -0500
+From: Peter Xu <peterx@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Hildenbrand <david@redhat.com>, philmd@linaro.org,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 1/2] log: Add separate debug option for logging invalid
+ memory accesses
+Message-ID: <Y+pwnar8b17Mu0u4@x1n>
+References: <20230119214032.4BF1E7457E7@zero.eik.bme.hu>
+ <ad4783ee-20ce-06d2-7c2f-1f915bd684d0@eik.bme.hu>
+ <413edbc1-8af1-4b0e-70ab-41d49f1bbbcd@eik.bme.hu>
+ <fcd09b07-c0ac-d617-8503-a5ecef947cfe@redhat.com>
+ <Y+pM+H1PvTUUHrhx@x1n>
+ <7ae34a52-13a5-05e0-3cea-10a9fb89ec1c@eik.bme.hu>
+ <Y+piDukOkeg+xs9G@x1n>
+ <0d85fc1d-4c97-5874-d49c-03ac3c265e2f@eik.bme.hu>
 MIME-Version: 1.0
-References: <20230202211129.984060-1-aaron@os.amperecomputing.com>
- <20230202211129.984060-8-aaron@os.amperecomputing.com>
-In-Reply-To: <20230202211129.984060-8-aaron@os.amperecomputing.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 13 Feb 2023 17:11:29 +0000
-Message-ID: <CAFEAcA_XAC3rT041oB_3aC25kuoL8zoABR+bnNJ47iVzasZMAg@mail.gmail.com>
-Subject: Re: [PATCH 7/7] target/arm: Add CPU properties for most v8.3 PAC
- features
-To: Aaron Lindsay <aaron@os.amperecomputing.com>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
- Richard Henderson <richard.henderson@linaro.org>,
- Vincent Dehors <vincent.dehors@smile.fr>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x629.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <0d85fc1d-4c97-5874-d49c-03ac3c265e2f@eik.bme.hu>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,24 +106,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 2 Feb 2023 at 21:12, Aaron Lindsay <aaron@os.amperecomputing.com> wrote:
->
-> Signed-off-by: Aaron Lindsay <aaron@os.amperecomputing.com>
-> ---
->  target/arm/cpu.h   |  5 +++
->  target/arm/cpu64.c | 81 ++++++++++++++++++++++++++++++++++++++--------
->  2 files changed, 72 insertions(+), 14 deletions(-)
+On Mon, Feb 13, 2023 at 05:34:04PM +0100, BALATON Zoltan wrote:
+> On Mon, 13 Feb 2023, Peter Xu wrote:
+> > On Mon, Feb 13, 2023 at 03:47:42PM +0100, BALATON Zoltan wrote:
+> > > On Mon, 13 Feb 2023, Peter Xu wrote:
+> > > > On Mon, Feb 13, 2023 at 12:41:29PM +0100, Thomas Huth wrote:
+> > > > > On 07/02/2023 17.33, BALATON Zoltan wrote:
+> > > > > > On Tue, 31 Jan 2023, BALATON Zoltan wrote:
+> > > > > > > On Thu, 19 Jan 2023, BALATON Zoltan wrote:
+> > > > > > > > Currently -d guest_errors enables logging of different invalid actions
+> > > > > > > > by the guest such as misusing hardware, accessing missing features or
+> > > > > > > > invalid memory areas. The memory access logging can be quite verbose
+> > > > > > > > which obscures the other messages enabled by this debug switch so
+> > > > > > > > separate it by adding a new -d memaccess option to make it possible to
+> > > > > > > > control it independently of other guest error logs.
+> > > > > > > > 
+> > > > > > > > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> > > > > > > 
+> > > > > > > Ping? Could somebody review and pick it up please?
+> > > > > > 
+> > > > > > Ping?
+> > > > > 
+> > > > > Patch makes sense to me and looks fine, so:
+> > > > > 
+> > > > > Reviewed-by: Thomas Huth <thuth@redhat.com>
+> > > > > 
+> > > > > ... I think this should go via one of the "Memory API" maintainers branches?
+> > > > > Paolo? Peter? David?
+> > > > 
+> > > > Paolo normally does the pull, I assume that'll still be the case.  The
+> > > > patch looks good to me if Phil's comment will be addressed on merging with
+> > > > the old mask, which makes sense to me:
+> > > 
+> > > Keeping the old mask kind of defies the purpose. I've tried to explain that
+> > > in the commit message but now that two of you did not get it maybe that
+> > > message needs to be clarified instead?
+> > 
+> > I think it's clear enough.  My fault to not read carefully into the
+> > message, sorry.
+> > 
+> > However, could you explain why a memory_region_access_valid() failure
+> > shouldn't belong to LOG_GUEST_ERROR?
+> > 
+> > commit e54eba1986f6c4bac2951e7f90a849cd842e25e4
+> > Author: Peter Maydell <peter.maydell@linaro.org>
+> > Date:   Thu Oct 18 14:11:35 2012 +0100
+> > 
+> >    qemu-log: Add new log category for guest bugs
+> > 
+> >    Add a new category for device models to log guest behaviour
+> >    which is likely to be a guest bug of some kind (accessing
+> >    nonexistent registers, reading 32 bit wide registers with
+> >    a byte access, etc). Making this its own log category allows
+> >    those who care (mostly guest OS authors) to see the complaints
+> >    without bothering most users.
+> > 
+> > Such an illegal memory access is definitely a suitable candidate of guest
+> > misbehave to me.
+> 
+> Problem is that a lot of machines have unimplemented hardware that are valid
+> on real machine but we don't model them so running guests which access these
+> generate constant flow of unassigned memory access log which obscures the
+> actual guest_errors when an modelled device is accessed in unexpected ways.
+> For an example you can try booting MorphOS on mac99,via=pmu as described
+> here: http://zero.eik.bme.hu/~balaton/qemu/amiga/#morphos
+> (or the pegasos2 command too). We could add dummy registers to silence these
+> but I think it's better to either implement it correctly or leave it
+> unimplemented so we don't hide errors by the dummy implementation.
+> 
+> > Not to mention Phil always have a good point that you may be violating
+> > others using guest_error already so what they wanted to capture can
+> > misterious going away without noticing, even if it may service your goal.
+> > IOW it's a slight ABI and I think we ned justification to break it.
+> 
+> Probably this should be documented in changelog or do we need depracation
+> for a debug option meant for developers mostly? I did not think so. Also I
+> can't think of other way to solve this without changing what guest_erorrs do
+> unless we change the name of that flag as well. Also not that when this was
+> originally added it did not contain mem access logs as those were controlled
+> by a define in memory.c until Philippe changed it and added them to
+> guest_errors. So in a way I want the previous functionality back.
 
-Do we really need all these properties ? Generally we don't
-add CPU properties unless there's a good reason for the
-user (or the board/SoC code) to want to flip them. The
-more usual case is that we simply enable them on the 'max'
-CPU by setting the ID register fields appropriately.
+I see, thanks.
 
-Somewhere in this series you need to add documentation of
-the features being implemented to docs/system/arm/emulation.rst
-(just a one-liner per FEAT_whatever).
+Indeed it's only a debug option, so I don't know whether the abi needs the
+attention here.
 
-thanks
--- PMM
+I quickly looked at all the masks and afaict this is really a special and
+very useful one that if I'm a cloud provider I can run some script trying
+to capture those violations using this bit to identify suspecious guests.
+
+So I think it would still be great to not break it if possible, IMHO.
+
+Since currently I don't see an immediate limitation of having qemu log mask
+being a single bit for each of the entry, one way to satisfy your need (and
+also keep the old behavior, iiuc), is to make guest_errors a sugar syntax
+to cover 2 bits.  It shouldn't be complicated at all, I assume:
+
++/* This covers the generic guest errors besides memory violations */
+ #define LOG_GUEST_ERROR    (1 << 11)
+
++/*
++ * This covers the guest errors on memory violations; see LOG_GUEST_ERROR
++ * for generic guest errors.
++ */
++#define LOG_GUEST_ERROR_MEM      (1 << 21)
++#define LOG_GUEST_ERROR_ALL      (LOG_GUEST_ERROR | LOG_GUEST_ERROR_MEM)
+
+-    { LOG_GUEST_ERROR, "guest_errors",
++    { LOG_GUEST_ERROR_ALL, "guest_errors",
+
+Then somehow squashed with your changes.  It'll make "guest_errors" not
+exactly matching the name of LOG_* but I think it may not be a big concern.
+
+Thanks,
+
+-- 
+Peter Xu
+
 
