@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FDCA6952C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 22:12:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F5446952B8
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 22:11:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRg5M-0007B9-9z; Mon, 13 Feb 2023 16:10:04 -0500
+	id 1pRg5O-0007Ek-M1; Mon, 13 Feb 2023 16:10:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pRg5D-00078a-T5
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 16:09:55 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pRg5F-0007AY-Nc
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 16:09:57 -0500
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pRg5C-000116-Av
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 16:09:55 -0500
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pRg5E-00011R-6z
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 16:09:57 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 381E2224AE;
- Mon, 13 Feb 2023 21:09:53 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 13EEE224AF;
+ Mon, 13 Feb 2023 21:09:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1676322593; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1676322595; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LikIgyxVUj4YLyeoxIbokts71/bEVCMUXA5N5gnmk3w=;
- b=LXWfJMwHgnsg68ujno2cZcRCncGxQ4MDuKtvfISdT4V6HsKFXj+VlBjqHkwu1e1STu2wNJ
- c3auzi1iWrOFzhQsA7C7KfvERvIBiB3aaeK/+NSYHp4E1X3mvOxyLlPTVM/dhCv2HH2Px6
- TbZqKHdttm5NQo/xwGdDkJyt5fwoSzY=
+ bh=xVifnKFO8e58R4MzGcfPLugFebB98MV3ryeajircXAU=;
+ b=wgKn9MPos68Q9fjJw/LtJ/MxozBf2gu5/dRfiMbnaGv5031z5PjQlMrKEJCadYtdWMpX76
+ SvXbfKplNXsVX8j9n++M7FNdJXJQDa9FsAEn+Js3+x6mrmLy2/WnIyrgYcHHRWm0NK2ucQ
+ A7A+qSM+u4hFUdfJcCA7XBOgqNXetW4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1676322593;
+ s=susede2_ed25519; t=1676322595;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LikIgyxVUj4YLyeoxIbokts71/bEVCMUXA5N5gnmk3w=;
- b=dYkhi7EcF75n8f0mwYbvzDG6fN84tUwIhO2z1wnZoRjYNRpLlU3RuSFHc2bEuhDeYKJ80G
- CZ0Fqw1elC073oCg==
+ bh=xVifnKFO8e58R4MzGcfPLugFebB98MV3ryeajircXAU=;
+ b=CLD0Sg0NK4k7/jGQwkiskgVRp3zB0iRkNoSOrbFOqVolzK9XlyLHztesf0en/U8wIH9z+s
+ k3Tbhu8kIM84NgAg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C94B8138E6;
- Mon, 13 Feb 2023 21:09:51 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A8268138E6;
+ Mon, 13 Feb 2023 21:09:53 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id KPZtIx+n6mPoRAAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 13 Feb 2023 21:09:51 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id uEqMGyGn6mPoRAAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 13 Feb 2023 21:09:53 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v3 05/12] tests/qtest: hd-geo-test: Check for missing devices
-Date: Mon, 13 Feb 2023 18:07:31 -0300
-Message-Id: <20230213210738.9719-6-farosas@suse.de>
+Subject: [PATCH v3 06/12] tests/qtest: Fix coding style in device-plug-test.c
+Date: Mon, 13 Feb 2023 18:07:32 -0300
+Message-Id: <20230213210738.9719-7-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230213210738.9719-1-farosas@suse.de>
 References: <20230213210738.9719-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
  helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -85,75 +85,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Don't include tests that require devices not available in the QEMU
-binary.
+We should not mix declarations and statements in QEMU code.
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/hd-geo-test.c | 38 +++++++++++++++++++++++++-------------
- 1 file changed, 25 insertions(+), 13 deletions(-)
+ tests/qtest/device-plug-test.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qtest/hd-geo-test.c b/tests/qtest/hd-geo-test.c
-index 4a7628077b..5aa258a2b3 100644
---- a/tests/qtest/hd-geo-test.c
-+++ b/tests/qtest/hd-geo-test.c
-@@ -1090,30 +1090,42 @@ int main(int argc, char **argv)
-         qtest_add_func("hd-geo/override/ide", test_override_ide);
-         if (qtest_has_device("lsi53c895a")) {
-             qtest_add_func("hd-geo/override/scsi", test_override_scsi);
--            qtest_add_func("hd-geo/override/scsi_2_controllers",
--                           test_override_scsi_2_controllers);
-+            if (qtest_has_device("virtio-scsi-pci")) {
-+                qtest_add_func("hd-geo/override/scsi_2_controllers",
-+                               test_override_scsi_2_controllers);
-+            }
-         }
--        qtest_add_func("hd-geo/override/virtio_blk", test_override_virtio_blk);
-         qtest_add_func("hd-geo/override/zero_chs", test_override_zero_chs);
--        qtest_add_func("hd-geo/override/scsi_hot_unplug",
--                       test_override_scsi_hot_unplug);
--        qtest_add_func("hd-geo/override/virtio_hot_unplug",
--                       test_override_virtio_hot_unplug);
-+        if (qtest_has_device("virtio-scsi-pci")) {
-+            qtest_add_func("hd-geo/override/scsi_hot_unplug",
-+                           test_override_scsi_hot_unplug);
-+        }
-+        if (qtest_has_device("virtio-blk-pci")) {
-+            qtest_add_func("hd-geo/override/virtio_hot_unplug",
-+                           test_override_virtio_hot_unplug);
-+            qtest_add_func("hd-geo/override/virtio_blk",
-+                           test_override_virtio_blk);
-+        }
+diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
+index 5a6afa2b57..4f92617335 100644
+--- a/tests/qtest/device-plug-test.c
++++ b/tests/qtest/device-plug-test.c
+@@ -64,6 +64,7 @@ static void process_device_remove(QTestState *qtest, const char *id)
  
-         if (qtest_has_machine("q35")) {
-             qtest_add_func("hd-geo/override/sata", test_override_sata);
--            qtest_add_func("hd-geo/override/virtio_blk_q35",
--                           test_override_virtio_blk_q35);
-             qtest_add_func("hd-geo/override/zero_chs_q35",
-                            test_override_zero_chs_q35);
-             if (qtest_has_device("lsi53c895a")) {
-                 qtest_add_func("hd-geo/override/scsi_q35",
-                                test_override_scsi_q35);
-             }
--            qtest_add_func("hd-geo/override/scsi_hot_unplug_q35",
--                           test_override_scsi_hot_unplug_q35);
--            qtest_add_func("hd-geo/override/virtio_hot_unplug_q35",
--                           test_override_virtio_hot_unplug_q35);
-+            if (qtest_has_device("virtio-scsi-pci")) {
-+                qtest_add_func("hd-geo/override/scsi_hot_unplug_q35",
-+                               test_override_scsi_hot_unplug_q35);
-+            }
-+            if (qtest_has_device("virtio-blk-pci")) {
-+                qtest_add_func("hd-geo/override/virtio_hot_unplug_q35",
-+                               test_override_virtio_hot_unplug_q35);
-+                qtest_add_func("hd-geo/override/virtio_blk_q35",
-+                               test_override_virtio_blk_q35);
-+            }
-+
-         }
-     } else {
-         g_test_message("QTEST_QEMU_IMG not set or qemu-img missing; "
+ static void test_pci_unplug_request(void)
+ {
++    QTestState *qtest;
+     const char *arch = qtest_get_arch();
+     const char *machine_addition = "";
+ 
+@@ -71,8 +72,8 @@ static void test_pci_unplug_request(void)
+         machine_addition = "-machine pc";
+     }
+ 
+-    QTestState *qtest = qtest_initf("%s -device virtio-mouse-pci,id=dev0",
+-                                    machine_addition);
++    qtest = qtest_initf("%s -device virtio-mouse-pci,id=dev0",
++                        machine_addition);
+ 
+     process_device_remove(qtest, "dev0");
+ 
+@@ -94,6 +95,7 @@ static void test_q35_pci_unplug_request(void)
+ 
+ static void test_pci_unplug_json_request(void)
+ {
++    QTestState *qtest;
+     const char *arch = qtest_get_arch();
+     const char *machine_addition = "";
+ 
+@@ -101,7 +103,7 @@ static void test_pci_unplug_json_request(void)
+         machine_addition = "-machine pc";
+     }
+ 
+-    QTestState *qtest = qtest_initf(
++    qtest = qtest_initf(
+         "%s -device \"{'driver': 'virtio-mouse-pci', 'id': 'dev0'}\"",
+         machine_addition);
+ 
 -- 
 2.35.3
 
