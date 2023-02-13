@@ -2,82 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0895694499
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 12:33:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C174E6944C4
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 12:42:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRX4Y-0006wk-JK; Mon, 13 Feb 2023 06:32:38 -0500
+	id 1pRXDI-00008R-MF; Mon, 13 Feb 2023 06:41:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRX4S-0006wN-Bw
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 06:32:34 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRX4Q-0001Jm-3J
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 06:32:32 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- f23-20020a05600c491700b003dff4480a17so8171083wmp.1
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 03:32:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=sg267DmTcuA/7PWApJ3X068m7qnJYCrCboR8nl1Np7o=;
- b=SnkwfcEgPdV4B0PkPItzhT7FmGek8j1BbbauTql0Y9Ykr1kSACQda2GkA7msZGN618
- 7Zu/f8uDudxE63EWUfA9u2pskXkRoST95VV0maKO/33QIZ10P/bkBinfY5w7sjgVoFPC
- kA02PYr6eg3saGP+fGxJE7WPFXOOi7QzXmKxz7imgVaYlgt80QeRvm0esGRPYtiwE2Xy
- Jgk62Gx55AgYW0UXhBgUQf3E+42HVW4xP2en+Q1PvRZGXUgVmefQiCMBvwbiBEzbBiFy
- mWsdmR9jpj16R9bVawnc4V6LKgeK3+XaROOSk5isD/Wx79T/vB25q6ut1vsYXvTzNvyM
- beMg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRXDG-00007u-DH
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 06:41:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRXDE-00036p-Fp
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 06:41:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676288495;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FJeYeAbS9Q2gz28RmZeQRr7tOk/WeMHaAGYfvP32YTU=;
+ b=dR1pmNBlSNktM6PKmt3P3FZQ+TonIk7Kl4Ec5mfD2yxTCGi+iNmQ1LngFtZ5xA3uqtiFhE
+ bfTTpFuiRUrBLH8jiSjTGSA9Zk93PaCAwNnlYkEHb+M9Xcn/hcHtFfGrsK+SSadeq/vBBF
+ 6hAE1sSDXkcj6gYNXVsKt9X1vorhATw=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-308-R5s9CpRGOyKot2DChmoyYA-1; Mon, 13 Feb 2023 06:41:33 -0500
+X-MC-Unique: R5s9CpRGOyKot2DChmoyYA-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ j26-20020ac84c9a000000b003b9b7c60108so7247675qtv.16
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 03:41:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sg267DmTcuA/7PWApJ3X068m7qnJYCrCboR8nl1Np7o=;
- b=Tc48OuA670dBYT27yeWCoymic/elAQSL8Wy6RH0AVFgRy00VObBAtWQIbKedIu+RRs
- 7nOIWZHsO7eGswIwlwb0dDJkGbJUE0aS7GF60urjXW4fPEN2njQyJvmh55CfqAaxb2SG
- PrTV/ry9jkRzD1EMiT5z5vlNEPm/T7zvX7WbTWxxQLaCfJPZPpTXO4e97jB9ihRX7J4U
- 7h95gVRQ39zi6GhWYky1ORM+IIyXGcWB/ugSUULMMrUgavONYrUToe/QkXGdQyMIEspA
- BLn+4/3H6ng7gq9rCqWMQiB/zJte6GhmCk/Ot7fdZ3BQt+PRk0lGeKHoGaDiCtTtXe+M
- Ynyw==
-X-Gm-Message-State: AO0yUKVk0NPtMCGZg2mqeMyKjLm1k9kyUr0cR1n7gq/A8XrnsHZXlWgd
- s9Ti9c1sTOC4fkCdUEj/Qv1dDg==
-X-Google-Smtp-Source: AK7set8Al4zo7vQeRu4Cfw0NrGn++XcH8terWuUoKV78z4XUpToP2IEua0OK0X7vi246b6CRftLc0A==
-X-Received: by 2002:a05:600c:3b92:b0:3df:eedf:df1c with SMTP id
- n18-20020a05600c3b9200b003dfeedfdf1cmr22677032wms.38.1676287947681; 
- Mon, 13 Feb 2023 03:32:27 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- t15-20020a05600c198f00b003ddc781b1d4sm14601296wmq.33.2023.02.13.03.32.26
+ bh=FJeYeAbS9Q2gz28RmZeQRr7tOk/WeMHaAGYfvP32YTU=;
+ b=wk0FibJ4KWx7etI08kcJe9GJOpUxrUieiiauPlOiT0oC8ns1DtPR9c2bMGvnRr8Bp0
+ EuFjDHWRw21qF+GSEyk5NvBuJpMFS4poS3lu9jJH23CWXBf9sf7/UPodAdGt5orzc8T8
+ tjoH9yyYyHfgDqDg7A4u1SpLr3lPryMz0dLPaHVdXJSbxczOzAf1NXAjHR16zDBaI5Uj
+ Iy8A0vIon/aTeovYHQ9S5bNDX/31EzxGNYv61kS2X3ceLZ4nJ0AWsSuMmet2puG3lNfx
+ +ED/j1kQk2SixIrMLKUkvsRT7Nb+baO84XbtwUpxheROBspbMzM4dvu40MWrAUleubw0
+ t3Cw==
+X-Gm-Message-State: AO0yUKUETeSzwmAAEca3BFw07d4mHuzyuEWEIWfR7LqwCqYubORFEQ2Q
+ F+ocZyOzL1NzR0wApXm4oSpCdVtoZDxK12zq4S315MnG3LcnczZ5migsAYA1KuwX/6h3SMaoWkU
+ 19IUy6PqbZi9mB4M=
+X-Received: by 2002:a05:6214:2a4e:b0:535:3000:41ad with SMTP id
+ jf14-20020a0562142a4e00b00535300041admr45070122qvb.4.1676288493000; 
+ Mon, 13 Feb 2023 03:41:33 -0800 (PST)
+X-Google-Smtp-Source: AK7set+7Y1moyyI/gavV2eJfWX881u4oN1SyQqX7MmKD8ZuG7lVechqikRLkLA+lDt8HoV4XQu3dlg==
+X-Received: by 2002:a05:6214:2a4e:b0:535:3000:41ad with SMTP id
+ jf14-20020a0562142a4e00b00535300041admr45070103qvb.4.1676288492778; 
+ Mon, 13 Feb 2023 03:41:32 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-185.web.vodafone.de.
+ [109.43.177.185]) by smtp.gmail.com with ESMTPSA id
+ v2-20020a379302000000b007112aa42c4fsm9429016qkd.135.2023.02.13.03.41.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 03:32:26 -0800 (PST)
-Message-ID: <5df7ad90-5220-cafd-d1fd-e096d8d14636@linaro.org>
-Date: Mon, 13 Feb 2023 12:32:25 +0100
+ Mon, 13 Feb 2023 03:41:32 -0800 (PST)
+Message-ID: <fcd09b07-c0ac-d617-8503-a5ecef947cfe@redhat.com>
+Date: Mon, 13 Feb 2023 12:41:29 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [RFC PATCH] tests: add LKFT baseline test to avocado
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 1/2] log: Add separate debug option for logging invalid
+ memory accesses
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Anders Roxell <anders.roxell@linaro.org>, Cleber Rosa <crosa@redhat.com>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20230207204433.752020-1-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230207204433.752020-1-alex.bennee@linaro.org>
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Hildenbrand <david@redhat.com>
+Cc: philmd@linaro.org, Richard Henderson <richard.henderson@linaro.org>
+References: <20230119214032.4BF1E7457E7@zero.eik.bme.hu>
+ <ad4783ee-20ce-06d2-7c2f-1f915bd684d0@eik.bme.hu>
+ <413edbc1-8af1-4b0e-70ab-41d49f1bbbcd@eik.bme.hu>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <413edbc1-8af1-4b0e-70ab-41d49f1bbbcd@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.348,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.348, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,106 +104,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 7/2/23 21:44, Alex Bennée wrote:
-> The Linux Kernel Function Test (LKFT) project uses QEMU to test a wide
-> variety of kernel configurations on wide range of our emulated
-> platforms. They publish a known good set of images at:
+On 07/02/2023 17.33, BALATON Zoltan wrote:
+> On Tue, 31 Jan 2023, BALATON Zoltan wrote:
+>> On Thu, 19 Jan 2023, BALATON Zoltan wrote:
+>>> Currently -d guest_errors enables logging of different invalid actions
+>>> by the guest such as misusing hardware, accessing missing features or
+>>> invalid memory areas. The memory access logging can be quite verbose
+>>> which obscures the other messages enabled by this debug switch so
+>>> separate it by adding a new -d memaccess option to make it possible to
+>>> control it independently of other guest error logs.
+>>>
+>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>
+>> Ping? Could somebody review and pick it up please?
 > 
->    https://storage.tuxboot.com/
-> 
-> to help with bisecting regressions in either the kernel, firmware or
-> QEMU itself. The tests are pretty lightweight as they contain just a
-> kernel with a minimal rootfs which boots a lot faster than most of the
-> distros. In time they might be persuaded to version there known good
-> baselines and we can then enable proper checksums.
-> 
-> Total run time: 140s
-> 
-> Overall coverage rate:
->    lines......: 8.7% (96412 of 1106284 lines)
->    functions..: 10.8% (11515 of 106651 functions)
->    branches...: 8.3% (30685 of 370255 branches)
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Anders Roxell <anders.roxell@linaro.org>
-> ---
->   tests/avocado/lkft_baselines.py | 257 ++++++++++++++++++++++++++++++++
->   1 file changed, 257 insertions(+)
->   create mode 100755 tests/avocado/lkft_baselines.py
+> Ping?
 
-Do we want to skip the whole class on CI, or only some tests?
+Patch makes sense to me and looks fine, so:
 
-    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-> +class LKFTBaselineTest(QemuSystemTest):
-> +    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 root=/dev/vda'
-> +
-> +    def setUp(self):
-> +        super().setUp()
-> +
-> +        # We need zstd for all the lkft tests
-> +        zstd = find_command('zstd', False)
-> +        if zstd is False:
-> +            self.cancel('Could not find "zstd", which is required to '
-> +                        'decompress rootfs')
-> +        self.zstd = zstd
+... I think this should go via one of the "Memory API" maintainers branches? 
+Paolo? Peter? David?
 
-Requested in upstream Avocado:
-https://github.com/avocado-framework/avocado/issues/5609
-
- > +    def fetch_lkft_assets(self, dt=None):
- > +        """
- > +        Fetch the LKFT assets. They are stored in a standard way so we
- > +        use the per-test tags to fetch details.
- > +        """
- > +        base_url = f"https://storage.tuxboot.com/{self.lkft}/"
- > +        kernel_image =  self.fetch_asset(base_url + self.image)
- > +        disk_image_zst = self.fetch_asset(base_url + "rootfs.ext4.zst")
-
-Hmm no hash verification.
-
-> +    def test_arm64be(self):
-> +        """
-> +        :avocado: tags=arch:aarch64
-
-This tag is useful:
-
-            :avocado: tags=endian:big
-
-> +        :avocado: tags=cpu:cortex-a57
-> +        :avocado: tags=machine:virt
-> +        :avocado: tags=lkft:arm64be
-> +        :avocado: tags=console:ttyAMA0
-> +        :avocado: tags=shutdown:nowait
-> +        """
-> +        self.common_lkft()
+  Thomas
 
 
-> +    def test_armv7(self):
-> +        """
-> +        :avocado: tags=arch:arm
-> +        :avocado: tags=cpu:cortex-a15
-> +        :avocado: tags=machine:virt
-> +        :avocado: tags=lkft:armv7
-> +        :avocado: tags=image:zImage
-> +        :avocado: tags=console:ttyAMA0
-> +        :avocado: tags=shutdown:nowait
-> +        """
-> +        self.common_lkft()
-> +
-> +    def test_armv7be(self):
-> +        """
-> +        :avocado: tags=arch:arm
-
-            :avocado: tags=endian:big
-
-> +        :avocado: tags=cpu:cortex-a15
-> +        :avocado: tags=machine:virt
-> +        :avocado: tags=lkft:armv7be
-> +        :avocado: tags=image:zImage
-> +        :avocado: tags=console:ttyAMA0
-> +        :avocado: tags=shutdown:nowait
-> +        """
-> +        self.common_lkft()
+>>> ---
+>>> include/qemu/log.h | 1 +
+>>> softmmu/memory.c   | 6 +++---
+>>> softmmu/physmem.c  | 2 +-
+>>> util/log.c         | 2 ++
+>>> 4 files changed, 7 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/include/qemu/log.h b/include/qemu/log.h
+>>> index c5643d8dd5..4bf0a65a85 100644
+>>> --- a/include/qemu/log.h
+>>> +++ b/include/qemu/log.h
+>>> @@ -35,6 +35,7 @@ bool qemu_log_separate(void);
+>>> /* LOG_STRACE is used for user-mode strace logging. */
+>>> #define LOG_STRACE         (1 << 19)
+>>> #define LOG_PER_THREAD     (1 << 20)
+>>> +#define LOG_MEM_ACCESS     (1 << 21)
+>>>
+>>> /* Lock/unlock output. */
+>>>
+>>> diff --git a/softmmu/memory.c b/softmmu/memory.c
+>>> index 9d64efca26..0a9fa67d32 100644
+>>> --- a/softmmu/memory.c
+>>> +++ b/softmmu/memory.c
+>>> @@ -1379,7 +1379,7 @@ bool memory_region_access_valid(MemoryRegion *mr,
+>>> {
+>>>     if (mr->ops->valid.accepts
+>>>         && !mr->ops->valid.accepts(mr->opaque, addr, size, is_write, 
+>>> attrs)) {
+>>> -        qemu_log_mask(LOG_GUEST_ERROR, "Invalid %s at addr 0x%" HWADDR_PRIX
+>>> +        qemu_log_mask(LOG_MEM_ACCESS, "Invalid %s at addr 0x%" HWADDR_PRIX
+>>>                       ", size %u, region '%s', reason: rejected\n",
+>>>                       is_write ? "write" : "read",
+>>>                       addr, size, memory_region_name(mr));
+>>> @@ -1387,7 +1387,7 @@ bool memory_region_access_valid(MemoryRegion *mr,
+>>>     }
+>>>
+>>>     if (!mr->ops->valid.unaligned && (addr & (size - 1))) {
+>>> -        qemu_log_mask(LOG_GUEST_ERROR, "Invalid %s at addr 0x%" HWADDR_PRIX
+>>> +        qemu_log_mask(LOG_MEM_ACCESS, "Invalid %s at addr 0x%" HWADDR_PRIX
+>>>                       ", size %u, region '%s', reason: unaligned\n",
+>>>                       is_write ? "write" : "read",
+>>>                       addr, size, memory_region_name(mr));
+>>> @@ -1401,7 +1401,7 @@ bool memory_region_access_valid(MemoryRegion *mr,
+>>>
+>>>     if (size > mr->ops->valid.max_access_size
+>>>         || size < mr->ops->valid.min_access_size) {
+>>> -        qemu_log_mask(LOG_GUEST_ERROR, "Invalid %s at addr 0x%" HWADDR_PRIX
+>>> +        qemu_log_mask(LOG_MEM_ACCESS, "Invalid %s at addr 0x%" HWADDR_PRIX
+>>>                       ", size %u, region '%s', reason: invalid size "
+>>>                       "(min:%u max:%u)\n",
+>>>                       is_write ? "write" : "read",
+>>> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+>>> index bf585e45a8..bca679ee01 100644
+>>> --- a/softmmu/physmem.c
+>>> +++ b/softmmu/physmem.c
+>>> @@ -2792,7 +2792,7 @@ static bool flatview_access_allowed(MemoryRegion 
+>>> *mr, MemTxAttrs attrs,
+>>>     if (memory_region_is_ram(mr)) {
+>>>         return true;
+>>>     }
+>>> -    qemu_log_mask(LOG_GUEST_ERROR,
+>>> +    qemu_log_mask(LOG_MEM_ACCESS,
+>>>                   "Invalid access to non-RAM device at "
+>>>                   "addr 0x%" HWADDR_PRIX ", size %" HWADDR_PRIu ", "
+>>>                   "region '%s'\n", addr, len, memory_region_name(mr));
+>>> diff --git a/util/log.c b/util/log.c
+>>> index 7837ff9917..a3c097f320 100644
+>>> --- a/util/log.c
+>>> +++ b/util/log.c
+>>> @@ -495,6 +495,8 @@ const QEMULogItem qemu_log_items[] = {
+>>>       "log every user-mode syscall, its input, and its result" },
+>>>     { LOG_PER_THREAD, "tid",
+>>>       "open a separate log file per thread; filename must contain '%d'" },
+>>> +    { LOG_MEM_ACCESS, "memaccess",
+>>> +      "log invalid memory accesses" },
+>>>     { 0, NULL, NULL },
+>>> };
 
 
