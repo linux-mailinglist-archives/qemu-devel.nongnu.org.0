@@ -2,87 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15CA2694C67
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 17:22:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D7CB694C5B
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 17:21:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRbZf-0004og-0T; Mon, 13 Feb 2023 11:21:03 -0500
+	id 1pRbZ9-0004Oo-3i; Mon, 13 Feb 2023 11:20:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pRbZV-0004g5-02; Mon, 13 Feb 2023 11:20:55 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pRbZS-0007xD-8T; Mon, 13 Feb 2023 11:20:51 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id ml19so33359180ejb.0;
- Mon, 13 Feb 2023 08:20:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dPYELRlFV8w4s2mD+NwhDzTDZ9N/FFBC8a9zFFIEtf8=;
- b=ZAAnAtxK9LtuTjod/R6PQ+l+OK/prV2D3SRceGlLTNFoxupCIO6oiq4pLm5uenFcal
- cnbcrztFoR1Rvb5H5mZPLbtcw2zw2eVBwhnisSv2hp/EZeyOuSkP86uy43NGKrokc629
- CDXONBFoxGx0YlhQnUvEVfaYmzKpneuq/jR7ItKxdk9NSE7qNLFRgo2P/QtSVG8bQXWo
- TMaN1VNqA5lOZKpkVP99fABfC9eqNV7XCnghyJTs6vJ02glWTNKayzqcciL5jNnJuq/S
- KtKnNgA/b8VdyUsgoqLowLyJu0PEFT3sYk4Vle+9jmBZoGpnwn2+aZJvQPQTJNKKjOfR
- 8Spg==
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1pRbZ6-0004OB-CI
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 11:20:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1pRbZ4-0007jL-5b
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 11:20:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676305224;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mGBVcs+uPMV1E2ywIk63+Q0gjOOmGZqr9e7le6+NDGE=;
+ b=TRg+e9rNg0Vd54qfnZsoOKsPfwEIs2jPF8uI1V8bqrgbeouCGuXF3onaXWcg/vG0GylO3W
+ 6mLx2EqrzRiypqPaPCK5FbKZ5a2tbzy3Z/jU8TMSKpWj/rm5mZ53ArbavYTloJ4qCPt7t2
+ CH+azn7HlOraYvgaRLhrJOYKzdYMmxo=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-67-de5tdK7dPqqDBhNqQRMxXQ-1; Mon, 13 Feb 2023 11:20:21 -0500
+X-MC-Unique: de5tdK7dPqqDBhNqQRMxXQ-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ d39-20020ab014aa000000b0068887f32c88so3944465uae.17
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 08:20:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dPYELRlFV8w4s2mD+NwhDzTDZ9N/FFBC8a9zFFIEtf8=;
- b=f/MMqYGk7egiBvilyl/UgXFSt4mJV9XO30el2xdi19B+2sVaGXz+MbNNxS0GN2RH9I
- AgCr+vBuQMT1luVnjOg4h7fI8RDnZiORhNhAYncpnqfLtSS9puZ7SLBv8kzBlLGVeGDR
- V/Wr5VvS28FARN72WYiMMhBtXqe/H7jm0WGpPhPlxQEB+5dnUa8PAcMim7FucQa1A6sS
- EPBjs6ov2NXKgS/QYQ83tVkaWc3FXmy/pDFDf1PtOFDb+q4LRFi+JqhKm+6PSkDHTTPa
- 8XZBdKVo9U0bEgPYS7FtqGXPA/79VJTSvDSZ4YEMvk/hn6+gHvWecyvPexPFTBj5yfOv
- tPng==
-X-Gm-Message-State: AO0yUKUBFt1QgJ7U2E2lts8KAhk1ygwi8xrJKupfCEDWoRuynniY2A96
- KPS+k/2GMEvyxkh9RQl2H1vzgPZGr8I=
-X-Google-Smtp-Source: AK7set/iLM5msfhQ0NntqqM0xgMoWoYp+tTrRlaX749GUixJm5ndLSMTsH9hKcpaq5DjmhtMduxa7w==
-X-Received: by 2002:a17:906:a297:b0:8af:22b4:99d2 with SMTP id
- i23-20020a170906a29700b008af22b499d2mr15993196ejz.5.1676305248556; 
- Mon, 13 Feb 2023 08:20:48 -0800 (PST)
-Received: from localhost.localdomain
- (dynamic-078-055-133-198.78.55.pool.telefonica.de. [78.55.133.198])
- by smtp.gmail.com with ESMTPSA id
- 20-20020a170906025400b008841aa86484sm6979952ejl.211.2023.02.13.08.20.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Feb 2023 08:20:48 -0800 (PST)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-trivial@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Juan Quintela <quintela@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Thomas Huth <thuth@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- BALATON Zoltan <balaton@eik.bme.hu>, Ani Sinha <ani@anisinha.ca>,
- Laurent Vivier <lvivier@redhat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v4 9/9] target/i386/tcg/sysemu/tcg-cpu: Avoid own opinion
- about smram size
-Date: Mon, 13 Feb 2023 17:20:04 +0100
-Message-Id: <20230213162004.2797-10-shentey@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230213162004.2797-1-shentey@gmail.com>
-References: <20230213162004.2797-1-shentey@gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mGBVcs+uPMV1E2ywIk63+Q0gjOOmGZqr9e7le6+NDGE=;
+ b=Ivz8AYFLN39Ym7jMU0dGVEzQlxlhG5QvFQusFHLJbU/1XkAZ38mvZSkLPjQVxk0idK
+ iS1bfaBu3kLKm5gl5HQG6BPBf07IYVgIpTNZrd8Z92R4RHj7Cuv1Qx+bzITg2rja7gJC
+ OfRkFaAMWzQkMbjKJ3tTjjrC8StxSrzHQAKszddsgYfHUO7JiG0YnmQeCgdzdaOnuJo3
+ bUjewTG5pmBqNKfjwCYUJ52tHKbR0Mx0m2iHnIXx7MEWFR+n3nalcYElAQa7jSj5/dUF
+ doNDC2RwZfOiYdNbHJjWvnKizWPPMcK+wrFThnSv4yAy3g3CPymSqaSO0EN7+W0UDXJZ
+ hdrg==
+X-Gm-Message-State: AO0yUKWvlzbRbag4EBYffBMRsKlWiP7BCLuEqs2A7FqI7Z3We0eDPTxV
+ 0zdqiT5ylKQa42n0DZVCgJI3aYdx5LX+uSbLvVI84aUI8mFa+OhTZuD+COOUndUsKsgLuVFI/L7
+ zeQBKK8KA8HMWTQaLuny8DXh6ihJaYsnAdS7o
+X-Received: by 2002:ab0:631a:0:b0:65c:9a4b:d390 with SMTP id
+ a26-20020ab0631a000000b0065c9a4bd390mr4204296uap.62.1676305219628; 
+ Mon, 13 Feb 2023 08:20:19 -0800 (PST)
+X-Google-Smtp-Source: AK7set/zwSUWyxFDgz6BtyxTrmuubOOsn9YdF0C7e/IraoXJqxHp4hqFklkbXQfAYjKAh+CZRmQLuQ9YNko9QmiSwCo=
+X-Received: by 2002:ab0:631a:0:b0:65c:9a4b:d390 with SMTP id
+ a26-20020ab0631a000000b0065c9a4bd390mr4204288uap.62.1676305218808; Mon, 13
+ Feb 2023 08:20:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62e.google.com
+References: <20230209085004.2745131-1-kfir@daynix.com>
+In-Reply-To: <20230209085004.2745131-1-kfir@daynix.com>
+From: Konstantin Kostiuk <kkostiuk@redhat.com>
+Date: Mon, 13 Feb 2023 18:20:07 +0200
+Message-ID: <CAPMcbCo+XEXTJKD24vMH8DzYgKJs5jBKNpH1annMthPUGEnazg@mail.gmail.com>
+Subject: Re: [PATCH 0/3] qga/win/vss: add VSS backup type options
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Cc: qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>, 
+ Kfir Manor <kfir@daynix.com>, Yan Vugenfirer <yan@daynix.com>
+Content-Type: multipart/alternative; boundary="0000000000001a45cd05f49739e3"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,39 +92,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When setting up the CPU's smram memory region alias, the code currently
-assumes that the smram size is 4 GiB. While this is true, it repeats a
-decision made elsewhere which seems redundant and prone to
-inconsistencies. Avoid this by reusing whatever size the smram region
-was set to.
+--0000000000001a45cd05f49739e3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- target/i386/tcg/sysemu/tcg-cpu.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Hi Marc-Andr=C3=A9,
 
-diff --git a/target/i386/tcg/sysemu/tcg-cpu.c b/target/i386/tcg/sysemu/tcg-cpu.c
-index c223c0fe9b..8f5ce6093c 100644
---- a/target/i386/tcg/sysemu/tcg-cpu.c
-+++ b/target/i386/tcg/sysemu/tcg-cpu.c
-@@ -22,7 +22,6 @@
- #include "tcg/helper-tcg.h"
- 
- #include "sysemu/sysemu.h"
--#include "qemu/units.h"
- #include "exec/address-spaces.h"
- 
- #include "tcg/tcg-cpu.h"
-@@ -36,7 +35,7 @@ static void tcg_cpu_machine_done(Notifier *n, void *unused)
-     if (smram) {
-         cpu->smram = g_new(MemoryRegion, 1);
-         memory_region_init_alias(cpu->smram, OBJECT(cpu), "smram",
--                                 smram, 0, 4 * GiB);
-+                                 smram, 0, memory_region_size(smram));
-         memory_region_set_enabled(cpu->smram, true);
-         memory_region_add_subregion_overlap(cpu->cpu_as_root, 0,
-                                             cpu->smram, 1);
--- 
-2.39.1
+Can you please review this patch set?
+
+Best Regards,
+Konstantin Kostiuk.
+
+
+On Thu, Feb 9, 2023 at 10:50 AM Kfir Manor <kfir@daynix.com> wrote:
+
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/775
+>
+> The problem, VSS backup type VSS-FULL (the only available VSS backup type
+> currently) can break other backups that use VSS-FULL(for example,
+> Bareos-Fullbackup).
+>
+> Fix, add other backup types.
+>
+> Implementation, put the desired backup type number inside Regkey value
+> HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\QEMU Guest Agent VSS
+> Provider\VssOption, so that the program can query the desired backup type=
+.
+>
+> VSS backup types:
+> number   type
+> 1        VSS_BT_FULL
+> 2        VSS_BT_INCREMENTAL
+> 3        VSS_BT_DIFFERENTIAL
+> 4        VSS_BT_LOG
+> 5        VSS_BT_COPY
+>
+> for more information about the different backup types
+> https://learn.microsoft.com/en-us/windows/win32/vss/vss-backup-state
+>
+> Additionally, the program would work as before with VSS-FULL in cases
+> where VssOption doesn't exist, or VssOption value isn't a known backup ty=
+pe.
+>
+> Kfir Manor (3):
+>   add VssOption to installer
+>   query VSS backup type
+>   requester_freeze changes
+>
+>  qga/installer/qemu-ga.wxs   |  4 ++++
+>  qga/vss-win32/requester.cpp | 41 ++++++++++++++++++++++++++++++++++++-
+>  qga/vss-win32/vss-handles.h |  3 +++
+>  3 files changed, 47 insertions(+), 1 deletion(-)
+>
+> --
+> 2.38.1
+>
+>
+
+--0000000000001a45cd05f49739e3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Marc-Andr=C3=A9,</div><div><br></div><div>Can you =
+please review this patch set?<br></div><div><br></div><div><div><div dir=3D=
+"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=
+=3D"ltr"><div>Best Regards,</div><div>Konstantin Kostiuk.</div></div></div>=
+</div><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Thu, Feb 9, 2023 at 10:50 AM Kfir Manor &lt;<a href=3D"m=
+ailto:kfir@daynix.com">kfir@daynix.com</a>&gt; wrote:<br></div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">Resolves: <a href=3D"https://gitlab.c=
+om/qemu-project/qemu/-/issues/775" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://gitlab.com/qemu-project/qemu/-/issues/775</a><br>
+<br>
+The problem, VSS backup type VSS-FULL (the only available VSS backup type c=
+urrently) can break other backups that use VSS-FULL(for example, Bareos-Ful=
+lbackup).<br>
+<br>
+Fix, add other backup types.<br>
+<br>
+Implementation, put the desired backup type number inside Regkey value HKEY=
+_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\QEMU Guest Agent VSS Provi=
+der\VssOption, so that the program can query the desired backup type.<br>
+<br>
+VSS backup types:<br>
+number=C2=A0 =C2=A0type<br>
+1=C2=A0 =C2=A0 =C2=A0 =C2=A0 VSS_BT_FULL<br>
+2=C2=A0 =C2=A0 =C2=A0 =C2=A0 VSS_BT_INCREMENTAL<br>
+3=C2=A0 =C2=A0 =C2=A0 =C2=A0 VSS_BT_DIFFERENTIAL<br>
+4=C2=A0 =C2=A0 =C2=A0 =C2=A0 VSS_BT_LOG<br>
+5=C2=A0 =C2=A0 =C2=A0 =C2=A0 VSS_BT_COPY<br>
+<br>
+for more information about the different backup types <a href=3D"https://le=
+arn.microsoft.com/en-us/windows/win32/vss/vss-backup-state" rel=3D"noreferr=
+er" target=3D"_blank">https://learn.microsoft.com/en-us/windows/win32/vss/v=
+ss-backup-state</a><br>
+<br>
+Additionally, the program would work as before with VSS-FULL in cases where=
+ VssOption doesn&#39;t exist, or VssOption value isn&#39;t a known backup t=
+ype.<br>
+<br>
+Kfir Manor (3):<br>
+=C2=A0 add VssOption to installer<br>
+=C2=A0 query VSS backup type<br>
+=C2=A0 requester_freeze changes<br>
+<br>
+=C2=A0qga/installer/qemu-ga.wxs=C2=A0 =C2=A0|=C2=A0 4 ++++<br>
+=C2=A0qga/vss-win32/requester.cpp | 41 ++++++++++++++++++++++++++++++++++++=
+-<br>
+=C2=A0qga/vss-win32/vss-handles.h |=C2=A0 3 +++<br>
+=C2=A03 files changed, 47 insertions(+), 1 deletion(-)<br>
+<br>
+-- <br>
+2.38.1<br>
+<br>
+</blockquote></div>
+
+--0000000000001a45cd05f49739e3--
 
 
