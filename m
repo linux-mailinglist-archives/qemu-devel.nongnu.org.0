@@ -2,106 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796A8695512
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 00:55:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB65C695513
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 00:56:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRidu-0007v8-0e; Mon, 13 Feb 2023 18:53:54 -0500
+	id 1pRifO-0000H8-10; Mon, 13 Feb 2023 18:55:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1pRidp-0007up-RT
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 18:53:49 -0500
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pRifM-0000Gz-Nr
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 18:55:24 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1pRido-0003E8-64
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 18:53:49 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id i18so6857293pli.3
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 15:53:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=oN12p0IDxvmorHBGQ7GzjlWOyGaJlkT0wNKpNtRNPE8=;
- b=C91FV0IHIHySQTRkb86+GocwXDr8WlYgQiYnUNZd1Ke1PWzwc0Ui3swRKoM/EMugmd
- mtDyIYfBfzKVpqk3ZurWfE4C06NJuP7sWx9xClULK72fPaRyTgD475XUP5w0R0lmJSxg
- fqPMDhOQ1CLyvdP8vm+bEyoR42WnbkStnrKpQAmZxWuxcmJUuRvcyRi1Rk+aqkGEy+qK
- F0pLZENP3TbitJijIx7cS7NuofTEJwgwDOkN5GYMW48d2+LHtiHhs30rOQ3tZSv01O8e
- FB7gFZ7JbhxL0Pno8NSgZttpMsmCG6pRRBkbmMYW6rJKC8Z6IMP2dpIC+LDTcFZNOFFC
- kxfg==
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pRifK-0003Wt-Jw
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 18:55:24 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id w3so8176215edc.2
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 15:55:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=QoVB6FfBDeAVhl+wS/GzSpO6aYVrICp4Uu5CXdw5R0Q=;
+ b=Pi2pO/TMan8j4c5afN91eEPwoANRE7lLPv/uWzsepcVnAGOxGW/7AF95yIaHXEiV29
+ XYH31nPtDz92l5PsWOW0UjTojEIishZf194UMRkxIDIytbAdCzutUtRPxeTJmShqWfS5
+ KGhdpj+nw5fE0qPJxH4qeZLJ7DRusmDPPol0x/EujMrKDyPR4Py2muTJsl8JDn057Oje
+ VC8SYVtzl4hHuGe/z6zbHOfUlTRuB0CSEk1igch8qI3eVID8QN8V+KlE8NUEcz8eOp2+
+ Be7gabwMTt2q9dALr1kteUKYG0W2lJ2NBzsIChXgkDYb53u1+i7tLxL5Vy87RK8RzsBC
+ oFzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oN12p0IDxvmorHBGQ7GzjlWOyGaJlkT0wNKpNtRNPE8=;
- b=tO9Pnng40P7m7pbbxVgPvq/5+5IQKkQiezAVe6TnxPekwfK6FGzcSl/yKlLm9UOqCP
- 3r42wNZ3GPlUnro+jnU/HY8BcQwNyrcxO8hrlhmV7tVzqQ9d3tuBgwHR9z0mwfqxC9UF
- vHL03fdGg3BDO96PVI6262/7i0vpgJsgDHu25H6tkfotEuNciIXBR/OjeoGRYsinreJp
- Xtj8YtV86Nj75IXY/J0vjsA2+HMzvnX0lE6q8ombakjOBack93xfIrK/UsYsdAPZociH
- tCiKTRr0fgyhH7PycBqMz+/wKcfoDJcZ6m1rp5N5KZtXJUAq5hOSZQxjwdfCle/VReeA
- uCsg==
-X-Gm-Message-State: AO0yUKUlrQ4EPk6g35GcA5RJp/by4M+zv6DdbTjteZbsMUXo57Pw8eBH
- QsLF7EO9jPMQ6pWfb0ZAHYs=
-X-Google-Smtp-Source: AK7set/amp4VFmNZkQNRNmMa3hykvI7jc+MqhCv8WD2YyR0i7BGfBFGLnLeucu0LFmUtyzTRowTMiQ==
-X-Received: by 2002:a05:6a20:12c7:b0:c3:161a:b954 with SMTP id
- v7-20020a056a2012c700b000c3161ab954mr391641pzg.44.1676332425999; 
- Mon, 13 Feb 2023 15:53:45 -0800 (PST)
-Received: from localhost ([192.55.54.55]) by smtp.gmail.com with ESMTPSA id
- z20-20020aa791d4000000b0058e08796e98sm8406145pfa.196.2023.02.13.15.53.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Feb 2023 15:53:45 -0800 (PST)
-Date: Mon, 13 Feb 2023 15:53:43 -0800
-From: Isaku Yamahata <isaku.yamahata@gmail.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Isaku Yamahata <isaku.yamahata@gmail.com>,
- Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
-Message-ID: <20230213235343.GC4175971@ls.amr.corp.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
- <20230209072529.GB4175971@ls.amr.corp.intel.com>
- <Y+WRUriIoan/XChx@google.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QoVB6FfBDeAVhl+wS/GzSpO6aYVrICp4Uu5CXdw5R0Q=;
+ b=Wf4F6eRslU6YM8ckdRIBOe7L4XNzudlGS6CJw9pYcRbx9zW9+XP/TNLbDEQKfn9yrP
+ xvLydBPS3X93jzxNAtTHQxFccfVKZnqpigT9UY2aeBySgthTPc/f/0RkgJXreaFbN0eg
+ I6cQvLwGGWcAJT1VebqPrk5hhd+fhnZjX31GaRquJCANfEObBkHJc7uMZTB7dHWuucvk
+ RaQ/c7oVgLcSqNyPSjABWQXlSOaI3IGOPkiCa0WDl+FaNxCKEP/uT+uG0CfV42UZKJGl
+ 4rPbOch1pfmWFmNCLW2hX9vRtjm04V6A7vANcYmfTXWBp3r1rrXFcOZFwu5jUis4PaDJ
+ dwUQ==
+X-Gm-Message-State: AO0yUKUc4wXq7NhcQ2yGQfJ7+DBw5YFJ0aBLnS0HfC89eCJZC0WAD0fF
+ ILlz/mVjkvkynmi8VCqvqQDhRX3EYHF5ukvLHbQ7Og==
+X-Google-Smtp-Source: AK7set8ZSABpDCL9iYFFvJ08FDO3vcriFXoV/7GpQi3Xm831ZINUAqWzSkxarYRYHm0U1JzdAPTHxdAM1/5EDCvGcog=
+X-Received: by 2002:a50:cdcf:0:b0:4ac:b4b3:b788 with SMTP id
+ h15-20020a50cdcf000000b004acb4b3b788mr247668edj.0.1676332520053; Mon, 13 Feb
+ 2023 15:55:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y+WRUriIoan/XChx@google.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=isaku.yamahata@gmail.com; helo=mail-pl1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230210231829.39476-1-imp@bsdimp.com>
+ <20230210231829.39476-10-imp@bsdimp.com>
+ <714e259e-06e0-2f34-ad6e-a6316625d1c2@linaro.org>
+In-Reply-To: <714e259e-06e0-2f34-ad6e-a6316625d1c2@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Mon, 13 Feb 2023 16:55:09 -0700
+Message-ID: <CANCZdfrNZoB0Dwr+OeHrHkp2=r4OkBsSZNvvH3U5Zs74O+G9sg@mail.gmail.com>
+Subject: Re: [PATCH 9/9] bsd-user: Add -strict
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, 
+ Kyle Evans <kevans@freebsd.org>, f4bug@amsat.org, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000006236c005f49d9435"
+Received-SPF: none client-ip=2a00:1450:4864:20::52f;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,59 +85,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Feb 10, 2023 at 12:35:30AM +0000,
-Sean Christopherson <seanjc@google.com> wrote:
+--0000000000006236c005f49d9435
+Content-Type: text/plain; charset="UTF-8"
 
-> On Wed, Feb 08, 2023, Isaku Yamahata wrote:
-> > On Fri, Dec 02, 2022 at 02:13:40PM +0800,
-> > Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> > 
-> > > +static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
-> > > +					   struct kvm_memory_attributes *attrs)
-> > > +{
-> > > +	gfn_t start, end;
-> > > +	unsigned long i;
-> > > +	void *entry;
-> > > +	u64 supported_attrs = kvm_supported_mem_attributes(kvm);
-> > > +
-> > > +	/* flags is currently not used. */
-> > > +	if (attrs->flags)
-> > > +		return -EINVAL;
-> > > +	if (attrs->attributes & ~supported_attrs)
-> > > +		return -EINVAL;
-> > > +	if (attrs->size == 0 || attrs->address + attrs->size < attrs->address)
-> > > +		return -EINVAL;
-> > > +	if (!PAGE_ALIGNED(attrs->address) || !PAGE_ALIGNED(attrs->size))
-> > > +		return -EINVAL;
-> > > +
-> > > +	start = attrs->address >> PAGE_SHIFT;
-> > > +	end = (attrs->address + attrs->size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
-> > > +
-> > > +	entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
-> > > +
-> > > +	mutex_lock(&kvm->lock);
-> > > +	for (i = start; i < end; i++)
-> > > +		if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
-> > > +				    GFP_KERNEL_ACCOUNT)))
-> > > +			break;
-> > > +	mutex_unlock(&kvm->lock);
-> > > +
-> > > +	attrs->address = i << PAGE_SHIFT;
-> > > +	attrs->size = (end - i) << PAGE_SHIFT;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
-> > > +
-> > 
-> > If memslot isn't private, it should return error if private attribute is set.
-> 
-> Why?  I'd rather keep the two things separate.  If we enforce this sort of thing
-> at KVM_SET_MEMORY_ATTRIBUTES, then we also have to enforce it at
-> KVM_SET_USER_MEMORY_REGION.
+On Sat, Feb 11, 2023 at 4:19 PM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-For device assignment via shared GPA, non-private memory slot needs to be
-allowed.
--- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+> On 2/10/23 13:18, Warner Losh wrote:
+> > Most of the time, it's useful to make our best effort, but sometimes we
+> > want to know right away when we don't implement something. First place
+> > we use it is for unknown syscalls.
+> >
+> > Signed-off-by: Warner Losh <imp@bsdimp.com>
+> > ---
+> >   bsd-user/freebsd/os-syscall.c | 4 ++++
+> >   bsd-user/main.c               | 5 ++++-
+> >   bsd-user/qemu.h               | 1 +
+> >   3 files changed, 9 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/bsd-user/freebsd/os-syscall.c
+> b/bsd-user/freebsd/os-syscall.c
+> > index 179a20c304b..e2b26ecb8dd 100644
+> > --- a/bsd-user/freebsd/os-syscall.c
+> > +++ b/bsd-user/freebsd/os-syscall.c
+> > @@ -508,6 +508,10 @@ static abi_long freebsd_syscall(void *cpu_env, int
+> num, abi_long arg1,
+> >
+> >       default:
+> >           qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
+> > +        if (bsd_user_strict) {
+> > +            printf("Unimplemented system call %d\n", num);
+> > +            abort();
+> > +        }
+>
+> I don't like the raw printf, even if you did write to stderr.
+> Perhaps just the abort, letting the error message be handled by qemu_log?
+>
+> > @@ -396,6 +397,8 @@ int main(int argc, char **argv)
+> >               trace_opt_parse(optarg);
+> >           } else if (!strcmp(r, "0")) {
+> >               argv0 = argv[optind++];
+> > +        } else if (!strcmp(r, "strict")) {
+> > +            bsd_user_strict = true;
+>
+> Perhaps force LOG_UNIMP?  Without -D, you'll get the qemu_log above to
+> stderr.
+>
+
+Given the number of other changes in the other bits, I'm going to defer
+this feedback until round 3, since
+the number of changes I've made for round 2 means there will  almost
+certainly result in a round 3...
+
+Warner
+
+--0000000000006236c005f49d9435
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Feb 11, 2023 at 4:19 PM Richa=
+rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
+nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">On 2/10/23 13:18, Warner Losh wrote:<br>
+&gt; Most of the time, it&#39;s useful to make our best effort, but sometim=
+es we<br>
+&gt; want to know right away when we don&#39;t implement something. First p=
+lace<br>
+&gt; we use it is for unknown syscalls.<br>
+&gt; <br>
+&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
+t=3D"_blank">imp@bsdimp.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0bsd-user/freebsd/os-syscall.c | 4 ++++<br>
+&gt;=C2=A0 =C2=A0bsd-user/main.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| 5 ++++-<br>
+&gt;=C2=A0 =C2=A0bsd-user/qemu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| 1 +<br>
+&gt;=C2=A0 =C2=A03 files changed, 9 insertions(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-sysca=
+ll.c<br>
+&gt; index 179a20c304b..e2b26ecb8dd 100644<br>
+&gt; --- a/bsd-user/freebsd/os-syscall.c<br>
+&gt; +++ b/bsd-user/freebsd/os-syscall.c<br>
+&gt; @@ -508,6 +508,10 @@ static abi_long freebsd_syscall(void *cpu_env, in=
+t num, abi_long arg1,<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0default:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_log_mask(LOG_UNIMP, &quot=
+;Unsupported syscall: %d\n&quot;, num);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (bsd_user_strict) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 printf(&quot;Unimplemented =
+system call %d\n&quot;, num);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 abort();<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+I don&#39;t like the raw printf, even if you did write to stderr.<br>
+Perhaps just the abort, letting the error message be handled by qemu_log?<b=
+r>
+<br>
+&gt; @@ -396,6 +397,8 @@ int main(int argc, char **argv)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0trace_opt_parse(=
+optarg);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (!strcmp(r, &quot;0&=
+quot;)) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0argv0 =3D argv[o=
+ptind++];<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (!strcmp(r, &quot;strict&quot;)=
+) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bsd_user_strict =3D true;<b=
+r>
+<br>
+Perhaps force LOG_UNIMP?=C2=A0 Without -D, you&#39;ll get the qemu_log abov=
+e to stderr.<br></blockquote><div><br></div><div>Given the number of other =
+changes in the other bits, I&#39;m going to defer this feedback until round=
+ 3, since</div><div>the number of changes I&#39;ve made for round 2 means t=
+here will=C2=A0 almost certainly result in a round 3...</div><div><br></div=
+><div>Warner</div></div></div>
+
+--0000000000006236c005f49d9435--
 
