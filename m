@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B743E694C5C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 17:21:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15CA2694C67
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 17:22:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRbZf-0004rH-LV; Mon, 13 Feb 2023 11:21:03 -0500
+	id 1pRbZf-0004og-0T; Mon, 13 Feb 2023 11:21:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pRbZV-0004g4-1C; Mon, 13 Feb 2023 11:20:55 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
+ id 1pRbZV-0004g5-02; Mon, 13 Feb 2023 11:20:55 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pRbZR-0007zB-6Z; Mon, 13 Feb 2023 11:20:51 -0500
-Received: by mail-ej1-x629.google.com with SMTP id qb15so31139359ejc.1;
- Mon, 13 Feb 2023 08:20:48 -0800 (PST)
+ id 1pRbZS-0007xD-8T; Mon, 13 Feb 2023 11:20:51 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id ml19so33359180ejb.0;
+ Mon, 13 Feb 2023 08:20:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=w7TYkI/++FXvnkpoOiqybcbrgtqyZejgSKUe6dTILis=;
- b=gn1XKj5yvZa9/ZuPY8Y/MwVFc4LKTBkFoT59GzJJeWtQj+KH1IOpEODqiSsexd3J+Z
- skdzQS1xya1JwRlVAAnsH/QkMlc2xSLsauaIjIzHQfkglXMML9tdsaqzFdRL4LNBqJJu
- lCJu8kHeNIYR1KR8W2m6Y6JNRDcMcut9WXV5wsg9HLBF93WssgSQdsYf5/n94jAIkYrq
- n5RJI0bXnP2gM1QoMfNNxmBQkO0AjgAHCr3reRl8zF+q2yvyg274zaFO3GH0E0LBsHDW
- dUMo3Lj/orjcYqrfYfcgu+iCMlT60SizuUmQ0yXDf4iKgGwT8q304Km2WX0/PDv+l/NC
- DMfg==
+ bh=dPYELRlFV8w4s2mD+NwhDzTDZ9N/FFBC8a9zFFIEtf8=;
+ b=ZAAnAtxK9LtuTjod/R6PQ+l+OK/prV2D3SRceGlLTNFoxupCIO6oiq4pLm5uenFcal
+ cnbcrztFoR1Rvb5H5mZPLbtcw2zw2eVBwhnisSv2hp/EZeyOuSkP86uy43NGKrokc629
+ CDXONBFoxGx0YlhQnUvEVfaYmzKpneuq/jR7ItKxdk9NSE7qNLFRgo2P/QtSVG8bQXWo
+ TMaN1VNqA5lOZKpkVP99fABfC9eqNV7XCnghyJTs6vJ02glWTNKayzqcciL5jNnJuq/S
+ KtKnNgA/b8VdyUsgoqLowLyJu0PEFT3sYk4Vle+9jmBZoGpnwn2+aZJvQPQTJNKKjOfR
+ 8Spg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=w7TYkI/++FXvnkpoOiqybcbrgtqyZejgSKUe6dTILis=;
- b=ofZxzBVwSdoQNtiWzXwgP5KYle4qjhSBTLHbr6+u6rUG0jnkrSN0QMfw0H3NOiubkT
- A3qOP7uiQz34HaG/2eiPpSLMtfY6TWkF96RvgPLkZn9TUuM7OAHvV/3mXmdFYsAwWyNM
- NG74IjoOG0hJ51T5BcK32iUaJSQSH1Gvs8Vgt1VcU+nWkwykcwWPx5bYSMAGpFs/uNen
- ZCItC5B0Vy/CbkrPAjpTaghBdIFh3QH7FemfwXCwdoc5Dk0q37FNQsLnBoxqcKadK3Qm
- 8xGsvFXmMX9SqrBzCYdhNzJLRFcqCFWzmYq9JmOL8c+NAOgUco+Ovpxsl2FdfcwNmwPY
- N9AQ==
-X-Gm-Message-State: AO0yUKXOegaUdEQ37V7Et+IdOCK/Tk4in0C2A2Hr48kXhRrTIR3ysAUY
- JbFQWjETSkUxDD2reib1MWrTSHpwwbQ=
-X-Google-Smtp-Source: AK7set+9nWLV0d7TJAM78x3R2IOM15F+m8bznxMMejSoZ09Vit8Gk4m5L4HagNL5oLpbusBrS9hzHA==
-X-Received: by 2002:a17:906:4690:b0:87b:3d29:2982 with SMTP id
- a16-20020a170906469000b0087b3d292982mr25083076ejr.11.1676305247225; 
- Mon, 13 Feb 2023 08:20:47 -0800 (PST)
+ bh=dPYELRlFV8w4s2mD+NwhDzTDZ9N/FFBC8a9zFFIEtf8=;
+ b=f/MMqYGk7egiBvilyl/UgXFSt4mJV9XO30el2xdi19B+2sVaGXz+MbNNxS0GN2RH9I
+ AgCr+vBuQMT1luVnjOg4h7fI8RDnZiORhNhAYncpnqfLtSS9puZ7SLBv8kzBlLGVeGDR
+ V/Wr5VvS28FARN72WYiMMhBtXqe/H7jm0WGpPhPlxQEB+5dnUa8PAcMim7FucQa1A6sS
+ EPBjs6ov2NXKgS/QYQ83tVkaWc3FXmy/pDFDf1PtOFDb+q4LRFi+JqhKm+6PSkDHTTPa
+ 8XZBdKVo9U0bEgPYS7FtqGXPA/79VJTSvDSZ4YEMvk/hn6+gHvWecyvPexPFTBj5yfOv
+ tPng==
+X-Gm-Message-State: AO0yUKUBFt1QgJ7U2E2lts8KAhk1ygwi8xrJKupfCEDWoRuynniY2A96
+ KPS+k/2GMEvyxkh9RQl2H1vzgPZGr8I=
+X-Google-Smtp-Source: AK7set/iLM5msfhQ0NntqqM0xgMoWoYp+tTrRlaX749GUixJm5ndLSMTsH9hKcpaq5DjmhtMduxa7w==
+X-Received: by 2002:a17:906:a297:b0:8af:22b4:99d2 with SMTP id
+ i23-20020a170906a29700b008af22b499d2mr15993196ejz.5.1676305248556; 
+ Mon, 13 Feb 2023 08:20:48 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-078-055-133-198.78.55.pool.telefonica.de. [78.55.133.198])
  by smtp.gmail.com with ESMTPSA id
- 20-20020a170906025400b008841aa86484sm6979952ejl.211.2023.02.13.08.20.45
+ 20-20020a170906025400b008841aa86484sm6979952ejl.211.2023.02.13.08.20.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Feb 2023 08:20:46 -0800 (PST)
+ Mon, 13 Feb 2023 08:20:48 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -65,16 +65,17 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  BALATON Zoltan <balaton@eik.bme.hu>, Ani Sinha <ani@anisinha.ca>,
  Laurent Vivier <lvivier@redhat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v4 8/9] hw/i386/x86: Make TYPE_X86_MACHINE the owner of smram
-Date: Mon, 13 Feb 2023 17:20:03 +0100
-Message-Id: <20230213162004.2797-9-shentey@gmail.com>
+Subject: [PATCH v4 9/9] target/i386/tcg/sysemu/tcg-cpu: Avoid own opinion
+ about smram size
+Date: Mon, 13 Feb 2023 17:20:04 +0100
+Message-Id: <20230213162004.2797-10-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230213162004.2797-1-shentey@gmail.com>
 References: <20230213162004.2797-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,248 +98,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Treat the smram MemoryRegion analoguous to other memory regions such as
-ram, pci, io, ... , making the used memory regions more explicit when
-instantiating q35 or i440fx.
-
-Note that the q35 device uses these memory regions only during the
-realize phase which suggests that it shouldn't be the owner of smram.
-i440fx activates/deactivates the whole smram memory region depending on
-the SMRAM_G_SMRAME bit which seems wrong since it should only handle the
-128kb region. If this got changed, i440fx would also only use smram
-during its realize phase.
+When setting up the CPU's smram memory region alias, the code currently
+assumes that the smram size is 4 GiB. While this is true, it repeats a
+decision made elsewhere which seems redundant and prone to
+inconsistencies. Avoid this by reusing whatever size the smram region
+was set to.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- include/hw/i386/x86.h        |  2 ++
- include/hw/pci-host/i440fx.h |  7 ++++---
- include/hw/pci-host/q35.h    |  4 +++-
- hw/i386/pc_piix.c            |  2 +-
- hw/i386/pc_q35.c             |  2 ++
- hw/i386/x86.c                |  4 ++++
- hw/pci-host/i440fx.c         | 13 +++++--------
- hw/pci-host/q35.c            | 17 ++++++++---------
- 8 files changed, 29 insertions(+), 22 deletions(-)
+ target/i386/tcg/sysemu/tcg-cpu.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index 62fa5774f8..ba6912b721 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -59,6 +59,8 @@ struct X86MachineState {
-     /* Start address of the initial RAM above 4G */
-     uint64_t above_4g_mem_start;
+diff --git a/target/i386/tcg/sysemu/tcg-cpu.c b/target/i386/tcg/sysemu/tcg-cpu.c
+index c223c0fe9b..8f5ce6093c 100644
+--- a/target/i386/tcg/sysemu/tcg-cpu.c
++++ b/target/i386/tcg/sysemu/tcg-cpu.c
+@@ -22,7 +22,6 @@
+ #include "tcg/helper-tcg.h"
  
-+    MemoryRegion smram;
-+
-     /* CPU and apic information: */
-     bool apic_xrupt_override;
-     unsigned pci_irq_mask;
-diff --git a/include/hw/pci-host/i440fx.h b/include/hw/pci-host/i440fx.h
-index bf57216c78..e9efdb3c5f 100644
---- a/include/hw/pci-host/i440fx.h
-+++ b/include/hw/pci-host/i440fx.h
-@@ -28,9 +28,10 @@ struct PCII440FXState {
-     MemoryRegion *system_memory;
-     MemoryRegion *pci_address_space;
-     MemoryRegion *ram_memory;
-+    MemoryRegion *smram;
-     PAMMemoryRegion pam_regions[PAM_REGIONS_COUNT];
-     MemoryRegion smram_region;
--    MemoryRegion smram, low_smram;
-+    MemoryRegion low_smram;
- };
- 
- #define TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE "igd-passthrough-i440FX"
-@@ -43,7 +44,7 @@ PCIBus *i440fx_init(const char *pci_type,
-                     ram_addr_t below_4g_mem_size,
-                     ram_addr_t above_4g_mem_size,
-                     MemoryRegion *pci_memory,
--                    MemoryRegion *ram_memory);
--
-+                    MemoryRegion *ram_memory,
-+                    MemoryRegion *smram);
- 
- #endif
-diff --git a/include/hw/pci-host/q35.h b/include/hw/pci-host/q35.h
-index e89329c51e..fcbe57b42d 100644
---- a/include/hw/pci-host/q35.h
-+++ b/include/hw/pci-host/q35.h
-@@ -44,9 +44,10 @@ struct MCHPCIState {
-     MemoryRegion *pci_address_space;
-     MemoryRegion *system_memory;
-     MemoryRegion *address_space_io;
-+    MemoryRegion *smram;
-     PAMMemoryRegion pam_regions[PAM_REGIONS_COUNT];
-     MemoryRegion smram_region, open_high_smram;
--    MemoryRegion smram, low_smram, high_smram;
-+    MemoryRegion low_smram, high_smram;
-     MemoryRegion tseg_blackhole, tseg_window;
-     MemoryRegion smbase_blackhole, smbase_window;
-     bool has_smram_at_smbase;
-@@ -75,6 +76,7 @@ struct Q35PCIHost {
-  */
- 
- #define MCH_HOST_PROP_RAM_MEM "ram-mem"
-+#define MCH_HOST_PROP_SMRAM_MEM "smram-mem"
- #define MCH_HOST_PROP_PCI_MEM "pci-mem"
- #define MCH_HOST_PROP_SYSTEM_MEM "system-mem"
- #define MCH_HOST_PROP_IO_MEM "io-mem"
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 00ba725656..41aaaa5465 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -228,7 +228,7 @@ static void pc_init1(MachineState *machine,
-                               system_memory, system_io, machine->ram_size,
-                               x86ms->below_4g_mem_size,
-                               x86ms->above_4g_mem_size,
--                              pci_memory, ram_memory);
-+                              pci_memory, ram_memory, &x86ms->smram);
-         pci_bus_map_irqs(pci_bus,
-                          xen_enabled() ? xen_pci_slot_get_pirq
-                                        : pc_pci_slot_get_pirq);
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 455cbe11fa..a5ffb77ed8 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -220,6 +220,8 @@ static void pc_q35_init(MachineState *machine)
-     object_property_add_child(OBJECT(machine), "q35", OBJECT(q35_host));
-     object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_RAM_MEM,
-                              OBJECT(machine->ram), NULL);
-+    object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_SMRAM_MEM,
-+                             OBJECT(&x86ms->smram), NULL);
-     object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_PCI_MEM,
-                              OBJECT(pci_memory), NULL);
-     object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_SYSTEM_MEM,
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index eaff4227bd..d7e219b1eb 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -1436,6 +1436,10 @@ static void x86_machine_initfn(Object *obj)
-     x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
-     x86ms->bus_lock_ratelimit = 0;
-     x86ms->above_4g_mem_start = 4 * GiB;
-+
-+    memory_region_init(&x86ms->smram, obj, "smram", 4 * GiB);
-+    memory_region_set_enabled(&x86ms->smram, true);
-+    object_property_add_const_link(obj, "smram", OBJECT(&x86ms->smram));
- }
- 
- static void x86_machine_class_init(ObjectClass *oc, void *data)
-diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
-index 61e7b97ff4..8f4a4f59a6 100644
---- a/hw/pci-host/i440fx.c
-+++ b/hw/pci-host/i440fx.c
-@@ -23,7 +23,6 @@
-  */
- 
- #include "qemu/osdep.h"
+ #include "sysemu/sysemu.h"
 -#include "qemu/units.h"
- #include "qemu/range.h"
- #include "hw/i386/pc.h"
- #include "hw/pci/pci.h"
-@@ -77,7 +76,7 @@ static void i440fx_update_memory_mappings(PCII440FXState *d)
-     }
-     memory_region_set_enabled(&d->smram_region,
-                               !(pd->config[I440FX_SMRAM] & SMRAM_D_OPEN));
--    memory_region_set_enabled(&d->smram,
-+    memory_region_set_enabled(d->smram,
-                               pd->config[I440FX_SMRAM] & SMRAM_G_SMRAME);
-     memory_region_transaction_commit();
- }
-@@ -246,7 +245,8 @@ PCIBus *i440fx_init(const char *pci_type,
-                     ram_addr_t below_4g_mem_size,
-                     ram_addr_t above_4g_mem_size,
-                     MemoryRegion *pci_address_space,
--                    MemoryRegion *ram_memory)
-+                    MemoryRegion *ram_memory,
-+                    MemoryRegion *smram)
- {
-     PCIBus *b;
-     PCIDevice *d;
-@@ -267,6 +267,7 @@ PCIBus *i440fx_init(const char *pci_type,
-     f->system_memory = address_space_mem;
-     f->pci_address_space = pci_address_space;
-     f->ram_memory = ram_memory;
-+    f->smram = smram;
+ #include "exec/address-spaces.h"
  
-     i440fx = I440FX_PCI_HOST_BRIDGE(dev);
-     range_set_bounds(&i440fx->pci_hole, below_4g_mem_size,
-@@ -283,14 +284,10 @@ PCIBus *i440fx_init(const char *pci_type,
-     memory_region_set_enabled(&f->smram_region, true);
- 
-     /* smram, as seen by SMM CPUs */
--    memory_region_init(&f->smram, OBJECT(d), "smram", 4 * GiB);
--    memory_region_set_enabled(&f->smram, true);
-     memory_region_init_alias(&f->low_smram, OBJECT(d), "smram-low",
-                              f->ram_memory, 0xa0000, 0x20000);
-     memory_region_set_enabled(&f->low_smram, true);
--    memory_region_add_subregion(&f->smram, 0xa0000, &f->low_smram);
--    object_property_add_const_link(qdev_get_machine(), "smram",
--                                   OBJECT(&f->smram));
-+    memory_region_add_subregion(f->smram, 0xa0000, &f->low_smram);
- 
-     init_pam(&f->pam_regions[0], OBJECT(d), f->ram_memory, f->system_memory,
-              f->pci_address_space, PAM_BIOS_BASE, PAM_BIOS_SIZE);
-diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-index fd18920e7f..83f2a98c71 100644
---- a/hw/pci-host/q35.c
-+++ b/hw/pci-host/q35.c
-@@ -246,6 +246,10 @@ static void q35_host_initfn(Object *obj)
-                              (Object **) &s->mch.ram_memory,
-                              qdev_prop_allow_set_link_before_realize, 0);
- 
-+    object_property_add_link(obj, MCH_HOST_PROP_SMRAM_MEM, TYPE_MEMORY_REGION,
-+                             (Object **) &s->mch.smram,
-+                             qdev_prop_allow_set_link_before_realize, 0);
-+
-     object_property_add_link(obj, MCH_HOST_PROP_PCI_MEM, TYPE_MEMORY_REGION,
-                              (Object **) &s->mch.pci_address_space,
-                              qdev_prop_allow_set_link_before_realize, 0);
-@@ -594,19 +598,17 @@ static void mch_realize(PCIDevice *d, Error **errp)
-     memory_region_set_enabled(&mch->open_high_smram, false);
- 
-     /* smram, as seen by SMM CPUs */
--    memory_region_init(&mch->smram, OBJECT(mch), "smram", 4 * GiB);
--    memory_region_set_enabled(&mch->smram, true);
-     memory_region_init_alias(&mch->low_smram, OBJECT(mch), "smram-low",
-                              mch->ram_memory, MCH_HOST_BRIDGE_SMRAM_C_BASE,
-                              MCH_HOST_BRIDGE_SMRAM_C_SIZE);
-     memory_region_set_enabled(&mch->low_smram, true);
--    memory_region_add_subregion(&mch->smram, MCH_HOST_BRIDGE_SMRAM_C_BASE,
-+    memory_region_add_subregion(mch->smram, MCH_HOST_BRIDGE_SMRAM_C_BASE,
-                                 &mch->low_smram);
-     memory_region_init_alias(&mch->high_smram, OBJECT(mch), "smram-high",
-                              mch->ram_memory, MCH_HOST_BRIDGE_SMRAM_C_BASE,
-                              MCH_HOST_BRIDGE_SMRAM_C_SIZE);
-     memory_region_set_enabled(&mch->high_smram, true);
--    memory_region_add_subregion(&mch->smram, 0xfeda0000, &mch->high_smram);
-+    memory_region_add_subregion(mch->smram, 0xfeda0000, &mch->high_smram);
- 
-     memory_region_init_io(&mch->tseg_blackhole, OBJECT(mch),
-                           &blackhole_ops, NULL,
-@@ -619,7 +621,7 @@ static void mch_realize(PCIDevice *d, Error **errp)
-     memory_region_init_alias(&mch->tseg_window, OBJECT(mch), "tseg-window",
-                              mch->ram_memory, mch->below_4g_mem_size, 0);
-     memory_region_set_enabled(&mch->tseg_window, false);
--    memory_region_add_subregion(&mch->smram, mch->below_4g_mem_size,
-+    memory_region_add_subregion(mch->smram, mch->below_4g_mem_size,
-                                 &mch->tseg_window);
- 
-     /*
-@@ -639,12 +641,9 @@ static void mch_realize(PCIDevice *d, Error **errp)
-                              MCH_HOST_BRIDGE_SMBASE_ADDR,
-                              MCH_HOST_BRIDGE_SMBASE_SIZE);
-     memory_region_set_enabled(&mch->smbase_window, false);
--    memory_region_add_subregion(&mch->smram, MCH_HOST_BRIDGE_SMBASE_ADDR,
-+    memory_region_add_subregion(mch->smram, MCH_HOST_BRIDGE_SMBASE_ADDR,
-                                 &mch->smbase_window);
- 
--    object_property_add_const_link(qdev_get_machine(), "smram",
--                                   OBJECT(&mch->smram));
--
-     init_pam(&mch->pam_regions[0], OBJECT(mch), mch->ram_memory,
-              mch->system_memory, mch->pci_address_space,
-              PAM_BIOS_BASE, PAM_BIOS_SIZE);
+ #include "tcg/tcg-cpu.h"
+@@ -36,7 +35,7 @@ static void tcg_cpu_machine_done(Notifier *n, void *unused)
+     if (smram) {
+         cpu->smram = g_new(MemoryRegion, 1);
+         memory_region_init_alias(cpu->smram, OBJECT(cpu), "smram",
+-                                 smram, 0, 4 * GiB);
++                                 smram, 0, memory_region_size(smram));
+         memory_region_set_enabled(cpu->smram, true);
+         memory_region_add_subregion_overlap(cpu->cpu_as_root, 0,
+                                             cpu->smram, 1);
 -- 
 2.39.1
 
