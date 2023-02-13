@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17D7694149
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:34:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FAE269412E
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:31:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVBJ-0007h8-HM; Mon, 13 Feb 2023 04:31:29 -0500
+	id 1pRVBD-00076s-OY; Mon, 13 Feb 2023 04:31:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVAA-0006mD-8X
+ id 1pRVAA-0006mE-GG
  for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:30:21 -0500
 Received: from mga02.intel.com ([134.134.136.20])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVA0-0006ms-Sv
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:30:16 -0500
+ id 1pRVA4-0006nq-36
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:30:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676280608; x=1707816608;
+ t=1676280612; x=1707816612;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Cy4+98KPu3JM0FYdIqdy+k8SAFPj3EZM5g5RLHeoHLc=;
- b=ca3chaQElRUCuXy9kKSWIojixmed8AyzHlyaxHbUUeWQUEgVGPQTF5d0
- oWFhKAzNvThy+rVYXtn51M86nomkOhuWt8G6APN/yV0CAj46lWgoIxpW6
- jMO3DcjarYk9smRY53xARaE2bzTH4X+d4JXJIMTaw8V53s8Vj3I9jolPJ
- HwDMr+TWlB79dk5Odbqt61j1rWVvS8S5hii6mCI5vSIuCAcQDzGN4l42i
- IljcrW71TxPUT4Qz7yeKbtJn3iuYzMLz0rucgDq86CNXitNSsr/s970Ls
- OB19k+1PFBp6GY1mDm8sP11zUnHBORW/mVkmMQ/934zWS0Zc2Tcu2qldy w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="318875848"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="318875848"
+ bh=uLL+NWRhAQrmrOXrW9mrGp0p9bgRS48bvW90TKnZBAM=;
+ b=N3deQJEE2/Qx8mmtCxg/OSci7lCeHBS7TNXY9pMUTyjrnDyCDomENlLc
+ M7YHDz+qXyB6J07PmzeH/5BwyxmC71bUwj3C/in6Vwz2YNakZvGGueEDa
+ GegDFCBbu3/0dLouBGA7lxBKzKfmAs+b7X+9h3vUzlHNbkti2yw1yJMbd
+ SkfiP97YBN8BGvI9HRAPY09CBsY184SnQF1aDioWx4SREx/FVNx90+3yF
+ 67hcumi2UwUbZTGBsQUnY/xgWAopqp7HCeZzOINzqc5hrvvgmLzUGXcqP
+ NpySJBaqQkcoiNEYuv3fNoWp7pjNhop6UUHmyaPVRIUNgtR2zLCWuXhY2 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="318875874"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="318875874"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 01:30:06 -0800
+ 13 Feb 2023 01:30:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="792660439"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="792660439"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="792660509"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="792660509"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by orsmga004.jf.intel.com with ESMTP; 13 Feb 2023 01:30:00 -0800
+ by orsmga004.jf.intel.com with ESMTP; 13 Feb 2023 01:30:05 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -54,10 +54,10 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Zhuocheng Ding <zhuocheng.ding@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
  Like Xu <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>
-Subject: [PATCH RESEND 16/18] i386: Fix NumSharingCache for
+Subject: [PATCH RESEND 17/18] i386: Use CPUCacheInfo.share_level to encode
  CPUID[0x8000001D].EAX[bits 25:14]
-Date: Mon, 13 Feb 2023 17:36:23 +0800
-Message-Id: <20230213093625.158170-17-zhao1.liu@linux.intel.com>
+Date: Mon, 13 Feb 2023 17:36:24 +0800
+Message-Id: <20230213093625.158170-18-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213093625.158170-1-zhao1.liu@linux.intel.com>
 References: <20230213093625.158170-1-zhao1.liu@linux.intel.com>
@@ -89,61 +89,41 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
-From AMD's APM, NumSharingCache (CPUID[0x8000001D].EAX[bits 25:14])
-means [1]:
+CPUID[0x8000001D].EAX[bits 25:14] is used to represent the cache
+topology for amd CPUs.
 
-The number of logical processors sharing this cache is the value of
-this field incremented by 1. To determine which logical processors are
-sharing a cache, determine a Share Id for each processor as follows:
-
-ShareId = LocalApicId >> log2(NumSharingCache+1)
-
-Logical processors with the same ShareId then share a cache. If
-NumSharingCache+1 is not a power of two, round it up to the next power
-of two.
-
-From the description above, the caculation of this feild should be same
-as CPUID[4].EAX[bits 25:14] for intel cpus. So also use the offsets of
-APIC ID to caculate this field.
-
-Note: I don't have the hardware available, hope someone can help me to
-confirm whether this calculation is correct, thanks!
-
-[1]: APM, vol.3, appendix.E.4.15 Function 8000_001Dh--Cache Topology
-     Information
+After cache models have topology information, we can use
+CPUCacheInfo.share_level to decide which topology level to be encoded
+into CPUID[0x8000001D].EAX[bits 25:14].
 
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- target/i386/cpu.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ target/i386/cpu.c | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 96ef96860604..d691c02e3c06 100644
+index d691c02e3c06..5816dc99b1d4 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -355,7 +355,7 @@ static void encode_cache_cpuid8000001d(CPUCacheInfo *cache,
+@@ -355,20 +355,12 @@ static void encode_cache_cpuid8000001d(CPUCacheInfo *cache,
                                         uint32_t *eax, uint32_t *ebx,
                                         uint32_t *ecx, uint32_t *edx)
  {
--    uint32_t l3_threads;
-+    uint32_t sharing_apic_ids;
+-    uint32_t sharing_apic_ids;
      assert(cache->size == cache->line_size * cache->associativity *
                            cache->partitions * cache->sets);
  
-@@ -364,13 +364,11 @@ static void encode_cache_cpuid8000001d(CPUCacheInfo *cache,
- 
-     /* L3 is shared among multiple cores */
-     if (cache->level == 3) {
--        l3_threads = topo_info->modules_per_die *
--                     topo_info->cores_per_module *
--                     topo_info->threads_per_core;
--        *eax |= (l3_threads - 1) << 14;
-+        sharing_apic_ids = 1 << apicid_die_offset(topo_info);
-     } else {
--        *eax |= ((topo_info->threads_per_core - 1) << 14);
-+        sharing_apic_ids = 1 << apicid_core_offset(topo_info);
-     }
-+    *eax |= (sharing_apic_ids - 1) << 14;
+     *eax = CACHE_TYPE(cache->type) | CACHE_LEVEL(cache->level) |
+                (cache->self_init ? CACHE_SELF_INIT_LEVEL : 0);
+-
+-    /* L3 is shared among multiple cores */
+-    if (cache->level == 3) {
+-        sharing_apic_ids = 1 << apicid_die_offset(topo_info);
+-    } else {
+-        sharing_apic_ids = 1 << apicid_core_offset(topo_info);
+-    }
+-    *eax |= (sharing_apic_ids - 1) << 14;
++    *eax |= max_processor_ids_for_cache(cache, topo_info) << 14;
  
      assert(cache->line_size > 0);
      assert(cache->partitions > 0);
