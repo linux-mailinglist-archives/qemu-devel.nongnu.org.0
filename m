@@ -2,96 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20F06951DD
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 21:28:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A873D6951EE
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 21:34:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRfPj-0002IU-DP; Mon, 13 Feb 2023 15:27:03 -0500
+	id 1pRfUP-0004Mn-4T; Mon, 13 Feb 2023 15:31:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pRfPh-0002Hr-4L
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 15:27:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pRfPf-0001fk-7F
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 15:27:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676320017;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WVlwPJiLhTOFeHJSBym7xmkx8cpWGRQPFIC6YkVQTXE=;
- b=LHZuRBaz2V+0mFy8j8nfIRgL9m7jtAzAZ2/LN1+NLF+JDQDoB1MaP84rjetFvnhdcFRBng
- m5tdex7dFHBLkq2y5FLm5a3Qjl3chQVlp+AuYsVHYC3e9wlbeN5B/jBEgAgMIacWbgxE2W
- wHa4ho8rzFgdOcCw9rO9OxwMkpYSvqU=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-471-i88I1QBpN56to4RSYbKBSw-1; Mon, 13 Feb 2023 15:26:56 -0500
-X-MC-Unique: i88I1QBpN56to4RSYbKBSw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- d14-20020a170906c20e00b00889f989d8deso8392221ejz.15
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 12:26:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WVlwPJiLhTOFeHJSBym7xmkx8cpWGRQPFIC6YkVQTXE=;
- b=q4ojhf8zbL9LgZ8tLatkRrupn0PB/sV+/BcmJ4sJeeUOCOev0y7/5FJACIj1v+4p4u
- bazE6eVVd6wjmxFD97nneQ0sDjEl76tSbRmwYdLRLRuOnWJdybEZd6hiHj+4UT7h5TEc
- LLl61AWjt8xz3CoMy0DDFD6fcqzO318wUFpCWPCDAWY5KMdh6J9WXK8B37rYqupT3afS
- ubWZeSn3eoO0bD6C92HLlR13Rjm5L5mDKhtSUoCXILR2BXuZ9Bb6KDCZcH091szFvsJ1
- egpgJb/2HEWin+8vWEzyUG6K2vOhf5mW44CMZqY3nSJ2llu9t5ZRKkuJtNSzOkWEu9nz
- GC5g==
-X-Gm-Message-State: AO0yUKWT8cniZ9dKRZ2rDv0Hashz4HxEkqfDqQED0EwQxQtf+bJvei1i
- H/f3bU1u3k9JATOQvdIaJilH6pcTKVmVc96eLiLQN3HM5Mjs5o6gIBKO6OoC2hWGtP5+//xTi41
- trFro8hNglO6VWjY=
-X-Received: by 2002:a17:906:1d56:b0:88f:87f0:c919 with SMTP id
- o22-20020a1709061d5600b0088f87f0c919mr171713ejh.64.1676320015532; 
- Mon, 13 Feb 2023 12:26:55 -0800 (PST)
-X-Google-Smtp-Source: AK7set8Co65kPnGp9TyOC1vjmKhwg+vdIWCUNbUS6R4Z5sNpibSLNNujLzFaB0Q+zUOkOgT/BGWvdw==
-X-Received: by 2002:a17:906:1d56:b0:88f:87f0:c919 with SMTP id
- o22-20020a1709061d5600b0088f87f0c919mr171686ejh.64.1676320015295; 
- Mon, 13 Feb 2023 12:26:55 -0800 (PST)
-Received: from redhat.com ([2.52.132.212]) by smtp.gmail.com with ESMTPSA id
- c10-20020a170906694a00b00856ad9108e7sm7237048ejs.70.2023.02.13.12.26.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Feb 2023 12:26:54 -0800 (PST)
-Date: Mon, 13 Feb 2023 15:26:49 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alexander Bulekov <alxndr@bu.edu>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Jon Maloy <jmaloy@redhat.com>, Siqi Chen <coc.cyqh@gmail.com>
-Subject: Re: [PATCH v6 0/4] memory: prevent dma-reentracy issues
-Message-ID: <20230213152618-mutt-send-email-mst@kernel.org>
-References: <20230205040737.3567731-1-alxndr@bu.edu>
- <20230213021141.mmzdpzj6ekmml3bx@mozz.bu.edu>
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pRfUC-0004LW-H6; Mon, 13 Feb 2023 15:31:40 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pRfU9-0002Si-LL; Mon, 13 Feb 2023 15:31:39 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 700DD22339;
+ Mon, 13 Feb 2023 20:31:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1676320293; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kW9k+OtxXx1mFKJQQLA8dwCou+CUOXdtX+p9IXIicp0=;
+ b=r5pzYxZvV5VtEbU67124S+9XDqH3IDmngarVTViXxOvMPe3PmCDN74Oylz1qSHCdhyZwi/
+ TJJvqC/L7gI5T3DuWu/sldq26/Zm0yGnaXRNLDdTZKapaddIiSfzr0WusPJwcwPYC/cg8v
+ gz746geVJwjAxY3ejyMRCvJ+4z8bRbk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1676320293;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kW9k+OtxXx1mFKJQQLA8dwCou+CUOXdtX+p9IXIicp0=;
+ b=JGwRypO/xYOJIX9l7wA8FoPP0FDU16bc43RvaD02UT7uKkKpSWv20Nrf1KSNOPSSnhr3r4
+ FdbTydeP8wkOeMAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5B7701391B;
+ Mon, 13 Feb 2023 20:31:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id S5pqCCKe6mOVMwAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 13 Feb 2023 20:31:30 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH RESEND v5 00/28] target/arm: Allow CONFIG_TCG=n builds
+Date: Mon, 13 Feb 2023 17:28:59 -0300
+Message-Id: <20230213202927.28992-1-farosas@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230213021141.mmzdpzj6ekmml3bx@mozz.bu.edu>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,92 +87,210 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Feb 12, 2023 at 09:11:41PM -0500, Alexander Bulekov wrote:
-> ping
-> 
-> On 230204 2307, Alexander Bulekov wrote:
-> > These patches aim to solve two types of DMA-reentrancy issues:
-> >   
-> > 1.) mmio -> dma -> mmio case
-> > To solve this, we track whether the device is engaged in io by
-> > checking/setting a reentrancy-guard within APIs used for MMIO access.
-> >   
-> > 2.) bh -> dma write -> mmio case
-> > This case is trickier, since we dont have a generic way to associate a
-> > bh with the underlying Device/DeviceState. Thus, this version allows a
-> > device to associate a reentrancy-guard with a bh, when creating it.
-> > (Instead of calling qemu_bh_new, you call qemu_bh_new_guarded)
-> >   
-> > I replaced most of the qemu_bh_new invocations with the guarded analog,
-> > except for the ones where the DeviceState was not trivially accessible.
-> > 
-> > v5 -> v6:
-> >     - Only apply checkpatch checks to code in paths containing "/hw/"
-> >       (/hw/ and include/hw/)
-> >     - Fix a bug in a _guarded call added to hw/block/virtio-blk.c
-> > v4-> v5:
-> >     - Add corresponding checkpatch checks
-> >     - Save/restore reentrancy-flag when entering/exiting BHs
-> >     - Improve documentation
-> >     - Check object_dynamic_cast return value
-> >   
-> > v3 -> v4: Instead of changing all of the DMA APIs, instead add an
-> >     optional reentrancy guard to the BH API.
-> > 
-> > v2 -> v3: Bite the bullet and modify the DMA APIs, rather than
-> >     attempting to guess DeviceStates in BHs.
+Hi, could someone take this?
 
-As long as we are adding the new APIs virtio things look ok to me.
-Pls merge with rest of patches.
+I rebased and put the two series together to simplify. I'm keeping it
+up-to-date and tested while it doesn't go in.
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+CI run here: https://gitlab.com/farosas/qemu/-/pipelines/776103500
 
+Based on master.
+Supersedes "target/arm: CONFIG_TCG=n part 1".
 
-> > Alexander Bulekov (4):
-> >   memory: prevent dma-reentracy issues
-> >   async: Add an optional reentrancy guard to the BH API
-> >   checkpatch: add qemu_bh_new/aio_bh_new checks
-> >   hw: replace most qemu_bh_new calls with qemu_bh_new_guarded
-> > 
-> >  docs/devel/multiple-iothreads.txt |  7 +++++++
-> >  hw/9pfs/xen-9p-backend.c          |  4 +++-
-> >  hw/block/dataplane/virtio-blk.c   |  3 ++-
-> >  hw/block/dataplane/xen-block.c    |  5 +++--
-> >  hw/char/virtio-serial-bus.c       |  3 ++-
-> >  hw/display/qxl.c                  |  9 ++++++---
-> >  hw/display/virtio-gpu.c           |  6 ++++--
-> >  hw/ide/ahci.c                     |  3 ++-
-> >  hw/ide/core.c                     |  3 ++-
-> >  hw/misc/imx_rngc.c                |  6 ++++--
-> >  hw/misc/macio/mac_dbdma.c         |  2 +-
-> >  hw/net/virtio-net.c               |  3 ++-
-> >  hw/nvme/ctrl.c                    |  6 ++++--
-> >  hw/scsi/mptsas.c                  |  3 ++-
-> >  hw/scsi/scsi-bus.c                |  3 ++-
-> >  hw/scsi/vmw_pvscsi.c              |  3 ++-
-> >  hw/usb/dev-uas.c                  |  3 ++-
-> >  hw/usb/hcd-dwc2.c                 |  3 ++-
-> >  hw/usb/hcd-ehci.c                 |  3 ++-
-> >  hw/usb/hcd-uhci.c                 |  2 +-
-> >  hw/usb/host-libusb.c              |  6 ++++--
-> >  hw/usb/redirect.c                 |  6 ++++--
-> >  hw/usb/xen-usb.c                  |  3 ++-
-> >  hw/virtio/virtio-balloon.c        |  5 +++--
-> >  hw/virtio/virtio-crypto.c         |  3 ++-
-> >  include/block/aio.h               | 18 ++++++++++++++++--
-> >  include/hw/qdev-core.h            |  7 +++++++
-> >  include/qemu/main-loop.h          |  7 +++++--
-> >  scripts/checkpatch.pl             |  8 ++++++++
-> >  softmmu/memory.c                  | 17 +++++++++++++++++
-> >  softmmu/trace-events              |  1 +
-> >  tests/unit/ptimer-test-stubs.c    |  3 ++-
-> >  util/async.c                      | 18 +++++++++++++++++-
-> >  util/main-loop.c                  |  5 +++--
-> >  util/trace-events                 |  1 +
-> >  35 files changed, 147 insertions(+), 41 deletions(-)
-> > 
-> > -- 
-> > 2.39.0
-> > 
+Thanks!
+
+v5:
+https://lore.kernel.org/r/20230120184825.31626-1-farosas@suse.de
+
+This series makes the necessary changes to allow the use of
+--disable-tcg for arm.
+
+- Used "max" as the default CPU for KVM-only builds. This allows me to
+  drop all the clunky qtest changes and it keeps disabling TCG
+  separate from changing cpu defaults.
+
+  I'm neutral towards removing the defaults for arm. We can do that in a
+  separate series. It would be nice to make the TCG default equal to the
+  non-TCG one. Otherwise we're bound to get reports that "this command
+  line used to work" if users switch from: 'CONFIG_TCG=n -accel kvm' to
+  'CONFIG_TCG=y -accel kvm' (the latter would try to use the cortex-a15
+  as default).
+
+- Move the ifdef around valid_cpus into the patches that move the
+  respective cpus. Patches 1 & 2.
+
+v5 was based on "target/arm: CONFIG_TCG=n part 1":
+https://lore.kernel.org/r/20230118193518.26433-1-farosas@suse.de
+
+v4:
+https://lore.kernel.org/r/20230119135424.5417-1-farosas@suse.de
+
+v3:
+https://lore.kernel.org/r/20230113140419.4013-1-farosas@suse.de
+
+v2:
+https://lore.kernel.org/r/20230109224232.11661-1-farosas@suse.de
+
+v1:
+https://lore.kernel.org/r/20230104215835.24692-1-farosas@suse.de
+
+Claudio Fontana (6):
+  target/arm: rename handle_semihosting to tcg_handle_semihosting
+  target/arm: wrap psci call with tcg_enabled
+  target/arm: wrap call to aarch64_sve_change_el in tcg_enabled()
+  target/arm: move helpers to tcg/
+  target/arm: Move psci.c into the tcg directory
+  target/arm: move cpu_tcg to tcg/cpu32.c
+
+Fabiano Rosas (21):
+  target/arm: Move PC alignment check
+  target/arm: Move cpregs code out of cpu.h
+  target/arm: Move cpregs code into cpregs.c
+  target/arm: Move define_debug_regs() to cpregs.c
+  target/arm: Wrap breakpoint/watchpoint updates with tcg_enabled
+  target/arm: move translate modules to tcg/
+  target/arm: Wrap arm_rebuild_hflags calls with tcg_enabled
+  target/arm: Move hflags code into the tcg directory
+  target/arm: Move regime_using_lpae_format into internal.h
+  target/arm: Don't access TCG code when debugging with KVM
+  cpu-defs.h: Expose CPUTLBEntryFull to non-TCG code
+  target/arm: Move cortex sysregs into cpregs.c
+  tests/avocado: Skip tests that require a missing accelerator
+  tests/avocado: Tag TCG tests with accel:tcg
+  target/arm: Move 64-bit TCG CPUs into tcg/
+  target/arm: Use "max" as default cpu for the virt machine with KVM
+  tests/qtest: arm-cpu-features: Match tests to required accelerators
+  tests/qtest: Restrict tpm-tis-devices-{swtpm}-test to CONFIG_TCG
+  target/avocado: Pass parameters to migration test on aarch64
+  arm/Kconfig: Always select SEMIHOSTING when TCG is present
+  arm/Kconfig: Do not build TCG-only boards on a KVM-only build
+
+Philippe Mathieu-Daudé (1):
+  gitlab-ci: Check building KVM-only aarch64 target
+
+ .gitlab-ci.d/crossbuilds.yml                  |    11 +
+ .../custom-runners/ubuntu-22.04-aarch64.yml   |     4 -
+ MAINTAINERS                                   |     1 +
+ configs/devices/aarch64-softmmu/default.mak   |     4 -
+ configs/devices/arm-softmmu/default.mak       |    39 -
+ hw/arm/Kconfig                                |    43 +-
+ hw/arm/boot.c                                 |     6 +-
+ hw/arm/virt.c                                 |    10 +-
+ hw/intc/armv7m_nvic.c                         |    20 +-
+ include/exec/cpu-defs.h                       |     6 +
+ target/arm/Kconfig                            |     7 +
+ target/arm/arm-powerctl.c                     |     7 +-
+ target/arm/cpregs.c                           |  9825 +++++++++++++++
+ target/arm/cpregs.h                           |   104 +
+ target/arm/cpu.c                              |     9 +-
+ target/arm/cpu.h                              |    91 -
+ target/arm/cpu64.c                            |   634 +-
+ target/arm/helper.c                           | 10224 +---------------
+ target/arm/internals.h                        |    42 +-
+ target/arm/machine.c                          |    30 +-
+ target/arm/meson.build                        |    49 +-
+ target/arm/ptw.c                              |     4 +
+ target/arm/tcg-stubs.c                        |    27 +
+ target/arm/{ => tcg}/a32-uncond.decode        |     0
+ target/arm/{ => tcg}/a32.decode               |     0
+ target/arm/{cpu_tcg.c => tcg/cpu32.c}         |    72 +-
+ target/arm/tcg/cpu64.c                        |   655 +
+ target/arm/{ => tcg}/crypto_helper.c          |     0
+ target/arm/{ => tcg}/debug_helper.c           |   459 -
+ target/arm/{ => tcg}/helper-a64.c             |     0
+ target/arm/tcg/hflags.c                       |   403 +
+ target/arm/{ => tcg}/iwmmxt_helper.c          |     0
+ target/arm/{ => tcg}/m-nocp.decode            |     0
+ target/arm/{ => tcg}/m_helper.c               |     0
+ target/arm/tcg/meson.build                    |    53 +
+ target/arm/{ => tcg}/mte_helper.c             |     0
+ target/arm/{ => tcg}/mve.decode               |     0
+ target/arm/{ => tcg}/mve_helper.c             |     0
+ target/arm/{ => tcg}/neon-dp.decode           |     0
+ target/arm/{ => tcg}/neon-ls.decode           |     0
+ target/arm/{ => tcg}/neon-shared.decode       |     0
+ target/arm/{ => tcg}/neon_helper.c            |     0
+ target/arm/{ => tcg}/op_helper.c              |     0
+ target/arm/{ => tcg}/pauth_helper.c           |     0
+ target/arm/{ => tcg}/psci.c                   |     0
+ target/arm/{ => tcg}/sme-fa64.decode          |     0
+ target/arm/{ => tcg}/sme.decode               |     0
+ target/arm/{ => tcg}/sme_helper.c             |     0
+ target/arm/{ => tcg}/sve.decode               |     0
+ target/arm/{ => tcg}/sve_helper.c             |     0
+ target/arm/{ => tcg}/t16.decode               |     0
+ target/arm/{ => tcg}/t32.decode               |     0
+ target/arm/{ => tcg}/tlb_helper.c             |    18 -
+ target/arm/{ => tcg}/translate-a64.c          |     0
+ target/arm/{ => tcg}/translate-a64.h          |     0
+ target/arm/{ => tcg}/translate-m-nocp.c       |     0
+ target/arm/{ => tcg}/translate-mve.c          |     0
+ target/arm/{ => tcg}/translate-neon.c         |     0
+ target/arm/{ => tcg}/translate-sme.c          |     0
+ target/arm/{ => tcg}/translate-sve.c          |     0
+ target/arm/{ => tcg}/translate-vfp.c          |     0
+ target/arm/{ => tcg}/translate.c              |     0
+ target/arm/{ => tcg}/translate.h              |     0
+ target/arm/{ => tcg}/vec_helper.c             |     0
+ target/arm/{ => tcg}/vec_internal.h           |     0
+ target/arm/{ => tcg}/vfp-uncond.decode        |     0
+ target/arm/{ => tcg}/vfp.decode               |     0
+ target/arm/trace-events                       |     2 +-
+ tests/avocado/avocado_qemu/__init__.py        |     4 +
+ tests/avocado/boot_linux_console.py           |     1 +
+ tests/avocado/migration.py                    |    10 +
+ tests/avocado/reverse_debugging.py            |     8 +
+ tests/qtest/arm-cpu-features.c                |    34 +-
+ tests/qtest/meson.build                       |     4 +-
+ 74 files changed, 11576 insertions(+), 11344 deletions(-)
+ create mode 100644 target/arm/cpregs.c
+ create mode 100644 target/arm/tcg-stubs.c
+ rename target/arm/{ => tcg}/a32-uncond.decode (100%)
+ rename target/arm/{ => tcg}/a32.decode (100%)
+ rename target/arm/{cpu_tcg.c => tcg/cpu32.c} (93%)
+ create mode 100644 target/arm/tcg/cpu64.c
+ rename target/arm/{ => tcg}/crypto_helper.c (100%)
+ rename target/arm/{ => tcg}/debug_helper.c (57%)
+ rename target/arm/{ => tcg}/helper-a64.c (100%)
+ create mode 100644 target/arm/tcg/hflags.c
+ rename target/arm/{ => tcg}/iwmmxt_helper.c (100%)
+ rename target/arm/{ => tcg}/m-nocp.decode (100%)
+ rename target/arm/{ => tcg}/m_helper.c (100%)
+ create mode 100644 target/arm/tcg/meson.build
+ rename target/arm/{ => tcg}/mte_helper.c (100%)
+ rename target/arm/{ => tcg}/mve.decode (100%)
+ rename target/arm/{ => tcg}/mve_helper.c (100%)
+ rename target/arm/{ => tcg}/neon-dp.decode (100%)
+ rename target/arm/{ => tcg}/neon-ls.decode (100%)
+ rename target/arm/{ => tcg}/neon-shared.decode (100%)
+ rename target/arm/{ => tcg}/neon_helper.c (100%)
+ rename target/arm/{ => tcg}/op_helper.c (100%)
+ rename target/arm/{ => tcg}/pauth_helper.c (100%)
+ rename target/arm/{ => tcg}/psci.c (100%)
+ rename target/arm/{ => tcg}/sme-fa64.decode (100%)
+ rename target/arm/{ => tcg}/sme.decode (100%)
+ rename target/arm/{ => tcg}/sme_helper.c (100%)
+ rename target/arm/{ => tcg}/sve.decode (100%)
+ rename target/arm/{ => tcg}/sve_helper.c (100%)
+ rename target/arm/{ => tcg}/t16.decode (100%)
+ rename target/arm/{ => tcg}/t32.decode (100%)
+ rename target/arm/{ => tcg}/tlb_helper.c (94%)
+ rename target/arm/{ => tcg}/translate-a64.c (100%)
+ rename target/arm/{ => tcg}/translate-a64.h (100%)
+ rename target/arm/{ => tcg}/translate-m-nocp.c (100%)
+ rename target/arm/{ => tcg}/translate-mve.c (100%)
+ rename target/arm/{ => tcg}/translate-neon.c (100%)
+ rename target/arm/{ => tcg}/translate-sme.c (100%)
+ rename target/arm/{ => tcg}/translate-sve.c (100%)
+ rename target/arm/{ => tcg}/translate-vfp.c (100%)
+ rename target/arm/{ => tcg}/translate.c (100%)
+ rename target/arm/{ => tcg}/translate.h (100%)
+ rename target/arm/{ => tcg}/vec_helper.c (100%)
+ rename target/arm/{ => tcg}/vec_internal.h (100%)
+ rename target/arm/{ => tcg}/vfp-uncond.decode (100%)
+ rename target/arm/{ => tcg}/vfp.decode (100%)
+
+-- 
+2.35.3
 
 
