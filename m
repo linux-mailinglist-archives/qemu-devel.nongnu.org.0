@@ -2,77 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BC95694D05
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 17:37:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 374C4694D0F
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 17:39:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRbnr-0003sI-9f; Mon, 13 Feb 2023 11:35:43 -0500
+	id 1pRbrZ-0007LW-Pe; Mon, 13 Feb 2023 11:39:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pRbnk-0003rx-VB
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 11:35:37 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pRbni-0002H4-8A
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 11:35:36 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- n20-20020a17090aab9400b00229ca6a4636so17558218pjq.0
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 08:35:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=4eiOANjcOPrGlNYJNCPfNFOaVVBwquXKj/iPMoMLi9A=;
- b=esLQrXx2crH0eaEhI4ckDM05+ZyqiqEqsjuPxGAzUQR0X+G5C0alEB4NMWJcnOMmOs
- Ln9m2q2HCGrp8NVQ5CaWbZWQFw/tg7krlpmkacET/83AW5hsTwUe7RglFqGbIxZ/sA39
- MklQHufepBSXKltzwgdMPgQi23Vpdu9bQILuPsyb/Z3yFbaiEnKWCmAHlD44fj564dK9
- 4pAXbwykrK0z4xDvcSJjyftr6q8wXkg7xocQIm/5KjDeqdeBy3bssCXO4Q2SwgmEGyUe
- FAOlYoYE2nMRCf1ZAoaXRn9nrNqVXJqep4f/a5EJaDRcsJKoaA4LgeFdQgNP9ZHlqeAE
- ci2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4eiOANjcOPrGlNYJNCPfNFOaVVBwquXKj/iPMoMLi9A=;
- b=hBvxGQBZwzfIKssgg15S02iip5QedHinEc+LTbmBlQs1zr3OG/SBo0V0oL6yPVADfG
- PlPeZQRkkB/Fpzhro13Uq6mmA1F4N5AyuRccXX02DjLaawL0KLKuHFCHkVoiozr8P/2p
- O2MIIvpHeLOSU4plOO8mlTjFih5lrwgr/hpisvmeOvzgsz5ngiGs21am01Rs8ZIcxmvj
- 6lexjH7niJY6r38pPxbQhvD8jud/M6hlus9/TUEnT8car7i+/JC+VRe2pIM3EghjnxYZ
- GBbx3+SceaL0eIUvDmKrd0KrchVs4vQaSjVVJy6ihuTNhJ+8gXHxBM4D5pVsuE7L2YGE
- UzyA==
-X-Gm-Message-State: AO0yUKWnUZ+VYoQ7lpxplusU7vjgGDPX+S2tRok16Uo8PGPcRxPh1j6M
- IATPMRmhluaIYBXV65wB1KejuOG6GRUQjy/nbn9JgQ==
-X-Google-Smtp-Source: AK7set+beKITcMdcKCuRVDmUZNOrMymtP4X2wdBD06Xp5V3T4nVgjBfq4+YSu6Q8bNtTD/fNbyizMCuxpS8dvwsEjR0=
-X-Received: by 2002:a17:90a:384a:b0:230:bcbd:b871 with SMTP id
- l10-20020a17090a384a00b00230bcbdb871mr3880707pjf.75.1676306132668; Mon, 13
- Feb 2023 08:35:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pRbrW-0007Ku-VD
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 11:39:30 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pRbrV-0002jM-3O
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 11:39:30 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 6E8CB74632B;
+ Mon, 13 Feb 2023 17:36:54 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 31A4E7457E7; Mon, 13 Feb 2023 17:36:54 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 2FF8E745706;
+ Mon, 13 Feb 2023 17:36:54 +0100 (CET)
+Date: Mon, 13 Feb 2023 17:36:54 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+cc: Peter Xu <peterx@redhat.com>, 
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, 
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
+ David Hildenbrand <david@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH 1/2] log: Add separate debug option for logging invalid
+ memory accesses
+In-Reply-To: <1ec94e51-264a-36ad-6ab4-5eb2f26e492b@linaro.org>
+Message-ID: <06441a0a-f056-304e-8639-73e20da12bcc@eik.bme.hu>
+References: <20230119214032.4BF1E7457E7@zero.eik.bme.hu>
+ <ad4783ee-20ce-06d2-7c2f-1f915bd684d0@eik.bme.hu>
+ <413edbc1-8af1-4b0e-70ab-41d49f1bbbcd@eik.bme.hu>
+ <fcd09b07-c0ac-d617-8503-a5ecef947cfe@redhat.com> <Y+pM+H1PvTUUHrhx@x1n>
+ <7ae34a52-13a5-05e0-3cea-10a9fb89ec1c@eik.bme.hu>
+ <b19dbcdd-1246-f7d1-2d8f-8f9e2978d2d0@linaro.org>
+ <1ec94e51-264a-36ad-6ab4-5eb2f26e492b@linaro.org>
 MIME-Version: 1.0
-References: <20230114161302.94595-1-fcagnin@quarkslab.com>
- <20230114161302.94595-2-fcagnin@quarkslab.com>
- <CAFEAcA8cOKCDF5_oxNLDd7JzvwUCC4_g_8RRmwPK3C2axLHuAg@mail.gmail.com>
- <CAF8_6KmYyCwKEoNx626uEKUJZAFB_MgLRHrTyeAkDdC4C2YfMg@mail.gmail.com>
-In-Reply-To: <CAF8_6KmYyCwKEoNx626uEKUJZAFB_MgLRHrTyeAkDdC4C2YfMg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 13 Feb 2023 16:35:21 +0000
-Message-ID: <CAFEAcA8U6GKNHx0wrY3V6kx5nLc4OWXUExhb-WprXZ2kn5ES5w@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] arm: move KVM breakpoints helpers
-To: Francesco Cagnin <francesco.cagnin@gmail.com>
-Cc: qemu-devel@nongnu.org, mads@ynddal.dk, dirty@apple.com, 
- qemu-arm@nongnu.org, agraf@csgraf.de, pbonzini@redhat.com, 
- alex.bennee@linaro.org, Francesco Cagnin <fcagnin@quarkslab.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/mixed;
+ boundary="3866299591-401779296-1676306214=:76941"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,22 +72,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 13 Feb 2023 at 16:28, Francesco Cagnin
-<francesco.cagnin@gmail.com> wrote:
->
-> > New files must all start with the usual boilerplate
-> > comment stating the license and copyright. Sorry I didn't
-> > notice this in previous rounds of review.
->
-> Pardon my naivety, since the new file only contains code from
-> 'target/arm/kvm64.c',
-> should I just copy the license and copyright comments from that file
-> (and adjust if needed)?
-> I'm not able to find any particular procedure to follow.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Yes, if you've taken the code from somewhere else you should
-use its copyright/license info.
+--3866299591-401779296-1676306214=:76941
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-thanks
--- PMM
+On Mon, 13 Feb 2023, Philippe Mathieu-Daudé wrote:
+> On 13/2/23 15:58, Philippe Mathieu-Daudé wrote:
+>> On 13/2/23 15:47, BALATON Zoltan wrote:
+>>> On Mon, 13 Feb 2023, Peter Xu wrote:
+>>>> On Mon, Feb 13, 2023 at 12:41:29PM +0100, Thomas Huth wrote:
+>>>>> On 07/02/2023 17.33, BALATON Zoltan wrote:
+>>>>>> On Tue, 31 Jan 2023, BALATON Zoltan wrote:
+>>>>>>> On Thu, 19 Jan 2023, BALATON Zoltan wrote:
+>>>>>>>> Currently -d guest_errors enables logging of different invalid 
+>>>>>>>> actions
+>>>>>>>> by the guest such as misusing hardware, accessing missing features or
+>>>>>>>> invalid memory areas.
+>
+> - misusing hardware => LOG_GUEST_ERROR
+> - accessing missing features => LOG_UNIMP
+> - invalid memory areas => depending on the bus bridge, can be:
+>
+>  #define MEMTX_OK              0
+>  #define MEMTX_ERROR          (1U << 0) /* device returned an error */
+>  #define MEMTX_DECODE_ERROR   (1U << 1) /* nothing at that address */
+>  #define MEMTX_ACCESS_ERROR   (1U << 2) /* access denied */
+>
+>>>>>>>> The memory access logging can be quite verbose
+>>>>>>>> which obscures the other messages enabled by this debug switch so
+>>>>>>>> separate it by adding a new -d memaccess option to make it possible 
+>>>>>>>> to
+>>>>>>>> control it independently of other guest error logs.
+>>>>>>>> 
+>>>>>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>>>>>> 
+>>>>>>> Ping? Could somebody review and pick it up please?
+>>>>>> 
+>>>>>> Ping?
+>>>>> 
+>>>>> Patch makes sense to me and looks fine, so:
+>>>>> 
+>>>>> Reviewed-by: Thomas Huth <thuth@redhat.com>
+>>>>> 
+>>>>> ... I think this should go via one of the "Memory API" maintainers 
+>>>>> branches?
+>>>>> Paolo? Peter? David?
+>>>> 
+>>>> Paolo normally does the pull, I assume that'll still be the case.  The
+>>>> patch looks good to me if Phil's comment will be addressed on merging 
+>>>> with
+>>>> the old mask, which makes sense to me:
+>>> 
+>>> Keeping the old mask kind of defies the purpose. I've tried to explain 
+>>> that in the commit message
+>
+> It is hard to justify we need a new mask and scripts have to adapt to
+> your new format. I assume you can not use trace-event because you want
+> this logging available in a RELEASE build, right?
+
+Guest errors are useful in a release build, unassigned access probably 
+less so but since I want to separate them from guest_errors I don't see 
+how logging mem access via trace would be any different for your concerns.
+
+Regards,
+BALATON Zoltan
+--3866299591-401779296-1676306214=:76941--
 
