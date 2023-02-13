@@ -2,63 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D00B694523
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 13:03:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D918169459E
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 13:16:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRXWw-0007Xh-U8; Mon, 13 Feb 2023 07:01:58 -0500
+	id 1pRXjU-00066m-BE; Mon, 13 Feb 2023 07:14:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pRXWq-0007W8-FD; Mon, 13 Feb 2023 07:01:54 -0500
-Received: from forwardcorp1b.mail.yandex.net
- ([2a02:6b8:c02:900:1:45:d181:df01])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRXjR-000660-Ff
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 07:14:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pRXWl-000715-Nl; Mon, 13 Feb 2023 07:01:50 -0500
-Received: from myt5-8800bd68420f.qloud-c.yandex.net
- (myt5-8800bd68420f.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:4615:0:640:8800:bd68])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id BE0FD6191E;
- Mon, 13 Feb 2023 15:01:31 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:6527::1:3a] (unknown
- [2a02:6b8:b081:6527::1:3a])
- by myt5-8800bd68420f.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- U1hXM00RYmI1-X2kKyDT2; Mon, 13 Feb 2023 15:01:31 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1676289691; bh=kxCsSBpzup3oIla9bZOMTywgazkG6Me/QuGjuE+VkkU=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=0vqpENOLbEnmjg7tE9+j3mdqRKdKa/z7PPx2Ipfl631XC2x64Brw3BEMBaOHrs8S9
- 1S5b09/reovRqshUNTHXeq2l09tX7sUeWWdHr/z4lJG+sHALI14GqOaIFi9NJ8SxLf
- jsKwEBtaNjRJJZMDynsvdOdPpk2bHiVkRxQOwzh4=
-Authentication-Results: myt5-8800bd68420f.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <1706fc25-4acb-81d3-0b17-956872f1cd8d@yandex-team.ru>
-Date: Mon, 13 Feb 2023 15:01:30 +0300
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRXjO-0001hB-DL
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 07:14:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676290489;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=C2F6FpKR94YCDsnFPyZ/eeXk1LbhpfoIw6pZ5QnGrHY=;
+ b=HdWswY88adMEAiWxvIN0X4ez14aV2pVr4WSOt6mxBdney+HO93x8N29RiBHQTx0nE/xvuX
+ OwY1nXaF3t8yXSrmtUeMwybTsPaEjwuXBtvcBWRMi0hhFjnKj7JqMftFwSSyw8zcIJj+/S
+ ohqZGHcEL6qfbOoHw8Ohif7qq2Bn8nA=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-31-vWcLQLHeOqKWl_X_EgIvYQ-1; Mon, 13 Feb 2023 07:14:48 -0500
+X-MC-Unique: vWcLQLHeOqKWl_X_EgIvYQ-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ v8-20020a05622a144800b003ba0dc5d798so7338687qtx.22
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 04:14:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=C2F6FpKR94YCDsnFPyZ/eeXk1LbhpfoIw6pZ5QnGrHY=;
+ b=u810FIiDD2fldsgQOe/rYvrIJpjPB7qA27b/xwnhYltmgYUK7spkOqH8oNKi8T/9HY
+ P2TD3peFr6NpPTZjDk4LtWVG8MDJAapNUpUHmdfwP88F+qYjPJNV39lYAubqCSXtF9zz
+ 7Bj+BQWiMK4zHazMYTXzO8t1i2wUeBv/4piDBScTKxwSXbcDKBgKkADM3N0Qk3fMEkGl
+ p452ZbOcTRB6AJbyuQGRAhE34wUSSf02kHODJq0T1n5i2jCwzrdYuCwLbM8ryHd8+m+8
+ dqNmv+2CSLZ9HPv1DR6Sc+gLE5hbqYAsKiCtufJ0otrEDP3M94GKPTG5YLmbvsY5dD5X
+ QTmA==
+X-Gm-Message-State: AO0yUKVHW1UeQpsngGy9e+o+H1hR6Qr/cxKxUSzxLzTLr35FNEWO5EzE
+ 6rvruYOF7CqsQlurmJTYqJL6lerVPPf/0FbRgtmWszisp7ofO0n1hXdpEChmRFNlKMIp240l4DH
+ Yx2SqDUbGZccrsaE=
+X-Received: by 2002:a05:622a:1653:b0:3b9:c153:f169 with SMTP id
+ y19-20020a05622a165300b003b9c153f169mr44811766qtj.0.1676290487707; 
+ Mon, 13 Feb 2023 04:14:47 -0800 (PST)
+X-Google-Smtp-Source: AK7set8gQJnHrpsOwE+sXXrO7aBs99T2i+jwlBKZ4rdMuLht5/7s1zh+0mYUoqojqFbEthjdT468Ww==
+X-Received: by 2002:a05:622a:1653:b0:3b9:c153:f169 with SMTP id
+ y19-20020a05622a165300b003b9c153f169mr44811734qtj.0.1676290487474; 
+ Mon, 13 Feb 2023 04:14:47 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-185.web.vodafone.de.
+ [109.43.177.185]) by smtp.gmail.com with ESMTPSA id
+ v66-20020a37dc45000000b006fba0a389a4sm9701247qki.88.2023.02.13.04.14.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Feb 2023 04:14:46 -0800 (PST)
+Message-ID: <022e89f0-4f45-ac24-6589-22350f8a4ae7@redhat.com>
+Date: Mon, 13 Feb 2023 13:14:43 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 1/1] block: improve error logging in bdrv_reopen_prepare()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 15/19] hw/s390x/event-facility: Replace
+ DO_UPCAST(SCLPEvent) by SCLP_EVENT()
 Content-Language: en-US
-To: "Denis V. Lunev" <den@openvz.org>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>
-References: <20230213103134.1703111-1-den@openvz.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20230213103134.1703111-1-den@openvz.org>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ xiaoqiang zhao <zxq_yx_007@163.com>, Hu Tao <hutao@cn.fujitsu.com>,
+ qemu-block@nongnu.org, qemu-s390x@nongnu.org,
+ Gonglei Arei <arei.gonglei@huawei.com>, Cao jin <caoj.fnst@cn.fujitsu.com>,
+ Li Qiang <liq3ea@163.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+References: <20230212225144.58660-1-philmd@linaro.org>
+ <20230212225144.58660-16-philmd@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230212225144.58660-16-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.345,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.345, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,23 +109,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13.02.23 13:31, Denis V. Lunev wrote:
-> The error generated when the option could not be changed inside
-> bdrv_reopen_prepare() does not give a clue about problematic
-> BlockDriverState as we could get very long tree of devices.
+On 12/02/2023 23.51, Philippe Mathieu-Daudé wrote:
+> Use the SCLP_EVENT() QOM type-checking macro to avoid DO_UPCAST().
 > 
-> The patch adds node name to the error report in the same way as done
-> above.
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   hw/s390x/event-facility.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> Signed-off-by: Denis V. Lunev<den@openvz.org>
-> CC: Kevin Wolf<kwolf@redhat.com>
-> CC: Hanna Reitz<hreitz@redhat.com>
-> CC: Vladimir Sementsov-Ogievskiy<vsementsov@yandex-team.ru>
+> diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
+> index faa51aa4c7..6891e3cd73 100644
+> --- a/hw/s390x/event-facility.c
+> +++ b/hw/s390x/event-facility.c
+> @@ -64,8 +64,7 @@ static bool event_pending(SCLPEventFacility *ef)
+>       SCLPEventClass *event_class;
+>   
+>       QTAILQ_FOREACH(kid, &ef->sbus.qbus.children, sibling) {
+> -        DeviceState *qdev = kid->child;
+> -        event = DO_UPCAST(SCLPEvent, qdev, qdev);
+> +        event = SCLP_EVENT(kid->child);
+>           event_class = SCLP_EVENT_GET_CLASS(event);
+>           if (event->event_pending &&
+>               event_class->get_send_mask() & ef->receive_mask) {
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-
--- 
-Best regards,
-Vladimir
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
