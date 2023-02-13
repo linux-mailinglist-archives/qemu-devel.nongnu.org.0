@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D336693F4E
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 09:05:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C61A693F60
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 09:13:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRTpI-0002Lf-Dc; Mon, 13 Feb 2023 03:04:40 -0500
+	id 1pRTwW-0005OP-JA; Mon, 13 Feb 2023 03:12:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRTpE-0002Fg-AO
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 03:04:36 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRTwS-0005Il-40
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 03:12:04 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRTpC-00014d-Sk
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 03:04:36 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRTwQ-0003bx-GH
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 03:12:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676275474;
+ s=mimecast20190719; t=1676275921;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t7JjOAt5zC/6UobAE8ewOg3NSBkoogYLHNe9rs4o5Vs=;
- b=Qe/5Q4ssSDxr5geKDnIOQbQcGDhLHIrqdisUBJ4dfVrIgSY9oTK8KDXXncd0UperWWlJ05
- sL9CRkRCAbCe3pQwPd5fCxBTnzjqeIpQwpjoK/5scKHfF7nq4hwHcls9EKvdgi3ygNpIMk
- vrwwy+MUbtmQXHaapNzRdoDzID8I70k=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=N99A9AHofnJ7qn7mwFTUUvwtDP+yDE1Qe21Mkxc+QuA=;
+ b=L+BYShCfaVNI8WXLq6WCp69c3z6ngHuC/5R8XREnDlaJyviojBr+lih8Fabypyet5kg7lG
+ Tir5s1hLDG5+KHDyKm+6cLnhZp/FamZVXBeMLRkSHsdo6qw5R+Yp0W7sU+LABAAKDMPmvV
+ jS4TN74P3Arwy9VDwOHUjdKjyhATeBg=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-166-6X9sbgUOMde1VRkofF1hqA-1; Mon, 13 Feb 2023 03:04:32 -0500
-X-MC-Unique: 6X9sbgUOMde1VRkofF1hqA-1
-Received: by mail-qk1-f200.google.com with SMTP id
- w17-20020a05620a425100b00706bf3b459eso7097669qko.11
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 00:04:32 -0800 (PST)
+ us-mta-534-7z7Dkj-JPCiCFD3AVbt2pA-1; Mon, 13 Feb 2023 03:12:00 -0500
+X-MC-Unique: 7z7Dkj-JPCiCFD3AVbt2pA-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ cr22-20020a05622a429600b003b694a9f291so6987682qtb.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 00:12:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=t7JjOAt5zC/6UobAE8ewOg3NSBkoogYLHNe9rs4o5Vs=;
- b=FQc/qtlwyuf/mxpVkZ9MiHDM0za62kZFAkT5pUei9k8vBgpKS/29iAL+G/jSGmyM8M
- 1Bt/gELPWKx/K+dYZn9X+r1cdbG8U4j/9HSTREU9evIQygPSJ3HPmqlxISsbOcMP4AXt
- GwcjloyAD6Oc2fJ2IIuRqUsW4qupauQBH1HJTLwSLsySIYKWt1ygSijgbrYuvgehgZPH
- PuCiGfJ/Ly+7yY9o+xo+P9CktoESYsxx8/cYuUAxs2qN0DWcywCrpIAMPbm2T7YPhnmn
- MkS/tl1VhugQG7xxBh2EuuxBmJErJHlWlzigJFXi62NuwE8AiPg7ix1Fbriib0VIskYR
- eTLw==
-X-Gm-Message-State: AO0yUKWUzXEF0TZtqCJYUlUKIiwjjFXJGAMyYLJQX96u0kWsi1aizspi
- j65HtjQIqIpVSBH4dG7RCdqQOI7kW0qGEEQJA+B357cjmk+dIjh+TIagfjZYXHaDhBwEHoDTjsl
- x2ZIZIWTvrLfRs9g=
-X-Received: by 2002:a05:622a:4c14:b0:3b9:bc8c:c1ff with SMTP id
- ey20-20020a05622a4c1400b003b9bc8cc1ffmr24807130qtb.10.1676275471968; 
- Mon, 13 Feb 2023 00:04:31 -0800 (PST)
-X-Google-Smtp-Source: AK7set/uvt9P8SRqibuCuh4rWujIs7pqNYFrvjMFVh0OXUNuQzG9ciGRWCcpBXDO7yfywiy4wIdjJg==
-X-Received: by 2002:a05:622a:4c14:b0:3b9:bc8c:c1ff with SMTP id
- ey20-20020a05622a4c1400b003b9bc8cc1ffmr24807107qtb.10.1676275471755; 
- Mon, 13 Feb 2023 00:04:31 -0800 (PST)
+ bh=N99A9AHofnJ7qn7mwFTUUvwtDP+yDE1Qe21Mkxc+QuA=;
+ b=7N9mSQfQEXhTWLPC1ML0YhpWrCrlSh/1gjd9YABGdzgX/V+W1xeXjvfj2UWfMg87SE
+ Sh70FxdymeLtb6J0kpo8R72vL5yKXm+ZlRYx8ZHoDtEj6in7n+0N649CjeFvwPBfO6JB
+ NMz4WbYRj7nUsrp+qboE+gZJZWpImgEpbP1iI1ATSd85HDCGZb+jRl9pktzR0SpHkAUa
+ diZ23PQKzPaPq12untZn5u1YONeHZxThkuXly1SCZIAMG+yJ+czIgZ2hcqgawSfWzVnF
+ AUwYklqNZldD8RdsJsF+59OwtNobrtMXapQSJXGO7liEpBW05i+YQdQP24PKEwH4sqNE
+ Swmw==
+X-Gm-Message-State: AO0yUKUNYyfglnfgJKXnnN/3ojOBSWnscXLoGostMFm5uq00/P2q6GRs
+ nqnIxn88A/ycZBWBIR8TBlNlApcTbpGGbrFri7O3zBiuh1cDUIGrcue0nMDNBDp9d5aq0ildIOs
+ 0GMsk1m7Q+2Oi2dQ=
+X-Received: by 2002:a05:622a:118d:b0:3b8:2ce4:3e9 with SMTP id
+ m13-20020a05622a118d00b003b82ce403e9mr43784485qtk.32.1676275919785; 
+ Mon, 13 Feb 2023 00:11:59 -0800 (PST)
+X-Google-Smtp-Source: AK7set+83E8TJG8Rzk6aIUGt03FMl0v3RJYJ1MoTPi+sNL0JS60A6itbOay/9/9Xa29XygVBfDap7g==
+X-Received: by 2002:a05:622a:118d:b0:3b8:2ce4:3e9 with SMTP id
+ m13-20020a05622a118d00b003b82ce403e9mr43784469qtk.32.1676275919562; 
+ Mon, 13 Feb 2023 00:11:59 -0800 (PST)
 Received: from [192.168.0.2] (ip-109-43-177-185.web.vodafone.de.
  [109.43.177.185]) by smtp.gmail.com with ESMTPSA id
- t187-20020ae9dfc4000000b0073902217c00sm8082433qkf.23.2023.02.13.00.04.29
+ s4-20020a372c04000000b006f9f3c0c63csm9224582qkh.32.2023.02.13.00.11.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 00:04:31 -0800 (PST)
-Message-ID: <5f068ef1-87af-4f9a-43c3-6388e1c041c8@redhat.com>
-Date: Mon, 13 Feb 2023 09:04:28 +0100
+ Mon, 13 Feb 2023 00:11:59 -0800 (PST)
+Message-ID: <265f782c-d3c8-b7d5-d1ea-4d10edd2ad4f@redhat.com>
+Date: Mon, 13 Feb 2023 09:11:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH 2/4] io: use closesocket()
+Subject: Re: [RFC PATCH v2 19/19] hw/usb: Inline usb_bus_from_device()
 Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Joel Stanley <joel@jms.id.au>,
- Laurent Vivier <lvivier@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-arm@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>
-References: <20230212204942.1905959-1-marcandre.lureau@redhat.com>
- <20230212204942.1905959-3-marcandre.lureau@redhat.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>
+Cc: qemu-block@nongnu.org, Li Qiang <liq3ea@163.com>, qemu-s390x@nongnu.org,
+ Hu Tao <hutao@cn.fujitsu.com>, Gonglei Arei <arei.gonglei@huawei.com>,
+ Cao jin <caoj.fnst@cn.fujitsu.com>, xiaoqiang zhao <zxq_yx_007@163.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>
+References: <20230213070820.76881-1-philmd@linaro.org>
+ <20230213070820.76881-20-philmd@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230212204942.1905959-3-marcandre.lureau@redhat.com>
+In-Reply-To: <20230213070820.76881-20-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
@@ -88,7 +91,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.348, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,48 +107,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/02/2023 21.49, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> Because they are actually sockets...
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 13/02/2023 08.08, Philippe Mathieu-Daudé wrote:
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   io/channel-socket.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+> RFC Other devices don't use such helper. Maybe it should
+>      be the other way around, introduce more bus_from_device()
+>      helpers?
+> ---
+>   hw/usb/bus.c        | 10 +++++-----
+>   hw/usb/core.c       |  6 +++---
+>   hw/usb/dev-hub.c    |  4 ++--
+>   hw/usb/dev-serial.c | 10 +++++-----
+>   hw/usb/hcd-xhci.c   |  2 +-
+>   include/hw/usb.h    |  5 -----
+>   6 files changed, 16 insertions(+), 21 deletions(-)
 > 
-> diff --git a/io/channel-socket.c b/io/channel-socket.c
-> index 7aca84f61a..2040297d2b 100644
-> --- a/io/channel-socket.c
-> +++ b/io/channel-socket.c
-> @@ -159,7 +159,7 @@ int qio_channel_socket_connect_sync(QIOChannelSocket *ioc,
+> diff --git a/hw/usb/bus.c b/hw/usb/bus.c
+> index d7c3c71435..4a1b67761c 100644
+> --- a/hw/usb/bus.c
+> +++ b/hw/usb/bus.c
+> @@ -427,7 +427,7 @@ void usb_unregister_port(USBBus *bus, USBPort *port)
 >   
->       trace_qio_channel_socket_connect_complete(ioc, fd);
->       if (qio_channel_socket_set_fd(ioc, fd, errp) < 0) {
-> -        close(fd);
-> +        closesocket(fd);
->           return -1;
->       }
->   
-> @@ -233,7 +233,7 @@ int qio_channel_socket_listen_sync(QIOChannelSocket *ioc,
->   
->       trace_qio_channel_socket_listen_complete(ioc, fd);
->       if (qio_channel_socket_set_fd(ioc, fd, errp) < 0) {
-> -        close(fd);
-> +        closesocket(fd);
->           return -1;
->       }
->       qio_channel_set_feature(QIO_CHANNEL(ioc), QIO_CHANNEL_FEATURE_LISTEN);
-> @@ -310,7 +310,7 @@ int qio_channel_socket_dgram_sync(QIOChannelSocket *ioc,
->   
->       trace_qio_channel_socket_dgram_complete(ioc, fd);
->       if (qio_channel_socket_set_fd(ioc, fd, errp) < 0) {
-> -        close(fd);
-> +        closesocket(fd);
->           return -1;
->       }
->   
+>   void usb_claim_port(USBDevice *dev, Error **errp)
+>   {
+> -    USBBus *bus = usb_bus_from_device(dev);
+> +    USBBus *bus = USB_BUS(qdev_get_parent_bus(DEVICE(dev)));
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+You're certainly missing a proper justification in the patch description 
+here. The "other devices don't use such a helper" does not sound like a real 
+justification to me, since the code lines rather get longer this way. Thus 
+this rather looks like unnecessary code churn to me --> rather drop the patch?
+
+  Thomas
 
 
