@@ -2,57 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D5B5694F85
+	by mail.lfdr.de (Postfix) with ESMTPS id 542C9694F86
 	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 19:38:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRdhr-00048q-DO; Mon, 13 Feb 2023 13:37:39 -0500
+	id 1pRdiV-0004sK-Fk; Mon, 13 Feb 2023 13:38:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pRdhm-00046T-HQ
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 13:37:34 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1pRdiQ-0004o6-M8
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 13:38:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pRdhj-0007B0-St
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 13:37:34 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A12A674632B;
- Mon, 13 Feb 2023 19:34:55 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 43AB87457E7; Mon, 13 Feb 2023 19:34:55 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 4184C745706;
- Mon, 13 Feb 2023 19:34:55 +0100 (CET)
-Date: Mon, 13 Feb 2023 19:34:55 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Peter Xu <peterx@redhat.com>
-cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>, 
- philmd@linaro.org, Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 1/2] log: Add separate debug option for logging invalid
- memory accesses
-In-Reply-To: <Y+pwnar8b17Mu0u4@x1n>
-Message-ID: <d3ebfc88-8b03-cfb7-bc4f-9952521b3ba8@eik.bme.hu>
-References: <20230119214032.4BF1E7457E7@zero.eik.bme.hu>
- <ad4783ee-20ce-06d2-7c2f-1f915bd684d0@eik.bme.hu>
- <413edbc1-8af1-4b0e-70ab-41d49f1bbbcd@eik.bme.hu>
- <fcd09b07-c0ac-d617-8503-a5ecef947cfe@redhat.com> <Y+pM+H1PvTUUHrhx@x1n>
- <7ae34a52-13a5-05e0-3cea-10a9fb89ec1c@eik.bme.hu>
- <Y+piDukOkeg+xs9G@x1n> <0d85fc1d-4c97-5874-d49c-03ac3c265e2f@eik.bme.hu>
- <Y+pwnar8b17Mu0u4@x1n>
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1pRdiO-0007Fg-0j
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 13:38:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676313490;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LgxqwaxiolQtVNA7/arrNKztezL1tC9Ut/TMgeuYP2U=;
+ b=ZSRvD1zcGtTrJ6ZDZdfdu61Dr2cAv4zK6LSwrP3br5mmo6JXenyfyVAHUSoKjJDVLdz4FN
+ ActwrqUStekByor16Er3ZSMoAPWX2bETxPtNrM4cvpPH/x9zJcspdECp1lSTXQvp0mA97T
+ AOmXSUCGzXpu7rvOMSGS3WgNwz092Rg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-472-f_7-ah3IPQKZhWuN5-GHeQ-1; Mon, 13 Feb 2023 13:38:09 -0500
+X-MC-Unique: f_7-ah3IPQKZhWuN5-GHeQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4F0E8101A521;
+ Mon, 13 Feb 2023 18:38:09 +0000 (UTC)
+Received: from laptop.redhat.com (unknown [10.39.192.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C21F540398A0;
+ Mon, 13 Feb 2023 18:38:06 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org,
+ pbonzini@redhat.com, qemu-devel@nongnu.org
+Cc: philmd@linaro.org
+Subject: [PATCH v2] target/arm: Add raw_writes ops for register whose write
+ induce TLB maintenance
+Date: Mon, 13 Feb 2023 19:38:03 +0100
+Message-Id: <20230213183803.3239258-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,129 +77,169 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 13 Feb 2023, Peter Xu wrote:
-> On Mon, Feb 13, 2023 at 05:34:04PM +0100, BALATON Zoltan wrote:
->> On Mon, 13 Feb 2023, Peter Xu wrote:
->>> On Mon, Feb 13, 2023 at 03:47:42PM +0100, BALATON Zoltan wrote:
->>>> On Mon, 13 Feb 2023, Peter Xu wrote:
->>>>> On Mon, Feb 13, 2023 at 12:41:29PM +0100, Thomas Huth wrote:
->>>>>> On 07/02/2023 17.33, BALATON Zoltan wrote:
->>>>>>> On Tue, 31 Jan 2023, BALATON Zoltan wrote:
->>>>>>>> On Thu, 19 Jan 2023, BALATON Zoltan wrote:
->>>>>>>>> Currently -d guest_errors enables logging of different invalid actions
->>>>>>>>> by the guest such as misusing hardware, accessing missing features or
->>>>>>>>> invalid memory areas. The memory access logging can be quite verbose
->>>>>>>>> which obscures the other messages enabled by this debug switch so
->>>>>>>>> separate it by adding a new -d memaccess option to make it possible to
->>>>>>>>> control it independently of other guest error logs.
->>>>>>>>>
->>>>>>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>>>>>>
->>>>>>>> Ping? Could somebody review and pick it up please?
->>>>>>>
->>>>>>> Ping?
->>>>>>
->>>>>> Patch makes sense to me and looks fine, so:
->>>>>>
->>>>>> Reviewed-by: Thomas Huth <thuth@redhat.com>
->>>>>>
->>>>>> ... I think this should go via one of the "Memory API" maintainers branches?
->>>>>> Paolo? Peter? David?
->>>>>
->>>>> Paolo normally does the pull, I assume that'll still be the case.  The
->>>>> patch looks good to me if Phil's comment will be addressed on merging with
->>>>> the old mask, which makes sense to me:
->>>>
->>>> Keeping the old mask kind of defies the purpose. I've tried to explain that
->>>> in the commit message but now that two of you did not get it maybe that
->>>> message needs to be clarified instead?
->>>
->>> I think it's clear enough.  My fault to not read carefully into the
->>> message, sorry.
->>>
->>> However, could you explain why a memory_region_access_valid() failure
->>> shouldn't belong to LOG_GUEST_ERROR?
->>>
->>> commit e54eba1986f6c4bac2951e7f90a849cd842e25e4
->>> Author: Peter Maydell <peter.maydell@linaro.org>
->>> Date:   Thu Oct 18 14:11:35 2012 +0100
->>>
->>>    qemu-log: Add new log category for guest bugs
->>>
->>>    Add a new category for device models to log guest behaviour
->>>    which is likely to be a guest bug of some kind (accessing
->>>    nonexistent registers, reading 32 bit wide registers with
->>>    a byte access, etc). Making this its own log category allows
->>>    those who care (mostly guest OS authors) to see the complaints
->>>    without bothering most users.
->>>
->>> Such an illegal memory access is definitely a suitable candidate of guest
->>> misbehave to me.
->>
->> Problem is that a lot of machines have unimplemented hardware that are valid
->> on real machine but we don't model them so running guests which access these
->> generate constant flow of unassigned memory access log which obscures the
->> actual guest_errors when an modelled device is accessed in unexpected ways.
->> For an example you can try booting MorphOS on mac99,via=pmu as described
->> here: http://zero.eik.bme.hu/~balaton/qemu/amiga/#morphos
->> (or the pegasos2 command too). We could add dummy registers to silence these
->> but I think it's better to either implement it correctly or leave it
->> unimplemented so we don't hide errors by the dummy implementation.
->>
->>> Not to mention Phil always have a good point that you may be violating
->>> others using guest_error already so what they wanted to capture can
->>> misterious going away without noticing, even if it may service your goal.
->>> IOW it's a slight ABI and I think we ned justification to break it.
->>
->> Probably this should be documented in changelog or do we need depracation
->> for a debug option meant for developers mostly? I did not think so. Also I
->> can't think of other way to solve this without changing what guest_erorrs do
->> unless we change the name of that flag as well. Also not that when this was
->> originally added it did not contain mem access logs as those were controlled
->> by a define in memory.c until Philippe changed it and added them to
->> guest_errors. So in a way I want the previous functionality back.
->
-> I see, thanks.
->
-> Indeed it's only a debug option, so I don't know whether the abi needs the
-> attention here.
->
-> I quickly looked at all the masks and afaict this is really a special and
-> very useful one that if I'm a cloud provider I can run some script trying
-> to capture those violations using this bit to identify suspecious guests.
->
-> So I think it would still be great to not break it if possible, IMHO.
->
-> Since currently I don't see an immediate limitation of having qemu log mask
-> being a single bit for each of the entry, one way to satisfy your need (and
-> also keep the old behavior, iiuc), is to make guest_errors a sugar syntax
-> to cover 2 bits.  It shouldn't be complicated at all, I assume:
->
-> +/* This covers the generic guest errors besides memory violations */
-> #define LOG_GUEST_ERROR    (1 << 11)
->
-> +/*
-> + * This covers the guest errors on memory violations; see LOG_GUEST_ERROR
-> + * for generic guest errors.
-> + */
-> +#define LOG_GUEST_ERROR_MEM      (1 << 21)
-> +#define LOG_GUEST_ERROR_ALL      (LOG_GUEST_ERROR | LOG_GUEST_ERROR_MEM)
->
-> -    { LOG_GUEST_ERROR, "guest_errors",
-> +    { LOG_GUEST_ERROR_ALL, "guest_errors",
->
-> Then somehow squashed with your changes.  It'll make "guest_errors" not
-> exactly matching the name of LOG_* but I think it may not be a big concern.
+Some registers whose 'cooked' writefns induce TLB maintenance do
+not have raw_writefn ops defined. If only the writefn ops is set
+(ie. no raw_writefn is provided), it is assumed the cooked also
+work as the raw one. For those registers it is not obvious the
+tlb_flush works on KVM mode so better/safer setting the raw write.
 
-I'm not sure I understand this. So -d memaccess would give me the 
-unassigned logs, that's fine and -d guest_errors are both LOG_GUEST_ERROR 
-and memaccess like currently but what option would give me just the 
-guest_Errors before mem access started to use this flag too? (I could not 
-locate the commit that changed this but I remember previously the 
-unassigned mem logs were enabled with a define in memory.c.) Do we need 
-another -d option for just the guest errors then? What should that be 
-called?
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 
-Regards,
-BALATON Zoltan
+---
+
+v1 -> v2:
+- do not add raw_writefn if type is set to ARM_CP_NO_RAW [Peter]
+
+I am not familiar with those callbacks. I am not sure whether
+the .raw_writefn must be set only for registers only doing some
+TLB maintenance or shall be set safely on other registers doing
+TLB maintenance + other state settings.
+---
+ target/arm/helper.c | 39 +++++++++++++++++++++++----------------
+ 1 file changed, 23 insertions(+), 16 deletions(-)
+
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index c62ed05c12..0bd8806999 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -719,16 +719,20 @@ static const ARMCPRegInfo not_v7_cp_reginfo[] = {
+      * the unified TLB ops but also the dside/iside/inner-shareable variants.
+      */
+     { .name = "TLBIALL", .cp = 15, .crn = 8, .crm = CP_ANY,
+-      .opc1 = CP_ANY, .opc2 = 0, .access = PL1_W, .writefn = tlbiall_write,
++      .opc1 = CP_ANY, .opc2 = 0, .access = PL1_W,
++      .writefn = tlbiall_write, .raw_writefn = raw_write,
+       .type = ARM_CP_NO_RAW },
+     { .name = "TLBIMVA", .cp = 15, .crn = 8, .crm = CP_ANY,
+-      .opc1 = CP_ANY, .opc2 = 1, .access = PL1_W, .writefn = tlbimva_write,
++      .opc1 = CP_ANY, .opc2 = 1, .access = PL1_W,
++      .writefn = tlbimva_write, .raw_writefn = raw_write,
+       .type = ARM_CP_NO_RAW },
+     { .name = "TLBIASID", .cp = 15, .crn = 8, .crm = CP_ANY,
+-      .opc1 = CP_ANY, .opc2 = 2, .access = PL1_W, .writefn = tlbiasid_write,
++      .opc1 = CP_ANY, .opc2 = 2, .access = PL1_W,
++      .writefn = tlbiasid_write, .raw_writefn = raw_write,
+       .type = ARM_CP_NO_RAW },
+     { .name = "TLBIMVAA", .cp = 15, .crn = 8, .crm = CP_ANY,
+-      .opc1 = CP_ANY, .opc2 = 3, .access = PL1_W, .writefn = tlbimvaa_write,
++      .opc1 = CP_ANY, .opc2 = 3, .access = PL1_W,
++      .writefn = tlbimvaa_write, .raw_writefn = raw_write,
+       .type = ARM_CP_NO_RAW },
+     { .name = "PRRR", .cp = 15, .crn = 10, .crm = 2,
+       .opc1 = 0, .opc2 = 0, .access = PL1_RW, .type = ARM_CP_NOP },
+@@ -4183,14 +4187,14 @@ static const ARMCPRegInfo vmsa_cp_reginfo[] = {
+       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 0, .opc2 = 0,
+       .access = PL1_RW, .accessfn = access_tvm_trvm,
+       .fgt = FGT_TTBR0_EL1,
+-      .writefn = vmsa_ttbr_write, .resetvalue = 0,
++      .writefn = vmsa_ttbr_write, .resetvalue = 0, .raw_writefn = raw_write,
+       .bank_fieldoffsets = { offsetof(CPUARMState, cp15.ttbr0_s),
+                              offsetof(CPUARMState, cp15.ttbr0_ns) } },
+     { .name = "TTBR1_EL1", .state = ARM_CP_STATE_BOTH,
+       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 0, .opc2 = 1,
+       .access = PL1_RW, .accessfn = access_tvm_trvm,
+       .fgt = FGT_TTBR1_EL1,
+-      .writefn = vmsa_ttbr_write, .resetvalue = 0,
++      .writefn = vmsa_ttbr_write, .resetvalue = 0, .raw_writefn = raw_write,
+       .bank_fieldoffsets = { offsetof(CPUARMState, cp15.ttbr1_s),
+                              offsetof(CPUARMState, cp15.ttbr1_ns) } },
+     { .name = "TCR_EL1", .state = ARM_CP_STATE_AA64,
+@@ -4450,13 +4454,13 @@ static const ARMCPRegInfo lpae_cp_reginfo[] = {
+       .type = ARM_CP_64BIT | ARM_CP_ALIAS,
+       .bank_fieldoffsets = { offsetof(CPUARMState, cp15.ttbr0_s),
+                              offsetof(CPUARMState, cp15.ttbr0_ns) },
+-      .writefn = vmsa_ttbr_write, },
++      .writefn = vmsa_ttbr_write, .raw_writefn = raw_write },
+     { .name = "TTBR1", .cp = 15, .crm = 2, .opc1 = 1,
+       .access = PL1_RW, .accessfn = access_tvm_trvm,
+       .type = ARM_CP_64BIT | ARM_CP_ALIAS,
+       .bank_fieldoffsets = { offsetof(CPUARMState, cp15.ttbr1_s),
+                              offsetof(CPUARMState, cp15.ttbr1_ns) },
+-      .writefn = vmsa_ttbr_write, },
++      .writefn = vmsa_ttbr_write, .raw_writefn = raw_write },
+ };
+ 
+ static uint64_t aa64_fpcr_read(CPUARMState *env, const ARMCPRegInfo *ri)
+@@ -5899,12 +5903,12 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
+       .type = ARM_CP_IO,
+       .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 0,
+       .access = PL2_RW, .fieldoffset = offsetof(CPUARMState, cp15.hcr_el2),
+-      .writefn = hcr_write },
++      .writefn = hcr_write, .raw_writefn = raw_write },
+     { .name = "HCR", .state = ARM_CP_STATE_AA32,
+       .type = ARM_CP_ALIAS | ARM_CP_IO,
+       .cp = 15, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 0,
+       .access = PL2_RW, .fieldoffset = offsetof(CPUARMState, cp15.hcr_el2),
+-      .writefn = hcr_writelow },
++      .writefn = hcr_writelow, .raw_writefn = raw_write },
+     { .name = "HACR_EL2", .state = ARM_CP_STATE_BOTH,
+       .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 7,
+       .access = PL2_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+@@ -5971,6 +5975,7 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
+     { .name = "TCR_EL2", .state = ARM_CP_STATE_BOTH,
+       .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 0, .opc2 = 2,
+       .access = PL2_RW, .writefn = vmsa_tcr_el12_write,
++      .raw_writefn = raw_write,
+       .fieldoffset = offsetof(CPUARMState, cp15.tcr_el[2]) },
+     { .name = "VTCR", .state = ARM_CP_STATE_AA32,
+       .cp = 15, .opc1 = 4, .crn = 2, .crm = 1, .opc2 = 2,
+@@ -5987,10 +5992,10 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
+       .type = ARM_CP_64BIT | ARM_CP_ALIAS,
+       .access = PL2_RW, .accessfn = access_el3_aa32ns,
+       .fieldoffset = offsetof(CPUARMState, cp15.vttbr_el2),
+-      .writefn = vttbr_write },
++      .writefn = vttbr_write, .raw_writefn = raw_write },
+     { .name = "VTTBR_EL2", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 1, .opc2 = 0,
+-      .access = PL2_RW, .writefn = vttbr_write,
++      .access = PL2_RW, .writefn = vttbr_write, .raw_writefn = raw_write,
+       .fieldoffset = offsetof(CPUARMState, cp15.vttbr_el2) },
+     { .name = "SCTLR_EL2", .state = ARM_CP_STATE_BOTH,
+       .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 0, .opc2 = 0,
+@@ -6002,7 +6007,8 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
+       .fieldoffset = offsetof(CPUARMState, cp15.tpidr_el[2]) },
+     { .name = "TTBR0_EL2", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 0, .opc2 = 0,
+-      .access = PL2_RW, .resetvalue = 0, .writefn = vmsa_tcr_ttbr_el2_write,
++      .access = PL2_RW, .resetvalue = 0,
++      .writefn = vmsa_tcr_ttbr_el2_write, .raw_writefn = raw_write,
+       .fieldoffset = offsetof(CPUARMState, cp15.ttbr0_el[2]) },
+     { .name = "HTTBR", .cp = 15, .opc1 = 4, .crm = 2,
+       .access = PL2_RW, .type = ARM_CP_64BIT | ARM_CP_ALIAS,
+@@ -6139,7 +6145,7 @@ static const ARMCPRegInfo el2_v8_cp_reginfo[] = {
+       .cp = 15, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 4,
+       .access = PL2_RW,
+       .fieldoffset = offsetofhigh32(CPUARMState, cp15.hcr_el2),
+-      .writefn = hcr_writehigh },
++      .writefn = hcr_writehigh, .raw_writefn = raw_write },
+ };
+ 
+ static CPAccessResult sel2_access(CPUARMState *env, const ARMCPRegInfo *ri,
+@@ -6189,12 +6195,12 @@ static const ARMCPRegInfo el3_cp_reginfo[] = {
+     { .name = "SCR_EL3", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 6, .crn = 1, .crm = 1, .opc2 = 0,
+       .access = PL3_RW, .fieldoffset = offsetof(CPUARMState, cp15.scr_el3),
+-      .resetfn = scr_reset, .writefn = scr_write },
++      .resetfn = scr_reset, .writefn = scr_write, .raw_writefn = raw_write },
+     { .name = "SCR",  .type = ARM_CP_ALIAS | ARM_CP_NEWEL,
+       .cp = 15, .opc1 = 0, .crn = 1, .crm = 1, .opc2 = 0,
+       .access = PL1_RW, .accessfn = access_trap_aa32s_el1,
+       .fieldoffset = offsetoflow32(CPUARMState, cp15.scr_el3),
+-      .writefn = scr_write },
++      .writefn = scr_write, .raw_writefn = raw_write },
+     { .name = "SDER32_EL3", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 6, .crn = 1, .crm = 1, .opc2 = 1,
+       .access = PL3_RW, .resetvalue = 0,
+@@ -7862,6 +7868,7 @@ static const ARMCPRegInfo vhe_reginfo[] = {
+     { .name = "TTBR1_EL2", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 0, .opc2 = 1,
+       .access = PL2_RW, .writefn = vmsa_tcr_ttbr_el2_write,
++      .raw_writefn = raw_write,
+       .fieldoffset = offsetof(CPUARMState, cp15.ttbr1_el[2]) },
+ #ifndef CONFIG_USER_ONLY
+     { .name = "CNTHV_CVAL_EL2", .state = ARM_CP_STATE_AA64,
+-- 
+2.37.3
+
 
