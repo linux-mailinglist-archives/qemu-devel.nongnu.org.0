@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 265616941D5
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:47:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A466941F9
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:52:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVOo-0008Mb-2q; Mon, 13 Feb 2023 04:45:26 -0500
+	id 1pRVOl-0008BU-TW; Mon, 13 Feb 2023 04:45:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVOB-0007Zh-N6
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:44:49 -0500
+ id 1pRVOL-0007n4-Tf
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:45:00 -0500
 Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVO6-0002o2-5h
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:44:47 -0500
+ id 1pRVOF-0002n2-EP
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:44:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676281482; x=1707817482;
+ t=1676281491; x=1707817491;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=W/ae+xuw4P2OvU9WIFOFMTZ2QE9l8aTm3Jfz3/8dQQU=;
- b=bcrGmbwx9EwP6ya4VGFcTMF5SiiX4iYnfAaUkPNo07EYcvqyk/Ly13bd
- x7Gb3WtE7Uf5Biwgg2COellyNH/08oMQE3svobQsaOiahpy+qNuRkeOhD
- vL7ObkLANz8G7I++XxnB6qCrgLL2VNZD1wEzwEnja9tmIhlYwPd+5V8or
- UCMK8Jg0R2W2x+J3ckld/QvO/DTEIZ2AFaVoY49pcNA6GP8GOeQLq2iQ8
- 0RSZiZG3IW8qGpShTfDZpwk5PeLtw6srJ3M9SF1WCk+t3csF5Yf35BeJ0
- lafEVV7TqXlpdmSOlRfgdNY7JcFz+two0PVbugQvNoKfQThr4l/YYL14h g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486714"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486714"
+ bh=QypxHHuyBV1gVSk5oVVv+KwvgZ9hKxi5suVXOY9rneE=;
+ b=aANtFN7xHFXuG3fhQsru81T1wW7pr56l4vyXKlVZ6iqHTkYDiyH9tT76
+ DH6pWsaN0XyYIYW52fanw2GBjMWw9LjS8/iv8Atma4Yn56UtdLj1rkkJX
+ 5zRvivu8XLhpVNjh1h1NvweKxiEsPzY4L0Yj4OB7XGsyO9a/I47m+a5bd
+ 9QPocylG2PqMcHxwo4N0/+5W9d5c4yy+TdKTrEsHKkyksw6Aj5VSXBfnk
+ Bu9//9+CqMhHq78DjuNl4DVs7TBHDmr34FF27pt7IcsGhBmdEB5M+2sWY
+ y/nIJ9VUComT/C+iQrGZzDRpJKjj2yGaE3H+AQEGSkjc9XtJOzASJdU3q w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486740"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486740"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 01:44:29 -0800
+ 13 Feb 2023 01:44:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670760409"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670760409"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670760516"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670760516"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:44:25 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:44:29 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -54,14 +54,17 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Zhuocheng Ding <zhuocheng.ding@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
- Zhao Liu <zhao1.liu@intel.com>, Bin Meng <bin.meng@windriver.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Vijai Kumar K <vijai@behindbytes.com>
-Subject: [RFC 22/52] riscv: Replace MachineState.smp access with topology
- helpers
-Date: Mon, 13 Feb 2023 17:50:05 +0800
-Message-Id: <20230213095035.158240-23-zhao1.liu@linux.intel.com>
+ Zhao Liu <zhao1.liu@intel.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>,
+ Radoslaw Biernacki <rad@semihalf.com>,
+ Leif Lindholm <quic_llindhol@quicinc.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
+Subject: [RFC 23/52] arm: Replace MachineState.smp access with topology helpers
+Date: Mon, 13 Feb 2023 17:50:06 +0800
+Message-Id: <20230213095035.158240-24-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
@@ -97,427 +100,416 @@ become complicated. So we wrapped the access to topology fields of
 MachineState.topo into some helpers, and we are using these helpers
 to replace the use of MachineState.smp.
 
-In the codes of riscv, it's straightforward to replace topology access
-with wrapped generic interfaces.
+Before arm supports hybrid, here we use smp-specific interface to get
+"threads per core" and "cores per cluster".
 
-Cc: Bin Meng <bin.meng@windriver.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>
-Cc: Alistair Francis <alistair.francis@wdc.com>
-CC: Vijai Kumar K <vijai@behindbytes.com>
+For other cases, it's straightforward to replace topology access with
+wrapped generic interfaces.
+
+Cc: Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: Andrey Smirnov <andrew.smirnov@gmail.com>
+Cc: Radoslaw Biernacki <rad@semihalf.com>
+Cc: Leif Lindholm <quic_llindhol@quicinc.com>
+Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
+Cc: Alistair Francis <alistair@alistair23.me>
+Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- hw/riscv/microchip_pfsoc.c | 11 ++++++-----
- hw/riscv/numa.c            | 21 +++++++++++----------
- hw/riscv/opentitan.c       |  8 ++++----
- hw/riscv/shakti_c.c        |  2 +-
- hw/riscv/sifive_e.c        | 10 ++++++----
- hw/riscv/sifive_u.c        | 28 ++++++++++++++--------------
- hw/riscv/virt.c            | 24 +++++++++++++-----------
- 7 files changed, 55 insertions(+), 49 deletions(-)
+ hw/arm/fsl-imx6.c        |  4 ++--
+ hw/arm/fsl-imx6ul.c      |  4 ++--
+ hw/arm/fsl-imx7.c        |  4 ++--
+ hw/arm/highbank.c        |  2 +-
+ hw/arm/realview.c        |  2 +-
+ hw/arm/sbsa-ref.c        |  8 +++----
+ hw/arm/vexpress.c        |  2 +-
+ hw/arm/virt-acpi-build.c |  4 ++--
+ hw/arm/virt.c            | 50 ++++++++++++++++++++++------------------
+ hw/arm/xlnx-zynqmp.c     |  6 ++---
+ include/hw/arm/virt.h    |  2 +-
+ target/arm/cpu.c         |  2 +-
+ target/arm/cpu_tcg.c     |  2 +-
+ target/arm/kvm.c         |  2 +-
+ 14 files changed, 50 insertions(+), 44 deletions(-)
 
-diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index 2b91e49561f1..30295cce17e7 100644
---- a/hw/riscv/microchip_pfsoc.c
-+++ b/hw/riscv/microchip_pfsoc.c
-@@ -164,7 +164,8 @@ static void microchip_pfsoc_soc_instance_init(Object *obj)
+diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
+index 00dafe3f62de..e94dec5e6c8d 100644
+--- a/hw/arm/fsl-imx6.c
++++ b/hw/arm/fsl-imx6.c
+@@ -41,7 +41,7 @@ static void fsl_imx6_init(Object *obj)
+     char name[NAME_SIZE];
+     int i;
  
-     object_initialize_child(OBJECT(&s->u_cluster), "u-cpus", &s->u_cpus,
-                             TYPE_RISCV_HART_ARRAY);
--    qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-harts", ms->smp.cpus - 1);
-+    qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-harts",
-+                         machine_topo_get_cpus(ms) - 1);
-     qdev_prop_set_uint32(DEVICE(&s->u_cpus), "hartid-base", 1);
-     qdev_prop_set_string(DEVICE(&s->u_cpus), "cpu-type",
-                          TYPE_RISCV_CPU_SIFIVE_U54);
-@@ -249,10 +250,10 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
+-    for (i = 0; i < MIN(ms->smp.cpus, FSL_IMX6_NUM_CPUS); i++) {
++    for (i = 0; i < MIN(machine_topo_get_cpus(ms), FSL_IMX6_NUM_CPUS); i++) {
+         snprintf(name, NAME_SIZE, "cpu%d", i);
+         object_initialize_child(obj, name, &s->cpu[i],
+                                 ARM_CPU_TYPE_NAME("cortex-a9"));
+@@ -108,7 +108,7 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
+     FslIMX6State *s = FSL_IMX6(dev);
+     uint16_t i;
+     Error *err = NULL;
+-    unsigned int smp_cpus = ms->smp.cpus;
++    unsigned int smp_cpus = machine_topo_get_cpus(ms);
  
-     /* CLINT */
-     riscv_aclint_swi_create(memmap[MICROCHIP_PFSOC_CLINT].base,
--        0, ms->smp.cpus, false);
-+        0, machine_topo_get_cpus(ms), false);
-     riscv_aclint_mtimer_create(
-         memmap[MICROCHIP_PFSOC_CLINT].base + RISCV_ACLINT_SWI_SIZE,
--        RISCV_ACLINT_DEFAULT_MTIMER_SIZE, 0, ms->smp.cpus,
-+        RISCV_ACLINT_DEFAULT_MTIMER_SIZE, 0, machine_topo_get_cpus(ms),
-         RISCV_ACLINT_DEFAULT_MTIMECMP, RISCV_ACLINT_DEFAULT_MTIME,
-         CLINT_TIMEBASE_FREQ, false);
+     if (smp_cpus > FSL_IMX6_NUM_CPUS) {
+         error_setg(errp, "%s: Only %d CPUs are supported (%d requested)",
+diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
+index d88d6cc1c5f9..1216b7ff1a92 100644
+--- a/hw/arm/fsl-imx6ul.c
++++ b/hw/arm/fsl-imx6ul.c
+@@ -160,9 +160,9 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
+     SysBusDevice *sbd;
+     DeviceState *d;
  
-@@ -276,11 +277,11 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-                                 l2lim_mem);
- 
-     /* create PLIC hart topology configuration string */
--    plic_hart_config = riscv_plic_hart_config_string(ms->smp.cpus);
-+    plic_hart_config = riscv_plic_hart_config_string(machine_topo_get_cpus(ms));
- 
-     /* PLIC */
-     s->plic = sifive_plic_create(memmap[MICROCHIP_PFSOC_PLIC].base,
--        plic_hart_config, ms->smp.cpus, 0,
-+        plic_hart_config, machine_topo_get_cpus(ms), 0,
-         MICROCHIP_PFSOC_PLIC_NUM_SOURCES,
-         MICROCHIP_PFSOC_PLIC_NUM_PRIORITIES,
-         MICROCHIP_PFSOC_PLIC_PRIORITY_BASE,
-diff --git a/hw/riscv/numa.c b/hw/riscv/numa.c
-index 472010256183..1fabdc42e767 100644
---- a/hw/riscv/numa.c
-+++ b/hw/riscv/numa.c
-@@ -37,13 +37,14 @@ int riscv_socket_count(const MachineState *ms)
- 
- int riscv_socket_first_hartid(const MachineState *ms, int socket_id)
- {
--    int i, first_hartid = ms->smp.cpus;
-+    int i, first_hartid, cpus = machine_topo_get_cpus(ms);
- 
-+    first_hartid = cpus;
-     if (!numa_enabled(ms)) {
-         return (!socket_id) ? 0 : -1;
+-    if (ms->smp.cpus > 1) {
++    if (machine_topo_get_cpus(ms) > 1) {
+         error_setg(errp, "%s: Only a single CPU is supported (%d requested)",
+-                   TYPE_FSL_IMX6UL, ms->smp.cpus);
++                   TYPE_FSL_IMX6UL, machine_topo_get_cpus(ms));
+         return;
      }
+ 
+diff --git a/hw/arm/fsl-imx7.c b/hw/arm/fsl-imx7.c
+index afc74807990f..f3e569a6ec29 100644
+--- a/hw/arm/fsl-imx7.c
++++ b/hw/arm/fsl-imx7.c
+@@ -36,7 +36,7 @@ static void fsl_imx7_init(Object *obj)
+     char name[NAME_SIZE];
+     int i;
+ 
+-    for (i = 0; i < MIN(ms->smp.cpus, FSL_IMX7_NUM_CPUS); i++) {
++    for (i = 0; i < MIN(machine_topo_get_cpus(ms), FSL_IMX7_NUM_CPUS); i++) {
+         snprintf(name, NAME_SIZE, "cpu%d", i);
+         object_initialize_child(obj, name, &s->cpu[i],
+                                 ARM_CPU_TYPE_NAME("cortex-a7"));
+@@ -148,7 +148,7 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
+     int i;
+     qemu_irq irq;
+     char name[NAME_SIZE];
+-    unsigned int smp_cpus = ms->smp.cpus;
++    unsigned int smp_cpus = machine_topo_get_cpus(ms);
+ 
+     if (smp_cpus > FSL_IMX7_NUM_CPUS) {
+         error_setg(errp, "%s: Only %d CPUs are supported (%d requested)",
+diff --git a/hw/arm/highbank.c b/hw/arm/highbank.c
+index f12aacea6b86..22d6987eafe1 100644
+--- a/hw/arm/highbank.c
++++ b/hw/arm/highbank.c
+@@ -181,7 +181,7 @@ static void calxeda_init(MachineState *machine, enum cxmachines machine_id)
+     SysBusDevice *busdev;
+     qemu_irq pic[128];
+     int n;
+-    unsigned int smp_cpus = machine->smp.cpus;
++    unsigned int smp_cpus = machine_topo_get_cpus(machine);
+     qemu_irq cpu_irq[4];
+     qemu_irq cpu_fiq[4];
+     qemu_irq cpu_virq[4];
+diff --git a/hw/arm/realview.c b/hw/arm/realview.c
+index a5aa2f046aec..0a2022a34629 100644
+--- a/hw/arm/realview.c
++++ b/hw/arm/realview.c
+@@ -87,7 +87,7 @@ static void realview_init(MachineState *machine,
+     DriveInfo *dinfo;
+     I2CBus *i2c;
+     int n;
+-    unsigned int smp_cpus = machine->smp.cpus;
++    unsigned int smp_cpus = machine_topo_get_cpus(machine);
+     int done_nic = 0;
+     qemu_irq cpu_irq[4];
+     int is_mpcore = 0;
+diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+index f778cb6d0979..35f2b83849d5 100644
+--- a/hw/arm/sbsa-ref.c
++++ b/hw/arm/sbsa-ref.c
+@@ -394,7 +394,7 @@ static void create_secure_ram(SBSAMachineState *sms,
+ 
+ static void create_gic(SBSAMachineState *sms)
+ {
+-    unsigned int smp_cpus = MACHINE(sms)->smp.cpus;
++    unsigned int smp_cpus = machine_topo_get_cpus(MACHINE(sms));
+     SysBusDevice *gicbusdev;
+     const char *gictype;
+     uint32_t redist0_capacity, redist0_count;
+@@ -674,8 +674,8 @@ static void create_secure_ec(MemoryRegion *mem)
+ 
+ static void sbsa_ref_init(MachineState *machine)
+ {
+-    unsigned int smp_cpus = machine->smp.cpus;
+-    unsigned int max_cpus = machine->smp.max_cpus;
++    unsigned int smp_cpus = machine_topo_get_cpus(machine);
++    unsigned int max_cpus = machine_topo_get_max_cpus(machine);
+     SBSAMachineState *sms = SBSA_MACHINE(machine);
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
+     MemoryRegion *sysmem = get_system_memory();
+@@ -801,7 +801,7 @@ static void sbsa_ref_init(MachineState *machine)
+ 
+ static const CPUArchIdList *sbsa_ref_possible_cpu_arch_ids(MachineState *ms)
+ {
+-    unsigned int max_cpus = ms->smp.max_cpus;
++    unsigned int max_cpus = machine_topo_get_max_cpus(ms);
+     SBSAMachineState *sms = SBSA_MACHINE(ms);
+     int n;
+ 
+diff --git a/hw/arm/vexpress.c b/hw/arm/vexpress.c
+index 34b012b528b0..5e486da27ee8 100644
+--- a/hw/arm/vexpress.c
++++ b/hw/arm/vexpress.c
+@@ -207,7 +207,7 @@ static void init_cpus(MachineState *ms, const char *cpu_type,
+     DeviceState *dev;
+     SysBusDevice *busdev;
+     int n;
+-    unsigned int smp_cpus = ms->smp.cpus;
++    unsigned int smp_cpus = machine_topo_get_cpus(ms);
+ 
+     /* Create the actual CPUs */
+     for (n = 0; n < smp_cpus; n++) {
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 4156111d49f0..985b945e762d 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -67,7 +67,7 @@ static void acpi_dsdt_add_cpus(Aml *scope, VirtMachineState *vms)
+     MachineState *ms = MACHINE(vms);
+     uint16_t i;
  
 -    for (i = 0; i < ms->smp.cpus; i++) {
-+    for (i = 0; i < cpus; i++) {
-         if (ms->possible_cpus->cpus[i].props.node_id != socket_id) {
-             continue;
-         }
-@@ -52,18 +53,18 @@ int riscv_socket_first_hartid(const MachineState *ms, int socket_id)
-         }
++    for (i = 0; i < machine_topo_get_cpus(ms); i++) {
+         Aml *dev = aml_device("C%.03X", i);
+         aml_append(dev, aml_name_decl("_HID", aml_string("ACPI0007")));
+         aml_append(dev, aml_name_decl("_UID", aml_int(i)));
+@@ -725,7 +725,7 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     build_append_int_noprefix(table_data, vms->gic_version, 1);
+     build_append_int_noprefix(table_data, 0, 3);   /* Reserved */
+ 
+-    for (i = 0; i < MACHINE(vms)->smp.cpus; i++) {
++    for (i = 0; i < machine_topo_get_cpus(MACHINE(vms)); i++) {
+         ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(i));
+         uint64_t physical_base_address = 0, gich = 0, gicv = 0;
+         uint32_t vgic_interrupt = vms->virt ? PPI(ARCH_GIC_MAINT_IRQ) : 0;
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 75f28947de07..ae65ba2c929c 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -346,7 +346,7 @@ static void fdt_add_timer_nodes(const VirtMachineState *vms)
+     if (vms->gic_version == VIRT_GIC_VERSION_2) {
+         irqflags = deposit32(irqflags, GIC_FDT_IRQ_PPI_CPU_START,
+                              GIC_FDT_IRQ_PPI_CPU_WIDTH,
+-                             (1 << MACHINE(vms)->smp.cpus) - 1);
++                             (1 << machine_topo_get_cpus(MACHINE(vms))) - 1);
      }
  
--    return (first_hartid < ms->smp.cpus) ? first_hartid : -1;
-+    return (first_hartid < cpus) ? first_hartid : -1;
- }
+     qemu_fdt_add_subnode(ms->fdt, "/timer");
+@@ -374,7 +374,10 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
+     int addr_cells = 1;
+     const MachineState *ms = MACHINE(vms);
+     const VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
+-    int smp_cpus = ms->smp.cpus;
++    int smp_cpus = machine_topo_get_cpus(ms);
++    int smp_clusters = machine_topo_get_clusters(ms);
++    int smp_cores = machine_topo_get_smp_cores(ms);
++    int smp_threads = machine_topo_get_smp_threads(ms);
  
- int riscv_socket_last_hartid(const MachineState *ms, int socket_id)
+     /*
+      * See Linux Documentation/devicetree/bindings/arm/cpus.yaml
+@@ -461,19 +464,19 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
+             char *cpu_path = g_strdup_printf("/cpus/cpu@%d", cpu);
+             char *map_path;
+ 
+-            if (ms->smp.threads > 1) {
++            if (smp_threads > 1) {
+                 map_path = g_strdup_printf(
+                     "/cpus/cpu-map/socket%d/cluster%d/core%d/thread%d",
+-                    cpu / (ms->smp.clusters * ms->smp.cores * ms->smp.threads),
+-                    (cpu / (ms->smp.cores * ms->smp.threads)) % ms->smp.clusters,
+-                    (cpu / ms->smp.threads) % ms->smp.cores,
+-                    cpu % ms->smp.threads);
++                    cpu / (smp_clusters * smp_cores * smp_threads),
++                    (cpu / (smp_cores * smp_threads)) % smp_clusters,
++                    (cpu / smp_threads) % smp_cores,
++                    cpu % smp_threads);
+             } else {
+                 map_path = g_strdup_printf(
+                     "/cpus/cpu-map/socket%d/cluster%d/core%d",
+-                    cpu / (ms->smp.clusters * ms->smp.cores),
+-                    (cpu / ms->smp.cores) % ms->smp.clusters,
+-                    cpu % ms->smp.cores);
++                    cpu / (smp_clusters * smp_cores),
++                    (cpu / smp_cores) % smp_clusters,
++                    cpu % smp_cores);
+             }
+             qemu_fdt_add_path(ms->fdt, map_path);
+             qemu_fdt_setprop_phandle(ms->fdt, map_path, "cpu", cpu_path);
+@@ -613,7 +616,7 @@ static void fdt_add_pmu_nodes(const VirtMachineState *vms)
+     if (vms->gic_version == VIRT_GIC_VERSION_2) {
+         irqflags = deposit32(irqflags, GIC_FDT_IRQ_PPI_CPU_START,
+                              GIC_FDT_IRQ_PPI_CPU_WIDTH,
+-                             (1 << MACHINE(vms)->smp.cpus) - 1);
++                             (1 << machine_topo_get_cpus(MACHINE(vms))) - 1);
+     }
+ 
+     qemu_fdt_add_subnode(ms->fdt, "/pmu");
+@@ -708,7 +711,7 @@ static void create_gic(VirtMachineState *vms, MemoryRegion *mem)
+     SysBusDevice *gicbusdev;
+     const char *gictype;
+     int i;
+-    unsigned int smp_cpus = ms->smp.cpus;
++    unsigned int smp_cpus = machine_topo_get_cpus(ms);
+     uint32_t nb_redist_regions = 0;
+     int revision;
+ 
+@@ -1277,7 +1280,7 @@ static FWCfgState *create_fw_cfg(const VirtMachineState *vms, AddressSpace *as)
+     char *nodename;
+ 
+     fw_cfg = fw_cfg_init_mem_wide(base + 8, base, 8, base + 16, as);
+-    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)ms->smp.cpus);
++    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)machine_topo_get_cpus(ms));
+ 
+     nodename = g_strdup_printf("/fw-cfg@%" PRIx64, base);
+     qemu_fdt_add_subnode(ms->fdt, nodename);
+@@ -1908,7 +1911,7 @@ static VirtGICType finalize_gic_version_do(const char *accel_name,
+ static void finalize_gic_version(VirtMachineState *vms)
  {
--    int i, last_hartid = -1;
-+    int i, last_hartid = -1, cpus = machine_topo_get_cpus(ms);
+     const char *accel_name = current_accel_name();
+-    unsigned int max_cpus = MACHINE(vms)->smp.max_cpus;
++    unsigned int max_cpus = machine_topo_get_max_cpus(MACHINE(vms));
+     int gics_supported = 0;
  
-     if (!numa_enabled(ms)) {
--        return (!socket_id) ? ms->smp.cpus - 1 : -1;
-+        return (!socket_id) ? cpus - 1 : -1;
-     }
+     /* Determine which GIC versions the current environment supports */
+@@ -1958,7 +1961,7 @@ static void finalize_gic_version(VirtMachineState *vms)
+  */
+ static void virt_cpu_post_init(VirtMachineState *vms, MemoryRegion *sysmem)
+ {
+-    int max_cpus = MACHINE(vms)->smp.max_cpus;
++    int max_cpus = machine_topo_get_max_cpus(MACHINE(vms));
+     bool aarch64, pmu, steal_time;
+     CPUState *cpu;
  
--    for (i = 0; i < ms->smp.cpus; i++) {
-+    for (i = 0; i < cpus; i++) {
-         if (ms->possible_cpus->cpus[i].props.node_id != socket_id) {
-             continue;
-         }
-@@ -72,7 +73,7 @@ int riscv_socket_last_hartid(const MachineState *ms, int socket_id)
-         }
-     }
+@@ -2032,8 +2035,8 @@ static void machvirt_init(MachineState *machine)
+     bool firmware_loaded;
+     bool aarch64 = true;
+     bool has_ged = !vmc->no_ged;
+-    unsigned int smp_cpus = machine->smp.cpus;
+-    unsigned int max_cpus = machine->smp.max_cpus;
++    unsigned int smp_cpus = machine_topo_get_cpus(machine);
++    unsigned int max_cpus = machine_topo_get_max_cpus(machine);
  
--    return (last_hartid < ms->smp.cpus) ? last_hartid : -1;
-+    return (last_hartid < cpus) ? last_hartid : -1;
- }
- 
- int riscv_socket_hart_count(const MachineState *ms, int socket_id)
-@@ -80,7 +81,7 @@ int riscv_socket_hart_count(const MachineState *ms, int socket_id)
-     int first_hartid, last_hartid;
- 
-     if (!numa_enabled(ms)) {
--        return (!socket_id) ? ms->smp.cpus : -1;
-+        return (!socket_id) ? machine_topo_get_cpus(ms) : -1;
-     }
- 
-     first_hartid = riscv_socket_first_hartid(ms, socket_id);
-@@ -208,7 +209,7 @@ int64_t riscv_numa_get_default_cpu_node_id(const MachineState *ms, int idx)
-     int64_t nidx = 0;
- 
-     if (ms->numa_state->num_nodes) {
--        nidx = idx / (ms->smp.cpus / ms->numa_state->num_nodes);
-+        nidx = idx / (machine_topo_get_cpus(ms) / ms->numa_state->num_nodes);
-         if (ms->numa_state->num_nodes <= nidx) {
-             nidx = ms->numa_state->num_nodes - 1;
-         }
-@@ -220,7 +221,7 @@ int64_t riscv_numa_get_default_cpu_node_id(const MachineState *ms, int idx)
- const CPUArchIdList *riscv_numa_possible_cpu_arch_ids(MachineState *ms)
+     if (!cpu_type_valid(machine->cpu_type)) {
+         error_report("mach-virt: CPU type %s not supported", machine->cpu_type);
+@@ -2664,7 +2667,10 @@ static int64_t virt_get_default_cpu_node_id(const MachineState *ms, int idx)
+ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
  {
      int n;
 -    unsigned int max_cpus = ms->smp.max_cpus;
 +    unsigned int max_cpus = machine_topo_get_max_cpus(ms);
++    unsigned int smp_clusters = machine_topo_get_clusters(ms);
++    unsigned int smp_cores = machine_topo_get_smp_cores(ms);
++    unsigned int smp_threads = machine_topo_get_smp_threads(ms);
+     VirtMachineState *vms = VIRT_MACHINE(ms);
+     MachineClass *mc = MACHINE_GET_CLASS(vms);
  
-     if (ms->possible_cpus) {
-         assert(ms->possible_cpus->len == max_cpus);
-diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index 353f030d80c1..fb59c43dcc08 100644
---- a/hw/riscv/opentitan.c
-+++ b/hw/riscv/opentitan.c
-@@ -143,11 +143,11 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
-     MachineState *ms = MACHINE(qdev_get_machine());
-     LowRISCIbexSoCState *s = RISCV_IBEX_SOC(dev_soc);
-     MemoryRegion *sys_mem = get_system_memory();
--    int i;
-+    int i, cpus = machine_topo_get_cpus(ms);
- 
-     object_property_set_str(OBJECT(&s->cpus), "cpu-type", ms->cpu_type,
-                             &error_abort);
--    object_property_set_int(OBJECT(&s->cpus), "num-harts", ms->smp.cpus,
-+    object_property_set_int(OBJECT(&s->cpus), "num-harts", cpus,
-                             &error_abort);
-     object_property_set_int(OBJECT(&s->cpus), "resetvec", s->resetvec,
-                             &error_abort);
-@@ -186,10 +186,10 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+@@ -2684,16 +2690,16 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+         assert(!mc->smp_props.dies_supported);
+         ms->possible_cpus->cpus[n].props.has_socket_id = true;
+         ms->possible_cpus->cpus[n].props.socket_id =
+-            n / (ms->smp.clusters * ms->smp.cores * ms->smp.threads);
++            n / (smp_clusters * smp_cores * smp_threads);
+         ms->possible_cpus->cpus[n].props.has_cluster_id = true;
+         ms->possible_cpus->cpus[n].props.cluster_id =
+-            (n / (ms->smp.cores * ms->smp.threads)) % ms->smp.clusters;
++            (n / (smp_cores * smp_threads)) % smp_clusters;
+         ms->possible_cpus->cpus[n].props.has_core_id = true;
+         ms->possible_cpus->cpus[n].props.core_id =
+-            (n / ms->smp.threads) % ms->smp.cores;
++            (n / smp_threads) % smp_cores;
+         ms->possible_cpus->cpus[n].props.has_thread_id = true;
+         ms->possible_cpus->cpus[n].props.thread_id =
+-            n % ms->smp.threads;
++            n % smp_threads;
      }
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->plic), 0, memmap[IBEX_DEV_PLIC].base);
- 
--    for (i = 0; i < ms->smp.cpus; i++) {
-+    for (i = 0; i < cpus; i++) {
-         CPUState *cpu = qemu_get_cpu(i);
- 
--        qdev_connect_gpio_out(DEVICE(&s->plic), ms->smp.cpus + i,
-+        qdev_connect_gpio_out(DEVICE(&s->plic), cpus + i,
-                               qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EXT));
-     }
- 
-diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
-index e43cc9445cb1..34499510e2f0 100644
---- a/hw/riscv/shakti_c.c
-+++ b/hw/riscv/shakti_c.c
-@@ -110,7 +110,7 @@ static void shakti_c_soc_state_realize(DeviceState *dev, Error **errp)
-     sysbus_realize(SYS_BUS_DEVICE(&sss->cpus), &error_abort);
- 
-     sss->plic = sifive_plic_create(shakti_c_memmap[SHAKTI_C_PLIC].base,
--        (char *)SHAKTI_C_PLIC_HART_CONFIG, ms->smp.cpus, 0,
-+        (char *)SHAKTI_C_PLIC_HART_CONFIG, machine_topo_get_cpus(ms), 0,
-         SHAKTI_C_PLIC_NUM_SOURCES,
-         SHAKTI_C_PLIC_NUM_PRIORITIES,
-         SHAKTI_C_PLIC_PRIORITY_BASE,
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index 3e3f4b0088ca..ca3a7a0877cd 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -178,7 +178,8 @@ static void sifive_e_soc_init(Object *obj)
-     SiFiveESoCState *s = RISCV_E_SOC(obj);
- 
-     object_initialize_child(obj, "cpus", &s->cpus, TYPE_RISCV_HART_ARRAY);
--    object_property_set_int(OBJECT(&s->cpus), "num-harts", ms->smp.cpus,
-+    object_property_set_int(OBJECT(&s->cpus), "num-harts",
-+                            machine_topo_get_cpus(ms),
-                             &error_abort);
-     object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x1004, &error_abort);
-     object_initialize_child(obj, "riscv.sifive.e.gpio0", &s->gpio,
-@@ -191,6 +192,7 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
-     const MemMapEntry *memmap = sifive_e_memmap;
-     SiFiveESoCState *s = RISCV_E_SOC(dev);
-     MemoryRegion *sys_mem = get_system_memory();
-+    unsigned int cpus = machine_topo_get_cpus(ms);
- 
-     object_property_set_str(OBJECT(&s->cpus), "cpu-type", ms->cpu_type,
-                             &error_abort);
-@@ -204,7 +206,7 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
- 
-     /* MMIO */
-     s->plic = sifive_plic_create(memmap[SIFIVE_E_DEV_PLIC].base,
--        (char *)SIFIVE_E_PLIC_HART_CONFIG, ms->smp.cpus, 0,
-+        (char *)SIFIVE_E_PLIC_HART_CONFIG, cpus, 0,
-         SIFIVE_E_PLIC_NUM_SOURCES,
-         SIFIVE_E_PLIC_NUM_PRIORITIES,
-         SIFIVE_E_PLIC_PRIORITY_BASE,
-@@ -215,10 +217,10 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
-         SIFIVE_E_PLIC_CONTEXT_STRIDE,
-         memmap[SIFIVE_E_DEV_PLIC].size);
-     riscv_aclint_swi_create(memmap[SIFIVE_E_DEV_CLINT].base,
--        0, ms->smp.cpus, false);
-+        0, cpus, false);
-     riscv_aclint_mtimer_create(memmap[SIFIVE_E_DEV_CLINT].base +
-             RISCV_ACLINT_SWI_SIZE,
--        RISCV_ACLINT_DEFAULT_MTIMER_SIZE, 0, ms->smp.cpus,
-+        RISCV_ACLINT_DEFAULT_MTIMER_SIZE, 0, cpus,
-         RISCV_ACLINT_DEFAULT_MTIMECMP, RISCV_ACLINT_DEFAULT_MTIME,
-         RISCV_ACLINT_DEFAULT_TIMEBASE_FREQ, false);
-     create_unimplemented_device("riscv.sifive.e.aon",
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index d3ab7a9cda5d..c7f969510209 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -99,7 +99,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-     MachineState *ms = MACHINE(s);
-     uint64_t mem_size = ms->ram_size;
-     void *fdt;
--    int cpu, fdt_size;
-+    int cpu, fdt_size, num_cpus = machine_topo_get_cpus(ms);
-     uint32_t *cells;
-     char *nodename;
-     uint32_t plic_phandle, prci_phandle, gpio_phandle, phandle = 1;
-@@ -175,7 +175,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-     qemu_fdt_setprop_cell(fdt, "/cpus", "#size-cells", 0x0);
-     qemu_fdt_setprop_cell(fdt, "/cpus", "#address-cells", 0x1);
- 
--    for (cpu = ms->smp.cpus - 1; cpu >= 0; cpu--) {
-+    for (cpu = num_cpus - 1; cpu >= 0; cpu--) {
-         int cpu_phandle = phandle++;
-         nodename = g_strdup_printf("/cpus/cpu@%d", cpu);
-         char *intc = g_strdup_printf("/cpus/cpu@%d/interrupt-controller", cpu);
-@@ -207,8 +207,8 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-         g_free(nodename);
-     }
- 
--    cells =  g_new0(uint32_t, ms->smp.cpus * 4);
--    for (cpu = 0; cpu < ms->smp.cpus; cpu++) {
-+    cells =  g_new0(uint32_t, num_cpus * 4);
-+    for (cpu = 0; cpu < num_cpus; cpu++) {
-         nodename =
-             g_strdup_printf("/cpus/cpu@%d/interrupt-controller", cpu);
-         uint32_t intc_phandle = qemu_fdt_get_phandle(fdt, nodename);
-@@ -227,7 +227,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-         0x0, memmap[SIFIVE_U_DEV_CLINT].base,
-         0x0, memmap[SIFIVE_U_DEV_CLINT].size);
-     qemu_fdt_setprop(fdt, nodename, "interrupts-extended",
--        cells, ms->smp.cpus * sizeof(uint32_t) * 4);
-+        cells, num_cpus * sizeof(uint32_t) * 4);
-     g_free(cells);
-     g_free(nodename);
- 
-@@ -258,8 +258,8 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-     g_free(nodename);
- 
-     plic_phandle = phandle++;
--    cells =  g_new0(uint32_t, ms->smp.cpus * 4 - 2);
--    for (cpu = 0; cpu < ms->smp.cpus; cpu++) {
-+    cells =  g_new0(uint32_t, machine_topo_get_cpus(ms) * 4 - 2);
-+    for (cpu = 0; cpu < machine_topo_get_cpus(ms); cpu++) {
-         nodename =
-             g_strdup_printf("/cpus/cpu@%d/interrupt-controller", cpu);
-         uint32_t intc_phandle = qemu_fdt_get_phandle(fdt, nodename);
-@@ -283,7 +283,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-         (char **)&plic_compat, ARRAY_SIZE(plic_compat));
-     qemu_fdt_setprop(fdt, nodename, "interrupt-controller", NULL, 0);
-     qemu_fdt_setprop(fdt, nodename, "interrupts-extended",
--        cells, (ms->smp.cpus * 4 - 2) * sizeof(uint32_t));
-+        cells, (machine_topo_get_cpus(ms) * 4 - 2) * sizeof(uint32_t));
-     qemu_fdt_setprop_cells(fdt, nodename, "reg",
-         0x0, memmap[SIFIVE_U_DEV_PLIC].base,
-         0x0, memmap[SIFIVE_U_DEV_PLIC].size);
-@@ -797,10 +797,10 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-     MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
-     MemoryRegion *l2lim_mem = g_new(MemoryRegion, 1);
-     char *plic_hart_config;
--    int i, j;
-+    int i, j, cpus = machine_topo_get_cpus(ms);
-     NICInfo *nd = &nd_table[0];
- 
--    qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-harts", ms->smp.cpus - 1);
-+    qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-harts", cpus - 1);
-     qdev_prop_set_uint32(DEVICE(&s->u_cpus), "hartid-base", 1);
-     qdev_prop_set_string(DEVICE(&s->u_cpus), "cpu-type", s->cpu_type);
-     qdev_prop_set_uint64(DEVICE(&s->u_cpus), "resetvec", 0x1004);
-@@ -837,11 +837,11 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-                                 l2lim_mem);
- 
-     /* create PLIC hart topology configuration string */
--    plic_hart_config = riscv_plic_hart_config_string(ms->smp.cpus);
-+    plic_hart_config = riscv_plic_hart_config_string(cpus);
- 
-     /* MMIO */
-     s->plic = sifive_plic_create(memmap[SIFIVE_U_DEV_PLIC].base,
--        plic_hart_config, ms->smp.cpus, 0,
-+        plic_hart_config, cpus, 0,
-         SIFIVE_U_PLIC_NUM_SOURCES,
-         SIFIVE_U_PLIC_NUM_PRIORITIES,
-         SIFIVE_U_PLIC_PRIORITY_BASE,
-@@ -857,10 +857,10 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-     sifive_uart_create(system_memory, memmap[SIFIVE_U_DEV_UART1].base,
-         serial_hd(1), qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_U_UART1_IRQ));
-     riscv_aclint_swi_create(memmap[SIFIVE_U_DEV_CLINT].base, 0,
--        ms->smp.cpus, false);
-+        cpus, false);
-     riscv_aclint_mtimer_create(memmap[SIFIVE_U_DEV_CLINT].base +
-             RISCV_ACLINT_SWI_SIZE,
--        RISCV_ACLINT_DEFAULT_MTIMER_SIZE, 0, ms->smp.cpus,
-+        RISCV_ACLINT_DEFAULT_MTIMER_SIZE, 0, cpus,
-         RISCV_ACLINT_DEFAULT_MTIMECMP, RISCV_ACLINT_DEFAULT_MTIME,
-         CLINT_TIMEBASE_FREQ, false);
- 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index b81081c70b1c..4b0a3dab5ec1 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -506,16 +506,17 @@ static void create_fdt_imsic(RISCVVirtState *s, const MemMapEntry *memmap,
-     char *imsic_name;
-     MachineState *ms = MACHINE(s);
-     int socket_count = riscv_socket_count(ms);
--    uint32_t imsic_max_hart_per_socket, imsic_guest_bits;
-+    uint32_t imsic_max_hart_per_socket, imsic_guest_bits, cpus;
-     uint32_t *imsic_cells, *imsic_regs, imsic_addr, imsic_size;
- 
-+    cpus = machine_topo_get_cpus(ms);
-     *msi_m_phandle = (*phandle)++;
-     *msi_s_phandle = (*phandle)++;
--    imsic_cells = g_new0(uint32_t, ms->smp.cpus * 2);
-+    imsic_cells = g_new0(uint32_t, cpus * 2);
-     imsic_regs = g_new0(uint32_t, socket_count * 4);
- 
-     /* M-level IMSIC node */
--    for (cpu = 0; cpu < ms->smp.cpus; cpu++) {
-+    for (cpu = 0; cpu < cpus; cpu++) {
-         imsic_cells[cpu * 2 + 0] = cpu_to_be32(intc_phandles[cpu]);
-         imsic_cells[cpu * 2 + 1] = cpu_to_be32(IRQ_M_EXT);
-     }
-@@ -544,7 +545,7 @@ static void create_fdt_imsic(RISCVVirtState *s, const MemMapEntry *memmap,
-     qemu_fdt_setprop(ms->fdt, imsic_name, "msi-controller",
-         NULL, 0);
-     qemu_fdt_setprop(ms->fdt, imsic_name, "interrupts-extended",
--        imsic_cells, ms->smp.cpus * sizeof(uint32_t) * 2);
-+        imsic_cells, cpus * sizeof(uint32_t) * 2);
-     qemu_fdt_setprop(ms->fdt, imsic_name, "reg", imsic_regs,
-         socket_count * sizeof(uint32_t) * 4);
-     qemu_fdt_setprop_cell(ms->fdt, imsic_name, "riscv,num-ids",
-@@ -562,7 +563,7 @@ static void create_fdt_imsic(RISCVVirtState *s, const MemMapEntry *memmap,
-     g_free(imsic_name);
- 
-     /* S-level IMSIC node */
--    for (cpu = 0; cpu < ms->smp.cpus; cpu++) {
-+    for (cpu = 0; cpu < cpus; cpu++) {
-         imsic_cells[cpu * 2 + 0] = cpu_to_be32(intc_phandles[cpu]);
-         imsic_cells[cpu * 2 + 1] = cpu_to_be32(IRQ_S_EXT);
-     }
-@@ -593,7 +594,7 @@ static void create_fdt_imsic(RISCVVirtState *s, const MemMapEntry *memmap,
-     qemu_fdt_setprop(ms->fdt, imsic_name, "msi-controller",
-         NULL, 0);
-     qemu_fdt_setprop(ms->fdt, imsic_name, "interrupts-extended",
--        imsic_cells, ms->smp.cpus * sizeof(uint32_t) * 2);
-+        imsic_cells, cpus * sizeof(uint32_t) * 2);
-     qemu_fdt_setprop(ms->fdt, imsic_name, "reg", imsic_regs,
-         socket_count * sizeof(uint32_t) * 4);
-     qemu_fdt_setprop_cell(ms->fdt, imsic_name, "riscv,num-ids",
-@@ -732,7 +733,7 @@ static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
-     char *clust_name;
-     int socket, phandle_pos;
-     MachineState *ms = MACHINE(s);
--    uint32_t msi_m_phandle = 0, msi_s_phandle = 0;
-+    uint32_t msi_m_phandle = 0, msi_s_phandle = 0, cpus;
-     uint32_t *intc_phandles, xplic_phandles[MAX_NODES];
-     int socket_count = riscv_socket_count(ms);
- 
-@@ -743,9 +744,10 @@ static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
-     qemu_fdt_setprop_cell(ms->fdt, "/cpus", "#address-cells", 0x1);
-     qemu_fdt_add_subnode(ms->fdt, "/cpus/cpu-map");
- 
--    intc_phandles = g_new0(uint32_t, ms->smp.cpus);
-+    cpus = machine_topo_get_cpus(ms);
-+    intc_phandles = g_new0(uint32_t, cpus);
- 
--    phandle_pos = ms->smp.cpus;
-+    phandle_pos = cpus;
-     for (socket = (socket_count - 1); socket >= 0; socket--) {
-         phandle_pos -= s->soc[socket].num_harts;
- 
-@@ -776,7 +778,7 @@ static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
-         *msi_pcie_phandle = msi_s_phandle;
-     }
- 
--    phandle_pos = ms->smp.cpus;
-+    phandle_pos = cpus;
-     for (socket = (socket_count - 1); socket >= 0; socket--) {
-         phandle_pos -= s->soc[socket].num_harts;
- 
-@@ -1113,7 +1115,7 @@ static FWCfgState *create_fw_cfg(const MachineState *ms)
- 
-     fw_cfg = fw_cfg_init_mem_wide(base + 8, base, 8, base + 16,
-                                   &address_space_memory);
--    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)ms->smp.cpus);
-+    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)machine_topo_get_cpus(ms));
- 
-     return fw_cfg;
+     return ms->possible_cpus;
  }
+diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
+index 335cfc417d70..773de7a51680 100644
+--- a/hw/arm/xlnx-zynqmp.c
++++ b/hw/arm/xlnx-zynqmp.c
+@@ -213,7 +213,7 @@ static void xlnx_zynqmp_create_rpu(MachineState *ms, XlnxZynqMPState *s,
+                                    const char *boot_cpu, Error **errp)
+ {
+     int i;
+-    int num_rpus = MIN(ms->smp.cpus - XLNX_ZYNQMP_NUM_APU_CPUS,
++    int num_rpus = MIN(machine_topo_get_cpus(ms) - XLNX_ZYNQMP_NUM_APU_CPUS,
+                        XLNX_ZYNQMP_NUM_RPU_CPUS);
+ 
+     if (num_rpus <= 0) {
+@@ -376,7 +376,7 @@ static void xlnx_zynqmp_init(Object *obj)
+     MachineState *ms = MACHINE(qdev_get_machine());
+     XlnxZynqMPState *s = XLNX_ZYNQMP(obj);
+     int i;
+-    int num_apus = MIN(ms->smp.cpus, XLNX_ZYNQMP_NUM_APU_CPUS);
++    int num_apus = MIN(machine_topo_get_cpus(ms), XLNX_ZYNQMP_NUM_APU_CPUS);
+ 
+     object_initialize_child(obj, "apu-cluster", &s->apu_cluster,
+                             TYPE_CPU_CLUSTER);
+@@ -449,7 +449,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+     MemoryRegion *system_memory = get_system_memory();
+     uint8_t i;
+     uint64_t ram_size;
+-    int num_apus = MIN(ms->smp.cpus, XLNX_ZYNQMP_NUM_APU_CPUS);
++    int num_apus = MIN(machine_topo_get_cpus(ms), XLNX_ZYNQMP_NUM_APU_CPUS);
+     const char *boot_cpu = s->boot_cpu ? s->boot_cpu : "apu-cpu[0]";
+     ram_addr_t ddr_low_size, ddr_high_size;
+     qemu_irq gic_spi[GIC_NUM_SPI_INTR];
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index e1ddbea96bea..e046f530990f 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -213,7 +213,7 @@ static inline int virt_gicv3_redist_region_count(VirtMachineState *vms)
+ 
+     assert(vms->gic_version != VIRT_GIC_VERSION_2);
+ 
+-    return (MACHINE(vms)->smp.cpus > redist0_capacity &&
++    return (machine_topo_get_cpus(MACHINE(vms)) > redist0_capacity &&
+             vms->highmem_redists) ? 2 : 1;
+ }
+ 
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 5f63316dbf22..a7f1d470eed7 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -2079,7 +2079,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+ 
+ #ifndef CONFIG_USER_ONLY
+     MachineState *ms = MACHINE(qdev_get_machine());
+-    unsigned int smp_cpus = ms->smp.cpus;
++    unsigned int smp_cpus = machine_topo_get_cpus(ms);
+     bool has_secure = cpu->has_el3 || arm_feature(env, ARM_FEATURE_M_SECURITY);
+ 
+     /*
+diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+index ccde5080eb70..a098d797637c 100644
+--- a/target/arm/cpu_tcg.c
++++ b/target/arm/cpu_tcg.c
+@@ -515,7 +515,7 @@ static uint64_t a15_l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *ri)
+      * Linux wants the number of processors from here.
+      * Might as well set the interrupt-controller bit too.
+      */
+-    return ((ms->smp.cpus - 1) << 24) | (1 << 23);
++    return ((machine_topo_get_cpus(ms) - 1) << 24) | (1 << 23);
+ }
+ #endif
+ 
+diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+index f022c644d2ff..eefded5d203b 100644
+--- a/target/arm/kvm.c
++++ b/target/arm/kvm.c
+@@ -263,7 +263,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+ 
+     cap_has_mp_state = kvm_check_extension(s, KVM_CAP_MP_STATE);
+ 
+-    if (ms->smp.cpus > 256 &&
++    if (machine_topo_get_cpus(ms) > 256 &&
+         !kvm_check_extension(s, KVM_CAP_ARM_IRQ_LINE_LAYOUT_2)) {
+         error_report("Using more than 256 vcpus requires a host kernel "
+                      "with KVM_CAP_ARM_IRQ_LINE_LAYOUT_2");
 -- 
 2.34.1
 
