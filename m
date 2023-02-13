@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D78C6941FC
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:52:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 540A069420D
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:56:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVPQ-0001Hp-VM; Mon, 13 Feb 2023 04:46:06 -0500
+	id 1pRVQE-0002tK-Rs; Mon, 13 Feb 2023 04:46:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVPK-0001FM-K2
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:45:59 -0500
+ id 1pRVPU-0001U7-Vw
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:46:09 -0500
 Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVPE-0002n2-Fg
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:45:56 -0500
+ id 1pRVPP-0002kj-7g
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:46:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676281552; x=1707817552;
+ t=1676281563; x=1707817563;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=rb4nLkPd92MUqqvFqFsZKp29ST6hY03+nET8aUQ+i6E=;
- b=eVvqB4Q/LinkYQ0A1srIfWfoaRKmeGLACof/074HkBwDV3UaRrJihx2b
- ayoSbnC8D0SvnbXN0W/KYkZb9kUUUY6lD/jyXjVLj/kPBXjzQrqVbyFFR
- rbCclbWJ3N5vafREE1jQpuw24FoWvXyE8iEtIOL5E4kwxxum43UK5ubNV
- bi834zX/bkJvXrh471jAoIo1GOGO5E3BDlRp7yUNJOu8vIjsFQN6THKDU
- hyre/fovpGCDbctWjGrdKVzMDAIKGlAcI0oMFSSbNb/uzfSde2FNDDHd3
- kKXZ3XEi8iAjfulrGpQE1HnOzOIB4NJXbDv9CSmWa3uFPGyOaOAD8GRXh w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486983"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486983"
+ bh=9mDVdyYem//hjkBSE+XAPySWoyseWNH8mXJMpF1YKf8=;
+ b=g+kUUcG2DJ8+TxN4dWiJTfwwJQqUc6yhdCUT/Ai+BFatMCR0J2AV8xFL
+ 32DdJlUexuKsgkufPSD1Ka2x93PXQzhdMCTbu/0Gl5nYS8viJ1TUs8zMy
+ VseBYiMIheqf+eBjDtSecXEH2wnCqDbhcFClaUVU0DVEaXl9uJa0znfyp
+ mVNxhp/z4Qnz+9UMf91Qx2Ytz6h18IRnCoNHgBO7Ms98QfbebAOVE/aIW
+ BbEUXJ+4RKmub3+9VwZGaIyPZTqWK+6KEegGxsYjy5A5oTkl9qHWiVzDU
+ +P/XBHpuEY4QcNZOk8mk/8E1p+8RorB2qiDf5GbyWq4HEYmTRi9aaSbtT w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310487015"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310487015"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 01:45:24 -0800
+ 13 Feb 2023 01:45:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670760615"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670760615"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670760621"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670760621"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:45:19 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:45:23 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -55,9 +55,10 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
  Zhao Liu <zhao1.liu@intel.com>
-Subject: [RFC 35/52] i386: Support APIC ID topology for hybrid CPU topology
-Date: Mon, 13 Feb 2023 17:50:18 +0800
-Message-Id: <20230213095035.158240-36-zhao1.liu@linux.intel.com>
+Subject: [RFC 36/52] i386: Use init_apicid_topo_info() to initialize APIC ID
+ topology for system emulator
+Date: Mon, 13 Feb 2023 17:50:19 +0800
+Message-Id: <20230213095035.158240-37-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
@@ -88,64 +89,48 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
-X86ApicidTopoInfo is used to caculate offsets of topology levels for
-APIC ID.
+Since APIC ID for hybrid CPU topology needs to consider maximum possible
+structures for each topology levels, the APIC IDs for hybrid CPU topology
+and smp CPU topology may be different.
 
-For hybrid CPU topology, X86ApicidTopoInfo should get the maximum
-possible number of corresponding topology structures in each topology
-level (currently, only for core and thread level).
+User emulator doesn't support hybrid CPU topology so use
+init_apicid_topo_info() for system emulator.
 
 Co-Developed-by: Zhuocheng Ding <zhuocheng.ding@intel.com>
 Signed-off-by: Zhuocheng Ding <zhuocheng.ding@intel.com>
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- hw/i386/x86.c | 31 +++++++++++++++++++++++++++++--
- 1 file changed, 29 insertions(+), 2 deletions(-)
+ target/i386/cpu.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 9ee0fcb9a460..1c071f8120cb 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -70,10 +70,37 @@ inline void init_apicid_topo_info(X86ApicidTopoInfo *apicid_topo,
- {
-     MachineState *ms = MACHINE(x86ms);
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 844b6df63a4a..7d6722ab3292 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -39,6 +39,7 @@
+ #include "exec/address-spaces.h"
+ #include "hw/boards.h"
+ #include "hw/i386/sgx-epc.h"
++#include "hw/i386/x86.h"
+ #endif
  
-+    /*
-+     * At present, the packages and dies in the hybrid CPU topology are the
-+     * same, so the numbers of dies in one package and the numbers of modules
-+     * in the dies are also the same.
-+     */
-     apicid_topo->max_dies = machine_topo_get_dies(ms);
-     apicid_topo->max_modules = machine_topo_get_clusters(ms);
--    apicid_topo->max_cores = machine_topo_get_smp_cores(ms);
--    apicid_topo->max_threads = machine_topo_get_smp_threads(ms);
-+
-+    if (machine_topo_is_smp(ms)) {
-+        apicid_topo->max_cores = machine_topo_get_smp_cores(ms);
-+        apicid_topo->max_threads = machine_topo_get_smp_threads(ms);
-+    } else {
-+        int max_cores = 0;
-+        int max_threads = 0;
-+        int nr_clusters = machine_topo_get_clusters(ms);
-+        int nr_cores, nr_threads;
-+
-+        for (int i = 0; i < nr_clusters; i++) {
-+            nr_cores = machine_topo_get_cores(ms, i);
-+            max_cores = max_cores > nr_cores ? max_cores : nr_cores;
-+
-+            for (int j = 0; j < nr_cores; j++) {
-+                nr_threads = machine_topo_get_threads(ms, i, j);
-+                max_threads = max_threads > nr_threads ?
-+                              max_threads : nr_threads;
-+            }
-+        }
-+
-+        apicid_topo->max_cores = max_cores;
-+        apicid_topo->max_threads = max_threads;
-+    }
- }
+ #include "disas/capstone.h"
+@@ -5260,10 +5261,15 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+     uint32_t signature[3];
+     X86ApicidTopoInfo apicid_topo;
  
- /*
++#ifndef CONFIG_USER_ONLY
++    X86MachineState *x86ms = X86_MACHINE(qdev_get_machine());
++    init_apicid_topo_info(&apicid_topo, x86ms);
++#else
+     apicid_topo.max_dies = cs->topo.dies_per_socket;
+     apicid_topo.max_modules = cs->topo.clusters_per_die;
+     apicid_topo.max_cores = cs->topo.cores_per_cluster;
+     apicid_topo.max_threads = cs->topo.threads_per_core;
++#endif
+ 
+     /* Calculate & apply limits for different index ranges */
+     if (index >= 0xC0000000) {
 -- 
 2.34.1
 
