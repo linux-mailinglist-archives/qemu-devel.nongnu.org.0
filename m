@@ -2,118 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38BB8693C0E
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 03:12:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D652A693C3A
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 03:30:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pROJt-0006hG-95; Sun, 12 Feb 2023 21:11:53 -0500
+	id 1pROam-0001TR-N0; Sun, 12 Feb 2023 21:29:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pROJr-0006gT-9r
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:11:51 -0500
-Received: from esa12.hc2706-39.iphmx.com ([216.71.137.82])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pROak-0001Sv-PT
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:29:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pROJp-0000Uh-FB
- for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:11:51 -0500
-X-IronPort-RemoteIP: 209.85.219.71
-X-IronPort-MID: 258359055
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:Dq6AFKomGLMzmuLEh3PBATlnUrReBmKlZxIvgKrLsJaIsI4StFCzt
- garIBmGaP/fM2fxfd8gYY2w/R8H7MDQmtdgGwc+qH03H3xA9JacVYWSI3mrAy7DdceroGCLT
- ik9hnssCOhuExcwcz/0auCJQUFUjP3OHfykTrafYEidfCc8IA85kxVvhuUltYBhhNm9Emult
- Mj75sbSIzdJ4RYtWo4vw//F+UwHUMja4mtC5QRkPKoT5jcyqlFOZH4hDfDpR5fHatQMdgKKb
- 76r5K20+Grf4yAsBruN+losWhRXKlJ6FVHmZkt+AsBOsDAbzsAB+v9T2M4nVKtio27hc+ada
- Tl6ncfYpQ8BZsUgkQmGOvVSO3gW0aZuodcrLZUj2CA6IoKvn3bEmp1T4E8K0YIwxvZOXDwJx
- PYjJT1UcEq7mM+Sg5yURbw57igjBJGD0II3v3hhyXTAE69jT8+aBarN4tBc0XE7gcUm8fT2P
- ZJIL2oyKk6ZMlsQYz/7C7pn9AusrnD7YztUsnqfuOw673W7IAlZiuW9a4eEIoHXLSlTtmnJ+
- X/5+mbCOAM9EICP4jy46immmcaayEsXX6pXTtVU7MVCmVCW2ykfBQMbUXO9pv+2jFP4XMhQQ
- 3H44QIrpKk2sVW1F5zzAET+r3mDsRoRHdFXFoXW9T2w90Yd2C7BbkBsc9KLQIVOWBMeLdDy6
- mK0og==
-IronPort-HdrOrdr: A9a23:M/XrwKABfNdSUpHlHel055DYdb4zR+YMi2TDGXoBMSC9E/bo7P
- xG+c5w6faaskd0ZJhNo6HkBEDEewK/yXcX2+ks1NWZLW7bUQKTRekI0WKh+UyCJ8SUzJ866U
- 4PSdkGNPTASXJXt4LV2jWZLvoX6OW70cmT9J3jJrRWIT2CqZsM0+60MGim+4RNK2h7OaY=
-Received: from mail-qv1-f71.google.com ([209.85.219.71])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 12 Feb 2023 21:11:46 -0500
-Received: by mail-qv1-f71.google.com with SMTP id
- dz7-20020ad45887000000b0056e9274a7e1so4070480qvb.5
- for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 18:11:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=xVP9tgev/ijYnlxQWpm2EfE9Wd14pn9bgswlyO8HLdY=;
- b=K177wMwB/bUlbJhYWA8M5eG0/a0JzD2MUkJFWNLhHDcxZslhKxOuiZv/yezO1vR9Ts
- qDKeYqdwKrtNllI3mWgxIXU2XuSO/YHtyOt2eH5g1TXXGLSMYt9XDPQycRNfVsF0doU4
- VEGpwtKHUb5AaZbY1f/qEivc+LOw4OVDUXPXFhoE0u9B3v1JiyUdIYV83PxEw5xcMjZB
- rh2uLgR5Y1BLksfIPzrHRltITJjUW20che6DV6FP+YljxF16qvzYdG47j8MbQJlgpIL6
- SpbiUvwbDy3Qu7EZ2MilxGgXkpLXkGQbagU0SebVdrdSeMxZf8NMiCgwABKoACz0NNVp
- LGIQ==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pROaj-00031q-0N
+ for qemu-devel@nongnu.org; Sun, 12 Feb 2023 21:29:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676255356;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=lblz4rOOsXWVpiCswSfbVejIKUH7/9cfXr+byuu7rwY=;
+ b=RdJMORRI6Ek0D+wmcB4xU2trlRdPMvtaFVRz3MSuK1M7I0ZUnr3NDvIbp9v29KpON6Qe0V
+ +XtP1InXhjQgIiiaPKA1LV1WYwWs2ut8MLmAqOyWFYAqosqU5pw1a4vF6LsQPzS9VJMAEi
+ 9DdVD667y4+d7prMGNmSnTtTd4+ADlM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-13-Cr1ZEIHkNJCT-y_5Z8lu5Q-1; Sun, 12 Feb 2023 21:29:14 -0500
+X-MC-Unique: Cr1ZEIHkNJCT-y_5Z8lu5Q-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ a20-20020a05600c349400b003dfecb98d38so8389179wmq.0
+ for <qemu-devel@nongnu.org>; Sun, 12 Feb 2023 18:29:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xVP9tgev/ijYnlxQWpm2EfE9Wd14pn9bgswlyO8HLdY=;
- b=B81SfK3tVVXA3T6647xSRqPH/NIYQwRccZOAZeckd3B3MD9Hay/TWhbJw5xuixE2LE
- c8709mDRvsxUjRsCoN2PKjUfEBrFnsNCVepstuAsufK1ccDNCJWlAvcuLSedKY/WuLJH
- 1mqlMecBAFiwXJVGYqB0celqXuUGIIF6bD2sj60+5ohbDzUvSfaoWymYNKj+DC+tQAfa
- 275dG/sxAThDCjyYTaPQzixQQJQFDVfvVoBkwsvfNzDB3ftFvaBOUoAy+E72s+BGHBUb
- kh2gMLq6mkkjbXT3D+WqvTCTWPXUD/JRaA6yrgnOeNUXkn93DBTxffeCoez/sKRWqXvZ
- voVA==
-X-Gm-Message-State: AO0yUKWeoOem7KBJax0MFHTN9NUNvMC+3vgm25biz8sfOtHG/Ecp3UxG
- ov+Mh81Pyrs/3GtoHtBJ0hEQdvri1oChcn3oOS0Efk1CH09xkMnjb3Vlz68YezkFFZDkeD7HEDF
- AQ8yml6rxQthx9h1aUjQkInewQzq5O7iSg8XP2A==
-X-Received: by 2002:ac8:5c50:0:b0:3b9:ec46:bf95 with SMTP id
- j16-20020ac85c50000000b003b9ec46bf95mr39630180qtj.49.1676254305665; 
- Sun, 12 Feb 2023 18:11:45 -0800 (PST)
-X-Google-Smtp-Source: AK7set+wXRi3FxtzYwQ0a9CKwkvcIW+haoxUAqDUGudbVqo31QS9JCDf683G08rfjXxaujmKAiaK6Q==
-X-Received: by 2002:ac8:5c50:0:b0:3b9:ec46:bf95 with SMTP id
- j16-20020ac85c50000000b003b9ec46bf95mr39630143qtj.49.1676254305325; 
- Sun, 12 Feb 2023 18:11:45 -0800 (PST)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
- by smtp.gmail.com with ESMTPSA id
- fg10-20020a05622a580a00b003b63238615fsm8557135qtb.46.2023.02.12.18.11.44
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lblz4rOOsXWVpiCswSfbVejIKUH7/9cfXr+byuu7rwY=;
+ b=TP/K+ViTfF3B4aIecAohzSxip5aChJ1ASSvP7Zd3paVhvPd4GLywyPbqDbme1SoPgf
+ 1QvJ5SFXBLwiupIrLkRgUKVillOSVy+IatsL4rjAc15qMWvYVX+wKPo7GFVu9ZLXqZvB
+ kqlXBH5PScaqQNSrcMcy/5anTzKKvb0Rq95udDrDMSXuyq8Bjd7xL+XyWbHmBddOxJEV
+ OqZInrB2NVT9lI4odd6S+Pl+ilasbdAesuDXhefHVMi5l4Y7LLsEFsLeBaKZJstpSPtV
+ IWh6lM6pbi4gfKVdoSuVM4zyHzjepl/hifLcmjTF5SQmGy5aPVI88mU+pndVmL4B6M1s
+ I9xw==
+X-Gm-Message-State: AO0yUKU+ULbVWq8TloZRsRjev/uqXQRaPs0azsuVykw27zmnlH6aTeOf
+ 1VesC2DgtYzEbpnnjzYsjjfwmKDc5XxSIwE3beHfGr5seKhgjIMPM/rxDJkgiZcr4qvQbfaUdry
+ AdMucO9d5Ku7gPU991se8iBMNEx3u8LxaeNsoUiJ197i9QmniWxv/guLfQQ7iDyrvizMA0noA
+X-Received: by 2002:a05:600c:708:b0:3e0:17d:aeaf with SMTP id
+ i8-20020a05600c070800b003e0017daeafmr17369052wmn.7.1676255353004; 
+ Sun, 12 Feb 2023 18:29:13 -0800 (PST)
+X-Google-Smtp-Source: AK7set9kHLzLQvfR8sM9QQ6d2WAPBUzCHZ16vETjp5i1Eqz0IYXKrZ0GWuAXArHgJKB0VLJp+oGnng==
+X-Received: by 2002:a05:600c:708:b0:3e0:17d:aeaf with SMTP id
+ i8-20020a05600c070800b003e0017daeafmr17369035wmn.7.1676255352681; 
+ Sun, 12 Feb 2023 18:29:12 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ bd6-20020a05600c1f0600b003e0015c8618sm15807126wmb.6.2023.02.12.18.29.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Feb 2023 18:11:44 -0800 (PST)
-Date: Sun, 12 Feb 2023 21:11:41 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
+ Sun, 12 Feb 2023 18:29:11 -0800 (PST)
+From: Xxx Xx <quintela@redhat.com>
+X-Google-Original-From: Xxx Xx <xxx.xx@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Jon Maloy <jmaloy@redhat.com>, Siqi Chen <coc.cyqh@gmail.com>
-Subject: Re: [PATCH v6 0/4] memory: prevent dma-reentracy issues
-Message-ID: <20230213021141.mmzdpzj6ekmml3bx@mozz.bu.edu>
-References: <20230205040737.3567731-1-alxndr@bu.edu>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PULL 00/22] Migration 20230213 patches
+Date: Mon, 13 Feb 2023 03:28:49 +0100
+Message-Id: <20230213022911.68490-1-xxx.xx@gmail.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230205040737.3567731-1-alxndr@bu.edu>
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.137.82; envelope-from=alxndr@bu.edu;
- helo=esa12.hc2706-39.iphmx.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.632, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -129,84 +102,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-ping
+From: Juan Quintela <quintela@redhat.com>
 
-On 230204 2307, Alexander Bulekov wrote:
-> These patches aim to solve two types of DMA-reentrancy issues:
->   
-> 1.) mmio -> dma -> mmio case
-> To solve this, we track whether the device is engaged in io by
-> checking/setting a reentrancy-guard within APIs used for MMIO access.
->   
-> 2.) bh -> dma write -> mmio case
-> This case is trickier, since we dont have a generic way to associate a
-> bh with the underlying Device/DeviceState. Thus, this version allows a
-> device to associate a reentrancy-guard with a bh, when creating it.
-> (Instead of calling qemu_bh_new, you call qemu_bh_new_guarded)
->   
-> I replaced most of the qemu_bh_new invocations with the guarded analog,
-> except for the ones where the DeviceState was not trivially accessible.
-> 
-> v5 -> v6:
->     - Only apply checkpatch checks to code in paths containing "/hw/"
->       (/hw/ and include/hw/)
->     - Fix a bug in a _guarded call added to hw/block/virtio-blk.c
-> v4-> v5:
->     - Add corresponding checkpatch checks
->     - Save/restore reentrancy-flag when entering/exiting BHs
->     - Improve documentation
->     - Check object_dynamic_cast return value
->   
-> v3 -> v4: Instead of changing all of the DMA APIs, instead add an
->     optional reentrancy guard to the BH API.
-> 
-> v2 -> v3: Bite the bullet and modify the DMA APIs, rather than
->     attempting to guess DeviceStates in BHs.
-> 
-> Alexander Bulekov (4):
->   memory: prevent dma-reentracy issues
->   async: Add an optional reentrancy guard to the BH API
->   checkpatch: add qemu_bh_new/aio_bh_new checks
->   hw: replace most qemu_bh_new calls with qemu_bh_new_guarded
-> 
->  docs/devel/multiple-iothreads.txt |  7 +++++++
->  hw/9pfs/xen-9p-backend.c          |  4 +++-
->  hw/block/dataplane/virtio-blk.c   |  3 ++-
->  hw/block/dataplane/xen-block.c    |  5 +++--
->  hw/char/virtio-serial-bus.c       |  3 ++-
->  hw/display/qxl.c                  |  9 ++++++---
->  hw/display/virtio-gpu.c           |  6 ++++--
->  hw/ide/ahci.c                     |  3 ++-
->  hw/ide/core.c                     |  3 ++-
->  hw/misc/imx_rngc.c                |  6 ++++--
->  hw/misc/macio/mac_dbdma.c         |  2 +-
->  hw/net/virtio-net.c               |  3 ++-
->  hw/nvme/ctrl.c                    |  6 ++++--
->  hw/scsi/mptsas.c                  |  3 ++-
->  hw/scsi/scsi-bus.c                |  3 ++-
->  hw/scsi/vmw_pvscsi.c              |  3 ++-
->  hw/usb/dev-uas.c                  |  3 ++-
->  hw/usb/hcd-dwc2.c                 |  3 ++-
->  hw/usb/hcd-ehci.c                 |  3 ++-
->  hw/usb/hcd-uhci.c                 |  2 +-
->  hw/usb/host-libusb.c              |  6 ++++--
->  hw/usb/redirect.c                 |  6 ++++--
->  hw/usb/xen-usb.c                  |  3 ++-
->  hw/virtio/virtio-balloon.c        |  5 +++--
->  hw/virtio/virtio-crypto.c         |  3 ++-
->  include/block/aio.h               | 18 ++++++++++++++++--
->  include/hw/qdev-core.h            |  7 +++++++
->  include/qemu/main-loop.h          |  7 +++++--
->  scripts/checkpatch.pl             |  8 ++++++++
->  softmmu/memory.c                  | 17 +++++++++++++++++
->  softmmu/trace-events              |  1 +
->  tests/unit/ptimer-test-stubs.c    |  3 ++-
->  util/async.c                      | 18 +++++++++++++++++-
->  util/main-loop.c                  |  5 +++--
->  util/trace-events                 |  1 +
->  35 files changed, 147 insertions(+), 41 deletions(-)
-> 
-> -- 
-> 2.39.0
-> 
+The following changes since commit 3b33ae48ec28e1e0d1bc28a85c7423724bcb1a2c:
+
+  Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2023-02-09 15:29:14 +0000)
+
+are available in the Git repository at:
+
+  https://gitlab.com/juan.quintela/qemu.git tags/migration-20230213-pull-request
+
+for you to fetch changes up to 24f3e8188c13e5a8b9ad6f2a353f7d0cf80f461c:
+
+  ram: Document migration ram flags (2023-02-13 02:58:26 +0100)
+
+----------------------------------------------------------------
+Migration Pull request (take2)
+
+Hi
+
+In this PULL request:
+
+- rebase to latest upstream
+- fix compilation of linux-user (if have_system was missing) (me)
+- cleanup multifd_load_cleanup(leonardo)
+- Document RAM flags (me)
+
+Please apply.
+
+[take 1]
+This are all the reviewed patches for migration:
+- AVX512 support for xbzrle (Ling Xu)
+- /dev/userfaultd support (Peter Xu)
+- Improve ordering of channels (Peter Xu)
+- multifd cleanups (Li Zhang)
+- Remove spurious files from last merge (me)
+  Rebase makes that to you
+- Fix mixup between state_pending_{exact,estimate} (me)
+- Cache RAM size during migration (me)
+- cleanup several functions (me)
+
+Please apply.
+
+----------------------------------------------------------------
+
+Juan Quintela (8):
+  migration: Remove spurious files
+  migration: Simplify ram_find_and_save_block()
+  migration: Make find_dirty_block() return a single parameter
+  migration: Split ram_bytes_total_common() in two functions
+  migration: Calculate ram size once
+  migration: Make ram_save_target_page() a pointer
+  migration: I messed state_pending_exact/estimate
+  ram: Document migration ram flags
+
+Leonardo Bras (4):
+  migration/multifd: Change multifd_load_cleanup() signature and usage
+  migration/multifd: Remove unnecessary assignment on
+    multifd_load_cleanup()
+  migration/multifd: Join all multifd threads in order to avoid leaks
+  migration/multifd: Move load_cleanup inside incoming_state_destroy
+
+Li Zhang (2):
+  multifd: cleanup the function multifd_channel_connect
+  multifd: Remove some redundant code
+
+Peter Xu (6):
+  linux-headers: Update to v6.1
+  util/userfaultfd: Support /dev/userfaultfd
+  migration: Rework multi-channel checks on URI
+  migration: Cleanup postcopy_preempt_setup()
+  migration: Add a semaphore to count PONGs
+  migration: Postpone postcopy preempt channel to be after main
+
+ling xu (2):
+  AVX512 support for xbzrle_encode_buffer
+  Update bench-code for addressing CI problem
+
+ .../x86_64-quintela-devices.mak               |    7 -
+ .../x86_64-quintela2-devices.mak              |    6 -
+ meson.build                                   |   17 +
+ include/standard-headers/drm/drm_fourcc.h     |   34 +-
+ include/standard-headers/linux/ethtool.h      |   63 +-
+ include/standard-headers/linux/fuse.h         |    6 +-
+ .../linux/input-event-codes.h                 |    1 +
+ include/standard-headers/linux/virtio_blk.h   |   19 +
+ linux-headers/asm-generic/hugetlb_encode.h    |   26 +-
+ linux-headers/asm-generic/mman-common.h       |    2 +
+ linux-headers/asm-mips/mman.h                 |    2 +
+ linux-headers/asm-riscv/kvm.h                 |    4 +
+ linux-headers/linux/kvm.h                     |    1 +
+ linux-headers/linux/psci.h                    |   14 +
+ linux-headers/linux/userfaultfd.h             |    4 +
+ linux-headers/linux/vfio.h                    |  142 ++
+ migration/migration.h                         |   15 +-
+ migration/multifd.h                           |    3 +-
+ migration/postcopy-ram.h                      |    4 +-
+ migration/xbzrle.h                            |    4 +
+ migration/migration.c                         |  138 +-
+ migration/multifd.c                           |   87 +-
+ migration/postcopy-ram.c                      |   31 +-
+ migration/ram.c                               |  148 +-
+ migration/savevm.c                            |   56 +-
+ migration/xbzrle.c                            |  124 ++
+ tests/bench/xbzrle-bench.c                    |  469 ++++++
+ tests/unit/test-xbzrle.c                      |   39 +-
+ util/userfaultfd.c                            |   32 +
+ meson_options.txt                             |    2 +
+ migration/multifd.c.orig                      | 1274 -----------------
+ scripts/meson-buildoptions.sh                 |    3 +
+ tests/bench/meson.build                       |    6 +
+ util/trace-events                             |    1 +
+ 34 files changed, 1278 insertions(+), 1506 deletions(-)
+ delete mode 100644 configs/devices/x86_64-softmmu/x86_64-quintela-devices.mak
+ delete mode 100644 configs/devices/x86_64-softmmu/x86_64-quintela2-devices.mak
+ create mode 100644 tests/bench/xbzrle-bench.c
+ delete mode 100644 migration/multifd.c.orig
+
+-- 
+2.39.1
+
 
