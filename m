@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7797A69439C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 11:57:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C99694399
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 11:56:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRWVn-0006iB-Bc; Mon, 13 Feb 2023 05:56:46 -0500
+	id 1pRWVn-0006hz-BN; Mon, 13 Feb 2023 05:56:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRWVd-0006cL-R1
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 05:56:33 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRWVe-0006eR-GQ
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 05:56:34 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRWVa-0003f6-T4
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRWVa-0003fL-T1
  for qemu-devel@nongnu.org; Mon, 13 Feb 2023 05:56:33 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- f23-20020a05600c491700b003dff4480a17so8123646wmp.1
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 02:56:23 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id bk16so11693143wrb.11
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 02:56:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uAtLXsDM0eQOunnCiOEWBVbTBBIpljWj1BX7nIfwmRU=;
- b=SS/VznyyIjHBEiUz97tGxnbtKdCEXne3mDgS9XIVuN7pzGlhBKTatAsHSzXg/KlhMq
- CuzjzUyrDmrrz3BGoBTbKb28+wya5v5VWIQza8x3erB5fS8oBK9OwpX4hEwYAX2NDF0X
- ojCqve8ppauv7ldZikt1psDpu4A/rj5qyDplgDr+T95Ge08/rcbjmWptVbmfiEThmbeO
- MmWLoW0XTtpf0ng/eSY0TqP537qPJA1JeSH1EO0rYgGntEZkZPRnxWaN0UKnhe+edURp
- UyOw2/890Jp46cE2TDpWKpPsSn16Gx+zbEAnilYVefAdZEL0AVD6mIG8aET+HNB8HlFP
- Gc3w==
+ bh=aF98Ma9RkPF/Vf1N+Mxitvw+ZUTQ0aa8j86PfGUlqco=;
+ b=tyI42UepU6YR1dfVpVjzyz+FOViUjOCXASljJk/gExyr30grL6ajWokHe8e7rqKEFT
+ 0BdGH3zFcRA9oRjtzzyBFgJdZp5/r9X1brHqSZm0PSfXijIeFj3fl9J5Lx3uNxfJXnVi
+ DwrlxJysuB2hoUQWezOwBFV6EXZDhRFCtESDf8jk9zgsFPiurCUD2S15suI7CHjyYJ3X
+ 7HoV4wttVed0Fxl5+2dCtpBu7ZIP3ks+dPT3ZMDxk5R/kwv9HWjNoO8Mzja1XE1TMmK+
+ A1sBEuNhHh//7VRlGKrJWILHRmXcDrbcLUW0kzF0JF29XT6m8YmqPmc3Gq7TaUgpylzd
+ rhyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uAtLXsDM0eQOunnCiOEWBVbTBBIpljWj1BX7nIfwmRU=;
- b=xhe/UlovH7xxgUQ9JMXSGjHtDmcr+thQpWWONeTZC/XbwsXZeqn9Flw8I9xKh/zDJh
- kN47AmHXrH1SzFVh+Wao7c/iG9PFRP1WW11lTB+TUPU+qykqVfegMSQhN9y2GSkb6/Kg
- tPiMRlutC4b29ySEGjuXnzTvYA2lGVLwEc/6VW12IUo077+8cjjf+LGREeTx9XCr6a/6
- 60XrtP/nWl6Gu0l3QkKNqJHHqDuB53axoKV1Z28UI+EyFAeNAaBxfvUrMpopwOt8GawK
- vRAOtrWFXC7bqnnm6uoiSK9PuqIvaxHGcWMOb3z3mE84x7EH56Pp24DfyhBD+F6iDksc
- 2QoQ==
-X-Gm-Message-State: AO0yUKUiOqJHUuJwpSqx+Eb/zBhX3afe9Vkq0fVq5+CLutxVYPNsj1Gk
- 2WOLiOXhk+jhY7wdaldBX3YTP9sogzC4RqCT
-X-Google-Smtp-Source: AK7set9R4JyccDdWz+k0xA6GuvW4It5nJcJDr+pMPLIxgaG/E0e/iVb8G9PupIK/SyMQfEr20e1mTg==
-X-Received: by 2002:a05:600c:2ac8:b0:3c6:e61e:ae71 with SMTP id
- t8-20020a05600c2ac800b003c6e61eae71mr20812793wme.1.1676285782520; 
- Mon, 13 Feb 2023 02:56:22 -0800 (PST)
+ bh=aF98Ma9RkPF/Vf1N+Mxitvw+ZUTQ0aa8j86PfGUlqco=;
+ b=tzfLJ51CAdlmHqAqghsRBkdt3RhaLo1vkkQSlUD3Hj1ui8KQnf7mjsYVm6Nj+q4g8n
+ 71ih3khnfopiVh00/CdDLNXXOTsz7eZMkaX3iw8FmTnxWmOQQwT7CRdJAsxGF61xT6/f
+ 26xWKnQKuEOl08neWP8YzXovhhdpUK0wmhFB0KLYLXhO54Dys1WrC40t1SGl14bGOemG
+ 8VSZDuxENI4+q0kQ2pe+GbTEGXPIJi8SCvuvYgUmRq5gx2zbx5nAjMqG62yKrPWDVU4J
+ 8VjQZ5N8qoXwsN0xMjCLkycq3yFy6EltbaxPFAK8jHN4VQVAoIAfAPLFIQ8Hfn8SCmLG
+ QiSA==
+X-Gm-Message-State: AO0yUKWrkh0a2vnS+rYAAKoMt+AKSFO1HrC69BoliUb3oKHf4DDP2ht+
+ QRCQvu81KyoE4xUUuR+l9PwIw/aYOZPOZY4b
+X-Google-Smtp-Source: AK7set+vzrWSSQpAMDpuFOIvEAWU6HForGVCe5lFTCzbG5yArUOKdqEWHH9hVjBmWGWdUr/8/hby3Q==
+X-Received: by 2002:a05:6000:1249:b0:2c5:5d1d:b244 with SMTP id
+ j9-20020a056000124900b002c55d1db244mr1110571wrx.29.1676285788012; 
+ Mon, 13 Feb 2023 02:56:28 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- g10-20020a05600c310a00b003e1e8d794e1sm4701271wmo.13.2023.02.13.02.56.21
+ g9-20020a5d5409000000b002c558228b6dsm2866827wrv.12.2023.02.13.02.56.26
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 13 Feb 2023 02:56:22 -0800 (PST)
+ Mon, 13 Feb 2023 02:56:27 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org,
 	Eduardo Habkost <eduardo@habkost.net>
@@ -66,18 +65,17 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [RFC PATCH 2/3] hw/usb: Declare QOM macros using
- QDEV_DECLARE_DEV_BUS_TYPES()
-Date: Mon, 13 Feb 2023 11:56:08 +0100
-Message-Id: <20230213105609.6173-3-philmd@linaro.org>
+Subject: [RFC PATCH 3/3] hw/usb: Use USB_DEVICE_GET_BUS() macro
+Date: Mon, 13 Feb 2023 11:56:09 +0100
+Message-Id: <20230213105609.6173-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230213105609.6173-1-philmd@linaro.org>
 References: <20230213105609.6173-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,38 +98,203 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Automatic conversion running:
+
+  $ sed -i -e s/usb_bus_from_device/USB_DEVICE_GET_BUS/g \
+    $(git grep -wl usb_bus_from_device)
+
+then removing the usb_bus_from_device() function declaration.
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- include/hw/usb.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/usb/bus.c        | 10 +++++-----
+ hw/usb/core.c       |  6 +++---
+ hw/usb/dev-hub.c    |  4 ++--
+ hw/usb/dev-serial.c | 10 +++++-----
+ hw/usb/hcd-xhci.c   |  2 +-
+ include/hw/usb.h    |  5 -----
+ 6 files changed, 16 insertions(+), 21 deletions(-)
 
+diff --git a/hw/usb/bus.c b/hw/usb/bus.c
+index d7c3c71435..fa154e1e79 100644
+--- a/hw/usb/bus.c
++++ b/hw/usb/bus.c
+@@ -427,7 +427,7 @@ void usb_unregister_port(USBBus *bus, USBPort *port)
+ 
+ void usb_claim_port(USBDevice *dev, Error **errp)
+ {
+-    USBBus *bus = usb_bus_from_device(dev);
++    USBBus *bus = USB_DEVICE_GET_BUS(dev);
+     USBPort *port;
+     USBDevice *hub;
+ 
+@@ -473,7 +473,7 @@ void usb_claim_port(USBDevice *dev, Error **errp)
+ 
+ void usb_release_port(USBDevice *dev)
+ {
+-    USBBus *bus = usb_bus_from_device(dev);
++    USBBus *bus = USB_DEVICE_GET_BUS(dev);
+     USBPort *port = dev->port;
+ 
+     assert(port != NULL);
+@@ -517,7 +517,7 @@ static void usb_mask_to_str(char *dest, size_t size,
+ 
+ void usb_check_attach(USBDevice *dev, Error **errp)
+ {
+-    USBBus *bus = usb_bus_from_device(dev);
++    USBBus *bus = USB_DEVICE_GET_BUS(dev);
+     USBPort *port = dev->port;
+     char devspeed[32], portspeed[32];
+ 
+@@ -555,7 +555,7 @@ void usb_device_attach(USBDevice *dev, Error **errp)
+ 
+ int usb_device_detach(USBDevice *dev)
+ {
+-    USBBus *bus = usb_bus_from_device(dev);
++    USBBus *bus = USB_DEVICE_GET_BUS(dev);
+     USBPort *port = dev->port;
+ 
+     assert(port != NULL);
+@@ -583,7 +583,7 @@ static const char *usb_speed(unsigned int speed)
+ static void usb_bus_dev_print(Monitor *mon, DeviceState *qdev, int indent)
+ {
+     USBDevice *dev = USB_DEVICE(qdev);
+-    USBBus *bus = usb_bus_from_device(dev);
++    USBBus *bus = USB_DEVICE_GET_BUS(dev);
+ 
+     monitor_printf(mon, "%*saddr %d.%d, port %s, speed %s, name %s%s\n",
+                    indent, "", bus->busnr, dev->addr,
+diff --git a/hw/usb/core.c b/hw/usb/core.c
+index 975f76250a..849e95b9e2 100644
+--- a/hw/usb/core.c
++++ b/hw/usb/core.c
+@@ -95,7 +95,7 @@ void usb_device_reset(USBDevice *dev)
+ void usb_wakeup(USBEndpoint *ep, unsigned int stream)
+ {
+     USBDevice *dev = ep->dev;
+-    USBBus *bus = usb_bus_from_device(dev);
++    USBBus *bus = USB_DEVICE_GET_BUS(dev);
+ 
+     if (!phase_check(PHASE_MACHINE_READY)) {
+         /*
+@@ -556,7 +556,7 @@ void usb_packet_check_state(USBPacket *p, USBPacketState expected)
+         return;
+     }
+     dev = p->ep->dev;
+-    bus = usb_bus_from_device(dev);
++    bus = USB_DEVICE_GET_BUS(dev);
+     trace_usb_packet_state_fault(bus->busnr, dev->port->path, p->ep->nr, p,
+                                  usb_packet_state_name(p->state),
+                                  usb_packet_state_name(expected));
+@@ -567,7 +567,7 @@ void usb_packet_set_state(USBPacket *p, USBPacketState state)
+ {
+     if (p->ep) {
+         USBDevice *dev = p->ep->dev;
+-        USBBus *bus = usb_bus_from_device(dev);
++        USBBus *bus = USB_DEVICE_GET_BUS(dev);
+         trace_usb_packet_state_change(bus->busnr, dev->port->path, p->ep->nr, p,
+                                       usb_packet_state_name(p->state),
+                                       usb_packet_state_name(state));
+diff --git a/hw/usb/dev-hub.c b/hw/usb/dev-hub.c
+index a6b50dbc8d..fa094ec9bd 100644
+--- a/hw/usb/dev-hub.c
++++ b/hw/usb/dev-hub.c
+@@ -572,7 +572,7 @@ static void usb_hub_unrealize(USBDevice *dev)
+     int i;
+ 
+     for (i = 0; i < s->num_ports; i++) {
+-        usb_unregister_port(usb_bus_from_device(dev),
++        usb_unregister_port(USB_DEVICE_GET_BUS(dev),
+                             &s->ports[i].port);
+     }
+ 
+@@ -611,7 +611,7 @@ static void usb_hub_realize(USBDevice *dev, Error **errp)
+     s->intr = usb_ep_get(dev, USB_TOKEN_IN, 1);
+     for (i = 0; i < s->num_ports; i++) {
+         port = &s->ports[i];
+-        usb_register_port(usb_bus_from_device(dev),
++        usb_register_port(USB_DEVICE_GET_BUS(dev),
+                           &port->port, s, i, &usb_hub_port_ops,
+                           USB_SPEED_MASK_LOW | USB_SPEED_MASK_FULL);
+         usb_port_location(&port->port, dev->port, i+1);
+diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
+index 63047d79cf..4cfe27818b 100644
+--- a/hw/usb/dev-serial.c
++++ b/hw/usb/dev-serial.c
+@@ -190,7 +190,7 @@ static void usb_serial_set_flow_control(USBSerialState *s,
+                                         uint8_t flow_control)
+ {
+     USBDevice *dev = USB_DEVICE(s);
+-    USBBus *bus = usb_bus_from_device(dev);
++    USBBus *bus = USB_DEVICE_GET_BUS(dev);
+ 
+     /* TODO: ioctl */
+     s->flow_control = flow_control;
+@@ -200,7 +200,7 @@ static void usb_serial_set_flow_control(USBSerialState *s,
+ static void usb_serial_set_xonxoff(USBSerialState *s, int xonxoff)
+ {
+     USBDevice *dev = USB_DEVICE(s);
+-    USBBus *bus = usb_bus_from_device(dev);
++    USBBus *bus = USB_DEVICE_GET_BUS(dev);
+ 
+     s->xon = xonxoff & 0xff;
+     s->xoff = (xonxoff >> 8) & 0xff;
+@@ -221,7 +221,7 @@ static void usb_serial_reset(USBSerialState *s)
+ static void usb_serial_handle_reset(USBDevice *dev)
+ {
+     USBSerialState *s = USB_SERIAL(dev);
+-    USBBus *bus = usb_bus_from_device(dev);
++    USBBus *bus = USB_DEVICE_GET_BUS(dev);
+ 
+     trace_usb_serial_reset(bus->busnr, dev->addr);
+ 
+@@ -261,7 +261,7 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
+                                       int length, uint8_t *data)
+ {
+     USBSerialState *s = USB_SERIAL(dev);
+-    USBBus *bus = usb_bus_from_device(dev);
++    USBBus *bus = USB_DEVICE_GET_BUS(dev);
+     int ret;
+ 
+     trace_usb_serial_handle_control(bus->busnr, dev->addr, request, value);
+@@ -479,7 +479,7 @@ static void usb_serial_token_in(USBSerialState *s, USBPacket *p)
+ static void usb_serial_handle_data(USBDevice *dev, USBPacket *p)
+ {
+     USBSerialState *s = USB_SERIAL(dev);
+-    USBBus *bus = usb_bus_from_device(dev);
++    USBBus *bus = USB_DEVICE_GET_BUS(dev);
+     uint8_t devep = p->ep->nr;
+     struct iovec *iov;
+     int i;
+diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
+index b89b618ec2..7d2ff9d46a 100644
+--- a/hw/usb/hcd-xhci.c
++++ b/hw/usb/hcd-xhci.c
+@@ -3268,7 +3268,7 @@ static void xhci_complete(USBPort *port, USBPacket *packet)
+ 
+ static void xhci_child_detach(USBPort *uport, USBDevice *child)
+ {
+-    USBBus *bus = usb_bus_from_device(child);
++    USBBus *bus = USB_DEVICE_GET_BUS(child);
+     XHCIState *xhci = container_of(bus, XHCIState, bus);
+ 
+     xhci_detach_slot(xhci, child->port);
 diff --git a/include/hw/usb.h b/include/hw/usb.h
-index b2111bb1c7..09f345f5c5 100644
+index 09f345f5c5..d859cdc11c 100644
 --- a/include/hw/usb.h
 +++ b/include/hw/usb.h
-@@ -266,8 +266,11 @@ struct USBDevice {
-     const USBDescIface  *ifaces[USB_MAX_INTERFACES];
- };
+@@ -518,11 +518,6 @@ void usb_device_attach(USBDevice *dev, Error **errp);
+ int usb_device_detach(USBDevice *dev);
+ void usb_check_attach(USBDevice *dev, Error **errp);
  
-+#define TYPE_USB_BUS "usb-bus"
- #define TYPE_USB_DEVICE "usb-device"
--OBJECT_DECLARE_TYPE(USBDevice, USBDeviceClass, USB_DEVICE)
-+
-+QDEV_DECLARE_DEV_BUS_TYPES(USBDevice, USBDeviceClass, USB_DEVICE,
-+                           USBBus, USB_BUS)
- 
- typedef void (*USBDeviceRealize)(USBDevice *dev, Error **errp);
- typedef void (*USBDeviceUnrealize)(USBDevice *dev);
-@@ -473,9 +476,6 @@ void hmp_info_usbhost(Monitor *mon, const QDict *qdict);
- 
- /* usb-bus.c */
- 
--#define TYPE_USB_BUS "usb-bus"
--OBJECT_DECLARE_SIMPLE_TYPE(USBBus, USB_BUS)
+-static inline USBBus *usb_bus_from_device(USBDevice *d)
+-{
+-    return DO_UPCAST(USBBus, qbus, qdev_get_parent_bus(DEVICE(d)));
+-}
 -
- struct USBBus {
-     BusState qbus;
-     USBBusOps *ops;
+ extern const VMStateDescription vmstate_usb_device;
+ 
+ #define VMSTATE_USB_DEVICE(_field, _state) {                         \
 -- 
 2.38.1
 
