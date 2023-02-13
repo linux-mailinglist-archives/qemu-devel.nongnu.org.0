@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C12B1694EC2
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FDDC694EBF
 	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 19:05:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRdAi-0003EW-Lh; Mon, 13 Feb 2023 13:03:24 -0500
+	id 1pRdAj-0003Es-7c; Mon, 13 Feb 2023 13:03:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1pRdAZ-00037d-5i; Mon, 13 Feb 2023 13:03:18 -0500
+ id 1pRdAY-00037b-Tv; Mon, 13 Feb 2023 13:03:15 -0500
 Received: from bg4.exmail.qq.com ([43.154.221.58])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1pRdAW-0001Il-I0; Mon, 13 Feb 2023 13:03:14 -0500
-X-QQ-mid: bizesmtp62t1676311361tkf80wrv
+ id 1pRdAV-0001Ik-M8; Mon, 13 Feb 2023 13:03:14 -0500
+X-QQ-mid: bizesmtp62t1676311364tf7oryd4
 Received: from pek-vx-bsp2.wrs.com ( [60.247.85.88])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 14 Feb 2023 02:02:16 +0800 (CST)
+ id ; Tue, 14 Feb 2023 02:02:43 +0800 (CST)
 X-QQ-SSF: 01200000000000C0D000000A0000000
-X-QQ-FEAT: ZGSGcAjExT9xc0SIyGJOu4cARvV8y0TJUAriy/Swp2bpXfW437wM4lDGjV0u/
- DX5PMcA8mBYVSEpEoHVi9cxUxzX0ITtl30JlRphzpyN7ZkOTdNS/CaER3EA1CS6aK8/fktE
- zAaFHxXzCI16XfnZLZA36XXpJ7Mq6Wovj4/rVm3D78B2gYBhRlUaqycMpEtnx/eToY8g9XV
- +j/5e4InpoTyyVCBCxhl5SG9hI+ugVvsvUIa2nnu7hpsb6rgAEkDfcaZgZgcyhbdqEirtHd
- FSeg3TGcEYBN/r1LPpamN8yd6JJcgVOhXMsI5xYrSg0GqdGY/tCdS9UXnqPKmxrn4hPjF+8
- elJkpck96nbMldFn5BfTq32O7GmYw==
+X-QQ-FEAT: SdugMSrl+IMOA/kl/2+0JJ7KKDuAi3hv5oa+0wa1bnoGIBw7w2FB1inIAstP2
+ KaItufkKWSnhjmQvHREvmjGln2jEjPCnjeASTHO5UqedakzjzJan994ilXbus49uu8V72PS
+ oPjF9t135vZ7aYezkfFRF1VtiOj6H0xU+BttI/JjkoWGMm9xIfu6U4TW3OFo7QpGbSVnpBR
+ DdmJXceKZANlLNvpiOrYVEhcOInCjQG09AMM6vm43im+qHqs46VHu+aVrqROc2DXt2rGQ7i
+ HPRete33Z7XuYSwU181N+7W+IbqZzMvWHSFUTY0RevuPstLs9wMQRuHeE+j3KPH6SvdHRzf
+ CtEwQ/HN+eVbh3IjZxjJWJx5qW28cbnXRI9dmlvzoqjR3IQqzg=
 X-QQ-GoodBg: 0
 From: Bin Meng <bmeng@tinylab.org>
 To: qemu-devel@nongnu.org
@@ -36,10 +36,13 @@ Cc: Alistair Francis <alistair.francis@wdc.com>,
  Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
  Palmer Dabbelt <palmer@dabbelt.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
  qemu-riscv@nongnu.org
-Subject: [PATCH 00/18] target/riscv: Various fixes to gdbstub and CSR access
-Date: Tue, 14 Feb 2023 02:01:56 +0800
-Message-Id: <20230213180215.1524938-1-bmeng@tinylab.org>
+Subject: [PATCH 01/18] target/riscv: gdbstub: Check priv spec version before
+ reporting CSR
+Date: Tue, 14 Feb 2023 02:01:57 +0800
+Message-Id: <20230213180215.1524938-2-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230213180215.1524938-1-bmeng@tinylab.org>
+References: <20230213180215.1524938-1-bmeng@tinylab.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
@@ -66,45 +69,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-At present gdbstub reports an incorrect / incomplete CSR list in the
-target description XML, for example:
+The gdbstub CSR XML is dynamically generated according to the result
+of the CSR predicate() result. This has been working fine until
+commit 7100fe6c2441 ("target/riscv: Enable privileged spec version 1.12")
+introduced the privilege spec version check in riscv_csrrw_check().
 
-- menvcfg is reported in 'sifive_u' machine
-- fcsr is missing in a F/D enabled processor
+When debugging the 'sifive_u' machine whose priv spec is at 1.10,
+gdbstub reports priv spec 1.12 CSRs like menvcfg in the XML, hence
+we see "remote failure reply 'E14'" message when examining all CSRs
+via "info register system" from gdb.
 
-The issue is caused by:
-- priv spec version check is missing when reporting CSRs
-- CSR predicate() routine is called without turning on the debugger flag
+Add the priv spec version check in the CSR XML generation logic to
+fix this issue.
 
-This series aims to generate a correct and complete CSR list for gdbstub.
+Fixes: 7100fe6c2441 ("target/riscv: Enable privileged spec version 1.12")
+Signed-off-by: Bin Meng <bmeng@tinylab.org>
+---
 
+ target/riscv/gdbstub.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Bin Meng (18):
-  target/riscv: gdbstub: Check priv spec version before reporting CSR
-  target/riscv: Correct the priority policy of riscv_csrrw_check()
-  target/riscv: gdbstub: Minor change for better readability
-  target/riscv: gdbstub: Do not generate CSR XML if Zicsr is disabled
-  target/riscv: Coding style fixes in csr.c
-  target/riscv: Use 'bool' type for read_only
-  target/riscv: Simplify {read,write}_pmpcfg() a little bit
-  target/riscv: Simplify getting RISCVCPU pointer from env
-  target/riscv: Avoid reporting odd-numbered pmpcfgX in the CSR XML for
-    RV64
-  target/riscv: gdbstub: Turn on debugger mode before calling CSR
-    predicate()
-  target/riscv: gdbstub: Drop the vector CSRs in riscv-vector.xml
-  target/riscv: Allow debugger to access user timer and counter CSRs
-  target/riscv: Allow debugger to access seed CSR
-  target/riscv: Allow debugger to access {h,s}stateen CSRs
-  target/riscv: Allow debugger to access sstc CSRs
-  target/riscv: Drop priv level check in mseccfg predicate()
-  target/riscv: Group all predicate() routines together
-  target/riscv: Move configuration check to envcfg CSRs predicate()
-
- target/riscv/csr.c     | 360 +++++++++++++++++++++++------------------
- target/riscv/gdbstub.c | 100 +++---------
- 2 files changed, 221 insertions(+), 239 deletions(-)
-
+diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+index 6e7bbdbd5e..e57372db38 100644
+--- a/target/riscv/gdbstub.c
++++ b/target/riscv/gdbstub.c
+@@ -290,6 +290,9 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
+     g_string_append_printf(s, "<feature name=\"org.gnu.gdb.riscv.csr\">");
+ 
+     for (i = 0; i < CSR_TABLE_SIZE; i++) {
++        if (env->priv_ver < csr_ops[i].min_priv_ver) {
++            continue;
++        }
+         predicate = csr_ops[i].predicate;
+         if (predicate && (predicate(env, i) == RISCV_EXCP_NONE)) {
+             if (csr_ops[i].name) {
 -- 
 2.25.1
 
