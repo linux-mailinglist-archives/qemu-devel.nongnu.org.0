@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7C956941B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:45:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEEE4694201
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Feb 2023 10:54:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRVOi-0007da-Kv; Mon, 13 Feb 2023 04:45:20 -0500
+	id 1pRVOl-0008Bb-Sb; Mon, 13 Feb 2023 04:45:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVO5-0007NW-01
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:44:41 -0500
+ id 1pRVO9-0007Za-UF
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:44:47 -0500
 Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRVNz-0002n2-HU
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:44:40 -0500
+ id 1pRVO4-0002kj-M8
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 04:44:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676281475; x=1707817475;
+ t=1676281480; x=1707817480;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=12oXbKVm5hTOe5GoCs7pCpjNaSnJB23+o68haUtdI9w=;
- b=S+wSlaTCdche25H23zwS9FsbOryXpwp8UoqDqLIbNsILIy0mpKPqhyFH
- LJ3X4fk+onYMMM/vjV4sn/co8bpHOhMgd2j3YtAG8PoCptPcl/xP99spH
- DXkrFNCor1XSLa3h2UZUOC2c/sy5YgqnxSyRRwl91Ry28MQ30g0hK4sCv
- g+VlnF4c99QaJdSjz75kCAclvuLTEub+UDLj9C3xbZseJqKoeExxgDTqI
- jxhtPApAxljJZyJQkaKPfxJIyDse3KRGXq9tWywuIOWAW0uMc/eOHhkNr
- sV8/inX8ZIQgG1OofoSMrWMgWmvt+Td+/B6C3rytW2igjd2QfWdnu4JUR g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486661"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486661"
+ bh=e2ENqKazMcHMWmGRSxxi07qTD8v4tTI5fPc6UEuMlvM=;
+ b=Wyod7VA7kqrxYN8bQL/HMDURAwuLDu/bqizKl162ZVPkXlZF15MQSl5V
+ lnb6Q/DCShEymThykE5XnQAm9CoMCOY9EiDHxoVfwg5mnW8JZak5DSmA9
+ eJpP93pVBQM6268M37lO2oW+sc2+y6+zGj0edJjjYjnh+jI3jsbnTBGzC
+ HDfQCPggLlCzzi4+2OsOrz0GG9rQrOne12xe038snPadyi0/vaBj7o/Nj
+ HrLrLJRQHsdMEkUjRsaIFPgjcbWXrFCg+HVXQ+mVVGnXUg7OXUnzwnCyA
+ 0fnSd1wPJgT2y+g2vzkv47Rtn39txPuX7uWD20eH4SZakCphO1XyN9+Gs g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="310486689"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="310486689"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 01:44:20 -0800
+ 13 Feb 2023 01:44:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670760215"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670760215"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670760313"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670760313"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:44:15 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 13 Feb 2023 01:44:20 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -54,17 +54,17 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Zhuocheng Ding <zhuocheng.ding@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Sean Christopherson <seanjc@google.com>, Like Xu <like.xu.linux@gmail.com>,
- Zhao Liu <zhao1.liu@intel.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>, Thomas Huth <thuth@redhat.com>
-Subject: [RFC 20/52] s390x: Replace MachineState.smp access with topology
- helpers
-Date: Mon, 13 Feb 2023 17:50:03 +0800
-Message-Id: <20230213095035.158240-21-zhao1.liu@linux.intel.com>
+ Zhao Liu <zhao1.liu@intel.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussinea?= <hpoussin@reactos.or>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+Subject: [RFC 21/52] ppc: Replace MachineState.smp access with topology helpers
+Date: Mon, 13 Feb 2023 17:50:04 +0800
+Message-Id: <20230213095035.158240-22-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: none client-ip=192.55.52.136;
  envelope-from=zhao1.liu@linux.intel.com; helo=mga12.intel.com
@@ -96,135 +96,355 @@ become complicated. So we wrapped the access to topology fields of
 MachineState.topo into some helpers, and we are using these helpers
 to replace the use of MachineState.smp.
 
-In hw/s390x/s390-virtio-ccw.c, s390_init_cpus() needs "threads per core".
-Before s390x supports hybrid, here we use smp-specific interface to get
-"threads per core".
+Before ppc supports hybrid, here we use smp-specific interface to get
+"threads per core" and "cores per cluster".
 
 For other cases, it's straightforward to replace topology access with
 wrapped generic interfaces.
 
-Cc: Halil Pasic <pasic@linux.ibm.com>
-Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
-Cc: Eric Farman <farman@linux.ibm.com>
-Cc: Thomas Huth <thuth@redhat.com>
+Cc: Hervé Poussinea <hpoussin@reactos.or>
+Cc: David Gibson <david@gibson.dropbear.id.au>
+Cc: Greg Kurz <groug@kaod.org>
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- hw/s390x/s390-virtio-ccw.c     |  6 +++---
- hw/s390x/sclp.c                |  3 ++-
- target/s390x/cpu-sysemu.c      |  2 +-
- target/s390x/kvm/kvm.c         | 15 +++++++++------
- target/s390x/tcg/excp_helper.c |  2 +-
- 5 files changed, 16 insertions(+), 12 deletions(-)
+ hw/ppc/e500.c         |  6 +++---
+ hw/ppc/mac_newworld.c | 16 +++++++++-------
+ hw/ppc/mac_oldworld.c | 12 +++++++-----
+ hw/ppc/pnv.c          | 11 +++++++----
+ hw/ppc/prep.c         |  3 ++-
+ hw/ppc/spapr.c        | 37 ++++++++++++++++++++-----------------
+ hw/ppc/spapr_rtas.c   | 17 +++++++++--------
+ 7 files changed, 57 insertions(+), 45 deletions(-)
 
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index f22f61b8b6ac..9b5020a0d395 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -88,7 +88,7 @@ static void s390_init_cpus(MachineState *machine)
-     S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index 117c9c08eddf..e999bd27dbc2 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -371,7 +371,7 @@ static int ppce500_load_device_tree(PPCE500MachineState *pms,
+                                     bool dry_run)
+ {
+     MachineState *machine = MACHINE(pms);
+-    unsigned int smp_cpus = machine->smp.cpus;
++    unsigned int smp_cpus = machine_topo_get_cpus(machine);
+     const PPCE500MachineClass *pmc = PPCE500_MACHINE_GET_CLASS(pms);
+     CPUPPCState *env = first_cpu->env_ptr;
+     int ret = -1;
+@@ -808,7 +808,7 @@ static DeviceState *ppce500_init_mpic_qemu(PPCE500MachineState *pms,
+     SysBusDevice *s;
+     int i, j, k;
+     MachineState *machine = MACHINE(pms);
+-    unsigned int smp_cpus = machine->smp.cpus;
++    unsigned int smp_cpus = machine_topo_get_cpus(machine);
+     const PPCE500MachineClass *pmc = PPCE500_MACHINE_GET_CLASS(pms);
+ 
+     dev = qdev_new(TYPE_OPENPIC);
+@@ -915,7 +915,7 @@ void ppce500_init(MachineState *machine)
+     struct boot_info *boot_info = NULL;
+     int dt_size;
      int i;
+-    unsigned int smp_cpus = machine->smp.cpus;
++    unsigned int smp_cpus = machine_topo_get_cpus(machine);
+     /* irq num for pin INTA, INTB, INTC and INTD is 1, 2, 3 and
+      * 4 respectively */
+     unsigned int pci_irq_nrs[PCI_NUM_PINS] = {1, 2, 3, 4};
+diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+index 460c14b5e368..54212afb29e3 100644
+--- a/hw/ppc/mac_newworld.c
++++ b/hw/ppc/mac_newworld.c
+@@ -136,7 +136,7 @@ static void ppc_core99_init(MachineState *machine)
+     CPUPPCState *env = NULL;
+     char *filename;
+     IrqLines *openpic_irqs;
+-    int i, j, k, ppc_boot_device, machine_arch, bios_size = -1;
++    int i, j, k, cpus, ppc_boot_device, machine_arch, bios_size = -1;
+     const char *bios_name = machine->firmware ?: PROM_FILENAME;
+     MemoryRegion *bios = g_new(MemoryRegion, 1);
+     hwaddr kernel_base = 0, initrd_base = 0, cmdline_base = 0;
+@@ -155,8 +155,9 @@ static void ppc_core99_init(MachineState *machine)
+     hwaddr nvram_addr = 0xFFF04000;
+     uint64_t tbfreq = kvm_enabled() ? kvmppc_get_tbfreq() : TBFREQ;
  
--    if (machine->smp.threads > s390mc->max_threads) {
-+    if (machine_topo_get_smp_threads(machine) > s390mc->max_threads) {
-         error_report("S390 does not support more than %d threads.",
-                      s390mc->max_threads);
-         exit(1);
-@@ -97,7 +97,7 @@ static void s390_init_cpus(MachineState *machine)
-     /* initialize possible_cpus */
-     mc->possible_cpu_arch_ids(machine);
- 
++    cpus = machine_topo_get_cpus(machine);
+     /* init CPUs */
 -    for (i = 0; i < machine->smp.cpus; i++) {
-+    for (i = 0; i < machine_topo_get_cpus(machine); i++) {
-         s390x_new_cpu(machine->cpu_type, i, &error_fatal);
++    for (i = 0; i < cpus; i++) {
+         cpu = POWERPC_CPU(cpu_create(machine->cpu_type));
+         env = &cpu->env;
+ 
+@@ -253,9 +254,9 @@ static void ppc_core99_init(MachineState *machine)
+         }
      }
+ 
+-    openpic_irqs = g_new0(IrqLines, machine->smp.cpus);
++    openpic_irqs = g_new0(IrqLines, cpus);
+     dev = DEVICE(cpu);
+-    for (i = 0; i < machine->smp.cpus; i++) {
++    for (i = 0; i < cpus; i++) {
+         /* Mac99 IRQ connection between OpenPIC outputs pins
+          * and PowerPC input pins
+          */
+@@ -393,7 +394,7 @@ static void ppc_core99_init(MachineState *machine)
+     /* OpenPIC */
+     s = SYS_BUS_DEVICE(pic_dev);
+     k = 0;
+-    for (i = 0; i < machine->smp.cpus; i++) {
++    for (i = 0; i < cpus; i++) {
+         for (j = 0; j < OPENPIC_OUTPUT_NB; j++) {
+             sysbus_connect_irq(s, k++, openpic_irqs[i].irq[j]);
+         }
+@@ -472,8 +473,9 @@ static void ppc_core99_init(MachineState *machine)
+     sysbus_mmio_map(s, 0, CFG_ADDR);
+     sysbus_mmio_map(s, 1, CFG_ADDR + 2);
+ 
+-    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)machine->smp.cpus);
+-    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)machine->smp.max_cpus);
++    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)cpus);
++    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS,
++                   (uint16_t)machine_topo_get_max_cpus(machine));
+     fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)machine->ram_size);
+     fw_cfg_add_i16(fw_cfg, FW_CFG_MACHINE_ID, machine_arch);
+     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, kernel_base);
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 2e4cc3fe0b22..9b715ed6b438 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -90,7 +90,7 @@ static void ppc_heathrow_init(MachineState *machine)
+     PowerPCCPU *cpu = NULL;
+     CPUPPCState *env = NULL;
+     char *filename;
+-    int i, bios_size = -1;
++    int i, cpus, bios_size = -1;
+     MemoryRegion *bios = g_new(MemoryRegion, 1);
+     uint64_t bios_addr;
+     uint32_t kernel_base = 0, initrd_base = 0, cmdline_base = 0;
+@@ -106,8 +106,9 @@ static void ppc_heathrow_init(MachineState *machine)
+     void *fw_cfg;
+     uint64_t tbfreq = kvm_enabled() ? kvmppc_get_tbfreq() : TBFREQ;
+ 
++    cpus = machine_topo_get_cpus(machine);
+     /* init CPUs */
+-    for (i = 0; i < machine->smp.cpus; i++) {
++    for (i = 0; i < cpus; i++) {
+         cpu = POWERPC_CPU(cpu_create(machine->cpu_type));
+         env = &cpu->env;
+ 
+@@ -260,7 +261,7 @@ static void ppc_heathrow_init(MachineState *machine)
+     }
+ 
+     /* Connect the heathrow PIC outputs to the 6xx bus */
+-    for (i = 0; i < machine->smp.cpus; i++) {
++    for (i = 0; i < cpus; i++) {
+         switch (PPC_INPUT(env)) {
+         case PPC_FLAGS_INPUT_6xx:
+             /* XXX: we register only 1 output pin for heathrow PIC */
+@@ -315,8 +316,9 @@ static void ppc_heathrow_init(MachineState *machine)
+     sysbus_mmio_map(s, 0, CFG_ADDR);
+     sysbus_mmio_map(s, 1, CFG_ADDR + 2);
+ 
+-    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)machine->smp.cpus);
+-    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)machine->smp.max_cpus);
++    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)cpus);
++    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS,
++                   (uint16_t)machine_topo_get_max_cpus(machine));
+     fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)machine->ram_size);
+     fw_cfg_add_i16(fw_cfg, FW_CFG_MACHINE_ID, ARCH_HEATHROW);
+     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, kernel_base);
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index 44b1fbbc9329..1bdd3202115c 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -938,8 +938,9 @@ static void pnv_init(MachineState *machine)
+         exit(1);
+     }
+ 
+-    pnv->num_chips =
+-        machine->smp.max_cpus / (machine->smp.cores * machine->smp.threads);
++    pnv->num_chips = machine_topo_get_max_cpus(machine) /
++                     (machine_topo_get_smp_cores(machine) *
++                     machine_topo_get_smp_threads(machine));
+     /*
+      * TODO: should we decide on how many chips we can create based
+      * on #cores and Venice vs. Murano vs. Naples chip type etc...,
+@@ -969,9 +970,11 @@ static void pnv_init(MachineState *machine)
+         snprintf(chip_name, sizeof(chip_name), "chip[%d]", i);
+         object_property_add_child(OBJECT(pnv), chip_name, chip);
+         object_property_set_int(chip, "chip-id", i, &error_fatal);
+-        object_property_set_int(chip, "nr-cores", machine->smp.cores,
++        object_property_set_int(chip, "nr-cores",
++                                machine_topo_get_smp_cores(machine),
+                                 &error_fatal);
+-        object_property_set_int(chip, "nr-threads", machine->smp.threads,
++        object_property_set_int(chip, "nr-threads",
++                                machine_topo_get_smp_threads(machine),
+                                 &error_fatal);
+         /*
+          * The POWER8 machine use the XICS interrupt interface.
+diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
+index fcbe4c583765..aefdf986f641 100644
+--- a/hw/ppc/prep.c
++++ b/hw/ppc/prep.c
+@@ -382,7 +382,8 @@ static void ibm_40p_init(MachineState *machine)
+         boot_device = machine->boot_config.order[0];
+     }
+ 
+-    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)machine->smp.max_cpus);
++    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS,
++                   (uint16_t)machine_topo_get_max_cpus(machine));
+     fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)machine->ram_size);
+     fw_cfg_add_i16(fw_cfg, FW_CFG_MACHINE_ID, ARCH_PREP);
+ 
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 4921198b9d6f..6faad75afd70 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -119,7 +119,7 @@
+ static int spapr_vcpu_id(SpaprMachineState *spapr, int cpu_index)
+ {
+     MachineState *ms = MACHINE(spapr);
+-    unsigned int smp_threads = ms->smp.threads;
++    unsigned int smp_threads = machine_topo_get_smp_threads(ms);
+ 
+     assert(spapr->vsmt);
+     return
+@@ -171,7 +171,8 @@ int spapr_max_server_number(SpaprMachineState *spapr)
+     MachineState *ms = MACHINE(spapr);
+ 
+     assert(spapr->vsmt);
+-    return DIV_ROUND_UP(ms->smp.max_cpus * spapr->vsmt, ms->smp.threads);
++    return DIV_ROUND_UP(machine_topo_get_max_cpus(ms) * spapr->vsmt,
++                        machine_topo_get_smp_threads(ms));
  }
-@@ -540,7 +540,7 @@ static CpuInstanceProperties s390_cpu_index_to_props(MachineState *ms,
- static const CPUArchIdList *s390_possible_cpu_arch_ids(MachineState *ms)
+ 
+ static int spapr_fixup_cpu_smt_dt(void *fdt, int offset, PowerPCCPU *cpu,
+@@ -659,8 +660,8 @@ static void spapr_dt_cpu(CPUState *cs, void *fdt, int offset,
+     uint32_t cpufreq = kvm_enabled() ? kvmppc_get_clockfreq() : 1000000000;
+     uint32_t page_sizes_prop[64];
+     size_t page_sizes_prop_size;
+-    unsigned int smp_threads = ms->smp.threads;
+-    uint32_t vcpus_per_socket = smp_threads * ms->smp.cores;
++    unsigned int smp_threads = machine_topo_get_smp_threads(ms);
++    uint32_t vcpus_per_socket = smp_threads * machine_topo_get_smp_cores(ms);
+     uint32_t pft_size_prop[] = {0, cpu_to_be32(spapr->htab_shift)};
+     int compat_smt = MIN(smp_threads, ppc_compat_max_vthreads(cpu));
+     SpaprDrc *drc;
+@@ -866,7 +867,8 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+         cpu_to_be32(max_device_addr & 0xffffffff),
+         cpu_to_be32(SPAPR_MEMORY_BLOCK_SIZE >> 32),
+         cpu_to_be32(SPAPR_MEMORY_BLOCK_SIZE & 0xffffffff),
+-        cpu_to_be32(ms->smp.max_cpus / ms->smp.threads),
++        cpu_to_be32(machine_topo_get_max_cpus(ms) /
++                    machine_topo_get_smp_threads(ms)),
+     };
+ 
+     _FDT(rtas = fdt_add_subnode(fdt, 0, "rtas"));
+@@ -936,7 +938,7 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+      */
+     _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_MIN_SIZE +
+                           RTAS_ERROR_LOG_MAX +
+-                          ms->smp.max_cpus * sizeof(uint64_t) * 2 +
++                          machine_topo_get_max_cpus(ms) * sizeof(uint64_t) * 2 +
+                           sizeof(uint64_t)));
+     _FDT(fdt_setprop_cell(fdt, rtas, "rtas-error-log-max",
+                           RTAS_ERROR_LOG_MAX));
+@@ -2503,7 +2505,7 @@ static void spapr_validate_node_memory(MachineState *machine, Error **errp)
+ /* find cpu slot in machine->possible_cpus by core_id */
+ static CPUArchId *spapr_find_cpu_slot(MachineState *ms, uint32_t id, int *idx)
+ {
+-    int index = id / ms->smp.threads;
++    int index = id / machine_topo_get_smp_threads(ms);
+ 
+     if (index >= ms->possible_cpus->len) {
+         return NULL;
+@@ -2522,7 +2524,7 @@ static void spapr_set_vsmt_mode(SpaprMachineState *spapr, Error **errp)
+     bool vsmt_user = !!spapr->vsmt;
+     int kvm_smt = kvmppc_smt_threads();
+     int ret;
+-    unsigned int smp_threads = ms->smp.threads;
++    unsigned int smp_threads = machine_topo_get_smp_threads(ms);
+ 
+     if (!kvm_enabled() && (smp_threads > 1)) {
+         error_setg(errp, "TCG cannot support more than 1 thread/core "
+@@ -2594,9 +2596,9 @@ static void spapr_init_cpus(SpaprMachineState *spapr)
+     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(machine);
+     const char *type = spapr_get_cpu_core_type(machine->cpu_type);
+     const CPUArchIdList *possible_cpus;
+-    unsigned int smp_cpus = machine->smp.cpus;
+-    unsigned int smp_threads = machine->smp.threads;
+-    unsigned int max_cpus = machine->smp.max_cpus;
++    unsigned int smp_cpus = machine_topo_get_cpus(machine);
++    unsigned int smp_threads = machine_topo_get_smp_threads(machine);
++    unsigned int max_cpus = machine_topo_get_max_cpus(machine);
+     int boot_cores_nr = smp_cpus / smp_threads;
+     int i;
+ 
+@@ -4002,7 +4004,7 @@ static void spapr_core_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+     const char *type = object_get_typename(OBJECT(dev));
+     CPUArchId *core_slot;
+     int index;
+-    unsigned int smp_threads = machine->smp.threads;
++    unsigned int smp_threads = machine_topo_get_smp_threads(machine);
+ 
+     if (dev->hotplugged && !mc->has_hotpluggable_cpus) {
+         error_setg(errp, "CPU hotplug not supported for this machine");
+@@ -4320,16 +4322,16 @@ spapr_cpu_index_to_props(MachineState *machine, unsigned cpu_index)
+ 
+ static int64_t spapr_get_default_cpu_node_id(const MachineState *ms, int idx)
+ {
+-    return idx / ms->smp.cores % ms->numa_state->num_nodes;
++    return idx / machine_topo_get_smp_cores(ms) % ms->numa_state->num_nodes;
+ }
+ 
+ static const CPUArchIdList *spapr_possible_cpu_arch_ids(MachineState *machine)
  {
      int i;
--    unsigned int max_cpus = ms->smp.max_cpus;
-+    unsigned int max_cpus = machine_topo_get_max_cpus(ms);
+-    unsigned int smp_threads = machine->smp.threads;
+-    unsigned int smp_cpus = machine->smp.cpus;
++    unsigned int smp_threads = machine_topo_get_smp_threads(machine);
++    unsigned int smp_cpus = machine_topo_get_cpus(machine);
+     const char *core_type;
+-    int spapr_max_cores = machine->smp.max_cpus / smp_threads;
++    int spapr_max_cores = machine_topo_get_max_cpus(machine) / smp_threads;
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
  
-     if (ms->possible_cpus) {
-         g_assert(ms->possible_cpus && ms->possible_cpus->len == max_cpus);
-diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
-index eff74479f458..2aef1a57a591 100644
---- a/hw/s390x/sclp.c
-+++ b/hw/s390x/sclp.c
-@@ -127,7 +127,8 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sccb)
-     prepare_cpu_entries(machine, entries_start, &cpu_count);
-     read_info->entries_cpu = cpu_to_be16(cpu_count);
-     read_info->offset_cpu = cpu_to_be16(offset_cpu);
--    read_info->highest_cpu = cpu_to_be16(machine->smp.max_cpus - 1);
-+    read_info->highest_cpu =
-+        cpu_to_be16(machine_topo_get_max_cpus(machine) - 1);
- 
-     read_info->ibc_val = cpu_to_be32(s390_get_ibc_val());
- 
-diff --git a/target/s390x/cpu-sysemu.c b/target/s390x/cpu-sysemu.c
-index 948e4bd3e09e..617f23b39913 100644
---- a/target/s390x/cpu-sysemu.c
-+++ b/target/s390x/cpu-sysemu.c
-@@ -125,7 +125,7 @@ bool s390_cpu_realize_sysemu(DeviceState *dev, Error **errp)
- {
-     S390CPU *cpu = S390_CPU(dev);
-     MachineState *ms = MACHINE(qdev_get_machine());
--    unsigned int max_cpus = ms->smp.max_cpus;
-+    unsigned int max_cpus = machine_topo_get_max_cpus(ms);
- 
-     if (cpu->env.core_id >= max_cpus) {
-         error_setg(errp, "Unable to add CPU with core-id: %" PRIu32
-diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
-index 3ac7ec9acf4e..d297daed1117 100644
---- a/target/s390x/kvm/kvm.c
-+++ b/target/s390x/kvm/kvm.c
-@@ -406,9 +406,11 @@ unsigned long kvm_arch_vcpu_id(CPUState *cpu)
- 
- int kvm_arch_init_vcpu(CPUState *cs)
- {
--    unsigned int max_cpus = MACHINE(qdev_get_machine())->smp.max_cpus;
-+    unsigned int max_cpus;
-     S390CPU *cpu = S390_CPU(cs);
-+
-     kvm_s390_set_cpu_state(cpu, cpu->env.cpu_state);
-+    max_cpus = machine_topo_get_max_cpus(MACHINE(qdev_get_machine()));
-     cpu->irqstate = g_malloc0(VCPU_IRQ_BUF_SIZE(max_cpus));
-     return 0;
- }
-@@ -2097,14 +2099,15 @@ int kvm_s390_set_cpu_state(S390CPU *cpu, uint8_t cpu_state)
- 
- void kvm_s390_vcpu_interrupt_pre_save(S390CPU *cpu)
- {
--    unsigned int max_cpus = MACHINE(qdev_get_machine())->smp.max_cpus;
--    struct kvm_s390_irq_state irq_state = {
--        .buf = (uint64_t) cpu->irqstate,
--        .len = VCPU_IRQ_BUF_SIZE(max_cpus),
--    };
-+    unsigned int max_cpus;
-+    struct kvm_s390_irq_state irq_state;
-     CPUState *cs = CPU(cpu);
-     int32_t bytes;
- 
-+    max_cpus = machine_topo_get_max_cpus(MACHINE(qdev_get_machine()));
-+    irq_state.buf = (uint64_t) cpu->irqstate;
-+    irq_state.len = VCPU_IRQ_BUF_SIZE(max_cpus);
-+
-     if (!kvm_check_extension(kvm_state, KVM_CAP_S390_IRQ_STATE)) {
-         return;
+     if (!mc->has_hotpluggable_cpus) {
+@@ -4500,7 +4502,8 @@ bool spapr_set_vcpu_id(PowerPCCPU *cpu, int cpu_index, Error **errp)
+         error_setg(errp, "Can't create CPU with id %d in KVM", vcpu_id);
+         error_append_hint(errp, "Adjust the number of cpus to %d "
+                           "or try to raise the number of threads per core\n",
+-                          vcpu_id * ms->smp.threads / spapr->vsmt);
++                          vcpu_id * machine_topo_get_smp_threads(ms) /
++                          spapr->vsmt);
+         return false;
      }
-diff --git a/target/s390x/tcg/excp_helper.c b/target/s390x/tcg/excp_helper.c
-index bc767f044381..e396a89d5540 100644
---- a/target/s390x/tcg/excp_helper.c
-+++ b/target/s390x/tcg/excp_helper.c
-@@ -321,7 +321,7 @@ static void do_ext_interrupt(CPUS390XState *env)
-     if ((env->pending_int & INTERRUPT_EMERGENCY_SIGNAL) &&
-         (env->cregs[0] & CR0_EMERGENCY_SIGNAL_SC)) {
-         MachineState *ms = MACHINE(qdev_get_machine());
--        unsigned int max_cpus = ms->smp.max_cpus;
-+        unsigned int max_cpus = machine_topo_get_max_cpus(ms);
  
-         lowcore->ext_int_code = cpu_to_be16(EXT_EMERGENCY);
-         cpu_addr = find_first_bit(env->emergency_signals, S390_MAX_CPUS);
+diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+index 3f664ea02ccf..e377299a28ee 100644
+--- a/hw/ppc/spapr_rtas.c
++++ b/hw/ppc/spapr_rtas.c
+@@ -279,14 +279,15 @@ static void rtas_ibm_get_system_parameter(PowerPCCPU *cpu,
+ 
+     switch (parameter) {
+     case RTAS_SYSPARM_SPLPAR_CHARACTERISTICS: {
+-        g_autofree char *param_val = g_strdup_printf("MaxEntCap=%d,"
+-                                                     "DesMem=%" PRIu64 ","
+-                                                     "DesProcs=%d,"
+-                                                     "MaxPlatProcs=%d",
+-                                                     ms->smp.max_cpus,
+-                                                     ms->ram_size / MiB,
+-                                                     ms->smp.cpus,
+-                                                     ms->smp.max_cpus);
++        g_autofree char *param_val =
++            g_strdup_printf("MaxEntCap=%d,"
++                            "DesMem=%" PRIu64 ","
++                            "DesProcs=%d,"
++                            "MaxPlatProcs=%d",
++                            machine_topo_get_max_cpus(ms),
++                            ms->ram_size / MiB,
++                            machine_topo_get_cpus(ms),
++                            machine_topo_get_max_cpus(ms));
+         if (pcc->n_host_threads > 0) {
+             /*
+              * Add HostThrs property. This property is not present in PAPR but
 -- 
 2.34.1
 
