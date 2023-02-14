@@ -2,88 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A5BE696B38
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 18:17:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74BBC696B49
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 18:20:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRyv4-0000kl-Ik; Tue, 14 Feb 2023 12:16:42 -0500
+	id 1pRyxD-0001fI-Rf; Tue, 14 Feb 2023 12:18:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1pRyv2-0000kV-Bx
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 12:16:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <SRS0=ZGUx=6K=kaod.org=clg@ozlabs.org>)
+ id 1pRyxB-0001eb-AY; Tue, 14 Feb 2023 12:18:53 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1pRyuy-0004Ut-FT
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 12:16:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676394995;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+xDnfroDKrE7MZIL3tNRjkakvJkhUC6sm9BW0qIJtbA=;
- b=RbVpZVAqy0sCtUD+vuUVmsv+bOkkNX+94K0b2rP7VlHr490HxVvo6U3LTES3x5K3YlVe0o
- fiAX9EkDi+YhYSDkiXiRacW0KDcQj3N+kUiigRMr8D65bgojamR1SYrim75t1mMP2WKU6r
- 7a26GjutrTWEpvdlKH/lIAOLUzzddgk=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-317-NvGvJLidMO6JFUjmaS9dDg-1; Tue, 14 Feb 2023 12:16:28 -0500
-X-MC-Unique: NvGvJLidMO6JFUjmaS9dDg-1
-Received: by mail-qv1-f71.google.com with SMTP id
- jh2-20020a0562141fc200b004c74bbb0affso9110753qvb.21
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 09:16:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+xDnfroDKrE7MZIL3tNRjkakvJkhUC6sm9BW0qIJtbA=;
- b=amQKj9yAu7nHGKzHa4kQTj0WFPsRG2xIP4UX/7HcqG9Vv9dZhAlW7L2CFO57AzHheQ
- SeaWRL+hlXELaFJvS01kZnNBJ9RGuhVuuriTeM4bxs8Fz4wQlszPveq9P33sQ3ZJLSf/
- Kk8ESkcJU47Fxgey1WzadRhdfyO4Kx12ZMb7nlvQNJ5LDVgou9vzdb+WLfUcuHEntGjI
- o5uRNKXCri7rvgdxu+vdAEDRXVWXXxe+7tNYy2wQ2N2UAmsAefzdIPN62ifcOjyG/x/M
- GvTSMAX1eOUEODagZbgd8zyf+AOE6rXgX9csIaOsl/Qq/pYwTpm+PRJZmaX3gF7tc7RG
- bi4g==
-X-Gm-Message-State: AO0yUKWm++OZf6gpV4iFQ/CWhCSRoxBn4L1GC+VflN+K9JPohu5ARk0K
- v7vXi9Vof07WpXd9r4zxXBFgrLHgrnjxd5AKxbwPgEEV/3g6ftYVIUeNyFza6Mhga3J5YyErW14
- dsEaUoq/PmZOxQTXNcUyWapettgqcmUEFP8fVsK31KUAIpYZPnAs0nvCSYE48qpbLiHHndjEW
-X-Received: by 2002:a05:6214:c48:b0:56e:b21c:61e5 with SMTP id
- r8-20020a0562140c4800b0056eb21c61e5mr5028883qvj.47.1676394986635; 
- Tue, 14 Feb 2023 09:16:26 -0800 (PST)
-X-Google-Smtp-Source: AK7set8cDwUez7gIRFbxs2IHqe//zIDFQ5BXdbDef4USZg8Vgoey+E3wKR7WDSuLTRw3K9FgDuxZ0w==
-X-Received: by 2002:a05:6214:c48:b0:56e:b21c:61e5 with SMTP id
- r8-20020a0562140c4800b0056eb21c61e5mr5028831qvj.47.1676394986207; 
- Tue, 14 Feb 2023 09:16:26 -0800 (PST)
-Received: from step1.redhat.com (host-79-46-200-90.retail.telecomitalia.it.
- [79.46.200.90]) by smtp.gmail.com with ESMTPSA id
- 3-20020ac85743000000b003b86d3ca969sm5432104qtx.51.2023.02.14.09.16.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Feb 2023 09:16:25 -0800 (PST)
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Aihua Liang <aliang@redhat.com>
-Subject: [PATCH v2] block: temporarily hold the new AioContext of bs_top in
- bdrv_append()
-Date: Tue, 14 Feb 2023 18:16:21 +0100
-Message-Id: <20230214171621.11574-1-sgarzare@redhat.com>
+ (Exim 4.90_1) (envelope-from <SRS0=ZGUx=6K=kaod.org=clg@ozlabs.org>)
+ id 1pRyx9-0004pp-CY; Tue, 14 Feb 2023 12:18:53 -0500
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4PGSbh1Pn8z4x7W;
+ Wed, 15 Feb 2023 04:18:40 +1100 (AEDT)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4PGSbc6kyxz4x5W;
+ Wed, 15 Feb 2023 04:18:36 +1100 (AEDT)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, Markus Armbruster <armbru@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PATCH 0/8] aspeed: I2C fixes, -drive removal (first step)
+Date: Tue, 14 Feb 2023 18:18:22 +0100
+Message-Id: <20230214171830.681594-1-clg@kaod.org>
 X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=SRS0=ZGUx=6K=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,89 +63,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-bdrv_append() is called with bs_top AioContext held, but
-bdrv_attach_child_noperm() could change the AioContext of bs_top.
+Hello,
 
-bdrv_replace_node_noperm() calls bdrv_drained_begin() starting from
-commit 2398747128 ("block: Don't poll in bdrv_replace_child_noperm()").
-bdrv_drained_begin() can call BDRV_POLL_WHILE that assumes the new lock
-is taken, so let's temporarily hold the new AioContext to prevent QEMU
-from failing in BDRV_POLL_WHILE when it tries to release the wrong
-AioContext.
+This series starts with a first set of patches fixing I2C slave mode
+in the Aspeed I2C controller, a test device and its associated test in
+avocado.
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2168209
-Reported-by: Aihua Liang <aliang@redhat.com>
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
----
-v2:
-- released the right lock in the error path [Kevin]
-- held the new lock until the end of the function [Kevin]
+Follow some cleanups which allow the use of block devices instead of
+drives. So that, instead of specifying :
 
-v1: https://lore.kernel.org/qemu-devel/20230214105156.316586-1-sgarzare@redhat.com/
----
- block.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+  -drive file=./flash-ast2600-evb,format=raw,if=mtd
+  -drive file=./ast2600-evb.pnor,format=raw,if=mtd
+  ...
 
-diff --git a/block.c b/block.c
-index aa9062f2c1..036fce19e0 100644
---- a/block.c
-+++ b/block.c
-@@ -5266,6 +5266,8 @@ int bdrv_drop_filter(BlockDriverState *bs, Error **errp)
-  * child.
-  *
-  * This function does not create any image files.
-+ *
-+ * The caller must hold the AioContext lock for @bs_top.
-  */
- int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
-                 Error **errp)
-@@ -5273,11 +5275,14 @@ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
-     int ret;
-     BdrvChild *child;
-     Transaction *tran = tran_new();
-+    AioContext *old_context, *new_context = NULL;
- 
-     GLOBAL_STATE_CODE();
- 
-     assert(!bs_new->backing);
- 
-+    old_context = bdrv_get_aio_context(bs_top);
-+
-     child = bdrv_attach_child_noperm(bs_new, bs_top, "backing",
-                                      &child_of_bds, bdrv_backing_role(bs_new),
-                                      tran, errp);
-@@ -5286,6 +5291,19 @@ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
-         goto out;
-     }
- 
-+    /*
-+     * bdrv_attach_child_noperm could change the AioContext of bs_top.
-+     * bdrv_replace_node_noperm calls bdrv_drained_begin, so let's temporarily
-+     * hold the new AioContext, since bdrv_drained_begin calls BDRV_POLL_WHILE
-+     * that assumes the new lock is taken.
-+     */
-+    new_context = bdrv_get_aio_context(bs_top);
-+
-+    if (old_context != new_context) {
-+        aio_context_release(old_context);
-+        aio_context_acquire(new_context);
-+    }
-+
-     ret = bdrv_replace_node_noperm(bs_top, bs_new, true, tran, errp);
-     if (ret < 0) {
-         goto out;
-@@ -5297,6 +5315,11 @@ out:
- 
-     bdrv_refresh_limits(bs_top, NULL, NULL);
- 
-+    if (new_context && old_context != new_context) {
-+        aio_context_release(new_context);
-+        aio_context_acquire(old_context);
-+    }
-+
-     return ret;
- }
- 
+and guessing from the order which bus the device is attached to, we
+can use :
+
+  -blockdev node-name=fmc0,driver=file,filename=./bmc.img
+  -device mx66u51235f,bus=ssi.0,drive=fmc0
+  -blockdev node-name=fmc1,driver=file,filename=./bmc-alt.img
+  -device mx66u51235f,bus=ssi.0,drive=fmc1 
+  -blockdev node-name=pnor,driver=file,filename=./pnor
+  -device mx66l1g45g,bus=ssi.1,drive=pnor
+  ...
+
+It is not perfect, the CS index still depends on the order, but it is
+now possible to run a machine without -drive ...,if=mtd.
+
+This lacks the final patch enabling the '-nodefaults' option by not
+creating the default devices if specified on the command line. It
+needs some more evaluation of the possible undesired effects. 
+Thanks,
+
+C.
+
+Cédric Le Goater (6):
+  m25p80: Improve error when the backend file size does not match the
+    device
+  tests/avocado/machine_aspeed.py: Add I2C slave tests
+  aspeed/smc: Replace SysBus IRQs with GPIO lines
+  aspeed/smc: Wire CS lines at reset
+  aspeed: Introduce a spi_boot region under the SoC
+  aspeed: Add a boot_rom overlap region in the SoC spi_boot container
+
+Klaus Jensen (2):
+  hw/i2c: only schedule pending master when bus is idle
+  hw/misc: add a toy i2c echo device
+
+ include/hw/arm/aspeed_soc.h     |   3 +
+ include/hw/i2c/i2c.h            |   2 +
+ hw/arm/aspeed.c                 |  60 ++++++------
+ hw/arm/aspeed_ast2600.c         |  13 +++
+ hw/arm/aspeed_soc.c             |  14 +++
+ hw/arm/fby35.c                  |   8 +-
+ hw/block/m25p80.c               |   4 +-
+ hw/i2c/aspeed_i2c.c             |   2 +
+ hw/i2c/core.c                   |  37 +++++---
+ hw/misc/i2c-echo.c              | 156 ++++++++++++++++++++++++++++++++
+ hw/ssi/aspeed_smc.c             |  29 +++++-
+ hw/misc/meson.build             |   2 +
+ tests/avocado/machine_aspeed.py |  10 ++
+ 13 files changed, 279 insertions(+), 61 deletions(-)
+ create mode 100644 hw/misc/i2c-echo.c
+
 -- 
 2.39.1
 
