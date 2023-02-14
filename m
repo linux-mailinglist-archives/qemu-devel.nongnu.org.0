@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B139669600B
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 11:00:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A47696019
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 11:00:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRs5n-0002T5-HI; Tue, 14 Feb 2023 04:59:19 -0500
+	id 1pRs6z-0003Gi-Ht; Tue, 14 Feb 2023 05:00:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pRs5l-0002Sn-EC
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 04:59:17 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ id 1pRs6v-0003Cn-PN
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 05:00:30 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pRs5j-0003kF-RT
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 04:59:17 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id a2so15018052wrd.6
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 01:59:15 -0800 (PST)
+ id 1pRs6t-00042E-Rw
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 05:00:29 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ l37-20020a05600c1d2500b003dfe46a9801so11143902wms.0
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 02:00:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:user-agent:mime-version:date
  :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=cz4fgC2KzkHAiu+weIUTkIaXAovZUaHvWhbnCYPyTr8=;
- b=WFp2eSrUEb1tL7/fQCbKKactkm4mC9LDP5Euh4kg09ovzJ/GJMZieeRzf/TwxJ9hXZ
- dJj3mPSc8rEmnm6uoW208b8hNp9LCmN5TyaM3SrxGqYxcq6d6nT4eQmy/igKRt2ssiQV
- oDqcen9Xpym7aRQrtBfJ8l6GVsAmpjSM1CuZDYeXWW/xDx2Rsw1BwXBwPHLasE9xfIHN
- pgJ7zVd+xG1KKLSwonuMWAz7+aupguLzEMS29U6u46lAek+8/u/yBMchSET3GLaMWVhI
- e+FPf0DZTXjQ1FDZHCa628C1vd2/ZsZDcxr1fqlHls7sexOyI56ZB4GMErlkwioalyNc
- jblg==
+ bh=p0NhzeHalnbHe7U254EQfBD3SwspbsypGY324wZaHQk=;
+ b=hDmPNy+UNo/UYh+u//wvZKAVlYhTMUHZOZFUofS6AC1GsVatlaFqMTYcqspXLB0PLp
+ nrxC6teJ1ezrktnkQhIu+KAL32GA6hrx3CTaQisoau7oBG9S4YSVKpRHtkQ142IRRizI
+ 3IH8F5z/ak4mxe4ERo0y8poCd8ClMJxmAAm1xhsITVxeA1zN8sKy1ZkM7HF7LNxyy8ni
+ 0qZxJTDao+r5cMgkPdOMywPRIC1I8aAgs8eofo+C0x9EHZLsa6UPlGd3DykdiMYTaEHS
+ qH6mfaUQjnnwtHYXeJ2nMBAGihzFkCRkfyHhqxrBaYzNtpYpF6ll/L/Tbd7uwb5DE/um
+ rdjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:user-agent:mime-version:date
  :message-id:from:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cz4fgC2KzkHAiu+weIUTkIaXAovZUaHvWhbnCYPyTr8=;
- b=1kxsGo+RIyENvvEnoWYFXoOjmoewLch6GU0C55s8peR5n7QXhwu52Z5LmO/mqizZzS
- CwgbFyCzvY8hcC92FngupbOtlSfbDlREai4aBtUfnHh7Ens9gC9yd26+fs26ly4nRh4x
- MBJP0Ft6Gg4MmM61hwK//7h1tugrvHnoFjlb2glne6Ks4cKzepApJJrkp8vg5UV+7gwm
- J5CMzoo/0H+Y9VzWYEW7P64YlT3qd1yjblJXz4x4Gp8eXzAHF4L84lAsV7slMb+mkFHI
- 072eIMIrkjieWjVho3SyXAVLi3uZGrGdTlLDB1soXyc6dNLvxxqzN/k9wSOOTdXE9R9S
- /RzQ==
-X-Gm-Message-State: AO0yUKWU3JgXuQ5+Xl8o1fIo0A96AspEufYJRYik0LAt8hkNmGbjAC68
- 2XCAURgAng2bp1He5earehI=
-X-Google-Smtp-Source: AK7set8L3g1JoRGisRjh7WHaSbMNV8F5iAVbE5ztYnsP//9CIPBZWx5ZrBTF9z/NEvB3WCgpjcqlpw==
-X-Received: by 2002:a5d:4528:0:b0:2c1:28dc:1561 with SMTP id
- j8-20020a5d4528000000b002c128dc1561mr1684819wra.44.1676368754088; 
- Tue, 14 Feb 2023 01:59:14 -0800 (PST)
+ bh=p0NhzeHalnbHe7U254EQfBD3SwspbsypGY324wZaHQk=;
+ b=JZFFfYpd7VgLxM7ZuVOWh9m+6TAAy09QWcENt4EEH6AoBHiEpGdaDZwLE9eDWE/W5D
+ gM4StzUvEuOKwFSvl/cLb2OhWx5mn2quXuIOiO0Xlx/QveljYxgm+RzMz8Zi8qT7xbZR
+ tVq1qh1aFnvzq2mfVlVwiRa/R4W2tdzLusi2zzYizm6FL4DMbJBMk97v1dGp8HFQmIVB
+ Rpk0U2uX6hCPSbIje4SRnDLXq/QKPx1OndR3WtYgsFUjkJhs7yX8rgWW7h0xjfdexwWZ
+ TohXqJKxALXJUSZLBhso5Sh1Lv42L5HA7J7Oq7SAEsy2J4QTmPoxqGr3S3JDN3mVCXyP
+ nl5g==
+X-Gm-Message-State: AO0yUKV6oK4aU5iyo+fGiMVyztsPoPiqk0GXpayN44yVgdMHI+tTyflq
+ +FLmuBUkfk0ldYB1dstzW2g=
+X-Google-Smtp-Source: AK7set+qwb0tAajp7ipXuz1Q10EQgK01sznKXpVgxIV3yLN1xs7rf4EeWsIBrzIAUHW75DPOMXfbCQ==
+X-Received: by 2002:a05:600c:715:b0:3e1:12d1:fde0 with SMTP id
+ i21-20020a05600c071500b003e112d1fde0mr1501894wmn.6.1676368825745; 
+ Tue, 14 Feb 2023 02:00:25 -0800 (PST)
 Received: from [10.95.154.108] (54-240-197-224.amazon.com. [54.240.197.224])
  by smtp.gmail.com with ESMTPSA id
- n13-20020a05600c3b8d00b003dc434900e1sm17969004wms.34.2023.02.14.01.59.13
+ c129-20020a1c3587000000b003dc1a525f22sm17423697wma.25.2023.02.14.02.00.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Feb 2023 01:59:13 -0800 (PST)
+ Tue, 14 Feb 2023 02:00:25 -0800 (PST)
 From: Paul Durrant <xadimgnik@gmail.com>
 X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <2782d0ab-99ea-b4bf-4608-90f4db90674e@xen.org>
-Date: Tue, 14 Feb 2023 09:59:12 +0000
+Message-ID: <f6a4d190-01bf-1a4d-c18b-a79a565d6123@xen.org>
+Date: Tue, 14 Feb 2023 10:00:24 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH v10 45/59] i386/xen: Implement HYPERVISOR_grant_table_op
- and GNTTABOP_[gs]et_verson
+Subject: Re: [PATCH v10 46/59] hw/xen: Implement GNTTABOP_query_size
 Content-Language: en-US
 To: David Woodhouse <dwmw2@infradead.org>,
  Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
@@ -78,13 +78,13 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
 References: <20230201143148.1744093-1-dwmw2@infradead.org>
- <20230201143148.1744093-46-dwmw2@infradead.org>
+ <20230201143148.1744093-47-dwmw2@infradead.org>
 Organization: Xen Project
-In-Reply-To: <20230201143148.1744093-46-dwmw2@infradead.org>
+In-Reply-To: <20230201143148.1744093-47-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -113,42 +113,11 @@ On 01/02/2023 14:31, David Woodhouse wrote:
 > 
 > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
->   hw/i386/kvm/xen_gnttab.c  | 31 ++++++++++++++++++++
->   hw/i386/kvm/xen_gnttab.h  |  5 ++++
->   target/i386/kvm/xen-emu.c | 60 +++++++++++++++++++++++++++++++++++++++
->   3 files changed, 96 insertions(+)
+>   hw/i386/kvm/xen_gnttab.c  | 19 +++++++++++++++++++
+>   hw/i386/kvm/xen_gnttab.h  |  2 ++
+>   target/i386/kvm/xen-emu.c | 16 +++++++++++++++-
+>   3 files changed, 36 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/i386/kvm/xen_gnttab.c b/hw/i386/kvm/xen_gnttab.c
-> index cd8c3ae60d..9dfce91f6a 100644
-> --- a/hw/i386/kvm/xen_gnttab.c
-> +++ b/hw/i386/kvm/xen_gnttab.c
-> @@ -181,3 +181,34 @@ int xen_gnttab_map_page(uint64_t idx, uint64_t gfn)
->       return 0;
->   }
->   
-> +int xen_gnttab_set_version_op(struct gnttab_set_version *set)
-> +{
-> +    int ret;
-> +
-> +    switch (set->version) {
-> +    case 1:
-> +        ret = 0;
-> +        break;
-> +
-> +    case 2:
-> +        /* Behave as before set_version was introduced. */
-> +        ret = -ENOSYS;
-> +        break;
-> +
-> +    default:
-> +        ret = -EINVAL;
-> +    }
-> +
-> +    set->version = 1;
-
-Seems like an odd semantic. Only a version of 1 can result in a 
-non-error exit. I suspect no harm will come from setting it in the error 
-case though so...
 
 Reviewed-by: Paul Durrant <paul@xen.org>
 
