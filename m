@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96EA06961E0
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 12:05:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B986696218
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 12:12:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRt6Q-0008Lw-R8; Tue, 14 Feb 2023 06:04:02 -0500
+	id 1pRtDP-0002ga-Vt; Tue, 14 Feb 2023 06:11:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pRt6O-0008LO-Qf
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:04:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pRt6N-0006Gl-Gw
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:04:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676372639;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nBwqFAD4fPIWMEor3pwTn+YhIhtIwxYptURXbii/sl4=;
- b=Iyj3hVwJMLhQ1OXrOUNrW57LXD07sogXsW93fDql75mWrw8gZxQlUmHEqDZ+tcsKRE/uXI
- b6gL8wJ0qsRhvDjtTWm7Gr5DOmTpKCUpzoIvfdP3B6wegaktqvfI7YtJmvW5LphkWPOp91
- kEh/aULVLXCq8SC8iu1UJc4bWs/A3Fc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-6-Wko2CNp-MgGOhtLX2_xGkA-1; Tue, 14 Feb 2023 06:03:54 -0500
-X-MC-Unique: Wko2CNp-MgGOhtLX2_xGkA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6BF56101A52E;
- Tue, 14 Feb 2023 11:03:54 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5AED640CE2A7;
- Tue, 14 Feb 2023 11:03:52 +0000 (UTC)
-Date: Tue, 14 Feb 2023 12:03:51 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v2 6/7] CI: Stop building docs on centos8
-Message-ID: <Y+tqlwx0NptPn35n@redhat.com>
-References: <20230210003147.1309376-1-jsnow@redhat.com>
- <20230210003147.1309376-7-jsnow@redhat.com>
- <CAFEAcA-c5y0TR8vYg_FYEmGv3mOOmBgeD0cyb+mVotsP=r-Dsw@mail.gmail.com>
- <CAFn=p-aDV9=vG6hjTWRE6c52TpYSjDBU22nthTuejDCv_XrYMQ@mail.gmail.com>
- <CAFEAcA_eGvz_BQVLhVWtedRh2mcBuMEhv0RKF+6DW4t+9FdPAw@mail.gmail.com>
- <Y+Z2Kcq17HGWuoTV@redhat.com> <87cz6cpue3.fsf@pond.sub.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pRtDN-0002gL-Vy
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:11:14 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pRtDK-0000Mk-T9
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:11:13 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ f16-20020a17090a9b1000b0023058bbd7b2so15146346pjp.0
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 03:11:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=UX/IVOLpFVoTII2uYtrcJrTGbkI7WP9O/3umnK3nLZ0=;
+ b=DTnyHS77bp389FkUlXDDvR3rULI/NTLmWzE85Aj6TfnPsvkhkwgRHPa1w/qWK9qLvd
+ Lx1j0+gbRDtYF2UQTjs5LBYVhlfHp9UcsSldj4hyG+t05fY2ebIeqEy4OrrVBPrFfxpv
+ 80fcibP59foC/7xkp4izS/mVTtrgCnE4yCys68wWjLjf0jZcSz4HxecCEguOIGi4J5YH
+ DNSjKhWDZBS78YgGdLRi2Sl2pnKVfKZxelQRjHICiT7jFDU5oNXQ0LkZqS/w3MRbZ+cY
+ InShEc6lr83CG19buZCTyx9Rg7RiCN9+BxRjOj4LdYZryMls1dzGyBIeAJzxueWvsNrt
+ gc0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UX/IVOLpFVoTII2uYtrcJrTGbkI7WP9O/3umnK3nLZ0=;
+ b=dGB7Y2TzVdnGQ/DSTH+7PaKb1ouM9aLw5JX5lkck1ElOdGW9+ng9AxLlz+b8s0qvH1
+ +VHTtPYMaQhjzWS9CsHZ5kAMsIWtvDY5VFuiIS3Tbd8EgwlAclhZNADz9+ZIPTpB1Hq1
+ E7ToqNKKVxHSzxtKJlrJECB0JQoiTrf6W/h18g/7Kn7VD83nKhAvHzegXjBn601oJmym
+ M7EntGh5nNaz/axdTpp6EvXHyWX/G2UNcX1xc/CTagTZKLyoQ9J4Ilt3OB8Ja/XRO8bE
+ dAhHbAQi5LvOkALJzCf62orHTGcp5hTe+Ve6P282VpqiMP5X9JkzUx9CMMhoBqNiU56G
+ vGGw==
+X-Gm-Message-State: AO0yUKXhU/Qq2hI/ALYGNvJCQe/BXKuBZaIzAs8L6ISKrnRJDSzzwV0m
+ t/bi4fu3woT1ZKyccAX1uL+FWBbijZalCiPG2P26Tw==
+X-Google-Smtp-Source: AK7set/zJMUaRgv1+q84N0PiGHWxtJKA8GvY2rrqwRoEK7cwZ+4NljkXuysyoi/dzNxfjzFBgJJ+WIw6VrAOnLAAqP4=
+X-Received: by 2002:a17:90a:28a5:b0:233:dcb5:ee15 with SMTP id
+ f34-20020a17090a28a500b00233dcb5ee15mr352148pjd.92.1676373069214; Tue, 14 Feb
+ 2023 03:11:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87cz6cpue3.fsf@pond.sub.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <alpine.DEB.2.22.394.2302101420510.4661@ubuntu-linux-20-04-desktop>
+ <CAFEAcA9kshowaoWFCPRmVy4G2dD+EqiG5cKAAgkJO63MNrEheQ@mail.gmail.com>
+ <alpine.DEB.2.22.394.2302131431430.4661@ubuntu-linux-20-04-desktop>
+In-Reply-To: <alpine.DEB.2.22.394.2302131431430.4661@ubuntu-linux-20-04-desktop>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 14 Feb 2023 11:10:58 +0000
+Message-ID: <CAFEAcA8hQZ8uyF80o=fSykggQb929X=+NweLUG9VE=2JVpP2Wg@mail.gmail.com>
+Subject: Re: [PULL 00/10] xenpvh machine
+To: Stefano Stabellini <sstabellini@kernel.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,24 +85,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 14.02.2023 um 08:40 hat Markus Armbruster geschrieben:
-> I read this on Friday, and decided to let it sit until after the
-> weekend.  Well, it's now Tuesday, and to be frank, it's still as
-> offensively flippant as it was on Friday.  It shows either ignorance of
-> or cavalier disregard for the sheer amount of work some of us have had
-> to put into keeping old versions of Python viable.
-> 
-> The latter would be quite unlike you, so it must be the former.
+On Mon, 13 Feb 2023 at 22:34, Stefano Stabellini <sstabellini@kernel.org> wrote:
+>
+> On Mon, 13 Feb 2023, Peter Maydell wrote:
+> > On Fri, 10 Feb 2023 at 22:27, Stefano Stabellini <sstabellini@kernel.org> wrote:
+> > >
+> > > The following changes since commit 90595cc9396bb910b148391fea2e78dd8c6c8b27:
+> > >
+> > >   Merge tag 'migration-20230209-pull-request' of https://gitlab.com/juan.quintela/qemu into staging (2023-02-10 10:50:21 +0000)
+> > >
+> > > are available in the Git repository at:
+> > >
+> > >   https://gitlab.com/sstabellini/qemu.git xenpvh
+> > >
+> > > for you to fetch changes up to 3f8ee848693872e3783cdcf2862be5421bb9cbcb:
+> > >
+> > >   meson.build: enable xenpv machine build for ARM (2023-02-10 14:23:47 -0800)
+> >
+> > Hi -- 'xenpvh' doesn't appear to be a signed tag:
+> >
+> > >From https://gitlab.com/sstabellini/qemu
+> >  * branch                    xenpvh     -> FETCH_HEAD
+> > error: FETCH_HEAD: cannot verify a non-tag object of type commit.
+> > Does not appear to be a signed tag
+>
+> Sorry "xenpvh" was a branch name. Here is the corresponding signed tag:
+>
+> https://gitlab.com/sstabellini/qemu xenpvh-tag
 
-Honest question, Markus, because I haven't been following as much what
-is happening in Python recently: What are the biggest pain points in
-this context?
+Something weird has happened here -- I'm getting merge conflicts
+in files in migration/ and in tests/unit/test-xbzrle.c, even though
+your pullreq diffstat says it doesn't touch those files. Can you
+try a rebase and resend?
 
-Has Python started removing features from new versions more aggressively
-so that we have to update the code so it can run on newer versions, and
-still keep compatibility paths for older versions that don't have the
-replacement yet?
-
-Kevin
-
+thanks
+-- PMM
 
