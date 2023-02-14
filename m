@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2F186964CD
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 14:37:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE7676964CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 14:37:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRvUI-0003RI-Va; Tue, 14 Feb 2023 08:36:50 -0500
+	id 1pRvUv-00042I-IK; Tue, 14 Feb 2023 08:37:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pRvUG-0003Qv-Pv
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:36:48 -0500
-Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pRvUt-0003xK-S9
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:37:27 -0500
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pRvUE-0006zq-T5
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:36:48 -0500
-Received: by mail-lf1-x131.google.com with SMTP id w11so23454891lfu.11
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 05:36:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jX/SdupbxWI4D4vkKcBgQHswk6Mj9mcQ9fvUjljwa0A=;
- b=Q3whJnaxGQoh2fi0J7aH623z66+HFB+HF0MAtt49L7isJgpYD4l7zgXyMgOODieK/C
- MsLj0OEijzL//86tOrTqOgdNKxa746dYbRdWpQlYBhYKuEiH3x9jX1diSDifPr857riW
- 3LEPbGDjbKJsLrf20/WRinPEDA42Ub+OOREtbEmCgjb2nw+Yskb1EebaABtCky6nDcjB
- 0n5X0yn3rTRQJzeWbkRsGELzaTNDU+ssRMHdg7x/tmSX8j4RIcEERJLj1d3Hf2yJ+Ib3
- OXSA/B7/OSXU6bEnIQhyNQvNKK6J7F1pB1/q+OlPUl6QZSl1sSGJlHrjTyG7GG06culp
- L5NA==
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pRvUr-00079H-VV
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:37:27 -0500
+Received: by mail-ot1-x330.google.com with SMTP id
+ bv2-20020a0568300d8200b0068dc615ee44so4649489otb.10
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 05:37:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=jxq45QuEFbHMNJ3fsLk1sA+YaGdqGSj5qFl05FbojDU=;
+ b=RV0jP3I0Ar9GkKLiUaEHL9nhSqckZX0ddn0y3raPXO5Ws30ExTlCYxqVEO73Aq3mPm
+ 8HyDhBiXyOBnwwam1QHSSguko/4wDgBnyFFeYmCRk/5Nk11cIPnHUMVuhxHb0Q+PIu25
+ pSoepLs6OHNUC6VVIGzjxzyYqmGwJSkiynbuUeKNLw1rr5DQU+4/LtkH2i+2oc6YEwDu
+ wf7gXezvd5Qfm8xfIWEzipQlUFT+Bzxsnm3TTYTZKSPi0Hp0ye5+NQtQciNkUjgw6xdo
+ tbZ3mzctn/0p3LgDsON+TX3W54y2S+a7YFjd5vu7nzBZVpuDZF1/8s0bRCozHCA+McL+
+ FPxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jX/SdupbxWI4D4vkKcBgQHswk6Mj9mcQ9fvUjljwa0A=;
- b=pMFrRDBfoKSyb5dUwc3TFd7x5o+htUG4pZkP2iU0JqnKSwYTW/5wPnUN1ngDgIa294
- ZyP7D3Fu62LqfRVay//okbc0G/NmC5aEgGSTpEKw9ym9wmNk3ZLu7tHt6CHbyMkeiPNM
- /+ODnrrC/4I3S9x0mAWeyC090fhBbIcmUunQKVmuasuLOF948uIPBTibSnwSvtUxY4Kj
- R5M5FObs+K8vtCm1enYJh1dBQEu4Z3ZnwjESLlOGIsT8kM+bAu3uzg6W3dBtGUdP5lJa
- CoAIEmz19Qx2HBXRRHzVsDQBGB2BoqThuSKtpw8UWzVUMD6ZUJN30vMjoU/Vhf0ZTCmv
- XkwA==
-X-Gm-Message-State: AO0yUKX1g1TK2BGODIp+g+5vyn9zctkRTRd27KNOBR4z+J0AYbnVGpSv
- M5LuGDaJNYMEjdjY73aSwkgJE56I3nNGz6j9PeA=
-X-Google-Smtp-Source: AK7set97PmZrnOpTs0cUa7P1mzQhwQA5/m0ZyAU8qQFpldno6xAowd2VK/fxKxg+8QUokYu5RPj+GpAEC+O96y2J57I=
-X-Received: by 2002:a05:6512:3e1d:b0:4d5:ca32:68a0 with SMTP id
- i29-20020a0565123e1d00b004d5ca3268a0mr318764lfv.5.1676381804309; Tue, 14 Feb
- 2023 05:36:44 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jxq45QuEFbHMNJ3fsLk1sA+YaGdqGSj5qFl05FbojDU=;
+ b=LDO3nL6gc3fQIjlzfmNkWmBkECvMC22JC0wFFRseV9WqtRDTOQsWl2CxlPm8PaQQKZ
+ X8grrrqb4Ad4AG8BHZj2j++XUsVdjQomR0gelONj2PD/vU48Ha7z+zqHkpDJ92ghKNdj
+ WmZPKutcJz6E4zHH/2tYjzpqXXlTGSJ6kHJNm3Fqz16gKe73iqrmdeFUSTR7nHMItXcI
+ YdK2GHe0dteFZxPDcWRtnXxJkoWulD6V63k5p2l0Z92YkZ7+VWvxscQAkPy25LCU5ZtB
+ jXE85lyD256knA5sZpEVAgB4x2ZMsbbvxPOlSw74o/4jwwklCQwisHlblOjh2dwEI4sp
+ cTZQ==
+X-Gm-Message-State: AO0yUKXm6H9Ma3mavnDqVXkRlvyRFmT6/JH6q/iVZpevYY7ESVmDFoK1
+ opg50TuluzN2e3bjNNrr9sHQpg==
+X-Google-Smtp-Source: AK7set9oLS8XD1ypz1Z67f2OGqBZeXsl4zkx7sqwO6LLVhchyh511Fgt3xyDU2NbnVbVPOz6A4jNDg==
+X-Received: by 2002:a05:6830:615:b0:688:4892:e1d3 with SMTP id
+ w21-20020a056830061500b006884892e1d3mr1028276oti.8.1676381844784; 
+ Tue, 14 Feb 2023 05:37:24 -0800 (PST)
+Received: from [192.168.68.107] ([191.19.40.109])
+ by smtp.gmail.com with ESMTPSA id
+ z19-20020a056830129300b0068bbb818c64sm6412584otp.25.2023.02.14.05.37.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Feb 2023 05:37:24 -0800 (PST)
+Message-ID: <77307e37-6144-b8b3-ac6f-7ad3ae3aefa8@ventanamicro.com>
+Date: Tue, 14 Feb 2023 10:37:20 -0300
 MIME-Version: 1.0
-References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
- <20230207142535.1153722-7-marcandre.lureau@redhat.com>
- <873578id74.fsf@pond.sub.org>
-In-Reply-To: <873578id74.fsf@pond.sub.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 14 Feb 2023 17:36:32 +0400
-Message-ID: <CAJ+F1CL45o4Ro=0TGZU2yOK2nz9OfMX1jCFRKfDxZfXzRbdoRg@mail.gmail.com>
-Subject: Re: [PATCH v3 06/10] monitor: release the lock before calling close()
-To: Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>,
- Eric Blake <eblake@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>, Michael Roth <michael.roth@amd.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::131;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x131.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [Patch 13/14] target/riscv: Simplify check for EEW = 64 in
+ trans_rvv.c.inc
+Content-Language: en-US
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230214083833.44205-1-liweiwei@iscas.ac.cn>
+ <20230214083833.44205-14-liweiwei@iscas.ac.cn>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20230214083833.44205-14-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x330.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,66 +98,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi
 
-On Tue, Feb 14, 2023 at 5:34 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
->
-> marcandre.lureau@redhat.com writes:
->
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > As per comment, presumably to avoid syscall in critical section.
-> >
-> > Fixes: 0210c3b39bef08 ("monitor: Use LOCK_GUARD macros")
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >  monitor/fds.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/monitor/fds.c b/monitor/fds.c
-> > index 26b39a0ce6..03c5e97c35 100644
-> > --- a/monitor/fds.c
-> > +++ b/monitor/fds.c
-> > @@ -80,7 +80,7 @@ void qmp_getfd(const char *fdname, Error **errp)
-> >          return;
-> >      }
-> >
-> > -    QEMU_LOCK_GUARD(&cur_mon->mon_lock);
-> > +    qemu_mutex_lock(&cur_mon->mon_lock);
-> >      QLIST_FOREACH(monfd, &cur_mon->fds, next) {
-> >          if (strcmp(monfd->name, fdname) !=3D 0) {
-> >              continue;
-> > @@ -88,6 +88,7 @@ void qmp_getfd(const char *fdname, Error **errp)
-> >
-> >          tmp_fd =3D monfd->fd;
-> >          monfd->fd =3D fd;
-> > +        qemu_mutex_unlock(&cur_mon->mon_lock);
-> >          /* Make sure close() is outside critical section */
-> >          close(tmp_fd);
-> >          return;
-> > @@ -98,6 +99,7 @@ void qmp_getfd(const char *fdname, Error **errp)
-> >      monfd->fd =3D fd;
-> >
-> >      QLIST_INSERT_HEAD(&cur_mon->fds, monfd, next);
-> > +    qemu_mutex_unlock(&cur_mon->mon_lock);
-> >  }
-> >
-> >  void qmp_closefd(const char *fdname, Error **errp)
->
-> This confused me.  I think I understand now, but let's double-check.
->
-> You're reverting commit 0210c3b39bef08 for qmp_getfd() because it
-> extended the criticial section beyond the close(), invalidating the
-> comment.  Correct?
 
-Correct
+On 2/14/23 05:38, Weiwei Li wrote:
+> Only V extension support EEW = 64 in these case: Zve64* extensions
+> don't support EEW = 64 as commented
 
->
-> Did it actually break anything?
+"as commented" where? In the previous patch?
 
-Not that I know of (David admitted over IRC that this was not intended)
 
---=20
-Marc-Andr=C3=A9 Lureau
+> 
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> ---
+
+The code LGTM.
+
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+
+
+>   target/riscv/insn_trans/trans_rvv.c.inc | 12 ++++--------
+>   1 file changed, 4 insertions(+), 8 deletions(-)
+> 
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+> index 5dbdce073b..fc0d0d60e8 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -1998,8 +1998,7 @@ static bool vmulh_vv_check(DisasContext *s, arg_rmrr *a)
+>        * are not included for EEW=64 in Zve64*. (Section 18.2)
+>        */
+>       return opivv_check(s, a) &&
+> -           (!has_ext(s, RVV) &&
+> -            s->cfg_ptr->ext_zve64f ? s->sew != MO_64 : true);
+> +           (!has_ext(s, RVV) ? s->sew != MO_64 : true);
+>   }
+>   
+>   static bool vmulh_vx_check(DisasContext *s, arg_rmrr *a)
+> @@ -2012,8 +2011,7 @@ static bool vmulh_vx_check(DisasContext *s, arg_rmrr *a)
+>        * are not included for EEW=64 in Zve64*. (Section 18.2)
+>        */
+>       return opivx_check(s, a) &&
+> -           (!has_ext(s, RVV) &&
+> -            s->cfg_ptr->ext_zve64f ? s->sew != MO_64 : true);
+> +           (!has_ext(s, RVV) ? s->sew != MO_64 : true);
+>   }
+>   
+>   GEN_OPIVV_GVEC_TRANS(vmul_vv,  mul)
+> @@ -2230,8 +2228,7 @@ static bool vsmul_vv_check(DisasContext *s, arg_rmrr *a)
+>        * for EEW=64 in Zve64*. (Section 18.2)
+>        */
+>       return opivv_check(s, a) &&
+> -           (!has_ext(s, RVV) &&
+> -            s->cfg_ptr->ext_zve64f ? s->sew != MO_64 : true);
+> +           (!has_ext(s, RVV) ? s->sew != MO_64 : true);
+>   }
+>   
+>   static bool vsmul_vx_check(DisasContext *s, arg_rmrr *a)
+> @@ -2242,8 +2239,7 @@ static bool vsmul_vx_check(DisasContext *s, arg_rmrr *a)
+>        * for EEW=64 in Zve64*. (Section 18.2)
+>        */
+>       return opivx_check(s, a) &&
+> -           (!has_ext(s, RVV) &&
+> -            s->cfg_ptr->ext_zve64f ? s->sew != MO_64 : true);
+> +           (!has_ext(s, RVV) ? s->sew != MO_64 : true);
+>   }
+>   
+>   GEN_OPIVV_TRANS(vsmul_vv, vsmul_vv_check)
 
