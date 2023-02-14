@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2242696B46
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 18:20:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A310696B4C
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 18:21:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRyxj-0001wL-Ja; Tue, 14 Feb 2023 12:19:27 -0500
+	id 1pRyxm-00024P-BU; Tue, 14 Feb 2023 12:19:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=ZGUx=6K=kaod.org=clg@ozlabs.org>)
- id 1pRyxP-0001lU-C9; Tue, 14 Feb 2023 12:19:08 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76])
+ id 1pRyxW-0001oh-2k; Tue, 14 Feb 2023 12:19:15 -0500
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=ZGUx=6K=kaod.org=clg@ozlabs.org>)
- id 1pRyxN-0004sX-AP; Tue, 14 Feb 2023 12:19:07 -0500
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4PGSc65FNHz4x89;
- Wed, 15 Feb 2023 04:19:02 +1100 (AEDT)
+ id 1pRyxS-0004tF-Kx; Tue, 14 Feb 2023 12:19:12 -0500
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4PGScB0GZSz4x8B;
+ Wed, 15 Feb 2023 04:19:06 +1100 (AEDT)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4PGSc36jKtz4x8B;
- Wed, 15 Feb 2023 04:18:59 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4PGSc71jkjz4x83;
+ Wed, 15 Feb 2023 04:19:02 +1100 (AEDT)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -34,23 +34,23 @@ Cc: qemu-block@nongnu.org, Joel Stanley <joel@jms.id.au>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH 6/8] aspeed/smc: Wire CS lines at reset
-Date: Tue, 14 Feb 2023 18:18:28 +0100
-Message-Id: <20230214171830.681594-7-clg@kaod.org>
+Subject: [PATCH 7/8] aspeed: Introduce a spi_boot region under the SoC
+Date: Tue, 14 Feb 2023 18:18:29 +0100
+Message-Id: <20230214171830.681594-8-clg@kaod.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230214171830.681594-1-clg@kaod.org>
 References: <20230214171830.681594-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
  envelope-from=SRS0=ZGUx=6K=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,103 +66,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It has become difficult to define on the command line the flash
-devices of the Aspeed machines and their file backend. Currently, a
-set of default flash devices is created at machine init and drives are
-associated to the FMC and SPI controller devices in sequence :
+The default boot of the Aspeed SoCs is address 0x0. For this reason,
+the FMC flash device contents are remapped by HW on the first 256MB of
+the address space. In QEMU, this is currently done in the machine init
+with the setup of a region alias.
 
-   -drive file<file>,format=raw,if=mtd
-   -drive file<file1>,format=raw,if=mtd
-   ...
-
-The CS lines are wired in the same creation loop.
-
-On real systems, these flash devices are sometime soldered to the
-board but the models can be different or a socket is provided to
-replace the flash device. So, it is legitimate to not consider them as
-always available by default. Some machine options were provided to
-specify different models, but this has its limits and the best
-approach would be to allow the use of block devices, such as :
-
-    -blockdev node-name=fmc0,driver=file,filename=./flash.img \
-    -device mx66u51235f,bus=ssi.0,drive=fmc0 \
-
-The first step in that direction is to wire the CS lines of all
-available devices on a bus at reset time. Let's do that and check the
-maximum number of devices supported by the bus while at it. The bus
-parent can now be explicitly defined but the device order still
-depends on the command line definitions.
+Move this code to the SoC and introduce an extra container to prepare
+ground for the boot ROM region which will overlap the FMC flash
+remapping.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/arm/aspeed.c     |  4 ----
- hw/ssi/aspeed_smc.c | 24 ++++++++++++++++++++++++
- 2 files changed, 24 insertions(+), 4 deletions(-)
+ include/hw/arm/aspeed_soc.h |  3 +++
+ hw/arm/aspeed.c             | 13 +------------
+ hw/arm/aspeed_ast2600.c     | 13 +++++++++++++
+ hw/arm/aspeed_soc.c         | 14 ++++++++++++++
+ hw/arm/fby35.c              |  8 +-------
+ 5 files changed, 32 insertions(+), 19 deletions(-)
 
+diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+index bd1e03e78a..db55505d14 100644
+--- a/include/hw/arm/aspeed_soc.h
++++ b/include/hw/arm/aspeed_soc.h
+@@ -58,6 +58,8 @@ struct AspeedSoCState {
+     MemoryRegion *dram_mr;
+     MemoryRegion dram_container;
+     MemoryRegion sram;
++    MemoryRegion spi_boot_container;
++    MemoryRegion spi_boot;
+     AspeedVICState vic;
+     AspeedRtcState rtc;
+     AspeedTimerCtrlState timerctrl;
+@@ -120,6 +122,7 @@ struct AspeedSoCClass {
+ 
+ 
+ enum {
++    ASPEED_DEV_SPI_BOOT,
+     ASPEED_DEV_IOMEM,
+     ASPEED_DEV_UART1,
+     ASPEED_DEV_UART2,
 diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 7c28546d7f..21184f3ad4 100644
+index 21184f3ad4..998dc57969 100644
 --- a/hw/arm/aspeed.c
 +++ b/hw/arm/aspeed.c
-@@ -283,7 +283,6 @@ void aspeed_board_init_flashes(AspeedSMCState *s, const char *flashtype,
+@@ -384,18 +384,7 @@ static void aspeed_machine_init(MachineState *machine)
+         MemoryRegion *boot_rom = g_new(MemoryRegion, 1);
+         uint64_t size = memory_region_size(&fl->mmio);
  
-     for (i = 0; i < count; ++i) {
-         DriveInfo *dinfo = drive_get(IF_MTD, 0, unit0 + i);
--        qemu_irq cs_line;
-         DeviceState *dev;
+-        /*
+-         * create a ROM region using the default mapping window size of
+-         * the flash module. The window size is 64MB for the AST2400
+-         * SoC and 128MB for the AST2500 SoC, which is twice as big as
+-         * needed by the flash modules of the Aspeed machines.
+-         */
+-        if (ASPEED_MACHINE(machine)->mmio_exec) {
+-            memory_region_init_alias(boot_rom, NULL, "aspeed.boot_rom",
+-                                     &fl->mmio, 0, size);
+-            memory_region_add_subregion(get_system_memory(), FIRMWARE_ADDR,
+-                                        boot_rom);
+-        } else {
++        if (!ASPEED_MACHINE(machine)->mmio_exec) {
+             memory_region_init_rom(boot_rom, NULL, "aspeed.boot_rom",
+                                    size, &error_abort);
+             memory_region_add_subregion(get_system_memory(), FIRMWARE_ADDR,
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index bb2769df04..20f0b772d6 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -21,6 +21,7 @@
+ #define ASPEED_SOC_DPMCU_SIZE       0x00040000
  
-         dev = qdev_new(flashtype);
-@@ -291,9 +290,6 @@ void aspeed_board_init_flashes(AspeedSMCState *s, const char *flashtype,
-             qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo));
-         }
-         qdev_realize_and_unref(dev, BUS(s->spi), &error_fatal);
+ static const hwaddr aspeed_soc_ast2600_memmap[] = {
++    [ASPEED_DEV_SPI_BOOT]  = 0x0,
+     [ASPEED_DEV_SRAM]      = 0x10000000,
+     [ASPEED_DEV_DPMCU]     = 0x18000000,
+     /* 0x16000000     0x17FFFFFF : AHB BUS do LPC Bus bridge */
+@@ -282,6 +283,12 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+     qemu_irq irq;
+     g_autofree char *sram_name = NULL;
+ 
++    /* Default boot region (SPI memory or ROMs) */
++    memory_region_init(&s->spi_boot_container, OBJECT(s),
++                       "aspeed.spi_boot_container", 0x10000000);
++    memory_region_add_subregion(s->memory, sc->memmap[ASPEED_DEV_SPI_BOOT],
++                                &s->spi_boot_container);
++
+     /* IO space */
+     aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->iomem), "aspeed.io",
+                                   sc->memmap[ASPEED_DEV_IOMEM],
+@@ -431,6 +438,12 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->fmc), 0,
+                        aspeed_soc_get_irq(s, ASPEED_DEV_FMC));
+ 
++    /* Set up an alias on the FMC CE0 region (boot default) */
++    MemoryRegion *fmc0_mmio = &s->fmc.flashes[0].mmio;
++    memory_region_init_alias(&s->spi_boot, OBJECT(s), "aspeed.spi_boot",
++                             fmc0_mmio, 0, memory_region_size(fmc0_mmio));
++    memory_region_add_subregion(&s->spi_boot_container, 0x0, &s->spi_boot);
++
+     /* SPI */
+     for (i = 0; i < sc->spis_num; i++) {
+         object_property_set_link(OBJECT(&s->spi[i]), "dram",
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index e884d6badc..3507ea5818 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -25,6 +25,7 @@
+ #define ASPEED_SOC_IOMEM_SIZE       0x00200000
+ 
+ static const hwaddr aspeed_soc_ast2400_memmap[] = {
++    [ASPEED_DEV_SPI_BOOT]  = 0x0,
+     [ASPEED_DEV_IOMEM]  = 0x1E600000,
+     [ASPEED_DEV_FMC]    = 0x1E620000,
+     [ASPEED_DEV_SPI1]   = 0x1E630000,
+@@ -59,6 +60,7 @@ static const hwaddr aspeed_soc_ast2400_memmap[] = {
+ };
+ 
+ static const hwaddr aspeed_soc_ast2500_memmap[] = {
++    [ASPEED_DEV_SPI_BOOT]  = 0x0,
+     [ASPEED_DEV_IOMEM]  = 0x1E600000,
+     [ASPEED_DEV_FMC]    = 0x1E620000,
+     [ASPEED_DEV_SPI1]   = 0x1E630000,
+@@ -245,6 +247,12 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+     Error *err = NULL;
+     g_autofree char *sram_name = NULL;
+ 
++    /* Default boot region (SPI memory or ROMs) */
++    memory_region_init(&s->spi_boot_container, OBJECT(s),
++                       "aspeed.spi_boot_container", 0x10000000);
++    memory_region_add_subregion(s->memory, sc->memmap[ASPEED_DEV_SPI_BOOT],
++                                &s->spi_boot_container);
++
+     /* IO space */
+     aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->iomem), "aspeed.io",
+                                   sc->memmap[ASPEED_DEV_IOMEM],
+@@ -354,6 +362,12 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->fmc), 0,
+                        aspeed_soc_get_irq(s, ASPEED_DEV_FMC));
+ 
++    /* Set up an alias on the FMC CE0 region (boot default) */
++    MemoryRegion *fmc0_mmio = &s->fmc.flashes[0].mmio;
++    memory_region_init_alias(&s->spi_boot, OBJECT(s), "aspeed.spi_boot",
++                             fmc0_mmio, 0, memory_region_size(fmc0_mmio));
++    memory_region_add_subregion(&s->spi_boot_container, 0x0, &s->spi_boot);
++
+     /* SPI */
+     for (i = 0; i < sc->spis_num; i++) {
+         if (!sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), errp)) {
+diff --git a/hw/arm/fby35.c b/hw/arm/fby35.c
+index 90c04bbc33..f4600c290b 100644
+--- a/hw/arm/fby35.c
++++ b/hw/arm/fby35.c
+@@ -100,13 +100,7 @@ static void fby35_bmc_init(Fby35State *s)
+         MemoryRegion *boot_rom = g_new(MemoryRegion, 1);
+         uint64_t size = memory_region_size(&fl->mmio);
+ 
+-        if (s->mmio_exec) {
+-            memory_region_init_alias(boot_rom, NULL, "aspeed.boot_rom",
+-                                     &fl->mmio, 0, size);
+-            memory_region_add_subregion(&s->bmc_memory, FBY35_BMC_FIRMWARE_ADDR,
+-                                        boot_rom);
+-        } else {
 -
--        cs_line = qdev_get_gpio_in_named(dev, SSI_GPIO_CS, 0);
--        qdev_connect_gpio_out_named(DEVICE(s), "cs", i, cs_line);
-     }
- }
- 
-diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-index 7281169322..412cf125d9 100644
---- a/hw/ssi/aspeed_smc.c
-+++ b/hw/ssi/aspeed_smc.c
-@@ -680,6 +680,28 @@ static void aspeed_smc_flash_update_ctrl(AspeedSMCFlash *fl, uint32_t value)
-     aspeed_smc_flash_do_select(fl, unselect);
- }
- 
-+/*
-+ * TODO: assumption is made on the order of creation of devices, the
-+ * ones on the command line or the default devices created at machine
-+ * init.
-+ */
-+static void aspeed_smc_wire_cs_lines(AspeedSMCState *s, int cs_max)
-+{
-+    BusState *b = BUS(s->spi);
-+    BusChild *kid;
-+
-+    QTAILQ_FOREACH(kid, &b->children, sibling) {
-+        qemu_irq cs_line = qdev_get_gpio_in_named(kid->child, SSI_GPIO_CS, 0);
-+        if (kid->index < cs_max) {
-+            qdev_connect_gpio_out_named(DEVICE(s), "cs", kid->index, cs_line);
-+        } else {
-+            warn_report("Too many devices for SSI bus %s",
-+                        object_class_get_name(object_get_class(OBJECT(s))));
-+            return;
-+        }
-+    }
-+}
-+
- static void aspeed_smc_reset(DeviceState *d)
- {
-     AspeedSMCState *s = ASPEED_SMC(d);
-@@ -692,6 +714,8 @@ static void aspeed_smc_reset(DeviceState *d)
-         memset(s->regs, 0, sizeof s->regs);
-     }
- 
-+    aspeed_smc_wire_cs_lines(s, asc->cs_num_max);
-+
-     /* Unselect all peripherals */
-     for (i = 0; i < asc->cs_num_max; ++i) {
-         s->regs[s->r_ctrl0 + i] |= CTRL_CE_STOP_ACTIVE;
++        if (!s->mmio_exec) {
+             memory_region_init_rom(boot_rom, NULL, "aspeed.boot_rom",
+                                    size, &error_abort);
+             memory_region_add_subregion(&s->bmc_memory, FBY35_BMC_FIRMWARE_ADDR,
 -- 
 2.39.1
 
