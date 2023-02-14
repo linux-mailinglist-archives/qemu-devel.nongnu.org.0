@@ -2,79 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1583E69697B
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 17:29:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C46636969B4
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 17:33:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRyAN-0005YN-VL; Tue, 14 Feb 2023 11:28:27 -0500
+	id 1pRyD1-0006ZG-I1; Tue, 14 Feb 2023 11:31:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRyAL-0005Y9-EC
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:28:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1pRyCe-0006N5-7p; Tue, 14 Feb 2023 11:30:58 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRyAJ-0001Br-QV
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:28:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676392102;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=S0ZVXaRCBYB7pBEgKxVGqqouHbOuzBVGJU6Y0FtMXK0=;
- b=Jl5WOLvMZQ92cBdieVJR5gpGJ6KAokFq0P509k6rTVIvP/JlF86gA1+WkBBa/4PmK/9BI/
- uiIUG8GWN+MEPzdokSBo6uI88nVN1ykJWQt+W3W0AiLcVxREBUE/Onw9QAFidGC4xufDUm
- H2V/NvVqeAZ4B62E7p9MQkzEe3ZRbHc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-631-JinGDt5CPSysq15PrWJxKg-1; Tue, 14 Feb 2023 11:28:19 -0500
-X-MC-Unique: JinGDt5CPSysq15PrWJxKg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 74EDB8027FD;
- Tue, 14 Feb 2023 16:28:18 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F1F5400D927;
- Tue, 14 Feb 2023 16:28:18 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 257DE21E6A1F; Tue, 14 Feb 2023 17:28:17 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org,  eblake@redhat.com,  eduardo@habkost.net,
- pbonzini@redhat.com,  marcel.apfelbaum@gmail.com,  mst@redhat.com,
- philmd@linaro.org,  den-plotnikov@yandex-team.ru,
- antonkuchin@yandex-team.ru,  "reviewer:Incompatible changes"
- <libvir-list@redhat.com>
-Subject: Re: [PATCH v4 14/16] qapi: deprecate "device" field of DEVICE_* events
-References: <20230213140103.1518173-1-vsementsov@yandex-team.ru>
- <20230213140103.1518173-15-vsementsov@yandex-team.ru>
- <Y+pFe4bRCqbJJbp0@redhat.com> <87bklwoce9.fsf@pond.sub.org>
- <Y+ts1vBvI+IEH//K@redhat.com> <87fsb8jw7r.fsf@pond.sub.org>
- <Y+uTz2QfWGo2HUZ1@redhat.com>
-Date: Tue, 14 Feb 2023 17:28:17 +0100
-In-Reply-To: <Y+uTz2QfWGo2HUZ1@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Tue, 14 Feb 2023 13:59:43 +0000")
-Message-ID: <87wn4kfbz2.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1pRyCc-0001xi-EN; Tue, 14 Feb 2023 11:30:47 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 31EFERbU008628; Tue, 14 Feb 2023 16:30:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=rAVHmuADHZAd2WG2wtZGbBWpWp4mrqf5KDJSeF3z7h4=;
+ b=GXg07sHMnupWJlSwxdtOOE8lFsAfKR8WCVHjtD5rVUeRmOYbvg9L0TKNtchbTN9iNAZZ
+ ZmTj/o26gm3a51/kqpZmLBLhG5YYrTSbqON1NXnXhQMQFKIdOrlcIqdKtWbJ3ujtsubX
+ Lt3yivyOJQMLgzZ8m6yL4hZbM+3ExJCcb2yohX4Khz1KkyRgmgpIg3Bx90iubnnC3kEN
+ iIO8Cv3SD5In4eTHjPA8CfsluGV3PJbcE+hsZFxU51sLpGTpJJfZkS3ROvt5OIGmYNdM
+ smm8x4NLju4uN3z8sdXWupfAqqb58nVLIvuQ7hXnuFYBmXiM22OzhQ+VuIPW/VAOO0Xz Dw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nrb2ne975-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Feb 2023 16:30:42 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31EEqeM0027777;
+ Tue, 14 Feb 2023 16:30:41 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nrb2ne95k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Feb 2023 16:30:41 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31E9Esfs012366;
+ Tue, 14 Feb 2023 16:30:40 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+ by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3np2n6k53b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Feb 2023 16:30:39 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 31EGUanx44106224
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 14 Feb 2023 16:30:36 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3DCDF20049;
+ Tue, 14 Feb 2023 16:30:36 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E3B1020043;
+ Tue, 14 Feb 2023 16:30:35 +0000 (GMT)
+Received: from p-imbrenda.boeblingen.de.ibm.com (unknown [9.152.224.56])
+ by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Tue, 14 Feb 2023 16:30:35 +0000 (GMT)
+From: Claudio Imbrenda <imbrenda@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org, david@redhat.com, thuth@redhat.com,
+ borntraeger@de.ibm.com, frankja@linux.ibm.com, pasic@linux.ibm.com,
+ nrb@linux.ibm.com, nsg@linux.ibm.com, seiden@linux.ibm.com
+Subject: [PATCH v3 0/2] s390x/pv: Add support for asynchronous teardown for
+ reboot
+Date: Tue, 14 Feb 2023 17:30:33 +0100
+Message-Id: <20230214163035.44104-1-imbrenda@linux.ibm.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 5ZgAOivWe58YHVri_Pq2nrnge5RWbIGQ
+X-Proofpoint-ORIG-GUID: OPrzSy2fc-clqemrO_QCgUgvoCLYnJsM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-14_11,2023-02-14_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0
+ priorityscore=1501 spamscore=0 suspectscore=0 mlxscore=0 malwarescore=0
+ adultscore=0 clxscore=1011 lowpriorityscore=0 impostorscore=0
+ mlxlogscore=780 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2302140137
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,67 +110,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+The first patch is just a minimal header update to compile the second
+patch; it can be safely discarded once the Linux headers are updated to
+6.2.
 
-> On Tue, Feb 14, 2023 at 12:57:28PM +0100, Markus Armbruster wrote:
->> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
->>=20
->> > On Tue, Feb 14, 2023 at 09:54:22AM +0100, Markus Armbruster wrote:
->> >> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
->> >>=20
->> >> > On Mon, Feb 13, 2023 at 05:01:01PM +0300, Vladimir Sementsov-Ogievs=
-kiy wrote:
->> >> >> The device field is redundant, because QOM path always include dev=
-ice
->> >> >> ID when this ID exist.
->> >> >
->> >> > The flipside to that view is that applications configuring QEMU are
->> >> > specifying the device ID for -device (CLI) / device_add (QMP) and
->> >> > not the QOM path. IOW, the device ID is the more interesting field
->> >> > than QOM path, so feels like the wrong one to be dropping.
->> >>=20
->> >> QOM path is a reliable way to identify a device.  Device ID isn't:
->> >> devices need not have one.  Therefore, dropping the QOM path would be
->> >> wrong.
->> >>=20
->> >> > Is there any real benefit to dropping this ?=20
->> >>=20
->> >> The device ID is a trap for the unwary: relying on it is fine until y=
-ou
->> >> run into a scenario where you have to deal with devices lacking IDs.
->> >
->> > When a mgmt app is configuring QEMU though, it does it exclusively
->> > with device ID values. If I add a device "-device foo,id=3Ddev0",
->> > and then later hot-unplug it "device_del dev0", it is pretty
->> > reasonable to then expect that the DEVICE_DELETED even will then
->> > include the ID value the app has been using elsewhere.
->>=20
->> The management application would be well advised to use QOM paths with
->> device_del, because only that works even for devices created by default
->> (which have no ID), and devices the user created behind the management
->> application's back.
->
-> If an application is using -nodefaults, then the only devices which
-> exist will be those which are hardwired into the machine, and they
-> can't be used with device_del anyway as they're hardwired.
+The second patch adds support for asynchronous teardown of protected
+guests when rebooting. The existing guest is prepared for asynchronous
+teardown, the rebooted guest will be able to continue immediately, while a
+background thread actually performs the necessary cleanup.
 
-Your trust in the sanity of our board code is touching ;)
+v2->v3:
+* improve description of header updates
+* allocate the QemuThread on the stack to avoid leak, and explain why
 
-> So the only reason is to cope with devices created secretly by
-> the users, and that's a hairy enough problem that most apps won't
-> even try to cope with it.
+v1->v2:
+* remove useless snprintf and pass the name of the thread directly
+* make the name of the thread more understandable
 
-Fair enough.
+Claudio Imbrenda (2):
+  Linux header update
+  s390x/pv: Add support for asynchronous teardown for reboot
 
-> At least in terms of the device hotplug area, it feels like we're
-> adding an extra hurdle for apps to solve a problem that they don't
-> actually face in practice.
->
-> QOM paths are needed in some other QMP commands though, where
-> there is definite need to refer to devices that are hardwired,
-> most obviously qom-set/qom-get.
+ hw/s390x/pv.c              | 28 ++++++++++++++++++++++++++++
+ hw/s390x/s390-virtio-ccw.c |  5 ++++-
+ include/hw/s390x/pv.h      |  2 ++
+ linux-headers/linux/kvm.h  |  3 +++
+ 4 files changed, 37 insertions(+), 1 deletion(-)
 
-Also query-cpus-fast, query-hotpluggable-cpus, and possibly more I
-missed.
+-- 
+2.39.1
 
 
