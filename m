@@ -2,83 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05240696BB7
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 18:32:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F39F6696BE6
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 18:41:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRzA7-0000Dm-2v; Tue, 14 Feb 2023 12:32:15 -0500
+	id 1pRzHc-00039q-Op; Tue, 14 Feb 2023 12:40:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pRz9k-0000Ca-Ne
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 12:31:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pRz9e-0000jb-Fe
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 12:31:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676395901;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Zsw8I1ux3Lf33Qez1PObiTdnO+8RuD8pXXDqjj68YZA=;
- b=AWesHxi0UTOjow8uh+6fTgDJyoRk27KKeSC3Oip/2AOyk+0mNivSUxIcSQRC/4xCY5lP7w
- eLZIoTZnYJvv12ah3CNZK58vfgwtTlSDu46hJOCMAPMuNIUjO7uhjVNeVY34RK3DVtDCBw
- o9/3BOnA4lBfBx5U36fRpAmwdCZdIMU=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-118-7lUKkXynPsKW94ZsLcun9Q-1; Tue, 14 Feb 2023 12:31:39 -0500
-X-MC-Unique: 7lUKkXynPsKW94ZsLcun9Q-1
-Received: by mail-ej1-f70.google.com with SMTP id
- lf9-20020a170907174900b0087861282038so10319366ejc.6
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 09:31:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pRzHb-00039J-AI
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 12:39:59 -0500
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pRzHZ-0005va-Db
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 12:39:59 -0500
+Received: by mail-ot1-x336.google.com with SMTP id
+ p24-20020a056830131800b0068d4b30536aso4870250otq.9
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 09:39:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=tlrTr5ZHgLSy10J7wvgufNXoH3mapoFZSUZcRmXccwY=;
+ b=He3YfPX359eZvaz7MBymdPuPSTJmjY1a4o6TbI4oC52DJ876u5JdcwwTk8L+f04SJS
+ sKoTIKQhA+qDzpuTwtWz+sgVd6VknnsjaO6rA1e3zFfhv10L5B04V8veiYH9yDU6ds/a
+ ibAEjv3aoUbSLmJ6xxHlAvHUVMd8xl/F4C7jiql1KiPAxPitNziiloe5xWVUsFwWvMps
+ qWa5fqad3zPDi7Rgv5rGgG0kAejDgAV5Y59UpZP3f/pyN2gCQKAsrEfpirD2amZCSF6z
+ THzywKl2lzN0TllTKBlCCdIEaqYUgovfCYrBz2hXXBQ+wnv7jtDteNt57T691lwZuril
+ UFXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Zsw8I1ux3Lf33Qez1PObiTdnO+8RuD8pXXDqjj68YZA=;
- b=aBCwXoal/ftQzTRKw3JpQTkyYI3ua2Y/mgXLAcyrSOYtG7yt//+CVZfJhM6m67mkB5
- Aw5X8V94eF8iTLUl8IVg6zEdXgZ2TbuhJ4XTwuGH6joxB3A5PAV57l8V6rXs9bAiYJ7d
- Sbr45FwyNlpCsTUMop40jZerUGsjvrJ7Sitdnf4XsjEn3V+zRcNd8d4fiuY8vcBvsmt0
- 6gCN6HB1yIgNDMem96hRju/ZHjDvsUQEEyl45kRvfrhvnOTgMlpQgI3xZ3DjSWX+rEd1
- 0BRbj2gB7+/ORvIM1aFt5FaWnYVkNx7dt0tFh84TAvE9Wpmfg33/t0dN9MMt5YCOQcvP
- ujZw==
-X-Gm-Message-State: AO0yUKWgku7TzkONCBFi8xw620gjPRk4MY249IvXNdV8hLapaG4CQh9D
- 5+Oc61EH83gt+FakPidN9yGVYQuUWkyaz6wfeUA3DnaO97G2hyQMfFB1w3KetTGN8epZUsG7I8f
- kNUAuXZPyGm3Obk8kuIwZHgnOID/iYmZbmzJ5+YMie3V5bvbLZSn8x9fghIP+DDsrkgydeaR8
-X-Received: by 2002:a17:907:7245:b0:8a5:8620:575 with SMTP id
- ds5-20020a170907724500b008a586200575mr4933761ejc.3.1676395898486; 
- Tue, 14 Feb 2023 09:31:38 -0800 (PST)
-X-Google-Smtp-Source: AK7set+Vr1hb0F38eTMsgd+v+OFoBK/WFn9oeFnPaoUoFacVdhYw9JKq/gTfNwUZ+HZE6QK4QxL0qQ==
-X-Received: by 2002:a17:907:7245:b0:8a5:8620:575 with SMTP id
- ds5-20020a170907724500b008a586200575mr4933722ejc.3.1676395898024; 
- Tue, 14 Feb 2023 09:31:38 -0800 (PST)
-Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tlrTr5ZHgLSy10J7wvgufNXoH3mapoFZSUZcRmXccwY=;
+ b=GmawH0Bmigzkd/1UR0TBS081PMuHTFDPIZ45vz8oINFtkPtVOzi7eS4FuosKokzqpL
+ YRzG9N3DVDnyANNfPFphOBhl5N7plhWTl6iyuAI2Snq25QJixksLHE6Q5dJUb2Z/X1nd
+ 1l8E3ZX0PBQNgkhwF3XQJX8KabUuM/RH9xzU662+DhIwpTLsT8SEAMFgNUD7tITN7ZO3
+ q2ovcdA36WSxoSAPUQuB62vNT+0GhMmDImk1qRuT854k5384L4lwe3eTPTRwNBHvPtaZ
+ uXt6TeFXzLjhgArB5BwvnuVz9+9Q7lqHphzTST8kFDNbtXsqCOpNmL9MG5ovhcTyu2zH
+ XD5Q==
+X-Gm-Message-State: AO0yUKVgLoUzy7Ay3PW5uKkreP3Iha5yOE5tlK6Rc0SbBH2iyOfc+1dF
+ JXAvhQ3SlvqRUXFFr5gt9n7z0A==
+X-Google-Smtp-Source: AK7set8plF/6BaFprQLmIYaWi7yO4EPeRITE319/RTx9ts6S52K5Q3DTDE3RL+hF6CHW8BEDnX+eew==
+X-Received: by 2002:a9d:6409:0:b0:68b:cada:6817 with SMTP id
+ h9-20020a9d6409000000b0068bcada6817mr1333813otl.12.1676396395865; 
+ Tue, 14 Feb 2023 09:39:55 -0800 (PST)
+Received: from [192.168.68.107] ([191.19.40.109])
  by smtp.gmail.com with ESMTPSA id
- z15-20020a1709064e0f00b008af424d4d75sm8091097eju.194.2023.02.14.09.31.37
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Feb 2023 09:31:37 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [qemu-web PATCH] fix dead link to template
-Date: Tue, 14 Feb 2023 18:31:35 +0100
-Message-Id: <20230214173135.72551-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.39.1
+ m2-20020a9d7ac2000000b0068bcb44e7f5sm6514386otn.68.2023.02.14.09.39.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Feb 2023 09:39:55 -0800 (PST)
+Message-ID: <6a4ce54c-73f7-1115-78b3-e8c55f8051b0@ventanamicro.com>
+Date: Tue, 14 Feb 2023 14:39:52 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 02/11] target/riscv: allow users to actually write the
+ MISA CSR
+Content-Language: en-US
+To: weiwei <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com
+References: <20230210133635.589647-1-dbarboza@ventanamicro.com>
+ <20230210133635.589647-3-dbarboza@ventanamicro.com>
+ <2a0d5e1e-f2ff-6502-0f88-f6b3005bcaf3@iscas.ac.cn>
+ <0d853c1b-7554-1813-693f-e31a62ef9298@ventanamicro.com>
+ <4108972e-7598-af6a-a9cd-f42d4f3477fc@iscas.ac.cn>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <4108972e-7598-af6a-a9cd-f42d4f3477fc@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x336.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,31 +99,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The link to the Linear theme that provided the basis for the QEMU web site
-is dead.  Replace it with something that at least works.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- LICENSE.md | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/LICENSE.md b/LICENSE.md
-index 218e3c7..330ac2a 100644
---- a/LICENSE.md
-+++ b/LICENSE.md
-@@ -11,8 +11,8 @@ a choice of two licenses:
- 
- ## Site design
- 
--The design is derived from the [Linear](https://templated.co/linear)
--template from [TEMPLATED](http://templated.co). It is made available
--under:
-+The design is derived from the
-+[Linear](https://jekyll-demos.github.io/Linear-Jekyll-Theme/) template
-+by TEMPLATED. It is made available under:
- 
-  * [Creative Commons Attribution 3.0 Unported](/license-cc-by-3.0)
--- 
-2.39.1
+On 2/14/23 12:12, weiwei wrote:
+> 
+> On 2023/2/11 19:50, Daniel Henrique Barboza wrote:
+>>
+>>
+>> On 2/10/23 23:43, weiwei wrote:
+>>>
+>>> On 2023/2/10 21:36, Daniel Henrique Barboza wrote:
+>>>> At this moment, and apparently since ever, we have no way of enabling
+>>>> RISCV_FEATURE_MISA. This means that all the code from write_misa(), all
+>>>> the nuts and bolts that handles how to properly write this CSR, has
+>>>> always been a no-op as well because write_misa() will always exit
+>>>> earlier.
+>>>>
+>>>> This seems to be benign in the majority of cases. Booting an Ubuntu
+>>>> 'virt' guest and logging all the calls to 'write_misa' shows that no
+>>>> writes to MISA CSR was attempted. Writing MISA, i.e. enabling/disabling
+>>>> RISC-V extensions after the machine is powered on, seems to be a niche
+>>>> use.
+>>>>
+>>>> There is a good chance that the code in write_misa() hasn't been
+>>>> properly tested. Allowing users to write MISA can open the floodgates of
+>>>> new breeds of bugs. We could instead remove most (if not all) of
+>>>> write_misa() since it's never used. Well, as a hardware emulator,
+>>>> dealing with crashes because a register write went wrong is what we're
+>>>> here for.
+>>>>
+>>>> Create a 'misa-w' CPU property to allow users to choose whether writes
+>>>> to MISA should be allowed. The default is set to 'false' for all RISC-V
+>>>> machines to keep compatibility with what we´ve been doing so far.
+>>>>
+>>>> Read cpu->cfg.misa_w directly in write_misa(), instead of executing
+>>>> riscv_set_feature(RISCV_FEATURE_MISA) in riscv_cpu_realize(), that would
+>>>> simply reflect the cpu->cfg.misa_w bool value in 'env->features' and
+>>>> require a riscv_feature() call to read it back.
+>>>>
+>>>> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+>>>> ---
+>>>>   target/riscv/cpu.c | 1 +
+>>>>   target/riscv/cpu.h | 1 +
+>>>>   target/riscv/csr.c | 4 +++-
+>>>>   3 files changed, 5 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>>>> index 93b52b826c..69fb9e123f 100644
+>>>> --- a/target/riscv/cpu.c
+>>>> +++ b/target/riscv/cpu.c
+>>>> @@ -1197,6 +1197,7 @@ static void register_cpu_props(DeviceState *dev)
+>>>>   static Property riscv_cpu_properties[] = {
+>>>>       DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, true),
+>>>> +    DEFINE_PROP_BOOL("misa-w", RISCVCPU, cfg.misa_w, false),
+>>>>       DEFINE_PROP_UINT32("mvendorid", RISCVCPU, cfg.mvendorid, 0),
+>>>>       DEFINE_PROP_UINT64("marchid", RISCVCPU, cfg.marchid, RISCV_CPU_MARCHID),
+>>>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>>>> index 7128438d8e..103963b386 100644
+>>>> --- a/target/riscv/cpu.h
+>>>> +++ b/target/riscv/cpu.h
+>>>> @@ -498,6 +498,7 @@ struct RISCVCPUConfig {
+>>>>       bool pmp;
+>>>>       bool epmp;
+>>>>       bool debug;
+>>>> +    bool misa_w;
+>>>>       bool short_isa_string;
+>>>>   };
+>>>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>>>> index e149b453da..4f9cc501b2 100644
+>>>> --- a/target/riscv/csr.c
+>>>> +++ b/target/riscv/csr.c
+>>>> @@ -1329,7 +1329,9 @@ static RISCVException read_misa(CPURISCVState *env, int csrno,
+>>>>   static RISCVException write_misa(CPURISCVState *env, int csrno,
+>>>>                                    target_ulong val)
+>>>>   {
+>>>> -    if (!riscv_feature(env, RISCV_FEATURE_MISA)) {
+>>>> +    RISCVCPU *cpu = env_archcpu(env);
+>>>> +
+>>>> +    if (!cpu->cfg.misa_w) {
+>>>
+>>> It's Ok to get it directly from cfg. However, personally, I prefer to keep the non-isa features in a separate list.
+>>
+>> I don't mind a separated non-isa list. cpu->cfg has everything contained in it
+>> though, ISA and non-ISA (e.g. vendor extensions that weren't ratified yet), and
+>> the current RISCV_FEATURES_* list is just a duplicate of it that we need to
+>> update it during riscv_cpu_realize().
+>>
+>> In my opinion we can spare the extra effort of keeping a separated, up-to-date
+>> non-ISA extension/features list, by just reading everything from cfg.
+>>
+>>
+>> Thanks,
+>>
+>>
+>> Daniel
+> 
+> OK. It's  acceptable to me.
+> 
+> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> 
+> By the way, the riscv_cpu_cfg() in patch 4 can be used here.
 
+Good point. I'll move patch 4 up so I can use that function here.
+
+
+
+Daniel
+
+> 
+> Regards,
+> 
+> Weiwei Li
+> 
+>>
+>>>
+>>> Regards,
+>>>
+>>> Weiwei Li
+>>>
+>>>>           /* drop write to misa */
+>>>>           return RISCV_EXCP_NONE;
+>>>>       }
+>>>
+> 
 
