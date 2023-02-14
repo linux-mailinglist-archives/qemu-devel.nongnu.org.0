@@ -2,79 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62DD2696D45
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 19:47:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3B85696D4F
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 19:50:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pS0Kb-0007xb-J6; Tue, 14 Feb 2023 13:47:09 -0500
+	id 1pS0NF-0000M2-QI; Tue, 14 Feb 2023 13:49:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pS0KV-0007xM-Kh
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 13:47:03 -0500
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pS0NA-0000Ik-Go
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 13:49:49 -0500
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pS0KT-0000M5-OO
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 13:47:03 -0500
-Received: by mail-yb1-xb2e.google.com with SMTP id 81so8770330ybp.5
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 10:47:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8kQ3FrJMaHnkFKzZwd1xIg5PfKaUDqwH/TVgmEGhSUw=;
- b=Bvgub5mPyNAnBHcGiUlNrM1s3GGC007u5B55po9ir+aZzM7S36BCUq6cCTROE0ORko
- 0ZTEPYzK7QE/tIWq+dhWFVbjVPwoQhZIw/XLBoZUdU6Ey+WkQRUZp4FPRRsFVIb3pz1e
- o3h0YtWT98IZmyAvDBLV/QROvWs60K9p/I0yDPFbi2Tih5coLPGpq9oxU9IAp5Ihp/im
- 3zRrUfxsYLE5sy8pkKOsolTGyTdiDJU9PDzZahVnz/MvgFeu3qgXkENf5nLlbipUnmjk
- Zjy6RH7GQqKNC/igrf+TXeWoyx0mkiYRwsowoto8wqHJdFD1Pv5nJ/Rel0HNCd0vsnbQ
- FEZw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pS0N8-0000ek-S2
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 13:49:48 -0500
+Received: by mail-pl1-x632.google.com with SMTP id i18so9532811pli.3
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 10:49:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=vfobwdTC01rmAh3WJS3xjsj2MCOkriF6RXlNNYyWYnk=;
+ b=XdXA3m+ZXd0ijTvmcdP5xYZNyxHT1TXLb/2U2Nvc/1KJKZOvMC8K5pb6ZnEpl2ZUAF
+ KaEzDDeiACzjlrKAsURGlB8w3dG8qyKUgNE/1hU2pPEkt/DywAAoODj/LptykaFQexE9
+ 9cwRLKBPCKcF/LhEEKHWol15MUk8ajTFGD/Xcq+cvx15V7RuUNMiBhhlDK1Q79mLfjDR
+ Mv6l0zPEkjpDtWrH4fKuBcMFLV9U5yMC40EWPeqXSb+w9Xl72khPWioKhfpzkpQdqV8x
+ tf084/N5msZK9JgJIIO/xA+mjsSJuYnpsB9BCy9Fj1vdj0b+2JV19OFnLToH69knBNuc
+ MTaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8kQ3FrJMaHnkFKzZwd1xIg5PfKaUDqwH/TVgmEGhSUw=;
- b=xgHbL5P3RobOjUowe5//ti9NjVIhsoFUrNQMxyUPVMSfgGS2nTHeHtl07yc9jZO5Js
- wvC6d/LDFr2vRHYEnrClZADKt0TtliAoAv3QPaEMXA38xAia2dkhqNPL5dHZkVMKkTrq
- TxMkRthNaltOJQObT1ov/UgRGMfWrVBYqvphXuATqeaGJksFkttArzR7kLKxyc68OPjM
- mnkFBCC83a52EA2ndqDQSscUbGU1A2Mqw5848bDXyBfgTO8uaVUnM8ztq6Pc/fw3Do6+
- MEFwD9iDSJDJBo0FS9evSSXvnbrZlBPB4ZzF/XCoWVrwAN0hmTcMN6FWELbX1CR9z7AE
- zO+Q==
-X-Gm-Message-State: AO0yUKVTjBG6N4zBc3DQlWlgBlPTS0a3gv8jA1HZ2G63QAb6rtBGkTgm
- GqD7ShSxD64N0X3ddi11wl8J2ZL+J70HKraAibM=
-X-Google-Smtp-Source: AK7set+EEvMkLTnonk6N1K94RN06v+rFH7CUFH9TTGCjDOkkOEZddhfVgu2R9h2gkr8aKXPKpORmdkbZfnbYy1V7qT4=
-X-Received: by 2002:a25:e907:0:b0:80b:b818:e841 with SMTP id
- n7-20020a25e907000000b0080bb818e841mr381299ybd.94.1676400420483; Tue, 14 Feb
- 2023 10:47:00 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vfobwdTC01rmAh3WJS3xjsj2MCOkriF6RXlNNYyWYnk=;
+ b=6VMrHy2RWQIu+/QHB6lDN4hQS+XiT6WGb1F98mJXRCKKefNCTvso7Q6m27gNzVTY6x
+ WSSe8Kk15jB/BMCi/Wk5QIX1BsfJ0a6Lm8s8ejtlmdLpUXVE4+jMhMFWUd22OLmV+NJY
+ An71r6Z77Hu0yj7vRLB7JmKkmtOpHLn48kjpvdIjseB6uaBWgVZsleWJTVOXLmZm58Bt
+ +Dwd9v2t0WB3ByuuiND2dWe778f//ee9fc2xfsMKP9RuEvXTur0uB1DXkA493GDR3BQY
+ c9AR4GDBKn/2NPSmrCg6WYJYI9dFwV1Qxp5xCCQgf4b7KUFdgdi3W0+kck5qowX6lY2m
+ AHew==
+X-Gm-Message-State: AO0yUKXXS5EsW1aQSkfyTkdq5WN7xeo1MDa2VIMylY1oRt4rblFxd2Gp
+ mMAJNMW38zO0DmIYt5Yp8UePPA==
+X-Google-Smtp-Source: AK7set9TemmtWNLUg+NS8DLZ2ApfPq0BrGljYNldGwIjPTL4EMVTcfHxN5kFeeUTYwJqq4bCZYd+Lg==
+X-Received: by 2002:a17:90b:4a88:b0:233:fe64:a13f with SMTP id
+ lp8-20020a17090b4a8800b00233fe64a13fmr3625891pjb.7.1676400585182; 
+ Tue, 14 Feb 2023 10:49:45 -0800 (PST)
+Received: from [192.168.192.227] (rrcs-74-87-59-234.west.biz.rr.com.
+ [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
+ s93-20020a17090a69e600b002339491ead6sm8096682pjj.5.2023.02.14.10.49.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Feb 2023 10:49:44 -0800 (PST)
+Message-ID: <be88dc7c-750f-f4a3-c350-d780e36337ae@linaro.org>
+Date: Tue, 14 Feb 2023 08:49:40 -1000
 MIME-Version: 1.0
-References: <20230205042951.3570008-1-alxndr@bu.edu> <Y+uq234pKMdKpPyT@fedora>
- <f5f42e9a-e0eb-341a-32ff-4d1ebd8830b7@linaro.org>
- <323ad0aa-e38f-bcc1-8c6f-0732c1cd0fc0@redhat.com>
-In-Reply-To: <323ad0aa-e38f-bcc1-8c6f-0732c1cd0fc0@redhat.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 14 Feb 2023 13:46:48 -0500
-Message-ID: <CAJSP0QWeK-EKt_LhWE4i28zDxh78qrvqtFtSD0XQmy89+JxxgQ@mail.gmail.com>
-Subject: Re: [PATCH 00/10] Retire Fork-Based Fuzzing
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- qemu-devel@nongnu.org, 
- Bandan Das <bsd@redhat.com>, Darren Kenny <darren.kenny@oracle.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2e.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URI_DOTEDU=1.999 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 6/7] hw/isa: Assert isa_register_portio_list() gets
+ non-NULL ISA device
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: BALATON Zoltan <balaton@eik.bme.hu>, Paolo Bonzini <pbonzini@redhat.com>, 
+ qemu-block@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>
+References: <20230208000743.79415-1-philmd@linaro.org>
+ <20230208000743.79415-7-philmd@linaro.org>
+ <8bcc1035-c9fc-762a-7a32-6b0344539345@linaro.org>
+ <f088930b-ad9d-354d-5053-f319272140a1@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <f088930b-ad9d-354d-5053-f319272140a1@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,145 +100,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 14 Feb 2023 at 12:59, Laurent Vivier <lvivier@redhat.com> wrote:
->
-> On 2/14/23 17:08, Philippe Mathieu-Daud=C3=A9 wrote:
-> > On 14/2/23 16:38, Stefan Hajnoczi wrote:
-> >> On Sat, Feb 04, 2023 at 11:29:41PM -0500, Alexander Bulekov wrote:
-> >>> Hello,
-> >>> This series removes fork-based fuzzing.
-> >>> How does fork-based fuzzing work?
-> >>>   * A single parent process initializes QEMU
-> >>>   * We identify the devices we wish to fuzz (fuzzer-dependent)
-> >>>   * Use QTest to PCI enumerate the devices
-> >>>   * After that we start a fork-server which forks the process and exe=
-cutes
-> >>>     fuzzer inputs inside the disposable children.
-> >>>
-> >>> In a normal fuzzing process, everything happens in a single process.
-> >>>
-> >>> Pros of fork-based fuzzing:
-> >>>   * We only need to do common configuration once (e.g. PCI enumeratio=
-n).
-> >>>   * Fork provides a strong guarantee that fuzzer inputs will not inte=
-rfere with
-> >>>     each-other
-> >>>   * The fuzzing process can continue even after a child-process crash=
-es
-> >>>   * We can apply our-own timers to child-processes to exit slow input=
-s, early
-> >>>
-> >>> Cons of fork-based fuzzing:
-> >>>   * Fork-based fuzzing is not supported by libfuzzer. We had to build=
- our own
-> >>>     fork-server and rely on tricks using linker-scripts and shared-me=
-mory to
-> >>>     support fuzzing. ( https://physics.bu.edu/~alxndr/libfuzzer-forks=
-erver/ )
-> >>>   * Fork-based fuzzing is currently the main blocker preventing us fr=
-om enabling
-> >>>     other fuzzers such as AFL++ on OSS-Fuzz
-> >>>   * Fork-based fuzzing may be a reason why coverage-builds are failin=
-g on
-> >>>     OSS-Fuzz. Coverage is an important fuzzing metric which would all=
-ow us to
-> >>>     find parts of the code that are not well-covered.
-> >>>   * Fork-based fuzzing has high overhead. fork() is an expensive syst=
-em-call,
-> >>>     especially for processes running ASAN (with large/complex) VMA la=
-youts.
-> >>>   * Fork prevents us from effectively fuzzing devices that rely on
-> >>>     threads (e.g. qxl).
-> >>>
-> >>> These patches remove fork-based fuzzing and replace it with reboot-ba=
-sed
-> >>> fuzzing for most cases. Misc notes about this change:
-> >>>   * libfuzzer appears to be no longer in active development. As such,=
- the
-> >>>     current implementation of fork-based fuzzing (while having some n=
-ice
-> >>>     advantages) is likely to hold us back in the future. If these cha=
-nges
-> >>>     are approved and appear to run successfully on OSS-Fuzz, we shoul=
-d be
-> >>>     able to easily experiment with other fuzzing engines (AFL++).
-> >>>   * Some device do not completely reset their state. This can lead to
-> >>>     non-reproducible crashes. However, in my local tests, most crashe=
-s
-> >>>     were reproducible. OSS-Fuzz shouldn't send us reports unless it c=
-an
-> >>>     consistently reproduce a crash.
-> >>>   * In theory, the corpus-format should not change, so the existing
-> >>>     corpus-inputs on OSS-Fuzz will transfer to the new reset()-able
-> >>>     fuzzers.
-> >>>   * Each fuzzing process will now exit after a single crash is found.=
- To
-> >>>     continue the fuzzing process, use libfuzzer flags such as -jobs=
-=3D-1
-> >>>   * We no long control input-timeouts (those are handled by libfuzzer=
-).
-> >>>     Since timeouts on oss-fuzz can be many seconds long, I added a li=
-mit
-> >>>     on the number of DMA bytes written.
-> >>>
-> >>> Alexander Bulekov (10):
-> >>>    hw/sparse-mem: clear memory on reset
-> >>>    fuzz: add fuzz_reboot API
-> >>>    fuzz/generic-fuzz: use reboots instead of forks to reset state
-> >>>    fuzz/generic-fuzz: add a limit on DMA bytes written
-> >>>    fuzz/virtio-scsi: remove fork-based fuzzer
-> >>>    fuzz/virtio-net: remove fork-based fuzzer
-> >>>    fuzz/virtio-blk: remove fork-based fuzzer
-> >>>    fuzz/i440fx: remove fork-based fuzzer
-> >>>    fuzz: remove fork-fuzzing scaffolding
-> >>>    docs/fuzz: remove mentions of fork-based fuzzing
-> >>>
-> >>>   docs/devel/fuzzing.rst              |  22 +-----
-> >>>   hw/mem/sparse-mem.c                 |  13 +++-
-> >>>   meson.build                         |   4 -
-> >>>   tests/qtest/fuzz/fork_fuzz.c        |  41 ----------
-> >>>   tests/qtest/fuzz/fork_fuzz.h        |  23 ------
-> >>>   tests/qtest/fuzz/fork_fuzz.ld       |  56 --------------
-> >>>   tests/qtest/fuzz/fuzz.c             |   6 ++
-> >>>   tests/qtest/fuzz/fuzz.h             |   2 +-
-> >>>   tests/qtest/fuzz/generic_fuzz.c     | 111 +++++++------------------=
----
-> >>>   tests/qtest/fuzz/i440fx_fuzz.c      |  27 +------
-> >>>   tests/qtest/fuzz/meson.build        |   6 +-
-> >>>   tests/qtest/fuzz/virtio_blk_fuzz.c  |  51 ++-----------
-> >>>   tests/qtest/fuzz/virtio_net_fuzz.c  |  54 ++------------
-> >>>   tests/qtest/fuzz/virtio_scsi_fuzz.c |  51 ++-----------
-> >>>   14 files changed, 72 insertions(+), 395 deletions(-)
-> >>>   delete mode 100644 tests/qtest/fuzz/fork_fuzz.c
-> >>>   delete mode 100644 tests/qtest/fuzz/fork_fuzz.h
-> >>>   delete mode 100644 tests/qtest/fuzz/fork_fuzz.ld
-> >>>
-> >>> --
-> >>> 2.39.0
-> >>>
-> >>
-> >> Whose tree should this go through? Laurent's qtest tree?
-> >
-> > Do you mean Thomas?
-> >
-> > $ git shortlog -cs tests/qtest/fuzz | sort -rn
-> >      32  Thomas Huth
-> >      26  Paolo Bonzini
-> >      19  Stefan Hajnoczi
-> >       6  Markus Armbruster
-> >       5  Alexander Bulekov
-> >       4  Marc-Andr=C3=A9 Lureau
-> >       3  Peter Maydell
-> >       2  Laurent Vivier
-> >       1  Michael S. Tsirkin
-> >       1  Gerd Hoffmann
-> >
-> > In doubt, cc'ing both :)
->
-> Yes, Thomas is the real maintainer.
+On 2/14/23 00:18, Philippe Mathieu-Daudé wrote:
+>   __attribute__((nonnull)) void a1(void *ptr)
+>   {
+>     // can no use assert(ptr) because compiler warning
+>   }
 
-Want to update the ./MAINTAINERS file? That's where I found your name.
-Thomas is only listed as a reviewer.
+I briefly glossed over that...
 
-Stefan
+>> I realize we'd probably want to add -fno-delete-null-pointer-checks if we make too much 
+
+... here.  The compiler warning should go away with the right flag.
+
+
+r~
 
