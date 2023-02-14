@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B26C696284
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 12:35:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1586A6962AD
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 12:50:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRtZL-0008F7-TB; Tue, 14 Feb 2023 06:33:55 -0500
+	id 1pRto6-0004MO-Af; Tue, 14 Feb 2023 06:49:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRtZK-0008Es-EW
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:33:54 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRtZI-0008QT-MO
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:33:54 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id o18so15320693wrj.3
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 03:33:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:cc:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PDLUjEcXWn230RLZ9pRj9KPdB7kXC/hzjcOMzyOsrKA=;
- b=LWg2zz6jkdOdWJ/TevyzPbG7DJAteAtdXsS/IRTy8rvdLS6K660jfX0/6BBibXKvBE
- J5bjNiB84c/5MdQJjtj5xaKYnzXxMSypLdPwZf9DZupEb7CHY3d9tJlr5A8XptEUPjyF
- 2RyOuMQk0RtMDB3cujof4cpYak4mSHgA8BalNaG9WrDZA5VX0jB28qMqBgwXHCgSsp0I
- V0JrW3SazjzXpRqCjxoL6T4J6AKoCxxNYO3LjFFHAf46ZybkQ1P/Sz4Z/KXPl09mycF/
- kk5ZsmahGFhyiziAuSI3c8jZ/FL8k/zw9T9j7CvfKAXQPmqp2FdHBmTQmsNZBVlb0HpZ
- CEJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:cc:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PDLUjEcXWn230RLZ9pRj9KPdB7kXC/hzjcOMzyOsrKA=;
- b=YyvKKzWx5yW8UJmHDF0b7v36hWsxS9HJWMK98kNXTfb3WFY1M83TEqW8zyyInHXzbw
- fyYwBqWtxBIFFhZhhC3Jidhj+/z8v/xCfDiVTOMSii7BFA53tWPMezvDL9xLLunabAU7
- WVlnhKvd3dydYcTyr+EDC8EcS7pyPhKF95FgTs2qSEV9B3kTgE/dgDKqnAGSzxBZ7az/
- DjhJNY/lo6RQzMatkN++9b8/PNxJDx0EA3zvynovgcFIhg7Erq6bN5ixuUe/dR3yddru
- 9A5t+6ZPr5I8BMsmZNtHXYFztQrwrTJqREyDIjlRH/tGJuLIbeeQLfCtADoTpe5nQGXG
- 7Gxg==
-X-Gm-Message-State: AO0yUKWUKIdavXuWbQkofXgmXjauNskmpRe1Vora3oPGCmXvYASOo3M8
- S1eiIqr81UwKg6WbiIPAKoP4dw==
-X-Google-Smtp-Source: AK7set8GhnvVlaC5FGI7dGy5WqM46gpsXdja9QMaEqUp6l1dslBxvlQOYiaZnld6R2NaHa7r5BIdBg==
-X-Received: by 2002:a5d:5945:0:b0:2bf:96ae:7cc8 with SMTP id
- e5-20020a5d5945000000b002bf96ae7cc8mr1791728wri.4.1676374431215; 
- Tue, 14 Feb 2023 03:33:51 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- b16-20020adfe650000000b002c5534db60bsm6569003wrn.71.2023.02.14.03.33.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Feb 2023 03:33:50 -0800 (PST)
-Message-ID: <4bfd5fc1-9a2d-f368-06eb-31c7bc1c0c77@linaro.org>
-Date: Tue, 14 Feb 2023 12:33:49 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pRto4-0004M8-Dn
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:49:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pRto2-00056j-Ay
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:49:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676375345;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XvRJpfHTx9reVLSZG6eswjOgmLB9On1eeP0PjTgPK0Y=;
+ b=VgnZX7sG6P0NT9XvxvXOHR/96cvZJd056ZFfyNDp9+lqcUm6+UaET3Ocf1D12D3mo1Z2is
+ hM7l6ELXQe8B8upH3YEAE2Evep8gDg7VGW5gZipig3F4DVA2QTC6TN8rv9UZD3FrXb5PHo
+ rE2JJzJroGKH2ZBpr8eluIOrQE7ZlAQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-42-fHaRkVoaOl2QtYHbDeGSig-1; Tue, 14 Feb 2023 06:49:02 -0500
+X-MC-Unique: fHaRkVoaOl2QtYHbDeGSig-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 849743828892;
+ Tue, 14 Feb 2023 11:49:01 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.149])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B120492B15;
+ Tue, 14 Feb 2023 11:48:58 +0000 (UTC)
+Date: Tue, 14 Feb 2023 11:48:55 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Michael Roth <michael.roth@amd.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2 6/7] CI: Stop building docs on centos8
+Message-ID: <Y+t1J72iMsLWXHne@redhat.com>
+References: <20230210003147.1309376-1-jsnow@redhat.com>
+ <20230210003147.1309376-7-jsnow@redhat.com>
+ <CAFEAcA-c5y0TR8vYg_FYEmGv3mOOmBgeD0cyb+mVotsP=r-Dsw@mail.gmail.com>
+ <CAFn=p-aDV9=vG6hjTWRE6c52TpYSjDBU22nthTuejDCv_XrYMQ@mail.gmail.com>
+ <CAFEAcA_eGvz_BQVLhVWtedRh2mcBuMEhv0RKF+6DW4t+9FdPAw@mail.gmail.com>
+ <Y+Z2Kcq17HGWuoTV@redhat.com> <87cz6cpue3.fsf@pond.sub.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH 2/4] hw: Replace dev->parent_bus by
- qdev_get_parent_bus(dev)
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230212224730.51438-1-philmd@linaro.org>
- <20230212224730.51438-3-philmd@linaro.org>
- <88026156-1838-bb8e-c637-b59a26759cc3@linaro.org>
- <0c477def-e852-53e3-9bf0-a9e3c313cf25@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Markus Armbruster <armbru@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Thomas Huth <thuth@redhat.com>
-In-Reply-To: <0c477def-e852-53e3-9bf0-a9e3c313cf25@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+In-Reply-To: <87cz6cpue3.fsf@pond.sub.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.345,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,66 +92,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 14/2/23 00:19, Richard Henderson wrote:
-> On 2/12/23 13:03, Philippe Mathieu-Daudé wrote:
->> On 12/2/23 23:47, Philippe Mathieu-Daudé wrote:
->>> DeviceState::parent_bus is an internal field and should be
->>> accessed by the qdev_get_parent_bus() helper. Replace all
->>> uses in hw/ except the QDev uses in hw/core/.
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>> ---
->>>   hw/audio/intel-hda.c                |  2 +-
->>>   hw/block/fdc.c                      |  2 +-
->>>   hw/block/swim.c                     |  2 +-
->>>   hw/ide/qdev.c                       |  4 ++--
->>>   hw/net/virtio-net.c                 |  2 +-
->>>   hw/pci-bridge/pci_expander_bridge.c |  2 +-
->>>   hw/scsi/scsi-bus.c                  |  2 +-
->>>   hw/usb/bus.c                        |  2 +-
->>>   hw/usb/desc.c                       |  2 +-
->>>   hw/usb/dev-smartcard-reader.c       | 16 ++++++++--------
->>>   10 files changed, 18 insertions(+), 18 deletions(-)
->>
->> I missed:
+On Tue, Feb 14, 2023 at 08:40:20AM +0100, Markus Armbruster wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
 > 
-> Did you use a temporary rename of the field to catch all the uses?
-
-No, git-grep. Good idea.
-
->>   void hda_codec_response(HDACodecDevice *dev, bool solicited, 
->> uint32_t response)
->>   {
->> -    HDACodecBus *bus = HDA_BUS(dev->qdev.parent_bus);
->> +    HDACodecBus *bus = HDA_BUS(qdev_get_parent_bus(DEVICE(dev)));
+> [...]
 > 
-> I'm never sure the cast is clearer than &dev->qdev.
-
-Maybe this one isn't obvious, but see for QOM macros use:
-https://lore.kernel.org/qemu-devel/20230213170145.45666-3-philmd@linaro.org/:
-
--    vcdev->vdev.dev = &vcdev->cdev.parent_obj.parent_obj;
-+    vcdev->vdev.dev = DEVICE(vcdev);
-
-We should agree on how we want to use this API. If the
-DeviceState::parent_bus field isn't considered internal,
-the we should remove the qdev_get_parent_bus() helper which
-is simply:
-
-hw/core/qdev.c:333:BusState *qdev_get_parent_bus(DeviceState *dev)
-hw/core/qdev.c-334-{
-hw/core/qdev.c-335-    return dev->parent_bus;
-hw/core/qdev.c-336-}
-
-Note the alternate series expanding QDev macros:
-https://lore.kernel.org/qemu-devel/20230213105609.6173-1-philmd@linaro.org/
-
-> But it seems the normal way in qemu...
+> > We don't have to drop python 3.6. It is a choice because
+> > of a desire to be able to use some shiny new python
+> > features without caring about back compat.
 > 
-> Acked-by: Richard Henderson <richard.henderson@linaro.org>
+> I read this on Friday, and decided to let it sit until after the
+> weekend.  Well, it's now Tuesday, and to be frank, it's still as
+> offensively flippant as it was on Friday.  It shows either ignorance of
+> or cavalier disregard for the sheer amount of work some of us have had
+> to put into keeping old versions of Python viable.
+> 
+> The latter would be quite unlike you, so it must be the former.
 
-Thanks!
+I'm sorry, I don't mean it to be offensive. I'm genuinely not seeing
+from the descriptions in the series what the functional benefits are
+from dropping 3.6.
+
+> John has sunk *man-months* into keeping old versions of Python viable.
+> I've put in a lot less myself, but still enough to be painfully aware of
+> it.  I figure Cleber and Beraldo are somewhere in between
+> 
+> Insinuating John's proposal is motivated by "a desire to be able to use
+> some shiny new python features without caring about back compat"
+> disrespects all this work.
+
+I'm writing my comments based on what is described in the cover letter
+as the motivations for the change:
+
+[quote]
+The motivation for this series is that Python 3.6 was EOL at the end of
+2021; upstream tools are beginning to drop support for it, including
+setuptools, pylint, mypy, etc. As time goes by, it becomes more
+difficult to support and test against the full range of Python versions
+that QEMU supports. The closer we get to Python 3.12, the harder it will
+be to cover that full spread of versions.
+[/quote]
+
+this is all about new/eol versions of software upstream, and I don't
+think that's a justification. QEMU explicitly aims to use distro provided
+versions and upstream EOL status is not relevant in that context. Even
+if using "pip" to install it is possible to limit yourself to upstream
+releases which still support 3.6.
+
+There is the separate issue of Meson dropping python 3.6 which motivates
+Paolo's series. Again though, we don't have to increase our minimum meson
+version, because meson is working today. It is our choice to to increase
+it to use latest available meson features. At some point we can decide
+what we have is good enough and we don't have to keep chasing the latest
+features. Maybe we're not there yet, but we should think about when that
+would be.
+
+[quote]
+The qemu.qmp library and the avocado testing framework both have
+motivations for dropping 3.6 support, but are committed to not doing so
+until QEMU drops support.
+[/quote]
+
+I suspect that this is more of a driver for the drop of 3.6, but I
+don't see any details.
+
+IOW overall justification come across as wanting to use new features,
+and follow upstream EOL, without any real detail of what we're going
+to gain from a functional POV.
+
+> We should have a sober discussion on which versions of Python to work
+> with, and the tradeoffs involved.  But before I engage in that, I insist
+> on resetting the frame: no, this is not about shiny, new Python
+> features.  It is about stopping the bleeding.  It is about reducing what
+> feels more and more like bullshit work to me, so we can actually
+> accomplish stuff that matters.
+
+Every applications developer chooses an arbitrary cut off points for
+minimum software versions, depending on their particular needs. With
+our support policy we tried to express a reasonable tradeoff between
+keeping back compat, and being able to adopt new features.
+
+Obviously that tradeoff is not currently looking acceptable on the
+python side, but it is not clear why that is ?
+
+Can someone simply explain what we wil see as the benefit from dropping
+3.6 / adopting 3.7 as the baseline ? 
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
