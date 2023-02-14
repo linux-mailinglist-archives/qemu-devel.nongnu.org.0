@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49613696261
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 12:25:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 607CB69624D
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 12:23:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRtOD-0007OI-Tl; Tue, 14 Feb 2023 06:22:25 -0500
+	id 1pRtOG-0007St-4c; Tue, 14 Feb 2023 06:22:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRtOB-0007Kz-0X
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:22:23 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRtOC-0007OV-MQ
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:22:25 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRtO9-0002NN-GY
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:22:22 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRtOB-0002Ng-7B
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:22:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676373740;
+ s=mimecast20190719; t=1676373742;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XQHW4M2Y90uheK3zqMWWUQeafgfjoWJD4hSYTQFpxZU=;
- b=FLdYlm6mLoMsQK0BbwUKCKSbhqSxeGyzsWbjX5rYv920+eWp3vuos7gf3Xar3YZJ2Bofgn
- tpPgaW70PIozjE/GOlK8ias/JFNZztKzJhXYe5zA2eBXE9HlqIikf2jQuOWL/WPqZNtK6J
- YckywsDfwOEaNrhqb+dG5MReirkaOk8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1kU3/X/4ZFlH1woTzD68byBkYBc1xwVczb+6LuOdDp4=;
+ b=PilmqMfthsh94hNhoG/OGxnVsdVj/LqDCIFbg2NwGp/T46aC1OlyEQ0HbtkVKoTQxZx7px
+ tW2NYADsCMMEId24udYLrPttXhWWnTsGMovWVQtRmWujJfACFEyAwOWetLiCJTSRZgv3Ht
+ ug0rXKqScsKaFTkUxbY8V6ygFlMt6QI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-252-EMTA-CCeOfm_aro0gzZVxA-1; Tue, 14 Feb 2023 06:22:17 -0500
-X-MC-Unique: EMTA-CCeOfm_aro0gzZVxA-1
+ us-mta-42-wc2RW2-GNkeFy0tA8SeC6w-1; Tue, 14 Feb 2023 06:22:19 -0500
+X-MC-Unique: wc2RW2-GNkeFy0tA8SeC6w-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7124B38123A4;
- Tue, 14 Feb 2023 11:22:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E01BD811E6E;
+ Tue, 14 Feb 2023 11:22:18 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E2C640B40C9;
- Tue, 14 Feb 2023 11:22:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0DA334010E85;
+ Tue, 14 Feb 2023 11:22:17 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
 Cc: Fabiano Rosas <farosas@suse.de>
-Subject: [PULL 19/22] tests/qtest: bios-tables-test: Skip if missing configs
-Date: Tue, 14 Feb 2023 12:21:45 +0100
-Message-Id: <20230214112148.646077-20-thuth@redhat.com>
+Subject: [PULL 20/22] tests/qtest: Don't build virtio-serial-test.c if device
+ not present
+Date: Tue, 14 Feb 2023 12:21:46 +0100
+Message-Id: <20230214112148.646077-21-thuth@redhat.com>
 In-Reply-To: <20230214112148.646077-1-thuth@redhat.com>
 References: <20230214112148.646077-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -78,33 +79,37 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Fabiano Rosas <farosas@suse.de>
 
-If we build with --without-default-devices, CONFIG_HPET and
-CONFIG_PARALLEL are set to N, which makes the respective devices go
-missing from acpi tables.
+The virtconsole device might not be present in the QEMU build that is
+being tested.
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
+Message-Id: <20230213210738.9719-5-farosas@suse.de>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20230208194700.11035-13-farosas@suse.de>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/meson.build | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ tests/qtest/meson.build | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index e87cb18d8e..4110f8afc2 100644
+index 4110f8afc2..222e1892fb 100644
 --- a/tests/qtest/meson.build
 +++ b/tests/qtest/meson.build
-@@ -78,7 +78,9 @@ qtests_i386 = \
-    config_all_devices.has_key('CONFIG_Q35') and                                             \
-    config_all_devices.has_key('CONFIG_VIRTIO_PCI') and                                      \
-    slirp.found() ? ['virtio-net-failover'] : []) +                                          \
--  (unpack_edk2_blobs ? ['bios-tables-test'] : []) +                                         \
-+  (unpack_edk2_blobs and                                                                    \
-+   config_all_devices.has_key('CONFIG_HPET') and                                            \
-+   config_all_devices.has_key('CONFIG_PARALLEL') ? ['bios-tables-test'] : []) +             \
-   qtests_pci +                                                                              \
-   qtests_cxl +                                                                              \
-   ['fdc-test',
+@@ -257,10 +257,14 @@ qos_test_ss.add(
+   'virtio-net-test.c',
+   'virtio-rng-test.c',
+   'virtio-scsi-test.c',
+-  'virtio-serial-test.c',
+   'virtio-iommu-test.c',
+   'vmxnet3-test.c',
+ )
++
++if config_all_devices.has_key('CONFIG_VIRTIO_SERIAL')
++  qos_test_ss.add(files('virtio-serial-test.c'))
++endif
++
+ if config_host.has_key('CONFIG_POSIX')
+   qos_test_ss.add(files('e1000e-test.c'))
+ endif
 -- 
 2.31.1
 
