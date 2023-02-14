@@ -2,87 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE7676964CE
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 14:37:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B8CC6964D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 14:40:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRvUv-00042I-IK; Tue, 14 Feb 2023 08:37:29 -0500
+	id 1pRvWx-0004v0-Pq; Tue, 14 Feb 2023 08:39:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pRvUt-0003xK-S9
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:37:27 -0500
-Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pRvUr-00079H-VV
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:37:27 -0500
-Received: by mail-ot1-x330.google.com with SMTP id
- bv2-20020a0568300d8200b0068dc615ee44so4649489otb.10
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 05:37:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=jxq45QuEFbHMNJ3fsLk1sA+YaGdqGSj5qFl05FbojDU=;
- b=RV0jP3I0Ar9GkKLiUaEHL9nhSqckZX0ddn0y3raPXO5Ws30ExTlCYxqVEO73Aq3mPm
- 8HyDhBiXyOBnwwam1QHSSguko/4wDgBnyFFeYmCRk/5Nk11cIPnHUMVuhxHb0Q+PIu25
- pSoepLs6OHNUC6VVIGzjxzyYqmGwJSkiynbuUeKNLw1rr5DQU+4/LtkH2i+2oc6YEwDu
- wf7gXezvd5Qfm8xfIWEzipQlUFT+Bzxsnm3TTYTZKSPi0Hp0ye5+NQtQciNkUjgw6xdo
- tbZ3mzctn/0p3LgDsON+TX3W54y2S+a7YFjd5vu7nzBZVpuDZF1/8s0bRCozHCA+McL+
- FPxA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRvWw-0004us-E1
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:39:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRvWu-0007Lp-TL
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:39:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676381972;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Him3I8vbAkMoYFPHzv+tVfCv85D48ZOGIdzzNaS2s2w=;
+ b=Sp02orjzkWEOZ1n/zJlhkQ1Vxvdit8/t6sgJOopZAUSQNUzOsLqwGpIKzJ/MlPQdDyf0kC
+ naMBVcQi04G4saLFJ/o5XZXMLPWX2tiPABpqJQrcA34PxW0P1USGAiggHoScBs9pYJULF9
+ sZjGhzWjz9qpZjcdJT4o2/ThFvmGCrU=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-607-ZCQrjnX0OBeoLFJGA15tBA-1; Tue, 14 Feb 2023 08:39:30 -0500
+X-MC-Unique: ZCQrjnX0OBeoLFJGA15tBA-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ v8-20020a05622a144800b003ba0dc5d798so9407450qtx.22
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 05:39:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jxq45QuEFbHMNJ3fsLk1sA+YaGdqGSj5qFl05FbojDU=;
- b=LDO3nL6gc3fQIjlzfmNkWmBkECvMC22JC0wFFRseV9WqtRDTOQsWl2CxlPm8PaQQKZ
- X8grrrqb4Ad4AG8BHZj2j++XUsVdjQomR0gelONj2PD/vU48Ha7z+zqHkpDJ92ghKNdj
- WmZPKutcJz6E4zHH/2tYjzpqXXlTGSJ6kHJNm3Fqz16gKe73iqrmdeFUSTR7nHMItXcI
- YdK2GHe0dteFZxPDcWRtnXxJkoWulD6V63k5p2l0Z92YkZ7+VWvxscQAkPy25LCU5ZtB
- jXE85lyD256knA5sZpEVAgB4x2ZMsbbvxPOlSw74o/4jwwklCQwisHlblOjh2dwEI4sp
- cTZQ==
-X-Gm-Message-State: AO0yUKXm6H9Ma3mavnDqVXkRlvyRFmT6/JH6q/iVZpevYY7ESVmDFoK1
- opg50TuluzN2e3bjNNrr9sHQpg==
-X-Google-Smtp-Source: AK7set9oLS8XD1ypz1Z67f2OGqBZeXsl4zkx7sqwO6LLVhchyh511Fgt3xyDU2NbnVbVPOz6A4jNDg==
-X-Received: by 2002:a05:6830:615:b0:688:4892:e1d3 with SMTP id
- w21-20020a056830061500b006884892e1d3mr1028276oti.8.1676381844784; 
- Tue, 14 Feb 2023 05:37:24 -0800 (PST)
-Received: from [192.168.68.107] ([191.19.40.109])
- by smtp.gmail.com with ESMTPSA id
- z19-20020a056830129300b0068bbb818c64sm6412584otp.25.2023.02.14.05.37.22
+ bh=Him3I8vbAkMoYFPHzv+tVfCv85D48ZOGIdzzNaS2s2w=;
+ b=VPfUPb3rQ1b8XYigepDYZ9ZKI72ZECcw+AL7tLq4rNZkIJ1mR90TUJDu5qH3+joDYL
+ 0WycUoy0jkV8rrOebyis0f1rqwxXB6rhOlp+6JMZkB05EqmfP6At7f6OgJs27vyoNe+G
+ EuZDZY35C1wugLBYAW67gGYrwjv+fC7Nby8LI2JNMbWtEo8GSIOzWmYAhN5cFIkY1FFz
+ 2El4Yns04ZyPZX36svINmj8IeHEFxZPMojDC6Ux6RN4kS2Gv/3tjqimhrwI1REFjkrj1
+ 07tAN+sHKnMxkO2MBRV5jBtdqC+bSSkmflfpXznDhfzM+87oID2l7rTc1UnirgXaIawR
+ LpPg==
+X-Gm-Message-State: AO0yUKXFhh4XhFPKIu8uKoMe2pg0vB9dQ2qRY1EPb30KRk3mlTNr7D9F
+ f6ZNp+9OKGvMZ4MRFBcZds1uankH5zpSJ2fYTj0TOC2oFQPaH+3XC2uXURayLJBGv54ox5wAWiq
+ EsWqOLG8UL1puQKU=
+X-Received: by 2002:a05:6214:246b:b0:56e:b124:156e with SMTP id
+ im11-20020a056214246b00b0056eb124156emr4879412qvb.10.1676381970362; 
+ Tue, 14 Feb 2023 05:39:30 -0800 (PST)
+X-Google-Smtp-Source: AK7set/rfW35eu4Kt8f8gvbx9NL6Etzrlo8j5UfAteIHlhhULALe17gS6atPkuIVjjB0QFuPN5tAvw==
+X-Received: by 2002:a05:6214:246b:b0:56e:b124:156e with SMTP id
+ im11-20020a056214246b00b0056eb124156emr4879384qvb.10.1676381970104; 
+ Tue, 14 Feb 2023 05:39:30 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-176.web.vodafone.de.
+ [109.43.177.176]) by smtp.gmail.com with ESMTPSA id
+ x133-20020a37638b000000b006e07228ed53sm11958022qkb.18.2023.02.14.05.39.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Feb 2023 05:37:24 -0800 (PST)
-Message-ID: <77307e37-6144-b8b3-ac6f-7ad3ae3aefa8@ventanamicro.com>
-Date: Tue, 14 Feb 2023 10:37:20 -0300
+ Tue, 14 Feb 2023 05:39:29 -0800 (PST)
+Message-ID: <ea791a1e-8f9c-ac64-8ff2-0d2d3fdb3f97@redhat.com>
+Date: Tue, 14 Feb 2023 14:39:27 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [Patch 13/14] target/riscv: Simplify check for EEW = 64 in
- trans_rvv.c.inc
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 1/1] readline: fix hmp completion issue
 Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230214083833.44205-1-liweiwei@iscas.ac.cn>
- <20230214083833.44205-14-liweiwei@iscas.ac.cn>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230214083833.44205-14-liweiwei@iscas.ac.cn>
+To: Dongli Zhang <dongli.zhang@oracle.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
+Cc: dgilbert@redhat.com, joe.jin@oracle.com
+References: <20230207045241.8843-1-dongli.zhang@oracle.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230207045241.8843-1-dongli.zhang@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x330.google.com
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.35, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,70 +100,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 2/14/23 05:38, Weiwei Li wrote:
-> Only V extension support EEW = 64 in these case: Zve64* extensions
-> don't support EEW = 64 as commented
-
-"as commented" where? In the previous patch?
-
-
+On 07/02/2023 05.52, Dongli Zhang wrote:
+> Subject:
+> [PATCH 1/1] readline: fix hmp completion issue
+> From:
+> Dongli Zhang <dongli.zhang@oracle.com>
+> Date:
+> 07/02/2023, 05.52
 > 
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> To:
+> qemu-devel@nongnu.org
+> CC:
+> dgilbert@redhat.com, joe.jin@oracle.com
+> 
+> 
+> The auto completion does not work in some cases.
+> 
+> Case 1.
+> 
+> 1. (qemu) info reg
+> 2. Press 'Tab'.
+> 3. It does not auto complete.
+> 
+> Case 2.
+> 
+> 1. (qemu) block_resize flo
+> 2. Press 'Tab'.
+> 3. It does not auto complete 'floppy0'.
+> 
+> Since the readline_add_completion_of() may add any completion when
+> strlen(pfx) is zero, we remove the check with (name[0] == '\0') because
+> strlen() always returns zero in that case.
+> 
+> Fixes: 52f50b1e9f8f ("readline: Extract readline_add_completion_of() from monitor")
+> Cc: Joe Jin<joe.jin@oracle.com>
+> Signed-off-by: Dongli Zhang<dongli.zhang@oracle.com>
 > ---
-
-The code LGTM.
-
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-
-
->   target/riscv/insn_trans/trans_rvv.c.inc | 12 ++++--------
->   1 file changed, 4 insertions(+), 8 deletions(-)
+>   monitor/hmp.c | 8 ++------
+>   1 file changed, 2 insertions(+), 6 deletions(-)
 > 
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index 5dbdce073b..fc0d0d60e8 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -1998,8 +1998,7 @@ static bool vmulh_vv_check(DisasContext *s, arg_rmrr *a)
->        * are not included for EEW=64 in Zve64*. (Section 18.2)
->        */
->       return opivv_check(s, a) &&
-> -           (!has_ext(s, RVV) &&
-> -            s->cfg_ptr->ext_zve64f ? s->sew != MO_64 : true);
-> +           (!has_ext(s, RVV) ? s->sew != MO_64 : true);
->   }
->   
->   static bool vmulh_vx_check(DisasContext *s, arg_rmrr *a)
-> @@ -2012,8 +2011,7 @@ static bool vmulh_vx_check(DisasContext *s, arg_rmrr *a)
->        * are not included for EEW=64 in Zve64*. (Section 18.2)
->        */
->       return opivx_check(s, a) &&
-> -           (!has_ext(s, RVV) &&
-> -            s->cfg_ptr->ext_zve64f ? s->sew != MO_64 : true);
-> +           (!has_ext(s, RVV) ? s->sew != MO_64 : true);
->   }
->   
->   GEN_OPIVV_GVEC_TRANS(vmul_vv,  mul)
-> @@ -2230,8 +2228,7 @@ static bool vsmul_vv_check(DisasContext *s, arg_rmrr *a)
->        * for EEW=64 in Zve64*. (Section 18.2)
->        */
->       return opivv_check(s, a) &&
-> -           (!has_ext(s, RVV) &&
-> -            s->cfg_ptr->ext_zve64f ? s->sew != MO_64 : true);
-> +           (!has_ext(s, RVV) ? s->sew != MO_64 : true);
->   }
->   
->   static bool vsmul_vx_check(DisasContext *s, arg_rmrr *a)
-> @@ -2242,8 +2239,7 @@ static bool vsmul_vx_check(DisasContext *s, arg_rmrr *a)
->        * for EEW=64 in Zve64*. (Section 18.2)
->        */
->       return opivx_check(s, a) &&
-> -           (!has_ext(s, RVV) &&
-> -            s->cfg_ptr->ext_zve64f ? s->sew != MO_64 : true);
-> +           (!has_ext(s, RVV) ? s->sew != MO_64 : true);
->   }
->   
->   GEN_OPIVV_TRANS(vsmul_vv, vsmul_vv_check)
+> diff --git a/monitor/hmp.c b/monitor/hmp.c
+> index 2aa85d3982..fee410362f 100644
+> --- a/monitor/hmp.c
+> +++ b/monitor/hmp.c
+> @@ -1189,9 +1189,7 @@ static void cmd_completion(MonitorHMP *mon, const char *name, const char *list)
+>           }
+>           memcpy(cmd, pstart, len);
+>           cmd[len] = '\0';
+> -        if (name[0] == '\0') {
+> -            readline_add_completion_of(mon->rs, name, cmd);
+> -        }
+> +        readline_add_completion_of(mon->rs, name, cmd);
+>           if (*p == '\0') {
+>               break;
+>           }
+> @@ -1335,9 +1333,7 @@ static void monitor_find_completion_by_table(MonitorHMP *mon,
+>               /* block device name completion */
+>               readline_set_completion_index(mon->rs, strlen(str));
+>               while ((blk = blk_next(blk)) != NULL) {
+> -                if (str[0] == '\0') {
+> -                    readline_add_completion_of(mon->rs, str, blk_name(blk));
+> -                }
+> +                readline_add_completion_of(mon->rs, str, blk_name(blk));
+>               }
+>               break;
+>           case 's':
+> -- 2.34.1
+> 
+
+Thanks, this fixes the completion for me, too:
+
+Tested-by: Thomas Huth <thuth@redhat.com>
+
 
