@@ -2,87 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B52696DE3
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 20:26:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EBD9696DDA
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 20:25:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pS0v7-0005wy-FC; Tue, 14 Feb 2023 14:24:53 -0500
+	id 1pS0vy-0007rq-Sj; Tue, 14 Feb 2023 14:25:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pS0ut-0005vZ-4B
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 14:24:39 -0500
-Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pS0up-0005DG-T5
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 14:24:37 -0500
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-15f97c478a8so20300130fac.13
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 11:24:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PXkj3LSF2mwteCaRWsXssPJp8JvDz49yzHgT9YAPVrc=;
- b=AKyXHQ4bOCXj+mQcgZMiCz8w/yqzVqUUVmANWoI+AsBPXQyX0NtJZW9tEVN3VVL+Jz
- XIpovRptfqX/qYpc4hoY29rsMyHzuGEx1ijiom1U6PAmFAh1uDccUwaEzCFzy96oIw9U
- 5q9PmK0gFCMrwaAXqpU/Hd2qsVV389sjz1dcO2tfvUbWJXl9KZRdJdtR5RH0sEjaBuDU
- sF68SS4IMPVirPwi5bLV6ClNiQuLF2LbCjEH5B2Pi7zKiQZZoSluxmVUsCbb1J4hbpw2
- agj9ZIdAPl4/adXvO8vyFS1NiVC+FTX1VNLtqKLA3HER6IwKEmhiSzI6Tv4/yAS3d+Ob
- YwYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PXkj3LSF2mwteCaRWsXssPJp8JvDz49yzHgT9YAPVrc=;
- b=Dxl+9zPUVzO+jnrtNUHC8+xjUrS420ALW9huqVHbvvP30lZPUPEi3asijFCJ2sJyaM
- BvvE3qYqEy7eylvhz+rMoCK8YXRhk0PUDQJAecqsNz7D3flBdiJN1v6JV+Ko7ty0wSYr
- 5rdbe3tBtol7tBXV0xVOszvDaHDbAq+nlhEgn4JN2b1NKMnl+0hWJnpEv3U8LrwNGVqY
- g9cVwApVxsFN5rc/APVm1dnP+CUSOwtlMCLE4KWhfuODP0XMS/JN+Qq7b7zTOuPKCjls
- kCYuL0ZzMlH7F5dKuN5iCXuJQSlpjuUHueBKzOydQz8iEWcXS4wM3nNRD2dryhLbcItu
- UagA==
-X-Gm-Message-State: AO0yUKWYdNALhagM8brFNrtjO/xdaFHH6JdaG1f+oxkvZyQf48UteiOx
- 06o35l7uhIGQY/JAuxZ6OfE0oNcwUG/PYIf0
-X-Google-Smtp-Source: AK7set/5r883H4E75KfMm/iLyJhbDP+7sn6HA+kM5o2lFVxvdz37TlLhKCC9DLI71iRDthUNxualug==
-X-Received: by 2002:a05:6870:b6a5:b0:163:51eb:b577 with SMTP id
- cy37-20020a056870b6a500b0016351ebb577mr2122369oab.46.1676402674311; 
- Tue, 14 Feb 2023 11:24:34 -0800 (PST)
-Received: from grind.dc1.ventanamicro.com ([191.19.40.109])
- by smtp.gmail.com with ESMTPSA id
- g5-20020a9d6185000000b006865223e532sm6653752otk.51.2023.02.14.11.24.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Feb 2023 11:24:33 -0800 (PST)
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH v2 11/11] target/riscv/cpu: remove CPUArchState::features and
- friends
-Date: Tue, 14 Feb 2023 16:23:56 -0300
-Message-Id: <20230214192356.319991-12-dbarboza@ventanamicro.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230214192356.319991-1-dbarboza@ventanamicro.com>
-References: <20230214192356.319991-1-dbarboza@ventanamicro.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pS0va-0007Wf-Ud
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 14:25:27 -0500
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pS0vW-0005QU-19
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 14:25:21 -0500
+Received: from myt5-8800bd68420f.qloud-c.yandex.net
+ (myt5-8800bd68420f.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:4615:0:640:8800:bd68])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id BFCDC6105F;
+ Tue, 14 Feb 2023 22:25:06 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b433::1:3c] (unknown
+ [2a02:6b8:b081:b433::1:3c])
+ by myt5-8800bd68420f.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 5Ppsc20RZeA1-jBcYTXWH; Tue, 14 Feb 2023 22:25:05 +0300
+Precedence: bulk
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1676402705; bh=+nNdq4fdpY5/XLdG4OJveuIpbWj221JrvhGfJNStE3Q=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=CB+fjx5k/RamjvgJTph2MGL4g6WHNHGRMz+GRoT+nOU4V5kFqpRHGYEHqv+sJz7Ux
+ CS8o1L/wz5jTINSYuFPYxCOJpynxfB7AHZbzj+P6wAjJtgiXopRRx5Je942foD7So5
+ NZgAQ9vPsLXG9mDtY+SpVQCN/AOnNmkUxYEoJuiQ=
+Authentication-Results: myt5-8800bd68420f.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <eb980f8f-77f1-e267-f64c-ca75488b7ac7@yandex-team.ru>
+Date: Tue, 14 Feb 2023 22:25:05 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v4] qapi/qmp: Add timestamps to qmp command responses
+Content-Language: en-US
+To: Denis Plotnikov <den-plotnikov@yandex-team.ru>, qemu-devel@nongnu.org
+Cc: yc-core@yandex-team.ru, armbru@redhat.com, michael.roth@amd.com,
+ berrange@redhat.com, marcandre.lureau@gmail.com
+References: <20221101153728.101085-1-den-plotnikov@yandex-team.ru>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20221101153728.101085-1-den-plotnikov@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::32;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x32.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -94,74 +76,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The attribute is no longer used since we can retrieve all the enabled
-features in the hart by using cpu->cfg instead.
+On 01.11.22 18:37, Denis Plotnikov wrote:
+> Add "start" & "end" time values to QMP command responses.
+> 
+> These time values are added to let the qemu management layer get the exact
+> command execution time without any other time variance which might be brought
+> by other parts of management layer or qemu internals.
+> This helps to look for problems poactively from the management layer side.
+> The management layer would be able to detect problem cases by calculating
+> QMP command execution time:
+> 1. execution_time_from_mgmt_perspective -
+>         execution_time_of_qmp_command > some_threshold
+>     This detects problems with management layer or internal qemu QMP command
+>     dispatching
+> 2. current_qmp_command_execution_time > avg_qmp_command_execution_time
+>     This detects that a certain QMP command starts to execute longer than
+>     usual
+> In both these cases more thorough investigation of the root cases should be
+> done by using some qemu tracepoints depending on particular QMP command under
+> investigation or by other means. The timestamps help to avoid excessive log
+> output when qemu tracepoints are used to address similar cases.
+> 
+> Example of result:
+> 
+>      ./qemu/scripts/qmp/qmp-shell /tmp/qmp.socket
+> 
+>      (QEMU) query-status
+>      {"end": {"seconds": 1650367305, "microseconds": 831032},
+>       "start": {"seconds": 1650367305, "microseconds": 831012},
+>       "return": {"status": "running", "singlestep": false, "running": true}}
+> 
+> The response of the QMP command contains the start & end time of
+> the QMP command processing.
+> 
+> Also, "start" & "end" timestaps are added to qemu guest agent responses as
+> qemu-ga shares the same code for request dispatching.
+> 
+> Suggested-by: Andrey Ryabinin <arbn@yandex-team.ru>
+> Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Remove env->feature, riscv_feature() and riscv_set_feature(). We also
-need to bump vmstate_riscv_cpu version_id and minimal_version_id since
-'features' is no longer being migrated.
+[..]
 
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
----
- target/riscv/cpu.h     | 12 ------------
- target/riscv/machine.c |  5 ++---
- 2 files changed, 2 insertions(+), 15 deletions(-)
+> diff --git a/docs/interop/qmp-spec.txt b/docs/interop/qmp-spec.txt
+> index b0e8351d5b261..0dd8e716c02f0 100644
+> --- a/docs/interop/qmp-spec.txt
+> +++ b/docs/interop/qmp-spec.txt
+> @@ -158,7 +158,9 @@ responses that have an unknown "id" field.
+>   
+>   The format of a success response is:
+>   
+> -{ "return": json-value, "id": json-value }
+> +{ "return": json-value, "id": json-value,
+> +  "start": {"seconds": json-value, "microseconds": json-value},
+> +  "end": {"seconds": json-value, "microseconds": json-value} }
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 83a9fa38d9..6290c6d357 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -173,8 +173,6 @@ struct CPUArchState {
-     /* 128-bit helpers upper part return value */
-     target_ulong retxh;
- 
--    uint32_t features;
--
- #ifdef CONFIG_USER_ONLY
-     uint32_t elf_flags;
- #endif
-@@ -525,16 +523,6 @@ static inline int riscv_has_ext(CPURISCVState *env, target_ulong ext)
-     return (env->misa_ext & ext) != 0;
- }
- 
--static inline bool riscv_feature(CPURISCVState *env, int feature)
--{
--    return env->features & (1ULL << feature);
--}
--
--static inline void riscv_set_feature(CPURISCVState *env, int feature)
--{
--    env->features |= (1ULL << feature);
--}
--
- #include "cpu_user.h"
- 
- extern const char * const riscv_int_regnames[];
-diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-index 67e9e56853..9c455931d8 100644
---- a/target/riscv/machine.c
-+++ b/target/riscv/machine.c
-@@ -331,8 +331,8 @@ static const VMStateDescription vmstate_pmu_ctr_state = {
- 
- const VMStateDescription vmstate_riscv_cpu = {
-     .name = "cpu",
--    .version_id = 6,
--    .minimum_version_id = 6,
-+    .version_id = 7,
-+    .minimum_version_id = 7,
-     .post_load = riscv_cpu_post_load,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINTTL_ARRAY(env.gpr, RISCVCPU, 32),
-@@ -351,7 +351,6 @@ const VMStateDescription vmstate_riscv_cpu = {
-         VMSTATE_UINT32(env.misa_ext, RISCVCPU),
-         VMSTATE_UINT32(env.misa_mxl_max, RISCVCPU),
-         VMSTATE_UINT32(env.misa_ext_mask, RISCVCPU),
--        VMSTATE_UINT32(env.features, RISCVCPU),
-         VMSTATE_UINTTL(env.priv, RISCVCPU),
-         VMSTATE_UINTTL(env.virt, RISCVCPU),
-         VMSTATE_UINT64(env.resetvec, RISCVCPU),
+That should be "json-number", like in "2.5 Asynchronous events" section.
+
+with this fixed:
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+
+[...]
+
+> --- a/qapi/qmp-dispatch.c
+> +++ b/qapi/qmp-dispatch.c
+> @@ -130,6 +130,22 @@ static void do_qmp_dispatch_bh(void *opaque)
+>       aio_co_wake(data->co);
+>   }
+>   
+> +static void add_timestamps(QDict *qdict, int64_t start_ms, int64_t end_ms)
+> +{
+> +    QDict *start_dict, *end_dict;
+> +
+> +    start_dict = qdict_new();
+> +    qdict_put_int(start_dict, "seconds", start_ms / G_USEC_PER_SEC);
+> +    qdict_put_int(start_dict, "microseconds", start_ms % G_USEC_PER_SEC);
+> +
+> +    end_dict = qdict_new();
+> +    qdict_put_int(end_dict, "seconds", end_ms / G_USEC_PER_SEC);
+> +    qdict_put_int(end_dict, "microseconds", end_ms % G_USEC_PER_SEC);
+> +
+> +    qdict_put_obj(qdict, "start", QOBJECT(start_dict));
+> +    qdict_put_obj(qdict, "end", QOBJECT(end_dict));
+> +}
+
+I think, we should split a single qdict_new_timestamp() out of this and reuse it also in qmp_event_build_dict() in qapi/qmp-event.c, to not have different paths for the same thing.
+
+
 -- 
-2.39.1
+Best regards,
+Vladimir
 
 
