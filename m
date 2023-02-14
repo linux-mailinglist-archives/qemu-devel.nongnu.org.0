@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB82F69555B
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 01:29:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7B52695556
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 01:29:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRjB7-0007RK-Ox; Mon, 13 Feb 2023 19:28:13 -0500
+	id 1pRjBB-0007Ry-QY; Mon, 13 Feb 2023 19:28:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pRjB6-0007Qn-2O
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 19:28:12 -0500
-Received: from mail-il1-x136.google.com ([2607:f8b0:4864:20::136])
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pRjB7-0007RN-6m
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 19:28:13 -0500
+Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pRjB4-000603-Ax
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 19:28:11 -0500
-Received: by mail-il1-x136.google.com with SMTP id h29so4011111ila.8
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 16:28:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pRjB5-00060B-FE
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 19:28:12 -0500
+Received: by mail-il1-x132.google.com with SMTP id v6so876309ilc.10
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 16:28:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=44euG2MYwKiDmmIiT6djpZ4qT+JKtKjHtQycLoy9kbw=;
- b=j0cPHM2yZluMahyPlrkYiCEY6qvfpCeIRNAUAjWUmJzWTZJdiJRo6izpsmJXo4/qRJ
- bcHfAlGXkW8lia61Gv5HeFQI9MCQTG+BIQuu30XKSqdY8zI5+Eru1GTJnVMIqBVk9JsF
- FbXFaiDatKgI26VKswdhdv73bfRKyXAQEf+icBPLHRcV0HwTTf2dD/q9OO6NHUe4bdII
- vB7nTRJf99woPTjvqrcUns7fUoKG32W4B1mpo/eLsZ96abcJPukxwXzpUYsKLBi/hu4D
- 8wxmCTQDgAcMY42xtZPvkOrIGlaPLXv3uWMsEn8yO6XItj2jU6vJV+cHXoNuovfsh8j7
- TYxA==
+ bh=XQOYBxgR23EvKF+EuGnmtn+Ceb+bOBIn7DIZLpdNiBw=;
+ b=EUCQW19vk4UVvuv4EIv/YOLM0S9wcHJFDAoD3Ox2in/+tVBKNyiUz7e2YH9J3cjknE
+ fXJJRyjN6pPywYJz5R0gKztDMfOl/ZvpAgM3xYiShkrWKno/48aQ0sLHTk9tf9TRyJmF
+ mfWN2EyzTWdHco+uPHeWawoqtCSJJJBd4jiYXaq4HviLwGQIsaNDv7AOsgCvIP57ep20
+ 8EXQ8j/xxBK+BJtbN8aL8HzqBFqXf9cUIiLZkoOSEEwI1w4gt19kR+wbjVDtuRYJovxA
+ 4qg2IVUoCsN6/7eTI4H0YthfnqXhfJ1Q5ALipSqE9ifbL5cNPuc5A4wTOcyRRcSsUdis
+ oCvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=44euG2MYwKiDmmIiT6djpZ4qT+JKtKjHtQycLoy9kbw=;
- b=ZEap3WGR1P0Q+Ghl8tkQtZYnWQ8JoK1wIWRGeONiDEIjzoKjt73EMFhWRtYzhd6Mfc
- Sz08KPLYolQm83Vr5KlhwrWlXci4IoGqHAlJf3IxBOHKY8WkoaclzEvjW7PdRaY1HawB
- 6bSok3hsYfkqtVtSZIqOetcCPL9MpMCImoeqjk/8qsw5fYizPEDz7ebdhiRnStKZBuZE
- 9K8rRiAczudxbaUmf/AnR2d+e991Xw2gdG+GTj9jn1W8aRSt/6Zb7s3wBNeD6Kng9AxV
- 5dBDZoBCf7eco3M7HsJ37gtk3ZUKfsw1Y69mcmmovUBv95EYLx6EhJrGQFt7kmWrPUFv
- csFQ==
-X-Gm-Message-State: AO0yUKUWjlCj7m2ds8qbTHvAvkrg3T/nlbqyar2EHT9jSEvUCQBPoBed
- RP2yu7NwxNKsc4DFzG0G3hNaXsXawD64kMp+
-X-Google-Smtp-Source: AK7set9LWJHv5y9Kag7/oIknMU6TXd1mFMFkDOui+OvQeFq9jGhdq5CNY8P73nJe7vr9QU2O8zRnmw==
-X-Received: by 2002:a05:6e02:1c89:b0:315:36f5:fb3f with SMTP id
- w9-20020a056e021c8900b0031536f5fb3fmr499578ill.23.1676334488896; 
- Mon, 13 Feb 2023 16:28:08 -0800 (PST)
+ bh=XQOYBxgR23EvKF+EuGnmtn+Ceb+bOBIn7DIZLpdNiBw=;
+ b=u1hDdn8tBO9td3Qx8/CLMxeBkQOB6ch+JdqMpsNhKBadI8PVGzmV3HOIT5LLNIcLq9
+ URRS+/ARpaBL6LE2JtS1zWON4bm6rSIosdqTw8V5H6TXhRgimEJcLiq1L/guPo2ORtg3
+ BIc/EiQADHiGlZkAUCctFu0xbV4SSMXxlRewJwU4OI3t1C5QC/QJeLPgqo/jsm2+5gT0
+ 3zHp/YAtEZjPpb2Sv2lwoIPMfoQREdd1AgJCgcrOnmSUgzzvVaIGpm+HcdUOrGjqlmRB
+ S4PsTa6gEGSfPeck2rC2Dq9YS+0itVdpGqBzGea5q19cNSbbTvgmJU8+iVN4STmTLvcH
+ wIPg==
+X-Gm-Message-State: AO0yUKW0aHeuCJEujLAMdUkCntbxlCAKHXMyHzZ0DKhOQLQWet3Z/Cqq
+ f52qRE0yAEEvLjhEEmCi8BVZWSC9HD7ZTvJS
+X-Google-Smtp-Source: AK7set9ADxJjgp9jrxEHmCokWNZsuj0U6WBYs9Z0gf7xA5SqRbFTfJIDbXSZSxeA1iVVJn3wD6gNug==
+X-Received: by 2002:a05:6e02:b4c:b0:315:564b:f3da with SMTP id
+ f12-20020a056e020b4c00b00315564bf3damr571217ilu.8.1676334490042; 
+ Mon, 13 Feb 2023 16:28:10 -0800 (PST)
 Received: from dune.bsdimp.com (c-71-237-47-177.hsd1.co.comcast.net.
  [71.237.47.177]) by smtp.gmail.com with ESMTPSA id
- r17-20020a028811000000b003af4300d670sm4500923jai.27.2023.02.13.16.28.08
+ r17-20020a028811000000b003af4300d670sm4500923jai.27.2023.02.13.16.28.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Feb 2023 16:28:08 -0800 (PST)
+ Mon, 13 Feb 2023 16:28:09 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -60,17 +60,16 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, kevans@freebsd.org, f4bug@amsat.org,
  Thomas Huth <thuth@redhat.com>, Juergen Lock <nox@jelal.kn-bremen.de>,
  Stacey Son <sson@FreeBSD.org>
-Subject: [PATCH v2 08/12] bsd-user: common routine do_freebsd_sysctl_oid for
- all sysctl variants
-Date: Mon, 13 Feb 2023 17:27:53 -0700
-Message-Id: <20230214002757.99240-9-imp@bsdimp.com>
+Subject: [PATCH v2 09/12] bsd-user: Start translation of arch-specific sysctls
+Date: Mon, 13 Feb 2023 17:27:54 -0700
+Message-Id: <20230214002757.99240-10-imp@bsdimp.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230214002757.99240-1-imp@bsdimp.com>
 References: <20230214002757.99240-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::136;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x136.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::132;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x132.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -94,9 +93,9 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Juergen Lock <nox@jelal.kn-bremen.de>
 
-do_freebsd_sysctl_oid filters out some of the binary and special sysctls
-where host != target. None of the sysctls that have to be translated from
-host to target are handled here.
+Intercept some syscalls that we need to translate (like the archiecture
+we're running on) and translate them. These are only the simplest ones
+so far.
 
 Signed-off-by: Juergen Lock <nox@jelal.kn-bremen.de>
 Co-Authored-by: Stacey Son <sson@FreeBSD.org>
@@ -104,136 +103,186 @@ Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Co-Authored-by: Warner Losh <imp@bsdimp.com>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/freebsd/os-sys.c | 90 +++++++++++++++++++++++++++++++++++++--
- 1 file changed, 86 insertions(+), 4 deletions(-)
+ bsd-user/freebsd/os-sys.c | 145 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 143 insertions(+), 2 deletions(-)
 
 diff --git a/bsd-user/freebsd/os-sys.c b/bsd-user/freebsd/os-sys.c
-index 084d53c16f6..e847404af66 100644
+index e847404af66..cbaa70958b9 100644
 --- a/bsd-user/freebsd/os-sys.c
 +++ b/bsd-user/freebsd/os-sys.c
-@@ -126,7 +126,7 @@ static abi_ulong h2t_ulong_sat(u_long ul)
-  * sysctl, see /sys/kern/kern_sysctl.c:sysctl_sysctl_oidfmt() (compare to
-  * src/sbin/sysctl/sysctl.c)
+@@ -67,7 +67,7 @@ static const int host_ctl_size[CTLTYPE+1] = {
   */
--static int G_GNUC_UNUSED oidfmt(int *oid, int len, char *fmt, uint32_t *kind)
-+static int oidfmt(int *oid, int len, char *fmt, uint32_t *kind)
- {
-     int qoid[CTL_MAXNAME + 2];
-     uint8_t buf[BUFSIZ];
-@@ -168,7 +168,7 @@ static int G_GNUC_UNUSED oidfmt(int *oid, int len, char *fmt, uint32_t *kind)
-  *
-  * For opaque data, per sysctl OID converts take care of it.
-  */
--static void G_GNUC_UNUSED h2t_old_sysctl(void *holdp, size_t *holdlen, uint32_t kind)
-+static void h2t_old_sysctl(void *holdp, size_t *holdlen, uint32_t kind)
- {
-     size_t len;
-     int hlen, tlen;
-@@ -243,7 +243,7 @@ static void G_GNUC_UNUSED h2t_old_sysctl(void *holdp, size_t *holdlen, uint32_t
- /*
-  * Convert the undocmented name2oid sysctl data for the target.
-  */
--static inline void G_GNUC_UNUSED sysctl_name2oid(uint32_t *holdp, size_t holdlen)
-+static inline void sysctl_name2oid(uint32_t *holdp, size_t holdlen)
- {
-     size_t i, num = holdlen / sizeof(uint32_t);
+ static const abi_ulong target_max_mem = UINT32_MAX - 0x100c000 + 1;
  
-@@ -252,12 +252,94 @@ static inline void G_GNUC_UNUSED sysctl_name2oid(uint32_t *holdp, size_t holdlen
-     }
- }
- 
--static inline void G_GNUC_UNUSED sysctl_oidfmt(uint32_t *holdp)
-+static inline void sysctl_oidfmt(uint32_t *holdp)
+-static abi_ulong G_GNUC_UNUSED cap_memory(uint64_t mem)
++static abi_ulong cap_memory(uint64_t mem)
  {
-     /* byte swap the kind */
-     holdp[0] = tswap32(holdp[0]);
- }
+     if (((unsigned long)target_max_mem) < mem) {
+         mem = target_max_mem;
+@@ -79,7 +79,7 @@ static abi_ulong G_GNUC_UNUSED cap_memory(uint64_t mem)
  
-+static abi_long G_GNUC_UNUSED do_freebsd_sysctl_oid(CPUArchState *env, int32_t *snamep,
-+        int32_t namelen, void *holdp, size_t *holdlenp, void *hnewp,
-+        size_t newlen)
-+{
-+    uint32_t kind = 0;
-+    abi_long ret;
-+    size_t holdlen, oldlen;
-+#ifdef TARGET_ABI32
-+    void *old_holdp;
-+#endif
-+
-+    holdlen = oldlen = *holdlenp;
-+    oidfmt(snamep, namelen, NULL, &kind);
-+
-+    /* Handle some arch/emulator dependent sysctl()'s here. */
-+
-+#ifdef TARGET_ABI32
-+    /*
-+     * For long and ulong with a 64-bit host and a 32-bit target we have to do
-+     * special things. holdlen here is the length provided by the target to the
-+     * system call. So we allocate a buffer twice as large because longs are twice
-+     * as big on the host which will be writing them. In h2t_old_sysctl we'll adjust
-+     * them and adjust the length.
-+     */
-+    if (kind == CTLTYPE_LONG || kind == CTLTYPE_ULONG) {
-+        old_holdp = holdp;
-+        holdlen = holdlen * 2;
-+        holdp = g_malloc(holdlen);
-+    }
-+#endif
-+
-+    ret = get_errno(sysctl(snamep, namelen, holdp, &holdlen, hnewp, newlen));
-+    if (!ret && (holdp != 0)) {
-+
-+        if (snamep[0] == CTL_SYSCTL) {
-+            switch (snamep[1]) {
-+            case CTL_SYSCTL_NEXT:
-+            case CTL_SYSCTL_NAME2OID:
-+            case CTL_SYSCTL_NEXTNOSKIP:
-+                /*
-+                 * All of these return an OID array, so we need to convert to
-+                 * target.
-+                 */
-+                sysctl_name2oid(holdp, holdlen);
-+                break;
-+
-+            case CTL_SYSCTL_OIDFMT:
-+                /* Handle oidfmt */
-+                sysctl_oidfmt(holdp);
-+                break;
-+            case CTL_SYSCTL_OIDDESCR:
-+            case CTL_SYSCTL_OIDLABEL:
-+            default:
-+                /* Handle it based on the type */
-+                h2t_old_sysctl(holdp, &holdlen, kind);
-+                /* NB: None of these are LONG or ULONG */
-+                break;
+ static unsigned long host_page_size;
+ 
+-static abi_ulong G_GNUC_UNUSED scale_to_target_pages(uint64_t pages)
++static abi_ulong scale_to_target_pages(uint64_t pages)
+ {
+     if (host_page_size == 0) {
+         host_page_size = getpagesize();
+@@ -273,6 +273,146 @@ static abi_long G_GNUC_UNUSED do_freebsd_sysctl_oid(CPUArchState *env, int32_t *
+     oidfmt(snamep, namelen, NULL, &kind);
+ 
+     /* Handle some arch/emulator dependent sysctl()'s here. */
++    switch (snamep[0]) {
++    case CTL_KERN:
++        switch (snamep[1]) {
++        case KERN_USRSTACK:
++            if (oldlen) {
++                (*(abi_ulong *)holdp) = tswapal(TARGET_USRSTACK);
 +            }
-+        } else {
-+            /*
-+             * Need to convert from host to target. All the weird special cases
-+             * are handled above.
-+             */
-+            h2t_old_sysctl(holdp, &holdlen, kind);
-+#ifdef TARGET_ABI32
-+            /*
-+             * For the 32-bit on 64-bit case, for longs we need to copy the
-+             * now-converted buffer to the target and free the buffer.
-+             */
-+            if (kind == CTLTYPE_LONG || kind == CTLTYPE_ULONG) {
-+                memcpy(old_holdp, holdp, holdlen);
-+                g_free(holdp);
-+                holdp = old_holdp;
++            holdlen = sizeof(abi_ulong);
++            ret = 0;
++            goto out;
++
++        case KERN_PS_STRINGS:
++            if (oldlen) {
++                (*(abi_ulong *)holdp) = tswapal(TARGET_PS_STRINGS);
 +            }
-+#endif
++            holdlen = sizeof(abi_ulong);
++            ret = 0;
++            goto out;
++
++        default:
++            break;
 +        }
++        break;
++
++    case CTL_HW:
++        switch (snamep[1]) {
++        case HW_MACHINE:
++            holdlen = sizeof(TARGET_HW_MACHINE);
++            if (holdp) {
++                strlcpy(holdp, TARGET_HW_MACHINE, oldlen);
++            }
++            ret = 0;
++            goto out;
++
++        case HW_MACHINE_ARCH:
++        {
++            holdlen = sizeof(TARGET_HW_MACHINE_ARCH);
++            if (holdp) {
++                strlcpy(holdp, TARGET_HW_MACHINE_ARCH, oldlen);
++            }
++            ret = 0;
++            goto out;
++        }
++        case HW_NCPU:
++            if (oldlen) {
++                (*(int32_t *)holdp) = tswap32(bsd_get_ncpu());
++            }
++            holdlen = sizeof(int32_t);
++            ret = 0;
++            goto out;
++#if defined(TARGET_ARM)
++        case HW_FLOATINGPT:
++            if (oldlen) {
++                ARMCPU *cpu = env_archcpu(env);
++                *(abi_int *)holdp = cpu_isar_feature(aa32_vfp, cpu);
++            }
++            holdlen = sizeof(int32_t);
++            ret = 0;
++            goto out;
++#endif
++
++
++#ifdef TARGET_ABI32
++        case HW_PHYSMEM:
++        case HW_USERMEM:
++        case HW_REALMEM:
++            holdlen = sizeof(abi_ulong);
++            ret = 0;
++
++            if (oldlen) {
++                int mib[2] = {snamep[0], snamep[1]};
++                unsigned long lvalue;
++                size_t len = sizeof(lvalue);
++
++                if (sysctl(mib, 2, &lvalue, &len, NULL, 0) == -1) {
++                    ret = -1;
++                } else {
++                    lvalue = cap_memory(lvalue);
++                    (*(abi_ulong *)holdp) = tswapal((abi_ulong)lvalue);
++                }
++            }
++            goto out;
++#endif
++
++        default:
++        {
++            static int oid_hw_availpages;
++            static int oid_hw_pagesizes;
++
++            if (!oid_hw_availpages) {
++                int real_oid[CTL_MAXNAME + 2];
++                size_t len = sizeof(real_oid) / sizeof(int);
++
++                if (sysctlnametomib("hw.availpages", real_oid, &len) >= 0) {
++                    oid_hw_availpages = real_oid[1];
++                }
++            }
++            if (!oid_hw_pagesizes) {
++                int real_oid[CTL_MAXNAME + 2];
++                size_t len = sizeof(real_oid) / sizeof(int);
++
++                if (sysctlnametomib("hw.pagesizes", real_oid, &len) >= 0) {
++                    oid_hw_pagesizes = real_oid[1];
++                }
++            }
++
++            if (oid_hw_availpages && snamep[1] == oid_hw_availpages) {
++                long lvalue;
++                size_t len = sizeof(lvalue);
++
++                if (sysctlbyname("hw.availpages", &lvalue, &len, NULL, 0) == -1) {
++                    ret = -1;
++                } else {
++                    if (oldlen) {
++                        lvalue = scale_to_target_pages(lvalue);
++                        (*(abi_ulong *)holdp) = tswapal((abi_ulong)lvalue);
++                    }
++                    holdlen = sizeof(abi_ulong);
++                    ret = 0;
++                }
++                goto out;
++            }
++
++            if (oid_hw_pagesizes && snamep[1] == oid_hw_pagesizes) {
++                if (oldlen) {
++                    (*(abi_ulong *)holdp) = tswapal((abi_ulong)getpagesize());
++                    ((abi_ulong *)holdp)[1] = 0;
++                }
++                holdlen = sizeof(abi_ulong) * 2;
++                ret = 0;
++                goto out;
++            }
++            break;
++        }
++        }
++        break;
++
++    default:
++        break;
 +    }
-+
-+    *holdlenp = holdlen;
-+    return ret;
-+}
-+
- /* sysarch() is architecture dependent. */
- abi_long do_freebsd_sysarch(void *cpu_env, abi_long arg1, abi_long arg2)
- {
+ 
+ #ifdef TARGET_ABI32
+     /*
+@@ -336,6 +476,7 @@ static abi_long G_GNUC_UNUSED do_freebsd_sysctl_oid(CPUArchState *env, int32_t *
+         }
+     }
+ 
++out:
+     *holdlenp = holdlen;
+     return ret;
+ }
 -- 
 2.39.1
 
