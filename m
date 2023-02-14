@@ -2,83 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68BA36966D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 15:27:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7492D6966E1
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 15:30:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRwHI-0001Uv-Px; Tue, 14 Feb 2023 09:27:28 -0500
+	id 1pRwJ6-00032Y-9c; Tue, 14 Feb 2023 09:29:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pRwHH-0001UO-1I; Tue, 14 Feb 2023 09:27:27 -0500
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pRwHF-0003SK-AX; Tue, 14 Feb 2023 09:27:26 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id bx22so15250705pjb.3;
- Tue, 14 Feb 2023 06:27:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0dLbXMsDEqCXQNQVDFhpatbYKsJzSr77aU36NNtRbtU=;
- b=miFthHyQNir+c4HqpNYeuSh5riXN5ZDcg0BwtYgQZJFIr20+9vxXu4emKS3D/DfAh1
- SQ9I+H683BSeizRLAHco/p2hNcpjTJ6R7tT4f6j5LOrIZu80yfkWUefUjKVJ8Lqqm6ze
- cDUEEo8FtDHzhXIAO0MjKxw4TcY0dIRiEoUmJMimXiHWlruU6DZDMUscoR8a4/R/BGcc
- epU1QBmclGvxc6qi35+bgPIOFyuOhbi5H43HrQPhiWK8PJFhti86wZ8crmWMlLs0b+6E
- 0ypQx2UctCCbGG58ryLdjhTv3TUAZNKro78ImnXrkRJ+Mv+t72D8bdbQ0tzEYPwpEBRa
- UIVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0dLbXMsDEqCXQNQVDFhpatbYKsJzSr77aU36NNtRbtU=;
- b=h819Y22JaxEAAJ3FULE07cH91ADDxZkvpXI0ieCs/VnP9oOfWEwAho4MPBDJWWL2B3
- pBroelM71BNjPCPp265XFt2uikcTSvS5EBBwN0BvvoYG74aj7At1niPttPA/7xD7xLE0
- nXtEJlgOHGhChHP9mgYaKXHcCHAfG7ecCloSngcgqJRCysb7jqe0tdz/fmjGgxJm+Y67
- Otyq3KpAxCZ9DDTvfvZgEQL76Cwsqk9+mviFZwduUUgq3k4bqeJQtA8TAXfqCLfiHtWN
- n2W1y+GkVIh1aOwwps9z34TsPyNnbrtnqQyAyZmEI41NeQinJpCX41Sx8I2yNidCgc7c
- 693w==
-X-Gm-Message-State: AO0yUKVXvTqfFDDQLa1zzrSh8Hz8Q09JtRtQcgy/3K2YBn+pBFuw5S8R
- CbS+6bA3XsPGFIxMk6qwNmNhxJGG+sk=
-X-Google-Smtp-Source: AK7set+vMyq4ODaI6NaDgr8g5iCOWSPNfbvRh9qahsKQ9PCtMiEeQRK/8U0FqMKFDbQNUOOM0VOEtQ==
-X-Received: by 2002:a05:6a20:a10f:b0:bf:ca3:6896 with SMTP id
- q15-20020a056a20a10f00b000bf0ca36896mr2889622pzk.2.1676384843109; 
- Tue, 14 Feb 2023 06:27:23 -0800 (PST)
-Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id
- s26-20020a639e1a000000b004f1cb6ffe81sm8799108pgd.64.2023.02.14.06.27.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Feb 2023 06:27:22 -0800 (PST)
-From: Bin Meng <bmeng.cn@gmail.com>
-X-Google-Original-From: Bin Meng <bmeng@tinylab.org>
-To: qemu-devel@nongnu.org
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
- qemu-riscv@nongnu.org
-Subject: [PATCH 18/18] target/riscv: Move configuration check to envcfg CSRs
- predicate()
-Date: Tue, 14 Feb 2023 22:27:17 +0800
-Message-Id: <20230213180215.1524938-19-bmeng@tinylab.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230213180215.1524938-1-bmeng@tinylab.org>
-References: 
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pRwJ2-00030J-AB
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:29:16 -0500
+Received: from 6.mo548.mail-out.ovh.net ([188.165.58.48])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pRwJ0-0003av-9W
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:29:16 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.62])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id CFFEB21481;
+ Tue, 14 Feb 2023 14:29:01 +0000 (UTC)
+Received: from kaod.org (37.59.142.99) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Tue, 14 Feb
+ 2023 15:29:01 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G003636d9eb8-edb8-40e1-983c-72f22050070b,
+ D27BB99F68B8EC7888E3647E3ED2C6CF660736DE) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <9a5b9e5a-ed67-e2b3-ddda-56220e40c00a@kaod.org>
+Date: Tue, 14 Feb 2023 15:28:58 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH qemu 2/2] aspeed/fuji : correct the eeprom size
+Content-Language: en-US
+To: ~ssinprem <ssinprem@celestica.com>, <qemu-devel@nongnu.org>
+CC: <qemu-stable@nongnu.org>, <srikanth@celestica.com>,
+ <kgengan@celestica.com>, Peter Delevoryas <peter@pjd.dev>
+References: <167636845806.2107.2382940753543768501-2@git.sr.ht>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <167636845806.2107.2382940753543768501-2@git.sr.ht>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: e29f88ae-c70e-48c4-bbc6-6fe0abf32fc9
+X-Ovh-Tracer-Id: 11145564655661058854
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudeifedgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuuddtteelgeejhfeikeegffekhfelvefgfeejveffjeeiveegfeehgfdtgfeitdenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehsshhinhhprhgvmhestggvlhgvshhtihgtrgdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhsthgrsghlvgesnhhonhhgnhhurdhorhhgpdhsrhhikhgrnhhthhestggvlhgvshhtihgtrgdrtghomhdpkhhgvghnghgrnhestggvlhgvshhtihgtrgdrtghomhdpphgvthgvrhesphhjugdruggvvhdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=188.165.58.48; envelope-from=clg@kaod.org;
+ helo=6.mo548.mail-out.ovh.net
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.35,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,151 +73,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-At present the envcfg CSRs predicate() routines are generic one like
-smode(), hmode. The configuration check is done in the read / write
-routine. Create a new predicate routine to cover such check, so that
-gdbstub can correctly report its existence.
+Hello,
 
-Signed-off-by: Bin Meng <bmeng@tinylab.org>
+Adding Peter since he contributed the fuji machine,
 
----
+On 2/14/23 10:06, ~ssinprem wrote:
+> From: Sittisak Sinprem <ssinprem@celestca.com>
+> 
+> Device 24C64 the size is 64 kilobits
+> Device 24C02 the size is 2 kilobits
 
- target/riscv/csr.c | 98 +++++++++++++++++++++++++++++-----------------
- 1 file changed, 61 insertions(+), 37 deletions(-)
+Could you please specify the size in bytes ?
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 37350b8a6d..284ccc09dd 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -41,40 +41,6 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops)
- }
- 
- /* Predicates */
--#if !defined(CONFIG_USER_ONLY)
--static RISCVException smstateen_acc_ok(CPURISCVState *env, int index,
--                                       uint64_t bit)
--{
--    bool virt = riscv_cpu_virt_enabled(env);
--    RISCVCPU *cpu = env_archcpu(env);
--
--    if (env->priv == PRV_M || !cpu->cfg.ext_smstateen) {
--        return RISCV_EXCP_NONE;
--    }
--
--    if (!(env->mstateen[index] & bit)) {
--        return RISCV_EXCP_ILLEGAL_INST;
--    }
--
--    if (virt) {
--        if (!(env->hstateen[index] & bit)) {
--            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
--        }
--
--        if (env->priv == PRV_U && !(env->sstateen[index] & bit)) {
--            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
--        }
--    }
--
--    if (env->priv == PRV_U && riscv_has_ext(env, RVS)) {
--        if (!(env->sstateen[index] & bit)) {
--            return RISCV_EXCP_ILLEGAL_INST;
--        }
--    }
--
--    return RISCV_EXCP_NONE;
--}
--#endif
- 
- static RISCVException fs(CPURISCVState *env, int csrno)
- {
-@@ -318,6 +284,32 @@ static RISCVException umode32(CPURISCVState *env, int csrno)
-     return umode(env, csrno);
- }
- 
-+static RISCVException envcfg(CPURISCVState *env, int csrno)
-+{
-+    RISCVCPU *cpu = env_archcpu(env);
-+    riscv_csr_predicate_fn predicate;
-+
-+    if (cpu->cfg.ext_smstateen) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+
-+    switch (csrno) {
-+    case CSR_SENVCFG:
-+        predicate = smode;
-+        break;
-+    case CSR_HENVCFG:
-+        predicate = hmode;
-+        break;
-+    case CSR_HENVCFGH:
-+        predicate = hmode32;
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    return predicate(env, csrno);
-+}
-+
- static RISCVException mstateen(CPURISCVState *env, int csrno)
- {
-     RISCVCPU *cpu = env_archcpu(env);
-@@ -1946,6 +1938,38 @@ static RISCVException write_menvcfgh(CPURISCVState *env, int csrno,
-     return RISCV_EXCP_NONE;
- }
- 
-+static RISCVException smstateen_acc_ok(CPURISCVState *env, int index,
-+                                       uint64_t bit)
-+{
-+    bool virt = riscv_cpu_virt_enabled(env);
-+
-+    if (env->priv == PRV_M) {
-+        return RISCV_EXCP_NONE;
-+    }
-+
-+    if (!(env->mstateen[index] & bit)) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+
-+    if (virt) {
-+        if (!(env->hstateen[index] & bit)) {
-+            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+        }
-+
-+        if (env->priv == PRV_U && !(env->sstateen[index] & bit)) {
-+            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+        }
-+    }
-+
-+    if (env->priv == PRV_U && riscv_has_ext(env, RVS)) {
-+        if (!(env->sstateen[index] & bit)) {
-+            return RISCV_EXCP_ILLEGAL_INST;
-+        }
-+    }
-+
-+    return RISCV_EXCP_NONE;
-+}
-+
- static RISCVException read_senvcfg(CPURISCVState *env, int csrno,
-                                    target_ulong *val)
- {
-@@ -4087,11 +4111,11 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-                        .min_priv_ver = PRIV_VERSION_1_12_0              },
-     [CSR_MENVCFGH] = { "menvcfgh", umode32, read_menvcfgh, write_menvcfgh,
-                        .min_priv_ver = PRIV_VERSION_1_12_0              },
--    [CSR_SENVCFG]  = { "senvcfg",  smode, read_senvcfg,  write_senvcfg,
-+    [CSR_SENVCFG]  = { "senvcfg",  envcfg, read_senvcfg,  write_senvcfg,
-                        .min_priv_ver = PRIV_VERSION_1_12_0              },
--    [CSR_HENVCFG]  = { "henvcfg",  hmode, read_henvcfg, write_henvcfg,
-+    [CSR_HENVCFG]  = { "henvcfg",  envcfg, read_henvcfg,  write_henvcfg,
-                        .min_priv_ver = PRIV_VERSION_1_12_0              },
--    [CSR_HENVCFGH] = { "henvcfgh", hmode32, read_henvcfgh, write_henvcfgh,
-+    [CSR_HENVCFGH] = { "henvcfgh", envcfg, read_henvcfgh, write_henvcfgh,
-                        .min_priv_ver = PRIV_VERSION_1_12_0              },
- 
-     /* Smstateen extension CSRs */
--- 
-2.25.1
+You will need to add a Signed-off-by tag.
+
+Thanks,
+
+C.
+
+> ---
+>   hw/arm/aspeed.c | 32 ++++++++++++++++----------------
+>   1 file changed, 16 insertions(+), 16 deletions(-)
+> 
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index 55f114ef72..8e6a1579e4 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -846,42 +846,42 @@ static void fuji_bmc_i2c_init(AspeedMachineState *bmc)
+>       i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4c);
+>       i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4d);
+>   
+> -    aspeed_eeprom_init(i2c[19], 0x52, 64 * KiB);
+> -    aspeed_eeprom_init(i2c[20], 0x50, 2 * KiB);
+> -    aspeed_eeprom_init(i2c[22], 0x52, 2 * KiB);
+> +    aspeed_eeprom_init(i2c[19], 0x52, 64 * KiB / 8);
+> +    aspeed_eeprom_init(i2c[20], 0x50, 2 * KiB / 8);
+> +    aspeed_eeprom_init(i2c[22], 0x52, 2 * KiB / 8);
+>   
+>       i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x48);
+>       i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x49);
+>       i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x4a);
+>       i2c_slave_create_simple(i2c[3], TYPE_TMP422, 0x4c);
+>   
+> -    aspeed_eeprom_init(i2c[8], 0x51, 64 * KiB);
+> +    aspeed_eeprom_init(i2c[8], 0x51, 64 * KiB / 8);
+>       i2c_slave_create_simple(i2c[8], TYPE_LM75, 0x4a);
+>   
+>       i2c_slave_create_simple(i2c[50], TYPE_LM75, 0x4c);
+> -    aspeed_eeprom_init(i2c[50], 0x52, 64 * KiB);
+> +    aspeed_eeprom_init(i2c[50], 0x52, 64 * KiB / 8);
+>       i2c_slave_create_simple(i2c[51], TYPE_TMP75, 0x48);
+>       i2c_slave_create_simple(i2c[52], TYPE_TMP75, 0x49);
+>   
+>       i2c_slave_create_simple(i2c[59], TYPE_TMP75, 0x48);
+>       i2c_slave_create_simple(i2c[60], TYPE_TMP75, 0x49);
+>   
+> -    aspeed_eeprom_init(i2c[65], 0x53, 64 * KiB);
+> +    aspeed_eeprom_init(i2c[65], 0x53, 64 * KiB / 8);
+>       i2c_slave_create_simple(i2c[66], TYPE_TMP75, 0x49);
+>       i2c_slave_create_simple(i2c[66], TYPE_TMP75, 0x48);
+> -    aspeed_eeprom_init(i2c[68], 0x52, 64 * KiB);
+> -    aspeed_eeprom_init(i2c[69], 0x52, 64 * KiB);
+> -    aspeed_eeprom_init(i2c[70], 0x52, 64 * KiB);
+> -    aspeed_eeprom_init(i2c[71], 0x52, 64 * KiB);
+> +    aspeed_eeprom_init(i2c[68], 0x52, 64 * KiB / 8);
+> +    aspeed_eeprom_init(i2c[69], 0x52, 64 * KiB / 8);
+> +    aspeed_eeprom_init(i2c[70], 0x52, 64 * KiB / 8);
+> +    aspeed_eeprom_init(i2c[71], 0x52, 64 * KiB / 8);
+>   
+> -    aspeed_eeprom_init(i2c[73], 0x53, 64 * KiB);
+> +    aspeed_eeprom_init(i2c[73], 0x53, 64 * KiB / 8);
+>       i2c_slave_create_simple(i2c[74], TYPE_TMP75, 0x49);
+>       i2c_slave_create_simple(i2c[74], TYPE_TMP75, 0x48);
+> -    aspeed_eeprom_init(i2c[76], 0x52, 64 * KiB);
+> -    aspeed_eeprom_init(i2c[77], 0x52, 64 * KiB);
+> -    aspeed_eeprom_init(i2c[78], 0x52, 64 * KiB);
+> -    aspeed_eeprom_init(i2c[79], 0x52, 64 * KiB);
+> -    aspeed_eeprom_init(i2c[28], 0x50, 2 * KiB);
+> +    aspeed_eeprom_init(i2c[76], 0x52, 64 * KiB / 8);
+> +    aspeed_eeprom_init(i2c[77], 0x52, 64 * KiB / 8);
+> +    aspeed_eeprom_init(i2c[78], 0x52, 64 * KiB / 8);
+> +    aspeed_eeprom_init(i2c[79], 0x52, 64 * KiB / 8);
+> +    aspeed_eeprom_init(i2c[28], 0x50, 2 * KiB / 8);
+>   
+>       for (int i = 0; i < 8; i++) {
+>           aspeed_eeprom_init(i2c[81 + i * 8], 0x56, 64 * KiB);
 
 
