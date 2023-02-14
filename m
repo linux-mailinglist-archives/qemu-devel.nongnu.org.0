@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7B52695556
+	by mail.lfdr.de (Postfix) with ESMTPS id E441F695554
 	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 01:29:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRjBB-0007Ry-QY; Mon, 13 Feb 2023 19:28:22 -0500
+	id 1pRjBG-0007S0-Lz; Mon, 13 Feb 2023 19:28:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pRjB7-0007RN-6m
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 19:28:13 -0500
-Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132])
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pRjB8-0007Rg-6Q
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 19:28:14 -0500
+Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pRjB5-00060B-FE
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 19:28:12 -0500
-Received: by mail-il1-x132.google.com with SMTP id v6so876309ilc.10
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 16:28:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pRjB6-00060S-Iu
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 19:28:13 -0500
+Received: by mail-il1-x134.google.com with SMTP id a5so5835941ilk.6
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 16:28:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XQOYBxgR23EvKF+EuGnmtn+Ceb+bOBIn7DIZLpdNiBw=;
- b=EUCQW19vk4UVvuv4EIv/YOLM0S9wcHJFDAoD3Ox2in/+tVBKNyiUz7e2YH9J3cjknE
- fXJJRyjN6pPywYJz5R0gKztDMfOl/ZvpAgM3xYiShkrWKno/48aQ0sLHTk9tf9TRyJmF
- mfWN2EyzTWdHco+uPHeWawoqtCSJJJBd4jiYXaq4HviLwGQIsaNDv7AOsgCvIP57ep20
- 8EXQ8j/xxBK+BJtbN8aL8HzqBFqXf9cUIiLZkoOSEEwI1w4gt19kR+wbjVDtuRYJovxA
- 4qg2IVUoCsN6/7eTI4H0YthfnqXhfJ1Q5ALipSqE9ifbL5cNPuc5A4wTOcyRRcSsUdis
- oCvg==
+ bh=xPed9Hmei9C8C938impO73nLqRfwKXEcgeKH5shVNaI=;
+ b=GNW7CnJncjsDQCR858RWB0rF5qJy594MfcCTeZ4mGG0HLL/S+4d2G9tzvttVTrNfQo
+ oXHN/MWfRNXpB/0dTft019ZvLQoOIBaB2oQ357vu4kPeBe26vHiw/B1JICdJeFq48lvM
+ Pr3dBUYv1bgMbg60Q1kBlf38UZJ7W8uEM4d/FQPRg9/EqY9Jmg/EKw6caMwJJHwp8X0o
+ Cf9ZKUU/a7X+W07Suv14TbetHte8pznIBJkU6OX5PIRry/Nr5RNDPZAPz8Zgo0FsWYHE
+ ECh2o9KU8K+jkbHEoaMCgJDP1cpBGpEShZTyzhKQUWeZKeowwgDhmvOpZPyUUTx6N0Vl
+ iBsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XQOYBxgR23EvKF+EuGnmtn+Ceb+bOBIn7DIZLpdNiBw=;
- b=u1hDdn8tBO9td3Qx8/CLMxeBkQOB6ch+JdqMpsNhKBadI8PVGzmV3HOIT5LLNIcLq9
- URRS+/ARpaBL6LE2JtS1zWON4bm6rSIosdqTw8V5H6TXhRgimEJcLiq1L/guPo2ORtg3
- BIc/EiQADHiGlZkAUCctFu0xbV4SSMXxlRewJwU4OI3t1C5QC/QJeLPgqo/jsm2+5gT0
- 3zHp/YAtEZjPpb2Sv2lwoIPMfoQREdd1AgJCgcrOnmSUgzzvVaIGpm+HcdUOrGjqlmRB
- S4PsTa6gEGSfPeck2rC2Dq9YS+0itVdpGqBzGea5q19cNSbbTvgmJU8+iVN4STmTLvcH
- wIPg==
-X-Gm-Message-State: AO0yUKW0aHeuCJEujLAMdUkCntbxlCAKHXMyHzZ0DKhOQLQWet3Z/Cqq
- f52qRE0yAEEvLjhEEmCi8BVZWSC9HD7ZTvJS
-X-Google-Smtp-Source: AK7set9ADxJjgp9jrxEHmCokWNZsuj0U6WBYs9Z0gf7xA5SqRbFTfJIDbXSZSxeA1iVVJn3wD6gNug==
-X-Received: by 2002:a05:6e02:b4c:b0:315:564b:f3da with SMTP id
- f12-20020a056e020b4c00b00315564bf3damr571217ilu.8.1676334490042; 
- Mon, 13 Feb 2023 16:28:10 -0800 (PST)
+ bh=xPed9Hmei9C8C938impO73nLqRfwKXEcgeKH5shVNaI=;
+ b=pqjAriutkDf9zgRvuwIGWK4EctT7cU0Y3zFYbvPqFKUC/Hwhv0FEHm9xN/sBAIHmQx
+ 4P+HgEVzHpxZI/u7+ednnC8VhxJmPaCU5S2j3KgnWOsTj6t3/Y9YGkqf7y7bjd2sMLyI
+ sX1sLkynb1TjS84ds0V6EzuN1w4dMHMNEIq6zSAyQiyJysJEbfhG0bM2MUe3wPRLdloI
+ XGhoL25cYUUI/7MwlCbJIrXmwJp3eyjMxxb9JUATcQSC+JstTl0xWkTArKMl+BGeDJP3
+ O3OdgE3QVija1/d6XpVDmkW46943D31991rkAT2+X9gMmtPWmdSfzkpB3zfVIVtD20t6
+ T3fg==
+X-Gm-Message-State: AO0yUKU+j6hsHN5rE5gRoKq0XrRtWv6htDDkq0ybYHb9QCeucumoXpKx
+ hnBkta6xSeMrY0jk1TQdP2ALN8qFYdDzW4D4
+X-Google-Smtp-Source: AK7set/KX04VEi5Ywe9hBYIDgXCXx4Fm+dqmxBbtnRvqC7dT/NbXEc7CR0MBB8dgqhVkqNgjVlmeFw==
+X-Received: by 2002:a05:6e02:1a88:b0:313:bbf8:29e9 with SMTP id
+ k8-20020a056e021a8800b00313bbf829e9mr780212ilv.29.1676334491113; 
+ Mon, 13 Feb 2023 16:28:11 -0800 (PST)
 Received: from dune.bsdimp.com (c-71-237-47-177.hsd1.co.comcast.net.
  [71.237.47.177]) by smtp.gmail.com with ESMTPSA id
- r17-20020a028811000000b003af4300d670sm4500923jai.27.2023.02.13.16.28.09
+ r17-20020a028811000000b003af4300d670sm4500923jai.27.2023.02.13.16.28.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Feb 2023 16:28:09 -0800 (PST)
+ Mon, 13 Feb 2023 16:28:10 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Warner Losh <imp@bsdimp.com>, richard.henderson@linaro.org,
  Paolo Bonzini <pbonzini@redhat.com>, kevans@freebsd.org, f4bug@amsat.org,
- Thomas Huth <thuth@redhat.com>, Juergen Lock <nox@jelal.kn-bremen.de>,
- Stacey Son <sson@FreeBSD.org>
-Subject: [PATCH v2 09/12] bsd-user: Start translation of arch-specific sysctls
-Date: Mon, 13 Feb 2023 17:27:54 -0700
-Message-Id: <20230214002757.99240-10-imp@bsdimp.com>
+ Thomas Huth <thuth@redhat.com>, Kyle Evans <kevans@FreeBSD.org>,
+ Juergen Lock <nox@jelal.kn-bremen.de>, Stacey Son <sson@FreeBSD.org>
+Subject: [PATCH v2 10/12] bsd-user: do_freebsd_sysctl helper for sysctl(2)
+Date: Mon, 13 Feb 2023 17:27:55 -0700
+Message-Id: <20230214002757.99240-11-imp@bsdimp.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230214002757.99240-1-imp@bsdimp.com>
 References: <20230214002757.99240-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::132;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x132.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::134;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x134.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,198 +91,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Juergen Lock <nox@jelal.kn-bremen.de>
+From: Kyle Evans <kevans@FreeBSD.org>
 
-Intercept some syscalls that we need to translate (like the archiecture
-we're running on) and translate them. These are only the simplest ones
-so far.
+Implement the wrapper function for sysctl(2). This puts the oid
+arguments into a standard form and calls the common
+do_freebsd_sysctl_oid.
 
+Signed-off-by: Kyle Evans <kevans@FreeBSD.org>
+Co-Authored-by: Juergen Lock <nox@jelal.kn-bremen.de>
 Signed-off-by: Juergen Lock <nox@jelal.kn-bremen.de>
 Co-Authored-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
-Co-Authored-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Warner Losh <imp@bsdimp.com>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/freebsd/os-sys.c | 145 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 143 insertions(+), 2 deletions(-)
+ bsd-user/freebsd/os-sys.c     | 57 ++++++++++++++++++++++++++++++++++-
+ bsd-user/freebsd/os-syscall.c |  4 +++
+ bsd-user/qemu.h               |  2 ++
+ 3 files changed, 62 insertions(+), 1 deletion(-)
 
 diff --git a/bsd-user/freebsd/os-sys.c b/bsd-user/freebsd/os-sys.c
-index e847404af66..cbaa70958b9 100644
+index cbaa70958b9..e70f8f21c52 100644
 --- a/bsd-user/freebsd/os-sys.c
 +++ b/bsd-user/freebsd/os-sys.c
-@@ -67,7 +67,7 @@ static const int host_ctl_size[CTLTYPE+1] = {
-  */
- static const abi_ulong target_max_mem = UINT32_MAX - 0x100c000 + 1;
+@@ -258,7 +258,7 @@ static inline void sysctl_oidfmt(uint32_t *holdp)
+     holdp[0] = tswap32(holdp[0]);
+ }
  
--static abi_ulong G_GNUC_UNUSED cap_memory(uint64_t mem)
-+static abi_ulong cap_memory(uint64_t mem)
+-static abi_long G_GNUC_UNUSED do_freebsd_sysctl_oid(CPUArchState *env, int32_t *snamep,
++static abi_long do_freebsd_sysctl_oid(CPUArchState *env, int32_t *snamep,
+         int32_t namelen, void *holdp, size_t *holdlenp, void *hnewp,
+         size_t newlen)
  {
-     if (((unsigned long)target_max_mem) < mem) {
-         mem = target_max_mem;
-@@ -79,7 +79,7 @@ static abi_ulong G_GNUC_UNUSED cap_memory(uint64_t mem)
- 
- static unsigned long host_page_size;
- 
--static abi_ulong G_GNUC_UNUSED scale_to_target_pages(uint64_t pages)
-+static abi_ulong scale_to_target_pages(uint64_t pages)
- {
-     if (host_page_size == 0) {
-         host_page_size = getpagesize();
-@@ -273,6 +273,146 @@ static abi_long G_GNUC_UNUSED do_freebsd_sysctl_oid(CPUArchState *env, int32_t *
-     oidfmt(snamep, namelen, NULL, &kind);
- 
-     /* Handle some arch/emulator dependent sysctl()'s here. */
-+    switch (snamep[0]) {
-+    case CTL_KERN:
-+        switch (snamep[1]) {
-+        case KERN_USRSTACK:
-+            if (oldlen) {
-+                (*(abi_ulong *)holdp) = tswapal(TARGET_USRSTACK);
-+            }
-+            holdlen = sizeof(abi_ulong);
-+            ret = 0;
-+            goto out;
-+
-+        case KERN_PS_STRINGS:
-+            if (oldlen) {
-+                (*(abi_ulong *)holdp) = tswapal(TARGET_PS_STRINGS);
-+            }
-+            holdlen = sizeof(abi_ulong);
-+            ret = 0;
-+            goto out;
-+
-+        default:
-+            break;
-+        }
-+        break;
-+
-+    case CTL_HW:
-+        switch (snamep[1]) {
-+        case HW_MACHINE:
-+            holdlen = sizeof(TARGET_HW_MACHINE);
-+            if (holdp) {
-+                strlcpy(holdp, TARGET_HW_MACHINE, oldlen);
-+            }
-+            ret = 0;
-+            goto out;
-+
-+        case HW_MACHINE_ARCH:
-+        {
-+            holdlen = sizeof(TARGET_HW_MACHINE_ARCH);
-+            if (holdp) {
-+                strlcpy(holdp, TARGET_HW_MACHINE_ARCH, oldlen);
-+            }
-+            ret = 0;
-+            goto out;
-+        }
-+        case HW_NCPU:
-+            if (oldlen) {
-+                (*(int32_t *)holdp) = tswap32(bsd_get_ncpu());
-+            }
-+            holdlen = sizeof(int32_t);
-+            ret = 0;
-+            goto out;
-+#if defined(TARGET_ARM)
-+        case HW_FLOATINGPT:
-+            if (oldlen) {
-+                ARMCPU *cpu = env_archcpu(env);
-+                *(abi_int *)holdp = cpu_isar_feature(aa32_vfp, cpu);
-+            }
-+            holdlen = sizeof(int32_t);
-+            ret = 0;
-+            goto out;
-+#endif
-+
-+
-+#ifdef TARGET_ABI32
-+        case HW_PHYSMEM:
-+        case HW_USERMEM:
-+        case HW_REALMEM:
-+            holdlen = sizeof(abi_ulong);
-+            ret = 0;
-+
-+            if (oldlen) {
-+                int mib[2] = {snamep[0], snamep[1]};
-+                unsigned long lvalue;
-+                size_t len = sizeof(lvalue);
-+
-+                if (sysctl(mib, 2, &lvalue, &len, NULL, 0) == -1) {
-+                    ret = -1;
-+                } else {
-+                    lvalue = cap_memory(lvalue);
-+                    (*(abi_ulong *)holdp) = tswapal((abi_ulong)lvalue);
-+                }
-+            }
-+            goto out;
-+#endif
-+
-+        default:
-+        {
-+            static int oid_hw_availpages;
-+            static int oid_hw_pagesizes;
-+
-+            if (!oid_hw_availpages) {
-+                int real_oid[CTL_MAXNAME + 2];
-+                size_t len = sizeof(real_oid) / sizeof(int);
-+
-+                if (sysctlnametomib("hw.availpages", real_oid, &len) >= 0) {
-+                    oid_hw_availpages = real_oid[1];
-+                }
-+            }
-+            if (!oid_hw_pagesizes) {
-+                int real_oid[CTL_MAXNAME + 2];
-+                size_t len = sizeof(real_oid) / sizeof(int);
-+
-+                if (sysctlnametomib("hw.pagesizes", real_oid, &len) >= 0) {
-+                    oid_hw_pagesizes = real_oid[1];
-+                }
-+            }
-+
-+            if (oid_hw_availpages && snamep[1] == oid_hw_availpages) {
-+                long lvalue;
-+                size_t len = sizeof(lvalue);
-+
-+                if (sysctlbyname("hw.availpages", &lvalue, &len, NULL, 0) == -1) {
-+                    ret = -1;
-+                } else {
-+                    if (oldlen) {
-+                        lvalue = scale_to_target_pages(lvalue);
-+                        (*(abi_ulong *)holdp) = tswapal((abi_ulong)lvalue);
-+                    }
-+                    holdlen = sizeof(abi_ulong);
-+                    ret = 0;
-+                }
-+                goto out;
-+            }
-+
-+            if (oid_hw_pagesizes && snamep[1] == oid_hw_pagesizes) {
-+                if (oldlen) {
-+                    (*(abi_ulong *)holdp) = tswapal((abi_ulong)getpagesize());
-+                    ((abi_ulong *)holdp)[1] = 0;
-+                }
-+                holdlen = sizeof(abi_ulong) * 2;
-+                ret = 0;
-+                goto out;
-+            }
-+            break;
-+        }
-+        }
-+        break;
-+
-+    default:
-+        break;
-+    }
- 
- #ifdef TARGET_ABI32
-     /*
-@@ -336,6 +476,7 @@ static abi_long G_GNUC_UNUSED do_freebsd_sysctl_oid(CPUArchState *env, int32_t *
-         }
-     }
- 
-+out:
-     *holdlenp = holdlen;
+@@ -481,6 +481,61 @@ out:
      return ret;
  }
+ 
++abi_long do_freebsd_sysctl(CPUArchState *env, abi_ulong namep, int32_t namelen,
++        abi_ulong oldp, abi_ulong oldlenp, abi_ulong newp, abi_ulong newlen)
++{
++    abi_long ret = -TARGET_EFAULT;
++    void *hnamep, *holdp = NULL, *hnewp = NULL;
++    size_t holdlen;
++    abi_ulong oldlen = 0;
++    int32_t *snamep = g_malloc(sizeof(int32_t) * namelen), *p, *q, i;
++
++    /* oldlenp is read/write, pre-check here for write */
++    if (oldlenp) {
++        if (!access_ok(VERIFY_WRITE, oldlenp, sizeof(abi_ulong)) ||
++            get_user_ual(oldlen, oldlenp)) {
++            goto out;
++        }
++    }
++    hnamep = lock_user(VERIFY_READ, namep, namelen, 1);
++    if (hnamep == NULL) {
++        goto out;
++    }
++    if (newp) {
++        hnewp = lock_user(VERIFY_READ, newp, newlen, 1);
++        if (hnewp == NULL) {
++            goto out;
++        }
++    }
++    if (oldp) {
++        holdp = lock_user(VERIFY_WRITE, oldp, oldlen, 0);
++        if (holdp == NULL) {
++            goto out;
++        }
++    }
++    holdlen = oldlen;
++    for (p = hnamep, q = snamep, i = 0; i < namelen; p++, i++, q++) {
++        *q = tswap32(*p);
++    }
++
++    ret = do_freebsd_sysctl_oid(env, snamep, namelen, holdp, &holdlen, hnewp,
++        newlen);
++
++    /*
++     * writeability pre-checked above. __sysctl(2) returns ENOMEM and updates
++     * oldlenp for the proper size to use.
++     */
++    if (oldlenp && (ret == 0 || ret == -TARGET_ENOMEM)) {
++        put_user_ual(holdlen, oldlenp);
++    }
++    unlock_user(hnamep, namep, 0);
++    unlock_user(holdp, oldp, holdlen);
++    unlock_user(holdp, oldp, ret == 0 ? holdlen : 0);
++out:
++    g_free(snamep);
++    return ret;
++}
++
+ /* sysarch() is architecture dependent. */
+ abi_long do_freebsd_sysarch(void *cpu_env, abi_long arg1, abi_long arg2)
+ {
+diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
+index e00997a818c..20ab3d4d9a1 100644
+--- a/bsd-user/freebsd/os-syscall.c
++++ b/bsd-user/freebsd/os-syscall.c
+@@ -494,6 +494,10 @@ static abi_long freebsd_syscall(void *cpu_env, int num, abi_long arg1,
+         /*
+          * sys{ctl, arch, call}
+          */
++    case TARGET_FREEBSD_NR___sysctl: /* sysctl(3) */
++        ret = do_freebsd_sysctl(cpu_env, arg1, arg2, arg3, arg4, arg5, arg6);
++        break;
++
+     case TARGET_FREEBSD_NR_sysarch: /* sysarch(2) */
+         ret = do_freebsd_sysarch(cpu_env, arg1, arg2);
+         break;
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index 0ceecfb6dfa..c7248cfde6f 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -252,6 +252,8 @@ bool is_error(abi_long ret);
+ int host_to_target_errno(int err);
+ 
+ /* os-sys.c */
++abi_long do_freebsd_sysctl(CPUArchState *env, abi_ulong namep, int32_t namelen,
++        abi_ulong oldp, abi_ulong oldlenp, abi_ulong newp, abi_ulong newlen);
+ abi_long do_freebsd_sysarch(void *cpu_env, abi_long arg1, abi_long arg2);
+ 
+ /* user access */
 -- 
 2.39.1
 
