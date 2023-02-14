@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 751A669617D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 11:52:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96EA06961E0
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 12:05:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRsuu-00047b-Jn; Tue, 14 Feb 2023 05:52:08 -0500
+	id 1pRt6Q-0008Lw-R8; Tue, 14 Feb 2023 06:04:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1pRsus-00046h-HS
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 05:52:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pRt6O-0008LO-Qf
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:04:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1pRsuq-00083p-QL
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 05:52:06 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pRt6N-0006Gl-Gw
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:04:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676371923;
+ s=mimecast20190719; t=1676372639;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=wPoppuO/EDNvrC99t5QiUeZdA+Npz0EmIu2FD4IBuwM=;
- b=VbEaSjfBBEaz5q4s+06wdpLW622vjz3/ZfgcKQ6ExJMzqnWZr2AGa+BVx5HkTfT3t5d22m
- a34g5VF93UELJKL2NFN1b/WxcQy5Ng1eYvn6IfH2yd+Yp6cwMnwi5t2pFIqOLlxp/SUZaO
- 0Tk263kELyogPVGFhChJABBodf0A4a4=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-591-c3xWlg8nNvyagCafd5R2Nw-1; Tue, 14 Feb 2023 05:52:02 -0500
-X-MC-Unique: c3xWlg8nNvyagCafd5R2Nw-1
-Received: by mail-qt1-f198.google.com with SMTP id
- hf20-20020a05622a609400b003abcad051d2so9026152qtb.12
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 02:52:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wPoppuO/EDNvrC99t5QiUeZdA+Npz0EmIu2FD4IBuwM=;
- b=PNjRL3Tdg5yIhT5TPhKoexnmdyO/b2ROM+XyF3e44gvf2PAwCQZThc8+Uy8TRM13Vy
- 0MLAQWEeG49o6eyXi0yjj9/hTf+pfQYEgWRkZTnfSke4Dg2VHwbml+apK41N3eAGyA3X
- 0OZjdTJqO3JlKo/OqL98k4Cy2yrwM8OLmpmifJUBgBSEORyiRXR73QfriGCBBT7aYKS7
- 7mFkWcoHk0tXB5vWUAGDxjW4OiAsEBSXlg/SDY2aqy8gBk49R44I3rRW9NwIFlT3fq2o
- 2qPNgT3RVcfYVi15riRXY7OoRaW4daXXR/zyfod6RxDovjcALLO2sk6jDcB+rrDavDee
- 3NNA==
-X-Gm-Message-State: AO0yUKXiaToYYka7NCfG6arcPJXe7rWSVY5Qtz/LKS5UdfMLv3bMJ80Z
- IccykcPpJVrImyhLbRY9vlF7iv7iLODaS0xrlZwzhsVzfnG5CfNYkfyzKI8bnd3JPw7agVUrAI8
- rC/X67lsJxLcVD4UJAP2Ec/+Vz5xtEX+AudSaoyXwAdlQgocp4oPXh2KVO05kaVsaqkKEO1w7
-X-Received: by 2002:ac8:5350:0:b0:3b9:bd8d:bb22 with SMTP id
- d16-20020ac85350000000b003b9bd8dbb22mr27776406qto.14.1676371920998; 
- Tue, 14 Feb 2023 02:52:00 -0800 (PST)
-X-Google-Smtp-Source: AK7set9baghTpCS5WDnH3zPTvSpNv3cHJmxLlqrPp1TxQLP6znOIm70lL92MEHxIg5twlmbK3W2F8Q==
-X-Received: by 2002:ac8:5350:0:b0:3b9:bd8d:bb22 with SMTP id
- d16-20020ac85350000000b003b9bd8dbb22mr27776386qto.14.1676371920665; 
- Tue, 14 Feb 2023 02:52:00 -0800 (PST)
-Received: from step1.redhat.com (host-82-57-51-111.retail.telecomitalia.it.
- [82.57.51.111]) by smtp.gmail.com with ESMTPSA id
- 5-20020ac85605000000b003b85f9a56c9sm10918264qtr.97.2023.02.14.02.51.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Feb 2023 02:52:00 -0800 (PST)
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Aihua Liang <aliang@redhat.com>
-Subject: [PATCH] block: temporarily hold the new AioContext of bs_top in
- bdrv_append()
-Date: Tue, 14 Feb 2023 11:51:56 +0100
-Message-Id: <20230214105156.316586-1-sgarzare@redhat.com>
-X-Mailer: git-send-email 2.39.1
+ in-reply-to:in-reply-to:references:references;
+ bh=nBwqFAD4fPIWMEor3pwTn+YhIhtIwxYptURXbii/sl4=;
+ b=Iyj3hVwJMLhQ1OXrOUNrW57LXD07sogXsW93fDql75mWrw8gZxQlUmHEqDZ+tcsKRE/uXI
+ b6gL8wJ0qsRhvDjtTWm7Gr5DOmTpKCUpzoIvfdP3B6wegaktqvfI7YtJmvW5LphkWPOp91
+ kEh/aULVLXCq8SC8iu1UJc4bWs/A3Fc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-6-Wko2CNp-MgGOhtLX2_xGkA-1; Tue, 14 Feb 2023 06:03:54 -0500
+X-MC-Unique: Wko2CNp-MgGOhtLX2_xGkA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6BF56101A52E;
+ Tue, 14 Feb 2023 11:03:54 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5AED640CE2A7;
+ Tue, 14 Feb 2023 11:03:52 +0000 (UTC)
+Date: Tue, 14 Feb 2023 12:03:51 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Michael Roth <michael.roth@amd.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH v2 6/7] CI: Stop building docs on centos8
+Message-ID: <Y+tqlwx0NptPn35n@redhat.com>
+References: <20230210003147.1309376-1-jsnow@redhat.com>
+ <20230210003147.1309376-7-jsnow@redhat.com>
+ <CAFEAcA-c5y0TR8vYg_FYEmGv3mOOmBgeD0cyb+mVotsP=r-Dsw@mail.gmail.com>
+ <CAFn=p-aDV9=vG6hjTWRE6c52TpYSjDBU22nthTuejDCv_XrYMQ@mail.gmail.com>
+ <CAFEAcA_eGvz_BQVLhVWtedRh2mcBuMEhv0RKF+6DW4t+9FdPAw@mail.gmail.com>
+ <Y+Z2Kcq17HGWuoTV@redhat.com> <87cz6cpue3.fsf@pond.sub.org>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87cz6cpue3.fsf@pond.sub.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -99,91 +90,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-bdrv_append() is called with bs_top AioContext held, but
-bdrv_attach_child_noperm() could change the AioContext of bs_top.
+Am 14.02.2023 um 08:40 hat Markus Armbruster geschrieben:
+> I read this on Friday, and decided to let it sit until after the
+> weekend.  Well, it's now Tuesday, and to be frank, it's still as
+> offensively flippant as it was on Friday.  It shows either ignorance of
+> or cavalier disregard for the sheer amount of work some of us have had
+> to put into keeping old versions of Python viable.
+> 
+> The latter would be quite unlike you, so it must be the former.
 
-bdrv_replace_node_noperm() calls bdrv_drained_begin() starting from
-commit 2398747128 ("block: Don't poll in bdrv_replace_child_noperm()").
-bdrv_drained_begin() can call BDRV_POLL_WHILE that assumes the new lock
-is taken, so let's temporarily hold the new AioContext to prevent QEMU
-from failing in BDRV_POLL_WHILE when it tries to release the wrong
-AioContext.
+Honest question, Markus, because I haven't been following as much what
+is happening in Python recently: What are the biggest pain points in
+this context?
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2168209
-Reported-by: Aihua Liang <aliang@redhat.com>
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
----
-I'm not sure whether to use the following Fixes tag. That commit added the
-calls to bdrv_drained_begin() in bdrv_replace_node_noperm(), but maybe the
-problem was pre-existing.
+Has Python started removing features from new versions more aggressively
+so that we have to update the code so it can run on newer versions, and
+still keep compatibility paths for older versions that don't have the
+replacement yet?
 
-Fixes: 2398747128 ("block: Don't poll in bdrv_replace_child_noperm()")
-
-Note: a local reproducer is attached in the BZ, it is based on the Aihua Liang
-report and it hits the issue with a 20% ratio.
----
- block.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
-
-diff --git a/block.c b/block.c
-index aa9062f2c1..0e2bc11e0b 100644
---- a/block.c
-+++ b/block.c
-@@ -5266,6 +5266,8 @@ int bdrv_drop_filter(BlockDriverState *bs, Error **errp)
-  * child.
-  *
-  * This function does not create any image files.
-+ *
-+ * The caller must hold the AioContext lock for @bs_top.
-  */
- int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
-                 Error **errp)
-@@ -5273,11 +5275,14 @@ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
-     int ret;
-     BdrvChild *child;
-     Transaction *tran = tran_new();
-+    AioContext *old_context, *new_context;
- 
-     GLOBAL_STATE_CODE();
- 
-     assert(!bs_new->backing);
- 
-+    old_context = bdrv_get_aio_context(bs_top);
-+
-     child = bdrv_attach_child_noperm(bs_new, bs_top, "backing",
-                                      &child_of_bds, bdrv_backing_role(bs_new),
-                                      tran, errp);
-@@ -5286,11 +5291,29 @@ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
-         goto out;
-     }
- 
-+    /*
-+     * bdrv_attach_child_noperm could change the AioContext of bs_top.
-+     * bdrv_replace_node_noperm calls bdrv_drained_begin, so let's temporarily
-+     * hold the new AioContext, since bdrv_drained_begin calls BDRV_POLL_WHILE
-+     * that assumes the new lock is taken.
-+     */
-+    new_context = bdrv_get_aio_context(bs_top);
-+
-+    if (old_context != new_context) {
-+        aio_context_release(old_context);
-+        aio_context_acquire(new_context);
-+    }
-+
-     ret = bdrv_replace_node_noperm(bs_top, bs_new, true, tran, errp);
-     if (ret < 0) {
-         goto out;
-     }
- 
-+    if (old_context != new_context) {
-+        aio_context_release(new_context);
-+        aio_context_acquire(old_context);
-+    }
-+
-     ret = bdrv_refresh_perms(bs_new, tran, errp);
- out:
-     tran_finalize(tran, ret);
--- 
-2.39.1
+Kevin
 
 
