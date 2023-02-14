@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 108C669634C
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 13:18:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5162269636B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 13:23:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRuFI-0004FO-1b; Tue, 14 Feb 2023 07:17:16 -0500
+	id 1pRuKM-0005zZ-5Y; Tue, 14 Feb 2023 07:22:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRuFE-0004CK-BF
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 07:17:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1pRuKJ-0005yn-7i
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 07:22:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRuFB-0001Qc-DY
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 07:17:11 -0500
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1pRuKH-0006u8-5M
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 07:22:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676377028;
+ s=mimecast20190719; t=1676377344;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BAXhBlOuZl/A0DyOvAqMgGtPdC5KBfU6GLnrH8qPmWE=;
- b=ble5HUU05t8PXOJGWLB1fr8ZZSgo/zQ/BbIrhDmeYNGWb3t4CAeAEwlM+Ma3OzLtaFmo/N
- cISgqF1y60WIHBXnftd1NAuGUZwQ9F3mi3aXqeo7bnbth6eD/RZh+In7zAwPKXh/amKzF8
- DHGwel+3pxgD+yIrU5FHXLdaZduaE4o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-563-ezaOxhqjPJGNHG46afIEmQ-1; Tue, 14 Feb 2023 07:17:07 -0500
-X-MC-Unique: ezaOxhqjPJGNHG46afIEmQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 68633101A55E;
- Tue, 14 Feb 2023 12:17:06 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 195244010E84;
- Tue, 14 Feb 2023 12:17:06 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 045E321E6A1F; Tue, 14 Feb 2023 13:17:05 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Peter Krempa
- <pkrempa@redhat.com>,  eduardo@habkost.net,  antonkuchin@yandex-team.ru,
- mst@redhat.com,  "reviewer:Incompatible changes"
- <libvir-list@redhat.com>,  qemu-devel@nongnu.org,  Vladimir
- Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- den-plotnikov@yandex-team.ru,  marcel.apfelbaum@gmail.com,
- pbonzini@redhat.com,  eblake@redhat.com
-Subject: Re: [PATCH v4 14/16] qapi: deprecate "device" field of DEVICE_* events
-References: <20230213140103.1518173-1-vsementsov@yandex-team.ru>
- <20230213140103.1518173-15-vsementsov@yandex-team.ru>
- <Y+pFe4bRCqbJJbp0@redhat.com> <87bklwoce9.fsf@pond.sub.org>
- <Y+tTgpoz/o0nDu9r@angien.pipo.sk> <Y+ttBkTvDv1T7qi1@redhat.com>
- <87ttzojwl7.fsf@pond.sub.org>
- <73444fb8-49a7-fc2f-091e-6f65e916fa58@linaro.org>
-Date: Tue, 14 Feb 2023 13:17:04 +0100
-In-Reply-To: <73444fb8-49a7-fc2f-091e-6f65e916fa58@linaro.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 14 Feb 2023 12:53:01
- +0100")
-Message-ID: <87o7pwigqn.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ bh=OkiePdrU83PoEJrmg5321mcNiGkmyCK4LW+88e5/LuY=;
+ b=GKbw7Srt9lFrTCGZxX/qHLuSzzVvnbEdl/uqMlx6T7I1HJvxmw1zPRhVsDuirFMZgqdJPv
+ BiKpPJYzmpb9NdibkhYKnArI+VWkBmNza7uDFg7mEihAbeXH/u8TUILQinPxRIGCWhEd1c
+ G85aL+U1LKoeT/NhV3IfxsdJKo32BhY=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-660-WSGC-YrTPUapLhzD2z_6zA-1; Tue, 14 Feb 2023 07:22:23 -0500
+X-MC-Unique: WSGC-YrTPUapLhzD2z_6zA-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ f187-20020a251fc4000000b0087f69905709so15699700ybf.10
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 04:22:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=OkiePdrU83PoEJrmg5321mcNiGkmyCK4LW+88e5/LuY=;
+ b=GAzmCPmOx8FxAWeTMrD7669RD5GFtcg4GTNeOXEK1xqYrvLVVWKpwv2ovfkv77YnSF
+ /aD/F7ZLJ0pyE8BQUTx/QNkZUY4KPJ65rN5vH8BT/TK8Im1Sa6hcLcAbLmyN+HrGKvxp
+ +CqXyID15FYCKl3hoBm+juLlYj947AiLpCvJpffojBut3mTxzZk7kQcQv0cKsaCZyNj3
+ JPYswgODtzNuvl3liWNRJZtPZ4LYa7nqh8FgvmF9gHOZ/f2u/8FGMpz0z/FTMcSCv5lx
+ l3SyOuWdLBiFJN9hhYOVrSxUwLsqra7WdbIC30O9h608aC04KHT6NNKBDl7HDRsZ7Z9F
+ E0bg==
+X-Gm-Message-State: AO0yUKXauMXZz8vve0lUKGM8Bx4Y0pExIJ4uu9nqHJul2urYk5NnMTVg
+ JiDcMwD5ew1ZQePTgYJphWtMnKWjjU90KqN809EAtqOlZsTHAsxAmzJ51lgaYotmViZFIrRr7dY
+ FC2XOTgjaS81o7virGXyF9WvC1nCJVQo=
+X-Received: by 2002:a81:93c1:0:b0:52b:4acb:a983 with SMTP id
+ k184-20020a8193c1000000b0052b4acba983mr180961ywg.27.1676377342601; 
+ Tue, 14 Feb 2023 04:22:22 -0800 (PST)
+X-Google-Smtp-Source: AK7set+RYZ6fTUk8XWG54j+QEEsbrXu/J6ietrtA6+fZBR0lKNaeGIKZTXJ7CCdEL9/P6Mg6gvz8LGe6ZHOGtarta/c=
+X-Received: by 2002:a81:93c1:0:b0:52b:4acb:a983 with SMTP id
+ k184-20020a8193c1000000b0052b4acba983mr180955ywg.27.1676377342323; Tue, 14
+ Feb 2023 04:22:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+References: <20230214105156.316586-1-sgarzare@redhat.com>
+ <Y+t24h3RrnCg8mYl@redhat.com>
+In-Reply-To: <Y+t24h3RrnCg8mYl@redhat.com>
+From: Stefano Garzarella <sgarzare@redhat.com>
+Date: Tue, 14 Feb 2023 13:22:10 +0100
+Message-ID: <CAGxU2F5qfudx7yQDvhrPkr8iHv9J01cYFm8eJT0iH6OKgyTGpg@mail.gmail.com>
+Subject: Re: [PATCH] block: temporarily hold the new AioContext of bs_top in
+ bdrv_append()
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
+ Hanna Reitz <hreitz@redhat.com>, Aihua Liang <aliang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -76,7 +78,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,78 +94,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
-
-> On 14/2/23 12:49, Markus Armbruster wrote:
->> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
-
-[...]
-
->>> What's the documented way to construct a QOM path, given only an ID  as
->>> input ?
->>=20
->> QOM paths a gap in our documentation, even though the composition tree
->> structure has been stable since day one, and is de facto ABI.
->>=20
->> Short answer: "/machine/peripheral/ID".
->>=20
->> Long answer follows.
->>=20
->> We have three "containers" under /machine that serve as parents for
->> devices:
->>=20
->> * /machine/peripheral/
->>=20
->>   Parent of user-created devices with ID.  Children are named "ID".
->>=20
->>   Put there by qdev_set_id(), called from qdev_device_add_from_qdict().
->>=20
->>   On "user-created": Nothing stops board code to abuse qdev_set_id() for
->>   onboard devices, directly or indirectly, but it really, really
->>   shouldn't.
->>=20
->> * /machine/peripheral-anon/
->>=20
->>   Parent of user-created devices without ID.  Children are named
->>   "device[N]", where N counts up from zero.
->>=20
->>   Put there by qdev_set_id(), called from qdev_device_add_from_qdict().
->>=20
->>   Again, abuse by board code is possible, but would be wrong.
->>=20
->>   Beware: a particular device's N changes when the set of devices
->>   created before it grows or shrinks.  Messing with the machine type can
->>   change it (different onboard devices).
->>=20
->> * /machine/unattached/
->>=20
->>   Surrogate parent of onboard devices created without a parent.
->>=20
->>   Put there by device_set_realized() (general case),
->>   qdev_connect_gpio_out_named() (input pins) , memory_region_do_init()
->>   (memory regions), qemu_create_machine() (the main sysbus).
->>=20
->>   I believe this container was created as a convenience, so we don't
->>   have to retrofit parents to existing code.  Probably abused ever
->>   since.
+On Tue, Feb 14, 2023 at 12:56 PM Kevin Wolf <kwolf@redhat.com> wrote:
 >
-> Are you suggesting this is a stable interface and we can not move
-> devices (like from /machine/unattached/ to /machine/peripheral/)
-> without going thru the deprecation process?
+> Am 14.02.2023 um 11:51 hat Stefano Garzarella geschrieben:
+> > bdrv_append() is called with bs_top AioContext held, but
+> > bdrv_attach_child_noperm() could change the AioContext of bs_top.
+> >
+> > bdrv_replace_node_noperm() calls bdrv_drained_begin() starting from
+> > commit 2398747128 ("block: Don't poll in bdrv_replace_child_noperm()").
+> > bdrv_drained_begin() can call BDRV_POLL_WHILE that assumes the new lock
+> > is taken, so let's temporarily hold the new AioContext to prevent QEMU
+> > from failing in BDRV_POLL_WHILE when it tries to release the wrong
+> > AioContext.
+> >
+> > Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2168209
+> > Reported-by: Aihua Liang <aliang@redhat.com>
+> > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> > ---
+> > I'm not sure whether to use the following Fixes tag. That commit added the
+> > calls to bdrv_drained_begin() in bdrv_replace_node_noperm(), but maybe the
+> > problem was pre-existing.
+> >
+> > Fixes: 2398747128 ("block: Don't poll in bdrv_replace_child_noperm()")
+> >
+> > Note: a local reproducer is attached in the BZ, it is based on the Aihua Liang
+> > report and it hits the issue with a 20% ratio.
+> > ---
+> >  block.c | 23 +++++++++++++++++++++++
+> >  1 file changed, 23 insertions(+)
+> >
+> > diff --git a/block.c b/block.c
+> > index aa9062f2c1..0e2bc11e0b 100644
+> > --- a/block.c
+> > +++ b/block.c
+> > @@ -5266,6 +5266,8 @@ int bdrv_drop_filter(BlockDriverState *bs, Error **errp)
+> >   * child.
+> >   *
+> >   * This function does not create any image files.
+> > + *
+> > + * The caller must hold the AioContext lock for @bs_top.
+> >   */
+> >  int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
+> >                  Error **errp)
+> > @@ -5273,11 +5275,14 @@ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
+> >      int ret;
+> >      BdrvChild *child;
+> >      Transaction *tran = tran_new();
+> > +    AioContext *old_context, *new_context;
+> >
+> >      GLOBAL_STATE_CODE();
+> >
+> >      assert(!bs_new->backing);
+> >
+> > +    old_context = bdrv_get_aio_context(bs_top);
+> > +
+> >      child = bdrv_attach_child_noperm(bs_new, bs_top, "backing",
+> >                                       &child_of_bds, bdrv_backing_role(bs_new),
+> >                                       tran, errp);
+> > @@ -5286,11 +5291,29 @@ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
+> >          goto out;
+> >      }
+> >
+> > +    /*
+> > +     * bdrv_attach_child_noperm could change the AioContext of bs_top.
+> > +     * bdrv_replace_node_noperm calls bdrv_drained_begin, so let's temporarily
+> > +     * hold the new AioContext, since bdrv_drained_begin calls BDRV_POLL_WHILE
+> > +     * that assumes the new lock is taken.
+> > +     */
+> > +    new_context = bdrv_get_aio_context(bs_top);
+> > +
+> > +    if (old_context != new_context) {
+> > +        aio_context_release(old_context);
+> > +        aio_context_acquire(new_context);
+> > +    }
+> > +
+> >      ret = bdrv_replace_node_noperm(bs_top, bs_new, true, tran, errp);
+> >      if (ret < 0) {
+> >          goto out;
+>
+> If we take the error path, we return with new_context locked instead of
+> old_context now.
 
-Difficult question!
+Grr, I'm blind...
 
-The point of not changing interfaces incompatibly without a grace period
-/ deprecation process is not breaking users of the interface.
+>
+> >      }
+> >
+> > +    if (old_context != new_context) {
+> > +        aio_context_release(new_context);
+> > +        aio_context_acquire(old_context);
+> > +    }
+> > +
+> >      ret = bdrv_refresh_perms(bs_new, tran, errp);
+> >  out:
+> >      tran_finalize(tran, ret);
+>
+> Strictly speaking, don't we need to hold the lock across
+> tran_finalize(), too? It completes the bdrv_replace_node_noperm() call
+> you covered above.
 
-When an interface has always worked a certain way, its users may well
-depend on it, whether it's documented or not.
+Right!
 
-The question to ask is always "will this break users?"
+>
+> Maybe bdrv_refresh_perms() and bdrv_refresh_limits(), too, in fact. We
+> never clearly defined which functions need the lock and which don't, so
+> hard to tell.
 
-For documented aspects, we generally assume it will.  Doesn't mean we
-can simply assume "won't" for undocumented aspects.
+Okay, so to be on the safe side, I'll switch them back just before return.
 
-Does this make sense?
+> It's really time to get rid of it.
+
+How could one disagree? :-)
+
+What about the Fixes tag? Should I include it?
+
+Thanks,
+Stefano
 
 
