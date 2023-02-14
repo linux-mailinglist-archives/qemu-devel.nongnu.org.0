@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A6E2696257
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 12:23:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A98F6696263
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 12:25:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRtOB-0007Kl-8c; Tue, 14 Feb 2023 06:22:23 -0500
+	id 1pRtOA-0007JQ-0J; Tue, 14 Feb 2023 06:22:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRtO8-0007GX-5C
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:22:20 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRtO7-0007GL-Pp
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:22:19 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRtO6-0002Mi-O7
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRtO6-0002Md-71
  for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:22:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676373738;
+ s=mimecast20190719; t=1676373737;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M1k+1GJHa8stDRBNkcp93ALCRrfXdio0fD9b2fPOCRw=;
- b=SCxqCID6rWpE1zGtt0IXxdRrADHWpii3IptP6RjbrJVcU+IPwrCpsDMc/bzAEYtykKBrra
- j79U5qDE7DN/LiLzLQ/TWNDe+e/sjsPPYP4AH8ebkD/9IagwZZf/ohxznPuKBI9ME6Dc/i
- QnW5/nRYZS98IeV63lMFf1I+AFVDbRM=
+ bh=a7v/VkQSyHF9yxE9T2RweKnpdijVoQhBrIb46xzj1AQ=;
+ b=YNnTMCjhDEcnee8NquBL/aC2uPfw9WxNYFkxzXHH7AUfJ6XsGiFIH5qkdaybUu8RABg8Bt
+ Yeo7DwAW1c+9xhDkKx+PWS3Diogn/g3ZV7e+PCazpOzeIWuQ6bUa+C2TB3LiUslPAWcwho
+ W/JgXtT6TvOXP4pcT/OdjXyIXyiCTKE=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-17-YPf888bsPjKXMWO07xiGsQ-1; Tue, 14 Feb 2023 06:22:14 -0500
-X-MC-Unique: YPf888bsPjKXMWO07xiGsQ-1
+ us-mta-657-NjfNTZ6uNQGrdtN-sBhwzw-1; Tue, 14 Feb 2023 06:22:16 -0500
+X-MC-Unique: NjfNTZ6uNQGrdtN-sBhwzw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 510E7857F40;
- Tue, 14 Feb 2023 11:22:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F1B0B811E6E;
+ Tue, 14 Feb 2023 11:22:15 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5800140B40C9;
- Tue, 14 Feb 2023 11:22:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BDFBD400D927;
+ Tue, 14 Feb 2023 11:22:14 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
 Cc: Fabiano Rosas <farosas@suse.de>
-Subject: [PULL 17/22] tests/qtest: Do not include hexloader-test if loader
- device is not present
-Date: Tue, 14 Feb 2023 12:21:43 +0100
-Message-Id: <20230214112148.646077-18-thuth@redhat.com>
+Subject: [PULL 18/22] tests/qemu-iotests: Require virtio-scsi-pci
+Date: Tue, 14 Feb 2023 12:21:44 +0100
+Message-Id: <20230214112148.646077-19-thuth@redhat.com>
 In-Reply-To: <20230214112148.646077-1-thuth@redhat.com>
 References: <20230214112148.646077-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -79,32 +78,29 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Fabiano Rosas <farosas@suse.de>
 
+Check that virtio-scsi-pci is present in the QEMU build before running
+the tests.
+
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
-Message-Id: <20230208194700.11035-11-farosas@suse.de>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20230208194700.11035-12-farosas@suse.de>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/meson.build | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/186 | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 5c8b031ce0..e87cb18d8e 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -197,11 +197,11 @@ qtests_arm = \
-   (config_all_devices.has_key('CONFIG_PFLASH_CFI02') ? ['pflash-cfi02-test'] : []) +         \
-   (config_all_devices.has_key('CONFIG_ASPEED_SOC') ? qtests_aspeed : []) + \
-   (config_all_devices.has_key('CONFIG_NPCM7XX') ? qtests_npcm7xx : []) + \
-+  (config_all_devices.has_key('CONFIG_GENERIC_LOADER') ? ['hexloader-test'] : []) + \
-   ['arm-cpu-features',
-    'microbit-test',
-    'test-arm-mptimer',
--   'boot-serial-test',
--   'hexloader-test']
-+   'boot-serial-test']
+diff --git a/tests/qemu-iotests/186 b/tests/qemu-iotests/186
+index 072e54e62b..eaf13c7a33 100755
+--- a/tests/qemu-iotests/186
++++ b/tests/qemu-iotests/186
+@@ -40,6 +40,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file fuse
+ _require_drivers null-co
++_require_devices virtio-scsi-pci
  
- # TODO: once aarch64 TCG is fixed on ARM 32 bit host, make bios-tables-test unconditional
- qtests_aarch64 = \
+ if [ "$QEMU_DEFAULT_MACHINE" != "pc" ]; then
+     _notrun "Requires a PC machine"
 -- 
 2.31.1
 
