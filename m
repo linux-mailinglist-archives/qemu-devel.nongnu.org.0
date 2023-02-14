@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F72696885
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 16:55:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BEAF696888
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 16:56:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRxd1-0000G5-Fi; Tue, 14 Feb 2023 10:53:59 -0500
+	id 1pRxeu-0001jE-2U; Tue, 14 Feb 2023 10:55:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pRxcy-0000Fg-0e
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 10:53:56 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ id 1pRxes-0001iV-9S
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 10:55:54 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pRxcv-0004MF-EE
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 10:53:55 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- f47-20020a05600c492f00b003dc584a7b7eso13989114wmp.3
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 07:53:32 -0800 (PST)
+ id 1pRxeq-00055Z-ON
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 10:55:54 -0500
+Received: by mail-wr1-x435.google.com with SMTP id a2so16156122wrd.6
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 07:55:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:user-agent:mime-version:date
  :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=/zYXMOqxFYi6LScaOomSTVJlzSrLk+YNL0ZBBaa+cC8=;
- b=CJIacpgdsnljARRZxdNh/EWi19yfVfQVrOcF1DwzxGg74EUWVDz1rr1Srlvyhc2hFe
- d16yOpdrbOaP2IgG5XPTVVldk/8kKo8qEVZGEWm8ZBDiuG5Lzq00RVKX7TdR8ipxV0RZ
- 4M+1G+uNDdc/ai9Iu1FqUqF/6veOGndzeiizNlCu/QeQYbaVrm6jpdQv7+CHGrbDtKq0
- nf+MFq9seMkzCyJew1Xoe4uhwjT7wqJvKg3pXyO7Dt63D6oX7o9Kd60uC1U3Q+FHD6BM
- RZPXlJDBbL36ue0MPwUThsR6tzAj1TZ/lxdmcQ43EkLiB21WczOuyy6gq4B68ucBtAUo
- RUXw==
+ bh=QrcZBfES18ID7jZXjshyTlNSzcEuxcXdotEEcXF/MbY=;
+ b=LaaNvR0r3trUyVZ5QgZoYLRAeeCUQigy+S1BYzu2MDQLWT9lNiPdjHUTPKyW3m23LZ
+ bNL28KxDkkMp1OHZu1X++Y6JSHRp8feae4fQ8w8rCFZ2e/CMLRZATkHSnbGrJCdfL/Y1
+ Ug1ksLxPyAG8gB2WmbyCYmtk0xqZNV1PjlI3BEHgamDeXn7OkDn8BEBYagdAhy+hwuWC
+ 9OOsjjS+WAAh20B92aJLAET1t3OC3K2n9mTJ4R8ropxCYacrJJLXzpZmkAEu0ZjXcTgD
+ L9iOTKdjdjFnGumYov41PMtYyMtQQoxZecsgZR1g77fM3LO6xAYbu/raCOXYvltVxeCp
+ TASg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:user-agent:mime-version:date
  :message-id:from:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/zYXMOqxFYi6LScaOomSTVJlzSrLk+YNL0ZBBaa+cC8=;
- b=S8RAYSmED4d3v0Zu57pNkvtxi4eF3Up9Ysj5wHGJrErmWWSpLRfO30LVkEF7/Ls/Ri
- EIZwtUQMEsY1TLuUQXY2t/M+X2Ch8WeGI0OnvYk6Zp3oRJUeqU/R1pGURAsm7a+MLOf4
- h+nEYnlUYqSfNdtBYaBk52xS7dLuBU7+KfgYEGJiACFNhBoqWck0if7K3nKo/08s3dZI
- +wMgfwAJo2pVBG2kqAXFU35n9ilx17AEIQglSP9r7sqq5tSsV4X7+hTotn/GQZaEpX7V
- KUwufPfVWWBgrdQrl/Mb7P6/wzr/SnI4j3zv3Z9jKR/7fMItaHEAEPl6gBhk8+ImKh8m
- 4rlg==
-X-Gm-Message-State: AO0yUKWHQt7F4vLD2Vye0jQQui6TO0qs9OFwzMHyd5kWiaCU15pd1v6U
- GHH3ImhDNfO6wsIXboUoooo=
-X-Google-Smtp-Source: AK7set+jNFS19YRVCGAJwEmYo94GfRwtZIkUk7gNDSv50gw2UAvmLUlkwF1zIOqwlrEqiUqflW8bMQ==
-X-Received: by 2002:a05:600c:354b:b0:3dc:c5c:b94f with SMTP id
- i11-20020a05600c354b00b003dc0c5cb94fmr2352946wmq.39.1676390010582; 
- Tue, 14 Feb 2023 07:53:30 -0800 (PST)
+ bh=QrcZBfES18ID7jZXjshyTlNSzcEuxcXdotEEcXF/MbY=;
+ b=K8uxud+8fuQjleSJveQOzCUIndNu6do0MNj6CrlYEBxWMlo2ORaAkIoV4V1JqhlH0N
+ 6G7GuXIR1ftEzO9nh784LrLCpumukFl2uPPQOE5uHfNTigrLemCQPmf+/qZC62RoOtW6
+ K1OUMzCpG0ExFR2AKSTOfMBb4kZRWZoKOhzhn2dGiwPkdWDxlWzPd0Ypys1l3GI5DpGB
+ WSGvcguPTfWlvUVd+7Xo/Juvyri36g7mGYd+ecP1+8UVvlVRixRYCD3Q0CARuJduttmu
+ 1hCjT4U0eWP/IgMicLLvOIhLNlNVkKqAOcSSU4ci0UeuwJmsZQ0BNMSHbTjVnz+zHtQc
+ zYjw==
+X-Gm-Message-State: AO0yUKXpoJjCESEjD9ev/Uwafihxozf5WuxjT+rpJao/InjYKc7GAaki
+ QzB5ly0khGeCwOKyXDnH4JM=
+X-Google-Smtp-Source: AK7set8HO1avoOyXJY1B4MGAl7XN7QCWu/M7/82r+HLNuyBWzVDGs/3z9v6IOObkS3DSbBYoiy/FsQ==
+X-Received: by 2002:adf:df89:0:b0:2c5:41e2:8bb9 with SMTP id
+ z9-20020adfdf89000000b002c541e28bb9mr2415989wrl.57.1676390151261; 
+ Tue, 14 Feb 2023 07:55:51 -0800 (PST)
 Received: from [10.95.154.108] (54-240-197-224.amazon.com. [54.240.197.224])
  by smtp.gmail.com with ESMTPSA id
- l4-20020a7bc444000000b003d9fba3c7a4sm19530419wmi.16.2023.02.14.07.53.29
+ d12-20020adfe84c000000b002c3f03d8851sm1601133wrn.16.2023.02.14.07.55.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Feb 2023 07:53:30 -0800 (PST)
+ Tue, 14 Feb 2023 07:55:50 -0800 (PST)
 From: Paul Durrant <xadimgnik@gmail.com>
 X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <91f95b09-cd01-6490-f247-b8250c2c956a@xen.org>
-Date: Tue, 14 Feb 2023 15:53:28 +0000
+Message-ID: <c4f52b9c-8f7e-ccf3-1640-69b9a74fa1b3@xen.org>
+Date: Tue, 14 Feb 2023 15:55:49 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH v10 50/59] hw/xen: Add backend implementation of
- interdomain event channel support
+Subject: Re: [PATCH v10 51/59] hw/xen: Add xen_xenstore device for xenstore
+ emulation
 Content-Language: en-US
 To: David Woodhouse <dwmw2@infradead.org>,
  Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
@@ -79,13 +78,13 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
 References: <20230201143148.1744093-1-dwmw2@infradead.org>
- <20230201143148.1744093-51-dwmw2@infradead.org>
+ <20230201143148.1744093-52-dwmw2@infradead.org>
 Organization: Xen Project
-In-Reply-To: <20230201143148.1744093-51-dwmw2@infradead.org>
+In-Reply-To: <20230201143148.1744093-52-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -112,21 +111,21 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 01/02/2023 14:31, David Woodhouse wrote:
 > From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> The provides the QEMU side of interdomain event channels, allowing events
-> to be sent to/from the guest.
-> 
-> The API mirrors libxenevtchn, and in time both this and the real Xen one
-> will be available through ops structures so that the PV backend drivers
-> can use the correct one as appropriate.
-> 
-> For now, this implementation can be used directly by our XenStore which
-> will be for emulated mode only.
+> Just the basic shell, with the event channel hookup. It only dumps the
+> buffer for now; a real ring implmentation will come in a subsequent patch.
 > 
 > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
->   hw/i386/kvm/xen_evtchn.c | 340 ++++++++++++++++++++++++++++++++++++++-
->   hw/i386/kvm/xen_evtchn.h |  19 +++
->   2 files changed, 352 insertions(+), 7 deletions(-)
+>   hw/i386/kvm/meson.build    |   1 +
+>   hw/i386/kvm/xen_evtchn.c   |   1 +
+>   hw/i386/kvm/xen_xenstore.c | 248 +++++++++++++++++++++++++++++++++++++
+>   hw/i386/kvm/xen_xenstore.h |  20 +++
+>   hw/i386/pc.c               |   2 +
+>   target/i386/kvm/xen-emu.c  |  12 ++
+>   6 files changed, 284 insertions(+)
+>   create mode 100644 hw/i386/kvm/xen_xenstore.c
+>   create mode 100644 hw/i386/kvm/xen_xenstore.h
+> 
 
 Reviewed-by: Paul Durrant <paul@xen.org>
 
