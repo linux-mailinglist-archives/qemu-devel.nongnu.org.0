@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31030696B52
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 18:21:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 839B4696B4D
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 18:21:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRyzR-0006Re-I9; Tue, 14 Feb 2023 12:21:13 -0500
+	id 1pRyzS-0006aJ-Nc; Tue, 14 Feb 2023 12:21:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pRyzO-00069I-3s
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 12:21:10 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ id 1pRyzP-0006NV-K0
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 12:21:11 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pRyzL-0005e3-OV
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 12:21:09 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- j29-20020a05600c1c1d00b003dc52fed235so12162842wms.1
+ id 1pRyzM-0005e6-59
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 12:21:11 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ l37-20020a05600c1d2500b003dfe46a9801so12198210wms.0
  for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 09:21:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=xo1s3tezkxPZTGckGZcvwnxUiQDZL/tT+JHyzRXDrJE=;
- b=V616EZlAXUlWe05axTV/iIkJ3cTzwJr6e4Hy3sfBpCDOVm01+TsbwfsdS5wBphYHJP
- 8Yd7yf46TDCVDZ3vMXhfQL4iXAkuta0KAMiu9p8e7YCf6EWnjp8H2BPL3y/q7m7dAKfR
- 2AB7Y9u+WFeowfsHPLLywY5dYPNJ01A2SDIvkkeeeZpkZFyb+Y42EzEeZsGvovI2P8+t
- 1j28+iWjIqPBRfGkAsswCvKR41/T1tAv4HXSkYNwYJzfq2mSpbJJVQZgG+s9rpVz9TiB
- yafyx8yE/9k5Pn8kviSZ9HaxZEY1XmrIJreAuPF6ITer+OeZuhb56lrtGI56rmr3N6gZ
- odFQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=66XA5ahpF0JyhWAENDY8GXWO+QQO86mvJCTuMdEgvN4=;
+ b=YgE7oD7SHqQ3eerD475aiMyNvYC4r5ytIxvJPGQQsEPpV5JW9ml/JRmpDL6ahfNWKf
+ 4GmEvT08epRMMJVlG7aJhZeo3NLxxBYAP+29OBi7r9lGBwotmEAtRLMnyBQJObZH1oLA
+ w1d+wWqHwSGJMet3bEki9b4wvqwMtotHuYItfiXgbzZ6GqAy+tjlNOKlfzs+bUu0FZ3A
+ kBYJPADHFY6uupdlWGsEEN592v1lFBpG05bZ4HGGA1oiUzcXyuel6UUtOEDFOnZtZ07r
+ Qn+zQ9QOPGCtslKrlVVZCaBTK9NESExjNmLdNKHi+zLfsluPOM5tNIr8/UmykoMwQZA5
+ wRJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xo1s3tezkxPZTGckGZcvwnxUiQDZL/tT+JHyzRXDrJE=;
- b=WAinA51TaPlWDcwjHK+I0SPcp0KN/iUDnf5B7Sl5cS12MsrJRsl0Pm6g60AYU2lMFd
- 4Td5omK4cGFIikMtoh0dz5BpWCiBD4ND7GR9kRB0RAfFOQuykRsIFABhYOLiCPOOlIWR
- nWJm2dbIqI10jtPMu4mZeW+eiYvBGfgb1OsNHmDg5QAfLO4XVY5WMCi55KeZvrjWAHw/
- QDpYmCdr33LMHSbcBHzTPnyU7Ex9QJBRTPX+3lYVJAg2rta9LXz40VOIEDkicuZVzjk8
- HRXK4o9QxhDxbX1+xNjiClXDjh4fC4m/nF0+rYjInLHPhO5qDW2DpegPipGyNbLjFek+
- /KvQ==
-X-Gm-Message-State: AO0yUKVBNeW6aP1UrxdgbAZMoiqqb/YdxyOVlSRU7MheACvHHMHECpZy
- 3+n46d3uf5z7BFz9sRJKbuMh0A==
-X-Google-Smtp-Source: AK7set+9dU/nk0cn31biqr/ALN0rj7u2I9ktL1nDxIUmmaKSSeOj19Pp2aSMZBlTPPixUZoFSNLBDQ==
-X-Received: by 2002:a05:600c:45d2:b0:3df:9858:c02c with SMTP id
- s18-20020a05600c45d200b003df9858c02cmr432707wmo.1.1676395266173; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=66XA5ahpF0JyhWAENDY8GXWO+QQO86mvJCTuMdEgvN4=;
+ b=4ROcwOaH1WpGc3IKn/77dodazMo8hSBvdtpKM9OGm8Z3DqUapCx7F/nS21NKhxkfRW
+ MO9RgSwJH4w3iU1PUSADqRxS4hOQmhejYugRIaGBR1Fh/6I+ETg+6OA7+BauYbVfi4tP
+ bYyOB8/Lfd0eCZJ1A0Jt6QMjeDNFVzAYUQAemCjCi51+wfXTh7S58yvU3FiNKacXZL3s
+ k7Fe4FYhnBdf1Bp9BAzv1uwPVOsTtvb7TX39qrl4mRAJPoU0htXx7O3w9hsO+DGAfKR9
+ 12f1LN7waWSLfCHQhQmdinWtJmhdZXO/xnMOPZA+Wzd02PV2wH2zt8Gvqdro8qEVE+/9
+ 09Jw==
+X-Gm-Message-State: AO0yUKUjfsybizFeCPETrSxWn4EGFwEeDk1rday2bL+g2iBC9qF4QLd7
+ 31cprsud4gsOxvHVvVzolT7r+A==
+X-Google-Smtp-Source: AK7set9T4/PX46yicX/V8T3Q2fhdxsIF4izw+6imiaCt1mKCYUDyZfc3v5YAN/hQfOVIqgCGGJ/diw==
+X-Received: by 2002:a05:600c:a39e:b0:3dc:4c4f:6dc5 with SMTP id
+ hn30-20020a05600ca39e00b003dc4c4f6dc5mr2698765wmb.9.1676395266785; 
  Tue, 14 Feb 2023 09:21:06 -0800 (PST)
 Received: from localhost.localdomain (054592b0.skybroadband.com.
  [5.69.146.176]) by smtp.gmail.com with ESMTPSA id
- p24-20020a05600c1d9800b003dd1bd0b915sm20636570wms.22.2023.02.14.09.21.05
+ p24-20020a05600c1d9800b003dd1bd0b915sm20636570wms.22.2023.02.14.09.21.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Feb 2023 09:21:05 -0800 (PST)
+ Tue, 14 Feb 2023 09:21:06 -0800 (PST)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: eric.auger@redhat.com
 Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
  qemu-devel@nongnu.org, qemu-arm@nongnu.org, ola.hugosson@arm.com,
  Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: [PATCH v2 0/2] hw/arm/smmu: Fixes for TTB1
-Date: Tue, 14 Feb 2023 17:19:20 +0000
-Message-Id: <20230214171921.1917916-1-jean-philippe@linaro.org>
+Subject: [PATCH v2 1/2] hw/arm/smmu-common: Support 64-bit addresses
+Date: Tue, 14 Feb 2023 17:19:21 +0000
+Message-Id: <20230214171921.1917916-2-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230214171921.1917916-1-jean-philippe@linaro.org>
+References: <20230214171921.1917916-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,19 +92,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Two small changes to support TTB1. Since [v1] I removed the unused
-SMMU_MAX_VA_BITS and added tags, thanks!
+Addresses targeting the second translation table (TTB1) in the SMMU have
+all upper bits set. Ensure the IOMMU region covers all 64 bits.
 
-[v1] https://lore.kernel.org/qemu-devel/20230210163731.970130-1-jean-philippe@linaro.org/
-
-Jean-Philippe Brucker (2):
-  hw/arm/smmu-common: Support 64-bit addresses
-  hw/arm/smmu-common: Fix TTB1 handling
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+---
  include/hw/arm/smmu-common.h | 2 --
- hw/arm/smmu-common.c         | 4 ++--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ hw/arm/smmu-common.c         | 2 +-
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
+diff --git a/include/hw/arm/smmu-common.h b/include/hw/arm/smmu-common.h
+index c5683af07d..9fcff26357 100644
+--- a/include/hw/arm/smmu-common.h
++++ b/include/hw/arm/smmu-common.h
+@@ -27,8 +27,6 @@
+ #define SMMU_PCI_DEVFN_MAX    256
+ #define SMMU_PCI_DEVFN(sid)   (sid & 0xFF)
+ 
+-#define SMMU_MAX_VA_BITS      48
+-
+ /*
+  * Page table walk error types
+  */
+diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
+index 733c964778..2b8c67b9a1 100644
+--- a/hw/arm/smmu-common.c
++++ b/hw/arm/smmu-common.c
+@@ -439,7 +439,7 @@ static AddressSpace *smmu_find_add_as(PCIBus *bus, void *opaque, int devfn)
+ 
+         memory_region_init_iommu(&sdev->iommu, sizeof(sdev->iommu),
+                                  s->mrtypename,
+-                                 OBJECT(s), name, 1ULL << SMMU_MAX_VA_BITS);
++                                 OBJECT(s), name, UINT64_MAX);
+         address_space_init(&sdev->as,
+                            MEMORY_REGION(&sdev->iommu), name);
+         trace_smmu_add_mr(name);
 -- 
 2.39.0
 
