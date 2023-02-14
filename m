@@ -2,90 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414A9695D63
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 09:45:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C64A8695D65
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 09:45:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRqvl-0002zO-JR; Tue, 14 Feb 2023 03:44:53 -0500
+	id 1pRqwI-0003BD-ID; Tue, 14 Feb 2023 03:45:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pRqvj-0002yw-Qz
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:44:51 -0500
-Received: from mail-oo1-xc30.google.com ([2607:f8b0:4864:20::c30])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pRqvh-00056t-Tv
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:44:51 -0500
-Received: by mail-oo1-xc30.google.com with SMTP id
- i17-20020a4adf11000000b0051abd9835d4so1452481oou.1
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 00:44:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=iVc1ecMuozBOFvbS3AUpmK4yab0tL+Aq/hqOkEADYvY=;
- b=nnPI8LlaScPH8HmzAFDztbAhg8hphxjm81GKC6cqemqtoH/nSxlG3M8jWEYX4wX5IJ
- bjxye6Pl/JORzCr2vArG+hftEV6aIRPa2l4Vhto545Ja6RbO6MG+WhbEsPTD/U82LowV
- 7S6fYvGctceLX1X8y8o1lDq/l/PSeTDgLiXruJCj9M/RNiuoA0OXGMO+Erwoaw3iJzJ8
- M2URgc8axLJvir3T7//rJB/xRQ6I6ZzEiMnfghXu2v908pkX6c61I3O2tW3y5RTTO8vn
- kqK/L5ElGXIBUSe4dZRdq9fS6RF5r43f5VZ7rDVEcik/dbgno4F+DU+hlnqPxT3nPO9p
- /OHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iVc1ecMuozBOFvbS3AUpmK4yab0tL+Aq/hqOkEADYvY=;
- b=cG0soqqpPmfjfBZ0/y86tYcomvmbyJ4yAePI/1gj20lfoFjx2nJB3M0ujMGbLYOPOK
- m4l2Cl/cfD//vkM45uzJF2wJBq2f9WpeWUgz5Ck/pzuV1izzFyVuxKzrv3L46xo2DxHT
- vxG6TuY0MWg8iYLPRRZOOHD7wvRgc9gX9zBpmLAkymRLpy/MjCgs/w0X443s6IYzyuBa
- eQj7byqk01DrTYwNPAxApvt7BPg/YqHwNRV/TEW4ca5JQBboUeKMlgBSIk96fsJU/guq
- TAr3o/XBbz+rPP/TFl5V/QdLLUrxxqg4qo3oTrq6a/hl2ugX+Au6iaDTcIarUsMBa4Sa
- RVlA==
-X-Gm-Message-State: AO0yUKVfYs7L1NHAHy9Nas9/fHTVlL8IBX/bUhj4liERJ6cEcVg01I14
- pdRsNwAHE5XqLQdRarqHRdDkGA==
-X-Google-Smtp-Source: AK7set/n7ol0zwJB0ffKU22AgMW7Y0iDYZUIMqkVzeUf7yrIvGcZsFyEDla1iyVPiUitHOH51OZWyQ==
-X-Received: by 2002:a4a:dc8d:0:b0:517:637a:2073 with SMTP id
- g13-20020a4adc8d000000b00517637a2073mr460888oou.3.1676364288562; 
- Tue, 14 Feb 2023 00:44:48 -0800 (PST)
-Received: from [192.168.68.107] ([191.19.40.109])
- by smtp.gmail.com with ESMTPSA id
- f2-20020a4aa682000000b0051ac0f54447sm5602810oom.33.2023.02.14.00.44.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Feb 2023 00:44:48 -0800 (PST)
-Message-ID: <b5c4fb24-7bd2-a853-4116-58af222bbcad@ventanamicro.com>
-Date: Tue, 14 Feb 2023 05:44:44 -0300
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRqw5-00035W-3T
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:45:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRqw2-0005TP-EE
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:45:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676364307;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TwxsZZgbYTX5OG+rT+P/ho6Dmi2KF3SpeETNDjz2bRs=;
+ b=BGujoSsGurO+7aPZDTO7dSDbD9heaj2lzIHkg5HPPItl1MXj0+0nHM++EdJ2IANT/piGLe
+ z8z+S5seUa+CBQ/LtCHg+SnytnmO9UPw9NWtUbbPNL1HLXjyOyhrLmSDxZwwi8PaQmG8yO
+ TA/3WoVLOudJTBGSi2Fkrmnh4X+1kw4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-595-X3tyyMURMdeGmUQPyCwL7A-1; Tue, 14 Feb 2023 03:45:04 -0500
+X-MC-Unique: X3tyyMURMdeGmUQPyCwL7A-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C989818A6467;
+ Tue, 14 Feb 2023 08:45:03 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.124])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 25DE2492B03;
+ Tue, 14 Feb 2023 08:45:03 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 05C0B21E6A1F; Tue, 14 Feb 2023 09:45:02 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,  Eduardo Habkost
+ <eduardo@habkost.net>,  Eric Blake <eblake@redhat.com>,  Yanan Wang
+ <wangyanan55@huawei.com>,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: Re: [PATCH v5 1/3] multifd: Create property
+ multifd-sync-after-each-section
+References: <20230213091548.76444-1-quintela@redhat.com>
+ <20230213091548.76444-2-quintela@redhat.com>
+Date: Tue, 14 Feb 2023 09:45:02 +0100
+In-Reply-To: <20230213091548.76444-2-quintela@redhat.com> (Juan Quintela's
+ message of "Mon, 13 Feb 2023 10:15:46 +0100")
+Message-ID: <87mt5goctt.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH V2 04/10] hw/riscv/virt: virt-acpi-build.c: Add basic ACPI
- tables
-Content-Language: en-US
-To: Sunil V L <sunilvl@ventanamicro.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Andrew Jones <ajones@ventanamicro.com>,
- Anup Patel <apatel@ventanamicro.com>, Atish Kumar Patra <atishp@rivosinc.com>
-References: <20230213144038.2547584-1-sunilvl@ventanamicro.com>
- <20230213144038.2547584-5-sunilvl@ventanamicro.com>
- <9e7edd02-aa8e-c146-d67c-aa255a8aa6e5@ventanamicro.com>
- <Y+sDYFI+ku5/S1+J@sunil-laptop>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <Y+sDYFI+ku5/S1+J@sunil-laptop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c30;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oo1-xc30.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.345,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,128 +84,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Juan Quintela <quintela@redhat.com> writes:
 
+> We used to synchronize all channels at the end of each RAM section
+> sent.  That is not needed, so preparing to only synchronize once every
+> full round in latests patches.
+>
+> Notice that we initialize the property as true.  We will change the
+> default when we introduce the new mechanism.
+>
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>
+> ---
+>
+> Rename each-iteration to after-each-section
+>
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> ---
+>  qapi/migration.json   | 10 +++++++++-
+>  migration/migration.h |  1 +
+>  hw/core/machine.c     |  1 +
+>  migration/migration.c | 15 +++++++++++++--
+>  4 files changed, 24 insertions(+), 3 deletions(-)
+>
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index c84fa10e86..2907241b9c 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -478,6 +478,13 @@
+>  #                    should not affect the correctness of postcopy migration.
+>  #                    (since 7.1)
+>  #
+> +# @multifd-sync-after-each-section: Synchronize channels after each
+> +#                                   section is sent.
 
-On 2/14/23 00:43, Sunil V L wrote:
-> On Mon, Feb 13, 2023 at 03:48:04PM -0300, Daniel Henrique Barboza wrote:
->> Sunil,
->>
->> This patch is a bit confusing to me. You're using functions that doesn't exist
->> in the code base yet (build_madt and build_rhct) because they are introduced
->> in later patches. This also means that this patch is not being compiled tested,
->> because otherwise it would throw a compile error. And the build of the file only
->> happens after patch 8.
->>
-> My intention was to add the caller also in the same patch where the
-> function is added. I think I missed it when I split. Thanks!
-> 
->> Now, there is no hard rule in QEMU that dictates that every patch must be compile
->> tested, but nevertheless this is a good rule to follow that makes our lives easier
->> when bisecting and cherry-pick individual patches.
->>
->> My suggestion for this patch is:
->>
->> - squash both patches 7 and 8 into this patch to allow the file to be built;
->>
-> Sure.
-> 
->> - remove the code that is referring to stuff that you haven't add yet:
->>
->> $ git diff
->> diff --git a/hw/riscv/virt-acpi-build.c b/hw/riscv/virt-acpi-build.c
->> index 3c4da6c385..eb17029b64 100644
->> --- a/hw/riscv/virt-acpi-build.c
->> +++ b/hw/riscv/virt-acpi-build.c
->> @@ -156,12 +156,6 @@ virt_acpi_build(RISCVVirtState *s, AcpiBuildTables *tables)
->>       acpi_add_table(table_offsets, tables_blob);
->>       build_fadt_rev6(tables_blob, tables->linker, s, dsdt);
->> -    acpi_add_table(table_offsets, tables_blob);
->> -    build_madt(tables_blob, tables->linker, s);
->> -
->> -    acpi_add_table(table_offsets, tables_blob);
->> -    build_rhct(tables_blob, tables->linker, s);
->> -
->>       /* XSDT is pointed to by RSDP */
->>       xsdt = tables_blob->len;
->>       build_xsdt(tables_blob, tables->linker, table_offsets, s->oem_id,
->>
->>
->> - in patch 5, add back the lines in virt_acpi_build() that uses build_madt();
->>
->> - in patch 6, add back the lines in virt_acpi_build() that uses build_rhct();
->>
->>
->> This will make this patch to be compiled and built right away without interfering with
->> the end result of the series.
->>
-> Thanks!
->   
->>
->> One more suggestion:
->>
->>
->> On 2/13/23 11:40, Sunil V L wrote:
->>> Add few basic ACPI tables and DSDT with few devices in a
->>> new file virt-acpi-build.c.
->>>
->>> These are mostly leveraged from arm64.
->>
->> Quick rant that you've already heard: I don't really understand why there is so
->> much ACPI code duplication everywhere. I really don't. E.g. acpi_align_size() is
->> copied verbatim in hw/arm/virt-acpi-build.c, hw/i386/acpi-build.c and
->> hw/loongarch/acpi-build.c. I don't see why we can't have a common file in hw/acpi
->> with helpers and so on that every ACPI architecture can use, and then the
->> individual drivers for each arch can have its own magic sauce.
->>
-> I completely agree that we better avoid duplication But I am bit
-> hesitant in this case because,
-> 1) Low level functions which help in creating the namespace/static
-> tables are already common (ex: aml_append)
-> 
-> 2) Using these basic routines, individual platforms can create the
-> namespace with appropriate devices and the methods.
-> 
-> ACPI name space is tightly coupled with a platform. While there may be
-> common devices like processors, uart etc, there can be difference in the
-> ACPI methods for each of those devices. For ex: CPU objects for one
-> platform may support _LPI method. uart may support _DSD for one platform
-> and other may use totally different UART. If we have to create common routines,
-> we will have to decide on all parameters the common function would need for
-> different platforms. Same concern with fw_cfg/virtio etc which look same
-> now but in future one platform can add a new method for these devices.
-> 
-> IMHO, even though it looks like we have the same function in each architecture
-> currently, this model allows us to have platforms with different devices with
-> different methods/features. Creating common routines now would probably make
-> them difficult to use in future.
-> 
-> acpi_align_size() is a simple wrapper. We don't need it if we directly
-> use the common function.
-> 
-> Since I see insistence let me try moving few functions like fw_cfg (virtio, pci in
-> future) to a common file in hw/acpi.
+What does it mean to synchronize channels?
 
-Nah. Doing that now will make this series rely on acks for every other ACPI arch to
-push the RISC-V side.
+When would I want to, and why?
 
-Let's make this happen as is now to get ACPI in RISC-V working. We can think about
-reducing overall ACPI duplication later. IMO it's enough for now to, mention in this
-commit msg, which bits of the arm64 virt-acpi-build.c you changed for this RISC-V
-version.
+> +#                                                     We used to do
+> +#                                   that in the past, but it is
+> +#                                   suboptimal.
 
+This isn't particularly helpful, I'm afraid.
 
-Thanks,
+> +#                                   Default value is true until all code is in.
 
-Daniel
+As far as I can tell, it's actually *unused* for now, and a later patch
+will put it to use ...
 
->   
->> All this said, instead of mentioning "this is mostly leveraged from arm64", you
->> can make a brief summary of the changes you've done from the arm64 version. This
->> will help guide the review into focusing on the novel code you're adding and
->> ignore the copied bits.
->>
-> Sure.
-> 
-> Thanks!
-> Sunil
+> +#                                   (since 8.0)
+> +#
+>  # Features:
+>  # @unstable: Members @x-colo and @x-ignore-shared are experimental.
+>  #
+> @@ -492,7 +499,8 @@
+>             'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
+>             { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
+>             'validate-uuid', 'background-snapshot',
+> -           'zero-copy-send', 'postcopy-preempt'] }
+> +           'zero-copy-send', 'postcopy-preempt',
+> +           'multifd-sync-after-each-section'] }
+>  
+>  ##
+>  # @MigrationCapabilityStatus:
+> diff --git a/migration/migration.h b/migration/migration.h
+> index 2da2f8a164..cf84520196 100644
+> --- a/migration/migration.h
+> +++ b/migration/migration.h
+> @@ -424,6 +424,7 @@ int migrate_multifd_channels(void);
+>  MultiFDCompression migrate_multifd_compression(void);
+>  int migrate_multifd_zlib_level(void);
+>  int migrate_multifd_zstd_level(void);
+> +bool migrate_multifd_sync_after_each_section(void);
+>  
+>  #ifdef CONFIG_LINUX
+>  bool migrate_use_zero_copy_send(void);
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index f73fc4c45c..dc86849402 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -54,6 +54,7 @@ const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
+>  GlobalProperty hw_compat_7_0[] = {
+>      { "arm-gicv3-common", "force-8-bit-prio", "on" },
+>      { "nvme-ns", "eui64-default", "on"},
+> +    { "migration", "multifd-sync-after-each-section", "on"},
+>  };
+>  const size_t hw_compat_7_0_len = G_N_ELEMENTS(hw_compat_7_0);
+>  
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 90fca70cb7..406c27bc82 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -167,7 +167,8 @@ INITIALIZE_MIGRATE_CAPS_SET(check_caps_background_snapshot,
+>      MIGRATION_CAPABILITY_XBZRLE,
+>      MIGRATION_CAPABILITY_X_COLO,
+>      MIGRATION_CAPABILITY_VALIDATE_UUID,
+> -    MIGRATION_CAPABILITY_ZERO_COPY_SEND);
+> +    MIGRATION_CAPABILITY_ZERO_COPY_SEND,
+> +    MIGRATION_CAPABILITY_MULTIFD_SYNC_AFTER_EACH_SECTION);
+>  
+>  /* When we add fault tolerance, we could have several
+>     migrations at once.  For now we don't need to add
+> @@ -2701,6 +2702,15 @@ bool migrate_use_multifd(void)
+>      return s->enabled_capabilities[MIGRATION_CAPABILITY_MULTIFD];
+>  }
+>  
+> +bool migrate_multifd_sync_after_each_section(void)
+> +{
+> +    MigrationState *s = migrate_get_current();
+> +
+> +    return true;
+> +    // We will change this when code gets in.
+> +    return s->enabled_capabilities[MIGRATION_CAPABILITY_MULTIFD_SYNC_AFTER_EACH_SECTION];
+
+... here.
+
+No warning about unreachable code?  Checking... nope, gcc seems to not
+to care.
+
+> +}
+> +
+>  bool migrate_pause_before_switchover(void)
+>  {
+>      MigrationState *s;
+> @@ -4535,7 +4545,8 @@ static Property migration_properties[] = {
+>      DEFINE_PROP_MIG_CAP("x-zero-copy-send",
+>              MIGRATION_CAPABILITY_ZERO_COPY_SEND),
+>  #endif
+> -
+> +    DEFINE_PROP_MIG_CAP("multifd-sync-after-each-section",
+> +                        MIGRATION_CAPABILITY_MULTIFD_SYNC_AFTER_EACH_SECTION),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+
 
