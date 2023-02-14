@@ -2,85 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE3A696440
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED4E69643F
 	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 14:07:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRv0D-0002Kb-G6; Tue, 14 Feb 2023 08:05:45 -0500
+	id 1pRv0e-0002ND-3c; Tue, 14 Feb 2023 08:06:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pRv0B-0002KC-BJ
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:05:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1pRv0b-0002MK-Fw
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:06:09 -0500
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pRv09-0008DI-8K
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:05:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676379939;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=E6R2XfPI8mjSF5Uq20zZV3dNQjwbH4dOnfUgs+F6wjs=;
- b=ZBagWtyciABCxLlSDBEvqsdpEFMGv6QDwbxPMNTr0fo99BIW8A6f/ZZE/bc1GjNUI/K4Uy
- d83Qx+fXP0NbbYl0FpJVzNyiN84vxcAkfbGIfRtFfUYlATnHtynWb4ROHyiWWEwcJj/SUI
- wRBEXrCLUxvEY3UV5Ru2pZp9+qb4zt4=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-647-BcmpTudqORinGmwqN0wHNw-1; Tue, 14 Feb 2023 08:05:38 -0500
-X-MC-Unique: BcmpTudqORinGmwqN0wHNw-1
-Received: by mail-ej1-f69.google.com with SMTP id
- l18-20020a1709067d5200b008af415fdd80so9336216ejp.21
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 05:05:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=E6R2XfPI8mjSF5Uq20zZV3dNQjwbH4dOnfUgs+F6wjs=;
- b=W9fhnJ2fWYeQoXnh1UZSHNYnu7tO9FccK6h9jcxosi5vszAyvoGCo97VfHgAO6WjOE
- 7U6Xkjg7TLf48XH/VGRhX/lLr+HpSSfa9E3iAPUQ0rEbxo+1hT57kAiAhMIlnUSDF/8r
- IzyHEZ8BROH7kBPe6/3VtKF+M/cRHOTsPey69XC91hcQP3xKk8LiQfPqFjkRedgc5jHA
- u/XXujUx1v8BjRihnu8Ej9JwG9hV47VJAF8RcdLzC4f/5DOuFIJol0+Fko7fveYZMf5R
- DpjDR9V3xreWpo/UPH6K0G2F67qwCDxlHJGSrahYSRbJo3b4Pd4Z8rLn3xjH4uYDQJ5+
- NKdA==
-X-Gm-Message-State: AO0yUKUXRr5/OoykiwopjooslyuSa8TdJ2Tq+HBsfotUw5szFlmbf17V
- tO9QPNPYytfOiUVRCHmccTXMmTDpfv+NokHQASSIjayYfmuSx4WEds65BOtOHzRpkPCYheJOrHd
- dIHO9SWhJd0Q/H0Uu7IK5rHAon1tgvBpB1QGcB3u8Zy/LQQ0QiDAF1VrbrX/ekxolX0Uhq8cl
-X-Received: by 2002:a17:907:a40a:b0:88d:5043:2299 with SMTP id
- sg10-20020a170907a40a00b0088d50432299mr3563168ejc.51.1676379936831; 
- Tue, 14 Feb 2023 05:05:36 -0800 (PST)
-X-Google-Smtp-Source: AK7set8pQOxMVBYOas2kILWuLuqF8LhevbvfpxTk5z/rgEKBgMF5GBbMiKVB7NYWUSDT0HtlWj3OSA==
-X-Received: by 2002:a17:907:a40a:b0:88d:5043:2299 with SMTP id
- sg10-20020a170907a40a00b0088d50432299mr3563133ejc.51.1676379936551; 
- Tue, 14 Feb 2023 05:05:36 -0800 (PST)
-Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- g10-20020a1709062daa00b00889a77458dbsm8175815eji.21.2023.02.14.05.05.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Feb 2023 05:05:35 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: thuth@redhat.com
-Subject: [qemu-web PATCH] revamp sponsorship page
-Date: Tue, 14 Feb 2023 14:05:33 +0100
-Message-Id: <20230214130533.38727-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.39.1
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1pRv0V-0008Jg-BV
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:06:08 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 9D8AB5C00CB;
+ Tue, 14 Feb 2023 08:05:59 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Tue, 14 Feb 2023 08:05:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1676379959; x=1676466359; bh=y7
+ 2R6fzPPBaeHpu5Lm7qBttc/YoodgyslOQ5jJiz/qA=; b=sqxf/x2WtoXz+yNZsh
+ pqec5nBUcAxmKNseMh0qCtzNIeJqIVfvW5mHs9ida9NZJfSCvMlzMfy88QxKoMMe
+ PyfftsVc13XVbpf8vnUrdLli4CzuXCGNKG047Uq+6iothLNmE9iOtDRjpTz8PFwz
+ nXveeSN1KN6Ak46FuRu8gQ1+oyjJkcVz50s909E54Sk8p+vWsGnsJAqlsT+1mSIN
+ mzG8IcNYNRLDBkOpwYy08X2SAD6F327oAEW7KK2GPCszz3iHqAT6Pmhfo6fOLeeZ
+ PtXf6SWyU5DArIQnlkz+4Zh9Se/L4lV6xq0WoXAeLItXlerxBmD4hKO42C9f6i+N
+ KdDA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1676379959; x=1676466359; bh=y72R6fzPPBaeHpu5Lm7qBttc/Yoo
+ dgyslOQ5jJiz/qA=; b=QKZspaKw6eoZCETx0eKgRy3n8pG4Qunzmh66orYhQ8HV
+ NyArCJAoAGymRWiy+8YVtIJF9H1Qs4FUPsg1Iv26hNo4PdgFbtUgIUIJVqdGFzB7
+ ySGxQs+VkXvPddFJV0lHnSA7mTINg4DUF9n0YaHuzdzSncR7WrmqU947TIWWo/es
+ L2gQIXmyB9VCNfxjk/sC8zjoBB3t55Q2wMzee3yIvZCORJAEcHh05H3D/2AB+MjZ
+ KCS7j/h1J95C15CI7udXgQxXA9ewSM8AqEA7ZAQEXOVsmUoskvFzS3zrfh9v4os5
+ W1XtUuUkpWlkRMy0ep/qdgvBZ8ot/Pi8/kXfmyunrA==
+X-ME-Sender: <xms:NofrY73DdGPiHoK2iMFymu2xUsOmPuXi-kefmgtcytW4Hjh6mTH9Kg>
+ <xme:NofrY6FBxeB756o1y7MfqTnQvQnLnXdeSnY3pxWRNuBaFxvYCoYyE0Rw2dvrxKHrP
+ 1rwLOafL5l--g7T2TE>
+X-ME-Received: <xmr:NofrY77vvwLWx9Gc_51hiwGiigrZPNC1vcWKcoGM5cMzNMq-2jZGKijS9DJ8A1O4UqM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeifedggeefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
+ jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:NofrYw00Kan5S34UJffNZm7IOYiSuQY9uf_MpdTI1Ef8CypjR9nb-A>
+ <xmx:NofrY-GbjokBT_aZFqYf6sUroEUvCcU8HlMPkIptuY3EQdTknz9ZUQ>
+ <xmx:NofrYx8hFwQ0GewvTNhp8JXSSnSuuFT3UEGWOVAxY_0-Ye1vGCwZXQ>
+ <xmx:N4frY2_ox5xkPtxKw4J7O4Qezy2nvCv1SBNcw1UVeIXbcnYio3D-wQ>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 14 Feb 2023 08:05:56 -0500 (EST)
+Date: Tue, 14 Feb 2023 14:05:54 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Major Saheb <majosaheb@gmail.com>
+Cc: Peter Xu <peterx@redhat.com>, k.jensen@samsung.com, philmd@linaro.org,
+ armbru@redhat.com, mst@redhat.com, lukasz.gieryk@linux.intel.com,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Bjorn Helgaas <helgaas@kernel.org>,
+ Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: DMAR fault with qemu 7.2 and Ubuntu 22.04 base image
+Message-ID: <Y+uHMm1hvP7N6sKD@cormorant.local>
+References: <CANBBZXMpWOj5fE2YF8XGvWmBtbc=9YKiMCSfUKC7AoP5Ros9QA@mail.gmail.com>
+ <Y+q3+eXdYz0qOtDT@x1n>
+ <CANBBZXOtEF6Ao+Nxznf6dGOSTMX3F7iJvfOiWWngs79Bjy_YEQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="MnmRGCAZwKX7+qXh"
+Content-Disposition: inline
+In-Reply-To: <CANBBZXOtEF6Ao+Nxznf6dGOSTMX3F7iJvfOiWWngs79Bjy_YEQ@mail.gmail.com>
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,50 +105,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fosshost is mostly dead and can be removed from the page, but lately QEMU
-has received important sponsorships from GNOME and Azure, so mention them.
-OSUOSL also provides OpenStack virtual machines to QEMU.
 
-Our CI resources are sponsored by WorksOnArm, the IBM LinuxOne community
-cloud and GitLab.
+--MnmRGCAZwKX7+qXh
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Finally, include directions for people that want to sponsor QEMU or
-donate money to the project.
+On Feb 14 17:34, Major Saheb wrote:
+> Thanks Peter for the reply. I tried to connect gdb to qemu and able to
+> break 'vtd_iova_to_slpte()', I dumped the following with both Ubuntu
+> 20.04 base image container which is the success case and Ubuntu 22.04
+> base image container which is failure case
+> One thing I observed is the NvmeSQueue::dma_addr is correctly set to
+> '0x800000000', however in failure case this value is 0x1196b1000. A
+> closer look indicates more fields in NvmeSQueue might be corrupted,
+> for example we are setting admin queue size as 512 but in failure case
+> it is showing 32.
+>=20
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- sponsors.md | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+Hi Major,
 
-diff --git a/sponsors.md b/sponsors.md
-index 6db5e2f..efbec97 100644
---- a/sponsors.md
-+++ b/sponsors.md
-@@ -5,5 +5,21 @@ permalink: /sponsors/
- 
- QEMU has sponsors!
- 
--[Fosshost](https://fosshost.org/) has provided QEMU access to a dedicated
--physical compute host.
-+The [Azure credits for open source projects](https://opensource.microsoft.com/azure-credits/)
-+program provides QEMU and [Patchew](https://patchew.org) with virtual machines and
-+other cloud resources.
-+
-+[Equinix](https://www.arm.com/markets/computing-infrastructure/works-on-arm?#Equinix),
-+[IBM LinuxONE Community Cloud](https://developer.ibm.com/articles/get-started-with-ibm-linuxone/)
-+and the [Oregon State University Open Source Labs](https://www.osuosl.org)
-+also provide QEMU with access to compute hosts.
-+
-+Downloads are hosted by [GNOME](https://gnome.org/).
-+
-+QEMU is a member of the [GitLab for Open Source](https://about.gitlab.com/solutions/open-source/)
-+program.
-+
-+You too can sponsor QEMU and be listed on this page; please contact the
-+maintainers on the [QEMU mailing list](mailto:qemu-devel@nongnu.org).
-+You can also [donate](https://paypal.com/donate/?hosted_button_id=YN74TZRMBBM6U)
-+to the project via PayPal.
--- 
-2.39.1
+It's obviously pretty bad if hw/nvme somehow corrupts the SQ structure,
+but it's difficult to say from this output.
 
+Are you configuring shadow doorbells (the db_addr and ei_addr's are
+set in both cases)?
+
+> > > Following is the partial qemu command line that I am using
+> > >
+> > > -device intel-iommu,intremap=3Don,caching-mode=3Don,eim=3Don,device-i=
+otlb=3Don,aw-bits=3D48
+> > >
+
+I'm not sure if caching-mode=3Don and device-iotlb=3Don leads to any issues
+here? As far as I understand, this is mostly used with stuff like vhost.
+I've tested and developed vfio-based drivers against hw/nvme excessively
+and I'm not using anything besides `-device intel-iommu`.
+
+Do I undestand correctly that your setup is "just" a Ubuntu 22.04 guest
+with a container and a user-space driver to interact with the nvme
+devices available on the guest? No nested virtualization with vfio
+passthrough?
+
+--MnmRGCAZwKX7+qXh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmPrhzIACgkQTeGvMW1P
+DemcjQf/cWYk4SgBWQayxVunoE4Pey9hq4WieIojT+XRqr3SlXJhx0+xSsx7hdae
+H7JCJDmcQjNqnPGnCH5VIHn0I3BPyh6DyF0NPWmAw5XuaBjGrzbNI7adRP0g1mau
+JOCGgxjKlMMJLlXeVAdydueoWU8eaLeYSL4Sj442S053kpQ2Hl/I7MEQLNKYgRYl
+hmrtI5m/QUuwqG+zLSoQ7KNEcE+VKziBmfh/cr6b/Qobu4e+UJbrBN9e+eWLpJNa
+ZygBWKxPfL8fJIq3psmjWeURc561s5ehZnngJPwwBF4Cm9dMSr/F9fMRJhB/4Viw
+i28jePaLPpcb/Awz05bUYFQyIVjrSg==
+=iBxb
+-----END PGP SIGNATURE-----
+
+--MnmRGCAZwKX7+qXh--
 
