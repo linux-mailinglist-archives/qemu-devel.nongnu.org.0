@@ -2,72 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 194C1696CAB
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EDAD696CAA
 	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 19:23:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRzwD-00020c-2m; Tue, 14 Feb 2023 13:21:58 -0500
+	id 1pRzwn-0002MJ-V3; Tue, 14 Feb 2023 13:22:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pRzw5-0001y4-QB
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 13:21:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pRzwm-0002MA-NS
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 13:22:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pRzw3-00078s-Tp
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 13:21:49 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pRzwl-0007LX-4c
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 13:22:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676398906;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pG4T3Lvo75JBrA9ZKa3ToWxM5lVJLUNqaEUWMNaN1+g=;
- b=QiMt+C/nx30o9qhg+KB72WfBHUZH2ChOm2ue+U6ED3WIlAi9y4zSj45d6f+HX7Py4G/1Fn
- 6ZV+OPDD8YiyaCInNTwR/TfedqO7jr3418rQxILPrhPbtNbXs/3APLqMGOdtEICy0IIZOL
- p+CoB2xfQIVPnFjq8zyp/DuKJMgoIwM=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1676398950;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=KE8OrptTTV8OnzMTHNgqQy0jgcA4z+jetYmD/6Ki8AQ=;
+ b=Ji7sMyTYXY7KMvsyf3jHBcTCh4WarYpdh6Bdl5CCo+Eqmy9BoVgXeEa52vh8AoZ5ARpyBk
+ s1NHGWpuAkLmYHo8jZTEAI1PQsho04ufSyG+Qeci95d68p/+c0q1SqSBm6nwZFQywAI/IF
+ wFnn0+IDyRBFQUyGGuSCvfEp4d5Mj5I=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-622-7O1rcGBSN8mHwkPmfwoP-Q-1; Tue, 14 Feb 2023 13:21:45 -0500
-X-MC-Unique: 7O1rcGBSN8mHwkPmfwoP-Q-1
-Received: by mail-pl1-f197.google.com with SMTP id
- c3-20020a170903234300b0019a94475927so5054434plh.3
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 10:21:45 -0800 (PST)
+ us-mta-231-4ZrSy5eHOcWCj_m8HzF4mg-1; Tue, 14 Feb 2023 13:22:26 -0500
+X-MC-Unique: 4ZrSy5eHOcWCj_m8HzF4mg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ c14-20020a5d528e000000b002c3f54b828bso3273482wrv.21
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 10:22:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=pG4T3Lvo75JBrA9ZKa3ToWxM5lVJLUNqaEUWMNaN1+g=;
- b=Q/cXugyRJGDTF4nLPnnqSlkbdBLtBEHknGnU8VhWNtgvn4NolJGIVmwT1lB56ydPJV
- uC3vElo/IiyECtdVJPZ0mSiUo1s9/Iqca4HCsRCcym6+iedF99pUWqW6SwzANdtLPTif
- 88g8iu+I6Zdfdczt+yF/b/voR/oBiqdn2ixFELSKwcD7WMyvkprjinKfSiwh016zmsiy
- kap4f8lLW8Ty0I1t5b1HdX7pL76ZNY6chmHx6dbamlwjhe1wwrJLXD5Eq+d+XSRGMUHK
- MK4N6jpnCIONYwzc1xtAnDG90wIPabEneceIredya0FI2jITK1R1rAU/FceyGu0NfwMm
- wZzA==
-X-Gm-Message-State: AO0yUKWxTche6Ws4qkjGvsrtnz1hCU+CTlaeUqpXc8kD8GJ1kMzBO062
- PvINpuREElo/o34qDaYdMIAW/UuEAIPyFWM9Y/p3/SR4WY68d1p3lSMrK72Z6PSOvTGKqdsoTkS
- L/7R1UTSH30iRU4vbccYfMcrOntMA4s4=
-X-Received: by 2002:a63:6d01:0:b0:4fb:97bd:ac25 with SMTP id
- i1-20020a636d01000000b004fb97bdac25mr52797pgc.6.1676398904395; 
- Tue, 14 Feb 2023 10:21:44 -0800 (PST)
-X-Google-Smtp-Source: AK7set/ofG3c7ocQZCv2zsue7o3qF2p9ZU7lqks3AZJFG70cOzz0Dq0stqqNXiaH9wq5/zyzi84/vVFmrDIEKoddAPU=
-X-Received: by 2002:a63:6d01:0:b0:4fb:97bd:ac25 with SMTP id
- i1-20020a636d01000000b004fb97bdac25mr52792pgc.6.1676398904005; Tue, 14 Feb
- 2023 10:21:44 -0800 (PST)
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KE8OrptTTV8OnzMTHNgqQy0jgcA4z+jetYmD/6Ki8AQ=;
+ b=CydUL7SdiA7dWsD2l+rbl6Qj7qHnseSQi2Y+n/0YSqh94palZBrULDPUJq7AjTWBgL
+ McZ9Pxl87pxI8LoMgEl8z/HHmOtyrW1v/Lz74rQLvnR3wX7WzCHxFECNBk1oAnXLDTUz
+ GBafZ3SkTh0lJJCOW68mr/nfdP5c+1HHCvAlgXJAvRdP03bJQeY8b4IOjmo+p6EF1tf6
+ amlECW+xOQq8lGaJkEMceY35V8kIWZfx9u+DTp7dI0LcZvVVBZvVEpXHZ3AP6lPA6ikZ
+ CmDxxh9rdG6XmUdLiyMESgbw0IOM6FrO20EWtoRXxvI20QfPZpHywg1fUQoSc5cDwfzP
+ MaKQ==
+X-Gm-Message-State: AO0yUKV0qKlu8eNwr/2ycd93eEsYm/PVqZsC/q7jYQYBorM17vxVxmtU
+ Cb5dN7bkCZ0tUlI/zxO8j8sOqy78BCyIJoLXIosR/wYx2qo6EUFGIF04FDb32mzprF8dCQc0U13
+ Pwmqs7hi6jqQkwWY=
+X-Received: by 2002:a05:600c:4918:b0:3db:2063:425d with SMTP id
+ f24-20020a05600c491800b003db2063425dmr2811981wmp.2.1676398945633; 
+ Tue, 14 Feb 2023 10:22:25 -0800 (PST)
+X-Google-Smtp-Source: AK7set/6FFGFQ0YGZ501rayy/fw63ddbOvbX+/KNhLfKF6HcSTuVkG+8z07ZpliVfmozEi75uGdF5g==
+X-Received: by 2002:a05:600c:4918:b0:3db:2063:425d with SMTP id
+ f24-20020a05600c491800b003db2063425dmr2811952wmp.2.1676398945349; 
+ Tue, 14 Feb 2023 10:22:25 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ q11-20020a7bce8b000000b003dd9232f036sm20181958wmj.23.2023.02.14.10.22.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Feb 2023 10:22:24 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org,  Ilya Leoshkevich <iii@linux.ibm.com>,
+ qemu-block@nongnu.org,  Alex Williamson <alex.williamson@redhat.com>,
+ Fam Zheng <fam@euphon.net>,  Eric Blake <eblake@redhat.com>,  "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>,  Stefan Hajnoczi
+ <stefanha@redhat.com>,  Halil Pasic <pasic@linux.ibm.com>,  David
+ Hildenbrand <david@redhat.com>,  Thomas Huth <thuth@redhat.com>,  Eric
+ Farman <farman@linux.ibm.com>,  qemu-s390x@nongnu.org,  John Snow
+ <jsnow@redhat.com>,  Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 3/3] migration: Remove _only suffix for
+ res_postcopy/precopy
+In-Reply-To: <6a3cfdab-ff8e-d07a-dd86-ce17eb5dc623@yandex-team.ru> (Vladimir
+ Sementsov-Ogievskiy's message of "Tue, 14 Feb 2023 18:27:14 +0300")
+References: <20230208135719.17864-1-quintela@redhat.com>
+ <20230208135719.17864-4-quintela@redhat.com>
+ <6a3cfdab-ff8e-d07a-dd86-ce17eb5dc623@yandex-team.ru>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Tue, 14 Feb 2023 19:22:23 +0100
+Message-ID: <87cz6c5cps.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <ad7e1294-f19f-5bea-e891-f6adbe323cd5@proxmox.com>
-In-Reply-To: <ad7e1294-f19f-5bea-e891-f6adbe323cd5@proxmox.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 14 Feb 2023 13:21:32 -0500
-Message-ID: <CAFn=p-ahLoVd3W2GaFp5EUFq5EOudz+bUkEk5DV+Z07AjHaHtg@mail.gmail.com>
-Subject: Re: Lost partition tables on ide-hd + ahci drive
-To: Fiona Ebner <f.ebner@proxmox.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, 
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -75,7 +92,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,73 +105,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 2, 2023 at 7:08 AM Fiona Ebner <f.ebner@proxmox.com> wrote:
+Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
+> On 08.02.23 16:57, Juan Quintela wrote:
+>> Once that res_compatible is removed, they don't make sense anymore.
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>> ---
+>>   include/migration/register.h   | 18 ++++++++----------
+>>   migration/savevm.h             |  8 ++++----
+>>   hw/s390x/s390-stattrib.c       |  7 +++----
+>>   hw/vfio/migration.c            | 10 ++++------
+>>   migration/block-dirty-bitmap.c |  6 +++---
+>>   migration/block.c              |  7 +++----
+>>   migration/ram.c                | 18 ++++++++----------
+>>   migration/savevm.c             | 24 ++++++++++--------------
+>>   8 files changed, 43 insertions(+), 55 deletions(-)
+>> diff --git a/include/migration/register.h
+>> b/include/migration/register.h
+>> index a958a92a0f..4a4a6d7174 100644
+>> --- a/include/migration/register.h
+>> +++ b/include/migration/register.h
+>> @@ -47,22 +47,20 @@ typedef struct SaveVMHandlers {
+>>       /* This runs outside the iothread lock!  */
+>>       int (*save_setup)(QEMUFile *f, void *opaque);
+>>       /* Note for save_live_pending:
+>> -     * - res_precopy_only is for data which must be migrated in precopy phase
+>> +     * - res_precopy is for data which must be migrated in precopy phase
+>>        *     or in stopped state, in other words - before target vm start
+>> -     * - res_postcopy_only is for data which must be migrated in postcopy phase
+>> +     * - res_postcopy is for data which must be migrated in postcopy phase
+>>        *     or in stopped state, in other words - after source vm stop
 >
-> Hi,
-> over the years we've got 1-2 dozen reports[0] about suddenly
-> missing/corrupted MBR/partition tables. The issue seems to be very rare
-> and there was no success in trying to reproduce it yet. I'm asking here
-> in the hope that somebody has seen something similar.
 >
-> The only commonality seems to be the use of an ide-hd drive with ahci bus.
+> That's now wrong. "postcopy" is everything except "precopy", as it
+> includes "compat". Really, for RAM, it can be copied in precopy too,
+> and it is copied in precopy until user run command
+> migrate-start-postcopy. (In contrast: block-dirty-bitmap cannot
+> migrate in precopy at all, it migrate only in stopped state or in
+> postcopy).
 >
-> It does seem to happen with both Linux and Windows guests (one of the
-> reports even mentions FreeBSD) and backing storages for the VMs include
-> ZFS, RBD, LVM-Thin as well as file-based storages.
+> So, finally:
 >
-> Relevant part of an example configuration:
+> "precopy"
 >
-> >   -device 'ahci,id=ahci0,multifunction=on,bus=pci.0,addr=0x7' \
-> >   -drive 'file=/dev/zvol/myzpool/vm-168-disk-0,if=none,id=drive-sata0,format=raw,cache=none,aio=io_uring,detect-zeroes=on' \
-> >   -device 'ide-hd,bus=ahci0.0,drive=drive-sata0,id=sata0' \
+>   definition:
+>   - must be migrated in precopy or in stopped state
+>   - in other words: must be migrated before target start
+>   - in other words: can't be migrated in postcopy
+>   - in other words: can't be migrated after target start
 >
-> The first reports are from before io_uring was used and there are also
-> reports with writeback cache mode and discard=on,detect-zeroes=unmap.
+> "postcopy"
 >
-> Some reports say that the issue occurred under high IO load.
->
-> Many reports suspect backups causing the issue. Our backup mechanism
-> uses backup_job_create() for each drive and runs the jobs sequentially.
-> It uses a custom block driver as the backup target which just forwards
-> the writes to the actual target which can be a file or our backup server.
-> (If you really want to see the details, apply the patches in [1] and see
-> pve-backup.c and block/backup-dump.c).
->
-> Of course, the backup job will read sector 0 of the source disk, but I
-> really can't see where a stray write would happen, why the issue would
-> trigger so rarely or why seemingly only ide-hd+ahci would be affected.
->
-> So again, just asking if somebody has seen something similar or has a
-> hunch of what the cause might be.
->
+>   definition:
+>   - can migrate in postcopy
+>   - in other words: can migrate after target start
+>      some properties:
+>   - probably can be migrated in precopy (like RAM), or, may be not (like block-dirty-bitmap)
+>   - of course, can be migrated in stopped state
 
-Hi Floria;
+What about (with latest naming)
 
-I'm sorry to say that I haven't worked on the block devices (or
-backup) for a little while now, so I am not immediately sure what
-might be causing this problem. In general, I advise against using AHCI
-in production as better performance (and dev support) can be achieved
-through virtio. Still, I am not sure why the combination of AHCI with
-backup_job_create() would be corrupting the early sectors of the disk.
+must_precopy:
+* must be migrated in precopy or in stopped state
+* i.e. must be migrated before target start
 
-Do you have any analysis on how much data gets corrupted? Is it the
-first sector only, the first few? Has anyone taken a peek at the
-backing storage to see if there are any interesting patterns that can
-be observed? (Zeroes, garbage, old data?)
+can_postcopy:
+* can migrate in postcopy or in stopped state
+* i.e. can migrate after target start
+* some can also be migrated during precopy (RAM)
+* some must be migrated after source stops (block-dirty-bitmap)
 
-Have any errors or warnings been observed in either the guest or the
-host that might offer some clues?
+> To be absolutely clear, we may rename them to "not_postcopyable" and "postcopyable".
 
-Is there any commonality in the storage format being used? Is it
-qcow2? Is it network-backed?
+I hate negatives when naming variables.
 
-Apologies for the "tier 1" questions.
+What about: must_precopy and can_postcopy?
 
-> [0]: https://bugzilla.proxmox.com/show_bug.cgi?id=2874
-> [1]: https://git.proxmox.com/?p=pve-qemu.git;a=tree;f=debian/patches;hb=HEAD
->
+Later, Juan.
 
 
