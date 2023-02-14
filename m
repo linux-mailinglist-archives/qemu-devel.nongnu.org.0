@@ -2,88 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F39F6696BE6
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 18:41:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2FFB696BF7
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 18:45:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRzHc-00039q-Op; Tue, 14 Feb 2023 12:40:00 -0500
+	id 1pRzMK-000591-6C; Tue, 14 Feb 2023 12:44:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pRzHb-00039J-AI
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 12:39:59 -0500
-Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pRzHZ-0005va-Db
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 12:39:59 -0500
-Received: by mail-ot1-x336.google.com with SMTP id
- p24-20020a056830131800b0068d4b30536aso4870250otq.9
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 09:39:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=tlrTr5ZHgLSy10J7wvgufNXoH3mapoFZSUZcRmXccwY=;
- b=He3YfPX359eZvaz7MBymdPuPSTJmjY1a4o6TbI4oC52DJ876u5JdcwwTk8L+f04SJS
- sKoTIKQhA+qDzpuTwtWz+sgVd6VknnsjaO6rA1e3zFfhv10L5B04V8veiYH9yDU6ds/a
- ibAEjv3aoUbSLmJ6xxHlAvHUVMd8xl/F4C7jiql1KiPAxPitNziiloe5xWVUsFwWvMps
- qWa5fqad3zPDi7Rgv5rGgG0kAejDgAV5Y59UpZP3f/pyN2gCQKAsrEfpirD2amZCSF6z
- THzywKl2lzN0TllTKBlCCdIEaqYUgovfCYrBz2hXXBQ+wnv7jtDteNt57T691lwZuril
- UFXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tlrTr5ZHgLSy10J7wvgufNXoH3mapoFZSUZcRmXccwY=;
- b=GmawH0Bmigzkd/1UR0TBS081PMuHTFDPIZ45vz8oINFtkPtVOzi7eS4FuosKokzqpL
- YRzG9N3DVDnyANNfPFphOBhl5N7plhWTl6iyuAI2Snq25QJixksLHE6Q5dJUb2Z/X1nd
- 1l8E3ZX0PBQNgkhwF3XQJX8KabUuM/RH9xzU662+DhIwpTLsT8SEAMFgNUD7tITN7ZO3
- q2ovcdA36WSxoSAPUQuB62vNT+0GhMmDImk1qRuT854k5384L4lwe3eTPTRwNBHvPtaZ
- uXt6TeFXzLjhgArB5BwvnuVz9+9Q7lqHphzTST8kFDNbtXsqCOpNmL9MG5ovhcTyu2zH
- XD5Q==
-X-Gm-Message-State: AO0yUKVgLoUzy7Ay3PW5uKkreP3Iha5yOE5tlK6Rc0SbBH2iyOfc+1dF
- JXAvhQ3SlvqRUXFFr5gt9n7z0A==
-X-Google-Smtp-Source: AK7set8plF/6BaFprQLmIYaWi7yO4EPeRITE319/RTx9ts6S52K5Q3DTDE3RL+hF6CHW8BEDnX+eew==
-X-Received: by 2002:a9d:6409:0:b0:68b:cada:6817 with SMTP id
- h9-20020a9d6409000000b0068bcada6817mr1333813otl.12.1676396395865; 
- Tue, 14 Feb 2023 09:39:55 -0800 (PST)
-Received: from [192.168.68.107] ([191.19.40.109])
- by smtp.gmail.com with ESMTPSA id
- m2-20020a9d7ac2000000b0068bcb44e7f5sm6514386otn.68.2023.02.14.09.39.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Feb 2023 09:39:55 -0800 (PST)
-Message-ID: <6a4ce54c-73f7-1115-78b3-e8c55f8051b0@ventanamicro.com>
-Date: Tue, 14 Feb 2023 14:39:52 -0300
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pRzMH-00058T-7w; Tue, 14 Feb 2023 12:44:49 -0500
+Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pRzME-0006tm-6A; Tue, 14 Feb 2023 12:44:48 -0500
+Received: from myt6-23a5e62c0090.qloud-c.yandex.net
+ (myt6-23a5e62c0090.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:1da3:0:640:23a5:e62c])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 5A4305FE6D;
+ Tue, 14 Feb 2023 20:44:34 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b433::1:3c] (unknown
+ [2a02:6b8:b081:b433::1:3c])
+ by myt6-23a5e62c0090.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ XingG20RZmI1-csqgVjwF; Tue, 14 Feb 2023 20:44:33 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1676396673; bh=OJhAjJ+syA1FOcvjDdzJoeei35NELkKRDeyfi4UBN20=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=bqyNLaX+UvfQr+3KILfI/kAYXsjHyAamC7gtSQHxXzX/5+pOLIeizXQ+gYxm7rHGf
+ kjBctVKaxWf0Z5Ep82nPawmV/oqDNRqy6DfX5BnoTco4mic7kNLjHIW4/42zPi18DG
+ DJdTBjjcvOzRpZFeFVNaIZRnxeerjneNxKaXwP8M=
+Authentication-Results: myt6-23a5e62c0090.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <7b45258d-e046-373e-6434-2ae5bd7c2aa5@yandex-team.ru>
+Date: Tue, 14 Feb 2023 20:44:33 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 02/11] target/riscv: allow users to actually write the
- MISA CSR
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v10 01/12] parallels: Out of image offset in BAT leads to
+ image inflation
 Content-Language: en-US
-To: weiwei <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com
-References: <20230210133635.589647-1-dbarboza@ventanamicro.com>
- <20230210133635.589647-3-dbarboza@ventanamicro.com>
- <2a0d5e1e-f2ff-6502-0f88-f6b3005bcaf3@iscas.ac.cn>
- <0d853c1b-7554-1813-693f-e31a62ef9298@ventanamicro.com>
- <4108972e-7598-af6a-a9cd-f42d4f3477fc@iscas.ac.cn>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <4108972e-7598-af6a-a9cd-f42d4f3477fc@iscas.ac.cn>
+To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, den@virtuozzo.com, stefanha@redhat.com,
+ kwolf@redhat.com, hreitz@redhat.com
+References: <20230203091854.2221397-1-alexander.ivanov@virtuozzo.com>
+ <20230203091854.2221397-2-alexander.ivanov@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20230203091854.2221397-2-alexander.ivanov@virtuozzo.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x336.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.136;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
 X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,127 +75,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 03.02.23 12:18, Alexander Ivanov wrote:
+> data_end field in BDRVParallelsState is set to the biggest offset present
+> in BAT. If this offset is outside of the image, any further write will
+> create the cluster at this offset and/or the image will be truncated to
+> this offset on close. This is definitely not correct.
+> 
+> Raise an error in parallels_open() if data_end points outside the image
+> and it is not a check (let the check to repaire the image). Set data_end
+> to the end of the cluster with the last correct offset.
+> 
+> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+> Reviewed-by: Denis V. Lunev <den@openvz.org>
+> ---
+>   block/parallels.c | 17 +++++++++++++++++
+>   1 file changed, 17 insertions(+)
+> 
+> diff --git a/block/parallels.c b/block/parallels.c
+> index bbea2f2221..4af68adc61 100644
+> --- a/block/parallels.c
+> +++ b/block/parallels.c
+> @@ -732,6 +732,7 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+>       BDRVParallelsState *s = bs->opaque;
+>       ParallelsHeader ph;
+>       int ret, size, i;
+> +    int64_t file_size;
+>       QemuOpts *opts = NULL;
+>       Error *local_err = NULL;
+>       char *buf;
+> @@ -741,6 +742,12 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+>           return ret;
+>       }
+>   
+> +    file_size = bdrv_getlength(bs->file->bs);
+> +    if (file_size < 0) {
+> +        return -EINVAL;
+> +    }
+> +    file_size >>= BDRV_SECTOR_BITS;
 
+if file size somehow not aligned to BDRV_SECTOR_SIZE, that's not correct, DIV_ROUND_UP would be better
 
-On 2/14/23 12:12, weiwei wrote:
-> 
-> On 2023/2/11 19:50, Daniel Henrique Barboza wrote:
->>
->>
->> On 2/10/23 23:43, weiwei wrote:
->>>
->>> On 2023/2/10 21:36, Daniel Henrique Barboza wrote:
->>>> At this moment, and apparently since ever, we have no way of enabling
->>>> RISCV_FEATURE_MISA. This means that all the code from write_misa(), all
->>>> the nuts and bolts that handles how to properly write this CSR, has
->>>> always been a no-op as well because write_misa() will always exit
->>>> earlier.
->>>>
->>>> This seems to be benign in the majority of cases. Booting an Ubuntu
->>>> 'virt' guest and logging all the calls to 'write_misa' shows that no
->>>> writes to MISA CSR was attempted. Writing MISA, i.e. enabling/disabling
->>>> RISC-V extensions after the machine is powered on, seems to be a niche
->>>> use.
->>>>
->>>> There is a good chance that the code in write_misa() hasn't been
->>>> properly tested. Allowing users to write MISA can open the floodgates of
->>>> new breeds of bugs. We could instead remove most (if not all) of
->>>> write_misa() since it's never used. Well, as a hardware emulator,
->>>> dealing with crashes because a register write went wrong is what we're
->>>> here for.
->>>>
->>>> Create a 'misa-w' CPU property to allow users to choose whether writes
->>>> to MISA should be allowed. The default is set to 'false' for all RISC-V
->>>> machines to keep compatibility with what we´ve been doing so far.
->>>>
->>>> Read cpu->cfg.misa_w directly in write_misa(), instead of executing
->>>> riscv_set_feature(RISCV_FEATURE_MISA) in riscv_cpu_realize(), that would
->>>> simply reflect the cpu->cfg.misa_w bool value in 'env->features' and
->>>> require a riscv_feature() call to read it back.
->>>>
->>>> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
->>>> ---
->>>>   target/riscv/cpu.c | 1 +
->>>>   target/riscv/cpu.h | 1 +
->>>>   target/riscv/csr.c | 4 +++-
->>>>   3 files changed, 5 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->>>> index 93b52b826c..69fb9e123f 100644
->>>> --- a/target/riscv/cpu.c
->>>> +++ b/target/riscv/cpu.c
->>>> @@ -1197,6 +1197,7 @@ static void register_cpu_props(DeviceState *dev)
->>>>   static Property riscv_cpu_properties[] = {
->>>>       DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, true),
->>>> +    DEFINE_PROP_BOOL("misa-w", RISCVCPU, cfg.misa_w, false),
->>>>       DEFINE_PROP_UINT32("mvendorid", RISCVCPU, cfg.mvendorid, 0),
->>>>       DEFINE_PROP_UINT64("marchid", RISCVCPU, cfg.marchid, RISCV_CPU_MARCHID),
->>>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->>>> index 7128438d8e..103963b386 100644
->>>> --- a/target/riscv/cpu.h
->>>> +++ b/target/riscv/cpu.h
->>>> @@ -498,6 +498,7 @@ struct RISCVCPUConfig {
->>>>       bool pmp;
->>>>       bool epmp;
->>>>       bool debug;
->>>> +    bool misa_w;
->>>>       bool short_isa_string;
->>>>   };
->>>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->>>> index e149b453da..4f9cc501b2 100644
->>>> --- a/target/riscv/csr.c
->>>> +++ b/target/riscv/csr.c
->>>> @@ -1329,7 +1329,9 @@ static RISCVException read_misa(CPURISCVState *env, int csrno,
->>>>   static RISCVException write_misa(CPURISCVState *env, int csrno,
->>>>                                    target_ulong val)
->>>>   {
->>>> -    if (!riscv_feature(env, RISCV_FEATURE_MISA)) {
->>>> +    RISCVCPU *cpu = env_archcpu(env);
->>>> +
->>>> +    if (!cpu->cfg.misa_w) {
->>>
->>> It's Ok to get it directly from cfg. However, personally, I prefer to keep the non-isa features in a separate list.
->>
->> I don't mind a separated non-isa list. cpu->cfg has everything contained in it
->> though, ISA and non-ISA (e.g. vendor extensions that weren't ratified yet), and
->> the current RISCV_FEATURES_* list is just a duplicate of it that we need to
->> update it during riscv_cpu_realize().
->>
->> In my opinion we can spare the extra effort of keeping a separated, up-to-date
->> non-ISA extension/features list, by just reading everything from cfg.
->>
->>
->> Thanks,
->>
->>
->> Daniel
-> 
-> OK. It's  acceptable to me.
-> 
-> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> 
-> By the way, the riscv_cpu_cfg() in patch 4 can be used here.
+> +
+>       ret = bdrv_pread(bs->file, 0, sizeof(ph), &ph, 0);
+>       if (ret < 0) {
+>           goto fail;
+> @@ -805,6 +812,16 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+>   
+>       for (i = 0; i < s->bat_size; i++) {
+>           int64_t off = bat2sect(s, i);
+> +        if (off >= file_size) {
+> +            if (flags & BDRV_O_CHECK) {
+> +                continue;
+> +            }
+> +            error_setg(errp, "parallels: Offset %" PRIi64 " in BAT[%d] entry "
+> +                       "is larger than file size (%" PRIi64 ")",
+> +                       off, i, file_size);
 
-Good point. I'll move patch 4 up so I can use that function here.
+offsets in sectors rather than in bytes may be a bit misleading
 
+> +            ret = -EINVAL;
+> +            goto fail;
+> +        }
+>           if (off >= s->data_end) {
+>               s->data_end = off + s->tracks;
+>           }
 
+-- 
+Best regards,
+Vladimir
 
-Daniel
-
-> 
-> Regards,
-> 
-> Weiwei Li
-> 
->>
->>>
->>> Regards,
->>>
->>> Weiwei Li
->>>
->>>>           /* drop write to misa */
->>>>           return RISCV_EXCP_NONE;
->>>>       }
->>>
-> 
 
