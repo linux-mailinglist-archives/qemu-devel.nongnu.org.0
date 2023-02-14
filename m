@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E5B2695D20
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 09:39:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6075B695D69
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 09:46:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRqq2-0000CW-4N; Tue, 14 Feb 2023 03:38:58 -0500
+	id 1pRqxN-0005Nj-AP; Tue, 14 Feb 2023 03:46:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pRqpw-00007Q-T0; Tue, 14 Feb 2023 03:38:52 -0500
+ id 1pRqx6-000550-3M; Tue, 14 Feb 2023 03:46:17 -0500
 Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pRqps-0001s0-Le; Tue, 14 Feb 2023 03:38:52 -0500
+ id 1pRqx4-0006xI-0h; Tue, 14 Feb 2023 03:46:15 -0500
 Received: from localhost.localdomain (unknown [114.95.238.225])
- by APP-05 (Coremail) with SMTP id zQCowADHz5uOSOtjHFQsBQ--.41555S10;
- Tue, 14 Feb 2023 16:38:43 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowADHz5uOSOtjHFQsBQ--.41555S11;
+ Tue, 14 Feb 2023 16:38:44 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
@@ -26,18 +26,19 @@ Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
  wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
  Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [Patch 08/14] target/riscv: Simplify check for Zve32f and Zve64f
-Date: Tue, 14 Feb 2023 16:38:27 +0800
-Message-Id: <20230214083833.44205-9-liweiwei@iscas.ac.cn>
+Subject: [Patch 09/14] target/riscv: Replace check for F/D to Zve32f/Zve64d in
+ trans_rvv.c.inc
+Date: Tue, 14 Feb 2023 16:38:28 +0800
+Message-Id: <20230214083833.44205-10-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230214083833.44205-1-liweiwei@iscas.ac.cn>
 References: <20230214083833.44205-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowADHz5uOSOtjHFQsBQ--.41555S10
-X-Coremail-Antispam: 1UD129KBjvdXoW7Xw48tF4xuF47tF4rCr43trb_yoWkXwb_ur
- Z7WF1xXryxZrZrKa93CrnxAFy8urZ5Kr4ktw4kt3yY9ry8Gry3Cw1ktF1kJryYyws8Zrna
- vrsIyry3Xrs8ujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+X-CM-TRANSID: zQCowADHz5uOSOtjHFQsBQ--.41555S11
+X-Coremail-Antispam: 1UD129KBjvdXoWruw1DWry3JFW5Jw13CF48JFb_yoWDKwb_Gr
+ Z7Wr1xJ3s3ZFZrKFWUCr9xZr97ua95Gr4qqwsxt3yY9r45G343Cw4DtFn5Jrn8Ar4fZrZ3
+ ursrZFWfWrn8ZjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
  9fnUUIcSsGvfJTRUUUbDAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
  6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAVCq3wA2048vs2
  IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28E
@@ -76,41 +77,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Zve64f depends on Zve32f, so we can only check Zve32f
-in these cases
+Check for Zve32f/Zve64d can overlap check for F/D
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 ---
- target/riscv/insn_trans/trans_rvv.c.inc | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ target/riscv/insn_trans/trans_rvv.c.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index bbb5c3a7b5..6f7ecf1a68 100644
+index 6f7ecf1a68..9b2711b94b 100644
 --- a/target/riscv/insn_trans/trans_rvv.c.inc
 +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -173,9 +173,7 @@ static bool do_vsetvl(DisasContext *s, int rd, int rs1, TCGv s2)
- {
-     TCGv s1, dst;
- 
--    if (!require_rvv(s) ||
--        !(has_ext(s, RVV) || s->cfg_ptr->ext_zve32f ||
--          s->cfg_ptr->ext_zve64f)) {
-+    if (!require_rvv(s) || !s->cfg_ptr->ext_zve32f) {
+@@ -41,9 +41,9 @@ static bool require_rvf(DisasContext *s)
+     switch (s->sew) {
+     case MO_16:
+     case MO_32:
+-        return has_ext(s, RVF);
++        return s->cfg_ptr->ext_zve32f;
+     case MO_64:
+-        return has_ext(s, RVD);
++        return s->cfg_ptr->ext_zve64d;
+     default:
          return false;
      }
- 
-@@ -210,9 +208,7 @@ static bool do_vsetivli(DisasContext *s, int rd, TCGv s1, TCGv s2)
- {
-     TCGv dst;
- 
--    if (!require_rvv(s) ||
--        !(has_ext(s, RVV) || s->cfg_ptr->ext_zve32f ||
--          s->cfg_ptr->ext_zve64f)) {
-+    if (!require_rvv(s) || !s->cfg_ptr->ext_zve32f) {
+@@ -58,9 +58,9 @@ static bool require_scale_rvf(DisasContext *s)
+     switch (s->sew) {
+     case MO_8:
+     case MO_16:
+-        return has_ext(s, RVF);
++        return s->cfg_ptr->ext_zve32f;
+     case MO_32:
+-        return has_ext(s, RVD);
++        return s->cfg_ptr->ext_zve64d;
+     default:
          return false;
      }
- 
 -- 
 2.25.1
 
