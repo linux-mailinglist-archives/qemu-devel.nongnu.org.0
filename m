@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF4F69645F
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 14:17:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEC4169645B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 14:16:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRv9f-0007bi-OT; Tue, 14 Feb 2023 08:15:31 -0500
+	id 1pRv9g-0007cU-Lc; Tue, 14 Feb 2023 08:15:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pRv9Z-0007XN-0R
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:15:25 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pRv9a-0007XV-Cm
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:15:26 -0500
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pRv9V-0003uy-2X
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:15:24 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id gn39so1617372ejc.8
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 05:15:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pRv9V-0003v3-4Y
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:15:25 -0500
+Received: by mail-ej1-x635.google.com with SMTP id ml19so40086646ejb.0
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 05:15:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YkQI+OmILy28+c+2zgMBpj3rebi/xKNz4e5yLjMHx+g=;
- b=lMjQ78Rj6wUDth17D7p3CdjXawu3REy0ubWFCODrunusV19FVnvNrpRarG1RRRJAxc
- Gv/tRCpdprOzC/jHRqC7b2cM0BLDd7TGfOTuehT45+EByMjPcM31P42AgptaAYPsucbf
- tkO/qjvsuRwwLI07iaRe6NbWDo8PRU8yu+Vdz42xlQnnrCIFehxqOuSkU01ulPLYqDT7
- dBKgFFky2ZKwEjEG/+Uwb1YDjwXxIO43kwsjkRwGUXm0tYEqnLV7f7qxx22MbkkBpfBp
- blcJ/hBBnvn2jfBK0CDYlDMQDZ8ztnpvSpGjyNuDSy1iz4DkcJRSmlmmuDxP5lcI8dom
- nyUw==
+ bh=9J72yIOu4Uf13Rs2fXrKUf9MXOPBOsiFdWbshX8z2DI=;
+ b=kYx3QyPhCEFjcLNjW2M51LPIcpnOGUfDKj8YSZdk2YlBsZVOIUq+2k2sMx0YnfSgyO
+ dvaKyFiBvY/riP3OwnYQrc+uWZUauNVjxWWfYlm+GZPS5IUtJW/bPSGpP5TIuLplesO9
+ Bi75GbqvmUkJZ/VRYqRiMMf0X2xNg2y2Z79qjDbgNdzVBdoLgqc1OPjQZPBo9QAcPVvS
+ R0a7wn4K/txNBbAEaXuoPKnJuaqxO0tOeYSxAa26KK8Y7nWyfXnP/KSU+MzmGWgf9FXH
+ GbFLCKaurgjW5bIyqm3eKrQ5OVcRi6eraLq7dftw4jP0kOfVrwgjNaEIko3JWVtQQ9qT
+ j9gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YkQI+OmILy28+c+2zgMBpj3rebi/xKNz4e5yLjMHx+g=;
- b=zXjypMo1dK5wHK2VqPbvAjaPlKHkPiG+/tJnS+Gv4Z7V1oT4IJ+FzYk84F248tMysO
- SOs94GBkHtyoR3J1sSRIg23Of+TgQc9fW6kB9PgnG/RxWEFsVgVc8BUK3x+6ISFzBrFk
- LW6s8AnS+EhHwsDuTo/m3s0Y7/2az2WGiWLLxBq1pWMyQnycTaP0UC3RIGgiqA648cgk
- 0+6X9tMiqbar2iV1Bd9zh3b+dDQwJNxU5wlkC4aGoLW5oSV+FY8pC1r9gJYzrEeLGN7S
- dQJVhMMgqnLRpRtogTjhY07fLpB2293dAFwerfkhK4VGHX00cZZ3gim0igsSC4Mour97
- JlbQ==
-X-Gm-Message-State: AO0yUKXsRwf7/muL8acMasmyAtswghhipH8osw7cbz7yDajuD54kYuu8
- ZEUBFZ23MNCYsCbbvbrjt71s1dmCdps=
-X-Google-Smtp-Source: AK7set8M025AGNJgEjwJK0I5EabPt/5Vl8zg5UGiSHrUy5uE7uzBnVHz9dVcj/cIB8Wt+HgS8EqjnQ==
-X-Received: by 2002:a17:906:4710:b0:87d:9447:f7fb with SMTP id
- y16-20020a170906471000b0087d9447f7fbmr2371480ejq.38.1676380518425; 
- Tue, 14 Feb 2023 05:15:18 -0800 (PST)
+ bh=9J72yIOu4Uf13Rs2fXrKUf9MXOPBOsiFdWbshX8z2DI=;
+ b=Cfl4TTNELNxxVxm9MNZa39fpPnDfM5uC7w44wYgQRxvsREPC2rzfNs2LHC8YLgCD1Q
+ mIAtznSmCFFuldKdKMuy8WoYv8J9xTAoQdtThxEHKQ0u83xYqdVTZ1Uv/uYoQ67cllGe
+ AKX1yVlguxyN+6ucGdaahAsD1qE7ErG5IX4RQ8vSw0MEdbyqRlYWV3pzdC+7AFmzSouW
+ vRsoZMZEEJnXGyouV5lX2aRP1Z+fXnyVfZbDGN3awDyoJb4s7IV2Xjem6CVfmASal88R
+ 0ax/pD5094TIvjUv+WOZ/mInrDju+6fn5YKj1ePs6J+M0lLjUjYya9HXiX9nSn8pZIeN
+ o5nA==
+X-Gm-Message-State: AO0yUKUXP0hJ11pDzRkeDsibCEdRtw8zfqGHVH6ptNcLRgnXf40AaXkQ
+ ISVRVxhkaei4g8+wo9krdXm8uw+s3n0=
+X-Google-Smtp-Source: AK7set+FQD97Kz+U7HjBntzc8A4G2aYNxSbGUeIla27N5r8bIAXOxG+35xrjidv88ner8oIhrtlffA==
+X-Received: by 2002:a17:906:c787:b0:84d:4e4f:1f85 with SMTP id
+ cw7-20020a170906c78700b0084d4e4f1f85mr2633230ejb.59.1676380519480; 
+ Tue, 14 Feb 2023 05:15:19 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-092-224-101-237.92.224.pool.telefonica.de. [92.224.101.237])
  by smtp.gmail.com with ESMTPSA id
- hz17-20020a1709072cf100b008b13836801bsm220153ejc.183.2023.02.14.05.15.17
+ hz17-20020a1709072cf100b008b13836801bsm220153ejc.183.2023.02.14.05.15.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Feb 2023 05:15:17 -0800 (PST)
+ Tue, 14 Feb 2023 05:15:18 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -60,17 +60,17 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 07/12] hw/pci-host/q35: Initialize PCI hole boundaries just
- once
-Date: Tue, 14 Feb 2023 14:14:36 +0100
-Message-Id: <20230214131441.101760-8-shentey@gmail.com>
+Subject: [PATCH 08/12] hw/pci-host/q35: Turn PCI hole properties into class
+ properties
+Date: Tue, 14 Feb 2023 14:14:37 +0100
+Message-Id: <20230214131441.101760-9-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230214131441.101760-1-shentey@gmail.com>
 References: <20230214131441.101760-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,92 +93,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The boundaries of the PCI hole depend on a property only which doesn't
-change at runtime. There is no need to reevaluate the boundaries
-whenever the PCI configuration space changes.
-
-While at it, move the pci_hole attribute into the host device since it
-is only used there.
+These properties are class properties in i440fx. No need to handle them
+differently in q35.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- include/hw/pci-host/q35.h |  2 +-
- hw/pci-host/q35.c         | 21 +++++++++------------
- 2 files changed, 10 insertions(+), 13 deletions(-)
+ hw/pci-host/q35.c | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/include/hw/pci-host/q35.h b/include/hw/pci-host/q35.h
-index 93e41ffbee..a04d5f1a17 100644
---- a/include/hw/pci-host/q35.h
-+++ b/include/hw/pci-host/q35.h
-@@ -51,7 +51,6 @@ struct MCHPCIState {
-     MemoryRegion tseg_blackhole, tseg_window;
-     MemoryRegion smbase_blackhole, smbase_window;
-     bool has_smram_at_smbase;
--    Range pci_hole;
-     uint64_t below_4g_mem_size;
-     uint64_t above_4g_mem_size;
-     uint16_t ext_tseg_mbytes;
-@@ -62,6 +61,7 @@ struct Q35PCIHost {
-     PCIExpressHost parent_obj;
-     /*< public >*/
- 
-+    Range pci_hole;
-     uint64_t pci_hole64_size;
-     uint32_t short_root_bus;
-     bool pci_hole64_fix;
 diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-index 03aa08dae5..468bbfde51 100644
+index 468bbfde51..2fc047a9c6 100644
 --- a/hw/pci-host/q35.c
 +++ b/hw/pci-host/q35.c
-@@ -62,6 +62,13 @@ static void q35_host_realize(DeviceState *dev, Error **errp)
-     memory_region_set_flush_coalesced(&pci->data_mem);
-     memory_region_add_coalescing(&pci->conf_mem, 0, 4);
- 
-+    /*
-+     * pci hole goes from end-of-low-ram to io-apic.
-+     * mmconfig will be excluded by the dsdt builder.
-+     */
-+    range_set_bounds(&s->pci_hole, s->mch.below_4g_mem_size,
-+                     IO_APIC_DEFAULT_ADDRESS - 1);
+@@ -199,6 +199,22 @@ static void q35_host_class_init(ObjectClass *klass, void *data)
+     dc->user_creatable = false;
+     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+     dc->fw_name = "pci";
 +
-     pci->bus = pci_root_bus_new(DEVICE(s), "pcie.0",
-                                 s->mch.pci_address_space,
-                                 s->mch.address_space_io,
-@@ -90,8 +97,7 @@ static void q35_host_get_pci_hole_start(Object *obj, Visitor *v,
-     uint64_t val64;
-     uint32_t value;
- 
--    val64 = range_is_empty(&s->mch.pci_hole)
--        ? 0 : range_lob(&s->mch.pci_hole);
-+    val64 = range_is_empty(&s->pci_hole) ? 0 : range_lob(&s->pci_hole);
-     value = val64;
-     assert(value == val64);
-     visit_type_uint32(v, name, &value, errp);
-@@ -105,8 +111,7 @@ static void q35_host_get_pci_hole_end(Object *obj, Visitor *v,
-     uint64_t val64;
-     uint32_t value;
- 
--    val64 = range_is_empty(&s->mch.pci_hole)
--        ? 0 : range_upb(&s->mch.pci_hole) + 1;
-+    val64 = range_is_empty(&s->pci_hole) ? 0 : range_upb(&s->pci_hole) + 1;
-     value = val64;
-     assert(value == val64);
-     visit_type_uint32(v, name, &value, errp);
-@@ -498,14 +503,6 @@ static void mch_update(MCHPCIState *mch)
-     mch_update_smram(mch);
-     mch_update_ext_tseg_mbytes(mch);
-     mch_update_smbase_smram(mch);
--
--    /*
--     * pci hole goes from end-of-low-ram to io-apic.
--     * mmconfig will be excluded by the dsdt builder.
--     */
--    range_set_bounds(&mch->pci_hole,
--                     mch->below_4g_mem_size,
--                     IO_APIC_DEFAULT_ADDRESS - 1);
++    object_class_property_add(klass, PCI_HOST_PROP_PCI_HOLE_START, "uint32",
++                              q35_host_get_pci_hole_start,
++                              NULL, NULL, NULL);
++
++    object_class_property_add(klass, PCI_HOST_PROP_PCI_HOLE_END, "uint32",
++                              q35_host_get_pci_hole_end,
++                              NULL, NULL, NULL);
++
++    object_class_property_add(klass, PCI_HOST_PROP_PCI_HOLE64_START, "uint64",
++                              q35_host_get_pci_hole64_start,
++                              NULL, NULL, NULL);
++
++    object_class_property_add(klass, PCI_HOST_PROP_PCI_HOLE64_END, "uint64",
++                              q35_host_get_pci_hole64_end,
++                              NULL, NULL, NULL);
  }
  
- static int mch_post_load(void *opaque, int version_id)
+ static void q35_host_initfn(Object *obj)
+@@ -216,22 +232,6 @@ static void q35_host_initfn(Object *obj)
+     qdev_prop_set_int32(DEVICE(&s->mch), "addr", PCI_DEVFN(0, 0));
+     qdev_prop_set_bit(DEVICE(&s->mch), "multifunction", false);
+ 
+-    object_property_add(obj, PCI_HOST_PROP_PCI_HOLE_START, "uint32",
+-                        q35_host_get_pci_hole_start,
+-                        NULL, NULL, NULL);
+-
+-    object_property_add(obj, PCI_HOST_PROP_PCI_HOLE_END, "uint32",
+-                        q35_host_get_pci_hole_end,
+-                        NULL, NULL, NULL);
+-
+-    object_property_add(obj, PCI_HOST_PROP_PCI_HOLE64_START, "uint64",
+-                        q35_host_get_pci_hole64_start,
+-                        NULL, NULL, NULL);
+-
+-    object_property_add(obj, PCI_HOST_PROP_PCI_HOLE64_END, "uint64",
+-                        q35_host_get_pci_hole64_end,
+-                        NULL, NULL, NULL);
+-
+     object_property_add_uint64_ptr(obj, PCIE_HOST_MCFG_SIZE,
+                                    &pehb->size, OBJ_PROP_FLAG_READ);
+ 
 -- 
 2.39.1
 
