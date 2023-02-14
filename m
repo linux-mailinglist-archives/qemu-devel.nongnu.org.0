@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0DF5696461
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 14:17:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87471696465
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 14:17:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRv9g-0007cB-Jw; Tue, 14 Feb 2023 08:15:32 -0500
+	id 1pRv9f-0007bs-Ue; Tue, 14 Feb 2023 08:15:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pRv9a-0007XX-Fe
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pRv9a-0007XU-BX
  for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:15:26 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pRv9X-0003uP-2y
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:15:26 -0500
-Received: by mail-ej1-x633.google.com with SMTP id qb15so37860181ejc.1
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 05:15:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pRv9X-0003ua-52
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:15:25 -0500
+Received: by mail-ej1-x634.google.com with SMTP id mc25so2573291ejb.13
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 05:15:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XOSLUYZkq7ElDzuyPaht3pB2svrDQry43zdBkhas124=;
- b=f8i95OsymyNFWBVlGGqR+eG+jGgAjWrNAwSBToVYOKM5rHS/K7EH7OFtNhAdJ47Rn2
- Y28v53n3sr6gWHTQbS9Z9jRBpnQrEEcmv6E9EGlY9BkyvzMUQGOP8P/pdhc4cCz+vGU/
- 6YQDBLrZ23UlcOLSzyILkQcna+zoeyo33soFWmqIj/TOENvkR2rNaJt6pu0uozi8g65E
- SL3sekAjX9/mr9QJFus17YM8bQlIkSToBQTrTZs5POoiLUAsGqA94d8CRTw+piovN65h
- 5ya3LvdkZ5kevyiFxKvRjS8/Ryqd75Y76riteDZBR8fWHXeTTnV8To8Tn2klzlkaOyNa
- 6R+A==
+ bh=tuewnRepBxWxAmnfjA8IaGCcRoQ04g+hEFXzxkgFJS4=;
+ b=SriBttZQKBMzCwQmqNDX7yIB9WXVORGUnqWhnH3j9jTQMC4umyjWMeJ2cZVgUVOI+j
+ ySuSKRyFo/DVKdz5OOMhsq+9PiHC2u24je/ABsAR3Ucx5S8xoFyXC7p1q2yA+d1wcv4F
+ hoMrCIJX5kBe665pJwgBCMwKG/2tpLDTqkGeSfGbz7qX8hCNX5PfqqY1fjPj4h8UhXz1
+ eNa8RwHmXKZDYLpG7XtyDdNwz6MzKGyB3TyuVR41v7xiXzvfDgE2R+5RfXfns1kHjvmE
+ m8Cj/17yGio+pQ/fUEQy1YBDwXxthTOfTDsF9Q2zjOoR5/H4OnvWM7VONsOxzT2zD0vo
+ 9kaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XOSLUYZkq7ElDzuyPaht3pB2svrDQry43zdBkhas124=;
- b=YntH5BEKgJRrbE3UONT60m+nXM2gnKTDYZN6yGZly2FXe4/3EU3PHunynVgMy29LHx
- GEyYSIxQyVOcqUheEQ32rNpfpi3OAkCQ3sPXmH7NwVWjE8B7LisGOiUpDvpcOUmshu6O
- MbqQJs8b26Lr8WhRCjKcJ1C1cLZ5p1EAmMRBcL9TsabPoEB4Pi2b++V/rAQpZ77l4K4X
- DoqkRVXd9djBNKK4yZNhh9zkXfuhUvxViPWJs5Sd88A4UrRqOYYrlTgO39eNeJ6xUOn1
- DDLvUKhliqapRRknidGGnAGnJvZ6YySaaLF9kPkG7nZcTW3eF9nSeQSpefzaLGzhoX8A
- rLKQ==
-X-Gm-Message-State: AO0yUKUieSTvDJzlDQ9e45qBnV4NWOY8vddGKUAYvT8eiF700xqjH36s
- 8mOX8dkRbGE+/8rL/2DiXOCyzYgcTys=
-X-Google-Smtp-Source: AK7set9Jyxa1HW2VuQx2WPCagu87sGbVfB+hl3t0mM1zIqY4gYZkvXp2cUdqZTKSiG2FWkT7ngxnfQ==
-X-Received: by 2002:a17:906:bc9:b0:88c:3a48:715b with SMTP id
- y9-20020a1709060bc900b0088c3a48715bmr2778591ejg.30.1676380520650; 
- Tue, 14 Feb 2023 05:15:20 -0800 (PST)
+ bh=tuewnRepBxWxAmnfjA8IaGCcRoQ04g+hEFXzxkgFJS4=;
+ b=xefoHnp3jDtgZYds6z7RxWIHsVCoMEbieBdHv9o7rxkGDJmtgoEsBhIJTzdUz9Q9Ae
+ 7e8hPSiY0uPw1Yor9qrgaUxMXhgktMOW0tJG6I3BhktZwVc2LmBkvfTRb8suw1NRGNn1
+ FXe05mZ2IxHIkRBBkOFsyYotVc5TE6ElvL6/badvwBQfk+/UZ9hytslTMQf9WNh+RNLk
+ HBHbG3GmLd7WB6/Ysf5HdeU2P74DSuSzgha/mDia0pQ9KOIt5vJ5fMTKkSyejZm4H8gh
+ xATD3FtKv+0ygaNF+0nlgLUSxrsSOeyO/GTY8TaENQF+CxBrxF/9hekGmSmLe7TlccNu
+ 4V0A==
+X-Gm-Message-State: AO0yUKUTGFOtPvUZSNG4ly7SiJMnnPsgnQOZaSk3apDzKS9nUey3T+0W
+ erUQN3AFDL95wIaLGWZ+tlDwnUQ/2VU=
+X-Google-Smtp-Source: AK7set9+Qp5clpot8IjBjVng8aWDesi25zng0Y0yCcYmpvdSEn56thnPWaBG2NQqxP8BWXMPxrH0eg==
+X-Received: by 2002:a17:906:774f:b0:8aa:c105:f0bf with SMTP id
+ o15-20020a170906774f00b008aac105f0bfmr3551639ejn.17.1676380521981; 
+ Tue, 14 Feb 2023 05:15:21 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-092-224-101-237.92.224.pool.telefonica.de. [92.224.101.237])
  by smtp.gmail.com with ESMTPSA id
- hz17-20020a1709072cf100b008b13836801bsm220153ejc.183.2023.02.14.05.15.19
+ hz17-20020a1709072cf100b008b13836801bsm220153ejc.183.2023.02.14.05.15.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Feb 2023 05:15:20 -0800 (PST)
+ Tue, 14 Feb 2023 05:15:21 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -60,17 +60,17 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 09/12] hw/pci-host/q35: Rename local variable to more
- idiomatic "phb"
-Date: Tue, 14 Feb 2023 14:14:38 +0100
-Message-Id: <20230214131441.101760-10-shentey@gmail.com>
+Subject: [PATCH 10/12] hw/pci-host/q35: Propagate to errp rather than doing
+ error_fatal
+Date: Tue, 14 Feb 2023 14:14:39 +0100
+Message-Id: <20230214131441.101760-11-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230214131441.101760-1-shentey@gmail.com>
 References: <20230214131441.101760-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,57 +93,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Variables of type PCIHostState* are typically named "phb" in QEMU.
-Follow this convention here as well for consistency.
+q35_host_realize() has an errp parameter. Use that to be able to
+propagate the error instead of terminating abruptly.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/pci-host/q35.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ hw/pci-host/q35.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-index 2fc047a9c6..8f81debfa5 100644
+index 8f81debfa5..d517f5622b 100644
 --- a/hw/pci-host/q35.c
 +++ b/hw/pci-host/q35.c
-@@ -46,21 +46,21 @@
+@@ -46,6 +46,7 @@
  
  static void q35_host_realize(DeviceState *dev, Error **errp)
  {
--    PCIHostState *pci = PCI_HOST_BRIDGE(dev);
++    ERRP_GUARD();
      Q35PCIHost *s = Q35_HOST_DEVICE(dev);
-+    PCIHostState *phb = PCI_HOST_BRIDGE(dev);
+     PCIHostState *phb = PCI_HOST_BRIDGE(dev);
      SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
- 
-     memory_region_add_subregion(s->mch.address_space_io,
--                                MCH_HOST_BRIDGE_CONFIG_ADDR, &pci->conf_mem);
-+                                MCH_HOST_BRIDGE_CONFIG_ADDR, &phb->conf_mem);
-     sysbus_init_ioports(sbd, MCH_HOST_BRIDGE_CONFIG_ADDR, 4);
- 
-     memory_region_add_subregion(s->mch.address_space_io,
--                                MCH_HOST_BRIDGE_CONFIG_DATA, &pci->data_mem);
-+                                MCH_HOST_BRIDGE_CONFIG_DATA, &phb->data_mem);
-     sysbus_init_ioports(sbd, MCH_HOST_BRIDGE_CONFIG_DATA, 4);
- 
-     /* register q35 0xcf8 port as coalesced pio */
--    memory_region_set_flush_coalesced(&pci->data_mem);
--    memory_region_add_coalescing(&pci->conf_mem, 0, 4);
-+    memory_region_set_flush_coalesced(&phb->data_mem);
-+    memory_region_add_coalescing(&phb->conf_mem, 0, 4);
- 
-     /*
-      * pci hole goes from end-of-low-ram to io-apic.
-@@ -69,12 +69,12 @@ static void q35_host_realize(DeviceState *dev, Error **errp)
-     range_set_bounds(&s->pci_hole, s->mch.below_4g_mem_size,
-                      IO_APIC_DEFAULT_ADDRESS - 1);
- 
--    pci->bus = pci_root_bus_new(DEVICE(s), "pcie.0",
-+    phb->bus = pci_root_bus_new(DEVICE(s), "pcie.0",
-                                 s->mch.pci_address_space,
+@@ -74,7 +75,7 @@ static void q35_host_realize(DeviceState *dev, Error **errp)
                                  s->mch.address_space_io,
                                  0, TYPE_PCIE_BUS);
  
--    qdev_realize(DEVICE(&s->mch), BUS(pci->bus), &error_fatal);
-+    qdev_realize(DEVICE(&s->mch), BUS(phb->bus), &error_fatal);
+-    qdev_realize(DEVICE(&s->mch), BUS(phb->bus), &error_fatal);
++    qdev_realize(DEVICE(&s->mch), BUS(phb->bus), errp);
  }
  
  static const char *q35_host_root_bus_path(PCIHostState *host_bridge,
