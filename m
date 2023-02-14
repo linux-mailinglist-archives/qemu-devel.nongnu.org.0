@@ -2,61 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E0096958EE
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 07:13:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 088A069592B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 07:26:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRoYG-00020f-OB; Tue, 14 Feb 2023 01:12:28 -0500
+	id 1pRol5-0002c0-TN; Tue, 14 Feb 2023 01:25:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pRoYE-00020N-NT
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 01:12:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pRol3-0002bI-RF
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 01:25:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pRoYD-0007vA-Ay
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 01:12:26 -0500
+ id 1pRol2-0004sh-9J
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 01:25:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676355144;
+ s=mimecast20190719; t=1676355939;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DSWyl+JQ+g2bk0l3ZTYBnaA+DxoOXvy4fW45aw/Or2s=;
- b=MnX2zSRwK5gh0jcgKppq7rxLjvcCDwf9K0JZMzw81W1VH3Tqqd6d9HxpaDnm6FOK7gY8CU
- w37nBiWqzWcnWGmHJm1nHye29YDMnBT6M56W35pgQyF274S3OkIZwwS1pxh0XNwRY15dON
- uKAjYNZuzutT8qP5b9ITmSf0QGqBqhs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-55-cAjVuV4IPh-DNCpM7VLlwg-1; Tue, 14 Feb 2023 01:12:21 -0500
-X-MC-Unique: cAjVuV4IPh-DNCpM7VLlwg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E5EBA101A55E;
- Tue, 14 Feb 2023 06:12:20 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-12-89.pek2.redhat.com [10.72.12.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 93F3E140EBF6;
- Tue, 14 Feb 2023 06:12:17 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: peter.maydell@linaro.org,
-	qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL 10/10] vdpa: fix VHOST_BACKEND_F_IOTLB_ASID flag check
-Date: Tue, 14 Feb 2023 14:11:40 +0800
-Message-Id: <20230214061140.36696-11-jasowang@redhat.com>
-In-Reply-To: <20230214061140.36696-1-jasowang@redhat.com>
-References: <20230214061140.36696-1-jasowang@redhat.com>
+ bh=mAOheiVDR9ru+yHpelyBKcAbzU8vpyppOn7BqAVksgQ=;
+ b=WfsiWlvfbnWIRx8Nt51GmnPPwj3OceASgq5tU1/8XTIyaWjf6zPgghT04zV67AJLu7FLPZ
+ tRZB4WDHydyp3OzVxOY/9XgLnmKKba7jWKaUDlaZt8P2ZoDksKG9jAghiTr9a7SgyQeckH
+ CqM/V7S+s4Eqcbg9+DDm4hdEFhm8WJo=
+Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
+ [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-658-KbxLwHdPPXOUQkNn-T7tsw-1; Tue, 14 Feb 2023 01:25:30 -0500
+X-MC-Unique: KbxLwHdPPXOUQkNn-T7tsw-1
+Received: by mail-oa1-f71.google.com with SMTP id
+ 586e51a60fabf-1618a3467cdso7487727fac.9
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 22:25:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mAOheiVDR9ru+yHpelyBKcAbzU8vpyppOn7BqAVksgQ=;
+ b=o23eEu7bRbSFTiuyUKYdElOGLn2qjSH31KZOxkRyzFrv6RLKmXnfQPI3lSQVfMpgG7
+ TJgw9J7v/MFU6N70YfKJAoWGtBj3OD9eSJFmYp7/FGzhyBLgAcXWGPXXF82HR0rxiNNY
+ I82rN11IzpQbPyDaf1kX7fVS0MBgioL0L5EJ8LrO5mqDu2ciL1Stia4vjsC6Ig65BAYA
+ Y0/3RwaCqI0B0vAshFboEwGXdS7mrL4CAwiMEFhLNmRosfvAsIOEYniJvIF5a1PJO/zt
+ Cglb3Ync1y+m93QJDig0ATNGoNOKibFD8YAycrg3La7uOIZU/R4OXol7nMlDTIQoIRTg
+ 7jtg==
+X-Gm-Message-State: AO0yUKVudLKK3kYkZNS/uxd1I3Sc5+153ZsTlT3UASiopydQUFFRoyxN
+ yds+Pwm4Ra9y7weH1gBnkN37MNaI8mtTF2iXHzYGAvDt/Ts+2PiyY2GXwbxwZvVUGcfVrC7OhBa
+ Zrqm0vAM/V9oaTd1Cw0SuTLUmR9ZLRBc=
+X-Received: by 2002:aca:705:0:b0:363:a978:6d41 with SMTP id
+ 5-20020aca0705000000b00363a9786d41mr51103oih.280.1676355929533; 
+ Mon, 13 Feb 2023 22:25:29 -0800 (PST)
+X-Google-Smtp-Source: AK7set+Eh/Hn801Fb9PjAYnJGmtlwW6k9HYcy7DaWckKwgnLC+NAcT+5G9cfvmPNTFFGQ86xUhdVq+omAklfXzP3KR8=
+X-Received: by 2002:aca:705:0:b0:363:a978:6d41 with SMTP id
+ 5-20020aca0705000000b00363a9786d41mr51096oih.280.1676355929306; Mon, 13 Feb
+ 2023 22:25:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+References: <20230214034211.683203-1-zhenzhong.duan@intel.com>
+In-Reply-To: <20230214034211.683203-1-zhenzhong.duan@intel.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 14 Feb 2023 14:25:18 +0800
+Message-ID: <CACGkMEse_BFRaTV0NkvsGD_ptsTzrBGKLBZg59NtSCR_Z-=V1w@mail.gmail.com>
+Subject: Re: [PATCH] memory: Optimize replay of guest mapping
+To: Zhenzhong Duan <zhenzhong.duan@intel.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com, peterx@redhat.com, 
+ pbonzini@redhat.com, richard.henderson@linaro.org, eduardo@habkost.net, 
+ marcel.apfelbaum@gmail.com, david@redhat.com, philmd@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,35 +93,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Eugenio Pérez <eperezma@redhat.com>
+On Tue, Feb 14, 2023 at 11:43 AM Zhenzhong Duan
+<zhenzhong.duan@intel.com> wrote:
+>
+> On x86, there are two notifiers registered due to vtd-ir memory region
+> splitting the whole address space. During replay of the address space
+> for each notifier, the whole address space is scanned which is
+> unnecessory.
+>
+> We only need to scan the space belong to notifier montiored space.
+>
+> Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
+> ---
+> Tested only on x86 with a net card passed to guest, ping/ssh pass.
+>
+>  hw/i386/intel_iommu.c | 2 +-
+>  softmmu/memory.c      | 3 +--
+>  2 files changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> index 98a5c304a7d7..6b1de80e8573 100644
+> --- a/hw/i386/intel_iommu.c
+> +++ b/hw/i386/intel_iommu.c
+> @@ -3831,7 +3831,7 @@ static void vtd_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
+>                  .domain_id = vtd_get_domain_id(s, &ce, vtd_as->pasid),
+>              };
+>
+> -            vtd_page_walk(s, &ce, 0, ~0ULL, &info, vtd_as->pasid);
+> +            vtd_page_walk(s, &ce, n->start, n->end, &info, vtd_as->pasid);
+>          }
+>      } else {
+>          trace_vtd_replay_ce_invalid(bus_n, PCI_SLOT(vtd_as->devfn),
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index 9d64efca269b..f096716e6e78 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -1923,7 +1923,6 @@ uint64_t memory_region_iommu_get_min_page_size(IOMMUMemoryRegion *iommu_mr)
+>
+>  void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
+>  {
+> -    MemoryRegion *mr = MEMORY_REGION(iommu_mr);
+>      IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_GET_CLASS(iommu_mr);
+>      hwaddr addr, granularity;
+>      IOMMUTLBEntry iotlb;
+> @@ -1936,7 +1935,7 @@ void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
+>
+>      granularity = memory_region_iommu_get_min_page_size(iommu_mr);
+>
+> -    for (addr = 0; addr < memory_region_size(mr); addr += granularity) {
+> +    for (addr = n->start; addr < n->end; addr += granularity) {
 
-VHOST_BACKEND_F_IOTLB_ASID is the feature bit, not the bitmask. Since
-the device under test also provided VHOST_BACKEND_F_IOTLB_MSG_V2 and
-VHOST_BACKEND_F_IOTLB_BATCH, this went unnoticed.
+Is [n->start, n->end] guaranteed to be the subset of memory_region_size(mr)?
 
-Fixes: c1a1008685 ("vdpa: always start CVQ in SVQ mode if possible")
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- net/vhost-vdpa.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks
 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 1a13a34..de5ed8f 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -384,7 +384,7 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
-             g_strerror(errno), errno);
-         return -1;
-     }
--    if (!(backend_features & VHOST_BACKEND_F_IOTLB_ASID) ||
-+    if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID)) ||
-         !vhost_vdpa_net_valid_svq_features(v->dev->features, NULL)) {
-         return 0;
-     }
--- 
-2.7.4
+>          iotlb = imrc->translate(iommu_mr, addr, IOMMU_NONE, n->iommu_idx);
+>          if (iotlb.perm != IOMMU_NONE) {
+>              n->notify(n, &iotlb);
+> --
+> 2.25.1
+>
+>
 
 
