@@ -2,49 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58D09696E09
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 20:41:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AA94696E0B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 20:42:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pS1BH-0000Ju-Lc; Tue, 14 Feb 2023 14:41:35 -0500
+	id 1pS1Be-0001hO-H2; Tue, 14 Feb 2023 14:41:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
- id 1pS1B6-00009e-Vf
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 14:41:25 -0500
-Received: from forwardcorp1c.mail.yandex.net
- ([2a02:6b8:c03:500:1:45:d181:df01])
+ id 1pS1Bc-0001aN-Bb
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 14:41:56 -0500
+Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
- id 1pS1B5-0004F9-C9
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 14:41:24 -0500
-Received: from myt6-23a5e62c0090.qloud-c.yandex.net
- (myt6-23a5e62c0090.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:1da3:0:640:23a5:e62c])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 473BF60EB1;
- Tue, 14 Feb 2023 22:41:18 +0300 (MSK)
+ id 1pS1Ba-0004OD-Iq
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 14:41:56 -0500
+Received: from myt5-8800bd68420f.qloud-c.yandex.net
+ (myt5-8800bd68420f.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:4615:0:640:8800:bd68])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 064B260EC2;
+ Tue, 14 Feb 2023 22:41:50 +0300 (MSK)
 Received: from [IPV6:2a02:6b8:b081:6407::1:7] (unknown
  [2a02:6b8:b081:6407::1:7])
- by myt6-23a5e62c0090.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- EfpZB30Rd4Y1-lebUj4TT; Tue, 14 Feb 2023 22:41:17 +0300
+ by myt5-8800bd68420f.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ kfpuj20RlOs1-Qe6wgtss; Tue, 14 Feb 2023 22:41:49 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1676403677; bh=4ua+GA68hyXGW4NGO+Euz2oaldqXD5ziEHSErpCsVfM=;
+ t=1676403709; bh=hAdROL29qeG8RLJ0CGKc0SF6bSHB6lmlxa4hxtlc+Q4=;
  h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=ZRudeuxmPmuN7uH6p+GtvbifojOtpJ8VZNbeGGefW09HJiI4F5pTlLfgb/Lcc7Vrn
- zyNwrleVQvsK6iu16tpSszPzHyUL5c5rRBuMHEIJD1IfNaM1q0XqX5cQ8CpiTU0g0h
- 8q5AlwxDSO+zj5g0g06Quink7oWJbz8ayYLrIZPw=
-Authentication-Results: myt6-23a5e62c0090.qloud-c.yandex.net;
+ b=Mmg/5kBBETl3VQmJaR8FXPPTQNbAToFfrz9tPPV8+Gli2GPX7KJKkOwjjrI8aOV2T
+ Ftd5WRuafSwoOQYd28zs54KHuolAf39yBX5YGBkTom011IeUzdws1KoE7rVJ4fd8fY
+ Ao/+hgw5X9ttoAoEB6YljNGMuTrCfncFKzul4xJ0=
+Authentication-Results: myt5-8800bd68420f.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
-Message-ID: <82dccce7-b5cd-d195-38a0-645739dd5eff@yandex-team.ru>
-Date: Tue, 14 Feb 2023 21:41:14 +0200
+Message-ID: <27a02ee6-2400-b8d5-1f0c-5ffda5615910@yandex-team.ru>
+Date: Tue, 14 Feb 2023 21:41:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v4 10/16] pcie: pcie_cap_slot_enable_power() use correct
- helper
+Subject: Re: [PATCH v4 11/16] pcie: introduce pcie_sltctl_powered_off() helper
 Content-Language: en-US, ru-RU
 To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  qemu-devel@nongnu.org
@@ -52,12 +50,12 @@ Cc: armbru@redhat.com, eblake@redhat.com, eduardo@habkost.net,
  berrange@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
  mst@redhat.com, philmd@linaro.org, den-plotnikov@yandex-team.ru
 References: <20230213140103.1518173-1-vsementsov@yandex-team.ru>
- <20230213140103.1518173-11-vsementsov@yandex-team.ru>
+ <20230213140103.1518173-12-vsementsov@yandex-team.ru>
 From: Anton Kuchin <antonkuchin@yandex-team.ru>
-In-Reply-To: <20230213140103.1518173-11-vsementsov@yandex-team.ru>
+In-Reply-To: <20230213140103.1518173-12-vsementsov@yandex-team.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=178.154.239.200;
  envelope-from=antonkuchin@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
 X-Spam_score_int: -24
 X-Spam_score: -2.5
@@ -81,36 +79,67 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 13/02/2023 16:00, Vladimir Sementsov-Ogievskiy wrote:
-> *_by_mask() helpers shouldn't be used here (and that's the only one).
-> *_by_mask() helpers do shift their value argument, but in pcie.c code
-> we use values that are already shifted appropriately.
-> Happily, PCI_EXP_SLTCTL_PWR_ON is zero, so shift doesn't matter. But if
-> we apply same helper for PCI_EXP_SLTCTL_PWR_OFF constant it will do
-> wrong thing.
+> In pcie_cap_slot_write_config() we check for PCI_EXP_SLTCTL_PWR_OFF in
+> a bad form. We should distinguish PCI_EXP_SLTCTL_PWR which is a "mask"
+> and PCI_EXP_SLTCTL_PWR_OFF which is value for that mask.
 >
-> So, let's use instead pci_word_test_and_clear_mask() which is already
-> used in the file to clear PCI_EXP_SLTCTL_PWR_OFF bit in
-> pcie_cap_slot_init() and pcie_cap_slot_reset().
+> Better code is in pcie_cap_slot_unplug_request_cb() and in
+> pcie_cap_update_power(). Let's use same pattern everywhere. To simplify
+> things add also a helper.
 >
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Anton Kuchin <antonkuchin@yandex-team.ru>
 > ---
->   hw/pci/pcie.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   hw/pci/pcie.c | 16 ++++++++++------
+>   1 file changed, 10 insertions(+), 6 deletions(-)
 >
 > diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> index ccdb2377e1..db8360226f 100644
+> index db8360226f..90faf0710a 100644
 > --- a/hw/pci/pcie.c
 > +++ b/hw/pci/pcie.c
-> @@ -373,8 +373,8 @@ void pcie_cap_slot_enable_power(PCIDevice *dev)
->       uint32_t sltcap = pci_get_long(exp_cap + PCI_EXP_SLTCAP);
+> @@ -39,6 +39,11 @@
+>   #define PCIE_DEV_PRINTF(dev, fmt, ...)                                  \
+>       PCIE_DPRINTF("%s:%x "fmt, (dev)->name, (dev)->devfn, ## __VA_ARGS__)
+>   
+> +static bool pcie_sltctl_powered_off(uint16_t sltctl)
+> +{
+> +    return (sltctl & PCI_EXP_SLTCTL_PCC) == PCI_EXP_SLTCTL_PWR_OFF
+> +        && (sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_OFF;
+> +}
+>   
+>   /***************************************************************************
+>    * pci express capability helper functions
+> @@ -395,6 +400,7 @@ static void pcie_cap_update_power(PCIDevice *hotplug_dev)
 >   
 >       if (sltcap & PCI_EXP_SLTCAP_PCP) {
-> -        pci_set_word_by_mask(exp_cap + PCI_EXP_SLTCTL,
-> -                             PCI_EXP_SLTCTL_PCC, PCI_EXP_SLTCTL_PWR_ON);
-> +        pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTCTL,
-> +                                     PCI_EXP_SLTCTL_PCC);
+>           power = (sltctl & PCI_EXP_SLTCTL_PCC) == PCI_EXP_SLTCTL_PWR_ON;
+> +        /* Don't we need to check also (sltctl & PCI_EXP_SLTCTL_PIC) ? */
 >       }
->   }
 >   
+>       pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
+> @@ -579,8 +585,7 @@ void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
+>           return;
+>       }
+>   
+> -    if (((sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_OFF) &&
+> -        ((sltctl & PCI_EXP_SLTCTL_PCC) == PCI_EXP_SLTCTL_PWR_OFF)) {
+> +    if (pcie_sltctl_powered_off(sltctl)) {
+>           /* slot is powered off -> unplug without round-trip to the guest */
+>           pcie_cap_slot_do_unplug(hotplug_pdev);
+>           hotplug_event_notify(hotplug_pdev);
+> @@ -770,10 +775,9 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
+>        * this is a work around for guests that overwrite
+>        * control of powered off slots before powering them on.
+>        */
+> -    if ((sltsta & PCI_EXP_SLTSTA_PDS) && (val & PCI_EXP_SLTCTL_PCC) &&
+> -        (val & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_OFF &&
+> -        (!(old_slt_ctl & PCI_EXP_SLTCTL_PCC) ||
+> -        (old_slt_ctl & PCI_EXP_SLTCTL_PIC) != PCI_EXP_SLTCTL_PWR_IND_OFF)) {
+> +    if ((sltsta & PCI_EXP_SLTSTA_PDS) && pcie_sltctl_powered_off(val) &&
+> +        !pcie_sltctl_powered_off(old_slt_ctl))
+> +    {
+>           pcie_cap_slot_do_unplug(dev);
+>       }
+>       pcie_cap_update_power(dev);
 
