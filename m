@@ -2,85 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 619DC69633D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 13:14:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 108C669634C
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 13:18:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRuCU-0001yS-7B; Tue, 14 Feb 2023 07:14:22 -0500
+	id 1pRuFI-0004FO-1b; Tue, 14 Feb 2023 07:17:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pRuCS-0001xm-4h
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 07:14:20 -0500
-Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pRuCQ-0000np-FZ
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 07:14:19 -0500
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-15f97c478a8so18670965fac.13
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 04:14:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=OZOkaOiqRtXu0wImNTXGwdwY/sVxnMfYUwR+1RIU3+M=;
- b=QS3ycB2HlYmygMxZ3lLhIS53WrTPtRzunS1sFqDzCWP9oSRopwg7Deq0m8SmyoWx0H
- dM92GodkgEL/O8334icINs/7WAqDPP+Dck0wIzOyu/qUbsEXkwIGUv79dZ3iAENm1f9M
- SemUpgcSmSQ7z1VTeOXG6VHiC+uzXTxykrSej6KaQeh2DnYw/EXjK5FAoIcNxhT8S0bN
- /iXtqUTqZJGP7QRPVCl+PJFYXXTDWa08kVEZTL//m2fkj5QYPUwwb3yoTwGzCWs3CopK
- bB9anjCbgpm8r4Q0MAduavwQTaWx7ozXWYROe5OY2VPgGu9XjgIni8GbFTWXvEM9+Un7
- 8+2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OZOkaOiqRtXu0wImNTXGwdwY/sVxnMfYUwR+1RIU3+M=;
- b=ZhlJ9VE2L8VM/AJMZxUCWSVxu3AI6W5xv0hS5vafaCwJrOPdq7m4N2/Egabx5oMICO
- jF9QnJSvgxbZOUckqA1fR/kYuSBJmzo/dNlOfyWdoWKQAzn4jq+9tCTGuBatAJX3nnNw
- 9DzRVWwx5WlG/3Zb/sKNLsuBDNrEvAgD7udX0adBk7yTO9FAlHbSblvY1Wdg5V+86t6k
- 3vXYV1u49RoEEd2Ee6uLstFmXQWBkh5TyXCJPaUbil3c+FglYvUriORoHiCj4EC/Ujpm
- IYgWxJ1mkJQhsxTiQeHdHaG+k0wSAkLtEOEwZPj7647cOGVVNIaOXQQ+E+RdvDFrQca5
- GIYg==
-X-Gm-Message-State: AO0yUKUemLFlZdwlvK/ZrZ0fg5XtcdrDKct+xLUMvR9eNx+su9vepgDI
- 3hg1wA+vWYA8BZkInd3aG4lBEplLnrYGO/74
-X-Google-Smtp-Source: AK7set8W6DMEN/+dW3xXk+QesdmoQpJHP8aaAM8ufpwsLskFC2C7P1A+gV8f1UzNrs+SUYgufkl1qg==
-X-Received: by 2002:a05:6871:8b:b0:16e:1aeb:d74b with SMTP id
- u11-20020a056871008b00b0016e1aebd74bmr901653oaa.33.1676376856161; 
- Tue, 14 Feb 2023 04:14:16 -0800 (PST)
-Received: from [192.168.68.107] ([191.19.40.109])
- by smtp.gmail.com with ESMTPSA id
- l22-20020a056870d4d600b0016e210ae4e6sm1152135oai.24.2023.02.14.04.14.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Feb 2023 04:14:15 -0800 (PST)
-Message-ID: <4aa40803-b1c4-bf4d-3ddc-458e8f1d0538@ventanamicro.com>
-Date: Tue, 14 Feb 2023 09:14:12 -0300
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRuFE-0004CK-BF
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 07:17:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRuFB-0001Qc-DY
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 07:17:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676377028;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BAXhBlOuZl/A0DyOvAqMgGtPdC5KBfU6GLnrH8qPmWE=;
+ b=ble5HUU05t8PXOJGWLB1fr8ZZSgo/zQ/BbIrhDmeYNGWb3t4CAeAEwlM+Ma3OzLtaFmo/N
+ cISgqF1y60WIHBXnftd1NAuGUZwQ9F3mi3aXqeo7bnbth6eD/RZh+In7zAwPKXh/amKzF8
+ DHGwel+3pxgD+yIrU5FHXLdaZduaE4o=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-563-ezaOxhqjPJGNHG46afIEmQ-1; Tue, 14 Feb 2023 07:17:07 -0500
+X-MC-Unique: ezaOxhqjPJGNHG46afIEmQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 68633101A55E;
+ Tue, 14 Feb 2023 12:17:06 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 195244010E84;
+ Tue, 14 Feb 2023 12:17:06 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 045E321E6A1F; Tue, 14 Feb 2023 13:17:05 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Peter Krempa
+ <pkrempa@redhat.com>,  eduardo@habkost.net,  antonkuchin@yandex-team.ru,
+ mst@redhat.com,  "reviewer:Incompatible changes"
+ <libvir-list@redhat.com>,  qemu-devel@nongnu.org,  Vladimir
+ Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ den-plotnikov@yandex-team.ru,  marcel.apfelbaum@gmail.com,
+ pbonzini@redhat.com,  eblake@redhat.com
+Subject: Re: [PATCH v4 14/16] qapi: deprecate "device" field of DEVICE_* events
+References: <20230213140103.1518173-1-vsementsov@yandex-team.ru>
+ <20230213140103.1518173-15-vsementsov@yandex-team.ru>
+ <Y+pFe4bRCqbJJbp0@redhat.com> <87bklwoce9.fsf@pond.sub.org>
+ <Y+tTgpoz/o0nDu9r@angien.pipo.sk> <Y+ttBkTvDv1T7qi1@redhat.com>
+ <87ttzojwl7.fsf@pond.sub.org>
+ <73444fb8-49a7-fc2f-091e-6f65e916fa58@linaro.org>
+Date: Tue, 14 Feb 2023 13:17:04 +0100
+In-Reply-To: <73444fb8-49a7-fc2f-091e-6f65e916fa58@linaro.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 14 Feb 2023 12:53:01
+ +0100")
+Message-ID: <87o7pwigqn.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [Patch 04/14] target/riscv: Add cfg properties for Zv* extension
-Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230214083833.44205-1-liweiwei@iscas.ac.cn>
- <20230214083833.44205-5-liweiwei@iscas.ac.cn>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230214083833.44205-5-liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::29;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x29.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,36 +92,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
+> On 14/2/23 12:49, Markus Armbruster wrote:
+>> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-On 2/14/23 05:38, Weiwei Li wrote:
-> Add properties for Zve64d,Zvfh,Zvfhmin extension
+[...]
 
-"for Zve64d,Zvfh,Zvfhmin extensions."
+>>> What's the documented way to construct a QOM path, given only an ID  as
+>>> input ?
+>>=20
+>> QOM paths a gap in our documentation, even though the composition tree
+>> structure has been stable since day one, and is de facto ABI.
+>>=20
+>> Short answer: "/machine/peripheral/ID".
+>>=20
+>> Long answer follows.
+>>=20
+>> We have three "containers" under /machine that serve as parents for
+>> devices:
+>>=20
+>> * /machine/peripheral/
+>>=20
+>>   Parent of user-created devices with ID.  Children are named "ID".
+>>=20
+>>   Put there by qdev_set_id(), called from qdev_device_add_from_qdict().
+>>=20
+>>   On "user-created": Nothing stops board code to abuse qdev_set_id() for
+>>   onboard devices, directly or indirectly, but it really, really
+>>   shouldn't.
+>>=20
+>> * /machine/peripheral-anon/
+>>=20
+>>   Parent of user-created devices without ID.  Children are named
+>>   "device[N]", where N counts up from zero.
+>>=20
+>>   Put there by qdev_set_id(), called from qdev_device_add_from_qdict().
+>>=20
+>>   Again, abuse by board code is possible, but would be wrong.
+>>=20
+>>   Beware: a particular device's N changes when the set of devices
+>>   created before it grows or shrinks.  Messing with the machine type can
+>>   change it (different onboard devices).
+>>=20
+>> * /machine/unattached/
+>>=20
+>>   Surrogate parent of onboard devices created without a parent.
+>>=20
+>>   Put there by device_set_realized() (general case),
+>>   qdev_connect_gpio_out_named() (input pins) , memory_region_do_init()
+>>   (memory regions), qemu_create_machine() (the main sysbus).
+>>=20
+>>   I believe this container was created as a convenience, so we don't
+>>   have to retrofit parents to existing code.  Probably abused ever
+>>   since.
+>
+> Are you suggesting this is a stable interface and we can not move
+> devices (like from /machine/unattached/ to /machine/peripheral/)
+> without going thru the deprecation process?
 
-> 
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> ---
+Difficult question!
 
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+The point of not changing interfaces incompatibly without a grace period
+/ deprecation process is not breaking users of the interface.
 
->   target/riscv/cpu.h | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 7128438d8e..54c6875617 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -462,7 +462,10 @@ struct RISCVCPUConfig {
->       bool ext_zhinxmin;
->       bool ext_zve32f;
->       bool ext_zve64f;
-> +    bool ext_zve64d;
->       bool ext_zmmul;
-> +    bool ext_zvfh;
-> +    bool ext_zvfhmin;
->       bool ext_smaia;
->       bool ext_ssaia;
->       bool ext_sscofpmf;
+When an interface has always worked a certain way, its users may well
+depend on it, whether it's documented or not.
+
+The question to ask is always "will this break users?"
+
+For documented aspects, we generally assume it will.  Doesn't mean we
+can simply assume "won't" for undocumented aspects.
+
+Does this make sense?
+
 
