@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7911769555E
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 01:29:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 679E3695558
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 01:29:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRjB4-0007QE-OY; Mon, 13 Feb 2023 19:28:10 -0500
+	id 1pRjBJ-0007T2-8x; Mon, 13 Feb 2023 19:28:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pRjB2-0007No-SR
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 19:28:08 -0500
-Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f])
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pRjB8-0007Rp-OA
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 19:28:14 -0500
+Received: from mail-il1-x136.google.com ([2607:f8b0:4864:20::136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pRjB1-0005zK-9b
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 19:28:08 -0500
-Received: by mail-il1-x12f.google.com with SMTP id t7so4158663ilq.2
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 16:28:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pRjB6-000603-Sx
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 19:28:14 -0500
+Received: by mail-il1-x136.google.com with SMTP id h29so4011135ila.8
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 16:28:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Tpsd+qPEZMPPulUs11wAtZGcRw5OGIAw6bgvDX5oXa0=;
- b=OV0YxNb70V056H3ba24MdQ5SD47PKxSH+k4JUemLA2PCYFt3k/I87IVrIYEHQD3RDH
- skhZPbqK8Fb4Z6Z2GFtFnN1uvH2aFyW6SYhYmJTuEe7zi52xGwV8kuyuhMSjth923L3e
- LwwHLAAW9han377jk7Q4cqP0B1/PvgRt2re7aTXzJLSNZiFwsConWe61g1ctOwVFeRFF
- wRYmsmeTOs0UuW5Yq5CKqh4nSlQF3foXI/Aoqd3UcM9TphkBFZPUBaPT0jXjtrOzQr5R
- Z7sIwrMN3YB23OorsjNfIM1PuB8pg2z4Qxz8qVT49GCRtJNx3KmkiNKBuIZADiblFjq/
- Ao1Q==
+ bh=oFq1eRvbniaQzSLu1dNAxUhkDZddT5JGCoR/msUAj9s=;
+ b=f/b1E0eHKuM51WiWl/7D/yDGvSo3lApuDOEfXVhgZEUYLWKpJIyS1gNyMo/ulDJDF+
+ +Hkgeb01WMO5PgD4ClXPvK6NDd57pUiqkReXn0FN0wfOpmTuBqLhQYaXsvQ+EzNSlmNP
+ RdTiSffrLW5GHkTN2mGWUnJIbETAgLcqSwtfsKMbLEnix/+OSSuLiKV9CZZBfZAzOQKx
+ 60Q7mBah+gjnWUpSlBmIhtTekb6qQEDFy+JVlLm/xJFjyxQNqJxdgzaUreAMBJujJvwW
+ DE5mMDKG32nwrXDYQNbrPdO4Pe4pvGcMK4Zskd+SRSlsjFp5pWer4aEq6jhQ6TpI6Si3
+ aeBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Tpsd+qPEZMPPulUs11wAtZGcRw5OGIAw6bgvDX5oXa0=;
- b=DbEdh75JdYRrFja51ni/RWcR+j1tEixsy+HyrC0cRcaAheazSUSjsU2aCpc1znuaum
- 1MbMuheJx7GOtWzqk2Wbanyj3wTVaza4kvSMpImPTGSMxIrHFRztIp4cK9yE4f5eEs8T
- ATJpR6F20P3JSGE6n6WKYMO5FsDToSCNMHQ4E1evg3z/SLKeSMDPbpLAH+SzoXPYvZzM
- VRYhNskR3ksWdXW/GpXbcCCx9mc6DrLQlynXNHld63kTTjtNPsgDl0KAJZ/LDdVZhIUt
- lHYyLigJsAJdYmqgZTrIyoFeX0aoJ5PDe7CrX31hJhmdoaPXKsEhgJ2T2RMN4UUI5Fx8
- Dlng==
-X-Gm-Message-State: AO0yUKX2WHHZP06vit8CYMM04dcqt2kV0rDIoWJ8x/uNR6Qp/tLQPnPg
- 1XK5gWqDwfAhi9DfSvYS1RzXhO0cJOCpqc17
-X-Google-Smtp-Source: AK7set/tjzIu6OvArRxeYiFvDltnZOUw+OT6PT/gFwq4CVC1S4QKTNyosLTpNuhd1jpEOhDzCIerzw==
-X-Received: by 2002:a92:ca4d:0:b0:315:3d25:231b with SMTP id
- q13-20020a92ca4d000000b003153d25231bmr786309ilo.9.1676334485947; 
- Mon, 13 Feb 2023 16:28:05 -0800 (PST)
+ bh=oFq1eRvbniaQzSLu1dNAxUhkDZddT5JGCoR/msUAj9s=;
+ b=nUKKk4PR1LRNZT2FKuQDEVG+d24brR80hgvtOa//MoqgWxaIxlRyA6posoV3LkAoqK
+ LILk2k/7gOzkJ1R+8O3/8xWMUzT3HBEBMMV405hD7TFRAc8jtVjZQv9qFS1mXGIvABi3
+ ir0GKMzjx2BbJCeCBJU0E+s0RtqV7mKglrZjPBtrXKTjfIsUIip70ksBxPn3scTbC37o
+ D8RX8oweJGYZr8wcUrWW9bo2uT/n9aZfyV48WlAhphFExT+oClvMPeuuo/cUFXtfDyqO
+ UNk+9PiIxPVlI255NXc/qXLd+nrvpalnN/q3r7P5R7UPrMCeUATLzisK/BKb2B4AVB+R
+ RwHw==
+X-Gm-Message-State: AO0yUKVHVYqxVjdsF+ox7ALuKtQYGf/vq0QI2hkvouh43UqQhk2fH4Bl
+ rGyW76slDtBcrlrEJMuCdVdDSQedKcXn+jpo
+X-Google-Smtp-Source: AK7set8+ZY7lv/eWaZfxCcdsDRGPgx1hbpRVWXePBk/iHegQY+SngEj+7QjzTyuZKhgc3JM5s81ung==
+X-Received: by 2002:a05:6e02:b4c:b0:311:66d:47aa with SMTP id
+ f12-20020a056e020b4c00b00311066d47aamr510465ilu.26.1676334486989; 
+ Mon, 13 Feb 2023 16:28:06 -0800 (PST)
 Received: from dune.bsdimp.com (c-71-237-47-177.hsd1.co.comcast.net.
  [71.237.47.177]) by smtp.gmail.com with ESMTPSA id
- r17-20020a028811000000b003af4300d670sm4500923jai.27.2023.02.13.16.28.04
+ r17-20020a028811000000b003af4300d670sm4500923jai.27.2023.02.13.16.28.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Feb 2023 16:28:05 -0800 (PST)
+ Mon, 13 Feb 2023 16:28:06 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Warner Losh <imp@bsdimp.com>, richard.henderson@linaro.org,
  Paolo Bonzini <pbonzini@redhat.com>, kevans@freebsd.org, f4bug@amsat.org,
- Thomas Huth <thuth@redhat.com>, Stacey Son <sson@FreeBSD.org>,
- Sean Bruno <sbruno@FreeBSD.org>, Juergen Lock <nox@jelal.kn-bremen.de>,
- Raphael Kubo da Costa <rakuco@FreeBSD.org>
-Subject: [PATCH v2 05/12] bsd-user: Helper routines oidfmt
-Date: Mon, 13 Feb 2023 17:27:50 -0700
-Message-Id: <20230214002757.99240-6-imp@bsdimp.com>
+ Thomas Huth <thuth@redhat.com>, Sean Bruno <sbruno@FreeBSD.org>,
+ Juergen Lock <nox@jelal.kn-bremen.de>,
+ Raphael Kubo da Costa <rakuco@FreeBSD.org>, Stacey Son <sson@FreeBSD.org>
+Subject: [PATCH v2 06/12] bsd-user: Helper routines h2t_old_sysctl
+Date: Mon, 13 Feb 2023 17:27:51 -0700
+Message-Id: <20230214002757.99240-7-imp@bsdimp.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230214002757.99240-1-imp@bsdimp.com>
 References: <20230214002757.99240-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::12f;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12f.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::136;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x136.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,9 +92,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Stacey Son <sson@FreeBSD.org>
-
-oidfmt uses undocumented system call to get the type of the sysctl.
+h2t_old_sysctl does the byte swapping in the data to return it to the
+target for the 'well known' types.
 
 Co-Authored-by: Sean Bruno <sbruno@FreeBSD.org>
 Signed-off-by: Sean Bruno <sbruno@FreeBSD.org>
@@ -102,51 +101,142 @@ Co-Authored-by: Juergen Lock <nox@jelal.kn-bremen.de>
 Signed-off-by: Juergen Lock <nox@jelal.kn-bremen.de>
 Co-Authored-by: Raphael Kubo da Costa <rakuco@FreeBSD.org>
 Signed-off-by: Raphael Kubo da Costa <rakuco@FreeBSD.org>
+Co-Authored-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
-Reviewed-by: Warner Losh <imp@bsdimp.com>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/freebsd/os-sys.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ bsd-user/freebsd/os-sys.c | 95 +++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 91 insertions(+), 4 deletions(-)
 
 diff --git a/bsd-user/freebsd/os-sys.c b/bsd-user/freebsd/os-sys.c
-index cfbc4148a5c..1df53a3e53b 100644
+index 1df53a3e53b..457e61f5b36 100644
 --- a/bsd-user/freebsd/os-sys.c
 +++ b/bsd-user/freebsd/os-sys.c
-@@ -121,6 +121,38 @@ static abi_ulong G_GNUC_UNUSED h2t_ulong_sat(u_long ul)
+@@ -29,7 +29,7 @@
+  * Compare with sys/kern_sysctl.c ctl_size
+  * Note: Not all types appear to be used in-tree.
   */
- #define bsd_get_ncpu() 1
+-static const int G_GNUC_UNUSED target_ctl_size[CTLTYPE+1] = {
++static const int target_ctl_size[CTLTYPE+1] = {
+ 	[CTLTYPE_INT] = sizeof(abi_int),
+ 	[CTLTYPE_UINT] = sizeof(abi_uint),
+ 	[CTLTYPE_LONG] = sizeof(abi_long),
+@@ -44,7 +44,7 @@ static const int G_GNUC_UNUSED target_ctl_size[CTLTYPE+1] = {
+ 	[CTLTYPE_U64] = sizeof(uint64_t),
+ };
+ 
+-static const int G_GNUC_UNUSED host_ctl_size[CTLTYPE+1] = {
++static const int host_ctl_size[CTLTYPE+1] = {
+ 	[CTLTYPE_INT] = sizeof(int),
+ 	[CTLTYPE_UINT] = sizeof(u_int),
+ 	[CTLTYPE_LONG] = sizeof(long),
+@@ -97,7 +97,7 @@ static abi_ulong G_GNUC_UNUSED scale_to_target_pages(uint64_t pages)
+ }
+ 
+ #ifdef TARGET_ABI32
+-static abi_long G_GNUC_UNUSED h2t_long_sat(long l)
++static abi_long h2t_long_sat(long l)
+ {
+     if (l > INT32_MAX) {
+         l = INT32_MAX;
+@@ -107,7 +107,7 @@ static abi_long G_GNUC_UNUSED h2t_long_sat(long l)
+     return l;
+ }
+ 
+-static abi_ulong G_GNUC_UNUSED h2t_ulong_sat(u_long ul)
++static abi_ulong h2t_ulong_sat(u_long ul)
+ {
+     if (ul > UINT32_MAX) {
+         ul = UINT32_MAX;
+@@ -153,6 +153,93 @@ static int G_GNUC_UNUSED oidfmt(int *oid, int len, char *fmt, uint32_t *kind)
+     return 0;
+ }
  
 +/*
-+ * This uses the undocumented oidfmt interface to find the kind of a requested
-+ * sysctl, see /sys/kern/kern_sysctl.c:sysctl_sysctl_oidfmt() (compare to
-+ * src/sbin/sysctl/sysctl.c)
++ * Convert the old value from host to target.
++ *
++ * For LONG and ULONG on ABI32, we need to 'down convert' the 8 byte quantities
++ * to 4 bytes. The caller setup a buffer in host memory to get this data from
++ * the kernel and pass it to us. We do the down conversion and adjust the length
++ * so the caller knows what to write as the returned length into the target when
++ * it copies the down converted values into the target.
++ *
++ * For normal integral types, we just need to byte swap. No size changes.
++ *
++ * For strings and node data, there's no conversion needed.
++ *
++ * For opaque data, per sysctl OID converts take care of it.
 + */
-+static int G_GNUC_UNUSED oidfmt(int *oid, int len, char *fmt, uint32_t *kind)
++static void G_GNUC_UNUSED h2t_old_sysctl(void *holdp, size_t *holdlen, uint32_t kind)
 +{
-+    int qoid[CTL_MAXNAME + 2];
-+    uint8_t buf[BUFSIZ];
-+    int i;
-+    size_t j;
++    size_t len;
++    int hlen, tlen;
++    uint8_t *hp, *tp;
 +
-+    qoid[0] = CTL_SYSCTL;
-+    qoid[1] = CTL_SYSCTL_OIDFMT;
-+    memcpy(qoid + 2, oid, len * sizeof(int));
++    /*
++     * Although rare, we can have arrays of sysctl. Both sysctl_old_ddb in
++     * kern_sysctl.c and show_var in sbin/sysctl/sysctl.c have code that loops
++     * this way.  *holdlen has been set by the kernel to the host's length.
++     * Only LONG and ULONG on ABI32 have different sizes: see below.
++     */
++    hp = (uint8_t *)holdp;
++    tp = hp;
++    len = 0;
++    hlen = host_ctl_size[kind & CTLTYPE];
++    tlen = target_ctl_size[kind & CTLTYPE];
 +
-+    j = sizeof(buf);
-+    i = sysctl(qoid, len + 2, buf, &j, 0, 0);
-+    if (i) {
-+        return i;
++    /*
++     * hlen == 0 for CTLTYPE_STRING and CTLTYPE_NODE, which need no conversion
++     * as well as CTLTYPE_OPAQUE, which needs special converters.
++     */
++    if (hlen == 0) {
++        return;
 +    }
 +
-+    if (kind) {
-+        *kind = *(uint32_t *)buf;
++    while (len < *holdlen) {
++        if (hlen == tlen) {
++            switch (hlen) {
++            case 1:
++                /* Nothing needed: no byteswapping and assigning in place */
++                break;
++            case 2:
++                *(uint16_t *)tp = tswap16(*(uint16_t *)hp);
++                break;
++            case 4:
++                *(uint32_t *)tp = tswap32(*(uint32_t *)hp);
++                break;
++            case 8:
++                *(uint64_t *)tp = tswap64(*(uint64_t *)hp);
++                break;
++            }
++        }
++#ifdef TARGET_ABI32
++        else {
++            /*
++             * Saturating assignment for the only two types that differ between
++             * 32-bit and 64-bit machines. All other integral types have the
++             * same, fixed size and will be converted w/o loss of precision
++             * in the above switch.
++             */
++            switch (kind & CTLTYPE) {
++            case CTLTYPE_LONG:
++                *(abi_long *)tp = tswap32(h2t_long_sat(*(long *)hp));
++                break;
++            case CTLTYPE_ULONG:
++                *(abi_ulong *)tp = tswap32(h2t_ulong_sat(*(u_long *)hp));
++                break;
++            }
++        }
++#endif
++        tp += tlen;
++        hp += hlen;
++        len += hlen;
 +    }
-+
-+    if (fmt) {
-+        strcpy(fmt, (char *)(buf + sizeof(uint32_t)));
++#ifdef TARGET_ABI32
++    if (hlen != tlen) {
++        *holdlen = (*holdlen / hlen) * tlen;
 +    }
-+    return 0;
++#endif
 +}
 +
  /* sysarch() is architecture dependent. */
