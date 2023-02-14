@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7C7D695DAE
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 09:54:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C162695DB0
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 09:57:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRr55-00036O-6e; Tue, 14 Feb 2023 03:54:31 -0500
+	id 1pRr7J-0004Py-Gh; Tue, 14 Feb 2023 03:56:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRr53-00036F-Nn
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:54:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRr51-0000p3-Ts
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:54:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676364866;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fsjeipjiQ7yxq9BsCSYjsPDzA7VHoXsZUedJYItFDKQ=;
- b=NP3qvmQ9q2OAek6Dd3y+IAAiNpuORgwKg/7lje9qfunTF4H35dkLHKoQOFbpjMlSBRgISk
- cFWNFlu4lyfxSnx6Bfe1vQRTIMmnw0oGtEudJHZTBsGKL5f3DSSKBOES0qbGs6HPWWMr88
- qe02gByWWm8ypMy0ZOBwzRrF0fVhEtc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-528-uCio9HQVOvq8eEPu_JsLPw-1; Tue, 14 Feb 2023 03:54:24 -0500
-X-MC-Unique: uCio9HQVOvq8eEPu_JsLPw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C7A52971087;
- Tue, 14 Feb 2023 08:54:23 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.124])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 652BD1121318;
- Tue, 14 Feb 2023 08:54:23 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3A8B421E6A1F; Tue, 14 Feb 2023 09:54:22 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org,  eblake@redhat.com,  eduardo@habkost.net,
- pbonzini@redhat.com,  marcel.apfelbaum@gmail.com,  mst@redhat.com,
- philmd@linaro.org,  den-plotnikov@yandex-team.ru,
- antonkuchin@yandex-team.ru,  "reviewer:Incompatible changes"
- <libvir-list@redhat.com>
-Subject: Re: [PATCH v4 14/16] qapi: deprecate "device" field of DEVICE_* events
-References: <20230213140103.1518173-1-vsementsov@yandex-team.ru>
- <20230213140103.1518173-15-vsementsov@yandex-team.ru>
- <Y+pFe4bRCqbJJbp0@redhat.com>
-Date: Tue, 14 Feb 2023 09:54:22 +0100
-In-Reply-To: <Y+pFe4bRCqbJJbp0@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Mon, 13 Feb 2023 14:13:15 +0000")
-Message-ID: <87bklwoce9.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pRr76-0004Na-1S; Tue, 14 Feb 2023 03:56:37 -0500
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pRr73-0001Hh-Mg; Tue, 14 Feb 2023 03:56:35 -0500
+Received: from [192.168.0.119] (unknown [114.95.238.225])
+ by APP-05 (Coremail) with SMTP id zQCowAB3f_O7TOtjv8QsBQ--.42554S2;
+ Tue, 14 Feb 2023 16:56:29 +0800 (CST)
+Content-Type: multipart/alternative;
+ boundary="------------6ETmkRiD7gT5TYBtuftbZtMb"
+Message-ID: <ef991710-bd3c-465b-0215-c0a1af350a59@iscas.ac.cn>
+Date: Tue, 14 Feb 2023 16:56:27 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Cc: liweiwei@iscas.ac.cn, Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
+Subject: Re: [PATCH 09/18] target/riscv: Avoid reporting odd-numbered pmpcfgX
+ in the CSR XML for RV64
+To: Bin Meng <bmeng@tinylab.org>, qemu-devel@nongnu.org
+References: <20230213180215.1524938-1-bmeng@tinylab.org>
+ <20230213180215.1524938-10-bmeng@tinylab.org>
+Content-Language: en-US
+From: weiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <20230213180215.1524938-10-bmeng@tinylab.org>
+X-CM-TRANSID: zQCowAB3f_O7TOtjv8QsBQ--.42554S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ur4rtF4DJr4kuFWrKw4UArb_yoW8uFyDpw
+ 4UG3ySgryIqayvvan3tF1DJF15Cw1xK3yUAw4qka1rJr45u3yFyFnI934ruFyrXaykursF
+ yF4DAFyrAF4UZFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2
+ z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67
+ IIx4CEVc8vx2IErcIFxwCjr7xvwVCIw2I0I7xG6c02F41lc7I2V7IY0VAS07AlzVAYIcxG
+ 8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r
+ 106r1rMI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij
+ 64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr
+ 0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI
+ 42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUbMGQDUUUU
+ U==
+X-Originating-IP: [114.95.238.225]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.345, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,40 +81,184 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+This is a multi-part message in MIME format.
+--------------6ETmkRiD7gT5TYBtuftbZtMb
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> On Mon, Feb 13, 2023 at 05:01:01PM +0300, Vladimir Sementsov-Ogievskiy wr=
-ote:
->> The device field is redundant, because QOM path always include device
->> ID when this ID exist.
+
+On 2023/2/14 02:02, Bin Meng wrote:
+> At present the odd-numbered PMP configuration registers for RV64 are
+> reported in the CSR XML by QEMU gdbstub. However these registers do
+> not exist on RV64 so trying to access them from gdb results in 'E14'.
 >
-> The flipside to that view is that applications configuring QEMU are
-> specifying the device ID for -device (CLI) / device_add (QMP) and
-> not the QOM path. IOW, the device ID is the more interesting field
-> than QOM path, so feels like the wrong one to be dropping.
+> Move the pmpcfgX index check from the actual read/write routine to
+> the PMP CSR predicate() routine, so that non-existent pmpcfgX won't
+> be reported in the CSR XML for RV64.
+>
+> Signed-off-by: Bin Meng<bmeng@tinylab.org>
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 
-QOM path is a reliable way to identify a device.  Device ID isn't:
-devices need not have one.  Therefore, dropping the QOM path would be
-wrong.
+Regards,
+Weiwei Li
+> ---
+>
+>   target/riscv/csr.c | 23 ++++++++---------------
+>   1 file changed, 8 insertions(+), 15 deletions(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 0a3f2bef6f..749d0ef83e 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -412,6 +412,14 @@ static int aia_hmode32(CPURISCVState *env, int csrno)
+>   static RISCVException pmp(CPURISCVState *env, int csrno)
+>   {
+>       if (riscv_feature(env, RISCV_FEATURE_PMP)) {
+> +        if (csrno <= CSR_PMPCFG3) {
+> +            uint32_t reg_index = csrno - CSR_PMPCFG0;
+> +
+> +            if ((reg_index & 1) && (riscv_cpu_mxl(env) == MXL_RV64)) {
+> +                return RISCV_EXCP_ILLEGAL_INST;
+> +            }
+> +        }
+> +
+>           return RISCV_EXCP_NONE;
+>       }
+>   
+> @@ -3334,23 +3342,11 @@ static RISCVException write_mseccfg(CPURISCVState *env, int csrno,
+>       return RISCV_EXCP_NONE;
+>   }
+>   
+> -static bool check_pmp_reg_index(CPURISCVState *env, uint32_t reg_index)
+> -{
+> -    /* TODO: RV128 restriction check */
+> -    if ((reg_index & 1) && (riscv_cpu_mxl(env) == MXL_RV64)) {
+> -        return false;
+> -    }
+> -    return true;
+> -}
+> -
+>   static RISCVException read_pmpcfg(CPURISCVState *env, int csrno,
+>                                     target_ulong *val)
+>   {
+>       uint32_t reg_index = csrno - CSR_PMPCFG0;
+>   
+> -    if (!check_pmp_reg_index(env, reg_index)) {
+> -        return RISCV_EXCP_ILLEGAL_INST;
+> -    }
+>       *val = pmpcfg_csr_read(env, reg_index);
+>       return RISCV_EXCP_NONE;
+>   }
+> @@ -3360,9 +3356,6 @@ static RISCVException write_pmpcfg(CPURISCVState *env, int csrno,
+>   {
+>       uint32_t reg_index = csrno - CSR_PMPCFG0;
+>   
+> -    if (!check_pmp_reg_index(env, reg_index)) {
+> -        return RISCV_EXCP_ILLEGAL_INST;
+> -    }
+>       pmpcfg_csr_write(env, reg_index, val);
+>       return RISCV_EXCP_NONE;
+>   }
+--------------6ETmkRiD7gT5TYBtuftbZtMb
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> Is there any real benefit to dropping this ?=20
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2023/2/14 02:02, Bin Meng wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20230213180215.1524938-10-bmeng@tinylab.org">
+      <pre class="moz-quote-pre" wrap="">At present the odd-numbered PMP configuration registers for RV64 are
+reported in the CSR XML by QEMU gdbstub. However these registers do
+not exist on RV64 so trying to access them from gdb results in 'E14'.
 
-The device ID is a trap for the unwary: relying on it is fine until you
-run into a scenario where you have to deal with devices lacking IDs.
+Move the pmpcfgX index check from the actual read/write routine to
+the PMP CSR predicate() routine, so that non-existent pmpcfgX won't
+be reported in the CSR XML for RV64.
 
-I suggested to deprecate it in review of "[PATCH v3 14/15] qapi:
-introduce DEVICE_ON event" (Message-ID: <873579x67l.fsf@pond.sub.org>).
-Quote:
+Signed-off-by: Bin Meng <a class="moz-txt-link-rfc2396E" href="mailto:bmeng@tinylab.org">&lt;bmeng@tinylab.org&gt;</a></pre>
+    </blockquote>
+    Reviewed-by: Weiwei Li <a class="moz-txt-link-rfc2396E"
+      href="mailto:liweiwei@iscas.ac.cn">&lt;liweiwei@iscas.ac.cn&gt;</a>
+    <br>
+    <br>
+    Regards,
+    <br>
+    Weiwei Li
+    <div style="color: #000000;background-color: #ffffff;font-family: 'Droid Sans Mono', 'monospace', monospace;font-weight: normal;font-size: 18px;line-height: 24px;white-space: pre;"><div><span style="color: #000000;">
+</span></div></div>
+    <blockquote type="cite"
+      cite="mid:20230213180215.1524938-10-bmeng@tinylab.org">
+      <pre class="moz-quote-pre" wrap="">
+---
 
-    We commonly send both device ID and QOM path, mostly for historical
-    reasons: the former precede the latter.
+ target/riscv/csr.c | 23 ++++++++---------------
+ 1 file changed, 8 insertions(+), 15 deletions(-)
 
-    There are exceptions, such as query-cpus-fast.  Can't say offhand
-    whether CPUs can be created with IDs.
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 0a3f2bef6f..749d0ef83e 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -412,6 +412,14 @@ static int aia_hmode32(CPURISCVState *env, int csrno)
+ static RISCVException pmp(CPURISCVState *env, int csrno)
+ {
+     if (riscv_feature(env, RISCV_FEATURE_PMP)) {
++        if (csrno &lt;= CSR_PMPCFG3) {
++            uint32_t reg_index = csrno - CSR_PMPCFG0;
++
++            if ((reg_index &amp; 1) &amp;&amp; (riscv_cpu_mxl(env) == MXL_RV64)) {
++                return RISCV_EXCP_ILLEGAL_INST;
++            }
++        }
++
+         return RISCV_EXCP_NONE;
+     }
+ 
+@@ -3334,23 +3342,11 @@ static RISCVException write_mseccfg(CPURISCVState *env, int csrno,
+     return RISCV_EXCP_NONE;
+ }
+ 
+-static bool check_pmp_reg_index(CPURISCVState *env, uint32_t reg_index)
+-{
+-    /* TODO: RV128 restriction check */
+-    if ((reg_index &amp; 1) &amp;&amp; (riscv_cpu_mxl(env) == MXL_RV64)) {
+-        return false;
+-    }
+-    return true;
+-}
+-
+ static RISCVException read_pmpcfg(CPURISCVState *env, int csrno,
+                                   target_ulong *val)
+ {
+     uint32_t reg_index = csrno - CSR_PMPCFG0;
+ 
+-    if (!check_pmp_reg_index(env, reg_index)) {
+-        return RISCV_EXCP_ILLEGAL_INST;
+-    }
+     *val = pmpcfg_csr_read(env, reg_index);
+     return RISCV_EXCP_NONE;
+ }
+@@ -3360,9 +3356,6 @@ static RISCVException write_pmpcfg(CPURISCVState *env, int csrno,
+ {
+     uint32_t reg_index = csrno - CSR_PMPCFG0;
+ 
+-    if (!check_pmp_reg_index(env, reg_index)) {
+-        return RISCV_EXCP_ILLEGAL_INST;
+-    }
+     pmpcfg_csr_write(env, reg_index, val);
+     return RISCV_EXCP_NONE;
+ }
+</pre>
+    </blockquote>
+  </body>
+</html>
 
-    [...]
-
-    I'd be in favour of deprecating and deleting redundant device IDs in QMP
-    output.
+--------------6ETmkRiD7gT5TYBtuftbZtMb--
 
 
