@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4300E696777
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 15:58:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15F3F69677B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 15:59:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRwlF-0002PV-AM; Tue, 14 Feb 2023 09:58:25 -0500
+	id 1pRwmE-0003Bt-MB; Tue, 14 Feb 2023 09:59:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRwlD-0002OJ-Dt
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:58:23 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRwlB-0007BD-N7
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:58:22 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id m10so7037630wrn.4
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 06:58:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XggBteHi0Dsc2BPLSYVscWqvcQ5OSrEjfAnU7teHw7g=;
- b=LBMCH/OQAFv9xdA4gX8ibdtLD9gc52YU6MqKtBTlCErlraZo3EDHDvME1khmvF5iiv
- Nb14wnzTkLfGX845x0mHCdiQl64KZK3+z4QFAqOiHfJx/a3by2xNcYx/+lWOWYizfs8C
- YS3P4d+XeBqA7FX++vdZSxQ/v9x8YJhUeN1+7bGkH2N3I1zvlUjrn7UkZjp4tdW5BI4x
- /24iKGjsapC10Z4IIAFrJ99ABc8BA7RMyt71adEcQc32ZZ8V9kaojUrkw4a/xgaPzL8a
- aED91YOmXua9Ho2dUapb4kEyW4AtZzKewZ38+2oP92ajgeTX7HzJ3l6MrD6/yLon0CZF
- 7/HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XggBteHi0Dsc2BPLSYVscWqvcQ5OSrEjfAnU7teHw7g=;
- b=Srkxt6A6C8EHM6+jXdFd6cpk3lo4AeKa0859fhrK+qAjYxfZ5Si+uVd4EEXgESGXs9
- l3yrJf5XZxtp4cTNBTLl3Cl5VsrIVLLXnFQN5/LTesOXhNjAYfGJf3n8oIjKwnI/Lw0a
- zJyp/OIrjr9Yj5Xd4cTxI10bBYV/Hqxy25EXUe93/5mNdVVPX1STEx1Iwu51u6d3i7a0
- m/DVtFNMTqtmdCNG0htmtf19BoNinNyMiu3n5eOlPP3V6qMy793bH5fJunKv5zhUDQDs
- FXe+8f8Ljz8r2pvNR41Jo36J/GCBsTXjeYh5ChSw3W7zlLDautavH5I3tfHV3YFCUa5y
- 7oDw==
-X-Gm-Message-State: AO0yUKUSFkUuR2r/0/SSG/wY9Vw06YfbZPtoBpliVpUU0ZuTZZJkb/rs
- /5Fn704fITHxzL7ZqA8jiNDjRA==
-X-Google-Smtp-Source: AK7set+sL6ATT+EMI1H4kvd28AG+2zF2qhvSRHDVX1cbKflseVlF3zO4UHTF0yAndavLMs7/Y38wOQ==
-X-Received: by 2002:a05:6000:d:b0:2c5:4c0e:3736 with SMTP id
- h13-20020a056000000d00b002c54c0e3736mr2391019wrx.24.1676386699986; 
- Tue, 14 Feb 2023 06:58:19 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- d16-20020a5d5390000000b002c4008f0daasm13295909wrv.107.2023.02.14.06.58.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Feb 2023 06:58:19 -0800 (PST)
-Message-ID: <24404a86-3583-0561-09ea-f3e4e38bb952@linaro.org>
-Date: Tue, 14 Feb 2023 15:58:18 +0100
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pRwmA-0003BX-SA; Tue, 14 Feb 2023 09:59:22 -0500
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pRwm8-0007G1-3P; Tue, 14 Feb 2023 09:59:22 -0500
+Received: from [192.168.0.119] (unknown [114.95.238.225])
+ by APP-01 (Coremail) with SMTP id qwCowADn5EC3oetjgsEXBQ--.27649S2;
+ Tue, 14 Feb 2023 22:59:04 +0800 (CST)
+Message-ID: <e0c10cb9-c83b-bb35-3041-0f388dc48267@iscas.ac.cn>
+Date: Tue, 14 Feb 2023 22:59:02 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH] target/s390x/arch_dump: Fix memory corruption in
- s390x_write_elf64_notes()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Cc: liweiwei@iscas.ac.cn, Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
+Subject: Re: [PATCH 18/18] target/riscv: Move configuration check to envcfg
+ CSRs predicate()
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- David Hildenbrand <david@redhat.com>, frankja@linux.ibm.com
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Ilya Leoshkevich <iii@linux.ibm.com>
-References: <20230214141056.680969-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230214141056.680969-1-thuth@redhat.com>
+To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
+References: <20230213180215.1524938-19-bmeng@tinylab.org>
+From: weiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <20230213180215.1524938-19-bmeng@tinylab.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+X-CM-TRANSID: qwCowADn5EC3oetjgsEXBQ--.27649S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxAr4fJw18ZF1fKFWrZF1fWFg_yoWrZF4xpF
+ yjqasrKa4vqFn7Z3ZxGF1DGFW3Aw18Jw43Zwsru39YyFsrCr15Gr9Fgry2qaykWrWrCr4F
+ va1UGr15ur4qya7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CEbIxv
+ r21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
+ WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
+ 7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
+ 1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI
+ 42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUb0D73UUUU
+ U==
+X-Originating-IP: [114.95.238.225]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.35,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,25 +80,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 14/2/23 15:10, Thomas Huth wrote:
-> "note_size" can be smaller than sizeof(note), so unconditionally calling
-> memset(notep, 0, sizeof(note)) could cause a memory corruption here in
-> case notep has been allocated dynamically, thus let's use note_size as
-> length argument for memset() instead.
 
-Correct.
-
-I wonder why use one notep* pointing to a stack allocated or a heap
-allocated buffer. This isn't hot path, one heap use could simplify
-this code complexity IMO.
-
-> Fixes: 113d8f4e95 ("s390x: pv: Add dump support")
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On 2023/2/14 22:27, Bin Meng wrote:
+> At present the envcfg CSRs predicate() routines are generic one like
+> smode(), hmode. The configuration check is done in the read / write
+> routine. Create a new predicate routine to cover such check, so that
+> gdbstub can correctly report its existence.
+>
+> Signed-off-by: Bin Meng <bmeng@tinylab.org>
+>
 > ---
->   target/s390x/arch_dump.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>   target/riscv/csr.c | 98 +++++++++++++++++++++++++++++-----------------
+>   1 file changed, 61 insertions(+), 37 deletions(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 37350b8a6d..284ccc09dd 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -41,40 +41,6 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops)
+>   }
+>   
+>   /* Predicates */
+> -#if !defined(CONFIG_USER_ONLY)
+> -static RISCVException smstateen_acc_ok(CPURISCVState *env, int index,
+> -                                       uint64_t bit)
+> -{
+> -    bool virt = riscv_cpu_virt_enabled(env);
+> -    RISCVCPU *cpu = env_archcpu(env);
+> -
+> -    if (env->priv == PRV_M || !cpu->cfg.ext_smstateen) {
+> -        return RISCV_EXCP_NONE;
+> -    }
+> -
+> -    if (!(env->mstateen[index] & bit)) {
+> -        return RISCV_EXCP_ILLEGAL_INST;
+> -    }
+> -
+> -    if (virt) {
+> -        if (!(env->hstateen[index] & bit)) {
+> -            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> -        }
+> -
+> -        if (env->priv == PRV_U && !(env->sstateen[index] & bit)) {
+> -            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> -        }
+> -    }
+> -
+> -    if (env->priv == PRV_U && riscv_has_ext(env, RVS)) {
+> -        if (!(env->sstateen[index] & bit)) {
+> -            return RISCV_EXCP_ILLEGAL_INST;
+> -        }
+> -    }
+> -
+> -    return RISCV_EXCP_NONE;
+> -}
+> -#endif
+>   
+>   static RISCVException fs(CPURISCVState *env, int csrno)
+>   {
+> @@ -318,6 +284,32 @@ static RISCVException umode32(CPURISCVState *env, int csrno)
+>       return umode(env, csrno);
+>   }
+>   
+> +static RISCVException envcfg(CPURISCVState *env, int csrno)
+> +{
+> +    RISCVCPU *cpu = env_archcpu(env);
+> +    riscv_csr_predicate_fn predicate;
+> +
+> +    if (cpu->cfg.ext_smstateen) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+This check seems not right here.  Why  ILLEGAL_INST is directly 
+triggered if smstateen is enabled?
 
+It seems that smstateen related check will be done  for 
+senvcfg/henvcfg{h} when smstateen is enabled.
+
+Regards,
+
+Weiwei Li
+
+> +
+> +    switch (csrno) {
+> +    case CSR_SENVCFG:
+> +        predicate = smode;
+> +        break;
+> +    case CSR_HENVCFG:
+> +        predicate = hmode;
+> +        break;
+> +    case CSR_HENVCFGH:
+> +        predicate = hmode32;
+> +        break;
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+> +
+> +    return predicate(env, csrno);
+> +}
+> +
+>   static RISCVException mstateen(CPURISCVState *env, int csrno)
+>   {
+>       RISCVCPU *cpu = env_archcpu(env);
+> @@ -1946,6 +1938,38 @@ static RISCVException write_menvcfgh(CPURISCVState *env, int csrno,
+>       return RISCV_EXCP_NONE;
+>   }
+>   
+> +static RISCVException smstateen_acc_ok(CPURISCVState *env, int index,
+> +                                       uint64_t bit)
+> +{
+> +    bool virt = riscv_cpu_virt_enabled(env);
+> +
+> +    if (env->priv == PRV_M) {
+> +        return RISCV_EXCP_NONE;
+> +    }
+> +
+> +    if (!(env->mstateen[index] & bit)) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+> +    if (virt) {
+> +        if (!(env->hstateen[index] & bit)) {
+> +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> +        }
+> +
+> +        if (env->priv == PRV_U && !(env->sstateen[index] & bit)) {
+> +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> +        }
+> +    }
+> +
+> +    if (env->priv == PRV_U && riscv_has_ext(env, RVS)) {
+> +        if (!(env->sstateen[index] & bit)) {
+> +            return RISCV_EXCP_ILLEGAL_INST;
+> +        }
+> +    }
+> +
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+>   static RISCVException read_senvcfg(CPURISCVState *env, int csrno,
+>                                      target_ulong *val)
+>   {
+> @@ -4087,11 +4111,11 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>                          .min_priv_ver = PRIV_VERSION_1_12_0              },
+>       [CSR_MENVCFGH] = { "menvcfgh", umode32, read_menvcfgh, write_menvcfgh,
+>                          .min_priv_ver = PRIV_VERSION_1_12_0              },
+> -    [CSR_SENVCFG]  = { "senvcfg",  smode, read_senvcfg,  write_senvcfg,
+> +    [CSR_SENVCFG]  = { "senvcfg",  envcfg, read_senvcfg,  write_senvcfg,
+>                          .min_priv_ver = PRIV_VERSION_1_12_0              },
+> -    [CSR_HENVCFG]  = { "henvcfg",  hmode, read_henvcfg, write_henvcfg,
+> +    [CSR_HENVCFG]  = { "henvcfg",  envcfg, read_henvcfg,  write_henvcfg,
+>                          .min_priv_ver = PRIV_VERSION_1_12_0              },
+> -    [CSR_HENVCFGH] = { "henvcfgh", hmode32, read_henvcfgh, write_henvcfgh,
+> +    [CSR_HENVCFGH] = { "henvcfgh", envcfg, read_henvcfgh, write_henvcfgh,
+>                          .min_priv_ver = PRIV_VERSION_1_12_0              },
+>   
+>       /* Smstateen extension CSRs */
 
 
