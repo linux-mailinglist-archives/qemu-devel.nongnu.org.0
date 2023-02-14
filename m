@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B1E5695D5C
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 09:43:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0786D695D97
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 09:52:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRqtZ-00011P-7d; Tue, 14 Feb 2023 03:42:37 -0500
+	id 1pRr2n-0001nM-6v; Tue, 14 Feb 2023 03:52:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRqtQ-000118-Bv
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:42:28 -0500
-Received: from mga04.intel.com ([192.55.52.120])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRqtN-00047l-RF
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:42:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676364145; x=1707900145;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=CUJL/x8DfwQVRpufW9D3HB1+lGrppejwanInIOHIl5Y=;
- b=jKuCS0G02b63Vt3Dl8iMC8hAYiHMPYbbvwymBIaGnDgrf56f+suS8Lhw
- 58Sy/nu5Ewcl+Xp1vtg5wCnPJ585IR4+x534WAhF3BxRanUwGmcZL8CVn
- hObkfmg7EmxW5HY7bfqjqlWkhQikokCVav7QUmV/Rxztso22vzXi6erDP
- eCabnJiqoi2j4keyVZFSDxPCCDwA+3gKNdPG0C0qVhnxE5Cp3PvAiq/Uu
- yPYbJSK//O1JRf7aknsjPnzsOoR7vg018/DAHH+vcFcl45h9uGk1k+Z17
- UQlyNf3OWFa5h9b3bZarqbHrUZuhWgLoe4fkGlDTef/8gFninJG5Uy9kp Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="329737936"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="329737936"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2023 00:42:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="737819585"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="737819585"
-Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
- ([10.239.160.112])
- by fmsmga004.fm.intel.com with ESMTP; 14 Feb 2023 00:42:19 -0800
-Date: Tue, 14 Feb 2023 16:50:07 +0800
-From: Zhao Liu <zhao1.liu@linux.intel.com>
-To: "wangyanan (Y)" <wangyanan55@huawei.com>
-Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
- Dapeng Mi <dapeng1.mi@intel.com>,
- Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo <robert.hu@linux.intel.com>,
- Sean Christopherson <seanjc@google.com>,
- Like Xu <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Subject: Re: [RFC 05/52] hw/core/machine: Rename machine-smp.c to
- machine-topo.c
-Message-ID: <Y+tLP6KiIRVvtZUo@liuzhao-OptiPlex-7080>
-References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
- <20230213095035.158240-6-zhao1.liu@linux.intel.com>
- <6270bfbe-ab8c-80a2-4e27-27adfdcbb854@huawei.com>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pRr2k-0001mX-F0; Tue, 14 Feb 2023 03:52:06 -0500
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pRr2i-0000dc-CR; Tue, 14 Feb 2023 03:52:06 -0500
+Received: from [192.168.0.119] (unknown [114.95.238.225])
+ by APP-05 (Coremail) with SMTP id zQCowADn7uqvS+tjOZssBQ--.41717S2;
+ Tue, 14 Feb 2023 16:51:59 +0800 (CST)
+Message-ID: <35d63096-1c90-84ac-ae6d-6d0823640fd0@iscas.ac.cn>
+Date: Tue, 14 Feb 2023 16:51:59 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=gb2312
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6270bfbe-ab8c-80a2-4e27-27adfdcbb854@huawei.com>
-Received-SPF: none client-ip=192.55.52.120;
- envelope-from=zhao1.liu@linux.intel.com; helo=mga04.intel.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Cc: liweiwei@iscas.ac.cn, Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
+Subject: Re: [PATCH 08/18] target/riscv: Simplify getting RISCVCPU pointer
+ from env
+Content-Language: en-US
+To: Bin Meng <bmeng@tinylab.org>, qemu-devel@nongnu.org
+References: <20230213180215.1524938-1-bmeng@tinylab.org>
+ <20230213180215.1524938-9-bmeng@tinylab.org>
+From: weiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <20230213180215.1524938-9-bmeng@tinylab.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: zQCowADn7uqvS+tjOZssBQ--.41717S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxXw1xAF1xJFWkGw1UCr1rJFb_yoWrtw4Dpr
+ WUZFZxGFy7t34qvayfJF1q9F4rJw47K3y7Gws7XayrtF4DJry5Jr1DGasxtrn8uay8u3yF
+ vFW3Jr1ktw40kFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAY
+ IcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
+ v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkG
+ c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW5JVW7JwCI42IY6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_
+ Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUHlk
+ sUUUUU=
+X-Originating-IP: [114.95.238.225]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.345,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,93 +81,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 13, 2023 at 08:52:13PM +0800, wangyanan (Y) wrote:
-> Date: Mon, 13 Feb 2023 20:52:13 +0800
-> From: "wangyanan (Y)" <wangyanan55@huawei.com>
-> Subject: Re: [RFC 05/52] hw/core/machine: Rename machine-smp.c to
->  machine-topo.c
-> 
-> Hi Zhao£¬
-> ÔÚ 2023/2/13 17:49, Zhao Liu Ð´µÀ:
-> > From: Zhao Liu <zhao1.liu@intel.com>
-> > 
-> > Hybrid topology support will also be added to this file.
-> > 
-> > In order to maintain the semantic consistency of the file name and
-> > content, the file name is changed to "machine-topo.c".
-> > 
-> > This file will handle all cpu topology related things, thus also change
-> > the file description comment.
-> > 
-> > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
-> > ---
-> >   MAINTAINERS                               | 2 +-
-> >   hw/core/{machine-smp.c => machine-topo.c} | 2 +-
-> >   hw/core/meson.build                       | 2 +-
-> >   tests/unit/meson.build                    | 2 +-
-> >   4 files changed, 4 insertions(+), 4 deletions(-)
-> >   rename hw/core/{machine-smp.c => machine-topo.c} (99%)
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 71c1bc24371b..58794885ced3 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -1733,7 +1733,7 @@ F: cpu.c
-> >   F: hw/core/cpu.c
-> >   F: hw/core/machine-qmp-cmds.c
-> >   F: hw/core/machine.c
-> > -F: hw/core/machine-smp.c
-> > +F: hw/core/machine-topo.c
-> >   F: hw/core/null-machine.c
-> >   F: hw/core/numa.c
-> >   F: hw/cpu/cluster.c
-> > diff --git a/hw/core/machine-smp.c b/hw/core/machine-topo.c
-> > similarity index 99%
-> > rename from hw/core/machine-smp.c
-> > rename to hw/core/machine-topo.c
-> Better named as cpu-topology.c? So that it's consistent with the
-> header "cpu-topology.h" in a following patch.
 
-Nice, I'll rename it.
+On 2023/2/14 02:02, Bin Meng wrote:
+> Use env_archcpu() to get RISCVCPU pointer from env directly.
+>
+> Signed-off-by: Bin Meng <bmeng@tinylab.org>
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 
-Zhao
+Regards,
+Weiwei Li
+> ---
+>
+>   target/riscv/csr.c | 36 ++++++++++++------------------------
+>   1 file changed, 12 insertions(+), 24 deletions(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index da3b770894..0a3f2bef6f 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -46,8 +46,7 @@ static RISCVException smstateen_acc_ok(CPURISCVState *env, int index,
+>                                          uint64_t bit)
+>   {
+>       bool virt = riscv_cpu_virt_enabled(env);
+> -    CPUState *cs = env_cpu(env);
+> -    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    RISCVCPU *cpu = env_archcpu(env);
+>   
+>       if (env->priv == PRV_M || !cpu->cfg.ext_smstateen) {
+>           return RISCV_EXCP_NONE;
+> @@ -90,8 +89,7 @@ static RISCVException fs(CPURISCVState *env, int csrno)
+>   
+>   static RISCVException vs(CPURISCVState *env, int csrno)
+>   {
+> -    CPUState *cs = env_cpu(env);
+> -    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    RISCVCPU *cpu = env_archcpu(env);
+>   
+>       if (env->misa_ext & RVV ||
+>           cpu->cfg.ext_zve32f || cpu->cfg.ext_zve64f) {
+> @@ -108,8 +106,7 @@ static RISCVException vs(CPURISCVState *env, int csrno)
+>   static RISCVException ctr(CPURISCVState *env, int csrno)
+>   {
+>   #if !defined(CONFIG_USER_ONLY)
+> -    CPUState *cs = env_cpu(env);
+> -    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    RISCVCPU *cpu = env_archcpu(env);
+>       int ctr_index;
+>       target_ulong ctr_mask;
+>       int base_csrno = CSR_CYCLE;
+> @@ -166,8 +163,7 @@ static RISCVException ctr32(CPURISCVState *env, int csrno)
+>   #if !defined(CONFIG_USER_ONLY)
+>   static RISCVException mctr(CPURISCVState *env, int csrno)
+>   {
+> -    CPUState *cs = env_cpu(env);
+> -    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    RISCVCPU *cpu = env_archcpu(env);
+>       int ctr_index;
+>       int base_csrno = CSR_MHPMCOUNTER3;
+>   
+> @@ -195,8 +191,7 @@ static RISCVException mctr32(CPURISCVState *env, int csrno)
+>   
+>   static RISCVException sscofpmf(CPURISCVState *env, int csrno)
+>   {
+> -    CPUState *cs = env_cpu(env);
+> -    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    RISCVCPU *cpu = env_archcpu(env);
+>   
+>       if (!cpu->cfg.ext_sscofpmf) {
+>           return RISCV_EXCP_ILLEGAL_INST;
+> @@ -321,8 +316,7 @@ static RISCVException umode32(CPURISCVState *env, int csrno)
+>   
+>   static RISCVException mstateen(CPURISCVState *env, int csrno)
+>   {
+> -    CPUState *cs = env_cpu(env);
+> -    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    RISCVCPU *cpu = env_archcpu(env);
+>   
+>       if (!cpu->cfg.ext_smstateen) {
+>           return RISCV_EXCP_ILLEGAL_INST;
+> @@ -333,8 +327,7 @@ static RISCVException mstateen(CPURISCVState *env, int csrno)
+>   
+>   static RISCVException hstateen_pred(CPURISCVState *env, int csrno, int base)
+>   {
+> -    CPUState *cs = env_cpu(env);
+> -    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    RISCVCPU *cpu = env_archcpu(env);
+>   
+>       if (!cpu->cfg.ext_smstateen) {
+>           return RISCV_EXCP_ILLEGAL_INST;
+> @@ -363,8 +356,7 @@ static RISCVException sstateen(CPURISCVState *env, int csrno)
+>   {
+>       bool virt = riscv_cpu_virt_enabled(env);
+>       int index = csrno - CSR_SSTATEEN0;
+> -    CPUState *cs = env_cpu(env);
+> -    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    RISCVCPU *cpu = env_archcpu(env);
+>   
+>       if (!cpu->cfg.ext_smstateen) {
+>           return RISCV_EXCP_ILLEGAL_INST;
+> @@ -918,8 +910,7 @@ static RISCVException read_timeh(CPURISCVState *env, int csrno,
+>   
+>   static RISCVException sstc(CPURISCVState *env, int csrno)
+>   {
+> -    CPUState *cs = env_cpu(env);
+> -    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    RISCVCPU *cpu = env_archcpu(env);
+>       bool hmode_check = false;
+>   
+>       if (!cpu->cfg.ext_sstc || !env->rdtime_fn) {
+> @@ -1152,8 +1143,7 @@ static RISCVException write_ignore(CPURISCVState *env, int csrno,
+>   static RISCVException read_mvendorid(CPURISCVState *env, int csrno,
+>                                        target_ulong *val)
+>   {
+> -    CPUState *cs = env_cpu(env);
+> -    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    RISCVCPU *cpu = env_archcpu(env);
+>   
+>       *val = cpu->cfg.mvendorid;
+>       return RISCV_EXCP_NONE;
+> @@ -1162,8 +1152,7 @@ static RISCVException read_mvendorid(CPURISCVState *env, int csrno,
+>   static RISCVException read_marchid(CPURISCVState *env, int csrno,
+>                                      target_ulong *val)
+>   {
+> -    CPUState *cs = env_cpu(env);
+> -    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    RISCVCPU *cpu = env_archcpu(env);
+>   
+>       *val = cpu->cfg.marchid;
+>       return RISCV_EXCP_NONE;
+> @@ -1172,8 +1161,7 @@ static RISCVException read_marchid(CPURISCVState *env, int csrno,
+>   static RISCVException read_mimpid(CPURISCVState *env, int csrno,
+>                                     target_ulong *val)
+>   {
+> -    CPUState *cs = env_cpu(env);
+> -    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    RISCVCPU *cpu = env_archcpu(env);
+>   
+>       *val = cpu->cfg.mimpid;
+>       return RISCV_EXCP_NONE;
 
-> 
-> Thanks,
-> Yanan
-> > index 3fd9e641efde..8066d2c46bef 100644
-> > --- a/hw/core/machine-smp.c
-> > +++ b/hw/core/machine-topo.c
-> > @@ -1,5 +1,5 @@
-> >   /*
-> > - * QEMU Machine core (related to -smp parsing)
-> > + * QEMU Machine core (related to CPU topology)
-> >    *
-> >    * Copyright (c) 2021 Huawei Technologies Co., Ltd
-> >    *
-> > diff --git a/hw/core/meson.build b/hw/core/meson.build
-> > index 7a4d02b6c050..71d523dc6826 100644
-> > --- a/hw/core/meson.build
-> > +++ b/hw/core/meson.build
-> > @@ -23,7 +23,7 @@ else
-> >   endif
-> >   common_ss.add(files('cpu-common.c'))
-> > -common_ss.add(files('machine-smp.c'))
-> > +common_ss.add(files('machine-topo.c'))
-> >   softmmu_ss.add(when: 'CONFIG_FITLOADER', if_true: files('loader-fit.c'))
-> >   softmmu_ss.add(when: 'CONFIG_GENERIC_LOADER', if_true: files('generic-loader.c'))
-> >   softmmu_ss.add(when: ['CONFIG_GUEST_LOADER', fdt], if_true: files('guest-loader.c'))
-> > diff --git a/tests/unit/meson.build b/tests/unit/meson.build
-> > index a9df2843e92e..1720a769f1a2 100644
-> > --- a/tests/unit/meson.build
-> > +++ b/tests/unit/meson.build
-> > @@ -46,7 +46,7 @@ tests = {
-> >     'test-uuid': [],
-> >     'ptimer-test': ['ptimer-test-stubs.c', meson.project_source_root() / 'hw/core/ptimer.c'],
-> >     'test-qapi-util': [],
-> > -  'test-smp-parse': [qom, meson.project_source_root() / 'hw/core/machine-smp.c'],
-> > +  'test-smp-parse': [qom, meson.project_source_root() / 'hw/core/machine-topo.c'],
-> >     'test-interval-tree': [],
-> >   }
-> 
 
