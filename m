@@ -2,63 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 205BE6956C4
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 03:39:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B3B695718
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 04:09:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRlDJ-0005Ns-7R; Mon, 13 Feb 2023 21:38:38 -0500
+	id 1pRlf6-0005X8-2A; Mon, 13 Feb 2023 22:07:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1pRlD7-0005Ne-6C
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 21:38:25 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
+ id 1pRlf0-0005VM-Mr; Mon, 13 Feb 2023 22:07:14 -0500
+Received: from bg4.exmail.qq.com ([43.155.65.254])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1pRlD5-0003Nl-05
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 21:38:24 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4PG51C6XCXznVLx;
- Tue, 14 Feb 2023 10:35:59 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.6; Tue, 14 Feb 2023 10:37:39 +0800
-Message-ID: <082f7ec4-e5ea-31fe-f4bf-f466de08f389@huawei.com>
-Date: Tue, 14 Feb 2023 10:37:38 +0800
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
+ id 1pRlex-00058a-T6; Mon, 13 Feb 2023 22:07:14 -0500
+X-QQ-mid: bizesmtp64t1676344003t292ncei
+Received: from pek-vx-bsp2.wrs.com ( [60.247.85.88])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Tue, 14 Feb 2023 11:06:29 +0800 (CST)
+X-QQ-SSF: 01200000000000C0D000000A0000000
+X-QQ-FEAT: CR3LFp2JE4kWx9C7AA26WN2QwJ8ILU3YNptFD9KTWBE5rMZIkRGwter7iLgAZ
+ Bs/aM9FIGEw49c3QUIWrfsljsvNiGSgL0bAkuy8aqxNlqMHlomlUCD3B/egNxil7Cp8Yj8F
+ ZDScn4kzwcj2SsGbzg65bLT98ti3bQZHn4YSSns64uKDblUVoqu8Dsp2ePSaLqYZ56xuszp
+ BcUdR4HpHHYnxFNbeOftaxnMD4koAC4djsX+8nKmG9dNYLgy/e7ZoW9I3Lb3H7cv5UfCBC8
+ EZhqy5yT1Wx5YGwFp4ZO6dzsEOqWti0ILQnPeJ4EmsBs1kNLe96p/IBFvxRKDMVQTYa8by2
+ iwkt9SsSu69c9gjC+7yxIjIpb690zcmZSTk4zvHUSRRjO8T68WTP1oNI5fsf9ZpweSoto2m
+X-QQ-GoodBg: 0
+From: Bin Meng <bmeng@tinylab.org>
+To: qemu-devel@nongnu.org
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ qemu-riscv@nongnu.org
+Subject: [PATCH 14/18] target/riscv: Allow debugger to access {h,
+ s}stateen CSRs
+Date: Tue, 14 Feb 2023 11:06:24 +0800
+Message-Id: <20230213180215.1524938-15-bmeng@tinylab.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230213180215.1524938-1-bmeng@tinylab.org>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH RESEND 09/18] i386: Fix comment style in topology.h
-To: Zhao Liu <zhao1.liu@linux.intel.com>, Eduardo Habkost
- <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, "Michael S .
- Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>, Markus
- Armbruster <armbru@redhat.com>
-CC: <qemu-devel@nongnu.org>, Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi
- <dapeng1.mi@intel.com>, Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo
- <robert.hu@linux.intel.com>, Xiaoyao Li <xiaoyao.li@intel.com>, Like Xu
- <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>
-References: <20230213093625.158170-1-zhao1.liu@linux.intel.com>
- <20230213093625.158170-10-zhao1.liu@linux.intel.com>
-In-Reply-To: <20230213093625.158170-10-zhao1.liu@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.345,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:tinylab.org:qybglogicsvr:qybglogicsvr3
+Received-SPF: pass client-ip=43.155.65.254; envelope-from=bmeng@tinylab.org;
+ helo=bg4.exmail.qq.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,134 +66,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-在 2023/2/13 17:36, Zhao Liu 写道:
-> From: Zhao Liu <zhao1.liu@intel.com>
->
-> For function comments in this file, keep the comment style consistent
-> with other places.
->
-> Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
-> ---
->   include/hw/i386/topology.h | 33 +++++++++++++++++----------------
->   1 file changed, 17 insertions(+), 16 deletions(-)
->
-> diff --git a/include/hw/i386/topology.h b/include/hw/i386/topology.h
-> index b0174c18b7bd..5de905dc00d3 100644
-> --- a/include/hw/i386/topology.h
-> +++ b/include/hw/i386/topology.h
-> @@ -24,7 +24,8 @@
->   #ifndef HW_I386_TOPOLOGY_H
->   #define HW_I386_TOPOLOGY_H
->   
-> -/* This file implements the APIC-ID-based CPU topology enumeration logic,
-> +/*
-> + * This file implements the APIC-ID-based CPU topology enumeration logic,
->    * documented at the following document:
->    *   Intel® 64 Architecture Processor Topology Enumeration
->    *   http://software.intel.com/en-us/articles/intel-64-architecture-processor-topology-enumeration/
-> @@ -41,7 +42,8 @@
->   
->   #include "qemu/bitops.h"
->   
-> -/* APIC IDs can be 32-bit, but beware: APIC IDs > 255 require x2APIC support
-> +/*
-> + * APIC IDs can be 32-bit, but beware: APIC IDs > 255 require x2APIC support
->    */
->   typedef uint32_t apic_id_t;
->   
-> @@ -60,8 +62,7 @@ typedef struct X86CPUTopoInfo {
->       unsigned threads_per_core;
->   } X86CPUTopoInfo;
->   
-> -/* Return the bit width needed for 'count' IDs
-> - */
-> +/* Return the bit width needed for 'count' IDs */
->   static unsigned apicid_bitwidth_for_count(unsigned count)
->   {
->       g_assert(count >= 1);
-> @@ -69,15 +70,13 @@ static unsigned apicid_bitwidth_for_count(unsigned count)
->       return count ? 32 - clz32(count) : 0;
->   }
->   
-> -/* Bit width of the SMT_ID (thread ID) field on the APIC ID
-> - */
-> +/* Bit width of the SMT_ID (thread ID) field on the APIC ID */
->   static inline unsigned apicid_smt_width(X86CPUTopoInfo *topo_info)
->   {
->       return apicid_bitwidth_for_count(topo_info->threads_per_core);
->   }
->   
-> -/* Bit width of the Core_ID field
-> - */
-> +/* Bit width of the Core_ID field */
->   static inline unsigned apicid_core_width(X86CPUTopoInfo *topo_info)
->   {
->       /*
-> @@ -94,8 +93,7 @@ static inline unsigned apicid_die_width(X86CPUTopoInfo *topo_info)
->       return apicid_bitwidth_for_count(topo_info->dies_per_pkg);
->   }
->   
-> -/* Bit offset of the Core_ID field
-> - */
-> +/* Bit offset of the Core_ID field */
->   static inline unsigned apicid_core_offset(X86CPUTopoInfo *topo_info)
->   {
->       return apicid_smt_width(topo_info);
-> @@ -107,14 +105,14 @@ static inline unsigned apicid_die_offset(X86CPUTopoInfo *topo_info)
->       return apicid_core_offset(topo_info) + apicid_core_width(topo_info);
->   }
->   
-> -/* Bit offset of the Pkg_ID (socket ID) field
-> - */
-> +/* Bit offset of the Pkg_ID (socket ID) field */
->   static inline unsigned apicid_pkg_offset(X86CPUTopoInfo *topo_info)
->   {
->       return apicid_die_offset(topo_info) + apicid_die_width(topo_info);
->   }
->   
-> -/* Make APIC ID for the CPU based on Pkg_ID, Core_ID, SMT_ID
-> +/*
-> + * Make APIC ID for the CPU based on Pkg_ID, Core_ID, SMT_ID
->    *
->    * The caller must make sure core_id < nr_cores and smt_id < nr_threads.
->    */
-> @@ -127,7 +125,8 @@ static inline apic_id_t x86_apicid_from_topo_ids(X86CPUTopoInfo *topo_info,
->              topo_ids->smt_id;
->   }
->   
-> -/* Calculate thread/core/package IDs for a specific topology,
-> +/*
-> + * Calculate thread/core/package IDs for a specific topology,
->    * based on (contiguous) CPU index
->    */
->   static inline void x86_topo_ids_from_idx(X86CPUTopoInfo *topo_info,
-> @@ -154,7 +153,8 @@ static inline void x86_topo_ids_from_idx(X86CPUTopoInfo *topo_info,
->       topo_ids->smt_id = cpu_index % nr_threads;
->   }
->   
-> -/* Calculate thread/core/package IDs for a specific topology,
-> +/*
-> + * Calculate thread/core/package IDs for a specific topology,
->    * based on APIC ID
->    */
->   static inline void x86_topo_ids_from_apicid(apic_id_t apicid,
-> @@ -178,7 +178,8 @@ static inline void x86_topo_ids_from_apicid(apic_id_t apicid,
->       topo_ids->pkg_id = apicid >> apicid_pkg_offset(topo_info);
->   }
->   
-> -/* Make APIC ID for the CPU 'cpu_index'
-> +/*
-> + * Make APIC ID for the CPU 'cpu_index'
->    *
->    * 'cpu_index' is a sequential, contiguous ID for the CPU.
->    */
-Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
+At present {h,s}stateen CSRs are not reported in the CSR XML
+hence gdb cannot access them.
 
-Thanks,
-Yanan
+Fix it by adjusting their predicate() routine logic so that the
+static config check comes before the run-time check, as well as
+addding a debugger check.
+
+Signed-off-by: Bin Meng <bmeng@tinylab.org>
+---
+
+ target/riscv/csr.c | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
+
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index f1075b5728..d6bcb7f275 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -337,13 +337,22 @@ static RISCVException hstateen_pred(CPURISCVState *env, int csrno, int base)
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
++    RISCVException ret = hmode(env, csrno);
++    if (ret != RISCV_EXCP_NONE) {
++        return ret;
++    }
++
++    if (env->debugger) {
++        return RISCV_EXCP_NONE;
++    }
++
+     if (env->priv < PRV_M) {
+         if (!(env->mstateen[csrno - base] & SMSTATEEN_STATEEN)) {
+             return RISCV_EXCP_ILLEGAL_INST;
+         }
+     }
+ 
+-    return hmode(env, csrno);
++    return RISCV_EXCP_NONE;
+ }
+ 
+ static RISCVException hstateen(CPURISCVState *env, int csrno)
+@@ -366,6 +375,15 @@ static RISCVException sstateen(CPURISCVState *env, int csrno)
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
++    RISCVException ret = smode(env, csrno);
++    if (ret != RISCV_EXCP_NONE) {
++        return ret;
++    }
++
++    if (env->debugger) {
++        return RISCV_EXCP_NONE;
++    }
++
+     if (env->priv < PRV_M) {
+         if (!(env->mstateen[index] & SMSTATEEN_STATEEN)) {
+             return RISCV_EXCP_ILLEGAL_INST;
+@@ -378,7 +396,7 @@ static RISCVException sstateen(CPURISCVState *env, int csrno)
+         }
+     }
+ 
+-    return smode(env, csrno);
++    return RISCV_EXCP_NONE;
+ }
+ 
+ /* Checks if PointerMasking registers could be accessed */
+-- 
+2.25.1
+
 
