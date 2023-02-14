@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA4D2696084
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 11:17:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AF7E696060
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 11:09:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRsMc-0002J7-NF; Tue, 14 Feb 2023 05:16:42 -0500
+	id 1pRsFF-0007Qy-8l; Tue, 14 Feb 2023 05:09:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRsMX-0002Ig-Tw
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 05:16:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
+ id 1pRsFB-0007Ql-DA
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 05:09:01 -0500
+Received: from mga11.intel.com ([192.55.52.93])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRsMU-0002wD-RY
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 05:16:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676369793;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7IvOD5GqerrgoxlU6LeP3ZIIzO5xsVfCpFCjWhqMQhA=;
- b=CMPOvOGizy+Y5dkrysT7a6rIMBZPLYL3rQ/HUY3IciPvr47ziXmo4EAQ5opHxTTpa+n9/s
- yjtyJyXDEvZY27LLWZbek+Sw3pc24VZP2RZPb+SwY7tdZcHfJk+Xt6X0JJCP6SDuHqk15E
- SCmKdLcBeqKd6P9XiqLIsVOwYIc0FCQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-487-1D_EqVnkN5y_TdQCUzt9Mg-1; Tue, 14 Feb 2023 05:16:30 -0500
-X-MC-Unique: 1D_EqVnkN5y_TdQCUzt9Mg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E0AAF87A9F4;
- Tue, 14 Feb 2023 10:16:29 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F10E404BEC1;
- Tue, 14 Feb 2023 10:16:29 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 77AD921E6A1F; Tue, 14 Feb 2023 11:16:28 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Het Gala <het.gala@nutanix.com>
-Cc: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org,
- prerna.saxena@nutanix.com,  quintela@redhat.com,  dgilbert@redhat.com,
- pbonzini@redhat.com,  eblake@redhat.com,  manish.mishra@nutanix.com,
- aravind.retnakaran@nutanix.com
-Subject: Re: QAPI unions as branches / unifying struct and union types
-References: <20230208093600.242665-1-het.gala@nutanix.com>
- <20230208093600.242665-3-het.gala@nutanix.com>
- <Y+TLJ9Ui790bIR3b@redhat.com> <87o7q2vv7v.fsf_-_@pond.sub.org>
- <2157ed5c-7e1e-bd8f-1644-b7231fffe7ef@nutanix.com>
-Date: Tue, 14 Feb 2023 11:16:28 +0100
-In-Reply-To: <2157ed5c-7e1e-bd8f-1644-b7231fffe7ef@nutanix.com> (Het Gala's
- message of "Fri, 10 Feb 2023 18:58:32 +0530")
-Message-ID: <87v8k4lfgj.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
+ id 1pRsF9-0008Eo-3l
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 05:09:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676369339; x=1707905339;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=ebYvYw9pVnyII/JGEnNQONePy4TuldpZDtvzGZqPceo=;
+ b=PYMZA1iN5ylqcUX9Z7H7EepJS0RquimoglHRN37DALcG+53O9t4Ok4sQ
+ FKQdxRMaabEP+PAG6R5sjzDpPLJoOqWQmU+c6II8FAtdDJtRmM7ihsH0a
+ 0CwM4DZenlE6jh2zfuStOHVEZigCbO3ZcRGTfGk1v5paBpC0UiOg29v7w
+ pL4PYaQUDPsuUFld3hX1GClsOY9SnAf2uQ1RuR1IWyruFapmUKsvHySNG
+ 8JPSWC9NZGbVRikCp8btSJbFzPbeuG71qMjFxit1Qj6ukdlY3bVismVTv
+ VEbF53O15InHtioRwhWqFU6Ac7JDbRBJWThtoEsMpyUXEpLOKfJrg6twr A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="328836563"
+X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="328836563"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2023 02:08:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="646709129"
+X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="646709129"
+Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
+ ([10.239.160.112])
+ by orsmga006.jf.intel.com with ESMTP; 14 Feb 2023 02:08:50 -0800
+Date: Tue, 14 Feb 2023 18:16:36 +0800
+From: Zhao Liu <zhao1.liu@linux.intel.com>
+To: "wangyanan (Y)" <wangyanan55@huawei.com>
+Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
+ Dapeng Mi <dapeng1.mi@intel.com>,
+ Zhuocheng Ding <zhuocheng.ding@intel.com>,
+ Robert Hoo <robert.hu@linux.intel.com>,
+ Sean Christopherson <seanjc@google.com>,
+ Like Xu <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: Re: [RFC 06/52] hw/cpu: Introduce hybrid CPU topology
+Message-ID: <Y+tfhFU88fG1cI2U@liuzhao-OptiPlex-7080>
+References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
+ <20230213095035.158240-7-zhao1.liu@linux.intel.com>
+ <f99004e0-0e62-de55-b9ee-f584de5553e9@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=gb2312
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f99004e0-0e62-de55-b9ee-f584de5553e9@huawei.com>
+Received-SPF: none client-ip=192.55.52.93;
+ envelope-from=zhao1.liu@linux.intel.com; helo=mga11.intel.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_CHARSET_FARAWAY=2.45, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,159 +91,236 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Het Gala <het.gala@nutanix.com> writes:
+On Mon, Feb 13, 2023 at 09:18:05PM +0800, wangyanan (Y) wrote:
+> Date: Mon, 13 Feb 2023 21:18:05 +0800
+> From: "wangyanan (Y)" <wangyanan55@huawei.com>
+> Subject: Re: [RFC 06/52] hw/cpu: Introduce hybrid CPU topology
+> 
+> Hi Zhao,
+> 
+> ÔÚ 2023/2/13 17:49, Zhao Liu Ð´µÀ:
+> > From: Zhao Liu <zhao1.liu@intel.com>
+> > 
+> > For smp systems, the parts in one topology level are the same. But now
+> > there are more and more systems with hybrid architectures. Different
+> > parts of the same topology level may have differences. For example,
+> > Intel's Alder Lake series CPU has two types of cores, so the CPU
+> > topology is no longer symmetrical.
+> > 
+> > The hybrid topology is compatible with the smp topology type, that is,
+> > different parts on the same level of the hybrid topology can set to be
+> > the same, but the hybrid topology will introduce more complexity (need
+> > to allocate more memory, organized with array or linked-list), so the
+> > original smp topology support is retained while introducing the hybrid
+> > topology, and the hybrid topology is only built when the hybrid is
+> > explicitly required.
+> > 
+> > Therefore, we introduce the definition support of hybrid cpu topology
+> > here. At the same time, in order to unify with the original smp, we
+> > introduce a new cpu topology structure that can support smp topology
+> > or hybrid topology. This structure will replace the CpuTopology type (in
+> > include/hw/boards.h) used by MachineState.smp.
+> > 
+> > As for now, we only support two hybrid topology levels: core and
+> > cluster.
+> > 
+> > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
+> > ---
+> >   MAINTAINERS                   |   1 +
+> >   include/hw/cpu/cpu-topology.h | 117 ++++++++++++++++++++++++++++++++++
+> >   qapi/machine.json             |  12 ++++
+> >   3 files changed, 130 insertions(+)
+> >   create mode 100644 include/hw/cpu/cpu-topology.h
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 58794885ced3..918a9418d98e 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -1742,6 +1742,7 @@ F: qapi/machine-target.json
+> >   F: include/hw/boards.h
+> >   F: include/hw/core/cpu.h
+> >   F: include/hw/cpu/cluster.h
+> > +F: include/hw/cpu/cpu-topology.h
+> Should't it be in include/hw/core/* directory£¿
 
-> On 10/02/23 12:54 pm, Markus Armbruster wrote:
->> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
->>
->> [...]
->>
->>>> +##
->>>> +# @MigrateAddress:
->>>> +#
->>>> +# The options available for communication transport mechanisms for mi=
-gration
->>>> +#
->>>> +# Since 8.0
->>>> +##
->>>> +{ 'union' : 'MigrateAddress',
->>>> +  'base' : { 'transport' : 'MigrateTransport'},
->>>> +  'discriminator' : 'transport',
->>>> +  'data' : {
->>>> +    'socket' : 'MigrateSocketAddr',
->>>> +    'exec' : 'MigrateExecAddr',
->>>> +    'rdma': 'MigrateRdmaAddr' } }
->>>
->>> Ideally this would be
->>>
->>>     'data' : {
->>>       'socket' : 'SocketAddress',
->>>       'exec' : 'MigrateCommand',
->>>       'rdma': 'InetSocketAddress' } }
->>>
->>> though the first SocketAddress isn't possible unless it is easy to
->>> lift the QAPI limitation.
->>
->> Context: SocketAddress is a QAPI union, and "the QAPI limitation" is
->>
->>      scripts/qapi-gen.py: In file included from ../qapi/qapi-schema.json=
-:79:
->>      ../qapi/migration.json: In union 'MigrateAddress':
->>      ../qapi/migration.json:1505: branch 'socket' cannot use union type =
-'SocketAddress'
->>
->> Emitted by schema.py like this:
->>
->>                  if (not isinstance(v.type, QAPISchemaObjectType)
->>                          or v.type.variants):
->>                      raise QAPISemError(
->>                          self.info,
->>                          "%s cannot use %s"
->>                          % (v.describe(self.info), v.type.describe()))
->>
->> This enforces docs/devel/qapi-code-gen.rst's clause
->>
->>      The BRANCH's value defines the branch's properties, in particular i=
-ts
->>      type.  The type must a struct type.  [...]
->>
->> Next paragraph:
->>
->>      In the Client JSON Protocol, a union is represented by an object wi=
-th
->>      the common members (from the base type) and the selected branch's
->>      members.  The two sets of member names must be disjoint.
->>
->> So, we're splicing in the members of the branch's JSON object.  For that
->> to even make sense, the branch type needs to map to a JSON object.  This
->> is fundamental.  It's the first part of the condition in the code
->> snippet above.
->>
->> We have two kinds of QAPI types that map to a JSON object: struct and
->> union.  The second part of the condition restricts to struct.  Unless
->> I'm missing something (imperfect memory...), this is *not* fundamental,
->> just a matter of implementing it.  But I'd have to try to be sure.
->>
->>
->> Instead of simply allowing unions in addition to structs here, I'd like
->> to go one step further, and fuse the two into "objects".  Let me
->> explain.
->>
->> If we abstract from syntax, structs have become almost a special kind of
->> union.  Unions have a set of common members and sets of variant members,
->> and a special common member (the tag) selects the set of variant
->> members.  Structs are unions with zero variants and no tag.
->>
->> The generator code actually represents both structs and unions as a
->> common QAPISchemaObjectType already.  QAPI/QMP introspection does the
->> same: it uses a single meta type 'object' for both.
->>
->>
->> There is another spot where only structs are allowed: a struct or
->> union's base type.  That restriction will be awkward to lift, as I made
->> the mistake of baking the assumption "object type has at most one tag
->> member" into QAPI/QMP introspection .
->
-> Hi Markus, thankyou for explaning in such detail. I tried to understand o=
-f what you explained.
->
-> So IIUC, you mentioned the QAPI generator treats both structs and unions =
-same, but basically in the schema.py checks is where it tries to distinguis=
-h between the two ? and because of the fact that docs/devel/qapi-code-gen.r=
-st states that for a union, it's branches must be 'struct', and that's the =
-reason it gives an error ?
+Yes, I'll move it to the correct place.
 
-Permit me a brief digression into history.
+> >   F: include/sysemu/numa.h
+> >   F: tests/unit/test-smp-parse.c
+> >   T: git https://gitlab.com/ehabkost/qemu.git machine-next
+> > diff --git a/include/hw/cpu/cpu-topology.h b/include/hw/cpu/cpu-topology.h
+> > new file mode 100644
+> > index 000000000000..8268ea3a8569
+> > --- /dev/null
+> > +++ b/include/hw/cpu/cpu-topology.h
+> > @@ -0,0 +1,117 @@
+> > +/*
+> > + * CPU topology defination for Machine core
+> > + *
+> > + * Copyright (c) 2023 Intel Corporation
+> > + * Author: Zhao Liu <zhao1.liu@intel.com>
+> > + *
+> > + * This program is free software; you can redistribute it and/or modify
+> > + * it under the terms of the GNU General Public License as published by
+> > + * the Free Software Foundation; either version 2 of the License,
+> > + * or (at your option) any later version.
+> > + *
+> > + * This program is distributed in the hope that it will be useful,
+> > + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> > + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> > + * GNU General Public License for more details.
+> > + *
+> > + * You should have received a copy of the GNU General Public License
+> > + * along with this program; if not, see <http://www.gnu.org/licenses/>.
+> > + */
+> > +
+> > +#ifndef CPU_TOPOLOGY_H
+> > +#define CPU_TOPOLOGY_H
+> > +
+> > +#include "qemu/queue.h"
+> > +
+> > +/**
+> > + * SmpCpuTopology - smp cpu topology defination.
+> > + *
+> > + * For smp system, the parts in one topology level are the same.
+> > + *
+> > + * @sockets: the number of sockets on the machine
+> > + * @dies: the number of dies in one socket
+> > + * @clusters: the number of clusters in one die
+> > + * @cores: the number of cores in one cluster
+> > + * @threads: the number of threads in one core
+> > + */
+> > +typedef struct SmpCpuTopology {
+> > +    unsigned int sockets;
+> > +    unsigned int dies;
+> > +    unsigned int clusters;
+> > +    unsigned int cores;
+> > +    unsigned int threads;
+> > +} SmpCpuTopology;
+> > +
+> > +/**
+> > + * HybridCore - hybrid core topology defination:
+> > + * @threads: the number of threads in one core.
+> > + */
+> > +typedef struct HybridCore {
+> > +    unsigned int threads;
+> > +} HybridCore;
+> > +
+> > +/**
+> > + * HybridCluster - hybrid cluster topology defination:
+> > + * @cores: the number of cores in current cluster.
+> > + * @core_list: the array includes all the cores that belong to current
+> > + *             cluster.
+> > + */
+> > +typedef struct HybridCluster {
+> > +    unsigned int cores;
+> > +    HybridCore *core_list;
+> > +} HybridCluster;
+> > +
+> > +/**
+> > + * HybridCpuTopology - hybrid cpu topology defination.
+> > + *
+> > + * At present we only support two heterogeneous topology levels: core
+> > + * and cluster. For heterogeneous levels, we need additional structs
+> > + * to define their custom internal topology. So here we defines
+> > + * symmetric topology levels, and use a list to point to heterogeneous
+> > + * levels.
+> > + *
+> > + * @sockets: the number of sockets on the machine. All sockets are the
+> > + *           same.
+> > + * @dies: the number of dies in one socket. All dies are the same.
+> > + * @clusters: the number of clusters in one die. Cluster may be
+> > + *            different. This field indicates the length of
+> > + *            cluster_list.
+> > + * @cluster_list: the array includes all the clusters in one die.
+> > + */
+> > +typedef struct HybridCpuTopology {
+> > +    unsigned int sockets;
+> > +    unsigned int dies;
+> > +    unsigned int clusters;
+> > +    HybridCluster *cluster_list;
+> > +} HybridCpuTopology;
+> > +
+> > +/**
+> > + * GeneralCpuTopology - General cpu topology defination.
+> > + *
+> > + * It supports one of two topologies: smp topology or hybrid topology.
+> > + *
+> > + * @cpus: the number of present logical processors on the machine
+> > + * @max_cpus: the maximum number of logical processors on the machine
+> > + * @topo_type: the topology type of the machine and this decides which
+> > + *             member of the union to visit: smp or hybrid.
+> > + * @smp: the smp cpu topology informantion. Only valid when topo_type is
+> > + *       CPU_TOPO_TYPE_SMP.
+> > + * @hybrid: the hybrid cpu topology informantion. Only valid when
+> > + *          topo_type is CPU_TOPO_TYPE_HYBRID.
+> > + */
+> > +typedef struct GeneralCpuTopology {
+> > +    unsigned int cpus;
+> > +    unsigned int max_cpus;
+> > +    CpuTopoType topo_type;
+> > +    union {
+> > +        SmpCpuTopology smp;
+> > +        HybridCpuTopology hybrid;
+> > +    };
+> > +} GeneralCpuTopology; /*
+> > +                       * TODO: This name is temporary, just to distinguish it
+> > +                       * from the CpuTopology in boards.h. When CpuTopology in
+> > +                       * boards.h is merged here, it will be uniformly named as
+> > +                       * CpuTopology.
+> > +                       */
+> > +
+> A suggestion:
+> 1¡¢Move definition of CpuTopology from boards.h to cpu-topology.h
+> and re-structure it to include SmpCpuTopology, being a generic cpu
+> topology structure.
+> 2¡¢Rename "CpuTopology smp" in MachineState to a generic name
+> "CpuTopology topo".
 
-The initial QAPI design language provided product types (structs) and
-sum types (unions containing exactly one of several types, and a tag
-member that tells which one).  The two are orthogonal.
+Here we need to change the access to MachineState.smp to
+MachineState.topo.smp in other modules.
 
-These unions turned out rather awkward.
+If replacement of MachineState.topo is in a single patch, do we also
+need to include the modification of access to MachineState.topo.smp
+in other modules? Otherwise, it will break the compilation.
 
-The unions we have today are more general.  They have common members,
-and one of them is the tag member, of enumeration type.  For each tag
-value, they have variant members.  Both the common members and each tag
-value's variant members are given as struct types.
+In this way, the patch seems be too large.
 
-What if the tag's enumeration type is empty, i.e. has no values?  We get
-a union with no variant members, only common ones.  Isn't that a struct?
 
-Not quite.  To get a struct, we also have to drop the tag member.  It
-has no possible values anyway.
+Thanks,
+Zhao
 
-You see, struct types are almost a special case of today's union types.
-To overcome "almost", we can introduce the notion of "object type":
-
-* An object type has common members, one of them can be a tag member, of
-  enumeration type, not empty.  For each tag value, it additionally has
-  variant members.
-
-* A union type is an object type with a tag member and variant members.
-
-* A struct type is an object type without tag member and variant
-  members.
-
-The QAPI generator code already made the jump to this object type
-notion.  It transform the special cases into the general case at first
-opportunity, in QAPISchema._def_struct_type() and ._def_union_type().
-
-*Except* we haven't implemented support for variant members in a few
-places where they cannot occur now, e.g. as a tag value's variant.  This
-is the restriction you ran into.
-
-I'd like to make the jump to object type in the QAPI schema language,
-too.  But that's not a prerequisite to lifting the restriction.
-
-> If that's the case, can we improve on our checks and allow union as a par=
-t of branch of a union ? or something else ?
-
-I believe we can implement the missing parts and relax the checks.  But
-to be sure, we need to try.
-
-> or I may have completely misunderstood most of the part =F0=9F=98=85. Ple=
-ase let me know
-
-More questions?
-
+> 3¡¢Adapt all the code in QEMU to above change.
+> 
+> If you can pack above into a single patch, and then add the hybird
+> topology extansion in a next patch, we will not need the temporary
+> thing "GeneralCpuTopology" and the TODO comments, which makes
+> code clearer.
+> 
+> Thanks,
+> Yanan
+> > +#endif /* CPU_TOPOLOGY_H */
+> > diff --git a/qapi/machine.json b/qapi/machine.json
+> > index b9228a5e4616..bd7303f34497 100644
+> > --- a/qapi/machine.json
+> > +++ b/qapi/machine.json
+> > @@ -36,6 +36,18 @@
+> >                'sh4eb', 'sparc', 'sparc64', 'tricore',
+> >                'x86_64', 'xtensa', 'xtensaeb' ] }
+> > +##
+> > +# @CpuTopoType:
+> > +#
+> > +# An enumeration of cpu topology type
+> > +# TODO: Expose topology type in query-cpus-fast
+> > +#
+> > +# Since: 8.0
+> > +##
+> > +{ 'enum': 'CpuTopoType',
+> > +  'prefix': 'CPU_TOPO_TYPE',
+> > +  'data': [ 'smp', 'hybrid' ] }
+> > +
+> >   ##
+> >   # @CpuS390State:
+> >   #
+> 
 
