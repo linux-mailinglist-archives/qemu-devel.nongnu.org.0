@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE741696DF8
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 20:33:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2D8A696DFA
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 20:34:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pS132-0000q2-G0; Tue, 14 Feb 2023 14:33:04 -0500
+	id 1pS14G-0001Si-LF; Tue, 14 Feb 2023 14:34:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
- id 1pS130-0000pn-Lm
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 14:33:02 -0500
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+ id 1pS13z-0001PA-LQ
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 14:34:05 -0500
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
- id 1pS12z-0007no-1m
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 14:33:02 -0500
-Received: from myt5-8800bd68420f.qloud-c.yandex.net
- (myt5-8800bd68420f.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:4615:0:640:8800:bd68])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 1C4716291A;
- Tue, 14 Feb 2023 22:32:55 +0300 (MSK)
+ id 1pS13x-0000Dk-7f
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 14:34:03 -0500
+Received: from myt6-23a5e62c0090.qloud-c.yandex.net
+ (myt6-23a5e62c0090.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:1da3:0:640:23a5:e62c])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id BCCE960DD8;
+ Tue, 14 Feb 2023 22:33:45 +0300 (MSK)
 Received: from [IPV6:2a02:6b8:b081:6407::1:7] (unknown
  [2a02:6b8:b081:6407::1:7])
- by myt5-8800bd68420f.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- pWp2g20RWSw1-dRqH9aEu; Tue, 14 Feb 2023 22:32:54 +0300
+ by myt6-23a5e62c0090.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ gXpl730RcuQ1-SA7lxbd5; Tue, 14 Feb 2023 22:33:44 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1676403174; bh=p8Knob2ZdRiEsfWL3Ecyrh488URUuzQ8BRtD62otQyk=;
+ t=1676403224; bh=AN8PbWD636JBD2yuxWCEscLOqf4q0HZbE/Tk0GfjM5Y=;
  h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=So7gYKXmwCJprFMpDpeY6RUZTd5FmwfQcoXSbF4wrvLOpQuRXQWDtaB+aaNcmnQUD
- kdtvr7HsgLxspOLpkyX0oY7ej+wfcDZlKj8DnCege1GUC+qJHPQpgo+1QHY9ALaS/p
- 99dHXPxJPstwoAQr0kxy1xTpwEGBN6irRB5iCIdo=
-Authentication-Results: myt5-8800bd68420f.qloud-c.yandex.net;
+ b=znOcQJuw+04fZgIO06+i2nwVhaH4tAjP9YN1WNN0cUh8wr771h9KJSEA1x0rOxShu
+ kW915RX+M0UeBBdVlzUJ7ihUs7mo/JxHS8wtl9P1DXEChCWrt05g17A1HnU70slAJW
+ a51rEo1Cd/JIoN7U4yqsp/Jnt6caBL05d7lagxf8=
+Authentication-Results: myt6-23a5e62c0090.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
-Message-ID: <7339eb35-1fe1-c0bb-34e5-df5946e7e400@yandex-team.ru>
-Date: Tue, 14 Feb 2023 21:32:51 +0200
+Message-ID: <e31c31aa-c753-22f2-0e27-f0bf77c14345@yandex-team.ru>
+Date: Tue, 14 Feb 2023 21:33:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v4 02/16] pci/shpc: change shpc_get_status() return type
- to uint8_t
+Subject: Re: [PATCH v4 03/16] pci/shpc: shpc_slot_command(): handle PWRONLY ->
+ ENABLED transition
 Content-Language: en-US, ru-RU
 To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  qemu-devel@nongnu.org
@@ -51,13 +52,13 @@ Cc: armbru@redhat.com, eblake@redhat.com, eduardo@habkost.net,
  berrange@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
  mst@redhat.com, philmd@linaro.org, den-plotnikov@yandex-team.ru
 References: <20230213140103.1518173-1-vsementsov@yandex-team.ru>
- <20230213140103.1518173-3-vsementsov@yandex-team.ru>
+ <20230213140103.1518173-4-vsementsov@yandex-team.ru>
 From: Anton Kuchin <antonkuchin@yandex-team.ru>
-In-Reply-To: <20230213140103.1518173-3-vsementsov@yandex-team.ru>
+In-Reply-To: <20230213140103.1518173-4-vsementsov@yandex-team.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=antonkuchin@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
+ envelope-from=antonkuchin@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
@@ -80,34 +81,56 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 13/02/2023 16:00, Vladimir Sementsov-Ogievskiy wrote:
-> The result of the function is always one byte. The result is always
-> assigned to uint8_t variable. Also, shpc_get_status() should be
-> symmetric to shpc_set_status() which has uint8_t value argument.
+> ENABLED -> PWRONLY transition is not allowed and we handle it by
+> shpc_invalid_command(). But PWRONLY -> ENABLED transition is silently
+> ignored, which seems wrong. Let's handle it as correct.
 >
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 > ---
->   hw/pci/shpc.c | 7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
+>   hw/pci/shpc.c | 24 +++++++++---------------
+>   1 file changed, 9 insertions(+), 15 deletions(-)
 >
 > diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
-> index 1b3f619dc9..5d71569b13 100644
+> index 5d71569b13..25e4172382 100644
 > --- a/hw/pci/shpc.c
 > +++ b/hw/pci/shpc.c
-> @@ -123,10 +123,13 @@
->   #define SHPC_PCI_TO_IDX(pci_slot) ((pci_slot) - 1)
->   #define SHPC_IDX_TO_PHYSICAL(slot) ((slot) + 1)
+> @@ -273,28 +273,22 @@ static void shpc_slot_command(SHPCDevice *shpc, uint8_t target,
+>           return;
+>       }
 >   
-> -static uint16_t shpc_get_status(SHPCDevice *shpc, int slot, uint16_t msk)
-> +static uint8_t shpc_get_status(SHPCDevice *shpc, int slot, uint16_t msk)
->   {
->       uint8_t *status = shpc->config + SHPC_SLOT_STATUS(slot);
-> -    return (pci_get_word(status) & msk) >> ctz32(msk);
-> +    uint16_t result = (pci_get_word(status) & msk) >> ctz32(msk);
+> -    switch (power) {
+> -    case SHPC_LED_NO:
+> -        break;
+> -    default:
+> +    if (power != SHPC_LED_NO) {
+>           /* TODO: send event to monitor */
+>           shpc_set_status(shpc, slot, power, SHPC_SLOT_PWR_LED_MASK);
+>       }
+> -    switch (attn) {
+> -    case SHPC_LED_NO:
+> -        break;
+> -    default:
+> +    if (attn != SHPC_LED_NO) {
+>           /* TODO: send event to monitor */
+>           shpc_set_status(shpc, slot, attn, SHPC_SLOT_ATTN_LED_MASK);
+>       }
+> -
+> -    if ((current_state == SHPC_STATE_DISABLED && state == SHPC_STATE_PWRONLY) ||
+> -        (current_state == SHPC_STATE_DISABLED && state == SHPC_STATE_ENABLED)) {
+> -        shpc_set_status(shpc, slot, state, SHPC_SLOT_STATE_MASK);
+> -    } else if ((current_state == SHPC_STATE_ENABLED ||
+> -                current_state == SHPC_STATE_PWRONLY) &&
+> -               state == SHPC_STATE_DISABLED) {
+> +    if (state != SHPC_STATE_NO) {
+>           shpc_set_status(shpc, slot, state, SHPC_SLOT_STATE_MASK);
+> +    }
 > +
-> +    assert(result <= UINT8_MAX);
-> +    return result;
->   }
->   
->   static void shpc_set_status(SHPCDevice *shpc,
+> +    if ((current_state == SHPC_STATE_ENABLED ||
+> +         current_state == SHPC_STATE_PWRONLY) &&
+> +        state == SHPC_STATE_DISABLED)
+> +    {
+>           power = shpc_get_status(shpc, slot, SHPC_SLOT_PWR_LED_MASK);
+>           /* TODO: track what monitor requested. */
+>           /* Look at LED to figure out whether it's ok to remove the device. */
 Reviewed-by: Anton Kuchin <antonkuchin@yandex-team.ru>
 
