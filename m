@@ -2,75 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50FDA69682B
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 16:36:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32CA269682C
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 16:36:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRxL6-0003hc-Tt; Tue, 14 Feb 2023 10:35:29 -0500
+	id 1pRxL7-0003mz-Sd; Tue, 14 Feb 2023 10:35:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+eea51c705e3923a17c65+7114+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pRxL4-0003UI-Kj
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pRxL4-0003Zd-S3
  for qemu-devel@nongnu.org; Tue, 14 Feb 2023 10:35:26 -0500
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+eea51c705e3923a17c65+7114+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pRxL1-00065O-F7
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pRxL2-00065N-Qk
  for qemu-devel@nongnu.org; Tue, 14 Feb 2023 10:35:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
- :MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=plpOCw+tDIDsb9ds9T1IbVei6nLK+0z3av02IULg64Y=; b=htJA0z80tp7xwQetnG/SEKOlbZ
- CW1FdQlWhgfarig4bLOiyUpNRXFIiBr2chMbrwPQfNE/d1nUHsQlo8zZGlrrHfeDP6kmFRUNJhExq
- wdWcrXpRYeIU7FPLkpm4Myr0LY3dSRaATdDe+om1SQxGLFErhy5LLeJY+9qza0GUCP83uU6GRm3lR
- xWbRKvYdR8ZWIUvkda+O2nB2chlGQvN99X+Q9+lTzfWnHRp0r5mNa5ucqDD51JEXofyav+YMhy2C/
- KOSzrLxDUm3Rvk21nnxd2IPM+0ZkuX46ZOZwvv14VBo6n6jFcJVPpzq8rqSyBS9/OwIIP2C/o84x2
- XB6edAiA==;
-Received: from [213.205.241.95] (helo=[127.0.0.1])
- by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pRxKB-009fmm-2z; Tue, 14 Feb 2023 15:34:35 +0000
-Date: Tue, 14 Feb 2023 16:35:09 +0100
-From: David Woodhouse <dwmw2@infradead.org>
-To: paul@xen.org, Paul Durrant <xadimgnik@gmail.com>,
+Received: by mail-wr1-x429.google.com with SMTP id a2so16085218wrd.6
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 07:35:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=8HrFs4E258MGtaS4we3mj1ofzHFL8cHjJv264PZ8Yb4=;
+ b=gnHtrvAeNuzzjo11oSOw4Dn6y2kpQKh6fKSID5YfrWjbEQ5YMmjaiwPAeSBpIngqtb
+ 5DnyAjwdv1DLbYvIjZZChPsxMlRoYrQHbdbvQnIG6Eow9wTdLzJGKhjZQYn3POPiSCJn
+ hFgzWLLVJ3COkDa1SzbGn4y2rdU7n+TBB+698b70dg0IVM+N3KaND1HCom/KaLCc9hQx
+ h2UhlYTgNmVAuTz2+Y6R09sRSGzUi7wkZLkFm/hsAeIDDqpxa9dYwJaPUQDvvb14BKBv
+ cd/h85lavJU736pmHPqAX8IIOgsmu9wdf6k/OcKIUg4qwlO53uP4GPnSCy0HVCv7ESSE
+ 3/DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8HrFs4E258MGtaS4we3mj1ofzHFL8cHjJv264PZ8Yb4=;
+ b=Gv1G1SYXwZQ2R09DFt8N4I3fD58sIFCJUM3BbtjytdDZEfcK8w4lhXCKbmGj2Q9Qcx
+ SFWSKlZi/JG+yd4XQt6vycoz3xy2ykHA829P2pz6lT5347/Rha83NoTSSxFjtJZLyFDf
+ k4vcayzmdLKPFGEmJV7MMzApDJlB+aOAaY5t2V4trs0/iLSrPuozgAA+G07Uff/dz1f9
+ wxdyyOthHZwa242AsgxJ2OlgS5sR5N8UIsqWGxiVOcMRvLrDp7XNycKx3xrhEK+mcUWD
+ zh4rfmJGex66Ta8xAxHqcmOzySRXrQPEaTYDAAOUSzSPvxmMUKRBPeIIe7WaVZdUOA5Z
+ i8hg==
+X-Gm-Message-State: AO0yUKUE4jTfGfs5XLz085bIQ7naPQxWCsrdMX8YoOO8vbiZE4q0dRnX
+ ff/hqSNm3Zx8Mc2K4mVAKjw=
+X-Google-Smtp-Source: AK7set/8jfjqbViA0CubmEVVfdZACYjCfNIjfyQelkDUdHME9DPGUGT+COy0rQYCw20YjtJJzcmjRA==
+X-Received: by 2002:adf:e885:0:b0:2c3:dc42:525d with SMTP id
+ d5-20020adfe885000000b002c3dc42525dmr2617352wrm.36.1676388920907; 
+ Tue, 14 Feb 2023 07:35:20 -0800 (PST)
+Received: from [10.95.154.108] (54-240-197-224.amazon.com. [54.240.197.224])
+ by smtp.gmail.com with ESMTPSA id
+ d1-20020adff841000000b002c5640f9bf9sm2019308wrq.85.2023.02.14.07.35.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Feb 2023 07:35:20 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <3c6b57d8-cb41-f60f-e07d-1574fcdc8f07@xen.org>
+Date: Tue, 14 Feb 2023 15:35:18 +0000
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v10 48/59] i386/xen: Reserve Xen special pages for
+ console, xenstore rings
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>,
  Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-CC: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>, 
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
  Ankur Arora <ankur.a.arora@oracle.com>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?ISO-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-Subject: Re: [PATCH v10 44/59] hw/xen: Support mapping grant frames
-User-Agent: K-9 Mail for Android
-In-Reply-To: <28fc143f-2de8-b893-0abf-210b4c34a7f7@xen.org>
 References: <20230201143148.1744093-1-dwmw2@infradead.org>
- <20230201143148.1744093-45-dwmw2@infradead.org>
- <28fc143f-2de8-b893-0abf-210b4c34a7f7@xen.org>
-Message-ID: <4B49CF3E-A825-4017-B7DF-2339F7D6B92E@infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- desiato.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
- envelope-from=BATV+eea51c705e3923a17c65+7114+infradead.org+dwmw2@desiato.srs.infradead.org;
- helo=desiato.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ <20230201143148.1744093-49-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20230201143148.1744093-49-dwmw2@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.35, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,54 +104,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 01/02/2023 14:31, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
+> 
+> Xen has eight frames at 0xfeff8000 for this; we only really need two for
+> now and KVM puts the identity map at 0xfeffc000, so limit ourselves to
+> four.
+> 
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>   include/sysemu/kvm_xen.h  |  8 ++++++++
+>   target/i386/kvm/xen-emu.c | 10 ++++++++++
+>   2 files changed, 18 insertions(+)
+> 
 
+Reviewed-by: Paul Durrant <paul@xen.org>
 
-On 13 February 2023 16:31:57 CET, Paul Durrant <xadimgnik@gmail=2Ecom> wro=
-te:
->On 01/02/2023 14:31, David Woodhouse wrote:
->> From: David Woodhouse <dwmw@amazon=2Eco=2Euk>
->>=20
->> Signed-off-by: David Woodhouse <dwmw@amazon=2Eco=2Euk>
->> ---
->>   hw/i386/kvm/xen_gnttab=2Ec  | 74 ++++++++++++++++++++++++++++++++++++=
-++-
->>   hw/i386/kvm/xen_overlay=2Ec |  2 +-
->>   hw/i386/kvm/xen_overlay=2Eh |  2 ++
->>   3 files changed, 76 insertions(+), 2 deletions(-)
->>=20
->> diff --git a/hw/i386/kvm/xen_gnttab=2Ec b/hw/i386/kvm/xen_gnttab=2Ec
->> index ef8857e50c=2E=2Ecd8c3ae60d 100644
->> --- a/hw/i386/kvm/xen_gnttab=2Ec
->> +++ b/hw/i386/kvm/xen_gnttab=2Ec
->> @@ -37,13 +37,27 @@ OBJECT_DECLARE_SIMPLE_TYPE(XenGnttabState, XEN_GNTT=
-AB)
->>   #define XEN_PAGE_SHIFT 12
->>   #define XEN_PAGE_SIZE (1ULL << XEN_PAGE_SHIFT)
->>   +#define ENTRIES_PER_FRAME_V1 (XEN_PAGE_SIZE / sizeof(grant_entry_v1_=
-t))
->> +#define ENTRIES_PER_FRAME_V2 (XEN_PAGE_SIZE / sizeof(grant_entry_v2_t)=
-)
->> +
->>   struct XenGnttabState {
->>       /*< private >*/
->>       SysBusDevice busdev;
->>       /*< public >*/
->>   +    QemuMutex gnt_lock;
->> +
->>       uint32_t nr_frames;
->>       uint32_t max_frames;
->> +
->> +    union {
->> +        grant_entry_v1_t *v1;
->> +        grant_entry_v2_t *v2;
->> +    } entries;
->> +
->
->If you want to have v2 support, don't you need status frames too?
-
-If/when we add v2 support we will need that, but not yet=2E Seemed harmles=
-s enough to have the union with the right types from day one though=2E
 
