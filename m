@@ -2,88 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C211B696D0E
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 19:37:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC87D696D12
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 19:38:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pS0AX-00012G-HN; Tue, 14 Feb 2023 13:36:45 -0500
+	id 1pS0BM-0002Uz-O3; Tue, 14 Feb 2023 13:37:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pS0AU-0000wZ-4L
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 13:36:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pS0BA-0002OY-6d
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 13:37:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pS0AS-0004VY-FK
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 13:36:41 -0500
+ id 1pS0B5-0004Z3-7e
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 13:37:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676399799;
+ s=mimecast20190719; t=1676399838;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gBgLUGcPfnFXu97/glbl0dWUsFAyQv/dLxT+7R0QfV8=;
- b=CchvTZu4gBoL2hIEhATWxrOuHLY1mw0dmIoXXYCUkJdLU6jcM6C6wIJMadE0Kz9pw2RvPn
- JiYMNEVLzmuBkxgiqdXMY9V3eVAJHICJ+tOPr29W4u3n6cMncofo453zx2Os7N3Lfm0Hse
- dgWOqwth2jZYmov3HKS/FsAOketWgnU=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LB9WaVMBaH/HInGJ4VloOO6TJMJoHR8SjqJsf0ukbfQ=;
+ b=B+bS7U+z/CWy3owk2ZXzyM552XyE6AO3Lj+VM5sgKjeWmbFJjflxRXuK2nG1Kagj4pr4bx
+ p/gJKXhJqeY6PYtoloGqZLrVd8ClMHkR4Kw3VdrC0K3/QFbYnW8JXdD6ZNpDstsEP1LpyH
+ rsHeE4OtWUEYTVVI34maEUeMDTsLsJM=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-173-oyC-b54tNu6ZYoiELC9KMQ-1; Tue, 14 Feb 2023 13:36:38 -0500
-X-MC-Unique: oyC-b54tNu6ZYoiELC9KMQ-1
-Received: by mail-qk1-f198.google.com with SMTP id
- c9-20020a05620a11a900b0072a014ecc4aso9987568qkk.18
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 10:36:37 -0800 (PST)
+ us-mta-306-vR6WbE7fM2WllirwGkbpXQ-1; Tue, 14 Feb 2023 13:37:17 -0500
+X-MC-Unique: vR6WbE7fM2WllirwGkbpXQ-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ c10-20020a05621401ea00b004c72d0e92bcso9116843qvu.12
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 10:37:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:reply-to:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=gBgLUGcPfnFXu97/glbl0dWUsFAyQv/dLxT+7R0QfV8=;
- b=7h4N30fvbrbZmD/GAwiFI9ukSH030mjkZ/nDmlMHwB6x6oDMV9NhnuBKrCgnRJ51Bn
- M4uM2b3Atn9/vFYLHnn2DzD5bSOPYQP6YhhpJtVut64zDuN4viAw3hjv9l0qNhsInX/z
- IcMlwOajZMEn7eIgiXHt55kQr7Qec1GcSiOLe2YrTX6BkSSRteH7EiFS2iR5J/9sDuPK
- kD5b0KoExzr6y6mSFFecVpbev8nhbKA9PvixTJKfZzq1QgZZW0I7rCsTTe+Jm/NTzwqH
- 4Zs1K7b8x1styJOjqiRuaFNWohkhySTbpbPlycHTAtd9Fuz4kuUOioAmel5PIbWkwHgq
- vsjg==
-X-Gm-Message-State: AO0yUKX1o86vLNsHLhUxplA0akOBrkJsRGjrzTxmNuMcdC3ymMcJt+VV
- XELsD6aqqhpq0MEbccrumwx/tfCR3jwnZB0+JcfJqQ1vedmmQmEf9D0E7H/ezf3oIYJI/jrSzJY
- n4/Vl3mMrKHatHSA=
-X-Received: by 2002:a05:6214:2a83:b0:53c:5e57:cd02 with SMTP id
- jr3-20020a0562142a8300b0053c5e57cd02mr7268139qvb.38.1676399797265; 
- Tue, 14 Feb 2023 10:36:37 -0800 (PST)
-X-Google-Smtp-Source: AK7set+1U+tW4jV89VThMnCSqAL+kSnHvdJg+NBoQ3EushMwuFNMzRu1x9q921WTkzhIdAK91FJsyA==
-X-Received: by 2002:a05:6214:2a83:b0:53c:5e57:cd02 with SMTP id
- jr3-20020a0562142a8300b0053c5e57cd02mr7268096qvb.38.1676399796912; 
- Tue, 14 Feb 2023 10:36:36 -0800 (PST)
+ bh=LB9WaVMBaH/HInGJ4VloOO6TJMJoHR8SjqJsf0ukbfQ=;
+ b=2LiHUSGFf+++D5rZrFQXd0bLPezHwTjjx5LoiZTE5PQ1vPONE2aSAlZ3DofFOPxMCb
+ CwVjiIVThLL3GFAdYgkOyDHsXbCj3rN7kltP9mx2krk1aiIlGbzqo0mAVvPUVx3huWto
+ KkJIp3mgOO/a56QzIk85JxfJXVbfNXkkvWwFu7JVzoEwSBR5S5YqS3pPGsH7mAVrSOFz
+ 6B3gUjUZlNEZT9wMlZd8M58AABKOPuwZy3WiU2rcA2QKTt8T0CgRYg9uDPGYtfcgrZBn
+ VhRTkqf/wV7Em+XzMq11hpExZPCmtTY7zIjQDyAdRFrydpBeLIVmoIspbl/gTETRmAM/
+ s/lw==
+X-Gm-Message-State: AO0yUKWZGTYRpBBlMXHWROx1C6ldX//dr2h3QTmwxFoOMygvYETicXSk
+ PQveGFxIEnTlBQHDRyInGWEiO9RacObT7rjPwYEbtrUPv9jZnhMLfvaxKo+xQw+5Qd2w5rWdXJC
+ n4ezI5S+9At1GoUE=
+X-Received: by 2002:a05:6214:246a:b0:56e:b690:9bc5 with SMTP id
+ im10-20020a056214246a00b0056eb6909bc5mr7860827qvb.19.1676399836499; 
+ Tue, 14 Feb 2023 10:37:16 -0800 (PST)
+X-Google-Smtp-Source: AK7set+KIPh5okvOGF5JVNpCN9Ju9Od+w3bIIcARIGO+9GBZJsymd/VjDmFAsnJI+b0h+eqBOubJ8g==
+X-Received: by 2002:a05:6214:246a:b0:56e:b690:9bc5 with SMTP id
+ im10-20020a056214246a00b0056eb6909bc5mr7860792qvb.19.1676399836240; 
+ Tue, 14 Feb 2023 10:37:16 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
  ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
  by smtp.gmail.com with ESMTPSA id
- w3-20020a379403000000b006bb29d932e1sm12365822qkd.105.2023.02.14.10.36.35
+ j64-20020a378743000000b0073b275607f0sm7218758qkd.65.2023.02.14.10.37.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Feb 2023 10:36:36 -0800 (PST)
-Message-ID: <b0a296a9-1ca8-fe6c-56e9-27807a1d0f5e@redhat.com>
-Date: Tue, 14 Feb 2023 19:36:33 +0100
+ Tue, 14 Feb 2023 10:37:15 -0800 (PST)
+Message-ID: <3354c941-a109-c67d-865b-7a6fea7c6cac@redhat.com>
+Date: Tue, 14 Feb 2023 19:37:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH 2/2] hw/arm/smmu-common: Fix TTB1 handling
+Subject: Re: [PATCH v2 1/2] hw/arm/smmu-common: Support 64-bit addresses
 Content-Language: en-US
 To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- ola.hugosson@arm.com
-References: <20230210163731.970130-1-jean-philippe@linaro.org>
- <20230210163731.970130-3-jean-philippe@linaro.org>
- <1964d20f-e18b-5875-914b-16f2f3acee37@redhat.com> <Y+u7A/QubSdEe11M@myrica>
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, ola.hugosson@arm.com
+References: <20230214171921.1917916-1-jean-philippe@linaro.org>
+ <20230214171921.1917916-2-jean-philippe@linaro.org>
 From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <Y+u7A/QubSdEe11M@myrica>
+In-Reply-To: <20230214171921.1917916-2-jean-philippe@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
@@ -108,53 +107,49 @@ Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi Jean,
 
-
-On 2/14/23 17:46, Jean-Philippe Brucker wrote:
-> On Mon, Feb 13, 2023 at 05:30:03PM +0100, Eric Auger wrote:
->> Hi Jean,
->>
->> On 2/10/23 17:37, Jean-Philippe Brucker wrote:
->>> Addresses targeting the second translation table (TTB1) in the SMMU have
->>> all upper bits set (except for the top byte when TBI is enabled). Fix
->>> the TTB1 check.
->>>
->>> Reported-by: Ola Hugosson <ola.hugosson@arm.com>
->>> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
->>> ---
->>>  hw/arm/smmu-common.c | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
->>> index 2b8c67b9a1..0a5a60ca1e 100644
->>> --- a/hw/arm/smmu-common.c
->>> +++ b/hw/arm/smmu-common.c
->>> @@ -249,7 +249,7 @@ SMMUTransTableInfo *select_tt(SMMUTransCfg *cfg, dma_addr_t iova)
->>>          /* there is a ttbr0 region and we are in it (high bits all zero) */
->>>          return &cfg->tt[0];
->>>      } else if (cfg->tt[1].tsz &&
->>> -           !extract64(iova, 64 - cfg->tt[1].tsz, cfg->tt[1].tsz - tbi_byte)) {
->>> +        sextract64(iova, 64 - cfg->tt[1].tsz, cfg->tt[1].tsz - tbi_byte) == -1) {
->>>          /* there is a ttbr1 region and we are in it (high bits all one) */
->>>          return &cfg->tt[1];
->>>      } else if (!cfg->tt[0].tsz) {
->> Reviewed-by: Eric Auger <eric.auger@redhat.com>
->>
->> While reading the spec again, I noticed we do not support VAX. Is it
->> something that we would need to support?
-> I guess it would be needed to support sharing page tables with the CPU, if
-> the CPU supports and the OS uses FEAT_LVA. But in order to share the
-> stage-1, Linux would need more complex features as well (ATS+PRI/Stall,
-> PASID).
+On 2/14/23 18:19, Jean-Philippe Brucker wrote:
+> Addresses targeting the second translation table (TTB1) in the SMMU have
+> all upper bits set. Ensure the IOMMU region covers all 64 bits.
 >
-> For a private DMA address space, I think 48 bits of VA is already plenty.
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
-OK thanks!
+Thanks
 
 Eric
+> ---
+>  include/hw/arm/smmu-common.h | 2 --
+>  hw/arm/smmu-common.c         | 2 +-
+>  2 files changed, 1 insertion(+), 3 deletions(-)
 >
-> Thanks,
-> Jean
->
+> diff --git a/include/hw/arm/smmu-common.h b/include/hw/arm/smmu-common.h
+> index c5683af07d..9fcff26357 100644
+> --- a/include/hw/arm/smmu-common.h
+> +++ b/include/hw/arm/smmu-common.h
+> @@ -27,8 +27,6 @@
+>  #define SMMU_PCI_DEVFN_MAX    256
+>  #define SMMU_PCI_DEVFN(sid)   (sid & 0xFF)
+>  
+> -#define SMMU_MAX_VA_BITS      48
+> -
+>  /*
+>   * Page table walk error types
+>   */
+> diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
+> index 733c964778..2b8c67b9a1 100644
+> --- a/hw/arm/smmu-common.c
+> +++ b/hw/arm/smmu-common.c
+> @@ -439,7 +439,7 @@ static AddressSpace *smmu_find_add_as(PCIBus *bus, void *opaque, int devfn)
+>  
+>          memory_region_init_iommu(&sdev->iommu, sizeof(sdev->iommu),
+>                                   s->mrtypename,
+> -                                 OBJECT(s), name, 1ULL << SMMU_MAX_VA_BITS);
+> +                                 OBJECT(s), name, UINT64_MAX);
+>          address_space_init(&sdev->as,
+>                             MEMORY_REGION(&sdev->iommu), name);
+>          trace_smmu_add_mr(name);
 
 
