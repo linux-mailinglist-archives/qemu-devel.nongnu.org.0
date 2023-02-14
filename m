@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 352826958ED
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 07:13:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15C046958F7
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 07:14:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRoY0-0001xM-QV; Tue, 14 Feb 2023 01:12:12 -0500
+	id 1pRoY1-0001xp-HA; Tue, 14 Feb 2023 01:12:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pRoXx-0001wa-No
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 01:12:10 -0500
+ id 1pRoY0-0001xJ-6T
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 01:12:12 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pRoXv-0007pa-SA
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 01:12:09 -0500
+ id 1pRoXy-0007ql-NO
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 01:12:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676355127;
+ s=mimecast20190719; t=1676355130;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XoR1EqS98VfAlVzMxZNoy/1pmw2KIRavs+YTl38ELCA=;
- b=Ka4awQvPkyiWAiVMtjjyHAEmAQHPUDVbMct/t4Vhbmn80KlPUHUzvbgSnl516u5FeAyGVG
- pMPYmt9Idw40J1xpo/XsyumzFVC9mMhSMVOJu94tyq9vigSqB5OtzUoCnYBvysrEev1Qaq
- 7kYO74/dnjIR5MNYu8X2IWb8N80e+cE=
+ bh=Vc+cpwghIdhzjJMh8b7ZSYwJLUU3TZcFB8a50pFS96E=;
+ b=QtPnegEUNP7JMbEGSSTrd630KMYQqRla0OjO8jRz4CayFGjboafV5T47zg004d+LIiEVAn
+ LwQsEInCIO+104D1MFw75Fs2nuMIpMisiLTtZjgoCgon91+i27Rynpywv1Qrr5jmDWcRM5
+ fSZgf8EkJ68OGRYE5JF2/cCGGlO0cZ8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-654--aghemegPk-bHlX0FVmyUQ-1; Tue, 14 Feb 2023 01:12:04 -0500
-X-MC-Unique: -aghemegPk-bHlX0FVmyUQ-1
+ us-mta-422-DGFbyVyXOD2mQcMlEdfXiw-1; Tue, 14 Feb 2023 01:12:06 -0500
+X-MC-Unique: DGFbyVyXOD2mQcMlEdfXiw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A5170101A55E;
- Tue, 14 Feb 2023 06:12:03 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5EA1D857D07;
+ Tue, 14 Feb 2023 06:12:06 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-12-89.pek2.redhat.com [10.72.12.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5EA98140EBF6;
- Tue, 14 Feb 2023 06:12:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4EC6C140EBF6;
+ Tue, 14 Feb 2023 06:12:04 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Cc: Qiang Liu <cyruscyliu@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Jason Wang <jasowang@redhat.com>
-Subject: [PULL 04/10] hw/net/lan9118: log [read|write]b when mode_16bit is
- enabled rather than abort
-Date: Tue, 14 Feb 2023 14:11:34 +0800
-Message-Id: <20230214061140.36696-5-jasowang@redhat.com>
+Cc: Fiona Ebner <f.ebner@proxmox.com>,
+	Jason Wang <jasowang@redhat.com>
+Subject: [PULL 05/10] hw/net/vmxnet3: allow VMXNET3_MAX_MTU itself as a value
+Date: Tue, 14 Feb 2023 14:11:35 +0800
+Message-Id: <20230214061140.36696-6-jasowang@redhat.com>
 In-Reply-To: <20230214061140.36696-1-jasowang@redhat.com>
 References: <20230214061140.36696-1-jasowang@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
@@ -82,87 +80,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Qiang Liu <cyruscyliu@gmail.com>
+From: Fiona Ebner <f.ebner@proxmox.com>
 
-This patch replaces hw_error to guest error log for [read|write]b
-accesses when mode_16bit is enabled. This avoids aborting qemu.
+Currently, VMXNET3_MAX_MTU itself (being 9000) is not considered a
+valid value for the MTU, but a guest running ESXi 7.0 might try to
+set it and fail the assert [0].
 
-Fixes: 1248f8d4cbc3 ("hw/lan9118: Add basic 16-bit mode support.")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1433
-Reported-by: Qiang Liu <cyruscyliu@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
-Suggested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+In the Linux kernel, dev->max_mtu itself is a valid value for the MTU
+and for the vmxnet3 driver it's 9000, so a guest running Linux will
+also fail the assert when trying to set an MTU of 9000.
+
+VMXNET3_MAX_MTU and s->mtu don't seem to be used in relation to buffer
+allocations/accesses, so allowing the upper limit itself as a value
+should be fine.
+
+[0]: https://forum.proxmox.com/threads/114011/
+
+Fixes: d05dcd94ae ("net: vmxnet3: validate configuration values during activate (CVE-2021-20203)")
+Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/lan9118.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ hw/net/vmxnet3.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/net/lan9118.c b/hw/net/lan9118.c
-index f1cba55..e5c4af1 100644
---- a/hw/net/lan9118.c
-+++ b/hw/net/lan9118.c
-@@ -15,7 +15,6 @@
- #include "migration/vmstate.h"
- #include "net/net.h"
- #include "net/eth.h"
--#include "hw/hw.h"
- #include "hw/irq.h"
- #include "hw/net/lan9118.h"
- #include "hw/ptimer.h"
-@@ -32,12 +31,8 @@
- #ifdef DEBUG_LAN9118
- #define DPRINTF(fmt, ...) \
- do { printf("lan9118: " fmt , ## __VA_ARGS__); } while (0)
--#define BADF(fmt, ...) \
--do { hw_error("lan9118: error: " fmt , ## __VA_ARGS__);} while (0)
- #else
- #define DPRINTF(fmt, ...) do {} while(0)
--#define BADF(fmt, ...) \
--do { fprintf(stderr, "lan9118: error: " fmt , ## __VA_ARGS__);} while (0)
- #endif
+diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
+index d2ab527..56559cd 100644
+--- a/hw/net/vmxnet3.c
++++ b/hw/net/vmxnet3.c
+@@ -1441,7 +1441,7 @@ static void vmxnet3_activate_device(VMXNET3State *s)
+     vmxnet3_setup_rx_filtering(s);
+     /* Cache fields from shared memory */
+     s->mtu = VMXNET3_READ_DRV_SHARED32(d, s->drv_shmem, devRead.misc.mtu);
+-    assert(VMXNET3_MIN_MTU <= s->mtu && s->mtu < VMXNET3_MAX_MTU);
++    assert(VMXNET3_MIN_MTU <= s->mtu && s->mtu <= VMXNET3_MAX_MTU);
+     VMW_CFPRN("MTU is %u", s->mtu);
  
- /* The tx and rx fifo ports are a range of aliased 32-bit registers */
-@@ -848,7 +843,8 @@ static uint32_t do_phy_read(lan9118_state *s, int reg)
-     case 30: /* Interrupt mask */
-         return s->phy_int_mask;
-     default:
--        BADF("PHY read reg %d\n", reg);
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "do_phy_read: PHY read reg %d\n", reg);
-         return 0;
-     }
- }
-@@ -876,7 +872,8 @@ static void do_phy_write(lan9118_state *s, int reg, uint32_t val)
-         phy_update_irq(s);
-         break;
-     default:
--        BADF("PHY write reg %d = 0x%04x\n", reg, val);
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "do_phy_write: PHY write reg %d = 0x%04x\n", reg, val);
-     }
- }
- 
-@@ -1209,7 +1206,8 @@ static void lan9118_16bit_mode_write(void *opaque, hwaddr offset,
-         return;
-     }
- 
--    hw_error("lan9118_write: Bad size 0x%x\n", size);
-+    qemu_log_mask(LOG_GUEST_ERROR,
-+                  "lan9118_16bit_mode_write: Bad size 0x%x\n", size);
- }
- 
- static uint64_t lan9118_readl(void *opaque, hwaddr offset,
-@@ -1324,7 +1322,8 @@ static uint64_t lan9118_16bit_mode_read(void *opaque, hwaddr offset,
-         return lan9118_readl(opaque, offset, size);
-     }
- 
--    hw_error("lan9118_read: Bad size 0x%x\n", size);
-+    qemu_log_mask(LOG_GUEST_ERROR,
-+                  "lan9118_16bit_mode_read: Bad size 0x%x\n", size);
-     return 0;
- }
- 
+     s->max_rx_frags =
 -- 
 2.7.4
 
