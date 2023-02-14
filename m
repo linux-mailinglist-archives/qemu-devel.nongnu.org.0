@@ -2,99 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84EE8696871
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 16:48:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EE6969687F
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 16:50:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRxWk-00046a-2L; Tue, 14 Feb 2023 10:47:30 -0500
+	id 1pRxZZ-000755-Gr; Tue, 14 Feb 2023 10:50:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pRxWe-00045b-07
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 10:47:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from
+ <BATV+eea51c705e3923a17c65+7114+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pRxZX-00074x-PR
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 10:50:23 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pRxWc-0003Lg-Gt
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 10:47:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676389641;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=2urHVZqRZZDidq5JEdF+J+lTVlTrPmud88WyeCd9IIE=;
- b=XU60w1tnLBs3ImuNWGaWY1OkWoAb58C/xMqLHFsGatwbUNFmb7ZUPaAiqMk6iLt4wHudK/
- gg756NCuaah/POqXP5/bpaIaaoQryWhl5vAnmw8n6ELficy5cHG3Df2AVtUe5f3hjUOZmM
- nR/wA9bnGLtxkRIdS+aaaxPl0ZXti7Q=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-509-Y82jRgEUMuinck35Pa7rWg-1; Tue, 14 Feb 2023 10:47:19 -0500
-X-MC-Unique: Y82jRgEUMuinck35Pa7rWg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- r14-20020a05600c35ce00b003e10bfcd160so8855216wmq.6
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 07:47:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2urHVZqRZZDidq5JEdF+J+lTVlTrPmud88WyeCd9IIE=;
- b=lJIxqWDnu3Zo2fp7qTKUn9OWJw42pzw9vY3sDTjvSrHDIR8zBMncZa77ALsh6qivqJ
- av0KVGajHMDLINFJwrxVGY+hIys+QQGaKW3Z/ygNrSBc78qtZ3z71P0MuXGHVDcOnhV+
- MrkXZSiCxBS4vVCj+3WMurxVcBYmKESwJzQKdkvWJy9R9batr5y9R6cbnO0HlvanDU+i
- /L4tD/dY9hzXDwxg2f99PRCkN3KwKL24bgvqmeJwP2Qx/qbxpTH8RaLHMTJLcq0D4bmf
- fp08vgdtJRRzLroli8/pqjHqPKk/UK2/Vz4eTmPXHHX3AtgR6wuTKKnfSFXUnM2BMSYx
- 8Crg==
-X-Gm-Message-State: AO0yUKUPj0SfjvQgh3rqeytRn0ErwkRBVGAXLFRZMlv00Z/dB7i2I4UE
- U+MBBmVHPUddp75PJB0xGpN0087jkgoNKm7Csl/nXqU8/kK7Mw7JharFne6F6BETYA24N0U4Alg
- tWgVIK+Oyf0KtQP0=
-X-Received: by 2002:adf:f64e:0:b0:2bf:cb6a:a7e with SMTP id
- x14-20020adff64e000000b002bfcb6a0a7emr2464392wrp.42.1676389638563; 
- Tue, 14 Feb 2023 07:47:18 -0800 (PST)
-X-Google-Smtp-Source: AK7set8saFIs8/Lum+u6WCvQ9zGd1jYprWQRkl6J1oL+2EPSMYbwDAIgaRnA/Hip5vpvl9XO/evMUg==
-X-Received: by 2002:adf:f64e:0:b0:2bf:cb6a:a7e with SMTP id
- x14-20020adff64e000000b002bfcb6a0a7emr2464379wrp.42.1676389638330; 
- Tue, 14 Feb 2023 07:47:18 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- w1-20020a5d4b41000000b002c54c0a5aa9sm10536130wrs.74.2023.02.14.07.47.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Feb 2023 07:47:17 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org,  Ilya Leoshkevich <iii@linux.ibm.com>,
- qemu-block@nongnu.org,  Alex Williamson <alex.williamson@redhat.com>,
- Fam Zheng <fam@euphon.net>,  Eric Blake <eblake@redhat.com>,  "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>,  Stefan Hajnoczi
- <stefanha@redhat.com>,  Halil Pasic <pasic@linux.ibm.com>,  David
- Hildenbrand <david@redhat.com>,  Thomas Huth <thuth@redhat.com>,  Eric
- Farman <farman@linux.ibm.com>,  qemu-s390x@nongnu.org,  John Snow
- <jsnow@redhat.com>,  Christian Borntraeger <borntraeger@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 1/3] migration: In case of postcopy, the memory ends in
- res_postcopy_only
-In-Reply-To: <3a3f4598-e7fc-0f22-51f9-029ce372af14@yandex-team.ru> (Vladimir
- Sementsov-Ogievskiy's message of "Tue, 14 Feb 2023 18:04:04 +0300")
-References: <20230208135719.17864-1-quintela@redhat.com>
- <20230208135719.17864-2-quintela@redhat.com>
- <61c84841-7018-edb2-806b-921e2065f940@yandex-team.ru>
- <87mt5m3e2d.fsf@secure.mitica>
- <3a3f4598-e7fc-0f22-51f9-029ce372af14@yandex-team.ru>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Tue, 14 Feb 2023 16:47:16 +0100
-Message-ID: <87y1p01c6z.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from
+ <BATV+eea51c705e3923a17c65+7114+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pRxZV-0003rJ-99
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 10:50:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+ :MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description;
+ bh=Pfba5L2M3Iq2ylyel7cac3F4Qe7HfPapHIptHHm9S74=; b=oMcfeShOHG9aWhSMMwH/7Zu5Pa
+ Z8P6oxoD7UCUkvWTx3cNzuLPikyfMC1t+Vf4tPJLF1jTE3pWGDGBtUyB401hsNrZCI55iXRoD0McZ
+ rWb6LKXY4BHDe8bnypQWDh26ac0vJsjI6dqkCJXgrTMkTdt4NMS5aHQGpYoDtl4ddlr2fm8Z04Ah8
+ TPE8VPF5guWftSrNDb2S2yZ2FsfzWFh8YgvdAGT3J0iCGtktIy5A4vmZB3DBZHYgt6rcZh5ZO+Dh3
+ q53fYZnJpNNIDwooGj8KWwZMH8JPT8Bwp8dPNnItUbOJNobpvVrtWARbTqQUtS/N/yOGp4yMi2X9s
+ FJha3VNw==;
+Received: from [213.205.241.95] (helo=[127.0.0.1])
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1pRxYf-009fyy-2i; Tue, 14 Feb 2023 15:50:12 +0000
+Date: Tue, 14 Feb 2023 16:50:08 +0100
+From: David Woodhouse <dwmw2@infradead.org>
+To: paul@xen.org, Paul Durrant <xadimgnik@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+CC: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>, 
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?ISO-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
+Subject: Re: [PATCH v10 49/59] i386/xen: handle HVMOP_get_param
+User-Agent: K-9 Mail for Android
+In-Reply-To: <5cf88926-c53b-7c08-972d-9a8d822cfd2e@xen.org>
+References: <20230201143148.1744093-1-dwmw2@infradead.org>
+ <20230201143148.1744093-50-dwmw2@infradead.org>
+ <5cf88926-c53b-7c08-972d-9a8d822cfd2e@xen.org>
+Message-ID: <0BF8A9D2-C82F-4B6D-A831-CB87C29A8F5A@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+eea51c705e3923a17c65+7114+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,32 +83,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
-> On 09.02.23 21:10, Juan Quintela wrote:
->> Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
->>> On 08.02.23 16:57, Juan Quintela wrote:
->>>> So remove last assignation of res_compatible.
->> 
->
->
-> I think, that the order of logic and documentation changing since introducing _estimate is a bit confused.
->
-> But I agree now, that we are safe to unite old compat and old postcopy_only into one variable, as we want only
->
-> 1. the total sum, to probably go to migration_completion()
-> 2. pend_pre to probably go to postcopy_start()
->
-> So, patch is OK, and seems it changes absolutely nothing in logic. Thanks for explanations!
->
->
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-Thanks.
 
-You are welcome.
+On 14 February 2023 16:47:13 CET, Paul Durrant <xadimgnik@gmail=2Ecom> wro=
+te:
+>On 01/02/2023 14:31, David Woodhouse wrote:
+>> From: Joao Martins <joao=2Em=2Emartins@oracle=2Ecom>
+>>=20
+>> Which is used to fetch xenstore PFN and port to be used
+>> by the guest=2E This is preallocated by the toolstack when
+>> guest will just read those and use it straight away=2E
+>>=20
+>> Signed-off-by: Joao Martins <joao=2Em=2Emartins@oracle=2Ecom>
+>> Signed-off-by: David Woodhouse <dwmw@amazon=2Eco=2Euk>
+>> ---
+>>   target/i386/kvm/xen-emu=2Ec | 39 ++++++++++++++++++++++++++++++++++++=
++++
+>>   1 file changed, 39 insertions(+)
+>>=20
+>> diff --git a/target/i386/kvm/xen-emu=2Ec b/target/i386/kvm/xen-emu=2Ec
+>> index 75e62bc02f=2E=2E3d6ea7ca98 100644
+>> --- a/target/i386/kvm/xen-emu=2Ec
+>> +++ b/target/i386/kvm/xen-emu=2Ec
+>> @@ -762,6 +762,42 @@ out:
+>>       return true;
+>>   }
+>>   +static bool handle_get_param(struct kvm_xen_exit *exit, X86CPU *cpu,
+>> +                             uint64_t arg)
+>> +{
+>> +    CPUState *cs =3D CPU(cpu);
+>> +    struct xen_hvm_param hp;
+>> +    int err =3D 0;
+>> +
+>> +    /* No need for 32/64 compat handling */
+>> +    qemu_build_assert(sizeof(hp) =3D=3D 16);
+>> +
+>> +    if (kvm_copy_from_gva(cs, arg, &hp, sizeof(hp))) {
+>> +        err =3D -EFAULT;
+>> +        goto out;
+>> +    }
+>> +
+>> +    if (hp=2Edomid !=3D DOMID_SELF && hp=2Edomid !=3D xen_domid) {
+>> +        err =3D -ESRCH;
+>> +        goto out;
+>> +    }
+>> +
+>> +    switch (hp=2Eindex) {
+>> +    case HVM_PARAM_STORE_PFN:
+>> +        hp=2Evalue =3D XEN_SPECIAL_PFN(XENSTORE);
+>
+>Reviewed-by: Paul Durrant <paul@xen=2Eorg>
+>
+>=2E=2E=2E but this reminds me=2E=2E=2E I don't think you have code to see=
+d the grant table in any of the patches=2E It is guest ABI that the XenStor=
+e PFN is in entry 1 of the grant table=2E
 
+It's in there somewhere, perhaps in "phase 2" where we actually add a real=
+ XenStore rather than this sequence of 59 (and counting)=2E
+
+I even made XenStore map the grant (not that it actually *uses* the addres=
+s it gets back)=2E
 
