@@ -2,85 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC0926964BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 14:33:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C2C6964C0
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 14:34:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRvR1-0000fl-Jf; Tue, 14 Feb 2023 08:33:28 -0500
+	id 1pRvRL-0000mM-4R; Tue, 14 Feb 2023 08:33:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pRvQx-0000fD-Pd
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:33:23 -0500
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pRvQv-0006Nx-JA
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:33:23 -0500
-Received: by mail-oi1-x230.google.com with SMTP id bx13so12948012oib.13
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 05:33:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XZduQmscR/YtAnaZ7HruDvUXoLea9VnpvTgTGh7Bo0c=;
- b=HQqd11/8Te0g73JlCPdwprmN7tXovQOrLbXU5uYg3D7rdS6a+R3Wk8Abdz1gYFwSpc
- RJbhleP916k5Ilh948xg/IY2qmMIThd5OZKBJVoTR/J6QoghYSC+RprYRcv6gK7Re0pT
- IkWHHXXGLs2icI0ylYDHO9zq7OuHC3t6J5c8miRi8hALCxqbXdLWoU846XE/+XqN4z5i
- LINAgBPkWCJEb3809aHvhBAnP9Vw0urhttCrgjKS+8xdviSJMKpz+Km+DIlmI0y0BxZO
- ORHvflWVH3ekbj7SIp4yWrMNSVaP0P+AircO5WBvVsFUvMRq/e0FFULGqOTF2qwRPGcO
- a6kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XZduQmscR/YtAnaZ7HruDvUXoLea9VnpvTgTGh7Bo0c=;
- b=CrsivrwMf4LPrPsgDCFtEAH/XxfqqUmSnkbrAS4EhYg6c5rXB3Hqav+MyUvxIhQN//
- XpYmNyKTTXPgVVyJoMDlI4T+X2SiKnwIXfiS+cEeEBwvDOKeg8DMpGOWazKchz2cRdfv
- fgIiKJl3IyQpJUnSFSIhL/Ri2Ox2C8ubYfLYLnhwzS81REQJHCmXO4nwgUL+ALJSpP8p
- 7GOHKbNNjvV+omk41uvLoKIwkNiQjMarqDawjqrs22dl252LWgNX0JruxGu8ddzolHb3
- FQz54YBEzQmr0W4UDuDLCldhyPl3QwHHhkDOfydY+/EWanplOFpejnbqtVc0bd5GCpq/
- 2w1A==
-X-Gm-Message-State: AO0yUKUuT1zwGWIeNf5sn5KFx0c/TBM+OjVeo7B35sS2YXD1DY1nR85L
- LrWSmHSFQUys1kDQb4uDWiajCA==
-X-Google-Smtp-Source: AK7set/qXsLHhK9oRVgPaYwrZ+X8RMNxyRD5jANbK15pkGd+/7Q6XiqZzW1OGL+frvV2NWX5u4KnIw==
-X-Received: by 2002:a05:6808:2907:b0:378:9d08:5d34 with SMTP id
- ev7-20020a056808290700b003789d085d34mr919187oib.8.1676381599622; 
- Tue, 14 Feb 2023 05:33:19 -0800 (PST)
-Received: from [192.168.68.107] ([191.19.40.109])
- by smtp.gmail.com with ESMTPSA id
- q185-20020acac0c2000000b0035a9003b8edsm6086760oif.40.2023.02.14.05.33.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Feb 2023 05:33:19 -0800 (PST)
-Message-ID: <d4c0ed02-f780-bebe-ffb4-7329f4007998@ventanamicro.com>
-Date: Tue, 14 Feb 2023 10:33:15 -0300
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRvRG-0000lh-Uk
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:33:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRvRE-0006R5-L9
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:33:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676381619;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LgA3r97qdXGEICjuVTLv0ZlwP3ThIfgGHuibj9Twhyw=;
+ b=arv3PZhbTE+Kw1wQadCiIRoqh7lmLvdqsb26GSQ2HkQPicW8ZFJY8Un5uholRh3yBa3Jy6
+ hd4LN8rN9eJqpinc9AbDYhcMw2QYOdtUwi8aD7CzMdaoR3HBUGqD527eEjYt/2GlC24eTJ
+ AWYSedN3+s9WxPvK68GRwK7L85+BSeY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-637-8AlyqY5mMjiAXEv1kxoa7g-1; Tue, 14 Feb 2023 08:33:38 -0500
+X-MC-Unique: 8AlyqY5mMjiAXEv1kxoa7g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F2234100F906;
+ Tue, 14 Feb 2023 13:33:37 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C9294400D927;
+ Tue, 14 Feb 2023 13:33:36 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B3D5421E6A1F; Tue, 14 Feb 2023 14:33:35 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org,  Beraldo Leal <bleal@redhat.com>,  Eric Blake
+ <eblake@redhat.com>,  Stefan Weil <sw@weilnetz.de>,  Alex =?utf-8?Q?Benn?=
+ =?utf-8?Q?=C3=A9e?=
+ <alex.bennee@linaro.org>,  Paolo Bonzini <pbonzini@redhat.com>,  Laurent
+ Vivier <lvivier@redhat.com>,  "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>,  Gerd Hoffmann <kraxel@redhat.com>,  Michael Roth
+ <michael.roth@amd.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,
+ Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Thomas Huth
+ <thuth@redhat.com>,  Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: Re: [PATCH v3 06/10] monitor: release the lock before calling close()
+References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
+ <20230207142535.1153722-7-marcandre.lureau@redhat.com>
+Date: Tue, 14 Feb 2023 14:33:35 +0100
+In-Reply-To: <20230207142535.1153722-7-marcandre.lureau@redhat.com> (marcandre
+ lureau's message of "Tue, 7 Feb 2023 18:25:31 +0400")
+Message-ID: <873578id74.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [Patch 12/14] target/riscv: Fix check for vectore load/store
- instructions when EEW=64
-Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230214083833.44205-1-liweiwei@iscas.ac.cn>
- <20230214083833.44205-13-liweiwei@iscas.ac.cn>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230214083833.44205-13-liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x230.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,42 +90,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Nit in the title: I believe you meant vector. "Vettore" would be fine too.
+marcandre.lureau@redhat.com writes:
 
-On 2/14/23 05:38, Weiwei Li wrote:
-> The V extension supports all vector load and store instructions except
-> the V extension does not support EEW=64 for index values when XLEN=32
-> (Section 18.3)
-> 
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> As per comment, presumably to avoid syscall in critical section.
+>
+> Fixes: 0210c3b39bef08 ("monitor: Use LOCK_GUARD macros")
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > ---
+>  monitor/fds.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/monitor/fds.c b/monitor/fds.c
+> index 26b39a0ce6..03c5e97c35 100644
+> --- a/monitor/fds.c
+> +++ b/monitor/fds.c
+> @@ -80,7 +80,7 @@ void qmp_getfd(const char *fdname, Error **errp)
+>          return;
+>      }
+>=20=20
+> -    QEMU_LOCK_GUARD(&cur_mon->mon_lock);
+> +    qemu_mutex_lock(&cur_mon->mon_lock);
+>      QLIST_FOREACH(monfd, &cur_mon->fds, next) {
+>          if (strcmp(monfd->name, fdname) !=3D 0) {
+>              continue;
+> @@ -88,6 +88,7 @@ void qmp_getfd(const char *fdname, Error **errp)
+>=20=20
+>          tmp_fd =3D monfd->fd;
+>          monfd->fd =3D fd;
+> +        qemu_mutex_unlock(&cur_mon->mon_lock);
+>          /* Make sure close() is outside critical section */
+>          close(tmp_fd);
+>          return;
+> @@ -98,6 +99,7 @@ void qmp_getfd(const char *fdname, Error **errp)
+>      monfd->fd =3D fd;
+>=20=20
+>      QLIST_INSERT_HEAD(&cur_mon->fds, monfd, next);
+> +    qemu_mutex_unlock(&cur_mon->mon_lock);
+>  }
+>=20=20
+>  void qmp_closefd(const char *fdname, Error **errp)
 
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+This confused me.  I think I understand now, but let's double-check.
 
->   target/riscv/insn_trans/trans_rvv.c.inc | 9 ++++-----
->   1 file changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index 9b2c5c9ac0..5dbdce073b 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -287,13 +287,12 @@ static bool vext_check_st_index(DisasContext *s, int vd, int vs2, int nf,
->                  require_nf(vd, nf, s->lmul);
->   
->       /*
-> -     * All Zve* extensions support all vector load and store instructions,
-> -     * except Zve64* extensions do not support EEW=64 for index values
-> -     * when XLEN=32. (Section 18.2)
-> +     * V extension supports all vector load and store instructions,
-> +     * except V extension does not support EEW=64 for index values
-> +     * when XLEN=32. (Section 18.3)
->        */
->       if (get_xl(s) == MXL_RV32) {
-> -        ret &= (!has_ext(s, RVV) &&
-> -                s->cfg_ptr->ext_zve64f ? eew != MO_64 : true);
-> +        ret &= (eew != MO_64);
->       }
->   
->       return ret;
+You're reverting commit 0210c3b39bef08 for qmp_getfd() because it
+extended the criticial section beyond the close(), invalidating the
+comment.  Correct?
+
+Did it actually break anything?
+
 
