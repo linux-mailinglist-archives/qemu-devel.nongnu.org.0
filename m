@@ -2,96 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32CA269682C
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 16:36:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4067F696839
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 16:37:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRxL7-0003mz-Sd; Tue, 14 Feb 2023 10:35:29 -0500
+	id 1pRxMv-000650-7a; Tue, 14 Feb 2023 10:37:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pRxL4-0003Zd-S3
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 10:35:26 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pRxL2-00065N-Qk
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 10:35:26 -0500
-Received: by mail-wr1-x429.google.com with SMTP id a2so16085218wrd.6
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 07:35:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=8HrFs4E258MGtaS4we3mj1ofzHFL8cHjJv264PZ8Yb4=;
- b=gnHtrvAeNuzzjo11oSOw4Dn6y2kpQKh6fKSID5YfrWjbEQ5YMmjaiwPAeSBpIngqtb
- 5DnyAjwdv1DLbYvIjZZChPsxMlRoYrQHbdbvQnIG6Eow9wTdLzJGKhjZQYn3POPiSCJn
- hFgzWLLVJ3COkDa1SzbGn4y2rdU7n+TBB+698b70dg0IVM+N3KaND1HCom/KaLCc9hQx
- h2UhlYTgNmVAuTz2+Y6R09sRSGzUi7wkZLkFm/hsAeIDDqpxa9dYwJaPUQDvvb14BKBv
- cd/h85lavJU736pmHPqAX8IIOgsmu9wdf6k/OcKIUg4qwlO53uP4GPnSCy0HVCv7ESSE
- 3/DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8HrFs4E258MGtaS4we3mj1ofzHFL8cHjJv264PZ8Yb4=;
- b=Gv1G1SYXwZQ2R09DFt8N4I3fD58sIFCJUM3BbtjytdDZEfcK8w4lhXCKbmGj2Q9Qcx
- SFWSKlZi/JG+yd4XQt6vycoz3xy2ykHA829P2pz6lT5347/Rha83NoTSSxFjtJZLyFDf
- k4vcayzmdLKPFGEmJV7MMzApDJlB+aOAaY5t2V4trs0/iLSrPuozgAA+G07Uff/dz1f9
- wxdyyOthHZwa242AsgxJ2OlgS5sR5N8UIsqWGxiVOcMRvLrDp7XNycKx3xrhEK+mcUWD
- zh4rfmJGex66Ta8xAxHqcmOzySRXrQPEaTYDAAOUSzSPvxmMUKRBPeIIe7WaVZdUOA5Z
- i8hg==
-X-Gm-Message-State: AO0yUKUE4jTfGfs5XLz085bIQ7naPQxWCsrdMX8YoOO8vbiZE4q0dRnX
- ff/hqSNm3Zx8Mc2K4mVAKjw=
-X-Google-Smtp-Source: AK7set/8jfjqbViA0CubmEVVfdZACYjCfNIjfyQelkDUdHME9DPGUGT+COy0rQYCw20YjtJJzcmjRA==
-X-Received: by 2002:adf:e885:0:b0:2c3:dc42:525d with SMTP id
- d5-20020adfe885000000b002c3dc42525dmr2617352wrm.36.1676388920907; 
- Tue, 14 Feb 2023 07:35:20 -0800 (PST)
-Received: from [10.95.154.108] (54-240-197-224.amazon.com. [54.240.197.224])
- by smtp.gmail.com with ESMTPSA id
- d1-20020adff841000000b002c5640f9bf9sm2019308wrq.85.2023.02.14.07.35.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Feb 2023 07:35:20 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <3c6b57d8-cb41-f60f-e07d-1574fcdc8f07@xen.org>
-Date: Tue, 14 Feb 2023 15:35:18 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v10 48/59] i386/xen: Reserve Xen special pages for
- console, xenstore rings
-Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>,
+ (Exim 4.90_1) (envelope-from
+ <BATV+eea51c705e3923a17c65+7114+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pRxMr-00063I-84
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 10:37:17 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+eea51c705e3923a17c65+7114+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pRxMp-0006PN-Kd
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 10:37:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+ :MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description;
+ bh=VY3zlrXd1/MIyZEnAUdyyDgsUeaaGI/tReH6nEx4jlw=; b=Asu7QBMWnxyfF+qy7jrW2BQ4Kl
+ MJPRLAfbgsO9UQ+gJ7ed4LADRdCnMiqJmGoKuJaInof1lBmV1dFKUhqshb5tavjb494SuUqeRiO2o
+ KtdS+ftci4/LRoCpe5upfcQR2hymgUV8rcCKHQZZonp5NpeYvuVe3widqM9hRr47iaBzBEAet8pte
+ RZIuJsSqmuqArapRIDdDvbs6+3Eb69nzIBpoNfecqjto4mMsQ1KFDeY2bEmW/PN/AoONTICx2oBp3
+ bp9n90Mw5b8KpPPqurgacEUapss+g6iXwr2BBX2jXTE7KE4U8zoPJ8GobzPOOn7WuZns+tmTJ4vEA
+ Db0aQAhQ==;
+Received: from [213.205.241.95] (helo=[127.0.0.1])
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1pRxM5-009fnv-0D; Tue, 14 Feb 2023 15:37:11 +0000
+Date: Tue, 14 Feb 2023 16:37:07 +0100
+From: David Woodhouse <dwmw2@infradead.org>
+To: paul@xen.org, Paul Durrant <xadimgnik@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
+CC: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>, 
  Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?ISO-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
+Subject: Re: [PATCH v10 47/59] i386/xen: handle PV timer hypercalls
+User-Agent: K-9 Mail for Android
+In-Reply-To: <602bab6c-22c2-532c-0f94-48d1df6b1a19@xen.org>
 References: <20230201143148.1744093-1-dwmw2@infradead.org>
- <20230201143148.1744093-49-dwmw2@infradead.org>
-Organization: Xen Project
-In-Reply-To: <20230201143148.1744093-49-dwmw2@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.35, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <20230201143148.1744093-48-dwmw2@infradead.org>
+ <602bab6c-22c2-532c-0f94-48d1df6b1a19@xen.org>
+Message-ID: <1B17019C-1C4F-4A0C-8B91-9FFB07EE7457@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+eea51c705e3923a17c65+7114+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,24 +83,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 01/02/2023 14:31, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
-> 
-> Xen has eight frames at 0xfeff8000 for this; we only really need two for
-> now and KVM puts the identity map at 0xfeffc000, so limit ourselves to
-> four.
-> 
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->   include/sysemu/kvm_xen.h  |  8 ++++++++
->   target/i386/kvm/xen-emu.c | 10 ++++++++++
->   2 files changed, 18 insertions(+)
-> 
 
-Reviewed-by: Paul Durrant <paul@xen.org>
+
+On 14 February 2023 11:10:05 CET, Paul Durrant <xadimgnik@gmail=2Ecom> wro=
+te:
+>On 01/02/2023 14:31, David Woodhouse wrote:
+>> From: Joao Martins <joao=2Em=2Emartins@oracle=2Ecom>
+>>=20
+>> Introduce support for one shot and periodic mode of Xen PV timers,
+>> whereby timer interrupts come through a special virq event channel
+>> with deadlines being set through:
+>>=20
+>> 1) set_timer_op hypercall (only oneshot)
+>> 2) vcpu_op hypercall for {set,stop}_{singleshot,periodic}_timer
+>> hypercalls
+>>=20
+>> Signed-off-by: Joao Martins <joao=2Em=2Emartins@oracle=2Ecom>
+>> Signed-off-by: David Woodhouse <dwmw@amazon=2Eco=2Euk>
+>> ---
+>>   hw/i386/kvm/xen_evtchn=2Ec  |  31 +++++
+>>   hw/i386/kvm/xen_evtchn=2Eh  |   2 +
+>>   target/i386/cpu=2Eh         |   5 +
+>>   target/i386/kvm/xen-emu=2Ec | 245 +++++++++++++++++++++++++++++++++++=
+++-
+>>   target/i386/machine=2Ec     |   1 +
+>>   5 files changed, 282 insertions(+), 2 deletions(-)
+>>=20
+>[snip]
+>> @@ -1246,6 +1466,9 @@ static bool do_kvm_xen_handle_exit(X86CPU *cpu, s=
+truct kvm_xen_exit *exit)
+>>       }
+>>         switch (code) {
+>> +    case __HYPERVISOR_set_timer_op:
+>> +        return kvm_xen_hcall_set_timer_op(exit, cpu,
+>> +                                          exit->u=2Ehcall=2Eparams[0])=
+;
+>
+>There's a nasty little semantic subtlety here which has been missed=2E=2E=
+=2E If the guest is not in longmode then the timer value is actually split =
+across param[0] and param[1] (so that it is still 64-bits)=2E
+
+Ooh, good catch=2E Will fix that (perhaps tomorrow depending on what they =
+say when they look at the x-rays they just took of my knee :/ )
+
+Thanks=2E
 
 
