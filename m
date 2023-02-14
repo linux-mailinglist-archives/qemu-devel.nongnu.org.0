@@ -2,63 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02DAE69578B
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 04:43:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BEA469578C
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 04:44:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRmDa-0005an-8j; Mon, 13 Feb 2023 22:42:58 -0500
+	id 1pRmEH-0006H9-U9; Mon, 13 Feb 2023 22:43:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1pRmDX-0005aP-Gw
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 22:42:55 -0500
-Received: from mga05.intel.com ([192.55.52.43])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1pRmDV-00032N-Sv
- for qemu-devel@nongnu.org; Mon, 13 Feb 2023 22:42:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676346173; x=1707882173;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=ZOf2JFSITzrDcOXcY+ZJK4LaY48M4IaCLmb/ZuvYsnQ=;
- b=T7o0DqAQ9tSLUBveMQxS+POzYzdzLLWUKPcNgUcjspIUjyjO1KmT6snP
- RLIw4umD3qqalCjkEQLbo+H6maa74K/7oFsI/9PUKVT5pGPMF0rar790t
- OKAom2wUW7j80oZlN3ihiOp4muRXYMNpX2tU84O8GQVppbZaqnQ04APP2
- lbRHw6YLyPos3A6ALOysCNHjefPj1YXdz002kUSLnov+05M/UJ5jPH5VQ
- Ar21XsLQA6YdhX/sc1GLbaWgR0fCnWDPomnfS/tosxveJYopGSTr0JMfg
- jSpchzOXYla8+zIHr18Pd1SSVSI9XUY0f6vrRNB9I57aTnnetq0Chkc8J g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="417284863"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; d="scan'208";a="417284863"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 19:42:50 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="662410558"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; d="scan'208";a="662410558"
-Received: from duan-server-s2600bt.bj.intel.com ([10.240.192.143])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 19:42:47 -0800
-From: Zhenzhong Duan <zhenzhong.duan@intel.com>
-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com, peterx@redhat.com, jasowang@redhat.com,
- pbonzini@redhat.com, richard.henderson@linaro.org, eduardo@habkost.net,
- marcel.apfelbaum@gmail.com, david@redhat.com, philmd@linaro.org
-Subject: [PATCH] memory: Optimize replay of guest mapping
-Date: Tue, 14 Feb 2023 11:42:11 +0800
-Message-Id: <20230214034211.683203-1-zhenzhong.duan@intel.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
+ id 1pRmEF-0006Fy-SG
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 22:43:40 -0500
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
+ id 1pRmEE-00035V-04
+ for qemu-devel@nongnu.org; Mon, 13 Feb 2023 22:43:39 -0500
+Received: by mail-pg1-x534.google.com with SMTP id r18so9424218pgr.12
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 19:43:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=qSvo0GFgcwxKxPZD0w75Wyb8vISG0jYo5nrNORtNpXw=;
+ b=IZGIkR+WPQoJQzgVXwoisXPpUzzliMkqUqtzwHl89+Q2mqcJCCU7coSWZU7+02KxWn
+ 6nZM42ADgIlwMqO8YGzLuivmviodJfNICSiuiRi+Kd+nfeVIaVjF58g/3dkLvRcfTpwv
+ iTKSfNkyxUCY/V5xH5N0xmBWP4z4JeG2j7deFXZKR3s+2dgOQTfiq3n273lUPbUjxYSc
+ TMUbc2HWfgnmBzOYyOjju3m/FpvZg2waeQ5U8WJd5TCf6/RQcEHd8rsIC3bNSf8WO+65
+ MFP3vaJaLvWSCNOzCXRxicpoxdzLKf/4RsuMciuIxBV+IfaPHX+AQPlEBQn+9pZYAIIB
+ /Jnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qSvo0GFgcwxKxPZD0w75Wyb8vISG0jYo5nrNORtNpXw=;
+ b=mJOhojbXT/plhTcL7q57VgryaEZ9sLgGbFSLp/ktlv/rEmG6plct0RZ8W0s6d9JnBg
+ 5fQhAshikeqMOP7DjP7PRMcK8O+ugvhIP8W0K5+CfN08XX5pcqcZGQjvO0R6ycC3woWc
+ vR7Ao0HHffKa0pCrDGhAePCpu6r37P6n/6kFEroEebycSKDc9VW0KDeQkG7uVdIpJZNd
+ /IqfRLU6Ub65gk+aTgGLh1zcCG3goLzlPg91CZnmGFs/B4TzyWyl0YZL7grDFtHJUGZO
+ GtLB6JECmzQZEao5CWGUMKSMqZsN2P4HaP/H3tZk3vkcQR38bdG6y1aXoRI5kaDgcAVQ
+ Uscg==
+X-Gm-Message-State: AO0yUKXNjYH6Jg5Nk2nrhW1HUG4pKNvEGYME0OQi1u6YnwH800lSKVAC
+ e29cFx3dg38BgRypzpDCw3aUwQ==
+X-Google-Smtp-Source: AK7set/7cSBCNFOiLgF8M/Fg5J7oddlh8SSx8tIIL0Gp8PogmLmTEkXVuFZXLnuacl6HLFTo3hol1A==
+X-Received: by 2002:aa7:8e88:0:b0:58d:abd5:504a with SMTP id
+ a8-20020aa78e88000000b0058dabd5504amr613906pfr.31.1676346216393; 
+ Mon, 13 Feb 2023 19:43:36 -0800 (PST)
+Received: from sunil-laptop ([49.206.14.226]) by smtp.gmail.com with ESMTPSA id
+ a9-20020aa780c9000000b00591b0c847b5sm8584763pfn.218.2023.02.13.19.43.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Feb 2023 19:43:36 -0800 (PST)
+Date: Tue, 14 Feb 2023 09:13:28 +0530
+From: Sunil V L <sunilvl@ventanamicro.com>
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Andrew Jones <ajones@ventanamicro.com>,
+ Anup Patel <apatel@ventanamicro.com>,
+ Atish Kumar Patra <atishp@rivosinc.com>
+Subject: Re: [PATCH V2 04/10] hw/riscv/virt: virt-acpi-build.c: Add basic
+ ACPI tables
+Message-ID: <Y+sDYFI+ku5/S1+J@sunil-laptop>
+References: <20230213144038.2547584-1-sunilvl@ventanamicro.com>
+ <20230213144038.2547584-5-sunilvl@ventanamicro.com>
+ <9e7edd02-aa8e-c146-d67c-aa255a8aa6e5@ventanamicro.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.43;
- envelope-from=zhenzhong.duan@intel.com; helo=mga05.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9e7edd02-aa8e-c146-d67c-aa255a8aa6e5@ventanamicro.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=sunilvl@ventanamicro.com; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,56 +96,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On x86, there are two notifiers registered due to vtd-ir memory region
-splitting the whole address space. During replay of the address space
-for each notifier, the whole address space is scanned which is
-unnecessory.
+On Mon, Feb 13, 2023 at 03:48:04PM -0300, Daniel Henrique Barboza wrote:
+> Sunil,
+> 
+> This patch is a bit confusing to me. You're using functions that doesn't exist
+> in the code base yet (build_madt and build_rhct) because they are introduced
+> in later patches. This also means that this patch is not being compiled tested,
+> because otherwise it would throw a compile error. And the build of the file only
+> happens after patch 8.
+> 
+My intention was to add the caller also in the same patch where the
+function is added. I think I missed it when I split. Thanks!
 
-We only need to scan the space belong to notifier montiored space.
+> Now, there is no hard rule in QEMU that dictates that every patch must be compile
+> tested, but nevertheless this is a good rule to follow that makes our lives easier
+> when bisecting and cherry-pick individual patches.
+> 
+> My suggestion for this patch is:
+> 
+> - squash both patches 7 and 8 into this patch to allow the file to be built;
+> 
+Sure.
 
-Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
----
-Tested only on x86 with a net card passed to guest, ping/ssh pass.
-
- hw/i386/intel_iommu.c | 2 +-
- softmmu/memory.c      | 3 +--
- 2 files changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 98a5c304a7d7..6b1de80e8573 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -3831,7 +3831,7 @@ static void vtd_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
-                 .domain_id = vtd_get_domain_id(s, &ce, vtd_as->pasid),
-             };
+> - remove the code that is referring to stuff that you haven't add yet:
+> 
+> $ git diff
+> diff --git a/hw/riscv/virt-acpi-build.c b/hw/riscv/virt-acpi-build.c
+> index 3c4da6c385..eb17029b64 100644
+> --- a/hw/riscv/virt-acpi-build.c
+> +++ b/hw/riscv/virt-acpi-build.c
+> @@ -156,12 +156,6 @@ virt_acpi_build(RISCVVirtState *s, AcpiBuildTables *tables)
+>      acpi_add_table(table_offsets, tables_blob);
+>      build_fadt_rev6(tables_blob, tables->linker, s, dsdt);
+> -    acpi_add_table(table_offsets, tables_blob);
+> -    build_madt(tables_blob, tables->linker, s);
+> -
+> -    acpi_add_table(table_offsets, tables_blob);
+> -    build_rhct(tables_blob, tables->linker, s);
+> -
+>      /* XSDT is pointed to by RSDP */
+>      xsdt = tables_blob->len;
+>      build_xsdt(tables_blob, tables->linker, table_offsets, s->oem_id,
+> 
+> 
+> - in patch 5, add back the lines in virt_acpi_build() that uses build_madt();
+> 
+> - in patch 6, add back the lines in virt_acpi_build() that uses build_rhct();
+> 
+> 
+> This will make this patch to be compiled and built right away without interfering with
+> the end result of the series.
+>
+Thanks!
  
--            vtd_page_walk(s, &ce, 0, ~0ULL, &info, vtd_as->pasid);
-+            vtd_page_walk(s, &ce, n->start, n->end, &info, vtd_as->pasid);
-         }
-     } else {
-         trace_vtd_replay_ce_invalid(bus_n, PCI_SLOT(vtd_as->devfn),
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 9d64efca269b..f096716e6e78 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1923,7 +1923,6 @@ uint64_t memory_region_iommu_get_min_page_size(IOMMUMemoryRegion *iommu_mr)
- 
- void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
- {
--    MemoryRegion *mr = MEMORY_REGION(iommu_mr);
-     IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_GET_CLASS(iommu_mr);
-     hwaddr addr, granularity;
-     IOMMUTLBEntry iotlb;
-@@ -1936,7 +1935,7 @@ void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
- 
-     granularity = memory_region_iommu_get_min_page_size(iommu_mr);
- 
--    for (addr = 0; addr < memory_region_size(mr); addr += granularity) {
-+    for (addr = n->start; addr < n->end; addr += granularity) {
-         iotlb = imrc->translate(iommu_mr, addr, IOMMU_NONE, n->iommu_idx);
-         if (iotlb.perm != IOMMU_NONE) {
-             n->notify(n, &iotlb);
--- 
-2.25.1
+> 
+> One more suggestion:
+> 
+> 
+> On 2/13/23 11:40, Sunil V L wrote:
+> > Add few basic ACPI tables and DSDT with few devices in a
+> > new file virt-acpi-build.c.
+> > 
+> > These are mostly leveraged from arm64.
+> 
+> Quick rant that you've already heard: I don't really understand why there is so
+> much ACPI code duplication everywhere. I really don't. E.g. acpi_align_size() is
+> copied verbatim in hw/arm/virt-acpi-build.c, hw/i386/acpi-build.c and
+> hw/loongarch/acpi-build.c. I don't see why we can't have a common file in hw/acpi
+> with helpers and so on that every ACPI architecture can use, and then the
+> individual drivers for each arch can have its own magic sauce.
+>
+I completely agree that we better avoid duplication But I am bit
+hesitant in this case because,
+1) Low level functions which help in creating the namespace/static
+tables are already common (ex: aml_append)
 
+2) Using these basic routines, individual platforms can create the
+namespace with appropriate devices and the methods.
+
+ACPI name space is tightly coupled with a platform. While there may be
+common devices like processors, uart etc, there can be difference in the
+ACPI methods for each of those devices. For ex: CPU objects for one
+platform may support _LPI method. uart may support _DSD for one platform
+and other may use totally different UART. If we have to create common routines,
+we will have to decide on all parameters the common function would need for
+different platforms. Same concern with fw_cfg/virtio etc which look same
+now but in future one platform can add a new method for these devices.
+
+IMHO, even though it looks like we have the same function in each architecture
+currently, this model allows us to have platforms with different devices with
+different methods/features. Creating common routines now would probably make
+them difficult to use in future. 
+
+acpi_align_size() is a simple wrapper. We don't need it if we directly
+use the common function.
+
+Since I see insistence let me try moving few functions like fw_cfg (virtio, pci in
+future) to a common file in hw/acpi.
+ 
+> All this said, instead of mentioning "this is mostly leveraged from arm64", you
+> can make a brief summary of the changes you've done from the arm64 version. This
+> will help guide the review into focusing on the novel code you're adding and
+> ignore the copied bits.
+> 
+Sure.
+
+Thanks!
+Sunil
 
