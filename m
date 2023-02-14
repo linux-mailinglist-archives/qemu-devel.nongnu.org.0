@@ -2,58 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BAFB6962E0
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 12:57:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EA8C6962E5
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 12:57:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRtv8-0000Be-O9; Tue, 14 Feb 2023 06:56:26 -0500
+	id 1pRtwH-00013g-P1; Tue, 14 Feb 2023 06:57:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pRtv6-0000BO-Be
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:56:24 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRtwF-00013T-TX
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:57:35 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pRtv4-0001pw-N7
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:56:24 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRtwE-00051O-Ao
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:57:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676375781;
+ s=mimecast20190719; t=1676375853;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1xWl7ctJrkjos8PT4h6KfbPVZq7+qQlz5o2WBl40J2c=;
- b=Umodu1EbUtBgnZG8PzAsPn1vDeCGr1vWn5u7h7teBzYu6Hkihkvt/hJHfF7PrJZoFEfe2z
- MnEehPS+JgYeMBM5NQNWGC4/J8arsdd4U1TZ1LwZHfrYOcDUmbp4x3a1cFge1fYelFlZD7
- b75qsvLOsyhocQahPI0AwPo3HTDaABE=
+ bh=cx8a1QSD0I9lVyzTDR1Pf1IxUEjnW47kYEfQ5kstWAo=;
+ b=UUyQG9BZb1SI/l+Ijo0lz+ws/eWIiyBdvYSFr9FPvLZEsg6doJGa0HJdPQ/hkc/LqPrD0B
+ batTvCvqymfINeSsqW5w0+CTj879NhM8MjspeE3EFAaqUWCwq67d0rRo2SoCf4wFBWuLOE
+ /Jo0oPu0ZM06DHu2u02DLJkohCKHqDk=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-652-jkhTG1ZNPiOXiP2EwqS37g-1; Tue, 14 Feb 2023 06:56:20 -0500
-X-MC-Unique: jkhTG1ZNPiOXiP2EwqS37g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-320-Tt48viOGNgGPonnzzh1FDA-1; Tue, 14 Feb 2023 06:57:30 -0500
+X-MC-Unique: Tt48viOGNgGPonnzzh1FDA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 604C985A588;
- Tue, 14 Feb 2023 11:56:20 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 87D9F40CE2A7;
- Tue, 14 Feb 2023 11:56:19 +0000 (UTC)
-Date: Tue, 14 Feb 2023 12:56:18 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Aihua Liang <aliang@redhat.com>
-Subject: Re: [PATCH] block: temporarily hold the new AioContext of bs_top in
- bdrv_append()
-Message-ID: <Y+t24h3RrnCg8mYl@redhat.com>
-References: <20230214105156.316586-1-sgarzare@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1B13380D0E2;
+ Tue, 14 Feb 2023 11:57:30 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E86D4492B16;
+ Tue, 14 Feb 2023 11:57:29 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E481321E6A1F; Tue, 14 Feb 2023 12:57:28 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-devel@nongnu.org,  eblake@redhat.com,  eduardo@habkost.net,
+ pbonzini@redhat.com,  marcel.apfelbaum@gmail.com,  mst@redhat.com,
+ philmd@linaro.org,  den-plotnikov@yandex-team.ru,
+ antonkuchin@yandex-team.ru,  "reviewer:Incompatible changes"
+ <libvir-list@redhat.com>
+Subject: Re: [PATCH v4 14/16] qapi: deprecate "device" field of DEVICE_* events
+References: <20230213140103.1518173-1-vsementsov@yandex-team.ru>
+ <20230213140103.1518173-15-vsementsov@yandex-team.ru>
+ <Y+pFe4bRCqbJJbp0@redhat.com> <87bklwoce9.fsf@pond.sub.org>
+ <Y+ts1vBvI+IEH//K@redhat.com>
+Date: Tue, 14 Feb 2023 12:57:28 +0100
+In-Reply-To: <Y+ts1vBvI+IEH//K@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Tue, 14 Feb 2023 11:13:26 +0000")
+Message-ID: <87fsb8jw7r.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230214105156.316586-1-sgarzare@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -77,104 +89,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 14.02.2023 um 11:51 hat Stefano Garzarella geschrieben:
-> bdrv_append() is called with bs_top AioContext held, but
-> bdrv_attach_child_noperm() could change the AioContext of bs_top.
-> 
-> bdrv_replace_node_noperm() calls bdrv_drained_begin() starting from
-> commit 2398747128 ("block: Don't poll in bdrv_replace_child_noperm()").
-> bdrv_drained_begin() can call BDRV_POLL_WHILE that assumes the new lock
-> is taken, so let's temporarily hold the new AioContext to prevent QEMU
-> from failing in BDRV_POLL_WHILE when it tries to release the wrong
-> AioContext.
-> 
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2168209
-> Reported-by: Aihua Liang <aliang@redhat.com>
-> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-> ---
-> I'm not sure whether to use the following Fixes tag. That commit added the
-> calls to bdrv_drained_begin() in bdrv_replace_node_noperm(), but maybe the
-> problem was pre-existing.
-> 
-> Fixes: 2398747128 ("block: Don't poll in bdrv_replace_child_noperm()")
-> 
-> Note: a local reproducer is attached in the BZ, it is based on the Aihua Liang
-> report and it hits the issue with a 20% ratio.
-> ---
->  block.c | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
-> 
-> diff --git a/block.c b/block.c
-> index aa9062f2c1..0e2bc11e0b 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -5266,6 +5266,8 @@ int bdrv_drop_filter(BlockDriverState *bs, Error **errp)
->   * child.
->   *
->   * This function does not create any image files.
-> + *
-> + * The caller must hold the AioContext lock for @bs_top.
->   */
->  int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
->                  Error **errp)
-> @@ -5273,11 +5275,14 @@ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
->      int ret;
->      BdrvChild *child;
->      Transaction *tran = tran_new();
-> +    AioContext *old_context, *new_context;
->  
->      GLOBAL_STATE_CODE();
->  
->      assert(!bs_new->backing);
->  
-> +    old_context = bdrv_get_aio_context(bs_top);
-> +
->      child = bdrv_attach_child_noperm(bs_new, bs_top, "backing",
->                                       &child_of_bds, bdrv_backing_role(bs_new),
->                                       tran, errp);
-> @@ -5286,11 +5291,29 @@ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
->          goto out;
->      }
->  
-> +    /*
-> +     * bdrv_attach_child_noperm could change the AioContext of bs_top.
-> +     * bdrv_replace_node_noperm calls bdrv_drained_begin, so let's temporarily
-> +     * hold the new AioContext, since bdrv_drained_begin calls BDRV_POLL_WHILE
-> +     * that assumes the new lock is taken.
-> +     */
-> +    new_context = bdrv_get_aio_context(bs_top);
-> +
-> +    if (old_context != new_context) {
-> +        aio_context_release(old_context);
-> +        aio_context_acquire(new_context);
-> +    }
-> +
->      ret = bdrv_replace_node_noperm(bs_top, bs_new, true, tran, errp);
->      if (ret < 0) {
->          goto out;
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-If we take the error path, we return with new_context locked instead of
-old_context now.
+> On Tue, Feb 14, 2023 at 09:54:22AM +0100, Markus Armbruster wrote:
+>> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>>=20
+>> > On Mon, Feb 13, 2023 at 05:01:01PM +0300, Vladimir Sementsov-Ogievskiy=
+ wrote:
+>> >> The device field is redundant, because QOM path always include device
+>> >> ID when this ID exist.
+>> >
+>> > The flipside to that view is that applications configuring QEMU are
+>> > specifying the device ID for -device (CLI) / device_add (QMP) and
+>> > not the QOM path. IOW, the device ID is the more interesting field
+>> > than QOM path, so feels like the wrong one to be dropping.
+>>=20
+>> QOM path is a reliable way to identify a device.  Device ID isn't:
+>> devices need not have one.  Therefore, dropping the QOM path would be
+>> wrong.
+>>=20
+>> > Is there any real benefit to dropping this ?=20
+>>=20
+>> The device ID is a trap for the unwary: relying on it is fine until you
+>> run into a scenario where you have to deal with devices lacking IDs.
+>
+> When a mgmt app is configuring QEMU though, it does it exclusively
+> with device ID values. If I add a device "-device foo,id=3Ddev0",
+> and then later hot-unplug it "device_del dev0", it is pretty
+> reasonable to then expect that the DEVICE_DELETED even will then
+> include the ID value the app has been using elsewhere.
 
->      }
->  
-> +    if (old_context != new_context) {
-> +        aio_context_release(new_context);
-> +        aio_context_acquire(old_context);
-> +    }
-> +
->      ret = bdrv_refresh_perms(bs_new, tran, errp);
->  out:
->      tran_finalize(tran, ret);
+The management application would be well advised to use QOM paths with
+device_del, because only that works even for devices created by default
+(which have no ID), and devices the user created behind the management
+application's back.
 
-Strictly speaking, don't we need to hold the lock across
-tran_finalize(), too? It completes the bdrv_replace_node_noperm() call
-you covered above.
-
-Maybe bdrv_refresh_perms() and bdrv_refresh_limits(), too, in fact. We
-never clearly defined which functions need the lock and which don't, so
-hard to tell. It's really time to get rid of it.
-
-Kevin
+> If the mgmt app is using IDs everywhere when dealing with a device,
+> then trap effectively doesn't exist for their usage scenario.
 
 
