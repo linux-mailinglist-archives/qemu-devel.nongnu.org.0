@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 088A069592B
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 07:26:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 481A3695934
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 07:32:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRol5-0002c0-TN; Tue, 14 Feb 2023 01:25:43 -0500
+	id 1pRoqW-0003xU-Cn; Tue, 14 Feb 2023 01:31:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pRol3-0002bI-RF
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 01:25:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pRoqU-0003xC-2o
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 01:31:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pRol2-0004sh-9J
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 01:25:41 -0500
+ id 1pRoqS-0005t0-5t
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 01:31:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676355939;
+ s=mimecast20190719; t=1676356275;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mAOheiVDR9ru+yHpelyBKcAbzU8vpyppOn7BqAVksgQ=;
- b=WfsiWlvfbnWIRx8Nt51GmnPPwj3OceASgq5tU1/8XTIyaWjf6zPgghT04zV67AJLu7FLPZ
- tRZB4WDHydyp3OzVxOY/9XgLnmKKba7jWKaUDlaZt8P2ZoDksKG9jAghiTr9a7SgyQeckH
- CqM/V7S+s4Eqcbg9+DDm4hdEFhm8WJo=
-Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
- [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=YpkrvpHcZkLy9iXzSCQbgGo5ommAhfg4uLlW3j4Hs8g=;
+ b=Qsm2NThLmoNDGYqoonQK4Unswzft86EHLLSNa4lVBhMhzx0CrRCXOh2mUE8Uc7LNUdxn0H
+ BtZ3YYgwua2SkRYDSNp1kQhXTm7AfywY4JSh7xNWxauoLYumEz9/hxrn4IgtJ7YIC/vxpy
+ 3/Fy0h//mMgFjMKSlUhvj1Bz3TSA0Wc=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-658-KbxLwHdPPXOUQkNn-T7tsw-1; Tue, 14 Feb 2023 01:25:30 -0500
-X-MC-Unique: KbxLwHdPPXOUQkNn-T7tsw-1
-Received: by mail-oa1-f71.google.com with SMTP id
- 586e51a60fabf-1618a3467cdso7487727fac.9
- for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 22:25:30 -0800 (PST)
+ us-mta-177-Fh2No-YzNRCk1lDp3ou8kg-1; Tue, 14 Feb 2023 01:31:13 -0500
+X-MC-Unique: Fh2No-YzNRCk1lDp3ou8kg-1
+Received: by mail-oi1-f197.google.com with SMTP id
+ u9-20020a544389000000b00363be5d9f42so2920758oiv.15
+ for <qemu-devel@nongnu.org>; Mon, 13 Feb 2023 22:31:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mAOheiVDR9ru+yHpelyBKcAbzU8vpyppOn7BqAVksgQ=;
- b=o23eEu7bRbSFTiuyUKYdElOGLn2qjSH31KZOxkRyzFrv6RLKmXnfQPI3lSQVfMpgG7
- TJgw9J7v/MFU6N70YfKJAoWGtBj3OD9eSJFmYp7/FGzhyBLgAcXWGPXXF82HR0rxiNNY
- I82rN11IzpQbPyDaf1kX7fVS0MBgioL0L5EJ8LrO5mqDu2ciL1Stia4vjsC6Ig65BAYA
- Y0/3RwaCqI0B0vAshFboEwGXdS7mrL4CAwiMEFhLNmRosfvAsIOEYniJvIF5a1PJO/zt
- Cglb3Ync1y+m93QJDig0ATNGoNOKibFD8YAycrg3La7uOIZU/R4OXol7nMlDTIQoIRTg
- 7jtg==
-X-Gm-Message-State: AO0yUKVudLKK3kYkZNS/uxd1I3Sc5+153ZsTlT3UASiopydQUFFRoyxN
- yds+Pwm4Ra9y7weH1gBnkN37MNaI8mtTF2iXHzYGAvDt/Ts+2PiyY2GXwbxwZvVUGcfVrC7OhBa
- Zrqm0vAM/V9oaTd1Cw0SuTLUmR9ZLRBc=
-X-Received: by 2002:aca:705:0:b0:363:a978:6d41 with SMTP id
- 5-20020aca0705000000b00363a9786d41mr51103oih.280.1676355929533; 
- Mon, 13 Feb 2023 22:25:29 -0800 (PST)
-X-Google-Smtp-Source: AK7set+Eh/Hn801Fb9PjAYnJGmtlwW6k9HYcy7DaWckKwgnLC+NAcT+5G9cfvmPNTFFGQ86xUhdVq+omAklfXzP3KR8=
-X-Received: by 2002:aca:705:0:b0:363:a978:6d41 with SMTP id
- 5-20020aca0705000000b00363a9786d41mr51096oih.280.1676355929306; Mon, 13 Feb
- 2023 22:25:29 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YpkrvpHcZkLy9iXzSCQbgGo5ommAhfg4uLlW3j4Hs8g=;
+ b=2pzjfWRA5ZRpBklT+I805eos3kCHS8+5RsEKhNIeY+VZ8tnNzGRmXhNLgCybzXvJTc
+ 9tnQj02PpQRnQ6kVnMxp1o9WzN7xug/Rx4MukeS/byvzoEsYIzjQSJhAXvGQ9mpYzTi2
+ w3pDnUZf7EH/LvXa1IIqDrrKXD8k/KwEerjvaYpJQMFKLI3OdTJofjgypWK+89AIKYBN
+ QunXXJqYJin/gT+pdqW+GQZlE1FGT+j2+i1vx5q4s5HsB0BYO01s8DuddHMP+yfv6bH1
+ 2qQ7Wqt/OwpOCzmLdkYl+mQ6MB/gmy9ACcX/TNRAf0YuXsDU3MEk3EOpvFqRt7/3IQUX
+ fKKA==
+X-Gm-Message-State: AO0yUKXW+A3zdqNyS/mCeGDzPqtlwK8Mays7v7IDfgdxmudZ4QuweJPv
+ pR6o3kN0h4SwLjeZ6Nw9kMM7x6zbZ2LVuupgPj3qOtOBe5B/arwE4BYlx9EWu7IGAuC+jycXUXG
+ J4R2enlJD9kNX8Xdxa4HFv/2lbTUSu+w=
+X-Received: by 2002:a05:6830:1107:b0:68d:a306:4550 with SMTP id
+ w7-20020a056830110700b0068da3064550mr42845otq.91.1676356272095; 
+ Mon, 13 Feb 2023 22:31:12 -0800 (PST)
+X-Google-Smtp-Source: AK7set9sJXGyG8U7Igm3gRLZgWldbdL0uNagT/QzuTvhuqxwz1AZJrW/buy6Yufa0L06tB/Kgqej7d1P2FkJwpdfNpo=
+X-Received: by 2002:a05:6830:1107:b0:68d:a306:4550 with SMTP id
+ w7-20020a056830110700b0068da3064550mr42836otq.91.1676356271921; Mon, 13 Feb
+ 2023 22:31:11 -0800 (PST)
 MIME-Version: 1.0
-References: <20230214034211.683203-1-zhenzhong.duan@intel.com>
-In-Reply-To: <20230214034211.683203-1-zhenzhong.duan@intel.com>
+References: <20230213191929.1547497-1-eperezma@redhat.com>
+In-Reply-To: <20230213191929.1547497-1-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 14 Feb 2023 14:25:18 +0800
-Message-ID: <CACGkMEse_BFRaTV0NkvsGD_ptsTzrBGKLBZg59NtSCR_Z-=V1w@mail.gmail.com>
-Subject: Re: [PATCH] memory: Optimize replay of guest mapping
-To: Zhenzhong Duan <zhenzhong.duan@intel.com>
-Cc: qemu-devel@nongnu.org, mst@redhat.com, peterx@redhat.com, 
- pbonzini@redhat.com, richard.henderson@linaro.org, eduardo@habkost.net, 
- marcel.apfelbaum@gmail.com, david@redhat.com, philmd@linaro.org
+Date: Tue, 14 Feb 2023 14:31:00 +0800
+Message-ID: <CACGkMEsQe=zcfmK=rMH=u6RgHkkBFs+tJO7gT0v_bWwJ_N+z6Q@mail.gmail.com>
+Subject: Re: [PATCH] vhost: accept VIRTIO_F_ORDER_PLATFORM as a valid SVQ
+ feature
+To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com, Gautam Dawar <gdawar@xilinx.com>, 
+ Parav Pandit <parav@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ Cindy Lu <lulu@redhat.com>, 
+ longpeng2@huawei.com, Eli Cohen <eli@mellanox.com>, alvaro.karsz@solid-run.com,
+ Lei Yang <leiyang@redhat.com>, Laurent Vivier <lvivier@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -93,66 +98,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 14, 2023 at 11:43 AM Zhenzhong Duan
-<zhenzhong.duan@intel.com> wrote:
+On Tue, Feb 14, 2023 at 3:19 AM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
+ote:
 >
-> On x86, there are two notifiers registered due to vtd-ir memory region
-> splitting the whole address space. During replay of the address space
-> for each notifier, the whole address space is scanned which is
-> unnecessory.
+> VIRTIO_F_ORDER_PLATFORM indicates that memory accesses by the driver and
+> the device are ordered in a way described by the platform.  Since vDPA
+> devices may be backed by a hardware devices, let's allow
+> VIRTIO_F_ORDER_PLATFORM.
 >
-> We only need to scan the space belong to notifier montiored space.
->
-> Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 > ---
-> Tested only on x86 with a net card passed to guest, ping/ssh pass.
+>  hw/virtio/vhost-shadow-virtqueue.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
->  hw/i386/intel_iommu.c | 2 +-
->  softmmu/memory.c      | 3 +--
->  2 files changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> index 98a5c304a7d7..6b1de80e8573 100644
-> --- a/hw/i386/intel_iommu.c
-> +++ b/hw/i386/intel_iommu.c
-> @@ -3831,7 +3831,7 @@ static void vtd_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
->                  .domain_id = vtd_get_domain_id(s, &ce, vtd_as->pasid),
->              };
->
-> -            vtd_page_walk(s, &ce, 0, ~0ULL, &info, vtd_as->pasid);
-> +            vtd_page_walk(s, &ce, n->start, n->end, &info, vtd_as->pasid);
->          }
->      } else {
->          trace_vtd_replay_ce_invalid(bus_n, PCI_SLOT(vtd_as->devfn),
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index 9d64efca269b..f096716e6e78 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -1923,7 +1923,6 @@ uint64_t memory_region_iommu_get_min_page_size(IOMMUMemoryRegion *iommu_mr)
->
->  void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
->  {
-> -    MemoryRegion *mr = MEMORY_REGION(iommu_mr);
->      IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_GET_CLASS(iommu_mr);
->      hwaddr addr, granularity;
->      IOMMUTLBEntry iotlb;
-> @@ -1936,7 +1935,7 @@ void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
->
->      granularity = memory_region_iommu_get_min_page_size(iommu_mr);
->
-> -    for (addr = 0; addr < memory_region_size(mr); addr += granularity) {
-> +    for (addr = n->start; addr < n->end; addr += granularity) {
+> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-=
+virtqueue.c
+> index 4307296358..6bb1998f12 100644
+> --- a/hw/virtio/vhost-shadow-virtqueue.c
+> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> @@ -34,6 +34,7 @@ bool vhost_svq_valid_features(uint64_t features, Error =
+**errp)
+>          switch (b) {
+>          case VIRTIO_F_ANY_LAYOUT:
+>          case VIRTIO_RING_F_EVENT_IDX:
+> +        case VIRTIO_F_ORDER_PLATFORM:
 
-Is [n->start, n->end] guaranteed to be the subset of memory_region_size(mr)?
+Do we need to add this bit to vdpa_feature_bits[] as well?
 
 Thanks
 
->          iotlb = imrc->translate(iommu_mr, addr, IOMMU_NONE, n->iommu_idx);
->          if (iotlb.perm != IOMMU_NONE) {
->              n->notify(n, &iotlb);
-> --
-> 2.25.1
+>              continue;
 >
+>          case VIRTIO_F_ACCESS_PLATFORM:
+> --
+> 2.31.1
 >
 
 
