@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6BA6696959
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 17:24:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1583E69697B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 17:29:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRy5O-0003No-J9; Tue, 14 Feb 2023 11:23:18 -0500
+	id 1pRyAN-0005YN-VL; Tue, 14 Feb 2023 11:28:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRy5M-0003MG-7q
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:23:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRyAL-0005Y9-EC
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:28:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRy5K-0007lj-L6
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:23:15 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRyAJ-0001Br-QV
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:28:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676391793;
+ s=mimecast20190719; t=1676392102;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ifuGtW2bpPcLPQXRxiUJ9EqHDn4hB9NZX7UILXOpe8E=;
- b=Qo9PfpHzXipCXgHhggtroPl7k1VVnajp7oqVeWB8INDjK+MHfVlO2bwSKYyNYr/1NcZZ6o
- 5NaJXXHAEefQxtiNTix22GsH2dWzbn1cMR5lIHQW+1dLq83GCliiivk+e4+JBE82ERfTv5
- YVEqES3lQcPrE/RE9pDh8Zj2bF8MQgk=
+ bh=S0ZVXaRCBYB7pBEgKxVGqqouHbOuzBVGJU6Y0FtMXK0=;
+ b=Jl5WOLvMZQ92cBdieVJR5gpGJ6KAokFq0P509k6rTVIvP/JlF86gA1+WkBBa/4PmK/9BI/
+ uiIUG8GWN+MEPzdokSBo6uI88nVN1ykJWQt+W3W0AiLcVxREBUE/Onw9QAFidGC4xufDUm
+ H2V/NvVqeAZ4B62E7p9MQkzEe3ZRbHc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-664-iwk2S2OePZWGm6zk1fOInQ-1; Tue, 14 Feb 2023 11:23:10 -0500
-X-MC-Unique: iwk2S2OePZWGm6zk1fOInQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-631-JinGDt5CPSysq15PrWJxKg-1; Tue, 14 Feb 2023 11:28:19 -0500
+X-MC-Unique: JinGDt5CPSysq15PrWJxKg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 77AE01991C47;
- Tue, 14 Feb 2023 16:23:09 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 74EDB8027FD;
+ Tue, 14 Feb 2023 16:28:18 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 395FB2166B26;
- Tue, 14 Feb 2023 16:23:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F1F5400D927;
+ Tue, 14 Feb 2023 16:28:18 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 23BCB21E6A1F; Tue, 14 Feb 2023 17:23:08 +0100 (CET)
+ id 257DE21E6A1F; Tue, 14 Feb 2023 17:28:17 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,  Markus
- Armbruster
- <armbru@redhat.com>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org,  Beraldo Leal <bleal@redhat.com>,  Eric Blake
- <eblake@redhat.com>,  Stefan Weil <sw@weilnetz.de>,  Alex =?utf-8?Q?Benn?=
- =?utf-8?Q?=C3=A9e?=
- <alex.bennee@linaro.org>,  Paolo Bonzini <pbonzini@redhat.com>,  Laurent
- Vivier <lvivier@redhat.com>,  Gerd Hoffmann <kraxel@redhat.com>,  Michael
- Roth <michael.roth@amd.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,  Wainer dos Santos Moschetta
- <wainersm@redhat.com>, Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v3 06/10] monitor: release the lock before calling close()
-References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
- <20230207142535.1153722-7-marcandre.lureau@redhat.com>
- <873578id74.fsf@pond.sub.org>
- <CAJ+F1CL45o4Ro=0TGZU2yOK2nz9OfMX1jCFRKfDxZfXzRbdoRg@mail.gmail.com>
- <Y+uRUyP/xTn6neMk@redhat.com>
-Date: Tue, 14 Feb 2023 17:23:08 +0100
-In-Reply-To: <Y+uRUyP/xTn6neMk@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-devel@nongnu.org,  eblake@redhat.com,  eduardo@habkost.net,
+ pbonzini@redhat.com,  marcel.apfelbaum@gmail.com,  mst@redhat.com,
+ philmd@linaro.org,  den-plotnikov@yandex-team.ru,
+ antonkuchin@yandex-team.ru,  "reviewer:Incompatible changes"
+ <libvir-list@redhat.com>
+Subject: Re: [PATCH v4 14/16] qapi: deprecate "device" field of DEVICE_* events
+References: <20230213140103.1518173-1-vsementsov@yandex-team.ru>
+ <20230213140103.1518173-15-vsementsov@yandex-team.ru>
+ <Y+pFe4bRCqbJJbp0@redhat.com> <87bklwoce9.fsf@pond.sub.org>
+ <Y+ts1vBvI+IEH//K@redhat.com> <87fsb8jw7r.fsf@pond.sub.org>
+ <Y+uTz2QfWGo2HUZ1@redhat.com>
+Date: Tue, 14 Feb 2023 17:28:17 +0100
+In-Reply-To: <Y+uTz2QfWGo2HUZ1@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
  =?utf-8?Q?=C3=A9=22's?= message of
- "Tue, 14 Feb 2023 13:49:07 +0000")
-Message-ID: <871qmsgqs3.fsf@pond.sub.org>
+ "Tue, 14 Feb 2023 13:59:43 +0000")
+Message-ID: <87wn4kfbz2.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -98,93 +92,65 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> On Tue, Feb 14, 2023 at 05:36:32PM +0400, Marc-Andr=C3=A9 Lureau wrote:
->> Hi
+> On Tue, Feb 14, 2023 at 12:57:28PM +0100, Markus Armbruster wrote:
+>> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 >>=20
->> On Tue, Feb 14, 2023 at 5:34 PM Markus Armbruster <armbru@redhat.com> wr=
-ote:
+>> > On Tue, Feb 14, 2023 at 09:54:22AM +0100, Markus Armbruster wrote:
+>> >> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>> >>=20
+>> >> > On Mon, Feb 13, 2023 at 05:01:01PM +0300, Vladimir Sementsov-Ogievs=
+kiy wrote:
+>> >> >> The device field is redundant, because QOM path always include dev=
+ice
+>> >> >> ID when this ID exist.
+>> >> >
+>> >> > The flipside to that view is that applications configuring QEMU are
+>> >> > specifying the device ID for -device (CLI) / device_add (QMP) and
+>> >> > not the QOM path. IOW, the device ID is the more interesting field
+>> >> > than QOM path, so feels like the wrong one to be dropping.
+>> >>=20
+>> >> QOM path is a reliable way to identify a device.  Device ID isn't:
+>> >> devices need not have one.  Therefore, dropping the QOM path would be
+>> >> wrong.
+>> >>=20
+>> >> > Is there any real benefit to dropping this ?=20
+>> >>=20
+>> >> The device ID is a trap for the unwary: relying on it is fine until y=
+ou
+>> >> run into a scenario where you have to deal with devices lacking IDs.
 >> >
->> > marcandre.lureau@redhat.com writes:
->> >
->> > > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> > >
->> > > As per comment, presumably to avoid syscall in critical section.
->> > >
->> > > Fixes: 0210c3b39bef08 ("monitor: Use LOCK_GUARD macros")
->> > > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> > > ---
->> > >  monitor/fds.c | 4 +++-
->> > >  1 file changed, 3 insertions(+), 1 deletion(-)
->> > >
->> > > diff --git a/monitor/fds.c b/monitor/fds.c
->> > > index 26b39a0ce6..03c5e97c35 100644
->> > > --- a/monitor/fds.c
->> > > +++ b/monitor/fds.c
->> > > @@ -80,7 +80,7 @@ void qmp_getfd(const char *fdname, Error **errp)
->> > >          return;
->> > >      }
->> > >
->> > > -    QEMU_LOCK_GUARD(&cur_mon->mon_lock);
->> > > +    qemu_mutex_lock(&cur_mon->mon_lock);
->> > >      QLIST_FOREACH(monfd, &cur_mon->fds, next) {
->> > >          if (strcmp(monfd->name, fdname) !=3D 0) {
->> > >              continue;
->> > > @@ -88,6 +88,7 @@ void qmp_getfd(const char *fdname, Error **errp)
->> > >
->> > >          tmp_fd =3D monfd->fd;
->> > >          monfd->fd =3D fd;
->> > > +        qemu_mutex_unlock(&cur_mon->mon_lock);
->> > >          /* Make sure close() is outside critical section */
->> > >          close(tmp_fd);
->> > >          return;
->> > > @@ -98,6 +99,7 @@ void qmp_getfd(const char *fdname, Error **errp)
->> > >      monfd->fd =3D fd;
->> > >
->> > >      QLIST_INSERT_HEAD(&cur_mon->fds, monfd, next);
->> > > +    qemu_mutex_unlock(&cur_mon->mon_lock);
->> > >  }
->> > >
->> > >  void qmp_closefd(const char *fdname, Error **errp)
->> >
->> > This confused me.  I think I understand now, but let's double-check.
->> >
->> > You're reverting commit 0210c3b39bef08 for qmp_getfd() because it
->> > extended the criticial section beyond the close(), invalidating the
->> > comment.  Correct?
+>> > When a mgmt app is configuring QEMU though, it does it exclusively
+>> > with device ID values. If I add a device "-device foo,id=3Ddev0",
+>> > and then later hot-unplug it "device_del dev0", it is pretty
+>> > reasonable to then expect that the DEVICE_DELETED even will then
+>> > include the ID value the app has been using elsewhere.
 >>=20
->> Correct
->>=20
->> > Did it actually break anything?
->>=20
->> Not that I know of (David admitted over IRC that this was not intended)
+>> The management application would be well advised to use QOM paths with
+>> device_del, because only that works even for devices created by default
+>> (which have no ID), and devices the user created behind the management
+>> application's back.
 >
-> Conceptually the only risk here is that 'close()' blocks for a
-> prolonged period of time, which prevents another thread from
-> acquiring the mutex.
->
-> First, the chances of close() blocking are incredibly low for
-> socket FDs which have not yet been used to transmit data. It
-> would require a malicious mgmt app to pass an unexpected FD
-> type that could block but that's quite hard, and we consider
-> the QMP client be a trusted entity anyway.
->
-> As for another thread blocking on the mutex I'm not convinced
-> that'll happen either. The FD set is scoped to the current
-> monitor. Almost certainly the FD is going to be consumed by
-> a later QMP device-add/object-add command, in the same thread.
-> Processing of that later QMP command will be delayed regardless
-> of whether the close is inside or outside the critical section.
->
-> AFAICT keeping close() oujtside the critical section serves
-> no purpose and we could just stick with the lock guard and
-> delete the comment.
+> If an application is using -nodefaults, then the only devices which
+> exist will be those which are hardwired into the machine, and they
+> can't be used with device_del anyway as they're hardwired.
 
-Makes sense to me.
+Your trust in the sanity of our board code is touching ;)
 
-There's another one in monitor_add_fd().
+> So the only reason is to cope with devices created secretly by
+> the users, and that's a hairy enough problem that most apps won't
+> even try to cope with it.
 
-Both are from Peter's commit 9409fc05fe2 "monitor: protect mon->fds with
-mon_lock".  Peter, do you remember why you took the trouble to keep
-close() outside the critical section?  I know it's been a while...
+Fair enough.
+
+> At least in terms of the device hotplug area, it feels like we're
+> adding an extra hurdle for apps to solve a problem that they don't
+> actually face in practice.
+>
+> QOM paths are needed in some other QMP commands though, where
+> there is definite need to refer to devices that are hardwired,
+> most obviously qom-set/qom-get.
+
+Also query-cpus-fast, query-hotpluggable-cpus, and possibly more I
+missed.
 
 
