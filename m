@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AA94696E0B
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 20:42:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2361696E0C
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 20:42:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pS1Be-0001hO-H2; Tue, 14 Feb 2023 14:41:58 -0500
+	id 1pS1C8-0002g1-EQ; Tue, 14 Feb 2023 14:42:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
- id 1pS1Bc-0001aN-Bb
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 14:41:56 -0500
+ id 1pS1C4-0002c3-Mi
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 14:42:24 -0500
 Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
- id 1pS1Ba-0004OD-Iq
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 14:41:56 -0500
-Received: from myt5-8800bd68420f.qloud-c.yandex.net
- (myt5-8800bd68420f.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:4615:0:640:8800:bd68])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 064B260EC2;
- Tue, 14 Feb 2023 22:41:50 +0300 (MSK)
+ id 1pS1C3-0004Rq-3A
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 14:42:24 -0500
+Received: from myt6-23a5e62c0090.qloud-c.yandex.net
+ (myt6-23a5e62c0090.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:1da3:0:640:23a5:e62c])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 0C9C260E91;
+ Tue, 14 Feb 2023 22:42:18 +0300 (MSK)
 Received: from [IPV6:2a02:6b8:b081:6407::1:7] (unknown
  [2a02:6b8:b081:6407::1:7])
- by myt5-8800bd68420f.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- kfpuj20RlOs1-Qe6wgtss; Tue, 14 Feb 2023 22:41:49 +0300
+ by myt6-23a5e62c0090.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ Egp4C30RkGk1-Mp6wJnRt; Tue, 14 Feb 2023 22:42:17 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1676403709; bh=hAdROL29qeG8RLJ0CGKc0SF6bSHB6lmlxa4hxtlc+Q4=;
+ t=1676403737; bh=QE8eDmHd0U4shkNflGpb3d6uAqlnT9oL4kS1E5POFJg=;
  h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=Mmg/5kBBETl3VQmJaR8FXPPTQNbAToFfrz9tPPV8+Gli2GPX7KJKkOwjjrI8aOV2T
- Ftd5WRuafSwoOQYd28zs54KHuolAf39yBX5YGBkTom011IeUzdws1KoE7rVJ4fd8fY
- Ao/+hgw5X9ttoAoEB6YljNGMuTrCfncFKzul4xJ0=
-Authentication-Results: myt5-8800bd68420f.qloud-c.yandex.net;
+ b=HYMPd3HhSdLCntcBY3kQe2gtPmIeHG093Y/O8VdfWo0KP9vpfFtdt/lq4bQZCb7sl
+ 0syn2wHUKMVqTN+2RPt5ypyJQNGpnIPLPBAfHO0lrM0n+cy2zJgUEyinI+s2wRV/1/
+ flStlk3DhKHVR0KEisnOmfWUxSryIFaxoC2StWYI=
+Authentication-Results: myt6-23a5e62c0090.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
-Message-ID: <27a02ee6-2400-b8d5-1f0c-5ffda5615910@yandex-team.ru>
-Date: Tue, 14 Feb 2023 21:41:46 +0200
+Message-ID: <257d0a7e-4cf4-d239-be49-ca93b0d16dc0@yandex-team.ru>
+Date: Tue, 14 Feb 2023 21:42:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v4 11/16] pcie: introduce pcie_sltctl_powered_off() helper
+Subject: Re: [PATCH v4 12/16] pcie: set power indicator to off on reset by
+ default
 Content-Language: en-US, ru-RU
 To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  qemu-devel@nongnu.org
@@ -50,11 +51,11 @@ Cc: armbru@redhat.com, eblake@redhat.com, eduardo@habkost.net,
  berrange@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
  mst@redhat.com, philmd@linaro.org, den-plotnikov@yandex-team.ru
 References: <20230213140103.1518173-1-vsementsov@yandex-team.ru>
- <20230213140103.1518173-12-vsementsov@yandex-team.ru>
+ <20230213140103.1518173-13-vsementsov@yandex-team.ru>
 From: Anton Kuchin <antonkuchin@yandex-team.ru>
-In-Reply-To: <20230213140103.1518173-12-vsementsov@yandex-team.ru>
+In-Reply-To: <20230213140103.1518173-13-vsementsov@yandex-team.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=178.154.239.200;
  envelope-from=antonkuchin@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
 X-Spam_score_int: -24
@@ -79,67 +80,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 13/02/2023 16:00, Vladimir Sementsov-Ogievskiy wrote:
-> In pcie_cap_slot_write_config() we check for PCI_EXP_SLTCTL_PWR_OFF in
-> a bad form. We should distinguish PCI_EXP_SLTCTL_PWR which is a "mask"
-> and PCI_EXP_SLTCTL_PWR_OFF which is value for that mask.
->
-> Better code is in pcie_cap_slot_unplug_request_cb() and in
-> pcie_cap_update_power(). Let's use same pattern everywhere. To simplify
-> things add also a helper.
+> It should be zero, the only valid values are ON, OFF and BLINK.
 >
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Anton Kuchin <antonkuchin@yandex-team.ru>
 > ---
->   hw/pci/pcie.c | 16 ++++++++++------
->   1 file changed, 10 insertions(+), 6 deletions(-)
+>   hw/pci/pcie.c | 1 +
+>   1 file changed, 1 insertion(+)
 >
 > diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> index db8360226f..90faf0710a 100644
+> index 90faf0710a..b8c24cf45f 100644
 > --- a/hw/pci/pcie.c
 > +++ b/hw/pci/pcie.c
-> @@ -39,6 +39,11 @@
->   #define PCIE_DEV_PRINTF(dev, fmt, ...)                                  \
->       PCIE_DPRINTF("%s:%x "fmt, (dev)->name, (dev)->devfn, ## __VA_ARGS__)
+> @@ -684,6 +684,7 @@ void pcie_cap_slot_reset(PCIDevice *dev)
+>                                    PCI_EXP_SLTCTL_PDCE |
+>                                    PCI_EXP_SLTCTL_ABPE);
+>       pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTCTL,
+> +                               PCI_EXP_SLTCTL_PWR_IND_OFF |
+>                                  PCI_EXP_SLTCTL_ATTN_IND_OFF);
 >   
-> +static bool pcie_sltctl_powered_off(uint16_t sltctl)
-> +{
-> +    return (sltctl & PCI_EXP_SLTCTL_PCC) == PCI_EXP_SLTCTL_PWR_OFF
-> +        && (sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_OFF;
-> +}
->   
->   /***************************************************************************
->    * pci express capability helper functions
-> @@ -395,6 +400,7 @@ static void pcie_cap_update_power(PCIDevice *hotplug_dev)
->   
->       if (sltcap & PCI_EXP_SLTCAP_PCP) {
->           power = (sltctl & PCI_EXP_SLTCTL_PCC) == PCI_EXP_SLTCTL_PWR_ON;
-> +        /* Don't we need to check also (sltctl & PCI_EXP_SLTCTL_PIC) ? */
->       }
->   
->       pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
-> @@ -579,8 +585,7 @@ void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
->           return;
->       }
->   
-> -    if (((sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_OFF) &&
-> -        ((sltctl & PCI_EXP_SLTCTL_PCC) == PCI_EXP_SLTCTL_PWR_OFF)) {
-> +    if (pcie_sltctl_powered_off(sltctl)) {
->           /* slot is powered off -> unplug without round-trip to the guest */
->           pcie_cap_slot_do_unplug(hotplug_pdev);
->           hotplug_event_notify(hotplug_pdev);
-> @@ -770,10 +775,9 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
->        * this is a work around for guests that overwrite
->        * control of powered off slots before powering them on.
->        */
-> -    if ((sltsta & PCI_EXP_SLTSTA_PDS) && (val & PCI_EXP_SLTCTL_PCC) &&
-> -        (val & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_OFF &&
-> -        (!(old_slt_ctl & PCI_EXP_SLTCTL_PCC) ||
-> -        (old_slt_ctl & PCI_EXP_SLTCTL_PIC) != PCI_EXP_SLTCTL_PWR_IND_OFF)) {
-> +    if ((sltsta & PCI_EXP_SLTSTA_PDS) && pcie_sltctl_powered_off(val) &&
-> +        !pcie_sltctl_powered_off(old_slt_ctl))
-> +    {
->           pcie_cap_slot_do_unplug(dev);
->       }
->       pcie_cap_update_power(dev);
+>       if (dev->cap_present & QEMU_PCIE_SLTCAP_PCP) {
 
