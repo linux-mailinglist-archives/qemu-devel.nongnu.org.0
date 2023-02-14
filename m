@@ -2,85 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54FFD696371
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 13:25:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD7469637F
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 13:30:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRuN4-0006tJ-6K; Tue, 14 Feb 2023 07:25:18 -0500
+	id 1pRuRf-000112-7h; Tue, 14 Feb 2023 07:30:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pRuN2-0006t3-IN
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 07:25:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRuRW-000104-TT
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 07:29:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pRuN1-0007MU-48
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 07:25:16 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRuRT-00087e-QT
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 07:29:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676377514;
+ s=mimecast20190719; t=1676377790;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=XZkdQp6y6erc2hgtNLqLFPrMe+wzgOigG9/iABkcxCo=;
- b=EZyq4UHNv5ZPE0jeFZ/HrxttT+rsvKvyQQ+KwrP4zy+bWlVH/m/BwX8lcUNK/LrErERFGX
- MblhKz4rIjSxOq+lNudCbosAYmKjqDV/S0EbGUtu7QrDrxqFKUSdQEHITEuJQft2wGybpj
- ielbUFVGpeV/0pvXZt+KbpLxEdxLLLM=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=k2ALLCZHhuXZNEXlHarPve+1TZo/YB6NQq3Dqqb/0Og=;
+ b=JvKL3pT3JC+lrCQh7AxWUu2on/2PK1ZVIyPUzLKD5fOL5NgZMFaIa8M0JDDEJpiY/brrBG
+ 8P98H6FcAsdMea0ShhoMbSg7369e6UnGS0swIj06SxJu0UWczrNSrJ6A3i5eSfnc6uNFBF
+ jjDN/fHqyBnnIjAqiqjQVbB3/zy1F4I=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-533-cUpSj2eUMMmBR_QQLkTsXQ-1; Tue, 14 Feb 2023 07:25:13 -0500
-X-MC-Unique: cUpSj2eUMMmBR_QQLkTsXQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- z19-20020a05640235d300b004aaca83cd87so9935294edc.20
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 04:25:12 -0800 (PST)
+ us-mta-652-Ea7OJRLEMGeqCBuvEzWCeg-1; Tue, 14 Feb 2023 07:29:49 -0500
+X-MC-Unique: Ea7OJRLEMGeqCBuvEzWCeg-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ f6-20020a0cc306000000b0056e96f4fd64so6054219qvi.15
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 04:29:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XZkdQp6y6erc2hgtNLqLFPrMe+wzgOigG9/iABkcxCo=;
- b=rNYWJMezWh5TJhsvggZLkkNPJx3MqTP6hiSmBQHCPgz5ZUtLtlxeYCwFL+CPM8pcrB
- Zy7GSPRNiNFiaLEDg2UMxjxHdxHKg9P7vAHxBUHSEy2joi8rxxNB730NKnNM7Bw5e32e
- PULlAq8K94cWh5nAmS+xiu7Jnrst7ftTtxZyjIeHy09ePTh/f61HQncgZWhPeNQ5n+y4
- KmhBQ6bKshdy6tLp0cp/GrvWMMeIUQdo5pi/5R1QeBQ82LQzSdZ1uCIV/k163IQ+6pzx
- GPvguB3dBul3nH9IrBngTwB+2eiwFiOoRY3rK9YxR6lwuvT8jtBh7QhahX4KP217SGaG
- Tn1w==
-X-Gm-Message-State: AO0yUKUROuyEExyeCelVWgLO2ZiB+VLExst2g188NV4VzKE1jbuRlq6p
- VI84e4zLcDwh2/cFvPetYpzkkWreJf2Bmn7UWLW6o+WRCm1j1j9DXFWvJhKZgxUkLG59SdX5oLN
- MJmzagYj6Jh9/Hn6boXZ70qd9RNEJ8ugUDyL22IEGITFhr/MBjnhlHT3OPqouQzgKi4ErNOCT
-X-Received: by 2002:a50:9b41:0:b0:4ab:2504:c7ff with SMTP id
- a1-20020a509b41000000b004ab2504c7ffmr2273686edj.23.1676377511733; 
- Tue, 14 Feb 2023 04:25:11 -0800 (PST)
-X-Google-Smtp-Source: AK7set/6obomlqLWEvjnRuTCal1LDv82H+O74/HuSNHPjc/kfa7OlN8AKVVerXqq52fICdjrtGobZw==
-X-Received: by 2002:a50:9b41:0:b0:4ab:2504:c7ff with SMTP id
- a1-20020a509b41000000b004ab2504c7ffmr2273675edj.23.1676377511547; 
- Tue, 14 Feb 2023 04:25:11 -0800 (PST)
-Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- p15-20020a50cd8f000000b0049e19136c22sm8018792edi.95.2023.02.14.04.25.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Feb 2023 04:25:11 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: thuth@redhat.com
-Subject: [qemu-web PATCH] add language to <html> tag
-Date: Tue, 14 Feb 2023 13:25:09 +0100
-Message-Id: <20230214122509.30234-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.39.1
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=k2ALLCZHhuXZNEXlHarPve+1TZo/YB6NQq3Dqqb/0Og=;
+ b=p3D3RidqifE04fBa0CzQtw1BRR/C2snH7GFypD/Rd7VY1vxCAtKQpwIspwWTb1zaF8
+ RInlwzelirxDRZPImmEMyOVBFOi1YfUQWBq06KbVQMlstb3qhhLgcTcas75S9f32mtLE
+ wavkBjUVpt8N2Ggn/WJJwHxDqppnmq9PcCj2I6QB0bKmVUu2xAx5ythIws+ienOpJFDn
+ NV3iyY7a3qwlBzpZsv7QDe4EYz94T8gzloY12QwA764vxvSJ66NzYKKZq9Fb9338i1Ke
+ lglYW2/57df4Fe8C0L48wAlRaCfh/pgG+h2F19id/Znao+ZeHG8CHdZYREEXVtt2mQvd
+ Du8Q==
+X-Gm-Message-State: AO0yUKUTAIfowFWWA9YVM0qtiq5qbmJU7WSPgQ5j0FaGRkDU4hCHj20A
+ SiCqM6cEBbNn/lT2uaiC1mC7drMZMXQt1A+Dh+NpWKLxwNF6LoUVbmLLfed7R7vZoYY2lW0hoCE
+ iP3wXmXT+vxy1eqA=
+X-Received: by 2002:a05:622a:246:b0:3b3:b92f:3650 with SMTP id
+ c6-20020a05622a024600b003b3b92f3650mr2339624qtx.62.1676377789165; 
+ Tue, 14 Feb 2023 04:29:49 -0800 (PST)
+X-Google-Smtp-Source: AK7set8XPDguzcqdAvLNAkgRd1kmEqKQCBbmRrOrJvwgTyXBdbt4COtTMiexG1NiyEc8nIfDQF0Acg==
+X-Received: by 2002:a05:622a:246:b0:3b3:b92f:3650 with SMTP id
+ c6-20020a05622a024600b003b3b92f3650mr2339614qtx.62.1676377788916; 
+ Tue, 14 Feb 2023 04:29:48 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-176.web.vodafone.de.
+ [109.43.177.176]) by smtp.gmail.com with ESMTPSA id
+ f18-20020ac80692000000b003b9e1d3a502sm11194380qth.54.2023.02.14.04.29.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Feb 2023 04:29:48 -0800 (PST)
+Message-ID: <5b0f4e7f-7097-04d0-4149-694d72c333cc@redhat.com>
+Date: Tue, 14 Feb 2023 13:29:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [qemu-web PATCH] add missing <h2> tag
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20230214122453.30179-1-pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230214122453.30179-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.35, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,67 +98,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- _layouts/blog.html          | 2 +-
- _layouts/home.html          | 2 +-
- _layouts/page.html          | 2 +-
- _plugins/alias_generator.rb | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+On 14/02/2023 13.24, Paolo Bonzini wrote:
+> The homepage goes straight from h1 to h3, add the missing tag for use in screen readers.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   assets/css/style.css | 12 ++++++++++++
+>   index.html           |  3 +++
+>   2 files changed, 15 insertions(+)
+> 
+> diff --git a/assets/css/style.css b/assets/css/style.css
+> index 779b111..2705787 100644
+> --- a/assets/css/style.css
+> +++ b/assets/css/style.css
+> @@ -44,6 +44,18 @@
+>   		color: #802400;
+>   	}
+>   
+> +        .visuallyhidden
+> +	{
+> +		border: 0;
+> +		clip: rect(0 0 0 0);
+> +		height: 1px;
+> +		margin: -1px;
+> +		overflow: hidden;
+> +		padding: 0;
+> +		position: absolute;
+> +		width: 1px;
+> +	}
+> +
+>   	pre,code,samp,tt
+>   	{
+>   		font-family: 'Roboto Mono', monospace;
+> diff --git a/index.html b/index.html
+> index d72750c..676c379 100644
+> --- a/index.html
+> +++ b/index.html
+> @@ -14,6 +14,9 @@ colorbox: True
+>   	
+>   <!-- Featured -->
+>   <div id="featured">
+> +	<header class="visuallyhidden">
+> +		<h2>Features</h2>
+> +	</header>
+>   	<div class="container">
+>   		<div class="row">
+>   			<section class="4u">
 
-diff --git a/_layouts/blog.html b/_layouts/blog.html
-index b7fcdbf..89adb90 100644
---- a/_layouts/blog.html
-+++ b/_layouts/blog.html
-@@ -5,7 +5,7 @@ templated.co @templatedco
- Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
-   -->
- {% include relative_root.html %}
--<html>
-+<html lang="en">
- <head>
- 	<title>{{ page.title }} - {{ site.title }}</title>
- 	{% include assets.html %}
-diff --git a/_layouts/home.html b/_layouts/home.html
-index f7b6931..b34e6f6 100644
---- a/_layouts/home.html
-+++ b/_layouts/home.html
-@@ -5,7 +5,7 @@ templated.co @templatedco
- Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
- -->
- {% include relative_root.html %}
--<html>
-+<html lang="en">
- <head>
- 	<title>{{ site.title }}</title>
- 	{% include assets.html %}
-diff --git a/_layouts/page.html b/_layouts/page.html
-index 765d204..c0d2778 100644
---- a/_layouts/page.html
-+++ b/_layouts/page.html
-@@ -5,7 +5,7 @@ templated.co @templatedco
- Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
- -->
- {% include relative_root.html %}
--<html>
-+<html lang="en">
- <head>
- 	<title>{{ page.title }} - {{ site.title }}</title>
- 	{% include assets.html %}
-diff --git a/_plugins/alias_generator.rb b/_plugins/alias_generator.rb
-index b4b86ec..f69d90e 100644
---- a/_plugins/alias_generator.rb
-+++ b/_plugins/alias_generator.rb
-@@ -80,7 +80,7 @@ module Jekyll
-     def alias_template(destination_path)
-       <<-EOF
-       <!DOCTYPE html>
--      <html>
-+      <html lang="en">
-       <head>
-       <link rel="canonical" href="#{destination_path}"/>
-       <meta http-equiv="content-type" content="text/html; charset=utf-8" />
--- 
-2.39.1
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
