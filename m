@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9CFD696DD3
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 20:25:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1262696DDF
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 20:26:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pS0uU-0005R6-GD; Tue, 14 Feb 2023 14:24:15 -0500
+	id 1pS0uY-0005Uh-TV; Tue, 14 Feb 2023 14:24:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pS0uP-0005Q6-B9
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 14:24:09 -0500
-Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c])
+ id 1pS0uV-0005T0-BH
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 14:24:15 -0500
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pS0uN-00056i-Qw
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 14:24:09 -0500
-Received: by mail-oi1-x22c.google.com with SMTP id dt8so13903089oib.0
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 11:24:07 -0800 (PST)
+ id 1pS0uQ-00057D-Iv
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 14:24:11 -0500
+Received: by mail-ot1-x32c.google.com with SMTP id
+ n25-20020a9d7119000000b0068bd8c1e836so4972017otj.3
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 11:24:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LC73mPmFrGq5o3KC93WRhQ0uBlIIBFIRs5CA6y4B+Tk=;
- b=Cq+dQTQfJWoTeDleX+T/9EyfaDIoxDB5Crv4RuI4umGJ8e7vY02x+eAc9k6q6o94vN
- qNkXXhpm99pHedCDyhGoWFL44lZvUOAbadkS4mmK3XcaLGY6NOAuvcHsaGNz31D48GPR
- /+5bXHcxDTinOy/rbxoIggmU+npjNVotnds9t83PlqPwarQ1JrZmdvmQeFODImZvsvst
- 9NYcSp4Bv8BY6d/Di2cF/kFpP6hJaWzPBV0AB8FedjyZt64pJvU7NMSMLVlAqtz5ZdsU
- nTCimhRImyKuBLO9w0AXqn5FA6oIEbxpqEAV0bzSkhjpbjYG35epvcDFho8lG24nO4fn
- 9xew==
+ bh=yKIYePLvaLWJ6O9SDeeLYtu4voQMJnIs6svun5FJO0U=;
+ b=h5WwEvL3uYkHodVxI1jMwnycZxfEUFzBjP4K0PpS9X8UKpSfGv9wnm+Rll1YzCPhTd
+ VsaR+VjzGRX3QjFYDNTLU6NAc3OdX9qO5APICZHpBOj4xOap31OdfNKy3P81Fqht/601
+ SCxxRCN8V+7sKtTVZU18cRQyR38yCxzZcKOTNxo0ppnmjT+w2Zez4Avu1pH0j1PRGRXw
+ HvS2m9P/e/0mtYOo2zebKGvnZPaRyh7K8uh9kHbym9VclcFhV0IWcbwCka5j3q4eZ4IU
+ qLXwqITZVg+J66InKDH/QYE8YluzVcFLooUVCQG8vLe1AmjQNX7hXct77X/k1mzRPNz/
+ w+jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LC73mPmFrGq5o3KC93WRhQ0uBlIIBFIRs5CA6y4B+Tk=;
- b=uynu/rIcp95Hg1ghGNEQhY3lnGhCOKhsGdh6kRaOIv3wYs1KAT0q9O2d1ejI0+0qF0
- 2xN54nzlzOb/9OFqbOmOQvrFgObopApzyaAuppYJmVhWC+dsfL7fZ8Uqovd6B2PvoXtO
- aXjbY3n+fCSzrNAEcyBSytFkkWGfHegDNiD5ceL3yIIrzIgXdRlifjsZTsdm0ryN00vM
- nTyOFO7rs+9HBtdNwCqwr8qlaHLAME4R3e9yEzvAaZ+1p31Krn/0aXkr4FPk3bEa91aI
- +cNgC5ihtR4J65a3YCnnkqYss5tQJ71yI1oJo3XxuD+atbUwoqzXEkXAkJq9MyIIzl2p
- GAWQ==
-X-Gm-Message-State: AO0yUKUlGjTlI3cfHftBy6jDw8W401/0puya3FKAkx7dZ/CCCzGd1v/a
- FwYy2zSr/4nD00woCzbmHuY1GIpKvrzmAzZj
-X-Google-Smtp-Source: AK7set9o9cke3UPKcHIFJs9PcVy/va3CuNO4lnfcAi+thzvWk+lAZvLf1Uw9j2J6RKtRoPI1N9i9kw==
-X-Received: by 2002:aca:2211:0:b0:378:81f8:bb2a with SMTP id
- b17-20020aca2211000000b0037881f8bb2amr1545048oic.33.1676402646194; 
- Tue, 14 Feb 2023 11:24:06 -0800 (PST)
+ bh=yKIYePLvaLWJ6O9SDeeLYtu4voQMJnIs6svun5FJO0U=;
+ b=Anr2ILCAT1Vv6RoFlGCJu15b7Rp2VwMMkYhnOSKHfWC49d6WZz7A6TYdNxUWJ1H11G
+ yBeOSq3GlbEw3vv1oEGAy9v88gJyD4yjTL5g9njYBlIwqvTdKWjKukz40KJBqIGpAWwR
+ Dl4VuK2JFTU4UaDEXmZeaDKp2gsxzmvWKbIHaI/+NXxlnCJtU32cf7GaacelXMX9zoTO
+ lxjR5bp92OhW5dqvFOBfdVOoiwp0w+voaR0CveZlzpN5+2F1Hd6bGBwIanK7AbkXmfLL
+ f+IKLf1//YCwSojTnC7OTPAi1SzevOcf21EC4sAhUcX7yWHVHVDX/eXd+KYpRltmaIzp
+ ULuA==
+X-Gm-Message-State: AO0yUKWNFM5aF7vXXFLHjldB9LQ/kdqOHoDBOunml6xDpFonQ6ixD5bF
+ gpwhEMerl+mBpzgZqbK2aLlvt8pivG0Elxra
+X-Google-Smtp-Source: AK7set+Bh93//3sVBPa6EsVmVu/V5kEvfsfA4ck4pnyndv+D3/wi5AGU7yLP02JAGder+u730/fH+Q==
+X-Received: by 2002:a05:6830:3b87:b0:68b:dd2c:77cf with SMTP id
+ dm7-20020a0568303b8700b0068bdd2c77cfmr1361934otb.32.1676402649038; 
+ Tue, 14 Feb 2023 11:24:09 -0800 (PST)
 Received: from grind.dc1.ventanamicro.com ([191.19.40.109])
  by smtp.gmail.com with ESMTPSA id
- g5-20020a9d6185000000b006865223e532sm6653752otk.51.2023.02.14.11.24.03
+ g5-20020a9d6185000000b006865223e532sm6653752otk.51.2023.02.14.11.24.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Feb 2023 11:24:05 -0800 (PST)
+ Tue, 14 Feb 2023 11:24:08 -0800 (PST)
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
  liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH v2 01/11] target/riscv: do not mask unsupported QEMU
- extensions in write_misa()
-Date: Tue, 14 Feb 2023 16:23:46 -0300
-Message-Id: <20230214192356.319991-2-dbarboza@ventanamicro.com>
+Subject: [PATCH v2 02/11] target/riscv: introduce riscv_cpu_cfg()
+Date: Tue, 14 Feb 2023 16:23:47 -0300
+Message-Id: <20230214192356.319991-3-dbarboza@ventanamicro.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230214192356.319991-1-dbarboza@ventanamicro.com>
 References: <20230214192356.319991-1-dbarboza@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,33 +93,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The masking done using env->misa_ext_mask already filters any extension
-that QEMU doesn't support. If the hart supports the extension then QEMU
-supports it as well.
-
-If the masking done by env->misa_ext_mask is somehow letting unsupported
-QEMU extensions pass by, misa_ext_mask itself needs to be fixed instead.
+We're going to do changes that requires accessing the RISCVCPUConfig
+struct from the RISCVCPU, having access only to a CPURISCVState 'env'
+pointer. Add a helper to make the code easier to read.
 
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 ---
- target/riscv/csr.c | 3 ---
- 1 file changed, 3 deletions(-)
+ target/riscv/cpu.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 1b0a0c1693..e149b453da 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -1356,9 +1356,6 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
-     /* Mask extensions that are not supported by this hart */
-     val &= env->misa_ext_mask;
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 7128438d8e..5e4d056772 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -654,6 +654,11 @@ static inline RISCVMXL riscv_cpu_mxl(CPURISCVState *env)
+ #endif
+ #define riscv_cpu_mxl_bits(env) (1UL << (4 + riscv_cpu_mxl(env)))
  
--    /* Mask extensions that are not supported by QEMU */
--    val &= (RVI | RVE | RVM | RVA | RVF | RVD | RVC | RVS | RVU | RVV);
--
-     /* 'D' depends on 'F', so clear 'D' if 'F' is not present */
-     if ((val & RVD) && !(val & RVF)) {
-         val &= ~RVD;
++static inline RISCVCPUConfig riscv_cpu_cfg(CPURISCVState *env)
++{
++    return env_archcpu(env)->cfg;
++}
++
+ #if defined(TARGET_RISCV32)
+ #define cpu_recompute_xl(env)  ((void)(env), MXL_RV32)
+ #else
 -- 
 2.39.1
 
