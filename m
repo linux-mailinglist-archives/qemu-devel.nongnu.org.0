@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C7F4696A45
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 17:49:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6769696A52
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 17:51:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRyU9-0005vR-W5; Tue, 14 Feb 2023 11:48:54 -0500
+	id 1pRyVc-0006t0-Ui; Tue, 14 Feb 2023 11:50:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pRyU2-0005rl-Mc; Tue, 14 Feb 2023 11:48:46 -0500
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pRyVU-0006r8-Gm
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:50:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pRyU0-0000ys-Lr; Tue, 14 Feb 2023 11:48:46 -0500
-Received: from myt5-8800bd68420f.qloud-c.yandex.net
- (myt5-8800bd68420f.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:4615:0:640:8800:bd68])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 8EEB45E824;
- Tue, 14 Feb 2023 19:48:26 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b433::1:3c] (unknown
- [2a02:6b8:b081:b433::1:3c])
- by myt5-8800bd68420f.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- PmmRW10RhGk1-awtBrHa4; Tue, 14 Feb 2023 19:48:25 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1676393306; bh=PXXlb8t1HIGCyiIgquijgYU59hfhHGS+rAG2TNXCD2w=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=EXrk6/euzK9XcEC4GySnAlBOXHjnEF9beV9hqa3f4Sj3m2nFUMJrM4TzN+RO17mZX
- XAEDtBRHrWTVbod69dMR8SNdpthIrYlTTvrnFAPmvdMu2D36oPjc34DJQFMdicb/Va
- wXoYA3Csk/PjHZlCnwKJm9FH2nsvUktCgto+iqY8=
-Authentication-Results: myt5-8800bd68420f.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <8a7d0bc4-e7be-8c9a-3490-116fc2f6475f@yandex-team.ru>
-Date: Tue, 14 Feb 2023 19:48:25 +0300
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pRyVS-0002GB-D6
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:50:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676393412;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VdzEaV77S+kGBYjaSUYsRBEN4uEyavs372Ptxh8ZhyU=;
+ b=Pxww/CHmkgWtagP6QOcEJWLU8LOufvUlvnq0ZlgBVSRb8DD74kcBiSwrPDH2I8DpnbDAip
+ Cgk2b45OghJVc20ht6EdhJZboZGl7kioNYxl3qVIS/XbleGsiyVRSoQnXzqfGN3gVhv2uy
+ bgGQoLLUoXyrxWkYyiKmqZ320SZfCZ4=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-1-33g0rrUWPP-CbC740mFCmA-1; Tue, 14 Feb 2023 11:50:10 -0500
+X-MC-Unique: 33g0rrUWPP-CbC740mFCmA-1
+Received: by mail-pl1-f197.google.com with SMTP id
+ z8-20020a170902834800b001990ad8de5bso9440454pln.10
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 08:50:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VdzEaV77S+kGBYjaSUYsRBEN4uEyavs372Ptxh8ZhyU=;
+ b=5YnNyMDyhOE4S2JQFgXcw0ifA+/ILDahFnzLZaBAEbLYptoNT1CG9N73x5jD8a9QPn
+ 6gAJIoEpsErnoAPi1cT867XMtpUMyJwrF2VaNeCHlDnC7TzcFt+VVKvOa6RmJO/cO9up
+ zzpx/p9c4yFClidEDVnT4Y9o+OkjvAsrW3nKfmF7aHHrpIj61mXXZfMB/hzO/6vt08xt
+ sx3u2T1m89/AcPVOoV5N5whDyBgzYSuxL1fNVDXH5LEEtZMv/giKaQYGeUHn1mhxGqbl
+ hxnOoNYKw2LlBoRgnFvotCT38+hLbsttA/UwKTHNTnexw7afqsr6WH2sCiAGnG4yhTBU
+ OYOw==
+X-Gm-Message-State: AO0yUKVIzGkD/Og6Ju15DpJYTRSGdB6fUw6CYv9akjLyJam7FPmVAjz6
+ bvOPSDGFuQM0SfX9X56PbK3NyOUwM2G/k9dUIWd/v7t8VbQjkQoF1I0caZMn3je6lXkq9Y3h5Rx
+ vfJl68BaC0RRRkvz8JDOZR8IzfJI/N8g=
+X-Received: by 2002:a17:90a:9f42:b0:234:2592:efbe with SMTP id
+ q2-20020a17090a9f4200b002342592efbemr5439pjv.131.1676393409539; 
+ Tue, 14 Feb 2023 08:50:09 -0800 (PST)
+X-Google-Smtp-Source: AK7set+XrBB9LfgHjh2nj7M0eSmweRXGzeq4aZsfhPfv7y5Hk46Vdcz5utiW7bpYZSHDqP96dHb+6cptK1R7rV7IAD8=
+X-Received: by 2002:a17:90a:9f42:b0:234:2592:efbe with SMTP id
+ q2-20020a17090a9f4200b002342592efbemr5431pjv.131.1676393409227; Tue, 14 Feb
+ 2023 08:50:09 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] block/mirror: add 'write-blocking-after-ready' copy mode
-Content-Language: en-US
-To: Fiona Ebner <f.ebner@proxmox.com>, qemu-devel@nongnu.org
-Cc: "Denis V. Lunev" <den@virtuozzo.com>, t.lamprecht@proxmox.com,
- jsnow@redhat.com, hreitz@redhat.com, eblake@redhat.com, armbru@redhat.com,
- qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Alexander Ivanov <alexander.ivanov@virtuozzo.com>
-References: <20221207132719.131227-1-f.ebner@proxmox.com>
- <c120932d-a1a7-5904-3f17-10a7c9ac69af@yandex-team.ru>
- <926be172-1d8a-e896-c051-3c37d048771b@virtuozzo.com>
- <c3982fa3-be00-9cb2-7d71-5f784ac80864@proxmox.com>
- <Y9uf1wlXQd4EIwxO@redhat.com>
- <746c2aaf-c909-784a-fc63-d0599d6dee9b@proxmox.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <746c2aaf-c909-784a-fc63-d0599d6dee9b@proxmox.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+References: <20230213132009.918801-1-armbru@redhat.com>
+In-Reply-To: <20230213132009.918801-1-armbru@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 14 Feb 2023 11:49:58 -0500
+Message-ID: <CAFn=p-brOeNFLUgpxRJSBEiXvKLZN=1iv8q6rLnX3DO_SD++6Q@mail.gmail.com>
+Subject: Re: [PATCH 0/2] docs/devel/qapi-code-gen: Update features doc,
+ minor improvements
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>, 
+ Eric Blake <eblake@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000a9617005f4abc1f4"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,29 +92,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 14.02.23 17:29, Fiona Ebner wrote:
+--000000000000a9617005f4abc1f4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[..]
+On Mon, Feb 13, 2023, 8:20 AM Markus Armbruster <armbru@redhat.com> wrote:
 
-> 
-> [0]: Is there a good way to peek the iterator without doing something
-> like the following (we do know the offset from last time in
-> mirror_iteration(), so that is not an issue)?
->> offset_from_last_time = bdrv_dirty_iter_next(s->dbi);
->> ...other stuff...
->> peek = bdrv_dirty_iter_next(s->dbi);
->> /* Get back to the previous state. */
->> bdrv_set_dirty_iter(s->dbi, offset_from_last_time);
->> check = bdrv_dirty_iter_next(s->dbi);
->> assert(check == offset_from_before); // just to be sure
-> 
+> *** BLURB HERE ***
+>
 
-I think, that this all should be refactored to use bdrv_dirty_bitmap_next_dirty_area() and keep the "current_offset" instead of "dbi" in MirrorBlockJob. This way further changes will be simpler.
+=F0=9F=A4=AB
 
 
+> Markus Armbruster (2):
+>   docs/devel/qapi-code-gen: Belatedly update features documentation
+>   docs/devel/qapi-code-gen: Fix a missing 'may', clarify SchemaInfo
+>
+>  docs/devel/qapi-code-gen.rst | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
+>
+> --
+> 2.39.0
+>
+>
 
--- 
-Best regards,
-Vladimir
+--000000000000a9617005f4abc1f4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Mon, Feb 13, 2023, 8:20 AM Markus Armbruster &lt;<a=
+ href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>&gt; wrote:<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex">*** BLURB HERE ***<br></blockquote></div><=
+/div><div dir=3D"auto"><br></div><div dir=3D"auto">=F0=9F=A4=AB</div><div d=
+ir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
+olid;padding-left:1ex">
+<br>
+Markus Armbruster (2):<br>
+=C2=A0 docs/devel/qapi-code-gen: Belatedly update features documentation<br=
+>
+=C2=A0 docs/devel/qapi-code-gen: Fix a missing &#39;may&#39;, clarify Schem=
+aInfo<br>
+<br>
+=C2=A0docs/devel/qapi-code-gen.rst | 16 ++++++++--------<br>
+=C2=A01 file changed, 8 insertions(+), 8 deletions(-)<br>
+<br>
+-- <br>
+2.39.0<br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000a9617005f4abc1f4--
 
 
