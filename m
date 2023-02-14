@@ -2,95 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F48696776
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 15:58:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4300E696777
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 15:58:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRwjr-0001jG-5m; Tue, 14 Feb 2023 09:56:59 -0500
+	id 1pRwlF-0002PV-AM; Tue, 14 Feb 2023 09:58:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1pRwjo-0001j6-8Q
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:56:56 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1pRwjm-0006Fm-37
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:56:56 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id C68C75C0071;
- Tue, 14 Feb 2023 09:56:51 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Tue, 14 Feb 2023 09:56:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1676386611; x=1676473011; bh=VV
- BDSfUxx2qtbZ7QRACsX2fQ56YCcjJyEXsiLm26WBY=; b=KCGphgaag5K6lXpgXW
- RBUhKfEAZIEFVs1/+N1EiGKb9/QHFcriTHvSkGbodRu9ENtFRh7KvMolxjwArRXV
- Qrmx3pZApcA2ssHSHrWTreJBui1KFaPF6eEJz738GNTr4sx9Dy8YbW/68ACbPVWU
- 6fLCrDDv06BJQGKok/PRFwZadzUEH2LdwNbQj8t1NLvcSn0MbU17R2rik14PAkuA
- l/mJZhYKof15idbBww3G49x3Nt2KMOVnvUfekWACDJEQ3YnTqKgzac45H8M2+sDW
- v5prZcD+s4TByJpuA2r0FpBnaGNL8pg9XlXG+PEdm/Zd6av/ABBea1VFXrUL4oHw
- EN0A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1676386611; x=1676473011; bh=VVBDSfUxx2qtbZ7QRACsX2fQ56YC
- cjJyEXsiLm26WBY=; b=fV8hxH56FPdLxtZ8khneoFuYNp4le/yxT5nChX9HDc+K
- KdAkD4eQ3w0Ur8Mw+BeYgdLnkh357+lTjOPZkA87TtIyQ5ITCwusHcXprry+AwGw
- DPwlHZqAS4PJjzqpDiXTi1ZCVqj4x8unjTE1C6nrDBrvyOFc+FLouSaYwqDFrtXR
- BqxJ4275LdYzOMseOe5h+F8n5t/feKstbMD2JEECSjzHntHf94ZHcZjTLM7yxpBh
- Od1bTI8mpBSJiNNkp+VviE3pX4Ew2BWLfo9UbZAJ0mBCPX2UFUM1tpaPS0lD9sVG
- +TKPTshq0Tqe7HguayrjUTIdtcgU0OwDqXGls3e9Qg==
-X-ME-Sender: <xms:M6HrY2T5LUdf4hiOXxQmk45DhskfAQJm0zIo9Tz8q2WNLJ2R3VwblA>
- <xme:M6HrY7wjyYRQ8uUWyrX-vDQEp0gDyahbwswEzcujEJdx_GKyPhP2CMF9V59mQpMsT
- MzZ1lT6wOr-F9ITceo>
-X-ME-Received: <xmr:M6HrYz13bzCyICC3NMYo8Mt3HDW8XCohRKqdAbNcE79zJ-_ageZDh19MMk_ZUCm7tOmsTUNIriRLXUw6Hi40Z-HI8tqiF90>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeifedgiedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:M6HrYyD_tdvIcOMRA5y2eDRhFXIzSzIQkcI-PEwC8w8UYczKK6wLcw>
- <xmx:M6HrY_gkeD1GfZyOr3j5KNkwYL-l-2wUECsJpUklQd3RcVobzircIQ>
- <xmx:M6HrY-op5cKxCRx2N75YqLY2jBx5nbTIBCEnDWqAKPcR4yBxlNx8bA>
- <xmx:M6HrY0blkdzdAolFfCfIVods3Yij80xkMbqaBCUbYCdz89cWN9IY_A>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Feb 2023 09:56:49 -0500 (EST)
-Date: Tue, 14 Feb 2023 15:56:47 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Major Saheb <majosaheb@gmail.com>
-Cc: Peter Xu <peterx@redhat.com>, k.jensen@samsung.com, philmd@linaro.org,
- armbru@redhat.com, mst@redhat.com, lukasz.gieryk@linux.intel.com,
- Alex Williamson <alex.williamson@redhat.com>,
- Bjorn Helgaas <helgaas@kernel.org>,
- Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: DMAR fault with qemu 7.2 and Ubuntu 22.04 base image
-Message-ID: <Y+uhL77aBFVEWsJd@cormorant.local>
-References: <CANBBZXMpWOj5fE2YF8XGvWmBtbc=9YKiMCSfUKC7AoP5Ros9QA@mail.gmail.com>
- <Y+q3+eXdYz0qOtDT@x1n>
- <CANBBZXOtEF6Ao+Nxznf6dGOSTMX3F7iJvfOiWWngs79Bjy_YEQ@mail.gmail.com>
- <Y+uHMm1hvP7N6sKD@cormorant.local>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRwlD-0002OJ-Dt
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:58:23 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRwlB-0007BD-N7
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:58:22 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id m10so7037630wrn.4
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 06:58:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=XggBteHi0Dsc2BPLSYVscWqvcQ5OSrEjfAnU7teHw7g=;
+ b=LBMCH/OQAFv9xdA4gX8ibdtLD9gc52YU6MqKtBTlCErlraZo3EDHDvME1khmvF5iiv
+ Nb14wnzTkLfGX845x0mHCdiQl64KZK3+z4QFAqOiHfJx/a3by2xNcYx/+lWOWYizfs8C
+ YS3P4d+XeBqA7FX++vdZSxQ/v9x8YJhUeN1+7bGkH2N3I1zvlUjrn7UkZjp4tdW5BI4x
+ /24iKGjsapC10Z4IIAFrJ99ABc8BA7RMyt71adEcQc32ZZ8V9kaojUrkw4a/xgaPzL8a
+ aED91YOmXua9Ho2dUapb4kEyW4AtZzKewZ38+2oP92ajgeTX7HzJ3l6MrD6/yLon0CZF
+ 7/HA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XggBteHi0Dsc2BPLSYVscWqvcQ5OSrEjfAnU7teHw7g=;
+ b=Srkxt6A6C8EHM6+jXdFd6cpk3lo4AeKa0859fhrK+qAjYxfZ5Si+uVd4EEXgESGXs9
+ l3yrJf5XZxtp4cTNBTLl3Cl5VsrIVLLXnFQN5/LTesOXhNjAYfGJf3n8oIjKwnI/Lw0a
+ zJyp/OIrjr9Yj5Xd4cTxI10bBYV/Hqxy25EXUe93/5mNdVVPX1STEx1Iwu51u6d3i7a0
+ m/DVtFNMTqtmdCNG0htmtf19BoNinNyMiu3n5eOlPP3V6qMy793bH5fJunKv5zhUDQDs
+ FXe+8f8Ljz8r2pvNR41Jo36J/GCBsTXjeYh5ChSw3W7zlLDautavH5I3tfHV3YFCUa5y
+ 7oDw==
+X-Gm-Message-State: AO0yUKUSFkUuR2r/0/SSG/wY9Vw06YfbZPtoBpliVpUU0ZuTZZJkb/rs
+ /5Fn704fITHxzL7ZqA8jiNDjRA==
+X-Google-Smtp-Source: AK7set+sL6ATT+EMI1H4kvd28AG+2zF2qhvSRHDVX1cbKflseVlF3zO4UHTF0yAndavLMs7/Y38wOQ==
+X-Received: by 2002:a05:6000:d:b0:2c5:4c0e:3736 with SMTP id
+ h13-20020a056000000d00b002c54c0e3736mr2391019wrx.24.1676386699986; 
+ Tue, 14 Feb 2023 06:58:19 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ d16-20020a5d5390000000b002c4008f0daasm13295909wrv.107.2023.02.14.06.58.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Feb 2023 06:58:19 -0800 (PST)
+Message-ID: <24404a86-3583-0561-09ea-f3e4e38bb952@linaro.org>
+Date: Tue, 14 Feb 2023 15:58:18 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="03UiJoxATTndTV99"
-Content-Disposition: inline
-In-Reply-To: <Y+uHMm1hvP7N6sKD@cormorant.local>
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH] target/s390x/arch_dump: Fix memory corruption in
+ s390x_write_elf64_notes()
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
+ David Hildenbrand <david@redhat.com>, frankja@linux.ibm.com
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+References: <20230214141056.680969-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230214141056.680969-1-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,72 +92,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 14/2/23 15:10, Thomas Huth wrote:
+> "note_size" can be smaller than sizeof(note), so unconditionally calling
+> memset(notep, 0, sizeof(note)) could cause a memory corruption here in
+> case notep has been allocated dynamically, thus let's use note_size as
+> length argument for memset() instead.
 
---03UiJoxATTndTV99
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Correct.
 
-On Feb 14 14:05, Klaus Jensen wrote:
-> On Feb 14 17:34, Major Saheb wrote:
-> > Thanks Peter for the reply. I tried to connect gdb to qemu and able to
-> > break 'vtd_iova_to_slpte()', I dumped the following with both Ubuntu
-> > 20.04 base image container which is the success case and Ubuntu 22.04
-> > base image container which is failure case
-> > One thing I observed is the NvmeSQueue::dma_addr is correctly set to
-> > '0x800000000', however in failure case this value is 0x1196b1000. A
-> > closer look indicates more fields in NvmeSQueue might be corrupted,
-> > for example we are setting admin queue size as 512 but in failure case
-> > it is showing 32.
-> >=20
->=20
-> Hi Major,
->=20
-> It's obviously pretty bad if hw/nvme somehow corrupts the SQ structure,
-> but it's difficult to say from this output.
->=20
-> Are you configuring shadow doorbells (the db_addr and ei_addr's are
-> set in both cases)?
->=20
-> > > > Following is the partial qemu command line that I am using
-> > > >
-> > > > -device intel-iommu,intremap=3Don,caching-mode=3Don,eim=3Don,device=
--iotlb=3Don,aw-bits=3D48
-> > > >
->=20
-> I'm not sure if caching-mode=3Don and device-iotlb=3Don leads to any issu=
-es
-> here? As far as I understand, this is mostly used with stuff like vhost.
-> I've tested and developed vfio-based drivers against hw/nvme excessively
-> and I'm not using anything besides `-device intel-iommu`.
->=20
-> Do I undestand correctly that your setup is "just" a Ubuntu 22.04 guest
-> with a container and a user-space driver to interact with the nvme
-> devices available on the guest? No nested virtualization with vfio
-> passthrough?
+I wonder why use one notep* pointing to a stack allocated or a heap
+allocated buffer. This isn't hot path, one heap use could simplify
+this code complexity IMO.
 
-Assuming you are *not* explicitly configuring shadow doorbells, then I
-think you might have a broken driver that does not properly reset the
-controller before using it (are you tripping CC.EN?). That could explain
-the admin queue size of 32 (default admin queue depth for the Linux nvme
-driver) as well as the db/ei_addrs being left over. And behavior wrt.
-how the Linux driver disables the device might have changed between the
-kernel version used in Ubuntu 20.04 and 22.04.
+> Fixes: 113d8f4e95 ("s390x: pv: Add dump support")
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   target/s390x/arch_dump.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
---03UiJoxATTndTV99
-Content-Type: application/pgp-signature; name="signature.asc"
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmProS4ACgkQTeGvMW1P
-DenYgAf/Sq769CSo9Xs6DmZwiP+c4pmZcUkZkrwZ5UAghfhxWfNDgG8EMZjvv9Ko
-rrVuC2dsbOk8FnyB2a9HB2NEA4IFxk58ugEtyb9lojU7KFHfD7pMbozMvm8P1GaM
-MW7xdbRzCrJPdKkzNxfaHk2ifLM0eN/bUFq761VUgj26DT2y5VTlVHNa2qceB6O2
-N4b0WQInfVlbL/nL9e1ESP6tuLd6Z8M4y+8CR70uuvtt9MNhw/PGpujM4x/ySlmp
-VA2YE96TJO5Tk4rsz6NoAVL4gX6FeDFglByPBJyzQWw/ULVDDKFA6YUydtkY/0xM
-4hAIwNgP+Bxv3VL1n+XHKz9mgqW9TQ==
-=VYo0
------END PGP SIGNATURE-----
-
---03UiJoxATTndTV99--
 
