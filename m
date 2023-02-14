@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE36469626F
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 12:26:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32E9C696256
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 12:23:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRtOX-00081v-DN; Tue, 14 Feb 2023 06:22:45 -0500
+	id 1pRtO5-0007FE-B8; Tue, 14 Feb 2023 06:22:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRtOR-0007sO-Om
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:22:40 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRtO3-0007Ee-Fk
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:22:15 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRtOC-0002Ny-Hz
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:22:39 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRtO1-0002LV-Ti
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:22:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676373743;
+ s=mimecast20190719; t=1676373733;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Qe7a2aGWYQpAKccN1WxYVT/DsbvqX8in3IWprtkArgQ=;
- b=fKxt4vGL+1eJY4POFeDdhykpRqilDqsEzfs0dSE+xz/SWaE8NIHemSimTrE8t7Flb91P3g
- Sk2VOft0Q2/ir+rBI6xO+gLo0nT55rFTW95ymlOmRTbWARUDK2hraKWjkCfgJ2YzgEqdgI
- 8aa2J3IzUCh5/K837BN9U5ftkK5tH5I=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=tXC5uUKH3sRKisV5CEfIbm8aKEjeO6mLbuG7HjDpjn0=;
+ b=NzvklE8bnYVQer60ViEFy81RTkmRSI340ten5KnPPEnNaTmiY0oUDnQ1pyElSOm2yt5Khh
+ rrK4OaKNDKxCBtpzrUQOPcv3z8blTMaEzjTLd0RlmJ0ShdBrqBZvy6jPZBKMnbzxTS73DN
+ I01XRRmFlpzcB5G66d1K8yxaoW2S06s=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-240-XKEr7VF2Maq3Xs4IiZKm-A-1; Tue, 14 Feb 2023 06:22:13 -0500
-X-MC-Unique: XKEr7VF2Maq3Xs4IiZKm-A-1
+ us-mta-438-aIGRpst1PAe59qQTzmjebw-1; Tue, 14 Feb 2023 06:22:10 -0500
+X-MC-Unique: aIGRpst1PAe59qQTzmjebw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 95B16181E3EE;
- Tue, 14 Feb 2023 11:22:08 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D02EF1C06EC8;
+ Tue, 14 Feb 2023 11:22:09 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BEA3A40B40C9;
- Tue, 14 Feb 2023 11:22:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E541E40B40C9;
+ Tue, 14 Feb 2023 11:22:08 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
 Cc: Fabiano Rosas <farosas@suse.de>
-Subject: [PULL 13/22] test/qtest: Fix coding style in device-plug-test.c
-Date: Tue, 14 Feb 2023 12:21:39 +0100
-Message-Id: <20230214112148.646077-14-thuth@redhat.com>
+Subject: [PULL 14/22] tests/qtest: Skip unplug tests that use missing devices
+Date: Tue, 14 Feb 2023 12:21:40 +0100
+Message-Id: <20230214112148.646077-15-thuth@redhat.com>
 In-Reply-To: <20230214112148.646077-1-thuth@redhat.com>
 References: <20230214112148.646077-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,55 +78,86 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Fabiano Rosas <farosas@suse.de>
 
-We should not mix declarations and statements in QEMU code.
-
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
-Message-Id: <20230208194700.11035-7-farosas@suse.de>
+Message-Id: <20230208194700.11035-8-farosas@suse.de>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/device-plug-test.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ tests/qtest/device-plug-test.c | 33 +++++++++++++++++++++++++++------
+ 1 file changed, 27 insertions(+), 6 deletions(-)
 
 diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
-index 5a6afa2b57..4f92617335 100644
+index 4f92617335..01cecd6e20 100644
 --- a/tests/qtest/device-plug-test.c
 +++ b/tests/qtest/device-plug-test.c
-@@ -64,6 +64,7 @@ static void process_device_remove(QTestState *qtest, const char *id)
- 
- static void test_pci_unplug_request(void)
- {
-+    QTestState *qtest;
+@@ -68,6 +68,11 @@ static void test_pci_unplug_request(void)
      const char *arch = qtest_get_arch();
      const char *machine_addition = "";
  
-@@ -71,8 +72,8 @@ static void test_pci_unplug_request(void)
++    if (!qtest_has_device("virtio-mouse-pci")) {
++        g_test_skip("Device virtio-mouse-pci not available");
++        return;
++    }
++
+     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
          machine_addition = "-machine pc";
      }
+@@ -82,11 +87,17 @@ static void test_pci_unplug_request(void)
  
--    QTestState *qtest = qtest_initf("%s -device virtio-mouse-pci,id=dev0",
--                                    machine_addition);
-+    qtest = qtest_initf("%s -device virtio-mouse-pci,id=dev0",
-+                        machine_addition);
+ static void test_q35_pci_unplug_request(void)
+ {
++    QTestState *qtest;
++
++    if (!qtest_has_device("virtio-mouse-pci")) {
++        g_test_skip("Device virtio-mouse-pci not available");
++        return;
++    }
+ 
+-    QTestState *qtest = qtest_initf("-machine q35 "
+-                                    "-device pcie-root-port,id=p1 "
+-                                    "-device pcie-pci-bridge,bus=p1,id=b1 "
+-                                    "-device virtio-mouse-pci,bus=b1,id=dev0");
++    qtest = qtest_initf("-machine q35 "
++                        "-device pcie-root-port,id=p1 "
++                        "-device pcie-pci-bridge,bus=p1,id=b1 "
++                        "-device virtio-mouse-pci,bus=b1,id=dev0");
  
      process_device_remove(qtest, "dev0");
  
-@@ -94,6 +95,7 @@ static void test_q35_pci_unplug_request(void)
- 
- static void test_pci_unplug_json_request(void)
- {
-+    QTestState *qtest;
+@@ -99,6 +110,11 @@ static void test_pci_unplug_json_request(void)
      const char *arch = qtest_get_arch();
      const char *machine_addition = "";
  
-@@ -101,7 +103,7 @@ static void test_pci_unplug_json_request(void)
++    if (!qtest_has_device("virtio-mouse-pci")) {
++        g_test_skip("Device virtio-mouse-pci not available");
++        return;
++    }
++
+     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
          machine_addition = "-machine pc";
      }
+@@ -114,6 +130,7 @@ static void test_pci_unplug_json_request(void)
  
--    QTestState *qtest = qtest_initf(
-+    qtest = qtest_initf(
-         "%s -device \"{'driver': 'virtio-mouse-pci', 'id': 'dev0'}\"",
-         machine_addition);
+ static void test_q35_pci_unplug_json_request(void)
+ {
++    QTestState *qtest;
+     const char *port = "-device \"{'driver': 'pcie-root-port', "
+                                   "'id': 'p1'}\"";
+ 
+@@ -125,8 +142,12 @@ static void test_q35_pci_unplug_json_request(void)
+                                     "'bus': 'b1', "
+                                     "'id': 'dev0'}\"";
+ 
+-    QTestState *qtest = qtest_initf("-machine q35 %s %s %s",
+-                                    port, bridge, device);
++    if (!qtest_has_device("virtio-mouse-pci")) {
++        g_test_skip("Device virtio-mouse-pci not available");
++        return;
++    }
++
++    qtest = qtest_initf("-machine q35 %s %s %s", port, bridge, device);
+ 
+     process_device_remove(qtest, "dev0");
  
 -- 
 2.31.1
