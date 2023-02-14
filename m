@@ -2,71 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 906E06968AD
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 16:59:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D0546968BA
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 17:04:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRxhx-0002n7-PA; Tue, 14 Feb 2023 10:59:05 -0500
+	id 1pRxle-0004Mp-2s; Tue, 14 Feb 2023 11:02:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pRxhv-0002mX-D0; Tue, 14 Feb 2023 10:59:03 -0500
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pRxht-0000Uj-Ef; Tue, 14 Feb 2023 10:59:03 -0500
-Received: from myt6-23a5e62c0090.qloud-c.yandex.net
- (myt6-23a5e62c0090.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:1da3:0:640:23a5:e62c])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id DB60A611CC;
- Tue, 14 Feb 2023 18:58:50 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b433::1:3c] (unknown
- [2a02:6b8:b081:b433::1:3c])
- by myt6-23a5e62c0090.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- nwlgI10RkW21-lzHEWb7Y; Tue, 14 Feb 2023 18:58:50 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1676390330; bh=ttxbAmI/AVLINQx3O8SAFKMzL3n27TKQD8fdVgNi42w=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=ItxVzls5gM2kS7LXHP/u2hbUxoGW5xKiQVLbpt0X2gSNRCx2nW+99Wk/WmXaqhIxU
- /KwM8ENGWlE5S6TbWF31PuExgMc0aSXS2WwefK/dalafwTmh1sBi5IP1Mm6wn2T3Ty
- +3SUWlXP5I4xSNnpoo+pvt59ycyIMRGmEZWJbFag=
-Authentication-Results: myt6-23a5e62c0090.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <12619db6-52f2-0fe3-bfbe-c31c83ecb2a8@yandex-team.ru>
-Date: Tue, 14 Feb 2023 18:58:49 +0300
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pRxlZ-0004Mc-SX
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:02:50 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pRxlY-0001HW-9L
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:02:49 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id bk16so16156690wrb.11
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 08:02:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=+0f7nU4h8gWNQ2mPm4AtGOg9F9z8FgRF1TbEx8NuvRI=;
+ b=R9eGloBv4+5+tFGbo+tG9bn98Np7IIeG9jCD4nGx90b70PLZ/6z/mxcImRCaLp/o3C
+ eNluqAZTocvRI4A4BwA3H/Lw1gXFjrRhKAUtgjAX3JynSOB4Owm0+U5deIn81Ej7rOeb
+ O6WUWs2MqNFi4VX3kb8Aan/5pwFUK6PDsBnFLUW/3zMC+YGRGeFfkIDgpOnaGA5xv6xL
+ W7aD+CfF6g3p6YocrSkgFbv2biiTO22FaZ4MqbyzP/COj1YHaOZ03HFz7l0qGNVPz6rB
+ oLS/IXNTqG9X80c/t17N3B+xH22gUD3r0u1HS1FMBjpQpqhbHJHenpJYPLnMVApFySIo
+ A14Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+0f7nU4h8gWNQ2mPm4AtGOg9F9z8FgRF1TbEx8NuvRI=;
+ b=XzNEsk3Nw4qWa5FOSIaPV6f3lD/CGlDugq3NlpfQQwsl2tz4KN42J0oqvlEBIWWKmh
+ kyYMJ1/uHKno1OmMS40NNAcHIO4owkJWc8tnVMohB++BPdqxII6WOTfeHFFo9Tza7TVI
+ sN36J3Ue1QTsMIVeOcIvCF4MGvBjApvbMWAtZu+a2WBOuJ7gDkI7NzHPBGeYNNeZgu6Z
+ bF4JCSLa8wIcBrcQDMfYpSPhzR/SEsTmnVDINULSTcjPbDk53hOGqZrnKFKh3eGq9mut
+ hca4vr9NXMQcwaAJO3A8QiIvqcljWkBgCiXJ3r1ZW+71Ut4B9RyFDVWmVRgh3cb7fYZq
+ aKHg==
+X-Gm-Message-State: AO0yUKXjz6NrEIPG9vgzojsXYA4/KNg8AYFHj4iLBqo0wZpgPdZN3zIQ
+ Tz1+GHB6HF+uKNB1mOwG2kQ=
+X-Google-Smtp-Source: AK7set+1YIqHF3THIh8SgFzk/rNQ77yOh5E+F9z7BsVbELzWWe11YBKu8NLWXtK7NtkgEFvj6ag3Pg==
+X-Received: by 2002:a5d:670f:0:b0:2c5:4de4:bcd8 with SMTP id
+ o15-20020a5d670f000000b002c54de4bcd8mr2377696wru.36.1676390565712; 
+ Tue, 14 Feb 2023 08:02:45 -0800 (PST)
+Received: from [10.95.154.108] (54-240-197-224.amazon.com. [54.240.197.224])
+ by smtp.gmail.com with ESMTPSA id
+ l16-20020a05600c2cd000b003daffc2ecdesm21811118wmc.13.2023.02.14.08.02.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Feb 2023 08:02:45 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <15c4e9a2-d480-69cc-63af-65dd7138c640@xen.org>
+Date: Tue, 14 Feb 2023 16:02:44 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] block/mirror: add 'write-blocking-after-ready' copy mode
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v10 52/59] hw/xen: Add basic ring handling to xenstore
 Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>, "Denis V. Lunev" <den@virtuozzo.com>
-Cc: Fiona Ebner <f.ebner@proxmox.com>, qemu-devel@nongnu.org,
- t.lamprecht@proxmox.com, jsnow@redhat.com, hreitz@redhat.com,
- eblake@redhat.com, armbru@redhat.com, qemu-block@nongnu.org,
- Alexander Ivanov <alexander.ivanov@virtuozzo.com>
-References: <20221207132719.131227-1-f.ebner@proxmox.com>
- <c120932d-a1a7-5904-3f17-10a7c9ac69af@yandex-team.ru>
- <926be172-1d8a-e896-c051-3c37d048771b@virtuozzo.com>
- <c3982fa3-be00-9cb2-7d71-5f784ac80864@proxmox.com>
- <Y9uf1wlXQd4EIwxO@redhat.com>
- <40969191-9a16-0550-e999-bc44584d81fb@proxmox.com>
- <67fdadb1-672f-776a-2ce6-631cba19171c@virtuozzo.com>
- <Y9vVd8unUeZmsmmX@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <Y9vVd8unUeZmsmmX@redhat.com>
+To: David Woodhouse <dwmw2@infradead.org>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
+References: <20230201143148.1744093-1-dwmw2@infradead.org>
+ <20230201143148.1744093-53-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20230201143148.1744093-53-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.35, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,51 +103,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 02.02.23 18:23, Kevin Wolf wrote:
-> Am 02.02.2023 um 14:35 hat Denis V. Lunev geschrieben:
->> On 2/2/23 14:27, Fiona Ebner wrote:
->>> Am 02.02.23 um 12:34 schrieb Kevin Wolf:
->>>> Am 02.02.2023 um 11:19 hat Fiona Ebner geschrieben:
->>>>> Am 31.01.23 um 19:18 schrieb Denis V. Lunev:
->>>>>> Frankly speaking I would say that this switch could be considered
->>>>>> NOT QEMU job and we should just send a notification (event) for the
->>>>>> completion of the each iteration and management software should
->>>>>> take a decision to switch from async mode to the sync one.
->>>> My first thought was very similar. We should provide a building block
->>>> that just switches between the two modes and then the management tool
->>>> can decide what the right policy is.
->>>>
->>>> Adding a new event when the first iteration is done (I'm not sure if
->>>> there is much value in having it for later iterations) makes sense to
->>>> me if someone wants to use it. If we add it, let's not forget that
->>>> events can be lost and clients must be able to query the same
->>>> information, so we'd have to add it to query-jobs, too - which in turn
->>>> requires adding a job type specific struct to JobInfo first.
->>>>
->>> Well, Denis said 2 iterations might be better. But I'm fine with
->>> initially adding an event just for the first iteration, further ones can
->>> still be added later. Returning the number of completed iterations as
->>> part of the mirror-specific job info would anticipate that.
->>
->> May be it would be better to have an event on each iteration + make
->> available iteration count over block status query.
+On 01/02/2023 14:31, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> In the ready phase, each iteration can be very short. Basically if the
-> guest writes to one block and then the mirror catches up, that's a whole
-> iteration. So if the guest is doing I/O at a moderate rate so that the
-> host can keep up with it, you might end up with one QMP event per I/O
-> request.
+> Extract requests, return ENOSYS to all of them. This is enough to allow
+> older Linux guests to boot, as they need *something* back but it doesn't
+> matter much what.
+> 
+> In the first instance we're likely to wire this up over a UNIX socket to
+> an actual xenstored implementation, but in the fullness of time it would
+> be nice to have a fully single-tenant "virtual" xenstore within qemu.
 > 
 
-I think, after first iteration the only physical parameters are data_sent and remaining_dirty. Number of additional iterations doesn't matter - we just loop through dirty bits.
+I think you can probably re-work that second paragraph now :-)
 
-I'm not even sure that first iteration completion has physical meaning.. Probably, "the whole disk touched", so we can make more reasonable prediction about further speed and convergence..
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>   hw/i386/kvm/xen_xenstore.c | 223 ++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 220 insertions(+), 3 deletions(-)
+> 
 
--- 
-Best regards,
-Vladimir
-
+Reviewed-by: Paul Durrant <paul@xen.org>
 
