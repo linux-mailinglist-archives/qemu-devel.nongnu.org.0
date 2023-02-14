@@ -2,79 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C7A8696981
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 17:31:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC346969AC
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 17:33:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRyCz-0006Ws-WA; Tue, 14 Feb 2023 11:31:10 -0500
+	id 1pRyD0-0006Y0-KA; Tue, 14 Feb 2023 11:31:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pRyCn-0006Pb-3k
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:30:59 -0500
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pRyCl-00024z-90
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:30:56 -0500
-Received: by mail-pg1-x534.google.com with SMTP id r18so10559430pgr.12
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 08:30:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+cwR0yAMMRzTUue9qCnfgeow6XLhgPQr5IbzzpWxGQY=;
- b=fS+2Lj3fMAR52noQmc91ZY538L3E379e7GChUR+AVk8SP2QGJvmcLGPiUbrGIuloWj
- iq0kZjeHo8hZzZYowRF0GxvzLqIsk3K12Ijvflk8EVhQ8u/Fn7Kkp1fSyZjA1lgV+LHU
- hhNjqAiKo7zaR2oUATBeatOug1ul7sBzN20j9+LNUQvKOsmWTO9omHdwdrFoJ58MhXSf
- CG4Vc6mXAcQJmA6AE7RcpS9W16h3y/WeqasFNMVyEZbUZ3x8dy21DEHyspB6i3R6UxMd
- 3cQbeFBBhja7ve8YcTvcuiuF+GULVqiAfzVMGhpvsZzJ39a3gJy/FPgExctG8j6MHtyU
- iTkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+cwR0yAMMRzTUue9qCnfgeow6XLhgPQr5IbzzpWxGQY=;
- b=tkQ6peYg2sgfW8M3zrgPkjGJlxRTo3+MMyUrE+DlWXoA4qs/E/qfA0r2YOYeWzqRIB
- 7QlBkx9G3dJbRcJhQ+DCkyTEF77GuvGlmSHA7RQu8OyNdvfp8fXiDDX0gkvwSW/flCVc
- mJ7hKs33o3ka/Hb0EaQSXbGNVytpTnjFFZnfseDhws7IY0v5BSAwGKwR4OuYWncUAiH6
- Y9/X9ShSDtddaQOcySZQkW9GdEHYz3LqYJtjhZuKsDWbP1ebycHkf3YwfuCpCnW0hTt1
- C89684tks9264soO1LidtAfI8nPB+bLT25V8ol6uGo1jWuuhJk9b4g0PTNp+9Xjvk9Jf
- VONg==
-X-Gm-Message-State: AO0yUKXOixUwMkvqSN/oMMVJJ8lfP6/SZNtKJ91WmofOYvkmQztdJR/q
- dPqUAPl2XhiV4AXgHxbQNePxkPCkYo5Y8AoHeRc=
-X-Google-Smtp-Source: AK7set/MGp0UPQgajS5vEAiwPZ8IkMit4r/NHrWJ3u9/t2XAe9mlJNHSxzs85nKDNkjRBu+TBRl6fw==
-X-Received: by 2002:a62:2902:0:b0:5a8:b958:e348 with SMTP id
- p2-20020a622902000000b005a8b958e348mr2142311pfp.28.1676392253019; 
- Tue, 14 Feb 2023 08:30:53 -0800 (PST)
-Received: from stoup.. (rrcs-74-87-59-234.west.biz.rr.com. [74.87.59.234])
- by smtp.gmail.com with ESMTPSA id
- d17-20020aa78691000000b0058d99337381sm10337011pfo.172.2023.02.14.08.30.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Feb 2023 08:30:52 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1pRyCe-0006N6-C0; Tue, 14 Feb 2023 11:30:58 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1pRyCc-0001zy-D9; Tue, 14 Feb 2023 11:30:48 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 31EFnZYH011046; Tue, 14 Feb 2023 16:30:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=8OaOik1jLAnmnMjWrB6meCZfUGv1uew8P6BEBbmOjaQ=;
+ b=pfMYEPiy3HWICfsS1g8vwWlC9isjXijVTKEIeKYvjBOLFZyw1jpjHnu8gZ1kk9K7yM+H
+ IlKT/AkhXnzXdz8t45FwDwmnVVKSTh2/1FPbmwNXI20kSeIxAQiwJTdz7+Bi00GJUdWB
+ 3OJSnYsDsuQY5CXXfHnFWxo7amGsGoLGxQQDudswzXO9Hq/07zWgYYgBpu3fRw1mLs6S
+ 1ANgGQEUckCoHZuSDgniOUOLyD8DA4K7ESoRGJ30IIV6HpyoWxPqJ68hx9+JM0/+UYx7
+ ZUapnGIOP5/fw18iTeYRJNkIeB+Jgwv0VvY84zv7SXF0Cc7gApaWSJbN7elJfiOgtVX1 2Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nrd9j9893-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Feb 2023 16:30:42 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31EFpN6G016128;
+ Tue, 14 Feb 2023 16:30:42 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nrd9j987t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Feb 2023 16:30:42 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31EFGum8027208;
+ Tue, 14 Feb 2023 16:30:40 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+ by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3np2n6b52h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Feb 2023 16:30:40 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 31EGUaDD40304980
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 14 Feb 2023 16:30:36 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C81F720043;
+ Tue, 14 Feb 2023 16:30:36 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8FF4620049;
+ Tue, 14 Feb 2023 16:30:36 +0000 (GMT)
+Received: from p-imbrenda.boeblingen.de.ibm.com (unknown [9.152.224.56])
+ by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Tue, 14 Feb 2023 16:30:36 +0000 (GMT)
+From: Claudio Imbrenda <imbrenda@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org
-Subject: [PATCH 01/14] target/arm: Normalize aarch64 gdbstub get/set function
- names
-Date: Tue, 14 Feb 2023 06:30:35 -1000
-Message-Id: <20230214163048.903964-2-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230214163048.903964-1-richard.henderson@linaro.org>
-References: <20230214163048.903964-1-richard.henderson@linaro.org>
+Cc: qemu-s390x@nongnu.org, david@redhat.com, thuth@redhat.com,
+ borntraeger@de.ibm.com, frankja@linux.ibm.com, pasic@linux.ibm.com,
+ nrb@linux.ibm.com, nsg@linux.ibm.com, seiden@linux.ibm.com
+Subject: [PATCH v3 2/2] s390x/pv: Add support for asynchronous teardown for
+ reboot
+Date: Tue, 14 Feb 2023 17:30:35 +0100
+Message-Id: <20230214163035.44104-3-imbrenda@linux.ibm.com>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230214163035.44104-1-imbrenda@linux.ibm.com>
+References: <20230214163035.44104-1-imbrenda@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 411cSmBCKWbW_Iloh3VcjggZsoWdYraw
+X-Proofpoint-GUID: euYmmgoX-83S7oBK43a9tShq1dP8KPQO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-14_11,2023-02-14_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 phishscore=0
+ spamscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0 mlxlogscore=999
+ impostorscore=0 malwarescore=0 priorityscore=1501 clxscore=1015
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302140137
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,99 +113,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Make the form of the function names between fp and sve the same:
-  - arm_gdb_*_svereg -> aarch64_gdb_*_sve_reg.
-  - aarch64_fpu_gdb_*_reg -> aarch64_gdb_*_fpu_reg.
+This patch adds support for the asynchronous teardown for reboot for
+protected VMs.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+When attempting to tear down a protected VM, try to use the new
+asynchronous interface first. If that fails, fall back to the classic
+synchronous one.
+
+The asynchronous interface involves invoking the new
+KVM_PV_ASYNC_DISABLE_PREPARE command for the KVM_S390_PV_COMMAND ioctl.
+
+This will prepare the current protected VM for asynchronous teardown.
+Once the protected VM is prepared for teardown, execution can continue
+immediately.
+
+Once the protected VM has been prepared, a new thread is started to
+actually perform the teardown. The new thread uses the new
+KVM_PV_ASYNC_DISABLE command for the KVM_S390_PV_COMMAND ioctl. The
+previously prepared protected VM is torn down in the new thread.
+
+Once KVM_PV_ASYNC_DISABLE is invoked, it is possible to use
+KVM_PV_ASYNC_DISABLE_PREPARE again. If a protected VM has already been
+prepared and its cleanup has not started, it will not be possible to
+prepare a new VM. In that case the classic synchronous teardown has to
+be performed.
+
+The synchronous teardown will now also clean up any prepared VMs whose
+asynchronous teardown has not been initiated yet.
+
+This considerably speeds up the reboot of a protected VM; for large VMs
+especially, it could take a long time to perform a reboot with the
+traditional synchronous teardown, while with this patch it is almost
+immediate.
+
+Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
 ---
- target/arm/internals.h | 8 ++++----
- target/arm/gdbstub.c   | 9 +++++----
- target/arm/gdbstub64.c | 8 ++++----
- 3 files changed, 13 insertions(+), 12 deletions(-)
+ hw/s390x/pv.c              | 28 ++++++++++++++++++++++++++++
+ hw/s390x/s390-virtio-ccw.c |  5 ++++-
+ include/hw/s390x/pv.h      |  2 ++
+ 3 files changed, 34 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index e1e018da46..69b5e7ba73 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1340,10 +1340,10 @@ static inline uint64_t pmu_counter_mask(CPUARMState *env)
+diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
+index 8a1c71436b..49ea38236c 100644
+--- a/hw/s390x/pv.c
++++ b/hw/s390x/pv.c
+@@ -16,6 +16,7 @@
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "sysemu/kvm.h"
++#include "sysemu/cpus.h"
+ #include "qom/object_interfaces.h"
+ #include "exec/confidential-guest-support.h"
+ #include "hw/s390x/ipl.h"
+@@ -108,6 +109,33 @@ void s390_pv_vm_disable(void)
+      s390_pv_cmd_exit(KVM_PV_DISABLE, NULL);
  }
  
- #ifdef TARGET_AARCH64
--int arm_gdb_get_svereg(CPUARMState *env, GByteArray *buf, int reg);
--int arm_gdb_set_svereg(CPUARMState *env, uint8_t *buf, int reg);
--int aarch64_fpu_gdb_get_reg(CPUARMState *env, GByteArray *buf, int reg);
--int aarch64_fpu_gdb_set_reg(CPUARMState *env, uint8_t *buf, int reg);
-+int aarch64_gdb_get_sve_reg(CPUARMState *env, GByteArray *buf, int reg);
-+int aarch64_gdb_set_sve_reg(CPUARMState *env, uint8_t *buf, int reg);
-+int aarch64_gdb_get_fpu_reg(CPUARMState *env, GByteArray *buf, int reg);
-+int aarch64_gdb_set_fpu_reg(CPUARMState *env, uint8_t *buf, int reg);
- void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp);
- void arm_cpu_sme_finalize(ARMCPU *cpu, Error **errp);
- void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp);
-diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
-index 2f806512d0..cf1c01e3cf 100644
---- a/target/arm/gdbstub.c
-+++ b/target/arm/gdbstub.c
-@@ -466,12 +466,13 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
-          */
- #ifdef TARGET_AARCH64
-         if (isar_feature_aa64_sve(&cpu->isar)) {
--            gdb_register_coprocessor(cs, arm_gdb_get_svereg, arm_gdb_set_svereg,
--                                     arm_gen_dynamic_svereg_xml(cs, cs->gdb_num_regs),
-+            int nreg = arm_gen_dynamic_svereg_xml(cs, cs->gdb_num_regs);
-+            gdb_register_coprocessor(cs, aarch64_gdb_get_sve_reg,
-+                                     aarch64_gdb_set_sve_reg, nreg,
-                                      "sve-registers.xml", 0);
-         } else {
--            gdb_register_coprocessor(cs, aarch64_fpu_gdb_get_reg,
--                                     aarch64_fpu_gdb_set_reg,
-+            gdb_register_coprocessor(cs, aarch64_gdb_get_fpu_reg,
-+                                     aarch64_gdb_set_fpu_reg,
-                                      34, "aarch64-fpu.xml", 0);
-         }
- #endif
-diff --git a/target/arm/gdbstub64.c b/target/arm/gdbstub64.c
-index 07a6746944..c598cb0375 100644
---- a/target/arm/gdbstub64.c
-+++ b/target/arm/gdbstub64.c
-@@ -72,7 +72,7 @@ int aarch64_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-     return 0;
- }
- 
--int aarch64_fpu_gdb_get_reg(CPUARMState *env, GByteArray *buf, int reg)
-+int aarch64_gdb_get_fpu_reg(CPUARMState *env, GByteArray *buf, int reg)
++static void *s390_pv_do_unprot_async_fn(void *p)
++{
++     s390_pv_cmd_exit(KVM_PV_ASYNC_CLEANUP_PERFORM, NULL);
++     return NULL;
++}
++
++bool s390_pv_vm_try_disable_async(void)
++{
++    /*
++     * t is only needed to create the thread; once qemu_thread_create
++     * returns, it can safely be discarded.
++     */
++    QemuThread t;
++
++    if (!kvm_check_extension(kvm_state, KVM_CAP_S390_PROTECTED_ASYNC_DISABLE)) {
++        return false;
++    }
++    if (s390_pv_cmd(KVM_PV_ASYNC_CLEANUP_PREPARE, NULL) != 0) {
++        return false;
++    }
++
++    qemu_thread_create(&t, "async_cleanup", s390_pv_do_unprot_async_fn, NULL,
++                       QEMU_THREAD_DETACHED);
++
++    return true;
++}
++
+ int s390_pv_set_sec_parms(uint64_t origin, uint64_t length)
  {
-     switch (reg) {
-     case 0 ... 31:
-@@ -92,7 +92,7 @@ int aarch64_fpu_gdb_get_reg(CPUARMState *env, GByteArray *buf, int reg)
-     }
- }
+     struct kvm_s390_pv_sec_parm args = {
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index f22f61b8b6..503f212a31 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -41,6 +41,7 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/s390x/tod.h"
+ #include "sysemu/sysemu.h"
++#include "sysemu/cpus.h"
+ #include "hw/s390x/pv.h"
+ #include "migration/blocker.h"
+ #include "qapi/visitor.h"
+@@ -329,7 +330,9 @@ static inline void s390_do_cpu_ipl(CPUState *cs, run_on_cpu_data arg)
  
--int aarch64_fpu_gdb_set_reg(CPUARMState *env, uint8_t *buf, int reg)
-+int aarch64_gdb_set_fpu_reg(CPUARMState *env, uint8_t *buf, int reg)
+ static void s390_machine_unprotect(S390CcwMachineState *ms)
  {
-     switch (reg) {
-     case 0 ... 31:
-@@ -116,7 +116,7 @@ int aarch64_fpu_gdb_set_reg(CPUARMState *env, uint8_t *buf, int reg)
-     }
- }
- 
--int arm_gdb_get_svereg(CPUARMState *env, GByteArray *buf, int reg)
-+int aarch64_gdb_get_sve_reg(CPUARMState *env, GByteArray *buf, int reg)
- {
-     ARMCPU *cpu = env_archcpu(env);
- 
-@@ -164,7 +164,7 @@ int arm_gdb_get_svereg(CPUARMState *env, GByteArray *buf, int reg)
-     return 0;
- }
- 
--int arm_gdb_set_svereg(CPUARMState *env, uint8_t *buf, int reg)
-+int aarch64_gdb_set_sve_reg(CPUARMState *env, uint8_t *buf, int reg)
- {
-     ARMCPU *cpu = env_archcpu(env);
- 
+-    s390_pv_vm_disable();
++    if (!s390_pv_vm_try_disable_async()) {
++        s390_pv_vm_disable();
++    }
+     ms->pv = false;
+     migrate_del_blocker(pv_mig_blocker);
+     error_free_or_abort(&pv_mig_blocker);
+diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h
+index 9360aa1091..966306a9db 100644
+--- a/include/hw/s390x/pv.h
++++ b/include/hw/s390x/pv.h
+@@ -41,6 +41,7 @@ static inline bool s390_is_pv(void)
+ int s390_pv_query_info(void);
+ int s390_pv_vm_enable(void);
+ void s390_pv_vm_disable(void);
++bool s390_pv_vm_try_disable_async(void);
+ int s390_pv_set_sec_parms(uint64_t origin, uint64_t length);
+ int s390_pv_unpack(uint64_t addr, uint64_t size, uint64_t tweak);
+ void s390_pv_prep_reset(void);
+@@ -60,6 +61,7 @@ static inline bool s390_is_pv(void) { return false; }
+ static inline int s390_pv_query_info(void) { return 0; }
+ static inline int s390_pv_vm_enable(void) { return 0; }
+ static inline void s390_pv_vm_disable(void) {}
++static inline bool s390_pv_vm_try_disable_async(void) { return false; }
+ static inline int s390_pv_set_sec_parms(uint64_t origin, uint64_t length) { return 0; }
+ static inline int s390_pv_unpack(uint64_t addr, uint64_t size, uint64_t tweak) { return 0; }
+ static inline void s390_pv_prep_reset(void) {}
 -- 
-2.34.1
+2.39.1
 
 
