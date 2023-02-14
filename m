@@ -2,80 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18A94696643
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 15:14:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 553796966AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 15:24:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRw4o-0007zr-2d; Tue, 14 Feb 2023 09:14:34 -0500
+	id 1pRwDX-0007Kf-Ak; Tue, 14 Feb 2023 09:23:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRw4e-0007xj-Vq
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:14:25 -0500
-Received: from mga02.intel.com ([134.134.136.20])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRw4c-0004Xh-SE
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:14:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676384062; x=1707920062;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=x9ZaFbv3Wt/bS0lvkEaFRgOCJJ84KiZjG5cIM3SrbGc=;
- b=MojMLDyXCGfC3EAhaX8aqeiwCQYiK+X/o0CZGBb6A/j7rDbeLQmWKJ/D
- zgJCEG3r3RBL/nl/pTTNb+uSP7svvh8kYVBodYnenVNwKM0VdTLXG8B0Z
- v0+1F3W/pZTmd78pogBvqkVetEAr7+EwjcYHimwpyd/6WnN9T4fN/ZJCq
- w1QMHghp6gof7alyaK+CcRG1EpnulnHGfDHQpe+maTJk3ZNo7PuuxTGoF
- gqr7Y2zoxRtV/Yve92fcUBa99ofhXn2UTUxqiSZ6f1sd4ituOiBbdjQOg
- 7tbNRs3ioZZmj3r3xqBtZNLViwVj32kP46WnsBtjLItD0ffZCVwdPKJRl Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="319197150"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="319197150"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2023 06:14:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="732906810"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="732906810"
-Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
- ([10.239.160.112])
- by fmsmga008.fm.intel.com with ESMTP; 14 Feb 2023 06:14:16 -0800
-Date: Tue, 14 Feb 2023 22:22:04 +0800
-From: Zhao Liu <zhao1.liu@linux.intel.com>
-To: "wangyanan (Y)" <wangyanan55@huawei.com>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi <dapeng1.mi@intel.com>,
- Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo <robert.hu@linux.intel.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
- Like Xu <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>
-Subject: Re: [PATCH RESEND 01/18] machine: Fix comment of
- machine_parse_smp_config()
-Message-ID: <Y+uZDAlt6BAuTY69@liuzhao-OptiPlex-7080>
-References: <20230213093625.158170-1-zhao1.liu@linux.intel.com>
- <20230213093625.158170-2-zhao1.liu@linux.intel.com>
- <0f64a5cd-a97c-ee54-e131-387fee0be853@huawei.com>
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pRwDR-0007KP-Na
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:23:29 -0500
+Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pRwDP-0002BC-OR
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:23:29 -0500
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-16e2c22c3baso2642228fac.8
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 06:23:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4F00CTTwLY3038ca8rY5vafjy8fe+jHQBi5QB6/xEJs=;
+ b=RkzNtHY0lisy7hDgWGcJLguKyJISqicplsYZJSBJy/u5vBdAkJ1iHslCO1G66D07wp
+ +/F7HI2tU62+GvH+fsaPzH+eaH/H8Fm9BJOtlwrOP4mp05cecPOIMGxTerw459Sx7par
+ Yg5QEUDKhxsdjbQxBHGt7YPL/5BPN+b9CcnCnuTcuuttSV6POgTyWnY6NzCjyL1ujTyV
+ PDBLWuq6pY2iMB4xfL07wYQUWtgIPWb07b5clRYNBOL9f5f61mrEAbv7TlU8NfHTEWIZ
+ FmWwFwsVE4+xGTSWuWAxyvgF6p/VnHaHK3WEYT4OqoTAz/xYvvfwi210NJ4yaydebEAA
+ wFHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4F00CTTwLY3038ca8rY5vafjy8fe+jHQBi5QB6/xEJs=;
+ b=eokgmnD7fbR0v5kZZb9mgsxBE77MURneNJvOdWJpDfOzgpcrdla9/cXGLWcyH9ShFT
+ +3p0s7JPDprShelPMeFUVUM+Mv2XAqpdwgVg+kz4q1aTM8NYfCJRkKyPXI/2A/7BJYkF
+ zawln763SCcUXEKVp9oQacj15qQpeXY9PUOCzVAIj1BWL3XtEyvRRNKrVupGShqt8FY7
+ Wwyuz21Lw9wyis8tF7C9DXQyT7RVDUWEuDfcsCJntRvOQcn6+5UcrpVRxH0wCsPzE+/y
+ F9ovDhtn8Mimr1NmlQg26AEVBAzbryQSSlhaunLqB3kCyv7yZyqQH4as249YvpMKZrH0
+ vfsA==
+X-Gm-Message-State: AO0yUKX0dmSTlkCpK338T2k0k7OXAcJei4oequua9D3pCfCZl9l7+saG
+ AGlct1i7qIZ1OgFhlssOgddnWw==
+X-Google-Smtp-Source: AK7set9o5c9h7Zc0wUtKqSUeRR7eaCzjrd1mXiyokBsOLJ3Vzs6zyWnLfxvuxrMTbcTsiU/zB64LNg==
+X-Received: by 2002:a05:6870:2413:b0:163:7563:41a0 with SMTP id
+ n19-20020a056870241300b00163756341a0mr1402808oap.36.1676384606458; 
+ Tue, 14 Feb 2023 06:23:26 -0800 (PST)
+Received: from [192.168.68.107] ([191.19.40.109])
+ by smtp.gmail.com with ESMTPSA id
+ z3-20020a056870e14300b0014ff15936casm2239186oaa.40.2023.02.14.06.23.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Feb 2023 06:23:25 -0800 (PST)
+Message-ID: <ad9ec4ae-d49e-a3eb-fe27-2130d5bbab07@ventanamicro.com>
+Date: Tue, 14 Feb 2023 11:23:22 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=gb2312
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [Patch 05/14] target/riscv: Fix relationship between V, Zve*, F
+ and D
+Content-Language: en-US
+To: weiwei <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230214083833.44205-1-liweiwei@iscas.ac.cn>
+ <20230214083833.44205-6-liweiwei@iscas.ac.cn>
+ <78ccde8a-4bbb-d000-de5b-dcb00a65a070@ventanamicro.com>
+ <62413d42-4219-6eb9-4545-13a65750f0da@iscas.ac.cn>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <62413d42-4219-6eb9-4545-13a65750f0da@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0f64a5cd-a97c-ee54-e131-387fee0be853@huawei.com>
-Received-SPF: none client-ip=134.134.136.20;
- envelope-from=zhao1.liu@linux.intel.com; helo=mga02.intel.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:4860:4864:20::32;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x32.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,67 +99,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 13, 2023 at 09:31:53PM +0800, wangyanan (Y) wrote:
-> Date: Mon, 13 Feb 2023 21:31:53 +0800
-> From: "wangyanan (Y)" <wangyanan55@huawei.com>
-> Subject: Re: [PATCH RESEND 01/18] machine: Fix comment of
->  machine_parse_smp_config()
+
+
+On 2/14/23 10:40, weiwei wrote:
 > 
+> On 2023/2/14 21:21, Daniel Henrique Barboza wrote:
+>>
+>>
+>> On 2/14/23 05:38, Weiwei Li wrote:
+>>> Add dependence chain:
+>>> *  V => Zve64d => Zve64f => Zve32f => F
+>>> *  V => Zve64d => D
+>>>
+>>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>>> ---
+>>>   target/riscv/cpu.c | 21 ++++++++++++++++++---
+>>>   1 file changed, 18 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>>> index 9a89bea2a3..4797ef9c42 100644
+>>> --- a/target/riscv/cpu.c
+>>> +++ b/target/riscv/cpu.c
+>>> @@ -743,12 +743,27 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
+>>>           return;
+>>>       }
+>>>   -    if (cpu->cfg.ext_v && !cpu->cfg.ext_d) {
+>>> -        error_setg(errp, "V extension requires D extension");
+>>> +    /* The V vector extension depends on the Zve64d extension */
+>>> +    if (cpu->cfg.ext_v) {
+>>> +        cpu->cfg.ext_zve64d = true;
+>>> +    }
+>>> +
+>>> +    /* The Zve64d extension depends on the Zve64f extension */
+>>> +    if (cpu->cfg.ext_zve64d) {
+>>> +        cpu->cfg.ext_zve64f = true;
+>>> +    }
+>>> +
+>>> +    /* The Zve64f extension depends on the Zve32f extension */
+>>> +    if (cpu->cfg.ext_zve64f) {
+>>> +        cpu->cfg.ext_zve32f = true;
+>>> +    }
+>>> +
+>>> +    if (cpu->cfg.ext_zve64d && !cpu->cfg.ext_d) {
+>>> +        error_setg(errp, "Zve64d extensions require D extension");
+>>>           return;
+>>
+>> I'll be honest and confess that I wrote a short essay about the problems I have
+>> with this code. I gave up because in the end it's all stuff that we've been doing
+>> for a long time in riscv_cpu_validate_set_extensions(). I'll see if I can work in
+>> a redesign of that function and in how we're setting extensions automatically
+>> without checking user input and so on.
+>>
+>> For now I'll say that this error message seems weird because Zve64d was set to true
+>> without user input. So this ends up happening:
+>>
+>> $ ./qemu-system-riscv64 -M virt -cpu rv64,v=true,d=false
+>> qemu-system-riscv64: Zve64d extensions require D extension
+>>
+>> It's weird because the user didn't enabled Zve64d but the error message is complaining
+>> about it. Given that the root cause is that ext_v was set, and then we've set other
+>> extensions under the hood, a saner error message in this case would be "V extension
+>> requires D extension".
+>>
+>>
+>> Thanks,
+>>
+>>
+>> Daniel
 > 
-> �� 2023/2/13 17:36, Zhao Liu д��:
-> > From: Zhao Liu <zhao1.liu@intel.com>
-> > 
-> > Now smp supports dies and clusters, so add description about these 2
-> > levels in the comment of machine_parse_smp_config().
-> > 
-> > Fixes: 864c3b5 (hw/core/machine: Introduce CPU cluster topology support)
-> > Suggested-by: Robert Hoo <robert.hu@linux.intel.com>
-> > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
-> > ---
-> >   hw/core/machine-smp.c | 7 ++++---
-> >   1 file changed, 4 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
-> > index c3dab007dadc..3fd9e641efde 100644
-> > --- a/hw/core/machine-smp.c
-> > +++ b/hw/core/machine-smp.c
-> > @@ -51,8 +51,8 @@ static char *cpu_hierarchy_to_string(MachineState *ms)
-> >    * machine_parse_smp_config: Generic function used to parse the given
-> >    *                           SMP configuration
-> >    *
-> > - * Any missing parameter in "cpus/maxcpus/sockets/cores/threads" will be
-> > - * automatically computed based on the provided ones.
-> > + * Any missing parameter in "cpus/maxcpus/sockets/dies/clusters/cores/threads"
-> > + * will be automatically computed based on the provided ones.
-> This is intential. Newly added topo params (apart from maxcpus/
-> socket/cores/threads) wiil be assigned to 1 and not computed
-> based the provided ones. There is no problem about this part.
+> Thanks for your comments.
+> 
+> V extension depends on Zve64d(which is actually parts of V). So Zve64d will be enabled when V is enabled.
+> 
+> And in fact, only the instructions in the Zve64d part of V require D extension.
+> 
+> To make it more readable, maybe it can be change to :
+> 
+> "Zve64d (or V) extension requires D extension"
 
-Sorry, I see. Will fix.
 
-> >    *
-> >    * In the calculation of omitted sockets/cores/threads: we prefer sockets
-> >    * over cores over threads before 6.2, while preferring cores over sockets
-> > @@ -66,7 +66,8 @@ static char *cpu_hierarchy_to_string(MachineState *ms)
-> >    *
-> >    * For compatibility, apart from the parameters that will be computed, newly
-> >    * introduced topology members which are likely to be target specific should
-> > - * be directly set as 1 if they are omitted (e.g. dies for PC since 4.1).
-> > + * be directly set as 1 if they are omitted (e.g. dies for PC since v4.1 and
-> > + * clusters for arm since v7.0).
-> >    */
-> Given that we are going to support cluster for PC machine.
-> Maybe simple "(i.e. dies for PC since 4.1)" here is good enough?
+Yes, that looks better to me. Thanks,
 
-Makes sense. Now I understand this logic, and I will drop this commit.
 
-Thanks,
-Zhao
+Daniel
 
 > 
-> Thanks,
-> Yanan
-> >   void machine_parse_smp_config(MachineState *ms,
-> >                                 const SMPConfiguration *config, Error **errp)
+> Regards,
+> 
+> Weiwei Li
+> 
+>>
+>>
+>>
+>>>       }
+>>>   -    if ((cpu->cfg.ext_zve32f || cpu->cfg.ext_zve64f) && !cpu->cfg.ext_f) {
+>>> +    if (cpu->cfg.ext_zve32f && !cpu->cfg.ext_f) {
+>>>           error_setg(errp, "Zve32f/Zve64f extensions require F extension");
+>>>           return;
+>>>       }
 > 
 
