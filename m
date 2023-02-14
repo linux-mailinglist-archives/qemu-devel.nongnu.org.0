@@ -2,86 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8214E696D0C
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 19:36:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C211B696D0E
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 19:37:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pS0A5-0000cw-8J; Tue, 14 Feb 2023 13:36:17 -0500
+	id 1pS0AX-00012G-HN; Tue, 14 Feb 2023 13:36:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pS09v-0000WJ-O7
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 13:36:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1pS0AU-0000wZ-4L
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 13:36:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pS09t-0004LK-L2
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 13:36:07 -0500
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1pS0AS-0004VY-FK
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 13:36:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676399765;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1676399799;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zj//wh1FRMWz4xS1VMoKNURwQE9fwI2VrZc5ZwEDcbM=;
- b=J0Lt4vbqbYgZNpfFPyASnwADLj+2LESkgsQ9K7wIZ1wtl+C5L+G92t4ZZHjrGVpYTyOhrn
- hVa+ILNtzwcButJ1b72q5OX1zjp4nwPHLw00DMwFZCQHkM0XzCSdfTZt1OoxMdpEUX+/Aw
- xgH+mCx42+oms481kJee0+ajTlk1n4U=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gBgLUGcPfnFXu97/glbl0dWUsFAyQv/dLxT+7R0QfV8=;
+ b=CchvTZu4gBoL2hIEhATWxrOuHLY1mw0dmIoXXYCUkJdLU6jcM6C6wIJMadE0Kz9pw2RvPn
+ JiYMNEVLzmuBkxgiqdXMY9V3eVAJHICJ+tOPr29W4u3n6cMncofo453zx2Os7N3Lfm0Hse
+ dgWOqwth2jZYmov3HKS/FsAOketWgnU=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-198-vfI-rVm4O5Se28wUPJWnrQ-1; Tue, 14 Feb 2023 13:36:03 -0500
-X-MC-Unique: vfI-rVm4O5Se28wUPJWnrQ-1
-Received: by mail-pf1-f199.google.com with SMTP id
- t13-20020a62d14d000000b005a89856900eso4855661pfl.14
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 10:36:02 -0800 (PST)
+ us-mta-173-oyC-b54tNu6ZYoiELC9KMQ-1; Tue, 14 Feb 2023 13:36:38 -0500
+X-MC-Unique: oyC-b54tNu6ZYoiELC9KMQ-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ c9-20020a05620a11a900b0072a014ecc4aso9987568qkk.18
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 10:36:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=zj//wh1FRMWz4xS1VMoKNURwQE9fwI2VrZc5ZwEDcbM=;
- b=k+Rr1D6DPVmIzlNkF+XcvfuyJchiIX9PwMIRwDkS+4wkt4dbCr6b966RPgV8CthhHA
- tzaf0spHoW6LJ3Rc0D+71qewhyD4qwxoYgqNPJ2hdUWRHVUOVbDS2yk3Ah/0K9otdTXr
- ztW7ZQJuuHmSGpOs23zqSZNzAIgRtDvRtVAUu2T7rvJba18IEZUUVSTQePkOJeXyfHyC
- tbjhd56xo4Hp+V4Wp31zeWYBDeE2jSyzKbNi8G3KQ9ZZQKBQTEys2zmknKWy7/2gwrZZ
- v/cmfAs36D3Lt5TjWI0XHbjrCBt2TnR80gTytw9BOTSf8ziHnIlpFhvpE28TmpjZLa5u
- AqAg==
-X-Gm-Message-State: AO0yUKXVPN3qYf5z4Bknw48yY+V4M5H4IzjkzNyMdvpbuvAcnQLlR1Dp
- DBVqH2TnEAE+Xgd7YqH6uL4UowZSOkjq4Pr190zoLPZ+0h7wqm3IEH8QU6aw1YruVXdd3YzOYcF
- OyBQi6q/Cugky4Cr44jcWIBH27GC/dx/BN4xC
-X-Received: by 2002:a17:902:9f97:b0:19a:9b8c:279f with SMTP id
- g23-20020a1709029f9700b0019a9b8c279fmr909815plq.26.1676399761665; 
- Tue, 14 Feb 2023 10:36:01 -0800 (PST)
-X-Google-Smtp-Source: AK7set8Y8+MY/W0jvWjSF1ysd8Gfm/DObteQ0Ep5QOLumpS/6dce0D37/ijiTon5CG9EBstgKUoS14joCht3opsJeHQ=
-X-Received: by 2002:a17:902:9f97:b0:19a:9b8c:279f with SMTP id
- g23-20020a1709029f9700b0019a9b8c279fmr909796plq.26.1676399761330; Tue, 14 Feb
- 2023 10:36:01 -0800 (PST)
+ bh=gBgLUGcPfnFXu97/glbl0dWUsFAyQv/dLxT+7R0QfV8=;
+ b=7h4N30fvbrbZmD/GAwiFI9ukSH030mjkZ/nDmlMHwB6x6oDMV9NhnuBKrCgnRJ51Bn
+ M4uM2b3Atn9/vFYLHnn2DzD5bSOPYQP6YhhpJtVut64zDuN4viAw3hjv9l0qNhsInX/z
+ IcMlwOajZMEn7eIgiXHt55kQr7Qec1GcSiOLe2YrTX6BkSSRteH7EiFS2iR5J/9sDuPK
+ kD5b0KoExzr6y6mSFFecVpbev8nhbKA9PvixTJKfZzq1QgZZW0I7rCsTTe+Jm/NTzwqH
+ 4Zs1K7b8x1styJOjqiRuaFNWohkhySTbpbPlycHTAtd9Fuz4kuUOioAmel5PIbWkwHgq
+ vsjg==
+X-Gm-Message-State: AO0yUKX1o86vLNsHLhUxplA0akOBrkJsRGjrzTxmNuMcdC3ymMcJt+VV
+ XELsD6aqqhpq0MEbccrumwx/tfCR3jwnZB0+JcfJqQ1vedmmQmEf9D0E7H/ezf3oIYJI/jrSzJY
+ n4/Vl3mMrKHatHSA=
+X-Received: by 2002:a05:6214:2a83:b0:53c:5e57:cd02 with SMTP id
+ jr3-20020a0562142a8300b0053c5e57cd02mr7268139qvb.38.1676399797265; 
+ Tue, 14 Feb 2023 10:36:37 -0800 (PST)
+X-Google-Smtp-Source: AK7set+1U+tW4jV89VThMnCSqAL+kSnHvdJg+NBoQ3EushMwuFNMzRu1x9q921WTkzhIdAK91FJsyA==
+X-Received: by 2002:a05:6214:2a83:b0:53c:5e57:cd02 with SMTP id
+ jr3-20020a0562142a8300b0053c5e57cd02mr7268096qvb.38.1676399796912; 
+ Tue, 14 Feb 2023 10:36:36 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ w3-20020a379403000000b006bb29d932e1sm12365822qkd.105.2023.02.14.10.36.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Feb 2023 10:36:36 -0800 (PST)
+Message-ID: <b0a296a9-1ca8-fe6c-56e9-27807a1d0f5e@redhat.com>
+Date: Tue, 14 Feb 2023 19:36:33 +0100
 MIME-Version: 1.0
-References: <20230210003147.1309376-1-jsnow@redhat.com>
-In-Reply-To: <20230210003147.1309376-1-jsnow@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 14 Feb 2023 13:35:49 -0500
-Message-ID: <CAFn=p-YHKm-Cx56bnZxSGuux_r4jELiOtxKgLbfFu+=3mmpDpA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] Python: Drop support for Python 3.6
-To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH 2/2] hw/arm/smmu-common: Fix TTB1 handling
+Content-Language: en-US
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ ola.hugosson@arm.com
+References: <20230210163731.970130-1-jean-philippe@linaro.org>
+ <20230210163731.970130-3-jean-philippe@linaro.org>
+ <1964d20f-e18b-5875-914b-16f2f3acee37@redhat.com> <Y+u7A/QubSdEe11M@myrica>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <Y+u7A/QubSdEe11M@myrica>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.35, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,95 +104,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 9, 2023 at 7:31 PM John Snow <jsnow@redhat.com> wrote:
->
-> Howdy, this series increases our minimum python version to 3.7.
->
-> CI: https://gitlab.com/jsnow/qemu/-/pipelines/771780626
->     (All green!)
-> GL: https://gitlab.com/jsnow/qemu/-/commits/python-require-37
->
-> Patches 1 and 2 are loose pre-requisites; I'd like to merge them into
-> qemu.git within the week whether or not we take this series. I'd
-> appreciate an "ACK" on those specifically. They're just riding along
-> here because they make this series a bit nicer.
->
-> Patches 3-6 are the hard pre-requisites, and 7 does the dirty work.
->
-> The motivation for this series is that Python 3.6 was EOL at the end of
-> 2021; upstream tools are beginning to drop support for it, including
-> setuptools, pylint, mypy, etc. As time goes by, it becomes more
-> difficult to support and test against the full range of Python versions
-> that QEMU supports. The closer we get to Python 3.12, the harder it will
-> be to cover that full spread of versions.
->
-> The qemu.qmp library and the avocado testing framework both have
-> motivations for dropping 3.6 support, but are committed to not doing so
-> until QEMU drops support.
->
-> So, I'd like to talk about doing it.
->
-> V2:
-> - Added R-Bs to patch 1
-> - Updated commit message for patch 7 with explicit version info
-> - Added DO-NOT-MERGE to patch 5's title
-> - Tested tests/vm/freebsd, netbsd, and openbsd in addition to full CI
->
-> RFC:
->  - Patch 5 is just a proof-of-concept; we need to update lcitool instead.
->  - Cleber, I need to update your ansible scripts. How do I test them?
->
-> Thanks!
-> --js
->
-> John Snow (7):
->   python: support pylint 2.16
->   python: drop pipenv
 
-Hi, I've staged these first two patches to my Python branch.
 
-(Kevin, Hanna; is that acceptable? I touch some iotests to do some
-trivial linting whack-a-mole.)
+On 2/14/23 17:46, Jean-Philippe Brucker wrote:
+> On Mon, Feb 13, 2023 at 05:30:03PM +0100, Eric Auger wrote:
+>> Hi Jean,
+>>
+>> On 2/10/23 17:37, Jean-Philippe Brucker wrote:
+>>> Addresses targeting the second translation table (TTB1) in the SMMU have
+>>> all upper bits set (except for the top byte when TBI is enabled). Fix
+>>> the TTB1 check.
+>>>
+>>> Reported-by: Ola Hugosson <ola.hugosson@arm.com>
+>>> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+>>> ---
+>>>  hw/arm/smmu-common.c | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
+>>> index 2b8c67b9a1..0a5a60ca1e 100644
+>>> --- a/hw/arm/smmu-common.c
+>>> +++ b/hw/arm/smmu-common.c
+>>> @@ -249,7 +249,7 @@ SMMUTransTableInfo *select_tt(SMMUTransCfg *cfg, dma_addr_t iova)
+>>>          /* there is a ttbr0 region and we are in it (high bits all zero) */
+>>>          return &cfg->tt[0];
+>>>      } else if (cfg->tt[1].tsz &&
+>>> -           !extract64(iova, 64 - cfg->tt[1].tsz, cfg->tt[1].tsz - tbi_byte)) {
+>>> +        sextract64(iova, 64 - cfg->tt[1].tsz, cfg->tt[1].tsz - tbi_byte) == -1) {
+>>>          /* there is a ttbr1 region and we are in it (high bits all one) */
+>>>          return &cfg->tt[1];
+>>>      } else if (!cfg->tt[0].tsz) {
+>> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+>>
+>> While reading the spec again, I noticed we do not support VAX. Is it
+>> something that we would need to support?
+> I guess it would be needed to support sharing page tables with the CPU, if
+> the CPU supports and the OS uses FEAT_LVA. But in order to share the
+> stage-1, Linux would need more complex features as well (ATS+PRI/Stall,
+> PASID).
+>
+> For a private DMA address space, I think 48 bits of VA is already plenty.
 
---js
+OK thanks!
 
->   configure: Look for auxiliary Python installations
->   configure: Add nice hint to Python failure message
->   DO-NOT-MERGE: testing: Add Python >= 3.7 to Centos, OpenSuSE
->   CI: Stop building docs on centos8
->   Python: Drop support for Python 3.6
+Eric
 >
->  docs/conf.py                                  |   4 +-
->  python/README.rst                             |   3 -
->  configure                                     |  40 +-
->  .gitlab-ci.d/buildtest.yml                    |   2 +-
->  .gitlab-ci.d/static_checks.yml                |   4 +-
->  python/.gitignore                             |   4 +-
->  python/Makefile                               |  57 ++-
->  python/Pipfile                                |  13 -
->  python/Pipfile.lock                           | 347 ------------------
->  python/qemu/qmp/protocol.py                   |   2 +-
->  python/qemu/qmp/qmp_client.py                 |   2 +-
->  python/qemu/utils/qemu_ga_client.py           |   6 +-
->  python/setup.cfg                              |  11 +-
->  python/tests/minreqs.txt                      |  45 +++
->  scripts/qapi/mypy.ini                         |   2 +-
->  tests/docker/dockerfiles/centos8.docker       |   1 +
->  tests/docker/dockerfiles/opensuse-leap.docker |   1 +
->  tests/docker/dockerfiles/python.docker        |   1 -
->  tests/qemu-iotests/iotests.py                 |   4 +-
->  .../tests/migrate-bitmaps-postcopy-test       |   2 +-
->  20 files changed, 135 insertions(+), 416 deletions(-)
->  delete mode 100644 python/Pipfile
->  delete mode 100644 python/Pipfile.lock
->  create mode 100644 python/tests/minreqs.txt
->
-> --
-> 2.39.0
->
+> Thanks,
+> Jean
 >
 
 
