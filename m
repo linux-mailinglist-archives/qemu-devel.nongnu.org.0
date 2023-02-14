@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F12266966F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 15:34:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 047656965F1
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 15:09:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRwNR-0007ud-6W; Tue, 14 Feb 2023 09:33:49 -0500
+	id 1pRvza-0002vX-PS; Tue, 14 Feb 2023 09:09:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pRwNO-0007tP-AL
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:33:46 -0500
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pRvzQ-0002qQ-Rz
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:09:01 -0500
 Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pRwNM-0005bl-6P
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:33:46 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pRvzP-0002sM-7v
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:09:00 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31EECRsJ004582; Tue, 14 Feb 2023 14:33:31 GMT
+ 31EDoHrN001758; Tue, 14 Feb 2023 14:08:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=ER26f1XxzYJyJHoLvowQ1cxfXZH0zSliZ7TneSGcSc4=;
- b=bGarCszIw7H9ORQKcQTwytjtwlpN61s8PHMRdrb9SsDOPBiSykz0XqL4njEKJ85bsN4u
- JfFV0pWtZbetBIJgxPBfZOMqMijupwOdpeZ4qs9JGes67LTlr5Y2CIroI907UE+HQ5OD
- nj9HJVSluVEyTkqBVB3RvMBzM43MC9AUiTgJgXonu/XYoq/txqeHljdPaS5GQ+4kC62s
- 1q1h8+9s0hU08WmczHdyU87KlSyX8CahgLtLRJHX9rGUmdvDqZv5DPgnWMRIQHzBTqYx
- iwpt652Rh51CPW9IfYkVKb2j/p7vHsMcGMnEscQrBuXHEh2hGonKXudvmcGKA5/RXUwh 7Q== 
+ content-type : content-transfer-encoding; s=pp1;
+ bh=cljWyfQzlHde0c2E4jBmfno1X7SMP5F4ZQpJIy8WO+o=;
+ b=Kk1dHaMB06WSJjGtvahupoe+j6F4HvBq0zD6blLn/HoNRAIfDQWOLMpmZYE1707F34M4
+ Sy9TNlb156szIYXHHdFHLX6yjj5Ke2NxipkWHxvCi1Ndku1WMC20YZw4v7I45L9iiYwJ
+ 86ZivEYCe1Dl3J4lWHPMkDJfp6s6AYxQRZSw2B7CJsZtBaCYDRIPuf57nUcUgkcEGf7p
+ HIxxNNyRZVfVKsPiCjG7p/38BqUb9DS5n5p9bTi9pE+tNYiIVs/P791agnBbKlGDCVMS
+ zQMdz8oeGNkN3MHGajFDHdCyzNxSf3CWMGAyxuSRHPxjgG+2MiszQt8jPWH8U3qt4xVe Gw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nrbusrp4y-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nrbhb8tab-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Feb 2023 14:33:31 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31EECcl3005117;
- Tue, 14 Feb 2023 14:33:30 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nrbusrp3k-1
+ Tue, 14 Feb 2023 14:08:49 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31EDtMFR019964;
+ Tue, 14 Feb 2023 14:08:49 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nrbhb8t8x-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Feb 2023 14:33:30 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31E62k25011341;
- Tue, 14 Feb 2023 14:08:44 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3np2n6v3pq-1
+ Tue, 14 Feb 2023 14:08:48 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31E5YPO5030092;
+ Tue, 14 Feb 2023 14:08:46 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3np29fm44v-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Feb 2023 14:08:44 +0000
+ Tue, 14 Feb 2023 14:08:46 +0000
 Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
  [10.20.54.102])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 31EE8ejB20316432
+ by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 31EE8fLN39715256
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 14 Feb 2023 14:08:40 GMT
+ Tue, 14 Feb 2023 14:08:41 GMT
 Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ABBF62004E;
- Tue, 14 Feb 2023 14:08:40 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id BE3D52005A;
+ Tue, 14 Feb 2023 14:08:41 +0000 (GMT)
 Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3507820043;
- Tue, 14 Feb 2023 14:08:40 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 3A27A2004E;
+ Tue, 14 Feb 2023 14:08:41 +0000 (GMT)
 Received: from heavy.boa-de.ibmmobiledemo.com (unknown [9.171.76.115])
  by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 14 Feb 2023 14:08:40 +0000 (GMT)
+ Tue, 14 Feb 2023 14:08:41 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
@@ -72,26 +72,27 @@ To: Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>, 
  Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v4 3/4] linux-user/microblaze: Handle privileged exception
-Date: Tue, 14 Feb 2023 15:08:28 +0100
-Message-Id: <20230214140829.45392-4-iii@linux.ibm.com>
+Subject: [PATCH v4 4/4] tests/tcg/linux-test: Add linux-fork-trap test
+Date: Tue, 14 Feb 2023 15:08:29 +0100
+Message-Id: <20230214140829.45392-5-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230214140829.45392-1-iii@linux.ibm.com>
 References: <20230214140829.45392-1-iii@linux.ibm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 7uVyC8jwdX4TfdIZXOpLvpEnJk47t454
-X-Proofpoint-GUID: a4Hep_xZ8m8uITJ3lVq8-6VezXNOr5_r
+X-Proofpoint-GUID: r6H-qBVL5CgD_6WOLsXL3yhAm8FIlD3h
+X-Proofpoint-ORIG-GUID: RTxD127KJaipooVDUEaKXPxg6nB7IoxP
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
  definitions=2023-02-14_07,2023-02-14_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0
- impostorscore=0 phishscore=0 clxscore=1015 mlxscore=0 priorityscore=1501
- lowpriorityscore=0 suspectscore=0 mlxlogscore=999 spamscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2302140125
+ mlxscore=0 impostorscore=0
+ malwarescore=0 bulkscore=0 adultscore=0 spamscore=0 suspectscore=0
+ priorityscore=1501 mlxlogscore=996 phishscore=0 lowpriorityscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302140120
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
@@ -115,63 +116,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Follow what kernel's full_exception() is doing.
+Check that dying due to a signal does not deadlock.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- linux-user/microblaze/cpu_loop.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ tests/tcg/multiarch/linux/linux-fork-trap.c | 51 +++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
+ create mode 100644 tests/tcg/multiarch/linux/linux-fork-trap.c
 
-diff --git a/linux-user/microblaze/cpu_loop.c b/linux-user/microblaze/cpu_loop.c
-index 5ccf9e942ea..212e62d0a62 100644
---- a/linux-user/microblaze/cpu_loop.c
-+++ b/linux-user/microblaze/cpu_loop.c
-@@ -25,8 +25,8 @@
- 
- void cpu_loop(CPUMBState *env)
- {
-+    int trapnr, ret, si_code, sig;
-     CPUState *cs = env_cpu(env);
--    int trapnr, ret, si_code;
- 
-     while (1) {
-         cpu_exec_start(cs);
-@@ -76,6 +76,7 @@ void cpu_loop(CPUMBState *env)
-             env->iflags &= ~(IMM_FLAG | D_FLAG);
-             switch (env->esr & 31) {
-             case ESR_EC_DIVZERO:
-+                sig = TARGET_SIGFPE;
-                 si_code = TARGET_FPE_INTDIV;
-                 break;
-             case ESR_EC_FPU:
-@@ -84,6 +85,7 @@ void cpu_loop(CPUMBState *env)
-                  * if there's no recognized bit set.  Possibly this
-                  * implies that si_code is 0, but follow the structure.
-                  */
-+                sig = TARGET_SIGFPE;
-                 si_code = env->fsr;
-                 if (si_code & FSR_IO) {
-                     si_code = TARGET_FPE_FLTINV;
-@@ -97,13 +99,17 @@ void cpu_loop(CPUMBState *env)
-                     si_code = TARGET_FPE_FLTRES;
-                 }
-                 break;
-+            case ESR_EC_PRIVINSN:
-+                sig = SIGILL;
-+                si_code = ILL_PRVOPC;
-+                break;
-             default:
-                 fprintf(stderr, "Unhandled hw-exception: 0x%x\n",
-                         env->esr & ESR_EC_MASK);
-                 cpu_dump_state(cs, stderr, 0);
-                 exit(EXIT_FAILURE);
-             }
--            force_sig_fault(TARGET_SIGFPE, si_code, env->pc);
-+            force_sig_fault(sig, si_code, env->pc);
-             break;
- 
-         case EXCP_DEBUG:
+diff --git a/tests/tcg/multiarch/linux/linux-fork-trap.c b/tests/tcg/multiarch/linux/linux-fork-trap.c
+new file mode 100644
+index 00000000000..2bfef800c3e
+--- /dev/null
++++ b/tests/tcg/multiarch/linux/linux-fork-trap.c
+@@ -0,0 +1,51 @@
++/*
++ * Test that a fork()ed process terminates after __builtin_trap().
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++#include <assert.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <sys/resource.h>
++#include <sys/wait.h>
++#include <unistd.h>
++
++int main(void)
++{
++    struct rlimit nodump;
++    pid_t err, pid;
++    int wstatus;
++
++    pid = fork();
++    assert(pid != -1);
++    if (pid == 0) {
++        /* We are about to crash on purpose; disable core dumps. */
++        if (getrlimit(RLIMIT_CORE, &nodump)) {
++            return EXIT_FAILURE;
++        }
++        nodump.rlim_cur = 0;
++        if (setrlimit(RLIMIT_CORE, &nodump)) {
++            return EXIT_FAILURE;
++        }
++        /*
++         * An alternative would be to dereference a NULL pointer, but that
++         * would be an UB in C.
++         */
++        printf("about to trigger fault...\n");
++#if defined(__MICROBLAZE__)
++        /*
++         * gcc emits "bri 0", which is an endless loop.
++         * Take glibc's ABORT_INSTRUCTION.
++         */
++        asm volatile("brki r0,-1");
++#else
++        __builtin_trap();
++#endif
++    }
++    err = waitpid(pid, &wstatus, 0);
++    assert(err == pid);
++    assert(WIFSIGNALED(wstatus));
++    printf("faulting thread exited cleanly\n");
++
++    return EXIT_SUCCESS;
++}
 -- 
 2.39.1
 
