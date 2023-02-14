@@ -2,90 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3470C695CB7
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 09:18:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02339695D0E
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 09:37:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRqUv-0003x7-F4; Tue, 14 Feb 2023 03:17:09 -0500
+	id 1pRqn8-000775-PW; Tue, 14 Feb 2023 03:35:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
- id 1pRqUt-0003wj-Fl
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:17:07 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
- id 1pRqUn-0000YK-M3
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:17:07 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- j29-20020a05600c1c1d00b003dc52fed235so10901075wms.1
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 00:17:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=0Fjjqd/ojKal2KcqcUmnxUeRl0He9X9ZD+ILL/Fahmg=;
- b=wiZOPelTSr45itCF3Bwu5X6xMb5Q/FY2TVmd5PWRyh2rF+Xr/g4Ve8tv8nQiHE/Xfm
- eS8Qrt8CKFu180yu12mxK3CD4xlynu4q8PGCAt344n36S9jKE/0DsY6eQFiOPoseFFW9
- 4gZ5Ob9biPgMg1GhGEUxnFzy+KszvlLTJ3o5Cb7vkdkyHvm1dvXYvJ3GtbqISb9rAeOf
- CILqNg/h211iGIt9RkZICML7hq+PEz7Qsdb0qg8NUY7yfcoNf2reQdEVUeSyi0g6VTf/
- ygQiulVWmWK5XU1GeLodysD85kgCUhMW8PidxOtRHjsS9E4TSTcW5qonYpIQRWKCZ0py
- 87rA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRqn5-00076k-VD
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:35:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRqn4-0001TN-2T
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:35:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676363751;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AyulltP36ldeiXLKiFnhw4/xRECmWzXGSsxt2Z2LHEo=;
+ b=f0qc3lRodfYsCQjULWndoOIshhPeT1E28RVvCtDqFoaT0Yvbo9610+ycZ05dHlTEyoJaV2
+ AVuahKMeqPqHCopUhUi4vshr/U479JftMOmiHylSFAGQo5H1ZenbYeEHGKOvkCnIsaQAP3
+ ehwazT9eUrfz3p0BjX4APWZGOGXhfiw=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-481-hzF-AB_UNFyemF2FPsNWLw-1; Tue, 14 Feb 2023 03:35:49 -0500
+X-MC-Unique: hzF-AB_UNFyemF2FPsNWLw-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ bp30-20020a05620a459e00b00738e1fe2470so9091755qkb.23
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 00:35:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0Fjjqd/ojKal2KcqcUmnxUeRl0He9X9ZD+ILL/Fahmg=;
- b=HIste1WgfRmkHcE6JcGYiVDOuKxG9Y4ukhMkfnIeQV2JzF6MdbndfEY20bThGLSaEb
- J0LQF3nefh9lPtWuaUKREMEcVdPkzQjvufo93sbsjrCrDmX7smytYUzq5IoUCKCZTcjo
- nSGR+Rpk/64uxZCjpN0+CxbjGWMpWBGXHjeWOoMBfAWREp+rWTmGlVosnev4nXhCfD7U
- AsoS6iz8U8pq1RRtJ+z0j+Tgr9DPqAAVWfVJw064AlpzK35fN5s/ZkUf6E2u83pp3gl9
- M+v6fIUfy7971qCiBKlhwLrNcdCVxkUHC7+qDPPHUjay4G7Va9mKNAdvzswGlmvnSe/b
- L58Q==
-X-Gm-Message-State: AO0yUKX0Jp+AqkNR+jeXFwxXKSnU1X4NfP1Hj9keOH2u9ALeAXw/kU1M
- xgFJQSgZ/V5KAzBp5qFJu645xA==
-X-Google-Smtp-Source: AK7set+Z6kiryoh75nLIzJk1rdiEkAi11kLDamQoxPDUEKk1Pz0sbpN808/AWJ7jMOhqhl3/twIVsQ==
-X-Received: by 2002:a05:600c:18a2:b0:3d9:e5d3:bf with SMTP id
- x34-20020a05600c18a200b003d9e5d300bfmr1271905wmp.32.1676362620001; 
- Tue, 14 Feb 2023 00:17:00 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:5cc:caa0:59b6:5cf7:7f59:1fb4?
- ([2a01:e0a:5cc:caa0:59b6:5cf7:7f59:1fb4])
- by smtp.gmail.com with ESMTPSA id
- q14-20020a05600c46ce00b003db12112fcfsm18019228wmo.4.2023.02.14.00.16.59
+ bh=AyulltP36ldeiXLKiFnhw4/xRECmWzXGSsxt2Z2LHEo=;
+ b=EnnKbaJJKXE34LZGAIBrujENKwQtMFY7zhN4eQ24FW1qxI5VZCFI9bEjQWMBtFlJ+h
+ EihwrzMAdjpczaco4AH+EsqbquIjjMWHhTkyW8/BcOM3vb69Pix8624GkIYBJFNYZqNx
+ ezmBio/s6xccJhGz1EU4COaj1NjLZyIvQ5w3xfiH7n4+qQTf9IfMNMD+k2VIPcg3qblf
+ PHkPxduNtzkBGZVm0J9K2wswW5FQVVCjuDWE5rD57mOrD9S7bAIGFF8IWv5SJenwFfSa
+ cbSnFxawFZ2thP5T6exGIV0Vf3x/8+aIBDNqHRs9otO64qldp74eQ83lcgl8vW5kC8Nf
+ KlaQ==
+X-Gm-Message-State: AO0yUKUm69kcH0pSUOXCfcvObF/fwL1T2W3tJOX+Rfzwb995v/9sLtlf
+ YaMYZeIOuUDB3ILbtTP4KL+6qt2vR9RBkubWn6rViAZ8QWg7vUan96oplJQR06NxNQssf/X9NR7
+ B0egoW8hKHivJiSY=
+X-Received: by 2002:a05:6214:2483:b0:539:b68e:3444 with SMTP id
+ gi3-20020a056214248300b00539b68e3444mr3818064qvb.27.1676363749182; 
+ Tue, 14 Feb 2023 00:35:49 -0800 (PST)
+X-Google-Smtp-Source: AK7set+6x6RKAyPi2KvzZAOWf91M9iMQLwOClkMEtO9BN9Yia2ldOIQJT9YxHaq2K/tFfnDKGup+wA==
+X-Received: by 2002:a05:6214:2483:b0:539:b68e:3444 with SMTP id
+ gi3-20020a056214248300b00539b68e3444mr3818038qvb.27.1676363748855; 
+ Tue, 14 Feb 2023 00:35:48 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-176.web.vodafone.de.
+ [109.43.177.176]) by smtp.gmail.com with ESMTPSA id
+ u63-20020a379242000000b00731c30ac2e8sm11340841qkd.74.2023.02.14.00.35.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Feb 2023 00:16:59 -0800 (PST)
-Message-ID: <a577e67a-d86b-86e9-8844-82a3814f83d4@linaro.org>
-Date: Tue, 14 Feb 2023 09:16:58 +0100
+ Tue, 14 Feb 2023 00:35:48 -0800 (PST)
+Message-ID: <553f238a-56f2-4bd0-382a-80cfe116f138@redhat.com>
+Date: Tue, 14 Feb 2023 09:35:44 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH 2/4] sysemu/os-win32: fix setjmp/longjmp on windows-arm64
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org,
- richard.henderson@linaro.org, alex.bennee@linaro.org,
- Yonggang Luo <luoyonggang@gmail.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>
-References: <20230213161352.17199-1-pierrick.bouvier@linaro.org>
- <20230213161352.17199-3-pierrick.bouvier@linaro.org>
- <70e1b283-ac58-9df4-7e19-2ead4c680424@linaro.org>
-From: Pierrick Bouvier <pierrick.bouvier@linaro.org>
-In-Reply-To: <70e1b283-ac58-9df4-7e19-2ead4c680424@linaro.org>
+To: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Hanna Reitz <hreitz@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Kevin Wolf <kwolf@redhat.com>
+References: <20230210003147.1309376-1-jsnow@redhat.com>
+ <20230210003147.1309376-7-jsnow@redhat.com>
+ <CAFEAcA-c5y0TR8vYg_FYEmGv3mOOmBgeD0cyb+mVotsP=r-Dsw@mail.gmail.com>
+ <CAFn=p-aDV9=vG6hjTWRE6c52TpYSjDBU22nthTuejDCv_XrYMQ@mail.gmail.com>
+ <CAFEAcA_eGvz_BQVLhVWtedRh2mcBuMEhv0RKF+6DW4t+9FdPAw@mail.gmail.com>
+ <Y+Z2Kcq17HGWuoTV@redhat.com> <87cz6cpue3.fsf@pond.sub.org>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2 6/7] CI: Stop building docs on centos8
+In-Reply-To: <87cz6cpue3.fsf@pond.sub.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=pierrick.bouvier@linaro.org; helo=mail-wm1-x32f.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.345,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.345, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,72 +112,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-T24gMi8xNC8yMyAwODoxMSwgUGhpbGlwcGUgTWF0aGlldS1EYXVkw6kgd3JvdGU6DQo+IEhp
-IFBpZXJyaWNrLA0KPiANCj4gT24gMTMvMi8yMyAxNzoxMywgUGllcnJpY2sgQm91dmllciB3
-cm90ZToNCj4+IFdpbmRvd3MgaW1wbGVtZW50YXRpb24gb2Ygc2V0am1wL2xvbmdqbXAgaXMg
-ZG9uZSBpbg0KPj4gQzovV0lORE9XUy9zeXN0ZW0zMi91Y3J0YmFzZS5kbGwuIEFsYXMsIG9u
-IGFybTY0LCBpdCBzZWVtcyB0byAqYWx3YXlzKg0KPj4gcGVyZm9ybSBzdGFjayB1bndpbmRp
-bmcsIHdoaWNoIGNyYXNoZXMgZnJvbSBnZW5lcmF0ZWQgY29kZS4NCj4+DQo+PiBCeSB1c2lu
-ZyBhbHRlcm5hdGl2ZSBpbXBsZW1lbnRhdGlvbiBidWlsdCBpbiBtaW5ndywgd2UgYXZvaWQg
-ZG9pbmcgc3RhY2sNCj4+IHVud2luZGluZyBhbmQgdGhpcyBmaXhlcyBjcmFzaCB3aGVuIGNh
-bGxpbmcgbG9uZ2ptcC4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBQaWVycmljayBCb3V2aWVy
-IDxwaWVycmljay5ib3V2aWVyQGxpbmFyby5vcmc+DQo+PiAtLS0NCj4+ICAgIGluY2x1ZGUv
-c3lzZW11L29zLXdpbjMyLmggfCAxOCArKysrKysrKysrKysrKysrLS0NCj4+ICAgIDEgZmls
-ZSBjaGFuZ2VkLCAxNiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPj4NCj4+IGRp
-ZmYgLS1naXQgYS9pbmNsdWRlL3N5c2VtdS9vcy13aW4zMi5oIGIvaW5jbHVkZS9zeXNlbXUv
-b3Mtd2luMzIuaA0KPj4gaW5kZXggNWIzOGM3YmQwNC4uODRmNjJkMGExNyAxMDA2NDQNCj4+
-IC0tLSBhL2luY2x1ZGUvc3lzZW11L29zLXdpbjMyLmgNCj4+ICsrKyBiL2luY2x1ZGUvc3lz
-ZW11L29zLXdpbjMyLmgNCj4+IEBAIC01MSwxNCArNTEsMjggQEAgdHlwZWRlZiBzdHJ1Y3Qg
-c29ja2FkZHJfdW4gew0KPj4gICAgZXh0ZXJuICJDIiB7DQo+PiAgICAjZW5kaWYNCj4+ICAg
-IA0KPj4gLSNpZiBkZWZpbmVkKF9XSU42NCkNCj4+ICsjaWYgZGVmaW5lZChfX2FhcmNoNjRf
-XykNCj4gDQo+IFNob3VsZG4ndCB3ZSBjaGVjayBmb3IgX19NSU5HVzY0X18/DQo+IA0KPiAg
-ICAgICNpZiBkZWZpbmVkKF9fYWFyY2g2NF9fKSAmJiBkZWZpbmVkKF9fTUlOR1c2NF9fKQ0K
-Pg0KDQpJIHRob3VnaHQgUUVNVSB3YXMgb25seSBjb21waWxlZCB1c2luZyBNaW5HVyB1bmRl
-ciBXaW5kb3dzLCAoZnJvbSBDSSwgDQp0aGF0J3MgdGhlIGNhc2UsIFsxXSwgWzJdKSwgYnV0
-IG1heWJlIHRoYXQncyBhIHdyb25nIGFzc3VtcHRpb24uDQoNClsxXSANCmh0dHBzOi8vZ2l0
-bGFiLmNvbS9xZW11LXByb2plY3QvcWVtdS8tL2Jsb2IvbWFzdGVyLy5naXRsYWItY2kuZC93
-aW5kb3dzLnltbA0KWzJdIA0KaHR0cHM6Ly9naXRsYWIuY29tL3FlbXUtcHJvamVjdC9xZW11
-Ly0vYmxvYi9tYXN0ZXIvdGVzdHMvZG9ja2VyL2RvY2tlcmZpbGVzL2ZlZG9yYS13aW42NC1j
-cm9zcy5kb2NrZXINCg0KRm9yIHdpbmRvd3MtYXJtNjQsIHdlIG5lZWQgYW4gYWx0ZXJuYXRp
-dmUgc2V0am1wL2xvbmdqbXAgaW1wbGVtZW50YXRpb24gDQooX19idWlsdGluX3NldGptcCBh
-bmQgX19idWlsdGluX2xvbmdqbXAgaW4gY2xhbmcgYXJlIG5vdCBhdmFpbGFibGUpLCANCnRo
-dXMsIHRoYXQgbWFrZXMgTWluR1cgbWFuZGF0b3J5LCBhdCBsZWFzdCBmb3IgdGhpcyBwbGF0
-Zm9ybS4NCg0KV291bGQgYWRkaW5nIHRoaXMgYmUgc2F0aXNmeWluZz8gT3IgYmV0dGVyIHRv
-IGFkZCB0aGlzIGNoZWNrIGluIE1lc29uPw0KI2lmbmRlZiBfX01JTkdXNjRfXw0KI2Vycm9y
-IE1pbkdXIG11c3QgYmUgYXZhaWxhYmxlIGZvciB0aGlzIHBsYXRmb3JtDQojZW5kaWYNCg0K
-Pj4gKy8qIE9uIHdpbmRvd3MtYXJtNjQsIHNldGptcCBpcyBhdmFpbGFibGUgaW4gb25seSBv
-bmUgdmFyaWFudCwgYW5kIGxvbmdqbXAgYWx3YXlzDQo+PiArICogZG9lcyBzdGFjayB1bndp
-bmRpbmcuIFRoaXMgY3Jhc2ggd2l0aCBnZW5lcmF0ZWQgY29kZS4NCj4+ICsgKiBUaHVzLCB3
-ZSB1c2UgYW5vdGhlciBpbXBsZW1lbnRhdGlvbiBvZiBzZXRqbXAgKG5vdCB3aW5kb3dzIG9u
-ZSksIGNvbWluZyBmcm9tDQo+PiArICogbWluZ3csIHdoaWNoIG5ldmVyIHBlcmZvcm1zIHN0
-YWNrIHVud2luZGluZy4gKi8NCj4+ICsjdW5kZWYgc2V0am1wDQo+PiArI3VuZGVmIGxvbmdq
-bXANCj4+ICsvKiBUaGVzZSBmdW5jdGlvbnMgYXJlIG5vdCBkZWNsYXJlZCBpbiBzZXRqbXAu
-aCBiZWNhdXNlIF9fYWFyY2g2NF9fIGRlZmluZXMNCj4+ICsgKiBzZXRqbXAgdG8gX3NldGpt
-cGV4IGluc3RlYWQuIEhvd2V2ZXIsIHRoZXkgYXJlIHN0aWxsIGRlZmluZWQgaW4gbGlibWlu
-Z3dleC5hLA0KPj4gKyAqIHdoaWNoIGdldHMgbGlua2VkIGF1dG9tYXRpY2FsbHkuICovDQo+
-IA0KPiBTbyB0aGlzIGlzIG5vdCBzdGFibGUuIEJldHRlciB3b3VsZCBiZSB0byBjaGVjayB0
-aGUgc3ltYm9scyBhdmFpbGFiaWxpdHkNCj4gYXQgbGluay10aW1lIHZpYSBtZXNvbjsgc2Vl
-IGZvciBleGFtcGxlIGdsdXN0ZXJmc19mdHJ1bmNhdGVfaGFzX3N0YXQNCj4gd2hpY2ggZGVm
-aW5lcyBDT05GSUdfR0xVU1RFUkZTX0ZUUlVOQ0FURV9IQVNfU1RBVC4NCj4gDQo+IEEgc2lt
-aWxhciBjaGVjayBjb3VsZCBkZWZpbmUgQ09ORklHX01JTkdXNjRfSEFTX1NFVEpNUF9MT05H
-Sk1QLg0KPiANCg0KWW91J3JlIHJpZ2h0LCBpdCdzIG5vdCBzdGFibGUuIENoZWNraW5nIHRo
-aXMgdXNpbmcgbWVzb24gc291bmRzIGEgZ29vZCANCmFwcHJvYWNoLg0KDQo+PiArZXh0ZXJu
-IGludCBfX21pbmd3X3NldGptcChqbXBfYnVmKTsNCj4+ICtleHRlcm4gdm9pZCBfX2F0dHJp
-YnV0ZV9fKChub3JldHVybikpIF9fbWluZ3dfbG9uZ2ptcChqbXBfYnVmLCBpbnQpOw0KPj4g
-KyNkZWZpbmUgc2V0am1wKGVudikgX19taW5nd19zZXRqbXAoZW52KQ0KPj4gKyNkZWZpbmUg
-bG9uZ2ptcChlbnYsIHZhbCkgX19taW5nd19sb25nam1wKGVudiwgdmFsKQ0KPj4gKyNlbGlm
-IGRlZmluZWQoX1dJTjY0KQ0KPj4gICAgLyogT24gdzY0LCBzZXRqbXAgaXMgaW1wbGVtZW50
-ZWQgYnkgX3NldGptcCB3aGljaCBuZWVkcyBhIHNlY29uZCBwYXJhbWV0ZXIuDQo+PiAgICAg
-KiBJZiB0aGlzIHBhcmFtZXRlciBpcyBOVUxMLCBsb25nanVtcCBkb2VzIG5vIHN0YWNrIHVu
-d2luZGluZy4NCj4+ICAgICAqIFRoYXQgaXMgd2hhdCB3ZSBuZWVkIGZvciBRRU1VLiBQYXNz
-aW5nIHRoZSB2YWx1ZSBvZiByZWdpc3RlciByc3AgKGRlZmF1bHQpDQo+PiAgICAgKiBsZXRz
-IGxvbmdqbXAgdHJ5IGEgc3RhY2sgdW53aW5kaW5nIHdoaWNoIHdpbGwgY3Jhc2ggd2l0aCBn
-ZW5lcmF0ZWQgY29kZS4gKi8NCj4+ICAgICMgdW5kZWYgc2V0am1wDQo+PiAgICAjIGRlZmlu
-ZSBzZXRqbXAoZW52KSBfc2V0am1wKGVudiwgTlVMTCkNCj4+IC0jZW5kaWYNCj4+ICsjZW5k
-aWYgLyogX19hYXJjaDY0X18gKi8NCj4+ICAgIC8qIFFFTVUgdXNlcyBzaWdzZXRqbXAoKS9z
-aWdsb25nam1wKCkgYXMgdGhlIHBvcnRhYmxlIHdheSB0byBzcGVjaWZ5DQo+PiAgICAgKiAi
-bG9uZ2ptcCBhbmQgZG9uJ3QgdG91Y2ggdGhlIHNpZ25hbCBtYXNrcyIuIFNpbmNlIHdlIGtu
-b3cgdGhhdCB0aGUNCj4+ICAgICAqIHNhdmVtYXNrIHBhcmFtZXRlciB3aWxsIGFsd2F5cyBi
-ZSB6ZXJvIHdlIGNhbiBzYWZlbHkgZGVmaW5lIHRoZXNlDQo+IA0KPiBSZWdhcmRzLA0KPiAN
-Cj4gUGhpbC4NCg==
+On 14/02/2023 08.40, Markus Armbruster wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
+> 
+> [...]
+> 
+>> We don't have to drop python 3.6. It is a choice because
+>> of a desire to be able to use some shiny new python
+>> features without caring about back compat.
+> 
+> I read this on Friday, and decided to let it sit until after the
+> weekend.  Well, it's now Tuesday, and to be frank, it's still as
+> offensively flippant as it was on Friday.  It shows either ignorance of
+> or cavalier disregard for the sheer amount of work some of us have had
+> to put into keeping old versions of Python viable.
+
+I'm a complete python ignorant, too, so I'm a little bit surprised of the 
+amount of pain that these scripts are causing.
+
+No matter of that fact, I think Peter still has a point that we have a real 
+conflict here with our current support policy. So this either means that 
+Python was the wrong choice for our needs (since it is moving too fast and 
+causing too much friction), or we should really rethink our support policy.
+
+I guess we're too deep into the Python rabbit hole already, and I'm not 
+aware of any other good solutions (back to Perl scripts? No, thanks!), so 
+it's likely quite impossible to tune that knob.
+
+Thus we should maybe really start talking about our support policy now. I 
+think the main problem is likely the sentence "Support for the previous 
+major version will be dropped 2 years after the new major version is 
+released". Maybe we should shorten that time frame to 1 year. The 2 years 
+caused some confusions in the past already, since e.g. Debian only supports 
+the previous major release for only one more year, and macOS also releases a 
+major version each year ... so IMHO we could shorten the time frame for the 
+previous major release to 1 year instead. People then could still continue 
+building QEMU on CentOS 8, but they have to be aware that they might install 
+other software like Sphinx manually if they want to continue using QEMU with 
+docs there. What do you think?
+
+  Thomas
+
 
