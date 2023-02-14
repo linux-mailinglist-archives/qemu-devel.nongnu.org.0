@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E6F4696B4B
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 18:21:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70D7C696B48
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 18:20:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRyxG-0001hw-Mt; Tue, 14 Feb 2023 12:18:58 -0500
+	id 1pRyxF-0001h1-Cs; Tue, 14 Feb 2023 12:18:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=ZGUx=6K=kaod.org=clg@ozlabs.org>)
- id 1pRyxD-0001fi-VF; Tue, 14 Feb 2023 12:18:55 -0500
+ id 1pRyxC-0001et-DS; Tue, 14 Feb 2023 12:18:54 -0500
 Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=ZGUx=6K=kaod.org=clg@ozlabs.org>)
- id 1pRyxB-0004qO-RY; Tue, 14 Feb 2023 12:18:55 -0500
+ id 1pRyxA-0004qb-9q; Tue, 14 Feb 2023 12:18:54 -0500
 Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4PGSbm5FMBz4x5W;
- Wed, 15 Feb 2023 04:18:44 +1100 (AEDT)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4PGSbs1x72z4x5Z;
+ Wed, 15 Feb 2023 04:18:49 +1100 (AEDT)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4PGSbh5Pxsz4x5Z;
- Wed, 15 Feb 2023 04:18:40 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4PGSbn1jM0z4x82;
+ Wed, 15 Feb 2023 04:18:44 +1100 (AEDT)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -33,13 +33,11 @@ Cc: qemu-block@nongnu.org, Joel Stanley <joel@jms.id.au>,
  Andrew Jeffery <andrew@aj.id.au>, Markus Armbruster <armbru@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Peter Delevoryas <peter@pjd.dev>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH 1/8] m25p80: Improve error when the backend file size does not
- match the device
-Date: Tue, 14 Feb 2023 18:18:23 +0100
-Message-Id: <20230214171830.681594-2-clg@kaod.org>
+ Klaus Jensen <k.jensen@samsung.com>, Corey Minyard <cminyard@mvista.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PATCH 2/8] hw/i2c: only schedule pending master when bus is idle
+Date: Tue, 14 Feb 2023 18:18:24 +0100
+Message-Id: <20230214171830.681594-3-clg@kaod.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230214171830.681594-1-clg@kaod.org>
 References: <20230214171830.681594-1-clg@kaod.org>
@@ -69,50 +67,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently, when a block backend is attached to a m25p80 device and the
-associated file size does not match the flash model, QEMU complains
-with the error message "failed to read the initial flash content".
-This is confusing for the user.
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Use blk_check_size_and_read_all() instead of blk_pread() to improve
-the reported error.
+It is not given that the current master will release the bus after a
+transfer ends. Only schedule a pending master if the bus is idle.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Peter Delevoryas <peter@pjd.dev>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20221115151000.2080833-1-clg@kaod.org>
+Fixes: 37fa5ca42623 ("hw/i2c: support multiple masters")
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Acked-by: Corey Minyard <cminyard@mvista.com>
+Message-Id: <20221116084312.35808-2-its@irrelevant.dk>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
+ include/hw/i2c/i2c.h |  2 ++
+ hw/i2c/aspeed_i2c.c  |  2 ++
+ hw/i2c/core.c        | 37 ++++++++++++++++++++++---------------
+ 3 files changed, 26 insertions(+), 15 deletions(-)
 
-  breakage with commit a4b15a8b9e ("pflash: Only read non-zero parts
-  of backend image") when using -snaphot.
-
- hw/block/m25p80.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index 802d2eb021..dc5ffbc4ff 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -24,6 +24,7 @@
- #include "qemu/osdep.h"
- #include "qemu/units.h"
- #include "sysemu/block-backend.h"
-+#include "hw/block/block.h"
- #include "hw/qdev-properties.h"
- #include "hw/qdev-properties-system.h"
- #include "hw/ssi/ssi.h"
-@@ -1615,8 +1616,7 @@ static void m25p80_realize(SSIPeripheral *ss, Error **errp)
-         trace_m25p80_binding(s);
-         s->storage = blk_blockalign(s->blk, s->size);
+diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
+index 9b9581d230..2a3abacd1b 100644
+--- a/include/hw/i2c/i2c.h
++++ b/include/hw/i2c/i2c.h
+@@ -141,6 +141,8 @@ int i2c_start_send(I2CBus *bus, uint8_t address);
+  */
+ int i2c_start_send_async(I2CBus *bus, uint8_t address);
  
--        if (blk_pread(s->blk, 0, s->size, s->storage, 0) < 0) {
--            error_setg(errp, "failed to read the initial flash content");
-+        if (!blk_check_size_and_read_all(s->blk, s->storage, s->size, errp)) {
-             return;
++void i2c_schedule_pending_master(I2CBus *bus);
++
+ void i2c_end_transfer(I2CBus *bus);
+ void i2c_nack(I2CBus *bus);
+ void i2c_ack(I2CBus *bus);
+diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
+index c166fd20fa..1f071a3811 100644
+--- a/hw/i2c/aspeed_i2c.c
++++ b/hw/i2c/aspeed_i2c.c
+@@ -550,6 +550,8 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
          }
-     } else {
+         SHARED_ARRAY_FIELD_DP32(bus->regs, reg_cmd, M_STOP_CMD, 0);
+         aspeed_i2c_set_state(bus, I2CD_IDLE);
++
++        i2c_schedule_pending_master(bus->bus);
+     }
+ 
+     if (aspeed_i2c_bus_pkt_mode_en(bus)) {
+diff --git a/hw/i2c/core.c b/hw/i2c/core.c
+index d4ba8146bf..bed594fe59 100644
+--- a/hw/i2c/core.c
++++ b/hw/i2c/core.c
+@@ -185,22 +185,39 @@ int i2c_start_transfer(I2CBus *bus, uint8_t address, bool is_recv)
+ 
+ void i2c_bus_master(I2CBus *bus, QEMUBH *bh)
+ {
+-    if (i2c_bus_busy(bus)) {
+-        I2CPendingMaster *node = g_new(struct I2CPendingMaster, 1);
+-        node->bh = bh;
++    I2CPendingMaster *node = g_new(struct I2CPendingMaster, 1);
++    node->bh = bh;
++
++    QSIMPLEQ_INSERT_TAIL(&bus->pending_masters, node, entry);
++}
++
++void i2c_schedule_pending_master(I2CBus *bus)
++{
++    I2CPendingMaster *node;
+ 
+-        QSIMPLEQ_INSERT_TAIL(&bus->pending_masters, node, entry);
++    if (i2c_bus_busy(bus)) {
++        /* someone is already controlling the bus; wait for it to release it */
++        return;
++    }
+ 
++    if (QSIMPLEQ_EMPTY(&bus->pending_masters)) {
+         return;
+     }
+ 
+-    bus->bh = bh;
++    node = QSIMPLEQ_FIRST(&bus->pending_masters);
++    bus->bh = node->bh;
++
++    QSIMPLEQ_REMOVE_HEAD(&bus->pending_masters, entry);
++    g_free(node);
++
+     qemu_bh_schedule(bus->bh);
+ }
+ 
+ void i2c_bus_release(I2CBus *bus)
+ {
+     bus->bh = NULL;
++
++    i2c_schedule_pending_master(bus);
+ }
+ 
+ int i2c_start_recv(I2CBus *bus, uint8_t address)
+@@ -234,16 +251,6 @@ void i2c_end_transfer(I2CBus *bus)
+         g_free(node);
+     }
+     bus->broadcast = false;
+-
+-    if (!QSIMPLEQ_EMPTY(&bus->pending_masters)) {
+-        I2CPendingMaster *node = QSIMPLEQ_FIRST(&bus->pending_masters);
+-        bus->bh = node->bh;
+-
+-        QSIMPLEQ_REMOVE_HEAD(&bus->pending_masters, entry);
+-        g_free(node);
+-
+-        qemu_bh_schedule(bus->bh);
+-    }
+ }
+ 
+ int i2c_send(I2CBus *bus, uint8_t data)
 -- 
 2.39.1
 
