@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B676968D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 17:08:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38ACE6968D1
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 17:09:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRxqn-0000CK-EL; Tue, 14 Feb 2023 11:08:13 -0500
+	id 1pRxrS-0001BG-3b; Tue, 14 Feb 2023 11:08:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pRxql-0000Bw-17; Tue, 14 Feb 2023 11:08:11 -0500
-Received: from mail-vk1-xa2b.google.com ([2607:f8b0:4864:20::a2b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRxrQ-00019t-CF
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:08:52 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pRxqi-00027E-OP; Tue, 14 Feb 2023 11:08:10 -0500
-Received: by mail-vk1-xa2b.google.com with SMTP id v81so8212421vkv.5;
- Tue, 14 Feb 2023 08:08:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1676390887;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=xgLdr5Xto2TmAnyBwcyuFb4TJ/tsFaLx03bgaR7hvSs=;
- b=j2Mteq31kHR5HOw16c5HFsub9AXiwG9iRWEmXYdDs2jaZWs7ms7VivHiEW8SHiTOIy
- d46Qt6YdXUffCXbG3uOURH5Go2cTisaJkEuQh73a0+jrVqmdos5OUPJc3grQhJo1j8zZ
- mxk4jd+T0fh3KlcCyZFdYFJ4EHoPAXkXD7GI86lQ2Ov1BH2ijtar0ubhCos31ErWFQnT
- Xejvp9/fZHMDgpCUh4W+PPDw8oKIeAtWxY0B157K0ouieX5/dj9JjmeequZ6GD5ulcYE
- OVfAQDgLqUwDiQv30xuo46lqxdePlzi2bNq0V2HDq9ddzD/JbRn6181FQ9dGK/E2uZDo
- lEwg==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRxrO-0002SY-BO
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:08:52 -0500
+Received: by mail-wr1-x432.google.com with SMTP id h16so16174825wrz.12
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 08:08:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=xVSCeYOyMug0x9LmE6mrm+Kpn6VeDGJ6hpmmyfOxL8M=;
+ b=GUYsgCKoSpTVHTMVSQN5wlErbFKtRrg/4ta6lgXNQEoq9VOBxfX9IwYK6hv+QH+pgE
+ pH4e37vIeiuC56cb1LPVVIdR5L8gq1imrIJrUKvRFyNh6I+o4WcMIANpH9wPDwrk0oJa
+ VpCElS9h/djzM3ES+AQXiWiIRSjAG0sy1mofmsGNZf1alElKgyjRIwy3RTDTLBeEgtA8
+ y7NoELvXytA8K1wgnrWcL+mtcxzypbooZr/zp9zMI+UCh0iIKGj/0THdj1REoYV6G44G
+ hNIFV1aFzfD1/aAxH7dfdKasR/voX1G2tkj2Z5gQGM1BUwzjBPVbEcywdx4DxcpNPSkR
+ DdVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1676390887;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xgLdr5Xto2TmAnyBwcyuFb4TJ/tsFaLx03bgaR7hvSs=;
- b=AjuO7j5WTZG27t8mfnzzi4nXywjWB6F5FRdR5Rjupb75mY2jux8MVgE1WAJ/TkeOcw
- Pr8aXcJp/+3NLtLu9Upt0dtEUlHxSbs/5U9uT5cq3ANBLz/v5ubg0oRoRLxdvit1y4KJ
- 4wnk5FiQRBOceTUEIfw8AjX7N3u5+4BrhYQYNlZoO03coZ/I+ZOPHcq2TFWNHhXuZa2t
- f2TN5ykdFJZRLcWFwO+Hs2LMfymVGBSg1YkSxUNUiTU1OmIwgA0deIkOSu11ESNZic3h
- AktdaNUsZegVUG9hDJEuPPVTc0C/iIiKhV3dv0BSwjF4IY/do/tTA9MrQCnlWw47NFoG
- R0lw==
-X-Gm-Message-State: AO0yUKVrrSCx7xT6GxzOo4Ix4xITEbhKLVWyRYk1GkIbSLuN7EfmwFh5
- /1ts6Bu6fkxkyD0j5Btae1wMs+OtVkpvxUpfVeg=
-X-Google-Smtp-Source: AK7set+7hf6CVhv746KbrPHwkkoRDM1iJunYPOzALMPtCrhYim5mF3pa+4+/uNW3fwpqdPUjB4FHHBz3rRssleeyKbw=
-X-Received: by 2002:a05:6122:124c:b0:3d5:911f:daed with SMTP id
- b12-20020a056122124c00b003d5911fdaedmr447077vkp.39.1676390887209; Tue, 14 Feb
- 2023 08:08:07 -0800 (PST)
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xVSCeYOyMug0x9LmE6mrm+Kpn6VeDGJ6hpmmyfOxL8M=;
+ b=wsGMkMPwatpzMxkh3pHznNvTc5hBXePZO6IDoyxYI4BzyRPAM4rEC3Xts9q6JfUktd
+ AOAchuZjsIJHu/ZFjejfuOVY2tgR89oSpZn021wdfh3F2+8syFsjMM5SsNb/RMt/02cg
+ 6zV8D0EAv8EF5hqW3ZMiVSBfnnGp2FdsWP194vouObIhpDfKBbW4pleUIXTJ7yLw25XS
+ lL3zgGZBywpONkg4lG1xx/9VtIPiCB8WBIWznWny0g5oV2YcxP5wYVoNtPuZ25bK+W5Q
+ Cep870mIUznBXA0BeykDag2fMDAuHU8wchGOgLlwMfF2VEFR5qxK1lEC34rrEz/X/d8A
+ Sm4Q==
+X-Gm-Message-State: AO0yUKU8l6hCZTrUka0rrJ8GRqipb/a9zGE6o4S4IB2EYwJz0L4RjhLU
+ DunQJwONLu+kFhRGmQFTPhueJw==
+X-Google-Smtp-Source: AK7set+XFofX2eM96Rx3kuZQIuUg/4PZSAJilarrTVsPA0Yh3lXDqLvOFS+Qqif5iYV+5agjOkyG1Q==
+X-Received: by 2002:adf:ec06:0:b0:2c5:617f:e348 with SMTP id
+ x6-20020adfec06000000b002c5617fe348mr80775wrn.25.1676390928677; 
+ Tue, 14 Feb 2023 08:08:48 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ b4-20020a5d4d84000000b002c5621263e3sm2406041wru.19.2023.02.14.08.08.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Feb 2023 08:08:48 -0800 (PST)
+Message-ID: <f5f42e9a-e0eb-341a-32ff-4d1ebd8830b7@linaro.org>
+Date: Tue, 14 Feb 2023 17:08:46 +0100
 MIME-Version: 1.0
-References: <20230213184338.46712-1-philmd@linaro.org>
- <20230213184338.46712-5-philmd@linaro.org>
-In-Reply-To: <20230213184338.46712-5-philmd@linaro.org>
-From: Bernhard Beschow <shentey@gmail.com>
-Date: Tue, 14 Feb 2023 17:07:51 +0100
-Message-ID: <CAG4p6K5Rfeya9A5pD_HEUMazGOy6KU=PmQPK7JsgFEfoQx4gKQ@mail.gmail.com>
-Subject: Re: [PATCH v3 04/14] hw/char/serial-pci-multi: Factor
- multi_serial_class_initfn() out
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- qemu-block@nongnu.org, 
- Hu Tao <hutao@cn.fujitsu.com>, Gonglei Arei <arei.gonglei@huawei.com>, 
- Richard Henderson <richard.henderson@linaro.org>, Li Qiang <liq3ea@163.com>, 
- Thomas Huth <thuth@redhat.com>, Cao jin <caoj.fnst@cn.fujitsu.com>, 
- xiaoqiang zhao <zxq_yx_007@163.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000005651b505f4ab2b07"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a2b;
- envelope-from=shentey@gmail.com; helo=mail-vk1-xa2b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH 00/10] Retire Fork-Based Fuzzing
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@redhat.com>, Alexander Bulekov <alxndr@bu.edu>
+Cc: qemu-devel@nongnu.org, Bandan Das <bsd@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>
+References: <20230205042951.3570008-1-alxndr@bu.edu> <Y+uq234pKMdKpPyT@fedora>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <Y+uq234pKMdKpPyT@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URI_DOTEDU=1.999 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,320 +91,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000005651b505f4ab2b07
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 14/2/23 16:38, Stefan Hajnoczi wrote:
+> On Sat, Feb 04, 2023 at 11:29:41PM -0500, Alexander Bulekov wrote:
+>> Hello,
+>> This series removes fork-based fuzzing.
+>> How does fork-based fuzzing work?
+>>   * A single parent process initializes QEMU
+>>   * We identify the devices we wish to fuzz (fuzzer-dependent)
+>>   * Use QTest to PCI enumerate the devices
+>>   * After that we start a fork-server which forks the process and executes
+>>     fuzzer inputs inside the disposable children.
+>>
+>> In a normal fuzzing process, everything happens in a single process.
+>>
+>> Pros of fork-based fuzzing:
+>>   * We only need to do common configuration once (e.g. PCI enumeration).
+>>   * Fork provides a strong guarantee that fuzzer inputs will not interfere with
+>>     each-other
+>>   * The fuzzing process can continue even after a child-process crashes
+>>   * We can apply our-own timers to child-processes to exit slow inputs, early
+>>
+>> Cons of fork-based fuzzing:
+>>   * Fork-based fuzzing is not supported by libfuzzer. We had to build our own
+>>     fork-server and rely on tricks using linker-scripts and shared-memory to
+>>     support fuzzing. ( https://physics.bu.edu/~alxndr/libfuzzer-forkserver/ )
+>>   * Fork-based fuzzing is currently the main blocker preventing us from enabling
+>>     other fuzzers such as AFL++ on OSS-Fuzz
+>>   * Fork-based fuzzing may be a reason why coverage-builds are failing on
+>>     OSS-Fuzz. Coverage is an important fuzzing metric which would allow us to
+>>     find parts of the code that are not well-covered.
+>>   * Fork-based fuzzing has high overhead. fork() is an expensive system-call,
+>>     especially for processes running ASAN (with large/complex) VMA layouts.
+>>   * Fork prevents us from effectively fuzzing devices that rely on
+>>     threads (e.g. qxl).
+>>
+>> These patches remove fork-based fuzzing and replace it with reboot-based
+>> fuzzing for most cases. Misc notes about this change:
+>>   * libfuzzer appears to be no longer in active development. As such, the
+>>     current implementation of fork-based fuzzing (while having some nice
+>>     advantages) is likely to hold us back in the future. If these changes
+>>     are approved and appear to run successfully on OSS-Fuzz, we should be
+>>     able to easily experiment with other fuzzing engines (AFL++).
+>>   * Some device do not completely reset their state. This can lead to
+>>     non-reproducible crashes. However, in my local tests, most crashes
+>>     were reproducible. OSS-Fuzz shouldn't send us reports unless it can
+>>     consistently reproduce a crash.
+>>   * In theory, the corpus-format should not change, so the existing
+>>     corpus-inputs on OSS-Fuzz will transfer to the new reset()-able
+>>     fuzzers.
+>>   * Each fuzzing process will now exit after a single crash is found. To
+>>     continue the fuzzing process, use libfuzzer flags such as -jobs=-1
+>>   * We no long control input-timeouts (those are handled by libfuzzer).
+>>     Since timeouts on oss-fuzz can be many seconds long, I added a limit
+>>     on the number of DMA bytes written.
+>>   
+>>
+>> Alexander Bulekov (10):
+>>    hw/sparse-mem: clear memory on reset
+>>    fuzz: add fuzz_reboot API
+>>    fuzz/generic-fuzz: use reboots instead of forks to reset state
+>>    fuzz/generic-fuzz: add a limit on DMA bytes written
+>>    fuzz/virtio-scsi: remove fork-based fuzzer
+>>    fuzz/virtio-net: remove fork-based fuzzer
+>>    fuzz/virtio-blk: remove fork-based fuzzer
+>>    fuzz/i440fx: remove fork-based fuzzer
+>>    fuzz: remove fork-fuzzing scaffolding
+>>    docs/fuzz: remove mentions of fork-based fuzzing
+>>
+>>   docs/devel/fuzzing.rst              |  22 +-----
+>>   hw/mem/sparse-mem.c                 |  13 +++-
+>>   meson.build                         |   4 -
+>>   tests/qtest/fuzz/fork_fuzz.c        |  41 ----------
+>>   tests/qtest/fuzz/fork_fuzz.h        |  23 ------
+>>   tests/qtest/fuzz/fork_fuzz.ld       |  56 --------------
+>>   tests/qtest/fuzz/fuzz.c             |   6 ++
+>>   tests/qtest/fuzz/fuzz.h             |   2 +-
+>>   tests/qtest/fuzz/generic_fuzz.c     | 111 +++++++---------------------
+>>   tests/qtest/fuzz/i440fx_fuzz.c      |  27 +------
+>>   tests/qtest/fuzz/meson.build        |   6 +-
+>>   tests/qtest/fuzz/virtio_blk_fuzz.c  |  51 ++-----------
+>>   tests/qtest/fuzz/virtio_net_fuzz.c  |  54 ++------------
+>>   tests/qtest/fuzz/virtio_scsi_fuzz.c |  51 ++-----------
+>>   14 files changed, 72 insertions(+), 395 deletions(-)
+>>   delete mode 100644 tests/qtest/fuzz/fork_fuzz.c
+>>   delete mode 100644 tests/qtest/fuzz/fork_fuzz.h
+>>   delete mode 100644 tests/qtest/fuzz/fork_fuzz.ld
+>>
+>> -- 
+>> 2.39.0
+>>
+> 
+> Whose tree should this go through? Laurent's qtest tree?
 
-On Mon, Feb 13, 2023 at 7:46 PM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.=
-org>
-wrote:
+Do you mean Thomas?
 
-> Extract code common to multi_2x_serial_pci_class_initfn() and
-> multi_4x_serial_pci_class_initfn() to multi_serial_class_initfn().
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> ---
->  hw/char/serial-pci-multi.c | 22 +++++++++++++---------
->  1 file changed, 13 insertions(+), 9 deletions(-)
->
-> diff --git a/hw/char/serial-pci-multi.c b/hw/char/serial-pci-multi.c
-> index e56c0bc841..704be5c294 100644
-> --- a/hw/char/serial-pci-multi.c
-> +++ b/hw/char/serial-pci-multi.c
-> @@ -155,14 +155,14 @@ static Property multi_4x_serial_pci_properties[] =
-=3D {
->      DEFINE_PROP_END_OF_LIST(),
->  };
->
-> -static void multi_2x_serial_pci_class_initfn(ObjectClass *klass, void
-> *data)
-> +static void multi_serial_class_initfn(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
->      PCIDeviceClass *pc =3D PCI_DEVICE_CLASS(klass);
-> +
->      pc->realize =3D multi_serial_pci_realize;
->      pc->exit =3D multi_serial_pci_exit;
->      pc->vendor_id =3D PCI_VENDOR_ID_REDHAT;
-> -    pc->device_id =3D PCI_DEVICE_ID_REDHAT_SERIAL2;
->      pc->revision =3D 1;
->      pc->class_id =3D PCI_CLASS_COMMUNICATION_SERIAL;
->      dc->vmsd =3D &vmstate_pci_multi_serial;
-> @@ -170,19 +170,22 @@ static void
-> multi_2x_serial_pci_class_initfn(ObjectClass *klass, void *data)
->      set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
->  }
->
-> +static void multi_2x_serial_pci_class_initfn(ObjectClass *klass, void
-> *data)
-> +{
-> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
-> +    PCIDeviceClass *pc =3D PCI_DEVICE_CLASS(klass);
-> +
-> +    pc->device_id =3D PCI_DEVICE_ID_REDHAT_SERIAL2;
-> +    device_class_set_props(dc, multi_2x_serial_pci_properties);
-> +}
-> +
->  static void multi_4x_serial_pci_class_initfn(ObjectClass *klass, void
-> *data)
->  {
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
->      PCIDeviceClass *pc =3D PCI_DEVICE_CLASS(klass);
-> -    pc->realize =3D multi_serial_pci_realize;
-> -    pc->exit =3D multi_serial_pci_exit;
-> -    pc->vendor_id =3D PCI_VENDOR_ID_REDHAT;
-> +
->      pc->device_id =3D PCI_DEVICE_ID_REDHAT_SERIAL4;
-> -    pc->revision =3D 1;
-> -    pc->class_id =3D PCI_CLASS_COMMUNICATION_SERIAL;
-> -    dc->vmsd =3D &vmstate_pci_multi_serial;
->      device_class_set_props(dc, multi_4x_serial_pci_properties);
-> -    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
->  }
->
->  static void multi_serial_init(Object *o)
-> @@ -202,6 +205,7 @@ static const TypeInfo multi_serial_pci_types[] =3D {
->          .parent         =3D TYPE_PCI_DEVICE,
->          .instance_size  =3D sizeof(PCIMultiSerialState),
->          .instance_init  =3D multi_serial_init,
-> +        .class_init     =3D multi_serial_class_initfn,
->          .abstract       =3D true,
->          .interfaces     =3D (InterfaceInfo[]) {
->              { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-> --
-> 2.38.1
->
->
->
-This patch hits an assert for me:
+$ git shortlog -cs tests/qtest/fuzz | sort -rn
+     32  Thomas Huth
+     26  Paolo Bonzini
+     19  Stefan Hajnoczi
+      6  Markus Armbruster
+      5  Alexander Bulekov
+      4  Marc-André Lureau
+      3  Peter Maydell
+      2  Laurent Vivier
+      1  Michael S. Tsirkin
+      1  Gerd Hoffmann
 
-    qemu-system-x86_64: ../src/qom/object.c:1279:
-object_class_property_add: Assertion `!object_class_property_find(klass,
-name)' failed.
+In doubt, cc'ing both :)
 
-with the following backtrace:
+> Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Thread 1 "qemu-system-x86" received signal SIGABRT, Aborted.
-__pthread_kill_implementation (threadid=3D<optimized out>, signo=3Dsigno@en=
-try=3D6,
-no_tid=3Dno_tid@entry=3D0) at pthread_kill.c:44
-44            return INTERNAL_SYSCALL_ERROR_P (ret) ?
-INTERNAL_SYSCALL_ERRNO (ret) : 0;
-(gdb) bt
-#0  __pthread_kill_implementation (threadid=3D<optimized out>,
-signo=3Dsigno@entry=3D6, no_tid=3Dno_tid@entry=3D0) at pthread_kill.c:44
-#1  0x00007ffff6c91953 in __pthread_kill_internal (signo=3D6,
-threadid=3D<optimized out>) at pthread_kill.c:78
-#2  0x00007ffff6c42ea8 in __GI_raise (sig=3Dsig@entry=3D6) at
-../sysdeps/posix/raise.c:26
-#3  0x00007ffff6c2c53d in __GI_abort () at abort.c:79
-#4  0x00007ffff6c2c45c in __assert_fail_base
-    (fmt=3D0x7ffff6da5d68 "%s%s%s:%u: %s%sAssertion `%s' failed.\n%n",
-assertion=3D0x5555560b9998 "!object_class_property_find(klass, name)",
-file=3D0x5555560b94be "../src/qom/object.c", line=3D1279, function=3D<optim=
-ized
-out>) at assert.c:92
-#5  0x00007ffff6c3b9f6 in __assert_fail
-    (assertion=3Dassertion@entry=3D0x5555560b9998
-"!object_class_property_find(klass, name)", file=3Dfile@entry=3D0x5555560b9=
-4be
-"../src/qom/object.c", line=3Dline@entry=3D1279,
-function=3Dfunction@entry=3D0x5555560b9d00
-<__PRETTY_FUNCTION__.21> "object_class_property_add") at assert.c:101
-#6  0x0000555555dbb690 in object_class_property_add
-    (klass=3Dklass@entry=3D0x5555569af820, name=3Dname@entry=3D0x555555fbe0=
-4b
-"chardev1", type=3D0x5555561230dd "str", get=3D0x555555db2ad0 <field_prop_g=
-et>,
-set=3D0x555555db36d0 <field_prop_set>, release=3D0x5555559f8f90 <release_ch=
-r>,
-opaque=3D0x5555563cc900 <multi_4x_serial_pci_properties>) at
-../src/qom/object.c:1279
-#7  0x0000555555db3e6d in qdev_class_add_property (prop=3D0x5555563cc900
-<multi_4x_serial_pci_properties>, name=3D0x555555fbe04b "chardev1",
-klass=3D0x5555569af820)
-    at ../src/hw/core/qdev-properties.c:889
-#8  device_class_set_props (dc=3D0x5555569af820, props=3D<optimized out>) a=
-t
-../src/hw/core/qdev-properties.c:955
-#9  0x0000555555dba590 in type_initialize (ti=3D0x5555567f4840) at
-../src/qom/object.c:1094
-#10 object_class_foreach_tramp (key=3D<optimized out>, value=3D0x5555567f48=
-40,
-opaque=3D0x7fffffffe260) at ../src/qom/object.c:1081
-#11 0x00007ffff70bcda8 in g_hash_table_foreach (hash_table=3D0x5555567b92a0=
- =3D
-{...}, func=3D0x555555dba530 <object_class_foreach_tramp>,
-user_data=3D0x7fffffffe260)
-    at ../glib/glib/ghash.c:2098
-#12 0x0000555555dbaac6 in object_class_foreach (opaque=3D0x7fffffffe258,
-include_abstract=3Dfalse, implements_type=3D<optimized out>, fn=3D0x555555d=
-b8a70
-<object_class_get_list_tramp>)
-    at ../src/qom/object.c:87
-#13 object_class_get_list (implements_type=3Dimplements_type@entry=3D0x5555=
-5603bb98
-"machine", include_abstract=3Dinclude_abstract@entry=3Dfalse) at
-../src/qom/object.c:1160
-#14 0x0000555555b68df7 in select_machine (errp=3D<optimized out>,
-qdict=3D0x55555684a4e0) at ../src/softmmu/vl.c:1580
-#15 qemu_create_machine (qdict=3D0x55555684a4e0) at ../src/softmmu/vl.c:201=
-5
-#16 qemu_init (argc=3D<optimized out>, argv=3D0x7fffffffe548) at
-../src/softmmu/vl.c:3542
-#17 0x000055555596f07e in main (argc=3D<optimized out>, argv=3D<optimized o=
-ut>)
-at ../src/softmmu/main.c:47
-
---0000000000005651b505f4ab2b07
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Feb 13, 2023 at 7:46 PM Phili=
-ppe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linaro.org">philmd@lina=
-ro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">Extract code common to multi_2x_serial_pci_class_initfn() and<br>
-multi_4x_serial_pci_class_initfn() to multi_serial_class_initfn().<br>
-<br>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@lin=
-aro.org" target=3D"_blank">philmd@linaro.org</a>&gt;<br>
----<br>
-=C2=A0hw/char/serial-pci-multi.c | 22 +++++++++++++---------<br>
-=C2=A01 file changed, 13 insertions(+), 9 deletions(-)<br>
-<br>
-diff --git a/hw/char/serial-pci-multi.c b/hw/char/serial-pci-multi.c<br>
-index e56c0bc841..704be5c294 100644<br>
---- a/hw/char/serial-pci-multi.c<br>
-+++ b/hw/char/serial-pci-multi.c<br>
-@@ -155,14 +155,14 @@ static Property multi_4x_serial_pci_properties[] =3D =
-{<br>
-=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_END_OF_LIST(),<br>
-=C2=A0};<br>
-<br>
--static void multi_2x_serial_pci_class_initfn(ObjectClass *klass, void *dat=
-a)<br>
-+static void multi_serial_class_initfn(ObjectClass *klass, void *data)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0DeviceClass *dc =3D DEVICE_CLASS(klass);<br>
-=C2=A0 =C2=A0 =C2=A0PCIDeviceClass *pc =3D PCI_DEVICE_CLASS(klass);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0pc-&gt;realize =3D multi_serial_pci_realize;<br>
-=C2=A0 =C2=A0 =C2=A0pc-&gt;exit =3D multi_serial_pci_exit;<br>
-=C2=A0 =C2=A0 =C2=A0pc-&gt;vendor_id =3D PCI_VENDOR_ID_REDHAT;<br>
--=C2=A0 =C2=A0 pc-&gt;device_id =3D PCI_DEVICE_ID_REDHAT_SERIAL2;<br>
-=C2=A0 =C2=A0 =C2=A0pc-&gt;revision =3D 1;<br>
-=C2=A0 =C2=A0 =C2=A0pc-&gt;class_id =3D PCI_CLASS_COMMUNICATION_SERIAL;<br>
-=C2=A0 =C2=A0 =C2=A0dc-&gt;vmsd =3D &amp;vmstate_pci_multi_serial;<br>
-@@ -170,19 +170,22 @@ static void multi_2x_serial_pci_class_initfn(ObjectCl=
-ass *klass, void *data)<br>
-=C2=A0 =C2=A0 =C2=A0set_bit(DEVICE_CATEGORY_INPUT, dc-&gt;categories);<br>
-=C2=A0}<br>
-<br>
-+static void multi_2x_serial_pci_class_initfn(ObjectClass *klass, void *dat=
-a)<br>
-+{<br>
-+=C2=A0 =C2=A0 DeviceClass *dc =3D DEVICE_CLASS(klass);<br>
-+=C2=A0 =C2=A0 PCIDeviceClass *pc =3D PCI_DEVICE_CLASS(klass);<br>
-+<br>
-+=C2=A0 =C2=A0 pc-&gt;device_id =3D PCI_DEVICE_ID_REDHAT_SERIAL2;<br>
-+=C2=A0 =C2=A0 device_class_set_props(dc, multi_2x_serial_pci_properties);<=
-br>
-+}<br>
-+<br>
-=C2=A0static void multi_4x_serial_pci_class_initfn(ObjectClass *klass, void=
- *data)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0DeviceClass *dc =3D DEVICE_CLASS(klass);<br>
-=C2=A0 =C2=A0 =C2=A0PCIDeviceClass *pc =3D PCI_DEVICE_CLASS(klass);<br>
--=C2=A0 =C2=A0 pc-&gt;realize =3D multi_serial_pci_realize;<br>
--=C2=A0 =C2=A0 pc-&gt;exit =3D multi_serial_pci_exit;<br>
--=C2=A0 =C2=A0 pc-&gt;vendor_id =3D PCI_VENDOR_ID_REDHAT;<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0pc-&gt;device_id =3D PCI_DEVICE_ID_REDHAT_SERIAL4;<br>
--=C2=A0 =C2=A0 pc-&gt;revision =3D 1;<br>
--=C2=A0 =C2=A0 pc-&gt;class_id =3D PCI_CLASS_COMMUNICATION_SERIAL;<br>
--=C2=A0 =C2=A0 dc-&gt;vmsd =3D &amp;vmstate_pci_multi_serial;<br>
-=C2=A0 =C2=A0 =C2=A0device_class_set_props(dc, multi_4x_serial_pci_properti=
-es);<br>
--=C2=A0 =C2=A0 set_bit(DEVICE_CATEGORY_INPUT, dc-&gt;categories);<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void multi_serial_init(Object *o)<br>
-@@ -202,6 +205,7 @@ static const TypeInfo multi_serial_pci_types[] =3D {<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.parent=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D TYPE_PCI_DEVICE,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.instance_size=C2=A0 =3D sizeof(PCIMultiS=
-erialState),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.instance_init=C2=A0 =3D multi_serial_ini=
-t,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .class_init=C2=A0 =C2=A0 =C2=A0=3D multi_seria=
-l_class_initfn,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.abstract=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D t=
-rue,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.interfaces=C2=A0 =C2=A0 =C2=A0=3D (Inter=
-faceInfo[]) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{ INTERFACE_CONVENTIONAL_PC=
-I_DEVICE },<br>
--- <br>
-2.38.1<br>
-<br>
-<br></blockquote><div><br></div><div>This patch hits an assert for me:</div=
-><div><br></div><div>=C2=A0=C2=A0=C2=A0 qemu-system-x86_64: ../src/qom/obje=
-ct.c:1279: object_class_property_add: Assertion `!object_class_property_fin=
-d(klass, name)&#39; failed.</div><div><br></div><div>with the following bac=
-ktrace:</div><div><br></div><div>Thread 1 &quot;qemu-system-x86&quot; recei=
-ved signal SIGABRT, Aborted.<br>__pthread_kill_implementation (threadid=3D&=
-lt;optimized out&gt;, signo=3Dsigno@entry=3D6, no_tid=3Dno_tid@entry=3D0) a=
-t pthread_kill.c:44<br>44 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return I=
-NTERNAL_SYSCALL_ERROR_P (ret) ? INTERNAL_SYSCALL_ERRNO (ret) : 0;<br>(gdb) =
-bt<br>#0 =C2=A0__pthread_kill_implementation (threadid=3D&lt;optimized out&=
-gt;, signo=3Dsigno@entry=3D6, no_tid=3Dno_tid@entry=3D0) at pthread_kill.c:=
-44<br>#1 =C2=A00x00007ffff6c91953 in __pthread_kill_internal (signo=3D6, th=
-readid=3D&lt;optimized out&gt;) at pthread_kill.c:78<br>#2 =C2=A00x00007fff=
-f6c42ea8 in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/posix/raise.c:26=
-<br>#3 =C2=A00x00007ffff6c2c53d in __GI_abort () at abort.c:79<br>#4 =C2=A0=
-0x00007ffff6c2c45c in __assert_fail_base<br>=C2=A0 =C2=A0 (fmt=3D0x7ffff6da=
-5d68 &quot;%s%s%s:%u: %s%sAssertion `%s&#39; failed.\n%n&quot;, assertion=
-=3D0x5555560b9998 &quot;!object_class_property_find(klass, name)&quot;, fil=
-e=3D0x5555560b94be &quot;../src/qom/object.c&quot;, line=3D1279, function=
-=3D&lt;optimized out&gt;) at assert.c:92<br>#5 =C2=A00x00007ffff6c3b9f6 in =
-__assert_fail<br>=C2=A0 =C2=A0 (assertion=3Dassertion@entry=3D0x5555560b999=
-8 &quot;!object_class_property_find(klass, name)&quot;, file=3Dfile@entry=
-=3D0x5555560b94be &quot;../src/qom/object.c&quot;, line=3Dline@entry=3D1279=
-, function=3Dfunction@entry=3D0x5555560b9d00 &lt;__PRETTY_FUNCTION__.21&gt;=
- &quot;object_class_property_add&quot;) at assert.c:101<br>#6 =C2=A00x00005=
-55555dbb690 in object_class_property_add<br>=C2=A0 =C2=A0 (klass=3Dklass@en=
-try=3D0x5555569af820, name=3Dname@entry=3D0x555555fbe04b &quot;chardev1&quo=
-t;, type=3D0x5555561230dd &quot;str&quot;, get=3D0x555555db2ad0 &lt;field_p=
-rop_get&gt;, set=3D0x555555db36d0 &lt;field_prop_set&gt;, release=3D0x55555=
-59f8f90 &lt;release_chr&gt;, opaque=3D0x5555563cc900 &lt;multi_4x_serial_pc=
-i_properties&gt;) at ../src/qom/object.c:1279<br>#7 =C2=A00x0000555555db3e6=
-d in qdev_class_add_property (prop=3D0x5555563cc900 &lt;multi_4x_serial_pci=
-_properties&gt;, name=3D0x555555fbe04b &quot;chardev1&quot;, klass=3D0x5555=
-569af820)<br>=C2=A0 =C2=A0 at ../src/hw/core/qdev-properties.c:889<br>#8 =
-=C2=A0device_class_set_props (dc=3D0x5555569af820, props=3D&lt;optimized ou=
-t&gt;) at ../src/hw/core/qdev-properties.c:955<br>#9 =C2=A00x0000555555dba5=
-90 in type_initialize (ti=3D0x5555567f4840) at ../src/qom/object.c:1094<br>=
-#10 object_class_foreach_tramp (key=3D&lt;optimized out&gt;, value=3D0x5555=
-567f4840, opaque=3D0x7fffffffe260) at ../src/qom/object.c:1081<br>#11 0x000=
-07ffff70bcda8 in g_hash_table_foreach (hash_table=3D0x5555567b92a0 =3D {...=
-}, func=3D0x555555dba530 &lt;object_class_foreach_tramp&gt;, user_data=3D0x=
-7fffffffe260)<br>=C2=A0 =C2=A0 at ../glib/glib/ghash.c:2098<br>#12 0x000055=
-5555dbaac6 in object_class_foreach (opaque=3D0x7fffffffe258, include_abstra=
-ct=3Dfalse, implements_type=3D&lt;optimized out&gt;, fn=3D0x555555db8a70 &l=
-t;object_class_get_list_tramp&gt;)<br>=C2=A0 =C2=A0 at ../src/qom/object.c:=
-87<br>#13 object_class_get_list (implements_type=3Dimplements_type@entry=3D=
-0x55555603bb98 &quot;machine&quot;, include_abstract=3Dinclude_abstract@ent=
-ry=3Dfalse) at ../src/qom/object.c:1160<br>#14 0x0000555555b68df7 in select=
-_machine (errp=3D&lt;optimized out&gt;, qdict=3D0x55555684a4e0) at ../src/s=
-oftmmu/vl.c:1580<br>#15 qemu_create_machine (qdict=3D0x55555684a4e0) at ../=
-src/softmmu/vl.c:2015<br>#16 qemu_init (argc=3D&lt;optimized out&gt;, argv=
-=3D0x7fffffffe548) at ../src/softmmu/vl.c:3542<br>#17 0x000055555596f07e in=
- main (argc=3D&lt;optimized out&gt;, argv=3D&lt;optimized out&gt;) at ../sr=
-c/softmmu/main.c:47<br></div><div> <br></div></div></div>
-
---0000000000005651b505f4ab2b07--
 
