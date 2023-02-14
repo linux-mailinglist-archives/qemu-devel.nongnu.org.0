@@ -2,79 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E4AD69606E
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 11:13:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD4A16960DD
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 11:35:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRsJD-00016m-Kj; Tue, 14 Feb 2023 05:13:11 -0500
+	id 1pRsdX-0006sk-E8; Tue, 14 Feb 2023 05:34:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRsJB-00016L-53
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 05:13:09 -0500
-Received: from mga02.intel.com ([134.134.136.20])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRsJ9-0002R2-Ka
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 05:13:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676369587; x=1707905587;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=USE8fx3Q8AqDZ4khA5hFjGmY9+IBo5sbXTdWS0oH2Ts=;
- b=OYaTqsICtpOo/erFU13b/y5BVNnChysWbNS5TjJ6KkiWMmoetcgt2k3A
- lhDtH2qo4Hhq/+onMww0bZBo4vIazT4D2iPFqZQ6hTBq6ibr/1X2Ouyvz
- vqyMirzPZ/4KsPf4S/vh+91o/ppNSegWYLEITA+Lvg7UjV68eziUxbNsN
- haS+6UveIAPhaMwtShENq64bTUscXibGdO7LmOdrlhqsQI7kfLhnruQUX
- UsgBZgmi0jT8EH+uBw+DsFjfi92EKig6pNulBwcHS7izxSWXGWetG5gl9
- EZdqAhYWKdQLcuHuxvNe+jQN5X28oqkQzti15HVToVxrxvb25kGKqjnhd g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="319157466"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="319157466"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2023 02:12:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="793063730"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="793063730"
-Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
- ([10.239.160.112])
- by orsmga004.jf.intel.com with ESMTP; 14 Feb 2023 02:12:55 -0800
-Date: Tue, 14 Feb 2023 18:20:41 +0800
-From: Zhao Liu <zhao1.liu@linux.intel.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Yanan Wang <wangyanan55@huawei.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi <dapeng1.mi@intel.com>,
- Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo <robert.hu@linux.intel.com>,
- Sean Christopherson <seanjc@google.com>,
- Like Xu <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>
-Subject: Re: [RFC 33/52] i386: Rename init_topo_info() to init_apic_topo_info()
-Message-ID: <Y+tgeUxjoUu52SeB@liuzhao-OptiPlex-7080>
-References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
- <20230213095035.158240-34-zhao1.liu@linux.intel.com>
- <d43f8d3b-2376-5004-ef92-24e3aac36af9@linaro.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pRsdV-0006sA-2Q
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 05:34:09 -0500
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pRsdS-00038v-KG
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 05:34:08 -0500
+Received: by mail-pl1-x632.google.com with SMTP id b5so16602494plz.5
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 02:34:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=L8YKpfOCppAXISjaS8Fnc7QWroAeCS8nvtNV12KFC5w=;
+ b=bfCz+It6h0Rfqj9WykYw1FO2/D7CyZ3aifsfD7k72a2KgQvKGidQJeNT2DR6WW2nSF
+ di92P157ETGvjH0TrXxp+0LwG7NSorUgmzWmZhMs9rFZ5xD4W/nYDYVhE0YQ8c7dhC33
+ AX7/exlCVNXp7L/deiOKm/unIHsf9G6ELg60e60tkIVYhtf4TyAkZTobH3RHuqKJ7Ayv
+ 6eLjA5oWT/CUnkToh+w7FYIISQCCxl4jQboqjt/KDMcvkkl4a7OrftDeNukRlAbeG82Y
+ +p9CaDmDolwKEChTgvpKh2nj4T6B/AhlHfg35M1sb4/d6SGiZUkH0R0y6k8gjkq1HbXT
+ Iahg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=L8YKpfOCppAXISjaS8Fnc7QWroAeCS8nvtNV12KFC5w=;
+ b=FyvvBbBc3TcH944VS7QoBa2bVheUMv7QQnKsmuX9sm2UCNW1xUuanxEvonFpWsHvs3
+ ddry16vp1yc/TYbxbbZIl3NZaEmkO2GK/Pvrx6KNHN5ESBh3dPMm5Q86UYfQMrtGdukV
+ ZWf+NnheZwh/poEC6HrTFlJmhOVbKdBpC9/SITr9FU08MJ66KvLshcG1Vnc4//qYNhil
+ +VP4sRxzRuWkbvherNPDanYzZtHcuJzUBa/wjui8lY30nvpHoth0Qn0yeDMfZWAMYezc
+ SlKBJ/R4yQnuws/pWbpIGQmrNdxRhGNKNPsdKSWLsdw+M++pb3yeGh1zcvAQgoxgEDKj
+ PQng==
+X-Gm-Message-State: AO0yUKVAzM0UN7fpLRHfQxood3Qqk+fZPT3Tz8umB3MCi742A8EekPjZ
+ ZsvETYrM9Ji78ktVOx2kVELyv9/AZ07n5oZqeaLGBQ==
+X-Google-Smtp-Source: AK7set/sAhalw0DI28swc0MfhBJY7WJLqiz/R4ueeCp9UokrgPm5prleyaM0MluCw4uPAt9Uavw/K40io2OTYpRn404=
+X-Received: by 2002:a17:902:d2c1:b0:19a:8a3c:c6ea with SMTP id
+ n1-20020a170902d2c100b0019a8a3cc6eamr541689plc.33.1676370844981; Tue, 14 Feb
+ 2023 02:34:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d43f8d3b-2376-5004-ef92-24e3aac36af9@linaro.org>
-Received-SPF: none client-ip=134.134.136.20;
- envelope-from=zhao1.liu@linux.intel.com; helo=mga02.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20230210003147.1309376-1-jsnow@redhat.com>
+ <20230210003147.1309376-7-jsnow@redhat.com>
+ <CAFEAcA-c5y0TR8vYg_FYEmGv3mOOmBgeD0cyb+mVotsP=r-Dsw@mail.gmail.com>
+ <CAFn=p-aDV9=vG6hjTWRE6c52TpYSjDBU22nthTuejDCv_XrYMQ@mail.gmail.com>
+ <CAFEAcA_eGvz_BQVLhVWtedRh2mcBuMEhv0RKF+6DW4t+9FdPAw@mail.gmail.com>
+ <Y+Z2Kcq17HGWuoTV@redhat.com> <87cz6cpue3.fsf@pond.sub.org>
+In-Reply-To: <87cz6cpue3.fsf@pond.sub.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 14 Feb 2023 10:33:53 +0000
+Message-ID: <CAFEAcA9sAk1XbcOpETN-rD+iQgm2F2=bMm6ic=HBgP6+qVd2TA@mail.gmail.com>
+Subject: Re: [PATCH v2 6/7] CI: Stop building docs on centos8
+To: Markus Armbruster <armbru@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Cleber Rosa <crosa@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ Qemu-block <qemu-block@nongnu.org>, Hanna Reitz <hreitz@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,45 +97,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 13, 2023 at 02:27:18PM +0100, Philippe Mathieu-Daudé wrote:
-> Date: Mon, 13 Feb 2023 14:27:18 +0100
-> From: Philippe Mathieu-Daudé <philmd@linaro.org>
-> Subject: Re: [RFC 33/52] i386: Rename init_topo_info() to
->  init_apic_topo_info()
-> 
-> On 13/2/23 10:50, Zhao Liu wrote:
-> > From: Zhao Liu <zhao1.liu@intel.com>
-> > 
-> > Rename init_topo_info() to init_apic_topo_info() to adapt
-> > X86ApicidTopoInfo.
-> > 
-> > Co-Developed-by: Zhuocheng Ding <zhuocheng.ding@intel.com>
-> > Signed-off-by: Zhuocheng Ding <zhuocheng.ding@intel.com>
-> > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
-> > ---
-> >   hw/i386/x86.c         | 12 ++++++------
-> >   include/hw/i386/x86.h |  3 ++-
-> >   2 files changed, 8 insertions(+), 7 deletions(-)
-> 
-> 
-> > diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-> > index ac6f1e4a74af..d84f7717900c 100644
-> > --- a/include/hw/i386/x86.h
-> > +++ b/include/hw/i386/x86.h
-> > @@ -98,7 +98,8 @@ struct X86MachineState {
-> >   #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
-> >   OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
-> > -void init_topo_info(X86ApicidTopoInfo *topo_info, const X86MachineState *x86ms);
-> > +void init_apicid_topo_info(X86ApicidTopoInfo *topo_info,
-> > +                           const X86MachineState *x86ms);
-> 
-> Maybe s/init_apicid_topo_info/init_apic_topo_info/?
-> 
-> Otherwise,
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> 
-Will remove the "id" suffix. Thanks!
+On Tue, 14 Feb 2023 at 07:40, Markus Armbruster <armbru@redhat.com> wrote:
+> I read this on Friday, and decided to let it sit until after the
+> weekend.  Well, it's now Tuesday, and to be frank, it's still as
+> offensively flippant as it was on Friday.  It shows either ignorance of
+> or cavalier disregard for the sheer amount of work some of us have had
+> to put into keeping old versions of Python viable.
 
-Zhao
+From my point of view it is definitely ignorance. I simply
+didn't expect that a serious major scripting language
+would be making it this hard to write code that is
+backwards compatible with older but not ancient versions.
+
+thanks
+-- PMM
 
