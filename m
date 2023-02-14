@@ -2,81 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 945586964A5
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 14:25:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF126964A9
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 14:27:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRvJd-0003yD-IT; Tue, 14 Feb 2023 08:25:49 -0500
+	id 1pRvKY-00059C-DI; Tue, 14 Feb 2023 08:26:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRvJc-0003wI-85
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:25:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRvJa-0006dc-Hc
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:25:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676381144;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hbPByCgXhzQzQXfGcnuBb7AmUUrAIE9+zkgEmIbnZiA=;
- b=i6hGlFWE5qnAsxyOLSIB9l7XS1ittk7BKqAZsitOw36tKXeVRr0z/SVrMgwmZnXGpL6Mlv
- RvF4UKSlMNg3wX3twsWFoWsH/LTnuLyaACjyaIgfLdwHnPnW6664IlDXTUMZVJlAqyKuMP
- Ih2HVSi0gvCO7oW2jY8m2oLYMQDwRjQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-102-KbYwmYX4OvK4V15e2g9kBw-1; Tue, 14 Feb 2023 08:25:41 -0500
-X-MC-Unique: KbYwmYX4OvK4V15e2g9kBw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AECFC8588E4;
- Tue, 14 Feb 2023 13:25:40 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C8571121318;
- Tue, 14 Feb 2023 13:25:40 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 49CFC21E6A1F; Tue, 14 Feb 2023 14:25:39 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org,  Beraldo Leal <bleal@redhat.com>,  Eric Blake
- <eblake@redhat.com>,  Stefan Weil <sw@weilnetz.de>,  Alex =?utf-8?Q?Benn?=
- =?utf-8?Q?=C3=A9e?=
- <alex.bennee@linaro.org>,  Paolo Bonzini <pbonzini@redhat.com>,  Laurent
- Vivier <lvivier@redhat.com>,  "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>,  Gerd Hoffmann <kraxel@redhat.com>,  Michael Roth
- <michael.roth@amd.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,  Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9?=
- <berrange@redhat.com>,  Thomas Huth <thuth@redhat.com>,  Wainer dos Santos
- Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v3 05/10] qmp: 'add_client' actually expects sockets
-References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
- <20230207142535.1153722-6-marcandre.lureau@redhat.com>
-Date: Tue, 14 Feb 2023 14:25:39 +0100
-In-Reply-To: <20230207142535.1153722-6-marcandre.lureau@redhat.com> (marcandre
- lureau's message of "Tue, 7 Feb 2023 18:25:30 +0400")
-Message-ID: <877cwkidkc.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pRvKO-000587-RO
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:26:36 -0500
+Received: from mail-oa1-x2a.google.com ([2001:4860:4864:20::2a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pRvKM-0006o8-OO
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:26:36 -0500
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-1442977d77dso18961929fac.6
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 05:26:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Fr4GFMgkj85YM3uur0lNAHIztfuXtBtONvd4DS5otzw=;
+ b=cAEhJHVRK1f87fMoaYqeJufa+Gi8amR192ci17ymq26kcG8WCQej0MreflD46Xk95A
+ NgWThZCAJdYUb19PjOogXrZjuziaKo8E9hCuEr7ke+jBD9gLeDtzpxXaXW714W7Y45Yd
+ l8QzZfnIO0VtvDYc4krURNHoOQ3P6du3b9xGs4cm4Dvfly+xPOi9xH9nTSXHgKi4RGbW
+ 4yEOBWTvIdMZTUmCQB7zyrM/5GZQbblTR52EvfVKjbTGMBiBuoAfUyHRmW8QTMfuwuW5
+ +5Vjks30HLF55WEx+JHGf21RB151WNISTWx+1GJ1AbpFLjWgqFTiwtqS0lzmHPS9FXF1
+ z4Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Fr4GFMgkj85YM3uur0lNAHIztfuXtBtONvd4DS5otzw=;
+ b=yEYoogiklvYMrZf/pwiY/IZFrHURYkn+LcgzG9rHq2IFHE5KlkpEsYGOYigldt8RUK
+ LjAGVzQBHA9cdrxbWLRs799mwYPa9QnaK+qxUm8gzORpd8FeHDNmS4SVqj8fdTge3eLd
+ 4sXUiCKs7qzOeoD0UfSoZo6MkbuAzsZCOiPkFetRTXOZZky75qdc/IRz0gVjPyyPKzkQ
+ yv0hJ/dcqxQlHi6k2UEisRsmYYelyR+HZxdW5sLK/ryoQ/73LY7hkMXaRJdvBk2FyL9Q
+ WYUkOa34Y2f0Y9YaZMZwxN7ovrJOMhRH2nZIGqXJWBlrLPYqQLiPoJvwXBK2tmPrvhy7
+ PlXA==
+X-Gm-Message-State: AO0yUKUF11Bog46dV4D1+uzRqGX6Fq7vVX+ToLvkAT5EgZKQhz2nZTBs
+ CSqT5Yk0kFBr+VGi3D0nvEVuLw==
+X-Google-Smtp-Source: AK7set+fhObBkVpruRkUK1xboy7BE98OZgstTpeHRpWuJpddteqVhxnhXICTaMIv5hU6SYplLcKH9Q==
+X-Received: by 2002:a05:6870:b627:b0:16e:1b7d:21f5 with SMTP id
+ cm39-20020a056870b62700b0016e1b7d21f5mr1041536oab.25.1676381193545; 
+ Tue, 14 Feb 2023 05:26:33 -0800 (PST)
+Received: from [192.168.68.107] ([191.19.40.109])
+ by smtp.gmail.com with ESMTPSA id
+ y132-20020a4a458a000000b0049fd5c02d25sm5967313ooa.12.2023.02.14.05.26.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Feb 2023 05:26:33 -0800 (PST)
+Message-ID: <3955ed21-11b5-feba-9119-f9f1d5eb44e0@ventanamicro.com>
+Date: Tue, 14 Feb 2023 10:26:29 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [Patch 09/14] target/riscv: Replace check for F/D to
+ Zve32f/Zve64d in trans_rvv.c.inc
+Content-Language: en-US
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230214083833.44205-1-liweiwei@iscas.ac.cn>
+ <20230214083833.44205-10-liweiwei@iscas.ac.cn>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20230214083833.44205-10-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::2a;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x2a.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,72 +98,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-marcandre.lureau@redhat.com writes:
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Whether it is SPICE, VNC, D-Bus, or the socket chardev, they all
-> actually expect a socket kind or will fail in different ways at runtime.
->
-> Throw an error early if the given 'add_client' fd is not a socket, and
-> close it to avoid leaks.
->
-> This allows to replace the close() call with a more correct & portable
-> closesocket() version.
->
-> (this will allow importing sockets on Windows with a specialized command
-> in the following patch, while keeping the remaining monitor associated
-> sockets/add_client code & usage untouched)
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+
+On 2/14/23 05:38, Weiwei Li wrote:
+> Check for Zve32f/Zve64d can overlap check for F/D
+> 
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 > ---
->  monitor/qmp-cmds.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
->
-> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index 859012aef4..2dae6bb10f 100644
-> --- a/monitor/qmp-cmds.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -14,6 +14,7 @@
->   */
->=20=20
->  #include "qemu/osdep.h"
-> +#include "qemu/sockets.h"
->  #include "monitor-internal.h"
->  #include "monitor/qdev.h"
->  #include "monitor/qmp-helpers.h"
-> @@ -139,11 +140,17 @@ void qmp_add_client(const char *protocol, const cha=
-r *fdname,
->          return;
->      }
->=20=20
-> +    if (!fd_is_socket(fd)) {
-> +        error_setg(errp, "add_client expects a socket");
-> +        close(fd);
-> +        return;
-> +    }
-> +
->      for (i =3D 0; i < ARRAY_SIZE(protocol_table); i++) {
->          if (!strcmp(protocol, protocol_table[i].name)) {
->              if (!protocol_table[i].add_client(fd, has_skipauth, skipauth,
->                                                has_tls, tls, errp)) {
-> -                close(fd);
-> +                closesocket(fd);
->              }
->              return;
->          }
-> @@ -151,7 +158,7 @@ void qmp_add_client(const char *protocol, const char =
-*fdname,
->=20=20
->      if (!qmp_add_client_char(fd, has_skipauth, skipauth, has_tls, tls,
->                               protocol, errp)) {
-> -        close(fd);
-> +        closesocket(fd);
->      }
->  }
 
-Please update add_client's doc comment in qapi/misc.json to state
-explicitly that a socket is required.
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
+>   target/riscv/insn_trans/trans_rvv.c.inc | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+> index 6f7ecf1a68..9b2711b94b 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -41,9 +41,9 @@ static bool require_rvf(DisasContext *s)
+>       switch (s->sew) {
+>       case MO_16:
+>       case MO_32:
+> -        return has_ext(s, RVF);
+> +        return s->cfg_ptr->ext_zve32f;
+>       case MO_64:
+> -        return has_ext(s, RVD);
+> +        return s->cfg_ptr->ext_zve64d;
+>       default:
+>           return false;
+>       }
+> @@ -58,9 +58,9 @@ static bool require_scale_rvf(DisasContext *s)
+>       switch (s->sew) {
+>       case MO_8:
+>       case MO_16:
+> -        return has_ext(s, RVF);
+> +        return s->cfg_ptr->ext_zve32f;
+>       case MO_32:
+> -        return has_ext(s, RVD);
+> +        return s->cfg_ptr->ext_zve64d;
+>       default:
+>           return false;
+>       }
 
