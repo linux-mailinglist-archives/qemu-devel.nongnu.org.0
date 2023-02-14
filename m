@@ -2,62 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7492D6966E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 15:30:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C295E6966E3
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 15:30:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRwJ6-00032Y-9c; Tue, 14 Feb 2023 09:29:20 -0500
+	id 1pRwJR-0003Cx-Cs; Tue, 14 Feb 2023 09:29:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pRwJ2-00030J-AB
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:29:16 -0500
-Received: from 6.mo548.mail-out.ovh.net ([188.165.58.48])
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1pRwJL-00038L-IM; Tue, 14 Feb 2023 09:29:36 -0500
+Received: from proxmox-new.maurer-it.com ([94.136.29.106])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pRwJ0-0003av-9W
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:29:16 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.62])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id CFFEB21481;
- Tue, 14 Feb 2023 14:29:01 +0000 (UTC)
-Received: from kaod.org (37.59.142.99) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Tue, 14 Feb
- 2023 15:29:01 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003636d9eb8-edb8-40e1-983c-72f22050070b,
- D27BB99F68B8EC7888E3647E3ED2C6CF660736DE) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <9a5b9e5a-ed67-e2b3-ddda-56220e40c00a@kaod.org>
-Date: Tue, 14 Feb 2023 15:28:58 +0100
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1pRwJI-0003dr-Ix; Tue, 14 Feb 2023 09:29:35 -0500
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 17EE047153;
+ Tue, 14 Feb 2023 15:29:21 +0100 (CET)
+Message-ID: <746c2aaf-c909-784a-fc63-d0599d6dee9b@proxmox.com>
+Date: Tue, 14 Feb 2023 15:29:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH qemu 2/2] aspeed/fuji : correct the eeprom size
+ Thunderbird/102.6.0
+From: Fiona Ebner <f.ebner@proxmox.com>
+Subject: Re: [PATCH] block/mirror: add 'write-blocking-after-ready' copy mode
+To: qemu-devel@nongnu.org
+Cc: "Denis V. Lunev" <den@virtuozzo.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ t.lamprecht@proxmox.com, jsnow@redhat.com, hreitz@redhat.com,
+ eblake@redhat.com, armbru@redhat.com, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>,
+ Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+References: <20221207132719.131227-1-f.ebner@proxmox.com>
+ <c120932d-a1a7-5904-3f17-10a7c9ac69af@yandex-team.ru>
+ <926be172-1d8a-e896-c051-3c37d048771b@virtuozzo.com>
+ <c3982fa3-be00-9cb2-7d71-5f784ac80864@proxmox.com>
+ <Y9uf1wlXQd4EIwxO@redhat.com>
 Content-Language: en-US
-To: ~ssinprem <ssinprem@celestica.com>, <qemu-devel@nongnu.org>
-CC: <qemu-stable@nongnu.org>, <srikanth@celestica.com>,
- <kgengan@celestica.com>, Peter Delevoryas <peter@pjd.dev>
-References: <167636845806.2107.2382940753543768501-2@git.sr.ht>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <167636845806.2107.2382940753543768501-2@git.sr.ht>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+In-Reply-To: <Y9uf1wlXQd4EIwxO@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: e29f88ae-c70e-48c4-bbc6-6fe0abf32fc9
-X-Ovh-Tracer-Id: 11145564655661058854
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudeifedgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuuddtteelgeejhfeikeegffekhfelvefgfeejveffjeeiveegfeehgfdtgfeitdenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehsshhinhhprhgvmhestggvlhgvshhtihgtrgdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhsthgrsghlvgesnhhonhhgnhhurdhorhhgpdhsrhhikhgrnhhthhestggvlhgvshhtihgtrgdrtghomhdpkhhgvghnghgrnhestggvlhgvshhtihgtrgdrtghomhdpphgvthgvrhesphhjugdruggvvhdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=188.165.58.48; envelope-from=clg@kaod.org;
- helo=6.mo548.mail-out.ovh.net
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
+ helo=proxmox-new.maurer-it.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.35,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,90 +64,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello,
-
-Adding Peter since he contributed the fuji machine,
-
-On 2/14/23 10:06, ~ssinprem wrote:
-> From: Sittisak Sinprem <ssinprem@celestca.com>
+Am 02.02.23 um 12:34 schrieb Kevin Wolf:
+> Am 02.02.2023 um 11:19 hat Fiona Ebner geschrieben:
+>> Am 31.01.23 um 19:18 schrieb Denis V. Lunev:
+>>> Frankly speaking I would say that this switch could be considered
+>>> NOT QEMU job and we should just send a notification (event) for the
+>>> completion of the each iteration and management software should
+>>> take a decision to switch from async mode to the sync one.
 > 
-> Device 24C64 the size is 64 kilobits
-> Device 24C02 the size is 2 kilobits
-
-Could you please specify the size in bytes ?
-
-You will need to add a Signed-off-by tag.
-
-Thanks,
-
-C.
-
-> ---
->   hw/arm/aspeed.c | 32 ++++++++++++++++----------------
->   1 file changed, 16 insertions(+), 16 deletions(-)
+> My first thought was very similar. We should provide a building block
+> that just switches between the two modes and then the management tool
+> can decide what the right policy is.
 > 
-> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index 55f114ef72..8e6a1579e4 100644
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -846,42 +846,42 @@ static void fuji_bmc_i2c_init(AspeedMachineState *bmc)
->       i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4c);
->       i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4d);
->   
-> -    aspeed_eeprom_init(i2c[19], 0x52, 64 * KiB);
-> -    aspeed_eeprom_init(i2c[20], 0x50, 2 * KiB);
-> -    aspeed_eeprom_init(i2c[22], 0x52, 2 * KiB);
-> +    aspeed_eeprom_init(i2c[19], 0x52, 64 * KiB / 8);
-> +    aspeed_eeprom_init(i2c[20], 0x50, 2 * KiB / 8);
-> +    aspeed_eeprom_init(i2c[22], 0x52, 2 * KiB / 8);
->   
->       i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x48);
->       i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x49);
->       i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x4a);
->       i2c_slave_create_simple(i2c[3], TYPE_TMP422, 0x4c);
->   
-> -    aspeed_eeprom_init(i2c[8], 0x51, 64 * KiB);
-> +    aspeed_eeprom_init(i2c[8], 0x51, 64 * KiB / 8);
->       i2c_slave_create_simple(i2c[8], TYPE_LM75, 0x4a);
->   
->       i2c_slave_create_simple(i2c[50], TYPE_LM75, 0x4c);
-> -    aspeed_eeprom_init(i2c[50], 0x52, 64 * KiB);
-> +    aspeed_eeprom_init(i2c[50], 0x52, 64 * KiB / 8);
->       i2c_slave_create_simple(i2c[51], TYPE_TMP75, 0x48);
->       i2c_slave_create_simple(i2c[52], TYPE_TMP75, 0x49);
->   
->       i2c_slave_create_simple(i2c[59], TYPE_TMP75, 0x48);
->       i2c_slave_create_simple(i2c[60], TYPE_TMP75, 0x49);
->   
-> -    aspeed_eeprom_init(i2c[65], 0x53, 64 * KiB);
-> +    aspeed_eeprom_init(i2c[65], 0x53, 64 * KiB / 8);
->       i2c_slave_create_simple(i2c[66], TYPE_TMP75, 0x49);
->       i2c_slave_create_simple(i2c[66], TYPE_TMP75, 0x48);
-> -    aspeed_eeprom_init(i2c[68], 0x52, 64 * KiB);
-> -    aspeed_eeprom_init(i2c[69], 0x52, 64 * KiB);
-> -    aspeed_eeprom_init(i2c[70], 0x52, 64 * KiB);
-> -    aspeed_eeprom_init(i2c[71], 0x52, 64 * KiB);
-> +    aspeed_eeprom_init(i2c[68], 0x52, 64 * KiB / 8);
-> +    aspeed_eeprom_init(i2c[69], 0x52, 64 * KiB / 8);
-> +    aspeed_eeprom_init(i2c[70], 0x52, 64 * KiB / 8);
-> +    aspeed_eeprom_init(i2c[71], 0x52, 64 * KiB / 8);
->   
-> -    aspeed_eeprom_init(i2c[73], 0x53, 64 * KiB);
-> +    aspeed_eeprom_init(i2c[73], 0x53, 64 * KiB / 8);
->       i2c_slave_create_simple(i2c[74], TYPE_TMP75, 0x49);
->       i2c_slave_create_simple(i2c[74], TYPE_TMP75, 0x48);
-> -    aspeed_eeprom_init(i2c[76], 0x52, 64 * KiB);
-> -    aspeed_eeprom_init(i2c[77], 0x52, 64 * KiB);
-> -    aspeed_eeprom_init(i2c[78], 0x52, 64 * KiB);
-> -    aspeed_eeprom_init(i2c[79], 0x52, 64 * KiB);
-> -    aspeed_eeprom_init(i2c[28], 0x50, 2 * KiB);
-> +    aspeed_eeprom_init(i2c[76], 0x52, 64 * KiB / 8);
-> +    aspeed_eeprom_init(i2c[77], 0x52, 64 * KiB / 8);
-> +    aspeed_eeprom_init(i2c[78], 0x52, 64 * KiB / 8);
-> +    aspeed_eeprom_init(i2c[79], 0x52, 64 * KiB / 8);
-> +    aspeed_eeprom_init(i2c[28], 0x50, 2 * KiB / 8);
->   
->       for (int i = 0; i < 8; i++) {
->           aspeed_eeprom_init(i2c[81 + i * 8], 0x56, 64 * KiB);
+> Adding a new event when the first iteration is done (I'm not sure if
+> there is much value in having it for later iterations) makes sense to
+> me if someone wants to use it. If we add it, let's not forget that
+> events can be lost and clients must be able to query the same
+> information, so we'd have to add it to query-jobs, too - which in turn
+> requires adding a job type specific struct to JobInfo first.
+
+When exactly should an iteration loop be considered finished?
+
+An idea would be to detect the last call to mirror_perform() in
+mirror_iteration(), mark the corresponding operation with a new flag,
+and trigger the event once mirror_iteration_done() is called with that
+operation.
+
+To implement it, I'd peek (below[0] should make it clear what I mean by
+"peek") the dirty iterator in the beginning of mirror_iteration() after
+computing nb_chunks. If peeking returns -1, we are in the final batch.
+Then in the loop where mirror_perform() is called, we need to figure out
+when the last call for that batch is. But the loop abort condition
+(seemingly?) depends on the result of mirror_perform(), so that might
+get a bit involved. I didn't think about it in detail yet, because I
+first wanted to ask if this is the approach to go for.
+
+An alternative would be to have an event when the iteration loop was
+restarted rather than when the iteration loop is finished, i.e.
+triggering the event in mirror_iteration() when the dirty iterator is
+reset. This is simpler, but it does not trigger if there are no writes
+to the source at all and otherwise it (most likely) triggers while there
+still are pending operations from the current iteration loop.
+
+What do you think?
+
+[0]: Is there a good way to peek the iterator without doing something
+like the following (we do know the offset from last time in
+mirror_iteration(), so that is not an issue)?
+> offset_from_last_time = bdrv_dirty_iter_next(s->dbi);
+> ...other stuff...
+> peek = bdrv_dirty_iter_next(s->dbi);
+> /* Get back to the previous state. */
+> bdrv_set_dirty_iter(s->dbi, offset_from_last_time);
+> check = bdrv_dirty_iter_next(s->dbi);
+> assert(check == offset_from_before); // just to be sure
+
+Best Regards,
+Fiona
+
 
 
