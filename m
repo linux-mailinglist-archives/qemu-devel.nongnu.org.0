@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 700976969D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 17:38:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D69F6969DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 17:38:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRyJq-0006OV-PE; Tue, 14 Feb 2023 11:38:14 -0500
+	id 1pRyKF-0007Io-Jo; Tue, 14 Feb 2023 11:38:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pRyJp-0006K0-1n
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:38:13 -0500
+ id 1pRyK7-00076r-JA
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:38:31 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pRyJl-0006wC-6W
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:38:12 -0500
+ id 1pRyK5-0006z1-Vt
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:38:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676392688;
+ s=mimecast20190719; t=1676392709;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u6tXeDjtFQiqMcOiOglsb8Fe6GHm5XsAhkgxp1xQ31I=;
- b=drxhk/ugLYd1NS/49Q6HGpDUjLr60RQZwgq81a/n3hurQtMRj26f1FqpDR4LO2vPgHIwfI
- EOBxQiVO2N1BNAePq4Q/Ki4qdMsJnZFeqO3ExPihqi5vFtKt0srSH4R1a54MHj4MDXgWiS
- jzCf7a6wL1fjnG4ShRkHEXoDPQCqcYk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Ec0y1A9K9VMILgkzXIsX3b9pefqAOVahaZCdNLPYtvg=;
+ b=Fy5iDGd73F6o1UnYjGBV1uz7JXXhHUmJmCj+OzeUQSr+Tl/MzaR9N4QI3CnggfMRDMnVob
+ Abgts5uexW+3hGEgdsFUYHi+zcWtv3KmrSobOy5F6cr1txkeVe06q3SDkEDPV6wckWTYYd
+ WsqNMqzIYSJrf4oBhYvlr0i9j5izYEY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-363-mW5ij9z1MDKHhUs-9--qOA-1; Tue, 14 Feb 2023 11:38:05 -0500
-X-MC-Unique: mW5ij9z1MDKHhUs-9--qOA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-225-wpBAjnwxOvOprRueIkVsmw-1; Tue, 14 Feb 2023 11:38:25 -0500
+X-MC-Unique: wpBAjnwxOvOprRueIkVsmw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C583680006E;
- Tue, 14 Feb 2023 16:38:03 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CA6B63848C3B;
+ Tue, 14 Feb 2023 16:38:23 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.149])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C290440CE2A7;
- Tue, 14 Feb 2023 16:38:00 +0000 (UTC)
-Date: Tue, 14 Feb 2023 16:37:58 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B4AD640C945A;
+ Tue, 14 Feb 2023 16:38:19 +0000 (UTC)
+Date: Tue, 14 Feb 2023 16:38:17 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: "Michael S. Tsirkin" <mst@redhat.com>
 Cc: qemu-devel@nongnu.org, "Jason A. Donenfeld" <Jason@zx2c4.com>,
@@ -55,19 +55,20 @@ Cc: qemu-devel@nongnu.org, "Jason A. Donenfeld" <Jason@zx2c4.com>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Nathan Chancellor <nathan@kernel.org>,
  Borislav Petkov <bp@alien8.de>, Eric Biggers <ebiggers@kernel.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH RFC 5/7] Revert "x86: use typedef for SetupData struct"
-Message-ID: <Y+u45nbOBZGEkfJa@redhat.com>
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: Re: [PATCH RFC 6/7] Revert "x86: return modified setup_data only if
+ read as memory, not as file"
+Message-ID: <Y+u4+U28Ldnw5JFj@redhat.com>
 References: <20230208211212.41951-1-mst@redhat.com>
- <20230208211212.41951-6-mst@redhat.com>
+ <20230208211212.41951-7-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230208211212.41951-6-mst@redhat.com>
+In-Reply-To: <20230208211212.41951-7-mst@redhat.com>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -93,14 +94,16 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 08, 2023 at 04:12:46PM -0500, Michael S. Tsirkin wrote:
-> This reverts commit eebb38a5633a77f5fa79d6486d5b2fcf8fbe3c07.
+On Wed, Feb 08, 2023 at 04:12:51PM -0500, Michael S. Tsirkin wrote:
+> This reverts commit e935b735085dfa61d8e6d276b6f9e7687796a3c7.
 > 
-> Fixes: eebb38a563 ("x86: use typedef for SetupData struct")
+> Fixes: e935b73508 ("x86: return modified setup_data only if read as memory, not as file")
 > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 > ---
->  hw/i386/x86.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
+>  include/hw/nvram/fw_cfg.h | 22 -------------------
+>  hw/i386/x86.c             | 46 +++++++++------------------------------
+>  hw/nvram/fw_cfg.c         | 12 +++++-----
+>  3 files changed, 16 insertions(+), 64 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
