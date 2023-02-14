@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DCA2695D4C
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 09:41:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 666EF695D73
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 09:49:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRqrV-0002UO-KH; Tue, 14 Feb 2023 03:40:31 -0500
+	id 1pRqz5-0007pH-S8; Tue, 14 Feb 2023 03:48:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRqrO-000259-2v
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:40:22 -0500
-Received: from mga12.intel.com ([192.55.52.136])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRqrK-0002Jg-S4
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:40:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676364018; x=1707900018;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=LaR4Hr8mY0U527XS41QgWIw0HM2JqCNxL3062BNFJ6M=;
- b=BYFO+eYbLDpsrvHjBfuMOCmgnzQFtXk80rSIk68cSp+VIAcHP5xxCb5v
- roWM31TvHfyUFQBAKr6Y0xYPtNTqHcbUsJ2xG8Kv4uJAqWBauCCmTEyr7
- NagMb8BUZXUSvdNmIEVsOFdIzafgmE29hWtPY6NhI5Dqy3C1zocTgUPWj
- 5UwhtZlyCTuUdeR+2S6VeLtTgUYDZ1mOtazlR+G0JwkKoXMc20N8FzugA
- +IGnj1iWZipDpj8Xsn06ZsO8NSekBA/ufzt10CqC3MVrolVh1qFc2efqX
- XRoWBu4V5Rc+QV7uNpXjUAldmMFNjvI4xJAXs4xW6Kd8ScouyJ2f39rle A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="310743930"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="310743930"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2023 00:40:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="778232770"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="778232770"
-Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
- ([10.239.160.112])
- by fmsmga002.fm.intel.com with ESMTP; 14 Feb 2023 00:40:12 -0800
-Date: Tue, 14 Feb 2023 16:48:00 +0800
-From: Zhao Liu <zhao1.liu@linux.intel.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Yanan Wang <wangyanan55@huawei.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi <dapeng1.mi@intel.com>,
- Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo <robert.hu@linux.intel.com>,
- Sean Christopherson <seanjc@google.com>,
- Like Xu <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>,
- qemu-devel@nongnu.org
-Subject: Re: [RFC 00/52] Introduce hybrid CPU topology
-Message-ID: <Y+tKwN6Y1HKaeXMz@liuzhao-OptiPlex-7080>
-References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
- <87y1p1c18a.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pRqz3-0007oy-P3; Tue, 14 Feb 2023 03:48:17 -0500
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pRqz1-0008HV-2u; Tue, 14 Feb 2023 03:48:17 -0500
+Received: from [192.168.0.119] (unknown [114.95.238.225])
+ by APP-05 (Coremail) with SMTP id zQCowAA3PfXJSutjm4YsBQ--.41800S2;
+ Tue, 14 Feb 2023 16:48:09 +0800 (CST)
+Message-ID: <1208b86d-ea9e-2767-91f2-fce0144dd2e4@iscas.ac.cn>
+Date: Tue, 14 Feb 2023 16:48:09 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87y1p1c18a.fsf@linaro.org>
-Received-SPF: none client-ip=192.55.52.136;
- envelope-from=zhao1.liu@linux.intel.com; helo=mga12.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Cc: liweiwei@iscas.ac.cn, Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
+Subject: Re: [PATCH 05/18] target/riscv: Coding style fixes in csr.c
+Content-Language: en-US
+To: Bin Meng <bmeng@tinylab.org>, qemu-devel@nongnu.org
+References: <20230213180215.1524938-1-bmeng@tinylab.org>
+ <20230213180215.1524938-6-bmeng@tinylab.org>
+From: weiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <20230213180215.1524938-6-bmeng@tinylab.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: zQCowAA3PfXJSutjm4YsBQ--.41800S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Ar1rAF1DKw1UWr1DZFykAFb_yoWfGryUpF
+ 4UZrn3GFZ3ta40va93GryqgF13Cw17K3y7Jws7Wa95t3W5AryrtF1DJFZIyr1UWas8Wr40
+ va9xCFn5Ar4jvFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAY
+ IcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
+ v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkG
+ c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_
+ Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JULID
+ 7UUUUU=
+X-Originating-IP: [114.95.238.225]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -44
+X-Spam_score: -4.5
 X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.345,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,155 +80,291 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 13, 2023 at 10:14:22AM +0000, Alex Bennée wrote:
-> Date: Mon, 13 Feb 2023 10:14:22 +0000
-> From: Alex Bennée <alex.bennee@linaro.org>
-> Subject: Re: [RFC 00/52] Introduce hybrid CPU topology
-> 
-> 
-> Zhao Liu <zhao1.liu@linux.intel.com> writes:
-> 
-> > From: Zhao Liu <zhao1.liu@intel.com>
-> >
-> > Hi list,
-> >
-> > This RFC series is to introduce hybrid topology in QEMU, and is based
-> > on our previous patches about cluster support for x86 [1] ([PATCH RESEND
-> > 00/18] Support smp.clusters for x86).
-> >
-> > Though our cluster support patches [1] has not yet accepted, we are
-> > still posting the hybrid topology support patches in advance, hoping to
-> > get discussion and feedbacks.
-> >
-> > In this RFC series, we mainly have the following work:
-> > * Introduce the new cpu topology under heterogeneous architecture, which
-> >   we called "hybrid" cpu topology.
-> >       - since the name "hmp" is already used in QEMU and "hybrid" is
-> >         also a synonym for heterogeneous.
-> > * Reorganized the relevant topology information in qemu to adapt to the
-> >   hybrid topology.
-> > * Introduce a new command "hybrid", which allows user to set a custom
-> >   hybrid topology.
-> >       - currently limited to custom cluster and custom core
-> > * Support hybrid topology in i386 PC machine.
-> > * Expose basic topology information (topology type and core type) in
-> >   query_cpus_fast.
-> >
-> > We hope that the hybrid topology can be general enough to be compatible
-> > with the needs of hybrids with various architectures in the future.
-> >
-> > Welcome your feedbacks!
-> >
-> >
-> > # 1. Background
-> >
-> > Heterogeneous computing refers to systems that use more than one kind of
-> > processor or cores [2]. Now there are more and more heterogeneous
-> > computing architectures, typically including arm's big.LITTLE [3] and
-> > intel hybrid architecture [4].
-> >
-> > The development of heterogeneous computing brings new challenges to
-> > virtualization. The first problem we face is how to support the vCPU
-> > topology under the heterogeneous architecture.
-> >
-> > Here, to distinguish it from "smp" cpu topology, we call it "hybrid" cpu
-> > topology.
-> >
-> >
-> > # 2. Motivation
-> >
-> > In a typical hybrid system, different types of core may have different
-> > capabilities. This difference may be reflected in different capacities,
-> > performance or power efficiencies, and even different instruction-per-
-> > cycle (IPC) capabilities. The direct consequence of these differences is
-> > to affect the performance of the workload.
-> 
-> This elides a use case for heterogeneous computing under emulation where
-> different cores can have totally different ISA's. We already support
-> emulation models where we have varying classes of the same ISA, for
-> example xlnx-zyncmp supports 4 A profile and 2 R profile Arm chips.
 
-This is emulation mode, so you also need to define heterogeneous CPU
-topology in this case, right?
+On 2023/2/14 02:02, Bin Meng wrote:
+> Fix various places that violate QEMU coding style:
+>
+> - correct multi-line comment format
+> - indent to opening parenthesis
+>
+> Signed-off-by: Bin Meng <bmeng@tinylab.org>
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 
-> 
-> I've glanced over the patch set and I don't think there is any direct
-> clash with that as this is mainly about representing the topology for
-> x86 non-emulation accelerators but I just want ensure we don't end up
-> stepping on each others toes.
+Regards,
+Weiwei Li
+> ---
+>
+>   target/riscv/csr.c | 62 ++++++++++++++++++++++++----------------------
+>   1 file changed, 32 insertions(+), 30 deletions(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index c2dd9d5af0..cc74819759 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -963,7 +963,7 @@ static RISCVException sstc_32(CPURISCVState *env, int csrno)
+>   }
+>   
+>   static RISCVException read_vstimecmp(CPURISCVState *env, int csrno,
+> -                                    target_ulong *val)
+> +                                     target_ulong *val)
+>   {
+>       *val = env->vstimecmp;
+>   
+> @@ -971,7 +971,7 @@ static RISCVException read_vstimecmp(CPURISCVState *env, int csrno,
+>   }
+>   
+>   static RISCVException read_vstimecmph(CPURISCVState *env, int csrno,
+> -                                    target_ulong *val)
+> +                                      target_ulong *val)
+>   {
+>       *val = env->vstimecmp >> 32;
+>   
+> @@ -979,7 +979,7 @@ static RISCVException read_vstimecmph(CPURISCVState *env, int csrno,
+>   }
+>   
+>   static RISCVException write_vstimecmp(CPURISCVState *env, int csrno,
+> -                                    target_ulong val)
+> +                                      target_ulong val)
+>   {
+>       RISCVCPU *cpu = env_archcpu(env);
+>   
+> @@ -996,7 +996,7 @@ static RISCVException write_vstimecmp(CPURISCVState *env, int csrno,
+>   }
+>   
+>   static RISCVException write_vstimecmph(CPURISCVState *env, int csrno,
+> -                                    target_ulong val)
+> +                                       target_ulong val)
+>   {
+>       RISCVCPU *cpu = env_archcpu(env);
+>   
+> @@ -1020,7 +1020,7 @@ static RISCVException read_stimecmp(CPURISCVState *env, int csrno,
+>   }
+>   
+>   static RISCVException read_stimecmph(CPURISCVState *env, int csrno,
+> -                                    target_ulong *val)
+> +                                     target_ulong *val)
+>   {
+>       if (riscv_cpu_virt_enabled(env)) {
+>           *val = env->vstimecmp >> 32;
+> @@ -1032,7 +1032,7 @@ static RISCVException read_stimecmph(CPURISCVState *env, int csrno,
+>   }
+>   
+>   static RISCVException write_stimecmp(CPURISCVState *env, int csrno,
+> -                                    target_ulong val)
+> +                                     target_ulong val)
+>   {
+>       RISCVCPU *cpu = env_archcpu(env);
+>   
+> @@ -1055,7 +1055,7 @@ static RISCVException write_stimecmp(CPURISCVState *env, int csrno,
+>   }
+>   
+>   static RISCVException write_stimecmph(CPURISCVState *env, int csrno,
+> -                                    target_ulong val)
+> +                                      target_ulong val)
+>   {
+>       RISCVCPU *cpu = env_archcpu(env);
+>   
+> @@ -1342,7 +1342,8 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
+>   
+>       /* 'E' excludes all other extensions */
+>       if (val & RVE) {
+> -        /* when we support 'E' we can do "val = RVE;" however
+> +        /*
+> +         * when we support 'E' we can do "val = RVE;" however
+>            * for now we just drop writes if 'E' is present.
+>            */
+>           return RISCV_EXCP_NONE;
+> @@ -1364,7 +1365,8 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
+>           val &= ~RVD;
+>       }
+>   
+> -    /* Suppress 'C' if next instruction is not aligned
+> +    /*
+> +     * Suppress 'C' if next instruction is not aligned
+>        * TODO: this should check next_pc
+>        */
+>       if ((val & RVC) && (GETPC() & ~3) != 0) {
+> @@ -1833,28 +1835,28 @@ static RISCVException write_mscratch(CPURISCVState *env, int csrno,
+>   }
+>   
+>   static RISCVException read_mepc(CPURISCVState *env, int csrno,
+> -                                     target_ulong *val)
+> +                                target_ulong *val)
+>   {
+>       *val = env->mepc;
+>       return RISCV_EXCP_NONE;
+>   }
+>   
+>   static RISCVException write_mepc(CPURISCVState *env, int csrno,
+> -                                     target_ulong val)
+> +                                 target_ulong val)
+>   {
+>       env->mepc = val;
+>       return RISCV_EXCP_NONE;
+>   }
+>   
+>   static RISCVException read_mcause(CPURISCVState *env, int csrno,
+> -                                     target_ulong *val)
+> +                                  target_ulong *val)
+>   {
+>       *val = env->mcause;
+>       return RISCV_EXCP_NONE;
+>   }
+>   
+>   static RISCVException write_mcause(CPURISCVState *env, int csrno,
+> -                                     target_ulong val)
+> +                                   target_ulong val)
+>   {
+>       env->mcause = val;
+>       return RISCV_EXCP_NONE;
+> @@ -1876,14 +1878,14 @@ static RISCVException write_mtval(CPURISCVState *env, int csrno,
+>   
+>   /* Execution environment configuration setup */
+>   static RISCVException read_menvcfg(CPURISCVState *env, int csrno,
+> -                                 target_ulong *val)
+> +                                   target_ulong *val)
+>   {
+>       *val = env->menvcfg;
+>       return RISCV_EXCP_NONE;
+>   }
+>   
+>   static RISCVException write_menvcfg(CPURISCVState *env, int csrno,
+> -                                  target_ulong val)
+> +                                    target_ulong val)
+>   {
+>       uint64_t mask = MENVCFG_FIOM | MENVCFG_CBIE | MENVCFG_CBCFE | MENVCFG_CBZE;
+>   
+> @@ -1896,14 +1898,14 @@ static RISCVException write_menvcfg(CPURISCVState *env, int csrno,
+>   }
+>   
+>   static RISCVException read_menvcfgh(CPURISCVState *env, int csrno,
+> -                                 target_ulong *val)
+> +                                    target_ulong *val)
+>   {
+>       *val = env->menvcfg >> 32;
+>       return RISCV_EXCP_NONE;
+>   }
+>   
+>   static RISCVException write_menvcfgh(CPURISCVState *env, int csrno,
+> -                                  target_ulong val)
+> +                                     target_ulong val)
+>   {
+>       uint64_t mask = MENVCFG_PBMTE | MENVCFG_STCE;
+>       uint64_t valh = (uint64_t)val << 32;
+> @@ -1914,7 +1916,7 @@ static RISCVException write_menvcfgh(CPURISCVState *env, int csrno,
+>   }
+>   
+>   static RISCVException read_senvcfg(CPURISCVState *env, int csrno,
+> -                                 target_ulong *val)
+> +                                   target_ulong *val)
+>   {
+>       RISCVException ret;
+>   
+> @@ -1928,7 +1930,7 @@ static RISCVException read_senvcfg(CPURISCVState *env, int csrno,
+>   }
+>   
+>   static RISCVException write_senvcfg(CPURISCVState *env, int csrno,
+> -                                  target_ulong val)
+> +                                    target_ulong val)
+>   {
+>       uint64_t mask = SENVCFG_FIOM | SENVCFG_CBIE | SENVCFG_CBCFE | SENVCFG_CBZE;
+>       RISCVException ret;
+> @@ -1943,7 +1945,7 @@ static RISCVException write_senvcfg(CPURISCVState *env, int csrno,
+>   }
+>   
+>   static RISCVException read_henvcfg(CPURISCVState *env, int csrno,
+> -                                 target_ulong *val)
+> +                                   target_ulong *val)
+>   {
+>       RISCVException ret;
+>   
+> @@ -1957,7 +1959,7 @@ static RISCVException read_henvcfg(CPURISCVState *env, int csrno,
+>   }
+>   
+>   static RISCVException write_henvcfg(CPURISCVState *env, int csrno,
+> -                                  target_ulong val)
+> +                                    target_ulong val)
+>   {
+>       uint64_t mask = HENVCFG_FIOM | HENVCFG_CBIE | HENVCFG_CBCFE | HENVCFG_CBZE;
+>       RISCVException ret;
+> @@ -1977,7 +1979,7 @@ static RISCVException write_henvcfg(CPURISCVState *env, int csrno,
+>   }
+>   
+>   static RISCVException read_henvcfgh(CPURISCVState *env, int csrno,
+> -                                 target_ulong *val)
+> +                                    target_ulong *val)
+>   {
+>       RISCVException ret;
+>   
+> @@ -1991,7 +1993,7 @@ static RISCVException read_henvcfgh(CPURISCVState *env, int csrno,
+>   }
+>   
+>   static RISCVException write_henvcfgh(CPURISCVState *env, int csrno,
+> -                                  target_ulong val)
+> +                                     target_ulong val)
+>   {
+>       uint64_t mask = HENVCFG_PBMTE | HENVCFG_STCE;
+>       uint64_t valh = (uint64_t)val << 32;
+> @@ -2034,13 +2036,13 @@ static RISCVException write_mstateen0(CPURISCVState *env, int csrno,
+>   }
+>   
+>   static RISCVException write_mstateen_1_3(CPURISCVState *env, int csrno,
+> -                                      target_ulong new_val)
+> +                                         target_ulong new_val)
+>   {
+>       return write_mstateen(env, csrno, SMSTATEEN_STATEEN, new_val);
+>   }
+>   
+>   static RISCVException read_mstateenh(CPURISCVState *env, int csrno,
+> -                                      target_ulong *val)
+> +                                     target_ulong *val)
+>   {
+>       *val = env->mstateen[csrno - CSR_MSTATEEN0H] >> 32;
+>   
+> @@ -2061,7 +2063,7 @@ static RISCVException write_mstateenh(CPURISCVState *env, int csrno,
+>   }
+>   
+>   static RISCVException write_mstateen0h(CPURISCVState *env, int csrno,
+> -                                      target_ulong new_val)
+> +                                       target_ulong new_val)
+>   {
+>       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+>   
+> @@ -2069,7 +2071,7 @@ static RISCVException write_mstateen0h(CPURISCVState *env, int csrno,
+>   }
+>   
+>   static RISCVException write_mstateenh_1_3(CPURISCVState *env, int csrno,
+> -                                      target_ulong new_val)
+> +                                          target_ulong new_val)
+>   {
+>       return write_mstateenh(env, csrno, SMSTATEEN_STATEEN, new_val);
+>   }
+> @@ -2106,7 +2108,7 @@ static RISCVException write_hstateen0(CPURISCVState *env, int csrno,
+>   }
+>   
+>   static RISCVException write_hstateen_1_3(CPURISCVState *env, int csrno,
+> -                                      target_ulong new_val)
+> +                                         target_ulong new_val)
+>   {
+>       return write_hstateen(env, csrno, SMSTATEEN_STATEEN, new_val);
+>   }
+> @@ -2145,7 +2147,7 @@ static RISCVException write_hstateen0h(CPURISCVState *env, int csrno,
+>   }
+>   
+>   static RISCVException write_hstateenh_1_3(CPURISCVState *env, int csrno,
+> -                                       target_ulong new_val)
+> +                                          target_ulong new_val)
+>   {
+>       return write_hstateenh(env, csrno, SMSTATEEN_STATEEN, new_val);
+>   }
+> @@ -3338,7 +3340,7 @@ static RISCVException read_mseccfg(CPURISCVState *env, int csrno,
+>   }
+>   
+>   static RISCVException write_mseccfg(CPURISCVState *env, int csrno,
+> -                         target_ulong val)
+> +                                    target_ulong val)
+>   {
+>       mseccfg_csr_write(env, val);
+>       return RISCV_EXCP_NONE;
 
-Yes, this is for non-emulation case.
-
-> 
-> > For a virtual machines, vCPUs are just threads, although we can bind
-> > vCPUs to different cores to benefit from the different advantages of
-> > these physical cores, it's obviously not enough since CPU topology (and
-> > cache topology) will still have a significant impact on scheduling
-> > performance.
-> >
-> <snip>
-> > ## 3.3. "-hybrid" command
-> >
-> > For hybrid cpu topology configuration, the original "-smp" lack of
-> > flexibility to expand, and unables to customize different cores.
-> >
-> > So we introduce "-hybrid" command and implement it as the multi-
-> > line command. The multi-line command format is more complex than the
-> > single-line one, but it can bring stronger scalability and
-> > intuitiveness. In the future, it can also be easily extended to more
-> > heterogeneous topology levels.
-> >
-> > "-hybrid" command is as follows:
-> >
-> > -hybrid socket,sockets=n
-> > -hybrid die,dies=n
-> > -hybrid cluster,clusters=n
-> > -hybrid core,cores=n,type=core_type[,threads=threads]
-> >         [,clusterid=cluster]
-> >
-> > Here, we first define the corresponding qapi options for these 4
-> > topology levels: core, cluster, die and socket.
-> >
-> > We doesn't need a thread level since thread doesn't have different
-> > type.
-> >
-> > For example:
-> >
-> > -hybrid socket,sockets=1
-> > -hybrid die,dies=1
-> > -hybrid cluster,clusters=4
-> > -hybrid core,cores=1,coretype="core",threads=2,clusterid=0-2
-> > -hybrid core,cores=4,coretype="atom",threads=1
-> >
-> > Here we can build a hybrid cpu topology, which has 1 socket, 1 die per
-> > socket, 4 clusters per die. And in each die, every clusters has 4 "atom"
-> > core with 1 threads, and cluster0, cluster1 and cluster2 have 1 "core"
-> > cores with 2 threads.
-> >
-> > Please note this example is not an actual machine topology, but it shows
-> > the powerful flexibility of "hybrid" command.
-> 
-> Is there any intention to apply this command to emulation or will it
-> only be for hardware virtualisation? For example the x86 translator
-> should be capable of emulating two different classes of x86 with
-> different subsets of instructions.
-
-We have not considered the hybrid case in emulation mode, and
-the current hybrid CPUs of intel are same-ISA.
-
-> It requires ensuring each CPU is
-> assigned to the correct TYPE_CPU_CLUSTER so we don't re-use TBs from
-> the "wrong" CPU.
-
-From my understanding, this also seems like the topology of heterogeneous
-core and heterogeneous cluster.
-
-Zhao
-
-> 
-> <snip>
-> 
-> -- 
-> Alex Bennée
-> Virtualisation Tech Lead @ Linaro
 
