@@ -2,80 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9688D696B51
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 18:21:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A823696B43
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 18:20:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRyzU-0006jx-Qr; Tue, 14 Feb 2023 12:21:17 -0500
+	id 1pRyxq-0002Ay-Pe; Tue, 14 Feb 2023 12:19:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pRyzP-0006Ny-UY
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 12:21:12 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pRyzM-0005eG-Qz
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 12:21:11 -0500
-Received: by mail-wm1-x335.google.com with SMTP id n13so11462015wmr.4
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 09:21:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=R1o7dkQJ+2Jq4AnP/hQ+CdLt1UTgBQpw0WHFXcyfQhY=;
- b=nSgUDlDRM3xvlhf/5+iRqnyoLzQAyMXYIiIhj3R9tK+u1ZuV0BS7ipE4Na/K6IjHAw
- 43pIwC78NQomPdG9RrdR95xfzlXrqq8PnJjaYBLXfFf3xyyK6F0HOdHfiVF3yolExNxG
- Tvb0J6/cfuGKtGU0tHE5io4j7s7iBWlw/J9MtKLEVhHfXn81a/bcw3RXWAF5yb2DsA/6
- 4j43vAdiKtIbV00/dKzYAki4Sjc1oGPSAigG6PsvQ0l23yaqX6n8EuECMStV7lyU1vqr
- wlYnBoWFTMg/7tHADP8XuEWaIDrfQuBtpBPGQUYftKBX8Upz8cTo0vqhXrCw13vjnjNI
- Jb4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=R1o7dkQJ+2Jq4AnP/hQ+CdLt1UTgBQpw0WHFXcyfQhY=;
- b=OTsUnbqtT60QGlwkMCjAIfAFArxnmrzUkQiypHonpsn/H/B8Kcw+zzZTO6yEvtKhJg
- wIlL7ImwVuZ+ax+Epip2zUov3q/Dr9wLRnGMh/1fx+JvQT1TJ2VKdo41Ac2nkaNHcCSp
- EGxrGl41qhnniDguT71oPpw7SPxb/GfGE1sGjuWOm5IJIDZUHI7szM/gC49EetWAcUn6
- V3aLvjR800EU9fj0i8QAimPGPaSxJGTuyQH4Edahbw5P1IAF47p+wuADAJ5ZIi0ry56m
- KUqc16uef7ptCljUfypoLhHGiEcxxSZVPqJcoRMq3zYlvi1IsR8DRZ3sBeAD6prPwvAE
- zpxw==
-X-Gm-Message-State: AO0yUKVmOwHWznDKiyMFqT0DKT5imcNLmROZIP0XaACxZGO1Wu6+x1K2
- M4OOH1T08ILHXakaqOwKMLxhwA==
-X-Google-Smtp-Source: AK7set9+lCVBihl+rqwtVtZiYshj1QI7c4Kq1g2OdvhneeEXWc6fQdkEy8CBVHNFFPqW/GTzpQb/dg==
-X-Received: by 2002:a05:600c:3492:b0:3dc:4313:fd1e with SMTP id
- a18-20020a05600c349200b003dc4313fd1emr2665434wmq.34.1676395267355; 
- Tue, 14 Feb 2023 09:21:07 -0800 (PST)
-Received: from localhost.localdomain (054592b0.skybroadband.com.
- [5.69.146.176]) by smtp.gmail.com with ESMTPSA id
- p24-20020a05600c1d9800b003dd1bd0b915sm20636570wms.22.2023.02.14.09.21.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Feb 2023 09:21:07 -0800 (PST)
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: eric.auger@redhat.com
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, ola.hugosson@arm.com,
- Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: [PATCH v2 2/2] hw/arm/smmu-common: Fix TTB1 handling
-Date: Tue, 14 Feb 2023 17:19:22 +0000
-Message-Id: <20230214171921.1917916-3-jean-philippe@linaro.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230214171921.1917916-1-jean-philippe@linaro.org>
-References: <20230214171921.1917916-1-jean-philippe@linaro.org>
+ (Exim 4.90_1) (envelope-from <eiakovlev@linux.microsoft.com>)
+ id 1pRyxn-00029e-9g; Tue, 14 Feb 2023 12:19:31 -0500
+Received: from linux.microsoft.com ([13.77.154.182])
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <eiakovlev@linux.microsoft.com>)
+ id 1pRyxl-0004ue-I3; Tue, 14 Feb 2023 12:19:31 -0500
+Received: from [192.168.0.20] (unknown [77.64.253.114])
+ by linux.microsoft.com (Postfix) with ESMTPSA id 7713720E2D36;
+ Tue, 14 Feb 2023 09:19:25 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7713720E2D36
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1676395166;
+ bh=iJ9UAc0X8dkcScaZD5oh+EryDu9xLZ9cykkbg9dQTPg=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=F2xGcc3n8XVdUlst/on6U8sGoEU75OWXH5j18pDyyj6JC4N2Ldz48iFbVfrBUlgi/
+ zO59rg1LBoomzUGIBy0q4SwXqqTGpTx6UeGYMWWZ1x22mFny7e5himzVpy3AEilg2V
+ 4S66lP+NoEYsoUBnOzvowg80Hdza8mfR8y8/nr30=
+Message-ID: <e0675f49-7cae-851f-67bb-56982876deae@linux.microsoft.com>
+Date: Tue, 14 Feb 2023 18:19:23 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+From: eiakovlev@linux.microsoft.com
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, philmd@linaro.org
+Subject: Re: [PATCH v4 0/5] Series of fixes for PL011 char device
+References: <20230123162304.26254-1-eiakovlev@linux.microsoft.com>
+ <CAFEAcA8ZDmjP7G0eVpxcB1jiSGarZAbqPV0xr5WquR213mBUBg@mail.gmail.com>
+In-Reply-To: <CAFEAcA8ZDmjP7G0eVpxcB1jiSGarZAbqPV0xr5WquR213mBUBg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=13.77.154.182;
+ envelope-from=eiakovlev@linux.microsoft.com; helo=linux.microsoft.com
+X-Spam_score_int: -201
+X-Spam_score: -20.2
+X-Spam_bar: --------------------
+X-Spam_report: (-20.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.35, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,32 +66,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Addresses targeting the second translation table (TTB1) in the SMMU have
-all upper bits set (except for the top byte when TBI is enabled). Fix
-the TTB1 check.
 
-Reported-by: Ola Hugosson <ola.hugosson@arm.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
----
- hw/arm/smmu-common.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
-index 2b8c67b9a1..0a5a60ca1e 100644
---- a/hw/arm/smmu-common.c
-+++ b/hw/arm/smmu-common.c
-@@ -249,7 +249,7 @@ SMMUTransTableInfo *select_tt(SMMUTransCfg *cfg, dma_addr_t iova)
-         /* there is a ttbr0 region and we are in it (high bits all zero) */
-         return &cfg->tt[0];
-     } else if (cfg->tt[1].tsz &&
--           !extract64(iova, 64 - cfg->tt[1].tsz, cfg->tt[1].tsz - tbi_byte)) {
-+        sextract64(iova, 64 - cfg->tt[1].tsz, cfg->tt[1].tsz - tbi_byte) == -1) {
-         /* there is a ttbr1 region and we are in it (high bits all one) */
-         return &cfg->tt[1];
-     } else if (!cfg->tt[0].tsz) {
--- 
-2.39.0
+On 2/2/23 6:54 PM, Peter Maydell <peter.maydell@linaro.org> wrote:
+> On Mon, 23 Jan 2023 at 16:23, Evgeny Iakovlev
+> <eiakovlev@linux.microsoft.com> wrote:
+> >
+> > v4:
+> > * Fixed post_load hook to be backwards-migratable
+> > * Refactored some code in 5/5 as per review comments
+> >
+> > v3:
+> > * Introduced a post_load hook for PL011State migration for
+> >    backwards-compatibility due to some input state fragility.
+> > * No longer touching irq lines in reset method
+> > * Minor changes based on review feedback.
+> >
+> > v2:
+> > * Moved FIFO depth refactoring part of FIFO flags change into its own
+> >    commit.
+> > * Added a reset method for PL011
+> 
+> Patch 5 in this series breaks "make check" for both the
+> boot-serial-test and the migration-test (both of which
+> have some simple code that writes to the serial port).
+> I suspect in both cases that the guest code is just not
+> bothering to set the UART control register correctly,
+> because it's never needed to do so in the past.
+> 
+> (This does make me wonder about the utility of making
+> this change -- it seems likely that we're going to break
+> naive bare-metal intended-to-work-on-QEMU code and not
+> really benefit any real-world runs-on-real-hardware
+> code, which is presumably just enabling TX and RX and
+> leaving it that way.)
+> 
+> I've taken patches 1-4 into target-arm.next.
+> 
+> thanks
+> -- PMM
+> 
 
+Thanks Peter! I'll investigate the failures you've mentioned. Maybe you are correct in that regard. Although i have not seen any problems running NTOS.
 
