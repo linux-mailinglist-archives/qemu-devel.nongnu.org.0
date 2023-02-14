@@ -2,55 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A823696B43
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 18:20:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B0D7696B67
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 18:27:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRyxq-0002Ay-Pe; Tue, 14 Feb 2023 12:19:34 -0500
+	id 1pRz4I-0004YR-9b; Tue, 14 Feb 2023 12:26:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eiakovlev@linux.microsoft.com>)
- id 1pRyxn-00029e-9g; Tue, 14 Feb 2023 12:19:31 -0500
-Received: from linux.microsoft.com ([13.77.154.182])
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eiakovlev@linux.microsoft.com>)
- id 1pRyxl-0004ue-I3; Tue, 14 Feb 2023 12:19:31 -0500
-Received: from [192.168.0.20] (unknown [77.64.253.114])
- by linux.microsoft.com (Postfix) with ESMTPSA id 7713720E2D36;
- Tue, 14 Feb 2023 09:19:25 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7713720E2D36
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1676395166;
- bh=iJ9UAc0X8dkcScaZD5oh+EryDu9xLZ9cykkbg9dQTPg=;
- h=Date:From:To:Subject:References:In-Reply-To:From;
- b=F2xGcc3n8XVdUlst/on6U8sGoEU75OWXH5j18pDyyj6JC4N2Ldz48iFbVfrBUlgi/
- zO59rg1LBoomzUGIBy0q4SwXqqTGpTx6UeGYMWWZ1x22mFny7e5himzVpy3AEilg2V
- 4S66lP+NoEYsoUBnOzvowg80Hdza8mfR8y8/nr30=
-Message-ID: <e0675f49-7cae-851f-67bb-56982876deae@linux.microsoft.com>
-Date: Tue, 14 Feb 2023 18:19:23 +0100
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pRz4G-0004Wm-4D
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 12:26:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pRz4D-0006aM-Nm
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 12:26:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676395568;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=aZWJ/gINMWX/a8YfGdIQ1LP72NKqq4mcIJBahTRmJ9M=;
+ b=f+tnKKmkMNJ4+ArTilZ6mAcOyAJ1LHqdCLuWF0QnBI0ZNbJIFQ0GZP6BvpUKYk07KsvRCA
+ iKDNYs8mBLrQGFgI3cAlau5tWNMOuykgPZrc+CaP3qSXu/soCn2Smmqp8mz601ZFQ/20fr
+ hx+WoFjacDvSIqx8FtAV4jILTZ/Cdfc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-90-pUN8mdnOMjSAJbF0M6pgLw-1; Tue, 14 Feb 2023 12:26:04 -0500
+X-MC-Unique: pUN8mdnOMjSAJbF0M6pgLw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4932B1C426A6;
+ Tue, 14 Feb 2023 17:26:04 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 356CB40C10FA;
+ Tue, 14 Feb 2023 17:26:02 +0000 (UTC)
+Date: Tue, 14 Feb 2023 18:26:01 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Michael Roth <michael.roth@amd.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH v2 6/7] CI: Stop building docs on centos8
+Message-ID: <Y+vEKTgwoPtj86Z1@redhat.com>
+References: <20230210003147.1309376-1-jsnow@redhat.com>
+ <20230210003147.1309376-7-jsnow@redhat.com>
+ <CAFEAcA-c5y0TR8vYg_FYEmGv3mOOmBgeD0cyb+mVotsP=r-Dsw@mail.gmail.com>
+ <CAFn=p-aDV9=vG6hjTWRE6c52TpYSjDBU22nthTuejDCv_XrYMQ@mail.gmail.com>
+ <CAFEAcA_eGvz_BQVLhVWtedRh2mcBuMEhv0RKF+6DW4t+9FdPAw@mail.gmail.com>
+ <Y+Z2Kcq17HGWuoTV@redhat.com> <87cz6cpue3.fsf@pond.sub.org>
+ <Y+t1J72iMsLWXHne@redhat.com>
+ <CABgObfb-_upmc=36_bnxLMCB+0KqWoZNK62rnD5KpBKhW4N+hw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-From: eiakovlev@linux.microsoft.com
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, philmd@linaro.org
-Subject: Re: [PATCH v4 0/5] Series of fixes for PL011 char device
-References: <20230123162304.26254-1-eiakovlev@linux.microsoft.com>
- <CAFEAcA8ZDmjP7G0eVpxcB1jiSGarZAbqPV0xr5WquR213mBUBg@mail.gmail.com>
-In-Reply-To: <CAFEAcA8ZDmjP7G0eVpxcB1jiSGarZAbqPV0xr5WquR213mBUBg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=13.77.154.182;
- envelope-from=eiakovlev@linux.microsoft.com; helo=linux.microsoft.com
-X-Spam_score_int: -201
-X-Spam_score: -20.2
-X-Spam_bar: --------------------
-X-Spam_report: (-20.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.35, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABgObfb-_upmc=36_bnxLMCB+0KqWoZNK62rnD5KpBKhW4N+hw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,46 +92,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Am 14.02.2023 um 15:03 hat Paolo Bonzini geschrieben:
+> In the case of Python the issue is not the interpreter per se, though
+> there are a couple new feature in Python 3.7 that are quite nice (for
+> example improved data classes[1] or context variables[2]). The main
+> problem as far as I understood (and have seen in my experience) is
+> linting tools. New versions fix bugs that caused false positives, but
+> also become more strict at the same time. The newer versions at the
+> same time are very quick at dropping support for old versions of
+> Python; while older versions sometimes throw deprecation warnings on
+> new versions of Python. This makes it very hard to support a single
+> version of, say, mypy that works on all versions from RHEL8 and SLE15
+> to Fedora 38 and Ubuntu 23.04.
 
+Why do we have to support a single version of mypy? What is wrong with
+running an old mypy version with old Python version, and a newer mypy
+with newer Python versions?
 
-On 2/2/23 6:54 PM, Peter Maydell <peter.maydell@linaro.org> wrote:
-> On Mon, 23 Jan 2023 at 16:23, Evgeny Iakovlev
-> <eiakovlev@linux.microsoft.com> wrote:
-> >
-> > v4:
-> > * Fixed post_load hook to be backwards-migratable
-> > * Refactored some code in 5/5 as per review comments
-> >
-> > v3:
-> > * Introduced a post_load hook for PL011State migration for
-> >    backwards-compatibility due to some input state fragility.
-> > * No longer touching irq lines in reset method
-> > * Minor changes based on review feedback.
-> >
-> > v2:
-> > * Moved FIFO depth refactoring part of FIFO flags change into its own
-> >    commit.
-> > * Added a reset method for PL011
-> 
-> Patch 5 in this series breaks "make check" for both the
-> boot-serial-test and the migration-test (both of which
-> have some simple code that writes to the serial port).
-> I suspect in both cases that the guest code is just not
-> bothering to set the UART control register correctly,
-> because it's never needed to do so in the past.
-> 
-> (This does make me wonder about the utility of making
-> this change -- it seems likely that we're going to break
-> naive bare-metal intended-to-work-on-QEMU code and not
-> really benefit any real-world runs-on-real-hardware
-> code, which is presumably just enabling TX and RX and
-> leaving it that way.)
-> 
-> I've taken patches 1-4 into target-arm.next.
-> 
-> thanks
-> -- PMM
-> 
+Sure, they will complain about different things, but it doesn't feel
+that different from supporting multiple C compilers in various versions.
 
-Thanks Peter! I'll investigate the failures you've mentioned. Maybe you are correct in that regard. Although i have not seen any problems running NTOS.
+Kevin
+
 
