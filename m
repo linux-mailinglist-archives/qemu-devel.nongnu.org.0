@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0BEE696997
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 17:32:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 919BD696982
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 17:31:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRyD5-0006jY-Tw; Tue, 14 Feb 2023 11:31:15 -0500
+	id 1pRyD6-0006kJ-Hr; Tue, 14 Feb 2023 11:31:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pRyD2-0006a4-4T
+ id 1pRyD2-0006bY-I2
  for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:31:12 -0500
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444])
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pRyCz-0002Bf-OF
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:31:11 -0500
-Received: by mail-pf1-x444.google.com with SMTP id s20so10546904pfe.2
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 08:31:09 -0800 (PST)
+ id 1pRyD0-00026G-Rw
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:31:12 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id n2so10549528pfo.3
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 08:31:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=I2TaPq9VaeUx5FG1r+qvVw6gD0hnlJ7wu2KVNSomLWo=;
- b=jOFtG0jQ0SzmgP/5Za2Gq4Vz1T3ikmlbo/6ypCyMxF+jiMS2go9SVKqzc6NAvRiTlB
- mp7mQyeQ2Jx0FxGE+TYTSlDWWemvboK+1drXO/Si+M9vXwcgIFdH+o5VY4iHiAEhpBb5
- hfUo3b3GT5a8hE9FsanqFtJfOTdQRt30UyYfweFXzQDBP/hTgz83bRHCxjgG/gE+17rU
- QWtVwzdcpGz+Hlnp8+L334L/0Zs/Xzmxi5mbUBUzPmoODJwTsgrKsA8SM54CZsp4Q6ba
- T8BTzK92T0hVHD0vRQ1QM4Xkaeb6q6nTL1A/WJCIPI2G85WtYezZseQSYsXM1vkLjewX
- MskQ==
+ bh=Q0z/E1qdp++vmITAZJNktKsc7youUOaj3crCsXOdQsE=;
+ b=nfAlfBJ2XuNv6JFKbSyj4R69oDm25CH3G9u/LDu+ReU8Tv6jzC5ofoq3ae3nrORGX2
+ l2HLGBApNaiefhrj7hrLylwIHx5ers21WXJi5rbMlFBSEv3dQ8kCHzuY+fcf1rsEdsu7
+ 0KbhkguC37A0Hrk5h6avd8yiMTnOKKJ50HHv8MMJknWP2ijQBql97rm2hqglT5ASVreP
+ K0UbtKXsRnrRv6NF6o/pgtU9olQ+roztV9b8Zsfcqe4ODTqGleo+DOmvtK3yqNtoRGJp
+ KciMFhQ+mxMd0QhAa2a70OTY3uT9sekFclVUB/A60fiZdZVkrDyiXROPFvwBQjlpFOOP
+ O+mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=I2TaPq9VaeUx5FG1r+qvVw6gD0hnlJ7wu2KVNSomLWo=;
- b=LjIRmYNA3h8fUw5vqZex18wDK09Yf/xOCSJs5LXvBadoJT7RrpQFMX8YG34Dar26WX
- TJi/mNZ9FGTTK8h9ZbsZN+ZN//ndQQdvXY1Opo7xvdqBhM6zf4KTyKu/OLyTeQ8q1fw9
- UgkQXgFUOpgvldY7yMT8Fhcb+zoDFa9n/U0RzQpEgSkuHsELJfG3KtEnV3YE3pT7tTiN
- d5zksK9oJa48KPNjouD+W07BOWRTT48jwKVg+V4oagHgv0jeXoZlc84e5xWFw+ebGSSo
- 4hG4/Itz3AUAGkGdbg5okLsnFF4zDD5RRcFl1nUqXtNFSVOyK7ASWFk7F2evpH4kY+2Q
- mrRw==
-X-Gm-Message-State: AO0yUKXY4QlbUnZ8u0eLYsVzUTN2NfSoItWhbup3F2MuWneHQSo2DzPb
- X+qD5DVfWrP5G7IBc5L3UxP2ekyVbFAhuQSkqvlqMA==
-X-Google-Smtp-Source: AK7set+VmPrGEc+SfT5RaRPOb5oU35GtMa2KsVzSuk00THAMQaZ6+M54ZEZP/fPehdZBK4pbMgM0hw==
-X-Received: by 2002:aa7:9f49:0:b0:5a8:c90d:ab17 with SMTP id
- h9-20020aa79f49000000b005a8c90dab17mr2561378pfr.15.1676392268321; 
- Tue, 14 Feb 2023 08:31:08 -0800 (PST)
+ bh=Q0z/E1qdp++vmITAZJNktKsc7youUOaj3crCsXOdQsE=;
+ b=dDtNTKSMimf3EJWvDXn5d//mxgOpgG5tZ6ICoIcce5CjNQZgdGLCbyYuhtCNPvMvRO
+ /03Mbhdxj4L2PqKu40NP+ynbWZS2YnLKTrPNvipHnrCPdW7D60DTKceybox8kWld+Dt3
+ j5DF7OgZp6hoRiP3q/awAc7MugjgvZv8QKhXT01tMeeFQ+SA8w9+Re8yCTZHaMpwBBFI
+ m8qWbBgaIhCftI/7cVvqhsuZ/MPKAJ3fPQ4QE4eMXf1eKsdSWDEeh2Nse/chTOucEFwI
+ DGjetN+dshLkN6d8yuvuT4xkTtG75qocNU1Lw4isNgRd86m/l/n3BXwmUuCljIICXBiN
+ cqpg==
+X-Gm-Message-State: AO0yUKXhlMMKZ1gPCL5DQQfJY60VcozP1Vpkv1VxtGtl5MSr2K/tFcfa
+ HP7YnwAfrLMCAXR/FVJqEMfiSWP8gP/X7JC/6II=
+X-Google-Smtp-Source: AK7set+migrKgxV0t2Vly4IzkGhog+TNBwCtQ6rhdV/GNenE7xewaBXBVaAUO2KfPPPDcImlkQv5hA==
+X-Received: by 2002:aa7:96ab:0:b0:5a8:b6e2:a3fd with SMTP id
+ g11-20020aa796ab000000b005a8b6e2a3fdmr2828973pfk.7.1676392270053; 
+ Tue, 14 Feb 2023 08:31:10 -0800 (PST)
 Received: from stoup.. (rrcs-74-87-59-234.west.biz.rr.com. [74.87.59.234])
  by smtp.gmail.com with ESMTPSA id
- d17-20020aa78691000000b0058d99337381sm10337011pfo.172.2023.02.14.08.31.06
+ d17-20020aa78691000000b0058d99337381sm10337011pfo.172.2023.02.14.08.31.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Feb 2023 08:31:07 -0800 (PST)
+ Tue, 14 Feb 2023 08:31:09 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Luis Machado <luis.machado@arm.com>,
- Thiago Jung Bauermann <thiago.bauermann@linaro.org>
-Subject: [PATCH 11/14] target/arm: Implement gdbstub pauth extension
-Date: Tue, 14 Feb 2023 06:30:45 -1000
-Message-Id: <20230214163048.903964-12-richard.henderson@linaro.org>
+Cc: qemu-arm@nongnu.org,
+	David Reiss <dreiss@meta.com>
+Subject: [PATCH 12/14] target/arm: Export arm_v7m_mrs_control
+Date: Tue, 14 Feb 2023 06:30:46 -1000
+Message-Id: <20230214163048.903964-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230214163048.903964-1-richard.henderson@linaro.org>
 References: <20230214163048.903964-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,155 +90,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The extension is primarily defined by the Linux kernel NT_ARM_PAC_MASK
-ptrace register set.
+From: David Reiss <dreiss@meta.com>
 
-The original gdb feature consists of two masks, data and code, which are
-used to mask out the authentication code within a pointer.  Following
-discussion with Luis Machado, add two more masks in order to support
-pointers within the high half of the address space (i.e. TTBR1 vs TTBR0).
+Allow the function to be used outside of m_helper.c.
+Rename with an "arm_" prefix.
 
-Cc: Luis Machado <luis.machado@arm.com>
-Cc: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1105
+Signed-off-by: David Reiss <dreiss@meta.com>
+[rth: Split out of a larger patch]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- configs/targets/aarch64-linux-user.mak    |  2 +-
- configs/targets/aarch64-softmmu.mak       |  2 +-
- configs/targets/aarch64_be-linux-user.mak |  2 +-
- target/arm/internals.h                    |  2 ++
- target/arm/gdbstub.c                      |  5 ++++
- target/arm/gdbstub64.c                    | 29 +++++++++++++++++++++++
- gdb-xml/aarch64-pauth.xml                 | 15 ++++++++++++
- 7 files changed, 54 insertions(+), 3 deletions(-)
- create mode 100644 gdb-xml/aarch64-pauth.xml
+ target/arm/internals.h | 3 +++
+ target/arm/m_helper.c  | 6 +++---
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/configs/targets/aarch64-linux-user.mak b/configs/targets/aarch64-linux-user.mak
-index db552f1839..ba8bc5fe3f 100644
---- a/configs/targets/aarch64-linux-user.mak
-+++ b/configs/targets/aarch64-linux-user.mak
-@@ -1,6 +1,6 @@
- TARGET_ARCH=aarch64
- TARGET_BASE_ARCH=arm
--TARGET_XML_FILES= gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml
-+TARGET_XML_FILES= gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml gdb-xml/aarch64-pauth.xml
- TARGET_HAS_BFLT=y
- CONFIG_SEMIHOSTING=y
- CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
-diff --git a/configs/targets/aarch64-softmmu.mak b/configs/targets/aarch64-softmmu.mak
-index d489e6da83..b4338e9568 100644
---- a/configs/targets/aarch64-softmmu.mak
-+++ b/configs/targets/aarch64-softmmu.mak
-@@ -1,5 +1,5 @@
- TARGET_ARCH=aarch64
- TARGET_BASE_ARCH=arm
- TARGET_SUPPORTS_MTTCG=y
--TARGET_XML_FILES= gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml gdb-xml/arm-m-profile-mve.xml
-+TARGET_XML_FILES= gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml gdb-xml/arm-m-profile-mve.xml gdb-xml/aarch64-pauth.xml
- TARGET_NEED_FDT=y
-diff --git a/configs/targets/aarch64_be-linux-user.mak b/configs/targets/aarch64_be-linux-user.mak
-index dc78044fb1..acb5620cdb 100644
---- a/configs/targets/aarch64_be-linux-user.mak
-+++ b/configs/targets/aarch64_be-linux-user.mak
-@@ -1,7 +1,7 @@
- TARGET_ARCH=aarch64
- TARGET_BASE_ARCH=arm
- TARGET_BIG_ENDIAN=y
--TARGET_XML_FILES= gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml
-+TARGET_XML_FILES= gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml gdb-xml/aarch64-pauth.xml
- TARGET_HAS_BFLT=y
- CONFIG_SEMIHOSTING=y
- CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
 diff --git a/target/arm/internals.h b/target/arm/internals.h
-index bb3983645d..4b60355a7e 100644
+index 4b60355a7e..127a425961 100644
 --- a/target/arm/internals.h
 +++ b/target/arm/internals.h
-@@ -1345,6 +1345,8 @@ int aarch64_gdb_get_sve_reg(CPUARMState *env, GByteArray *buf, int reg);
- int aarch64_gdb_set_sve_reg(CPUARMState *env, uint8_t *buf, int reg);
- int aarch64_gdb_get_fpu_reg(CPUARMState *env, GByteArray *buf, int reg);
- int aarch64_gdb_set_fpu_reg(CPUARMState *env, uint8_t *buf, int reg);
-+int aarch64_gdb_get_pauth_reg(CPUARMState *env, GByteArray *buf, int reg);
-+int aarch64_gdb_set_pauth_reg(CPUARMState *env, uint8_t *buf, int reg);
- void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp);
- void arm_cpu_sme_finalize(ARMCPU *cpu, Error **errp);
- void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp);
-diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
-index bf8aff7824..062c8d447a 100644
---- a/target/arm/gdbstub.c
-+++ b/target/arm/gdbstub.c
-@@ -355,6 +355,11 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
-                                      aarch64_gdb_set_fpu_reg,
-                                      34, "aarch64-fpu.xml", 0);
-         }
-+        if (isar_feature_aa64_pauth(&cpu->isar)) {
-+            gdb_register_coprocessor(cs, aarch64_gdb_get_pauth_reg,
-+                                     aarch64_gdb_set_pauth_reg,
-+                                     4, "aarch64-pauth.xml", 0);
-+        }
+@@ -1353,6 +1353,9 @@ void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp);
+ void arm_cpu_lpa2_finalize(ARMCPU *cpu, Error **errp);
  #endif
-     } else {
-         if (arm_feature(env, ARM_FEATURE_NEON)) {
-diff --git a/target/arm/gdbstub64.c b/target/arm/gdbstub64.c
-index a6a8e7eb40..465d7fb196 100644
---- a/target/arm/gdbstub64.c
-+++ b/target/arm/gdbstub64.c
-@@ -210,6 +210,35 @@ int aarch64_gdb_set_sve_reg(CPUARMState *env, uint8_t *buf, int reg)
-     return 0;
+ 
++/* Read the CONTROL register as the MRS instruction would. */
++uint32_t arm_v7m_mrs_control(CPUARMState *env, uint32_t secure);
++
+ #ifdef CONFIG_USER_ONLY
+ static inline void define_cortex_a72_a57_a53_cp_reginfo(ARMCPU *cpu) { }
+ #else
+diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
+index e7e746ea18..c20bcac977 100644
+--- a/target/arm/m_helper.c
++++ b/target/arm/m_helper.c
+@@ -53,7 +53,7 @@ static uint32_t v7m_mrs_xpsr(CPUARMState *env, uint32_t reg, unsigned el)
+     return xpsr_read(env) & mask;
  }
  
-+int aarch64_gdb_get_pauth_reg(CPUARMState *env, GByteArray *buf, int reg)
-+{
-+    switch (reg) {
-+    case 0: /* pauth_dmask */
-+    case 1: /* pauth_cmask */
-+    case 2: /* pauth_dmask_high */
-+    case 3: /* pauth_cmask_high */
-+        /*
-+         * Note that older versions of this feature only contained
-+         * pauth_{d,c}mask, for use with Linux user processes, and
-+         * thus exclusively in the low half of the address space.
-+         *
-+         * To support system mode, and to debug kernels, two new regs
-+         * were added to cover the high half of the address space.
-+         * For the purpose of pauth_ptr_mask, we can use any well-formed
-+         * address within the address space half -- here, 0 and -2.
-+         */
-+        return gdb_get_reg64(buf, pauth_ptr_mask(env, -(reg & 2), ~reg & 1));
-+    default:
-+        return 0;
-+    }
-+}
-+
-+int aarch64_gdb_set_pauth_reg(CPUARMState *env, uint8_t *buf, int reg)
-+{
-+    /* All pseudo registers are read-only. */
-+    return 0;
-+}
-+
- static void output_vector_union_type(GString *s, int reg_width,
-                                      const char *name)
+-static uint32_t v7m_mrs_control(CPUARMState *env, uint32_t secure)
++uint32_t arm_v7m_mrs_control(CPUARMState *env, uint32_t secure)
  {
-diff --git a/gdb-xml/aarch64-pauth.xml b/gdb-xml/aarch64-pauth.xml
-new file mode 100644
-index 0000000000..24af5f903c
---- /dev/null
-+++ b/gdb-xml/aarch64-pauth.xml
-@@ -0,0 +1,15 @@
-+<?xml version="1.0"?>
-+<!-- Copyright (C) 2018-2022 Free Software Foundation, Inc.
-+
-+     Copying and distribution of this file, with or without modification,
-+     are permitted in any medium without royalty provided the copyright
-+     notice and this notice are preserved.  -->
-+
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.aarch64.pauth">
-+  <reg name="pauth_dmask" bitsize="64"/>
-+  <reg name="pauth_cmask" bitsize="64"/>
-+  <reg name="pauth_dmask_high" bitsize="64"/>
-+  <reg name="pauth_cmask_high" bitsize="64"/>
-+</feature>
-+
+     uint32_t value = env->v7m.control[secure];
+ 
+@@ -90,7 +90,7 @@ uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
+     case 0 ... 7: /* xPSR sub-fields */
+         return v7m_mrs_xpsr(env, reg, 0);
+     case 20: /* CONTROL */
+-        return v7m_mrs_control(env, 0);
++        return arm_v7m_mrs_control(env, 0);
+     default:
+         /* Unprivileged reads others as zero.  */
+         return 0;
+@@ -2420,7 +2420,7 @@ uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
+     case 0 ... 7: /* xPSR sub-fields */
+         return v7m_mrs_xpsr(env, reg, el);
+     case 20: /* CONTROL */
+-        return v7m_mrs_control(env, env->v7m.secure);
++        return arm_v7m_mrs_control(env, env->v7m.secure);
+     case 0x94: /* CONTROL_NS */
+         /*
+          * We have to handle this here because unprivileged Secure code
 -- 
 2.34.1
 
