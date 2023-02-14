@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3FC9695C0A
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 09:06:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C1B3695C51
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 09:09:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRqIs-0008Ka-JA; Tue, 14 Feb 2023 03:04:42 -0500
+	id 1pRqNN-0001NN-JE; Tue, 14 Feb 2023 03:09:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRqIq-0008KR-1x
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:04:40 -0500
-Received: from mga03.intel.com ([134.134.136.65])
+ id 1pRqNF-0001NE-RY
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:09:14 -0500
+Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pRqIn-000516-Fd
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:04:39 -0500
+ id 1pRqND-0007eg-HC
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:09:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676361877; x=1707897877;
+ t=1676362151; x=1707898151;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=UoMbBDyqQjc07iwlYEjz6YB73rUkUbYLovSK9N5awhY=;
- b=a+tpAF9y6VB+Pj5QdG1hyiKJdvNn27r04E6Uv8B0aEUBCq+ArAw4rMeT
- mwOEagbbP0wnBqi2WLi7zHINHHiOHwZzkrC76RUH3GEJRBp5Be9DGSZFN
- 6qn8PweP5vGkj6NxvdYsVHq05KZdrYyNJkALfCOa+UHJWVRW6ciecDsSs
- NRs3DmTtHG8UKq+FO7idtO0vp5xGG0JilHGudVpKAiaeoljkNh1ybd5un
- Ek0gIFCXEf7Y8Uue3f5tvrsemtO1GPz5UxtC5zPz4oN88Pda/QPjObH0w
- bWdLjv57FXPx93IcNAQLR3dcjMy+OmGvyy+5x0F4PdzeQfbmau+XCMjnK g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="333242663"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="333242663"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2023 00:04:34 -0800
+ bh=Jffyo3e/vhXfF/miu7ck2eHDcWxD8dhoLYfr7gqPfAI=;
+ b=XDVmkFeMPOto6DIub4B8+TWXEqdpIg+RgQtl2B34bbeltBjf7hiDc5e3
+ aHjyLAuo27QY/QdhfpmNfrEMhk0jzwls7eLjcjdDkgUWTXF61F5UsWzfg
+ DoC7SRh/9s7tsXeJTblnnk3WC2fLyUwVj5/RGz4BrEJuCOUYa1clscr6R
+ TkuqRqM1dvCQ69HySkigFAzkH+8RZgNkEEuwqq1z5PI+sb4x0nSDMTk5m
+ qyFYlo2kF0PmwiLT9aXPY75PlP++9xSj8d2lZkOJeEcFQcsdIZm6lCgAW
+ un5qm3Bz/TD+NeY+IQqzPbRdUjLNqhEE2xm5bnXbdeAIoYfJmmm/VpYM2 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="393508334"
+X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="393508334"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2023 00:09:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="997991927"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="997991927"
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="843077011"
+X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="843077011"
 Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
  ([10.239.160.112])
- by fmsmga005.fm.intel.com with ESMTP; 14 Feb 2023 00:04:30 -0800
-Date: Tue, 14 Feb 2023 16:12:18 +0800
+ by orsmga005.jf.intel.com with ESMTP; 14 Feb 2023 00:09:05 -0800
+Date: Tue, 14 Feb 2023 16:16:52 +0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Juan Quintela <quintela@redhat.com>
 Cc: Eduardo Habkost <eduardo@habkost.net>,
@@ -60,16 +60,16 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Subject: Re: [RFC 15/52] migration/postcopy-ram: Use generic topology name
  and helper
-Message-ID: <Y+tCYimcttGlv0rP@liuzhao-OptiPlex-7080>
+Message-ID: <Y+tDdALJnsuocyDb@liuzhao-OptiPlex-7080>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
  <20230213095035.158240-16-zhao1.liu@linux.intel.com>
- <875yc5naje.fsf@secure.mitica>
+ <871qmtna4y.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <875yc5naje.fsf@secure.mitica>
-Received-SPF: none client-ip=134.134.136.65;
- envelope-from=zhao1.liu@linux.intel.com; helo=mga03.intel.com
+In-Reply-To: <871qmtna4y.fsf@secure.mitica>
+Received-SPF: none client-ip=134.134.136.31;
+ envelope-from=zhao1.liu@linux.intel.com; helo=mga06.intel.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -91,8 +91,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 13, 2023 at 11:07:33AM +0100, Juan Quintela wrote:
-> Date: Mon, 13 Feb 2023 11:07:33 +0100
+On Mon, Feb 13, 2023 at 11:16:13AM +0100, Juan Quintela wrote:
+> Date: Mon, 13 Feb 2023 11:16:13 +0100
 > From: Juan Quintela <quintela@redhat.com>
 > Subject: Re: [RFC 15/52] migration/postcopy-ram: Use generic topology name
 >  and helper
@@ -113,35 +113,15 @@ On Mon, Feb 13, 2023 at 11:07:33AM +0100, Juan Quintela wrote:
 > > Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 > 
-> Reviewed-by: Juan Quintela <quintela@redhat.com>
-> 
-> but if you ever have to rebase.
-> 
-> > ---
-> >  migration/postcopy-ram.c | 24 ++++++++++++------------
-> >  1 file changed, 12 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-> > index 53299b7a5ebd..1e861e313258 100644
-> > --- a/migration/postcopy-ram.c
-> > +++ b/migration/postcopy-ram.c
-> > @@ -122,7 +122,7 @@ typedef struct PostcopyBlocktimeContext {
-> >      /* point in time when last page fault was initiated */
-> >      uint32_t last_begin;
-> >      /* number of vCPU are suspended */
-> > -    int smp_cpus_down;
-> > +    int cpus_down;
-> 
-> Put the rename of the variable in a single patch.  Trivial to review.
-> 
-> > +    unsigned int cpus_num = machine_topo_get_cpus(ms);
-> 
-> Put the meat in another patch.  I think you call this function in two
-> places instead of the old one.
-> 
+> I expect that this will go with your other changes through another tree,
 
-Thanks Juan! On the next send, I'll do the split.
+Yes, this one is based on my another patch series. It is currently sent
+out for preview in advance. I think it may take a long time before the
+entire hybrid patchset is accepted. Thanks for your review!
 
+Zhao
+
+> or do you want me to take it through migration thread?
 > 
 > Later, Juan.
 > 
