@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 006936971F2
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 00:44:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B7726971F3
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 00:44:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pS4xY-0005IG-6d; Tue, 14 Feb 2023 18:43:40 -0500
+	id 1pS4xa-0005JK-Mp; Tue, 14 Feb 2023 18:43:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pS4xV-0005Gn-T9
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 18:43:37 -0500
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+ id 1pS4xX-0005H8-4T
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 18:43:39 -0500
+Received: from ams.source.kernel.org ([145.40.68.75])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pS4xU-0003k8-2X
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 18:43:37 -0500
+ id 1pS4xV-0003kE-Bq
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 18:43:38 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 61DD4B81E4A;
- Tue, 14 Feb 2023 23:43:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5488AC433EF;
- Tue, 14 Feb 2023 23:43:32 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id A348DB81F64;
+ Tue, 14 Feb 2023 23:43:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 797C9C433D2;
+ Tue, 14 Feb 2023 23:43:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1676418213;
- bh=kvIsppqJuGvkfwd1Y2Myje/RnRXHGaBztlU7IYWKzag=;
+ s=k20201202; t=1676418214;
+ bh=tdZz167an86U63jjQhofWxvDKK4APmKXCIQILgOXsFI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ow4q81n3Zv0mg61u9A1Pyfuq0WKRxv4dAGhe1WI2DzMUuLNf0Iea4QXUq2pJa8IhX
- 2FXJxQM2jllvQC8DZv0gfG+KT+7QusqQugida5Gjx1Q4BlUZAx6G4VGrKvXTBZdDou
- 7Rj+HzuA53LITDavrgmrQtzZbctgrojSaPZTyZ3kkbMY73Ycyc19C8XVhIApMrXniw
- KSylVgwrmxiVwVjo/OgI4e8GZcrCO0oKSFR61l/vsCOYL32TYo+ln4b4ZQyeIJ/SVl
- PQcMBNy22bz5xBDXN/dylgvUeShvDcnnPopbpfftMbWDfwl0j5M+ugbeI046BX0a2o
- DFF9uRgkTBclQ==
+ b=bV4N03Vgsk2Mxz+g+sSUQ/z4RwXxsqpZ9Amf8k0VoZh7W8dJ4qAldN5hdllxAkYIP
+ E4k8IPgcaIBWYGC7tTVRdzYPQH3nn2Q7OxfPXDgZhTh/MZAtxHkNBsXiemSRrfyCsc
+ K/OSPQAf5/zqTrlY+UBsc1bpEIbkdtcxQ6ikW0e8iGIQYEW9JF3jNizDOcRfIoBSz5
+ 6n4hkDnvtj3I5r6dUDSJaGeAXqdzO3ZpmtIUykrVV+VmWBqMG0x11X6LGeWA7XDJC8
+ 0PbsZJhXSfqKgXlEyW9xMoy4+0svtJs8kjkJ4DnTOPEyKzeHgf6h7g6NVb7WqkHHlL
+ lFh00zQHJtxWw==
 From: Stefano Stabellini <sstabellini@kernel.org>
 To: peter.maydell@linaro.org
 Cc: sstabellini@kernel.org, qemu-devel@nongnu.org,
  Vikram Garhwal <vikram.garhwal@amd.com>,
  Stefano Stabellini <stefano.stabellini@amd.com>,
  Paul Durrant <paul@xen.org>
-Subject: [PULL v2 01/10] hw/i386/xen/: move xen-mapcache.c to hw/xen/
-Date: Tue, 14 Feb 2023 15:43:21 -0800
-Message-Id: <20230214234330.2107879-1-sstabellini@kernel.org>
+Subject: [PULL v2 02/10] hw/i386/xen: rearrange xen_hvm_init_pc
+Date: Tue, 14 Feb 2023 15:43:22 -0800
+Message-Id: <20230214234330.2107879-2-sstabellini@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <alpine.DEB.2.22.394.2302141541100.2025117@ubuntu-linux-20-04-desktop>
 References: <alpine.DEB.2.22.394.2302141541100.2025117@ubuntu-linux-20-04-desktop>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=sstabellini@kernel.org; helo=ams.source.kernel.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=sstabellini@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,87 +75,107 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Vikram Garhwal <vikram.garhwal@amd.com>
 
-xen-mapcache.c contains common functions which can be used for enabling Xen on
-aarch64 with IOREQ handling. Moving it out from hw/i386/xen to hw/xen to make it
-accessible for both aarch64 and x86.
+In preparation to moving most of xen-hvm code to an arch-neutral location,
+move non IOREQ references to:
+- xen_get_vmport_regs_pfn
+- xen_suspend_notifier
+- xen_wakeup_notifier
+- xen_ram_init
+
+towards the end of the xen_hvm_init_pc() function.
+
+This is done to keep the common ioreq functions in one place which will be
+moved to new function in next patch in order to make it common to both x86 and
+aarch64 machines.
 
 Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
 Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- hw/i386/meson.build              | 1 +
- hw/i386/xen/meson.build          | 1 -
- hw/i386/xen/trace-events         | 5 -----
- hw/xen/meson.build               | 4 ++++
- hw/xen/trace-events              | 5 +++++
- hw/{i386 => }/xen/xen-mapcache.c | 0
- 6 files changed, 10 insertions(+), 6 deletions(-)
- rename hw/{i386 => }/xen/xen-mapcache.c (100%)
+ hw/i386/xen/xen-hvm.c | 49 ++++++++++++++++++++++---------------------
+ 1 file changed, 25 insertions(+), 24 deletions(-)
 
-diff --git a/hw/i386/meson.build b/hw/i386/meson.build
-index 213e2e82b3..cfdbfdcbcb 100644
---- a/hw/i386/meson.build
-+++ b/hw/i386/meson.build
-@@ -33,5 +33,6 @@ subdir('kvm')
- subdir('xen')
+diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
+index b9a6f7f538..1fba0e0ae1 100644
+--- a/hw/i386/xen/xen-hvm.c
++++ b/hw/i386/xen/xen-hvm.c
+@@ -1416,12 +1416,6 @@ void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
+     state->exit.notify = xen_exit_notifier;
+     qemu_add_exit_notifier(&state->exit);
  
- i386_ss.add_all(xenpv_ss)
-+i386_ss.add_all(xen_ss)
- 
- hw_arch += {'i386': i386_ss}
-diff --git a/hw/i386/xen/meson.build b/hw/i386/xen/meson.build
-index be84130300..2fcc46e6ca 100644
---- a/hw/i386/xen/meson.build
-+++ b/hw/i386/xen/meson.build
-@@ -1,6 +1,5 @@
- i386_ss.add(when: 'CONFIG_XEN', if_true: files(
-   'xen-hvm.c',
--  'xen-mapcache.c',
-   'xen_apic.c',
-   'xen_platform.c',
-   'xen_pvdevice.c',
-diff --git a/hw/i386/xen/trace-events b/hw/i386/xen/trace-events
-index 5d6be61090..a0c89d91c4 100644
---- a/hw/i386/xen/trace-events
-+++ b/hw/i386/xen/trace-events
-@@ -21,8 +21,3 @@ xen_map_resource_ioreq(uint32_t id, void *addr) "id: %u addr: %p"
- cpu_ioreq_config_read(void *req, uint32_t sbdf, uint32_t reg, uint32_t size, uint32_t data) "I/O=%p sbdf=0x%x reg=%u size=%u data=0x%x"
- cpu_ioreq_config_write(void *req, uint32_t sbdf, uint32_t reg, uint32_t size, uint32_t data) "I/O=%p sbdf=0x%x reg=%u size=%u data=0x%x"
- 
--# xen-mapcache.c
--xen_map_cache(uint64_t phys_addr) "want 0x%"PRIx64
--xen_remap_bucket(uint64_t index) "index 0x%"PRIx64
--xen_map_cache_return(void* ptr) "%p"
+-    state->suspend.notify = xen_suspend_notifier;
+-    qemu_register_suspend_notifier(&state->suspend);
 -
-diff --git a/hw/xen/meson.build b/hw/xen/meson.build
-index ae0ace3046..19d0637c46 100644
---- a/hw/xen/meson.build
-+++ b/hw/xen/meson.build
-@@ -22,3 +22,7 @@ else
- endif
+-    state->wakeup.notify = xen_wakeup_notifier;
+-    qemu_register_wakeup_notifier(&state->wakeup);
+-
+     /*
+      * Register wake-up support in QMP query-current-machine API
+      */
+@@ -1432,23 +1426,6 @@ void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
+         goto err;
+     }
  
- specific_ss.add_all(when: ['CONFIG_XEN', xen], if_true: xen_specific_ss)
+-    rc = xen_get_vmport_regs_pfn(xen_xc, xen_domid, &ioreq_pfn);
+-    if (!rc) {
+-        DPRINTF("shared vmport page at pfn %lx\n", ioreq_pfn);
+-        state->shared_vmport_page =
+-            xenforeignmemory_map(xen_fmem, xen_domid, PROT_READ|PROT_WRITE,
+-                                 1, &ioreq_pfn, NULL);
+-        if (state->shared_vmport_page == NULL) {
+-            error_report("map shared vmport IO page returned error %d handle=%p",
+-                         errno, xen_xc);
+-            goto err;
+-        }
+-    } else if (rc != -ENOSYS) {
+-        error_report("get vmport regs pfn returned error %d, rc=%d",
+-                     errno, rc);
+-        goto err;
+-    }
+-
+     /* Note: cpus is empty at this point in init */
+     state->cpu_by_vcpu_id = g_new0(CPUState *, max_cpus);
+ 
+@@ -1486,7 +1463,6 @@ void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
+ #else
+     xen_map_cache_init(NULL, state);
+ #endif
+-    xen_ram_init(pcms, ms->ram_size, ram_memory);
+ 
+     qemu_add_vm_change_state_handler(xen_hvm_change_state_handler, state);
+ 
+@@ -1513,6 +1489,31 @@ void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
+     QLIST_INIT(&xen_physmap);
+     xen_read_physmap(state);
+ 
++    state->suspend.notify = xen_suspend_notifier;
++    qemu_register_suspend_notifier(&state->suspend);
 +
-+xen_ss = ss.source_set()
++    state->wakeup.notify = xen_wakeup_notifier;
++    qemu_register_wakeup_notifier(&state->wakeup);
 +
-+xen_ss.add(when: 'CONFIG_XEN', if_true: files('xen-mapcache.c'))
-diff --git a/hw/xen/trace-events b/hw/xen/trace-events
-index 3da3fd8348..2c8f238f42 100644
---- a/hw/xen/trace-events
-+++ b/hw/xen/trace-events
-@@ -41,3 +41,8 @@ xs_node_vprintf(char *path, char *value) "%s %s"
- xs_node_vscanf(char *path, char *value) "%s %s"
- xs_node_watch(char *path) "%s"
- xs_node_unwatch(char *path) "%s"
++    rc = xen_get_vmport_regs_pfn(xen_xc, xen_domid, &ioreq_pfn);
++    if (!rc) {
++        DPRINTF("shared vmport page at pfn %lx\n", ioreq_pfn);
++        state->shared_vmport_page =
++            xenforeignmemory_map(xen_fmem, xen_domid, PROT_READ|PROT_WRITE,
++                                 1, &ioreq_pfn, NULL);
++        if (state->shared_vmport_page == NULL) {
++            error_report("map shared vmport IO page returned error %d handle=%p",
++                         errno, xen_xc);
++            goto err;
++        }
++    } else if (rc != -ENOSYS) {
++        error_report("get vmport regs pfn returned error %d, rc=%d",
++                     errno, rc);
++        goto err;
++    }
 +
-+# xen-mapcache.c
-+xen_map_cache(uint64_t phys_addr) "want 0x%"PRIx64
-+xen_remap_bucket(uint64_t index) "index 0x%"PRIx64
-+xen_map_cache_return(void* ptr) "%p"
-diff --git a/hw/i386/xen/xen-mapcache.c b/hw/xen/xen-mapcache.c
-similarity index 100%
-rename from hw/i386/xen/xen-mapcache.c
-rename to hw/xen/xen-mapcache.c
++    xen_ram_init(pcms, ms->ram_size, ram_memory);
++
+     /* Disable ACPI build because Xen handles it */
+     pcms->acpi_build_enabled = false;
+ 
 -- 
 2.25.1
 
