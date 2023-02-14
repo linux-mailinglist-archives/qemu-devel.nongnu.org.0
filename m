@@ -2,99 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6589696FB6
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 22:30:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E1B696FC0
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 22:32:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pS2qx-00017J-Ud; Tue, 14 Feb 2023 16:28:43 -0500
+	id 1pS2tr-0003Xw-2y; Tue, 14 Feb 2023 16:31:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pS2qv-00011u-G0
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 16:28:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pS2qt-00020s-Bm
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 16:28:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676410118;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=v1IjOWjrynw61gdSih9hODo14kNeW3/cY2jwDygfcZM=;
- b=AEL3W5inqD582Jlf7zkHIrFP9k4pxGlDenx1jJVs+QXx3JTMrw+4t67MOhQ/k1lHtsFVfG
- 2UdVkZd95306t6OHyjh0YkquzjefjtWiZKgfC6cn0FNlPAGa9qxxEgKl1qbYd5veUuH9L+
- E12cSTRdwOdNbcDC7lVJ/uiSEivcOJ4=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-512-1OcQc89cO7S_JeVsukIq6Q-1; Tue, 14 Feb 2023 16:28:37 -0500
-X-MC-Unique: 1OcQc89cO7S_JeVsukIq6Q-1
-Received: by mail-io1-f70.google.com with SMTP id
- y22-20020a5d94d6000000b007076e06ba3dso10996206ior.20
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 13:28:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pS2to-0003Ie-NG
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 16:31:40 -0500
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pS2tm-0002eC-B2
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 16:31:40 -0500
+Received: by mail-ed1-x530.google.com with SMTP id d40so18130827eda.8
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 13:31:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=xHTyoFkvcovrMpfShXIZsFIB7tKgtZYzeo8fE7Ek+hc=;
+ b=hy0NPRhHq+a+I+K0bYEAggVmaEeLHKKrS5bff1zQdwu3hCxwEgjTG7pLETcyhSeFAd
+ cMwL0GSFFtd9dItEPhu096hMb0+veSOnzD89T0Tc7O2XUWOvz6bQe4vziYBm5Rf4WDTg
+ BMZcXiwZmAqSsd1rf5MgKhwWh0BUpemP5AIeTa3jyabxHlji1SxcqXj1cIICWgjmkGur
+ TRDLFAEUlAKhwMGhs/JCWkYgAZHQ2sclAflnNFuV5pSs0OztRHBgWAosjen3Lh4/YyDb
+ AX2G6lUv2uH4O0b5bxgkeMhbpkOCIiXbXtGteg4l1LEABg+KXvB9A1KB6sDAhDEsahif
+ orlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=v1IjOWjrynw61gdSih9hODo14kNeW3/cY2jwDygfcZM=;
- b=uaanCxD7RoxpcnS7tdhzi0XamWm9pUHviQprF2dDbMmIwSvorNTmXlC0/ohCo/0/Lu
- w0SSpuhv+W++xGJvdnN5j1UaR6FWUjCQps70rBxAAEBCZQeiaVbIUJ1XnEeIY49GX6Vm
- 8AzokYw3x31dtI13HH1Fx+FLUZmapJjd3NzfatjwneOisvcN225SV5felCs4a+jjQ5AL
- h6nTzR3tRgd7Sv4NMCXqqx+CzMX5LEasLRQYDIJATSlc37dE/+b44UdwK+JqcaY95TAu
- MbwVBX/q/8Y2q2ifLxoJHJBm2q1NQMZtfslODCTMe2fjVU38EZWa0WWlAMSM4Q2sN4hY
- Q4Pg==
-X-Gm-Message-State: AO0yUKWahjK9Uz56GoDg5HgEEkAJQs1TkHid08D1647jXvagq2aAmOqe
- EeI6p6vz4LjubfMyjg2/kAz5yHSMY6OBFeN1zMsmA2I8swBUyFqiDQJHhf7FHxU054d/LcotF67
- uBDu4hzkd4eqTOSo=
-X-Received: by 2002:a5e:db49:0:b0:722:b81a:cccb with SMTP id
- r9-20020a5edb49000000b00722b81acccbmr186813iop.16.1676410116296; 
- Tue, 14 Feb 2023 13:28:36 -0800 (PST)
-X-Google-Smtp-Source: AK7set8MyWJX2mwZXVVhgTE/NqKXNfTAmk05TUHU8v+pFnuo7nGOX7ILZvEixlQ+gUkK4XhN6KNvDw==
-X-Received: by 2002:a5e:db49:0:b0:722:b81a:cccb with SMTP id
- r9-20020a5edb49000000b00722b81acccbmr186793iop.16.1676410116048; 
- Tue, 14 Feb 2023 13:28:36 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- i18-20020a6b3b12000000b0074065ea4c2asm1082819ioa.55.2023.02.14.13.28.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Feb 2023 13:28:35 -0800 (PST)
-Date: Tue, 14 Feb 2023 14:28:33 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu
- <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, Richard
- Henderson <richard.henderson@linaro.org>, Eduardo Habkost
- <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>, Philippe
- =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>, Yishai Hadas
- <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
- <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
- <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH 05/18] vfio/common: Add VFIOBitmap and (de)alloc functions
-Message-ID: <20230214142833.40ee644f.alex.williamson@redhat.com>
-In-Reply-To: <5bc7fbe1-8ee6-d839-b128-b323fb7c9b92@nvidia.com>
-References: <20230126184948.10478-1-avihaih@nvidia.com>
- <20230126184948.10478-6-avihaih@nvidia.com>
- <20230127141101.7d21f937.alex.williamson@redhat.com>
- <5bc7fbe1-8ee6-d839-b128-b323fb7c9b92@nvidia.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xHTyoFkvcovrMpfShXIZsFIB7tKgtZYzeo8fE7Ek+hc=;
+ b=axq4AUObDuUUxRr6MqkhfRBdWSeXwmbtnrfT2goPmZApWqqgMNfQ0s0olURVWgFA5P
+ 2rRoERs/qeMH2mnrcZCTTXCWf3NY8lIlrOfI+pKK1T1895IK8eggmf4+ZqD5mpUf6sIk
+ vwx9Nw9uNgHRT3ZPPxrZcdHZon1XaJ474ZbINp3Ip1uRkjXwWDy0gx3KNSAS5meOVe8g
+ G2INewJZ0JLPSqQKTvr3VAZehdEfmz2NMlR0+xTPh82qym+wOaX+SSoXXBJ6TxUBI/ry
+ gpELBis+MGdn7EwIqZcKS+eaQY4QUYLbu6WszwfC0kHK+eDicBK9FphVYzob6NfsAfFr
+ +m5w==
+X-Gm-Message-State: AO0yUKXavwwdlskp2a+Qc11o1e+P+4eoZnowk9rwBImDUQObMvzYmf9l
+ l8dkmC8t91zBWArtQ7QI7Lz7pIHmQWsdUoUT1etdTA==
+X-Google-Smtp-Source: AK7set9ZpuxQQlLgY3le9hM2Qj1WmtmbsgM8UlUeCmnqi6Flf5I9vz1WUMp0pfSGZ2H87homu9Koqnj1rNys8aT6oBk=
+X-Received: by 2002:a50:cdcf:0:b0:4ac:b4b3:b788 with SMTP id
+ h15-20020a50cdcf000000b004acb4b3b788mr2046660edj.0.1676410296275; Tue, 14 Feb
+ 2023 13:31:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230214002757.99240-1-imp@bsdimp.com>
+ <20230214002757.99240-5-imp@bsdimp.com>
+ <a36ae3a6-50fa-d969-e9b2-6fe1ff9db9e1@linaro.org>
+In-Reply-To: <a36ae3a6-50fa-d969-e9b2-6fe1ff9db9e1@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Tue, 14 Feb 2023 14:31:25 -0700
+Message-ID: <CANCZdfpXnVHe4cq4mFJ=KPf+t4Sc9_2vqh4tdG+PgpfQQBvp1A@mail.gmail.com>
+Subject: Re: [PATCH v2 04/12] bsd-user: various helper routines for sysctl
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, kevans@freebsd.org, f4bug@amsat.org, 
+ Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000035298105f4afb0c7"
+Received-SPF: none client-ip=2a00:1450:4864:20::530;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,118 +85,199 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 12 Feb 2023 17:36:49 +0200
-Avihai Horon <avihaih@nvidia.com> wrote:
+--00000000000035298105f4afb0c7
+Content-Type: text/plain; charset="UTF-8"
 
-> On 27/01/2023 23:11, Alex Williamson wrote:
-> > External email: Use caution opening links or attachments
-> >
-> >
-> > On Thu, 26 Jan 2023 20:49:35 +0200
-> > Avihai Horon <avihaih@nvidia.com> wrote:
-> >  
-> >> There are already two places where dirty page bitmap allocation and
-> >> calculations are done in open code. With device dirty page tracking
-> >> being added in next patches, there are going to be even more places.
-> >>
-> >> To avoid code duplication, introduce VFIOBitmap struct and corresponding
-> >> alloc and dealloc functions and use them where applicable.
-> >>
-> >> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> >> ---
-> >>   hw/vfio/common.c | 89 ++++++++++++++++++++++++++++++++----------------
-> >>   1 file changed, 60 insertions(+), 29 deletions(-)
-> >>
-> >> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> >> index 8e8ffbc046..e554573eb5 100644
-> >> --- a/hw/vfio/common.c
-> >> +++ b/hw/vfio/common.c
-> >> @@ -319,6 +319,41 @@ const MemoryRegionOps vfio_region_ops = {
-> >>    * Device state interfaces
-> >>    */
-> >>
-> >> +typedef struct {
-> >> +    unsigned long *bitmap;
-> >> +    hwaddr size;
-> >> +    hwaddr pages;
-> >> +} VFIOBitmap;
-> >> +
-> >> +static VFIOBitmap *vfio_bitmap_alloc(hwaddr size)
-> >> +{
-> >> +    VFIOBitmap *vbmap = g_try_new0(VFIOBitmap, 1);
-> >> +    if (!vbmap) {
-> >> +        errno = ENOMEM;
-> >> +
-> >> +        return NULL;
-> >> +    }
-> >> +
-> >> +    vbmap->pages = REAL_HOST_PAGE_ALIGN(size) / qemu_real_host_page_size();
-> >> +    vbmap->size =  ROUND_UP(vbmap->pages, sizeof(__u64) * BITS_PER_BYTE) /
-> >> +                                          BITS_PER_BYTE;
-> >> +    vbmap->bitmap = g_try_malloc0(vbmap->size);
-> >> +    if (!vbmap->bitmap) {
-> >> +        g_free(vbmap);
-> >> +        errno = ENOMEM;
-> >> +
-> >> +        return NULL;
-> >> +    }
-> >> +
-> >> +    return vbmap;
-> >> +}
-> >> +
-> >> +static void vfio_bitmap_dealloc(VFIOBitmap *vbmap)
-> >> +{
-> >> +    g_free(vbmap->bitmap);
-> >> +    g_free(vbmap);
-> >> +}
-> >> +
-> >>   bool vfio_mig_active(void)
-> >>   {
-> >>       VFIOGroup *group;
-> >> @@ -421,9 +456,14 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
-> >>   {
-> >>       struct vfio_iommu_type1_dma_unmap *unmap;
-> >>       struct vfio_bitmap *bitmap;
-> >> -    uint64_t pages = REAL_HOST_PAGE_ALIGN(size) / qemu_real_host_page_size();
-> >> +    VFIOBitmap *vbmap;
-> >>       int ret;
-> >>
-> >> +    vbmap = vfio_bitmap_alloc(size);
-> >> +    if (!vbmap) {
-> >> +        return -errno;
-> >> +    }
-> >> +
-> >>       unmap = g_malloc0(sizeof(*unmap) + sizeof(*bitmap));
-> >>
-> >>       unmap->argsz = sizeof(*unmap) + sizeof(*bitmap);
-> >> @@ -437,35 +477,28 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
-> >>        * qemu_real_host_page_size to mark those dirty. Hence set bitmap_pgsize
-> >>        * to qemu_real_host_page_size.
-> >>        */
-> >> -
-> >>       bitmap->pgsize = qemu_real_host_page_size();
-> >> -    bitmap->size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
-> >> -                   BITS_PER_BYTE;
-> >> +    bitmap->size = vbmap->size;
-> >> +    bitmap->data = (__u64 *)vbmap->bitmap;
-> >>
-> >> -    if (bitmap->size > container->max_dirty_bitmap_size) {
-> >> -        error_report("UNMAP: Size of bitmap too big 0x%"PRIx64,
-> >> -                     (uint64_t)bitmap->size);
-> >> +    if (vbmap->size > container->max_dirty_bitmap_size) {
-> >> +        error_report("UNMAP: Size of bitmap too big 0x%"PRIx64, vbmap->size);  
-> > Why not pass the container to the alloc function so we can test this
-> > consistently for each bitmap we allocate?  
-> 
-> Hi, sorry for the delay.
-> 
-> This test is relevant only for VFIO IOMMU dirty tracking. With device 
-> dirty tracking it should be skipped.
-> Do you think we should still move it to the alloc function?
+On Tue, Feb 14, 2023 at 1:52 PM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-Ah, ok.  Sounds like we'll have to live with a separate test for the
-container path.  Thanks,
+> On 2/13/23 14:27, Warner Losh wrote:
+> > +#ifdef TARGET_ABI32
+> > +/*
+> > + * Limit the amount of available memory to be most of the 32-bit address
+> > + * space. 0x100c000 was arrived at through trial and error as a good
+> > + * definition of 'most'.
+> > + */
+> > +static const abi_ulong target_max_mem = UINT32_MAX - 0x100c000 + 1;
+> > +
+> > +static abi_ulong G_GNUC_UNUSED cap_memory(uint64_t mem)
+> > +{
+> > +    if (((unsigned long)target_max_mem) < mem) {
+> > +        mem = target_max_mem;
+> > +    }
+> > +
+> > +    return mem;
+> > +}
+> > +#endif
+>
+> Identity function for ABI64?
+>
 
-Alex
+Indirectly, yes. For ABI64 we simply don't intercept these sysctl nodes.
 
+
+> > +static unsigned long host_page_size;
+> > +
+> > +static abi_ulong G_GNUC_UNUSED scale_to_target_pages(uint64_t pages)
+> > +{
+> > +    if (host_page_size == 0) {
+> > +        host_page_size = getpagesize();
+> > +    }
+>
+> qemu_real_host_page_size()
+>
+
+OK. Easy enough. That was a warning from checkpatch anyway that had slipped
+my mind.
+
+
+> > +
+> > +    pages = muldiv64(pages, host_page_size, TARGET_PAGE_SIZE);
+> > +#ifdef TARGET_ABI32
+> > +    abi_ulong maxpages = target_max_mem / (abi_ulong)TARGET_PAGE_SIZE;
+> > +
+> > +    if (((unsigned long)maxpages) < pages) {
+> > +        pages = maxpages;
+> > +    }
+> > +#endif
+>
+> No need for either cast.  Just use MIN().
+>
+
+Gotcha.
+
+
+> > +#ifdef TARGET_ABI32
+> > +static abi_long G_GNUC_UNUSED h2t_long_sat(long l)
+>
+> h2g.
+>
+
+OK.
+
+
+> > +{
+> > +    if (l > INT32_MAX) {
+> > +        l = INT32_MAX;
+> > +    } else if (l < INT32_MIN) {
+> > +        l = INT32_MIN;
+> > +    }
+> > +    return l;
+> > +}
+> > +
+> > +static abi_ulong G_GNUC_UNUSED h2t_ulong_sat(u_long ul)
+> > +{
+> > +    if (ul > UINT32_MAX) {
+> > +        ul = UINT32_MAX;
+> > +    }
+> > +    return ul;
+> > +}
+> > +#endif
+>
+> Anyway, identity functions for ABI64?
+>
+
+Right now they aren't used at all for ABI64...  But that's in later
+patches...  We only do
+special things for  LONG or ULONG on ABI32... Otherwise, the normal paths
+wouldn't
+call these at all.
+
+Warner
+
+--00000000000035298105f4afb0c7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 14, 2023 at 1:52 PM Richa=
+rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
+nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">On 2/13/23 14:27, Warner Losh wrote:<br>
+&gt; +#ifdef TARGET_ABI32<br>
+&gt; +/*<br>
+&gt; + * Limit the amount of available memory to be most of the 32-bit addr=
+ess<br>
+&gt; + * space. 0x100c000 was arrived at through trial and error as a good<=
+br>
+&gt; + * definition of &#39;most&#39;.<br>
+&gt; + */<br>
+&gt; +static const abi_ulong target_max_mem =3D UINT32_MAX - 0x100c000 + 1;=
+<br>
+&gt; +<br>
+&gt; +static abi_ulong G_GNUC_UNUSED cap_memory(uint64_t mem)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 if (((unsigned long)target_max_mem) &lt; mem) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 mem =3D target_max_mem;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 return mem;<br>
+&gt; +}<br>
+&gt; +#endif<br>
+<br>
+Identity function for ABI64?<br></blockquote><div><br></div><div>Indirectly=
+, yes. For ABI64 we simply don&#39;t intercept these sysctl nodes.</div><di=
+v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+&gt; +static unsigned long host_page_size;<br>
+&gt; +<br>
+&gt; +static abi_ulong G_GNUC_UNUSED scale_to_target_pages(uint64_t pages)<=
+br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 if (host_page_size =3D=3D 0) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 host_page_size =3D getpagesize();<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+<br>
+qemu_real_host_page_size()<br></blockquote><div><br></div><div>OK. Easy eno=
+ugh. That was a warning from checkpatch anyway that had slipped my mind.</d=
+iv><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 pages =3D muldiv64(pages, host_page_size, TARGET_PAGE_S=
+IZE);<br>
+&gt; +#ifdef TARGET_ABI32<br>
+&gt; +=C2=A0 =C2=A0 abi_ulong maxpages =3D target_max_mem / (abi_ulong)TARG=
+ET_PAGE_SIZE;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (((unsigned long)maxpages) &lt; pages) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pages =3D maxpages;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +#endif<br>
+<br>
+No need for either cast.=C2=A0 Just use MIN().<br></blockquote><div><br></d=
+iv><div>Gotcha.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">
+&gt; +#ifdef TARGET_ABI32<br>
+&gt; +static abi_long G_GNUC_UNUSED h2t_long_sat(long l)<br>
+<br>
+h2g.<br></blockquote><div><br></div><div>OK.=C2=A0</div><div>=C2=A0</div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 if (l &gt; INT32_MAX) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 l =3D INT32_MAX;<br>
+&gt; +=C2=A0 =C2=A0 } else if (l &lt; INT32_MIN) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 l =3D INT32_MIN;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 return l;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static abi_ulong G_GNUC_UNUSED h2t_ulong_sat(u_long ul)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 if (ul &gt; UINT32_MAX) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ul =3D UINT32_MAX;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 return ul;<br>
+&gt; +}<br>
+&gt; +#endif<br>
+<br>
+Anyway, identity functions for ABI64?<br></blockquote><div><br></div><div>R=
+ight now they aren&#39;t used at all for ABI64...=C2=A0 But that&#39;s in l=
+ater patches...=C2=A0 We only do</div><div>special things for=C2=A0 LONG or=
+ ULONG on ABI32... Otherwise, the normal paths wouldn&#39;t</div><div>call =
+these at all.</div><div><br></div><div>Warner</div></div></div>
+
+--00000000000035298105f4afb0c7--
 
