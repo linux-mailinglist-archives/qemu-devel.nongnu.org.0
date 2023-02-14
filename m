@@ -2,68 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF3B869683B
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 16:38:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0C1469684F
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 16:40:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRxNo-0006vT-1T; Tue, 14 Feb 2023 10:38:16 -0500
+	id 1pRxPt-0007xq-NB; Tue, 14 Feb 2023 10:40:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pRxNl-0006vA-LR
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 10:38:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pRxNj-0006VS-A3
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 10:38:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676389089;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jH8ibBY7EwYDdr4O90l+3cCTqHOjNo5E4L42vWMtHVo=;
- b=DtTVYvQMgNJRIFsdNilr0FiV3dyugWmVX8cjYZEg62srPo/qMFdH5x9eq8zdDdoUa4hHWY
- aTNc/j8iVrRCaFNLxeqLyNOZoyJCDWoyJ7Lom4I0uFQAP4TNjuBdotjlB09LXZV4EcJKrs
- n109+zVh6ocih71ylJ5DtteqioSGTXk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-30-FcOWPrDyNhCwMHW84WHYag-1; Tue, 14 Feb 2023 10:38:06 -0500
-X-MC-Unique: FcOWPrDyNhCwMHW84WHYag-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D2AD8183B3C0;
- Tue, 14 Feb 2023 15:38:05 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 58CF51415108;
- Tue, 14 Feb 2023 15:38:05 +0000 (UTC)
-Date: Tue, 14 Feb 2023 10:38:03 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alexander Bulekov <alxndr@bu.edu>
-Cc: qemu-devel@nongnu.org, Bandan Das <bsd@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 00/10] Retire Fork-Based Fuzzing
-Message-ID: <Y+uq234pKMdKpPyT@fedora>
-References: <20230205042951.3570008-1-alxndr@bu.edu>
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pRxPl-0007wO-Hz
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 10:40:18 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pRxPi-0006u2-OZ
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 10:40:16 -0500
+Received: by mail-wm1-x330.google.com with SMTP id z13so11258577wmp.2
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 07:40:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=OTMKVgEKUKF9VPS0QhqNJm7eG4gQDuzK2xo3WygZdAQ=;
+ b=a4juAzJTA9elgfvQchALNenUbdAW1OoF/39yPAMFKd+kQ5LqnQASe2MPGBiHwAfIau
+ Tdlzv+fT5TiXqxC51nAxRyoNHbEHmuI/7wryPuWT7lrheWMfLu3bnrVKChP3myY8BjxK
+ CZlCF/S8X3+vSuwpuNv60/cXfMej0PSkuwNKcV/SHGPVtn3yntw5+GuH/AtDcuvgRD6r
+ eQ66Ou/xf8Mlb8I23pFyvFuN75KcK0/EsqgRY552/Vghn7pFqYBFOKPHKiCc5MgpewUl
+ U3W3U4RudESCmXuS3B/SYcaXCeBUE3AZ9Y9uNk1v8WT8GuJWasv3DCWcgkA3eloNxDa9
+ 1VWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OTMKVgEKUKF9VPS0QhqNJm7eG4gQDuzK2xo3WygZdAQ=;
+ b=M+aFAfL/5X4nGuJFhp5FNNdn5f7uluZ7JL2y0zw3MJBeO1apNEtccUtSfk96BBzH4g
+ u0qY6Gi/pay/81nWUHdrHjxY1Hss8f5dei4KmbZOBsE4FtXai7tNZab2GiC18UQLbYhd
+ YkkT/MkuAZj9LTSIEIo0eG0lQGCQpB50uy6RJhl3XyWC2aq0qzsq31uYCpLsLvsKtCM2
+ WfSY1fSMGZ1KerqZ+g7+ACvejwEFxhh7V3SnGeIs1zwprYJWaPqoZfonsf0wXEDWRYr7
+ 2YuciXqcwCVR4wotgR02OFPTnHWwz1b7c8W+nRkonnagxhzCK34RjZ5yrK0zYO6sDxv6
+ RKCA==
+X-Gm-Message-State: AO0yUKXyMD33RQOUuzSWMKi9BGgaAglO4k/jGDTEt8d6UStqDtxoqJUH
+ wRL5Q0COVRyPt04Bhk+XNEM=
+X-Google-Smtp-Source: AK7set8MABH7RJawwlI4r+LCuzCPvYmOu5+eGbu2H7VjV7YbogT3WcKOe2LbS7IrbwI/rN963HZUnw==
+X-Received: by 2002:a05:600c:244e:b0:3df:f9e9:7600 with SMTP id
+ 14-20020a05600c244e00b003dff9e97600mr2442932wmr.25.1676389212922; 
+ Tue, 14 Feb 2023 07:40:12 -0800 (PST)
+Received: from [10.95.154.108] (54-240-197-224.amazon.com. [54.240.197.224])
+ by smtp.gmail.com with ESMTPSA id
+ be7-20020a05600c1e8700b003dff2b493c8sm22262506wmb.36.2023.02.14.07.40.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Feb 2023 07:40:12 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <447a0a49-5079-249c-33db-e5e7765e8fd1@xen.org>
+Date: Tue, 14 Feb 2023 15:40:11 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="JVGNv35tzSsjydBl"
-Content-Disposition: inline
-In-Reply-To: <20230205042951.3570008-1-alxndr@bu.edu>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URI_DOTEDU=1.999 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v10 44/59] hw/xen: Support mapping grant frames
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>, Paul Durrant
+ <xadimgnik@gmail.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
+References: <20230201143148.1744093-1-dwmw2@infradead.org>
+ <20230201143148.1744093-45-dwmw2@infradead.org>
+ <28fc143f-2de8-b893-0abf-210b4c34a7f7@xen.org>
+ <4B49CF3E-A825-4017-B7DF-2339F7D6B92E@infradead.org>
+Organization: Xen Project
+In-Reply-To: <4B49CF3E-A825-4017-B7DF-2339F7D6B92E@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.35, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,131 +106,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 14/02/2023 15:35, David Woodhouse wrote:
+> 
+> 
+> On 13 February 2023 16:31:57 CET, Paul Durrant <xadimgnik@gmail.com> wrote:
+>> On 01/02/2023 14:31, David Woodhouse wrote:
+>>> From: David Woodhouse <dwmw@amazon.co.uk>
+>>>
+>>> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+>>> ---
+>>>    hw/i386/kvm/xen_gnttab.c  | 74 ++++++++++++++++++++++++++++++++++++++-
+>>>    hw/i386/kvm/xen_overlay.c |  2 +-
+>>>    hw/i386/kvm/xen_overlay.h |  2 ++
+>>>    3 files changed, 76 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/hw/i386/kvm/xen_gnttab.c b/hw/i386/kvm/xen_gnttab.c
+>>> index ef8857e50c..cd8c3ae60d 100644
+>>> --- a/hw/i386/kvm/xen_gnttab.c
+>>> +++ b/hw/i386/kvm/xen_gnttab.c
+>>> @@ -37,13 +37,27 @@ OBJECT_DECLARE_SIMPLE_TYPE(XenGnttabState, XEN_GNTTAB)
+>>>    #define XEN_PAGE_SHIFT 12
+>>>    #define XEN_PAGE_SIZE (1ULL << XEN_PAGE_SHIFT)
+>>>    +#define ENTRIES_PER_FRAME_V1 (XEN_PAGE_SIZE / sizeof(grant_entry_v1_t))
+>>> +#define ENTRIES_PER_FRAME_V2 (XEN_PAGE_SIZE / sizeof(grant_entry_v2_t))
+>>> +
+>>>    struct XenGnttabState {
+>>>        /*< private >*/
+>>>        SysBusDevice busdev;
+>>>        /*< public >*/
+>>>    +    QemuMutex gnt_lock;
+>>> +
+>>>        uint32_t nr_frames;
+>>>        uint32_t max_frames;
+>>> +
+>>> +    union {
+>>> +        grant_entry_v1_t *v1;
+>>> +        grant_entry_v2_t *v2;
+>>> +    } entries;
+>>> +
+>>
+>> If you want to have v2 support, don't you need status frames too?
+> 
+> If/when we add v2 support we will need that, but not yet. Seemed harmless enough to have the union with the right types from day one though.
 
---JVGNv35tzSsjydBl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+For someone reading this code, they might expect support to be there. It 
+also makes things a little more cumbersome. TBH I really can't see the 
+need to ever support v2 so my preference would just be to avoid mention 
+of it and pretend it was all a bad dream.
 
-On Sat, Feb 04, 2023 at 11:29:41PM -0500, Alexander Bulekov wrote:
-> Hello,
-> This series removes fork-based fuzzing.
-> How does fork-based fuzzing work?
->  * A single parent process initializes QEMU
->  * We identify the devices we wish to fuzz (fuzzer-dependent)
->  * Use QTest to PCI enumerate the devices
->  * After that we start a fork-server which forks the process and executes
->    fuzzer inputs inside the disposable children.
->=20
-> In a normal fuzzing process, everything happens in a single process.
->=20
-> Pros of fork-based fuzzing:
->  * We only need to do common configuration once (e.g. PCI enumeration).
->  * Fork provides a strong guarantee that fuzzer inputs will not interfere=
- with
->    each-other
->  * The fuzzing process can continue even after a child-process crashes
->  * We can apply our-own timers to child-processes to exit slow inputs, ea=
-rly
->=20
-> Cons of fork-based fuzzing:
->  * Fork-based fuzzing is not supported by libfuzzer. We had to build our =
-own
->    fork-server and rely on tricks using linker-scripts and shared-memory =
-to
->    support fuzzing. ( https://physics.bu.edu/~alxndr/libfuzzer-forkserver=
-/ )
->  * Fork-based fuzzing is currently the main blocker preventing us from en=
-abling
->    other fuzzers such as AFL++ on OSS-Fuzz
->  * Fork-based fuzzing may be a reason why coverage-builds are failing on
->    OSS-Fuzz. Coverage is an important fuzzing metric which would allow us=
- to
->    find parts of the code that are not well-covered.
->  * Fork-based fuzzing has high overhead. fork() is an expensive system-ca=
-ll,
->    especially for processes running ASAN (with large/complex) VMA layouts.
->  * Fork prevents us from effectively fuzzing devices that rely on
->    threads (e.g. qxl).
->=20
-> These patches remove fork-based fuzzing and replace it with reboot-based
-> fuzzing for most cases. Misc notes about this change:
->  * libfuzzer appears to be no longer in active development. As such, the
->    current implementation of fork-based fuzzing (while having some nice
->    advantages) is likely to hold us back in the future. If these changes
->    are approved and appear to run successfully on OSS-Fuzz, we should be
->    able to easily experiment with other fuzzing engines (AFL++).
->  * Some device do not completely reset their state. This can lead to
->    non-reproducible crashes. However, in my local tests, most crashes
->    were reproducible. OSS-Fuzz shouldn't send us reports unless it can
->    consistently reproduce a crash.
->  * In theory, the corpus-format should not change, so the existing
->    corpus-inputs on OSS-Fuzz will transfer to the new reset()-able
->    fuzzers.
->  * Each fuzzing process will now exit after a single crash is found. To
->    continue the fuzzing process, use libfuzzer flags such as -jobs=3D-1
->  * We no long control input-timeouts (those are handled by libfuzzer).
->    Since timeouts on oss-fuzz can be many seconds long, I added a limit
->    on the number of DMA bytes written.
-> =20
->=20
-> Alexander Bulekov (10):
->   hw/sparse-mem: clear memory on reset
->   fuzz: add fuzz_reboot API
->   fuzz/generic-fuzz: use reboots instead of forks to reset state
->   fuzz/generic-fuzz: add a limit on DMA bytes written
->   fuzz/virtio-scsi: remove fork-based fuzzer
->   fuzz/virtio-net: remove fork-based fuzzer
->   fuzz/virtio-blk: remove fork-based fuzzer
->   fuzz/i440fx: remove fork-based fuzzer
->   fuzz: remove fork-fuzzing scaffolding
->   docs/fuzz: remove mentions of fork-based fuzzing
->=20
->  docs/devel/fuzzing.rst              |  22 +-----
->  hw/mem/sparse-mem.c                 |  13 +++-
->  meson.build                         |   4 -
->  tests/qtest/fuzz/fork_fuzz.c        |  41 ----------
->  tests/qtest/fuzz/fork_fuzz.h        |  23 ------
->  tests/qtest/fuzz/fork_fuzz.ld       |  56 --------------
->  tests/qtest/fuzz/fuzz.c             |   6 ++
->  tests/qtest/fuzz/fuzz.h             |   2 +-
->  tests/qtest/fuzz/generic_fuzz.c     | 111 +++++++---------------------
->  tests/qtest/fuzz/i440fx_fuzz.c      |  27 +------
->  tests/qtest/fuzz/meson.build        |   6 +-
->  tests/qtest/fuzz/virtio_blk_fuzz.c  |  51 ++-----------
->  tests/qtest/fuzz/virtio_net_fuzz.c  |  54 ++------------
->  tests/qtest/fuzz/virtio_scsi_fuzz.c |  51 ++-----------
->  14 files changed, 72 insertions(+), 395 deletions(-)
->  delete mode 100644 tests/qtest/fuzz/fork_fuzz.c
->  delete mode 100644 tests/qtest/fuzz/fork_fuzz.h
->  delete mode 100644 tests/qtest/fuzz/fork_fuzz.ld
->=20
-> --=20
-> 2.39.0
->=20
-
-Whose tree should this go through? Laurent's qtest tree?
-
-Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---JVGNv35tzSsjydBl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmPrqtsACgkQnKSrs4Gr
-c8jVSQgAsdfmN3M6y1i+aLIUWBOcxAvoO8DAA7G9xeiMPkw0KQqLWr3znF/TNpgJ
-QRBpZVUTVOiIEiKGEN3qfNF8ETAOHMvZU44ygkujAnTDLpx5P9Omi/uhn0YbBnEY
-dzdxeqtK7cgu0o5vYVkodVXnIKwLx1ee7jkxsC0WqZHSiz1VmjsBt/wsauT9l/Cw
-wkcIVYXVdvU2OzFCt8VM0rMi6pTQLv8ypkJ6brnqEq3VkGlrgWl12cXSLCScEmn7
-WS4g3js2q0211B0tUDbIqp0O6LL5JwMClDo1J70A46zQJ+xzs+UXAn6OGli/dBM1
-hG5xKZIDolF1YbQB4rqBKWWG3Pm4Mw==
-=7cXq
------END PGP SIGNATURE-----
-
---JVGNv35tzSsjydBl--
+   Paul
 
 
