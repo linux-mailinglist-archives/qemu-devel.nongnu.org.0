@@ -2,99 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A658D696A68
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 17:56:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF2F1696A81
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 17:59:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRyb2-0000jH-05; Tue, 14 Feb 2023 11:56:00 -0500
+	id 1pRydF-0002Ug-Hs; Tue, 14 Feb 2023 11:58:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pRyaz-0000iO-Bp
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:55:57 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pRydD-0002PP-Ks
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:58:15 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pRyaw-00049a-TI
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:55:57 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pRydB-0006lR-IN
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 11:58:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676393754;
+ s=mimecast20190719; t=1676393892;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zGbsREZhZiAsIzsO6ewk6agd7UkfdsPdox+8GtKKuGc=;
- b=EqI1Nivn0OVFtRYPezTPQCZIkMMeACeR/Qy09eSf5tRF574yJQN3RGLyrBOQfkm+fLmdo9
- dVuqGPhRF1k3quv6IqCFsr/H9mEIdjQfn/3ZWoAiE+oH+MZ2Pj+in5/Tz3c1iACXpq9VwH
- 3ybd5dEVAWOUOUtEObIc6i8PUWWVQV4=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Xq+uErFB/thiNTVKnL6Tqjh9CZ3mVSivNi2p7d6ogmk=;
+ b=RyDNPUZolLox/V6ZqL/PVtyvF+3m94RTrg4PqIybHov1uk9Wt24VRy7nQRXCB1BykJ6CqN
+ /wJqmB3W0thGYPek3u1PzmfCrYFBh8sdPIpiGqZANtnkcPpLhe8nt46ZidoowlfMajCVaQ
+ zhGehJk6RYLfHEqc+HbbWzAjEO5Q2/4=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-13-cYtBBiGROSmsSo11bVKhrQ-1; Tue, 14 Feb 2023 11:55:53 -0500
-X-MC-Unique: cYtBBiGROSmsSo11bVKhrQ-1
-Received: by mail-qk1-f199.google.com with SMTP id
- bp30-20020a05620a459e00b00738e1fe2470so9867581qkb.23
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 08:55:53 -0800 (PST)
+ us-mta-589-o4uhQBHEOmaVmPkYfEPxJg-1; Tue, 14 Feb 2023 11:58:11 -0500
+X-MC-Unique: o4uhQBHEOmaVmPkYfEPxJg-1
+Received: by mail-pg1-f197.google.com with SMTP id
+ q130-20020a632a88000000b004a03cfb3ac6so6056768pgq.6
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 08:58:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1676393752;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zGbsREZhZiAsIzsO6ewk6agd7UkfdsPdox+8GtKKuGc=;
- b=ntG7ptgO6DF+SNKzzwkWfHlC71LgiSqOvL9SmwAuhl1fH2CWIzGaB/fi27JmTbqFGO
- gSi8bWIbqCxGU/eWQ1xVSSWtlpTWgiqk158+DyCP1G8dNtKV9AyVwoJOSt1HfCuBgJmW
- WsADGaKy6LsbwaMC6p1TZ6lKYdE77HwTy3f8bA8eZdKNbR9tpj42E+Bj1v/dnfccfRbb
- ZLgi/M1YAegmooLw5KteaC8VYRMDEiBtOKTORooaYCJG/csMOQjUrQK/C5zWiHltoRoK
- bRKh09C36Y7Lzvd1yhpTmn85hot8wlm3CeXv5dNhVoVG+P+iqqZ23r3HzlLkJSNqiVDq
- pTkg==
-X-Gm-Message-State: AO0yUKW50jvsAq/NTy7HAV0xOkoYIryHiydR7UT5GE/MeVze66EtSb0/
- bWcRWi/O5bdojboy5xNpZ/4fOtGZ11BnqjKmyDEdRLVoTjy9IJ3Ly8o27FaCBfZl1TUisitP0xy
- 4wa0bWOtAdN93Gj8=
-X-Received: by 2002:a0c:8f02:0:b0:56e:89b9:9a92 with SMTP id
- z2-20020a0c8f02000000b0056e89b99a92mr4857512qvd.0.1676393752441; 
- Tue, 14 Feb 2023 08:55:52 -0800 (PST)
-X-Google-Smtp-Source: AK7set8fzbwkkQwF+rXrOLDOVTJ5nW6CCuLdkGSxtZNo7+W4jbOs1whdIEKR/1oE2AgK8su4AS47yA==
-X-Received: by 2002:a0c:8f02:0:b0:56e:89b9:9a92 with SMTP id
- z2-20020a0c8f02000000b0056e89b99a92mr4857469qvd.0.1676393752031; 
- Tue, 14 Feb 2023 08:55:52 -0800 (PST)
-Received: from x1n ([70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- 17-20020ac82091000000b003b960aad697sm11466424qtd.9.2023.02.14.08.55.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Feb 2023 08:55:51 -0800 (PST)
-Date: Tue, 14 Feb 2023 11:55:45 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>,
- Eric Blake <eblake@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v3 06/10] monitor: release the lock before calling close()
-Message-ID: <Y+u9Efqf+0d0gM8I@x1n>
-References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
- <20230207142535.1153722-7-marcandre.lureau@redhat.com>
- <873578id74.fsf@pond.sub.org>
- <CAJ+F1CL45o4Ro=0TGZU2yOK2nz9OfMX1jCFRKfDxZfXzRbdoRg@mail.gmail.com>
- <Y+uRUyP/xTn6neMk@redhat.com> <871qmsgqs3.fsf@pond.sub.org>
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Xq+uErFB/thiNTVKnL6Tqjh9CZ3mVSivNi2p7d6ogmk=;
+ b=wEfG2d8jEIIN231CTdCuan6g73aMDia0hbdHtpq/iUEY6I8euJAapeLJhqn7lHOelF
+ JEWILN3uxxU6db/dOjnJ2utOSlNY7y3s1RNk3LaZwn74fcMqPjvGwVbX3tQx660fuRRn
+ xFqvcofg+53dXV6KQK5LPAv/SWKTPf0+/qSghS9HjcW+R+R8xYskU36IyXsGXH9M78YQ
+ PstQXsbJsjsVWMqNp6xMeUy8S143tZZvT0+AipmUeoDZSbEfXHpNVNauVyf4a9sBOuph
+ L5lw1u+DXl+7NaJ8WFhwm+Theq7W70DDuDYIvbL6GIvCjKUbEGqfbY+9+4wCoN7dHe9J
+ VLBw==
+X-Gm-Message-State: AO0yUKU2PDrc+XbJH9tC4bqohReaIEN4tTF/g1dahhOhIaMGpGbIA9+u
+ dKj/XJ9mVhz5QgKByh4bKa7duHPY4EdnjKo5c+jc/UiLESeiGkUNoTb34G/ZUkthOYYYjkZGOWG
+ SeqV9McZGOc96su+ivRrdhul+UwmSH7s=
+X-Received: by 2002:a63:8c54:0:b0:4f1:ccba:5bac with SMTP id
+ q20-20020a638c54000000b004f1ccba5bacmr457328pgn.20.1676393889894; 
+ Tue, 14 Feb 2023 08:58:09 -0800 (PST)
+X-Google-Smtp-Source: AK7set+wSrzbiQtIE/Cv3mx0Sa/MdbkHAXu1ekQYCQVk9anOIFTA/89hG6YTin5AMDZ4woyoenjvduon8aVlpKGudr4=
+X-Received: by 2002:a63:8c54:0:b0:4f1:ccba:5bac with SMTP id
+ q20-20020a638c54000000b004f1ccba5bacmr457322pgn.20.1676393889555; Tue, 14 Feb
+ 2023 08:58:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <871qmsgqs3.fsf@pond.sub.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+References: <20230209184758.1017863-1-jsnow@redhat.com>
+ <20230209184758.1017863-6-jsnow@redhat.com>
+ <87fsbc4ry7.fsf@pond.sub.org>
+In-Reply-To: <87fsbc4ry7.fsf@pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 14 Feb 2023 11:57:58 -0500
+Message-ID: <CAFn=p-a4styxnXB=rv8wF=OutCF7xt2ctR1zuzNjqf_pOp4dRA@mail.gmail.com>
+Subject: Re: [PATCH v3 5/7] qapi/parser: add QAPIExpression type
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>
+Content-Type: multipart/alternative; boundary="0000000000004a7cbf05f4abde59"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,125 +91,278 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 14, 2023 at 05:23:08PM +0100, Markus Armbruster wrote:
-> Daniel P. Berrangé <berrange@redhat.com> writes:
-> 
-> > On Tue, Feb 14, 2023 at 05:36:32PM +0400, Marc-André Lureau wrote:
-> >> Hi
-> >> 
-> >> On Tue, Feb 14, 2023 at 5:34 PM Markus Armbruster <armbru@redhat.com> wrote:
-> >> >
-> >> > marcandre.lureau@redhat.com writes:
-> >> >
-> >> > > From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> >> > >
-> >> > > As per comment, presumably to avoid syscall in critical section.
-> >> > >
-> >> > > Fixes: 0210c3b39bef08 ("monitor: Use LOCK_GUARD macros")
-> >> > > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> >> > > ---
-> >> > >  monitor/fds.c | 4 +++-
-> >> > >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >> > >
-> >> > > diff --git a/monitor/fds.c b/monitor/fds.c
-> >> > > index 26b39a0ce6..03c5e97c35 100644
-> >> > > --- a/monitor/fds.c
-> >> > > +++ b/monitor/fds.c
-> >> > > @@ -80,7 +80,7 @@ void qmp_getfd(const char *fdname, Error **errp)
-> >> > >          return;
-> >> > >      }
-> >> > >
-> >> > > -    QEMU_LOCK_GUARD(&cur_mon->mon_lock);
-> >> > > +    qemu_mutex_lock(&cur_mon->mon_lock);
-> >> > >      QLIST_FOREACH(monfd, &cur_mon->fds, next) {
-> >> > >          if (strcmp(monfd->name, fdname) != 0) {
-> >> > >              continue;
-> >> > > @@ -88,6 +88,7 @@ void qmp_getfd(const char *fdname, Error **errp)
-> >> > >
-> >> > >          tmp_fd = monfd->fd;
-> >> > >          monfd->fd = fd;
-> >> > > +        qemu_mutex_unlock(&cur_mon->mon_lock);
-> >> > >          /* Make sure close() is outside critical section */
-> >> > >          close(tmp_fd);
-> >> > >          return;
-> >> > > @@ -98,6 +99,7 @@ void qmp_getfd(const char *fdname, Error **errp)
-> >> > >      monfd->fd = fd;
-> >> > >
-> >> > >      QLIST_INSERT_HEAD(&cur_mon->fds, monfd, next);
-> >> > > +    qemu_mutex_unlock(&cur_mon->mon_lock);
-> >> > >  }
-> >> > >
-> >> > >  void qmp_closefd(const char *fdname, Error **errp)
-> >> >
-> >> > This confused me.  I think I understand now, but let's double-check.
-> >> >
-> >> > You're reverting commit 0210c3b39bef08 for qmp_getfd() because it
-> >> > extended the criticial section beyond the close(), invalidating the
-> >> > comment.  Correct?
-> >> 
-> >> Correct
-> >> 
-> >> > Did it actually break anything?
-> >> 
-> >> Not that I know of (David admitted over IRC that this was not intended)
+--0000000000004a7cbf05f4abde59
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Sat, Feb 11, 2023, 1:49 AM Markus Armbruster <armbru@redhat.com> wrote:
+
+> John Snow <jsnow@redhat.com> writes:
+>
+> > This patch creates a new type, QAPIExpression, which represents a parse=
+d
+> > expression complete with QAPIDoc and QAPISourceInfo.
 > >
-> > Conceptually the only risk here is that 'close()' blocks for a
-> > prolonged period of time, which prevents another thread from
-> > acquiring the mutex.
+> > This patch turns parser.exprs into a list of QAPIExpression instead,
+> > and adjusts expr.py to match.
 > >
-> > First, the chances of close() blocking are incredibly low for
-> > socket FDs which have not yet been used to transmit data. It
-> > would require a malicious mgmt app to pass an unexpected FD
-> > type that could block but that's quite hard, and we consider
-> > the QMP client be a trusted entity anyway.
+> > This allows the types we specify in parser.py to be "remembered" all th=
+e
+> > way through expr.py and into schema.py. Several assertions around
+> > packing and unpacking this data can be removed as a result.
 > >
-> > As for another thread blocking on the mutex I'm not convinced
-> > that'll happen either. The FD set is scoped to the current
-> > monitor. Almost certainly the FD is going to be consumed by
-> > a later QMP device-add/object-add command, in the same thread.
-> > Processing of that later QMP command will be delayed regardless
-> > of whether the close is inside or outside the critical section.
+> > NB: This necessitates a change of typing for check_if() and
+> > check_keys(), because mypy does not believe UserDict[str, object] =E2=
+=8A=86
+> > Dict[str, object]. It will, however, accept Mapping or
+> > MutableMapping. In this case, the immutable form is preferred as an
+> > input parameter because we don't actually mutate the input.
 > >
-> > AFAICT keeping close() oujtside the critical section serves
-> > no purpose and we could just stick with the lock guard and
-> > delete the comment.
-> 
-> Makes sense to me.
-> 
-> There's another one in monitor_add_fd().
-> 
-> Both are from Peter's commit 9409fc05fe2 "monitor: protect mon->fds with
-> mon_lock".  Peter, do you remember why you took the trouble to keep
-> close() outside the critical section?  I know it's been a while...
+> > Without this change, we will observe:
+> > qapi/expr.py:631: error: Argument 1 to "check_keys" has incompatible
+> > type "QAPIExpression"; expected "Dict[str, object]"
+> >
+> > NB2: Python 3.6 has an oversight for typing UserDict that makes it
+> > impossible to type for both runtime and analysis time. The problem is
+> > described in detail at https://github.com/python/typing/issues/60 - thi=
+s
+> > workaround can be safely removed when 3.7 is our minimum version.
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+>
+> Looks good to me, just one question:
+>
+> [...]
+>
+> > diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+> > index 1b006cdc133..87b46db7fba 100644
+> > --- a/scripts/qapi/parser.py
+> > +++ b/scripts/qapi/parser.py
+> > @@ -14,13 +14,14 @@
+> >  # This work is licensed under the terms of the GNU GPL, version 2.
+> >  # See the COPYING file in the top-level directory.
+> >
+> > -from collections import OrderedDict
+> > +from collections import OrderedDict, UserDict
+> >  import os
+> >  import re
+> >  from typing import (
+> >      TYPE_CHECKING,
+> >      Dict,
+> >      List,
+> > +    Mapping,
+> >      Optional,
+> >      Set,
+> >      Union,
+> > @@ -37,15 +38,30 @@
+> >      from .schema import QAPISchemaFeature, QAPISchemaMember
+> >
+> >
+> > -#: Represents a single Top Level QAPI schema expression.
+> > -TopLevelExpr =3D Dict[str, object]
+> > -
+> >  # Return value alias for get_expr().
+> >  _ExprValue =3D Union[List[object], Dict[str, object], str, bool]
+> >
+> > -# FIXME: Consolidate and centralize definitions for TopLevelExpr,
+> > -# _ExprValue, _JSONValue, and _JSONObject; currently scattered across
+> > -# several modules.
+> > +
+> > +# FIXME: Consolidate and centralize definitions for _ExprValue,
+> > +# JSONValue, and _JSONObject; currently scattered across several
+> > +# modules.
+> > +
+> > +
+> > +# 3.6 workaround: can be removed when Python 3.7+ is our required
+> version.
+> > +if TYPE_CHECKING:
+> > +    _UserDict =3D UserDict[str, object]
+> > +else:
+> > +    _UserDict =3D UserDict
+> > +
+> > +
+> > +class QAPIExpression(_UserDict):
+>
+> Can we subclass dict instead?
+>
 
-IIRC the whole purpose of keeping close() out of the mutex section was to
-make sure the mutex won't take for too long in any possible way since the
-mutex will be held too in the monitor iothread (which will service the
-out-of-band commands), at that time we figured the close() has a chance of
-getting blocked (even if unlikely!).
+...apparently yes?
 
-So to me it still makes sense to keep the close() out of the mutex section,
-unless the monitor code changed in the past few years on that, and sorry in
-advance if I didn't really follow what's happening..
+class QAPIExpression(Dict[str, object]): ...
 
-What's the major beneift if we move it into the critical section?  We can
-use the lock guard, but IMHO that's for making programming convenient only,
-we should not pay for it if there's an unwanted functional difference.
+Only question I have is what the init signature ought to be, though keeping
+it as what I already have here apparently passes the type checker.
 
-In this case of close() I think it introduces back the possiblity of having
-a very slow close() - I'd bet it happen only if there's a remote socket
-connection to the QMP server and with unreliable network, but I really
-can't really tell.  I think I used to discuss this with Dave.
+I think we lose the ability to do kwargs init in that case, but mypy
+doesn't give us a lyskov warning, so maybe it's fine? I'll have to play
+around with it. dict is implemented at the cpython level, so I'm not as
+sure of how subclassing it works. They document three distinct signatures
+for its initializer, which is also a python built-in.
 
-I'm wondering whether I should have used a userspace spinlock, that sounds
-even more proper for this case, but that's slightly off topic.  It's just
-that if the original goal of "trying our best to make sure out-of-band
-monitor channels is always responsive" doesn't change, hence IMHO the
-comment on the lock should still be valid to me.
+I can rename that initialdata parameter too, pending what I discover above.
 
-Thanks,
 
--- 
-Peter Xu
+> > +    def __init__(self,
+> > +                 initialdata: Mapping[str, object],
+> > +                 info: QAPISourceInfo,
+> > +                 doc: Optional['QAPIDoc'] =3D None):
+> > +        super().__init__(initialdata)
+> > +        self.info =3D info
+> > +        self.doc: Optional['QAPIDoc'] =3D doc
+> >
+> >
+> >  class QAPIParseError(QAPISourceError):
+>
+> [...]
+>
+>
+
+--0000000000004a7cbf05f4abde59
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Sat, Feb 11, 2023, 1:49 AM Markus Armbruster &lt;<a=
+ href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>&gt; wrote:<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex">John Snow &lt;<a href=3D"mailto:jsnow@redh=
+at.com" target=3D"_blank" rel=3D"noreferrer">jsnow@redhat.com</a>&gt; write=
+s:<br>
+<br>
+&gt; This patch creates a new type, QAPIExpression, which represents a pars=
+ed<br>
+&gt; expression complete with QAPIDoc and QAPISourceInfo.<br>
+&gt;<br>
+&gt; This patch turns parser.exprs into a list of QAPIExpression instead,<b=
+r>
+&gt; and adjusts expr.py to match.<br>
+&gt;<br>
+&gt; This allows the types we specify in parser.py to be &quot;remembered&q=
+uot; all the<br>
+&gt; way through expr.py and into schema.py. Several assertions around<br>
+&gt; packing and unpacking this data can be removed as a result.<br>
+&gt;<br>
+&gt; NB: This necessitates a change of typing for check_if() and<br>
+&gt; check_keys(), because mypy does not believe UserDict[str, object] =E2=
+=8A=86<br>
+&gt; Dict[str, object]. It will, however, accept Mapping or<br>
+&gt; MutableMapping. In this case, the immutable form is preferred as an<br=
+>
+&gt; input parameter because we don&#39;t actually mutate the input.<br>
+&gt;<br>
+&gt; Without this change, we will observe:<br>
+&gt; qapi/expr.py:631: error: Argument 1 to &quot;check_keys&quot; has inco=
+mpatible<br>
+&gt; type &quot;QAPIExpression&quot;; expected &quot;Dict[str, object]&quot=
+;<br>
+&gt;<br>
+&gt; NB2: Python 3.6 has an oversight for typing UserDict that makes it<br>
+&gt; impossible to type for both runtime and analysis time. The problem is<=
+br>
+&gt; described in detail at <a href=3D"https://github.com/python/typing/iss=
+ues/60" rel=3D"noreferrer noreferrer" target=3D"_blank">https://github.com/=
+python/typing/issues/60</a> - this<br>
+&gt; workaround can be safely removed when 3.7 is our minimum version.<br>
+&gt;<br>
+&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
+t=3D"_blank" rel=3D"noreferrer">jsnow@redhat.com</a>&gt;<br>
+&gt; ---<br>
+<br>
+Looks good to me, just one question:<br>
+<br>
+[...]<br>
+<br>
+&gt; diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py<br>
+&gt; index 1b006cdc133..87b46db7fba 100644<br>
+&gt; --- a/scripts/qapi/parser.py<br>
+&gt; +++ b/scripts/qapi/parser.py<br>
+&gt; @@ -14,13 +14,14 @@<br>
+&gt;=C2=A0 # This work is licensed under the terms of the GNU GPL, version =
+2.<br>
+&gt;=C2=A0 # See the COPYING file in the top-level directory.<br>
+&gt;=C2=A0 <br>
+&gt; -from collections import OrderedDict<br>
+&gt; +from collections import OrderedDict, UserDict<br>
+&gt;=C2=A0 import os<br>
+&gt;=C2=A0 import re<br>
+&gt;=C2=A0 from typing import (<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 TYPE_CHECKING,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Dict,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 List,<br>
+&gt; +=C2=A0 =C2=A0 Mapping,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Optional,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Set,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Union,<br>
+&gt; @@ -37,15 +38,30 @@<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 from .schema import QAPISchemaFeature, QAPISchemaM=
+ember<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 <br>
+&gt; -#: Represents a single Top Level QAPI schema expression.<br>
+&gt; -TopLevelExpr =3D Dict[str, object]<br>
+&gt; -<br>
+&gt;=C2=A0 # Return value alias for get_expr().<br>
+&gt;=C2=A0 _ExprValue =3D Union[List[object], Dict[str, object], str, bool]=
+<br>
+&gt;=C2=A0 <br>
+&gt; -# FIXME: Consolidate and centralize definitions for TopLevelExpr,<br>
+&gt; -# _ExprValue, _JSONValue, and _JSONObject; currently scattered across=
+<br>
+&gt; -# several modules.<br>
+&gt; +<br>
+&gt; +# FIXME: Consolidate and centralize definitions for _ExprValue,<br>
+&gt; +# JSONValue, and _JSONObject; currently scattered across several<br>
+&gt; +# modules.<br>
+&gt; +<br>
+&gt; +<br>
+&gt; +# 3.6 workaround: can be removed when Python 3.7+ is our required ver=
+sion.<br>
+&gt; +if TYPE_CHECKING:<br>
+&gt; +=C2=A0 =C2=A0 _UserDict =3D UserDict[str, object]<br>
+&gt; +else:<br>
+&gt; +=C2=A0 =C2=A0 _UserDict =3D UserDict<br>
+&gt; +<br>
+&gt; +<br>
+&gt; +class QAPIExpression(_UserDict):<br>
+<br>
+Can we subclass dict instead?<br></blockquote></div></div><div dir=3D"auto"=
+><br></div><div dir=3D"auto">...apparently yes?=C2=A0</div><div dir=3D"auto=
+"><br></div><div dir=3D"auto">class QAPIExpression(Dict[str, object]): ...<=
+/div><div dir=3D"auto"><br></div><div dir=3D"auto">Only question I have is =
+what the init signature ought to be, though keeping it as what I already ha=
+ve here apparently passes the type checker.</div><div dir=3D"auto"><br></di=
+v><div dir=3D"auto">I think we lose the ability to do kwargs init in that c=
+ase, but mypy doesn&#39;t give us a lyskov warning, so maybe it&#39;s fine?=
+ I&#39;ll have to play around with it. dict is implemented at the cpython l=
+evel, so I&#39;m not as sure of how subclassing it works. They document thr=
+ee distinct signatures for its initializer, which is also a python built-in=
+.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I can rename that init=
+ialdata parameter too, pending what I discover above.</div><div dir=3D"auto=
+"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">
+<br>
+&gt; +=C2=A0 =C2=A0 def __init__(self,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0initial=
+data: Mapping[str, object],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0info: Q=
+APISourceInfo,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0doc: Op=
+tional[&#39;QAPIDoc&#39;] =3D None):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(initialdata)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://self.info" rel=3D"noref=
+errer noreferrer" target=3D"_blank">self.info</a> =3D info<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.doc: Optional[&#39;QAPIDoc&#39;] =3D=
+ doc<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 class QAPIParseError(QAPISourceError):<br>
+<br>
+[...]<br>
+<br>
+</blockquote></div></div></div>
+
+--0000000000004a7cbf05f4abde59--
 
 
