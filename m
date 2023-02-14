@@ -2,57 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF9FE6971F1
+	by mail.lfdr.de (Postfix) with ESMTPS id 006936971F2
 	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 00:44:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pS4xH-0005BA-3b; Tue, 14 Feb 2023 18:43:23 -0500
+	id 1pS4xY-0005IG-6d; Tue, 14 Feb 2023 18:43:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pS4xF-0005Al-I8
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 18:43:21 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217])
+ id 1pS4xV-0005Gn-T9
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 18:43:37 -0500
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pS4xD-0003hB-Qe
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 18:43:21 -0500
+ id 1pS4xU-0003k8-2X
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 18:43:37 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id AD84E61927;
- Tue, 14 Feb 2023 23:43:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 986BFC433EF;
- Tue, 14 Feb 2023 23:43:09 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 61DD4B81E4A;
+ Tue, 14 Feb 2023 23:43:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5488AC433EF;
+ Tue, 14 Feb 2023 23:43:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1676418190;
- bh=XKs9ASBb7bqLJ2SUuFDAAjNjg/h8aJ+h+8BSZhmQ70o=;
- h=Date:From:To:cc:Subject:From;
- b=VYqkNCi0bFRuSs3LV6A3rIXtQ6cEBYDGBWsDEGr0E4qWvgmb07RQabCSb/PiUEy+H
- Cvi0DdjuK+2PBfiLnO2qCF9gG/pKeAavIoBSurAIDsb2PDRgFLnqlechEpA8P6X3Xr
- pvub031Xmz9MSO7sxkeX/KlVp3B7g40gDA5bpIivwE+GpOZrOOfK9SC+zaDPAuPuzs
- s0A/X0kKDcgGX1mll7WgcrUhRHNgn7VZ7h28PZ7oSRsr9Wsva88aaOS45Te8WOCwcK
- 72y4lyXPFOGTgJVI2i1lPwlDrmrSd0sGHJHdpWQno3mTxoqRL6BzljnxNP2gljF9Y8
- ZTmrs1H7UkmtA==
-Date: Tue, 14 Feb 2023 15:43:08 -0800 (PST)
+ s=k20201202; t=1676418213;
+ bh=kvIsppqJuGvkfwd1Y2Myje/RnRXHGaBztlU7IYWKzag=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Ow4q81n3Zv0mg61u9A1Pyfuq0WKRxv4dAGhe1WI2DzMUuLNf0Iea4QXUq2pJa8IhX
+ 2FXJxQM2jllvQC8DZv0gfG+KT+7QusqQugida5Gjx1Q4BlUZAx6G4VGrKvXTBZdDou
+ 7Rj+HzuA53LITDavrgmrQtzZbctgrojSaPZTyZ3kkbMY73Ycyc19C8XVhIApMrXniw
+ KSylVgwrmxiVwVjo/OgI4e8GZcrCO0oKSFR61l/vsCOYL32TYo+ln4b4ZQyeIJ/SVl
+ PQcMBNy22bz5xBDXN/dylgvUeShvDcnnPopbpfftMbWDfwl0j5M+ugbeI046BX0a2o
+ DFF9uRgkTBclQ==
 From: Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
 To: peter.maydell@linaro.org
-cc: sstabellini@kernel.org, qemu-devel@nongnu.org
-Subject: [PULL v2 0/10] xenpvh
-Message-ID: <alpine.DEB.2.22.394.2302141541100.2025117@ubuntu-linux-20-04-desktop>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+Cc: sstabellini@kernel.org, qemu-devel@nongnu.org,
+ Vikram Garhwal <vikram.garhwal@amd.com>,
+ Stefano Stabellini <stefano.stabellini@amd.com>,
+ Paul Durrant <paul@xen.org>
+Subject: [PULL v2 01/10] hw/i386/xen/: move xen-mapcache.c to hw/xen/
+Date: Tue, 14 Feb 2023 15:43:21 -0800
+Message-Id: <20230214234330.2107879-1-sstabellini@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <alpine.DEB.2.22.394.2302141541100.2025117@ubuntu-linux-20-04-desktop>
+References: <alpine.DEB.2.22.394.2302141541100.2025117@ubuntu-linux-20-04-desktop>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=139.178.84.217;
- envelope-from=sstabellini@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=sstabellini@kernel.org; helo=ams.source.kernel.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,58 +73,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 6a50f64ca01d0a7b97f14f069762bfd88160f31e:
+From: Vikram Garhwal <vikram.garhwal@amd.com>
 
-  Merge tag 'pull-request-2023-02-14' of https://gitlab.com/thuth/qemu into staging (2023-02-14 14:46:10 +0000)
+xen-mapcache.c contains common functions which can be used for enabling Xen on
+aarch64 with IOREQ handling. Moving it out from hw/i386/xen to hw/xen to make it
+accessible for both aarch64 and x86.
 
-are available in the Git repository at:
-
-  https://gitlab.com/sstabellini/qemu xenpvh2
-
-for you to fetch changes up to 86b01d58ca2840bea6e4e7260aad450a660fbd46:
-
-  meson.build: enable xenpv machine build for ARM (2023-02-14 15:39:25 -0800)
-
-----------------------------------------------------------------
-Stefano Stabellini (5):
-      hw/i386/xen/xen-hvm: move x86-specific fields out of XenIOState
-      xen-hvm: reorganize xen-hvm and move common function to xen-hvm-common
-      include/hw/xen/xen_common: return error from xen_create_ioreq_server
-      hw/xen/xen-hvm-common: skip ioreq creation on ioreq registration failure
-      meson.build: do not set have_xen_pci_passthrough for aarch64 targets
-
-Vikram Garhwal (5):
-      hw/i386/xen/: move xen-mapcache.c to hw/xen/
-      hw/i386/xen: rearrange xen_hvm_init_pc
-      hw/xen/xen-hvm-common: Use g_new and error_report
-      hw/arm: introduce xenpvh machine
-      meson.build: enable xenpv machine build for ARM
-
- docs/system/arm/xenpvh.rst       |   34 ++
- docs/system/target-arm.rst       |    1 +
- hw/arm/meson.build               |    2 +
- hw/arm/xen_arm.c                 |  182 +++++++
- hw/i386/meson.build              |    1 +
- hw/i386/xen/meson.build          |    1 -
- hw/i386/xen/trace-events         |   19 -
- hw/i386/xen/xen-hvm.c            | 1078 ++++----------------------------------
- hw/xen/meson.build               |    7 +
- hw/xen/trace-events              |   19 +
- hw/xen/xen-hvm-common.c          |  893 +++++++++++++++++++++++++++++++
- hw/{i386 => }/xen/xen-mapcache.c |    0
- include/hw/arm/xen_arch_hvm.h    |    9 +
- include/hw/i386/xen_arch_hvm.h   |   11 +
- include/hw/xen/arch_hvm.h        |    5 +
- include/hw/xen/xen-hvm-common.h  |   98 ++++
- include/hw/xen/xen_common.h      |   13 +-
- meson.build                      |    4 +-
- 18 files changed, 1364 insertions(+), 1013 deletions(-)
- create mode 100644 docs/system/arm/xenpvh.rst
- create mode 100644 hw/arm/xen_arm.c
- create mode 100644 hw/xen/xen-hvm-common.c
+Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
+Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
+Reviewed-by: Paul Durrant <paul@xen.org>
+---
+ hw/i386/meson.build              | 1 +
+ hw/i386/xen/meson.build          | 1 -
+ hw/i386/xen/trace-events         | 5 -----
+ hw/xen/meson.build               | 4 ++++
+ hw/xen/trace-events              | 5 +++++
+ hw/{i386 => }/xen/xen-mapcache.c | 0
+ 6 files changed, 10 insertions(+), 6 deletions(-)
  rename hw/{i386 => }/xen/xen-mapcache.c (100%)
- create mode 100644 include/hw/arm/xen_arch_hvm.h
- create mode 100644 include/hw/i386/xen_arch_hvm.h
- create mode 100644 include/hw/xen/arch_hvm.h
- create mode 100644 include/hw/xen/xen-hvm-common.h
+
+diff --git a/hw/i386/meson.build b/hw/i386/meson.build
+index 213e2e82b3..cfdbfdcbcb 100644
+--- a/hw/i386/meson.build
++++ b/hw/i386/meson.build
+@@ -33,5 +33,6 @@ subdir('kvm')
+ subdir('xen')
+ 
+ i386_ss.add_all(xenpv_ss)
++i386_ss.add_all(xen_ss)
+ 
+ hw_arch += {'i386': i386_ss}
+diff --git a/hw/i386/xen/meson.build b/hw/i386/xen/meson.build
+index be84130300..2fcc46e6ca 100644
+--- a/hw/i386/xen/meson.build
++++ b/hw/i386/xen/meson.build
+@@ -1,6 +1,5 @@
+ i386_ss.add(when: 'CONFIG_XEN', if_true: files(
+   'xen-hvm.c',
+-  'xen-mapcache.c',
+   'xen_apic.c',
+   'xen_platform.c',
+   'xen_pvdevice.c',
+diff --git a/hw/i386/xen/trace-events b/hw/i386/xen/trace-events
+index 5d6be61090..a0c89d91c4 100644
+--- a/hw/i386/xen/trace-events
++++ b/hw/i386/xen/trace-events
+@@ -21,8 +21,3 @@ xen_map_resource_ioreq(uint32_t id, void *addr) "id: %u addr: %p"
+ cpu_ioreq_config_read(void *req, uint32_t sbdf, uint32_t reg, uint32_t size, uint32_t data) "I/O=%p sbdf=0x%x reg=%u size=%u data=0x%x"
+ cpu_ioreq_config_write(void *req, uint32_t sbdf, uint32_t reg, uint32_t size, uint32_t data) "I/O=%p sbdf=0x%x reg=%u size=%u data=0x%x"
+ 
+-# xen-mapcache.c
+-xen_map_cache(uint64_t phys_addr) "want 0x%"PRIx64
+-xen_remap_bucket(uint64_t index) "index 0x%"PRIx64
+-xen_map_cache_return(void* ptr) "%p"
+-
+diff --git a/hw/xen/meson.build b/hw/xen/meson.build
+index ae0ace3046..19d0637c46 100644
+--- a/hw/xen/meson.build
++++ b/hw/xen/meson.build
+@@ -22,3 +22,7 @@ else
+ endif
+ 
+ specific_ss.add_all(when: ['CONFIG_XEN', xen], if_true: xen_specific_ss)
++
++xen_ss = ss.source_set()
++
++xen_ss.add(when: 'CONFIG_XEN', if_true: files('xen-mapcache.c'))
+diff --git a/hw/xen/trace-events b/hw/xen/trace-events
+index 3da3fd8348..2c8f238f42 100644
+--- a/hw/xen/trace-events
++++ b/hw/xen/trace-events
+@@ -41,3 +41,8 @@ xs_node_vprintf(char *path, char *value) "%s %s"
+ xs_node_vscanf(char *path, char *value) "%s %s"
+ xs_node_watch(char *path) "%s"
+ xs_node_unwatch(char *path) "%s"
++
++# xen-mapcache.c
++xen_map_cache(uint64_t phys_addr) "want 0x%"PRIx64
++xen_remap_bucket(uint64_t index) "index 0x%"PRIx64
++xen_map_cache_return(void* ptr) "%p"
+diff --git a/hw/i386/xen/xen-mapcache.c b/hw/xen/xen-mapcache.c
+similarity index 100%
+rename from hw/i386/xen/xen-mapcache.c
+rename to hw/xen/xen-mapcache.c
+-- 
+2.25.1
+
 
