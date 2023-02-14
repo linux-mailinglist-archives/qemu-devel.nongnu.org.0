@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A897F695DB2
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 09:57:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71657695DBD
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 09:58:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRr7V-0004RW-At; Tue, 14 Feb 2023 03:57:01 -0500
+	id 1pRr91-0005nx-Rj; Tue, 14 Feb 2023 03:58:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRr7T-0004R6-Pn
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:56:59 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRr8s-0005nR-9C
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:58:26 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRr7S-0002OY-7j
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:56:59 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRr8o-0004LY-Ee
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:58:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676365017;
+ s=mimecast20190719; t=1676365101;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hshzM/kPkr6Ta85vQoEp8C5yZH8U7lgR/XvMGRqOOnA=;
- b=b76qijf60ci1qzgXuVGZi//AVjF/FSf/d25lBj8FXnpawLU/ZbSi6/IxRunCKY14rSuTrm
- 1Vm65xudl4F2VFq1C/DlaJBhlpuFWnXD/9RDN8u0BF8djNMGDd1Ryk4zlXAidcLo/7NIon
- AOe5XLcco+KuStZ2s4iCwWOf3qHdMRw=
+ bh=u7nK+rKq+J6TxRV+IXKIanZVzxibZF0Q9SGYONh2C6U=;
+ b=b0Ih4Lo+Q3P/tpmhfzPcRmfBKghOrPn2j7G+VQS0bhrM5c/WMT6HmApxhr2SgPm/gffLPu
+ /YNiyZQ1LQVzF4q1WpKeHsIiYPQ1dH+hti3ouTLuKWEwYPfQzQEYBPc5zKhnD9/hnUu7nk
+ nDkoeIUeXAP03mEWRQz8TS0yOTb8Px4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-257-clOKKzGNN8uQQlOLfIkJ6A-1; Tue, 14 Feb 2023 03:56:52 -0500
-X-MC-Unique: clOKKzGNN8uQQlOLfIkJ6A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-623-zFITGly4O3yKqlwQDX3Yqg-1; Tue, 14 Feb 2023 03:58:16 -0500
+X-MC-Unique: zFITGly4O3yKqlwQDX3Yqg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6C4A6882821;
- Tue, 14 Feb 2023 08:56:51 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E90B118A6468;
+ Tue, 14 Feb 2023 08:58:15 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.124])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 48D6A51E5;
- Tue, 14 Feb 2023 08:56:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C5F701121319;
+ Tue, 14 Feb 2023 08:58:15 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1EF2C21E6A1F; Tue, 14 Feb 2023 09:56:50 +0100 (CET)
+ id 8E9CF21E6A1F; Tue, 14 Feb 2023 09:58:14 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
@@ -49,20 +49,20 @@ Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  eduardo@habkost.net,  berrange@redhat.com,  pbonzini@redhat.com,
  marcel.apfelbaum@gmail.com,  mst@redhat.com,
  den-plotnikov@yandex-team.ru,  antonkuchin@yandex-team.ru
-Subject: Re: [PATCH v4 15/16] qapi: add HOTPLUG_STATE event
+Subject: Re: [PATCH v4 16/16] qapi: introduce DEVICE_ON event
 References: <20230213140103.1518173-1-vsementsov@yandex-team.ru>
- <20230213140103.1518173-16-vsementsov@yandex-team.ru>
- <7fc9712a-136a-d296-4a7b-194195f3b699@linaro.org>
-Date: Tue, 14 Feb 2023 09:56:50 +0100
-In-Reply-To: <7fc9712a-136a-d296-4a7b-194195f3b699@linaro.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 13 Feb 2023 15:10:29
+ <20230213140103.1518173-17-vsementsov@yandex-team.ru>
+ <2bd9ad31-39c8-f85b-ae5a-80de8d9ec448@linaro.org>
+Date: Tue, 14 Feb 2023 09:58:14 +0100
+In-Reply-To: <2bd9ad31-39c8-f85b-ae5a-80de8d9ec448@linaro.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 13 Feb 2023 15:12:03
  +0100")
-Message-ID: <877cwkoca5.fsf@pond.sub.org>
+Message-ID: <873578oc7t.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -90,29 +90,55 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
 > On 13/2/23 15:01, Vladimir Sementsov-Ogievskiy wrote:
->> For PCIe and SHPC hotplug it's important to track led indicators,
->> especially the power led. Add an event that helps.
+>> We have DEVICE_DELETED event, that signals that device_del command is
+>> actually completed. But we don't have a counter-part for device_add.
+>> Still it's sensible for SHPC and PCIe-native hotplug, as there are time
+>> when the device in some intermediate state. Let's add an event that say
+>> that the device is finally powered on, power indicator is on and
+>> everything is OK for next manipulation on that device.
 >> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 >> ---
->>   qapi/qdev.json                  | 175 ++++++++++++++++++++++++++++++++
->>   include/hw/hotplug.h            |  12 +++
->>   include/hw/pci/pci.h            |   3 +
->>   include/hw/pci/pci_bridge.h     |   2 +
->>   include/hw/pci/pcie.h           |   2 +
->>   include/hw/pci/shpc.h           |   2 +
->>   include/monitor/qdev.h          |   5 +
->>   hw/core/hotplug.c               |  13 +++
->>   hw/pci-bridge/pci_bridge_dev.c  |  14 +++
->>   hw/pci-bridge/pcie_pci_bridge.c |   1 +
->>   hw/pci/pcie.c                   |  79 ++++++++++++++
->>   hw/pci/pcie_port.c              |   1 +
->>   hw/pci/shpc.c                   | 102 ++++++++++++++++++-
->>   softmmu/qdev-monitor.c          |  39 +++++++
->>   14 files changed, 445 insertions(+), 5 deletions(-)
+>>   qapi/qdev.json | 13 +++++++++++++
+>>   hw/pci/pcie.c  | 13 +++++++++++++
+>>   hw/pci/shpc.c  | 12 ++++++++++++
+>>   3 files changed, 38 insertions(+)
+>> diff --git a/qapi/qdev.json b/qapi/qdev.json
+>> index b6ad311dd4..2143bb2792 100644
+>> --- a/qapi/qdev.json
+>> +++ b/qapi/qdev.json
+>> @@ -341,3 +341,16 @@
+>>   { 'command': 'query-hotplug',
+>>     'data': { 'id': 'str' },
+>>     'returns': 'HotplugInfo' }
+>> +
+>> +##
+>> +# @DEVICE_ON:
+>> +#
+>> +# Emitted whenever the device insertion completion is acknowledged by t=
+he guest.
+>> +# For now only emitted for SHPC and PCIe-native hotplug.
+>> +#
+>> +# @path: the hotplugged device's QOM path
+>> +#
+>> +# Since: 8.0
+>> +##
+>> +{ 'event': 'DEVICE_ON',
+>> +  'data': { 'path': 'str' } }
 >
-> -ETOOBIG
+> Could 'qom-path' or 'canonical-path' be more meaningful here?
 
-Can't see how this could be split sensibly: it's a single query/event
-pair.  If you can, let us know.
+@qom-path would be clearer, no doubt.  But @path is consistent with the
+closely related DEVICE_DELETED event.
+
+>> @@ -816,6 +823,12 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
+>>           qdev_hotplug_state_event(DEVICE(dev), NULL, child_dev, &change=
+d_state);
+>>       }
+>>   +    if ((sltsta & PCI_EXP_SLTSTA_PDS) && pcie_sltctl_powered_on(val) =
+&&
+>> +        !pcie_sltctl_powered_on(old_slt_ctl) && child_dev)
+>> +    {
+>> +        qapi_event_send_device_on(child_dev->canonical_path);
+>> +    }
 
 
