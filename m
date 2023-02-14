@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75636964A1
+	by mail.lfdr.de (Postfix) with ESMTPS id D249A6964A2
 	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 14:25:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRvI6-0001Tg-F2; Tue, 14 Feb 2023 08:24:14 -0500
+	id 1pRvI1-0001T0-D5; Tue, 14 Feb 2023 08:24:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leiyang@redhat.com>)
- id 1pRvI3-0001TQ-W1
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:24:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leiyang@redhat.com>)
- id 1pRvI1-00062Q-NJ
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:24:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676381048;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6fxGuinnNwlB2jqInTbHcLdkwWsCxpSyG3EZ1qBNa2M=;
- b=iLA6T8a+bMkdROuHvUy8yknOJMtZriNKqUdjXDxZJ5MsU3uPDyZKVnARAVEtzKOabKMqs3
- LGkBNVO2Kl4JTt5NX7FS9ULu4G9onTgfGcfVxuoJosK3cw+EW79DAjPdlvwC0jBDlzVDWU
- eSN+bwW5ZkZEO/oKNU4+j2jb0AIfwtw=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-531-_YeNS5KqOOyZZWwG2dRjnw-1; Tue, 14 Feb 2023 08:24:04 -0500
-X-MC-Unique: _YeNS5KqOOyZZWwG2dRjnw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- s3-20020a50ab03000000b0049ec3a108beso9920923edc.7
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 05:24:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pRvHy-0001Rr-UH
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:24:07 -0500
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pRvHw-00061A-DW
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 08:24:06 -0500
+Received: by mail-oi1-x22b.google.com with SMTP id r28so12976826oiw.3
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 05:24:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2TJGEnHDehvQoHwuaXXdW2usYW+lQyVESjE5qdIIbec=;
+ b=IDY+5VkuLTUHrKnoF/e8jf65pEijyz8JWpb0voiguTtgvLVGDnRHaG+cwZgMV1uJjK
+ YOpUv2vkOk5zdT3RH3SV4Y2qfFbG2K+6qOzH7KRcCQwSYiJsiQK3vNGa/BDBftOn74a2
+ To7SFMpZ1ufC0RLj0PxpASr1V9ymgUillGDMhVeexM8QO5s0+qSpIvwp98P1vOhQvCec
+ 7dpoIkDnNquwfOCac0un0oPhovY3amW99e5i6kQN/o6iGPCOX+mcsYlhBLlsQOXTBc+U
+ V2tgnqs8uMXAV3KfrRW15a3Yenw9WbT2CPTJ7ApAq5r4OSYgFIJwWHsplzlpcMx/06Tv
+ ufdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6fxGuinnNwlB2jqInTbHcLdkwWsCxpSyG3EZ1qBNa2M=;
- b=OWVk5ZKuVTyFho1YoWgLUrD8+1DqAZgZNVvMGm0CGUpxe6jNbY07gTRIbh5B2B3Tvp
- 1Z17+g1RsJaZ5uDu4hOh9jXdVPj6mWDvBQ9ZgYcnnethaUJXrcfbTersW4oy7qJOXcH2
- ERXbw55XV3R83SfLEECrtof0TBk4OhfhjWGMOn9lHwrMbrLPL6/6dh0fk86+uGnj+f28
- tvy1IaYpEeCb5wWPv55qqiKAoyBsBCAKdaIS5ZzUrVhUwsmNfP7ZIF98P1f+fSt5dMyJ
- u+uY87mv4prxpsG6FxNKC6rZrsoPpvGTcY1F5HaMxx1pzXdNlUBAOiT+iyIP8Nc60NW7
- R2Zg==
-X-Gm-Message-State: AO0yUKUkw5VqSLmHCe/4peSIHch3bRLt1qNfYSPH2HZbTbz0JmO7TmzK
- Qp39wdMv4K9eCos6GbVFv7Gfert+JjgUz1wH75b5fxCtHIJECh92+AgwypT07GxGXqpDN1dorix
- lOjITpjvoPpQZdbPga7Dr1zWt/9FtEG4=
-X-Received: by 2002:a17:906:830d:b0:889:8f1a:a153 with SMTP id
- j13-20020a170906830d00b008898f1aa153mr1241536ejx.15.1676381043200; 
- Tue, 14 Feb 2023 05:24:03 -0800 (PST)
-X-Google-Smtp-Source: AK7set8VA4CzHodNF5+rTmc0zrb1avZbZ+WMGEeaBz2a7M0pP9iGWDXEALv8GOSW3+KMLoe02NjroCw3yNCPRsNOtsM=
-X-Received: by 2002:a17:906:830d:b0:889:8f1a:a153 with SMTP id
- j13-20020a170906830d00b008898f1aa153mr1241527ejx.15.1676381042995; Tue, 14
- Feb 2023 05:24:02 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2TJGEnHDehvQoHwuaXXdW2usYW+lQyVESjE5qdIIbec=;
+ b=gSo4yDpPMHPf3nm7g1xZB8LjCgpm3Ud+x4o9jKCkMNswwo8aD9y5KX/m2zmt2bEcbf
+ 6fsqCcliqJIezV8kUht3CnXUUyAV7vOLf3XAupCzsNJm4Iam48XkIKM2I0ILOZ6T/fyZ
+ AcsZ8Fo4TgQrFXqTg7vWSvAUAaiJJOSZyHBf/ngG3j+DkYeGWFipj81SZfu9olNSTAq1
+ e2txZzxeCHDapNfEaKjgnhIirI0CY7vv2Ck0x9YS2K8xpKXdwjN+j1iKo+lP+Vpek0ef
+ 0pD16xuUgGvbLscBTCrdGSKMUH4GpUrPmrk84mtzQ+MZF585uKB55c+Sa0anaoImNgo5
+ z/6A==
+X-Gm-Message-State: AO0yUKUzNwz0OOB9I8lM1lRX/H4GDEvedW3madT8XqIrPWmenFcE6fol
+ ByPL8TLQkfCCfGdcO8vFjOcacltwV9Fh46r4
+X-Google-Smtp-Source: AK7set9FxI52R1Ac4gHQR6aMCYncr/6GZ2FK9RnwKsWR++WHgYfZvhKZt1TT+WdgRX6C3IQAYjhAJg==
+X-Received: by 2002:a05:6808:4291:b0:378:920b:73f6 with SMTP id
+ dq17-20020a056808429100b00378920b73f6mr1161152oib.46.1676381042430; 
+ Tue, 14 Feb 2023 05:24:02 -0800 (PST)
+Received: from [192.168.68.107] ([191.19.40.109])
+ by smtp.gmail.com with ESMTPSA id
+ w6-20020acadf06000000b0037b80fe0539sm6140836oig.42.2023.02.14.05.23.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Feb 2023 05:24:01 -0800 (PST)
+Message-ID: <ea782346-f6e6-8b25-58fc-b6d42d77d518@ventanamicro.com>
+Date: Tue, 14 Feb 2023 10:23:57 -0300
 MIME-Version: 1.0
-References: <20230124161159.2182117-1-eperezma@redhat.com>
- <CAJaqyWctGpCZrCYZa0hN60PG+5LA+jFL2C=_k+bahdBhKHBK+Q@mail.gmail.com>
-In-Reply-To: <CAJaqyWctGpCZrCYZa0hN60PG+5LA+jFL2C=_k+bahdBhKHBK+Q@mail.gmail.com>
-From: Lei Yang <leiyang@redhat.com>
-Date: Tue, 14 Feb 2023 21:23:23 +0800
-Message-ID: <CAPpAL=zWYTaS=ZJ_UkK5HtDaFz7FY0n0XVkWLUqC3LHAk6bABw@mail.gmail.com>
-Subject: Re: [PATCH] virtio-net: clear guest_announce feature if no cvq backend
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- gautam.dawar@amd.com, 
- Jason Wang <jasowang@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=leiyang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [Patch 06/14] target/riscv: Add propertie check for Zvfh{min}
+ extensions
+Content-Language: en-US
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230214083833.44205-1-liweiwei@iscas.ac.cn>
+ <20230214083833.44205-7-liweiwei@iscas.ac.cn>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20230214083833.44205-7-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22b.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,84 +97,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-QE uses the sim_vdpa device to test this patch and add "ctrl_vq=3Doff"
-in the qemu command line. Guest can find this device, there are no any
-error messages in guest dmesg, and can migrate successfully.
 
-Tested-by: Lei Yang <leiyang@redhat.com>
 
-Eugenio Perez Martin <eperezma@redhat.com> =E4=BA=8E2023=E5=B9=B42=E6=9C=88=
-14=E6=97=A5=E5=91=A8=E4=BA=8C 14:53=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Tue, Jan 24, 2023 at 5:32 PM Eugenio P=C3=A9rez <eperezma@redhat.com> =
-wrote:
-> >
-> > Since GUEST_ANNOUNCE is emulated the feature bit could be set without
-> > backend support.  This happens in the vDPA case.
-> >
-> > However, backend vDPA parent may not have CVQ support.  This causes an
-> > incoherent feature set, and the driver may refuse to start.  This
-> > happens in virtio-net Linux driver.
-> >
-> > This may be solved differently in the future.  Qemu is able to emulate =
-a
-> > CVQ just for guest_announce purposes, helping guest to notify the new
-> > location with vDPA devices that does not support it.  However, this is
-> > left as a TODO as it is way more complex to backport.
-> >
-> > Tested with vdpa_net_sim, toggling manually VIRTIO_NET_F_CTRL_VQ in the
-> > driver and migrating it with x-svq=3Don.
-> >
->
-> Friendly ping about this patch, as it fell through the cracks if I'm not =
-wrong.
->
-> Thanks!
->
-> > Fixes: 980003debddd ("vdpa: do not handle VIRTIO_NET_F_GUEST_ANNOUNCE i=
-n vhost-vdpa")
-> > Reported-by: Dawar, Gautam <gautam.dawar@amd.com>
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >  hw/net/virtio-net.c | 15 +++++++++++++++
-> >  1 file changed, 15 insertions(+)
-> >
-> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> > index 3ae909041a..09d5c7a664 100644
-> > --- a/hw/net/virtio-net.c
-> > +++ b/hw/net/virtio-net.c
-> > @@ -820,6 +820,21 @@ static uint64_t virtio_net_get_features(VirtIODevi=
-ce *vdev, uint64_t features,
-> >          features |=3D (1ULL << VIRTIO_NET_F_MTU);
-> >      }
-> >
-> > +    /*
-> > +     * Since GUEST_ANNOUNCE is emulated the feature bit could be set w=
-ithout
-> > +     * enabled. This happens in the vDPA case.
-> > +     *
-> > +     * Make sure the feature set is not incoherent, as the driver coul=
-d refuse
-> > +     * to start.
-> > +     *
-> > +     * TODO: QEMU is able to emulate a CVQ just for guest_announce pur=
-poses,
-> > +     * helping guest to notify the new location with vDPA devices that=
- does not
-> > +     * support it.
-> > +     */
-> > +    if (!virtio_has_feature(vdev->backend_features, VIRTIO_NET_F_CTRL_=
-VQ)) {
-> > +        virtio_clear_feature(&features, VIRTIO_NET_F_GUEST_ANNOUNCE);
-> > +    }
-> > +
-> >      return features;
-> >  }
-> >
-> > --
-> > 2.31.1
-> >
-> >
->
+On 2/14/23 05:38, Weiwei Li wrote:
+> Add check for Zvfh and Zvfhmin
+> 
 
+Nit: Missing period in the end.
+
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> ---
+
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+
+>   target/riscv/cpu.c | 14 ++++++++++++++
+>   1 file changed, 14 insertions(+)
+> 
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 4797ef9c42..8fe76707a0 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -768,6 +768,20 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
+>           return;
+>       }
+>   
+> +    if (cpu->cfg.ext_zvfh) {
+> +        cpu->cfg.ext_zvfhmin = true;
+> +    }
+> +
+> +    if (cpu->cfg.ext_zvfhmin && !cpu->cfg.ext_zve32f) {
+> +        error_setg(errp, "Zvfh/Zvfhmin extensions require Zve32f extension");
+> +        return;
+> +    }
+> +
+> +    if (cpu->cfg.ext_zvfh && !cpu->cfg.ext_zfhmin) {
+> +        error_setg(errp, "Zvfh extensions requires Zfhmin extension");
+> +        return;
+> +    }
+> +
+>       /* Set the ISA extensions, checks should have happened above */
+>       if (cpu->cfg.ext_zhinx) {
+>           cpu->cfg.ext_zhinxmin = true;
 
