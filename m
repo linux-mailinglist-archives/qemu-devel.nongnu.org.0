@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76EFF6966E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 15:31:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E0A36966E9
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 15:31:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRwKh-0005n2-Vb; Tue, 14 Feb 2023 09:31:00 -0500
+	id 1pRwL0-00060h-Tb; Tue, 14 Feb 2023 09:31:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pRwKg-0005ml-1p
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:30:58 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pRwKz-0005yh-65; Tue, 14 Feb 2023 09:31:17 -0500
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pRwKe-0004EG-Ch
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:30:57 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- z14-20020a17090abd8e00b00233bb9d6bdcso10414302pjr.4
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 06:30:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pRwKw-0004LP-PK; Tue, 14 Feb 2023 09:31:16 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id fi26so17642549edb.7;
+ Tue, 14 Feb 2023 06:31:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=LrAhc/RA3Eig7f+VGl/xcN6agdsMq84mS23lL5zf7AM=;
- b=UTnu1spmnc6wwImq0Y2xkdPN5aj4OHHQAbqcPxyZJct81pgQ8Wev7JXGWtS6Crd+eZ
- UfvqJtIUYusr+Hk5felHpLoM+E9+b3NgzawJyzo5fGPCAct2xMLfPAqyQlimB26GLCyp
- tveK4PoU1yE+rMXG6DbT65ft1jaRlT/HYZgVYKah3ftwhdENfJtpjVF6fxlABrgUmAXh
- ukHCzc8uMj1osQL/oyL+TWGns2/PVqjao2LEx/XPJWpxzXdFIBSRU9bQwZN3DNAcjlzU
- ADVf2UXXasAelEljdCwIb7NbdCqfaETg2GFQAie6aZoC4KrYxAIJK/yAdSpcyej0K39t
- bjsw==
+ bh=A7vIEGkPHf2DzKRTksnsfX9U6kO6Xso4VrCP4RZlc2s=;
+ b=iTsuB4gLqF1EC0BBzMt7JHzw7lV30AbA0jv/0S/JjAUEXMw8hKSAOVMOC9Kca3Gdb1
+ /xhb2Tq6rcrzP4w1Age2YgP+Mv72hoOrxO8OkTxfNbT69XEhyaNAWxJFYob50SA3Nat1
+ eeghFKO90dvcA/1MLZocNstMlBr5QKomMntqPCPuE+AgxMTmGJSKc84DIzAml2SBdPAw
+ 73uikzcmwx64XB98aUs9dHdnrQNjy47G+FE1Riopxv+IPS6+pYyN+43eRpjmALwxCQj6
+ m4eoHOGFzX1HRAQm/8/4u56iDnXJYigZ7ahTar6DwAF3/E1bG2ySDXPYzmg+XYxBoahL
+ Fs0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=LrAhc/RA3Eig7f+VGl/xcN6agdsMq84mS23lL5zf7AM=;
- b=Fb55nHFLaBFcRJpcotxsoeYVw6EGV0hurqqvDEzcjZycELZGd8orAhENPgWT7Lo+cT
- WltEElXQ5ICL1lteIi+kxj66WnsnZaFiXE7IQUuNNXdXU88MMKKCkyKVDgBZkqzRbjs5
- wYlzX4/fJcJmtt4Ma7Nhr+da8y2CTQERHpZCaEBMHQwgYtzWIT8HUcXX4ffcAXoX82DE
- ceGewBbKFymeozHMKCI7Ujnbgn4yA9oCTQ29TT7OPCnP99PnBtwTa0gH4Cl7kHJAIq7S
- 2Bj+0Jwpj1nuCwUouUXuUPkqYs+qVhShF2flNRf4Dpb3LXJeqGVDOwJ1/2HPgy18DtY8
- z05Q==
-X-Gm-Message-State: AO0yUKUgKWpbJggtCnudaUvupabKTaUJT5mjI6dSxpW46yGJU7024Pfx
- AqYc/WjO/tubqy6WaZqIkVwYZHLX4xttdOqrfyWYPA==
-X-Google-Smtp-Source: AK7set/m+xLqJmRQ9cG3lkPUYkSMh3tVtXng1BvnkUz1Jm8TS8kzDEcodMW21u63Z9PIo8y+usx3TycJDtPZ88InPDI=
-X-Received: by 2002:a17:90a:4e06:b0:230:bcbd:b871 with SMTP id
- n6-20020a17090a4e0600b00230bcbdb871mr420271pjh.75.1676385054804; Tue, 14 Feb
- 2023 06:30:54 -0800 (PST)
+ bh=A7vIEGkPHf2DzKRTksnsfX9U6kO6Xso4VrCP4RZlc2s=;
+ b=oHpx6jGq0jvPjo8TtERKteRrF30G/kVZZSJezhj6mrv7mS0m2YHggnClIS5uZ/jccw
+ 7pWPyjJM1VfI/EZnyDPoj+ohddcgQ3nhfHYIDRHqtKrdgHzMn//GLpP6w7C+VSjmDOAG
+ N/2RX9n7XDO6rMo5NPUWCR6mC8sytjFAUc8e6vsfoePPYkPSxaR8HBVlbBe1QdmaLjMl
+ uwwjgFKCZnHMNMVLnC8Tr1UN+aXGhPXWxVICARz3og7Z/I1SXxNZXytIYPlkWF0dKQ3y
+ TKkYfmRXjU8hEC2fr/1CcXZnsQzlt4WZOMnMeYhgPCdrTG2TPLVUaz0wTvO9HiOG2jbo
+ BGoQ==
+X-Gm-Message-State: AO0yUKVsxQ78wXC9bBgq9chV2M2ZkYoCgyUTDNdmc4whhXHFk3Y7BF/3
+ DJ1UEr7xhdYNPoZFJmgkxMeE19+AeljyD9Sm91s=
+X-Google-Smtp-Source: AK7set9XFxSfvH4zkUoN4lZMhyF4XMZAh8Mk0XLOv8rwzlbCnyLhU9cAfv3yEUMg/cQjjMib2jxMrhmYxXAvKZIzElA=
+X-Received: by 2002:a50:8e52:0:b0:4ac:8359:e846 with SMTP id
+ 18-20020a508e52000000b004ac8359e846mr1236997edx.6.1676385072409; Tue, 14 Feb
+ 2023 06:31:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20230214061140.36696-1-jasowang@redhat.com>
- <CAFEAcA937Q=KqVNbKO_hDDNwzbcP7BD_DQFm-rhzKGKBCp1XGA@mail.gmail.com>
-In-Reply-To: <CAFEAcA937Q=KqVNbKO_hDDNwzbcP7BD_DQFm-rhzKGKBCp1XGA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 14 Feb 2023 14:30:43 +0000
-Message-ID: <CAFEAcA-OAe3EMA6RwZEiL+o_2Q96TO=gZ+=Pu2rdhjWqW=k62Q@mail.gmail.com>
-Subject: Re: [PULL 00/10] Net patches
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org
+References: <20230213180215.1524938-1-bmeng@tinylab.org>
+ <471ae407-3fe2-5e2f-374b-9c4c83a16fdf@ventanamicro.com>
+In-Reply-To: <471ae407-3fe2-5e2f-374b-9c4c83a16fdf@ventanamicro.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 14 Feb 2023 22:31:01 +0800
+Message-ID: <CAEUhbmUNF2xFw8aJeqy2ykfG_1PdTz6qvCHnWo-hP7sSNbAU_Q@mail.gmail.com>
+Subject: Re: [PATCH 00/18] target/riscv: Various fixes to gdbstub and CSR
+ access
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: Bin Meng <bmeng@tinylab.org>, qemu-devel@nongnu.org, 
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,40 +85,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 14 Feb 2023 at 14:29, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Tue, 14 Feb 2023 at 06:11, Jason Wang <jasowang@redhat.com> wrote:
-> >
-> > The following changes since commit f670b3eec7f5d1ed8c4573ef244e7b8c6b32001b:
-> >
-> >   Merge tag 'migration-20230213-pull-request' of https://gitlab.com/juan.quintela/qemu into staging (2023-02-13 11:54:05 +0000)
-> >
-> > are available in the git repository at:
-> >
-> >   https://github.com/jasowang/qemu.git tags/net-pull-request
-> >
-> > for you to fetch changes up to e4b953a26da11d214f91516cb9b0542eab5afaa0:
-> >
-> >   vdpa: fix VHOST_BACKEND_F_IOTLB_ASID flag check (2023-02-14 14:00:30 +0800)
-> >
-> > ----------------------------------------------------------------
-> >
-> > ----------------------------------------------------------------
->
-> xlnx-can-test fails on multiple CI hosts:
->
-> https://gitlab.com/qemu-project/qemu/-/jobs/3767000949
-> https://gitlab.com/qemu-project/qemu/-/jobs/3767000974
-> https://gitlab.com/qemu-project/qemu/-/jobs/3767000994
-> https://gitlab.com/qemu-project/qemu/-/jobs/3767000970
-> https://gitlab.com/qemu-project/qemu/-/jobs/3767001009
-> https://gitlab.com/qemu-project/qemu/-/jobs/3767000851
-> https://gitlab.com/qemu-project/qemu/-/jobs/3767000849
+Hi Daniel,
 
-more specifically, it asserts:
+On Tue, Feb 14, 2023 at 3:20 AM Daniel Henrique Barboza
+<dbarboza@ventanamicro.com> wrote:
+>
+> Bin,
+>
+>
+> I received only patches 1-11. I don't see the remaining patches in patchwork:
+>
+>
+> https://patchwork.kernel.org/project/qemu-devel/list/?series=721372
+>
+>
+> or in the qemu-devel archives:
+>
+>
+> https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg03461.html
+>
+>
+> Can you please verify? Thanks,
+>
 
-ERROR:../tests/qtest/xlnx-can-test.c:96:read_data: assertion failed
-(int_status == ISR_RXOK): (0 == 16)
+Somehow my email service provider blocked some of my patches. I've now
+resent the missing patches, and I just verified that it showed up in
+the patchwork.
 
--- PMM
+Regards,
+Bin
 
