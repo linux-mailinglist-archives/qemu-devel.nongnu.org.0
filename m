@@ -2,95 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC87D696D12
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 19:38:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 312AB696D28
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 19:45:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pS0BM-0002Uz-O3; Tue, 14 Feb 2023 13:37:37 -0500
+	id 1pS0Hn-0006Xn-Ng; Tue, 14 Feb 2023 13:44:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pS0BA-0002OY-6d
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 13:37:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pS0Hl-0006XL-IP
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 13:44:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pS0B5-0004Z3-7e
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 13:37:20 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pS0Hj-0006LE-MI
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 13:44:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676399838;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LB9WaVMBaH/HInGJ4VloOO6TJMJoHR8SjqJsf0ukbfQ=;
- b=B+bS7U+z/CWy3owk2ZXzyM552XyE6AO3Lj+VM5sgKjeWmbFJjflxRXuK2nG1Kagj4pr4bx
- p/gJKXhJqeY6PYtoloGqZLrVd8ClMHkR4Kw3VdrC0K3/QFbYnW8JXdD6ZNpDstsEP1LpyH
- rsHeE4OtWUEYTVVI34maEUeMDTsLsJM=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-306-vR6WbE7fM2WllirwGkbpXQ-1; Tue, 14 Feb 2023 13:37:17 -0500
-X-MC-Unique: vR6WbE7fM2WllirwGkbpXQ-1
-Received: by mail-qv1-f69.google.com with SMTP id
- c10-20020a05621401ea00b004c72d0e92bcso9116843qvu.12
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 10:37:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LB9WaVMBaH/HInGJ4VloOO6TJMJoHR8SjqJsf0ukbfQ=;
- b=2LiHUSGFf+++D5rZrFQXd0bLPezHwTjjx5LoiZTE5PQ1vPONE2aSAlZ3DofFOPxMCb
- CwVjiIVThLL3GFAdYgkOyDHsXbCj3rN7kltP9mx2krk1aiIlGbzqo0mAVvPUVx3huWto
- KkJIp3mgOO/a56QzIk85JxfJXVbfNXkkvWwFu7JVzoEwSBR5S5YqS3pPGsH7mAVrSOFz
- 6B3gUjUZlNEZT9wMlZd8M58AABKOPuwZy3WiU2rcA2QKTt8T0CgRYg9uDPGYtfcgrZBn
- VhRTkqf/wV7Em+XzMq11hpExZPCmtTY7zIjQDyAdRFrydpBeLIVmoIspbl/gTETRmAM/
- s/lw==
-X-Gm-Message-State: AO0yUKWZGTYRpBBlMXHWROx1C6ldX//dr2h3QTmwxFoOMygvYETicXSk
- PQveGFxIEnTlBQHDRyInGWEiO9RacObT7rjPwYEbtrUPv9jZnhMLfvaxKo+xQw+5Qd2w5rWdXJC
- n4ezI5S+9At1GoUE=
-X-Received: by 2002:a05:6214:246a:b0:56e:b690:9bc5 with SMTP id
- im10-20020a056214246a00b0056eb6909bc5mr7860827qvb.19.1676399836499; 
- Tue, 14 Feb 2023 10:37:16 -0800 (PST)
-X-Google-Smtp-Source: AK7set+KIPh5okvOGF5JVNpCN9Ju9Od+w3bIIcARIGO+9GBZJsymd/VjDmFAsnJI+b0h+eqBOubJ8g==
-X-Received: by 2002:a05:6214:246a:b0:56e:b690:9bc5 with SMTP id
- im10-20020a056214246a00b0056eb6909bc5mr7860792qvb.19.1676399836240; 
- Tue, 14 Feb 2023 10:37:16 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- j64-20020a378743000000b0073b275607f0sm7218758qkd.65.2023.02.14.10.37.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Feb 2023 10:37:15 -0800 (PST)
-Message-ID: <3354c941-a109-c67d-865b-7a6fea7c6cac@redhat.com>
-Date: Tue, 14 Feb 2023 19:37:13 +0100
+ s=mimecast20190719; t=1676400251;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=3tkrTI/z3uWrzneqkQV/NjOVQF491LXOFad9U5GuUZg=;
+ b=iRL9OjhEtIvGkPjMO1kK2gdndvoJren93pnp1WJBOxqE06rqZ+KFTd50PybgHYGQ0J/Wgn
+ qxStcuMsFKYWLkBR2Mrhst+l1J3Jws9VN1t6RgLCUXPhIX0uuKm88xpB8eddFSjAjcXcG0
+ j4697rbhzPpzSPFqk2f6Vp3HhYY1QkU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-607-U-kYQTYhPi2zc9ll4lT33A-1; Tue, 14 Feb 2023 13:44:09 -0500
+X-MC-Unique: U-kYQTYhPi2zc9ll4lT33A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E12C53815F6A;
+ Tue, 14 Feb 2023 18:44:08 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.33.36.149])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 57E174010E82;
+ Tue, 14 Feb 2023 18:44:07 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Michael Roth <michael.roth@amd.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Het Gala <het.gala@nutanix.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PATCH] qapi: allow unions to contain further unions
+Date: Tue, 14 Feb 2023 18:44:04 +0000
+Message-Id: <20230214184404.1865237-1-berrange@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v2 1/2] hw/arm/smmu-common: Support 64-bit addresses
-Content-Language: en-US
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, ola.hugosson@arm.com
-References: <20230214171921.1917916-1-jean-philippe@linaro.org>
- <20230214171921.1917916-2-jean-philippe@linaro.org>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <20230214171921.1917916-2-jean-philippe@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.35, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,53 +74,247 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Jean,
+This extends the QAPI schema validation to permit unions inside unions,
+provided the checks for clashing fields pass.
 
-On 2/14/23 18:19, Jean-Philippe Brucker wrote:
-> Addresses targeting the second translation table (TTB1) in the SMMU have
-> all upper bits set. Ensure the IOMMU region covers all 64 bits.
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
 
-Thanks
+This patch comes out of the discussion on Het's migration series
+starting at this patch:
 
-Eric
-> ---
->  include/hw/arm/smmu-common.h | 2 --
->  hw/arm/smmu-common.c         | 2 +-
->  2 files changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/include/hw/arm/smmu-common.h b/include/hw/arm/smmu-common.h
-> index c5683af07d..9fcff26357 100644
-> --- a/include/hw/arm/smmu-common.h
-> +++ b/include/hw/arm/smmu-common.h
-> @@ -27,8 +27,6 @@
->  #define SMMU_PCI_DEVFN_MAX    256
->  #define SMMU_PCI_DEVFN(sid)   (sid & 0xFF)
->  
-> -#define SMMU_MAX_VA_BITS      48
-> -
->  /*
->   * Page table walk error types
->   */
-> diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
-> index 733c964778..2b8c67b9a1 100644
-> --- a/hw/arm/smmu-common.c
-> +++ b/hw/arm/smmu-common.c
-> @@ -439,7 +439,7 @@ static AddressSpace *smmu_find_add_as(PCIBus *bus, void *opaque, int devfn)
->  
->          memory_region_init_iommu(&sdev->iommu, sizeof(sdev->iommu),
->                                   s->mrtypename,
-> -                                 OBJECT(s), name, 1ULL << SMMU_MAX_VA_BITS);
-> +                                 OBJECT(s), name, UINT64_MAX);
->          address_space_init(&sdev->as,
->                             MEMORY_REGION(&sdev->iommu), name);
->          trace_smmu_add_mr(name);
+  https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg02111.html
+
+Markus had described his desired improved architecture
+
+  https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg02719.html
+
+but I don't think I have enough knowledge of the QAPI code to attempt
+to fuse the handling of structs/unions as mentioned. This patch does
+what looks to be the bare minimum to permit unions in unions, while
+keeping validation checks for clashing fields.
+
+I've not tested beyond the unit tests, but if this is acceptable
+from Markus' POV, I'd expect Het to insert this patch at the
+start of his migration series and thus test it more fully.
+
+ scripts/qapi/schema.py                        |  6 +--
+ .../union-invalid-union-subfield.err          |  2 +
+ .../union-invalid-union-subfield.json         | 27 +++++++++++++
+ .../union-invalid-union-subfield.out          |  0
+ .../union-invalid-union-subtype.err           |  2 +
+ .../union-invalid-union-subtype.json          | 26 +++++++++++++
+ .../union-invalid-union-subtype.out           |  0
+ tests/qapi-schema/union-union-branch.err      |  0
+ tests/qapi-schema/union-union-branch.json     | 26 +++++++++++++
+ tests/qapi-schema/union-union-branch.out      | 38 +++++++++++++++++++
+ 10 files changed, 124 insertions(+), 3 deletions(-)
+ create mode 100644 tests/qapi-schema/union-invalid-union-subfield.err
+ create mode 100644 tests/qapi-schema/union-invalid-union-subfield.json
+ create mode 100644 tests/qapi-schema/union-invalid-union-subfield.out
+ create mode 100644 tests/qapi-schema/union-invalid-union-subtype.err
+ create mode 100644 tests/qapi-schema/union-invalid-union-subtype.json
+ create mode 100644 tests/qapi-schema/union-invalid-union-subtype.out
+ create mode 100644 tests/qapi-schema/union-union-branch.err
+ create mode 100644 tests/qapi-schema/union-union-branch.json
+ create mode 100644 tests/qapi-schema/union-union-branch.out
+
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index cd8661125c..062c6bbb00 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -465,9 +465,10 @@ def check(self, schema):
+     # on behalf of info, which is not necessarily self.info
+     def check_clash(self, info, seen):
+         assert self._checked
+-        assert not self.variants       # not implemented
+         for m in self.members:
+             m.check_clash(info, seen)
++        if self.variants:
++            self.variants.check_clash(info, seen)
+ 
+     def connect_doc(self, doc=None):
+         super().connect_doc(doc)
+@@ -652,8 +653,7 @@ def check(self, schema, seen):
+                         self.info,
+                         "branch '%s' is not a value of %s"
+                         % (v.name, self.tag_member.type.describe()))
+-                if (not isinstance(v.type, QAPISchemaObjectType)
+-                        or v.type.variants):
++                if not isinstance(v.type, QAPISchemaObjectType):
+                     raise QAPISemError(
+                         self.info,
+                         "%s cannot use %s"
+diff --git a/tests/qapi-schema/union-invalid-union-subfield.err b/tests/qapi-schema/union-invalid-union-subfield.err
+new file mode 100644
+index 0000000000..d3a2e31aff
+--- /dev/null
++++ b/tests/qapi-schema/union-invalid-union-subfield.err
+@@ -0,0 +1,2 @@
++union-invalid-union-subfield.json: In union 'TestUnion':
++union-invalid-union-subfield.json:22: member 'teeth' of type 'TestTypeFish' collides with base member 'teeth'
+diff --git a/tests/qapi-schema/union-invalid-union-subfield.json b/tests/qapi-schema/union-invalid-union-subfield.json
+new file mode 100644
+index 0000000000..235f76d7da
+--- /dev/null
++++ b/tests/qapi-schema/union-invalid-union-subfield.json
+@@ -0,0 +1,27 @@
++{ 'enum': 'TestEnum',
++  'data': [ 'animals', 'plants' ] }
++
++{ 'enum': 'TestAnimals',
++  'data': [ 'fish', 'birds'] }
++
++{ 'struct': 'TestTypeFish',
++  'data': { 'scales': 'int', 'teeth': 'int' } }
++
++{ 'struct': 'TestTypeBirds',
++  'data': { 'feathers': 'int' } }
++
++{ 'union': 'TestTypeAnimals',
++  'base': { 'atype': 'TestAnimals' },
++  'discriminator': 'atype',
++  'data': { 'fish': 'TestTypeFish',
++            'birds': 'TestTypeBirds' } }
++
++{ 'struct': 'TestTypePlants',
++  'data': { 'integer': 'int' } }
++
++{ 'union': 'TestUnion',
++  'base': { 'type': 'TestEnum',
++	    'teeth': 'int' },
++  'discriminator': 'type',
++  'data': { 'animals': 'TestTypeAnimals',
++            'plants': 'TestTypePlants' } }
+diff --git a/tests/qapi-schema/union-invalid-union-subfield.out b/tests/qapi-schema/union-invalid-union-subfield.out
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/qapi-schema/union-invalid-union-subtype.err b/tests/qapi-schema/union-invalid-union-subtype.err
+new file mode 100644
+index 0000000000..7b8679c08f
+--- /dev/null
++++ b/tests/qapi-schema/union-invalid-union-subtype.err
+@@ -0,0 +1,2 @@
++union-invalid-union-subtype.json: In union 'TestUnion':
++union-invalid-union-subtype.json:22: base member 'type' collides with base member 'type'
+diff --git a/tests/qapi-schema/union-invalid-union-subtype.json b/tests/qapi-schema/union-invalid-union-subtype.json
+new file mode 100644
+index 0000000000..59ca4b0385
+--- /dev/null
++++ b/tests/qapi-schema/union-invalid-union-subtype.json
+@@ -0,0 +1,26 @@
++{ 'enum': 'TestEnum',
++  'data': [ 'value-a', 'value-b' ] }
++
++{ 'enum': 'TestEnumA',
++  'data': [ 'value-a1', 'value-a2' ] }
++
++{ 'struct': 'TestTypeA1',
++  'data': { 'integer': 'int' } }
++
++{ 'struct': 'TestTypeA2',
++  'data': { 'integer': 'int' } }
++
++{ 'union': 'TestTypeA',
++  'base': { 'type': 'TestEnumA' },
++  'discriminator': 'type',
++  'data': { 'value-a1': 'TestTypeA1',
++            'value-a2': 'TestTypeA2' } }
++
++{ 'struct': 'TestTypeB',
++  'data': { 'integer': 'int' } }
++
++{ 'union': 'TestUnion',
++  'base': { 'type': 'TestEnum' },
++  'discriminator': 'type',
++  'data': { 'value-a': 'TestTypeA',
++            'value-b': 'TestTypeB' } }
+diff --git a/tests/qapi-schema/union-invalid-union-subtype.out b/tests/qapi-schema/union-invalid-union-subtype.out
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/qapi-schema/union-union-branch.err b/tests/qapi-schema/union-union-branch.err
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/qapi-schema/union-union-branch.json b/tests/qapi-schema/union-union-branch.json
+new file mode 100644
+index 0000000000..d3d7ce57c6
+--- /dev/null
++++ b/tests/qapi-schema/union-union-branch.json
+@@ -0,0 +1,26 @@
++{ 'enum': 'TestEnum',
++  'data': [ 'value-a', 'value-b' ] }
++
++{ 'enum': 'TestEnumA',
++  'data': [ 'value-a1', 'value-a2' ] }
++
++{ 'struct': 'TestTypeA1',
++  'data': { 'integer': 'int' } }
++
++{ 'struct': 'TestTypeA2',
++  'data': { 'integer': 'int' } }
++
++{ 'union': 'TestTypeA',
++  'base': { 'type-a': 'TestEnumA' },
++  'discriminator': 'type-a',
++  'data': { 'value-a1': 'TestTypeA1',
++            'value-a2': 'TestTypeA2' } }
++
++{ 'struct': 'TestTypeB',
++  'data': { 'integer': 'int' } }
++
++{ 'union': 'TestUnion',
++  'base': { 'type': 'TestEnum' },
++  'discriminator': 'type',
++  'data': { 'value-a': 'TestTypeA',
++            'value-b': 'TestTypeB' } }
+diff --git a/tests/qapi-schema/union-union-branch.out b/tests/qapi-schema/union-union-branch.out
+new file mode 100644
+index 0000000000..d0c37495c2
+--- /dev/null
++++ b/tests/qapi-schema/union-union-branch.out
+@@ -0,0 +1,38 @@
++module ./builtin
++object q_empty
++enum QType
++    prefix QTYPE
++    member none
++    member qnull
++    member qnum
++    member qstring
++    member qdict
++    member qlist
++    member qbool
++module union-union-branch.json
++enum TestEnum
++    member value-a
++    member value-b
++enum TestEnumA
++    member value-a1
++    member value-a2
++object TestTypeA1
++    member integer: int optional=False
++object TestTypeA2
++    member integer: int optional=False
++object q_obj_TestTypeA-base
++    member type-a: TestEnumA optional=False
++object TestTypeA
++    base q_obj_TestTypeA-base
++    tag type-a
++    case value-a1: TestTypeA1
++    case value-a2: TestTypeA2
++object TestTypeB
++    member integer: int optional=False
++object q_obj_TestUnion-base
++    member type: TestEnum optional=False
++object TestUnion
++    base q_obj_TestUnion-base
++    tag type
++    case value-a: TestTypeA
++    case value-b: TestTypeB
+-- 
+2.39.1
 
 
