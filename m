@@ -2,71 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B85E696225
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 12:15:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08DDD696265
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 12:25:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRtGV-0004Bm-9N; Tue, 14 Feb 2023 06:14:27 -0500
+	id 1pRtNn-00078i-LF; Tue, 14 Feb 2023 06:21:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pRtGS-000490-1v
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:14:24 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRtNl-000760-2l
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:21:57 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pRtGQ-0000p7-E1
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:14:23 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pRtNj-0002Fv-DP
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 06:21:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676373261;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O0t73WoejjRtjvFnvBJ75/pnm4kAN1KlPaj75+3UFD0=;
- b=K2u3rfVPegeavvV71flrrvkeY3mgKNd2Q6HwOHrluLEKiY3bbxZVgJn3jsO8A5faY+rGeJ
- 42I92kQs6KqK4GPWBXyVyqILdSKstg7JqsBwjIvsQUdP8VTceWlaH6JJJX8EofNrksnvmk
- rMmrEr9bY3DGy8tkzT0TARaHs5itDi0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1676373714;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=N1KgPrqCiDV7ZqAB3kMc47eGZHZ6TgItF7l8VtMcAUs=;
+ b=bK6xNRBRsp/QSU/btDHwjg8tp5KXMV/AMAJRrYPRZFcAXDnWFHCqCNbAo4Ixmb6zPoqs0O
+ oi+ZzbCZU2zz2ZLtMncZUv0MDDR5v5TA+dX1f7YwnCwawUHGIsnfsoMajX/u4e8vQBgaG7
+ E/TI8pq8H9l5wbMvt9Vz2hJLUKWY7ak=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-85-IdnOnruZMZqYENdgaWb29w-1; Tue, 14 Feb 2023 06:14:19 -0500
-X-MC-Unique: IdnOnruZMZqYENdgaWb29w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-159-PctKJhGjPd2Fwd1LmOuMlg-1; Tue, 14 Feb 2023 06:21:51 -0500
+X-MC-Unique: PctKJhGjPd2Fwd1LmOuMlg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D41BC3C0252A;
- Tue, 14 Feb 2023 11:14:18 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.149])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C22462026D4B;
- Tue, 14 Feb 2023 11:14:16 +0000 (UTC)
-Date: Tue, 14 Feb 2023 11:14:14 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Krempa <pkrempa@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>, eduardo@habkost.net,
- antonkuchin@yandex-team.ru, philmd@linaro.org, mst@redhat.com,
- "reviewer:Incompatible changes" <libvir-list@redhat.com>,
- qemu-devel@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- den-plotnikov@yandex-team.ru, marcel.apfelbaum@gmail.com,
- pbonzini@redhat.com, eblake@redhat.com
-Subject: Re: [PATCH v4 14/16] qapi: deprecate "device" field of DEVICE_* events
-Message-ID: <Y+ttBkTvDv1T7qi1@redhat.com>
-References: <20230213140103.1518173-1-vsementsov@yandex-team.ru>
- <20230213140103.1518173-15-vsementsov@yandex-team.ru>
- <Y+pFe4bRCqbJJbp0@redhat.com> <87bklwoce9.fsf@pond.sub.org>
- <Y+tTgpoz/o0nDu9r@angien.pipo.sk>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1BFE0800B24;
+ Tue, 14 Feb 2023 11:21:51 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C1A640B40C9;
+ Tue, 14 Feb 2023 11:21:50 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL 00/22] qtest, s390x and misc patches
+Date: Tue, 14 Feb 2023 12:21:26 +0100
+Message-Id: <20230214112148.646077-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y+tTgpoz/o0nDu9r@angien.pipo.sk>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -87,44 +70,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 14, 2023 at 10:25:22AM +0100, Peter Krempa wrote:
-> On Tue, Feb 14, 2023 at 09:54:22 +0100, Markus Armbruster wrote:
-> > Daniel P. Berrangé <berrange@redhat.com> writes:
-> > 
-> > > On Mon, Feb 13, 2023 at 05:01:01PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> > >> The device field is redundant, because QOM path always include device
-> > >> ID when this ID exist.
-> > >
-> > > The flipside to that view is that applications configuring QEMU are
-> > > specifying the device ID for -device (CLI) / device_add (QMP) and
-> > > not the QOM path. IOW, the device ID is the more interesting field
-> > > than QOM path, so feels like the wrong one to be dropping.
-> > 
-> > QOM path is a reliable way to identify a device.  Device ID isn't:
-> > devices need not have one.  Therefore, dropping the QOM path would be
-> > wrong.
-> > 
-> > > Is there any real benefit to dropping this ? 
-> > 
-> > The device ID is a trap for the unwary: relying on it is fine until you
-> > run into a scenario where you have to deal with devices lacking IDs.
-> 
-> Note that libvirt's code is still using the 'device' bit rather than QOM
-> path and the fix might not be entirely trivial although should not be
-> too hard.
+ Hi Peter!
 
-What's the documented way to construct a QOM path, given only an ID  as
-input ?
+The following changes since commit f670b3eec7f5d1ed8c4573ef244e7b8c6b32001b:
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+  Merge tag 'migration-20230213-pull-request' of https://gitlab.com/juan.quintela/qemu into staging (2023-02-13 11:54:05 +0000)
+
+are available in the Git repository at:
+
+  https://gitlab.com/thuth/qemu.git tags/pull-request-2023-02-14
+
+for you to fetch changes up to b1d1d468cabfa800950e1ecb6006df619687c269:
+
+  hw/s390x/event-facility: Replace DO_UPCAST(SCLPEvent) by SCLP_EVENT() (2023-02-14 09:11:27 +0100)
+
+----------------------------------------------------------------
+* Bump minimum Clang version to 10.0
+* Improve the handling of the libdw library
+* Deprecate --enable-gprof builds and remove them from CI
+* Remove the deprecated "sga" device
+* Some header #include clean-ups
+* Make qtests more flexible with regards to missing devices
+* Some small s390x-related fixes/improvements
+
+----------------------------------------------------------------
+Alex Bennée (1):
+      build: deprecate --enable-gprof builds and remove from CI
+
+Fabiano Rosas (12):
+      tests/qtest: Skip PXE tests for missing devices
+      tests/qtest: Do not run lsi53c895a test if device is not present
+      tests/qtest: Add dependence on PCIE_PORT for virtio-net-failover.c
+      tests/qtest: hd-geo-test: Check for missing devices
+      test/qtest: Fix coding style in device-plug-test.c
+      tests/qtest: Skip unplug tests that use missing devices
+      tests/qtest: drive_del-test: Skip tests that require missing devices
+      tests/qtest: Check for devices in bios-tables-test
+      tests/qtest: Do not include hexloader-test if loader device is not present
+      tests/qemu-iotests: Require virtio-scsi-pci
+      tests/qtest: bios-tables-test: Skip if missing configs
+      tests/qtest: Don't build virtio-serial-test.c if device not present
+
+Ilya Leoshkevich (3):
+      meson: Add missing libdw knobs
+      meson: Disable libdw for static builds by default
+      tests/tcg/s390x: Use -nostdlib for softmmu tests
+
+Peter Maydell (1):
+      tests/qtest/npcm7xx_pwm-test: Be less verbose unless V=2
+
+Philippe Mathieu-Daudé (1):
+      hw/s390x/event-facility: Replace DO_UPCAST(SCLPEvent) by SCLP_EVENT()
+
+Thomas Huth (4):
+      configure: Bump minimum Clang version to 10.0
+      hw/misc/sga: Remove the deprecated "sga" device
+      include/hw: Do not include "hw/registerfields.h" in headers that don't need it
+      Do not include "qemu/error-report.h" in headers that do not need it
+
+ MAINTAINERS                             |   1 -
+ docs/about/deprecated.rst               |  23 ++++++----
+ docs/about/removed-features.rst         |  10 +++++
+ configure                               |  25 +++--------
+ meson.build                             |  19 +++++---
+ include/hw/arm/allwinner-a10.h          |   1 -
+ include/hw/arm/smmuv3.h                 |   1 -
+ include/hw/char/ibex_uart.h             |   1 -
+ include/hw/ssi/ibex_spi_host.h          |   1 -
+ include/qemu/vhost-user-server.h        |   1 -
+ include/ui/console.h                    |   1 -
+ hw/char/ibex_uart.c                     |   1 +
+ hw/display/vhost-user-gpu.c             |   1 +
+ hw/display/virtio-gpu-udmabuf.c         |   1 +
+ hw/display/virtio-gpu-virgl.c           |   1 +
+ hw/misc/applesmc.c                      |   1 +
+ hw/misc/sga.c                           |  71 ------------------------------
+ hw/s390x/event-facility.c               |   3 +-
+ hw/ssi/ibex_spi_host.c                  |   1 +
+ tests/qtest/bios-tables-test.c          |  75 ++++++++++++++++++++++++++++++--
+ tests/qtest/device-plug-test.c          |  41 +++++++++++++----
+ tests/qtest/drive_del-test.c            |  65 +++++++++++++++++++++++++++
+ tests/qtest/fuzz-lsi53c895a-test.c      |   4 ++
+ tests/qtest/hd-geo-test.c               |  38 ++++++++++------
+ tests/qtest/npcm7xx_pwm-test.c          |  27 +++++++++---
+ tests/qtest/pxe-test.c                  |   4 ++
+ ui/console.c                            |   1 +
+ ui/dbus-clipboard.c                     |   1 +
+ ui/dbus-console.c                       |   1 +
+ ui/dbus-listener.c                      |   1 +
+ ui/dbus.c                               |   1 +
+ ui/egl-headless.c                       |   1 +
+ ui/gtk.c                                |   1 +
+ ui/spice-app.c                          |   1 +
+ ui/spice-display.c                      |   1 +
+ ui/udmabuf.c                            |   1 +
+ ui/vdagent.c                            |   1 +
+ util/vhost-user-server.c                |   1 +
+ .gitlab-ci.d/buildtest.yml              |  19 ++------
+ .gitmodules                             |   3 --
+ hw/i386/Kconfig                         |   1 -
+ hw/misc/Kconfig                         |   4 --
+ hw/misc/meson.build                     |   1 -
+ meson_options.txt                       |   5 ++-
+ pc-bios/README                          |   6 ---
+ pc-bios/meson.build                     |   1 -
+ pc-bios/sgabios.bin                     | Bin 4096 -> 0 bytes
+ roms/Makefile                           |   9 +---
+ roms/sgabios                            |   1 -
+ scripts/meson-buildoptions.sh           |   3 ++
+ tests/migration/guestperf/engine.py     |   2 +-
+ tests/qemu-iotests/186                  |   1 +
+ tests/qtest/meson.build                 |  17 +++++---
+ tests/tcg/s390x/Makefile.softmmu-target |   2 +-
+ 54 files changed, 312 insertions(+), 193 deletions(-)
+ delete mode 100644 hw/misc/sga.c
+ delete mode 100644 pc-bios/sgabios.bin
+ delete mode 160000 roms/sgabios
 
 
