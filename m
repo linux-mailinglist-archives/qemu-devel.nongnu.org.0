@@ -2,87 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDC9669666D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 15:19:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A94696643
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 15:14:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRw8H-00024l-Fk; Tue, 14 Feb 2023 09:18:09 -0500
+	id 1pRw4o-0007zr-2d; Tue, 14 Feb 2023 09:14:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pRw8F-0001zg-L8
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:18:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
+ id 1pRw4e-0007xj-Vq
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:14:25 -0500
+Received: from mga02.intel.com ([134.134.136.20])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pRw8A-0005jq-I4
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:18:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676384281;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CLjYbTIAnp+2IHzEYiZ07shJepB2lbeqvwYVdEYIf/E=;
- b=HwtYEBmgi34RK7hzDrXdKflwr6otpTy+6JVkQgaihpH3gM4gQ9JSZYk/OVA5AuQaxq8xXR
- p4/E+Mf5I4wh0RaX0F6txS4JZ4vKM+AyAABZgpTmwHILxglPQzhCBQts+Ue+rDKNydPr+A
- U3jTHcAZaKb9ntQL8R85c9EW6H8Qk90=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-664-jBeZnW48PSCcmhNXJKAgyg-1; Tue, 14 Feb 2023 09:17:58 -0500
-X-MC-Unique: jBeZnW48PSCcmhNXJKAgyg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A829E3C10EC1;
- Tue, 14 Feb 2023 14:17:57 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.149])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 33864492B04;
- Tue, 14 Feb 2023 14:17:54 +0000 (UTC)
-Date: Tue, 14 Feb 2023 14:17:52 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v2 6/7] CI: Stop building docs on centos8
-Message-ID: <Y+uYEKYQB+8kjtEx@redhat.com>
-References: <20230210003147.1309376-1-jsnow@redhat.com>
- <20230210003147.1309376-7-jsnow@redhat.com>
- <CAFEAcA-c5y0TR8vYg_FYEmGv3mOOmBgeD0cyb+mVotsP=r-Dsw@mail.gmail.com>
- <CAFn=p-aDV9=vG6hjTWRE6c52TpYSjDBU22nthTuejDCv_XrYMQ@mail.gmail.com>
- <CAFEAcA_eGvz_BQVLhVWtedRh2mcBuMEhv0RKF+6DW4t+9FdPAw@mail.gmail.com>
- <Y+Z2Kcq17HGWuoTV@redhat.com> <87cz6cpue3.fsf@pond.sub.org>
- <Y+t1J72iMsLWXHne@redhat.com>
- <CABgObfb-_upmc=36_bnxLMCB+0KqWoZNK62rnD5KpBKhW4N+hw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
+ id 1pRw4c-0004Xh-SE
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 09:14:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676384062; x=1707920062;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=x9ZaFbv3Wt/bS0lvkEaFRgOCJJ84KiZjG5cIM3SrbGc=;
+ b=MojMLDyXCGfC3EAhaX8aqeiwCQYiK+X/o0CZGBb6A/j7rDbeLQmWKJ/D
+ zgJCEG3r3RBL/nl/pTTNb+uSP7svvh8kYVBodYnenVNwKM0VdTLXG8B0Z
+ v0+1F3W/pZTmd78pogBvqkVetEAr7+EwjcYHimwpyd/6WnN9T4fN/ZJCq
+ w1QMHghp6gof7alyaK+CcRG1EpnulnHGfDHQpe+maTJk3ZNo7PuuxTGoF
+ gqr7Y2zoxRtV/Yve92fcUBa99ofhXn2UTUxqiSZ6f1sd4ituOiBbdjQOg
+ 7tbNRs3ioZZmj3r3xqBtZNLViwVj32kP46WnsBtjLItD0ffZCVwdPKJRl Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="319197150"
+X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="319197150"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2023 06:14:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="732906810"
+X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="732906810"
+Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
+ ([10.239.160.112])
+ by fmsmga008.fm.intel.com with ESMTP; 14 Feb 2023 06:14:16 -0800
+Date: Tue, 14 Feb 2023 22:22:04 +0800
+From: Zhao Liu <zhao1.liu@linux.intel.com>
+To: "wangyanan (Y)" <wangyanan55@huawei.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi <dapeng1.mi@intel.com>,
+ Zhuocheng Ding <zhuocheng.ding@intel.com>,
+ Robert Hoo <robert.hu@linux.intel.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
+ Like Xu <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>
+Subject: Re: [PATCH RESEND 01/18] machine: Fix comment of
+ machine_parse_smp_config()
+Message-ID: <Y+uZDAlt6BAuTY69@liuzhao-OptiPlex-7080>
+References: <20230213093625.158170-1-zhao1.liu@linux.intel.com>
+ <20230213093625.158170-2-zhao1.liu@linux.intel.com>
+ <0f64a5cd-a97c-ee54-e131-387fee0be853@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=gb2312
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABgObfb-_upmc=36_bnxLMCB+0KqWoZNK62rnD5KpBKhW4N+hw@mail.gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <0f64a5cd-a97c-ee54-e131-387fee0be853@huawei.com>
+Received-SPF: none client-ip=134.134.136.20;
+ envelope-from=zhao1.liu@linux.intel.com; helo=mga02.intel.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_CHARSET_FARAWAY=2.45, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,89 +88,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 14, 2023 at 03:03:54PM +0100, Paolo Bonzini wrote:
-> On Tue, Feb 14, 2023 at 12:49 PM Daniel P. Berrang√© <berrange@redhat.com> wrote:
-> > [quote]
-> > The motivation for this series is that Python 3.6 was EOL at the end of
-> > 2021; upstream tools are beginning to drop support for it, including
-> > setuptools, pylint, mypy, etc. As time goes by, it becomes more
-> > difficult to support and test against the full range of Python versions
-> > that QEMU supports. The closer we get to Python 3.12, the harder it will
-> > be to cover that full spread of versions.
-> > [/quote]
-> >
-> > this is all about new/eol versions of software upstream, and I don't
-> > think that's a justification. QEMU explicitly aims to use distro provided
-> > versions and upstream EOL status is not relevant in that context. Even
-> > if using "pip" to install it is possible to limit yourself to upstream
-> > releases which still support 3.6.
-> >
-> > There is the separate issue of Meson dropping python 3.6 which motivates
-> > Paolo's series. Again though, we don't have to increase our minimum meson
-> > version, because meson is working today. It is our choice to to increase
-> > it to use latest available meson features. At some point we can decide
-> > what we have is good enough and we don't have to keep chasing the latest
-> > features. Maybe we're not there yet, but we should think about when that
-> > would be.
+On Mon, Feb 13, 2023 at 09:31:53PM +0800, wangyanan (Y) wrote:
+> Date: Mon, 13 Feb 2023 21:31:53 +0800
+> From: "wangyanan (Y)" <wangyanan55@huawei.com>
+> Subject: Re: [PATCH RESEND 01/18] machine: Fix comment of
+>  machine_parse_smp_config()
 > 
-> In the case of Meson, the main advantage is moving _all_ of the
-> emulator configury out of the configure script.  This requires
-> add_global_dependencies which was added in 0.63.  So in that case it
-> is indeed mostly about shiny new features and it's not absolutely
-> necessary.
 > 
-> In the case of Python the issue is not the interpreter per se, though
-> there are a couple new feature in Python 3.7 that are quite nice (for
-> example improved data classes[1] or context variables[2]). The main
-> problem as far as I understood (and have seen in my experience) is
-> linting tools. New versions fix bugs that caused false positives, but
-> also become more strict at the same time. The newer versions at the
-> same time are very quick at dropping support for old versions of
-> Python; while older versions sometimes throw deprecation warnings on
-> new versions of Python. This makes it very hard to support a single
-> version of, say, mypy that works on all versions from RHEL8 and SLE15
-> to Fedora 38 and Ubuntu 23.04.
-> 
-> [1] https://peps.python.org/pep-0557/
-> [2] https://peps.python.org/pep-0567/
-> 
-> In fact this issue is the reason why RHEL9 does not package any of
-> these tools and does not run them as part of building RPMs even though
-> in principle it would be a good idea; it's too much of a pain to have
-> a single version that works across all the packages in the
-> distribution.
-> 
-> Regarding your other suggestion:
-> 
-> > * For non-native library/applications dependancies we aim
-> >   to support only the most recent distro version. Users
-> >   of older distros may need to dynamically fetch newer
-> >   deps.
-> 
-> I think this is a good idea, but one issue with "only supporting the
-> most recent distro version" is SUSE. While the most recent version of
-> SLE is about 5 years old, there is no next version in sight---SUSE
-> instead is working on their "Adaptable Linux Platform", but it's still
-> in the prototype stage[3]. So alternatively we could put a 4 or 5 year
-> cutoff after which you need to fetch newer deps. Considering the
-> delays between freeze and release of distros like RHEL or SLE, in
-> practice we would probably keep Python versions supported for 6-7
-> years.
+> ‘⁄ 2023/2/13 17:36, Zhao Liu –¥µ¿:
+> > From: Zhao Liu <zhao1.liu@intel.com>
+> > 
+> > Now smp supports dies and clusters, so add description about these 2
+> > levels in the comment of machine_parse_smp_config().
+> > 
+> > Fixes: 864c3b5 (hw/core/machine: Introduce CPU cluster topology support)
+> > Suggested-by: Robert Hoo <robert.hu@linux.intel.com>
+> > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
+> > ---
+> >   hw/core/machine-smp.c | 7 ++++---
+> >   1 file changed, 4 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
+> > index c3dab007dadc..3fd9e641efde 100644
+> > --- a/hw/core/machine-smp.c
+> > +++ b/hw/core/machine-smp.c
+> > @@ -51,8 +51,8 @@ static char *cpu_hierarchy_to_string(MachineState *ms)
+> >    * machine_parse_smp_config: Generic function used to parse the given
+> >    *                           SMP configuration
+> >    *
+> > - * Any missing parameter in "cpus/maxcpus/sockets/cores/threads" will be
+> > - * automatically computed based on the provided ones.
+> > + * Any missing parameter in "cpus/maxcpus/sockets/dies/clusters/cores/threads"
+> > + * will be automatically computed based on the provided ones.
+> This is intential. Newly added topo params (apart from maxcpus/
+> socket/cores/threads) wiil be assigned to 1 and not computed
+> based the provided ones. There is no problem about this part.
 
-Yeah, that kind of problem with very old SUSE would push towards
-simply excluding the LTS distros, or excluding them if they're
-older than N years, and expect users of such old distros to
-download newer python modules, etc.
+Sorry, I see. Will fix.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> >    *
+> >    * In the calculation of omitted sockets/cores/threads: we prefer sockets
+> >    * over cores over threads before 6.2, while preferring cores over sockets
+> > @@ -66,7 +66,8 @@ static char *cpu_hierarchy_to_string(MachineState *ms)
+> >    *
+> >    * For compatibility, apart from the parameters that will be computed, newly
+> >    * introduced topology members which are likely to be target specific should
+> > - * be directly set as 1 if they are omitted (e.g. dies for PC since 4.1).
+> > + * be directly set as 1 if they are omitted (e.g. dies for PC since v4.1 and
+> > + * clusters for arm since v7.0).
+> >    */
+> Given that we are going to support cluster for PC machine.
+> Maybe simple "(i.e. dies for PC since 4.1)" here is good enough?
 
+Makes sense. Now I understand this logic, and I will drop this commit.
+
+Thanks,
+Zhao
+
+> 
+> Thanks,
+> Yanan
+> >   void machine_parse_smp_config(MachineState *ms,
+> >                                 const SMPConfiguration *config, Error **errp)
+> 
 
