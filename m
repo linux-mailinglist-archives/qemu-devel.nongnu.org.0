@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0786D695D97
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 09:52:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7C7D695DAE
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 09:54:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRr2n-0001nM-6v; Tue, 14 Feb 2023 03:52:09 -0500
+	id 1pRr55-00036O-6e; Tue, 14 Feb 2023 03:54:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pRr2k-0001mX-F0; Tue, 14 Feb 2023 03:52:06 -0500
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pRr2i-0000dc-CR; Tue, 14 Feb 2023 03:52:06 -0500
-Received: from [192.168.0.119] (unknown [114.95.238.225])
- by APP-05 (Coremail) with SMTP id zQCowADn7uqvS+tjOZssBQ--.41717S2;
- Tue, 14 Feb 2023 16:51:59 +0800 (CST)
-Message-ID: <35d63096-1c90-84ac-ae6d-6d0823640fd0@iscas.ac.cn>
-Date: Tue, 14 Feb 2023 16:51:59 +0800
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRr53-00036F-Nn
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:54:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pRr51-0000p3-Ts
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 03:54:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676364866;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fsjeipjiQ7yxq9BsCSYjsPDzA7VHoXsZUedJYItFDKQ=;
+ b=NP3qvmQ9q2OAek6Dd3y+IAAiNpuORgwKg/7lje9qfunTF4H35dkLHKoQOFbpjMlSBRgISk
+ cFWNFlu4lyfxSnx6Bfe1vQRTIMmnw0oGtEudJHZTBsGKL5f3DSSKBOES0qbGs6HPWWMr88
+ qe02gByWWm8ypMy0ZOBwzRrF0fVhEtc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-528-uCio9HQVOvq8eEPu_JsLPw-1; Tue, 14 Feb 2023 03:54:24 -0500
+X-MC-Unique: uCio9HQVOvq8eEPu_JsLPw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C7A52971087;
+ Tue, 14 Feb 2023 08:54:23 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.124])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 652BD1121318;
+ Tue, 14 Feb 2023 08:54:23 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3A8B421E6A1F; Tue, 14 Feb 2023 09:54:22 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-devel@nongnu.org,  eblake@redhat.com,  eduardo@habkost.net,
+ pbonzini@redhat.com,  marcel.apfelbaum@gmail.com,  mst@redhat.com,
+ philmd@linaro.org,  den-plotnikov@yandex-team.ru,
+ antonkuchin@yandex-team.ru,  "reviewer:Incompatible changes"
+ <libvir-list@redhat.com>
+Subject: Re: [PATCH v4 14/16] qapi: deprecate "device" field of DEVICE_* events
+References: <20230213140103.1518173-1-vsementsov@yandex-team.ru>
+ <20230213140103.1518173-15-vsementsov@yandex-team.ru>
+ <Y+pFe4bRCqbJJbp0@redhat.com>
+Date: Tue, 14 Feb 2023 09:54:22 +0100
+In-Reply-To: <Y+pFe4bRCqbJJbp0@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Mon, 13 Feb 2023 14:13:15 +0000")
+Message-ID: <87bklwoce9.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Cc: liweiwei@iscas.ac.cn, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
-Subject: Re: [PATCH 08/18] target/riscv: Simplify getting RISCVCPU pointer
- from env
-Content-Language: en-US
-To: Bin Meng <bmeng@tinylab.org>, qemu-devel@nongnu.org
-References: <20230213180215.1524938-1-bmeng@tinylab.org>
- <20230213180215.1524938-9-bmeng@tinylab.org>
-From: weiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230213180215.1524938-9-bmeng@tinylab.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: zQCowADn7uqvS+tjOZssBQ--.41717S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxXw1xAF1xJFWkGw1UCr1rJFb_yoWrtw4Dpr
- WUZFZxGFy7t34qvayfJF1q9F4rJw47K3y7Gws7XayrtF4DJry5Jr1DGasxtrn8uay8u3yF
- vFW3Jr1ktw40kFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
- JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAY
- IcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
- v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkG
- c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW5JVW7JwCI42IY6xIIjxv20xvEc7CjxVAFwI
- 0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_
- Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUHlk
- sUUUUU=
-X-Originating-IP: [114.95.238.225]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.345,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,143 +88,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-On 2023/2/14 02:02, Bin Meng wrote:
-> Use env_archcpu() to get RISCVCPU pointer from env directly.
+> On Mon, Feb 13, 2023 at 05:01:01PM +0300, Vladimir Sementsov-Ogievskiy wr=
+ote:
+>> The device field is redundant, because QOM path always include device
+>> ID when this ID exist.
 >
-> Signed-off-by: Bin Meng <bmeng@tinylab.org>
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> The flipside to that view is that applications configuring QEMU are
+> specifying the device ID for -device (CLI) / device_add (QMP) and
+> not the QOM path. IOW, the device ID is the more interesting field
+> than QOM path, so feels like the wrong one to be dropping.
 
-Regards,
-Weiwei Li
-> ---
->
->   target/riscv/csr.c | 36 ++++++++++++------------------------
->   1 file changed, 12 insertions(+), 24 deletions(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index da3b770894..0a3f2bef6f 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -46,8 +46,7 @@ static RISCVException smstateen_acc_ok(CPURISCVState *env, int index,
->                                          uint64_t bit)
->   {
->       bool virt = riscv_cpu_virt_enabled(env);
-> -    CPUState *cs = env_cpu(env);
-> -    RISCVCPU *cpu = RISCV_CPU(cs);
-> +    RISCVCPU *cpu = env_archcpu(env);
->   
->       if (env->priv == PRV_M || !cpu->cfg.ext_smstateen) {
->           return RISCV_EXCP_NONE;
-> @@ -90,8 +89,7 @@ static RISCVException fs(CPURISCVState *env, int csrno)
->   
->   static RISCVException vs(CPURISCVState *env, int csrno)
->   {
-> -    CPUState *cs = env_cpu(env);
-> -    RISCVCPU *cpu = RISCV_CPU(cs);
-> +    RISCVCPU *cpu = env_archcpu(env);
->   
->       if (env->misa_ext & RVV ||
->           cpu->cfg.ext_zve32f || cpu->cfg.ext_zve64f) {
-> @@ -108,8 +106,7 @@ static RISCVException vs(CPURISCVState *env, int csrno)
->   static RISCVException ctr(CPURISCVState *env, int csrno)
->   {
->   #if !defined(CONFIG_USER_ONLY)
-> -    CPUState *cs = env_cpu(env);
-> -    RISCVCPU *cpu = RISCV_CPU(cs);
-> +    RISCVCPU *cpu = env_archcpu(env);
->       int ctr_index;
->       target_ulong ctr_mask;
->       int base_csrno = CSR_CYCLE;
-> @@ -166,8 +163,7 @@ static RISCVException ctr32(CPURISCVState *env, int csrno)
->   #if !defined(CONFIG_USER_ONLY)
->   static RISCVException mctr(CPURISCVState *env, int csrno)
->   {
-> -    CPUState *cs = env_cpu(env);
-> -    RISCVCPU *cpu = RISCV_CPU(cs);
-> +    RISCVCPU *cpu = env_archcpu(env);
->       int ctr_index;
->       int base_csrno = CSR_MHPMCOUNTER3;
->   
-> @@ -195,8 +191,7 @@ static RISCVException mctr32(CPURISCVState *env, int csrno)
->   
->   static RISCVException sscofpmf(CPURISCVState *env, int csrno)
->   {
-> -    CPUState *cs = env_cpu(env);
-> -    RISCVCPU *cpu = RISCV_CPU(cs);
-> +    RISCVCPU *cpu = env_archcpu(env);
->   
->       if (!cpu->cfg.ext_sscofpmf) {
->           return RISCV_EXCP_ILLEGAL_INST;
-> @@ -321,8 +316,7 @@ static RISCVException umode32(CPURISCVState *env, int csrno)
->   
->   static RISCVException mstateen(CPURISCVState *env, int csrno)
->   {
-> -    CPUState *cs = env_cpu(env);
-> -    RISCVCPU *cpu = RISCV_CPU(cs);
-> +    RISCVCPU *cpu = env_archcpu(env);
->   
->       if (!cpu->cfg.ext_smstateen) {
->           return RISCV_EXCP_ILLEGAL_INST;
-> @@ -333,8 +327,7 @@ static RISCVException mstateen(CPURISCVState *env, int csrno)
->   
->   static RISCVException hstateen_pred(CPURISCVState *env, int csrno, int base)
->   {
-> -    CPUState *cs = env_cpu(env);
-> -    RISCVCPU *cpu = RISCV_CPU(cs);
-> +    RISCVCPU *cpu = env_archcpu(env);
->   
->       if (!cpu->cfg.ext_smstateen) {
->           return RISCV_EXCP_ILLEGAL_INST;
-> @@ -363,8 +356,7 @@ static RISCVException sstateen(CPURISCVState *env, int csrno)
->   {
->       bool virt = riscv_cpu_virt_enabled(env);
->       int index = csrno - CSR_SSTATEEN0;
-> -    CPUState *cs = env_cpu(env);
-> -    RISCVCPU *cpu = RISCV_CPU(cs);
-> +    RISCVCPU *cpu = env_archcpu(env);
->   
->       if (!cpu->cfg.ext_smstateen) {
->           return RISCV_EXCP_ILLEGAL_INST;
-> @@ -918,8 +910,7 @@ static RISCVException read_timeh(CPURISCVState *env, int csrno,
->   
->   static RISCVException sstc(CPURISCVState *env, int csrno)
->   {
-> -    CPUState *cs = env_cpu(env);
-> -    RISCVCPU *cpu = RISCV_CPU(cs);
-> +    RISCVCPU *cpu = env_archcpu(env);
->       bool hmode_check = false;
->   
->       if (!cpu->cfg.ext_sstc || !env->rdtime_fn) {
-> @@ -1152,8 +1143,7 @@ static RISCVException write_ignore(CPURISCVState *env, int csrno,
->   static RISCVException read_mvendorid(CPURISCVState *env, int csrno,
->                                        target_ulong *val)
->   {
-> -    CPUState *cs = env_cpu(env);
-> -    RISCVCPU *cpu = RISCV_CPU(cs);
-> +    RISCVCPU *cpu = env_archcpu(env);
->   
->       *val = cpu->cfg.mvendorid;
->       return RISCV_EXCP_NONE;
-> @@ -1162,8 +1152,7 @@ static RISCVException read_mvendorid(CPURISCVState *env, int csrno,
->   static RISCVException read_marchid(CPURISCVState *env, int csrno,
->                                      target_ulong *val)
->   {
-> -    CPUState *cs = env_cpu(env);
-> -    RISCVCPU *cpu = RISCV_CPU(cs);
-> +    RISCVCPU *cpu = env_archcpu(env);
->   
->       *val = cpu->cfg.marchid;
->       return RISCV_EXCP_NONE;
-> @@ -1172,8 +1161,7 @@ static RISCVException read_marchid(CPURISCVState *env, int csrno,
->   static RISCVException read_mimpid(CPURISCVState *env, int csrno,
->                                     target_ulong *val)
->   {
-> -    CPUState *cs = env_cpu(env);
-> -    RISCVCPU *cpu = RISCV_CPU(cs);
-> +    RISCVCPU *cpu = env_archcpu(env);
->   
->       *val = cpu->cfg.mimpid;
->       return RISCV_EXCP_NONE;
+QOM path is a reliable way to identify a device.  Device ID isn't:
+devices need not have one.  Therefore, dropping the QOM path would be
+wrong.
+
+> Is there any real benefit to dropping this ?=20
+
+The device ID is a trap for the unwary: relying on it is fine until you
+run into a scenario where you have to deal with devices lacking IDs.
+
+I suggested to deprecate it in review of "[PATCH v3 14/15] qapi:
+introduce DEVICE_ON event" (Message-ID: <873579x67l.fsf@pond.sub.org>).
+Quote:
+
+    We commonly send both device ID and QOM path, mostly for historical
+    reasons: the former precede the latter.
+
+    There are exceptions, such as query-cpus-fast.  Can't say offhand
+    whether CPUs can be created with IDs.
+
+    [...]
+
+    I'd be in favour of deprecating and deleting redundant device IDs in QMP
+    output.
 
 
