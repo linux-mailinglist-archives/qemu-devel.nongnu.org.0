@@ -2,85 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4CC2696093
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 11:19:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD974696069
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Feb 2023 11:11:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pRsOB-00031d-7i; Tue, 14 Feb 2023 05:18:19 -0500
+	id 1pRsHF-0000Om-1c; Tue, 14 Feb 2023 05:11:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRsO3-00031I-HQ
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 05:18:11 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pRsO1-0003B0-DE
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 05:18:11 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- hg24-20020a05600c539800b003e1f5f2a29cso825917wmb.4
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 02:18:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=eoDBwkEXI5izGPqDRRnDV1SRzOuqgYyRvmtYlUo4G2s=;
- b=uNhjyL6TlhQVyWciq2J5Y4rvZSg3BMpP0NgkwN/8EFyqQV0Ctk/CdkrLCxL7Ja5yDD
- Lmk3EiYCOWfhdB+gE+RI+Gb1FZLFLnj2g9OExyWfqx5dGMTHrmmCZzWdMWJN2lUw3hVq
- Hv5CjcWcBlz+d2ej6vgNtZbqb9+jmCznmHth4pejJpWcVGCnnPOUIWa7an3BobBEaMrQ
- Z/YY6AutCRL2s7GBaKMv0O3lWTJuF0k5LcEqBFvedUfVCl9W3Yc/Us8lwmTC3ccDAhgE
- Uckqf9Ay3dBi9TdvESmzN4BB71s5qfXfu/4h7tKr8xxH0dzqQfJ+52EhgnUR1C2KlXe+
- TTsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eoDBwkEXI5izGPqDRRnDV1SRzOuqgYyRvmtYlUo4G2s=;
- b=QpUQqJsQYP52CtJwgeAZ8j1kMQuUAZO9rqqLqHx8RZtjrmP5UbK/fCT+5Z0N9z1mEA
- FfiFgNtkwINK/rydHxjmKTMNBCSy4EM0Nl0j2vGm69SEXWpWLcf+MHhoA9AUa+H2yf1j
- hnA47sg2JK2ekOoGD81BLS08zJfRlVKAG62K69BkmPk6bqhX4OSO3/hV0kGaxMuZ/1pM
- rDlrh2fDLDJ3+tFyL7HLqCZB32gkm6ne2EQ9at7fKtGHJAtZIwOF8/+n99WgrXfXQ3Wd
- ypi8pRs/1R3LtDtlZtdyb44h4ohY8qvgdaRlXmkaPaLQKCs1/IlheHD0ioGRUcB7Y8RN
- BDZA==
-X-Gm-Message-State: AO0yUKXAoDufu+T1UqGO7QcmelJVkjlDmWjosjyvUMIgEPjJVGsoAjRt
- UebjvP0aJyYarUhS/kT5LU4KhA==
-X-Google-Smtp-Source: AK7set+qQNgjMtGg8rC+71MkxkTLHVQJ9o9UBM5Oem6aiXA1Yoz/0v0A5hCuglaHT4SYNfSkA5u6FQ==
-X-Received: by 2002:a7b:cb05:0:b0:3dc:5e0d:4ce7 with SMTP id
- u5-20020a7bcb05000000b003dc5e0d4ce7mr1489423wmj.11.1676369887793; 
- Tue, 14 Feb 2023 02:18:07 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- m17-20020a05600c3b1100b003df5be8987esm21238909wms.20.2023.02.14.02.18.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Feb 2023 02:18:07 -0800 (PST)
-Message-ID: <f088930b-ad9d-354d-5053-f319272140a1@linaro.org>
-Date: Tue, 14 Feb 2023 11:18:06 +0100
+ (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
+ id 1pRsHC-0000OW-T2
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 05:11:06 -0500
+Received: from mga11.intel.com ([192.55.52.93])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
+ id 1pRsHB-0002DT-2n
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 05:11:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676369465; x=1707905465;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=TJbc/hGlGuBtxyVQ+0OIeR6GCyWqjJh6gU1MOOCMKy0=;
+ b=TLiicbVs6mwTVwEi251hMil9OFK11jIGCgERTMqXcDQGbKUL5oaHyPwp
+ V7U1xTqQAw8Le50vmqNBk+lbqNjmmITHTLH869WX0TJqrxy3gfHExijyv
+ bqW1A5y9qdCRRmbadICWYCJ39F9uSMoas1DneRmoape5sf48JL4msfoTL
+ WnDdm4kW1HRfXL35Q3fd5zRYoyFDnt+SApANqCzGPxTFTotbtHLAvnFXg
+ u6noJb86Pi0ShgOnd0hWoScFrJY10vCThPRcUAIEEGdb9+gJqe7BJSUaT
+ croqDc6XdE4ieMWvtb7vZuLQdSFOp0fyKcAJ4VOyWmiDM643BFbh0vPD4 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="328836925"
+X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="328836925"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2023 02:11:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="701604029"
+X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="701604029"
+Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
+ ([10.239.160.112])
+ by orsmga001.jf.intel.com with ESMTP; 14 Feb 2023 02:10:59 -0800
+Date: Tue, 14 Feb 2023 18:18:47 +0800
+From: Zhao Liu <zhao1.liu@linux.intel.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi <dapeng1.mi@intel.com>,
+ Zhuocheng Ding <zhuocheng.ding@intel.com>,
+ Robert Hoo <robert.hu@linux.intel.com>,
+ Sean Christopherson <seanjc@google.com>,
+ Like Xu <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>
+Subject: Re: [RFC 34/52] i386: Rename variable topo_info to apicid_topo
+Message-ID: <Y+tgB63MQIWFx0kU@liuzhao-OptiPlex-7080>
+References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
+ <20230213095035.158240-35-zhao1.liu@linux.intel.com>
+ <0a17a258-2eef-38e9-5446-1eff19320c44@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH 6/7] hw/isa: Assert isa_register_portio_list() gets
- non-NULL ISA device
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: BALATON Zoltan <balaton@eik.bme.hu>, Paolo Bonzini <pbonzini@redhat.com>, 
- qemu-block@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>
-References: <20230208000743.79415-1-philmd@linaro.org>
- <20230208000743.79415-7-philmd@linaro.org>
- <8bcc1035-c9fc-762a-7a32-6b0344539345@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <8bcc1035-c9fc-762a-7a32-6b0344539345@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.345,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <0a17a258-2eef-38e9-5446-1eff19320c44@linaro.org>
+Received-SPF: none client-ip=192.55.52.93;
+ envelope-from=zhao1.liu@linux.intel.com; helo=mga11.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,63 +89,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/2/23 20:47, Richard Henderson wrote:
-> On 2/7/23 14:07, Philippe Mathieu-DaudÃ© wrote:
->> The previous commit removed the single call to
->> isa_register_portio_list() with dev=NULL. To be
->> sure we won't reintroduce such weird (ab)use,
->> add an assertion.
->>
->> Signed-off-by: Philippe Mathieu-DaudÃ© <philmd@linaro.org>
+On Mon, Feb 13, 2023 at 02:28:54PM +0100, Philippe Mathieu-Daudé wrote:
+> Date: Mon, 13 Feb 2023 14:28:54 +0100
+> From: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Subject: Re: [RFC 34/52] i386: Rename variable topo_info to apicid_topo
 > 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> On 13/2/23 10:50, Zhao Liu wrote:
+> > From: Zhao Liu <zhao1.liu@intel.com>
+> > 
+> > Since X86ApicidTopoInfo is only used for APIC ID related work, the
+> > common variable topo_info of X86ApicidTopoInfo type should be also
+> > renamed to better suit its purpose.
+> > 
+> > Generic topology access should be obtained from MachineState.topo
+> > (for the whole machine) or CPUState.topo (for the current CPU), and
+> > apicid_topo (X86ApicidTopoInfo type) is only used to collaborate with
+> > APIC ID.
+> > 
+> > Co-Developed-by: Zhuocheng Ding <zhuocheng.ding@intel.com>
+> > Signed-off-by: Zhuocheng Ding <zhuocheng.ding@intel.com>
+> > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
+> > ---
+> >   hw/i386/x86.c                |  38 ++++-----
+> >   include/hw/i386/topology.h   |  76 ++++++++---------
+> >   include/hw/i386/x86.h        |   2 +-
+> >   target/i386/cpu.c            |  71 ++++++++--------
+> >   tests/unit/test-x86-apicid.c | 158 +++++++++++++++++------------------
+> >   5 files changed, 173 insertions(+), 172 deletions(-)
 > 
-> I wonder how much use of __attribute__((nonnull)) we should be making.
+> The 'id' suffix doesn't add a lot of value IMO. Anyway,
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>
 
-__attribute__((nonnull)) is compile-time, but seems weaker than the
-good old runtime assert():
+Thanks, it makes sense. I'll remove the id suffix.
 
-  void a0(void *ptr)
-  {
-    assert(ptr);
-  }
-
-  __attribute__((nonnull)) void a1(void *ptr)
-  {
-    // can no use assert(ptr) because compiler warning
-  }
-
-  void b0(void *x)
-  {
-    a(NULL); // runtime assertion
-  }
-
-  void b(void *x)
-  {
-    a1(NULL); // compile error
-  }
-
-  void c0(void *x)
-  {
-    a0(x);
-  }
-
-  void c1(void *x)
-  {
-    a1(x);
-  }
-
-  void d0(void *x)
-  {
-    c0(NULL); // runtime assertion
-  }
-
-  void d1(void *x)
-  {
-    c1(NULL); // no compile error, no assertion!
-  }
-
-> I realize we'd probably want to add -fno-delete-null-pointer-checks if 
-> we make too much use of that.
+Zhao
 
 
