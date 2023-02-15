@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C776698001
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 16:57:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD1069801B
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 17:01:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSK8L-0006Ra-Gh; Wed, 15 Feb 2023 10:55:49 -0500
+	id 1pSKCb-0008Fi-JA; Wed, 15 Feb 2023 11:00:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSK8K-0006RE-4T
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 10:55:48 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSK8I-0000wv-5J
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 10:55:47 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- az4-20020a05600c600400b003dff767a1f1so1885323wmb.2
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 07:55:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=JMHkgZm5OD5dKfvdlBVUzZCVK+HUYexeT8pyqA68848=;
- b=IOQjmrq78tqEh6qKP4+0D5rDlj1p4IUJ1ifBlLHsnAstSDe9pMuGBpxgJxnb98Te1j
- 2RZ/OSs+j1kKDwbzWlwRBnZZ7BsVn5GkzFxgtYqZZLlxZmKi/gyjm+Xjmb9NbAqRrE7e
- MxGRAtd0IOKrilpz/SYhd+t7KLlvFXTrwSqgT4vaWsEKwAfWsSNQtIuq2B3yoP5rcWOW
- eGZ106WahD6rf3BB4dzFfyEYx6DUB2ICN8yycHXBqLPTyPmsKlyR7MiLDo1Qf2iVK2vp
- cJbD6EhAsW3guF1TfVjqJS+pcXvBYeoKR7snhqvRte+21ICT4j2fQ+wu/7DxP801cliZ
- KflA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JMHkgZm5OD5dKfvdlBVUzZCVK+HUYexeT8pyqA68848=;
- b=DNCXmcP4kBZcf1bUq8trqIVRGM/20vWp8j0blvR3d3JG0fet/JxZFrOjCLIHYQdbWn
- ULqQj1pDFap5rn4s/3sLX+XH7nMp+vI68jQHR1Z/AFeKd8b2eefkGGb+IWL3x2NQzCRL
- SY0GMvkkCxrBe6nRcAviDCIavF0sloAlShAW2vxcOA9MsTOOPc7K7k1mQvykIqBhoLqo
- LIY4y5iXGLue65E7Jh/CyltifW33yrMO+3Mx3M7NzEk2YZSmcZ/nBFKE1+G9ooL4dq+U
- dawkfJegE5MKfB7wEwYRiHkEE40l+QoCnukx4vsnLEHaJ4Ip0mWqiQ4Zr1NNvAKNmyaL
- D/Ug==
-X-Gm-Message-State: AO0yUKV9uevf905ReqBlKitWsy0zbuvGMj35sAqmCR2QB994O1HyHLET
- BZCH0KFtYtA4n7zuKjanC46gCQ==
-X-Google-Smtp-Source: AK7set+MNA7o/ilp8GCPBs+UxSR3QDokyxHJdmt2OepAg5+MjETbOya+FpCYeshKVCbVju2ua9u37A==
-X-Received: by 2002:a05:600c:746:b0:3de:d52:2cd2 with SMTP id
- j6-20020a05600c074600b003de0d522cd2mr2264801wmn.4.1676476544072; 
- Wed, 15 Feb 2023 07:55:44 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- m22-20020a05600c3b1600b003daf6e3bc2fsm7303917wms.1.2023.02.15.07.55.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Feb 2023 07:55:43 -0800 (PST)
-Message-ID: <beebbbb8-d83f-7c89-6adc-21ecc33ced82@linaro.org>
-Date: Wed, 15 Feb 2023 16:55:42 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pSKCN-0008Bt-V4
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 11:00:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pSKCK-00077o-UP
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 10:59:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676476796;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MjyrLeRznNocaVSMMUggkDPDQcEYTGVABAvcRE7MFy4=;
+ b=fugIDt1ZMo+lNM7JqvLuczkznEEk6+zDSsOGQJ2UjTtuXnsFEB+xfyzerRttcCFdgAiQ2P
+ V6Vnc6SSUdNpHY5k9mAmL9qEhxKSuxlTB/d6alKu5ZUt0lwJbF7D+Tu4+c3mqNaKNO1TT3
+ +i3hbJo185bE4uQIiO5rPpPferAqpWY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-224-kWg4lkzQMOi6fQI741SYiw-1; Wed, 15 Feb 2023 10:59:52 -0500
+X-MC-Unique: kWg4lkzQMOi6fQI741SYiw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 417EB2804842;
+ Wed, 15 Feb 2023 15:59:52 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B16FE18EC1;
+ Wed, 15 Feb 2023 15:59:49 +0000 (UTC)
+Date: Wed, 15 Feb 2023 15:59:47 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Cc: Dorinda Bassey <dbassey@redhat.com>, qemu-devel@nongnu.org,
+ kraxel@redhat.com, armbru@redhat.com, qemu_oss@crudebyte.com,
+ pbonzini@redhat.com, wtaymans@redhat.com
+Subject: Re: [PATCH] audio/pwaudio.c: Add Pipewire audio backend for QEMU
+Message-ID: <Y+0BcwxQ2INww8dN@redhat.com>
+References: <20230215085102.415053-1-dbassey@redhat.com>
+ <CAJ+F1CL0_OAj5-jsyCVY5aF=qoSoPx2Mu=q8Z7mpp3mesRi6=Q@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH] gitlab-ci: Use artifacts instead of dumping logs in the
- Cirrus-CI jobs
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20230215142503.90660-1-thuth@redhat.com>
- <32f0a378-2ae9-c711-19c8-837397c87c4a@linaro.org>
- <4ba57bbf-3712-8958-e7c6-b164854e35ce@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <4ba57bbf-3712-8958-e7c6-b164854e35ce@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+In-Reply-To: <CAJ+F1CL0_OAj5-jsyCVY5aF=qoSoPx2Mu=q8Z7mpp3mesRi6=Q@mail.gmail.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,60 +81,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 15/2/23 16:45, Thomas Huth wrote:
-> On 15/02/2023 15.57, Philippe Mathieu-Daudé wrote:
->> Hi Thomas,
->>
->> On 15/2/23 15:25, Thomas Huth wrote:
->>> The meson log files can get very big, especially if running the tests in
->>> verbose mode. So dumping those logs to the console was a bad idea, since
->>> gitlab truncates the output if it is getting too big. Let's publish the
->>> logs as artifacts instead. This has the disadvantage that you have to
->>> look up the logs on cirrus-ci.com now instead, but that's still better
->>> than not having the important part of the log at all since it got
->>> truncated.
->>>
->>> Fixes: 998f334722 ("gitlab: show testlog.txt contents ...")
->>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>> ---
->>>   Note: I also tried to publish the junit xml files as artifacts
->>>   instead, but while the cirrus-ci docs claim to support it, I only
->>>   got unreadable XML output in my browser that way, so the .txt
->>>   files look like the better option to me.
->>>
->>>   .gitlab-ci.d/cirrus/build.yml | 7 +++++--
->>>   1 file changed, 5 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/.gitlab-ci.d/cirrus/build.yml 
->>> b/.gitlab-ci.d/cirrus/build.yml
->>> index 7ef6af8d33..a9444902ec 100644
->>> --- a/.gitlab-ci.d/cirrus/build.yml
->>> +++ b/.gitlab-ci.d/cirrus/build.yml
->>> @@ -32,6 +32,9 @@ build_task:
->>>       - $MAKE -j$(sysctl -n hw.ncpu)
->>>       - for TARGET in $TEST_TARGETS ;
->>>         do
->>> -        $MAKE -j$(sysctl -n hw.ncpu) $TARGET V=1
->>> -        || { cat meson-logs/testlog.txt; exit 1; } ;
->>> +        $MAKE -j$(sysctl -n hw.ncpu) $TARGET V=1 ;
->>>         done
->>> +  always:
->>> +    build_result_artifacts:
->>> +      path: build/meson-logs/*log.txt
->>> +      type: text/plain
->>
->> How long is that log kept available?
+On Wed, Feb 15, 2023 at 05:18:50PM +0400, Marc-André Lureau wrote:
+> Hi
 > 
-> No clue, I haven't seen anything related in the docs:
+> On Wed, Feb 15, 2023 at 12:51 PM Dorinda Bassey <dbassey@redhat.com> wrote:
+> >
+> > This commit adds a new audiodev backend to allow QEMU to use Pipewire as both an audio sink and source. This backend is available on most systems.
+> >
 > 
->   https://cirrus-ci.org/guide/writing-tasks/#artifacts-instruction
-> 
-> ... but I assume they will at least be available for a couple of days so 
-> you've got enough time to look at them in case a job failed.
+> Hmm, I would rather have less audio (and ui) backends in QEMU. (for
+> audio, if I could introduce and keep only one, that would be
+> GStreamer: to remove the others..)
 
-OK thanks.
+Even if we take this patch, and don't have a gstreamer impl,
+it feels like we've scope for cutting down the backends.
+
+The 'oss' driver for example ?  On Linux that's long obsolete,
+with alsa or one of the higher level APIs available.  OSS was
+also use on freebsd, but IIUC,  sndio is better choice there
+now too ?  Deprecate (and later remove) 'oss' now ?
+
+The 'sdl' driver is setup in meson.build as our lowest priority
+impl, we'll pick any other driver ahead of sdl. Is there any
+compelling reason why we must give users the option of 'sdl'
+for audio when we have soo many other choices available ?
+Even if using SDL for graphics, it seems like we can use any
+other backend for audio. Deprecate (and later remove) 'sdl'
+for audio ?
+
+IIUC, pipewire is positioned to replace pulseaudio. So if we
+take a pipewire backend, once pipewire is available in enough
+distros we could deprecate the pulseaudio backend and eventually
+remove it. Maybe the same applies for 'jack' ?
+
+IOW, could we get to
+
+ - Windows: dsound
+ - MacOS: coreaudio
+ - (Open|Net|Free)BSD: sndio
+ - Linux: alsa/pipewire
+
+?
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
