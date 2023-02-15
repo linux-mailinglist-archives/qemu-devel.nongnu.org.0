@@ -2,73 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C2F1697A44
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 11:54:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93C9E697A45
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 11:54:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSFQ8-0003CA-Vk; Wed, 15 Feb 2023 05:53:52 -0500
+	id 1pSFQh-0004FV-3O; Wed, 15 Feb 2023 05:54:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pSFQ6-0003BS-UF
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:53:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1pSFQe-0004Ez-Ho
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:54:24 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pSFQ5-0007zh-5G
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:53:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676458427;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=cZbm6fiCPw4mTY8SuT47yYIMvoLbHRVUdq/cpNUBwVc=;
- b=SIlgIkiZwbGluDMDYx+l9BPOxrVyZ++GbwURZqI2mJO0VDl6Zl0eqFsBJP2wUab92RVJkx
- RlDi0kC+bOkERKACx7GV6X1tCszFjxvcMdyakvrc3tqM9MouWZO2YiCNqGF1LznBM0bvHt
- GQn2aQQYauict6Sj2JEz9lmLVfSSSGU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-261-423BCKxNP3yP4EdmlSQGAA-1; Wed, 15 Feb 2023 05:53:43 -0500
-X-MC-Unique: 423BCKxNP3yP4EdmlSQGAA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2312929A9CB4;
- Wed, 15 Feb 2023 10:53:43 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.224])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E9EF492B0E;
- Wed, 15 Feb 2023 10:53:41 +0000 (UTC)
-Date: Wed, 15 Feb 2023 11:53:39 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Cleber Rosa <crosa@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v2 0/7] Python: Drop support for Python 3.6
-Message-ID: <Y+y5szjbOR0rc1MV@redhat.com>
-References: <20230210003147.1309376-1-jsnow@redhat.com>
- <CAFn=p-YHKm-Cx56bnZxSGuux_r4jELiOtxKgLbfFu+=3mmpDpA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1pSFQb-00081e-Bx
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:54:23 -0500
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4PGvzd1xrYzJsMW;
+ Wed, 15 Feb 2023 18:52:29 +0800 (CST)
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.6; Wed, 15 Feb 2023 18:54:16 +0800
+Message-ID: <863566f6-4c0b-67bd-880a-54bdbd4650f1@huawei.com>
+Date: Wed, 15 Feb 2023 18:54:15 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFn=p-YHKm-Cx56bnZxSGuux_r4jELiOtxKgLbfFu+=3mmpDpA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH RESEND 09/18] i386: Fix comment style in topology.h
+To: Zhao Liu <zhao1.liu@linux.intel.com>
+CC: <qemu-devel@nongnu.org>, Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi
+ <dapeng1.mi@intel.com>, Zhuocheng Ding <zhuocheng.ding@intel.com>,
+ Robert Hoo
+ <robert.hu@linux.intel.com>, Xiaoyao Li <xiaoyao.li@intel.com>, Like Xu
+ <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>, Eduardo Habkost
+ <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, "Michael S .
+ Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>, Markus
+ Armbruster <armbru@redhat.com>
+References: <20230213093625.158170-1-zhao1.liu@linux.intel.com>
+ <20230213093625.158170-10-zhao1.liu@linux.intel.com>
+In-Reply-To: <20230213093625.158170-10-zhao1.liu@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.35,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,62 +71,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
+From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 14.02.2023 um 19:35 hat John Snow geschrieben:
-> On Thu, Feb 9, 2023 at 7:31 PM John Snow <jsnow@redhat.com> wrote:
-> >
-> > Howdy, this series increases our minimum python version to 3.7.
-> >
-> > CI: https://gitlab.com/jsnow/qemu/-/pipelines/771780626
-> >     (All green!)
-> > GL: https://gitlab.com/jsnow/qemu/-/commits/python-require-37
-> >
-> > Patches 1 and 2 are loose pre-requisites; I'd like to merge them into
-> > qemu.git within the week whether or not we take this series. I'd
-> > appreciate an "ACK" on those specifically. They're just riding along
-> > here because they make this series a bit nicer.
-> >
-> > Patches 3-6 are the hard pre-requisites, and 7 does the dirty work.
-> >
-> > The motivation for this series is that Python 3.6 was EOL at the end of
-> > 2021; upstream tools are beginning to drop support for it, including
-> > setuptools, pylint, mypy, etc. As time goes by, it becomes more
-> > difficult to support and test against the full range of Python versions
-> > that QEMU supports. The closer we get to Python 3.12, the harder it will
-> > be to cover that full spread of versions.
-> >
-> > The qemu.qmp library and the avocado testing framework both have
-> > motivations for dropping 3.6 support, but are committed to not doing so
-> > until QEMU drops support.
-> >
-> > So, I'd like to talk about doing it.
-> >
-> > V2:
-> > - Added R-Bs to patch 1
-> > - Updated commit message for patch 7 with explicit version info
-> > - Added DO-NOT-MERGE to patch 5's title
-> > - Tested tests/vm/freebsd, netbsd, and openbsd in addition to full CI
-> >
-> > RFC:
-> >  - Patch 5 is just a proof-of-concept; we need to update lcitool instead.
-> >  - Cleber, I need to update your ansible scripts. How do I test them?
-> >
-> > Thanks!
-> > --js
-> >
-> > John Snow (7):
-> >   python: support pylint 2.16
-> >   python: drop pipenv
-> 
-> Hi, I've staged these first two patches to my Python branch.
-> 
-> (Kevin, Hanna; is that acceptable? I touch some iotests to do some
-> trivial linting whack-a-mole.)
-
-Yes, of course.
-
-Kevin
+在 2023/2/13 17:36, Zhao Liu 写道:
+> From: Zhao Liu <zhao1.liu@intel.com>
+>
+> For function comments in this file, keep the comment style consistent
+> with other places.
+>
+> Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
+nit：Better to move this cleanup patch to top of the series.
+> ---
+>   include/hw/i386/topology.h | 33 +++++++++++++++++----------------
+>   1 file changed, 17 insertions(+), 16 deletions(-)
+>
+> diff --git a/include/hw/i386/topology.h b/include/hw/i386/topology.h
+> index b0174c18b7bd..5de905dc00d3 100644
+> --- a/include/hw/i386/topology.h
+> +++ b/include/hw/i386/topology.h
+> @@ -24,7 +24,8 @@
+>   #ifndef HW_I386_TOPOLOGY_H
+>   #define HW_I386_TOPOLOGY_H
+>   
+> -/* This file implements the APIC-ID-based CPU topology enumeration logic,
+> +/*
+> + * This file implements the APIC-ID-based CPU topology enumeration logic,
+>    * documented at the following document:
+>    *   Intel® 64 Architecture Processor Topology Enumeration
+>    *   http://software.intel.com/en-us/articles/intel-64-architecture-processor-topology-enumeration/
+> @@ -41,7 +42,8 @@
+>   
+>   #include "qemu/bitops.h"
+>   
+> -/* APIC IDs can be 32-bit, but beware: APIC IDs > 255 require x2APIC support
+> +/*
+> + * APIC IDs can be 32-bit, but beware: APIC IDs > 255 require x2APIC support
+>    */
+>   typedef uint32_t apic_id_t;
+>   
+> @@ -60,8 +62,7 @@ typedef struct X86CPUTopoInfo {
+>       unsigned threads_per_core;
+>   } X86CPUTopoInfo;
+>   
+> -/* Return the bit width needed for 'count' IDs
+> - */
+> +/* Return the bit width needed for 'count' IDs */
+>   static unsigned apicid_bitwidth_for_count(unsigned count)
+>   {
+>       g_assert(count >= 1);
+> @@ -69,15 +70,13 @@ static unsigned apicid_bitwidth_for_count(unsigned count)
+>       return count ? 32 - clz32(count) : 0;
+>   }
+>   
+> -/* Bit width of the SMT_ID (thread ID) field on the APIC ID
+> - */
+> +/* Bit width of the SMT_ID (thread ID) field on the APIC ID */
+>   static inline unsigned apicid_smt_width(X86CPUTopoInfo *topo_info)
+>   {
+>       return apicid_bitwidth_for_count(topo_info->threads_per_core);
+>   }
+>   
+> -/* Bit width of the Core_ID field
+> - */
+> +/* Bit width of the Core_ID field */
+>   static inline unsigned apicid_core_width(X86CPUTopoInfo *topo_info)
+>   {
+>       /*
+> @@ -94,8 +93,7 @@ static inline unsigned apicid_die_width(X86CPUTopoInfo *topo_info)
+>       return apicid_bitwidth_for_count(topo_info->dies_per_pkg);
+>   }
+>   
+> -/* Bit offset of the Core_ID field
+> - */
+> +/* Bit offset of the Core_ID field */
+>   static inline unsigned apicid_core_offset(X86CPUTopoInfo *topo_info)
+>   {
+>       return apicid_smt_width(topo_info);
+> @@ -107,14 +105,14 @@ static inline unsigned apicid_die_offset(X86CPUTopoInfo *topo_info)
+>       return apicid_core_offset(topo_info) + apicid_core_width(topo_info);
+>   }
+>   
+> -/* Bit offset of the Pkg_ID (socket ID) field
+> - */
+> +/* Bit offset of the Pkg_ID (socket ID) field */
+>   static inline unsigned apicid_pkg_offset(X86CPUTopoInfo *topo_info)
+>   {
+>       return apicid_die_offset(topo_info) + apicid_die_width(topo_info);
+>   }
+>   
+> -/* Make APIC ID for the CPU based on Pkg_ID, Core_ID, SMT_ID
+> +/*
+> + * Make APIC ID for the CPU based on Pkg_ID, Core_ID, SMT_ID
+>    *
+>    * The caller must make sure core_id < nr_cores and smt_id < nr_threads.
+>    */
+> @@ -127,7 +125,8 @@ static inline apic_id_t x86_apicid_from_topo_ids(X86CPUTopoInfo *topo_info,
+>              topo_ids->smt_id;
+>   }
+>   
+> -/* Calculate thread/core/package IDs for a specific topology,
+> +/*
+> + * Calculate thread/core/package IDs for a specific topology,
+>    * based on (contiguous) CPU index
+>    */
+>   static inline void x86_topo_ids_from_idx(X86CPUTopoInfo *topo_info,
+> @@ -154,7 +153,8 @@ static inline void x86_topo_ids_from_idx(X86CPUTopoInfo *topo_info,
+>       topo_ids->smt_id = cpu_index % nr_threads;
+>   }
+>   
+> -/* Calculate thread/core/package IDs for a specific topology,
+> +/*
+> + * Calculate thread/core/package IDs for a specific topology,
+>    * based on APIC ID
+>    */
+>   static inline void x86_topo_ids_from_apicid(apic_id_t apicid,
+> @@ -178,7 +178,8 @@ static inline void x86_topo_ids_from_apicid(apic_id_t apicid,
+>       topo_ids->pkg_id = apicid >> apicid_pkg_offset(topo_info);
+>   }
+>   
+> -/* Make APIC ID for the CPU 'cpu_index'
+> +/*
+> + * Make APIC ID for the CPU 'cpu_index'
+>    *
+>    * 'cpu_index' is a sequential, contiguous ID for the CPU.
+>    */
 
 
