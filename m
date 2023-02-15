@@ -2,79 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 324656984EF
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 20:48:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5426984FA
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 20:53:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSNkX-0007O8-1A; Wed, 15 Feb 2023 14:47:29 -0500
+	id 1pSNpN-00031e-7C; Wed, 15 Feb 2023 14:52:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pSNkR-0007LL-Fy
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 14:47:24 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pSNkP-00059w-Qm
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 14:47:23 -0500
-Received: by mail-wr1-x436.google.com with SMTP id a2so20309695wrd.6
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 11:47:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=biYTv1KrIOn/rRnd6jYNDAxXi6lHTwPVoYtJhDKMIpw=;
- b=iJF2YJcR5FO6uIiQtECdmfsf7lsCPg41fUrQTnvWqSyLXfUKj8ejsTS42SH1XFK+Vv
- vJXcDfOTBy+hL8wpSD4WrrOwpUIpby5wUL3I3gS1Ahlg4n/pLx/Eyfqg3k1Rrqa9iA5Y
- o7JCWFuOLZTqu5Y+udqasAlp6egBo1Qgbv/whk0z1JubUr2NXnr1XIO8/xPUnbkSx0JA
- AbWFaYxuca9juYqF/DvNgN9WC4tV+zX23TNXIgPWtLFikDr9mnYgYPW4TgDnTbeh8NAL
- Js/H22rMjCjeyPs+DX+04KIxAS0ZKdczIGsai2CB3QPM258OZTJgNyWhQJoOZGKkEyss
- eENQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=biYTv1KrIOn/rRnd6jYNDAxXi6lHTwPVoYtJhDKMIpw=;
- b=nwF9rQydzt8Eo0pOTkIH+LcPvMizVvAfXBd9lddU3h+oJuj6L2SC3aLrWw4QLtr26f
- 3bGa9eM+vcz0k0S89DSjC1phL/FIThxGKSCoek+X5yIcFb1YCLB7az5vQZn0wXH7q1KU
- V50SJXGiKgNolFD41xxozOBPM4l/p7jz8xIAsEI+x1wTx/I4S/ulotIjivR8UQ+M+q2y
- WdKy2OiyIacPVo+HDDpO9/AfVWbXnIntBrjugACbjtu4nT/UrVv2tP5KEO8cJp8KshMX
- vsjvJXuGrqmy9aVAfMCbvlBDi7gkdAudtCE8kGRkzAhqqQcG/K/rOwgCrlmDeb356/pd
- vR9w==
-X-Gm-Message-State: AO0yUKXazoAps3ndgfuxz28WEy70w04taaUtun9TlgEuQkIjhDiu7oR6
- 1XDUzm4ze1Hdvddv8Ai7aeTnkw==
-X-Google-Smtp-Source: AK7set8pm5SwlnLGwQeKoXHjnntroBqfz+onDoTwZpDlfcAAWeH+zofnYjqlRSptTfKY4znIhhz6ag==
-X-Received: by 2002:a05:6000:1c0c:b0:2c5:4c9f:cf3b with SMTP id
- ba12-20020a0560001c0c00b002c54c9fcf3bmr342407wrb.7.1676490439501; 
- Wed, 15 Feb 2023 11:47:19 -0800 (PST)
-Received: from myrica (054592b0.skybroadband.com. [5.69.146.176])
- by smtp.gmail.com with ESMTPSA id
- h10-20020adfe98a000000b002c5501a5803sm11406478wrm.65.2023.02.15.11.47.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 11:47:18 -0800 (PST)
-Date: Wed, 15 Feb 2023 19:47:18 +0000
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Mostafa Saleh <smostafa@google.com>
-Cc: qemu-devel@nongnu.org, eric.auger@redhat.com, peter.maydell@linaro.org,
- qemu-arm@nongnu.org
-Subject: Re: [RFC PATCH 12/16] hw/arm/smmuv3: Add VMID to tlb tagging
-Message-ID: <Y+02xgL5RhO3vh6S@myrica>
-References: <20230205094411.793816-1-smostafa@google.com>
- <20230205094411.793816-13-smostafa@google.com>
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pSNpK-00030Q-AX; Wed, 15 Feb 2023 14:52:26 -0500
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pSNpI-0006A2-Mt; Wed, 15 Feb 2023 14:52:26 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailout.nyi.internal (Postfix) with ESMTP id F27765C010C;
+ Wed, 15 Feb 2023 14:52:20 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Wed, 15 Feb 2023 14:52:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1676490740; x=
+ 1676577140; bh=J7JNshNTxlN/ZL+pKTpHmHpmNSBYqop6px+qKOVQ0ps=; b=n
+ 7r3WbMsljNbgA91NcfJK+Py4E3DWARq66vbIKApK/5HIHcssj4sKygdQhE83ePVI
+ 8ieDZMa/aBJxp5GvAzv9/gjvQmHvqZ+HtEJ5FYhtirLA9Ash0j8/rgoaQadXyWba
+ c2qObHwvmYdE4era+Y77RVdM3MhXhzCvXPK5ydgL4BEmQbCgWYSj2Tr71R0bJ5Ml
+ 1Tc1GVHMGB48Hsf45ApiBNeeq+nz5BNpB0We9zEkC/7nbQ+uFBOF8IXTJUxVQPSp
+ 9bHgk/O4KEAIqDomugK73t8ArGIr5HxzsdW98iYZyK0yNlocDScgWn8SMQsq6wN+
+ gsj9VP93Gw3SR3CLU8E8Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1676490740; x=
+ 1676577140; bh=J7JNshNTxlN/ZL+pKTpHmHpmNSBYqop6px+qKOVQ0ps=; b=d
+ 89nD0UDoTsWaB5vO1CMCKHhrM2vKY6ms/eSF6hxq05y+ETIYAnTrkAuhcPbSoYCB
+ 7aNYi2Fqe4XWyO4/IS6d3e3qyL0+lv5XDSNXkwFI4qPez/H/+NY0cg3IiYozUCbb
+ 1r0x3riOImgkDW7Z+az/Dxc3ARH101YwrpDhvQIWqdygM673xpisxhXMPLVQWdCx
+ gbU71mxSZal4l/49oOsUw1dCtpocDMzdKYdEIJfwoChqqOMQC7JQTOJh81QY2HKD
+ L6s9kZqbGzYg7Uu7LO4yEenbJ9C2O8osWqhJSUUbvp6fBK3FXl3h2GNx/O/h8hXv
+ bH+RXigu/lZi2i/ZVb2Fw==
+X-ME-Sender: <xms:9DftYxntmgiEB4F9ym_x0uZxiVHzbwUtm2VkHbJgF8StrUro_-IrCA>
+ <xme:9DftY82F_WPaudIyuiN3t6_3zbcuv50KwK1IVr8V9DyBmnLshGYCKTIBZS_tzNiHs
+ WfGCoaPuJYjZwtq35s>
+X-ME-Received: <xmr:9DftY3p-hG8H1jUo5ebdqZj0tRZBwrxKHnIHgMnSPhc4nydHjzWa9-CXk437zyv9l-LNRQ5aR9XPwbpW2hOfHwKi>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeihedguddvfecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomheprfgv
+ thgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesphhjugdruggvvheqnecuggftrf
+ grthhtvghrnhephfegffevudefveetgeekteeijefhhfduueejvdegvdehffehjeevtefh
+ hffffeeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epphgvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:9DftYxniZi4O7bkB2k8cN9YljRhJEPM3a61G1JfCcpSbQGc1VOcOWQ>
+ <xmx:9DftY_1-QIqSKE6R1SO7BtT0tJ72k9pxEt0K23wOlRm4VNrQ2MTC2w>
+ <xmx:9DftYwv8r8fe18sSNOaPeUSU9JuwNbqq0nuRmZ-lI3W3ZziRS3AvKA>
+ <xmx:9DftY4L5l6AfkRf1VVK9bWY5FWJTN85S7daO0azojfJjdnBHo87mPA>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 15 Feb 2023 14:52:19 -0500 (EST)
+Date: Wed, 15 Feb 2023 11:52:17 -0800
+From: Peter Delevoryas <peter@pjd.dev>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Markus Armbruster <armbru@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: Re: [PATCH 1/8] m25p80: Improve error when the backend file size
+ does not match the device
+Message-ID: <Y+038bMA0BaPLUr8@pdel-mbp.dhcp.thefacebook.com>
+References: <20230214171830.681594-1-clg@kaod.org>
+ <20230214171830.681594-2-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230205094411.793816-13-smostafa@google.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230214171830.681594-2-clg@kaod.org>
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=peter@pjd.dev;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,33 +107,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Mostafa,
-
-On Sun, Feb 05, 2023 at 09:44:07AM +0000, Mostafa Saleh wrote:
-> Allow TLB to be tagged with VMID.
+On Tue, Feb 14, 2023 at 06:18:23PM +0100, Cédric Le Goater wrote:
+> Currently, when a block backend is attached to a m25p80 device and the
+> associated file size does not match the flash model, QEMU complains
+> with the error message "failed to read the initial flash content".
+> This is confusing for the user.
 > 
-> If stage-1 is only supported, VMID is set to -1 and ignored from STE
-> and CMD_TLBI_NH* cmds.
+> Use blk_check_size_and_read_all() instead of blk_pread() to improve
+> the reported error.
 > 
-> Signed-off-by: Mostafa Saleh <smostafa@google.com>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Reviewed-by: Peter Delevoryas <peter@pjd.dev>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Message-Id: <20221115151000.2080833-1-clg@kaod.org>
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
->  hw/arm/smmu-common.c         | 24 +++++++++++++++---------
->  hw/arm/smmu-internal.h       |  2 ++
->  hw/arm/smmuv3.c              | 12 +++++++++---
->  include/hw/arm/smmu-common.h |  5 +++--
->  4 files changed, 29 insertions(+), 14 deletions(-)
 > 
-> diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
-> index 541c427684..028a60949a 100644
-> --- a/hw/arm/smmu-common.c
-> +++ b/hw/arm/smmu-common.c
-> @@ -56,10 +56,11 @@ static gboolean smmu_iotlb_key_equal(gconstpointer v1, gconstpointer v2)
->             (k1->level == k2->level) && (k1->tg == k2->tg);
+>   breakage with commit a4b15a8b9e ("pflash: Only read non-zero parts
+>   of backend image") when using -snaphot.
 
-I'm getting some aliasing in the TLB, because smmu_iotlb_key_equal() is
-missing the VMID comparison. With that fixed my handful of tests pass
 
-Thanks,
-Jean
+I guess it's not obvious to me, what broke?
 
+1. BlockBackend *blk = -drive file=blob.mtd,format=raw,if=mtd,snapshot=on
+2. uint8_t *storage = malloc(...)
+3. blk_check_size_and_read_all(blk, storage, size)
+4. commit a4b15a8b9e 
+    for sector in blk:
+        if any(b != 0 for b in sector):
+            memcpy(&storage[...], sector, sizeof(sector))
+        else:
+            # Skip memcpy of zeroes
+
+But this is probably a regression for us because we actually expect the zeroes
+to be copied?
+
+- Peter
+
+> 
+>  hw/block/m25p80.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 802d2eb021..dc5ffbc4ff 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -24,6 +24,7 @@
+>  #include "qemu/osdep.h"
+>  #include "qemu/units.h"
+>  #include "sysemu/block-backend.h"
+> +#include "hw/block/block.h"
+>  #include "hw/qdev-properties.h"
+>  #include "hw/qdev-properties-system.h"
+>  #include "hw/ssi/ssi.h"
+> @@ -1615,8 +1616,7 @@ static void m25p80_realize(SSIPeripheral *ss, Error **errp)
+>          trace_m25p80_binding(s);
+>          s->storage = blk_blockalign(s->blk, s->size);
+>  
+> -        if (blk_pread(s->blk, 0, s->size, s->storage, 0) < 0) {
+> -            error_setg(errp, "failed to read the initial flash content");
+> +        if (!blk_check_size_and_read_all(s->blk, s->storage, s->size, errp)) {
+>              return;
+>          }
+>      } else {
+> -- 
+> 2.39.1
+> 
 
