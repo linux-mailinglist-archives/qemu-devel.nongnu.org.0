@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2424B6987AF
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C1576987B0
 	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 23:14:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSQ1l-0006ge-4z; Wed, 15 Feb 2023 17:13:25 -0500
+	id 1pSQ1k-0006gF-Gg; Wed, 15 Feb 2023 17:13:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSQ1i-0006g7-V4
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSQ1i-0006fz-Iz
  for qemu-devel@nongnu.org; Wed, 15 Feb 2023 17:13:22 -0500
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444])
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSQ1g-0006p8-Nr
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSQ1f-0006hj-Pj
  for qemu-devel@nongnu.org; Wed, 15 Feb 2023 17:13:22 -0500
-Received: by mail-pf1-x444.google.com with SMTP id bd35so224730pfb.6
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 14:13:20 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id m10so142348wrn.4
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 14:13:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=BilwY7Tlx4YkoBsA420NkRDl6OmmyFWfKk90bN4tXEw=;
- b=KvtUJ9nbumArvX9O6FEavMTDPGZuW/AOZAOa/IKpyJ6vk4MdkWrxDdnkn6tZQm95v4
- hZDa5/X8+l6NvCvbUwFwSkK2wxR9mDIX95a6BFuJquYsmYF/Od7NffLrOpy5iHOjWyHW
- 8o4R1w268m8cy6VYrCq/KOrN8jPb6nBmfJyDn8S2qwJeid7Oo6VZZYeWT8ItAdbUwQZx
- 0mPsH2ZgzufcJvxQ2XaH82VhwCHcUvb3SBOS0SbsQa6drfoVIE89Mu08DG7ma87BeHz6
- Bt2BMjH9c4DG9her6JLm+AzuKKt3WTWQxcmH0QSASXt8rmLNXiMwlv3v1VnkJ/ACO7is
- qp0Q==
+ bh=A+CF2m/mVngGWGeLVeBTB/9V2DMyK5HjrPwgZJlOl7Q=;
+ b=meKezzcK2Mu3l5466OAHy4tIbz1uUOPzAv33XqA8Mx7lxAIaSTU7mG2PsrMmWYpTDV
+ JIi0+gzBKidEFTfO3jhpdfarHhusjnbD+vJLqoBf6i6IfPNoz3mUIiDd9d+t58Sji9BE
+ N/AwjdRIofOGgqA9h+801/agVtOLjnh18IV6djfy39dR3SDbzkD09w9P5J9iJ60FKylC
+ i+OGGpQnl1yQfDaCVu+EaAXKE9OWtlgXLsEAhjJbbVhcsxi7x5JoWX0A0aNF4JOPm6cB
+ 2Hg/XGOBCDpte8I+cpe701+tC5wEfhfYrFZ+1Zu9+LWpBHI8MGJDBlhEh5DLsh7rPREB
+ YHrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BilwY7Tlx4YkoBsA420NkRDl6OmmyFWfKk90bN4tXEw=;
- b=J2O9s5KajxjenbhfWOiZvtJY5tK7K8FALEiaGqc3o1cy8IqXQCA4lDe8uityFl2+7i
- Mq0kgAnRS44ifC8ley99QTRd+qFWjxZE7nUo1VYj0Xd2mVIZggqly3H9yON7chLXxR+e
- Xme1RHcRIU+uQGkIJb7pzJpeF1O0lehfHlf7J0a/dwDOgNOTT651bzFxIAbssmRq4+kx
- OqIpVI97Pga1VzPkgmBDLVD3ts/62kzNkyeTT0IoSGHZb7ARjp7w//lB9tA7DJdWhO/b
- Yupwj8yOG5rvpXxUD04qCzn1WO09sjpT79pnMoULMlAgJrT9I+p5Un9V15/vjtLJ+7d6
- muzA==
-X-Gm-Message-State: AO0yUKUFPeCF3HhlVj/sytFmvc1IeNpRx8E5/fuczL99clE5nAEko8yA
- jEs3zveNmC3U9wVK3M9N09fFRA==
-X-Google-Smtp-Source: AK7set8S/3qVBrRyfFWRRZ+kdQYBfH5RuOlBytGpWpPGCmTinlMte+2T4c1C/qFg6zc69Jnz0g7Mpw==
-X-Received: by 2002:a62:8413:0:b0:5a8:a8b5:d185 with SMTP id
- k19-20020a628413000000b005a8a8b5d185mr2988974pfd.1.1676499198914; 
- Wed, 15 Feb 2023 14:13:18 -0800 (PST)
-Received: from [192.168.192.227] (rrcs-74-87-59-234.west.biz.rr.com.
- [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
- t8-20020aa79388000000b005a817973a81sm2385630pfe.43.2023.02.15.14.13.16
+ bh=A+CF2m/mVngGWGeLVeBTB/9V2DMyK5HjrPwgZJlOl7Q=;
+ b=ItZNdSGG20fzpBihnaIAJTyuq8DMV3Pq2Aowbj6iUgUKwrLkV9MQgTF728GC/r1lTT
+ f4AAeND9zqLYjfRqATalRA+OXu+67sX6yNdbMWpvaCcpq5bKeEYe3AjGD/oQYr4kZ4kd
+ SOTZrXt3lte5VxUYQkNE3icRSxj3bPxv/2esvYdRKK2QX/CfNwOw4PtqCGN1rjcVg4ir
+ BvzN5W0Ut4ds9dNEex/x1h4/OAF4+h3sRsX0quvDOItW8t+sALEUxbWM9n5/nvVfOb+h
+ aBx/PsS6jtPpfpyhOy274syzrJp5KZIebVXRDLSblyJtTu7nJi3velhthO8UC3yXaPhM
+ bjdQ==
+X-Gm-Message-State: AO0yUKUXLnAJDt/eofL+BAtV60pf1a0DuMNA5Y4mVv0rgt3aNjRRRy4r
+ T57MMxmU7xzfnEZDAdl8+DlbfQ==
+X-Google-Smtp-Source: AK7set/xTQHxvy42qwhTTS57c4LreDkgYC2njOdOtTXOYf/Bk3B7yBzk95WvPCcYk30ljLGZn1AoPQ==
+X-Received: by 2002:a5d:4d87:0:b0:2c5:585e:334f with SMTP id
+ b7-20020a5d4d87000000b002c5585e334fmr2746838wru.41.1676499196886; 
+ Wed, 15 Feb 2023 14:13:16 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ t13-20020adfe44d000000b002c557f82e27sm9242610wrm.99.2023.02.15.14.13.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Feb 2023 14:13:18 -0800 (PST)
-Message-ID: <80575b72-65f7-e5ea-c6e1-558efbe4052a@linaro.org>
-Date: Wed, 15 Feb 2023 12:13:14 -1000
+ Wed, 15 Feb 2023 14:13:16 -0800 (PST)
+Message-ID: <7f4f3a95-d1c5-a531-0ce5-8a974e5bc002@linaro.org>
+Date: Wed, 15 Feb 2023 23:13:14 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v5 3/4] target/riscv: implement Zicbom extension
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [Qemu-devel] [PATCH 19/38] char: make some qemu_chr_fe skip if no
+ driver
 Content-Language: en-US
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com,
- Christoph Muellner <cmuellner@linux.com>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>
-References: <20230215205911.695745-1-dbarboza@ventanamicro.com>
- <20230215205911.695745-4-dbarboza@ventanamicro.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230215205911.695745-4-dbarboza@ventanamicro.com>
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Bin Meng <bmeng.cn@gmail.com>
+Cc: pbonzini@redhat.com, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ qemu-devel@nongnu.org, Alistair Francis <alistair@alistair23.me>
+References: <20161022095318.17775-1-marcandre.lureau@redhat.com>
+ <20161022095318.17775-20-marcandre.lureau@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20161022095318.17775-20-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -96,237 +94,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/15/23 10:59, Daniel Henrique Barboza wrote:
-> From: Christoph Muellner <cmuellner@linux.com>
+Hi Marc-André,
+
+[very old patch...]
+
+On 22/10/16 11:52, Marc-André Lureau wrote:
+> In most cases, front ends do not care about the side effect of
+> CharBackend, so we can simply skip the checks and call the qemu_chr_fe
+> functions even without associated CharDriver.
 > 
-> Zicbom is the Cache-Block Management extension defined in the already
-> ratified RISC-V Base Cache Management Operation (CBO) ISA extension [1].
-> 
-> The extension contains three instructions: cbo.clean, cbo.flush and
-> cbo.inval. All of them must be implemented in the same group as LQ and
-> cbo.zero due to overlapping patterns.
-> 
-> All these instructions can throw a Illegal Instruction/Virtual
-> Instruction exception, similar to the existing cbo.zero. The same
-> check_zicbo_envcfg() is used to handle these exceptions.
-> 
-> Aside from that, these instructions also need to handle page faults and
-> guest page faults. This is done in a new check_zicbom_access() helper.
-> 
-> As with Zicboz, the cache block size for Zicbom is also configurable.
-> Note that the spec determines that Zicbo[mp] and Zicboz can have
-> different cache sizes (Section 2.7 of [1]), so we also include a
-> 'cbom_blocksize' to go along with the existing 'cboz_blocksize'. They
-> are set to the same size, so unless users want to play around with the
-> settings both sizes will be the same.
-> 
-> [1] https://github.com/riscv/riscv-CMOs/blob/master/specifications/cmobase-v1.0.1.pdf
-> 
-> Co-developed-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-> Signed-off-by: Christoph Muellner <cmuellner@linux.com>
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->   target/riscv/cpu.c                          |   3 +
->   target/riscv/cpu.h                          |   2 +
->   target/riscv/helper.h                       |   2 +
->   target/riscv/insn32.decode                  |   5 +
->   target/riscv/insn_trans/trans_rvzicbo.c.inc |  27 +++++
->   target/riscv/op_helper.c                    | 107 ++++++++++++++++++++
->   6 files changed, 146 insertions(+)
-> 
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 7dd37de7f9..4b779b1775 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -74,6 +74,7 @@ struct isa_ext_data {
->   static const struct isa_ext_data isa_edata_arr[] = {
->       ISA_EXT_DATA_ENTRY(h, false, PRIV_VERSION_1_12_0, ext_h),
->       ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_10_0, ext_v),
-> +    ISA_EXT_DATA_ENTRY(zicbom, true, PRIV_VERSION_1_12_0, ext_icbom),
->       ISA_EXT_DATA_ENTRY(zicboz, true, PRIV_VERSION_1_12_0, ext_icboz),
->       ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
->       ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei),
-> @@ -1127,6 +1128,8 @@ static Property riscv_cpu_extensions[] = {
->       DEFINE_PROP_BOOL("zhinx", RISCVCPU, cfg.ext_zhinx, false),
->       DEFINE_PROP_BOOL("zhinxmin", RISCVCPU, cfg.ext_zhinxmin, false),
->   
-> +    DEFINE_PROP_BOOL("zicbom", RISCVCPU, cfg.ext_icbom, true),
-> +    DEFINE_PROP_UINT16("cbom_blocksize", RISCVCPU, cfg.cbom_blocksize, 64),
->       DEFINE_PROP_BOOL("zicboz", RISCVCPU, cfg.ext_icboz, true),
->       DEFINE_PROP_UINT16("cboz_blocksize", RISCVCPU, cfg.cboz_blocksize, 64),
->   
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 6b4c714d3a..a0673b4604 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -447,6 +447,7 @@ struct RISCVCPUConfig {
->       bool ext_zkt;
->       bool ext_ifencei;
->       bool ext_icsr;
-> +    bool ext_icbom;
->       bool ext_icboz;
->       bool ext_zihintpause;
->       bool ext_smstateen;
-> @@ -495,6 +496,7 @@ struct RISCVCPUConfig {
->       char *vext_spec;
->       uint16_t vlen;
->       uint16_t elen;
-> +    uint16_t cbom_blocksize;
->       uint16_t cboz_blocksize;
->       bool mmu;
->       bool pmp;
-> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-> index ce165821b8..37b54e0991 100644
-> --- a/target/riscv/helper.h
-> +++ b/target/riscv/helper.h
-> @@ -98,6 +98,8 @@ DEF_HELPER_FLAGS_2(fcvt_h_lu, TCG_CALL_NO_RWG, i64, env, tl)
->   DEF_HELPER_FLAGS_2(fclass_h, TCG_CALL_NO_RWG_SE, tl, env, i64)
->   
->   /* Cache-block operations */
-> +DEF_HELPER_2(cbo_clean_flush, void, env, tl)
-> +DEF_HELPER_2(cbo_inval, void, env, tl)
->   DEF_HELPER_2(cbo_zero, void, env, tl)
->   
->   /* Special functions */
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 3985bc703f..3788f86528 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -181,6 +181,11 @@ sraw     0100000 .....  ..... 101 ..... 0111011 @r
->   ldu      ............   ..... 111 ..... 0000011 @i
+>   hw/arm/pxa2xx.c           |  8 +++-----
+>   hw/arm/strongarm.c        | 16 ++++++---------
+>   hw/char/bcm2835_aux.c     | 18 ++++++-----------
+>   hw/char/cadence_uart.c    | 24 +++++++---------------
+
+>   qemu-char.c               | 51 ++++++++++++++++++++++++++++++++++++++---------
+>   include/sysemu/char.h     | 40 +++++++++++++++++++++++++------------
+>   22 files changed, 156 insertions(+), 191 deletions(-)
+
+
+> diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
+> index 4459b2d..291818e 100644
+> --- a/hw/char/cadence_uart.c
+> +++ b/hw/char/cadence_uart.c
+> @@ -142,9 +142,7 @@ static void uart_rx_reset(CadenceUARTState *s)
 >   {
->     [
-> +    # *** RV32 Zicbom Standard Extension ***
-> +    cbo_clean  0000000 00001 ..... 010 00000 0001111 @sfence_vm
-> +    cbo_flush  0000000 00010 ..... 010 00000 0001111 @sfence_vm
-> +    cbo_inval  0000000 00000 ..... 010 00000 0001111 @sfence_vm
-> +
->       # *** RV32 Zicboz Standard Extension ***
->       cbo_zero   0000000 00100 ..... 010 00000 0001111 @sfence_vm
->     ]
-> diff --git a/target/riscv/insn_trans/trans_rvzicbo.c.inc b/target/riscv/insn_trans/trans_rvzicbo.c.inc
-> index feabc28342..7df9c30b58 100644
-> --- a/target/riscv/insn_trans/trans_rvzicbo.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvzicbo.c.inc
-> @@ -16,12 +16,39 @@
->    * this program.  If not, see <http://www.gnu.org/licenses/>.
->    */
->   
-> +#define REQUIRE_ZICBOM(ctx) do {    \
-> +    if (!ctx->cfg_ptr->ext_icbom) { \
-> +        return false;               \
-> +    }                               \
-> +} while (0)
-> +
->   #define REQUIRE_ZICBOZ(ctx) do {    \
->       if (!ctx->cfg_ptr->ext_icboz) { \
->           return false;               \
->       }                               \
->   } while (0)
->   
-> +static bool trans_cbo_clean(DisasContext *ctx, arg_cbo_clean *a)
-> +{
-> +    REQUIRE_ZICBOM(ctx);
-> +    gen_helper_cbo_clean_flush(cpu_env, cpu_gpr[a->rs1]);
-> +    return true;
-> +}
-> +
-> +static bool trans_cbo_flush(DisasContext *ctx, arg_cbo_flush *a)
-> +{
-> +    REQUIRE_ZICBOM(ctx);
-> +    gen_helper_cbo_clean_flush(cpu_env, cpu_gpr[a->rs1]);
-> +    return true;
-> +}
-> +
-> +static bool trans_cbo_inval(DisasContext *ctx, arg_cbo_inval *a)
-> +{
-> +    REQUIRE_ZICBOM(ctx);
-> +    gen_helper_cbo_inval(cpu_env, cpu_gpr[a->rs1]);
-> +    return true;
-> +}
-> +
->   static bool trans_cbo_zero(DisasContext *ctx, arg_cbo_zero *a)
->   {
->       REQUIRE_ZICBOZ(ctx);
-> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> index 154007af80..573cca4cd3 100644
-> --- a/target/riscv/op_helper.c
-> +++ b/target/riscv/op_helper.c
-> @@ -176,6 +176,113 @@ void helper_cbo_zero(CPURISCVState *env, target_ulong address)
->       memset(mem, 0, cbozlen);
->   }
->   
-> +/*
-> + * check_zicbom_access
-> + *
-> + * Check access permissions (LOAD, STORE or FETCH as specified in
-> + * section 2.5.2 of the CMO specification) for Zicbom, raising
-> + * either store page-fault (non-virtualized) or store guest-page
-> + * fault (virtualized).
-> + */
-> +static void check_zicbom_access(CPURISCVState *env,
-> +                                target_ulong address,
-> +                                uintptr_t ra)
-> +{
-> +    RISCVCPU *cpu = env_archcpu(env);
-> +    int mmu_idx = cpu_mmu_index(env, false);
-> +    uint16_t cbomlen = cpu->cfg.cbom_blocksize;
-> +    void *phost;
-> +    int ret;
-> +
-> +    /* Mask off low-bits to align-down to the cache-block. */
-> +    address &= ~(cbomlen - 1);
-> +
-> +    /*
-> +     * Section 2.5.2 of cmobase v1.0.1:
-> +     *
-> +     * "A cache-block management instruction is permitted to
-> +     * access the specified cache block whenever a load instruction
-> +     * or store instruction is permitted to access the corresponding
-> +     * physical addresses. If neither a load instruction nor store
-> +     * instruction is permitted to access the physical addresses,
-> +     * but an instruction fetch is permitted to access the physical
-> +     * addresses, whether a cache-block management instruction is
-> +     * permitted to access the cache block is UNSPECIFIED.
-> +     *
-> +     * This means we have to make a choice of whether checking
-> +     * MMU_INST_FETCH is worth it or not. We'll go the easier
-> +     * route and check MMU_DATA_LOAD and MMU_DATA_STORE only.
-> +     */
-> +    ret = probe_access_range_flags(env, address, cbomlen,
-> +                                   MMU_DATA_LOAD,
-> +                                   mmu_idx, true, &phost, ra);
-> +
-> +    if (ret == TLB_INVALID_MASK) {
-> +        probe_access_range_flags(env, address, cbomlen,
-> +                                 MMU_DATA_STORE,
-> +                                 mmu_idx, true, &phost, ra);
+>       s->rx_wpos = 0;
+>       s->rx_count = 0;
+> -    if (s->chr.chr) {
+> -        qemu_chr_fe_accept_input(&s->chr);
+> -    }
+> +    qemu_chr_fe_accept_input(&s->chr);
 
-Not assigning to ret.
+I'm trying to understand this change. This code comes from:
 
-That said, it seems like all this is too complicated.
+commit 9121d02cb33c96b444a3973579f5edc119597e81
 
-The paragraph you quote above says that either LOAD or STORE are required (not both), but 
-UNSPECIFIED if only execute.
+     char/cadence_uart: Fix reset for unattached instances
 
-Thus
+     commit 1db8b5efe0c2b5000e50691eea61264a615f43de introduced an issue
+     where QEMU would segfault if you have an unattached Cadence UART.
 
-     ret = probe_access_flags(env, address, MMU_DATA_LOAD, mmu_idx, true, &phost, ra);
-     if (ret != TLB_INVALID_MASK) {
-         /* Success: readable */
-         return;
-     }
+     Fix by guarding the flush-on-reset logic on there being a qemu_chr
+     attachment.
 
-     /*
-      * Since not readable, must be writable.
-      * On failure, store-amo fault will be raised by riscv_cpu_tlb_fill.
-      */
-     probe_write(env, address, cbomlen, mmu_idx, ra);
+diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
+index 131370a74b..4d457f8c65 100644
+--- a/hw/char/cadence_uart.c
++++ b/hw/char/cadence_uart.c
+@@ -157,7 +157,9 @@ static void uart_rx_reset(UartState *s)
+  {
+      s->rx_wpos = 0;
+      s->rx_count = 0;
+-    qemu_chr_accept_input(s->chr);
++    if (s->chr) {
++        qemu_chr_accept_input(s->chr);
++    }
 
+When resetting the xlnx-zcu102 machine, I hit:
 
-seems like it would be sufficient.
-At which point the new probe_acccess_range_flags is not needed.
+(lldb) bt
+* thread #1, queue = 'com.apple.main-thread', stop reason = 
+EXC_BAD_ACCESS (code=1, address=0x50)
+   * frame #0: 0x10020a740 gd_vc_send_chars(vc=0x000000000) at 
+gtk.c:1759:41 [opt]
+     frame #1: 0x100636264 qemu_chr_fe_accept_input(be=<unavailable>) at 
+char-fe.c:159:9 [opt]
+     frame #2: 0x1000608e0 cadence_uart_reset_hold [inlined] 
+uart_rx_reset(s=0x10810a960) at cadence_uart.c:158:5 [opt]
+     frame #3: 0x1000608d4 cadence_uart_reset_hold(obj=0x10810a960) at 
+cadence_uart.c:530:5 [opt]
+     frame #4: 0x100580ab4 resettable_phase_hold(obj=0x10810a960, 
+opaque=0x000000000, type=<unavailable>) at resettable.c:0 [opt]
+     frame #5: 0x10057d1b0 bus_reset_child_foreach(obj=<unavailable>, 
+cb=(resettable_phase_hold at resettable.c:162), opaque=0x000000000, 
+type=RESET_TYPE_COLD) at bus.c:97:13 [opt]
+     frame #6: 0x1005809f8 resettable_phase_hold [inlined] 
+resettable_child_foreach(rc=0x000060000332d2c0, obj=0x0000600002c1c180, 
+cb=<unavailable>, opaque=0x000000000, type=RESET_TYPE_COLD) at 
+resettable.c:96:9 [opt]
+     frame #7: 0x1005809d8 resettable_phase_hold(obj=0x0000600002c1c180, 
+opaque=0x000000000, type=RESET_TYPE_COLD) at resettable.c:173:5 [opt]
+     frame #8: 0x1005803a0 
+resettable_assert_reset(obj=0x0000600002c1c180, type=<unavailable>) at 
+resettable.c:60:5 [opt]
+     frame #9: 0x10058027c resettable_reset(obj=0x0000600002c1c180, 
+type=RESET_TYPE_COLD) at resettable.c:45:5 [opt]
 
+Doing similar to commit 9121d02cb3...:
 
-r~
+-- >8 --
+diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
+index c069a30842..deadee1788 100644
+--- a/hw/char/cadence_uart.c
++++ b/hw/char/cadence_uart.c
+@@ -155,7 +155,9 @@ static void uart_rx_reset(CadenceUARTState *s)
+  {
+      s->rx_wpos = 0;
+      s->rx_count = 0;
+-    qemu_chr_fe_accept_input(&s->chr);
++    if (qemu_chr_fe_backend_open(&s->chr)) {
++        qemu_chr_fe_accept_input(&s->chr);
++    }
+  }
+---
+
+... fixes the issue but I'm not sure 1/ this is a correct use of the
+chardev API and 2/ this is how the HW work at reset.
+
+Can you help me with 1/ before I ask Xilinx folks for 2/ ? :)
+
+Thanks,
+
+Phil.
 
