@@ -2,88 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24CE969863C
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 21:48:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 666FA698682
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 21:50:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSOh1-0005il-Gj; Wed, 15 Feb 2023 15:47:55 -0500
+	id 1pSOjZ-0000kr-61; Wed, 15 Feb 2023 15:50:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSOgz-0005g0-8K
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:47:53 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSOjW-0000j3-Ds
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:50:30 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSOgx-0001BJ-Dc
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:47:52 -0500
-Received: by mail-wr1-x432.google.com with SMTP id m14so20455358wrg.13
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 12:47:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSOjT-0001sN-QH
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:50:29 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ g6-20020a05600c310600b003e1f6dff952so2619407wmo.1
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 12:50:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=XRuaB8/vPk6Sla2dXDUKLD2EFURy/RJZh1AC5WFlsT4=;
- b=coHp6VM2/PVem4s/WbbcYLOJ6o5TTbuB4K2euBJj9dd8B4dljL9Xzc6QdSq8S+X5mb
- gVVvDfARsAiO7yZw1Hoi0Wg6f1Di7XCK0FMfzpC+gx4Bb7BYp5oOzfpv8WbQ/SwZsZr4
- Ce//e8hdkKw/xZw8coD9JJaVUZEPn0ei2iPhZG1KiLRCjVESD9pFDeV3BOkdiJIHAIUK
- jcXhMzg/m7YRbQXtPD1q0apd64x9LYpDZ3Lde5QmAQK87JZ8Zp1mjqgiY5f/UcPE7bYe
- 2s8+PSgP/vIytAodhAoNqrbIPLhmg7qSgerFRlei2G6vWtgAciISe9WBpxhwlG67rK/m
- U4hQ==
+ bh=PqOHqJLw7qrdWJg+ABWmBEkjvNU+voG3Scna8EdNREY=;
+ b=NYxA/9OE3qb+1hqfNODmOf5iaB2nJC+/rAAt8fmfB2PzNRbyEY1I6ojn0QmAcDG4g3
+ zsk/1jEq5yP5EE1UjlKh5OY0gmX8kC9hYjGE+pXCrZuFKUIYLOjoLxVfbbqsD3w9slWK
+ EZGSERMtFlSKzM0Ql9ta843dBBnBc0RZXoWza0td7druZ4AxF/cuMdiiIW8UXQSZ2ZCW
+ NKNwkVWT64T5hUbM9FKyhUpGUAf2yvPuMsb+UcfrJk1HFeEmmk56lIIAQa7LVp0VHxEb
+ ilquBkTiJ2MlaJjkXwLavV8e05OZ/y5GLCDd/bFkuUtd4yLc4ulh6vJvSZm4RP3zgKvy
+ doQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XRuaB8/vPk6Sla2dXDUKLD2EFURy/RJZh1AC5WFlsT4=;
- b=S7+ze93zYk55AjeU/FIibGsC1bSERy5taEtjulTdsAx69JOGICzhzC/R2i8s4XT0Pa
- mEknuMeGcsoK86jISm5CfLTMTO4y6uQqObnIfH7SQG8jNK+rZXazmcxe56AB3cVVzZHh
- ubdzgHAggV8B+MkIafJPQWc/VgyuUJX5OI5Qn3oEASrMngnH0PfyePpE0s2sDNeDQPsj
- r5frj3fWcWAD5y5BvHeQphk+reim4EYawfwsvEh48ilgGzYdfi3R4wIYav9ucXNh1M1S
- fbyQQ5c2ntRbvnbAjydicrp7/9SRSh7sLjMBnbIwL+qUYWRcJUCrFeVU+wqFkSOXZXQv
- enCA==
-X-Gm-Message-State: AO0yUKV58aMnqD8Q9qpVczO+pnfNK/mf68T2nw8XR8cXu+lyg97g3qqJ
- HfAEMuNhjhw0b/8ilJnSY2Ba5w==
-X-Google-Smtp-Source: AK7set/MS246tyonJIbJt9p/td7O+OIlC75gp5hM608FDqTVzU3VZlqteoKR/MXjrclRjfJZ4OArYg==
-X-Received: by 2002:adf:e707:0:b0:2c5:550e:fad0 with SMTP id
- c7-20020adfe707000000b002c5550efad0mr2823553wrm.17.1676494070126; 
- Wed, 15 Feb 2023 12:47:50 -0800 (PST)
+ bh=PqOHqJLw7qrdWJg+ABWmBEkjvNU+voG3Scna8EdNREY=;
+ b=iy51XTg21LCzn1YlvJGA5vijh8L7eeXQYtLR/SPOwvz5B/CdzBs9QLrbvtj+/2ANEV
+ cn22sCsguzgi2qEXQQL2xze8viP4uZGU7jenm8cxU0z7mXIu3+Jj9K2M9Yr9uXlf2B0E
+ BFj1sPDmxF9fMcTDUoeHqeeIG1TtWj6sSZUeJKItKrv7aQNMG+W0YwpBHDwk84RXVMiQ
+ NNwEQkEdiaxt7hpun1pbUPRXcxSuGP1ox3wsClKbSqsK9sjHNYsUGoybyEoxW/wQqeTC
+ pq8JF6X33wDAzQb8+kijFwHcVv+M/3J+y5W0A9DVUtIqqUFopEjIUBbLMbV1RrYz31S3
+ qV0A==
+X-Gm-Message-State: AO0yUKXrOmZd90JeR6Y91esh/Hs+peTYHSuNlOlwyEjFpQr+e/uIHJ0g
+ z0TDnvJ8TD28fWmJXUrQ1kprWUrVvkqYAOt4
+X-Google-Smtp-Source: AK7set98+c6ueCb4wefH/CgNPEjMHjtNKIWZr/zXtXtIhG/pF77yzOHGgBztURyHBXGcGwO0Ky2hsQ==
+X-Received: by 2002:a05:600c:1609:b0:3e1:f8b3:60bd with SMTP id
+ m9-20020a05600c160900b003e1f8b360bdmr2858212wmn.27.1676494226296; 
+ Wed, 15 Feb 2023 12:50:26 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- z17-20020adff751000000b002c57c555010sm70335wrp.28.2023.02.15.12.47.48
+ c9-20020a7bc009000000b003dc4a47605fsm3263821wmb.8.2023.02.15.12.50.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Feb 2023 12:47:49 -0800 (PST)
-Message-ID: <791c5a86-09e9-8208-6d71-93bb0eec4d52@linaro.org>
-Date: Wed, 15 Feb 2023 21:47:47 +0100
+ Wed, 15 Feb 2023 12:50:25 -0800 (PST)
+Message-ID: <92e0e4dd-0aee-7d12-06b5-eb087766e087@linaro.org>
+Date: Wed, 15 Feb 2023 21:50:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH 10/12] tests/docker: Use binaries for debian-tricore-cross
+Subject: Re: [PATCH 1/3] target/mips: fix JALS32/J32 instruction handling for
+ microMIPS
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Michael Roth <michael.roth@amd.com>, Alexander Bulekov <alxndr@bu.edu>,
- Qiuhao Li <Qiuhao.Li@outlook.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-arm@nongnu.org, John Snow <jsnow@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Darren Kenny <darren.kenny@oracle.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Bandan Das <bsd@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Yonggang Luo <luoyonggang@gmail.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Ed Maste <emaste@freebsd.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-References: <20230215192530.299263-1-alex.bennee@linaro.org>
- <20230215192530.299263-11-alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Marcin Nowakowski <marcin.nowakowski@fungible.com>, qemu-devel@nongnu.org
+Cc: Aurelien Jarno <aurelien@aurel32.net>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+References: <20230215084754.3816747-1-marcin.nowakowski@fungible.com>
+ <20230215084754.3816747-2-marcin.nowakowski@fungible.com>
+ <645427aa-2630-a2be-9f1a-bee60a2d2885@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230215192530.299263-11-alex.bennee@linaro.org>
+In-Reply-To: <645427aa-2630-a2be-9f1a-bee60a2d2885@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -106,33 +97,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 15/2/23 20:25, Alex Bennée wrote:
-> From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+On 15/2/23 21:21, Richard Henderson wrote:
+> On 2/14/23 22:47, Marcin Nowakowski wrote:
+>> @@ -4860,6 +4860,7 @@ static void gen_compute_branch(DisasContext 
+>> *ctx, uint32_t opc,
+>>       target_ulong btgt = -1;
+>>       int blink = 0;
+>>       int bcond_compute = 0;
+>> +    int jal_mask = 0;
 > 
-> since binutils is pretty old, it fails our CI repeatedly during the
-> compilation of tricore-binutils. We created a precompiled version using
-> the debian docker image and download it instead of building it ourself.
+> Better to limit the scope of the variable to the block below.
 > 
-> We also updated the package to include a newer version of binutils, gcc,
-> and newlib. The default TriCore ISA version used by tricore-as changed
-> from the old version, so we have to specify it now. If we don't
-> 'test_fadd' fails with 'unknown opcode'.
+>> @@ -4917,6 +4918,11 @@ static void gen_compute_branch(DisasContext 
+>> *ctx, uint32_t opc,
+>>           break;
+>>       case OPC_J:
+>>       case OPC_JAL:
+>> +        /* Jump to immediate */
+>> +        jal_mask = ctx->hflags & MIPS_HFLAG_M16 ? 0xF8000000 : 
+>> 0xF0000000;
+>> +        btgt = ((ctx->base.pc_next + insn_bytes) & jal_mask) |
+>> +            (uint32_t)offset;
 > 
-> The new assembler also picks a new encoding in ld.h which fails the
-> 'test_ld_h' test. We fix that by using the newest TriCore CPU for QEMU.
-> 
-> The old assembler accepted an extra ')' in 'test_imask'. The new one
-> does not, so lets remove it.
-> 
-> Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-> Message-Id: <20230209145812.46730-1-kbastian@mail.uni-paderborn.de>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   tests/tcg/tricore/macros.h                           |  2 +-
->   tests/docker/dockerfiles/debian-tricore-cross.docker | 10 +++-------
->   tests/tcg/tricore/Makefile.softmmu-target            |  6 +++---
->   3 files changed, 7 insertions(+), 11 deletions(-)
+> Ideally we wouldn't have one huge helper function, and could pass down 
+> the mask from the translator.  But that's on-going cleanup.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Yes, this is the approach taken in decodetree conversion.
+
+I hope to rebase / respin incorporating Jiaxun patches some day...
+
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> 
+> r~
 
 
