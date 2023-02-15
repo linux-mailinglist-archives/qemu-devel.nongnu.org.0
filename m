@@ -2,89 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E206983EB
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 19:57:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32D8B6983F2
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 19:57:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSMxj-00077A-UG; Wed, 15 Feb 2023 13:57:03 -0500
+	id 1pSMyN-0007bk-UF; Wed, 15 Feb 2023 13:57:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSMxh-00075w-U5
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 13:57:01 -0500
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pSMyG-0007ad-Bk
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 13:57:36 -0500
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSMxg-0007s5-50
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 13:57:01 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id
- w20-20020a17090a8a1400b00233d7314c1cso3195993pjn.5
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 10:56:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2ty6Go6imRL7ziN4P5mkkosy0GQ2+LjZUs26ivjwRjQ=;
- b=U2vhKVdoN9iFSmXrjkqJK4FePEI44f52W/rAgGrDQp6w+nrkZoqao9XDa9j+nD15af
- JC7OJhnjRJwCoiNJu0lMjxjsJmilNNmUkSlqSxeeCcJiYbDFPXDdb0rR2nS5jm8AZM5B
- QdM4UdUJIRBFUygs2mdtCgjOqZkwe7QasHkjVf16iFsg+1/2CvbooULsEnlBwgsqf+ph
- EQiAGIt3mhpwSDXOoodsuyeLM0jewBsROA1dVbKygIEOw++TEL/y8sfS8yQKSKgGDCNS
- bltQ7wPrJ7eecjBX56Q/r5QIGpi96kyGSJUhrNiBWqe2+5BQlnM/LoFGGS48SAA7xaKs
- 5JZg==
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pSMyE-0007vI-KH
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 13:57:36 -0500
+Received: by mail-oi1-x22f.google.com with SMTP id t5so16651762oiw.1
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 10:57:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9OPZU49O81ubGxfHmiTW1rLsPMfddY7U/bKWmj7uiPk=;
+ b=lek92tHcuS9C6LeHSGTaVhlllmtnBAv+C411vKq2lolV3cRKCGDtlzrMZhe4dKGY8C
+ BlIM/EhnELZuho13toM1cbOeMQLYT7gusYQpllLbC7N0bM3F2KI3IUXpcT51NewOOcq1
+ 7fl4Kr/QmeaW1xfrDfnBMmCyXFrzOPLA45QE2035KW2W2difmgpTjgSzvajGlUTkk51M
+ tmnOW03gYi+zgeyyJrXat9yPnJui+ixONc2urACOtl/1Jn+L/0FUR3awH1bYyXsFlW6k
+ Jq3DuX269Qo9YdCYcrG1l/o52rKpoMNuq/5wAdXqHWnrovFoq3MXDOXNwZuDgvWPn4tr
+ i/kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2ty6Go6imRL7ziN4P5mkkosy0GQ2+LjZUs26ivjwRjQ=;
- b=pWlG95jG/v8y3h8ynVCPNQq2/CviOtsyvNmKkVlEBvYInDvuin5b7YdPpPGcd3FF9M
- 5qSq3lfZbpgr8IkjS9e/mPAYjSloFoTylaPGvVaUUpvftwo5moP7HPA591xGGwD5GZu2
- PSfCm8yNzzMRglVVtUf1dX+o3wDur0b6jEv/XVECLWi2iHJJDt4yZmyNAxTPgyRYO3vC
- B26WrmeuVLGfMjhr/Eecu7J5PSK07HMeXpVRkbK3G5CyEnQKJrr1jXB4NehvFzZ7ueDS
- yM1d7WcBEahHTUCLnjaGVhqEJX5cbY48hKlydcyS6PetM7zDnj1LzIN38XJXXGu11KKO
- 2T5A==
-X-Gm-Message-State: AO0yUKWT9jTQlg8QpD4FRxji1FkXrTzqqp6C89Ji22RNIFtjDBmgP7v4
- NkcOfMFnRq6TmDw1fT6FpaxClw==
-X-Google-Smtp-Source: AK7set+unld6jrOIAxw5cbdGNozT2yxZY3NSokKlDP7l6oTF0+nwdImKRxNhmj05ZwCJf5FuXI618g==
-X-Received: by 2002:a17:903:182:b0:19a:723a:832f with SMTP id
- z2-20020a170903018200b0019a723a832fmr4817950plg.7.1676487418478; 
- Wed, 15 Feb 2023 10:56:58 -0800 (PST)
-Received: from [192.168.192.227] (rrcs-74-87-59-234.west.biz.rr.com.
- [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
- w14-20020a170902a70e00b0018997f6fc88sm12496392plq.34.2023.02.15.10.56.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Feb 2023 10:56:57 -0800 (PST)
-Message-ID: <59eff7cc-cddc-bd5a-9d96-284172a515ba@linaro.org>
-Date: Wed, 15 Feb 2023 08:56:52 -1000
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9OPZU49O81ubGxfHmiTW1rLsPMfddY7U/bKWmj7uiPk=;
+ b=DVSBE/Pxt8XHjTYc+t/Br5LbMf3sjNT/sAejGNJKV47Hf6s0UN1XITgHfm8FFRc1KM
+ 6qt7tCXJXJ3ZaM8W+tTDvxmDxyrXnfqS4Xa4tGaxgBQrdNoNqUtzk2qv34uvRwOwcHPZ
+ 2kh/Se/7lF/oFYsKHH2HcboN6ubfrRHi9hma1DjOhKisz/hYlypARV+soEqiygUgF33n
+ Bs4K6IMXYMMzjzHNro9S3Ch5Oj7u8xuxnTgfUsPQFtt73O4AA0NTNHtNLLVa23PkDorB
+ +pgaX3bGlHOkQ5wT8cNTW2dcxrSPeFdBxRM2+U3OfnfcSbIGxYUwbsXOh1pa9iOquk5w
+ dGIg==
+X-Gm-Message-State: AO0yUKUxGVI8gJIjrF115gTAOfr/1O/+wVJvEGGcoKTCSE3pENo2Fs5W
+ 8pvuqm6r0LueRBhKJDLMsDgEeX6RHuomc/JD
+X-Google-Smtp-Source: AK7set8b2rlhX348pEVZwAiyiNzbr5WsrF+1U3Q2/yLAxIP8qV2deCSRxw+yqnkPELl5t3fXWkIcFA==
+X-Received: by 2002:a05:6808:6198:b0:37a:fcd6:5c09 with SMTP id
+ dn24-20020a056808619800b0037afcd65c09mr1040712oib.49.1676487452214; 
+ Wed, 15 Feb 2023 10:57:32 -0800 (PST)
+Received: from grind.dc1.ventanamicro.com ([191.19.40.109])
+ by smtp.gmail.com with ESMTPSA id
+ c21-20020a056808139500b0037d8dbe4308sm4145697oiw.48.2023.02.15.10.57.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Feb 2023 10:57:31 -0800 (PST)
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Subject: [PATCH v3 00/10] enable write_misa() and RISCV_FEATURE_* cleanups
+Date: Wed, 15 Feb 2023 15:57:16 -0300
+Message-Id: <20230215185726.691759-1-dbarboza@ventanamicro.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 2/5] hw/timer/i8254: Factor i8254_pit_create() out and
- document
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Marcelo Tosatti <mtosatti@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Eduardo Habkost
- <eduardo@habkost.net>, qemu-ppc@nongnu.org,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-References: <20230215174353.37097-1-philmd@linaro.org>
- <20230215174353.37097-3-philmd@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230215174353.37097-3-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,14 +89,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/15/23 07:43, Philippe Mathieu-Daudé wrote:
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
-> ---
->   hw/timer/i8254.c         | 16 ++++++++++++++++
->   include/hw/timer/i8254.h | 24 +++++++++++++-----------
->   2 files changed, 29 insertions(+), 11 deletions(-)
+Hi,
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+In this new version the most notable change was in the write_misa()
+logic. I decided to follow Bin's suggestion and removed the verification
+at the start of the function.
 
-r~
+As the result, the patch that removes RISCV_FEATURE_MISA was merged with
+the patch that makes this change (patch 2).
+
+I also removed the v2 acks from it since the patch now does something
+different than before. Patch 2 is also the only patch that is missing
+acks.
+
+
+Changes from v2:
+- all patches but patch 2 are acked/reviewed
+- patch 2:
+  - remove the RISCV_FEATURE_MISA validation from write_misa()
+- v2 link: https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg03934.html
+
+
+Daniel Henrique Barboza (10):
+  target/riscv: do not mask unsupported QEMU extensions in write_misa()
+  target/riscv: always allow write_misa() to write MISA
+  target/riscv: introduce riscv_cpu_cfg()
+  target/riscv: remove RISCV_FEATURE_DEBUG
+  target/riscv/cpu.c: error out if EPMP is enabled without PMP
+  target/riscv: remove RISCV_FEATURE_EPMP
+  target/riscv: remove RISCV_FEATURE_PMP
+  hw/riscv/virt.c: do not use RISCV_FEATURE_MMU in
+    create_fdt_socket_cpus()
+  target/riscv: remove RISCV_FEATURE_MMU
+  target/riscv/cpu: remove CPUArchState::features and friends
+
+ hw/riscv/virt.c           |  7 ++++---
+ target/riscv/cpu.c        | 19 ++++---------------
+ target/riscv/cpu.h        | 28 +++++-----------------------
+ target/riscv/cpu_helper.c |  6 +++---
+ target/riscv/csr.c        | 18 +++++-------------
+ target/riscv/machine.c    | 11 ++++-------
+ target/riscv/monitor.c    |  2 +-
+ target/riscv/op_helper.c  |  2 +-
+ target/riscv/pmp.c        |  8 ++++----
+ 9 files changed, 31 insertions(+), 70 deletions(-)
+
+-- 
+2.39.1
+
 
