@@ -2,82 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12759697F63
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 16:19:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0897C697F1A
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 16:06:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSJYR-0002ch-G8; Wed, 15 Feb 2023 10:18:43 -0500
+	id 1pSJM9-0002Wj-7n; Wed, 15 Feb 2023 10:06:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcin.nowakowski@fungible.com>)
- id 1pSDSZ-0006xu-JU
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 03:48:15 -0500
-Received: from mail-oa1-x2e.google.com ([2001:4860:4864:20::2e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSJM7-0002VZ-BT
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 10:05:59 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcin.nowakowski@fungible.com>)
- id 1pSDSY-00071x-1Z
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 03:48:15 -0500
-Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-16cc1e43244so17860991fac.12
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 00:48:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fungible.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ooA3RfAvBE8YoFTL0liD39KM6/U3xfuZBPasSLp8UkA=;
- b=PvWMIo4D7VwfiDcJDl+LOYxsq8frwxMbUVoCfCJ4IVtdCIyS9Rh8XHc+g4HFxKtYxD
- KuCiUdscKgguHP/UhaXMyMcTw5cY1jKQ8GCC17sGs3joYnKK0QACUuIj03ZQrJphTiXU
- wNFSG9x0JwuyIA+qJPgE/rDekDBfvfla2L0zA=
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSJM5-0005d7-Ey
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 10:05:59 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ bg5-20020a05600c3c8500b003e00c739ce4so1759667wmb.5
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 07:05:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=qVTOyPALKBWB7r2m2+zf7jhjSPuZE2k6bI4To5dSwGA=;
+ b=PlGKQxfxaNOIbfJR7fcsjyZkore+ju1wTMK5OaGCryzUkVYzUQPN3TFm2QpAdhbhxH
+ siJG7A7WXNpC4ZJk3aQ4JeC5bOXhWIrx6dRUsaZJwxyH57z/wi8RMoc8UjqQ/oDucNYt
+ 7pkSuKz9lfD+YsgMlWYSf6LSbyjk1R8c7BsgVz7cuLc9cvSrRNLoqeUa67iZ2e5TvS3H
+ TPxSbnciP67JvzXSflsuY8NebJiAuG0QE0z1LZKmzUOeioxw3Xz9d3Evfsc0wtFOPYwE
+ oqb5ccGM2jWiAVfvVHVOizx+e/XRoQYBO8uuf0LZBKmwFPuqGjCRnXQki4ALZ1AGOjK7
+ dsTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ooA3RfAvBE8YoFTL0liD39KM6/U3xfuZBPasSLp8UkA=;
- b=VFgQPHxx0LV6MbNU6i1gTS/kyJrEEljXT/K8eiDUhv+q4dtOcAF5bl/oF9X/aTB48e
- ERp4UdBUGhAaOR6TkpN+sxFu7zDJUlkFgiURT4Eb+t4+Lk989RJjNmL7IRyHqKU5EzsZ
- jJPxN6u+J0dSq9nUaUlqWj4XGRr+Ao0bvPY9FFYzRu2NDcqZO2jNlZhWFbccl59QGALm
- OT5IFKicRQdDsQWt+HdOf0+qqSSIPcIVxkwm8nuzxRCQhwaaTOYeSdC0ZdmhJpDOLXIY
- QocdtarG8reh3a6z3i+j6KRcbPEQDs22C/x+tk1Y3gkuf38i2vfQARCSxz7GhKnDxN9E
- 7KcA==
-X-Gm-Message-State: AO0yUKWJQM7JPsy9e/lXd9E5MdIf9nLsxOEQpG8vffP2eIQ5cGnQnNG8
- eaQM+HOBS+tt0kkR7BqTt+d3XZusDgKngcNg
-X-Google-Smtp-Source: AK7set+OOrrXoIBH3SsD/bRwtlzJ/NxA+JWDWJc1t3VhHxPZhJx3ghl7KiCMNSlT1BQWq+AGlNGrjQ==
-X-Received: by 2002:a05:6870:a11d:b0:16d:c064:1a9 with SMTP id
- m29-20020a056870a11d00b0016dc06401a9mr703905oae.10.1676450892576; 
- Wed, 15 Feb 2023 00:48:12 -0800 (PST)
-Received: from WR-NOWAKOWSKI.fungible.local (77-255-255-121.adsl.inetia.pl.
- [77.255.255.121]) by smtp.gmail.com with ESMTPSA id
- a9-20020a056870d60900b0013bc40b09dasm6788811oaq.17.2023.02.15.00.48.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 00:48:12 -0800 (PST)
-From: Marcin Nowakowski <marcin.nowakowski@fungible.com>
-To: qemu-devel@nongnu.org
-Cc: marcin.nowakowski@fungible.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Subject: [PATCH 3/3] target/mips: implement CP0.Config7.WII bit support
-Date: Wed, 15 Feb 2023 09:47:54 +0100
-Message-Id: <20230215084754.3816747-4-marcin.nowakowski@fungible.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230215084754.3816747-1-marcin.nowakowski@fungible.com>
-References: <20230215084754.3816747-1-marcin.nowakowski@fungible.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qVTOyPALKBWB7r2m2+zf7jhjSPuZE2k6bI4To5dSwGA=;
+ b=xzu42YYQlquKSKN6ysfLOkaIeeL7EOOz/UGtM2EYa3M2Ar0agwAGe+mpqisKhuAEDk
+ Guhvbo++F9Lyw9v7A1JMjCOqnbKJXL3Rd64aQERyLIYwLHZABS58M5lExPRRxlHIaPqw
+ oN+nWD48IqLFWD658VUTngHR5xl2yeCQ2pQgInM1b/xBj7CCLfx27qThePaHF2LboM1V
+ ZlAWNdPGPEZpX0bl3QKXlGqqQLUzHlr6AX6fC9NwyzaVzuzNvt17pBdBJd4G+LzbWX64
+ nqKsfv1O3RWKba4ERAfLfNX/WMByxqB4RwgPODHw5wi/rEO/YyURmIkAtcFicCqI8Zfk
+ kmUA==
+X-Gm-Message-State: AO0yUKWhLpHn9g7vKbzD79rPQ4XJ0OABczlZ2r8eCfxoboueeve4hwEu
+ gq0ADDDlGA57E/fO4ERfvstk0A==
+X-Google-Smtp-Source: AK7set/ThxA68NktCP2O1FHHrT8fJFIBj85QgDuITcNXWGFZc2wullBvx7Skor4EFkrU7n1uiz3IyA==
+X-Received: by 2002:a05:600c:4d93:b0:3df:e549:bd00 with SMTP id
+ v19-20020a05600c4d9300b003dfe549bd00mr2507195wmp.1.1676473555871; 
+ Wed, 15 Feb 2023 07:05:55 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ o3-20020a05600c510300b003e2059c7978sm2075370wms.36.2023.02.15.07.05.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Feb 2023 07:05:55 -0800 (PST)
+Message-ID: <a16ece12-fb6b-bae9-3e1d-69957aeef429@linaro.org>
+Date: Wed, 15 Feb 2023 16:05:54 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2e;
- envelope-from=marcin.nowakowski@fungible.com; helo=mail-oa1-x2e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH v2 0/7] include/hw/pci include/hw/cxl: Clean up includes
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>
+Cc: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
+ marcel.apfelbaum@gmail.com, jonathan.cameron@huawei.com
+References: <20221222100330.380143-1-armbru@redhat.com>
+ <B98EF322-5449-4942-8718-D3504B863B96@gmail.com>
+ <87edsremti.fsf@pond.sub.org> <20221222142149-mutt-send-email-mst@kernel.org>
+ <87k02i7kr8.fsf@pond.sub.org> <20221224063930-mutt-send-email-mst@kernel.org>
+ <871qmr9hx9.fsf@pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <871qmr9hx9.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 15 Feb 2023 10:18:35 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,65 +96,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Some older cores use CP0.Config7.WII bit to indicate that a disabled
-interrupt should wake up a sleeping CPU.
-Enable this bit by default for M14Kc, which supports that. There are
-potentially other cores that support this feature, but I do not have a
-complete list.
+On 15/2/23 14:28, Markus Armbruster wrote:
+> "Michael S. Tsirkin" <mst@redhat.com> writes:
+> 
+>> On Fri, Dec 23, 2022 at 06:27:07AM +0100, Markus Armbruster wrote:
+>>> "Michael S. Tsirkin" <mst@redhat.com> writes:
+>>>
+>>>> On Thu, Dec 22, 2022 at 11:48:25AM +0100, Markus Armbruster wrote:
+>>>>> Bernhard Beschow <shentey@gmail.com> writes:
+>>>>>
+>>>>>> Am 22. Dezember 2022 10:03:23 UTC schrieb Markus Armbruster <armbru@redhat.com>:
+>>>>>>> Back in 2016, we discussed[1] rules for headers, and these were
+>>>>>>> generally liked:
+>>>>>>>
+>>>>>>> 1. Have a carefully curated header that's included everywhere first.  We
+>>>>>>>    got that already thanks to Peter: osdep.h.
+>>>>>>>
+>>>>>>> 2. Headers should normally include everything they need beyond osdep.h.
+>>>>>>>    If exceptions are needed for some reason, they must be documented in
+>>>>>>>    the header.  If all that's needed from a header is typedefs, put
+>>>>>>>    those into qemu/typedefs.h instead of including the header.
+>>>>>>>
+>>>>>>> 3. Cyclic inclusion is forbidden.
+>>>>>>
+>>>>>> Sounds like these -- useful and sane -- rules belong in QEMU's coding style. What about putting them there for easy reference?
+>>>>>
+>>>>> Makes sense.  I'll see what I can do.  Thanks!
+> 
+> Commit f07ceffdf50.
+> 
+>>>> It would be even better if there was e.g. a make target
+>>>> pulling in each header and making sure it's self consistent and
+>>>> no circularity. We could run it e.g. in CI.
+>>>
+>>> Yes, that would be nice, but the problem I've been unable to crack is
+>>> deciding whether a header is supposed to compile target-independently or
+>>> not.  In my manual testing, I use trial and error: if it fails to
+>>> compile target-independently, compile for all targets.  This is s-l-o-w.
+> 
+> To spice things up, we also have headers that provide additional
+> contents in target-dependent context.  These need to be tested in both
+> contexts.
 
-Signed-off-by: Marcin Nowakowski <marcin.nowakowski@fungible.com>
----
- target/mips/cpu-defs.c.inc | 1 +
- target/mips/cpu.c          | 6 ++++--
- target/mips/cpu.h          | 1 +
- 3 files changed, 6 insertions(+), 2 deletions(-)
+Do we need to figure a way to get rid of this problem
+in order to build a single qemu-system binary?
 
-diff --git a/target/mips/cpu-defs.c.inc b/target/mips/cpu-defs.c.inc
-index 480e60aeec..57856e2e72 100644
---- a/target/mips/cpu-defs.c.inc
-+++ b/target/mips/cpu-defs.c.inc
-@@ -354,6 +354,7 @@ const mips_def_t mips_defs[] =
-                        (0 << CP0C1_DS) | (3 << CP0C1_DL) | (1 << CP0C1_DA),
-         .CP0_Config2 = MIPS_CONFIG2,
-         .CP0_Config3 = MIPS_CONFIG3 | (0x2 << CP0C3_ISA) | (0 << CP0C3_VInt),
-+        .CP0_Config7 = 0x1 << CP0C7_WII,
-         .CP0_LLAddr_rw_bitmask = 0,
-         .CP0_LLAddr_shift = 4,
-         .SYNCI_Step = 32,
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 7a565466cb..7ba359696f 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -144,12 +144,14 @@ static bool mips_cpu_has_work(CPUState *cs)
-     /*
-      * Prior to MIPS Release 6 it is implementation dependent if non-enabled
-      * interrupts wake-up the CPU, however most of the implementations only
--     * check for interrupts that can be taken.
-+     * check for interrupts that can be taken. For pre-release 6 CPUs,
-+     * check for CP0 Config7 'Wait IE ignore' bit.
-      */
-     if ((cs->interrupt_request & CPU_INTERRUPT_HARD) &&
-         cpu_mips_hw_interrupts_pending(env)) {
-         if (cpu_mips_hw_interrupts_enabled(env) ||
--            (env->insn_flags & ISA_MIPS_R6)) {
-+            (env->insn_flags & ISA_MIPS_R6) ||
-+            (env->CP0_Config7 & (1 << CP0C7_WII))) {
-             has_work = true;
-         }
-     }
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 0a085643a3..abee7a99d7 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -980,6 +980,7 @@ typedef struct CPUArchState {
- #define CP0C6_DATAPREF        0
-     int32_t CP0_Config7;
-     int64_t CP0_Config7_rw_bitmask;
-+#define CP0C7_WII          31
- #define CP0C7_NAPCGEN       2
- #define CP0C7_UNIMUEN       1
- #define CP0C7_VFPUCGEN      0
--- 
-2.25.1
+>> Yes and it's annoying for developers too.
+>> Do we want to come up with a scheme for target-dependent files?
+>> Name them target-X or put in a target/ directory?
+> 
+> I'd be in favour.  Sadly, I'm not able to push such an effort myself.
+> 
+>> We could also write checkpatch rules to disallow
+>> including target specific headers in target independent files then.
+> 
+> Fortunately, that's pretty unlikely to compile :)
+> 
+>>> The other problem, of course, is coding it up in Meson.  I haven't even
+>>> tried.
 
 
