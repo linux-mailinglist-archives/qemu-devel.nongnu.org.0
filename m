@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C18B698535
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 21:06:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C6EF698539
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 21:07:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSO2b-0003Au-LH; Wed, 15 Feb 2023 15:06:09 -0500
+	id 1pSO2c-0003CH-T9; Wed, 15 Feb 2023 15:06:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pSO2Z-00038J-Fp
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:06:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pSO2a-00039g-G9
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:06:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pSO2W-0006ZQ-3W
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:06:07 -0500
+ id 1pSO2Y-0006a6-Th
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:06:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676491562;
+ s=mimecast20190719; t=1676491566;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Fhny3mK6+93qjtPBP62GxA7t9L/F3Bt2Gpb3MEekks8=;
- b=S5bKVU9ub7K0Gq04NUHti8f1PFvAxDlwUPtZNa4esgVOfaVRSSKT6aVrsAdmLww7/fMzb6
- 1x8JxUlwgQbQFVPJgqgkSMbw1VyZMD5PH5DBL3vXbvhy0RnUmFDwed4KceDyk4ROvy1xCk
- jkNkkRdjHN7V4EQNvi7UKjhoc523KMk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MJpg7N2ZV7Mz/ks4UAtfx5cTtvFxrLAvHJbxTW8fDeQ=;
+ b=FAfk5YWoIEx1oo7HtSDZhZbhR4zUZEag6r9lNYLxXp/ZBDYkFzHAjfxA70okc7u51IUgT5
+ h6PJuf+xnLo3SbZZvKJPZLeQoKtQHFQ9KUfRlMukPZH60a8PxHxriE13qxecqnSJnoRu+e
+ oAXkbBSWfnlvabY5nhXZYQAweupqTnA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-1ZqY39XBPkOa56WTvD7_WQ-1; Wed, 15 Feb 2023 15:05:59 -0500
-X-MC-Unique: 1ZqY39XBPkOa56WTvD7_WQ-1
+ us-mta-392-DPe2qpV5MLS44s0c7h4oOA-1; Wed, 15 Feb 2023 15:06:02 -0500
+X-MC-Unique: DPe2qpV5MLS44s0c7h4oOA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9AA8018811F7;
- Wed, 15 Feb 2023 20:05:58 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2FB7B29AA2D0;
+ Wed, 15 Feb 2023 20:06:02 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F9A3C15BA0;
- Wed, 15 Feb 2023 20:05:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E02F3C15BA0;
+ Wed, 15 Feb 2023 20:05:58 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, qemu-s390x@nongnu.org,
@@ -54,15 +55,18 @@ Cc: Eric Blake <eblake@redhat.com>, qemu-s390x@nongnu.org,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
  Christian Borntraeger <borntraeger@linux.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eric Farman <farman@linux.ibm.com>
-Subject: [PULL 0/5] Migration 20230215 patches
-Date: Wed, 15 Feb 2023 21:05:49 +0100
-Message-Id: <20230215200554.1365-1-quintela@redhat.com>
+ Eric Farman <farman@linux.ibm.com>, Avihai Horon <avihaih@nvidia.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
+Subject: [PULL 1/5] migration/qemu-file: Add qemu_file_get_to_fd()
+Date: Wed, 15 Feb 2023 21:05:50 +0100
+Message-Id: <20230215200554.1365-2-quintela@redhat.com>
+In-Reply-To: <20230215200554.1365-1-quintela@redhat.com>
+References: <20230215200554.1365-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,58 +90,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 6a50f64ca01d0a7b97f14f069762bfd88160f31e:
+From: Avihai Horon <avihaih@nvidia.com>
 
-  Merge tag 'pull-request-2023-02-14' of https://gitlab.com/thuth/qemu into staging (2023-02-14 14:46:10 +0000)
+Add new function qemu_file_get_to_fd() that allows reading data from
+QEMUFile and writing it straight into a given fd.
 
-are available in the Git repository at:
+This will be used later in VFIO migration code.
 
-  https://gitlab.com/juan.quintela/qemu.git tags/migration-20230215-pull-request
+Signed-off-by: Avihai Horon <avihaih@nvidia.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Reviewed-by: Cédric Le Goater <clg@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
+ migration/qemu-file.h |  1 +
+ migration/qemu-file.c | 34 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 35 insertions(+)
 
-for you to fetch changes up to 24beea4efe6e6b65fd6248ede936cd3278b2bf8a:
-
-  migration: Rename res_{postcopy,precopy}_only (2023-02-15 20:04:30 +0100)
-
-----------------------------------------------------------------
-Migration Pull request
-
-This pull request contains:
-
-* Add qemu_file_get_to_fd() a.k.a. make vfio happy(Avihai)
-* migration/block is now DPRINTF() free zone (Philippe)
-* remove res_compat and improve docs (me)
-
-Please apply.
-
-----------------------------------------------------------------
-
-Avihai Horon (1):
-  migration/qemu-file: Add qemu_file_get_to_fd()
-
-Juan Quintela (3):
-  migration: In case of postcopy, the memory ends in res_postcopy_only
-  migration: Remove unused res_compatible
-  migration: Rename res_{postcopy,precopy}_only
-
-Philippe Mathieu-Daudé (1):
-  migration/block: Convert remaining DPRINTF() debug macro to trace
-    events
-
- include/migration/register.h   | 30 +++++++++++++++---------------
- migration/qemu-file.h          |  1 +
- migration/savevm.h             | 10 ++++------
- hw/s390x/s390-stattrib.c       |  8 +++-----
- hw/vfio/migration.c            | 11 ++++-------
- migration/block-dirty-bitmap.c |  7 +++----
- migration/block.c              | 20 ++++----------------
- migration/migration.c          | 20 +++++++++-----------
- migration/qemu-file.c          | 34 ++++++++++++++++++++++++++++++++++
- migration/ram.c                | 20 ++++++++------------
- migration/savevm.c             | 28 ++++++++++------------------
- hw/vfio/trace-events           |  2 +-
- migration/trace-events         |  5 +++--
- 13 files changed, 99 insertions(+), 97 deletions(-)
-
+diff --git a/migration/qemu-file.h b/migration/qemu-file.h
+index fa13d04d78..9d0155a2a1 100644
+--- a/migration/qemu-file.h
++++ b/migration/qemu-file.h
+@@ -148,6 +148,7 @@ int qemu_file_shutdown(QEMUFile *f);
+ QEMUFile *qemu_file_get_return_path(QEMUFile *f);
+ void qemu_fflush(QEMUFile *f);
+ void qemu_file_set_blocking(QEMUFile *f, bool block);
++int qemu_file_get_to_fd(QEMUFile *f, int fd, size_t size);
+ 
+ void ram_control_before_iterate(QEMUFile *f, uint64_t flags);
+ void ram_control_after_iterate(QEMUFile *f, uint64_t flags);
+diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+index 2d5f74ffc2..102ab3b439 100644
+--- a/migration/qemu-file.c
++++ b/migration/qemu-file.c
+@@ -940,3 +940,37 @@ QIOChannel *qemu_file_get_ioc(QEMUFile *file)
+ {
+     return file->ioc;
+ }
++
++/*
++ * Read size bytes from QEMUFile f and write them to fd.
++ */
++int qemu_file_get_to_fd(QEMUFile *f, int fd, size_t size)
++{
++    while (size) {
++        size_t pending = f->buf_size - f->buf_index;
++        ssize_t rc;
++
++        if (!pending) {
++            rc = qemu_fill_buffer(f);
++            if (rc < 0) {
++                return rc;
++            }
++            if (rc == 0) {
++                return -EIO;
++            }
++            continue;
++        }
++
++        rc = write(fd, f->buf + f->buf_index, MIN(pending, size));
++        if (rc < 0) {
++            return -errno;
++        }
++        if (rc == 0) {
++            return -EIO;
++        }
++        f->buf_index += rc;
++        size -= rc;
++    }
++
++    return 0;
++}
 -- 
 2.39.1
 
