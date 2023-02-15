@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F287698482
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 20:27:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 063C2698487
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 20:28:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSNPj-0007BF-0b; Wed, 15 Feb 2023 14:25:59 -0500
+	id 1pSNPh-00072m-KK; Wed, 15 Feb 2023 14:25:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pSNPR-0006k0-0l
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 14:25:41 -0500
+ id 1pSNPR-0006kf-HP
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 14:25:42 -0500
 Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pSNPO-0001iF-Vz
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 14:25:40 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id s13so2522415wrw.3
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 11:25:37 -0800 (PST)
+ id 1pSNPP-0001ir-1O
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 14:25:41 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id bu23so20230836wrb.8
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 11:25:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RPAcXxshM3oIDV7Nd8qDMhK+ewSzYoeyH2TxIrPviEw=;
- b=JJEZaLcg9Dpi7T3f8dimDzVETCGPAs39sMlRf4mjIzonw0SsNVBe38b/ux0XlVoaIv
- KYp6A5YIfwrFNEpS9TE8qX4dO7Pof2estZODjgM3xF27bTISr36Gx0Sgo9EwZsGEX524
- 5Y4ZxboclN6azXvMnS8Akl7x0F2xodHIhjRQPc/F11/qk3lkcJhhmD+S5iHek7HmAval
- q0BzAGXc/rUfI737QFGoWPfnIij+bEsRudzgLZ+XwbDXVdaEvoqwgiz0ERVBlJnX2fJ+
- mGnA5QT3VE2sWtr16pzYBdAfk7pVNJxw6m+DhZRpo3k2iXjYyz8d4NldXkKnbMEny8H/
- 80TQ==
+ bh=HrkxQ4C8k4Tf9raZcUSEIFG81EdtIwTYG8FkdkShoug=;
+ b=cuOWh82eTNLuO4Ql+ZYMaRjCYwpl2RsbFSkfEVePIXW/t7kAR9f092btU8BPWh6/oC
+ UKKR1gnjio1qpDfc5KwWwjUjP4UlyGb45wyzNwApO0Qd9vzhx2enTH38VAwiw4PKEWje
+ pqOaPE/gj9Bwu/BuoOLnKHgTfgL3hFN0j1X/eqJcmntVBZhcSuLj/OeyOvM4oOSIfRLc
+ 4IFKznThYRrLqH/YLYrAMDK3AGrprucKDZuU4+54Ri48wwqZ/4k5U2AREM/jqbIBWWBW
+ GbToE/0SsifU8fFURdxAY7eeaIS4cmAH+6C8p0uIWoN73a6C7Afvuyd165LVrnLWtuor
+ z2FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RPAcXxshM3oIDV7Nd8qDMhK+ewSzYoeyH2TxIrPviEw=;
- b=qkS43Gpz4v5D6arTMbDApCiGu5CtCfWD5+2PayvlFsgqILco/al0gqeDW645qsu6VH
- dBWX+H2gY0H08xSMkmaOaWMy/zPGkLxVUzqiRV1no1+ujPhhd+TGo3gVwWqZGQ1ERAeg
- DPpByO0T+ywgFVWxCXl7eR8r78I8NkfKfOaT8E++lGfochWZGlYdraLuDgZCp6w1vsOy
- Ucnq0H1W2TRJR5CSc45t0fC5vfR54eZ3ntQ2rxLcN+AqHXSwbAEUAhP+oZJNzkSInjC5
- hEdjlbef8B0kBrMKCBiZYzWekZsGQstW4RjauRWQkoujF+S01Itr3f3Qz0/T97YTTyzW
- eaXw==
-X-Gm-Message-State: AO0yUKUbiKLyKOvJsKcQZB5ghnYeCV4+WfbTf2bhVMTf/F0CJxYD5wfG
- wV2ioVJYCUCohku0x4prlTyWHQ==
-X-Google-Smtp-Source: AK7set9nZoHgGkn/SRM+hEQJUZ9iIXFEuRe+BLf+NrECDsGtobe5JmklmETTQJYrfLuM2lqP2vgYrw==
-X-Received: by 2002:adf:eece:0:b0:2c5:561e:80a0 with SMTP id
- a14-20020adfeece000000b002c5561e80a0mr2183799wrp.45.1676489136333; 
- Wed, 15 Feb 2023 11:25:36 -0800 (PST)
+ bh=HrkxQ4C8k4Tf9raZcUSEIFG81EdtIwTYG8FkdkShoug=;
+ b=zsAUVt0glm+7h8fx2fpZm2ZVnUlSVS9srvX97EH771SXKckvn4LdauzeHpGIIfddsL
+ qLSx+/YKnnqtrg4ZGi1CUgfMCl4VMK6AZiWfh9uUBcAUV+mMFykH7CWM9/Nd7I3OKN/D
+ 1/K8ZjGTgiMW7lt1Gn8jAzqMeloZdtL7ctWheR7wZ11JbASLOUOOZWMEg9HugFwLlVra
+ hcLQ3Ku0oolufF3t0C74ZUx1LyDpMXYAX5ZmMTaQsl7EvQBlVhAvVap/D4BBOjGLvEgd
+ WPwTdd/wqsMTLeZYI1K842OdXHKMqu5NbzZTCDfrvxxfBSX5DNsrZ4uzgDykel86r9Yt
+ AmMw==
+X-Gm-Message-State: AO0yUKWVd0W9NLyLY7yxI/vqE2WdRkoXR2piKt0rphdALhsNSCO3/qK5
+ d26HoXKeIgljBw5niRoXr+VmxA==
+X-Google-Smtp-Source: AK7set9MEhfBMGdddqhD0PWGcu4p9bw3r1ciLlJ2chpBmd9z0u+qWPA56UpjTFuiC1v4W5cG1q7qYA==
+X-Received: by 2002:adf:f64f:0:b0:2c5:592b:b71b with SMTP id
+ x15-20020adff64f000000b002c5592bb71bmr2653740wrp.45.1676489137534; 
+ Wed, 15 Feb 2023 11:25:37 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- b4-20020a5d4b84000000b002c55b0e6ef1sm7193127wrt.4.2023.02.15.11.25.32
+ r3-20020a5d6943000000b002c551ae8cc1sm11213538wrw.67.2023.02.15.11.25.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 15 Feb 2023 11:25:35 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D34D61FFC1;
+ by zen.linaroharston (Postfix) with ESMTP id ECAF31FFC2;
  Wed, 15 Feb 2023 19:25:31 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -76,9 +76,10 @@ Cc: Michael Roth <michael.roth@amd.com>, Alexander Bulekov <alxndr@bu.edu>,
  Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
  Ed Maste <emaste@freebsd.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [PATCH 11/12] cirrus.yml: Improve the windows_msys2_task
-Date: Wed, 15 Feb 2023 19:25:29 +0000
-Message-Id: <20230215192530.299263-12-alex.bennee@linaro.org>
+Subject: [PATCH 12/12] tests: ensure we export job results for some cross
+ builds
+Date: Wed, 15 Feb 2023 19:25:30 +0000
+Message-Id: <20230215192530.299263-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230215192530.299263-1-alex.bennee@linaro.org>
 References: <20230215192530.299263-1-alex.bennee@linaro.org>
@@ -93,7 +94,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,42 +110,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Thomas Huth <thuth@redhat.com>
+We do run tests on some cross builds. Provide a template to ensure we
+export the testlog to the build artefacts and report the test results
+via the junit.
 
-There's no need to run a full-blown bash just to create a directory.
-And we can skip the "cd build" each time by doing it once at the
-beginning.
-
-Additionally, let's exclude some targets (that we already compile-test
-with MinGW in the gitlab jobs) from the build, since the build time of
-this task is very long already (between 80 and 90 minutes).
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20230208103046.618154-1-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .cirrus.yml | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 4895987da4..5fb00da73d 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -100,9 +100,11 @@ windows_msys2_task:
-       tar xf C:\tools\archive\msys64.tar
-       Write-Output "Extract msys2 time taken: $((Get-Date).Subtract($start_time))"
-   script:
--    - C:\tools\msys64\usr\bin\bash.exe -lc "mkdir build"
--    - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && ../configure --python=python3"
--    - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make -j8"
-+    - mkdir build
-+    - cd build
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "../configure --python=python3
-+        --target-list-exclude=i386-softmmu,ppc64-softmmu,aarch64-softmmu,mips64-softmmu,mipsel-softmmu,sh4-softmmu"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "make -j8"
-     - exit $LastExitCode
-   test_script:
-     - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make V=1 check"
+---
+v2
+  - properly format extends
+---
+ .gitlab-ci.d/crossbuild-template.yml | 11 +++++++++++
+ .gitlab-ci.d/crossbuilds.yml         | 12 +++++++++---
+ 2 files changed, 20 insertions(+), 3 deletions(-)
+
+diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
+index 6d709628f1..24a41a7b21 100644
+--- a/.gitlab-ci.d/crossbuild-template.yml
++++ b/.gitlab-ci.d/crossbuild-template.yml
+@@ -48,3 +48,14 @@
+           nios2-linux-user or1k-linux-user ppc-linux-user sparc-linux-user
+           xtensa-linux-user $CROSS_SKIP_TARGETS"
+     - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
++
++# We can still run some tests on some of our cross build jobs. They can add this
++# template to their extends to save the build logs and test results
++.cross_test_artifacts:
++  artifacts:
++    name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
++    expire_in: 7 days
++    paths:
++      - build/meson-logs/testlog.txt
++    reports:
++      junit: build/meson-logs/testlog.junit.xml
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index 74d6259b90..bbc013725c 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -44,7 +44,9 @@ cross-arm64-user:
+     IMAGE: debian-arm64-cross
+ 
+ cross-i386-system:
+-  extends: .cross_system_build_job
++  extends:
++    - .cross_system_build_job
++    - .cross_test_artifacts
+   needs:
+     job: i386-fedora-cross-container
+   variables:
+@@ -52,7 +54,9 @@ cross-i386-system:
+     MAKE_CHECK_ARGS: check-qtest
+ 
+ cross-i386-user:
+-  extends: .cross_user_build_job
++  extends:
++    - .cross_user_build_job
++    - .cross_test_artifacts
+   needs:
+     job: i386-fedora-cross-container
+   variables:
+@@ -60,7 +64,9 @@ cross-i386-user:
+     MAKE_CHECK_ARGS: check
+ 
+ cross-i386-tci:
+-  extends: .cross_accel_build_job
++  extends:
++    - .cross_accel_build_job
++    - .cross_test_artifacts
+   timeout: 60m
+   needs:
+     job: i386-fedora-cross-container
 -- 
 2.39.1
 
