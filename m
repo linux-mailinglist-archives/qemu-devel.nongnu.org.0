@@ -2,78 +2,124 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75AE96988D9
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 00:43:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFF8C6988EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 00:55:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSRQ7-0001J4-0C; Wed, 15 Feb 2023 18:42:39 -0500
+	id 1pSRaf-00063Q-1g; Wed, 15 Feb 2023 18:53:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
- id 1pSRQ4-0001Gx-6h
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 18:42:36 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
- id 1pSRQ1-0004eC-FV
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 18:42:35 -0500
-Received: by mail-ej1-x633.google.com with SMTP id qw12so1104342ejc.2
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 15:42:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=HPrtPY3P5ajQXxEbAf59wgFOqdB3fGFCcc6f5943Pzc=;
- b=AK+DQXGzI4Z5BF/1XMFpky3h6eeypJbbqAo7nHQsXald4w8vZjIqGkrvOTaBNwSdxy
- CUqUz8ajpswJAIJRBoXnCdYCGcS5X/SfRvEXrPB1x3dvlF0OhvVMTg0em4cJAjgNm+6d
- 8ZGTDutQ8O+jPzUDwxoksHOGOgVZzlpUKiV/kRqE65s1UGU0rS4IUUaMKZpxTHYKPWQB
- +quqR8ZjuntKhp0PAakyCJlERy/Ry2Gc0LvE6z08B1tge6sIFafr53LmNZ7P0BLBc05/
- gsq2Wd6+3QqNZ74lAy+YlryXvK8jnY97T6bFhB1HCG2Tz11J5no8GhvE73qnEjLfzOtH
- yRZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=HPrtPY3P5ajQXxEbAf59wgFOqdB3fGFCcc6f5943Pzc=;
- b=0Cxa2CtjfePjkKWCnkCWNUfaQWtD4laRLK26n9ivk8ict4yTwDV+SLQzktQy0+p+i3
- qpljIk8oFo48QbnySwYN432xO/ZZpVuGs6+qfTA7IoaUDPF4NheLekqpsMV1d+LQGkh7
- uBU61mzk8iBZS65eKBwcVDsuL/s6RjrREmtd5h/K8jFS8r10h43LJ7Zu1XXGaO76V98d
- 016GuGOb85x+8qhKuE7oYU8aBSleUiPoaGBe+Zd0vR0fm6Z9D9kZi9Y0zRnx9rZ+LY1c
- Y+QgnrPhOSwPGt26J/kxK5NiTszHzRy8bgzyY+Z2r30/qNihAEodlKfjyVrIYbdGdDwf
- 4nAg==
-X-Gm-Message-State: AO0yUKWk+1ImPFW/+y8U5S2wijwQP3z5fyeP0V+7K4n6CUZ80WgNuKUR
- IQoHg2l9+8KT379TTc2WL7Gcqps/esoXSV3wF2IG1g==
-X-Google-Smtp-Source: AK7set/Qu9xXXLarpaFXA+so8NJBjpCQKACYDyK3jTOfF7yOAFlL/5H4VNCq83d5hBba8VlaCCu/h+JcFYXr/S8I3Ys=
-X-Received: by 2002:a17:906:d146:b0:889:dc4d:e637 with SMTP id
- br6-20020a170906d14600b00889dc4de637mr1925822ejb.6.1676504551881; Wed, 15 Feb
- 2023 15:42:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <nicolinc@nvidia.com>)
+ id 1pSRaa-00062z-SC
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 18:53:28 -0500
+Received: from mail-dm6nam11on2082.outbound.protection.outlook.com
+ ([40.107.223.82] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nicolinc@nvidia.com>)
+ id 1pSRaX-0005nx-UW
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 18:53:28 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=l4KdipDalWzJubUyegC5Tmn51lzwD3KINtW3HleXe5BP4tk6JrYU90UnH1TxCvqCXtCfHZ3Fh0Tj7T4jao/Z2mNarRn9/R1oqvcr2XsOMqEfC1RdSCdbwYkkjGJfzewJhjH3oMY5CYjqjHW5DiXfRH3GwlKO1o55zg5gnp87oVJFiuw15BDSg0FJhOZsQNgXQhHi0xGNlL0K3ZeA9SAyNQkxUC24FDXXVdHy36IpPYszdLY5yDs68vkXHgqPJVxdwrGb5vn/0oskSqPLOcXsonp8jZrG3Tqvdsnw3Rg99OHK5sfw4qgJFhw9MXR/c1GIf6SD6b7SWPDxzI9057/0GQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+Y4RMMfsESY1z/Qz3DjPBFtmd+/AmOumVCpxQtbQ9tk=;
+ b=ejC82l/m9lkA0AosAZWO2VcsS0ZhmzVRolyICj9XOxFsUn4p8+dc0nGzLISFaM2WYWUOljfemUPyphl0fGgRqf5NUHaCF8QmdxQxnqgE0KP9iVANUhucYCmL7t6YJ9NVBsoKa07bldUF1W2BiXT414xcM0u33Wv+SI25OUGuD41U6a6FTs7AuPdIXcWNHrv1BXBhkE9el4FIvpu1f53TPdA+3SOn4QvEs+Lomqg0DGccql8tI2OzFbWMtBOjxrM5rI+iWsmgb+VAVcMjH6lqBkFQMYYMz/HC2Ri/AAPNhTcIffMdNw51exu4Yl46AF8+6Y1eJYxKQeAaGCK3tsY/nw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+Y4RMMfsESY1z/Qz3DjPBFtmd+/AmOumVCpxQtbQ9tk=;
+ b=jX4CTcWOqcF4XeXTJDDPpRIumN3B73F8O/74sPU2RfWAMVJDJES1938vaW43PX/2FvnGVdLUYPqPz+pv6ik15ChIINBgaGZPSQoVQkA3Q8K51/E0oUR58xH0Xyps8QFtICqL7u0+I5lqqGr5mXfXDN3lNfeoDqlYPujnm0U8W7HsGTsIAYvEAAwQx34Fp2oUcInJmbDhxXtTxA/ccTbtSVR6IKaHKnFraV1uk6uADVhfwSrcbbZzIGBJbseCxaKZvCdON+/a7Tw/pgLwxu893zs1cGG8EHRSs09ERsThWcTobyc1M4T4xI3TnVDljXVA84KpCUVIw/76nnkbJ+24rw==
+Received: from BN9PR03CA0098.namprd03.prod.outlook.com (2603:10b6:408:fd::13)
+ by SA1PR12MB6918.namprd12.prod.outlook.com (2603:10b6:806:24d::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.26; Wed, 15 Feb
+ 2023 23:48:20 +0000
+Received: from BN8NAM11FT024.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:fd:cafe::c0) by BN9PR03CA0098.outlook.office365.com
+ (2603:10b6:408:fd::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.26 via Frontend
+ Transport; Wed, 15 Feb 2023 23:48:20 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ BN8NAM11FT024.mail.protection.outlook.com (10.13.177.38) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6111.12 via Frontend Transport; Wed, 15 Feb 2023 23:48:19 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 15 Feb
+ 2023 15:48:10 -0800
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 15 Feb
+ 2023 15:48:10 -0800
+Received: from Asurada-Nvidia (10.127.8.12) by mail.nvidia.com (10.129.68.7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36 via Frontend
+ Transport; Wed, 15 Feb 2023 15:48:08 -0800
+Date: Wed, 15 Feb 2023 15:48:06 -0800
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Eric Auger <eric.auger@redhat.com>
+CC: <eric.auger.pro@gmail.com>, <yi.l.liu@intel.com>, <yi.y.sun@intel.com>,
+ <alex.williamson@redhat.com>, <clg@redhat.com>, <qemu-devel@nongnu.org>,
+ <david@gibson.dropbear.id.au>, <thuth@redhat.com>, <farman@linux.ibm.com>,
+ <mjrosato@linux.ibm.com>, <akrowiak@linux.ibm.com>, <pasic@linux.ibm.com>,
+ <jjherne@linux.ibm.com>, <jasowang@redhat.com>, <kvm@vger.kernel.org>,
+ <jgg@nvidia.com>, <kevin.tian@intel.com>, <chao.p.peng@intel.com>,
+ <peterx@redhat.com>, <shameerali.kolothum.thodi@huawei.com>,
+ <zhangfei.gao@linaro.org>, <berrange@redhat.com>, <apopple@nvidia.com>,
+ <suravee.suthikulpanit@amd.com>
+Subject: Re: [RFC v3 14/18] backends/iommufd: Introduce the iommufd object
+Message-ID: <Y+1vNgoGJJw40+9C@Asurada-Nvidia>
+References: <20230131205305.2726330-1-eric.auger@redhat.com>
+ <20230131205305.2726330-15-eric.auger@redhat.com>
 MIME-Version: 1.0
-References: <20230209062404.3582018-1-debug@rivosinc.com>
- <20230209062404.3582018-4-debug@rivosinc.com>
- <f68da758-a418-c528-6f7c-e6e0d0246255@linux.alibaba.com>
- <a5d7355c-57bb-214f-aba4-5873dbf2e3a3@linux.alibaba.com>
-In-Reply-To: <a5d7355c-57bb-214f-aba4-5873dbf2e3a3@linux.alibaba.com>
-From: Deepak Gupta <debug@rivosinc.com>
-Date: Wed, 15 Feb 2023 15:42:12 -0800
-Message-ID: <CAKC1njQ_SX51PfoPC0=pBiTsq=YVvHY0dA6TkwrUqA-4VbD53A@mail.gmail.com>
-Subject: Re: [PATCH v1 RFC Zisslpcfi 3/9] target/riscv: implements CSRs and
- new bits in existing CSRs in zisslpcfi
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, liweiwei@iscas.ac.cn,
- dbarboza@ventanamicro.com, 
- Kip Walker <kip@rivosinc.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=debug@rivosinc.com; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230131205305.2726330-15-eric.auger@redhat.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT024:EE_|SA1PR12MB6918:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7a117678-221c-41a4-0cf8-08db0faf1e08
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7vTprzX53ANReBB0e7gLcvHrHNkCym4MMjugSF2rXLT6DnAlKcLUzStMLVgR+e8O9/AR8qa7y2VngmMzPp/sACaFsCB7wjL1wliIOEA2q20unZVygIFzoep4Xm2hX9kGiwgb7k2T/zHBeSMsI4eEjPK5+iKJ7FohycgoT6AvLIY8J2W6IqRp2+4/+Nv3j/OYTYmEQ9lYzaTk4QCsBowlkpj79nw+emJDTIKFvnI7ZJNoa813td5ZxU33N023C6tnrXGTRMFPq48xB1gAuThZ850pTcEZ5LzUdXwDKMzXrc78BAXpFcbb6LZBu/DSuIgrYvCH7qt2VE/pFImjRhlU1Nl0gYwYPhTgIN1JBzIc8nVnUy5NsgdIonz3CFhffMZkVj6CClIazYz6uPSuMtEgxvZAsCiafp7eb2a/MeKY8UdRJRAQm8XoQh8QnkDKJS1BHSniw12vS4ZomhacFsM7VMxbif0yNQHBZYCRjDS2Npw8J7f0Zpq6diOTNgdUPH03xpJWB47qdcv5P9AH8RzA6nWuaVLuxD+ptA+/VXVT7wvSt9tbzjKsy9drWtsrE6veedpQU50+wZfy6mykgeVIYWlRUPe+8xkBJ10XcUBSooS8o0CKdzw6RhDd5FWfYEEnAj/WFn5o7itTNVGMhjHFi4imZbQPLIu8U0lgJLr/+YHhpRafsmj7a1vezqDGf5H45afDmov8GT1T22K0QZpV7Q==
+X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
+ SFS:(13230025)(4636009)(376002)(396003)(39860400002)(346002)(136003)(451199018)(40470700004)(36840700001)(46966006)(33716001)(336012)(82310400005)(2906002)(478600001)(9686003)(186003)(4326008)(41300700001)(83380400001)(26005)(6916009)(356005)(426003)(86362001)(40480700001)(55016003)(36860700001)(316002)(47076005)(40460700003)(8676002)(8936002)(5660300002)(7416002)(70586007)(7636003)(82740400003)(70206006)(54906003);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2023 23:48:19.8563 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a117678-221c-41a4-0cf8-08db0faf1e08
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT024.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6918
+Received-SPF: softfail client-ip=40.107.223.82;
+ envelope-from=nicolinc@nvidia.com;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,326 +136,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 14, 2023 at 10:24 PM LIU Zhiwei
-<zhiwei_liu@linux.alibaba.com> wrote:
->
-> I don't find the modification for read_mstatus.
+Hi Eric,
 
-Doesn't need any modification in read_mstatus.
-It just returns whatever is in the mstatus.
+On Tue, Jan 31, 2023 at 09:53:01PM +0100, Eric Auger wrote:
 
->
-> Zhiwei
->
-> On 2023/2/15 13:47, LIU Zhiwei wrote:
-> >
-> > On 2023/2/9 14:23, Deepak Gupta wrote:
-> >> CSR_SSP and CSR_LPLR are new CSR additions to cpu/hart. This patch
-> >> allows
-> >> access to these CSRs. A predicate routine handles access to these CSR as
-> >> per specification.
-> >>
-> >> This patch also implments new bit definitions in
-> >> menvcfg/henvcfg/mstatus/
-> >> sstatus CSRs to master enabled cfi and enable forward cfi in S and M
-> >> mode.
-> >> mstatus CSR holds forward and backward cfi enabling for U mode.
-> >>
-> >> There is no enabling bit for backward cfi in S and M mode. It is always
-> >> enabled if extension is implemented by CPU.
-> >>
-> >> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
-> >> Signed-off-by: Kip Walker  <kip@rivosinc.com>
-> >> ---
-> >>   target/riscv/csr.c | 137 ++++++++++++++++++++++++++++++++++++++++++++-
-> >>   target/riscv/pmp.c |   9 +++
-> >>   2 files changed, 145 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> >> index 0db2c233e5..24e208ebed 100644
-> >> --- a/target/riscv/csr.c
-> >> +++ b/target/riscv/csr.c
-> >> @@ -163,6 +163,50 @@ static RISCVException ctr32(CPURISCVState *env,
-> >> int csrno)
-> >>       return ctr(env, csrno);
-> >>   }
-> >>   +static RISCVException cfi(CPURISCVState *env, int csrno)
-> >> +{
-> >> +    /* no cfi extension */
-> >> +    if (!env_archcpu(env)->cfg.ext_cfi) {
-> >> +        return RISCV_EXCP_ILLEGAL_INST;
-> >> +    }
-> >> +    /*
-> >> +     * CONFIG_USER_MODE always allow access for now. Better for user
-> >> mode only
-> >> +     * functionality
-> >> +     */
-> >> +#if !defined(CONFIG_USER_ONLY)
-> >> +    /* current priv not M */
-> >> +    if (env->priv != PRV_M) {
-> >> +        /* menvcfg says no CFI */
-> >> +        if (!get_field(env->menvcfg, MENVCFG_CFI)) {
-> >> +            return RISCV_EXCP_ILLEGAL_INST;
-> >> +        }
-> >> +
-> >> +        /* V = 1 and henvcfg says no CFI. raise virtual instr fault */
-> >> +        if (riscv_cpu_virt_enabled(env) &&
-> >> +            !get_field(env->henvcfg, HENVCFG_CFI)) {
-> >> +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> >> +        }
-> >> +
-> >> +        /*
-> >> +         * LPLR and SSP are not accessible to U mode if disabled via
-> >> status
-> >> +         * CSR
-> >> +         */
-> >> +        if (env->priv == PRV_U) {
-> >> +            if (csrno == CSR_LPLR &&
-> >> +                !get_field(env->mstatus, MSTATUS_UFCFIEN)) {
-> >> +                return RISCV_EXCP_ILLEGAL_INST;
-> >> +            }
-> >> +            if (csrno == CSR_SSP &&
-> >> +                !get_field(env->mstatus, MSTATUS_UBCFIEN)) {
-> >> +                return RISCV_EXCP_ILLEGAL_INST;
-> >> +            }
-> >> +        }
-> >> +    }
-> >> +#endif
-> >> +
-> >> +    return RISCV_EXCP_NONE;
-> >> +}
-> >> +
-> >>   #if !defined(CONFIG_USER_ONLY)
-> >>   static RISCVException mctr(CPURISCVState *env, int csrno)
-> >>   {
-> >> @@ -485,6 +529,32 @@ static RISCVException seed(CPURISCVState *env,
-> >> int csrno)
-> >>   #endif
-> >>   }
-> >>   +/* Zisslpcfi CSR_LPLR read/write */
-> >> +static int read_lplr(CPURISCVState *env, int csrno, target_ulong *val)
-> >> +{
-> >> +    *val = env->lplr;
-> >> +    return RISCV_EXCP_NONE;
-> >> +}
-> >> +
-> >> +static int write_lplr(CPURISCVState *env, int csrno, target_ulong val)
-> >> +{
-> >> +    env->lplr = val & (LPLR_UL | LPLR_ML | LPLR_LL);
-> >> +    return RISCV_EXCP_NONE;
-> >> +}
-> >> +
-> >> +/* Zisslpcfi CSR_SSP read/write */
-> >> +static int read_ssp(CPURISCVState *env, int csrno, target_ulong *val)
-> >> +{
-> >> +    *val = env->ssp;
-> >> +    return RISCV_EXCP_NONE;
-> >> +}
-> >> +
-> >> +static int write_ssp(CPURISCVState *env, int csrno, target_ulong val)
-> >> +{
-> >> +    env->ssp = val;
-> >> +    return RISCV_EXCP_NONE;
-> >> +}
-> >> +
-> >>   /* User Floating-Point CSRs */
-> >>   static RISCVException read_fflags(CPURISCVState *env, int csrno,
-> >>                                     target_ulong *val)
-> >> @@ -1227,7 +1297,7 @@ static RISCVException
-> >> write_mstatus(CPURISCVState *env, int csrno,
-> >>         /* flush tlb on mstatus fields that affect VM */
-> >>       if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
-> >> -            MSTATUS_MPRV | MSTATUS_SUM)) {
-> >> +            MSTATUS_MPRV | MSTATUS_SUM | MSTATUS_UFCFIEN |
-> >> MSTATUS_UBCFIEN)) {
-> >
-> > These two fields should be guarded by the check of ext_cfi.
-> >
-> > And MSTATUS_UBCFIEN field change don't need flush tlb.
-> >
-> > I didn't get why we should flush tlb for forward cfi. For background,
-> > there are some enhancement for the PTE and PMP, we may need do some
-> > memory adjustments. But forward cfi just adds some instructions. Why
-> > we should flush tlb? Does the tlb can't be used any more?
-> >
-> >>           tlb_flush(env_cpu(env));
-> >>       }
-> >>       mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
-> >> @@ -1250,6 +1320,11 @@ static RISCVException
-> >> write_mstatus(CPURISCVState *env, int csrno,
-> >>           }
-> >>       }
-> >>   +    /* If cfi extension is available, then apply cfi status mask */
-> >> +    if (env_archcpu(env)->cfg.ext_cfi) {
-> >> +        mask |= CFISTATUS_M_MASK;
-> >> +    }
-> >> +
-> >>       mstatus = (mstatus & ~mask) | (val & mask);
-> >>         if (xl > MXL_RV32) {
-> >> @@ -1880,9 +1955,17 @@ static RISCVException
-> >> write_menvcfg(CPURISCVState *env, int csrno,
-> >>                                     target_ulong val)
-> >>   {
-> >>       uint64_t mask = MENVCFG_FIOM | MENVCFG_CBIE | MENVCFG_CBCFE |
-> >> MENVCFG_CBZE;
-> >> +    uint64_t cfi_mask = MENVCFG_CFI | MENVCFG_SFCFIEN;
-> >>         if (riscv_cpu_mxl(env) == MXL_RV64) {
-> >>           mask |= MENVCFG_PBMTE | MENVCFG_STCE;
-> >> +        if (env_archcpu(env)->cfg.ext_cfi) {
-> >> +            mask |= cfi_mask;
-> >> +            /* If any cfi enabling bit changes in menvcfg, flush tlb */
-> >> +            if ((val ^ env->menvcfg) & cfi_mask) {
-> >> +                tlb_flush(env_cpu(env));
-> > Don't flush tlb for MENVCFG_SFCFIE field changes.
-> >> +            }
-> >> +        }
-> >>       }
-> >>       env->menvcfg = (env->menvcfg & ~mask) | (val & mask);
-> >>   @@ -1900,8 +1983,17 @@ static RISCVException
-> >> write_menvcfgh(CPURISCVState *env, int csrno,
-> >>                                     target_ulong val)
-> >>   {
-> >>       uint64_t mask = MENVCFG_PBMTE | MENVCFG_STCE;
-> >> +    uint64_t cfi_mask = MENVCFG_CFI | MENVCFG_SFCFIEN;
-> > MENVCFG_SFCFIE
-> >>       uint64_t valh = (uint64_t)val << 32;
-> >>   +    if (env_archcpu(env)->cfg.ext_cfi) {
-> >> +            mask |= cfi_mask;
-> >> +            /* If any cfi enabling bit changes in menvcfg, flush tlb */
-> >> +            if ((val ^ env->menvcfg) & cfi_mask) {
-> >> +                tlb_flush(env_cpu(env));
-> >> +            }
-> > If SFCFIE field change, we should not flush the tlb.
-> >> +    }
-> >> +
-> >>       env->menvcfg = (env->menvcfg & ~mask) | (valh & mask);
-> >>         return RISCV_EXCP_NONE;
-> >> @@ -1954,6 +2046,7 @@ static RISCVException
-> >> write_henvcfg(CPURISCVState *env, int csrno,
-> >>                                     target_ulong val)
-> >>   {
-> >>       uint64_t mask = HENVCFG_FIOM | HENVCFG_CBIE | HENVCFG_CBCFE |
-> >> HENVCFG_CBZE;
-> >> +    uint64_t cfi_mask = HENVCFG_CFI | HENVCFG_SFCFIEN;
-> >
-> > HENVCFG_SFCFIE
-> >
-> >>       RISCVException ret;
-> >>         ret = smstateen_acc_ok(env, 0, SMSTATEEN0_HSENVCFG);
-> >> @@ -1963,6 +2056,18 @@ static RISCVException
-> >> write_henvcfg(CPURISCVState *env, int csrno,
-> >>         if (riscv_cpu_mxl(env) == MXL_RV64) {
-> >>           mask |= HENVCFG_PBMTE | HENVCFG_STCE;
-> >> +        /*
-> >> +         * If cfi available and menvcfg.CFI = 1, then apply cfi mask
-> >> for
-> >> +         * henvcfg
-> >> +         */
-> >> +        if (env_archcpu(env)->cfg.ext_cfi &&
-> >> +            get_field(env->menvcfg, MENVCFG_CFI)) {
-> >> +            mask |= cfi_mask;
-> >> +            /* If any cfi enabling bit changes in henvcfg, flush tlb */
-> >> +            if ((val ^ env->henvcfg) & cfi_mask) {
-> >> +                tlb_flush(env_cpu(env));
-> >> +            }
-> > If SFCFIE field change, we should not flush the tlb.
-> >> +        }
-> >>       }
-> >>         env->henvcfg = (env->henvcfg & ~mask) | (val & mask);
-> >> @@ -1988,9 +2093,19 @@ static RISCVException
-> >> write_henvcfgh(CPURISCVState *env, int csrno,
-> >>                                     target_ulong val)
-> >>   {
-> >>       uint64_t mask = HENVCFG_PBMTE | HENVCFG_STCE;
-> >> +    uint64_t cfi_mask = HENVCFG_CFI | HENVCFG_SFCFIEN;
-> >>       uint64_t valh = (uint64_t)val << 32;
-> >>       RISCVException ret;
-> >>   +    if (env_archcpu(env)->cfg.ext_cfi &&
-> >> +        get_field(env->menvcfg, MENVCFG_CFI)) {
-> >> +        mask |= cfi_mask;
-> >> +        /* If any cfi enabling bit changes in henvcfg, flush tlb */
-> >> +        if ((val ^ env->henvcfg) & cfi_mask) {
-> >> +            tlb_flush(env_cpu(env));
-> >> +        }
-> >> +    }
-> >> +
-> >>       ret = smstateen_acc_ok(env, 0, SMSTATEEN0_HSENVCFG);
-> >>       if (ret != RISCV_EXCP_NONE) {
-> >>           return ret;
-> >> @@ -2270,6 +2385,11 @@ static RISCVException
-> >> read_sstatus_i128(CPURISCVState *env, int csrno,
-> >>           mask |= SSTATUS64_UXL;
-> >>       }
-> >>   +    if ((env_archcpu(env)->cfg.ext_cfi) &&
-> >> +         get_field(env->menvcfg, MENVCFG_CFI)) {
-> >> +        mask |= CFISTATUS_S_MASK;
-> >> +    }
-> >> +
-> >>       *val = int128_make128(sstatus, add_status_sd(MXL_RV128, sstatus));
-> >>       return RISCV_EXCP_NONE;
-> >>   }
-> >> @@ -2281,6 +2401,11 @@ static RISCVException
-> >> read_sstatus(CPURISCVState *env, int csrno,
-> >>       if (env->xl != MXL_RV32 || env->debugger) {
-> >>           mask |= SSTATUS64_UXL;
-> >>       }
-> >> +
-> >> +    if ((env_archcpu(env)->cfg.ext_cfi) &&
-> >> +         get_field(env->menvcfg, MENVCFG_CFI)) {
-> >> +        mask |= CFISTATUS_S_MASK;
-> >> +    }
-> >>       /* TODO: Use SXL not MXL. */
-> >>       *val = add_status_sd(riscv_cpu_mxl(env), env->mstatus & mask);
-> >>       return RISCV_EXCP_NONE;
-> >> @@ -2296,6 +2421,12 @@ static RISCVException
-> >> write_sstatus(CPURISCVState *env, int csrno,
-> >>               mask |= SSTATUS64_UXL;
-> >>           }
-> >>       }
-> >> +
-> >> +    /* If cfi available and menvcfg.CFI = 1, apply CFI mask for
-> >> sstatus */
-> >> +    if ((env_archcpu(env)->cfg.ext_cfi) &&
-> >> +         get_field(env->menvcfg, MENVCFG_CFI)) {
-> >> +        mask |= CFISTATUS_S_MASK;
-> >> +    }
-> >>       target_ulong newval = (env->mstatus & ~mask) | (val & mask);
-> >>       return write_mstatus(env, CSR_MSTATUS, newval);
-> >>   }
-> >> @@ -4001,6 +4132,10 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-> >>       /* Crypto Extension */
-> >>       [CSR_SEED] = { "seed", seed, NULL, NULL, rmw_seed },
-> >>   +    /* User mode CFI CSR */
-> >> +    [CSR_LPLR] = { "lplr", cfi, read_lplr, write_lplr },
-> >> +    [CSR_SSP]  = { "ssp", cfi, read_ssp, write_ssp },
-> >> +
-> >>   #if !defined(CONFIG_USER_ONLY)
-> >>       /* Machine Timers and Counters */
-> >>       [CSR_MCYCLE]    = { "mcycle",    any,   read_hpmcounter,
-> >> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-> >> index d1126a6066..89745d46cd 100644
-> >> --- a/target/riscv/pmp.c
-> >> +++ b/target/riscv/pmp.c
-> >> @@ -579,6 +579,15 @@ void mseccfg_csr_write(CPURISCVState *env,
-> >> target_ulong val)
-> >>       /* Sticky bits */
-> >>       val |= (env->mseccfg & (MSECCFG_MMWP | MSECCFG_MML));
-> >>   +    /* M-mode forward cfi to be enabled if cfi extension is
-> >> implemented */
-> >> +    if (env_archcpu(env)->cfg.ext_cfi) {
-> >> +        val |= (val & MSECCFG_MFCFIEN);
-> > This statement does nothing. Is it a typo?
-> >> +        /* If forward cfi in mseccfg is being toggled, flush tlb */
-> >> +        if ((env->mseccfg ^ val) & MSECCFG_MFCFIEN) {
-> >> +                tlb_flush(env_cpu(env));
-> >> +        }
-> >
-> > No need flush tlb.
-> >
-> > Zhiwei
-> >
-> >> +    }
-> >> +
-> >>       env->mseccfg = val;
-> >>   }
+> diff --git a/include/sysemu/iommufd.h b/include/sysemu/iommufd.h
+> new file mode 100644
+> index 0000000000..06a866d1bd
+> --- /dev/null
+> +++ b/include/sysemu/iommufd.h
+> @@ -0,0 +1,47 @@
+> +#ifndef SYSEMU_IOMMUFD_H
+> +#define SYSEMU_IOMMUFD_H
+> +
+> +#include "qom/object.h"
+> +#include "qemu/thread.h"
+> +#include "exec/hwaddr.h"
+> +#include "exec/ram_addr.h"
+
+After rebasing nesting patches on top of this, I see a build error:
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[47/876] Compiling C object libcommon.fa.p/hw_arm_smmu-common.c.o
+FAILED: libcommon.fa.p/hw_arm_smmu-common.c.o=20
+cc -Ilibcommon.fa.p -I../src/3rdparty/qemu/dtc/libfdt -I/usr/include/pixman=
+-1 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/glib-2.0 -I/=
+usr/lib/aarch64-linux-gnu/glib-2.0/include -I/usr/include/gio-unix-2.0 -fdi=
+agnostics-color=3Dauto -Wall -Winvalid-pch -std=3Dgnu11 -O2 -g -isystem /sr=
+c/3rdparty/qemu/linux-headers -isystem linux-headers -iquote . -iquote /src=
+/3rdparty/qemu -iquote /src/3rdparty/qemu/include -iquote /src/3rdparty/qem=
+u/tcg/aarch64 -pthread -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -D_GNU_SOURC=
+E -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -fno-strict-aliasing -fno-co=
+mmon -fwrapv -Wundef -Wwrite-strings -Wmissing-prototypes -Wstrict-prototyp=
+es -Wredundant-decls -Wold-style-declaration -Wold-style-definition -Wtype-=
+limits -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wem=
+pty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined -Wimplicit-=
+fallthrough=3D2 -Wmissing-format-attribute -Wno-missing-include-dirs -Wno-s=
+hift-negative-value -Wno-psabi -fstack-protector-strong -fPIE -MD -MQ libco=
+mmon.fa.p/hw_arm_smmu-common.c.o -MF libcommon.fa.p/hw_arm_smmu-common.c.o.=
+d -o libcommon.fa.p/hw_arm_smmu-common.c.o -c ../src/3rdparty/qemu/hw/arm/s=
+mmu-common.c
+In file included from /src/3rdparty/qemu/include/sysemu/iommufd.h:7,
+                 from ../src/3rdparty/qemu/hw/arm/smmu-common.c:29:
+/src/3rdparty/qemu/include/exec/ram_addr.h:23:10: fatal error: cpu.h: No su=
+ch file or directory
+   23 | #include "cpu.h"
+      |          ^~~~~~~
+compilation terminated.
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+I guess it's resulted from the module inter-dependency. Though our
+nesting patches aren't finalized yet, the possibility of including
+iommufd.h is still there. Meanwhile, the ram_addr.h here is added
+for "ram_addr_t" type, I think. So, could we include "cpu-common.h"
+instead, where the "ram_addr_t" type is actually defined?
+
+The build error is gone after this replacement:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+diff --git a/include/sysemu/iommufd.h b/include/sysemu/iommufd.h
+index 45540de63986..86d370c221b3 100644
+--- a/include/sysemu/iommufd.h
++++ b/include/sysemu/iommufd.h
+@@ -4,7 +4,7 @@
+ #include "qom/object.h"
+ #include "qemu/thread.h"
+ #include "exec/hwaddr.h"
+-#include "exec/ram_addr.h"
++#include "exec/cpu-common.h"
+ #include <linux/iommufd.h>
+=20
+ #define TYPE_IOMMUFD_BACKEND "iommufd"
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+Thanks
+Nic
 
