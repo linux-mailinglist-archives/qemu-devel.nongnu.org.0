@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87D1A6981F7
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 18:28:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47F036981F8
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 18:28:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSLZ7-0005Gd-S8; Wed, 15 Feb 2023 12:27:33 -0500
+	id 1pSLZi-0005Kc-EH; Wed, 15 Feb 2023 12:28:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSLZ6-0005GU-88
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:27:32 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pSLZe-0005Ia-Jg
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:28:06 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSLZ4-00076K-Dy
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:27:31 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id
- kk7-20020a17090b4a0700b00234463de251so2901564pjb.3
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 09:27:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pSLZc-00079O-5h
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:28:06 -0500
+Received: by mail-wm1-x331.google.com with SMTP id n33so7864591wms.0
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 09:28:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=yR5OMDcSzeYpqHBum7X7AgPMOkmrEV8ZQszBGNMbnnM=;
- b=iLGoC4Q/+9EoYYyd6SEMVCcYqcPBK1Kvts7tDjBM45nH0PZK112UvEkpzH1aa1rQul
- 0T6ku7lsn0lGXSawZloRmFLKigZW2zFWTFe8sU8MNodQAUQ3RzbwmS6StL41R1ichs87
- ErOnfKExoh/+PA/B1vR3wPlaHITvlk/XeekARBgl8R0mWuIrKpuGHynXHnbLl2TFEz98
- mapf8pQbgDAxEjDt2l/pmkYJWohm0/Z45lZ5m5kr5xcju/Hz8v7+tg8sG7oyhrpX2CoM
- yJBeKzwb2w+nBVcENuCt8c3TbazwLt/8kgXRuix4BIp+A4WRakBRCaNxlizsdro6RgCz
- b5Lw==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=u7BmgEx7ZJu9FpKweRjsHeNMA1knw//NAwwEJEhIMdY=;
+ b=hW6Ou/QQim7F4dUXA2yGKTFw+6JUgiBOcC3UJIFSLErWSwP9mynHM86YWAMOEO+GK4
+ ZQdwYrqBAzKKM1qPyc/I3Xxq79rBXSV7AcReJ5+MGGxQQcnWAFo8PdSl2Tan55VmCOOt
+ ca9UhDAsGPMe9OpkoR6ok4w+SdsELiFlBqwz/qmhlbAHTDGcxaY8TZ4nxrcV7FaHk29B
+ DflWaWqlyOgC47BYrmux59A1TQeTgxFjXVT+y2wIi6i49/oRGFAYu+28w68xi22q0w8+
+ 6WuPWEm/XWtGm9M8ZCGPkW7njvoCzDsGuuKkWKK+HhCW4twog6GaRaDXU8d7sCMxooZX
+ xB4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yR5OMDcSzeYpqHBum7X7AgPMOkmrEV8ZQszBGNMbnnM=;
- b=NW4GEekX4cocvOZdsXOpg1Si5L9qdVoVgjglj6aH3P9TFZA84tNEqFMES3ycwEyuOB
- y+SIymVGSXi/0JHho1K8A4xi+7FKHb8GQVywpF8DNd6h2qyCtuRkA3e13Qmqp1MzZp+t
- FV3pNKqPs5mKj6deOeST5po6XpGcwvAvbhlWAtV0bY85o6P5sGYcQTIhUfo5zTuqHWQY
- FAuGdCRSMVTTUuz2wtf49xkMYEsAhVwY0wLaF9Aqva+RwjwhTAj4oUCz+jN3qF6SEGPj
- zCbXf9dVnbIR936ARL5IwO+hMLknJPIseqdXF1CAMuVPUo8JaYPCJACZc6ZeKijWWSc/
- uWDQ==
-X-Gm-Message-State: AO0yUKUjgp1z7w/pl3Gdm+TInETunDLZkVKy3Qpw7kkCaycvDWqpFzuU
- SCyUfYpyTrRhiJBTrgPdCU+sjQ==
-X-Google-Smtp-Source: AK7set+tvqkydYzicM1yPKaUNiY9imoNzrGkYjzOifZEfnHX3z1AuivakBmGpdc8svC4imD0Sj7ohQ==
-X-Received: by 2002:a05:6a20:a299:b0:c2:b228:e36 with SMTP id
- a25-20020a056a20a29900b000c2b2280e36mr2215874pzl.13.1676482048639; 
- Wed, 15 Feb 2023 09:27:28 -0800 (PST)
-Received: from [172.20.100.240] (rrcs-74-87-59-235.west.biz.rr.com.
- [74.87.59.235]) by smtp.gmail.com with ESMTPSA id
- p13-20020a63fe0d000000b004facf728b19sm10855679pgh.4.2023.02.15.09.27.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Feb 2023 09:27:28 -0800 (PST)
-Message-ID: <b2c5dd7c-5c90-9104-5477-b76ed22ea799@linaro.org>
-Date: Wed, 15 Feb 2023 07:27:19 -1000
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=u7BmgEx7ZJu9FpKweRjsHeNMA1knw//NAwwEJEhIMdY=;
+ b=uZ8ES5KOCfpmnk0MEsbh1VDUzXODUhW2i7vSaDBpYm62xbWlHvbTZdqix/Sh/eZqOF
+ z76tamkLZpiogAETOa5fonbZ3vrIIfOd2hPh5p75g2k8wSkO7wyq5Xg00w6TnvL1c1K2
+ 92ovBgVrXVNw4iP7CeyuBIufEnpND0oBsakqCgYYqhposWEYbQIlLRerwL0Y2VuJlN5G
+ f/hUb8Qe0zYG3rBVinkbiIjQQytlQz93N4IyxeYzqKACa8NYOJcIncaDvDsxxCuP7T0n
+ DoAL/rNNpQZOm1ACZwf9RElXbYJe/y9cG16rh071MoDlp7x72Wmg6aFJ3uDZTvSYzi1H
+ /itg==
+X-Gm-Message-State: AO0yUKVBAo/RKyc8SwwfJ7EIJys5rX/mAJDJjShU/QS28PZ4aFXyDYmy
+ T4EyiRZh+5s14zZKYulWIZcxdA==
+X-Google-Smtp-Source: AK7set9UC4VzmQIgxgFE7pRdAuDIwFP2OTadFFD5iz177Xoj0CKrTB0abp7krD2/926/DK0anZ8gig==
+X-Received: by 2002:a1c:f30b:0:b0:3d9:f85c:97ff with SMTP id
+ q11-20020a1cf30b000000b003d9f85c97ffmr2768898wmq.16.1676482079549; 
+ Wed, 15 Feb 2023 09:27:59 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ m17-20020a05600c3b1100b003dd1bd0b915sm2892728wms.22.2023.02.15.09.27.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Feb 2023 09:27:59 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CE1651FFB7;
+ Wed, 15 Feb 2023 17:27:58 +0000 (GMT)
+References: <20230215112712.23110-1-philmd@linaro.org>
+ <20230215112712.23110-2-philmd@linaro.org>
+User-agent: mu4e 1.9.20; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-block@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, John Snow
+ <jsnow@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH 01/20] MAINTAINERS: Mark IDE and Floppy as "Odd Fixes"
+Date: Wed, 15 Feb 2023 17:27:52 +0000
+In-reply-to: <20230215112712.23110-2-philmd@linaro.org>
+Message-ID: <87a61ealep.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: Does the page boundary check still necessary?
-To: Kenneth Lee <Kenneth-Lee-2012@foxmail.com>, qemu-devel@nongnu.org
-References: <tencent_F8004464D432CD4CABBADFE9E9493EDF9607@qq.com>
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <tencent_F8004464D432CD4CABBADFE9E9493EDF9607@qq.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,32 +95,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/14/23 22:39, Kenneth Lee wrote:
-> Hello,
-> 
-> I hope I send this mail to the right place.
-> 
-> I'm porting a new guest arch. It jumps of out of physical page
-> constantly. So many TBs cannot be chained with goto_tb. I'm wondering
-> if the following check is still necessary?
-> 
-> 	bool translator_use_goto_tb(DisasContextBase *db, target_ulong dest)
-> 	{
-> 	    /* Suppress goto_tb if requested. */
-> 	    if (tb_cflags(db->tb) & CF_NO_GOTO_TB) {
-> 		return false;
-> 	    }
-> 
-> 	    /* Check for the dest on the same page as the start of the TB.  */
-> 	    return ((db->pc_first ^ dest) & TARGET_PAGE_MASK) == 0;    <--- Is this check really necessary?
-> 	}
-> 
-> Now the chained TBs have been link with tb_link_page(), the chain will
-> be rebuilt if it is invalidate on page. So why is this check still there?
 
-Even for a guest which doesn't use paging, and therefore does not need to worry about 
-memory maps changing, we still enable breakpoints and watchpoints on a per-page basis.
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
+> From: John Snow <jsnow@redhat.com>
+>
+> I have not been able to give these devices the love they need for a
+> while now. Update the maintainers file to reflect the truth of the
+> matter.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Message-Id: <20230206182544.711117-1-jsnow@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 
-r~
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
