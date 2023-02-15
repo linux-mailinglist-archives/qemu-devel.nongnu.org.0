@@ -2,80 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A59E26976E5
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 08:04:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E8B69772E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 08:13:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSBot-0004em-EM; Wed, 15 Feb 2023 02:03:11 -0500
+	id 1pSBxm-0008JI-Ji; Wed, 15 Feb 2023 02:12:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pSBoq-0004eL-2A
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 02:03:08 -0500
-Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pSBon-0006Mb-Jo
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 02:03:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676444585; x=1707980585;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=JckFGbbDHGjxPasaVeTsLtfN3M3y3SE/9jZ/VVody80=;
- b=By6/UNHPCqjoImplfyoOE0ZIrYkwK2XF7HDmOAIRxgHFu9sbNwd8cLG5
- VbJ9Dx0uufienMLtQRgxuMEE2YTG+e6PDR7NLZyIU89o6xT5KsIO4yU4/
- JSGPfUhqAFOsyJRD223R9M9p7Xn9pDQ216uqxwEu5zZXhjWAXHMG53oM7
- e9EuPFwhn56EQSS10AqfafT/vR+28AuAN9DQr0OuFLlwfWQNWslrg58xk
- oNceOUXP5aVyZJ/5u8zqOHIz8ZGNDa1Uo3s2vbdkiw/sLEk8p+n4Z6baJ
- 0v+7obQrYEQI1O3LQVsDWLzDV7IHvMtByUIqvubCceXmSi2WKjoF0S03j w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="393764054"
-X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; d="scan'208";a="393764054"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2023 23:03:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="843464631"
-X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; d="scan'208";a="843464631"
-Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
- ([10.239.160.112])
- by orsmga005.jf.intel.com with ESMTP; 14 Feb 2023 23:02:58 -0800
-Date: Wed, 15 Feb 2023 15:10:46 +0800
-From: Zhao Liu <zhao1.liu@linux.intel.com>
-To: "wangyanan (Y)" <wangyanan55@huawei.com>
-Cc: Zhao Liu <zhao1.liu@linux.intel.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi <dapeng1.mi@intel.com>,
- Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo <robert.hu@linux.intel.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
- Like Xu <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>
-Subject: Re: [PATCH RESEND 05/18] i386/cpu: Consolidate the use of topo_info
- in cpu_x86_cpuid()
-Message-ID: <Y+yFdu4oW4bMLYVg@liuzhao-OptiPlex-7080>
-References: <20230213093625.158170-1-zhao1.liu@linux.intel.com>
- <20230213093625.158170-6-zhao1.liu@linux.intel.com>
- <2110e5ec-68b0-185d-70dc-c2ea478a5b2c@huawei.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSBxl-0008Io-0V
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 02:12:21 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSBxd-0005UY-MC
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 02:12:15 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ m20-20020a05600c3b1400b003e1e754657aso777820wms.2
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 23:12:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+ROt0WgXSryr0kEJ+ahBghatYhZlbuoa/JfqIV/lj/c=;
+ b=O0om8eCMiyl4VVccZ7RqeJC1/jmRT2pRIaoEy3XBd1mno1lIg2XZ3Ht1XGrOKQCQX9
+ GXahcCCK9a48J1sDBd481KI4NJ6rO0BeqIOCoDVQbYr6ufaK9x5jlkSoLYmIEY+0o7WY
+ ZdR9wavMeMpPiR2dn7o5fjmY7Myp011uai/KgZIzARVSZiMrrkZUSqMvXb9yc5TO1PxK
+ IAiiGIV3uctSYTXaQR2+jchDQaxEHTmgNC4BJONG0aM/WQgoUxcfVaGvjJr6Td80Y/qz
+ cJM8K3nzcWP7SALvuuP4b02ZcEvEe2Xuv7rYr2Y1FoHN5E65yjUYdwgQcm3nsS6X5zbg
+ oYrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+ROt0WgXSryr0kEJ+ahBghatYhZlbuoa/JfqIV/lj/c=;
+ b=3/SUjTiQoRflBeJ8Sqeq7fL+v4hEMNefenPntvyclbhpYhduQxpQUBLKFAzJCcSc82
+ g/1fQQQ/MyaCNG9P2vYGLQvzoxWiVfjLTkc9qwx8JSBJ4gAae7/SxDzpCy6fsBdAcg8a
+ LMVJa4RWD801JayHz7LkURVku2YzKfB01BXh/7JYQF02b/gR2DhwJcwjpkFt4y3xHHCX
+ SP/gUEm4ic7PYwT4NgWqleNo3ovle4d+3xOL24Dal5d7mMv6ybRUhdoH2x2ovzHXGf0U
+ 6mFPa5egk344JOH861GxC3RTlX9M05suVNogk3HWz5pnN7ShJ4X8+ZEp/mYRAvQc5HbP
+ 61Rg==
+X-Gm-Message-State: AO0yUKUOOAqThWOuEqBOp/+CBBmjQGYJA09sdaN0++rFTYhWdyXQVCpE
+ hoCS4dU2KrejY82fJjdefYjGvA==
+X-Google-Smtp-Source: AK7set8xeUWpvdQVsk+f9b9mfASyFOYoJjm9OON+mixP5ZPwRxjNhjImrmD42aZ8ISMe2xkrDEzVEg==
+X-Received: by 2002:a05:600c:705:b0:3e0:6c4:6a3a with SMTP id
+ i5-20020a05600c070500b003e006c46a3amr1075239wmn.22.1676445130356; 
+ Tue, 14 Feb 2023 23:12:10 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ m17-20020a05600c3b1100b003dd1bd0b915sm1148178wms.22.2023.02.14.23.12.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Feb 2023 23:12:10 -0800 (PST)
+Message-ID: <7ec3bb81-05ae-f73e-b33b-9871f568f4ea@linaro.org>
+Date: Wed, 15 Feb 2023 08:12:08 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=gb2312
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH 6/7] hw/isa: Assert isa_register_portio_list() gets
+ non-NULL ISA device
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: BALATON Zoltan <balaton@eik.bme.hu>, Paolo Bonzini <pbonzini@redhat.com>, 
+ qemu-block@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>
+References: <20230208000743.79415-1-philmd@linaro.org>
+ <20230208000743.79415-7-philmd@linaro.org>
+ <8bcc1035-c9fc-762a-7a32-6b0344539345@linaro.org>
+ <f088930b-ad9d-354d-5053-f319272140a1@linaro.org>
+ <be88dc7c-750f-f4a3-c350-d780e36337ae@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <be88dc7c-750f-f4a3-c350-d780e36337ae@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2110e5ec-68b0-185d-70dc-c2ea478a5b2c@huawei.com>
-Received-SPF: none client-ip=134.134.136.31;
- envelope-from=zhao1.liu@linux.intel.com; helo=mga06.intel.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,161 +98,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 15, 2023 at 11:28:25AM +0800, wangyanan (Y) wrote:
-> Date: Wed, 15 Feb 2023 11:28:25 +0800
-> From: "wangyanan (Y)" <wangyanan55@huawei.com>
-> Subject: Re: [PATCH RESEND 05/18] i386/cpu: Consolidate the use of
->  topo_info in cpu_x86_cpuid()
+On 14/2/23 19:49, Richard Henderson wrote:
+> On 2/14/23 00:18, Philippe Mathieu-Daudé wrote:
+>>   __attribute__((nonnull)) void a1(void *ptr)
+>>   {
+>>     // can no use assert(ptr) because compiler warning
+>>   }
 > 
-> �� 2023/2/13 17:36, Zhao Liu д��:
-> > From: Zhao Liu <zhao1.liu@intel.com>
-> > 
-> > In cpu_x86_cpuid(), there are many variables in representing the cpu
-> > topology, e.g., topo_info, cs->nr_cores/cs->nr_threads.
-> > 
-> > Since the names of cs->nr_cores/cs->nr_threads does not accurately
-> > represent its meaning, the use of cs->nr_cores/cs->nr_threads is prone
-> > to confusion and mistakes.
-> > 
-> > And the structure X86CPUTopoInfo names its memebers clearly, thus the
-> > variable "topo_info" should be preferred.
-> > 
-> > Suggested-by: Robert Hoo <robert.hu@linux.intel.com>
-> > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
-> > ---
-> >   target/i386/cpu.c | 30 ++++++++++++++++++------------
-> >   1 file changed, 18 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> > index 7833505092d8..4cda84eb96f1 100644
-> > --- a/target/i386/cpu.c
-> > +++ b/target/i386/cpu.c
-> > @@ -5215,11 +5215,15 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-> >       uint32_t limit;
-> >       uint32_t signature[3];
-> >       X86CPUTopoInfo topo_info;
-> > +    uint32_t cpus_per_pkg;
-> >       topo_info.dies_per_pkg = env->nr_dies;
-> >       topo_info.cores_per_die = cs->nr_cores / env->nr_dies;
-> >       topo_info.threads_per_core = cs->nr_threads;
-> > +    cpus_per_pkg = topo_info.dies_per_pkg * topo_info.cores_per_die *
-> > +                   topo_info.threads_per_core;
-> > +
-> >       /* Calculate & apply limits for different index ranges */
-> >       if (index >= 0xC0000000) {
-> >           limit = env->cpuid_xlevel2;
-> > @@ -5255,8 +5259,8 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-> >               *ecx |= CPUID_EXT_OSXSAVE;
-> >           }
-> >           *edx = env->features[FEAT_1_EDX];
-> > -        if (cs->nr_cores * cs->nr_threads > 1) {
-> > -            *ebx |= (cs->nr_cores * cs->nr_threads) << 16;
-> > +        if (cpus_per_pkg > 1) {
-> > +            *ebx |= cpus_per_pkg << 16;
-> >               *edx |= CPUID_HT;
-> >           }
-> >           if (!cpu->enable_pmu) {
-> > @@ -5293,10 +5297,12 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-> >                */
-> >               if (*eax & 31) {
-> >                   int host_vcpus_per_cache = 1 + ((*eax & 0x3FFC000) >> 14);
-> > -                int vcpus_per_socket = cs->nr_cores * cs->nr_threads;
-> > -                if (cs->nr_cores > 1) {
-> > +                int vcpus_per_socket = cpus_per_pkg;
-> Would it make sense to directly use cpus_per_pkg here
-> > +                int cores_per_socket = topo_info.cores_per_die *
-> > +                                       topo_info.dies_per_pkg;
-> There are other places in cpu_x86_cpuid where cs->nr_cores is used
-> separately, why not make a global "cores_per_pkg" like cpus_per_pkg
-> and also tweak the other places?
+> I briefly glossed over that...
+> 
+>>> I realize we'd probably want to add -fno-delete-null-pointer-checks 
+>>> if we make too much 
+> 
+> ... here.  The compiler warning should go away with the right flag.
 
-Yeah, good idea.
+Doh, got it now!
 
-> > +                if (cores_per_socket > 1) {
-> >                       *eax &= ~0xFC000000;
-> > -                    *eax |= (pow2ceil(cs->nr_cores) - 1) << 26;
-> > +                    *eax |= (pow2ceil(cores_per_socket) - 1) << 26;
-> >                   }
-> >                   if (host_vcpus_per_cache > vcpus_per_socket) {
-> >                       *eax &= ~0x3FFC000;
-> > @@ -5436,12 +5442,12 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-> >           switch (count) {
-> >           case 0:
-> >               *eax = apicid_core_offset(&topo_info);
-> > -            *ebx = cs->nr_threads;
-> > +            *ebx = topo_info.threads_per_core;
-> There are many other places in cpu_x86_cpuid where cs->nr_threads
-> is used separately, such as encode_cache_cpuid4(***), should we
-> replace them all?
-
-In a previous patch [1], I replaced the use of cs->nr_threads/nr_cores in
-the call of encode_cache_cpuid4().
-
-The cleanest way is to pass topo_info to encode_cache_cpuid4(), but this
-involves the modification of the interface format and the use of the
-cache topo level, so I included it in a follow-up patch [2].
-
-[1]: [PATCH RESEND 04/18] i386/cpu: Fix number of addressable IDs in
-     CPUID.04,
-     https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg03188.html
-[2]: [PATCH RESEND 15/18] i386: Use CPUCacheInfo.share_level to encode
-     CPUID[4].EAX[bits 25:14],
-     https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg03199.html
-
-> >               *ecx |= CPUID_TOPOLOGY_LEVEL_SMT;
-> >               break;
-> >           case 1:
-> >               *eax = apicid_pkg_offset(&topo_info);
-> > -            *ebx = cs->nr_cores * cs->nr_threads;
-> > +            *ebx = cpus_per_pkg;
-> >               *ecx |= CPUID_TOPOLOGY_LEVEL_CORE;
-> >               break;
-> >           default:
-> > @@ -5472,7 +5478,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-> >           switch (count) {
-> >           case 0:
-> >               *eax = apicid_core_offset(&topo_info);
-> > -            *ebx = cs->nr_threads;
-> > +            *ebx = topo_info.threads_per_core;
-> >               *ecx |= CPUID_TOPOLOGY_LEVEL_SMT;
-> >               break;
-> >           case 1:
-> > @@ -5482,7 +5488,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-> >               break;
-> >           case 2:
-> >               *eax = apicid_pkg_offset(&topo_info);
-> > -            *ebx = cs->nr_cores * cs->nr_threads;
-> > +            *ebx = cpus_per_pkg;
-> >               *ecx |= CPUID_TOPOLOGY_LEVEL_DIE;
-> >               break;
-> >           default:
-> > @@ -5707,7 +5713,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-> >            * discards multiple thread information if it is set.
-> >            * So don't set it here for Intel to make Linux guests happy.
-> >            */
-> > -        if (cs->nr_cores * cs->nr_threads > 1) {
-> > +        if (cpus_per_pkg > 1) {
-> >               if (env->cpuid_vendor1 != CPUID_VENDOR_INTEL_1 ||
-> >                   env->cpuid_vendor2 != CPUID_VENDOR_INTEL_2 ||
-> >                   env->cpuid_vendor3 != CPUID_VENDOR_INTEL_3) {
-> > @@ -5769,7 +5775,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-> >                *eax |= (cpu_x86_virtual_addr_width(env) << 8);
-> >           }
-> >           *ebx = env->features[FEAT_8000_0008_EBX];
-> > -        if (cs->nr_cores * cs->nr_threads > 1) {
-> > +        if (cpus_per_pkg > 1) {
-> >               /*
-> >                * Bits 15:12 is "The number of bits in the initial
-> >                * Core::X86::Apic::ApicId[ApicId] value that indicate
-> > @@ -5777,7 +5783,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-> >                * Bits 7:0 is "The number of threads in the package is NC+1"
-> >                */
-> >               *ecx = (apicid_pkg_offset(&topo_info) << 12) |
-> > -                   ((cs->nr_cores * cs->nr_threads) - 1);
-> > +                   (cpus_per_pkg - 1);
-> >           } else {
-> >               *ecx = 0;
-> >           }
-> Thanks,
-> Yanan
 
