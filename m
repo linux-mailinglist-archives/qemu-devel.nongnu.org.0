@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D1F269725D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 01:02:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F27CE69741E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 03:08:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pS5E1-0006FV-O7; Tue, 14 Feb 2023 19:00:41 -0500
+	id 1pS7BW-0001Ri-EH; Tue, 14 Feb 2023 21:06:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pS5De-0006Bx-Px
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 19:00:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pS5Dd-00076P-06
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 19:00:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676419216;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=N40NwdF5Z8+PQXRDXauPh68Gz03aMdoMhNH7nNaCZ98=;
- b=B1vokbj3JH2XcrvqZgVxPNgcvCkhITyh/5Qy9yVueSB1sOXjfVmuD3luq7nadLNzvi+xgj
- 3YGZBY8v4FpOudp04LjCM64LyFS12e4glEVA2m2bvYk9qfdPII9bMetiIUeaxATmXCXHOQ
- EsfW8VyTCLFZgzyCr+FALy1cIUlpmy8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-320-HAYsPphIO7SZ3bdU6xbY8w-1; Tue, 14 Feb 2023 19:00:13 -0500
-X-MC-Unique: HAYsPphIO7SZ3bdU6xbY8w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B22080006E;
- Wed, 15 Feb 2023 00:00:13 +0000 (UTC)
-Received: from scv.redhat.com (unknown [10.22.16.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F33B72166B26;
- Wed, 15 Feb 2023 00:00:12 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Markus Armbruster <armbru@redhat.com>, Michael Roth <michael.roth@amd.com>,
- John Snow <jsnow@redhat.com>
-Subject: [PATCH v4 6/6] qapi: remove JSON value FIXME
-Date: Tue, 14 Feb 2023 19:00:11 -0500
-Message-Id: <20230215000011.1725012-7-jsnow@redhat.com>
-In-Reply-To: <20230215000011.1725012-1-jsnow@redhat.com>
-References: <20230215000011.1725012-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pS7BS-0001Oc-Rs; Tue, 14 Feb 2023 21:06:10 -0500
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pS7BJ-0000DZ-Uo; Tue, 14 Feb 2023 21:06:10 -0500
+Received: from localhost.localdomain (unknown [114.95.238.225])
+ by APP-01 (Coremail) with SMTP id qwCowABXcNT4PexjNkcoBQ--.2339S2;
+ Wed, 15 Feb 2023 10:05:45 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v2 00/14] target/riscv: Some updates to float point related
+ extensions
+Date: Wed, 15 Feb 2023 10:05:25 +0800
+Message-Id: <20230215020539.4788-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CM-TRANSID: qwCowABXcNT4PexjNkcoBQ--.2339S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tryxCF45uFW3JFyUGw4xtFb_yoW8WrWkpr
+ 4fK3y3AFZ5JrZFyr4SqF4UCw15XFs5Wr43A3Z7Aw1rJa13ZrWYqrnrK3WfGFyUJFWrG342
+ 9F1UCw13Zw47JF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUv014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+ 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02
+ 628vn2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+ 02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
+ GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+ CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
+ 6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUb
+ XdbUUUUUU==
+X-Originating-IP: [114.95.238.225]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,52 +74,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-With the two major JSON-ish type hierarchies clarified for distinct
-purposes; QAPIExpression for parsed expressions and JSONValue for
-introspection data, remove this FIXME as no longer an action item.
+Specification for Zv* extensions can be found in:
 
-A third JSON-y data type, _ExprValue, is not meant to represent JSON in
-the abstract but rather only the possible legal return values from a
-single function, get_expr(). It isn't appropriate to attempt to merge it
-with either of the above two types.
+https://github.com/riscv/riscv-v-spec/blob/master/v-spec.adoc
 
-In theory, it may be possible to define a completely agnostic
-one-size-fits-all JSON type hierarchy that any other user could borrow -
-in practice, it's tough to wrangle the differences between invariant,
-covariant and contravariant types: input and output parameters demand
-different properties of such a structure.
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-zvfh-upstream-v2
 
-However, QAPIExpression serves to authoritatively type user input to the
-QAPI parser, while JSONValue serves to authoritatively type qapi
-generator *output* to be served back to client users at runtime via
-QMP. The AST for these two types are different and cannot be wholly
-merged into a unified syntax.
+v2:
 
-They could, in theory, share some JSON primitive definitions. In
-practice, this is currently more trouble than it's worth with mypy's
-current expressive power. As such, declare this "done enough for now".
+* improve the error message for vector related check suggested by Daniel Henrique Barboza in patch 5
+* add similar simplification for check in csr.c/cpu_helper.c in patch 8
+* fix typos in commit messages
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- scripts/qapi/parser.py | 4 ----
- 1 file changed, 4 deletions(-)
 
-diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index d570086e1a9..878f90b4583 100644
---- a/scripts/qapi/parser.py
-+++ b/scripts/qapi/parser.py
-@@ -42,10 +42,6 @@
- _ExprValue = Union[List[object], Dict[str, object], str, bool]
- 
- 
--# FIXME: Consolidate and centralize definitions for _ExprValue and
--# JSONValue; currently scattered across several modules.
--
--
- class QAPIExpression(Dict[str, object]):
-     # pylint: disable=too-few-public-methods
-     def __init__(self,
+Weiwei Li (14):
+  target/riscv: Fix the relationship between Zfhmin and Zfh
+  target/riscv: Fix the relationship between Zhinxmin and Zhinx
+  target/riscv: Simplify the check for Zfhmin and Zhinxmin
+  target/riscv: Add cfg properties for Zv* extensions
+  target/riscv: Fix relationship between V, Zve*, F and  D
+  target/riscv: Add propertie check for Zvfh{min} extensions
+  target/riscv: Indent fixes in cpu.c
+  target/riscv: Simplify check for Zve32f and Zve64f
+  target/riscv: Replace check for F/D to Zve32f/Zve64d in
+    trans_rvv.c.inc
+  target/riscv: Remove rebundunt check for zve32f and zve64f
+  target/riscv: Add support for Zvfh/zvfhmin extensions
+  target/riscv: Fix check for vector load/store instructions when EEW=64
+  target/riscv: Simplify check for EEW = 64 in trans_rvv.c.inc
+  target/riscv: Expose properties for Zv* extensions
+
+ target/riscv/cpu.c                        |  99 ++++++++----
+ target/riscv/cpu.h                        |   3 +
+ target/riscv/cpu_helper.c                 |   2 +-
+ target/riscv/csr.c                        |   3 +-
+ target/riscv/insn_trans/trans_rvv.c.inc   | 184 +++++++---------------
+ target/riscv/insn_trans/trans_rvzfh.c.inc |  25 ++-
+ 6 files changed, 146 insertions(+), 170 deletions(-)
+
 -- 
-2.39.0
+2.25.1
 
 
