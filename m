@@ -2,125 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFF8C6988EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 00:55:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E56E6988F7
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 00:58:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSRaf-00063Q-1g; Wed, 15 Feb 2023 18:53:33 -0500
+	id 1pSRf9-000822-52; Wed, 15 Feb 2023 18:58:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nicolinc@nvidia.com>)
- id 1pSRaa-00062z-SC
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 18:53:28 -0500
-Received: from mail-dm6nam11on2082.outbound.protection.outlook.com
- ([40.107.223.82] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nicolinc@nvidia.com>)
- id 1pSRaX-0005nx-UW
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 18:53:28 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l4KdipDalWzJubUyegC5Tmn51lzwD3KINtW3HleXe5BP4tk6JrYU90UnH1TxCvqCXtCfHZ3Fh0Tj7T4jao/Z2mNarRn9/R1oqvcr2XsOMqEfC1RdSCdbwYkkjGJfzewJhjH3oMY5CYjqjHW5DiXfRH3GwlKO1o55zg5gnp87oVJFiuw15BDSg0FJhOZsQNgXQhHi0xGNlL0K3ZeA9SAyNQkxUC24FDXXVdHy36IpPYszdLY5yDs68vkXHgqPJVxdwrGb5vn/0oskSqPLOcXsonp8jZrG3Tqvdsnw3Rg99OHK5sfw4qgJFhw9MXR/c1GIf6SD6b7SWPDxzI9057/0GQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+Y4RMMfsESY1z/Qz3DjPBFtmd+/AmOumVCpxQtbQ9tk=;
- b=ejC82l/m9lkA0AosAZWO2VcsS0ZhmzVRolyICj9XOxFsUn4p8+dc0nGzLISFaM2WYWUOljfemUPyphl0fGgRqf5NUHaCF8QmdxQxnqgE0KP9iVANUhucYCmL7t6YJ9NVBsoKa07bldUF1W2BiXT414xcM0u33Wv+SI25OUGuD41U6a6FTs7AuPdIXcWNHrv1BXBhkE9el4FIvpu1f53TPdA+3SOn4QvEs+Lomqg0DGccql8tI2OzFbWMtBOjxrM5rI+iWsmgb+VAVcMjH6lqBkFQMYYMz/HC2Ri/AAPNhTcIffMdNw51exu4Yl46AF8+6Y1eJYxKQeAaGCK3tsY/nw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+Y4RMMfsESY1z/Qz3DjPBFtmd+/AmOumVCpxQtbQ9tk=;
- b=jX4CTcWOqcF4XeXTJDDPpRIumN3B73F8O/74sPU2RfWAMVJDJES1938vaW43PX/2FvnGVdLUYPqPz+pv6ik15ChIINBgaGZPSQoVQkA3Q8K51/E0oUR58xH0Xyps8QFtICqL7u0+I5lqqGr5mXfXDN3lNfeoDqlYPujnm0U8W7HsGTsIAYvEAAwQx34Fp2oUcInJmbDhxXtTxA/ccTbtSVR6IKaHKnFraV1uk6uADVhfwSrcbbZzIGBJbseCxaKZvCdON+/a7Tw/pgLwxu893zs1cGG8EHRSs09ERsThWcTobyc1M4T4xI3TnVDljXVA84KpCUVIw/76nnkbJ+24rw==
-Received: from BN9PR03CA0098.namprd03.prod.outlook.com (2603:10b6:408:fd::13)
- by SA1PR12MB6918.namprd12.prod.outlook.com (2603:10b6:806:24d::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.26; Wed, 15 Feb
- 2023 23:48:20 +0000
-Received: from BN8NAM11FT024.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:fd:cafe::c0) by BN9PR03CA0098.outlook.office365.com
- (2603:10b6:408:fd::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.26 via Frontend
- Transport; Wed, 15 Feb 2023 23:48:20 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- BN8NAM11FT024.mail.protection.outlook.com (10.13.177.38) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6111.12 via Frontend Transport; Wed, 15 Feb 2023 23:48:19 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 15 Feb
- 2023 15:48:10 -0800
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 15 Feb
- 2023 15:48:10 -0800
-Received: from Asurada-Nvidia (10.127.8.12) by mail.nvidia.com (10.129.68.7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36 via Frontend
- Transport; Wed, 15 Feb 2023 15:48:08 -0800
-Date: Wed, 15 Feb 2023 15:48:06 -0800
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Eric Auger <eric.auger@redhat.com>
-CC: <eric.auger.pro@gmail.com>, <yi.l.liu@intel.com>, <yi.y.sun@intel.com>,
- <alex.williamson@redhat.com>, <clg@redhat.com>, <qemu-devel@nongnu.org>,
- <david@gibson.dropbear.id.au>, <thuth@redhat.com>, <farman@linux.ibm.com>,
- <mjrosato@linux.ibm.com>, <akrowiak@linux.ibm.com>, <pasic@linux.ibm.com>,
- <jjherne@linux.ibm.com>, <jasowang@redhat.com>, <kvm@vger.kernel.org>,
- <jgg@nvidia.com>, <kevin.tian@intel.com>, <chao.p.peng@intel.com>,
- <peterx@redhat.com>, <shameerali.kolothum.thodi@huawei.com>,
- <zhangfei.gao@linaro.org>, <berrange@redhat.com>, <apopple@nvidia.com>,
- <suravee.suthikulpanit@amd.com>
-Subject: Re: [RFC v3 14/18] backends/iommufd: Introduce the iommufd object
-Message-ID: <Y+1vNgoGJJw40+9C@Asurada-Nvidia>
-References: <20230131205305.2726330-1-eric.auger@redhat.com>
- <20230131205305.2726330-15-eric.auger@redhat.com>
+ (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
+ id 1pSRf7-00081m-Ob
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 18:58:09 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
+ id 1pSRf3-0006xK-Uw
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 18:58:09 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id my5so1102183ejc.7
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 15:58:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=yf3eqI8Dk7tNgbydEgJ+IldmAPREgkHbFGnfLT5h+10=;
+ b=MJ6kk1zQjXJO+NLeQGFc3VhpXHvqxPajmQcSi6g2W/6JOSTyLVFmtsYcykTaSyKWfC
+ wdilgEIJEfkpJWTB1iYVBRR93isU3LeQh7wYgdsXu1lvQO0rJY61qYLwE4lpkTsGKAWk
+ cpPIkvRPRDwhWtzDAAefE/YPJC10EPh83mNFiB8zJgT+9D7elWRi8eWjSRy9Ri3IEn/V
+ 1zHN7DpUPtDgoSCSNQJ9EpTFowWfAoxdbV6+KrCDwDx/qLCpIUwO47Gf4+fZ3KwNAUlq
+ 9xR5zyhrOWSZvznp77H0L/IWMF7HaUP+SOlsvPTWT6JD0n/MIP1tmWFg+Gjo/EzPjrKy
+ bLtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yf3eqI8Dk7tNgbydEgJ+IldmAPREgkHbFGnfLT5h+10=;
+ b=2APehYe+TPx2ho/DmH4SrxFl+Uoe02rwLesJyyrrBXpThqF+jVUZtMZVcRn/DKbWgw
+ HCkZdWjnlgmJWRC3zAjowYDNi2r3Wxfr5XsMeESfMLrnG/rhu5rxcFP+qAs3v6KzgszE
+ MS3RuWnRvD4mDa9D6f7Wr+BbskotFzVEFB24ppWxveAK0b7cEk0R7eCmVm62Bqew6VD+
+ siFy77JmG9N/dudZfVyYjOjKQxBhjU913/esOOBL3v4eYx0IpS3F3f3gn21rR4OJ6Czi
+ 57WtXki9VqOGM0q5gnMVfBISGZbDadJBZb2jqBEMiDhB7LD06Whe5o/Fu6B+fmCaIew6
+ 3MXg==
+X-Gm-Message-State: AO0yUKXUgCcTRB5yt2aTKCJkFMODNunh2P5gkMYx6ZS+TZy9nz61CN+0
+ beTwhH6JiyTVtxYthcJBJyOcGVunzfYODL+bK2doOg==
+X-Google-Smtp-Source: AK7set+h9y0ng5LgzKXShf3Y4wYtAsssVdAFCoJci8G0/8ph3ML+M8GExaCDU6f4mbD27h4hxfSBO/K9If6ZzyjyRx8=
+X-Received: by 2002:a17:906:cc88:b0:878:4a24:1a5c with SMTP id
+ oq8-20020a170906cc8800b008784a241a5cmr1976811ejb.6.1676505483962; Wed, 15 Feb
+ 2023 15:58:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230131205305.2726330-15-eric.auger@redhat.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT024:EE_|SA1PR12MB6918:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7a117678-221c-41a4-0cf8-08db0faf1e08
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7vTprzX53ANReBB0e7gLcvHrHNkCym4MMjugSF2rXLT6DnAlKcLUzStMLVgR+e8O9/AR8qa7y2VngmMzPp/sACaFsCB7wjL1wliIOEA2q20unZVygIFzoep4Xm2hX9kGiwgb7k2T/zHBeSMsI4eEjPK5+iKJ7FohycgoT6AvLIY8J2W6IqRp2+4/+Nv3j/OYTYmEQ9lYzaTk4QCsBowlkpj79nw+emJDTIKFvnI7ZJNoa813td5ZxU33N023C6tnrXGTRMFPq48xB1gAuThZ850pTcEZ5LzUdXwDKMzXrc78BAXpFcbb6LZBu/DSuIgrYvCH7qt2VE/pFImjRhlU1Nl0gYwYPhTgIN1JBzIc8nVnUy5NsgdIonz3CFhffMZkVj6CClIazYz6uPSuMtEgxvZAsCiafp7eb2a/MeKY8UdRJRAQm8XoQh8QnkDKJS1BHSniw12vS4ZomhacFsM7VMxbif0yNQHBZYCRjDS2Npw8J7f0Zpq6diOTNgdUPH03xpJWB47qdcv5P9AH8RzA6nWuaVLuxD+ptA+/VXVT7wvSt9tbzjKsy9drWtsrE6veedpQU50+wZfy6mykgeVIYWlRUPe+8xkBJ10XcUBSooS8o0CKdzw6RhDd5FWfYEEnAj/WFn5o7itTNVGMhjHFi4imZbQPLIu8U0lgJLr/+YHhpRafsmj7a1vezqDGf5H45afDmov8GT1T22K0QZpV7Q==
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230025)(4636009)(376002)(396003)(39860400002)(346002)(136003)(451199018)(40470700004)(36840700001)(46966006)(33716001)(336012)(82310400005)(2906002)(478600001)(9686003)(186003)(4326008)(41300700001)(83380400001)(26005)(6916009)(356005)(426003)(86362001)(40480700001)(55016003)(36860700001)(316002)(47076005)(40460700003)(8676002)(8936002)(5660300002)(7416002)(70586007)(7636003)(82740400003)(70206006)(54906003);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2023 23:48:19.8563 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a117678-221c-41a4-0cf8-08db0faf1e08
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT024.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6918
-Received-SPF: softfail client-ip=40.107.223.82;
- envelope-from=nicolinc@nvidia.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230209062404.3582018-1-debug@rivosinc.com>
+ <20230209062404.3582018-7-debug@rivosinc.com>
+ <172dbd60-55f4-6f2c-5d90-84d07851429d@linux.alibaba.com>
+In-Reply-To: <172dbd60-55f4-6f2c-5d90-84d07851429d@linux.alibaba.com>
+From: Deepak Gupta <debug@rivosinc.com>
+Date: Wed, 15 Feb 2023 15:57:44 -0800
+Message-ID: <CAKC1njQ=P9XwyA5-jJ4__zKPrFtSREwkEGnoTMTeSMV2yF5s3w@mail.gmail.com>
+Subject: Re: [PATCH v1 RFC Zisslpcfi 6/9] target/riscv: MMU changes for back
+ cfi's shadow stack
+To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, liweiwei@iscas.ac.cn,
+ dbarboza@ventanamicro.com, 
+ Kip Walker <kip@rivosinc.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=debug@rivosinc.com; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -136,86 +89,401 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Eric,
+`On Wed, Feb 15, 2023 at 12:43 AM LIU Zhiwei
+<zhiwei_liu@linux.alibaba.com> wrote:
+>
+>
+> On 2023/2/9 14:24, Deepak Gupta wrote:
+> > zisslpcfi protects returns(back cfi) using shadow stack. If compiled with
+> > enabled compiler, function prologs will have `sspush ra` instruction to
+> > push return address on shadow stack and function epilogs will have
+> > `sspop t0; sschckra` instruction sequences. `sspop t0` will pop the
+> > value from top of the shadow stack in t0. `sschckra` will compare `t0`
+> > and `x1` and if they don't match then hart will raise an illegal
+> > instruction exception.
+> >
+> > Shadow stack is read-only memory except stores can be performed via
+> > `sspush` and `ssamoswap` instructions. This requires new PTE encoding for
+> > shadow stack. zisslpcfi uses R=0, W=1, X=0 (an existing reserved encoding
+> > ) to encode a shadow stack. If backward cfi is not enabled for current
+> > mode, shadow stack PTE encodings remain reserved. Regular stores to
+> > shadow stack raise AMO/store access fault. Shadow stack loads/stores on
+> > regular memory raise load access/store access fault.
+> >
+> > This patch creates a new MMU TLB index for shadow stack and flushes TLB
+> > for shadow stack on privileges changes. This patch doesn't implement
+> > `Smepmp` related enforcement on shadow stack pmp entry. Reason being qemu
+> > doesn't have `Smepmp` implementation yet.
+> I don't know that the Smepmp means here. QEMU has supported the epmp.
 
-On Tue, Jan 31, 2023 at 09:53:01PM +0100, Eric Auger wrote:
+https://github.com/riscv/riscv-tee/blob/main/Smepmp/Smepmp.pdf
 
-> diff --git a/include/sysemu/iommufd.h b/include/sysemu/iommufd.h
-> new file mode 100644
-> index 0000000000..06a866d1bd
-> --- /dev/null
-> +++ b/include/sysemu/iommufd.h
-> @@ -0,0 +1,47 @@
-> +#ifndef SYSEMU_IOMMUFD_H
-> +#define SYSEMU_IOMMUFD_H
-> +
-> +#include "qom/object.h"
-> +#include "qemu/thread.h"
-> +#include "exec/hwaddr.h"
-> +#include "exec/ram_addr.h"
+> >   `Smepmp` enforcement should come
+> > whenever it is implemented.
+> >
+> > Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+> > Signed-off-by: Kip Walker  <kip@rivosinc.com>
+> > ---
+> >   target/riscv/cpu-param.h  |   1 +
+> >   target/riscv/cpu.c        |   2 +
+> >   target/riscv/cpu.h        |   3 ++
+> >   target/riscv/cpu_helper.c | 107 +++++++++++++++++++++++++++++++-------
+> >   4 files changed, 94 insertions(+), 19 deletions(-)
+> >
+> > diff --git a/target/riscv/cpu-param.h b/target/riscv/cpu-param.h
+> > index ebaf26d26d..a1e379beb7 100644
+> > --- a/target/riscv/cpu-param.h
+> > +++ b/target/riscv/cpu-param.h
+> > @@ -25,6 +25,7 @@
+> >    *  - M mode 0b011
+> >    *  - U mode HLV/HLVX/HSV 0b100
+> >    *  - S mode HLV/HLVX/HSV 0b101
+> > + *  - BCFI shadow stack   0b110
+> >    *  - M mode HLV/HLVX/HSV 0b111
+> >    */
+> >   #define NB_MMU_MODES 8
+> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > index 6b4e90eb91..14cfb93288 100644
+> > --- a/target/riscv/cpu.c
+> > +++ b/target/riscv/cpu.c
+> > @@ -584,6 +584,8 @@ static void riscv_cpu_reset_hold(Object *obj)
+> >       }
+> >       /* mmte is supposed to have pm.current hardwired to 1 */
+> >       env->mmte |= (PM_EXT_INITIAL | MMTE_M_PM_CURRENT);
+> > +    /* Initialize ss_priv to current priv. */
+> > +    env->ss_priv = env->priv;
+> >   #endif
+> >       env->xl = riscv_cpu_mxl(env);
+> >       riscv_cpu_update_mask(env);
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index d14ea4f91d..8803ea6426 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -379,6 +379,7 @@ struct CPUArchState {
+> >       uint64_t sstateen[SMSTATEEN_MAX_COUNT];
+> >       target_ulong senvcfg;
+> >       uint64_t henvcfg;
+> > +    target_ulong ss_priv;
+> >   #endif
+> >       target_ulong cur_pmmask;
+> >       target_ulong cur_pmbase;
+> > @@ -617,6 +618,8 @@ void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
+> >   #define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 2)
+> >   #define TB_FLAGS_MSTATUS_FS MSTATUS_FS
+> >   #define TB_FLAGS_MSTATUS_VS MSTATUS_VS
+> > +/* TLB MMU index for shadow stack accesses */
+> > +#define MMU_IDX_SS_ACCESS    6
+> >
+> >   #include "exec/cpu-all.h"
+> >
+> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> > index fc188683c9..63377abc2f 100644
+> > --- a/target/riscv/cpu_helper.c
+> > +++ b/target/riscv/cpu_helper.c
+> > @@ -657,7 +657,8 @@ void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable)
+> >
+> >   bool riscv_cpu_two_stage_lookup(int mmu_idx)
+> >   {
+> > -    return mmu_idx & TB_FLAGS_PRIV_HYP_ACCESS_MASK;
+> > +    return (mmu_idx & TB_FLAGS_PRIV_HYP_ACCESS_MASK) &&
+> > +           (mmu_idx != MMU_IDX_SS_ACCESS);
+> >   }
+> >
+> >   int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint64_t interrupts)
+> > @@ -745,6 +746,38 @@ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
+> >        * preemptive context switch. As a result, do both.
+> >        */
+> >       env->load_res = -1;
+> > +
+> > +    if (cpu_get_bcfien(env) && (env->priv != env->ss_priv)) {
+> > +        /*
+> > +         * If backward CFI is enabled in the new privilege state, the
+> > +         * shadow stack TLB needs to be flushed - unless the most recent
+> > +         * use of the SS TLB was for the same privilege mode.
+> > +         */
+> > +        tlb_flush_by_mmuidx(env_cpu(env), 1 << MMU_IDX_SS_ACCESS);
+> > +        /*
+> > +         * Ignoring env->virt here since currently every time it flips,
+> > +         * all TLBs are flushed anyway.
+> > +         */
+> > +        env->ss_priv = env->priv;
+> > +    }
+> > +}
+> > +
+> > +typedef enum {
+> > +    SSTACK_NO,          /* Access is not for a shadow stack instruction */
+> > +    SSTACK_YES,         /* Access is for a shadow stack instruction */
+> > +    SSTACK_DC           /* Don't care about SS attribute in PMP */
+> > +} SStackPmpMode;
+> > +
+> > +static bool legal_sstack_access(int access_type, bool sstack_inst,
+> > +                                bool sstack_attribute)
+> > +{
+> > +    /*
+> > +     * Read/write/execution permissions are checked as usual. Shadow
+> > +     * stack enforcement is just that (1) instruction type must match
+> > +     * the attribute unless (2) a non-SS load to an SS region.
+> > +     */
+> > +    return (sstack_inst == sstack_attribute) ||
+> > +        ((access_type == MMU_DATA_LOAD) && sstack_attribute);
+> >   }
+> >
+> >   /*
+> > @@ -764,7 +797,7 @@ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
+> >   static int get_physical_address_pmp(CPURISCVState *env, int *prot,
+> >                                       target_ulong *tlb_size, hwaddr addr,
+> >                                       int size, MMUAccessType access_type,
+> > -                                    int mode)
+> > +                                    int mode, SStackPmpMode sstack)
+> Why this parameter if you don't use it?
+> >   {
+> >       pmp_priv_t pmp_priv;
+> >       int pmp_index = -1;
+> > @@ -812,13 +845,16 @@ static int get_physical_address_pmp(CPURISCVState *env, int *prot,
+> >    *               Second stage is used for hypervisor guest translation
+> >    * @two_stage: Are we going to perform two stage translation
+> >    * @is_debug: Is this access from a debugger or the monitor?
+> > + * @sstack: Is this access for a shadow stack? Passed by reference so
+> > +            it can be forced to SSTACK_DC when the SS check is completed
+> > +            based on a PTE - so the PMP SS attribute will be ignored.
+> >    */
+> >   static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+> >                                   int *prot, target_ulong addr,
+> >                                   target_ulong *fault_pte_addr,
+> >                                   int access_type, int mmu_idx,
+> >                                   bool first_stage, bool two_stage,
+> > -                                bool is_debug)
+> > +                                bool is_debug, SStackPmpMode *sstack)
+> >   {
+> >       /* NOTE: the env->pc value visible here will not be
+> >        * correct, but the value visible to the exception handler
+> > @@ -830,6 +866,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+> >       hwaddr ppn;
+> >       RISCVCPU *cpu = env_archcpu(env);
+> >       int napot_bits = 0;
+> > +    bool is_sstack = (sstack != NULL) && (*sstack == SSTACK_YES);
+> >       target_ulong napot_mask;
+> >
+> >       /*
+> > @@ -851,6 +888,8 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+> >           if (get_field(env->mstatus, MSTATUS_MPRV)) {
+> >               mode = get_field(env->mstatus, MSTATUS_MPP);
+> >           }
+> > +    } else if (mmu_idx == MMU_IDX_SS_ACCESS) {
+> > +        mode = env->priv;
+> >       }
+> >
+> >       if (first_stage == false) {
+> > @@ -966,7 +1005,7 @@ restart:
+> >               int vbase_ret = get_physical_address(env, &vbase, &vbase_prot,
+> >                                                    base, NULL, MMU_DATA_LOAD,
+> >                                                    mmu_idx, false, true,
+> > -                                                 is_debug);
+> > +                                                 is_debug, NULL);
+> >
+> >               if (vbase_ret != TRANSLATE_SUCCESS) {
+> >                   if (fault_pte_addr) {
+> > @@ -983,7 +1022,7 @@ restart:
+> >           int pmp_prot;
+> >           int pmp_ret = get_physical_address_pmp(env, &pmp_prot, NULL, pte_addr,
+> >                                                  sizeof(target_ulong),
+> > -                                               MMU_DATA_LOAD, PRV_S);
+> > +                                               MMU_DATA_LOAD, PRV_S, SSTACK_NO);
+> >           if (pmp_ret != TRANSLATE_SUCCESS) {
+> >               return TRANSLATE_PMP_FAIL;
+> >           }
+> > @@ -1010,6 +1049,18 @@ restart:
+> >               }
+> >           }
+> >
+> > +        /*
+> > +         * When backward CFI is enabled, the R=0, W=1, X=0 reserved encoding
+> > +         * is used to mark Shadow Stack (SS) pages. If back CFI enabled, allow
+> > +         * normal loads on SS pages, regular stores raise store access fault
+> > +         * and avoid hitting the reserved-encoding case. Only shadow stack
+> > +         * stores are allowed on SS pages. Shadow stack loads and stores on
+> > +         * regular memory (non-SS) raise load and store/AMO access fault.
+> > +         * Second stage translations don't participate in Shadow Stack.
+> > +         */
+> > +        bool sstack_page = (cpu_get_bcfien(env) && first_stage &&
+> > +                            ((pte & (PTE_R | PTE_W | PTE_X)) == PTE_W));
+> > +
+> >           if (!(pte & PTE_V)) {
+> >               /* Invalid PTE */
+> >               return TRANSLATE_FAIL;
+> > @@ -1021,7 +1072,7 @@ restart:
+> >                   return TRANSLATE_FAIL;
+> >               }
+> >               base = ppn << PGSHIFT;
+> > -        } else if ((pte & (PTE_R | PTE_W | PTE_X)) == PTE_W) {
+> > +        } else if (((pte & (PTE_R | PTE_W | PTE_X)) == PTE_W) && !sstack_page) {
+> >               /* Reserved leaf PTE flags: PTE_W */
+> >               return TRANSLATE_FAIL;
+> >           } else if ((pte & (PTE_R | PTE_W | PTE_X)) == (PTE_W | PTE_X)) {
+> > @@ -1038,16 +1089,21 @@ restart:
+> >           } else if (ppn & ((1ULL << ptshift) - 1)) {
+> >               /* Misaligned PPN */
+> >               return TRANSLATE_FAIL;
+> > -        } else if (access_type == MMU_DATA_LOAD && !((pte & PTE_R) ||
+> > -                   ((pte & PTE_X) && mxr))) {
+> > +        } else if (access_type == MMU_DATA_LOAD && !(((pte & PTE_R) ||
+> > +                   sstack_page) || ((pte & PTE_X) && mxr))) {
+> >               /* Read access check failed */
+> >               return TRANSLATE_FAIL;
+> > -        } else if (access_type == MMU_DATA_STORE && !(pte & PTE_W)) {
+> > +        } else if ((access_type == MMU_DATA_STORE && !is_sstack) &&
+> > +                   !(pte & PTE_W)) {
+> Why limit to !is_sstack? Even is_sstack, we should make sure
+>
+> (access_type == MMU_DATA_STORE && !(pte & PTE_W)
+>
+> fails.
 
-After rebasing nesting patches on top of this, I see a build error:
+As per spec if a shadow stack store happens to a memory which is not a
+shadow stack memory then cpu must raise
+access store fault. This failure here converts to a page fault.
+TRANSLATE_PMP_FAIL is the one which converts to
+access faults.  So this check here ensures that legacy behavior is
+maintained i.e.
+"all store accesses which are not shadow stack stores and if W is not
+set then they convert to store page faults"
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-[47/876] Compiling C object libcommon.fa.p/hw_arm_smmu-common.c.o
-FAILED: libcommon.fa.p/hw_arm_smmu-common.c.o=20
-cc -Ilibcommon.fa.p -I../src/3rdparty/qemu/dtc/libfdt -I/usr/include/pixman=
--1 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/glib-2.0 -I/=
-usr/lib/aarch64-linux-gnu/glib-2.0/include -I/usr/include/gio-unix-2.0 -fdi=
-agnostics-color=3Dauto -Wall -Winvalid-pch -std=3Dgnu11 -O2 -g -isystem /sr=
-c/3rdparty/qemu/linux-headers -isystem linux-headers -iquote . -iquote /src=
-/3rdparty/qemu -iquote /src/3rdparty/qemu/include -iquote /src/3rdparty/qem=
-u/tcg/aarch64 -pthread -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -D_GNU_SOURC=
-E -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -fno-strict-aliasing -fno-co=
-mmon -fwrapv -Wundef -Wwrite-strings -Wmissing-prototypes -Wstrict-prototyp=
-es -Wredundant-decls -Wold-style-declaration -Wold-style-definition -Wtype-=
-limits -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wem=
-pty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined -Wimplicit-=
-fallthrough=3D2 -Wmissing-format-attribute -Wno-missing-include-dirs -Wno-s=
-hift-negative-value -Wno-psabi -fstack-protector-strong -fPIE -MD -MQ libco=
-mmon.fa.p/hw_arm_smmu-common.c.o -MF libcommon.fa.p/hw_arm_smmu-common.c.o.=
-d -o libcommon.fa.p/hw_arm_smmu-common.c.o -c ../src/3rdparty/qemu/hw/arm/s=
-mmu-common.c
-In file included from /src/3rdparty/qemu/include/sysemu/iommufd.h:7,
-                 from ../src/3rdparty/qemu/hw/arm/smmu-common.c:29:
-/src/3rdparty/qemu/include/exec/ram_addr.h:23:10: fatal error: cpu.h: No su=
-ch file or directory
-   23 | #include "cpu.h"
-      |          ^~~~~~~
-compilation terminated.
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Few lines down there is a call to `legal_sstack_access` which actually
+does the logic check of
+"If a regular store happened on shadow stack memory, returns false"
+"If a shadow stack access happened on regular memory, returns false"
+And this check returns PMP_TRANSLATE_FAIL which converts to access faults.
 
-I guess it's resulted from the module inter-dependency. Though our
-nesting patches aren't finalized yet, the possibility of including
-iommufd.h is still there. Meanwhile, the ram_addr.h here is added
-for "ram_addr_t" type, I think. So, could we include "cpu-common.h"
-instead, where the "ram_addr_t" type is actually defined?
+On a very high level, shadow stack accesses (sspush/sspop/ssamoswap)
+to regular memory result in access faults.
+Regular store to shadow stack memory result in store/AMO access fault.
+Regular load to shadow stack memory is allowed.
 
-The build error is gone after this replacement:
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-diff --git a/include/sysemu/iommufd.h b/include/sysemu/iommufd.h
-index 45540de63986..86d370c221b3 100644
---- a/include/sysemu/iommufd.h
-+++ b/include/sysemu/iommufd.h
-@@ -4,7 +4,7 @@
- #include "qom/object.h"
- #include "qemu/thread.h"
- #include "exec/hwaddr.h"
--#include "exec/ram_addr.h"
-+#include "exec/cpu-common.h"
- #include <linux/iommufd.h>
-=20
- #define TYPE_IOMMUFD_BACKEND "iommufd"
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Let me know if this was clear.
 
-Thanks
-Nic
+> >               /* Write access check failed */
+> >               return TRANSLATE_FAIL;
+> >           } else if (access_type == MMU_INST_FETCH && !(pte & PTE_X)) {
+> >               /* Fetch access check failed */
+> >               return TRANSLATE_FAIL;
+> > +        } else if (!legal_sstack_access(access_type, is_sstack,
+> > +                                        sstack_page)) {
+> > +            /* Illegal combo of instruction type and page attribute */
+> > +            return TRANSLATE_PMP_FAIL;
+> Not sure about this. Does the cfi escape the pmp check?
+> >           } else {
+> >               /* if necessary, set accessed and dirty bits. */
+> >               target_ulong updated_pte = pte | PTE_A |
+> > @@ -1107,18 +1163,27 @@ restart:
+> >                            ) << PGSHIFT) | (addr & ~TARGET_PAGE_MASK);
+> >
+> >               /* set permissions on the TLB entry */
+> > -            if ((pte & PTE_R) || ((pte & PTE_X) && mxr)) {
+> > +            if ((pte & PTE_R) || ((pte & PTE_X) && mxr) || sstack_page) {
+>
+> I see that we should add the PAGE_READ for sstack_page, such as for a
+> no-SS load.
+
+I didn't get this comment. Can you clarify a bit more?
+
+>
+> Zhiwei
+>
+> >                   *prot |= PAGE_READ;
+> >               }
+> >               if ((pte & PTE_X)) {
+> >                   *prot |= PAGE_EXEC;
+> >               }
+> > -            /* add write permission on stores or if the page is already dirty,
+> > -               so that we TLB miss on later writes to update the dirty bit */
+> > +            /*
+> > +             * add write permission on stores or if the page is already dirty,
+> > +             * so that we TLB miss on later writes to update the dirty bit
+> > +             */
+> >               if ((pte & PTE_W) &&
+> >                       (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
+> >                   *prot |= PAGE_WRITE;
+> >               }
+> > +            if (sstack) {
+> > +                /*
+> > +                 * Tell the caller to skip the SS bit in the PMP since we
+> > +                 * resolved the attributes via the page table.
+> > +                 */
+> > +                *sstack = SSTACK_DC;
+> > +            }
+> >               return TRANSLATE_SUCCESS;
+> >           }
+> >       }
+> > @@ -1190,13 +1255,13 @@ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+> >       int mmu_idx = cpu_mmu_index(&cpu->env, false);
+> >
+> >       if (get_physical_address(env, &phys_addr, &prot, addr, NULL, 0, mmu_idx,
+> > -                             true, riscv_cpu_virt_enabled(env), true)) {
+> > +                             true, riscv_cpu_virt_enabled(env), true, NULL)) {
+> >           return -1;
+> >       }
+> >
+> >       if (riscv_cpu_virt_enabled(env)) {
+> >           if (get_physical_address(env, &phys_addr, &prot, phys_addr, NULL,
+> > -                                 0, mmu_idx, false, true, true)) {
+> > +                                 0, mmu_idx, false, true, true, NULL)) {
+> >               return -1;
+> >           }
+> >       }
+> > @@ -1291,6 +1356,8 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> >       bool two_stage_indirect_error = false;
+> >       int ret = TRANSLATE_FAIL;
+> >       int mode = mmu_idx;
+> > +    bool sstack = (mmu_idx == MMU_IDX_SS_ACCESS);
+> > +    SStackPmpMode ssmode = sstack ? SSTACK_YES : SSTACK_NO;
+> >       /* default TLB page size */
+> >       target_ulong tlb_size = TARGET_PAGE_SIZE;
+> >
+> > @@ -1318,7 +1385,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> >           /* Two stage lookup */
+> >           ret = get_physical_address(env, &pa, &prot, address,
+> >                                      &env->guest_phys_fault_addr, access_type,
+> > -                                   mmu_idx, true, true, false);
+> > +                                   mmu_idx, true, true, false, &ssmode);
+> >
+> >           /*
+> >            * A G-stage exception may be triggered during two state lookup.
+> > @@ -1342,7 +1409,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> >
+> >               ret = get_physical_address(env, &pa, &prot2, im_address, NULL,
+> >                                          access_type, mmu_idx, false, true,
+> > -                                       false);
+> > +                                       false, NULL);
+> >
+> >               qemu_log_mask(CPU_LOG_MMU,
+> >                       "%s 2nd-stage address=%" VADDR_PRIx " ret %d physical "
+> > @@ -1353,7 +1420,8 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> >
+> >               if (ret == TRANSLATE_SUCCESS) {
+> >                   ret = get_physical_address_pmp(env, &prot_pmp, &tlb_size, pa,
+> > -                                               size, access_type, mode);
+> > +                                               size, access_type, mode,
+> > +                                               SSTACK_NO);
+> >
+> >                   qemu_log_mask(CPU_LOG_MMU,
+> >                                 "%s PMP address=" HWADDR_FMT_plx " ret %d prot"
+> > @@ -1377,7 +1445,8 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> >       } else {
+> >           /* Single stage lookup */
+> >           ret = get_physical_address(env, &pa, &prot, address, NULL,
+> > -                                   access_type, mmu_idx, true, false, false);
+> > +                                   access_type, mmu_idx, true, false,
+> > +                                   false, &ssmode);
+> >
+> >           qemu_log_mask(CPU_LOG_MMU,
+> >                         "%s address=%" VADDR_PRIx " ret %d physical "
+> > @@ -1386,7 +1455,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> >
+> >           if (ret == TRANSLATE_SUCCESS) {
+> >               ret = get_physical_address_pmp(env, &prot_pmp, &tlb_size, pa,
+> > -                                           size, access_type, mode);
+> > +                                           size, access_type, mode, ssmode);
+> >
+> >               qemu_log_mask(CPU_LOG_MMU,
+> >                             "%s PMP address=" HWADDR_FMT_plx " ret %d prot"
 
