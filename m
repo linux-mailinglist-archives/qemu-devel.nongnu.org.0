@@ -2,94 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEAF0697FD1
+	by mail.lfdr.de (Postfix) with ESMTPS id C53D4697FD2
 	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 16:47:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSJz2-0002UW-35; Wed, 15 Feb 2023 10:46:12 -0500
+	id 1pSJzD-0002YX-H0; Wed, 15 Feb 2023 10:46:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pSJyy-0002TP-Jr
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 10:46:08 -0500
+ (Exim 4.90_1) (envelope-from <dbassey@redhat.com>)
+ id 1pSJzB-0002YH-6w
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 10:46:21 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pSJyt-0007HP-Nh
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 10:46:07 -0500
+ (Exim 4.90_1) (envelope-from <dbassey@redhat.com>)
+ id 1pSJz9-0007QO-KG
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 10:46:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676475961;
+ s=mimecast20190719; t=1676475979;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iebs9VEng/uZpr/fSdZFqxWPJYbNgG/TrZxZjRUe3/4=;
- b=Er/+XO6dDMh01IB5xc6FhEq0ncT+G3Pqr0tEAbLp0EAb7iMOf18+V1WSTFiGHDD3PEBQWa
- Rjxhd7c2QCM4Jyaei/ZN14t5Py+c0734LI4j/CfPwqJPN83oVIVjbLkqtvt6I1tB7JQpV5
- cFVBXXPLYMchtnrLoEEAAuVL5pe6Jpo=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=sRFbnADmRtku9ryvJUec8yviL3CxLpqTBfnAUakK0Zo=;
+ b=OFJYzy6TSE9UAf7xDZqQaGZoS/n+87KWB7vKxmjixJbRrTm9l+FVj1S8ml9vtN+yoAlUvI
+ TGWCdPHgPj8zMxYGwQly2uwjUGL+TJOoOLaeZacaXGl8zYEA/mATJQVEKZHWAGXiAvYiKa
+ uoCJL+FUz2Wg1jsa68EBNNJfIGCAwuQ=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-548-bVBCdOnAO6Ck6s2ktEAwJw-1; Wed, 15 Feb 2023 10:45:57 -0500
-X-MC-Unique: bVBCdOnAO6Ck6s2ktEAwJw-1
-Received: by mail-qv1-f69.google.com with SMTP id
- c10-20020a05621401ea00b004c72d0e92bcso10742669qvu.12
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 07:45:57 -0800 (PST)
+ us-mta-134-rv9GjJ7IMsiau-Cf0i-jVQ-1; Wed, 15 Feb 2023 10:46:17 -0500
+X-MC-Unique: rv9GjJ7IMsiau-Cf0i-jVQ-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ w17-20020a05620a425100b00706bf3b459eso11736489qko.11
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 07:46:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iebs9VEng/uZpr/fSdZFqxWPJYbNgG/TrZxZjRUe3/4=;
- b=JAg/gbaH/alyos/cubUFcyuXXgqzOwsUTdgFiOu+iCgWM7ImYdMPTtz6ByQkMXmJjA
- D3qsYkoYWpmj6cccfgksI0Xm4cj71+lq3n/o4tEG/LhZ+M8BEFQf/KuuDTfuhiCZXaT/
- TBZgnkTPzXBZjaHnspfZgrhcBshYb4XTe63VutR2IrYXIytv74a/5rqsF2WAJ/cj4yDl
- XzeHZZ6cOWNJRSpcCb+3G31WBDsrWM4Y9J2Gbo+81bOhaiAULUR/dKuba7haQejZJthl
- 0hs9tTjwj8e96X/5Fupb0+L8Kwwk6TMYPNs5zlNcYxZ4XLjrPGFoKR4kTHaKuCD5Pz3h
- vObA==
-X-Gm-Message-State: AO0yUKV5f0rB1HtxYu9xPKVHM+sLiSMvOjT1EDQpw9wZnc9DxSKh7iDA
- NicEEQr59nuysu6YrrWbf9XTwh0akoFNV+j0TXAb84WDPqDrgLbNjG4n2BfpLGu8KSAKBVQBZAM
- mo51sdULIRn8om+c=
-X-Received: by 2002:a05:6214:e6e:b0:56c:2ee:2641 with SMTP id
- jz14-20020a0562140e6e00b0056c02ee2641mr4965655qvb.22.1676475957479; 
- Wed, 15 Feb 2023 07:45:57 -0800 (PST)
-X-Google-Smtp-Source: AK7set/PQ9jPl/Hu2IStmU3EP6eIJy3lEz8SkEI9J+xMv5oroIwJ5od5NIomcqqeL6Ow0LDUY/Pcsg==
-X-Received: by 2002:a05:6214:e6e:b0:56c:2ee:2641 with SMTP id
- jz14-20020a0562140e6e00b0056c02ee2641mr4965630qvb.22.1676475957251; 
- Wed, 15 Feb 2023 07:45:57 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-79.web.vodafone.de.
- [109.43.176.79]) by smtp.gmail.com with ESMTPSA id
- j190-20020a37b9c7000000b0073912c099cesm11113993qkf.73.2023.02.15.07.45.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Feb 2023 07:45:56 -0800 (PST)
-Message-ID: <4ba57bbf-3712-8958-e7c6-b164854e35ce@redhat.com>
-Date: Wed, 15 Feb 2023 16:45:54 +0100
+ d=1e100.net; s=20210112; t=1676475976;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sRFbnADmRtku9ryvJUec8yviL3CxLpqTBfnAUakK0Zo=;
+ b=BMaUQTF9DBU+GL1oBAnsLk9Vtr2yV5TtKwukC7zUNxa3BsJ6V4MSIHY/QMwSehKbHf
+ cC2w4X+FjXbf2Slu5Y6I9l1VEhG+jVpx+KgQWIrX/tH/G8b8Ce6jkY+YW+K8Dh7Na22t
+ eOOyQ9b4o7Hqi0UefDCQHLiuJNPCODsX2aUwl8hrzHsr/kZaVIKZnshQGPVE5EfZMHCC
+ J6HMAqO0a1E6CM164Vhxr3VLIQ6aAs00TC4q3HFz4Qastla+8aQgWhg5YdtX2Yy2QnKL
+ eaLcrUrjQGvmZNjUpqJSJXTRz2DedBlmktghZDHhtsd3Rq7LlXJNIP7dwwbOCR2TWJfO
+ TRsw==
+X-Gm-Message-State: AO0yUKWQa07XIzRQbpXuzMZOZkEx+I6IeWxTITevbBBfFG4tYdEtaswO
+ Tv4JeK+ussXczt7M+hOXncv+xR2EfQep2J2iSCuD0ujsFMb3rU/nkijo5Bfk0xxzQk2EJWExyb7
+ Xxy7HyKB2x6KQ3+woo07W0g7ZW1VLxAE+jMh79N/jGVsA
+X-Received: by 2002:a0c:cb0c:0:b0:56e:bf84:ccd9 with SMTP id
+ o12-20020a0ccb0c000000b0056ebf84ccd9mr182679qvk.12.1676475976769; 
+ Wed, 15 Feb 2023 07:46:16 -0800 (PST)
+X-Google-Smtp-Source: AK7set/zLe1mQYxpF3BVlbgK9+5A5R124CTX7IC0lVay8uilpJKHBKWCCuGo7BfA4DnVOQx7JWfHRQKokD9KVHuUtDg=
+X-Received: by 2002:a0c:cb0c:0:b0:56e:bf84:ccd9 with SMTP id
+ o12-20020a0ccb0c000000b0056ebf84ccd9mr182673qvk.12.1676475976570; Wed, 15 Feb
+ 2023 07:46:16 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] gitlab-ci: Use artifacts instead of dumping logs in the
- Cirrus-CI jobs
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20230215142503.90660-1-thuth@redhat.com>
- <32f0a378-2ae9-c711-19c8-837397c87c4a@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <32f0a378-2ae9-c711-19c8-837397c87c4a@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+References: <20230215085102.415053-1-dbassey@redhat.com>
+ <CAJ+F1CL0_OAj5-jsyCVY5aF=qoSoPx2Mu=q8Z7mpp3mesRi6=Q@mail.gmail.com>
+ <5159868.WgR6L5i3FV@silver>
+ <20230215151115.posxqlvgzgl4eszw@sirius.home.kraxel.org>
+In-Reply-To: <20230215151115.posxqlvgzgl4eszw@sirius.home.kraxel.org>
+From: Dorinda Bassey <dbassey@redhat.com>
+Date: Wed, 15 Feb 2023 16:46:05 +0100
+Message-ID: <CACzuRyy8u4MbRy2CQtRUffpsLdUn7wMki19GSEW1H5z3WUfWMg@mail.gmail.com>
+Subject: Re: [PATCH] audio/pwaudio.c: Add Pipewire audio backend for QEMU
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ armbru@redhat.com, pbonzini@redhat.com, wtaymans@redhat.com, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, 
+ Alberto Ruiz <aruiz@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000000eead705f4befbcb"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dbassey@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,55 +97,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 15/02/2023 15.57, Philippe Mathieu-Daudé wrote:
-> Hi Thomas,
-> 
-> On 15/2/23 15:25, Thomas Huth wrote:
->> The meson log files can get very big, especially if running the tests in
->> verbose mode. So dumping those logs to the console was a bad idea, since
->> gitlab truncates the output if it is getting too big. Let's publish the
->> logs as artifacts instead. This has the disadvantage that you have to
->> look up the logs on cirrus-ci.com now instead, but that's still better
->> than not having the important part of the log at all since it got
->> truncated.
->>
->> Fixes: 998f334722 ("gitlab: show testlog.txt contents ...")
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   Note: I also tried to publish the junit xml files as artifacts
->>   instead, but while the cirrus-ci docs claim to support it, I only
->>   got unreadable XML output in my browser that way, so the .txt
->>   files look like the better option to me.
->>
->>   .gitlab-ci.d/cirrus/build.yml | 7 +++++--
->>   1 file changed, 5 insertions(+), 2 deletions(-)
->>
->> diff --git a/.gitlab-ci.d/cirrus/build.yml b/.gitlab-ci.d/cirrus/build.yml
->> index 7ef6af8d33..a9444902ec 100644
->> --- a/.gitlab-ci.d/cirrus/build.yml
->> +++ b/.gitlab-ci.d/cirrus/build.yml
->> @@ -32,6 +32,9 @@ build_task:
->>       - $MAKE -j$(sysctl -n hw.ncpu)
->>       - for TARGET in $TEST_TARGETS ;
->>         do
->> -        $MAKE -j$(sysctl -n hw.ncpu) $TARGET V=1
->> -        || { cat meson-logs/testlog.txt; exit 1; } ;
->> +        $MAKE -j$(sysctl -n hw.ncpu) $TARGET V=1 ;
->>         done
->> +  always:
->> +    build_result_artifacts:
->> +      path: build/meson-logs/*log.txt
->> +      type: text/plain
-> 
-> How long is that log kept available?
+--0000000000000eead705f4befbcb
+Content-Type: text/plain; charset="UTF-8"
 
-No clue, I haven't seen anything related in the docs:
+>
+> Are there any additional features available when using the pipewire
+> protocol instead of pulseaudio or jack?
 
-  https://cirrus-ci.org/guide/writing-tasks/#artifacts-instruction
 
-... but I assume they will at least be available for a couple of days so 
-you've got enough time to look at them in case a job failed.
+yes, Pipewire supports both use cases, It is more or less a hybrid between
+pulseaudio and jack.
+Pipewire uses a much more accurate timing model for timer based scheduling.
+Pipewire provides highly optimized audio processing paths.
+Pipewire uses ACP(copy of PulseAudio card profiles), UCM devices, profiles,
+ports, soft/hw volumes, jack detection, it supports ALSA API and UCM
+profiles.
 
-  Thomas
+Are there any plans beyond audio?  pipewire does video too and gnome
+> screen sharing uses that.  Is it maybe possible to wire up the qemu vga
+> display and have pipewire send out qemu sound+display as video stream?
+>
+
+I don't know but It's worth considering.
+
+Regards,
+Dorinda.
+
+On Wed, Feb 15, 2023 at 4:11 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+
+> > > What is the main advantage compared to using the ALSA backend? (I
+> > > assume pipewire depends on ALSA anyway on Linux)
+> >
+> > I think it does make sense to add Pipewire. Apparently it gains
+> popularity.
+> >
+> > The main advantage of Pipewire is its interoperability: It allows you to
+> > connect apps with each other that only support a specific audio system.
+> Say
+> > one app that only supports JACK, another app that only supports
+> PulseAudio,
+> > another that only supports ALSA and so on. So it tries to provide a
+> universal
+> > plug on a system for all.
+>
+> We already have support for pulse, jack and alsa in qemu, so there are
+> already three different ways to talk to pipewire.  So the question
+> whenever adding yet another way makes sense is valid IMHO.
+>
+> Are there any additional features available when using the pipewire
+> protocol instead of pulseaudio or jack?
+>
+> Are there any plans beyond audio?  pipewire does video too and gnome
+> screen sharing uses that.  Is it maybe possible to wire up the qemu vga
+> display and have pipewire send out qemu sound+display as video stream?
+>
+> take care,
+>   Gerd
+>
+>
+
+--0000000000000eead705f4befbcb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Are ther=
+e any additional features available when using the pipewire<br>
+protocol instead of pulseaudio or jack?</blockquote><div><br></div><div>yes=
+, Pipewire supports both use cases, It is more or less a hybrid between  pu=
+lseaudio and jack. <br></div><div>Pipewire uses a much more accurate timing=
+ model for timer based scheduling. <br></div><div>Pipewire provides highly =
+optimized audio processing paths.</div><div>Pipewire uses ACP(copy of Pulse=
+Audio card profiles), UCM devices, profiles, ports, soft/hw volumes, jack d=
+etection, it supports ALSA API and UCM profiles.<br></div><div><br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex"><div>Are there any plans be=
+yond audio?=C2=A0 pipewire does video too and gnome<br>
+screen sharing uses that.=C2=A0 Is it maybe possible to wire up the qemu vg=
+a<br>
+display and have pipewire send out qemu sound+display as video stream?</div=
+></blockquote><div><br></div><div>I don&#39;t know but It&#39;s worth consi=
+dering. <br></div><div><br></div><div>Regards,</div><div>Dorinda.<br></div>=
+</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=
+On Wed, Feb 15, 2023 at 4:11 PM Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@=
+redhat.com">kraxel@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">&gt; &gt; What is the main advantage compared =
+to using the ALSA backend? (I<br>
+&gt; &gt; assume pipewire depends on ALSA anyway on Linux)<br>
+&gt; <br>
+&gt; I think it does make sense to add Pipewire. Apparently it gains popula=
+rity.<br>
+&gt; <br>
+&gt; The main advantage of Pipewire is its interoperability: It allows you =
+to <br>
+&gt; connect apps with each other that only support a specific audio system=
+. Say <br>
+&gt; one app that only supports JACK, another app that only supports PulseA=
+udio, <br>
+&gt; another that only supports ALSA and so on. So it tries to provide a un=
+iversal <br>
+&gt; plug on a system for all.<br>
+<br>
+We already have support for pulse, jack and alsa in qemu, so there are<br>
+already three different ways to talk to pipewire.=C2=A0 So the question<br>
+whenever adding yet another way makes sense is valid IMHO.<br>
+<br>
+Are there any additional features available when using the pipewire<br>
+protocol instead of pulseaudio or jack?<br>
+<br>
+Are there any plans beyond audio?=C2=A0 pipewire does video too and gnome<b=
+r>
+screen sharing uses that.=C2=A0 Is it maybe possible to wire up the qemu vg=
+a<br>
+display and have pipewire send out qemu sound+display as video stream?<br>
+<br>
+take care,<br>
+=C2=A0 Gerd<br>
+<br>
+</blockquote></div>
+
+--0000000000000eead705f4befbcb--
 
 
