@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C535697672
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 07:32:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98903697681
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 07:39:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSBKF-0005m2-QX; Wed, 15 Feb 2023 01:31:31 -0500
+	id 1pSBRC-0007se-1b; Wed, 15 Feb 2023 01:38:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <majosaheb@gmail.com>)
- id 1pSBKE-0005lq-Hh
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 01:31:30 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <majosaheb@gmail.com>)
- id 1pSBKB-0004KY-M5
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 01:31:29 -0500
-Received: by mail-wr1-x432.google.com with SMTP id y1so17981185wru.2
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 22:31:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=8CDLFK7kgb1a9gqUfwlbJIdVNfQPcN7GyE046f742JU=;
- b=KXe5YHK8iyxz3qbONUlFZPzoAzC93WcvRw3zulvk6DVqHnxdC2N5j5/bvB6Tu6ZyGj
- zWz6X7Dub/m5ADQj7hHhyzmJQPCgOpqcGCEeRw4K4D2jI5S8hGlsQ8+6ri8jITFCaWU7
- 9JEv5QhgJVxrKtBwI3uql3uummEoxZDYEKlF25/CUpK/+yv5Y8dcKp8zohgzemJUaF4j
- GFvR/qqznxJGJFMAEdZkMYu/SpBHtz/gY8Eao+4Vk2TeDZOrrHo9/dPyS13xusbfIpjG
- w6WraJ3W4jgCgcdVG1OQuAMCqHPynwWeIhJ9yTQdwe6/ONT3KvHqD/7UV5V2vPd+CxoO
- sI1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8CDLFK7kgb1a9gqUfwlbJIdVNfQPcN7GyE046f742JU=;
- b=hUnpZxZeuvPazx5S5U7IRNmhjUqM941UGr2D7kj4v8NuejsMwrHk40BFkQDWIHuKyj
- 9NLiPQBvRj+JeG6OZJQQGpbHb+2W03t0oXjzB7KVTlUZz0uuniN9ZFfEWZc/zfeJiPgf
- TWnP0bvgHqaL5EA8mLdYJpohz6181pDdHgt9Ig7KOp3+cVKjxKk3ZFte5flHdJldCctS
- DGBp6QeiD1MLieDqvZ9aSDHr4dtLpHmQi40Op/hcVDNDOMNnBD9OtPidpIRVPVcmtqzN
- K3ySl9Vc+SOljNIOHc31GQFZj9MSCGpntDeoKKi8gN95y+NyhC+3ulSslhISksZuRTKZ
- HJzQ==
-X-Gm-Message-State: AO0yUKUrSPHjqVO1aq0mvBQjgRJTRKugfadg/hNyKffaqAX4latKW9Go
- xYeL3oGVQVgH5vJUUk7d0euYqs9/8xa14Ekxw3o=
-X-Google-Smtp-Source: AK7set9L19zOrenQ0KprjBpxhUCQ1t/rCjfJKKjuBr5nvt2dOCcrzrDTicGsMvWJRb0GOkOE3HK8nlCL1vqLMmcSH80=
-X-Received: by 2002:a05:6000:3:b0:2c5:54cf:ef78 with SMTP id
- h3-20020a056000000300b002c554cfef78mr37247wrx.323.1676442685441; Tue, 14 Feb
- 2023 22:31:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSBR9-0007rf-9z
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 01:38:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSBR5-0006a0-8g
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 01:38:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676443114;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kMpfFdbg2TIYGxTDJ8apwvmPmF3OWMEnIIL9HoRz/wU=;
+ b=BRXsAelGEmaWolwERIZRdZeH+CK9rRFR7cZaeLJZsJ9rvhDeJPDHi6yTlWWKtNccDRz2/6
+ 2Dq8zvaQ+ZCyXgsfQC06vEB+SKgWUBY9JtdyoFHgAU3mAM8+WbIqrDzNmoe7xkBAwsA9NM
+ Ls6Lfj+Vg2H8XPO8HKBJGBgX/S1PiUQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-186-DlBwYsQmOyaMjimDk8QbhA-1; Wed, 15 Feb 2023 01:38:30 -0500
+X-MC-Unique: DlBwYsQmOyaMjimDk8QbhA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C2908027EB;
+ Wed, 15 Feb 2023 06:38:30 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E06B540C1423;
+ Wed, 15 Feb 2023 06:38:29 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B23D621E6A1F; Wed, 15 Feb 2023 07:38:28 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+Cc: qemu-arm@nongnu.org,  qemu-devel@nongnu.org,  qemu-block@nongnu.org,
+ Joel Stanley <joel@jms.id.au>,  Andrew Jeffery <andrew@aj.id.au>,  Peter
+ Maydell <peter.maydell@linaro.org>,  Philippe =?utf-8?Q?Mathieu-Daud?=
+ =?utf-8?Q?=C3=A9?= <philmd@linaro.org>
+Subject: Re: [PATCH 0/8] aspeed: I2C fixes, -drive removal (first step)
+References: <20230214171830.681594-1-clg@kaod.org>
+Date: Wed, 15 Feb 2023 07:38:28 +0100
+In-Reply-To: <20230214171830.681594-1-clg@kaod.org> (=?utf-8?Q?=22C=C3=A9d?=
+ =?utf-8?Q?ric?= Le Goater"'s
+ message of "Tue, 14 Feb 2023 18:18:22 +0100")
+Message-ID: <87fsb7e8m3.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-References: <CANBBZXMpWOj5fE2YF8XGvWmBtbc=9YKiMCSfUKC7AoP5Ros9QA@mail.gmail.com>
- <Y+q3+eXdYz0qOtDT@x1n>
- <CANBBZXOtEF6Ao+Nxznf6dGOSTMX3F7iJvfOiWWngs79Bjy_YEQ@mail.gmail.com>
- <Y+uHMm1hvP7N6sKD@cormorant.local> <Y+uhL77aBFVEWsJd@cormorant.local>
-In-Reply-To: <Y+uhL77aBFVEWsJd@cormorant.local>
-From: Major Saheb <majosaheb@gmail.com>
-Date: Wed, 15 Feb 2023 12:01:14 +0530
-Message-ID: <CANBBZXOos3JUkq7zqjNqr39wiU4-zptBq1Jr3KwzWddW1jj-5Q@mail.gmail.com>
-Subject: Re: DMAR fault with qemu 7.2 and Ubuntu 22.04 base image
-To: Klaus Jensen <its@irrelevant.dk>
-Cc: Peter Xu <peterx@redhat.com>, k.jensen@samsung.com, philmd@linaro.org, 
- armbru@redhat.com, mst@redhat.com, lukasz.gieryk@linux.intel.com, 
- Alex Williamson <alex.williamson@redhat.com>,
- Bjorn Helgaas <helgaas@kernel.org>, 
- Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=majosaheb@gmail.com; helo=mail-wr1-x432.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,63 +84,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-> Assuming you are *not* explicitly configuring shadow doorbells, then I
-> think you might have a broken driver that does not properly reset the
-> controller before using it (are you tripping CC.EN?). That could explain
-> the admin queue size of 32 (default admin queue depth for the Linux nvme
-> driver) as well as the db/ei_addrs being left over. And behavior wrt.
-> how the Linux driver disables the device might have changed between the
-> kernel version used in Ubuntu 20.04 and 22.04.
+C=C3=A9dric Le Goater <clg@kaod.org> writes:
 
-Thanks Klaus, I didn't had the driver source, so I acquired it and
-looked into it, the driver was not toggling the cc.en nor waiting for
-csts.ready the right way. So I implemented it and it started working
-perfectly.
-- R
+> Hello,
+>
+> This series starts with a first set of patches fixing I2C slave mode
+> in the Aspeed I2C controller, a test device and its associated test in
+> avocado.
+>
+> Follow some cleanups which allow the use of block devices instead of
+> drives. So that, instead of specifying :
+>
+>   -drive file=3D./flash-ast2600-evb,format=3Draw,if=3Dmtd
+>   -drive file=3D./ast2600-evb.pnor,format=3Draw,if=3Dmtd
+>   ...
+>
+> and guessing from the order which bus the device is attached to, we
+> can use :
+>
+>   -blockdev node-name=3Dfmc0,driver=3Dfile,filename=3D./bmc.img
+>   -device mx66u51235f,bus=3Dssi.0,drive=3Dfmc0
+>   -blockdev node-name=3Dfmc1,driver=3Dfile,filename=3D./bmc-alt.img
+>   -device mx66u51235f,bus=3Dssi.0,drive=3Dfmc1=20
+>   -blockdev node-name=3Dpnor,driver=3Dfile,filename=3D./pnor
+>   -device mx66l1g45g,bus=3Dssi.1,drive=3Dpnor
+>   ...
+>
+> It is not perfect, the CS index still depends on the order, but it is
+> now possible to run a machine without -drive ...,if=3Dmtd.
 
-On Tue, Feb 14, 2023 at 8:26 PM Klaus Jensen <its@irrelevant.dk> wrote:
->
-> On Feb 14 14:05, Klaus Jensen wrote:
-> > On Feb 14 17:34, Major Saheb wrote:
-> > > Thanks Peter for the reply. I tried to connect gdb to qemu and able to
-> > > break 'vtd_iova_to_slpte()', I dumped the following with both Ubuntu
-> > > 20.04 base image container which is the success case and Ubuntu 22.04
-> > > base image container which is failure case
-> > > One thing I observed is the NvmeSQueue::dma_addr is correctly set to
-> > > '0x800000000', however in failure case this value is 0x1196b1000. A
-> > > closer look indicates more fields in NvmeSQueue might be corrupted,
-> > > for example we are setting admin queue size as 512 but in failure case
-> > > it is showing 32.
-> > >
-> >
-> > Hi Major,
-> >
-> > It's obviously pretty bad if hw/nvme somehow corrupts the SQ structure,
-> > but it's difficult to say from this output.
-> >
-> > Are you configuring shadow doorbells (the db_addr and ei_addr's are
-> > set in both cases)?
-> >
-> > > > > Following is the partial qemu command line that I am using
-> > > > >
-> > > > > -device intel-iommu,intremap=on,caching-mode=on,eim=on,device-iotlb=on,aw-bits=48
-> > > > >
-> >
-> > I'm not sure if caching-mode=on and device-iotlb=on leads to any issues
-> > here? As far as I understand, this is mostly used with stuff like vhost.
-> > I've tested and developed vfio-based drivers against hw/nvme excessively
-> > and I'm not using anything besides `-device intel-iommu`.
-> >
-> > Do I undestand correctly that your setup is "just" a Ubuntu 22.04 guest
-> > with a container and a user-space driver to interact with the nvme
-> > devices available on the guest? No nested virtualization with vfio
-> > passthrough?
->
-> Assuming you are *not* explicitly configuring shadow doorbells, then I
-> think you might have a broken driver that does not properly reset the
-> controller before using it (are you tripping CC.EN?). That could explain
-> the admin queue size of 32 (default admin queue depth for the Linux nvme
-> driver) as well as the db/ei_addrs being left over. And behavior wrt.
-> how the Linux driver disables the device might have changed between the
-> kernel version used in Ubuntu 20.04 and 22.04.
+Lovely!
+
+Does this cover all uses of IF_MTD, or only some?
+
+> This lacks the final patch enabling the '-nodefaults' option by not
+> creating the default devices if specified on the command line. It
+> needs some more evaluation of the possible undesired effects.=20
+
+Are you thinking of something similar to the default CD-ROM, i.e. use
+default_list to have -device suppress a certain kind of default devices,
+and also have -nodefaults suppress them all?
+
 
