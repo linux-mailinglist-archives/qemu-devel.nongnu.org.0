@@ -2,84 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71FDA698207
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 18:31:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B488669821C
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 18:32:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSLcS-0006kg-8W; Wed, 15 Feb 2023 12:31:00 -0500
+	id 1pSLdc-0007iJ-Vv; Wed, 15 Feb 2023 12:32:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pSLcP-0006k7-Ns
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:30:57 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ id 1pSLdb-0007gl-Fk
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:32:11 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pSLcN-0007ek-OV
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:30:57 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id bk16so19919312wrb.11
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 09:30:55 -0800 (PST)
+ id 1pSLdZ-00082H-VC
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:32:11 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ s13-20020a05600c45cd00b003ddca7a2bcbso2114598wmo.3
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 09:32:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8TmMS6MwZdgJOnLa7VlwFtOh4OKJvPj+jftYQVqkKsk=;
- b=gEczS0Lejz8yob903zOArqLumCdivb9ESDgSnQLOEqWQA0BwxP2t5+6fs1VlGvftRu
- PHH1h8zs4UexpeqqE9x5DICe+eovXmDpN7mBKxgOHCk54JQ5S8CLIzsysof79C9A2sd7
- bqgRW3zA5pYDSP1e+/di9ckfFniQl3Hz5moAekzBbHhUlUzBHAhBybvhnLL+0aLIL/dz
- aTNis50lYs3O2wgHhSsPtyr8vvGZdp4aqOyRRjRBHiV2vsab10zJObLuo8UOU2c1uned
- 7D1c2K2TlRpnNZtQED84r9dtGcN+QAmmrwnd7dY8kXHZ6PzDzpQVLg6lTZw7HhJXsJV4
- Unow==
+ bh=kf1C8CrXEBma0QsNPJ5YqW2c+PrPyXNm/UJr9gahaxM=;
+ b=d/4F4boeCwYZag983GJvhrD/TGXxX5XYiNOpUGty2d6ljEe6kRj/PjBzruFMi6z6ra
+ 8dDv6E/Mm3dyVk5Sa1xRQOujh70+oq1NIfVftvNzSIfTnfKS+AvtnF8VHzBSPjAs6cEA
+ U1bpzuqM/DNpoa+w+m41EIioFA+CS3POhMnMtBlcwSQ/+crfvjjUYFB+4joRhSJVjxKV
+ ZBSlbqPSOoubJCFZ3IaVcs1SCDTtN00Nt86v5rjrWM9KtSTUYMGwkDIXeqpvRvfWuQw0
+ 98gu28V+ifRyS5BDaZ5Ils3UFYnGsd46dXHmv6mnAn5rgGiEWf6uYf+O7cinyldnN8Xl
+ BHoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=8TmMS6MwZdgJOnLa7VlwFtOh4OKJvPj+jftYQVqkKsk=;
- b=ViZnkVomFaGIW2brX2BkG8oqe/Erfa0QsYlZTjbawJzWofbVUI07+IgqA0sdQZoOKH
- ruuf2UMZwLqlX3oUb9GBhazt6QYBxGqWrJ7cIn8zEg/EZ/rczhaV2aMUoWOPLFH1j6SJ
- LrGvC/pnM3rpDfJDdMdAWYrXB1IfocWSIfNfxnz/5E/iyVGPzFAFxzx94qYvppCw2Rd8
- mysyrOgnHYZDV+025Rk2dSWwYvTy38ZTat5trZ5IoFPb9XGY5fUpW/cHax0vP1vg5HPi
- um3WB9LOEhL4N9diVlKQMj+TjpEFKOnK4BynGr3rilUdjZiRdgsmzYEg5e7eEdNBpxoI
- MdTg==
-X-Gm-Message-State: AO0yUKWaJe5AbRifDiti2cUWbYsPyiRvWMXo28oOrN9mR1K7ROgHBq3g
- mh4VOsXPiYjFhpmudHnqmielKQ==
-X-Google-Smtp-Source: AK7set8mqvBKNVCmcof2kzZjv++FIEmek/NNx1aXQ6udkF1v7P5ZXs5wczgJcRP20lg/anjPURFOHg==
-X-Received: by 2002:a5d:5744:0:b0:2c5:6d14:1d96 with SMTP id
- q4-20020a5d5744000000b002c56d141d96mr1783432wrw.9.1676482254057; 
- Wed, 15 Feb 2023 09:30:54 -0800 (PST)
+ bh=kf1C8CrXEBma0QsNPJ5YqW2c+PrPyXNm/UJr9gahaxM=;
+ b=NPMdqKukNrrWMDADX7S0TCWk8JLC9OOujJIELf938wTJdGZI2q8E8GzX5yFriRlZN5
+ XZ1fT/sXPVT1JQ9Bx/UMLQg7eiAqBB4fQJ9+LAQUS+Qd0xYKxmy5JfP255GadjtYsGWJ
+ P/1jaZJ/ApV4dVGEHi2jd65LIxtIgrdSazJ5M6ZyxZrqbQ+JENgsCW0lg+/a22LUOljJ
+ 8JHelNkfwy31o1Z+54gq+Pcm71wQIkBbcwCeGwJB5tAW66gV1ZYFvBoIV4RrB/fVoCi5
+ m+w/H6nI8nWFQ3eTyipPushgHyJEq8iORI3crV/VP3Wkn7YQBKW5y+ldHehPz619XUl4
+ ma8g==
+X-Gm-Message-State: AO0yUKX5A1DMitJkAbzA/i9FAb6UKQL46lr2xQJ1sYo9hmKoc8hJO4F5
+ SNzOqsv2HUKcZyDd1j+Wx5jjaw==
+X-Google-Smtp-Source: AK7set9tQRc90p3FBuUZKeO1fuK3vtNmifzHBdtwxT7cby+PeJlGbnBFfnYIQeqlM5CkziqhlNN5iA==
+X-Received: by 2002:a05:600c:474b:b0:3d2:2d2a:d581 with SMTP id
+ w11-20020a05600c474b00b003d22d2ad581mr2618643wmo.30.1676482328055; 
+ Wed, 15 Feb 2023 09:32:08 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- z9-20020a5d6549000000b002bfd524255esm9481867wrv.43.2023.02.15.09.30.53
+ l9-20020a05600c4f0900b003e001afa274sm3105822wmq.2.2023.02.15.09.32.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 09:30:53 -0800 (PST)
+ Wed, 15 Feb 2023 09:32:07 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2CF1C1FFB7;
- Wed, 15 Feb 2023 17:30:53 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 4D5D51FFB7;
+ Wed, 15 Feb 2023 17:32:07 +0000 (GMT)
 References: <20230215112712.23110-1-philmd@linaro.org>
- <20230215112712.23110-3-philmd@linaro.org>
+ <20230215112712.23110-4-philmd@linaro.org>
 User-agent: mu4e 1.9.20; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 Cc: qemu-block@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, John Snow
- <jsnow@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH 02/20] hw/ide/mmio: Use CamelCase for MMIO_IDE state name
-Date: Wed, 15 Feb 2023 17:29:04 +0000
-In-reply-to: <20230215112712.23110-3-philmd@linaro.org>
-Message-ID: <875yc2al9u.fsf@linaro.org>
+ <jsnow@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, Magnus
+ Damm <magnus.damm@gmail.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH 03/20] hw/ide/mmio: Extract TYPE_MMIO_IDE declarations
+ to 'hw/ide/mmio.h'
+Date: Wed, 15 Feb 2023 17:32:02 +0000
+In-reply-to: <20230215112712.23110-4-philmd@linaro.org>
+Message-ID: <871qmqal7s.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,143 +101,16 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-> Following docs/devel/style.rst guidelines, rename MMIOIDEState
-> as IdeMmioState.
-
-Erm the comment doesn't match what you've done s/MMIOState/MMIOIDEState/
-
+> "hw/ide.h" is a mixed bag of lost IDE declarations.
 >
-> Having the structure name and its typedef named equally, we can
-> manually convert from the old DECLARE_INSTANCE_CHECKER() macro to the
-> more recent OBJECT_DECLARE_SIMPLE_TYPE().
+> Extract mmio_ide_init_drives() and the TYPE_MMIO_IDE QOM
+> declarations to a new "hw/ide/mmio.h" header.
 >
-> Note, due to that name mismatch, this macro wasn't automatically
-> converted during commit 8063396bf3 ("Use OBJECT_DECLARE_SIMPLE_TYPE
-> when possible").
+> Document the SysBus interface.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> ---
->  hw/ide/mmio.c | 28 +++++++++++++---------------
->  1 file changed, 13 insertions(+), 15 deletions(-)
->
-> diff --git a/hw/ide/mmio.c b/hw/ide/mmio.c
-> index fb2ebd4847..f1c6e1479b 100644
-> --- a/hw/ide/mmio.c
-> +++ b/hw/ide/mmio.c
-> @@ -40,9 +40,7 @@
->   */
->=20=20
->  #define TYPE_MMIO_IDE "mmio-ide"
-> -typedef struct MMIOIDEState MMIOState;
-> -DECLARE_INSTANCE_CHECKER(MMIOState, MMIO_IDE,
-> -                         TYPE_MMIO_IDE)
-> +OBJECT_DECLARE_SIMPLE_TYPE(MMIOIDEState, MMIO_IDE)
->=20=20
->  struct MMIOIDEState {
->      /*< private >*/
-> @@ -58,7 +56,7 @@ struct MMIOIDEState {
->=20=20
->  static void mmio_ide_reset(DeviceState *dev)
->  {
-> -    MMIOState *s =3D MMIO_IDE(dev);
-> +    MMIOIDEState *s =3D MMIO_IDE(dev);
->=20=20
->      ide_bus_reset(&s->bus);
->  }
-> @@ -66,7 +64,7 @@ static void mmio_ide_reset(DeviceState *dev)
->  static uint64_t mmio_ide_read(void *opaque, hwaddr addr,
->                                unsigned size)
->  {
-> -    MMIOState *s =3D opaque;
-> +    MMIOIDEState *s =3D opaque;
->      addr >>=3D s->shift;
->      if (addr & 7)
->          return ide_ioport_read(&s->bus, addr);
-> @@ -77,7 +75,7 @@ static uint64_t mmio_ide_read(void *opaque, hwaddr addr,
->  static void mmio_ide_write(void *opaque, hwaddr addr,
->                             uint64_t val, unsigned size)
->  {
-> -    MMIOState *s =3D opaque;
-> +    MMIOIDEState *s =3D opaque;
->      addr >>=3D s->shift;
->      if (addr & 7)
->          ide_ioport_write(&s->bus, addr, val);
-> @@ -94,14 +92,14 @@ static const MemoryRegionOps mmio_ide_ops =3D {
->  static uint64_t mmio_ide_status_read(void *opaque, hwaddr addr,
->                                       unsigned size)
->  {
-> -    MMIOState *s=3D opaque;
-> +    MMIOIDEState *s=3D opaque;
->      return ide_status_read(&s->bus, 0);
->  }
->=20=20
->  static void mmio_ide_ctrl_write(void *opaque, hwaddr addr,
->                                  uint64_t val, unsigned size)
->  {
-> -    MMIOState *s =3D opaque;
-> +    MMIOIDEState *s =3D opaque;
->      ide_ctrl_write(&s->bus, 0, val);
->  }
->=20=20
-> @@ -116,8 +114,8 @@ static const VMStateDescription vmstate_ide_mmio =3D {
->      .version_id =3D 3,
->      .minimum_version_id =3D 0,
->      .fields =3D (VMStateField[]) {
-> -        VMSTATE_IDE_BUS(bus, MMIOState),
-> -        VMSTATE_IDE_DRIVES(bus.ifs, MMIOState),
-> +        VMSTATE_IDE_BUS(bus, MMIOIDEState),
-> +        VMSTATE_IDE_DRIVES(bus.ifs, MMIOIDEState),
->          VMSTATE_END_OF_LIST()
->      }
->  };
-> @@ -125,7 +123,7 @@ static const VMStateDescription vmstate_ide_mmio =3D {
->  static void mmio_ide_realizefn(DeviceState *dev, Error **errp)
->  {
->      SysBusDevice *d =3D SYS_BUS_DEVICE(dev);
-> -    MMIOState *s =3D MMIO_IDE(dev);
-> +    MMIOIDEState *s =3D MMIO_IDE(dev);
->=20=20
->      ide_init2(&s->bus, s->irq);
->=20=20
-> @@ -140,14 +138,14 @@ static void mmio_ide_realizefn(DeviceState *dev, Er=
-ror **errp)
->  static void mmio_ide_initfn(Object *obj)
->  {
->      SysBusDevice *d =3D SYS_BUS_DEVICE(obj);
-> -    MMIOState *s =3D MMIO_IDE(obj);
-> +    MMIOIDEState *s =3D MMIO_IDE(obj);
->=20=20
->      ide_bus_init(&s->bus, sizeof(s->bus), DEVICE(obj), 0, 2);
->      sysbus_init_irq(d, &s->irq);
->  }
->=20=20
->  static Property mmio_ide_properties[] =3D {
-> -    DEFINE_PROP_UINT32("shift", MMIOState, shift, 0),
-> +    DEFINE_PROP_UINT32("shift", MMIOIDEState, shift, 0),
->      DEFINE_PROP_END_OF_LIST()
->  };
->=20=20
-> @@ -164,7 +162,7 @@ static void mmio_ide_class_init(ObjectClass *oc, void=
- *data)
->  static const TypeInfo mmio_ide_type_info =3D {
->      .name =3D TYPE_MMIO_IDE,
->      .parent =3D TYPE_SYS_BUS_DEVICE,
-> -    .instance_size =3D sizeof(MMIOState),
-> +    .instance_size =3D sizeof(MMIOIDEState),
->      .instance_init =3D mmio_ide_initfn,
->      .class_init =3D mmio_ide_class_init,
->  };
-> @@ -176,7 +174,7 @@ static void mmio_ide_register_types(void)
->=20=20
->  void mmio_ide_init_drives(DeviceState *dev, DriveInfo *hd0, DriveInfo *h=
-d1)
->  {
-> -    MMIOState *s =3D MMIO_IDE(dev);
-> +    MMIOIDEState *s =3D MMIO_IDE(dev);
->=20=20
->      if (hd0 !=3D NULL) {
->          ide_create_drive(&s->bus, 0, hd0);
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 --=20
 Alex Benn=C3=A9e
