@@ -2,84 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B215169851C
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 21:00:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6852698526
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 21:04:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSNvx-0006DG-Pv; Wed, 15 Feb 2023 14:59:17 -0500
+	id 1pSNzz-0000Im-KH; Wed, 15 Feb 2023 15:03:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pSNvq-0006D3-A2
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 14:59:11 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pSNzw-0000IV-P7
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:03:24 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pSNvo-00057M-2B
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 14:59:09 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pSNzu-00060R-Mw
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:03:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676491145;
+ s=mimecast20190719; t=1676491401;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4rpoWDZzatWIWtQTXfWq6qbUUbrtQgJyiJTEr9yCgeg=;
- b=IHlf9kzwOIDl+ne+gTSlZkt6qGA/WpmDcqnFyPpPiHvbIJVH8goLHW4rqfy8Tfv56Td90i
- ERhvsa8zrRzKAlQO8VNxX3892zFcfSfeiDY+frcvUg57Go71QOEl8P89rsabDsoRw7YBSG
- dwCAuMF78IEJKMYamthnhy5X7UWlrMM=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-311-UmDAsgVtOPK1Fj9qN3D0jQ-1; Wed, 15 Feb 2023 14:59:04 -0500
-X-MC-Unique: UmDAsgVtOPK1Fj9qN3D0jQ-1
-Received: by mail-il1-f198.google.com with SMTP id
- w11-20020a92d2cb000000b003157a4fddf3so3350ilg.13
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 11:59:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4rpoWDZzatWIWtQTXfWq6qbUUbrtQgJyiJTEr9yCgeg=;
- b=Vqpy0vzgq/twY09KpbvqajD2P7NNT11StytR5dtcCVJ0jZlt4DPKD7XSDC4Y4zSvc7
- gnqk8RIzvPBvviDumAo9FWSxRjjJcuJEZ4aCaHnmMn4QnbBIVO/luschd0lcRRjSYG3Z
- Umu5INh1hqtZN5WTC7jyIaDBnq5sReqB45v0fHM9YvwIoQKeiecMEZInt9TcNrwOWm9v
- a1mzJkKjIA9ijZpgQfL7DiqdNtZrmECqvu8MciIy/AGAuBOCh7LQy/pa4roBOaXVUqxg
- chlkVRoaKsH06eSMWMAYTSqUWX96Jij7GLmBWw1ka++CkYUL+thrhXidn+7BEWSKYs0y
- 5Pbg==
-X-Gm-Message-State: AO0yUKVD5Rea+ybvJ7Qv/5chcfZZFXSUTLkbqwE3pOjwh5so+06RI3kx
- CwbswZBW9Ugp44mlMkXjW8YQRBW+dxvaA94Hbi6v1ilGq8SFt/5wnIMo1nS1XPbHXFTxI7N91CZ
- Tl45fV9YHf2kT2b8=
-X-Received: by 2002:a05:6e02:1aa7:b0:315:39ce:abd2 with SMTP id
- l7-20020a056e021aa700b0031539ceabd2mr2741557ilv.3.1676491143737; 
- Wed, 15 Feb 2023 11:59:03 -0800 (PST)
-X-Google-Smtp-Source: AK7set8YsM5eYLk6R1hvROTXurHfU1FIkjILOuLZ4tHNiPKlw5mADgoSj+3sgdbH48x2FH6DprckCg==
-X-Received: by 2002:a05:6e02:1aa7:b0:315:39ce:abd2 with SMTP id
- l7-20020a056e021aa700b0031539ceabd2mr2741527ilv.3.1676491143269; 
- Wed, 15 Feb 2023 11:59:03 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- h18-20020a02c732000000b00363d6918540sm5997022jao.171.2023.02.15.11.59.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 11:59:02 -0800 (PST)
-Date: Wed, 15 Feb 2023 14:59:00 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Yanan Wang <wangyanan55@huawei.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v6 1/3] multifd: Create property
- multifd-flush-after-each-section
-Message-ID: <Y+05hM4JPbfjUjn8@x1n>
-References: <20230215180231.7644-1-quintela@redhat.com>
- <20230215180231.7644-2-quintela@redhat.com>
+ bh=vBWfOIjgACMr6Uscz53keI/jN4h3C8Zc2tmiHKxtUo4=;
+ b=QuC6Y0QjXNFgxieU15YVcnEhrVE5fKY+nS62ryPNYvy/oL3NwIQN7L/pxV1JBkrZ+9ZvDe
+ Uwv3pyAMazscGc3LPiolKgwYQ/iGJIBsxbY86cx6l5IsBpRQWXVfi2j98bhNZHzakKqzcL
+ K09+syCvDZc+mbElo2RKZs8j8qFAyLA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-347-CT8dHO5fMXKBTkWc_AksVA-1; Wed, 15 Feb 2023 15:03:19 -0500
+X-MC-Unique: CT8dHO5fMXKBTkWc_AksVA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5107A80D0E9;
+ Wed, 15 Feb 2023 20:03:17 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.35])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C1DC9492B15;
+ Wed, 15 Feb 2023 20:03:16 +0000 (UTC)
+Date: Wed, 15 Feb 2023 15:03:14 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, vgoyal@redhat.com, hczenczek@redhat.com,
+ gmaglione@redhat.com, virtio-fs@redhat.com, pbonzini@redhat.com,
+ alex.bennee@linaro.org
+Subject: Re: [PATCH v2 0/4] Remove C virtiofsd
+Message-ID: <Y+06giqYYsASQOWM@fedora>
+References: <20230215184310.161283-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="go+pgMJNfGgD2z5M"
 Content-Disposition: inline
-In-Reply-To: <20230215180231.7644-2-quintela@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+In-Reply-To: <20230215184310.161283-1-dgilbert@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -103,187 +80,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 15, 2023 at 07:02:29PM +0100, Juan Quintela wrote:
-> We used to flush all channels at the end of each RAM section
-> sent.  That is not needed, so preparing to only flush after a full
-> iteration through all the RAM.
-> 
-> Default value of the property is false.  But we return "true" in
-> migrate_multifd_flush_after_each_section() until we implement the code
-> in following patches.
-> 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
 
-This line can be dropped, after (I assume) git commit helped to add the
-other one below. :)
+--go+pgMJNfGgD2z5M
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Normally that's also why I put R-bs before my SoB because I should have two
-SoB but then I merge them into the last; git is happy with that too.
-
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-
-Acked-by: Peter Xu <peterx@redhat.com>
-
-But some nitpicks below (I'll leave those to you to decide whether to
-rework or keep them as is..).
-
->
-> ---
-> 
-> Rename each-iteration to after-each-section
-> Rename multifd-sync-after-each-section to
->        multifd-flush-after-each-section
-> ---
->  qapi/migration.json   | 21 ++++++++++++++++++++-
->  migration/migration.h |  1 +
->  hw/core/machine.c     |  1 +
->  migration/migration.c | 17 +++++++++++++++--
->  4 files changed, 37 insertions(+), 3 deletions(-)
-> 
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index c84fa10e86..3afd81174d 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -478,6 +478,24 @@
->  #                    should not affect the correctness of postcopy migration.
->  #                    (since 7.1)
->  #
-> +# @multifd-flush-after-each-section: flush every channel after each
-> +#                                    section sent.  This assures that
-> +#                                    we can't mix pages from one
-> +#                                    iteration through ram pages with
-> +#                                    pages for the following
-> +#                                    iteration.  We really only need
-> +#                                    to do this flush after we have go
-> +#                                    through all the dirty pages.
-> +#                                    For historical reasons, we do
-> +#                                    that after each section.  This is
-> +#                                    suboptimal (we flush too many
-> +#                                    times).
-> +#                                    Default value is false.
-> +#                                    Setting this capability has no
-> +#                                    effect until the patch that
-> +#                                    removes this comment.
-> +#                                    (since 8.0)
-
-IMHO the core of this new "cap" is the new RAM_SAVE_FLAG_MULTIFD_FLUSH bit
-in the stream protocol, but it's not referenced here.  I would suggest
-simplify the content but highlight the core change:
-
- @multifd-lazy-flush:  When enabled, multifd will only do sync flush after
-                       each whole round of bitmap scan.  Otherwise it'll be
-                       done per RAM save iteration (which happens with a much
-                       higher frequency).
-
-                       Please consider enable this as long as possible, and
-                       keep this off only if any of the src/dst QEMU binary
-                       doesn't support it.
-
-                       This capability is bound to the new RAM save flag
-                       RAM_SAVE_FLAG_MULTIFD_FLUSH, the new flag will only
-                       be used and recognized when this feature bit set.
-
-I know you dislike multifd-lazy-flush, but that's still the best I can come
-up with when writting this (yeah I still like it :-p), please bare with me
-and take whatever you think the best.
-
-> +#
->  # Features:
->  # @unstable: Members @x-colo and @x-ignore-shared are experimental.
->  #
-> @@ -492,7 +510,8 @@
->             'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
->             { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
->             'validate-uuid', 'background-snapshot',
-> -           'zero-copy-send', 'postcopy-preempt'] }
-> +           'zero-copy-send', 'postcopy-preempt',
-> +           'multifd-flush-after-each-section'] }
->  
->  ##
->  # @MigrationCapabilityStatus:
-> diff --git a/migration/migration.h b/migration/migration.h
-> index 2da2f8a164..7f0f4260ba 100644
-> --- a/migration/migration.h
-> +++ b/migration/migration.h
-> @@ -424,6 +424,7 @@ int migrate_multifd_channels(void);
->  MultiFDCompression migrate_multifd_compression(void);
->  int migrate_multifd_zlib_level(void);
->  int migrate_multifd_zstd_level(void);
-> +bool migrate_multifd_flush_after_each_section(void);
->  
->  #ifdef CONFIG_LINUX
->  bool migrate_use_zero_copy_send(void);
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index f73fc4c45c..602e775f34 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -54,6 +54,7 @@ const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
->  GlobalProperty hw_compat_7_0[] = {
->      { "arm-gicv3-common", "force-8-bit-prio", "on" },
->      { "nvme-ns", "eui64-default", "on"},
-> +    { "migration", "multifd-flush-after-each-section", "on"},
-
-[same note to IRC: need to revert if rename, but otherwise don't bother]
-
-Thanks,
-
->  };
->  const size_t hw_compat_7_0_len = G_N_ELEMENTS(hw_compat_7_0);
->  
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 90fca70cb7..cfba0da005 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -167,7 +167,8 @@ INITIALIZE_MIGRATE_CAPS_SET(check_caps_background_snapshot,
->      MIGRATION_CAPABILITY_XBZRLE,
->      MIGRATION_CAPABILITY_X_COLO,
->      MIGRATION_CAPABILITY_VALIDATE_UUID,
-> -    MIGRATION_CAPABILITY_ZERO_COPY_SEND);
-> +    MIGRATION_CAPABILITY_ZERO_COPY_SEND,
-> +    MIGRATION_CAPABILITY_MULTIFD_FLUSH_AFTER_EACH_SECTION);
->  
->  /* When we add fault tolerance, we could have several
->     migrations at once.  For now we don't need to add
-> @@ -2701,6 +2702,17 @@ bool migrate_use_multifd(void)
->      return s->enabled_capabilities[MIGRATION_CAPABILITY_MULTIFD];
->  }
->  
-> +bool migrate_multifd_flush_after_each_section(void)
-> +{
-> +    MigrationState *s = migrate_get_current();
-> +
-> +    /*
-> +     * Until the patch that remove this comment, we always return that
-> +     * the capability is enabled.
-> +     */
-> +    return true || s->enabled_capabilities[MIGRATION_CAPABILITY_MULTIFD_FLUSH_AFTER_EACH_SECTION];
-
-(I'd rather not care about what happens if someone applies only this patch
- not the latter two by dropping "true ||" directly here, but again, no a
- huge deal)
-
-> +}
-> +
->  bool migrate_pause_before_switchover(void)
->  {
->      MigrationState *s;
-> @@ -4535,7 +4547,8 @@ static Property migration_properties[] = {
->      DEFINE_PROP_MIG_CAP("x-zero-copy-send",
->              MIGRATION_CAPABILITY_ZERO_COPY_SEND),
->  #endif
-> -
-> +    DEFINE_PROP_MIG_CAP("multifd-flush-after-each-section",
-> +                        MIGRATION_CAPABILITY_MULTIFD_FLUSH_AFTER_EACH_SECTION),
->      DEFINE_PROP_END_OF_LIST(),
->  };
->  
-> -- 
+On Wed, Feb 15, 2023 at 06:43:06PM +0000, Dr. David Alan Gilbert (git) wrot=
+e:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>=20
+> We deprecated the C virtiofsd in commit 34deee7b6a1418f3d62a
+> in v7.0 in favour of the Rust implementation at
+> =20
+>   https://gitlab.com/virtio-fs/virtiofsd
+> =20
+> since then, the Rust version has had more development and
+> has held up well.  It's time to say goodbye to the C version
+> that got us going.
+>=20
+> v2:
+>   After comments on the v1 series, I've removed the Avocado
+> test.
+>=20
+> Dr. David Alan Gilbert (4):
+>   virtiofsd: Remove test
+>   virtiofsd: Remove build and docs glue
+>   virtiofsd: Remove source
+>   virtiofsd: Swing deprecated message to removed-features
+>=20
+>  MAINTAINERS                                   |    2 -
+>  docs/about/deprecated.rst                     |   18 -
+>  docs/about/removed-features.rst               |   13 +
+>  docs/conf.py                                  |    4 -
+>  docs/meson.build                              |    1 -
+>  docs/tools/index.rst                          |    1 -
+>  docs/tools/virtiofsd.rst                      |  403 --
+>  meson.build                                   |    1 -
+>  meson_options.txt                             |    2 -
+>  .../ci/org.centos/stream/8/x86_64/configure   |    2 -
+>  .../org.centos/stream/8/x86_64/test-avocado   |    7 -
+>  scripts/coverity-scan/COMPONENTS.md           |    3 -
+>  scripts/meson-buildoptions.sh                 |    3 -
+>  tests/avocado/virtiofs_submounts.py           |  217 -
+>  tools/meson.build                             |   13 -
+>  tools/virtiofsd/50-qemu-virtiofsd.json.in     |    5 -
+>  tools/virtiofsd/buffer.c                      |  350 --
+>  tools/virtiofsd/fuse_common.h                 |  837 ---
+>  tools/virtiofsd/fuse_i.h                      |  107 -
+>  tools/virtiofsd/fuse_log.c                    |   40 -
+>  tools/virtiofsd/fuse_log.h                    |   75 -
+>  tools/virtiofsd/fuse_lowlevel.c               | 2732 ----------
+>  tools/virtiofsd/fuse_lowlevel.h               | 1988 --------
+>  tools/virtiofsd/fuse_misc.h                   |   59 -
+>  tools/virtiofsd/fuse_opt.c                    |  446 --
+>  tools/virtiofsd/fuse_opt.h                    |  272 -
+>  tools/virtiofsd/fuse_signals.c                |   93 -
+>  tools/virtiofsd/fuse_virtio.c                 | 1081 ----
+>  tools/virtiofsd/fuse_virtio.h                 |   33 -
+>  tools/virtiofsd/helper.c                      |  409 --
+>  tools/virtiofsd/meson.build                   |   18 -
+>  tools/virtiofsd/passthrough_helpers.h         |   51 -
+>  tools/virtiofsd/passthrough_ll.c              | 4521 -----------------
+>  tools/virtiofsd/passthrough_seccomp.c         |  182 -
+>  tools/virtiofsd/passthrough_seccomp.h         |   14 -
+>  35 files changed, 13 insertions(+), 13990 deletions(-)
+>  delete mode 100644 docs/tools/virtiofsd.rst
+>  delete mode 100644 tests/avocado/virtiofs_submounts.py
+>  delete mode 100644 tools/virtiofsd/50-qemu-virtiofsd.json.in
+>  delete mode 100644 tools/virtiofsd/buffer.c
+>  delete mode 100644 tools/virtiofsd/fuse_common.h
+>  delete mode 100644 tools/virtiofsd/fuse_i.h
+>  delete mode 100644 tools/virtiofsd/fuse_log.c
+>  delete mode 100644 tools/virtiofsd/fuse_log.h
+>  delete mode 100644 tools/virtiofsd/fuse_lowlevel.c
+>  delete mode 100644 tools/virtiofsd/fuse_lowlevel.h
+>  delete mode 100644 tools/virtiofsd/fuse_misc.h
+>  delete mode 100644 tools/virtiofsd/fuse_opt.c
+>  delete mode 100644 tools/virtiofsd/fuse_opt.h
+>  delete mode 100644 tools/virtiofsd/fuse_signals.c
+>  delete mode 100644 tools/virtiofsd/fuse_virtio.c
+>  delete mode 100644 tools/virtiofsd/fuse_virtio.h
+>  delete mode 100644 tools/virtiofsd/helper.c
+>  delete mode 100644 tools/virtiofsd/meson.build
+>  delete mode 100644 tools/virtiofsd/passthrough_helpers.h
+>  delete mode 100644 tools/virtiofsd/passthrough_ll.c
+>  delete mode 100644 tools/virtiofsd/passthrough_seccomp.c
+>  delete mode 100644 tools/virtiofsd/passthrough_seccomp.h
+>=20
+> --=20
 > 2.39.1
-> 
-> 
+>=20
 
--- 
-Peter Xu
+Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--go+pgMJNfGgD2z5M
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmPtOoIACgkQnKSrs4Gr
+c8jeOQf7Biys2/BZNcoXT80IJu1CtgtYF3z3krJ2VlkoXghwLbTmt70NQmg/QRA1
+BJXgbYvBFsLVINRM1FYliMEVU0KxxOrox2VV4pZnJhQr9N87dmYKiBDkxRLNNeGK
+CtqJQu+XBRKsOh8NXYNzUDekqXDOhG9v85VZ3AwIUX4lIYS6Mv8C0iO+8tDamXBB
+o/UfB4VJljvHD5hKDnAZs+PgcRZJJnnoofkQSaLPt/FSY19ZXzMIg406WTHO18bd
+o+eUIo2B0ck0YCGGZmxCRS0VpqynetmKKYGhRFUiAgdvYyiJ9QaftmNCnsJVwFp+
+0r0DAJuuq9Zly6CL2Ti1QCM9W5z0kA==
+=DW2p
+-----END PGP SIGNATURE-----
+
+--go+pgMJNfGgD2z5M--
 
 
