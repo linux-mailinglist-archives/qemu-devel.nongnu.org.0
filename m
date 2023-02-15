@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD49698367
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 19:34:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1550C69838D
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 19:38:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSMap-0005yg-TH; Wed, 15 Feb 2023 13:33:23 -0500
+	id 1pSMeG-0001A5-2b; Wed, 15 Feb 2023 13:36:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSMao-0005xp-69
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 13:33:22 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pSMdy-00016A-PT
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 13:36:39 -0500
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSMam-0002Z0-BT
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 13:33:21 -0500
-Received: by mail-wr1-x434.google.com with SMTP id l2so3478352wry.0
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 10:33:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vukHDYMuVzcxhN9LaNCwsJbu2CjLu0oX5CmfwGheoPI=;
- b=Y/IlkNKTvZumPUWdLVqEDj3OysopnpHEnKXbaqFC12RFOw3Vjl0PefIK0YyeVjw4FT
- QbwpK83qNzXTOJlywbHgNIg4xU0LEdiJVBx877DLeXUnP8ZiGUgE77bilBdrVbjY6skS
- 3WUdmnHKkNVwGRF/Fek7EUPhAv3pzZwpa60iIXK+ONSJw6gDZ4U8CiX0STPQIVKV2fs8
- 012NTe/B7L4td5EORfCZvdjLzBHzu8GyF/lM066F+7yIcFLrMpDWOxFlYKzSJOwGhID6
- 5q0mh3tWUshglhyCZJ0Pi8Fm53TzbkrcpzsLQiYepG+A7joDv/bnMAlEYrS0TpQO0gzx
- 9zfg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pSMdv-0004gs-IZ
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 13:36:37 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id v3so13194517pgh.4
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 10:36:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1676486194;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5f38SQLrOZK6horc9eNanKUnXYXGFgYD6/NQvGLUHzY=;
+ b=C3z0Vu+4fSas/Kpr7emQeOnxo475nATK5FU0QPn4FEMenbfCCc9SwivZxDw7WrrA74
+ A9UA5zZzHstE0m5czb8wxQnNkdpOlk8f8UJiepSoWBW5bxBOj9cLCnCk/RXi75+d3klV
+ W0xfQJGzFsI+GAwBTb+RefUjhsMjMTS6UgIpJn9Hwj2XAxrIiYBZNoMKEfuJVRHsrhnC
+ CPJYT5B00gK722Sb6fE/AtF6/R0w9Lb54HSWaNTTavRr0l0uUApvZ2d4Cy+fs1ch+MnX
+ hXNv0I0MuNUh2wrtT2IKI1oO/P4YZmVn28F+R8MeAzXzkRllAV5N5WPwaieTZFKggVHg
+ J3Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vukHDYMuVzcxhN9LaNCwsJbu2CjLu0oX5CmfwGheoPI=;
- b=szAC8KnX4cjDgMyZajRChaSRpsaUwCBA5Cm76GGpE13fR06l4ESKZg8gpkuQbReyZB
- hnK+tliukps+jE7YT6KnwrN2X9U6Mzs4InH+bJix4C0+SD1mtpQgE75X3lNN75bW3rlp
- C+HAxdtf/bbbC8JzRkAtyR6ECO8htLJ4HyM0qG+hlkE3EDcTc6/0LfzhiD3YAu8dH6nS
- Nbe9ungB0JdXGgeEC1gBTV8ej/+KIw0dLnPfdStuN5dkVP5M9TPPd7DPaoPD0D2b7HbT
- JpRt9x0gRIvKss78ByI8P0BdLzmfGUYc9qbFH9rYRVc1EtMD1uJrUJ6TOCIm5zSFSkxx
- s91g==
-X-Gm-Message-State: AO0yUKXmyr/4rBgg2+r8buYzVANX3n0t+o2ndAG9ELDs/3ghRYyZxzWr
- chtPVLR8+LUcZsi36TWA1OaljA==
-X-Google-Smtp-Source: AK7set9SRUQ7HEwA8UmQgIMgE9NwTSOPxxY/mNjLiE3l9L5y/hkFiJKdnytEV5PDR3Me9OfoFyxzvg==
-X-Received: by 2002:a05:6000:10c8:b0:2c5:4ecd:a905 with SMTP id
- b8-20020a05600010c800b002c54ecda905mr2350279wrx.56.1676485998632; 
- Wed, 15 Feb 2023 10:33:18 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h12-20020adff4cc000000b002be505ab59asm16399374wrp.97.2023.02.15.10.33.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Feb 2023 10:33:18 -0800 (PST)
-Message-ID: <05b8264f-c22c-2187-5980-672361fa579b@linaro.org>
-Date: Wed, 15 Feb 2023 19:33:16 +0100
+ d=1e100.net; s=20210112; t=1676486194;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5f38SQLrOZK6horc9eNanKUnXYXGFgYD6/NQvGLUHzY=;
+ b=ZPHSxOCxYi+4uS7YwcVpBpqnv58Q4oMvZgVIfj6TVQVWjDuOR0Sc6faPFJcIPwR5lI
+ C7cNrgDUo/4MvR0PRyGNFseh9j1FLCq9/ceM7Xbzm6Ai74yf3XpuR4q77BGsNJMFkd8l
+ prDTPKgp0qKrNNdYdhDbTXpbmPZxHnQvCfnvTJjemO61i7m9wTrz4fK/6gDKVFs7vNfD
+ wg/JOKG4KISFlk7qQ5DL5FxysXRG6JaSDi92prqEWJ9AioaSQf8a0mOuaEgoWvMfXZki
+ ixBn6vOS2rOnvRu++aeHcK1PmnF2fNvhufEK7gidIh1B1eLDXIZoteOIUSDaYhwAYRiA
+ czig==
+X-Gm-Message-State: AO0yUKXkhzC2NmQQNaGYCPnHYPG4930KWeSQ+MfFR7a2WonsaBoQK23c
+ eJUyU4Jr/Es6RY910wNRyxcbpT1qw+/+gzoavQaPOw==
+X-Google-Smtp-Source: AK7set/l8a7I0aSgSy0eKlrcNxQCkrS0QDeZtcCYguprVVFLJviC9lstxVffijKHLPihxDppr4Mjeo7X1xMiQREzCLk=
+X-Received: by 2002:a62:1bd7:0:b0:593:fa6a:b960 with SMTP id
+ b206-20020a621bd7000000b00593fa6ab960mr519986pfb.48.1676486193954; Wed, 15
+ Feb 2023 10:36:33 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH 3/3] target/mips: implement CP0.Config7.WII bit support
-Content-Language: en-US
-To: Marcin Nowakowski <marcin.nowakowski@fungible.com>, qemu-devel@nongnu.org
-Cc: Aurelien Jarno <aurelien@aurel32.net>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-References: <20230215084754.3816747-1-marcin.nowakowski@fungible.com>
- <20230215084754.3816747-4-marcin.nowakowski@fungible.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230215084754.3816747-4-marcin.nowakowski@fungible.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <alpine.DEB.2.22.394.2302141541100.2025117@ubuntu-linux-20-04-desktop>
+In-Reply-To: <alpine.DEB.2.22.394.2302141541100.2025117@ubuntu-linux-20-04-desktop>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 15 Feb 2023 18:36:22 +0000
+Message-ID: <CAFEAcA96Mb5KAdPQrncqh9SM2iRc7aE2f4deoiF_2vChdMF0rw@mail.gmail.com>
+Subject: Re: [PULL v2 0/10] xenpvh
+To: Stefano Stabellini <sstabellini@kernel.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,90 +85,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Marcin,
+On Tue, 14 Feb 2023 at 23:43, Stefano Stabellini <sstabellini@kernel.org> w=
+rote:
+>
+> The following changes since commit 6a50f64ca01d0a7b97f14f069762bfd88160f3=
+1e:
+>
+>   Merge tag 'pull-request-2023-02-14' of https://gitlab.com/thuth/qemu in=
+to staging (2023-02-14 14:46:10 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/sstabellini/qemu xenpvh2
+>
+> for you to fetch changes up to 86b01d58ca2840bea6e4e7260aad450a660fbd46:
+>
+>   meson.build: enable xenpv machine build for ARM (2023-02-14 15:39:25 -0=
+800)
+>
+> ----------------------------------------------------------------
 
-On 15/2/23 09:47, Marcin Nowakowski wrote:
-> Some older cores use CP0.Config7.WII bit to indicate that a disabled
-> interrupt should wake up a sleeping CPU.
-> Enable this bit by default for M14Kc, which supports that. There are
-> potentially other cores that support this feature, but I do not have a
-> complete list.
+Fails to compile for some configs, eg:
 
-Also the P5600 (MIPS-MD01025-2B-P5600-Software-TRM-01.60.pdf,
-"MIPS32® P5600 Multiprocessing System Software UM, Revision 01.60).
+https://gitlab.com/qemu-project/qemu/-/jobs/3775820949
+https://gitlab.com/qemu-project/qemu/-/jobs/3775820984
 
-> Signed-off-by: Marcin Nowakowski <marcin.nowakowski@fungible.com>
-> ---
->   target/mips/cpu-defs.c.inc | 1 +
->   target/mips/cpu.c          | 6 ++++--
->   target/mips/cpu.h          | 1 +
->   3 files changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/mips/cpu-defs.c.inc b/target/mips/cpu-defs.c.inc
-> index 480e60aeec..57856e2e72 100644
-> --- a/target/mips/cpu-defs.c.inc
-> +++ b/target/mips/cpu-defs.c.inc
-> @@ -354,6 +354,7 @@ const mips_def_t mips_defs[] =
->                          (0 << CP0C1_DS) | (3 << CP0C1_DL) | (1 << CP0C1_DA),
->           .CP0_Config2 = MIPS_CONFIG2,
->           .CP0_Config3 = MIPS_CONFIG3 | (0x2 << CP0C3_ISA) | (0 << CP0C3_VInt),
+In file included from ../target/arm/machine.c:6:
+../target/arm/internals.h:1141:21: error: field =E2=80=98f=E2=80=99 has inc=
+omplete type
+1141 | CPUTLBEntryFull f;
 
-Per the P5600 doc on Config5.M:
 
-   Configuration continuation bit. Even though the Config6 and Config7
-   registers are used in the P5600 Multiprocessing System, they are both
-   defined as implementation-specific registers. As such, this bit is
-   zero and is not used to indicate the presence of Config6.
+This job fails in 'make check':
+https://gitlab.com/qemu-project/qemu/-/jobs/3775821028
 
-Still I suppose we need to set at least Config4.M:
+qemu-system-aarch64: The -accel and "-machine accel=3D" options are incompa=
+tible
 
-   +        .CP0_Config4 = MIPS_CONFIG4,
-   +        .CP0_Config4_rw_bitmask = 0,
-
-I'm not sure about:
-
-   +        .CP0_Config5 = MIPS_CONFIG5,
-   +        .CP0_Config5_rw_bitmask = 0,
-
-> +        .CP0_Config7 = 0x1 << CP0C7_WII,
->           .CP0_LLAddr_rw_bitmask = 0,
->           .CP0_LLAddr_shift = 4,
->           .SYNCI_Step = 32,
-
-Could you also set CP0C7_WII to the P5600 definition?
-
-> diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-> index 7a565466cb..7ba359696f 100644
-> --- a/target/mips/cpu.c
-> +++ b/target/mips/cpu.c
-> @@ -144,12 +144,14 @@ static bool mips_cpu_has_work(CPUState *cs)
->       /*
->        * Prior to MIPS Release 6 it is implementation dependent if non-enabled
->        * interrupts wake-up the CPU, however most of the implementations only
-> -     * check for interrupts that can be taken.
-> +     * check for interrupts that can be taken. For pre-release 6 CPUs,
-> +     * check for CP0 Config7 'Wait IE ignore' bit.
->        */
->       if ((cs->interrupt_request & CPU_INTERRUPT_HARD) &&
->           cpu_mips_hw_interrupts_pending(env)) {
->           if (cpu_mips_hw_interrupts_enabled(env) ||
-> -            (env->insn_flags & ISA_MIPS_R6)) {
-> +            (env->insn_flags & ISA_MIPS_R6) ||
-> +            (env->CP0_Config7 & (1 << CP0C7_WII))) {
->               has_work = true;
->           }
->       }
-> diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-> index 0a085643a3..abee7a99d7 100644
-> --- a/target/mips/cpu.h
-> +++ b/target/mips/cpu.h
-> @@ -980,6 +980,7 @@ typedef struct CPUArchState {
->   #define CP0C6_DATAPREF        0
->       int32_t CP0_Config7;
->       int64_t CP0_Config7_rw_bitmask;
-> +#define CP0C7_WII          31
->   #define CP0C7_NAPCGEN       2
->   #define CP0C7_UNIMUEN       1
->   #define CP0C7_VFPUCGEN      0
-
+thanks
+-- PMM
 
