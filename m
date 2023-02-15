@@ -2,79 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 672CD6980C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 17:22:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDAD66980DD
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 17:30:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSKXY-0004r3-P4; Wed, 15 Feb 2023 11:21:52 -0500
+	id 1pSKe0-0006P8-Im; Wed, 15 Feb 2023 11:28:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pSKXX-0004qr-FF
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 11:21:51 -0500
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pSKXU-0004BB-Fn
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 11:21:51 -0500
-Received: by mail-pf1-x431.google.com with SMTP id bt14so6239716pfb.13
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 08:21:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bgcu2KTxDVUVuHafhq0CJ7VBe3lvTUk/WzUzvgOLuTQ=;
- b=WRXa/pQe3PrTcuM9F5E3oI605mOn3bw82sp0zhMorUXWECUHjZ3DW7f5/1Z1Xf3ezB
- S9/IQSX8CRERlUu1nQVVYEpfXCDnIK26VpaVEEFAUMHYRmcc4dDMCFVWRa6WqczsS5Xn
- 4pqnwdidyLz4LnQNZOvTwNqqkC8+XtfVFAEVCQQEfG0jCCxIaVgMKV32+oTq//o5jlYD
- hM0RKZWXTw2kKxqRn5mJ24iLeYeFLxdd1eCgyaZCtNGp8OEM3LKhkMF45O5v83NZKf2r
- eylKiCw6eifjO9b1nBNPIqCixcs6TXp56Pr0YCyyq8pG7uLnT5LusTZjmzvmI+Lr1oH7
- d3zA==
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1pSKdy-0006Oy-Gc
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 11:28:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1pSKdw-0007FV-TR
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 11:28:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676478508;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cPCSYaSbJjLC5gSJWcc5x030uT/+CzFPd2JODcweirw=;
+ b=SCZwRN0krLTYz54Sl+ovHD1xkQWGnknYw3D1PM1cVT4TSy64tY05DGfoRoDBt/7oUHRYWj
+ BfATNsPpUKfaIDS8qk9Bi4JxYp3T+j/lMgmeH3ev9bEYA9ln3vop7XRGyuWHqLXqMBI5fx
+ iv7/EW5okTsi0T0R899HCBlMkXryww0=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-295-X5lpEMOlOQeALw5pIclbkQ-1; Wed, 15 Feb 2023 11:28:26 -0500
+X-MC-Unique: X5lpEMOlOQeALw5pIclbkQ-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ j29-20020a05620a001d00b00724fd33cb3eso11805645qki.14
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 08:28:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bgcu2KTxDVUVuHafhq0CJ7VBe3lvTUk/WzUzvgOLuTQ=;
- b=WqnWDEpjC59cUYMRL6XoG0sZg+0CuOEG+JGuREznpML7prNaZPYL3753uxQbLj0QP8
- ZXdyIm69q0xkHKqb7kwmF8zXeEPgCA1zIIOzu7PSApnpYSD6PcR4Xx1rBwZZ0do5p1Ir
- V7Y1qSGAJjPh30055GUJliNP6OKMxbhmJSMLpTQchAYyA7lOZ01wIJevLzgTt6ROh/JZ
- 2GSlW2dlWhWU5z8UxupGhc3PI+2nwu8urJUGebUuJiIMaIUlx78bkPLib1b1lEvEd8Wy
- 97s8iVZLgiFsYEsA/w9y4YJDTKZJTi/wDgE6I2hTHHv13OUQCrUGBGtwTPL7ZCd8bj5D
- 25DQ==
-X-Gm-Message-State: AO0yUKWO6DrUgEJtqHdCUvPxJFMwYDdFCPu5USLDZkEjDGSRDxlSzIIK
- v25amtFEtLgkJr3r5LuoR/J7dFaiCXtaoBJd3za41g==
-X-Google-Smtp-Source: AK7set+xROFpUkrFlDpPw67VhPOnpVl7iwVhpDRyFcqqAHg0Ort/SXeNORFjR0xBc4rMnkVlMOMssnfS1jC0iQ9gQss=
-X-Received: by 2002:a63:34c8:0:b0:4fb:d300:c637 with SMTP id
- b191-20020a6334c8000000b004fbd300c637mr432533pga.6.1676478106038; Wed, 15 Feb
- 2023 08:21:46 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=cPCSYaSbJjLC5gSJWcc5x030uT/+CzFPd2JODcweirw=;
+ b=W3wmdgtrabQVYbsQHsbVDOnn2SZWjGbfx5dz8eqlAKHrXhFGpZ4UQI5dPQrd/vzULj
+ /fk+p49NQMddBSMipHTZ5GBypMi8T0Mjy00LjSlz0gUVRALMzZetosa7RYHYz70K7ks5
+ y5TAtpFRM+vx/tQhZ3w42kccp7bigjXlvk7juyPJ0GYl7GgSCmiOboGB6sEbfrSnhWrt
+ nNy/T4X06knj5eqXgM40FfaiCRdbabBfMdZUJEVC1VaH2vc+ezqPToP4+i0jcqQT6LmI
+ a3qU2xYkn6SHIJK7cfv77+BdF+sHzFhA1Q5B3jqU1W7mdbljq3sC0ssQSz51fUPOf2YB
+ 4ipw==
+X-Gm-Message-State: AO0yUKViS3/bDd/JETMJOZDjAVscwRZqyPmepVZPj9E9Ph6GQDJ83oGo
+ HkSALKg3od/jyafdqDK9xv6xZZi3DIRI54yisxhrUDuqyzNAXxIC0wifBqudsTuVLpboKulo7p6
+ CeXi5W9yz7PfvU9o=
+X-Received: by 2002:a05:6214:19c5:b0:56e:b2ad:e2e0 with SMTP id
+ j5-20020a05621419c500b0056eb2ade2e0mr5424764qvc.30.1676478502673; 
+ Wed, 15 Feb 2023 08:28:22 -0800 (PST)
+X-Google-Smtp-Source: AK7set86VvmSpQUwWaT1mjOlNldr3cWD0OVol4wNIEO/6sx2ui6hPPLEEndXct5QGrajBdLDI7rT3g==
+X-Received: by 2002:a05:6214:19c5:b0:56e:b2ad:e2e0 with SMTP id
+ j5-20020a05621419c500b0056eb2ade2e0mr5424727qvc.30.1676478502398; 
+ Wed, 15 Feb 2023 08:28:22 -0800 (PST)
+Received: from [192.168.100.30] ([82.142.8.70])
+ by smtp.gmail.com with ESMTPSA id
+ t22-20020a05622a149600b003b323387c1asm13573461qtx.18.2023.02.15.08.28.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Feb 2023 08:28:21 -0800 (PST)
+Message-ID: <12623898-7b7d-eb78-968a-13168dac3045@redhat.com>
+Date: Wed, 15 Feb 2023 17:28:18 +0100
 MIME-Version: 1.0
-References: <20230215142503.90660-1-thuth@redhat.com>
- <Y+zzIV2e6UigEIze@redhat.com>
- <1ed8e614-d43c-3d7d-b320-27985b521667@redhat.com>
-In-Reply-To: <1ed8e614-d43c-3d7d-b320-27985b521667@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 15 Feb 2023 16:21:34 +0000
-Message-ID: <CAFEAcA8qWR-zB_twK1V-fbq2=S+o4nK29JheEOeToGYUiosFuA@mail.gmail.com>
-Subject: Re: [PATCH] gitlab-ci: Use artifacts instead of dumping logs in the
- Cirrus-CI jobs
-To: Thomas Huth <thuth@redhat.com>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PULL 13/25] hcd-ohci: Fix inconsistency when resetting ohci root
+ hubs
+Content-Language: en-US
+To: Qiang Liu <cyruscyliu@gmail.com>, BALATON Zoltan <balaton@eik.bme.hu>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Bandan Das <bsd@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Darren Kenny <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Akihiko Odaki <akihiko.odaki@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Alexandre Ratchov <alex@caoua.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>
+References: <20220926095509.3759409-1-kraxel@redhat.com>
+ <20220926095509.3759409-14-kraxel@redhat.com>
+ <CAJSP0QVoLf_v2xP6GwDzbFg_RDnP5ppM3UZwTN3XAWPcv6cFCQ@mail.gmail.com>
+ <CAAKa2j=2cdYxBFZO1pTJLFcPVb-6R4gnB9zad3rdptfuuo0ixw@mail.gmail.com>
+ <CAAKa2jmkjPuTouvk3qRvuFiS7RtTSQ8vC=m_eDYLyV7tUxAkiA@mail.gmail.com>
+ <CAJSP0QV=UrYyASRddqTX7KbSw_dLPhVgbdORvYx_N+tQa6Nu+A@mail.gmail.com>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <CAJSP0QV=UrYyASRddqTX7KbSw_dLPhVgbdORvYx_N+tQa6Nu+A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.257, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,45 +115,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 15 Feb 2023 at 15:33, Thomas Huth <thuth@redhat.com> wrote:
->
-> On 15/02/2023 15.58, Daniel P. Berrang=C3=A9 wrote:
-> > On Wed, Feb 15, 2023 at 03:25:03PM +0100, Thomas Huth wrote:
-> >> The meson log files can get very big, especially if running the tests =
-in
-> >> verbose mode. So dumping those logs to the console was a bad idea, sin=
-ce
-> >> gitlab truncates the output if it is getting too big. Let's publish th=
-e
-> >> logs as artifacts instead. This has the disadvantage that you have to
-> >> look up the logs on cirrus-ci.com now instead, but that's still better
-> >> than not having the important part of the log at all since it got
-> >> truncated.
-> >
-> > Having to go over to cirrus-ci.com is pretty awful user experiance,
-> > especially as there's no direct link.
->
-> It's not that bad, see e.g.:
->
->   https://gitlab.com/thuth/qemu/-/jobs/3775523498
->
-> The log shows a link to cirrus-ci.com at the end:
->
->   Build failed: https://cirrus-ci.com/build/4811273133621248
->
-> If you click on that URL, you've just got to go into the "build" and clic=
-k
-> through the build artifacts to get to the log that you want.
+On 2/15/23 15:34, Stefan Hajnoczi wrote:
+> On Wed, 15 Feb 2023 at 08:45, Qiang Liu <cyruscyliu@gmail.com> wrote:
+>>
+>> Hi,
+>>>>
+>>>> This commit breaks boot-serial-test on ppc64-softmmu.
+>>>>
+>>>>    $ ./configure --enable-tcg-interpreter
+>>>> '--target-list=aarch64-softmmu alpha-softmmu arm-softmmu hppa-softmmu
+>>>> m68k-softmmu microblaze-softmmu ppc64-softmmu s390x-softmmu
+>>>> x86_64-softmmu'
+>>>>    $ make && cd build && QTEST_QEMU_BINARY=./qemu-system-ppc64
+>>>> ./tests/qtest/boot-serial-test; cd -
+>>>>
+>>>> (Yes, the full --target-list is needed because boot-serial-test isn't
+>>>> built when only ppc64-softmmu is selected.)
+>>>>
+>>>> Here is the CI failure:
+>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3087540972#L22
+>>
+>>   I reproduced this failure and got "Out of malloc memory" error message in the [openbios-ppc](https://github.com/openbios/openbios/blob/4a0041107b8ef77e0e8337bfcb5f8078887261a7/libopenbios/ofmem_common.c#L134). However, I'm not sure how to debug this. Have you run into this issue before?
+> 
+> I don't. Maybe Gerd has an idea?
+> 
+> The memory allocation may be because there is either a request leak or
+> additional USB activity as a result of this patch.
 
-Could somebody write up some documentation for how to get from
-"top level gitlab CI pipeline page" to "detailed logs for a
-job failure", please? I'm finding that the UI for this (both
-Cirrus and gitlab) is very non-obvious, so a writeup like
-the above of "follow this link from the log, click this button,
-go look at build artefact X" would be very helpful.
-Somewhere in https://wiki.qemu.org/Merges is probably a
-convenient place for thsi.
+It looks like a bug in openbios ohci, perhaps Zoltan can help?
 
-thanks
--- PMM
+Thanks,
+Laurent
+
 
