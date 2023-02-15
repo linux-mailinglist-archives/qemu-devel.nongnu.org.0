@@ -2,77 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1F88698300
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 19:15:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A99698305
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 19:16:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSMIn-00017J-46; Wed, 15 Feb 2023 13:14:45 -0500
+	id 1pSMJZ-00028t-6l; Wed, 15 Feb 2023 13:15:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pSMIl-000173-8m
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 13:14:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pSMJK-0001p5-K4
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 13:15:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pSMIj-0002p6-8H
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 13:14:42 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pSMJG-00035X-W1
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 13:15:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676484880;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yksmljmUvR4zWWTUAl0ck1IccTIf2wenFXT2fKSRwlY=;
- b=iAFsYbXLSUZEq0ReZtYN/8TQnJ30i5CxzLg6hjSof1M2Z5Yb1uvVQlfGujPpTCnkD1AcEq
- MPF3aFbLFnI3ctKwUchEFQ2Ah8wQkzo5YP9miKSq25FEm40hW5K7jfCcAUz/APJ6FFekm6
- TiTIrAmlcYYOw2JhMLzvWd+Jz+bdWRY=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1676484913;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=j/AiXUe7mpGG9iCMipuYg6vvcSsUeH1D3R0iXOQbYBA=;
+ b=UE9wFcf/lG5ceg9MCLSSaytQdAu53neAcjTq5HS2ACaxUVA//6JYglnzNwB2DWPFzOh+Ze
+ Dp0YXXzRHMbnzrqj136fBKhk/Hd6gJqSt5pA2C9cQ4R3UwqARo2mBXSy1hC/hbr+BGC/pr
+ N+mEInp/Bs+Lmp6/nkeu7ihUlvvMLE0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-564-Yibtf_YZOBip44SMlePQdA-1; Wed, 15 Feb 2023 13:14:39 -0500
-X-MC-Unique: Yibtf_YZOBip44SMlePQdA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- y18-20020a056402271200b004ace77022ebso3439248edd.8
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 10:14:38 -0800 (PST)
+ us-mta-517-Obg2z8JpOP2LirsHH35DjA-1; Wed, 15 Feb 2023 13:15:04 -0500
+X-MC-Unique: Obg2z8JpOP2LirsHH35DjA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ t20-20020adfba54000000b002be0eb97f4fso3843543wrg.8
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 10:15:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yksmljmUvR4zWWTUAl0ck1IccTIf2wenFXT2fKSRwlY=;
- b=wIlZ7ZuAddbi3bIqJIuCn1LjSmX7FLEGzEfA5FaIGUoZFD0JfGjF9vG7p0h4hAOagt
- 6casFBQaHXsGUvASUErDbrHwpnaCcpJNRt4l2d0jU/6XlkQ8HE844hvLGovgxi5z+p/5
- nR1fu6w9KQUj1yvjwtd+2R3gh0Yx/2C2THfXzKr/5L9UPTvDe10spF1XYuT1+JeszJ1q
- kDsUsPquTCvvnkLwPGXHRoh9JZ/lTM8NpCU1JfUHgUi+AWMezJQkFi95TWW4jec3SJgU
- Mv33YGSLez53SAzARgKCAIC/Xe8Pqp6DwmytNj/m8ZUlo2Z94Slq+uzaJrhjkkZIzCGd
- BXiA==
-X-Gm-Message-State: AO0yUKV3oM2H+Tr1wu2nJCK3nrc8x2g6/BDqWBnrKrjGUtSmbTJ8l5rY
- OTIMpx/4s519gFMfI/M6zVtfUCMrFGnqO8evZsK2maelXBhJdBkyKNwQ4LtMBRqC4OBJY80Ycg7
- VJ8VpSjRV+xCPZJY/TFyZF9rJymh2wTZy0J2oNpukeVKFJaPV20WN7D1OZOLw1OH+GQi1ZcW8
-X-Received: by 2002:a17:907:8e13:b0:8ab:b03d:a34f with SMTP id
- th19-20020a1709078e1300b008abb03da34fmr251527ejc.12.1676484877713; 
- Wed, 15 Feb 2023 10:14:37 -0800 (PST)
-X-Google-Smtp-Source: AK7set87xeefXRUxT2YjFtwjGwpqMxaRbCuuGKWPnKr5PVLbWk7bFA+txXtcwSRGALTUFwHm4S70BA==
-X-Received: by 2002:a17:907:8e13:b0:8ab:b03d:a34f with SMTP id
- th19-20020a1709078e1300b008abb03da34fmr251499ejc.12.1676484877288; 
- Wed, 15 Feb 2023 10:14:37 -0800 (PST)
-Received: from avogadro.local ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id
- v1-20020a170906b00100b0087862f45a29sm10027410ejy.174.2023.02.15.10.14.36
- for <qemu-devel@nongnu.org>
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=j/AiXUe7mpGG9iCMipuYg6vvcSsUeH1D3R0iXOQbYBA=;
+ b=k2RWDaxkdPdZseOJUoFyHNKTSLvglE5h8UH0EJ9Xq0y+XDcb4puKtYsoxQZjTI2tat
+ jUsKzUhLfGLHOS0avix2Uxo7++Cgkrycg7y2DBzlPMfl5zMNBHuGL7gqsjW68kJlaT5O
+ XpdXvLB18+Y6JinXiL2/SPGyHVQ25YskgTQtEcviFSGqIfSe2MB5/Uy08mf11q5mAI5/
+ pUNflomn7YOgO4trdhVs4MNrHftFgeAid5J9j3d2frKcR+ed+vEmsWm3c/jthpJH8jLG
+ DsubUqTl/JMDZJJ5pmCwGKheO8aMItMeY897ZIMI73leVYV0ijXjvM1GSpTM3N4RIfYh
+ Xwgw==
+X-Gm-Message-State: AO0yUKWNDc/f/v4ygyxiJJPjWHE4spJEcpuYVHbW772pqiUEwy65YGJk
+ gLinqLvqduDpznaUoTsy303IAMIRCFpld0y6u6FbNpG4YME06dPWMuTSk65+pZGNHwTTi6Ilg/F
+ h7R7D/QZ1O6VApGo=
+X-Received: by 2002:a05:600c:90a:b0:3df:50eb:7cd9 with SMTP id
+ m10-20020a05600c090a00b003df50eb7cd9mr2855643wmp.14.1676484903451; 
+ Wed, 15 Feb 2023 10:15:03 -0800 (PST)
+X-Google-Smtp-Source: AK7set+OGBeNP90D4za5ndECEXEjH4DlU4NSPufdcUpmSlwR2I7wBzKX0OVWk5k7aqqS8YZSFdQPPA==
+X-Received: by 2002:a05:600c:90a:b0:3df:50eb:7cd9 with SMTP id
+ m10-20020a05600c090a00b003df50eb7cd9mr2855621wmp.14.1676484903192; 
+ Wed, 15 Feb 2023 10:15:03 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ l9-20020a05600c4f0900b003dff870ce0esm3275714wmq.2.2023.02.15.10.15.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 10:14:36 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v3 00/10] Misc patches for 2023-02-08
-Date: Wed, 15 Feb 2023 19:14:34 +0100
-Message-Id: <20230215181434.143843-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.39.1
+ Wed, 15 Feb 2023 10:15:02 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org,  John Snow <jsnow@redhat.com>,  Halil Pasic
+ <pasic@linux.ibm.com>,  Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Fam Zheng <fam@euphon.net>,  Alex Williamson
+ <alex.williamson@redhat.com>,  qemu-s390x@nongnu.org,  Thomas Huth
+ <thuth@redhat.com>,  Eric Farman <farman@linux.ibm.com>,  Stefan Hajnoczi
+ <stefanha@redhat.com>,  Eric Blake <eblake@redhat.com>,  Richard Henderson
+ <richard.henderson@linaro.org>,  qemu-block@nongnu.org,  "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>,  Ilya Leoshkevich <iii@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v2 3/3] migration: Rename res_{postcopy,precopy}_only
+In-Reply-To: <6b46bb8a-cbdd-b2d9-e542-a28d598d0140@yandex-team.ru> (Vladimir
+ Sementsov-Ogievskiy's message of "Wed, 15 Feb 2023 20:53:29 +0300")
+References: <20230215170345.6220-1-quintela@redhat.com>
+ <20230215170345.6220-4-quintela@redhat.com>
+ <6b46bb8a-cbdd-b2d9-e542-a28d598d0140@yandex-team.ru>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Wed, 15 Feb 2023 19:15:01 +0100
+Message-ID: <87ilg2ztga.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,7 +91,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,63 +104,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 3b33ae48ec28e1e0d1bc28a85c7423724bcb1a2c:
+Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
+> On 15.02.23 20:03, Juan Quintela wrote:
+>> Once that res_compatible is removed, they don't make sense anymore.
+>> We remove the _only preffix.  And to make things clearer we rename
+>> them to must_precopy and can_postcopy.
+>> Signed-off-by: Juan Quintela<quintela@redhat.com>
+>
+> Ideally headers of trace events (trace_vfio_state_pending, trace_migrate_pending_estimate, trace_migrate_pending_exact)
+> should be changed correspondingly.
 
-  Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2023-02-09 15:29:14 +0000)
+They already use abrevs:
 
-are available in the Git repository at:
+migrate_pending_estimate(uint64_t size, uint64_t pre, uint64_t post) "estimate pending size %" PRIu64 " (pre = %" PRIu64 " post=%" PRIu64 ")"
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+So I don't feel like doing bigger lines.
 
-for you to fetch changes up to 12008ff748d8cfb62fb937559c0fd844371bab5e:
+> with or without:
+>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-  libqtest: ensure waitpid() is only called once (2023-02-11 09:20:38 +0100)
-
-----------------------------------------------------------------
-* block/iscsi: fix double-free on BUSY or similar statuses
-* catch [accel] entry without accelerator
-* target/i386: various fixes for BMI and ADX instructions
-* make the contents of meson-buildoptions.sh stable
-
-----------------------------------------------------------------
-v2->v3: dropped the test that failed on the BSDs, because it could not be
-        reproduced on a VM. :(
-
-Paolo Bonzini (7):
-      build: make meson-buildoptions.sh stable
-      remove unnecessary extern "C" blocks
-      block/iscsi: fix double-free on BUSY or similar statuses
-      vl: catch [accel] entry without accelerator
-      target/i386: fix ADOX followed by ADCX
-      libqtest: split qtest_spawn_qemu function
-      libqtest: ensure waitpid() is only called once
-
-Richard Henderson (3):
-      tests/tcg/i386: Introduce and use reg_t consistently
-      target/i386: Fix BEXTR instruction
-      target/i386: Fix C flag for BLSI, BLSMSK, BLSR
-
- block/iscsi.c                    |   1 +
- include/disas/dis-asm.h          |   8 --
- include/qemu/bswap.h             |   8 --
- include/qemu/envlist.h           |   8 --
- include/qemu/rcu.h               |   8 --
- include/qemu/rcu_queue.h         |   8 --
- include/qemu/uri.h               |   7 --
- scripts/meson-buildoptions.py    |   7 +-
- scripts/meson-buildoptions.sh    |   2 +-
- softmmu/vl.c                     |  15 ++-
- target/i386/tcg/emit.c.inc       |  45 +++++----
- tests/qtest/libqtest.c           | 158 +++++++++++++++++--------------
- tests/tcg/i386/Makefile.target   |   6 +-
- tests/tcg/i386/test-i386-adcox.c |  75 +++++++++++++++
- tests/tcg/i386/test-i386-bmi2.c  | 194 +++++++++++++++++++++------------------
- 15 files changed, 316 insertions(+), 234 deletions(-)
- create mode 100644 tests/tcg/i386/test-i386-adcox.c
--- 
-2.39.1
+Thanks.
 
 
