@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091AD69742F
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 03:09:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55361697437
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 03:13:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pS7BU-0001Q5-Mr; Tue, 14 Feb 2023 21:06:12 -0500
+	id 1pS7I5-0002mt-1z; Tue, 14 Feb 2023 21:13:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pS7BO-0001LY-TN; Tue, 14 Feb 2023 21:06:06 -0500
+ id 1pS7I2-0002li-Bj; Tue, 14 Feb 2023 21:12:58 -0500
 Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pS7BJ-0000DW-PK; Tue, 14 Feb 2023 21:06:06 -0500
+ id 1pS7Hy-0004pL-Eb; Tue, 14 Feb 2023 21:12:58 -0500
 Received: from localhost.localdomain (unknown [114.95.238.225])
- by APP-01 (Coremail) with SMTP id qwCowABXcNT4PexjNkcoBQ--.2339S9;
- Wed, 15 Feb 2023 10:05:50 +0800 (CST)
+ by APP-01 (Coremail) with SMTP id qwCowABXcNT4PexjNkcoBQ--.2339S10;
+ Wed, 15 Feb 2023 10:05:51 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
@@ -26,18 +26,18 @@ Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
  wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
  Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v2 07/14] target/riscv: Indent fixes in cpu.c
-Date: Wed, 15 Feb 2023 10:05:32 +0800
-Message-Id: <20230215020539.4788-8-liweiwei@iscas.ac.cn>
+Subject: [PATCH v2 08/14] target/riscv: Simplify check for Zve32f and Zve64f
+Date: Wed, 15 Feb 2023 10:05:33 +0800
+Message-Id: <20230215020539.4788-9-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230215020539.4788-1-liweiwei@iscas.ac.cn>
 References: <20230215020539.4788-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowABXcNT4PexjNkcoBQ--.2339S9
-X-Coremail-Antispam: 1UD129KBjvJXoWxury3Jw4UGFyDury7Xw1xAFb_yoW5GF4rpr
- sxG34SkFZrtw17X3yfXF1Ut3W5GrySqa1xK393Zw1kWF4fArs8Jr9FkF1SgFW7JFn5GFWa
- gw1UZrn8Zw4DJa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: qwCowABXcNT4PexjNkcoBQ--.2339S10
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZFykWF4kAryrJrW5Zw1UKFg_yoW8KFWxpr
+ 48C3yakryDCFZ7Kw4SqF4jvr15Gr4rG3yxKw4v9ws5Xay5GrW5ZFnrKw17Kr45X3WkXFyY
+ 9a4jkF15Ar40qFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnRJUUUPS14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
  rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
  kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
@@ -76,90 +76,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fix indent problems in vector related check.
+V/Zve64f depend on Zve32f, so we can only check Zve32f in these cases.
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 ---
- target/riscv/cpu.c | 44 ++++++++++++++++++++++----------------------
- 1 file changed, 22 insertions(+), 22 deletions(-)
+ target/riscv/cpu_helper.c               | 2 +-
+ target/riscv/csr.c                      | 3 +--
+ target/riscv/insn_trans/trans_rvv.c.inc | 8 ++------
+ 3 files changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index e9832ea544..44abadc811 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -798,7 +798,7 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
-         }
-         if (cpu->cfg.ext_f) {
-             error_setg(errp,
--                "Zfinx cannot be supported together with F extension");
-+                       "Zfinx cannot be supported together with F extension");
-             return;
-         }
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index ad8d82662c..6a3b8bd17b 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -51,7 +51,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+     *pc = env->xl == MXL_RV32 ? env->pc & UINT32_MAX : env->pc;
+     *cs_base = 0;
+ 
+-    if (riscv_has_ext(env, RVV) || cpu->cfg.ext_zve32f || cpu->cfg.ext_zve64f) {
++    if (cpu->cfg.ext_zve32f) {
+         /*
+          * If env->vl equals to VLMAX, we can use generic vector operation
+          * expanders (GVEC) to accerlate the vector operations.
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index fa17d7770c..fbe690878b 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -93,8 +93,7 @@ static RISCVException vs(CPURISCVState *env, int csrno)
+     CPUState *cs = env_cpu(env);
+     RISCVCPU *cpu = RISCV_CPU(cs);
+ 
+-    if (env->misa_ext & RVV ||
+-        cpu->cfg.ext_zve32f || cpu->cfg.ext_zve64f) {
++    if (cpu->cfg.ext_zve32f) {
+ #if !defined(CONFIG_USER_ONLY)
+         if (!env->debugger && !riscv_cpu_vector_enabled(env)) {
+             return RISCV_EXCP_ILLEGAL_INST;
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+index bbb5c3a7b5..6f7ecf1a68 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -173,9 +173,7 @@ static bool do_vsetvl(DisasContext *s, int rd, int rs1, TCGv s2)
+ {
+     TCGv s1, dst;
+ 
+-    if (!require_rvv(s) ||
+-        !(has_ext(s, RVV) || s->cfg_ptr->ext_zve32f ||
+-          s->cfg_ptr->ext_zve64f)) {
++    if (!require_rvv(s) || !s->cfg_ptr->ext_zve32f) {
+         return false;
      }
-@@ -861,40 +861,40 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
-         ext |= RVV;
-         if (!is_power_of_2(cpu->cfg.vlen)) {
-             error_setg(errp,
--                    "Vector extension VLEN must be power of 2");
-+                       "Vector extension VLEN must be power of 2");
-             return;
-         }
-         if (cpu->cfg.vlen > RV_VLEN_MAX || cpu->cfg.vlen < 128) {
-             error_setg(errp,
--                    "Vector extension implementation only supports VLEN "
--                    "in the range [128, %d]", RV_VLEN_MAX);
-+                       "Vector extension implementation only supports VLEN "
-+                       "in the range [128, %d]", RV_VLEN_MAX);
-             return;
-         }
-         if (!is_power_of_2(cpu->cfg.elen)) {
-             error_setg(errp,
--                    "Vector extension ELEN must be power of 2");
-+                       "Vector extension ELEN must be power of 2");
-             return;
-         }
--    if (cpu->cfg.elen > 64 || cpu->cfg.elen < 8) {
--        error_setg(errp,
--                "Vector extension implementation only supports ELEN "
--                "in the range [8, 64]");
--        return;
--    }
--    if (cpu->cfg.vext_spec) {
--        if (!g_strcmp0(cpu->cfg.vext_spec, "v1.0")) {
--            vext_version = VEXT_VERSION_1_00_0;
--        } else {
-+        if (cpu->cfg.elen > 64 || cpu->cfg.elen < 8) {
-             error_setg(errp,
--                   "Unsupported vector spec version '%s'",
--                   cpu->cfg.vext_spec);
-+                       "Vector extension implementation only supports ELEN "
-+                       "in the range [8, 64]");
-             return;
-         }
--    } else {
--        qemu_log("vector version is not specified, "
--                 "use the default value v1.0\n");
--    }
--    set_vext_version(env, vext_version);
-+        if (cpu->cfg.vext_spec) {
-+            if (!g_strcmp0(cpu->cfg.vext_spec, "v1.0")) {
-+                vext_version = VEXT_VERSION_1_00_0;
-+            } else {
-+                error_setg(errp,
-+                           "Unsupported vector spec version '%s'",
-+                           cpu->cfg.vext_spec);
-+                return;
-+            }
-+        } else {
-+            qemu_log("vector version is not specified, "
-+                     "use the default value v1.0\n");
-+        }
-+        set_vext_version(env, vext_version);
+ 
+@@ -210,9 +208,7 @@ static bool do_vsetivli(DisasContext *s, int rd, TCGv s1, TCGv s2)
+ {
+     TCGv dst;
+ 
+-    if (!require_rvv(s) ||
+-        !(has_ext(s, RVV) || s->cfg_ptr->ext_zve32f ||
+-          s->cfg_ptr->ext_zve64f)) {
++    if (!require_rvv(s) || !s->cfg_ptr->ext_zve32f) {
+         return false;
      }
-     if (cpu->cfg.ext_j) {
-         ext |= RVJ;
+ 
 -- 
 2.25.1
 
