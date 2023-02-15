@@ -2,73 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9189F697A57
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 11:59:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85C3E697A62
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 12:03:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSFVS-0007Lq-HD; Wed, 15 Feb 2023 05:59:22 -0500
+	id 1pSFYz-0001BZ-6i; Wed, 15 Feb 2023 06:03:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pSFVP-0007L7-KA
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:59:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pSFVN-0000eg-Rk
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:59:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676458757;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Z1vm4rRSwi9q0BCc8utZUgURv9fQkg9JJyOqtW+jBlQ=;
- b=ga9IcP0A5xF6cjJDGQHUO6hrmRqaYyPKrGwXPg2jeLDF3W2J4+OaAP7Z806GlYP6BuJgCp
- QZS7malMY9MxX1AKK29c3GT1yz2AYPRAoXCeySVU5QRd90kW2gMAdF3VWWkGKmVrSuOwyu
- 238vkZlSfkuYKyVYBexrowdmIFCDm+4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-208-DGET8La2Nii-4pQFBs3PVA-1; Wed, 15 Feb 2023 05:59:12 -0500
-X-MC-Unique: DGET8La2Nii-4pQFBs3PVA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 635AA85CCE4;
- Wed, 15 Feb 2023 10:59:11 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.233])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F3CFB2166B30;
- Wed, 15 Feb 2023 10:59:10 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eric Auger <eauger@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, Laurent Vivier
- <lvivier@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org, "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>, Juan Quintela
- <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>, Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Richard Henderson
- <richard.henderson@linaro.org>
-Subject: Re: [PATCH v5 3/3] qtests/arm: add some mte tests
-In-Reply-To: <a7904d6e-c8e5-055b-34f7-8ea2956ec65f@redhat.com>
-Organization: Red Hat GmbH
-References: <20230203134433.31513-1-cohuck@redhat.com>
- <20230203134433.31513-4-cohuck@redhat.com>
- <a7904d6e-c8e5-055b-34f7-8ea2956ec65f@redhat.com>
-User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Wed, 15 Feb 2023 11:59:09 +0100
-Message-ID: <874jrndwjm.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSFYv-0001Aq-Ql
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 06:02:57 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSFYu-0005Yi-30
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 06:02:57 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id k3so11076031wrv.5
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 03:02:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=H0KWF+EilOIV/fTgZRY43DEmQDgaPtP5m+T5JvywjtU=;
+ b=mZIoifT8JsIrpfNSc/cDTeVwRPVTymGlGgaEB85HP0A38cmVYAj/z1tft6luCoYnYp
+ 2gQkfhIiF0rCGJmRuzgi4LLxArng7IGvtn1qu9RZSnXlLTAgWHqeFOGoOheku9o6yAim
+ G3q+hTH/LmZM7YvyWBRvjiNX14AS41mD8r0b9zrLdXz6F89vnqffS+qfeCpQxhkxHYfw
+ Yg+hAGkCG+tBtue9qhE+Xyiz4uiQ9G5Aj1T+NKrLvd8lrTEGS7WUoG59OrpvIlSIN1Y1
+ 7GVeWL33m9F7yUQ8QXa7q8sjLvX4VS6H4vN2Mgsum1fFatfPhvr+3qOOsPyCuJI1Z27M
+ Pv3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=H0KWF+EilOIV/fTgZRY43DEmQDgaPtP5m+T5JvywjtU=;
+ b=rCihsGfSgqFQXJFPul8bsrntxxpiOuGsVmyStJcfuZgJ9mbf1/CEt/UiAB58nZ1RJA
+ OnSkhxSv3RGSgy9+sH8LJJgh1pWp+i9lmbuaROdYqcph8R3lb16OCvnWjanEtcIOFEzw
+ TKc3g4D2s8QTeU5CM+SxklyU3j9J5lrk2cnM/ekuyQAgwpO9rEaW79Qhm0INDjOCmAOY
+ oIIj/ht3AetC3ygsEP13JJXn7dXdD8VcrnhD5FDZ6uAhOiLu8CECvsJfmOgPG16D4KpW
+ n44g1hpl+Bd0OUSjCrcOfxj+U9I8tPyQASE8J0gQNPPNNHY8Kn0KdFf3dFUf5mqtPkS6
+ jScg==
+X-Gm-Message-State: AO0yUKVFKOIfVqChofXV3L0z9hWvziu/a1WNhb/E7jEyvTSDJIVCe4G5
+ an1y/x1b6i50gYahBUnJzNpoyA==
+X-Google-Smtp-Source: AK7set9X+4z/mVPrLP3HVTLadR34KdwqmqYd9J3hJRAVfzN/Q340gIMMefe0H+qDKWC45/WD86T4qw==
+X-Received: by 2002:a5d:6191:0:b0:2c5:4bd2:dc14 with SMTP id
+ j17-20020a5d6191000000b002c54bd2dc14mr1377256wru.38.1676458974325; 
+ Wed, 15 Feb 2023 03:02:54 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ g4-20020a5d6984000000b002c552c6c8c2sm9828366wru.87.2023.02.15.03.02.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Feb 2023 03:02:53 -0800 (PST)
+Message-ID: <49213633-802b-afdd-d54d-e40a866e3fc2@linaro.org>
+Date: Wed, 15 Feb 2023 12:02:52 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH 7/8] aspeed: Introduce a spi_boot region under the SoC
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, Markus Armbruster <armbru@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20230214171830.681594-1-clg@kaod.org>
+ <20230214171830.681594-8-clg@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230214171830.681594-8-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,50 +93,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 06 2023, Eric Auger <eauger@redhat.com> wrote:
+On 14/2/23 18:18, Cédric Le Goater wrote:
+> The default boot of the Aspeed SoCs is address 0x0. For this reason,
+> the FMC flash device contents are remapped by HW on the first 256MB of
+> the address space. In QEMU, this is currently done in the machine init
+> with the setup of a region alias.
+> 
+> Move this code to the SoC and introduce an extra container to prepare
+> ground for the boot ROM region which will overlap the FMC flash
+> remapping.
+> 
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+>   include/hw/arm/aspeed_soc.h |  3 +++
+>   hw/arm/aspeed.c             | 13 +------------
+>   hw/arm/aspeed_ast2600.c     | 13 +++++++++++++
+>   hw/arm/aspeed_soc.c         | 14 ++++++++++++++
+>   hw/arm/fby35.c              |  8 +-------
+>   5 files changed, 32 insertions(+), 19 deletions(-)
 
-> Hi,
->
-> On 2/3/23 14:44, Cornelia Huck wrote:
->> @@ -517,6 +583,13 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
->>          assert_set_feature(qts, "host", "pmu", false);
->>          assert_set_feature(qts, "host", "pmu", true);
->>  
->> +        /*
->> +         * Unfortunately, there's no easy way to test whether this instance
->> +         * of KVM supports MTE. So we can only assert that the feature
->> +         * is present, but not whether it can be toggled.
->> +         */
->> +        assert_has_feature(qts, "host", "mte");
-> I know you replied in v4 but I am still confused:
-> What does
->       (QEMU) query-cpu-model-expansion type=full model={"name":"host"}
-> return on a MTE capable host and and on a non MTE capable host?
+>   enum {
+> +    ASPEED_DEV_SPI_BOOT,
+>       ASPEED_DEV_IOMEM,
+>       ASPEED_DEV_UART1,
+>       ASPEED_DEV_UART2,
 
-FWIW, it's "auto" in both cases, but the main problem is actually
-something else...
 
->
-> If I remember correctly qmp_query_cpu_model_expansion loops over the
-> advertised features and try to set them explicitly so if the host does
-> not support it this should fail and the result should be different from
-> the case where the host supports it (even if it is off by default)
->
-> Does assert_has_feature_enabled() returns false?
+>   #define ASPEED_SOC_DPMCU_SIZE       0x00040000
+>   
+>   static const hwaddr aspeed_soc_ast2600_memmap[] = {
+> +    [ASPEED_DEV_SPI_BOOT]  = 0x0,
 
-I poked around a bit with qmp on a system (well, model) with MTE where
-starting a guest with MTE works just fine. I used the minimal setup
-described in docs/devel/writing-monitor-commands.rst, and trying to do a
-cpu model expansion with mte=on fails because the KVM ioctl fails with
--EINVAL (as we haven't set up proper memory mappings). The qtest setup
-doesn't do any proper setup either AFAICS, so enabling MTE won't work
-even if KVM and the host support it. (Trying to enable MTE on a host
-that doesn't support it would also report an error, but a different one,
-as KVM would not support the MTE cap at all.) We don't really know
-beforehand what to expect ("auto" is not yet expanded, see above), so
-I'm not sure how to test this in a meaningful way, even if we did set up
-memory mappings (which seems like overkill for a feature test.)
+Isn't this a constant address for this Soc family?
+If so, we can define ASPEED_SOC_RESET_ADDR once ...
 
-The comment describing this could be improved, though :)
+>       [ASPEED_DEV_SRAM]      = 0x10000000,
+>       [ASPEED_DEV_DPMCU]     = 0x18000000,
+>       /* 0x16000000     0x17FFFFFF : AHB BUS do LPC Bus bridge */
+> @@ -282,6 +283,12 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+>       qemu_irq irq;
+>       g_autofree char *sram_name = NULL;
+>   
+> +    /* Default boot region (SPI memory or ROMs) */
+> +    memory_region_init(&s->spi_boot_container, OBJECT(s),
+> +                       "aspeed.spi_boot_container", 0x10000000);
+> +    memory_region_add_subregion(s->memory, sc->memmap[ASPEED_DEV_SPI_BOOT],
+
+... and use it here.
+
+> +                                &s->spi_boot_container);
 
 
