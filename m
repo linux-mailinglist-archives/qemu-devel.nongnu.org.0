@@ -2,86 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F773697E02
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 15:09:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6C9697E03
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 15:09:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSISM-0007Qu-7f; Wed, 15 Feb 2023 09:08:22 -0500
+	id 1pSIT1-00082N-Bk; Wed, 15 Feb 2023 09:09:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pSISK-0007Qa-OK
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 09:08:20 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pSISJ-00019I-5Z
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 09:08:20 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id bg2so8967591pjb.4
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 06:08:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=uxWV3VwCM6YMLpTbdsEoc0XSuDWmcRMPT8GxlUKRo7o=;
- b=aV0o53KupfLYKYv3Gk1nagDJdDa0lLQp/Ktir5n3SnoEDQeOtD64k8mWindsdGlN6O
- oQDsgXv+0Vsf47vgYYy8LwZJw03BRWubs9D2piKe0WCQxguARYTMyVzEIsK0dDmNE/Ls
- 1q2WncWwPrMVfCrL+eevTa11t0zOnzhtAcyExsuwahR6SjyCXzyH8KlUs3G2Po+tQoTL
- K8BnTZmu34/5H2DOElpHKOJbeUpbzqkLJ4Yb8yiGWNfhkcL4Cj/vI6oal8VWr6EAbvXK
- Uff9HhC4596D/R8ywfOoK5QlC6q3nlFCJM31ThwBvEsyYSILktUWfRWGBwFy1rsbXx6d
- 3Ijg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uxWV3VwCM6YMLpTbdsEoc0XSuDWmcRMPT8GxlUKRo7o=;
- b=fHsRb7gfPLqIVVniJhFo74OSV/unE0ajXplVSJzKocNYyazshaU/2MiBf0Fp7EGBx+
- 7JzuU3Xm4XY551ucBQHrzM77SWx+GkBptlBBroIsEWGwTvLRDul8Usq0bvkHUKIbnM0O
- ClPs1PuP/KFSUe3VljIZslOHws5fvxSXUGMbnsQgscfE+O3MIVDf7+TTVu6s8SFgBZnA
- LW6i6p504YykTAwdcihra7htx1k/rYFMi7E+fuyXFJGE6LphhWdK4GwZUPnXvygsfL9G
- CP0VnWdR3dl+atNEygWzCNGrIQ5MHTLfpaPoVkrfA48Z1WeJCLLm+7oigd3fMYhO8B5Q
- gLaA==
-X-Gm-Message-State: AO0yUKVUAmQRIOlK7GBdn6xF5XdnnKtBRhC6PanSWMpufAvGbGcMbgS/
- MHUvMyG131F8CxOgc48AlyokFw==
-X-Google-Smtp-Source: AK7set/xNnzb8c1Ll2PhCCH79IwH9CINRBpAosFxzbrHDJq48b86kbns22vXIWywAN2D7rVkqTMi5g==
-X-Received: by 2002:a17:90b:1bcc:b0:233:be7b:e71c with SMTP id
- oa12-20020a17090b1bcc00b00233be7be71cmr3091545pjb.5.1676470097961; 
- Wed, 15 Feb 2023 06:08:17 -0800 (PST)
-Received: from sunil-laptop ([49.206.14.226]) by smtp.gmail.com with ESMTPSA id
- e17-20020a17090ab39100b00233e8a83853sm1501870pjr.34.2023.02.15.06.08.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 06:08:17 -0800 (PST)
-Date: Wed, 15 Feb 2023 19:38:10 +0530
-From: Sunil V L <sunilvl@ventanamicro.com>
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Andrew Jones <ajones@ventanamicro.com>,
- Anup Patel <apatel@ventanamicro.com>,
- Atish Kumar Patra <atishp@rivosinc.com>
-Subject: Re: [PATCH V2 04/10] hw/riscv/virt: virt-acpi-build.c: Add basic
- ACPI tables
-Message-ID: <Y+znStpBMx35sSop@sunil-laptop>
-References: <20230213144038.2547584-1-sunilvl@ventanamicro.com>
- <20230213144038.2547584-5-sunilvl@ventanamicro.com>
- <9e7edd02-aa8e-c146-d67c-aa255a8aa6e5@ventanamicro.com>
- <Y+sDYFI+ku5/S1+J@sunil-laptop>
- <b5c4fb24-7bd2-a853-4116-58af222bbcad@ventanamicro.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1pSIT0-00082B-4O
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 09:09:02 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1pSISx-0001MA-T4
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 09:09:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=9gf/eyoF/OZBdlQrQOGcOEHR81H+oKVI7+EBTBveN+Y=; b=TTTCW4lPt6QmPAFeNu9493NS+2
+ lTBoueJk10z9a3k85U11aZVTeFoI26yuu4OWjZn4qnfSsx6siPG+RLKS07ED4BGlPOtiKetZCzOlY
+ EKwSnQAhqvmvew4yP1t+WZjlfV2y8OHSnxSAsfG5wLa42jTIUS1ta+R3Xzb89RkmJNfJLvQRqNTq3
+ G5GjfnlAkCVXhGJO2BKQDWfQWL5QV/aRbxwYBUWLDhvPPdcZJpymBL22wwwgu+IBltX+XvzykxE+5
+ TRWFCqK+QWFu/h/Kh3ZWSaVBCJd7XWc+jyGtYyGHokhvR1eceSZ5TY0ZDeqz9DpanYyS9vSEKvAwJ
+ tqq2dODdjZWIePm/RcSE35HHF54RkQu75XndLm0dI4//2SHLAwrXbGFNBvxAGS8VZ3nzv27TyNtxX
+ PstEHv6cMLQ1SBNZ0+y6EynScIeu7xla6Nb/m4nF6e+sc5XMvhKV44pZvRlJ6txErHQuqlzNtnHVu
+ 5ov0ZXJLPGPNVS31CQIEIZD641dhHdV5Sbc98+kIzeTya/M2Q0CEbrO0sEjRPhEfknJ5qd3qY2FAk
+ UAsX0G7/NgN1yMlygnS6QwApVRI8kH1nVd7JV/XlASBdTpK8DCdGUzKB7kuT7omBFmeHK4cnlyEmP
+ NUyhT7Q3B0gkB8Mk/rbRsY6N4HsOW1B2MWNxJUEnw=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Dorinda Bassey <dbassey@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com, armbru@redhat.com,
+ pbonzini@redhat.com, wtaymans@redhat.com,
+ =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [PATCH] audio/pwaudio.c: Add Pipewire audio backend for QEMU
+Date: Wed, 15 Feb 2023 15:08:54 +0100
+Message-ID: <5159868.WgR6L5i3FV@silver>
+In-Reply-To: <CAJ+F1CL0_OAj5-jsyCVY5aF=qoSoPx2Mu=q8Z7mpp3mesRi6=Q@mail.gmail.com>
+References: <20230215085102.415053-1-dbassey@redhat.com>
+ <CAJ+F1CL0_OAj5-jsyCVY5aF=qoSoPx2Mu=q8Z7mpp3mesRi6=Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b5c4fb24-7bd2-a853-4116-58af222bbcad@ventanamicro.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=sunilvl@ventanamicro.com; helo=mail-pj1-x1035.google.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,23 +69,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 14, 2023 at 05:44:44AM -0300, Daniel Henrique Barboza wrote:
-> 
-> 
-> On 2/14/23 00:43, Sunil V L wrote:
-> > On Mon, Feb 13, 2023 at 03:48:04PM -0300, Daniel Henrique Barboza wrote:
-> 
-> Nah. Doing that now will make this series rely on acks for every other ACPI arch to
-> push the RISC-V side.
-> 
-> Let's make this happen as is now to get ACPI in RISC-V working. We can think about
-> reducing overall ACPI duplication later. IMO it's enough for now to, mention in this
-> commit msg, which bits of the arm64 virt-acpi-build.c you changed for this RISC-V
-> version.
-> 
+On Wednesday, February 15, 2023 2:18:50 PM CET Marc-Andr=E9 Lureau wrote:
+> Hi
+>=20
+> On Wed, Feb 15, 2023 at 12:51 PM Dorinda Bassey <dbassey@redhat.com> wrot=
+e:
+> >
+> > This commit adds a new audiodev backend to allow QEMU to use Pipewire a=
+s=20
+both an audio sink and source. This backend is available on most systems.
+> >
+>=20
+> Hmm, I would rather have less audio (and ui) backends in QEMU. (for
+> audio, if I could introduce and keep only one, that would be
+> GStreamer: to remove the others..)
+>=20
+> What is the main advantage compared to using the ALSA backend? (I
+> assume pipewire depends on ALSA anyway on Linux)
 
-Okay. Thanks!. Will update the commit message and send the V3 soon.
+I think it does make sense to add Pipewire. Apparently it gains popularity.
 
-Thanks
-Sunil
+The main advantage of Pipewire is its interoperability: It allows you to=20
+connect apps with each other that only support a specific audio system. Say=
+=20
+one app that only supports JACK, another app that only supports PulseAudio,=
+=20
+another that only supports ALSA and so on. So it tries to provide a univers=
+al=20
+plug on a system for all.
+
+Best regards,
+Christian Schoenebeck
+
+
 
