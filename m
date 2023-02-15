@@ -2,72 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10617697D07
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 14:20:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04553697D0F
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 14:22:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSHgj-0005Du-DC; Wed, 15 Feb 2023 08:19:09 -0500
+	id 1pSHje-0007N4-2v; Wed, 15 Feb 2023 08:22:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pSHgg-0005D9-GL
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:19:06 -0500
-Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135])
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1pSHjc-0007Mh-GW
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:22:08 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pSHgf-0003WA-1E
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:19:06 -0500
-Received: by mail-lf1-x135.google.com with SMTP id w11so27520243lfu.11
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 05:19:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9+twC4EWZxHblF//wmlyy8fvKPZO59vnJQALs0J7tzs=;
- b=izGEpYD0mUoPHjA0gzfkzq0VHJsyANLyQ156LhiWasMooxUE94Q30I6jh/IbHmAf/n
- diKbg0NmAI1KRovhBHOQQ6G7uqqO5rst+5LU4Ng2cpdW7e4zdyTJyI/sPsV/1ZmFrUuG
- su5XvHmKub3KRDvJ9fKmy2uiSzGScimWZneAwTxlXbq9ayMfnrW/YtRdengjOK3YJr0c
- rnVrUejqmMFs/hYKtI/gQ8VOtmqwIhp18zj+S+zqRe+SMh8FYNEdP0nlNQICsi3jr1fI
- sUrUt0GhlliDAdobAQu86OB/ZW2BvABkdlNIeq15rF5uTV3MgCHls2aIjYBRYOO+3RMC
- ALdQ==
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1pSHja-00054N-NJ
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:22:08 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id h16so19109010wrz.12
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 05:22:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=U2yNbmHnzRXnwG5xOMUF+gH4FpuIR/jPtcW7kYTN014=;
+ b=Wc4ADkGaKDfZvW+0uCvxTO76JdfqENPdS3UGSE0wvQ4tWOvEeHzq+wzFGk0PRDIlFJ
+ GEach2Zg3YKWepkjsba05qxvpzvreycXT5thWdkPpSx3n9VlME0VL8xEUPbs1Yzd+TCh
+ sEieesUNglyZG9c9zoakr5Nwy6/HeVARNm2Ki3Yg53LKaOevGhkb1Hpq1svH/92c7Q2J
+ z4bofh+Ez+Gk4Yp4Rue/pn3jCYUywnf8SJworFWD7jlVsgGQ9bqsCI93FP/sqCI2bydx
+ YCEp0ljLicJsvWLste+xblwOR8yxWCp7LW2kG7cSCNVN4Re1wZo0QbQUnaIlWV0Mxptk
+ g8gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9+twC4EWZxHblF//wmlyy8fvKPZO59vnJQALs0J7tzs=;
- b=E6y6XFMB7dpvJekLrcSKBSXFPRFFjuJokmaQ/uOSWW7wS4gd4V6OysC6FrV603MlrM
- K6PTN3m3kl71nJjUf/FSlQk06+CDXq/SNiHAKDOEDOeElIpnYdwBVP+uJ5TxBS5d3d5r
- EZwtg2uyQa4gE9UK5NwTdw279hgjr/ZTk7QwuA2JtQC3Pan0aBZeyhO+LBVmI91ctX36
- M19yIfObFqemy/H5HTYwLomIkA0UM7KmYA5SGZinI5VaRYJcbFytKJFneqyHSQEum3SV
- zmyZSosH4F6tcodTw9s79cFRrUgfTl3CuCbL6Jpjsn2qkL96OiRB4K4Pjgh48IIg5k0r
- kYew==
-X-Gm-Message-State: AO0yUKXbap2Z2p+0bnQLFmXYvHJ8pih1iX0PDidvt9G0UP0Ym+P5ylpH
- mozGmUKNzGyKsFjiDnHFFbvEI7w97rSJGmjyVpE=
-X-Google-Smtp-Source: AK7set9ipPvBAEGG9eoQEhB75y45LJY7Nao2waRHlbJ1bPqg2FK0xz7rtI4m3JVI5Q0S1QMzDSrvfaLxgzhaZ9qYUA8=
-X-Received: by 2002:a19:f611:0:b0:4db:33ed:89eb with SMTP id
- x17-20020a19f611000000b004db33ed89ebmr524629lfe.5.1676467142185; Wed, 15 Feb
- 2023 05:19:02 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=U2yNbmHnzRXnwG5xOMUF+gH4FpuIR/jPtcW7kYTN014=;
+ b=mAPkU0z/vAcoO33FLqS2o+DQbFCpVyct7ZLGnSrGATJ08N62UT+1jLr0YJ5JleYF9H
+ jHcKotzO36AfvA3O2xCOzvrELLSYomGFq+nPuW+jbBgDqLmgXsvWWtXXrE9nm4dhuPJD
+ Mga20tuU2Fj1h/hc6p3xymf+GDUceXbIfcdkCCnIY9Uo9cYIoI4ktTaWLSQmRw/F/2pm
+ qKgx3kEQiGbiYt1Iz52nA0xHloGsVtcpqbQslC87Oi3k+j9jrpc7WFDfJMCSSuUXSOqr
+ uHafdu0N5CxzrqbZvXXGEtF8BUIjy7fQzpczd2bwDQjAQRy/S+pGf27JMAbTb3+lBWI+
+ 9SLg==
+X-Gm-Message-State: AO0yUKUtZUZ3/jHD8GaGggbrcLjEmvM3MTXQ+/7ik8zu4M5dTo8mXDu1
+ va77dg6PCvyKglFQGAeo33l1hw==
+X-Google-Smtp-Source: AK7set+E1IMUkHkzfaLOSQFCH7lqyqsr+PaNx7VayVvpBGg3ipes1zWaopgqRCjPKDsLjuu1ul6Umg==
+X-Received: by 2002:adf:e94a:0:b0:2bf:963a:f266 with SMTP id
+ m10-20020adfe94a000000b002bf963af266mr1792578wrn.27.1676467324956; 
+ Wed, 15 Feb 2023 05:22:04 -0800 (PST)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz.
+ [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+ by smtp.gmail.com with ESMTPSA id
+ d13-20020adfe88d000000b002c54f4d0f71sm10518672wrm.38.2023.02.15.05.22.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Feb 2023 05:22:04 -0800 (PST)
+Date: Wed, 15 Feb 2023 14:22:03 +0100
+From: Andrew Jones <ajones@ventanamicro.com>
+To: Sunil V L <sunilvl@ventanamicro.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Anup Patel <apatel@ventanamicro.com>,
+ Atish Kumar Patra <atishp@rivosinc.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Subject: Re: [PATCH V2 06/10] hw/riscv/virt: virt-acpi-build.c: Add RHCT Table
+Message-ID: <20230215132203.grt3y3ujfpm6smww@orel>
+References: <20230213144038.2547584-1-sunilvl@ventanamicro.com>
+ <20230213144038.2547584-7-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
-References: <20230215085102.415053-1-dbassey@redhat.com>
-In-Reply-To: <20230215085102.415053-1-dbassey@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 15 Feb 2023 17:18:50 +0400
-Message-ID: <CAJ+F1CL0_OAj5-jsyCVY5aF=qoSoPx2Mu=q8Z7mpp3mesRi6=Q@mail.gmail.com>
-Subject: Re: [PATCH] audio/pwaudio.c: Add Pipewire audio backend for QEMU
-To: Dorinda Bassey <dbassey@redhat.com>
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com, armbru@redhat.com, 
- qemu_oss@crudebyte.com, pbonzini@redhat.com, wtaymans@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::135;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x135.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230213144038.2547584-7-sunilvl@ventanamicro.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=ajones@ventanamicro.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,21 +96,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi
+On Mon, Feb 13, 2023 at 08:10:34PM +0530, Sunil V L wrote:
+> RISC-V ACPI platforms need to provide RISC-V Hart Capabilities
+> Table (RHCT). Add this to the ACPI tables.
+> 
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> ---
+>  hw/riscv/virt-acpi-build.c | 62 ++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 62 insertions(+)
+> 
+> diff --git a/hw/riscv/virt-acpi-build.c b/hw/riscv/virt-acpi-build.c
+> index f54e3fb731..a2054f79a8 100644
+> --- a/hw/riscv/virt-acpi-build.c
+> +++ b/hw/riscv/virt-acpi-build.c
+> @@ -35,6 +35,7 @@
+>  #include "hw/pci-host/gpex.h"
+>  #include "qapi/error.h"
+>  #include "migration/vmstate.h"
+> +#include "hw/intc/riscv_aclint.h"
+>  
+>  #define ACPI_BUILD_TABLE_SIZE             0x20000
+>  
+> @@ -85,6 +86,67 @@ acpi_dsdt_add_fw_cfg(Aml *scope, const MemMapEntry *fw_cfg_memmap)
+>      aml_append(scope, dev);
+>  }
+>  
+> +#define RHCT_NODE_ARRAY_OFFSET 56
+> +static void
+> +build_rhct(GArray *table_data, BIOSLinker *linker, RISCVVirtState *s)
+> +{
+> +    MachineState *ms = MACHINE(s);
+> +    uint32_t acpi_proc_id = 0;
+> +    int i, socket;
+> +    RISCVCPU *cpu;
+> +    char *isa;
+> +    size_t len, aligned_len;
+> +    uint32_t isa_offset, num_rhct_nodes;
+> +
+> +    AcpiTable table = { .sig = "RHCT", .rev = 1, .oem_id = s->oem_id,
+> +                        .oem_table_id = s->oem_table_id };
+> +
+> +    acpi_table_begin(&table, table_data);
+> +
+> +    build_append_int_noprefix(table_data, 0x0, 4);   /* Reserved */
+> +    build_append_int_noprefix(table_data,
+> +                              RISCV_ACLINT_DEFAULT_TIMEBASE_FREQ, 8);
 
-On Wed, Feb 15, 2023 at 12:51 PM Dorinda Bassey <dbassey@redhat.com> wrote:
+Need "Time Base Frequency" comment.
+
+> +
+> +    /* ISA + N hart info */
+> +    num_rhct_nodes = 1 + ms->smp.cpus;
+> +    build_append_int_noprefix(table_data, num_rhct_nodes, 4);
+
+/* Number of RHCT nodes */
+
+> +    build_append_int_noprefix(table_data, RHCT_NODE_ARRAY_OFFSET, 4);
+
+/* Offset to the RHCT node array */
+
+> +
+> +    /* ISA string node */
+> +    isa_offset = table_data->len - table.table_offset;
+> +    build_append_int_noprefix(table_data, 0, 2);   /* Type 0*/
+                                                               ^ need
+							       space
+> +
+> +    cpu = &s->soc[0].harts[0];
+> +    isa = riscv_isa_string(cpu);
+> +    len = 8 + strlen(isa) + 1;
+> +    aligned_len = (len % 2) ? (len + 1) : len;
+> +
+> +    build_append_int_noprefix(table_data, aligned_len, 2);   /* Total length */
+
+s/Total length/Length/
+
+> +    build_append_int_noprefix(table_data, 0x1, 2);           /* Revision */
+> +
+> +    /* ISA string length including NUL */
+
+/* ISA Length including NUL */
+
+> +    build_append_int_noprefix(table_data, strlen(isa) + 1, 2);
+> +    g_array_append_vals(table_data, isa, strlen(isa) + 1);   /* ISA string */
+> +
+> +    if (aligned_len != len) {
+> +        build_append_int_noprefix(table_data, 0x0, 1);   /* pad */
+
+s/pad/Optional Padding/
+
+> +    }
+> +
+> +    for (socket = 0; socket < riscv_socket_count(ms); socket++) {
+> +        for (i = 0; i < s->soc[socket].num_harts; i++) {
+> +            build_append_int_noprefix(table_data, 0xFFFF, 2);  /* Type */
+> +            build_append_int_noprefix(table_data, 16, 2);      /* Length */
+> +            build_append_int_noprefix(table_data, 0x1, 2);     /* Revision */
+> +            build_append_int_noprefix(table_data, 1, 2); /* number of offsets */
+
+s/number/Number/
+
+> +            build_append_int_noprefix(table_data, acpi_proc_id, 4); /* UID */
+
+ACPI Processor UID
+
+> +            build_append_int_noprefix(table_data, isa_offset, 4);
+
+/* Offsets */
+
+> +            acpi_proc_id++;
+> +        }
+> +    }
+> +
+> +    acpi_table_end(linker, &table);
+> +}
+> +
+>  /* FADT */
+>  static void
+>  build_fadt_rev6(GArray *table_data, BIOSLinker *linker,
+> -- 
+> 2.34.1
 >
-> This commit adds a new audiodev backend to allow QEMU to use Pipewire as =
-both an audio sink and source. This backend is available on most systems.
->
 
-Hmm, I would rather have less audio (and ui) backends in QEMU. (for
-audio, if I could introduce and keep only one, that would be
-GStreamer: to remove the others..)
+Other than getting the comments to match the spec fields,
 
-What is the main advantage compared to using the ALSA backend? (I
-assume pipewire depends on ALSA anyway on Linux)
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 
---=20
-Marc-Andr=C3=A9 Lureau
+Thanks,
+drew
 
