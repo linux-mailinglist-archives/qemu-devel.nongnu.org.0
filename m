@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 399096980BE
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 17:20:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9926980B7
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 17:19:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSKUa-0000nf-Ke; Wed, 15 Feb 2023 11:18:48 -0500
+	id 1pSKUe-0001Rh-32; Wed, 15 Feb 2023 11:18:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSKTr-0008Pe-Nx
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 11:18:04 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSKU0-00006F-Ny
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 11:18:13 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSKTp-0008RW-N5
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 11:18:03 -0500
-Received: by mail-wm1-x330.google.com with SMTP id r18so13714007wmq.5
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 08:18:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSKTx-0008Sn-Uj
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 11:18:12 -0500
+Received: by mail-wr1-x434.google.com with SMTP id l2so3083963wry.0
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 08:18:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=N56SCywPfrFBIywCm7hp89GbcF0PG+s+C1TwdwIEIvI=;
- b=ZWfBMaGKpRyCT6OmPutkN7J+5/NIURI+kkldQUfJqa62WBAP9dVOuAwbsT1tPASD+z
- 7c4pExa5OzJLWoV94ysr0SBoaTT1qDp/RRzPxJ5s9zph80iybfYnTRFfkVVE9Gz9REIa
- HjHyVhWD8ezjAZI81Kl3tIKNxz1LkpkOxw4PiSi7Ezt2nZuOnRqXnxwBqnBHQPgY3+kI
- +dXRTUkEAFoMPYZoRSbM9PvSyX0/Q7eHcQkLeqBuL7mKNcF2LiED4PAQILsODOR5i96y
- +1oozRHjmbe52wxR6RyROXwiCiYPUdq3y176vetRRNKBpuSTtd+gPiXhZcwBZo9tZW/1
- 3LeQ==
+ bh=1RUJxKchPku4NWeByHhp6ftHtPwKBb41iVLhcZRE2cI=;
+ b=QLYWuzZQvLCjzODBlWvwXGOEfDGjL5w5+YmJxblumx2c/bFUCQBxek7p9J84VPKWeh
+ 4K10Y21GcwaYb1wcxIikeGffsdNLdCVOlF3pr96P7l5fEz3cutVrGDeBj5f1FJ8LaJ8+
+ 5m6na1lMAfpdFVHMXah0QyQ28ZKBtksXyZsD+rTE8TvVrWqw7rKxL/gJg2vOLbsTdYtd
+ DAzUa6yE7JPrJLJYBy60vEdDx9Z8/V0G+exGBG1Hyol+IchPdgGaoH9Hg0qknHs9Ws5T
+ jNBb0zgivNnzYJTZIb9gyLRLu/lMrggLs6//udyroveG7KwgZ4SDOPg0ienCEjji6rce
+ PO5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=N56SCywPfrFBIywCm7hp89GbcF0PG+s+C1TwdwIEIvI=;
- b=d7XEB8ef+9C9uiyyLUCF5D/C8JetOhnQGguueRZjS0cq7/gjrIRiFSaHYE3kZIEE0+
- uACt05UR1Valy90zDKvC46rZ3ml2ZAnS75X3RaxiXLq6UsSrv3FAc9o42/eCkPgREQT4
- i5F2grM4ZHysOknpaLzJFQ5Ado1ubGQHud9HjputQjfMIy/NjL2rS1ry/7zWbqYjh4N7
- 0cD2KzZgj2gYBvwjUhgMBAL81KHvyAVtHtQ8GvF/m/Lnr2z9VBkdyBvKn5iVdjikJgTt
- WoaK8tddRoIyY6feMmAHBF6lH9XCtHi2UlcyeSkZIQmlOYZkYcO1fYTgqTOtTpt0xhhh
- WEnA==
-X-Gm-Message-State: AO0yUKWAG7gVESV3REN2RvYhD79kWFOcygHDzIdQMPJjvFgdjCqXBpmS
- avVp3b+UtfGS0q6vveAphJi97q2rTK2ptilj
-X-Google-Smtp-Source: AK7set9p+R7r2vJmJb+oDpMcdMXO7EznNLOmOW6nCUt3Y4Hc88VgZah7u4DP7EjvYU8v9/4HgovwAA==
-X-Received: by 2002:a05:600c:1819:b0:3e0:10d:f1c with SMTP id
- n25-20020a05600c181900b003e0010d0f1cmr2392096wmp.37.1676477879933; 
- Wed, 15 Feb 2023 08:17:59 -0800 (PST)
+ bh=1RUJxKchPku4NWeByHhp6ftHtPwKBb41iVLhcZRE2cI=;
+ b=jFmFTFOAH2V20wcUnoaROqftRNApfUqmVucS/k7qEtpBcyAyLh69RBpl5ir06Gej4T
+ bMZTtqVU7pygM/OmXckarH7MmxfTQlulJNfRgdJyAREYR0uBD9THASt0R0HyPnlTenX8
+ XNs/pTmLZ3Nb01nO8PzA8DVmpxkt65/QvP1wpK50F+bDKvqlf9mJJyZnLDMm71re7xB/
+ vZ02AeiPb3LbbCBgNzd+VKAzPqQ2ji2B9ZMsODDTq+1znsAIoESAyl56UCdfcMMU6JHC
+ k6LEdK7ouPzfaSnIkFjBVxLhNDIrR5B5OtRYdHBPV6v06NCXlhI/0qHFruA/A6VZ14u+
+ rB8A==
+X-Gm-Message-State: AO0yUKXQLnaexamMLXocsR8O2Hj3WF0a0qgljfWw4DVH+pw1qbHP7/qk
+ Iudk0Set04xaDDoVOg1xH8kN3+IctnlelHur
+X-Google-Smtp-Source: AK7set88zhhXw+690FegjzwhThE2YJFUmtvDAlV302artGb07540Co0Aepk9DU9NkEvhOqQyec0IFg==
+X-Received: by 2002:adf:ee07:0:b0:2c3:f880:bb1f with SMTP id
+ y7-20020adfee07000000b002c3f880bb1fmr2284540wrn.14.1676477885607; 
+ Wed, 15 Feb 2023 08:18:05 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- t14-20020a1c770e000000b003dfdeb57027sm2379319wmi.38.2023.02.15.08.17.58
+ k2-20020a5d6d42000000b002c4061a687bsm16206609wri.31.2023.02.15.08.18.03
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 15 Feb 2023 08:17:59 -0800 (PST)
+ Wed, 15 Feb 2023 08:18:05 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
@@ -61,18 +61,19 @@ Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Kevin Wolf <kwolf@redhat.com>, qemu-ppc@nongnu.org,
  Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 14/18] hw/ide/piix: Use generic ide_bus_init_ioport()
-Date: Wed, 15 Feb 2023 17:16:37 +0100
-Message-Id: <20230215161641.32663-15-philmd@linaro.org>
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v2 15/18] hw/isa: Ensure isa_register_portio_list() do not get
+ NULL ISA device
+Date: Wed, 15 Feb 2023 17:16:38 +0100
+Message-Id: <20230215161641.32663-16-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230215161641.32663-1-philmd@linaro.org>
 References: <20230215161641.32663-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,48 +96,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-TYPE_PIIX3_IDE is a PCI function inheriting from QOM
-TYPE_PCI_DEVICE. To be able to call the ISA specific
-ide_init_ioport_isa(), we call this function passing
-a NULL ISADevice argument. Remove this hack by calling
-the recently added generic ide_init_ioport(), which
-doesn't expect any ISADevice.
+Previous commit removed the single call to isa_register_portio_list()
+with dev=NULL. To be sure we won't reintroduce such weird (ab)use,
+assert dev is non-NULL.
 
-Inspired-by: Bernhard Beschow <shentey@gmail.com>
+We can now calls isa_address_space_io() to get the device I/O region.
+
+Note we can then remove the NULL check in isa_init_ioport() because
+it is only called in 2 places (and is static to this file):
+- isa_register_ioport() which first calls isa_address_space_io(),
+  itself asserting dev is not NULL.
+- isa_register_portio_list() which also asserts dev is not NULL
+  since the previous commit.
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/ide/piix.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+ hw/isa/isa-bus.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index 9b886fc0d2..74e2f4288d 100644
---- a/hw/ide/piix.c
-+++ b/hw/ide/piix.c
-@@ -138,7 +138,6 @@ static bool pci_piix_init_bus(PCIIDEState *d, unsigned i, Error **errp)
-         {0x1f0, 0x3f6},
-         {0x170, 0x376},
-     };
--    int ret;
+diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+index abc1bd0771..59f98472d1 100644
+--- a/hw/isa/isa-bus.c
++++ b/hw/isa/isa-bus.c
+@@ -113,7 +113,7 @@ IsaDma *isa_bus_get_dma(ISABus *bus, int nchan)
  
-     if (!d->irq[i]) {
-         error_setg(errp, "output IDE IRQ %u not connected", i);
-@@ -146,13 +145,9 @@ static bool pci_piix_init_bus(PCIIDEState *d, unsigned i, Error **errp)
+ static inline void isa_init_ioport(ISADevice *dev, uint16_t ioport)
+ {
+-    if (dev && (dev->ioport_id == 0 || ioport < dev->ioport_id)) {
++    if (dev->ioport_id == 0 || ioport < dev->ioport_id) {
+         dev->ioport_id = ioport;
      }
+ }
+@@ -129,6 +129,7 @@ int isa_register_portio_list(ISADevice *dev,
+                              const MemoryRegionPortio *pio_start,
+                              void *opaque, const char *name)
+ {
++    assert(dev);
+     assert(piolist && !piolist->owner);
  
-     ide_bus_init(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
--    ret = ide_bus_init_ioport_isa(&d->bus[i], NULL,
--                                  port_info[i].iobase, port_info[i].iobase2);
--    if (ret) {
--        error_setg_errno(errp, -ret, "Failed to realize %s port %u",
--                         object_get_typename(OBJECT(d)), i);
--        return false;
--    }
-+    ide_bus_init_ioport(&d->bus[i], OBJECT(d),
-+                        pci_address_space_io(PCI_DEVICE(d)),
-+                        port_info[i].iobase, port_info[i].iobase2);
-     ide_bus_init_output_irq(&d->bus[i], d->irq[i]);
+     if (!isabus) {
+@@ -141,7 +142,7 @@ int isa_register_portio_list(ISADevice *dev,
+     isa_init_ioport(dev, start);
  
-     bmdma_init(&d->bus[i], &d->bmdma[i], d);
+     portio_list_init(piolist, OBJECT(dev), pio_start, opaque, name);
+-    portio_list_add(piolist, isabus->address_space_io, start);
++    portio_list_add(piolist, isa_address_space_io(dev), start);
+ 
+     return 0;
+ }
 -- 
 2.38.1
 
