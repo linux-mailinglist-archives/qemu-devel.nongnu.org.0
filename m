@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3AF9697AB9
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 12:29:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC82697AB4
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 12:29:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSFxc-0002ly-6y; Wed, 15 Feb 2023 06:28:28 -0500
+	id 1pSFy3-00032H-7W; Wed, 15 Feb 2023 06:28:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSFxa-0002e5-0b
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 06:28:26 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSFxf-0002oZ-66
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 06:28:31 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSFxY-0003X4-2j
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 06:28:25 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id m10so9871315wrn.4
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 03:28:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSFxd-0003hw-D0
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 06:28:30 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ m20-20020a05600c3b1400b003e1e754657aso1317195wms.2
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 03:28:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Rhko6eBo+b2YALv98Ryw0md2nUl+2nBlZHFlxqRLTVQ=;
- b=kshTL/uDaxdVqOTiqffqwcsa3Gg88s6kPLQHJ88U3vcluBMG+FrmG5COnSF535+h7G
- 52q5VT8n28myEzzhx9tVp3kPacCA4AEMF/dg9+VIdlu0PSI8Y0WTFPUry31vvMpd65dF
- xS8bgaTqbUX+f29OyvT84kGzu6t3j0vWKdvsowE/bh8O7dNE/mqMm3G0dxmQQ3CS1n+T
- uVAgIO7QY8j8EPBH04c2efxQ2IbtvpGk+QauCchj8/v4Zk/4zsjYG8qsrH3scOd55XDJ
- VDa4cetvPzCCAhB1z/pL76qxyD2LBcJBMITpzrEaTmdop0nhOxaUyY4un8tQOrp/lcAY
- uv0g==
+ bh=VMQABnxD1Beh0f+S34hrwat9iJbN0H6rcMTsrC1rcF8=;
+ b=yUYYI549UEBpofrzoW/TFlPj2NU061wv6P+OENpn52LHkwfbXaV9PVXu6Y+n7Yaj9G
+ 6hRs5q2y8YH5zBPzmqRiRdbe+8AXOOK9/KyfUAiVR0JTM0NZ0wujpEuZagIOw9+AiQZl
+ GhyQU5Hc/FrOEHVx6LufTtHmRIElIS46tfbViX5kCD3/TePzuRMYDtvf9onHSYQYzfPe
+ S/psxGDh2nIskiqBcporKLo4VgQKvXvWJ5EG6CRlTTIyitdLtElR+P3JI0nDRADPK4Na
+ cdTrC3KMOA6KKtz3jg/LR2eSUaiW4K4UNVgqlTuQNgN/4HtCLyCaosqLtGJRpXNixmsO
+ W9jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Rhko6eBo+b2YALv98Ryw0md2nUl+2nBlZHFlxqRLTVQ=;
- b=hHuYHDCs3OlmfvE8XuEsOw/qN0lrU2OyPPTV2Z3LMrzcHUow9OWNqjvifnXb2wukqS
- f7IeaKjw8wu3c7lQu5EZ40KVKxM21jAn5DJlb1MRrOu/tfQ3iZktjBMao2Md2Hot6SC6
- Yx4G2r6mOOcmtLT3zjgkkfv+uktjZXGY2AlSU+YtLIl312slJ2bdYnmQLv7Qbgkq2p55
- H8qe63qtunAIUx+lLNKdM/8tiKWAtCxri2EbPFFhURVX7SM1t+Xws3vZJqpKu8uRsnUw
- Lm2Ri7VIN4py/87WxZHp91D7NKJXeuo2/GbnALIXjoYwoKul9gMQj0e/Oh5AADgPgRm/
- V1kA==
-X-Gm-Message-State: AO0yUKUDRSHzxH6i0+3TNu2UbV+7glUyjQ+esGuwbpDn+ArRyEHZDkxS
- /JR0WL1XPj8fBTbkMpIrtqnJR/8YvFotxFyi
-X-Google-Smtp-Source: AK7set83aEQWzxQ9YhMXAaSeNfMoUvFXt4AiVmWKo0s3VWQohqivZ1aG7nraKMW7P51zLs0KI2pLHQ==
-X-Received: by 2002:a5d:44cc:0:b0:2bf:b199:c7ef with SMTP id
- z12-20020a5d44cc000000b002bfb199c7efmr1338935wrr.12.1676460502950; 
- Wed, 15 Feb 2023 03:28:22 -0800 (PST)
+ bh=VMQABnxD1Beh0f+S34hrwat9iJbN0H6rcMTsrC1rcF8=;
+ b=po6StdQ1FW7Skxn55232WS/grgr1Fxer5jkkskNhPrwhBYOE94hWRhcR+Fl5mFHGcF
+ bCClqXnNnaD5wNesrwmqOwoVmYHpcYBcQAihLDFl81Lx7LPOulPYS11Rwrdwe+zd/ie7
+ i3xpZtLehz+vGlUfPtYpw/q28pOPbPdLeDxGERxzVrdIEsFn+D1OpzCt8H+bJJZTUPI8
+ yZV10OcSxGe+4NlmXSFDmB1YrMDAyZw4I6unibiBs1CxzKvWXdjxSM9eWIbJiX8lCD1O
+ qi2HABxjgK9F4b0wfx2kockf0+fyQvNusB9Sm7QhuCSZBLKaJpKaPeNHc2J/lSfSwQep
+ 9TfA==
+X-Gm-Message-State: AO0yUKXPWyDVAZ+n6q8KLQHcRQxPVfdcjPRgQVG9njhqRk2u2NRVfvVA
+ yqAd1O0BaJhx3XaTDfoECpdKwmRQwJzWHAwq
+X-Google-Smtp-Source: AK7set/v2+OQonlNW5pNn4zA8Nf4YRQ1dhkGGuoic9DDwE9+Lt27TFa5VS/AqxXTIEmpkMb8M4yaTA==
+X-Received: by 2002:a05:600c:30ca:b0:3df:12ac:7cc9 with SMTP id
+ h10-20020a05600c30ca00b003df12ac7cc9mr1680682wmn.15.1676460507820; 
+ Wed, 15 Feb 2023 03:28:27 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- d2-20020adfe2c2000000b002c3f7dfd15csm15361673wrj.32.2023.02.15.03.28.21
+ m32-20020a05600c3b2000b003e2066a6339sm611155wms.5.2023.02.15.03.28.27
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 15 Feb 2023 03:28:22 -0800 (PST)
+ Wed, 15 Feb 2023 03:28:27 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
  John Snow <jsnow@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- BALATON Zoltan <balaton@eik.bme.hu>, qemu-ppc@nongnu.org
-Subject: [PATCH 14/20] hw/ide: Rename ide_init2() -> ide_bus_init_output_irq()
-Date: Wed, 15 Feb 2023 12:27:06 +0100
-Message-Id: <20230215112712.23110-15-philmd@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH 15/20] hw/ide: Rename idebus_active_if() -> ide_bus_active_if()
+Date: Wed, 15 Feb 2023 12:27:07 +0100
+Message-Id: <20230215112712.23110-16-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230215112712.23110-1-philmd@linaro.org>
 References: <20230215112712.23110-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,192 +91,196 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-ide_init2() initializes a IDEBus, and set its output IRQ.
-To emphasize this, rename it as ide_bus_init_output_irq().
+idebus_active_if() operates on a IDEBus; rename it as
+ide_bus_active_if() to emphasize its first argument
+is a IDEBus.
 
 Mechanical change using:
 
-  $ sed -i -e 's/ide_init2/ide_bus_init_output_irq/g' \
-        $(git grep -l ide_init2)
+  $ sed -i -e 's/idebus_active_if/ide_bus_active_if/g' \
+        $(git grep -l idebus_active_if)
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/ide/ahci.c             | 2 +-
- hw/ide/cmd646.c           | 2 +-
- hw/ide/core.c             | 4 ++--
- hw/ide/isa.c              | 2 +-
- hw/ide/macio.c            | 2 +-
- hw/ide/microdrive.c       | 2 +-
- hw/ide/mmio.c             | 2 +-
- hw/ide/piix.c             | 3 ++-
- hw/ide/sii3112.c          | 2 +-
- hw/ide/via.c              | 2 +-
- include/hw/ide/internal.h | 4 ++--
- 11 files changed, 14 insertions(+), 13 deletions(-)
+ hw/ide/core.c             | 18 +++++++++---------
+ hw/ide/macio.c            |  8 ++++----
+ hw/ide/microdrive.c       |  4 ++--
+ hw/ide/pci.c              |  2 +-
+ include/hw/ide/internal.h |  2 +-
+ 5 files changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
-index 7f67fb3119..d79b70d8c5 100644
---- a/hw/ide/ahci.c
-+++ b/hw/ide/ahci.c
-@@ -1554,7 +1554,7 @@ void ahci_realize(AHCIState *s, DeviceState *qdev, AddressSpace *as, int ports)
-         AHCIDevice *ad = &s->dev[i];
- 
-         ide_bus_init(&ad->port, sizeof(ad->port), qdev, i, 1);
--        ide_init2(&ad->port, irqs[i]);
-+        ide_bus_init_output_irq(&ad->port, irqs[i]);
- 
-         ad->hba = s;
-         ad->port_no = i;
-diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
-index 2865bc25fc..26a90ed45f 100644
---- a/hw/ide/cmd646.c
-+++ b/hw/ide/cmd646.c
-@@ -294,7 +294,7 @@ static void pci_cmd646_ide_realize(PCIDevice *dev, Error **errp)
-     qdev_init_gpio_in(ds, cmd646_set_irq, 2);
-     for (i = 0; i < 2; i++) {
-         ide_bus_init(&d->bus[i], sizeof(d->bus[i]), ds, i, 2);
--        ide_init2(&d->bus[i], qdev_get_gpio_in(ds, i));
-+        ide_bus_init_output_irq(&d->bus[i], qdev_get_gpio_in(ds, i));
- 
-         bmdma_init(&d->bus[i], &d->bmdma[i], d);
-         d->bmdma[i].bus = &d->bus[i];
 diff --git a/hw/ide/core.c b/hw/ide/core.c
-index 1be0731d1a..fd2215c506 100644
+index fd2215c506..2d034731cf 100644
 --- a/hw/ide/core.c
 +++ b/hw/ide/core.c
-@@ -2771,7 +2771,7 @@ static IDEDMA ide_dma_nop = {
-     .aiocb = NULL,
- };
- 
--void ide_init2(IDEBus *bus, qemu_irq irq)
-+void ide_bus_init_output_irq(IDEBus *bus, qemu_irq irq_out)
+@@ -1265,7 +1265,7 @@ const char *ATA_IOPORT_WR_lookup[ATA_IOPORT_WR_NUM_REGISTERS] = {
+ void ide_ioport_write(void *opaque, uint32_t addr, uint32_t val)
  {
-     int i;
+     IDEBus *bus = opaque;
+-    IDEState *s = idebus_active_if(bus);
++    IDEState *s = ide_bus_active_if(bus);
+     int reg_num = addr & 7;
  
-@@ -2779,7 +2779,7 @@ void ide_init2(IDEBus *bus, qemu_irq irq)
-         ide_init1(bus, i);
-         ide_reset(&bus->ifs[i]);
+     trace_ide_ioport_write(addr, ATA_IOPORT_WR_lookup[reg_num], val, bus, s);
+@@ -2128,7 +2128,7 @@ void ide_bus_exec_cmd(IDEBus *bus, uint32_t val)
+     IDEState *s;
+     bool complete;
+ 
+-    s = idebus_active_if(bus);
++    s = ide_bus_active_if(bus);
+     trace_ide_bus_exec_cmd(bus, s, val);
+ 
+     /* ignore commands to non existent slave */
+@@ -2195,7 +2195,7 @@ const char *ATA_IOPORT_RR_lookup[ATA_IOPORT_RR_NUM_REGISTERS] = {
+ uint32_t ide_ioport_read(void *opaque, uint32_t addr)
+ {
+     IDEBus *bus = opaque;
+-    IDEState *s = idebus_active_if(bus);
++    IDEState *s = ide_bus_active_if(bus);
+     uint32_t reg_num;
+     int ret, hob;
+ 
+@@ -2281,7 +2281,7 @@ uint32_t ide_ioport_read(void *opaque, uint32_t addr)
+ uint32_t ide_status_read(void *opaque, uint32_t addr)
+ {
+     IDEBus *bus = opaque;
+-    IDEState *s = idebus_active_if(bus);
++    IDEState *s = ide_bus_active_if(bus);
+     int ret;
+ 
+     if ((!bus->ifs[0].blk && !bus->ifs[1].blk) ||
+@@ -2370,7 +2370,7 @@ static bool ide_is_pio_out(IDEState *s)
+ void ide_data_writew(void *opaque, uint32_t addr, uint32_t val)
+ {
+     IDEBus *bus = opaque;
+-    IDEState *s = idebus_active_if(bus);
++    IDEState *s = ide_bus_active_if(bus);
+     uint8_t *p;
+ 
+     trace_ide_data_writew(addr, val, bus, s);
+@@ -2406,7 +2406,7 @@ void ide_data_writew(void *opaque, uint32_t addr, uint32_t val)
+ uint32_t ide_data_readw(void *opaque, uint32_t addr)
+ {
+     IDEBus *bus = opaque;
+-    IDEState *s = idebus_active_if(bus);
++    IDEState *s = ide_bus_active_if(bus);
+     uint8_t *p;
+     int ret;
+ 
+@@ -2444,7 +2444,7 @@ uint32_t ide_data_readw(void *opaque, uint32_t addr)
+ void ide_data_writel(void *opaque, uint32_t addr, uint32_t val)
+ {
+     IDEBus *bus = opaque;
+-    IDEState *s = idebus_active_if(bus);
++    IDEState *s = ide_bus_active_if(bus);
+     uint8_t *p;
+ 
+     trace_ide_data_writel(addr, val, bus, s);
+@@ -2472,7 +2472,7 @@ void ide_data_writel(void *opaque, uint32_t addr, uint32_t val)
+ uint32_t ide_data_readl(void *opaque, uint32_t addr)
+ {
+     IDEBus *bus = opaque;
+-    IDEState *s = idebus_active_if(bus);
++    IDEState *s = ide_bus_active_if(bus);
+     uint8_t *p;
+     int ret;
+ 
+@@ -2711,7 +2711,7 @@ static void ide_restart_bh(void *opaque)
+         return;
      }
--    bus->irq = irq;
-+    bus->irq = irq_out;
-     bus->dma = &ide_dma_nop;
- }
  
-diff --git a/hw/ide/isa.c b/hw/ide/isa.c
-index f8ed26b587..95053e026f 100644
---- a/hw/ide/isa.c
-+++ b/hw/ide/isa.c
-@@ -72,7 +72,7 @@ static void isa_ide_realizefn(DeviceState *dev, Error **errp)
+-    s = idebus_active_if(bus);
++    s = ide_bus_active_if(bus);
+     is_read = (bus->error_status & IDE_RETRY_READ) != 0;
  
-     ide_bus_init(&s->bus, sizeof(s->bus), dev, 0, 2);
-     ide_init_ioport(&s->bus, isadev, s->iobase, s->iobase2);
--    ide_init2(&s->bus, isa_get_irq(isadev, s->irqnum));
-+    ide_bus_init_output_irq(&s->bus, isa_get_irq(isadev, s->irqnum));
-     vmstate_register(VMSTATE_IF(dev), 0, &vmstate_ide_isa, s);
-     ide_bus_register_restart_cb(&s->bus);
- }
+     /* The error status must be cleared before resubmitting the request: The
 diff --git a/hw/ide/macio.c b/hw/ide/macio.c
-index 7efbbc720a..6be29e44bc 100644
+index 6be29e44bc..dca1cc9efc 100644
 --- a/hw/ide/macio.c
 +++ b/hw/ide/macio.c
-@@ -420,7 +420,7 @@ static void macio_ide_realizefn(DeviceState *dev, Error **errp)
+@@ -60,7 +60,7 @@ static void pmac_ide_atapi_transfer_cb(void *opaque, int ret)
  {
-     MACIOIDEState *s = MACIO_IDE(dev);
+     DBDMA_io *io = opaque;
+     MACIOIDEState *m = io->opaque;
+-    IDEState *s = idebus_active_if(&m->bus);
++    IDEState *s = ide_bus_active_if(&m->bus);
+     int64_t offset;
  
--    ide_init2(&s->bus, s->ide_irq);
-+    ide_bus_init_output_irq(&s->bus, s->ide_irq);
+     MACIO_DPRINTF("pmac_ide_atapi_transfer_cb\n");
+@@ -136,7 +136,7 @@ static void pmac_ide_transfer_cb(void *opaque, int ret)
+ {
+     DBDMA_io *io = opaque;
+     MACIOIDEState *m = io->opaque;
+-    IDEState *s = idebus_active_if(&m->bus);
++    IDEState *s = ide_bus_active_if(&m->bus);
+     int64_t offset;
  
-     /* Register DMA callbacks */
-     s->dma.ops = &dbdma_ops;
+     MACIO_DPRINTF("pmac_ide_transfer_cb\n");
+@@ -220,7 +220,7 @@ done:
+ static void pmac_ide_transfer(DBDMA_io *io)
+ {
+     MACIOIDEState *m = io->opaque;
+-    IDEState *s = idebus_active_if(&m->bus);
++    IDEState *s = ide_bus_active_if(&m->bus);
+ 
+     MACIO_DPRINTF("\n");
+ 
+@@ -251,7 +251,7 @@ static void pmac_ide_transfer(DBDMA_io *io)
+ static void pmac_ide_flush(DBDMA_io *io)
+ {
+     MACIOIDEState *m = io->opaque;
+-    IDEState *s = idebus_active_if(&m->bus);
++    IDEState *s = ide_bus_active_if(&m->bus);
+ 
+     if (s->bus->dma->aiocb) {
+         blk_drain(s->blk);
 diff --git a/hw/ide/microdrive.c b/hw/ide/microdrive.c
-index 08504b499f..84452ae4ef 100644
+index 84452ae4ef..f1017f7333 100644
 --- a/hw/ide/microdrive.c
 +++ b/hw/ide/microdrive.c
-@@ -599,7 +599,7 @@ static void microdrive_realize(DeviceState *dev, Error **errp)
- {
-     MicroDriveState *md = MICRODRIVE(dev);
- 
--    ide_init2(&md->bus, qemu_allocate_irq(md_set_irq, md, 0));
-+    ide_bus_init_output_irq(&md->bus, qemu_allocate_irq(md_set_irq, md, 0));
- }
- 
- static void microdrive_init(Object *obj)
-diff --git a/hw/ide/mmio.c b/hw/ide/mmio.c
-index 1f1527122e..b6c40bc028 100644
---- a/hw/ide/mmio.c
-+++ b/hw/ide/mmio.c
-@@ -122,7 +122,7 @@ static void mmio_ide_realizefn(DeviceState *dev, Error **errp)
-     SysBusDevice *d = SYS_BUS_DEVICE(dev);
-     MMIOIDEState *s = MMIO_IDE(dev);
- 
--    ide_init2(&s->bus, s->irq);
-+    ide_bus_init_output_irq(&s->bus, s->irq);
- 
-     memory_region_init_io(&s->iomem1, OBJECT(s), &mmio_ide_ops, s,
-                           "ide-mmio.1", 16 << s->shift);
-diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index daeb9b605d..2f71376b93 100644
---- a/hw/ide/piix.c
-+++ b/hw/ide/piix.c
-@@ -145,7 +145,8 @@ static int pci_piix_init_ports(PCIIDEState *d)
-         if (ret) {
-             return ret;
+@@ -250,14 +250,14 @@ static uint16_t md_common_read(PCMCIACardState *card, uint32_t at)
+     case 0xd:	/* Error */
+         return ide_ioport_read(&s->bus, 0x1);
+     case 0xe:	/* Alternate Status */
+-        ifs = idebus_active_if(&s->bus);
++        ifs = ide_bus_active_if(&s->bus);
+         if (ifs->blk) {
+             return ifs->status;
+         } else {
+             return 0;
          }
--        ide_init2(&d->bus[i], isa_get_irq(NULL, port_info[i].isairq));
-+        ide_bus_init_output_irq(&d->bus[i],
-+                                isa_get_irq(NULL, port_info[i].isairq));
- 
-         bmdma_init(&d->bus[i], &d->bmdma[i], d);
-         d->bmdma[i].bus = &d->bus[i];
-diff --git a/hw/ide/sii3112.c b/hw/ide/sii3112.c
-index c918370220..f9becdff8e 100644
---- a/hw/ide/sii3112.c
-+++ b/hw/ide/sii3112.c
-@@ -284,7 +284,7 @@ static void sii3112_pci_realize(PCIDevice *dev, Error **errp)
-     qdev_init_gpio_in(ds, sii3112_set_irq, 2);
-     for (i = 0; i < 2; i++) {
-         ide_bus_init(&s->bus[i], sizeof(s->bus[i]), ds, i, 1);
--        ide_init2(&s->bus[i], qdev_get_gpio_in(ds, i));
-+        ide_bus_init_output_irq(&s->bus[i], qdev_get_gpio_in(ds, i));
- 
-         bmdma_init(&s->bus[i], &s->bmdma[i], s);
-         s->bmdma[i].bus = &s->bus[i];
-diff --git a/hw/ide/via.c b/hw/ide/via.c
-index fd398226d4..ab9e43e244 100644
---- a/hw/ide/via.c
-+++ b/hw/ide/via.c
-@@ -191,7 +191,7 @@ static void via_ide_realize(PCIDevice *dev, Error **errp)
-     qdev_init_gpio_in(ds, via_ide_set_irq, 2);
-     for (i = 0; i < 2; i++) {
-         ide_bus_init(&d->bus[i], sizeof(d->bus[i]), ds, i, 2);
--        ide_init2(&d->bus[i], qdev_get_gpio_in(ds, i));
-+        ide_bus_init_output_irq(&d->bus[i], qdev_get_gpio_in(ds, i));
- 
-         bmdma_init(&d->bus[i], &d->bmdma[i], d);
-         d->bmdma[i].bus = &d->bus[i];
+     case 0xf:	/* Device Address */
+-        ifs = idebus_active_if(&s->bus);
++        ifs = ide_bus_active_if(&s->bus);
+         return 0xc2 | ((~ifs->select << 2) & 0x3c);
+     default:
+         return ide_ioport_read(&s->bus, at);
+diff --git a/hw/ide/pci.c b/hw/ide/pci.c
+index 4223f5e64d..2ddcb49b27 100644
+--- a/hw/ide/pci.c
++++ b/hw/ide/pci.c
+@@ -296,7 +296,7 @@ void bmdma_cmd_writeb(BMDMAState *bm, uint32_t val)
+     /* Ignore writes to SSBM if it keeps the old value */
+     if ((val & BM_CMD_START) != (bm->cmd & BM_CMD_START)) {
+         if (!(val & BM_CMD_START)) {
+-            ide_cancel_dma_sync(idebus_active_if(bm->bus));
++            ide_cancel_dma_sync(ide_bus_active_if(bm->bus));
+             bm->status &= ~BM_STATUS_DMAING;
+         } else {
+             bm->cur_addr = bm->addr;
 diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
-index 11a4931ef9..c687282a78 100644
+index c687282a78..c2b794150f 100644
 --- a/include/hw/ide/internal.h
 +++ b/include/hw/ide/internal.h
-@@ -488,7 +488,7 @@ struct IDEBus {
-     IDEDMA *dma;
-     uint8_t unit;
-     uint8_t cmd;
--    qemu_irq irq;
-+    qemu_irq irq; /* bus output */
+@@ -566,7 +566,7 @@ static inline uint8_t ide_dma_cmd_to_retry(uint8_t dma_cmd)
+     return 0;
+ }
  
-     int error_status;
-     uint8_t retry_unit;
-@@ -616,8 +616,8 @@ int ide_init_drive(IDEState *s, BlockBackend *blk, IDEDriveKind kind,
-                    uint64_t wwn,
-                    uint32_t cylinders, uint32_t heads, uint32_t secs,
-                    int chs_trans, Error **errp);
--void ide_init2(IDEBus *bus, qemu_irq irq);
- void ide_exit(IDEState *s);
-+void ide_bus_init_output_irq(IDEBus *bus, qemu_irq irq_out);
- int ide_init_ioport(IDEBus *bus, ISADevice *isa, int iobase, int iobase2);
- void ide_bus_set_irq(IDEBus *bus);
- void ide_bus_register_restart_cb(IDEBus *bus);
+-static inline IDEState *idebus_active_if(IDEBus *bus)
++static inline IDEState *ide_bus_active_if(IDEBus *bus)
+ {
+     return bus->ifs + bus->unit;
+ }
 -- 
 2.38.1
 
