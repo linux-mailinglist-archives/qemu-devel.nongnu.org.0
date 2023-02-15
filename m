@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0855697D2B
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 14:26:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E0D8697D49
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 14:28:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSHnd-0002aO-Tw; Wed, 15 Feb 2023 08:26:17 -0500
+	id 1pSHnc-0002ZY-QX; Wed, 15 Feb 2023 08:26:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pSHnY-0002Uq-DG; Wed, 15 Feb 2023 08:26:12 -0500
+ id 1pSHnY-0002VA-MC; Wed, 15 Feb 2023 08:26:14 -0500
 Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pSHnT-0006DW-Fd; Wed, 15 Feb 2023 08:26:12 -0500
+ id 1pSHnU-0006Di-SV; Wed, 15 Feb 2023 08:26:12 -0500
 Received: from vla5-b2806cb321eb.qloud-c.yandex.net
  (vla5-b2806cb321eb.qloud-c.yandex.net
  [IPv6:2a02:6b8:c18:3e0d:0:640:b280:6cb3])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id 6A3BB60061;
- Wed, 15 Feb 2023 16:25:59 +0300 (MSK)
+ by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id 15C7B60066;
+ Wed, 15 Feb 2023 16:26:01 +0300 (MSK)
 Received: from vsementsov-win.yandex-team.ru (unknown
  [2a02:6b8:b081:b4bf::1:2e])
  by vla5-b2806cb321eb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- nPk8g80UxeA1-VVCQ6ZPj; Wed, 15 Feb 2023 16:25:57 +0300
+ nPk8g80UxeA1-2jJXVwBo; Wed, 15 Feb 2023 16:25:59 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1676467557; bh=wN0A3wTmDxmKDpR59QQejhwd5O2aUNDBOGsYbLFUwxk=;
+ t=1676467559; bh=IKeqSfH0nYTKbyo+3Gpwbo88G/FIpSjB1bLtuFBlPV4=;
  h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=naGMZ4lRz5RpM/qbhXTp6/i8hVXkeVYxOfDHbJKP/0T+HTSQ/sTfkeP1KElOiFj0/
- J70VQOvBSOuMIEETu8Nmb4qyT9hfPVRpdD1Hq6U2qmbhat4mqZscVuS7I0gea+Dmpn
- jjghGSeXO+6dcUKHLJwvJMs3R3B3SoDTnFJ9ohoI=
+ b=aRuf3lvZEZ0wONq1rAtch0D9i4kcIX0TW9woW5sq3UoyNTGqmkMlBl/i36FaJggsL
+ v5x5QNpd+ldq2SLK4pElfPwkZHtHO/nsXi1uiBxOqDFB0Q7skAy0mxMcAuTJokB8rJ
+ 5HuS9NBz30paBKaNQNRk3IxOSMlp9KOYw7TbSZjk=
 Authentication-Results: vla5-b2806cb321eb.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, vsementsov@yandex-team.ru, jsnow@redhat.com,
  crosa@redhat.com, kwolf@redhat.com, hreitz@redhat.com
-Subject: [PATCH v5 04/16] qmp_shell.py: _fill_completion() use .command()
- instead of .cmd()
-Date: Wed, 15 Feb 2023 16:25:35 +0300
-Message-Id: <20230215132547.1620575-5-vsementsov@yandex-team.ru>
+Subject: [PATCH v5 05/16] scripts/cpu-x86-uarch-abi.py: use .command() instead
+ of .cmd()
+Date: Wed, 15 Feb 2023 16:25:36 +0300
+Message-Id: <20230215132547.1620575-6-vsementsov@yandex-team.ru>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230215132547.1620575-1-vsementsov@yandex-team.ru>
 References: <20230215132547.1620575-1-vsementsov@yandex-team.ru>
@@ -71,59 +71,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We just want to ignore failure, so we don't need low level .cmd(). This
-helps further renaming .command() to .cmd().
+Here we don't expect a failure. In case on failure we'll crash on
+trying to access ['return']. Let's better use .command() that clearly
+raise on failure.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 ---
- python/qemu/qmp/qmp_shell.py | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+ scripts/cpu-x86-uarch-abi.py | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/python/qemu/qmp/qmp_shell.py b/python/qemu/qmp/qmp_shell.py
-index 619ab42ced..988d79c01b 100644
---- a/python/qemu/qmp/qmp_shell.py
-+++ b/python/qemu/qmp/qmp_shell.py
-@@ -91,14 +91,21 @@
- import sys
- from typing import (
-     IO,
-+    Dict,
-     Iterator,
-     List,
-     NoReturn,
-     Optional,
-     Sequence,
-+    cast,
- )
+diff --git a/scripts/cpu-x86-uarch-abi.py b/scripts/cpu-x86-uarch-abi.py
+index 82ff07582f..893afd1b35 100644
+--- a/scripts/cpu-x86-uarch-abi.py
++++ b/scripts/cpu-x86-uarch-abi.py
+@@ -69,7 +69,7 @@
+ shell = QEMUMonitorProtocol(sock)
+ shell.connect()
  
--from qemu.qmp import ConnectError, QMPError, SocketAddrT
-+from qemu.qmp import (
-+    ConnectError,
-+    ExecuteError,
-+    QMPError,
-+    SocketAddrT,
-+)
- from qemu.qmp.legacy import (
-     QEMUMonitorProtocol,
-     QMPBadPortError,
-@@ -194,11 +201,12 @@ def close(self) -> None:
-         super().close()
+-models = shell.cmd("query-cpu-definitions")
++models = shell.command("query-cpu-definitions")
  
-     def _fill_completion(self) -> None:
--        cmds = self.cmd('query-commands')
--        if 'error' in cmds:
--            return
--        for cmd in cmds['return']:
--            self._completer.append(cmd['name'])
-+        try:
-+            cmds = cast(List[Dict[str, str]], self.command('query-commands'))
-+            for cmd in cmds:
-+                self._completer.append(cmd['name'])
-+        except ExecuteError:
-+            pass
+ # These QMP props don't correspond to CPUID fatures
+ # so ignore them
+@@ -85,7 +85,7 @@
  
-     def _completer_setup(self) -> None:
-         self._completer = QMPCompleter()
+ names = []
+ 
+-for model in models["return"]:
++for model in models:
+     if "alias-of" in model:
+         continue
+     names.append(model["name"])
+@@ -93,12 +93,12 @@
+ models = {}
+ 
+ for name in sorted(names):
+-    cpu = shell.cmd("query-cpu-model-expansion",
+-                     { "type": "static",
+-                       "model": { "name": name }})
++    cpu = shell.command("query-cpu-model-expansion",
++                        { "type": "static",
++                          "model": { "name": name }})
+ 
+     got = {}
+-    for (feature, present) in cpu["return"]["model"]["props"].items():
++    for (feature, present) in cpu["model"]["props"].items():
+         if present and feature not in skip:
+             got[feature] = True
+ 
 -- 
 2.34.1
 
