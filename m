@@ -2,76 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B29698199
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 18:06:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5903B6981A3
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 18:09:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSLDa-0002Ra-RO; Wed, 15 Feb 2023 12:05:18 -0500
+	id 1pSLGr-0005d6-W7; Wed, 15 Feb 2023 12:08:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pSLDX-0002R2-NF
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:05:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pSLGp-0005cr-P1
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:08:39 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pSLDV-0003mN-MG
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:05:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676480713;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2a6gtPOe29EWggjQ/VL+Al5iCsiK1u97RJkzWBqpLXQ=;
- b=W6wGvEy2uNI7EDS1mz/eLpsftGasemrtjLiPB7GN0E2lDB8tYwrT133nDgjLQmIVx5jbuO
- atqUHNpDhNsGcpmGqtUxF+flnc75vJBtfbqVdSAmZVQr4VdpaRRPrFPgHrCNPF1mXsJttQ
- gtS1T93fc0ih1Yk8SqjwQ+No/WKED24=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-593-sYa3xRxFO0WHNK4Q68pYvg-1; Wed, 15 Feb 2023 12:05:02 -0500
-X-MC-Unique: sYa3xRxFO0WHNK4Q68pYvg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 826F38871F5;
- Wed, 15 Feb 2023 17:03:59 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.192.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 87139140006B;
- Wed, 15 Feb 2023 17:03:56 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: John Snow <jsnow@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Juan Quintela <quintela@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-s390x@nongnu.org,
- Thomas Huth <thuth@redhat.com>, Eric Farman <farman@linux.ibm.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-block@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand <david@redhat.com>
-Subject: [PATCH v2 3/3] migration: Rename res_{postcopy,precopy}_only
-Date: Wed, 15 Feb 2023 18:03:45 +0100
-Message-Id: <20230215170345.6220-4-quintela@redhat.com>
-In-Reply-To: <20230215170345.6220-1-quintela@redhat.com>
-References: <20230215170345.6220-1-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pSLGn-0004H2-Gi
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:08:39 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 85205746346;
+ Wed, 15 Feb 2023 18:05:58 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 47D2A74633D; Wed, 15 Feb 2023 18:05:58 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 44F91746324;
+ Wed, 15 Feb 2023 18:05:58 +0100 (CET)
+Date: Wed, 15 Feb 2023 18:05:58 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Laurent Vivier <lvivier@redhat.com>
+cc: Qiang Liu <cyruscyliu@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>, Bandan Das <bsd@redhat.com>, 
+ Alexander Bulekov <alxndr@bu.edu>, Darren Kenny <darren.kenny@oracle.com>, 
+ Qiuhao Li <Qiuhao.Li@outlook.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, 
+ Akihiko Odaki <akihiko.odaki@gmail.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Alexandre Ratchov <alex@caoua.org>, 
+ Peter Maydell <peter.maydell@linaro.org>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: Re: [PULL 13/25] hcd-ohci: Fix inconsistency when resetting ohci
+ root hubs
+In-Reply-To: <12623898-7b7d-eb78-968a-13168dac3045@redhat.com>
+Message-ID: <1c7b37fd-8ad3-addd-49ba-87762bcf2339@eik.bme.hu>
+References: <20220926095509.3759409-1-kraxel@redhat.com>
+ <20220926095509.3759409-14-kraxel@redhat.com>
+ <CAJSP0QVoLf_v2xP6GwDzbFg_RDnP5ppM3UZwTN3XAWPcv6cFCQ@mail.gmail.com>
+ <CAAKa2j=2cdYxBFZO1pTJLFcPVb-6R4gnB9zad3rdptfuuo0ixw@mail.gmail.com>
+ <CAAKa2jmkjPuTouvk3qRvuFiS7RtTSQ8vC=m_eDYLyV7tUxAkiA@mail.gmail.com>
+ <CAJSP0QV=UrYyASRddqTX7KbSw_dLPhVgbdORvYx_N+tQa6Nu+A@mail.gmail.com>
+ <12623898-7b7d-eb78-968a-13168dac3045@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,333 +75,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Once that res_compatible is removed, they don't make sense anymore.
-We remove the _only preffix.  And to make things clearer we rename
-them to must_precopy and can_postcopy.
+On Wed, 15 Feb 2023, Laurent Vivier wrote:
+> On 2/15/23 15:34, Stefan Hajnoczi wrote:
+>> On Wed, 15 Feb 2023 at 08:45, Qiang Liu <cyruscyliu@gmail.com> wrote:
+>>> 
+>>> Hi,
+>>>>> 
+>>>>> This commit breaks boot-serial-test on ppc64-softmmu.
+>>>>>
+>>>>>    $ ./configure --enable-tcg-interpreter
+>>>>> '--target-list=aarch64-softmmu alpha-softmmu arm-softmmu hppa-softmmu
+>>>>> m68k-softmmu microblaze-softmmu ppc64-softmmu s390x-softmmu
+>>>>> x86_64-softmmu'
+>>>>>    $ make && cd build && QTEST_QEMU_BINARY=./qemu-system-ppc64
+>>>>> ./tests/qtest/boot-serial-test; cd -
+>>>>> 
+>>>>> (Yes, the full --target-list is needed because boot-serial-test isn't
+>>>>> built when only ppc64-softmmu is selected.)
+>>>>> 
+>>>>> Here is the CI failure:
+>>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3087540972#L22
+>>>
+>>>   I reproduced this failure and got "Out of malloc memory" error message 
+>>> in the 
+>>> [openbios-ppc](https://github.com/openbios/openbios/blob/4a0041107b8ef77e0e8337bfcb5f8078887261a7/libopenbios/ofmem_common.c#L134). 
+>>> However, I'm not sure how to debug this. Have you run into this issue 
+>>> before?
+>> 
+>> I don't. Maybe Gerd has an idea?
+>> 
+>> The memory allocation may be because there is either a request leak or
+>> additional USB activity as a result of this patch.
+>
+> It looks like a bug in openbios ohci, perhaps Zoltan can help?
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- include/migration/register.h   | 27 +++++++++++++++------------
- migration/savevm.h             |  8 ++++----
- hw/s390x/s390-stattrib.c       |  7 +++----
- hw/vfio/migration.c            | 10 ++++------
- migration/block-dirty-bitmap.c |  6 +++---
- migration/block.c              |  7 +++----
- migration/migration.c          | 18 +++++++++---------
- migration/ram.c                | 18 ++++++++----------
- migration/savevm.c             | 24 ++++++++++--------------
- 9 files changed, 59 insertions(+), 66 deletions(-)
+Unfortunately I don't quite understand neither what this thread is about 
+nor that openbios driver. Even though I've added that to openbios, all I 
+did was porting the driver from coreboot's libpayload as noted in the 
+copyright message of that file. So if you suspect it's a bug there you 
+could try checking newer versions in libpayload and see if they've fixed 
+anything that could help. On the other hand the OHCI emulation in QEMU is 
+known to be incomplete and likely to have some bugs with guests that work 
+on real hardware (e.g. MacOS <= 10.1) so it's more likely that QEMU 
+behaves differently than it should assuming that the coreboot driver works 
+on real hardware but I'm not sure about that either.
 
-diff --git a/include/migration/register.h b/include/migration/register.h
-index a958a92a0f..a8dfd8fefd 100644
---- a/include/migration/register.h
-+++ b/include/migration/register.h
-@@ -47,22 +47,25 @@ typedef struct SaveVMHandlers {
-     /* This runs outside the iothread lock!  */
-     int (*save_setup)(QEMUFile *f, void *opaque);
-     /* Note for save_live_pending:
--     * - res_precopy_only is for data which must be migrated in precopy phase
--     *     or in stopped state, in other words - before target vm start
--     * - res_postcopy_only is for data which must be migrated in postcopy phase
--     *     or in stopped state, in other words - after source vm stop
-+     * must_precopy:
-+     * - must be migrated in precopy or in stopped state
-+     * - i.e. must be migrated before target start
-      *
--     * Sum of res_postcopy_only and res_postcopy_only is the whole
--     * amount of pending data.
-+     * can_postcopy:
-+     * - can migrate in postcopy or in stopped state
-+     * - i.e. can migrate after target start
-+     * - some can also be migrated during precopy (RAM)
-+     * - some must be migrated after source stops (block-dirty-bitmap)
-+     *
-+     * Sum of can_postcopy and must_postcopy is the whole amount of
-+     * pending data.
-      */
-     /* This estimates the remaining data to transfer */
--    void (*state_pending_estimate)(void *opaque,
--                                   uint64_t *res_precopy_only,
--                                   uint64_t *res_postcopy_only);
-+    void (*state_pending_estimate)(void *opaque, uint64_t *must_precopy,
-+                                   uint64_t *can_postcopy);
-     /* This calculate the exact remaining data to transfer */
--    void (*state_pending_exact)(void *opaque,
--                                uint64_t *res_precopy_only,
--                                uint64_t *res_postcopy_only);
-+    void (*state_pending_exact)(void *opaque, uint64_t *must_precopy,
-+                                uint64_t *can_postcopy);
-     LoadStateHandler *load_state;
-     int (*load_setup)(QEMUFile *f, void *opaque);
-     int (*load_cleanup)(void *opaque);
-diff --git a/migration/savevm.h b/migration/savevm.h
-index bd625a644b..fb636735f0 100644
---- a/migration/savevm.h
-+++ b/migration/savevm.h
-@@ -40,10 +40,10 @@ void qemu_savevm_state_cleanup(void);
- void qemu_savevm_state_complete_postcopy(QEMUFile *f);
- int qemu_savevm_state_complete_precopy(QEMUFile *f, bool iterable_only,
-                                        bool inactivate_disks);
--void qemu_savevm_state_pending_exact(uint64_t *res_precopy_only,
--                                     uint64_t *res_postcopy_only);
--void qemu_savevm_state_pending_estimate(uint64_t *res_precopy_only,
--                                        uint64_t *res_postcopy_only);
-+void qemu_savevm_state_pending_exact(uint64_t *must_precopy,
-+                                     uint64_t *can_postcopy);
-+void qemu_savevm_state_pending_estimate(uint64_t *must_precopy,
-+                                        uint64_t *can_postcopy);
- void qemu_savevm_send_ping(QEMUFile *f, uint32_t value);
- void qemu_savevm_send_open_return_path(QEMUFile *f);
- int qemu_savevm_send_packaged(QEMUFile *f, const uint8_t *buf, size_t len);
-diff --git a/hw/s390x/s390-stattrib.c b/hw/s390x/s390-stattrib.c
-index c7ae9184ab..aed919ad7d 100644
---- a/hw/s390x/s390-stattrib.c
-+++ b/hw/s390x/s390-stattrib.c
-@@ -182,16 +182,15 @@ static int cmma_save_setup(QEMUFile *f, void *opaque)
-     return 0;
- }
- 
--static void cmma_state_pending(void *opaque,
--                               uint64_t *res_precopy_only,
--                               uint64_t *res_postcopy_only)
-+static void cmma_state_pending(void *opaque, uint64_t *must_precopy,
-+                               uint64_t *can_postcopy)
- {
-     S390StAttribState *sas = S390_STATTRIB(opaque);
-     S390StAttribClass *sac = S390_STATTRIB_GET_CLASS(sas);
-     long long res = sac->get_dirtycount(sas);
- 
-     if (res >= 0) {
--        *res_precopy_only += res;
-+        *must_precopy += res;
-     }
- }
- 
-diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index fb0dd9571d..83d2d44080 100644
---- a/hw/vfio/migration.c
-+++ b/hw/vfio/migration.c
-@@ -456,9 +456,8 @@ static void vfio_save_cleanup(void *opaque)
-     trace_vfio_save_cleanup(vbasedev->name);
- }
- 
--static void vfio_state_pending(void *opaque,
--                               uint64_t *res_precopy_only,
--                               uint64_t *res_postcopy_only)
-+static void vfio_state_pending(void *opaque, uint64_t *must_precopy,
-+                               uint64_t *can_postcopy)
- {
-     VFIODevice *vbasedev = opaque;
-     VFIOMigration *migration = vbasedev->migration;
-@@ -469,10 +468,9 @@ static void vfio_state_pending(void *opaque,
-         return;
-     }
- 
--    *res_precopy_only += migration->pending_bytes;
-+    *must_precopy += migration->pending_bytes;
- 
--    trace_vfio_state_pending(vbasedev->name, *res_precopy_only,
--                            *res_postcopy_only);
-+    trace_vfio_state_pending(vbasedev->name, *must_precopy, *can_postcopy);
- }
- 
- static int vfio_save_iterate(QEMUFile *f, void *opaque)
-diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-index 9c6655e11a..fe73aa94b1 100644
---- a/migration/block-dirty-bitmap.c
-+++ b/migration/block-dirty-bitmap.c
-@@ -763,8 +763,8 @@ static int dirty_bitmap_save_complete(QEMUFile *f, void *opaque)
- }
- 
- static void dirty_bitmap_state_pending(void *opaque,
--                                       uint64_t *res_precopy_only,
--                                       uint64_t *res_postcopy_only)
-+                                       uint64_t *must_precopy,
-+                                       uint64_t *can_postcopy)
- {
-     DBMSaveState *s = &((DBMState *)opaque)->save;
-     SaveBitmapState *dbms;
-@@ -784,7 +784,7 @@ static void dirty_bitmap_state_pending(void *opaque,
- 
-     trace_dirty_bitmap_state_pending(pending);
- 
--    *res_postcopy_only += pending;
-+    *can_postcopy += pending;
- }
- 
- /* First occurrence of this bitmap. It should be created if doesn't exist */
-diff --git a/migration/block.c b/migration/block.c
-index 99d149904c..64cecbe5df 100644
---- a/migration/block.c
-+++ b/migration/block.c
-@@ -863,9 +863,8 @@ static int block_save_complete(QEMUFile *f, void *opaque)
-     return 0;
- }
- 
--static void block_state_pending(void *opaque,
--                                uint64_t *res_precopy_only,
--                                uint64_t *res_postcopy_only)
-+static void block_state_pending(void *opaque, uint64_t *must_precopy,
-+                                uint64_t *can_postcopy)
- {
-     /* Estimate pending number of bytes to send */
-     uint64_t pending;
-@@ -886,7 +885,7 @@ static void block_state_pending(void *opaque,
- 
-     trace_migration_block_state_pending(pending);
-     /* We don't do postcopy */
--    *res_precopy_only += pending;
-+    *must_precopy += pending;
- }
- 
- static int block_load(QEMUFile *f, void *opaque, int version_id)
-diff --git a/migration/migration.c b/migration/migration.c
-index 296f7fe768..ae2025d9d8 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -3863,18 +3863,18 @@ typedef enum {
-  */
- static MigIterateState migration_iteration_run(MigrationState *s)
- {
--    uint64_t pend_pre, pend_post;
-+    uint64_t must_precopy, can_postcopy;
-     bool in_postcopy = s->state == MIGRATION_STATUS_POSTCOPY_ACTIVE;
- 
--    qemu_savevm_state_pending_estimate(&pend_pre, &pend_post);
--    uint64_t pending_size = pend_pre + pend_post;
-+    qemu_savevm_state_pending_estimate(&must_precopy, &can_postcopy);
-+    uint64_t pending_size = must_precopy + can_postcopy;
- 
--    trace_migrate_pending_estimate(pending_size, pend_pre, pend_post);
-+    trace_migrate_pending_estimate(pending_size, must_precopy, can_postcopy);
- 
--    if (pend_pre <= s->threshold_size) {
--        qemu_savevm_state_pending_exact(&pend_pre, &pend_post);
--        pending_size = pend_pre + pend_post;
--        trace_migrate_pending_exact(pending_size, pend_pre, pend_post);
-+    if (must_precopy <= s->threshold_size) {
-+        qemu_savevm_state_pending_exact(&must_precopy, &can_postcopy);
-+        pending_size = must_precopy + can_postcopy;
-+        trace_migrate_pending_exact(pending_size, must_precopy, can_postcopy);
-     }
- 
-     if (!pending_size || pending_size < s->threshold_size) {
-@@ -3884,7 +3884,7 @@ static MigIterateState migration_iteration_run(MigrationState *s)
-     }
- 
-     /* Still a significant amount to transfer */
--    if (!in_postcopy && pend_pre <= s->threshold_size &&
-+    if (!in_postcopy && must_precopy <= s->threshold_size &&
-         qatomic_read(&s->start_postcopy)) {
-         if (postcopy_start(s)) {
-             error_report("%s: postcopy failed to start", __func__);
-diff --git a/migration/ram.c b/migration/ram.c
-index 178f92a77f..96e8a19a58 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3489,9 +3489,8 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
-     return 0;
- }
- 
--static void ram_state_pending_estimate(void *opaque,
--                                       uint64_t *res_precopy_only,
--                                       uint64_t *res_postcopy_only)
-+static void ram_state_pending_estimate(void *opaque, uint64_t *must_precopy,
-+                                       uint64_t *can_postcopy)
- {
-     RAMState **temp = opaque;
-     RAMState *rs = *temp;
-@@ -3500,15 +3499,14 @@ static void ram_state_pending_estimate(void *opaque,
- 
-     if (migrate_postcopy_ram()) {
-         /* We can do postcopy, and all the data is postcopiable */
--        *res_postcopy_only += remaining_size;
-+        *can_postcopy += remaining_size;
-     } else {
--        *res_precopy_only += remaining_size;
-+        *must_precopy += remaining_size;
-     }
- }
- 
--static void ram_state_pending_exact(void *opaque,
--                                    uint64_t *res_precopy_only,
--                                    uint64_t *res_postcopy_only)
-+static void ram_state_pending_exact(void *opaque, uint64_t *must_precopy,
-+                                    uint64_t *can_postcopy)
- {
-     RAMState **temp = opaque;
-     RAMState *rs = *temp;
-@@ -3526,9 +3524,9 @@ static void ram_state_pending_exact(void *opaque,
- 
-     if (migrate_postcopy_ram()) {
-         /* We can do postcopy, and all the data is postcopiable */
--        *res_postcopy_only += remaining_size;
-+        *can_postcopy += remaining_size;
-     } else {
--        *res_precopy_only += remaining_size;
-+        *must_precopy += remaining_size;
-     }
- }
- 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 80b7f1222a..aa54a67fda 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1541,13 +1541,13 @@ flush:
-  * the result is split into the amount for units that can and
-  * for units that can't do postcopy.
-  */
--void qemu_savevm_state_pending_estimate(uint64_t *res_precopy_only,
--                                        uint64_t *res_postcopy_only)
-+void qemu_savevm_state_pending_estimate(uint64_t *must_precopy,
-+                                        uint64_t *can_postcopy)
- {
-     SaveStateEntry *se;
- 
--    *res_precopy_only = 0;
--    *res_postcopy_only = 0;
-+    *must_precopy = 0;
-+    *can_postcopy = 0;
- 
-     QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
-         if (!se->ops || !se->ops->state_pending_estimate) {
-@@ -1558,19 +1558,17 @@ void qemu_savevm_state_pending_estimate(uint64_t *res_precopy_only,
-                 continue;
-             }
-         }
--        se->ops->state_pending_estimate(se->opaque,
--                                        res_precopy_only,
--                                        res_postcopy_only);
-+        se->ops->state_pending_estimate(se->opaque, must_precopy, can_postcopy);
-     }
- }
- 
--void qemu_savevm_state_pending_exact(uint64_t *res_precopy_only,
--                                     uint64_t *res_postcopy_only)
-+void qemu_savevm_state_pending_exact(uint64_t *must_precopy,
-+                                     uint64_t *can_postcopy)
- {
-     SaveStateEntry *se;
- 
--    *res_precopy_only = 0;
--    *res_postcopy_only = 0;
-+    *must_precopy = 0;
-+    *can_postcopy = 0;
- 
-     QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
-         if (!se->ops || !se->ops->state_pending_exact) {
-@@ -1581,9 +1579,7 @@ void qemu_savevm_state_pending_exact(uint64_t *res_precopy_only,
-                 continue;
-             }
-         }
--        se->ops->state_pending_exact(se->opaque,
--                                     res_precopy_only,
--                                     res_postcopy_only);
-+        se->ops->state_pending_exact(se->opaque, must_precopy, can_postcopy);
-     }
- }
- 
--- 
-2.39.1
-
+Regards,
+BALATON Zoltan
 
