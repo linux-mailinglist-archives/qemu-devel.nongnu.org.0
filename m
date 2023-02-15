@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7390B6974AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 04:08:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F4026974B5
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 04:16:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pS89b-00065K-Bj; Tue, 14 Feb 2023 22:08:19 -0500
+	id 1pS8G0-00088r-C5; Tue, 14 Feb 2023 22:14:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pS89Z-00062u-2e
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 22:08:17 -0500
-Received: from mga04.intel.com ([192.55.52.120])
+ id 1pS8Fu-00088d-9H
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 22:14:50 -0500
+Received: from mga17.intel.com ([192.55.52.151])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pS89W-00049c-J4
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 22:08:16 -0500
+ id 1pS8Fr-0006we-RQ
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 22:14:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676430494; x=1707966494;
+ t=1676430887; x=1707966887;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=eUGUj6jmRNmhqcUWz2nO/DEx9wNQbn0uU/uVDyS1hcc=;
- b=loxWCZiC0jj8bWhpPvYnTUgbn5mMsC1iml9IcLXFxnvIyj7LBCbjvwg2
- NQB7gq6do9aCIqnidDDKwOH9TXX8Lv9469X3qhAtvo+WyuHuEUrEywppK
- c4OCbUBiNYL6IHU0K9NBRvAEVLCOAJPVYU6CoSOhosYep4zaP44Rf3OoQ
- UgiI1HO3q7uRbnbmF8ZIsEMZrRZ9eompUYU0jxgdpyOVt8inQlGSQsDKT
- m1Sh3vUhZ7wRqIR6ykd2QRx9gzNd+HXiS5QRcDVkkUdjRKrilVA+EbmGq
- XItRo0ejA1zi+YHpqm1ztru9siozeOqlQU7SXHzaPnAlKz+f9J0A5ju54 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="329958529"
-X-IronPort-AV: E=Sophos;i="5.97,298,1669104000"; d="scan'208";a="329958529"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2023 19:08:12 -0800
+ bh=fhTH94ovfp+ZdtdeG1ckEFnzjNwfe4iFAczX4dLZAkc=;
+ b=hTVKPx6Xi7WRbMVuIYOQX35JXgzBsIJJ4XohpvK/HQ18Rh+tqtantZ0E
+ 0kduBkV+WUiOKUWtw2+vtw7p1+0Td4bdNDavyUtxv9w1Of0dA5RuoqQuF
+ fLsMLfad3PacCGjQed2WUKUughaI+JMggG7vQ4J2nIc1eRayOlY+XmF4p
+ PZDWJZotCCeyL1HHkVZoRjYwEDbFCzDFImAAF6OzMuzrpcSWz/qIfibTB
+ +ks2DmTz4JcFDM6DHKmUHss6mam11U4twF4V350VljNfY6kE0f4Kup0Or
+ wYjunqz5WqnElMZKY5u5kJnX+uGTbNSMUYfGYMnohUVApdh0iPMxliO5L Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="311698354"
+X-IronPort-AV: E=Sophos;i="5.97,298,1669104000"; d="scan'208";a="311698354"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2023 19:14:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="619273093"
-X-IronPort-AV: E=Sophos;i="5.97,298,1669104000"; d="scan'208";a="619273093"
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="914983057"
+X-IronPort-AV: E=Sophos;i="5.97,298,1669104000"; d="scan'208";a="914983057"
 Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
  ([10.239.160.112])
- by orsmga003.jf.intel.com with ESMTP; 14 Feb 2023 19:08:07 -0800
-Date: Wed, 15 Feb 2023 11:15:55 +0800
+ by fmsmga006.fm.intel.com with ESMTP; 14 Feb 2023 19:14:40 -0800
+Date: Wed, 15 Feb 2023 11:22:28 +0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Yanan Wang <wangyanan55@huawei.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi <dapeng1.mi@intel.com>,
+To: "wangyanan (Y)" <wangyanan55@huawei.com>
+Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
+ Dapeng Mi <dapeng1.mi@intel.com>,
  Zhuocheng Ding <zhuocheng.ding@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Sean Christopherson <seanjc@google.com>,
- Like Xu <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>
+ Like Xu <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Subject: Re: [RFC 06/52] hw/cpu: Introduce hybrid CPU topology
-Message-ID: <Y+xOa15wknpYMq1T@liuzhao-OptiPlex-7080>
+Message-ID: <Y+xP9Kr578h3unVr@liuzhao-OptiPlex-7080>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
  <20230213095035.158240-7-zhao1.liu@linux.intel.com>
- <d0fa7c07-824a-6dfb-2eaf-2e8f72aa7ad6@linaro.org>
- <Y+tUzz22eOaCqV8g@liuzhao-OptiPlex-7080>
- <99722e63-8f9b-22c9-f0ff-aa4b2a55a2ae@linaro.org>
+ <f99004e0-0e62-de55-b9ee-f584de5553e9@huawei.com>
+ <Y+tfhFU88fG1cI2U@liuzhao-OptiPlex-7080>
+ <408794ae-b389-2b10-748e-b6e2df911e4e@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=gb2312
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <99722e63-8f9b-22c9-f0ff-aa4b2a55a2ae@linaro.org>
-Received-SPF: none client-ip=192.55.52.120;
- envelope-from=zhao1.liu@linux.intel.com; helo=mga04.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <408794ae-b389-2b10-748e-b6e2df911e4e@huawei.com>
+Received-SPF: none client-ip=192.55.52.151;
+ envelope-from=zhao1.liu@linux.intel.com; helo=mga17.intel.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_CHARSET_FARAWAY=2.45, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,18 +93,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 14, 2023 at 10:27:53AM +0100, Philippe Mathieu-Daudé wrote:
-> Date: Tue, 14 Feb 2023 10:27:53 +0100
-> From: Philippe Mathieu-Daudé <philmd@linaro.org>
+On Tue, Feb 14, 2023 at 07:23:37PM +0800, wangyanan (Y) wrote:
+> Date: Tue, 14 Feb 2023 19:23:37 +0800
+> From: "wangyanan (Y)" <wangyanan55@huawei.com>
 > Subject: Re: [RFC 06/52] hw/cpu: Introduce hybrid CPU topology
 > 
-> On 14/2/23 10:30, Zhao Liu wrote:
-> > On Mon, Feb 13, 2023 at 02:10:17PM +0100, Philippe Mathieu-Daudé wrote:
-> > > Date: Mon, 13 Feb 2023 14:10:17 +0100
-> > > From: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ÔÚ 2023/2/14 18:16, Zhao Liu Ð´µÀ:
+> > On Mon, Feb 13, 2023 at 09:18:05PM +0800, wangyanan (Y) wrote:
+> > > Date: Mon, 13 Feb 2023 21:18:05 +0800
+> > > From: "wangyanan (Y)" <wangyanan55@huawei.com>
 > > > Subject: Re: [RFC 06/52] hw/cpu: Introduce hybrid CPU topology
 > > > 
-> > > On 13/2/23 10:49, Zhao Liu wrote:
+> > > Hi Zhao,
+> > > 
+> > > ÔÚ 2023/2/13 17:49, Zhao Liu Ð´µÀ:
 > > > > From: Zhao Liu <zhao1.liu@intel.com>
 > > > > 
 > > > > For smp systems, the parts in one topology level are the same. But now
@@ -145,32 +149,201 @@ On Tue, Feb 14, 2023 at 10:27:53AM +0100, Philippe Mathieu-Daudé wrote:
 > > > >    F: include/hw/core/cpu.h
 > > > >    F: include/hw/cpu/cluster.h
 > > > > +F: include/hw/cpu/cpu-topology.h
+> > > Should't it be in include/hw/core/* directory£¿
+> > Yes, I'll move it to the correct place.
+> > 
 > > > >    F: include/sysemu/numa.h
 > > > >    F: tests/unit/test-smp-parse.c
 > > > >    T: git https://gitlab.com/ehabkost/qemu.git machine-next
-> > > 
-> > > Worth splitting this section in 2, machine VS numa/clusters?
+> > > > diff --git a/include/hw/cpu/cpu-topology.h b/include/hw/cpu/cpu-topology.h
+> > > > new file mode 100644
+> > > > index 000000000000..8268ea3a8569
+> > > > --- /dev/null
+> > > > +++ b/include/hw/cpu/cpu-topology.h
+> > > > @@ -0,0 +1,117 @@
+> > > > +/*
+> > > > + * CPU topology defination for Machine core
+> > > > + *
+> > > > + * Copyright (c) 2023 Intel Corporation
+> > > > + * Author: Zhao Liu <zhao1.liu@intel.com>
+> > > > + *
+> > > > + * This program is free software; you can redistribute it and/or modify
+> > > > + * it under the terms of the GNU General Public License as published by
+> > > > + * the Free Software Foundation; either version 2 of the License,
+> > > > + * or (at your option) any later version.
+> > > > + *
+> > > > + * This program is distributed in the hope that it will be useful,
+> > > > + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> > > > + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> > > > + * GNU General Public License for more details.
+> > > > + *
+> > > > + * You should have received a copy of the GNU General Public License
+> > > > + * along with this program; if not, see <http://www.gnu.org/licenses/>.
+> > > > + */
+> > > > +
+> > > > +#ifndef CPU_TOPOLOGY_H
+> > > > +#define CPU_TOPOLOGY_H
+> > > > +
+> > > > +#include "qemu/queue.h"
+> > > > +
+> > > > +/**
+> > > > + * SmpCpuTopology - smp cpu topology defination.
+> > > > + *
+> > > > + * For smp system, the parts in one topology level are the same.
+> > > > + *
+> > > > + * @sockets: the number of sockets on the machine
+> > > > + * @dies: the number of dies in one socket
+> > > > + * @clusters: the number of clusters in one die
+> > > > + * @cores: the number of cores in one cluster
+> > > > + * @threads: the number of threads in one core
+> > > > + */
+> > > > +typedef struct SmpCpuTopology {
+> > > > +    unsigned int sockets;
+> > > > +    unsigned int dies;
+> > > > +    unsigned int clusters;
+> > > > +    unsigned int cores;
+> > > > +    unsigned int threads;
+> > > > +} SmpCpuTopology;
+> > > > +
+> > > > +/**
+> > > > + * HybridCore - hybrid core topology defination:
+> > > > + * @threads: the number of threads in one core.
+> > > > + */
+> > > > +typedef struct HybridCore {
+> > > > +    unsigned int threads;
+> > > > +} HybridCore;
+> > > > +
+> > > > +/**
+> > > > + * HybridCluster - hybrid cluster topology defination:
+> > > > + * @cores: the number of cores in current cluster.
+> > > > + * @core_list: the array includes all the cores that belong to current
+> > > > + *             cluster.
+> > > > + */
+> > > > +typedef struct HybridCluster {
+> > > > +    unsigned int cores;
+> > > > +    HybridCore *core_list;
+> > > > +} HybridCluster;
+> > > > +
+> > > > +/**
+> > > > + * HybridCpuTopology - hybrid cpu topology defination.
+> > > > + *
+> > > > + * At present we only support two heterogeneous topology levels: core
+> > > > + * and cluster. For heterogeneous levels, we need additional structs
+> > > > + * to define their custom internal topology. So here we defines
+> > > > + * symmetric topology levels, and use a list to point to heterogeneous
+> > > > + * levels.
+> > > > + *
+> > > > + * @sockets: the number of sockets on the machine. All sockets are the
+> > > > + *           same.
+> > > > + * @dies: the number of dies in one socket. All dies are the same.
+> > > > + * @clusters: the number of clusters in one die. Cluster may be
+> > > > + *            different. This field indicates the length of
+> > > > + *            cluster_list.
+> > > > + * @cluster_list: the array includes all the clusters in one die.
+> > > > + */
+> > > > +typedef struct HybridCpuTopology {
+> > > > +    unsigned int sockets;
+> > > > +    unsigned int dies;
+> > > > +    unsigned int clusters;
+> > > > +    HybridCluster *cluster_list;
+> > > > +} HybridCpuTopology;
+> > > > +
+> > > > +/**
+> > > > + * GeneralCpuTopology - General cpu topology defination.
+> > > > + *
+> > > > + * It supports one of two topologies: smp topology or hybrid topology.
+> > > > + *
+> > > > + * @cpus: the number of present logical processors on the machine
+> > > > + * @max_cpus: the maximum number of logical processors on the machine
+> > > > + * @topo_type: the topology type of the machine and this decides which
+> > > > + *             member of the union to visit: smp or hybrid.
+> > > > + * @smp: the smp cpu topology informantion. Only valid when topo_type is
+> > > > + *       CPU_TOPO_TYPE_SMP.
+> > > > + * @hybrid: the hybrid cpu topology informantion. Only valid when
+> > > > + *          topo_type is CPU_TOPO_TYPE_HYBRID.
+> > > > + */
+> > > > +typedef struct GeneralCpuTopology {
+> > > > +    unsigned int cpus;
+> > > > +    unsigned int max_cpus;
+> > > > +    CpuTopoType topo_type;
+> > > > +    union {
+> > > > +        SmpCpuTopology smp;
+> > > > +        HybridCpuTopology hybrid;
+> > > > +    };
+> > > > +} GeneralCpuTopology; /*
+> > > > +                       * TODO: This name is temporary, just to distinguish it
+> > > > +                       * from the CpuTopology in boards.h. When CpuTopology in
+> > > > +                       * boards.h is merged here, it will be uniformly named as
+> > > > +                       * CpuTopology.
+> > > > +                       */
+> > > > +
+> > > A suggestion:
+> > > 1¡¢Move definition of CpuTopology from boards.h to cpu-topology.h
+> > > and re-structure it to include SmpCpuTopology, being a generic cpu
+> > > topology structure.
+> > > 2¡¢Rename "CpuTopology smp" in MachineState to a generic name
+> > > "CpuTopology topo".
+> > Here we need to change the access to MachineState.smp to
+> > MachineState.topo.smp in other modules.
 > > 
-> > Do you mean splitting this header file into numa.h and cluster.h?
+> > If replacement of MachineState.topo is in a single patch, do we also
+> > need to include the modification of access to MachineState.topo.smp
+> > in other modules? Otherwise, it will break the compilation.
+> > 
+> > In this way, the patch seems be too large.
+> Oh, I understand. The temporary "GeneralCpuTopology" seems necessary.
+> With this patch and help of the introduced generic helpers, we can replace
+> access to MachineState.smp gradually. And that's what you are doing in
+> this series.
 > 
-> No, I meant the MAINTAINERS 'Machine' section.
+> But is it possible to strip the whole hybrid related code from the re-work
+> of smp. After MachineState.smp is re-worked/generalized completely,
+> then we add the hybrid extansion? Now the re-work code of smp and
+> hybrid code looks coupled all the way.
 
-I see. I will slit this.
+I agree. This is more clear.
+
+Thanks,
+Zhao
 
 > 
-> > It seems that the cpu topology is not related to the content of
-> > numa.h,
-> 
-> And you seem to agree ;)
-> 
-> > and it may be possible to merge some content into cluster.h,
-> > but the definition in cluster.h is to use the cluster as a device
-> > (if I understand correctly...) , and cpu_topology.h is just about
-> > topology-related things.
+> Thanks,
+> Yanan
 > > 
-> > I have not included the contents of cluster.h/cluster.c into hybrid
-> > considerations, but only modified the topology defined by smp.
-> > 
+> > Thanks,
 > > Zhao
+> > 
+> > > 3¡¢Adapt all the code in QEMU to above change.
+> > > 
+> > > If you can pack above into a single patch, and then add the hybird
+> > > topology extansion in a next patch, we will not need the temporary
+> > > thing "GeneralCpuTopology" and the TODO comments, which makes
+> > > code clearer.
+> > > 
+> > > Thanks,
+> > > Yanan
+> > > > +#endif /* CPU_TOPOLOGY_H */
+> > > > diff --git a/qapi/machine.json b/qapi/machine.json
+> > > > index b9228a5e4616..bd7303f34497 100644
+> > > > --- a/qapi/machine.json
+> > > > +++ b/qapi/machine.json
+> > > > @@ -36,6 +36,18 @@
+> > > >                 'sh4eb', 'sparc', 'sparc64', 'tricore',
+> > > >                 'x86_64', 'xtensa', 'xtensaeb' ] }
+> > > > +##
+> > > > +# @CpuTopoType:
+> > > > +#
+> > > > +# An enumeration of cpu topology type
+> > > > +# TODO: Expose topology type in query-cpus-fast
+> > > > +#
+> > > > +# Since: 8.0
+> > > > +##
+> > > > +{ 'enum': 'CpuTopoType',
+> > > > +  'prefix': 'CPU_TOPO_TYPE',
+> > > > +  'data': [ 'smp', 'hybrid' ] }
+> > > > +
+> > > >    ##
+> > > >    # @CpuS390State:
+> > > >    #
 > 
 
