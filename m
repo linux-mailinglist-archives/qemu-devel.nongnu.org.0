@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2E5697483
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 03:46:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 791DF69749E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 03:58:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pS7nx-000541-IA; Tue, 14 Feb 2023 21:45:57 -0500
+	id 1pS7zU-0001M1-AV; Tue, 14 Feb 2023 21:57:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pS7ns-00051f-1B
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 21:45:52 -0500
-Received: from mga09.intel.com ([134.134.136.24])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pS7no-0006kz-W5
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 21:45:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676429149; x=1707965149;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=ggMegEO+aA7HJ73g1IajnW2l4pzsdE5ubAd7VLIfElg=;
- b=EVcjo0p+uaMsayrQx0G7Oj/c93eleO1/tCFHWsqXS/X+HI+a3ghE4bFG
- 3xxMvUHG1PIWX4W8Le10iuF/4zXUvmNEnXRUTeNT2l3F4TIR1ScB/1COR
- TGKS2xTw2xnWnQPpQb6VoguxEAQWpS7kX4ljF+VHiBqjK5rnEN6MUT7yM
- d+uOe6e4CCsUbYoQhyXrQrSp3bP/v7E3xG/ry00kDN+LVUsEIlf8N0MPH
- xMlaTUw5KTXfCCrdcgQWtK778rwvDUM7thUil6xwqCrHPK303P6dn3PAz
- M5i+1ZCUgUNs8DilUEiAQUDUvY6SIJPiTeSTnCsTtW97397HD6GLwaJWA g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="332639526"
-X-IronPort-AV: E=Sophos;i="5.97,298,1669104000"; d="scan'208";a="332639526"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2023 18:45:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="671454282"
-X-IronPort-AV: E=Sophos;i="5.97,298,1669104000"; d="scan'208";a="671454282"
-Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
- ([10.239.160.112])
- by fmsmga007.fm.intel.com with ESMTP; 14 Feb 2023 18:45:35 -0800
-Date: Wed, 15 Feb 2023 10:53:23 +0800
-From: Zhao Liu <zhao1.liu@linux.intel.com>
-To: "wangyanan (Y)" <wangyanan55@huawei.com>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi <dapeng1.mi@intel.com>,
- Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo <robert.hu@linux.intel.com>,
- Sean Christopherson <seanjc@google.com>,
- Like Xu <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>
-Subject: Re: [RFC 42/52] hw/machine: Add hybrid_supported in generic topo
- properties
-Message-ID: <Y+xJI1k6yoOh8g6l@liuzhao-OptiPlex-7080>
-References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
- <20230213095035.158240-43-zhao1.liu@linux.intel.com>
- <e8102ed2-35b6-0fc2-c20b-dbfca89ec50b@huawei.com>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pS7zR-0001Lk-Cs; Tue, 14 Feb 2023 21:57:49 -0500
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pS7zN-00015N-SN; Tue, 14 Feb 2023 21:57:49 -0500
+Received: from [192.168.0.119] (unknown [114.95.238.225])
+ by APP-01 (Coremail) with SMTP id qwCowADnANUfSuxjAdwpBQ--.2482S2;
+ Wed, 15 Feb 2023 10:57:35 +0800 (CST)
+Message-ID: <5612a275-4902-a7e8-2f10-1f1fbd999adf@iscas.ac.cn>
+Date: Wed, 15 Feb 2023 10:57:34 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=gb2312
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e8102ed2-35b6-0fc2-c20b-dbfca89ec50b@huawei.com>
-Received-SPF: none client-ip=134.134.136.24;
- envelope-from=zhao1.liu@linux.intel.com; helo=mga09.intel.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Cc: liweiwei@iscas.ac.cn, qemu-devel@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
+Subject: Re: [PATCH 18/18] target/riscv: Move configuration check to envcfg
+ CSRs predicate()
+To: Bin Meng <bmeng.cn@gmail.com>
+References: <20230213180215.1524938-19-bmeng@tinylab.org>
+ <e0c10cb9-c83b-bb35-3041-0f388dc48267@iscas.ac.cn>
+ <CAEUhbmX6Qb1aAdZC+d2F=n5qLo60XGiE3e0xTco1TgNgDxAKVg@mail.gmail.com>
+Content-Language: en-US
+From: weiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <CAEUhbmX6Qb1aAdZC+d2F=n5qLo60XGiE3e0xTco1TgNgDxAKVg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: qwCowADnANUfSuxjAdwpBQ--.2482S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxAryDtry8Cw4fAw4fCFW7Arb_yoW5ArWfpr
+ 48GanIkFykWF9Fv34ft3Z8tF13uw18Gw45ZwsrGw18Jr1qkry5Jr1DWrW3ua95ZrZ7Gw40
+ vF4jkF43ur42ya7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+ 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE
+ 67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
+ AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCI
+ c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
+ AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_
+ Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHU
+ DUUUUU=
+X-Originating-IP: [114.95.238.225]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.35,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,94 +83,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 14, 2023 at 09:46:50AM +0800, wangyanan (Y) wrote:
-> Date: Tue, 14 Feb 2023 09:46:50 +0800
-> From: "wangyanan (Y)" <wangyanan55@huawei.com>
-> Subject: Re: [RFC 42/52] hw/machine: Add hybrid_supported in generic topo
->  properties
-> 
-> Hi Zhao,
-> 
-> ÔÚ 2023/2/13 17:50, Zhao Liu Ð´µÀ:
-> > From: Zhao Liu <zhao1.liu@intel.com>
-> > 
-> > Since hybrid cpu topology configuration can benefit not only x86, but
-> > also other architectures/platforms that have supported (in real
-> > machines) or will support hybrid CPU topology, "-hybrid" can be generic.
-> > 
-> > So add the generic topology property to configure if support hybrid
-> > cpu topology for architectures/platforms in SmpCompatProps.
-> > 
-> > Also rename SmpCompatProps to TopoCompatProps to make this structure
-> > more generic for both smp topology and hybrid topology.
-> > 
-> > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
-> > ---
-> >   include/hw/boards.h | 15 +++++++++++----
-> >   1 file changed, 11 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/include/hw/boards.h b/include/hw/boards.h
-> > index 34ec035b5c9f..17be3485e823 100644
-> > --- a/include/hw/boards.h
-> > +++ b/include/hw/boards.h
-> > @@ -127,19 +127,26 @@ typedef struct {
-> >   } CPUArchIdList;
-> >   /**
-> > - * SMPCompatProps:
-> > - * @prefer_sockets - whether sockets are preferred over cores in smp parsing
-> > + * TopoCompatProps:
-> > + * @hybrid_support - whether hybrid cpu topology are supported by machine.
-> inconsistent with the name in the definition below.
 
-Thanks! Will fix.
+On 2023/2/15 10:22, Bin Meng wrote:
+> On Tue, Feb 14, 2023 at 10:59 PM weiwei <liweiwei@iscas.ac.cn> wrote:
+>>
+>> On 2023/2/14 22:27, Bin Meng wrote:
+>>> At present the envcfg CSRs predicate() routines are generic one like
+>>> smode(), hmode. The configuration check is done in the read / write
+>>> routine. Create a new predicate routine to cover such check, so that
+>>> gdbstub can correctly report its existence.
+>>>
+>>> Signed-off-by: Bin Meng <bmeng@tinylab.org>
+>>>
+>>> ---
+>>>
+>>>    target/riscv/csr.c | 98 +++++++++++++++++++++++++++++-----------------
+>>>    1 file changed, 61 insertions(+), 37 deletions(-)
+>>>
+>>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>>> index 37350b8a6d..284ccc09dd 100644
+>>> --- a/target/riscv/csr.c
+>>> +++ b/target/riscv/csr.c
+>>> @@ -41,40 +41,6 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops)
+>>>    }
+>>>
+>>>    /* Predicates */
+>>> -#if !defined(CONFIG_USER_ONLY)
+>>> -static RISCVException smstateen_acc_ok(CPURISCVState *env, int index,
+>>> -                                       uint64_t bit)
+>>> -{
+>>> -    bool virt = riscv_cpu_virt_enabled(env);
+>>> -    RISCVCPU *cpu = env_archcpu(env);
+>>> -
+>>> -    if (env->priv == PRV_M || !cpu->cfg.ext_smstateen) {
+>>> -        return RISCV_EXCP_NONE;
+>>> -    }
+>>> -
+>>> -    if (!(env->mstateen[index] & bit)) {
+>>> -        return RISCV_EXCP_ILLEGAL_INST;
+>>> -    }
+>>> -
+>>> -    if (virt) {
+>>> -        if (!(env->hstateen[index] & bit)) {
+>>> -            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>>> -        }
+>>> -
+>>> -        if (env->priv == PRV_U && !(env->sstateen[index] & bit)) {
+>>> -            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>>> -        }
+>>> -    }
+>>> -
+>>> -    if (env->priv == PRV_U && riscv_has_ext(env, RVS)) {
+>>> -        if (!(env->sstateen[index] & bit)) {
+>>> -            return RISCV_EXCP_ILLEGAL_INST;
+>>> -        }
+>>> -    }
+>>> -
+>>> -    return RISCV_EXCP_NONE;
+>>> -}
+>>> -#endif
+>>>
+>>>    static RISCVException fs(CPURISCVState *env, int csrno)
+>>>    {
+>>> @@ -318,6 +284,32 @@ static RISCVException umode32(CPURISCVState *env, int csrno)
+>>>        return umode(env, csrno);
+>>>    }
+>>>
+>>> +static RISCVException envcfg(CPURISCVState *env, int csrno)
+>>> +{
+>>> +    RISCVCPU *cpu = env_archcpu(env);
+>>> +    riscv_csr_predicate_fn predicate;
+>>> +
+>>> +    if (cpu->cfg.ext_smstateen) {
+>>> +        return RISCV_EXCP_ILLEGAL_INST;
+>>> +    }
+>> This check seems not right here.  Why  ILLEGAL_INST is directly
+>> triggered if smstateen is enabled?
+> This logic was there in the original codes. I was confused when I
+> looked at this as well.
 
-> > + *                   Note that hybrid cpu topology requires to specify the
-> > + *                   topology of each core so that there will no longer be
-> > + *                   a default core topology, thus prefer_sockets won't work
-> > + *                   when hybrid_support is enabled.
-> > + * @prefer_sockets - whether sockets are preferred over cores in smp parsing.
-> > + *                   Not work when hybrid_support is enabled.
-> >    * @dies_supported - whether dies are supported by the machine
-> >    * @clusters_supported - whether clusters are supported by the machine
-> >    * @has_clusters - whether clusters are explicitly specified in the user
-> >    *                 provided SMP configuration
-> >    */
-> >   typedef struct {
-> > +    bool hybrid_supported;
-> >       bool prefer_sockets;
-> >       bool dies_supported;
-> >       bool clusters_supported;
-> >       bool has_clusters;
-> > -} SMPCompatProps;
-> > +} TopoCompatProps;
-> Also here. "Rename SMPCompatProps to TopoCompatProps and
-> move it to cpu-topology.h and adapt the code" should be organized
-> in one or more separate patches, being pre-patches together with
-> the conversion of CpuTopology before. 
+Sorry, I didn't find the original codes. Do you mean this:
 
-Do you think TopoCompatProps/SMPCompatProps should also be moved
-into cpu-topology.h? It seems that SMPCompatProps is a collection
-of properties of MachineClass.
+     if (env->priv == PRV_M || !cpu->cfg.ext_smstateen) {
+         return RISCV_EXCP_NONE;
+     }
 
-> And put the "hybrid_supported"
-> extension into another patch. Would this make it easier to review?
+If so, I think the check here is to make the following *stateen related
+check ignored when smstateen extension is disabled.
 
-Yes, I agree. Thanks!
+Regards,
 
-Zhao
+Weiwei Li
 
-> 
-> Thanks,
-> Yanan
-> >   /**
-> >    * MachineClass:
-> > @@ -281,7 +288,7 @@ struct MachineClass {
-> >       bool nvdimm_supported;
-> >       bool numa_mem_supported;
-> >       bool auto_enable_numa;
-> > -    SMPCompatProps smp_props;
-> > +    TopoCompatProps smp_props;
-> >       const char *default_ram_id;
-> >       HotplugHandler *(*get_hotplug_handler)(MachineState *machine,
-> 
+> Anyway, if it is an issue, it should be a separate patch.
+>
+>> It seems that smstateen related check will be done  for
+>> senvcfg/henvcfg{h} when smstateen is enabled.
+>>
+> Regards,
+> Bin
+
 
