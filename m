@@ -2,94 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075BC6985CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 21:44:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE7B69863B
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 21:48:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSOdc-0002fE-VH; Wed, 15 Feb 2023 15:44:24 -0500
+	id 1pSOgl-0005MA-90; Wed, 15 Feb 2023 15:47:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSOdX-0002eB-TD
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:44:20 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
+ id 1pSOgf-0005Lv-Ja
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:47:33 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSOdW-00049H-Aa
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:44:19 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id o15so17153128wrc.9
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 12:44:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=wpymyfuKQ8Qvg5hphgre5Rf7sINLs+KPLSzQ6wa4lFE=;
- b=Y70M5ThKuiN+Nk3FUFZKd+lvOj/fhX545DDyJp4O4nh8DQAUuUg3cgI7N8oS/S0Owl
- 70B2kKZ12PQ+R4ON0FjvRvpCfOLXwNp7Lm3c6YVCXJW+BuA+USh1ubRSoaLmFvu9epGB
- zE6kCbH5/jJOKBx9CT+1YgoW8DUpU7FZWOW1NObQyRpDk4eGhIZNkao3bI+mRMxOh9eb
- yHPA5Y1I6X5uEJmJNhNVFiyyE8bakv349b7pmH+EoaJb9HqsdMvclK2ZH4l1PdONNXx9
- 8BnUiJUw+tiazCZQE8aUq1M0vv1D52ShRoj127FT3ydXiQjVo1mj08zE0p8XHuHtepX/
- IV+Q==
+ (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
+ id 1pSOgd-00018w-1j
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:47:32 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id cq19so32917edb.5
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 12:47:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ngRZcV04Hjr93houMjBfj908igwE3DQvINQXBEjsS9c=;
+ b=JOwTp6l9M5pMDXujnAtNHGq0OAKJrgW6tpi5/TZ83DKlBaxW176xi1KL3wdELCWhbc
+ azShCbP/q+DBnxTyxmcvLpQ/4vv3SYkOorVwboT4eW+eAPvCHaHNMrOfH2K5W9/WgKKb
+ A0TyqkR3+JbDaHM4UyR3yYIWIqZsg7+vqEqiE227mHjbqH52QgKY1FM4ub9h5Hqt1QUN
+ C13YUhx+fS+z/egFI9by3SGUQcjtug8q8K/yQmCmryP/Zq9IFpgJY4QQyiosWfyCzGHc
+ e59XLraq/KmzL93+PbJnFz+66Y8OOihtfL7nzsgR1G7PZXw92gYbeCJpOm3A1rfw7bB8
+ O8kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wpymyfuKQ8Qvg5hphgre5Rf7sINLs+KPLSzQ6wa4lFE=;
- b=ZPVY2Ym1Y2DxFtsr/shzeZZGSmqh9KnJSkHw60Bn1/6wcg7/a5tnC/8JrdFNCsmXb/
- RLWWgnV4LfrMo2HGPXvGl16YQQLFB0jkpmVzBwAC1lZoF7NTwR97Qmu97JZopzySucW8
- fVTWQZzRZ62v9HgDUl8gMKnHXNUoWC1vF2Ilr9zj1lV6BjJ0UjSV712q1R61INlmdr3l
- hSsK54SbGj/cnzUW8rUGhufkqqU1/WzACoEAu61fqQSrjRizaIcoAL1ZK+XQqN0HFOcw
- 4AYLtkx0QPwgfVwFfduuHARe0FAp9q8J5AraJsDU4Ill+sZsMHpkAEhePGZlNv7FPXgX
- D3JA==
-X-Gm-Message-State: AO0yUKW5Bwg8aNGnVGwHY+0BkeMuV5EzkFgfvyBOtow1zPUluOuolX/J
- 47tC3MVUsQXhknf2vartWf+bRw==
-X-Google-Smtp-Source: AK7set+OCWe8nK9HCYNvk3hNNv+Umpn3fW8v2PCJ4RcR+qHnmiZ5P+634voaPYEVpRJHGzv73sR8pw==
-X-Received: by 2002:a5d:46cd:0:b0:2c4:872:e929 with SMTP id
- g13-20020a5d46cd000000b002c40872e929mr2903172wrs.16.1676493856668; 
- Wed, 15 Feb 2023 12:44:16 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- h10-20020adfe98a000000b002c5501a5803sm11496214wrm.65.2023.02.15.12.44.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Feb 2023 12:44:16 -0800 (PST)
-Message-ID: <0822739e-eb54-b948-a076-e7c252ec72ad@linaro.org>
-Date: Wed, 15 Feb 2023 21:44:13 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ngRZcV04Hjr93houMjBfj908igwE3DQvINQXBEjsS9c=;
+ b=juTTnnOEE/yxgANUnBzTJuqNIacN+NroLiyPSrxMQyBjUSzf52n91K7bFNY0SdaazU
+ rW2pMPq8wlqaxFwXZO0VWyZOGWp2MGrpyWm/hqiUXwIqIXZ671VXnpApMhExw52LwH8T
+ LSn6pDJKYNQ8xGhgcZ1Vs2IAQ85sYNvVb6DDAQ7Hj1gPUBc21lboSQOALSA5l2w5iZ6M
+ u5O0065vaAjiWNqM6/RB+AFlY+Yd+4wUSbup2kpp96wP3Ymse4Z1yVk+ghGe6FzeJ3Bu
+ UDFGfVr2nqf7a5iA27VLsZjpWd6wM4c1jFVg6UoOsNKK+vE9MSMcFlA2ymsLjS6g4/kO
+ gBhw==
+X-Gm-Message-State: AO0yUKWtDPBQM0mQAV65DrRY1ldBgunCWIbz4usoWXej2g8HKzBxrUth
+ TG0URdCM73vDGbPJ5R99DRDkk+In4jYga6EK6zvT/A==
+X-Google-Smtp-Source: AK7set//ZFkZ9UxI0utukmGuu8wYVVHMYUE6qEjqnpNEI6qn14BEsuOAYmjRxXAqxSWM+Lr4sJOcaCCSMHSuL2roPTM=
+X-Received: by 2002:a50:d741:0:b0:4aa:a4df:23fc with SMTP id
+ i1-20020a50d741000000b004aaa4df23fcmr1862175edj.1.1676494049549; Wed, 15 Feb
+ 2023 12:47:29 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH 04/12] tests: be a bit more strict cleaning up fifos
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Michael Roth <michael.roth@amd.com>, Alexander Bulekov <alxndr@bu.edu>,
- Qiuhao Li <Qiuhao.Li@outlook.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-arm@nongnu.org, John Snow <jsnow@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Darren Kenny <darren.kenny@oracle.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Bandan Das <bsd@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Yonggang Luo <luoyonggang@gmail.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Ed Maste <emaste@freebsd.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-References: <20230215192530.299263-1-alex.bennee@linaro.org>
- <20230215192530.299263-5-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230215192530.299263-5-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20230209062404.3582018-1-debug@rivosinc.com>
+ <20230209062404.3582018-2-debug@rivosinc.com>
+ <64a76da4-62d3-61f3-e8a8-347e3aa7eaca@linux.alibaba.com>
+In-Reply-To: <64a76da4-62d3-61f3-e8a8-347e3aa7eaca@linux.alibaba.com>
+From: Deepak Gupta <debug@rivosinc.com>
+Date: Wed, 15 Feb 2023 12:47:11 -0800
+Message-ID: <CAKC1njQEcuEO=TSkK8qzywADYGh6cFLLUKLJ4fTfULHvKPOa=w@mail.gmail.com>
+Subject: Re: [PATCH v1 RFC Zisslpcfi 1/9] target/riscv: adding zimops and
+ zisslpcfi extension to RISCV cpu config
+To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, liweiwei@iscas.ac.cn,
+ dbarboza@ventanamicro.com, 
+ Kip Walker <kip@rivosinc.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=debug@rivosinc.com; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,18 +89,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 15/2/23 20:25, Alex Bennée wrote:
-> When we re-factored we dropped the unlink() step which turns out to be
-> required for rmdir to do its thing. If we had been checking the return
-> value we would have noticed so lets do that with this fix.
-> 
-> Fixes: 68406d1085 (tests/unit: cleanups for test-io-channel-command)
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Suggested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->   tests/unit/test-io-channel-command.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
+On Tue, Feb 14, 2023 at 6:52 PM LIU Zhiwei <zhiwei_liu@linux.alibaba.com> wrote:
+>
+>
+> On 2023/2/9 14:23, Deepak Gupta wrote:
+> > Introducing riscv `zisslpcfi` extension to riscv target. `zisslpcfi`
+> > extension provides hardware assistance to riscv hart to enable control
+> > flow integrity (CFI) for software.
+> >
+> > `zisslpcfi` extension expects hart to implement `zimops`. `zimops` stands
+> > for "unprivileged integer maybe operations". `zimops` carve out certain
+> > reserved opcodes encodings from integer spec to "may be operations"
+> > encodings. `zimops` opcode encodings simply move 0 to rd.
+> > `zisslpcfi` claims some of the `zimops` encodings and use them for shadow
+> > stack management or indirect branch tracking. Any future extension can
+> > also claim `zimops` encodings.
+>
+> Does  the zimops has a independent specification? If so, you should give
+> a link to this
+> specification.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Actual formal documentation is still a work in progress.
+I am hoping to provide a reference to it in my next iteration.
 
+>
+> >
+> > This patch also adds a dependency check for `zimops` to be enabled if
+> > `zisslpcfi` is enabled on the hart.
+>
+> You should don't add two extensions in one patch. I think you should add
+> them one by one.
+> And add the zimop first.  In my opinion, you should implement the whole
+> zimop extension before
+> adding any patch for zisslpcfi, including the implementation of mop.rr
+> and mop.r.
+
+Noted will make sure of that and will send two different patch series then.
+
+>
+> >
+> > Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+> > Signed-off-by: Kip Walker  <kip@rivosinc.com>
+> > ---
+> >   target/riscv/cpu.c | 13 +++++++++++++
+> >   target/riscv/cpu.h |  2 ++
+> >   2 files changed, 15 insertions(+)
+> >
+> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > index cc75ca7667..6b4e90eb91 100644
+> > --- a/target/riscv/cpu.c
+> > +++ b/target/riscv/cpu.c
+> > @@ -110,6 +110,8 @@ static const struct isa_ext_data isa_edata_arr[] = {
+> >       ISA_EXT_DATA_ENTRY(svnapot, true, PRIV_VERSION_1_12_0, ext_svnapot),
+> >       ISA_EXT_DATA_ENTRY(svpbmt, true, PRIV_VERSION_1_12_0, ext_svpbmt),
+> >       ISA_EXT_DATA_ENTRY(xventanacondops, true, PRIV_VERSION_1_12_0, ext_XVentanaCondOps),
+> > +    ISA_EXT_DATA_ENTRY(zimops, true, PRIV_VERSION_1_12_0, ext_zimops),
+> > +    ISA_EXT_DATA_ENTRY(zisslpcfi, true, PRIV_VERSION_1_12_0, ext_cfi),
+> Add them one by one.
+> >   };
+> >
+> >   static bool isa_ext_is_enabled(RISCVCPU *cpu,
+> > @@ -792,6 +794,11 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+> >               return;
+> >           }
+> >
+> > +        if (cpu->cfg.ext_cfi && !cpu->cfg.ext_zimops) {
+> > +            error_setg(errp, "Zisslpcfi extension requires Zimops extension");
+> > +            return;
+> > +        }
+> > +
+> Seems reasonable for me.
+> >           /* Set the ISA extensions, checks should have happened above */
+> >           if (cpu->cfg.ext_zdinx || cpu->cfg.ext_zhinx ||
+> >               cpu->cfg.ext_zhinxmin) {
+> > @@ -1102,6 +1109,12 @@ static Property riscv_cpu_properties[] = {
+> >   #ifndef CONFIG_USER_ONLY
+> >       DEFINE_PROP_UINT64("resetvec", RISCVCPU, env.resetvec, DEFAULT_RSTVEC),
+> >   #endif
+> > +    /*
+> > +     * Zisslpcfi CFI extension, Zisslpcfi implicitly means Zimops is
+> > +     * implemented
+> > +     */
+> > +    DEFINE_PROP_BOOL("zisslpcfi", RISCVCPU, cfg.ext_cfi, true),
+> > +    DEFINE_PROP_BOOL("zimops", RISCVCPU, cfg.ext_zimops, true),
+>
+> Default value should be false.
+
+Yes, I have to fix this.
+
+>
+> Zhiwei
+>
+> >
+> >       DEFINE_PROP_BOOL("short-isa-string", RISCVCPU, cfg.short_isa_string, false),
+> >
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index f5609b62a2..9a923760b2 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -471,6 +471,8 @@ struct RISCVCPUConfig {
+> >       uint32_t mvendorid;
+> >       uint64_t marchid;
+> >       uint64_t mimpid;
+> > +    bool ext_zimops;
+> > +    bool ext_cfi;
+> >
+> >       /* Vendor-specific custom extensions */
+> >       bool ext_XVentanaCondOps;
 
