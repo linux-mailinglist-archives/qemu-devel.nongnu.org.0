@@ -2,62 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C9E697A45
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 11:54:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C376697A47
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 11:56:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSFQh-0004FV-3O; Wed, 15 Feb 2023 05:54:27 -0500
+	id 1pSFSB-0005GJ-DM; Wed, 15 Feb 2023 05:55:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1pSFQe-0004Ez-Ho
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:54:24 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1pSFQb-00081e-Bx
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:54:23 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4PGvzd1xrYzJsMW;
- Wed, 15 Feb 2023 18:52:29 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.6; Wed, 15 Feb 2023 18:54:16 +0800
-Message-ID: <863566f6-4c0b-67bd-880a-54bdbd4650f1@huawei.com>
-Date: Wed, 15 Feb 2023 18:54:15 +0800
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSFS7-0005Fh-4m
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:55:55 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSFS5-0008Tc-Db
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:55:54 -0500
+Received: by mail-wr1-x433.google.com with SMTP id k3so11048149wrv.5
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 02:55:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=fZu3T1bkA1+2T05879TpRUDfbanaAuof9qK1g1ByC3I=;
+ b=WuKBbcwTF+FStd2MgXeej2C0EV9lsekCEFrsWUPHenzRcIVoxvEcNPhac1r+p59SNb
+ K1/b/6VxcvE9FduomfECoAn6fv/wkRgWTNqURPPM++F0T3Qyo5gxypR4z+lcoRYD12u2
+ bOMvuJWE2xGqxBMkE/oS1yJSJiApbPrUngEvKcGehAh2vzklYQzdnsyVDY0/zs/ZMdPN
+ /Zo4heBgjAtYPDnl0j21J2VO0zm00wVJMCOeeSw46kYzOOwQkVeH+jthVcCXXbw+/9J2
+ kBkCYB3aQ4tuAUWv44DjgYHgGa+lfKZngDA5017rZrjVxeWF5Xmn9intCadJNupKPy8L
+ V4CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fZu3T1bkA1+2T05879TpRUDfbanaAuof9qK1g1ByC3I=;
+ b=Va5METN81nSmdvjI5ev6hee/yoXwBtA8wjbfusF0ez36xuS8uHqXFNc/kbCxKBhAU7
+ e1TK2/PqMrsKTXxRq2s+XUbd9KtTvJKVr0els7myCQGCIS1BLis+669IMni1v70sJpgn
+ evnNA9TsDkAvabVlul2ozOly2FQ5wioyMsB+CrGsNHSlwW/KfZunI/plJUrIGDtRvYfB
+ k0YpqapDPqPpjJr8ZzLRb2YwJlM2K7Nc8QY1qNXJKkUUvuGUlg1KK8v3Phzl7DvyPG21
+ cjvDiGMBsCUGk/IajUpEAUAvDdpL1u30VYgEMRIUF6LMn2vki3yPMju0o0qaczutvyB/
+ +BWg==
+X-Gm-Message-State: AO0yUKWYVdMkPvOOoXmLCRXfAVd7ID90TuZYW+x+vmFLIhDRmP+pa9hx
+ 2MukRfi3QR9BMuxfV0eMG6Fruw==
+X-Google-Smtp-Source: AK7set93a9PhHljI201mkKlAmxylKFihqIDh4Fp/aX+seJkf/6OqqFW4ITCtAE+Cv/qUDubCct/pgw==
+X-Received: by 2002:a5d:4ec6:0:b0:2c5:53e1:7417 with SMTP id
+ s6-20020a5d4ec6000000b002c553e17417mr1104216wrv.23.1676458552015; 
+ Wed, 15 Feb 2023 02:55:52 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ z12-20020a056000110c00b002c563b124basm4004132wrw.103.2023.02.15.02.55.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Feb 2023 02:55:51 -0800 (PST)
+Message-ID: <e268d089-259f-07f2-6429-9eff461992f4@linaro.org>
+Date: Wed, 15 Feb 2023 11:55:50 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH RESEND 09/18] i386: Fix comment style in topology.h
-To: Zhao Liu <zhao1.liu@linux.intel.com>
-CC: <qemu-devel@nongnu.org>, Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi
- <dapeng1.mi@intel.com>, Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo
- <robert.hu@linux.intel.com>, Xiaoyao Li <xiaoyao.li@intel.com>, Like Xu
- <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>, Eduardo Habkost
- <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, "Michael S .
- Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>, Markus
- Armbruster <armbru@redhat.com>
-References: <20230213093625.158170-1-zhao1.liu@linux.intel.com>
- <20230213093625.158170-10-zhao1.liu@linux.intel.com>
-In-Reply-To: <20230213093625.158170-10-zhao1.liu@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH 3/8] hw/misc: add a toy i2c echo device
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, Markus Armbruster <armbru@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Klaus Jensen <k.jensen@samsung.com>
+References: <20230214171830.681594-1-clg@kaod.org>
+ <20230214171830.681594-4-clg@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230214171830.681594-4-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.35,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,132 +90,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-在 2023/2/13 17:36, Zhao Liu 写道:
-> From: Zhao Liu <zhao1.liu@intel.com>
->
-> For function comments in this file, keep the comment style consistent
-> with other places.
->
-> Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
-nit：Better to move this cleanup patch to top of the series.
+On 14/2/23 18:18, Cédric Le Goater wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> Add an example I2C device to demonstrate how a slave may master the bus
+> and send data asynchronously to another slave.
+
+What a rebellion...
+
+> The device will echo whatever it is sent to the device identified by the
+> first byte received.
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> [ clg: - Changed to build to use CONFIG_ASPEED_SOC since only supported
+>           on such SoCs
+>         - folded in these fixes :
+>         	 https://lore.kernel.org/qemu-devel/Y3yMKAhOkYGtnkOp@cormorant.local/
+> ]
+> Message-Id: <20220601210831.67259-7-its@irrelevant.dk>
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
->   include/hw/i386/topology.h | 33 +++++++++++++++++----------------
->   1 file changed, 17 insertions(+), 16 deletions(-)
->
-> diff --git a/include/hw/i386/topology.h b/include/hw/i386/topology.h
-> index b0174c18b7bd..5de905dc00d3 100644
-> --- a/include/hw/i386/topology.h
-> +++ b/include/hw/i386/topology.h
-> @@ -24,7 +24,8 @@
->   #ifndef HW_I386_TOPOLOGY_H
->   #define HW_I386_TOPOLOGY_H
+>   hw/misc/i2c-echo.c  | 156 ++++++++++++++++++++++++++++++++++++++++++++
+>   hw/misc/meson.build |   2 +
+>   2 files changed, 158 insertions(+)
+>   create mode 100644 hw/misc/i2c-echo.c
+
+
+> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+> index 448e14b531..3eb1bda710 100644
+> --- a/hw/misc/meson.build
+> +++ b/hw/misc/meson.build
+> @@ -129,6 +129,8 @@ softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_rng.c'))
 >   
-> -/* This file implements the APIC-ID-based CPU topology enumeration logic,
-> +/*
-> + * This file implements the APIC-ID-based CPU topology enumeration logic,
->    * documented at the following document:
->    *   Intel® 64 Architecture Processor Topology Enumeration
->    *   http://software.intel.com/en-us/articles/intel-64-architecture-processor-topology-enumeration/
-> @@ -41,7 +42,8 @@
+>   softmmu_ss.add(when: 'CONFIG_GRLIB', if_true: files('grlib_ahb_apb_pnp.c'))
 >   
->   #include "qemu/bitops.h"
+> +softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('i2c-echo.c'))
+
+s/CONFIG_ASPEED_SOC/CONFIG_I2C/ since this is a generic device.
+
+>   specific_ss.add(when: 'CONFIG_AVR_POWER', if_true: files('avr_power.c'))
 >   
-> -/* APIC IDs can be 32-bit, but beware: APIC IDs > 255 require x2APIC support
-> +/*
-> + * APIC IDs can be 32-bit, but beware: APIC IDs > 255 require x2APIC support
->    */
->   typedef uint32_t apic_id_t;
->   
-> @@ -60,8 +62,7 @@ typedef struct X86CPUTopoInfo {
->       unsigned threads_per_core;
->   } X86CPUTopoInfo;
->   
-> -/* Return the bit width needed for 'count' IDs
-> - */
-> +/* Return the bit width needed for 'count' IDs */
->   static unsigned apicid_bitwidth_for_count(unsigned count)
->   {
->       g_assert(count >= 1);
-> @@ -69,15 +70,13 @@ static unsigned apicid_bitwidth_for_count(unsigned count)
->       return count ? 32 - clz32(count) : 0;
->   }
->   
-> -/* Bit width of the SMT_ID (thread ID) field on the APIC ID
-> - */
-> +/* Bit width of the SMT_ID (thread ID) field on the APIC ID */
->   static inline unsigned apicid_smt_width(X86CPUTopoInfo *topo_info)
->   {
->       return apicid_bitwidth_for_count(topo_info->threads_per_core);
->   }
->   
-> -/* Bit width of the Core_ID field
-> - */
-> +/* Bit width of the Core_ID field */
->   static inline unsigned apicid_core_width(X86CPUTopoInfo *topo_info)
->   {
->       /*
-> @@ -94,8 +93,7 @@ static inline unsigned apicid_die_width(X86CPUTopoInfo *topo_info)
->       return apicid_bitwidth_for_count(topo_info->dies_per_pkg);
->   }
->   
-> -/* Bit offset of the Core_ID field
-> - */
-> +/* Bit offset of the Core_ID field */
->   static inline unsigned apicid_core_offset(X86CPUTopoInfo *topo_info)
->   {
->       return apicid_smt_width(topo_info);
-> @@ -107,14 +105,14 @@ static inline unsigned apicid_die_offset(X86CPUTopoInfo *topo_info)
->       return apicid_core_offset(topo_info) + apicid_core_width(topo_info);
->   }
->   
-> -/* Bit offset of the Pkg_ID (socket ID) field
-> - */
-> +/* Bit offset of the Pkg_ID (socket ID) field */
->   static inline unsigned apicid_pkg_offset(X86CPUTopoInfo *topo_info)
->   {
->       return apicid_die_offset(topo_info) + apicid_die_width(topo_info);
->   }
->   
-> -/* Make APIC ID for the CPU based on Pkg_ID, Core_ID, SMT_ID
-> +/*
-> + * Make APIC ID for the CPU based on Pkg_ID, Core_ID, SMT_ID
->    *
->    * The caller must make sure core_id < nr_cores and smt_id < nr_threads.
->    */
-> @@ -127,7 +125,8 @@ static inline apic_id_t x86_apicid_from_topo_ids(X86CPUTopoInfo *topo_info,
->              topo_ids->smt_id;
->   }
->   
-> -/* Calculate thread/core/package IDs for a specific topology,
-> +/*
-> + * Calculate thread/core/package IDs for a specific topology,
->    * based on (contiguous) CPU index
->    */
->   static inline void x86_topo_ids_from_idx(X86CPUTopoInfo *topo_info,
-> @@ -154,7 +153,8 @@ static inline void x86_topo_ids_from_idx(X86CPUTopoInfo *topo_info,
->       topo_ids->smt_id = cpu_index % nr_threads;
->   }
->   
-> -/* Calculate thread/core/package IDs for a specific topology,
-> +/*
-> + * Calculate thread/core/package IDs for a specific topology,
->    * based on APIC ID
->    */
->   static inline void x86_topo_ids_from_apicid(apic_id_t apicid,
-> @@ -178,7 +178,8 @@ static inline void x86_topo_ids_from_apicid(apic_id_t apicid,
->       topo_ids->pkg_id = apicid >> apicid_pkg_offset(topo_info);
->   }
->   
-> -/* Make APIC ID for the CPU 'cpu_index'
-> +/*
-> + * Make APIC ID for the CPU 'cpu_index'
->    *
->    * 'cpu_index' is a sequential, contiguous ID for the CPU.
->    */
+>   specific_ss.add(when: 'CONFIG_MAC_VIA', if_true: files('mac_via.c'))
 
 
