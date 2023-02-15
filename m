@@ -2,83 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFD7B698295
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 18:45:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EFE26982A2
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 18:48:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSLpV-00018v-Gt; Wed, 15 Feb 2023 12:44:29 -0500
+	id 1pSLsJ-0004tE-0S; Wed, 15 Feb 2023 12:47:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSLpT-00012H-Tv
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:44:27 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSLpR-0008Fi-GP
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:44:27 -0500
-Received: by mail-wr1-x435.google.com with SMTP id s13so2252145wrw.3
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 09:44:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IWNxqquWLNXTTocLvUxsoGH+JCmIcd1Q1kcJ09WY8/Y=;
- b=sFTIywSyT5+Gm4JtVTiPy8pocwC8NLizi+OnGXa0F8gxS+pw88AJbAHk8HZ7sMb/FI
- 96175WS+payrqFe8IfpT4VJY+oPZRbvrGyBnOF8Uqmsn6iQhZzPnmM8IIAY9peP0Rvb3
- KmGaMCMDxADFPMYBVs414xcyLurQUmdISGtc2hXzlzGGjaWuKPBxBCbVpt1qA1Ey6/7d
- GrXiarGGH9FGWJ+Z/diMir38jMpVosC8m/8Bc1owB+ohPRD7/4E6z6f8dQ3O7wGgPp7J
- wmJ2lUOCWMb98RpgxN+xQiLQl2T/CmNOhPQrbsRtwqGuL+pmikV9vmZVVYh/tKAU8uc+
- u1Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IWNxqquWLNXTTocLvUxsoGH+JCmIcd1Q1kcJ09WY8/Y=;
- b=eQASOu7vJHUsrizIWeNHizb3Y6Z1vjvfbXu7jFwIQs57t7rYgdU8HVcBmO0KGEflCI
- NjvwndW+cuAfZPSvPU2Ohi1ep0et3JLzNTTcEr6FO2uSTDDsMzfxqqb9SBk0UPnn71O+
- 3ZPxYlQ6JkPzs0Ewb/PbOcLneoyzdY8JZAk8AgxkTW+OuS5CUiFi291unEMHUGfcpWf9
- UEI77ClNTPRIVfeTVIn/Dep8juNCCbtFbr5Qdk6OetmKWqY3CyVNm6qdK6vEC3z2/8gH
- 3WsfwH5uIs4eKs33ljaoXAeMttVUPPIIJRhc79PrLcAEA66O3TEcJ6ll5dsnyoUEj7m4
- HDYA==
-X-Gm-Message-State: AO0yUKXMT+dGXM2KdEWzF1AEmVDH6hWReuNqFynBNQyEnKHZnf7vO+vj
- 6R81nrmTSl3+XpG5z+1EPJwryi7aS+rn7jHV
-X-Google-Smtp-Source: AK7set/dBoQ8bwhtu/KAQyOrlfuHEmIHSM2Ph1ygizmQiCsBZ4rAct1OR5ti0L9UZGbe4LmrE3eiEQ==
-X-Received: by 2002:a05:6000:3c7:b0:2c5:4c07:9593 with SMTP id
- b7-20020a05600003c700b002c54c079593mr135627wrg.16.1676483063919; 
- Wed, 15 Feb 2023 09:44:23 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- f15-20020adff98f000000b002c5583ab017sm8580863wrr.15.2023.02.15.09.44.22
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 15 Feb 2023 09:44:23 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pSLsG-0004qi-AK
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:47:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pSLsE-0005Bf-PI
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:47:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676483237;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=w/F84SQrSlILY8D9V60Vpxm/XVlRV4VLfqZeABCMH4I=;
+ b=BAuonxuN9Ei1lW7COJc0GcWEtSUFUKxwhxnohQ1TI5tUsDq7G1VY5t2pcXAp2vzoc4JrtN
+ QsCIUXQo7EVOXEV0topKkF2YXEf0fiz+9tPNhy1421ziSV6IGITNm8X0dU8YRzwW0yuUqe
+ MO5ExcHN1gipDBjOTP4mCzBTjQg3Ez4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-202-hLz81hr-MYmfdB7RzHAgrQ-1; Wed, 15 Feb 2023 12:47:16 -0500
+X-MC-Unique: hLz81hr-MYmfdB7RzHAgrQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF9AD28004F1;
+ Wed, 15 Feb 2023 17:47:15 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.33.36.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE45040C10FA;
+ Wed, 15 Feb 2023 17:47:13 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Marcelo Tosatti <mtosatti@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, qemu-ppc@nongnu.org,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 5/5] hw/i386/kvm: Factor i8254_pit_create_try_kvm() out
-Date: Wed, 15 Feb 2023 18:43:53 +0100
-Message-Id: <20230215174353.37097-6-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230215174353.37097-1-philmd@linaro.org>
-References: <20230215174353.37097-1-philmd@linaro.org>
+Cc: qemu-block@nongnu.org, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Kevin Wolf <kwolf@redhat.com>, libvir-list@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Lieven <pl@kamp.de>, Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PULL 0/5] Misc next patches
+Date: Wed, 15 Feb 2023 17:47:07 +0000
+Message-Id: <20230215174712.1894516-1-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,162 +79,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Factor a new i8254_pit_create_try_kvm() helper out of the
-following patter:
+The following changes since commit 6a50f64ca01d0a7b97f14f069762bfd88160f31e:
 
-  if (kvm_pit_in_kernel()) {
-      kvm_pit_init(...);
-  } else }
-    i8254_pit_create(...);
-  }
+  Merge tag 'pull-request-2023-02-14' of https://gitlab.com/thuth/qemu into staging (2023-02-14 14:46:10 +0000)
 
-(adding a stub for non-KVM builds).
+are available in the Git repository at:
 
-Since kvm_pit_init() is only used once, un-inline it and
-remove the now unused headers from "hw/timer/i8254.h".
+  https://gitlab.com/berrange/qemu tags/misc-next-pull-request
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- hw/i386/kvm/i8254.c        | 18 ++++++++++++++++++
- hw/i386/microvm.c          |  6 +-----
- hw/i386/pc.c               |  7 ++-----
- include/hw/timer/i8254.h   | 22 ++++++----------------
- target/i386/kvm/kvm-stub.c |  6 ++++++
- 5 files changed, 33 insertions(+), 26 deletions(-)
+for you to fetch changes up to 36debafddd788066be10b33c5f11b984a08e5c85:
 
-diff --git a/hw/i386/kvm/i8254.c b/hw/i386/kvm/i8254.c
-index 191a26fa57..9520c98c76 100644
---- a/hw/i386/kvm/i8254.c
-+++ b/hw/i386/kvm/i8254.c
-@@ -35,6 +35,7 @@
- #include "hw/qdev-properties-system.h"
- #include "sysemu/kvm.h"
- #include "qom/object.h"
-+#include "kvm/kvm_i386.h"
- 
- #define KVM_PIT_REINJECT_BIT 0
- 
-@@ -59,6 +60,23 @@ struct KVMPITClass {
-     DeviceRealize parent_realize;
- };
- 
-+ISADevice *i8254_pit_create_try_kvm(ISABus *bus, int iobase, qemu_irq irq_in)
-+{
-+    DeviceState *dev;
-+    ISADevice *d;
-+
-+    if (!kvm_pit_in_kernel()) {
-+        return i8254_pit_create(bus, iobase, irq_in);
-+    }
-+
-+    d = isa_new(TYPE_KVM_I8254);
-+    dev = DEVICE(d);
-+    qdev_prop_set_uint32(dev, "iobase", iobase);
-+    isa_realize_and_unref(d, bus, &error_fatal);
-+
-+    return d;
-+}
-+
- static void kvm_pit_update_clock_offset(KVMPITState *s)
- {
-     int64_t offset, clock_offset;
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index 9204bb4ff2..d93dc8a263 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -258,11 +258,7 @@ static void microvm_devices_init(MicrovmMachineState *mms)
-     }
- 
-     if (x86ms->pit == ON_OFF_AUTO_ON || x86ms->pit == ON_OFF_AUTO_AUTO) {
--        if (kvm_pit_in_kernel()) {
--            kvm_pit_init(isa_bus, 0x40);
--        } else {
--            i8254_pit_create(isa_bus, 0x40, isa_bus_get_irq(isa_bus, 0));
--        }
-+        i8254_pit_create_try_kvm(isa_bus, 0x40, isa_bus_get_irq(isa_bus, 0));
-     }
- 
-     if (mms->rtc == ON_OFF_AUTO_ON ||
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index fe95f6e9f2..7d9f57c695 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1311,11 +1311,8 @@ void pc_basic_device_init(struct PCMachineState *pcms,
- 
-     if (!xen_enabled() &&
-         (x86ms->pit == ON_OFF_AUTO_AUTO || x86ms->pit == ON_OFF_AUTO_ON)) {
--        if (kvm_pit_in_kernel()) {
--            pit = kvm_pit_init(isa_bus, 0x40);
--        } else {
--            pit = i8254_pit_create(isa_bus, 0x40, pit_irq);
--        }
-+        pit = i8254_pit_create_try_kvm(isa_bus, 0x40, pit_irq);
-+
-         if (hpet) {
-             /* connect PIT to output control line of the HPET */
-             qdev_connect_gpio_out(hpet, 0, qdev_get_gpio_in(DEVICE(pit), 0));
-diff --git a/include/hw/timer/i8254.h b/include/hw/timer/i8254.h
-index aa48c44d39..9fb18c4ff4 100644
---- a/include/hw/timer/i8254.h
-+++ b/include/hw/timer/i8254.h
-@@ -25,9 +25,6 @@
- #ifndef HW_I8254_H
- #define HW_I8254_H
- 
--#include "hw/qdev-properties.h"
--#include "hw/isa/isa.h"
--#include "qapi/error.h"
- #include "qom/object.h"
- 
- #define PIT_FREQ 1193182
-@@ -55,19 +52,12 @@ OBJECT_DECLARE_TYPE(PITCommonState, PITCommonClass, PIT_COMMON)
-  * specified ISA @bus, and drop the reference to it (the device is realized).
-  */
- ISADevice *i8254_pit_create(ISABus *bus, int iobase, qemu_irq irq_in);
--
--static inline ISADevice *kvm_pit_init(ISABus *bus, int base)
--{
--    DeviceState *dev;
--    ISADevice *d;
--
--    d = isa_new(TYPE_KVM_I8254);
--    dev = DEVICE(d);
--    qdev_prop_set_uint32(dev, "iobase", base);
--    isa_realize_and_unref(d, bus, &error_fatal);
--
--    return d;
--}
-+/**
-+ * Try to create and realize a in-kernel I8254 PIT device on the heap.
-+ * If KVM is not available or doesn't have in-kernel PIT support, a
-+ * emulated PIT is used. See i8254_pit_create.
-+ */
-+ISADevice *i8254_pit_create_try_kvm(ISABus *bus, int iobase, qemu_irq irq_in);
- 
- void pit_set_gate(ISADevice *dev, int channel, int val);
- void pit_get_channel_info(ISADevice *dev, int channel, PITChannelInfo *info);
-diff --git a/target/i386/kvm/kvm-stub.c b/target/i386/kvm/kvm-stub.c
-index e052f1c7b0..396da89f55 100644
---- a/target/i386/kvm/kvm-stub.c
-+++ b/target/i386/kvm/kvm-stub.c
-@@ -10,6 +10,7 @@
-  *
-  */
- #include "qemu/osdep.h"
-+#include "hw/timer/i8254.h"
- #include "cpu.h"
- #include "kvm_i386.h"
- 
-@@ -49,3 +50,8 @@ void kvm_set_max_apic_id(uint32_t max_apic_id)
- {
-     return;
- }
-+
-+ISADevice *i8254_pit_create_try_kvm(ISABus *bus, int iobase, qemu_irq irq_in)
-+{
-+    return i8254_pit_create(bus, iobase, irq_in);
-+}
+  ui: remove deprecated 'password' option for SPICE (2023-02-15 11:14:58 -0500)
+
+----------------------------------------------------------------
+ * Document 'password-secret' option for -iscsi
+ * Deprecate iSCSI 'password' in favour of 'password-secret'
+ * Remove deprecated 'password' option for SPICE
+ * Fix handling of cached read buffers with TLS
+
+----------------------------------------------------------------
+
+Antoine Damhet (2):
+  crypto: TLS: introduce `check_pending`
+  io/channel-tls: fix handling of bigger read buffers
+
+Daniel P. Berrangé (3):
+  block: mention 'password-secret' option for -iscsi
+  block: deprecate iSCSI 'password' in favour of 'password-secret'
+  ui: remove deprecated 'password' option for SPICE
+
+ block/iscsi.c                   |  3 ++
+ crypto/tlssession.c             | 14 +++++++
+ docs/about/deprecated.rst       | 16 ++++----
+ docs/about/removed-features.rst |  7 ++++
+ include/crypto/tlssession.h     | 11 ++++++
+ io/channel-tls.c                | 66 ++++++++++++++++++++++++++++++++-
+ qemu-options.hx                 | 13 ++-----
+ ui/spice-core.c                 | 15 --------
+ 8 files changed, 111 insertions(+), 34 deletions(-)
+
 -- 
-2.38.1
+2.39.1
 
 
