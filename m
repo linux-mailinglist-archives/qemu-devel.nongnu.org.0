@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9666E697A72
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 12:10:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA049697A79
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 12:14:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSFfl-0003qg-79; Wed, 15 Feb 2023 06:10:01 -0500
+	id 1pSFjC-0005NL-6q; Wed, 15 Feb 2023 06:13:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pSFfj-0003qH-HE
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 06:09:59 -0500
-Received: from 6.mo552.mail-out.ovh.net ([188.165.49.222])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSFj9-0005N8-Ux
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 06:13:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pSFfg-00041q-B3
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 06:09:59 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.249])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 733472B114;
- Wed, 15 Feb 2023 11:09:51 +0000 (UTC)
-Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Wed, 15 Feb
- 2023 12:09:49 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005e4979293-5ed1-4691-b380-76b2d6df81e3,
- 38A6E00C82B2D95FDD0C44CB66D888AEA19A4E6B) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <32521fbd-df47-6c7d-d515-4da185e6acfa@kaod.org>
-Date: Wed, 15 Feb 2023 12:09:48 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSFj8-0004lV-Em
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 06:13:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676459609;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=su8iceknaUOtT76bUSx6KnPGW6mm9i4i4lRlmz53fdI=;
+ b=IYu1uULy7oFNaUwPMn51g9eIll5g/cxe+wEqyvIcxaRv2M9YSB8EtzCuaE8uNnw/kt9O/v
+ 556ZybHmRyE/1hRFI1g/A00oS5bVBSAPkTz7IX0BWSoVFHmtCr9Rs8XWSLkEMM+GFqKiHw
+ jaLxVIeOjp2c3qK3feOnIrd5ZEu604c=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-182-sIAaEU2jON2eBR0c4Q3gBg-1; Wed, 15 Feb 2023 06:13:26 -0500
+X-MC-Unique: sIAaEU2jON2eBR0c4Q3gBg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C1FB31C07547;
+ Wed, 15 Feb 2023 11:13:25 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A0E2B140EBF4;
+ Wed, 15 Feb 2023 11:13:25 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8CABF21E6A1F; Wed, 15 Feb 2023 12:13:24 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org,  Michael Roth <michael.roth@amd.com>
+Subject: Re: [PATCH v4 6/6] qapi: remove JSON value FIXME
+References: <20230215000011.1725012-1-jsnow@redhat.com>
+ <20230215000011.1725012-7-jsnow@redhat.com>
+Date: Wed, 15 Feb 2023 12:13:24 +0100
+In-Reply-To: <20230215000011.1725012-7-jsnow@redhat.com> (John Snow's message
+ of "Tue, 14 Feb 2023 19:00:11 -0500")
+Message-ID: <87zg9fb2qz.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH 3/8] hw/misc: add a toy i2c echo device
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-CC: <qemu-block@nongnu.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
- <andrew@aj.id.au>, Markus Armbruster <armbru@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, Klaus Jensen <k.jensen@samsung.com>
-References: <20230214171830.681594-1-clg@kaod.org>
- <20230214171830.681594-4-clg@kaod.org>
- <e268d089-259f-07f2-6429-9eff461992f4@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <e268d089-259f-07f2-6429-9eff461992f4@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 2c4e1501-cf0e-43ff-8767-52e9e0df804f
-X-Ovh-Tracer-Id: 13654632598264777519
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudeihedgudekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhteegffdvieegleelvddtffehveevgedtudeujeduueekieeivdefteeileeileenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhivdgtqdgvtghhohdrtghsnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehphhhilhhmugeslhhinhgrrhhordhorhhgpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhgpdhjohgvlhesjhhmshdrihgurdgruhdprghnughrvgifsegrjhdrihgurdgruhdprghrmhgsrhhusehrvgguhhgrthdrtghomhdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrh
- hordhorhhgpdhkrdhjvghnshgvnhesshgrmhhsuhhnghdrtghomhdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=188.165.49.222; envelope-from=clg@kaod.org;
- helo=6.mo552.mail-out.ovh.net
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.35,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,49 +79,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/15/23 11:55, Philippe Mathieu-Daudé wrote:
-> On 14/2/23 18:18, Cédric Le Goater wrote:
->> From: Klaus Jensen <k.jensen@samsung.com>
->>
->> Add an example I2C device to demonstrate how a slave may master the bus
->> and send data asynchronously to another slave.
-> 
-> What a rebellion...
-> 
->> The device will echo whatever it is sent to the device identified by the
->> first byte received.
->>
->> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
->> [ clg: - Changed to build to use CONFIG_ASPEED_SOC since only supported
->>           on such SoCs
->>         - folded in these fixes :
->>              https://lore.kernel.org/qemu-devel/Y3yMKAhOkYGtnkOp@cormorant.local/
->> ]
->> Message-Id: <20220601210831.67259-7-its@irrelevant.dk>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
->>   hw/misc/i2c-echo.c  | 156 ++++++++++++++++++++++++++++++++++++++++++++
->>   hw/misc/meson.build |   2 +
->>   2 files changed, 158 insertions(+)
->>   create mode 100644 hw/misc/i2c-echo.c
-> 
-> 
->> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
->> index 448e14b531..3eb1bda710 100644
->> --- a/hw/misc/meson.build
->> +++ b/hw/misc/meson.build
->> @@ -129,6 +129,8 @@ softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_rng.c'))
->>   softmmu_ss.add(when: 'CONFIG_GRLIB', if_true: files('grlib_ahb_apb_pnp.c'))
->> +softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('i2c-echo.c'))
-> 
-> s/CONFIG_ASPEED_SOC/CONFIG_I2C/ since this is a generic device.
+John Snow <jsnow@redhat.com> writes:
 
-even if only supported by the Aspeed SoC ? I am OK with both.
+> With the two major JSON-ish type hierarchies clarified for distinct
+> purposes; QAPIExpression for parsed expressions and JSONValue for
+> introspection data, remove this FIXME as no longer an action item.
+>
+> A third JSON-y data type, _ExprValue, is not meant to represent JSON in
+> the abstract but rather only the possible legal return values from a
+> single function, get_expr(). It isn't appropriate to attempt to merge it
+> with either of the above two types.
+>
+> In theory, it may be possible to define a completely agnostic
+> one-size-fits-all JSON type hierarchy that any other user could borrow -
+> in practice, it's tough to wrangle the differences between invariant,
+> covariant and contravariant types: input and output parameters demand
+> different properties of such a structure.
+>
+> However, QAPIExpression serves to authoritatively type user input to the
+> QAPI parser, while JSONValue serves to authoritatively type qapi
+> generator *output* to be served back to client users at runtime via
+> QMP. The AST for these two types are different and cannot be wholly
+> merged into a unified syntax.
+>
+> They could, in theory, share some JSON primitive definitions. In
+> practice, this is currently more trouble than it's worth with mypy's
+> current expressive power. As such, declare this "done enough for now".
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
 
-
-> 
->>   specific_ss.add(when: 'CONFIG_AVR_POWER', if_true: files('avr_power.c'))
->>   specific_ss.add(when: 'CONFIG_MAC_VIA', if_true: files('mac_via.c'))
-> 
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
