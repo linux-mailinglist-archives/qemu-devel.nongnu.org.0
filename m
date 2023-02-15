@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2958698588
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 21:26:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54CC3698599
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 21:33:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSOLe-0002Pr-7y; Wed, 15 Feb 2023 15:25:50 -0500
+	id 1pSORh-0005we-9l; Wed, 15 Feb 2023 15:32:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pSOLW-0002Od-UV
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:25:42 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pSORf-0005v9-CU
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:32:03 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pSOLV-00019N-0E
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:25:42 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pSORd-0004vz-N6
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:32:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676492739;
+ s=mimecast20190719; t=1676493120;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IPpT/q8P05pu0r/Ko/7ZIbdOXwlVzi+0CV7G5Fh/I24=;
- b=T2O0E7OR3qV3pa1l2FPB37JDS2JgXvi6fiQLfivMUMx5WRBwplAm7OHdg51RevbTB2VWvd
- liPxKQYdMXevgWMtvhQLBalZJsrXI+QHE9wgo+p/z79qRuE1nq8wK4zdBvH8WWmchd+Ehl
- u+D3+CtOWr2MWYct7H8A/pyoMq/X8Rw=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7eJ3V2LwLoBVNF5/NGsjdLyfdgrwrvAGSFRw9ViIs9I=;
+ b=WJPa//nkS6/HncGSQFSxe6pVQr44wPFL5Hxd99JjRh5yEhw9uSJuBazUcof/jd9izPotNC
+ fNimpQd2VEY0PTWBv6bipEiFt3XQ8JkdxmL0pn4T/eVV6i5SZZEyzcHD4EVY7w8Z61WBwO
+ KYckMKMVFybhwRm++emR2j+TkOiCdas=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-146-hZ9ftCbqO-qx6KeD9SLJ1g-1; Wed, 15 Feb 2023 15:25:38 -0500
-X-MC-Unique: hZ9ftCbqO-qx6KeD9SLJ1g-1
-Received: by mail-pl1-f197.google.com with SMTP id
- h5-20020a170902748500b0019aacd1fb04so4254192pll.2
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 12:25:38 -0800 (PST)
+ us-mta-262-6EZz1cz1NU-cuEK-zPs6yA-1; Wed, 15 Feb 2023 15:31:59 -0500
+X-MC-Unique: 6EZz1cz1NU-cuEK-zPs6yA-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ mp1-20020a17090b190100b00233cc25fc7bso5448684pjb.4
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 12:31:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1676492737;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IPpT/q8P05pu0r/Ko/7ZIbdOXwlVzi+0CV7G5Fh/I24=;
- b=cnKS51eGKKNPwjj7K1h3NZEacyzaVL72MbuWh21RDN7uvYDmlteRSHACU+8P4fGLGV
- hRXRKF8rasg28YTTzfJAJwSF7TYx+d8cu/5j4FIhGntjy6WmgIifQJkF/HiOpKQDaUWo
- 21AA8ni2j/tc8Yn0noOMBWUqcRgQsq5GN6SyTBbdL45wcqUnCrivvC4QjNtM5J0v4Fn3
- Qqn2qXvrzdZC1bCmZamu7sei0I9vnKGDFYKeMyugHHL/D7Fy2OGdjRS5xhqVnh48wg47
- RY3VpKtk/AkFAU+KwboveP0GRSnfDKuII8gghicrL7rLe9fJZTgi16U00HFJLJJqPeuZ
- VQ1w==
-X-Gm-Message-State: AO0yUKUpleF4yGO36zbvkMxVQqo6Zpm3rf4DLyECktXLDvOpTjXkbjtM
- ESjAV/AFBYgBZ5oQkxQTD94+lXGCVh/p6P56P4vk0JWBeGlF9fCrK0iDxqgYypS1J0ljxc/UkGs
- V8xLeMzcZjqswE7yL/0zBjh/PJyP+mBI=
-X-Received: by 2002:aa7:9d1d:0:b0:5a8:beb3:d561 with SMTP id
- k29-20020aa79d1d000000b005a8beb3d561mr547874pfp.17.1676492737439; 
- Wed, 15 Feb 2023 12:25:37 -0800 (PST)
-X-Google-Smtp-Source: AK7set+5wgdL8h6fHzDEI0VjgcTFJVAki0k2sLlamOLNW2/WEtrvr8xssBEwrVum7gwIRK6MTcNpKlg5Kx1S3Sn+smM=
-X-Received: by 2002:aa7:9d1d:0:b0:5a8:beb3:d561 with SMTP id
- k29-20020aa79d1d000000b005a8beb3d561mr547856pfp.17.1676492737132; Wed, 15 Feb
- 2023 12:25:37 -0800 (PST)
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7eJ3V2LwLoBVNF5/NGsjdLyfdgrwrvAGSFRw9ViIs9I=;
+ b=ds85zLTDM1tuKmK/ZGiDH6bB/mUbJzSRJnd9/7DqZCad2B1gxLPK98NjheisU3uMlL
+ zeH4DIFuZ83bmaIZyFD4sDNLX3ZQZW8LTlwZ/3RI0mUiXcDAsM2lEdGe40j2dyt1aECL
+ kPEPTbKPQHRPyPLMs+ZlZvgvEchxniQ7by3qMJaIfpPupoZ27GiUoLBUH+qBr7PWHyYm
+ W22khj9sBnnMXyvAPdKzqpE5AsRPJ8n26uRVlcVq9B9FLGWSuEvPW8N14DMAggSvAkxX
+ l7fwQEGJN6in23H30No6L8zlc8sascjlVFmIY/UxV6USU7daBYLxCZYkmzJtNtjNGzfL
+ NxpQ==
+X-Gm-Message-State: AO0yUKXdSC+kUy3dNtdzd/8tBZdn8auiI1EgjkuNNGcGHqmBtSWrljQJ
+ Xm8IJgncnnavRCTxisTE8V0mR4+NyPL0N6y9F5HyFZ7jEHR3QtUWdLdt8hBCPx9YvIbKvYSgeBk
+ HXtvZCaFjXx0mJyD/NZnBqUvLRpFsTMo=
+X-Received: by 2002:a63:7f59:0:b0:4e8:51a5:137a with SMTP id
+ p25-20020a637f59000000b004e851a5137amr572971pgn.6.1676493118481; 
+ Wed, 15 Feb 2023 12:31:58 -0800 (PST)
+X-Google-Smtp-Source: AK7set9jRbZYInGDj0TGAXjt5F0wpJBk9XzaiSH3WiL58T35Dcig+do/3bBrEHyIyHJSCo6updlten6yyfnMdmUVMqw=
+X-Received: by 2002:a63:7f59:0:b0:4e8:51a5:137a with SMTP id
+ p25-20020a637f59000000b004e851a5137amr572956pgn.6.1676493118204; Wed, 15 Feb
+ 2023 12:31:58 -0800 (PST)
 MIME-Version: 1.0
 References: <20230209154034.983044-1-jsnow@redhat.com>
- <20230209154034.983044-6-jsnow@redhat.com>
- <Y+YelalmW43ePE53@redhat.com>
-In-Reply-To: <Y+YelalmW43ePE53@redhat.com>
+ <20230209154034.983044-7-jsnow@redhat.com>
+ <CABgObfZ3taU=6=JB4MGeLfDsg6MhkLSUuYNH9unO0UjMSF4ciA@mail.gmail.com>
+ <CAFn=p-b=RiZvOHOVYMByn1-awhO_cniSW4LVZ+h+fDMWHH7Crw@mail.gmail.com>
+ <86b31d9a-88f1-05db-3f4a-be7cc0762047@redhat.com>
+In-Reply-To: <86b31d9a-88f1-05db-3f4a-be7cc0762047@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Date: Wed, 15 Feb 2023 15:25:26 -0500
-Message-ID: <CAFn=p-aAYWy7eLdgnDshJ7LnV7fQVHag_yOG1Pp0UWBYi4ZpWw@mail.gmail.com>
-Subject: Re: [PATCH 5/7] testing: Add Python >= 3.7 to Centos, OpenSuSE
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, 
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+Date: Wed, 15 Feb 2023 15:31:47 -0500
+Message-ID: <CAFn=p-ZSVVCkvNjv2uCvOJ1WY4pZrryqOFLFvvV4RSb_uN4K+w@mail.gmail.com>
+Subject: Re: [PATCH 6/7] CI: Stop building docs on centos8
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>, 
+ Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>, Daniel Berrange <berrange@redhat.com>, 
  Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
  Beraldo Leal <bleal@redhat.com>, 
  =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -101,35 +102,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Feb 10, 2023 at 5:38 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
+On Fri, Feb 10, 2023 at 5:30 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> On Thu, Feb 09, 2023 at 10:40:32AM -0500, John Snow wrote:
-> > This is just a proof-of-concept patch, as these files are lcitool
-> > generated. The real fix will involve updating the lcitool configuration
-> > and updating these files that way.
+> On 2/10/23 00:32, John Snow wrote:
+> >> It's possible to teach lcitool to use pip instead to install
+> >> docutils, sphinx and sphinx-rtd-theme
+> >
+> > I will say that once upon a time, Peter Maydell expressed a
+> > preference to use the version(s) of sphinx managed by the distro
+> > instead of swallowing it into the python-managed parts of the
+> > codebase. It seemed like a reasonable request at the time.
 >
-> Paolo has been working on this
+> Note that this is not about using pip in a venv set up by e.g.
+> configure; simply, lcitool falls back to pip if a package is not
+> available as an RPM/DEB/APK, so it's a matter of telling it that the
+> python3.8 runtime in CentOS 8 does not have either docutils or sphinx.
 >
->   https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg03547.html
+> In other words, since lcitool takes care of building the container
+> dockerfile, this "pip install" would be done in the container phase and
+> configure in general cannot care less whether sphinx comes from an RPM
+> or a "pip install".
 >
-> though I requested we adapt it a little:
+> Paolo
 >
->   https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg02237.html
->   https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg02239.html
->
-> With regards,
-> Daniel
 
-Ah, I had no idea that Paolo was specifically working on 3.7 as a
-minimum requisite; I hadn't actually seen this or talked with him
-about this in some time. With this series I was mostly occupied with
-the simpler question of "Is this even possible?"
+Understood - I am just recalling changes I proposed to 'configure'
+several years back to specifically allow it to find and utilize
+versions of sphinx installed via pip, but Peter Maydell wasn't as sure
+of the idea, believing that QEMU should stick to only the system
+packages. I wasn't talking about specifically *creating* the
+environments with pip, this time.
 
-... I'll just trust that the lcitool changes are in good hands with Paolo.
-
-Thanks for the links to the relevant threads :~)
-
---js
+(But, I'd still like to, but realize that's a separate discussion.)
 
 
