@@ -2,58 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6C9697E03
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 15:09:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA8A7697E16
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 15:11:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSIT1-00082N-Bk; Wed, 15 Feb 2023 09:09:03 -0500
+	id 1pSIUo-0000o2-5w; Wed, 15 Feb 2023 09:10:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1pSIT0-00082B-4O
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 09:09:02 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pSIUm-0000ne-7C
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 09:10:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1pSISx-0001MA-T4
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 09:09:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=9gf/eyoF/OZBdlQrQOGcOEHR81H+oKVI7+EBTBveN+Y=; b=TTTCW4lPt6QmPAFeNu9493NS+2
- lTBoueJk10z9a3k85U11aZVTeFoI26yuu4OWjZn4qnfSsx6siPG+RLKS07ED4BGlPOtiKetZCzOlY
- EKwSnQAhqvmvew4yP1t+WZjlfV2y8OHSnxSAsfG5wLa42jTIUS1ta+R3Xzb89RkmJNfJLvQRqNTq3
- G5GjfnlAkCVXhGJO2BKQDWfQWL5QV/aRbxwYBUWLDhvPPdcZJpymBL22wwwgu+IBltX+XvzykxE+5
- TRWFCqK+QWFu/h/Kh3ZWSaVBCJd7XWc+jyGtYyGHokhvR1eceSZ5TY0ZDeqz9DpanYyS9vSEKvAwJ
- tqq2dODdjZWIePm/RcSE35HHF54RkQu75XndLm0dI4//2SHLAwrXbGFNBvxAGS8VZ3nzv27TyNtxX
- PstEHv6cMLQ1SBNZ0+y6EynScIeu7xla6Nb/m4nF6e+sc5XMvhKV44pZvRlJ6txErHQuqlzNtnHVu
- 5ov0ZXJLPGPNVS31CQIEIZD641dhHdV5Sbc98+kIzeTya/M2Q0CEbrO0sEjRPhEfknJ5qd3qY2FAk
- UAsX0G7/NgN1yMlygnS6QwApVRI8kH1nVd7JV/XlASBdTpK8DCdGUzKB7kuT7omBFmeHK4cnlyEmP
- NUyhT7Q3B0gkB8Mk/rbRsY6N4HsOW1B2MWNxJUEnw=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Dorinda Bassey <dbassey@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com, armbru@redhat.com,
- pbonzini@redhat.com, wtaymans@redhat.com,
- =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: [PATCH] audio/pwaudio.c: Add Pipewire audio backend for QEMU
-Date: Wed, 15 Feb 2023 15:08:54 +0100
-Message-ID: <5159868.WgR6L5i3FV@silver>
-In-Reply-To: <CAJ+F1CL0_OAj5-jsyCVY5aF=qoSoPx2Mu=q8Z7mpp3mesRi6=Q@mail.gmail.com>
-References: <20230215085102.415053-1-dbassey@redhat.com>
- <CAJ+F1CL0_OAj5-jsyCVY5aF=qoSoPx2Mu=q8Z7mpp3mesRi6=Q@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pSIUk-0001pb-5M
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 09:10:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676470248;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0z5InBDY/vtvylpG6n+8YSMLjORkAGZqbudORMLILKc=;
+ b=OtFbhYwR3i2bfhPNBGlJrkrzahn9k+SpVsjC9u41AoSMBJ59ZgktufMBPxXHz69ak62eC9
+ 3RK1bYut6j9fdc5z8PCn8XsVUMHWB9BioV4RrRcNI/VWgnXca37dRHXTYtPq7oJpFUiYx3
+ 5yqkf0+vJ6jmhIsl0w8Brc6Eh0ayc8A=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-584-prFAfe5lMa6-JT8nH3A-XA-1; Wed, 15 Feb 2023 09:10:44 -0500
+X-MC-Unique: prFAfe5lMa6-JT8nH3A-XA-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ a24-20020ac87218000000b003bb7c7a82f7so11037250qtp.9
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 06:10:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0z5InBDY/vtvylpG6n+8YSMLjORkAGZqbudORMLILKc=;
+ b=MQZR+t0e0/av0KLe2sRlBnd+CvRMGwsckoi1PDb1Zrs196OR9qa+ypongikPFJILIo
+ LsgpQ6vv1emPPOzYYVSFs7Pcr1SJzlAFCyKsLxcAZ2XHUZwWLHVMWsUDnenbI/MnpE8s
+ FM22GMl+waB1aMtmk/RHSC1KGyOYy7jxUP6tJfsj6WNuu72PGGIEQrTsRLVU7uTzV+4Z
+ P/U6MoWWGMZfMhmlUPF3MBH7frkwKRPuOgYDoRHl65v26UzCDbe06Z1xnr9c7hoNv92N
+ FXUgcGggKzLLoCENPJsr/UFocA+Q3sxQ9HWUaYRSpsDzO7cbE2171wy9J/BbsisP28k1
+ Sv5g==
+X-Gm-Message-State: AO0yUKUKgyT4YdsHTj0lf5KzImsL1TFsH1teNyZ39KxzgcYzB4cAacqc
+ AKUao6X59NN9AcsL10/Yph1x846crP69Xv0eEj3SkAFSYJZrWYSsRBebU8s+oTD9M95UPDfdC+X
+ BJILeJw0ARk6lV6E=
+X-Received: by 2002:ac8:7f83:0:b0:3b8:6b1b:e378 with SMTP id
+ z3-20020ac87f83000000b003b86b1be378mr4733674qtj.8.1676470244234; 
+ Wed, 15 Feb 2023 06:10:44 -0800 (PST)
+X-Google-Smtp-Source: AK7set8EzW/VFxCUSHRGeoIikPVuKCXEN90KjEdGmMR053F4MMo+U+yg3V4cu0y7+ehXAAKivr86Tw==
+X-Received: by 2002:ac8:7f83:0:b0:3b8:6b1b:e378 with SMTP id
+ z3-20020ac87f83000000b003b86b1be378mr4733646qtj.8.1676470243956; 
+ Wed, 15 Feb 2023 06:10:43 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-79.web.vodafone.de.
+ [109.43.176.79]) by smtp.gmail.com with ESMTPSA id
+ l12-20020ac8724c000000b003b8238114d9sm12901616qtp.12.2023.02.15.06.10.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Feb 2023 06:10:43 -0800 (PST)
+Message-ID: <7f695bb1-73b5-fdb3-50c9-21bfa6b49e00@redhat.com>
+Date: Wed, 15 Feb 2023 15:10:40 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: Fabiano Rosas <farosas@suse.de>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20230215124122.72037-1-thuth@redhat.com>
+ <Y+zUMygZUSwiPRwG@redhat.com> <87fsb7dp6c.fsf@suse.de>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] tests/qtest/rtl8139-test: Make the test less verbose by
+ default
+In-Reply-To: <87fsb7dp6c.fsf@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.257, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,37 +103,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wednesday, February 15, 2023 2:18:50 PM CET Marc-Andr=E9 Lureau wrote:
-> Hi
->=20
-> On Wed, Feb 15, 2023 at 12:51 PM Dorinda Bassey <dbassey@redhat.com> wrot=
-e:
-> >
-> > This commit adds a new audiodev backend to allow QEMU to use Pipewire a=
-s=20
-both an audio sink and source. This backend is available on most systems.
-> >
->=20
-> Hmm, I would rather have less audio (and ui) backends in QEMU. (for
-> audio, if I could introduce and keep only one, that would be
-> GStreamer: to remove the others..)
->=20
-> What is the main advantage compared to using the ALSA backend? (I
-> assume pipewire depends on ALSA anyway on Linux)
+On 15/02/2023 14.38, Fabiano Rosas wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
+> 
+>> On Wed, Feb 15, 2023 at 01:41:22PM +0100, Thomas Huth wrote:
+>>> We are facing the issues that some test logs in the gitlab CI are
+>>> too big (and thus cut off). The rtl8139-test is one of the few qtests
+>>> that prints many lines of output by default when running with V=1, so
+>>> it contributes to this problem. Almost all other qtests are silent
+>>> with V=1 and only print debug messages with V=2 and higher. Thus let's
+>>> change the rtl8139-test to behave more like the other tests and only
+>>> print the debug messages with V=2 (or higher).
+>>>
+>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>> ---
+>>>   tests/qtest/rtl8139-test.c | 15 +++++++++++++--
+>>>   1 file changed, 13 insertions(+), 2 deletions(-)
+>>
+>> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+>>
+>>>
+>>> diff --git a/tests/qtest/rtl8139-test.c b/tests/qtest/rtl8139-test.c
+>>> index 8fa3313cc3..1beb83805c 100644
+>>> --- a/tests/qtest/rtl8139-test.c
+>>> +++ b/tests/qtest/rtl8139-test.c
+>>> @@ -12,6 +12,8 @@
+>>>   #include "libqos/pci-pc.h"
+>>>   #include "qemu/timer.h"
+>>>   
+>>> +static int verbosity_level;
+>>> +
+>>>   /* Tests only initialization so far. TODO: Replace with functional tests */
+>>>   static void nop(void)
+>>>   {
+>>> @@ -45,12 +47,16 @@ static QPCIDevice *get_device(void)
+>>>   static unsigned __attribute__((unused)) in_##name(void) \
+>>>   { \
+>>>       unsigned res = qpci_io_read##len(dev, dev_bar, (val));     \
+>>> -    g_test_message("*%s -> %x", #name, res); \
+>>> +    if (verbosity_level >= 2) { \
+>>> +        g_test_message("*%s -> %x", #name, res); \
+>>> +    } \
+>>>       return res; \
+>>>   } \
+>>>   static void out_##name(unsigned v) \
+>>>   { \
+>>> -    g_test_message("%x -> *%s", v, #name); \
+>>> +    if (verbosity_level >= 2) { \
+>>> +        g_test_message("%x -> *%s", v, #name); \
+>>> +    } \
+>>>       qpci_io_write##len(dev, dev_bar, (val), v);        \
+>>>   }
+>>>   
+>>> @@ -195,6 +201,11 @@ static void test_init(void)
+>>>   int main(int argc, char **argv)
+>>>   {
+>>>       int ret;
+>>> +    char *v_env = getenv("V");
+>>> +
+>>> +    if (v_env) {
+>>> +        verbosity_level = atoi(v_env);
+>>> +    }
+>>
+>> *Not* something I'm requesting you to do now, just an observation / idea.
+>>
+>> We've copied this pattern into several tests.
+>>
+>> It is starting to feel like we should have a header with a
+>> 'qtests_env_setup()' method we call as first thing in main,
+>> and exporting 'verbosity_level' from the header.
+>>
+>> Perhaps also with a  'qtest_verbose(...)' macro that wraps
+>>
+>>    if (verbosity_level >= 2) {
+>>       g_test_message(...)
+>>    }
 
-I think it does make sense to add Pipewire. Apparently it gains popularity.
+Agree, we could generalize this stuff somehow ... maybe also simply adding a 
+qtest_log(int level, char *format, ...) function that does the getenv() 
+checking on the first invocation, or something like that.
 
-The main advantage of Pipewire is its interoperability: It allows you to=20
-connect apps with each other that only support a specific audio system. Say=
-=20
-one app that only supports JACK, another app that only supports PulseAudio,=
-=20
-another that only supports ALSA and so on. So it tries to provide a univers=
-al=20
-plug on a system for all.
+> Could we maybe play with g_test_verbose and g_test_quiet? The docs say
+> "The default is neither g_test_verbose() nor g_test_quiet()."  So
+> perhaps:
+> 
+> V=    --quiet, g_test_quiet
+> V=1 no option, default verbosity
+> V=2 --verbose, g_test_verbose
+> 
+> Then test g_test_quiet|verbose instead of reading from env directly.
 
-Best regards,
-Christian Schoenebeck
+Sounds like an option, too ... but we would not have a V=3 level that way 
+(which is already used in qom-test.c - not sure whether we really need it, 
+though, we could use V=2 for all debug messages, too).
+
+  Thomas
+
 
 
 
