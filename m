@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 150CA697EF5
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 15:59:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 023E8697EEC
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 15:57:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSJFI-0006z4-1O; Wed, 15 Feb 2023 09:58:56 -0500
+	id 1pSJCZ-0004jS-0b; Wed, 15 Feb 2023 09:56:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pSJFF-0006yY-GQ
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 09:58:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
+ id 1pSJCS-0004jE-He
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 09:56:00 -0500
+Received: from mga04.intel.com ([192.55.52.120])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pSJFD-0003pa-A2
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 09:58:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676473129;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=F62WFb0l45tszw/oDRlblCagmSL+A3iO6amliBOa8eg=;
- b=DOO38/Ia6URi2REh9mDOsn/L4TeyhhYhRe3c/Naox0DzJqyVDe6T7cePKxKqIkrzeK3s44
- hxBdMX6CqIABI4AK+0ULqRqDBPGUXph6en3mk5PsOSnZKmvXNfiTpVEE9KUsHYI4B7ynkf
- nE2WqsFhhgkeinh+h/YunaJLarRZFrQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-642-RCVPE0McNqC0SZ71D4uqjQ-1; Wed, 15 Feb 2023 09:58:46 -0500
-X-MC-Unique: RCVPE0McNqC0SZ71D4uqjQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 86757100F907;
- Wed, 15 Feb 2023 14:58:45 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.254])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 53C4C4014D03;
- Wed, 15 Feb 2023 14:58:44 +0000 (UTC)
-Date: Wed, 15 Feb 2023 14:58:41 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: Re: [PATCH] gitlab-ci: Use artifacts instead of dumping logs in the
- Cirrus-CI jobs
-Message-ID: <Y+zzIV2e6UigEIze@redhat.com>
-References: <20230215142503.90660-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
+ id 1pSJCP-0006nw-8M
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 09:56:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676472957; x=1708008957;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=7gq8bJwG8wddP3CZp5aHOW87MzjGjAjNhaHuv8X5IQs=;
+ b=ictbmcwT8JrWYXh//cwNppP2PvoIte7ch94u6AT+XX/CAtg6yI9qVYgG
+ H2XslZaM+StRc1KzrXRtX4lj2E8++7IwCyTdg8X2GFg44IzyjxvvoG72W
+ 9Lwuilf80/mx0R2qsd4LFlCacXWAuGCgghuJmG45FZ/HorNUi6CdmHnbG
+ q/dpCn43G6zO7723UarZxhHX3BTBHlTkO/qvGO+KRGQ5h+NwAqHJ51KY9
+ 6tdCOZjGRSZNh9Rpb7P3hgbmpD+9C2N+nYJZta4lSm1vN2U9oguPLonPg
+ CQtA2TsjBLllqeSBa5AdCr9ldXr91r9fQ9wwZ9okrVfQMPM+tlF8p0TOJ g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="330076177"
+X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; d="scan'208";a="330076177"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2023 06:55:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="702055525"
+X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; d="scan'208";a="702055525"
+Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
+ ([10.239.160.112])
+ by orsmga001.jf.intel.com with ESMTP; 15 Feb 2023 06:55:43 -0800
+Date: Wed, 15 Feb 2023 23:03:35 +0800
+From: Zhao Liu <zhao1.liu@linux.intel.com>
+To: "wangyanan (Y)" <wangyanan55@huawei.com>
+Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
+ Dapeng Mi <dapeng1.mi@intel.com>,
+ Zhuocheng Ding <zhuocheng.ding@intel.com>,
+ Robert Hoo <robert.hu@linux.intel.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
+ Like Xu <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH RESEND 10/18] i386: Update APIC ID parsing rule to
+ support module level
+Message-ID: <Y+z0RxPYGQafkKFz@liuzhao-OptiPlex-7080>
+References: <20230213093625.158170-1-zhao1.liu@linux.intel.com>
+ <20230213093625.158170-11-zhao1.liu@linux.intel.com>
+ <c4607aed-a010-21cc-592a-f17be6a64259@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=gb2312
 Content-Disposition: inline
-In-Reply-To: <20230215142503.90660-1-thuth@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c4607aed-a010-21cc-592a-f17be6a64259@huawei.com>
+Received-SPF: none client-ip=192.55.52.120;
+ envelope-from=zhao1.liu@linux.intel.com; helo=mga04.intel.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_CHARSET_FARAWAY=2.45, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,59 +88,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 15, 2023 at 03:25:03PM +0100, Thomas Huth wrote:
-> The meson log files can get very big, especially if running the tests in
-> verbose mode. So dumping those logs to the console was a bad idea, since
-> gitlab truncates the output if it is getting too big. Let's publish the
-> logs as artifacts instead. This has the disadvantage that you have to
-> look up the logs on cirrus-ci.com now instead, but that's still better
-> than not having the important part of the log at all since it got
-> truncated.
-
-Having to go over to cirrus-ci.com is pretty awful user experiance,
-especially as there's no direct link.
-
-> Fixes: 998f334722 ("gitlab: show testlog.txt contents ...")
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  Note: I also tried to publish the junit xml files as artifacts
->  instead, but while the cirrus-ci docs claim to support it, I only
->  got unreadable XML output in my browser that way, so the .txt
->  files look like the better option to me.
+On Wed, Feb 15, 2023 at 07:06:32PM +0800, wangyanan (Y) wrote:
+> Date: Wed, 15 Feb 2023 19:06:32 +0800
+> From: "wangyanan (Y)" <wangyanan55@huawei.com>
+> Subject: Re: [PATCH RESEND 10/18] i386: Update APIC ID parsing rule to
+>  support module level
 > 
->  .gitlab-ci.d/cirrus/build.yml | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+> Hi Zhao,
 > 
-> diff --git a/.gitlab-ci.d/cirrus/build.yml b/.gitlab-ci.d/cirrus/build.yml
-> index 7ef6af8d33..a9444902ec 100644
-> --- a/.gitlab-ci.d/cirrus/build.yml
-> +++ b/.gitlab-ci.d/cirrus/build.yml
-> @@ -32,6 +32,9 @@ build_task:
->      - $MAKE -j$(sysctl -n hw.ncpu)
->      - for TARGET in $TEST_TARGETS ;
->        do
-> -        $MAKE -j$(sysctl -n hw.ncpu) $TARGET V=1
-> -        || { cat meson-logs/testlog.txt; exit 1; } ;
-> +        $MAKE -j$(sysctl -n hw.ncpu) $TARGET V=1 ;
->        done
-> +  always:
-> +    build_result_artifacts:
-> +      path: build/meson-logs/*log.txt
-> +      type: text/plain
+> ÔÚ 2023/2/13 17:36, Zhao Liu Ð´µÀ:
+> > From: Zhuocheng Ding <zhuocheng.ding@intel.com>
+> > 
+> > Add the module level parsing support for APIC ID.
+> > 
+> > With this support, now the conversion between X86CPUTopoIDs,
+> > X86CPUTopoInfo and APIC ID is completed.
+> IIUC, contents in patch 6-8 and 10 are all about "Introduce the module-level
+> CPU topology support for x86", why do we need gradually do this with kinds
+> of temporary things instead of warp them into one patch?
 
-Does it have to be either/or, can't we do both ?
+Patch 6 is about CPUX86State.nr_dies, which is independent from
+patch 7, 8, 10.
 
-95% of the time the truncated testlog.txt is sufficient on its own.
+Patch 7 (X86CPUTopoInfo.modules_per_die), patch 8 (X86CPUTopoIDs.module_id),
+and patch 10 (APIC ID parsing rule) are related but have their own
+relatively clear little themes, and are gradually completing full
+support for module level in apic id.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Patch 7, 8, 10 can be combined into one big patch. This current
+splitting way is actually designed to make it easier to review...
+But if you think this is not convenient for review, sorry for that,
+and I'm willing to merge them together. ;-)
 
+Thanks,
+Zhao
+
+> Before support
+> for smp.clusters in the CLI for x86, we can ensure that modules_per_dies is
+> always 1 so that the code is save in one diff. Or do I miss something?
+> 
+> Thanks,
+> Yanan
+> > Signed-off-by: Zhuocheng Ding <zhuocheng.ding@intel.com>
+> > Co-developed-by: Zhao Liu <zhao1.liu@intel.com>
+> > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
+> > ---
+> >   hw/i386/x86.c              | 19 ++++++++-----------
+> >   include/hw/i386/topology.h | 36 ++++++++++++++++++------------------
+> >   2 files changed, 26 insertions(+), 29 deletions(-)
+> > 
+> > diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> > index b90c6584930a..2a9d080a8e7a 100644
+> > --- a/hw/i386/x86.c
+> > +++ b/hw/i386/x86.c
+> > @@ -311,11 +311,11 @@ void x86_cpu_pre_plug(HotplugHandler *hotplug_dev,
+> >       /*
+> >        * If APIC ID is not set,
+> > -     * set it based on socket/die/core/thread properties.
+> > +     * set it based on socket/die/cluster/core/thread properties.
+> >        */
+> >       if (cpu->apic_id == UNASSIGNED_APIC_ID) {
+> > -        int max_socket = (ms->smp.max_cpus - 1) /
+> > -                                smp_threads / smp_cores / ms->smp.dies;
+> > +        int max_socket = (ms->smp.max_cpus - 1) / smp_threads / smp_cores /
+> > +                                ms->smp.clusters / ms->smp.dies;
+> >           /*
+> >            * die-id was optional in QEMU 4.0 and older, so keep it optional
+> > @@ -379,15 +379,12 @@ void x86_cpu_pre_plug(HotplugHandler *hotplug_dev,
+> >           x86_topo_ids_from_apicid(cpu->apic_id, &topo_info, &topo_ids);
+> > -        /*
+> > -         * TODO: Before APIC ID supports module level parsing, there's no need
+> > -         * to expose module_id info.
+> > -         */
+> >           error_setg(errp,
+> > -            "Invalid CPU [socket: %u, die: %u, core: %u, thread: %u] with"
+> > -            " APIC ID %" PRIu32 ", valid index range 0:%d",
+> > -            topo_ids.pkg_id, topo_ids.die_id, topo_ids.core_id, topo_ids.smt_id,
+> > -            cpu->apic_id, ms->possible_cpus->len - 1);
+> > +            "Invalid CPU [socket: %u, die: %u, module: %u, core: %u, thread: %u]"
+> > +            " with APIC ID %" PRIu32 ", valid index range 0:%d",
+> > +            topo_ids.pkg_id, topo_ids.die_id, topo_ids.module_id,
+> > +            topo_ids.core_id, topo_ids.smt_id, cpu->apic_id,
+> > +            ms->possible_cpus->len - 1);
+> >           return;
+> >       }
+> > diff --git a/include/hw/i386/topology.h b/include/hw/i386/topology.h
+> > index 5de905dc00d3..3cec97b377f2 100644
+> > --- a/include/hw/i386/topology.h
+> > +++ b/include/hw/i386/topology.h
+> > @@ -79,12 +79,13 @@ static inline unsigned apicid_smt_width(X86CPUTopoInfo *topo_info)
+> >   /* Bit width of the Core_ID field */
+> >   static inline unsigned apicid_core_width(X86CPUTopoInfo *topo_info)
+> >   {
+> > -    /*
+> > -     * TODO: Will separate module info from core_width when update
+> > -     * APIC ID with module level.
+> > -     */
+> > -    return apicid_bitwidth_for_count(topo_info->cores_per_module *
+> > -                                     topo_info->modules_per_die);
+> > +    return apicid_bitwidth_for_count(topo_info->cores_per_module);
+> > +}
+> > +
+> > +/* Bit width of the Module_ID (cluster ID) field */
+> > +static inline unsigned apicid_module_width(X86CPUTopoInfo *topo_info)
+> > +{
+> > +    return apicid_bitwidth_for_count(topo_info->modules_per_die);
+> >   }
+> >   /* Bit width of the Die_ID field */
+> > @@ -99,10 +100,16 @@ static inline unsigned apicid_core_offset(X86CPUTopoInfo *topo_info)
+> >       return apicid_smt_width(topo_info);
+> >   }
+> > +/* Bit offset of the Module_ID (cluster ID) field */
+> > +static inline unsigned apicid_module_offset(X86CPUTopoInfo *topo_info)
+> > +{
+> > +    return apicid_core_offset(topo_info) + apicid_core_width(topo_info);
+> > +}
+> > +
+> >   /* Bit offset of the Die_ID field */
+> >   static inline unsigned apicid_die_offset(X86CPUTopoInfo *topo_info)
+> >   {
+> > -    return apicid_core_offset(topo_info) + apicid_core_width(topo_info);
+> > +    return apicid_module_offset(topo_info) + apicid_module_width(topo_info);
+> >   }
+> >   /* Bit offset of the Pkg_ID (socket ID) field */
+> > @@ -121,6 +128,7 @@ static inline apic_id_t x86_apicid_from_topo_ids(X86CPUTopoInfo *topo_info,
+> >   {
+> >       return (topo_ids->pkg_id  << apicid_pkg_offset(topo_info)) |
+> >              (topo_ids->die_id  << apicid_die_offset(topo_info)) |
+> > +           (topo_ids->module_id << apicid_module_offset(topo_info)) |
+> >              (topo_ids->core_id << apicid_core_offset(topo_info)) |
+> >              topo_ids->smt_id;
+> >   }
+> > @@ -138,11 +146,6 @@ static inline void x86_topo_ids_from_idx(X86CPUTopoInfo *topo_info,
+> >       unsigned nr_cores = topo_info->cores_per_module;
+> >       unsigned nr_threads = topo_info->threads_per_core;
+> > -    /*
+> > -     * Currently smp for i386 doesn't support "clusters", modules_per_die is
+> > -     * only 1. Therefore, the module_id generated from the module topology will
+> > -     * not conflict with the module_id generated according to the apicid.
+> > -     */
+> >       topo_ids->pkg_id = cpu_index / (nr_dies * nr_modules *
+> >                          nr_cores * nr_threads);
+> >       topo_ids->die_id = cpu_index / (nr_modules * nr_cores *
+> > @@ -166,12 +169,9 @@ static inline void x86_topo_ids_from_apicid(apic_id_t apicid,
+> >       topo_ids->core_id =
+> >               (apicid >> apicid_core_offset(topo_info)) &
+> >               ~(0xFFFFFFFFUL << apicid_core_width(topo_info));
+> > -    /*
+> > -     * TODO: This is the temporary initialization for topo_ids.module_id to
+> > -     * avoid "maybe-uninitialized" compilation errors. Will remove when APIC
+> > -     * ID supports module level parsing.
+> > -     */
+> > -    topo_ids->module_id = 0;
+> > +    topo_ids->module_id =
+> > +            (apicid >> apicid_module_offset(topo_info)) &
+> > +            ~(0xFFFFFFFFUL << apicid_module_width(topo_info));
+> >       topo_ids->die_id =
+> >               (apicid >> apicid_die_offset(topo_info)) &
+> >               ~(0xFFFFFFFFUL << apicid_die_width(topo_info));
+> 
 
