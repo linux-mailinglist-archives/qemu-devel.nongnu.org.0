@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5D0C69873A
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 22:18:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5843469874B
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 22:20:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSP9O-0006fP-L6; Wed, 15 Feb 2023 16:17:14 -0500
+	id 1pSPCK-0000K8-V8; Wed, 15 Feb 2023 16:20:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pSP9L-0006fH-3O
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 16:17:11 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pSPCF-0000HZ-7g
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 16:20:11 -0500
+Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pSP9I-0001Lj-G9
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 16:17:10 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6DBF261DBC;
- Wed, 15 Feb 2023 21:17:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E394C433EF;
- Wed, 15 Feb 2023 21:17:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1676495825;
- bh=uSjfdzmsc1sRw+bkKglzN2j2OhMDVPZb0llJRCwU/S4=;
- h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=hvR7qZi/L2/MbM6DGMeqR+x22AicT/nboZWHE0DspaXQawKzhM3fuLzeWo/reOPTq
- 3w5g5xyu7RoLNz4fS6tJMIUvfoYTIbETQ5z5vb5dD4hHJuVVBxZbHUyuCQcTxYHxRV
- CMLFNmVAqjFviQ8H8T2YMX3dSZauk+IYbwEpZZxtDUwlcKLyUKm42fW8b2mq3Dc63j
- W6TQJY3A8w4g8yD2VUcPwTqUi5u8Y6MuZczPwR/O9W492TPUOKZ3LMnfFURzYRoL6Q
- AWiBLUqi0ZLpzqjm5M5KaJ9OJ5zf2eNYD9mf+mNbgMBid1kmdOLmbWNSSemisuPjRD
- baNtVGMGK3xnQ==
-Date: Wed, 15 Feb 2023 13:17:03 -0800 (PST)
-From: Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
-To: Fabiano Rosas <farosas@suse.de>, peter.maydell@linaro.org
-cc: Stefano Stabellini <sstabellini@kernel.org>, qemu-devel@nongnu.org, 
- vikram.garhwal@amd.com
-Subject: Re: [PULL v2 0/10] xenpvh
-In-Reply-To: <87bkluelt7.fsf@suse.de>
-Message-ID: <alpine.DEB.2.22.394.2302151316570.2127160@ubuntu-linux-20-04-desktop>
-References: <alpine.DEB.2.22.394.2302141541100.2025117@ubuntu-linux-20-04-desktop>
- <CAFEAcA96Mb5KAdPQrncqh9SM2iRc7aE2f4deoiF_2vChdMF0rw@mail.gmail.com>
- <87bkluelt7.fsf@suse.de>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pSPCB-0001j5-SX
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 16:20:10 -0500
+Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
+ (iva4-f06c35e68a0a.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:152e:0:640:f06c:35e6])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id E49A361CF3;
+ Thu, 16 Feb 2023 00:19:59 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b58a::1:31] (unknown
+ [2a02:6b8:b081:b58a::1:31])
+ by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ wJsOi40RvSw1-CdO9u7aj; Thu, 16 Feb 2023 00:19:58 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1676495998; bh=NfzFoerSUKKVinvN0mgE1WHUd2fgkJu7m5CxcS6o6vA=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=qYJEpc61yWeoUrVUAbUEYzQQGD6iItG5cfLPJFMAXZiX5uJSpQMyMGLF2NagQqMsF
+ BvNC+8xXDShp4iLyynVORQ0V1Fix+aQuH+umw7SQn4DsjZDHCts6kiGNqEnjH6PN17
+ OKnBgQD87XRGzXR2oHCLmTvrF0UnIj5uqEy3aCrk=
+Authentication-Results: iva4-f06c35e68a0a.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <9dcd8dd1-8b82-dc18-307c-a977d6574c2b@yandex-team.ru>
+Date: Thu, 16 Feb 2023 00:19:58 +0300
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323329-298822432-1676495538=:2127160"
-Content-ID: <alpine.DEB.2.22.394.2302151312250.2127160@ubuntu-linux-20-04-desktop>
-Received-SPF: pass client-ip=139.178.84.217;
- envelope-from=sstabellini@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] qemu: make version available in coredump
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, Kevin Wolf <kwolf@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Markus Armbruster
+ <armbru@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ Denis Plotnikov <den-plotnikov@yandex-team.ru>,
+ Eric Blake <eblake@redhat.com>
+References: <20220607203221.966261-1-vsementsov@yandex-team.ru>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20220607203221.966261-1-vsementsov@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.136;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,55 +78,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+ping)
 
---8323329-298822432-1676495538=:2127160
-Content-Type: text/plain; CHARSET=UTF-8
-Content-Transfer-Encoding: 8BIT
-Content-ID: <alpine.DEB.2.22.394.2302151312251.2127160@ubuntu-linux-20-04-desktop>
+-- 
+Best regards,
+Vladimir
 
-On Wed, 15 Feb 2023, Fabiano Rosas wrote:
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> 
-> > On Tue, 14 Feb 2023 at 23:43, Stefano Stabellini <sstabellini@kernel.org> wrote:
-> >>
-> >> The following changes since commit 6a50f64ca01d0a7b97f14f069762bfd88160f31e:
-> >>
-> >>   Merge tag 'pull-request-2023-02-14' of https://gitlab.com/thuth/qemu into staging (2023-02-14 14:46:10 +0000)
-> >>
-> >> are available in the Git repository at:
-> >>
-> >>   https://gitlab.com/sstabellini/qemu xenpvh2
-> >>
-> >> for you to fetch changes up to 86b01d58ca2840bea6e4e7260aad450a660fbd46:
-> >>
-> >>   meson.build: enable xenpv machine build for ARM (2023-02-14 15:39:25 -0800)
-> >>
-> >> ----------------------------------------------------------------
-> >
-> > Fails to compile for some configs, eg:
-> >
-> > https://gitlab.com/qemu-project/qemu/-/jobs/3775820949
-> > https://gitlab.com/qemu-project/qemu/-/jobs/3775820984
-> >
-> > In file included from ../target/arm/machine.c:6:
-> > ../target/arm/internals.h:1141:21: error: field ‘f’ has incomplete type
-> > 1141 | CPUTLBEntryFull f;
-> >
-> 
-> For this to work we'll probably need to cherry-pick some parts of my
-> disable-tcg series:
-> 
-> https://lore.kernel.org/r/20230213202927.28992-1-farosas@suse.de
-> 
-> For this error specifically, patch 16.
-
-Thanks for the quick reply!
-
-Peter, how would you like to proceed? Vikram (the original contributor)
-will be AFK for a few weeks but I might be able to have a look this in
-the meantime. But if this is a known issue with already a fix available,
-then what should be the action for me?
---8323329-298822432-1676495538=:2127160--
 
