@@ -2,79 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57E91697DC4
+	by mail.lfdr.de (Postfix) with ESMTPS id 498ED697DC3
 	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 14:46:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSI6Z-0006oZ-FK; Wed, 15 Feb 2023 08:45:51 -0500
+	id 1pSI6m-0006sH-1s; Wed, 15 Feb 2023 08:46:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pSI6V-0006o0-Tm
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:45:49 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
+ id 1pSI6g-0006pZ-Uw
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:45:59 -0500
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pSI6S-0005Jy-Kk
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:45:46 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id r2so19196440wrv.7
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 05:45:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=n/ThfzrDgUjYqaRx1XhiYCOiTgFfI1QiyNBakl4gOMQ=;
- b=A+OKPdvlTaw5XRL8fbYPKH3bMorBDFlYSLRqkDrwR5QK3BLUnK/1QAUWdJoNxIWGq7
- KnUdmWLQoaoe6nfYjUTbud4h4y9+/YCqdKv/bmZb1lb2Kco8Ie7ommTifjkw/Uv+Q3RA
- ahJbxF/lIb+eD8V0ON6Ss76/byMkqwOeSKXKwZLcgS8zz7eyp5E5hYufYPLnAWehCFum
- st14UK5boX94rNg97KkiNXvjiUSbh9SPSzPc0Ystxodd7FApXpLCVVAGhBV+YTeREGj4
- ijnVVZ92ALzfD8JQ7B6Glq9Vq16/CiV+yyyB7wHOJr5n8Qe7fLfwQCkEjzm3VZeJ5ish
- SH3g==
+ (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
+ id 1pSI6f-0006g0-1h
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:45:58 -0500
+Received: by mail-oi1-x22b.google.com with SMTP id t5so15807823oiw.1
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 05:45:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=oB7R+Yk45AiaE/WxhVW1lTlTtgHxoO06lbVcfhUEZWQ=;
+ b=JyigF4X9ofadwCQLNfIekOSh/rqJRT1UsKm8g6UtqZo2CVFXVtWAjn5ydVrc+7rQrG
+ mE3Aq6Y8dwUPuuC+aNNyc6f+DK0R1ti7LDj3jluMRcxCdVfeO96sSkc8wUWpTX9YFvRO
+ Y15b2dPT2OTMhW8CiLyb/Bhgwe8+OVSE/qyNUytr2TFNG0n4UAd9CqWvJjRf3v8cVzIl
+ KdOGiQUW/AGbN2rlzjEEj/Q/7mesgxGcZVq2XQ8aDWWReiOSDc4bJrJ+fjz88zsB1IyY
+ K2UB9y8L6nR83tnIP5jAIougzVRyPzz6LOtAM8sWyUjqib+zwK5Cv/k6ALTn/MOyfyDi
+ gxvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=n/ThfzrDgUjYqaRx1XhiYCOiTgFfI1QiyNBakl4gOMQ=;
- b=KGKemw0NIPSgUgeoAZG9kroI8qlf/Sgf/kfuVyFrYQ2lkLpSoTq0OPq5WRngI5e+m7
- U64FuDkzUaRitaXg2LpOuISzbr25XMGgRk+g/HEIVncSt8cylLJk18Idu/8mpCPNH39a
- dO10GeQXZhA/yxBbD9Ui9aRf+x6NnFE2VeRU+5Ekae2uIxlhQVICA0K39TmVeSKO1Rc7
- L9T+vHLGQw7CEvbJz0tZP7GxFxigIE+SeBSSNvVfbz3bvrK/PYAl1vrn0KIZDFw9sY/p
- aFBuA6sm7rTfYMLbxEsHwtiqLMGvUFkRwpW2xD0G04H7IAWZ3gBIJl+qSjiZYZwpKiPJ
- 9cRA==
-X-Gm-Message-State: AO0yUKUQltwWVsq3kQK0LJfWnlKgSXqO7gfHksF2TND+TZgnJ/EFYqKJ
- bkBQxlcXy4v72zZm8Ia+P9psyA==
-X-Google-Smtp-Source: AK7set9CT59qWEZX1lbfuv2qYv/kiZGz7DX2mfh25u4pB2SXC0NtsuV8aOA5466GHAXinbui3xRQKg==
-X-Received: by 2002:adf:dd0a:0:b0:2bf:d937:3589 with SMTP id
- a10-20020adfdd0a000000b002bfd9373589mr2099936wrm.14.1676468742742; 
- Wed, 15 Feb 2023 05:45:42 -0800 (PST)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz.
- [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
- by smtp.gmail.com with ESMTPSA id
- b4-20020a5d4d84000000b002c5621263e3sm4584083wru.19.2023.02.15.05.45.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 05:45:42 -0800 (PST)
-Date: Wed, 15 Feb 2023 14:45:41 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- bmeng@tinylab.org, liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com
-Subject: Re: [PATCH v2 00/11] enable write_misa() and RISCV_FEATURE_* cleanups
-Message-ID: <20230215134541.hxaspacyttcytod5@orel>
-References: <20230214192356.319991-1-dbarboza@ventanamicro.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=oB7R+Yk45AiaE/WxhVW1lTlTtgHxoO06lbVcfhUEZWQ=;
+ b=lksBNpLTkGaiHcywdv/2al46Hv25QBv4rNMuxRR9rQ7Qil3kR0VdbZ6xsqO93atuHy
+ 0FroKHpTeoHP3XcwtlSDkDL/w1Ac50hQHtzIEc7ZU6hZfy1HTJkeyFf/qzpUpeV8rPSb
+ s3fTbq+5sOdFt4dJEkDSAv7RlVSA5ENK7MG0B1DxxUd2vgspV5Y/EYPhB3dJ/5ewOqRQ
+ sZBseMFmuIFdbmO4MPFQxdXsJfSlMPKWkF/d1WPMVTPZQLfriRLfq8u/b8QgZ89aqCtu
+ evM0smfNMGC1acxH5oU2eH5SJQ2DlX5w3DiFJxZzcs+L1QM8Br+IgGzt0ArkkKei9/s9
+ 6GJw==
+X-Gm-Message-State: AO0yUKX2BqUoOAJt3h3WIHKA24ORiaUqajuU4+kaSeuNh01L5jq3cyiN
+ DHndmklcewxnevqG/nRPYP1YAgJWIDHg+SrjwR8=
+X-Google-Smtp-Source: AK7set+Vlw+0WzJqdXCrgEVq/DDOie7/rsFEn0kOQYJF/IXwhKMg5iz5/TZro2D5HH+73tuQ620qO0kD1WgGCVGzZYE=
+X-Received: by 2002:a05:6808:2219:b0:378:7d9a:dc2a with SMTP id
+ bd25-20020a056808221900b003787d9adc2amr143487oib.275.1676468753718; Wed, 15
+ Feb 2023 05:45:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230214192356.319991-1-dbarboza@ventanamicro.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=ajones@ventanamicro.com; helo=mail-wr1-x42f.google.com
+References: <20220926095509.3759409-1-kraxel@redhat.com>
+ <20220926095509.3759409-14-kraxel@redhat.com>
+ <CAJSP0QVoLf_v2xP6GwDzbFg_RDnP5ppM3UZwTN3XAWPcv6cFCQ@mail.gmail.com>
+ <CAAKa2j=2cdYxBFZO1pTJLFcPVb-6R4gnB9zad3rdptfuuo0ixw@mail.gmail.com>
+In-Reply-To: <CAAKa2j=2cdYxBFZO1pTJLFcPVb-6R4gnB9zad3rdptfuuo0ixw@mail.gmail.com>
+From: Qiang Liu <cyruscyliu@gmail.com>
+Date: Wed, 15 Feb 2023 21:45:42 +0800
+Message-ID: <CAAKa2jmkjPuTouvk3qRvuFiS7RtTSQ8vC=m_eDYLyV7tUxAkiA@mail.gmail.com>
+Subject: Re: [PULL 13/25] hcd-ohci: Fix inconsistency when resetting ohci root
+ hubs
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org, 
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Bandan Das <bsd@redhat.com>, 
+ Alexander Bulekov <alxndr@bu.edu>, Laurent Vivier <lvivier@redhat.com>, 
+ Darren Kenny <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Akihiko Odaki <akihiko.odaki@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Alexandre Ratchov <alex@caoua.org>, Peter Maydell <peter.maydell@linaro.org>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000008ae25e05f4bd4cb9"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
+ envelope-from=cyruscyliu@gmail.com; helo=mail-oi1-x22b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,54 +95,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 14, 2023 at 04:23:45PM -0300, Daniel Henrique Barboza wrote:
-> Hi,
-> 
-> This new version contains suggestions made by Weiwei Li in v1. Most
-> notable change is patch 4 from v1, moving up to patch 2 now,  to allow
-> the riscv_cpu_cfg() helper to be used in the MISA CSR patch.
-> 
-> 
-> Changes in v2:
-> - former patch 4 moved to patch 2
-> - patch 3 (former 2):
->   - use riscv_cpu_cfg()
-> - patch 9:
->   - remove the uneeded RISCVCPUConfig and access mmu via
->     cpu_cfg->cfg.mmu
-> - v1 link: https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg02780.html
-> 
-> Daniel Henrique Barboza (11):
->   target/riscv: do not mask unsupported QEMU extensions in write_misa()
->   target/riscv: introduce riscv_cpu_cfg()
->   target/riscv: allow users to actually write the MISA CSR
->   target/riscv: remove RISCV_FEATURE_MISA
->   target/riscv: remove RISCV_FEATURE_DEBUG
->   target/riscv/cpu.c: error out if EPMP is enabled without PMP
->   target/riscv: remove RISCV_FEATURE_EPMP
->   target/riscv: remove RISCV_FEATURE_PMP
->   hw/riscv/virt.c: do not use RISCV_FEATURE_MMU in
->     create_fdt_socket_cpus()
->   target/riscv: remove RISCV_FEATURE_MMU
->   target/riscv/cpu: remove CPUArchState::features and friends
-> 
->  hw/riscv/virt.c           |  7 ++++---
->  target/riscv/cpu.c        | 20 +++++---------------
->  target/riscv/cpu.h        | 29 ++++++-----------------------
->  target/riscv/cpu_helper.c |  6 +++---
->  target/riscv/csr.c        | 15 ++++++---------
->  target/riscv/machine.c    | 11 ++++-------
->  target/riscv/monitor.c    |  2 +-
->  target/riscv/op_helper.c  |  2 +-
->  target/riscv/pmp.c        |  8 ++++----
->  9 files changed, 34 insertions(+), 66 deletions(-)
-> 
-> -- 
-> 2.39.1
-> 
+--0000000000008ae25e05f4bd4cb9
+Content-Type: text/plain; charset="UTF-8"
+
+Hi,
+
+> This commit breaks boot-serial-test on ppc64-softmmu.
+>>
+>>   $ ./configure --enable-tcg-interpreter
+>> '--target-list=aarch64-softmmu alpha-softmmu arm-softmmu hppa-softmmu
+>> m68k-softmmu microblaze-softmmu ppc64-softmmu s390x-softmmu
+>> x86_64-softmmu'
+>>   $ make && cd build && QTEST_QEMU_BINARY=./qemu-system-ppc64
+>> ./tests/qtest/boot-serial-test; cd -
+>>
+>> (Yes, the full --target-list is needed because boot-serial-test isn't
+>> built when only ppc64-softmmu is selected.)
+>>
+>> Here is the CI failure:
+>> https://gitlab.com/qemu-project/qemu/-/jobs/3087540972#L22
 >
+>  I reproduced this failure and got "Out of malloc memory" error message in
+the [openbios-ppc](
+https://github.com/openbios/openbios/blob/4a0041107b8ef77e0e8337bfcb5f8078887261a7/libopenbios/ofmem_common.c#L134).
+However, I'm not sure how to debug this. Have you run into this issue
+before?
 
-For the series
+Best,
+Qiang
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+--0000000000008ae25e05f4bd4cb9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi,</div><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote=
+"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex">This commit breaks boot=
+-serial-test on ppc64-softmmu.<br>
+<br>
+=C2=A0 $ ./configure --enable-tcg-interpreter<br>
+&#39;--target-list=3Daarch64-softmmu alpha-softmmu arm-softmmu hppa-softmmu=
+<br>
+m68k-softmmu microblaze-softmmu ppc64-softmmu s390x-softmmu<br>
+x86_64-softmmu&#39;<br>
+=C2=A0 $ make &amp;&amp; cd build &amp;&amp; QTEST_QEMU_BINARY=3D./qemu-sys=
+tem-ppc64<br>
+./tests/qtest/boot-serial-test; cd -<br>
+<br>
+(Yes, the full --target-list is needed because boot-serial-test isn&#39;t<b=
+r>
+built when only ppc64-softmmu is selected.)<br>
+<br>
+Here is the CI failure:<br>
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/3087540972#L22" rel=
+=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/jo=
+bs/3087540972#L22</a></blockquote></div></div></blockquote><div>=C2=A0I rep=
+roduced this failure and got &quot;Out of malloc memory&quot; error message=
+ in the [openbios-ppc](<a href=3D"https://github.com/openbios/openbios/blob=
+/4a0041107b8ef77e0e8337bfcb5f8078887261a7/libopenbios/ofmem_common.c#L134">=
+https://github.com/openbios/openbios/blob/4a0041107b8ef77e0e8337bfcb5f80788=
+87261a7/libopenbios/ofmem_common.c#L134</a>). However, I&#39;m not sure how=
+ to debug this. Have you run into this issue before?</div><div><br></div><d=
+iv>Best,</div><div>Qiang</div></div></div>
+
+--0000000000008ae25e05f4bd4cb9--
 
