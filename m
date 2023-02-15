@@ -2,67 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD6A2698576
+	by mail.lfdr.de (Postfix) with ESMTPS id C5E83698577
 	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 21:22:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSOHE-0007XU-Oh; Wed, 15 Feb 2023 15:21:16 -0500
+	id 1pSOHf-0007aW-TP; Wed, 15 Feb 2023 15:21:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pSOHB-0007X3-TX
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:21:14 -0500
-Received: from forwardcorp1b.mail.yandex.net
- ([2a02:6b8:c02:900:1:45:d181:df01])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pSOH6-0006cS-HZ
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:21:13 -0500
-Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
- (iva4-f06c35e68a0a.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:152e:0:640:f06c:35e6])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id B5A0A61B23;
- Wed, 15 Feb 2023 23:20:59 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b58a::1:31] (unknown
- [2a02:6b8:b081:b58a::1:31])
- by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- xKrfa40R44Y1-l2DHAjAI; Wed, 15 Feb 2023 23:20:59 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1676492459; bh=KkDY3C3o8yctuSIaHsoCGE1Ncmbnfs6ccNvlm58cA1o=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=xP5bClFL+Ctc3AHWKhXwqCg60C31Wc+im1/r/MNNTyqpm8EQC1nlryc/Gjk+iPhF0
- ebJBGRDQOQprHAGGWPLEa6dRpCxnK/hEn2yQ4GPaTAhkJNhJ0jqldlJuz08NTS3d24
- 0o5+IN+SO8heR2Y8zttR75HHnctyc65++XyhISiA=
-Authentication-Results: iva4-f06c35e68a0a.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <35c7e623-1433-5250-6188-29424814bccb@yandex-team.ru>
-Date: Wed, 15 Feb 2023 23:20:58 +0300
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pSOHd-0007aA-8U
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:21:41 -0500
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pSOHb-0008D9-Jr
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:21:40 -0500
+Received: by mail-pl1-x635.google.com with SMTP id i18so13018189pli.3
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 12:21:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=K4YTFx+GgrvnPkvciwZNt5ZuA3g5RS00z3ldgstfjV8=;
+ b=rnXFRJTdF6n/ZEtZQwxBmtBiA1FLBqrkTh5hYdSjLVxaSzHkOGtQMIwEsDd5/d0gI4
+ c7or56IUdCHdDO/TVTwQM5/JXDpyLl+eWVSnVuerAhk1thVQ1PJZqOa4Lacs2ggAy5zc
+ ypCOWrwxn/2IGsi86HJHQqpSoB5L9p7gH8H9x6Zbnog1Wn4lFUg0UjN8VOgpPBvtvhpm
+ ZdxtT7NKOX5MPE4LvdzKZfeLHIDEsF3fRpnfXfaGUfUUn9ci2CNAcqlcQ6w154qYrtW0
+ gdL7JYR2vfQBpc9qVZDy3BVEGW1KU+V8PQjN4ns+81cqSHwspZUGok5qqv0ldxZ8nwvP
+ SOKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=K4YTFx+GgrvnPkvciwZNt5ZuA3g5RS00z3ldgstfjV8=;
+ b=U128dakvQTVXxSHqrFBNuSZ7TLj5nUyxFkGQ5Sk1D1adURFmIBRoSr+WVEyFS1vHTZ
+ 6DZm6laOQtl8iuXSIMAXQtzNSTJM6OFHg0mmcLxgy7yCqFU/vJ+iKhIAnKeCwMcWe1uT
+ rl+3sM2PVdT/iLUCBzr9EMehdEE4iTLJ7+3G0IxFu2+Aa5ehizGEItiYrV/DO94tQ19y
+ EXqIq+6KNBljNlN07lrQbJWlRu09TBITec2bRDnYUGAc22jCXkvnuCGvsmuYffAwhXiT
+ +V4MWpIOMFnnb2CDwRkl1eFNwKiekdJsaABx+iqXIfG51RZCRFWifihbq6fTvIB5RBt2
+ l1Cw==
+X-Gm-Message-State: AO0yUKVMIPWlYn8pBaRRbnM1B4DnpXetBaWGG8tSIBhLfB3lejIo3HLn
+ IAgyrJ7RIpBKzD2ph++z1f9p2A==
+X-Google-Smtp-Source: AK7set/7+rQwRG5Er+H2sHtuKbtq7bvMkg9t3JO6VeIp+VbszGPLxMIX3x0PeEiUJTMpYCndS2H2uA==
+X-Received: by 2002:a17:90a:cf8e:b0:233:fa78:7c9e with SMTP id
+ i14-20020a17090acf8e00b00233fa787c9emr4392636pju.12.1676492497813; 
+ Wed, 15 Feb 2023 12:21:37 -0800 (PST)
+Received: from [192.168.192.227] (rrcs-74-87-59-234.west.biz.rr.com.
+ [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
+ a3-20020a17090aa50300b0022bb3ee9b68sm1897387pjq.13.2023.02.15.12.21.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Feb 2023 12:21:37 -0800 (PST)
+Message-ID: <645427aa-2630-a2be-9f1a-bee60a2d2885@linaro.org>
+Date: Wed, 15 Feb 2023 10:21:33 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] coverity: physmem: use simple assertions instead of
- modelling
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 1/3] target/mips: fix JALS32/J32 instruction handling for
+ microMIPS
 Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: philmd@linaro.org, david@redhat.com, peterx@redhat.com,
- pbonzini@redhat.com, peter.maydell@linaro.org, armbru@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20221226220351.754204-1-vsementsov@yandex-team.ru>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20221226220351.754204-1-vsementsov@yandex-team.ru>
+To: Marcin Nowakowski <marcin.nowakowski@fungible.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Jiaxun Yang
+ <jiaxun.yang@flygoat.com>, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+References: <20230215084754.3816747-1-marcin.nowakowski@fungible.com>
+ <20230215084754.3816747-2-marcin.nowakowski@fungible.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230215084754.3816747-2-marcin.nowakowski@fungible.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
 X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,12 +96,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-ping
+On 2/14/23 22:47, Marcin Nowakowski wrote:
+> @@ -4860,6 +4860,7 @@ static void gen_compute_branch(DisasContext *ctx, uint32_t opc,
+>       target_ulong btgt = -1;
+>       int blink = 0;
+>       int bcond_compute = 0;
+> +    int jal_mask = 0;
 
-[add Stefan]
+Better to limit the scope of the variable to the block below.
 
--- 
-Best regards,
-Vladimir
+> @@ -4917,6 +4918,11 @@ static void gen_compute_branch(DisasContext *ctx, uint32_t opc,
+>           break;
+>       case OPC_J:
+>       case OPC_JAL:
+> +        /* Jump to immediate */
+> +        jal_mask = ctx->hflags & MIPS_HFLAG_M16 ? 0xF8000000 : 0xF0000000;
+> +        btgt = ((ctx->base.pc_next + insn_bytes) & jal_mask) |
+> +            (uint32_t)offset;
 
+Ideally we wouldn't have one huge helper function, and could pass down the mask from the 
+translator.  But that's on-going cleanup.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
