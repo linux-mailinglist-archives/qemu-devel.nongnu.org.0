@@ -2,96 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B5426984FA
+	by mail.lfdr.de (Postfix) with ESMTPS id 39A1E6984F9
 	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 20:53:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSNpN-00031e-7C; Wed, 15 Feb 2023 14:52:29 -0500
+	id 1pSNpO-00036Z-Pr; Wed, 15 Feb 2023 14:52:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pSNpK-00030Q-AX; Wed, 15 Feb 2023 14:52:26 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pSNpI-0006A2-Mt; Wed, 15 Feb 2023 14:52:26 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.nyi.internal (Postfix) with ESMTP id F27765C010C;
- Wed, 15 Feb 2023 14:52:20 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Wed, 15 Feb 2023 14:52:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1676490740; x=
- 1676577140; bh=J7JNshNTxlN/ZL+pKTpHmHpmNSBYqop6px+qKOVQ0ps=; b=n
- 7r3WbMsljNbgA91NcfJK+Py4E3DWARq66vbIKApK/5HIHcssj4sKygdQhE83ePVI
- 8ieDZMa/aBJxp5GvAzv9/gjvQmHvqZ+HtEJ5FYhtirLA9Ash0j8/rgoaQadXyWba
- c2qObHwvmYdE4era+Y77RVdM3MhXhzCvXPK5ydgL4BEmQbCgWYSj2Tr71R0bJ5Ml
- 1Tc1GVHMGB48Hsf45ApiBNeeq+nz5BNpB0We9zEkC/7nbQ+uFBOF8IXTJUxVQPSp
- 9bHgk/O4KEAIqDomugK73t8ArGIr5HxzsdW98iYZyK0yNlocDScgWn8SMQsq6wN+
- gsj9VP93Gw3SR3CLU8E8Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1676490740; x=
- 1676577140; bh=J7JNshNTxlN/ZL+pKTpHmHpmNSBYqop6px+qKOVQ0ps=; b=d
- 89nD0UDoTsWaB5vO1CMCKHhrM2vKY6ms/eSF6hxq05y+ETIYAnTrkAuhcPbSoYCB
- 7aNYi2Fqe4XWyO4/IS6d3e3qyL0+lv5XDSNXkwFI4qPez/H/+NY0cg3IiYozUCbb
- 1r0x3riOImgkDW7Z+az/Dxc3ARH101YwrpDhvQIWqdygM673xpisxhXMPLVQWdCx
- gbU71mxSZal4l/49oOsUw1dCtpocDMzdKYdEIJfwoChqqOMQC7JQTOJh81QY2HKD
- L6s9kZqbGzYg7Uu7LO4yEenbJ9C2O8osWqhJSUUbvp6fBK3FXl3h2GNx/O/h8hXv
- bH+RXigu/lZi2i/ZVb2Fw==
-X-ME-Sender: <xms:9DftYxntmgiEB4F9ym_x0uZxiVHzbwUtm2VkHbJgF8StrUro_-IrCA>
- <xme:9DftY82F_WPaudIyuiN3t6_3zbcuv50KwK1IVr8V9DyBmnLshGYCKTIBZS_tzNiHs
- WfGCoaPuJYjZwtq35s>
-X-ME-Received: <xmr:9DftY3p-hG8H1jUo5ebdqZj0tRZBwrxKHnIHgMnSPhc4nydHjzWa9-CXk437zyv9l-LNRQ5aR9XPwbpW2hOfHwKi>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeihedguddvfecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomheprfgv
- thgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesphhjugdruggvvheqnecuggftrf
- grthhtvghrnhephfegffevudefveetgeekteeijefhhfduueejvdegvdehffehjeevtefh
- hffffeeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epphgvthgvrhesphhjugdruggvvh
-X-ME-Proxy: <xmx:9DftYxniZi4O7bkB2k8cN9YljRhJEPM3a61G1JfCcpSbQGc1VOcOWQ>
- <xmx:9DftY_1-QIqSKE6R1SO7BtT0tJ72k9pxEt0K23wOlRm4VNrQ2MTC2w>
- <xmx:9DftYwv8r8fe18sSNOaPeUSU9JuwNbqq0nuRmZ-lI3W3ZziRS3AvKA>
- <xmx:9DftY4L5l6AfkRf1VVK9bWY5FWJTN85S7daO0azojfJjdnBHo87mPA>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 15 Feb 2023 14:52:19 -0500 (EST)
-Date: Wed, 15 Feb 2023 11:52:17 -0800
-From: Peter Delevoryas <peter@pjd.dev>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Markus Armbruster <armbru@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: Re: [PATCH 1/8] m25p80: Improve error when the backend file size
- does not match the device
-Message-ID: <Y+038bMA0BaPLUr8@pdel-mbp.dhcp.thefacebook.com>
-References: <20230214171830.681594-1-clg@kaod.org>
- <20230214171830.681594-2-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSNpM-00031w-CS
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 14:52:28 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSNpK-0006AT-H4
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 14:52:28 -0500
+Received: by mail-wr1-x429.google.com with SMTP id s13so2590612wrw.3
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 11:52:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=pv48IS0bIEUWeFjNSuZrUxV14PF1zqOzJD0ZOch69Ys=;
+ b=o8yNcngrU0Ugx6aILIA30qpSK0Bufv8E0dEpOHm/EBzd+PM0YBbVcilcv5DHUExCkM
+ rs0LXVgaP14zRbNx2+RXGRYE6yQ5ls8xRSs6K+iQXwvpcxo1BsTa6vRX1FWekqdQUEfQ
+ kjUcQi8y0kJ5z7OYJ7MlWqUmF/GergRIDva3p93OpHuJjlbsDEgozsxFkq0Iv4SbBWm4
+ CeXC/LaZV36cPXHIArMJGfHYP8ypUNEU1JpCwsmFbJIjJggqYMFNhbOCMQ882GyA1AFJ
+ O3QBw6k6DunuR5qp/myqWVkpRPErOiu9CBX0+lD6CUI8sLy0fsoquhNtfw78ta9fkQRr
+ tObw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pv48IS0bIEUWeFjNSuZrUxV14PF1zqOzJD0ZOch69Ys=;
+ b=rR3a1lcGkiE8S01fvYBwH/BlOha0enfjw/B9xy29rgvE6kRJlVJh7cHTi4cYhN5xx3
+ Rl4tGZp6VD24+31/KlB1NfuJ5r1HnVfW+PT4KAJJK3sEb5MHmR5vDSisLy3b39Jpsy13
+ 1yWu15hg4jBw9rK4JtzdBgBLjicefjik72d6k69QNRFAyRGgmmjur+sg6V4E7I9+10YM
+ 6L0ma0DK7gz6KrYjYnmRX1E9jC0oc7BpeTYV1kSwHfAX97rkv35L00avT8Eal7fP/W1/
+ dv76fBmoPKL2dYZM/c5v8I4xgXPL/8ow/GYg3exm9xYUKuMNFWGk5x8KrT1SN9mXm8EL
+ 8f/g==
+X-Gm-Message-State: AO0yUKUI+HrYjs9SEp4oTZr+NrJmTMe57fYpjZwZgaRjiusDvjvM7Tr2
+ Rql98v0LILXMlplKz/6o8MycCw==
+X-Google-Smtp-Source: AK7set9o5mu6bSAo1kbfDAmFjefIL0TeCZzX2GXEs+5LGsFY//FG9IXjn7pdU9oY4AgJPH0crruaHw==
+X-Received: by 2002:a05:6000:787:b0:2c5:5916:e902 with SMTP id
+ bu7-20020a056000078700b002c55916e902mr330528wrb.17.1676490744714; 
+ Wed, 15 Feb 2023 11:52:24 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ x1-20020adfffc1000000b002425be3c9e2sm16509304wrs.60.2023.02.15.11.52.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Feb 2023 11:52:24 -0800 (PST)
+Message-ID: <049ce408-e1e7-6bac-0fef-654157a5f984@linaro.org>
+Date: Wed, 15 Feb 2023 20:52:21 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH 03/12] tests: add socat dependency for tests
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Michael Roth <michael.roth@amd.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-arm@nongnu.org, John Snow <jsnow@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Darren Kenny <darren.kenny@oracle.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Yonggang Luo <luoyonggang@gmail.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Ed Maste <emaste@freebsd.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+References: <20230215192530.299263-1-alex.bennee@linaro.org>
+ <20230215192530.299263-4-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230215192530.299263-4-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230214171830.681594-2-clg@kaod.org>
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=peter@pjd.dev;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,71 +106,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 14, 2023 at 06:18:23PM +0100, C�dric Le Goater wrote:
-> Currently, when a block backend is attached to a m25p80 device and the
-> associated file size does not match the flash model, QEMU complains
-> with the error message "failed to read the initial flash content".
-> This is confusing for the user.
+On 15/2/23 20:25, Alex Bennée wrote:
+> We only use it for test-io-channel-command at the moment.
+> Unfortunately bringing socat into CI exposes an existing bug in the
+> test-io-channel-command unit test. For now disable the test with the
+> preprocessor until someone can diagnose it on Mac hardware.
 > 
-> Use blk_check_size_and_read_all() instead of blk_pread() to improve
-> the reported error.
-> 
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daud� <philmd@linaro.org>
-> Reviewed-by: Peter Delevoryas <peter@pjd.dev>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Message-Id: <20221115151000.2080833-1-clg@kaod.org>
-> Signed-off-by: C�dric Le Goater <clg@kaod.org>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
+>   tests/unit/test-io-channel-command.c                  | 4 ++--
+>   .gitlab-ci.d/cirrus/freebsd-12.vars                   | 2 +-
+>   .gitlab-ci.d/cirrus/freebsd-13.vars                   | 2 +-
+>   .gitlab-ci.d/cirrus/macos-12.vars                     | 2 +-
+>   tests/docker/dockerfiles/alpine.docker                | 1 +
+>   tests/docker/dockerfiles/centos8.docker               | 1 +
+>   tests/docker/dockerfiles/debian-amd64-cross.docker    | 1 +
+>   tests/docker/dockerfiles/debian-amd64.docker          | 1 +
+>   tests/docker/dockerfiles/debian-arm64-cross.docker    | 1 +
+>   tests/docker/dockerfiles/debian-armel-cross.docker    | 1 +
+>   tests/docker/dockerfiles/debian-armhf-cross.docker    | 1 +
+>   tests/docker/dockerfiles/debian-mips64el-cross.docker | 1 +
+>   tests/docker/dockerfiles/debian-mipsel-cross.docker   | 1 +
+>   tests/docker/dockerfiles/debian-ppc64el-cross.docker  | 1 +
+>   tests/docker/dockerfiles/debian-s390x-cross.docker    | 1 +
+>   tests/docker/dockerfiles/fedora-win32-cross.docker    | 1 +
+>   tests/docker/dockerfiles/fedora-win64-cross.docker    | 1 +
+>   tests/docker/dockerfiles/fedora.docker                | 1 +
+>   tests/docker/dockerfiles/opensuse-leap.docker         | 1 +
+>   tests/docker/dockerfiles/ubuntu2004.docker            | 1 +
+>   tests/lcitool/projects/qemu.yml                       | 1 +
+>   21 files changed, 22 insertions(+), 5 deletions(-)
 > 
->   breakage with commit a4b15a8b9e ("pflash: Only read non-zero parts
->   of backend image") when using -snaphot.
+> diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
+> index 425e2f5594..f3c34152ac 100644
+> --- a/tests/unit/test-io-channel-command.c
+> +++ b/tests/unit/test-io-channel-command.c
+> @@ -31,7 +31,7 @@
+>   
+>   static char *socat = NULL;
+>   
+> -#ifndef _WIN32
+> +#if !defined(_WIN32) && !defined(DARWIN)
 
+s/DARWIN/CONFIG_DARWIN/
 
-I guess it's not obvious to me, what broke?
+>   static void test_io_channel_command_fifo(bool async)
+>   {
+>       g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
+> @@ -128,7 +128,7 @@ int main(int argc, char **argv)
+>   
+>       socat = g_find_program_in_path("socat");
+>   
+> -#ifndef _WIN32
+> +#if !defined(_WIN32) && !defined(DARWIN)
 
-1. BlockBackend *blk = -drive file=blob.mtd,format=raw,if=mtd,snapshot=on
-2. uint8_t *storage = malloc(...)
-3. blk_check_size_and_read_all(blk, storage, size)
-4. commit a4b15a8b9e 
-    for sector in blk:
-        if any(b != 0 for b in sector):
-            memcpy(&storage[...], sector, sizeof(sector))
-        else:
-            # Skip memcpy of zeroes
+CONFIG_DARWIN
 
-But this is probably a regression for us because we actually expect the zeroes
-to be copied?
+>       g_test_add_func("/io/channel/command/fifo/sync",
+>                       test_io_channel_command_fifo_sync);
+>       g_test_add_func("/io/channel/command/fifo/async",
 
-- Peter
+^ Clearly another preliminary patch.
 
-> 
->  hw/block/m25p80.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> index 802d2eb021..dc5ffbc4ff 100644
-> --- a/hw/block/m25p80.c
-> +++ b/hw/block/m25p80.c
-> @@ -24,6 +24,7 @@
->  #include "qemu/osdep.h"
->  #include "qemu/units.h"
->  #include "sysemu/block-backend.h"
-> +#include "hw/block/block.h"
->  #include "hw/qdev-properties.h"
->  #include "hw/qdev-properties-system.h"
->  #include "hw/ssi/ssi.h"
-> @@ -1615,8 +1616,7 @@ static void m25p80_realize(SSIPeripheral *ss, Error **errp)
->          trace_m25p80_binding(s);
->          s->storage = blk_blockalign(s->blk, s->size);
->  
-> -        if (blk_pread(s->blk, 0, s->size, s->storage, 0) < 0) {
-> -            error_setg(errp, "failed to read the initial flash content");
-> +        if (!blk_check_size_and_read_all(s->blk, s->storage, s->size, errp)) {
->              return;
->          }
->      } else {
-> -- 
-> 2.39.1
-> 
+With the split, for both patches, using CONFIG_DARWIN:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
