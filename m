@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB272697A67
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 12:07:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9666E697A72
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 12:10:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSFca-0002YL-St; Wed, 15 Feb 2023 06:06:44 -0500
+	id 1pSFfl-0003qg-79; Wed, 15 Feb 2023 06:10:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1pSFcX-0002Y2-VB
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 06:06:41 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pSFfj-0003qH-HE
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 06:09:59 -0500
+Received: from 6.mo552.mail-out.ovh.net ([188.165.49.222])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1pSFcV-00070p-9S
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 06:06:41 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4PGwF854MYznW54;
- Wed, 15 Feb 2023 19:04:12 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.6; Wed, 15 Feb 2023 19:06:33 +0800
-Message-ID: <c4607aed-a010-21cc-592a-f17be6a64259@huawei.com>
-Date: Wed, 15 Feb 2023 19:06:32 +0800
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pSFfg-00041q-B3
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 06:09:59 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.249])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 733472B114;
+ Wed, 15 Feb 2023 11:09:51 +0000 (UTC)
+Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Wed, 15 Feb
+ 2023 12:09:49 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G005e4979293-5ed1-4691-b380-76b2d6df81e3,
+ 38A6E00C82B2D95FDD0C44CB66D888AEA19A4E6B) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <32521fbd-df47-6c7d-d515-4da185e6acfa@kaod.org>
+Date: Wed, 15 Feb 2023 12:09:48 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH RESEND 10/18] i386: Update APIC ID parsing rule to support
- module level
-To: Zhao Liu <zhao1.liu@linux.intel.com>
-CC: <qemu-devel@nongnu.org>, Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi
- <dapeng1.mi@intel.com>, Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo
- <robert.hu@linux.intel.com>, Xiaoyao Li <xiaoyao.li@intel.com>, Like Xu
- <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>, Eduardo Habkost
- <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, "Michael S .
- Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>, Markus
- Armbruster <armbru@redhat.com>
-References: <20230213093625.158170-1-zhao1.liu@linux.intel.com>
- <20230213093625.158170-11-zhao1.liu@linux.intel.com>
-In-Reply-To: <20230213093625.158170-11-zhao1.liu@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH 3/8] hw/misc: add a toy i2c echo device
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
+CC: <qemu-block@nongnu.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+ <andrew@aj.id.au>, Markus Armbruster <armbru@redhat.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Klaus Jensen <k.jensen@samsung.com>
+References: <20230214171830.681594-1-clg@kaod.org>
+ <20230214171830.681594-4-clg@kaod.org>
+ <e268d089-259f-07f2-6429-9eff461992f4@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <e268d089-259f-07f2-6429-9eff461992f4@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.35,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 2c4e1501-cf0e-43ff-8767-52e9e0df804f
+X-Ovh-Tracer-Id: 13654632598264777519
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudeihedgudekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhteegffdvieegleelvddtffehveevgedtudeujeduueekieeivdefteeileeileenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhivdgtqdgvtghhohdrtghsnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehphhhilhhmugeslhhinhgrrhhordhorhhgpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhgpdhjohgvlhesjhhmshdrihgurdgruhdprghnughrvgifsegrjhdrihgurdgruhdprghrmhgsrhhusehrvgguhhgrthdrtghomhdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrh
+ hordhorhhgpdhkrdhjvghnshgvnhesshgrmhhsuhhnghdrtghomhdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=188.165.49.222; envelope-from=clg@kaod.org;
+ helo=6.mo552.mail-out.ovh.net
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.35,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,153 +75,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Zhao,
+On 2/15/23 11:55, Philippe Mathieu-Daudé wrote:
+> On 14/2/23 18:18, Cédric Le Goater wrote:
+>> From: Klaus Jensen <k.jensen@samsung.com>
+>>
+>> Add an example I2C device to demonstrate how a slave may master the bus
+>> and send data asynchronously to another slave.
+> 
+> What a rebellion...
+> 
+>> The device will echo whatever it is sent to the device identified by the
+>> first byte received.
+>>
+>> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>> [ clg: - Changed to build to use CONFIG_ASPEED_SOC since only supported
+>>           on such SoCs
+>>         - folded in these fixes :
+>>              https://lore.kernel.org/qemu-devel/Y3yMKAhOkYGtnkOp@cormorant.local/
+>> ]
+>> Message-Id: <20220601210831.67259-7-its@irrelevant.dk>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>>   hw/misc/i2c-echo.c  | 156 ++++++++++++++++++++++++++++++++++++++++++++
+>>   hw/misc/meson.build |   2 +
+>>   2 files changed, 158 insertions(+)
+>>   create mode 100644 hw/misc/i2c-echo.c
+> 
+> 
+>> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+>> index 448e14b531..3eb1bda710 100644
+>> --- a/hw/misc/meson.build
+>> +++ b/hw/misc/meson.build
+>> @@ -129,6 +129,8 @@ softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_rng.c'))
+>>   softmmu_ss.add(when: 'CONFIG_GRLIB', if_true: files('grlib_ahb_apb_pnp.c'))
+>> +softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('i2c-echo.c'))
+> 
+> s/CONFIG_ASPEED_SOC/CONFIG_I2C/ since this is a generic device.
 
-在 2023/2/13 17:36, Zhao Liu 写道:
-> From: Zhuocheng Ding <zhuocheng.ding@intel.com>
->
-> Add the module level parsing support for APIC ID.
->
-> With this support, now the conversion between X86CPUTopoIDs,
-> X86CPUTopoInfo and APIC ID is completed.
-IIUC, contents in patch 6-8 and 10 are all about "Introduce the module-level
-CPU topology support for x86", why do we need gradually do this with kinds
-of temporary things instead of warp them into one patch? Before support
-for smp.clusters in the CLI for x86, we can ensure that modules_per_dies is
-always 1 so that the code is save in one diff. Or do I miss something?
+even if only supported by the Aspeed SoC ? I am OK with both.
 
-Thanks,
-Yanan
-> Signed-off-by: Zhuocheng Ding <zhuocheng.ding@intel.com>
-> Co-developed-by: Zhao Liu <zhao1.liu@intel.com>
-> Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
-> ---
->   hw/i386/x86.c              | 19 ++++++++-----------
->   include/hw/i386/topology.h | 36 ++++++++++++++++++------------------
->   2 files changed, 26 insertions(+), 29 deletions(-)
->
-> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> index b90c6584930a..2a9d080a8e7a 100644
-> --- a/hw/i386/x86.c
-> +++ b/hw/i386/x86.c
-> @@ -311,11 +311,11 @@ void x86_cpu_pre_plug(HotplugHandler *hotplug_dev,
->   
->       /*
->        * If APIC ID is not set,
-> -     * set it based on socket/die/core/thread properties.
-> +     * set it based on socket/die/cluster/core/thread properties.
->        */
->       if (cpu->apic_id == UNASSIGNED_APIC_ID) {
-> -        int max_socket = (ms->smp.max_cpus - 1) /
-> -                                smp_threads / smp_cores / ms->smp.dies;
-> +        int max_socket = (ms->smp.max_cpus - 1) / smp_threads / smp_cores /
-> +                                ms->smp.clusters / ms->smp.dies;
->   
->           /*
->            * die-id was optional in QEMU 4.0 and older, so keep it optional
-> @@ -379,15 +379,12 @@ void x86_cpu_pre_plug(HotplugHandler *hotplug_dev,
->   
->           x86_topo_ids_from_apicid(cpu->apic_id, &topo_info, &topo_ids);
->   
-> -        /*
-> -         * TODO: Before APIC ID supports module level parsing, there's no need
-> -         * to expose module_id info.
-> -         */
->           error_setg(errp,
-> -            "Invalid CPU [socket: %u, die: %u, core: %u, thread: %u] with"
-> -            " APIC ID %" PRIu32 ", valid index range 0:%d",
-> -            topo_ids.pkg_id, topo_ids.die_id, topo_ids.core_id, topo_ids.smt_id,
-> -            cpu->apic_id, ms->possible_cpus->len - 1);
-> +            "Invalid CPU [socket: %u, die: %u, module: %u, core: %u, thread: %u]"
-> +            " with APIC ID %" PRIu32 ", valid index range 0:%d",
-> +            topo_ids.pkg_id, topo_ids.die_id, topo_ids.module_id,
-> +            topo_ids.core_id, topo_ids.smt_id, cpu->apic_id,
-> +            ms->possible_cpus->len - 1);
->           return;
->       }
->   
-> diff --git a/include/hw/i386/topology.h b/include/hw/i386/topology.h
-> index 5de905dc00d3..3cec97b377f2 100644
-> --- a/include/hw/i386/topology.h
-> +++ b/include/hw/i386/topology.h
-> @@ -79,12 +79,13 @@ static inline unsigned apicid_smt_width(X86CPUTopoInfo *topo_info)
->   /* Bit width of the Core_ID field */
->   static inline unsigned apicid_core_width(X86CPUTopoInfo *topo_info)
->   {
-> -    /*
-> -     * TODO: Will separate module info from core_width when update
-> -     * APIC ID with module level.
-> -     */
-> -    return apicid_bitwidth_for_count(topo_info->cores_per_module *
-> -                                     topo_info->modules_per_die);
-> +    return apicid_bitwidth_for_count(topo_info->cores_per_module);
-> +}
-> +
-> +/* Bit width of the Module_ID (cluster ID) field */
-> +static inline unsigned apicid_module_width(X86CPUTopoInfo *topo_info)
-> +{
-> +    return apicid_bitwidth_for_count(topo_info->modules_per_die);
->   }
->   
->   /* Bit width of the Die_ID field */
-> @@ -99,10 +100,16 @@ static inline unsigned apicid_core_offset(X86CPUTopoInfo *topo_info)
->       return apicid_smt_width(topo_info);
->   }
->   
-> +/* Bit offset of the Module_ID (cluster ID) field */
-> +static inline unsigned apicid_module_offset(X86CPUTopoInfo *topo_info)
-> +{
-> +    return apicid_core_offset(topo_info) + apicid_core_width(topo_info);
-> +}
-> +
->   /* Bit offset of the Die_ID field */
->   static inline unsigned apicid_die_offset(X86CPUTopoInfo *topo_info)
->   {
-> -    return apicid_core_offset(topo_info) + apicid_core_width(topo_info);
-> +    return apicid_module_offset(topo_info) + apicid_module_width(topo_info);
->   }
->   
->   /* Bit offset of the Pkg_ID (socket ID) field */
-> @@ -121,6 +128,7 @@ static inline apic_id_t x86_apicid_from_topo_ids(X86CPUTopoInfo *topo_info,
->   {
->       return (topo_ids->pkg_id  << apicid_pkg_offset(topo_info)) |
->              (topo_ids->die_id  << apicid_die_offset(topo_info)) |
-> +           (topo_ids->module_id << apicid_module_offset(topo_info)) |
->              (topo_ids->core_id << apicid_core_offset(topo_info)) |
->              topo_ids->smt_id;
->   }
-> @@ -138,11 +146,6 @@ static inline void x86_topo_ids_from_idx(X86CPUTopoInfo *topo_info,
->       unsigned nr_cores = topo_info->cores_per_module;
->       unsigned nr_threads = topo_info->threads_per_core;
->   
-> -    /*
-> -     * Currently smp for i386 doesn't support "clusters", modules_per_die is
-> -     * only 1. Therefore, the module_id generated from the module topology will
-> -     * not conflict with the module_id generated according to the apicid.
-> -     */
->       topo_ids->pkg_id = cpu_index / (nr_dies * nr_modules *
->                          nr_cores * nr_threads);
->       topo_ids->die_id = cpu_index / (nr_modules * nr_cores *
-> @@ -166,12 +169,9 @@ static inline void x86_topo_ids_from_apicid(apic_id_t apicid,
->       topo_ids->core_id =
->               (apicid >> apicid_core_offset(topo_info)) &
->               ~(0xFFFFFFFFUL << apicid_core_width(topo_info));
-> -    /*
-> -     * TODO: This is the temporary initialization for topo_ids.module_id to
-> -     * avoid "maybe-uninitialized" compilation errors. Will remove when APIC
-> -     * ID supports module level parsing.
-> -     */
-> -    topo_ids->module_id = 0;
-> +    topo_ids->module_id =
-> +            (apicid >> apicid_module_offset(topo_info)) &
-> +            ~(0xFFFFFFFFUL << apicid_module_width(topo_info));
->       topo_ids->die_id =
->               (apicid >> apicid_die_offset(topo_info)) &
->               ~(0xFFFFFFFFUL << apicid_die_width(topo_info));
+
+> 
+>>   specific_ss.add(when: 'CONFIG_AVR_POWER', if_true: files('avr_power.c'))
+>>   specific_ss.add(when: 'CONFIG_MAC_VIA', if_true: files('mac_via.c'))
+> 
 
 
