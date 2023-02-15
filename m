@@ -2,91 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D886985BB
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 21:40:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 765336985C3
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 21:43:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSOYj-0007Lf-Ni; Wed, 15 Feb 2023 15:39:21 -0500
+	id 1pSOc2-0000wn-4S; Wed, 15 Feb 2023 15:42:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pSOYZ-0007IK-4c; Wed, 15 Feb 2023 15:39:11 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pSOYX-0002x1-ED; Wed, 15 Feb 2023 15:39:10 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 3B5F85C019A;
- Wed, 15 Feb 2023 15:39:06 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Wed, 15 Feb 2023 15:39:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1676493546; x=
- 1676579946; bh=m3SUTs9LSKEg4NRNWoSrrfe+2xtgchvIalp/Q38iw20=; b=3
- OVXRDZ9dW73ea8XySSq+ugGc3MEFxA0GJN0QA97axgkDnAuyznhS3vpBLuoUwi7t
- 8myqZEUujTTcL/X/7kBaVqdtkt0Zkcqr0iXIbsx0JXZ9ieDn/pPuYfBLWoT1mNGa
- Y9Ufhf5HGUc6JApUwiyJnhRaF9lCC0f7leHJiDBhqotMup1hDl1ZvOx85MwPS54m
- UC0tNoKKQ1QdQTEn9d3ea8/WAzE6Y7eiZtiKHwEzBsQPo3EOb3c8UJi/RAgecdDv
- pB2tUhPPGZ25rU+sKe1/0THpW/O4/qZPCo/6LMtHICyaLFCooHxwnJOT5DiKvB73
- Td1UGxx+v/x/xe08g7CbA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1676493546; x=
- 1676579946; bh=m3SUTs9LSKEg4NRNWoSrrfe+2xtgchvIalp/Q38iw20=; b=B
- ULFG3/eS7vQx1JfoiC6eRic2n1mj20M4BumvBi31kah6xXlo3FYnfJndQUjiIVnW
- NYTtR+RUU4+vb/xmpVlEhan2/wifief4dVo7XbLrnUHJG/Q8cew6FBfWr0YId+RV
- BMdXC/4BMQYDnFHWl9cVkmdkDsqMg2CBDJSwuAkBI/HpOT5AiLs1agoiSuB1m3V/
- pZINimgw9lu/vKjPYOImHXvuTzrv34TvO+l8TSJoQ1DSEGx1P195w4E3JlhdEhq1
- VoFHD73kPnbO0YOyRHhfrN+6TTuA7HCbL0ht4HnS9jQzvzWeyiAatY0GNsmzzgO4
- phGYB98nmT4Oa06QU4iEQ==
-X-ME-Sender: <xms:6kLtY0ETbWuXNq7ljCnZylOEZhSbic0clcTMI3t3NaucfBTM2mIKEQ>
- <xme:6kLtY9W0nyIc6vaD7C9gni3pb7wn4Tu31FWzyS6Q9wQb8Fdhpq_jjqYd3FLJ9FBmU
- cF3V0AT3f53R2g68rA>
-X-ME-Received: <xmr:6kLtY-K0M5w2dq4NNLH2hF5YVunDfDI9OualfPOTsXq0dAuuqYLeFw4XAkQJg7VElxhZxPl076MK3BU_kfEEUOrI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeihedgudefvdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggugfgjse
- htkeertddttddunecuhfhrohhmpefrvghtvghrucffvghlvghvohhrhigrshcuoehpvght
- vghrsehpjhgurdguvghvqeenucggtffrrghtthgvrhhnpefhgeffvedufeevteegkeetie
- ejhffhudeujedvgedvheffheejveethffhffefueenucevlhhushhtvghrufhiiigvpedt
- necurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrsehpjhgurdguvghv
-X-ME-Proxy: <xmx:6kLtY2F8wve9Ivx3CpLPA7QA1r7CraTSzROuo9UfkIHyovlr9xSaxQ>
- <xmx:6kLtY6XfPT0mZTKjZud85FsIMc9M-MsFvjDq7WfpaQpRCraA5A7bvQ>
- <xmx:6kLtY5MTSW2TmjQ1hvigLV21XIOojjSJGqnNBaxI16bKAaqxT9CiBg>
- <xmx:6kLtY4yuT8K2gIxtAAISzU8JqH0Rzly0kIisdC0s4oS-YZdo3OGSRA>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 15 Feb 2023 15:39:05 -0500 (EST)
-Date: Wed, 15 Feb 2023 12:39:03 -0800
-From: Peter Delevoryas <peter@pjd.dev>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Cc: ~ssinprem <ssinprem@celestica.com>, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org, srikanth@celestica.com, kgengan@celestica.com
-Subject: Re: [PATCH qemu 1/2] hw/at24c : modify at24c to support 1 byte
- address mode
-Message-ID: <Y+1C53ed7h7IXUu0@pdel-mbp.dhcp.thefacebook.com>
-References: <167636845806.2107.2382940753543768501-1@git.sr.ht>
- <a41eaf83-ea64-faad-c001-d53df83452ba@kaod.org>
+ (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
+ id 1pSObx-0000wU-Kt
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:42:41 -0500
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
+ id 1pSObv-0003ty-Il
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:42:41 -0500
+Received: by mail-ej1-x630.google.com with SMTP id f21so3995672ejq.8
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 12:42:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=uVJMGJMG86hoex2aJFwBGgzoHEnDlLOzmlH71siWAGw=;
+ b=pb7HNWYnDyOcJm9Y49ArfwRcADjiPT/LSqvWCT+pl9GiuwbODg9A7EB7D2A8ofICf/
+ x9xd7np5cGrlDuWjRT6hsLBxSKfR7JJ3Ba2SHhI/75lZbYQIg4qlIDEFlVZyd1b3Hk8N
+ w7F8CmJnkpisns1iAGemWZ4fImVXHwaTNLNBnXcOPKJchb7RrMUjkhkmuHwXKL9sXxLr
+ MrF+/UokjeUL+Jv9TnC2S3hM+FP9cGo8R+kmeu8mfrvcLbffVHju5FYYFOoI+htqokmn
+ xFSFMo2KG7bX8YWa+TY3ZSPiWCBm56I9LO10dSK5Gnbxrg8nNezKMXzyizeUqbS9+WW7
+ 0Xyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=uVJMGJMG86hoex2aJFwBGgzoHEnDlLOzmlH71siWAGw=;
+ b=fBHea/rEflsI1/8gRi/SOvQ0Nf1JzA8X0ziVnDb757ZKhl338Iqh+agWeVy9hgmjKz
+ naWOHo8DCOvvtCxfOJbtX4Z/HoEeExkGjazo+IKnFyY1lSl1pV1jxCg/yJLX4PnEDPwn
+ Gcflj7ZySois67Sf9+FBPXxp6ozGBtkY1WtH+jnU3eEky6MjZp8YdAdKJ/J4uEPeC5cq
+ ZdsiiAhERRBe/6iwCDLGo1VpVAwlac42Va1pwLwPDR5QTRnZW4gE/aA6cLHH3PKrzOBy
+ 20xYMzcrWMdHAiI9jW+VuRaG06WXCmf90F12pViu8dLMZX5PVEV3XCAjrFd1ZeUYq4Pi
+ u4aw==
+X-Gm-Message-State: AO0yUKV6HmE18lE/Atqq8ft2LkD2+JX41Ha8IgsXuLUgf/tqFH0F4cGf
+ Bpxpy43TMmPvFQk2+HXGHwYvhCSG1hA2bWXz04dEbg==
+X-Google-Smtp-Source: AK7set+UOBXwWNZfVDsg5KiqY4P995pJZeiI5BYsyVUUG9aMBGdSbT+5O/zAgPLVus0msQ3Plxmjko3zoKH0EBdjjSU=
+X-Received: by 2002:a17:906:ce49:b0:8b1:3cdf:29cd with SMTP id
+ se9-20020a170906ce4900b008b13cdf29cdmr1691626ejb.6.1676493757385; Wed, 15 Feb
+ 2023 12:42:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a41eaf83-ea64-faad-c001-d53df83452ba@kaod.org>
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=peter@pjd.dev;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230209062404.3582018-1-debug@rivosinc.com>
+ <20230209062404.3582018-3-debug@rivosinc.com>
+ <c413c4b3-166f-a1ac-7ee4-a81841ad5a9a@linux.alibaba.com>
+In-Reply-To: <c413c4b3-166f-a1ac-7ee4-a81841ad5a9a@linux.alibaba.com>
+From: Deepak Gupta <debug@rivosinc.com>
+Date: Wed, 15 Feb 2023 12:42:19 -0800
+Message-ID: <CAKC1njQ6kwD12Pqx-p=4v-jx=+EHt+v8JEU7knSafrEdN_eysg@mail.gmail.com>
+Subject: Re: [PATCH v1 RFC Zisslpcfi 2/9] target/riscv: zisslpcfi CSR, bit
+ positions and other definitions
+To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, liweiwei@iscas.ac.cn,
+ dbarboza@ventanamicro.com, 
+ Kip Walker <kip@rivosinc.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=debug@rivosinc.com; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,60 +89,185 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 14, 2023 at 03:29:33PM +0100, Cédric Le Goater wrote:
-> On 2/10/23 07:20, ~ssinprem wrote:
-> > From: Sittisak Sinprem <ssinprem@celestca.com>
-> 
-> 
-> 
-> You will need to add a Signed-off-by tag
-> 
-> Thanks,
-> 
-> C.
-
-Oh, yeah this is a pretty good change: I mean, at first I had no idea what's
-going on here, so it would be nice if we could leave a comment or refactor it
-to be simpler.
-
-Maybe instead of if-statements for > 256 or <= 256, we could do an address size
-attribute and compute the 256 bound from the address size.
-
-Anyways, this is a really small change to fix behavior, we can do a refactoring
-like that later (If Cedric is ok with it).
-
-Reviewed-by: Peter Delevoryas <peter@pjd.dev>
-
-> 
+On Tue, Feb 14, 2023 at 7:31 PM LIU Zhiwei <zhiwei_liu@linux.alibaba.com> wrote:
+>
+>
+> On 2023/2/9 14:23, Deepak Gupta wrote:
+> > `zisslpcfi` extension adds two new CSRs. CSR_SSP and CSR_LPLR.
+> > - CSR_SSP: This CSR holds shadow stack pointer for current privilege mode
+> >             CSR_SSP is accessible in all modes. Each mode must establish
+> >             it's own CSR_SSP.
+> >
+> > - CSR_LPLR: This CSR holds label value set at the callsite by compiler.
+> >              On call target label check instructions are emitted by
+> >              compiler which check label value against value present in
+> >              CSR_LPRL.
+> >
+> > Enabling of `zisslpcfi` is controlled via menvcfg (for S/HS/VS/U/VU) and
+> > henvcfg (for VS/VU) at bit position 60.
+> >
+> > Each mode has enable/disable bits for forward cfi. Backward cfi doesn't
+> > have separate enable/disable bits for S and M mode. User forward cfi and
+> > user backward cfi enable/disable bits are in mstatus/sstatus CSR.
+> > Supervisor forward cfi enable/disable bit are in menvcfg and henvcfg CSR.
+> > Machine mode forward cfi enable/disable bit is in mseccfg CSR.
+> >
+> > If forward cfi enabled, all indirect branches must land on a landing pad
+> > instruction (`lpcll`, introduced in later commits). CPU/hart tracks this
+> > internally using a landing pad tracker called `elp` short for `expecting
+> > landing pad`. An interrupt can occur between an indirect branch and
+> > target. If such an event occurs `elp` is saved away in mstatus/sstatus
+> > CSR
+> >
+> > Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+> > Signed-off-by: Kip Walker  <kip@rivosinc.com>
 > > ---
-> >   hw/nvram/eeprom_at24c.c | 8 +++++---
-> >   1 file changed, 5 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
-> > index 2d4d8b952f..693212b661 100644
-> > --- a/hw/nvram/eeprom_at24c.c
-> > +++ b/hw/nvram/eeprom_at24c.c
-> > @@ -87,7 +87,7 @@ uint8_t at24c_eeprom_recv(I2CSlave *s)
-> >       EEPROMState *ee = AT24C_EE(s);
-> >       uint8_t ret;
-> > -    if (ee->haveaddr == 1) {
-> > +    if (ee->rsize > 256 && ee->haveaddr == 1) {
-> >           return 0xff;
-> >       }
-> > @@ -104,11 +104,13 @@ int at24c_eeprom_send(I2CSlave *s, uint8_t data)
-> >   {
-> >       EEPROMState *ee = AT24C_EE(s);
-> > -    if (ee->haveaddr < 2) {
-> > +    if ((ee->rsize > 256 && ee->haveaddr < 2) ||
-> > +        (ee->rsize <= 256 && ee->haveaddr < 1)) {
-> >           ee->cur <<= 8;
-> >           ee->cur |= data;
-> >           ee->haveaddr++;
-> > -        if (ee->haveaddr == 2) {
-> > +        if ((ee->rsize > 256 && ee->haveaddr == 2) ||
-> > +            (ee->rsize <= 256 && ee->haveaddr == 1)) {
-> >               ee->cur %= ee->rsize;
-> >               DPRINTK("Set pointer %04x\n", ee->cur);
-> >           }
-> 
+> >   target/riscv/cpu.h      |  5 +++++
+> >   target/riscv/cpu_bits.h | 25 +++++++++++++++++++++++++
+> >   target/riscv/pmp.h      |  3 ++-
+> >   3 files changed, 32 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index 9a923760b2..18db61a06a 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -181,6 +181,11 @@ struct CPUArchState {
+> >
+> >       uint32_t features;
+> >
+> > +    /* CFI Extension user mode registers and state */
+> > +    uint32_t     lplr;
+> > +    target_ulong ssp;
+> > +    cfi_elp      elp;
+>
+> I think you are coding according to the sections of the specification.
+
+Yes, pretty much.
+
+> However,  when upstream code,
+> don't add declaration or definition if you don't use it in this patch.
+>
+> This patch should be split into patches where use these definitions.
+
+Noted.
+>
+> > +
+> >   #ifdef CONFIG_USER_ONLY
+> >       uint32_t elf_flags;
+> >   #endif
+> > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> > index 8b0d7e20ea..1663ba5775 100644
+> > --- a/target/riscv/cpu_bits.h
+> > +++ b/target/riscv/cpu_bits.h
+> > @@ -39,6 +39,10 @@
+> >
+> >   /* Control and Status Registers */
+> >
+> > +/* CFI CSRs */
+> > +#define CSR_LPLR            0x006
+> I didn't see the CSR encoding  number from the link in cover-letter.
+
+Yes, allocation is still in process. I'll ask ved (primary spec
+author) to update it.
+
+> > +#define CSR_SSP             0x020
+> > +
+> >   /* User Trap Setup */
+> >   #define CSR_USTATUS         0x000
+> >   #define CSR_UIE             0x004
+> > @@ -542,6 +546,10 @@
+> >   #define MSTATUS_TVM         0x00100000 /* since: priv-1.10 */
+> >   #define MSTATUS_TW          0x00200000 /* since: priv-1.10 */
+> >   #define MSTATUS_TSR         0x00400000 /* since: priv-1.10 */
+> > +#define MSTATUS_UFCFIEN     0x00800000 /* Zisslpcfi-0.1 */
+> > +#define MSTATUS_UBCFIEN     0x01000000 /* Zisslpcfi-0.1 */
+> > +#define MSTATUS_SPELP       0x02000000 /* Zisslpcfi-0.1 */
+> > +#define MSTATUS_MPELP       0x04000000 /* Zisslpcfi-0.1 */
+> >   #define MSTATUS_GVA         0x4000000000ULL
+> >   #define MSTATUS_MPV         0x8000000000ULL
+> >
+> > @@ -572,12 +580,21 @@ typedef enum {
+> >   #define SSTATUS_XS          0x00018000
+> >   #define SSTATUS_SUM         0x00040000 /* since: priv-1.10 */
+> >   #define SSTATUS_MXR         0x00080000
+> > +#define SSTATUS_UFCFIEN     MSTATUS_UFCFIEN /* Zisslpcfi-0.1 */
+> > +#define SSTATUS_UBCFIEN     MSTATUS_UBCFIEN /* Zisslpcfi-0.1 */
+> > +#define SSTATUS_SPELP       MSTATUS_SPELP   /* Zisslpcfi-0.1 */
+> >
+> >   #define SSTATUS64_UXL       0x0000000300000000ULL
+> >
+> >   #define SSTATUS32_SD        0x80000000
+> >   #define SSTATUS64_SD        0x8000000000000000ULL
+> >
+> > +#define CFISTATUS_M_MASK    (MSTATUS_UFCFIEN | MSTATUS_UBCFIEN | \
+> > +                             MSTATUS_MPELP | MSTATUS_SPELP)
+> > +
+> > +#define CFISTATUS_S_MASK    (SSTATUS_UFCFIEN | SSTATUS_UBCFIEN | \
+> > +                             SSTATUS_SPELP)
+> Why not the VSSTATUS?
+
+It's the same mask for VSSTATUS, so pretty much using the same.
+
+> > +
+> >   /* hstatus CSR bits */
+> >   #define HSTATUS_VSBE         0x00000020
+> >   #define HSTATUS_GVA          0x00000040
+> > @@ -747,10 +764,14 @@ typedef enum RISCVException {
+> >   #define MENVCFG_CBIE                       (3UL << 4)
+> >   #define MENVCFG_CBCFE                      BIT(6)
+> >   #define MENVCFG_CBZE                       BIT(7)
+> > +#define MENVCFG_SFCFIEN                    BIT(59)
+> > +#define MENVCFG_CFI                        BIT(60)
+>
+> MENVCFG_CFIE according to the specification.  The definitions in other
+> places  should also use X_CFIE.
+
+Yes, it's a recent change in spec. I missed picking it up on impl.
+
+>
+> The same comment here with Weiwei, or you can use BIT_ULL.
+>
+
+Noted.
+
+> Zhiwei
+>
+> >   #define MENVCFG_PBMTE                      (1ULL << 62)
+> >   #define MENVCFG_STCE                       (1ULL << 63)
+> >
+> >   /* For RV32 */
+> > +#define MENVCFGH_SFCFIEN                   BIT(27)
+> > +#define MENVCFGH_CFI                       BIT(28)
+> >   #define MENVCFGH_PBMTE                     BIT(30)
+> >   #define MENVCFGH_STCE                      BIT(31)
+> >
+> > @@ -763,10 +784,14 @@ typedef enum RISCVException {
+> >   #define HENVCFG_CBIE                       MENVCFG_CBIE
+> >   #define HENVCFG_CBCFE                      MENVCFG_CBCFE
+> >   #define HENVCFG_CBZE                       MENVCFG_CBZE
+> > +#define HENVCFG_SFCFIEN                    MENVCFG_SFCFIEN
+> > +#define HENVCFG_CFI                        MENVCFG_CFI
+> >   #define HENVCFG_PBMTE                      MENVCFG_PBMTE
+> >   #define HENVCFG_STCE                       MENVCFG_STCE
+> >
+> >   /* For RV32 */
+> > +#define HENVCFGH_SFCFIEN                    MENVCFGH_SFCFIEN
+> > +#define HENVCFGH_CFI                        MENVCFGH_CFI
+> >   #define HENVCFGH_PBMTE                      MENVCFGH_PBMTE
+> >   #define HENVCFGH_STCE                       MENVCFGH_STCE
+> >
+> > diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
+> > index da32c61c85..f5bfc4955b 100644
+> > --- a/target/riscv/pmp.h
+> > +++ b/target/riscv/pmp.h
+> > @@ -43,7 +43,8 @@ typedef enum {
+> >       MSECCFG_MMWP  = 1 << 1,
+> >       MSECCFG_RLB   = 1 << 2,
+> >       MSECCFG_USEED = 1 << 8,
+> > -    MSECCFG_SSEED = 1 << 9
+> > +    MSECCFG_SSEED = 1 << 9,
+> > +    MSECCFG_MFCFIEN =  1 << 10
+> >   } mseccfg_field_t;
+> >
+> >   typedef struct {
 
