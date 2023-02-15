@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 807EF697F03
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 16:00:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E4CA697F62
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 16:19:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSJGq-0007ss-Nw; Wed, 15 Feb 2023 10:00:32 -0500
+	id 1pSJYQ-0002aA-OE; Wed, 15 Feb 2023 10:18:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pSJGp-0007si-Bp
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 10:00:31 -0500
-Received: from mga11.intel.com ([192.55.52.93])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pSJGm-0004MJ-S3
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 10:00:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676473229; x=1708009229;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=33D6dJpo689j2I1eMVf2LCcDuCQo869kML0KpNfIp7Q=;
- b=Ib4Asqk7uliNdI3ydwJC70BR452aJUqbxjr/Hw7VCNH8J6pftzYaVfKK
- yaLVXKu93UBm0G9pEZ9TkNx8ADgrm66WKn1znn0+pqA+lTcNjovnLgP0j
- QXQyj+XNxTrCeLuyWgmrdEronSQCvwPeABTcWXLexq4M5QIox7+lZo/Dj
- JLrEB0+AECACEZtZgG56jAhtTBc6c6ovNiHu1pX0xOvqxCTzD+H8VEK8m
- 9WYFg9+j1qWxHOMiJY1na7uqJ+oPJOsyWOc/9Yd2AhnwKMPy6w2DaBq8e
- ewckMTguwykkyGUOZ+mo45dTjSak/FZmP8sBZXUFTANBbA2lnPiNycFG0 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="329165489"
-X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; d="scan'208";a="329165489"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2023 07:00:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="793517698"
-X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; d="scan'208";a="793517698"
-Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
- ([10.239.160.112])
- by orsmga004.jf.intel.com with ESMTP; 15 Feb 2023 07:00:04 -0800
-Date: Wed, 15 Feb 2023 23:07:56 +0800
-From: Zhao Liu <zhao1.liu@linux.intel.com>
-To: "wangyanan (Y)" <wangyanan55@huawei.com>
-Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
- Dapeng Mi <dapeng1.mi@intel.com>,
- Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo <robert.hu@linux.intel.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
- Like Xu <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH RESEND 14/18] i386: Add cache topology info in CPUCacheInfo
-Message-ID: <Y+z1TFqM8rTR0331@liuzhao-OptiPlex-7080>
-References: <20230213093625.158170-1-zhao1.liu@linux.intel.com>
- <20230213093625.158170-15-zhao1.liu@linux.intel.com>
- <964b18ef-d147-ba17-a5a5-2aff55467018@huawei.com>
+ (Exim 4.90_1) (envelope-from <ssinprem@celestica.com>)
+ id 1pS8Is-0000Xl-6X
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 22:17:55 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ssinprem@celestica.com>)
+ id 1pS8Im-0000lY-98
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 22:17:51 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ nh19-20020a17090b365300b00233ceae8407so677731pjb.3
+ for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 19:17:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=celestica.com; s=google-201810;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=wpYqBUorMz6JJkWEQndvCQaT3gGuwwBlaLUOV+9PU8Y=;
+ b=KRq/6SDaCdITc08EtIOdH7z4WFQRT1k0RyYIKKOLQ1g1ryWuUNc5JbP956E6QGjN6u
+ XZViI5WUnIn4T86fGYaiYBUsEUqG7iP+Inn4KLB1UesqzMcfPw3ispj1tO1xlznUxHF+
+ RVPbJqGXhjOesS4WN8UrnIbqyNylD18UAO2G6slfmPjbxCPG3/Ebf9cKoCCTiQBuEYIy
+ 71cIhLs2POvcmrEg1kqhDpzKXYH5kEUtnf9b+W3/89VKgkP2SjYsmCfl5MaHJWPMNaxB
+ G7yzi51La8oF0mxvhLZLEswpuG8xUGEDCQ895Q7yN1k2AnZ67uvm3yb342ga6Yie3Njj
+ g2FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wpYqBUorMz6JJkWEQndvCQaT3gGuwwBlaLUOV+9PU8Y=;
+ b=PGkTf8nfeiZmoQxo9xLlKIY7VWnPMdvys/uGJamuwx0nw1KjPHO3a7/lN9LqoHrn7Z
+ kL8nLXin87oEaXsYKw4rmUEE/CVrxyjhX3qqVkw3NYPvZ6BQVtgBRy5WhyOksra5BPG/
+ SEOmaW68D4yCfL4vCfS0TC29cFYUKg80l4ITzhNkidP1zb0UsBgvqrPNbs1HH7m3VpcW
+ N0lWRymgM2+VCyhDBG+UF1Zwf9p1Oju3Gr2JkQ+21btkcpsGdd9cTOa21hJ8+f9Ax+Cx
+ BDcWHNaY4gdMLbdvQF9NTUw9bwmz3hqnml96vK2NQGNbI9MMQ8HSSLHTZF4NpX/puOMt
+ X01A==
+X-Gm-Message-State: AO0yUKUMjnK/MmV3zXTKiT0DhukbF4h3meXIzCAVURjSYBBmG6gjCeB5
+ mALTzao0tlKogV6Gk81aNkJCT3CNgPw9EKyOtYnBbYBRaFL6PJelF35NLRFzwIeOJuLF55I9J3o
+ TeBZqfOVt6KAi6d3WLf1vQcWZyCarvNvgUDUlbIG0570jgNbs+LQs+AyFcaSSLj/ujnYZhhRwhD
+ VjV3lMs5+HbSFqq2av/5+ZqTs/uF5ljOoJbw==
+X-Google-Smtp-Source: AK7set+YVFpW2nh7XS706BUtNcpDbVHjwei4IDxKBlK9L+8uGwqz/gYAryLqstvvSo1DB71c3ZUDjWV4qVA8Y4ZSIy8=
+X-Received: by 2002:a17:90a:49c6:b0:233:b04f:4e65 with SMTP id
+ l6-20020a17090a49c600b00233b04f4e65mr240352pjm.43.1676431049969; Tue, 14 Feb
+ 2023 19:17:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=gb2312
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <964b18ef-d147-ba17-a5a5-2aff55467018@huawei.com>
-Received-SPF: none client-ip=192.55.52.93;
- envelope-from=zhao1.liu@linux.intel.com; helo=mga11.intel.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <167636845806.2107.2382940753543768501-2@git.sr.ht>
+ <9a5b9e5a-ed67-e2b3-ddda-56220e40c00a@kaod.org>
+In-Reply-To: <9a5b9e5a-ed67-e2b3-ddda-56220e40c00a@kaod.org>
+From: Sittisak Sinprem <ssinprem@celestica.com>
+Date: Wed, 15 Feb 2023 10:17:02 +0700
+Message-ID: <CAE+aGtWgAH7bxoB=hieV6_9j3xiByJ6L-pbSBpBS=RHBoiT+Ug@mail.gmail.com>
+Subject: Re: [PATCH qemu 2/2] aspeed/fuji : correct the eeprom size
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org, srikanth@celestica.com, 
+ kgengan@celestica.com, Peter Delevoryas <peter@pjd.dev>
+Content-Type: multipart/alternative; boundary="00000000000039b5cf05f4b48597"
+X-CLS-Gapps: True
+X-CLOUD-SEC-AV-Sent: true
+X-CLOUD-SEC-AV-Info: celesticainc,google_mail,monitor
+X-Gm-Spam: 0
+X-Gm-Phishy: 0
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=ssinprem@celestica.com; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 15 Feb 2023 10:18:35 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,243 +94,241 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 15, 2023 at 08:17:22PM +0800, wangyanan (Y) wrote:
-> Date: Wed, 15 Feb 2023 20:17:22 +0800
-> From: "wangyanan (Y)" <wangyanan55@huawei.com>
-> Subject: Re: [PATCH RESEND 14/18] i386: Add cache topology info in
->  CPUCacheInfo
-> 
-> Hi Zhao,
-> 
-> ÔÚ 2023/2/13 17:36, Zhao Liu Ð´µÀ:
-> > From: Zhao Liu <zhao1.liu@intel.com>
-> > 
-> > Currently, by default, the cache topology is encoded as:
-> > 1. i/d cache is shared in one core.
-> > 2. L2 cache is shared in one core.
-> > 3. L3 cache is shared in one die.
-> > 
-> > This default general setting has caused a misunderstanding, that is, the
-> > cache topology is completely equated with a specific cpu topology, such
-> > as the connection between L2 cache and core level, and the connection
-> > between L3 cache and die level.
-> > 
-> > In fact, the settings of these topologies depend on the specific
-> > platform and are not static. For example, on Alder Lake-P, every
-> > four Atom cores share the same L2 cache.
-> > 
-> > Thus, we should explicitly define the corresponding cache topology for
-> > different cache models to increase scalability.
-> > 
-> > Except legacy_l2_cache_cpuid2 (its default topo level is INVALID),
-> It seems like its default topo level is UNKNOWN in this case.
-> > explicitly set the corresponding topology level for all other cache
-> > models. In order to be compatible with the existing cache topology, set
-> > the CORE level for the i/d cache, set the CORE level for L2 cache, and
-> > set the DIE level for L3 cache.
-> > 
-> > The field for CPUID[4].EAX[bits 25:14] or CPUID[0x8000001D].EAX[bits
-> > 25:14] will be set based on CPUCacheInfo.share_level.
-> > 
-> > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
-> > ---
-> >   target/i386/cpu.c | 19 +++++++++++++++++++
-> >   target/i386/cpu.h | 16 ++++++++++++++++
-> >   2 files changed, 35 insertions(+)
-> > 
-> > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> > index 27bbbc36b11c..364534e84b1b 100644
-> > --- a/target/i386/cpu.c
-> > +++ b/target/i386/cpu.c
-> > @@ -433,6 +433,7 @@ static CPUCacheInfo legacy_l1d_cache = {
-> >       .sets = 64,
-> >       .partitions = 1,
-> >       .no_invd_sharing = true,
-> > +    .share_level = CORE,
-> >   };
-> >   /*FIXME: CPUID leaf 0x80000005 is inconsistent with leaves 2 & 4 */
-> > @@ -447,6 +448,7 @@ static CPUCacheInfo legacy_l1d_cache_amd = {
-> >       .partitions = 1,
-> >       .lines_per_tag = 1,
-> >       .no_invd_sharing = true,
-> > +    .share_level = CORE,
-> >   };
-> >   /* L1 instruction cache: */
-> > @@ -460,6 +462,7 @@ static CPUCacheInfo legacy_l1i_cache = {
-> >       .sets = 64,
-> >       .partitions = 1,
-> >       .no_invd_sharing = true,
-> > +    .share_level = CORE,
-> >   };
-> >   /*FIXME: CPUID leaf 0x80000005 is inconsistent with leaves 2 & 4 */
-> > @@ -474,6 +477,7 @@ static CPUCacheInfo legacy_l1i_cache_amd = {
-> >       .partitions = 1,
-> >       .lines_per_tag = 1,
-> >       .no_invd_sharing = true,
-> > +    .share_level = CORE,
-> >   };
-> >   /* Level 2 unified cache: */
-> > @@ -487,6 +491,7 @@ static CPUCacheInfo legacy_l2_cache = {
-> >       .sets = 4096,
-> >       .partitions = 1,
-> >       .no_invd_sharing = true,
-> > +    .share_level = CORE,
-> >   };
-> >   /*FIXME: CPUID leaf 2 descriptor is inconsistent with CPUID leaf 4 */
-> > @@ -509,6 +514,7 @@ static CPUCacheInfo legacy_l2_cache_amd = {
-> >       .associativity = 16,
-> >       .sets = 512,
-> >       .partitions = 1,
-> > +    .share_level = CORE,
-> >   };
-> >   /* Level 3 unified cache: */
-> > @@ -524,6 +530,7 @@ static CPUCacheInfo legacy_l3_cache = {
-> >       .self_init = true,
-> >       .inclusive = true,
-> >       .complex_indexing = true,
-> > +    .share_level = DIE,
-> >   };
-> >   /* TLB definitions: */
-> > @@ -1668,6 +1675,7 @@ static const CPUCaches epyc_cache_info = {
-> >           .lines_per_tag = 1,
-> >           .self_init = 1,
-> >           .no_invd_sharing = true,
-> > +        .share_level = CORE,
-> >       },
-> >       .l1i_cache = &(CPUCacheInfo) {
-> >           .type = INSTRUCTION_CACHE,
-> > @@ -1680,6 +1688,7 @@ static const CPUCaches epyc_cache_info = {
-> >           .lines_per_tag = 1,
-> >           .self_init = 1,
-> >           .no_invd_sharing = true,
-> > +        .share_level = CORE,
-> >       },
-> >       .l2_cache = &(CPUCacheInfo) {
-> >           .type = UNIFIED_CACHE,
-> > @@ -1690,6 +1699,7 @@ static const CPUCaches epyc_cache_info = {
-> >           .partitions = 1,
-> >           .sets = 1024,
-> >           .lines_per_tag = 1,
-> > +        .share_level = CORE,
-> >       },
-> >       .l3_cache = &(CPUCacheInfo) {
-> >           .type = UNIFIED_CACHE,
-> > @@ -1703,6 +1713,7 @@ static const CPUCaches epyc_cache_info = {
-> >           .self_init = true,
-> >           .inclusive = true,
-> >           .complex_indexing = true,
-> > +        .share_level = DIE,
-> >       },
-> >   };
-> > @@ -1718,6 +1729,7 @@ static const CPUCaches epyc_rome_cache_info = {
-> >           .lines_per_tag = 1,
-> >           .self_init = 1,
-> >           .no_invd_sharing = true,
-> > +        .share_level = CORE,
-> >       },
-> >       .l1i_cache = &(CPUCacheInfo) {
-> >           .type = INSTRUCTION_CACHE,
-> > @@ -1730,6 +1742,7 @@ static const CPUCaches epyc_rome_cache_info = {
-> >           .lines_per_tag = 1,
-> >           .self_init = 1,
-> >           .no_invd_sharing = true,
-> > +        .share_level = CORE,
-> >       },
-> >       .l2_cache = &(CPUCacheInfo) {
-> >           .type = UNIFIED_CACHE,
-> > @@ -1740,6 +1753,7 @@ static const CPUCaches epyc_rome_cache_info = {
-> >           .partitions = 1,
-> >           .sets = 1024,
-> >           .lines_per_tag = 1,
-> > +        .share_level = CORE,
-> >       },
-> >       .l3_cache = &(CPUCacheInfo) {
-> >           .type = UNIFIED_CACHE,
-> > @@ -1753,6 +1767,7 @@ static const CPUCaches epyc_rome_cache_info = {
-> >           .self_init = true,
-> >           .inclusive = true,
-> >           .complex_indexing = true,
-> > +        .share_level = DIE,
-> >       },
-> >   };
-> > @@ -1768,6 +1783,7 @@ static const CPUCaches epyc_milan_cache_info = {
-> >           .lines_per_tag = 1,
-> >           .self_init = 1,
-> >           .no_invd_sharing = true,
-> > +        .share_level = CORE,
-> >       },
-> >       .l1i_cache = &(CPUCacheInfo) {
-> >           .type = INSTRUCTION_CACHE,
-> > @@ -1780,6 +1796,7 @@ static const CPUCaches epyc_milan_cache_info = {
-> >           .lines_per_tag = 1,
-> >           .self_init = 1,
-> >           .no_invd_sharing = true,
-> > +        .share_level = CORE,
-> >       },
-> >       .l2_cache = &(CPUCacheInfo) {
-> >           .type = UNIFIED_CACHE,
-> > @@ -1790,6 +1807,7 @@ static const CPUCaches epyc_milan_cache_info = {
-> >           .partitions = 1,
-> >           .sets = 1024,
-> >           .lines_per_tag = 1,
-> > +        .share_level = CORE,
-> >       },
-> >       .l3_cache = &(CPUCacheInfo) {
-> >           .type = UNIFIED_CACHE,
-> > @@ -1803,6 +1821,7 @@ static const CPUCaches epyc_milan_cache_info = {
-> >           .self_init = true,
-> >           .inclusive = true,
-> >           .complex_indexing = true,
-> > +        .share_level = DIE,
-> >       },
-> >   };
-> > diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> > index 8668e74e0c87..5a955431f759 100644
-> > --- a/target/i386/cpu.h
-> > +++ b/target/i386/cpu.h
-> > @@ -1476,6 +1476,15 @@ enum CacheType {
-> >       UNIFIED_CACHE
-> >   };
-> > +enum CPUTopoLevel {
-> > +    INVALID = 0,
-> Maybe UNKNOWN?
+--00000000000039b5cf05f4b48597
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I agree, it's a better name than INVALID.
+Hi,
 
-> > +    SMT,
-> > +    CORE,
-> > +    MODULE,
-> > +    DIE,
-> > +    PACKAGE,
-> Do we need a prefix like CPU_TOPO_LEVEL_* or shorter CPU_TL_*
-> to avoid possible naming conflicts with other micros or enums?
-> Not sure..
+Follow the question " Could you please specify the size in bytes ? "
 
-Yes, adding a prefix for enum is more in line with the QEMU naming
-style, I will add it. I support the first name, it looks more clear.
+Yes, In the source code we need to set the size value as byte.
 
-Thanks,
-Zhao
+I add "divide by 8" to convert it to bytes unit.
+24c64  size is  64kbit  =3D 64k / 8  bytes
 
-> 
+-    aspeed_eeprom_init(i2c[65], 0x53, 64 * KiB);
++    aspeed_eeprom_init(i2c[65], 0x53, 64 * KiB / 8);
+
+On Tue, Feb 14, 2023 at 9:29 PM C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+
+> Hello,
+>
+> Adding Peter since he contributed the fuji machine,
+>
+> On 2/14/23 10:06, ~ssinprem wrote:
+> > From: Sittisak Sinprem <ssinprem@celestca.com>
+> >
+> > Device 24C64 the size is 64 kilobits
+> > Device 24C02 the size is 2 kilobits
+>
+> Could you please specify the size in bytes ?
+>
+> You will need to add a Signed-off-by tag.
+>
 > Thanks,
-> Yanan
-> > +};
-> > +
-> >   typedef struct CPUCacheInfo {
-> >       enum CacheType type;
-> >       uint8_t level;
-> > @@ -1517,6 +1526,13 @@ typedef struct CPUCacheInfo {
-> >        * address bits.  CPUID[4].EDX[bit 2].
-> >        */
-> >       bool complex_indexing;
-> > +
-> > +    /*
-> > +     * Cache Topology. The level that cache is shared in.
-> > +     * Used to encode CPUID[4].EAX[bits 25:14] or
-> > +     * CPUID[0x8000001D].EAX[bits 25:14].
-> > +     */
-> > +    enum CPUTopoLevel share_level;
-> >   } CPUCacheInfo;
-> 
+>
+> C.
+>
+> > ---
+> >   hw/arm/aspeed.c | 32 ++++++++++++++++----------------
+> >   1 file changed, 16 insertions(+), 16 deletions(-)
+> >
+> > diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> > index 55f114ef72..8e6a1579e4 100644
+> > --- a/hw/arm/aspeed.c
+> > +++ b/hw/arm/aspeed.c
+> > @@ -846,42 +846,42 @@ static void fuji_bmc_i2c_init(AspeedMachineState
+> *bmc)
+> >       i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4c);
+> >       i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4d);
+> >
+> > -    aspeed_eeprom_init(i2c[19], 0x52, 64 * KiB);
+> > -    aspeed_eeprom_init(i2c[20], 0x50, 2 * KiB);
+> > -    aspeed_eeprom_init(i2c[22], 0x52, 2 * KiB);
+> > +    aspeed_eeprom_init(i2c[19], 0x52, 64 * KiB / 8);
+> > +    aspeed_eeprom_init(i2c[20], 0x50, 2 * KiB / 8);
+> > +    aspeed_eeprom_init(i2c[22], 0x52, 2 * KiB / 8);
+> >
+> >       i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x48);
+> >       i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x49);
+> >       i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x4a);
+> >       i2c_slave_create_simple(i2c[3], TYPE_TMP422, 0x4c);
+> >
+> > -    aspeed_eeprom_init(i2c[8], 0x51, 64 * KiB);
+> > +    aspeed_eeprom_init(i2c[8], 0x51, 64 * KiB / 8);
+> >       i2c_slave_create_simple(i2c[8], TYPE_LM75, 0x4a);
+> >
+> >       i2c_slave_create_simple(i2c[50], TYPE_LM75, 0x4c);
+> > -    aspeed_eeprom_init(i2c[50], 0x52, 64 * KiB);
+> > +    aspeed_eeprom_init(i2c[50], 0x52, 64 * KiB / 8);
+> >       i2c_slave_create_simple(i2c[51], TYPE_TMP75, 0x48);
+> >       i2c_slave_create_simple(i2c[52], TYPE_TMP75, 0x49);
+> >
+> >       i2c_slave_create_simple(i2c[59], TYPE_TMP75, 0x48);
+> >       i2c_slave_create_simple(i2c[60], TYPE_TMP75, 0x49);
+> >
+> > -    aspeed_eeprom_init(i2c[65], 0x53, 64 * KiB);
+> > +    aspeed_eeprom_init(i2c[65], 0x53, 64 * KiB / 8);
+> >       i2c_slave_create_simple(i2c[66], TYPE_TMP75, 0x49);
+> >       i2c_slave_create_simple(i2c[66], TYPE_TMP75, 0x48);
+> > -    aspeed_eeprom_init(i2c[68], 0x52, 64 * KiB);
+> > -    aspeed_eeprom_init(i2c[69], 0x52, 64 * KiB);
+> > -    aspeed_eeprom_init(i2c[70], 0x52, 64 * KiB);
+> > -    aspeed_eeprom_init(i2c[71], 0x52, 64 * KiB);
+> > +    aspeed_eeprom_init(i2c[68], 0x52, 64 * KiB / 8);
+> > +    aspeed_eeprom_init(i2c[69], 0x52, 64 * KiB / 8);
+> > +    aspeed_eeprom_init(i2c[70], 0x52, 64 * KiB / 8);
+> > +    aspeed_eeprom_init(i2c[71], 0x52, 64 * KiB / 8);
+> >
+> > -    aspeed_eeprom_init(i2c[73], 0x53, 64 * KiB);
+> > +    aspeed_eeprom_init(i2c[73], 0x53, 64 * KiB / 8);
+> >       i2c_slave_create_simple(i2c[74], TYPE_TMP75, 0x49);
+> >       i2c_slave_create_simple(i2c[74], TYPE_TMP75, 0x48);
+> > -    aspeed_eeprom_init(i2c[76], 0x52, 64 * KiB);
+> > -    aspeed_eeprom_init(i2c[77], 0x52, 64 * KiB);
+> > -    aspeed_eeprom_init(i2c[78], 0x52, 64 * KiB);
+> > -    aspeed_eeprom_init(i2c[79], 0x52, 64 * KiB);
+> > -    aspeed_eeprom_init(i2c[28], 0x50, 2 * KiB);
+> > +    aspeed_eeprom_init(i2c[76], 0x52, 64 * KiB / 8);
+> > +    aspeed_eeprom_init(i2c[77], 0x52, 64 * KiB / 8);
+> > +    aspeed_eeprom_init(i2c[78], 0x52, 64 * KiB / 8);
+> > +    aspeed_eeprom_init(i2c[79], 0x52, 64 * KiB / 8);
+> > +    aspeed_eeprom_init(i2c[28], 0x50, 2 * KiB / 8);
+> >
+> >       for (int i =3D 0; i < 8; i++) {
+> >           aspeed_eeprom_init(i2c[81 + i * 8], 0x56, 64 * KiB);
+>
+>
+
+--00000000000039b5cf05f4b48597
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:trebuche=
+t ms,sans-serif;font-size:small;color:#134f5c">Hi,<br><br>Follow the questi=
+on &quot;
+
+<span style=3D"color:rgb(34,34,34);font-family:Arial,Helvetica,sans-serif">=
+Could you please specify the size in bytes ? &quot;<br></span><br>Yes, In t=
+he source code we need to set the size value as byte.<br><br>I add &quot;di=
+vide by 8&quot; to convert it to bytes unit.<br>24c64=C2=A0 size is=C2=A0 6=
+4kbit=C2=A0 =3D 64k / 8=C2=A0 bytes<br><br><span style=3D"color:rgb(34,34,3=
+4);font-family:Arial,Helvetica,sans-serif">-=C2=A0 =C2=A0 aspeed_eeprom_ini=
+t(i2c[65], 0x53, 64 * KiB);</span><br style=3D"color:rgb(34,34,34);font-fam=
+ily:Arial,Helvetica,sans-serif"><span style=3D"color:rgb(34,34,34);font-fam=
+ily:Arial,Helvetica,sans-serif">+=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[65], =
+0x53, 64 * KiB / 8);</span><br></div></div><br><div class=3D"gmail_quote"><=
+div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 14, 2023 at 9:29 PM C=C3=
+=A9dric Le Goater &lt;<a href=3D"mailto:clg@kaod.org">clg@kaod.org</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hello,<br=
+>
+<br>
+Adding Peter since he contributed the fuji machine,<br>
+<br>
+On 2/14/23 10:06, ~ssinprem wrote:<br>
+&gt; From: Sittisak Sinprem &lt;<a href=3D"mailto:ssinprem@celestca.com" ta=
+rget=3D"_blank">ssinprem@celestca.com</a>&gt;<br>
+&gt; <br>
+&gt; Device 24C64 the size is 64 kilobits<br>
+&gt; Device 24C02 the size is 2 kilobits<br>
+<br>
+Could you please specify the size in bytes ?<br>
+<br>
+You will need to add a Signed-off-by tag.<br>
+<br>
+Thanks,<br>
+<br>
+C.<br>
+<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0hw/arm/aspeed.c | 32 ++++++++++++++++----------------<br>
+&gt;=C2=A0 =C2=A01 file changed, 16 insertions(+), 16 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c<br>
+&gt; index 55f114ef72..8e6a1579e4 100644<br>
+&gt; --- a/hw/arm/aspeed.c<br>
+&gt; +++ b/hw/arm/aspeed.c<br>
+&gt; @@ -846,42 +846,42 @@ static void fuji_bmc_i2c_init(AspeedMachineState=
+ *bmc)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0i2c_slave_create_simple(i2c[17], TYPE_LM75, =
+0x4c);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0i2c_slave_create_simple(i2c[17], TYPE_LM75, =
+0x4d);<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[19], 0x52, 64 * KiB);<br>
+&gt; -=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[20], 0x50, 2 * KiB);<br>
+&gt; -=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[22], 0x52, 2 * KiB);<br>
+&gt; +=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[19], 0x52, 64 * KiB / 8);<br>
+&gt; +=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[20], 0x50, 2 * KiB / 8);<br>
+&gt; +=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[22], 0x52, 2 * KiB / 8);<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0i2c_slave_create_simple(i2c[3], TYPE_LM75, 0=
+x48);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0i2c_slave_create_simple(i2c[3], TYPE_LM75, 0=
+x49);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0i2c_slave_create_simple(i2c[3], TYPE_LM75, 0=
+x4a);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0i2c_slave_create_simple(i2c[3], TYPE_TMP422,=
+ 0x4c);<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[8], 0x51, 64 * KiB);<br>
+&gt; +=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[8], 0x51, 64 * KiB / 8);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0i2c_slave_create_simple(i2c[8], TYPE_LM75, 0=
+x4a);<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0i2c_slave_create_simple(i2c[50], TYPE_LM75, =
+0x4c);<br>
+&gt; -=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[50], 0x52, 64 * KiB);<br>
+&gt; +=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[50], 0x52, 64 * KiB / 8);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0i2c_slave_create_simple(i2c[51], TYPE_TMP75,=
+ 0x48);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0i2c_slave_create_simple(i2c[52], TYPE_TMP75,=
+ 0x49);<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0i2c_slave_create_simple(i2c[59], TYPE_TMP75,=
+ 0x48);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0i2c_slave_create_simple(i2c[60], TYPE_TMP75,=
+ 0x49);<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[65], 0x53, 64 * KiB);<br>
+&gt; +=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[65], 0x53, 64 * KiB / 8);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0i2c_slave_create_simple(i2c[66], TYPE_TMP75,=
+ 0x49);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0i2c_slave_create_simple(i2c[66], TYPE_TMP75,=
+ 0x48);<br>
+&gt; -=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[68], 0x52, 64 * KiB);<br>
+&gt; -=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[69], 0x52, 64 * KiB);<br>
+&gt; -=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[70], 0x52, 64 * KiB);<br>
+&gt; -=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[71], 0x52, 64 * KiB);<br>
+&gt; +=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[68], 0x52, 64 * KiB / 8);<br>
+&gt; +=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[69], 0x52, 64 * KiB / 8);<br>
+&gt; +=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[70], 0x52, 64 * KiB / 8);<br>
+&gt; +=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[71], 0x52, 64 * KiB / 8);<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[73], 0x53, 64 * KiB);<br>
+&gt; +=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[73], 0x53, 64 * KiB / 8);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0i2c_slave_create_simple(i2c[74], TYPE_TMP75,=
+ 0x49);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0i2c_slave_create_simple(i2c[74], TYPE_TMP75,=
+ 0x48);<br>
+&gt; -=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[76], 0x52, 64 * KiB);<br>
+&gt; -=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[77], 0x52, 64 * KiB);<br>
+&gt; -=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[78], 0x52, 64 * KiB);<br>
+&gt; -=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[79], 0x52, 64 * KiB);<br>
+&gt; -=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[28], 0x50, 2 * KiB);<br>
+&gt; +=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[76], 0x52, 64 * KiB / 8);<br>
+&gt; +=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[77], 0x52, 64 * KiB / 8);<br>
+&gt; +=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[78], 0x52, 64 * KiB / 8);<br>
+&gt; +=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[79], 0x52, 64 * KiB / 8);<br>
+&gt; +=C2=A0 =C2=A0 aspeed_eeprom_init(i2c[28], 0x50, 2 * KiB / 8);<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0for (int i =3D 0; i &lt; 8; i++) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0aspeed_eeprom_init(i2c[81 + i =
+* 8], 0x56, 64 * KiB);<br>
+<br>
+</blockquote></div>
+
+--00000000000039b5cf05f4b48597--
 
