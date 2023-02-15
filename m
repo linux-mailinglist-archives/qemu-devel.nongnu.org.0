@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B896C697AB3
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 12:29:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0378D697ABD
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 12:29:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSFxJ-0001ID-Cm; Wed, 15 Feb 2023 06:28:09 -0500
+	id 1pSFxP-0001a4-LR; Wed, 15 Feb 2023 06:28:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSFxG-00016m-1r
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 06:28:06 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSFxM-0001UA-5d
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 06:28:12 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSFxD-0003X4-Up
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 06:28:05 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id m10so9870267wrn.4
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 03:28:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSFxJ-0003bw-Q9
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 06:28:11 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ m16-20020a05600c3b1000b003dc4050c94aso1285623wms.4
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 03:28:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vPCFUWnCoirvmC7pfJNFE9qtA0ul6/mOuciO8/LRg2I=;
- b=FpxegphX0ma6uvyN12wrD2QMPPxWyi01rTxxWLaWx+7gCswI5BZ7RcrYR44m6VhiMK
- AptOa9J+ht2zxyDMWaiTfKiljZGiPbAx/bvg9IKRfrxqblVabpaYn16N8We9Zzmb4fgv
- EG9et3THRfwa9vhEj39SCBR1q7SDPyg0GK4FOJJvR6/4VvCqt1JKLYpRNxDvr2u9+f7S
- XdzxZVzcLDWPK/NAnKH3uiqzAwu56sC1Z+syto7Pdbe1FHjhNH5zUXFOY3RgNwWHEnYR
- G0qJVl9NYRs88/arZuGAkOBaeQDkO1Oy9K3vUwN5/BMW4rS+SbA3IufIy1aUr2I72Djv
- EMjw==
+ bh=TiVfdka5B9ldkUYdKu7ft+9sFiPb97YGArIko4Y3Hq4=;
+ b=oHJ/b4azw0VpZ4BRn+jksah+b+jXfM3ELPBE3Qw6piA86YwYZZG1BpmG4jYv6wg7mb
+ 0zyaj79WCjamLAIU8h/lkhcZbWSWAvCXmJqf1gKPg5EfjKSyhhxkVBSse8CY29jarebT
+ D4QgHTAQ58QyedOrN/ncd5uWj4XMmv3jsbxtxqUdDfM6BAGRYismbgP2PlyeZGrFm40V
+ PizfnneOoZQDLybM80RsRAilsQnCFRHYRlJ7XGRm1oVe5J3XuePZ4Rqj1sHcVsUM5WZn
+ ykKGisrEKMJd8R+t0MT+senZoetsMCFeTVxolg5EWy8+TZassSDZCGSBRF26PMzM6Su/
+ JFcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vPCFUWnCoirvmC7pfJNFE9qtA0ul6/mOuciO8/LRg2I=;
- b=w+ZtLJirV5cQbA9dtDq2lmiP/ovXt4HqsEyZdcGeS8qfgTuG6LWeZ9+X7PKjyCRtks
- xtYJuWiLOZhD5b77w6E6TQAfzaoFnGHkEC2r/AfdvOxaIxg3yr60Ag3fIFZnYioyLkbh
- xA+or4gaWJI+31wDQBCdcsIXRTZS+Y/h+lBtZ8AEapY+ogC2II4tRE7oyqHeVuLFoyv8
- EoEmSPzO0vSOj4CXL14+fOFwUYoYtTA+SMn2AwxZX4Xmv/cDXBzrc4H6irWgGxcLkWcu
- W3hmYi14KrQt/TSAtsNU5W7cMfHXwJTunlOOPtgpfoN9Ap/DytKek3DrAc5XjT9PjTGB
- Nmog==
-X-Gm-Message-State: AO0yUKUjXpelZpycNOcKGFiuEnsyn4JPxBnYFitXMdvT2Rz3Accid989
- 7xcN01XkCowGB+y2H7hphDXGzqL+zfVBjGZv
-X-Google-Smtp-Source: AK7set9VIEJnPr7nELJWY+DCi63Qo9YotA61HpYgfhAfsb9PsoN/C01qT4xFf8cTyshCS0Yeeu5Huw==
-X-Received: by 2002:a5d:6651:0:b0:2c3:be89:7c2a with SMTP id
- f17-20020a5d6651000000b002c3be897c2amr2137024wrw.13.1676460482977; 
- Wed, 15 Feb 2023 03:28:02 -0800 (PST)
+ bh=TiVfdka5B9ldkUYdKu7ft+9sFiPb97YGArIko4Y3Hq4=;
+ b=WNibu41ChqUh5u20ubpxuwB1pGQ7+Cl3LzCvf1YfKYkUSD0y4eOBO2OBloI402VRUF
+ VzuAxaZ+dohsQOsk7LtcG24MgI8CNN2YtKCXAOJiL66eSKXUNAIqpysEbaM86UYb5Ek4
+ uy+n5gRdO/s/45Q8vL4JTWx11SfdIc+cI4ibYHLy22c313SOj6rAK3Tzcid/TxpbiiAu
+ az5WsUv/2T5PRYmlDvIrpsLRA9UJIsNGIr9ZKdQI7xV22SmQCpfHLe6wbWv0o9iXWcaW
+ 3Wv6nqVJPvN4JXPuFD8JGGRaXZh8Ey/uRMTwxSACo5e+mKDI7H0MF6O1FUnoHCOogXeP
+ FRRQ==
+X-Gm-Message-State: AO0yUKUKJ6C+ns73HyKBp+CNMipHo1L/CaCBa1JSF1r1FTF2Xb2sTlRZ
+ O4f8VjdgTXcebXIpN1Z0cfhj/XwAFKAT1Y81
+X-Google-Smtp-Source: AK7set8H/WXnNhKwHKC1PwCDR6SPkW0y0foPRsSt7ZRoSpg6eyKx9uWlQBbYKQyFYnc1gZ6kJrE7ZQ==
+X-Received: by 2002:a05:600c:4b1c:b0:3e2:6ec:61ea with SMTP id
+ i28-20020a05600c4b1c00b003e206ec61eamr395wmp.28.1676460488013; 
+ Wed, 15 Feb 2023 03:28:08 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- f5-20020adff445000000b002c53f5b13f9sm15282685wrp.0.2023.02.15.03.28.02
+ p17-20020a05600c205100b003dc51c48f0bsm1800181wmg.19.2023.02.15.03.28.07
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 15 Feb 2023 03:28:02 -0800 (PST)
+ Wed, 15 Feb 2023 03:28:07 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
  John Snow <jsnow@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 10/20] hw/ide: Rename ide_set_irq() -> ide_bus_set_irq()
-Date: Wed, 15 Feb 2023 12:27:02 +0100
-Message-Id: <20230215112712.23110-11-philmd@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Radoslaw Biernacki <rad@semihalf.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Leif Lindholm <quic_llindhol@quicinc.com>, qemu-arm@nongnu.org
+Subject: [PATCH 11/20] hw/ide: Rename ide_create_drive() ->
+ ide_bus_create_drive()
+Date: Wed, 15 Feb 2023 12:27:03 +0100
+Message-Id: <20230215112712.23110-12-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230215112712.23110-1-philmd@linaro.org>
 References: <20230215112712.23110-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,309 +95,153 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-ide_set_irq() operates on a IDEBus; rename it as
-ide_bus_set_irq() to emphasize its first argument
+ide_create_drive() operates on a IDEBus; rename it as
+ide_bus_create_drive() to emphasize its first argument
 is a IDEBus.
 
 Mechanical change using:
 
-  $ sed -i -e 's/ide_set_irq/ide_bus_set_irq/g' \
-        $(git grep -l ide_set_irq)
+  $ sed -i -e 's/ide_create_drive/ide_bus_create_drive/g' \
+        $(git grep -wl ide_create_drive)
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/ide/atapi.c            | 12 +++++------
- hw/ide/core.c             | 44 +++++++++++++++++++--------------------
- hw/ide/macio.c            |  2 +-
- include/hw/ide/internal.h |  2 +-
- 4 files changed, 30 insertions(+), 30 deletions(-)
+ hw/arm/sbsa-ref.c         | 2 +-
+ hw/ide/ahci.c             | 2 +-
+ hw/ide/isa.c              | 4 ++--
+ hw/ide/macio.c            | 2 +-
+ hw/ide/microdrive.c       | 2 +-
+ hw/ide/mmio.c             | 4 ++--
+ hw/ide/pci.c              | 2 +-
+ hw/ide/qdev.c             | 2 +-
+ include/hw/ide/internal.h | 2 +-
+ 9 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/hw/ide/atapi.c b/hw/ide/atapi.c
-index 0c36bd0afd..dcc39df9a4 100644
---- a/hw/ide/atapi.c
-+++ b/hw/ide/atapi.c
-@@ -179,7 +179,7 @@ void ide_atapi_cmd_ok(IDEState *s)
-     s->status = READY_STAT | SEEK_STAT;
-     s->nsector = (s->nsector & ~7) | ATAPI_INT_REASON_IO | ATAPI_INT_REASON_CD;
-     ide_transfer_stop(s);
--    ide_set_irq(s->bus);
-+    ide_bus_set_irq(s->bus);
- }
- 
- void ide_atapi_cmd_error(IDEState *s, int sense_key, int asc)
-@@ -191,7 +191,7 @@ void ide_atapi_cmd_error(IDEState *s, int sense_key, int asc)
-     s->sense_key = sense_key;
-     s->asc = asc;
-     ide_transfer_stop(s);
--    ide_set_irq(s->bus);
-+    ide_bus_set_irq(s->bus);
- }
- 
- void ide_atapi_io_error(IDEState *s, int ret)
-@@ -254,7 +254,7 @@ void ide_atapi_cmd_reply_end(IDEState *s)
-         } else {
-             /* a new transfer is needed */
-             s->nsector = (s->nsector & ~7) | ATAPI_INT_REASON_IO;
--            ide_set_irq(s->bus);
-+            ide_bus_set_irq(s->bus);
-             byte_count_limit = atapi_byte_count_limit(s);
-             trace_ide_atapi_cmd_reply_end_bcl(s, byte_count_limit);
-             size = s->packet_transfer_size;
-@@ -294,7 +294,7 @@ void ide_atapi_cmd_reply_end(IDEState *s)
-     /* end of transfer */
-     trace_ide_atapi_cmd_reply_end_eot(s, s->status);
-     ide_atapi_cmd_ok(s);
--    ide_set_irq(s->bus);
-+    ide_bus_set_irq(s->bus);
- }
- 
- /* send a reply of 'size' bytes in s->io_buffer to an ATAPI command */
-@@ -340,7 +340,7 @@ static void ide_atapi_cmd_check_status(IDEState *s)
-     s->error = MC_ERR | (UNIT_ATTENTION << 4);
-     s->status = ERR_STAT;
-     s->nsector = 0;
--    ide_set_irq(s->bus);
-+    ide_bus_set_irq(s->bus);
- }
- /* ATAPI DMA support */
- 
-@@ -384,7 +384,7 @@ static void ide_atapi_cmd_read_dma_cb(void *opaque, int ret)
-     if (s->packet_transfer_size <= 0) {
-         s->status = READY_STAT | SEEK_STAT;
-         s->nsector = (s->nsector & ~7) | ATAPI_INT_REASON_IO | ATAPI_INT_REASON_CD;
--        ide_set_irq(s->bus);
-+        ide_bus_set_irq(s->bus);
-         goto eot;
-     }
- 
-diff --git a/hw/ide/core.c b/hw/ide/core.c
-index 1473b6057f..117e26cef1 100644
---- a/hw/ide/core.c
-+++ b/hw/ide/core.c
-@@ -654,7 +654,7 @@ void ide_set_sector(IDEState *s, int64_t sector_num)
- 
- static void ide_rw_error(IDEState *s) {
-     ide_abort_command(s);
--    ide_set_irq(s->bus);
-+    ide_bus_set_irq(s->bus);
- }
- 
- static void ide_buffered_readv_cb(void *opaque, int ret)
-@@ -773,7 +773,7 @@ static void ide_sector_read_cb(void *opaque, int ret)
-     s->nsector -= n;
-     /* Allow the guest to read the io_buffer */
-     ide_transfer_start(s, s->io_buffer, n * BDRV_SECTOR_SIZE, ide_sector_read);
--    ide_set_irq(s->bus);
-+    ide_bus_set_irq(s->bus);
- }
- 
- static void ide_sector_read(IDEState *s)
-@@ -837,7 +837,7 @@ void ide_dma_error(IDEState *s)
-     dma_buf_commit(s, 0);
-     ide_abort_command(s);
-     ide_set_inactive(s, false);
--    ide_set_irq(s->bus);
-+    ide_bus_set_irq(s->bus);
- }
- 
- int ide_handle_rw_error(IDEState *s, int error, int op)
-@@ -907,7 +907,7 @@ static void ide_dma_cb(void *opaque, int ret)
-     /* end of transfer ? */
-     if (s->nsector == 0) {
-         s->status = READY_STAT | SEEK_STAT;
--        ide_set_irq(s->bus);
-+        ide_bus_set_irq(s->bus);
-         goto eot;
-     }
- 
-@@ -1007,7 +1007,7 @@ static void ide_sector_write(IDEState *s);
- static void ide_sector_write_timer_cb(void *opaque)
- {
-     IDEState *s = opaque;
--    ide_set_irq(s->bus);
-+    ide_bus_set_irq(s->bus);
- }
- 
- static void ide_sector_write_cb(void *opaque, int ret)
-@@ -1055,7 +1055,7 @@ static void ide_sector_write_cb(void *opaque, int ret)
-         timer_mod(s->sector_write_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
-                   (NANOSECONDS_PER_SECOND / 1000));
-     } else {
--        ide_set_irq(s->bus);
-+        ide_bus_set_irq(s->bus);
-     }
- }
- 
-@@ -1106,7 +1106,7 @@ static void ide_flush_cb(void *opaque, int ret)
-     }
-     s->status = READY_STAT | SEEK_STAT;
-     ide_cmd_done(s);
--    ide_set_irq(s->bus);
-+    ide_bus_set_irq(s->bus);
- }
- 
- static void ide_flush_cache(IDEState *s)
-@@ -1195,7 +1195,7 @@ static void ide_cd_change_cb(void *opaque, bool load, Error **errp)
-     s->cdrom_changed = 1;
-     s->events.new_media = true;
-     s->events.eject_request = false;
--    ide_set_irq(s->bus);
-+    ide_bus_set_irq(s->bus);
- }
- 
- static void ide_cd_eject_request_cb(void *opaque, bool force)
-@@ -1206,7 +1206,7 @@ static void ide_cd_eject_request_cb(void *opaque, bool force)
-     if (force) {
-         s->tray_locked = false;
-     }
--    ide_set_irq(s->bus);
-+    ide_bus_set_irq(s->bus);
- }
- 
- static void ide_cmd_lba48_transform(IDEState *s, int lba48)
-@@ -1440,7 +1440,7 @@ static bool cmd_identify(IDEState *s, uint8_t cmd)
+diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+index f778cb6d09..0b93558dde 100644
+--- a/hw/arm/sbsa-ref.c
++++ b/hw/arm/sbsa-ref.c
+@@ -554,7 +554,7 @@ static void create_ahci(const SBSAMachineState *sms)
+         if (hd[i] == NULL) {
+             continue;
          }
-         s->status = READY_STAT | SEEK_STAT;
-         ide_transfer_start(s, s->io_buffer, 512, ide_transfer_stop);
--        ide_set_irq(s->bus);
-+        ide_bus_set_irq(s->bus);
-         return false;
-     } else {
-         if (s->drive_kind == IDE_CD) {
-@@ -1630,7 +1630,7 @@ static bool cmd_specify(IDEState *s, uint8_t cmd)
-     if (s->blk && s->drive_kind != IDE_CD) {
-         s->heads = (s->select & (ATA_DEV_HS)) + 1;
-         s->sectors = s->nsector;
--        ide_set_irq(s->bus);
-+        ide_bus_set_irq(s->bus);
-     } else {
-         ide_abort_command(s);
+-        ide_create_drive(&ahci->dev[i].port, 0, hd[i]);
++        ide_bus_create_drive(&ahci->dev[i].port, 0, hd[i]);
      }
-@@ -1731,7 +1731,7 @@ static bool cmd_identify_packet(IDEState *s, uint8_t cmd)
-     ide_atapi_identify(s);
-     s->status = READY_STAT | SEEK_STAT;
-     ide_transfer_start(s, s->io_buffer, 512, ide_transfer_stop);
--    ide_set_irq(s->bus);
-+    ide_bus_set_irq(s->bus);
-     return false;
  }
  
-@@ -1756,7 +1756,7 @@ static bool cmd_exec_dev_diagnostic(IDEState *s, uint8_t cmd)
-          * They are part of the regular output (this is why ERR_STAT isn't set)
-          * Device 0 passed, Device 1 passed or not present. */
-         s->error = 0x01;
--        ide_set_irq(s->bus);
-+        ide_bus_set_irq(s->bus);
-     }
- 
-     return false;
-@@ -1788,7 +1788,7 @@ static bool cmd_cfa_req_ext_error_code(IDEState *s, uint8_t cmd)
- {
-     s->error = 0x09;    /* miscellaneous error */
-     s->status = READY_STAT | SEEK_STAT;
--    ide_set_irq(s->bus);
-+    ide_bus_set_irq(s->bus);
- 
-     return false;
- }
-@@ -1827,7 +1827,7 @@ static bool cmd_cfa_translate_sector(IDEState *s, uint8_t cmd)
-     s->io_buffer[0x1a] = 0x01;                      /* Hot count */
- 
-     ide_transfer_start(s, s->io_buffer, 0x200, ide_transfer_stop);
--    ide_set_irq(s->bus);
-+    ide_bus_set_irq(s->bus);
- 
-     return false;
- }
-@@ -1851,7 +1851,7 @@ static bool cmd_cfa_access_metadata_storage(IDEState *s, uint8_t cmd)
- 
-     ide_transfer_start(s, s->io_buffer, 0x200, ide_transfer_stop);
-     s->status = 0x00; /* NOTE: READY is _not_ set */
--    ide_set_irq(s->bus);
-+    ide_bus_set_irq(s->bus);
- 
-     return false;
- }
-@@ -1934,7 +1934,7 @@ static bool cmd_smart(IDEState *s, uint8_t cmd)
- 
-         s->status = READY_STAT | SEEK_STAT;
-         ide_transfer_start(s, s->io_buffer, 0x200, ide_transfer_stop);
--        ide_set_irq(s->bus);
-+        ide_bus_set_irq(s->bus);
-         return false;
- 
-     case SMART_READ_DATA:
-@@ -1975,7 +1975,7 @@ static bool cmd_smart(IDEState *s, uint8_t cmd)
- 
-         s->status = READY_STAT | SEEK_STAT;
-         ide_transfer_start(s, s->io_buffer, 0x200, ide_transfer_stop);
--        ide_set_irq(s->bus);
-+        ide_bus_set_irq(s->bus);
-         return false;
- 
-     case SMART_READ_LOG:
-@@ -2014,7 +2014,7 @@ static bool cmd_smart(IDEState *s, uint8_t cmd)
+diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
+index 3e21f607fe..90fea5d059 100644
+--- a/hw/ide/ahci.c
++++ b/hw/ide/ahci.c
+@@ -1842,7 +1842,7 @@ void ahci_ide_create_devs(PCIDevice *dev, DriveInfo **hd)
+         if (hd[i] == NULL) {
+             continue;
          }
-         s->status = READY_STAT | SEEK_STAT;
-         ide_transfer_start(s, s->io_buffer, 0x200, ide_transfer_stop);
--        ide_set_irq(s->bus);
-+        ide_bus_set_irq(s->bus);
-         return false;
- 
-     case SMART_EXECUTE_OFFLINE:
-@@ -2146,7 +2146,7 @@ void ide_exec_cmd(IDEBus *bus, uint32_t val)
- 
-     if (!ide_cmd_permitted(s, val)) {
-         ide_abort_command(s);
--        ide_set_irq(s->bus);
-+        ide_bus_set_irq(s->bus);
-         return;
+-        ide_create_drive(&ahci->dev[i].port, 0, hd[i]);
++        ide_bus_create_drive(&ahci->dev[i].port, 0, hd[i]);
      }
  
-@@ -2164,7 +2164,7 @@ void ide_exec_cmd(IDEBus *bus, uint32_t val)
-         }
+ }
+diff --git a/hw/ide/isa.c b/hw/ide/isa.c
+index ad47e0899e..74f7b43137 100644
+--- a/hw/ide/isa.c
++++ b/hw/ide/isa.c
+@@ -93,10 +93,10 @@ ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int irqnum,
  
-         ide_cmd_done(s);
--        ide_set_irq(s->bus);
-+        ide_bus_set_irq(s->bus);
+     s = ISA_IDE(dev);
+     if (hd0) {
+-        ide_create_drive(&s->bus, 0, hd0);
++        ide_bus_create_drive(&s->bus, 0, hd0);
      }
+     if (hd1) {
+-        ide_create_drive(&s->bus, 1, hd1);
++        ide_bus_create_drive(&s->bus, 1, hd1);
+     }
+     return isadev;
  }
- 
-@@ -2783,7 +2783,7 @@ void ide_init2(IDEBus *bus, qemu_irq irq)
-     bus->dma = &ide_dma_nop;
- }
- 
--void ide_set_irq(IDEBus *bus)
-+void ide_bus_set_irq(IDEBus *bus)
- {
-     if (!(bus->cmd & IDE_CTRL_DISABLE_IRQ)) {
-         qemu_irq_raise(bus->irq);
 diff --git a/hw/ide/macio.c b/hw/ide/macio.c
-index 15fd934831..24fb7a3f9d 100644
+index 24fb7a3f9d..7efbbc720a 100644
 --- a/hw/ide/macio.c
 +++ b/hw/ide/macio.c
-@@ -160,7 +160,7 @@ static void pmac_ide_transfer_cb(void *opaque, int ret)
-         MACIO_DPRINTF("End of IDE transfer\n");
-         qemu_sglist_destroy(&s->sg);
-         s->status = READY_STAT | SEEK_STAT;
--        ide_set_irq(s->bus);
-+        ide_bus_set_irq(s->bus);
-         m->dma_active = false;
-         goto done;
+@@ -501,7 +501,7 @@ void macio_ide_init_drives(MACIOIDEState *s, DriveInfo **hd_table)
+ 
+     for (i = 0; i < 2; i++) {
+         if (hd_table[i]) {
+-            ide_create_drive(&s->bus, i, hd_table[i]);
++            ide_bus_create_drive(&s->bus, i, hd_table[i]);
+         }
      }
+ }
+diff --git a/hw/ide/microdrive.c b/hw/ide/microdrive.c
+index b9822b939b..08504b499f 100644
+--- a/hw/ide/microdrive.c
++++ b/hw/ide/microdrive.c
+@@ -566,7 +566,7 @@ PCMCIACardState *dscm1xxxx_init(DriveInfo *dinfo)
+     qdev_realize(DEVICE(md), NULL, &error_fatal);
+ 
+     if (dinfo != NULL) {
+-        ide_create_drive(&md->bus, 0, dinfo);
++        ide_bus_create_drive(&md->bus, 0, dinfo);
+     }
+     md->bus.ifs[0].drive_kind = IDE_CFATA;
+     md->bus.ifs[0].mdata_size = METADATA_SIZE;
+diff --git a/hw/ide/mmio.c b/hw/ide/mmio.c
+index 5153d19ac6..1f1527122e 100644
+--- a/hw/ide/mmio.c
++++ b/hw/ide/mmio.c
+@@ -174,10 +174,10 @@ void mmio_ide_init_drives(DeviceState *dev, DriveInfo *hd0, DriveInfo *hd1)
+     MMIOIDEState *s = MMIO_IDE(dev);
+ 
+     if (hd0 != NULL) {
+-        ide_create_drive(&s->bus, 0, hd0);
++        ide_bus_create_drive(&s->bus, 0, hd0);
+     }
+     if (hd1 != NULL) {
+-        ide_create_drive(&s->bus, 1, hd1);
++        ide_bus_create_drive(&s->bus, 1, hd1);
+     }
+ }
+ 
+diff --git a/hw/ide/pci.c b/hw/ide/pci.c
+index ae638dee0d..4223f5e64d 100644
+--- a/hw/ide/pci.c
++++ b/hw/ide/pci.c
+@@ -489,7 +489,7 @@ void pci_ide_create_devs(PCIDevice *dev)
+     ide_drive_get(hd_table, ARRAY_SIZE(hd_table));
+     for (i = 0; i < 4; i++) {
+         if (hd_table[i]) {
+-            ide_create_drive(d->bus + bus[i], unit[i], hd_table[i]);
++            ide_bus_create_drive(d->bus + bus[i], unit[i], hd_table[i]);
+         }
+     }
+ }
+diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
+index 6f6c7462f3..1b3b4da01d 100644
+--- a/hw/ide/qdev.c
++++ b/hw/ide/qdev.c
+@@ -124,7 +124,7 @@ static void ide_qdev_realize(DeviceState *qdev, Error **errp)
+     dc->realize(dev, errp);
+ }
+ 
+-IDEDevice *ide_create_drive(IDEBus *bus, int unit, DriveInfo *drive)
++IDEDevice *ide_bus_create_drive(IDEBus *bus, int unit, DriveInfo *drive)
+ {
+     DeviceState *dev;
+ 
 diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
-index 57a6278327..7b4b71d0b0 100644
+index 7b4b71d0b0..ccfe064643 100644
 --- a/include/hw/ide/internal.h
 +++ b/include/hw/ide/internal.h
-@@ -619,7 +619,7 @@ int ide_init_drive(IDEState *s, BlockBackend *blk, IDEDriveKind kind,
- void ide_init2(IDEBus *bus, qemu_irq irq);
- void ide_exit(IDEState *s);
- int ide_init_ioport(IDEBus *bus, ISADevice *isa, int iobase, int iobase2);
--void ide_set_irq(IDEBus *bus);
-+void ide_bus_set_irq(IDEBus *bus);
- void ide_register_restart_cb(IDEBus *bus);
+@@ -645,7 +645,7 @@ void ide_atapi_cmd_reply_end(IDEState *s);
+ /* hw/ide/qdev.c */
+ void ide_bus_init(IDEBus *idebus, size_t idebus_size, DeviceState *dev,
+                   int bus_id, int max_units);
+-IDEDevice *ide_create_drive(IDEBus *bus, int unit, DriveInfo *drive);
++IDEDevice *ide_bus_create_drive(IDEBus *bus, int unit, DriveInfo *drive);
  
- void ide_exec_cmd(IDEBus *bus, uint32_t val);
+ int ide_handle_rw_error(IDEState *s, int error, int op);
+ 
 -- 
 2.38.1
 
