@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95163697CD2
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 14:09:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFAB4697CDA
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 14:09:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSHW3-0008Go-9t; Wed, 15 Feb 2023 08:08:07 -0500
+	id 1pSHXA-0000VA-Mx; Wed, 15 Feb 2023 08:09:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSHW1-0008GZ-Vt
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:08:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from
+ <BATV+f1a11ef664e990c11290+7115+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pSHX8-0000Pa-6U
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:09:14 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSHVy-0005Z4-HK
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:08:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676466481;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6T9AjnkqeQDMkotFNzAZurUBd6HfYf5wSG1ncRoL0Xg=;
- b=YuOiEtE/fk7nQrTD36a5uS/sadFNuk5/24GdD4ncROVYgAw6BYe+wQeTbIaH2trWo+chSJ
- PQlf7gyLke2yL08desleZSUEwSW/PbAe70vTapv0jheIysxr/ATYa8wZmIsDRH55TG7C16
- i95z1EXjj+ZAuAsQnrukc8mouheHj3I=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-404-bFLwCy0rMBGPy3KFhFhe5w-1; Wed, 15 Feb 2023 08:08:00 -0500
-X-MC-Unique: bFLwCy0rMBGPy3KFhFhe5w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 642DF882824;
- Wed, 15 Feb 2023 13:07:59 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 01A521121318;
- Wed, 15 Feb 2023 13:07:58 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D46A221E6A1F; Wed, 15 Feb 2023 14:07:57 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org,  hreitz@redhat.com,  aesteve@redhat.com,
- nsoffer@redhat.com,  qemu-devel@nongnu.org,  vsementsov@yandex-team.ru
-Subject: Re: [PATCH 0/4] qemu-img: Fix exit code for errors closing the image
-References: <20230112191454.169353-1-kwolf@redhat.com>
- <874jsu51sj.fsf@pond.sub.org> <Y8FAkAC3L7oF5q48@redhat.com>
-Date: Wed, 15 Feb 2023 14:07:57 +0100
-In-Reply-To: <Y8FAkAC3L7oF5q48@redhat.com> (Kevin Wolf's message of "Fri, 13
- Jan 2023 12:29:20 +0100")
-Message-ID: <87cz6b9ivm.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from
+ <BATV+f1a11ef664e990c11290+7115+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pSHX5-00077v-93
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:09:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=bVa6vmW7sJJWeh46iwD7s755Ef3oIbGMFr4W1y7KwCA=; b=nS4iIo9OC7Z9AC6MhKVcGMfZp7
+ 85K4MNfY3P2NR/Ofb7rk8cxNqvsDi8VfC5xZgUEetmK/PUWUrV0o+JJNHGjAtfeHPQMnBkPtfeB8q
+ RavLnIPXp9VIF5dmus/Z4HKgCdjeuSEuJcjCMO6+B+uv5LvxgcOkWzq7qPUMEzDAAoHmuODVYuLIL
+ nYt7bNMWvJaB/3+P+kigXgmNAqqGbILGLhKAFzm7A6hYKlos8Z214tquDGbrWxBrF6jUQFHWkuo1Y
+ bDgua+c/l8fWBKq27pVfF7hk/gSRCjszdo33T5n8kohE1dgtyTdNEcreo4C1Gfz5vs/v5nxFfDPkY
+ bPcFsWVQ==;
+Received: from [2001:871:43:561d:ca1e:5703:82bd:41bf]
+ (helo=dynamic-pd01.res.v6.highway.a1.net)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pSHWr-007Ta1-AN; Wed, 15 Feb 2023 13:08:57 +0000
+Message-ID: <7c60302dceb909233cd4b95627297ddb862c6fbb.camel@infradead.org>
+Subject: Re: [PATCH v10 32/59] hw/xen: Implement EVTCHNOP_bind_virq
+From: David Woodhouse <dwmw2@infradead.org>
+To: paul@xen.org, Peter Maydell <peter.maydell@linaro.org>, 
+ qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Joao Martins
+ <joao.m.martins@oracle.com>, Ankur Arora <ankur.a.arora@oracle.com>, 
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, Thomas Huth
+ <thuth@redhat.com>, Alex =?ISO-8859-1?Q?Benn=E9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>, "Dr . David
+ Alan Gilbert" <dgilbert@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Julien Grall <julien@xen.org>,  "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,  armbru@redhat.com
+Date: Wed, 15 Feb 2023 13:08:54 +0000
+In-Reply-To: <af406f1b-4da0-991f-2da6-ec7e5b487455@xen.org>
+References: <20230201143148.1744093-1-dwmw2@infradead.org>
+ <20230201143148.1744093-33-dwmw2@infradead.org>
+ <af406f1b-4da0-991f-2da6-ec7e5b487455@xen.org>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-9SBo2lQjzPWwIF+LMUuj"
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+f1a11ef664e990c11290+7115+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,168 +84,149 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Kevin Wolf <kwolf@redhat.com> writes:
 
-> Am 13.01.2023 um 08:30 hat Markus Armbruster geschrieben:
->> Drive-by comment...
->> 
->> Kevin Wolf <kwolf@redhat.com> writes:
->> 
->> > This series addresses the problem described in these bug reports:
->> > https://gitlab.com/qemu-project/qemu/-/issues/1330
->> > https://bugzilla.redhat.com/show_bug.cgi?id=2147617
->> >
->> > qcow2 can fail when writing back dirty bitmaps in qcow2_inactivate().
->> > However, when the function is called through blk_unref(), in the case of
->> > such errors, while an error message is written to stderr, the callers
->> > never see an error return. Specifically, 'qemu-img bitmap/commit' are
->> > reported to exit with an exit code 0 despite the errors.
->> 
->> After having tead the "potential alternative" below, I figure this
->> failure happens within blk_unref().  But I can't see a call chain.  Am I
->> confused?
->
-> When I put an abort() into the error path:
->
-> #0  0x00007ffff6aa156c in __pthread_kill_implementation () from /lib64/libc.so.6
-> #1  0x00007ffff6a54d76 in raise () from /lib64/libc.so.6
-> #2  0x00007ffff6a287f3 in abort () from /lib64/libc.so.6
-> #3  0x00005555556108f3 in qcow2_inactivate (bs=0x555555879a30) at ../block/qcow2.c:2705
-> #4  0x0000555555610a08 in qcow2_do_close (bs=0x555555879a30, close_data_file=true) at ../block/qcow2.c:2741
-> #5  0x0000555555610b38 in qcow2_close (bs=0x555555879a30) at ../block/qcow2.c:2770
-> #6  0x00005555555a1b4e in bdrv_close (bs=0x555555879a30) at ../block.c:4939
-> #7  0x00005555555a2ad4 in bdrv_delete (bs=0x555555879a30) at ../block.c:5330
-> #8  0x00005555555a5b49 in bdrv_unref (bs=0x555555879a30) at ../block.c:6850
-> #9  0x000055555559d6c5 in bdrv_root_unref_child (child=0x555555873300) at ../block.c:3207
-> #10 0x00005555555c7beb in blk_remove_bs (blk=0x5555558796e0) at ../block/block-backend.c:895
-> #11 0x00005555555c6c3f in blk_delete (blk=0x5555558796e0) at ../block/block-backend.c:479
-> #12 0x00005555555c6fb0 in blk_unref (blk=0x5555558796e0) at ../block/block-backend.c:537
-> #13 0x0000555555587dc9 in img_bitmap (argc=7, argv=0x7fffffffd760) at ../qemu-img.c:4820
-> #14 0x0000555555589807 in main (argc=7, argv=0x7fffffffd760) at ../qemu-img.c:5450
+--=-9SBo2lQjzPWwIF+LMUuj
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
+On Fri, 2023-02-10 at 13:48 +0000, Paul Durrant wrote:
+>=20
+> > +static int allocate_port(XenEvtchnState *s, uint32_t vcpu,
+> > uint16_t type,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ uint16_t val, evtchn_port_t *port)
+> > +{
+> > +=C2=A0=C2=A0=C2=A0 evtchn_port_t p =3D 1;
+> > +
+> > +=C2=A0=C2=A0=C2=A0 for (p =3D 1; valid_port(p); p++) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (s->port_table[p].type =
+=3D=3D EVTCHNSTAT_closed) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->=
+port_table[p].vcpu =3D vcpu;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->=
+port_table[p].type =3D type;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->=
+port_table[p].type_val =3D val;
+>=20
+> It'd be neater to use a structured initializer to create a port_table
+> entry on stack and then do a single assignment.
 
->> > The solution taken here is inactivating the images first, which can
->> > still return errors, but already performs all of the write operations.
->> > Only then the images are actually blk_unref()-ed.
->> >
->> > If we agree that this is the way to go (as a potential alternative,
->> > allowing blk_unref() to fail would require changes in all kinds of
->> > places, many of which probably wouldn't even know what to do with the
->> > error),
->> 
->> blk_unref() could fail only when it destroys @blk (refcnt goes to zero).
->> Correct?
->
-> I think so, yes.
+I dunno, I've always hated this part of C. If I could just make it
+s->port_table[p] =3D { vcpu, type, val }; that'd be fine, but setting up
+a local variable just for the assignment is a bit clunky too.
 
-Thanks again!
+--=-9SBo2lQjzPWwIF+LMUuj
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
->> We have a bunch of "unref" functions in the tree, and, as far as I can
->> tell from a quick grep, none of them can fail.  Supports your apparent
->> preference for not changing blk_unref().
->> 
->> >         then I suppose doing the same for other qemu-img subcommands
->> > would make sense, too.
->> 
->> I was about to ask whether there could be more silent failures like the
->> ones in commit and bitmap.  This suggests there are.
->> 
->> Say we do the same for all known such failures.  Would any remaining (or
->> new) such failures be programming errors?
->
-> Let's be honest: What I'm proposing here is not pretty and not a full
-> solution, it only covers the simplest part of the problem, which happens
-> to be the part that has shown up in practice.
->
-> If you have a good idea how to solve the general problem, I'm all ears.
->
-> I haven't checked other qemu-img subcommands, but I don't see why they
-> wouldn't be able to run into an error in .bdrv_close. They could be
-> fixed the same way.
->
-> The next level in difficulty might be QMP block-delete. It's still easy
-> because like in qemu-img, we know that we're freeing the last reference,
-> and so we could actually do the same here. Well, more or less the same
-> at least: Obviously not inactivate_all(), but just for a single node. We
-> also need to do this recursively for children, except only for those
-> that would actually go away together with our parent node and aren't
-> referenced elsewhere. Even if we manage to implement this correctly,
-> what do we do with the error? Would returning a QMP error imply that we
-> didn't actually close the image and it's still valid (and not
-> inactivated)?
->
-> Too easy? Let's make it a bit harder. Let's say a commit job completes
-> and we're now removing the intermediate nodes. One of these images could
-> in theory fail in .bdrv_close. We have successfully committed the data,
-> the new graph is ready and in good state. Just one of the old images
-> we're throwing out runs into ENOSPC in its .bdrv_close. Where do we
-> report that error? We don't even necessarily have a QMP command here, we
-> could only let the whole block job fail, which is probably not a good
-> way to let libvirt know what was happening. Also, we can't just
-> unconditionally inactivate the image beforehand there, it might still be
-> in use by other references.  Which may actually be dropped while we're
-> draining the node in bdrv_close().
->
-> Not enough headaches yet? There are plenty of places in QEMU that just
-> want to make sure that the node doesn't go away while they are still
-> doing something with it. So they use a bdrv_ref/unref pair locally.
-> These places could end up freeing the last reference if the node would
-> have gone away otherwise. They are almost certainly a very confusing
-> place to report the error. They might not even be places that can return
-> errors at all currently.
-
-Yes.
-
-> So the main reason why I'm not doing this properly by returning the
-> errors from qcow2_close() (and .bdrv_close in all other drivers) through
-> bdrv_unref() down to the callers of that is not only that it would be a
-> major conversion that would touch lots of places, but also that I
-> wouldn't even know what to do with the error in most callers. And that
-> I'm not sure what the semantics of an error in a close function should
-> be.
-
-Understand.
-
-> Another thing that could be tried is making failure in .bdrv_close less
-> likely by doing things earlier. At least ENOSPC could probably be
-> avoided if dirty bitmaps clusters were allocated during the write
-> request that first sets a bit in them (I know too little about the
-> details how bitmaps are implemented in qcow2, though, maybe Vladimir can
-> help here). But ultimately, you'll always get some I/O requests in
-> .bdrv_close and they could fail even if we made it less likely.
-
-Let me try to summarize to make sure I understand.
-
-Closing an image can fail for the same reason close() can fail: flushing
-caches can fail, and not caching is not an option.
-
-The close is commonly hidden within a bdrv_unref().  It closes when the
-last reference goes away.
-
-Sometimes we know which bdrv_unref() will close.  Sometimes we don't.
-
-Some bdrv_unref() callers can report errors sanely.  Others simply
-can't.
-
-Some failures to close can be safely ignored, such as closing a
-temporary image that is going away anyway.  But it's hard to tell when
-this is the case.
-
-Ideally, things fail cleanly: we either do what's asked and succeed, or
-do nothing and fail.  A failure to close is commonly unclean.  So, even
-if we can report it, recovery can be hard or impossible.
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMjE1MTMwODU0WjAvBgkqhkiG9w0BCQQxIgQgoat3zai8
+40p/8r6gysN3rdFGaO2FkHOxvRQzz+3K5hUwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgB415tL8O1xWVRuAvneKLJZYQUG7/n58JP1
++W+f6JUtPxb7iw8wDMN9HyeY3NW6CjueN7UeLOp8mkFgWLgrbw5hu9EfLgnTtYjeOJqsbGOKbAJK
+/RioS+sC/rPFSiMOaxUeYAfmJGr9ffuMcrtfQ9DgUDDZG/5JAk/NxUKpWkjvgzNrJFgbPYGd/oGA
+vCy8VoZPHvzhaBg1llsuYkyrbxZdusELxCCc9jLm6OE+8P0csllPPwwcmDkviFnzXuM0ykUUejc5
+kpcDcio5FdlCTG0hRQALmhZ9/BG9pg0FWtwrdSqEgrJxh3NO1IfpxDnoJx51I2sBfVNSsR6E4TEP
+tv92LqeaeOP3DmHv5FXRXogy7i0wVO++TVWJ79njO0+GnrG6vrE1gHz47uYh5+YrNFahzJiHPuET
+RV3cJpTVVDZBGnuxmfxOIufhaJ9yTGn51Ahh9/Q/s5fuijCU+qzBSs5dcOHu05LwOhqk/eohImNp
+nYVOFuX5gtiMvj+8KyXVWYvJEZQAaWs0qWly0cCTG42N9Poea2Mqh3zdjunzYZ1AtG6ttQzxZ3Go
+0TlvrdHDqvYbxsFD3ojZg/mZAxxWYSJ1ufQ5HZjBNMKXEYGoX7FhwX2vwHVbEWcP4tse6AUxHVqy
+JEyZMYOs671O8Qrxlqcbmp9paFsDLxfoiHbJnVZ51wAAAAAAAA==
 
 
-A common criticism of garbage collection is that finalization is delayed
-and runs "out of context".  The above shows that reference counting
-isn't all that better.
-
-We could have two variants of bdrv_unref(), one that must not fail, and
-one that can fail and must be checked.  But as you explained, ensuring
-failure only happens in places where we can handle an error sanely is
-somewhere between hard and impossible.
-
-No better ideas, I'm afraid.
-
+--=-9SBo2lQjzPWwIF+LMUuj--
 
