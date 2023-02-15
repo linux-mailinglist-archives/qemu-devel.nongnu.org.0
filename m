@@ -2,86 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2E8B69772E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 08:13:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C9C0697738
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 08:15:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSBxm-0008JI-Ji; Wed, 15 Feb 2023 02:12:22 -0500
+	id 1pSC0e-0001bC-Jq; Wed, 15 Feb 2023 02:15:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSBxl-0008Io-0V
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 02:12:21 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSBxd-0005UY-MC
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 02:12:15 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- m20-20020a05600c3b1400b003e1e754657aso777820wms.2
- for <qemu-devel@nongnu.org>; Tue, 14 Feb 2023 23:12:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+ROt0WgXSryr0kEJ+ahBghatYhZlbuoa/JfqIV/lj/c=;
- b=O0om8eCMiyl4VVccZ7RqeJC1/jmRT2pRIaoEy3XBd1mno1lIg2XZ3Ht1XGrOKQCQX9
- GXahcCCK9a48J1sDBd481KI4NJ6rO0BeqIOCoDVQbYr6ufaK9x5jlkSoLYmIEY+0o7WY
- ZdR9wavMeMpPiR2dn7o5fjmY7Myp011uai/KgZIzARVSZiMrrkZUSqMvXb9yc5TO1PxK
- IAiiGIV3uctSYTXaQR2+jchDQaxEHTmgNC4BJONG0aM/WQgoUxcfVaGvjJr6Td80Y/qz
- cJM8K3nzcWP7SALvuuP4b02ZcEvEe2Xuv7rYr2Y1FoHN5E65yjUYdwgQcm3nsS6X5zbg
- oYrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+ROt0WgXSryr0kEJ+ahBghatYhZlbuoa/JfqIV/lj/c=;
- b=3/SUjTiQoRflBeJ8Sqeq7fL+v4hEMNefenPntvyclbhpYhduQxpQUBLKFAzJCcSc82
- g/1fQQQ/MyaCNG9P2vYGLQvzoxWiVfjLTkc9qwx8JSBJ4gAae7/SxDzpCy6fsBdAcg8a
- LMVJa4RWD801JayHz7LkURVku2YzKfB01BXh/7JYQF02b/gR2DhwJcwjpkFt4y3xHHCX
- SP/gUEm4ic7PYwT4NgWqleNo3ovle4d+3xOL24Dal5d7mMv6ybRUhdoH2x2ovzHXGf0U
- 6mFPa5egk344JOH861GxC3RTlX9M05suVNogk3HWz5pnN7ShJ4X8+ZEp/mYRAvQc5HbP
- 61Rg==
-X-Gm-Message-State: AO0yUKUOOAqThWOuEqBOp/+CBBmjQGYJA09sdaN0++rFTYhWdyXQVCpE
- hoCS4dU2KrejY82fJjdefYjGvA==
-X-Google-Smtp-Source: AK7set8xeUWpvdQVsk+f9b9mfASyFOYoJjm9OON+mixP5ZPwRxjNhjImrmD42aZ8ISMe2xkrDEzVEg==
-X-Received: by 2002:a05:600c:705:b0:3e0:6c4:6a3a with SMTP id
- i5-20020a05600c070500b003e006c46a3amr1075239wmn.22.1676445130356; 
- Tue, 14 Feb 2023 23:12:10 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- m17-20020a05600c3b1100b003dd1bd0b915sm1148178wms.22.2023.02.14.23.12.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Feb 2023 23:12:10 -0800 (PST)
-Message-ID: <7ec3bb81-05ae-f73e-b33b-9871f568f4ea@linaro.org>
-Date: Wed, 15 Feb 2023 08:12:08 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSC0W-0001Zd-AL
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 02:15:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSC0T-00078U-8t
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 02:15:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676445306;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7nxUtAZf1XFJXqjzcLaPLpETzbdkmjZV0V1x7ao7t20=;
+ b=Wjc9frTvpBRcYOcggM5tH3TE6MBmERow6qlLsXXU/jTuukXXGWlOf4IPKvS2gPdVjTeuo6
+ X/wARJ0aaUKFTDg+b4SwHeYNdpKTNLCHAEYGkrPozBPwsaR+QC0SmgtR2Kjb1VZitM4JuD
+ C/iPnZQhbe0O9pFkSO6HN+noqP8KEQw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-357-zXAZXWReOGqkh2VmbYmwsA-1; Wed, 15 Feb 2023 02:15:03 -0500
+X-MC-Unique: zXAZXWReOGqkh2VmbYmwsA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A782085C70F;
+ Wed, 15 Feb 2023 07:15:02 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B6FF18EC2;
+ Wed, 15 Feb 2023 07:15:02 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6BC8421E6A1F; Wed, 15 Feb 2023 08:15:01 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org,  Michael Roth <michael.roth@amd.com>
+Subject: Re: [PATCH v4 3/6] qapi: Add minor typing workaround for 3.6
+References: <20230215000011.1725012-1-jsnow@redhat.com>
+ <20230215000011.1725012-4-jsnow@redhat.com>
+Date: Wed, 15 Feb 2023 08:15:01 +0100
+In-Reply-To: <20230215000011.1725012-4-jsnow@redhat.com> (John Snow's message
+ of "Tue, 14 Feb 2023 19:00:08 -0500")
+Message-ID: <87a61fe6x6.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH 6/7] hw/isa: Assert isa_register_portio_list() gets
- non-NULL ISA device
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: BALATON Zoltan <balaton@eik.bme.hu>, Paolo Bonzini <pbonzini@redhat.com>, 
- qemu-block@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>
-References: <20230208000743.79415-1-philmd@linaro.org>
- <20230208000743.79415-7-philmd@linaro.org>
- <8bcc1035-c9fc-762a-7a32-6b0344539345@linaro.org>
- <f088930b-ad9d-354d-5053-f319272140a1@linaro.org>
- <be88dc7c-750f-f4a3-c350-d780e36337ae@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <be88dc7c-750f-f4a3-c350-d780e36337ae@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,20 +79,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 14/2/23 19:49, Richard Henderson wrote:
-> On 2/14/23 00:18, Philippe Mathieu-Daudé wrote:
->>   __attribute__((nonnull)) void a1(void *ptr)
->>   {
->>     // can no use assert(ptr) because compiler warning
->>   }
-> 
-> I briefly glossed over that...
-> 
->>> I realize we'd probably want to add -fno-delete-null-pointer-checks 
->>> if we make too much 
-> 
-> ... here.  The compiler warning should go away with the right flag.
+John Snow <jsnow@redhat.com> writes:
 
-Doh, got it now!
+> Pylint under 3.6 does not believe that Collection is subscriptable at
+> runtime. It is, making this a Pylint
+> bug. https://github.com/PyCQA/pylint/issues/2377
+>
+> They closed it as fixed, but that doesn't seem to be true as of Pylint
+> 2.13.9, the latest version you can install under Python 3.6. 2.13.9 was
+> released 2022-05-13, about seven months after the bug was closed.
+>
+> The least-annoying fix here is to just use the more specific type
+> Sequence, only because it seems to work in 3.6.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi/expr.py | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+> index 5a1782b57ea..8701351fdfc 100644
+> --- a/scripts/qapi/expr.py
+> +++ b/scripts/qapi/expr.py
+> @@ -33,11 +33,11 @@
+>  
+>  import re
+>  from typing import (
+> -    Collection,
+>      Dict,
+>      Iterable,
+>      List,
+>      Optional,
+> +    Sequence,
+>      Union,
+>      cast,
+>  )
+> @@ -195,8 +195,8 @@ def check_defn_name_str(name: str, info: QAPISourceInfo, meta: str) -> None:
+>  def check_keys(value: _JSONObject,
+>                 info: QAPISourceInfo,
+>                 source: str,
+> -               required: Collection[str],
+> -               optional: Collection[str]) -> None:
+> +               required: Sequence[str],
+> +               optional: Sequence[str]) -> None:
+>      """
+>      Ensure that a dict has a specific set of keys.
+
+The actual arguments are always List[str].  You actually used that until
+v3 of the patch, and switched to the maximally general Collection[str]
+in v4, with rationale that ended up in commit 538cd41065a:
+
+    qapi/expr.py: Modify check_keys to accept any Collection
+    
+    This is a minor adjustment that lets parameters @required and
+    @optional take tuple arguments, in particular ().  Later patches will
+    make use of that.
+
+No later patch ever did.
+
+I'd prefer maximally stupid List[str], but it's no big deal either way.
 
 
