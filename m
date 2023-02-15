@@ -2,86 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F99697D23
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 14:25:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45586697D45
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 14:28:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSHm8-0000eR-Jq; Wed, 15 Feb 2023 08:24:44 -0500
+	id 1pSHnd-0002Zh-3W; Wed, 15 Feb 2023 08:26:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pSHm5-0000Vu-Jy
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:24:41 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pSHm4-0005iW-26
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:24:41 -0500
-Received: by mail-wr1-x434.google.com with SMTP id y1so19155167wru.2
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 05:24:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=yiZlosEBkr+8oj6Izjo4DAcpmzxY/yeq9wPI4erWw0g=;
- b=c5uEX1j5p5cny3McXE1NNyEm5PyOo+r7DIvE0n8Rkg+Yfgj0jIWoN8XKs3FXRWrOsr
- 5SNeNb5jJKeBAl0zzZ59bIwz+MsHrXYO9pu3BWy2otHFapeVQ/CW0T/XD5kHw7oYP/fj
- Y61UPZFewwWN8YwQYFlIIP/Mxuu6DW6ZvP4DKE3jsYX0XRUIWLHYMqs0nIawIH/mCQMj
- w6Xp2rRkeYqh80s2hRjI5IFZkigIBkHFiV+AXAhVEDYll+T7Pg5SbJoJeMoyOY8I8NJW
- L9oD7T2LvfD6z/iG6iJIbC7q2+r/aKVycSy7JnJcFocPqQZBQRFmrNH131GPPQsJu35a
- Ljvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yiZlosEBkr+8oj6Izjo4DAcpmzxY/yeq9wPI4erWw0g=;
- b=R6wa4LMJAjcZCIIDS0mgnI43xt0AUyrToygRR8bkSS2DIG0kDHgzDsi6/1FbokiIjF
- Bkmpf3ZmTzG1mYxKfzX5fOnDLz0O79pr4wEbM+i1e+DrH7r8ArkJMm8PEiORWWFeRIFB
- SzXvngtp0bFXFmgthb+AP21KkQUxcsA4Alha1QC2HY3GEa6QfImkdHz9PIX2iggSh1VJ
- e+DUv1P3Lg4x1C27kOezd7kmkkptHDleRMAqOTRLhkEm5oBb5ZVbhK6yZz9tPhJL1lF3
- iy2LXozTPQw44S+oi68d0YGngynOAnBb8J+7MKc2HXV2ZSFon6lAfsOsm5nS/1fCEOmc
- ztXg==
-X-Gm-Message-State: AO0yUKXpt2jROcBql12ZI6ZZQGM7t0hBhuGTFi8Rpgg2/SGk1GNTLzOp
- f3jZ+a9q+0IUXte4DKU0KqtaMQ==
-X-Google-Smtp-Source: AK7set+5EG/W4w+oOCo0CRYE2lhq1ANLqWUvM+b4OFvo4NphI3cC5iQLqZAYDYMtGWAg3sOWd5hQiw==
-X-Received: by 2002:a5d:68c8:0:b0:2c0:dcb7:91bc with SMTP id
- p8-20020a5d68c8000000b002c0dcb791bcmr1273751wrw.46.1676467478577; 
- Wed, 15 Feb 2023 05:24:38 -0800 (PST)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz.
- [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
- by smtp.gmail.com with ESMTPSA id
- i2-20020adfefc2000000b002c553e061fdsm9145301wrp.112.2023.02.15.05.24.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 05:24:38 -0800 (PST)
-Date: Wed, 15 Feb 2023 14:24:37 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Sunil V L <sunilvl@ventanamicro.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Anup Patel <apatel@ventanamicro.com>,
- Atish Kumar Patra <atishp@rivosinc.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Bin Meng <bmeng@tinylab.org>
-Subject: Re: [PATCH V2 09/10] hw/riscv/virt.c: Initialize the ACPI tables
-Message-ID: <20230215132437.ibksma3khjoukimg@orel>
-References: <20230213144038.2547584-1-sunilvl@ventanamicro.com>
- <20230213144038.2547584-10-sunilvl@ventanamicro.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pSHnY-0002V9-Jj; Wed, 15 Feb 2023 08:26:14 -0500
+Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pSHnS-0006D1-Lk; Wed, 15 Feb 2023 08:26:12 -0500
+Received: from vla5-b2806cb321eb.qloud-c.yandex.net
+ (vla5-b2806cb321eb.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c18:3e0d:0:640:b280:6cb3])
+ by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id 79CFF5FEAD;
+ Wed, 15 Feb 2023 16:25:54 +0300 (MSK)
+Received: from vsementsov-win.yandex-team.ru (unknown
+ [2a02:6b8:b081:b4bf::1:2e])
+ by vla5-b2806cb321eb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ nPk8g80UxeA1-71XB5Qru; Wed, 15 Feb 2023 16:25:53 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1676467553; bh=l6SqOrUGC7KYqh7B26kuE1nSisStEMhUkRw52etpbyo=;
+ h=Message-Id:Date:Cc:Subject:To:From;
+ b=JpmAUMkEocDv2DhpckrzKWjhhY4VKlzce4Fv93N/mJqjCnwV65K8Paa+cQy+k+G8Z
+ ibejIKZrCZEz/ganDeJTUbcfKgADIbVaASzV2OlUO9jVBALDaJdku/A+PAXwvk1TMl
+ RPrV3vRTZJvyKCTfgA1DyAya3o8hj1Q544lhE0cg=
+Authentication-Results: vla5-b2806cb321eb.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, vsementsov@yandex-team.ru, jsnow@redhat.com,
+ crosa@redhat.com, kwolf@redhat.com, hreitz@redhat.com
+Subject: [PATCH v5 00/16] iotests: use vm.cmd()
+Date: Wed, 15 Feb 2023 16:25:31 +0300
+Message-Id: <20230215132547.1620575-1-vsementsov@yandex-team.ru>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230213144038.2547584-10-sunilvl@ventanamicro.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=ajones@ventanamicro.com; helo=mail-wr1-x434.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=178.154.239.72;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,34 +69,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 13, 2023 at 08:10:37PM +0530, Sunil V L wrote:
-> When the "acpi=on", ACPI tables need to be added. Detect the option
-> and initialize the ACPI tables.
-> 
-> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> Reviewed-by: Bin Meng <bmeng@tinylab.org>
-> ---
->  hw/riscv/virt.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index 5017ba62ec..43c201c8cf 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -1316,6 +1316,10 @@ static void virt_machine_done(Notifier *notifier, void *data)
->      if (kvm_enabled()) {
->          riscv_setup_direct_kernel(kernel_entry, fdt_load_addr);
->      }
-> +
-> +    if (virt_is_acpi_enabled(s)) {
-> +        virt_acpi_setup(s);
-> +    }
->  }
->  
->  static void virt_machine_init(MachineState *machine)
-> -- 
-> 2.34.1
-> 
+Hi all!
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+Let's get rid of pattern
+
+    result = self.vm.qmp(...)
+    self.assert_qmp(result, 'return', {})
+
+And switch to just
+
+    self.vm.cmd(...)
+
+v5:
+- include fixups by John
+- fix 'make check-dev'
+- split first patch into several [Daniel]
+
+
+Vladimir Sementsov-Ogievskiy (16):
+  python: fix superfluous-parens pylint error
+  python: fix broad-exception-raised pylint error
+  python/qemu/qmp/legacy: cmd(): drop cmd_id unused argument
+  qmp_shell.py: _fill_completion() use .command() instead of .cmd()
+  scripts/cpu-x86-uarch-abi.py: use .command() instead of .cmd()
+  python: rename QEMUMonitorProtocol.cmd() to cmd_raw()
+  python/qemu: rename command() to cmd()
+  python/machine.py: upgrade vm.cmd() method
+  iotests: QemuStorageDaemon: add cmd() method like in QEMUMachine.
+  iotests: add some missed checks of qmp result
+  iotests: refactor some common qmp result checks into generic pattern
+  iotests: drop some occasional semicolons
+  iotests: drop some extra ** in qmp() call
+  iotests.py: pause_job(): drop return value
+  tests/vm/basevm.py: use cmd() instead of qmp()
+  python: use vm.cmd() instead of vm.qmp() where appropriate
+
+ docs/devel/testing.rst                        |  10 +-
+ python/qemu/machine/machine.py                |  20 +-
+ python/qemu/qmp/legacy.py                     |  10 +-
+ python/qemu/qmp/protocol.py                   |   2 +-
+ python/qemu/qmp/qmp_client.py                 |   2 +-
+ python/qemu/qmp/qmp_shell.py                  |  20 +-
+ python/qemu/utils/qemu_ga_client.py           |   8 +-
+ python/qemu/utils/qom.py                      |   8 +-
+ python/qemu/utils/qom_common.py               |   2 +-
+ python/qemu/utils/qom_fuse.py                 |   6 +-
+ scripts/cpu-x86-uarch-abi.py                  |   8 +-
+ scripts/device-crash-test                     |   8 +-
+ scripts/render_block_graph.py                 |   8 +-
+ tests/avocado/avocado_qemu/__init__.py        |   4 +-
+ tests/avocado/cpu_queries.py                  |   5 +-
+ tests/avocado/hotplug_cpu.py                  |  10 +-
+ tests/avocado/info_usernet.py                 |   4 +-
+ tests/avocado/machine_arm_integratorcp.py     |   6 +-
+ tests/avocado/machine_m68k_nextcube.py        |   4 +-
+ tests/avocado/machine_mips_malta.py           |   6 +-
+ tests/avocado/machine_s390_ccw_virtio.py      |  28 +-
+ tests/avocado/migration.py                    |  10 +-
+ tests/avocado/pc_cpu_hotplug_props.py         |   2 +-
+ tests/avocado/version.py                      |   4 +-
+ tests/avocado/virtio_check_params.py          |   6 +-
+ tests/avocado/virtio_version.py               |   5 +-
+ tests/avocado/vnc.py                          |  16 +-
+ tests/avocado/x86_cpu_model_versions.py       |  13 +-
+ tests/migration/guestperf/engine.py           | 150 +++---
+ tests/qemu-iotests/030                        | 168 +++---
+ tests/qemu-iotests/040                        | 171 +++----
+ tests/qemu-iotests/041                        | 482 ++++++++----------
+ tests/qemu-iotests/045                        |  15 +-
+ tests/qemu-iotests/055                        |  62 +--
+ tests/qemu-iotests/056                        |  77 ++-
+ tests/qemu-iotests/093                        |  42 +-
+ tests/qemu-iotests/118                        | 225 ++++----
+ tests/qemu-iotests/124                        | 102 ++--
+ tests/qemu-iotests/129                        |  14 +-
+ tests/qemu-iotests/132                        |   5 +-
+ tests/qemu-iotests/139                        |  45 +-
+ tests/qemu-iotests/147                        |  30 +-
+ tests/qemu-iotests/151                        |  56 +-
+ tests/qemu-iotests/152                        |   8 +-
+ tests/qemu-iotests/155                        |  55 +-
+ tests/qemu-iotests/165                        |   8 +-
+ tests/qemu-iotests/196                        |   3 +-
+ tests/qemu-iotests/205                        |   6 +-
+ tests/qemu-iotests/218                        | 105 ++--
+ tests/qemu-iotests/245                        | 245 ++++-----
+ tests/qemu-iotests/256                        |  34 +-
+ tests/qemu-iotests/257                        |  36 +-
+ tests/qemu-iotests/264                        |  31 +-
+ tests/qemu-iotests/281                        |  21 +-
+ tests/qemu-iotests/295                        |  16 +-
+ tests/qemu-iotests/296                        |  21 +-
+ tests/qemu-iotests/298                        |  13 +-
+ tests/qemu-iotests/300                        |  54 +-
+ tests/qemu-iotests/iotests.py                 |  25 +-
+ .../tests/export-incoming-iothread            |   6 +-
+ .../qemu-iotests/tests/graph-changes-while-io |   6 +-
+ tests/qemu-iotests/tests/image-fleecing       |   3 +-
+ .../tests/migrate-bitmaps-postcopy-test       |  33 +-
+ tests/qemu-iotests/tests/migrate-bitmaps-test |  45 +-
+ .../qemu-iotests/tests/migrate-during-backup  |  41 +-
+ .../qemu-iotests/tests/migration-permissions  |   9 +-
+ .../tests/mirror-ready-cancel-error           |  74 ++-
+ tests/qemu-iotests/tests/mirror-top-perms     |  16 +-
+ tests/qemu-iotests/tests/nbd-multiconn        |  12 +-
+ tests/qemu-iotests/tests/reopen-file          |   3 +-
+ .../qemu-iotests/tests/stream-error-on-reset  |   6 +-
+ tests/vm/basevm.py                            |   4 +-
+ 72 files changed, 1196 insertions(+), 1622 deletions(-)
+
+-- 
+2.34.1
+
 
