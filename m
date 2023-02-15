@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5864A698538
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 21:07:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0169969854A
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 21:11:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSO33-0003uN-Vf; Wed, 15 Feb 2023 15:06:38 -0500
+	id 1pSO7i-0003LU-Qm; Wed, 15 Feb 2023 15:11:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pSO2z-0003lc-GF
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:06:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pSO7Z-0003B6-2A
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:11:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pSO2y-0006eE-0l
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:06:33 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pSO7X-0003g4-Bg
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:11:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676491583;
+ s=mimecast20190719; t=1676491874;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=SBK4/QZQqttCRSeKFVof9Do5GI2z0eqqWJefUNs4TsM=;
- b=SLv1N/CTMWjIhfuzBFNrjIAi9YpKB9+z8NS+UBTmH9x6xu48c7WfTDEFXtsFAjgSeAHbv2
- OTiF96RW9LnNqpb3zBPyAu2U540/dreHgBQqrQt68Cf8R0+TuH3lj3/aKKBeBjCMO9esT0
- 3vmKwEI2YCFbfXNXr649DzxDaxHczhg=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=95cSUFM3lFa8eYa3DJlbM/VC6YmY3dqYC487wZv2eYA=;
+ b=IrXXJt33yTlEOHVlthhP6Bq56LbEa5mYZ30Lo3mPH12MO4C7YlYdB2Gl5sqD7Kq8ZYOUF3
+ 5GLqAPec2OGMw5vu+pss1z2V/lS81ZTF9my3y0zOFIuGLZheNIkYd5HH+zLg5UUgHMJX0S
+ e2cg0Q2gk9OcCVXI8cKwNpVbe5AdYZ0=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-522-_06y4N9hMji-mc9gXoKX3g-1; Wed, 15 Feb 2023 15:06:21 -0500
-X-MC-Unique: _06y4N9hMji-mc9gXoKX3g-1
-Received: by mail-il1-f200.google.com with SMTP id
- q3-20020a056e02096300b003157134a9fbso41566ilt.2
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 12:06:21 -0800 (PST)
+ us-mta-153-UOwHE73SO761mK_C2R2gog-1; Wed, 15 Feb 2023 15:11:13 -0500
+X-MC-Unique: UOwHE73SO761mK_C2R2gog-1
+Received: by mail-pj1-f70.google.com with SMTP id
+ k2-20020a17090a658200b002311a9f6b3cso1649041pjj.6
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 12:11:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SBK4/QZQqttCRSeKFVof9Do5GI2z0eqqWJefUNs4TsM=;
- b=Q7Ez7TsbMoN7GKRXtbgrlDd3dQmeVwY+jpMgDe70LtLgBNxdArJ2oCJ9XdJ9VH3rZV
- pJzmjiw/KNS+hCxz6btrF6uZzql/uBRjiaZpNGc9JQX5tUp8pTirGg+9lgpATawJksRl
- AeITlgDNbtY13EquyBTPbKBXX7pYHteidM1ItAj9bgfUIgXPo1/cZNFWRqe7a7N0t6C1
- jCpEwdpdCA0BeKTY9PXwXF7k24Hj3xhUKzbbl8c0cqvFfO+P3FJgGQspvdnn9cUmQ0BL
- f0qlbNr5rdwyLIs2R66m9FdjBm/rv/jGam0CkP8V8YSimbwjK8Iejk2hnEMukmii5Nyt
- x+cA==
-X-Gm-Message-State: AO0yUKXB5Bh0WZZUH4j4VJAqcMjAaJ9ND89P3985e9nuAK4JfyMMQnKG
- kDNvDMoW1vfpY/Ny4vYSMNfFSk4P0FdWRlb87tEgP229//Tl6XjToVA8nDrU7FwrAr5kBPOeHw/
- bmpc3D1Y9tkr9RuY=
-X-Received: by 2002:a05:6e02:1d0b:b0:315:29e8:6ef3 with SMTP id
- i11-20020a056e021d0b00b0031529e86ef3mr2918425ila.2.1676491580905; 
- Wed, 15 Feb 2023 12:06:20 -0800 (PST)
-X-Google-Smtp-Source: AK7set/m4SyOP30UWiKk3+LbLkLOQd44P+KHtEIS9rCIZYDDkymoiCYta2avGoC2rb4rg3ziK7DtTw==
-X-Received: by 2002:a05:6e02:1d0b:b0:315:29e8:6ef3 with SMTP id
- i11-20020a056e021d0b00b0031529e86ef3mr2918407ila.2.1676491580678; 
- Wed, 15 Feb 2023 12:06:20 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- h17-20020a02c731000000b003a971c488cesm6017100jao.173.2023.02.15.12.06.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 12:06:20 -0800 (PST)
-Date: Wed, 15 Feb 2023 15:06:18 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Yanan Wang <wangyanan55@huawei.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v6 2/3] multifd: Protect multifd_send_sync_main() calls
-Message-ID: <Y+07OqNDhKgPbsJ0@x1n>
-References: <20230215180231.7644-1-quintela@redhat.com>
- <20230215180231.7644-3-quintela@redhat.com>
+ d=1e100.net; s=20210112; t=1676491869;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=95cSUFM3lFa8eYa3DJlbM/VC6YmY3dqYC487wZv2eYA=;
+ b=Bp/4vdD0IOCURvSojzP3sms4ftMeE8gqOdIWUc4trZUOSQ04NsMl88PWqmU8Bnq7yp
+ +rYo9+8BMGIqIxzsEdg1lda5ve8ZM/SdY9Pro8gnG0Mr5RMW3EltDwWzN2KN7j6zTf/4
+ 7tG3iOPKTaC6piwfqd4EeRtn0pj08Ccvg/i0g7NQ1Cshsrm0eHuOhaH03NGmrd/WXXoH
+ IbSz+llnWQHLZXj81m7fCiA5EOLM6rg4aoNp7pjXjH8At13BWVKF9juOFCcGkoRLnrgK
+ Krw1+NKY1NoZ5ajzLivU3NRRU/EEXJhAIlkDDm8hJa7Waz59NNqA2WcE6nOPdQbR3cnt
+ 9URA==
+X-Gm-Message-State: AO0yUKX0gbvSHxz4zHItngorWKWNp/7LyT1U34qmaJJxP/lrLqEwC1KB
+ Bp3mYgK1LrDt3Dtj+h7iHPq8NkHTX0UWz2urzzuj20c9FiWxUqXjW44e9XhvO3rIieLHnms7vhm
+ rZ6VjZ9+iEYi8SgXaNrZY1lGfoKHyKr8=
+X-Received: by 2002:aa7:9d1d:0:b0:5a8:beb3:d561 with SMTP id
+ k29-20020aa79d1d000000b005a8beb3d561mr541520pfp.17.1676491869253; 
+ Wed, 15 Feb 2023 12:11:09 -0800 (PST)
+X-Google-Smtp-Source: AK7set+qMuGJvmAUvkaS308/FirUjRWy7wjEq+fpeRY2LpRvi8pPjm+MjVG0+nXoMJ+CBDxJ0DPO4itLRqw+EDwNKyI=
+X-Received: by 2002:aa7:9d1d:0:b0:5a8:beb3:d561 with SMTP id
+ k29-20020aa79d1d000000b005a8beb3d561mr541504pfp.17.1676491868948; Wed, 15 Feb
+ 2023 12:11:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230215180231.7644-3-quintela@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+References: <20230209154034.983044-1-jsnow@redhat.com>
+ <20230209154034.983044-4-jsnow@redhat.com>
+ <20230210194527.d622oiaitb43utl2@redhat.com>
+In-Reply-To: <20230210194527.d622oiaitb43utl2@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 15 Feb 2023 15:10:57 -0500
+Message-ID: <CAFn=p-a5SxWuJSDjtr98eQTmb91X5RttrRivNa=6dgMLKjfQ8A@mail.gmail.com>
+Subject: Re: [PATCH 3/7] configure: Look for auxiliary Python installations
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Markus Armbruster <armbru@redhat.com>, Daniel Berrange <berrange@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Michael Roth <michael.roth@amd.com>, 
+ Cleber Rosa <crosa@redhat.com>, Beraldo Leal <bleal@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -102,22 +99,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 15, 2023 at 07:02:30PM +0100, Juan Quintela wrote:
-> We only need to do that on the ram_save_iterate() call on sending and
-> on destination when we get a RAM_SAVE_FLAG_EOS.
-> 
-> In setup() and complete() we need to synch in both new and old cases,
-> so don't add a check there.
-> 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+On Fri, Feb 10, 2023 at 2:45 PM Eric Blake <eblake@redhat.com> wrote:
+>
+> On Thu, Feb 09, 2023 at 10:40:30AM -0500, John Snow wrote:
+> > At the moment, we look for just "python3" and "python", which is good
+> > enough almost all of the time. But ... if you are on a platform that
+> > uses an older Python by default and only offers a newer Python as an
+> > option, you'll have to specify --python=/usr/bin/foo every time.
+> >
+> > We can be kind and instead make a cursory attempt to locate a suitable
+> > Python binary ourselves, looking for the remaining well-known binaries.
+> >
+> > This configure loop will prefer, in order:
+> >
+> > 1. Whatever is specified in $PYTHON
+> > 2. python3
+> > 3. python
+> > 4. python3.11 down through python3.6
+>
+> Makes sense.
+>
+>
+> >  python=
+> > +first_python=
+> >  explicit_python=no
+> > -for binary in "${PYTHON-python3}" python
+> > +# A bare 'python' is traditionally python 2.x, but some distros
+> > +# have it as python 3.x, so check in both places.
+> > +for binary in "${PYTHON-python3}" python python3.{11..6}
+>
+> This does not match your commit message. If $PYTHON is set but fails,
+> you never check python3.  Pre-existing, but now that you're calling it
+> out as intended, it may be better to write the list prefix as:
+>
+> for binary in $PYTHON python3 python ...
+>
+> except that it mishandles $PYTHON containing space, so you want the
+> quotes, but you don't want to test an empty binary or waste time
+> testing python3 twice, so more precise could be:
+>
+> for binary in "${PYTHON-python3}" ${PYTHON:+python3} python ...
 
-[same issue on SoB]
+Yep. I wonder if it's worth helping people work around broken
+environment variables at all, but, eh, you already solved the more
+difficult case, so I can include it.
 
-Acked-by: Peter Xu <peterx@redhat.com>
+(Well, pending other discussions, I s'pose.)
 
--- 
-Peter Xu
+>
+> Meanwhioe, your use of {11.6} is a bashism, but configure is /bin/sh.
+> It would be nice if you could use $(seq -f python3.%g 11 -1 6), but
+> that's probably too specific to GNU Coreutils and won't work on other
+> platforms; and open-coding it in a shell loop isn't going to be any
+> prettier.  So you'll be safest if you just manually spell it out:
+>
+> python3.11 python3.10 ...
+
+Oh, icky.  Well, OK. Thanks for pointing it out before it became a
+problem somewhere.
+
+>
+> --
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3266
+> Virtualization:  qemu.org | libvirt.org
+>
 
 
