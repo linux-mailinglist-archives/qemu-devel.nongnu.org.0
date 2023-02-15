@@ -2,80 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E04C6697E4E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 15:26:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7D7697E7A
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 15:36:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSIje-0006PN-N4; Wed, 15 Feb 2023 09:26:14 -0500
+	id 1pSIsF-0003QW-H9; Wed, 15 Feb 2023 09:35:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pSIjc-0006OO-Lu
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 09:26:12 -0500
-Received: from mga05.intel.com ([192.55.52.43])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pSIja-00043p-LL
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 09:26:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676471170; x=1708007170;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=KKk2yfW0i1ptkmRz/kYm4BlgxRSzzUUEYAifLTMI2XM=;
- b=gSDWEaJiKmMBUJjpAaPg5cB8Y6+28QM015xLNQbPqHUQB8WMViOq8onO
- 4/8SqaJinTK+gO6OsCoBOV4GcMG5XxgGsJ6D7vPclLj7mgRtopWJlhMM4
- dLsRHuwZCAPEkcH1gcZyDk2mwY+KHnrEB8opSU/PTSbYU9sCIKB4TKfml
- xilFzp9tzSjH+Q1qoNCXMtvNucg4s73FzOzDQPMhUWkw1eHz9uEYQB0iT
- 2wBir8q49wsK5zWjVfMC8XHT+LC67ztW/De+VbJRv+rPi6KkMspEcWswu
- VhNpcf3mCioi53cPJTQcxipG9IlNX0EmYFrEVlufgFhtyKbe9oZfk+t/R Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="417656084"
-X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; d="scan'208";a="417656084"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2023 06:26:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="812467245"
-X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; d="scan'208";a="812467245"
-Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
- ([10.239.160.112])
- by fmsmga001.fm.intel.com with ESMTP; 15 Feb 2023 06:26:03 -0800
-Date: Wed, 15 Feb 2023 22:33:55 +0800
-From: Zhao Liu <zhao1.liu@linux.intel.com>
-To: "wangyanan (Y)" <wangyanan55@huawei.com>
-Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
- Dapeng Mi <dapeng1.mi@intel.com>,
- Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo <robert.hu@linux.intel.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
- Like Xu <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH RESEND 04/18] i386/cpu: Fix number of addressable IDs in
- CPUID.04H
-Message-ID: <Y+ztU4N/IM7ulGoT@liuzhao-OptiPlex-7080>
-References: <20230213093625.158170-1-zhao1.liu@linux.intel.com>
- <20230213093625.158170-5-zhao1.liu@linux.intel.com>
- <86bf0351-ffcc-3b7d-05f3-a1fe0a4f204a@huawei.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pSIsD-0003QI-ST
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 09:35:05 -0500
+Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pSIsB-0004iO-Pd
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 09:35:05 -0500
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-52ecd867d89so225725677b3.8
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 06:35:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Pt9QhESv7UHV8Dr4T4zW42CNStM7yC+Nx0xqXydCZ7w=;
+ b=IyvGHKHKFuBhQXjCAp5pKPBob0bWPsGvbE9aMRgFcN9Rg06INWBUZKnqqQzA77pMBe
+ nCkL36fc2N+gqQDXJoxurXlM7Y8jhTsVibL+OiupP8cgnh3FvqKGFPzOm7AihKJREkuM
+ XBOiutEEKrJ6tVic6Ej7hFXXlgrJcOgqNcZUDQtEVBjHxod1OWT4ODAUkw52Hy74hRiE
+ komw3q/pnDpfEP24h3JvWuBqrxuxm8zBrU6KOT/0JdDeHxFXVVZCAE+qD33KsVIgtpB3
+ j0Ulg1YDIajuoL15OmDLgTZWgvHTu7j0webFM/y2KrG1Mke5pDF+uJWho8fFw+ncPZ1p
+ Q3XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Pt9QhESv7UHV8Dr4T4zW42CNStM7yC+Nx0xqXydCZ7w=;
+ b=6ApDo2ZgtxNxIIBd0p79Tt8KIyPyzuFRCAe7n5K5+9QpE2mesZTyP4L6QNMjLANyV1
+ RZyxPNchNIY7fJLay+Zp6yaGFLayOwHEAdX3BQ3APaB0WnZCyM5Nn846GQ8relXE7a3d
+ 0DQKAMZ2j13F8AyjP5Z9gdh5Rv8ygQ5RYCndI/JtxS2uR5Fs5EvS5BBUtgH0UPrFahFX
+ MilK83iqbYZDzZOq14NV+5HJceImgq/Beuu4lalayPsR/PXm88888noMI/7HSZTp3q0d
+ mWgfMuv5oamlsiYMryHYMTrpOTfkF8PwreuCe96y33pzi4C8bZvFEME/pn+C7o0fMpqY
+ bu5A==
+X-Gm-Message-State: AO0yUKVjw4Dg4+klqfY/bUgokuyBsl5fg93+16jjZrsU4A995oeGcKWZ
+ jderG57bOmpu+3qPwueXtC+TO6HVhy4jic0xmKk=
+X-Google-Smtp-Source: AK7set/SB+8OuBUeIBDluZ9gedbJ2z8W/So8Z/Ue0NY58CJjx/Geb+iA23vApGj/2mB3OJ7+UFTUAkWiCc2FxOcJ4/c=
+X-Received: by 2002:a81:6b84:0:b0:52e:c68a:293a with SMTP id
+ g126-20020a816b84000000b0052ec68a293amr281060ywc.274.1676471701257; Wed, 15
+ Feb 2023 06:35:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=gb2312
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <86bf0351-ffcc-3b7d-05f3-a1fe0a4f204a@huawei.com>
-Received-SPF: none client-ip=192.55.52.43;
- envelope-from=zhao1.liu@linux.intel.com; helo=mga05.intel.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20220926095509.3759409-1-kraxel@redhat.com>
+ <20220926095509.3759409-14-kraxel@redhat.com>
+ <CAJSP0QVoLf_v2xP6GwDzbFg_RDnP5ppM3UZwTN3XAWPcv6cFCQ@mail.gmail.com>
+ <CAAKa2j=2cdYxBFZO1pTJLFcPVb-6R4gnB9zad3rdptfuuo0ixw@mail.gmail.com>
+ <CAAKa2jmkjPuTouvk3qRvuFiS7RtTSQ8vC=m_eDYLyV7tUxAkiA@mail.gmail.com>
+In-Reply-To: <CAAKa2jmkjPuTouvk3qRvuFiS7RtTSQ8vC=m_eDYLyV7tUxAkiA@mail.gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Wed, 15 Feb 2023 09:34:46 -0500
+Message-ID: <CAJSP0QV=UrYyASRddqTX7KbSw_dLPhVgbdORvYx_N+tQa6Nu+A@mail.gmail.com>
+Subject: Re: [PULL 13/25] hcd-ohci: Fix inconsistency when resetting ohci root
+ hubs
+To: Qiang Liu <cyruscyliu@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org, 
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Bandan Das <bsd@redhat.com>, 
+ Alexander Bulekov <alxndr@bu.edu>, Laurent Vivier <lvivier@redhat.com>, 
+ Darren Kenny <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Akihiko Odaki <akihiko.odaki@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Alexandre Ratchov <alex@caoua.org>, Peter Maydell <peter.maydell@linaro.org>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x112b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,132 +99,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 15, 2023 at 06:11:23PM +0800, wangyanan (Y) wrote:
-> Date: Wed, 15 Feb 2023 18:11:23 +0800
-> From: "wangyanan (Y)" <wangyanan55@huawei.com>
-> Subject: Re: [PATCH RESEND 04/18] i386/cpu: Fix number of addressable IDs
->  in CPUID.04H
-> 
-> Hi Zhao,
-> 
-> ÔÚ 2023/2/13 17:36, Zhao Liu Ð´µÀ:
-> > From: Zhao Liu <zhao1.liu@intel.com>
-> > 
-> > For i-cache and d-cache, the maximum IDs for CPUs sharing cache (
-> > CPUID.04H.00H:EAX[bits 25:14] and CPUID.04H.01H:EAX[bits 25:14]) are
-> > both 0, and this means i-cache and d-cache are shared in the SMT level.
-> > This is correct if there's single thread per core, but is wrong for the
-> > hyper threading case (one core contains multiple threads) since the
-> > i-cache and d-cache are shared in the core level other than SMT level.
-> > 
-> > Therefore, in order to be compatible with both multi-threaded and
-> > single-threaded situations, we should set i-cache and d-cache be shared
-> > at the core level by default.
-> > 
-> > Refer to the fixes of cache_info_passthrough ([1], [2]) and SDM, the
-> > CPUID.04H:EAX[bits 25:14] and CPUID.04H:EAX[bits 31:26] should use the
-> > nearest power-of-2 integer.
-> > 
-> > The nearest power-of-2 integer can be caculated by pow2ceil() or by
-> > using APIC ID offset (like L3 topology using 1 << die_offset [3]).
-> > 
-> > But in fact, CPUID.04H:EAX[bits 25:14] and CPUID.04H:EAX[bits 31:26]
-> > are associated with APIC ID. For example, in linux kernel, the field
-> > "num_threads_sharing" (Bits 25 - 14) is parsed with APIC ID. And for
-> > another example, on Alder Lake P, the CPUID.04H:EAX[bits 31:26] is not
-> > matched with actual core numbers and it's caculated by:
-> > "(1 << (pkg_offset - core_offset)) - 1".
-> > 
-> > Therefore the offset of APIC ID should be preferred to caculate nearest
-> > power-of-2 integer for CPUID.04H:EAX[bits 25:14] and CPUID.04H:EAX[bits
-> > 31:26]:
-> > 1. d/i cache is shared in a core, 1 << core_offset should be used
-> >     instand of "1" in encode_cache_cpuid4() for CPUID.04H.00H:EAX[bits
-> >     25:14] and CPUID.04H.01H:EAX[bits 25:14].
-> > 2. L2 cache is supposed to be shared in a core as for now, thereby
-> >     1 << core_offset should also be used instand of "cs->nr_threads" in
-> >     encode_cache_cpuid4() for CPUID.04H.02H:EAX[bits 25:14].
-> > 3. Similarly, the value for CPUID.04H:EAX[bits 31:26] should also be
-> >     replaced by the offsets upper SMT level in APIC ID.
-> > 
-> > And since [1] and [2] are good enough to make cache_into_passthrough
-> > work well, its "pow2ceil()" uses are enough so that they're no need to
-> > be replaced by APIC ID offset way.
-> If you uniformly tweak these two places with APIC ID offset too, then
-> you can also use the more spec-compliant helpers
-> (e.g max_processor_ids_for_cache and max_core_ids_in_pkg) here in
-> future patch #18. Would be it best to uniform the code?
+On Wed, 15 Feb 2023 at 08:45, Qiang Liu <cyruscyliu@gmail.com> wrote:
+>
+> Hi,
+>>>
+>>> This commit breaks boot-serial-test on ppc64-softmmu.
+>>>
+>>>   $ ./configure --enable-tcg-interpreter
+>>> '--target-list=3Daarch64-softmmu alpha-softmmu arm-softmmu hppa-softmmu
+>>> m68k-softmmu microblaze-softmmu ppc64-softmmu s390x-softmmu
+>>> x86_64-softmmu'
+>>>   $ make && cd build && QTEST_QEMU_BINARY=3D./qemu-system-ppc64
+>>> ./tests/qtest/boot-serial-test; cd -
+>>>
+>>> (Yes, the full --target-list is needed because boot-serial-test isn't
+>>> built when only ppc64-softmmu is selected.)
+>>>
+>>> Here is the CI failure:
+>>> https://gitlab.com/qemu-project/qemu/-/jobs/3087540972#L22
+>
+>  I reproduced this failure and got "Out of malloc memory" error message i=
+n the [openbios-ppc](https://github.com/openbios/openbios/blob/4a0041107b8e=
+f77e0e8337bfcb5f8078887261a7/libopenbios/ofmem_common.c#L134). However, I'm=
+ not sure how to debug this. Have you run into this issue before?
 
-Yes, it makes sense! Will also do that. Thanks!
+I don't. Maybe Gerd has an idea?
 
-> 
-> Thanks,
-> Yanan
-> > [1]: efb3934 (x86: cpu: make sure number of addressable IDs for processor cores meets the spec)
-> > [2]: d7caf13 (x86: cpu: fixup number of addressable IDs for logical processors sharing cache)
-> > [3]: d65af28 (i386: Update new x86_apicid parsing rules with die_offset support)
-> > 
-> > Fixes: 7e3482f (i386: Helpers to encode cache information consistently)
-> > Suggested-by: Robert Hoo <robert.hu@linux.intel.com>
-> > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
-> > ---
-> >   target/i386/cpu.c | 20 +++++++++++++++-----
-> >   1 file changed, 15 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> > index 29afec12c281..7833505092d8 100644
-> > --- a/target/i386/cpu.c
-> > +++ b/target/i386/cpu.c
-> > @@ -5212,7 +5212,6 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-> >   {
-> >       X86CPU *cpu = env_archcpu(env);
-> >       CPUState *cs = env_cpu(env);
-> > -    uint32_t die_offset;
-> >       uint32_t limit;
-> >       uint32_t signature[3];
-> >       X86CPUTopoInfo topo_info;
-> > @@ -5308,27 +5307,38 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-> >               *eax = *ebx = *ecx = *edx = 0;
-> >           } else {
-> >               *eax = 0;
-> > +            int addressable_cores_offset = apicid_pkg_offset(&topo_info) -
-> > +                                           apicid_core_offset(&topo_info);
-> > +            int core_offset, die_offset;
-> > +
-> >               switch (count) {
-> >               case 0: /* L1 dcache info */
-> > +                core_offset = apicid_core_offset(&topo_info);
-> >                   encode_cache_cpuid4(env->cache_info_cpuid4.l1d_cache,
-> > -                                    1, cs->nr_cores,
-> > +                                    (1 << core_offset),
-> > +                                    (1 << addressable_cores_offset),
-> >                                       eax, ebx, ecx, edx);
-> >                   break;
-> >               case 1: /* L1 icache info */
-> > +                core_offset = apicid_core_offset(&topo_info);
-> >                   encode_cache_cpuid4(env->cache_info_cpuid4.l1i_cache,
-> > -                                    1, cs->nr_cores,
-> > +                                    (1 << core_offset),
-> > +                                    (1 << addressable_cores_offset),
-> >                                       eax, ebx, ecx, edx);
-> >                   break;
-> >               case 2: /* L2 cache info */
-> > +                core_offset = apicid_core_offset(&topo_info);
-> >                   encode_cache_cpuid4(env->cache_info_cpuid4.l2_cache,
-> > -                                    cs->nr_threads, cs->nr_cores,
-> > +                                    (1 << core_offset),
-> > +                                    (1 << addressable_cores_offset),
-> >                                       eax, ebx, ecx, edx);
-> >                   break;
-> >               case 3: /* L3 cache info */
-> >                   die_offset = apicid_die_offset(&topo_info);
-> >                   if (cpu->enable_l3_cache) {
-> >                       encode_cache_cpuid4(env->cache_info_cpuid4.l3_cache,
-> > -                                        (1 << die_offset), cs->nr_cores,
-> > +                                        (1 << die_offset),
-> > +                                        (1 << addressable_cores_offset),
-> >                                           eax, ebx, ecx, edx);
-> >                       break;
-> >                   }
-> 
+The memory allocation may be because there is either a request leak or
+additional USB activity as a result of this patch.
+
+Stefan
 
