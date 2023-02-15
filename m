@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27BDF698198
+	by mail.lfdr.de (Postfix) with ESMTPS id 2612B698197
 	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 18:06:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSLDg-0002Yl-3Q; Wed, 15 Feb 2023 12:05:24 -0500
+	id 1pSLDc-0002Uh-GK; Wed, 15 Feb 2023 12:05:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pSLDd-0002WJ-28
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:05:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pSLDZ-0002RS-40
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:05:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pSLDb-0003o2-HV
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:05:20 -0500
+ id 1pSLDX-0003mu-EK
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:05:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676480718;
+ s=mimecast20190719; t=1676480714;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ychLMU211gT4xaEKekwRfe2wButouuYEnH0vmfcadpw=;
- b=bHI4OmqR39FPlFVNDcPkVYvGuEwFptGPxaOQbwsi1yv56jyjpmKBgGkUsVWsAkdumn7ZOm
- ZuSnJAaGiRmsBFUq+mqYFPXR/o9l+G11rBVLY/zEU6znBEvRu1VMoTCwpm5hF+ms+nm0wv
- 3M04S3BAgxf25Rak2UWKpTSkCL3TBxw=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=siPZL72ITvBTQKVA4mzWJSVeV7O7g/iWR4WaF8nMpu4=;
+ b=hUF19a8aOLIfvujCAdq5cF/4oW96Vxd9RxmSjG9T8OEgRgxtK4bNrjhHjCAPNYoo3XQU89
+ HN2syNjBdznjPpYfTzdwTlj9XCOICxtQNXv/rklcG2SarE+tAE63yxb3i2hoMfxrLb7e+g
+ Cv1df6Iw19oet5Zx0iUlmkOl4nz1Xqw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-248-eEP4s6PsOyaKcftScqQpCQ-1; Wed, 15 Feb 2023 12:05:04 -0500
-X-MC-Unique: eEP4s6PsOyaKcftScqQpCQ-1
+ us-mta-183-a1IzfLBcOkSLoP-OLunDug-1; Wed, 15 Feb 2023 12:05:11 -0500
+X-MC-Unique: a1IzfLBcOkSLoP-OLunDug-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B957D803DC4;
- Wed, 15 Feb 2023 17:03:49 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 03600882857;
+ Wed, 15 Feb 2023 17:03:53 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 768F4140EBF4;
- Wed, 15 Feb 2023 17:03:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 285C0140EBF4;
+ Wed, 15 Feb 2023 17:03:49 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: John Snow <jsnow@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
@@ -54,14 +55,16 @@ Cc: John Snow <jsnow@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-block@nongnu.org,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand <david@redhat.com>
-Subject: [PATCH v2 0/3] Remove res_compatible parameter
-Date: Wed, 15 Feb 2023 18:03:42 +0100
-Message-Id: <20230215170345.6220-1-quintela@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+Subject: [PATCH v2 1/3] migration: In case of postcopy,
+ the memory ends in res_postcopy_only
+Date: Wed, 15 Feb 2023 18:03:43 +0100
+Message-Id: <20230215170345.6220-2-quintela@redhat.com>
+In-Reply-To: <20230215170345.6220-1-quintela@redhat.com>
+References: <20230215170345.6220-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -69,7 +72,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,46 +88,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi
+So remove last assignation of res_compatible.
 
-In this v2:
-- rename res_postocopy_only ->can_postcopy
-- rename res_precopy_only -> must_precopy
-- Rewrite comments after discussions with Vladimir.
-- 2nd patch is reviewd-by Vladimir.
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
+ migration/ram.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Please, review.
-
-[v1]
-This series are the redo of the series from vfio.  Vladimir
-Sementsov-Ogievskiy <vsementsov@yandex-team.ru> asked that I split the
-change in ram.c (only place that set res_compatible), and the rest of
-the patches.
-So I ended:
-- change ram.c to put the memory in res_postcopy
-- remove res_compatible
-- rename res_postcopy/precopy_only to not have the _only suffix.
-
-Please review.
-
-Juan Quintela (3):
-  migration: In case of postcopy, the memory ends in res_postcopy_only
-  migration: Remove unused res_compatible
-  migration: Rename res_{postcopy,precopy}_only
-
- include/migration/register.h   | 30 +++++++++++++++---------------
- migration/savevm.h             | 10 ++++------
- hw/s390x/s390-stattrib.c       |  8 +++-----
- hw/vfio/migration.c            | 11 ++++-------
- migration/block-dirty-bitmap.c |  7 +++----
- migration/block.c              |  8 +++-----
- migration/migration.c          | 20 +++++++++-----------
- migration/ram.c                | 20 ++++++++------------
- migration/savevm.c             | 28 ++++++++++------------------
- hw/vfio/trace-events           |  2 +-
- migration/trace-events         |  4 ++--
- 11 files changed, 62 insertions(+), 86 deletions(-)
-
+diff --git a/migration/ram.c b/migration/ram.c
+index 521912385d..ecf697a58d 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -3528,7 +3528,7 @@ static void ram_state_pending_exact(void *opaque,
+ 
+     if (migrate_postcopy_ram()) {
+         /* We can do postcopy, and all the data is postcopiable */
+-        *res_compatible += remaining_size;
++        *res_postcopy_only += remaining_size;
+     } else {
+         *res_precopy_only += remaining_size;
+     }
 -- 
 2.39.1
 
