@@ -2,88 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A99698305
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 19:16:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 739FC69830F
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 19:18:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSMJZ-00028t-6l; Wed, 15 Feb 2023 13:15:33 -0500
+	id 1pSMLa-0004ZG-Ga; Wed, 15 Feb 2023 13:17:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pSMJK-0001p5-K4
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 13:15:25 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pSMLP-0004Pu-Ih
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 13:17:28 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pSMJG-00035X-W1
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 13:15:16 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pSMLM-0003Tx-IC
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 13:17:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676484913;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=j/AiXUe7mpGG9iCMipuYg6vvcSsUeH1D3R0iXOQbYBA=;
- b=UE9wFcf/lG5ceg9MCLSSaytQdAu53neAcjTq5HS2ACaxUVA//6JYglnzNwB2DWPFzOh+Ze
- Dp0YXXzRHMbnzrqj136fBKhk/Hd6gJqSt5pA2C9cQ4R3UwqARo2mBXSy1hC/hbr+BGC/pr
- N+mEInp/Bs+Lmp6/nkeu7ihUlvvMLE0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-517-Obg2z8JpOP2LirsHH35DjA-1; Wed, 15 Feb 2023 13:15:04 -0500
-X-MC-Unique: Obg2z8JpOP2LirsHH35DjA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- t20-20020adfba54000000b002be0eb97f4fso3843543wrg.8
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 10:15:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=j/AiXUe7mpGG9iCMipuYg6vvcSsUeH1D3R0iXOQbYBA=;
- b=k2RWDaxkdPdZseOJUoFyHNKTSLvglE5h8UH0EJ9Xq0y+XDcb4puKtYsoxQZjTI2tat
- jUsKzUhLfGLHOS0avix2Uxo7++Cgkrycg7y2DBzlPMfl5zMNBHuGL7gqsjW68kJlaT5O
- XpdXvLB18+Y6JinXiL2/SPGyHVQ25YskgTQtEcviFSGqIfSe2MB5/Uy08mf11q5mAI5/
- pUNflomn7YOgO4trdhVs4MNrHftFgeAid5J9j3d2frKcR+ed+vEmsWm3c/jthpJH8jLG
- DsubUqTl/JMDZJJ5pmCwGKheO8aMItMeY897ZIMI73leVYV0ijXjvM1GSpTM3N4RIfYh
- Xwgw==
-X-Gm-Message-State: AO0yUKWNDc/f/v4ygyxiJJPjWHE4spJEcpuYVHbW772pqiUEwy65YGJk
- gLinqLvqduDpznaUoTsy303IAMIRCFpld0y6u6FbNpG4YME06dPWMuTSk65+pZGNHwTTi6Ilg/F
- h7R7D/QZ1O6VApGo=
-X-Received: by 2002:a05:600c:90a:b0:3df:50eb:7cd9 with SMTP id
- m10-20020a05600c090a00b003df50eb7cd9mr2855643wmp.14.1676484903451; 
- Wed, 15 Feb 2023 10:15:03 -0800 (PST)
-X-Google-Smtp-Source: AK7set+OGBeNP90D4za5ndECEXEjH4DlU4NSPufdcUpmSlwR2I7wBzKX0OVWk5k7aqqS8YZSFdQPPA==
-X-Received: by 2002:a05:600c:90a:b0:3df:50eb:7cd9 with SMTP id
- m10-20020a05600c090a00b003df50eb7cd9mr2855621wmp.14.1676484903192; 
- Wed, 15 Feb 2023 10:15:03 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- l9-20020a05600c4f0900b003dff870ce0esm3275714wmq.2.2023.02.15.10.15.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 10:15:02 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org,  John Snow <jsnow@redhat.com>,  Halil Pasic
- <pasic@linux.ibm.com>,  Christian Borntraeger <borntraeger@linux.ibm.com>,
- Fam Zheng <fam@euphon.net>,  Alex Williamson
- <alex.williamson@redhat.com>,  qemu-s390x@nongnu.org,  Thomas Huth
- <thuth@redhat.com>,  Eric Farman <farman@linux.ibm.com>,  Stefan Hajnoczi
- <stefanha@redhat.com>,  Eric Blake <eblake@redhat.com>,  Richard Henderson
- <richard.henderson@linaro.org>,  qemu-block@nongnu.org,  "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>,  Ilya Leoshkevich <iii@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2 3/3] migration: Rename res_{postcopy,precopy}_only
-In-Reply-To: <6b46bb8a-cbdd-b2d9-e542-a28d598d0140@yandex-team.ru> (Vladimir
- Sementsov-Ogievskiy's message of "Wed, 15 Feb 2023 20:53:29 +0300")
-References: <20230215170345.6220-1-quintela@redhat.com>
- <20230215170345.6220-4-quintela@redhat.com>
- <6b46bb8a-cbdd-b2d9-e542-a28d598d0140@yandex-team.ru>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 15 Feb 2023 19:15:01 +0100
-Message-ID: <87ilg2ztga.fsf@secure.mitica>
+ s=mimecast20190719; t=1676485043;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=J6X0bGyutL2QpVBJQi3YDM0aF2n5d/EjCc2mUm20cXQ=;
+ b=G6/gsLhRPN/fwm5VPp+I4GwqhPjh8J6jFu4UFsTjobvL8Dt4tj3bQa3JoFuEmHAZAkvZH9
+ eocS3vRQDJkxEBzKFxCWoThJ1rbBE774ogWP3ZuA6VO5e/1ayv9xi1aWRCLcVIfQDOQBQE
+ 6hM6lCq5juxpNwOym6ZZs9isNI3vkQA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-43-qTund2DaOqms1XwadOI-Aw-1; Wed, 15 Feb 2023 13:17:20 -0500
+X-MC-Unique: qTund2DaOqms1XwadOI-Aw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2011A8027EB;
+ Wed, 15 Feb 2023 18:17:20 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.217])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B21C2166B30;
+ Wed, 15 Feb 2023 18:17:18 +0000 (UTC)
+Date: Wed, 15 Feb 2023 12:17:17 -0600
+From: Eric Blake <eblake@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Fam Zheng <fam@euphon.net>
+Subject: Re: [PATCH v2 1/3] scsi: protect req->aiocb with AioContext lock
+Message-ID: <20230215181717.bmkz2w6a2tw2lpsw@redhat.com>
+References: <20230210143238.524357-1-stefanha@redhat.com>
+ <20230210143238.524357-2-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230210143238.524357-2-stefanha@redhat.com>
+User-Agent: NeoMutt/20220429
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -104,30 +78,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
-> On 15.02.23 20:03, Juan Quintela wrote:
->> Once that res_compatible is removed, they don't make sense anymore.
->> We remove the _only preffix.  And to make things clearer we rename
->> them to must_precopy and can_postcopy.
->> Signed-off-by: Juan Quintela<quintela@redhat.com>
->
-> Ideally headers of trace events (trace_vfio_state_pending, trace_migrate_pending_estimate, trace_migrate_pending_exact)
-> should be changed correspondingly.
+On Fri, Feb 10, 2023 at 09:32:36AM -0500, Stefan Hajnoczi wrote:
+> If requests are being processed in the IOThread when a SCSIDevice is
+> unplugged, scsi_device_purge_requests() -> scsi_req_cancel_async() races
+> with I/O completion callbacks. Both threads load and store req->aiocb.
+> This can lead to assert(r->req.aiocb == NULL) failures and undefined
+> behavior.
+> 
+> Protect r->req.aiocb with the AioContext lock to prevent the race.
 
-They already use abrevs:
+I understand that we're trying to get rid of this lock down the road,
+but until then, properly using it to guard things is appropriate.
 
-migrate_pending_estimate(uint64_t size, uint64_t pre, uint64_t post) "estimate pending size %" PRIu64 " (pre = %" PRIu64 " post=%" PRIu64 ")"
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-So I don't feel like doing bigger lines.
-
-> with or without:
->
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-
-Thanks.
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
