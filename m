@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FF5B6979CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 11:23:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 336C56979C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 11:23:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSEwT-0007G1-Ll; Wed, 15 Feb 2023 05:23:13 -0500
+	id 1pSEwY-0007KW-E3; Wed, 15 Feb 2023 05:23:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1pSEwN-0007Fa-9T
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:23:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pSEwW-0007HA-FH
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:23:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1pSEwL-0004QP-MW
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:23:06 -0500
+ id 1pSEwU-0004RX-Oz
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:23:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676456584;
+ s=mimecast20190719; t=1676456594;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=bRtFC17N5OLOhejVHP1uaPx2nLmnzBxHKdRoiFA5/iI=;
- b=ATHD4OTIW17TCZYBAYp447kB3GWZCyo335AqKAdtCkUh6EdwIk+HtyDQbjx5L57MIP6hYT
- zL/U/PGR6JIXytYcykFqjajH9jZb7YY+Z91pNqOiU79jN1qnd0QEThSR1vxrJVFqAyssMg
- sWCLWxX+c9zyE8n66oFrW52NwdySIr8=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Kq4wLZIQiP/Gja23OWHMvB0ZkqX72v6pQmWpUQPN7cg=;
+ b=D4vOr19B9o7NOhboiKJMgNswB/r5jpkbfbVRUCIjT7AQCgqoI+9zsDuqmOp2UAZm3dNbmI
+ 4XxoVHP/66a0gu7Y16qu8jb99vWcTo5oqLzqzgENtrRmZ0eIM47UwA/xv2K9ECro2C1JTP
+ y5RQaAAYcEeE9B7MCQRWkxxq9iSV1Gg=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-556-7Q3e4H6fPlefvaLUcnEZ7Q-1; Wed, 15 Feb 2023 05:23:02 -0500
-X-MC-Unique: 7Q3e4H6fPlefvaLUcnEZ7Q-1
-Received: by mail-ua1-f70.google.com with SMTP id
- z42-20020ab0492d000000b00423b333ff7dso6631942uac.22
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 02:23:02 -0800 (PST)
+ us-mta-195-BGSavTYqNuix2bO0TRrPgQ-1; Wed, 15 Feb 2023 05:23:12 -0500
+X-MC-Unique: BGSavTYqNuix2bO0TRrPgQ-1
+Received: by mail-ua1-f69.google.com with SMTP id
+ y44-20020a9f326f000000b00657d8cfac32so6505699uad.8
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 02:23:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1676456581;
+ d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=bRtFC17N5OLOhejVHP1uaPx2nLmnzBxHKdRoiFA5/iI=;
- b=mM95KTKMNjAhl/5XqCjhuKsNm4kKYerMHkjYpH9Fq0dxTIgU8dIfH1xvzIq90Z0shl
- /SVWikW6E1j2XVV4cHtwF3R0IvN/Dv4YC9biRvXI9ngBWBPJYLPrAf4ltFVIoCVYM/yw
- iUAbtk9b+oxuwCH8tpZdxpEgqZs71RHdOvlh4WWHv6h5eC/Vi6i6I99A/PB4PbGHpZPO
- YD14izSUbYXCSTMIz75hAigF5Q1tjmoIFPh/lHei2hRPQ6FmYgPqG8bOk71P+THeLybz
- i5i6ksONShKdJt/12pN16i/xsooByHTPzY2T5CwCP5wsYExuqnIQquaPRULfJg5hjPss
- LDFg==
-X-Gm-Message-State: AO0yUKXijREdcW91Wgr1iSmYLGCYyAbaL8WbZeXYN079gIozqTAUtpim
- zgyX90Yk25l6qmtOwHQeWzUfHKbB0SgoCkXCaGBdqV6Jwzqomo0I8gnOYnZlraDHfOVBf2jAO7a
- MEHn239BASE98VTyVLeoRUQXVLJbXH2fYmnKYpa8=
-X-Received: by 2002:a67:6ac2:0:b0:412:bb8:d767 with SMTP id
- f185-20020a676ac2000000b004120bb8d767mr316520vsc.74.1676456581529; 
- Wed, 15 Feb 2023 02:23:01 -0800 (PST)
-X-Google-Smtp-Source: AK7set+jUygHzpNxVcjrEcWvDvLePBPyrxtA/CpgmZiRO+ceV4Du4TSDODOGO67C/TYo5dzfEuVLZfQgWcsJ705LzrQ=
-X-Received: by 2002:a67:6ac2:0:b0:412:bb8:d767 with SMTP id
- f185-20020a676ac2000000b004120bb8d767mr316518vsc.74.1676456581343; Wed, 15
- Feb 2023 02:23:01 -0800 (PST)
+ bh=Kq4wLZIQiP/Gja23OWHMvB0ZkqX72v6pQmWpUQPN7cg=;
+ b=1hCZhLRPbxLL4RDUNhQW4uKn8sHxGZGVJKNcIVNWIxmDDoiEzeMTYKNGv3U0C1M4xA
+ WNmH/icfjYdue6q12eyoZPkMQA5rcNgJT/aPJBLQiO89cKdXupwlVtz7nIpx3Ub9ov70
+ ugFbPYW98mIRpsc30otpZk5ZSfSQCScrwfiEbAhk/Nvk541WBhYqUnv4+4Rn3+xlxK9S
+ 8PfG5qs/CqDXdyR/rIR7BoVi40u2w7kXK5brrna/XKr9w3X+7ktmCBYgdz/wm1maggEV
+ Adp/rpR7GjaXCvjuZtcZf/Bvj3zPybEebuQk+j5Ts1W2izP1NmOCgMYGJJmadBhtZ2lF
+ n2KA==
+X-Gm-Message-State: AO0yUKWyhcXGGCkpn2dM8BMiu79vuoJ/fKnAkuhDaKeF4UFLS3g3SreU
+ a5XNnp6/oWefSnlj/UCW0hJc9j6OGUfsKhNEehWD0aXeXTLMcX/Md/0XSgz02NOzZtbRV4vy+ab
+ MnMPrNui3VAJLlXFdaMSruN/PJc27+jA=
+X-Received: by 2002:ab0:3b97:0:b0:68a:9366:216e with SMTP id
+ p23-20020ab03b97000000b0068a9366216emr171202uaw.59.1676456591984; 
+ Wed, 15 Feb 2023 02:23:11 -0800 (PST)
+X-Google-Smtp-Source: AK7set+ZXmUhXNqfCDgn1fDxjsEBcVFNY5J9MgGiy892soaefDlZQQ9MNNoSjR/BGpCI31yaNBQDkN8joROcNXsmWgg=
+X-Received: by 2002:ab0:3b97:0:b0:68a:9366:216e with SMTP id
+ p23-20020ab03b97000000b0068a9366216emr171201uaw.59.1676456591776; Wed, 15 Feb
+ 2023 02:23:11 -0800 (PST)
 MIME-Version: 1.0
 References: <20230209085004.2745131-1-kfir@daynix.com>
- <20230209085004.2745131-2-kfir@daynix.com>
-In-Reply-To: <20230209085004.2745131-2-kfir@daynix.com>
+ <20230209085004.2745131-3-kfir@daynix.com>
+In-Reply-To: <20230209085004.2745131-3-kfir@daynix.com>
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Wed, 15 Feb 2023 04:22:50 -0600
-Message-ID: <CAPMcbCo2iaa3M8V5TN1O+WTLmygp7XVwGpqgPpD4SyKzaKnuNQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] qga/win/installer: add VssOption to installer
+Date: Wed, 15 Feb 2023 04:23:00 -0600
+Message-ID: <CAPMcbCob-SEjNtmghGpQN6yG2ZX28wAaW3i4785c5Z_uPE4vCA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] qga/win/vss: query VSS backup type
 To: Kfir Manor <kfir@daynix.com>
 Cc: qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>, 
  Yan Vugenfirer <yan@daynix.com>
-Content-Type: multipart/alternative; boundary="000000000000033fcf05f4ba7763"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+Content-Type: multipart/alternative; boundary="000000000000a275e105f4ba7728"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -93,45 +93,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000033fcf05f4ba7763
+--000000000000a275e105f4ba7728
 Content-Type: text/plain; charset="UTF-8"
 
 Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 
 On Thu, Feb 9, 2023 at 2:50 AM Kfir Manor <kfir@daynix.com> wrote:
 
-> Adds registry value VssOption with value 1 to QEMU Guest Agent VSS
-> Provider service registry key
+> Query VSS backup type number (DWORD) from QEMU Guest Agent VSS Provider
+> registry key registry value VssOption
+>
+> Translate the VSS backup type number (DWORD) into its VSS backup type
+> (VSS_BACKUP_TYPE)
+>
+> Returns the queried VSS backup type if the program encounters unexpected
+> behaviors or values return default VSS backup type VSS_BT_FULL instead
 >
 > Signed-off-by: Kfir Manor <kfir@daynix.com>
 > ---
->  qga/installer/qemu-ga.wxs | 4 ++++
->  1 file changed, 4 insertions(+)
+>  qga/vss-win32/requester.cpp | 38 +++++++++++++++++++++++++++++++++++++
+>  qga/vss-win32/vss-handles.h |  3 +++
+>  2 files changed, 41 insertions(+)
 >
-> diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
-> index 51340f7ecc..f7f145aa05 100644
-> --- a/qga/installer/qemu-ga.wxs
-> +++ b/qga/installer/qemu-ga.wxs
-> @@ -121,6 +121,10 @@
->                <RegistryValue Type="integer" Name="TypesSupported"
-> Value="7" />
->                <RegistryValue Type="string" Name="EventMessageFile"
-> Value="[qemu_ga_directory]qemu-ga.exe" />
->              </RegistryKey>
-> +            <RegistryKey Root="HKLM"
-> +                         Key="System\CurrentControlSet\Services\QEMU
-> Guest Agent VSS Provider">
-> +              <RegistryValue Type="integer" Name="VssOption" Value="1" />
-> +            </RegistryKey>
->            </Component>
->          </Directory>
->        </Directory>
+> diff --git a/qga/vss-win32/requester.cpp b/qga/vss-win32/requester.cpp
+> index b371affeab..27fdb9236b 100644
+> --- a/qga/vss-win32/requester.cpp
+> +++ b/qga/vss-win32/requester.cpp
+> @@ -23,6 +23,8 @@
+>  /* Call QueryStatus every 10 ms while waiting for frozen event */
+>  #define VSS_TIMEOUT_EVENT_MSEC 10
+>
+> +#define DEFAULT_VSS_BACKUP_TYPE VSS_BT_FULL
+> +
+>  #define err_set(e, err, fmt, ...)
+>    \
+>      ((e)->error_setg_win32_wrapper((e)->errp, __FILE__, __LINE__,
+> __func__, \
+>                                     err, fmt, ## __VA_ARGS__))
+> @@ -234,6 +236,42 @@ out:
+>      }
+>  }
+>
+> +DWORD get_reg_dword_value(HKEY baseKey, LPCSTR subKey, LPCSTR valueName,
+> +                          DWORD defaultData)
+> +{
+> +    DWORD regGetValueError;
+> +    DWORD dwordData;
+> +    DWORD dataSize = sizeof(DWORD);
+> +
+> +    regGetValueError = RegGetValue(baseKey, subKey, valueName,
+> RRF_RT_DWORD,
+> +                                   NULL, &dwordData, &dataSize);
+> +    if (regGetValueError  != ERROR_SUCCESS) {
+> +        return defaultData;
+> +    }
+> +    return dwordData;
+> +}
+> +
+> +bool is_valid_vss_backup_type(VSS_BACKUP_TYPE vssBT)
+> +{
+> +    return (vssBT > VSS_BT_UNDEFINED && vssBT < VSS_BT_OTHER);
+> +}
+> +
+> +VSS_BACKUP_TYPE get_vss_backup_type(
+> +    VSS_BACKUP_TYPE defaultVssBT = DEFAULT_VSS_BACKUP_TYPE)
+> +{
+> +    VSS_BACKUP_TYPE vssBackupType;
+> +
+> +    vssBackupType = static_cast<VSS_BACKUP_TYPE>(
+> +                            get_reg_dword_value(HKEY_LOCAL_MACHINE,
+> +
+> QGA_PROVIDER_REGISTRY_ADDRESS,
+> +                                                "VssOption",
+> +                                                defaultVssBT));
+> +    if (!is_valid_vss_backup_type(vssBackupType)) {
+> +        return defaultVssBT;
+> +    }
+> +    return vssBackupType;
+> +}
+> +
+>  void requester_freeze(int *num_vols, void *mountpoints, ErrorSet *errset)
+>  {
+>      COMPointer<IVssAsync> pAsync;
+> diff --git a/qga/vss-win32/vss-handles.h b/qga/vss-win32/vss-handles.h
+> index 0f8a741ad2..1a7d842129 100644
+> --- a/qga/vss-win32/vss-handles.h
+> +++ b/qga/vss-win32/vss-handles.h
+> @@ -6,6 +6,9 @@
+>  #define QGA_PROVIDER_NAME "QEMU Guest Agent VSS Provider"
+>  #define QGA_PROVIDER_LNAME L(QGA_PROVIDER_NAME)
+>  #define QGA_PROVIDER_VERSION L(QEMU_VERSION)
+> +#define QGA_PROVIDER_REGISTRY_ADDRESS "SYSTEM\\CurrentControlSet"\
+> +                                      "\\Services"\
+> +                                      "\\" QGA_PROVIDER_NAME
+>
+>  #define EVENT_NAME_FROZEN  "Global\\QGAVSSEvent-frozen"
+>  #define EVENT_NAME_THAW    "Global\\QGAVSSEvent-thaw"
 > --
 > 2.38.1
 >
 >
 
---000000000000033fcf05f4ba7763
+--000000000000a275e105f4ba7728
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -141,44 +204,126 @@ v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Feb 9=
 , 2023 at 2:50 AM Kfir Manor &lt;<a href=3D"mailto:kfir@daynix.com">kfir@da=
 ynix.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
 "margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">Adds registry value VssOption with value 1 to QEMU Guest Agent VSS =
-Provider service registry key<br>
+ft:1ex">Query VSS backup type number (DWORD) from QEMU Guest Agent VSS Prov=
+ider registry key registry value VssOption<br>
+<br>
+Translate the VSS backup type number (DWORD) into its VSS backup type (VSS_=
+BACKUP_TYPE)<br>
+<br>
+Returns the queried VSS backup type if the program encounters unexpected be=
+haviors or values return default VSS backup type VSS_BT_FULL instead<br>
 <br>
 Signed-off-by: Kfir Manor &lt;<a href=3D"mailto:kfir@daynix.com" target=3D"=
 _blank">kfir@daynix.com</a>&gt;<br>
 ---<br>
-=C2=A0qga/installer/qemu-ga.wxs | 4 ++++<br>
-=C2=A01 file changed, 4 insertions(+)<br>
+=C2=A0qga/vss-win32/requester.cpp | 38 ++++++++++++++++++++++++++++++++++++=
++<br>
+=C2=A0qga/vss-win32/vss-handles.h |=C2=A0 3 +++<br>
+=C2=A02 files changed, 41 insertions(+)<br>
 <br>
-diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs<br>
-index 51340f7ecc..f7f145aa05 100644<br>
---- a/qga/installer/qemu-ga.wxs<br>
-+++ b/qga/installer/qemu-ga.wxs<br>
-@@ -121,6 +121,10 @@<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;RegistryValue Ty=
-pe=3D&quot;integer&quot; Name=3D&quot;TypesSupported&quot; Value=3D&quot;7&=
-quot; /&gt;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;RegistryValue Ty=
-pe=3D&quot;string&quot; Name=3D&quot;EventMessageFile&quot; Value=3D&quot;[=
-qemu_ga_directory]qemu-ga.exe&quot; /&gt;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;/RegistryKey&gt;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;RegistryKey Root=3D&quot;HKL=
-M&quot;<br>
+diff --git a/qga/vss-win32/requester.cpp b/qga/vss-win32/requester.cpp<br>
+index b371affeab..27fdb9236b 100644<br>
+--- a/qga/vss-win32/requester.cpp<br>
++++ b/qga/vss-win32/requester.cpp<br>
+@@ -23,6 +23,8 @@<br>
+=C2=A0/* Call QueryStatus every 10 ms while waiting for frozen event */<br>
+=C2=A0#define VSS_TIMEOUT_EVENT_MSEC 10<br>
+<br>
++#define DEFAULT_VSS_BACKUP_TYPE VSS_BT_FULL<br>
++<br>
+=C2=A0#define err_set(e, err, fmt, ...)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+=C2=A0 =C2=A0 =C2=A0((e)-&gt;error_setg_win32_wrapper((e)-&gt;errp, __FILE_=
+_, __LINE__, __func__, \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 err, fmt, ## __VA_ARGS=
+__))<br>
+@@ -234,6 +236,42 @@ out:<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0}<br>
+<br>
++DWORD get_reg_dword_value(HKEY baseKey, LPCSTR subKey, LPCSTR valueName,<b=
+r>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0Key=3D&quot;System\CurrentControlSet\Services\QEMU Guest A=
-gent VSS Provider&quot;&gt;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;RegistryValue Type=3D=
-&quot;integer&quot; Name=3D&quot;VssOption&quot; Value=3D&quot;1&quot; /&gt=
+=A0 =C2=A0 =C2=A0 DWORD defaultData)<br>
++{<br>
++=C2=A0 =C2=A0 DWORD regGetValueError;<br>
++=C2=A0 =C2=A0 DWORD dwordData;<br>
++=C2=A0 =C2=A0 DWORD dataSize =3D sizeof(DWORD);<br>
++<br>
++=C2=A0 =C2=A0 regGetValueError =3D RegGetValue(baseKey, subKey, valueName,=
+ RRF_RT_DWORD,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, &amp;dwordData, &=
+amp;dataSize);<br>
++=C2=A0 =C2=A0 if (regGetValueError=C2=A0 !=3D ERROR_SUCCESS) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return defaultData;<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 return dwordData;<br>
++}<br>
++<br>
++bool is_valid_vss_backup_type(VSS_BACKUP_TYPE vssBT)<br>
++{<br>
++=C2=A0 =C2=A0 return (vssBT &gt; VSS_BT_UNDEFINED &amp;&amp; vssBT &lt; VS=
+S_BT_OTHER);<br>
++}<br>
++<br>
++VSS_BACKUP_TYPE get_vss_backup_type(<br>
++=C2=A0 =C2=A0 VSS_BACKUP_TYPE defaultVssBT =3D DEFAULT_VSS_BACKUP_TYPE)<br=
+>
++{<br>
++=C2=A0 =C2=A0 VSS_BACKUP_TYPE vssBackupType;<br>
++<br>
++=C2=A0 =C2=A0 vssBackupType =3D static_cast&lt;VSS_BACKUP_TYPE&gt;(<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 get_reg_dword_value(HKEY_LOCAL_MACHINE,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 QGA_PROVIDER_REGISTRY_ADDRESS,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 &quot;VssOption&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 defaultVssBT));<br>
++=C2=A0 =C2=A0 if (!is_valid_vss_backup_type(vssBackupType)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return defaultVssBT;<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 return vssBackupType;<br>
++}<br>
++<br>
+=C2=A0void requester_freeze(int *num_vols, void *mountpoints, ErrorSet *err=
+set)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0COMPointer&lt;IVssAsync&gt; pAsync;<br>
+diff --git a/qga/vss-win32/vss-handles.h b/qga/vss-win32/vss-handles.h<br>
+index 0f8a741ad2..1a7d842129 100644<br>
+--- a/qga/vss-win32/vss-handles.h<br>
++++ b/qga/vss-win32/vss-handles.h<br>
+@@ -6,6 +6,9 @@<br>
+=C2=A0#define QGA_PROVIDER_NAME &quot;QEMU Guest Agent VSS Provider&quot;<b=
+r>
+=C2=A0#define QGA_PROVIDER_LNAME L(QGA_PROVIDER_NAME)<br>
+=C2=A0#define QGA_PROVIDER_VERSION L(QEMU_VERSION)<br>
++#define QGA_PROVIDER_REGISTRY_ADDRESS &quot;SYSTEM\\CurrentControlSet&quot=
+;\<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;\\Service=
+s&quot;\<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;\\&quot; =
+QGA_PROVIDER_NAME<br>
+<br>
+=C2=A0#define EVENT_NAME_FROZEN=C2=A0 &quot;Global\\QGAVSSEvent-frozen&quot=
 ;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;/RegistryKey&gt;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;/Component&gt;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;/Directory&gt;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;/Directory&gt;<br>
+=C2=A0#define EVENT_NAME_THAW=C2=A0 =C2=A0 &quot;Global\\QGAVSSEvent-thaw&q=
+uot;<br>
 -- <br>
 2.38.1<br>
 <br>
 </blockquote></div>
 
---000000000000033fcf05f4ba7763--
+--000000000000a275e105f4ba7728--
 
 
