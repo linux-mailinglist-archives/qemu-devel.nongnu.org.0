@@ -2,63 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5903B6981A3
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 18:09:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A1569819C
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 18:06:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSLGr-0005d6-W7; Wed, 15 Feb 2023 12:08:42 -0500
+	id 1pSLF1-0004oL-Kh; Wed, 15 Feb 2023 12:06:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pSLGp-0005cr-P1
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:08:39 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pSLGn-0004H2-Gi
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:08:39 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 85205746346;
- Wed, 15 Feb 2023 18:05:58 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 47D2A74633D; Wed, 15 Feb 2023 18:05:58 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 44F91746324;
- Wed, 15 Feb 2023 18:05:58 +0100 (CET)
-Date: Wed, 15 Feb 2023 18:05:58 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Laurent Vivier <lvivier@redhat.com>
-cc: Qiang Liu <cyruscyliu@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>, 
- qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Bandan Das <bsd@redhat.com>, 
- Alexander Bulekov <alxndr@bu.edu>, Darren Kenny <darren.kenny@oracle.com>, 
- Qiuhao Li <Qiuhao.Li@outlook.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, 
- Akihiko Odaki <akihiko.odaki@gmail.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Alexandre Ratchov <alex@caoua.org>, 
- Peter Maydell <peter.maydell@linaro.org>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: Re: [PULL 13/25] hcd-ohci: Fix inconsistency when resetting ohci
- root hubs
-In-Reply-To: <12623898-7b7d-eb78-968a-13168dac3045@redhat.com>
-Message-ID: <1c7b37fd-8ad3-addd-49ba-87762bcf2339@eik.bme.hu>
-References: <20220926095509.3759409-1-kraxel@redhat.com>
- <20220926095509.3759409-14-kraxel@redhat.com>
- <CAJSP0QVoLf_v2xP6GwDzbFg_RDnP5ppM3UZwTN3XAWPcv6cFCQ@mail.gmail.com>
- <CAAKa2j=2cdYxBFZO1pTJLFcPVb-6R4gnB9zad3rdptfuuo0ixw@mail.gmail.com>
- <CAAKa2jmkjPuTouvk3qRvuFiS7RtTSQ8vC=m_eDYLyV7tUxAkiA@mail.gmail.com>
- <CAJSP0QV=UrYyASRddqTX7KbSw_dLPhVgbdORvYx_N+tQa6Nu+A@mail.gmail.com>
- <12623898-7b7d-eb78-968a-13168dac3045@redhat.com>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1pSLEz-0004kj-O2
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:06:45 -0500
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1pSLEx-00044Q-UP
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:06:45 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 62DBE20082;
+ Wed, 15 Feb 2023 17:06:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1676480801; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=B1zB8kqKYVTzE0NhdJTKjybRKKGj9gLqZwZwsZ0mRyo=;
+ b=YkmMh9mIv8nnGf23Y0Ix5c2sWEI0RgBYiXZJRvaEgagKGLIYfq6y4DFV/B+jSwrjz7YlLA
+ CFN+14rmtlCC7hGhdxE7tY4OoQKJ474dqY3bhbEVueUAijNsHg3B6UW1BGwztPK5KEn/Ym
+ hGJrr/VA7uahHx7/3/b0q68gH8v1BKQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1676480801;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=B1zB8kqKYVTzE0NhdJTKjybRKKGj9gLqZwZwsZ0mRyo=;
+ b=S0yblhl5YcA/PF18i8Q8MSdAkau0tvkryay08D79XtcElIOGRTxehtJkJ9pwSuGugpB5a0
+ qnpsq+HM4cZfOICg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1670E13483;
+ Wed, 15 Feb 2023 17:06:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id KJaEAyER7WOcUAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Wed, 15 Feb 2023 17:06:41 +0000
+Message-ID: <c204fffa-a5b0-1320-88b0-cc936d27d21b@suse.de>
+Date: Wed, 15 Feb 2023 18:06:40 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [RFC v5 0/3] migration: reduce time of loading non-iterable
+ vmstate
+Content-Language: en-US
+To: Chuang Xu <xuchuangxclwt@bytedance.com>, qemu-devel@nongnu.org
+Cc: dgilbert@redhat.com, quintela@redhat.com, pbonzini@redhat.com,
+ peterx@redhat.com, david@redhat.com, philmd@linaro.org,
+ zhouyibo@bytedance.com
+References: <20230117115511.3215273-1-xuchuangxclwt@bytedance.com>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <20230117115511.3215273-1-xuchuangxclwt@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1d;
+ envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,51 +90,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 15 Feb 2023, Laurent Vivier wrote:
-> On 2/15/23 15:34, Stefan Hajnoczi wrote:
->> On Wed, 15 Feb 2023 at 08:45, Qiang Liu <cyruscyliu@gmail.com> wrote:
->>> 
->>> Hi,
->>>>> 
->>>>> This commit breaks boot-serial-test on ppc64-softmmu.
->>>>>
->>>>>    $ ./configure --enable-tcg-interpreter
->>>>> '--target-list=aarch64-softmmu alpha-softmmu arm-softmmu hppa-softmmu
->>>>> m68k-softmmu microblaze-softmmu ppc64-softmmu s390x-softmmu
->>>>> x86_64-softmmu'
->>>>>    $ make && cd build && QTEST_QEMU_BINARY=./qemu-system-ppc64
->>>>> ./tests/qtest/boot-serial-test; cd -
->>>>> 
->>>>> (Yes, the full --target-list is needed because boot-serial-test isn't
->>>>> built when only ppc64-softmmu is selected.)
->>>>> 
->>>>> Here is the CI failure:
->>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3087540972#L22
->>>
->>>   I reproduced this failure and got "Out of malloc memory" error message 
->>> in the 
->>> [openbios-ppc](https://github.com/openbios/openbios/blob/4a0041107b8ef77e0e8337bfcb5f8078887261a7/libopenbios/ofmem_common.c#L134). 
->>> However, I'm not sure how to debug this. Have you run into this issue 
->>> before?
->> 
->> I don't. Maybe Gerd has an idea?
->> 
->> The memory allocation may be because there is either a request leak or
->> additional USB activity as a result of this patch.
->
-> It looks like a bug in openbios ohci, perhaps Zoltan can help?
+On 1/17/23 12:55, Chuang Xu wrote:
+> In this version:
+> 
+> - rename rcu_read_locked() to rcu_read_is_locked().
+> - adjust the sanity check in address_space_to_flatview().
+> - improve some comments.
+> 
+> The duration of loading non-iterable vmstate accounts for a significant
+> portion of downtime (starting with the timestamp of source qemu stop and
+> ending with the timestamp of target qemu start). Most of the time is spent
+> committing memory region changes repeatedly.
+> 
+> This patch packs all the changes to memory region during the period of	
+> loading non-iterable vmstate in a single memory transaction. With the
+> increase of devices, this patch will greatly improve the performance.
+> 
+> Here are the test1 results:
+> test info:
+> - Host
+>   - Intel(R) Xeon(R) Platinum 8260 CPU
+>   - NVIDIA Mellanox ConnectX-5
+> - VM
+>   - 32 CPUs 128GB RAM VM
+>   - 8 16-queue vhost-net device
+>   - 16 4-queue vhost-user-blk device.
+> 
+> 	time of loading non-iterable vmstate     downtime
+> before		about 150 ms			  740+ ms
+> after		about 30 ms			  630+ ms
+> 
+> (This result is different from that of v1. It may be that someone has 
+> changed something on my host.., but it does not affect the display of 
+> the optimization effect.)
+> 
+> 
+> In test2, we keep the number of the device the same as test1, reduce the 
+> number of queues per device:
+> 
+> Here are the test2 results:
+> test info:
+> - Host
+>   - Intel(R) Xeon(R) Platinum 8260 CPU
+>   - NVIDIA Mellanox ConnectX-5
+> - VM
+>   - 32 CPUs 128GB RAM VM
+>   - 8 1-queue vhost-net device
+>   - 16 1-queue vhost-user-blk device.
+> 
+> 	time of loading non-iterable vmstate     downtime
+> before		about 90 ms			 about 250 ms
+> 
+> after		about 25 ms			 about 160 ms
+> 
+> 
+> 
+> In test3, we keep the number of queues per device the same as test1, reduce 
+> the number of devices:
+> 
+> Here are the test3 results:
+> test info:
+> - Host
+>   - Intel(R) Xeon(R) Platinum 8260 CPU
+>   - NVIDIA Mellanox ConnectX-5
+> - VM
+>   - 32 CPUs 128GB RAM VM
+>   - 1 16-queue vhost-net device
+>   - 1 4-queue vhost-user-blk device.
+> 
+> 	time of loading non-iterable vmstate     downtime
+> before		about 20 ms			 about 70 ms
+> after		about 11 ms			 about 60 ms
+> 
+> 
+> As we can see from the test results above, both the number of queues and 
+> the number of devices have a great impact on the time of loading non-iterable 
+> vmstate. The growth of the number of devices and queues will lead to more 
+> mr commits, and the time consumption caused by the flatview reconstruction 
+> will also increase.
+> 
+> Please review, Chuang.
+> 
+> [v4]
+> 
+> - attach more information in the cover letter.
+> - remove changes on virtio_load.
+> - add rcu_read_locked() to detect holding of rcu lock.
+> 
+> [v3]
+> 
+> - move virtio_load_check_delay() from virtio_memory_listener_commit() to 
+>   virtio_vmstate_change().
+> - add delay_check flag to VirtIODevice to make sure virtio_load_check_delay() 
+>   will be called when delay_check is true.
+> 
+> [v2]
+> 
+> - rebase to latest upstream.
+> - add sanity check to address_space_to_flatview().
+> - postpone the init of the vring cache until migration's loading completes. 
+> 
+> [v1]
+> 
+> The duration of loading non-iterable vmstate accounts for a significant
+> portion of downtime (starting with the timestamp of source qemu stop and
+> ending with the timestamp of target qemu start). Most of the time is spent
+> committing memory region changes repeatedly.
+> 
+> This patch packs all the changes to memory region during the period of
+> loading non-iterable vmstate in a single memory transaction. With the
+> increase of devices, this patch will greatly improve the performance.
+> 
+> Here are the test results:
+> test vm info:
+> - 32 CPUs 128GB RAM
+> - 8 16-queue vhost-net device
+> - 16 4-queue vhost-user-blk device.
+> 
+> 	time of loading non-iterable vmstate
+> before		about 210 ms
+> after		about 40 ms
+> 
+> 
 
-Unfortunately I don't quite understand neither what this thread is about 
-nor that openbios driver. Even though I've added that to openbios, all I 
-did was porting the driver from coreboot's libpayload as noted in the 
-copyright message of that file. So if you suspect it's a bug there you 
-could try checking newer versions in libpayload and see if they've fixed 
-anything that could help. On the other hand the OHCI emulation in QEMU is 
-known to be incomplete and likely to have some bugs with guests that work 
-on real hardware (e.g. MacOS <= 10.1) so it's more likely that QEMU 
-behaves differently than it should assuming that the coreboot driver works 
-on real hardware but I'm not sure about that either.
+great improvements on the load times, congrats!
 
-Regards,
-BALATON Zoltan
+Claudio
 
