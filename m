@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A4C698283
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 18:44:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F07A7698294
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 18:45:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSLpE-0000en-0T; Wed, 15 Feb 2023 12:44:12 -0500
+	id 1pSLpI-0000fT-Ks; Wed, 15 Feb 2023 12:44:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSLpC-0000eD-9t
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:44:10 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSLpH-0000fA-1Y
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:44:15 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSLpA-0008DY-OX
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:44:10 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- k8-20020a05600c1c8800b003dc57ea0dfeso2223587wms.0
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 09:44:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSLpF-0008Dy-HD
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:44:14 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id by3so18659946wrb.10
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 09:44:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4xWeqx5C/Xjzaw1eQA4/F7uZTIcR+NwJk/0kJcEYTAY=;
- b=IUZDYPUxoTz64E5CsADb59dPUZIMb31X/tgySvrGmDuEdvmFEsEv6OOqEoawQhASpG
- Y0xqT/osOWB55zfb8IVlEB3g1aB1GWTupU2lQyzgeNtSNKaamuxhw3iYy0SkzEe+R46g
- LprJCLeEklZ/81t+bixRziYVDcy8+TFCsuLS68X/58n36lUeUl4xu/x2G4XKQUl8fqVY
- yNKqf6iZbq4hyHOBsdePvt3k/ANFx5oTSnBcPRL/EC69r53YA1fJkxV7+LKweyPxFsGg
- WeiA/cxycScza3jopc7RZxjZuDuqUm4iRm95y714NBpoKGuOhQM+TjlWakSBXG9WHd9x
- P6Nw==
+ bh=vz35UX4luoMUaqbzTcDDIbvcjgeBkxbh135cUjhEHMo=;
+ b=yowuVGL7oMXH61gQZvS6cQqkgZm8BocUdDiMLffKX5wVEPHygVvBzk8k0YGLyjZ0NI
+ bQlOVBLDdtlQRPbUP5QQAT6ldo1lLIHrMbFA3uT5qVxOGCeLADLn/cxXLDqql2CVYdmJ
+ FqVGuQLxjAbAKvb4wAKxWcTCv31Ivp+ASPsR3Z0HZTzUuF+OjeJbg66Gy79h8HSaYVKx
+ wfQd/3YIxgXU6DMsp08+5QEJt5IWOgJLjS8+dFXzRMLwidPwif6Ax+A3QSC+6r8ejNxP
+ RpoklAoNBnE4Lq3buUfJgPxJ9K4fB9XUfaEY9jqjb3lAo06ZFQ9gtaOvd3Qk/ryDqYdw
+ 5Fow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4xWeqx5C/Xjzaw1eQA4/F7uZTIcR+NwJk/0kJcEYTAY=;
- b=CdnMLCWh5EmtHRFeBmN1ENa9NADNcyvvaHOeUTk6Yeq22OpZi595+YgaetbMW0/Gd1
- UMulCmp3ps7YIgR2oKa4ndC9jamfeXp2xLL0pISVIlyUpE0CuShoISrtL5n89vgWA7RI
- PNDkzR1yjF386owBgbHMwx+VeIQPR1gDjYgmpopkpwWMpe27960jYW2jP41D/WvhqGNA
- 7Ip+nL/8z/PHY1YrqmNx5WOUdMBKf2Fhz3VyqpGCA0nhr13FbE8ig3fJ/l9JPdSaUTyE
- mqQCUH5izw/4v6qCeVHLngBVsd2lHLolz7/qngHoqBkHIKj/JZ3eIVwoi9QKN+Rg2Jq0
- dNww==
-X-Gm-Message-State: AO0yUKUkf0t3d7smhvM1LDY9ZBVMyvplCPawy/rl44dP3ubYRdgrdKSZ
- P4x4g0cY1tzRwII22avKmN06j0jYVPDRaQSh
-X-Google-Smtp-Source: AK7set/7lvshecTiyDKvaOH/yA+UWKADLvy67Z5P7A4WG491XE/W3jOetrh7ZzUU8Z/Vc4P2Um29/A==
-X-Received: by 2002:a05:600c:46c6:b0:3e0:14a:697a with SMTP id
- q6-20020a05600c46c600b003e0014a697amr2921374wmo.6.1676483046880; 
- Wed, 15 Feb 2023 09:44:06 -0800 (PST)
+ bh=vz35UX4luoMUaqbzTcDDIbvcjgeBkxbh135cUjhEHMo=;
+ b=qD00VXZCp3wbdiwN3u6o5cMl56baFH/YkYloxUVHNWQmj1+qyo04wSYDamt7Z/DahD
+ YFa8MUFY6Yd5osAKP5oursQx30pmapJoKwaK0s9kzY1XA+/zvmXDPbhf2k51eXiAyTm5
+ hk1TlYpOHkSe6mfRo81RjSxbKcWUedntCfLmwnmS7TOXjFc5GyrHqJrSq92ZuJKNS8q3
+ S5L2XQi1oBtLLCGNv5E1Pm1nGma9dh0/KR5eBmOerCMtRAY/1ATIiCst8I1LXQgatbu+
+ nvc5rt7Np8FGgHLqLfknbsLbmth2QpC16isPLs7/Ilpkg9hsVc976tw4CDEfwBzm242o
+ wqaQ==
+X-Gm-Message-State: AO0yUKXcBSjZhm0xwWfoYE4LTGi95maNNuklaguXMVdU8WArcurTgf44
+ trPZtZ/3CPsgbIdauzbeg7mW/bMfsPLl7zNG
+X-Google-Smtp-Source: AK7set/xn5Ccsu5wveg0hA8LklsQ+9ymklxMsebESI86/qV1Z+xqiOKNeIuLLMvRjwl0dPZDKqPv8Q==
+X-Received: by 2002:a5d:4b06:0:b0:2c5:4b93:ee44 with SMTP id
+ v6-20020a5d4b06000000b002c54b93ee44mr2256030wrq.60.1676483052008; 
+ Wed, 15 Feb 2023 09:44:12 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- p17-20020a05600c469100b003dd1b00bd9asm3004147wmo.32.2023.02.15.09.44.05
+ s9-20020a5d4ec9000000b002c567881dbcsm4363915wrv.48.2023.02.15.09.44.10
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 15 Feb 2023 09:44:06 -0800 (PST)
+ Wed, 15 Feb 2023 09:44:11 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Marcelo Tosatti <mtosatti@redhat.com>, Sergio Lopez <slp@redhat.com>,
@@ -62,17 +61,17 @@ Cc: Marcelo Tosatti <mtosatti@redhat.com>, Sergio Lopez <slp@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>, qemu-ppc@nongnu.org,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 2/5] hw/timer/i8254: Factor i8254_pit_create() out and document
-Date: Wed, 15 Feb 2023 18:43:50 +0100
-Message-Id: <20230215174353.37097-3-philmd@linaro.org>
+Subject: [PATCH 3/5] hw/i386/pc: Un-inline i8254_pit_init()
+Date: Wed, 15 Feb 2023 18:43:51 +0100
+Message-Id: <20230215174353.37097-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230215174353.37097-1-philmd@linaro.org>
 References: <20230215174353.37097-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,85 +94,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+pc_basic_device_init() is the single caller of i8254_pit_init()
+with a non-NULL 'alt_irq' argument. Open-code i8254_pit_init()
+by direclty calling i8254_pit_create().
+
+To confirm all other callers pass a NULL 'alt_irq', add an
+assertion in i8254_pit_init().
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/timer/i8254.c         | 16 ++++++++++++++++
- include/hw/timer/i8254.h | 24 +++++++++++++-----------
- 2 files changed, 29 insertions(+), 11 deletions(-)
+ hw/i386/pc.c             | 10 +++++-----
+ include/hw/timer/i8254.h |  5 ++---
+ 2 files changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/hw/timer/i8254.c b/hw/timer/i8254.c
-index c8388ea432..9b6932ab08 100644
---- a/hw/timer/i8254.c
-+++ b/hw/timer/i8254.c
-@@ -26,9 +26,11 @@
- #include "hw/irq.h"
- #include "qemu/module.h"
- #include "qemu/timer.h"
-+#include "hw/qdev-properties.h"
- #include "hw/timer/i8254.h"
- #include "hw/timer/i8254_internal.h"
- #include "qom/object.h"
-+#include "qapi/error.h"
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 79297a6ecd..fe95f6e9f2 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1258,8 +1258,7 @@ void pc_basic_device_init(struct PCMachineState *pcms,
+ {
+     int i;
+     DeviceState *hpet = NULL;
+-    int pit_isa_irq = 0;
+-    qemu_irq pit_alt_irq = NULL;
++    qemu_irq pit_irq;
+     qemu_irq rtc_irq = NULL;
+     ISADevice *pit = NULL;
+     MemoryRegion *ioport80_io = g_new(MemoryRegion, 1);
+@@ -1301,9 +1300,10 @@ void pc_basic_device_init(struct PCMachineState *pcms,
+         for (i = 0; i < GSI_NUM_PINS; i++) {
+             sysbus_connect_irq(SYS_BUS_DEVICE(hpet), i, gsi[i]);
+         }
+-        pit_isa_irq = -1;
+-        pit_alt_irq = qdev_get_gpio_in(hpet, HPET_LEGACY_PIT_INT);
++        pit_irq = qdev_get_gpio_in(hpet, HPET_LEGACY_PIT_INT);
+         rtc_irq = qdev_get_gpio_in(hpet, HPET_LEGACY_RTC_INT);
++    } else {
++        pit_irq = isa_bus_get_irq(isa_bus, 0);
+     }
+     *rtc_state = mc146818_rtc_init(isa_bus, 2000, rtc_irq);
  
- //#define DEBUG_PIT
- 
-@@ -47,6 +49,20 @@ struct PITClass {
-     DeviceRealize parent_realize;
- };
- 
-+ISADevice *i8254_pit_create(ISABus *bus, int iobase, qemu_irq irq_in)
-+{
-+    DeviceState *dev;
-+    ISADevice *d;
-+
-+    d = isa_new(TYPE_I8254);
-+    dev = DEVICE(d);
-+    qdev_prop_set_uint32(dev, "iobase", iobase);
-+    isa_realize_and_unref(d, bus, &error_fatal);
-+    qdev_connect_gpio_out(dev, 0, irq_in);
-+
-+    return d;
-+}
-+
- static void pit_irq_timer_update(PITChannelState *s, int64_t current_time);
- 
- static int pit_get_count(PITChannelState *s)
+@@ -1314,7 +1314,7 @@ void pc_basic_device_init(struct PCMachineState *pcms,
+         if (kvm_pit_in_kernel()) {
+             pit = kvm_pit_init(isa_bus, 0x40);
+         } else {
+-            pit = i8254_pit_init(isa_bus, 0x40, pit_isa_irq, pit_alt_irq);
++            pit = i8254_pit_create(isa_bus, 0x40, pit_irq);
+         }
+         if (hpet) {
+             /* connect PIT to output control line of the HPET */
 diff --git a/include/hw/timer/i8254.h b/include/hw/timer/i8254.h
-index 8402caad30..a0843cae07 100644
+index a0843cae07..0d837f3f41 100644
 --- a/include/hw/timer/i8254.h
 +++ b/include/hw/timer/i8254.h
-@@ -45,21 +45,23 @@ OBJECT_DECLARE_TYPE(PITCommonState, PITCommonClass, PIT_COMMON)
- #define TYPE_I8254 "isa-pit"
- #define TYPE_KVM_I8254 "kvm-pit"
- 
-+/**
-+ * Create and realize a I8254 PIT device on the heap.
-+ * @bus: the #ISABus to put it on.
-+ * @iobase: the base I/O port.
-+ * @irq_in: qemu_irq to connect the PIT output IRQ to.
-+ *
-+ * Create the device state structure, initialize it, put it on the
-+ * specified ISA @bus, and drop the reference to it (the device is realized).
-+ */
-+ISADevice *i8254_pit_create(ISABus *bus, int iobase, qemu_irq irq_in);
-+
+@@ -59,9 +59,8 @@ ISADevice *i8254_pit_create(ISABus *bus, int iobase, qemu_irq irq_in);
  static inline ISADevice *i8254_pit_init(ISABus *bus, int base, int isa_irq,
                                          qemu_irq alt_irq)
  {
--    DeviceState *dev;
--    ISADevice *d;
--
--    d = isa_new(TYPE_I8254);
--    dev = DEVICE(d);
--    qdev_prop_set_uint32(dev, "iobase", base);
--    isa_realize_and_unref(d, bus, &error_fatal);
--    qdev_connect_gpio_out(dev, 0,
--                          isa_irq >= 0 ? isa_bus_get_irq(bus, isa_irq)
-+    return i8254_pit_create(bus, base, isa_irq >= 0
-+                                       ? isa_bus_get_irq(bus, isa_irq)
-                                        : alt_irq);
--
--    return d;
+-    return i8254_pit_create(bus, base, isa_irq >= 0
+-                                       ? isa_bus_get_irq(bus, isa_irq)
+-                                       : alt_irq);
++    assert(isa_irq == 0 && alt_irq == NULL);
++    return i8254_pit_create(bus, base, isa_bus_get_irq(bus, 0));
  }
  
  static inline ISADevice *kvm_pit_init(ISABus *bus, int base)
