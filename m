@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4934D698531
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 21:06:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C18B698535
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 21:06:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSO2G-0002qW-JL; Wed, 15 Feb 2023 15:05:48 -0500
+	id 1pSO2b-0003Au-LH; Wed, 15 Feb 2023 15:06:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pSO2E-0002q9-Bs
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:05:46 -0500
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pSO2C-0006SD-OP
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:05:46 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pSO2Z-00038J-Fp
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:06:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pSO2W-0006ZQ-3W
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:06:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676491562;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Fhny3mK6+93qjtPBP62GxA7t9L/F3Bt2Gpb3MEekks8=;
+ b=S5bKVU9ub7K0Gq04NUHti8f1PFvAxDlwUPtZNa4esgVOfaVRSSKT6aVrsAdmLww7/fMzb6
+ 1x8JxUlwgQbQFVPJgqgkSMbw1VyZMD5PH5DBL3vXbvhy0RnUmFDwed4KceDyk4ROvy1xCk
+ jkNkkRdjHN7V4EQNvi7UKjhoc523KMk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-613-1ZqY39XBPkOa56WTvD7_WQ-1; Wed, 15 Feb 2023 15:05:59 -0500
+X-MC-Unique: 1ZqY39XBPkOa56WTvD7_WQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1FE1F1F8C2;
- Wed, 15 Feb 2023 20:05:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1676491543; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jKwWcNDFTuOl1B8AXpPih4pcldT8z2ZvgqpdcxmDorE=;
- b=J94bHOnCc0v+ZlqOCKhhmokkCZYaH/bEZ0WCJ4PbzdxyVM3SXjnNgM06dg0Sk7GXaSq5ms
- IJhNOw7cHLV375jrQwNvzA+AL2n6rSm/97gD9v2l5uKK0M2q9hJfuH1984+IULhTiukY//
- 9QCl19LRZmBf0Gai+AgPw7Xg6xRYn8g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1676491543;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jKwWcNDFTuOl1B8AXpPih4pcldT8z2ZvgqpdcxmDorE=;
- b=jgyAtDYCSnEjFb60PLvoDrLErq0FGaSym81UaGho6yYEWQhhjhrft6hF0y9c2bePBmWhjI
- Of3O9DKM7kqKTzAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A05DA134BA;
- Wed, 15 Feb 2023 20:05:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id kdYPGhY77WOyFgAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 15 Feb 2023 20:05:42 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Peter Maydell <peter.maydell@linaro.org>, Stefano Stabellini
- <sstabellini@kernel.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PULL v2 0/10] xenpvh
-In-Reply-To: <CAFEAcA96Mb5KAdPQrncqh9SM2iRc7aE2f4deoiF_2vChdMF0rw@mail.gmail.com>
-References: <alpine.DEB.2.22.394.2302141541100.2025117@ubuntu-linux-20-04-desktop>
- <CAFEAcA96Mb5KAdPQrncqh9SM2iRc7aE2f4deoiF_2vChdMF0rw@mail.gmail.com>
-Date: Wed, 15 Feb 2023 17:05:40 -0300
-Message-ID: <87bkluelt7.fsf@suse.de>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9AA8018811F7;
+ Wed, 15 Feb 2023 20:05:58 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.192.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F9A3C15BA0;
+ Wed, 15 Feb 2023 20:05:55 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Eric Blake <eblake@redhat.com>, qemu-s390x@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>, qemu-block@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
+ David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Farman <farman@linux.ibm.com>
+Subject: [PULL 0/5] Migration 20230215 patches
+Date: Wed, 15 Feb 2023 21:05:49 +0100
+Message-Id: <20230215200554.1365-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,48 +86,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+The following changes since commit 6a50f64ca01d0a7b97f14f069762bfd88160f31e:
 
-> On Tue, 14 Feb 2023 at 23:43, Stefano Stabellini <sstabellini@kernel.org>=
- wrote:
->>
->> The following changes since commit 6a50f64ca01d0a7b97f14f069762bfd88160f=
-31e:
->>
->>   Merge tag 'pull-request-2023-02-14' of https://gitlab.com/thuth/qemu i=
-nto staging (2023-02-14 14:46:10 +0000)
->>
->> are available in the Git repository at:
->>
->>   https://gitlab.com/sstabellini/qemu xenpvh2
->>
->> for you to fetch changes up to 86b01d58ca2840bea6e4e7260aad450a660fbd46:
->>
->>   meson.build: enable xenpv machine build for ARM (2023-02-14 15:39:25 -=
-0800)
->>
->> ----------------------------------------------------------------
->
-> Fails to compile for some configs, eg:
->
-> https://gitlab.com/qemu-project/qemu/-/jobs/3775820949
-> https://gitlab.com/qemu-project/qemu/-/jobs/3775820984
->
-> In file included from ../target/arm/machine.c:6:
-> ../target/arm/internals.h:1141:21: error: field =E2=80=98f=E2=80=99 has i=
-ncomplete type
-> 1141 | CPUTLBEntryFull f;
->
+  Merge tag 'pull-request-2023-02-14' of https://gitlab.com/thuth/qemu into staging (2023-02-14 14:46:10 +0000)
 
-For this to work we'll probably need to cherry-pick some parts of my
-disable-tcg series:
+are available in the Git repository at:
 
-https://lore.kernel.org/r/20230213202927.28992-1-farosas@suse.de
+  https://gitlab.com/juan.quintela/qemu.git tags/migration-20230215-pull-request
 
-For this error specifically, patch 16.
+for you to fetch changes up to 24beea4efe6e6b65fd6248ede936cd3278b2bf8a:
 
-And when the build eventually succeeds we might have make check
-issues. We just encountered an analogous problem on an aarch64 host: Xen
-brings qemu-system-x86_64 on an aarch64 host and tests fail because
-there's no TCG.
+  migration: Rename res_{postcopy,precopy}_only (2023-02-15 20:04:30 +0100)
+
+----------------------------------------------------------------
+Migration Pull request
+
+This pull request contains:
+
+* Add qemu_file_get_to_fd() a.k.a. make vfio happy(Avihai)
+* migration/block is now DPRINTF() free zone (Philippe)
+* remove res_compat and improve docs (me)
+
+Please apply.
+
+----------------------------------------------------------------
+
+Avihai Horon (1):
+  migration/qemu-file: Add qemu_file_get_to_fd()
+
+Juan Quintela (3):
+  migration: In case of postcopy, the memory ends in res_postcopy_only
+  migration: Remove unused res_compatible
+  migration: Rename res_{postcopy,precopy}_only
+
+Philippe Mathieu-Daudé (1):
+  migration/block: Convert remaining DPRINTF() debug macro to trace
+    events
+
+ include/migration/register.h   | 30 +++++++++++++++---------------
+ migration/qemu-file.h          |  1 +
+ migration/savevm.h             | 10 ++++------
+ hw/s390x/s390-stattrib.c       |  8 +++-----
+ hw/vfio/migration.c            | 11 ++++-------
+ migration/block-dirty-bitmap.c |  7 +++----
+ migration/block.c              | 20 ++++----------------
+ migration/migration.c          | 20 +++++++++-----------
+ migration/qemu-file.c          | 34 ++++++++++++++++++++++++++++++++++
+ migration/ram.c                | 20 ++++++++------------
+ migration/savevm.c             | 28 ++++++++++------------------
+ hw/vfio/trace-events           |  2 +-
+ migration/trace-events         |  5 +++--
+ 13 files changed, 99 insertions(+), 97 deletions(-)
+
+-- 
+2.39.1
+
 
