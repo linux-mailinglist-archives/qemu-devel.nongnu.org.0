@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D599669798E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 11:12:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EAF76979C8
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 11:23:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSElH-0005QN-2h; Wed, 15 Feb 2023 05:11:39 -0500
+	id 1pSEvX-0006vZ-8U; Wed, 15 Feb 2023 05:22:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1pSElE-0005Ps-Er
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:11:36 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1pSEvV-0006v5-1y
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:22:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1pSElB-00071t-Jx
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:11:36 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4PGv3l71BvzrRxy;
- Wed, 15 Feb 2023 18:10:59 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.6; Wed, 15 Feb 2023 18:11:23 +0800
-Message-ID: <86bf0351-ffcc-3b7d-05f3-a1fe0a4f204a@huawei.com>
-Date: Wed, 15 Feb 2023 18:11:23 +0800
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1pSEvT-0004Jt-1R
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:22:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676456529;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WilpOaQPcOt9Wnm4xUcToVGQWlKtIOIi8bA7kbA4eNc=;
+ b=YQLTHu/0wmOfbhXk7h5uh/LgidqWqT9lIbyllHY8ix87xg0GSceXl0sF5l3Qi4z/ut4Ojq
+ iaFN6qD0E0byE1Qfcxvq8Lbg9U7JWYeitolcHw5ANTfMOeNr9XM/ZMoOWuwy+k8F0n4Vm5
+ S3JSOUTMCfY0a3eMjNfYur1TeWDICvE=
+Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
+ [209.85.217.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-619-qyks5lT2OG2lDgJNVCmT0Q-1; Wed, 15 Feb 2023 05:22:06 -0500
+X-MC-Unique: qyks5lT2OG2lDgJNVCmT0Q-1
+Received: by mail-vs1-f69.google.com with SMTP id
+ o4-20020a67b844000000b004120758a354so2815687vsh.22
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 02:22:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WilpOaQPcOt9Wnm4xUcToVGQWlKtIOIi8bA7kbA4eNc=;
+ b=UUo6H4vj1935etZkaf8fJIQfFlwk/raRfvcnZwEzySkvRYjQTaZGiev2oNZZY8N6z6
+ RFbPaciiS4PLXvBED0B288ozkF8zUPjxXEIGuVQqSUdkMdPnSaGSMP7NszlusBdR/cp5
+ 3nQ4N2Jpx0KE0etuOMeELB06EGFfgbKbuMt6o59ApwjjX61RvixSNXiuRypeW7MamH5i
+ 0HL7Shlm2UNaZySzeDp3g14uM3fCP9cPIuczwyrQ/zqXPyek881mer8zvtJjgpdrbEZM
+ Bjon0ESVjOKo2zNuraa2otSEnRmyaifkumH5E91fkJPZcdQWEOaiOT33kpBGzME4D+1x
+ FB6A==
+X-Gm-Message-State: AO0yUKX877GeS/WdlygJ0QjCrDZ8y6+5/S55JwaFGrAIkKBp9/gPzn0N
+ REOzlKKNsc/jmOqNb802Egx6RCZw5BFV8Uq8jjYm/ncu6ifFkvTyw6rm53bUwtzOpen3MC0WL6J
+ e/Nq5Wc0n+xQY25fCJXRbtqSm6ynOnKU=
+X-Received: by 2002:a1f:a7d7:0:b0:3e9:fd3b:692e with SMTP id
+ q206-20020a1fa7d7000000b003e9fd3b692emr237219vke.38.1676456525681; 
+ Wed, 15 Feb 2023 02:22:05 -0800 (PST)
+X-Google-Smtp-Source: AK7set9FyB8Wo/21KkTZWq//ZoKsjZxc9dhgRrVUIXXFKEr0g1rqSy/xwIrv9kEVbhCEE/N4olkG4d4PKcOoqspjTYs=
+X-Received: by 2002:a1f:a7d7:0:b0:3e9:fd3b:692e with SMTP id
+ q206-20020a1fa7d7000000b003e9fd3b692emr237213vke.38.1676456525400; Wed, 15
+ Feb 2023 02:22:05 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH RESEND 04/18] i386/cpu: Fix number of addressable IDs in
- CPUID.04H
-To: Zhao Liu <zhao1.liu@linux.intel.com>
-CC: <qemu-devel@nongnu.org>, Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi
- <dapeng1.mi@intel.com>, Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo
- <robert.hu@linux.intel.com>, Xiaoyao Li <xiaoyao.li@intel.com>, Like Xu
- <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>, Eduardo Habkost
- <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, "Michael S .
- Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>, Markus
- Armbruster <armbru@redhat.com>
-References: <20230213093625.158170-1-zhao1.liu@linux.intel.com>
- <20230213093625.158170-5-zhao1.liu@linux.intel.com>
-In-Reply-To: <20230213093625.158170-5-zhao1.liu@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.35,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230209085004.2745131-1-kfir@daynix.com>
+ <CAPMcbCo+XEXTJKD24vMH8DzYgKJs5jBKNpH1annMthPUGEnazg@mail.gmail.com>
+ <CAMxuvaw0Z6YKm5hVF3=eB1nVR1_9rR4Mo_HeD4bfnz91nYfdGg@mail.gmail.com>
+In-Reply-To: <CAMxuvaw0Z6YKm5hVF3=eB1nVR1_9rR4Mo_HeD4bfnz91nYfdGg@mail.gmail.com>
+From: Konstantin Kostiuk <kkostiuk@redhat.com>
+Date: Wed, 15 Feb 2023 04:21:54 -0600
+Message-ID: <CAPMcbCqQAca01aagME6v7Z3G1zsQGW7wKpqFRBvL5M79mfKbQQ@mail.gmail.com>
+Subject: Re: [PATCH 0/3] qga/win/vss: add VSS backup type options
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Cc: qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>, 
+ Kfir Manor <kfir@daynix.com>, Yan Vugenfirer <yan@daynix.com>
+Content-Type: multipart/alternative; boundary="000000000000ada3e605f4ba735a"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,128 +91,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Zhao,
+--000000000000ada3e605f4ba735a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-在 2023/2/13 17:36, Zhao Liu 写道:
-> From: Zhao Liu <zhao1.liu@intel.com>
->
-> For i-cache and d-cache, the maximum IDs for CPUs sharing cache (
-> CPUID.04H.00H:EAX[bits 25:14] and CPUID.04H.01H:EAX[bits 25:14]) are
-> both 0, and this means i-cache and d-cache are shared in the SMT level.
-> This is correct if there's single thread per core, but is wrong for the
-> hyper threading case (one core contains multiple threads) since the
-> i-cache and d-cache are shared in the core level other than SMT level.
->
-> Therefore, in order to be compatible with both multi-threaded and
-> single-threaded situations, we should set i-cache and d-cache be shared
-> at the core level by default.
->
-> Refer to the fixes of cache_info_passthrough ([1], [2]) and SDM, the
-> CPUID.04H:EAX[bits 25:14] and CPUID.04H:EAX[bits 31:26] should use the
-> nearest power-of-2 integer.
->
-> The nearest power-of-2 integer can be caculated by pow2ceil() or by
-> using APIC ID offset (like L3 topology using 1 << die_offset [3]).
->
-> But in fact, CPUID.04H:EAX[bits 25:14] and CPUID.04H:EAX[bits 31:26]
-> are associated with APIC ID. For example, in linux kernel, the field
-> "num_threads_sharing" (Bits 25 - 14) is parsed with APIC ID. And for
-> another example, on Alder Lake P, the CPUID.04H:EAX[bits 31:26] is not
-> matched with actual core numbers and it's caculated by:
-> "(1 << (pkg_offset - core_offset)) - 1".
->
-> Therefore the offset of APIC ID should be preferred to caculate nearest
-> power-of-2 integer for CPUID.04H:EAX[bits 25:14] and CPUID.04H:EAX[bits
-> 31:26]:
-> 1. d/i cache is shared in a core, 1 << core_offset should be used
->     instand of "1" in encode_cache_cpuid4() for CPUID.04H.00H:EAX[bits
->     25:14] and CPUID.04H.01H:EAX[bits 25:14].
-> 2. L2 cache is supposed to be shared in a core as for now, thereby
->     1 << core_offset should also be used instand of "cs->nr_threads" in
->     encode_cache_cpuid4() for CPUID.04H.02H:EAX[bits 25:14].
-> 3. Similarly, the value for CPUID.04H:EAX[bits 31:26] should also be
->     replaced by the offsets upper SMT level in APIC ID.
->
-> And since [1] and [2] are good enough to make cache_into_passthrough
-> work well, its "pow2ceil()" uses are enough so that they're no need to
-> be replaced by APIC ID offset way.
-If you uniformly tweak these two places with APIC ID offset too, then
-you can also use the more spec-compliant helpers
-(e.g max_processor_ids_for_cache and max_core_ids_in_pkg) here in
-future patch #18. Would be it best to uniform the code?
+On Tue, Feb 14, 2023 at 3:20 AM Marc-Andr=C3=A9 Lureau <
+marcandre.lureau@redhat.com> wrote:
 
-Thanks,
-Yanan
-> [1]: efb3934 (x86: cpu: make sure number of addressable IDs for processor cores meets the spec)
-> [2]: d7caf13 (x86: cpu: fixup number of addressable IDs for logical processors sharing cache)
-> [3]: d65af28 (i386: Update new x86_apicid parsing rules with die_offset support)
+> Hi
 >
-> Fixes: 7e3482f (i386: Helpers to encode cache information consistently)
-> Suggested-by: Robert Hoo <robert.hu@linux.intel.com>
-> Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
-> ---
->   target/i386/cpu.c | 20 +++++++++++++++-----
->   1 file changed, 15 insertions(+), 5 deletions(-)
+> On Mon, Feb 13, 2023 at 8:20 PM Konstantin Kostiuk <kkostiuk@redhat.com>
+> wrote:
 >
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 29afec12c281..7833505092d8 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -5212,7 +5212,6 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
->   {
->       X86CPU *cpu = env_archcpu(env);
->       CPUState *cs = env_cpu(env);
-> -    uint32_t die_offset;
->       uint32_t limit;
->       uint32_t signature[3];
->       X86CPUTopoInfo topo_info;
-> @@ -5308,27 +5307,38 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
->               *eax = *ebx = *ecx = *edx = 0;
->           } else {
->               *eax = 0;
-> +            int addressable_cores_offset = apicid_pkg_offset(&topo_info) -
-> +                                           apicid_core_offset(&topo_info);
-> +            int core_offset, die_offset;
-> +
->               switch (count) {
->               case 0: /* L1 dcache info */
-> +                core_offset = apicid_core_offset(&topo_info);
->                   encode_cache_cpuid4(env->cache_info_cpuid4.l1d_cache,
-> -                                    1, cs->nr_cores,
-> +                                    (1 << core_offset),
-> +                                    (1 << addressable_cores_offset),
->                                       eax, ebx, ecx, edx);
->                   break;
->               case 1: /* L1 icache info */
-> +                core_offset = apicid_core_offset(&topo_info);
->                   encode_cache_cpuid4(env->cache_info_cpuid4.l1i_cache,
-> -                                    1, cs->nr_cores,
-> +                                    (1 << core_offset),
-> +                                    (1 << addressable_cores_offset),
->                                       eax, ebx, ecx, edx);
->                   break;
->               case 2: /* L2 cache info */
-> +                core_offset = apicid_core_offset(&topo_info);
->                   encode_cache_cpuid4(env->cache_info_cpuid4.l2_cache,
-> -                                    cs->nr_threads, cs->nr_cores,
-> +                                    (1 << core_offset),
-> +                                    (1 << addressable_cores_offset),
->                                       eax, ebx, ecx, edx);
->                   break;
->               case 3: /* L3 cache info */
->                   die_offset = apicid_die_offset(&topo_info);
->                   if (cpu->enable_l3_cache) {
->                       encode_cache_cpuid4(env->cache_info_cpuid4.l3_cache,
-> -                                        (1 << die_offset), cs->nr_cores,
-> +                                        (1 << die_offset),
-> +                                        (1 << addressable_cores_offset),
->                                           eax, ebx, ecx, edx);
->                       break;
->                   }
+>> Hi Marc-Andr=C3=A9,
+>>
+>> Can you please review this patch set?
+>>
+>> Best Regards,
+>> Konstantin Kostiuk.
+>>
+>>
+>> On Thu, Feb 9, 2023 at 10:50 AM Kfir Manor <kfir@daynix.com> wrote:
+>>
+>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/775
+>>>
+>>> The problem, VSS backup type VSS-FULL (the only available VSS backup
+>>> type currently) can break other backups that use VSS-FULL(for example,
+>>> Bareos-Fullbackup).
+>>>
+>>> Fix, add other backup types.
+>>>
+>>> Implementation, put the desired backup type number inside Regkey value
+>>> HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\QEMU Guest Agent V=
+SS
+>>> Provider\VssOption, so that the program can query the desired backup ty=
+pe.
+>>>
+>>> VSS backup types:
+>>> number   type
+>>> 1        VSS_BT_FULL
+>>> 2        VSS_BT_INCREMENTAL
+>>> 3        VSS_BT_DIFFERENTIAL
+>>> 4        VSS_BT_LOG
+>>> 5        VSS_BT_COPY
+>>>
+>>> for more information about the different backup types
+>>> https://learn.microsoft.com/en-us/windows/win32/vss/vss-backup-state
+>>>
+>>> Additionally, the program would work as before with VSS-FULL in cases
+>>> where VssOption doesn't exist, or VssOption value isn't a known backup =
+type.
+>>>
+>>
+> The patch series looks ok (just minor stylistic changes could be made),
+> but I do not fully understand the way qga-vss.dll works in details for
+> freeze/thaw.
+>
+> My understanding is that FIFREEZE do not exist on win32, so we call VSS t=
+o
+> tell (some) apps to flush/freeze pretending a backup is going on, then we
+> get notified on completion by our own provider (CommitSnapshots) and wait
+> there for thaw (1 min while VM is suspended?).
+>
+> But I don't understand how this interacts with other providers (real
+> backup solutions), and why they are involved/conflict as described in
+> https://gitlab.com/qemu-project/qemu/-/issues/775.
+>
+
+This is a very good question. To understand the reason for the conflict we
+should dig deeper into VSS.
+For some reason, MS provides different VSS backup types. Currently, we
+don't use other types but we got
+a request from the community. I think this is ok, to add more freedom of
+configuration if someone wants it.
+Anyway, the default behavior is not changed.
+
+
+>
+>
+>>
+>>> Kfir Manor (3):
+>>>   add VssOption to installer
+>>>   query VSS backup type
+>>>   requester_freeze changes
+>>>
+>>>  qga/installer/qemu-ga.wxs   |  4 ++++
+>>>  qga/vss-win32/requester.cpp | 41 ++++++++++++++++++++++++++++++++++++-
+>>>  qga/vss-win32/vss-handles.h |  3 +++
+>>>  3 files changed, 47 insertions(+), 1 deletion(-)
+>>>
+>>> --
+>>> 2.38.1
+>>>
+>>>
+
+--000000000000ada3e605f4ba735a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 14, 2023 at 3:20 AM Marc-=
+Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcan=
+dre.lureau@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div=
+ class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Feb 13=
+, 2023 at 8:20 PM Konstantin Kostiuk &lt;<a href=3D"mailto:kkostiuk@redhat.=
+com" target=3D"_blank">kkostiuk@redhat.com</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div>Hi Marc-And=
+r=C3=A9,</div><div><br></div><div>Can you please review this patch set?<br>=
+</div><div><br></div><div><div><div dir=3D"ltr"><div dir=3D"ltr"><div>Best =
+Regards,</div><div>Konstantin Kostiuk.</div></div></div></div><br></div></d=
+iv><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On =
+Thu, Feb 9, 2023 at 10:50 AM Kfir Manor &lt;<a href=3D"mailto:kfir@daynix.c=
+om" target=3D"_blank">kfir@daynix.com</a>&gt; wrote:<br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex">Resolves: <a href=3D"https://gitlab.co=
+m/qemu-project/qemu/-/issues/775" rel=3D"noreferrer" target=3D"_blank">http=
+s://gitlab.com/qemu-project/qemu/-/issues/775</a><br>
+<br>
+The problem, VSS backup type VSS-FULL (the only available VSS backup type c=
+urrently) can break other backups that use VSS-FULL(for example, Bareos-Ful=
+lbackup).<br>
+<br>
+Fix, add other backup types.<br>
+<br>
+Implementation, put the desired backup type number inside Regkey value HKEY=
+_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\QEMU Guest Agent VSS Provi=
+der\VssOption, so that the program can query the desired backup type.<br>
+<br>
+VSS backup types:<br>
+number=C2=A0 =C2=A0type<br>
+1=C2=A0 =C2=A0 =C2=A0 =C2=A0 VSS_BT_FULL<br>
+2=C2=A0 =C2=A0 =C2=A0 =C2=A0 VSS_BT_INCREMENTAL<br>
+3=C2=A0 =C2=A0 =C2=A0 =C2=A0 VSS_BT_DIFFERENTIAL<br>
+4=C2=A0 =C2=A0 =C2=A0 =C2=A0 VSS_BT_LOG<br>
+5=C2=A0 =C2=A0 =C2=A0 =C2=A0 VSS_BT_COPY<br>
+<br>
+for more information about the different backup types <a href=3D"https://le=
+arn.microsoft.com/en-us/windows/win32/vss/vss-backup-state" rel=3D"noreferr=
+er" target=3D"_blank">https://learn.microsoft.com/en-us/windows/win32/vss/v=
+ss-backup-state</a><br>
+<br>
+Additionally, the program would work as before with VSS-FULL in cases where=
+ VssOption doesn&#39;t exist, or VssOption value isn&#39;t a known backup t=
+ype.<br></blockquote></div></blockquote><div><br></div><div>The patch serie=
+s looks ok (just minor stylistic changes could be made), but I do not fully=
+ understand the way qga-vss.dll works in details for freeze/thaw.</div><div=
+><br></div><div>My understanding is that FIFREEZE do not exist on win32, so=
+ we call VSS to tell (some) apps to flush/freeze pretending a backup is goi=
+ng on, then we get notified on completion by our own provider (CommitSnapsh=
+ots) and wait there for thaw (1 min while VM is suspended?). <br></div><div=
+><br></div><div>But I don&#39;t understand how this interacts with other pr=
+oviders (real backup solutions), and why they are involved/conflict as desc=
+ribed in <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/775" targ=
+et=3D"_blank">https://gitlab.com/qemu-project/qemu/-/issues/775</a>.</div><=
+/div></div></blockquote><div><br></div><div>This is a very good question. T=
+o understand the reason for the conflict we should dig deeper into VSS.</di=
+v><div>For some reason, MS provides different VSS backup types. Currently, =
+we don&#39;t use other types but we got</div><div>a request from the commun=
+ity. I think this is ok, to add more freedom of configuration if someone wa=
+nts it.</div><div>Anyway, the default behavior is not changed.<br></div><di=
+v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D=
+"ltr"><div class=3D"gmail_quote"><div></div><div>=C2=A0<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex"><div class=3D"gmail_quote"><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">
+<br>
+Kfir Manor (3):<br>
+=C2=A0 add VssOption to installer<br>
+=C2=A0 query VSS backup type<br>
+=C2=A0 requester_freeze changes<br>
+<br>
+=C2=A0qga/installer/qemu-ga.wxs=C2=A0 =C2=A0|=C2=A0 4 ++++<br>
+=C2=A0qga/vss-win32/requester.cpp | 41 ++++++++++++++++++++++++++++++++++++=
+-<br>
+=C2=A0qga/vss-win32/vss-handles.h |=C2=A0 3 +++<br>
+=C2=A03 files changed, 47 insertions(+), 1 deletion(-)<br>
+<br>
+-- <br>
+2.38.1<br>
+<br>
+</blockquote></div>
+</blockquote></div></div>
+</blockquote></div></div>
+
+--000000000000ada3e605f4ba735a--
 
 
