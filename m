@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AEAF697D98
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 14:39:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 963FA697D99
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 14:39:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSHzV-0003UI-GY; Wed, 15 Feb 2023 08:38:33 -0500
+	id 1pSI0B-0004Fu-6e; Wed, 15 Feb 2023 08:39:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pSHzP-0003Sp-7D
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:38:30 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pSHzN-0006jn-ID
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:38:26 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 129C6209BF;
- Wed, 15 Feb 2023 13:38:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1676468302; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSI09-0004FL-BA
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:39:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSI06-00070A-6y
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:39:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676468349;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=FGTHJ8Buhy7TKiP8gSqP+VVyyX7ajk2+tDVA/jzav9s=;
- b=yZ4os84jzoI0A7IxhlWZljIoqHPv763gMesy36Krg3fDkiUWKNLhYfp6/J8vIsRS0DQsPO
- x+yPgdbPgmx9q1c7kKxxIOPuWeZBIGENSEEi4uOGiB8CM9QznGBHU9sr8MgaHVWkFP/2tk
- WcnmNEBHIoHfDU0yC2FvnS7S+cqMx1I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1676468302;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FGTHJ8Buhy7TKiP8gSqP+VVyyX7ajk2+tDVA/jzav9s=;
- b=WtnQ8qVvyPa5dpNtf9aMTB6nVSgdS0kAfjL6Dvs8wFoQGyvMh6X3fUOiyWPhOPgysc9x1H
- 9zdS82VLs/piTVAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=NuhKm+e1h+Btd/qqaXQbKDgnRl5+AC/qYX/JIUrMRrg=;
+ b=SpWRLBghcHvd6DgZrIG061h+eG0+Vsfacsniln6i4d1QBRhpwyqewnZXzJ43YP/bltIsej
+ WiwBGiFUNvXAqq6OrhUUEXL8IeIg1fKWvI44MtzFo60C5nROwKf/YBgIdtdf3UNYniNEJm
+ VMslbNDibI3U+GsKso0gKSUPbPsW3po=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-581-mc0-BFuBOXKj027YySs0Bg-1; Wed, 15 Feb 2023 08:39:08 -0500
+X-MC-Unique: mc0-BFuBOXKj027YySs0Bg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 97503134BA;
- Wed, 15 Feb 2023 13:38:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id qyA2GE3g7GMtbQAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 15 Feb 2023 13:38:21 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, Thomas Huth
- <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>, Peter
- Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] tests/qtest/rtl8139-test: Make the test less verbose by
- default
-In-Reply-To: <Y+zUMygZUSwiPRwG@redhat.com>
-References: <20230215124122.72037-1-thuth@redhat.com>
- <Y+zUMygZUSwiPRwG@redhat.com>
-Date: Wed, 15 Feb 2023 10:38:19 -0300
-Message-ID: <87fsb7dp6c.fsf@suse.de>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 820CE8588EA;
+ Wed, 15 Feb 2023 13:39:07 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6127E40B3FE1;
+ Wed, 15 Feb 2023 13:39:07 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4C78421E6A1F; Wed, 15 Feb 2023 14:39:06 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org,  Michael Roth <michael.roth@amd.com>
+Subject: Re: [PATCH v4 0/6] qapi: static typing conversion, pt5c
+References: <20230215000011.1725012-1-jsnow@redhat.com>
+Date: Wed, 15 Feb 2023 14:39:06 +0100
+In-Reply-To: <20230215000011.1725012-1-jsnow@redhat.com> (John Snow's message
+ of "Tue, 14 Feb 2023 19:00:05 -0500")
+Message-ID: <878rgz82v9.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,91 +78,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
-
-> On Wed, Feb 15, 2023 at 01:41:22PM +0100, Thomas Huth wrote:
->> We are facing the issues that some test logs in the gitlab CI are
->> too big (and thus cut off). The rtl8139-test is one of the few qtests
->> that prints many lines of output by default when running with V=3D1, so
->> it contributes to this problem. Almost all other qtests are silent
->> with V=3D1 and only print debug messages with V=3D2 and higher. Thus let=
-'s
->> change the rtl8139-test to behave more like the other tests and only
->> print the debug messages with V=3D2 (or higher).
->>=20
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>  tests/qtest/rtl8139-test.c | 15 +++++++++++++--
->>  1 file changed, 13 insertions(+), 2 deletions(-)
->
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->
->>=20
->> diff --git a/tests/qtest/rtl8139-test.c b/tests/qtest/rtl8139-test.c
->> index 8fa3313cc3..1beb83805c 100644
->> --- a/tests/qtest/rtl8139-test.c
->> +++ b/tests/qtest/rtl8139-test.c
->> @@ -12,6 +12,8 @@
->>  #include "libqos/pci-pc.h"
->>  #include "qemu/timer.h"
->>=20=20
->> +static int verbosity_level;
->> +
->>  /* Tests only initialization so far. TODO: Replace with functional test=
-s */
->>  static void nop(void)
->>  {
->> @@ -45,12 +47,16 @@ static QPCIDevice *get_device(void)
->>  static unsigned __attribute__((unused)) in_##name(void) \
->>  { \
->>      unsigned res =3D qpci_io_read##len(dev, dev_bar, (val));     \
->> -    g_test_message("*%s -> %x", #name, res); \
->> +    if (verbosity_level >=3D 2) { \
->> +        g_test_message("*%s -> %x", #name, res); \
->> +    } \
->>      return res; \
->>  } \
->>  static void out_##name(unsigned v) \
->>  { \
->> -    g_test_message("%x -> *%s", v, #name); \
->> +    if (verbosity_level >=3D 2) { \
->> +        g_test_message("%x -> *%s", v, #name); \
->> +    } \
->>      qpci_io_write##len(dev, dev_bar, (val), v);        \
->>  }
->>=20=20
->> @@ -195,6 +201,11 @@ static void test_init(void)
->>  int main(int argc, char **argv)
->>  {
->>      int ret;
->> +    char *v_env =3D getenv("V");
->> +
->> +    if (v_env) {
->> +        verbosity_level =3D atoi(v_env);
->> +    }
->
-> *Not* something I'm requesting you to do now, just an observation / idea.
->
-> We've copied this pattern into several tests.
->
-> It is starting to feel like we should have a header with a
-> 'qtests_env_setup()' method we call as first thing in main,
-> and exporting 'verbosity_level' from the header.
->
-> Perhaps also with a  'qtest_verbose(...)' macro that wraps
->
->   if (verbosity_level >=3D 2) {
->      g_test_message(...)
->   }
-
-Could we maybe play with g_test_verbose and g_test_quiet? The docs say
-"The default is neither g_test_verbose() nor g_test_quiet()."  So
-perhaps:
-
-V=3D    --quiet, g_test_quiet
-V=3D1 no option, default verbosity
-V=3D2 --verbose, g_test_verbose
-
-Then test g_test_quiet|verbose instead of reading from env directly.
+I had a few suggestions, but none of them requires a respin.  Let's
+discuss them, and then I merge.
 
 
