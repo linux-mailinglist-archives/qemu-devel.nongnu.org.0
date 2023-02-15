@@ -2,81 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34C95697FB5
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 16:41:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEAF0697FD1
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 16:47:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSJtF-0000Ny-Gn; Wed, 15 Feb 2023 10:40:13 -0500
+	id 1pSJz2-0002UW-35; Wed, 15 Feb 2023 10:46:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSJtC-0000MO-9D
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 10:40:10 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSJt9-0003MS-Gz
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 10:40:09 -0500
-Received: by mail-wm1-x331.google.com with SMTP id r18so13622473wmq.5
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 07:40:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vjoBX4qV2xD6CRgZdzUC4zmWFo4z43cV2W3yUgOrrzs=;
- b=BQS8rRbRvflwbndY60CwKOq/H2G7I1r9tijg+SMgjwbY6FpX2KMvWg+uEu3SFCTW5M
- LWBkntmt7ROLz8eKVqvOnxhMjuzUAYJyPSMUI+nC3ANO0ZNkJHBUN7qO2JIqoiipcwS9
- 4c3y8vVCSHL3Nw9TELXrLTTGtBDM4cYl+d58LI+4FvqJ2+44kEn2/Nl2D3qQfVTeGAao
- qf8qM8u+TIgobezzYwubI1zHR+wvvSK+MwtWH07k1ZzoMYMtuOD5uPWg+lKYasrcpv2d
- +sGaMdS2HqDppB0M6dMr18NLMWARbVbUoPhW7D6K2HCjMkzw5LQcMdMAfGgKfdZ9ldGi
- QWZw==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pSJyy-0002TP-Jr
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 10:46:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pSJyt-0007HP-Nh
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 10:46:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676475961;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iebs9VEng/uZpr/fSdZFqxWPJYbNgG/TrZxZjRUe3/4=;
+ b=Er/+XO6dDMh01IB5xc6FhEq0ncT+G3Pqr0tEAbLp0EAb7iMOf18+V1WSTFiGHDD3PEBQWa
+ Rjxhd7c2QCM4Jyaei/ZN14t5Py+c0734LI4j/CfPwqJPN83oVIVjbLkqtvt6I1tB7JQpV5
+ cFVBXXPLYMchtnrLoEEAAuVL5pe6Jpo=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-548-bVBCdOnAO6Ck6s2ktEAwJw-1; Wed, 15 Feb 2023 10:45:57 -0500
+X-MC-Unique: bVBCdOnAO6Ck6s2ktEAwJw-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ c10-20020a05621401ea00b004c72d0e92bcso10742669qvu.12
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 07:45:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vjoBX4qV2xD6CRgZdzUC4zmWFo4z43cV2W3yUgOrrzs=;
- b=Mb63mKLxU8+tlTc7eoSjaxZEUyxpTUCpqCFIqU5urrwXHfG39cG1m4HD+BQgaAVSxN
- o555yJrEq6s9tEnCjEKa0Pd3vrSrmzvIFaVGEVpfW7WuVtst+nIZN1YCcbKVyJLTTowT
- Y0geMNCfd4GhnBONFV3Om4l62GwQ3jTOoFkNsRNvqoMKkimFlDwylH2v1w5Z1izf8CqF
- ItibPz5MbKrgjrO0tSyeAr4HVFOGbCg9FMwcOjooEwVMjwP+iWwr9tauw38eVnsudHUH
- ZE37j0mxtyVvGp7Mu1QVIyE8CXM9ULRSxqaqSW6uW6hUoN0vszh3fWzXZL1LlAgOVtpv
- HiFw==
-X-Gm-Message-State: AO0yUKVLg097gC6hgCm392KLIFFEH2wTtxsahXDjYSF4WuyzRke6RCef
- xqI9KryDmoveJHPrHlaKnUp/6cOoiH/2xY0a
-X-Google-Smtp-Source: AK7set9HftbrxKwOu7wkJA7sYcZ/SksI61PPqClCbWqZ47mtYWWje1N9O0fP/MBZvTuRxIA+CxfQBQ==
-X-Received: by 2002:a05:600c:1714:b0:3df:f71b:3f68 with SMTP id
- c20-20020a05600c171400b003dff71b3f68mr2229412wmn.39.1676475605726; 
- Wed, 15 Feb 2023 07:40:05 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- r18-20020a05600c459200b003dc4baaedd3sm2753872wmo.37.2023.02.15.07.40.04
+ bh=iebs9VEng/uZpr/fSdZFqxWPJYbNgG/TrZxZjRUe3/4=;
+ b=JAg/gbaH/alyos/cubUFcyuXXgqzOwsUTdgFiOu+iCgWM7ImYdMPTtz6ByQkMXmJjA
+ D3qsYkoYWpmj6cccfgksI0Xm4cj71+lq3n/o4tEG/LhZ+M8BEFQf/KuuDTfuhiCZXaT/
+ TBZgnkTPzXBZjaHnspfZgrhcBshYb4XTe63VutR2IrYXIytv74a/5rqsF2WAJ/cj4yDl
+ XzeHZZ6cOWNJRSpcCb+3G31WBDsrWM4Y9J2Gbo+81bOhaiAULUR/dKuba7haQejZJthl
+ 0hs9tTjwj8e96X/5Fupb0+L8Kwwk6TMYPNs5zlNcYxZ4XLjrPGFoKR4kTHaKuCD5Pz3h
+ vObA==
+X-Gm-Message-State: AO0yUKV5f0rB1HtxYu9xPKVHM+sLiSMvOjT1EDQpw9wZnc9DxSKh7iDA
+ NicEEQr59nuysu6YrrWbf9XTwh0akoFNV+j0TXAb84WDPqDrgLbNjG4n2BfpLGu8KSAKBVQBZAM
+ mo51sdULIRn8om+c=
+X-Received: by 2002:a05:6214:e6e:b0:56c:2ee:2641 with SMTP id
+ jz14-20020a0562140e6e00b0056c02ee2641mr4965655qvb.22.1676475957479; 
+ Wed, 15 Feb 2023 07:45:57 -0800 (PST)
+X-Google-Smtp-Source: AK7set/PQ9jPl/Hu2IStmU3EP6eIJy3lEz8SkEI9J+xMv5oroIwJ5od5NIomcqqeL6Ow0LDUY/Pcsg==
+X-Received: by 2002:a05:6214:e6e:b0:56c:2ee:2641 with SMTP id
+ jz14-20020a0562140e6e00b0056c02ee2641mr4965630qvb.22.1676475957251; 
+ Wed, 15 Feb 2023 07:45:57 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-79.web.vodafone.de.
+ [109.43.176.79]) by smtp.gmail.com with ESMTPSA id
+ j190-20020a37b9c7000000b0073912c099cesm11113993qkf.73.2023.02.15.07.45.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Feb 2023 07:40:05 -0800 (PST)
-Message-ID: <51f06855-6adc-65f1-2f38-4587e2eca99c@linaro.org>
-Date: Wed, 15 Feb 2023 16:40:04 +0100
+ Wed, 15 Feb 2023 07:45:56 -0800 (PST)
+Message-ID: <4ba57bbf-3712-8958-e7c6-b164854e35ce@redhat.com>
+Date: Wed, 15 Feb 2023 16:45:54 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH 14/20] hw/ide: Rename ide_init2() ->
- ide_bus_init_output_irq()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] gitlab-ci: Use artifacts instead of dumping logs in the
+ Cirrus-CI jobs
 Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- John Snow <jsnow@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>,
- qemu-ppc@nongnu.org
-References: <20230215112712.23110-1-philmd@linaro.org>
- <20230215112712.23110-15-philmd@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230215112712.23110-15-philmd@linaro.org>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20230215142503.90660-1-thuth@redhat.com>
+ <32f0a378-2ae9-c711-19c8-837397c87c4a@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <32f0a378-2ae9-c711-19c8-837397c87c4a@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
 X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,31 +105,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 15/2/23 12:27, Philippe Mathieu-Daudé wrote:
-> ide_init2() initializes a IDEBus, and set its output IRQ.
+On 15/02/2023 15.57, Philippe Mathieu-Daudé wrote:
+> Hi Thomas,
+> 
+> On 15/2/23 15:25, Thomas Huth wrote:
+>> The meson log files can get very big, especially if running the tests in
+>> verbose mode. So dumping those logs to the console was a bad idea, since
+>> gitlab truncates the output if it is getting too big. Let's publish the
+>> logs as artifacts instead. This has the disadvantage that you have to
+>> look up the logs on cirrus-ci.com now instead, but that's still better
+>> than not having the important part of the log at all since it got
+>> truncated.
+>>
+>> Fixes: 998f334722 ("gitlab: show testlog.txt contents ...")
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   Note: I also tried to publish the junit xml files as artifacts
+>>   instead, but while the cirrus-ci docs claim to support it, I only
+>>   got unreadable XML output in my browser that way, so the .txt
+>>   files look like the better option to me.
+>>
+>>   .gitlab-ci.d/cirrus/build.yml | 7 +++++--
+>>   1 file changed, 5 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/.gitlab-ci.d/cirrus/build.yml b/.gitlab-ci.d/cirrus/build.yml
+>> index 7ef6af8d33..a9444902ec 100644
+>> --- a/.gitlab-ci.d/cirrus/build.yml
+>> +++ b/.gitlab-ci.d/cirrus/build.yml
+>> @@ -32,6 +32,9 @@ build_task:
+>>       - $MAKE -j$(sysctl -n hw.ncpu)
+>>       - for TARGET in $TEST_TARGETS ;
+>>         do
+>> -        $MAKE -j$(sysctl -n hw.ncpu) $TARGET V=1
+>> -        || { cat meson-logs/testlog.txt; exit 1; } ;
+>> +        $MAKE -j$(sysctl -n hw.ncpu) $TARGET V=1 ;
+>>         done
+>> +  always:
+>> +    build_result_artifacts:
+>> +      path: build/meson-logs/*log.txt
+>> +      type: text/plain
+> 
+> How long is that log kept available?
 
-s/set/sets/
+No clue, I haven't seen anything related in the docs:
 
-> To emphasize this, rename it as ide_bus_init_output_irq().
-> 
-> Mechanical change using:
-> 
->    $ sed -i -e 's/ide_init2/ide_bus_init_output_irq/g' \
->          $(git grep -l ide_init2)
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->   hw/ide/ahci.c             | 2 +-
->   hw/ide/cmd646.c           | 2 +-
->   hw/ide/core.c             | 4 ++--
->   hw/ide/isa.c              | 2 +-
->   hw/ide/macio.c            | 2 +-
->   hw/ide/microdrive.c       | 2 +-
->   hw/ide/mmio.c             | 2 +-
->   hw/ide/piix.c             | 3 ++-
->   hw/ide/sii3112.c          | 2 +-
->   hw/ide/via.c              | 2 +-
->   include/hw/ide/internal.h | 4 ++--
->   11 files changed, 14 insertions(+), 13 deletions(-)
+  https://cirrus-ci.org/guide/writing-tasks/#artifacts-instruction
+
+... but I assume they will at least be available for a couple of days so 
+you've got enough time to look at them in case a job failed.
+
+  Thomas
 
 
