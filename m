@@ -2,56 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D7BB6974EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 04:31:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A6086974E9
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 04:28:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pS8Vv-0003No-SE; Tue, 14 Feb 2023 22:31:24 -0500
+	id 1pS8Sb-0001Lg-Sy; Tue, 14 Feb 2023 22:27:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pS8Vr-0003NM-UO; Tue, 14 Feb 2023 22:31:19 -0500
-Received: from out30-124.freemail.mail.aliyun.com ([115.124.30.124])
+ (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
+ id 1pS8SY-0001LC-Jr
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 22:27:54 -0500
+Received: from mga01.intel.com ([192.55.52.88])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pS8Vo-0001vQ-6P; Tue, 14 Feb 2023 22:31:19 -0500
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R191e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045170;
- MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0VbiRcg2_1676431867; 
-Received: from 30.221.98.44(mailfrom:zhiwei_liu@linux.alibaba.com
- fp:SMTPD_---0VbiRcg2_1676431867) by smtp.aliyun-inc.com;
- Wed, 15 Feb 2023 11:31:08 +0800
-Message-ID: <c413c4b3-166f-a1ac-7ee4-a81841ad5a9a@linux.alibaba.com>
-Date: Wed, 15 Feb 2023 11:31:06 +0800
+ (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
+ id 1pS8SW-0001OH-6a
+ for qemu-devel@nongnu.org; Tue, 14 Feb 2023 22:27:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676431672; x=1707967672;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=C11267zVA3UY6J6lmNykH/7FLqcquRHrtw5RKwjtSx4=;
+ b=ndbX/nvbgSH39bJJAuVe4NF3eUoEZd6qVTmxaoAMzUaEnUw3hikjFA+P
+ +GjFvfQG9JheTMGu4b9G6ULQ20oqM6nkLFIKCD5zEvbJhx/WhoZGlNTr9
+ A1LIL3RsG6sPSN5kF/V4EivBOBwQsQugskF0XLAJeVK17bHqiKBvVM/mB
+ pUpMq0SgwPoJiJ0mak6ikvpYbDR54YmwdeBWBKktha6MIXSw6LjOyEdx/
+ wkOJzt8uI17KeFfpWyLehvoa5XPZl5FFVSBMRFwgyqtuJDe46RtJpHUj/
+ mSb97yGJndt23palt4GqSnL8O0iJ67TE3mKE+GDhbawwgrfepBHFmaNfa w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="358752810"
+X-IronPort-AV: E=Sophos;i="5.97,298,1669104000"; d="scan'208";a="358752810"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2023 19:27:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="998318989"
+X-IronPort-AV: E=Sophos;i="5.97,298,1669104000"; d="scan'208";a="998318989"
+Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
+ ([10.239.160.112])
+ by fmsmga005.fm.intel.com with ESMTP; 14 Feb 2023 19:27:45 -0800
+Date: Wed, 15 Feb 2023 11:35:33 +0800
+From: Zhao Liu <zhao1.liu@linux.intel.com>
+To: "wangyanan (Y)" <wangyanan55@huawei.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi <dapeng1.mi@intel.com>,
+ Zhuocheng Ding <zhuocheng.ding@intel.com>,
+ Robert Hoo <robert.hu@linux.intel.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
+ Like Xu <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>
+Subject: Re: [PATCH RESEND 02/18] tests: Rename test-x86-cpuid.c to
+ test-x86-apicid.c
+Message-ID: <Y+xTBXvOEOpOJEj0@liuzhao-OptiPlex-7080>
+References: <20230213093625.158170-1-zhao1.liu@linux.intel.com>
+ <20230213093625.158170-3-zhao1.liu@linux.intel.com>
+ <cf0e39e0-4c49-18ed-5b5a-b438bd6e76b7@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH v1 RFC Zisslpcfi 2/9] target/riscv: zisslpcfi CSR, bit
- positions and other definitions
-Content-Language: en-US
-To: Deepak Gupta <debug@rivosinc.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, liweiwei@iscas.ac.cn,
- dbarboza@ventanamicro.com
-Cc: Kip Walker <kip@rivosinc.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-References: <20230209062404.3582018-1-debug@rivosinc.com>
- <20230209062404.3582018-3-debug@rivosinc.com>
-From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-In-Reply-To: <20230209062404.3582018-3-debug@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=gb2312
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.124;
- envelope-from=zhiwei_liu@linux.alibaba.com;
- helo=out30-124.freemail.mail.aliyun.com
-X-Spam_score_int: -101
-X-Spam_score: -10.2
-X-Spam_bar: ----------
-X-Spam_report: (-10.2 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.35, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+In-Reply-To: <cf0e39e0-4c49-18ed-5b5a-b438bd6e76b7@huawei.com>
+Received-SPF: none client-ip=192.55.52.88;
+ envelope-from=zhao1.liu@linux.intel.com; helo=mga01.intel.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_CHARSET_FARAWAY=2.45, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,165 +91,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, Feb 15, 2023 at 10:36:34AM +0800, wangyanan (Y) wrote:
+> Date: Wed, 15 Feb 2023 10:36:34 +0800
+> From: "wangyanan (Y)" <wangyanan55@huawei.com>
+> Subject: Re: [PATCH RESEND 02/18] tests: Rename test-x86-cpuid.c to
+>  test-x86-apicid.c
+> 
+> ÔÚ 2023/2/13 17:36, Zhao Liu Ð´µÀ:
+> > From: Zhao Liu <zhao1.liu@intel.com>
+> > 
+> > In fact, this unit tests APIC ID other than CPUID.
+> > Rename to test-x86-apicid.c to make its name more in line with its
+> > actual content.
+> > 
+> > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
+> > ---
+> >   MAINTAINERS                                        | 2 +-
+> >   tests/unit/meson.build                             | 4 ++--
+> >   tests/unit/{test-x86-cpuid.c => test-x86-apicid.c} | 2 +-
+> >   3 files changed, 4 insertions(+), 4 deletions(-)
+> >   rename tests/unit/{test-x86-cpuid.c => test-x86-apicid.c} (99%)
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 96e25f62acaa..71c1bc24371b 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -1679,7 +1679,7 @@ F: include/hw/southbridge/piix.h
+> >   F: hw/misc/sga.c
+> >   F: hw/isa/apm.c
+> >   F: include/hw/isa/apm.h
+> > -F: tests/unit/test-x86-cpuid.c
+> > +F: tests/unit/test-x86-apicid.c
+> >   F: tests/qtest/test-x86-cpuid-compat.c
+> >   PC Chipset
+> > diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+> > index ffa444f4323c..a9df2843e92e 100644
+> > --- a/tests/unit/meson.build
+> > +++ b/tests/unit/meson.build
+> > @@ -20,8 +20,8 @@ tests = {
+> >     'test-opts-visitor': [testqapi],
+> >     'test-visitor-serialization': [testqapi],
+> >     'test-bitmap': [],
+> > -  # all code tested by test-x86-cpuid is inside topology.h
+> > -  'test-x86-cpuid': [],
+> > +  # all code tested by test-x86-apicid is inside topology.h
+> > +  'test-x86-apicid': [],
+> >     'test-cutils': [],
+> >     'test-div128': [],
+> >     'test-shift128': [],
+> > diff --git a/tests/unit/test-x86-cpuid.c b/tests/unit/test-x86-apicid.c
+> > similarity index 99%
+> > rename from tests/unit/test-x86-cpuid.c
+> > rename to tests/unit/test-x86-apicid.c
+> > index bfabc0403a1a..2b104f86d7c2 100644
+> > --- a/tests/unit/test-x86-cpuid.c
+> > +++ b/tests/unit/test-x86-apicid.c
+> > @@ -1,5 +1,5 @@
+> >   /*
+> > - *  Test code for x86 CPUID and Topology functions
+> > + *  Test code for x86 APIC ID and Topology functions
+> >    *
+> I'm not very sure. The "CPUID" sounds like a general test for kinds of CPU
+> IDs.
 
-On 2023/2/9 14:23, Deepak Gupta wrote:
-> `zisslpcfi` extension adds two new CSRs. CSR_SSP and CSR_LPLR.
-> - CSR_SSP: This CSR holds shadow stack pointer for current privilege mode
->             CSR_SSP is accessible in all modes. Each mode must establish
->             it's own CSR_SSP.
->
-> - CSR_LPLR: This CSR holds label value set at the callsite by compiler.
->              On call target label check instructions are emitted by
->              compiler which check label value against value present in
->              CSR_LPRL.
->
-> Enabling of `zisslpcfi` is controlled via menvcfg (for S/HS/VS/U/VU) and
-> henvcfg (for VS/VU) at bit position 60.
->
-> Each mode has enable/disable bits for forward cfi. Backward cfi doesn't
-> have separate enable/disable bits for S and M mode. User forward cfi and
-> user backward cfi enable/disable bits are in mstatus/sstatus CSR.
-> Supervisor forward cfi enable/disable bit are in menvcfg and henvcfg CSR.
-> Machine mode forward cfi enable/disable bit is in mseccfg CSR.
->
-> If forward cfi enabled, all indirect branches must land on a landing pad
-> instruction (`lpcll`, introduced in later commits). CPU/hart tracks this
-> internally using a landing pad tracker called `elp` short for `expecting
-> landing pad`. An interrupt can occur between an indirect branch and
-> target. If such an event occurs `elp` is saved away in mstatus/sstatus
-> CSR
->
-> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
-> Signed-off-by: Kip Walker  <kip@rivosinc.com>
-> ---
->   target/riscv/cpu.h      |  5 +++++
->   target/riscv/cpu_bits.h | 25 +++++++++++++++++++++++++
->   target/riscv/pmp.h      |  3 ++-
->   3 files changed, 32 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 9a923760b2..18db61a06a 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -181,6 +181,11 @@ struct CPUArchState {
->   
->       uint32_t features;
->   
-> +    /* CFI Extension user mode registers and state */
-> +    uint32_t     lplr;
-> +    target_ulong ssp;
-> +    cfi_elp      elp;
+CPUID usually refers to that basic instruction in the x86 to obtain basic
+cpu information. So such naming is prone to ambiguity.
 
-I think you are coding according the sections of the specification. 
-However,Â  when upstream code,
-don't add declaration or definition if you don't use it in this patch.
+The cpu topology info of x86 is parsed based on the apic id, including
+the sub-ids of each topology levels (such as thread id/core id...etc.).
+These sub-ids are all part of the apic id.
 
-This patch should be split into patches where use these definitions.
+> Besides APIC IDs computed from x86_apicid_from_cpu_idx(), there are also
+> topo IDs computed from x86_topo_ids_from_idx() although this kind of IDs
+> are not tested in test-x86-cpuid.c so far.
 
-> +
->   #ifdef CONFIG_USER_ONLY
->       uint32_t elf_flags;
->   #endif
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 8b0d7e20ea..1663ba5775 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -39,6 +39,10 @@
->   
->   /* Control and Status Registers */
->   
-> +/* CFI CSRs */
-> +#define CSR_LPLR            0x006
-I didn't see the CSR encodingÂ  number from the link in cover-letter.
-> +#define CSR_SSP             0x020
-> +
->   /* User Trap Setup */
->   #define CSR_USTATUS         0x000
->   #define CSR_UIE             0x004
-> @@ -542,6 +546,10 @@
->   #define MSTATUS_TVM         0x00100000 /* since: priv-1.10 */
->   #define MSTATUS_TW          0x00200000 /* since: priv-1.10 */
->   #define MSTATUS_TSR         0x00400000 /* since: priv-1.10 */
-> +#define MSTATUS_UFCFIEN     0x00800000 /* Zisslpcfi-0.1 */
-> +#define MSTATUS_UBCFIEN     0x01000000 /* Zisslpcfi-0.1 */
-> +#define MSTATUS_SPELP       0x02000000 /* Zisslpcfi-0.1 */
-> +#define MSTATUS_MPELP       0x04000000 /* Zisslpcfi-0.1 */
->   #define MSTATUS_GVA         0x4000000000ULL
->   #define MSTATUS_MPV         0x8000000000ULL
->   
-> @@ -572,12 +580,21 @@ typedef enum {
->   #define SSTATUS_XS          0x00018000
->   #define SSTATUS_SUM         0x00040000 /* since: priv-1.10 */
->   #define SSTATUS_MXR         0x00080000
-> +#define SSTATUS_UFCFIEN     MSTATUS_UFCFIEN /* Zisslpcfi-0.1 */
-> +#define SSTATUS_UBCFIEN     MSTATUS_UBCFIEN /* Zisslpcfi-0.1 */
-> +#define SSTATUS_SPELP       MSTATUS_SPELP   /* Zisslpcfi-0.1 */
->   
->   #define SSTATUS64_UXL       0x0000000300000000ULL
->   
->   #define SSTATUS32_SD        0x80000000
->   #define SSTATUS64_SD        0x8000000000000000ULL
->   
-> +#define CFISTATUS_M_MASK    (MSTATUS_UFCFIEN | MSTATUS_UBCFIEN | \
-> +                             MSTATUS_MPELP | MSTATUS_SPELP)
-> +
-> +#define CFISTATUS_S_MASK    (SSTATUS_UFCFIEN | SSTATUS_UBCFIEN | \
-> +                             SSTATUS_SPELP)
-Why not the VSSTATUS?
-> +
->   /* hstatus CSR bits */
->   #define HSTATUS_VSBE         0x00000020
->   #define HSTATUS_GVA          0x00000040
-> @@ -747,10 +764,14 @@ typedef enum RISCVException {
->   #define MENVCFG_CBIE                       (3UL << 4)
->   #define MENVCFG_CBCFE                      BIT(6)
->   #define MENVCFG_CBZE                       BIT(7)
-> +#define MENVCFG_SFCFIEN                    BIT(59)
-> +#define MENVCFG_CFI                        BIT(60)
+What about "test-x86-topo.c" or "test-x86-topo-ids.c"?
 
-MENVCFG_CFIE according to the specification.Â  The definitions in other 
-placesÂ  should also use X_CFIE.
-
-The same comment here with Weiwei, or you can use BIT_ULL.
-
-Zhiwei
-
->   #define MENVCFG_PBMTE                      (1ULL << 62)
->   #define MENVCFG_STCE                       (1ULL << 63)
->   
->   /* For RV32 */
-> +#define MENVCFGH_SFCFIEN                   BIT(27)
-> +#define MENVCFGH_CFI                       BIT(28)
->   #define MENVCFGH_PBMTE                     BIT(30)
->   #define MENVCFGH_STCE                      BIT(31)
->   
-> @@ -763,10 +784,14 @@ typedef enum RISCVException {
->   #define HENVCFG_CBIE                       MENVCFG_CBIE
->   #define HENVCFG_CBCFE                      MENVCFG_CBCFE
->   #define HENVCFG_CBZE                       MENVCFG_CBZE
-> +#define HENVCFG_SFCFIEN                    MENVCFG_SFCFIEN
-> +#define HENVCFG_CFI                        MENVCFG_CFI
->   #define HENVCFG_PBMTE                      MENVCFG_PBMTE
->   #define HENVCFG_STCE                       MENVCFG_STCE
->   
->   /* For RV32 */
-> +#define HENVCFGH_SFCFIEN                    MENVCFGH_SFCFIEN
-> +#define HENVCFGH_CFI                        MENVCFGH_CFI
->   #define HENVCFGH_PBMTE                      MENVCFGH_PBMTE
->   #define HENVCFGH_STCE                       MENVCFGH_STCE
->   
-> diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
-> index da32c61c85..f5bfc4955b 100644
-> --- a/target/riscv/pmp.h
-> +++ b/target/riscv/pmp.h
-> @@ -43,7 +43,8 @@ typedef enum {
->       MSECCFG_MMWP  = 1 << 1,
->       MSECCFG_RLB   = 1 << 2,
->       MSECCFG_USEED = 1 << 8,
-> -    MSECCFG_SSEED = 1 << 9
-> +    MSECCFG_SSEED = 1 << 9,
-> +    MSECCFG_MFCFIEN =  1 << 10
->   } mseccfg_field_t;
->   
->   typedef struct {
+> 
+> Thanks,
+> Yanan
+> >    *  Copyright (c) 2012 Red Hat Inc.
+> >    *
+> 
 
