@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31086697436
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 03:13:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBCE669741B
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 03:07:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pS7I3-0002lx-DM; Tue, 14 Feb 2023 21:12:59 -0500
+	id 1pS7BY-0001SQ-1A; Tue, 14 Feb 2023 21:06:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pS7I1-0002l1-3k; Tue, 14 Feb 2023 21:12:57 -0500
+ id 1pS7BR-0001Mc-Tl; Tue, 14 Feb 2023 21:06:09 -0500
 Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pS7Hy-0004pI-Db; Tue, 14 Feb 2023 21:12:56 -0500
+ id 1pS7BJ-0000E0-V4; Tue, 14 Feb 2023 21:06:09 -0500
 Received: from localhost.localdomain (unknown [114.95.238.225])
- by APP-01 (Coremail) with SMTP id qwCowABXcNT4PexjNkcoBQ--.2339S15;
- Wed, 15 Feb 2023 10:05:54 +0800 (CST)
+ by APP-01 (Coremail) with SMTP id qwCowABXcNT4PexjNkcoBQ--.2339S16;
+ Wed, 15 Feb 2023 10:05:55 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
@@ -26,19 +26,18 @@ Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
  wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
  Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v2 13/14] target/riscv: Simplify check for EEW = 64 in
- trans_rvv.c.inc
-Date: Wed, 15 Feb 2023 10:05:38 +0800
-Message-Id: <20230215020539.4788-14-liweiwei@iscas.ac.cn>
+Subject: [PATCH v2 14/14] target/riscv: Expose properties for Zv* extensions
+Date: Wed, 15 Feb 2023 10:05:39 +0800
+Message-Id: <20230215020539.4788-15-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230215020539.4788-1-liweiwei@iscas.ac.cn>
 References: <20230215020539.4788-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowABXcNT4PexjNkcoBQ--.2339S15
-X-Coremail-Antispam: 1UD129KBjvJXoWxJryUJryrKr4rWryrKw1xKrg_yoW8ur13pw
- 4rCrWxur4DtFWfuwnakr4jqF1Yy3yrKry7Ka4jv3Z5Xa95Xr48uan0qws3tr4UXFyFqFy0
- kF4YyF15Zr42va7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: qwCowABXcNT4PexjNkcoBQ--.2339S16
+X-Coremail-Antispam: 1UD129KBjvJXoW7KFy7CF4rJw18AFyxWF13CFg_yoW8uF4xpr
+ 18Ga47Kwn8Jr13C3y3tr4DJ3yrCw45W3s2g3yfA3Z7XrZ3GrsrXFnrCa9rurWUta1rZw4S
+ gF1a9r1IkrWvqa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnRJUUUPv14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
  rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
  kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
@@ -77,60 +76,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Only V extension supports EEW = 64 in these cases: Zve64* extensions don't
-support EEW = 64 in these cases as commented before the check.
+Expose Zve64d,Zvfh,Zvfhmin properties.
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 ---
- target/riscv/insn_trans/trans_rvv.c.inc | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ target/riscv/cpu.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 5dbdce073b..fc0d0d60e8 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -1998,8 +1998,7 @@ static bool vmulh_vv_check(DisasContext *s, arg_rmrr *a)
-      * are not included for EEW=64 in Zve64*. (Section 18.2)
-      */
-     return opivv_check(s, a) &&
--           (!has_ext(s, RVV) &&
--            s->cfg_ptr->ext_zve64f ? s->sew != MO_64 : true);
-+           (!has_ext(s, RVV) ? s->sew != MO_64 : true);
- }
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 44abadc811..9d309b1a7f 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -101,6 +101,9 @@ static const struct isa_ext_data isa_edata_arr[] = {
+     ISA_EXT_DATA_ENTRY(zkt, true, PRIV_VERSION_1_12_0, ext_zkt),
+     ISA_EXT_DATA_ENTRY(zve32f, true, PRIV_VERSION_1_12_0, ext_zve32f),
+     ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_12_0, ext_zve64f),
++    ISA_EXT_DATA_ENTRY(zve64d, true, PRIV_VERSION_1_12_0, ext_zve64d),
++    ISA_EXT_DATA_ENTRY(zvfh, true, PRIV_VERSION_1_12_0, ext_zvfh),
++    ISA_EXT_DATA_ENTRY(zvfhmin, true, PRIV_VERSION_1_12_0, ext_zvfhmin),
+     ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
+     ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinxmin),
+     ISA_EXT_DATA_ENTRY(smaia, true, PRIV_VERSION_1_12_0, ext_smaia),
+@@ -1126,6 +1129,7 @@ static Property riscv_cpu_extensions[] = {
+     DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
+     DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
+     DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
++    DEFINE_PROP_BOOL("Zve64d", RISCVCPU, cfg.ext_zve64d, false),
+     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+     DEFINE_PROP_BOOL("sstc", RISCVCPU, cfg.ext_sstc, true),
+@@ -1185,6 +1189,9 @@ static Property riscv_cpu_extensions[] = {
+     DEFINE_PROP_BOOL("x-smaia", RISCVCPU, cfg.ext_smaia, false),
+     DEFINE_PROP_BOOL("x-ssaia", RISCVCPU, cfg.ext_ssaia, false),
  
- static bool vmulh_vx_check(DisasContext *s, arg_rmrr *a)
-@@ -2012,8 +2011,7 @@ static bool vmulh_vx_check(DisasContext *s, arg_rmrr *a)
-      * are not included for EEW=64 in Zve64*. (Section 18.2)
-      */
-     return opivx_check(s, a) &&
--           (!has_ext(s, RVV) &&
--            s->cfg_ptr->ext_zve64f ? s->sew != MO_64 : true);
-+           (!has_ext(s, RVV) ? s->sew != MO_64 : true);
- }
++    DEFINE_PROP_BOOL("x-zvfh", RISCVCPU, cfg.ext_zvfh, false),
++    DEFINE_PROP_BOOL("x-zvfhmin", RISCVCPU, cfg.ext_zvfhmin, false),
++
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
- GEN_OPIVV_GVEC_TRANS(vmul_vv,  mul)
-@@ -2230,8 +2228,7 @@ static bool vsmul_vv_check(DisasContext *s, arg_rmrr *a)
-      * for EEW=64 in Zve64*. (Section 18.2)
-      */
-     return opivv_check(s, a) &&
--           (!has_ext(s, RVV) &&
--            s->cfg_ptr->ext_zve64f ? s->sew != MO_64 : true);
-+           (!has_ext(s, RVV) ? s->sew != MO_64 : true);
- }
- 
- static bool vsmul_vx_check(DisasContext *s, arg_rmrr *a)
-@@ -2242,8 +2239,7 @@ static bool vsmul_vx_check(DisasContext *s, arg_rmrr *a)
-      * for EEW=64 in Zve64*. (Section 18.2)
-      */
-     return opivx_check(s, a) &&
--           (!has_ext(s, RVV) &&
--            s->cfg_ptr->ext_zve64f ? s->sew != MO_64 : true);
-+           (!has_ext(s, RVV) ? s->sew != MO_64 : true);
- }
- 
- GEN_OPIVV_TRANS(vsmul_vv, vsmul_vv_check)
 -- 
 2.25.1
 
