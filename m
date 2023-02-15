@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68465697CA0
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 14:03:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D129D697CA5
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 14:03:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSHQ8-0003N5-82; Wed, 15 Feb 2023 08:02:00 -0500
+	id 1pSHQv-00046H-ES; Wed, 15 Feb 2023 08:02:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pSHPo-0003CF-4X
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:01:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pSHQt-000411-1x
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:02:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pSHPk-00046u-L4
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:01:39 -0500
+ id 1pSHQr-0004R6-8V
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:02:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676466095;
+ s=mimecast20190719; t=1676466164;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=GTfH7/BXjs/NvEliw/W5RCZkSfDnZcMy0Q7A7GGb94M=;
- b=RklbJ9HGOt9HcnYwozA5ny7zcLC5ZPOhhy9NZUr/r2rDCm8Ha46mrXIv0UjjmLL1X4Trag
- LfXXP0no4zw/zrbN1UYaL9whRVTsG8pOhSsx5IUUi3igi6X8Bdapsoh43IyN0bjavnuxqz
- hg7dwnaJghV4YJUBV3bUGgtcCDpDIBI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oURddhw7lVnafwXGArxFiQLMkItZNQ4itS6mTwfP+sQ=;
+ b=MS9Lyt4UYuESmON7KgltrTVdF64/VRvz9gQYhIunGpB53WHKIhb/nX+A/UWmxo/o3WZrjS
+ vmhOthk5DHDk8vclgmvrTA5HkfRzS68bQOYCHHNQWAXHoB9BVAFkfZwszFxrRADuDkpi79
+ 4nmXpZzd7dlsm3+8D7tQAYDSVYfsysI=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-417-dPO7_0dOPaeONVD1ZeLR3w-1; Wed, 15 Feb 2023 08:01:33 -0500
-X-MC-Unique: dPO7_0dOPaeONVD1ZeLR3w-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j40-20020a05600c1c2800b003e2036a1516so899291wms.7
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 05:01:33 -0800 (PST)
+ us-mta-636-Z4oeBeq0MSapTQ-TD6kUIw-1; Wed, 15 Feb 2023 08:02:43 -0500
+X-MC-Unique: Z4oeBeq0MSapTQ-TD6kUIw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ v8-20020a056402348800b004ad062fee5eso1158451edc.17
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 05:02:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GTfH7/BXjs/NvEliw/W5RCZkSfDnZcMy0Q7A7GGb94M=;
- b=Isu9BxZS59CyPOzr46spdnMSHyBMN+lv4GfDLjNbgd/3kuSuYgJ5pFmVq8OKP6cWzC
- 9zjTzn/JZb2APNykAJnvE/w5rsm3gtz39obO86BgjQD3+eMijxvnh4nnnjwRCP1Zaam3
- jsJL4dDzTCZnACtKhKamWcJ5+66yxOYycgAbP5w13+dR6gkkCTECsRKAf3ce8VRhk5j/
- aaViamajNMGKZHnbEehI56nQcyYo0YHj47VRGGo/Mxg7fALMdd3PpXmcpMEc5zJoePM9
- F+m54EGtqeNM1XaNwnS2G515a2NeL0mx3BcW/ddHPLHRomFdETXKm5j1V+jTqFTcNHiL
- QdGg==
-X-Gm-Message-State: AO0yUKUDkkwGKde8PMpFpSMUCLOzC1ZhJ2SKYEJrC/gVsvbCdx2GXis0
- yup9UDajkswlSW5/0vvj4L2Mf+TgcRVDCfes4DJlcuy8y+5uQLlI9HsUmS2DYQL4nCJJVzrzPAQ
- lIfinLef8vIU03o8=
-X-Received: by 2002:adf:fe8a:0:b0:2c5:5ef5:ca52 with SMTP id
- l10-20020adffe8a000000b002c55ef5ca52mr1671353wrr.19.1676466092756; 
- Wed, 15 Feb 2023 05:01:32 -0800 (PST)
-X-Google-Smtp-Source: AK7set95uCI9fagRgrEWj3AKr+iXUpyD9MxOm4MgQc4/N48XPJPR1hS9ja9FwvJz/WmedQnXFu5Yww==
-X-Received: by 2002:adf:fe8a:0:b0:2c5:5ef5:ca52 with SMTP id
- l10-20020adffe8a000000b002c55ef5ca52mr1671316wrr.19.1676466092519; 
- Wed, 15 Feb 2023 05:01:32 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oURddhw7lVnafwXGArxFiQLMkItZNQ4itS6mTwfP+sQ=;
+ b=xRj6lMB8kQIAi+7HbNHct8O/hYF5AkNKO/VTfPDWVQahtYtRtSuaOEAoW0G3XbKwuy
+ +yRAXOf3vzu6VsG1VAj5bt3PTB0+aXW2K1JiKLPuddpPGMeDXzvwij3Igv4ujd0hJm3i
+ +gcqGK8GbszpYIvDzG7Rzh9qj/qhz5O9M3uOD0VZrzjRyHA/0N7cdZe5HSKVbsDuso07
+ fxRzyii+bFBVGnS1lVXR5hLrZKB+mJZ1dOKNrNz5MP89E5SlLCaObSc1aw9zksAmiTeT
+ 6kpxmyyglzNGxMqAyxOOeKO1CkimxMZd0jSqjt7Ql6nwlTOSVjeVf39WqWYyvGJw1CiH
+ lYZQ==
+X-Gm-Message-State: AO0yUKVUfhncKS+a43JGIrEO8eqq/BxQ6y49e6xBb7ULLrQ/9aua2gJX
+ dp+q1L2TDIVh8KgcNFxdzKCBdDKkLptodiLuJ3/2GBDNjrxvogt7VUNCSPNiCU27mI25NSb42Gu
+ BzmnAt2M7I7a8/68=
+X-Received: by 2002:aa7:ca55:0:b0:4ac:bce7:370e with SMTP id
+ j21-20020aa7ca55000000b004acbce7370emr2086848edt.14.1676466161923; 
+ Wed, 15 Feb 2023 05:02:41 -0800 (PST)
+X-Google-Smtp-Source: AK7set+kPR8iUNVA9FBHtPS5hFUVqwHO2KRt8AX9YF7+rX40Ih+Mx125Mkc7jWgSGMcSstRl0vRGAA==
+X-Received: by 2002:aa7:ca55:0:b0:4ac:bce7:370e with SMTP id
+ j21-20020aa7ca55000000b004acbce7370emr2086820edt.14.1676466161697; 
+ Wed, 15 Feb 2023 05:02:41 -0800 (PST)
 Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- e14-20020a5d65ce000000b002c561805a4csm4804275wrw.45.2023.02.15.05.01.31
+ s9-20020a05600c45c900b003db06224953sm2217486wmo.41.2023.02.15.05.02.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 05:01:31 -0800 (PST)
+ Wed, 15 Feb 2023 05:02:40 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: Avihai Horon <avihaih@nvidia.com>
 Cc: <qemu-devel@nongnu.org>,  Alex Williamson <alex.williamson@redhat.com>,
@@ -73,18 +75,19 @@ Cc: <qemu-devel@nongnu.org>,  Alex Williamson <alex.williamson@redhat.com>,
  Gottlieb <maorg@nvidia.com>,  Kirti Wankhede <kwankhede@nvidia.com>,
  Tarun Gupta <targupta@nvidia.com>,  Joao Martins
  <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v10 09/12] vfio/migration: Implement VFIO migration
- protocol v2
-In-Reply-To: <20230209192043.14885-10-avihaih@nvidia.com> (Avihai Horon's
- message of "Thu, 9 Feb 2023 21:20:40 +0200")
+Subject: Re: [PATCH v10 10/12] vfio/migration: Remove VFIO migration
+ protocol v1
+In-Reply-To: <20230209192043.14885-11-avihaih@nvidia.com> (Avihai Horon's
+ message of "Thu, 9 Feb 2023 21:20:41 +0200")
 References: <20230209192043.14885-1-avihaih@nvidia.com>
- <20230209192043.14885-10-avihaih@nvidia.com>
+ <20230209192043.14885-11-avihaih@nvidia.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 15 Feb 2023 14:01:31 +0100
-Message-ID: <87pmab2ic4.fsf@secure.mitica>
+Date: Wed, 15 Feb 2023 14:02:39 +0100
+Message-ID: <87lekz2ia8.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -110,91 +113,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Avihai Horon <avihaih@nvidia.com> wrote:
-> Implement the basic mandatory part of VFIO migration protocol v2.
-> This includes all functionality that is necessary to support
-> VFIO_MIGRATION_STOP_COPY part of the v2 protocol.
->
-> The two protocols, v1 and v2, will co-exist and in the following patches
-> v1 protocol code will be removed.
->
-> There are several main differences between v1 and v2 protocols:
-> - VFIO device state is now represented as a finite state machine instead
->   of a bitmap.
->
-> - Migration interface with kernel is now done using VFIO_DEVICE_FEATURE
->   ioctl and normal read() and write() instead of the migration region.
->
-> - Pre-copy is made optional in v2 protocol. Support for pre-copy will be
->   added later on.
->
-> Detailed information about VFIO migration protocol v2 and its difference
-> compared to v1 protocol can be found here [1].
->
-> [1]
-> https://lore.kernel.org/all/20220224142024.147653-10-yishaih@nvidia.com/
+> Now that v2 protocol implementation has been added, remove the
+> deprecated v1 implementation.
 >
 > Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> +/*
-> + * Migration size of VFIO devices can be as little as a few KBs or as big as
-> + * many GBs. This value should be big enough to cover the worst case.
-> + */
-> +#define VFIO_MIG_STOP_COPY_SIZE (100 * GiB)
+> Reviewed-by: C=C3=A9dric Le Goater <clg@redhat.com>
 
-Wow O:-)
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-> +
-> +/*
-> + * Only exact function is implemented and not estimate function. The reason is
-> + * that during pre-copy phase of migration the estimate function is called
-> + * repeatedly while pending RAM size is over the threshold, thus migration
-> + * can't converge and querying the VFIO device pending data size is useless.
-> + */
-
-You can do it after this is merge, but I think you can do better than
-this.  Something in the lines of:
-
-
-// I put it in a global variable, but it really needs to be in
-VFIODevice to be // able to support several devices.  You get the idea
-O:-)
-
-static uint64_t cached_size = -1;
-
-static void vfio_state_pending_exact(void *opaque, uint64_t *res_precopy_only,
-                                     uint64_t *res_compatible,
-                                     uint64_t *res_postcopy_only)
-{
-    VFIODevice *vbasedev = opaque;
-    uint64_t stop_copy_size = VFIO_MIG_STOP_COPY_SIZE;
-
-    /*
-     * If getting pending migration size fails, VFIO_MIG_STOP_COPY_SIZE is
-     * reported so downtime limit won't be violated.
-     */
-    vfio_query_stop_copy_size(vbasedev, &stop_copy_size);
-    *res_precopy_only += stop_copy_size;
-    cached_size = stop_copy_size;
-
-    trace_vfio_state_pending_exact(vbasedev->name, *res_precopy_only,
-                                   *res_postcopy_only, *res_compatible,
-                                   stop_copy_size);
-}
-
-
-static void vfio_state_pending_estimate(void *opaque, uint64_t *res_precopy_only,
-                                        uint64_t *res_compatible,
-                                        uint64_t *res_postcopy_only)
-{
-    VFIODevice *vbasedev = opaque;
-    uint64_t stop_copy_size = VFIO_MIG_STOP_COPY_SIZE;
-
-    if (cached_size == -1) {
-        uint64_t res_precopy;
-        uint64_t res_compatible;
-        uint64_t res_postcopy;
-        vfio_state_pending_exact(opaque, &res_precopy, &res_compatible, &res_postcopy);
-    }
-    *res_precopy_only += cached_size;
-}
+Yes, yes, yes O:-)
 
 
