@@ -2,70 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 768AA698323
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 19:20:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C03698338
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 19:24:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSMNh-00067a-JA; Wed, 15 Feb 2023 13:19:49 -0500
+	id 1pSMQd-00083O-6m; Wed, 15 Feb 2023 13:22:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pSMNf-00067G-Uz
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 13:19:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pSMNe-0003he-HN
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 13:19:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676485185;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jX0rUjyqJGqxzoh5gc4lX6Yp69D+xyH+YQ/g8AkaiKE=;
- b=DPqO5ZaqLmHZVBS8a4N1LR4gD+4ACpDLKq72f0lqz+AZ2GVm5k6924Y2IzWf2KBgJIA1Aq
- mmRf5VBi4HpcRECDICn9o4oU4RFPkPzHsgBpN5/rXX5T17ohYjlw0OHMuk1D3CxudwAlgR
- Azh7vpyPnZeZFQGnb+yun9I2o4cuqUw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-568-tRpz02diNIO58Bwl8snCDg-1; Wed, 15 Feb 2023 13:19:42 -0500
-X-MC-Unique: tRpz02diNIO58Bwl8snCDg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2EF7785CBE7;
- Wed, 15 Feb 2023 18:19:41 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.217])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B5FD492B0E;
- Wed, 15 Feb 2023 18:19:40 +0000 (UTC)
-Date: Wed, 15 Feb 2023 12:19:38 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Fam Zheng <fam@euphon.net>
-Subject: Re: [PATCH v2 2/3] dma-helpers: prevent dma_blk_cb() vs
- dma_aio_cancel() race
-Message-ID: <20230215181938.s45ilx7jrvpwl4ie@redhat.com>
-References: <20230210143238.524357-1-stefanha@redhat.com>
- <20230210143238.524357-3-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pSMQb-00083D-B2
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 13:22:49 -0500
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pSMQZ-0000gM-HI
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 13:22:48 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id b22so7914260pgw.3
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 10:22:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=xk+LlhKgDiwVXBCNeQnjEjnaRlLT9O57ljmLWXtiXcI=;
+ b=e3RtMRBqICHEPc2uTo848AHi73yMwwqPup0iuH+aSjEM0knn0RJrOsPtgED0EQ4XFB
+ /GPeh250+Y3/6/iq9fYULTH9tccfoYKQyEH1/6majRCwJdnq7/p0kvMLLCmtKwp55t7w
+ YhO4ThzCYvxWTxmgqUe9zIcXTlqHm1gjDSwvQXFHWcEpbSR2S0ECeFyJi9aBEIAKjRBt
+ CCawrQzNK1xOg6QJ2dF6+3JS4OSKmADm3B75smFQql45rQ097QA1/vSbWTHZQej7wHQq
+ zXEZvZPEcY60sh2H6cnfv73ehJ2YOp8oqjqHhRU8ImB/Y8nfQxFazgj+IuNCufuRyZqv
+ rE2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xk+LlhKgDiwVXBCNeQnjEjnaRlLT9O57ljmLWXtiXcI=;
+ b=pjI3EAm3gSGqmM9UAfns9wXTDSXpNj9IvRe3uujlztlujPO6T7SSUodWOkoyF3mZ7R
+ huF8wnWFbgDd7TfirHo+gVAs0iEn0K0veuOEF32aSuGdgfSINn1Uf7yI529KvExMXpgx
+ 7gsh8hFrP+HGkLyPxIqcczbEhw+D3TKEZGxEgbjyZt/fP7yLMGK+37q4wCZQgvBea+02
+ WQgkHMqLIChALa5sWWp85eHbEbUL6B1SpN6e/gJxQTWrhmDlqoxq0D9UvXiFyxypSBLc
+ tDrugaenRoom7rkcjfCpXOkeW8Qy4wgn3CSk+/TJPl3FluHDxH4o4XCHHE8W9A4yzj6K
+ HlBw==
+X-Gm-Message-State: AO0yUKUSde+9Oeubx4tydGjZEjT5s3+HHLuQB3qd8CX5JfrL1V72r76R
+ QDp5Pkb3c0ObKmBIRrByUwsOUg==
+X-Google-Smtp-Source: AK7set+dXd7VJrIEjMw26Qg65rSiYflde1aUFhfwHaS2d1V1bGcfTSNjGzdOeqXCQiBMsrqQnXniJQ==
+X-Received: by 2002:aa7:9d81:0:b0:5a8:b911:a264 with SMTP id
+ f1-20020aa79d81000000b005a8b911a264mr2348416pfq.28.1676485365791; 
+ Wed, 15 Feb 2023 10:22:45 -0800 (PST)
+Received: from [192.168.192.227] (rrcs-74-87-59-234.west.biz.rr.com.
+ [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
+ a20-20020aa780d4000000b0058d54960eccsm11936550pfn.151.2023.02.15.10.22.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Feb 2023 10:22:45 -0800 (PST)
+Message-ID: <bbd1374f-8ffb-720b-f759-aa75dee70f5e@linaro.org>
+Date: Wed, 15 Feb 2023 08:22:39 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230210143238.524357-3-stefanha@redhat.com>
-User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 1/4] util/cacheflush: fix illegal instruction on
+ windows-arm64
+Content-Language: en-US
+To: Pierrick Bouvier <pierrick.bouvier@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org, 
+ alex.bennee@linaro.org
+References: <20230213161352.17199-1-pierrick.bouvier@linaro.org>
+ <20230213161352.17199-2-pierrick.bouvier@linaro.org>
+ <CAFEAcA--p8kRsbTy4vg83fEap_MO--HEMcOGGnnXzcxJYZW6Mw@mail.gmail.com>
+ <01e0e1f1-96ea-2294-f8ea-8a36320021e5@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <01e0e1f1-96ea-2294-f8ea-8a36320021e5@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,45 +98,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Feb 10, 2023 at 09:32:37AM -0500, Stefan Hajnoczi wrote:
-> dma_blk_cb() only takes the AioContext lock around ->io_func(). That
-> means the rest of dma_blk_cb() is not protected. In particular, the
-> DMAAIOCB field accesses happen outside the lock.
+On 2/15/23 02:49, Pierrick Bouvier wrote:
+> I'm not an expert on this area, but I imagine that booting a full VM will force TCG to 
+> emit code at the same address twice (after having generated enough translated blocks), 
+> which shows that generic flush_idcache_range works. Is that reasoning correct?
 > 
-> There is a race when the main loop thread holds the AioContext lock and
-> invokes scsi_device_purge_requests() -> bdrv_aio_cancel() ->
-> dma_aio_cancel() while an IOThread executes dma_blk_cb(). The dbs->acb
-> field determines how cancellation proceeds. If dma_aio_cancel() see
+> Do you think we still need a specialized version for windows-arm64?
 
-"sees" or "can see"
+No, I don't think so.  It would be ideal if we were able to read CTR_EL0, because we make 
+use of the IDC field, but 0 is a safe default.
 
-> dbs->acb == NULL while dma_blk_cb() is still running, the request can be
-> completed twice (-ECANCELED and the actual return value).
-> 
-> The following assertion can occur with virtio-scsi when an IOThread is
-> used:
-> 
->   ../hw/scsi/scsi-disk.c:368: scsi_dma_complete: Assertion `r->req.aiocb != NULL' failed.
-> 
-> Fix the race by holding the AioContext across dma_blk_cb(). Now
-> dma_aio_cancel() under the AioContext lock will not see
-> inconsistent/intermediate states.
-> 
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  hw/scsi/scsi-disk.c   |  4 +---
->  softmmu/dma-helpers.c | 12 +++++++-----
->  2 files changed, 8 insertions(+), 8 deletions(-)
 
-Widening the scope protected by the lock makes sense, insofar as we
-still need the lock.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+r~
 
