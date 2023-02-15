@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D52697AE6
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 12:36:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AB1E697AE7
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 12:36:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSG4h-0008P8-Qv; Wed, 15 Feb 2023 06:35:47 -0500
+	id 1pSG5M-0000jJ-0m; Wed, 15 Feb 2023 06:36:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pSG4R-0008J0-Fe
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 06:35:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pSG5K-0000e1-0s; Wed, 15 Feb 2023 06:36:26 -0500
+Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pSG4P-0002JS-IP
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 06:35:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676460928;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=dYDARqGj9tE78RAJj7gy7tG7J8yPVn4ge8axgK/kReE=;
- b=Zv6XNRNB/WFJOp4sPHXHwrIMEyM2Ajh1m5YyYNyTFy4e7BIs+yarnzEfJoa0kWAwAjeqTm
- xKmTLbt5p8vyMyYZ000gkZS3Z1MRNaPsFiJDI6/AvMmUGpGGtW5UlPre41wZs/5SJxaXgK
- 4/XXN8QAB9s4XQq8kmQn8nwr2/3j3p8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-610-UYKx0f56NIKye5P6LXRgfw-1; Wed, 15 Feb 2023 06:35:25 -0500
-X-MC-Unique: UYKx0f56NIKye5P6LXRgfw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B07331871CD7;
- Wed, 15 Feb 2023 11:35:24 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.254])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1217B492B15;
- Wed, 15 Feb 2023 11:35:21 +0000 (UTC)
-Date: Wed, 15 Feb 2023 11:35:19 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v2 6/7] CI: Stop building docs on centos8
-Message-ID: <Y+zDd93lnPeteQxk@redhat.com>
-References: <20230210003147.1309376-7-jsnow@redhat.com>
- <CAFEAcA-c5y0TR8vYg_FYEmGv3mOOmBgeD0cyb+mVotsP=r-Dsw@mail.gmail.com>
- <CAFn=p-aDV9=vG6hjTWRE6c52TpYSjDBU22nthTuejDCv_XrYMQ@mail.gmail.com>
- <CAFEAcA_eGvz_BQVLhVWtedRh2mcBuMEhv0RKF+6DW4t+9FdPAw@mail.gmail.com>
- <Y+Z2Kcq17HGWuoTV@redhat.com> <87cz6cpue3.fsf@pond.sub.org>
- <Y+t1J72iMsLWXHne@redhat.com>
- <CABgObfb-_upmc=36_bnxLMCB+0KqWoZNK62rnD5KpBKhW4N+hw@mail.gmail.com>
- <Y+vEKTgwoPtj86Z1@redhat.com>
- <CABgObfbsoOGU5v-xw3LzsnknS_TFJWZBA3LGCAmOOF-uBcXziQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pSG5H-0002Rn-Tr; Wed, 15 Feb 2023 06:36:25 -0500
+Received: from myt6-23a5e62c0090.qloud-c.yandex.net
+ (myt6-23a5e62c0090.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:1da3:0:640:23a5:e62c])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 25F1A60932;
+ Wed, 15 Feb 2023 14:36:09 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:1313::1:34] (unknown
+ [2a02:6b8:b081:1313::1:34])
+ by myt6-23a5e62c0090.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 8aiw2B0Re8c1-qMybIfyr; Wed, 15 Feb 2023 14:36:08 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1676460968; bh=0jGipK9UboGZu5tNMsLC4mn69GDlps8LEX7s6U4fjZ4=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=YXnw5hh6hZrIZPkW/oRTrFAoPdaIxXgZUbyCXdSV2s6x57R6zqRgonORbRdQOtxkW
+ K5jSclT6fxiht1Gj6K8FXzzqi8B+ANSEY5otyvI+bSzWo63eM7oKL2jdR/KZ87q79C
+ 2SzkH1DQEvwyu3+FNvZaAmHE+1gVUyVa1f0ePVi4=
+Authentication-Results: myt6-23a5e62c0090.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <8c3d033e-b9dd-35de-e0bf-2d2a643fb162@yandex-team.ru>
+Date: Wed, 15 Feb 2023 14:36:07 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CABgObfbsoOGU5v-xw3LzsnknS_TFJWZBA3LGCAmOOF-uBcXziQ@mail.gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 1/3] migration: In case of postcopy, the memory ends in
+ res_postcopy_only
+Content-Language: en-US
+To: quintela@redhat.com
+Cc: qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>,
+ qemu-block@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eric Farman <farman@linux.ibm.com>, qemu-s390x@nongnu.org,
+ John Snow <jsnow@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20230208135719.17864-1-quintela@redhat.com>
+ <20230208135719.17864-2-quintela@redhat.com>
+ <61c84841-7018-edb2-806b-921e2065f940@yandex-team.ru>
+ <87k00j47p9.fsf@secure.mitica>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <87k00j47p9.fsf@secure.mitica>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.200;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,73 +82,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 14, 2023 at 09:52:44PM +0100, Paolo Bonzini wrote:
-> Il mar 14 feb 2023, 18:26 Kevin Wolf <kwolf@redhat.com> ha scritto:
+On 15.02.23 12:08, Juan Quintela wrote:
+> Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
+>> On 08.02.23 16:57, Juan Quintela wrote:
+>>> So remove last assignation of res_compatible.
+>>
+>> I hoped for some description when asked to split it out :)
+>>
+>>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>>> ---
+>>>    migration/ram.c | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>> diff --git a/migration/ram.c b/migration/ram.c
+>>> index b966e148c2..85ccbf88ad 100644
+>>> --- a/migration/ram.c
+>>> +++ b/migration/ram.c
+>>> @@ -3474,7 +3474,7 @@ static void ram_state_pending_exact(void *opaque,
+>>>          if (migrate_postcopy_ram()) {
+>>>            /* We can do postcopy, and all the data is postcopiable */
+>>> -        *res_compatible += remaining_size;
+>>> +        *res_postcopy_only += remaining_size;
+>>
+>> Actually, these "remaining_size" bytes are still compatible, i.e. we
+>> can migrate these pending bytes in pre-copy, and we actually do it,
+>> until user call migrate-start-postcopy, yes? But we exploit the fact
+>> that, this change don't affect any logic, just name becomes
+>> wrong.. Yes? Or I don't follow:/
 > 
-> > Am 14.02.2023 um 15:03 hat Paolo Bonzini geschrieben:
-> > > In the case of Python the issue is not the interpreter per se, though
-> > > there are a couple new feature in Python 3.7 that are quite nice (for
-> > > example improved data classes[1] or context variables[2]). The main
-> > > problem as far as I understood (and have seen in my experience) is
-> > > linting tools. New versions fix bugs that caused false positives, but
-> > > also become more strict at the same time. The newer versions at the
-> > > same time are very quick at dropping support for old versions of
-> > > Python; while older versions sometimes throw deprecation warnings on
-> > > new versions of Python. This makes it very hard to support a single
-> > > version of, say, mypy that works on all versions from RHEL8 and SLE15
-> > > to Fedora 38 and Ubuntu 23.04.
-> >
-> > Why do we have to support a single version of mypy? What is wrong with
-> > running an old mypy version with old Python version, and a newer mypy
-> > with newer Python versions?
-> >
-> > Sure, they will complain about different things, but it doesn't feel
-> > that different from supporting multiple C compilers in various versions.
-> >
+> I think of this from this different angle:
+> - if we are on precopy, we return on res_precopy everything (and nothing
+>    on res_postcopy)
+> - if we are on postcopy, we return on res_precopy what we _must_ sent
+>    through precopy, and in res_postcopy what we can sent through
+>    postcopy.
 > 
-> It's more like having to support only C++03 on RHEL 8 and only C++20 in
-> Fedora 37, without even being able to use a preprocessor.
+> i.e. if we stop the guest and do the migration right now, what are we
+> going to send through each channel.
 > 
-> For example old versions might not understand some type annotations and
-> will fail mypy altogether, therefore even with newer versions you can't
-> annotate the whole source and have to fall back to non-strict mode.
 
-In terms of back compatibility, is there a distinction to be
-made between mypy compat and the python runtime compat ?
+I understand.
 
-If we add annotations wanted by new mypy, and old mypy doesn't
-understand them, that's not a huge problem. We can simply declare
-that we don't support old mypy, and skip the validation tests if
-old mypy is installed. The mypy results are targetted at upstream
-maintainers primarily, not people consuming QEMU, unless they are
-backporting huge amounts of code and need to validate it. IOW it
-should be sufficient to test once with an arbitrary version of
-mypy of our choosing.
+I've introduced the division into three parts together with block-dirty-bitmap implementation, and it seemed significant to me that block-dirty-bitmap pending is postcopy_only in the sense that it can't be migrated before source stop, unlike RAM. But yes, it turns out that that's not significant for the generic migration algorithm, it works the same way for RAM and block-dirty-bitmap not distinguishing postcopy_only vs comaptible.
 
-If we add annotations wanted by new mypy, and old python runtime
-barfs, then that's a significant problem, which would require us
-to either bump the min python or avoid the new mypy annotations.
+Anyway final documentation and new field names that you proposed are clean and correspond to the meaning which you have expected. And it avoids extra variable that I've introduced.
 
+Haha. Looking at my old commit 4799502640e6a29d3 "migration: introduce postcopy-only pending" I see
 
+-                              uint64_t *non_postcopiable_pending,
+-                              uint64_t *postcopiable_pending);
++                              uint64_t *res_precopy_only,
++                              uint64_t *res_compatible,
++                              uint64_t *res_postcopy_only);
 
-The same could be asked for the other linting tools we use like
-pylint / flake8. Is it sufficient to declare a min versions for
-those tools and skip the tests if not satisfied, while still
-retaining ability to execute the code on 3.6 ?
+so, we just rollback my change, which actually was never necessary. And it was called like I've proposed in 03 discussion thread :) Still, must_precopy and can_postcopy are nicer.
 
-Or are there some core python runtime features we also want to
-take advantage of at the same time ?
-
-
-With regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Best regards,
+Vladimir
 
 
