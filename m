@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6FFB6976AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 07:55:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 453B369772B
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 08:09:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSBfd-0002hc-UW; Wed, 15 Feb 2023 01:53:37 -0500
+	id 1pSBu0-0006M2-SO; Wed, 15 Feb 2023 02:08:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1pSBfb-0002hT-8G
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 01:53:35 -0500
-Received: from mga11.intel.com ([192.55.52.93])
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1pSBtx-0006Lp-Ko
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 02:08:25 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1pSBfY-0001Zl-TD
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 01:53:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676444012; x=1707980012;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=843NaJWNaZDkXWQY5W3dnEFjXq9eLgs0LtNR+AkbbuE=;
- b=PY7eyGVOe7HTXJtetJnkNwA1N5e4FnQ8w7q5ymq35aEOrd/SPgQdnrYx
- 8WBc2aLc3McUS4YJgu1/0LrYPChZkwpv7/GhmZA+h70wy4kNIAmLiwYTV
- QtxlmEnjX2UZgRnUM9GIxjxP2T6QKiiZ7KmC5GWqPZ6ZYi9HrBpC1v4pg
- k8V2OjGT8m2khWwHdUZUVMmiIQb1INk+WH99Qvh1OlsI57LP+ZA2s9qMx
- YGFjZVihMpHhlR4zANCdmYEJkXsZLH2cR5DX49u3AtcBQ0bZrQo0JvZ0b
- DWblqTndFLzMaxfFF3nz4JcorPiYrL6Jf70T6FdfaCkZwFn2yirCgqH5k w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="329077241"
-X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; d="scan'208";a="329077241"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2023 22:53:22 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="758293252"
-X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; d="scan'208";a="758293252"
-Received: from duan-server-s2600bt.bj.intel.com ([10.240.192.143])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2023 22:53:19 -0800
-From: Zhenzhong Duan <zhenzhong.duan@intel.com>
-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com, peterx@redhat.com, jasowang@redhat.com,
- pbonzini@redhat.com, richard.henderson@linaro.org, eduardo@habkost.net,
- marcel.apfelbaum@gmail.com, david@redhat.com, philmd@linaro.org
-Subject: [PATCH v2] memory: Optimize replay of guest mapping
-Date: Wed, 15 Feb 2023 14:52:38 +0800
-Message-Id: <20230215065238.713041-1-zhenzhong.duan@intel.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1pSBtu-0007An-JA
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 02:08:25 -0500
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4PGpxz10xbzRs4f;
+ Wed, 15 Feb 2023 15:05:43 +0800 (CST)
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.6; Wed, 15 Feb 2023 15:08:15 +0800
+Message-ID: <bc0b434d-b8dc-0777-6578-05d3278187c3@huawei.com>
+Date: Wed, 15 Feb 2023 15:08:15 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH RESEND 05/18] i386/cpu: Consolidate the use of topo_info
+ in cpu_x86_cpuid()
+To: Zhao Liu <zhao1.liu@linux.intel.com>
+CC: Eduardo Habkost <eduardo@habkost.net>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, "Michael S . Tsirkin" <mst@redhat.com>, Richard
+ Henderson <richard.henderson@linaro.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>, Markus Armbruster
+ <armbru@redhat.com>, <qemu-devel@nongnu.org>, Zhenyu Wang
+ <zhenyu.z.wang@intel.com>, Dapeng Mi <dapeng1.mi@intel.com>, Zhuocheng Ding
+ <zhuocheng.ding@intel.com>, Robert Hoo <robert.hu@linux.intel.com>, Xiaoyao
+ Li <xiaoyao.li@intel.com>, Like Xu <like.xu.linux@gmail.com>, Zhao Liu
+ <zhao1.liu@intel.com>
+References: <20230213093625.158170-1-zhao1.liu@linux.intel.com>
+ <20230213093625.158170-6-zhao1.liu@linux.intel.com>
+ <2110e5ec-68b0-185d-70dc-c2ea478a5b2c@huawei.com>
+ <Y+yFdu4oW4bMLYVg@liuzhao-OptiPlex-7080>
+In-Reply-To: <Y+yFdu4oW4bMLYVg@liuzhao-OptiPlex-7080>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.93;
- envelope-from=zhenzhong.duan@intel.com; helo=mga11.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.35,
  RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -72,71 +74,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
+From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On x86, there are two notifiers registered due to vtd-ir memory region
-splitting the whole address space. During replay of the address space
-for each notifier, the whole address space is scanned which is
-unnecessory.
-
-We only need to scan the space belong to notifier montiored space.
-
-Assert when notifier is used to monitor beyond iommu memory region's
-address space.
-
-Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
----
-v2: Add an assertion per Peter Xu
-Tested only on x86 with a net card passed to guest(kvm/tcg), ping/ssh pass.
-
- hw/i386/intel_iommu.c | 2 +-
- softmmu/memory.c      | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 98a5c304a7d7..6b1de80e8573 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -3831,7 +3831,7 @@ static void vtd_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
-                 .domain_id = vtd_get_domain_id(s, &ce, vtd_as->pasid),
-             };
- 
--            vtd_page_walk(s, &ce, 0, ~0ULL, &info, vtd_as->pasid);
-+            vtd_page_walk(s, &ce, n->start, n->end, &info, vtd_as->pasid);
-         }
-     } else {
-         trace_vtd_replay_ce_invalid(bus_n, PCI_SLOT(vtd_as->devfn),
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 9d64efca269b..da7d84661972 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1900,6 +1900,7 @@ int memory_region_register_iommu_notifier(MemoryRegion *mr,
-     iommu_mr = IOMMU_MEMORY_REGION(mr);
-     assert(n->notifier_flags != IOMMU_NOTIFIER_NONE);
-     assert(n->start <= n->end);
-+    assert(n->end <= memory_region_size(mr));
-     assert(n->iommu_idx >= 0 &&
-            n->iommu_idx < memory_region_iommu_num_indexes(iommu_mr));
- 
-@@ -1923,7 +1924,6 @@ uint64_t memory_region_iommu_get_min_page_size(IOMMUMemoryRegion *iommu_mr)
- 
- void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
- {
--    MemoryRegion *mr = MEMORY_REGION(iommu_mr);
-     IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_GET_CLASS(iommu_mr);
-     hwaddr addr, granularity;
-     IOMMUTLBEntry iotlb;
-@@ -1936,7 +1936,7 @@ void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
- 
-     granularity = memory_region_iommu_get_min_page_size(iommu_mr);
- 
--    for (addr = 0; addr < memory_region_size(mr); addr += granularity) {
-+    for (addr = n->start; addr < n->end; addr += granularity) {
-         iotlb = imrc->translate(iommu_mr, addr, IOMMU_NONE, n->iommu_idx);
-         if (iotlb.perm != IOMMU_NONE) {
-             n->notify(n, &iotlb);
--- 
-2.25.1
+在 2023/2/15 15:10, Zhao Liu 写道:
+> On Wed, Feb 15, 2023 at 11:28:25AM +0800, wangyanan (Y) wrote:
+>> Date: Wed, 15 Feb 2023 11:28:25 +0800
+>> From: "wangyanan (Y)" <wangyanan55@huawei.com>
+>> Subject: Re: [PATCH RESEND 05/18] i386/cpu: Consolidate the use of
+>>   topo_info in cpu_x86_cpuid()
+>>
+>> 在 2023/2/13 17:36, Zhao Liu 写道:
+>>> From: Zhao Liu <zhao1.liu@intel.com>
+>>>
+>>> In cpu_x86_cpuid(), there are many variables in representing the cpu
+>>> topology, e.g., topo_info, cs->nr_cores/cs->nr_threads.
+>>>
+>>> Since the names of cs->nr_cores/cs->nr_threads does not accurately
+>>> represent its meaning, the use of cs->nr_cores/cs->nr_threads is prone
+>>> to confusion and mistakes.
+>>>
+>>> And the structure X86CPUTopoInfo names its memebers clearly, thus the
+>>> variable "topo_info" should be preferred.
+>>>
+>>> Suggested-by: Robert Hoo <robert.hu@linux.intel.com>
+>>> Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
+>>> ---
+>>>    target/i386/cpu.c | 30 ++++++++++++++++++------------
+>>>    1 file changed, 18 insertions(+), 12 deletions(-)
+>>>
+>>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+>>> index 7833505092d8..4cda84eb96f1 100644
+>>> --- a/target/i386/cpu.c
+>>> +++ b/target/i386/cpu.c
+>>> @@ -5215,11 +5215,15 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+>>>        uint32_t limit;
+>>>        uint32_t signature[3];
+>>>        X86CPUTopoInfo topo_info;
+>>> +    uint32_t cpus_per_pkg;
+>>>        topo_info.dies_per_pkg = env->nr_dies;
+>>>        topo_info.cores_per_die = cs->nr_cores / env->nr_dies;
+>>>        topo_info.threads_per_core = cs->nr_threads;
+>>> +    cpus_per_pkg = topo_info.dies_per_pkg * topo_info.cores_per_die *
+>>> +                   topo_info.threads_per_core;
+>>> +
+>>>        /* Calculate & apply limits for different index ranges */
+>>>        if (index >= 0xC0000000) {
+>>>            limit = env->cpuid_xlevel2;
+>>> @@ -5255,8 +5259,8 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+>>>                *ecx |= CPUID_EXT_OSXSAVE;
+>>>            }
+>>>            *edx = env->features[FEAT_1_EDX];
+>>> -        if (cs->nr_cores * cs->nr_threads > 1) {
+>>> -            *ebx |= (cs->nr_cores * cs->nr_threads) << 16;
+>>> +        if (cpus_per_pkg > 1) {
+>>> +            *ebx |= cpus_per_pkg << 16;
+>>>                *edx |= CPUID_HT;
+>>>            }
+>>>            if (!cpu->enable_pmu) {
+>>> @@ -5293,10 +5297,12 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+>>>                 */
+>>>                if (*eax & 31) {
+>>>                    int host_vcpus_per_cache = 1 + ((*eax & 0x3FFC000) >> 14);
+>>> -                int vcpus_per_socket = cs->nr_cores * cs->nr_threads;
+>>> -                if (cs->nr_cores > 1) {
+>>> +                int vcpus_per_socket = cpus_per_pkg;
+>> Would it make sense to directly use cpus_per_pkg here
+>>> +                int cores_per_socket = topo_info.cores_per_die *
+>>> +                                       topo_info.dies_per_pkg;
+>> There are other places in cpu_x86_cpuid where cs->nr_cores is used
+>> separately, why not make a global "cores_per_pkg" like cpus_per_pkg
+>> and also tweak the other places?
+> Yeah, good idea.
+>
+>>> +                if (cores_per_socket > 1) {
+>>>                        *eax &= ~0xFC000000;
+>>> -                    *eax |= (pow2ceil(cs->nr_cores) - 1) << 26;
+>>> +                    *eax |= (pow2ceil(cores_per_socket) - 1) << 26;
+>>>                    }
+>>>                    if (host_vcpus_per_cache > vcpus_per_socket) {
+>>>                        *eax &= ~0x3FFC000;
+>>> @@ -5436,12 +5442,12 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+>>>            switch (count) {
+>>>            case 0:
+>>>                *eax = apicid_core_offset(&topo_info);
+>>> -            *ebx = cs->nr_threads;
+>>> +            *ebx = topo_info.threads_per_core;
+>> There are many other places in cpu_x86_cpuid where cs->nr_threads
+>> is used separately, such as encode_cache_cpuid4(***), should we
+>> replace them all?
+> In a previous patch [1], I replaced the use of cs->nr_threads/nr_cores in
+> the call of encode_cache_cpuid4().
+>
+> The cleanest way is to pass topo_info to encode_cache_cpuid4(), but this
+> involves the modification of the interface format and the use of the
+> cache topo level, so I included it in a follow-up patch [2].
+Ok, I see. I have not reached there.😉
+>
+> [1]: [PATCH RESEND 04/18] i386/cpu: Fix number of addressable IDs in
+>       CPUID.04,
+>       https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg03188.html
+> [2]: [PATCH RESEND 15/18] i386: Use CPUCacheInfo.share_level to encode
+>       CPUID[4].EAX[bits 25:14],
+>       https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg03199.html
+>
+>>>                *ecx |= CPUID_TOPOLOGY_LEVEL_SMT;
+>>>                break;
+>>>            case 1:
+>>>                *eax = apicid_pkg_offset(&topo_info);
+>>> -            *ebx = cs->nr_cores * cs->nr_threads;
+>>> +            *ebx = cpus_per_pkg;
+>>>                *ecx |= CPUID_TOPOLOGY_LEVEL_CORE;
+>>>                break;
+>>>            default:
+>>> @@ -5472,7 +5478,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+>>>            switch (count) {
+>>>            case 0:
+>>>                *eax = apicid_core_offset(&topo_info);
+>>> -            *ebx = cs->nr_threads;
+>>> +            *ebx = topo_info.threads_per_core;
+>>>                *ecx |= CPUID_TOPOLOGY_LEVEL_SMT;
+>>>                break;
+>>>            case 1:
+>>> @@ -5482,7 +5488,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+>>>                break;
+>>>            case 2:
+>>>                *eax = apicid_pkg_offset(&topo_info);
+>>> -            *ebx = cs->nr_cores * cs->nr_threads;
+>>> +            *ebx = cpus_per_pkg;
+>>>                *ecx |= CPUID_TOPOLOGY_LEVEL_DIE;
+>>>                break;
+>>>            default:
+>>> @@ -5707,7 +5713,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+>>>             * discards multiple thread information if it is set.
+>>>             * So don't set it here for Intel to make Linux guests happy.
+>>>             */
+>>> -        if (cs->nr_cores * cs->nr_threads > 1) {
+>>> +        if (cpus_per_pkg > 1) {
+>>>                if (env->cpuid_vendor1 != CPUID_VENDOR_INTEL_1 ||
+>>>                    env->cpuid_vendor2 != CPUID_VENDOR_INTEL_2 ||
+>>>                    env->cpuid_vendor3 != CPUID_VENDOR_INTEL_3) {
+>>> @@ -5769,7 +5775,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+>>>                 *eax |= (cpu_x86_virtual_addr_width(env) << 8);
+>>>            }
+>>>            *ebx = env->features[FEAT_8000_0008_EBX];
+>>> -        if (cs->nr_cores * cs->nr_threads > 1) {
+>>> +        if (cpus_per_pkg > 1) {
+>>>                /*
+>>>                 * Bits 15:12 is "The number of bits in the initial
+>>>                 * Core::X86::Apic::ApicId[ApicId] value that indicate
+>>> @@ -5777,7 +5783,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+>>>                 * Bits 7:0 is "The number of threads in the package is NC+1"
+>>>                 */
+>>>                *ecx = (apicid_pkg_offset(&topo_info) << 12) |
+>>> -                   ((cs->nr_cores * cs->nr_threads) - 1);
+>>> +                   (cpus_per_pkg - 1);
+>>>            } else {
+>>>                *ecx = 0;
+>>>            }
+>> Thanks,
+>> Yanan
 
 
