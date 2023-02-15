@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 019C1697F60
+	by mail.lfdr.de (Postfix) with ESMTPS id 12759697F63
 	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 16:19:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSJYK-0002SM-RD; Wed, 15 Feb 2023 10:18:36 -0500
+	id 1pSJYR-0002ch-G8; Wed, 15 Feb 2023 10:18:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcin.nowakowski@fungible.com>)
- id 1pSDSX-0006xl-Pk
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 03:48:14 -0500
-Received: from mail-oa1-x33.google.com ([2001:4860:4864:20::33])
+ id 1pSDSZ-0006xu-JU
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 03:48:15 -0500
+Received: from mail-oa1-x2e.google.com ([2001:4860:4864:20::2e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcin.nowakowski@fungible.com>)
- id 1pSDSW-00071l-8E
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 03:48:13 -0500
-Received: by mail-oa1-x33.google.com with SMTP id
- 586e51a60fabf-16e353ce458so4576287fac.9
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 00:48:11 -0800 (PST)
+ id 1pSDSY-00071x-1Z
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 03:48:15 -0500
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-16cc1e43244so17860991fac.12
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 00:48:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fungible.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sIH7K1DDuKRwsNfFS8vI4Hl70V/+l27EFqfoP6TzJWo=;
- b=ZLH8CSJW7e/iH8C/aRz4+H/i08F/baspPZZElIF3+10T7aiHhSuWzxubx+vGkmX9cF
- t6Ersoj99a+2id+m2Ljo1PalvhDNHIiMQoEa4vaH1P7BBbjvG0ala8CaxVyv1BT2C2EN
- egkZ2boPDalPN/4uPvmwxb6bMZqgpsKZE0/l8=
+ bh=ooA3RfAvBE8YoFTL0liD39KM6/U3xfuZBPasSLp8UkA=;
+ b=PvWMIo4D7VwfiDcJDl+LOYxsq8frwxMbUVoCfCJ4IVtdCIyS9Rh8XHc+g4HFxKtYxD
+ KuCiUdscKgguHP/UhaXMyMcTw5cY1jKQ8GCC17sGs3joYnKK0QACUuIj03ZQrJphTiXU
+ wNFSG9x0JwuyIA+qJPgE/rDekDBfvfla2L0zA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sIH7K1DDuKRwsNfFS8vI4Hl70V/+l27EFqfoP6TzJWo=;
- b=bI0qXAY5OvC1Z+HtZ09tn/UtXvn+eOcW26kczf/fnny7h9ZOtO/v0wYtiHom3PtF1h
- iUKhAG1aNSoRJnM38pYxkIfLITSKIs4Mriym8YOmPq95Vh2jm8Q7iy9waAo044I4bgNB
- 2HnjK/6HescSbDoRZxDWK1oJL5gyeQk3G0OCHJiKTIdau4nDFFuBPaMdKMAjZLKVnQuD
- 68Bkn7tjkhXShUf970jSwBP9qRdOA/jxFmrlPZw/38M2MRSwbI8G1LCE+0TrKciaEBWk
- r9Rj6loi/53Os9GdYzbI8OvEFXXoUmcZ30QFzeHj+IH4pQfmoEYT6QPfjsNRy0n+j8RU
- /GYw==
-X-Gm-Message-State: AO0yUKWzdSDkNXQqCB7N2ax/E3oW16JwDkyur5gRp8yLn4XX2/jdcTIt
- bCmnbf3RUUoWZg5NKi2FW3dj3RdU3KQk3oiB
-X-Google-Smtp-Source: AK7set8gDJleoiAOwe10u465wD6EUyTdxGJK/hhWZ7HR7Fd+fqHE+FZ9ZkhWjl1i4ABFe7uT6qA5wg==
-X-Received: by 2002:a05:6871:204:b0:16a:a8af:1cd0 with SMTP id
- t4-20020a056871020400b0016aa8af1cd0mr760817oad.5.1676450890692; 
- Wed, 15 Feb 2023 00:48:10 -0800 (PST)
+ bh=ooA3RfAvBE8YoFTL0liD39KM6/U3xfuZBPasSLp8UkA=;
+ b=VFgQPHxx0LV6MbNU6i1gTS/kyJrEEljXT/K8eiDUhv+q4dtOcAF5bl/oF9X/aTB48e
+ ERp4UdBUGhAaOR6TkpN+sxFu7zDJUlkFgiURT4Eb+t4+Lk989RJjNmL7IRyHqKU5EzsZ
+ jJPxN6u+J0dSq9nUaUlqWj4XGRr+Ao0bvPY9FFYzRu2NDcqZO2jNlZhWFbccl59QGALm
+ OT5IFKicRQdDsQWt+HdOf0+qqSSIPcIVxkwm8nuzxRCQhwaaTOYeSdC0ZdmhJpDOLXIY
+ QocdtarG8reh3a6z3i+j6KRcbPEQDs22C/x+tk1Y3gkuf38i2vfQARCSxz7GhKnDxN9E
+ 7KcA==
+X-Gm-Message-State: AO0yUKWJQM7JPsy9e/lXd9E5MdIf9nLsxOEQpG8vffP2eIQ5cGnQnNG8
+ eaQM+HOBS+tt0kkR7BqTt+d3XZusDgKngcNg
+X-Google-Smtp-Source: AK7set+OOrrXoIBH3SsD/bRwtlzJ/NxA+JWDWJc1t3VhHxPZhJx3ghl7KiCMNSlT1BQWq+AGlNGrjQ==
+X-Received: by 2002:a05:6870:a11d:b0:16d:c064:1a9 with SMTP id
+ m29-20020a056870a11d00b0016dc06401a9mr703905oae.10.1676450892576; 
+ Wed, 15 Feb 2023 00:48:12 -0800 (PST)
 Received: from WR-NOWAKOWSKI.fungible.local (77-255-255-121.adsl.inetia.pl.
  [77.255.255.121]) by smtp.gmail.com with ESMTPSA id
- a9-20020a056870d60900b0013bc40b09dasm6788811oaq.17.2023.02.15.00.48.08
+ a9-20020a056870d60900b0013bc40b09dasm6788811oaq.17.2023.02.15.00.48.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 00:48:10 -0800 (PST)
+ Wed, 15 Feb 2023 00:48:12 -0800 (PST)
 From: Marcin Nowakowski <marcin.nowakowski@fungible.com>
 To: qemu-devel@nongnu.org
 Cc: marcin.nowakowski@fungible.com,
@@ -59,16 +59,16 @@ Cc: marcin.nowakowski@fungible.com,
  Aurelien Jarno <aurelien@aurel32.net>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Subject: [PATCH 2/3] target/mips: fix SWM32 handling for micromips
-Date: Wed, 15 Feb 2023 09:47:53 +0100
-Message-Id: <20230215084754.3816747-3-marcin.nowakowski@fungible.com>
+Subject: [PATCH 3/3] target/mips: implement CP0.Config7.WII bit support
+Date: Wed, 15 Feb 2023 09:47:54 +0100
+Message-Id: <20230215084754.3816747-4-marcin.nowakowski@fungible.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230215084754.3816747-1-marcin.nowakowski@fungible.com>
 References: <20230215084754.3816747-1-marcin.nowakowski@fungible.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::33;
- envelope-from=marcin.nowakowski@fungible.com; helo=mail-oa1-x33.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2e;
+ envelope-from=marcin.nowakowski@fungible.com; helo=mail-oa1-x2e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,36 +92,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-SWM32 should store a sequence of 32-bit words from the GPRs, but it was
-incorrectly coded to store 16-bit words only. As a result, an LWM32 that
-usually follows would restore invalid register values.
+Some older cores use CP0.Config7.WII bit to indicate that a disabled
+interrupt should wake up a sleeping CPU.
+Enable this bit by default for M14Kc, which supports that. There are
+potentially other cores that support this feature, but I do not have a
+complete list.
 
 Signed-off-by: Marcin Nowakowski <marcin.nowakowski@fungible.com>
 ---
- target/mips/tcg/ldst_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/mips/cpu-defs.c.inc | 1 +
+ target/mips/cpu.c          | 6 ++++--
+ target/mips/cpu.h          | 1 +
+ 3 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/target/mips/tcg/ldst_helper.c b/target/mips/tcg/ldst_helper.c
-index d0bd0267b2..c1a8380e34 100644
---- a/target/mips/tcg/ldst_helper.c
-+++ b/target/mips/tcg/ldst_helper.c
-@@ -248,14 +248,14 @@ void helper_swm(CPUMIPSState *env, target_ulong addr, target_ulong reglist,
-         target_ulong i;
- 
-         for (i = 0; i < base_reglist; i++) {
--            cpu_stw_mmuidx_ra(env, addr, env->active_tc.gpr[multiple_regs[i]],
-+            cpu_stl_mmuidx_ra(env, addr, env->active_tc.gpr[multiple_regs[i]],
-                               mem_idx, GETPC());
-             addr += 4;
+diff --git a/target/mips/cpu-defs.c.inc b/target/mips/cpu-defs.c.inc
+index 480e60aeec..57856e2e72 100644
+--- a/target/mips/cpu-defs.c.inc
++++ b/target/mips/cpu-defs.c.inc
+@@ -354,6 +354,7 @@ const mips_def_t mips_defs[] =
+                        (0 << CP0C1_DS) | (3 << CP0C1_DL) | (1 << CP0C1_DA),
+         .CP0_Config2 = MIPS_CONFIG2,
+         .CP0_Config3 = MIPS_CONFIG3 | (0x2 << CP0C3_ISA) | (0 << CP0C3_VInt),
++        .CP0_Config7 = 0x1 << CP0C7_WII,
+         .CP0_LLAddr_rw_bitmask = 0,
+         .CP0_LLAddr_shift = 4,
+         .SYNCI_Step = 32,
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index 7a565466cb..7ba359696f 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -144,12 +144,14 @@ static bool mips_cpu_has_work(CPUState *cs)
+     /*
+      * Prior to MIPS Release 6 it is implementation dependent if non-enabled
+      * interrupts wake-up the CPU, however most of the implementations only
+-     * check for interrupts that can be taken.
++     * check for interrupts that can be taken. For pre-release 6 CPUs,
++     * check for CP0 Config7 'Wait IE ignore' bit.
+      */
+     if ((cs->interrupt_request & CPU_INTERRUPT_HARD) &&
+         cpu_mips_hw_interrupts_pending(env)) {
+         if (cpu_mips_hw_interrupts_enabled(env) ||
+-            (env->insn_flags & ISA_MIPS_R6)) {
++            (env->insn_flags & ISA_MIPS_R6) ||
++            (env->CP0_Config7 & (1 << CP0C7_WII))) {
+             has_work = true;
          }
      }
- 
-     if (do_r31) {
--        cpu_stw_mmuidx_ra(env, addr, env->active_tc.gpr[31], mem_idx, GETPC());
-+        cpu_stl_mmuidx_ra(env, addr, env->active_tc.gpr[31], mem_idx, GETPC());
-     }
- }
- 
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index 0a085643a3..abee7a99d7 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -980,6 +980,7 @@ typedef struct CPUArchState {
+ #define CP0C6_DATAPREF        0
+     int32_t CP0_Config7;
+     int64_t CP0_Config7_rw_bitmask;
++#define CP0C7_WII          31
+ #define CP0C7_NAPCGEN       2
+ #define CP0C7_UNIMUEN       1
+ #define CP0C7_VFPUCGEN      0
 -- 
 2.25.1
 
