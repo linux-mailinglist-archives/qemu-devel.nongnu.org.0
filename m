@@ -2,72 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89EB16986C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 22:01:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC7036986D0
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 22:02:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSOte-0004EG-Kj; Wed, 15 Feb 2023 16:00:58 -0500
+	id 1pSOus-0007Rp-RJ; Wed, 15 Feb 2023 16:02:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pSOtc-0004Dp-5g
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 16:00:56 -0500
-Received: from forwardcorp1c.mail.yandex.net
- ([2a02:6b8:c03:500:1:45:d181:df01])
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pSOum-0007QX-9C
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 16:02:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pSOtY-00016Z-Tv
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 16:00:55 -0500
-Received: from iva8-99b070b76c56.qloud-c.yandex.net
- (iva8-99b070b76c56.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:1099:0:640:99b0:70b7])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id A1F0160421;
- Thu, 16 Feb 2023 00:00:45 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b58a::1:31] (unknown
- [2a02:6b8:b081:b58a::1:31])
- by iva8-99b070b76c56.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- i0srkA0QlqM1-ILOf2Bzt; Thu, 16 Feb 2023 00:00:44 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1676494844; bh=fgJvXuAkvWgWj/TNMF5Eub6zvUEMBmrW4A8F2iUPLgI=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=B27T3ms9VxJqA/2nYOkI99HHaoe1+9uoOMESVKXWVZ6Asguvk2vj3phP+BxHG5AeB
- uOI+ZQEZVr+PVFBWeP+KOxIH/mSua0pqI0e2nXQE6edc0JdxoMVq+4lPLEVoZtCGj7
- vedE1kcE4HB9gDiw4Qfpg8y/hv+bqM6ig6iuG+tY=
-Authentication-Results: iva8-99b070b76c56.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <d9306845-6cf8-1c40-35a0-19b2bef90ac8@yandex-team.ru>
-Date: Thu, 16 Feb 2023 00:00:44 +0300
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pSOuj-0001Q7-Na
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 16:02:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676494924;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TnJ3fSSd8S6K2YvOX3X1SKBTQibopmzhwZOmYFfZ8cA=;
+ b=MJbCcuvqr8bulOGaA5yKlMjEh56h+oItvKbG5OkhRAI8/xp5CXesYCacx33oOBv7EDolk+
+ MsER3aNejvvVc2QlGRN0IWBtTxgERYoh0TGnCt4I5lwWBmMrzQ3rZypXpiceHuDO6Z7EYa
+ mneNZt80vAQQ5uExSmrjo5OTfat/eRA=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-223-19KnK4yNPLeGZATZjmU9rQ-1; Wed, 15 Feb 2023 16:02:03 -0500
+X-MC-Unique: 19KnK4yNPLeGZATZjmU9rQ-1
+Received: by mail-io1-f72.google.com with SMTP id
+ n3-20020a056602340300b0073e7646594aso6248058ioz.8
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 13:02:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=TnJ3fSSd8S6K2YvOX3X1SKBTQibopmzhwZOmYFfZ8cA=;
+ b=unPbLqctbnQxd/rnlc947nonOsa3TIJLoJ17Dvx+MhV8h9g34zuXFy/rIMUnUnr/v+
+ GSf+16A5jf/TjeXpstQ0RYYXmeVzhSu2iIZJKwHhERBoaTjn01SJsG5l+oOcZ10at9uk
+ j7LVqhPNx8lMt1AtpEDeGBS88bCeeRbYdy6TV1daJ2hIUcAcWCESknzqIO2U65PI/SSB
+ 8+/TxnaMEOGtjNL3xPrUOIClLkI9M6GJkc4kVp8PTJS2xKOXASFc93APFvzDIlUAU2oS
+ q1+lKWWNjqy6NTvEh4+natwBjhxTL/bTlYSOw6/qrhlxwz8nXqPIjHZkDkW0HI8Zs8ho
+ UslQ==
+X-Gm-Message-State: AO0yUKWtxoT+yeFCNJZ/mDw58bn48tdt1ZUCTmENUzbCNAPpj90E9YKU
+ GaOIxHbmAoGghwm/t49QkUcypN1zv0Qvg5spKUpr/KYhARPhNjoe2+at1ox53uj1K5+aDoZdxFo
+ 2D+s33elqLpKPq6k=
+X-Received: by 2002:a92:c548:0:b0:315:3b69:7f74 with SMTP id
+ a8-20020a92c548000000b003153b697f74mr3414356ilj.23.1676494922586; 
+ Wed, 15 Feb 2023 13:02:02 -0800 (PST)
+X-Google-Smtp-Source: AK7set+INYBHMMMpFimck7EE0W8tYzBm5t55mb2QA3RUhrHVYQGTLV/JCdLFd+Dxt+Kyo+YEO7zSmg==
+X-Received: by 2002:a92:c548:0:b0:315:3b69:7f74 with SMTP id
+ a8-20020a92c548000000b003153b697f74mr3414339ilj.23.1676494922287; 
+ Wed, 15 Feb 2023 13:02:02 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ l25-20020a02cd99000000b003a9632cb099sm1618456jap.51.2023.02.15.13.02.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Feb 2023 13:02:01 -0800 (PST)
+Date: Wed, 15 Feb 2023 14:02:00 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Juan Quintela <quintela@redhat.com>, Avihai Horon <avihaih@nvidia.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater
+ <clg@redhat.com>, Yishai Hadas <yishaih@nvidia.com>, Maor Gottlieb
+ <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
+ <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH v10 03/12] vfio/migration: Allow migration without VFIO
+ IOMMU dirty tracking support
+Message-ID: <20230215140200.19b6e308.alex.williamson@redhat.com>
+In-Reply-To: <Y+1CsmyjkUIOCrvs@nvidia.com>
+References: <20230209192043.14885-1-avihaih@nvidia.com>
+ <20230209192043.14885-4-avihaih@nvidia.com>
+ <8735773xr7.fsf@secure.mitica>
+ <2efede77-0b06-0efa-1ea2-86300307c86f@nvidia.com>
+ <87sff6ztxq.fsf@secure.mitica>
+ <20230215131435.3e14aa55.alex.williamson@redhat.com>
+ <Y+1CsmyjkUIOCrvs@nvidia.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v4 14/16] qapi: deprecate "device" field of DEVICE_* events
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, eblake@redhat.com, eduardo@habkost.net,
- pbonzini@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com,
- philmd@linaro.org, den-plotnikov@yandex-team.ru, antonkuchin@yandex-team.ru,
- "reviewer:Incompatible changes" <libvir-list@redhat.com>
-References: <20230213140103.1518173-1-vsementsov@yandex-team.ru>
- <20230213140103.1518173-15-vsementsov@yandex-team.ru>
- <Y+pFe4bRCqbJJbp0@redhat.com> <87bklwoce9.fsf@pond.sub.org>
- <Y+ts1vBvI+IEH//K@redhat.com> <87fsb8jw7r.fsf@pond.sub.org>
- <Y+uTz2QfWGo2HUZ1@redhat.com> <87wn4kfbz2.fsf@pond.sub.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <87wn4kfbz2.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,79 +113,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 14.02.23 19:28, Markus Armbruster wrote:
-> Daniel P. Berrangé <berrange@redhat.com> writes:
-> 
->> On Tue, Feb 14, 2023 at 12:57:28PM +0100, Markus Armbruster wrote:
->>> Daniel P. Berrangé <berrange@redhat.com> writes:
->>>
->>>> On Tue, Feb 14, 2023 at 09:54:22AM +0100, Markus Armbruster wrote:
->>>>> Daniel P. Berrangé <berrange@redhat.com> writes:
->>>>>
->>>>>> On Mon, Feb 13, 2023 at 05:01:01PM +0300, Vladimir Sementsov-Ogievskiy wrote:
->>>>>>> The device field is redundant, because QOM path always include device
->>>>>>> ID when this ID exist.
->>>>>>
->>>>>> The flipside to that view is that applications configuring QEMU are
->>>>>> specifying the device ID for -device (CLI) / device_add (QMP) and
->>>>>> not the QOM path. IOW, the device ID is the more interesting field
->>>>>> than QOM path, so feels like the wrong one to be dropping.
->>>>>
->>>>> QOM path is a reliable way to identify a device.  Device ID isn't:
->>>>> devices need not have one.  Therefore, dropping the QOM path would be
->>>>> wrong.
->>>>>
->>>>>> Is there any real benefit to dropping this ?
->>>>>
->>>>> The device ID is a trap for the unwary: relying on it is fine until you
->>>>> run into a scenario where you have to deal with devices lacking IDs.
->>>>
->>>> When a mgmt app is configuring QEMU though, it does it exclusively
->>>> with device ID values. If I add a device "-device foo,id=dev0",
->>>> and then later hot-unplug it "device_del dev0", it is pretty
->>>> reasonable to then expect that the DEVICE_DELETED even will then
->>>> include the ID value the app has been using elsewhere.
->>>
->>> The management application would be well advised to use QOM paths with
->>> device_del, because only that works even for devices created by default
->>> (which have no ID), and devices the user created behind the management
->>> application's back.
->>
->> If an application is using -nodefaults, then the only devices which
->> exist will be those which are hardwired into the machine, and they
->> can't be used with device_del anyway as they're hardwired.
-> 
-> Your trust in the sanity of our board code is touching ;)
-> 
->> So the only reason is to cope with devices created secretly by
->> the users, and that's a hairy enough problem that most apps won't
->> even try to cope with it.
-> 
-> Fair enough.
-> 
->> At least in terms of the device hotplug area, it feels like we're
->> adding an extra hurdle for apps to solve a problem that they don't
->> actually face in practice.
->>
->> QOM paths are needed in some other QMP commands though, where
->> there is definite need to refer to devices that are hardwired,
->> most obviously qom-set/qom-get.
-> 
-> Also query-cpus-fast, query-hotpluggable-cpus, and possibly more I
-> missed.
-> 
+On Wed, 15 Feb 2023 16:38:10 -0400
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
+> On Wed, Feb 15, 2023 at 01:14:35PM -0700, Alex Williamson wrote:
+> 
+> > We'll need to consider whether we want to keep "dumb" dirty tracking,
+> > or even any form of dirty tracking in the type1 uAPI, under an
+> > experimental opt-in.  Thanks,  
+> 
+> I was expecting we'd delete the kernel code for type 1 dirty tracking
+> once the v2 parts are merged to qemu since we don't and won't have any
+> kernel implementation of it..
+> 
+> The big point of this to allow qmeu to continue on with a future
+> kernel that no longer reports it supports this.
 
-So, finally, we don't have consensus on deprecating ids?
+Right, in the part-1 series adding v2 support, we have no other dirty
+tracking, so it serves a purpose until we have device-level dirty
+tracking in the part-2 series.  After that, we can certainly at least
+remove the type1 dirty tracking since there never were, and likely never
+will be, any in-kernel implementations.  I could go either way if we
+want to keep the in-QEMU dirty-everything tracking around as an
+experimental option to aid migration driver development/debug (ie.
+maybe enabling it preempts device dirty tracking as a comparison for
+debug).  Thanks,
 
-For me the most strong argument is that if user specify id in device_add, user should get exactly that id in DEVICE_DELETED and other events.
-
-So if deprecate something, we'd better deprecate ids altogether, making users specify full QOM path even in device_add. But that seems quite painful for existing users with no visible benefit.
-
-So, if no objections, I plan to resend with old "optional id & qom_path" designation for devices. We still can do a deprecation in future.
-
--- 
-Best regards,
-Vladimir
+Alex
 
 
