@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC9926980B7
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 17:19:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D3D6980C1
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 17:21:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSKUe-0001Rh-32; Wed, 15 Feb 2023 11:18:52 -0500
+	id 1pSKUf-0001dl-Sx; Wed, 15 Feb 2023 11:18:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSKU0-00006F-Ny
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 11:18:13 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSKU1-0000Ad-LD
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 11:18:15 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSKTx-0008Sn-Uj
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 11:18:12 -0500
-Received: by mail-wr1-x434.google.com with SMTP id l2so3083963wry.0
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 08:18:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSKU0-0008Sj-1n
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 11:18:13 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id a2so19725347wrd.6
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 08:18:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1RUJxKchPku4NWeByHhp6ftHtPwKBb41iVLhcZRE2cI=;
- b=QLYWuzZQvLCjzODBlWvwXGOEfDGjL5w5+YmJxblumx2c/bFUCQBxek7p9J84VPKWeh
- 4K10Y21GcwaYb1wcxIikeGffsdNLdCVOlF3pr96P7l5fEz3cutVrGDeBj5f1FJ8LaJ8+
- 5m6na1lMAfpdFVHMXah0QyQ28ZKBtksXyZsD+rTE8TvVrWqw7rKxL/gJg2vOLbsTdYtd
- DAzUa6yE7JPrJLJYBy60vEdDx9Z8/V0G+exGBG1Hyol+IchPdgGaoH9Hg0qknHs9Ws5T
- jNBb0zgivNnzYJTZIb9gyLRLu/lMrggLs6//udyroveG7KwgZ4SDOPg0ienCEjji6rce
- PO5Q==
+ bh=5fxrywMmBKVXBb0mf5wiJ7U1A4VldYjXsfGNyFlwAQ0=;
+ b=i869EaJR7lzLgkV61QLdpaCpz+WXW0PrZzeZjuZzzfVdfFur7cFg8W3RnbIH7LrWuE
+ GWeVtkvMcApqDjL0YZfhRJIbOVq2q3+QG6qYCDI3oYpGNcNW/I1oSO6xNhJToUnXVRFx
+ hcaGCUIXPg9kyqt2P3mlmir6w8FBU4kffEHHj6UOjrb+EmL2tojWMS3UjEC9ILB5diOa
+ CpjHs9DHQOk227ogdDkba2+GFUuVGbjpi3vwKNZTaSGYs1j6K1lo0OONF74Id92osYAa
+ +BrL36HqBW2xcFXt/WP3E/R8L3WE1yBng6mzTUoq0EcNgQrzzSJkDJQAp30AKBfcqH6M
+ AoXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1RUJxKchPku4NWeByHhp6ftHtPwKBb41iVLhcZRE2cI=;
- b=jFmFTFOAH2V20wcUnoaROqftRNApfUqmVucS/k7qEtpBcyAyLh69RBpl5ir06Gej4T
- bMZTtqVU7pygM/OmXckarH7MmxfTQlulJNfRgdJyAREYR0uBD9THASt0R0HyPnlTenX8
- XNs/pTmLZ3Nb01nO8PzA8DVmpxkt65/QvP1wpK50F+bDKvqlf9mJJyZnLDMm71re7xB/
- vZ02AeiPb3LbbCBgNzd+VKAzPqQ2ji2B9ZMsODDTq+1znsAIoESAyl56UCdfcMMU6JHC
- k6LEdK7ouPzfaSnIkFjBVxLhNDIrR5B5OtRYdHBPV6v06NCXlhI/0qHFruA/A6VZ14u+
- rB8A==
-X-Gm-Message-State: AO0yUKXQLnaexamMLXocsR8O2Hj3WF0a0qgljfWw4DVH+pw1qbHP7/qk
- Iudk0Set04xaDDoVOg1xH8kN3+IctnlelHur
-X-Google-Smtp-Source: AK7set88zhhXw+690FegjzwhThE2YJFUmtvDAlV302artGb07540Co0Aepk9DU9NkEvhOqQyec0IFg==
-X-Received: by 2002:adf:ee07:0:b0:2c3:f880:bb1f with SMTP id
- y7-20020adfee07000000b002c3f880bb1fmr2284540wrn.14.1676477885607; 
- Wed, 15 Feb 2023 08:18:05 -0800 (PST)
+ bh=5fxrywMmBKVXBb0mf5wiJ7U1A4VldYjXsfGNyFlwAQ0=;
+ b=FldVSxH1slZ9JuMMSYrRctA3yZ8wKxzgrNCejZjy3YfTJO/lTiHaEiKUAv4fzJBH57
+ 6H+QCdVDyfKwPlZE4YlZGOFBOVamcAJXheZpgkJQIE0+mTgXo4kNscVXXok1+HAkOZ+A
+ KM8quYf+zwMUlatKevV8708cOgP1beMrj4KXEZRnwxpIbcxfJ3q76zhrK0aV2EvdLCOo
+ PvULMLYWsUKM82D3wnxa5VHL6NGWvZ9wGehQ0sI+27j+MibhbwUvNk5b8hrcgqBhLYBF
+ DxAT+BjEBK7iQInFmlIgd1QufO3/Sxenbrs+Z11y396ftA47jZmS9mkVMciU/fIFiAjU
+ O5aA==
+X-Gm-Message-State: AO0yUKWVp8kzClzBvGFuM7SGd0eMBJRJjZuUtbazZ5IjJT77dA+M6F5t
+ 0PWv5A6js2tk3JjsEV9ITvtilDTL+RA3DVgw
+X-Google-Smtp-Source: AK7set/SoE3i+iVExSlYiUWgM/G/FYVHsWWTLzCXt+02gxBHzfnDDYLDwmQYSUcAQ+Av7LMZOp2OUw==
+X-Received: by 2002:a05:6000:1050:b0:2c5:5936:16db with SMTP id
+ c16-20020a056000105000b002c5593616dbmr1821468wrx.42.1676477891194; 
+ Wed, 15 Feb 2023 08:18:11 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- k2-20020a5d6d42000000b002c4061a687bsm16206609wri.31.2023.02.15.08.18.03
+ k16-20020adfe8d0000000b002c54536c662sm14461986wrn.34.2023.02.15.08.18.09
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 15 Feb 2023 08:18:05 -0800 (PST)
+ Wed, 15 Feb 2023 08:18:10 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
@@ -62,25 +62,25 @@ Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2 15/18] hw/isa: Ensure isa_register_portio_list() do not get
- NULL ISA device
-Date: Wed, 15 Feb 2023 17:16:38 +0100
-Message-Id: <20230215161641.32663-16-philmd@linaro.org>
+Subject: [PATCH v2 16/18] hw/isa: Reduce 'isabus' singleton scope to
+ isa_bus_new()
+Date: Wed, 15 Feb 2023 17:16:39 +0100
+Message-Id: <20230215161641.32663-17-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230215161641.32663-1-philmd@linaro.org>
 References: <20230215161641.32663-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,54 +96,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Previous commit removed the single call to isa_register_portio_list()
-with dev=NULL. To be sure we won't reintroduce such weird (ab)use,
-assert dev is non-NULL.
+Previous commit ensured when entering isa_register_portio_list(),
+'dev' is not NULL. Being a TYPE_ISA_DEVICE, the device must sit
+on a ISA bus. This means isa_bus_new() as already been called
+and 'isabus' can not be NULL.
 
-We can now calls isa_address_space_io() to get the device I/O region.
-
-Note we can then remove the NULL check in isa_init_ioport() because
-it is only called in 2 places (and is static to this file):
-- isa_register_ioport() which first calls isa_address_space_io(),
-  itself asserting dev is not NULL.
-- isa_register_portio_list() which also asserts dev is not NULL
-  since the previous commit.
+Simplify by removing the 'isabus' NULL check in
+isa_register_portio_list(). 'isabus' is now only used in
+isa_bus_new(). Reduce its scope by only declaring it the
+function using it (this will allows us to create multiple
+ISA buses later).
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/isa/isa-bus.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/isa/isa-bus.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
-index abc1bd0771..59f98472d1 100644
+index 59f98472d1..719f2e96f2 100644
 --- a/hw/isa/isa-bus.c
 +++ b/hw/isa/isa-bus.c
-@@ -113,7 +113,7 @@ IsaDma *isa_bus_get_dma(ISABus *bus, int nchan)
+@@ -25,8 +25,6 @@
+ #include "sysemu/sysemu.h"
+ #include "hw/isa/isa.h"
  
- static inline void isa_init_ioport(ISADevice *dev, uint16_t ioport)
+-static ISABus *isabus;
+-
+ static char *isabus_get_fw_dev_path(DeviceState *dev);
+ 
+ static void isa_bus_class_init(ObjectClass *klass, void *data)
+@@ -52,6 +50,8 @@ static const TypeInfo isa_bus_info = {
+ ISABus *isa_bus_new(DeviceState *dev, MemoryRegion* address_space,
+                     MemoryRegion *address_space_io, Error **errp)
  {
--    if (dev && (dev->ioport_id == 0 || ioport < dev->ioport_id)) {
-+    if (dev->ioport_id == 0 || ioport < dev->ioport_id) {
-         dev->ioport_id = ioport;
-     }
- }
-@@ -129,6 +129,7 @@ int isa_register_portio_list(ISADevice *dev,
-                              const MemoryRegionPortio *pio_start,
-                              void *opaque, const char *name)
- {
-+    assert(dev);
++    static ISABus *isabus;
++
+     if (isabus) {
+         error_setg(errp, "Can't create a second ISA bus");
+         return NULL;
+@@ -132,10 +132,6 @@ int isa_register_portio_list(ISADevice *dev,
+     assert(dev);
      assert(piolist && !piolist->owner);
  
-     if (!isabus) {
-@@ -141,7 +142,7 @@ int isa_register_portio_list(ISADevice *dev,
-     isa_init_ioport(dev, start);
- 
-     portio_list_init(piolist, OBJECT(dev), pio_start, opaque, name);
--    portio_list_add(piolist, isabus->address_space_io, start);
-+    portio_list_add(piolist, isa_address_space_io(dev), start);
- 
-     return 0;
- }
+-    if (!isabus) {
+-        return -ENODEV;
+-    }
+-
+     /* START is how we should treat DEV, regardless of the actual
+        contents of the portio array.  This is how the old code
+        actually handled e.g. the FDC device.  */
 -- 
 2.38.1
 
