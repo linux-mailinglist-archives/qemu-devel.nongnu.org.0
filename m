@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCE31697A4A
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 11:57:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01800697A55
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 11:59:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSFTH-0006AR-2q; Wed, 15 Feb 2023 05:57:07 -0500
+	id 1pSFV8-0007EK-Sl; Wed, 15 Feb 2023 05:59:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSFTA-00069q-4R
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:57:00 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
+ id 1pSFV6-0007E9-Be
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:59:00 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSFT4-0000FO-8D
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:56:58 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- m16-20020a05600c3b1000b003dc4050c94aso1214167wms.4
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 02:56:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
+ id 1pSFV4-0000d6-5s
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:58:59 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id m10so9774302wrn.4
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 02:58:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=mp4SqVNtqwXiIzu8dHycszP9EdUnkoJsxgr3HBIXYEA=;
- b=S2LK789GsSP0cKHzOEGy8+WLCn/Yl2EkhFofQQvaEeLvjFggvHL6vzsyCtBp31anIS
- evSuFDRaZOw8GQfwXfpQfxBU4oSv0X15eUkpkJ92sv+Vqtsn+KK4wx+/hZsUbrHlKf9l
- q3WDEHDn8LPfJ01i9ancrQxea75vDzZwz6p9fCLDI0qDrwmfs+RVxD0iAooCgZuUSxWg
- VFhaU5vXviJW5pdsRmSsvKaENuA1Ea87Hf3ppIouLvoFhKcnUwPzJZ3x55E0Yk7Z4emk
- dzrM7e9qjHJs7+vP1a99AQwb6Fr1TiA0mc4F5XFRxhcp3HlLzKD359RE9jdCYe0nwFSd
- b4eg==
+ bh=17DwcdAuO186ATYZfHZmxUkSAHTSOHnNI5F7KGwMHro=;
+ b=hSkOGC3MANHMzyQhJUt9HvsXwSXmuVEjynUdaDQ/K9a6uWz1DlH60pv7aUWWylORhg
+ ENxu4HEjdz1CQm3MEcfYgjCxT1tgw8DLvjw3KvmbQK+KFJ1ETlwVxT43g6AFfn8lmTdS
+ XO5oaQpZ6Idn6+sJNkQIB+ImtdC3oGEz9wquD6gygMKeMQ0rgLuMoKaYouGwf2jCEBOw
+ q4IjEWm3k9e5km2kjAi6e226oZNuxpsqSuGI7tQ/BqsXroowMTkt1PVSu6tBCCWk+HjM
+ nGG0w8pqqXo+dGpD+E2mCf94+jgJ3CRYa6uG3vbfMxKmiYkc9stYaYLtr8WUgmBXj2W8
+ WS9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mp4SqVNtqwXiIzu8dHycszP9EdUnkoJsxgr3HBIXYEA=;
- b=yFqEvWAPuQTqo6Jf7crSk3mnc+WqcwLri69vmoDWNZvMf7VbYn1xtSSpBSj8Sjgd4F
- 3YGhryVPHc19Dcv+b7D0z/i2yKnvTwrj+UAuh/87uc5cMN2au0n2wKhXYvIfg9LUrREb
- QRdmfhFpHpMMSvZ3hHiQh3kpoK8+OK0DDZ5QywLBErTavSNIDuzoabXY9vD63Ok2wzoa
- i2XQ0NTXKXPhSNZ2WVg/T+vxoAt1K7zDwyEIEF1V4E3QjkVZdyI2T/1POW/Ux0tvJELz
- +I1j6BnpYm7lmqwaZaiLlfzR8SC3CiTc1MTFUWeu4sbmXd3RQSOfIEFo2+q9y1ctIAou
- YjKg==
-X-Gm-Message-State: AO0yUKWfuKsN2jzHNrX1rmAERJaB3pPY0T1+x94Zd2OVLLtD5qTVooXz
- FR7Vl0VxglIqwHY4q1kByCFc3g==
-X-Google-Smtp-Source: AK7set9nhL6i9IM8nEJjrMTG3PfzM8I+HilwU1DDonFeKX9PdXGlhzYltMD0EmtvC5/2ZFAnbO4uZA==
-X-Received: by 2002:a05:600c:4b1b:b0:3df:fbd5:690 with SMTP id
- i27-20020a05600c4b1b00b003dffbd50690mr1468227wmp.17.1676458609360; 
- Wed, 15 Feb 2023 02:56:49 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- l9-20020a05600c4f0900b003e001afa274sm2001284wmq.2.2023.02.15.02.56.48
+ bh=17DwcdAuO186ATYZfHZmxUkSAHTSOHnNI5F7KGwMHro=;
+ b=mTOtOYL5E2bUIfSOqPxJ1IQ06/jrmQUaqFueqYY9ALCyLx2LH2BhbC5LfrvcAiNEml
+ 5vwl9AegPYpw/R/KCyk/JHDlZJnshjpfkQbSFGg5WRh2CrHMDSuNb60C79xbE12Ju6qp
+ eW0GLnkI5EKCZdnZjIIfLuSfR5Po42FcrCpc3l25Vrk5ab0/CNLFpToceVQ088sSeewo
+ 5qB8MC2aJ0LoyocFa7vqS97lWW9vbhSICCmXIF8mJw0tQ09wOKaofNyrWtmHRFgQSyUD
+ uiWR+G1Gg7RsmYUM7OPZOYL8uHdt6JOBx1b9VcEJIkmCVo+26cEagqOLovq1+EzsejYn
+ +9/A==
+X-Gm-Message-State: AO0yUKVfQ9YdQo1EQM7qXqJkPOqSWZyRRtnLtR0btkh6G68mz1zygiZZ
+ wjI9cmLYjD+c7QUrhOHjyqkHew==
+X-Google-Smtp-Source: AK7set8jX/Ga31gLVtsEAwDMENOnghkGqLgp4lDupnpMUbXhZ7K+uRwmTAthZsA2zAv5dooLjlZRIw==
+X-Received: by 2002:adf:dc8e:0:b0:2bf:c09a:c60e with SMTP id
+ r14-20020adfdc8e000000b002bfc09ac60emr1189926wrj.2.1676458736446; 
+ Wed, 15 Feb 2023 02:58:56 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:5cc:caa0:29a7:806a:58e3:c738?
+ ([2a01:e0a:5cc:caa0:29a7:806a:58e3:c738])
+ by smtp.gmail.com with ESMTPSA id
+ r15-20020a5d4e4f000000b002c573cff730sm122747wrt.68.2023.02.15.02.58.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Feb 2023 02:56:49 -0800 (PST)
-Message-ID: <2a87b119-4782-ce91-5174-f7b18019b3fc@linaro.org>
-Date: Wed, 15 Feb 2023 11:56:46 +0100
+ Wed, 15 Feb 2023 02:58:56 -0800 (PST)
+Message-ID: <2e74fa1a-fe6d-8f1e-e607-d18c1b7127e0@linaro.org>
+Date: Wed, 15 Feb 2023 11:58:55 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH 5/8] aspeed/smc: Replace SysBus IRQs with GPIO lines
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH 4/4] target/ppc: fix warning with clang-15
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org, alex.bennee@linaro.org
+References: <20230213161352.17199-1-pierrick.bouvier@linaro.org>
+ <20230213161352.17199-5-pierrick.bouvier@linaro.org>
+ <fb705dc1-0a15-d265-12af-7729bcb50ead@linaro.org>
+From: Pierrick Bouvier <pierrick.bouvier@linaro.org>
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>, Markus Armbruster <armbru@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20230214171830.681594-1-clg@kaod.org>
- <20230214171830.681594-6-clg@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230214171830.681594-6-clg@kaod.org>
+In-Reply-To: <fb705dc1-0a15-d265-12af-7729bcb50ead@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=pierrick.bouvier@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
@@ -94,16 +95,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 14/2/23 18:18, Cédric Le Goater wrote:
-> It's cleaner and removes the curious '+ 1' required to skip the DMA
-> IRQ line of the controller.
+On 2/14/23 19:10, Richard Henderson wrote:
+> On 2/13/23 06:13, Pierrick Bouvier wrote:
+>> When compiling for windows-arm64 using clang-15, it reports a sometimes
+>> uninitialized variable. This seems to be a false positive, as a default
+>> case guards switch expressions, preventing to return an uninitialized
+>> value, but clang seems unhappy with assert definition.
+>>
+>> Setting the rnd variable to zero does not hurt anyway.
+>>
+>> ../target/ppc/dfp_helper.c:141:13: error: variable 'rnd' is used uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninitialized]                                                                              assert(0); /* cannot get here */                                                                                                                                                                                    ^~~~~~~~~
+>> ../include/qemu/osdep.h:229:20: note: expanded from macro 'assert'                                                                                                                                        #define assert(x)  g_assert(x)                                                                                                                                                                                                         ^~~~~~~~~~~
+>> /clangarm64/bin/../include/glib-2.0/glib/gtestutils.h:235:49: note: expanded from macro 'g_assert'                                                                                                                               if G_LIKELY (expr) ; else \
+>>                                                   ^~~~~~~~~~~~~~~
+>> /clangarm64/bin/../include/glib-2.0/glib/gmacros.h:1186:25: note: expanded from macro 'G_LIKELY'
+>>                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> ../target/ppc/dfp_helper.c:144:42: note: uninitialized use occurs here
+>>       decContextSetRounding(&dfp->context, rnd);
 > 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->   hw/arm/aspeed.c     | 2 +-
->   hw/ssi/aspeed_smc.c | 5 +----
->   2 files changed, 2 insertions(+), 5 deletions(-)
+> I think the problem is with assert(0) not being seen to terminate.
+> Replace these with g_assert_not_reached().
+> 
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Indeed, that solves the issue. Thanks for the suggestion, I'll use this 
+instead.
 
+> 
+> r~
+> 
 
