@@ -2,83 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFDD8697A37
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 11:51:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BBCE697A43
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 11:54:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSFNZ-00026x-Iw; Wed, 15 Feb 2023 05:51:13 -0500
+	id 1pSFPr-00036I-ON; Wed, 15 Feb 2023 05:53:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSFNW-00026d-9J
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:51:10 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSFNU-0007Ye-Hh
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:51:09 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- az4-20020a05600c600400b003dff767a1f1so1205064wmb.2
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 02:51:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aGtG0RBQ8cvU1copGnrKRgUv8PgUB7nWAUIcvNiRd3Q=;
- b=aBzwWuRww/qcTHeCETdJS/QSElGJmog1RjYettpjBpmOdpK2uJIMeHggwLlYvDNNoS
- pxNC/oJJB5qszLIISs5+OGhoNPuCa+rn5Ix20JfI2lTSP/qfjXYJ395C9WhR7XQVo7Wa
- O5RPuEd78XFzPpuUyXYgv9s3eA5hvjlVevY44oii20GwDK4KW8+U7JJ0Miw5SlrEemvk
- E2xChZYT2T2PnscuQwxKAk4OftgTUxhuwdEniR+WNXkzKzeJUUxykdHXVhP/LKOJHuy2
- 88rWktzReadzw7woqkzsAWzwGCluXQECTaI5FN9FXtL/HJ/cCqDn1LlUdMxtT1XqytWA
- F5TA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aGtG0RBQ8cvU1copGnrKRgUv8PgUB7nWAUIcvNiRd3Q=;
- b=FuKQCRfTL37y4EymoHGxdywgP7aHPSwT+Zp7AvfYBWgnUbEhP89CA/oyDrKPllL2jO
- AyjG2MpkDlzg3IuPaAwQuMOH+tgeXtCCojpWyXpMn/YRl/TOYLYd8CmgpuGtlgv8BEYg
- gAv5DJ3wJEMwtKNcufcNMumLn5EoB6a3V6XwU0YhQLPmsNRivNuc4/3Pdt+g4JtIlbb0
- rwhAhmoJTAykLmqlVSVyZgFYqH2ZeiP0qnjUIfJcMztd0m6Gxb2Avj2w67v+OOdXSilk
- Yrd8opiyIYoSkecLc2MgtdOSNtC+2TFb/wM1iT3oevEoeQ3BSy7zTfE75/F8mjyK1UwP
- Mj8w==
-X-Gm-Message-State: AO0yUKXWnrw/9q5Gs9CNB274ZFI/GvyMRP8YBCnAqK6brSFWCWMh1tlb
- Q3YUGSjr5X0Qrn8iL65wVxLpQg==
-X-Google-Smtp-Source: AK7set99ySsXbF6A5s3emcOXl3Baw0S2tniBFPYwkBa22UHezaRYpL0CF+J/OAjuOVTdpQbEQPOR+g==
-X-Received: by 2002:a05:600c:5409:b0:3df:f2a5:49fb with SMTP id
- he9-20020a05600c540900b003dff2a549fbmr1659782wmb.7.1676458265910; 
- Wed, 15 Feb 2023 02:51:05 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- i19-20020a05600c355300b003e200d3b2d1sm1647217wmq.38.2023.02.15.02.51.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Feb 2023 02:51:05 -0800 (PST)
-Message-ID: <63199a0a-2a37-e84b-dbe7-effd44fd3a1a@linaro.org>
-Date: Wed, 15 Feb 2023 11:51:04 +0100
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1pSFPo-00035S-K2; Wed, 15 Feb 2023 05:53:32 -0500
+Received: from proxmox-new.maurer-it.com ([94.136.29.106])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1pSFPm-0007y3-4K; Wed, 15 Feb 2023 05:53:32 -0500
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id CCA48472C8;
+ Wed, 15 Feb 2023 11:53:26 +0100 (CET)
+Message-ID: <d07bdbc1-065e-f8ec-2a44-ab141ffedd41@proxmox.com>
+Date: Wed, 15 Feb 2023 11:53:20 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH 2/3] target/mips: fix SWM32 handling for micromips
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: Lost partition tables on ide-hd + ahci drive
+To: John Snow <jsnow@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>,
+ Aaron Lauterer <a.lauterer@proxmox.com>
+References: <ad7e1294-f19f-5bea-e891-f6adbe323cd5@proxmox.com>
+ <CAFn=p-ahLoVd3W2GaFp5EUFq5EOudz+bUkEk5DV+Z07AjHaHtg@mail.gmail.com>
 Content-Language: en-US
-To: Marcin Nowakowski <marcin.nowakowski@fungible.com>,
- qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
-Cc: Aurelien Jarno <aurelien@aurel32.net>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-References: <20230215084754.3816747-1-marcin.nowakowski@fungible.com>
- <20230215084754.3816747-3-marcin.nowakowski@fungible.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230215084754.3816747-3-marcin.nowakowski@fungible.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+From: Fiona Ebner <f.ebner@proxmox.com>
+In-Reply-To: <CAFn=p-ahLoVd3W2GaFp5EUFq5EOudz+bUkEk5DV+Z07AjHaHtg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.35,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.35,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,44 +59,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 15/2/23 09:47, Marcin Nowakowski wrote:
-> SWM32 should store a sequence of 32-bit words from the GPRs, but it was
-> incorrectly coded to store 16-bit words only. As a result, an LWM32 that
-> usually follows would restore invalid register values.
+Am 14.02.23 um 19:21 schrieb John Snow:
+> On Thu, Feb 2, 2023 at 7:08 AM Fiona Ebner <f.ebner@proxmox.com> wrote:
+>>
+>> Hi,
+>> over the years we've got 1-2 dozen reports[0] about suddenly
+>> missing/corrupted MBR/partition tables. The issue seems to be very rare
+>> and there was no success in trying to reproduce it yet. I'm asking here
+>> in the hope that somebody has seen something similar.
+>>
+>> The only commonality seems to be the use of an ide-hd drive with ahci bus.
+>>
+>> It does seem to happen with both Linux and Windows guests (one of the
+>> reports even mentions FreeBSD) and backing storages for the VMs include
+>> ZFS, RBD, LVM-Thin as well as file-based storages.
+>>
+>> Relevant part of an example configuration:
+>>
+>>>   -device 'ahci,id=ahci0,multifunction=on,bus=pci.0,addr=0x7' \
+>>>   -drive 'file=/dev/zvol/myzpool/vm-168-disk-0,if=none,id=drive-sata0,format=raw,cache=none,aio=io_uring,detect-zeroes=on' \
+>>>   -device 'ide-hd,bus=ahci0.0,drive=drive-sata0,id=sata0' \
+>>
+>> The first reports are from before io_uring was used and there are also
+>> reports with writeback cache mode and discard=on,detect-zeroes=unmap.
+>>
+>> Some reports say that the issue occurred under high IO load.
+>>
+>> Many reports suspect backups causing the issue. Our backup mechanism
+>> uses backup_job_create() for each drive and runs the jobs sequentially.
+>> It uses a custom block driver as the backup target which just forwards
+>> the writes to the actual target which can be a file or our backup server.
+>> (If you really want to see the details, apply the patches in [1] and see
+>> pve-backup.c and block/backup-dump.c).
+>>
+>> Of course, the backup job will read sector 0 of the source disk, but I
+>> really can't see where a stray write would happen, why the issue would
+>> trigger so rarely or why seemingly only ide-hd+ahci would be affected.
+>>
+>> So again, just asking if somebody has seen something similar or has a
+>> hunch of what the cause might be.
+>>
 > 
-
-Fixes: 7dd547e5ab ("target/mips: Use cpu_*_mmuidx_ra instead of 
-MMU_MODE*_SUFFIX")
-
-(I suppose a typo S[W] -> ST[W], since LW correctly converted to LDL)
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-> Signed-off-by: Marcin Nowakowski <marcin.nowakowski@fungible.com>
-> ---
->   target/mips/tcg/ldst_helper.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> Hi Floria;
 > 
-> diff --git a/target/mips/tcg/ldst_helper.c b/target/mips/tcg/ldst_helper.c
-> index d0bd0267b2..c1a8380e34 100644
-> --- a/target/mips/tcg/ldst_helper.c
-> +++ b/target/mips/tcg/ldst_helper.c
-> @@ -248,14 +248,14 @@ void helper_swm(CPUMIPSState *env, target_ulong addr, target_ulong reglist,
->           target_ulong i;
->   
->           for (i = 0; i < base_reglist; i++) {
-> -            cpu_stw_mmuidx_ra(env, addr, env->active_tc.gpr[multiple_regs[i]],
-> +            cpu_stl_mmuidx_ra(env, addr, env->active_tc.gpr[multiple_regs[i]],
->                                 mem_idx, GETPC());
->               addr += 4;
->           }
->       }
->   
->       if (do_r31) {
-> -        cpu_stw_mmuidx_ra(env, addr, env->active_tc.gpr[31], mem_idx, GETPC());
-> +        cpu_stl_mmuidx_ra(env, addr, env->active_tc.gpr[31], mem_idx, GETPC());
->       }
->   }
->   
+> I'm sorry to say that I haven't worked on the block devices (or
+> backup) for a little while now, so I am not immediately sure what
+> might be causing this problem. In general, I advise against using AHCI
+> in production as better performance (and dev support) can be achieved
+> through virtio.
+
+Yes, we also recommend using virtio-{scsi,blk}-pci to our users and most
+do. Still, some use AHCI, I'd guess mostly for Windows, but not only.
+
+> Still, I am not sure why the combination of AHCI with
+> backup_job_create() would be corrupting the early sectors of the disk.
+
+It's not clear that backup itself is causing the issue. Some of the
+reports do correlate it with backup, but there are no precise timestamps
+when the corruption happened. It might be that the additional IO during
+backup is somehow triggering the issue.
+
+> Do you have any analysis on how much data gets corrupted? Is it the
+> first sector only, the first few? Has anyone taken a peek at the
+> backing storage to see if there are any interesting patterns that can
+> be observed? (Zeroes, garbage, old data?)
+
+It does seem to be the first sector only, but it's not entirely clear.
+Many of the affected users said that after fixing the partition table
+with TestDisk, the VMs booted/worked normally again. We only have dumps
+for the first MiB of three images. In this case, all Windows with Ceph
+RBD images.
+
+See below[0] for the dumps. One was a valid MBR and matched the latest
+good backup, so that VM didn't boot for some other reason, not sure if
+even related to this bug. I did not include this one. One was completely
+empty and one contained other data in the first 512 Bytes, then again
+zeroes, but those zeroes are nothing special AFAIK.
+
+> Have any errors or warnings been observed in either the guest or the
+> host that might offer some clues?
+
+There is a single user who seemed to have hardware issues, and I'd be
+inclined to blame those in that case. But none of the other users
+reported any errors or warnings, though I can't say if any checked
+inside the guests.
+
+> Is there any commonality in the storage format being used? Is it
+> qcow2? Is it network-backed?
+
+There are reports with local ZFS volumes, local LVM-Thin volumes, RBD
+images, qcow2 on NFS. So no pattern to be seen.
+
+> Apologies for the "tier 1" questions.
+
+Thank you for your time!
+
+Best Regards,
+Fiona
+
+@Aaron (had access to the broken images): please correct me/add anything
+relevant I missed. Are the broken VMs/backups still present? If yes, can
+we ask the user to check the logs inside?
+
+[0]:
+> febner@enia ~/Downloads % hexdump -C dump-vm-120.raw
+> 00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+> *
+> 00100000
+> febner@enia ~/Downloads % hexdump -C dump-vm-130.raw
+> 00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+> *
+> 000000c0  00 00 19 03 46 4d 66 6e  00 00 00 00 00 00 00 00  |....FMfn........|
+> 000000d0  04 f2 7a 01 00 00 00 00  00 00 00 00 00 00 00 00  |..z.............|
+> 000000e0  f0 a4 01 00 00 00 00 00  c8 4d 5b 99 0c 81 ff ff  |.........M[.....|
+> 000000f0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+> 00000100  00 42 e1 38 0d da ff ff  00 bc b4 3b 0d da ff ff  |.B.8.......;....|
+> 00000110  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+> 00000120  78 00 00 00 01 00 00 00  a8 00 aa 00 00 00 00 00  |x...............|
+> 00000130  a0 71 ba b0 0c 81 ff ff  2e 00 2e 00 00 00 00 00  |.q..............|
+> 00000140  a0 71 ba b0 0c 81 ff ff  00 00 00 00 00 00 00 00  |.q..............|
+> 00000150  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+> *
+> 000001a0  5c 00 44 00 65 00 76 00  69 00 63 00 65 00 5c 00  |\.D.e.v.i.c.e.\.|
+> 000001b0  48 00 61 00 72 00 64 00  64 00 69 00 73 00 6b 00  |H.a.r.d.d.i.s.k.|
+> 000001c0  56 00 6f 00 6c 00 75 00  6d 00 65 00 32 00 5c 00  |V.o.l.u.m.e.2.\.|
+> 000001d0  57 00 69 00 6e 00 64 00  6f 00 77 00 73 00 5c 00  |W.i.n.d.o.w.s.\.|
+> 000001e0  4d 00 69 00 63 00 72 00  6f 00 73 00 6f 00 66 00  |M.i.c.r.o.s.o.f.|
+> 000001f0  74 00 2e 00 4e 00 45 00  54 00 5c 00 46 00 72 00  |t...N.E.T.\.F.r.|
+> 00000200  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+> *
+> 00100000
 
 
