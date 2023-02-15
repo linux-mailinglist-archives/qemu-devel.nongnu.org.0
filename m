@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 818D4698299
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 18:45:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A4C698283
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 18:44:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSLp8-0000bE-H1; Wed, 15 Feb 2023 12:44:06 -0500
+	id 1pSLpE-0000en-0T; Wed, 15 Feb 2023 12:44:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSLp6-0000ak-6l
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:44:04 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSLpC-0000eD-9t
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:44:10 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSLp4-0008D3-O5
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:44:03 -0500
-Received: by mail-wr1-x434.google.com with SMTP id k3so12340688wrv.5
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 09:44:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSLpA-0008DY-OX
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 12:44:10 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ k8-20020a05600c1c8800b003dc57ea0dfeso2223587wms.0
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 09:44:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=heFm5UqUphDjJpVI7Qv+ZKuvoLHrfHy/aAGqW6xSVEo=;
- b=w8OC715+aOMsi5OmhZ3/3915Wpmr4UaBPw/l9+UT6ZztgIO7uB/Cf1zJS51Erm39On
- M37AHEy0UPw6phGdnh8GuDzIiBqrVEvTrzrvJ31eX/0EcYLw39AR7GePTiNRgC4nVqZz
- Ng7qjUBYwlDO1Am7qbCjsaOJ9pYi5LOqB3rRz9qn0/72BR5PzypZRWcWZcjoZO4/wF8E
- j9ZrUM1nah63GXuse1P2N+h5+F39qljWEglEOYEu6L0t59OJH5G/7LW7XYJpLtNcLuTh
- R8N0vw6iS3jHRMrkxypkswbcI41eSWwNLObPQ+p+e8DMd1pwiuICQ+VyZ3jea78dtV0R
- Pp+A==
+ bh=4xWeqx5C/Xjzaw1eQA4/F7uZTIcR+NwJk/0kJcEYTAY=;
+ b=IUZDYPUxoTz64E5CsADb59dPUZIMb31X/tgySvrGmDuEdvmFEsEv6OOqEoawQhASpG
+ Y0xqT/osOWB55zfb8IVlEB3g1aB1GWTupU2lQyzgeNtSNKaamuxhw3iYy0SkzEe+R46g
+ LprJCLeEklZ/81t+bixRziYVDcy8+TFCsuLS68X/58n36lUeUl4xu/x2G4XKQUl8fqVY
+ yNKqf6iZbq4hyHOBsdePvt3k/ANFx5oTSnBcPRL/EC69r53YA1fJkxV7+LKweyPxFsGg
+ WeiA/cxycScza3jopc7RZxjZuDuqUm4iRm95y714NBpoKGuOhQM+TjlWakSBXG9WHd9x
+ P6Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=heFm5UqUphDjJpVI7Qv+ZKuvoLHrfHy/aAGqW6xSVEo=;
- b=ft0XGn/PnxmnDFmjmzUmON8thrHSAQhB2wFoML4LIvZsMwHX5PLyHbjCJSIp+T7wRV
- VyQNEYImXQVTOQtA4t6OMC4PDhaKr5Wn48w8Sf40Wi9EH2ktV9xhA7YS217nEoGyrcAa
- F9wFN48RKP6wp1E6mtYe/kDA/mpishGlPQvpdlqgamcywEXl6syhTIJVUpLtX+vcByvo
- zIP+5uH8zoTVmxjsLtgAY1tTd/Q2xep03gJxLZXfqArXF+Way64YXXhvXINb40m+dhwO
- TCZdM1BBB0ZxNT4+iEhBG6bQVkn8iJE0y/LoDJKu4F+JMO+5tl+ROFORFSW2xIpD4dii
- PpTg==
-X-Gm-Message-State: AO0yUKXLFrmkU/+J0wbXEuXbQAFec1EWHuXngomd6lEKaas8wxQdqVY0
- EwGVYyKEll32aKJed1P5bbpACQ4XDfNf7PYv
-X-Google-Smtp-Source: AK7set9QBzatX+iyzVMoe6/2+9iCbBIcnZ+Nl4ZdjUTu/yelgqHueAFwPIoLUgQyYvb7peWPRbfvPg==
-X-Received: by 2002:adf:ce02:0:b0:2c5:50f2:fcbc with SMTP id
- p2-20020adfce02000000b002c550f2fcbcmr2514670wrn.21.1676483040963; 
- Wed, 15 Feb 2023 09:44:00 -0800 (PST)
+ bh=4xWeqx5C/Xjzaw1eQA4/F7uZTIcR+NwJk/0kJcEYTAY=;
+ b=CdnMLCWh5EmtHRFeBmN1ENa9NADNcyvvaHOeUTk6Yeq22OpZi595+YgaetbMW0/Gd1
+ UMulCmp3ps7YIgR2oKa4ndC9jamfeXp2xLL0pISVIlyUpE0CuShoISrtL5n89vgWA7RI
+ PNDkzR1yjF386owBgbHMwx+VeIQPR1gDjYgmpopkpwWMpe27960jYW2jP41D/WvhqGNA
+ 7Ip+nL/8z/PHY1YrqmNx5WOUdMBKf2Fhz3VyqpGCA0nhr13FbE8ig3fJ/l9JPdSaUTyE
+ mqQCUH5izw/4v6qCeVHLngBVsd2lHLolz7/qngHoqBkHIKj/JZ3eIVwoi9QKN+Rg2Jq0
+ dNww==
+X-Gm-Message-State: AO0yUKUkf0t3d7smhvM1LDY9ZBVMyvplCPawy/rl44dP3ubYRdgrdKSZ
+ P4x4g0cY1tzRwII22avKmN06j0jYVPDRaQSh
+X-Google-Smtp-Source: AK7set/7lvshecTiyDKvaOH/yA+UWKADLvy67Z5P7A4WG491XE/W3jOetrh7ZzUU8Z/Vc4P2Um29/A==
+X-Received: by 2002:a05:600c:46c6:b0:3e0:14a:697a with SMTP id
+ q6-20020a05600c46c600b003e0014a697amr2921374wmo.6.1676483046880; 
+ Wed, 15 Feb 2023 09:44:06 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- u13-20020a5d468d000000b002c54c92e125sm12669586wrq.46.2023.02.15.09.43.59
+ p17-20020a05600c469100b003dd1b00bd9asm3004147wmo.32.2023.02.15.09.44.05
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 15 Feb 2023 09:44:00 -0800 (PST)
+ Wed, 15 Feb 2023 09:44:06 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Marcelo Tosatti <mtosatti@redhat.com>, Sergio Lopez <slp@redhat.com>,
@@ -61,18 +62,17 @@ Cc: Marcelo Tosatti <mtosatti@redhat.com>, Sergio Lopez <slp@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>, qemu-ppc@nongnu.org,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 1/5] hw/timer/hpet: Include missing 'hw/qdev-properties.h'
- header
-Date: Wed, 15 Feb 2023 18:43:49 +0100
-Message-Id: <20230215174353.37097-2-philmd@linaro.org>
+Subject: [PATCH 2/5] hw/timer/i8254: Factor i8254_pit_create() out and document
+Date: Wed, 15 Feb 2023 18:43:50 +0100
+Message-Id: <20230215174353.37097-3-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230215174353.37097-1-philmd@linaro.org>
 References: <20230215174353.37097-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,32 +95,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Avoid when refactoring unrelated headers:
-
-  hw/timer/hpet.c:776:39: error: array has incomplete element type 'Property' (aka 'struct Property')
-  static Property hpet_device_properties[] = {
-                                        ^
-  hw/timer/hpet.c:777:5: error: implicit declaration of function 'DEFINE_PROP_UINT8' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-      DEFINE_PROP_UINT8("timers", HPETState, num_timers, HPET_MIN_TIMERS),
-      ^
-
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/timer/hpet.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/timer/i8254.c         | 16 ++++++++++++++++
+ include/hw/timer/i8254.h | 24 +++++++++++++-----------
+ 2 files changed, 29 insertions(+), 11 deletions(-)
 
-diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
-index 9520471be2..214d6a0501 100644
---- a/hw/timer/hpet.c
-+++ b/hw/timer/hpet.c
-@@ -30,6 +30,7 @@
- #include "qapi/error.h"
- #include "qemu/error-report.h"
+diff --git a/hw/timer/i8254.c b/hw/timer/i8254.c
+index c8388ea432..9b6932ab08 100644
+--- a/hw/timer/i8254.c
++++ b/hw/timer/i8254.c
+@@ -26,9 +26,11 @@
+ #include "hw/irq.h"
+ #include "qemu/module.h"
  #include "qemu/timer.h"
 +#include "hw/qdev-properties.h"
- #include "hw/timer/hpet.h"
- #include "hw/sysbus.h"
- #include "hw/rtc/mc146818rtc.h"
+ #include "hw/timer/i8254.h"
+ #include "hw/timer/i8254_internal.h"
+ #include "qom/object.h"
++#include "qapi/error.h"
+ 
+ //#define DEBUG_PIT
+ 
+@@ -47,6 +49,20 @@ struct PITClass {
+     DeviceRealize parent_realize;
+ };
+ 
++ISADevice *i8254_pit_create(ISABus *bus, int iobase, qemu_irq irq_in)
++{
++    DeviceState *dev;
++    ISADevice *d;
++
++    d = isa_new(TYPE_I8254);
++    dev = DEVICE(d);
++    qdev_prop_set_uint32(dev, "iobase", iobase);
++    isa_realize_and_unref(d, bus, &error_fatal);
++    qdev_connect_gpio_out(dev, 0, irq_in);
++
++    return d;
++}
++
+ static void pit_irq_timer_update(PITChannelState *s, int64_t current_time);
+ 
+ static int pit_get_count(PITChannelState *s)
+diff --git a/include/hw/timer/i8254.h b/include/hw/timer/i8254.h
+index 8402caad30..a0843cae07 100644
+--- a/include/hw/timer/i8254.h
++++ b/include/hw/timer/i8254.h
+@@ -45,21 +45,23 @@ OBJECT_DECLARE_TYPE(PITCommonState, PITCommonClass, PIT_COMMON)
+ #define TYPE_I8254 "isa-pit"
+ #define TYPE_KVM_I8254 "kvm-pit"
+ 
++/**
++ * Create and realize a I8254 PIT device on the heap.
++ * @bus: the #ISABus to put it on.
++ * @iobase: the base I/O port.
++ * @irq_in: qemu_irq to connect the PIT output IRQ to.
++ *
++ * Create the device state structure, initialize it, put it on the
++ * specified ISA @bus, and drop the reference to it (the device is realized).
++ */
++ISADevice *i8254_pit_create(ISABus *bus, int iobase, qemu_irq irq_in);
++
+ static inline ISADevice *i8254_pit_init(ISABus *bus, int base, int isa_irq,
+                                         qemu_irq alt_irq)
+ {
+-    DeviceState *dev;
+-    ISADevice *d;
+-
+-    d = isa_new(TYPE_I8254);
+-    dev = DEVICE(d);
+-    qdev_prop_set_uint32(dev, "iobase", base);
+-    isa_realize_and_unref(d, bus, &error_fatal);
+-    qdev_connect_gpio_out(dev, 0,
+-                          isa_irq >= 0 ? isa_bus_get_irq(bus, isa_irq)
++    return i8254_pit_create(bus, base, isa_irq >= 0
++                                       ? isa_bus_get_irq(bus, isa_irq)
+                                        : alt_irq);
+-
+-    return d;
+ }
+ 
+ static inline ISADevice *kvm_pit_init(ISABus *bus, int base)
 -- 
 2.38.1
 
