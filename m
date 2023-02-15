@@ -2,94 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 598B86980BA
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 17:19:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 672CD6980C6
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 17:22:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSKTI-0007Fa-01; Wed, 15 Feb 2023 11:17:28 -0500
+	id 1pSKXY-0004r3-P4; Wed, 15 Feb 2023 11:21:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pSKT7-00070K-II
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 11:17:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pSKT6-0008Hd-5d
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 11:17:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676477835;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=StUbj1qio6wwGfPdysYuT6d/VUp+EjrE2Z7gFeivv7Y=;
- b=e5CclPYYgCImxn13htIO8Tfn9nV175wq7m3+1UbAcFQ9IEzmxIXYgGC/IggmIsyfzCpBDh
- rd+2gkwzgXj543Fh8tkg22QCyJ9bhjpXT9icVMZZcz7Zr2PBGIPIG6qN9wVajEEFE1eSBW
- aMTKzN9w1pGPCc2ozxin2epLcQTcl5w=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-482-6PLry6s4ORG0wgAGGTYl9w-1; Wed, 15 Feb 2023 11:17:08 -0500
-X-MC-Unique: 6PLry6s4ORG0wgAGGTYl9w-1
-Received: by mail-qv1-f72.google.com with SMTP id
- jh2-20020a0562141fc200b004c74bbb0affso10966050qvb.21
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 08:16:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pSKXX-0004qr-FF
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 11:21:51 -0500
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pSKXU-0004BB-Fn
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 11:21:51 -0500
+Received: by mail-pf1-x431.google.com with SMTP id bt14so6239716pfb.13
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 08:21:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bgcu2KTxDVUVuHafhq0CJ7VBe3lvTUk/WzUzvgOLuTQ=;
+ b=WRXa/pQe3PrTcuM9F5E3oI605mOn3bw82sp0zhMorUXWECUHjZ3DW7f5/1Z1Xf3ezB
+ S9/IQSX8CRERlUu1nQVVYEpfXCDnIK26VpaVEEFAUMHYRmcc4dDMCFVWRa6WqczsS5Xn
+ 4pqnwdidyLz4LnQNZOvTwNqqkC8+XtfVFAEVCQQEfG0jCCxIaVgMKV32+oTq//o5jlYD
+ hM0RKZWXTw2kKxqRn5mJ24iLeYeFLxdd1eCgyaZCtNGp8OEM3LKhkMF45O5v83NZKf2r
+ eylKiCw6eifjO9b1nBNPIqCixcs6TXp56Pr0YCyyq8pG7uLnT5LusTZjmzvmI+Lr1oH7
+ d3zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=StUbj1qio6wwGfPdysYuT6d/VUp+EjrE2Z7gFeivv7Y=;
- b=C7zPAgpWloSpboiuXENtBORYO7bxLl5hFofAsdOGdBrkT4uRrCCfDvkXZcbKV4b9HA
- 6RQgXm7gk17E6Qo8VEs7KLqlFjcZk+oPM/guupiZGc2hKGbANVjFmUnADtR34HrF8SDM
- aVxCy14SsGwKfLbHgk92ZgNx4jxwcyU/67NDJL312UIXJtEMw/UCcBOnezKTxiyDYYx8
- nADuqzwZYy8CVe5XAVoYuuFmucnlVzbHCmu//4FHgGiyKUpZqZLV8ws2eAnM6Mpr6eyB
- u+qLZJDdYal/yKnTULQqP8f4qoCdWOtG12+PKr9PqU/es3pCuI9kFSb7tHgrlpnDwf+o
- uZxA==
-X-Gm-Message-State: AO0yUKVreApd8tjfix7EplQBSKjelQXFYT7oGArrnEC5CSsAtSypSrog
- Acfag9kQuKl+q1frt6X58cofFGdem+BMeRMc72QMaZEDPUx3iXz0GYAOiDKcD0HPYfXDswfraaY
- 3CatJWYIDTSL9vYE=
-X-Received: by 2002:ac8:5bd6:0:b0:3b8:683c:40f with SMTP id
- b22-20020ac85bd6000000b003b8683c040fmr4072800qtb.30.1676477818809; 
- Wed, 15 Feb 2023 08:16:58 -0800 (PST)
-X-Google-Smtp-Source: AK7set/YIJKXpRm+4fPtnFpaHHXPzdr6s4WEkgpOrixqt6jA+DBlWoAAPQcBn2gRhFzyqPHL88P2+A==
-X-Received: by 2002:ac8:5bd6:0:b0:3b8:683c:40f with SMTP id
- b22-20020ac85bd6000000b003b8683c040fmr4072767qtb.30.1676477818555; 
- Wed, 15 Feb 2023 08:16:58 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- o24-20020ac84298000000b003b880ef08acsm13498857qtl.35.2023.02.15.08.16.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Feb 2023 08:16:57 -0800 (PST)
-Message-ID: <f231beb8-df21-29bd-93e5-c8b826c2a221@redhat.com>
-Date: Wed, 15 Feb 2023 17:16:50 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bgcu2KTxDVUVuHafhq0CJ7VBe3lvTUk/WzUzvgOLuTQ=;
+ b=WqnWDEpjC59cUYMRL6XoG0sZg+0CuOEG+JGuREznpML7prNaZPYL3753uxQbLj0QP8
+ ZXdyIm69q0xkHKqb7kwmF8zXeEPgCA1zIIOzu7PSApnpYSD6PcR4Xx1rBwZZ0do5p1Ir
+ V7Y1qSGAJjPh30055GUJliNP6OKMxbhmJSMLpTQchAYyA7lOZ01wIJevLzgTt6ROh/JZ
+ 2GSlW2dlWhWU5z8UxupGhc3PI+2nwu8urJUGebUuJiIMaIUlx78bkPLib1b1lEvEd8Wy
+ 97s8iVZLgiFsYEsA/w9y4YJDTKZJTi/wDgE6I2hTHHv13OUQCrUGBGtwTPL7ZCd8bj5D
+ 25DQ==
+X-Gm-Message-State: AO0yUKWO6DrUgEJtqHdCUvPxJFMwYDdFCPu5USLDZkEjDGSRDxlSzIIK
+ v25amtFEtLgkJr3r5LuoR/J7dFaiCXtaoBJd3za41g==
+X-Google-Smtp-Source: AK7set+xROFpUkrFlDpPw67VhPOnpVl7iwVhpDRyFcqqAHg0Ort/SXeNORFjR0xBc4rMnkVlMOMssnfS1jC0iQ9gQss=
+X-Received: by 2002:a63:34c8:0:b0:4fb:d300:c637 with SMTP id
+ b191-20020a6334c8000000b004fbd300c637mr432533pga.6.1676478106038; Wed, 15 Feb
+ 2023 08:21:46 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [RFC PATCH 01/16] hw/arm/smmuv3: Add missing fields for IDR0
-Content-Language: en-US
-To: Mostafa Saleh <smostafa@google.com>, qemu-devel@nongnu.org
-Cc: jean-philippe@linaro.org, peter.maydell@linaro.org, qemu-arm@nongnu.org
-References: <20230205094411.793816-1-smostafa@google.com>
- <20230205094411.793816-2-smostafa@google.com>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <20230205094411.793816-2-smostafa@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <20230215142503.90660-1-thuth@redhat.com>
+ <Y+zzIV2e6UigEIze@redhat.com>
+ <1ed8e614-d43c-3d7d-b320-27985b521667@redhat.com>
+In-Reply-To: <1ed8e614-d43c-3d7d-b320-27985b521667@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 15 Feb 2023 16:21:34 +0000
+Message-ID: <CAFEAcA8qWR-zB_twK1V-fbq2=S+o4nK29JheEOeToGYUiosFuA@mail.gmail.com>
+Subject: Re: [PATCH] gitlab-ci: Use artifacts instead of dumping logs in the
+ Cirrus-CI jobs
+To: Thomas Huth <thuth@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.257, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,47 +87,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Mostafa,
+On Wed, 15 Feb 2023 at 15:33, Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 15/02/2023 15.58, Daniel P. Berrang=C3=A9 wrote:
+> > On Wed, Feb 15, 2023 at 03:25:03PM +0100, Thomas Huth wrote:
+> >> The meson log files can get very big, especially if running the tests =
+in
+> >> verbose mode. So dumping those logs to the console was a bad idea, sin=
+ce
+> >> gitlab truncates the output if it is getting too big. Let's publish th=
+e
+> >> logs as artifacts instead. This has the disadvantage that you have to
+> >> look up the logs on cirrus-ci.com now instead, but that's still better
+> >> than not having the important part of the log at all since it got
+> >> truncated.
+> >
+> > Having to go over to cirrus-ci.com is pretty awful user experiance,
+> > especially as there's no direct link.
+>
+> It's not that bad, see e.g.:
+>
+>   https://gitlab.com/thuth/qemu/-/jobs/3775523498
+>
+> The log shows a link to cirrus-ci.com at the end:
+>
+>   Build failed: https://cirrus-ci.com/build/4811273133621248
+>
+> If you click on that URL, you've just got to go into the "build" and clic=
+k
+> through the build artifacts to get to the log that you want.
 
-On 2/5/23 10:43, Mostafa Saleh wrote:
-> In preparation for adding stage-2 support.
-> Add IDR0 fields related to stage-2.
->
-> VMID16: 16-bit VMID supported.
-> S2P: Stage-2 translation supported.
->
-> They are described in 6.3.1 SMMU_IDR0.
->
-> No functional change intended.
->
-> Signed-off-by: Mostafa Saleh <smostafa@google.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Could somebody write up some documentation for how to get from
+"top level gitlab CI pipeline page" to "detailed logs for a
+job failure", please? I'm finding that the UI for this (both
+Cirrus and gitlab) is very non-obvious, so a writeup like
+the above of "follow this link from the log, click this button,
+go look at build artefact X" would be very helpful.
+Somewhere in https://wiki.qemu.org/Merges is probably a
+convenient place for thsi.
 
-Eric
-> ---
->  hw/arm/smmuv3-internal.h | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
-> index bce161870f..170e88c24a 100644
-> --- a/hw/arm/smmuv3-internal.h
-> +++ b/hw/arm/smmuv3-internal.h
-> @@ -34,10 +34,12 @@ typedef enum SMMUTranslationStatus {
->  /* MMIO Registers */
->  
->  REG32(IDR0,                0x0)
-> +    FIELD(IDR0, S2P,         0 , 1)
->      FIELD(IDR0, S1P,         1 , 1)
->      FIELD(IDR0, TTF,         2 , 2)
->      FIELD(IDR0, COHACC,      4 , 1)
->      FIELD(IDR0, ASID16,      12, 1)
-> +    FIELD(IDR0, VMID16,      18, 1)
->      FIELD(IDR0, TTENDIAN,    21, 2)
->      FIELD(IDR0, STALL_MODEL, 24, 2)
->      FIELD(IDR0, TERM_MODEL,  26, 1)
-
+thanks
+-- PMM
 
