@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EC8B697EF1
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 15:58:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 150CA697EF5
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 15:59:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSJE8-0006GE-9I; Wed, 15 Feb 2023 09:57:44 -0500
+	id 1pSJFI-0006z4-1O; Wed, 15 Feb 2023 09:58:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSJE6-0006Fq-8h
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 09:57:42 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSJE4-0002eP-Be
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 09:57:41 -0500
-Received: by mail-wr1-x436.google.com with SMTP id r2so19433996wrv.7
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 06:57:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=UG0ZD9PAAkLYKsZxK0Y3oxn4AgQyCn5eh6r1f6BmtW8=;
- b=oFmyRccy/1nqATnrtZTcGCoXH61pnQEVSlphpJvsaBnLIjfdTaeQUoKZkGm0MGJ6aC
- vY3m8tjHdCDEySEjiQjl/J+X+9GMyFYg2+d9czmR7Aek9siqEjgb3PoGik4kx27VJieK
- MYmKMRw5ew2HTtU2Owbo/YRnhHbyejdlXyDrPChNnlkRrh1NRqsdlJVHqJZ0CB+nzY8P
- URWhYAp6g72+E3wSHZlA+mUQEpYBKdpUJSQBQvkuTfKa5H2rk1yjhqOJlEzf0gxjHbzd
- MA4sFhwPGMBMtbWvyyljl72VsqNjh6Z439nliZcYmL8ytclf1x8vNbF7W79Tv7xUNPCK
- qj7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UG0ZD9PAAkLYKsZxK0Y3oxn4AgQyCn5eh6r1f6BmtW8=;
- b=hY4UZjTBEylx34bbRsQOsMohLPLFR9TCdDcsnyarTf4OkoWUpihbDmT0gKwkZo5Xd4
- 2iIY0lr4QPX/o6hCd2LR0M3AHzOLLQIsV4uG6dOcBeJXDUh47sW+0xz976RjN0ZOhI+D
- IwlOucNuHKcNlxTs4U/R3ir8wmgBCILo7m3TIQZaN8mbqcz+Bx+vX1xVjlD4WwshVqd+
- 067QjmnNf71NY7nxx3ia1sspS/GZzJP26C/SxVcDLdfpXMG1L2nkSOnD3dga5+kUToEv
- Jh+Iif6bTXFgHXgpcfNtWZtBNrnOreFG32x1Xu5R+MauF/HzkJTtJIni2pi9GX8ohOHM
- iMAg==
-X-Gm-Message-State: AO0yUKVyeIdK7UwR8zinVMDVRiTvWhK1IT7ITjckq0SB1jiuwNrz/SYA
- G7+FKsKNXnEVBLik1fp7u6S0pQ==
-X-Google-Smtp-Source: AK7set93K3AhgRK0pSeYgAYqGzSQ9gA79WArutoNCTGtcWPTcclHYUT9JbRJCPHzutOE5n4z+VvgcQ==
-X-Received: by 2002:adf:e5cb:0:b0:2c3:f4bd:2582 with SMTP id
- a11-20020adfe5cb000000b002c3f4bd2582mr1694291wrn.46.1676473058767; 
- Wed, 15 Feb 2023 06:57:38 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- k6-20020adfe8c6000000b002c55551e6e9sm8906121wrn.108.2023.02.15.06.57.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Feb 2023 06:57:38 -0800 (PST)
-Message-ID: <32f0a378-2ae9-c711-19c8-837397c87c4a@linaro.org>
-Date: Wed, 15 Feb 2023 15:57:37 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pSJFF-0006yY-GQ
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 09:58:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pSJFD-0003pa-A2
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 09:58:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676473129;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=F62WFb0l45tszw/oDRlblCagmSL+A3iO6amliBOa8eg=;
+ b=DOO38/Ia6URi2REh9mDOsn/L4TeyhhYhRe3c/Naox0DzJqyVDe6T7cePKxKqIkrzeK3s44
+ hxBdMX6CqIABI4AK+0ULqRqDBPGUXph6en3mk5PsOSnZKmvXNfiTpVEE9KUsHYI4B7ynkf
+ nE2WqsFhhgkeinh+h/YunaJLarRZFrQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-642-RCVPE0McNqC0SZ71D4uqjQ-1; Wed, 15 Feb 2023 09:58:46 -0500
+X-MC-Unique: RCVPE0McNqC0SZ71D4uqjQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 86757100F907;
+ Wed, 15 Feb 2023 14:58:45 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 53C4C4014D03;
+ Wed, 15 Feb 2023 14:58:44 +0000 (UTC)
+Date: Wed, 15 Feb 2023 14:58:41 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 Subject: Re: [PATCH] gitlab-ci: Use artifacts instead of dumping logs in the
  Cirrus-CI jobs
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Message-ID: <Y+zzIV2e6UigEIze@redhat.com>
 References: <20230215142503.90660-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 In-Reply-To: <20230215142503.90660-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,12 +79,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Thomas,
-
-On 15/2/23 15:25, Thomas Huth wrote:
+On Wed, Feb 15, 2023 at 03:25:03PM +0100, Thomas Huth wrote:
 > The meson log files can get very big, especially if running the tests in
 > verbose mode. So dumping those logs to the console was a bad idea, since
 > gitlab truncates the output if it is getting too big. Let's publish the
@@ -103,34 +91,47 @@ On 15/2/23 15:25, Thomas Huth wrote:
 > look up the logs on cirrus-ci.com now instead, but that's still better
 > than not having the important part of the log at all since it got
 > truncated.
-> 
+
+Having to go over to cirrus-ci.com is pretty awful user experiance,
+especially as there's no direct link.
+
 > Fixes: 998f334722 ("gitlab: show testlog.txt contents ...")
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->   Note: I also tried to publish the junit xml files as artifacts
->   instead, but while the cirrus-ci docs claim to support it, I only
->   got unreadable XML output in my browser that way, so the .txt
->   files look like the better option to me.
+>  Note: I also tried to publish the junit xml files as artifacts
+>  instead, but while the cirrus-ci docs claim to support it, I only
+>  got unreadable XML output in my browser that way, so the .txt
+>  files look like the better option to me.
 > 
->   .gitlab-ci.d/cirrus/build.yml | 7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
+>  .gitlab-ci.d/cirrus/build.yml | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 > 
 > diff --git a/.gitlab-ci.d/cirrus/build.yml b/.gitlab-ci.d/cirrus/build.yml
 > index 7ef6af8d33..a9444902ec 100644
 > --- a/.gitlab-ci.d/cirrus/build.yml
 > +++ b/.gitlab-ci.d/cirrus/build.yml
 > @@ -32,6 +32,9 @@ build_task:
->       - $MAKE -j$(sysctl -n hw.ncpu)
->       - for TARGET in $TEST_TARGETS ;
->         do
+>      - $MAKE -j$(sysctl -n hw.ncpu)
+>      - for TARGET in $TEST_TARGETS ;
+>        do
 > -        $MAKE -j$(sysctl -n hw.ncpu) $TARGET V=1
 > -        || { cat meson-logs/testlog.txt; exit 1; } ;
 > +        $MAKE -j$(sysctl -n hw.ncpu) $TARGET V=1 ;
->         done
+>        done
 > +  always:
 > +    build_result_artifacts:
 > +      path: build/meson-logs/*log.txt
 > +      type: text/plain
 
-How long is that log kept available?
+Does it have to be either/or, can't we do both ?
+
+95% of the time the truncated testlog.txt is sufficient on its own.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
