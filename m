@@ -2,64 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75DD46974EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 04:29:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D7BB6974EC
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 04:31:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pS8TT-0001Uv-Kp; Tue, 14 Feb 2023 22:28:51 -0500
+	id 1pS8Vv-0003No-SE; Tue, 14 Feb 2023 22:31:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1pS8TD-0001QK-5S
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 22:28:38 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pS8Vr-0003NM-UO; Tue, 14 Feb 2023 22:31:19 -0500
+Received: from out30-124.freemail.mail.aliyun.com ([115.124.30.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1pS8T9-0001Pu-GI
- for qemu-devel@nongnu.org; Tue, 14 Feb 2023 22:28:34 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.56])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4PGk5C10W9zJsT2;
- Wed, 15 Feb 2023 11:26:39 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.6; Wed, 15 Feb 2023 11:28:25 +0800
-Message-ID: <2110e5ec-68b0-185d-70dc-c2ea478a5b2c@huawei.com>
-Date: Wed, 15 Feb 2023 11:28:25 +0800
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pS8Vo-0001vQ-6P; Tue, 14 Feb 2023 22:31:19 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R191e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045170;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0VbiRcg2_1676431867; 
+Received: from 30.221.98.44(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VbiRcg2_1676431867) by smtp.aliyun-inc.com;
+ Wed, 15 Feb 2023 11:31:08 +0800
+Message-ID: <c413c4b3-166f-a1ac-7ee4-a81841ad5a9a@linux.alibaba.com>
+Date: Wed, 15 Feb 2023 11:31:06 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH RESEND 05/18] i386/cpu: Consolidate the use of topo_info
- in cpu_x86_cpuid()
-To: Zhao Liu <zhao1.liu@linux.intel.com>, Eduardo Habkost
- <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, "Michael S .
- Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>, Markus
- Armbruster <armbru@redhat.com>
-CC: <qemu-devel@nongnu.org>, Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi
- <dapeng1.mi@intel.com>, Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo
- <robert.hu@linux.intel.com>, Xiaoyao Li <xiaoyao.li@intel.com>, Like Xu
- <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>
-References: <20230213093625.158170-1-zhao1.liu@linux.intel.com>
- <20230213093625.158170-6-zhao1.liu@linux.intel.com>
-In-Reply-To: <20230213093625.158170-6-zhao1.liu@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ Thunderbird/102.7.2
+Subject: Re: [PATCH v1 RFC Zisslpcfi 2/9] target/riscv: zisslpcfi CSR, bit
+ positions and other definitions
+Content-Language: en-US
+To: Deepak Gupta <debug@rivosinc.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, liweiwei@iscas.ac.cn,
+ dbarboza@ventanamicro.com
+Cc: Kip Walker <kip@rivosinc.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+References: <20230209062404.3582018-1-debug@rivosinc.com>
+ <20230209062404.3582018-3-debug@rivosinc.com>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20230209062404.3582018-3-debug@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.35,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=115.124.30.124;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-124.freemail.mail.aliyun.com
+X-Spam_score_int: -101
+X-Spam_score: -10.2
+X-Spam_bar: ----------
+X-Spam_report: (-10.2 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.35, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,144 +64,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-在 2023/2/13 17:36, Zhao Liu 写道:
-> From: Zhao Liu <zhao1.liu@intel.com>
+
+On 2023/2/9 14:23, Deepak Gupta wrote:
+> `zisslpcfi` extension adds two new CSRs. CSR_SSP and CSR_LPLR.
+> - CSR_SSP: This CSR holds shadow stack pointer for current privilege mode
+>             CSR_SSP is accessible in all modes. Each mode must establish
+>             it's own CSR_SSP.
 >
-> In cpu_x86_cpuid(), there are many variables in representing the cpu
-> topology, e.g., topo_info, cs->nr_cores/cs->nr_threads.
+> - CSR_LPLR: This CSR holds label value set at the callsite by compiler.
+>              On call target label check instructions are emitted by
+>              compiler which check label value against value present in
+>              CSR_LPRL.
 >
-> Since the names of cs->nr_cores/cs->nr_threads does not accurately
-> represent its meaning, the use of cs->nr_cores/cs->nr_threads is prone
-> to confusion and mistakes.
+> Enabling of `zisslpcfi` is controlled via menvcfg (for S/HS/VS/U/VU) and
+> henvcfg (for VS/VU) at bit position 60.
 >
-> And the structure X86CPUTopoInfo names its memebers clearly, thus the
-> variable "topo_info" should be preferred.
+> Each mode has enable/disable bits for forward cfi. Backward cfi doesn't
+> have separate enable/disable bits for S and M mode. User forward cfi and
+> user backward cfi enable/disable bits are in mstatus/sstatus CSR.
+> Supervisor forward cfi enable/disable bit are in menvcfg and henvcfg CSR.
+> Machine mode forward cfi enable/disable bit is in mseccfg CSR.
 >
-> Suggested-by: Robert Hoo <robert.hu@linux.intel.com>
-> Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
+> If forward cfi enabled, all indirect branches must land on a landing pad
+> instruction (`lpcll`, introduced in later commits). CPU/hart tracks this
+> internally using a landing pad tracker called `elp` short for `expecting
+> landing pad`. An interrupt can occur between an indirect branch and
+> target. If such an event occurs `elp` is saved away in mstatus/sstatus
+> CSR
+>
+> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+> Signed-off-by: Kip Walker  <kip@rivosinc.com>
 > ---
->   target/i386/cpu.c | 30 ++++++++++++++++++------------
->   1 file changed, 18 insertions(+), 12 deletions(-)
+>   target/riscv/cpu.h      |  5 +++++
+>   target/riscv/cpu_bits.h | 25 +++++++++++++++++++++++++
+>   target/riscv/pmp.h      |  3 ++-
+>   3 files changed, 32 insertions(+), 1 deletion(-)
 >
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 7833505092d8..4cda84eb96f1 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -5215,11 +5215,15 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
->       uint32_t limit;
->       uint32_t signature[3];
->       X86CPUTopoInfo topo_info;
-> +    uint32_t cpus_per_pkg;
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 9a923760b2..18db61a06a 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -181,6 +181,11 @@ struct CPUArchState {
 >   
->       topo_info.dies_per_pkg = env->nr_dies;
->       topo_info.cores_per_die = cs->nr_cores / env->nr_dies;
->       topo_info.threads_per_core = cs->nr_threads;
+>       uint32_t features;
 >   
-> +    cpus_per_pkg = topo_info.dies_per_pkg * topo_info.cores_per_die *
-> +                   topo_info.threads_per_core;
+> +    /* CFI Extension user mode registers and state */
+> +    uint32_t     lplr;
+> +    target_ulong ssp;
+> +    cfi_elp      elp;
+
+I think you are coding according the sections of the specification. 
+However,  when upstream code,
+don't add declaration or definition if you don't use it in this patch.
+
+This patch should be split into patches where use these definitions.
+
 > +
->       /* Calculate & apply limits for different index ranges */
->       if (index >= 0xC0000000) {
->           limit = env->cpuid_xlevel2;
-> @@ -5255,8 +5259,8 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
->               *ecx |= CPUID_EXT_OSXSAVE;
->           }
->           *edx = env->features[FEAT_1_EDX];
-> -        if (cs->nr_cores * cs->nr_threads > 1) {
-> -            *ebx |= (cs->nr_cores * cs->nr_threads) << 16;
-> +        if (cpus_per_pkg > 1) {
-> +            *ebx |= cpus_per_pkg << 16;
->               *edx |= CPUID_HT;
->           }
->           if (!cpu->enable_pmu) {
-> @@ -5293,10 +5297,12 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
->                */
->               if (*eax & 31) {
->                   int host_vcpus_per_cache = 1 + ((*eax & 0x3FFC000) >> 14);
-> -                int vcpus_per_socket = cs->nr_cores * cs->nr_threads;
-> -                if (cs->nr_cores > 1) {
-> +                int vcpus_per_socket = cpus_per_pkg;
-Would it make sense to directly use cpus_per_pkg here
-> +                int cores_per_socket = topo_info.cores_per_die *
-> +                                       topo_info.dies_per_pkg;
-There are other places in cpu_x86_cpuid where cs->nr_cores is used
-separately, why not make a global "cores_per_pkg" like cpus_per_pkg
-and also tweak the other places?
-> +                if (cores_per_socket > 1) {
->                       *eax &= ~0xFC000000;
-> -                    *eax |= (pow2ceil(cs->nr_cores) - 1) << 26;
-> +                    *eax |= (pow2ceil(cores_per_socket) - 1) << 26;
->                   }
->                   if (host_vcpus_per_cache > vcpus_per_socket) {
->                       *eax &= ~0x3FFC000;
-> @@ -5436,12 +5442,12 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
->           switch (count) {
->           case 0:
->               *eax = apicid_core_offset(&topo_info);
-> -            *ebx = cs->nr_threads;
-> +            *ebx = topo_info.threads_per_core;
-There are many other places in cpu_x86_cpuid where cs->nr_threads
-is used separately, such as encode_cache_cpuid4(***), should we
-replace them all?
->               *ecx |= CPUID_TOPOLOGY_LEVEL_SMT;
->               break;
->           case 1:
->               *eax = apicid_pkg_offset(&topo_info);
-> -            *ebx = cs->nr_cores * cs->nr_threads;
-> +            *ebx = cpus_per_pkg;
->               *ecx |= CPUID_TOPOLOGY_LEVEL_CORE;
->               break;
->           default:
-> @@ -5472,7 +5478,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
->           switch (count) {
->           case 0:
->               *eax = apicid_core_offset(&topo_info);
-> -            *ebx = cs->nr_threads;
-> +            *ebx = topo_info.threads_per_core;
->               *ecx |= CPUID_TOPOLOGY_LEVEL_SMT;
->               break;
->           case 1:
-> @@ -5482,7 +5488,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
->               break;
->           case 2:
->               *eax = apicid_pkg_offset(&topo_info);
-> -            *ebx = cs->nr_cores * cs->nr_threads;
-> +            *ebx = cpus_per_pkg;
->               *ecx |= CPUID_TOPOLOGY_LEVEL_DIE;
->               break;
->           default:
-> @@ -5707,7 +5713,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
->            * discards multiple thread information if it is set.
->            * So don't set it here for Intel to make Linux guests happy.
->            */
-> -        if (cs->nr_cores * cs->nr_threads > 1) {
-> +        if (cpus_per_pkg > 1) {
->               if (env->cpuid_vendor1 != CPUID_VENDOR_INTEL_1 ||
->                   env->cpuid_vendor2 != CPUID_VENDOR_INTEL_2 ||
->                   env->cpuid_vendor3 != CPUID_VENDOR_INTEL_3) {
-> @@ -5769,7 +5775,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
->                *eax |= (cpu_x86_virtual_addr_width(env) << 8);
->           }
->           *ebx = env->features[FEAT_8000_0008_EBX];
-> -        if (cs->nr_cores * cs->nr_threads > 1) {
-> +        if (cpus_per_pkg > 1) {
->               /*
->                * Bits 15:12 is "The number of bits in the initial
->                * Core::X86::Apic::ApicId[ApicId] value that indicate
-> @@ -5777,7 +5783,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
->                * Bits 7:0 is "The number of threads in the package is NC+1"
->                */
->               *ecx = (apicid_pkg_offset(&topo_info) << 12) |
-> -                   ((cs->nr_cores * cs->nr_threads) - 1);
-> +                   (cpus_per_pkg - 1);
->           } else {
->               *ecx = 0;
->           }
-Thanks,
-Yanan
+>   #ifdef CONFIG_USER_ONLY
+>       uint32_t elf_flags;
+>   #endif
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index 8b0d7e20ea..1663ba5775 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -39,6 +39,10 @@
+>   
+>   /* Control and Status Registers */
+>   
+> +/* CFI CSRs */
+> +#define CSR_LPLR            0x006
+I didn't see the CSR encoding  number from the link in cover-letter.
+> +#define CSR_SSP             0x020
+> +
+>   /* User Trap Setup */
+>   #define CSR_USTATUS         0x000
+>   #define CSR_UIE             0x004
+> @@ -542,6 +546,10 @@
+>   #define MSTATUS_TVM         0x00100000 /* since: priv-1.10 */
+>   #define MSTATUS_TW          0x00200000 /* since: priv-1.10 */
+>   #define MSTATUS_TSR         0x00400000 /* since: priv-1.10 */
+> +#define MSTATUS_UFCFIEN     0x00800000 /* Zisslpcfi-0.1 */
+> +#define MSTATUS_UBCFIEN     0x01000000 /* Zisslpcfi-0.1 */
+> +#define MSTATUS_SPELP       0x02000000 /* Zisslpcfi-0.1 */
+> +#define MSTATUS_MPELP       0x04000000 /* Zisslpcfi-0.1 */
+>   #define MSTATUS_GVA         0x4000000000ULL
+>   #define MSTATUS_MPV         0x8000000000ULL
+>   
+> @@ -572,12 +580,21 @@ typedef enum {
+>   #define SSTATUS_XS          0x00018000
+>   #define SSTATUS_SUM         0x00040000 /* since: priv-1.10 */
+>   #define SSTATUS_MXR         0x00080000
+> +#define SSTATUS_UFCFIEN     MSTATUS_UFCFIEN /* Zisslpcfi-0.1 */
+> +#define SSTATUS_UBCFIEN     MSTATUS_UBCFIEN /* Zisslpcfi-0.1 */
+> +#define SSTATUS_SPELP       MSTATUS_SPELP   /* Zisslpcfi-0.1 */
+>   
+>   #define SSTATUS64_UXL       0x0000000300000000ULL
+>   
+>   #define SSTATUS32_SD        0x80000000
+>   #define SSTATUS64_SD        0x8000000000000000ULL
+>   
+> +#define CFISTATUS_M_MASK    (MSTATUS_UFCFIEN | MSTATUS_UBCFIEN | \
+> +                             MSTATUS_MPELP | MSTATUS_SPELP)
+> +
+> +#define CFISTATUS_S_MASK    (SSTATUS_UFCFIEN | SSTATUS_UBCFIEN | \
+> +                             SSTATUS_SPELP)
+Why not the VSSTATUS?
+> +
+>   /* hstatus CSR bits */
+>   #define HSTATUS_VSBE         0x00000020
+>   #define HSTATUS_GVA          0x00000040
+> @@ -747,10 +764,14 @@ typedef enum RISCVException {
+>   #define MENVCFG_CBIE                       (3UL << 4)
+>   #define MENVCFG_CBCFE                      BIT(6)
+>   #define MENVCFG_CBZE                       BIT(7)
+> +#define MENVCFG_SFCFIEN                    BIT(59)
+> +#define MENVCFG_CFI                        BIT(60)
+
+MENVCFG_CFIE according to the specification.  The definitions in other 
+places  should also use X_CFIE.
+
+The same comment here with Weiwei, or you can use BIT_ULL.
+
+Zhiwei
+
+>   #define MENVCFG_PBMTE                      (1ULL << 62)
+>   #define MENVCFG_STCE                       (1ULL << 63)
+>   
+>   /* For RV32 */
+> +#define MENVCFGH_SFCFIEN                   BIT(27)
+> +#define MENVCFGH_CFI                       BIT(28)
+>   #define MENVCFGH_PBMTE                     BIT(30)
+>   #define MENVCFGH_STCE                      BIT(31)
+>   
+> @@ -763,10 +784,14 @@ typedef enum RISCVException {
+>   #define HENVCFG_CBIE                       MENVCFG_CBIE
+>   #define HENVCFG_CBCFE                      MENVCFG_CBCFE
+>   #define HENVCFG_CBZE                       MENVCFG_CBZE
+> +#define HENVCFG_SFCFIEN                    MENVCFG_SFCFIEN
+> +#define HENVCFG_CFI                        MENVCFG_CFI
+>   #define HENVCFG_PBMTE                      MENVCFG_PBMTE
+>   #define HENVCFG_STCE                       MENVCFG_STCE
+>   
+>   /* For RV32 */
+> +#define HENVCFGH_SFCFIEN                    MENVCFGH_SFCFIEN
+> +#define HENVCFGH_CFI                        MENVCFGH_CFI
+>   #define HENVCFGH_PBMTE                      MENVCFGH_PBMTE
+>   #define HENVCFGH_STCE                       MENVCFGH_STCE
+>   
+> diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
+> index da32c61c85..f5bfc4955b 100644
+> --- a/target/riscv/pmp.h
+> +++ b/target/riscv/pmp.h
+> @@ -43,7 +43,8 @@ typedef enum {
+>       MSECCFG_MMWP  = 1 << 1,
+>       MSECCFG_RLB   = 1 << 2,
+>       MSECCFG_USEED = 1 << 8,
+> -    MSECCFG_SSEED = 1 << 9
+> +    MSECCFG_SSEED = 1 << 9,
+> +    MSECCFG_MFCFIEN =  1 << 10
+>   } mseccfg_field_t;
+>   
+>   typedef struct {
 
