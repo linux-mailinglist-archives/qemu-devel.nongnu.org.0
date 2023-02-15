@@ -2,99 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6888D697CA9
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 14:03:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E57D8697CB6
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 14:06:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSHRV-0004jN-Cv; Wed, 15 Feb 2023 08:03:26 -0500
+	id 1pSHTg-0006PT-Lh; Wed, 15 Feb 2023 08:05:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pSHRG-0004cv-Ac
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:03:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pSHRE-0004Z2-UZ
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:03:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676466188;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3kW+4r/IsnylXOZnjFVHlIJ/ky0viI0P7SFDd6DvFhw=;
- b=OxmSLlm7uvErQwbKeNAL8WnWeBoJCFjcNctZzvqX2MC0UO3BXFjlnzNvGwEmEfGZuidBH3
- RU3YXaOEYQVz2KA8jtiDr6gm3y5odTN1Ba0S1mpiwpOhExqlH1RT77H3FTkr/TqBKPjPAg
- rhqXVImbXXX5cWhodp45uMOagftIceg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-471-Ry-xB6eMMt6nJYRwumAdyA-1; Wed, 15 Feb 2023 08:03:06 -0500
-X-MC-Unique: Ry-xB6eMMt6nJYRwumAdyA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- iz20-20020a05600c555400b003dc53fcc88fso1107083wmb.2
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 05:03:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1pSHTc-0006P8-2x
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:05:36 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1pSHTa-00053z-Ez
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 08:05:35 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ k8-20020a05600c1c8800b003dc57ea0dfeso1565698wms.0
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 05:05:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=lBiNSsZ870GRbMqmbxJu2R2L5f5vLxkzcaPdYSoLYjY=;
+ b=EuO4Fdvtber9kal7LTnn2Sy28y/9yLr7TuElcs+/04eVPVaCYGZoLPi4bVliirvp/I
+ GF5lBHMQslarWChR6DnOSLOWEKNJ9yoEsjkBIApaBH/T7gUmJQs0pIX8fhhHAenNwHZH
+ 3UWhIBSsAU9ouEaqnFTNsSf4gEJYf1hP1joN7vVzbb9U7SPcAjdmf7Mjf5YO5UXIudCl
+ qQ8zUTCspHPCjSrwbkOnjo+HZogz07jaPVApPZ/83F1iopypBrYAVv1uVG4o/GNshRmo
+ x6LHOBCAl/luOs/sB1vB3dyjbTau/u6Mfgtyg7yXZqUrryCeE4pgMWeVkdd5QMP6qrO2
+ JzeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:reply-to
- :user-agent:references:in-reply-to:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3kW+4r/IsnylXOZnjFVHlIJ/ky0viI0P7SFDd6DvFhw=;
- b=gz8aei4fxIkkpPVG+5gEJOfvFTq9eeKHtDJjRLkG/WCByw0TPIFclsonXxaHQd0ri3
- 5M+GHYDJn0+e/trWDAMKg0Hpo3a3Ob5CJwfUzk4SxrACwhQOYWnijLwQ+daAT5yCws5k
- h/B48TKL54HHaMeYGYxXVOb9Ei93XG6on8TElSC931U0h1mgvJCIqsyRMippzTfVE9cO
- skGF03bXFblBanyFuWeFgOaRyZIoFhECI9LDrP3K0tr259ZTs1SmwRJ5qllQqjhnYmeg
- gErPBuyji8yOy9cceWmnv9NR1WB4i1Q9H34Px6s5I5BwWkWiUJqSljY+l8jipDEEudG/
- kCUA==
-X-Gm-Message-State: AO0yUKVbaXRMdIeO6pBGnjlHVC69FfV0+0J+MZU2Uh9buFGijvIGlzf+
- m4R976NFooZN3l4A8T94SeHWfInM3WTP01PVu1cU4phRTq7UdA2+n2iho3YKtNWXNnn0N/taFFH
- YjxOM2ZDo5+cfapk=
-X-Received: by 2002:a05:600c:a4c:b0:3de:a525:1d05 with SMTP id
- c12-20020a05600c0a4c00b003dea5251d05mr1678522wmq.8.1676466185770; 
- Wed, 15 Feb 2023 05:03:05 -0800 (PST)
-X-Google-Smtp-Source: AK7set++7SNGikSj6e9oU76ymfSzHFLYeCt1sY1vrnSzFQCyoxDRZtzMYCXlFj1swza7GvuyRexjFw==
-X-Received: by 2002:a05:600c:a4c:b0:3de:a525:1d05 with SMTP id
- c12-20020a05600c0a4c00b003dea5251d05mr1678491wmq.8.1676466185475; 
- Wed, 15 Feb 2023 05:03:05 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- q2-20020a5d5742000000b002c560e6ea57sm5218480wrw.47.2023.02.15.05.03.04
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lBiNSsZ870GRbMqmbxJu2R2L5f5vLxkzcaPdYSoLYjY=;
+ b=mYIz9chNSOvKcdxwa8ZRSCuLU8is9QbLuq56H9MMarUhk3h8tPdRp4DLwkykLzRcFz
+ r/si+mDyJF6SpZHQlBrjeyx6gmXaZIHmrJYsrLXrDcDuuz81w4VfQbdILm0haZqX+2bf
+ E+jgQeES/ZosFFQfI3kiEHH3hlJv508ZcO7hIiuu/5ZN8JJ/RvZj5Fv3KrrC/IZm7aWW
+ OqezV/2dQwTlYxgTa9pXUL0MZYmAuMUyeoZwryhvJTbvcHVvnV0ijUSmQ48UuvXaxXQ4
+ n+QmI3yWfV32uy5mpq3QeAudWz4r9R4F3STRXkD7jLB4OeMAQc7ekEyCxMiMc/WBbJ5/
+ ncVg==
+X-Gm-Message-State: AO0yUKU4AtWG4dJeU+t2Ew/UFUJ0YOiJ7pC2PnnHaq4en00+pBueXo9V
+ gOkRgXKpU+rUaA53pQKgkzMzyQ==
+X-Google-Smtp-Source: AK7set9biYfSuX09svwbF94mgeAwfc9MmkWDLygsHw+7P3NkIzc6GY71e0k+7PmTlL8UciJ7hOI1kg==
+X-Received: by 2002:a05:600c:4918:b0:3db:2063:425d with SMTP id
+ f24-20020a05600c491800b003db2063425dmr1860139wmp.2.1676466332855; 
+ Wed, 15 Feb 2023 05:05:32 -0800 (PST)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz.
+ [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+ by smtp.gmail.com with ESMTPSA id
+ j2-20020a05600c1c0200b003e204fdb160sm1727325wms.3.2023.02.15.05.05.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 05:03:04 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>
-Cc: <qemu-devel@nongnu.org>,  Alex Williamson <alex.williamson@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,  "Michael S. Tsirkin"
- <mst@redhat.com>,  Cornelia Huck <cohuck@redhat.com>,  Paolo Bonzini
- <pbonzini@redhat.com>,  Vladimir Sementsov-Ogievskiy
- <vsementsov@yandex-team.ru>,  =?utf-8?Q?C=C3=A9dric?= Le Goater
- <clg@redhat.com>,  Yishai
- Hadas <yishaih@nvidia.com>,  Jason Gunthorpe <jgg@nvidia.com>,  Maor
- Gottlieb <maorg@nvidia.com>,  Kirti Wankhede <kwankhede@nvidia.com>,
- Tarun Gupta <targupta@nvidia.com>,  Joao Martins
- <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v10 11/12] vfio: Alphabetize migration section of VFIO
- trace-events file
-In-Reply-To: <20230209192043.14885-12-avihaih@nvidia.com> (Avihai Horon's
- message of "Thu, 9 Feb 2023 21:20:42 +0200")
-References: <20230209192043.14885-1-avihaih@nvidia.com>
- <20230209192043.14885-12-avihaih@nvidia.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 15 Feb 2023 14:03:04 +0100
-Message-ID: <87h6vn2i9j.fsf@secure.mitica>
+ Wed, 15 Feb 2023 05:05:32 -0800 (PST)
+Date: Wed, 15 Feb 2023 14:05:31 +0100
+From: Andrew Jones <ajones@ventanamicro.com>
+To: Sunil V L <sunilvl@ventanamicro.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Anup Patel <apatel@ventanamicro.com>,
+ Atish Kumar Patra <atishp@rivosinc.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Subject: Re: [PATCH V2 05/10] hw/riscv/virt: virt-acpi-build.c: Add RINTC in
+ MADT
+Message-ID: <20230215130531.nrmxazkwlgskluak@orel>
+References: <20230213144038.2547584-1-sunilvl@ventanamicro.com>
+ <20230213144038.2547584-6-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230213144038.2547584-6-sunilvl@ventanamicro.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=ajones@ventanamicro.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,17 +95,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Avihai Horon <avihaih@nvidia.com> wrote:
-> Sort the migration section of VFIO trace events file alphabetically
-> and move two misplaced traces to common.c section.
+On Mon, Feb 13, 2023 at 08:10:33PM +0530, Sunil V L wrote:
+> Add Multiple APIC Description Table (MADT) with the
+> INTC structure for each cpu.
+> 
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> Acked-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  hw/riscv/virt-acpi-build.c | 37 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 37 insertions(+)
+> 
+> diff --git a/hw/riscv/virt-acpi-build.c b/hw/riscv/virt-acpi-build.c
+> index 3c4da6c385..f54e3fb731 100644
+> --- a/hw/riscv/virt-acpi-build.c
+> +++ b/hw/riscv/virt-acpi-build.c
+> @@ -134,6 +134,43 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, RISCVVirtState *s)
+>      free_aml_allocator();
+>  }
+>  
+> +/* MADT */
+> +static void
+> +build_madt(GArray *table_data, BIOSLinker *linker, RISCVVirtState *s)
+> +{
+> +    MachineState *mc = MACHINE(s);
+
+Please use 'ms' for MachineState and 'mc' for MachineClass
+
+> +    int socket;
+> +    uint16_t base_hartid = 0;
+> +    uint32_t cpu_id = 0;
+> +
+> +    AcpiTable table = { .sig = "APIC", .rev = 6, .oem_id = s->oem_id,
+> +                        .oem_table_id = s->oem_table_id };
+> +
+> +    acpi_table_begin(&table, table_data);
+> +    /* Local Interrupt Controller Address */
+> +    build_append_int_noprefix(table_data, 0, 4);
+> +    build_append_int_noprefix(table_data, 0, 4);   /* MADT Flags */
+> +
+> +    /* RISC-V Local INTC structures per HART */
+> +    for (socket = 0; socket < riscv_socket_count(mc); socket++) {
+> +        base_hartid = riscv_socket_first_hartid(mc, socket);
+> +
+> +        for (int i = 0; i < s->soc[socket].num_harts; i++) {
+> +            build_append_int_noprefix(table_data, 0x18, 1);    /* Type     */
+> +            build_append_int_noprefix(table_data, 20, 1);      /* Length   */
+> +            build_append_int_noprefix(table_data, 1, 1);       /* Version  */
+> +            build_append_int_noprefix(table_data, 0, 1);       /* Reserved */
+> +            build_append_int_noprefix(table_data, 1, 4);       /* Flags    */
+> +            build_append_int_noprefix(table_data,
+> +                                      (base_hartid + i), 8);   /* hartid   */
+
+The spec calls this field "Hart ID of the hart" (which is redundant), but
+we should at least use "Hart ID" for the comment here. We want the text
+in the comments to be directly searchable in the specs.
+
+> +            build_append_int_noprefix(table_data, cpu_id, 4);  /* ACPI ID  */
+
+This one should be "ACPI Processor UID"
+
+> +            cpu_id++;
+> +        }
+> +    }
+> +
+> +    acpi_table_end(linker, &table);
+> +}
+> +
+>  static void
+>  virt_acpi_build(RISCVVirtState *s, AcpiBuildTables *tables)
+>  {
+> -- 
+> 2.34.1
 >
-> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> Reviewed-by: C=C3=A9dric Le Goater <clg@redhat.com>
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-
+Thanks,
+drew
 
