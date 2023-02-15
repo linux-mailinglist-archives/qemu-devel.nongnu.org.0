@@ -2,84 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E83698577
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 21:22:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2958698588
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 21:26:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSOHf-0007aW-TP; Wed, 15 Feb 2023 15:21:43 -0500
+	id 1pSOLe-0002Pr-7y; Wed, 15 Feb 2023 15:25:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSOHd-0007aA-8U
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:21:41 -0500
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSOHb-0008D9-Jr
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:21:40 -0500
-Received: by mail-pl1-x635.google.com with SMTP id i18so13018189pli.3
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 12:21:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=K4YTFx+GgrvnPkvciwZNt5ZuA3g5RS00z3ldgstfjV8=;
- b=rnXFRJTdF6n/ZEtZQwxBmtBiA1FLBqrkTh5hYdSjLVxaSzHkOGtQMIwEsDd5/d0gI4
- c7or56IUdCHdDO/TVTwQM5/JXDpyLl+eWVSnVuerAhk1thVQ1PJZqOa4Lacs2ggAy5zc
- ypCOWrwxn/2IGsi86HJHQqpSoB5L9p7gH8H9x6Zbnog1Wn4lFUg0UjN8VOgpPBvtvhpm
- ZdxtT7NKOX5MPE4LvdzKZfeLHIDEsF3fRpnfXfaGUfUUn9ci2CNAcqlcQ6w154qYrtW0
- gdL7JYR2vfQBpc9qVZDy3BVEGW1KU+V8PQjN4ns+81cqSHwspZUGok5qqv0ldxZ8nwvP
- SOKA==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pSOLW-0002Od-UV
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:25:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pSOLV-00019N-0E
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 15:25:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676492739;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IPpT/q8P05pu0r/Ko/7ZIbdOXwlVzi+0CV7G5Fh/I24=;
+ b=T2O0E7OR3qV3pa1l2FPB37JDS2JgXvi6fiQLfivMUMx5WRBwplAm7OHdg51RevbTB2VWvd
+ liPxKQYdMXevgWMtvhQLBalZJsrXI+QHE9wgo+p/z79qRuE1nq8wK4zdBvH8WWmchd+Ehl
+ u+D3+CtOWr2MWYct7H8A/pyoMq/X8Rw=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-146-hZ9ftCbqO-qx6KeD9SLJ1g-1; Wed, 15 Feb 2023 15:25:38 -0500
+X-MC-Unique: hZ9ftCbqO-qx6KeD9SLJ1g-1
+Received: by mail-pl1-f197.google.com with SMTP id
+ h5-20020a170902748500b0019aacd1fb04so4254192pll.2
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 12:25:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=K4YTFx+GgrvnPkvciwZNt5ZuA3g5RS00z3ldgstfjV8=;
- b=U128dakvQTVXxSHqrFBNuSZ7TLj5nUyxFkGQ5Sk1D1adURFmIBRoSr+WVEyFS1vHTZ
- 6DZm6laOQtl8iuXSIMAXQtzNSTJM6OFHg0mmcLxgy7yCqFU/vJ+iKhIAnKeCwMcWe1uT
- rl+3sM2PVdT/iLUCBzr9EMehdEE4iTLJ7+3G0IxFu2+Aa5ehizGEItiYrV/DO94tQ19y
- EXqIq+6KNBljNlN07lrQbJWlRu09TBITec2bRDnYUGAc22jCXkvnuCGvsmuYffAwhXiT
- +V4MWpIOMFnnb2CDwRkl1eFNwKiekdJsaABx+iqXIfG51RZCRFWifihbq6fTvIB5RBt2
- l1Cw==
-X-Gm-Message-State: AO0yUKVMIPWlYn8pBaRRbnM1B4DnpXetBaWGG8tSIBhLfB3lejIo3HLn
- IAgyrJ7RIpBKzD2ph++z1f9p2A==
-X-Google-Smtp-Source: AK7set/7+rQwRG5Er+H2sHtuKbtq7bvMkg9t3JO6VeIp+VbszGPLxMIX3x0PeEiUJTMpYCndS2H2uA==
-X-Received: by 2002:a17:90a:cf8e:b0:233:fa78:7c9e with SMTP id
- i14-20020a17090acf8e00b00233fa787c9emr4392636pju.12.1676492497813; 
- Wed, 15 Feb 2023 12:21:37 -0800 (PST)
-Received: from [192.168.192.227] (rrcs-74-87-59-234.west.biz.rr.com.
- [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
- a3-20020a17090aa50300b0022bb3ee9b68sm1897387pjq.13.2023.02.15.12.21.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Feb 2023 12:21:37 -0800 (PST)
-Message-ID: <645427aa-2630-a2be-9f1a-bee60a2d2885@linaro.org>
-Date: Wed, 15 Feb 2023 10:21:33 -1000
+ d=1e100.net; s=20210112; t=1676492737;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=IPpT/q8P05pu0r/Ko/7ZIbdOXwlVzi+0CV7G5Fh/I24=;
+ b=cnKS51eGKKNPwjj7K1h3NZEacyzaVL72MbuWh21RDN7uvYDmlteRSHACU+8P4fGLGV
+ hRXRKF8rasg28YTTzfJAJwSF7TYx+d8cu/5j4FIhGntjy6WmgIifQJkF/HiOpKQDaUWo
+ 21AA8ni2j/tc8Yn0noOMBWUqcRgQsq5GN6SyTBbdL45wcqUnCrivvC4QjNtM5J0v4Fn3
+ Qqn2qXvrzdZC1bCmZamu7sei0I9vnKGDFYKeMyugHHL/D7Fy2OGdjRS5xhqVnh48wg47
+ RY3VpKtk/AkFAU+KwboveP0GRSnfDKuII8gghicrL7rLe9fJZTgi16U00HFJLJJqPeuZ
+ VQ1w==
+X-Gm-Message-State: AO0yUKUpleF4yGO36zbvkMxVQqo6Zpm3rf4DLyECktXLDvOpTjXkbjtM
+ ESjAV/AFBYgBZ5oQkxQTD94+lXGCVh/p6P56P4vk0JWBeGlF9fCrK0iDxqgYypS1J0ljxc/UkGs
+ V8xLeMzcZjqswE7yL/0zBjh/PJyP+mBI=
+X-Received: by 2002:aa7:9d1d:0:b0:5a8:beb3:d561 with SMTP id
+ k29-20020aa79d1d000000b005a8beb3d561mr547874pfp.17.1676492737439; 
+ Wed, 15 Feb 2023 12:25:37 -0800 (PST)
+X-Google-Smtp-Source: AK7set+5wgdL8h6fHzDEI0VjgcTFJVAki0k2sLlamOLNW2/WEtrvr8xssBEwrVum7gwIRK6MTcNpKlg5Kx1S3Sn+smM=
+X-Received: by 2002:aa7:9d1d:0:b0:5a8:beb3:d561 with SMTP id
+ k29-20020aa79d1d000000b005a8beb3d561mr547856pfp.17.1676492737132; Wed, 15 Feb
+ 2023 12:25:37 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 1/3] target/mips: fix JALS32/J32 instruction handling for
- microMIPS
-Content-Language: en-US
-To: Marcin Nowakowski <marcin.nowakowski@fungible.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Jiaxun Yang
- <jiaxun.yang@flygoat.com>, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-References: <20230215084754.3816747-1-marcin.nowakowski@fungible.com>
- <20230215084754.3816747-2-marcin.nowakowski@fungible.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230215084754.3816747-2-marcin.nowakowski@fungible.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <20230209154034.983044-1-jsnow@redhat.com>
+ <20230209154034.983044-6-jsnow@redhat.com>
+ <Y+YelalmW43ePE53@redhat.com>
+In-Reply-To: <Y+YelalmW43ePE53@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 15 Feb 2023 15:25:26 -0500
+Message-ID: <CAFn=p-aAYWy7eLdgnDshJ7LnV7fQVHag_yOG1Pp0UWBYi4ZpWw@mail.gmail.com>
+Subject: Re: [PATCH 5/7] testing: Add Python >= 3.7 to Centos, OpenSuSE
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,29 +101,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/14/23 22:47, Marcin Nowakowski wrote:
-> @@ -4860,6 +4860,7 @@ static void gen_compute_branch(DisasContext *ctx, uint32_t opc,
->       target_ulong btgt = -1;
->       int blink = 0;
->       int bcond_compute = 0;
-> +    int jal_mask = 0;
+On Fri, Feb 10, 2023 at 5:38 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Thu, Feb 09, 2023 at 10:40:32AM -0500, John Snow wrote:
+> > This is just a proof-of-concept patch, as these files are lcitool
+> > generated. The real fix will involve updating the lcitool configuration
+> > and updating these files that way.
+>
+> Paolo has been working on this
+>
+>   https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg03547.html
+>
+> though I requested we adapt it a little:
+>
+>   https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg02237.html
+>   https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg02239.html
+>
+> With regards,
+> Daniel
 
-Better to limit the scope of the variable to the block below.
+Ah, I had no idea that Paolo was specifically working on 3.7 as a
+minimum requisite; I hadn't actually seen this or talked with him
+about this in some time. With this series I was mostly occupied with
+the simpler question of "Is this even possible?"
 
-> @@ -4917,6 +4918,11 @@ static void gen_compute_branch(DisasContext *ctx, uint32_t opc,
->           break;
->       case OPC_J:
->       case OPC_JAL:
-> +        /* Jump to immediate */
-> +        jal_mask = ctx->hflags & MIPS_HFLAG_M16 ? 0xF8000000 : 0xF0000000;
-> +        btgt = ((ctx->base.pc_next + insn_bytes) & jal_mask) |
-> +            (uint32_t)offset;
+... I'll just trust that the lcitool changes are in good hands with Paolo.
 
-Ideally we wouldn't have one huge helper function, and could pass down the mask from the 
-translator.  But that's on-going cleanup.
+Thanks for the links to the relevant threads :~)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+--js
 
-
-r~
 
