@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F277697938
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 10:44:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87F4A697980
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Feb 2023 11:05:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSEKs-0004XI-Sn; Wed, 15 Feb 2023 04:44:22 -0500
+	id 1pSEdg-0003UQ-Ol; Wed, 15 Feb 2023 05:03:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSEKm-0004Wa-UX
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 04:44:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pSEde-0003UF-MY
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:03:46 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSEKl-0003sL-L3
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 04:44:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676454255;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7Rv6Ufeb7HAifQT9q+7AVqE9EL8ECyggzw0gidl6hPI=;
- b=B9HNvu+4VsS4YHJ+yxRuJiu4dyTgb8otZSub9taYrfWbi1eC+oP+4ht04kDpFP06uZBJYY
- gyphEdMHxcSQ8YrmjeDOKJzJr3JGjsgFFohXeZJ8iQFG59WIMiWZxR40uIj6oX3MtMMO1M
- xX/CsZSyB38UtPt5mrc/4Oy9WrkOQ74=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-486-XV1ZUh7ENh6wGS7qxDcIpg-1; Wed, 15 Feb 2023 04:44:13 -0500
-X-MC-Unique: XV1ZUh7ENh6wGS7qxDcIpg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 06606817077;
- Wed, 15 Feb 2023 09:44:13 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D97E92166B31;
- Wed, 15 Feb 2023 09:44:12 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D4DDF21E6A1F; Wed, 15 Feb 2023 10:44:11 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel@nongnu.org,  Michael Roth <michael.roth@amd.com>
-Subject: Re: [PATCH v4 5/6] qapi: remove _JSONObject
-References: <20230215000011.1725012-1-jsnow@redhat.com>
- <20230215000011.1725012-6-jsnow@redhat.com>
-Date: Wed, 15 Feb 2023 10:44:11 +0100
-In-Reply-To: <20230215000011.1725012-6-jsnow@redhat.com> (John Snow's message
- of "Tue, 14 Feb 2023 19:00:10 -0500")
-Message-ID: <87r0urclg4.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pSEdc-0008Hd-2M
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 05:03:46 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PGtp0322Dz6J67P;
+ Wed, 15 Feb 2023 17:59:04 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Wed, 15 Feb
+ 2023 10:03:28 +0000
+Date: Wed, 15 Feb 2023 10:03:27 +0000
+To: Gregory Price <gregory.price@memverge.com>
+CC: Dan Williams <dan.j.williams@intel.com>, <linux-cxl@vger.kernel.org>,
+ David Hildenbrand <david@redhat.com>, Kees Cook <keescook@chromium.org>,
+ <stable@vger.kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>, Michal
+ Hocko <mhocko@suse.com>, <linux-mm@kvack.org>, <linux-acpi@vger.kernel.org>,
+ <qemu-devel@nongnu.org>
+Subject: Re: [PATCH 00/18] CXL RAM and the 'Soft Reserved' => 'System RAM'
+ default
+Message-ID: <20230215100327.0000728f@Huawei.com>
+In-Reply-To: <Y+wC+rPRbAc9rudx@memverge.com>
+References: <167564534874.847146.5222419648551436750.stgit@dwillia2-xfh.jf.intel.com>
+ <Y+vSj8FD6ZaHhfoN@memverge.com>
+ <63ebd56e639e9_32d61294f4@dwillia2-xfh.jf.intel.com.notmuch>
+ <Y+vag3hg3VRNRUti@memverge.com>
+ <20230214211824.00007f91@Huawei.com>
+ <Y+wCeSig++c3ACkj@memverge.com> <Y+wC+rPRbAc9rudx@memverge.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,16 +71,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-John Snow <jsnow@redhat.com> writes:
+On Tue, 14 Feb 2023 16:54:02 -0500
+Gregory Price <gregory.price@memverge.com> wrote:
 
-> We can remove this alias as it only has two usages now, and no longer
-> pays for the confusion of "yet another type".
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
+> On Tue, Feb 14, 2023 at 04:51:53PM -0500, Gregory Price wrote:
+> > On Tue, Feb 14, 2023 at 09:18:24PM +0000, Jonathan Cameron wrote:  
+> > > On Tue, 14 Feb 2023 14:01:23 -0500
+> > > Gregory Price <gregory.price@memverge.com> wrote:
+> > > 
+> > > Could you test it with TCG (just drop --enable-kvm)?  We have a known
+> > > limitation with x86 instructions running out of CXL emulated memory
+> > > (side effect of emulating the interleave).  You'll need a fix even on TCG
+> > > for the corner case of an instruction bridging from normal ram to cxl memory.
+> > > https://lore.kernel.org/qemu-devel/20230206193809.1153124-1-richard.henderson@linaro.org/
+> > > 
+> > > Performance will be bad, but so far this is only way we can do it correctly.
+> > > 
+> > > Jonathan
+> > >   
+> > 
+> > Siiiggghh... i had this patch and dropped --enable-kvm, but forgot to
+> > drop "accel=kvm" from the -machine line
+> > 
+> > This was the issue.
+> > 
+> > And let me tell you, if you numactl --membind=1 python, it is
+> > IMPRESSIVELY slow.  I wonder if it's even hitting a few 100k
+> > instructions a second.
+> > 
+> > 
+> > This appears to be the issue.  When I get a bit more time, try to dive
+> > into the deep dark depths of qemu memory regions to see how difficult
+> > a non-mmio fork might be, unless someone else is already looking at it.
+> > 
+> > ~Gregory  
+> 
+> Just clarifying one thing:  Even with the patch, KVM blows up.
+> Disabling KVM fixes this entirely.  I haven't tested without KVM but
+> with the patch, i will do that now.
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+yup.  The patch only fixes TCG so that's expected behavior.
 
+Fingers crossed on this 'working'.
+
+I'm open to suggestions on how to work around the problem with KVM
+or indeed allow TCG to cache the instructions (right not it has
+to fetch and emulate each instruction on it's own).
+
+I can envision how we might do it for KVM with userspace page fault handling
+used to get a fault up to QEMU which can then stitch in a cache
+of the underlying memory as a stage 2 translation to the page (a little
+bit like how post migration copy works) though I've not prototyped
+anything...
+
+I think it would be complex code that would be little used
+so we may just have to cope with the emulation being slow.
+
+Intent is very much to be able to test the kernel code etc, not
+test it quickly :)
+
+Jonathan
 
