@@ -2,65 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9739698A58
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 03:07:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE2D6989AE
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 02:10:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSTfB-0001er-PX; Wed, 15 Feb 2023 21:06:21 -0500
+	id 1pSSlR-0006zh-9k; Wed, 15 Feb 2023 20:08:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ningqiang1@huawei.com>)
- id 1pSSj2-0004LN-CG
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 20:06:16 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSSlN-0006tu-6w
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 20:08:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ningqiang1@huawei.com>)
- id 1pSSix-0002RT-GM
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 20:06:15 -0500
-Received: from canpemm100001.china.huawei.com (unknown [172.30.72.54])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4PHGpr2nkCzFqRs;
- Thu, 16 Feb 2023 09:01:08 +0800 (CST)
-Received: from canpemm500009.china.huawei.com (7.192.105.203) by
- canpemm100001.china.huawei.com (7.192.105.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Thu, 16 Feb 2023 09:05:52 +0800
-Received: from canpemm500009.china.huawei.com ([7.192.105.203]) by
- canpemm500009.china.huawei.com ([7.192.105.203]) with mapi id 15.01.2507.017; 
- Thu, 16 Feb 2023 09:05:52 +0800
-To: Mauro Matteo Cascella <mcascell@redhat.com>,
- =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "kraxel@redhat.com"
- <kraxel@redhat.com>, soul chen <soulchen8650@gmail.com>, tanjingguo
- <tanjingguo@huawei.com>
-Subject: =?utf-8?B?562U5aSNOiBbUEFUQ0hdIHVzYi9kZXYtd2Fjb206IGZpeCBPT0Igd3JpdGUg?=
- =?utf-8?B?aW4gdXNiX21vdXNlX3BvbGwoKQ==?=
-Thread-Topic: [PATCH] usb/dev-wacom: fix OOB write in usb_mouse_poll()
-Thread-Index: AQHZQHBAGIZwwbKwQUGEt8rTImi8t67QxBJg
-Date: Thu, 16 Feb 2023 01:05:52 +0000
-Message-ID: <978512a6a82e425ba67655e9805d4365@huawei.com>
-References: <20230213174113.591632-1-mcascell@redhat.com>
- <b04ebfac-c434-8045-1b6f-6201686130b9@linaro.org>
- <CAA8xKjUx5Ze5b+-JZdpfagUMEbBderndUvenLHhyCL92LyebPQ@mail.gmail.com>
-In-Reply-To: <CAA8xKjUx5Ze5b+-JZdpfagUMEbBderndUvenLHhyCL92LyebPQ@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.136.113.171]
-Content-Type: multipart/mixed;
- boundary="_002_978512a6a82e425ba67655e9805d4365huaweicom_"
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSSlK-00056A-Eh
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 20:08:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676509717;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YCP8AOjh/0YWzQi3tJcWRsY5fb10tqVQ7OxEAKgb4PU=;
+ b=KOczQYltlLiu3mA4W0luZ9LDJjjnush3ctx3YaA1i6A+9lTP+lfzOMGESzf12bJOtTit8w
+ F7a2bUjBTYbt3QMQrrFatA2E7OyJVe5aS1IuzKVXf10xjTzWpwFupDs82gQXzzfIOSEBrE
+ cLrReJdcG6lRuiOJVzOAVGT+m5r/gi4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-562-OUr10b5RMNGZySQpqeQuzw-1; Wed, 15 Feb 2023 20:08:35 -0500
+X-MC-Unique: OUr10b5RMNGZySQpqeQuzw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4CD1D3C02184;
+ Thu, 16 Feb 2023 01:08:35 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D032492B15;
+ Thu, 16 Feb 2023 01:08:34 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0DFEC21E6A1F; Thu, 16 Feb 2023 02:08:33 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,  Peter Maydell
+ <peter.maydell@linaro.org>,  John Snow <jsnow@redhat.com>,  qemu-devel
+ <qemu-devel@nongnu.org>,  Cleber Rosa <crosa@redhat.com>,  Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  Beraldo Leal
+ <bleal@redhat.com>,
+ Michael Roth <michael.roth@amd.com>,  Wainer dos Santos Moschetta
+ <wainersm@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Qemu-block
+ <qemu-block@nongnu.org>,  Hanna Reitz <hreitz@redhat.com>,  Alex
+ =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>,  Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2 6/7] CI: Stop building docs on centos8
+References: <20230210003147.1309376-1-jsnow@redhat.com>
+ <20230210003147.1309376-7-jsnow@redhat.com>
+ <CAFEAcA-c5y0TR8vYg_FYEmGv3mOOmBgeD0cyb+mVotsP=r-Dsw@mail.gmail.com>
+ <CAFn=p-aDV9=vG6hjTWRE6c52TpYSjDBU22nthTuejDCv_XrYMQ@mail.gmail.com>
+ <CAFEAcA_eGvz_BQVLhVWtedRh2mcBuMEhv0RKF+6DW4t+9FdPAw@mail.gmail.com>
+ <Y+Z2Kcq17HGWuoTV@redhat.com> <87cz6cpue3.fsf@pond.sub.org>
+ <553f238a-56f2-4bd0-382a-80cfe116f138@redhat.com>
+ <Y+t6Ni+OW/1vp6Cs@redhat.com>
+Date: Thu, 16 Feb 2023 02:08:33 +0100
+In-Reply-To: <Y+t6Ni+OW/1vp6Cs@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Tue, 14 Feb 2023 12:10:30 +0000")
+Message-ID: <87r0uqv2lq.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=ningqiang1@huawei.com; helo=szxga03-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 15 Feb 2023 21:06:18 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,284 +94,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  "ningqiang (A)" <ningqiang1@huawei.com>
-From:  "ningqiang (A)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---_002_978512a6a82e425ba67655e9805d4365huaweicom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-UWVtdSBjbWQgYW5kIGd1ZXN0IHBvYw0KDQovaG9tZS90ZXN0L3FlbXUvcWVtdS03LjEuMC9idWls
-ZC9xZW11LXN5c3RlbS14ODZfNjQgIC1rZXJuZWwgIC9ob21lL3Rlc3Qva2VybmVsL2xpbnV4LTUu
-MTAvYXJjaC94ODYvYm9vdC9iekltYWdlIC1pbml0cmQgIC9ob21lL3Rlc3Qvcm9vdGZzL3Jvb3Rm
-cy5jcGlvX3Jvb3QgLWFwcGVuZCAicm9vdD0vZGV2L3JhbSBydyBjb25zb2xlPXR0eSBjb25zb2xl
-PXR0eVMwIG5va2FzbHIiIC1tIDUxMk0gLW5vZ3JhcGhpYyAtbW9uaXRvciAvZGV2L251bGwgLWRy
-aXZlIGZpbGU9bnVsbC1jbzovLyxpZj1ub25lLGZvcm1hdD1yYXcsaWQ9ZGlzazAgIC1kZXZpY2Ug
-cWVtdS14aGNpLGlkPXhoY2kgLWRldmljZSB1c2ItdGFibGV0LGJ1cz14aGNpLjAgLWRldmljZSB1
-c2ItbW91c2UgLWRldmljZSB1c2Itd2Fjb20tdGFibGV0DQoNCg0KLS0tLS3pgq7ku7bljp/ku7Yt
-LS0tLQ0K5Y+R5Lu25Lq6OiBNYXVybyBNYXR0ZW8gQ2FzY2VsbGEgW21haWx0bzptY2FzY2VsbEBy
-ZWRoYXQuY29tXSANCuWPkemAgeaXtumXtDogMjAyM+W5tDLmnIgxNOaXpSAxODo0OA0K5pS25Lu2
-5Lq6OiBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSA8cGhpbG1kQGxpbmFyby5vcmc+DQrmioTpgIE6
-IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZzsga3JheGVsQHJlZGhhdC5jb207IG5pbmdxaWFuZyAoQSkg
-PG5pbmdxaWFuZzFAaHVhd2VpLmNvbT47IHNvdWwgY2hlbiA8c291bGNoZW44NjUwQGdtYWlsLmNv
-bT4NCuS4u+mimDogUmU6IFtQQVRDSF0gdXNiL2Rldi13YWNvbTogZml4IE9PQiB3cml0ZSBpbiB1
-c2JfbW91c2VfcG9sbCgpDQoNCkhpIFBoaWxpcHBlLA0KDQpPbiBNb24sIEZlYiAxMywgMjAyMyBh
-dCA3OjI2IFBNIFBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOpIDxwaGlsbWRAbGluYXJvLm9yZz4gd3Jv
-dGU6DQo+DQo+IEhpIE1hdXJvLA0KPg0KPiBPbiAxMy8yLzIzIDE4OjQxLCBNYXVybyBNYXR0ZW8g
-Q2FzY2VsbGEgd3JvdGU6DQo+ID4gVGhlIGd1ZXN0IGNhbiBjb250cm9sIHRoZSBzaXplIG9mIGJ1
-ZjsgYW4gT09CIHdyaXRlIG9jY3VycyB3aGVuIGJ1ZiANCj4gPiBpcyAxIG9yIDIgYnl0ZXMgbG9u
-Zy4gT25seSBmaWxsIGluIHRoZSBidWZmZXIgYXMgbG9uZyBhcyB0aGVyZSBpcyANCj4gPiBlbm91
-Z2ggc3BhY2UsIHRocm93IGF3YXkgYW55IGRhdGEgd2hpY2ggZG9lc24ndCBmaXQuDQo+DQo+IEFu
-eSByZXByb2R1Y2VyPw0KDQpObyBxdGVzdCByZXByb2R1Y2VyLCB3ZSBkbyBoYXZlIGEgUG9DIG1v
-ZHVsZSB0byBjb21waWxlICYgbG9hZCBmcm9tIHdpdGhpbiB0aGUgZ3Vlc3QuIFRoaXMgaXMgQVNB
-TiBvdXRwdXQ6DQoNCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09DQo9PTI4ODAzPT1FUlJPUjogQWRkcmVzc1Nhbml0aXplcjog
-aGVhcC1idWZmZXItb3ZlcmZsb3cgb24gYWRkcmVzcyAwIFdSSVRFIG9mIHNpemUgMSBhdCAweDYw
-MjAwMGZjY2RkMSB0aHJlYWQgVDINCiAgICAjMCAweDU2MGY0ZWJiYTg5OSBpbiB1c2JfbW91c2Vf
-cG9sbCAuLi9ody91c2IvZGV2LXdhY29tLmM6MjU2DQogICAgIzEgMHg1NjBmNGViYmNhZjkgaW4g
-dXNiX3dhY29tX2hhbmRsZV9kYXRhIC4uL2h3L3VzYi9kZXYtd2Fjb202DQogICAgIzIgMHg1NjBm
-NGVhZWYyOTcgaW4gdXNiX2RldmljZV9oYW5kbGVfZGF0YSAuLi9ody91c2IvYnVzLmM6MTgwDQog
-ICAgIzMgMHg1NjBmNGViMDBiYmIgaW4gdXNiX3Byb2Nlc3Nfb25lIC4uL2h3L3VzYi9jb3JlLmM6
-NDA2DQogICAgIzQgMHg1NjBmNGViMDE4ODMgaW4gdXNiX2hhbmRsZV9wYWNrZXQgLi4vaHcvdXNi
-L2NvcmUuYzo0MzgNCiAgICAjNSAweDU2MGY0ZWI5NGUwYyBpbiB4aGNpX3N1Ym1pdCAuLi9ody91
-c2IvaGNkLXhoY2kuYzoxODAxDQogICAgIzYgMHg1NjBmNGViOTUwNWYgaW4geGhjaV9maXJlX3Ry
-YW5zZmVyIC4uL2h3L3VzYi9oY2QteGhjaS5jOjEwDQogICAgIzcgMHg1NjBmNGViOTc3M2MgaW4g
-eGhjaV9raWNrX2VwY3R4IC4uL2h3L3VzYi9oY2QteGhjaS5jOjE5NjkNCiAgICAjOCAweDU2MGY0
-ZWI5NTNmMiBpbiB4aGNpX2tpY2tfZXAgLi4vaHcvdXNiL2hjZC14aGNpLmM6MTgzNQ0KICAgICM5
-IDB4NTYwZjRlYmE0MTZkIGluIHhoY2lfZG9vcmJlbGxfd3JpdGUgLi4vaHcvdXNiL2hjZC14aGNp
-LmM6Nw0KICAgICMxMCAweDU2MGY0ZjUzNDNhOCBpbiBtZW1vcnlfcmVnaW9uX3dyaXRlX2FjY2Vz
-c29yIC4uL3NvZnRtbXUvMg0KICAgICMxMSAweDU2MGY0ZjUzNDgzZiBpbiBhY2Nlc3Nfd2l0aF9h
-ZGp1c3RlZF9zaXplIC4uL3NvZnRtbXUvbWVtNA0KICAgICMxMiAweDU2MGY0ZjU0MWU2OSBpbiBt
-ZW1vcnlfcmVnaW9uX2Rpc3BhdGNoX3dyaXRlIC4uL3NvZnRtbXUvNA0KICAgICMxMyAweDU2MGY0
-ZjU3YWZlYyBpbiBmbGF0dmlld193cml0ZV9jb250aW51ZSAuLi9zb2Z0bW11L3BoeXNtNQ0KICAg
-ICMxNCAweDU2MGY0ZjU3YjQwZiBpbiBmbGF0dmlld193cml0ZSAuLi9zb2Z0bW11L3BoeXNtZW0u
-YzoyODY3DQogICAgIzE1IDB4NTYwZjRmNTc5NjE3IGluIHN1YnBhZ2Vfd3JpdGUgLi4vc29mdG1t
-dS9waHlzbWVtLmM6MjUwMQ0KICAgICMxNiAweDU2MGY0ZjUzNDZkYyBpbiBtZW1vcnlfcmVnaW9u
-X3dyaXRlX3dpdGhfYXR0cnNfYWNjZXNzb3IgMw0KICAgICMxNyAweDU2MGY0ZjUzNDgzZiBpbiBh
-Y2Nlc3Nfd2l0aF9hZGp1c3RlZF9zaXplIC4uL3NvZnRtbXUvbWVtNA0KICAgICMxOCAweDU2MGY0
-ZjU0MjA3NSBpbiBtZW1vcnlfcmVnaW9uX2Rpc3BhdGNoX3dyaXRlIC4uL3NvZnRtbXUvMQ0KICAg
-ICMxOSAweDU2MGY0ZjcyNzczNSBpbiBpb193cml0ZXggLi4vYWNjZWwvdGNnL2NwdXRsYi5jOjE0
-MjkNCiAgICAjMjAgMHg1NjBmNGY3MmMxOWQgaW4gc3RvcmVfaGVscGVyIC4uL2FjY2VsL3RjZy9j
-cHV0bGIuYzoyMzc5DQogICAgIzIxIDB4NTYwZjRmNzJjNWVjIGluIGZ1bGxfbGVfc3RsX21tdSAu
-Li9hY2NlbC90Y2cvY3B1dGxiLmM6MjQ3DQogICAgIzIyIDB4NTYwZjRmNzJjNjJhIGluIGhlbHBl
-cl9sZV9zdGxfbW11IC4uL2FjY2VsL3RjZy9jcHV0bGIuYzozDQogICAgIzIzIDB4N2ZjZjA2Mzk0
-MWEzICAoL21lbWZkOnRjZy1qaXQgKGRlbGV0ZWQpKzB4Mjc1NDFhMykNCiAgICA8Y3V0Pg0KDQpB
-bHNvIGZvcmdvdCB0byBnaXZlIGNyZWRpdHM6DQoNClJlcG9ydGVkLWJ5OiBuaW5ncWlhbmcxIDxu
-aW5ncWlhbmcxQGh1YXdlaS5jb20+DQpSZXBvcnRlZC1ieTogU29ycnlNeWJhZCBvZiBLdW5sdW4g
-TGFiIDxzb3VsY2hlbjg2NTBAZ21haWwuY29tPg0KDQo+ID4gU2lnbmVkLW9mZi1ieTogTWF1cm8g
-TWF0dGVvIENhc2NlbGxhIDxtY2FzY2VsbEByZWRoYXQuY29tPg0KPiA+IC0tLQ0KPiA+ICAgaHcv
-dXNiL2Rldi13YWNvbS5jIHwgMjAgKysrKysrKysrKysrKy0tLS0tLS0NCj4gPiAgIDEgZmlsZSBj
-aGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAt
-LWdpdCBhL2h3L3VzYi9kZXYtd2Fjb20uYyBiL2h3L3VzYi9kZXYtd2Fjb20uYyBpbmRleCANCj4g
-PiA3MTc3YzE3ZjAzLi5jYTllNmFhODJmIDEwMDY0NA0KPiA+IC0tLSBhL2h3L3VzYi9kZXYtd2Fj
-b20uYw0KPiA+ICsrKyBiL2h3L3VzYi9kZXYtd2Fjb20uYw0KPiA+IEBAIC0yNTIsMTQgKzI1Miwy
-MCBAQCBzdGF0aWMgaW50IHVzYl9tb3VzZV9wb2xsKFVTQldhY29tU3RhdGUgKnMsIHVpbnQ4X3Qg
-KmJ1ZiwgaW50IGxlbikNCj4gPiAgICAgICBpZiAocy0+YnV0dG9uc19zdGF0ZSAmIE1PVVNFX0VW
-RU5UX01CVVRUT04pDQo+ID4gICAgICAgICAgIGIgfD0gMHgwNDsNCj4gPg0KPiA+IC0gICAgYnVm
-WzBdID0gYjsNCj4gPiAtICAgIGJ1ZlsxXSA9IGR4Ow0KPiA+IC0gICAgYnVmWzJdID0gZHk7DQo+
-ID4gLSAgICBsID0gMzsNCj4gPiAtICAgIGlmIChsZW4gPj0gNCkgew0KPiA+IC0gICAgICAgIGJ1
-ZlszXSA9IGR6Ow0KPiA+IC0gICAgICAgIGwgPSA0Ow0KPiA+ICsgICAgbCA9IDA7DQo+ID4gKyAg
-ICBpZiAobGVuID4gbCkgew0KPiA+ICsgICAgICAgIGJ1ZltsKytdID0gYjsNCj4gPiAgICAgICB9
-DQo+ID4gKyAgICBpZiAobGVuID4gbCkgew0KPiA+ICsgICAgICAgIGJ1ZltsKytdID0gZHg7DQo+
-ID4gKyAgICB9DQo+DQo+ICAgICAgICAgZWxzZSB7IC8vIHRoZSBwYWNrZXQgaXMgbm93IGNvcnJ1
-cHRlZC4uLiB9DQo+DQo+ID4gKyAgICBpZiAobGVuID4gbCkgew0KPiA+ICsgICAgICAgIGJ1Zlts
-KytdID0gZHk7DQo+ID4gKyAgICB9DQo+ID4gKyAgICBpZiAobGVuID4gbCkgew0KPiA+ICsgICAg
-ICAgIGJ1ZltsKytdID0gZHo7DQo+ID4gKyAgICB9DQo+ID4gKw0KPiA+ICAgICAgIHJldHVybiBs
-Ow0KPiA+ICAgfQ0KPg0KPiBCZXR0ZXIgaXMgdG8gd2FpdCBmb3IgZW5vdWdoIGRhdGEgdG8gcHJv
-Y2VzczoNCj4NCj4gLS0gPjggLS0NCj4gZGlmZiAtLWdpdCBhL2h3L3VzYi9kZXYtd2Fjb20uYyBi
-L2h3L3VzYi9kZXYtd2Fjb20uYyBpbmRleCANCj4gNzE3N2MxN2YwMy4uMmZlMmE5MjIwZSAxMDA2
-NDQNCj4gLS0tIGEvaHcvdXNiL2Rldi13YWNvbS5jDQo+ICsrKyBiL2h3L3VzYi9kZXYtd2Fjb20u
-Yw0KPiBAQCAtMjQ0LDYgKzI0NCw5IEBAIHN0YXRpYyBpbnQgdXNiX21vdXNlX3BvbGwoVVNCV2Fj
-b21TdGF0ZSAqcywgDQo+IHVpbnQ4X3QgKmJ1ZiwgaW50IGxlbikNCj4gICAgICAgcy0+ZHkgLT0g
-ZHk7DQo+ICAgICAgIHMtPmR6IC09IGR6Ow0KPg0KPiArICAgIGlmIChsZW4gPCAzKQ0KPiArICAg
-ICAgICByZXR1cm4gMDsNCj4gKw0KPiAgICAgICBiID0gMDsNCj4gICAgICAgaWYgKHMtPmJ1dHRv
-bnNfc3RhdGUgJiBNT1VTRV9FVkVOVF9MQlVUVE9OKQ0KPiAgICAgICAgICAgYiB8PSAweDAxOw0K
-PiBAQCAtMjc0LDYgKzI3Nyw5IEBAIHN0YXRpYyBpbnQgdXNiX3dhY29tX3BvbGwoVVNCV2Fjb21T
-dGF0ZSAqcywgDQo+IHVpbnQ4X3QgKmJ1ZiwgaW50IGxlbikNCj4gICAgICAgICAgIHMtPm1vdXNl
-X2dyYWJiZWQgPSAxOw0KPiAgICAgICB9DQo+DQo+ICsgICAgaWYgKGxlbiA8IDcpDQo+ICsgICAg
-ICAgIHJldHVybiAwOw0KPiArDQo+ICAgICAgIGIgPSAwOw0KPiAgICAgICBpZiAocy0+YnV0dG9u
-c19zdGF0ZSAmIE1PVVNFX0VWRU5UX0xCVVRUT04pDQo+ICAgICAgICAgICBiIHw9IDB4MDE7DQo+
-IEBAIC0yODIsOSArMjg4LDYgQEAgc3RhdGljIGludCB1c2Jfd2Fjb21fcG9sbChVU0JXYWNvbVN0
-YXRlICpzLCANCj4gdWludDhfdCAqYnVmLCBpbnQgbGVuKQ0KPiAgICAgICBpZiAocy0+YnV0dG9u
-c19zdGF0ZSAmIE1PVVNFX0VWRU5UX01CVVRUT04pDQo+ICAgICAgICAgICBiIHw9IDB4MjA7IC8q
-IGVyYXNlciAqLw0KPg0KPiAtICAgIGlmIChsZW4gPCA3KQ0KPiAtICAgICAgICByZXR1cm4gMDsN
-Cj4gLQ0KPiAgICAgICBidWZbMF0gPSBzLT5tb2RlOw0KPiAgICAgICBidWZbNV0gPSAweDAwIHwg
-KGIgJiAweGYwKTsNCj4gICAgICAgYnVmWzFdID0gcy0+eCAmIDB4ZmY7DQo+IC0tLQ0KPg0KDQpJ
-IHRvb2sgaW5zcGlyYXRpb24gZnJvbSBoaWRfcG9pbnRlcl9wb2xsKCkgaW4gaHcvaW5wdXQvaGlk
-LmMgd2hpY2ggZmlsbHMgaW4gdGhlIGJ1ZmZlciBhcyBtdWNoIGFzIHBvc3NpYmxlIGluIGEgc2lt
-aWxhciB3YXksIGJ1dCB5b3VyIHN1Z2dlc3Rpb24gbWFrZXMgc2Vuc2UgdG8gbWUuIEdlcmQsIHdk
-eXQ/DQoNClRoYW5rcywNCi0tDQpNYXVybyBNYXR0ZW8gQ2FzY2VsbGENClJlZCBIYXQgUHJvZHVj
-dCBTZWN1cml0eQ0KUEdQLUtleSBJRDogQkIzNDEwQjANCg0KDQo=
+> On Tue, Feb 14, 2023 at 09:35:44AM +0100, Thomas Huth wrote:
+>> On 14/02/2023 08.40, Markus Armbruster wrote:
+>> > Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>> >=20
+>> > [...]
+>> >=20
+>> > > We don't have to drop python 3.6. It is a choice because
+>> > > of a desire to be able to use some shiny new python
+>> > > features without caring about back compat.
+>> >=20
+>> > I read this on Friday, and decided to let it sit until after the
+>> > weekend.  Well, it's now Tuesday, and to be frank, it's still as
+>> > offensively flippant as it was on Friday.  It shows either ignorance of
+>> > or cavalier disregard for the sheer amount of work some of us have had
+>> > to put into keeping old versions of Python viable.
+>>=20
+>> I'm a complete python ignorant, too, so I'm a little bit surprised of the
+>> amount of pain that these scripts are causing.
+>>=20
+>> No matter of that fact, I think Peter still has a point that we have a r=
+eal
+>> conflict here with our current support policy. So this either means that
+>> Python was the wrong choice for our needs (since it is moving too fast a=
+nd
+>> causing too much friction), or we should really rethink our support poli=
+cy.
+>>=20
+>> I guess we're too deep into the Python rabbit hole already, and I'm not
+>> aware of any other good solutions (back to Perl scripts? No, thanks!), so
+>> it's likely quite impossible to tune that knob.
+>
+> I still believe python is a probably the best thing for what we're using
+> it for. Certainly would not suggest shell or perl, and using a compiled
+> language would add its own complications for cross compilation.
+>
+>> Thus we should maybe really start talking about our support policy now. I
+>> think the main problem is likely the sentence "Support for the previous
+>> major version will be dropped 2 years after the new major version is
+>> released". Maybe we should shorten that time frame to 1 year. The 2 years
 
---_002_978512a6a82e425ba67655e9805d4365huaweicom_
-Content-Type: text/plain; name="usb-mouse-heap-oob-write-poc.c"
-Content-Description: usb-mouse-heap-oob-write-poc.c
-Content-Disposition: attachment; filename="usb-mouse-heap-oob-write-poc.c";
-	size=9054; creation-date="Thu, 16 Feb 2023 01:04:30 GMT";
-	modification-date="Thu, 16 Feb 2023 01:04:30 GMT"
-Content-Transfer-Encoding: base64
+It's actually "2 years after the new major version is released or when
+the vendor itself drops support, whichever comes first."
 
-I2luY2x1ZGUgPGFzc2VydC5oPg0KI2luY2x1ZGUgPGZjbnRsLmg+DQojaW5jbHVkZSA8aW50dHlw
-ZXMuaD4NCiNpbmNsdWRlIDxzdGRpby5oPg0KI2luY2x1ZGUgPHN0ZGxpYi5oPg0KI2luY2x1ZGUg
-PHN0cmluZy5oPg0KI2luY2x1ZGUgPHN5cy9tbWFuLmg+DQojaW5jbHVkZSA8c3lzL3R5cGVzLmg+
-DQojaW5jbHVkZSA8dW5pc3RkLmg+DQojaW5jbHVkZSA8c3lzL2lvLmg+DQojaW5jbHVkZSA8c3Rk
-aW8uaD4NCiNpbmNsdWRlIDxzdGRsaWIuaD4NCiNpbmNsdWRlIDxzdHJpbmcuaD4NCiNpbmNsdWRl
-IDxlcnJuby5oPg0KI2luY2x1ZGUgPHN5cy90eXBlcy5oPg0KI2luY2x1ZGUgPHN5cy9zb2NrZXQu
-aD4NCiNpbmNsdWRlIDxzdGRib29sLmg+DQojaW5jbHVkZSA8bmV0aW5ldC9pbi5oPg0KDQoNCiNk
-ZWZpbmUgSU9CQVNFIAkgCQkweGMwNDANCiNkZWZpbmUgVVNCX1BJQ19GSUxFIAkiL3N5cy9kZXZp
-Y2VzL3BjaTAwMDA6MDAvMDAwMDowMDowNC4wL3Jlc291cmNlMCINCg0KI2RlZmluZSBVU0JDTURf
-UlMgICAgICAgKDE8PDApDQojZGVmaW5lIFVTQkNNRF9IQ1JTVCAgICAoMTw8MSkNCiNkZWZpbmUg
-VVNCQ01EX0lOVEUgICAgICgxPDwyKQ0KI2RlZmluZSBVU0JDTURfSFNFRSAgICAgKDE8PDMpDQoj
-ZGVmaW5lIFVTQkNNRF9MSENSU1QgICAoMTw8NykNCiNkZWZpbmUgVVNCQ01EX0NTUyAgICAgICgx
-PDw4KQ0KI2RlZmluZSBVU0JDTURfQ1JTICAgICAgKDE8PDkpDQojZGVmaW5lIFVTQkNNRF9FV0Ug
-ICAgICAoMTw8MTApDQojZGVmaW5lIFVTQkNNRF9FVTNTICAgICAoMTw8MTEpDQojZGVmaW5lIFRS
-Ql9UUl9FTlQgICAgICAgICAgKDE8PDEpDQojZGVmaW5lIFRSQl9UUl9JU1AgICAgICAgICAgKDE8
-PDIpDQojZGVmaW5lIFRSQl9UUl9OUyAgICAgICAgICAgKDE8PDMpDQojZGVmaW5lIFRSQl9UUl9D
-SCAgICAgICAgICAgKDE8PDQpDQojZGVmaW5lIFRSQl9UUl9JT0MgICAgICAgICAgKDE8PDUpDQoj
-ZGVmaW5lIFRSQl9UUl9JRFQgICAgICAgICAgKDE8PDYpDQoNCiNkZWZpbmUgVFJCX1RZUEVfU0hJ
-RlQgICAgICAgICAgMTANCiNkZWZpbmUgVFJCX0NSX1NMT1RJRF9TSElGVCAgICAgMjQNCiNkZWZp
-bmUgVFJCX0NSX1NMT1RJRF9NQVNLICAweGZmDQojZGVmaW5lIFRSQl9DUl9FUElEX1NISUZUICAg
-ICAgIDE2DQojZGVmaW5lIFRSQl9DUl9FUElEX01BU0sgICAgMHgxZg0KDQojZGVmaW5lIFBGTl9Q
-UkVTRU5UICAgICAoMXVsbCA8PCA2MykNCiNkZWZpbmUgUEZOX1BGTiAgICAgICAgICgoMXVsbCA8
-PCA1NSkgLSAxKQ0KI2RlZmluZSBQQUdFX1NISUZUICAJMTINCiNkZWZpbmUgUEFHRV9TSVpFICAg
-CSgxIDw8IFBBR0VfU0hJRlQpDQojZGVmaW5lIFVTQl9UT0tFTl9JTiAgICAJCTB4NjkgLy8gZGV2
-aWNlIC0+IGhvc3QNCiNkZWZpbmUgVVNCX1RPS0VOX1NFVFVQIAkJMHgyZA0KI2RlZmluZSBVU0Jf
-VE9LRU5fT1VUICAgCQkweGUxDQoNCiNkZWZpbmUgRVBfVFlQRV9TSElGVCAgICAgICAgICAgMw0K
-I2RlZmluZSBUUkJfQyAgICAgICAgICAgICAgICgxPDwwKQ0KDQp0eXBlZGVmIGVudW0gVFJCVHlw
-ZSB7DQogICAgVFJCX1JFU0VSVkVEID0gMCwNCiAgICBUUl9OT1JNQUwsDQogICAgVFJfU0VUVVAs
-CQkvLzINCiAgICBUUl9EQVRBLA0KICAgIFRSX1NUQVRVUywJCS8vNA0KICAgIFRSX0lTT0NILA0K
-ICAgIFRSX0xJTkssCQkvLzYNCiAgICBUUl9FVkRBVEEsDQogICAgVFJfTk9PUCwNCiAgICBDUl9F
-TkFCTEVfU0xPVCwNCiAgICBDUl9ESVNBQkxFX1NMT1QsDQogICAgQ1JfQUREUkVTU19ERVZJQ0Us
-DQogICAgQ1JfQ09ORklHVVJFX0VORFBPSU5ULA0KICAgIENSX0VWQUxVQVRFX0NPTlRFWFQsDQog
-ICAgQ1JfUkVTRVRfRU5EUE9JTlQsDQogICAgQ1JfU1RPUF9FTkRQT0lOVCwNCiAgICBDUl9TRVRf
-VFJfREVRVUVVRSwNCiAgICBDUl9SRVNFVF9ERVZJQ0UsDQogICAgQ1JfRk9SQ0VfRVZFTlQsDQog
-ICAgQ1JfTkVHT1RJQVRFX0JXLA0KICAgIENSX1NFVF9MQVRFTkNZX1RPTEVSQU5DRSwNCiAgICBD
-Ul9HRVRfUE9SVF9CQU5EV0lEVEgsDQogICAgQ1JfRk9SQ0VfSEVBREVSLA0KICAgIENSX05PT1As
-DQogICAgRVJfVFJBTlNGRVIgPSAzMiwNCiAgICBFUl9DT01NQU5EX0NPTVBMRVRFLA0KICAgIEVS
-X1BPUlRfU1RBVFVTX0NIQU5HRSwNCiAgICBFUl9CQU5EV0lEVEhfUkVRVUVTVCwNCiAgICBFUl9E
-T09SQkVMTCwNCiAgICBFUl9IT1NUX0NPTlRST0xMRVIsDQogICAgRVJfREVWSUNFX05PVElGSUNB
-VElPTiwNCiAgICBFUl9NRklOREVYX1dSQVAsDQogICAgQ1JfVkVORE9SX05FQ19GSVJNV0FSRV9S
-RVZJU0lPTiAgPSA0OSwNCiAgICBDUl9WRU5ET1JfTkVDX0NIQUxMRU5HRV9SRVNQT05TRSA9IDUw
-LA0KfSBUUkJUeXBlOw0KDQoNCnR5cGVkZWYgZW51bSBFUFR5cGUgew0KICAgIEVUX0lOVkFMSUQg
-PSAwLA0KICAgIEVUX0lTT19PVVQsDQogICAgRVRfQlVMS19PVVQsDQogICAgRVRfSU5UUl9PVVQs
-DQogICAgRVRfQ09OVFJPTCwNCiAgICBFVF9JU09fSU4sDQogICAgRVRfQlVMS19JTiwNCiAgICBF
-VF9JTlRSX0lOLA0KfSBFUFR5cGU7DQoNCnR5cGVkZWYgdWludDY0X3QgZG1hX2FkZHJfdDsNCg0K
-c3RydWN0IHhoY2l0cmIgew0KICAgIHVpbnQ2NF90IHBhcmFtZXRlcjsNCiAgICB1aW50MzJfdCBz
-dGF0dXM7DQogICAgdWludDMyX3QgY29udHJvbDsNCiAgICBkbWFfYWRkcl90IGFkZHI7DQogICAg
-Ym9vbCBjY3M7DQp9Ow0KDQoNCmNoYXIgKmRtYWJ1ZiwgKm1taW9feGhjaTsNCg0KDQoNCnVpbnQ2
-NF90IGd2YV90b19nZm4odm9pZCAqYWRkcikNCnsNCiAgICB1aW50NjRfdCBwbWUsIGdmbjsNCiAg
-ICBzaXplX3Qgb2Zmc2V0Ow0KCQ0KCWludCBmZCA9IG9wZW4oIi9wcm9jL3NlbGYvcGFnZW1hcCIs
-IE9fUkRPTkxZICk7DQoJaWYgKGZkIDwgMCkgDQoJew0KCQlwZXJyb3IoIm9wZW4oL3Byb2Mvc2Vs
-Zi9wYWdlbWFwKSIpOw0KCQlleGl0KDEpOw0KCX0NCgkNCiAgICBvZmZzZXQgPSAoKHVpbnRwdHJf
-dClhZGRyID4+IDkpICYgfjc7DQogICAgbHNlZWsoZmQsIG9mZnNldCwgU0VFS19TRVQpOw0KICAg
-IHJlYWQoZmQsICZwbWUsIDgpOw0KCWNsb3NlKCBmZCApOw0KCQ0KICAgIGlmICghKHBtZSAmIFBG
-Tl9QUkVTRU5UKSkNCiAgICAgICAgcmV0dXJuIC0xOw0KICAgIGdmbiA9IHBtZSAmIFBGTl9QRk47
-DQogICAgcmV0dXJuIGdmbjsNCn0NCg0KDQp1aW50MzJfdCBwYWdlX29mZnNldCh1aW50MzJfdCBh
-ZGRyKQ0Kew0KICAgIHJldHVybiBhZGRyICYgKCgxIDw8IFBBR0VfU0hJRlQpIC0gMSk7DQp9DQoN
-Cg0KdWludDY0X3QgdmlydF90b19waHlzKHZvaWQgKmFkZHIpDQp7DQogICAgdWludDY0X3QgZ2Zu
-ID0gZ3ZhX3RvX2dmbihhZGRyKTsNCiAgICBhc3NlcnQoZ2ZuICE9IC0xKTsNCiAgICByZXR1cm4g
-KGdmbiA8PCBQQUdFX1NISUZUKSB8IHBhZ2Vfb2Zmc2V0KCh1aW50NjRfdClhZGRyKTsNCn0NCg0K
-DQp2b2lkIHhjaGlfd3JpdGUodWludDMyX3QgYWRkciwgdWludDMyX3QgdmFsdWUpDQp7DQogICAg
-KigodWludDMyX3QgKikobW1pb194aGNpICsgYWRkcikpID0gdmFsdWU7DQp9DQoNCnVpbnQ2NF90
-IHhjaGlfcmVhZCh1aW50MzJfdCBhZGRyKQ0Kew0KICAgIHJldHVybiAqKCh1aW50NjRfdCAqKSht
-bWlvX3hoY2kgKyBhZGRyKSk7DQp9DQogDQogDQppbnQgaW5pdCgpDQp7CSANCglpbnQgeGhjaV9m
-ZCA9IG9wZW4oVVNCX1BJQ19GSUxFLCBPX1JEV1IgfCBPX1NZTkMpOw0KICAgIGlmKCB4aGNpX2Zk
-IDwgMCApDQogICAgew0KICAgICAgICBwZXJyb3IoInhoY2lfZmQgb3BlbiBmYWlsZWQiKTsNCgkJ
-cmV0dXJuIC0xOw0KICAgIH0NCgkNCgltbWlvX3hoY2kgPSAoY2hhciAqKW1tYXAoMCwgMHg0MDAw
-LCBQUk9UX1JFQUQgfCBQUk9UX1dSSVRFLCBNQVBfU0hBUkVELCB4aGNpX2ZkLCAwKTsNCiAgICBp
-ZiggbW1pb194aGNpID09IE1BUF9GQUlMRUQgKQ0KICAgIHsNCiAgICAgICAgcGVycm9yKCJtbWFw
-IG1taW9feGhjaSBmYWlsZWQiKTsNCgkJcmV0dXJuIC0xOw0KICAgIH0NCglwcmludGYoICJtbWFw
-KHhoY2lfZmQpIG9rLG1taW9feGhjaT0lcFxuIiwgKHZvaWQgKiltbWlvX3hoY2kgKTsNCgkNCglk
-bWFidWYgPSAoY2hhciAqKW1tYXAoMCwgMHgyMDAwLCBQUk9UX1JFQUQgfCBQUk9UX1dSSVRFLCBN
-QVBfU0hBUkVEIHwgTUFQX0FOT05ZTU9VUywgLTEsIDApOw0KICAgIGlmIChkbWFidWYgPT0gTUFQ
-X0ZBSUxFRCkNCiAgICB7DQogICAgICAgIHBlcnJvcigibW1hcCgweDUwMDApIik7DQoJCXJldHVy
-biAtMTsNCiAgICB9DQoJLy9wcmludGYoICJtbWFwKGRtYWJ1Zikgb2ssZG1hYnVmPSVwXG4iLCBk
-bWFidWYgKTsNCgkNCiAgICBtbG9jayggZG1hYnVmLCAweDIwMDAgKTsgIA0KfQ0KDQoNCi8vb2ss
-IGhlYXAgb29iLXdyaXRlIGluIHVzYl9tb3VzZV9wb2xsKCkNCi8vKGdkYikgcC94IGJ1ZiA9JDEg
-PSAweDdmZmY4YzhiNGIyMA0KLy8oZ2RiKSBwL3ggbGVuID0gJDIgPSAweDENCmludCBoZWFwX29v
-Yl93cml0ZSgpDQp7CQ0KCWludCBpOw0KCXVpbnQzMl90ICpjdHgsICp0bXA7DQoJdWludDY0X3Qg
-cGh5X2NtZCwgcGh5X2N0eDsNCglzdHJ1Y3QgeGhjaXRyYiAqdHJiOwkNCgl1bnNpZ25lZCBpbnQg
-cG9ydCwgZXBpZCwgc3RyZWFtaWQsIHNsb3RpZDsNCgl1aW50NjRfdCBzZXR1cF9sZW4scmVxdWVz
-dCx2YWx1ZSxpbmRleDsNCgkNCgkvL3hoY2lfcnVuDQoJeGNoaV93cml0ZSggMHg0MCwgVVNCQ01E
-X1JTICk7CQ0KCQ0KCXBoeV9jbWQgPSB2aXJ0X3RvX3BoeXMoIGRtYWJ1ZiApOwkNCglwaHlfY3R4
-ID0gdmlydF90b19waHlzKCBkbWFidWYrMHgxNDAwICk7CQ0KCXByaW50ZiggInBoeV9jbWQ9MHgl
-bHgscGh5X2N0eD0weCVseFxuIiwgcGh5X2NtZCwgcGh5X2N0eCApOwkNCgkJDQoJLy9zZXQgeGhj
-aS0+Y3Jjcl9sb3cmY3Jjcl9oaWdoLCBjYWxsIHhoY2lfcmluZ19pbml0KCkNCgl4Y2hpX3dyaXRl
-KCAweDQwKzB4MTgsIHBoeV9jbWQmMHgwMDAwMDAwMGZmZmZmZmZmICk7DQoJeGNoaV93cml0ZSgg
-MHg0MCsweDFjLCAocGh5X2NtZCYweGZmZmZmZmZmMDAwMDAwMDApPj4zMiApOw0KCQ0KCQ0KCXRy
-YiA9IChzdHJ1Y3QgeGhjaXRyYiAqKWRtYWJ1ZjsNCgljdHggPSAodWludDMyX3QgKikoZG1hYnVm
-KzB4MTQwMCk7DQoJDQoJLy9vbmUgdHJiIGVuYWJsZSBvbmUgcG9ydA0KCXRyYiA9IChzdHJ1Y3Qg
-eGhjaXRyYiAqKShkbWFidWYpOwkvL2VuYWJsZSBwb3J0PTMNCgl0cmItPmNvbnRyb2wgPSAoQ1Jf
-RU5BQkxFX1NMT1QgPDwgVFJCX1RZUEVfU0hJRlQpIHwgMHgxOw0KCQ0KCXRyYiA9IChzdHJ1Y3Qg
-eGhjaXRyYiAqKShkbWFidWYrMHgxMCk7CS8vZW5hYmxlIHBvcnQ9NA0KCXRyYi0+Y29udHJvbCA9
-IChDUl9FTkFCTEVfU0xPVCA8PCBUUkJfVFlQRV9TSElGVCkgfCAweDE7DQoJDQoJdHJiID0gKHN0
-cnVjdCB4aGNpdHJiICopKGRtYWJ1ZisweDIwKTsJLy9lbmFibGUgcG9ydD01DQoJdHJiLT5jb250
-cm9sID0gKENSX0VOQUJMRV9TTE9UIDw8IFRSQl9UWVBFX1NISUZUKSB8IDB4MTsNCgkNCgl0cmIg
-PSAoc3RydWN0IHhoY2l0cmIgKikoZG1hYnVmKzB4MzApOwkvL2VuYWJsZSBwb3J0PTYNCgl0cmIt
-PmNvbnRyb2wgPSAoQ1JfRU5BQkxFX1NMT1QgPDwgVFJCX1RZUEVfU0hJRlQpIHwgMHgxOw0KCQ0K
-CXRyYiA9IChzdHJ1Y3QgeGhjaXRyYiAqKShkbWFidWYrMHg0MCk7CS8vZW5hYmxlIHBvcnQ9Nw0K
-CXRyYi0+Y29udHJvbCA9IChDUl9FTkFCTEVfU0xPVCA8PCBUUkJfVFlQRV9TSElGVCkgfCAweDE7
-DQoJDQoJLy94aGNpX3Byb2Nlc3NfY29tbWFuZHMJLS0tPiB4aGNpX2VuYWJsZV9zbG90DQoJeGNo
-aV93cml0ZSggMHgyMDAwLCAwICk7CQkNCgkNCgkvL3AgeGhjaS0+c2xvdHNbMV0uZXBzID0gezB4
-N2ZmZmU0M2Q2NTcwLCAweDAsIDB4N2ZmZmU0MzdkMzcwfQ0KCS8vZXBpZCBtdXN0IGJlIDEsIGZv
-ciAgeGhjaV9lbmFibGVfZXAoKSBpbiB4aGNpX2FkZHJlc3Nfc2xvdA0KCWVwaWQgPSAweDM7DQoJ
-Ly9zbG90aWQgPSAweDI7DQoJLy94aGNpLT5zbG90c1tpXS51cG9ydCA9IGRlc2NfZGV2aWNlX3dh
-Y29tDQoJc2xvdGlkID0gMHgzOw0KCS8vcG9ydD02KzEgZm9yIGRlc2NfZGV2aWNlX3dhY29tLCBn
-ZGIgaW4geGhjaV9sb29rdXBfdXBvcnQoKQ0KCXBvcnQgPSAweDc7DQoJc3RyZWFtaWQgPSAzOwkN
-CgkNCgkvL3hoY2lfcHJvY2Vzc19jb21tYW5kcyAtLT4geGhjaV9hZGRyZXNzX3Nsb3QgDQoJdHJi
-ID0gKHN0cnVjdCB4aGNpdHJiICopKGRtYWJ1ZisweDUwKTsJLy9zdGFydCBmb3JtIDB4NDArMHgx
-MD0weDUwDQoJdHJiLT5wYXJhbWV0ZXIgPSBwaHlfY3R4OwkNCgl0cmItPmNvbnRyb2wgPSAoQ1Jf
-QUREUkVTU19ERVZJQ0U8PFRSQl9UWVBFX1NISUZUKSB8KGVwaWQ8PFRSQl9DUl9FUElEX1NISUZU
-KSB8KHNsb3RpZDw8VFJCX0NSX1NMT1RJRF9TSElGVCl8MHgxOw0KCQ0KCWN0eFswXSA9IDB4MDsJ
-CQkJCQ0KCWN0eFsxXSA9IDB4MzsNCgljdHhbOF0gPSAweDA7CQkJDQoJY3R4WzldID0gcG9ydDw8
-MTY7CQkJCS8vcG9ydD02KzEgZm9yIGRlc2NfZGV2aWNlX3dhY29tLCBnZGIgaW4geGhjaV9sb29r
-dXBfdXBvcnQoKQkNCgkvL2ljdHgrMzIrKDMyKmkpLCAoMzIrMzIpLzQ9MTYNCgljdHhbMTYrMF0g
-PSAweDA7CQkJCS8vbWF4X3BzdHJlYW1zCQ0KCWN0eFsxNisxXSA9IDB4MTA8PDE2OwkJCS8vbWF4
-X3BzaXplCQ0KCWN0eFsxNisyXSA9IHBoeV9jbWQrMHg4MDA7CQkJLy9kZXF1ZXVlCQ0KCWN0eFsx
-NiszXSA9IDA7CQkJCQkJLy9kZXF1ZXVlCQ0KCQ0KCS8veGhjaV9wcm9jZXNzX2NvbW1hbmRzIC0t
-PiB4aGNpX2NvbmZpZ3VyZV9zbG90IA0KCXRyYiA9IChzdHJ1Y3QgeGhjaXRyYiAqKShkbWFidWYr
-MHg2MCk7DQoJdHJiLT5wYXJhbWV0ZXIgPSBwaHlfY3R4KzB4MjAwOwkNCgl0cmItPmNvbnRyb2wg
-PSAoQ1JfQ09ORklHVVJFX0VORFBPSU5UPDxUUkJfVFlQRV9TSElGVCkgfChlcGlkPDxUUkJfQ1Jf
-RVBJRF9TSElGVCkgfChzbG90aWQ8PFRSQl9DUl9TTE9USURfU0hJRlQpfDB4MTsNCgkNCgkvLzB4
-MjAwLzQ9MHg4MA0KCWN0eFsweDgwKzBdID0gMHgwOwkJDQoJY3R4WzB4ODArMV0gPSAweDF8MTw8
-MnwxPDwzfDE8PDR8MTw8NXwxPDw2Ow0KCWZvciggaT0xOyBpPDU7IGkrKyApDQoJew0KCQkvL2Rt
-YV9hZGRyX3QgaWN0eCwgaWN0eCszMisoMzIqaSksICgzMiszMikvND0xNg0KCQljdHhbMHg4MCs4
-KzgqaSswXSA9IDB4MTw8MTB8MHgxPDwxNTsJCQkJLy9tYXhfcHN0cmVhbXMoY3R4WzBdID4+IDEw
-KSAmIGVwY3R4LT5sc2EoY3R4WzBdID4+IDE1KQkNCgkJY3R4WzB4ODArOCs4KmkrMV0gPSBFVF9C
-VUxLX0lOPDxFUF9UWVBFX1NISUZUOwkvL2VwY3R4LT50eXBlDQoJCWN0eFsweDgwKzgrOCppKzJd
-ID0gcGh5X2NtZCsweDYwMDsJCQkvL2VwX2N0eCwgZGVxdWV1ZQ0KCQljdHhbMHg4MCs4KzgqaSsz
-XSA9IDA7CQkJCQkJLy9kZXF1ZXVlCQ0KCX0NCgkNCgkvL2ZvciBwaHlfY21kKzB4NjAwLCBtYWtl
-IHhoY2lfa2lja19lcGN0eCAtPiB4aGNpX3JpbmdfZmV0Y2goKSBvaw0KCXRyYiA9IChzdHJ1Y3Qg
-eGhjaXRyYiAqKShkbWFidWYrMHg2MDApOwkNCgl0cmItPmNvbnRyb2wgPSAoVFJfU1RBVFVTPDxU
-UkJfVFlQRV9TSElGVCl8VFJCX1RSX0lEVDsJCS8vY2NzID0gMHgwDQoJdHJiLT5zdGF0dXMgPSAw
-eDg7DQoJdHJiLT5wYXJhbWV0ZXIgPSAweDE7DQoJDQoJLy9zdGN0eFtpXS5wY3R4ID0gYmFzZSAr
-IHN0cmVhbWlkICogMTY7LCBzdHJlYW1pZD0zLHN0Y3R4WzNdLnBjdHg9ZG1hYnVmKzB4NjAwKzB4
-MzANCgl0bXAgPSAodWludDMyX3QgKikoZG1hYnVmKzB4NjAwK3N0cmVhbWlkKjE2KTsNCgl0bXBb
-MF0gPSAxPDwxfHBoeV9jbWQrMHg4MDA7CS8vc2V0IHJpbmctPi0+ZGVxdWV1ZT1waHlfY21kKzB4
-ODAwDQoJdG1wWzFdID0gMDsJCQkJCS8vY3R4WzFdPTANCgkNCgl4Y2hpX3dyaXRlKCAweDIwMDAs
-IDAgKTsJDQoJDQoJDQoJcmVxdWVzdCA9IDB4MTE7DQoJdmFsdWUgPSAweDIyOw0KCWluZGV4ID0g
-MHgzMzsNCglzZXR1cF9sZW4gPSAweDQwOw0KCQ0KCS8vZmlyc3QgVFJfU0VUVVAsIHNlY29uZCBU
-Ul9TVEFUVVMNCgl0cmIgPSAoc3RydWN0IHhoY2l0cmIgKikoZG1hYnVmKzB4ODAwKTsJDQoJdHJi
-LT5jb250cm9sID0gKFRSX1NFVFVQPDxUUkJfVFlQRV9TSElGVCl8VFJCX1RSX0lEVHxUUkJfQzsJ
-CS8vY2NzID0gMHgxDQoJdHJiLT5zdGF0dXMgPSAweDg7DQoJdHJiLT5wYXJhbWV0ZXIgPSAweDh8
-MHg4MHwoc2V0dXBfbGVuJjB4ZmYpPDw0OHwoc2V0dXBfbGVuJjB4ZmYwMCk8PDU2fChyZXF1ZXN0
-JjB4ZmYpPDw4fCh2YWx1ZSYweGZmKTw8MTZ8KGluZGV4JjB4ZmYpPDwzMjsJCS8vMHg4MCBmb3Ig
-eGZlci0+aW5feGZlcj1VU0JfVE9LRU5fSU4NCglwcmludGYoICJwYXJhbWV0ZXI9MHglbHhcbiIs
-IHRyYi0+cGFyYW1ldGVyICk7DQoJDQoJdHJiID0gKHN0cnVjdCB4aGNpdHJiICopKGRtYWJ1Zisw
-eDgxMCk7DQoJdHJiLT5jb250cm9sID0gKFRSX05PUk1BTDw8VFJCX1RZUEVfU0hJRlQpfFRSQl9D
-OwkJLy9jY3MgPSAweDENCgkvL3NldCBxLT5pb3YuaW92X2xlbj0weDEsIGluIHVzYl9tb3VzZV9w
-b2xsKCksIGJ1ZlsyXSA9IGR5OyB3aWxsIG9vYi13cml0ZQ0KCXRyYi0+c3RhdHVzID0gMHgxOwkJ
-Ly9jaHVuayA9IHRyYi0+c3RhdHVzLCBmb3IgcXNnLT5zZy5sZW49IHRyYi0+c3RhdHVzLCBxLT5p
-b3YuaW92X2xlbj1xc2ctPnNnLmxlbj10cmItPnN0YXR1cy4NCgkNCgl0cmItPnBhcmFtZXRlciA9
-IHBoeV9jbWQrMHgxMDAwOw0KCQ0KCXRyYiA9IChzdHJ1Y3QgeGhjaXRyYiAqKShkbWFidWYrMHg4
-MjApOw0KCXRyYi0+Y29udHJvbCA9IChUUl9TVEFUVVM8PFRSQl9UWVBFX1NISUZUKXxUUkJfVFJf
-SURUfFRSQl9DOwkJLy9jY3MgPSAweDENCgl0cmItPnN0YXR1cyA9IDB4ODsJDQoJDQoJLy94aGNp
-X2Rvb3JiZWxsX3dyaXRlDQoJeGNoaV93cml0ZSggMHgyMDAwK3Nsb3RpZCo0LCBlcGlkfHN0cmVh
-bWlkPDwxNiApOw0KCQkNCglyZXR1cm4gMDsNCn0NCg0KDQoNCg0KDQppbnQgbWFpbiggaW50IGFy
-Z2MsIGNoYXIgKmFyZ3ZbXSApDQp7DQoJaW9wbCgzKTsNCgkNCglpbml0KCk7CQkNCg0KCWhlYXBf
-b29iX3dyaXRlKCk7DQoJDQoJZ2V0Y2hhcigpOw0KCQ0KCXJldHVybiAwOw0KfQ0K
+>> caused some confusions in the past already, since e.g. Debian only suppo=
+rts
+>> the previous major release for only one more year, and macOS also releas=
+es a
+>> major version each year ... so IMHO we could shorten the time frame for =
+the
+>> previous major release to 1 year instead. People then could still contin=
+ue
+>> building QEMU on CentOS 8, but they have to be aware that they might ins=
+tall
+>> other software like Sphinx manually if they want to continue using QEMU =
+with
+>> docs there. What do you think?
+>
+>
+> I think perhaps the problem is not in the length of time defined by
+> our support policy, but rather that we're facing a rather different
+> reality to the one we've historically been used it, where distros
+> are no longer critical dependancies and our support policy does not
+> reflect that.
+>
+>
+> For any C/C++ application, wanting to target the versions shipped in a
+> distro has been pretty much normal practice. C has not ever come with
+> a standard package manager toolset, the distros service that role. The
+> distros also aren't generally a fan of shipping multiple versions of
+> C libs in parallel.
+>
+>
+> Pretty much every non-C library though is different. They all have
+> their own package manager service / tools (perl has cpan, pytyhon has
+> PyPi/pip, ruby has gems. With latest compiled languages like Go/Rust,
+> this has gone one step further and is natively integrated into the
+> compiler toolchain as standard.
+>
+>
+> IOW, for everything except C, it has become increasingly normal
+> practice to ignore the distro and dynamically download all the deps
+> your application needs into a self contained local environment.
+> Now, the distros aren't especially a fan of this new world, since
+> they still prefer to unbundle all these deps, but I think that
+> approach is increasingly difficult for them to achieve because the
+> majority of upstreams don't care for the distro versions.
+>
+>
+> Thus what we're experiancing is a clash between the traditional
+> way that C applications/libraries deal with their deps, vs the
+> way pretty much every other language deals with their deps in
+> the modern world. It has come up now because we're making much
+> more use of python now, than we did in the past.
 
---_002_978512a6a82e425ba67655e9805d4365huaweicom_--
+Yes.
+
+The traditional way of building applications is to examine the
+environment, and configure the application accordingly.  If you depend
+on libfoo, configure looks for (a supported version of) libfoo, and the
+source code deals with differences between versions, if any.  libfoo is
+expected to bend over backwards to avoid differences.
+
+The newfangled way of building applications is to set up a controlled
+environment.  No need to configure the application.
+
+Pros and cons, no need to rehash them here, I believe.
+
+> Our support policy is written from the POV of the C world, and
+> merely reducing the length of time we support a distro does not
+> address the different world view of Python.
+>
+> Should we instead try to be more explicit about the different
+> needs of the non-C dependencies ?
+>
+> We could for example say
+>
+>  * For native library/application dependancies we aim to
+>    support the two most recent distro versions, for 2 years
+>    overlap
+>
+>  * For non-native library/applications dependancies we aim
+>    to support only the most recent distro version. Users
+>    of older distros may need to dynamically fetch newer
+>    deps.
+
+Who does the fetching, users manually, or the build process
+automatically?
+
+> The python 3.8 runtime would be considered a native dep, so fall
+> under the 2 distro versions rule. This is fine with CentOS 8,
+> since it provides newer python runtime versions.
+>
+> The python libraries, or tools written in python (meson), would
+> fall under the second rule, and so only need to target one distro
+> version. This would be compatible with CentOS 8, as the users would
+> be expected to download extra python components (or we do it on
+> their behalf).
+>
+> For the second rule, rather than saying most recent distro versions,
+> possibly we might want to carve out an exclusion for LTS distros too.
+> ie, explicitly don't care about versions of non-native bits in RHEL
+> at all, beyond availability of the base (python) runtime.
+
+Interesting idea.  Can anyone think of reasons not to do this?
+
 
