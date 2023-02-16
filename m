@@ -2,75 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B8BE699C9D
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 19:47:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FD23699CC4
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 20:04:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSjHI-0006Kj-MT; Thu, 16 Feb 2023 13:46:44 -0500
+	id 1pSjWm-0001Tn-BM; Thu, 16 Feb 2023 14:02:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkarthikeyan1509@gmail.com>)
- id 1pSjGx-0006F5-9c; Thu, 16 Feb 2023 13:46:23 -0500
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pkarthikeyan1509@gmail.com>)
- id 1pSjGv-00084i-ED; Thu, 16 Feb 2023 13:46:22 -0500
-Received: by mail-pg1-x530.google.com with SMTP id e1so1853422pgg.9;
- Thu, 16 Feb 2023 10:46:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=kDGCNgP/HqriguoJrv1lH0CH349ASjBLevBqGlZM65w=;
- b=iZQRaCb6TZVfsiwcpWqZ9ohScte29U9y/wH9CawUajX+/5CQwyvS722ArowVCeByEe
- AErQjE5/pPb5MfjjsRaa73orChm39tuooNfhD6NQiYdbxwySgCYl/Hg+66HUtyzjz6If
- bzWIwz/Qj10gugJQZQwTcHGlskNcfMCrRmS2uUG2c0a4Vu4eul1dd8VNRThZc+qGAyKz
- LfE6t6NYFonYUy5IPEI8EoLeLXLDLp7ccD5K2OXJCOdLkJ0vrwjWx1/hEsN7eJjYX/5b
- rYmiJ9w33g4rvX+cgtCAYZjU7Kmg7Jad9C9riMXgYqZuamm02cbfp8J9e7I+m+CZ+Aw9
- zbKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kDGCNgP/HqriguoJrv1lH0CH349ASjBLevBqGlZM65w=;
- b=2H/ApToUwSzQE3JQ1nnd6df/rEiSPzOD2e7jUCpDTwjnDEVvj9u6qnnIzote8+o1zc
- 2owvU6swBGE14t8pRXwsMeN/H3Rl6G0oJLcMGNeTh8WSyGUhYGOCVTlN/wYEMfoxMs7f
- B9smvvMNYNSiMTlf9BOuwKyUFktmdXBgSKLLu6EwPSVeivacAYPLeUfejEW/qbc09Mi0
- Wo1NaIScJEwCRuUMnbjCiV/gswRKViEJ9d81vu5I+vR6UG7HB24pjxOWO1Qc7ar425NK
- g5LYxDxHt5B0YVBiDFVwEIOboeO7UdVmElQGyW1VBcC5I7f9qwGV7/2AyLMoOwZZiWiU
- hZGA==
-X-Gm-Message-State: AO0yUKXPTNJbA6daqnea9iVS2ysLzcjQL0M0U1nJowZKnE+ZF+j3KqAl
- 0Odgf3q81/4CUtWJYbJYcaY=
-X-Google-Smtp-Source: AK7set80y24nDwfFBaPE7mcXN5OX9qbspF3uEC25aF4cKWKMBy1XbwVkypHr6Hsuvnu7Lx4eUKRXBA==
-X-Received: by 2002:aa7:9e1a:0:b0:58d:d546:8012 with SMTP id
- y26-20020aa79e1a000000b0058dd5468012mr5576226pfq.0.1676573179525; 
- Thu, 16 Feb 2023 10:46:19 -0800 (PST)
-Received: from localhost.localdomain ([2409:40f4:b:d40d:3893:4d65:38b4:e3e6])
- by smtp.gmail.com with ESMTPSA id
- h6-20020a62b406000000b00580cc63dce8sm1630311pfn.77.2023.02.16.10.46.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 10:46:19 -0800 (PST)
-From: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
-To: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Cc: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
-Subject: [PATCH v2] Adding new machine Tiogapass in QEMU
-Date: Fri, 17 Feb 2023 00:13:43 +0530
-Message-Id: <20230216184342.253868-1-pkarthikeyan1509@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from
+ <BATV+33d3adc5578b079b0cf9+7116+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pSjWe-0001ST-BN
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 14:02:36 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+33d3adc5578b079b0cf9+7116+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pSjWb-0007kp-8x
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 14:02:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=RqGI7lTWiwwGs+DhvNOBchYHo7IIiy/e+0AB3SSuCIM=; b=NqWwyNHZXazd+xEHkU98BOAXra
+ r7WFy46UU5RkdhcvvpOOMxgv7QrswQRYCX628DiFlYVkufV4tYWj35BBfDmTe1cSGBh4brO63v7mZ
+ 561+w0r+kWMPfDMLL9jC+5GLKIesCdrWCG2LFT3hGN+bN2x9L7Ymb0YroW8d//QF7Ez8uj9t6GzHy
+ mSd7M1SQcZwgDaCtjN6Vn54ARpw8mz8P9bEEkxs77MPtPbwJ+CA34qhAztcmrhc0ccsQedbzTXsMt
+ LZcGzHbCBMMWvu7lOmZCiRLZKsuQbS4Sq1psEd0/WA8hyM3JvKTxELGTD/r0acUsyY71vZGC5c0wV
+ CfXv1Vgg==;
+Received: from [2001:871:43:561d:4c86:95fd:9a36:d056]
+ (helo=dynamic-pd01.res.v6.highway.a1.net)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pSjWP-008e17-MK; Thu, 16 Feb 2023 19:02:22 +0000
+Message-ID: <4ea862746a066107573650d04f4eee6992e0ede9.camel@infradead.org>
+Subject: Re: Runnig solaris binary(32 bit) on linux(64 bit)
+From: David Woodhouse <dwmw2@infradead.org>
+To: Peter Maydell <peter.maydell@linaro.org>, ginu samuel
+ <samuel.ginu2010@gmail.com>
+Cc: qemu-devel@nongnu.org
+Date: Thu, 16 Feb 2023 20:02:20 +0100
+In-Reply-To: <CAFEAcA8dH+DDPHWg6xRmT=3oCu1rwyb1gbyVCXFTSDSzBrGg-w@mail.gmail.com>
+References: <CAPWd1mzg0rWgpf_D+NC+yAosx8oJnA+tR=NpsuFNtWP-j25=pQ@mail.gmail.com>
+ <CAFEAcA8dH+DDPHWg6xRmT=3oCu1rwyb1gbyVCXFTSDSzBrGg-w@mail.gmail.com>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-9LzcnYrTYcVw/+cXydK8"
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=pkarthikeyan1509@gmail.com; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+33d3adc5578b079b0cf9+7116+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,129 +76,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patch support Tiogapass in QEMU environment.
-and introduced EEPROM BMC FRU data support "add tiogapass_bmc_fruid data"
-along with the machine support.
 
-Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
----
- hw/arm/aspeed.c        | 32 ++++++++++++++++++++++++++++++++
- hw/arm/aspeed_eeprom.c | 22 ++++++++++++++++++++++
- hw/arm/aspeed_eeprom.h |  3 +++
- 3 files changed, 57 insertions(+)
+--=-9LzcnYrTYcVw/+cXydK8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 27dda58338..d12164420d 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -530,6 +530,15 @@ static void romulus_bmc_i2c_init(AspeedMachineState *bmc)
-     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 11), "ds1338", 0x32);
- }
- 
-+static void tiogapass_bmc_i2c_init(AspeedMachineState *bmc)
-+{
-+    AspeedSoCState *soc = &bmc->soc;
-+
-+    at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 4), 0x54, 128 * KiB);
-+    at24c_eeprom_init_rom(aspeed_i2c_get_bus(&soc->i2c, 6), 0x54, 128 * KiB, tiogapass_bmc_fruid,
-+                          tiogapass_bmc_fruid_len);
-+}
-+
- static void create_pca9552(AspeedSoCState *soc, int bus_id, int addr)
- {
-     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, bus_id),
-@@ -1191,6 +1200,25 @@ static void aspeed_machine_romulus_class_init(ObjectClass *oc, void *data)
-         aspeed_soc_num_cpus(amc->soc_name);
- };
- 
-+static void aspeed_machine_tiogapass_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
-+
-+    mc->desc       = "Facebook Tiogapass BMC (ARM1176)";
-+    amc->soc_name  = "ast2500-a1";
-+    amc->hw_strap1 = AST2500_EVB_HW_STRAP1;
-+    amc->hw_strap2 = 0;
-+    amc->fmc_model = "n25q256a";
-+    amc->spi_model = "mx25l25635e";
-+    amc->num_cs    = 2;
-+    amc->i2c_init  = tiogapass_bmc_i2c_init;
-+    mc->default_ram_size       = 1 * GiB;
-+    mc->default_cpus = mc->min_cpus = mc->max_cpus =
-+        aspeed_soc_num_cpus(amc->soc_name);
-+        aspeed_soc_num_cpus(amc->soc_name);
-+};
-+
- static void aspeed_machine_sonorapass_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -1566,6 +1594,10 @@ static const TypeInfo aspeed_machine_types[] = {
-         .name          = MACHINE_TYPE_NAME("tacoma-bmc"),
-         .parent        = TYPE_ASPEED_MACHINE,
-         .class_init    = aspeed_machine_tacoma_class_init,
-+    }, {
-+        .name          = MACHINE_TYPE_NAME("tiogapass-bmc"),
-+        .parent        = TYPE_ASPEED_MACHINE,
-+        .class_init    = aspeed_machine_tiogapass_class_init,
-     }, {
-         .name          = MACHINE_TYPE_NAME("g220a-bmc"),
-         .parent        = TYPE_ASPEED_MACHINE,
-diff --git a/hw/arm/aspeed_eeprom.c b/hw/arm/aspeed_eeprom.c
-index 04463acc9d..f937a6ceaa 100644
---- a/hw/arm/aspeed_eeprom.c
-+++ b/hw/arm/aspeed_eeprom.c
-@@ -6,6 +6,27 @@
- 
- #include "aspeed_eeprom.h"
- 
-+/* Tiogapass BMC FRU */
-+const uint8_t tiogapass_bmc_fruid[] = {
-+    0x01, 0x00, 0x00, 0x01, 0x0d, 0x00, 0x00, 0xf1, 0x01, 0x0c, 0x00, 0x36,
-+    0xe6, 0xd0, 0xc6, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x42, 0x4d,
-+    0x43, 0x20, 0x53, 0x74, 0x6f, 0x72, 0x61, 0x67, 0x65, 0x20, 0x4d, 0x6f,
-+    0x64, 0x75, 0x6c, 0x65, 0xcd, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e,
-+    0x30, 0xc9, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc1, 0x39, 0x01, 0x0c, 0x00, 0xc6,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x54, 0x69, 0x6f, 0x67, 0x61,
-+    0x20, 0x50, 0x61, 0x73, 0x73, 0x20, 0x53, 0x69, 0x6e, 0x67, 0x6c, 0x65,
-+    0x32, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0xc4, 0x58, 0x58, 0x58, 0x32, 0xcd, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc7,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e, 0x30, 0xc9,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc8, 0x43, 0x6f,
-+    0x6e, 0x66, 0x69, 0x67, 0x20, 0x41, 0xc1, 0x45,
-+};
-+
- const uint8_t fby35_nic_fruid[] = {
-     0x01, 0x00, 0x00, 0x01, 0x0f, 0x20, 0x00, 0xcf, 0x01, 0x0e, 0x19, 0xd7,
-     0x5e, 0xcf, 0xc8, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xdd,
-@@ -77,6 +98,7 @@ const uint8_t fby35_bmc_fruid[] = {
-     0x6e, 0x66, 0x69, 0x67, 0x20, 0x41, 0xc1, 0x45,
- };
- 
-+const size_t tiogapass_bmc_fruid_len = sizeof(tiogapass_bmc_fruid);
- const size_t fby35_nic_fruid_len = sizeof(fby35_nic_fruid);
- const size_t fby35_bb_fruid_len = sizeof(fby35_bb_fruid);
- const size_t fby35_bmc_fruid_len = sizeof(fby35_bmc_fruid);
-diff --git a/hw/arm/aspeed_eeprom.h b/hw/arm/aspeed_eeprom.h
-index a0f848fa6e..69db103c83 100644
---- a/hw/arm/aspeed_eeprom.h
-+++ b/hw/arm/aspeed_eeprom.h
-@@ -9,6 +9,9 @@
- 
- #include "qemu/osdep.h"
- 
-+extern const uint8_t tiogapass_bmc_fruid[];
-+extern const size_t tiogapass_bmc_fruid_len;
-+
- extern const uint8_t fby35_nic_fruid[];
- extern const uint8_t fby35_bb_fruid[];
- extern const uint8_t fby35_bmc_fruid[];
--- 
-2.25.1
+On Thu, 2023-02-16 at 14:36 +0000, Peter Maydell wrote:
+> On Thu, 16 Feb 2023 at 14:30, ginu samuel <samuel.ginu2010@gmail.com>
+> wrote:
+> >=20
+> > Hi,
+> > =C2=A0=C2=A0=C2=A0 I have a requirement to run a Solaris binary ( 32 bi=
+t ) on
+> > linux (64 bit).
+> >=20
+> > Since some of the sources for the binary are not available,
+> > recompilation on linux is not possible.
+> >=20
+> > So we are trying to run on linux using QEMU
+>=20
+> > Following are the questions:
+> > 1. Is the user mode emulation (of QEMU) the right way to do this?
+>=20
+> No. QEMU's user-only mode only supports running Linux processes
+> on a Linux host; it can't run binaries for any other OS like Solaris.
+>=20
+> To run a Solaris binary you would need to boot a guest Solaris
+> on an emulated QEMU system (effectively, like a slow VM), and
+> then run the binary you want to run inside that VM.
 
+Well... we used to be able to run Solaris and similar x86 binaries on
+Linux, with the iBCS patches in the kernel, which became
+https://linux-abi.sourceforge.net/
+
+It wouldn't be beyond the wit of man to extend qemu-user to support the
+similar personality variations for SCO/Solaris/etc. using that as a
+guide.=20
+
+--=-9LzcnYrTYcVw/+cXydK8
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMjE2MTkwMjIwWjAvBgkqhkiG9w0BCQQxIgQg0ZeDd4q1
+WGEBlIhoHv0fVwahoI10QDRpjFsbluQBTSwwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgCgMbGEWtoeepEkwzHJNzuWEOjysaEr/XL2
+zS3R4H2Nduzns9dKR4u3u1dtALn55y2EDkPc89Fyi86EqcRlMARRxan4zQW9BpME8F4tahOUYYJ3
+NHjIoAdZMdLXLQPObf2tP6TIudc8o59VNaz1+QvI+4n0MNKkFlf6jZ623IGfy2u/rJRUBWZc2bD3
+UXwq6eWsN6vl1XySPxmOJ4bqlClzmVF3hMZ6cXk8iJAueQsgcFWJYZGV8/JOa88DIsChmVsKGCDs
+fV6ouFVf4lw1llLYTh1EiDHiV91TnOk8hxo0vB2n7VyYqXiZ800aJtUeyfQKbFlZMFHoh9T9S96W
+GOU6xE32yO1u8/IXJzQkjwiMKXiPa0p7gYmvTP06FjzYOniEBNv17Y6l6GupwhnSDIJoB57pLCSN
+/Sa1sRG3j9SGXogt3s+X3MNMiPOti4Hm3S1IQps0jkPd4iS3vqjgM3sgYhMOmk8gsnWhWQfoENKT
+sa6P5C0SOJfYXDyc3jRTP4u8T4X64aeK6gA7dXriBhAWzVlndkGN4GLw78gACVqbHewR1l89n3ei
+ufjjQsmYt7IuCJPYWcD/6I9x2tFnluZXEHEX0I/CpEbotNhH7jjDXU91OlzcJz2LriXb16ccidED
+6E1tjB721m+zxIIL8EthXM2HXxOsBvVDPKxlBe6ziwAAAAAAAA==
+
+
+--=-9LzcnYrTYcVw/+cXydK8--
 
