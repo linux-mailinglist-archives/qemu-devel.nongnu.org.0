@@ -2,86 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE2D6989AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 02:10:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EDFC6989D9
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 02:33:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSSlR-0006zh-9k; Wed, 15 Feb 2023 20:08:45 -0500
+	id 1pST8O-0003Yk-Rn; Wed, 15 Feb 2023 20:32:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSSlN-0006tu-6w
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 20:08:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1pST8M-0003YK-Cu
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 20:32:26 -0500
+Received: from out4-smtp.messagingengine.com ([66.111.4.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSSlK-00056A-Eh
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 20:08:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676509717;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YCP8AOjh/0YWzQi3tJcWRsY5fb10tqVQ7OxEAKgb4PU=;
- b=KOczQYltlLiu3mA4W0luZ9LDJjjnush3ctx3YaA1i6A+9lTP+lfzOMGESzf12bJOtTit8w
- F7a2bUjBTYbt3QMQrrFatA2E7OyJVe5aS1IuzKVXf10xjTzWpwFupDs82gQXzzfIOSEBrE
- cLrReJdcG6lRuiOJVzOAVGT+m5r/gi4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-562-OUr10b5RMNGZySQpqeQuzw-1; Wed, 15 Feb 2023 20:08:35 -0500
-X-MC-Unique: OUr10b5RMNGZySQpqeQuzw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4CD1D3C02184;
- Thu, 16 Feb 2023 01:08:35 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D032492B15;
- Thu, 16 Feb 2023 01:08:34 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0DFEC21E6A1F; Thu, 16 Feb 2023 02:08:33 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>,  Peter Maydell
- <peter.maydell@linaro.org>,  John Snow <jsnow@redhat.com>,  qemu-devel
- <qemu-devel@nongnu.org>,  Cleber Rosa <crosa@redhat.com>,  Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  Beraldo Leal
- <bleal@redhat.com>,
- Michael Roth <michael.roth@amd.com>,  Wainer dos Santos Moschetta
- <wainersm@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Qemu-block
- <qemu-block@nongnu.org>,  Hanna Reitz <hreitz@redhat.com>,  Alex
- =?utf-8?Q?Benn=C3=A9e?=
- <alex.bennee@linaro.org>,  Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v2 6/7] CI: Stop building docs on centos8
-References: <20230210003147.1309376-1-jsnow@redhat.com>
- <20230210003147.1309376-7-jsnow@redhat.com>
- <CAFEAcA-c5y0TR8vYg_FYEmGv3mOOmBgeD0cyb+mVotsP=r-Dsw@mail.gmail.com>
- <CAFn=p-aDV9=vG6hjTWRE6c52TpYSjDBU22nthTuejDCv_XrYMQ@mail.gmail.com>
- <CAFEAcA_eGvz_BQVLhVWtedRh2mcBuMEhv0RKF+6DW4t+9FdPAw@mail.gmail.com>
- <Y+Z2Kcq17HGWuoTV@redhat.com> <87cz6cpue3.fsf@pond.sub.org>
- <553f238a-56f2-4bd0-382a-80cfe116f138@redhat.com>
- <Y+t6Ni+OW/1vp6Cs@redhat.com>
-Date: Thu, 16 Feb 2023 02:08:33 +0100
-In-Reply-To: <Y+t6Ni+OW/1vp6Cs@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Tue, 14 Feb 2023 12:10:30 +0000")
-Message-ID: <87r0uqv2lq.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1pST8G-0003HY-6q
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 20:32:26 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 59B045C00F4;
+ Wed, 15 Feb 2023 20:32:15 -0500 (EST)
+Received: from imap44 ([10.202.2.94])
+ by compute2.internal (MEProxy); Wed, 15 Feb 2023 20:32:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1676511135; x=
+ 1676597535; bh=JY9fe2GKOrCHxQ7zEllzVWgM9Wi5e7DJGFH3l4YtSmQ=; b=w
+ 2e8L9i3SsuGea9fpHIMsGQqjjt+35Rfx0zjkgqxUZv0/0IbbXg/mlQHdktVVCgNB
+ 7zXprsfegL4odXkJCrnBHQnTMoBSSL5G799NHekFUSigi6xVjfcZCziCpNt/iDBt
+ Hgf/MDquVMSYddHbiDxjAh3fzVoZiLEaYcOSzkGVuz/211z2BG1ClZbFCINJ+Tq/
+ kpr8/5telYQ+CjIf9PSVhkyESm/6Dm5M/BvNS1U9FIDqYNp6ur1KW6XWE+coSfXV
+ Cpl+MBNysn2NXNXUe5IbNWkO/rBziQQkWiIzq2wSF8HRLI0COSu6lBSlJRPPOpFB
+ Huk6h/1cRyxnsLRkG7H0g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1676511135; x=
+ 1676597535; bh=JY9fe2GKOrCHxQ7zEllzVWgM9Wi5e7DJGFH3l4YtSmQ=; b=F
+ E38pXk4SNEmHy3mAeZKobKPjcmeiAAN8h0vlxcfrnsPJlTxY0/D1KPLt7sj1L7XH
+ Yt9ohOUrLTdCedqoRegjcd4XqX2eBedx6wIqEBh2jTeeMK+FvN0e9i1iloGawiXF
+ zObeSmTzSrYFGAr34EC4YLFB7l1VHp+Q+GmdGfg/uu1cB7TFGKGjyqIMCJWejPw1
+ 9Gz5UtCOu+PROeIXymuqrOyAQOvjdeptidajUHn+6ftu6yKOoVkLUctDfyibQKTA
+ vbB4Nq3PS7zmVRw8oFxWq7gzM39kVsNY5I5qxarepSpxonZzR1TRlrG0aNkDyqUk
+ jMikG0PbQuY1ooVmKyjxQ==
+X-ME-Sender: <xms:noftY-jX2NCRkKaC2qdwBzNgIVT2bBhFnaAT4ig3JgfWbDXadA6ZMg>
+ <xme:noftY_B5JEC-HJwwC0Rd3PZZHhqW2W20FbsRiapIqu9zMMIsUOsP93F8yy1_blktI
+ H3qu4HMbRiOXZqLIqs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeiiedgfeehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdfl
+ ihgrgihunhcujggrnhhgfdcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtoh
+ hmqeenucggtffrrghtthgvrhhnpedufeegfeetudeghefftdehfefgveffleefgfehhfej
+ ueegveethfduuddvieehgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+ grihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
+X-ME-Proxy: <xmx:noftY2HjtZX-hfCC0jlLwoSfwsRCElv8pn-idzbimKbyGL2JlS3tSg>
+ <xmx:noftY3RiCik7MsVG902GD_u31zprAPH9jHRdKm4Jlmqoj-uNSYKAbg>
+ <xmx:noftY7znE2UlgdoF82KekPvhH4ilsYo60UD8NWCDE-iIcw2-I6CHrw>
+ <xmx:n4ftY7_i8gxXLXF_ZudoMNemdxGai-iOW1XaYeJ5hLo3fVyaRKplKQ>
+Feedback-ID: ifd894703:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id C4ED336A0073; Wed, 15 Feb 2023 20:32:14 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-156-g081acc5ed5-fm-20230206.001-g081acc5e
+Mime-Version: 1.0
+Message-Id: <ff59a570-7e1a-43c9-bf7c-62f82d50451e@app.fastmail.com>
+In-Reply-To: <92e0e4dd-0aee-7d12-06b5-eb087766e087@linaro.org>
+References: <20230215084754.3816747-1-marcin.nowakowski@fungible.com>
+ <20230215084754.3816747-2-marcin.nowakowski@fungible.com>
+ <645427aa-2630-a2be-9f1a-bee60a2d2885@linaro.org>
+ <92e0e4dd-0aee-7d12-06b5-eb087766e087@linaro.org>
+Date: Thu, 16 Feb 2023 01:31:54 +0000
+From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ "Richard Henderson" <richard.henderson@linaro.org>,
+ "Marcin Nowakowski" <marcin.nowakowski@fungible.com>,
+ "BALATON Zoltan via" <qemu-devel@nongnu.org>
+Cc: "Aurelien Jarno" <aurelien@aurel32.net>,
+ "Aleksandar Rikalo" <aleksandar.rikalo@syrmia.com>
+Subject: Re: [PATCH 1/3] target/mips: fix JALS32/J32 instruction handling for
+ microMIPS
+Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=jiaxun.yang@flygoat.com;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,151 +110,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> On Tue, Feb 14, 2023 at 09:35:44AM +0100, Thomas Huth wrote:
->> On 14/02/2023 08.40, Markus Armbruster wrote:
->> > Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
->> >=20
->> > [...]
->> >=20
->> > > We don't have to drop python 3.6. It is a choice because
->> > > of a desire to be able to use some shiny new python
->> > > features without caring about back compat.
->> >=20
->> > I read this on Friday, and decided to let it sit until after the
->> > weekend.  Well, it's now Tuesday, and to be frank, it's still as
->> > offensively flippant as it was on Friday.  It shows either ignorance of
->> > or cavalier disregard for the sheer amount of work some of us have had
->> > to put into keeping old versions of Python viable.
+
+=E5=9C=A82023=E5=B9=B42=E6=9C=8815=E6=97=A5=E4=BA=8C=E6=9C=88 =E4=B8=8B=E5=
+=8D=888:50=EF=BC=8CPhilippe Mathieu-Daud=C3=A9=E5=86=99=E9=81=93=EF=BC=9A
+> On 15/2/23 21:21, Richard Henderson wrote:
+>> On 2/14/23 22:47, Marcin Nowakowski wrote:
+>>> @@ -4860,6 +4860,7 @@ static void gen_compute_branch(DisasContext=20
+>>> *ctx, uint32_t opc,
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 target_ulong btgt =3D -1;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int blink =3D 0;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int bcond_compute =3D 0;
+>>> +=C2=A0=C2=A0=C2=A0 int jal_mask =3D 0;
 >>=20
->> I'm a complete python ignorant, too, so I'm a little bit surprised of the
->> amount of pain that these scripts are causing.
+>> Better to limit the scope of the variable to the block below.
 >>=20
->> No matter of that fact, I think Peter still has a point that we have a r=
-eal
->> conflict here with our current support policy. So this either means that
->> Python was the wrong choice for our needs (since it is moving too fast a=
-nd
->> causing too much friction), or we should really rethink our support poli=
-cy.
+>>> @@ -4917,6 +4918,11 @@ static void gen_compute_branch(DisasContext=20
+>>> *ctx, uint32_t opc,
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case OPC_J:
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case OPC_JAL:
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Jump to immediate */
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 jal_mask =3D ctx->hflags=
+ & MIPS_HFLAG_M16 ? 0xF8000000 :=20
+>>> 0xF0000000;
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 btgt =3D ((ctx->base.pc_=
+next + insn_bytes) & jal_mask) |
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+(uint32_t)offset;
 >>=20
->> I guess we're too deep into the Python rabbit hole already, and I'm not
->> aware of any other good solutions (back to Perl scripts? No, thanks!), so
->> it's likely quite impossible to tune that knob.
+>> Ideally we wouldn't have one huge helper function, and could pass dow=
+n=20
+>> the mask from the translator.=C2=A0 But that's on-going cleanup.
 >
-> I still believe python is a probably the best thing for what we're using
-> it for. Certainly would not suggest shell or perl, and using a compiled
-> language would add its own complications for cross compilation.
+> Yes, this is the approach taken in decodetree conversion.
 >
->> Thus we should maybe really start talking about our support policy now. I
->> think the main problem is likely the sentence "Support for the previous
->> major version will be dropped 2 years after the new major version is
->> released". Maybe we should shorten that time frame to 1 year. The 2 years
+> I hope to rebase / respin incorporating Jiaxun patches some day...
 
-It's actually "2 years after the new major version is released or when
-the vendor itself drops support, whichever comes first."
+Which series are you referring?
+Just caught some time so I might able to help.
 
->> caused some confusions in the past already, since e.g. Debian only suppo=
-rts
->> the previous major release for only one more year, and macOS also releas=
-es a
->> major version each year ... so IMHO we could shorten the time frame for =
-the
->> previous major release to 1 year instead. People then could still contin=
-ue
->> building QEMU on CentOS 8, but they have to be aware that they might ins=
-tall
->> other software like Sphinx manually if they want to continue using QEMU =
-with
->> docs there. What do you think?
 >
->
-> I think perhaps the problem is not in the length of time defined by
-> our support policy, but rather that we're facing a rather different
-> reality to the one we've historically been used it, where distros
-> are no longer critical dependancies and our support policy does not
-> reflect that.
->
->
-> For any C/C++ application, wanting to target the versions shipped in a
-> distro has been pretty much normal practice. C has not ever come with
-> a standard package manager toolset, the distros service that role. The
-> distros also aren't generally a fan of shipping multiple versions of
-> C libs in parallel.
->
->
-> Pretty much every non-C library though is different. They all have
-> their own package manager service / tools (perl has cpan, pytyhon has
-> PyPi/pip, ruby has gems. With latest compiled languages like Go/Rust,
-> this has gone one step further and is natively integrated into the
-> compiler toolchain as standard.
->
->
-> IOW, for everything except C, it has become increasingly normal
-> practice to ignore the distro and dynamically download all the deps
-> your application needs into a self contained local environment.
-> Now, the distros aren't especially a fan of this new world, since
-> they still prefer to unbundle all these deps, but I think that
-> approach is increasingly difficult for them to achieve because the
-> majority of upstreams don't care for the distro versions.
->
->
-> Thus what we're experiancing is a clash between the traditional
-> way that C applications/libraries deal with their deps, vs the
-> way pretty much every other language deals with their deps in
-> the modern world. It has come up now because we're making much
-> more use of python now, than we did in the past.
+>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>=20
+>>=20
+>> r~
 
-Yes.
-
-The traditional way of building applications is to examine the
-environment, and configure the application accordingly.  If you depend
-on libfoo, configure looks for (a supported version of) libfoo, and the
-source code deals with differences between versions, if any.  libfoo is
-expected to bend over backwards to avoid differences.
-
-The newfangled way of building applications is to set up a controlled
-environment.  No need to configure the application.
-
-Pros and cons, no need to rehash them here, I believe.
-
-> Our support policy is written from the POV of the C world, and
-> merely reducing the length of time we support a distro does not
-> address the different world view of Python.
->
-> Should we instead try to be more explicit about the different
-> needs of the non-C dependencies ?
->
-> We could for example say
->
->  * For native library/application dependancies we aim to
->    support the two most recent distro versions, for 2 years
->    overlap
->
->  * For non-native library/applications dependancies we aim
->    to support only the most recent distro version. Users
->    of older distros may need to dynamically fetch newer
->    deps.
-
-Who does the fetching, users manually, or the build process
-automatically?
-
-> The python 3.8 runtime would be considered a native dep, so fall
-> under the 2 distro versions rule. This is fine with CentOS 8,
-> since it provides newer python runtime versions.
->
-> The python libraries, or tools written in python (meson), would
-> fall under the second rule, and so only need to target one distro
-> version. This would be compatible with CentOS 8, as the users would
-> be expected to download extra python components (or we do it on
-> their behalf).
->
-> For the second rule, rather than saying most recent distro versions,
-> possibly we might want to carve out an exclusion for LTS distros too.
-> ie, explicitly don't care about versions of non-native bits in RHEL
-> at all, beyond availability of the base (python) runtime.
-
-Interesting idea.  Can anyone think of reasons not to do this?
-
+--=20
+- Jiaxun
 
