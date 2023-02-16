@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64A476999BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 17:19:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C64EC6999CD
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 17:21:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSgyG-0007BM-AP; Thu, 16 Feb 2023 11:18:56 -0500
+	id 1pSgzE-0001kK-Pf; Thu, 16 Feb 2023 11:19:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1pSgyE-00077W-I1
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:18:54 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pSgzB-0001JP-GL
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:19:53 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1pSgyC-0004z9-Ku
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:18:54 -0500
-Received: by mail-pl1-x634.google.com with SMTP id d8so2513019plr.10
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 08:18:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:from:to:cc:subject:date:message-id
- :reply-to; bh=DJnlOTR/lJehB1UEgBOrKkErLKLElzx7TA62fwXJQNI=;
- b=Yzan822Qqh251PJFwIQgYpxO23fJye1Wmt1Y6A8bFzosVJYn8YtqzzUWqZW//z6wkU
- jF0kjFjMf/KffFmxj3nFQ/HSSppSFddtUIs2fNCQT3KgpkWitXT4zLoPyQZFyxIR1F94
- 15+r1wChoDN3cV+acv/hKFfrCruaNsS7C2F3LOA5QhJRG3gEL20riQjSyiRAx3eB19iv
- zkGbCa88/ROU9iqMuD0ff1QFtxuqAsr/JZf01ZqyoMWBS/HIA/rFpknRS9XBJdLOD7Bn
- ENdspxO6KzlC5POYhwIzJNVJbAzWrxpEeFRJAE3l0voQt3WZSGU7YrUpq3Puv0cuDq9Q
- At5Q==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pSgz9-00058V-Ax
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:19:53 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id
+ x4-20020a17090a388400b002349a303ca5so2081387pjb.4
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 08:19:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=wj14ESZLEAlGOUoRm6CLbRBQGDs/WYzNDBqPj6RxcFY=;
+ b=QIiU5uXJUmPB5zdKBAZUhcGxGY7yIqOm1iKOEGNNA2/4dBjIS8bro9gkQ+dUX3hvgu
+ s/xRQGu29bI9gssvN1aaMLy6KPvr5VQ5Wlwr8tneZTowZFsu3oPhsbsd0m2mgCjvL9QL
+ CK3Ang07oojmlOSMyK+0R8OKsa0h4nLnrnquDJXpqmzrM1KPVNBLu6yuyfM+mXjdopxq
+ LQ/JgiI7sewdNuJ7Gs71Uz0lukXtIQl8QnnmPR2/ItoO9L1c8y3zY5Sa1+d0x5En6yV9
+ FQvKR5U1phzVyKWfYw0q2ukje7IR+V35llLqPBsZ7G7eE4vMx2hA/t40Y4F0dFJ4Uvya
+ jCgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DJnlOTR/lJehB1UEgBOrKkErLKLElzx7TA62fwXJQNI=;
- b=I+Rk1k4zE7dvIchjF7U/fbBYPvYY5qC5R9Ab82xyL8e2PcSgGmqwpkAzY8FwArY1xN
- lTXhS8CvrtmP/GIS7uV4E/cXpoVX/1rnB9OHgCqjtQo97i46WkB1gvLGcpfiBizkTWYZ
- G9Kwv3nbHtYRhab1CsTHrFoDiChjSJlvYMR1Ww6TYBcAd15CEkpPVl0OhJT2aNUD2Wju
- CF8FD1FAi8WF+DJh8DHcveTvjlTOL1/vfJpszN5N9ZdVSDrHQeSgsdfvgT9hsPVkMj2l
- ZrUNd9dbDQQlPFbC5FWYePMCLRZTFeNXcOImGWqIskGBlxGNnqsmHgi6RKD/psah0wWH
- rgXQ==
-X-Gm-Message-State: AO0yUKXabZgnwkW+O1SVbMD5pwmY62Ds+86TJOnv625xYg/B0J8xcMX5
- 2dcA7fHzEW/qEp/THiUf2jAGL57fpBtWVfPM
-X-Google-Smtp-Source: AK7set+PzeqSAJxNjAJ5HoUChwXrfsacbU9j+TPaONdgd4d3T6v23l1WxrsyyVH3LdIPsHcm/hkbcQ==
-X-Received: by 2002:a17:90b:224c:b0:233:bc78:b47f with SMTP id
- hk12-20020a17090b224c00b00233bc78b47fmr7132972pjb.49.1676564330620; 
- Thu, 16 Feb 2023 08:18:50 -0800 (PST)
-Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
- fh4-20020a17090b034400b0023440af7aafsm1407938pjb.9.2023.02.16.08.18.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 08:18:50 -0800 (PST)
-Date: Thu, 16 Feb 2023 08:18:50 -0800 (PST)
-X-Google-Original-Date: Thu, 16 Feb 2023 08:18:08 PST (-0800)
-Subject: Re: [PATCH] target/riscv: Fix vslide1up.vf and vslide1down.vf
-In-Reply-To: <20230213094550.29621-1-zhiwei_liu@linux.alibaba.com>
-CC: qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>, bin.meng@windriver.com,
- frank.chang@sifive.com, liweiwei@iscas.ac.cn, 
- dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: zhiwei_liu@linux.alibaba.com
-Message-ID: <mhng-d30cbba1-08af-4b5a-b63b-d05237f2dd05@palmer-ri-x1c9a>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=palmer@dabbelt.com; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wj14ESZLEAlGOUoRm6CLbRBQGDs/WYzNDBqPj6RxcFY=;
+ b=UokVdGyt/rA8IOCELkhqlQ9pBQBjFkx91OyPDdwcUWd2TIiQj5GkuOFbORH/GWPBXO
+ 2VU1AaWD7IfmoKXWpR+2QmSn/W6SSmO8c347n5IGuJOwTswbE9xQzZlMMMHGjDVTUYWd
+ ChoVlne2ufRTu/M3LXHKzFhaCBvs702Wsi3Qt9Epn1qTSEYaJOCXjxr2aaICsqT1bQ/s
+ ESMlZuiKiaZmi2YQJlU7qVifkvzlLF5kFUiRwYxIi30eUs8hVFSNKIiFcxMJ6XH0/usL
+ E9jQh1MLnurH2fz+NaJK1JzCOXoh6ZX3t5iQ7/Lacl8xQLUn5ByuvYMnO5jRQtE2g6iJ
+ RDXg==
+X-Gm-Message-State: AO0yUKVWfTsxcc9ybmWxU2oxRbyAq/6P3pF8z6Yo0xn8ccOBzGvyBt8g
+ WcOHapXzgVuoFSyEFg92KrelM5y7sCH2DnNgdxh4zA==
+X-Google-Smtp-Source: AK7set8N0jwGTUV4Vz+NigZhhCwDqL6I4wNIZsM31F0AjS14587y549jZVe3vA0sanNXHFEezzE6Hyhxq17Q4A+k37o=
+X-Received: by 2002:a17:90b:5109:b0:233:dcb5:ee15 with SMTP id
+ sc9-20020a17090b510900b00233dcb5ee15mr756668pjb.92.1676564389724; Thu, 16 Feb
+ 2023 08:19:49 -0800 (PST)
+MIME-Version: 1.0
+References: <20230213202927.28992-1-farosas@suse.de>
+In-Reply-To: <20230213202927.28992-1-farosas@suse.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 16 Feb 2023 16:19:38 +0000
+Message-ID: <CAFEAcA8yXgqdCvt6KWHQBUNrjca_n2gWeBG-=RGQQKR1vWrf6A@mail.gmail.com>
+Subject: Re: [PATCH RESEND v5 00/28] target/arm: Allow CONFIG_TCG=n builds
+To: Fabiano Rosas <farosas@suse.de>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>, 
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Cornelia Huck <cohuck@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,41 +89,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 13 Feb 2023 01:45:50 PST (-0800), zhiwei_liu@linux.alibaba.com wrote:
-> vslide1up_##BITWIDTH is used by the vslide1up.vx and vslide1up.vf. So its
-> scalar input should be uint64_t to hold the 64 bits float register.And the
-> same for vslide1down_##BITWIDTH.
+On Mon, 13 Feb 2023 at 20:31, Fabiano Rosas <farosas@suse.de> wrote:
 >
-> This bug is caught when run these instructions on qemu-riscv32.
+> Hi, could someone take this?
 >
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-> ---
->  target/riscv/vector_helper.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> I rebased and put the two series together to simplify. I'm keeping it
+> up-to-date and tested while it doesn't go in.
 >
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index 00de879787..3073c54871 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -5038,7 +5038,7 @@ GEN_VEXT_VSLIDEDOWN_VX(vslidedown_vx_w, uint32_t, H4)
->  GEN_VEXT_VSLIDEDOWN_VX(vslidedown_vx_d, uint64_t, H8)
+> CI run here: https://gitlab.com/farosas/qemu/-/pipelines/776103500
 >
->  #define GEN_VEXT_VSLIE1UP(BITWIDTH, H)                                      \
-> -static void vslide1up_##BITWIDTH(void *vd, void *v0, target_ulong s1,       \
-> +static void vslide1up_##BITWIDTH(void *vd, void *v0, uint64_t s1,           \
->                       void *vs2, CPURISCVState *env, uint32_t desc)          \
->  {                                                                           \
->      typedef uint##BITWIDTH##_t ETYPE;                                       \
-> @@ -5086,7 +5086,7 @@ GEN_VEXT_VSLIDE1UP_VX(vslide1up_vx_w, 32)
->  GEN_VEXT_VSLIDE1UP_VX(vslide1up_vx_d, 64)
->
->  #define GEN_VEXT_VSLIDE1DOWN(BITWIDTH, H)                                     \
-> -static void vslide1down_##BITWIDTH(void *vd, void *v0, target_ulong s1,       \
-> +static void vslide1down_##BITWIDTH(void *vd, void *v0, uint64_t s1,           \
->                         void *vs2, CPURISCVState *env, uint32_t desc)          \
->  {                                                                             \
->      typedef uint##BITWIDTH##_t ETYPE;                                         \
+> Based on master.
+> Supersedes "target/arm: CONFIG_TCG=n part 1".
 
-Thanks, applied to riscv-to-apply.next.
+I've taken patches 1-5 into target-arm.next.
+Patch 6 doesn't apply on top of my tree, which is unsurprising
+given that it's trying to move 9000+ lines of code in a single
+patch. That's so much I couldn't even figure out how to recreate
+the code movement locally. The diff is not very legible either.
 
+I think that patch needs to be restructured somehow so that
+it's a bit clearer that it's only doing code movement and a
+bit more likely that it might be possible to apply it without
+massive conflicts.
+
+thanks
+-- PMM
 
