@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65793698C54
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 06:48:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 284A5698C5E
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 06:49:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSX7i-0003nU-Dl; Thu, 16 Feb 2023 00:48:02 -0500
+	id 1pSX7l-0003tO-9m; Thu, 16 Feb 2023 00:48:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSX7f-0003ln-SX
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:48:00 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ id 1pSX7i-0003nX-7p
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:48:02 -0500
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSX7e-0005C0-Bk
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:47:59 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- bt4-20020a17090af00400b002341621377cso4751086pjb.2
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 21:47:57 -0800 (PST)
+ id 1pSX7g-0005Mc-MB
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:48:01 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id r8so1006092pls.2
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 21:48:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CwzhgiW7ITrxyd3SSfKf1YS1o/7m69672MVumGKkbhc=;
- b=OsDhWQvRTDlaXx4+osPMx5z+xX15hix/wXxVqMvk3M9wUA1Re83C3h4I+2i+bt0YpT
- WNBQWuozrYNRSSQKxynymKm8imFC+IrFUTIrWXKPftI4hm/aR4H/DZhrQeOQAOzgFEm2
- X74Vd9m1rvp8TCTHRUEmc4OX3onJy8XCs7rIkLp3sYb8B9ids9O/akQgxq1GbJGsit8N
- ZEI7Dc4sVvhe3a0/TieHgNj9vHT1sYvcu3XAhXANojrnODL09EArstXuyyuAUjQpbH3y
- 5uRcgggQrVyiMDiYX56GeExKQwSMOAR2xQIyxhYWmpUW94rAAuCZ3jjsBcXnfEPjFPzs
- E3aA==
+ bh=vnhKbJ5br8XBikjOI16wWyZO1yPpX72pZ9Y4QBl2Phg=;
+ b=bLxZiQwSNWAxa45jXE8pdoRN3rA+2psit6BO9G9fukKSvOD+7AKTc7HRIG4Rv03Fk7
+ LtwXGQuMujEuFt6ypp3nl7COeUD9mQIuPquBK5VGRgQUf/SvU4oHnOxokzloE5FAvfiq
+ Gqf59CwM1Setrr7YI7y7KCyE761F/1+hAOY3CkOS43QfVpagIKbqlFiib1FUrEeBf+B7
+ JwSdA9xhHTDD/bAHUzbm5HRRmpImpFUJtjrhbUvl/CBGBd5oAC3jK0NA0hDrcO731NR5
+ ncxJwwBsjsYw9oaWnu/k5OeGU+sj80lRLwcl7EsWoEIhL0zz/H21RZFkElTCCCwDaYyk
+ ai0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CwzhgiW7ITrxyd3SSfKf1YS1o/7m69672MVumGKkbhc=;
- b=gCwNPsOlNlsGWd7OpUwrlnJK3nKZRKJ2/KsZdurDgCvOn6TVJx7wFeggjHzjCCP+bN
- dtvKtrOJ3VFA5GvU5AihN6W1Gsik9RDAgMGKqLWpFBHeEzvAiWf9Hs9arPnBiTuJw5Se
- Z/jr38ynTnBbHyl780QvrDJ3qEyr7E82iToEr4tNDxvWX0ve7bd63YJZA53WJ2igqJj5
- Wc65um/cx+53HF2Tz9lnPfJAjUd3IWr1goUDXDzctslEH2c5FM+WTSMEeD8+76JACfdT
- vLgTirT/3uhWHEEiAcrueLdVM+dIwmFzVkvZ01dEAb81KufZfC7TttPGDr4NM9dky5Pi
- 1loQ==
-X-Gm-Message-State: AO0yUKWXWNT5hjtHUyqlh0+Yu1uWqPwyrHUeMKECpn2MtnSBEXrJ/pzZ
- RaOhYcjcSccdPU9W6G3+38D9A29YO0Un30JC+N4=
-X-Google-Smtp-Source: AK7set9y8QSPcCvshcrSuZlOdocWD7+l+hK22V4HeR3nXJ1pXXz8t3Qs4DThKyGExQoOq3dPZzyuCg==
-X-Received: by 2002:a05:6a20:12ca:b0:b8:66d3:30aa with SMTP id
- v10-20020a056a2012ca00b000b866d330aamr5436650pzg.50.1676526476980; 
- Wed, 15 Feb 2023 21:47:56 -0800 (PST)
+ bh=vnhKbJ5br8XBikjOI16wWyZO1yPpX72pZ9Y4QBl2Phg=;
+ b=J/MVNPpynYutN0iRyd0/E4FZb8GUB1E6PpyRFdpOgUYjWu12BH47FeUQucV1AtX/1A
+ rhEdRTnyA+9poLzaxzpCVYw9PnhXxPxVACzYKitRUD1CcGtJ++7UOV++2+RgNqU+YC6g
+ cUyCyOzCxCwwO43yCdWHcT3l3XQJFtrya/Zq731x7wO4i8jwia2wxeailnq4BE70rXUN
+ JNt/4NAtpqaEZ75DfBul3mlI00PQVzFh/TNNmcllTvi+ezeYFqicoM+V5SpgQvvbEsXp
+ 3wyAGh6w4Pb/WAYZ7TWqL8KTiHrc/u2vBJNOE9NMD1epmYovuOutTdPbHROx1hg8ox1O
+ zSuA==
+X-Gm-Message-State: AO0yUKVd4ZpbrKp25CyrX4p2h5M6yv0sx8TVGCQ/WSn042OKUJLdkfUT
+ LxG+to+mxpoGougNDm3MgqapJ9MyKTe9Ev/sAao=
+X-Google-Smtp-Source: AK7set9vx/OBtc6MzNvUsrbQiCN4h6yRId5WHv8uAMcwQ+yp7J8oDz/ojWYCHS3+SPC3bmPRc95T1g==
+X-Received: by 2002:a05:6a20:a10b:b0:bc:d4cf:d647 with SMTP id
+ q11-20020a056a20a10b00b000bcd4cfd647mr4801289pzk.6.1676526479049; 
+ Wed, 15 Feb 2023 21:47:59 -0800 (PST)
 Received: from stoup.. (rrcs-74-87-59-234.west.biz.rr.com. [74.87.59.234])
  by smtp.gmail.com with ESMTPSA id
- j184-20020a6380c1000000b0047917991e83sm358034pgd.48.2023.02.15.21.47.54
+ j184-20020a6380c1000000b0047917991e83sm358034pgd.48.2023.02.15.21.47.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 21:47:56 -0800 (PST)
+ Wed, 15 Feb 2023 21:47:58 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: laurent@vivier.eu
-Subject: [PATCH v2 03/15] linux-user/sparc: Tidy syscall error return
-Date: Wed, 15 Feb 2023 19:45:04 -1000
-Message-Id: <20230216054516.1267305-4-richard.henderson@linaro.org>
+Subject: [PATCH v2 04/15] linux-user/sparc: Use TT_TRAP for flush windows
+Date: Wed, 15 Feb 2023 19:45:05 -1000
+Message-Id: <20230216054516.1267305-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230216054516.1267305-1-richard.henderson@linaro.org>
 References: <20230216054516.1267305-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,52 +89,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Reduce ifdefs with #define syscall_cc.
+The v9 and pre-v9 code can be unified with this macro.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/sparc/cpu_loop.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ linux-user/sparc/cpu_loop.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
-index d31ea057db..051a292ce5 100644
+index 051a292ce5..e1d08ff204 100644
 --- a/linux-user/sparc/cpu_loop.c
 +++ b/linux-user/sparc/cpu_loop.c
-@@ -149,10 +149,13 @@ static void flush_windows(CPUSPARCState *env)
- #endif
- }
- 
-+/* Avoid ifdefs below for the abi32 and abi64 paths. */
- #ifdef TARGET_ABI32
- #define TARGET_TT_SYSCALL  (TT_TRAP + 0x10) /* t_linux */
-+#define syscall_cc         psr
- #else
- #define TARGET_TT_SYSCALL  (TT_TRAP + 0x6d) /* tl0_linux64 */
-+#define syscall_cc         xcc
- #endif
- 
- void cpu_loop (CPUSPARCState *env)
-@@ -183,18 +186,10 @@ void cpu_loop (CPUSPARCState *env)
-                 break;
-             }
-             if ((abi_ulong)ret >= (abi_ulong)(-515)) {
--#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
--                env->xcc |= PSR_CARRY;
--#else
--                env->psr |= PSR_CARRY;
+@@ -196,15 +196,14 @@ void cpu_loop (CPUSPARCState *env)
+             env->pc = env->npc;
+             env->npc = env->npc + 4;
+             break;
+-        case 0x83: /* flush windows */
+-#ifdef TARGET_ABI32
+-        case 0x103:
 -#endif
-+                env->syscall_cc |= PSR_CARRY;
-                 ret = -ret;
-             } else {
--#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
--                env->xcc &= ~PSR_CARRY;
--#else
--                env->psr &= ~PSR_CARRY;
--#endif
-+                env->syscall_cc &= ~PSR_CARRY;
-             }
-             env->regwptr[0] = ret;
++
++        case TT_TRAP + 0x03: /* flush windows */
+             flush_windows(env);
              /* next instruction */
+             env->pc = env->npc;
+             env->npc = env->npc + 4;
+             break;
++
+ #ifndef TARGET_SPARC64
+         case TT_WIN_OVF: /* window overflow */
+             save_window(env);
 -- 
 2.34.1
 
