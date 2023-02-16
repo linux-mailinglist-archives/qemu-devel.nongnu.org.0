@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27407699D68
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 21:12:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D84AE699E91
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 22:02:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSkba-0003yZ-N2; Thu, 16 Feb 2023 15:11:46 -0500
+	id 1pSlNU-0007iz-BQ; Thu, 16 Feb 2023 16:01:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSkbY-0003wU-NV
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 15:11:44 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSkbX-0007D1-7N
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 15:11:44 -0500
-Received: by mail-pl1-x631.google.com with SMTP id m2so3297655plg.4
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 12:11:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=UKzJOPq6CYdPJnRmOnq47FCpvMkQLtD+dyuEoUEnwt0=;
- b=xbK6Xzg7lNTZ1nR/ffpkBP7pZdl4M3zpDTwzRdkCKa6DZk7+g5AKD6n1CEIlsIcUKv
- cqFmxL8kW7Ngmyj0WAhKbQ5vJ12WvdFNaDrjIJ/6fICUvH9PjX6UqZuBleFg7TQm1jwJ
- GHAX++SWPLR3/d1XBsLU0fVlJ3upeqttsipc2UiVoDlFFVjZiRB4IsF9l0/bEiWOks6v
- 6A/h38hw/r/icZAasfImxz5jyIQUJV2/391tGqN2NgfzMMzlfjzBChUZ88LHJYeTHJhu
- P2pnSIukvRNIh3CF2600OH7N3WNd3DVRaC8reSYCHQYbPpVlBrD1oXPrcwq8Bc+oASme
- pBew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UKzJOPq6CYdPJnRmOnq47FCpvMkQLtD+dyuEoUEnwt0=;
- b=ozRktf1HwMqmfQRckj8oFibKd03D7YlRObMKqoKSUymOOjqmxehc22O1ekflr0FE6o
- OB6pcdvTM44e03WwvyulgWPrJDs43OzgqFUJ3+MDRGiBBkdUBXKmx3UETBaYRBtq/U/E
- QGktjtpe46eDEfQB/brR1p6k0vrdV0o9hHWkj8JWz7+NythZpgbUmHo0vBdeh4JHes3o
- vsjjAS9t+0zCgatIaArvfjZPPDQhPXXf1eELDNNczVSaHl24T/hzr/sJseQEcWhFUd/B
- s1URvCh5YmluJDxpwPzjfinIgXHnRgmfvi7xkCIUe/hGlTpU68INMS7hdqXrcDdqNNG+
- 9Rtw==
-X-Gm-Message-State: AO0yUKVY8FSNdrJ4po1nwRFTfYDQ07RMZh6TF0Kd7uPplhP1CNLgq+/8
- gdkxJXAnaMtZSiQrSzgCvHCKNQ==
-X-Google-Smtp-Source: AK7set+ejbouRWfOjSqgKUtvtLqMf97Qd5HIPhA4/CLGreEarbCvwxjOhRHl90fXQJvlEW99jrVXTA==
-X-Received: by 2002:a17:902:e88a:b0:198:dd3f:2847 with SMTP id
- w10-20020a170902e88a00b00198dd3f2847mr8714080plg.21.1676578301419; 
- Thu, 16 Feb 2023 12:11:41 -0800 (PST)
-Received: from ?IPV6:2607:fb90:8f62:8652:bed9:812b:5b9e:e49a?
- ([2607:fb90:8f62:8652:bed9:812b:5b9e:e49a])
- by smtp.gmail.com with ESMTPSA id
- y9-20020a170902ed4900b0019a256bfe96sm1684172plb.242.2023.02.16.12.11.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Feb 2023 12:11:40 -0800 (PST)
-Message-ID: <41615dde-73c3-49a9-2e29-c21324265c1f@linaro.org>
-Date: Thu, 16 Feb 2023 10:11:37 -1000
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pSlNR-0007hZ-JB
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 16:01:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pSlNP-0004IK-Mc
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 16:01:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676581258;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+tBQMhQblsoOADzxGqV+XcekNYFKTGUFJshid3YfGPs=;
+ b=bNhHWMCLzS6OGHF26XO50W4FTZWvZ5wdD4oU9EX542F07Mql5jva5w31D/fEalTYn4zt/B
+ ZKdDCmbo14VUwLtnzSxojnC1jdUSkIgKHC1PFQFLWeAb+f1zl9vUmoSLfxuFn3uPAjoa6D
+ SrrSJGmPkWtk/7k1cH5yHrSYTrw4Et4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-282-uHYRTv2qPAucDIWDYItaEw-1; Thu, 16 Feb 2023 16:00:54 -0500
+X-MC-Unique: uHYRTv2qPAucDIWDYItaEw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 03D7B85A588;
+ Thu, 16 Feb 2023 21:00:54 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4772F1121314;
+ Thu, 16 Feb 2023 21:00:53 +0000 (UTC)
+Date: Thu, 16 Feb 2023 16:00:51 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: Anton Kuchin <antonkuchin@yandex-team.ru>,
+ Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
+ virtio-fs@redhat.com, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ yc-core@yandex-team.ru, "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH] vhost-user-fs: add capability to allow migration
+Message-ID: <Y+6Zgy7JgABed+RO@fedora>
+References: <0d57cc40-693b-b36c-a135-fdac60dd00ec@yandex-team.ru>
+ <CAJSP0QUXB0kgsCSsmi8dpnJFYho2cR_2Liep=pGmp6WzDZ_7pw@mail.gmail.com>
+ <d6bf0b9a-a167-817d-2c17-c2e472961155@yandex-team.ru>
+ <CAJSP0QXXe6KgLN2PJvi-5GqcELhUKJPB2pUARL2ktO9TQYAq=g@mail.gmail.com>
+ <2fb6efb4-9155-99ad-3acd-c274783436ed@yandex-team.ru>
+ <87h6w5ea1m.fsf@secure.mitica>
+ <ed9832ec-eaf0-68a4-b7c1-9f1691ab149e@yandex-team.ru>
+ <874js4v151.fsf@secure.mitica>
+ <626f6e7c-07e4-4aa7-3cce-b96d9fd96d33@yandex-team.ru>
+ <87mt5ly03z.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 4/4] target/ppc: fix warning with clang-15
-Content-Language: en-US
-To: Pierrick Bouvier <pierrick.bouvier@linaro.org>, qemu-devel@nongnu.org
-Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org,
- alex.bennee@linaro.org, peter.maydell@linaro.org
-References: <20230216134911.6803-1-pierrick.bouvier@linaro.org>
- <20230216134911.6803-5-pierrick.bouvier@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230216134911.6803-5-pierrick.bouvier@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="nyKNCi8hOw9wwgQO"
+Content-Disposition: inline
+In-Reply-To: <87mt5ly03z.fsf@secure.mitica>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.351,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,20 +92,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/16/23 03:49, Pierrick Bouvier wrote:
-> When compiling for windows-arm64 using clang-15, it reports a sometimes
-> uninitialized variable. This seems to be a false positive, as a default
-> case guards switch expressions, preventing to return an uninitialized
-> value, but clang seems unhappy with assert(0) definition.
-> 
-> Change code to g_assert_not_reached() fix the warning.
-> 
-> Signed-off-by: Pierrick Bouvier<pierrick.bouvier@linaro.org>
-> ---
->   target/ppc/dfp_helper.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+--nyKNCi8hOw9wwgQO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-r~
+On Fri, Feb 10, 2023 at 05:08:16PM +0100, Juan Quintela wrote:
+> Anton Kuchin <antonkuchin@yandex-team.ru> wrote:
+> > On 02/02/2023 11:59, Juan Quintela wrote:
+> >> Anton Kuchin <antonkuchin@yandex-team.ru> wrote:
+> >>> On 01/02/2023 16:26, Juan Quintela wrote:
+> >>>> Anton Kuchin <antonkuchin@yandex-team.ru> wrote:
+> >>>>> On 19/01/2023 18:02, Stefan Hajnoczi wrote:
+> >>>>>> On Thu, 19 Jan 2023 at 10:29, Anton Kuchin <antonkuchin@yandex-tea=
+m.ru> wrote:
+> >>>>>>> On 19/01/2023 16:30, Stefan Hajnoczi wrote:
+> >>>>>>>> On Thu, 19 Jan 2023 at 07:43, Anton Kuchin <antonkuchin@yandex-t=
+eam.ru> wrote:
+> >>>>>>>>> On 18/01/2023 17:52, Stefan Hajnoczi wrote:
+> >>>>>>>>>> On Sun, 15 Jan 2023 at 12:21, Anton Kuchin <antonkuchin@yandex=
+-team.ru> wrote:
+> >>>> Once told that, I think that you are making your live harder in the
+> >>>> future when you add the other migratable devices.
+> >>>>
+> >>>> static const VMStateDescription vuf_vmstate =3D {
+> >>>>       .name =3D "vhost-user-fs",
+> >>>>       .minimum_version_id =3D 0,
+> >>>>       .version_id =3D 0,
+> >>>>       .fields =3D (VMStateField[]) {
+> >>>>           VMSTATE_INT8(migration_type, struct VHostUserFS),
+> >>>>           VMSTATE_VIRTIO_DEVICE,
+> >>>>           VMSTATE_END_OF_LIST()
+> >>>>       },
+> >>>>       .pre_save =3D vhost_user_fs_pre_save,
+> >>>>       .subsections =3D (const VMStateDescription*[]) {
+> >>>>           &vmstate_vhost_user_fs_internal_sub,
+> >>>>           NULL
+> >>>>       }
+> >>>> };
+> >>>>
+> >>>> And you are done.
+> >>>>
+> >>>> I will propose to use a property to set migration_type, but I didn't
+> >>>> want to write the code right now.
+> >
+> > I have a little problem with implementation here and need an advice:
+> >
+> > Can we make this property adjustable at runtime after device was realiz=
+ed?
+> > There is a statement in qemu wiki [1] that makes me think this is possi=
+ble
+> > but I couldn't find any code for it or example in other devices.
+> >> "Properties are, by default, locked while the device is
+> >   realized. Exceptions
+> >> can be made by the devices themselves in order to implement a way
+> >   for a user
+> >> to interact with a device while it is realized."
+> >
+> > Or is your idea just to set this property once at construction and keep=
+ it
+> > constant for device lifetime?
+> >
+> > [1] https://wiki.qemu.org/Features/QOM
+>=20
+> I have no clue here.  Markus?  Stefan?
+
+Sorry for the late reply. Yes, QOM properties can be set after realize
+(e.g. using the qom-set command).
+
+The set() callback can return an error, so some properties are
+implemented to refuse updates when ->realize is true.
+
+Stefan
+
+--nyKNCi8hOw9wwgQO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmPumYMACgkQnKSrs4Gr
+c8h6+gf/Xm3DQUOYtCY4IS1GB6hMp0BIP3zfOfyPBh/CVlDtME0ngqYlOrBqxYZ6
+wWEXSyTyHwxhGMK7TkNt0JofrNHdQegdvwqXZOtpoLmxcVjCkohHa6Dh3K8H9q/f
+JcPdxz6+PPHzf293Rbo7XalCqYveWAPX+geTWRQDwLsaYksnv23UlXzkyqZQ2fyD
+8MzRc3AILX9kwTZwWYRCUGEt9HubeE1jnu3tXp4cmAyvWOd4ap/d7dAMguZZlV8C
+J7omECt5rZx5GLVdf5N8l9J/H6mUyXdGRppfsCAon3/yeSDwyNiRVsbpUQOaYqM5
+iYsbZRqzkoZH9bnFp0l7wKk01WbkOA==
+=bGPP
+-----END PGP SIGNATURE-----
+
+--nyKNCi8hOw9wwgQO--
+
 
