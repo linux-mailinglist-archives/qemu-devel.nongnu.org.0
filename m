@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C6B36999C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 17:19:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD05B6999C0
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 17:19:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSgyg-00080F-Lo; Thu, 16 Feb 2023 11:19:25 -0500
+	id 1pSgyu-00086s-4n; Thu, 16 Feb 2023 11:19:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1pSgyd-0007xY-21
+ id 1pSgyd-0007yA-J9
  for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:19:19 -0500
 Received: from prt-mail.chinatelecom.cn ([42.123.76.223] helo=chinatelecom.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1pSgya-000526-RQ
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:19:18 -0500
+ (envelope-from <huangy81@chinatelecom.cn>) id 1pSgyb-000532-Oo
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:19:19 -0500
 HMM_SOURCE_IP: 172.18.0.188:50698.1319324123
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-118.116.19.27 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id 1C63A2800E2;
- Fri, 17 Feb 2023 00:19:02 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 6E2F22800E1;
+ Fri, 17 Feb 2023 00:19:09 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([118.116.19.27])
- by app0023 with ESMTP id 606cdf52dece466c84aacc876dd3eb98 for
- qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:19:09 CST
-X-Transaction-ID: 606cdf52dece466c84aacc876dd3eb98
+ by app0023 with ESMTP id d38a131cea4c4d9391f8998fd4db1557 for
+ qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:19:14 CST
+X-Transaction-ID: d38a131cea4c4d9391f8998fd4db1557
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 118.116.19.27
 X-MEDUSA-Status: 0
@@ -40,9 +40,10 @@ Cc: Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?= <huangy81@chinatelecom.cn>
-Subject: [PATCH v4 01/10] dirtylimit: Fix overflow when computing MB
-Date: Fri, 17 Feb 2023 00:18:30 +0800
-Message-Id: <255bcba59296e91e6be756c1e6e540afeabd94f3.1676563222.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v4 02/10] softmmu/dirtylimit: Add parameter check for hmp
+ "set_vcpu_dirty_limit"
+Date: Fri, 17 Feb 2023 00:18:31 +0800
+Message-Id: <1ee7b30a16ebc76bf5503a7c5a8919f3d813edbd.1676563222.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1676563222.git.huangy81@chinatelecom.cn>
 References: <cover.1676563222.git.huangy81@chinatelecom.cn>
@@ -75,44 +76,45 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Coverity points out a overflow problem when computing MB,
-dirty_ring_size and TARGET_PAGE_SIZE are both 32 bits,
-multiplication will be done as a 32-bit operation, which
-could overflow. Simplify the formula.
+dirty_rate paraemter of hmp command "set_vcpu_dirty_limit" is invalid
+if less than 0, so add parameter check for it.
 
-Meanwhile, fix spelling mistake of variable name.
+Note that this patch also delete the unsolicited help message and
+clean up the code.
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Peter Xu <peterx@redhat.com>
 ---
- softmmu/dirtylimit.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ softmmu/dirtylimit.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-index c56f0f58c8..065ed18afc 100644
+index 065ed18afc..dcab9bf2b1 100644
 --- a/softmmu/dirtylimit.c
 +++ b/softmmu/dirtylimit.c
-@@ -235,14 +235,14 @@ static inline int64_t dirtylimit_dirty_ring_full_time(uint64_t dirtyrate)
- {
-     static uint64_t max_dirtyrate;
-     uint32_t dirty_ring_size = kvm_dirty_ring_size();
--    uint64_t dirty_ring_size_meory_MB =
--        dirty_ring_size * TARGET_PAGE_SIZE >> 20;
-+    uint32_t dirty_ring_size_memory_MB =
-+        dirty_ring_size >> (20 - TARGET_PAGE_BITS);
+@@ -514,14 +514,15 @@ void hmp_set_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
+     int64_t cpu_index = qdict_get_try_int(qdict, "cpu_index", -1);
+     Error *err = NULL;
  
-     if (max_dirtyrate < dirtyrate) {
-         max_dirtyrate = dirtyrate;
+-    qmp_set_vcpu_dirty_limit(!!(cpu_index != -1), cpu_index, dirty_rate, &err);
+-    if (err) {
+-        hmp_handle_error(mon, err);
+-        return;
++    if (dirty_rate < 0) {
++        error_setg(&err, "invalid dirty page limit %ld", dirty_rate);
++        goto out;
      }
  
--    return dirty_ring_size_meory_MB * 1000000 / max_dirtyrate;
-+    return dirty_ring_size_memory_MB * 1000000ULL / max_dirtyrate;
+-    monitor_printf(mon, "[Please use 'info vcpu_dirty_limit' to query "
+-                   "dirty limit for virtual CPU]\n");
++    qmp_set_vcpu_dirty_limit(!!(cpu_index != -1), cpu_index, dirty_rate, &err);
++
++out:
++    hmp_handle_error(mon, err);
  }
  
- static inline bool dirtylimit_done(uint64_t quota,
+ static struct DirtyLimitInfo *dirtylimit_query_vcpu(int cpu_index)
 -- 
 2.17.1
 
