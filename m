@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCAF4698A2A
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 02:40:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B273698A45
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 02:54:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSTEy-0007fL-Vw; Wed, 15 Feb 2023 20:39:17 -0500
+	id 1pSTT3-0004NB-84; Wed, 15 Feb 2023 20:53:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
- id 1pSTEw-0007em-VZ
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 20:39:14 -0500
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
- id 1pSTEt-0000mD-Qy
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 20:39:14 -0500
-Received: by mail-ej1-x630.google.com with SMTP id jg8so1580758ejc.6
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 17:39:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=w7GyCv0Y4u4vnOGArpLDXTPYtw3XwKh7OlLF97IMt94=;
- b=qZDbDvzMhU140E9R3UV84Z1i8q02TY5DWi4yTaXt0Z+8/OnXndBtQVqAWepsriRhGP
- 0sM7lJ9rHFz8vUImDgTRFSmj7dspyZvdH06RtNYbTboesobJUon3Wgow7mKXRgQA2pzq
- kFfsQPHiZPY20cb+204tuSne80fXUM+rhb59UEin31y6X/Eo2Ck1fUIUuRtCtkIKXu0Q
- YeI5zfl2AXITK9W3nlTXhzySqjSHbfhTFw7dsyBdptWsyWO+vnoWFbxjQbO1LrRV15BJ
- tQE/l0MjISTU4XS+n/td4+6+VxpGseWeXBNrZJV7x2UyJ7pKmeSn3oatDUes1zuIqcg6
- rAiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=w7GyCv0Y4u4vnOGArpLDXTPYtw3XwKh7OlLF97IMt94=;
- b=OQGzOAELHF7McmWxykLXJmqHUZSAjdYr2TuY+iGDXu1OEYF+2OwuADVVxUxDoUCS4N
- AjxTpjOneErBWix/zcmV8d6PTxlbCZT/+Upt7suaR1EBUdfkbpc+dABZSJzBGBSakI1g
- P87Mq88WV7wkNEV5Bnna1smBdv+G4jPTlZjJAWoS6wSJ8EyqPUgd8WpEo/D0mTNxmf3w
- Xce2XMboJHXyoKWVVNSe7i/41bOr/y6WfL0m+8fzocenMNgSPjxcX0bOCJAeZ38+Tfu+
- E5wSrM5QRrETD7x7eXsek2cIvS7I+NG78F92IPJs5apQbVVki9rb1SV/4MmPbzFANkeF
- yLAQ==
-X-Gm-Message-State: AO0yUKUKzQQeMECzvPVr/6cvl07vmT1bKtNOHYYdqfQKlhoHTPfJD/Nu
- Q6SsYPYh8Cbgjgr+5uUib099pC7zDK808ND5ZT6kNw==
-X-Google-Smtp-Source: AK7set/HjVDzKaeYF0sacUwvb3dEeuknmFXqr2WoSBp+GS5uUIA/7s3iR0SGVFrICYI/SPnrqnTTmz/NGbskO5rYT1Q=
-X-Received: by 2002:a17:907:d13:b0:878:8061:e114 with SMTP id
- gn19-20020a1709070d1300b008788061e114mr452156ejc.0.1676511549543; Wed, 15 Feb
- 2023 17:39:09 -0800 (PST)
-MIME-Version: 1.0
-References: <20230209062404.3582018-1-debug@rivosinc.com>
- <20230209062404.3582018-4-debug@rivosinc.com>
- <f68da758-a418-c528-6f7c-e6e0d0246255@linux.alibaba.com>
- <CAKC1njTbP0=H8w=izkMkEwVjq9=6m_Rw_ymgremjtbFYDGTrow@mail.gmail.com>
- <d9f692af-eb86-421d-f0cf-495f2a2e01b4@linaro.org>
-In-Reply-To: <d9f692af-eb86-421d-f0cf-495f2a2e01b4@linaro.org>
-From: Deepak Gupta <debug@rivosinc.com>
-Date: Wed, 15 Feb 2023 17:38:49 -0800
-Message-ID: <CAKC1njR44uKkeqT52mn2wg4PzpF6cvwCEk7cGn=gCVjwjVA-6Q@mail.gmail.com>
-Subject: Re: [PATCH v1 RFC Zisslpcfi 3/9] target/riscv: implements CSRs and
- new bits in existing CSRs in zisslpcfi
+ (Exim 4.90_1) (envelope-from <kenneth-lee-2012@foxmail.com>)
+ id 1pSTSz-0004N1-TA
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 20:53:46 -0500
+Received: from out203-205-221-240.mail.qq.com ([203.205.221.240])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kenneth-lee-2012@foxmail.com>)
+ id 1pSTSv-0004SN-F0
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 20:53:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+ s=s201512; t=1676512410;
+ bh=drpfXFT6p2o2a2UDPu219kxIZ0szGlcQ1PvXgHZmOAg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=CgR1zk1xZqCHxaajpuMDgZlZG17Dbwt8kxVltG0LgUxWuy3pWdtgik/pvYdaOJ+VW
+ sg7Bmz5BnxrrtLoHW19kThcs0Op6GPtK+fDxb0SrmVlU+6/RHWvvl9/qa24abYd4YA
+ oKUKZMNmLGcKcQ2RuYQgO2Xcg4vf8c9C4cyWeYpg=
+Received: from localhost ([2409:895a:d8f0:d881:b121:5fe6:ac83:96b8])
+ by newxmesmtplogicsvrsza12-0.qq.com (NewEsmtp) with SMTP
+ id B4A3F25C; Thu, 16 Feb 2023 09:45:10 +0800
+X-QQ-mid: xmsmtpt1676511910th2oqv57f
+Message-ID: <tencent_5ED3B1CE709A7A92C2B7264011B9A84C2205@qq.com>
+X-QQ-XMAILINFO: OUMxvQDaATietpR+IhZrP7yCTWPrkGBPYCdnv6YurQflBDXiJao/WlsqoQ5x8T
+ +EGzuLS+HQxhn84353WigtlGwwJ/7fAVDPJ0pfUh2xL96rek6YbulMG/pSR13kJnwTpd5qYojG7I
+ mlvkHQAw4cKrkeQtbc/hURuwD5/t6j2MG2vJClhPMO4wEJfUQsshOfnP7DYB3NsnkxlSvOq3QCA0
+ CfccHw/mmATHitkfmm+/1nVvZWAc3YO/PFwicw0rt3NXagcS703Wf6lfSvsmwhNYJFeCPBdzInZZ
+ NeHTL/6wRvoX9zKKS51EIjN+4nSTHTAefVjG7OGrFKNxWUX44M3Rh7Iy/1dKSd5oQHmrtZ8pAx2R
+ qiuZvlNB2fXwgHdR4n0SBT9DII5mNrt1dAe/w6uHdvEiApTBiwA6+/DEbIqRsKXvKtUDoIvqdqYJ
+ nfBdGWwZFOgb2v0Iyr5Unj5P9QXp6vUz3pia3vv6U58MAwPHzYSdHFgUY1dR/zdQZ2HV/dcDp8eo
+ NDMKYH1w/p5lyZQzNPzSFSuLO/0qng0Wd/elIU2HOtlYcr7pWKVqAhTgcqwzxIT3820yLPPrlApf
+ cSdxler3wlrm59rnHhEsHkJR0bkxSXQSXw7ciMFOROfLv6dKJjZhuS+zoKiOahgfIsHyC7Ib4pS2
+ m1NfzLvWR56pmvGFqj7xooaJQmdlHmbxb0Tc7M8OaaLkRCQwc3Rx/6FMo6LM5u4Bfd1STbfucOIA
+ 44KcRiy959HtRB2SBOCN2mcdZHu4vD+tbln+H9wn9qhSaAKbQLYdvHg/BI5lJkxVlHAF/zqOL6lz
+ lpTIloQTZcXhPPEjJQXeJ5B5MRAQenj0KJyTt0Tz3MPNO5JYmzJU15ihb1vYEfOVrzVSGq+QPNo6
+ BzkW/tqtMTbzrHq8e+Lo4GCUApChtgToFwmHNyZI+UlHqqw0tdOIxcoSE/ftoySNU5yO+koqfJrK
+ 7zK6rhLNhtjEKaFCApsw==
+Date: Thu, 16 Feb 2023 09:45:09 +0800
+From: Kenneth Lee <Kenneth-Lee-2012@foxmail.com>
 To: Richard Henderson <richard.henderson@linaro.org>
-Cc: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- liweiwei@iscas.ac.cn, 
- dbarboza@ventanamicro.com, Kip Walker <kip@rivosinc.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=debug@rivosinc.com; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Cc: qemu-devel@nongnu.org
+Subject: Re: Does the page boundary check still necessary?
+X-OQ-MSGID: <Y+2KpWKgra4Tkv45@lklp02>
+References: <tencent_F8004464D432CD4CABBADFE9E9493EDF9607@qq.com>
+ <b2c5dd7c-5c90-9104-5477-b76ed22ea799@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b2c5dd7c-5c90-9104-5477-b76ed22ea799@linaro.org>
+Received-SPF: pass client-ip=203.205.221.240;
+ envelope-from=kenneth-lee-2012@foxmail.com;
+ helo=out203-205-221-240.mail.qq.com
+X-Spam_score_int: 11
+X-Spam_score: 1.1
+X-Spam_bar: +
+X-Spam_report: (1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FROM=0.001, HELO_DYNAMIC_IPADDR=1.951, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, RDNS_DYNAMIC=0.982, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,46 +82,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 15, 2023 at 4:02 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 2/15/23 13:33, Deepak Gupta wrote:
-> > On Tue, Feb 14, 2023 at 9:47 PM LIU Zhiwei <zhiwei_liu@linux.alibaba.com> wrote:
-> >> And MSTATUS_UBCFIEN field change don't need flush tlb.
-> >>
-> >
-> > TCG code-gen would be different depending on whether ubcfi is enabled or not.
-> > As an example a TB might have code generated when bcfi was enabled.
-> > But if someone disables it,
-> > translation needs to happen again and zimops implementation should be
-> > generated this time.
->
-> tlb_flush does not affect translation.  TB are tied to physical addresses and are only
-> flushed by writes or tb_flush().
->
-> The correct fix is to allocate a bit from FIELD(TB_FLAGS, X, Y, 1), and adjust
-> cpu_get_tb_cpu_state to indicate when CFI is active in the current cpu mode.
->
->
+On Wed, Feb 15, 2023 at 07:27:19AM -1000, Richard Henderson wrote:
+> Date: Wed, 15 Feb 2023 07:27:19 -1000
+> From: Richard Henderson <richard.henderson@linaro.org>
+> To: Kenneth Lee <Kenneth-Lee-2012@foxmail.com>, qemu-devel@nongnu.org
+> Subject: Re: Does the page boundary check still necessary?
+> User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+>  Thunderbird/102.7.1
+> 
+> On 2/14/23 22:39, Kenneth Lee wrote:
+> > Hello,
+> > 
+> > I hope I send this mail to the right place.
+> > 
+> > I'm porting a new guest arch. It jumps of out of physical page
+> > constantly. So many TBs cannot be chained with goto_tb. I'm wondering
+> > if the following check is still necessary?
+> > 
+> > 	bool translator_use_goto_tb(DisasContextBase *db, target_ulong dest)
+> > 	{
+> > 	    /* Suppress goto_tb if requested. */
+> > 	    if (tb_cflags(db->tb) & CF_NO_GOTO_TB) {
+> > 		return false;
+> > 	    }
+> > 
+> > 	    /* Check for the dest on the same page as the start of the TB.  */
+> > 	    return ((db->pc_first ^ dest) & TARGET_PAGE_MASK) == 0;    <--- Is this check really necessary?
+> > 	}
+> > 
+> > Now the chained TBs have been link with tb_link_page(), the chain will
+> > be rebuilt if it is invalidate on page. So why is this check still there?
+> 
+> Even for a guest which doesn't use paging, and therefore does not need to
+> worry about memory maps changing, we still enable breakpoints and
+> watchpoints on a per-page basis.
+> 
 
-Hmm... So this looks like a major oversight on my side.
-I had been under the impression that tlb flush does TB flushes too.
-I was trying to save on TB_FLAGS.
-I saw `tb_jmp_cache` was being cleared, didn't dig deep and assumed
-that tlb flush clears up TB as well.
-Now that you've pointed it out, it looks like that's a different optimization.
+Thank you. So is this the only reason? May I write a fine grained
+checking to remove this limitation?
 
-So looks like this definitely needs a fix.
-
-Question:
-I'll basically need two bits (one for forward cfi and one for backward cfi).
-But I need to throw away the TB if cfi enabling bits mismatch at the
-time TB was generated and the current state of enabling bits.
-Reason being, this needs to get translated again and zimops need to be
-generated.
-
-What's the best way to throw away a single TB?
-
-
+> 
 > r~
+
+-- 
+			-Ken
 
