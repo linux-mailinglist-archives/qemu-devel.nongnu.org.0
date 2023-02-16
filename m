@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2328F699ADC
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:12:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02AC7699AFA
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:14:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pShnD-0007yi-Uh; Thu, 16 Feb 2023 12:11:35 -0500
+	id 1pShnE-0007zZ-I1; Thu, 16 Feb 2023 12:11:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShnC-0007yE-Bk
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:34 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ id 1pShnD-0007ye-74
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:35 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShnA-0007pa-QH
+ id 1pShnB-0007pp-Lg
  for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:34 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id r28so2068948wra.5
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:11:32 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id l2so2593670wry.0
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:11:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=yZdYj4xUNtAS17eIdljWMHqlEpUmYI5NCeKfPxqq7Ng=;
- b=TpgL2bJzG0Xs6ICWEja2+3fWDhXFyvR1Z5kz0tjgZdqGtKZlk2An/ZixyeGF3lInRs
- LA+p+89oTkgkkTGmBKs9oGX67ymOHf+G8F/Mxwksabr9OG+jag/Je942fVHYuptA6wRN
- PnOaeNf/I8YE0XPXsx/ApxcLgwDN3qeg+1twlxmxcWZlC9X3pD4YoN0SOpZxqagsjmar
- 8XdUQNqctCt8w86nLVQuVZKCBW1i247qIf6aMhcA65zrZ7jWNKSHChXruoFOpLB/q4rp
- YxMt5KT5TXdx70JQgU5LxAX1Ap48NvmLeWOBuowk0Tkbq5VXPYBeuFetFj96Bi5D3s2l
- eTXg==
+ :reply-to; bh=1+Kck9JVYjKMa8PaarZ6RWpFOfo4WuN9uUAQ2s5nrFI=;
+ b=Gi+qmk5aWfOfjUNcIj3kK0gwWHUxcy11vgC1NJ9p+bJ0ZYWOj6v01y/MaQuIAzsngh
+ qB7U21GzrlJ4ASSgmBZa4TfJxPZ1b5lFssh4Fl2wd6Qo+y9uclW/iEzWkLK7MFv305fn
+ GRtCsu7Rh8kbCsTH0KcSbLHL2Md4sS149PpKg8QKOjQf5UJvPoWIIsk+gvyeYDRrftYQ
+ vhepcCJUnb7J2dEc0kK+zOJIYalyAlApmlofBp39D55mBw/llH1BmbKMQSSLDFV0TW7O
+ Nh5KwfDnvNB1+vMDED3ak8lJe43UBvq1M/BILNVsBrk/Pr8RwtAT9CcNj17/ZFww1veq
+ QYAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yZdYj4xUNtAS17eIdljWMHqlEpUmYI5NCeKfPxqq7Ng=;
- b=UTL2XWNDMR9lIzRKz5z45JPXyNccHGIj5oN+riG+Z3pK5+MTCyMQTOjXW5YNNzN7W9
- UyOF3KNQiTh4WnoCTPELhkKkAQgjBTtAu8Po8rTMrpuh2LdH073lxKivQ6xK5PIounRc
- KHlASCwW2ZZXiJn9ACYq+ae3CW5PG1NzXySUHDmGzaDrL2fO/uIV6+OUzNL3KR3zhqHf
- XEGupbmSBYzpSf2kkKiURcs/VPz0neIYtWV2vPsHELDZRkscZ27P5ohEVN2VT+tirFcm
- WTQtvV651jb9Q26/Ik+jJz0Xp9TuPT/KHtdb7dzXhP+WLgot5bOTmIwovjH3i+CRvdJT
- 34Eg==
-X-Gm-Message-State: AO0yUKUBNH42eCtcazyqPuq7skEplXsYB0hxAN+gjrY46YBYeZWUx/Ia
- jLppZSktnbki8q6XIXEHo165gOre00btK7oF
-X-Google-Smtp-Source: AK7set+ZOcpSt6WQFTdlh8Y+W2B2sWr4DnEwjjuTEC5TOLUflqBNKffbte9QYu8+z8QW4bs+R1uifg==
-X-Received: by 2002:adf:e19c:0:b0:2c5:617f:e348 with SMTP id
- az28-20020adfe19c000000b002c5617fe348mr2301065wrb.25.1676567491508; 
- Thu, 16 Feb 2023 09:11:31 -0800 (PST)
+ bh=1+Kck9JVYjKMa8PaarZ6RWpFOfo4WuN9uUAQ2s5nrFI=;
+ b=B5wvKivPsoarxH1hilOgq89XMj1RWEtJjUR/1uhp5+YefHXxvqSDeCd2udX+WtyMYx
+ XTmxi/Lh1EsSLEmgLcrjROtseRfb4cMOoF8QKBH+HjFP3/QQqUIXtwDPTpkQz0VK0yBY
+ DgEiLAjeR2Jdl02H3as8gwVXBq4cqsg2XQQ+oHvdd0pCHRefPn6o6MNY01ssZZjhnWsT
+ zOAWNI1pvmpGlYrVxh5JZ4qWZo1+2AFciK+OTxQ1aHc1qBRXUDPBcrc++d27weOZzlmS
+ EQjd5d8qeEs2IFShnUnMQAKF5yp91NOFQobhXPgNaZS/NnC383M6k8IA0pbOuhvk+iaP
+ rLwQ==
+X-Gm-Message-State: AO0yUKW9r2a4ZLnKlrKjVmsVOC+rS9mgg/3knr3H3cFOickKcb34tEJz
+ ZYlCNY4ghTaqxNCqflw0prZwtA+TtRL3etFD
+X-Google-Smtp-Source: AK7set9iHd9jza29nG31RZf7FNTg/d6HDfk9C0VtNgGy5XF6sq0JzIERT5vgyWnUHKQmc/1sDkYlng==
+X-Received: by 2002:adf:e8c8:0:b0:2c5:a07e:4bb6 with SMTP id
+ k8-20020adfe8c8000000b002c5a07e4bb6mr1005570wrn.33.1676567492310; 
+ Thu, 16 Feb 2023 09:11:32 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- f12-20020a5d4dcc000000b002c556a4f1casm2049107wru.42.2023.02.16.09.11.30
+ f12-20020a5d4dcc000000b002c556a4f1casm2049107wru.42.2023.02.16.09.11.31
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 09:11:30 -0800 (PST)
+ Thu, 16 Feb 2023 09:11:31 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/30] target/arm: Restrict CPUARMState::gicv3state to sysemu
-Date: Thu, 16 Feb 2023 17:11:00 +0000
-Message-Id: <20230216171123.2518285-8-peter.maydell@linaro.org>
+Subject: [PULL 08/30] target/arm: Restrict CPUARMState::arm_boot_info to sysemu
+Date: Thu, 16 Feb 2023 17:11:01 +0000
+Message-Id: <20230216171123.2518285-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230216171123.2518285-1-peter.maydell@linaro.org>
 References: <20230216171123.2518285-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,28 +93,26 @@ From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-id: 20230206223502.25122-8-philmd@linaro.org
+Message-id: 20230206223502.25122-9-philmd@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/arm/cpu.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 1c1e0334f01..002082eb5b6 100644
+index 002082eb5b6..a574e85b769 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -769,9 +769,10 @@ typedef struct CPUArchState {
+@@ -768,8 +768,8 @@ typedef struct CPUArchState {
+     } sau;
  
      void *nvic;
-     const struct arm_boot_info *boot_info;
-+#if !defined(CONFIG_USER_ONLY)
+-    const struct arm_boot_info *boot_info;
+ #if !defined(CONFIG_USER_ONLY)
++    const struct arm_boot_info *boot_info;
      /* Store GICv3CPUState to access from this struct */
      void *gicv3state;
--#if defined(CONFIG_USER_ONLY)
-+#else /* CONFIG_USER_ONLY */
-     /* For usermode syscall translation.  */
-     bool eabi;
- #endif /* CONFIG_USER_ONLY */
+ #else /* CONFIG_USER_ONLY */
 -- 
 2.34.1
 
