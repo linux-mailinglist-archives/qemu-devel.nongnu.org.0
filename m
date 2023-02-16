@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB425699B10
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:16:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A797C699B07
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:15:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pShnK-0008Dc-OB; Thu, 16 Feb 2023 12:11:42 -0500
+	id 1pShnI-0008Aq-U8; Thu, 16 Feb 2023 12:11:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShnI-0008Ai-6p
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:40 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ id 1pShnH-00087o-C7
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:39 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShnF-0007rB-Qr
+ id 1pShnF-0007o5-Op
  for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:39 -0500
-Received: by mail-wm1-x330.google.com with SMTP id n36so1353068wmr.1
+Received: by mail-wr1-x42d.google.com with SMTP id v30so1349747wrv.3
  for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:11:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=if/qVtarW27gDMcczuPNTXDooSW2u0gTRRM5vrJgeIM=;
- b=UIKX+HkTPmRT2noEhm5MvVWfOHFQ+upaT8l787oY0zXaiZzQHgL4gFnI+tPY+9+Q8C
- OCz1Pi9E2E6DAtFeNYiZXURASlgaQa6vFO36D0ibe5bi/1Mi28cSiaSDfxIL8b5ok5J1
- BuN9CRKHmUVxWdn9TFWIW1ZoqSi7r4Knro37hDleMdvumMoiqtDByKnT0GPaRWTRmnN5
- 5EOa82LqdjPwTilyZsdiZab7xj/UQ7ucuin+NjM+NVgyMR4YonpUGPCLB2DFP6jWjecW
- TnXxbejUsPT7wB/XgoztJ+H2KMMV9041BKlL/Rb04eCK9O+ipH9OkJ7hNBhFzCIuRicm
- fX/Q==
+ :reply-to; bh=AerA0OknWJqQzriuIbTWlCJrYfPW5ifmeAoCsYc7SKg=;
+ b=r7mTDzJAcr6woh0tuC5Fyaoqma8R1LH4HCS1p2687KkooPJd1oC5Qg41Nn3KPrCqhG
+ vEz2EPls7oDlINufY8cXzpXC+eKj+haQTah3gZzAHvFJJjhx7EQgPHMdO3/MRvjnA5if
+ Y0VYIvT25jf1Ce+xFYgG6HfWU14olDNIeyozI0XMMKMgnUWs525Br5nhVSBFVQpP3pNZ
+ 049QtALXefa1Lhh5jU2UhO8QZ1QZuHOSxRjlYdGHcgZAHQ4yo5MdiIBQNPrQR3cMi1z5
+ PLEnedjGrwlU9iJeldubASZn4LFHZvOAq+VNYkhInZBiPLaI4hQ8fbdEC92rPY2sH6JO
+ XmOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=if/qVtarW27gDMcczuPNTXDooSW2u0gTRRM5vrJgeIM=;
- b=PFYCxgP8gbWPgOwHBNwm3O9AxqDqtCVcq2gSe9f33OkW9uUGnA1kd5RHXCnf8VmOsc
- ISSbbNuhUj0AgWWjM5UtDq3w5zQchUoQDE+s5e0LfhqsPBQgOrbSt70QB10Z73SE92Rj
- 8wTb2tEnbjFcrkkKjVNqJkNf+VpgQbhLzbyxTHFQPswp0AOIT4knW1oWxI3JEF8b9Q1S
- STEGJfof1Cdn++gqvItsMal7BJEXBoZe5FDZHmAcMcP/PEjVpYPG+MdSGCrNdX2KzAP4
- b121TjR2+InO0wcWtqQ8I2IR40SVJkn1RYjFE22c8Jrd5TkqmctZ/ouNEm0AA7WdIgRZ
- +b2g==
-X-Gm-Message-State: AO0yUKV5tpjD93RZNB0JTQ6ksLm6clsIqbarWpd6E7jseUGg3fCQPLdZ
- ImvXjrXlAXvfqK4YfKfoYCNxQLhsi/qYZAnG
-X-Google-Smtp-Source: AK7set8GYxst5pd0ivbkHSe947OheV4edxWNcHJHSE31Lu1J2OTg0677E4Q63EXZdUDx5BK34DfYGQ==
-X-Received: by 2002:a05:600c:13c3:b0:3e2:9b5:c2c3 with SMTP id
- e3-20020a05600c13c300b003e209b5c2c3mr2504387wmg.22.1676567496269; 
- Thu, 16 Feb 2023 09:11:36 -0800 (PST)
+ bh=AerA0OknWJqQzriuIbTWlCJrYfPW5ifmeAoCsYc7SKg=;
+ b=codBWHWa9TrBIbNMzLCwMRpPISXYaw2zn2Uzazk4G1rlcommk6a0ZH8DA+ucmYcM1C
+ CijhpLtrBxLMX+u3iEFYH3A/v1U63oQ6ZTCed2djHY9QrUehyW83JEY9C2HACaTPuvgE
+ xhDwp5sjU1FAhDMMFs1p7odjkI8tQer4MJCieHyMk1zZCK2bTZhPWkJ2Ciw6eQAI3f3k
+ /Jh0HJGv+dNecNDxSNkUes7NhgM9fsMkyFndJiObz489Dh30kl0RczhcHDkgfIGDe2xa
+ Y2UtCWrAapNoQfUCIZ2Lbfw0yMFC1EesKpei857IbdOXtOVxhd0uQWLlpLhu1PkIPVzu
+ k8kw==
+X-Gm-Message-State: AO0yUKXhQWrYgrHlrhMQUXVmRJfUcs18iLSH/lBt0BjpDwWIFG7DIi2C
+ c9+SBstGDeM9AqiW1RJQRa20Jsdjc/xGNTzI
+X-Google-Smtp-Source: AK7set8h7l2sgFxaRKW1sLcBOrBgbSyLrPQW1Gyv6uD3FWxq23TYIBFuK6LtzX39/HctGcp9/Qohqw==
+X-Received: by 2002:adf:f2c1:0:b0:2c3:f0a6:43e3 with SMTP id
+ d1-20020adff2c1000000b002c3f0a643e3mr5274081wrp.39.1676567497123; 
+ Thu, 16 Feb 2023 09:11:37 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- f12-20020a5d4dcc000000b002c556a4f1casm2049107wru.42.2023.02.16.09.11.35
+ f12-20020a5d4dcc000000b002c556a4f1casm2049107wru.42.2023.02.16.09.11.36
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 09:11:35 -0800 (PST)
+ Thu, 16 Feb 2023 09:11:36 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/30] hw/arm/smmuv3: Add GBPA register
-Date: Thu, 16 Feb 2023 17:11:06 +0000
-Message-Id: <20230216171123.2518285-14-peter.maydell@linaro.org>
+Subject: [PULL 14/30] hw/arm: Add missing XLNX_ZYNQMP_ARM -> USB_DWC3 Kconfig
+ dependency
+Date: Thu, 16 Feb 2023 17:11:07 +0000
+Message-Id: <20230216171123.2518285-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230216171123.2518285-1-peter.maydell@linaro.org>
 References: <20230216171123.2518285-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,157 +90,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Mostafa Saleh <smostafa@google.com>
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-GBPA register can be used to globally abort all
-transactions.
+Since commit acc0b8b05a when running the ZynqMP ZCU102 board with
+a QEMU configured using --without-default-devices, we get:
 
-It is described in the SMMU manual in "6.3.14 SMMU_GBPA".
-ABORT reset value is IMPLEMENTATION DEFINED, it is chosen to
-be zero(Do not abort incoming transactions).
+  $ qemu-system-aarch64 -M xlnx-zcu102
+  qemu-system-aarch64: missing object type 'usb_dwc3'
+  Abort trap: 6
 
-Other fields have default values of Use Incoming.
+Fix by adding the missing Kconfig dependency.
 
-If UPDATE is not set, the write is ignored. This is the only permitted
-behavior in SMMUv3.2 and later.(6.3.14.1 Update procedure)
-
-As this patch adds a new state to the SMMU (GBPA), it is added
-in a new subsection for forward migration compatibility.
-GBPA is only migrated if its value is different from the reset value.
-It does this to be backward migration compatible if SW didn't write
-the register.
-
-Signed-off-by: Mostafa Saleh <smostafa@google.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Message-id: 20230214094009.2445653-1-smostafa@google.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Fixes: acc0b8b05a ("hw/arm/xlnx-zynqmp: Connect ZynqMP's USB controllers")
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-id: 20230216092327.2203-1-philmd@linaro.org
+Reviewed-by: Francisco Iglesias <francisco.iglesias@amd.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/smmuv3-internal.h |  7 +++++++
- include/hw/arm/smmuv3.h  |  1 +
- hw/arm/smmuv3.c          | 43 +++++++++++++++++++++++++++++++++++++++-
- 3 files changed, 50 insertions(+), 1 deletion(-)
+ hw/arm/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
-index bce161870f6..e8f0ebf25e3 100644
---- a/hw/arm/smmuv3-internal.h
-+++ b/hw/arm/smmuv3-internal.h
-@@ -79,6 +79,13 @@ REG32(CR0ACK,              0x24)
- REG32(CR1,                 0x28)
- REG32(CR2,                 0x2c)
- REG32(STATUSR,             0x40)
-+REG32(GBPA,                0x44)
-+    FIELD(GBPA, ABORT,        20, 1)
-+    FIELD(GBPA, UPDATE,       31, 1)
-+
-+/* Use incoming. */
-+#define SMMU_GBPA_RESET_VAL 0x1000
-+
- REG32(IRQ_CTRL,            0x50)
-     FIELD(IRQ_CTRL, GERROR_IRQEN,        0, 1)
-     FIELD(IRQ_CTRL, PRI_IRQEN,           1, 1)
-diff --git a/include/hw/arm/smmuv3.h b/include/hw/arm/smmuv3.h
-index b6dd0875264..a0c026402e1 100644
---- a/include/hw/arm/smmuv3.h
-+++ b/include/hw/arm/smmuv3.h
-@@ -45,6 +45,7 @@ struct SMMUv3State {
-     uint32_t cr[3];
-     uint32_t cr0ack;
-     uint32_t statusr;
-+    uint32_t gbpa;
-     uint32_t irq_ctrl;
-     uint32_t gerror;
-     uint32_t gerrorn;
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 955b89c8d59..270c80b665f 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -285,6 +285,7 @@ static void smmuv3_init_regs(SMMUv3State *s)
-     s->gerror = 0;
-     s->gerrorn = 0;
-     s->statusr = 0;
-+    s->gbpa = SMMU_GBPA_RESET_VAL;
- }
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 2d157de9b8b..b5aed4aff56 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -389,6 +389,7 @@ config XLNX_ZYNQMP_ARM
+     select XLNX_CSU_DMA
+     select XLNX_ZYNQMP
+     select XLNX_ZDMA
++    select USB_DWC3
  
- static int smmu_get_ste(SMMUv3State *s, dma_addr_t addr, STE *buf,
-@@ -659,7 +660,11 @@ static IOMMUTLBEntry smmuv3_translate(IOMMUMemoryRegion *mr, hwaddr addr,
-     qemu_mutex_lock(&s->mutex);
- 
-     if (!smmu_enabled(s)) {
--        status = SMMU_TRANS_DISABLE;
-+        if (FIELD_EX32(s->gbpa, GBPA, ABORT)) {
-+            status = SMMU_TRANS_ABORT;
-+        } else {
-+            status = SMMU_TRANS_DISABLE;
-+        }
-         goto epilogue;
-     }
- 
-@@ -1170,6 +1175,16 @@ static MemTxResult smmu_writel(SMMUv3State *s, hwaddr offset,
-     case A_GERROR_IRQ_CFG2:
-         s->gerror_irq_cfg2 = data;
-         return MEMTX_OK;
-+    case A_GBPA:
-+        /*
-+         * If UPDATE is not set, the write is ignored. This is the only
-+         * permitted behavior in SMMUv3.2 and later.
-+         */
-+        if (data & R_GBPA_UPDATE_MASK) {
-+            /* Ignore update bit as write is synchronous. */
-+            s->gbpa = data & ~R_GBPA_UPDATE_MASK;
-+        }
-+        return MEMTX_OK;
-     case A_STRTAB_BASE: /* 64b */
-         s->strtab_base = deposit64(s->strtab_base, 0, 32, data);
-         return MEMTX_OK;
-@@ -1318,6 +1333,9 @@ static MemTxResult smmu_readl(SMMUv3State *s, hwaddr offset,
-     case A_STATUSR:
-         *data = s->statusr;
-         return MEMTX_OK;
-+    case A_GBPA:
-+        *data = s->gbpa;
-+        return MEMTX_OK;
-     case A_IRQ_CTRL:
-     case A_IRQ_CTRL_ACK:
-         *data = s->irq_ctrl;
-@@ -1482,6 +1500,25 @@ static const VMStateDescription vmstate_smmuv3_queue = {
-     },
- };
- 
-+static bool smmuv3_gbpa_needed(void *opaque)
-+{
-+    SMMUv3State *s = opaque;
-+
-+    /* Only migrate GBPA if it has different reset value. */
-+    return s->gbpa != SMMU_GBPA_RESET_VAL;
-+}
-+
-+static const VMStateDescription vmstate_gbpa = {
-+    .name = "smmuv3/gbpa",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = smmuv3_gbpa_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32(gbpa, SMMUv3State),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- static const VMStateDescription vmstate_smmuv3 = {
-     .name = "smmuv3",
-     .version_id = 1,
-@@ -1512,6 +1549,10 @@ static const VMStateDescription vmstate_smmuv3 = {
- 
-         VMSTATE_END_OF_LIST(),
-     },
-+    .subsections = (const VMStateDescription * []) {
-+        &vmstate_gbpa,
-+        NULL
-+    }
- };
- 
- static void smmuv3_instance_init(Object *obj)
+ config XLNX_VERSAL
+     bool
 -- 
 2.34.1
 
