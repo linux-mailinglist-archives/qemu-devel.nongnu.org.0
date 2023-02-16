@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC295699AF9
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:14:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 453AF699AF0
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:14:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pShnB-0007uX-HK; Thu, 16 Feb 2023 12:11:33 -0500
+	id 1pShnC-0007wA-GB; Thu, 16 Feb 2023 12:11:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShnA-0007sy-1N
+ id 1pShnA-0007u3-Q8
  for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:32 -0500
 Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShn8-0007oo-GV
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:31 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id m10so2544966wrn.4
+ id 1pShn9-0007p5-1f
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:32 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id y1so2553307wru.2
  for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:11:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=7RlBfSYt1zg9bweFFHbEwDZ61Sd/0Ke4XEfLYhGOXrY=;
- b=jg+R5bWZFtrrhjlRAlARtFQpQpnub0Z3ZqAjiKT+nRWSxOCB/Y09Zln8rsWCMqcGJR
- LG2xVfInyB2cMMcF0wpCFwwLl/0gDor/XCqMrcsiOqS6ovqQMBBMkPHHVAh7RO7KVrCs
- OAB76p9Ncx5Lj382Q3RiTHG3lUL02rNYmjIpHcH5iXsil/lTs1sZzSaqtVtAWelofXhP
- RwDLoJQgXburpH6sao95ZtBFfYS5wQh+OQ6r8SxSfl0cW+eQBu43l/5gzzSyDNkEJauW
- 80E9Ju7h3FXyj72fbKR30HSiMW/O4tIGdYGRgL9JMIv0wzR4a9WvTm+1+9/97uAxAFBj
- twyw==
+ :reply-to; bh=0mZsyYHXMMzgbZQYO+cjM5qTlEPxz+umbuwXPDLbPoQ=;
+ b=ia6tSNF2LvlntfU+73d+SEfS9437xg7ZH9LySRGEwq2vkjY4TPkjjdAadMxtYWwsBQ
+ FzT+FS+Ymvwn7opZIKhvL50yoWKZhul+M+dyygWZfeZouZJomO0woSJVbMmHItoGDE0k
+ bWDgHPJya0clPFhtAVBecARGFEsCQ16Onyz+8Snr2oP81jHXGQwO1nMFqWbmAzfEIQfP
+ u2l4EXa7noBZ25pIn13SaTuRsfG6pDAob5xRX6njPPinoSPS8mb1j6KtsG0Plrx0pq3o
+ RPRTnmrqfQQHrn0JGtXDyf2kciEDYFClaUG6GrQktlIcgmhixrKuUvmmAqo6jvpXueS2
+ dSeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7RlBfSYt1zg9bweFFHbEwDZ61Sd/0Ke4XEfLYhGOXrY=;
- b=eK0rorBDaScovXQl5UPu3c27fGkTsBWYDHPFHjXGMGcHRGpyHrm+AKz5XP/dAsF5L3
- BsLvNrdswjeFEqCI9Mb9nvqZfVeLN6fxQGmEfvLCZ4rnhNdivs0Dbue3UW1NzOaYrRXu
- ccn2xL9JBKAtKAFYj2PBNQQPB0DxsUTKB3aq02rTAGZpUIYZKrPJl2KkDpTSvlb+03aD
- O+0rUv7+uRbPvAt92NXcHFgzse6koIqKHYJPpNMXLVVu1cBcrM7Qzy0LiwuNDQw71TYB
- WMbbL3r1p/+W3TmVpSvZIx+kESvqnPRuYfxGQfIsVFfmqZBm3ZdwN+VePek7q/qOpgFK
- wQkw==
-X-Gm-Message-State: AO0yUKXZPowY0ZFToV3ejklNiUJHckgsMtwE+wh8LuUgsxER/5QqrmA3
- cPDuAtnRabwMdmadeIzbBvvjNJsLu0fomx9X
-X-Google-Smtp-Source: AK7set9Ph8Isl/2AQsUY6z9boLIhHh/8WAOYm1soqnrlWdSbmi2XJ5sxHE4kQdjI+tB28/i1GG4tlw==
-X-Received: by 2002:adf:eecc:0:b0:2c5:483f:ec84 with SMTP id
- a12-20020adfeecc000000b002c5483fec84mr5481650wrp.45.1676567488912; 
- Thu, 16 Feb 2023 09:11:28 -0800 (PST)
+ bh=0mZsyYHXMMzgbZQYO+cjM5qTlEPxz+umbuwXPDLbPoQ=;
+ b=Nzg1lVoHeksViZ5DZefbw0vu2hfd29DJ6EvCwpmaCYrmw0UHZiZqbCkA0hsoXqZ3cP
+ 2KdXrG3SYocYnOeSsTZVoaGDOnk74tTUwxwlyY7Dn+kOARFn5hQ4S9pKHhJ0vFN2JZzK
+ A/JtYJw0ZCFz7Kbc1LypCZss9Ylsn1iHduVHvhbam3NcrEmz61PguIXoZaaEI/xwGPMa
+ rzaafUOIcVZGE2laVuPH4kaQqVr8Je9gVgZRj5+a4/1l3AD0qRWTEI+H5yv8lKJvsj9+
+ +jK46Cb/Jpxa0bjLb6mYlYwGu7ZYnWJCsZo7fvBpSOfKoY+DeebF11QWNFyeFrBA99MH
+ qxQg==
+X-Gm-Message-State: AO0yUKX21XX+NamZZthGADm1RYvdUASXSw61SfdKW8WbJF3MlJvzNby+
+ QqB+Zl7vd5rlnSD3zYY8Nx6S0F7Ym9VzwbQi
+X-Google-Smtp-Source: AK7set+3Df2/mQ5Mi9QWbGAVipGkQUi/kr7NDkvxIibrgOr4vrKfMReuMyPhuWZeN7Klm8aWpAbkVA==
+X-Received: by 2002:a5d:53c2:0:b0:2bf:e5cc:91c1 with SMTP id
+ a2-20020a5d53c2000000b002bfe5cc91c1mr5564241wrw.52.1676567489750; 
+ Thu, 16 Feb 2023 09:11:29 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- f12-20020a5d4dcc000000b002c556a4f1casm2049107wru.42.2023.02.16.09.11.28
+ f12-20020a5d4dcc000000b002c556a4f1casm2049107wru.42.2023.02.16.09.11.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 09:11:28 -0800 (PST)
+ Thu, 16 Feb 2023 09:11:29 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/30] target/arm: Constify ID_PFR1 on user emulation
-Date: Thu, 16 Feb 2023 17:10:57 +0000
-Message-Id: <20230216171123.2518285-5-peter.maydell@linaro.org>
+Subject: [PULL 05/30] target/arm: Convert CPUARMState::eabi to boolean
+Date: Thu, 16 Feb 2023 17:10:58 +0000
+Message-Id: <20230216171123.2518285-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230216171123.2518285-1-peter.maydell@linaro.org>
 References: <20230216171123.2518285-1-peter.maydell@linaro.org>
@@ -91,52 +91,65 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-id: 20230206223502.25122-5-philmd@linaro.org
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20230206223502.25122-6-philmd@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ linux-user/user-internals.h | 2 +-
+ target/arm/cpu.h            | 2 +-
+ linux-user/arm/cpu_loop.c   | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index c62ed05c122..22670c20c00 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -7021,6 +7021,7 @@ static void define_pmu_regs(ARMCPU *cpu)
-     }
- }
- 
-+#ifndef CONFIG_USER_ONLY
- /*
-  * We don't know until after realize whether there's a GICv3
-  * attached, and that is what registers the gicv3 sysregs.
-@@ -7038,7 +7039,6 @@ static uint64_t id_pfr1_read(CPUARMState *env, const ARMCPRegInfo *ri)
-     return pfr1;
- }
- 
--#ifndef CONFIG_USER_ONLY
- static uint64_t id_aa64pfr0_read(CPUARMState *env, const ARMCPRegInfo *ri)
+diff --git a/linux-user/user-internals.h b/linux-user/user-internals.h
+index 0280e76addd..3576da413f4 100644
+--- a/linux-user/user-internals.h
++++ b/linux-user/user-internals.h
+@@ -135,7 +135,7 @@ void print_termios(void *arg);
+ #ifdef TARGET_ARM
+ static inline int regpairs_aligned(CPUArchState *cpu_env, int num)
  {
-     ARMCPU *cpu = env_archcpu(env);
-@@ -7998,8 +7998,16 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 1, .opc2 = 1,
-               .access = PL1_R, .type = ARM_CP_NO_RAW,
-               .accessfn = access_aa32_tid3,
-+#ifdef CONFIG_USER_ONLY
-+              .type = ARM_CP_CONST,
-+              .resetvalue = cpu->isar.id_pfr1,
-+#else
-+              .type = ARM_CP_NO_RAW,
-+              .accessfn = access_aa32_tid3,
-               .readfn = id_pfr1_read,
--              .writefn = arm_cp_write_ignore },
-+              .writefn = arm_cp_write_ignore
-+#endif
-+            },
-             { .name = "ID_DFR0", .state = ARM_CP_STATE_BOTH,
-               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 1, .opc2 = 2,
-               .access = PL1_R, .type = ARM_CP_CONST,
+-    return cpu_env->eabi == 1;
++    return cpu_env->eabi;
+ }
+ #elif defined(TARGET_MIPS) && defined(TARGET_ABI_MIPSO32)
+ static inline int regpairs_aligned(CPUArchState *cpu_env, int num) { return 1; }
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 7bc97fece97..05b9012cee9 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -723,7 +723,7 @@ typedef struct CPUArchState {
+ 
+ #if defined(CONFIG_USER_ONLY)
+     /* For usermode syscall translation.  */
+-    int eabi;
++    bool eabi;
+ #endif
+ 
+     struct CPUBreakpoint *cpu_breakpoint[16];
+diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
+index c0790f3246b..a9924232578 100644
+--- a/linux-user/arm/cpu_loop.c
++++ b/linux-user/arm/cpu_loop.c
+@@ -356,7 +356,7 @@ void cpu_loop(CPUARMState *env)
+             break;
+         case EXCP_SWI:
+             {
+-                env->eabi = 1;
++                env->eabi = true;
+                 /* system call */
+                 if (env->thumb) {
+                     /* Thumb is always EABI style with syscall number in r7 */
+@@ -382,7 +382,7 @@ void cpu_loop(CPUARMState *env)
+                          * > 0xfffff and are handled below as out-of-range.
+                          */
+                         n ^= ARM_SYSCALL_BASE;
+-                        env->eabi = 0;
++                        env->eabi = false;
+                     }
+                 }
+ 
 -- 
 2.34.1
 
