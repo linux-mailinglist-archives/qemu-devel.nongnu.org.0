@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA96C699AEC
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:13:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCCA8699AD9
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:12:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pShnV-0000ca-91; Thu, 16 Feb 2023 12:11:53 -0500
+	id 1pShnX-0000pS-WE; Thu, 16 Feb 2023 12:11:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShnT-0000Y3-My
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:51 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ id 1pShnU-0000bL-Gj
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:52 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShnR-0007zA-UA
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:51 -0500
-Received: by mail-wr1-x429.google.com with SMTP id d4so2453182wrj.1
+ id 1pShnS-0007zE-CN
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:52 -0500
+Received: by mail-wr1-x431.google.com with SMTP id m14so2497118wrg.13
  for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:11:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=fKaIoyL82f1ne64Qgj6g8dHFUQLBIO6UYjkBABaWKfo=;
- b=DgMZthnnyOXKstFHEfxLIhWvu3GsizjxAKRkE6vmPlD5aqylDgssdLO5ZudJ+tzCcU
- aHTuR1f9OLzMytjBXrRcxi61hIUyGbIyOprb8RIU8N0omXrTReXicjH2x9wDd+oH/XNL
- eof/51EhN9ilCNKKNvFLemIv+ZLDWvrDp1ViUJGnXh3irLEVc+l6uZYx6pjN0iBRZ9q2
- ksa5i5HCMznEFdtjFl8vvcS0fqoiFUcYSAUsKeXPdXyk5n0MFfglRldx2HlVU98nr/HV
- 7lnJYK4RfHfu+YgXZwMMyTVg8ooY53kirY4R3iMmEDdn/2N4UGKMa6OhrhG9jiEdQNP2
- 2C6w==
+ :reply-to; bh=tgMbUsRHeiMP1zN6oNigLk88zA1/eZdSv72d9GFz8HA=;
+ b=xzGzqmUfZcoiTUqYbvT+vyI6i5sw3LXjQPcgk+ov2E2shYpriY9A70MSENUFncuM3P
+ VzsHYIyR8rG5bqskuI1PtlaWNod4Dd0Ux7a+xlJcpUvnBebBErnqvP0KzWy/NMqrS0ou
+ QygRTj+GlT4HvA836Iva26YynWrRp1uif3nPdLQtSOlC1qxnaHf+H4AWMfKaCXYkBIMH
+ 1RZZF70BxzleSlbC86CEc5NVZqi8zJ8yBARomsHYjFVo5rjtR+OLFEHV2QV/PyW+mZOo
+ iX0PGnj3pI3y9biqrmeCHW996Q7rLJH8UpQ7iQSoYkbJ2vlQ4YASkpwDgCH3kXxtxwex
+ 3yGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fKaIoyL82f1ne64Qgj6g8dHFUQLBIO6UYjkBABaWKfo=;
- b=4QV7MZAlO1Hyhp93dZs4C432BEmqaFoAvs2DQRZvCp5tZZv/7w24zsJVNGITNOFMT7
- y3s5DMw8awbxEEn4z0Ci911eUl0aXAQYEW9rzqru3YErjms+h5hKxaWfCl5P0y9S0hPy
- +gDPVbJuAq7QUAFuT23gNcvZq+UpJtOobaycebcKC8tEUEX7PYtuiad/kp2LcghVHXlK
- H5yE0MgWlYWOYstaafPDdgmviw1aP1iOUdeq2LFMJPr+B+WfE632O1hJ3xsdRn9EJTWZ
- QJaMfCcvWbYkC/4v/4Cjj1/qvzKBs9dKFvjuRRthRh79Hf+lbSyvd7cSsV2CLNwFd1l6
- r4Cw==
-X-Gm-Message-State: AO0yUKVMUc1N7NT0wKLZl4w+nn25m7pRDx00WiKyBETij4pNzCw85bRc
- Polfj6dmfU5kGK7JWKrXjzmZOyG01rJJeoq/
-X-Google-Smtp-Source: AK7set8lAtvWZwvMg7AaQme2SYwkU2S5/AjnQirPpzrfD3y9MamXbNJHq0MgGNoRWFhZwmNrJtCDuQ==
-X-Received: by 2002:adf:f851:0:b0:2bf:ee7d:5369 with SMTP id
- d17-20020adff851000000b002bfee7d5369mr4703442wrq.59.1676567507588; 
- Thu, 16 Feb 2023 09:11:47 -0800 (PST)
+ bh=tgMbUsRHeiMP1zN6oNigLk88zA1/eZdSv72d9GFz8HA=;
+ b=wHRiPVHAACg+agvqXPE65nw5WgFI/aXWVrEHMlL/cIpqL0MDpXceDXjoqWxr4o/r/e
+ WM7tPjwPfkTGXsm71Un5WzUm3AKT6kNsmp/C88Tv55aP0CsK5Hy1Jr58j96lmSIjiNc/
+ OHFBrDGQYmmnfcVdwqjv4CczclumPYZ0bjNijP0qbgUYcwt6KqGkosSsCf93coly+mk6
+ BOoRkkgzJfyuIWRMb77cuty/FH/eE5DyVfvDnYr6GHMv22hA1OlEhsrQqEd0NyerCwp+
+ gmVrrSHAB38ZDBmK5XKsOG2a/P3hVNvYZg3B4/pokXttajwtHT3P7nGlNEmxQ4xRtOvD
+ 0+dg==
+X-Gm-Message-State: AO0yUKWeovI+/zIfJ2ZjlXExnckmdsV+vAhtvULpCo87wGIv1Ta/Ut78
+ gASJ7D3Lc2NdaMVHcFrJbfAuQvvZfaKzv5Wu
+X-Google-Smtp-Source: AK7set/zbAPGiatm02NppjEpqUmNRHProWlmoVsRS0Z/Se3qAuBwTBnRUEPbnoox0YTEH5sFIOrzcg==
+X-Received: by 2002:adf:f087:0:b0:2c5:6036:2567 with SMTP id
+ n7-20020adff087000000b002c560362567mr5368430wro.11.1676567508992; 
+ Thu, 16 Feb 2023 09:11:48 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- f12-20020a5d4dcc000000b002c556a4f1casm2049107wru.42.2023.02.16.09.11.46
+ f12-20020a5d4dcc000000b002c556a4f1casm2049107wru.42.2023.02.16.09.11.47
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 16 Feb 2023 09:11:47 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/30] tests/avocado: Skip tests that require a missing
- accelerator
-Date: Thu, 16 Feb 2023 17:11:19 +0000
-Message-Id: <20230216171123.2518285-27-peter.maydell@linaro.org>
+Subject: [PULL 27/30] tests/avocado: Tag TCG tests with accel:tcg
+Date: Thu, 16 Feb 2023 17:11:20 +0000
+Message-Id: <20230216171123.2518285-28-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230216171123.2518285-1-peter.maydell@linaro.org>
 References: <20230216171123.2518285-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,35 +91,56 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Fabiano Rosas <farosas@suse.de>
 
-If a test was tagged with the "accel" tag and the specified
-accelerator it not present in the qemu binary, cancel the test.
-
-We can now write tests without explicit calls to require_accelerator,
-just the tag is enough.
+This allows the test to be skipped when TCG is not present in the QEMU
+binary.
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- tests/avocado/avocado_qemu/__init__.py | 4 ++++
- 1 file changed, 4 insertions(+)
+ tests/avocado/boot_linux_console.py | 1 +
+ tests/avocado/reverse_debugging.py  | 8 ++++++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
-index 25a546842fa..a313e88c07e 100644
---- a/tests/avocado/avocado_qemu/__init__.py
-+++ b/tests/avocado/avocado_qemu/__init__.py
-@@ -274,6 +274,10 @@ def setUp(self):
+diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
+index be60f8cda9a..574609bf43b 100644
+--- a/tests/avocado/boot_linux_console.py
++++ b/tests/avocado/boot_linux_console.py
+@@ -997,6 +997,7 @@ def test_arm_orangepi_uboot_netbsd9(self):
  
-         super().setUp('qemu-system-')
+     def test_aarch64_raspi3_atf(self):
+         """
++        :avocado: tags=accel:tcg
+         :avocado: tags=arch:aarch64
+         :avocado: tags=machine:raspi3b
+         :avocado: tags=cpu:cortex-a53
+diff --git a/tests/avocado/reverse_debugging.py b/tests/avocado/reverse_debugging.py
+index d2921e70c3b..680c314cfcc 100644
+--- a/tests/avocado/reverse_debugging.py
++++ b/tests/avocado/reverse_debugging.py
+@@ -173,6 +173,10 @@ def reverse_debugging(self, shift=7, args=None):
+         vm.shutdown()
  
-+        accel_required = self._get_unique_tag_val('accel')
-+        if accel_required:
-+            self.require_accelerator(accel_required)
+ class ReverseDebugging_X86_64(ReverseDebugging):
++    """
++    :avocado: tags=accel:tcg
++    """
 +
-         self.machine = self.params.get('machine',
-                                        default=self._get_unique_tag_val('machine'))
+     REG_PC = 0x10
+     REG_CS = 0x12
+     def get_pc(self, g):
+@@ -190,6 +194,10 @@ def test_x86_64_pc(self):
+         self.reverse_debugging()
  
+ class ReverseDebugging_AArch64(ReverseDebugging):
++    """
++    :avocado: tags=accel:tcg
++    """
++
+     REG_PC = 32
+ 
+     # unidentified gitlab timeout problem
 -- 
 2.34.1
 
