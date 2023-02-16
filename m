@@ -2,115 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E67A69903A
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 10:41:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10680699059
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 10:47:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSalc-00070T-H3; Thu, 16 Feb 2023 04:41:28 -0500
+	id 1pSaow-00087g-IS; Thu, 16 Feb 2023 04:44:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pSala-00070L-LU
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:41:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from
+ <BATV+33d3adc5578b079b0cf9+7116+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pSaos-00083h-FF
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:44:50 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pSalY-0005qo-Ar
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:41:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676540482;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Gmwi3nEDJwaAff3Fc8Gdw19GfxhLDRlC4Hp/kbYrQqc=;
- b=hiVQpW+RI2ElLy/6NvSTUCCYKDDSl75f5/Vj8PqI7vT7EtBJcHoLjcHVaVkJUJuRE4kXzO
- FE9+ByFtazGW5vWeKAI5MMQZlExF8iy99pHPmzTYQBgxuETcBwb0zBRDhuQJcCFipO1J9q
- sY7Gcvx3OEgJBA9P5+bx4XCqnfaF0vc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-595-Wq4SBV7yP6KAc7FKMgfwYA-1; Thu, 16 Feb 2023 04:41:18 -0500
-X-MC-Unique: Wq4SBV7yP6KAc7FKMgfwYA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j20-20020a05600c1c1400b003dc5dd44c0cso596257wms.8
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 01:41:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Gmwi3nEDJwaAff3Fc8Gdw19GfxhLDRlC4Hp/kbYrQqc=;
- b=AysDhJoVKau04+ynZeGMtu8DSz0rBtK/5y6RKN4aKR1KpCmvzLUUp7mtxRNB7WM3j6
- ZYsLaZQPrQfbwPxYxlox96JY8Kd32Tu16Kai7tPPIyardpp/R1nFMQjjjWx8leOnz0ot
- T21ec1au3bv4w+sRimR6bVLvepqaBYe8hUK2ToW0zr0sULgA4dVD8Wu8FccZL5+GmLIY
- 0ouuqaPdLdxJYJ9uIg/jdQDJz2F73btpvQEI3jKW1cMe2NLv6theNKTAWQgna/QK2E7X
- jSk7iNWeMvnbEC3fDkzaP3PzUnWax2baL9QNyamoZ4DvPkJTMFyb8Qi0RIbz6FZ1tfyU
- YD/w==
-X-Gm-Message-State: AO0yUKUWdheht8uJKjaEp2sBiOG9azG3LCAClgx1kMei50b2zEAaj3dq
- AxEDB/2KmdxLVXX4B5UXBYdrHquf2F/0KmdDdvlJYDQ/ENsgwvvtmnZVSwcqELpl7uC+a+1o64D
- 2XkCkI1x+55Sk5Bk=
-X-Received: by 2002:a05:600c:43d2:b0:3e1:f8af:7942 with SMTP id
- f18-20020a05600c43d200b003e1f8af7942mr4417114wmn.22.1676540477731; 
- Thu, 16 Feb 2023 01:41:17 -0800 (PST)
-X-Google-Smtp-Source: AK7set/oggqqqV4UfbebLA50a7kFC2t5aIQUzgDU4Y/+rLroQMqzr7b1jBFCFplQuftcMkUVk4L02g==
-X-Received: by 2002:a05:600c:43d2:b0:3e1:f8af:7942 with SMTP id
- f18-20020a05600c43d200b003e1f8af7942mr4417078wmn.22.1676540477379; 
- Thu, 16 Feb 2023 01:41:17 -0800 (PST)
-Received: from ?IPV6:2003:cb:c708:bc00:2acb:9e46:1412:686a?
- (p200300cbc708bc002acb9e461412686a.dip0.t-ipconnect.de.
- [2003:cb:c708:bc00:2acb:9e46:1412:686a])
- by smtp.gmail.com with ESMTPSA id
- j26-20020a05600c1c1a00b003df245cd853sm1211974wms.44.2023.02.16.01.41.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Feb 2023 01:41:16 -0800 (PST)
-Message-ID: <62c84fa8-d7c4-5163-fe1e-f2c7e5a2c7aa@redhat.com>
-Date: Thu, 16 Feb 2023 10:41:14 +0100
+ (Exim 4.90_1) (envelope-from
+ <BATV+33d3adc5578b079b0cf9+7116+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pSaoo-0006J0-Jg
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:44:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=MIpK75s6fkGBTxG3FKDoZ9miFdGAqA63/eE9zNyysRw=; b=mHVdz39wBkAndExpYdnsDHqOe5
+ AyaQWyrW65oIioH4c9IlZtn2LLwxKoT2X57PTmaxizXp1D4SfXDFGPc7G523GjIVDUXVdnyO0Gd73
+ 2+nCTshCHISgjr88b7ydJ7A3CrEpyiYbk4g5ODzdldqxD2u/qCFn77+BbctZsKXub5jOA0+uwnWRv
+ K7HENhlQCmfkuaNK5lrkFEBInVSPfsuETCcGHSHq1CSMUWVVsMV33xebzSTctMfu7tWfC+BFkyd09
+ lgEdKb7fMc9Lhdo34YgHBo//tXtNoy2fxnOwFSaWBQxIP2ur1B7tewqIWsy3yyFuNH+yjYIu7qVA6
+ I8DT9TIg==;
+Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pSaoi-008Iai-FI; Thu, 16 Feb 2023 09:44:40 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
+ Linux)) id 1pSaoi-0090BB-1G; Thu, 16 Feb 2023 09:44:40 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com,
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com
+Subject: [RFC PATCH v11bis 00/26] Emulated XenStore and PV backend support
+Date: Thu, 16 Feb 2023 09:44:10 +0000
+Message-Id: <20230216094436.2144978-1-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
-Content-Language: en-US
-To: Mike Rapoport <rppt@kernel.org>, Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>,
- Naoya Horiguchi <naoya.horiguchi@nec.com>, Miaohe Lin
- <linmiaohe@huawei.com>, x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <Y+27kRxJoXlMcbtH@kernel.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <Y+27kRxJoXlMcbtH@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.257, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+33d3adc5578b079b0cf9+7116+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -126,37 +84,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16.02.23 06:13, Mike Rapoport wrote:
-> Hi,
-> 
-> On Fri, Dec 02, 2022 at 02:13:38PM +0800, Chao Peng wrote:
->> This patch series implements KVM guest private memory for confidential
->> computing scenarios like Intel TDX[1]. If a TDX host accesses
->> TDX-protected guest memory, machine check can happen which can further
->> crash the running host system, this is terrible for multi-tenant
->> configurations. The host accesses include those from KVM userspace like
->> QEMU. This series addresses KVM userspace induced crash by introducing
->> new mm and KVM interfaces so KVM userspace can still manage guest memory
->> via a fd-based approach, but it can never access the guest memory
->> content.
-> 
-> Sorry for jumping late.
-> 
-> Unless I'm missing something, hibernation will also cause an machine check
-> when there is TDX-protected memory in the system. When the hibernation
-> creates memory snapshot it essentially walks all physical pages and saves
-> their contents, so for TDX memory this will trigger machine check, right?
+The non-RFC patch submisson¹ is just the basic platform support for Xen
+on KVM. This RFC series is phase 2, adding an internal XenStore and
+hooking up the PV back end drivers to that and the emulated grant tables
+and event channels.
 
-I recall bringing that up in the past (also memory access due to kdump, 
-/prov/kcore) and was told that the main focus for now is preventing 
-unprivileged users from crashing the system, that is, not mapping such 
-memory into user space (e.g., QEMU). In the long run, we'll want to 
-handle such pages also properly in the other events where the kernel 
-might access them.
+With this, we can boot a Xen guest with PV disk, under KVM. Full support
+for migration isn't there yet because it's actually missing in the PV
+back end drivers in the first place (perhaps because upstream Xen doesn't
+yet have guest transparent live migration support anyway). I'm assuming
+that when the first round is merged and we drop the [RFC] from this set,
+that won't be a showstopper for now?
 
--- 
-Thanks,
+I'd be particularly interested in opinions on the way I implemented
+serialization for the XenStore, by creating a GByteArray and then dumping
+it with VMSTATE_VARRAY_UINT32_ALLOC().
 
-David / dhildenb
+I may eventually attempt to make xs_node_walk() not actually recursive,
+if I can do so without my brain exploding. Since the first time the
+XenStore code was showed, I've stopped the XsNode from being an actual
+Object; that just made it larger for almost no benefit. 
+
+¹ https://lore.kernel.org/qemu-devel/20230216062444.2129371-1-dwmw2@infradead.org/
+
+David Woodhouse (22):
+      hw/xen: Add xenstore wire implementation and implementation stubs
+      hw/xen: Add basic XenStore tree walk and write/read/directory support
+      hw/xen: Implement XenStore watches
+      hw/xen: Implement XenStore transactions
+      hw/xen: Watches on XenStore transactions
+      hw/xen: Implement core serialize/deserialize methods for xenstore_impl
+      hw/xen: Add evtchn operations to allow redirection to internal emulation
+      hw/xen: Add gnttab operations to allow redirection to internal emulation
+      hw/xen: Pass grant ref to gnttab unmap operation
+      hw/xen: Add foreignmem operations to allow redirection to internal emulation
+      hw/xen: Move xenstore_store_pv_console_info to xen_console.c
+      hw/xen: Use XEN_PAGE_SIZE in PV backend drivers
+      hw/xen: Rename xen_common.h to xen_native.h
+      hw/xen: Build PV backend drivers for CONFIG_XEN_BUS
+      hw/xen: Only advertise ring-page-order for xen-block if gnttab supports it
+      hw/xen: Hook up emulated implementation for event channel operations
+      hw/xen: Add emulated implementation of grant table operations
+      hw/xen: Add emulated implementation of XenStore operations
+      hw/xen: Map guest XENSTORE_PFN grant in emulated Xenstore
+      hw/xen: Implement soft reset for emulated gnttab
+      hw/xen: Subsume xen_be_register_common() into xen_be_init()
+      i386/xen: Initialize Xen backends from pc_basic_device_init() for emulation
+
+Paul Durrant (4):
+      xenstore perms WIP
+      hw/xen: Create initial XenStore nodes
+      hw/xen: Add xenstore operations to allow redirection to internal emulation
+      hw/xen: Avoid crash when backend watch fires too early
+
+ accel/xen/xen-all.c                           |   69 +-
+ hw/9pfs/meson.build                           |    2 +-
+ hw/9pfs/xen-9p-backend.c                      |   32 +-
+ hw/block/dataplane/meson.build                |    2 +-
+ hw/block/dataplane/xen-block.c                |   12 +-
+ hw/block/meson.build                          |    2 +-
+ hw/block/xen-block.c                          |   12 +-
+ hw/char/meson.build                           |    2 +-
+ hw/char/xen_console.c                         |   57 +-
+ hw/display/meson.build                        |    2 +-
+ hw/display/xenfb.c                            |   32 +-
+ hw/i386/kvm/meson.build                       |    1 +
+ hw/i386/kvm/trace-events                      |   15 +
+ hw/i386/kvm/xen_evtchn.c                      |   15 +
+ hw/i386/kvm/xen_gnttab.c                      |  320 ++++-
+ hw/i386/kvm/xen_gnttab.h                      |    1 +
+ hw/i386/kvm/xen_xenstore.c                    | 1248 +++++++++++++++++-
+ hw/i386/kvm/xenstore_impl.c                   | 1754 +++++++++++++++++++++++++
+ hw/i386/kvm/xenstore_impl.h                   |   63 +
+ hw/i386/pc.c                                  |    7 +
+ hw/i386/pc_piix.c                             |    4 +-
+ hw/i386/xen/xen-hvm.c                         |    8 +-
+ hw/i386/xen/xen_platform.c                    |    7 +-
+ hw/net/xen_nic.c                              |   25 +-
+ hw/usb/meson.build                            |    2 +-
+ hw/usb/xen-usb.c                              |   29 +-
+ hw/xen/meson.build                            |    6 +-
+ hw/xen/trace-events                           |    2 +-
+ hw/xen/xen-bus-helper.c                       |   61 +-
+ hw/xen/xen-bus.c                              |  408 +-----
+ hw/xen/xen-hvm-common.c                       |   45 +-
+ hw/xen/xen-legacy-backend.c                   |  307 ++---
+ hw/xen/xen-mapcache.c                         |    2 +-
+ hw/xen/xen-operations.c                       |  487 +++++++
+ hw/xen/xen_devconfig.c                        |    4 +-
+ hw/xen/xen_pt.c                               |    2 +-
+ hw/xen/xen_pt.h                               |    2 +-
+ hw/xen/xen_pt_config_init.c                   |    2 +-
+ hw/xen/xen_pt_graphics.c                      |    1 -
+ hw/xen/xen_pt_msi.c                           |    4 +-
+ hw/xen/xen_pvdev.c                            |   63 +-
+ hw/xenpv/xen_machine_pv.c                     |    6 +-
+ include/hw/xen/xen-bus-helper.h               |   25 +-
+ include/hw/xen/xen-bus.h                      |   21 +-
+ include/hw/xen/xen-hvm-common.h               |    3 +-
+ include/hw/xen/xen-legacy-backend.h           |   27 +-
+ include/hw/xen/xen.h                          |   24 +-
+ include/hw/xen/xen_backend_ops.h              |  399 ++++++
+ include/hw/xen/{xen_common.h => xen_native.h} |   75 +-
+ include/hw/xen/xen_pvdev.h                    |    6 +-
+ softmmu/globals.c                             |    4 +
+ target/i386/kvm/xen-emu.c                     |    5 +
+ tests/unit/meson.build                        |    1 +
+ tests/unit/test-xs-node.c                     |  717 ++++++++++
+ 54 files changed, 5454 insertions(+), 978 deletions(-)
+
 
 
