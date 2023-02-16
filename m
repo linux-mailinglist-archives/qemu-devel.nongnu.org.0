@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D26698C5F
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 06:49:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C431698C5C
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 06:49:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSX8M-0004of-6S; Thu, 16 Feb 2023 00:48:42 -0500
+	id 1pSX8O-0005FV-T8; Thu, 16 Feb 2023 00:48:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSX83-0004Ux-BI
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:48:26 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ id 1pSX84-0004V2-NB
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:48:28 -0500
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSX81-0005Rz-H2
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:48:23 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- n20-20020a17090aab9400b00229ca6a4636so4786979pjq.0
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 21:48:21 -0800 (PST)
+ id 1pSX83-0005SC-28
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:48:24 -0500
+Received: by mail-pf1-x434.google.com with SMTP id j184so753220pfg.10
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 21:48:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KDYAg9I9XuYyh8hpIEHsfEqclaDeqHesV69onSq1kZI=;
- b=jmHyrIzahPLDXsOmIsPHZ4tg2OiSnp/vI0nw74/VGHNeR27wFiMSOjxVOGd76SEosJ
- YzuCGyYUDytU1b5n/73N9ySSZvMxBIJfE/USGSazrE7a8ZwL2FjrVYWObbDBklN9sr/k
- hQfrSiBUI9MMw1gxmhp7iIgMH8Ed9bJyd68RbmMWYBViIjFvXwGAaIxVFN+NogCiFgO3
- RHPogN8E/KFc2RTbyFpaheumA74ujjuyVKuREPVkHyiGDz9JorxDrauB+TUz+o+tQhrD
- hn5jB14xDwb5COOgahMjumOORDOGgpVK66NB/3bKZbH5SuiH3jtIZcbOgaZC8OjQdBqJ
- gqrA==
+ bh=6To1l/rwYRVp7otgwGVfmpklbsVH868KF7IZeYGHIKI=;
+ b=H342DsQn2aeKcFxR+fxJWoTKbrQEl1cl2RawPxaEUK6uYaTW8LCbX6Z0TO2uh+uvF6
+ uya/2KkLwRs6YUSltkqLWAhSuC8OuJw/HXiSMBZ2DlvERRQ5680BROUE5uCKLqC0lh8N
+ 13SxdPQDxtw3TZWa2rzsMML3H6cf5wp9+qmo5gD1LZg2MZ+cUrTCYAUXkEsdcbRrbG2n
+ Rbjc1woUU2LVeDttMPS+Y7Di5QfFcOISiWa/83nj+t+I33fAJ4CUAi87zAKsVC6Yd3gK
+ 6fGqoxIktnsZpDY8zmWzj78xG3G80ra2eixzKkWK8XJ1kGSXww4UYfBFI3miMeO8Arx1
+ oCsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KDYAg9I9XuYyh8hpIEHsfEqclaDeqHesV69onSq1kZI=;
- b=0hKEPXoO7WVd/NBGDYjnh3R5vXvLI7hpRruE68qnJNVwCQAIZq+ZTA8dANOk0qjT7d
- SSczcQoKd4vRFmzwpjgCsLyVxnVIAvgKTMOpfN2b7WFxoWIEi4NJHj/QCfMx4FlR8yQ2
- n+oDjpUqBidhf9lIP87e7tWdpOSEh+tXF5jVkVCrtpDIea1hdIyT22ASszqHixMfXSEq
- qDP6jVFbruSR9YER9MveBT6E23VnRt/nmgeFOO5HkEOkf/6LEhpPNZDdocfjb42HAvnU
- z+5Oz/k7SkSEPlLWTrKw7yoZnwkap4GqC89qRAf7U7didZcSqKj6CW8USGQkPm92bthS
- j5sQ==
-X-Gm-Message-State: AO0yUKWtqx61lNMpRUq47Nq/azrJKEabu1k07wBCtyqBSxB5jX8CnQeH
- GK27zupIs1Tg9Ahtz6e21Zq3Q8ZkpbOle7Mwlw0=
-X-Google-Smtp-Source: AK7set+/tFqrNILQq3GGiJ8CR9QRMoDocaYJoyMKBXyqC6EaDtfkHoQisOI3ni49gEjKG6Oc2cyJ1Q==
-X-Received: by 2002:a05:6a20:a1a5:b0:be:b878:6d77 with SMTP id
- r37-20020a056a20a1a500b000beb8786d77mr3603822pzk.1.1676526500213; 
- Wed, 15 Feb 2023 21:48:20 -0800 (PST)
+ bh=6To1l/rwYRVp7otgwGVfmpklbsVH868KF7IZeYGHIKI=;
+ b=q/A3xCRzKob8N3P5lE864L7SNP4mC2wD73CfghEXtOSCwmpSosOR83xThz6OjZskBq
+ ONasI17ioDVGLl2+Wl+CM6l3/kGj/p/cEFC59DjfZEfzoF5QW+x44fs79ZnjoMDZQ+yS
+ 3RGTmmRNlelTBXcdM5n33V4A4dOzX2oyCBwIrKW2wqgaAyTsyE+mWGj1dPT04IDUUpyQ
+ 1eeebkrHf1V4b4GDJTjFI77iQ6T3rpJDS/ZPfsyb6qr80kGKWVimIZkGmSScX6SSKljD
+ 64lz/g6pjs8xVlSMDkuj+eZsHJQJrYgU/cLLJyR1eUxIuB6p65RI12b1DKKYRLEjVKuv
+ cW3g==
+X-Gm-Message-State: AO0yUKVEOhQ2hv5nFigq6kz8nZ8Ayjs6VT2qEbNs7d+YCEhYSs89vCDP
+ gklZFdbfaxj/fD9zga//bVFKrDcJGYE0GusLmEU=
+X-Google-Smtp-Source: AK7set8ALSwHFdo2ZZP7kM7pzSWGypf3L++y2gFmjaHL3LjXK/3POwBXqjoYbAM43/IM90nEPsvmiQ==
+X-Received: by 2002:a62:384d:0:b0:5a8:af22:32e7 with SMTP id
+ f74-20020a62384d000000b005a8af2232e7mr4606483pfa.6.1676526501591; 
+ Wed, 15 Feb 2023 21:48:21 -0800 (PST)
 Received: from stoup.. (rrcs-74-87-59-234.west.biz.rr.com. [74.87.59.234])
  by smtp.gmail.com with ESMTPSA id
- j184-20020a6380c1000000b0047917991e83sm358034pgd.48.2023.02.15.21.48.19
+ j184-20020a6380c1000000b0047917991e83sm358034pgd.48.2023.02.15.21.48.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 21:48:19 -0800 (PST)
+ Wed, 15 Feb 2023 21:48:21 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: laurent@vivier.eu
-Subject: [PATCH v2 14/15] linux-user/sparc: Handle floating-point exceptions
-Date: Wed, 15 Feb 2023 19:45:15 -1000
-Message-Id: <20230216054516.1267305-15-richard.henderson@linaro.org>
+Subject: [PATCH v2 15/15] linux-user/sparc: Handle tag overflow traps
+Date: Wed, 15 Feb 2023 19:45:16 -1000
+Message-Id: <20230216054516.1267305-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230216054516.1267305-1-richard.henderson@linaro.org>
 References: <20230216054516.1267305-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,65 +89,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Raise SIGFPE for ieee exceptions.
-
-The other types, such as FSR_FTT_UNIMPFPOP, should not appear,
-because we enable normal emulation of missing insns at the
-start of sparc_cpu_realizefn().
+This trap is raised by taddcctv and tsubcctv insns.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/sparc/cpu.h          |  3 +--
- linux-user/sparc/cpu_loop.c | 22 ++++++++++++++++++++++
- 2 files changed, 23 insertions(+), 2 deletions(-)
+ linux-user/sparc/target_signal.h | 2 +-
+ linux-user/syscall_defs.h        | 5 +++++
+ linux-user/sparc/cpu_loop.c      | 3 +++
+ 3 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
-index e478c5eb16..ae8de606d5 100644
---- a/target/sparc/cpu.h
-+++ b/target/sparc/cpu.h
-@@ -197,8 +197,7 @@ enum {
- #define FSR_FTT2   (1ULL << 16)
- #define FSR_FTT1   (1ULL << 15)
- #define FSR_FTT0   (1ULL << 14)
--//gcc warns about constant overflow for ~FSR_FTT_MASK
--//#define FSR_FTT_MASK (FSR_FTT2 | FSR_FTT1 | FSR_FTT0)
-+#define FSR_FTT_MASK (FSR_FTT2 | FSR_FTT1 | FSR_FTT0)
- #ifdef TARGET_SPARC64
- #define FSR_FTT_NMASK      0xfffffffffffe3fffULL
- #define FSR_FTT_CEXC_NMASK 0xfffffffffffe3fe0ULL
+diff --git a/linux-user/sparc/target_signal.h b/linux-user/sparc/target_signal.h
+index 87757f0c4e..f223eb4af6 100644
+--- a/linux-user/sparc/target_signal.h
++++ b/linux-user/sparc/target_signal.h
+@@ -8,7 +8,7 @@
+ #define TARGET_SIGTRAP           5
+ #define TARGET_SIGABRT           6
+ #define TARGET_SIGIOT            6
+-#define TARGET_SIGSTKFLT         7 /* actually EMT */
++#define TARGET_SIGEMT            7
+ #define TARGET_SIGFPE            8
+ #define TARGET_SIGKILL           9
+ #define TARGET_SIGBUS           10
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 77864de57f..614a1cbc8e 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -717,6 +717,11 @@ typedef struct target_siginfo {
+ #define TARGET_TRAP_HWBKPT      (4)     /* hardware breakpoint/watchpoint */
+ #define TARGET_TRAP_UNK         (5)     /* undiagnosed trap */
+ 
++/*
++ * SIGEMT si_codes
++ */
++#define TARGET_EMT_TAGOVF      1       /* tag overflow */
++
+ #include "target_resource.h"
+ 
+ struct target_pollfd {
 diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
-index 093358a39a..5a8a71e976 100644
+index 5a8a71e976..b36bb2574b 100644
 --- a/linux-user/sparc/cpu_loop.c
 +++ b/linux-user/sparc/cpu_loop.c
-@@ -297,6 +297,28 @@ void cpu_loop (CPUSPARCState *env)
-             restore_window(env);
+@@ -328,6 +328,9 @@ void cpu_loop (CPUSPARCState *env)
+         case TT_PRIV_INSN:
+             force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVOPC, env->pc);
              break;
- 
-+        case TT_FP_EXCP:
-+            {
-+                int code = TARGET_FPE_FLTUNK;
-+                target_ulong fsr = env->fsr;
-+
-+                if ((fsr & FSR_FTT_MASK) == FSR_FTT_IEEE_EXCP) {
-+                    if (fsr & FSR_NVC) {
-+                        code = TARGET_FPE_FLTINV;
-+                    } else if (fsr & FSR_OFC) {
-+                        code = TARGET_FPE_FLTOVF;
-+                    } else if (fsr & FSR_UFC) {
-+                        code = TARGET_FPE_FLTUND;
-+                    } else if (fsr & FSR_DZC) {
-+                        code = TARGET_FPE_FLTDIV;
-+                    } else if (fsr & FSR_NXC) {
-+                        code = TARGET_FPE_FLTRES;
-+                    }
-+                }
-+                force_sig_fault(TARGET_SIGFPE, code, env->pc);
-+            }
++        case TT_TOVF:
++            force_sig_fault(TARGET_SIGEMT, TARGET_EMT_TAGOVF, env->pc);
 +            break;
-+
-         case EXCP_INTERRUPT:
-             /* just indicate that signals should be handled asap */
-             break;
+ #ifdef TARGET_SPARC64
+         case TT_PRIV_ACT:
+             /* Note do_privact defers to do_privop. */
 -- 
 2.34.1
 
