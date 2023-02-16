@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E458699520
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 14:06:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A596869952A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 14:07:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSdww-0004PD-QL; Thu, 16 Feb 2023 08:05:22 -0500
+	id 1pSdww-0004Pv-Sf; Thu, 16 Feb 2023 08:05:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pSdwg-0004Ip-6C
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:05:08 -0500
-Received: from mail-oo1-xc2a.google.com ([2607:f8b0:4864:20::c2a])
+ id 1pSdwg-0004Iu-F7
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:05:09 -0500
+Received: from mail-oo1-xc31.google.com ([2607:f8b0:4864:20::c31])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pSdwc-00020d-Jk
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:05:05 -0500
-Received: by mail-oo1-xc2a.google.com with SMTP id
- y17-20020a4ade11000000b0051762fdf955so204341oot.3
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 05:05:02 -0800 (PST)
+ id 1pSdwe-0001zy-O5
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:05:06 -0500
+Received: by mail-oo1-xc31.google.com with SMTP id
+ g13-20020a4ac4cd000000b0051f842ba672so204003ooq.4
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 05:05:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hK7hUX9DpCweRWw5pi7iDFzv4O4v8vKk9BPAoNwGEr4=;
- b=PwEP8PoUSUUhlc/r1rPXY07CJCpr2oV1HIRW+Zv0IYBNCrlpOPhrR3m3SrlKJOmoXm
- YJLFN1CWOloIVnL5jeGe3LZDPBsYoUkfK5lRJLcxpu7qa+a6peexpuVq7lppsPrTrBbA
- gqr6eNqJvuWZ9Krim9vE/EgRZPBFmzqLR/4ihNhsjGIIcPw2ryGAKl5h7SbTXR0ms3kP
- Op4p15V6aLj8LRuKdQkQELziv4ssYGrY71HtO9ByEcquAFhrqWIhij/7V8zk2ozeaZoE
- T4JBGTnvSVZZWMyxr/psgSGXCdCE0Z1IMv6l9ApgEtc779MX8Xm2bULPQ6eYZa8XNuE9
- hb9w==
+ bh=/ze670EFc4knKxHYmBNv1C1tJqYk4J5P+dEI+i7TEM8=;
+ b=Q6ZfqstKdSMCBt+AQrpSDkK+1RW2xGatL5kKb8IVMWR4o+sAbjgHtPQ4tcFJGVzowJ
+ 98iC0QlG+SqQLkNJbK4R5YuNfr8aiC6hTY13M17TFXaZOKQGbX5svOPiyvjirM13iW6G
+ IUA1J0OdKcyOmzRXkM7KaSrXeB2aigEy1qS8Ugg3aG87H3N3aFmT4Ud83z9qE06qzE+d
+ O/XS7ZA2O+i4P1bdK70ISRYs3oOQWI9KDCO4c/crcwZzq4ShnLaiNgavJhkL8zPnWvx4
+ 6663ruu6A1ZVF4KvzIxQqyVbb5FSdsAdaMHpJA6Q6Jq8i6cO00gHaQwg+7/1J9x+SUTm
+ blEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hK7hUX9DpCweRWw5pi7iDFzv4O4v8vKk9BPAoNwGEr4=;
- b=zanVL0U8bs/aJG8yb59Ba+lYcN5pZKBbi3jqP+NtzfZ04jH0fNKKlIEihTmNLxvm7W
- FrUKK8+bqLoDgNJP0uy08GVX+JUBDaefqGwmCDbC1B9662Rqj6/mUjZ36wRlmofY5PvF
- 3DPCZZrTjMFUuhj0W7bN20LZLOKrRWXexr53FZfQXNBYydNID5EcqtzR0NvZIkHWP1cd
- NqJTOaVQj/54negQHRKuyeMjQT6cmegVvJZqyL4l1XqIMewbsXUFYJtqUgQm54PGGmlH
- yKxUOsED7wF/UgCVM5l3WOZqCiI7db2wdJ/j3FnUJbuk6RAfZDGsGD4Kz7GT1C9kt16l
- 7N4w==
-X-Gm-Message-State: AO0yUKWkqwN6tlUGNUOaqg8qs4ngF56RN4Lpv2jDjf8YNBd7MG60ycHz
- fISvXWVrH/Zxg9XC6MsMLDfB+UNTs6ZQ+EBl
-X-Google-Smtp-Source: AK7set9BVhHVYEONygd6Qeq6Rf6V9idsQvUH69FFQp2/m+M0/CCjfiyDSc5twoBrKFx7YJk2Yh76ag==
-X-Received: by 2002:a4a:9871:0:b0:51a:9c6f:a7a9 with SMTP id
- z46-20020a4a9871000000b0051a9c6fa7a9mr2635761ooi.1.1676552700627; 
- Thu, 16 Feb 2023 05:05:00 -0800 (PST)
+ bh=/ze670EFc4knKxHYmBNv1C1tJqYk4J5P+dEI+i7TEM8=;
+ b=IepHSslKYsWKPJV+OJ1GsGevhoze1bBxtUBhuSv84V4Q2rizS9Y823e9g/Qiz4bDg1
+ 5Vq33INhabYBATNhVTnTnRTUADEbIyhk8uEE/txxVw+9NDLP7h2Ft0jiFDxhopRppICR
+ SNDUor3YnMr0sEjkT9Mx3jdTMtra4cJUPjNvQdOpNZaxV3Bz8sBbInJ6+DHO0VzkiP7U
+ jb/8UT7IhsY5J0f8aS/Wh/mDoekRUvMSFL89f9Et59RUARqe8OjiSmC0GMZgVLF27XKm
+ pXuEfTskRudH8b+8lgv4MvKVka78EEmoYULVoIC2r/A0KrzQ/ikdOqid+oAdLw37m/l1
+ vgHw==
+X-Gm-Message-State: AO0yUKVp554rPQPeiIpBeNVzbNSaooLoL5rZ4S+2D6xcUw0O5SKhxYn+
+ vzYv7bF8UQa67SiRkO5Dt8QY0LG8exzhc17o
+X-Google-Smtp-Source: AK7set8IpNStI+mC3jSdckhet/H/zyyD2NbrRka8JWail9/qNO4360WH8NBBVTBxC1u8M2YCjzsbZg==
+X-Received: by 2002:a4a:94c4:0:b0:51a:35de:d4c1 with SMTP id
+ l4-20020a4a94c4000000b0051a35ded4c1mr2615202ooi.5.1676552703594; 
+ Thu, 16 Feb 2023 05:05:03 -0800 (PST)
 Received: from grind.dc1.ventanamicro.com ([191.19.40.109])
  by smtp.gmail.com with ESMTPSA id
- c74-20020a4a4f4d000000b0051f97e8a1d5sm594315oob.35.2023.02.16.05.04.57
+ c74-20020a4a4f4d000000b0051f97e8a1d5sm594315oob.35.2023.02.16.05.05.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 05:05:00 -0800 (PST)
+ Thu, 16 Feb 2023 05:05:03 -0800 (PST)
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
  liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com,
  ajones@ventanamicro.com,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH v4 02/10] target/riscv: remove RISCV_FEATURE_MISA
-Date: Thu, 16 Feb 2023 10:04:36 -0300
-Message-Id: <20230216130444.795997-3-dbarboza@ventanamicro.com>
+Subject: [PATCH v4 03/10] target/riscv: introduce riscv_cpu_cfg()
+Date: Thu, 16 Feb 2023 10:04:37 -0300
+Message-Id: <20230216130444.795997-4-dbarboza@ventanamicro.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230216130444.795997-1-dbarboza@ventanamicro.com>
 References: <20230216130444.795997-1-dbarboza@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2a;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oo1-xc2a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c31;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oo1-xc31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,25 +94,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It's unused after write_misa() became a regular no-op.
+We're going to do changes that requires accessing the RISCVCPUConfig
+struct from the RISCVCPU, having access only to a CPURISCVState 'env'
+pointer. Add a helper to make the code easier to read.
 
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Reviewed-by: Bin Meng <bmeng@tinylab.org>
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 ---
- target/riscv/cpu.h | 1 -
- 1 file changed, 1 deletion(-)
+ target/riscv/cpu.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 7128438d8e..01803a020d 100644
+index 01803a020d..368a522b5b 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -89,7 +89,6 @@ enum {
-     RISCV_FEATURE_MMU,
-     RISCV_FEATURE_PMP,
-     RISCV_FEATURE_EPMP,
--    RISCV_FEATURE_MISA,
-     RISCV_FEATURE_DEBUG
- };
+@@ -653,6 +653,11 @@ static inline RISCVMXL riscv_cpu_mxl(CPURISCVState *env)
+ #endif
+ #define riscv_cpu_mxl_bits(env) (1UL << (4 + riscv_cpu_mxl(env)))
  
++static inline RISCVCPUConfig riscv_cpu_cfg(CPURISCVState *env)
++{
++    return env_archcpu(env)->cfg;
++}
++
+ #if defined(TARGET_RISCV32)
+ #define cpu_recompute_xl(env)  ((void)(env), MXL_RV32)
+ #else
 -- 
 2.39.1
 
