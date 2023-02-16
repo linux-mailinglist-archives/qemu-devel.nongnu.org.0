@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D9E699072
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 10:48:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 027CF699050
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 10:45:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSaps-00010O-D4; Thu, 16 Feb 2023 04:45:52 -0500
+	id 1pSaot-00083N-AN; Thu, 16 Feb 2023 04:44:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+96e41a9b2a2966255e0b+7116+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pSap4-00009V-Kl
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:45:02 -0500
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ <BATV+33d3adc5578b079b0cf9+7116+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pSaoq-00081s-P6
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:44:49 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+96e41a9b2a2966255e0b+7116+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pSaoy-0006LF-6X
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:45:02 -0500
+ <BATV+33d3adc5578b079b0cf9+7116+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pSaoo-0006Iw-K2
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:44:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=ugMRYpOENcLNDnJ7psPeBdrXquDv6QhcfrVsn04tLNM=; b=TubUwkPCALe7b7TN46veOUNIyW
- /t+cNj1n3RdC5DzfmIMf5yHnOin08AhZp7AFSaJ40gZNkv4HVW04d+AWLWRTSURbojs3ZXg02eSIa
- 9Y4xmLKd9a8jmj83cPwv5IrJXMn3rE6k2Pjv8Um0TCvr39HUCfjkrO17rkl7yGL2+tD5Xjxfh+uCE
- NdBLsfr7qAeq/sPhxLzHThJ8VyxOQC+SUB4YqXYTFqC2fJBD8ye8HrQdV5QzaqGT8olULmG/sapZQ
- lBkNTxJoU6LrHUAEFzJTjuR8c1k8ETGHpK5WfHMjFjF0RTUuvYpkbP5BYBy/X3VAdLZJ8rW+M/Zcj
- bulonxSw==;
+ bh=QyNeWaB4dDnqjyYiPRBYMMBedUv4wTrX+rvq6VHxarA=; b=g+ySgIj10Wlbn6QnxAl/CqCb+O
+ Iba8ff7P7uhQlf0dAWM6rnlZOQ1GO19jcNykQJxSpLG8qtoRS9AgUvNl6YzwH2gE8fvlifs/pDHVy
+ Ef5ZKy15Q+Cm/atwAC+c9ns3PhuTJeZtuYXfW4KZ67J98hhLeM8Xki07/X+YebBFVxBA2QyOb4cDh
+ jR5TtGssBiVwZYCRiSzpevbo4sQt9nWkT8TEHVzvLvSkoBmhl6zTrBqCkO8/lI+kNcakOwA7IOcc2
+ lYqhGXoADMOVxVPXAMcBBWmceSvdUPPA2AvLBLmkhTXUrOiTuquvcEuhNUPMheDYD6UOWp6qd3Ts3
+ QmGIUP0g==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pSao3-00AEF8-22; Thu, 16 Feb 2023 09:44:44 +0000
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pSaoj-008IbG-SO; Thu, 16 Feb 2023 09:44:42 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pSaoj-0090Ce-2b; Thu, 16 Feb 2023 09:44:41 +0000
+ Linux)) id 1pSaoj-0090Ci-2o; Thu, 16 Feb 2023 09:44:41 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -50,20 +50,20 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com,
  Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com
-Subject: [RFC PATCH v11bis 22/26] hw/xen: Add emulated implementation of
- XenStore operations
-Date: Thu, 16 Feb 2023 09:44:32 +0000
-Message-Id: <20230216094436.2144978-23-dwmw2@infradead.org>
+Subject: [RFC PATCH v11bis 23/26] hw/xen: Map guest XENSTORE_PFN grant in
+ emulated Xenstore
+Date: Thu, 16 Feb 2023 09:44:33 +0000
+Message-Id: <20230216094436.2144978-24-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230216094436.2144978-1-dwmw2@infradead.org>
 References: <20230216094436.2144978-1-dwmw2@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- desiato.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
- envelope-from=BATV+96e41a9b2a2966255e0b+7116+infradead.org+dwmw2@desiato.srs.infradead.org;
- helo=desiato.infradead.org
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+33d3adc5578b079b0cf9+7116+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -88,338 +88,59 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-Now that we have an internal implementation of XenStore, we can populate
-the xenstore_backend_ops to allow PV backends to talk to it.
-
-Watches can't be processed with immediate callbacks because that would
-call back into XenBus code recursively. Defer them to a QEMUBH to be run
-as appropriate from the main loop. We use a QEMUBH per XS handle, and it
-walks all the watches (there shouldn't be many per handle) to fire any
-which have pending events. We *could* have done it differently but this
-allows us to use the same struct watch_event as we have for the guest
-side, and keeps things relatively simple.
-
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- hw/i386/kvm/xen_xenstore.c | 273 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 269 insertions(+), 4 deletions(-)
+ hw/i386/kvm/xen_xenstore.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/hw/i386/kvm/xen_xenstore.c b/hw/i386/kvm/xen_xenstore.c
-index 57cd18a7c9..74729cbb63 100644
+index 74729cbb63..a58c89b555 100644
 --- a/hw/i386/kvm/xen_xenstore.c
 +++ b/hw/i386/kvm/xen_xenstore.c
-@@ -49,7 +49,7 @@ struct XenXenstoreState {
-     /*< public >*/
+@@ -21,6 +21,7 @@
  
-     XenstoreImplState *impl;
--    GList *watch_events;
-+    GList *watch_events; /* for the guest */
+ #include "hw/sysbus.h"
+ #include "hw/xen/xen.h"
++#include "hw/xen/xen_backend_ops.h"
+ #include "xen_overlay.h"
+ #include "xen_evtchn.h"
+ #include "xen_xenstore.h"
+@@ -34,6 +35,7 @@
  
-     MemoryRegion xenstore_page;
-     struct xenstore_domain_interface *xs;
-@@ -73,6 +73,8 @@ struct XenXenstoreState *xen_xenstore_singleton;
- static void xen_xenstore_event(void *opaque);
- static void fire_watch_cb(void *opaque, const char *path, const char *token);
+ #include "hw/xen/interface/io/xs_wire.h"
+ #include "hw/xen/interface/event_channel.h"
++#include "hw/xen/interface/grant_table.h"
  
-+static struct xenstore_backend_ops emu_xenstore_backend_ops;
+ #define TYPE_XEN_XENSTORE "xen-xenstore"
+ OBJECT_DECLARE_SIMPLE_TYPE(XenXenstoreState, XEN_XENSTORE)
+@@ -66,6 +68,9 @@ struct XenXenstoreState {
+ 
+     uint8_t *impl_state;
+     uint32_t impl_state_size;
 +
- static void G_GNUC_PRINTF (4, 5) relpath_printf(XenXenstoreState *s,
-                                                 GList *perms,
-                                                 const char *relpath,
-@@ -169,6 +171,8 @@ static void xen_xenstore_realize(DeviceState *dev, Error **errp)
-     relpath_printf(s, perms, "feature", "%s", "");
- 
-     g_list_free_full(perms, g_free);
-+
-+    xen_xenstore_ops = &emu_xenstore_backend_ops;
- }
- 
- static bool xen_xenstore_is_needed(void *opaque)
-@@ -1268,6 +1272,15 @@ struct watch_event {
-     char *token;
++    struct xengntdev_handle *gt;
++    void *granted_xs;
  };
  
-+static void free_watch_event(struct watch_event *ev)
-+{
-+    if (ev) {
-+        g_free(ev->path);
-+        g_free(ev->token);
-+        g_free(ev);
-+    }
-+}
+ struct XenXenstoreState *xen_xenstore_singleton;
+@@ -1413,6 +1418,17 @@ int xen_xenstore_reset(void)
+     }
+     s->be_port = err;
+ 
++    /*
++     * We don't actually access the guest's page through the grant, because
++     * this isn't real Xen, and we can just use the page we gave it in the
++     * first place. Map the grant anyway, mostly for cosmetic purposes so
++     * it *looks* like it's in use in the guest-visible grant table.
++     */
++    s->gt = qemu_xen_gnttab_open();
++    uint32_t xs_gntref = GNTTAB_RESERVED_XENSTORE;
++    s->granted_xs = qemu_xen_gnttab_map_refs(s->gt, 1, xen_domid,
++                                             &xs_gntref, PROT_READ|PROT_WRITE);
 +
- static void queue_watch(XenXenstoreState *s, const char *path,
-                         const char *token)
- {
-@@ -1314,9 +1327,7 @@ static void process_watch_events(XenXenstoreState *s)
-     deliver_watch(s, ev->path, ev->token);
- 
-     s->watch_events = g_list_remove(s->watch_events, ev);
--    g_free(ev->path);
--    g_free(ev->token);
--    g_free(ev);
-+    free_watch_event(ev);
- }
- 
- static void xen_xenstore_event(void *opaque)
-@@ -1404,3 +1415,257 @@ int xen_xenstore_reset(void)
- 
      return 0;
  }
-+
-+struct qemu_xs_handle {
-+    XenstoreImplState *impl;
-+    GList *watches;
-+    QEMUBH *watch_bh;
-+};
-+
-+struct qemu_xs_watch {
-+    struct qemu_xs_handle *h;
-+    char *path;
-+    xs_watch_fn fn;
-+    void *opaque;
-+    GList *events;
-+};
-+
-+static char *xs_be_get_domain_path(struct qemu_xs_handle *h, unsigned int domid)
-+{
-+    return g_strdup_printf("/local/domain/%u", domid);
-+}
-+
-+static char **xs_be_directory(struct qemu_xs_handle *h, xs_transaction_t t,
-+                              const char *path, unsigned int *num)
-+{
-+    GList *items = NULL, *l;
-+    unsigned int i = 0;
-+    char **items_ret;
-+    int err;
-+
-+    err = xs_impl_directory(h->impl, DOMID_QEMU, t, path, NULL, &items);
-+    if (err) {
-+        errno = err;
-+        return NULL;
-+    }
-+
-+    items_ret = g_new0(char *, g_list_length(items) + 1);
-+    *num = 0;
-+    for (l = items; l; l = l->next) {
-+        items_ret[i++] = l->data;
-+        (*num)++;
-+    }
-+    g_list_free(items);
-+    return items_ret;
-+}
-+
-+static void *xs_be_read(struct qemu_xs_handle *h, xs_transaction_t t,
-+                        const char *path, unsigned int *len)
-+{
-+    GByteArray *data = g_byte_array_new();
-+    bool free_segment = false;
-+    int err;
-+
-+    err = xs_impl_read(h->impl, DOMID_QEMU, t, path, data);
-+    if (err) {
-+        free_segment = true;
-+        errno = err;
-+    } else {
-+        if (len) {
-+            *len = data->len;
-+        }
-+        /* The xen-bus-helper code expects to get NUL terminated string! */
-+        g_byte_array_append(data, (void *)"", 1);
-+    }
-+
-+    return g_byte_array_free(data, free_segment);
-+}
-+
-+static bool xs_be_write(struct qemu_xs_handle *h, xs_transaction_t t,
-+                        const char *path, const void *data, unsigned int len)
-+{
-+    GByteArray *gdata = g_byte_array_new();
-+    int err;
-+
-+    g_byte_array_append(gdata, data, len);
-+    err = xs_impl_write(h->impl, DOMID_QEMU, t, path, gdata);
-+    g_byte_array_unref(gdata);
-+    if (err) {
-+        errno = err;
-+        return false;
-+    }
-+    return true;
-+}
-+
-+static bool xs_be_create(struct qemu_xs_handle *h, xs_transaction_t t,
-+                         unsigned int owner, unsigned int domid,
-+                         unsigned int perms, const char *path)
-+{
-+    g_autoptr(GByteArray) data = g_byte_array_new();
-+    GList *perms_list = NULL;
-+    int err;
-+
-+    /* mkdir does this */
-+    err = xs_impl_read(h->impl, DOMID_QEMU, t, path, data);
-+    if (err == ENOENT) {
-+        err = xs_impl_write(h->impl, DOMID_QEMU, t, path, data);
-+    }
-+    if (err) {
-+        errno = err;
-+        return false;
-+    }
-+
-+    perms_list = g_list_append(perms_list,
-+                               xs_perm_as_string(XS_PERM_NONE, owner));
-+    perms_list = g_list_append(perms_list,
-+                               xs_perm_as_string(perms, domid));
-+
-+    err = xs_impl_set_perms(h->impl, DOMID_QEMU, t, path, perms_list);
-+    g_list_free_full(perms_list, g_free);
-+    if (err) {
-+        errno = err;
-+        return false;
-+    }
-+    return true;
-+}
-+
-+static bool xs_be_destroy(struct qemu_xs_handle *h, xs_transaction_t t,
-+                          const char *path)
-+{
-+    int err = xs_impl_rm(h->impl, DOMID_QEMU, t, path);
-+    if (err) {
-+        errno = err;
-+        return false;
-+    }
-+    return true;
-+}
-+
-+static void be_watch_bh(void *_h)
-+{
-+    struct qemu_xs_handle *h = _h;
-+    GList *l;
-+
-+    for (l = h->watches; l; l = l->next) {
-+        struct qemu_xs_watch *w = l->data;
-+
-+        while (w->events) {
-+            struct watch_event *ev = w->events->data;
-+
-+            w->fn(w->opaque, ev->path);
-+
-+            w->events = g_list_remove(w->events, ev);
-+            free_watch_event(ev);
-+        }
-+    }
-+}
-+
-+static void xs_be_watch_cb(void *opaque, const char *path, const char *token)
-+{
-+    struct watch_event *ev = g_new0(struct watch_event, 1);
-+    struct qemu_xs_watch *w = opaque;
-+
-+    /* We don't care about the token */
-+    ev->path = g_strdup(path);
-+    w->events = g_list_append(w->events, ev);
-+
-+    qemu_bh_schedule(w->h->watch_bh);
-+}
-+
-+static struct qemu_xs_watch *xs_be_watch(struct qemu_xs_handle *h,
-+                                         const char *path, xs_watch_fn fn,
-+                                         void *opaque)
-+{
-+    struct qemu_xs_watch *w = g_new0(struct qemu_xs_watch, 1);
-+    int err;
-+
-+    w->h = h;
-+    w->fn = fn;
-+    w->opaque = opaque;
-+
-+    err = xs_impl_watch(h->impl, DOMID_QEMU, path, NULL, xs_be_watch_cb, w);
-+    if (err) {
-+        errno = err;
-+        g_free(w);
-+        return NULL;
-+    }
-+
-+    w->path = g_strdup(path);
-+    h->watches = g_list_append(h->watches, w);
-+    return w;
-+}
-+
-+static void xs_be_unwatch(struct qemu_xs_handle *h, struct qemu_xs_watch *w)
-+{
-+    xs_impl_unwatch(h->impl, DOMID_QEMU, w->path, NULL, xs_be_watch_cb, w);
-+
-+    h->watches = g_list_remove(h->watches, w);
-+    g_list_free_full(w->events, (GDestroyNotify)free_watch_event);
-+    g_free(w->path);
-+    g_free(w);
-+}
-+
-+static xs_transaction_t xs_be_transaction_start(struct qemu_xs_handle *h)
-+{
-+    unsigned int new_tx = XBT_NULL;
-+    int err = xs_impl_transaction_start(h->impl, DOMID_QEMU, &new_tx);
-+    if (err) {
-+        errno = err;
-+        return XBT_NULL;
-+    }
-+    return new_tx;
-+}
-+
-+static bool xs_be_transaction_end(struct qemu_xs_handle *h, xs_transaction_t t,
-+                                  bool abort)
-+{
-+    int err = xs_impl_transaction_end(h->impl, DOMID_QEMU, t, !abort);
-+    if (err) {
-+        errno = err;
-+        return false;
-+    }
-+    return true;
-+}
-+
-+static struct qemu_xs_handle *xs_be_open(void)
-+{
-+    XenXenstoreState *s = xen_xenstore_singleton;
-+    struct qemu_xs_handle *h;
-+
-+    if (!s && !s->impl) {
-+        errno = -ENOSYS;
-+        return NULL;
-+    }
-+
-+    h = g_new0(struct qemu_xs_handle, 1);
-+    h->impl = s->impl;
-+
-+    h->watch_bh = aio_bh_new(qemu_get_aio_context(), be_watch_bh, h);
-+
-+    return h;
-+}
-+
-+static void xs_be_close(struct qemu_xs_handle *h)
-+{
-+    while (h->watches) {
-+        struct qemu_xs_watch *w = h->watches->data;
-+        xs_be_unwatch(h, w);
-+    }
-+
-+    qemu_bh_delete(h->watch_bh);
-+    g_free(h);
-+}
-+
-+static struct xenstore_backend_ops emu_xenstore_backend_ops = {
-+    .open = xs_be_open,
-+    .close = xs_be_close,
-+    .get_domain_path = xs_be_get_domain_path,
-+    .directory = xs_be_directory,
-+    .read = xs_be_read,
-+    .write = xs_be_write,
-+    .create = xs_be_create,
-+    .destroy = xs_be_destroy,
-+    .watch = xs_be_watch,
-+    .unwatch = xs_be_unwatch,
-+    .transaction_start = xs_be_transaction_start,
-+    .transaction_end = xs_be_transaction_end,
-+};
+ 
 -- 
 2.39.0
 
