@@ -2,62 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74DC3699651
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 14:50:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6819D69965C
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 14:51:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSeeY-0004We-P7; Thu, 16 Feb 2023 08:50:26 -0500
+	id 1pSefo-0006RL-UY; Thu, 16 Feb 2023 08:51:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pSeeK-00046Y-1M
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:50:12 -0500
-Received: from 2.mo548.mail-out.ovh.net ([178.33.255.19])
+ (Exim 4.90_1) (envelope-from <leiyang@redhat.com>)
+ id 1pSefl-0006QQ-0z
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:51:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pSeeG-0002gF-NO
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:50:11 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.174])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 27B8C20B2C;
- Thu, 16 Feb 2023 13:50:03 +0000 (UTC)
-Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Thu, 16 Feb
- 2023 14:50:02 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G0055998b8ad-dfee-4c31-a215-d884ac20c00c,
- 6472B0FD1AC4FAE7C483658EB00F62ED22160684) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <69176363-525b-9909-2c01-e2f61d4c233d@kaod.org>
-Date: Thu, 16 Feb 2023 14:50:01 +0100
+ (Exim 4.90_1) (envelope-from <leiyang@redhat.com>)
+ id 1pSefi-0004QZ-Uf
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:51:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676555497;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Gp7DGp6a4RpAfHUXSBrkxLAJJs4FPx4LgM3uPMpob5I=;
+ b=CjVuYSda2g3nIi4rEVE42RM1kn0S60eNnW9EJPsHlS+ViWx6aHGN5MqzOtZmjokEC3/Ewm
+ VBBe3G4c/54EtvCOGMEvnal11E6kp/d1WY0sP7oQa3l8jK88oMYdjNG1IRZQHGpTSueFnZ
+ JxeN8UCYzygFEQDUnfYEKnEjo45gVyc=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-369-JXo5ZxLRNn6haWLZiNVFEA-1; Thu, 16 Feb 2023 08:51:36 -0500
+X-MC-Unique: JXo5ZxLRNn6haWLZiNVFEA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ y17-20020a056402359100b004acc4f8aa3fso1616822edc.3
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 05:51:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Gp7DGp6a4RpAfHUXSBrkxLAJJs4FPx4LgM3uPMpob5I=;
+ b=fi/Y9jDRDGVWeVnuSBZ8IjN3BozA6lJIUWpHSVwWHPHULNQBMzBIH9Lung0y/XkHhZ
+ YzdkoMRJ8cJWloPKHmkUNyTIhkXcPv13C7m1Gwsp08gDSj8mqGTD3zL3whsXTEnqHqs8
+ c+Hl1o3X2FgrezMaceTIEgmAS4En3hiGJnu72fJ/gbK6fWdWk3jZEl1xQpTNgtGoSQYm
+ qJAlcjj8CmC/PcYQdsPyXpv4etry6LPwqesB61Kg4EDQN8jy4Aqs2tNBp4cYRcp92vSE
+ ncadzt+Fflee+rVGp+pgerSXfYF7UapO6/B0Q3tZMowzbyYb/1Nxai2YpmXlZ4TfEFsQ
+ qbBA==
+X-Gm-Message-State: AO0yUKV7xgykOgJE7g7VIP+qWhTR5JKwo+7NHDn40VToaRD6a5DvMBej
+ m+pr/LBF2+aZ7Y0aE1Ty4GHWouRIMZiu4QyjQtYxM1Jc/jX3DDU14QRUG/wuohuEH50x/O85KIk
+ 4VUvQB/VZjdJIyqnPKW/SOK5vgFmOh04=
+X-Received: by 2002:a50:ce42:0:b0:4ac:b69a:2f02 with SMTP id
+ k2-20020a50ce42000000b004acb69a2f02mr3102711edj.3.1676555495317; 
+ Thu, 16 Feb 2023 05:51:35 -0800 (PST)
+X-Google-Smtp-Source: AK7set+WI2oT7V9jBxH55In4buZfgO3yUp5mz4TQjFmaCLNhNxOUhiq4mzTRQ36UBSILtd35BwQH/awAGRtydtcx0T8=
+X-Received: by 2002:a50:ce42:0:b0:4ac:b69a:2f02 with SMTP id
+ k2-20020a50ce42000000b004acb69a2f02mr3102706edj.3.1676555495034; Thu, 16 Feb
+ 2023 05:51:35 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH v3] Adding new machine Yosemitev2 in QEMU
-Content-Language: en-US
-To: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>,
- <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
- <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-References: <20230216133326.216017-1-pkarthikeyan1509@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230216133326.216017-1-pkarthikeyan1509@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 1b176618-7322-49c2-aac2-73dfffe9f9d8
-X-Ovh-Tracer-Id: 3785838440758086438
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudeijedgheeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepteeghedugeeiffekfedtlefftdejleefgeegteelgfdujeeggfefieevuedtffehnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpkhgrrhhthhhikhgvhigrnhduhedtleesghhmrghilhdrtghomhdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdgrnhgurhgvfiesrghjrdhiugdrrghupdhjohgvlhesjhhmshdrihgurdgruhdpqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=178.33.255.19; envelope-from=clg@kaod.org;
- helo=2.mo548.mail-out.ovh.net
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+References: <20230208094253.702672-1-eperezma@redhat.com>
+ <a316e830-3bd8-0127-688e-ca1d9a460f90@amd.com>
+ <CAJaqyWfd9sii4a+dEuNBTtTnbCWgE=BcaH=jnx95zekE-wO=wQ@mail.gmail.com>
+In-Reply-To: <CAJaqyWfd9sii4a+dEuNBTtTnbCWgE=BcaH=jnx95zekE-wO=wQ@mail.gmail.com>
+From: Lei Yang <leiyang@redhat.com>
+Date: Thu, 16 Feb 2023 21:50:58 +0800
+Message-ID: <CAPpAL=yY0KJznUq-tajuKjANscphzGk=D6q34LLnC26=L-w+eg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/13] Dynamycally switch to vhost shadow virtqueues at
+ vdpa net migration
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: Gautam Dawar <gdawar@amd.com>, qemu-devel@nongnu.org, 
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, 
+ alvaro.karsz@solid-run.com, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Shannon Nelson <snelson@pensando.io>, 
+ Parav Pandit <parav@mellanox.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Eli Cohen <eli@mellanox.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ longpeng2@huawei.com, virtualization@lists.linux-foundation.org, 
+ Stefano Garzarella <sgarzare@redhat.com>, si-wei.liu@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=leiyang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.351,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,127 +107,279 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/16/23 14:33, Karthikeyan Pasupathi wrote:
-> This patch support Yosemitev2 in QEMU environment.
-> and introduced EEPROM BMC FRU data support "add fbyv2_bmc_fruid data"
-> along with the machine support.
-> 
-> 
-> Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
+QE tested this series's v3 again. Creating two vdpa_sim devices, and
+boot two VMs without shadow virtqueues. The migration was successful and
+everything worked fine.
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Tested-by: Lei Yang <leiyang@redhat.com>
 
-Thanks,
-
-C.
-
-> ---
->   hw/arm/aspeed.c        | 31 +++++++++++++++++++++++++++++++
->   hw/arm/aspeed_eeprom.c | 23 +++++++++++++++++++++++
->   hw/arm/aspeed_eeprom.h |  3 +++
->   3 files changed, 57 insertions(+)
-> 
-> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index 27dda58338..3f992fea46 100644
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -521,6 +521,15 @@ static void ast2600_evb_i2c_init(AspeedMachineState *bmc)
->                        TYPE_TMP105, 0x4d);
->   }
->   
-> +static void yosemitev2_bmc_i2c_init(AspeedMachineState *bmc)
-> +{
-> +    AspeedSoCState *soc = &bmc->soc;
-> +
-> +    at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 4), 0x51, 128 * KiB);
-> +    at24c_eeprom_init_rom(aspeed_i2c_get_bus(&soc->i2c, 8), 0x51, 128 * KiB,
-> +                          yosemitev2_bmc_fruid, yosemitev2_bmc_fruid_len);
-> +}
-> +
->   static void romulus_bmc_i2c_init(AspeedMachineState *bmc)
->   {
->       AspeedSoCState *soc = &bmc->soc;
-> @@ -1174,6 +1183,24 @@ static void aspeed_machine_ast2500_evb_class_init(ObjectClass *oc, void *data)
->           aspeed_soc_num_cpus(amc->soc_name);
->   };
->   
-> +static void aspeed_machine_yosemitev2_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc = MACHINE_CLASS(oc);
-> +    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
-> +
-> +    mc->desc       = "Facebook YosemiteV2 BMC (ARM1176)";
-> +    amc->soc_name  = "ast2500-a1";
-> +    amc->hw_strap1 = AST2500_EVB_HW_STRAP1;
-> +    amc->hw_strap2 = 0;
-> +    amc->fmc_model = "n25q256a";
-> +    amc->spi_model = "mx25l25635e";
-> +    amc->num_cs    = 2;
-> +    amc->i2c_init  = yosemitev2_bmc_i2c_init;
-> +    mc->default_ram_size       = 512 * MiB;
-> +    mc->default_cpus = mc->min_cpus = mc->max_cpus =
-> +        aspeed_soc_num_cpus(amc->soc_name);
-> +};
-> +
->   static void aspeed_machine_romulus_class_init(ObjectClass *oc, void *data)
->   {
->       MachineClass *mc = MACHINE_CLASS(oc);
-> @@ -1562,6 +1589,10 @@ static const TypeInfo aspeed_machine_types[] = {
->           .name          = MACHINE_TYPE_NAME("ast2600-evb"),
->           .parent        = TYPE_ASPEED_MACHINE,
->           .class_init    = aspeed_machine_ast2600_evb_class_init,
-> +    }, {
-> +        .name          = MACHINE_TYPE_NAME("yosemitev2-bmc"),
-> +        .parent        = TYPE_ASPEED_MACHINE,
-> +        .class_init    = aspeed_machine_yosemitev2_class_init,
->       }, {
->           .name          = MACHINE_TYPE_NAME("tacoma-bmc"),
->           .parent        = TYPE_ASPEED_MACHINE,
-> diff --git a/hw/arm/aspeed_eeprom.c b/hw/arm/aspeed_eeprom.c
-> index 04463acc9d..7006794654 100644
-> --- a/hw/arm/aspeed_eeprom.c
-> +++ b/hw/arm/aspeed_eeprom.c
-> @@ -77,6 +77,29 @@ const uint8_t fby35_bmc_fruid[] = {
->       0x6e, 0x66, 0x69, 0x67, 0x20, 0x41, 0xc1, 0x45,
->   };
->   
-> +/* Yosemite V2 BMC FRU */
-> +const uint8_t yosemitev2_bmc_fruid[] = {
-> +    0x01, 0x00, 0x00, 0x01, 0x0d, 0x00, 0x00, 0xf1, 0x01, 0x0c, 0x00, 0x36,
-> +    0xe6, 0xd0, 0xc6, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x42, 0x4d,
-> +    0x43, 0x20, 0x53, 0x74, 0x6f, 0x72, 0x61, 0x67, 0x65, 0x20, 0x4d, 0x6f,
-> +    0x64, 0x75, 0x6c, 0x65, 0xcd, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58,
-> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e,
-> +    0x30, 0xc9, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2,
-> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc1, 0x39, 0x01, 0x0c, 0x00, 0xc6,
-> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x59, 0x6f, 0x73, 0x65, 0x6d,
-> +    0x69, 0x74, 0x65, 0x20, 0x56, 0x32, 0x2e, 0x30, 0x20, 0x45, 0x56, 0x54,
-> +    0x32, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-> +    0x58, 0x58, 0x58, 0x58, 0xc4, 0x45, 0x56, 0x54, 0x32, 0xcd, 0x58, 0x58,
-> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc7,
-> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e, 0x30, 0xc9,
-> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc8, 0x43, 0x6f,
-> +    0x6e, 0x66, 0x69, 0x67, 0x20, 0x41, 0xc1, 0x45,
-> +};
-> +
->   const size_t fby35_nic_fruid_len = sizeof(fby35_nic_fruid);
->   const size_t fby35_bb_fruid_len = sizeof(fby35_bb_fruid);
->   const size_t fby35_bmc_fruid_len = sizeof(fby35_bmc_fruid);
-> +
-> +const size_t yosemitev2_bmc_fruid_len = sizeof(yosemitev2_bmc_fruid);
-> diff --git a/hw/arm/aspeed_eeprom.h b/hw/arm/aspeed_eeprom.h
-> index a0f848fa6e..edf18e9685 100644
-> --- a/hw/arm/aspeed_eeprom.h
-> +++ b/hw/arm/aspeed_eeprom.h
-> @@ -16,4 +16,7 @@ extern const size_t fby35_nic_fruid_len;
->   extern const size_t fby35_bb_fruid_len;
->   extern const size_t fby35_bmc_fruid_len;
->   
-> +extern const uint8_t yosemitev2_bmc_fruid[];
-> +extern const size_t yosemitev2_bmc_fruid_len;
-> +
->   #endif
+Eugenio Perez Martin <eperezma@redhat.com> =E4=BA=8E2023=E5=B9=B42=E6=9C=88=
+16=E6=97=A5=E5=91=A8=E5=9B=9B 02:41=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Fri, Feb 10, 2023 at 1:58 PM Gautam Dawar <gdawar@amd.com> wrote:
+> >
+> > Hi Eugenio,
+> >
+> > I've tested this patch series on Xilinx/AMD SN1022 device without
+> > control vq and VM Live Migration between two hosts worked fine.
+> >
+> > Tested-by: Gautam Dawar <gautam.dawar@amd.com>
+> >
+>
+> Thanks for the testing!
+>
+> >
+> > Here is some minor feedback:
+> >
+> > Pls fix the typo (Dynamycally -> Dynamically) in the Subject.
+> >
+> > On 2/8/23 15:12, Eugenio P=C3=A9rez wrote:
+> > > CAUTION: This message has originated from an External Source. Please =
+use proper judgment and caution when opening attachments, clicking links, o=
+r responding to this email.
+> > >
+> > >
+> > > It's possible to migrate vdpa net devices if they are shadowed from t=
+he
+> > >
+> > > start.  But to always shadow the dataplane is to effectively break it=
+s host
+> > >
+> > > passthrough, so its not convenient in vDPA scenarios.
+> > I believe you meant efficient instead of convenient.
+> > >
+> > >
+> > >
+> > > This series enables dynamically switching to shadow mode only at
+> > >
+> > > migration time.  This allows full data virtqueues passthrough all the
+> > >
+> > > time qemu is not migrating.
+> > >
+> > >
+> > >
+> > > In this series only net devices with no CVQ are migratable.  CVQ adds
+> > >
+> > > additional state that would make the series bigger and still had some
+> > >
+> > > controversy on previous RFC, so let's split it.
+> > >
+> > >
+> > >
+> > > The first patch delays the creation of the iova tree until it is real=
+ly needed,
+> > >
+> > > and makes it easier to dynamically move from and to SVQ mode.
+> > It would help adding some detail on the iova tree being referred to her=
+e.
+> > >
+> > >
+> > >
+> > > Next patches from 02 to 05 handle the suspending and getting of vq st=
+ate (base)
+> > >
+> > > of the device at the switch to SVQ mode.  The new _F_SUSPEND feature =
+is
+> > >
+> > > negotiated and stop device flow is changed so the state can be fetche=
+d trusting
+> > >
+> > > the device will not modify it.
+> > >
+> > >
+> > >
+> > > Since vhost backend must offer VHOST_F_LOG_ALL to be migratable, last=
+ patches
+> > >
+> > > but the last one add the needed migration blockers so vhost-vdpa can =
+offer it
+> >
+> > "last patches but the last one"?
+> >
+>
+> I think I solved all of the above in v3, thanks for notifying them!
+>
+> Would it be possible to test with v3 too?
+>
+> > Thanks.
+> >
+> > >
+> > > safely.  They also add the handling of this feature.
+> > >
+> > >
+> > >
+> > > Finally, the last patch makes virtio vhost-vdpa backend to offer
+> > >
+> > > VHOST_F_LOG_ALL so qemu migrate the device as long as no other blocke=
+r has been
+> > >
+> > > added.
+> > >
+> > >
+> > >
+> > > Successfully tested with vdpa_sim_net with patch [1] applied and with=
+ the qemu
+> > >
+> > > emulated device with vp_vdpa with some restrictions:
+> > >
+> > > * No CVQ. No feature that didn't work with SVQ previously (packed, ..=
+.)
+> > >
+> > > * VIRTIO_RING_F_STATE patches implementing [2].
+> > >
+> > > * Expose _F_SUSPEND, but ignore it and suspend on ring state fetch li=
+ke
+> > >
+> > >    DPDK.
+> > >
+> > >
+> > >
+> > > Comments are welcome.
+> > >
+> > >
+> > >
+> > > v2:
+> > >
+> > > - Check for SUSPEND in vhost_dev.backend_cap, as .backend_features is=
+ empty at
+> > >
+> > >    the check moment.
+> > >
+> > >
+> > >
+> > > v1:
+> > >
+> > > - Omit all code working with CVQ and block migration if the device su=
+pports
+> > >
+> > >    CVQ.
+> > >
+> > > - Remove spurious kick.
+> > Even with the spurious kick, datapath didn't resume at destination VM
+> > after LM as kick happened before DRIVER_OK. So IMO, it will be required
+> > that the vdpa parent driver simulates a kick after creating/starting HW
+> > rings.
+>
+> Right, it did not solve the issue.
+>
+> If I'm not wrong all vdpa drivers are moving to that model, checking
+> for new avail descriptors right after DRIVER_OK. Maybe it is better to
+> keep this discussion at patch 12/13 on RFC v2?
+>
+> Thanks!
+>
+> > >
+> > > - Move all possible checks for migration to vhost-vdpa instead of the=
+ net
+> > >
+> > >    backend. Move them to init code from start code.
+> > >
+> > > - Suspend on vhost_vdpa_dev_start(false) instead of in vhost-vdpa net=
+ backend.
+> > >
+> > > - Properly split suspend after geting base and adding of status_reset=
+ patches.
+> > >
+> > > - Add possible TODOs to points where this series can improve in the f=
+uture.
+> > >
+> > > - Check the state of migration using migration_in_setup and
+> > >
+> > >    migration_has_failed instead of checking all the possible migratio=
+n status in
+> > >
+> > >    a switch.
+> > >
+> > > - Add TODO with possible low hand fruit using RESUME ops.
+> > >
+> > > - Always offer _F_LOG from virtio/vhost-vdpa and let migration blocke=
+rs do
+> > >
+> > >    their thing instead of adding a variable.
+> > >
+> > > - RFC v2 at https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg=
+02574.html
+> > >
+> > >
+> > >
+> > > RFC v2:
+> > >
+> > > - Use a migration listener instead of a memory listener to know when
+> > >
+> > >    the migration starts.
+> > >
+> > > - Add stuff not picked with ASID patches, like enable rings after
+> > >
+> > >    driver_ok
+> > >
+> > > - Add rewinding on the migration src, not in dst
+> > >
+> > > - RFC v1 at https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg=
+01664.html
+> > >
+> > >
+> > >
+> > > [1] https://lore.kernel.org/lkml/20230203142501.300125-1-eperezma@red=
+hat.com/T/
+> > >
+> > > [2] https://lists.oasis-open.org/archives/virtio-comment/202103/msg00=
+036.html
+> > >
+> > >
+> > >
+> > > Eugenio P=C3=A9rez (13):
+> > >
+> > >    vdpa net: move iova tree creation from init to start
+> > >
+> > >    vdpa: Negotiate _F_SUSPEND feature
+> > >
+> > >    vdpa: add vhost_vdpa_suspend
+> > >
+> > >    vdpa: move vhost reset after get vring base
+> > >
+> > >    vdpa: rewind at get_base, not set_base
+> > >
+> > >    vdpa net: allow VHOST_F_LOG_ALL
+> > >
+> > >    vdpa: add vdpa net migration state notifier
+> > >
+> > >    vdpa: disable RAM block discard only for the first device
+> > >
+> > >    vdpa net: block migration if the device has CVQ
+> > >
+> > >    vdpa: block migration if device has unsupported features
+> > >
+> > >    vdpa: block migration if dev does not have _F_SUSPEND
+> > >
+> > >    vdpa: block migration if SVQ does not admit a feature
+> > >
+> > >    vdpa: return VHOST_F_LOG_ALL in vhost-vdpa devices
+> > >
+> > >
+> > >
+> > >   include/hw/virtio/vhost-backend.h |   4 +
+> > >
+> > >   hw/virtio/vhost-vdpa.c            | 126 +++++++++++++++-----
+> > >
+> > >   hw/virtio/vhost.c                 |   3 +
+> > >
+> > >   net/vhost-vdpa.c                  | 192 +++++++++++++++++++++++++--=
+---
+> > >
+> > >   hw/virtio/trace-events            |   1 +
+> > >
+> > >   5 files changed, 267 insertions(+), 59 deletions(-)
+> > >
+> > >
+> > >
+> > > --
+> > >
+> > > 2.31.1
+> > >
+> > >
+> > >
+> > >
+> >
+>
 
 
