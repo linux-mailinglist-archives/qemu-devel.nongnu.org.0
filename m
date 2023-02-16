@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A855F699B42
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:28:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4E9B699B40
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:27:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSi1x-0002fH-Io; Thu, 16 Feb 2023 12:26:49 -0500
+	id 1pSi1v-0002e9-VR; Thu, 16 Feb 2023 12:26:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jwd@defmacro.it>)
- id 1pShQi-0000RB-2H; Thu, 16 Feb 2023 11:48:20 -0500
+ id 1pShQh-0000QX-1p; Thu, 16 Feb 2023 11:48:19 -0500
 Received: from out4-smtp.messagingengine.com ([66.111.4.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jwd@defmacro.it>)
- id 1pShQf-0003tT-2X; Thu, 16 Feb 2023 11:48:19 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 39BEB5C023A;
- Thu, 16 Feb 2023 11:48:14 -0500 (EST)
+ id 1pShQf-00045y-55; Thu, 16 Feb 2023 11:48:18 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 6143E5C0304;
+ Thu, 16 Feb 2023 11:48:16 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 16 Feb 2023 11:48:14 -0500
+ by compute5.internal (MEProxy); Thu, 16 Feb 2023 11:48:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=defmacro.it; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1676566094; x=1676652494; bh=yN
- qkIi9DTxLm3SgOgUDJlmyKa+80oFSROj6j8Gdhsfo=; b=AMr+m8cuHm5E08W+Lm
- CNbUYqal6X0J+VWK1E/4iBlQMKLSoCGs+tVE7dG5iBdzYI/HA1Q0vIsDimVpUgwS
- W7hguJLJeeghiQ3ss8Z8pSTJomDoZuBrBsd4+Ay/gi6N3r7ZJzegadU8b3m3kix/
- EfOLVcH71+X/xoO+9yD9r3JhneTzdUaPk9LdMnNfE4tI3ePvRiE+coj5tJW0AWE6
- s2pjZeAGwCmfajrhl+ngI/294Uw4Mn2TsibjSVh9qsurHxKhSDu7hNnAIal+KGCr
- pn8my0qAbpBOcCtFnucJi1k1aRihx5Lx4mbQSm3QEVHPV16xUE3uopXPEo7gA0pl
- pHgw==
+ :subject:subject:to:to; s=fm1; t=1676566096; x=1676652496; bh=iQ
+ mmOMBy+KS4Zz3L8LjzaW5Hwx6eOgsGRv9zmGVknD0=; b=d88rHQ7LhHoTz5ZtKY
+ t8avXaTMTKoiloV/X8AwNxBaXnUhPm7uMs8Fa+Gp0xE2hrpgsVukQ5YMKkz6xzfj
+ YPBuSvemtM6nJNcnV41XQKpicWVqK4h9/I256aeCQ1PxbpZdaCicF0Ob14Cwpeys
+ Wwp33bku08ByKfGeasC+lkvRHFQQSyLcG8f8uQ0nW6wHPvxNs+zrH6u18mrHB8kL
+ fKmkeiQQGGNDiOgFvxK0FD10QwUPLuQRomrcw3+r1ItfuezlJSlF0jM8gVYVrVhz
+ 0NxKWhrND+qmFYJWH9Z7sBJsfm/xFxXBBXC4LtckI7lpBWaEA4WJyw8n41GBWUwW
+ 3GOg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1676566094; x=1676652494; bh=yNqkIi9DTxLm3
- SgOgUDJlmyKa+80oFSROj6j8Gdhsfo=; b=UGd3YFN5O+5j/35djFO+et7F8Cn1K
- PXPHW8dlopePjdkWe4Wb2Qollxz/XTE1yKi1PxRdva7rQOtIdl/AY7dz7QP26Sw6
- hexj5IQDAhVslh3vlYS4JW2/iqDAvzwUFSAnI67R5Vl+4Ai2Njm5JDY8IbX4O5Tz
- zLgKxzNhwlRf92noUvX7GEbGXGAEzeA68Yaigmu4xSMYcRMZY1YiHEVMG4Z85tZT
- VeCsYje9l/C5DBIjK6fNKgbiLzqv59Xy87IuWUbSNrIeG4ygFsG4QcDrg06GinK7
- 0VUCUV6/Un2z+n7h9CRYLz3/TPgjK16pa6vzno0pKjQtaLw99GTJxnV2Q==
-X-ME-Sender: <xms:Tl7uY_XsC6jixRUbcQlETRjw8i9c2KnGfYw80FTEGSQEBCiTrA1SNQ>
- <xme:Tl7uY3keynNv0j0FTfmv69DvpDQYqs8fTPz5X4z7SBLfAByvfWqIkszZLCLbrZxQH
- t-q0cdovfceizOXLHY>
-X-ME-Received: <xmr:Tl7uY7YHXOHvv_DvBTgX91rnSPN8cu4Q4C8vsZ_zgY_72ddt-sy8tdTccOMGP0L5Ib2LlT86G4G6s6XmRusmP2Yxd4LQzQ>
+ :x-sasl-enc; s=fm1; t=1676566096; x=1676652496; bh=iQmmOMBy+KS4Z
+ z3L8LjzaW5Hwx6eOgsGRv9zmGVknD0=; b=mvxTxB+ctGpvcBtXYI3T/znB/xTLs
+ ppc+dTVPCwUA9VVQ4jtIyo8iM51Ty4twuTD3JLHYVWvYQ+3SxSCxmUPVFRmxwcbv
+ fy795ICVKQmtn1/uQwdllBB0AGbeDp76FsssjbW2L3cW6QN8ZKrOxiCrCZCLSyao
+ 0h4pdPQpf0LCb3IIu0xNIskQUUUS4+Mrzl9/GvHsxbzeQCo1we7G3EBquKnAYnKT
+ 5O/fPUcrXqQ1iItkrvqj4pD9UGnBJ7L4ZVV2w+ip28tVwUdhFYP1dRXExc/RuHa+
+ bunk7n7OMJM9RwC/5jRjdGABc6JvGmz1dkvQnEi8RYWMm6Npdl/tSKZTA==
+X-ME-Sender: <xms:UF7uY3b1mB_1aevyPGSLCGxsW72WQ9rbfqgUOhEQehalmQKu0UnY3g>
+ <xme:UF7uY2ajZsVsIcdV7-ghFKPdNe7eeyk1F70CIa_sTkiOE1vpd59IDuyHyz6FFSIKM
+ Lw9MBYPUSNHoGvZA8Y>
+X-ME-Received: <xmr:UF7uY5-O6VBd65Zea5WxOX8b71lY0235bdgV3WgA7Qw8QD5f9JskO2FzYCkz71CMiRfqrG6DOpXkR7qA_jEKu3t5UuD_OA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeijedgleduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -56,13 +56,13 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeijedgleduucetufdoteggod
  grthhtvghrnhepvddvtefhtdeugfetfeeukedtfeeitddugfffleehkeelveektdevteef
  leduueevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  epjhifugesuggvfhhmrggtrhhordhith
-X-ME-Proxy: <xmx:Tl7uY6U4yNeBbxOY9AH-eMG0tTE-Rd8XMzG08XRs9XBOmjTspLEURA>
- <xmx:Tl7uY5kghE0G-XuwhVE9YcKi8Mj99m_RZD2nCcuwgt_l4VKFZJ3B5A>
- <xmx:Tl7uY3fzffLdWEjP5H_PQK1mAAj_nCuZrsibkY94D0_lLujf7WFJdw>
- <xmx:Tl7uYycLiGypsgqG62hEMAtOWF0NRA0b0IL5Th9P6FoZwcgtD636FQ>
+X-ME-Proxy: <xmx:UF7uY9r_C-unABoYWlEs4c6a3OEmEJEToggqnTR3clFVRMuBars1ow>
+ <xmx:UF7uYyqQNQFewUrFWmSisB2jjWS5ej723HYWw_CM6lnSMmYM_wkx9w>
+ <xmx:UF7uYzS68nZhS4DPBgbdZMK6GvH0CMHHco-Lu53gABYmw5kCRZg4qA>
+ <xmx:UF7uY_iAKF30qkdDLji6eY6-DAAapFLIWqjNGVwl0EQS5R-Si0FfcA>
 Feedback-ID: i0f41475f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Feb 2023 11:48:12 -0500 (EST)
+ 16 Feb 2023 11:48:14 -0500 (EST)
 From: Jesper Devantier <jwd@defmacro.it>
 To: jwd@defmacro.it,
 	qemu-devel@nongnu.org
@@ -71,10 +71,11 @@ Cc: qemu-block@nongnu.org, Klaus Jensen <its@irrelevant.dk>,
  Stefan Hajnoczi <stefanha@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Joel Granados <j.granados@samsung.com>, Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH 1/5] hw/nvme: move adjustment of data_units{read,written}
-Date: Thu, 16 Feb 2023 17:48:02 +0100
-Message-Id: <20230216164806.233533-2-jwd@defmacro.it>
+ Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>
+Subject: [PATCH 2/5] hw/nvme: store a pointer to the NvmeSubsystem in the
+ NvmeNamespace
+Date: Thu, 16 Feb 2023 17:48:03 +0100
+Message-Id: <20230216164806.233533-3-jwd@defmacro.it>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230216164806.233533-1-jwd@defmacro.it>
 References: <20230216164806.233533-1-jwd@defmacro.it>
@@ -105,60 +106,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Joel Granados <j.granados@samsung.com>
+From: Niklas Cassel <niklas.cassel@wdc.com>
 
-In order to return the units_{read/written} required by the SMART log we
-need to shift the number of bytes value by BDRV_SECTORS_BITS and multiply
-by 1000. This is a prep patch that moves this adjustment to where the SMART
-log is calculated in order to use the stats struct for calculating OCP
-extended smart log values.
+Each NvmeNamespace can be used by serveral controllers,
+but a NvmeNamespace can at most belong to a single NvmeSubsystem.
+Store a pointer to the NvmeSubsystem, if the namespace was realized
+with a NvmeSubsystem.
 
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-Signed-off-by: Joel Granados <j.granados@samsung.com>
+Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ hw/nvme/ns.c   | 1 +
+ hw/nvme/nvme.h | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index f25cc2c235..99b92ff20b 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -4386,8 +4386,8 @@ static void nvme_set_blk_stats(NvmeNamespace *ns, struct nvme_stats *stats)
- {
-     BlockAcctStats *s = blk_get_stats(ns->blkconf.blk);
+diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+index 62a1f97be0..8ebab4fbce 100644
+--- a/hw/nvme/ns.c
++++ b/hw/nvme/ns.c
+@@ -561,6 +561,7 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
+         if (!qdev_set_parent_bus(dev, &subsys->bus.parent_bus, errp)) {
+             return;
+         }
++        ns->subsys = subsys;
+     }
  
--    stats->units_read += s->nr_bytes[BLOCK_ACCT_READ] >> BDRV_SECTOR_BITS;
--    stats->units_written += s->nr_bytes[BLOCK_ACCT_WRITE] >> BDRV_SECTOR_BITS;
-+    stats->units_read += s->nr_bytes[BLOCK_ACCT_READ];
-+    stats->units_written += s->nr_bytes[BLOCK_ACCT_WRITE];
-     stats->read_commands += s->nr_ops[BLOCK_ACCT_READ];
-     stats->write_commands += s->nr_ops[BLOCK_ACCT_WRITE];
- }
-@@ -4401,6 +4401,7 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
-     uint32_t trans_len;
-     NvmeNamespace *ns;
-     time_t current_ms;
-+    uint64_t u_read, u_written;
+     if (nvme_ns_setup(ns, errp)) {
+diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+index 16da27a69b..5d221073ac 100644
+--- a/hw/nvme/nvme.h
++++ b/hw/nvme/nvme.h
+@@ -167,6 +167,7 @@ typedef struct NvmeNamespace {
+     int32_t         nr_active_zones;
  
-     if (off >= sizeof(smart)) {
-         return NVME_INVALID_FIELD | NVME_DNR;
-@@ -4427,10 +4428,11 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
-     trans_len = MIN(sizeof(smart) - off, buf_len);
-     smart.critical_warning = n->smart_critical_warning;
+     NvmeNamespaceParams params;
++    NvmeSubsystem *subsys;
  
--    smart.data_units_read[0] = cpu_to_le64(DIV_ROUND_UP(stats.units_read,
--                                                        1000));
--    smart.data_units_written[0] = cpu_to_le64(DIV_ROUND_UP(stats.units_written,
--                                                           1000));
-+    u_read = DIV_ROUND_UP(stats.units_read >> BDRV_SECTOR_BITS, 1000);
-+    u_written = DIV_ROUND_UP(stats.units_written >> BDRV_SECTOR_BITS, 1000);
-+
-+    smart.data_units_read[0] = cpu_to_le64(u_read);
-+    smart.data_units_written[0] = cpu_to_le64(u_written);
-     smart.host_read_commands[0] = cpu_to_le64(stats.read_commands);
-     smart.host_write_commands[0] = cpu_to_le64(stats.write_commands);
- 
+     struct {
+         uint32_t err_rec;
 -- 
 2.39.1
 
