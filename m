@@ -2,85 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73D4F699D02
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 20:30:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F2B699D06
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 20:33:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSjww-0005Sr-HT; Thu, 16 Feb 2023 14:29:46 -0500
+	id 1pSk05-0006ax-S5; Thu, 16 Feb 2023 14:33:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSjwt-0005SU-Is
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 14:29:43 -0500
-Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSjwr-0002E2-Vr
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 14:29:43 -0500
-Received: by mail-qt1-x82b.google.com with SMTP id w3so3334262qts.7
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 11:29:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=02+dfZFy16j70CUHYtv0vIt606qvo2Iryd1IL+SIjIQ=;
- b=fQdnuGcY/LQC6lvZXKDiKwEqK3iS4Rvzqa1b9BdxyWgHrDLJ7b8JM9lxDcP3F79Ae4
- ckedSZtL4/YePKsl0sau6g5bRWpee5CjG7VbOAOE1rvNX8zRBX1S5zmhqYEUP+2lO/mj
- DqaxkHeMERKsknug8ff6Zj90+sHal8PJiyhab9CNTbPjf6xP5iVuSMBjci5UXd/JqRnK
- vuCpSFaIzworOK3a/wtZFjXPXgDrqITIBkfMjV2SBQtMbYSiTJcW/4cKr5DFcqIpj/sb
- kUujOxlzpv1Z/ZHlVdMgiwFSSYL20Zw8/DBxClESJCNwWp2O8KRgQMQXOpafKHX/yNgH
- paHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=02+dfZFy16j70CUHYtv0vIt606qvo2Iryd1IL+SIjIQ=;
- b=Xx2MYVidYPfAqpks8nWrLv0fQF1QyQHqFw+/8fAj5UshbpWnVDBHEUFvUdnJDf1JWO
- SeCzWbSrZLF8zWYc7jYiU4wNGHuROD9pDd/fpOODl2qOe4uDAH1cH++XV5uBKzkOSgNQ
- mmZg4tdDeiWGAMSl85sNDd55nbgifHeZ+0XMF/JPY1whKaugIZ741N8jSWKwh/E2qNH/
- BhtnmKJwyKkVExVG15yTxQd7CuGhZ2WfFQ0ipmx2E1Xs41LC63AkelJXbmacPn52T25I
- ueT+gYQd9xJuBVfxgjWrTKee5yXmE91PBvGOtSPTG6raeMSla+aIlEp9gufaMH7eWliy
- 5bWQ==
-X-Gm-Message-State: AO0yUKWsNVrnUU056V3WFkro3YTYtPryrWtyYAWmUE/AHVrO5tCw4SqD
- wq/KfIkqH64CO2AF2m6/QirkvxsMX0Rgv/2K
-X-Google-Smtp-Source: AK7set9GbKqrMaZeW2uz79h7Ws/C4QuHgQjbs+TQq+FKBCDGIzm6Uxgk1waJOpsghZ2qkQgnfB4s2Q==
-X-Received: by 2002:a05:622a:20d:b0:3b1:c538:7026 with SMTP id
- b13-20020a05622a020d00b003b1c5387026mr11378641qtx.42.1676575780889; 
- Thu, 16 Feb 2023 11:29:40 -0800 (PST)
-Received: from ?IPV6:2607:fb90:8f62:8652:bed9:812b:5b9e:e49a?
- ([2607:fb90:8f62:8652:bed9:812b:5b9e:e49a])
- by smtp.gmail.com with ESMTPSA id
- e129-20020a378287000000b0073ba2c98c07sm710778qkd.123.2023.02.16.11.29.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Feb 2023 11:29:40 -0800 (PST)
-Message-ID: <c2011213-8c8b-95c0-9565-47eaf7d33688@linaro.org>
-Date: Thu, 16 Feb 2023 09:29:36 -1000
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1pSk00-0006aO-SY; Thu, 16 Feb 2023 14:32:57 -0500
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1pSjzz-0003Dg-39; Thu, 16 Feb 2023 14:32:56 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 47E43B82953;
+ Thu, 16 Feb 2023 19:32:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 078FFC433D2;
+ Thu, 16 Feb 2023 19:32:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1676575970;
+ bh=2paq86sFcqBBLX+JAcHH19JByZ3jpCuesIPgLRIrS+8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=I37SfqYpIssjwVrWZYGJM80oBJK/QLmf35Z/6LOm5q4ZIq1Yd7fyT6GkqjKNLRV6n
+ VmpzN0RtvyC7K14fQL/ewRaH9P4fsgIc1FsUPXiCNZvMXpJnoKYNEkZ1soeo+QajPx
+ VBndpDTnhmM2g7RSe1/gLz/C7GmZbR1drIn4pYNRDi2OL0EDQK3O+Mqg/zLKYm745n
+ cwIgTPtI5orjpd2fyTzuOyQ+HQvawyo1mBXcLkKVcNy4B0lesPP9NEmH1hcWSMB16X
+ 7pRwaTpJf/J+DumM/lcbuc0kBBM07p6T14lcYzBLW77hhOl57lSBeIBlIgVDLq/H9o
+ n+dNYW5GGjNNg==
+Date: Thu, 16 Feb 2023 12:32:47 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Jesper Devantier <jwd@defmacro.it>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Klaus Jensen <its@irrelevant.dk>, Fam Zheng <fam@euphon.net>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Jesper Devantier <j.devantier@samsung.com>,
+ Klaus Jensen <k.jensen@samsung.com>
+Subject: Re: [PATCH 5/5] hw/nvme: flexible data placement emulation
+Message-ID: <Y+6E3/QzR6g5PlrB@kbusch-mbp.dhcp.thefacebook.com>
+References: <20230216164806.233533-1-jwd@defmacro.it>
+ <20230216164806.233533-6-jwd@defmacro.it>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: Runnig solaris binary(32 bit) on linux(64 bit)
-Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- ginu samuel <samuel.ginu2010@gmail.com>
-Cc: qemu-devel@nongnu.org
-References: <CAPWd1mzg0rWgpf_D+NC+yAosx8oJnA+tR=NpsuFNtWP-j25=pQ@mail.gmail.com>
- <CAFEAcA8dH+DDPHWg6xRmT=3oCu1rwyb1gbyVCXFTSDSzBrGg-w@mail.gmail.com>
- <4ea862746a066107573650d04f4eee6992e0ede9.camel@infradead.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <4ea862746a066107573650d04f4eee6992e0ede9.camel@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82b.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.351,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230216164806.233533-6-jwd@defmacro.it>
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=kbusch@kernel.org; helo=ams.source.kernel.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,20 +75,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/16/23 09:02, David Woodhouse wrote:
-> It wouldn't be beyond the wit of man to extend qemu-user to support the
-> similar personality variations for SCO/Solaris/etc. using that as a
-> guide.
+On Thu, Feb 16, 2023 at 05:48:06PM +0100, Jesper Devantier wrote:
+> +static bool nvme_ns_init_fdp(NvmeNamespace *ns, Error **errp)
+> +{
+> +    NvmeEnduranceGroup *endgrp = ns->endgrp;
+> +    NvmeRuHandle *ruh;
+> +    uint8_t lbafi = NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
+> +    unsigned int *ruhid, *ruhids;
+> +    char *r, *p, *token;
+> +    uint16_t *ph;
+> +
+> +    if (!ns->params.fdp.ruhs) {
+> +        ns->fdp.nphs = 1;
+> +        ph = ns->fdp.phs = g_new(uint16_t, 1);
+> +
+> +        ruh = nvme_find_ruh_by_attr(endgrp, NVME_RUHA_CTRL, ph);
+> +        if (!ruh) {
+> +            ruh = nvme_find_ruh_by_attr(endgrp, NVME_RUHA_UNUSED, ph);
+> +            if (!ruh) {
+> +                error_setg(errp, "no unused reclaim unit handles left");
+> +                return false;
+> +            }
+> +
+> +            ruh->ruha = NVME_RUHA_CTRL;
+> +            ruh->lbafi = lbafi;
+> +            ruh->ruamw = endgrp->fdp.runs >> ns->lbaf.ds;
+> +
+> +            for (uint16_t rg = 0; rg < endgrp->fdp.nrg; rg++) {
+> +                ruh->rus[rg].ruamw = ruh->ruamw;
+> +            }
+> +        } else if (ruh->lbafi != lbafi) {
+> +            error_setg(errp, "lba format index of controller assigned "
+> +                       "reclaim unit handle does not match namespace lba "
+> +                       "format index");
+> +            return false;
+> +        }
+> +
+> +        return true;
+> +    }
+> +
+> +    ruhid = ruhids = g_new0(unsigned int, endgrp->fdp.nruh);
+> +    r = p = strdup(ns->params.fdp.ruhs);
+> +
+> +    /* parse the reclaim unit handle identifiers */
+> +    while ((token = qemu_strsep(&p, ";")) != NULL) {
+> +        if (++ns->fdp.nphs == endgrp->fdp.nruh) {
 
-Not beyond wit but perhaps beyond patience.
+Since a namespace can't have more than 128 placement handles, and the endurance
+group can have more, I think the 128 limit needs to be checked here.
 
-It would certainly be possible to emulate the "easy middle" of one POSIX guest on a 
-different POSIX host.  But the dusty corners are going to get in the way, where we 
-currently rely on guest and host having identical semantics, and pass the system call 
-through to the host.
-
-It's a big job.
-
-
-r~
+> +            error_setg(errp, "too many placement handles");
+> +            free(r);
+> +            return false;
+> +        }
+> +
+> +        if (qemu_strtoui(token, NULL, 0, ruhid++) < 0) {
+> +            error_setg(errp, "cannot parse reclaim unit handle identifier");
+> +            free(r);
+> +            return false;
+> +        }
+> +    }
 
