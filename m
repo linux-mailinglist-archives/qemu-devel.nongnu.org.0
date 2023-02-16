@@ -2,91 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC12169998C
+	by mail.lfdr.de (Postfix) with ESMTPS id 0953769998B
 	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 17:12:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSgr5-0000Fy-0Z; Thu, 16 Feb 2023 11:11:31 -0500
+	id 1pSgr6-0000Im-S2; Thu, 16 Feb 2023 11:11:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pSgr2-0000FB-Ig
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:11:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pSgr0-0003iP-Q4
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:11:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676563885;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Mc+IsOt5m3R3gshXDCa/fJEwv4AEduXbKeR9IoHhWLA=;
- b=H3bY9unTcBqxKBDH1BvoArzgj++HWwklrvGqLRBimmHn4a5EXYAXJ36Pl616pJwiI3udsb
- zfz2ofK4qbVqAXb2HUe7H658HRysRWq+7frNZDnoNCiOpT9V4xmCXcQozT/ovquKWL1oV/
- NQYUwEKhcBYdS+NWtnNpE9xABv6/A08=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-639-ehlzPhjrNtOG2f-pejnEUw-1; Thu, 16 Feb 2023 11:11:24 -0500
-X-MC-Unique: ehlzPhjrNtOG2f-pejnEUw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- d14-20020a05600c34ce00b003dd07ce79c8so1358602wmq.1
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 08:11:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1pSgr4-0000Fi-0h
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:11:30 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1pSgr0-0003iI-Nn
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:11:29 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id
+ pg6-20020a17090b1e0600b002349579949aso2192542pjb.5
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 08:11:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:to:from:cc
+ :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=k79Gko0Q1kMwiwws/VU8+e329nHhshqEAiEA3h5Z1TU=;
+ b=pexGYqTnwRoZVHW0uUmZ/ZkGpfYo44MG8JUw8B+2/Wj6fHOGjDa2zYnEoiJzCygT7m
+ bcDqBVNR5Dm9aORNtETt4sKItxwD9b2gbJuGxNkuKxjllm5oa2S7m3puhqwr3d61I2z7
+ GHD5HHGdZ19HSVLKoH7K7ktNdYw4rw5i/YAbTUyT3qEXMrx1gDl9ZsjgdGZt0RK6wYce
+ ziszc+sFt98Eb8xm1LHYp4JbHHhG6x2GDOmuJbXEDyIv1KeqLNWrtiYMPQ8ps7WI3p7N
+ KkR/GsgdHkq62GHsThoO78IiXZAE1cbAlXh7FD4MfEhN0r8uN+57KaOLYlA23plTPc8G
+ 21hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ h=content-transfer-encoding:mime-version:message-id:to:from:cc
+ :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Mc+IsOt5m3R3gshXDCa/fJEwv4AEduXbKeR9IoHhWLA=;
- b=40Rjk3GeRw3dKlLkKpgUJO9K1iBAB57x/41ICKk3Eqw4YajroqApHScIVqpelSJ+l0
- 7TGiLEu5yTTX3Ia273j6rSOYDfRciOo8fuvmliYNef0PVaiZMkKvwLotORNDiBdb4x+6
- qc6EmaP2Ps/id5QVAKoWEBir7toRTQ93pZhJssqVw55F/gVObsd0WhgdM8Du4vFBpIwa
- Weyp8YZwDLvnUwBgPDNvy4iscWVSUaP1IhYEScFPVcNSX/cSqGdh+Cwc98C/nn8V6gZm
- lKLVQekMokpcQSiJiV2cobZa8E+F5BbjHI6xSbN6taSSbQu2y1Dm+s/9cK8a7VeXXeSN
- xPdA==
-X-Gm-Message-State: AO0yUKU/tW2Q5bNkwLNok39qxoiHACiNCHZpTBZuCXIIA6RdrPYZz+gW
- Lz8M3OSyu2gZl8BBs8ocyDzyL/Twlysx9r7stvjcG4PCCViUImIqeIwlcfpYiy1oXoU8IvUENP1
- eQ8P1KRHcBPVxIC8=
-X-Received: by 2002:a05:600c:816:b0:3dc:557f:6123 with SMTP id
- k22-20020a05600c081600b003dc557f6123mr5534268wmp.1.1676563882889; 
- Thu, 16 Feb 2023 08:11:22 -0800 (PST)
-X-Google-Smtp-Source: AK7set/wwxy3LbU43TQfb161eFw+eA8aWek1BqkuJZ/jg2IOpFBrIvQCnj8wgUSQzmalZAtl56Dduw==
-X-Received: by 2002:a05:600c:816:b0:3dc:557f:6123 with SMTP id
- k22-20020a05600c081600b003dc557f6123mr5534255wmp.1.1676563882611; 
- Thu, 16 Feb 2023 08:11:22 -0800 (PST)
-Received: from redhat.com ([2.52.5.34]) by smtp.gmail.com with ESMTPSA id
- q9-20020a1ce909000000b003e00c453447sm5165613wmc.48.2023.02.16.08.11.20
+ bh=k79Gko0Q1kMwiwws/VU8+e329nHhshqEAiEA3h5Z1TU=;
+ b=0y7ep1/jFk21kymfQXg56p4y/Kn4SrPXd24jNqktgh+BtBt8qjtYpWB/eh1dRbhchF
+ 6eA5w5yB1PlK5Uckl3uEoldBtcGCbfBacYi+Hk2yqjB/uH0+KqJQDWdzbq0gCTuDCjs7
+ ssLpdIgm46HaH2LgO1ZSfY2km660oSHRcALC+jnQoFvGYjE5U7Med3AKNc6uE7f/RXhD
+ hJbTLTmMXpDREGOxuNNhBTt2Az+Jrgo9tpBBOZF8EdiSbCQ92kIm8b89qzjW2pVKT9lq
+ Jw5Qhr1Z9YaS5048VsZWZQ5C78N7jcmhy9LnUzQKEjz3Rrosi4vQx3DsFKKZUpLNBkr0
+ QsWA==
+X-Gm-Message-State: AO0yUKXJilhA+Dambyv1TTTYGS1FV5ipiDnbnOT4gXG9uKwbapd099dH
+ h1Rt33FRJnLvOzpiTNaINnfoKe9WqVMtJomm
+X-Google-Smtp-Source: AK7set+yFjK2/rm3bIxZU3JIzSMnm/mB7Jf21hha7HqgBy1Ka3/w9bRx//+im4WPGTE14Oj2UOfkWQ==
+X-Received: by 2002:a17:903:2c5:b0:19a:ebdf:1994 with SMTP id
+ s5-20020a17090302c500b0019aebdf1994mr2919483plk.52.1676563884341; 
+ Thu, 16 Feb 2023 08:11:24 -0800 (PST)
+Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
+ a14-20020a170902ecce00b0019a6f32e6c1sm1523255plh.148.2023.02.16.08.11.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 08:11:22 -0800 (PST)
-Date: Thu, 16 Feb 2023 11:11:18 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: Anton Kuchin <antonkuchin@yandex-team.ru>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, yc-core@yandex-team.ru,
- Stefan Hajnoczi <stefanha@redhat.com>, virtio-fs@redhat.com,
- Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 1/1] vhost-user-fs: add property to allow migration
-Message-ID: <20230216110952-mutt-send-email-mst@kernel.org>
-References: <20230216140003.1103681-1-antonkuchin@yandex-team.ru>
- <20230216140003.1103681-2-antonkuchin@yandex-team.ru>
- <87v8k1itoy.fsf@secure.mitica>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87v8k1itoy.fsf@secure.mitica>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ Thu, 16 Feb 2023 08:11:23 -0800 (PST)
+Date: Thu, 16 Feb 2023 08:11:23 -0800 (PST)
+X-Google-Original-Date: Thu, 16 Feb 2023 08:08:27 PST (-0800)
+Subject: Re: [PATCH] target/riscv: avoid env_archcpu() in
+ cpu_get_tb_cpu_state()
+In-Reply-To: <20230210123836.506286-1-dbarboza@ventanamicro.com>
+CC: qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>, dbarboza@ventanamicro.com
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: dbarboza@ventanamicro.com
+Message-ID: <mhng-31cc5368-ff22-4644-b6c0-7aecd425b60f@palmer-ri-x1c9a>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=palmer@dabbelt.com; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,83 +90,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 16, 2023 at 03:14:05PM +0100, Juan Quintela wrote:
-> Anton Kuchin <antonkuchin@yandex-team.ru> wrote:
-> > Now any vhost-user-fs device makes VM unmigratable, that also prevents
-> > qemu update without stopping the VM. In most cases that makes sense
-> > because qemu has no way to transfer FUSE session state.
-> >
-> > But it is good to have an option for orchestrator to tune this according to
-> > backend capabilities and migration configuration.
-> >
-> > This patch adds device property 'migration' that is 'none' by default
-> > to keep old behaviour but can be set to 'external' to explicitly allow
-> > migration with minimal virtio device state in migration stream if daemon
-> > has some way to sync FUSE state on src and dst without help from qemu.
-> >
-> > Signed-off-by: Anton Kuchin <antonkuchin@yandex-team.ru>
-> 
-> Reviewed-by: Juan Quintela <quintela@redhat.com>
-> 
-> The migration bits are correct.
-> 
-> And I can think a better way to explain that one device is migrated
-> externally.
-> 
-> If you have to respin:
-> 
-> > +static int vhost_user_fs_pre_save(void *opaque)
-> > +{
-> > +    VHostUserFS *fs = (VHostUserFS *)opaque;
-> 
-> This hack is useless.
+On Fri, 10 Feb 2023 04:38:36 PST (-0800), dbarboza@ventanamicro.com wrote:
+> We have a RISCVCPU *cpu pointer available at the start of the function.
+>
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> ---
+>  target/riscv/cpu_helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index ad8d82662c..3a9472a2ff 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -60,7 +60,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+>           * which is not supported by GVEC. So we set vl_eq_vlmax flag to true
+>           * only when maxsz >= 8 bytes.
+>           */
+> -        uint32_t vlmax = vext_get_vlmax(env_archcpu(env), env->vtype);
+> +        uint32_t vlmax = vext_get_vlmax(cpu, env->vtype);
+>          uint32_t sew = FIELD_EX64(env->vtype, VTYPE, VSEW);
+>          uint32_t maxsz = vlmax << sew;
+>          bool vl_eq_vlmax = (env->vstart == 0) && (vlmax == env->vl) &&
 
-meaning the cast? yes.
-
-> I know that there are still lots of code that still have it.
-> 
-> 
-> Now remember that I have no clue about vhost-user-fs.
-> 
-> But this looks fishy
-> >  static const VMStateDescription vuf_vmstate = {
-> >      .name = "vhost-user-fs",
-> > -    .unmigratable = 1,
-> > +    .minimum_version_id = 0,
-> > +    .version_id = 0,
-> > +    .fields = (VMStateField[]) {
-> > +        VMSTATE_VIRTIO_DEVICE,
-> > +        VMSTATE_UINT8(migration_type, VHostUserFS),
-> > +        VMSTATE_END_OF_LIST()
-> > +    },
-> > +   .pre_save = vhost_user_fs_pre_save,
-> >  };
-> >  
-> >  static Property vuf_properties[] = {
-> > @@ -309,6 +337,10 @@ static Property vuf_properties[] = {
-> >      DEFINE_PROP_UINT16("num-request-queues", VHostUserFS,
-> >                         conf.num_request_queues, 1),
-> >      DEFINE_PROP_UINT16("queue-size", VHostUserFS, conf.queue_size, 128),
-> > +    DEFINE_PROP_UNSIGNED("migration", VHostUserFS, migration_type,
-> > +                         VHOST_USER_MIGRATION_TYPE_NONE,
-> > +                         qdev_prop_vhost_user_migration_type,
-> > +                         uint8_t),
-> >      DEFINE_PROP_END_OF_LIST(),
-> 
-> We have four properties here (5 with the new migration one), and you
-> only migrate one.
-> 
-> This looks fishy, but I don't know if it makes sense.
-> If they _have_ to be configured the same on source and destination, I
-> would transfer them and check in post_load that the values are correct.
-> 
-> Later, Juan.
-
-Weird suggestion.  We generally don't do this kind of check - that
-would be open-coding each property. It's management's job to make
-sure things are consistent.
-
--- 
-MST
-
+Thanks, applied to riscv-to-apply.next
 
