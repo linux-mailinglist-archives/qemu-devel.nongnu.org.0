@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF3D698ABE
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 03:58:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FBD8698ACE
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 04:00:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSUT7-0003QI-31; Wed, 15 Feb 2023 21:57:58 -0500
+	id 1pSUTB-0003Qw-9C; Wed, 15 Feb 2023 21:58:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSUT4-0003PV-Eg
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 21:57:54 -0500
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
+ id 1pSUT5-0003QJ-CA
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 21:57:55 -0500
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSUT0-0005QM-F2
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 21:57:54 -0500
-Received: by mail-pg1-x531.google.com with SMTP id b22so422505pgw.3
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 18:57:50 -0800 (PST)
+ id 1pSUT2-0005gr-4E
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 21:57:55 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id bd35so580456pfb.6
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 18:57:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=d2U8zB/xbV6qO9ndTK6ziT4H80/1vQse0/MXDvdMJfY=;
- b=rJzk84GfIbFyUqkCJvOsyU4LMJPsId5sJpVlDbnA7jKBWsE6Bp581bQH24ynVo7w7/
- 3GRI1qnr0DTO6bcr3pIysWYnl9xaYfkzNhspsx0TPCfFmpEvf7WmkBA7khIS144bNQj8
- xuua8/H0zdetvVTW4lttKIMXSFpqoeHl2XM+zYk6p+WYEcuc38jmcpeXyNJKGeTjMxBk
- sD9MrwtUCJSHJ8tutLn//KwqW0jDkFmwftj68lit81sH2prAoD9Id5LXvIelUy4YqsCB
- nOFFR5tv61SdLvlXQqu1e0BdcfcC1uzvma1EgVT6YfUgqzq6fTLoIa1qpxVb/u2Ekwwj
- UOgw==
+ :reply-to; bh=v7i5PB2PJS7ixTLfs6mp6O5vnkrklB5zdm5JUtQX9hY=;
+ b=Co58Z8CTVhsEg8isN7GNlniExLaVcBp6pW423gWKMQYsKAGe0F1Af64xpuG5zOrnfa
+ s76JdbQ8AtDKLx6VY29F/mREx2bszkP0XpxfgfWXU36EWs6EE/QkjqR6SORS4eTEkcPg
+ tybPuojNlgfHmnTmhmawKuBpn3qViWLFX6Q4Y4Qza30OHh/ueCPnDvJlFQgzOxxFpvqk
+ yYxIg6jaDTzUNWBu523XQALDIXc4UyRz8s6ah50ItgWCzPJPA2Z0MsrKBgaEnDqQ7Ym1
+ Uzctd80Br2lMcLflm1kUw37c2fU2VITFcxxP46YVB4wsIo4eshbgfYey9frWEgQUi247
+ LIDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=d2U8zB/xbV6qO9ndTK6ziT4H80/1vQse0/MXDvdMJfY=;
- b=5G39DuaGM6beywRoaoseeggLhRGRZ/cTgsw0Q0lQIAYZeBrlO5wzqdb+pQtprzCjv7
- 3QF4IFMrtL34ADL6dy2JJFxj/Qs/51nkvd7LHAy6xKuWSfwVFz4k9wD48NbjssOi7OZ4
- CWrQGd0K9b3fyOa5LJzk9wMffIj/Kejot2vh0XNuCI6g3YHjKLOAiAMmcmwLsCTiypmf
- c4Qz2JoO3C/GSC7IZxuHUFDWHwgGPybRr3o9BRAqLGIqqAVqDJJ/XhTPx0O5xrXKb/YY
- 6uq2XJ+mbSXxn+/GitWgSWjSUfRIH8neuBOxBUA9HAurrI7wNG3FDbQtKzGBljbGW0vn
- bgEQ==
-X-Gm-Message-State: AO0yUKUxtLHpLWcBtH53P9XtYtlls2limGQj0e5VomV4BeGtKczBNm92
- xfA+zfmCYT7lZoUAvYySepDiLGe73BK4c0hx+ok=
-X-Google-Smtp-Source: AK7set/BMfoD8bB92j4Nn5y1z02GX6LsmHytmbW7vW0ldDLHtCHBay/+R2riYYU0IyC2ektxEoxA4g==
-X-Received: by 2002:a05:6a00:42:b0:598:b178:a3a9 with SMTP id
- i2-20020a056a00004200b00598b178a3a9mr3918103pfk.6.1676516269313; 
- Wed, 15 Feb 2023 18:57:49 -0800 (PST)
+ bh=v7i5PB2PJS7ixTLfs6mp6O5vnkrklB5zdm5JUtQX9hY=;
+ b=Cia0ZTRLq+9sRbtYYyOAaHVZN+PE9c+4yvIuuX3vCty7bHm9EXGeFZXCc6HJ290LXq
+ vM64lyZrVVwxfC8AV6b/+wlr/iXogGLx2bTkkmYpWa4hD/B89n5CHHrAfM7Z2ikyomFo
+ E9tzGB2pMWo/ALEbYga6G6KK9sH/zNqyMiL7Vh8m07zcgGXn2ePWkhSrXGwJjYd9t0YG
+ SIx6Yy3M7QVnY2We2z7DSyJE3Y7zbKzS4ikmI0/UfTxdqc42F3CoxPVV+rsQkmJAKzmP
+ zON+8UArlbaMsnqRwgeqn0tM6CRdc+KmFyHmcgYYtLB9zZSTX43+Fl1Y2TzNcXwpqkHt
+ CN7g==
+X-Gm-Message-State: AO0yUKUC5LTYJQJYP8gY6tEYmrxpv7BKFX7ytmd+/i1ZYci4j0ggRG1+
+ uxFmSrIr7djAZaOYwlOuIW/mhkCqBtyE3XlKdwU=
+X-Google-Smtp-Source: AK7set80AbnspeLDmeXG/jOckC/J3Eqh+7iNqjFljUAYmyAgZBmEsCd44frxJgu8dVtS41MGNdLW1Q==
+X-Received: by 2002:aa7:96aa:0:b0:5a8:ecb1:bfe with SMTP id
+ g10-20020aa796aa000000b005a8ecb10bfemr3196523pfk.2.1676516270637; 
+ Wed, 15 Feb 2023 18:57:50 -0800 (PST)
 Received: from stoup.. (rrcs-74-87-59-234.west.biz.rr.com. [74.87.59.234])
  by smtp.gmail.com with ESMTPSA id
- e14-20020a62aa0e000000b005a816b7c3e8sm89655pff.24.2023.02.15.18.57.48
+ e14-20020a62aa0e000000b005a816b7c3e8sm89655pff.24.2023.02.15.18.57.49
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 18:57:48 -0800 (PST)
+ Wed, 15 Feb 2023 18:57:50 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 05/30] accel/tcg: Reorg system mode load helpers
-Date: Wed, 15 Feb 2023 16:57:14 -1000
-Message-Id: <20230216025739.1211680-6-richard.henderson@linaro.org>
+Subject: [PATCH v2 06/30] accel/tcg: Reorg system mode store helpers
+Date: Wed, 15 Feb 2023 16:57:15 -1000
+Message-Id: <20230216025739.1211680-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230216025739.1211680-1-richard.henderson@linaro.org>
 References: <20230216025739.1211680-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,207 +88,157 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Instead of trying to unify all operations on uint64_t, pull out
+Instead of trying to unify all operations on uint64_t, use
 mmu_lookup() to perform the basic tlb hit and resolution.
 Create individual functions to handle access by size.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c | 612 +++++++++++++++++++++++++++++++--------------
- 1 file changed, 419 insertions(+), 193 deletions(-)
+ accel/tcg/cputlb.c | 408 +++++++++++++++++++++------------------------
+ 1 file changed, 193 insertions(+), 215 deletions(-)
 
 diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 3cadd35f5d..1fba836790 100644
+index 1fba836790..186a7f9510 100644
 --- a/accel/tcg/cputlb.c
 +++ b/accel/tcg/cputlb.c
-@@ -1701,6 +1701,178 @@ bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr, int mmu_idx,
- 
- #endif
- 
-+/*
-+ * Probe for a load/store operation.
-+ * Return the host address and into @flags.
-+ */
-+
-+typedef struct MMULookupPageData {
-+    CPUTLBEntryFull *full;
-+    void *haddr;
-+    target_ulong addr;
-+    int flags;
-+    int size;
-+} MMULookupPageData;
-+
-+typedef struct MMULookupLocals {
-+    MMULookupPageData page[2];
-+    MemOp memop;
-+    int mmu_idx;
-+} MMULookupLocals;
-+
-+/**
-+ * mmu_lookup1: translate one page
-+ * @env: cpu context
-+ * @data: lookup parameters
-+ * @mmu_idx: virtual address context
-+ * @access_type: load/store/code
-+ * @ra: return address into tcg generated code, or 0
-+ *
-+ * Resolve the translation for the one page at @data.addr, filling in
-+ * the rest of @data with the results.  If the translation fails,
-+ * tlb_fill will longjmp out.  Return true if the softmmu tlb for
-+ * @mmu_idx may have resized.
-+ */
-+static bool mmu_lookup1(CPUArchState *env, MMULookupPageData *data,
-+                        int mmu_idx, MMUAccessType access_type, uintptr_t ra)
-+{
-+    target_ulong addr = data->addr;
-+    uintptr_t index = tlb_index(env, mmu_idx, addr);
-+    CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
-+    target_ulong tlb_addr = tlb_read_idx(entry, access_type);
-+    bool maybe_resized = false;
-+
-+    /* If the TLB entry is for a different page, reload and try again.  */
-+    if (!tlb_hit(tlb_addr, addr)) {
-+        if (!victim_tlb_hit(env, mmu_idx, index, access_type,
-+                            addr & TARGET_PAGE_MASK)) {
-+            tlb_fill(env_cpu(env), addr, data->size, access_type, mmu_idx, ra);
-+            maybe_resized = true;
-+            index = tlb_index(env, mmu_idx, addr);
-+            entry = tlb_entry(env, mmu_idx, addr);
-+        }
-+        tlb_addr = tlb_read_idx(entry, access_type) & ~TLB_INVALID_MASK;
-+    }
-+
-+    data->flags = tlb_addr & TLB_FLAGS_MASK;
-+    data->full = &env_tlb(env)->d[mmu_idx].fulltlb[index];
-+    /* Compute haddr speculatively; depending on flags it might be invalid. */
-+    data->haddr = (void *)((uintptr_t)addr + entry->addend);
-+
-+    return maybe_resized;
-+}
-+
-+/**
-+ * mmu_watch_or_dirty
-+ * @env: cpu context
-+ * @data: lookup parameters
-+ * @access_type: load/store/code
-+ * @ra: return address into tcg generated code, or 0
-+ *
-+ * Trigger watchpoints for @data.addr:@data.size;
-+ * record writes to protected clean pages.
-+ */
-+static void mmu_watch_or_dirty(CPUArchState *env, MMULookupPageData *data,
-+                               MMUAccessType access_type, uintptr_t ra)
-+{
-+    CPUTLBEntryFull *full = data->full;
-+    target_ulong addr = data->addr;
-+    int flags = data->flags;
-+    int size = data->size;
-+
-+    /* On watchpoint hit, this will longjmp out.  */
-+    if (flags & TLB_WATCHPOINT) {
-+        int wp = access_type == MMU_DATA_STORE ? BP_MEM_WRITE : BP_MEM_READ;
-+        cpu_check_watchpoint(env_cpu(env), addr, size, full->attrs, wp, ra);
-+        flags &= ~TLB_WATCHPOINT;
-+    }
-+
-+    if (flags & TLB_NOTDIRTY) {
-+        notdirty_write(env_cpu(env), addr, size, full, ra);
-+        flags &= ~TLB_NOTDIRTY;
-+    }
-+    data->flags = flags;
-+}
-+
-+/**
-+ * mmu_lookup: translate page(s)
-+ * @env: cpu context
-+ * @addr: virtual address
-+ * @oi: combined mmu_idx and MemOp
-+ * @ra: return address into tcg generated code, or 0
-+ * @access_type: load/store/code
-+ * @l: output result
-+ *
-+ * Resolve the translation for the page(s) beginning at @addr, for MemOp.size
-+ * bytes.  Return true if the lookup crosses a page boundary.
-+ */
-+static bool mmu_lookup(CPUArchState *env, target_ulong addr, MemOpIdx oi,
-+                       uintptr_t ra, MMUAccessType type, MMULookupLocals *l)
-+{
-+    unsigned a_bits;
-+    bool crosspage;
-+    int flags;
-+
-+    l->memop = get_memop(oi);
-+    l->mmu_idx = get_mmuidx(oi);
-+
-+    tcg_debug_assert(l->mmu_idx < NB_MMU_MODES);
-+
-+    /* Handle CPU specific unaligned behaviour */
-+    a_bits = get_alignment_bits(l->memop);
-+    if (addr & ((1 << a_bits) - 1)) {
-+        cpu_unaligned_access(env_cpu(env), addr, type, l->mmu_idx, ra);
-+    }
-+
-+    l->page[0].addr = addr;
-+    l->page[0].size = memop_size(l->memop);
-+    l->page[1].addr = (addr + l->page[0].size - 1) & TARGET_PAGE_MASK;
-+    l->page[1].size = 0;
-+    crosspage = (addr ^ l->page[1].addr) & TARGET_PAGE_MASK;
-+
-+    if (likely(!crosspage)) {
-+        mmu_lookup1(env, &l->page[0], l->mmu_idx, type, ra);
-+
-+        flags = l->page[0].flags;
-+        if (unlikely(flags & (TLB_WATCHPOINT | TLB_NOTDIRTY))) {
-+            mmu_watch_or_dirty(env, &l->page[0], type, ra);
-+        }
-+        if (unlikely(flags & TLB_BSWAP)) {
-+            l->memop ^= MO_BSWAP;
-+        }
-+    } else {
-+        /* Finish compute of page crossing. */
-+        int size1 = l->page[1].addr - addr;
-+        l->page[1].size = l->page[0].size - size1;
-+        l->page[0].size = size1;
-+
-+        /*
-+         * Lookup both pages, recognizing exceptions from either.  If the
-+         * second lookup potentially resized, refresh first CPUTLBEntryFull.
-+         */
-+        mmu_lookup1(env, &l->page[0], l->mmu_idx, type, ra);
-+        if (mmu_lookup1(env, &l->page[1], l->mmu_idx, type, ra)) {
-+            uintptr_t index = tlb_index(env, l->mmu_idx, addr);
-+            l->page[0].full = &env_tlb(env)->d[l->mmu_idx].fulltlb[index];
-+        }
-+
-+        flags = l->page[0].flags | l->page[1].flags;
-+        if (unlikely(flags & (TLB_WATCHPOINT | TLB_NOTDIRTY))) {
-+            mmu_watch_or_dirty(env, &l->page[0], type, ra);
-+            mmu_watch_or_dirty(env, &l->page[1], type, ra);
-+        }
-+
-+        /*
-+         * Since target/sparc is the only user of TLB_BSWAP, and all
-+         * Sparc accesses are aligned, any treatment across two pages
-+         * would be arbitrary.  Refuse it until there's a use.
-+         */
-+        tcg_debug_assert((flags & TLB_BSWAP) == 0);
-+    }
-+
-+    return crosspage;
-+}
-+
- /*
-  * Probe for an atomic operation.  Do not allow unaligned operations,
-  * or io operations to proceed.  Return the host address.
-@@ -1857,113 +2029,6 @@ load_memop(const void *haddr, MemOp op)
+@@ -2498,322 +2498,300 @@ store_memop(void *haddr, uint64_t val, MemOp op)
      }
  }
  
--static inline uint64_t QEMU_ALWAYS_INLINE
--load_helper(CPUArchState *env, target_ulong addr, MemOpIdx oi,
--            uintptr_t retaddr, MemOp op, MMUAccessType access_type,
--            FullLoadHelper *full_load)
--{
+-static void full_stb_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
+-                         MemOpIdx oi, uintptr_t retaddr);
+-
+-static void __attribute__((noinline))
+-store_helper_unaligned(CPUArchState *env, target_ulong addr, uint64_t val,
+-                       uintptr_t retaddr, size_t size, uintptr_t mmu_idx,
+-                       bool big_endian)
++/**
++ * do_st_mmio_leN:
++ * @env: cpu context
++ * @p: translation parameters
++ * @val_le: data to store
++ * @mmu_idx: virtual address context
++ * @ra: return address into tcg generated code, or 0
++ *
++ * Store @p->size bytes at @p->addr, which is memory-mapped i/o.
++ * The bytes to store are extracted in little-endian order from @val_le;
++ * return the bytes of @val_le beyond @p->size that have not been stored.
++ */
++static uint64_t do_st_mmio_leN(CPUArchState *env, MMULookupPageData *p,
++                               uint64_t val_le, int mmu_idx, uintptr_t ra)
+ {
+-    uintptr_t index, index2;
+-    CPUTLBEntry *entry, *entry2;
+-    target_ulong page1, page2, tlb_addr, tlb_addr2;
+-    MemOpIdx oi;
+-    size_t size2;
+-    int i;
++    CPUTLBEntryFull *full = p->full;
++    target_ulong addr = p->addr;
++    int i, size = p->size;
+ 
+-    /*
+-     * Ensure the second page is in the TLB.  Note that the first page
+-     * is already guaranteed to be filled, and that the second page
+-     * cannot evict the first.  An exception to this rule is PAGE_WRITE_INV
+-     * handling: the first page could have evicted itself.
+-     */
+-    page1 = addr & TARGET_PAGE_MASK;
+-    page2 = (addr + size) & TARGET_PAGE_MASK;
+-    size2 = (addr + size) & ~TARGET_PAGE_MASK;
+-    index2 = tlb_index(env, mmu_idx, page2);
+-    entry2 = tlb_entry(env, mmu_idx, page2);
+-
+-    tlb_addr2 = tlb_addr_write(entry2);
+-    if (page1 != page2 && !tlb_hit_page(tlb_addr2, page2)) {
+-        if (!victim_tlb_hit(env, mmu_idx, index2, MMU_DATA_STORE, page2)) {
+-            tlb_fill(env_cpu(env), page2, size2, MMU_DATA_STORE,
+-                     mmu_idx, retaddr);
+-            index2 = tlb_index(env, mmu_idx, page2);
+-            entry2 = tlb_entry(env, mmu_idx, page2);
+-        }
+-        tlb_addr2 = tlb_addr_write(entry2);
++    QEMU_IOTHREAD_LOCK_GUARD();
++    for (i = 0; i < size; i++, val_le >>= 8) {
++        io_writex(env, full, mmu_idx, val_le, addr + i, ra, MO_UB);
+     }
++    return val_le;
++}
+ 
+-    index = tlb_index(env, mmu_idx, addr);
+-    entry = tlb_entry(env, mmu_idx, addr);
+-    tlb_addr = tlb_addr_write(entry);
++/**
++ * do_st_bytes_leN:
++ * @p: translation parameters
++ * @val_le: data to store
++ *
++ * Store @p->size bytes at @p->haddr, which is RAM.
++ * The bytes to store are extracted in little-endian order from @val_le;
++ * return the bytes of @val_le beyond @p->size that have not been stored.
++ */
++static uint64_t do_st_bytes_leN(MMULookupPageData *p, uint64_t val_le)
++{
++    uint8_t *haddr = p->haddr;
++    int i, size = p->size;
+ 
+-    /*
+-     * Handle watchpoints.  Since this may trap, all checks
+-     * must happen before any store.
+-     */
+-    if (unlikely(tlb_addr & TLB_WATCHPOINT)) {
+-        cpu_check_watchpoint(env_cpu(env), addr, size - size2,
+-                             env_tlb(env)->d[mmu_idx].fulltlb[index].attrs,
+-                             BP_MEM_WRITE, retaddr);
+-    }
+-    if (unlikely(tlb_addr2 & TLB_WATCHPOINT)) {
+-        cpu_check_watchpoint(env_cpu(env), page2, size2,
+-                             env_tlb(env)->d[mmu_idx].fulltlb[index2].attrs,
+-                             BP_MEM_WRITE, retaddr);
++    for (i = 0; i < size; i++, val_le >>= 8) {
++        haddr[i] = val_le;
+     }
++    return val_le;
++}
+ 
+-    /*
+-     * XXX: not efficient, but simple.
+-     * This loop must go in the forward direction to avoid issues
+-     * with self-modifying code in Windows 64-bit.
+-     */
+-    oi = make_memop_idx(MO_UB, mmu_idx);
+-    if (big_endian) {
+-        for (i = 0; i < size; ++i) {
+-            /* Big-endian extract.  */
+-            uint8_t val8 = val >> (((size - 1) * 8) - (i * 8));
+-            full_stb_mmu(env, addr + i, val8, oi, retaddr);
+-        }
++/*
++ * Wrapper for the above.
++ */
++static uint64_t do_st_leN(CPUArchState *env, MMULookupPageData *p,
++                          uint64_t val_le, int mmu_idx, uintptr_t ra)
++{
++    if (unlikely(p->flags & TLB_MMIO)) {
++        return do_st_mmio_leN(env, p, val_le, mmu_idx, ra);
++    } else if (unlikely(p->flags & TLB_DISCARD_WRITE)) {
++        return val_le >> (p->size * 8);
+     } else {
+-        for (i = 0; i < size; ++i) {
+-            /* Little-endian extract.  */
+-            uint8_t val8 = val >> (i * 8);
+-            full_stb_mmu(env, addr + i, val8, oi, retaddr);
+-        }
++        return do_st_bytes_leN(p, val_le);
+     }
+ }
+ 
+-static inline void QEMU_ALWAYS_INLINE
+-store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+-             MemOpIdx oi, uintptr_t retaddr, MemOp op)
++static void do_st_1(CPUArchState *env, MMULookupPageData *p, uint8_t val,
++                    int mmu_idx, uintptr_t ra)
+ {
 -    const unsigned a_bits = get_alignment_bits(get_memop(oi));
 -    const size_t size = memop_size(op);
 -    uintptr_t mmu_idx = get_mmuidx(oi);
@@ -296,31 +246,35 @@ index 3cadd35f5d..1fba836790 100644
 -    CPUTLBEntry *entry;
 -    target_ulong tlb_addr;
 -    void *haddr;
--    uint64_t res;
 -
 -    tcg_debug_assert(mmu_idx < NB_MMU_MODES);
 -
 -    /* Handle CPU specific unaligned behaviour */
 -    if (addr & ((1 << a_bits) - 1)) {
--        cpu_unaligned_access(env_cpu(env), addr, access_type,
+-        cpu_unaligned_access(env_cpu(env), addr, MMU_DATA_STORE,
 -                             mmu_idx, retaddr);
--    }
++    if (unlikely(p->flags & TLB_MMIO)) {
++        io_writex(env, p->full, mmu_idx, val, p->addr, ra, MO_UB);
++    } else if (unlikely(p->flags & TLB_DISCARD_WRITE)) {
++        /* nothing */
++    } else {
++        *(uint8_t *)p->haddr = val;
+     }
 -
 -    index = tlb_index(env, mmu_idx, addr);
 -    entry = tlb_entry(env, mmu_idx, addr);
--    tlb_addr = tlb_read_idx(entry, access_type);
+-    tlb_addr = tlb_addr_write(entry);
 -
 -    /* If the TLB entry is for a different page, reload and try again.  */
 -    if (!tlb_hit(tlb_addr, addr)) {
--        if (!victim_tlb_hit(env, mmu_idx, index, access_type,
--                            addr & TARGET_PAGE_MASK)) {
--            tlb_fill(env_cpu(env), addr, size,
--                     access_type, mmu_idx, retaddr);
+-        if (!victim_tlb_hit(env, mmu_idx, index, MMU_DATA_STORE,
+-            addr & TARGET_PAGE_MASK)) {
+-            tlb_fill(env_cpu(env), addr, size, MMU_DATA_STORE,
+-                     mmu_idx, retaddr);
 -            index = tlb_index(env, mmu_idx, addr);
 -            entry = tlb_entry(env, mmu_idx, addr);
 -        }
--        tlb_addr = tlb_read_idx(entry, access_type);
--        tlb_addr &= ~TLB_INVALID_MASK;
+-        tlb_addr = tlb_addr_write(entry) & ~TLB_INVALID_MASK;
 -    }
 -
 -    /* Handle anything that isn't just a straight memory access.  */
@@ -328,7 +282,7 @@ index 3cadd35f5d..1fba836790 100644
 -        CPUTLBEntryFull *full;
 -        bool need_swap;
 -
--        /* For anything that is unaligned, recurse through full_load.  */
+-        /* For anything that is unaligned, recurse through byte stores.  */
 -        if ((addr & (size - 1)) != 0) {
 -            goto do_unaligned_access;
 -        }
@@ -339,511 +293,330 @@ index 3cadd35f5d..1fba836790 100644
 -        if (unlikely(tlb_addr & TLB_WATCHPOINT)) {
 -            /* On watchpoint hit, this will longjmp out.  */
 -            cpu_check_watchpoint(env_cpu(env), addr, size,
--                                 full->attrs, BP_MEM_READ, retaddr);
+-                                 full->attrs, BP_MEM_WRITE, retaddr);
 -        }
 -
 -        need_swap = size > 1 && (tlb_addr & TLB_BSWAP);
 -
 -        /* Handle I/O access.  */
--        if (likely(tlb_addr & TLB_MMIO)) {
--            return io_readx(env, full, mmu_idx, addr, retaddr,
--                            access_type, op ^ (need_swap * MO_BSWAP));
+-        if (tlb_addr & TLB_MMIO) {
+-            io_writex(env, full, mmu_idx, val, addr, retaddr,
+-                      op ^ (need_swap * MO_BSWAP));
+-            return;
+-        }
+-
+-        /* Ignore writes to ROM.  */
+-        if (unlikely(tlb_addr & TLB_DISCARD_WRITE)) {
+-            return;
+-        }
+-
+-        /* Handle clean RAM pages.  */
+-        if (tlb_addr & TLB_NOTDIRTY) {
+-            notdirty_write(env_cpu(env), addr, size, full, retaddr);
 -        }
 -
 -        haddr = (void *)((uintptr_t)addr + entry->addend);
 -
 -        /*
--         * Keep these two load_memop separate to ensure that the compiler
+-         * Keep these two store_memop separate to ensure that the compiler
 -         * is able to fold the entire function to a single instruction.
 -         * There is a build-time assert inside to remind you of this.  ;-)
 -         */
 -        if (unlikely(need_swap)) {
--            return load_memop(haddr, op ^ MO_BSWAP);
+-            store_memop(haddr, val, op ^ MO_BSWAP);
+-        } else {
+-            store_memop(haddr, val, op);
 -        }
--        return load_memop(haddr, op);
+-        return;
 -    }
 -
 -    /* Handle slow unaligned access (it spans two pages or IO).  */
 -    if (size > 1
 -        && unlikely((addr & ~TARGET_PAGE_MASK) + size - 1
--                    >= TARGET_PAGE_SIZE)) {
--        target_ulong addr1, addr2;
--        uint64_t r1, r2;
--        unsigned shift;
+-                     >= TARGET_PAGE_SIZE)) {
 -    do_unaligned_access:
--        addr1 = addr & ~((target_ulong)size - 1);
--        addr2 = addr1 + size;
--        r1 = full_load(env, addr1, oi, retaddr);
--        r2 = full_load(env, addr2, oi, retaddr);
--        shift = (addr & (size - 1)) * 8;
--
--        if (memop_big_endian(op)) {
--            /* Big-endian combine.  */
--            res = (r1 << shift) | (r2 >> ((size * 8) - shift));
--        } else {
--            /* Little-endian combine.  */
--            res = (r1 >> shift) | (r2 << ((size * 8) - shift));
--        }
--        return res & MAKE_64BIT_MASK(0, size * 8);
+-        store_helper_unaligned(env, addr, val, retaddr, size,
+-                               mmu_idx, memop_big_endian(op));
+-        return;
 -    }
 -
 -    haddr = (void *)((uintptr_t)addr + entry->addend);
--    return load_memop(haddr, op);
--}
--
- /*
-  * For the benefit of TCG generated code, we want to avoid the
-  * complication of ABI-specific return type promotion and always
-@@ -1974,90 +2039,250 @@ load_helper(CPUArchState *env, target_ulong addr, MemOpIdx oi,
-  * We don't bother with this widened value for SOFTMMU_CODE_ACCESS.
-  */
+-    store_memop(haddr, val, op);
+ }
  
--static uint64_t full_ldub_mmu(CPUArchState *env, target_ulong addr,
--                              MemOpIdx oi, uintptr_t retaddr)
-+/**
-+ * do_ld_mmio_beN:
-+ * @env: cpu context
-+ * @p: translation parameters
-+ * @ret_be: accumulated data
-+ * @mmu_idx: virtual address context
-+ * @ra: return address into tcg generated code, or 0
-+ *
-+ * Load @p->size bytes from @p->addr, which is memory-mapped i/o.
-+ * The bytes are concatenated with in big-endian order with @ret_be.
-+ */
-+static uint64_t do_ld_mmio_beN(CPUArchState *env, MMULookupPageData *p,
-+                               uint64_t ret_be, int mmu_idx,
-+                               MMUAccessType type, uintptr_t ra)
+-static void __attribute__((noinline))
+-full_stb_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
+-             MemOpIdx oi, uintptr_t retaddr)
++static void do_st_2(CPUArchState *env, MMULookupPageData *p, uint16_t val,
++                    int mmu_idx, MemOp memop, uintptr_t ra)
  {
 -    validate_memop(oi, MO_UB);
--    return load_helper(env, addr, oi, retaddr, MO_UB, MMU_DATA_LOAD,
--                       full_ldub_mmu);
-+    CPUTLBEntryFull *full = p->full;
-+    target_ulong addr = p->addr;
-+    int i, size = p->size;
-+
-+    QEMU_IOTHREAD_LOCK_GUARD();
-+    for (i = 0; i < size; i++) {
-+        uint8_t x = io_readx(env, full, mmu_idx, addr + i, ra, type, MO_UB);
-+        ret_be = (ret_be << 8) | x;
-+    }
-+    return ret_be;
-+}
-+
-+/**
-+ * do_ld_bytes_beN
-+ * @p: translation parameters
-+ * @ret_be: accumulated data
-+ *
-+ * Load @p->size bytes from @p->haddr, which is RAM.
-+ * The bytes to concatenated in big-endian order with @ret_be.
-+ */
-+static uint64_t do_ld_bytes_beN(MMULookupPageData *p, uint64_t ret_be)
-+{
-+    uint8_t *haddr = p->haddr;
-+    int i, size = p->size;
-+
-+    for (i = 0; i < size; i++) {
-+        ret_be = (ret_be << 8) | haddr[i];
-+    }
-+    return ret_be;
-+}
-+
-+/*
-+ * Wrapper for the above.
-+ */
-+static uint64_t do_ld_beN(CPUArchState *env, MMULookupPageData *p,
-+                          uint64_t ret_be, int mmu_idx,
-+                          MMUAccessType type, uintptr_t ra)
-+{
+-    store_helper(env, addr, val, oi, retaddr, MO_UB);
 +    if (unlikely(p->flags & TLB_MMIO)) {
-+        return do_ld_mmio_beN(env, p, ret_be, mmu_idx, type, ra);
++        io_writex(env, p->full, mmu_idx, val, p->addr, ra, memop);
++    } else if (unlikely(p->flags & TLB_DISCARD_WRITE)) {
++        /* nothing */
 +    } else {
-+        return do_ld_bytes_beN(p, ret_be);
++        /* Swap to host endian if necessary, then store. */
++        if (memop & MO_BSWAP) {
++            val = bswap16(val);
++        }
++        store_memop(p->haddr, val, MO_UW);
 +    }
 +}
 +
-+static uint8_t do_ld_1(CPUArchState *env, MMULookupPageData *p, int mmu_idx,
-+                       MMUAccessType type, uintptr_t ra)
++static void do_st_4(CPUArchState *env, MMULookupPageData *p, uint32_t val,
++                    int mmu_idx, MemOp memop, uintptr_t ra)
 +{
 +    if (unlikely(p->flags & TLB_MMIO)) {
-+        return io_readx(env, p->full, mmu_idx, p->addr, ra, type, MO_UB);
++        io_writex(env, p->full, mmu_idx, val, p->addr, ra, memop);
++    } else if (unlikely(p->flags & TLB_DISCARD_WRITE)) {
++        /* nothing */
 +    } else {
-+        return *(uint8_t *)p->haddr;
++        /* Swap to host endian if necessary, then store. */
++        if (memop & MO_BSWAP) {
++            val = bswap32(val);
++        }
++        store_memop(p->haddr, val, MO_UL);
 +    }
 +}
 +
-+static uint16_t do_ld_2(CPUArchState *env, MMULookupPageData *p, int mmu_idx,
-+                        MMUAccessType type, MemOp memop, uintptr_t ra)
++static void do_st_8(CPUArchState *env, MMULookupPageData *p, uint64_t val,
++                    int mmu_idx, MemOp memop, uintptr_t ra)
 +{
-+    uint64_t ret;
-+
 +    if (unlikely(p->flags & TLB_MMIO)) {
-+        return io_readx(env, p->full, mmu_idx, p->addr, ra, type, memop);
++        io_writex(env, p->full, mmu_idx, val, p->addr, ra, memop);
++    } else if (unlikely(p->flags & TLB_DISCARD_WRITE)) {
++        /* nothing */
++    } else {
++        /* Swap to host endian if necessary, then store. */
++        if (memop & MO_BSWAP) {
++            val = bswap64(val);
++        }
++        store_memop(p->haddr, val, MO_UQ);
 +    }
-+
-+    /* Perform the load host endian, then swap if necessary. */
-+    ret = load_memop(p->haddr, MO_UW);
-+    if (memop & MO_BSWAP) {
-+        ret = bswap16(ret);
-+    }
-+    return ret;
-+}
-+
-+static uint32_t do_ld_4(CPUArchState *env, MMULookupPageData *p, int mmu_idx,
-+                        MMUAccessType type, MemOp memop, uintptr_t ra)
-+{
-+    uint32_t ret;
-+
-+    if (unlikely(p->flags & TLB_MMIO)) {
-+        return io_readx(env, p->full, mmu_idx, p->addr, ra, type, memop);
-+    }
-+
-+    /* Perform the load host endian. */
-+    ret = load_memop(p->haddr, MO_UL);
-+    if (memop & MO_BSWAP) {
-+        ret = bswap32(ret);
-+    }
-+    return ret;
-+}
-+
-+static uint64_t do_ld_8(CPUArchState *env, MMULookupPageData *p, int mmu_idx,
-+                        MMUAccessType type, MemOp memop, uintptr_t ra)
-+{
-+    uint64_t ret;
-+
-+    if (unlikely(p->flags & TLB_MMIO)) {
-+        return io_readx(env, p->full, mmu_idx, p->addr, ra, type, memop);
-+    }
-+
-+    /* Perform the load host endian. */
-+    ret = load_memop(p->haddr, MO_UQ);
-+    if (memop & MO_BSWAP) {
-+        ret = bswap64(ret);
-+    }
-+    return ret;
-+}
-+
-+static uint8_t do_ld1_mmu(CPUArchState *env, target_ulong addr, MemOpIdx oi,
-+                          uintptr_t ra, MMUAccessType access_type)
-+{
+ }
+ 
+ void helper_ret_stb_mmu(CPUArchState *env, target_ulong addr, uint8_t val,
+-                        MemOpIdx oi, uintptr_t retaddr)
++                        MemOpIdx oi, uintptr_t ra)
+ {
+-    full_stb_mmu(env, addr, val, oi, retaddr);
 +    MMULookupLocals l;
 +    bool crosspage;
 +
-+    crosspage = mmu_lookup(env, addr, oi, ra, access_type, &l);
++    validate_memop(oi, MO_UB);
++    crosspage = mmu_lookup(env, addr, oi, ra, MMU_DATA_STORE, &l);
 +    tcg_debug_assert(!crosspage);
 +
-+    return do_ld_1(env, &l.page[0], l.mmu_idx, access_type, ra);
++    do_st_1(env, &l.page[0], val, l.mmu_idx, ra);
  }
  
- tcg_target_ulong helper_ret_ldub_mmu(CPUArchState *env, target_ulong addr,
-                                      MemOpIdx oi, uintptr_t retaddr)
- {
--    return full_ldub_mmu(env, addr, oi, retaddr);
-+    validate_memop(oi, MO_UB);
-+    return do_ld1_mmu(env, addr, oi, retaddr, MMU_DATA_LOAD);
- }
- 
--static uint64_t full_le_lduw_mmu(CPUArchState *env, target_ulong addr,
--                                 MemOpIdx oi, uintptr_t retaddr)
-+static uint16_t do_ld2_mmu(CPUArchState *env, target_ulong addr, MemOpIdx oi,
-+                           uintptr_t ra, MMUAccessType access_type)
+-static void full_le_stw_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
+-                            MemOpIdx oi, uintptr_t retaddr)
++static void do_st2_mmu(CPUArchState *env, target_ulong addr, uint16_t val,
++                       MemOpIdx oi, uintptr_t ra)
  {
 -    validate_memop(oi, MO_LEUW);
--    return load_helper(env, addr, oi, retaddr, MO_LEUW, MMU_DATA_LOAD,
--                       full_le_lduw_mmu);
+-    store_helper(env, addr, val, oi, retaddr, MO_LEUW);
 +    MMULookupLocals l;
 +    bool crosspage;
-+    uint16_t ret;
 +    uint8_t a, b;
 +
-+    crosspage = mmu_lookup(env, addr, oi, ra, access_type, &l);
++    crosspage = mmu_lookup(env, addr, oi, ra, MMU_DATA_STORE, &l);
 +    if (likely(!crosspage)) {
-+        return do_ld_2(env, &l.page[0], l.mmu_idx, access_type, l.memop, ra);
++        do_st_2(env, &l.page[0], val, l.mmu_idx, l.memop, ra);
++        return;
 +    }
-+
-+    a = do_ld_1(env, &l.page[0], l.mmu_idx, access_type, ra);
-+    b = do_ld_1(env, &l.page[1], l.mmu_idx, access_type, ra);
 +
 +    if ((l.memop & MO_BSWAP) == MO_LE) {
-+        ret = a | (b << 8);
++        a = val, b = val >> 8;
 +    } else {
-+        ret = b | (a << 8);
++        b = val, a = val >> 8;
 +    }
-+    return ret;
++    do_st_1(env, &l.page[0], a, l.mmu_idx, ra);
++    do_st_1(env, &l.page[1], b, l.mmu_idx, ra);
  }
  
- tcg_target_ulong helper_le_lduw_mmu(CPUArchState *env, target_ulong addr,
-                                     MemOpIdx oi, uintptr_t retaddr)
+ void helper_le_stw_mmu(CPUArchState *env, target_ulong addr, uint16_t val,
+                        MemOpIdx oi, uintptr_t retaddr)
  {
--    return full_le_lduw_mmu(env, addr, oi, retaddr);
+-    full_le_stw_mmu(env, addr, val, oi, retaddr);
 -}
 -
--static uint64_t full_be_lduw_mmu(CPUArchState *env, target_ulong addr,
--                                 MemOpIdx oi, uintptr_t retaddr)
+-static void full_be_stw_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
+-                            MemOpIdx oi, uintptr_t retaddr)
 -{
 -    validate_memop(oi, MO_BEUW);
--    return load_helper(env, addr, oi, retaddr, MO_BEUW, MMU_DATA_LOAD,
--                       full_be_lduw_mmu);
+-    store_helper(env, addr, val, oi, retaddr, MO_BEUW);
 +    validate_memop(oi, MO_LEUW);
-+    return do_ld2_mmu(env, addr, oi, retaddr, MMU_DATA_LOAD);
++    do_st2_mmu(env, addr, val, oi, retaddr);
  }
  
- tcg_target_ulong helper_be_lduw_mmu(CPUArchState *env, target_ulong addr,
-                                     MemOpIdx oi, uintptr_t retaddr)
+ void helper_be_stw_mmu(CPUArchState *env, target_ulong addr, uint16_t val,
+                        MemOpIdx oi, uintptr_t retaddr)
  {
--    return full_be_lduw_mmu(env, addr, oi, retaddr);
+-    full_be_stw_mmu(env, addr, val, oi, retaddr);
 +    validate_memop(oi, MO_BEUW);
-+    return do_ld2_mmu(env, addr, oi, retaddr, MMU_DATA_LOAD);
++    do_st2_mmu(env, addr, val, oi, retaddr);
  }
  
--static uint64_t full_le_ldul_mmu(CPUArchState *env, target_ulong addr,
--                                 MemOpIdx oi, uintptr_t retaddr)
-+static uint32_t do_ld4_mmu(CPUArchState *env, target_ulong addr, MemOpIdx oi,
-+                           uintptr_t ra, MMUAccessType access_type)
+-static void full_le_stl_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
+-                            MemOpIdx oi, uintptr_t retaddr)
++static void do_st4_mmu(CPUArchState *env, target_ulong addr, uint32_t val,
++                       MemOpIdx oi, uintptr_t ra)
  {
 -    validate_memop(oi, MO_LEUL);
--    return load_helper(env, addr, oi, retaddr, MO_LEUL, MMU_DATA_LOAD,
--                       full_le_ldul_mmu);
+-    store_helper(env, addr, val, oi, retaddr, MO_LEUL);
 +    MMULookupLocals l;
 +    bool crosspage;
-+    uint32_t ret;
 +
-+    crosspage = mmu_lookup(env, addr, oi, ra, access_type, &l);
++    crosspage = mmu_lookup(env, addr, oi, ra, MMU_DATA_STORE, &l);
 +    if (likely(!crosspage)) {
-+        return do_ld_4(env, &l.page[0], l.mmu_idx, access_type, l.memop, ra);
++        do_st_4(env, &l.page[0], val, l.mmu_idx, l.memop, ra);
++        return;
 +    }
 +
-+    ret = do_ld_beN(env, &l.page[0], 0, l.mmu_idx, access_type, ra);
-+    ret = do_ld_beN(env, &l.page[1], ret, l.mmu_idx, access_type, ra);
-+    if ((l.memop & MO_BSWAP) == MO_LE) {
-+        ret = bswap32(ret);
++    /* Swap to little endian for simplicity, then store by bytes. */
++    if ((l.memop & MO_BSWAP) != MO_LE) {
++        val = bswap32(val);
 +    }
-+    return ret;
++    val = do_st_leN(env, &l.page[0], val, l.mmu_idx, ra);
++    (void) do_st_leN(env, &l.page[1], val, l.mmu_idx, ra);
  }
  
- tcg_target_ulong helper_le_ldul_mmu(CPUArchState *env, target_ulong addr,
-                                     MemOpIdx oi, uintptr_t retaddr)
+ void helper_le_stl_mmu(CPUArchState *env, target_ulong addr, uint32_t val,
+                        MemOpIdx oi, uintptr_t retaddr)
  {
--    return full_le_ldul_mmu(env, addr, oi, retaddr);
+-    full_le_stl_mmu(env, addr, val, oi, retaddr);
 -}
 -
--static uint64_t full_be_ldul_mmu(CPUArchState *env, target_ulong addr,
--                                 MemOpIdx oi, uintptr_t retaddr)
+-static void full_be_stl_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
+-                            MemOpIdx oi, uintptr_t retaddr)
 -{
 -    validate_memop(oi, MO_BEUL);
--    return load_helper(env, addr, oi, retaddr, MO_BEUL, MMU_DATA_LOAD,
--                       full_be_ldul_mmu);
+-    store_helper(env, addr, val, oi, retaddr, MO_BEUL);
 +    validate_memop(oi, MO_LEUL);
-+    return do_ld4_mmu(env, addr, oi, retaddr, MMU_DATA_LOAD);
++    do_st4_mmu(env, addr, val, oi, retaddr);
  }
  
- tcg_target_ulong helper_be_ldul_mmu(CPUArchState *env, target_ulong addr,
-                                     MemOpIdx oi, uintptr_t retaddr)
+ void helper_be_stl_mmu(CPUArchState *env, target_ulong addr, uint32_t val,
+                        MemOpIdx oi, uintptr_t retaddr)
  {
--    return full_be_ldul_mmu(env, addr, oi, retaddr);
+-    full_be_stl_mmu(env, addr, val, oi, retaddr);
 +    validate_memop(oi, MO_BEUL);
-+    return do_ld4_mmu(env, addr, oi, retaddr, MMU_DATA_LOAD);
++    do_st4_mmu(env, addr, val, oi, retaddr);
 +}
 +
-+static uint64_t do_ld8_mmu(CPUArchState *env, target_ulong addr, MemOpIdx oi,
-+                           uintptr_t ra, MMUAccessType access_type)
++static void do_st8_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
++                       MemOpIdx oi, uintptr_t ra)
 +{
 +    MMULookupLocals l;
 +    bool crosspage;
-+    uint64_t ret;
 +
-+    crosspage = mmu_lookup(env, addr, oi, ra, access_type, &l);
++    crosspage = mmu_lookup(env, addr, oi, ra, MMU_DATA_STORE, &l);
 +    if (likely(!crosspage)) {
-+        return do_ld_8(env, &l.page[0], l.mmu_idx, access_type, l.memop, ra);
++        do_st_8(env, &l.page[0], val, l.mmu_idx, l.memop, ra);
++        return;
 +    }
 +
-+    ret = do_ld_beN(env, &l.page[0], 0, l.mmu_idx, access_type, ra);
-+    ret = do_ld_beN(env, &l.page[1], ret, l.mmu_idx, access_type, ra);
-+    if ((l.memop & MO_BSWAP) == MO_LE) {
-+        ret = bswap64(ret);
++    /* Swap to little endian for simplicity, then store by bytes. */
++    if ((l.memop & MO_BSWAP) != MO_LE) {
++        val = bswap64(val);
 +    }
-+    return ret;
++    val = do_st_leN(env, &l.page[0], val, l.mmu_idx, ra);
++    (void) do_st_leN(env, &l.page[1], val, l.mmu_idx, ra);
  }
  
- uint64_t helper_le_ldq_mmu(CPUArchState *env, target_ulong addr,
-                            MemOpIdx oi, uintptr_t retaddr)
+ void helper_le_stq_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
+                        MemOpIdx oi, uintptr_t retaddr)
  {
      validate_memop(oi, MO_LEUQ);
--    return load_helper(env, addr, oi, retaddr, MO_LEUQ, MMU_DATA_LOAD,
--                       helper_le_ldq_mmu);
-+    return do_ld8_mmu(env, addr, oi, retaddr, MMU_DATA_LOAD);
+-    store_helper(env, addr, val, oi, retaddr, MO_LEUQ);
++    do_st8_mmu(env, addr, val, oi, retaddr);
  }
  
- uint64_t helper_be_ldq_mmu(CPUArchState *env, target_ulong addr,
-                            MemOpIdx oi, uintptr_t retaddr)
+ void helper_be_stq_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
+                        MemOpIdx oi, uintptr_t retaddr)
  {
      validate_memop(oi, MO_BEUQ);
--    return load_helper(env, addr, oi, retaddr, MO_BEUQ, MMU_DATA_LOAD,
--                       helper_be_ldq_mmu);
-+    return do_ld8_mmu(env, addr, oi, retaddr, MMU_DATA_LOAD);
+-    store_helper(env, addr, val, oi, retaddr, MO_BEUQ);
++    do_st8_mmu(env, addr, val, oi, retaddr);
  }
  
  /*
-@@ -2100,56 +2325,85 @@ tcg_target_ulong helper_be_ldsl_mmu(CPUArchState *env, target_ulong addr,
-  * Load helpers for cpu_ldst.h.
+  * Store Helpers for cpu_ldst.h
   */
  
--static inline uint64_t cpu_load_helper(CPUArchState *env, abi_ptr addr,
--                                       MemOpIdx oi, uintptr_t retaddr,
--                                       FullLoadHelper *full_load)
-+static void plugin_load_cb(CPUArchState *env, abi_ptr addr, MemOpIdx oi)
- {
--    uint64_t ret;
+-typedef void FullStoreHelper(CPUArchState *env, target_ulong addr,
+-                             uint64_t val, MemOpIdx oi, uintptr_t retaddr);
 -
--    ret = full_load(env, addr, oi, retaddr);
-     qemu_plugin_vcpu_mem_cb(env_cpu(env), addr, oi, QEMU_PLUGIN_MEM_R);
--    return ret;
- }
- 
- uint8_t cpu_ldb_mmu(CPUArchState *env, abi_ptr addr, MemOpIdx oi, uintptr_t ra)
+-static inline void cpu_store_helper(CPUArchState *env, target_ulong addr,
+-                                    uint64_t val, MemOpIdx oi, uintptr_t ra,
+-                                    FullStoreHelper *full_store)
++static void plugin_store_cb(CPUArchState *env, abi_ptr addr, MemOpIdx oi)
  {
--    return cpu_load_helper(env, addr, oi, ra, full_ldub_mmu);
-+    uint8_t ret;
-+
-+    validate_memop(oi, MO_UB);
-+    ret = do_ld1_mmu(env, addr, oi, ra, MMU_DATA_LOAD);
-+    plugin_load_cb(env, addr, oi);
-+    return ret;
+-    full_store(env, addr, val, oi, ra);
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), addr, oi, QEMU_PLUGIN_MEM_W);
  }
  
- uint16_t cpu_ldw_be_mmu(CPUArchState *env, abi_ptr addr,
-                         MemOpIdx oi, uintptr_t ra)
+ void cpu_stb_mmu(CPUArchState *env, target_ulong addr, uint8_t val,
+                  MemOpIdx oi, uintptr_t retaddr)
  {
--    return cpu_load_helper(env, addr, oi, ra, full_be_lduw_mmu);
-+    uint16_t ret;
-+
-+    validate_memop(oi, MO_BEUW);
-+    ret = do_ld2_mmu(env, addr, oi, ra, MMU_DATA_LOAD);
-+    plugin_load_cb(env, addr, oi);
-+    return ret;
+-    cpu_store_helper(env, addr, val, oi, retaddr, full_stb_mmu);
++    helper_ret_stb_mmu(env, addr, val, oi, retaddr);
++    plugin_store_cb(env, addr, oi);
  }
  
- uint32_t cpu_ldl_be_mmu(CPUArchState *env, abi_ptr addr,
-                         MemOpIdx oi, uintptr_t ra)
+ void cpu_stw_be_mmu(CPUArchState *env, target_ulong addr, uint16_t val,
+                     MemOpIdx oi, uintptr_t retaddr)
  {
--    return cpu_load_helper(env, addr, oi, ra, full_be_ldul_mmu);
-+    uint32_t ret;
-+
-+    validate_memop(oi, MO_BEUL);
-+    ret = do_ld4_mmu(env, addr, oi, ra, MMU_DATA_LOAD);
-+    plugin_load_cb(env, addr, oi);
-+    return ret;
+-    cpu_store_helper(env, addr, val, oi, retaddr, full_be_stw_mmu);
++    helper_be_stw_mmu(env, addr, val, oi, retaddr);
++    plugin_store_cb(env, addr, oi);
  }
  
- uint64_t cpu_ldq_be_mmu(CPUArchState *env, abi_ptr addr,
-                         MemOpIdx oi, uintptr_t ra)
+ void cpu_stl_be_mmu(CPUArchState *env, target_ulong addr, uint32_t val,
+                     MemOpIdx oi, uintptr_t retaddr)
  {
--    return cpu_load_helper(env, addr, oi, ra, helper_be_ldq_mmu);
-+    uint64_t ret;
-+
-+    validate_memop(oi, MO_BEUQ);
-+    ret = do_ld8_mmu(env, addr, oi, ra, MMU_DATA_LOAD);
-+    plugin_load_cb(env, addr, oi);
-+    return ret;
+-    cpu_store_helper(env, addr, val, oi, retaddr, full_be_stl_mmu);
++    helper_be_stl_mmu(env, addr, val, oi, retaddr);
++    plugin_store_cb(env, addr, oi);
  }
  
- uint16_t cpu_ldw_le_mmu(CPUArchState *env, abi_ptr addr,
-                         MemOpIdx oi, uintptr_t ra)
+ void cpu_stq_be_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
+                     MemOpIdx oi, uintptr_t retaddr)
  {
--    return cpu_load_helper(env, addr, oi, ra, full_le_lduw_mmu);
-+    uint16_t ret;
-+
-+    validate_memop(oi, MO_LEUW);
-+    ret = do_ld2_mmu(env, addr, oi, ra, MMU_DATA_LOAD);
-+    plugin_load_cb(env, addr, oi);
-+    return ret;
+-    cpu_store_helper(env, addr, val, oi, retaddr, helper_be_stq_mmu);
++    helper_be_stq_mmu(env, addr, val, oi, retaddr);
++    plugin_store_cb(env, addr, oi);
  }
  
- uint32_t cpu_ldl_le_mmu(CPUArchState *env, abi_ptr addr,
-                         MemOpIdx oi, uintptr_t ra)
+ void cpu_stw_le_mmu(CPUArchState *env, target_ulong addr, uint16_t val,
+                     MemOpIdx oi, uintptr_t retaddr)
  {
--    return cpu_load_helper(env, addr, oi, ra, full_le_ldul_mmu);
-+    uint32_t ret;
-+
-+    validate_memop(oi, MO_LEUL);
-+    ret = do_ld4_mmu(env, addr, oi, ra, MMU_DATA_LOAD);
-+    plugin_load_cb(env, addr, oi);
-+    return ret;
+-    cpu_store_helper(env, addr, val, oi, retaddr, full_le_stw_mmu);
++    helper_le_stw_mmu(env, addr, val, oi, retaddr);
++    plugin_store_cb(env, addr, oi);
  }
  
- uint64_t cpu_ldq_le_mmu(CPUArchState *env, abi_ptr addr,
-                         MemOpIdx oi, uintptr_t ra)
+ void cpu_stl_le_mmu(CPUArchState *env, target_ulong addr, uint32_t val,
+                     MemOpIdx oi, uintptr_t retaddr)
  {
--    return cpu_load_helper(env, addr, oi, ra, helper_le_ldq_mmu);
-+    uint64_t ret;
-+
-+    validate_memop(oi, MO_LEUQ);
-+    ret = do_ld8_mmu(env, addr, oi, ra, MMU_DATA_LOAD);
-+    plugin_load_cb(env, addr, oi);
-+    return ret;
+-    cpu_store_helper(env, addr, val, oi, retaddr, full_le_stl_mmu);
++    helper_le_stl_mmu(env, addr, val, oi, retaddr);
++    plugin_store_cb(env, addr, oi);
  }
  
- Int128 cpu_ld16_be_mmu(CPUArchState *env, abi_ptr addr,
-@@ -2651,54 +2905,26 @@ void cpu_st16_le_mmu(CPUArchState *env, abi_ptr addr, Int128 val,
- 
- /* Code access functions.  */
- 
--static uint64_t full_ldub_code(CPUArchState *env, target_ulong addr,
--                               MemOpIdx oi, uintptr_t retaddr)
--{
--    return load_helper(env, addr, oi, retaddr, MO_8,
--                       MMU_INST_FETCH, full_ldub_code);
--}
--
- uint32_t cpu_ldub_code(CPUArchState *env, abi_ptr addr)
+ void cpu_stq_le_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
+                     MemOpIdx oi, uintptr_t retaddr)
  {
-     MemOpIdx oi = make_memop_idx(MO_UB, cpu_mmu_index(env, true));
--    return full_ldub_code(env, addr, oi, 0);
--}
--
--static uint64_t full_lduw_code(CPUArchState *env, target_ulong addr,
--                               MemOpIdx oi, uintptr_t retaddr)
--{
--    return load_helper(env, addr, oi, retaddr, MO_TEUW,
--                       MMU_INST_FETCH, full_lduw_code);
-+    return do_ld1_mmu(env, addr, oi, 0, MMU_INST_FETCH);
+-    cpu_store_helper(env, addr, val, oi, retaddr, helper_le_stq_mmu);
++    helper_le_stq_mmu(env, addr, val, oi, retaddr);
++    plugin_store_cb(env, addr, oi);
  }
  
- uint32_t cpu_lduw_code(CPUArchState *env, abi_ptr addr)
- {
-     MemOpIdx oi = make_memop_idx(MO_TEUW, cpu_mmu_index(env, true));
--    return full_lduw_code(env, addr, oi, 0);
--}
--
--static uint64_t full_ldl_code(CPUArchState *env, target_ulong addr,
--                              MemOpIdx oi, uintptr_t retaddr)
--{
--    return load_helper(env, addr, oi, retaddr, MO_TEUL,
--                       MMU_INST_FETCH, full_ldl_code);
-+    return do_ld2_mmu(env, addr, oi, 0, MMU_INST_FETCH);
- }
- 
- uint32_t cpu_ldl_code(CPUArchState *env, abi_ptr addr)
- {
-     MemOpIdx oi = make_memop_idx(MO_TEUL, cpu_mmu_index(env, true));
--    return full_ldl_code(env, addr, oi, 0);
--}
--
--static uint64_t full_ldq_code(CPUArchState *env, target_ulong addr,
--                              MemOpIdx oi, uintptr_t retaddr)
--{
--    return load_helper(env, addr, oi, retaddr, MO_TEUQ,
--                       MMU_INST_FETCH, full_ldq_code);
-+    return do_ld4_mmu(env, addr, oi, 0, MMU_INST_FETCH);
- }
- 
- uint64_t cpu_ldq_code(CPUArchState *env, abi_ptr addr)
- {
-     MemOpIdx oi = make_memop_idx(MO_TEUQ, cpu_mmu_index(env, true));
--    return full_ldq_code(env, addr, oi, 0);
-+    return do_ld8_mmu(env, addr, oi, 0, MMU_INST_FETCH);
- }
+ void cpu_st16_be_mmu(CPUArchState *env, abi_ptr addr, Int128 val,
 -- 
 2.34.1
 
