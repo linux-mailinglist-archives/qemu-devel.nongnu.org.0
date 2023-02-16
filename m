@@ -2,99 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AF45699671
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 14:57:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 281DE699678
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 14:59:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSekm-0002As-H1; Thu, 16 Feb 2023 08:56:52 -0500
+	id 1pSemO-0002ri-BB; Thu, 16 Feb 2023 08:58:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pSekk-0002Ac-Ao
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:56:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pSekh-0007bA-VS
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:56:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676555807;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yAY9A4DgDYTs34l5F4SNL1vgPiLPs32KphqeD6tWbMs=;
- b=MMbSjKz8quNSwiwF5dIk7yZRucOpvGi3o/+m7kt22fZBv0HskAj0m2e0H3WNENrSYkrRED
- lEUaRiDnC8yuqohTh1gmFat/XArOJ0lDSphk0Kp20iIQmq32Vx10G+FHZk2VpeghGSJaM/
- B9dKJu5DNlVbO4E0X1v50Thj+G8khc0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-187-IW8_oaXnPhaFVt5iuZ4l9w-1; Thu, 16 Feb 2023 08:56:46 -0500
-X-MC-Unique: IW8_oaXnPhaFVt5iuZ4l9w-1
-Received: by mail-wr1-f71.google.com with SMTP id
- n18-20020adfc612000000b002c3d80ab568so251251wrg.18
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 05:56:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <smostafa@google.com>)
+ id 1pSemK-0002rH-PX
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:58:30 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <smostafa@google.com>)
+ id 1pSemI-0007rY-2X
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:58:27 -0500
+Received: by mail-wm1-x335.google.com with SMTP id he5so1627238wmb.3
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 05:58:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=oOAF7Avv2m9okX26X1QQQBtkLpOUimdEi6kyPJqmGCU=;
+ b=X8MUJWZE2HfktSgCL9+5gLsAMlD+Rs5Giu6vq+nuG5yGiNTlPEVkMMR+ZufVG5ls9+
+ +MujOMgT5HDyyWum3M+qOo0WYsV5aogNhapTj53CeOBS511Xkef1PvtIdUtdvDdQAiFo
+ WhMV8lP6wCh2aefvvbbIGH6teSFBiIeX6XJOl842WrAM/s9wOJSaEAornDfQ8TEnylRm
+ LVcFwa+CVpW8Bd6lXvMs12qA3C5b0gjeeW+3hCP/fvGkc8e2lCRClL/JvC59sua6xiXP
+ TOQm3ai4oLn5oEBhI01oIiGZ+uo2b/PAdA3hp/G2YjqB7T0ysi8zgVcMMMvA+0NJm6Wz
+ 7zOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:reply-to
- :user-agent:references:in-reply-to:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yAY9A4DgDYTs34l5F4SNL1vgPiLPs32KphqeD6tWbMs=;
- b=swbemTy5LL9fBP6ySvP8MVRiil7x0B65rdQNP1bqItnm1ZKWWJDgPrk6jjAySmRx9s
- r4X0RXjg4Eui22+3F2GaumlqFunyhI4DbfPzN4c+SZ+lKb0Y74KTWoKXLAdNoBON8Z2b
- IxfYVfvNSR7ftxs/mJnzpruvoRZTUNxzObA2fnUWHuESyewhWpSNJ/k/qfURe5vx1qIN
- BSxQJNRxkvZPtgRq1jhF8/0J+1YIOFFr/Lfl1cvTtNBVQQh1PlYwMeRTkjKISjhLs8c0
- LxxJ4K2xNcAfviogSK8B7DpwfeMDdTnR8TIIulHASz69Fk0ydskgVrwYw83oTN1kyK57
- mlkw==
-X-Gm-Message-State: AO0yUKUKeMf4cYsltavDklYlOjRzMtmhvE4AQG35e3KQdXRLHEZXXA0n
- cLAM+/4dAzHPwUYNCCLHRifSZ+P75abJlGiUB31ez3gF9rEGcnEJ6CeIayRaq1JtaPppdohg8pQ
- TjONavGEo2XUyg6A=
-X-Received: by 2002:adf:d1c1:0:b0:2c3:be89:7c2a with SMTP id
- b1-20020adfd1c1000000b002c3be897c2amr2008365wrd.13.1676555804826; 
- Thu, 16 Feb 2023 05:56:44 -0800 (PST)
-X-Google-Smtp-Source: AK7set/UHB8LhBNMXatokxc3iGpvsyF0+wMJFk3Dy2w1kDt1q6H6J++YHovfDvwaPmRyJa35CX0Pug==
-X-Received: by 2002:adf:d1c1:0:b0:2c3:be89:7c2a with SMTP id
- b1-20020adfd1c1000000b002c3be897c2amr2008337wrd.13.1676555804517; 
- Thu, 16 Feb 2023 05:56:44 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- a8-20020a5d5088000000b002c567881dbcsm1579374wrt.48.2023.02.16.05.56.43
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oOAF7Avv2m9okX26X1QQQBtkLpOUimdEi6kyPJqmGCU=;
+ b=XISVWUNXjkVpW+dM5/UzR2oMjlV1rA76GPgHtyH3xB2E69n3DSsqPUHDNl99ABkpyF
+ eHkAaNfjgEdtwvV2brN4Q8P/TfRGrGBGqJro2Av3TjiYXUuzcKCERQkEUm641dpJlZb6
+ jrRIh1KvQUtRa56OiJ/aR+aqU+Igyk34cYMH5h6qoyLAMMJ9pg8zxjb/krtaqCI96XUT
+ UpygwkzS+VO/n/akKl6nok9fij8JKVZ9JXiEEMUHgnOJjAbR2Mb6tqjLOpU5sUgtbS9f
+ MRc/A+CNbIx7Ase4DLDWa0jKnmbAanDO+xIak2om+MrKYBQvMEsiD/7GQeraQ4E9Pw96
+ RDPQ==
+X-Gm-Message-State: AO0yUKWBptLgIf6v5d3GUMDvsst2Gmt9nyQOQieb2VvFfnPg894UxD8P
+ qv7kj8oADOmTWt/Hld0tde8AlQ==
+X-Google-Smtp-Source: AK7set+MaeHxMa47nINFnVhSPAIR+kqzvWzAx7k9qUJcnEgcN+FpJRq3rjCUojRUlEmckihAG00WNw==
+X-Received: by 2002:a05:600c:3b1b:b0:3df:f3cb:e8ce with SMTP id
+ m27-20020a05600c3b1b00b003dff3cbe8cemr174948wms.7.1676555904026; 
+ Thu, 16 Feb 2023 05:58:24 -0800 (PST)
+Received: from google.com (44.232.78.34.bc.googleusercontent.com.
+ [34.78.232.44]) by smtp.gmail.com with ESMTPSA id
+ s10-20020a7bc38a000000b003dc1a525f22sm1779037wmj.25.2023.02.16.05.58.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 05:56:44 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,  Pavel Dovgalyuk
- <pavel.dovgaluk@ispras.ru>,  "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>,  Richard Henderson
- <richard.henderson@linaro.org>,  Mark Burton <mburton@qti.qualcomm.com>,
- Bill Mills <bill.mills@linaro.org>,  Marco Liebel
- <mliebel@qti.qualcomm.com>,  Alexandre Iooss <erdnaxe@crans.org>,  Mahmoud
- Mandour <ma.mandourr@gmail.com>,  Emilio Cota <cota@braap.org>, kvm-devel
- <kvm@vger.kernel.org>, "Wei W. Wang" <wei.w.wang@intel.com>, Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: Future of icount discussion for next KVM call?
-In-Reply-To: <CAHDbmO3QSbpKLWKt9uj+2Yo_fT-dC-E4M1Nb=iWHqMSBw35-3w@mail.gmail.com>
- ("Alex =?utf-8?Q?Benn=C3=A9e=22's?= message of "Thu, 16 Feb 2023 10:23:58
- +0000")
-References: <87bklt9alc.fsf@linaro.org>
- <CAHDbmO3QSbpKLWKt9uj+2Yo_fT-dC-E4M1Nb=iWHqMSBw35-3w@mail.gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 16 Feb 2023 14:56:43 +0100
-Message-ID: <875yc1k92c.fsf@secure.mitica>
+ Thu, 16 Feb 2023 05:58:23 -0800 (PST)
+Date: Thu, 16 Feb 2023 13:58:19 +0000
+From: Mostafa Saleh <smostafa@google.com>
+To: Eric Auger <eric.auger@redhat.com>
+Cc: qemu-devel@nongnu.org, jean-philippe@linaro.org,
+ peter.maydell@linaro.org, qemu-arm@nongnu.org
+Subject: Re: [RFC PATCH 13/16] hw/arm/smmuv3: Add CMDs related to stage 2
+Message-ID: <Y+42e9PE9g7JpBuq@google.com>
+References: <20230205094411.793816-1-smostafa@google.com>
+ <20230205094411.793816-14-smostafa@google.com>
+ <7ebe5091-54ae-d5a2-09c4-0ae1e8276cb8@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7ebe5091-54ae-d5a2-09c4-0ae1e8276cb8@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=smostafa@google.com; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,29 +89,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
-> (replying all because qemu-devel rejected my email again)
+Hi Eric,
 
-Just to see what we are having now:
+On Thu, Feb 16, 2023 at 12:56:52PM +0100, Eric Auger wrote:
+> > @@ -1174,14 +1174,35 @@ static int smmuv3_cmdq_consume(SMMUv3State *s)
+> >          case SMMU_CMD_TLBI_NH_VA:
+> >              smmuv3_s1_range_inval(bs, &cmd);
+> >              break;
+> > +        case SMMU_CMD_TLBI_S12_VMALL:
+> > +            uint16_t vmid = CMD_VMID(&cmd);
+> > +
+> > +            if (!STAGE2_SUPPORTED(s->features)) {
+> if you add such checks for S2, may you should consider adding similar
+> ones for existing S1?
+Yes, I will go through the other commands and do the same for stage-1
+only commands.
 
-- single qemu binary moved to next slot (moved to next week?)
-  Phillipe proposal
-- TDX migration: we have the slides, but no code
-  So I guess we can move it to the following slot, when we have a chance
-  to look at the code, Wei?
-- Markus asked to have only one topic per call
-  (and it is reasonable)
-- the future of icount cames with documentation to read before the call.
+> > +            smmu_inv_notifiers_all(&s->smmu_state);
+> > +            smmu_iotlb_inv_vmid(bs, vmid);
+> > +            break;
+> > +        case SMMU_CMD_TLBI_S2_IPA:
+> > +            if (!STAGE2_SUPPORTED(s->features)) {
+> > +                cmd_error = SMMU_CERROR_ILL;
+> > +                break;
+> > +            }
+> > +            /*
+> > +             * As currently only either s1 or s2 are supported
+> > +             * we can reuse same function for s2.
+> > +             */
+> > +            smmuv3_s1_range_inval(bs, &cmd);
+> Shouldn't we rename the function then?
+I guess we can rename it smmuv3_s1_s2_range_inval, we will have to
+revisit this when nesting is supported.
 
-So I think we can do the icount call this week, and discuss here on list
-if we move to a weekly call on the same slot.
-
-What do you think?
-
-Later, Juan.
-
+Thanks,
+Mostafa
 
