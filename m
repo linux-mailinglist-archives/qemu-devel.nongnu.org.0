@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5926D698B88
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 06:05:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFFB1698B98
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 06:16:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSWRT-0004B2-Np; Thu, 16 Feb 2023 00:04:23 -0500
+	id 1pSWbM-0001Em-Lo; Thu, 16 Feb 2023 00:14:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <m.tyutin@yadro.com>)
- id 1pSWRR-0004Ab-Ou
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:04:22 -0500
-Received: from mta-02.yadro.com ([89.207.88.252] helo=mta-01.yadro.com)
+ (Exim 4.90_1) (envelope-from <rppt@kernel.org>) id 1pSWbK-0001EO-Eo
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:14:34 -0500
+Received: from sin.source.kernel.org ([145.40.73.55])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <m.tyutin@yadro.com>)
- id 1pSWRP-00058P-0l
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:04:21 -0500
-Received: from mta-01.yadro.com (localhost.localdomain [127.0.0.1])
- by mta-01.yadro.com (Proxmox) with ESMTP id 9329F341AEF;
- Thu, 16 Feb 2023 08:04:15 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :from:from:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to; s=mta-01; bh=jCa3rCroB1T520OZik
- Tf6dwLaW3g4UK8g0hmTbtNT+c=; b=o++RmcbPawo/+B0f0QLq6Up+Jo8GTv6T7Q
- 7WhxFZp5QNsgM6J0gIU1sdCOO79ejDX9+s9d2+mhXsG1Q9wtI3DKOPFq5VD6YtGR
- +SQiV4NscTX2rbzTuU/5LHPcXl4hB4CnNvPpQWaXYQk30J43CY2Va/jGWM6fmTf9
- VLdnykoFk=
-Received: from T-EXCH-08.corp.yadro.com (unknown [172.17.10.14])
+ (Exim 4.90_1) (envelope-from <rppt@kernel.org>) id 1pSWbH-000275-U8
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:14:34 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Proxmox) with ESMTPS id 89C333419D6;
- Thu, 16 Feb 2023 08:04:15 +0300 (MSK)
-Received: from T-Exch-05.corp.yadro.com (172.17.10.109) by
- T-EXCH-08.corp.yadro.com (172.17.11.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.9; Thu, 16 Feb 2023 08:04:15 +0300
-Received: from T-EXCH-08.corp.yadro.com (172.17.11.58) by
- T-Exch-05.corp.yadro.com (172.17.10.109) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.9; Thu, 16 Feb 2023 08:04:15 +0300
-Received: from T-EXCH-08.corp.yadro.com ([172.17.11.58]) by
- T-EXCH-08.corp.yadro.com ([172.17.11.58]) with mapi id 15.02.1118.009; Thu,
- 16 Feb 2023 08:04:15 +0300
-From: Mikhail Tyutin <m.tyutin@yadro.com>
-To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "alex.bennee@linaro.org" <alex.bennee@linaro.org>
-CC: "erdnaxe@crans.org" <erdnaxe@crans.org>, "ma.mandourr@gmail.com"
- <ma.mandourr@gmail.com>
-Subject: RE: [PATCH] Adding ability to change disassembler syntax in TCG
- plugins
-Thread-Topic: [PATCH] Adding ability to change disassembler syntax in TCG
- plugins
-Thread-Index: Adk9Ytj+mzbZHC9XRGOgcDMHokyEkwEQYdKAAABEsgAAB3tVMA==
-Date: Thu, 16 Feb 2023 05:04:14 +0000
-Message-ID: <1a19cfd11fd94e658224144d94663330@yadro.com>
-References: <7d17f0cbb5ed4c90bbadd3992429006f@yadro.com>
- <be45264f-03d5-e6d1-f12e-c92b0ef7b557@yadro.com>
- <4d474968-dce8-0d69-3e52-2c42a6398e4c@linaro.org>
-In-Reply-To: <4d474968-dce8-0d69-3e52-2c42a6398e4c@linaro.org>
-Accept-Language: en-US
-Content-Language: ru-RU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.199.22.165]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ by sin.source.kernel.org (Postfix) with ESMTPS id C462DCE25F0;
+ Thu, 16 Feb 2023 05:14:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57DFEC433EF;
+ Thu, 16 Feb 2023 05:14:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1676524457;
+ bh=5bN2qNXzQ4ZA0g4le+lak/ncOAC6JWfVkeV3mS7J638=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=S6DhiGdHj1JDcPoZ1SfQW0UbLyKedojDvkeLmMsMmBwPwm5Yt9ALPyAEdUcNs/Kri
+ y0wdQjtRgesQPv1yH4KbX2jBYemiOzTpuPf+dczvYxTVGZ2quVV8mTHQhPE8aLG4e7
+ DXI8KPzfDbQEhul6FRH1xmCTTBptlv18inIYrE3lZPKsxHrObglGNVUJjYWLJw+yRh
+ qLoEV/M0+FXsR2Yyl4A/8ONxeFBM4nRHoCK+SPySEBCED0DLIe2fRJWz1w55/Uvg/l
+ XxPsCan76eLvTZglTKRcCOa4i7hQJI9KrgiS2Iu63uqvrH8MGX/DwoTfVEw+ty44Xp
+ JVI04vumpZNTw==
+Date: Thu, 16 Feb 2023 07:13:53 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
+Message-ID: <Y+27kRxJoXlMcbtH@kernel.org>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=m.tyutin@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+Received-SPF: pass client-ip=145.40.73.55; envelope-from=rppt@kernel.org;
+ helo=sin.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,32 +92,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-PiBPbiAyLzE1LzIzIDE4OjE3LCBNaWtoYWlsIFR5dXRpbiB3cm90ZToNCj4gPiBwaW5nDQo+ID4N
-Cj4gPiBwYXRjaGV3IGxpbms6DQo+ID4gaHR0cHM6Ly9wYXRjaGV3Lm9yZy9RRU1VLzdkMTdmMGNi
-YjVlZDRjOTBiYmFkZDM5OTI0MjkwMDZmQHlhZHJvLmNvbS8NCj4gPg0KPiA+IDEwLjAyLjIwMjMg
-MTg6MjQsIE1pa2hhaWwgVHl1dGluIHdyb3RlOg0KPiA+PiBUaGlzIHBhdGNoIGFkZHMgbmV3IGZ1
-bmN0aW9uIHFlbXVfcGx1Z2luX2luc25fZGlzYXNfd2l0aF9zeW50YXgoKSB0aGF0IGFsbG93cyBU
-Q0cNCj4gPj4gcGx1Z2lucyB0byBnZXQgZGlzYXNzZW1ibGVyIHN0cmluZyB3aXRoIG5vbi1kZWZh
-dWx0IHN5bnRheCBpZiBpdCB3YW50cyB0by4NCj4gPj4NCj4gPj4gU2lnbmVkLW9mZi1ieTogTWlr
-aGFpbCBUeXV0aW4gPG0udHl1dGluQHlhZHJvLmNvbT4NCj4gDQo+IFdoeT8NCj4gDQo+IEl0J3Mg
-Y2VydGFpbmx5IG5vdCB2ZXJ5IGdlbmVyaWMsIGV4cG9zaW5nIGEgZGlzYXNzZW1ibHkgcXVpcmsg
-Zm9yIGV4YWN0bHkgb25lIGd1ZXN0DQo+IGFyY2hpdGVjdHVyZS4gIEkgbWVhbiwgeW91IGNvdWxk
-IGp1c3QgYXMgZWFzaWx5IGxpbmsgeW91ciBwbHVnaW4gZGlyZWN0bHkgdG8gbGliY2Fwc3RvbmUN
-Cj4gdmlhIHFlbXVfcGx1Z2luX2luc25fZGF0YSgpLg0KPiANCj4gDQo+IHJ+DQogDQpJIGFncmVl
-IGl0IGNhbiBiZSBkb25lIG91dHNpZGUgb2YgUWVtdSB1c2luZyBhbm90aGVyIGRpc2Fzc2VtYmxl
-ciBsaWJyYXJ5LiBIb3dldmVyLA0KdGhlcmUgYXJlIGZldyByZWFzb25zIHRvIGRvIGl0IGluIFFl
-bXUgZnJvbSBhcmNoaXRlY3R1cmUgc3RhbmRwb2ludDoNCg0KMS4gVG8gaGF2ZSBhIHNpbmdsZSBw
-bGFjZSBvZiBpbnN0cnVjdGlvbiBkZWNvZGluZyBsb2dpYy4gVENHIGhhcyB0byBkZWNvZGUgZ3Vl
-c3QgaW5zdHJ1Y3Rpb25zDQphbnl3YXkuIElmIHBsdWdpbnMgYWRkIGFub3RoZXIgZGVjb2Rlciwg
-aXQgY2F1c2VzIGRvdWJsZSB3b3JrIGFuZCBwcm9uZSB0byBlcnJvcnMgKGhvd2V2ZXINCmN1cnJl
-bnQgaW1wbGVtZW50YXRpb24gZG9lcyBkb3VibGUgZGVjb2RlIHdvcmsgYW55d2F5KS4gRm9yIGV4
-YW1wbGUsIFRDRyBtaWdodCBzdXBwb3J0DQpuZXcgaW5zdHJ1Y3Rpb24gd2hpY2ggaXMgbm90IGF2
-YWlsYWJsZSBpbiBleHRlcm5hbCBkZWNvZGVyIHlldC4NCg0KMi4gVW5kZXIgdGhlIGhvb2QgUWVt
-dSB1c2VzIGRpZmZlcmVudCBpbXBsZW1lbnRhdGlvbnMgb2YgZGVjb2RlciAoaW4gYWRkaXRpb24g
-dG8gY2Fwc3RvbmUpDQp3aGljaCBpcyBub3QgZXhwb3NlZCBpbiBwdWJsaWMgaW50ZXJmYWNlLiBJ
-ZiB0aGVyZSBpcyBhIG5lZWQgdG8gY29uZmlndXJlIGl0cyBvdXRwdXQsIHByb3Bvc2VkDQpBUEkg
-YWxsb3dzIHRoYXQgYXMgd2VsbC4NCg0KMy4gSWYgbXVsdGlwbGUgcGx1Z2lucyB3YW50IHRvIHVz
-ZSBhbm90aGVyIGRpc2Fzc2VtYmxlciBzeW50YXgsIHRoZXkgaGF2ZSB0byBzaGFyZQ0KaW1wbGVt
-ZW50YXRpb24gYXMgdXRpbGl0eSBmdW5jdGlvbi4NCg==
+Hi,
 
+On Fri, Dec 02, 2022 at 02:13:38PM +0800, Chao Peng wrote:
+> This patch series implements KVM guest private memory for confidential
+> computing scenarios like Intel TDX[1]. If a TDX host accesses
+> TDX-protected guest memory, machine check can happen which can further
+> crash the running host system, this is terrible for multi-tenant
+> configurations. The host accesses include those from KVM userspace like
+> QEMU. This series addresses KVM userspace induced crash by introducing
+> new mm and KVM interfaces so KVM userspace can still manage guest memory
+> via a fd-based approach, but it can never access the guest memory
+> content.
+
+Sorry for jumping late.
+
+Unless I'm missing something, hibernation will also cause an machine check
+when there is TDX-protected memory in the system. When the hibernation
+creates memory snapshot it essentially walks all physical pages and saves
+their contents, so for TDX memory this will trigger machine check, right?
+ 
+>  Documentation/virt/kvm/api.rst         | 125 ++++++-
+>  arch/x86/entry/syscalls/syscall_32.tbl |   1 +
+>  arch/x86/entry/syscalls/syscall_64.tbl |   1 +
+>  arch/x86/include/asm/kvm_host.h        |   9 +
+>  arch/x86/kvm/Kconfig                   |   3 +
+>  arch/x86/kvm/mmu/mmu.c                 | 205 ++++++++++-
+>  arch/x86/kvm/mmu/mmu_internal.h        |  14 +-
+>  arch/x86/kvm/mmu/mmutrace.h            |   1 +
+>  arch/x86/kvm/mmu/tdp_mmu.c             |   2 +-
+>  arch/x86/kvm/x86.c                     |  17 +-
+>  include/linux/kvm_host.h               | 103 +++++-
+>  include/linux/restrictedmem.h          |  71 ++++
+>  include/linux/syscalls.h               |   1 +
+>  include/uapi/asm-generic/unistd.h      |   5 +-
+>  include/uapi/linux/kvm.h               |  53 +++
+>  include/uapi/linux/magic.h             |   1 +
+>  kernel/sys_ni.c                        |   3 +
+>  mm/Kconfig                             |   4 +
+>  mm/Makefile                            |   1 +
+>  mm/memory-failure.c                    |   3 +
+>  mm/restrictedmem.c                     | 318 +++++++++++++++++
+>  virt/kvm/Kconfig                       |   6 +
+>  virt/kvm/kvm_main.c                    | 469 +++++++++++++++++++++----
+>  23 files changed, 1323 insertions(+), 93 deletions(-)
+>  create mode 100644 include/linux/restrictedmem.h
+>  create mode 100644 mm/restrictedmem.c
+
+-- 
+Sincerely yours,
+Mike.
 
