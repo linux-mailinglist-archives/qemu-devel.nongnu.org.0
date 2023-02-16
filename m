@@ -2,114 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 952A9698F6F
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 10:13:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DDB2698FB3
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 10:25:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSaIs-0003SH-4p; Thu, 16 Feb 2023 04:11:46 -0500
+	id 1pSaUJ-0006aa-7j; Thu, 16 Feb 2023 04:23:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1pSaIl-0003Rj-7p
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:11:39 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1pSaIi-0000oh-SK
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:11:38 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31G8hhq9029960; Thu, 16 Feb 2023 09:11:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=I0jT3lFZGX//hvhirlzVN6WmAz6vy4zuNqe7+kdRVrI=;
- b=mlUVeJptl5Mc/0lrhdleyGeqfLKvAU0HrtOVNxVXL6x8EoEWYTxAGoBoYScjMjDuei31
- dp7pWzQt2h8Yf+EjkGffZ+t7V9KRcQheV58AMkvOM/UnZmKL1wl5gdon4MTRxvWySFr0
- 1UQMZWaaYbWwEFVchq0ZvxvOJsdViWtXi+0QmaWbjbPdw4gbBtf9TXjeOuMS+itjX53X
- XhRPlvTeVLUg0Cjlt4xo1otAoIkLyLhLOHphYd7m9KFqsNMsu1/SUdJxanYYualU9osP
- 5p1Icz7CptEA3SOvWH8G2JOvpe5FYxzqwGrMfugS+VL721yT0ukDh47nHP/h5McL/PaK yA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nsce47aps-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Feb 2023 09:11:31 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31G8aj3f019519;
- Thu, 16 Feb 2023 09:11:30 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nsce47apb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Feb 2023 09:11:30 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31G7FXkN001021;
- Thu, 16 Feb 2023 09:11:29 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([9.208.130.99])
- by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3np2n7r2b5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Feb 2023 09:11:29 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com
- [10.39.53.229])
- by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 31G9BRs132375286
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Feb 2023 09:11:27 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 712915805D;
- Thu, 16 Feb 2023 09:11:27 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 877885805B;
- Thu, 16 Feb 2023 09:11:23 +0000 (GMT)
-Received: from [9.77.150.161] (unknown [9.77.150.161])
- by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 16 Feb 2023 09:11:23 +0000 (GMT)
-Message-ID: <5bf6f310-8fd8-b7a6-2d99-b974ec1f8c57@linux.ibm.com>
-Date: Thu, 16 Feb 2023 11:11:21 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [RFC PATCH v2 0/2] i386/sev: Support measured direct kernel boot
- on SNP
-Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Marcelo Tosatti
- <mtosatti@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>, Tom Lendacky
- <thomas.lendacky@amd.com>, Michael Roth <michael.roth@amd.com>,
- Ashish Kalra <ashish.kalra@amd.com>, Mario Smarduch
- <mario.smarduch@amd.com>, Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
- Dov Murik <dovmurik@linux.ibm.com>
-References: <20230216084913.2148508-1-dovmurik@linux.ibm.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-In-Reply-To: <20230216084913.2148508-1-dovmurik@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 0X-j1M4tfjZZEHw9yAR9loPZTbmWf6r5
-X-Proofpoint-GUID: t8w09uFMdEMlsHPW8BVV56OC3r8Cw0yz
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSaUH-0006Zr-4z
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:23:33 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSaUF-0006mb-Mw
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:23:32 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ m20-20020a05600c3b1400b003e1e754657aso3661440wms.2
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 01:23:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=QI7Wf9G0Jc39nSEj59pWqN6n18XGhfwLUbGwL8xNPRs=;
+ b=lIRpQNVn2UeERbZn/Jw3ftlwGwvZYCfIQaqO7skkjjFM3uRzzskkC1EIcik16xL4BE
+ qdOnDkUoCmTh3emsZpcQB9pu8fLEUVdMdSzYfwzaxXG0Rhgwm2mqIltvn0APmSmsmHQu
+ J+v/CnfB5aDq2LnDd035Kqm7AEDKwUaVF7RzUcqECRMjKUTUxUQRAwMB+pjm/EEvkqvH
+ LneoiIT3tzpXTlB/NG0ZCkY9kyEHcyQXALFf5TI8h1qZiJ9l1OnGO7z//k6txwhdJs9W
+ +WdSnDTeJk6+Re4oXVF/7k6gsGQeEuZgWW/otHVpnyZBl+GaBr0FpALvn8qlNhjHnDdK
+ X0/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QI7Wf9G0Jc39nSEj59pWqN6n18XGhfwLUbGwL8xNPRs=;
+ b=5S/hZIEDQmh9lkWiIly/Letam2ov6tgYzVbjU4WQANgo8OjFj/U85yAJLCYs69L6Ot
+ ypaf0SGZCbLN/R4vMwam5NOpn6JcEE1Mb5yqGhgaoWEzkZGAIA+9yTY7WFO6SIyISp/a
+ drqAKo1pTekZdCs3fg98TA6vWpq75S7oxR/noy9cnOR9VRo9IdqUr8utkCyQuClX/s9w
+ 2MM/t9M5dfnxij7oatIjpudqzC5LkzDenlLLT3w6qrOcJiSRVMxdv561YI6nGGYldBgA
+ ZdFroNYQWkF0v87iY0i+m8CMJ+eA1XuPb6E2IklgmYUbXs7RggssjXDSMET8r4F2VMdU
+ 7/2Q==
+X-Gm-Message-State: AO0yUKUAExyo809K7FkMtU54q/Us6dg555aXEq/WNQKntjBOBcGw6YFl
+ J6adS30fr6MhCJMc7csQxAQXmeCJR7xU0xLc
+X-Google-Smtp-Source: AK7set+26HELIrSjqWtcNByTvC7slqzdJsH5id9vBiixyX0/0FIfqBElqh+w4Z4z6TAfIvGfknVlXg==
+X-Received: by 2002:a05:600c:1f1a:b0:3df:ee43:860b with SMTP id
+ bd26-20020a05600c1f1a00b003dfee43860bmr4322069wmb.23.1676539409870; 
+ Thu, 16 Feb 2023 01:23:29 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
+ by smtp.gmail.com with ESMTPSA id
+ u22-20020a05600c211600b003e2058a7109sm3924358wml.14.2023.02.16.01.23.28
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Thu, 16 Feb 2023 01:23:29 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org,
+	Francisco Iglesias <francisco.iglesias@amd.com>
+Cc: qemu-arm@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH] hw/arm: Add missing ZynqMP ZCU102 -> USB_DWC3 Kconfig
+ dependency
+Date: Thu, 16 Feb 2023 10:23:27 +0100
+Message-Id: <20230216092327.2203-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-16_06,2023-02-15_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0
- adultscore=0 mlxlogscore=699 bulkscore=0 lowpriorityscore=0 malwarescore=0
- impostorscore=0 priorityscore=1501 phishscore=0 mlxscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2302160075
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -126,67 +91,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Since commit acc0b8b05a when running the ZynqMP ZCU102 board with
+a QEMU configured using --without-default-devices, we get:
 
+  $ qemu-system-aarch64 -M xlnx-zcu102
+  qemu-system-aarch64: missing object type 'usb_dwc3'
+  Abort trap: 6
 
-On 16/02/2023 10:49, Dov Murik wrote:
-> This RFC patch series is based on AMD's RFC upmv10-snpv3 tree [1].
-> 
+Fix by adding the missing Kconfig dependency.
 
-Note that in order to test this you must use '-machine pc-q35-7.1'
-to circumvent the SETUP_RNG_SEED bug [1] that interferes with the
-measured kernel.
+Fixes: acc0b8b05a ("hw/arm/xlnx-zynqmp: Connect ZynqMP's USB controllers")
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ hw/arm/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-[1] https://lore.kernel.org/qemu-devel/20230208211212.41951-1-mst@redhat.com/
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 2d157de9b8..b5aed4aff5 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -389,6 +389,7 @@ config XLNX_ZYNQMP_ARM
+     select XLNX_CSU_DMA
+     select XLNX_ZYNQMP
+     select XLNX_ZDMA
++    select USB_DWC3
+ 
+ config XLNX_VERSAL
+     bool
+-- 
+2.38.1
 
-
--Dov
-
-
-> 
-> In order to enable measured direct kernel boot on SNP, QEMU needs to
-> fill the hashes page when kernel-hashes=on.  This relies on several
-> changes to the SNP metadata published by OVMF (See [2] for proposed
-> OVMF patches).
-> 
-> Patch 1 pulls the 'kernel-hashes' property from the SEV guest settings
-> to the common settings to make it available for both SEV and SNP.
-> 
-> Patch 2 adds the hashes table for SNP guests (or validates the page as a
-> zero page if kernel-hashes=off).
-> 
-> This patch series is also available at [3].
-> 
-> 
-> [1] https://github.com/mdroth/qemu/commits/upmv10-snpv3
-> [2] https://edk2.groups.io/g/devel/message/100286
-> [3] https://github.com/confidential-containers-demo/qemu/tree/snp-kernel-hashes-v2
-> 
-> v2 changes:
-> * Rebase on top of upmv10-snpv3 which includes kernel-hashes.
-> 
-> v1: https://lore.kernel.org/qemu-devel/20220329064038.96006-1-dovmurik%40linux.ibm.com/
-> 
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Daniel P. Berrangé <berrange@redhat.com>
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Eduardo Habkost <eduardo@habkost.net>
-> Cc: Eric Blake <eblake@redhat.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
-> Cc: Marcelo Tosatti <mtosatti@redhat.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: James Bottomley <jejb@linux.ibm.com>
-> Cc: Tom Lendacky <thomas.lendacky@amd.com>
-> Cc: Michael Roth <michael.roth@amd.com>
-> Cc: Ashish Kalra <ashish.kalra@amd.com>
-> Cc: Mario Smarduch <mario.smarduch@amd.com>
-> Cc: Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
-> 
-> Dov Murik (2):
->   qapi, i386: Move kernel-hashes to SevCommonProperties
->   i386/sev: Allow measured direct kernel boot on SNP
-> 
->  qapi/qom.json     | 12 +++---
->  target/i386/sev.c | 95 +++++++++++++++++++++++++++++------------------
->  2 files changed, 65 insertions(+), 42 deletions(-)
-> 
 
