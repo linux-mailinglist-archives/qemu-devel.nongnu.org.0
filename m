@@ -2,84 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B51DF699640
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 14:49:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C01699648
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 14:50:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSecq-0008WQ-8R; Thu, 16 Feb 2023 08:48:40 -0500
+	id 1pSedS-0001TZ-FQ; Thu, 16 Feb 2023 08:49:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alvaro.karsz@solid-run.com>)
- id 1pSeco-0008VO-1a
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:48:38 -0500
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+ (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
+ id 1pSedR-0001TN-BJ
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:49:17 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alvaro.karsz@solid-run.com>)
- id 1pSecm-0001Uh-BT
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:48:37 -0500
-Received: by mail-pf1-x434.google.com with SMTP id ct17so1467284pfb.12
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 05:48:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=solid-run-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wtprkMmgE7hoJ6Y8aJ3Nve9pxuJnzGGALFqVXwWI6js=;
- b=7r+zhVsO05E4aQwd42ejOPV3GO7RVgTz0oj/B1uTxz5YPKbOYir3V69Jx8jPtIz13u
- xo2OJ15xoixlo7UlVM3HJjYCFfYNRhmugxRPZ3eiDZKhPLHfWDawV+fPH82MSWfBiiIp
- 0O+2RkKYJBh/XRFDBZXgegv/WT73R71zsGFYDrw8vOUc80kpJTTQ2KT1y/ohQLAetETQ
- RTyuEmYE7A5N9YfaMIhZ9ltfMvk6uG2ajUXIcZg/GrOA9X1Oz9gAeUpqcM6mtsEkgjn/
- X5WWk7rCqALZnHEiDdvbvXC9Zd4gkusWPeJj4xROxIYprYEeBkHRsLc8VOz3Z6lEsYlp
- O2UQ==
+ (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
+ id 1pSedP-0001a3-LS
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:49:17 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ j29-20020a05600c1c1d00b003dc52fed235so1709467wms.1
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 05:49:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Bd5H0WImwMjPW3TBJPLlxjV+HxVE0c2rQwXonUsYG6g=;
+ b=y9P2idz2jkMDQdb+zsN7MWVzSMMKxgIo/8OAv1v/Eekp3htckyRbYoqCqdo9tjatSj
+ tsXIzYIa6jCiDzn7l2OJn5xLn4OP3CpOdmO96U5M2oG8qfgpGaMW1FwGyf3pkza1db/F
+ aiCJk5jV9eWc0++2hMQwyTg9KVN2PRw2uLCo2SMSInvVyTcoJZ/yRmH+TsvdhpL81tKS
+ JIgOAQ6JyEErqfd5oW68ggE5OepVnJcYlh0NeNdg30X4rJXMrGvLvntAdXcSkIhuIkom
+ rfUKax595WXdnk8fMHHU/wQcVrTnx4f/DRcuWYgoZJfujiy5NYziC8+RlVJRra4KLgR/
+ Cg9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wtprkMmgE7hoJ6Y8aJ3Nve9pxuJnzGGALFqVXwWI6js=;
- b=dt/17yrrw3X0U9+ofNvEezJp2mTDUDXxrD4uj2kg4uxMJU/MZXuEHY5spGh1X0L5Gr
- YTF1dev9e+C9jp/qPpI0n1O+MfflVJZPceN62GDj9Jy+CanAj7wdWFwlusbDmVBcl718
- iZtx+nfZr2fiRktnUAn82d4u5ZJbvrwCKnUD4bt5P0pHPxtx2XAK1yiMlm/KVcOMnv97
- miwXomO+eEXZjhea6t8uQG6lUuiJ/gs9almlfhK4FfxA2H3Fh4bRbI937wH/GeGC7FGN
- AIm63cxhdQhdKBRxLLTCHH0M561Q4lH+OGCPFvhP/6Kyrkbt2ASbnpkeao6ua+N4AnaS
- 7mmg==
-X-Gm-Message-State: AO0yUKV7pzqDNlZ1+DXGwNiWTOW+m+CcLSdVnxVePknrvdMQ5jXAOC9L
- 0cmlmRplUGSHRI9/l9qTT/0UdIbrm28VRFqbxpIzqQ==
-X-Google-Smtp-Source: AK7set9Ibvt/gd41trfRELwqc0Ybl60labYoMsG/vCNdC7KGVO2grQsGWkcJBYvltqVAZCKYFh8StVF+jNDkP62nYdk=
-X-Received: by 2002:a63:f508:0:b0:4fb:d8d:2362 with SMTP id
- w8-20020a63f508000000b004fb0d8d2362mr882406pgh.8.1676555314430; Thu, 16 Feb
- 2023 05:48:34 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Bd5H0WImwMjPW3TBJPLlxjV+HxVE0c2rQwXonUsYG6g=;
+ b=Qm4jAkkfW0JJw/dL4Mhq/7rI5+WaaAhZV0y9T26DV/jsD9gCsenzFq5nGWv8esdXPD
+ BaTHTijW+tiKapuJvQDgPpryf6c+Ccrjzri+vMPMRhUwGrK+Z5nP102PkTby1y5eAAFX
+ bV1xrUYEyKSv+/lxbo2a7TbGH3TiV28PfMSSG5v1OVUIqiySwfWLxVk0p9N7uXOJ1oy4
+ lOtHZ7F50cpPf88mt1dgzmeZFUnPF+NXvMHnujxv4p6ZrYmFpI1VJrbf2ct+lrqzaATC
+ YKJxFNdpOYaQwognwDg2aKc6qXfK0OcJoxvJKExRbGwjfai4Po2/mZ78xFHbLyzvbWCV
+ 8+Ag==
+X-Gm-Message-State: AO0yUKUDu7924LIE+s5Va4Oki1VUt8eoeF9BApBek2qLGYLLBZdXJSpF
+ mwnGX81VzFKcvdRo+j0Hu29xw6lzzoH/prs/XZg=
+X-Google-Smtp-Source: AK7set/cxkEes4JRGQyC17NwULE+bZ44JVMyV6UCbfWL574XSuyH/DNu1XNxuvDJfsNVJqmmU/ZQpw==
+X-Received: by 2002:a05:600c:18a6:b0:3e2:f80:3df1 with SMTP id
+ x38-20020a05600c18a600b003e20f803df1mr1694358wmp.19.1676555353367; 
+ Thu, 16 Feb 2023 05:49:13 -0800 (PST)
+Received: from volterra.localdomain ([2a01:e0a:5cc:caa0:c49d:d14a:e6ed:555a])
+ by smtp.gmail.com with ESMTPSA id
+ y11-20020a05600c364b00b003dc0cb5e3f1sm1557933wmq.46.2023.02.16.05.49.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Feb 2023 05:49:12 -0800 (PST)
+From: Pierrick Bouvier <pierrick.bouvier@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org,
+ richard.henderson@linaro.org, alex.bennee@linaro.org,
+ peter.maydell@linaro.org, Pierrick Bouvier <pierrick.bouvier@linaro.org>
+Subject: [PATCH v2 0/4] Adds support for running QEMU natively on windows-arm64
+Date: Thu, 16 Feb 2023 14:49:07 +0100
+Message-Id: <20230216134911.6803-1-pierrick.bouvier@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20230215173850.298832-1-eperezma@redhat.com>
- <20230215173850.298832-5-eperezma@redhat.com>
-In-Reply-To: <20230215173850.298832-5-eperezma@redhat.com>
-From: Alvaro Karsz <alvaro.karsz@solid-run.com>
-Date: Thu, 16 Feb 2023 15:47:57 +0200
-Message-ID: <CAJs=3_Ci0m2wGYmw6cbdmJmeM+Gv05z2sJ_mdnAbpTRm9pbP5w@mail.gmail.com>
-Subject: Re: [PATCH v3 04/14] vdpa: add vhost_vdpa_suspend
-To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Cindy Lu <lulu@redhat.com>, 
- Shannon Nelson <snelson@pensando.io>, longpeng2@huawei.com, 
- virtualization@lists.linux-foundation.org, 
- Harpreet Singh Anand <hanand@xilinx.com>, si-wei.liu@oracle.com, 
- Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
- Laurent Vivier <lvivier@redhat.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Jason Wang <jasowang@redhat.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: permerror client-ip=2607:f8b0:4864:20::434;
- envelope-from=alvaro.karsz@solid-run.com; helo=mail-pf1-x434.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=pierrick.bouvier@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,42 +89,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+Since v1:
 
-> The function vhost.c:vhost_dev_stop fetches the vring base so the vq
-> state can be migrated to other devices.  However, this is unreliable in
-> vdpa, since we didn't signal the device to suspend the queues, making
-> the value fetched useless.
->
-> Suspend the device if possible before fetching first and subsequent
-> vring bases.
->
-> Moreover, vdpa totally reset and wipes the device at the last device
-> before fetch its vrings base, making that operation useless in the last
-> device. This will be fixed in later patches of this series.
->
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> ---
->  hw/virtio/vhost-vdpa.c | 19 +++++++++++++++++++
->  hw/virtio/trace-events |  1 +
->  2 files changed, 20 insertions(+)
->
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 1d0209d6ad..796f38d64e 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -1109,6 +1109,24 @@ static void vhost_vdpa_svqs_stop(struct vhost_dev =
-*dev)
->      }
->  }
->
-> +static void vhost_vdpa_suspend(struct vhost_dev *dev)
-> +{
-> +    struct vhost_vdpa *v =3D dev->opaque;
-> +    int r;
-> +
-> +    if (!vhost_vdpa_first_dev(dev) ||
-> +        !(dev->backend_features & BIT_ULL(VHOST_BACKEND_F_SUSPEND))) {
+- Comment why we use generic version of flush_idcache_range
+- Ensure __mingw_setjmp/longjmp are available using meson
+- Fix a warning by calling g_assert_not_reached() instead of initializing a
+  variable
 
-Shouldn't it be backend_cap?
+As before this was tested with:
+- make check
+- boot an x64 debian bullseye vm
+- boot an arm64 ubuntu 22.10 vm
+
+Thanks
+
+Pierrick Bouvier (4):
+  util/cacheflush: fix cache on windows-arm64
+  sysemu/os-win32: fix setjmp/longjmp on windows-arm64
+  qga/vss-win32: fix warning for clang++-15
+  target/ppc: fix warning with clang-15
+
+ include/sysemu/os-win32.h | 21 +++++++++++++++++++--
+ meson.build               | 22 ++++++++++++++++++++++
+ qga/vss-win32/install.cpp |  2 +-
+ target/ppc/dfp_helper.c   |  4 ++--
+ util/cacheflush.c         | 10 +++++++---
+ 5 files changed, 51 insertions(+), 8 deletions(-)
+
+-- 
+2.30.2
+
 
