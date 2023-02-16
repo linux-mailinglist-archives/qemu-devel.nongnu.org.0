@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30E69699687
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:01:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6FA699686
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:01:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSeoM-0003ka-OR; Thu, 16 Feb 2023 09:00:34 -0500
+	id 1pSeoO-0003ll-1O; Thu, 16 Feb 2023 09:00:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
- id 1pSeoG-0003je-6h
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:00:29 -0500
+ id 1pSeoK-0003kG-GM
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:00:32 -0500
 Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
- id 1pSeoD-000331-V2
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:00:27 -0500
+ id 1pSeoI-00038b-N3
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:00:32 -0500
 Received: from vla1-81430ab5870b.qloud-c.yandex.net
  (vla1-81430ab5870b.qloud-c.yandex.net
  [IPv6:2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id ACD245FE15;
- Thu, 16 Feb 2023 17:00:16 +0300 (MSK)
+ by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id A4AB05FE1E;
+ Thu, 16 Feb 2023 17:00:19 +0300 (MSK)
 Received: from antonkuchin-nix.yandex-team.ru (unknown
  [2a02:6b8:b081:7313::1:33])
  by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 30mChN0RvGk1-DWSC8aP3; Thu, 16 Feb 2023 17:00:15 +0300
+ 30mChN0RvGk1-2f3rpAhw; Thu, 16 Feb 2023 17:00:18 +0300
 Precedence: bulk
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1676556016; bh=LWStvpjF+X9INvQtKoyy/tfGUCKy8vkWL1oG4k796nw=;
- h=Message-Id:Date:Cc:Subject:To:From;
- b=GfiIA1g+2bPcsmFSgfvDBmzQ+TYLroVNwSknuLHbVpknZvmRbtmoUaCcQn5G9brJ9
- Gbz21x3aSEFH6B0IEMNX6dfTlxUWY2B4rQp88jPrxbY86mJGe0FbYuM8s+3S+2VYG0
- LNDDv3usSPoa44rzIahsK7qQGG/qTFMtsLqJH7tY=
+ t=1676556018; bh=J8Y3uDi6qCzTP8dnddhcudJnMoTlOL2W73l3D1Arrkc=;
+ h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
+ b=RkCLxEZTYjnQVii2/xMNaIjSu4IUw95XeKZ1+GiOkYlqxHvwzJLOa9fXZUjI3443D
+ MR3KjG0Wyw6kbQbLUfGXhdh2wLSLgNs5gUGcX6jnqyS0cp9VO7oyO6Sekfk7wuj2Jg
+ 3IBxMslraj4Mtb6an3+wGUjwjP4/vL1ITRaD7zEA=
 Authentication-Results: vla1-81430ab5870b.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 From: Anton Kuchin <antonkuchin@yandex-team.ru>
@@ -49,11 +49,12 @@ Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Eric Blake <eblake@redhat.com>, Juan Quintela <quintela@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Anton Kuchin <antonkuchin@yandex-team.ru>
-Subject: [PATCH v2 0/1] virtio-fs: implement option for stateless migration.
-Date: Thu, 16 Feb 2023 16:00:02 +0200
-Message-Id: <20230216140003.1103681-1-antonkuchin@yandex-team.ru>
+Subject: [PATCH v2 1/1] vhost-user-fs: add property to allow migration
+Date: Thu, 16 Feb 2023 16:00:03 +0200
+Message-Id: <20230216140003.1103681-2-antonkuchin@yandex-team.ru>
 X-Mailer: git-send-email 2.37.2
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20230216140003.1103681-1-antonkuchin@yandex-team.ru>
+References: <20230216140003.1103681-1-antonkuchin@yandex-team.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=178.154.239.72;
@@ -78,11 +79,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-v2: Use device property instead of migration capability
+Now any vhost-user-fs device makes VM unmigratable, that also prevents
+qemu update without stopping the VM. In most cases that makes sense
+because qemu has no way to transfer FUSE session state.
 
-Anton Kuchin (1):
-  vhost-user-fs: add property to allow migration
+But it is good to have an option for orchestrator to tune this according to
+backend capabilities and migration configuration.
 
+This patch adds device property 'migration' that is 'none' by default
+to keep old behaviour but can be set to 'external' to explicitly allow
+migration with minimal virtio device state in migration stream if daemon
+has some way to sync FUSE state on src and dst without help from qemu.
+
+Signed-off-by: Anton Kuchin <antonkuchin@yandex-team.ru>
+---
  hw/core/qdev-properties-system.c    | 10 +++++++++
  hw/virtio/vhost-user-fs.c           | 34 ++++++++++++++++++++++++++++-
  include/hw/qdev-properties-system.h |  1 +
@@ -90,6 +100,133 @@ Anton Kuchin (1):
  qapi/migration.json                 | 16 ++++++++++++++
  5 files changed, 61 insertions(+), 1 deletion(-)
 
+diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
+index d42493f630..d9b1aa2a5d 100644
+--- a/hw/core/qdev-properties-system.c
++++ b/hw/core/qdev-properties-system.c
+@@ -1143,3 +1143,13 @@ const PropertyInfo qdev_prop_uuid = {
+     .set   = set_uuid,
+     .set_default_value = set_default_uuid_auto,
+ };
++
++const PropertyInfo qdev_prop_vhost_user_migration_type = {
++    .name = "VhostUserMigrationType",
++    .description = "none/external",
++    .enum_table = &VhostUserMigrationType_lookup,
++    .get = qdev_propinfo_get_enum,
++    .set = qdev_propinfo_set_enum,
++    .set_default_value = qdev_propinfo_set_default_value_enum,
++    .realized_set_allowed = true,
++};
+diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+index 83fc20e49e..e2a5b6cfdf 100644
+--- a/hw/virtio/vhost-user-fs.c
++++ b/hw/virtio/vhost-user-fs.c
+@@ -24,6 +24,7 @@
+ #include "hw/virtio/vhost-user-fs.h"
+ #include "monitor/monitor.h"
+ #include "sysemu/sysemu.h"
++#include "qapi/qapi-types-migration.h"
+ 
+ static const int user_feature_bits[] = {
+     VIRTIO_F_VERSION_1,
+@@ -298,9 +299,36 @@ static struct vhost_dev *vuf_get_vhost(VirtIODevice *vdev)
+     return &fs->vhost_dev;
+ }
+ 
++static int vhost_user_fs_pre_save(void *opaque)
++{
++    VHostUserFS *fs = (VHostUserFS *)opaque;
++    g_autofree char *path = object_get_canonical_path(OBJECT(fs));
++
++    switch (fs->migration_type) {
++    case VHOST_USER_MIGRATION_TYPE_NONE:
++        error_report("Migration is blocked by device %s", path);
++        break;
++    case VHOST_USER_MIGRATION_TYPE_EXTERNAL:
++        return 0;
++    default:
++        error_report("Migration type '%s' is not supported by device %s",
++                     VhostUserMigrationType_str(fs->migration_type), path);
++        break;
++    }
++
++    return -1;
++}
++
+ static const VMStateDescription vuf_vmstate = {
+     .name = "vhost-user-fs",
+-    .unmigratable = 1,
++    .minimum_version_id = 0,
++    .version_id = 0,
++    .fields = (VMStateField[]) {
++        VMSTATE_VIRTIO_DEVICE,
++        VMSTATE_UINT8(migration_type, VHostUserFS),
++        VMSTATE_END_OF_LIST()
++    },
++   .pre_save = vhost_user_fs_pre_save,
+ };
+ 
+ static Property vuf_properties[] = {
+@@ -309,6 +337,10 @@ static Property vuf_properties[] = {
+     DEFINE_PROP_UINT16("num-request-queues", VHostUserFS,
+                        conf.num_request_queues, 1),
+     DEFINE_PROP_UINT16("queue-size", VHostUserFS, conf.queue_size, 128),
++    DEFINE_PROP_UNSIGNED("migration", VHostUserFS, migration_type,
++                         VHOST_USER_MIGRATION_TYPE_NONE,
++                         qdev_prop_vhost_user_migration_type,
++                         uint8_t),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/include/hw/qdev-properties-system.h b/include/hw/qdev-properties-system.h
+index 0ac327ae60..1a67591590 100644
+--- a/include/hw/qdev-properties-system.h
++++ b/include/hw/qdev-properties-system.h
+@@ -22,6 +22,7 @@ extern const PropertyInfo qdev_prop_audiodev;
+ extern const PropertyInfo qdev_prop_off_auto_pcibar;
+ extern const PropertyInfo qdev_prop_pcie_link_speed;
+ extern const PropertyInfo qdev_prop_pcie_link_width;
++extern const PropertyInfo qdev_prop_vhost_user_migration_type;
+ 
+ #define DEFINE_PROP_PCI_DEVFN(_n, _s, _f, _d)                   \
+     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_pci_devfn, int32_t)
+diff --git a/include/hw/virtio/vhost-user-fs.h b/include/hw/virtio/vhost-user-fs.h
+index 94c3aaa84e..3ebce77be5 100644
+--- a/include/hw/virtio/vhost-user-fs.h
++++ b/include/hw/virtio/vhost-user-fs.h
+@@ -40,6 +40,7 @@ struct VHostUserFS {
+     VirtQueue **req_vqs;
+     VirtQueue *hiprio_vq;
+     int32_t bootindex;
++    uint8_t migration_type;
+ 
+     /*< public >*/
+ };
+diff --git a/qapi/migration.json b/qapi/migration.json
+index c84fa10e86..ababd605a2 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -2178,3 +2178,19 @@
+   'data': { 'job-id': 'str',
+             'tag': 'str',
+             'devices': ['str'] } }
++
++##
++# @VhostUserMigrationType:
++#
++# Type of vhost-user device migration.
++#
++# @none: Migration is not supported, attempts to migrate with this device
++#        will be blocked.
++#
++# @external: Migration stream contains only virtio device state,
++#            deamon state should be transfered externally by orchestrator.
++#
++# Since: 8.0
++##
++{ 'enum': 'VhostUserMigrationType',
++  'data': [ 'none', 'external' ] }
 -- 
 2.37.2
 
