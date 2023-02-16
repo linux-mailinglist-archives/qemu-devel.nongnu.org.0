@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A797C699B07
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:15:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 366AF699AFC
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:15:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pShnI-0008Aq-U8; Thu, 16 Feb 2023 12:11:40 -0500
+	id 1pShnL-0008EO-6h; Thu, 16 Feb 2023 12:11:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShnH-00087o-C7
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:39 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ id 1pShnJ-0008Bb-1w
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:41 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShnF-0007o5-Op
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:39 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id v30so1349747wrv.3
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:11:37 -0800 (PST)
+ id 1pShnH-0007sY-GM
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:40 -0500
+Received: by mail-wr1-x431.google.com with SMTP id o15so2519809wrc.9
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:11:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=AerA0OknWJqQzriuIbTWlCJrYfPW5ifmeAoCsYc7SKg=;
- b=r7mTDzJAcr6woh0tuC5Fyaoqma8R1LH4HCS1p2687KkooPJd1oC5Qg41Nn3KPrCqhG
- vEz2EPls7oDlINufY8cXzpXC+eKj+haQTah3gZzAHvFJJjhx7EQgPHMdO3/MRvjnA5if
- Y0VYIvT25jf1Ce+xFYgG6HfWU14olDNIeyozI0XMMKMgnUWs525Br5nhVSBFVQpP3pNZ
- 049QtALXefa1Lhh5jU2UhO8QZ1QZuHOSxRjlYdGHcgZAHQ4yo5MdiIBQNPrQR3cMi1z5
- PLEnedjGrwlU9iJeldubASZn4LFHZvOAq+VNYkhInZBiPLaI4hQ8fbdEC92rPY2sH6JO
- XmOw==
+ :reply-to; bh=b/ZJPvKYLNs02JbKxyWAve6/lJ0RBSn21cgFd8J9qhw=;
+ b=N/bTgqvLq/x6rhJOCGYWLDaW+b6ku9+Tf7tyNqG9vH7C7EC9DcFOGSA2u491T9nlet
+ 27fmOMY+fXlG/Z2VqzBNzVaAJSxM00UAtliDF9M1D29pejtPLGUCu+rARtXUCSNNDheN
+ WP9Ry7nE2GlkMn2MOJ5mzNgfSFXYi0b3AKQ8dx40odPp5IIxm9SXKeURXoPU5akdPFo9
+ lADCBp4UhVzrf3Vd2LoTNkxuWIOE8jOXUydVAiigwIKd4x7SrN3eJ6aM+dkP0Vzrb7Iv
+ jgC+/o8ahUDYs4BCevqb9Y8ts+i1VofYnSRNIOjc42/RVi/jRErEvdYq0VcqpmPtGB5L
+ o/SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=AerA0OknWJqQzriuIbTWlCJrYfPW5ifmeAoCsYc7SKg=;
- b=codBWHWa9TrBIbNMzLCwMRpPISXYaw2zn2Uzazk4G1rlcommk6a0ZH8DA+ucmYcM1C
- CijhpLtrBxLMX+u3iEFYH3A/v1U63oQ6ZTCed2djHY9QrUehyW83JEY9C2HACaTPuvgE
- xhDwp5sjU1FAhDMMFs1p7odjkI8tQer4MJCieHyMk1zZCK2bTZhPWkJ2Ciw6eQAI3f3k
- /Jh0HJGv+dNecNDxSNkUes7NhgM9fsMkyFndJiObz489Dh30kl0RczhcHDkgfIGDe2xa
- Y2UtCWrAapNoQfUCIZ2Lbfw0yMFC1EesKpei857IbdOXtOVxhd0uQWLlpLhu1PkIPVzu
- k8kw==
-X-Gm-Message-State: AO0yUKXhQWrYgrHlrhMQUXVmRJfUcs18iLSH/lBt0BjpDwWIFG7DIi2C
- c9+SBstGDeM9AqiW1RJQRa20Jsdjc/xGNTzI
-X-Google-Smtp-Source: AK7set8h7l2sgFxaRKW1sLcBOrBgbSyLrPQW1Gyv6uD3FWxq23TYIBFuK6LtzX39/HctGcp9/Qohqw==
-X-Received: by 2002:adf:f2c1:0:b0:2c3:f0a6:43e3 with SMTP id
- d1-20020adff2c1000000b002c3f0a643e3mr5274081wrp.39.1676567497123; 
- Thu, 16 Feb 2023 09:11:37 -0800 (PST)
+ bh=b/ZJPvKYLNs02JbKxyWAve6/lJ0RBSn21cgFd8J9qhw=;
+ b=5RULK+tGb9Tg0LI2BqqtJVSaUjZiEMLWuqvAQv6T4SvN0b3qimh6Tf9+02H0yxoKgg
+ QXLX5lRiOSVUux4BcGuidn9WOFdOYlRRQLNLtwcKcBb9wt9tMCfModocZKrlgn6K8SR6
+ aAe7/76G5CmJcKqaA9m9hBQ9d9aKvqf2eZ5lZjJW5Y/2+xE35Q9jol+mYlUDM50aMX6Q
+ cpf2/K1A9x+h0JOiH6o5F4HLTl84mxxcQ7urq2UWtCl493TmJ/Kwl9xYLp1FDqTNo9RY
+ lWbvIek7DzeazvYxD+Mk0MEixVJKKVNXqu8l9fMoWWri88LE6a5W2CAWqVTkjwMUB3Jg
+ dIkg==
+X-Gm-Message-State: AO0yUKW7yO1XlleWIVdC3Mx2vm6rKs5Lx//O7mGEkwULN8tGDX88cWKj
+ /pU+Ric4XwwtxNMkR/AI8Yfwpe26GKMnikv4
+X-Google-Smtp-Source: AK7set+B0Gz+bpSJ8hUCpOVlkW4wOH3f0QFFx91vdtgbGq+ni8qWJ+aflasEQCnJ+1sQlrdLtwar4Q==
+X-Received: by 2002:adf:f111:0:b0:2c5:586b:f53d with SMTP id
+ r17-20020adff111000000b002c5586bf53dmr5085650wro.48.1676567498012; 
+ Thu, 16 Feb 2023 09:11:38 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- f12-20020a5d4dcc000000b002c556a4f1casm2049107wru.42.2023.02.16.09.11.36
+ f12-20020a5d4dcc000000b002c556a4f1casm2049107wru.42.2023.02.16.09.11.37
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 09:11:36 -0800 (PST)
+ Thu, 16 Feb 2023 09:11:37 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/30] hw/arm: Add missing XLNX_ZYNQMP_ARM -> USB_DWC3 Kconfig
- dependency
-Date: Thu, 16 Feb 2023 17:11:07 +0000
-Message-Id: <20230216171123.2518285-15-peter.maydell@linaro.org>
+Subject: [PULL 15/30] arm/virt: don't try to spell out the accelerator
+Date: Thu, 16 Feb 2023 17:11:08 +0000
+Message-Id: <20230216171123.2518285-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230216171123.2518285-1-peter.maydell@linaro.org>
 References: <20230216171123.2518285-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,38 +88,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+From: Cornelia Huck <cohuck@redhat.com>
 
-Since commit acc0b8b05a when running the ZynqMP ZCU102 board with
-a QEMU configured using --without-default-devices, we get:
+Just use current_accel_name() directly.
 
-  $ qemu-system-aarch64 -M xlnx-zcu102
-  qemu-system-aarch64: missing object type 'usb_dwc3'
-  Abort trap: 6
-
-Fix by adding the missing Kconfig dependency.
-
-Fixes: acc0b8b05a ("hw/arm/xlnx-zynqmp: Connect ZynqMP's USB controllers")
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-id: 20230216092327.2203-1-philmd@linaro.org
-Reviewed-by: Francisco Iglesias <francisco.iglesias@amd.com>
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ hw/arm/virt.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 2d157de9b8b..b5aed4aff56 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -389,6 +389,7 @@ config XLNX_ZYNQMP_ARM
-     select XLNX_CSU_DMA
-     select XLNX_ZYNQMP
-     select XLNX_ZDMA
-+    select USB_DWC3
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 75f28947de0..8d13e4486b1 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2133,21 +2133,21 @@ static void machvirt_init(MachineState *machine)
+     if (vms->secure && (kvm_enabled() || hvf_enabled())) {
+         error_report("mach-virt: %s does not support providing "
+                      "Security extensions (TrustZone) to the guest CPU",
+-                     kvm_enabled() ? "KVM" : "HVF");
++                     current_accel_name());
+         exit(1);
+     }
  
- config XLNX_VERSAL
-     bool
+     if (vms->virt && (kvm_enabled() || hvf_enabled())) {
+         error_report("mach-virt: %s does not support providing "
+                      "Virtualization extensions to the guest CPU",
+-                     kvm_enabled() ? "KVM" : "HVF");
++                     current_accel_name());
+         exit(1);
+     }
+ 
+     if (vms->mte && (kvm_enabled() || hvf_enabled())) {
+         error_report("mach-virt: %s does not support providing "
+                      "MTE to the guest CPU",
+-                     kvm_enabled() ? "KVM" : "HVF");
++                     current_accel_name());
+         exit(1);
+     }
+ 
 -- 
 2.34.1
 
