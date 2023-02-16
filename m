@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39543699B11
+	by mail.lfdr.de (Postfix) with ESMTPS id 44085699B12
 	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:16:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pShrO-0000ON-DI; Thu, 16 Feb 2023 12:15:54 -0500
+	id 1pShs0-0002Ef-1Z; Thu, 16 Feb 2023 12:16:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pShrL-00009e-Ty
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:15:51 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pShrc-0001tE-1N
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:16:12 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pShrK-0000NY-6H
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:15:51 -0500
-Received: by mail-wr1-x431.google.com with SMTP id r28so2080806wra.5
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:15:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pShra-0000QG-8d
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:16:07 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ d13-20020a17090ad3cd00b0023127b2d602so2791103pjw.2
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:16:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1676567765;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9uODikHYHKZgHTkZVIU3PY4gwwsVfwMlxitzQ4Sad44=;
- b=JdZwaBdwBbcINfXmGaETGH7vCeMXWKx8ND9Ky6oUH05rBtBmyqMo+UT6sKGkcJ9hNf
- 9R8OKK4Nt2c8ixbE1UnH22VqkyNqHQy7GBLhFtP8dr0doN363gn9NoiIIKLQSVtpFIzA
- MHB/Y9PONm/fFpw1SU+i0hDfslUmF3vWcfphExUCXvuDRZ9MB8PCsd5E2nhCIyCalL5C
- Nbpei87g0VVj41/q7/Pg5088ZYlqnVAx+G9nqGWSdh83K5BiGnQjJKi9ylTGOB3hIoae
- Jd4Gbyksj9TNpEryVdTnSD1S4w+YlWjuS5DqWHoMlX1FQeqzd4ij5OHgHJUYxzcVY7Ua
- FpwA==
+ bh=C0KokJHopfhhM46dAI8X3vpi3gbv7qDJ5m0Cl519uGE=;
+ b=GbDqE5f5C2sjmu4ZsM6fpr3aivBse9YKOt06w7f8lsceFlliesoNTE9icFF18XlbmR
+ jP5IiRnMJyJ6z3TRXGdxhy4fXgXyuZFxt2nmvQjdLVO3NOCAbssO++ylmt95Ci3DF/wo
+ jpaa7bfAwP13vpQEpXGz2J7TwjbeEiuV+bRzjq9FnInRRQ4Oy3uemN1AjqwIinJZLnFI
+ bLjCZ5czNuISOjEMpGyOFUUt1F1GON9+3NRtgVoiq+b9+bvz3ryUPZlzRTBcFPH3ZHxd
+ XSDnwAUe5bgHMMlkAvGZMXMTGPqGJA4Bx93AeSkre56GPuF8Mj2i7/ijcWgejXYUAAVk
+ 7OiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=9uODikHYHKZgHTkZVIU3PY4gwwsVfwMlxitzQ4Sad44=;
- b=MWPJIhKooGgb6aZzEgI0qkzsiNqGyBS03QcgBMfjvQK6qe+xBO4FmXrOyma8ubdnbl
- 2hvv2yA92T2avisnlifBILAKjq6GFjkq2mYEgUeH6oOnXhEhx+2jyIiMXnVO4e24InJQ
- dw1OBGghuycyIdeVAtapj1AQZRCc/CkEPVarsjfuNUD7ZkO+UzWGGQpyYvoR7njPq0+9
- 6sOl7QQGFfGaV85xIBMGy3Je0Fngo17NC5/CwZWC2USp59kChNE0uHjCFkawvzzoDbfN
- 37xT5OOddYIdgH1vubtKJIuod2mXUSZDjKSznPdc0g8io+WXbpDZ+CPf4+/gm01pZV/6
- Js9g==
-X-Gm-Message-State: AO0yUKWZ5nK3w8fg9lAOmnIlzaEZplix4cABJ02p6flFYV1UDJ2JH5XA
- RZowJjC60CFANFFRFZwZ/lU5UQ==
-X-Google-Smtp-Source: AK7set8/+UB206McDx4MmUHgKevpqelknn6K1LLLiD6xtpfUkGU1jt8rVSDuXZhuA2C9xwKzCdSJIA==
-X-Received: by 2002:a5d:4a8e:0:b0:2c5:8d4a:3695 with SMTP id
- o14-20020a5d4a8e000000b002c58d4a3695mr1938465wrq.59.1676567748760; 
- Thu, 16 Feb 2023 09:15:48 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- r12-20020adff10c000000b002c54c92e125sm2006877wro.46.2023.02.16.09.15.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 09:15:48 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C5A3C1FFB7;
- Thu, 16 Feb 2023 17:15:47 +0000 (GMT)
-References: <20230215142503.90660-1-thuth@redhat.com>
-User-agent: mu4e 1.9.20; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>, Peter
- Maydell <peter.maydell@linaro.org>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>, =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?=
- <berrange@redhat.com>
-Subject: Re: [PATCH] gitlab-ci: Use artifacts instead of dumping logs in the
- Cirrus-CI jobs
-Date: Thu, 16 Feb 2023 17:15:35 +0000
-In-reply-to: <20230215142503.90660-1-thuth@redhat.com>
-Message-ID: <87y1ox7cqk.fsf@linaro.org>
+ d=1e100.net; s=20210112; t=1676567765;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=C0KokJHopfhhM46dAI8X3vpi3gbv7qDJ5m0Cl519uGE=;
+ b=W+JXUIYMTy/QZiMloMy8Mvm5UgMWOcvKmsWVDT2pdJgTaxiZ/9vjV9AeVOr0+XQG8C
+ Ow8kykMOlQVevPj1sL3sMa1l7GwpVvzPfRuzvK4Tf7G8fDi+MLu0Dr52f3IY5AAIxxkq
+ N5mcF82INCZbpR8SJc+fyhQ3LfuEazm0UwbpAy1uSXSVeilKX6BlF3Y5npgb7dx28omK
+ P67n/q8/ceoE8h8DuiZ9PLjxkJqfek0tbbnB16pZmtOEOImXY+tWn8HJsOP4CYNpSvxO
+ 0nJ5v4TROFyZhBPs2RpPUVkxyl8f9r5hjormUMFN3UscTxlSH4q/kobN4xhojTxIa/9h
+ pLcQ==
+X-Gm-Message-State: AO0yUKWxO7L/DOIEQT7RMWeKH04XGP4V5RK2ciXxe7R1Yqw802mFT9Q7
+ xC93HmgPg1RODTSqd//TCB1mHJTMSnifi4vLbgkkzGISEEykEzsj
+X-Google-Smtp-Source: AK7set9ZulIlBEuqIpnFprtFlgsLdgkObEPro/Xtpaij76+FUh07FOCxblTa2FX0SCI/aYZUvuI2WgADl0E1UR91Jow=
+X-Received: by 2002:a17:903:1c9:b0:19a:721b:bce1 with SMTP id
+ e9-20020a17090301c900b0019a721bbce1mr1431814plh.23.1676567764788; Thu, 16 Feb
+ 2023 09:16:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <alpine.DEB.2.22.394.2302141541100.2025117@ubuntu-linux-20-04-desktop>
+ <CAFEAcA96Mb5KAdPQrncqh9SM2iRc7aE2f4deoiF_2vChdMF0rw@mail.gmail.com>
+ <87bkluelt7.fsf@suse.de>
+ <alpine.DEB.2.22.394.2302151316570.2127160@ubuntu-linux-20-04-desktop>
+In-Reply-To: <alpine.DEB.2.22.394.2302151316570.2127160@ubuntu-linux-20-04-desktop>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 16 Feb 2023 17:15:53 +0000
+Message-ID: <CAFEAcA8D4O9aGKX4fv_RVhc+-OMWsfyvaCQk50gvtqWGaDf0Ow@mail.gmail.com>
+Subject: Re: [PULL v2 0/10] xenpvh
+To: Stefano Stabellini <sstabellini@kernel.org>
+Cc: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org,
+ vikram.garhwal@amd.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,23 +90,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Thomas Huth <thuth@redhat.com> writes:
-
-> The meson log files can get very big, especially if running the tests in
-> verbose mode. So dumping those logs to the console was a bad idea, since
-> gitlab truncates the output if it is getting too big. Let's publish the
-> logs as artifacts instead. This has the disadvantage that you have to
-> look up the logs on cirrus-ci.com now instead, but that's still better
-> than not having the important part of the log at all since it got
-> truncated.
+On Wed, 15 Feb 2023 at 21:17, Stefano Stabellini <sstabellini@kernel.org> w=
+rote:
 >
-> Fixes: 998f334722 ("gitlab: show testlog.txt contents ...")
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> On Wed, 15 Feb 2023, Fabiano Rosas wrote:
+> > Peter Maydell <peter.maydell@linaro.org> writes:
+> >
+> > > On Tue, 14 Feb 2023 at 23:43, Stefano Stabellini <sstabellini@kernel.=
+org> wrote:
+> > >>
+> > >> The following changes since commit 6a50f64ca01d0a7b97f14f069762bfd88=
+160f31e:
+> > >>
+> > >>   Merge tag 'pull-request-2023-02-14' of https://gitlab.com/thuth/qe=
+mu into staging (2023-02-14 14:46:10 +0000)
+> > >>
+> > >> are available in the Git repository at:
+> > >>
+> > >>   https://gitlab.com/sstabellini/qemu xenpvh2
+> > >>
+> > >> for you to fetch changes up to 86b01d58ca2840bea6e4e7260aad450a660fb=
+d46:
+> > >>
+> > >>   meson.build: enable xenpv machine build for ARM (2023-02-14 15:39:=
+25 -0800)
+> > >>
+> > >> ----------------------------------------------------------------
+> > >
+> > > Fails to compile for some configs, eg:
+> > >
+> > > https://gitlab.com/qemu-project/qemu/-/jobs/3775820949
+> > > https://gitlab.com/qemu-project/qemu/-/jobs/3775820984
+> > >
+> > > In file included from ../target/arm/machine.c:6:
+> > > ../target/arm/internals.h:1141:21: error: field =E2=80=98f=E2=80=99 h=
+as incomplete type
+> > > 1141 | CPUTLBEntryFull f;
+> > >
+> >
+> > For this to work we'll probably need to cherry-pick some parts of my
+> > disable-tcg series:
+> >
+> > https://lore.kernel.org/r/20230213202927.28992-1-farosas@suse.de
+> >
+> > For this error specifically, patch 16.
+>
+> Thanks for the quick reply!
+>
+> Peter, how would you like to proceed? Vikram (the original contributor)
+> will be AFK for a few weeks but I might be able to have a look this in
+> the meantime. But if this is a known issue with already a fix available,
+> then what should be the action for me?
 
-Queued to testing/next, thanks.
+You need to submit a pullreq which applies to current head-of-git.
+If it depends on other patches, then if those are reviewed then
+you can include them. In this case patch 16 of Fabiano's series
+looks OK to include, assuming that's the only thing you need.
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+(But other stuff in that patchseries may be rather trickier to
+extract from it.)
+
+Make sure you test the xen-only build config in case there's
+something else.
+
+thanks
+-- PMM
 
