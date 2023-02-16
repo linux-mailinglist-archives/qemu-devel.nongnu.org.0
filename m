@@ -2,84 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D538699D1A
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 20:43:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B06F699D1E
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 20:44:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSk9d-0003wq-DQ; Thu, 16 Feb 2023 14:42:54 -0500
+	id 1pSkB7-0005Rg-UB; Thu, 16 Feb 2023 14:44:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSk9R-0003uk-9m
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 14:42:42 -0500
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSk9P-0006AQ-Bt
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 14:42:40 -0500
-Received: by mail-pg1-x531.google.com with SMTP id 7so1957518pga.1
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 11:42:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=pDcp5WhssHtNHzB5mwwq5Dt8iMCNv/D5OnYirDbpf6I=;
- b=DygV0LGj0ySB8xgSz/Fc0nCy7QSJffyNtmtis4IhlcsP0Rw0+Cb6G8ZiyOj6zaUwOr
- D/GGXzembIUA1CpY+aQ9FwhFFH4gyNxCvFnuB8EPtHL+gIIG0AZmiS9jq12KXv/etR2v
- w4Go0mmkYxw/ZBZYOfBlf3hbm3qPlfH2NOkq3DDChG9eX+2cm2e7GF9QDAMqOiMmTaf/
- fPwJRRG7yFOWK+Glhq0/NawRf/SDT7oBEHJEjOTzNJc0bw9tqYFnwP0/ntsf0QfvZ+5B
- 3rrX91NgUkeKF5IjfLvvcfyfaR1KPcWyikgeviQCh0yp0Pc3RRK/GeiS2z7nARqQjwwZ
- knmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pDcp5WhssHtNHzB5mwwq5Dt8iMCNv/D5OnYirDbpf6I=;
- b=s7/PO1RSsEmcwPcQFNgSa/8niEQdhHQbvkOdy5LEk+c7Qx7uhnEZIeb/9Ld6OWue+v
- q7lokasmwY6woID/HqxECvqaR2Y8A9arbX4wOIzmwxXNFYGPN7ALPojb46SzXv/3rjqy
- jXpUuM0YyCw1Yql6DD+JAv2WuBTL/2coE5teET8X6QKgw8YBVcpvddIJP9HcH4C1fF/K
- KFkJXJIYvZbJY8oeD1J9DxENnDiQ17gYSWTdJ99ueTXX9Ni83mDZArp96deYWXpseUjm
- 7lCJSgPY29asVP9a0Rs0kNQjGXIyIbGVhA32QXaCzGNPyWe2dkFu/tue0ysH7HK5ifS0
- yDLw==
-X-Gm-Message-State: AO0yUKVBC5rNR3Qu7pGSwt1VfUNOO2dHeNFYWhQ11NnP5qXryFGbo3Kj
- MEd8cSZx3L8nK9SZfZBRJFTSDw==
-X-Google-Smtp-Source: AK7set/kB47bYn6trpVqmw4/wIpZpCo0PotklCuWFg2uS23P0FcHxrIAK3ZLH+1ok1uOAJZLRNosGw==
-X-Received: by 2002:aa7:9e1a:0:b0:58d:d546:8012 with SMTP id
- y26-20020aa79e1a000000b0058dd5468012mr5698286pfq.0.1676576557769; 
- Thu, 16 Feb 2023 11:42:37 -0800 (PST)
-Received: from ?IPV6:2607:fb90:8f62:8652:bed9:812b:5b9e:e49a?
- ([2607:fb90:8f62:8652:bed9:812b:5b9e:e49a])
- by smtp.gmail.com with ESMTPSA id
- s26-20020aa78d5a000000b0058dbb5c5038sm1623448pfe.182.2023.02.16.11.42.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Feb 2023 11:42:37 -0800 (PST)
-Message-ID: <c9bb01bb-4763-0ab4-11ab-34025c586004@linaro.org>
-Date: Thu, 16 Feb 2023 09:42:33 -1000
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pSkB5-0005Qv-Qd
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 14:44:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pSkB4-0007BB-7k
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 14:44:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676576661;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aMxQhRywysUB1TnkFTq5WNnEt3G5wTNy/MeL/cHvKeg=;
+ b=UyIAAb3YnMKUM4bssQkhORkxUv1ogdpRE8y/ideD8E5GT5T8/yKRLCyTj+xGzqytVnhBK+
+ NAb2Ir/9FQaJVNyXCpF8X6pSOWMm2oVD1CyWFbWu0STg64TU2hIV/YVKBEZQxs+JCNeinY
+ LEeVMTTYeJQoQWpN51XWNfj4Jl2brrw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-260-L_2GMbj9NyGK4o827Vc5nA-1; Thu, 16 Feb 2023 14:44:18 -0500
+X-MC-Unique: L_2GMbj9NyGK4o827Vc5nA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E2B3C29DD999;
+ Thu, 16 Feb 2023 19:44:17 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.164])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 725FF40C10FA;
+ Thu, 16 Feb 2023 19:44:14 +0000 (UTC)
+Date: Thu, 16 Feb 2023 19:44:12 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Darren Kenny <darren.kenny@oracle.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Yonggang Luo <luoyonggang@gmail.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: Re: [PATCH 07/12] testing: update ubuntu2004 to ubuntu2204
+Message-ID: <Y+6HjEUG2fpalQWv@redhat.com>
+References: <20230215192530.299263-1-alex.bennee@linaro.org>
+ <20230215192530.299263-8-alex.bennee@linaro.org>
+ <CAFn=p-b18P0oOhiYPkoQvVzQfqVu4XLprp4-JMbPRF4y72-svQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 1/4] util/cacheflush: fix cache on windows-arm64
-Content-Language: en-US
-To: Pierrick Bouvier <pierrick.bouvier@linaro.org>, qemu-devel@nongnu.org
-Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org,
- alex.bennee@linaro.org, peter.maydell@linaro.org
-References: <20230216134911.6803-1-pierrick.bouvier@linaro.org>
- <20230216134911.6803-2-pierrick.bouvier@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230216134911.6803-2-pierrick.bouvier@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFn=p-b18P0oOhiYPkoQvVzQfqVu4XLprp4-JMbPRF4y72-svQ@mail.gmail.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.351,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,62 +95,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/16/23 03:49, Pierrick Bouvier wrote:
-> ctr_el0 access is privileged on this platform and fails as an illegal
-> instruction.
+On Thu, Feb 16, 2023 at 01:15:30PM -0500, John Snow wrote:
+> On Wed, Feb 15, 2023 at 2:25 PM Alex Bennée <alex.bennee@linaro.org> wrote:
+> >
+> > The 22.04 LTS release has been out for almost a year now so its time
+> > to update all the remaining images to the current LTS. We can also
+> > drop some hacks we need for older clang TSAN support.
 > 
-> Windows does not offer a way to flush data cache from userspace, and
-> only FlushInstructionCache is available in Windows API.
+> We still support Ubuntu 20.04 until 2024 though, don't we? Is it safe
+> to not test this platform?
 > 
-> The generic implementation of flush_idcache_range uses,
-> __builtin___clear_cache, which already use the FlushInstructionCache
-> function. So we rely on that.
-> 
-> Signed-off-by: Pierrick Bouvier <pierrick.bouvier@linaro.org>
+> I've long been uncertain about what our policy actually is for docker
+> tests, if we want to test every platform we support or only some of
+> them; and if it's only some of them, when do we choose the older and
+> when do we choose the newer?
 
-This is reasonable for now.  I'll note that gcc does not yet support windows for aarch64, 
-and I would guess this would be fixed for libgcc at such time as.
+Ideally we would test both the oldest & newest versions of each
+distro we support. Practically though, we're compromised by the
+limited CI resources available.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Dropping older Ubuntu images is a reasonable tradeoff, since we
+still have Debian images covered in CI. Debian can be thought
+of as an older version of Ubuntu to some extent, giving coverage
+that will mitigate the risks of dropping 20.04.
 
-
-r~
-
-
-> ---
->   util/cacheflush.c | 10 +++++++---
->   1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/util/cacheflush.c b/util/cacheflush.c
-> index 2c2c73e085..0a0acd70fa 100644
-> --- a/util/cacheflush.c
-> +++ b/util/cacheflush.c
-> @@ -121,8 +121,10 @@ static void sys_cache_info(int *isize, int *dsize)
->   static bool have_coherent_icache;
->   #endif
->   
-> -#if defined(__aarch64__) && !defined(CONFIG_DARWIN)
-> -/* Apple does not expose CTR_EL0, so we must use system interfaces. */
-> +#if defined(__aarch64__) && !defined(CONFIG_DARWIN) && !defined(CONFIG_WIN32)
-> +/* Apple does not expose CTR_EL0, so we must use system interfaces.
-> + * Windows neither, but we use a generic implementation of flush_idcache_range
-> + * in this case. */
->   static uint64_t save_ctr_el0;
->   static void arch_cache_info(int *isize, int *dsize)
->   {
-> @@ -225,7 +227,9 @@ static void __attribute__((constructor)) init_cache_info(void)
->   
->   /* Caches are coherent and do not require flushing; symbol inline. */
->   
-> -#elif defined(__aarch64__)
-> +#elif defined(__aarch64__) && !defined(CONFIG_WIN32)
-> +/* For Windows, we use generic implementation of flush_idcache_range, that
-> + * performs a call to FlushInstructionCache, through __builtin___clear_cache */
->   
->   #ifdef CONFIG_DARWIN
->   /* Apple does not expose CTR_EL0, so we must use system interfaces. */
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
