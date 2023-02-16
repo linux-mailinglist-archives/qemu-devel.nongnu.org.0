@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE4B8698D08
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 07:33:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA36E698CE8
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 07:29:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSXiZ-0003p5-MZ; Thu, 16 Feb 2023 01:26:07 -0500
+	id 1pSXia-0003pt-Rs; Thu, 16 Feb 2023 01:26:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+96e41a9b2a2966255e0b+7116+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pSXhm-0003Cv-3c
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:25:20 -0500
+ id 1pSXi0-0003KU-7x
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:25:33 -0500
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+96e41a9b2a2966255e0b+7116+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pSXhe-0006zq-1y
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:25:17 -0500
+ id 1pSXhn-00071T-7j
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:25:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=NQiYv5UrfLFBX0pQnVp80EDC1s6/D6iMhrE8+WcxCkc=; b=fVtIdq8DsBptedyb+A6LPP/TWp
- gXYt0PZn7mFcyMVZH15ZE1S1ZC/9aPsHTqNQdLmj7CeiJDnHnAhmSoLdwwUq7YucenqyYsUtUQ0MH
- Eqf3dPmwMvZ0yoA2qznVZEWoXC7TbIJBZ4luw/hd741H6+0as/1S3E5CK2QPzNEcSMTyOMn9SfwVy
- jycjH0XqpDvLuM6efIJsnfAQ6LMm2P7V5PKcETXxirqv+aVte0kKPiFxLqElZoTlFCnhCnF2ksyfG
- OCn6JfbDIXx8lhOZ2HasH0IqIKUEc5kHIyzOPGst6SWfy7wRdamQfdAWz48P1vuu/riwnsFpmuITF
- jtaiUZDA==;
+ bh=ejCxozW2KDZscOQD34pHUDLwOlSsEPfmXxQc/b+wYQc=; b=jPqXqeHyYyzecDZt31jmsJS8EY
+ q81TdsNEBRGQqhIBvOmS9JCPqnH1CcOiLO6cAMBcF/Yqk5vh0QHKybEBVhwM71mZtJfmOA0dhnTks
+ CVReHXD4o0A3gngILZgWo7+Ly3FcIayUl7WsLW35ZpqdELyiXvZ222hdPzUcVWGjPxxppmy19n6Ap
+ d52iR5INOX9EdB1qm/Y/NUaQ2C+PFF+PMDBkOS5B+XT1GX7i9VgqTF63Zq04O8WY9G3xdI4XHBG9z
+ w4qdItzA7ttITEoWC3KwT2t7wkHVY/iHcql07a64sysC6Y3QAzJUBrmIGvPR1UrPTZr8ZakYksZHE
+ NLoofoXw==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pSXgd-00AAzX-1E; Thu, 16 Feb 2023 06:24:54 +0000
+ id 1pSXgd-00AAzY-1Q; Thu, 16 Feb 2023 06:25:03 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pSXhJ-008wA7-1o; Thu, 16 Feb 2023 06:24:49 +0000
+ Linux)) id 1pSXhJ-008wAD-1z; Thu, 16 Feb 2023 06:24:49 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -49,9 +49,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-Subject: [PATCH v11 58/59] kvm/i386: Add xen-evtchn-max-pirq property
-Date: Thu, 16 Feb 2023 06:24:43 +0000
-Message-Id: <20230216062444.2129371-59-dwmw2@infradead.org>
+Subject: [PATCH v11 59/59] i386/xen: Document Xen HVM emulation
+Date: Thu, 16 Feb 2023 06:24:44 +0000
+Message-Id: <20230216062444.2129371-60-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230216062444.2129371-1-dwmw2@infradead.org>
 References: <20230216062444.2129371-1-dwmw2@infradead.org>
@@ -86,158 +86,108 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-The default number of PIRQs is set to 256 to avoid issues with 32-bit MSI
-devices. Allow it to be increased if the user desires.
-
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Signed-off-by: David Woodhouse <dwmw2@amazon.co.uk>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- accel/kvm/kvm-all.c       |  1 +
- hw/i386/kvm/xen_evtchn.c  | 21 +++++++++++----------
- include/sysemu/kvm_int.h  |  1 +
- include/sysemu/kvm_xen.h  |  1 +
- target/i386/kvm/kvm.c     | 34 ++++++++++++++++++++++++++++++++++
- target/i386/kvm/xen-emu.c |  6 ++++++
- 6 files changed, 54 insertions(+), 10 deletions(-)
+ docs/system/i386/xen.rst    | 76 +++++++++++++++++++++++++++++++++++++
+ docs/system/target-i386.rst |  1 +
+ 2 files changed, 77 insertions(+)
+ create mode 100644 docs/system/i386/xen.rst
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index dc5b0bb434..3b7881e949 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -3705,6 +3705,7 @@ static void kvm_accel_instance_init(Object *obj)
-     s->notify_window = 0;
-     s->xen_version = 0;
-     s->xen_gnttab_max_frames = 64;
-+    s->xen_evtchn_max_pirq = 256;
- }
- 
- /**
-diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-index 4ec0c7af75..3f60461e5c 100644
---- a/hw/i386/kvm/xen_evtchn.c
-+++ b/hw/i386/kvm/xen_evtchn.c
-@@ -302,17 +302,18 @@ void xen_evtchn_create(void)
-     }
- 
-     /*
--     * We could parameterise the number of PIRQs available if needed,
--     * but for now limit it to 256. The Xen scheme for encoding PIRQ#
--     * into an MSI message is not compatible with 32-bit MSI, as it
--     * puts the high bits of the PIRQ# into the high bits of the MSI
--     * message address, instead of using the Extended Destination ID
--     * in address bits 4-11 which perhaps would have been a better
--     * choice. So to keep life simple, just stick with 256 as the
--     * default, which conveniently doesn't need to set anything
--     * outside the low 32 bits of the address.
-+     * The Xen scheme for encoding PIRQ# into an MSI message is not
-+     * compatible with 32-bit MSI, as it puts the high bits of the
-+     * PIRQ# into the high bits of the MSI message address, instead of
-+     * using the Extended Destination ID in address bits 4-11 which
-+     * perhaps would have been a better choice.
-+     *
-+     * To keep life simple, kvm_accel_instance_init() initialises the
-+     * default to 256. which conveniently doesn't need to set anything
-+     * outside the low 32 bits of the address. It can be increased by
-+     * setting the xen-evtchn-max-pirq property.
-      */
--    s->nr_pirqs = 256;
-+    s->nr_pirqs = kvm_xen_get_evtchn_max_pirq();
- 
-     s->nr_pirq_inuse_words = DIV_ROUND_UP(s->nr_pirqs, 64);
-     s->pirq_inuse_bitmap = g_new0(uint64_t, s->nr_pirq_inuse_words);
-diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-index 39ce4d36f6..a641c974ea 100644
---- a/include/sysemu/kvm_int.h
-+++ b/include/sysemu/kvm_int.h
-@@ -121,6 +121,7 @@ struct KVMState
-     uint32_t xen_version;
-     uint32_t xen_caps;
-     uint16_t xen_gnttab_max_frames;
-+    uint16_t xen_evtchn_max_pirq;
- };
- 
- void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
-diff --git a/include/sysemu/kvm_xen.h b/include/sysemu/kvm_xen.h
-index 0b63bb81df..400aaa1490 100644
---- a/include/sysemu/kvm_xen.h
-+++ b/include/sysemu/kvm_xen.h
-@@ -26,6 +26,7 @@ void kvm_xen_inject_vcpu_callback_vector(uint32_t vcpu_id, int type);
- void kvm_xen_set_callback_asserted(void);
- int kvm_xen_set_vcpu_virq(uint32_t vcpu_id, uint16_t virq, uint16_t port);
- uint16_t kvm_xen_get_gnttab_max_frames(void);
-+uint16_t kvm_xen_get_evtchn_max_pirq(void);
- 
- #define kvm_xen_has_cap(cap) (!!(kvm_xen_get_caps() &           \
-                                  KVM_XEN_HVM_CONFIG_ ## cap))
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index b497225fbd..4decd2559b 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -5907,6 +5907,33 @@ static void kvm_arch_set_xen_gnttab_max_frames(Object *obj, Visitor *v,
-     s->xen_gnttab_max_frames = value;
- }
- 
-+static void kvm_arch_get_xen_evtchn_max_pirq(Object *obj, Visitor *v,
-+                                             const char *name, void *opaque,
-+                                             Error **errp)
-+{
-+    KVMState *s = KVM_STATE(obj);
-+    uint16_t value = s->xen_evtchn_max_pirq;
+diff --git a/docs/system/i386/xen.rst b/docs/system/i386/xen.rst
+new file mode 100644
+index 0000000000..a00523b492
+--- /dev/null
++++ b/docs/system/i386/xen.rst
+@@ -0,0 +1,76 @@
++Xen HVM guest support
++=====================
 +
-+    visit_type_uint16(v, name, &value, errp);
-+}
 +
-+static void kvm_arch_set_xen_evtchn_max_pirq(Object *obj, Visitor *v,
-+                                             const char *name, void *opaque,
-+                                             Error **errp)
-+{
-+    KVMState *s = KVM_STATE(obj);
-+    Error *error = NULL;
-+    uint16_t value;
++Description
++-----------
 +
-+    visit_type_uint16(v, name, &value, &error);
-+    if (error) {
-+        error_propagate(errp, error);
-+        return;
-+    }
++KVM has support for hosting Xen guests, intercepting Xen hypercalls and event
++channel (Xen PV interrupt) delivery. This allows guests which expect to be
++run under Xen to be hosted in QEMU under Linux/KVM instead.
 +
-+    s->xen_evtchn_max_pirq = value;
-+}
++Setup
++-----
 +
- void kvm_arch_accel_class_init(ObjectClass *oc)
- {
-     object_class_property_add_enum(oc, "notify-vmexit", "NotifyVMexitOption",
-@@ -5939,6 +5966,13 @@ void kvm_arch_accel_class_init(ObjectClass *oc)
-                               NULL, NULL);
-     object_class_property_set_description(oc, "xen-gnttab-max-frames",
-                                           "Maximum number of grant table frames");
++Xen mode is enabled by setting the ``xen-version`` property of the KVM
++accelerator, for example for Xen 4.10:
 +
-+    object_class_property_add(oc, "xen-evtchn-max-pirq", "uint16",
-+                              kvm_arch_get_xen_evtchn_max_pirq,
-+                              kvm_arch_set_xen_evtchn_max_pirq,
-+                              NULL, NULL);
-+    object_class_property_set_description(oc, "xen-evtchn-max-pirq",
-+                                          "Maximum number of Xen PIRQs");
- }
++.. parsed-literal::
++
++  |qemu_system| --accel kvm,xen-version=0x4000a
++
++Additionally, virtual APIC support can be advertised to the guest through the
++``xen-vapic`` CPU flag:
++
++.. parsed-literal::
++
++  |qemu_system| --accel kvm,xen-version=0x4000a --cpu host,+xen_vapic
++
++When Xen support is enabled, QEMU changes hypervisor identification (CPUID
++0x40000000..0x4000000A) to Xen. The KVM identification and features are not
++advertised to a Xen guest. If Hyper-V is also enabled, the Xen identification
++moves to leaves 0x40000100..0x4000010A.
++
++The Xen platform device is enabled automatically for a Xen guest. This allows
++a guest to unplug all emulated devices, in order to use Xen PV block and network
++drivers instead. Note that until the Xen PV device back ends are enabled to work
++with Xen mode in QEMU, that is unlikely to cause significant joy. Linux guests
++can be dissuaded from this by adding 'xen_emul_unplug=never' on their command
++line, and it can also be noted that AHCI disk controllers are exempt from being
++unplugged, as are passthrough VFIO PCI devices.
++
++Properties
++----------
++
++The following properties exist on the KVM accelerator object:
++
++``xen-version``
++  This property contains the Xen version in ``XENVER_version`` form, with the
++  major version in the top 16 bits and the minor version in the low 16 bits.
++  Setting this property enables the Xen guest support.
++
++``xen-evtchn-max-pirq``
++  Xen PIRQs represent an emulated physical interrupt, either GSI or MSI, which
++  can be routed to an event channel instead of to the emulated I/O or local
++  APIC. By default, QEMU permits only 256 PIRQs because this allows maximum
++  compatibility with 32-bit MSI where the higher bits of the PIRQ# would need
++  to be in the upper 64 bits of the MSI message. For guests with large numbers
++  of PCI devices (and none which are limited to 32-bit addressing) it may be
++  desirable to increase this value.
++
++``xen-gnttab-max-frames``
++  Xen grant tables are the means by which a Xen guest grants access to its
++  memory for PV back ends (disk, network, etc.). Since QEMU only supports v1
++  grant tables which are 8 bytes in size, each page (each frame) of the grant
++  table can reference 512 pages of guest memory. The default number of frames
++  is 64, allowing for 32768 pages of guest memory to be accessed by PV backends
++  through simultaneous grants. For guests with large numbers of PV devices and
++  high throughput, it may be desirable to increase this value.
++
++OS requirements
++---------------
++
++The minimal Xen support in the KVM accelerator requires the host to be running
++Linux v5.12 or newer. Later versions add optimisations: Linux v5.17 added
++acceleration of interrupt delivery via the Xen PIRQ mechanism, and Linux v5.19
++accelerated Xen PV timers and inter-processor interrupts (IPIs).
+diff --git a/docs/system/target-i386.rst b/docs/system/target-i386.rst
+index e64c013077..77c2f3b979 100644
+--- a/docs/system/target-i386.rst
++++ b/docs/system/target-i386.rst
+@@ -27,6 +27,7 @@ Architectural features
  
- void kvm_set_max_apic_id(uint32_t max_apic_id)
-diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index 1763cb5f1f..ef77f64e75 100644
---- a/target/i386/kvm/xen-emu.c
-+++ b/target/i386/kvm/xen-emu.c
-@@ -1743,6 +1743,12 @@ uint16_t kvm_xen_get_gnttab_max_frames(void)
-     return s->xen_gnttab_max_frames;
- }
- 
-+uint16_t kvm_xen_get_evtchn_max_pirq(void)
-+{
-+    KVMState *s = KVM_STATE(current_accel());
-+    return s->xen_evtchn_max_pirq;
-+}
-+
- int kvm_put_xen_state(CPUState *cs)
- {
-     X86CPU *cpu = X86_CPU(cs);
+    i386/cpu
+    i386/hyperv
++   i386/xen
+    i386/kvm-pv
+    i386/sgx
+    i386/amd-memory-encryption
 -- 
 2.39.0
 
