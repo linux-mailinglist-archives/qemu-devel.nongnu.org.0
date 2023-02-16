@@ -2,99 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 416FA699489
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 13:40:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A363069948B
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 13:40:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSdXf-0000x3-Sc; Thu, 16 Feb 2023 07:39:15 -0500
+	id 1pSdY9-00010T-Rs; Thu, 16 Feb 2023 07:39:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pSdXb-0000wc-Pn
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 07:39:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pSdY8-000103-0d
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 07:39:44 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pSdXZ-0006He-SP
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 07:39:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676551148;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GvszT7DxZZG5tQMRADf95tl/FhwGrCrntku8B3esGLs=;
- b=PmHnc4CpuMikIh7ydTIoy1E8W5F5b8qJQWDxU4z3BfA0yXAGXCUNgX1u3l+JgMY/5nfZny
- J9eGBwiZyJXzVB6csQMLeHLaAz4drzH7hfEHE0jLDljwxltMYNxrSkTPsptWTJp49n56ry
- O1R+inJRzxXRfSABY1lBuMPomSJ1tIw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-317-d6FsH_fsNl2K05algwoW3A-1; Thu, 16 Feb 2023 07:39:05 -0500
-X-MC-Unique: d6FsH_fsNl2K05algwoW3A-1
-Received: by mail-wr1-f72.google.com with SMTP id
- y3-20020adfee03000000b002c59b266371so75594wrn.6
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 04:39:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GvszT7DxZZG5tQMRADf95tl/FhwGrCrntku8B3esGLs=;
- b=2p+A2tNstKQ7tILv9mM+5wV+l+YLmy2PvliTn02MeyotTDk3OHQZ2ZOMbIVzMDp2Ee
- hJXOLMsjpXP6kmBtw406nScNl5PsW93PGao+uDBppFntKrcu8hNMBX9rquufTGyaW5JX
- 7Uc+ETPqA9cCxkN1KVIQDBSjqREtwGRMKu8d6RD15XNMq/UMRbT2jzlWczlxh9WbP+Oc
- yerPD+gND4SXeUFHUPHbPsOkS+OzcDpVe2Bvb2vh22CrKdUc4cW0EBYzAbU7RFX9tyt2
- I2/SbqqtxMxlHk8nXd1/wqd37/XL39aZt/uRs+oqMdGg+mI/9v/bk5Rs/fQkHHLXBsBD
- 8q9g==
-X-Gm-Message-State: AO0yUKWolrcag6wl5aqoiuRzRC0vYIFrJfKGiH7S3BSrV+bEAjQich1R
- el4L7mUA2I8u2YdIoE61Ck2HZ66l4rJTKj1IPOP7SuMn8hoHv+U0VJ0nmy+/JPO22clmX//1rr5
- KbV9Gl8CBtivGa5U=
-X-Received: by 2002:a05:600c:a691:b0:3df:fa56:7a33 with SMTP id
- ip17-20020a05600ca69100b003dffa567a33mr4950379wmb.26.1676551144600; 
- Thu, 16 Feb 2023 04:39:04 -0800 (PST)
-X-Google-Smtp-Source: AK7set/BkB+rExbHMTm8xws2up5O2YN0cmfcJui0k6Kypb325U9kxWRL7rSHIDwnacPPRSSLaE2Siw==
-X-Received: by 2002:a05:600c:a691:b0:3df:fa56:7a33 with SMTP id
- ip17-20020a05600ca69100b003dffa567a33mr4950364wmb.26.1676551144248; 
- Thu, 16 Feb 2023 04:39:04 -0800 (PST)
-Received: from ?IPV6:2003:cb:c708:bc00:2acb:9e46:1412:686a?
- (p200300cbc708bc002acb9e461412686a.dip0.t-ipconnect.de.
- [2003:cb:c708:bc00:2acb:9e46:1412:686a])
- by smtp.gmail.com with ESMTPSA id
- k1-20020a05600c0b4100b003dd8feea827sm5271973wmr.4.2023.02.16.04.39.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Feb 2023 04:39:03 -0800 (PST)
-Message-ID: <39cd02b6-5237-1b5e-87af-523f7ff46b80@redhat.com>
-Date: Thu, 16 Feb 2023 13:39:03 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pSdY5-0006Kc-G4
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 07:39:43 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.103])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 301AD212B2;
+ Thu, 16 Feb 2023 12:39:30 +0000 (UTC)
+Received: from kaod.org (37.59.142.110) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Thu, 16 Feb
+ 2023 13:39:29 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-110S004c631a52a-5d32-4820-ace7-c9b2d67f5eb4,
+ 6472B0FD1AC4FAE7C483658EB00F62ED22160684) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <6b7573b4-d8be-02df-5132-47f55983d049@kaod.org>
+Date: Thu, 16 Feb 2023 13:39:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v1 1/2] vhost: Defer filtering memory sections until
- building the vhost memory structure
+ Thunderbird/102.7.2
+Subject: Re: [PATCH v2] Adding new machine Yosemitev2 in QEMU
 Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Tiwei Bie <tiwei.bie@intel.com>
-References: <20230216114752.198627-1-david@redhat.com>
- <20230216114752.198627-2-david@redhat.com>
- <20230216070037-mutt-send-email-mst@kernel.org>
- <0fe7b18c-507a-2c11-8440-e9e35294b4ba@redhat.com>
- <20230216072002-mutt-send-email-mst@kernel.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20230216072002-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>,
+ <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
+ <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
+References: <20230216104934.192713-1-pkarthikeyan1509@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230216104934.192713-1-pkarthikeyan1509@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+X-Originating-IP: [37.59.142.110]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: b30bbc04-5a06-4515-9f72-2730e0f1a7a3
+X-Ovh-Tracer-Id: 2594636339190139686
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudeijedggeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheptdehtdefledvleejheeuteehfeduiedvvdevkedtleekteeifeetudevkeekudfgnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdduuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpkhgrrhhthhhikhgvhigrnhduhedtleesghhmrghilhdrtghomhdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdgrnhgurhgvfiesrghjrdhiugdrrghupdhjohgvlhesjhhmshdrihgurdgruhdpqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.351, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.351,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,77 +73,144 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16.02.23 13:21, Michael S. Tsirkin wrote:
-> On Thu, Feb 16, 2023 at 01:10:54PM +0100, David Hildenbrand wrote:
->> On 16.02.23 13:04, Michael S. Tsirkin wrote:
->>> On Thu, Feb 16, 2023 at 12:47:51PM +0100, David Hildenbrand wrote:
->>>> Having multiple devices, some filtering memslots and some not filtering
->>>> memslots, messes up the "used_memslot" accounting. If we'd have a device
->>>> the filters out less memory sections after a device that filters out more,
->>>> we'd be in trouble, because our memslot checks stop working reliably.
->>>> For example, hotplugging a device that filters out less memslots might end
->>>> up passing the checks based on max vs. used memslots, but can run out of
->>>> memslots when getting notified about all memory sections.
->>>>
->>>> Further, it will be helpful in memory device context in the near future
->>>> to know that a RAM memory region section will consume a memslot, and be
->>>> accounted for in the used vs. free memslots, such that we can implement
->>>> reservation of memslots for memory devices properly. Whether a device
->>>> filters this out and would theoretically still have a free memslot is
->>>> then hidden internally, making overall vhost memslot accounting easier.
->>>>
->>>> Let's filter the memslots when creating the vhost memory array,
->>>> accounting all RAM && !ROM memory regions as "used_memslots" even if
->>>> vhost_user isn't interested in anonymous RAM regions, because it needs
->>>> an fd.
->>>>
->>>> When a device actually filters out regions (which should happen rarely
->>>> in practice), we might detect a layout change although only filtered
->>>> regions changed. We won't bother about optimizing that for now.
->>>
->>> That caused trouble in the past when using VGA because it is playing
->>> with mappings in weird ways.
->>> I think we have to optimize it, sorry.
->>
->> We still filter them out, just later.
+On 2/16/23 11:49, Karthikeyan Pasupathi wrote:
+> This patch support Yosemitev2 in QEMU environment.
+> and introduced EEPROM BMC FRU data support "add fbyv2_bmc_fruid data"
+> along with the machine support.
 > 
+> Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
+> ---
+>   hw/arm/aspeed.c        | 38 ++++++++++++++++++++++++++++++++++++++
+>   hw/arm/aspeed_eeprom.c | 23 +++++++++++++++++++++++
+>   hw/arm/aspeed_eeprom.h |  3 +++
+>   3 files changed, 64 insertions(+)
 > 
-> The issue is sending lots of unnecessary system calls to update the kernel which
-> goes through a slow RCU.
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index 27dda58338..35ff29b752 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -521,6 +521,22 @@ static void ast2600_evb_i2c_init(AspeedMachineState *bmc)
+>                        TYPE_TMP105, 0x4d);
+>   }
+>   
+> +static void yosemitev2_bmc_i2c_init(AspeedMachineState *bmc)
+> +{
+> +    AspeedSoCState *soc = &bmc->soc;
+> +
+> +    I2CBus *i2c[16];
+> +
+> +    for (int i = 0; i < 16; i++) {
+> +        i2c[i] = aspeed_i2c_get_bus(&soc->i2c, i);
+> +    }
 
-I don't think this is the case when deferring the device-specific 
-filtering. As discussed, the generic filtering (ignore !ram, ignore rom, 
-ignore VMA) remains in place because that is identical for all devices.
+You don't need the loop.
 
-> 
->>>> Note: we cannot simply filter out the region and count them as
->>>> "filtered" to add them to used, because filtered regions could get
->>>> merged and result in a smaller effective number of memslots. Further,
->>>> we won't touch the hmp/qmp virtio introspection output.
->>>>
->>>> Fixes: 988a27754bbb ("vhost: allow backends to filter memory sections")
->>>> Cc: Tiwei Bie <tiwei.bie@intel.com>
->>>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>>
->>> I didn't review this yet but maybe you can answer:
->>> will this create more slots for the backend?
->>> Because some backends are limited in # of slots and breaking them is
->>> not a good idea.
->>
->> It restores the handling we had before 988a27754bbb. RAM without an fd
->> should be rare for vhost-user setups (where we actually filter) I assume?
-> 
-> Hmm, I guess so.
+> +
+> +    at24c_eeprom_init(i2c[4], 0x51, 128 * KiB);
+> +
+> +    at24c_eeprom_init_rom(i2c[8], 0x51, 128 * KiB, fbyv2_bmc_fruid,
+> +                          fbyv2_bmc_fruid_len);
+> +}
+> +
+>   static void romulus_bmc_i2c_init(AspeedMachineState *bmc)
+>   {
+>       AspeedSoCState *soc = &bmc->soc;
+> @@ -1174,6 +1190,24 @@ static void aspeed_machine_ast2500_evb_class_init(ObjectClass *oc, void *data)
+>           aspeed_soc_num_cpus(amc->soc_name);
+>   };
+>   
+> +static void aspeed_machine_fbyv2_class_init(ObjectClass *oc, void *data)
 
-At least on simplistic QEMU invocations with vhost-user (and proper 
-shared memory as backend) I don't see any such filtering happening, 
-because everything that is RAM is proper fd-based.
+There are no naming convention for the machine but it is better practice
+to keep a common name: aspeed_machine_yosemitev2_bmc_class_init instead ?
+the bmc suffix is not that important.
 
-IMHO the chance of braking a sane VM setup are very small.
+> +{
+> +    MachineClass *mc = MACHINE_CLASS(oc);
+> +    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
+> +
+> +    mc->desc       = "Facebook YosemiteV2 BMC (ARM1176)";
+> +    amc->soc_name  = "ast2500-a1";
+> +    amc->hw_strap1 = AST2500_EVB_HW_STRAP1;
+> +    amc->hw_strap2 = 0;
+> +    amc->fmc_model = "n25q256a";
+> +    amc->spi_model = "mx25l25635e";
+> +    amc->num_cs    = 2;
+> +    amc->i2c_init  = yosemitev2_bmc_i2c_init;
+> +    mc->default_ram_size       = 512 * MiB;
+> +    mc->default_cpus = mc->min_cpus = mc->max_cpus =
+> +        aspeed_soc_num_cpus(amc->soc_name);
+> +};
+> +
+>   static void aspeed_machine_romulus_class_init(ObjectClass *oc, void *data)
+>   {
+>       MachineClass *mc = MACHINE_CLASS(oc);
+> @@ -1562,6 +1596,10 @@ static const TypeInfo aspeed_machine_types[] = {
+>           .name          = MACHINE_TYPE_NAME("ast2600-evb"),
+>           .parent        = TYPE_ASPEED_MACHINE,
+>           .class_init    = aspeed_machine_ast2600_evb_class_init,
+> +    }, {
+> +        .name          = MACHINE_TYPE_NAME("yosemitev2-bmc"),
+> +        .parent        = TYPE_ASPEED_MACHINE,
+> +        .class_init    = aspeed_machine_fbyv2_class_init,
+>       }, {
+>           .name          = MACHINE_TYPE_NAME("tacoma-bmc"),
+>           .parent        = TYPE_ASPEED_MACHINE,
+> diff --git a/hw/arm/aspeed_eeprom.c b/hw/arm/aspeed_eeprom.c
+> index 04463acc9d..807036d416 100644
+> --- a/hw/arm/aspeed_eeprom.c
+> +++ b/hw/arm/aspeed_eeprom.c
+> @@ -77,6 +77,29 @@ const uint8_t fby35_bmc_fruid[] = {
+>       0x6e, 0x66, 0x69, 0x67, 0x20, 0x41, 0xc1, 0x45,
+>   };
+>   
+> +// Yosemite V2 BMC FRU
 
--- 
+Please keep the C comment convention.
+
+> +const uint8_t fbyv2_bmc_fruid[] = {
+
+same comment on the name.
+
 Thanks,
 
-David / dhildenb
+C.
+
+> +    0x01, 0x00, 0x00, 0x01, 0x0d, 0x00, 0x00, 0xf1, 0x01, 0x0c, 0x00, 0x36,
+> +    0xe6, 0xd0, 0xc6, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x42, 0x4d,
+> +    0x43, 0x20, 0x53, 0x74, 0x6f, 0x72, 0x61, 0x67, 0x65, 0x20, 0x4d, 0x6f,
+> +    0x64, 0x75, 0x6c, 0x65, 0xcd, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58,
+> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e,
+> +    0x30, 0xc9, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2,
+> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc1, 0x39, 0x01, 0x0c, 0x00, 0xc6,
+> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x59, 0x6f, 0x73, 0x65, 0x6d,
+> +    0x69, 0x74, 0x65, 0x20, 0x56, 0x32, 0x2e, 0x30, 0x20, 0x45, 0x56, 0x54,
+> +    0x32, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+> +    0x58, 0x58, 0x58, 0x58, 0xc4, 0x45, 0x56, 0x54, 0x32, 0xcd, 0x58, 0x58,
+> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc7,
+> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e, 0x30, 0xc9,
+> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc8, 0x43, 0x6f,
+> +    0x6e, 0x66, 0x69, 0x67, 0x20, 0x41, 0xc1, 0x45,
+> +};
+> +
+>   const size_t fby35_nic_fruid_len = sizeof(fby35_nic_fruid);
+>   const size_t fby35_bb_fruid_len = sizeof(fby35_bb_fruid);
+>   const size_t fby35_bmc_fruid_len = sizeof(fby35_bmc_fruid);
+> +
+> +const size_t fbyv2_bmc_fruid_len = sizeof(fbyv2_bmc_fruid);
+> diff --git a/hw/arm/aspeed_eeprom.h b/hw/arm/aspeed_eeprom.h
+> index a0f848fa6e..14d2533a28 100644
+> --- a/hw/arm/aspeed_eeprom.h
+> +++ b/hw/arm/aspeed_eeprom.h
+> @@ -16,4 +16,7 @@ extern const size_t fby35_nic_fruid_len;
+>   extern const size_t fby35_bb_fruid_len;
+>   extern const size_t fby35_bmc_fruid_len;
+>   
+> +extern const uint8_t fbyv2_bmc_fruid[];
+> +extern const size_t fbyv2_bmc_fruid_len;
+> +
+>   #endif
 
 
