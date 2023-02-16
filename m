@@ -2,72 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A6FA699686
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:01:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 944D969968B
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:01:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSeoO-0003ll-1O; Thu, 16 Feb 2023 09:00:36 -0500
+	id 1pSep7-0004n0-Ey; Thu, 16 Feb 2023 09:01:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
- id 1pSeoK-0003kG-GM
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:00:32 -0500
-Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
- id 1pSeoI-00038b-N3
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:00:32 -0500
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id A4AB05FE1E;
- Thu, 16 Feb 2023 17:00:19 +0300 (MSK)
-Received: from antonkuchin-nix.yandex-team.ru (unknown
- [2a02:6b8:b081:7313::1:33])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 30mChN0RvGk1-2f3rpAhw; Thu, 16 Feb 2023 17:00:18 +0300
-Precedence: bulk
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1676556018; bh=J8Y3uDi6qCzTP8dnddhcudJnMoTlOL2W73l3D1Arrkc=;
- h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=RkCLxEZTYjnQVii2/xMNaIjSu4IUw95XeKZ1+GiOkYlqxHvwzJLOa9fXZUjI3443D
- MR3KjG0Wyw6kbQbLUfGXhdh2wLSLgNs5gUGcX6jnqyS0cp9VO7oyO6Sekfk7wuj2Jg
- 3IBxMslraj4Mtb6an3+wGUjwjP4/vL1ITRaD7zEA=
-Authentication-Results: vla1-81430ab5870b.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Anton Kuchin <antonkuchin@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, yc-core@yandex-team.ru,
- Stefan Hajnoczi <stefanha@redhat.com>, virtio-fs@redhat.com,
- Eric Blake <eblake@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Anton Kuchin <antonkuchin@yandex-team.ru>
-Subject: [PATCH v2 1/1] vhost-user-fs: add property to allow migration
-Date: Thu, 16 Feb 2023 16:00:03 +0200
-Message-Id: <20230216140003.1103681-2-antonkuchin@yandex-team.ru>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230216140003.1103681-1-antonkuchin@yandex-team.ru>
-References: <20230216140003.1103681-1-antonkuchin@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <smostafa@google.com>)
+ id 1pSep4-0004cG-RC
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:01:18 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <smostafa@google.com>)
+ id 1pSep3-0003Ea-5G
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:01:18 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ m16-20020a05600c3b1000b003dc4050c94aso1720441wms.4
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 06:01:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=jBtUNnX1GENvx9SCrPHKpHN+rPvOGE2/lvcOESUiwG8=;
+ b=i2T0A1FY5ZJysyzZchnUQGeODHTMmT8ztmuG3tAuJru51EIwMz0T+8raSds1i5k5My
+ rvT0SCW2DnlaITcDm3avSHxCXNft68IusH5rDqPbRwPFarZO8ZmOzAT5XR+XP0LqXxzH
+ I5nBwOV7g4QNUblyIn+pz1ksNeZM9hSJnoHz5nE4tRoD1OF1juBBqQL1DrDvmMLdp/S0
+ 2lCNStly5zFJMUXeVjDpGYBUbfOUI7swdnKXOd938Yu3uOpAZcAmrEU3nS5QAlZqcfv8
+ OYTpGEiyDrN2W9BIu4t+nsjNjn9Ao4oj7CZuTGG7vePsiAi4MX0PmK8ZIF26U8HXnJOA
+ b71g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jBtUNnX1GENvx9SCrPHKpHN+rPvOGE2/lvcOESUiwG8=;
+ b=WifxlVN/HDqqT2kOncwTh2JODlkFrS9kVjlY4eA9WzCk+A7cojfvDI67yVaZ7LgCtO
+ BwRgVjdajKauacGxqlUQ0gQRer5tsV2czos+H3f9viifFpomLUzKyl8FxSufCucCbKkI
+ Cjii+kbg1GGQczcL8FoL6XVTkmuO1jjSUdX13kSoR0sTVOAr5CB0A8PJra2CNiy7DpGq
+ DqNhS5pSPNA1jq4sc75DXEhTeOfCri4Wk2usQv7X7qPN7WMSG1hmtH+5zit0rZRDP9Sm
+ BHKwvwLbbrO6fYJkjbRF04wlfXtJCnqukVW9SIqy9hgGgFUS17WueSyyTMOKp1QlWxUe
+ GNHA==
+X-Gm-Message-State: AO0yUKUcHcq1it7g18oqiAhYV4e5lLBHkpXKzdUIqt9SFFnmgUHadU8o
+ XBBTi8TV/BXtq63WXoB7ZLeNCQ==
+X-Google-Smtp-Source: AK7set/0d4sBwADvNC+1H6So5WjjxJJLmFZKup2imfDRJl6DTV0utR11yfP4ELv0pXTnSMq3ssAJAQ==
+X-Received: by 2002:a05:600c:556f:b0:3de:b7ba:f8ce with SMTP id
+ ja15-20020a05600c556f00b003deb7baf8cemr174589wmb.1.1676556069595; 
+ Thu, 16 Feb 2023 06:01:09 -0800 (PST)
+Received: from google.com (44.232.78.34.bc.googleusercontent.com.
+ [34.78.232.44]) by smtp.gmail.com with ESMTPSA id
+ g9-20020adff3c9000000b002c54d8b89efsm1678290wrp.26.2023.02.16.06.01.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Feb 2023 06:01:09 -0800 (PST)
+Date: Thu, 16 Feb 2023 14:01:04 +0000
+From: Mostafa Saleh <smostafa@google.com>
+To: Eric Auger <eric.auger@redhat.com>
+Cc: qemu-devel@nongnu.org, jean-philippe@linaro.org,
+ peter.maydell@linaro.org, qemu-arm@nongnu.org
+Subject: Re: [RFC PATCH 15/16] hw/arm/smmuv3: Add fault configuration for
+ stage-2
+Message-ID: <Y+43IHck9kcfWeUS@google.com>
+References: <20230205094411.793816-1-smostafa@google.com>
+ <20230205094411.793816-16-smostafa@google.com>
+ <7300b312-d58b-fdab-a72e-6ee9d0a1aa95@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.72;
- envelope-from=antonkuchin@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7300b312-d58b-fdab-a72e-6ee9d0a1aa95@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=smostafa@google.com; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,155 +94,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Now any vhost-user-fs device makes VM unmigratable, that also prevents
-qemu update without stopping the VM. In most cases that makes sense
-because qemu has no way to transfer FUSE session state.
+On Wed, Feb 15, 2023 at 07:55:27PM +0100, Eric Auger wrote:
+> > record_faults. However when nested translation is supported we would
+> > need to separate stage-1 and stage-2 faults.
+> same here, please squash that code in the STE decoding and possible add
+> those above comments in the commit msg
+I will update it in V2.
 
-But it is good to have an option for orchestrator to tune this according to
-backend capabilities and migration configuration.
-
-This patch adds device property 'migration' that is 'none' by default
-to keep old behaviour but can be set to 'external' to explicitly allow
-migration with minimal virtio device state in migration stream if daemon
-has some way to sync FUSE state on src and dst without help from qemu.
-
-Signed-off-by: Anton Kuchin <antonkuchin@yandex-team.ru>
----
- hw/core/qdev-properties-system.c    | 10 +++++++++
- hw/virtio/vhost-user-fs.c           | 34 ++++++++++++++++++++++++++++-
- include/hw/qdev-properties-system.h |  1 +
- include/hw/virtio/vhost-user-fs.h   |  1 +
- qapi/migration.json                 | 16 ++++++++++++++
- 5 files changed, 61 insertions(+), 1 deletion(-)
-
-diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
-index d42493f630..d9b1aa2a5d 100644
---- a/hw/core/qdev-properties-system.c
-+++ b/hw/core/qdev-properties-system.c
-@@ -1143,3 +1143,13 @@ const PropertyInfo qdev_prop_uuid = {
-     .set   = set_uuid,
-     .set_default_value = set_default_uuid_auto,
- };
-+
-+const PropertyInfo qdev_prop_vhost_user_migration_type = {
-+    .name = "VhostUserMigrationType",
-+    .description = "none/external",
-+    .enum_table = &VhostUserMigrationType_lookup,
-+    .get = qdev_propinfo_get_enum,
-+    .set = qdev_propinfo_set_enum,
-+    .set_default_value = qdev_propinfo_set_default_value_enum,
-+    .realized_set_allowed = true,
-+};
-diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-index 83fc20e49e..e2a5b6cfdf 100644
---- a/hw/virtio/vhost-user-fs.c
-+++ b/hw/virtio/vhost-user-fs.c
-@@ -24,6 +24,7 @@
- #include "hw/virtio/vhost-user-fs.h"
- #include "monitor/monitor.h"
- #include "sysemu/sysemu.h"
-+#include "qapi/qapi-types-migration.h"
- 
- static const int user_feature_bits[] = {
-     VIRTIO_F_VERSION_1,
-@@ -298,9 +299,36 @@ static struct vhost_dev *vuf_get_vhost(VirtIODevice *vdev)
-     return &fs->vhost_dev;
- }
- 
-+static int vhost_user_fs_pre_save(void *opaque)
-+{
-+    VHostUserFS *fs = (VHostUserFS *)opaque;
-+    g_autofree char *path = object_get_canonical_path(OBJECT(fs));
-+
-+    switch (fs->migration_type) {
-+    case VHOST_USER_MIGRATION_TYPE_NONE:
-+        error_report("Migration is blocked by device %s", path);
-+        break;
-+    case VHOST_USER_MIGRATION_TYPE_EXTERNAL:
-+        return 0;
-+    default:
-+        error_report("Migration type '%s' is not supported by device %s",
-+                     VhostUserMigrationType_str(fs->migration_type), path);
-+        break;
-+    }
-+
-+    return -1;
-+}
-+
- static const VMStateDescription vuf_vmstate = {
-     .name = "vhost-user-fs",
--    .unmigratable = 1,
-+    .minimum_version_id = 0,
-+    .version_id = 0,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_VIRTIO_DEVICE,
-+        VMSTATE_UINT8(migration_type, VHostUserFS),
-+        VMSTATE_END_OF_LIST()
-+    },
-+   .pre_save = vhost_user_fs_pre_save,
- };
- 
- static Property vuf_properties[] = {
-@@ -309,6 +337,10 @@ static Property vuf_properties[] = {
-     DEFINE_PROP_UINT16("num-request-queues", VHostUserFS,
-                        conf.num_request_queues, 1),
-     DEFINE_PROP_UINT16("queue-size", VHostUserFS, conf.queue_size, 128),
-+    DEFINE_PROP_UNSIGNED("migration", VHostUserFS, migration_type,
-+                         VHOST_USER_MIGRATION_TYPE_NONE,
-+                         qdev_prop_vhost_user_migration_type,
-+                         uint8_t),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/include/hw/qdev-properties-system.h b/include/hw/qdev-properties-system.h
-index 0ac327ae60..1a67591590 100644
---- a/include/hw/qdev-properties-system.h
-+++ b/include/hw/qdev-properties-system.h
-@@ -22,6 +22,7 @@ extern const PropertyInfo qdev_prop_audiodev;
- extern const PropertyInfo qdev_prop_off_auto_pcibar;
- extern const PropertyInfo qdev_prop_pcie_link_speed;
- extern const PropertyInfo qdev_prop_pcie_link_width;
-+extern const PropertyInfo qdev_prop_vhost_user_migration_type;
- 
- #define DEFINE_PROP_PCI_DEVFN(_n, _s, _f, _d)                   \
-     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_pci_devfn, int32_t)
-diff --git a/include/hw/virtio/vhost-user-fs.h b/include/hw/virtio/vhost-user-fs.h
-index 94c3aaa84e..3ebce77be5 100644
---- a/include/hw/virtio/vhost-user-fs.h
-+++ b/include/hw/virtio/vhost-user-fs.h
-@@ -40,6 +40,7 @@ struct VHostUserFS {
-     VirtQueue **req_vqs;
-     VirtQueue *hiprio_vq;
-     int32_t bootindex;
-+    uint8_t migration_type;
- 
-     /*< public >*/
- };
-diff --git a/qapi/migration.json b/qapi/migration.json
-index c84fa10e86..ababd605a2 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -2178,3 +2178,19 @@
-   'data': { 'job-id': 'str',
-             'tag': 'str',
-             'devices': ['str'] } }
-+
-+##
-+# @VhostUserMigrationType:
-+#
-+# Type of vhost-user device migration.
-+#
-+# @none: Migration is not supported, attempts to migrate with this device
-+#        will be blocked.
-+#
-+# @external: Migration stream contains only virtio device state,
-+#            deamon state should be transfered externally by orchestrator.
-+#
-+# Since: 8.0
-+##
-+{ 'enum': 'VhostUserMigrationType',
-+  'data': [ 'none', 'external' ] }
--- 
-2.37.2
-
+Thanks,
+Mostafa
 
