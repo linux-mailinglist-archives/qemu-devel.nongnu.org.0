@@ -2,82 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4F20698EFC
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 09:48:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA7DD698F05
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 09:49:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSZvj-0002sV-IQ; Thu, 16 Feb 2023 03:47:51 -0500
+	id 1pSZxK-0004GB-8Y; Thu, 16 Feb 2023 03:49:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ssinprem@celestica.com>)
- id 1pSZvh-0002ri-Oz
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 03:47:49 -0500
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ssinprem@celestica.com>)
- id 1pSZvf-0005Tb-Nw
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 03:47:49 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id m2so1351998plg.4
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 00:47:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=celestica.com; s=google-201810;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=HzYKo787Fm9ms5Hl0FBgLydwj+FY7rLeHNuPSLsKBqg=;
- b=boaYews3HQcePbhnDBi+F4OFIJPt2cTFBdY/x/tiH6cElxky5rvRy+xtLSBnEwfdQ8
- RZrYnHfQEAkdluM5wTDJEpk6lSgqueME/7ZJUH2e/mMHZa8wcjWbwUq3YZdlk8UORPIF
- uwD4q/tc579EYWgIaskUZTeLnyUn9toDRNTM5aZ44i8qZX0Y4D2s23SQxfxPXngu7/ZH
- sWGMBgN3A70Pl42xzoH5xAUxS6oyPb2kgRsufW6dkFdBjsBFBshZStZj7lMUo2yCSC6w
- lWERB0Eu6/eSas3XPq5tp4gXs6T6peUP67eVDheB8mVD4wWG8hGeWwKe2u+V05BjeoSv
- 9QeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=HzYKo787Fm9ms5Hl0FBgLydwj+FY7rLeHNuPSLsKBqg=;
- b=6uHu2weKM/eczo3HZJTKnP5ZOzot5JzdJjTkL7p2FHRdHcr3GJs4DDbGLXHq6ckr+L
- pH0bDNObj7JlYSohcEteIYe7q1RLpeb0xotbmp7zWVHyMX1lRElXTvZqTZpBR5iUaEl6
- VPkwKEe/ppa7Atl15OHbtxwPfP+tiyNwxHposC8YBQr5SV9X7m/UKBbP0u65FJcmIXzW
- 7dDillrYxCKJPThpGZ1ALf97BquuUezk1m31qwI0lNE1xXOp0GfwBFYM4HM8YxVu/0hk
- wxF4dA3kR4zizCf/WmqnH56gV4iw/vovPfBiJ6J5kOB9R1jT3uzDB10zhCHv3WJHasv8
- lqkQ==
-X-Gm-Message-State: AO0yUKWS+QaZ42mTR/zTH2dmQMGZu57f2naZYSZou3ZE5LCW50fu7BX0
- 3cS6qk6oQj/KPKY78OuziiF4Jnfg21/Lt9Ujx1WvMMQeLtbgAYos8aITCf5NtbvYW9I2eTgOwdK
- JcVHwWGcdscKNU9WBYiTgtfRC/OQtthf0uskPe77O6LcnXYmXdwE5gYeQ7Vaov8f0q0gKRPe7Ik
- IqPH9Ptkjqvu+yYONngFfuhho7YPgh8240DA==
-X-Google-Smtp-Source: AK7set9GkbAPUIHBMJaQY8/EENuAW+kNgcz+CkAhQnZEkW2COvRo70B/HZUJriA1nhyQTwTkeJJWheHH6XaCBf3phYg=
-X-Received: by 2002:a17:903:1ce:b0:19a:e90d:b102 with SMTP id
- e14-20020a17090301ce00b0019ae90db102mr281004plh.0.1676537265323; Thu, 16 Feb
- 2023 00:47:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1pSZxI-0004G0-1L
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 03:49:28 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1pSZxF-0005fv-HL
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 03:49:27 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 31G8kiuB013046; Thu, 16 Feb 2023 08:49:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=pp1; bh=DjO41fZTL22SOyefHYH9dyO7ruUt6lz8ocw9PsK6HbM=;
+ b=ALmp3AkwGpp6uxFV4BGz1wWobUcrQlNRvi+dCVGT99S+HM2gQ8QWhuAX8NSNBZDa6FO4
+ ahDuO9Ibs7sidA+TDex1TQs/eytfr8CTeMwDNk66PeHwGa5U/DuZd/sNUk7nWHNZGDGb
+ djNuMwPZWEZQiT2B4GkRJ2BCW2yp1lzAvNL/gtw/o/QX2qNI7ZrVb6wulFgYlhJvgi96
+ FrPUbzElmUGoiQy4IdkDlTWqUryIr4JRDZSUPCoZIQfYewcWC21EnIhf6MsQTvtx4NHn
+ /X7KIdE+o4xNbuuUdP3n7LoelKMTzRBVtgj2MaCeqehIIaaiNsrRUKfyzpqw99WXFiTF mQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nsh92g12d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Feb 2023 08:49:21 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31G8nLfc020236;
+ Thu, 16 Feb 2023 08:49:21 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nsh92g124-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Feb 2023 08:49:21 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31G7viVN021594;
+ Thu, 16 Feb 2023 08:49:20 GMT
+Received: from smtprelay05.dal12v.mail.ibm.com ([9.208.130.101])
+ by ppma02wdc.us.ibm.com (PPS) with ESMTPS id 3np2n7hn5q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Feb 2023 08:49:20 +0000
+Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com
+ [10.39.53.229])
+ by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 31G8nJ9v6685324
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 16 Feb 2023 08:49:19 GMT
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EBF315805E;
+ Thu, 16 Feb 2023 08:49:18 +0000 (GMT)
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 90E8658058;
+ Thu, 16 Feb 2023 08:49:17 +0000 (GMT)
+Received: from amdmilan1.watson.ibm.com (unknown [9.2.130.16])
+ by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 16 Feb 2023 08:49:17 +0000 (GMT)
+From: Dov Murik <dovmurik@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Cc: Dov Murik <dovmurik@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>,
+ Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Mario Smarduch <mario.smarduch@amd.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
+Subject: [RFC PATCH v2 0/2] i386/sev: Support measured direct kernel boot on
+ SNP
+Date: Thu, 16 Feb 2023 08:49:11 +0000
+Message-Id: <20230216084913.2148508-1-dovmurik@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 4-WpPQ6AkAfOegg3-Y-aAIL-5SO9Bm2_
+X-Proofpoint-GUID: ZR51a8HZWPR38Z5KrItADAl8OdAZyI-N
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <167636845806.2107.2382940753543768501-1@git.sr.ht>
- <0f69bfe5-3c49-c072-833c-24e19b91ad1b@linaro.org>
-In-Reply-To: <0f69bfe5-3c49-c072-833c-24e19b91ad1b@linaro.org>
-From: Sittisak Sinprem <ssinprem@celestica.com>
-Date: Thu, 16 Feb 2023 15:47:18 +0700
-Message-ID: <CAE+aGtXvEzbKBcnDxTGBVAm+i9t6TN0dX6CEocv2-Napzooe=Q@mail.gmail.com>
-Subject: Re: [PATCH qemu 1/2] hw/at24c : modify at24c to support 1 byte
- address mode
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org, srikanth@celestica.com, 
- kgengan@celestica.com
-Content-Type: multipart/alternative; boundary="00000000000027620c05f4cd4022"
-X-CLS-Gapps: True
-X-CLOUD-SEC-AV-Sent: true
-X-CLOUD-SEC-AV-Info: celesticainc,google_mail,monitor
-X-Gm-Spam: 0
-X-Gm-Phishy: 0
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=ssinprem@celestica.com; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-16_06,2023-02-15_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0
+ suspectscore=0 adultscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
+ impostorscore=0 spamscore=0 priorityscore=1501 mlxlogscore=587
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302160070
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,110 +121,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000027620c05f4cd4022
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This RFC patch series is based on AMD's RFC upmv10-snpv3 tree [1].
 
-Hi Philippe,
 
-the EEPROM size less than or equal to 256 , such as 24c02
-use only 1 byte to mention the memory (0 - 255) (0x00 - 0xff)
+In order to enable measured direct kernel boot on SNP, QEMU needs to
+fill the hashes page when kernel-hashes=on.  This relies on several
+changes to the SNP metadata published by OVMF (See [2] for proposed
+OVMF patches).
 
- write byte
-  [ Start sAddr/W ] -> [ mem Addr ] -> [ mem data ] -> [ Stop ]
+Patch 1 pulls the 'kernel-hashes' property from the SEV guest settings
+to the common settings to make it available for both SEV and SNP.
 
- read byte
-  [ Start sAddr/W ] -> [ mem Addr ]
-    -> [ reStart sAddr/R] -> [ mem data ]-> [ Stop ]
+Patch 2 adds the hashes table for SNP guests (or validates the page as a
+zero page if kernel-hashes=off).
 
----------------------------------------------------------------
-Meanwhile, in EEPROM size more 256 , such as 24c64 has size 8192 bytes
-(0x2000)
-use 2 bytes for pointing the memory (0x0000 - 0x2000 )
+This patch series is also available at [3].
 
- write byte
-  [ Start sAddr/W ] -> [ 1st mem Addr ] -> [ 2nd mem Addr ]
-   -> [ Mem Data ] -> [ Stop ]
 
-  read byte
-  [ Start sAddr/W ] -> [ 1st mem Addr ] -> [ 2nd mem Addr ]
-   -> [ reStart sAddr/R] -> [ mem data ]-> [ Stop ]
+[1] https://github.com/mdroth/qemu/commits/upmv10-snpv3
+[2] https://edk2.groups.io/g/devel/message/100286
+[3] https://github.com/confidential-containers-demo/qemu/tree/snp-kernel-hashes-v2
 
-On Thu, Feb 16, 2023 at 3:25 PM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.=
-org>
-wrote:
+v2 changes:
+* Rebase on top of upmv10-snpv3 which includes kernel-hashes.
 
-> On 10/2/23 07:20, ~ssinprem wrote:
-> > From: Sittisak Sinprem <ssinprem@celestca.com>
-> >
-> > ---
-> >   hw/nvram/eeprom_at24c.c | 8 +++++---
-> >   1 file changed, 5 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
-> > index 2d4d8b952f..693212b661 100644
-> > --- a/hw/nvram/eeprom_at24c.c
-> > +++ b/hw/nvram/eeprom_at24c.c
-> > @@ -87,7 +87,7 @@ uint8_t at24c_eeprom_recv(I2CSlave *s)
-> >       EEPROMState *ee =3D AT24C_EE(s);
-> >       uint8_t ret;
-> >
-> > -    if (ee->haveaddr =3D=3D 1) {
-> > +    if (ee->rsize > 256 && ee->haveaddr =3D=3D 1) {
-> >           return 0xff;
-> >       }
->
-> What represents this '256' magic value? Please add a definition.
->
+v1: https://lore.kernel.org/qemu-devel/20220329064038.96006-1-dovmurik%40linux.ibm.com/
 
---00000000000027620c05f4cd4022
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Daniel P. Berrangé <berrange@redhat.com>
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>
+Cc: Eric Blake <eblake@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>
+Cc: Marcelo Tosatti <mtosatti@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: James Bottomley <jejb@linux.ibm.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>
+Cc: Michael Roth <michael.roth@amd.com>
+Cc: Ashish Kalra <ashish.kalra@amd.com>
+Cc: Mario Smarduch <mario.smarduch@amd.com>
+Cc: Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-family:&quot;trebuchet ms&quot;,sans-serif;font-size:small;color:rgb(19,7=
-9,92)">Hi Philippe,<br><br>the EEPROM size less than or equal to 256 , such=
- as 24c02<br>use only 1 byte to mention the memory (0 - 255) (0x00 - 0xff)<=
-br><br>=C2=A0write byte<br>=C2=A0 [ Start sAddr/W ] -&gt; [ mem Addr ] -&gt=
-; [ mem data ] -&gt; [ Stop ]<br><br>=C2=A0read byte<br>=C2=A0 [ Start sAdd=
-r/W ] -&gt; [ mem Addr ] <br>=C2=A0 =C2=A0 -&gt; [ reStart sAddr/R] -&gt; [=
- mem data ]-&gt; [ Stop ]<br><br>------------------------------------------=
----------------------<br>Meanwhile, in EEPROM size more 256 , such as 24c64=
- has size 8192 bytes (0x2000)<br>use 2 bytes for pointing the memory (0x000=
-0 - 0x2000 )<br><br>=C2=A0write byte<br>=C2=A0 [ Start sAddr/W ] -&gt; [ 1s=
-t mem Addr ] -&gt; [ 2nd mem Addr ]<br>=C2=A0 =C2=A0-&gt; [ Mem Data ] -&gt=
-; [ Stop ]<br><br>=C2=A0 read byte<br>=C2=A0 [ Start sAddr/W ] -&gt; [ 1st =
-mem Addr ] -&gt; [ 2nd mem Addr ] <br>=C2=A0 =C2=A0-&gt; [ reStart sAddr/R]=
- -&gt; [ mem data ]-&gt; [ Stop ]<br></div></div><br><div class=3D"gmail_qu=
-ote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Feb 16, 2023 at 3:25 PM =
-Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linaro.org">philmd=
-@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">On 10/2/23 07:20, ~ssinprem wrote:<br>
-&gt; From: Sittisak Sinprem &lt;<a href=3D"mailto:ssinprem@celestca.com" ta=
-rget=3D"_blank">ssinprem@celestca.com</a>&gt;<br>
-&gt; <br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0hw/nvram/eeprom_at24c.c | 8 +++++---<br>
-&gt;=C2=A0 =C2=A01 file changed, 5 insertions(+), 3 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c<br>
-&gt; index 2d4d8b952f..693212b661 100644<br>
-&gt; --- a/hw/nvram/eeprom_at24c.c<br>
-&gt; +++ b/hw/nvram/eeprom_at24c.c<br>
-&gt; @@ -87,7 +87,7 @@ uint8_t at24c_eeprom_recv(I2CSlave *s)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0EEPROMState *ee =3D AT24C_EE(s);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0uint8_t ret;<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; -=C2=A0 =C2=A0 if (ee-&gt;haveaddr =3D=3D 1) {<br>
-&gt; +=C2=A0 =C2=A0 if (ee-&gt;rsize &gt; 256 &amp;&amp; ee-&gt;haveaddr =
-=3D=3D 1) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0xff;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-What represents this &#39;256&#39; magic value? Please add a definition.<br=
->
-</blockquote></div></div>
+Dov Murik (2):
+  qapi, i386: Move kernel-hashes to SevCommonProperties
+  i386/sev: Allow measured direct kernel boot on SNP
 
---00000000000027620c05f4cd4022--
+ qapi/qom.json     | 12 +++---
+ target/i386/sev.c | 95 +++++++++++++++++++++++++++++------------------
+ 2 files changed, 65 insertions(+), 42 deletions(-)
+
+-- 
+2.25.1
+
 
