@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8844C699ADD
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:12:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E4B699AF4
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:14:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pShnS-0000I7-2U; Thu, 16 Feb 2023 12:11:50 -0500
+	id 1pShnT-0000Po-Dw; Thu, 16 Feb 2023 12:11:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShnO-0008U9-El
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:46 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ id 1pShnP-000098-Tq
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:48 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShnM-0007p5-Sq
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:46 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id y1so2553980wru.2
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:11:44 -0800 (PST)
+ id 1pShnO-0007yG-7r
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:47 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ m16-20020a05600c3b1000b003dc4050c94aso2222032wms.4
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:11:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=MLAn5GKevaRJXltRfdrt51PNhBydmEzcr/VkvxtQ/eA=;
- b=RbrEQ+AmR7SOWcjt3q6cGXU5Z7Pq4+bSFkyVALOFsgqEMT899oug0Zvt4l4N4m8enI
- QEN+ZbqZTjzfyNB5/EKR13xXa5ZrhxtcBj92/SfLkCkN2Ebr4jtp4XWW0s+KRNZQrCPS
- u/izTODjm/9LlXqRApI5OPjsCoIS8po6DtxQwq2Ttb5kWx9LfQ44tzbeyddDfUz1z8lQ
- whE4Wvlz7TwlowZfwZaMa1FQwpISzCrVwuPvgRob9hOSlkyM7g962jbcQWPm1t4DwqHp
- r1XvU+FUTuufqaQVN2epBpy8m2aiiWSnhBd5A4b6I3sbGP6i1rMcx7Iua/0BJLLZNU9/
- JBtQ==
+ :reply-to; bh=X3rMKJZAHSn2N53RNjbN11WgeDbh222tQ0PpdvQC108=;
+ b=RPl6tlOExMAOxcuVnbKf2igH3qJ9l1ZRYvhZuJxh9Eeyn/FmF3dYGv7tCANbJa0/bj
+ gjw6HRAeucUwfzOxG2Hqm0996ok7c0hbMd5wnNXx1Inv9lLLbmBr/z4u2bu8AeyANWSI
+ S2QWWz0bxdnU5RZrI7xEG93tQ4CefGd0emF/1GxRlOewmkOabR5hbrKT3HHoBuvEZfSd
+ 5ZevAoGCQVHCVg/84YAQnhTpRZOI3WHB6Nknn0+/rysRo7/VLwNpYX1tF7OQemFqS3gl
+ fpm5eHkvx2A6+zVYLvLCXjdyw6t2EAWep1FG2CaXKZhg0ZEItoDwQv57nA5YDYE7XBP9
+ vDCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=MLAn5GKevaRJXltRfdrt51PNhBydmEzcr/VkvxtQ/eA=;
- b=4c96x1x121hrcerMUSl/LlDlUvf/1EQBNB9P+JUATR4ksvx5sNHkryy4juPbn+rWZu
- W5Hu20CEqoXtmKVvOsPyQ3jJgM1hftwwA/oGNVrlyWQ7t3lWnIZyRPXBsImJzigLvZaO
- nBeeFJwJq+V+pJHyq76bLwXoKQMcri3rESIlvjgXipzlCpZq22LRiDkGH8qS8xNAdb/m
- bTqZDn1Dla6alpgsFxqjGcnjexihJUtZy8PPV+558EUrUjVFBwrPGhPKkvo12CbhPl4O
- J7bGS4wiHIhtFDhamPXybymemVi7E0m+D6vZUcaK20cayXpT+TupM7ohVeRppGdeJR2l
- ek9A==
-X-Gm-Message-State: AO0yUKWmr1yinFIPjc+Rak3x6Ny/B1/mov/yHdjhtBgrOEh2To18Z50k
- WGdb+UJTgRKSFntdD+nUcQUTBZypZeE+SqlC
-X-Google-Smtp-Source: AK7set879RsEdwAxHPzRMczFRiLHgbSJt7hwXEAeO2A1Cz9Sz5H+3PlQJvrp3rYrMeafQWBJrw/eEQ==
-X-Received: by 2002:a5d:6a47:0:b0:2bd:d34e:5355 with SMTP id
- t7-20020a5d6a47000000b002bdd34e5355mr4936544wrw.20.1676567504211; 
+ bh=X3rMKJZAHSn2N53RNjbN11WgeDbh222tQ0PpdvQC108=;
+ b=6j0Elt5hx/qCPcrm3lcKrMyd0HdnB5j05/jMYVnNRwizUytZVnvtAj/FNPG/ScqdZU
+ GiLoNkAOOMPYyY77CDwqPqoTelBf91jfsYb1ISqDFNtXxmFldbo1KK6/BYX0qCdB0QNk
+ iLcx9ufCjUTZRsHMFYhQhaFtE52EC2yVfvTlG6OM+ExhN5oAHzIa6mpJ+h4MdTjsVREt
+ IcQtZf+zM8Oi7QxTfG8k2IaBUiJ3zVDXD7z4Yb62BgnLhyJpciN/B1OwAQWhwtA2wjq6
+ I3IeKVhy+TQHFj6wO3gCC9IRVApBrrGOjErjZGU/UJZoh33Sft/Fqa6P+6upG9xMpCFJ
+ A27w==
+X-Gm-Message-State: AO0yUKVywtF6sKT5ZaoauwEDktZh5dE4LJ/G9nZVNueZUq2c2Ph8Gika
+ Hw66YcDxsbCbuwtcar/C3PSnV6ErNHIAh//9
+X-Google-Smtp-Source: AK7set8KCa7UIYCBaC93iKwCTt/tS3nSxgLXJyN2gyw6DN0ZxMvwaVP/4t64yig9DfnhMjtrPVLqaQ==
+X-Received: by 2002:a05:600c:188a:b0:3e2:918:ecd4 with SMTP id
+ x10-20020a05600c188a00b003e20918ecd4mr3354962wmp.37.1676567504983; 
  Thu, 16 Feb 2023 09:11:44 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- f12-20020a5d4dcc000000b002c556a4f1casm2049107wru.42.2023.02.16.09.11.43
+ f12-20020a5d4dcc000000b002c556a4f1casm2049107wru.42.2023.02.16.09.11.44
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 09:11:43 -0800 (PST)
+ Thu, 16 Feb 2023 09:11:44 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/30] target/arm: wrap psci call with tcg_enabled
-Date: Thu, 16 Feb 2023 17:11:15 +0000
-Message-Id: <20230216171123.2518285-23-peter.maydell@linaro.org>
+Subject: [PULL 23/30] target/arm: wrap call to aarch64_sve_change_el in
+ tcg_enabled()
+Date: Thu, 16 Feb 2023 17:11:16 +0000
+Message-Id: <20230216171123.2518285-24-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230216171123.2518285-1-peter.maydell@linaro.org>
 References: <20230216171123.2518285-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,39 +93,38 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Claudio Fontana <cfontana@suse.de>
 
-for "all" builds (tcg + kvm), we want to avoid doing
-the psci check if tcg is built-in, but not enabled.
-
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/arm/helper.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 509e674b0f0..2d38c3ed7aa 100644
+index 2d38c3ed7aa..07d41003654 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -22,6 +22,7 @@
- #include "hw/irq.h"
- #include "sysemu/cpu-timers.h"
- #include "sysemu/kvm.h"
-+#include "sysemu/tcg.h"
- #include "qapi/qapi-commands-machine-target.h"
- #include "qapi/error.h"
- #include "qemu/guest-random.h"
-@@ -11063,7 +11064,7 @@ void arm_cpu_do_interrupt(CPUState *cs)
-                       env->exception.syndrome);
-     }
+@@ -10827,11 +10827,13 @@ static void arm_cpu_do_interrupt_aarch64(CPUState *cs)
+     unsigned int cur_el = arm_current_el(env);
+     int rt;
  
--    if (arm_is_psci_call(cpu, cs->exception_index)) {
-+    if (tcg_enabled() && arm_is_psci_call(cpu, cs->exception_index)) {
-         arm_handle_psci_call(cpu);
-         qemu_log_mask(CPU_LOG_INT, "...handled as PSCI call\n");
-         return;
+-    /*
+-     * Note that new_el can never be 0.  If cur_el is 0, then
+-     * el0_a64 is is_a64(), else el0_a64 is ignored.
+-     */
+-    aarch64_sve_change_el(env, cur_el, new_el, is_a64(env));
++    if (tcg_enabled()) {
++        /*
++         * Note that new_el can never be 0.  If cur_el is 0, then
++         * el0_a64 is is_a64(), else el0_a64 is ignored.
++         */
++        aarch64_sve_change_el(env, cur_el, new_el, is_a64(env));
++    }
+ 
+     if (cur_el < new_el) {
+         /*
 -- 
 2.34.1
 
