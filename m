@@ -2,78 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9696992D2
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 12:11:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A62756992D4
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 12:11:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSc9a-0000OW-7F; Thu, 16 Feb 2023 06:10:18 -0500
+	id 1pScAX-00013m-2D; Thu, 16 Feb 2023 06:11:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSc9V-00006Y-Eo
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 06:10:13 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSc9T-0002Hp-C0
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 06:10:13 -0500
-Received: by mail-wr1-x435.google.com with SMTP id y1so1489778wru.2
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 03:10:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XaCnP/Bw5+cT1thBZVdVlU3T544od9SduuK47VrrVkg=;
- b=RXK/jNvLZ8krSdSZC+imNBqKGY/r+g2/q9neNlDZy74nAoV+SLG78Ra2Z07jA78Qsw
- fJ05XDPKf4StGRiNbTGsr5tJISomrX6+kvLJoNm8PbaRX9OdGba6BegVnR1w+YrVjZMV
- FplvDIO+xwgPu8NZ0H7R1LE2AprmSAxOo3jbWlml7U8myVXkwx7saEGiThvfJfkdtY/c
- NY4MHhv8MqDBPoh1RJ9vOKOVGXK1jLCRvJIIJ16897f3rdvnM7mqVZUn57WDYoUXILL/
- X1HWZEaopP1BSOMdT7e6hoGXdXxvwMWBDbN8McepqmlibbkQu4YebL9VVT8syRnFHKuW
- fgQQ==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pScAD-0000xv-Db
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 06:10:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pScAB-0002j2-T4
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 06:10:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676545855;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ytGAGQApMQBGMlqbykyXatc6W0OxxT8vz1wkfrQlq7c=;
+ b=HP5H61mrr3N+6xprCMq1tEUkxy5fD5tJJhNiZiQcmC5SZUKjeUiQMsu3eC7f22+nBo21Yp
+ TKhcBBccp/PFvEtxwSRhw5bOighFbRzQnv6kTH6ArpdgvxAkj6rk5aTjaBiinsWkDo6c/Y
+ y8+1rb1y9BnWE0i84TzBmvetoG4djvM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-13-QSa1BQXbMuWNzEnAlrRdHw-1; Thu, 16 Feb 2023 06:10:54 -0500
+X-MC-Unique: QSa1BQXbMuWNzEnAlrRdHw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ fl9-20020a05600c0b8900b003dfe4bae099so973864wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 03:10:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XaCnP/Bw5+cT1thBZVdVlU3T544od9SduuK47VrrVkg=;
- b=iSD/L21G+HDGa6zsm21sJr6DeBD0bG0+UAEiLOxX6uobPy3saGbhScwOUXISLe47sT
- DfjyjkyKoOAgUL9MhjdsHMvA8viLjN2ExNCjFjBOIqJ2knZoeynC4G+XPYKdGNf35VZD
- R0oHFnMMVs9285hYKy4O0lFlGmArm/AizWeZXPARDi6fXIRACRW1y0GwViOcrBvxDoKK
- 9JL4CrfPUgO872XH701o14fzaACsrWINrgkqIaBdh+EnTDIML7iha/mPBy/trcbXh/Fp
- rHTvZILQeNQekHrVgYbXD8jBoA18DYWDLaVHPw/s/9ydOy7mKJSL8SLpTb5YsIhL3pB8
- N6FQ==
-X-Gm-Message-State: AO0yUKXs0OReRpCSHl2TGwDWytcJjnuPpM7AU3T6vducl/Hr/IaKkhuP
- TiS5oEvlDCqr9dGyWPv3iY5Uag==
-X-Google-Smtp-Source: AK7set8W21C9uEuhIlrFHFJd9UYIfq81at9PHqvGgTL/bHlCHm12jIJ+oC0FFpzJFatNBAA/lwVoyA==
-X-Received: by 2002:a5d:574a:0:b0:2c5:582b:bad1 with SMTP id
- q10-20020a5d574a000000b002c5582bbad1mr4661126wrw.30.1676545809135; 
- Thu, 16 Feb 2023 03:10:09 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- g18-20020adff3d2000000b002c569acab1esm1181735wrp.73.2023.02.16.03.10.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Feb 2023 03:10:08 -0800 (PST)
-Message-ID: <8c18d24f-2454-11f2-0322-529ece683629@linaro.org>
-Date: Thu, 16 Feb 2023 12:10:07 +0100
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ytGAGQApMQBGMlqbykyXatc6W0OxxT8vz1wkfrQlq7c=;
+ b=2NlbH3LFSH5qEsA1DkVO9pK4fajJX+lpoePT6mqCpy2zvgo75NjDEIdebGZVyk40pQ
+ OdXna8yzl9qTh8nKVLv5J9+awZnL2V49Ksm7lXXSvcnAjxjyt9oJ4EWvQHaW1G8xNwu3
+ EgFFvF84lyCDAmf+3xd9Y22D4G471XKFgwnT+ksJPfr1F84MVtR426Xo9z8qe3MAx7GR
+ zb5wp6oUIle5+Ey1M9Rt64zm5nzP0Fa9mGEZoWL5SYJq0MWzKEEeAVjCkfAutYPUYbTI
+ UZDZRUvvIrYwn1f86pIAsd4a8FVUgP5LgbKpQJnsfqM/EAk058BOuA9ul7oI1GH7zWD+
+ Oemw==
+X-Gm-Message-State: AO0yUKXdUJlo3Eb7sXlxZv2xfJjc9OTM83Ricut4eSk97GEQU0OE25wh
+ 7CvHpm3EIHdReZOEhcWbxkTqa0Hm7uZme4TWOmrh+LMdzasjfJYmhHEpVlWXLmdE280itUAC8cY
+ yDgzD8TS5K/q5vZ4=
+X-Received: by 2002:a05:600c:c10:b0:3e0:481:c897 with SMTP id
+ fm16-20020a05600c0c1000b003e00481c897mr4424056wmb.37.1676545853034; 
+ Thu, 16 Feb 2023 03:10:53 -0800 (PST)
+X-Google-Smtp-Source: AK7set9BhnZDQHxSDSLbJOAJDCCsIlh6WcYoawUXKkfA9pATgsP1/tyq5gvFIUhn1Rn21YaAPk/NAw==
+X-Received: by 2002:a05:600c:c10:b0:3e0:481:c897 with SMTP id
+ fm16-20020a05600c0c1000b003e00481c897mr4424040wmb.37.1676545852795; 
+ Thu, 16 Feb 2023 03:10:52 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ ay1-20020a05600c1e0100b003e1fee8baacsm4958504wmb.25.2023.02.16.03.10.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Feb 2023 03:10:52 -0800 (PST)
+Date: Thu, 16 Feb 2023 11:10:50 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: Dov Murik <dovmurik@linux.ibm.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>,
+ Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Mario Smarduch <mario.smarduch@amd.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
+Subject: Re: [RFC PATCH v2 0/2] i386/sev: Support measured direct kernel boot
+ on SNP
+Message-ID: <Y+4POpgqcLd80Gp+@work-vm>
+References: <20230216084913.2148508-1-dovmurik@linux.ibm.com>
+ <Y+4E5xh19PmO9BRY@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH] Adding new machine Yosemitev2 in QEMU
-Content-Language: en-US
-To: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>, clg@kaod.org,
- peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
-References: <20230216104820.192624-1-pkarthikeyan1509@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230216104820.192624-1-pkarthikeyan1509@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y+4E5xh19PmO9BRY@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,38 +112,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Pasupathi,
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> On Thu, Feb 16, 2023 at 08:49:11AM +0000, Dov Murik wrote:
+> > This RFC patch series is based on AMD's RFC upmv10-snpv3 tree [1].
+> 
+> I've seen postings of the kernel patches for SNP using the kernel
+> UPM support, but I don't recall ever seeing these QEMU pieces
+> posted for review. The code in that QEMU branch looks different
+> from the last posting of SNP to qemu-devel years ago.
+> 
+> IMHO it would be very desirable if that QEMU UPM tree was submitted
+> to qemu-devel for review feedback
 
-On 16/2/23 11:48, Karthikeyan Pasupathi wrote:
-> Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
-> ---
->   hw/arm/aspeed.c        | 38 ++++++++++++++++++++++++++++++++++++++
->   hw/arm/aspeed_eeprom.c | 23 +++++++++++++++++++++++
->   hw/arm/aspeed_eeprom.h |  3 +++
->   3 files changed, 64 insertions(+)
+Some of the patches in there look like they're not dependent on SNP
+or the UPM interface; (eg some CPU model updates).  It's probably worth
+posting those separately so that they can be reviewed and merged and out
+of the way.
 
+> before requesting review of patches
+> that build on top of it.
 
-> +static void yosemitev2_bmc_i2c_init(AspeedMachineState *bmc)
-> +{
-> +    AspeedSoCState *soc = &bmc->soc;
-> +
-> +    I2CBus *i2c[16];
-> +
-> +    for (int i = 0; i < 16; i++) {
-> +        i2c[i] = aspeed_i2c_get_bus(&soc->i2c, i);
-> +    }
-> +
-> +    at24c_eeprom_init(i2c[4], 0x51, 128 * KiB);
-> +
-> +    at24c_eeprom_init_rom(i2c[8], 0x51, 128 * KiB, fbyv2_bmc_fruid,
-> +                          fbyv2_bmc_fruid_len);
+But at the same time it seems right for Dov to send these patches for
+review.
 
-This can be simplified as:
+Dave
 
-at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 4), 0x51, 128 * KiB);
-at24c_eeprom_init_rom(aspeed_i2c_get_bus(&soc->i2c, 8), 0x51, 128 * KiB,
-                       fbyv2_bmc_fruid, fbyv2_bmc_fruid_len);
-
-> +}
+> 
+> With regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
