@@ -2,77 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12CE3699413
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 13:15:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 043D469941B
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 13:16:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSdA2-0002d8-Iv; Thu, 16 Feb 2023 07:14:50 -0500
+	id 1pSdAu-0003qG-Nw; Thu, 16 Feb 2023 07:15:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSdA0-0002ZI-2n
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 07:14:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1pSdAk-0003bR-0w
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 07:15:37 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSd9y-0000bv-BF
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 07:14:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676549685;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XXyDlD7nyZ7AP4vDkiK82TtU4Vdxuxa4Ts58dJDcJtI=;
- b=chSaPG1UiLI3PXIEzJ/8kc/v4PBwjhi1G3kvLEzOtvOxIgiTXgf8AZvko/LCypyhTn+EGL
- /VzzQihnSqssNx2WikLDqUo8TbKqSpUOX9+Ya65sLC9UEtWrJB0j7xb1mlFneI1/E7nx83
- tcG2x956Rb2r2JXNRTLPb00DTJuleOY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-73-Y2dpHC5jM0mbZ9cgYZB4uA-1; Thu, 16 Feb 2023 07:14:42 -0500
-X-MC-Unique: Y2dpHC5jM0mbZ9cgYZB4uA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D76A3185A794;
- Thu, 16 Feb 2023 12:14:41 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FE2D2166B30;
- Thu, 16 Feb 2023 12:14:41 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7F8F521E6A1F; Thu, 16 Feb 2023 13:14:40 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Dov Murik <dovmurik@linux.ibm.com>
-Cc: qemu-devel@nongnu.org,  Paolo Bonzini <pbonzini@redhat.com>,  Daniel P .
- =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  "Dr . David Alan Gilbert"
- <dgilbert@redhat.com>,  Eduardo Habkost <eduardo@habkost.net>,  Eric Blake
- <eblake@redhat.com>,  Marcelo Tosatti <mtosatti@redhat.com>,  Gerd
- Hoffmann <kraxel@redhat.com>,  James Bottomley <jejb@linux.ibm.com>,  Tom
- Lendacky <thomas.lendacky@amd.com>,  Michael Roth <michael.roth@amd.com>,
- Ashish Kalra <ashish.kalra@amd.com>,  Mario Smarduch
- <mario.smarduch@amd.com>,  Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
-Subject: Re: [RFC PATCH v2 1/2] qapi, i386: Move kernel-hashes to
- SevCommonProperties
-References: <20230216084913.2148508-1-dovmurik@linux.ibm.com>
- <20230216084913.2148508-2-dovmurik@linux.ibm.com>
- <87wn4irmif.fsf@pond.sub.org>
- <bcb416f7-2e64-16de-f4db-e8206bbdc368@linux.ibm.com>
-Date: Thu, 16 Feb 2023 13:14:40 +0100
-In-Reply-To: <bcb416f7-2e64-16de-f4db-e8206bbdc368@linux.ibm.com> (Dov Murik's
- message of "Thu, 16 Feb 2023 11:33:25 +0200")
-Message-ID: <87fsb5remn.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1pSdAg-0000vW-Vb
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 07:15:33 -0500
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4PHYmM3d7QzrRvf;
+ Thu, 16 Feb 2023 20:14:59 +0800 (CST)
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.6; Thu, 16 Feb 2023 20:15:24 +0800
+Message-ID: <9fe2480d-d3e0-3cda-6bed-0132d1bdd1a0@huawei.com>
+Date: Thu, 16 Feb 2023 20:15:23 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [RFC 41/52] machine: Introduce core_type() hook
+To: Zhao Liu <zhao1.liu@linux.intel.com>
+CC: <qemu-devel@nongnu.org>, Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi
+ <dapeng1.mi@intel.com>, Zhuocheng Ding <zhuocheng.ding@intel.com>,
+ Robert Hoo
+ <robert.hu@linux.intel.com>, Sean Christopherson <seanjc@google.com>, Like Xu
+ <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>, Eduardo Habkost
+ <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, "Michael S .
+ Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>, Markus
+ Armbruster <armbru@redhat.com>
+References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
+ <20230213095035.158240-42-zhao1.liu@linux.intel.com>
+In-Reply-To: <20230213095035.158240-42-zhao1.liu@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.257,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,45 +71,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
+From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Dov Murik <dovmurik@linux.ibm.com> writes:
+Hi Zhao,
 
-> Hello Markus,
+在 2023/2/13 17:50, Zhao Liu 写道:
+> From: Zhao Liu <zhao1.liu@intel.com>
 >
-> On 16/02/2023 11:24, Markus Armbruster wrote:
->> Dov Murik <dovmurik@linux.ibm.com> writes:
->> 
->>> In order to enable kernel-hashes for SNP, pull it from
->>> SevGuestProperties to its parent SevCommonProperties so
->>> it will be available for both SEV and SNP.
->> 
->> Missing
->> 
->>   Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
->> 
+> Since supported core types are architecture specific, we need this hook
+> to allow archs define its own parsing or validation method.
 >
-> Oops, thanks. I'll fix.
+> As the example, add the x86 core_type() which will be used in "-hybrid"
+> parameter parsing.
 >
->> Patch does not apply for me.
->> 
+> Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
+> ---
+>   hw/core/machine-topo.c | 14 ++++++++++++++
+>   hw/core/machine.c      |  1 +
+>   hw/i386/x86.c          | 15 +++++++++++++++
+>   include/hw/boards.h    |  7 +++++++
+>   4 files changed, 37 insertions(+)
 >
-> This patch series is based on AMD's upmv10-snpv3 tree:
->
->   https://github.com/mdroth/qemu/tree/upmv10-snpv3
->
-> Have you tried to apply it on top of that tree?
+> diff --git a/hw/core/machine-topo.c b/hw/core/machine-topo.c
+> index 12c05510c1b5..f9ab08a1252e 100644
+> --- a/hw/core/machine-topo.c
+> +++ b/hw/core/machine-topo.c
+> @@ -352,3 +352,17 @@ void machine_parse_smp_config(MachineState *ms,
+>           return;
+>       }
+>   }
+> +
+> +/*
+> + * machine_parse_hybrid_core_type: the default hook to parse hybrid core
+> + *                                 type corresponding to the coretype
+> + *                                 string option.
+> + */
+> +int machine_parse_hybrid_core_type(MachineState *ms, const char *coretype)
+> +{
+> +    if (strcmp(coretype, "") == 0 || strcmp(coretype, "none") == 0) {
+> +        return 0;
+> +    }
+> +
+> +    return -1;
+> +}
+Is it possible that coretype can be NULL?
+What would *coretype be if the users don't explicitly specify coretype
+in the command line?
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index fad990f49b03..acc32b3be5f6 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -926,6 +926,7 @@ static void machine_class_init(ObjectClass *oc, void *data)
+>        * On Linux, each node's border has to be 8MB aligned
+>        */
+>       mc->numa_mem_align_shift = 23;
+> +    mc->core_type = machine_parse_hybrid_core_type;
+>   
+>       object_class_property_add_str(oc, "kernel",
+>           machine_get_kernel, machine_set_kernel);
+> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> index f381fdc43180..f58a90359170 100644
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -1569,6 +1569,20 @@ static void machine_set_sgx_epc(Object *obj, Visitor *v, const char *name,
+>       qapi_free_SgxEPCList(list);
+>   }
+>   
+> +static int x86_parse_hybrid_core_type(MachineState *ms, const char *coretype)
+> +{
+> +    X86HybridCoreType type;
+> +
+> +    if (strcmp(coretype, "atom") == 0) {
+> +        type = INTEL_ATOM_TYPE;
+> +    } else if (strcmp(coretype, "core") == 0) {
+> +        type = INTEL_CORE_TYPE;
+> +    } else {
+> +        type = INVALID_HYBRID_TYPE;
+> +    }
+What about:
+INTEL_CORE_TYPE_ATOM
+INTEL_CORE_TYPE_CORE
+X86_CORE_TYPE_UNKNOWN ?
+just a suggestion.
 
-Missed that part in the cover letter, oops :)
-
-Recommend to also express it like
-
-    Based-on: <message-id>
-
-so machines like Patchew can apply it correctly.
-
-However, that upmv10-snpv3 branch is a bit over 1700 commits behind
-upstream master.  I'm afraid you guys need to rebase :)
+Thanks,
+Yanan
+> +    return type;
+> +}
+> +
+>   static void x86_machine_initfn(Object *obj)
+>   {
+>       X86MachineState *x86ms = X86_MACHINE(obj);
+> @@ -1596,6 +1610,7 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
+>       x86mc->save_tsc_khz = true;
+>       x86mc->fwcfg_dma_enabled = true;
+>       nc->nmi_monitor_handler = x86_nmi;
+> +    mc->core_type = x86_parse_hybrid_core_type;
+>   
+>       object_class_property_add(oc, X86_MACHINE_SMM, "OnOffAuto",
+>           x86_machine_get_smm, x86_machine_set_smm,
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index 9364c90d5f1a..34ec035b5c9f 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -36,6 +36,7 @@ void machine_set_cpu_numa_node(MachineState *machine,
+>                                  Error **errp);
+>   void machine_parse_smp_config(MachineState *ms,
+>                                 const SMPConfiguration *config, Error **errp);
+> +int machine_parse_hybrid_core_type(MachineState *ms, const char *coretype);
+>   
+>   /**
+>    * machine_class_allow_dynamic_sysbus_dev: Add type to list of valid devices
+> @@ -199,6 +200,11 @@ typedef struct {
+>    *    Return the type of KVM corresponding to the kvm-type string option or
+>    *    computed based on other criteria such as the host kernel capabilities.
+>    *    kvm-type may be NULL if it is not needed.
+> + * @core_type:
+> + *    Return the type of hybrid cores corresponding to the coretype string
+> + *    option. The default hook only accept "none" or "" since the most generic
+> + *    core topology should not specify any specific core type. Each arch can
+> + *    define its own core_type() hook to override the default one.
+>    * @numa_mem_supported:
+>    *    true if '--numa node.mem' option is supported and false otherwise
+>    * @hotplug_allowed:
+> @@ -237,6 +243,7 @@ struct MachineClass {
+>       void (*reset)(MachineState *state, ShutdownCause reason);
+>       void (*wakeup)(MachineState *state);
+>       int (*kvm_type)(MachineState *machine, const char *arg);
+> +    int (*core_type)(MachineState *state, const char *type);
+>   
+>       BlockInterfaceType block_default_type;
+>       int units_per_default_bus;
 
 
