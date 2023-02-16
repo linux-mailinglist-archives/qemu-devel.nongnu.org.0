@@ -2,91 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FFBE699996
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 17:13:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7956999A8
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 17:17:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSgss-00026c-N2; Thu, 16 Feb 2023 11:13:22 -0500
+	id 1pSgw4-0003fy-Ib; Thu, 16 Feb 2023 11:16:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pSgso-00024v-Fe
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:13:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pSgsm-0003yY-OQ
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:13:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676563996;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=owfgyqJ2esoDJ+LWujEU6aCU4RaHUTNu3czFsfXS5TI=;
- b=ONP1hhNU/HtAh3+ZhDx92aqrY93WSjweJM0TdZYnn3DuulYYqSBJHg1Oyma6ffN6vvrTYn
- jjOwD3J1H6slwKSERIEAdtKydu9tqwaVlX5WgSwlxOdmH9FXh/a8PcA0SauWMXbhqzP/7B
- Zy53u619ml8DpuVdDCkxyH3e2UnchMk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-260-lBG8jfzoN5u9mPvmeI3kPA-1; Thu, 16 Feb 2023 11:13:11 -0500
-X-MC-Unique: lBG8jfzoN5u9mPvmeI3kPA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- bg9-20020a05600c3c8900b003e1e7d3db06so1350841wmb.5
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 08:13:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mike.maslenkin@gmail.com>)
+ id 1pSgw1-0003fW-RM; Thu, 16 Feb 2023 11:16:38 -0500
+Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mike.maslenkin@gmail.com>)
+ id 1pSgvz-0004aV-D1; Thu, 16 Feb 2023 11:16:37 -0500
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-53388269e84so26356957b3.9; 
+ Thu, 16 Feb 2023 08:16:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MEF5uWW48BQ6rzQ3ED3lOov4MXeXVVMRq8jB1eCCXRk=;
+ b=QPu6IPCpRbQq/Wwn8Hh20trkI35yJmU3TfoualeEUhyHW3BwIjF1dCKgXDIozIvwF5
+ stpg1pc/1wKykzBCW3Z9SjXfsI//NR92Eof9ZxDZ105O2Colg8PJEb9hlSgufkfI5qgf
+ 7/i3m707oL3KuqG3z6YVoEbHmfT/qLH1eTkNtjhKskb5SwOcyt0xrQMz7cWYKC573ge7
+ 2Ca42oid5TO+RbxrewidKs7o6otbb0Vjs/2q6GONz+HU17stLShMpxJWYysSa6CRPmPt
+ 482I9JrnTISMV8yg/ltqCToAq5p1mUkPMog69ADjFDBb+DYObXNBhbkrmtJ/1WUUJpq8
+ N+hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=owfgyqJ2esoDJ+LWujEU6aCU4RaHUTNu3czFsfXS5TI=;
- b=kJHokLO8HhocqeQiwupHiN1SOqim+Jw0iBd94ajP5ZtBGMYxuK8wn0cSARmHwPK+6L
- /LVi+yXZmnGkE6oW/N8x/8rS1/V8vrlktZIqLJtGyqpAlXW4XJ6VLJDkDNT7BIaRrhSk
- 4WuazR7Kp8DBAmjZdzQmexNtUMqPWY2qfJnt+cOtVq4ZWBchfrkWJXODlAuQ6EVV/1YG
- HinTSj5nmnOt3Av2Z65kGEj4FH2ffMRG0NwX7K2WBZ8dwVy04Ocsy5Jrzdg/48yz+SpJ
- 6fSH7D59eSUmPZ6zjyGDQHtAUHTAlp576eWMd6kXQVEjD3VCGL2PXtoqWSQTwTv3f/Jc
- Izdw==
-X-Gm-Message-State: AO0yUKWe/s2DLvoWBpjO5lqYurvLEhqs9/FnNRfXYsFvWl2WZhWAqftH
- zqhOTdZvIMLk85qdLdvQAPa6ro981kX8iNrARliLc/8t7pVLQ1TQ1fzhSZR2DO+ohC4AWkzerdo
- cDlfjBcyQJmQWRYw=
-X-Received: by 2002:a05:600c:188a:b0:3e1:fc61:e0e5 with SMTP id
- x10-20020a05600c188a00b003e1fc61e0e5mr5851752wmp.33.1676563990141; 
- Thu, 16 Feb 2023 08:13:10 -0800 (PST)
-X-Google-Smtp-Source: AK7set+GyGEKIOmcn5yzS9uzx0dWxxGCXi87qDJXHJBuK6pFyS3pNOXrRBI9GJy0w1Q0L9M81o6hQg==
-X-Received: by 2002:a05:600c:188a:b0:3e1:fc61:e0e5 with SMTP id
- x10-20020a05600c188a00b003e1fc61e0e5mr5851727wmp.33.1676563989858; 
- Thu, 16 Feb 2023 08:13:09 -0800 (PST)
-Received: from redhat.com ([2.52.5.34]) by smtp.gmail.com with ESMTPSA id
- bi23-20020a05600c3d9700b003e200d3b2d1sm2203034wmb.38.2023.02.16.08.13.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 08:13:09 -0800 (PST)
-Date: Thu, 16 Feb 2023 11:13:04 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: Anton Kuchin <antonkuchin@yandex-team.ru>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, yc-core@yandex-team.ru,
- Stefan Hajnoczi <stefanha@redhat.com>, virtio-fs@redhat.com,
- Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 1/1] vhost-user-fs: add property to allow migration
-Message-ID: <20230216111134-mutt-send-email-mst@kernel.org>
-References: <20230216140003.1103681-1-antonkuchin@yandex-team.ru>
- <20230216140003.1103681-2-antonkuchin@yandex-team.ru>
- <87v8k1itoy.fsf@secure.mitica>
- <20230216110952-mutt-send-email-mst@kernel.org>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MEF5uWW48BQ6rzQ3ED3lOov4MXeXVVMRq8jB1eCCXRk=;
+ b=sXubStDRIuUPD7ZBaWYjklcdiKGBmwjxIwVf0mcrHegXplv1TJucYDwuVBt6ww2Ome
+ V/Ws+6vnZ5KhRjXZzu2kWAgmqEAp/uH2MN01wl2bYvdpD60mIAL3X2Ey7r21+PefMBpg
+ PCt5Mfc09I/nbH7XJNDxMfQIoaezQeAhC5pKAcUkaEV0Rr1SqlXAJJWNkWO7s48wnfSJ
+ /0aTjkbRskzElC6EbUFWgff6STBkMdE95rTu4BDAbdx/adSjGsNVSiXvkV9ib42viacm
+ r1lApw3ne7VonoSwnqc21WkvmnbP1fefk6hSMQPIL4y4lAf9+0OCZ7070msH43p9op41
+ M1Jw==
+X-Gm-Message-State: AO0yUKWZWtYrZgleyACYHiORdb/ZkJIMJHUNq/hV2MMsU9WymtebCLIL
+ 1sspF6tIz2GQAEoXWQpeltyQT4udA2eQod3P9BY=
+X-Google-Smtp-Source: AK7set8JoimXGmyg5K96IQwGg8IBN2EvnoU2eZQULTjoKpw0SiCCZ0sZ+uid+hCEgUfmfC7W6m2UkYl8xBP5/ZDHGrs=
+X-Received: by 2002:a81:a056:0:b0:533:8b60:f18d with SMTP id
+ x83-20020a81a056000000b005338b60f18dmr198264ywg.185.1676564190243; Thu, 16
+ Feb 2023 08:16:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230216110952-mutt-send-email-mst@kernel.org>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <ad7e1294-f19f-5bea-e891-f6adbe323cd5@proxmox.com>
+ <CAFn=p-ahLoVd3W2GaFp5EUFq5EOudz+bUkEk5DV+Z07AjHaHtg@mail.gmail.com>
+ <d07bdbc1-065e-f8ec-2a44-ab141ffedd41@proxmox.com>
+ <CAL77WPAdDyKFWP_Dqsz_xr7OCzHLTkw6VbYDMGobi8kek4e_8A@mail.gmail.com>
+ <edd04a3f-6ae7-fd28-81c9-25a2614076f6@proxmox.com>
+In-Reply-To: <edd04a3f-6ae7-fd28-81c9-25a2614076f6@proxmox.com>
+From: Mike Maslenkin <mike.maslenkin@gmail.com>
+Date: Thu, 16 Feb 2023 19:15:54 +0300
+Message-ID: <CAL77WPBxNr537p_GOez9D_ZgzxEjtrvpoLHjMLAtUA0VFSVG0A@mail.gmail.com>
+Subject: Re: Lost partition tables on ide-hd + ahci drive
+To: Fiona Ebner <f.ebner@proxmox.com>
+Cc: John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>, 
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>, 
+ Aaron Lauterer <a.lauterer@proxmox.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=mike.maslenkin@gmail.com; helo=mail-yw1-x1135.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,88 +90,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 16, 2023 at 11:11:22AM -0500, Michael S. Tsirkin wrote:
-> On Thu, Feb 16, 2023 at 03:14:05PM +0100, Juan Quintela wrote:
-> > Anton Kuchin <antonkuchin@yandex-team.ru> wrote:
-> > > Now any vhost-user-fs device makes VM unmigratable, that also prevents
-> > > qemu update without stopping the VM. In most cases that makes sense
-> > > because qemu has no way to transfer FUSE session state.
-> > >
-> > > But it is good to have an option for orchestrator to tune this according to
-> > > backend capabilities and migration configuration.
-> > >
-> > > This patch adds device property 'migration' that is 'none' by default
-> > > to keep old behaviour but can be set to 'external' to explicitly allow
-> > > migration with minimal virtio device state in migration stream if daemon
-> > > has some way to sync FUSE state on src and dst without help from qemu.
-> > >
-> > > Signed-off-by: Anton Kuchin <antonkuchin@yandex-team.ru>
-> > 
-> > Reviewed-by: Juan Quintela <quintela@redhat.com>
-> > 
-> > The migration bits are correct.
-> > 
-> > And I can think a better way to explain that one device is migrated
-> > externally.
-> > 
-> > If you have to respin:
-> > 
-> > > +static int vhost_user_fs_pre_save(void *opaque)
-> > > +{
-> > > +    VHostUserFS *fs = (VHostUserFS *)opaque;
-> > 
-> > This hack is useless.
-> 
-> meaning the cast? yes.
-> 
-> > I know that there are still lots of code that still have it.
-> > 
-> > 
-> > Now remember that I have no clue about vhost-user-fs.
-> > 
-> > But this looks fishy
-> > >  static const VMStateDescription vuf_vmstate = {
-> > >      .name = "vhost-user-fs",
-> > > -    .unmigratable = 1,
-> > > +    .minimum_version_id = 0,
-> > > +    .version_id = 0,
-> > > +    .fields = (VMStateField[]) {
-> > > +        VMSTATE_VIRTIO_DEVICE,
-> > > +        VMSTATE_UINT8(migration_type, VHostUserFS),
-> > > +        VMSTATE_END_OF_LIST()
+Makes sense for disks without partition table.
+But wouldn't Linux or any other OS write at least 4K bytes in that case?
+Who may want to write 512 bytes for any purposes except for boot
+sector nowadays..
+In dump mentioned before only 512 bytes were not zeroed, so I guess it
+was caused by IO from guest OS.
+In other cases it can be caused by misconfigured IDE registers state
+or broken FIS memory area.
 
-In fact why do we want to migrate this property?
-We generally don't, we only migrate state.
 
-> > > +    },
-> > > +   .pre_save = vhost_user_fs_pre_save,
-> > >  };
-> > >  
-> > >  static Property vuf_properties[] = {
-> > > @@ -309,6 +337,10 @@ static Property vuf_properties[] = {
-> > >      DEFINE_PROP_UINT16("num-request-queues", VHostUserFS,
-> > >                         conf.num_request_queues, 1),
-> > >      DEFINE_PROP_UINT16("queue-size", VHostUserFS, conf.queue_size, 128),
-> > > +    DEFINE_PROP_UNSIGNED("migration", VHostUserFS, migration_type,
-> > > +                         VHOST_USER_MIGRATION_TYPE_NONE,
-> > > +                         qdev_prop_vhost_user_migration_type,
-> > > +                         uint8_t),
-> > >      DEFINE_PROP_END_OF_LIST(),
-> > 
-> > We have four properties here (5 with the new migration one), and you
-> > only migrate one.
-> > 
-> > This looks fishy, but I don't know if it makes sense.
-> > If they _have_ to be configured the same on source and destination, I
-> > would transfer them and check in post_load that the values are correct.
-> > 
-> > Later, Juan.
-> 
-> Weird suggestion.  We generally don't do this kind of check - that
-> would be open-coding each property. It's management's job to make
-> sure things are consistent.
-> 
-> -- 
-> MST
-
+On Thu, Feb 16, 2023 at 6:25 PM Fiona Ebner <f.ebner@proxmox.com> wrote:
+>
+> Am 16.02.23 um 15:17 schrieb Mike Maslenkin:
+> > Does additional comparison make a sense here: check for LBA =3D=3D 0 an=
+d
+> > then check MBR signature bytes.
+> > Additionally it=E2=80=99s easy to check buffer_is_zero() result or even=
+ print
+> > FIS contents under these conditions.
+> > Data looks like a part of guest memory of 64bit Windows.
+>
+> Thank you for the suggestion! I'll think about adding such a check and
+> dumping of FIS contents in a custom build for affected users. But in
+> general it would be too much noise for non-MBR cases: e.g. on a disk
+> formatted with ext4 (without any partitions), Linux will write to sector
+> 0 on every startup and shutdown.
+>
+> Best Regards,
+> Fiona
+>
 
