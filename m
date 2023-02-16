@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74F41698CF2
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 07:31:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CD4C698D1F
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 07:35:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSXiU-0003Tx-6D; Thu, 16 Feb 2023 01:26:02 -0500
+	id 1pSXiK-0003OW-M4; Thu, 16 Feb 2023 01:25:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+96e41a9b2a2966255e0b+7116+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pSXhu-0003HN-3d
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:25:26 -0500
+ id 1pSXhl-0003Cj-9v
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:25:20 -0500
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+96e41a9b2a2966255e0b+7116+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pSXhk-00070H-JM
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:25:25 -0500
+ id 1pSXhe-0006zl-0f
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:25:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=gWEeHeIWgIATgIuA07fDOQ9Ms13RcFeUE3iysm+zo+4=; b=mdwKu+HjikjCDv4IW7yFuJrdhp
- yFDfRwSgSlmsdXvkwGTht07sXAxXreb00YkehSCQBxdegSiv4v6ZMPaFtXE1wOdM9Kr8O1BsK4RYa
- pVsz0Ve17vK85J1Gq/THRZIVhcN9Y7UOzUmNmq47UsUAyY+J5HGqsvAFNOUUqVRK+TX1Q/U1e9MKu
- kLFv1SUYFajdX6PX26Tq5xDOrr8fLlnEssXNjQWnKTY9twyxHP5yyDjNmdjFTJ5YHES1o/FHf75Zg
- QghvC6RRsShJW/RkgnEybXfcKnXCG82/C3hDKUsSOrZC/Gx0Zpjx97pAZV5HQ8pdN+xus5Q2ElEvR
- QWnggcjQ==;
+ bh=heqIFRJutaatsOoEMtO8SiqPAMcxEyC3ES5UJta8F+s=; b=RGP5fq/Ce62SKElAOKdL2PPi6A
+ Hq4EgG1j5ElVsEmG6pcVEo7SP1TEl4m4jl9qdbe3eJ4X5W+EvctnWQ32jgCkOPKtSV3KJjCL0ImF8
+ Tp+82aa/yaI3ooxq+QELKs34+Ex1Jc6VPkiZ9wWkT3XBECJEsz/6JcTmQcOEq3FLocemuU90S1G1N
+ v8GHNyoj/eh0ZHLJnLUfcu/p8KaThmTWUN7WGTy76xQAD01i1yENOg1t9yr7+BJ0fOXJOhKP5bn0+
+ nagiD8tchzVNqGybmtZxnYKI6CQe8hsnj93jKjoDukPD0VrR22caS9KdK6W4Vzm8sckoiAQ/jVTk/
+ V77+Kvyw==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pSXgb-00AAzI-2L; Thu, 16 Feb 2023 06:24:51 +0000
+ id 1pSXgb-00AAzJ-2T; Thu, 16 Feb 2023 06:24:54 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pSXhH-008w81-2t; Thu, 16 Feb 2023 06:24:47 +0000
+ Linux)) id 1pSXhH-008w85-34; Thu, 16 Feb 2023 06:24:47 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -49,9 +49,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-Subject: [PATCH v11 30/59] hw/xen: Implement EVTCHNOP_close
-Date: Thu, 16 Feb 2023 06:24:15 +0000
-Message-Id: <20230216062444.2129371-31-dwmw2@infradead.org>
+Subject: [PATCH v11 31/59] hw/xen: Implement EVTCHNOP_unmask
+Date: Thu, 16 Feb 2023 06:24:16 +0000
+Message-Id: <20230216062444.2129371-32-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230216062444.2129371-1-dwmw2@infradead.org>
 References: <20230216062444.2129371-1-dwmw2@infradead.org>
@@ -86,144 +86,197 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-It calls an internal close_port() helper which will also be used from
-EVTCHNOP_reset and will actually do the work to disconnect/unbind a port
-once any of that is actually implemented in the first place.
-
-That in turn calls a free_port() internal function which will be in
-error paths after allocation.
+This finally comes with a mechanism for actually injecting events into
+the guest vCPU, with all the atomic-test-and-set that's involved in
+setting the bit in the shinfo, then the index in the vcpu_info, and
+injecting either the lapic vector as MSI, or letting KVM inject the
+bare vector.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- hw/i386/kvm/xen_evtchn.c  | 121 ++++++++++++++++++++++++++++++++++++++
+ hw/i386/kvm/xen_evtchn.c  | 175 ++++++++++++++++++++++++++++++++++++++
  hw/i386/kvm/xen_evtchn.h  |   2 +
- target/i386/kvm/xen-emu.c |  12 ++++
- 3 files changed, 135 insertions(+)
+ target/i386/kvm/xen-emu.c |  12 +++
+ 3 files changed, 189 insertions(+)
 
 diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-index 8bed33890f..08c6fac357 100644
+index 08c6fac357..deea7de027 100644
 --- a/hw/i386/kvm/xen_evtchn.c
 +++ b/hw/i386/kvm/xen_evtchn.c
-@@ -21,6 +21,7 @@
+@@ -224,6 +224,13 @@ int xen_evtchn_set_callback_param(uint64_t param)
+     return ret;
+ }
  
- #include "hw/sysbus.h"
- #include "hw/xen/xen.h"
++static void inject_callback(XenEvtchnState *s, uint32_t vcpu)
++{
++    int type = s->callback_param >> CALLBACK_VIA_TYPE_SHIFT;
 +
- #include "xen_evtchn.h"
- #include "xen_overlay.h"
- 
-@@ -40,6 +41,41 @@ typedef struct XenEvtchnPort {
-     uint16_t type_val;  /* pirq# / virq# / remote port according to type */
- } XenEvtchnPort;
- 
-+/* 32-bit compatibility definitions, also used natively in 32-bit build */
-+struct compat_arch_vcpu_info {
-+    unsigned int cr2;
-+    unsigned int pad[5];
-+};
++    kvm_xen_inject_vcpu_callback_vector(vcpu, type);
++}
 +
-+struct compat_vcpu_info {
-+    uint8_t evtchn_upcall_pending;
-+    uint8_t evtchn_upcall_mask;
-+    uint16_t pad;
-+    uint32_t evtchn_pending_sel;
-+    struct compat_arch_vcpu_info arch;
-+    struct vcpu_time_info time;
-+}; /* 64 bytes (x86) */
-+
-+struct compat_arch_shared_info {
-+    unsigned int max_pfn;
-+    unsigned int pfn_to_mfn_frame_list_list;
-+    unsigned int nmi_reason;
-+    unsigned int p2m_cr3;
-+    unsigned int p2m_vaddr;
-+    unsigned int p2m_generation;
-+    uint32_t wc_sec_hi;
-+};
-+
-+struct compat_shared_info {
-+    struct compat_vcpu_info vcpu_info[XEN_LEGACY_MAX_VCPUS];
-+    uint32_t evtchn_pending[32];
-+    uint32_t evtchn_mask[32];
-+    uint32_t wc_version;      /* Version counter: see vcpu_time_info_t. */
-+    uint32_t wc_sec;
-+    uint32_t wc_nsec;
-+    struct compat_arch_shared_info arch;
-+};
-+
- #define COMPAT_EVTCHN_2L_NR_CHANNELS            1024
- 
- /*
-@@ -257,3 +293,88 @@ int xen_evtchn_status_op(struct evtchn_status *status)
-     qemu_mutex_unlock(&s->port_lock);
+ static bool valid_port(evtchn_port_t port)
+ {
+     if (!port) {
+@@ -294,6 +301,152 @@ int xen_evtchn_status_op(struct evtchn_status *status)
      return 0;
  }
-+
-+static int clear_port_pending(XenEvtchnState *s, evtchn_port_t port)
+ 
++/*
++ * Never thought I'd hear myself say this, but C++ templates would be
++ * kind of nice here.
++ *
++ * template<class T> static int do_unmask_port(T *shinfo, ...);
++ */
++static int do_unmask_port_lm(XenEvtchnState *s, evtchn_port_t port,
++                             bool do_unmask, struct shared_info *shinfo,
++                             struct vcpu_info *vcpu_info)
 +{
-+    void *p = xen_overlay_get_shinfo_ptr();
-+    if (!p)
++    const int bits_per_word = BITS_PER_BYTE * sizeof(shinfo->evtchn_pending[0]);
++    typeof(shinfo->evtchn_pending[0]) mask;
++    int idx = port / bits_per_word;
++    int offset = port % bits_per_word;
++
++    mask = 1UL << offset;
++
++    if (idx >= bits_per_word) {
++        return -EINVAL;
++    }
++
++    if (do_unmask) {
++        /*
++         * If this is a true unmask operation, clear the mask bit. If
++         * it was already unmasked, we have nothing further to do.
++         */
++        if (!((qatomic_fetch_and(&shinfo->evtchn_mask[idx], ~mask) & mask))) {
++            return 0;
++        }
++    } else {
++        /*
++         * This is a pseudo-unmask for affinity changes. We don't
++         * change the mask bit, and if it's *masked* we have nothing
++         * else to do.
++         */
++        if (qatomic_fetch_or(&shinfo->evtchn_mask[idx], 0) & mask) {
++            return 0;
++        }
++    }
++
++    /* If the event was not pending, we're done. */
++    if (!(qatomic_fetch_or(&shinfo->evtchn_pending[idx], 0) & mask)) {
++        return 0;
++    }
++
++    /* Now on to the vcpu_info evtchn_pending_sel index... */
++    mask = 1UL << idx;
++
++    /* If a port in this word was already pending for this vCPU, all done. */
++    if (qatomic_fetch_or(&vcpu_info->evtchn_pending_sel, mask) & mask) {
++        return 0;
++    }
++
++    /* Set evtchn_upcall_pending for this vCPU */
++    if (qatomic_fetch_or(&vcpu_info->evtchn_upcall_pending, 1)) {
++        return 0;
++    }
++
++    inject_callback(s, s->port_table[port].vcpu);
++
++    return 0;
++}
++
++static int do_unmask_port_compat(XenEvtchnState *s, evtchn_port_t port,
++                                 bool do_unmask,
++                                 struct compat_shared_info *shinfo,
++                                 struct compat_vcpu_info *vcpu_info)
++{
++    const int bits_per_word = BITS_PER_BYTE * sizeof(shinfo->evtchn_pending[0]);
++    typeof(shinfo->evtchn_pending[0]) mask;
++    int idx = port / bits_per_word;
++    int offset = port % bits_per_word;
++
++    mask = 1UL << offset;
++
++    if (idx >= bits_per_word) {
++        return -EINVAL;
++    }
++
++    if (do_unmask) {
++        /*
++         * If this is a true unmask operation, clear the mask bit. If
++         * it was already unmasked, we have nothing further to do.
++         */
++        if (!((qatomic_fetch_and(&shinfo->evtchn_mask[idx], ~mask) & mask))) {
++            return 0;
++        }
++    } else {
++        /*
++         * This is a pseudo-unmask for affinity changes. We don't
++         * change the mask bit, and if it's *masked* we have nothing
++         * else to do.
++         */
++        if (qatomic_fetch_or(&shinfo->evtchn_mask[idx], 0) & mask) {
++            return 0;
++        }
++    }
++
++    /* If the event was not pending, we're done. */
++    if (!(qatomic_fetch_or(&shinfo->evtchn_pending[idx], 0) & mask)) {
++        return 0;
++    }
++
++    /* Now on to the vcpu_info evtchn_pending_sel index... */
++    mask = 1UL << idx;
++
++    /* If a port in this word was already pending for this vCPU, all done. */
++    if (qatomic_fetch_or(&vcpu_info->evtchn_pending_sel, mask) & mask) {
++        return 0;
++    }
++
++    /* Set evtchn_upcall_pending for this vCPU */
++    if (qatomic_fetch_or(&vcpu_info->evtchn_upcall_pending, 1)) {
++        return 0;
++    }
++
++    inject_callback(s, s->port_table[port].vcpu);
++
++    return 0;
++}
++
++static int unmask_port(XenEvtchnState *s, evtchn_port_t port, bool do_unmask)
++{
++    void *vcpu_info, *shinfo;
++
++    if (s->port_table[port].type == EVTCHNSTAT_closed) {
++        return -EINVAL;
++    }
++
++    shinfo = xen_overlay_get_shinfo_ptr();
++    if (!shinfo) {
 +        return -ENOTSUP;
++    }
++
++    vcpu_info = kvm_xen_get_vcpu_info_hva(s->port_table[port].vcpu);
++    if (!vcpu_info) {
++        return -EINVAL;
++    }
 +
 +    if (xen_is_long_mode()) {
-+        struct shared_info *shinfo = p;
-+        const int bits_per_word = BITS_PER_BYTE * sizeof(shinfo->evtchn_pending[0]);
-+        typeof(shinfo->evtchn_pending[0]) mask;
-+        int idx = port / bits_per_word;
-+        int offset = port % bits_per_word;
-+
-+        mask = 1UL << offset;
-+
-+        qatomic_fetch_and(&shinfo->evtchn_pending[idx], ~mask);
++        return do_unmask_port_lm(s, port, do_unmask, shinfo, vcpu_info);
 +    } else {
-+        struct compat_shared_info *shinfo = p;
-+        const int bits_per_word = BITS_PER_BYTE * sizeof(shinfo->evtchn_pending[0]);
-+        typeof(shinfo->evtchn_pending[0]) mask;
-+        int idx = port / bits_per_word;
-+        int offset = port % bits_per_word;
-+
-+        mask = 1UL << offset;
-+
-+        qatomic_fetch_and(&shinfo->evtchn_pending[idx], ~mask);
++        return do_unmask_port_compat(s, port, do_unmask, shinfo, vcpu_info);
 +    }
-+    return 0;
 +}
 +
-+static void free_port(XenEvtchnState *s, evtchn_port_t port)
-+{
-+    s->port_table[port].type = EVTCHNSTAT_closed;
-+    s->port_table[port].type_val = 0;
-+    s->port_table[port].vcpu = 0;
+ static int clear_port_pending(XenEvtchnState *s, evtchn_port_t port)
+ {
+     void *p = xen_overlay_get_shinfo_ptr();
+@@ -378,3 +531,25 @@ int xen_evtchn_close_op(struct evtchn_close *close)
+ 
+     return ret;
+ }
 +
-+    if (s->nr_ports == port + 1) {
-+        do {
-+            s->nr_ports--;
-+        } while (s->nr_ports &&
-+                 s->port_table[s->nr_ports - 1].type == EVTCHNSTAT_closed);
-+    }
-+
-+    /* Clear pending event to avoid unexpected behavior on re-bind. */
-+    clear_port_pending(s, port);
-+}
-+
-+static int close_port(XenEvtchnState *s, evtchn_port_t port)
-+{
-+    XenEvtchnPort *p = &s->port_table[port];
-+
-+    switch (p->type) {
-+    case EVTCHNSTAT_closed:
-+        return -ENOENT;
-+
-+    default:
-+        break;
-+    }
-+
-+    free_port(s, port);
-+    return 0;
-+}
-+
-+int xen_evtchn_close_op(struct evtchn_close *close)
++int xen_evtchn_unmask_op(struct evtchn_unmask *unmask)
 +{
 +    XenEvtchnState *s = xen_evtchn_singleton;
 +    int ret;
@@ -232,49 +285,50 @@ index 8bed33890f..08c6fac357 100644
 +        return -ENOTSUP;
 +    }
 +
-+    if (!valid_port(close->port)) {
++    if (!valid_port(unmask->port)) {
 +        return -EINVAL;
 +    }
 +
 +    qemu_mutex_lock(&s->port_lock);
 +
-+    ret = close_port(s, close->port);
++    ret = unmask_port(s, unmask->port, true);
 +
 +    qemu_mutex_unlock(&s->port_lock);
 +
 +    return ret;
 +}
 diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
-index 76467636ee..cb3924941a 100644
+index cb3924941a..69c6b0d743 100644
 --- a/hw/i386/kvm/xen_evtchn.h
 +++ b/hw/i386/kvm/xen_evtchn.h
-@@ -16,6 +16,8 @@ void xen_evtchn_create(void);
- int xen_evtchn_set_callback_param(uint64_t param);
+@@ -17,7 +17,9 @@ int xen_evtchn_set_callback_param(uint64_t param);
  
  struct evtchn_status;
-+struct evtchn_close;
+ struct evtchn_close;
++struct evtchn_unmask;
  int xen_evtchn_status_op(struct evtchn_status *status);
-+int xen_evtchn_close_op(struct evtchn_close *close);
+ int xen_evtchn_close_op(struct evtchn_close *close);
++int xen_evtchn_unmask_op(struct evtchn_unmask *unmask);
  
  #endif /* QEMU_XEN_EVTCHN_H */
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index 3811153724..c54372700a 100644
+index c54372700a..418028b04f 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -802,6 +802,18 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-         }
+@@ -814,6 +814,18 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+         err = xen_evtchn_close_op(&close);
          break;
      }
-+    case EVTCHNOP_close: {
-+        struct evtchn_close close;
++    case EVTCHNOP_unmask: {
++        struct evtchn_unmask unmask;
 +
-+        qemu_build_assert(sizeof(close) == 4);
-+        if (kvm_copy_from_gva(cs, arg, &close, sizeof(close))) {
++        qemu_build_assert(sizeof(unmask) == 4);
++        if (kvm_copy_from_gva(cs, arg, &unmask, sizeof(unmask))) {
 +            err = -EFAULT;
 +            break;
 +        }
 +
-+        err = xen_evtchn_close_op(&close);
++        err = xen_evtchn_unmask_op(&unmask);
 +        break;
 +    }
      default:
