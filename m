@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26397699053
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 10:46:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D4469906A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 10:48:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSaow-00088k-Q2; Thu, 16 Feb 2023 04:44:54 -0500
+	id 1pSaox-0008Cu-LA; Thu, 16 Feb 2023 04:44:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+33d3adc5578b079b0cf9+7116+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pSaot-000856-Rv
+ id 1pSaot-000852-Rm
  for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:44:51 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+33d3adc5578b079b0cf9+7116+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pSaoo-0006Iu-JV
+ id 1pSaoo-0006J2-Lx
  for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:44:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=tGT0gg20u507g6Dy2KPZBK5266IKAD22cDGTR6BCVXc=; b=nPiocR1oBQkWreJojvQXBJ9Lz/
- e7QhDuDIXM+EkZ1CoE2Y7zhHMThtfIpcj3KGKIlx7xSfhcgGMZKjFyE1mmXmh424v6JvVlLyNV3NL
- uQHAHsJhcaT7qF5vc5iQsIUVWy2sEjSC+mfqSSWYvh/6DNi23XoV69UwrEu5F/VcMIizY6mijn9o8
- GApsMqlCq1CaUyF70OIf8Hd5JFLovs3okJIk7Cn8lGuXOU3Y8d+74Vz3bJLDg8aZZwbyLuh5mtJqL
- rUhgjnSvyR/i+dNP0cVWz7pYJE1EUpBBcKLZNVpLp6v+wBJ4/5EzU3vLKxqar5I0KLWNekmzBdIS1
- Lhqrd6Tg==;
+ bh=NsStsbU/wrYzcT7pqD6BfZJ/9CY8QxWSUO7MAruBqXQ=; b=S42qlvexkxlBH5q1Cv7fJbdsj1
+ QZJUsrCT9trdEfJuwMHR5AhhlfGOQwecGg+GzoIdQ5Xsw6t05YgCWjJgdas1+9z/BfGMPWA6NdAE1
+ q6Y7YWVVic4qyndfJaZqTtvStDbQt/orfdUfLn17+YpGwU2lZ/WeNA//txlOTRcymyAEXEDpjvTYJ
+ 8x9LrDyL5h7MhF59Ck47/iNEXMsibRMMI6aAzXYzt1Gj3DkOuzib/r41gWBHKesra9VWNmhIBjXbX
+ IHTJVvkwyc98M1NJKm7EMnktl3xC1qXr1iq5hGjemBd4yEHjQh53+Ajz3gVg+n8uDsY49TfmFrzKq
+ sF94Fh2A==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pSaoj-008Ib9-AQ; Thu, 16 Feb 2023 09:44:41 +0000
+ id 1pSaoj-008IbA-CK; Thu, 16 Feb 2023 09:44:41 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pSaoj-0090C6-10; Thu, 16 Feb 2023 09:44:41 +0000
+ Linux)) id 1pSaoj-0090CB-1C; Thu, 16 Feb 2023 09:44:41 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -50,10 +50,10 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com,
  Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com
-Subject: [RFC PATCH v11bis 14/26] hw/xen: Move xenstore_store_pv_console_info
- to xen_console.c
-Date: Thu, 16 Feb 2023 09:44:24 +0000
-Message-Id: <20230216094436.2144978-15-dwmw2@infradead.org>
+Subject: [RFC PATCH v11bis 15/26] hw/xen: Use XEN_PAGE_SIZE in PV backend
+ drivers
+Date: Thu, 16 Feb 2023 09:44:25 +0000
+Message-Id: <20230216094436.2144978-16-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230216094436.2144978-1-dwmw2@infradead.org>
 References: <20230216094436.2144978-1-dwmw2@infradead.org>
@@ -88,166 +88,171 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-There's no need for this to be in the Xen accel code, and as we want to
-use the Xen console support with KVM-emulated Xen we'll want to have a
-platform-agnostic version of it. Make it use GString to build up the
-path while we're at it.
+XC_PAGE_SIZE comes from the actual Xen libraries, while XEN_PAGE_SIZE is
+provided by QEMU itself in xen_backend_ops.h. For backends which may be
+built for emulation mode, use the latter.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- accel/xen/xen-all.c   | 61 -------------------------------------------
- hw/char/xen_console.c | 45 +++++++++++++++++++++++++++++--
- include/hw/xen/xen.h  |  2 --
- 3 files changed, 43 insertions(+), 65 deletions(-)
+ hw/block/dataplane/xen-block.c |  8 ++++----
+ hw/display/xenfb.c             | 12 ++++++------
+ hw/net/xen_nic.c               | 12 ++++++------
+ hw/usb/xen-usb.c               |  8 ++++----
+ 4 files changed, 20 insertions(+), 20 deletions(-)
 
-diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
-index 6df7b4ff34..514bc9eea4 100644
---- a/accel/xen/xen-all.c
-+++ b/accel/xen/xen-all.c
-@@ -39,67 +39,6 @@ xc_interface *xen_xc;
- xenforeignmemory_handle *xen_fmem;
- xendevicemodel_handle *xen_dmod;
+diff --git a/hw/block/dataplane/xen-block.c b/hw/block/dataplane/xen-block.c
+index e55b713002..8322a1de82 100644
+--- a/hw/block/dataplane/xen-block.c
++++ b/hw/block/dataplane/xen-block.c
+@@ -101,9 +101,9 @@ static XenBlockRequest *xen_block_start_request(XenBlockDataPlane *dataplane)
+          * re-use requests, allocate the memory once here. It will be freed
+          * xen_block_dataplane_destroy() when the request list is freed.
+          */
+-        request->buf = qemu_memalign(XC_PAGE_SIZE,
++        request->buf = qemu_memalign(XEN_PAGE_SIZE,
+                                      BLKIF_MAX_SEGMENTS_PER_REQUEST *
+-                                     XC_PAGE_SIZE);
++                                     XEN_PAGE_SIZE);
+         dataplane->requests_total++;
+         qemu_iovec_init(&request->v, 1);
+     } else {
+@@ -185,7 +185,7 @@ static int xen_block_parse_request(XenBlockRequest *request)
+             goto err;
+         }
+         if (request->req.seg[i].last_sect * dataplane->sector_size >=
+-            XC_PAGE_SIZE) {
++            XEN_PAGE_SIZE) {
+             error_report("error: page crossing");
+             goto err;
+         }
+@@ -740,7 +740,7 @@ void xen_block_dataplane_start(XenBlockDataPlane *dataplane,
  
--static int store_dev_info(int domid, Chardev *cs, const char *string)
--{
--    struct xs_handle *xs = NULL;
--    char *path = NULL;
--    char *newpath = NULL;
--    char *pts = NULL;
--    int ret = -1;
--
--    /* Only continue if we're talking to a pty. */
--    if (!CHARDEV_IS_PTY(cs)) {
--        return 0;
--    }
--    pts = cs->filename + 4;
--
--    /* We now have everything we need to set the xenstore entry. */
--    xs = xs_open(0);
--    if (xs == NULL) {
--        fprintf(stderr, "Could not contact XenStore\n");
--        goto out;
--    }
--
--    path = xs_get_domain_path(xs, domid);
--    if (path == NULL) {
--        fprintf(stderr, "xs_get_domain_path() error\n");
--        goto out;
--    }
--    newpath = realloc(path, (strlen(path) + strlen(string) +
--                strlen("/tty") + 1));
--    if (newpath == NULL) {
--        fprintf(stderr, "realloc error\n");
--        goto out;
--    }
--    path = newpath;
--
--    strcat(path, string);
--    strcat(path, "/tty");
--    if (!xs_write(xs, XBT_NULL, path, pts, strlen(pts))) {
--        fprintf(stderr, "xs_write for '%s' fail", string);
--        goto out;
--    }
--    ret = 0;
--
--out:
--    free(path);
--    xs_close(xs);
--
--    return ret;
--}
--
--void xenstore_store_pv_console_info(int i, Chardev *chr)
--{
--    if (i == 0) {
--        store_dev_info(xen_domid, chr, "/console");
--    } else {
--        char buf[32];
--        snprintf(buf, sizeof(buf), "/device/console/%d", i);
--        store_dev_info(xen_domid, chr, buf);
--    }
--}
--
--
- static void xenstore_record_dm_state(const char *state)
- {
-     struct xs_handle *xs;
-diff --git a/hw/char/xen_console.c b/hw/char/xen_console.c
-index ad8638a86d..c7a19c0e7c 100644
---- a/hw/char/xen_console.c
-+++ b/hw/char/xen_console.c
-@@ -173,6 +173,48 @@ static void xencons_send(struct XenConsole *con)
+     dataplane->protocol = protocol;
  
- /* -------------------------------------------------------------------- */
- 
-+static int store_con_info(struct XenConsole *con)
-+{
-+    Chardev *cs = qemu_chr_fe_get_driver(&con->chr);
-+    char *pts = NULL;
-+    char *dom_path;
-+    GString *path;
-+    int ret = -1;
-+
-+    /* Only continue if we're talking to a pty. */
-+    if (!CHARDEV_IS_PTY(cs)) {
-+        return 0;
-+    }
-+    pts = cs->filename + 4;
-+
-+    dom_path = qemu_xen_xs_get_domain_path(xenstore, xen_domid);
-+    if (!dom_path) {
-+        return 0;
-+    }
-+
-+    path = g_string_new(dom_path);
-+    free(dom_path);
-+
-+    if (con->xendev.dev) {
-+        g_string_append_printf(path, "/device/console/%d", con->xendev.dev);
-+    } else {
-+        g_string_append(path, "/console");
-+    }
-+    g_string_append(path, "/tty");
-+
-+    if (xenstore_write_str(con->console, path->str, pts)) {
-+        fprintf(stderr, "xenstore_write_str for '%s' fail", path->str);
-+        goto out;
-+    }
-+    ret = 0;
-+
-+out:
-+    g_string_free(path, true);
-+    free(path);
-+
-+    return ret;
-+}
-+
- static int con_init(struct XenLegacyDevice *xendev)
- {
-     struct XenConsole *con = container_of(xendev, struct XenConsole, xendev);
-@@ -215,8 +257,7 @@ static int con_init(struct XenLegacyDevice *xendev)
-                          &error_abort);
+-    ring_size = XC_PAGE_SIZE * dataplane->nr_ring_ref;
++    ring_size = XEN_PAGE_SIZE * dataplane->nr_ring_ref;
+     switch (dataplane->protocol) {
+     case BLKIF_PROTOCOL_NATIVE:
+     {
+diff --git a/hw/display/xenfb.c b/hw/display/xenfb.c
+index 2c4016fcbd..0074a9b6f8 100644
+--- a/hw/display/xenfb.c
++++ b/hw/display/xenfb.c
+@@ -489,13 +489,13 @@ static int xenfb_map_fb(struct XenFB *xenfb)
      }
  
--    xenstore_store_pv_console_info(con->xendev.dev,
--                                   qemu_chr_fe_get_driver(&con->chr));
-+    store_con_info(con);
+     if (xenfb->pixels) {
+-        munmap(xenfb->pixels, xenfb->fbpages * XC_PAGE_SIZE);
++        munmap(xenfb->pixels, xenfb->fbpages * XEN_PAGE_SIZE);
+         xenfb->pixels = NULL;
+     }
  
- out:
-     g_free(type);
-diff --git a/include/hw/xen/xen.h b/include/hw/xen/xen.h
-index b3873c581b..fcc6c5b522 100644
---- a/include/hw/xen/xen.h
-+++ b/include/hw/xen/xen.h
-@@ -39,8 +39,6 @@ int xen_is_pirq_msi(uint32_t msi_data);
+-    xenfb->fbpages = DIV_ROUND_UP(xenfb->fb_len, XC_PAGE_SIZE);
++    xenfb->fbpages = DIV_ROUND_UP(xenfb->fb_len, XEN_PAGE_SIZE);
+     n_fbdirs = xenfb->fbpages * mode / 8;
+-    n_fbdirs = DIV_ROUND_UP(n_fbdirs, XC_PAGE_SIZE);
++    n_fbdirs = DIV_ROUND_UP(n_fbdirs, XEN_PAGE_SIZE);
  
- qemu_irq *xen_interrupt_controller_init(void);
+     pgmfns = g_new0(xen_pfn_t, n_fbdirs);
+     fbmfns = g_new0(xen_pfn_t, xenfb->fbpages);
+@@ -528,8 +528,8 @@ static int xenfb_configure_fb(struct XenFB *xenfb, size_t fb_len_lim,
+ {
+     size_t mfn_sz = sizeof_field(struct xenfb_page, pd[0]);
+     size_t pd_len = sizeof_field(struct xenfb_page, pd) / mfn_sz;
+-    size_t fb_pages = pd_len * XC_PAGE_SIZE / mfn_sz;
+-    size_t fb_len_max = fb_pages * XC_PAGE_SIZE;
++    size_t fb_pages = pd_len * XEN_PAGE_SIZE / mfn_sz;
++    size_t fb_len_max = fb_pages * XEN_PAGE_SIZE;
+     int max_width, max_height;
  
--void xenstore_store_pv_console_info(int i, Chardev *chr);
--
- void xen_register_framebuffer(struct MemoryRegion *mr);
+     if (fb_len_lim > fb_len_max) {
+@@ -930,7 +930,7 @@ static void fb_disconnect(struct XenLegacyDevice *xendev)
+      *   instead.  This releases the guest pages and keeps qemu happy.
+      */
+     qemu_xen_foreignmem_unmap(fb->pixels, fb->fbpages);
+-    fb->pixels = mmap(fb->pixels, fb->fbpages * XC_PAGE_SIZE,
++    fb->pixels = mmap(fb->pixels, fb->fbpages * XEN_PAGE_SIZE,
+                       PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANON,
+                       -1, 0);
+     if (fb->pixels == MAP_FAILED) {
+diff --git a/hw/net/xen_nic.c b/hw/net/xen_nic.c
+index 166d03787d..9bbf6599fc 100644
+--- a/hw/net/xen_nic.c
++++ b/hw/net/xen_nic.c
+@@ -145,7 +145,7 @@ static void net_tx_packets(struct XenNetDev *netdev)
+                 continue;
+             }
  
- #endif /* QEMU_HW_XEN_H */
+-            if ((txreq.offset + txreq.size) > XC_PAGE_SIZE) {
++            if ((txreq.offset + txreq.size) > XEN_PAGE_SIZE) {
+                 xen_pv_printf(&netdev->xendev, 0, "error: page crossing\n");
+                 net_tx_error(netdev, &txreq, rc);
+                 continue;
+@@ -171,7 +171,7 @@ static void net_tx_packets(struct XenNetDev *netdev)
+             if (txreq.flags & NETTXF_csum_blank) {
+                 /* have read-only mapping -> can't fill checksum in-place */
+                 if (!tmpbuf) {
+-                    tmpbuf = g_malloc(XC_PAGE_SIZE);
++                    tmpbuf = g_malloc(XEN_PAGE_SIZE);
+                 }
+                 memcpy(tmpbuf, page + txreq.offset, txreq.size);
+                 net_checksum_calculate(tmpbuf, txreq.size, CSUM_ALL);
+@@ -243,9 +243,9 @@ static ssize_t net_rx_packet(NetClientState *nc, const uint8_t *buf, size_t size
+     if (rc == rp || RING_REQUEST_CONS_OVERFLOW(&netdev->rx_ring, rc)) {
+         return 0;
+     }
+-    if (size > XC_PAGE_SIZE - NET_IP_ALIGN) {
++    if (size > XEN_PAGE_SIZE - NET_IP_ALIGN) {
+         xen_pv_printf(&netdev->xendev, 0, "packet too big (%lu > %ld)",
+-                      (unsigned long)size, XC_PAGE_SIZE - NET_IP_ALIGN);
++                      (unsigned long)size, XEN_PAGE_SIZE - NET_IP_ALIGN);
+         return -1;
+     }
+ 
+@@ -348,8 +348,8 @@ static int net_connect(struct XenLegacyDevice *xendev)
+         netdev->txs = NULL;
+         return -1;
+     }
+-    BACK_RING_INIT(&netdev->tx_ring, netdev->txs, XC_PAGE_SIZE);
+-    BACK_RING_INIT(&netdev->rx_ring, netdev->rxs, XC_PAGE_SIZE);
++    BACK_RING_INIT(&netdev->tx_ring, netdev->txs, XEN_PAGE_SIZE);
++    BACK_RING_INIT(&netdev->rx_ring, netdev->rxs, XEN_PAGE_SIZE);
+ 
+     xen_be_bind_evtchn(&netdev->xendev);
+ 
+diff --git a/hw/usb/xen-usb.c b/hw/usb/xen-usb.c
+index a770a64cb4..66cb3f7c24 100644
+--- a/hw/usb/xen-usb.c
++++ b/hw/usb/xen-usb.c
+@@ -161,7 +161,7 @@ static int usbback_gnttab_map(struct usbback_req *usbback_req)
+ 
+     for (i = 0; i < nr_segs; i++) {
+         if ((unsigned)usbback_req->req.seg[i].offset +
+-            (unsigned)usbback_req->req.seg[i].length > XC_PAGE_SIZE) {
++            (unsigned)usbback_req->req.seg[i].length > XEN_PAGE_SIZE) {
+             xen_pv_printf(xendev, 0, "segment crosses page boundary\n");
+             return -EINVAL;
+         }
+@@ -185,7 +185,7 @@ static int usbback_gnttab_map(struct usbback_req *usbback_req)
+ 
+         for (i = 0; i < usbback_req->nr_buffer_segs; i++) {
+             seg = usbback_req->req.seg + i;
+-            addr = usbback_req->buffer + i * XC_PAGE_SIZE + seg->offset;
++            addr = usbback_req->buffer + i * XEN_PAGE_SIZE + seg->offset;
+             qemu_iovec_add(&usbback_req->packet.iov, addr, seg->length);
+         }
+     }
+@@ -902,8 +902,8 @@ static int usbback_connect(struct XenLegacyDevice *xendev)
+     usbif->conn_ring_ref = conn_ring_ref;
+     urb_sring = usbif->urb_sring;
+     conn_sring = usbif->conn_sring;
+-    BACK_RING_INIT(&usbif->urb_ring, urb_sring, XC_PAGE_SIZE);
+-    BACK_RING_INIT(&usbif->conn_ring, conn_sring, XC_PAGE_SIZE);
++    BACK_RING_INIT(&usbif->urb_ring, urb_sring, XEN_PAGE_SIZE);
++    BACK_RING_INIT(&usbif->conn_ring, conn_sring, XEN_PAGE_SIZE);
+ 
+     xen_be_bind_evtchn(xendev);
+ 
 -- 
 2.39.0
 
