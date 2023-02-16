@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA12169A20C
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 00:03:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 751D269A209
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 00:03:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSnGl-00022G-AE; Thu, 16 Feb 2023 18:02:27 -0500
+	id 1pSnH2-000234-TP; Thu, 16 Feb 2023 18:02:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pSnGg-00021K-QF
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 18:02:22 -0500
+ id 1pSnGo-00022f-Ou
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 18:02:33 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pSnGf-0005ZT-1K
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 18:02:22 -0500
+ id 1pSnGn-0005ac-5B
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 18:02:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676588540;
+ s=mimecast20190719; t=1676588548;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KVvQIawD01BlIIhR8ZPsrqhfbCF2OqctJG5kiI/xEXM=;
- b=JMH9FCMekvI6ZnSjmGeVNaIpK1iWYycUbj2yHrqMXbffWQIp1fZCht6Il9Uol9n/eFenjn
- ZS66ujL5JmhBiL793CnDL5GgFBqYDEyViwUlIsu/9SCSHgbwQA9PjZEwiFyalnd8CwBDRK
- W1dX4pRWOD0A7WOmBXa7Sh7oArQGWB8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=EF1466CFA5bZYnbRW9vZlNZkS6xgeBfWu8B+++cAwhU=;
+ b=YYTemMcp3R4xlqo2mRwQPRSayvl5VnfEO/mFD0UyGi0oAhKpiyxDUeW/UdecpdaOlTb5tX
+ mQUQvJ9GzzzN/84mgN0rwssmDzJehX5pre+wYXPP0NcmMXvfrBOArVlMKTjNnS3MYhqL+e
+ PLYnRuBI7T5mHvq9IM3YwspkcNbwQrI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-633-WImv3ZT4O6u_2exyUT6DOw-1; Thu, 16 Feb 2023 18:02:19 -0500
-X-MC-Unique: WImv3ZT4O6u_2exyUT6DOw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-101-jHhx6ew2MCqmKl6xJzeqwg-1; Thu, 16 Feb 2023 18:02:24 -0500
+X-MC-Unique: jHhx6ew2MCqmKl6xJzeqwg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 952F63C0F1A7;
- Thu, 16 Feb 2023 23:02:18 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7F52D85CBE0;
+ Thu, 16 Feb 2023 23:02:24 +0000 (UTC)
 Received: from [172.30.41.16] (unknown [10.22.32.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 361592166B30;
- Thu, 16 Feb 2023 23:02:18 +0000 (UTC)
-Subject: [PULL 05/12] vfio/migration: Block multiple devices migration
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 21951140EBF6;
+ Thu, 16 Feb 2023 23:02:24 +0000 (UTC)
+Subject: [PULL 06/12] vfio/migration: Move migration v1 logic to
+ vfio_migration_init()
 From: Alex Williamson <alex.williamson@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: alex.williamson@redhat.com, avihaih@nvidia.com, clg@redhat.com
-Date: Thu, 16 Feb 2023 16:02:17 -0700
-Message-ID: <167658853778.932837.3119890343408861820.stgit@omen>
+Date: Thu, 16 Feb 2023 16:02:23 -0700
+Message-ID: <167658854369.932837.1986645492026155917.stgit@omen>
 In-Reply-To: <167658846945.932837.1420176491103357684.stgit@omen>
 References: <167658846945.932837.1420176491103357684.stgit@omen>
 User-Agent: StGit/1.5.dev2+g9ce680a52bd9
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -82,133 +83,127 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Avihai Horon <avihaih@nvidia.com>
 
-Currently VFIO migration doesn't implement some kind of intermediate
-quiescent state in which P2P DMAs are quiesced before stopping or
-running the device. This can cause problems in multi-device migration
-where the devices are doing P2P DMAs, since the devices are not stopped
-together at the same time.
-
-Until such support is added, block migration of multiple devices.
+Move vfio_dev_get_region_info() logic from vfio_migration_probe() to
+vfio_migration_init(). This logic is specific to v1 protocol and moving
+it will make it easier to add the v2 protocol implementation later.
+No functional changes intended.
 
 Signed-off-by: Avihai Horon <avihaih@nvidia.com>
 Reviewed-by: Cédric Le Goater <clg@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-Link: https://lore.kernel.org/r/20230216143630.25610-6-avihaih@nvidia.com
+Link: https://lore.kernel.org/r/20230216143630.25610-7-avihaih@nvidia.com
 Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
 ---
- hw/vfio/common.c              |   53 +++++++++++++++++++++++++++++++++++++++++
- hw/vfio/migration.c           |    6 +++++
- include/hw/vfio/vfio-common.h |    2 ++
- 3 files changed, 61 insertions(+)
+ hw/vfio/migration.c  |   30 +++++++++++++++---------------
+ hw/vfio/trace-events |    2 +-
+ 2 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 3a35f4afad64..fe80ccf91419 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -41,6 +41,7 @@
- #include "qapi/error.h"
- #include "migration/migration.h"
- #include "migration/misc.h"
-+#include "migration/blocker.h"
- #include "sysemu/tpm.h"
- 
- VFIOGroupList vfio_group_list =
-@@ -337,6 +338,58 @@ bool vfio_mig_active(void)
-     return true;
- }
- 
-+static Error *multiple_devices_migration_blocker;
-+
-+static unsigned int vfio_migratable_device_num(void)
-+{
-+    VFIOGroup *group;
-+    VFIODevice *vbasedev;
-+    unsigned int device_num = 0;
-+
-+    QLIST_FOREACH(group, &vfio_group_list, next) {
-+        QLIST_FOREACH(vbasedev, &group->device_list, next) {
-+            if (vbasedev->migration) {
-+                device_num++;
-+            }
-+        }
-+    }
-+
-+    return device_num;
-+}
-+
-+int vfio_block_multiple_devices_migration(Error **errp)
-+{
-+    int ret;
-+
-+    if (multiple_devices_migration_blocker ||
-+        vfio_migratable_device_num() <= 1) {
-+        return 0;
-+    }
-+
-+    error_setg(&multiple_devices_migration_blocker,
-+               "Migration is currently not supported with multiple "
-+               "VFIO devices");
-+    ret = migrate_add_blocker(multiple_devices_migration_blocker, errp);
-+    if (ret < 0) {
-+        error_free(multiple_devices_migration_blocker);
-+        multiple_devices_migration_blocker = NULL;
-+    }
-+
-+    return ret;
-+}
-+
-+void vfio_unblock_multiple_devices_migration(void)
-+{
-+    if (!multiple_devices_migration_blocker ||
-+        vfio_migratable_device_num() > 1) {
-+        return;
-+    }
-+
-+    migrate_del_blocker(multiple_devices_migration_blocker);
-+    error_free(multiple_devices_migration_blocker);
-+    multiple_devices_migration_blocker = NULL;
-+}
-+
- static bool vfio_devices_all_dirty_tracking(VFIOContainer *container)
- {
-     VFIOGroup *group;
 diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index e56eef1ee83c..8e9699966962 100644
+index 8e9699966962..a3bf7327a1d6 100644
 --- a/hw/vfio/migration.c
 +++ b/hw/vfio/migration.c
-@@ -878,6 +878,11 @@ int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
-         goto add_blocker;
+@@ -786,14 +786,14 @@ static void vfio_migration_exit(VFIODevice *vbasedev)
+     vbasedev->migration = NULL;
+ }
+ 
+-static int vfio_migration_init(VFIODevice *vbasedev,
+-                               struct vfio_region_info *info)
++static int vfio_migration_init(VFIODevice *vbasedev)
+ {
+     int ret;
+     Object *obj;
+     VFIOMigration *migration;
+     char id[256] = "";
+     g_autofree char *path = NULL, *oid = NULL;
++    struct vfio_region_info *info;
+ 
+     if (!vbasedev->ops->vfio_get_object) {
+         return -EINVAL;
+@@ -804,6 +804,14 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+         return -EINVAL;
      }
  
-+    ret = vfio_block_multiple_devices_migration(errp);
++    ret = vfio_get_dev_region_info(vbasedev,
++                                   VFIO_REGION_TYPE_MIGRATION_DEPRECATED,
++                                   VFIO_REGION_SUBTYPE_MIGRATION_DEPRECATED,
++                                   &info);
 +    if (ret) {
 +        return ret;
 +    }
 +
-     trace_vfio_migration_probe(vbasedev->name, info->index);
-     g_free(info);
-     return 0;
-@@ -904,6 +909,7 @@ void vfio_migration_finalize(VFIODevice *vbasedev)
-         qemu_del_vm_change_state_handler(migration->vm_state);
-         unregister_savevm(VMSTATE_IF(vbasedev->dev), "vfio", vbasedev);
-         vfio_migration_exit(vbasedev);
-+        vfio_unblock_multiple_devices_migration();
+     vbasedev->migration = g_new0(VFIOMigration, 1);
+     vbasedev->migration->device_state = VFIO_DEVICE_STATE_V1_RUNNING;
+     vbasedev->migration->vm_running = runstate_is_running();
+@@ -823,6 +831,8 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+         goto err;
      }
  
-     if (vbasedev->migration_blocker) {
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index e573f5a9f19f..56b168382469 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -218,6 +218,8 @@ typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) VFIOGroupList;
- extern VFIOGroupList vfio_group_list;
++    g_free(info);
++
+     migration = vbasedev->migration;
+     migration->vbasedev = vbasedev;
  
- bool vfio_mig_active(void);
-+int vfio_block_multiple_devices_migration(Error **errp);
-+void vfio_unblock_multiple_devices_migration(void);
- int64_t vfio_mig_bytes_transferred(void);
+@@ -845,6 +855,7 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+     return 0;
  
- #ifdef CONFIG_LINUX
+ err:
++    g_free(info);
+     vfio_migration_exit(vbasedev);
+     return ret;
+ }
+@@ -858,22 +869,13 @@ int64_t vfio_mig_bytes_transferred(void)
+ 
+ int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
+ {
+-    struct vfio_region_info *info = NULL;
+     int ret = -ENOTSUP;
+ 
+     if (!vbasedev->enable_migration) {
+         goto add_blocker;
+     }
+ 
+-    ret = vfio_get_dev_region_info(vbasedev,
+-                                   VFIO_REGION_TYPE_MIGRATION_DEPRECATED,
+-                                   VFIO_REGION_SUBTYPE_MIGRATION_DEPRECATED,
+-                                   &info);
+-    if (ret) {
+-        goto add_blocker;
+-    }
+-
+-    ret = vfio_migration_init(vbasedev, info);
++    ret = vfio_migration_init(vbasedev);
+     if (ret) {
+         goto add_blocker;
+     }
+@@ -883,14 +885,12 @@ int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
+         return ret;
+     }
+ 
+-    trace_vfio_migration_probe(vbasedev->name, info->index);
+-    g_free(info);
++    trace_vfio_migration_probe(vbasedev->name);
+     return 0;
+ 
+ add_blocker:
+     error_setg(&vbasedev->migration_blocker,
+                "VFIO device doesn't support migration");
+-    g_free(info);
+ 
+     ret = migrate_add_blocker(vbasedev->migration_blocker, errp);
+     if (ret < 0) {
+diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+index 90a8aecb3765..6be5381cc973 100644
+--- a/hw/vfio/trace-events
++++ b/hw/vfio/trace-events
+@@ -148,7 +148,7 @@ vfio_display_edid_update(uint32_t prefx, uint32_t prefy) "%ux%u"
+ vfio_display_edid_write_error(void) ""
+ 
+ # migration.c
+-vfio_migration_probe(const char *name, uint32_t index) " (%s) Region %d"
++vfio_migration_probe(const char *name) " (%s)"
+ vfio_migration_set_state(const char *name, uint32_t state) " (%s) state %d"
+ vfio_vmstate_change(const char *name, int running, const char *reason, uint32_t dev_state) " (%s) running %d reason %s device state %d"
+ vfio_migration_state_notifier(const char *name, const char *state) " (%s) state %s"
 
 
 
