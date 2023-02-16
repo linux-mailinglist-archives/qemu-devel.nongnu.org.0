@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 121C369A268
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ECE069A267
 	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 00:35:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSnlR-00008g-Hn; Thu, 16 Feb 2023 18:34:09 -0500
+	id 1pSnlP-00006w-Cb; Thu, 16 Feb 2023 18:34:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pSnlK-0008US-4i
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pSnlK-0008UX-J8
  for qemu-devel@nongnu.org; Thu, 16 Feb 2023 18:34:02 -0500
-Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f])
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pSnlI-0008QO-9a
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 18:34:01 -0500
-Received: by mail-il1-x12f.google.com with SMTP id h7so959166ila.7
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 15:33:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pSnlI-0008Pc-Qc
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 18:34:02 -0500
+Received: by mail-il1-x12c.google.com with SMTP id m18so838346ilf.10
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 15:34:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jcQ3VoTbe+79hYfj0QV+d8UTWb9sjCudpysXyieHUGQ=;
- b=ET4p04pioKHHyivHk3PnLifrt5iLPOfCGyessSvMZxwauirg+UYemDvcPNqTriKbCb
- Zcu/dJZQYe+YG8OhILYT4bK62QKdget3skbxT8fGjTeRVXse0rgrGxKntRpD/POcfY7V
- nRGFJfhotG10bNyTM2eotXVXOba4sGcWtAzbjKDBBZHxJHAXx07s12gB556EJufpHuSh
- yu01a7cMSpsxawR8w2nNjNaIj4iLnKs9S27bqB/tPwTPCWGs96sFXxzdMMGvUFCZj8q0
- 0dddxHx3m9+bKL1nM33siNoZnJb2pvHwCtd7vZtT+eVnuxLf5TpyAL9Bed76wimr0D30
- F56w==
+ bh=EvM91y79wsNlj247LVT9SBZIPzmchHvn7spP1Bu6T5s=;
+ b=7k5QiAXq0ticqh0qUPNXOHL9z7p0sH33VJy//mIRmfuaX9ldG4uRgveEjGno+0J1r6
+ B0wAg9Fp3tmuJF64/RTZDh7iH2Y0SqLTG39eQ7d+38yuXbetTXlGV6yuFNOlEK9KnCEI
+ qkk0P4DCgUmGonrk4fkicyr9ovtugtQw2ove1qmE9KcIipk790SrG7yq3RUaztq1kLB6
+ lP9nheqFqEWzrW7atmFlbtWc64uvUZfIlHWITSpeghOxYcjGgbHfpvHQFUBjMkJEwwBx
+ dQR0Ig1D3RuYNZlTd0E3+ndUJWc03cO2N4KEFfM6Zgx3pwzjhu6PExb5cywsDmXYRrkb
+ npvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jcQ3VoTbe+79hYfj0QV+d8UTWb9sjCudpysXyieHUGQ=;
- b=OCF3j8sGxA7UPUb1YtbRGBIMlhiE3iEeV+Ej/RdsMbxb5Fxocw0sCGvVFhxuGg92z4
- M3QvW/x0XGh32T/xM9fogminjbKHNvEq3iDGmoYLyLRG1U/zSe6z6mkg1DZsmS8vXBz/
- Ev4QMgC8mjML1455q5MhBpihQUCXnw49FEC4ewyo/79ih4MSC1cAqSIwm3e52eCfFbj1
- evKxkLSFjCM8rezxZNhvKL1idCRQYsLogMU8UfsZCG8Ra3JVe44QgEUw4bZjKuUc1QaY
- d/ecTNQDajGwaAsb0RXT43FAA4YvPOvH9ny2zyC8QG7O/4nlOEcXm8E3A9A2GE3SSnJi
- 8n+g==
-X-Gm-Message-State: AO0yUKWxu3Ofl1FIK4uAEtiO+H6X9wyozpTyHD7BAavLTlFHsB8Tn+LH
- zMDVADklELpHQykRXgZoqRAq4RZc7FHefRsy
-X-Google-Smtp-Source: AK7set9uJhXEm4wFj/x/Qn+uvdYQYK6AxAridUptvbE5NXBLaYVL7oageCszHnjesufsVliSY+mUng==
-X-Received: by 2002:a05:6e02:19cb:b0:315:9749:7a25 with SMTP id
- r11-20020a056e0219cb00b0031597497a25mr1288022ill.17.1676590438667; 
- Thu, 16 Feb 2023 15:33:58 -0800 (PST)
+ bh=EvM91y79wsNlj247LVT9SBZIPzmchHvn7spP1Bu6T5s=;
+ b=1F71MNLfc57Lo3phgmy1dtYyPgrk9WgIjJkHyFQCjLazZnU/fYGynbrtVwYQkoSt9q
+ YMVYFtibblrYi4ab1hRSgh8SEJ2h8ESGqMA4R4OCIgdu8StXpGmQOqPRYqf4y4UaORlN
+ yh68DKR52GfUmMen4aRnKFfK+XDNSu1Xpu0+GoYL/RXZtpVNuirOFkgfCvIs5P98Wyob
+ Tvx1igO0mbtzhqMzjpmb8sRZAdjHzGeo82T4xFBvcxFAPN9AKYg/qEk9PK+xNyIqaO96
+ iJUhUp+Wmt8pgPi1LEkB3y4S8O/La8XB6j2G7z/r30by1lZ600IHCdkoq50GS0ILAH5t
+ /2tw==
+X-Gm-Message-State: AO0yUKXqEp9Il4k8vrmFJ2+aX2kPpY1iM4GCAa3pKw+xrXlEEFDBLm2z
+ 2wGzcbXHZscAQIGuIvuvlOx+Qoeas/FRmJPi
+X-Google-Smtp-Source: AK7set+2jeVeS8E0fpEov3XM8ov9lY6os41vEyxDbuZHg7pFdrVftUYIvzjeY/jBqXkPEwp72ZKMKQ==
+X-Received: by 2002:a05:6e02:1e05:b0:315:4b70:8370 with SMTP id
+ g5-20020a056e021e0500b003154b708370mr10223697ila.9.1676590439866; 
+ Thu, 16 Feb 2023 15:33:59 -0800 (PST)
 Received: from dune.bsdimp.com (c-71-237-47-177.hsd1.co.comcast.net.
  [71.237.47.177]) by smtp.gmail.com with ESMTPSA id
- y7-20020a02a387000000b00346a98b0a76sm934816jak.77.2023.02.16.15.33.57
+ y7-20020a02a387000000b00346a98b0a76sm934816jak.77.2023.02.16.15.33.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 15:33:58 -0800 (PST)
+ Thu, 16 Feb 2023 15:33:59 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
 Cc: Kyle Evans <kevans@freebsd.org>, richard.henderson@linaro.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, f4bug@amsat.org,
  Warner Losh <imp@bsdimp.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v3 04/11] bsd-user: various helper routines for sysctl
-Date: Thu, 16 Feb 2023 16:33:46 -0700
-Message-Id: <20230216233353.13944-5-imp@bsdimp.com>
+ Thomas Huth <thuth@redhat.com>, Stacey Son <sson@FreeBSD.org>,
+ Sean Bruno <sbruno@FreeBSD.org>, Juergen Lock <nox@jelal.kn-bremen.de>,
+ Raphael Kubo da Costa <rakuco@FreeBSD.org>
+Subject: [PATCH v3 05/11] bsd-user: Helper routines oidfmt
+Date: Thu, 16 Feb 2023 16:33:47 -0700
+Message-Id: <20230216233353.13944-6-imp@bsdimp.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230216233353.13944-1-imp@bsdimp.com>
 References: <20230216233353.13944-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::12f;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12f.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,109 +92,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-cap_memory - Caps the memory to just below MAXINT
-scale_to_guest_pages - Account for difference in host / guest page size
-h2g_long_sat - converts a int64_t to a int32_t, saturating at max / min values
-h2g_ulong_sat - converts a uint64_t to a uint32_t, saturating at max value
+From: Stacey Son <sson@FreeBSD.org>
 
+oidfmt uses undocumented system call to get the type of the sysctl.
+
+Co-Authored-by: Sean Bruno <sbruno@FreeBSD.org>
+Signed-off-by: Sean Bruno <sbruno@FreeBSD.org>
+Co-Authored-by: Juergen Lock <nox@jelal.kn-bremen.de>
+Signed-off-by: Juergen Lock <nox@jelal.kn-bremen.de>
+Co-Authored-by: Raphael Kubo da Costa <rakuco@FreeBSD.org>
+Signed-off-by: Raphael Kubo da Costa <rakuco@FreeBSD.org>
+Signed-off-by: Stacey Son <sson@FreeBSD.org>
+Reviewed-by: Warner Losh <imp@bsdimp.com>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/freebsd/os-sys.c | 86 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 86 insertions(+)
+ bsd-user/freebsd/os-sys.c | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
 diff --git a/bsd-user/freebsd/os-sys.c b/bsd-user/freebsd/os-sys.c
-index 1676ec10f83..9b84e90cb32 100644
+index 9b84e90cb32..1bf2b51820e 100644
 --- a/bsd-user/freebsd/os-sys.c
 +++ b/bsd-user/freebsd/os-sys.c
-@@ -21,6 +21,92 @@
- #include "qemu.h"
- #include "target_arch_sysarch.h"
+@@ -107,6 +107,38 @@ static abi_ulong G_GNUC_UNUSED h2g_ulong_sat(u_long ul)
+  */
+ #define bsd_get_ncpu() 1
  
-+#include <sys/sysctl.h>
-+
 +/*
-+ * Length for the fixed length types.
-+ * 0 means variable length for strings and structures
-+ * Compare with sys/kern_sysctl.c ctl_size
-+ * Note: Not all types appear to be used in-tree.
++ * This uses the undocumented oidfmt interface to find the kind of a requested
++ * sysctl, see /sys/kern/kern_sysctl.c:sysctl_sysctl_oidfmt() (compare to
++ * src/sbin/sysctl/sysctl.c)
 + */
-+static const int G_GNUC_UNUSED guest_ctl_size[CTLTYPE+1] = {
-+        [CTLTYPE_INT] = sizeof(abi_int),
-+        [CTLTYPE_UINT] = sizeof(abi_uint),
-+        [CTLTYPE_LONG] = sizeof(abi_long),
-+        [CTLTYPE_ULONG] = sizeof(abi_ulong),
-+        [CTLTYPE_S8] = sizeof(int8_t),
-+        [CTLTYPE_S16] = sizeof(int16_t),
-+        [CTLTYPE_S32] = sizeof(int32_t),
-+        [CTLTYPE_S64] = sizeof(int64_t),
-+        [CTLTYPE_U8] = sizeof(uint8_t),
-+        [CTLTYPE_U16] = sizeof(uint16_t),
-+        [CTLTYPE_U32] = sizeof(uint32_t),
-+        [CTLTYPE_U64] = sizeof(uint64_t),
-+};
-+
-+static const int G_GNUC_UNUSED host_ctl_size[CTLTYPE+1] = {
-+        [CTLTYPE_INT] = sizeof(int),
-+        [CTLTYPE_UINT] = sizeof(u_int),
-+        [CTLTYPE_LONG] = sizeof(long),
-+        [CTLTYPE_ULONG] = sizeof(u_long),
-+        [CTLTYPE_S8] = sizeof(int8_t),
-+        [CTLTYPE_S16] = sizeof(int16_t),
-+        [CTLTYPE_S32] = sizeof(int32_t),
-+        [CTLTYPE_S64] = sizeof(int64_t),
-+        [CTLTYPE_U8] = sizeof(uint8_t),
-+        [CTLTYPE_U16] = sizeof(uint16_t),
-+        [CTLTYPE_U32] = sizeof(uint32_t),
-+        [CTLTYPE_U64] = sizeof(uint64_t),
-+};
-+
-+#ifdef TARGET_ABI32
-+/*
-+ * Limit the amount of available memory to be most of the 32-bit address
-+ * space. 0x100c000 was arrived at through trial and error as a good
-+ * definition of 'most'.
-+ */
-+static const abi_ulong guest_max_mem = UINT32_MAX - 0x100c000 + 1;
-+
-+static abi_ulong G_GNUC_UNUSED cap_memory(uint64_t mem)
++static int G_GNUC_UNUSED oidfmt(int *oid, int len, char *fmt, uint32_t *kind)
 +{
-+    return MIN(guest_max_mem, mem);
-+}
-+#endif
++    int qoid[CTL_MAXNAME + 2];
++    uint8_t buf[BUFSIZ];
++    int i;
++    size_t j;
 +
-+static abi_ulong G_GNUC_UNUSED scale_to_guest_pages(uint64_t pages)
-+{
-+    /* Scale pages from host to guest */
-+    pages = muldiv64(pages, qemu_real_host_page_size(), TARGET_PAGE_SIZE);
-+#ifdef TARGET_ABI32
-+    /* cap pages if need be */
-+    pages = MIN(pages, guest_max_mem / (abi_ulong)TARGET_PAGE_SIZE);
-+#endif
-+    return pages;
-+}
++    qoid[0] = CTL_SYSCTL;
++    qoid[1] = CTL_SYSCTL_OIDFMT;
++    memcpy(qoid + 2, oid, len * sizeof(int));
 +
-+#ifdef TARGET_ABI32
-+/* Used only for TARGET_ABI32 */
-+static abi_long G_GNUC_UNUSED h2g_long_sat(long l)
-+{
-+    if (l > INT32_MAX) {
-+        l = INT32_MAX;
-+    } else if (l < INT32_MIN) {
-+        l = INT32_MIN;
++    j = sizeof(buf);
++    i = sysctl(qoid, len + 2, buf, &j, 0, 0);
++    if (i) {
++        return i;
 +    }
-+    return l;
-+}
 +
-+static abi_ulong G_GNUC_UNUSED h2g_ulong_sat(u_long ul)
-+{
-+    return MIN(ul, UINT32_MAX);
-+}
-+#endif
++    if (kind) {
++        *kind = *(uint32_t *)buf;
++    }
 +
-+/*
-+ * placeholder until bsd-user downstream upstreams this with its thread support
-+ */
-+#define bsd_get_ncpu() 1
++    if (fmt) {
++        strcpy(fmt, (char *)(buf + sizeof(uint32_t)));
++    }
++    return 0;
++}
 +
  /* sysarch() is architecture dependent. */
  abi_long do_freebsd_sysarch(void *cpu_env, abi_long arg1, abi_long arg2)
