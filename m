@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADEF0699ADA
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:12:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AFE7699AEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:14:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pShna-0000uZ-To; Thu, 16 Feb 2023 12:11:58 -0500
+	id 1pShni-0001Up-1f; Thu, 16 Feb 2023 12:12:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShnW-0000jO-4y
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:54 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ id 1pShne-0001IF-GO
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:12:02 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShnU-0007zA-Ee
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:53 -0500
-Received: by mail-wr1-x429.google.com with SMTP id d4so2453371wrj.1
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:11:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=evm0X8KpwexdZmoAXGBwk/4u+Ox8rhWrbCkUwekUiFs=;
- b=o8Nk+uCCSc1IK7uSlxoYhce9KLeTEePoVsBNjtUEbl3jZxX9RLPX6+a1CD70Vw7oEn
- z9oiieAAwE+Pk+fzMnr31FEZGbYNWaL3HzBkL/Ftza2ANmXi/QceiHWkf8Da1gctIyij
- lRKI590+aBY98XPSpydGNZAEzdk9ZxK2+dmZD0TYqdu6EcgX+5RKxNuTkkUbs5Yy8oID
- ZXIQ2wyy9RlLt1J/4n4tb0scPG8j/9qlWTv/uS3+W0rDhbZrev8peVZsBZXNT89dC2bw
- MZYbOFwkt6jxKBbU76pyocyIOyhZ1/MQQxeoS+VHNcGiU6IGrFQnFx14qOlPTKnqVU0w
- R1Tw==
+ id 1pShnc-00081C-Hz
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:12:02 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id n2so1919241pfo.3
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:12:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1676567519;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=YzAymwS/vq96cspJLAbdkQXjwZWoZ6r6exRscq3z8Iw=;
+ b=Ddv4w8zeUfQ/XU8yPu4+FEzS9R+8cLFTsblQv0eRUOP4AreRcb4CLbW+NVN/M9Nlsv
+ clFe/aUKCsYh1mSDMp055q+zdqfe6H2ujlchjagOB6FmuJOaSoMrLlrTtFnCnBejiK/O
+ epo/EyViNDMVrxY3ikNEUh3iXzYn8fe+EwM/LQbtM65I6daETZgpR2sRpyAclCdP06K8
+ tNSlmhXJpqLTkQQYXcx4VA148wz8y7U9FKONQ9PeTadqj1+60BFDHVGhcv5vez+OgiKa
+ wr6rSQmpt1dm4n5PZBbokUW64DUam8RKTPiuBch0LdA96s2DRLzGVxE7SJlhJyGs6aCq
+ 9skA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=evm0X8KpwexdZmoAXGBwk/4u+Ox8rhWrbCkUwekUiFs=;
- b=lP7yU29H5eAROwjriUFsLyWcFv/1NStMRXg8I1WERy2ce6tEelEis3bu+Y82j/WUwR
- 15P8xgV4HcRikxM6kURdVj3S6JLyW12E574FxiE9/BRKXCwU7snaxOllymSpvSz4U5Bb
- xLpr3TdXHE/O9nQg5lUbhkLzcyyH1dteKynHDKkvhX0sTGcDv7x+Pes/hLT6zvrh4W5F
- O7YT/H8oZatERKzDdP+lIlLEO/OHJ/+22bt+wZhExJ7UBeWKfvQwroAP5w1dQti0GN7n
- D5ODp4dUhDlT1QQ5w+Kcv6FW/mHSiHlz1ratE+MuDtgMiU7aMTVVf7nQpaRHwvo7hT6m
- UoAQ==
-X-Gm-Message-State: AO0yUKVYPOLMoS/F+qQotNK2JRtB7kmi5vjP1wbm9SwnrW8FF9vl/GiW
- f/uhLrtkEkB6zoElYSQ2TCf8z8zZICcbpptb
-X-Google-Smtp-Source: AK7set8VvcOYb/OkhhpIAFIC0bFowM1rWH6oVg8lNuRWgUQLyx8iTEuh6LpwX+vyLn4AapoAYn1azg==
-X-Received: by 2002:a5d:640c:0:b0:2c5:52ef:b46b with SMTP id
- z12-20020a5d640c000000b002c552efb46bmr6519088wru.6.1676567511715; 
- Thu, 16 Feb 2023 09:11:51 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- f12-20020a5d4dcc000000b002c556a4f1casm2049107wru.42.2023.02.16.09.11.50
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 09:11:51 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 30/30] tests/qtest: Restrict tpm-tis-devices-{swtpm}-test to
- CONFIG_TCG
-Date: Thu, 16 Feb 2023 17:11:23 +0000
-Message-Id: <20230216171123.2518285-31-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230216171123.2518285-1-peter.maydell@linaro.org>
-References: <20230216171123.2518285-1-peter.maydell@linaro.org>
+ d=1e100.net; s=20210112; t=1676567519;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YzAymwS/vq96cspJLAbdkQXjwZWoZ6r6exRscq3z8Iw=;
+ b=0c/9ljMfyx3wqoTv4ysHqDjUuwgPD08vB9AH+U3ry2AtPWsPa0IslX5OCPWv8ncKy+
+ uDpzgOVxaSBBFVUowDr+0x1vJHqFAc9cwRWrG5SgwJob4KVLWaTUg++OTYFpgj8DSrjX
+ Je9w3vsdLwKMAjDeYZ7p8pvOL4tosfhIWIFK5UpKWQO10yddFYRiRvM6ZkXVDtrQm/i0
+ JqYNRY6ukEqFFYSQufII0snfRwzxkXWfWlrHR6PccQJcbq+QwOF+AWa/A26rkbUX48el
+ z00OhyNP1Q6Ot4Igkt+uow/a/SJj1NNHdjF6CWIaeDicVmtUjKYOOT/oDqy8ZNLEXuEy
+ lTng==
+X-Gm-Message-State: AO0yUKXSJ5GYa10KRZruCcV98cJPQDSRPhR8T7fk6hpKT4MERNmBqy3N
+ 1Vg+uI1kNcd2uSeYcMXpNLTll9afs4UZ0st3qLyHiw==
+X-Google-Smtp-Source: AK7set+UuadELnLdEKxEOUQahZ0sNOEWfrVE0H1T6hhrnjUWyFV0XxG92QRkhB0uV/umHkY50nnU3M0hqXS0/M2j36w=
+X-Received: by 2002:a62:840e:0:b0:5a9:babe:6cb9 with SMTP id
+ k14-20020a62840e000000b005a9babe6cb9mr205667pfd.48.1676567518976; Thu, 16 Feb
+ 2023 09:11:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+References: <20230215200554.1365-1-quintela@redhat.com>
+In-Reply-To: <20230215200554.1365-1-quintela@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 16 Feb 2023 17:11:47 +0000
+Message-ID: <CAFEAcA-f54+Eq2ezp5V9Lu6nC1ha8=X8SNPdZGtfTTcaM+mTyw@mail.gmail.com>
+Subject: Re: [PULL 0/5] Migration 20230215 patches
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ qemu-s390x@nongnu.org, 
+ Thomas Huth <thuth@redhat.com>, Halil Pasic <pasic@linux.ibm.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Alex Williamson <alex.williamson@redhat.com>, 
+ Ilya Leoshkevich <iii@linux.ibm.com>, qemu-block@nongnu.org, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, 
+ David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Farman <farman@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,34 +94,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Fabiano Rosas <farosas@suse.de>
+On Wed, 15 Feb 2023 at 20:06, Juan Quintela <quintela@redhat.com> wrote:
+>
+> The following changes since commit 6a50f64ca01d0a7b97f14f069762bfd88160f31e:
+>
+>   Merge tag 'pull-request-2023-02-14' of https://gitlab.com/thuth/qemu into staging (2023-02-14 14:46:10 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/juan.quintela/qemu.git tags/migration-20230215-pull-request
+>
+> for you to fetch changes up to 24beea4efe6e6b65fd6248ede936cd3278b2bf8a:
+>
+>   migration: Rename res_{postcopy,precopy}_only (2023-02-15 20:04:30 +0100)
+>
+> ----------------------------------------------------------------
+> Migration Pull request
+>
+> This pull request contains:
+>
+> * Add qemu_file_get_to_fd() a.k.a. make vfio happy(Avihai)
+> * migration/block is now DPRINTF() free zone (Philippe)
+> * remove res_compat and improve docs (me)
+>
+> Please apply.
 
-These tests set -accel tcg, so restrict them to when TCG is present.
 
-Signed-off-by: Fabiano Rosas <farosas@suse.de>
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- tests/qtest/meson.build | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Applied, thanks.
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 222e1892fb5..29a4efb4c24 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -208,8 +208,8 @@ qtests_arm = \
- # TODO: once aarch64 TCG is fixed on ARM 32 bit host, make bios-tables-test unconditional
- qtests_aarch64 = \
-   (cpu != 'arm' and unpack_edk2_blobs ? ['bios-tables-test'] : []) +                            \
--  (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
--  (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
-+  (config_all.has_key('CONFIG_TCG') and config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ?            \
-+    ['tpm-tis-device-test', 'tpm-tis-device-swtpm-test'] : []) +                                         \
-   (config_all_devices.has_key('CONFIG_XLNX_ZYNQMP_ARM') ? ['xlnx-can-test', 'fuzz-xlnx-dp-test'] : []) + \
-   (config_all_devices.has_key('CONFIG_RASPI') ? ['bcm2835-dma-test'] : []) +  \
-   ['arm-cpu-features',
--- 
-2.34.1
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
 
+-- PMM
 
