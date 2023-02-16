@@ -2,93 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0B4D698A9B
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 03:44:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F8C698AA5
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 03:53:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSUFk-0006qF-Mj; Wed, 15 Feb 2023 21:44:08 -0500
+	id 1pSUNv-0001wv-A6; Wed, 15 Feb 2023 21:52:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSUFi-0006pf-Gm
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 21:44:06 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ id 1pSUNt-0001wj-Jy
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 21:52:33 -0500
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSUFg-0002WU-AO
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 21:44:05 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- z14-20020a17090abd8e00b00233bb9d6bdcso752237pjr.4
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 18:44:03 -0800 (PST)
+ id 1pSUNr-0000G0-TQ
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 21:52:33 -0500
+Received: by mail-pl1-x629.google.com with SMTP id b5so681030plz.5
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 18:52:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=HVAN209fRNbIKnuIIc5upJSr7MiBOg43fn5x0PsORHE=;
- b=xrDbgj60BsMvnqNHjeB6l0oyBSAKWPhD+xqTd2tvDj/Jo51UYb1QMADsUD+UGV85ns
- PFZQy97s1MDetjaI0ILLBd9X0J4Xwzo6wcfgmjTWiUrG+kEMwzfLM4iLQ4YQUNLVIwIv
- OQkE2/9GUV34PMwD9Kg5FM4aTSZl1aNEGv5+vNz+QOCUK5SGuk+WQ9kQSx8jV2vttqj3
- q0pq/mJ2JJdYSVbcgjNENdak9yyapVP5ol8bKtOWzVkOWDOKuwk/L0T84oQkFKSFBNsC
- VN2rMd2+Mea0WJzmf7M4PgmzNXBS2Ya8/KB2HVNgZ5WxdZkugFNie3IFyLKh+p1D/wbq
- T81w==
+ bh=T5+xIeCDu8jtyOAdoSrd/VU32+HlZfgxnVHArHHnnu8=;
+ b=kEKntUgbVUOPNVvERaEI0fjO845UhGFw+ce/yHhwXPphtTpMVEQ9AeUSs3OM4tjrD2
+ BcIUdQovGqVzwg5ObaIqVlUwp66Sg8w1ku1SkBIIU2qnLkr6XuFKsKUzXGHDvAMkEC2o
+ Rd0wM2DpHkrGpmhVaerxhGfwBR0wnIEpG5aS8yQYYQle7sb89QvUgcaZAiV5x6LT0xaU
+ 3Xr6+/Ky2b9H5GyU1ymFB4K0mcMG6ehhT9BH+b377O30vf1v9+3F2ZMRpH0JwNd/lrR6
+ IMefusHX2Hr8NsFtpd4XbIzk7983kvsPy83lKPDh99ZOLFZEDnufSKKUGCxlNyEkhBzg
+ jujg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HVAN209fRNbIKnuIIc5upJSr7MiBOg43fn5x0PsORHE=;
- b=m65byaDS/JrO3oW81dc8/arbsqWMScCop2T065jdrejClCVS1m/ay7kZRE9GVQb14a
- vCqX9sQC5XCqR51lZzyHTc+EKK9EpEKe3TBJFafCm2mC8YHI7sv3Yv9AjkFa1heTT5+f
- NXeI5mAjOq8lBW8yjKw6Alb0lvyy7widX+071CtQbiXIDOOKa3XEsnq9yXjFlvs67FH/
- 9yMHbJLNOcUVxbNAHCuBTEPiW11gzgj1R+kSJRSgMfOqDy21GqgzzxYWgWg6ZoDguRQ5
- eXUqc7WifAOx7Dm9Es77WvUmQvQUTkkZUzpWizK5qwRY9nPg2tb+TMd9EsTxn4b+JG//
- YC+A==
-X-Gm-Message-State: AO0yUKW3XCItPEKmaHtz1QZWhcNRQDL+fRK29iXOxAHE8rgT/OqNA/2X
- GwDtM+J4NGxnisRcsskWkBFeNA==
-X-Google-Smtp-Source: AK7set97gfVh2wdUtSkis3U7KaSrM9cReJFt90IzRHHwG4vZYzOFZM+V5kxn6o5cQfU7bJ/44iE6Dw==
-X-Received: by 2002:a17:902:d4c7:b0:198:adc4:22a2 with SMTP id
- o7-20020a170902d4c700b00198adc422a2mr741192plg.29.1676515442653; 
- Wed, 15 Feb 2023 18:44:02 -0800 (PST)
+ bh=T5+xIeCDu8jtyOAdoSrd/VU32+HlZfgxnVHArHHnnu8=;
+ b=RYLb4BIfqD7Vc6VNkuV+7dG8+BCupEXtlWxJajNHSzMpbvf0U2ixkkkW33SVSf6FjK
+ EWlFoYYjalKnclt6BVKHW/lE0qxuSZmEjzy3bBobD2gcGm8yfbYyaxp1E+oyiqBLnIFz
+ oRdNpNRKUZiNDgFm4xqZFrSn35OVuR2p2BBfiH2JK6e27I2553+NSR6SA9bThNSgi4Ls
+ ivmxLBlKfpEwFxYEIww7udRaR9Db8Q8bDP+cmGlLJ0tqc+CRMNdysLM4yzJ8WTVQr8V/
+ umYYNatjUOO67nrHooFE3883SbYmXfuJIIvsDFPD0fTI/2qaTrfFrIyaZz2unWKRLntg
+ dbnQ==
+X-Gm-Message-State: AO0yUKX+yhK5xWgUVjBhMk6wr9GVN9G/C6V/nZWu4y9Y+46Cypm6tpTh
+ nn9htdN0QTbUnzsVsm8w51Wmfw==
+X-Google-Smtp-Source: AK7set9c3momnCE9GfOplFWmHPGn66TkGoPJu2WKfQaESU/1Lj32fLcn72cIA4hEZgfQbdfn8d0i1A==
+X-Received: by 2002:a05:6a21:3806:b0:c7:26d0:1138 with SMTP id
+ yi6-20020a056a21380600b000c726d01138mr205339pzb.39.1676515948098; 
+ Wed, 15 Feb 2023 18:52:28 -0800 (PST)
 Received: from [192.168.192.227] (rrcs-74-87-59-234.west.biz.rr.com.
  [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
- jg10-20020a17090326ca00b0019aeddce6casm37375plb.205.2023.02.15.18.44.00
+ l6-20020a639846000000b004fbfefd5183sm98273pgo.80.2023.02.15.18.52.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Feb 2023 18:44:02 -0800 (PST)
-Message-ID: <3a786c14-11b1-6a12-1bb0-fc467bdd2daa@linaro.org>
-Date: Wed, 15 Feb 2023 16:43:58 -1000
+ Wed, 15 Feb 2023 18:52:27 -0800 (PST)
+Message-ID: <36dbc1bd-cf2d-ad74-8432-c9550e1a0aa4@linaro.org>
+Date: Wed, 15 Feb 2023 16:52:24 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v1 RFC Zisslpcfi 3/9] target/riscv: implements CSRs and
- new bits in existing CSRs in zisslpcfi
+Subject: Re: Does the page boundary check still necessary?
 Content-Language: en-US
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, liweiwei@iscas.ac.cn,
- dbarboza@ventanamicro.com, Kip Walker <kip@rivosinc.com>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-References: <20230209062404.3582018-1-debug@rivosinc.com>
- <20230209062404.3582018-4-debug@rivosinc.com>
- <f68da758-a418-c528-6f7c-e6e0d0246255@linux.alibaba.com>
- <CAKC1njTbP0=H8w=izkMkEwVjq9=6m_Rw_ymgremjtbFYDGTrow@mail.gmail.com>
- <d9f692af-eb86-421d-f0cf-495f2a2e01b4@linaro.org>
- <CAKC1njR44uKkeqT52mn2wg4PzpF6cvwCEk7cGn=gCVjwjVA-6Q@mail.gmail.com>
+To: Kenneth Lee <Kenneth-Lee-2012@foxmail.com>
+Cc: qemu-devel@nongnu.org
+References: <tencent_F8004464D432CD4CABBADFE9E9493EDF9607@qq.com>
+ <b2c5dd7c-5c90-9104-5477-b76ed22ea799@linaro.org>
+ <tencent_5ED3B1CE709A7A92C2B7264011B9A84C2205@qq.com>
+ <2c467dfb-a546-1bfc-a2e6-be30d91c73df@linaro.org>
+ <tencent_242293DEBEFE0102C8F4654A993A7531D308@qq.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAKC1njR44uKkeqT52mn2wg4PzpF6cvwCEk7cGn=gCVjwjVA-6Q@mail.gmail.com>
+In-Reply-To: <tencent_242293DEBEFE0102C8F4654A993A7531D308@qq.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
 X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,26 +96,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/15/23 15:38, Deepak Gupta wrote:
-> Question:
-> I'll basically need two bits (one for forward cfi and one for backward cfi).
+On 2/15/23 16:28, Kenneth Lee wrote:
+> On Wed, Feb 15, 2023 at 04:26:18PM -1000, Richard Henderson wrote:
+>> Date: Wed, 15 Feb 2023 16:26:18 -1000
+>> From: Richard Henderson <richard.henderson@linaro.org>
+>> To: Kenneth Lee <Kenneth-Lee-2012@foxmail.com>
+>> Cc: qemu-devel@nongnu.org
+>> Subject: Re: Does the page boundary check still necessary?
+>> User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+>>   Thunderbird/102.7.1
+>>
+>> On 2/15/23 15:45, Kenneth Lee wrote:
+>>>>> Now the chained TBs have been link with tb_link_page(), the chain will
+>>>>> be rebuilt if it is invalidate on page. So why is this check still there?
+>>>>
+>>>> Even for a guest which doesn't use paging, and therefore does not need to
+>>>> worry about memory maps changing, we still enable breakpoints and
+>>>> watchpoints on a per-page basis.
+>>>>
+>>>
+>>> Thank you. So is this the only reason? May I write a fine grained
+>>> checking to remove this limitation?
+>>
+>> No.
+>>
+> Why?
 
-Are they separately enabled?  It may also be possible to use a single bit and then perform 
-a runtime check.  I guess I should read the spec...
+When breakpoints change, we discard all translations on the affected page, similarly to 
+how we handle writes from self-modifying code.  If you link from further away, then TBs 
+won't be invalidated properly when breakpoints change.  For most guests, this isn't a 
+limitation because we also have to care for modifications to page tables, so we can't 
+allow such links anyway.
 
-> But I need to throw away the TB if cfi enabling bits mismatch at the
-> time TB was generated and the current state of enabling bits.
-> Reason being, this needs to get translated again and zimops need to be
-> generated.
-> 
-> What's the best way to throw away a single TB?
-
-You don't throw TBs away at all.
-
-The current cpu state is produced by cpu_get_tb_cpu_state.  This is included into the hash 
-table lookup and will only match a TB which has been generated with the same state.  Which 
-means that you can have multiple live TBs, those with CFI enabled and those without, and 
-the correct one will be selected at runtime.
+I have no idea what you're trying to accomplish that's different from existing guests.
 
 
 r~
