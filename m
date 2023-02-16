@@ -2,77 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13D226992E9
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 12:17:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B09A4699307
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 12:22:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pScFb-00074K-8e; Thu, 16 Feb 2023 06:16:31 -0500
+	id 1pScJv-0002I9-NU; Thu, 16 Feb 2023 06:20:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pScFY-000724-WE
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 06:16:29 -0500
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pScFX-0005pN-9y
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 06:16:28 -0500
-Received: by mail-pg1-x534.google.com with SMTP id z6so1063766pgk.0
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 03:16:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=C2TvbhjPzzO56vOshkwAuBdjvkU74JGCV6WczIvctXo=;
- b=GuEeOLA75EdQMVJHd/ON8xhHP0KYeIpklWmpZ9ygZI8TfG4YTX2XzGPdG7NHNlvUTQ
- c2nmIdYJk9E2VqZPotq6oT/rRO8vbHWauOS3mAFCG2+b0r4adfXhj5c7L8o/KT0f3oLU
- K6ydzqT7dur7ObJiFNGgxLfnxjBnWu3rFu0eI+IBwaJORc9gSVDpbeZviNJPQIrk/mRo
- DUcoRK8WrJuCnpwruiIjKENLdJ0oM/NevAMeKJ7VvC+KB3JIVoiuAph1dwt+z0PLt033
- mAVSAGVQ2eEUFohhU/VEO7P+vZWfyi1Lh+rwgIK9Y7+94eowzQzy7R0+6fnv4YRMMcoS
- chhA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pScJt-0002HK-MK
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 06:20:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pScJr-0007Cw-Va
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 06:20:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676546454;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+SGR2OTuFMkTmz30hS3C13oD95Dta+sufNEEj7mbeK0=;
+ b=I16342/vB61jUVLU6Ixt+rXKLlxEYmqxUjOFpy3QLXWq3F1b5+KPBFruuBc203aPu/qtYr
+ 2+zat2OxzttbSF5INbTX7HXZJ3c/oasH7IDmx+AtIkFVsblpRi6ySxr4Dz95RgjTsxqx/9
+ raNiSuZBJrR5QRH6uC7cNBOJ0dfZsx0=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-206-VzQrjPgyOTGgZkeY3SVMHQ-1; Thu, 16 Feb 2023 06:20:53 -0500
+X-MC-Unique: VzQrjPgyOTGgZkeY3SVMHQ-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ j29-20020a05620a001d00b00724fd33cb3eso967479qki.14
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 03:20:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=C2TvbhjPzzO56vOshkwAuBdjvkU74JGCV6WczIvctXo=;
- b=oo2xVZlPEMazqcWtSzbXXTItwGK4RzDE7xhMUQY7/ZEMyZe1jSFtrfboss2YNSeWMy
- yQtluMEWz4lXikxFCnTgWOaFxxQNZYbHnFj4M9luLd2qd5C8A+T+ZAaMKvF4S4sHZ+LB
- YaLep8gfdpUXxepvQYkQFubmld62uc/AN5UgYemO6IMBB9zgjV3VFopSBMFpnVLHHPz+
- tpOU2+9qAbn8f4MGGj3vqbdmALCUCq6B8ok0lI2QXofJse37pvirzJv/KnQ7Nj9Eo9Sm
- CJderKI5OwUxgOuhHZXVeGKhdWvLwK6grXlyuP2Tk454xhj+XuFpE3CQQkjdMAlA8Ntb
- 4e9w==
-X-Gm-Message-State: AO0yUKWag7o3XwsAVt4XirWJQf9I7X2R8995MFo5GBZukLo0NnpixtTH
- Ikba5vnBx3ot+QQJXCD56IWHFKID8mtD9YYUCkmbPQ==
-X-Google-Smtp-Source: AK7set82/xmQFyU4VGXi0rGbLIXE1RzWHai4PRgGIpk9jkl+XmkqwRV3rhZsYnki9blAGmo4EgR+S+ynEOTKLYhnqXo=
-X-Received: by 2002:a63:360c:0:b0:4f9:cd40:f59a with SMTP id
- d12-20020a63360c000000b004f9cd40f59amr658748pga.21.1676546185732; Thu, 16 Feb
- 2023 03:16:25 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+SGR2OTuFMkTmz30hS3C13oD95Dta+sufNEEj7mbeK0=;
+ b=fqtQ3BzbDBf7KD6hitA1hkGJINAqDIx8o8aesS6Db5WM4sPWwwLT1LEuPTddzKxriS
+ m7rB5skGNFU2/OEsS/46+Onc3opc1FRctXWgH7fAa+eIMSPFk4IIvi9FA93txDc6UMNC
+ DYaWNzfPqvHymiUhEBjzYPOEEMh4MV/8DLG/gSGDkh8Okr945O5+LSOprdN2RMo3gK1U
+ ayf1naP66F9vPTeylBjgp1tEFxqY4X4wyFdXIiMBQwxDq5dpatu1owYT6NOwF89whqVU
+ rZ+41BFsZNDm1RwD3PYWb7xWiE8eIY0H+i64a4i2wmMKat35b6PwugQHNOIo/bbzR1Kr
+ yrRQ==
+X-Gm-Message-State: AO0yUKX62ijOs2e7qHuA6wFi9kvUomIbXlV5edXfbNLmLsBdBCtipccp
+ EzPwUqRYLs/5OyCkoYkbtHkqNPiG3FebQzYCXFfJ3y8STGapJY1qWZ4Ox8B1vcBWrO5LtwDla1v
+ 2/0oLYHTFZy6BpWA=
+X-Received: by 2002:a05:622a:592:b0:3ba:1a25:f66 with SMTP id
+ c18-20020a05622a059200b003ba1a250f66mr8592518qtb.53.1676546453142; 
+ Thu, 16 Feb 2023 03:20:53 -0800 (PST)
+X-Google-Smtp-Source: AK7set9ijaSezyyRRSACwOJAfpWYSKoR4Mxdnk9qYilKV4r9wrtMoBgs98J+UaUFEvyWMePrAmt2NQ==
+X-Received: by 2002:a05:622a:592:b0:3ba:1a25:f66 with SMTP id
+ c18-20020a05622a059200b003ba1a250f66mr8592496qtb.53.1676546452898; 
+ Thu, 16 Feb 2023 03:20:52 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-144.web.vodafone.de.
+ [109.43.176.144]) by smtp.gmail.com with ESMTPSA id
+ r9-20020ac85c89000000b003b869f71eedsm1024031qta.66.2023.02.16.03.20.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Feb 2023 03:20:52 -0800 (PST)
+Message-ID: <f987749e-d7d8-7812-b118-2eb449ff09f6@redhat.com>
+Date: Thu, 16 Feb 2023 12:20:49 +0100
 MIME-Version: 1.0
-References: <20230215174712.1894516-1-berrange@redhat.com>
-In-Reply-To: <20230215174712.1894516-1-berrange@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Feb 2023 11:16:14 +0000
-Message-ID: <CAFEAcA-UrRqgU1PUsrkEJdSoNz2+LwEa-xdOo1CZSnwWOGOxTA@mail.gmail.com>
-Subject: Re: [PULL 0/5] Misc next patches
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
- libvir-list@redhat.com, 
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Lieven <pl@kamp.de>, Hanna Reitz <hreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v3 01/14] hw/char/serial-pci: Replace
+ DO_UPCAST(PCISerialState) by PCI_SERIAL()
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>
+Cc: qemu-block@nongnu.org, Hu Tao <hutao@cn.fujitsu.com>,
+ Gonglei Arei <arei.gonglei@huawei.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Li Qiang <liq3ea@163.com>,
+ Cao jin <caoj.fnst@cn.fujitsu.com>, xiaoqiang zhao <zxq_yx_007@163.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20230213184338.46712-1-philmd@linaro.org>
+ <20230213184338.46712-2-philmd@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230213184338.46712-2-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.257, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,36 +107,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 15 Feb 2023 at 17:48, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
->
-> The following changes since commit 6a50f64ca01d0a7b97f14f069762bfd88160f3=
-1e:
->
->   Merge tag 'pull-request-2023-02-14' of https://gitlab.com/thuth/qemu in=
-to staging (2023-02-14 14:46:10 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/berrange/qemu tags/misc-next-pull-request
->
-> for you to fetch changes up to 36debafddd788066be10b33c5f11b984a08e5c85:
->
->   ui: remove deprecated 'password' option for SPICE (2023-02-15 11:14:58 =
--0500)
->
-> ----------------------------------------------------------------
->  * Document 'password-secret' option for -iscsi
->  * Deprecate iSCSI 'password' in favour of 'password-secret'
->  * Remove deprecated 'password' option for SPICE
->  * Fix handling of cached read buffers with TLS
->
+On 13/02/2023 19.43, Philippe Mathieu-Daudé wrote:
+> Use the PCI_SERIAL() QOM type-checking macro to avoid DO_UPCAST().
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   hw/char/serial-pci.c | 7 +++++--
+>   1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/char/serial-pci.c b/hw/char/serial-pci.c
+> index 801b769aba..9689645cac 100644
+> --- a/hw/char/serial-pci.c
+> +++ b/hw/char/serial-pci.c
+> @@ -36,7 +36,10 @@
+>   #include "qom/object.h"
+>   
+>   struct PCISerialState {
+> +    /*< private >*/
+>       PCIDevice dev;
+> +    /*< public >*/
+> +
 
+I'm not sure about this part of the patch. It does not seem to be related to 
+the other changes at all, and are you sure about which parts are really 
+"public" and which parts are "private"? If so, I'd like to see a description 
+about this in the commit message, preferably in a separate patch. Also, why 
+an empty line after the "public" comment?
 
-Applied, thanks.
+>       SerialState state;
+>       uint8_t prog_if;
+>   };
+> @@ -46,7 +49,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(PCISerialState, PCI_SERIAL)
+>   
+>   static void serial_pci_realize(PCIDevice *dev, Error **errp)
+>   {
+> -    PCISerialState *pci = DO_UPCAST(PCISerialState, dev, dev);
+> +    PCISerialState *pci = PCI_SERIAL(dev);
+>       SerialState *s = &pci->state;
+>   
+>       if (!qdev_realize(DEVICE(s), NULL, errp)) {
+> @@ -63,7 +66,7 @@ static void serial_pci_realize(PCIDevice *dev, Error **errp)
+>   
+>   static void serial_pci_exit(PCIDevice *dev)
+>   {
+> -    PCISerialState *pci = DO_UPCAST(PCISerialState, dev, dev);
+> +    PCISerialState *pci = PCI_SERIAL(dev);
+>       SerialState *s = &pci->state;
+>   
+>       qdev_unrealize(DEVICE(s));
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
+Ack for the DO_UPCAST removal.
 
--- PMM
+  Thomas
+
 
