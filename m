@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69F70698C76
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 06:58:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD4D5698C96
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 07:06:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSXGy-0007cG-Br; Thu, 16 Feb 2023 00:57:36 -0500
+	id 1pSXOQ-00031g-0N; Thu, 16 Feb 2023 01:05:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <m.tyutin@yadro.com>)
- id 1pSXGw-0007c6-7D
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:57:34 -0500
-Received: from mta-02.yadro.com ([89.207.88.252] helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <m.tyutin@yadro.com>)
- id 1pSXGt-0000nn-R9
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:57:33 -0500
-Received: from mta-01.yadro.com (localhost.localdomain [127.0.0.1])
- by mta-01.yadro.com (Proxmox) with ESMTP id BEBAB341B4C;
- Thu, 16 Feb 2023 08:57:27 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :from:from:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to; s=mta-01; bh=9EC6BTnSivIe5NGjEi
- 948MI/8ATs7cCVOo8HU8VWpOc=; b=MX1c0d1wOWwQCDQtXs+EeW1JbT+5kec0hE
- XNTlUF+fOUjbvlp1EXrnCh7jjc0Ql2MQVaX9fXEpd/eCwDE3/Y2OAI9opogtDN9R
- xzFe/CzuM1jDjeK4p9BAKlaIYZ5ncNzJ0BGn2xDL8Pcr6t7CHCCWJlA2+TK/2EAz
- 0uH44kzuY=
-Received: from T-EXCH-08.corp.yadro.com (unknown [172.17.10.14])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Proxmox) with ESMTPS id B564A341B31;
- Thu, 16 Feb 2023 08:57:27 +0300 (MSK)
-Received: from T-EXCH-06.corp.yadro.com (172.17.10.110) by
- T-EXCH-08.corp.yadro.com (172.17.11.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.9; Thu, 16 Feb 2023 08:57:27 +0300
-Received: from T-EXCH-08.corp.yadro.com (172.17.11.58) by
- T-EXCH-06.corp.yadro.com (172.17.10.110) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.15; Thu, 16 Feb 2023 08:57:27 +0300
-Received: from T-EXCH-08.corp.yadro.com ([172.17.11.58]) by
- T-EXCH-08.corp.yadro.com ([172.17.11.58]) with mapi id 15.02.1118.009; Thu,
- 16 Feb 2023 08:57:27 +0300
-From: Mikhail Tyutin <m.tyutin@yadro.com>
-To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "alex.bennee@linaro.org" <alex.bennee@linaro.org>
-CC: "erdnaxe@crans.org" <erdnaxe@crans.org>, "ma.mandourr@gmail.com"
- <ma.mandourr@gmail.com>
-Subject: RE: [PATCH] Adding ability to change disassembler syntax in TCG
- plugins
-Thread-Topic: [PATCH] Adding ability to change disassembler syntax in TCG
- plugins
-Thread-Index: Adk9Ytj+mzbZHC9XRGOgcDMHokyEkwEQYdKAAABEsgAAB3tVMP//20iA///NJBA=
-Date: Thu, 16 Feb 2023 05:57:27 +0000
-Message-ID: <5a4041bc7f7b4aadba8b31c14398dc05@yadro.com>
-References: <7d17f0cbb5ed4c90bbadd3992429006f@yadro.com>
- <be45264f-03d5-e6d1-f12e-c92b0ef7b557@yadro.com>
- <4d474968-dce8-0d69-3e52-2c42a6398e4c@linaro.org>
- <1a19cfd11fd94e658224144d94663330@yadro.com>
- <1a7bd72b-d369-38d1-cdf0-de6253945a5c@linaro.org>
-In-Reply-To: <1a7bd72b-d369-38d1-cdf0-de6253945a5c@linaro.org>
-Accept-Language: en-US
-Content-Language: ru-RU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.199.22.165]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pSXOG-00031C-Ah
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:05:08 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pSXOE-0003zz-Hb
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:05:08 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ pg6-20020a17090b1e0600b002349579949aso719945pjb.5
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 22:05:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YPAS7g6O8WNWzrUY2zy3eOkrWGek+pB3eRFqUg3nm3M=;
+ b=xXL+84Ck6XhMJvtLpeX47KfzUpUj3kyNz2cVaSWTPbBBBPYApX5Kp3Df9cgaapBExm
+ WR/aDxD2GfqWwDr4SO8MdZInPn+EQ1GJSvEFDPENLXyP+gs3VIpy7WxhJTtu67HmWmoU
+ hebDaKxp27O3fDV179h7xfslc1v1usU7eSDg5bzfzvJx6IoR3jGn6camw6Wo8SGve8cA
+ mjGmrrr6eCor5FtX4UODAmtb2Ik4UMzFAKs4BgpG05rzZ2kTf3dED5lishNs7O4Y5PE3
+ Qej/0Fj+pQ23/puXUO6BWdwBa6C+Dt4j07000Y/e7SQVmBW4H+cs3RDyE1LCfzhKBeaH
+ K3mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YPAS7g6O8WNWzrUY2zy3eOkrWGek+pB3eRFqUg3nm3M=;
+ b=y0sB+UATkuJCfjLHpaO4jian+KhooYg0p7vi0unoJ1jDM/8ImmJgCEoAt+Q7JrltkW
+ nuzeka+mS0Xp7k27xulN7xIMR0jYEb39EVk/qa2Ccrl4qSPnzQ//KrI7a1l1lnlzbCT3
+ LRsBR3DPW/xQlIZhdbcGqlLnnfwUntiGylbdVllzXZwd3aNIGPaABgdOqOuOOoLOInQO
+ bH1GYXlQfEC5an2Qbaxp+ipNFms5SWYN6dScF2Kf8wXvQ3KwO4IXAC62hfa0uh1aXCog
+ 6fw1YW0fSqJp6SlstbUmSZeD1tC9DcU826Cpc4KuHgqWqjpAy7p1d1FnxYP4Ei4EfrDG
+ t0MA==
+X-Gm-Message-State: AO0yUKWm5oWIuPB0/Py21JgumTZBzJrdEPFIZq+x1KqRSCaCEFlclp0s
+ nZOdwhGDCb7J6AIZRs/SUzpleQ==
+X-Google-Smtp-Source: AK7set9nr02l2ZYI4jBMsmpLLBYYP7r+stTyiQaUZNQYNVhOe0IqFwQF+LmNEpFzEPMCj7A9JboDTA==
+X-Received: by 2002:a17:902:ea09:b0:19a:82f0:7b0f with SMTP id
+ s9-20020a170902ea0900b0019a82f07b0fmr5884719plg.30.1676527504412; 
+ Wed, 15 Feb 2023 22:05:04 -0800 (PST)
+Received: from [192.168.192.227] (rrcs-74-87-59-234.west.biz.rr.com.
+ [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
+ p2-20020a1709026b8200b001992e74d058sm388843plk.7.2023.02.15.22.05.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Feb 2023 22:05:03 -0800 (PST)
+Message-ID: <39c3eae4-2483-afc3-6888-caa45f17c451@linaro.org>
+Date: Wed, 15 Feb 2023 20:05:00 -1000
 MIME-Version: 1.0
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=m.tyutin@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v1 RFC Zisslpcfi 7/9] target/riscv: Tracking indirect
+ branches (fcfi) using TCG
+Content-Language: en-US
+To: Deepak Gupta <debug@rivosinc.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>
+Cc: Kip Walker <kip@rivosinc.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+References: <20230209062404.3582018-1-debug@rivosinc.com>
+ <20230209062404.3582018-8-debug@rivosinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230209062404.3582018-8-debug@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,42 +97,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-PiBPbiAyLzE1LzIzIDE5OjA0LCBNaWtoYWlsIFR5dXRpbiB3cm90ZToNCj4gPj4gT24gMi8xNS8y
-MyAxODoxNywgTWlraGFpbCBUeXV0aW4gd3JvdGU6DQo+ID4+PiBwaW5nDQo+ID4+Pg0KPiA+Pj4g
-cGF0Y2hldyBsaW5rOg0KPiA+Pj4gaHR0cHM6Ly9wYXRjaGV3Lm9yZy9RRU1VLzdkMTdmMGNiYjVl
-ZDRjOTBiYmFkZDM5OTI0MjkwMDZmQHlhZHJvLmNvbS8NCj4gPj4+DQo+ID4+PiAxMC4wMi4yMDIz
-IDE4OjI0LCBNaWtoYWlsIFR5dXRpbiB3cm90ZToNCj4gPj4+PiBUaGlzIHBhdGNoIGFkZHMgbmV3
-IGZ1bmN0aW9uIHFlbXVfcGx1Z2luX2luc25fZGlzYXNfd2l0aF9zeW50YXgoKSB0aGF0IGFsbG93
-cyBUQ0cNCj4gPj4+PiBwbHVnaW5zIHRvIGdldCBkaXNhc3NlbWJsZXIgc3RyaW5nIHdpdGggbm9u
-LWRlZmF1bHQgc3ludGF4IGlmIGl0IHdhbnRzIHRvLg0KPiA+Pj4+DQo+ID4+Pj4gU2lnbmVkLW9m
-Zi1ieTogTWlraGFpbCBUeXV0aW4gPG0udHl1dGluQHlhZHJvLmNvbT4NCj4gPj4NCj4gPj4gV2h5
-Pw0KPiA+Pg0KPiA+PiBJdCdzIGNlcnRhaW5seSBub3QgdmVyeSBnZW5lcmljLCBleHBvc2luZyBh
-IGRpc2Fzc2VtYmx5IHF1aXJrIGZvciBleGFjdGx5IG9uZSBndWVzdA0KPiA+PiBhcmNoaXRlY3R1
-cmUuICBJIG1lYW4sIHlvdSBjb3VsZCBqdXN0IGFzIGVhc2lseSBsaW5rIHlvdXIgcGx1Z2luIGRp
-cmVjdGx5IHRvIGxpYmNhcHN0b25lDQo+ID4+IHZpYSBxZW11X3BsdWdpbl9pbnNuX2RhdGEoKS4N
-Cj4gPj4NCj4gPj4NCj4gPj4gcn4NCj4gPg0KPiA+IEkgYWdyZWUgaXQgY2FuIGJlIGRvbmUgb3V0
-c2lkZSBvZiBRZW11IHVzaW5nIGFub3RoZXIgZGlzYXNzZW1ibGVyIGxpYnJhcnkuIEhvd2V2ZXIs
-DQo+ID4gdGhlcmUgYXJlIGZldyByZWFzb25zIHRvIGRvIGl0IGluIFFlbXUgZnJvbSBhcmNoaXRl
-Y3R1cmUgc3RhbmRwb2ludDoNCj4gPg0KPiA+IDEuIFRvIGhhdmUgYSBzaW5nbGUgcGxhY2Ugb2Yg
-aW5zdHJ1Y3Rpb24gZGVjb2RpbmcgbG9naWMuIFRDRyBoYXMgdG8gZGVjb2RlIGd1ZXN0IGluc3Ry
-dWN0aW9ucw0KPiA+IGFueXdheS4gSWYgcGx1Z2lucyBhZGQgYW5vdGhlciBkZWNvZGVyLCBpdCBj
-YXVzZXMgZG91YmxlIHdvcmsgYW5kIHByb25lIHRvIGVycm9ycyAoaG93ZXZlcg0KPiA+IGN1cnJl
-bnQgaW1wbGVtZW50YXRpb24gZG9lcyBkb3VibGUgZGVjb2RlIHdvcmsgYW55d2F5KS4gRm9yIGV4
-YW1wbGUsIFRDRyBtaWdodCBzdXBwb3J0DQo+ID4gbmV3IGluc3RydWN0aW9uIHdoaWNoIGlzIG5v
-dCBhdmFpbGFibGUgaW4gZXh0ZXJuYWwgZGVjb2RlciB5ZXQuDQo+ID4NCj4gPiAyLiBVbmRlciB0
-aGUgaG9vZCBRZW11IHVzZXMgZGlmZmVyZW50IGltcGxlbWVudGF0aW9ucyBvZiBkZWNvZGVyIChp
-biBhZGRpdGlvbiB0byBjYXBzdG9uZSkNCj4gPiB3aGljaCBpcyBub3QgZXhwb3NlZCBpbiBwdWJs
-aWMgaW50ZXJmYWNlLiBJZiB0aGVyZSBpcyBhIG5lZWQgdG8gY29uZmlndXJlIGl0cyBvdXRwdXQs
-IHByb3Bvc2VkDQo+ID4gQVBJIGFsbG93cyB0aGF0IGFzIHdlbGwuDQo+ID4NCj4gPiAzLiBJZiBt
-dWx0aXBsZSBwbHVnaW5zIHdhbnQgdG8gdXNlIGFub3RoZXIgZGlzYXNzZW1ibGVyIHN5bnRheCwg
-dGhleSBoYXZlIHRvIHNoYXJlDQo+ID4gaW1wbGVtZW50YXRpb24gYXMgdXRpbGl0eSBmdW5jdGlv
-bi4NCj4gDQo+IFdoYXQncyBhbGwgdGhpcyBnb3QgdG8gZG8gd2l0aCBwcmVmZXJyaW5nIGludGVs
-IG92ZXIgYXQmdCBzeW50YXg/DQo+IEkgc3RpbGwgdGhpbmsgaXQncyBhIGdlbmVyYWxseSB1c2Vs
-ZXNzIHN3aXRjaC4NCj4gDQo+IA0KPiByfg0KDQpMaW51eC13b3JsZCBwcmVmZXJzIEFUJlQgc3R5
-bGUsIFdpbmRvd3Mtd29ybGQgcHJlZmVycyBJbnRlbCBzdHlsZSBmb3IgeDg2XzY0IElTQS4gVGhh
-dCBjYXVzZXMNCmEgbG90IG9mIHBhaW4gZm9yIGRldmVsb3BlcnMgYW5kIHRvb2xzIHRoYXQgaGF2
-ZSB0byBjb21wYXJlIGFuZCBwYXJzZSBhc3NlbWJsZXIgdGV4dHMuIElmIHlvdSBoYXZlDQp0byB3
-b3JrIG9uIGRpZmZlcmVudCBob3N0cywgeW91IHdvdWxkIGJldHRlciB1c2Ugb25lIHN0eWxlIGZv
-ciBib3RoLg0K
+On 2/8/23 20:24, Deepak Gupta wrote:
+> +    if (cpu->cfg.ext_cfi) {
+> +        /*
+> +         * For Forward CFI, only the expectation of a lpcll at
+> +         * the start of the block is tracked (which can only happen
+> +         * when FCFI is enabled for the current processor mode). A jump
+> +         * or call at the end of the previous TB will have updated
+> +         * env->elp to indicate the expectation.
+> +         */
+> +        flags = FIELD_DP32(flags, TB_FLAGS, FCFI_LP_EXPECTED,
+> +                           env->elp != NO_LP_EXPECTED);
 
+You should also check cpu_fcfien here.  We can completely ignore elp if the feature is 
+disabled.  Which means that the tb flag will be set if and only if we require a landing pad.
+
+>   static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
+>   {
+> +    DisasContext *ctx = container_of(db, DisasContext, base);
+> +
+> +    if (ctx->fcfi_lp_expected) {
+> +        /*
+> +         * Since we can't look ahead to confirm that the first
+> +         * instruction is a legal landing pad instruction, emit
+> +         * compare-and-branch sequence that will be fixed-up in
+> +         * riscv_tr_tb_stop() to either statically hit or skip an
+> +         * illegal instruction exception depending on whether the
+> +         * flag was lowered by translation of a CJLP or JLP as
+> +         * the first instruction in the block.
+
+You can "look ahead" by deferring this to riscv_tr_translate_insn.
+Compare target/arm/translate-a64.c, btype_destination_ok and uses thereof.
+Note that risc-v does not have the same "guarded page" bit that aa64 does.
+
+
+r~
 
