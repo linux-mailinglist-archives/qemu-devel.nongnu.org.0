@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7F169975B
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:26:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D47169974B
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:24:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSfBQ-0005sr-GT; Thu, 16 Feb 2023 09:24:24 -0500
+	id 1pSfBS-00063W-21; Thu, 16 Feb 2023 09:24:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSfBA-0005hI-RY
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:24:10 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSfBE-0005ll-KN
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:24:16 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSfB7-0007HY-5q
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:24:07 -0500
-Received: by mail-wr1-x433.google.com with SMTP id v30so830637wrv.3
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 06:24:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSfBC-0007BX-7g
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:24:11 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ k8-20020a05600c1c8800b003dc57ea0dfeso4372643wms.0
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 06:24:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pkUuoVsPO7rj7crjxhqsXkiJdIbOheCDQODQm6zJmAM=;
- b=ZqFCD2Vt7XIixCiEhyyMNWbzBgC8/HWEe+DOP06G+8TrOcJBda7INaA/bVB6RhrgCd
- LrtcEBayKQv8INfLZFqbWJhM6Xx8RXiG1wNaTEjGOXFmM8YNp3iDjJptWWIQC5n45VFH
- GWiC711mj3mCdWj0Q1rgdhgxxhgm5Sc7otLmossU+z1o/QjFEwcEUCOtgbjLndYG/zzp
- XB3k7+uahOIsOip9ktuHl6WxtYugfwoB5yY7Jdo1o2dSZMF0WTau3Ubh9aKGXMFE7nlY
- 0nQUbmGPLVfa8olOB3oMdu9NqgjruurtmHIa3OzUD0IKp+5RZ77yStwI69xQ3hI6QJT7
- XpMg==
+ bh=AgNv7jvYIv3Rzz9yuX+hevsRvmOvV3oj8SZGxY0IVW0=;
+ b=l+8FD4H3zVooq0SzPC/ib6S6JI3vQSFaDYPJYAWNN0G+qHz7Jf5NpxUWs1mf+Vgdmq
+ pomqy0+Uj9oETTzlrdROIrXgwM9MjfW/lBzRRmVHfc1YBuyoiZ3TP/yFOsCpp2scjQii
+ YntcrG6Lr09VS/vtBKjYh0GpV/ZLKyidKdXCvYURsiNdPAXL55vXMQ6Drq4cD2PUoYIy
+ 7aWBBzM9fej+amgrmRIDGjjI+ejfs3jaYbuEMNctFL7vkgwrCtzUrQmcAIoH+DPrX4OL
+ 7tAJCuzH5ZKYfdZi3yGO6rB53deKCLJmiktbTijzDwYb/l/C5dLrCzLNS12iZidBxcl4
+ 8UoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pkUuoVsPO7rj7crjxhqsXkiJdIbOheCDQODQm6zJmAM=;
- b=NTg17hyOwGupNbOXZBxgemmJ5BBnFuTocrsFS05HnY/+dVkIwQwPUaEPm7FiuKXV8M
- inMzD96y3pRQL+8/xoXj/taS6N8npF1ZOk9bqfy0KDkobn6VyPeK0697P/ZXj+WLOXkn
- HjtFUCLpwoFcXJwcn1G1e7Gz39Wa8SwMAemmoz/VGSE4Y76OUj4bPZRgCxvmeNq7Ubps
- 6WuUKz4mBLmW3t1X+hqULqPHterkCDK5/4XOdMv/hSM5h8vPKAEjZxU9RWQW+wwG0FBj
- 4po3kQLR0FzRO40OSMJCXpUSnVPcHxB1VVRRrzKbFnyLkLDN5GdXHB5wT+LajzOnTEOj
- R0Kg==
-X-Gm-Message-State: AO0yUKXLbIwzPunuHfYcikw4Ouy+Il6AYlisD3uQZBez+07FQgjzmhVa
- sOIuKBUN6M1hGOSQmrxrrfRMSn/Vm6CDYJ8k
-X-Google-Smtp-Source: AK7set8iFVTfWWtS0zz8hF6MkQRG2xZr+tuqJQq4uuIeMSrvbduTuuD6ndgNwYZp+yjdL+XvAVI6Kw==
-X-Received: by 2002:a5d:414f:0:b0:2c5:5048:8a6a with SMTP id
- c15-20020a5d414f000000b002c550488a6amr4395007wrq.60.1676557443658; 
- Thu, 16 Feb 2023 06:24:03 -0800 (PST)
+ bh=AgNv7jvYIv3Rzz9yuX+hevsRvmOvV3oj8SZGxY0IVW0=;
+ b=cR+3X4NfKMicmIGDNetvrCRF7H53DJOIJdmgcNqFLFgr3GRjIEcVG8VtiYYoNroVpQ
+ QVTqQ1Zjs6/aQTuiRcv4exU/uNjbDrxuD9yNA3zKXVFAOmh51jtnJ5h0yKswhTpRqwbO
+ tODWr71audqNerDcAzWUDeXBtXB9f1EQjuwF6RyWpmWocVU3jSHOT5Zw4ffwsntuIcKu
+ 2CvMKWlaudt7vjTcnd5/po4zA/+Ud+q2+6kvG8H+sXfEg1Zo25x7LXnU92b3J9LGe+zH
+ 2c5lYeSozYCftWUnS1kS7WXb/ctxuK9L1C2g4aekqyRRWkN5sIWgbPFr0neuHcUHkwhj
+ 0yRQ==
+X-Gm-Message-State: AO0yUKWNGKCPFT33bEbZeyYzGUAp3FC63BZ4p7rRwmIs+f7tf0ww2jge
+ UlZhVrtGzTAIN3nqWjI9CHVW4MAAHqj0qzbt
+X-Google-Smtp-Source: AK7set/UWYHmFPqEOMIV//qApgjFDnwnf390ffK0+E8AnuyibGwHyodYaDcVG/wvJsI1eeeqsteqlA==
+X-Received: by 2002:a05:600c:4f52:b0:3df:d431:cf64 with SMTP id
+ m18-20020a05600c4f5200b003dfd431cf64mr4667921wmq.39.1676557449269; 
+ Thu, 16 Feb 2023 06:24:09 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- r8-20020a5d4e48000000b002bfd524255esm1545552wrt.43.2023.02.16.06.24.01
+ bd27-20020a05600c1f1b00b003e20cf0408esm1908939wmb.40.2023.02.16.06.24.07
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 16 Feb 2023 06:24:03 -0800 (PST)
+ Thu, 16 Feb 2023 06:24:08 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -72,17 +73,17 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>, Like Xu <like.xu.linux@gmail.com>,
  Alistair Francis <alistair@alistair23.me>,
  Zhao Liu <zhao1.liu@linux.intel.com>, Eduardo Habkost <eduardo@habkost.net>
-Subject: [PATCH 4/5] hw/arm: Restrict CPU clusters to the expected type
-Date: Thu, 16 Feb 2023 15:23:37 +0100
-Message-Id: <20230216142338.82982-5-philmd@linaro.org>
+Subject: [PATCH 5/5] hw/riscv: Restrict CPU clusters to the expected type
+Date: Thu, 16 Feb 2023 15:23:38 +0100
+Message-Id: <20230216142338.82982-6-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230216142338.82982-1-philmd@linaro.org>
 References: <20230216142338.82982-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -105,51 +106,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-ARM SSE expects v7-M cores; the ZynqMP SoC expects Cortex-A53/R5F.
+Microchip PolarFire SoC expects U51/U54 cores,
+the SiFive Freedom board: the E31/E51 and U34/U54.
 
-Do not allow any other CPU type by setting the cluster 'cpu-type'
-property.
+Do not allow any other CPU type by setting the cluster
+'cpu-type' property.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/arm/armsse.c      | 1 +
- hw/arm/xlnx-zynqmp.c | 4 ++++
- 2 files changed, 5 insertions(+)
+ hw/riscv/microchip_pfsoc.c | 4 ++++
+ hw/riscv/sifive_u.c        | 2 ++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-index 0202bad787..1132fdcbe2 100644
---- a/hw/arm/armsse.c
-+++ b/hw/arm/armsse.c
-@@ -715,6 +715,7 @@ static void armsse_init(Object *obj)
-         name = g_strdup_printf("cluster%d", i);
-         object_initialize_child(obj, name, &s->cluster[i], TYPE_CPU_CLUSTER);
-         qdev_prop_set_uint32(DEVICE(&s->cluster[i]), "cluster-id", i);
-+        qdev_prop_set_string(DEVICE(&s->cluster[i]), "cpu-type", TYPE_ARMV7M);
-         g_free(name);
+diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+index 2b91e49561..658307fdfb 100644
+--- a/hw/riscv/microchip_pfsoc.c
++++ b/hw/riscv/microchip_pfsoc.c
+@@ -150,6 +150,8 @@ static void microchip_pfsoc_soc_instance_init(Object *obj)
  
-         name = g_strdup_printf("armv7m%d", i);
-diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-index 335cfc417d..e45cf88625 100644
---- a/hw/arm/xlnx-zynqmp.c
-+++ b/hw/arm/xlnx-zynqmp.c
-@@ -224,6 +224,8 @@ static void xlnx_zynqmp_create_rpu(MachineState *ms, XlnxZynqMPState *s,
-     object_initialize_child(OBJECT(s), "rpu-cluster", &s->rpu_cluster,
-                             TYPE_CPU_CLUSTER);
-     qdev_prop_set_uint32(DEVICE(&s->rpu_cluster), "cluster-id", 1);
-+    qdev_prop_set_string(DEVICE(&s->rpu_cluster), "cpu-type",
-+                         ARM_CPU_TYPE_NAME("cortex-r5f"));
+     object_initialize_child(obj, "e-cluster", &s->e_cluster, TYPE_CPU_CLUSTER);
+     qdev_prop_set_uint32(DEVICE(&s->e_cluster), "cluster-id", 0);
++    qdev_prop_set_string(DEVICE(&s->e_cluster), "cpu-type",
++                         TYPE_RISCV_CPU_SIFIVE_E51);
  
-     for (i = 0; i < num_rpus; i++) {
-         const char *name;
-@@ -381,6 +383,8 @@ static void xlnx_zynqmp_init(Object *obj)
-     object_initialize_child(obj, "apu-cluster", &s->apu_cluster,
-                             TYPE_CPU_CLUSTER);
-     qdev_prop_set_uint32(DEVICE(&s->apu_cluster), "cluster-id", 0);
-+    qdev_prop_set_string(DEVICE(&s->apu_cluster), "cpu-type",
-+                         ARM_CPU_TYPE_NAME("cortex-a53"));
+     object_initialize_child(OBJECT(&s->e_cluster), "e-cpus", &s->e_cpus,
+                             TYPE_RISCV_HART_ARRAY);
+@@ -161,6 +163,8 @@ static void microchip_pfsoc_soc_instance_init(Object *obj)
  
-     for (i = 0; i < num_apus; i++) {
-         object_initialize_child(OBJECT(&s->apu_cluster), "apu-cpu[*]",
+     object_initialize_child(obj, "u-cluster", &s->u_cluster, TYPE_CPU_CLUSTER);
+     qdev_prop_set_uint32(DEVICE(&s->u_cluster), "cluster-id", 1);
++    qdev_prop_set_string(DEVICE(&s->e_cluster), "cpu-type",
++                         TYPE_RISCV_CPU_SIFIVE_U54);
+ 
+     object_initialize_child(OBJECT(&s->u_cluster), "u-cpus", &s->u_cpus,
+                             TYPE_RISCV_HART_ARRAY);
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index d3ab7a9cda..d0535746ca 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -763,6 +763,7 @@ static void sifive_u_soc_instance_init(Object *obj)
+ 
+     object_initialize_child(obj, "e-cluster", &s->e_cluster, TYPE_CPU_CLUSTER);
+     qdev_prop_set_uint32(DEVICE(&s->e_cluster), "cluster-id", 0);
++    qdev_prop_set_string(DEVICE(&s->e_cluster), "cpu-type", SIFIVE_E_CPU);
+ 
+     object_initialize_child(OBJECT(&s->e_cluster), "e-cpus", &s->e_cpus,
+                             TYPE_RISCV_HART_ARRAY);
+@@ -813,6 +814,7 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+      * CPU must exist and have been parented into the cluster before the
+      * cluster is realized.
+      */
++    qdev_prop_set_string(DEVICE(&s->u_cluster), "cpu-type", s->cpu_type);
+     qdev_realize(DEVICE(&s->e_cluster), NULL, &error_abort);
+     qdev_realize(DEVICE(&s->u_cluster), NULL, &error_abort);
+ 
 -- 
 2.38.1
 
