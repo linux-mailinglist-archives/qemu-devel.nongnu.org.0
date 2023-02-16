@@ -2,109 +2,128 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2DD69A4AF
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 05:10:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C6D369A5A5
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 07:33:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSs4q-0001pj-B7; Thu, 16 Feb 2023 23:10:28 -0500
+	id 1pSuIJ-0003ef-DP; Fri, 17 Feb 2023 01:32:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pSs4j-0001O5-V3
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 23:10:22 -0500
-Received: from esa7.hc2706-39.iphmx.com ([216.71.137.80])
+ (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
+ id 1pSuHq-0003WB-AC
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 01:32:02 -0500
+Received: from mail-dm6nam11on2083.outbound.protection.outlook.com
+ ([40.107.223.83] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pSs4f-0001Cu-Tc
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 23:10:21 -0500
-X-IronPort-RemoteIP: 209.85.219.70
-X-IronPort-MID: 260573041
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:jbXBdq9/1pWAtpOoF1nQDrUDPXyTJUtcMsCJ2f8bNWPcYEJGY0x3n
- zMeC2iHOvvbYjP0etElPYyzp0kOvpXcn9MwHAs/+3oxFiIbosf7XuiUfxz6V8+wwmwvb67FA
- +E2MISowBUcFyeEzvuVGuG96yI6jefQHeCU5NfsYkhZXRVjRDoqlSVtkus4hp8AqdWiCkaGt
- MiaT/f3YTdJ4BYpdDNLg06/gEk35q+q4mpG5gdWic1j5zcyqVFEVPrzGonsdxMUcqEMdsamS
- uDKyq2O/2+x13/B3fv8z94X2mVTKlLjFVHmZkh+AsBOsTAbzsAG6ZvXAdJHAathZ5RlqPgqo
- DlFncTYpQ7EpcQgksxEO/VTO3gW0aGrZNYriJVw2CCe5xSuTpfi/xlhJF4bBI8J1uJmO0VX8
- bs3MmEuNxCzhsvjldpXSsE07igiBMziPYdao285iD+GVbApRpfMR6iM7thdtNsyrpoWTLCOO
- oxDMGspM0yojx5nYz/7DLo3mPeuimPXeSAepV6IzUYyyzKNlFEui+CxabI5fPSDHuNVsha5t
- FuB4jnCAC0mbsKEkWaKpyfEaujn2HmTtJgpPKS18+MvjFCNy2g7DhoQWl2m5/6jhSaDt8l3L
- kUV/m83s/F3+hPzCNb6WBK8rTiPuRt0t8dsLtDWITqlksL8izt1zEBdJtKdQLTKbPMLeAE=
-IronPort-HdrOrdr: A9a23:xasL5qwmCndyAOmXyYZlKrPw+r1zdoMgy1knxilNoNJuA6ilfq
- eV7YgmPHrP4gr5N0tQ/+xoVJPwI080sKQFmrX5Xo3SITUOxlHYVb2KhLGKq1aQeBEWtNQtr5
- uIG5IfNDSaNykcsS+V2njcL/8QhPOqyuSHv9v/8ltaZT1WSshbnnhE48WgfnGehjMqOXP0Lv
- ShD7J81kKdkL0sAaWGOkU=
-Received: from mail-qv1-f70.google.com ([209.85.219.70])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 16 Feb 2023 23:09:58 -0500
-Received: by mail-qv1-f70.google.com with SMTP id
- f6-20020a0cc306000000b0056e96f4fd64so2265505qvi.15
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 20:09:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fxzgfX4+v/nnrAbv0bHpRj7WdNVW28zLqE1nexQp+8o=;
- b=OMai67KEf5jlQBBeLPZRYgiokPNhkuybnS/AADDv3JTMs48clqgnkjFIaha/Xqgs/q
- X1I2Qe16j5tMarji+yWbcMnyMAi0oXA8NjQfxu6uZIIDuUAe7Q2+XdWA/rXNSxS9Of3K
- kFi002I4euGM+6r0eSAzmj5Ls7cfeGW1T4g72F+j9efgYq1IVcqxcxhBiEisPzU5VRHo
- s5IRQC8ursCIiFJOsNZxU7ZZgibtNK1K3v+ec1c3Yt4KHEldav9cZP3COufWVJy8PWew
- 75lGKKjT7IlSTOOm/ly1Be5ybqHcDaLfIlMyThh5LkW5OmrCHCue8dvXdmhbxT5wcq5H
- EenA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fxzgfX4+v/nnrAbv0bHpRj7WdNVW28zLqE1nexQp+8o=;
- b=ZhVh9zWn7N64T1X3UVzf2HeeImpErglocpC0NK9T9v+Ch+dNeUFD9xo0tBRtxuF4uc
- 2kX3dN0JXY1fnLlM888tjBzXSAkQEPyu/XmldgxRVYvSDkj3BaCmRUmlvi+EHEBXMjSP
- Gey+mlEzY/b8F9sl7L2NZqa/olbd2ItPo+5JfiJukxMvtdriU2NbYbPI1lZTuQKjGxOA
- yA64Kr+VAfLUrxDDp3DKAArUYJBsGasVXFT88l+wyrRz24ieNlqG75hkVQzrvBTqGh4P
- vsg9+K/N7ax/DDYUyoBz9/YGm180lDixXt8CNqrxpEwhTGyr/YEoGGEw33FZpCxi+RuY
- 7LWg==
-X-Gm-Message-State: AO0yUKX65MEyBwcrQxf++v0ewjWjetsyMeB4IN/Q1FAEGXK0S0urh1WQ
- 5O3rKwE0qoQ60aNEIHSFhSSAhgPmZ1AeXTClb9Fb3o8wc4i8T4uq7TrXJZhXKfpS0VXmMTuHArY
- CFyDd6bzVH8P6PstdrgrLTmOEvsQUEc7j+6COuw==
-X-Received: by 2002:a05:6214:230c:b0:56e:fef4:7ff2 with SMTP id
- gc12-20020a056214230c00b0056efef47ff2mr6696078qvb.28.1676606997410; 
- Thu, 16 Feb 2023 20:09:57 -0800 (PST)
-X-Google-Smtp-Source: AK7set/lWGLNeF+mj97F03YPPVvjGzgj/qTs7hWPzYJb0rd4iKWQJqYgVcjSDeJu/tMecWukEvFpcw==
-X-Received: by 2002:a05:6214:230c:b0:56e:fef4:7ff2 with SMTP id
- gc12-20020a056214230c00b0056efef47ff2mr6696058qvb.28.1676606997157; 
- Thu, 16 Feb 2023 20:09:57 -0800 (PST)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
- by smtp.gmail.com with ESMTPSA id
- 145-20020a370897000000b007296805f607sm1911891qki.17.2023.02.16.20.09.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 20:09:56 -0800 (PST)
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, Alexander Bulekov <alxndr@bu.edu>,
- Darren Kenny <darren.kenny@oracle.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>
-Subject: [PULL 10/10] docs/fuzz: remove mentions of fork-based fuzzing
-Date: Thu, 16 Feb 2023 23:08:55 -0500
-Message-Id: <20230217040855.16873-11-alxndr@bu.edu>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230217040855.16873-1-alxndr@bu.edu>
-References: <20230217040855.16873-1-alxndr@bu.edu>
+ (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
+ id 1pSuHo-0004hn-9f
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 01:32:02 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AoyTEec3z6YDGZK7ithawGFHzF/G99Vp7yc6OHxjeXpqw9cueJaxmxF+uJeUQvY7TG32tFHkpCjR7zc6at829aiqzZeEuOSbOc8Kl071TimCuP1eohiz/L5mUgbG1/wCZy+Wh8rX/vn0qvrbR19eZcNTEHCSSb4LiDGtDAX6o06/Utl4UM8cBkC29QpvwfEfcjgDpC8NpRoad/QNYH2gRJw5HdjzX2UrIFFcLO+3TWCJMRhT7g/1R+wSeU8nxML95eI2b3Pp8NjaX75BDVL+kmEuJO51YF2vmXedAQxZQQls7wVvX01n4pcSA3b6VxT6/tWyKsnCEmkDlFkxDNRy6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TKiZfaz4847OyWylB4xD1sEBCjoizgXaSCvNDES1R90=;
+ b=aC3rmrMJqDrgEMPwVk7LXN9TpLfE3rXJj7jxrEIj0QihsEuQj9Ugc+YG8NaVcB+vZfPWys5qnP83OJ3moQdNJ5qvIGCC1HGbKXnD78UUuJsy4p46Tj8v79DfFzQZODBgxY0YzhAbdN5oElYa9wScdVhFHNl7hPlAJuY8k21l0X35HXLJTwjOos3Kwg87ayDIlxi6qn/rs6Z9M/nCAhLCMZUgTmLGlsCaGJZ+k263wrxK8zqwyd/AxtuphYT3WzIYqeCGPb5Lr0KzW41v4B0YO0GBX20SOosaggrac+2OyWLaHzGgCipA2qnUUVWoQaVNFel5Q14ZB7gSr/aucXn8Xw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TKiZfaz4847OyWylB4xD1sEBCjoizgXaSCvNDES1R90=;
+ b=CAcPe5w+aC+LFNqHW/zmdL0KJw56C55De6QvYfo/JnkB2ULQzNZpQ6nbM37KtpxZPxyrk1y8C/oK6s/n58+h52FQEOKapGvzPBs+idIEo1cgTIyYBsoMi1NIa81ju8B+QoTwqvTeXMpmPX2E78Rwenk+v86SrldXaAHuGfUiuJU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
+ by SJ0PR17MB4597.namprd17.prod.outlook.com (2603:10b6:a03:35a::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.15; Fri, 17 Feb
+ 2023 06:26:54 +0000
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::d253:1eb3:9347:c660]) by BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::d253:1eb3:9347:c660%3]) with mapi id 15.20.6086.026; Fri, 17 Feb 2023
+ 06:26:53 +0000
+Date: Thu, 16 Feb 2023 15:52:31 -0500
+From: Gregory Price <gregory.price@memverge.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: zhiting zhu <zhitingz@cs.utexas.edu>, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org,
+ "Viacheslav A.Dubeyko" <viacheslav.dubeyko@bytedance.com>
+Subject: Re: CXL 2.0 memory pooling emulation
+Message-ID: <Y+6Xj39d2rxnowRx@memverge.com>
+References: <CA+3q14z5pa1RPQuMB=6foVGcwgCHE+GME+zMES_adpVoDYCsvw@mail.gmail.com>
+ <20230215151854.00003e34@Huawei.com>
+ <Y+yhfFaQ4Kky93mc@memverge.com>
+ <20230216180057.00006c49@huawei.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230216180057.00006c49@huawei.com>
+X-ClientProxiedBy: BY3PR04CA0004.namprd04.prod.outlook.com
+ (2603:10b6:a03:217::9) To BN6PR17MB3121.namprd17.prod.outlook.com
+ (2603:10b6:405:7c::19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.137.80; envelope-from=alxndr@bu.edu;
- helo=esa7.hc2706-39.iphmx.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.649, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|SJ0PR17MB4597:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7d0df6aa-1837-4a02-35b3-08db10aff5fe
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nrN1841WKqffuNqFWw1PFyUVTkVNH9hnDxABWkIO2V2pAqPOl0qxeGCPDfI3QJ0DQNT1y8frrfWx+guYGJjQkNvpVPb5C6ZrCADDyakoAJkR5qqLtdo4ObjXoWeqK4qbngg0bwy8kb63DqQDpGNcEhym51sVcN821Vpf7EQTe1zHMlWA9BxlHPFuHR3DP+HQD16g5UuM54fAexvsWCRUbhcUvEfX1zBYW3NEnLV33LBo3u0ekXx4NMw5pRWeoePz44JFjiAllJgfhZM9fAFICC+TZM423ZFTwQPTTtjR6HKzE2Pnva8NHFWl+tHLl2MWf5/9Z++ORkoDJhZbdWx4rFCnLCFVhAkluFX5UBApFKfCJceIEiT3TZlQcUtvKoj//NsI+yp2y/uYqlpkMDzL8+WQOdR+YxnpE6ttPWIoDnv5nQwfxkObnkZs8SUG2NxixiRVrJmYSdglx6OvN5OGvDxYAawB4MOK1rh5JMOh3mSLMBR36eNls4PpuXW1BzG8bbOLBQINwjxceogi14L05NIjfbIMMfSPFwhep2Ic4CJQNkROHSy9kSUtlsgCvj8vv1dzJKKws634LjUN27+iFFpM4bpqX9yK2eIsTEZ0hRzD8k5eAL0eXKUV0cohASHceKQENa9hP0cs7R/XUM0lBBD3NznMyGPXkw6+wNEh/vtzdkPDPvejt6o8t16B5K7L
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(39840400004)(376002)(366004)(346002)(136003)(396003)(451199018)(6916009)(66476007)(66556008)(66946007)(8676002)(83380400001)(316002)(4326008)(8936002)(5660300002)(6666004)(2616005)(41300700001)(6506007)(6512007)(26005)(186003)(478600001)(54906003)(6486002)(36756003)(86362001)(2906002)(44832011)(38100700002)(67856001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?r54xhZjctDA4Ie4ozDVJd4qLWZgolqXCfKUl6iqV+Rfw7hmdD24RGyzIQiK5?=
+ =?us-ascii?Q?4njOFZyT6FLd8fIRKsaqeMzv6fmCa7lGA4bh1qAhYpxqDPFEP8L3H4CUgPXS?=
+ =?us-ascii?Q?2xyvyxTgpBjwizle4Ci/Yj6TIYqAGFYVgfur40i2DIymhNSHiMZ615f1rXYH?=
+ =?us-ascii?Q?Q+o/UiPsEOQQcHuansVAFNvGgaAsRFScLFrpA6Tz8HeuAXnBd0H8APnAUNGk?=
+ =?us-ascii?Q?QgMJD7El7DiXB9vLnthUOJKWkWGx2y2+mVM0TeKe8RV9BDDK6BIzFQWBxuu8?=
+ =?us-ascii?Q?+gFE1c0NFBE51F0Chq/oa4U/Ut6l3FiRljMTeA2fKtJk7a876VcUaQnXWV/l?=
+ =?us-ascii?Q?fM6YRSrledGNgCaxbWQt41+Je6NvBshCOM3v1TG2fpbmQ2zcT9/33Z9Kpoo+?=
+ =?us-ascii?Q?UcisoYCjNbh9xJU9/TaMT19i5TQ4/thW5pdHnYbXogyZGxTTVSMDxWnoKhDw?=
+ =?us-ascii?Q?Ceobh+nSar90eBTjcr+Nr8mtVlzVFWgBRcTLy2kAKFP1PtWmzqLcpFtA1H61?=
+ =?us-ascii?Q?PxUCArvEaKFqfvT5qCixP4VrihaC8O3TJ88c1GQKuriY3zr+RJJdmp6KlHyT?=
+ =?us-ascii?Q?TEy8g/t1bsy8lFnAT9Ln9Zc1dKyWDyYi1s3qtMqPGqcYQHJKHaQetGCLvhyC?=
+ =?us-ascii?Q?hso2d9VB/MTcO743yJWko5JoDoWScqOxPe8ot3xz1bujSSrU3QEoAs2P9rII?=
+ =?us-ascii?Q?TCL691GDeGnI+v1cFmCikCDFN77q0W5wvrxgAjdZ1AASfJP+UL89io7N9XK8?=
+ =?us-ascii?Q?f2sWDfcoaGXBufIYSueSFK9ma3cqEvt/Z0gfmFVVyq+CiC/fbxOCUXiWpmXB?=
+ =?us-ascii?Q?b9+TjL79cwEJ1YkuRzvZMey+VPHIHPL++gHEpMmLA0oQ3quH/ZDUWoJqJvII?=
+ =?us-ascii?Q?aZoMh7NtHUuDNvCNNYNRDsXikpoNdL+jsPJhzOmDJ71wPPBJWqlyfms7FFID?=
+ =?us-ascii?Q?fW9UPyy9i/XhXAdIADLolENh4EJF/s8lw+/Pdvct40v3x2JfFHEdRzVPFpAO?=
+ =?us-ascii?Q?ktNKmXZ4cqVcUW1Sp5dwb+3YyY7tbN8uvvmmLOW97Ff/nyGvmcXspyhdEGZQ?=
+ =?us-ascii?Q?GZbDf9Zo2kFGlnB2mUVT/IUTBetUp4EW7EVcPqNWO2VRjpVdAeRFVBlOcXy8?=
+ =?us-ascii?Q?D289HS5xMf3EmMVhM6UdrHezpPPMFS5s4BNrL5Dj5TYKte6QZWp1FCgptQ67?=
+ =?us-ascii?Q?oTTVLsVyPlUfcGul4UxzIgOxh2tmj+KR0uwYXSIne53MRp60hRM2y2F3/F8k?=
+ =?us-ascii?Q?YMkPgo1R1w2iVuzvz+puHXhQDyud0hW8jayRfMAkyT4HQI1TJgHXNHO0zSkP?=
+ =?us-ascii?Q?fJIGlYLnFsKjZ5UIrWXmeqESsrGeLOTIR20nBsnoIE5NGeEUDuEomShXnU32?=
+ =?us-ascii?Q?FYOvpEUD59YOM+I7afp+8lFnf8RV1iQ1X3DQY8dydTEieh4avg/6Kkzn8WmI?=
+ =?us-ascii?Q?9aCEpHqCk5VBsoOU+Re2fkNmulRt/XBo/uA/C3pK8pnF8A4HOV3TNz+WGfpw?=
+ =?us-ascii?Q?LxmWq0PlE+1cbl9yqIkW8WPcI9qRIwGkFDsYOIbcYz8OdeKZVt7bFYnkWxKD?=
+ =?us-ascii?Q?7tKj2Rb4+s3nYtkCXkYin9t8juX84SZevgkxwlFU/9sgHzwUjuen3YTjFm3S?=
+ =?us-ascii?Q?Gg=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d0df6aa-1837-4a02-35b3-08db10aff5fe
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2023 06:26:53.8737 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GYEmxoNpkWB6ZEAz0E39ohyUBLZrUZoff24hMovvTKy2T4lsNtq07C0LmzzWav7uc9eUuXWvCNPCJ2Oh4o5YWXZI2cxhHVEzYRHBFDi7+BQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR17MB4597
+Received-SPF: none client-ip=40.107.223.83;
+ envelope-from=gregory.price@memverge.com;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_06_12=1.543,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FORGED_SPF_HELO=1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,58 +139,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
----
- docs/devel/fuzzing.rst | 22 ++--------------------
- 1 file changed, 2 insertions(+), 20 deletions(-)
+On Thu, Feb 16, 2023 at 06:00:57PM +0000, Jonathan Cameron wrote:
+> On Wed, 15 Feb 2023 04:10:20 -0500
+> Gregory Price <gregory.price@memverge.com> wrote:
+> 
+> > On Wed, Feb 15, 2023 at 03:18:54PM +0000, Jonathan Cameron via wrote:
+> > > On Wed, 8 Feb 2023 16:28:44 -0600
+> > > zhiting zhu <zhitingz@cs.utexas.edu> wrote:
+> > >   
+> > > 1) Emulate an Multi Headed Device.
+> > >    Initially connect two heads to different host bridges on a single QEMU
+> > >    machine.  That lets us test most of the code flows without needing
+> > >    to handle tests that involve multiple machines.
+> > >    Later, we could add a means to connect between two instances of QEMU.  
+> > 
+> > Hackiest way to do this is to connect the same memory backend to two
+> > type-3 devices, with the obvious caveat that the device state will not
+> > be consistent between views.
+> > 
+> > But we could, for example, just put the relevant shared state into an
+> > optional shared memory area instead of a normally allocated region.
+> > 
+> > i can imagine this looking something like
+> > 
+> > memory-backend-file,id=mem0,mem-path=/tmp/mem0,size=4G,share=true
+> > cxl-type3,bus=rp0,volatile-memdev=mem0,id=cxl-mem0,shm_token=mytoken
+> > 
+> > then you can have multiple qemu instances hook their relevant devices up
+> > to a a backend that points to the same file, and instantiate their
+> > shared state in the region shmget(mytoken).
+> 
+> That's not pretty.  For local instance I was thinking a primary device
+> which also has the FM-API tunneled access via mailbox, and secondary devices
+> that don't.  That would also apply to remote. The secondary device would
+> then just receive some control commands on what to expose up to it's host.
+> Not sure what convention on how to do that is in QEMU. Maybe a socket
+> interface like is done for swtpm? With some ordering constraints on startup.
+> 
 
-diff --git a/docs/devel/fuzzing.rst b/docs/devel/fuzzing.rst
-index 715330c856..3bfcb33fc4 100644
---- a/docs/devel/fuzzing.rst
-+++ b/docs/devel/fuzzing.rst
-@@ -19,11 +19,6 @@ responsibility to ensure that state is reset between fuzzing-runs.
- Building the fuzzers
- --------------------
- 
--*NOTE*: If possible, build a 32-bit binary. When forking, the 32-bit fuzzer is
--much faster, since the page-map has a smaller size. This is due to the fact that
--AddressSanitizer maps ~20TB of memory, as part of its detection. This results
--in a large page-map, and a much slower ``fork()``.
--
- To build the fuzzers, install a recent version of clang:
- Configure with (substitute the clang binaries with the version you installed).
- Here, enable-sanitizers, is optional but it allows us to reliably detect bugs
-@@ -296,10 +291,9 @@ input. It is also responsible for manually calling ``main_loop_wait`` to ensure
- that bottom halves are executed and any cleanup required before the next input.
- 
- Since the same process is reused for many fuzzing runs, QEMU state needs to
--be reset at the end of each run. There are currently two implemented
--options for resetting state:
-+be reset at the end of each run. For example, this can be done by rebooting the
-+VM, after each run.
- 
--- Reboot the guest between runs.
-   - *Pros*: Straightforward and fast for simple fuzz targets.
- 
-   - *Cons*: Depending on the device, does not reset all device state. If the
-@@ -308,15 +302,3 @@ options for resetting state:
-     reboot.
- 
-   - *Example target*: ``i440fx-qtest-reboot-fuzz``
--
--- Run each test case in a separate forked process and copy the coverage
--   information back to the parent. This is fairly similar to AFL's "deferred"
--   fork-server mode [3]
--
--  - *Pros*: Relatively fast. Devices only need to be initialized once. No need to
--    do slow reboots or vmloads.
--
--  - *Cons*: Not officially supported by libfuzzer. Does not work well for
--     devices that rely on dedicated threads.
--
--  - *Example target*: ``virtio-net-fork-fuzz``
--- 
-2.39.0
+I agree, it's certainly "not pretty".
 
+I'd go so far as to call the baby ugly :].  Like i said: "The Hackiest way"
+
+My understanding from looking around at some road shows is that some
+of these early multi-headed devices are basically just SLD's with multiple
+heads. Most of these devices had to be developed well before DCD's and
+therefore the FM-API were placed in the spec, and we haven't seen or
+heard of any of these early devices having any form of switch yet.
+
+I don't see how this type of device is feasible unless it's either statically
+provisioned (change firmware settings from bios on reboot) or implements
+custom firmware commands to implement some form of exclusivity controls over
+memory regions.
+
+The former makes it not really a useful pooling device, so I'm sorta guessing
+we'll see most of these early devices implement custom commands.
+
+I'm just not sure these early MHD's are going to have any real form of
+FM-API, but it would still be nice to emulate them.
+
+~Gregory
 
