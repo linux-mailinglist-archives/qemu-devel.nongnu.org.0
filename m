@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7533B699BDE
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 19:06:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EECE1699BDC
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 19:06:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSicE-00009n-8R; Thu, 16 Feb 2023 13:04:18 -0500
+	id 1pSicE-00009t-QM; Thu, 16 Feb 2023 13:04:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pSicA-0008Un-Ds
+ id 1pSicA-0008Vo-Js
  for qemu-devel@nongnu.org; Thu, 16 Feb 2023 13:04:14 -0500
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+Received: from forwardcorp1b.mail.yandex.net
+ ([2a02:6b8:c02:900:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pSic8-0005mP-8D
+ id 1pSic8-0005mU-O6
  for qemu-devel@nongnu.org; Thu, 16 Feb 2023 13:04:14 -0500
 Received: from iva8-99b070b76c56.qloud-c.yandex.net
  (iva8-99b070b76c56.qloud-c.yandex.net
  [IPv6:2a02:6b8:c0c:1099:0:640:99b0:70b7])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 6F47160143;
- Thu, 16 Feb 2023 21:04:07 +0300 (MSK)
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 6D378628C0;
+ Thu, 16 Feb 2023 21:04:08 +0300 (MSK)
 Received: from vsementsov-win.yandex-team.ru (unknown
  [2a02:6b8:b081:8813::1:16])
  by iva8-99b070b76c56.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- u3q89J0Qp8c1-KWdsAbFU; Thu, 16 Feb 2023 21:04:06 +0300
+ u3q89J0Qp8c1-Hx4g0jFH; Thu, 16 Feb 2023 21:04:07 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1676570646; bh=Z2Fy+sU7iSest3Fx8VhTY+hhe0XhQg4WFbN4CIGvAl8=;
+ t=1676570647; bh=j7wDaeE19gwYM/8Fi7V3CQ1M8SgBMOegQjvWyQBn0NE=;
  h=Cc:Message-Id:References:Date:In-Reply-To:Subject:To:From;
- b=Gt/7XTiWz4/govPyGDzh+uQDsrRt6aNUXYcBJ2suDZ2wZt4xZKsKetEXzb/Xz0VYL
- wIAeOuXSI2RVDYzYFVLV6Je4iGIkPKClCEI3keLfXYe/ILs5pQmOuvs17Y/OSGYjMV
- FxQttMIHGp7AlqckX7z0WJi0uxp4Kg4DpQvapIYE=
+ b=vPRG/l1GlU6VNMuTAO7jafA/hHzmDj9qeogxuVed3VBpiz6V33DjODx61tstgLPge
+ +Bt4eoX3it0wjn63b2iyCBt2Ldhgwr1+nMQXFn+iEkNjJXshCihFJU/paC0tyRmoXG
+ 2yRQ60XnSkb/PlAYPWCGmIAvfWZ2QL4w5Ku4KplA=
 Authentication-Results: iva8-99b070b76c56.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
@@ -43,17 +44,17 @@ Cc: armbru@redhat.com, eblake@redhat.com, eduardo@habkost.net,
  berrange@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
  mst@redhat.com, philmd@linaro.org, vsementsov@yandex-team.ru,
  den-plotnikov@yandex-team.ru, antonkuchin@yandex-team.ru
-Subject: [PATCH v5 07/18] pcie: pcie_cap_slot_write_config(): use correct macro
-Date: Thu, 16 Feb 2023 21:03:45 +0300
-Message-Id: <20230216180356.156832-8-vsementsov@yandex-team.ru>
+Subject: [PATCH v5 08/18] pcie_regs: drop duplicated indicator value macros
+Date: Thu, 16 Feb 2023 21:03:46 +0300
+Message-Id: <20230216180356.156832-9-vsementsov@yandex-team.ru>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230216180356.156832-1-vsementsov@yandex-team.ru>
 References: <20230216180356.156832-1-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -75,31 +76,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-PCI_EXP_SLTCTL_PIC_OFF is a value, and PCI_EXP_SLTCTL_PIC is a mask.
-Happily PCI_EXP_SLTCTL_PIC_OFF is a maximum value for this mask and is
-equal to the mask itself. Still the code looks like a bug. Let's make
-it more reader-friendly.
+We already have indicator values in
+include/standard-headers/linux/pci_regs.h , no reason to reinvent them
+in include/hw/pci/pcie_regs.h. (and we already have usage of
+PCI_EXP_SLTCTL_PWR_IND_BLINK and PCI_EXP_SLTCTL_PWR_IND_OFF in
+hw/pci/pcie.c, so let's be consistent)
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Anton Kuchin <antonkuchin@yandex-team.ru>
 ---
- hw/pci/pcie.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/hw/pci/pcie_regs.h |  9 ---------
+ hw/pci/pcie.c              | 13 +++++++------
+ 2 files changed, 7 insertions(+), 15 deletions(-)
 
+diff --git a/include/hw/pci/pcie_regs.h b/include/hw/pci/pcie_regs.h
+index 963dc2e170..00b595a82e 100644
+--- a/include/hw/pci/pcie_regs.h
++++ b/include/hw/pci/pcie_regs.h
+@@ -70,15 +70,6 @@ typedef enum PCIExpLinkWidth {
+ #define PCI_EXP_SLTCTL_IND_ON           0x1
+ #define PCI_EXP_SLTCTL_IND_BLINK        0x2
+ #define PCI_EXP_SLTCTL_IND_OFF          0x3
+-#define PCI_EXP_SLTCTL_AIC_SHIFT        ctz32(PCI_EXP_SLTCTL_AIC)
+-#define PCI_EXP_SLTCTL_AIC_OFF                          \
+-    (PCI_EXP_SLTCTL_IND_OFF << PCI_EXP_SLTCTL_AIC_SHIFT)
+-
+-#define PCI_EXP_SLTCTL_PIC_SHIFT        ctz32(PCI_EXP_SLTCTL_PIC)
+-#define PCI_EXP_SLTCTL_PIC_OFF                          \
+-    (PCI_EXP_SLTCTL_IND_OFF << PCI_EXP_SLTCTL_PIC_SHIFT)
+-#define PCI_EXP_SLTCTL_PIC_ON                          \
+-    (PCI_EXP_SLTCTL_IND_ON << PCI_EXP_SLTCTL_PIC_SHIFT)
+ 
+ #define PCI_EXP_SLTCTL_SUPPORTED        \
+             (PCI_EXP_SLTCTL_ABPE |      \
 diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index 924fdabd15..82ef723983 100644
+index 82ef723983..ccdb2377e1 100644
 --- a/hw/pci/pcie.c
 +++ b/hw/pci/pcie.c
-@@ -770,9 +770,9 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
+@@ -634,8 +634,8 @@ void pcie_cap_slot_init(PCIDevice *dev, PCIESlot *s)
+                                  PCI_EXP_SLTCTL_PIC |
+                                  PCI_EXP_SLTCTL_AIC);
+     pci_word_test_and_set_mask(dev->config + pos + PCI_EXP_SLTCTL,
+-                               PCI_EXP_SLTCTL_PIC_OFF |
+-                               PCI_EXP_SLTCTL_AIC_OFF);
++                               PCI_EXP_SLTCTL_PWR_IND_OFF |
++                               PCI_EXP_SLTCTL_ATTN_IND_OFF);
+     pci_word_test_and_set_mask(dev->wmask + pos + PCI_EXP_SLTCTL,
+                                PCI_EXP_SLTCTL_PIC |
+                                PCI_EXP_SLTCTL_AIC |
+@@ -679,7 +679,7 @@ void pcie_cap_slot_reset(PCIDevice *dev)
+                                  PCI_EXP_SLTCTL_PDCE |
+                                  PCI_EXP_SLTCTL_ABPE);
+     pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTCTL,
+-                               PCI_EXP_SLTCTL_AIC_OFF);
++                               PCI_EXP_SLTCTL_ATTN_IND_OFF);
+ 
+     if (dev->cap_present & QEMU_PCIE_SLTCAP_PCP) {
+         /* Downstream ports enforce device number 0. */
+@@ -694,7 +694,8 @@ void pcie_cap_slot_reset(PCIDevice *dev)
+                                        PCI_EXP_SLTCTL_PCC);
+         }
+ 
+-        pic = populated ? PCI_EXP_SLTCTL_PIC_ON : PCI_EXP_SLTCTL_PIC_OFF;
++        pic = populated ?
++                PCI_EXP_SLTCTL_PWR_IND_ON : PCI_EXP_SLTCTL_PWR_IND_OFF;
+         pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTCTL, pic);
+     }
+ 
+@@ -770,9 +771,9 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
       * control of powered off slots before powering them on.
       */
      if ((sltsta & PCI_EXP_SLTSTA_PDS) && (val & PCI_EXP_SLTCTL_PCC) &&
--        (val & PCI_EXP_SLTCTL_PIC_OFF) == PCI_EXP_SLTCTL_PIC_OFF &&
-+        (val & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PIC_OFF &&
+-        (val & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PIC_OFF &&
++        (val & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_OFF &&
          (!(old_slt_ctl & PCI_EXP_SLTCTL_PCC) ||
--        (old_slt_ctl & PCI_EXP_SLTCTL_PIC_OFF) != PCI_EXP_SLTCTL_PIC_OFF)) {
-+        (old_slt_ctl & PCI_EXP_SLTCTL_PIC) != PCI_EXP_SLTCTL_PIC_OFF)) {
+-        (old_slt_ctl & PCI_EXP_SLTCTL_PIC) != PCI_EXP_SLTCTL_PIC_OFF)) {
++        (old_slt_ctl & PCI_EXP_SLTCTL_PIC) != PCI_EXP_SLTCTL_PWR_IND_OFF)) {
          pcie_cap_slot_do_unplug(dev);
      }
      pcie_cap_update_power(dev);
