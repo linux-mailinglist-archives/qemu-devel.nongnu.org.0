@@ -2,62 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABD2D698BE1
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 06:25:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13E1B698BF4
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 06:28:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSWlU-0006Pn-Ce; Thu, 16 Feb 2023 00:25:04 -0500
+	id 1pSWoq-0004hE-Dg; Thu, 16 Feb 2023 00:28:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pSWlR-0006PF-HT
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:25:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pSWop-0004h0-2f
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:28:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pSWlP-0008Uy-U6
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:25:01 -0500
+ id 1pSWon-0000xh-9X
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:28:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676525099;
+ s=mimecast20190719; t=1676525308;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DSWyl+JQ+g2bk0l3ZTYBnaA+DxoOXvy4fW45aw/Or2s=;
- b=RYoR85nOhDgQlnCiXPjmsyMCnll2ejyIcBI3G3TqE/K06waxWwyELZiqGK9XUx70ox/EU1
- kN57EHm7n8m+SrxBeE8Ky0OaQJQpyPhcnWCw6GcfoJduu37QANmAhDy0OfXWoOWnBEX30s
- TsddAzxQIkSVzuViOESoV67ZcyClmHc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-567-Aj3G4BISP5eVbZa3Izn1rQ-1; Thu, 16 Feb 2023 00:24:57 -0500
-X-MC-Unique: Aj3G4BISP5eVbZa3Izn1rQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 746AE1C05ABA;
- Thu, 16 Feb 2023 05:24:57 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-12-253.pek2.redhat.com
- [10.72.12.253])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 26E39492B0E;
- Thu, 16 Feb 2023 05:24:54 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: peter.maydell@linaro.org
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL V2 10/10] vdpa: fix VHOST_BACKEND_F_IOTLB_ASID flag check
-Date: Thu, 16 Feb 2023 13:24:24 +0800
-Message-Id: <20230216052424.50926-11-jasowang@redhat.com>
-In-Reply-To: <20230216052424.50926-1-jasowang@redhat.com>
-References: <20230216052424.50926-1-jasowang@redhat.com>
+ bh=uYpyDvReWuaLNG1qDwhPhn59iKoV2Wdz1GRsYYyK9qs=;
+ b=YP3volZlMokfR59JcHU4/7wPz48m5JWaDy3kDhLcQHRxv/WCK2VCksktz+ff9vaioL9bsA
+ mEJadUfP1mjLslQ+S+0ifsPcy8Hx+Ov5q9QnElCD8LflnczFAVD8m9Y9V2CFE/XC4G/w8B
+ 9MUclFrxLNG80CE4KW0WMS9ooVtmEA8=
+Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
+ [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-540-yh75MWGzO0-dUoPD5fpZkQ-1; Thu, 16 Feb 2023 00:28:27 -0500
+X-MC-Unique: yh75MWGzO0-dUoPD5fpZkQ-1
+Received: by mail-oa1-f70.google.com with SMTP id
+ 586e51a60fabf-16e1da56174so634661fac.21
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 21:28:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=uYpyDvReWuaLNG1qDwhPhn59iKoV2Wdz1GRsYYyK9qs=;
+ b=G2kkL3DtEKi/Pe4UjuI6uPprBkgbP3IbgM+apgFUUShFe2irEW1w3NU80fzRsQU9dC
+ +sUf8pRpbk6pvGUCqp55uKPVUG/FvPddt2e5F0sgurj4gV0SzEmMJzVkDnshwe4WdOln
+ 0rwZGzqAAIgnC9IHlU6Yvk20iSLDe3vplCdOneMigp+9zi7O49h48/Z/HqBVY31SXmRu
+ Vm5SNF22zxq9sv3AHAnsIZ6YdZlqMAKwVGE7uugmTL1/+kleMuFcJqSC4DUaMcF6B4tP
+ diqYkVdajqmM+gUQo4KKDo2Q2aWujU+fTnY4CrGO9Fau1rh9bydas7QIlVcznlHM86UE
+ qT0w==
+X-Gm-Message-State: AO0yUKVZTM6dEDoI8GKgw6/8ejnVhIH4NEPOXJRBckBpS/kwZ/gpLR6M
+ J8qWakcNHOpt2fqSd/y9hfsKbTwOAHBwqHB9Bbv39JCICI2XzIUSY0Jcd555Cui7U9Q5Kb5Aulo
+ ro7/U6VDYWPRHbzTVeknRzvoHL+U1/lY=
+X-Received: by 2002:a05:6808:3186:b0:37d:5d77:e444 with SMTP id
+ cd6-20020a056808318600b0037d5d77e444mr64135oib.35.1676525306503; 
+ Wed, 15 Feb 2023 21:28:26 -0800 (PST)
+X-Google-Smtp-Source: AK7set9nuchSKrjoq8pNtMEG0n24ef3mG7593oPuQeVLV8+zIrISw2G5FQIiKF0MiqDa+F+tI3neYy/UpTWjPH7QuBk=
+X-Received: by 2002:a05:6808:3186:b0:37d:5d77:e444 with SMTP id
+ cd6-20020a056808318600b0037d5d77e444mr64128oib.35.1676525306278; Wed, 15 Feb
+ 2023 21:28:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+References: <20221218143927.597975-1-16567adigashreesh@gmail.com>
+ <d7f05d4f-2a56-6663-4a66-e53c3f14a061@linaro.org>
+ <Y6HjOqjECShxPfzU@arch.localdomain>
+ <CABcq3pGii9c=f6LxNtNppoCky=jZbuqNFYcqKBuj1W2qgww84A@mail.gmail.com>
+ <CABcq3pFaYy1EHb9KvC3KhJ7TAiAm1ii1VCLNK6u=YQvXz2MA+Q@mail.gmail.com>
+In-Reply-To: <CABcq3pFaYy1EHb9KvC3KhJ7TAiAm1ii1VCLNK6u=YQvXz2MA+Q@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Thu, 16 Feb 2023 13:28:15 +0800
+Message-ID: <CACGkMEvB1=U+mXc9kMQHLp3uhds12DU1n=YYd23AGdqyPeOpFw@mail.gmail.com>
+Subject: Re: [PATCH] ebpf: fix compatibility with libbpf 1.0+
+To: Andrew Melnichenko <andrew@daynix.com>
+Cc: Shreesh Adiga <16567adigashreesh@gmail.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ qemu-devel@nongnu.org, yuri.benditovich@daynix.com, 
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Mauro Matteo Cascella <mcascell@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,35 +103,159 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Eugenio Pérez <eperezma@redhat.com>
+On Wed, Feb 15, 2023 at 4:27 AM Andrew Melnichenko <andrew@daynix.com> wrot=
+e:
+>
+> Hi, all.
+> In the future, there would be eBPF RSS + the helper for Libvirt interacti=
+on.
+> And those patches are required for future work. Technically they are
+> required for the current builds with linked libbpf 1.01.
+> Can we apply this patch?
+>
 
-VHOST_BACKEND_F_IOTLB_ASID is the feature bit, not the bitmask. Since
-the device under test also provided VHOST_BACKEND_F_IOTLB_MSG_V2 and
-VHOST_BACKEND_F_IOTLB_BATCH, this went unnoticed.
+I've queued this.
 
-Fixes: c1a1008685 ("vdpa: always start CVQ in SVQ mode if possible")
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- net/vhost-vdpa.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks
 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 1a13a34..de5ed8f 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -384,7 +384,7 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
-             g_strerror(errno), errno);
-         return -1;
-     }
--    if (!(backend_features & VHOST_BACKEND_F_IOTLB_ASID) ||
-+    if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID)) ||
-         !vhost_vdpa_net_valid_svq_features(v->dev->features, NULL)) {
-         return 0;
-     }
--- 
-2.7.4
+>
+> On Wed, Dec 28, 2022 at 6:19 PM Andrew Melnichenko <andrew@daynix.com> wr=
+ote:
+> >
+> > Hi, it's a good idea to update the skeleton generation. Technically
+> > skeleton generation is not a part of Qemu building. The skeleton is
+> > already presented in the Qemu tree, so we skip dependencies from
+> > clang/bpftool.
+> > It's a good idea to have an updated bpf program and simplified
+> > Makefile with Qemu sources. And the skeleton in the Qemu tree should
+> > be identical to what the Makefile.ebpf would generate.
+> > I think having one patch with all changes to eBPF RSS is acceptable.
+> >
+> > On Tue, Dec 20, 2022 at 6:30 PM Shreesh Adiga
+> > <16567adigashreesh@gmail.com> wrote:
+> > >
+> > > On Sun, Dec 18, 2022 at 05:15:04PM +0100, Philippe Mathieu-Daud=C3=A9=
+ wrote:
+> > > > Hi,
+> > > >
+> > > > On 18/12/22 15:39, Shreesh Adiga wrote:
+> > > > > The current implementation fails to load on a system with
+> > > > > libbpf 1.0 and reports that legacy map definitions in 'maps'
+> > > > > section are not supported by libbpf v1.0+. This commit updates
+> > > > > the Makefile to add BTF (-g flag) and appropriately updates
+> > > > > the maps in rss.bpf.c and update the skeleton file in repo.
+> > > > >
+> > > > > Signed-off-by: Shreesh Adiga <16567adigashreesh@gmail.com>
+> > > > > ---
+> > > > >   ebpf/rss.bpf.skeleton.h  | 1171 ++++++++++++++++++++++++++++---=
+-------
+> > > > >   tools/ebpf/Makefile.ebpf |    8 +-
+> > > > >   tools/ebpf/rss.bpf.c     |   43 +-
+> > > > >   3 files changed, 891 insertions(+), 331 deletions(-)
+> > > >
+> > > >
+> > > > > +static inline const void *rss_bpf__elf_bytes(size_t *sz)
+> > > > > +{
+> > > > > +   *sz =3D 20440;
+> > > > > +   return (const void *)"\
+> > > > >   \x7f\x45\x4c\x46\x02\x01\x01\0\0\0\0\0\0\0\0\0\x01\0\xf7\0\x01\=
+0\0\0\0\0\0\0\0\
+> > > > > -\0\0\0\0\0\0\0\0\0\0\0\x18\x1d\0\0\0\0\0\0\0\0\0\0\x40\0\0\0\0\0=
+\x40\0\x0a\0\
+> > > > > -\x01\0\xbf\x18\0\0\0\0\0\0\xb7\x01\0\0\0\0\0\0\x63\x1a\x4c\xff\0=
+\0\0\0\xbf\xa7\
+> > > > > -\0\0\0\0\0\0\x07\x07\0\0\x4c\xff\xff\xff\x18\x01\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\
+> > > > > +\0\0\0\0\0\0\0\0\0\0\0\x98\x4c\0\0\0\0\0\0\0\0\0\0\x40\0\0\0\0\0=
+\x40\0\x0d\0\
+> > > > > +\x01\0\xbf\x19\0\0\0\0\0\0\xb7\x01\0\0\0\0\0\0\x63\x1a\x54\xff\0=
+\0\0\0\xbf\xa7\
+> > > > > +\0\0\0\0\0\0\x07\x07\0\0\x54\xff\xff\xff\x18\x01\0\0\0\0\0\0\0\0=
+\0\0\0\0\0\0\
+> > > > >   \xbf\x72\0\0\0\0\0\0\x85\0\0\0\x01\0\0\0\xbf\x06\0\0\0\0\0\0\x1=
+8\x01\0\0\0\0\0\
+> > > > > -\0\0\0\0\0\0\0\0\0\xbf\x72\0\0\0\0\0\0\x85\0\0\0\x01\0\0\0\xbf\x=
+07\0\0\0\0\0\0\
+> > > > > -\x18\0\0\0\xff\xff\xff\xff\0\0\0\0\0\0\0\0\x15\x06\x66\x02\0\0\0=
+\0\xbf\x79\0\0\
+> > > > > -\0\0\0\0\x15\x09\x64\x02\0\0\0\0\x71\x61\0\0\0\0\0\0\x55\x01\x01=
+\0\0\0\0\0\x05\
+> > > > > -\0\x5d\x02\0\0\0\0\xb7\x01\0\0\0\0\0\0\x63\x1a\xc0\xff\0\0\0\0\x=
+7b\x1a\xb8\xff\
+> > > > > -\0\0\0\0\x7b\x1a\xb0\xff\0\0\0\0\x7b\x1a\xa8\xff\0\0\0\0\x7b\x1a=
+\xa0\xff\0\0\0\
+> > > > > -\0\x63\x1a\x98\xff\0\0\0\0\x7b\x1a\x90\xff\0\0\0\0\x7b\x1a\x88\x=
+ff\0\0\0\0\x7b\
+> > > > > -\x1a\x80\xff\0\0\0\0\x7b\x1a\x78\xff\0\0\0\0\x7b\x1a\x70\xff\0\0=
+\0\0\x7b\x1a\
+> > > > > -\x68\xff\0\0\0\0\x7b\x1a\x60\xff\0\0\0\0\x7b\x1a\x58\xff\0\0\0\0=
+\x7b\x1a\x50\
+> > > > > -\xff\0\0\0\0\x15\x08\x4c\x02\0\0\0\0\x6b\x1a\xd0\xff\0\0\0\0\xbf=
+\xa3\0\0\0\0\0\
+> > > > > -\0\x07\x03\0\0\xd0\xff\xff\xff\xbf\x81\0\0\0\0\0\0\xb7\x02\0\0\x=
+0c\0\0\0\xb7\
+> > > > > +\0\0\0\0\0\0\0\0\0\xbf\x72\0\0\0\0\0\0\x85\0\0\0\x01\0\0\0\xbf\x=
+08\0\0\0\0\0\0\
+> > > > > +\x18\0\0\0\xff\xff\xff\xff\0\0\0\0\0\0\0\0\x15\x06\x67\x02\0\0\0=
+\0\xbf\x87\0\0\
+> > > > > +\0\0\0\0\x15\x07\x65\x02\0\0\0\0\x71\x61\0\0\0\0\0\0\x55\x01\x01=
+\0\0\0\0\0\x05\
+> > > > > +\0\x5e\x02\0\0\0\0\xb7\x01\0\0\0\0\0\0\x63\x1a\xc8\xff\0\0\0\0\x=
+7b\x1a\xc0\xff\
+> > > > > +\0\0\0\0\x7b\x1a\xb8\xff\0\0\0\0\x7b\x1a\xb0\xff\0\0\0\0\x7b\x1a=
+\xa8\xff\0\0\0\
+> > > > > +\0\x63\x1a\xa0\xff\0\0\0\0\x7b\x1a\x98\xff\0\0\0\0\x7b\x1a\x90\x=
+ff\0\0\0\0\x7b\
+> > > > > +\x1a\x88\xff\0\0\0\0\x7b\x1a\x80\xff\0\0\0\0\x7b\x1a\x78\xff\0\0=
+\0\0\x7b\x1a\
+> > > > > +\x70\xff\0\0\0\0\x7b\x1a\x68\xff\0\0\0\0\x7b\x1a\x60\xff\0\0\0\0=
+\x7b\x1a\x58\
+> > > > > +\xff\0\0\0\0\x15\x09\x4d\x02\0\0\0\0\x6b\x1a\xd0\xff\0\0\0\0\xbf=
+\xa3\0\0\0\0\0\
+> > > > [...]
+> > > >
+> > > > Can we have a build system step which generates this file and compa=
+re
+> > > > with what is committed in the repository that we can run in our CI?
+> > > >
+> > > > That would avoid the need of human review of this blob.
+> > > >
+> > > Here are the steps to verify:
+> > > Pull latest archlinux/archlinux docker image and get a bash shell ins=
+ide
+> > > the container. Install the required toolchain packages.
+> > > pacman -Syu --noconfirm
+> > > pacman -S --noconfirm  bpf libbpf llvm clang make
+> > >
+> > > Confirm the versions:
+> > > clang 14.0.6
+> > > bpftool 7.0.0
+> > > libbpf 1.0.1
+> > >
+> > > After this, ensure that the files Makefile.ebpf and rss.bpf.c from th=
+is
+> > > patch exist at /home/shreesh/c/qemu/tools/ebpf/ inside the docker.
+> > > This path seems to be important since BTF info seems to contain the a=
+bsolute
+> > > path of rss.bpf.c which was compiled by clang and is embedded inside
+> > > the generated ELF object.
+> > >
+> > > Run `make -C /home/shreesh/c/qemu/tools/ebpf -f Makefile.ebpf` and
+> > > verify that `sha256sum /home/shreesh/c/qemu/tools/ebpf/rss.bpf.skelet=
+on.h` is
+> > > a54af3d1fb401ddd56c151f00ae20d6557e965c0a1a4d8ed5f8d925457158a0e whic=
+h
+> > > should be the same as the one submitted as part of this patch.
+> > >
+> > > I'm not familiar with QEMU's CI and am not sure if the above steps ca=
+n
+> > > be converted into build system steps. However it should be doable by =
+a
+> > > human and verify that the generated skeleton file is correct and not
+> > > tampered with.
+> > >
+> > > Regards,
+> > > Shreesh
+>
 
 
