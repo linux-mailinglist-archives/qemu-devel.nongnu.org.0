@@ -2,83 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 944D969968B
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:01:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 676F4699692
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:03:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSep7-0004n0-Ey; Thu, 16 Feb 2023 09:01:21 -0500
+	id 1pSeqe-00061X-IA; Thu, 16 Feb 2023 09:02:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <smostafa@google.com>)
- id 1pSep4-0004cG-RC
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:01:18 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <smostafa@google.com>)
- id 1pSep3-0003Ea-5G
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:01:18 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- m16-20020a05600c3b1000b003dc4050c94aso1720441wms.4
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 06:01:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=jBtUNnX1GENvx9SCrPHKpHN+rPvOGE2/lvcOESUiwG8=;
- b=i2T0A1FY5ZJysyzZchnUQGeODHTMmT8ztmuG3tAuJru51EIwMz0T+8raSds1i5k5My
- rvT0SCW2DnlaITcDm3avSHxCXNft68IusH5rDqPbRwPFarZO8ZmOzAT5XR+XP0LqXxzH
- I5nBwOV7g4QNUblyIn+pz1ksNeZM9hSJnoHz5nE4tRoD1OF1juBBqQL1DrDvmMLdp/S0
- 2lCNStly5zFJMUXeVjDpGYBUbfOUI7swdnKXOd938Yu3uOpAZcAmrEU3nS5QAlZqcfv8
- OYTpGEiyDrN2W9BIu4t+nsjNjn9Ao4oj7CZuTGG7vePsiAi4MX0PmK8ZIF26U8HXnJOA
- b71g==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pSeqc-00061E-3d
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:02:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pSeqa-0003UB-3Q
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:02:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676556170;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=N7ZnZbCCw4rhjUC7oC2HonnDEOD7N/QaAU1ICj/XzMc=;
+ b=EXYAXN+2fvdQEfdmNoCWQviTd94FeSKL0RMhDM+ZjP72WGVzy//vFUrvaeUExCoGdkB8fm
+ H6GfXvMORMEF7Fu0pPXMv34MS6zBsBaqiHp/GsFPGEBIxa+9TvSu4P7ynimj1AOsXZA+Da
+ WlbaM8pyshF8y33UGadKwmhfh+qPPcw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-526-GMppAXMnMmyxn6V59nnE5g-1; Thu, 16 Feb 2023 09:02:49 -0500
+X-MC-Unique: GMppAXMnMmyxn6V59nnE5g-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ w9-20020a5d6089000000b002c5669766a8so253777wrt.4
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 06:02:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jBtUNnX1GENvx9SCrPHKpHN+rPvOGE2/lvcOESUiwG8=;
- b=WifxlVN/HDqqT2kOncwTh2JODlkFrS9kVjlY4eA9WzCk+A7cojfvDI67yVaZ7LgCtO
- BwRgVjdajKauacGxqlUQ0gQRer5tsV2czos+H3f9viifFpomLUzKyl8FxSufCucCbKkI
- Cjii+kbg1GGQczcL8FoL6XVTkmuO1jjSUdX13kSoR0sTVOAr5CB0A8PJra2CNiy7DpGq
- DqNhS5pSPNA1jq4sc75DXEhTeOfCri4Wk2usQv7X7qPN7WMSG1hmtH+5zit0rZRDP9Sm
- BHKwvwLbbrO6fYJkjbRF04wlfXtJCnqukVW9SIqy9hgGgFUS17WueSyyTMOKp1QlWxUe
- GNHA==
-X-Gm-Message-State: AO0yUKUcHcq1it7g18oqiAhYV4e5lLBHkpXKzdUIqt9SFFnmgUHadU8o
- XBBTi8TV/BXtq63WXoB7ZLeNCQ==
-X-Google-Smtp-Source: AK7set/0d4sBwADvNC+1H6So5WjjxJJLmFZKup2imfDRJl6DTV0utR11yfP4ELv0pXTnSMq3ssAJAQ==
-X-Received: by 2002:a05:600c:556f:b0:3de:b7ba:f8ce with SMTP id
- ja15-20020a05600c556f00b003deb7baf8cemr174589wmb.1.1676556069595; 
- Thu, 16 Feb 2023 06:01:09 -0800 (PST)
-Received: from google.com (44.232.78.34.bc.googleusercontent.com.
- [34.78.232.44]) by smtp.gmail.com with ESMTPSA id
- g9-20020adff3c9000000b002c54d8b89efsm1678290wrp.26.2023.02.16.06.01.08
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=N7ZnZbCCw4rhjUC7oC2HonnDEOD7N/QaAU1ICj/XzMc=;
+ b=Ut4js6lWUf+QxeJxonvHtI0d+lHi8NXIeypxyi/xeNdcrVlw1XBbwujvFN7QVPGl+J
+ pyYk1iEggDWxM6O2kzyJwKwbsOJw/yrttBdK+45CzfdE/QQOGwdtGsywvs8beTd/ZD6c
+ yssHkJZOVM5J3Y5ST9MgJREOB6bLSZijGzjEUi73MsMcCQR5r4UMrQeY3RNOwbp6kKN9
+ /4/DM5sL5ZR+3WVmEJ0EkNkhlewMx8Rwo2Ai4OJ1vRWz0ekA8R50Gk4PlrmQA4ORFdIF
+ HCw4R9tZYtQt4LdOH03kOZjnbWpHANF5NopJHbbYjSZmK7F/+hDHl6sgoYwJZ4vVqYtb
+ xoZw==
+X-Gm-Message-State: AO0yUKUf8FdOYZH+rED3ETSGa7/W3fc9A73UXcmc2lDTSHODw4Ntq6R/
+ H2R/PwbREjrU+M5HcpmKs+K7ROtw2IOCaox+QT3w4J5aDg/haBVZ6Zu/mZpxHJjUF5nhiFd2LHr
+ yVpJ07ozz+ZVncNU=
+X-Received: by 2002:a05:600c:3107:b0:3df:b5ae:5289 with SMTP id
+ g7-20020a05600c310700b003dfb5ae5289mr5339412wmo.8.1676556168010; 
+ Thu, 16 Feb 2023 06:02:48 -0800 (PST)
+X-Google-Smtp-Source: AK7set8WmX0QXuySFnJ3o8xSC27nHZ/yuHQiy7ADKgvutYMB1YqW2+6W20Vr2kGVmMIxT2ovKY53Xg==
+X-Received: by 2002:a05:600c:3107:b0:3df:b5ae:5289 with SMTP id
+ g7-20020a05600c310700b003dfb5ae5289mr5339374wmo.8.1676556167708; 
+ Thu, 16 Feb 2023 06:02:47 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ 1-20020a05600c028100b003e200dc15f5sm1817818wmk.42.2023.02.16.06.02.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 06:01:09 -0800 (PST)
-Date: Thu, 16 Feb 2023 14:01:04 +0000
-From: Mostafa Saleh <smostafa@google.com>
-To: Eric Auger <eric.auger@redhat.com>
-Cc: qemu-devel@nongnu.org, jean-philippe@linaro.org,
- peter.maydell@linaro.org, qemu-arm@nongnu.org
-Subject: Re: [RFC PATCH 15/16] hw/arm/smmuv3: Add fault configuration for
- stage-2
-Message-ID: <Y+43IHck9kcfWeUS@google.com>
-References: <20230205094411.793816-1-smostafa@google.com>
- <20230205094411.793816-16-smostafa@google.com>
- <7300b312-d58b-fdab-a72e-6ee9d0a1aa95@redhat.com>
+ Thu, 16 Feb 2023 06:02:47 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,  qemu-devel@nongnu.org,  Paolo
+ Bonzini <pbonzini@redhat.com>,  Paul Durrant <paul@xen.org>,  Joao Martins
+ <joao.m.martins@oracle.com>,  Ankur Arora <ankur.a.arora@oracle.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  Thomas Huth
+ <thuth@redhat.com>,  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Dr . David
+ Alan Gilbert" <dgilbert@redhat.com>,  Claudio Fontana <cfontana@suse.de>,
+ Julien Grall <julien@xen.org>,  "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,  armbru@redhat.com,
+ Stefano Stabellini <sstabellini@kernel.org>,  vikram.garhwal@amd.com
+Subject: Re: [RFC PATCH v11bis 00/26] Emulated XenStore and PV backend support
+In-Reply-To: <ca90895e752c860d4e7251d52bac6ee572b3874c.camel@infradead.org>
+ (David Woodhouse's message of "Thu, 16 Feb 2023 14:51:01 +0100")
+References: <20230216094436.2144978-1-dwmw2@infradead.org>
+ <87sff5khqo.fsf@secure.mitica>
+ <ca90895e752c860d4e7251d52bac6ee572b3874c.camel@infradead.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 16 Feb 2023 15:02:46 +0100
+Message-ID: <871qmpk8s9.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7300b312-d58b-fdab-a72e-6ee9d0a1aa95@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=smostafa@google.com; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,16 +105,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 15, 2023 at 07:55:27PM +0100, Eric Auger wrote:
-> > record_faults. However when nested translation is supported we would
-> > need to separate stage-1 and stage-2 faults.
-> same here, please squash that code in the STE decoding and possible add
-> those above comments in the commit msg
-I will update it in V2.
+David Woodhouse <dwmw2@infradead.org> wrote:
+> --=-jDk4SYxkcOAZoZa6DCVr
+> Content-Type: text/plain; charset="UTF-8"
+> Content-Transfer-Encoding: quoted-printable
+>
+> On Thu, 2023-02-16 at 11:49 +0100, Juan Quintela wrote:
+>> David Woodhouse <dwmw2@infradead.org> wrote:
+>> > The non-RFC patch submisson=C2=B9 is just the basic platform support fo=
+> r Xen
+>> > on KVM. This RFC series is phase 2, adding an internal XenStore and
+>> > hooking up the PV back end drivers to that and the emulated grant table=
+> s
+>> > and event channels.
+>> >=20
+>> > With this, we can boot a Xen guest with PV disk, under KVM. Full suppor=
+> t
+>> > for migration isn't there yet because it's actually missing in the PV
+>> > back end drivers in the first place (perhaps because upstream Xen doesn=
+> 't
+>> > yet have guest transparent live migration support anyway). I'm assuming
+>> > that when the first round is merged and we drop the [RFC] from this set=
+> ,
+>> > that won't be a showstopper for now?
+>> >=20
+>> > I'd be particularly interested in opinions on the way I implemented
+>> > serialization for the XenStore, by creating a GByteArray and then dumpi=
+> ng
+>> > it with VMSTATE_VARRAY_UINT32_ALLOC().
+>>=20
+>> And I was wondering why I was CC'd in the whole series O:-)
+>>=20
+>
+> Indeed, Philippe M-D added you to Cc when discussing migrations on the
+> first RFC submission back in December, and you've been included ever
+> since.
+>
+>
+>> How big is the xenstore?
+>> I mean typical size and maximun size.
+>>=20
+>
+> Booting a simple instance with a single disk:
+>
+> $ scripts/analyze-migration.py -f foo | grep impl_state_size
+>         "impl_state_size": "0x00000634",
+>
+> Theoretical maximum is about 1000 nodes @2KiB, so around 2MiB.
+>
+>> If it is suficientely small (i.e. in the single unit megabytes), you can
+>> send it as a normal device at the end of migration.
+>>=20
+>
+> Right now it's part of the xen_xenstore device. Most of that is fairly
+> simple and it's just the impl_state that's slightly different.
+>
+>
+>> If it is bigger, I think that you are going to have to enter Migration
+>> iteration stage, and have some kind of dirty bitmap to know what entries
+>> are on the target and what not.
+>>=20
+>
+> We have COW and transactions; that isn't an impossibility; I think we
+> can avoid that complexity though.
 
-Thanks,
-Mostafa
+It is relatively small.  I will go with migrating at the end of
+migration for now.  Later we can measure if we need to improve
+performance there.
+
+Later, Juan.
+
 
