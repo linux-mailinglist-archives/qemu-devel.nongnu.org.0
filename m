@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F2B699D06
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 20:33:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D310699D16
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 20:41:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSk05-0006ax-S5; Thu, 16 Feb 2023 14:33:02 -0500
+	id 1pSk6w-0005QL-Lc; Thu, 16 Feb 2023 14:40:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1pSk00-0006aO-SY; Thu, 16 Feb 2023 14:32:57 -0500
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+ (Exim 4.90_1) (envelope-from
+ <BATV+33d3adc5578b079b0cf9+7116+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pSk6l-0005PE-RC
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 14:39:56 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1pSjzz-0003Dg-39; Thu, 16 Feb 2023 14:32:56 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 47E43B82953;
- Thu, 16 Feb 2023 19:32:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 078FFC433D2;
- Thu, 16 Feb 2023 19:32:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1676575970;
- bh=2paq86sFcqBBLX+JAcHH19JByZ3jpCuesIPgLRIrS+8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=I37SfqYpIssjwVrWZYGJM80oBJK/QLmf35Z/6LOm5q4ZIq1Yd7fyT6GkqjKNLRV6n
- VmpzN0RtvyC7K14fQL/ewRaH9P4fsgIc1FsUPXiCNZvMXpJnoKYNEkZ1soeo+QajPx
- VBndpDTnhmM2g7RSe1/gLz/C7GmZbR1drIn4pYNRDi2OL0EDQK3O+Mqg/zLKYm745n
- cwIgTPtI5orjpd2fyTzuOyQ+HQvawyo1mBXcLkKVcNy4B0lesPP9NEmH1hcWSMB16X
- 7pRwaTpJf/J+DumM/lcbuc0kBBM07p6T14lcYzBLW77hhOl57lSBeIBlIgVDLq/H9o
- n+dNYW5GGjNNg==
-Date: Thu, 16 Feb 2023 12:32:47 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Jesper Devantier <jwd@defmacro.it>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Klaus Jensen <its@irrelevant.dk>, Fam Zheng <fam@euphon.net>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Jesper Devantier <j.devantier@samsung.com>,
- Klaus Jensen <k.jensen@samsung.com>
-Subject: Re: [PATCH 5/5] hw/nvme: flexible data placement emulation
-Message-ID: <Y+6E3/QzR6g5PlrB@kbusch-mbp.dhcp.thefacebook.com>
-References: <20230216164806.233533-1-jwd@defmacro.it>
- <20230216164806.233533-6-jwd@defmacro.it>
+ (Exim 4.90_1) (envelope-from
+ <BATV+33d3adc5578b079b0cf9+7116+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pSk6i-0004WF-UN
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 14:39:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=O78CbSXbbVBKsfhOi0S6WU9KtyvQdABm268Zg1NpG1o=; b=CJ4q96SPugbPt9o4Uwqu0ValJ/
+ RK1vW6t5Nps/LH9joSJayuukE3GRFjpc5gGzCBYLOkgZAm7h+gjbbK+IlKP5KoheS27MdsHCxqxH+
+ WFvoZgfz10CiA69ASOfQfThiU+lbco6i1SrQPXLzingxu+FJGse6ojP++Nq+9Hl5wINVBE0ARQ1t+
+ 3ECYTYJRnukuAC74mtgWCOsF+6RruxdpOueqQm6XdFPWc0YRZS8vCGjW7NSmOAx5i2kYadZYPq18r
+ phy7QJ0oT3mLMa37YGvfT91RRNgDCQaWIXH4kLEcqDDxst70l3CBrqfCsyIuKM19oy1q406tu04WW
+ xGhQFKpA==;
+Received: from [54.239.6.188] (helo=u3832b3a9db3152.ant.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pSk6b-008fFl-CQ; Thu, 16 Feb 2023 19:39:46 +0000
+Message-ID: <5c7026171d3ab5d530784308a5ce71d32e6760c7.camel@infradead.org>
+Subject: Re: Runnig solaris binary(32 bit) on linux(64 bit)
+From: David Woodhouse <dwmw2@infradead.org>
+To: Richard Henderson <richard.henderson@linaro.org>, Peter Maydell
+ <peter.maydell@linaro.org>, ginu samuel <samuel.ginu2010@gmail.com>
+Cc: qemu-devel@nongnu.org
+Date: Thu, 16 Feb 2023 20:39:43 +0100
+In-Reply-To: <c2011213-8c8b-95c0-9565-47eaf7d33688@linaro.org>
+References: <CAPWd1mzg0rWgpf_D+NC+yAosx8oJnA+tR=NpsuFNtWP-j25=pQ@mail.gmail.com>
+ <CAFEAcA8dH+DDPHWg6xRmT=3oCu1rwyb1gbyVCXFTSDSzBrGg-w@mail.gmail.com>
+ <4ea862746a066107573650d04f4eee6992e0ede9.camel@infradead.org>
+ <c2011213-8c8b-95c0-9565-47eaf7d33688@linaro.org>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-Pf5xs1YTj+UC20+6lWCQ"
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230216164806.233533-6-jwd@defmacro.it>
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=kbusch@kernel.org; helo=ams.source.kernel.org
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+33d3adc5578b079b0cf9+7116+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,64 +77,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 16, 2023 at 05:48:06PM +0100, Jesper Devantier wrote:
-> +static bool nvme_ns_init_fdp(NvmeNamespace *ns, Error **errp)
-> +{
-> +    NvmeEnduranceGroup *endgrp = ns->endgrp;
-> +    NvmeRuHandle *ruh;
-> +    uint8_t lbafi = NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
-> +    unsigned int *ruhid, *ruhids;
-> +    char *r, *p, *token;
-> +    uint16_t *ph;
-> +
-> +    if (!ns->params.fdp.ruhs) {
-> +        ns->fdp.nphs = 1;
-> +        ph = ns->fdp.phs = g_new(uint16_t, 1);
-> +
-> +        ruh = nvme_find_ruh_by_attr(endgrp, NVME_RUHA_CTRL, ph);
-> +        if (!ruh) {
-> +            ruh = nvme_find_ruh_by_attr(endgrp, NVME_RUHA_UNUSED, ph);
-> +            if (!ruh) {
-> +                error_setg(errp, "no unused reclaim unit handles left");
-> +                return false;
-> +            }
-> +
-> +            ruh->ruha = NVME_RUHA_CTRL;
-> +            ruh->lbafi = lbafi;
-> +            ruh->ruamw = endgrp->fdp.runs >> ns->lbaf.ds;
-> +
-> +            for (uint16_t rg = 0; rg < endgrp->fdp.nrg; rg++) {
-> +                ruh->rus[rg].ruamw = ruh->ruamw;
-> +            }
-> +        } else if (ruh->lbafi != lbafi) {
-> +            error_setg(errp, "lba format index of controller assigned "
-> +                       "reclaim unit handle does not match namespace lba "
-> +                       "format index");
-> +            return false;
-> +        }
-> +
-> +        return true;
-> +    }
-> +
-> +    ruhid = ruhids = g_new0(unsigned int, endgrp->fdp.nruh);
-> +    r = p = strdup(ns->params.fdp.ruhs);
-> +
-> +    /* parse the reclaim unit handle identifiers */
-> +    while ((token = qemu_strsep(&p, ";")) != NULL) {
-> +        if (++ns->fdp.nphs == endgrp->fdp.nruh) {
 
-Since a namespace can't have more than 128 placement handles, and the endurance
-group can have more, I think the 128 limit needs to be checked here.
+--=-Pf5xs1YTj+UC20+6lWCQ
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> +            error_setg(errp, "too many placement handles");
-> +            free(r);
-> +            return false;
-> +        }
-> +
-> +        if (qemu_strtoui(token, NULL, 0, ruhid++) < 0) {
-> +            error_setg(errp, "cannot parse reclaim unit handle identifier");
-> +            free(r);
-> +            return false;
-> +        }
-> +    }
+On Thu, 2023-02-16 at 09:29 -1000, Richard Henderson wrote:
+> On 2/16/23 09:02, David Woodhouse wrote:
+> > It wouldn't be beyond the wit of man to extend qemu-user to support the
+> > similar personality variations for SCO/Solaris/etc. using that as a
+> > guide.
+>=20
+> Not beyond wit but perhaps beyond patience.
+>=20
+> It would certainly be possible to emulate the "easy middle" of one POSIX =
+guest on a=20
+> different POSIX host.=C2=A0 But the dusty corners are going to get in the=
+ way, where we=20
+> currently rely on guest and host having identical semantics, and pass the=
+ system call=20
+> through to the host.
+>=20
+> It's a big job.
+
+True, but the existing iBCS / linux-abi kernel patches should highlight
+a lot of those dusty corners.
+
+--=-Pf5xs1YTj+UC20+6lWCQ
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMjE2MTkzOTQzWjAvBgkqhkiG9w0BCQQxIgQgJfVNd3TN
+boHvb0K8N7tClZPZZ/gGDzdTiPUAImI31gQwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgA1lmrnSlFYMGlAUKsWRmklGVhfr506XdzF
+GhqjYUhDOISIO2z4nue+glgl64DiEE7zxDCQ064aBxTkJT7fPr2qBZoApmNHxUBVXDWj5Ro9oZSH
+eQy5Lxjk9k43QMT3odOX2E7mxdgLeXOb8hMRigTYDphRnBrnNUHEsceQZ2OtVqerYMRdVf0kkeeU
+u6lamrOYwmJ5zIFAAAra+LDUnesbcuhE3ShH0W6m9HDl1K2MwkW/al7O0ABT8u4tu5crSDgkdccT
+VvUkmv6GAD9+gFDzKoZ6ZuZoyOZ7TZWoJAm0zCjfo7zXZTRQwk52JYCDauH1qemofm3dGEsIO6mM
+v9miEb/LO0SkP4hs6PP/OFE9qndVZd5MDRaN9WjNUITvBJTEfPB09NiPBGdYQODFPyLbyZPABWIr
+2M6pnxpiBGDqIaLWC0hYo8I4u0FqReN63TIVqxv+rKbpT7PP4QrPN/1L3CV4/RvYLW4sTNtOArp0
+PQdG5wm3B74WVnUSMwqc9jDBptqFGyaeSjltxIsvLl7wsVKJExUamk5fg6vbb043io0gmeveIYmz
+hg3NZxQxnL8yDfKdJSmNZUiXE3wwOX3QjSQFKiR3+0QQsrKBYlhx/0mmSWIVX6/4O1TvYVSaD9gX
+Ne3VJo5smXjY770kmoWqE9SHrQRb7GB1EPZNe9EAnQAAAAAAAA==
+
+
+--=-Pf5xs1YTj+UC20+6lWCQ--
 
