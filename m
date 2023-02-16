@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F22D698AC0
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 03:58:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BD95698AD6
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 04:01:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSUT0-0003No-MM; Wed, 15 Feb 2023 21:57:51 -0500
+	id 1pSUT3-0003O7-9m; Wed, 15 Feb 2023 21:57:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSUSw-0003NK-Ka
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 21:57:46 -0500
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544])
+ id 1pSUSy-0003NW-3o
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 21:57:48 -0500
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSUSu-0005Pn-D5
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 21:57:46 -0500
-Received: by mail-pg1-x544.google.com with SMTP id a23so396097pga.13
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 18:57:44 -0800 (PST)
+ id 1pSUSv-0005QM-TJ
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 21:57:47 -0500
+Received: by mail-pg1-x531.google.com with SMTP id b22so422391pgw.3
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 18:57:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=xvJ4NeWVJ610aX54/Bzy6QPno51JAnAfAKXTPACuCbU=;
- b=pVPmd7Dk9YamlVeC8Mk/AwasfhfGmgFTYgO5qHWEpjzCQGLqeo/0FcDxRMDY6Nzwrh
- sFet/9+CnoeG/bEh0HKDuUVVgTj7F7Q+DKDwNKjPpKhOtsfXm35vla4Z19Pm3HZpFc76
- nn2B++OpENWMc5TzwD929N/UVMIhYhANp5L00MRneAMFnNhszY4SbG6XI81vMQMFvYBH
- zPfv9iwiWG/Jq6BikXaetoG3qCWP1UL0b7SeMpIg6+P9IlOSDBQ5/gTQriL9RCLKl08P
- 5D9scCeuWErXj2xVSIlWUcWxb9xZ27QD+SPqyvqRElNcdfkFWXLKRnj3TGw22JimBNjf
- oeqA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ffWg6mEljAFhezdHqYZAazycsN64dtuZ/7E8yDlKLu8=;
+ b=DI74/wz0Tf9uWZmcF8woYJJtLuWBhJkyj83QwIAyTzeFqGzB7xLD2OsIlPNB5EE6ng
+ es+uHGsfCXTBkdNXXo1t+wvpALwTqlrjm3n7PunCntWuyqYTx5L8ovqIjVn1hvmXithg
+ M/YlmqyN9vRLcErZKsVzCxZecydRnA4WKJvsgiTHPdP7UBg5FKFlPwL+wFLFXV35VrWv
+ giY7N6ZvSRidS+WiJHel4xbjvw4jNflTEtNDJYHIv7KP7A5MpcX9iz8yuc1xmLsmfjAy
+ 30UVXXj0rY0OrCTtK4GxNP+vsrga3m3PhaLOaB9a59Hg1w+o8MTk276XCDhASc0EWfLv
+ dSPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xvJ4NeWVJ610aX54/Bzy6QPno51JAnAfAKXTPACuCbU=;
- b=0vJ7kfTvE8xa/XMJi+OM2jajBC4TKx5htbJ/1jPUp+CNuE+9xJsWW7QRwrULnBN6ZL
- RufLAbkdj47cwHXUDUxWZIBk9YjRMiPWAInvtNrsBTdmBGBRXClHyytN6uUQZJMwXSVI
- mH9/If5/bzGaOnPhb1d5hbDfEZ98dfzT05fmnpcBsy+90doGddquLhOwrIqiwrTrNaaa
- wRQzudSashU3Be8a9koPmAFWM/QRBsl3Vxg11spshjbxQRr013AlHePdp0XJlci6KhRr
- EjyOmy7ZJHF7skT7GQjASvASHNYgzWnvdF3PHZVq8rtuvBsgrAULHis+TlhH6R+XYvMZ
- 6ZOg==
-X-Gm-Message-State: AO0yUKUO9iHnt3KJnNXR6iaD5lIfbcG1NvB9IFE3/8bOl+jPBReAY9ts
- nwnKzxxt7lyEfYyD5tq3fzGrZQy/ABDdbgLo/+XAlQ==
-X-Google-Smtp-Source: AK7set/6en6khUiObOVcpFyQG+f+Mv/q5AJsvcgYwaRPldRfl9W5wEzfvj5aX0jncD0uXQFxR6W4tg==
-X-Received: by 2002:a62:64d1:0:b0:5a8:bec0:d6d9 with SMTP id
- y200-20020a6264d1000000b005a8bec0d6d9mr4236609pfb.30.1676516262664; 
- Wed, 15 Feb 2023 18:57:42 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ffWg6mEljAFhezdHqYZAazycsN64dtuZ/7E8yDlKLu8=;
+ b=2panj78p01Kl8+kmian9Dnq0+a81ZPoF8IuLx1MVXaknea1pnHuItJDArU6NZGU0+N
+ kyqr7Fa9M6/MaWyt5poPndMk9OiwdokyHAULqBwGnsNoqqDaLOBQxf6G7yj2uOkUi3FN
+ GSkz4uGiFt8wwUiP0k+6VkSAJdcQrJBL9Cz1l73Qxq/Q1MyjAJpD8WmbZsdc7jc9QEoJ
+ riJmJNok4SijamfqsKIathAjbbtc7aiNg6YK+oBQIGtqU35rs+sKeKRUVZVj0BNLxW8O
+ RE00OybrmKlq06sp6O/u2lhFGIFVod1fCfAjcBR8uQCdJHJ8+n4Mpg+nJj0YtXsjMReP
+ gkFQ==
+X-Gm-Message-State: AO0yUKWH2jH5PmW89/M+mE9Gg85PLufzQ0ADu764oVYu2B9CKRDX1jx4
+ C4Ep2sUG/inLNOPtv4KK/500YfVWTSeicTla2oQ=
+X-Google-Smtp-Source: AK7set8OOuVi14yd6/dF9VF2RX+b0YxVMz3ZXzEinyoG7kwtC6QSOlvdt1PTGTzLJFqT0cWH2QzAjw==
+X-Received: by 2002:aa7:9987:0:b0:593:da8:6f34 with SMTP id
+ k7-20020aa79987000000b005930da86f34mr3742143pfh.5.1676516264054; 
+ Wed, 15 Feb 2023 18:57:44 -0800 (PST)
 Received: from stoup.. (rrcs-74-87-59-234.west.biz.rr.com. [74.87.59.234])
  by smtp.gmail.com with ESMTPSA id
- e14-20020a62aa0e000000b005a816b7c3e8sm89655pff.24.2023.02.15.18.57.41
- for <qemu-devel@nongnu.org>
+ e14-20020a62aa0e000000b005a816b7c3e8sm89655pff.24.2023.02.15.18.57.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 18:57:42 -0800 (PST)
+ Wed, 15 Feb 2023 18:57:43 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/30] tcg: Improve atomicity support
-Date: Wed, 15 Feb 2023 16:57:09 -1000
-Message-Id: <20230216025739.1211680-1-richard.henderson@linaro.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v2 01/30] include/qemu/cpuid: Introduce xgetbv_low
+Date: Wed, 15 Feb 2023 16:57:10 -1000
+Message-Id: <20230216025739.1211680-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230216025739.1211680-1-richard.henderson@linaro.org>
+References: <20230216025739.1211680-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,116 +90,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Version 1 was back in November:
-https://lore.kernel.org/qemu-devel/20221118094754.242910-1-richard.henderson@linaro.org/
+Replace the two uses of asm to expand xgetbv with an inline function.
+Since one of the two has been using the mnemonic, assume that the
+comment about "older versions of the assember" is obsolete, as even
+that is 4 years old.
 
-Prerequisites, and there were many, are now upstream.
-Changes are too many to mention.  But at least I've fixed
-the clang and darwin build problems Phil reported.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/qemu/cpuid.h      |  7 +++++++
+ util/bufferiszero.c       |  3 +--
+ tcg/i386/tcg-target.c.inc | 11 ++++-------
+ 3 files changed, 12 insertions(+), 9 deletions(-)
 
-The main objective here is to support Arm FEAT_LSE2, which says that any
-single memory access that does not cross a 16-byte boundary is atomic.
-This is the MO_ATOM_WITHIN16 control.
-
-While I'm touching all of this, a secondary objective is to handle the
-atomicity of the IBM machines.  Both Power and s390x treat misaligned
-accesses as atomic on the lsb of the pointer.  For instance, an 8-byte
-access at ptr % 8 == 4 will appear as two atomic 4-byte accesses, and
-ptr % 4 == 2 will appear as four 3-byte accesses.
-This is the MO_ATOM_SUBALIGN control.
-
-By default, acceses are atomic only if aligned, which is the current
-behaviour of the tcg code generator (mostly, anyway, there were bugs).
-This is the MO_ATOM_IFALIGN control.
-
-Further, one can say that a large memory access is really a set of
-contiguous smaller accesses, and we need not provide more atomicity
-than that (modulo MO_ATOM_WITHIN16).  This is the MO_ATMAX_* control.
-
-While I've had a go at documenting all of this, I'm certain it could
-be improved -- soliciting suggestions.
-
-
-r~
-
-
-Richard Henderson (30):
-  include/qemu/cpuid: Introduce xgetbv_low
-  include/exec/memop: Add bits describing atomicity
-  accel/tcg: Add cpu_in_serial_context
-  accel/tcg: Introduce tlb_read_idx
-  accel/tcg: Reorg system mode load helpers
-  accel/tcg: Reorg system mode store helpers
-  accel/tcg: Honor atomicity of loads
-  accel/tcg: Honor atomicity of stores
-  tcg/tci: Use cpu_{ld,st}_mmu
-  tcg: Unify helper_{be,le}_{ld,st}*
-  accel/tcg: Implement helper_{ld,st}*_mmu for user-only
-  tcg: Add 128-bit guest memory primitives
-  meson: Detect atomic128 support with optimization
-  tcg/i386: Add have_atomic16
-  accel/tcg: Use have_atomic16 in ldst_atomicity.c.inc
-  accel/tcg: Add aarch64 specific support in ldst_atomicity
-  tcg/aarch64: Detect have_lse, have_lse2 for linux
-  tcg/aarch64: Detect have_lse, have_lse2 for darwin
-  accel/tcg: Add have_lse2 support in ldst_atomicity
-  tcg: Introduce TCG_OPF_TYPE_MASK
-  tcg: Add INDEX_op_qemu_{ld,st}_i128
-  tcg/i386: Introduce tcg_out_mov2
-  tcg/i386: Introduce tcg_out_testi
-  tcg/i386: Use full load/store helpers in user-only mode
-  tcg/i386: Replace is64 with type in qemu_ld/st routines
-  tcg/i386: Mark Win64 call-saved vector regs as reserved
-  tcg/i386: Examine MemOp for atomicity and alignment
-  tcg/i386: Support 128-bit load/store with have_atomic16
-  tcg/i386: Add vex_v argument to tcg_out_vex_modrm_pool
-  tcg/i386: Honor 64-bit atomicity in 32-bit mode
-
- docs/devel/loads-stores.rst      |   36 +-
- docs/devel/tcg-ops.rst           |   11 +-
- meson.build                      |   52 +-
- accel/tcg/internal.h             |    5 +
- accel/tcg/tcg-runtime.h          |    3 +
- include/exec/cpu-defs.h          |    7 +-
- include/exec/cpu_ldst.h          |   26 +-
- include/exec/memop.h             |   36 +
- include/qemu/cpuid.h             |   25 +
- include/tcg/tcg-ldst.h           |   70 +-
- include/tcg/tcg-opc.h            |    8 +
- include/tcg/tcg.h                |   22 +-
- tcg/aarch64/tcg-target.h         |    5 +
- tcg/arm/tcg-target.h             |    2 +
- tcg/i386/tcg-target.h            |    4 +
- tcg/loongarch64/tcg-target.h     |    1 +
- tcg/mips/tcg-target.h            |    2 +
- tcg/ppc/tcg-target.h             |    2 +
- tcg/riscv/tcg-target.h           |    2 +
- tcg/s390x/tcg-target.h           |    2 +
- tcg/sparc64/tcg-target.h         |    2 +
- tcg/tci/tcg-target.h             |    2 +
- accel/tcg/cpu-exec-common.c      |    3 +
- accel/tcg/cputlb.c               | 1767 ++++++++++++++++++------------
- accel/tcg/tb-maint.c             |    2 +-
- accel/tcg/user-exec.c            |  478 +++++---
- tcg/optimize.c                   |   15 +-
- tcg/tcg-op.c                     |  246 +++--
- tcg/tcg.c                        |    8 +-
- tcg/tci.c                        |  127 +--
- util/bufferiszero.c              |    3 +-
- accel/tcg/ldst_atomicity.c.inc   | 1370 +++++++++++++++++++++++
- tcg/aarch64/tcg-target.c.inc     |   87 +-
- tcg/arm/tcg-target.c.inc         |   45 +-
- tcg/i386/tcg-target.c.inc        | 1228 ++++++++++++++-------
- tcg/loongarch64/tcg-target.c.inc |   25 +-
- tcg/mips/tcg-target.c.inc        |   40 +-
- tcg/ppc/tcg-target.c.inc         |   30 +-
- tcg/riscv/tcg-target.c.inc       |   51 +-
- tcg/s390x/tcg-target.c.inc       |   38 +-
- tcg/sparc64/tcg-target.c.inc     |   37 +-
- tcg/tci/tcg-target.c.inc         |    3 +-
- 42 files changed, 4236 insertions(+), 1692 deletions(-)
- create mode 100644 accel/tcg/ldst_atomicity.c.inc
-
+diff --git a/include/qemu/cpuid.h b/include/qemu/cpuid.h
+index 7adb12d320..1451e8ef2f 100644
+--- a/include/qemu/cpuid.h
++++ b/include/qemu/cpuid.h
+@@ -71,4 +71,11 @@
+ #define bit_LZCNT       (1 << 5)
+ #endif
+ 
++static inline unsigned xgetbv_low(unsigned c)
++{
++    unsigned a, d;
++    asm("xgetbv" : "=a"(a), "=d"(d) : "c"(c));
++    return a;
++}
++
+ #endif /* QEMU_CPUID_H */
+diff --git a/util/bufferiszero.c b/util/bufferiszero.c
+index 1790ded7d4..1886bc5ba4 100644
+--- a/util/bufferiszero.c
++++ b/util/bufferiszero.c
+@@ -258,8 +258,7 @@ static void __attribute__((constructor)) init_cpuid_cache(void)
+ 
+         /* We must check that AVX is not just available, but usable.  */
+         if ((c & bit_OSXSAVE) && (c & bit_AVX) && max >= 7) {
+-            int bv;
+-            __asm("xgetbv" : "=a"(bv), "=d"(d) : "c"(0));
++            unsigned bv = xgetbv_low(0);
+             __cpuid_count(7, 0, a, b, c, d);
+             if ((bv & 0x6) == 0x6 && (b & bit_AVX2)) {
+                 cache |= CACHE_AVX2;
+diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+index 883ced8168..028ece62a0 100644
+--- a/tcg/i386/tcg-target.c.inc
++++ b/tcg/i386/tcg-target.c.inc
+@@ -4156,12 +4156,9 @@ static void tcg_target_init(TCGContext *s)
+         /* There are a number of things we must check before we can be
+            sure of not hitting invalid opcode.  */
+         if (c & bit_OSXSAVE) {
+-            unsigned xcrl, xcrh;
+-            /* The xgetbv instruction is not available to older versions of
+-             * the assembler, so we encode the instruction manually.
+-             */
+-            asm(".byte 0x0f, 0x01, 0xd0" : "=a" (xcrl), "=d" (xcrh) : "c" (0));
+-            if ((xcrl & 6) == 6) {
++            unsigned bv = xgetbv_low(0);
++
++            if ((bv & 6) == 6) {
+                 have_avx1 = (c & bit_AVX) != 0;
+                 have_avx2 = (b7 & bit_AVX2) != 0;
+ 
+@@ -4172,7 +4169,7 @@ static void tcg_target_init(TCGContext *s)
+                  * check that OPMASK and all extended ZMM state are enabled
+                  * even if we're not using them -- the insns will fault.
+                  */
+-                if ((xcrl & 0xe0) == 0xe0
++                if ((bv & 0xe0) == 0xe0
+                     && (b7 & bit_AVX512F)
+                     && (b7 & bit_AVX512VL)) {
+                     have_avx512vl = true;
 -- 
 2.34.1
 
