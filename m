@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 317B369956F
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 14:15:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C0F699588
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 14:18:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSe6P-0000Ty-J4; Thu, 16 Feb 2023 08:15:09 -0500
+	id 1pSe8P-0002OD-VM; Thu, 16 Feb 2023 08:17:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1pSe6L-0000Sp-KJ
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:15:05 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1pSe6I-00028X-Cu
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:15:05 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.57])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4PHb2X6lFyzRrrP;
- Thu, 16 Feb 2023 21:12:20 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.6; Thu, 16 Feb 2023 21:14:55 +0800
-Message-ID: <f88368fe-2ef1-2f54-7afe-646ec4d11460@huawei.com>
-Date: Thu, 16 Feb 2023 21:14:54 +0800
+ (Exim 4.90_1) (envelope-from <smostafa@google.com>)
+ id 1pSe8N-0002Nn-9z
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:17:11 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <smostafa@google.com>)
+ id 1pSe8K-0002kz-Ec
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:17:11 -0500
+Received: by mail-wm1-x336.google.com with SMTP id n33so1583766wms.0
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 05:17:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=aajx42+edRFDRtjphwx6vIDAqm2MFL4c2Qd6sf5sRp4=;
+ b=Ggqzx+acWzK+DKeqehUK3SWwxkSlqL7S5waLXMzVE8ErXIlT6hUlA7ExcmbjpHr69r
+ hFbLHlty84uUzWu4W87G+bWnqXPWlFIzAvmqgL5FKo3T540cb3yAm+Qaomba4EU5WRsZ
+ quPNoP+dJHc+hZozSDNJt+bzZxdTo8fjcZFhy+kjOZLfGICQB9X+JhFA4AV85VxL3Tvw
+ KT0U5oxdhx+orB3vQnxtKT2gizSOM64CJZM63g60vGWNvQV/H0UW/Sr/8dZePi+tNezP
+ 3dRuCW5VNlxerazsCX62Ih1JgJQxz7+Ajiul1SoEVAnwTarFLGJQ+Rv73XDkaPVkubpT
+ X3mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aajx42+edRFDRtjphwx6vIDAqm2MFL4c2Qd6sf5sRp4=;
+ b=Yq253HRZLurOSWV+EHQ3pCX0Z7y3MDL02X/QlyfnrpIHAIgsOMBAAYc1oGFHEHeNJd
+ QLz5Wm+cAiasOKdfuchy5eO7aQcFyGjB5hz64tEMbVc8Ea36xbSZhwY6k7lJsBh537Bz
+ lPOOUXoSnyVUJfxhzu5tf9iLZIA3tGsS6pz0ARunwcMfZfcUO71UPEe/VUpZEtA40Xrh
+ fU/Ra5p16xnkS0ROhdsvKo641fQ1Nzugs5yMTd5hpHDzGW8MIJkjJmgHUu4LzAzxgpB7
+ /zec7punsKLVPleUOOZKbSdXXk54WXLgTHbctLPMPAPYgp5ZGzJewOzH3uoZX2TUxQok
+ b6Pg==
+X-Gm-Message-State: AO0yUKWZbT2AryQ5Sg2FFnbCybQzZSFoo5UjidA6OTbZCCiyZa9xy4eB
+ 8DD0lSkU/woeFmWtfQ7tvJYmbA==
+X-Google-Smtp-Source: AK7set99JFRD7afl5bJTKoqSCxhlCSzVWrWJiBx8aejMP31+DJnMB0gTlWeduN7uMwiTttGy9Yz/rQ==
+X-Received: by 2002:a05:600c:213:b0:3df:f3ce:be48 with SMTP id
+ 19-20020a05600c021300b003dff3cebe48mr165202wmi.7.1676553426582; 
+ Thu, 16 Feb 2023 05:17:06 -0800 (PST)
+Received: from google.com (44.232.78.34.bc.googleusercontent.com.
+ [34.78.232.44]) by smtp.gmail.com with ESMTPSA id
+ m22-20020a05600c3b1600b003daf6e3bc2fsm10661417wms.1.2023.02.16.05.17.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Feb 2023 05:17:06 -0800 (PST)
+Date: Thu, 16 Feb 2023 13:17:02 +0000
+From: Mostafa Saleh <smostafa@google.com>
+To: Eric Auger <eric.auger@redhat.com>
+Cc: qemu-devel@nongnu.org, jean-philippe@linaro.org,
+ peter.maydell@linaro.org, qemu-arm@nongnu.org
+Subject: Re: [RFC PATCH 06/16] hw/arm/smmuv3: Parse STE config for stage-2
+Message-ID: <Y+4szt24KUwaz50y@google.com>
+References: <20230205094411.793816-1-smostafa@google.com>
+ <20230205094411.793816-7-smostafa@google.com>
+ <3086b46d-b7dd-5403-f0c0-7051a7fbc189@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH RESEND 18/18] i386: Add new property to control L2 cache
- topo in CPUID.04H
-To: Zhao Liu <zhao1.liu@linux.intel.com>
-CC: <qemu-devel@nongnu.org>, Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi
- <dapeng1.mi@intel.com>, Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo
- <robert.hu@linux.intel.com>, Xiaoyao Li <xiaoyao.li@intel.com>, Like Xu
- <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>, Eduardo Habkost
- <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, "Michael S .
- Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>, Markus
- Armbruster <armbru@redhat.com>
-References: <20230213093625.158170-1-zhao1.liu@linux.intel.com>
- <20230213093625.158170-19-zhao1.liu@linux.intel.com>
-In-Reply-To: <20230213093625.158170-19-zhao1.liu@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.351,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <3086b46d-b7dd-5403-f0c0-7051a7fbc189@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=smostafa@google.com; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,123 +91,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-在 2023/2/13 17:36, Zhao Liu 写道:
-> From: Zhao Liu <zhao1.liu@intel.com>
->
-> The property x-l2-cache-topo will be used to change the L2 cache
-> topology in CPUID.04H.
->
-> Now it allows user to set the L2 cache is shared in core level or
-> cluster level.
->
-> If user passes "-cpu x-l2-cache-topo=[core|cluster]" then older L2 cache
-> topology will be overrided by the new topology setting.
-Currently x-l2-cache-topo only defines the share level *globally*.
-I'm thinking how we can make the property more powerful so that it
-can specify which CPUs share l2 on core level and which CPUs share
-l2 on cluster level.
+Hi Eric,
 
-What would Intel's Hybrid CPUs do? Determine the l2 share level
-is core or cluster according to the CPU core type (Atom or Core)?
-While ARM does not have the core type concept but have CPUs
-that l2 is shared on different levels in the same system.
+On Wed, Feb 15, 2023 at 06:47:52PM +0100, Eric Auger wrote:
+> On 2/5/23 10:44, Mostafa Saleh wrote:
+> > Parse stage-2 configuration and populate it in SMMUTransCfg.
+> > Configs in this patch (s2g, ttb, tsz, sl0).
+> above 'sentence' a bit cryptic.
+I will reword it.
+
+> > +++ b/hw/arm/smmuv3.c
+> > @@ -366,7 +366,48 @@ static int decode_ste(SMMUv3State *s, SMMUTransCfg *cfg,
+> >          return 0;
+> >      }
+> >  
+> > -    if (STE_CFG_S2_ENABLED(config)) {
+> > +    if (STAGE2_SUPPORTED(s->features) && STE_CFG_S2_ENABLED(config)) {
+> Don't you want to check both S1 and S2 aren't set?
+Yes, currently this is ignored, but looking at the SMMU manual it is
+illegal to configure an unsupported stage, I will update it.
+
+> > +            break;
+> > +        case 0x2: /* 16KB */
+> > +            cfg->s2cfg.granule_sz = 14;
+> > +            break;
+> > +        default:
+> > +            qemu_log_mask(LOG_GUEST_ERROR,
+> > +                          "SMMUv3 bad STE S2TG: %x\n", STE_S2TG(ste));
+> > +            goto bad_ste;
+> > +        }
+> > +
+> > +        cfg->s2cfg.vttb = STE_S2TTB(ste);
+> > +        cfg->s2cfg.tsz = STE_S2T0SZ(ste);
+> What about IDR3.STT currently 0 so S2T0SZ <= 39
+> 
+> don't you need to check against SMMU_IDR3.STT/S2TG
+> 
+> • In architectures after SMMUv3.0:
+> – If STE.S2TG selects a 4KB or 16KB granule, the minimum valid value for
+> this field is MAX(16,
+> 64-IAS).
+> – If STE.S2TG selects a 64KB granule, the minimum valid value for this
+> field is (64-IAS).
+I will add a function to validate S2T0SZ based on the behaviour after
+SMMUv3.0 and checks against STT disabled. I believe it is safe just to
+check S2T0SZ <= 39 without checking IDR3.STT as we don’t support it
+for now.
+
+> > +                          cfg->s2cfg.tsz);
+> > +            goto bad_ste;
+> > +        }
+> > +
+> > +        cfg->s2cfg.sl0 = STE_S2SL0(ste);
+> > +        if (cfg->s2cfg.sl0 == 0x3) {
+> > +            qemu_log_mask(LOG_UNIMP,
+> > +                          "SMMUv3 STE->SL0 0x3 has no meaning!\n");
+> > +            goto bad_ste;
+> what about S2PS, S2VMID?
+> 
+> you may either squash [RFC PATCH 11/16] hw/arm/smmuv3: Read VMID from
+> STE into that patch or at least mention in the commit msg that S2VMID
+> will be dealt with separately
+I will squash it with
+"[RFC PATCH 11/16] hw/arm/smmuv3: Read VMID from STE"
+I missed S2PS, I will add it in V2.
 
 Thanks,
-Yanan
-> Here we expose to user "cluster" instead of "module", to be consistent
-> with "cluster-id" naming.
->
-> Since CPUID.04H is used by intel CPUs, this property is available on
-> intel CPUs as for now.
->
-> When necessary, it can be extended to CPUID.8000001DH for amd CPUs.
->
-> Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
-> ---
->   target/i386/cpu.c | 33 ++++++++++++++++++++++++++++++++-
->   target/i386/cpu.h |  2 ++
->   2 files changed, 34 insertions(+), 1 deletion(-)
->
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 5816dc99b1d4..cf84c720a431 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -240,12 +240,15 @@ static uint32_t max_processor_ids_for_cache(CPUCacheInfo *cache,
->       case CORE:
->           num_ids = 1 << apicid_core_offset(topo_info);
->           break;
-> +    case MODULE:
-> +        num_ids = 1 << apicid_module_offset(topo_info);
-> +        break;
->       case DIE:
->           num_ids = 1 << apicid_die_offset(topo_info);
->           break;
->       default:
->           /*
-> -         * Currently there is no use case for SMT, MODULE and PACKAGE, so use
-> +         * Currently there is no use case for SMT and PACKAGE, so use
->            * assert directly to facilitate debugging.
->            */
->           g_assert_not_reached();
-> @@ -6633,6 +6636,33 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
->           env->cache_info_amd.l3_cache = &legacy_l3_cache;
->       }
->   
-> +    if (cpu->l2_cache_topo_level) {
-> +        /*
-> +         * FIXME: Currently only supports changing CPUID[4] (for intel), and
-> +         * will support changing CPUID[0x8000001D] when necessary.
-> +         */
-> +        if (!IS_INTEL_CPU(env)) {
-> +            error_setg(errp, "only intel cpus supports x-l2-cache-topo");
-> +            return;
-> +        }
-> +
-> +        if (!strcmp(cpu->l2_cache_topo_level, "core")) {
-> +            env->cache_info_cpuid4.l2_cache->share_level = CORE;
-> +        } else if (!strcmp(cpu->l2_cache_topo_level, "cluster")) {
-> +            /*
-> +             * We expose to users "cluster" instead of "module", to be
-> +             * consistent with "cluster-id" naming.
-> +             */
-> +            env->cache_info_cpuid4.l2_cache->share_level = MODULE;
-> +        } else {
-> +            error_setg(errp,
-> +                       "x-l2-cache-topo doesn't support '%s', "
-> +                       "and it only supports 'core' or 'cluster'",
-> +                       cpu->l2_cache_topo_level);
-> +            return;
-> +        }
-> +    }
-> +
->   #ifndef CONFIG_USER_ONLY
->       MachineState *ms = MACHINE(qdev_get_machine());
->       qemu_register_reset(x86_cpu_machine_reset_cb, cpu);
-> @@ -7135,6 +7165,7 @@ static Property x86_cpu_properties[] = {
->                        false),
->       DEFINE_PROP_BOOL("x-intel-pt-auto-level", X86CPU, intel_pt_auto_level,
->                        true),
-> +    DEFINE_PROP_STRING("x-l2-cache-topo", X86CPU, l2_cache_topo_level),
->       DEFINE_PROP_END_OF_LIST()
->   };
->   
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index 5a955431f759..aa7e96c586c7 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -1987,6 +1987,8 @@ struct ArchCPU {
->       int32_t thread_id;
->   
->       int32_t hv_max_vps;
-> +
-> +    char *l2_cache_topo_level;
->   };
->   
->   
-
+Mostafa
 
