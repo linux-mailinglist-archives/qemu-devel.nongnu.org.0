@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB9F698D02
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 07:32:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27404698D1A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 07:35:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSXik-000450-2r; Thu, 16 Feb 2023 01:26:18 -0500
+	id 1pSXid-0003tX-Mh; Thu, 16 Feb 2023 01:26:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+33d3adc5578b079b0cf9+7116+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pSXht-0003HC-Kr
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:25:25 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ <BATV+96e41a9b2a2966255e0b+7116+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pSXhz-0003KQ-SE
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:25:33 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+33d3adc5578b079b0cf9+7116+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pSXhi-0006xV-F8
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:25:25 -0500
+ <BATV+96e41a9b2a2966255e0b+7116+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pSXhm-00071L-DI
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:25:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=cVJCtCD6KTF45fUHCIN/P+rXbqKita2J1wLcW/JJ25g=; b=oiT2uagreQ+RdxGUDUpJxhAt3o
- 8lc8asJTXgIrtBtq5U4fHN4Pwz3m5wwF4Kc1X6V3t58S3mkA/w53cCfqHJQn18GxkcBQUJmMXp/6b
- DeeC+A7+pyFfGhz3Ia3HrDVN75jhJJbmZExtpV/vn3C4G/E5BmfeX4T7WbG/gL7WQ36eiM2bq2Oz7
- OuHC3ppavtSU/WJyjibDft6NezxQJqMCH8Js1hbLoHmgQiQBWWN6+Sjz8efmRc4YLWHmMnGkeQ3rD
- Wdk5X0tTVjOeAw9WPnBNLwcXsTrd7Mfk5I4G0FByDVB5aPqsLZHE9e10hl68HBs+IHBILQc/Y86pw
- AmZ2d3ug==;
+ bh=stBxrUguSTDIh3XwubHE79y6TG9tT4ljyF+kjuNwt2c=; b=qaIHbZftpW783yfhPc9I0UoQ0L
+ lNg+wvzBRuqCWof1+XyREm0WjO9kenpFPDzKm8JiVqQoHhddISO7C6xDpLi5ogLwDiKyC0JzGI3C1
+ YZoDB0BfIQk/HQ/6p1hEASDZSiowtlp4IdlPViXsyHyZRgfTCMfPSGbhR/FfAW+6hxq5m8CRUBwAj
+ w1tNNUGfM70fuVoJt8n95wdDZrCo1/Qzc/bOyLUOWpq/rvUfizc1aHnrvYx83PeV3Ug3z/dfc22mv
+ 3TXu/8eU6Qlh7wrqwaq9RYif/GSwavIvUFaAPdxwXMc0inUtqiVUlpnxRtHf+Erauz01/aF30moYO
+ sPjqIc0Q==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pSXhI-0089xc-04; Thu, 16 Feb 2023 06:24:48 +0000
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1pSXgb-00AAzL-2q; Thu, 16 Feb 2023 06:24:54 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pSXhI-008w89-00; Thu, 16 Feb 2023 06:24:48 +0000
+ Linux)) id 1pSXhI-008w8F-0A; Thu, 16 Feb 2023 06:24:48 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -49,19 +49,19 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-Subject: [PATCH v11 32/59] hw/xen: Implement EVTCHNOP_bind_virq
-Date: Thu, 16 Feb 2023 06:24:17 +0000
-Message-Id: <20230216062444.2129371-33-dwmw2@infradead.org>
+Subject: [PATCH v11 33/59] hw/xen: Implement EVTCHNOP_bind_ipi
+Date: Thu, 16 Feb 2023 06:24:18 +0000
+Message-Id: <20230216062444.2129371-34-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230216062444.2129371-1-dwmw2@infradead.org>
 References: <20230216062444.2129371-1-dwmw2@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+33d3adc5578b079b0cf9+7116+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+96e41a9b2a2966255e0b+7116+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -86,104 +86,89 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-Add the array of virq ports to each vCPU so that we can deliver timers,
-debug ports, etc. Global virqs are allocated against vCPU 0 initially,
-but can be migrated to other vCPUs (when we implement that).
-
-The kernel needs to know about VIRQ_TIMER in order to accelerate timers,
-so tell it via KVM_XEN_VCPU_ATTR_TYPE_TIMER. Also save/restore the value
-of the singleshot timer across migration, as the kernel will handle the
-hypercalls automatically now.
-
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- hw/i386/kvm/xen_evtchn.c  | 85 ++++++++++++++++++++++++++++++++++++
- hw/i386/kvm/xen_evtchn.h  |  2 +
- include/sysemu/kvm_xen.h  |  1 +
- target/i386/cpu.h         |  4 ++
- target/i386/kvm/xen-emu.c | 91 +++++++++++++++++++++++++++++++++++++++
- target/i386/machine.c     |  2 +
- 6 files changed, 185 insertions(+)
+ hw/i386/kvm/xen_evtchn.c  | 69 +++++++++++++++++++++++++++++++++++++++
+ hw/i386/kvm/xen_evtchn.h  |  2 ++
+ target/i386/kvm/xen-emu.c | 15 +++++++++
+ 3 files changed, 86 insertions(+)
 
 diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-index deea7de027..da2f5711dd 100644
+index da2f5711dd..d8527483b9 100644
 --- a/hw/i386/kvm/xen_evtchn.c
 +++ b/hw/i386/kvm/xen_evtchn.c
-@@ -244,6 +244,11 @@ static bool valid_port(evtchn_port_t port)
-     }
+@@ -13,6 +13,7 @@
+ #include "qemu/host-utils.h"
+ #include "qemu/module.h"
+ #include "qemu/main-loop.h"
++#include "qemu/log.h"
+ #include "qapi/error.h"
+ #include "qom/object.h"
+ #include "exec/target_page.h"
+@@ -231,6 +232,43 @@ static void inject_callback(XenEvtchnState *s, uint32_t vcpu)
+     kvm_xen_inject_vcpu_callback_vector(vcpu, type);
  }
  
-+static bool valid_vcpu(uint32_t vcpu)
++static void deassign_kernel_port(evtchn_port_t port)
 +{
-+    return !!qemu_get_cpu(vcpu);
++    struct kvm_xen_hvm_attr ha;
++    int ret;
++
++    ha.type = KVM_XEN_ATTR_TYPE_EVTCHN;
++    ha.u.evtchn.send_port = port;
++    ha.u.evtchn.flags = KVM_XEN_EVTCHN_DEASSIGN;
++
++    ret = kvm_vm_ioctl(kvm_state, KVM_XEN_HVM_SET_ATTR, &ha);
++    if (ret) {
++        qemu_log_mask(LOG_GUEST_ERROR, "Failed to unbind kernel port %d: %s\n",
++                      port, strerror(ret));
++    }
 +}
 +
- int xen_evtchn_status_op(struct evtchn_status *status)
- {
-     XenEvtchnState *s = xen_evtchn_singleton;
-@@ -494,6 +499,43 @@ static void free_port(XenEvtchnState *s, evtchn_port_t port)
-     clear_port_pending(s, port);
- }
- 
-+static int allocate_port(XenEvtchnState *s, uint32_t vcpu, uint16_t type,
-+                         uint16_t val, evtchn_port_t *port)
++static int assign_kernel_port(uint16_t type, evtchn_port_t port,
++                              uint32_t vcpu_id)
 +{
-+    evtchn_port_t p = 1;
++    CPUState *cpu = qemu_get_cpu(vcpu_id);
++    struct kvm_xen_hvm_attr ha;
 +
-+    for (p = 1; valid_port(p); p++) {
-+        if (s->port_table[p].type == EVTCHNSTAT_closed) {
-+            s->port_table[p].vcpu = vcpu;
-+            s->port_table[p].type = type;
-+            s->port_table[p].type_val = val;
++    if (!cpu) {
++        return -ENOENT;
++    }
 +
-+            *port = p;
++    ha.type = KVM_XEN_ATTR_TYPE_EVTCHN;
++    ha.u.evtchn.send_port = port;
++    ha.u.evtchn.type = type;
++    ha.u.evtchn.flags = 0;
++    ha.u.evtchn.deliver.port.port = port;
++    ha.u.evtchn.deliver.port.vcpu = kvm_arch_vcpu_id(cpu);
++    ha.u.evtchn.deliver.port.priority = KVM_IRQ_ROUTING_XEN_EVTCHN_PRIO_2LEVEL;
 +
-+            if (s->nr_ports < p + 1) {
-+                s->nr_ports = p + 1;
-+            }
++    return kvm_vm_ioctl(kvm_state, KVM_XEN_HVM_SET_ATTR, &ha);
++}
 +
-+            return 0;
+ static bool valid_port(evtchn_port_t port)
+ {
+     if (!port) {
+@@ -549,6 +587,12 @@ static int close_port(XenEvtchnState *s, evtchn_port_t port)
+                               p->type_val, 0);
+         break;
+ 
++    case EVTCHNSTAT_ipi:
++        if (s->evtchn_in_kernel) {
++            deassign_kernel_port(port);
 +        }
-+    }
-+    return -ENOSPC;
-+}
-+
-+static bool virq_is_global(uint32_t virq)
-+{
-+    switch (virq) {
-+    case VIRQ_TIMER:
-+    case VIRQ_DEBUG:
-+    case VIRQ_XENOPROF:
-+    case VIRQ_XENPMU:
-+        return false;
-+
-+    default:
-+        return true;
-+    }
-+}
-+
- static int close_port(XenEvtchnState *s, evtchn_port_t port)
- {
-     XenEvtchnPort *p = &s->port_table[port];
-@@ -502,6 +544,11 @@ static int close_port(XenEvtchnState *s, evtchn_port_t port)
-     case EVTCHNSTAT_closed:
-         return -ENOENT;
- 
-+    case EVTCHNSTAT_virq:
-+        kvm_xen_set_vcpu_virq(virq_is_global(p->type_val) ? 0 : p->vcpu,
-+                              p->type_val, 0);
 +        break;
 +
      default:
          break;
      }
-@@ -553,3 +600,41 @@ int xen_evtchn_unmask_op(struct evtchn_unmask *unmask)
+@@ -638,3 +682,28 @@ int xen_evtchn_bind_virq_op(struct evtchn_bind_virq *virq)
  
      return ret;
  }
 +
-+int xen_evtchn_bind_virq_op(struct evtchn_bind_virq *virq)
++int xen_evtchn_bind_ipi_op(struct evtchn_bind_ipi *ipi)
 +{
 +    XenEvtchnState *s = xen_evtchn_singleton;
 +    int ret;
@@ -192,28 +177,15 @@ index deea7de027..da2f5711dd 100644
 +        return -ENOTSUP;
 +    }
 +
-+    if (virq->virq >= NR_VIRQS) {
-+        return -EINVAL;
-+    }
-+
-+    /* Global VIRQ must be allocated on vCPU0 first */
-+    if (virq_is_global(virq->virq) && virq->vcpu != 0) {
-+        return -EINVAL;
-+    }
-+
-+    if (!valid_vcpu(virq->vcpu)) {
++    if (!valid_vcpu(ipi->vcpu)) {
 +        return -ENOENT;
 +    }
 +
 +    qemu_mutex_lock(&s->port_lock);
 +
-+    ret = allocate_port(s, virq->vcpu, EVTCHNSTAT_virq, virq->virq,
-+                        &virq->port);
-+    if (!ret) {
-+        ret = kvm_xen_set_vcpu_virq(virq->vcpu, virq->virq, virq->port);
-+        if (ret) {
-+            free_port(s, virq->port);
-+        }
++    ret = allocate_port(s, ipi->vcpu, EVTCHNSTAT_ipi, 0, &ipi->port);
++    if (!ret && s->evtchn_in_kernel) {
++        assign_kernel_port(EVTCHNSTAT_ipi, ipi->port, ipi->vcpu);
 +    }
 +
 +    qemu_mutex_unlock(&s->port_lock);
@@ -221,144 +193,40 @@ index deea7de027..da2f5711dd 100644
 +    return ret;
 +}
 diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
-index 69c6b0d743..0ea13dda3a 100644
+index 0ea13dda3a..107f420848 100644
 --- a/hw/i386/kvm/xen_evtchn.h
 +++ b/hw/i386/kvm/xen_evtchn.h
-@@ -18,8 +18,10 @@ int xen_evtchn_set_callback_param(uint64_t param);
- struct evtchn_status;
+@@ -19,9 +19,11 @@ struct evtchn_status;
  struct evtchn_close;
  struct evtchn_unmask;
-+struct evtchn_bind_virq;
+ struct evtchn_bind_virq;
++struct evtchn_bind_ipi;
  int xen_evtchn_status_op(struct evtchn_status *status);
  int xen_evtchn_close_op(struct evtchn_close *close);
  int xen_evtchn_unmask_op(struct evtchn_unmask *unmask);
-+int xen_evtchn_bind_virq_op(struct evtchn_bind_virq *virq);
+ int xen_evtchn_bind_virq_op(struct evtchn_bind_virq *virq);
++int xen_evtchn_bind_ipi_op(struct evtchn_bind_ipi *ipi);
  
  #endif /* QEMU_XEN_EVTCHN_H */
-diff --git a/include/sysemu/kvm_xen.h b/include/sysemu/kvm_xen.h
-index 0c0efbe699..297630cd87 100644
---- a/include/sysemu/kvm_xen.h
-+++ b/include/sysemu/kvm_xen.h
-@@ -23,6 +23,7 @@ int kvm_xen_soft_reset(void);
- uint32_t kvm_xen_get_caps(void);
- void *kvm_xen_get_vcpu_info_hva(uint32_t vcpu_id);
- void kvm_xen_inject_vcpu_callback_vector(uint32_t vcpu_id, int type);
-+int kvm_xen_set_vcpu_virq(uint32_t vcpu_id, uint16_t virq, uint16_t port);
- 
- #define kvm_xen_has_cap(cap) (!!(kvm_xen_get_caps() &           \
-                                  KVM_XEN_HVM_CONFIG_ ## cap))
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index c9b12e7476..dba8732fc6 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -27,6 +27,8 @@
- #include "qapi/qapi-types-common.h"
- #include "qemu/cpu-float.h"
- 
-+#define XEN_NR_VIRQS 24
-+
- /* The x86 has a strong memory model with some store-after-load re-ordering */
- #define TCG_GUEST_DEFAULT_MO      (TCG_MO_ALL & ~TCG_MO_ST_LD)
- 
-@@ -1795,6 +1797,8 @@ typedef struct CPUArchState {
-     uint64_t xen_vcpu_time_info_gpa;
-     uint64_t xen_vcpu_runstate_gpa;
-     uint8_t xen_vcpu_callback_vector;
-+    uint16_t xen_virq[XEN_NR_VIRQS];
-+    uint64_t xen_singleshot_timer_ns;
- #endif
- #if defined(CONFIG_HVF)
-     HVFX86LazyFlags hvf_lflags;
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index 418028b04f..0c4988ad63 100644
+index 0c4988ad63..4a20ccdf78 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -352,6 +352,53 @@ void kvm_xen_inject_vcpu_callback_vector(uint32_t vcpu_id, int type)
-     }
- }
- 
-+static int kvm_xen_set_vcpu_timer(CPUState *cs)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+    CPUX86State *env = &cpu->env;
-+
-+    struct kvm_xen_vcpu_attr va = {
-+        .type = KVM_XEN_VCPU_ATTR_TYPE_TIMER,
-+        .u.timer.port = env->xen_virq[VIRQ_TIMER],
-+        .u.timer.priority = KVM_IRQ_ROUTING_XEN_EVTCHN_PRIO_2LEVEL,
-+        .u.timer.expires_ns = env->xen_singleshot_timer_ns,
-+    };
-+
-+    return kvm_vcpu_ioctl(cs, KVM_XEN_VCPU_SET_ATTR, &va);
-+}
-+
-+static void do_set_vcpu_timer_virq(CPUState *cs, run_on_cpu_data data)
-+{
-+    kvm_xen_set_vcpu_timer(cs);
-+}
-+
-+int kvm_xen_set_vcpu_virq(uint32_t vcpu_id, uint16_t virq, uint16_t port)
-+{
-+    CPUState *cs = qemu_get_cpu(vcpu_id);
-+
-+    if (!cs) {
-+        return -ENOENT;
-+    }
-+
-+    /* cpu.h doesn't include the actual Xen header. */
-+    qemu_build_assert(NR_VIRQS == XEN_NR_VIRQS);
-+
-+    if (virq >= NR_VIRQS) {
-+        return -EINVAL;
-+    }
-+
-+    if (port && X86_CPU(cs)->env.xen_virq[virq]) {
-+        return -EEXIST;
-+    }
-+
-+    X86_CPU(cs)->env.xen_virq[virq] = port;
-+    if (virq == VIRQ_TIMER && kvm_xen_has_cap(EVTCHN_SEND)) {
-+        async_run_on_cpu(cs, do_set_vcpu_timer_virq,
-+                         RUN_ON_CPU_HOST_INT(port));
-+    }
-+    return 0;
-+}
-+
- static void do_set_vcpu_time_info_gpa(CPUState *cs, run_on_cpu_data data)
- {
-     X86CPU *cpu = X86_CPU(cs);
-@@ -384,6 +431,8 @@ static void do_vcpu_soft_reset(CPUState *cs, run_on_cpu_data data)
-     env->xen_vcpu_time_info_gpa = INVALID_GPA;
-     env->xen_vcpu_runstate_gpa = INVALID_GPA;
-     env->xen_vcpu_callback_vector = 0;
-+    env->xen_singleshot_timer_ns = 0;
-+    memset(env->xen_virq, 0, sizeof(env->xen_virq));
- 
-     set_vcpu_info(cs, INVALID_GPA);
-     kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_TIME_INFO,
-@@ -392,6 +441,7 @@ static void do_vcpu_soft_reset(CPUState *cs, run_on_cpu_data data)
-                           INVALID_GPA);
-     if (kvm_xen_has_cap(EVTCHN_SEND)) {
-         kvm_xen_set_vcpu_callback_vector(cs);
-+        kvm_xen_set_vcpu_timer(cs);
-     }
- 
- }
-@@ -826,6 +876,21 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-         err = xen_evtchn_unmask_op(&unmask);
+@@ -891,6 +891,21 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+         }
          break;
      }
-+    case EVTCHNOP_bind_virq: {
-+        struct evtchn_bind_virq virq;
++    case EVTCHNOP_bind_ipi: {
++        struct evtchn_bind_ipi ipi;
 +
-+        qemu_build_assert(sizeof(virq) == 12);
-+        if (kvm_copy_from_gva(cs, arg, &virq, sizeof(virq))) {
++        qemu_build_assert(sizeof(ipi) == 8);
++        if (kvm_copy_from_gva(cs, arg, &ipi, sizeof(ipi))) {
 +            err = -EFAULT;
 +            break;
 +        }
 +
-+        err = xen_evtchn_bind_virq_op(&virq);
-+        if (!err && kvm_copy_to_gva(cs, arg, &virq, sizeof(virq))) {
++        err = xen_evtchn_bind_ipi_op(&ipi);
++        if (!err && kvm_copy_to_gva(cs, arg, &ipi, sizeof(ipi))) {
 +            err = -EFAULT;
 +        }
 +        break;
@@ -366,65 +234,6 @@ index 418028b04f..0c4988ad63 100644
      default:
          return false;
      }
-@@ -1057,6 +1122,12 @@ int kvm_put_xen_state(CPUState *cs)
-         }
-     }
- 
-+    if (env->xen_virq[VIRQ_TIMER]) {
-+        ret = kvm_xen_set_vcpu_timer(cs);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+    }
-     return 0;
- }
- 
-@@ -1065,6 +1136,7 @@ int kvm_get_xen_state(CPUState *cs)
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
-     uint64_t gpa;
-+    int ret;
- 
-     /*
-      * The kernel does not mark vcpu_info as dirty when it delivers interrupts
-@@ -1086,5 +1158,24 @@ int kvm_get_xen_state(CPUState *cs)
-         }
-     }
- 
-+    if (!kvm_xen_has_cap(EVTCHN_SEND)) {
-+        return 0;
-+    }
-+
-+    /*
-+     * If the kernel is accelerating timers, read out the current value of the
-+     * singleshot timer deadline.
-+     */
-+    if (env->xen_virq[VIRQ_TIMER]) {
-+        struct kvm_xen_vcpu_attr va = {
-+            .type = KVM_XEN_VCPU_ATTR_TYPE_TIMER,
-+        };
-+        ret = kvm_vcpu_ioctl(cs, KVM_XEN_VCPU_GET_ATTR, &va);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+        env->xen_singleshot_timer_ns = va.u.timer.expires_ns;
-+    }
-+
-     return 0;
- }
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index a4874eda90..603a1077e3 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -1275,6 +1275,8 @@ static const VMStateDescription vmstate_xen_vcpu = {
-         VMSTATE_UINT64(env.xen_vcpu_time_info_gpa, X86CPU),
-         VMSTATE_UINT64(env.xen_vcpu_runstate_gpa, X86CPU),
-         VMSTATE_UINT8(env.xen_vcpu_callback_vector, X86CPU),
-+        VMSTATE_UINT16_ARRAY(env.xen_virq, X86CPU, XEN_NR_VIRQS),
-+        VMSTATE_UINT64(env.xen_singleshot_timer_ns, X86CPU),
-         VMSTATE_END_OF_LIST()
-     }
- };
 -- 
 2.39.0
 
