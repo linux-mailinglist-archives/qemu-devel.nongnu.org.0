@@ -2,84 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66B7699A18
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 17:34:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A18699A4A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 17:41:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pShBq-0006UD-FI; Thu, 16 Feb 2023 11:32:58 -0500
+	id 1pShJK-0002ib-4v; Thu, 16 Feb 2023 11:40:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShBo-0006Tt-3P
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:32:56 -0500
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1pShJC-0002fB-BF
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:40:36 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShBk-00033d-Do
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:32:54 -0500
-Received: by mail-pf1-x434.google.com with SMTP id bw10so1865007pfb.0
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 08:32:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/i1UovRLqcCkRr++ZAhGKLpndFwUNCMyBEn75c/NSUQ=;
- b=rSo8u+FYSnAuG63ykZ0LIQhDp4uqOzgDw4n/pLuwD8lGJe8H7rKT/cDcU0lIptbSfz
- 1xgqJKknXD4i3wXC3E3KkVM1RQ82I4mpYmjZvFGVk69xMWo0pBW+IhmKYs9UFdlOFldg
- VvZs18wFi5Lmaj29MYfm8L54cypq7zCAfDGQnypbp8QuVDS5zPSJ3k3tnAthXhqiTre3
- yuTYzeSqthjXBrJ1+diAfPy7atbMep/hqcC/b6fN052k1FQqmGKyid5xEkk6aXZBxzvj
- jp5s4zeqh2kJs2fePMXd5EvXdvY5zzBjrk9LAuWzRUri2XBUlfDP3wT0jUKJ5r+SCdPm
- lzaQ==
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1pShJ9-0000JG-Vi
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:40:33 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id bg2so2421774pjb.4
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 08:40:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:to:from:cc
+ :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=pR9UWEtnJXSqG5vElUc93W/1PlpADu/U01tOXVG8IEg=;
+ b=8D0z6XeTj/j9YtJAqkKLb5gF/GkQSu8rsWFUII8Q+UUiCohkuhtPlpVG5C7vkG1Zxi
+ Ov8V+6J7qVNcY9HDzUIP9MRj/7LNm8SMkLv4FUxDDs7CEmzTbgiBgIEp3dW6RV/uyEEg
+ 6AQzeEuOx1mmlK1/qFkabevnzErS3gSSgEGku6OWDhQ2c4X+xvoQvLLGRKxWS1qrPERN
+ 41x4QIqzdU3JfQ3YzITS8qGVf+aKTv4U9fHSo2GxQEIH+0poHtFcWUorzbF7XmDEfx5V
+ SEt1fHsAed6qPqsg0fomDRpJot5eVO1MJcRNTaWSG84jQyDlrBBNJSvUi2zLdTrs8uOu
+ 8TlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/i1UovRLqcCkRr++ZAhGKLpndFwUNCMyBEn75c/NSUQ=;
- b=xHh0xKH6UuP/M5ZJrdLz72X70w9tDvA4eT/XUvJ1QmsoM6H57LsloBS8rQey2wTrlc
- WDcMaQVcbPk3Xgo57XZjRORlQifdr01wOsBt5RK1zg01pdJ3MTcMNWm4VlEGNwWCljo4
- M+NkAQU0XU2DwafUmM4Ko8Ki0GDvIpKKl2XWdP+Yr1AlFwXGDRJQ/l16I0sqHVCI2Rrh
- qbE6Byo8DhFuTyu/y6/kiaOw5G+KZAlowq67PZqzk6ShS0bd3EyVHAnjm7vHxx/WZRJk
- JUc/bbaX9v8sLpXY6AxYIQoYdO+rZPnyrEAKqpMa7ztQvSzs8Nettec0/JDUv6gNRuqq
- 4KkA==
-X-Gm-Message-State: AO0yUKV/A7a5Ti5LqPcVoRXOPYTcxceE5JRUu0TPUZqKnDMacUAzbe5d
- cZycMCggTylKSp3wea4Lb3Tf+bTn6suKeLprfUTPjQ==
-X-Google-Smtp-Source: AK7set/DcxxHfSadQwC9zOLGVbY8SwuTKaL67kn4967mHmm+4U06EIOQnJe6cHMp5lslqexPOoacdbwEM49XopQ5JI4=
-X-Received: by 2002:a63:360c:0:b0:4f9:cd40:f59a with SMTP id
- d12-20020a63360c000000b004f9cd40f59amr788752pga.21.1676565170979; Thu, 16 Feb
- 2023 08:32:50 -0800 (PST)
-MIME-Version: 1.0
-References: <20230213202927.28992-1-farosas@suse.de>
- <20230213202927.28992-26-farosas@suse.de>
-In-Reply-To: <20230213202927.28992-26-farosas@suse.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Feb 2023 16:32:39 +0000
-Message-ID: <CAFEAcA-sSjjhrSkwD+b8RX_YyXcbmnob7caTot5Ym=v5TntELw@mail.gmail.com>
-Subject: Re: [PATCH RESEND v5 25/28] target/avocado: Pass parameters to
- migration test on aarch64
-To: Fabiano Rosas <farosas@suse.de>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>, 
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ h=content-transfer-encoding:mime-version:message-id:to:from:cc
+ :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pR9UWEtnJXSqG5vElUc93W/1PlpADu/U01tOXVG8IEg=;
+ b=mFGvZ32xk4piHWL9okfNEmLJ+KrQu7cWGo6iBT08FGjn3h6+KqCsfgpmBFPGYAElZc
+ RWCalSOBA3JM7BmqjZZo6Ua/HT6YqatLHGTVmKSY3rBHkuDuLwb1VF8n0kwu3y9EqmbQ
+ b1pCTg+qzXLuHePT2lq8XRkHkSlIO0w+RsikBwg24RBIVDkg+cxShU9mFnPCERawzBej
+ OpVa/VE1kdCLz78dSHGeNc55Y1xrekvs4KG4b4wKdn31D5NSOhuGOWoYpB5pC8bYsNRS
+ ieA1E3zbsYj1sVhcSMG35drD85wIOWaeI6O8K3eqyoWU806VizxwQ7KBlqON5hSlkDl+
+ zSag==
+X-Gm-Message-State: AO0yUKWvWf/7bohIRJUf6AgLUzoarGb9IUf9FsEzhyl8HFUePcoMeL0X
+ ZVll60hqvQL3/FbXQT5/HoihZQ==
+X-Google-Smtp-Source: AK7set/ALb0fve/Chyd/ghjtDe4UjYf+xGznhAmIWbMWj8+70Bjn8NdSb/VXA3HwLF9B28th9cRSSw==
+X-Received: by 2002:a17:902:dad1:b0:198:eaac:4643 with SMTP id
+ q17-20020a170902dad100b00198eaac4643mr7882106plx.4.1676565629569; 
+ Thu, 16 Feb 2023 08:40:29 -0800 (PST)
+Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
+ 6-20020a170902e9c600b0019ac23cb6edsm1511469plk.181.2023.02.16.08.40.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Feb 2023 08:40:29 -0800 (PST)
+Date: Thu, 16 Feb 2023 08:40:29 -0800 (PST)
+X-Google-Original-Date: Thu, 16 Feb 2023 08:28:58 PST (-0800)
+Subject: Re: [PATCH 18/18] target/riscv: Move configuration check to envcfg
+ CSRs predicate()
+In-Reply-To: <CAEUhbmX6Qb1aAdZC+d2F=n5qLo60XGiE3e0xTco1TgNgDxAKVg@mail.gmail.com>
+CC: liweiwei@iscas.ac.cn, qemu-devel@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, 
+ zhiwei_liu@linux.alibaba.com, qemu-riscv@nongnu.org
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Message-ID: <mhng-af7566fe-2c88-460b-8cd4-f52b198bbff4@palmer-ri-x1c9a>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=palmer@dabbelt.com; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,58 +91,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 13 Feb 2023 at 20:33, Fabiano Rosas <farosas@suse.de> wrote:
+On Tue, 14 Feb 2023 18:22:21 PST (-0800), Bin Meng wrote:
+> On Tue, Feb 14, 2023 at 10:59 PM weiwei <liweiwei@iscas.ac.cn> wrote:
+>>
+>>
+>> On 2023/2/14 22:27, Bin Meng wrote:
+>> > At present the envcfg CSRs predicate() routines are generic one like
+>> > smode(), hmode. The configuration check is done in the read / write
+>> > routine. Create a new predicate routine to cover such check, so that
+>> > gdbstub can correctly report its existence.
+>> >
+>> > Signed-off-by: Bin Meng <bmeng@tinylab.org>
+>> >
+>> > ---
+>> >
+>> >   target/riscv/csr.c | 98 +++++++++++++++++++++++++++++-----------------
+>> >   1 file changed, 61 insertions(+), 37 deletions(-)
+>> >
+>> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>> > index 37350b8a6d..284ccc09dd 100644
+>> > --- a/target/riscv/csr.c
+>> > +++ b/target/riscv/csr.c
+>> > @@ -41,40 +41,6 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops)
+>> >   }
+>> >
+>> >   /* Predicates */
+>> > -#if !defined(CONFIG_USER_ONLY)
+>> > -static RISCVException smstateen_acc_ok(CPURISCVState *env, int index,
+>> > -                                       uint64_t bit)
+>> > -{
+>> > -    bool virt = riscv_cpu_virt_enabled(env);
+>> > -    RISCVCPU *cpu = env_archcpu(env);
+>> > -
+>> > -    if (env->priv == PRV_M || !cpu->cfg.ext_smstateen) {
+>> > -        return RISCV_EXCP_NONE;
+>> > -    }
+>> > -
+>> > -    if (!(env->mstateen[index] & bit)) {
+>> > -        return RISCV_EXCP_ILLEGAL_INST;
+>> > -    }
+>> > -
+>> > -    if (virt) {
+>> > -        if (!(env->hstateen[index] & bit)) {
+>> > -            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>> > -        }
+>> > -
+>> > -        if (env->priv == PRV_U && !(env->sstateen[index] & bit)) {
+>> > -            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>> > -        }
+>> > -    }
+>> > -
+>> > -    if (env->priv == PRV_U && riscv_has_ext(env, RVS)) {
+>> > -        if (!(env->sstateen[index] & bit)) {
+>> > -            return RISCV_EXCP_ILLEGAL_INST;
+>> > -        }
+>> > -    }
+>> > -
+>> > -    return RISCV_EXCP_NONE;
+>> > -}
+>> > -#endif
+>> >
+>> >   static RISCVException fs(CPURISCVState *env, int csrno)
+>> >   {
+>> > @@ -318,6 +284,32 @@ static RISCVException umode32(CPURISCVState *env, int csrno)
+>> >       return umode(env, csrno);
+>> >   }
+>> >
+>> > +static RISCVException envcfg(CPURISCVState *env, int csrno)
+>> > +{
+>> > +    RISCVCPU *cpu = env_archcpu(env);
+>> > +    riscv_csr_predicate_fn predicate;
+>> > +
+>> > +    if (cpu->cfg.ext_smstateen) {
+>> > +        return RISCV_EXCP_ILLEGAL_INST;
+>> > +    }
+>>
+>> This check seems not right here.  Why  ILLEGAL_INST is directly
+>> triggered if smstateen is enabled?
 >
-> The migration tests are currently broken for an aarch64 host because
-> the tests pass no 'machine' and 'cpu' options on the QEMU command
-> line. Most other architectures define a default value in QEMU for
-> these options, but arm does not.
+> This logic was there in the original codes. I was confused when I
+> looked at this as well.
 >
-> Add these options to the test class in case the test is being executed
-> in an aarch64 host.
->
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Acked-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> ---
->  tests/avocado/migration.py | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/tests/avocado/migration.py b/tests/avocado/migration.py
-> index 4b25680c50..ffd3db0f35 100644
-> --- a/tests/avocado/migration.py
-> +++ b/tests/avocado/migration.py
-> @@ -11,6 +11,8 @@
->
->
->  import tempfile
-> +import os
-> +
->  from avocado_qemu import QemuSystemTest
->  from avocado import skipUnless
->
-> @@ -26,6 +28,14 @@ class Migration(QemuSystemTest):
->
->      timeout =3D 10
->
-> +    def setUp(self):
-> +        super().setUp()
-> +
-> +        arch =3D os.uname()[4]
-> +        if arch =3D=3D 'aarch64':
-> +            self.machine =3D 'virt'
-> +            self.cpu =3D 'max'
-> +
->      @staticmethod
->      def migration_finished(vm):
->          return vm.command('query-migrate')['status'] in ('completed', 'f=
-ailed')
-> --
+> Anyway, if it is an issue, it should be a separate patch.
 
-This looks odd. Don't we run this test in our CI currently?
-I'm not sure that specialcasing aarch64 here is the right
-approach -- David, any opinions?
+Seems reasonable to me, it's always nice to split up the refactoring types.  So
+I queued this up as 4ac6c32224 ("Merge patch series "target/riscv: Various
+fixes to gdbstub and CSR access"").
 
-thanks
--- PMM
+I had to fix up the From address on the patch you re-sent and there was a minor
+merge conflict, but otherwise things look sane to me.  I'll hold off on sending
+anything for a bit just in case, though.
+
+Thanks!
+
+>
+>>
+>> It seems that smstateen related check will be done  for
+>> senvcfg/henvcfg{h} when smstateen is enabled.
+>>
+>
+> Regards,
+> Bin
 
