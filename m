@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21A77699AD5
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E84B699AD6
 	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:12:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pShmh-0007Rc-3o; Thu, 16 Feb 2023 12:11:03 -0500
+	id 1pShn9-0007ru-GK; Thu, 16 Feb 2023 12:11:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pShmf-0007RN-L3; Thu, 16 Feb 2023 12:11:01 -0500
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pShn7-0007pN-ES
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:29 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pShmd-0007j7-Tq; Thu, 16 Feb 2023 12:11:01 -0500
-Received: by mail-ed1-x531.google.com with SMTP id d40so5417960eda.8;
- Thu, 16 Feb 2023 09:10:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Vtv8FTcDNzPS9y5Z0E5BIM0lRmYWWNc2bz96oCjgvRM=;
- b=FS8gRkmWAZ/6L+EO8TMYjcZs4/Xo0a3H0TPs+0N5+prEtW7+n2pxKSuRbF6uZ3Fyl9
- Tl8dWA4FMHCvCw3eH+mHXZpw76dfy3B+IZSUPXLX3CmHyxRVcbyK+E2/ZYX6/p90sGKb
- DpRWT3+X1DGn1QZzX8q8TBRT4ntae7urS83a36Vf2Mxv/v8k2Oe5yoYFMaeRGgXFOM6L
- bulo8x3Efm3dsWRz3VpXwtF1dv/SYiV/Btna8UlSMFMx3+3TDNhYKXMXE/nFXtawj+nq
- k98y8xpTJ19Pt9I+2r389I++EF/APVX2XUkeeVzg3jEmdmuSm1S5QDp18ddakYdFTMtL
- a4Dg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pShn5-0007o5-CC
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:29 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id v30so1349249wrv.3
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:11:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=PH7GxR3y5f0vo2OY7LMyUMaIpf67fNxRcGkk2t/6PU0=;
+ b=mAudssyeST5hAqzDHk2PRhPb30aR6KwgAC6Hak1gcH//VOtUlqBusUKMMmtZHtOSK3
+ 2bkgc/dYTr3B7K36m94uYdH0q6kII7AIDTAhfMnCFKAmxQ9g2dddL1idf/FM7uqREz4o
+ aAhyPibA9lBVoFnv2Og6+C0hMSQEvwXElc7u3OoqFWtZJIhTmSiNhWo5qHNrWJBXHRiB
+ qxuNYakSXRFENlaNJK+VHtkLCEqhAhfyKa1rqJw0eCR1wNkkuGMUhX3sbldBS/2wmimr
+ 2/cezeTFnhlxbHdycqtZ8Rv31w9hqSRjNEx34XtDYjgyNCbeMBieLqylayC/0WZmRXrm
+ Xccg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Vtv8FTcDNzPS9y5Z0E5BIM0lRmYWWNc2bz96oCjgvRM=;
- b=bdAZWDf9TxeOyn1kkY8HMidXUDyHx1kbICt9gb27I3CND3ShIagnlddYaPNvy5FXqD
- g3sQImL1U9Yl4v9XCT9EkdB0FtEeAoGdUUOA0bCdx4kaS3O8bVY3+2OgGqGwTH2ISYgY
- a02Eo/8ZNuDbKDzCt9oS/d00vjDKvTDm18BGPnenn2UyONew4CG2wRfrYWYOBrkcsdB/
- jfO1qhVAJBSWQ5ktHghYdxwK4yxnDtAMIQOdXeysKyX4wrHgZKYk4cJHbHY+a64N3/yW
- XtPpAo5RNytskeT22XNCdQbK+fkdX1Ed81Y1UGD/nKbGxQrmr0KRnG1RqMWHRO9/pyKG
- 7THQ==
-X-Gm-Message-State: AO0yUKVdgZofNjjs80QS5HIGdxWhTQYu8auM7xyT2oj3AAAOqv01y+iy
- g/Zp+dvo2Xv4Uw6IZzt8RCU=
-X-Google-Smtp-Source: AK7set+xNoaZvPCkMD/r0Xn/vKS7JIcjjYFmTGu09SYZuDtzuyhcz2aqdmUztrR0gTdACDnohkZpSw==
-X-Received: by 2002:aa7:c2d3:0:b0:4ad:7bd3:bb44 with SMTP id
- m19-20020aa7c2d3000000b004ad7bd3bb44mr170314edp.35.1676567457458; 
- Thu, 16 Feb 2023 09:10:57 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-089-012-175-191.89.12.pool.telefonica.de.
- [89.12.175.191]) by smtp.gmail.com with ESMTPSA id
- t30-20020a50d71e000000b004873927780bsm1145196edi.20.2023.02.16.09.10.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Feb 2023 09:10:56 -0800 (PST)
-Date: Thu, 16 Feb 2023 17:10:49 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>
-CC: qemu-devel@nongnu.org,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, qemu-ppc@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_07/18=5D_hw/ide/piix=3A_Ensure?=
- =?US-ASCII?Q?_IDE_output_IRQs_are_wired_at_realization?=
-In-Reply-To: <0350214d-fd70-4d24-8db8-66185f5d6780@linaro.org>
-References: <20230215161641.32663-1-philmd@linaro.org>
- <20230215161641.32663-8-philmd@linaro.org>
- <CAG4p6K6zMEMT07qDzPyEgc1F+FPp-AHyhgZWRhYAaJsfOUZD=g@mail.gmail.com>
- <0350214d-fd70-4d24-8db8-66185f5d6780@linaro.org>
-Message-ID: <3E0C5438-30E1-4D5B-BC6A-A5A333FD1F73@gmail.com>
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=PH7GxR3y5f0vo2OY7LMyUMaIpf67fNxRcGkk2t/6PU0=;
+ b=psgoNPYOEbATGM+ry5hvaRmMHT24C+VPJDtgjkX4iPDvaSdTEQhUVa2/PqArtHS9Tz
+ Kt2+6k6c/d0lUnRh3MiD/IfY5h9uga5wNwM+Se+9oZjgAwQxjVl8vYLwM5Aqj0FjGOOW
+ sstpEUf1wRvloeZ9vw39BJbsJtOguuAY8zFP0kws2eOJbsY8a39WXyUYgGwZ0MQGtFCS
+ TqTNdZkCj1CkL33KAs0kcETeiiz9GU09yERq77pXVj8JdYSLYv8xMsK3wGDFGJVZk2Lz
+ 6SEJRz6OQlSF3WStNyCcqmFeGeLOU4zTXZjE0wjcMTVgpY4+kgFKyTNmCNJUbnKzHYv8
+ s3bg==
+X-Gm-Message-State: AO0yUKUdc89N08uBbi2gDZyWwUISZHj6EjmrmnC2Y8cRfWYHIbp8iewW
+ KXkfvAp/KKTTYppz8BJCC5Mtq7BAb58syaqL
+X-Google-Smtp-Source: AK7set8QSXn9//q9Y9Opd4vEoeS/V3ZClKT7kNFDZu9Q9+UThWeAOsrymyrUZP/Sxjt0JHtX5B+I+Q==
+X-Received: by 2002:a5d:6d0e:0:b0:2c3:f0a6:43ee with SMTP id
+ e14-20020a5d6d0e000000b002c3f0a643eemr2819476wrq.20.1676567485618; 
+ Thu, 16 Feb 2023 09:11:25 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ f12-20020a5d4dcc000000b002c556a4f1casm2049107wru.42.2023.02.16.09.11.24
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Feb 2023 09:11:24 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/30] target-arm queue
+Date: Thu, 16 Feb 2023 17:10:53 +0000
+Message-Id: <20230216171123.2518285-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x531.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,84 +86,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+The following changes since commit 003ba52a8b327180e284630b289c6ece5a3e08b9:
 
+  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2023-02-16 11:16:39 +0000)
 
-Am 16=2E Februar 2023 15:33:47 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <=
-philmd@linaro=2Eorg>:
->On 16/2/23 15:43, Bernhard Beschow wrote:
->>=20
->>=20
->> On Wed, Feb 15, 2023 at 5:20 PM Philippe Mathieu-Daud=C3=A9 <philmd@lin=
-aro=2Eorg <mailto:philmd@linaro=2Eorg>> wrote:
->>=20
->>     Ensure both IDE output IRQ lines are wired=2E
->>=20
->>     We can remove the last use of isa_get_irq(NULL)=2E
->>=20
->>     Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro=2Eorg
->>     <mailto:philmd@linaro=2Eorg>>
->>     ---
->>      =C2=A0hw/ide/piix=2Ec | 13 ++++++++-----
->>      =C2=A01 file changed, 8 insertions(+), 5 deletions(-)
->>=20
->>     diff --git a/hw/ide/piix=2Ec b/hw/ide/piix=2Ec
->>     index 9d876dd4a7=2E=2Eb75a4ddcca 100644
->>     --- a/hw/ide/piix=2Ec
->>     +++ b/hw/ide/piix=2Ec
->>     @@ -133,14 +133,17 @@ static bool pci_piix_init_bus(PCIIDEState *d,
->>     unsigned i, Error **errp)
->>      =C2=A0 =C2=A0 =C2=A0static const struct {
->>      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int iobase;
->>      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int iobase2;
->>     -=C2=A0 =C2=A0 =C2=A0 =C2=A0 int isairq;
->>      =C2=A0 =C2=A0 =C2=A0} port_info[] =3D {
->>     -=C2=A0 =C2=A0 =C2=A0 =C2=A0 {0x1f0, 0x3f6, 14},
->>     -=C2=A0 =C2=A0 =C2=A0 =C2=A0 {0x170, 0x376, 15},
->>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 {0x1f0, 0x3f6},
->>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 {0x170, 0x376},
->>      =C2=A0 =C2=A0 =C2=A0};
->>      =C2=A0 =C2=A0 =C2=A0int ret;
->>=20
->>     -=C2=A0 =C2=A0 qemu_irq irq_out =3D d->irq[i] ? : isa_get_irq(NULL,
->>     port_info[i]=2Eisairq);
->>     +=C2=A0 =C2=A0 if (!d->irq[i]) {
->>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, "output IDE IRQ %u no=
-t connected", i);
->>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;
->>     +=C2=A0 =C2=A0 }
->>     +
->>      =C2=A0 =C2=A0 =C2=A0ide_bus_init(&d->bus[i], sizeof(d->bus[i]), DE=
-VICE(d), i, 2);
->>      =C2=A0 =C2=A0 =C2=A0ret =3D ide_init_ioport(&d->bus[i], NULL, port=
-_info[i]=2Eiobase,
->>      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0port_info[i]=2Eiobase2);
->>     @@ -149,7 +152,7 @@ static bool pci_piix_init_bus(PCIIDEState *d,
->>     unsigned i, Error **errp)
->>      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 object_get_typename(OBJECT(d)), i);
->>      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;
->>      =C2=A0 =C2=A0 =C2=A0}
->>     -=C2=A0 =C2=A0 ide_bus_init_output_irq(&d->bus[i], irq_out);
->>     +=C2=A0 =C2=A0 ide_bus_init_output_irq(&d->bus[i], d->irq[i]);
->>=20
->>      =C2=A0 =C2=A0 =C2=A0bmdma_init(&d->bus[i], &d->bmdma[i], d);
->>      =C2=A0 =C2=A0 =C2=A0d->bmdma[i]=2Ebus =3D &d->bus[i];
->>     --     2=2E38=2E1
->>=20
->>=20
->> This now breaks user-created =C2=A0piix3-ide:
->>=20
->>  =C2=A0 qemu-system-x86_64 -M q35 -device piix3-ide
->>=20
->> Results in:
->>=20
->>  =C2=A0 qemu-system-x86_64: -device piix3-ide: output IDE IRQ 0 not con=
-nected
->
->Thank you for this real-life-impossible-but-exists-in-QEMU test-case!
->
->Should we cover it in qtests?
+are available in the Git repository at:
 
-Yes, why not=2E Preferably along with the x-remote machine=2E
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20230216
+
+for you to fetch changes up to caf01d6a435d9f4a95aeae2f9fc6cb8b889b1fb8:
+
+  tests/qtest: Restrict tpm-tis-devices-{swtpm}-test to CONFIG_TCG (2023-02-16 16:28:53 +0000)
+
+----------------------------------------------------------------
+target-arm queue:
+ * Some mostly M-profile-related code cleanups
+ * avocado: Retire the boot_linux.py AArch64 TCG tests
+ * hw/arm/smmuv3: Add GBPA register
+ * arm/virt: don't try to spell out the accelerator
+ * hw/arm: Attach PSPI module to NPCM7XX SoC
+ * Some cleanup/refactoring patches aiming towards
+   allowing building Arm targets without CONFIG_TCG
+
+----------------------------------------------------------------
+Alex Bennée (1):
+      tests/avocado: retire the Aarch64 TCG tests from boot_linux.py
+
+Claudio Fontana (3):
+      target/arm: rename handle_semihosting to tcg_handle_semihosting
+      target/arm: wrap psci call with tcg_enabled
+      target/arm: wrap call to aarch64_sve_change_el in tcg_enabled()
+
+Cornelia Huck (1):
+      arm/virt: don't try to spell out the accelerator
+
+Fabiano Rosas (7):
+      target/arm: Move PC alignment check
+      target/arm: Move cpregs code out of cpu.h
+      tests/avocado: Skip tests that require a missing accelerator
+      tests/avocado: Tag TCG tests with accel:tcg
+      target/arm: Use "max" as default cpu for the virt machine with KVM
+      tests/qtest: arm-cpu-features: Match tests to required accelerators
+      tests/qtest: Restrict tpm-tis-devices-{swtpm}-test to CONFIG_TCG
+
+Hao Wu (3):
+      MAINTAINERS: Add myself to maintainers and remove Havard
+      hw/ssi: Add Nuvoton PSPI Module
+      hw/arm: Attach PSPI module to NPCM7XX SoC
+
+Jean-Philippe Brucker (2):
+      hw/arm/smmu-common: Support 64-bit addresses
+      hw/arm/smmu-common: Fix TTB1 handling
+
+Mostafa Saleh (1):
+      hw/arm/smmuv3: Add GBPA register
+
+Philippe Mathieu-Daudé (12):
+      hw/intc/armv7m_nvic: Use OBJECT_DECLARE_SIMPLE_TYPE() macro
+      target/arm: Simplify arm_v7m_mmu_idx_for_secstate() for user emulation
+      target/arm: Reduce arm_v7m_mmu_idx_[all/for_secstate_and_priv]() scope
+      target/arm: Constify ID_PFR1 on user emulation
+      target/arm: Convert CPUARMState::eabi to boolean
+      target/arm: Avoid resetting CPUARMState::eabi field
+      target/arm: Restrict CPUARMState::gicv3state to sysemu
+      target/arm: Restrict CPUARMState::arm_boot_info to sysemu
+      target/arm: Restrict CPUARMState::nvic to sysemu
+      target/arm: Store CPUARMState::nvic as NVICState*
+      target/arm: Declare CPU <-> NVIC helpers in 'hw/intc/armv7m_nvic.h'
+      hw/arm: Add missing XLNX_ZYNQMP_ARM -> USB_DWC3 Kconfig dependency
+
+ MAINTAINERS                            |   8 +-
+ docs/system/arm/nuvoton.rst            |   2 +-
+ hw/arm/smmuv3-internal.h               |   7 +
+ include/hw/arm/npcm7xx.h               |   2 +
+ include/hw/arm/smmu-common.h           |   2 -
+ include/hw/arm/smmuv3.h                |   1 +
+ include/hw/intc/armv7m_nvic.h          | 128 +++++++++++++++++-
+ include/hw/ssi/npcm_pspi.h             |  53 ++++++++
+ linux-user/user-internals.h            |   2 +-
+ target/arm/cpregs.h                    |  98 ++++++++++++++
+ target/arm/cpu.h                       | 228 ++-------------------------------
+ target/arm/internals.h                 |  14 --
+ hw/arm/npcm7xx.c                       |  25 +++-
+ hw/arm/smmu-common.c                   |   4 +-
+ hw/arm/smmuv3.c                        |  43 ++++++-
+ hw/arm/virt.c                          |  10 +-
+ hw/intc/armv7m_nvic.c                  |  38 ++----
+ hw/ssi/npcm_pspi.c                     | 221 ++++++++++++++++++++++++++++++++
+ linux-user/arm/cpu_loop.c              |   4 +-
+ target/arm/cpu.c                       |   5 +-
+ target/arm/cpu_tcg.c                   |   3 +
+ target/arm/helper.c                    |  31 +++--
+ target/arm/m_helper.c                  |  86 +++++++------
+ target/arm/machine.c                   |  18 +--
+ tests/qtest/arm-cpu-features.c         |  28 ++--
+ hw/arm/Kconfig                         |   1 +
+ hw/ssi/meson.build                     |   2 +-
+ hw/ssi/trace-events                    |   5 +
+ tests/avocado/avocado_qemu/__init__.py |   4 +
+ tests/avocado/boot_linux.py            |  48 ++-----
+ tests/avocado/boot_linux_console.py    |   1 +
+ tests/avocado/machine_aarch64_virt.py  |  63 ++++++++-
+ tests/avocado/reverse_debugging.py     |   8 ++
+ tests/qtest/meson.build                |   4 +-
+ 34 files changed, 798 insertions(+), 399 deletions(-)
+ create mode 100644 include/hw/ssi/npcm_pspi.h
+ create mode 100644 hw/ssi/npcm_pspi.c
 
