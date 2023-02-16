@@ -2,66 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8177F698A97
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 03:42:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E563A698A9C
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 03:45:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSUCj-00064Y-C3; Wed, 15 Feb 2023 21:41:01 -0500
+	id 1pSUFn-0006qw-WF; Wed, 15 Feb 2023 21:44:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1pSUCh-00064O-MH
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 21:40:59 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pSUFl-0006qV-6d; Wed, 15 Feb 2023 21:44:09 -0500
+Received: from out30-100.freemail.mail.aliyun.com ([115.124.30.100])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1pSUCe-0001L8-O7
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 21:40:59 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4PHJzb3SWpzJsWb;
- Thu, 16 Feb 2023 10:38:51 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.6; Thu, 16 Feb 2023 10:40:34 +0800
-Message-ID: <18356725-8cfb-a691-45ab-306987a7fd7e@huawei.com>
-Date: Thu, 16 Feb 2023 10:40:34 +0800
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pSUFi-0002Nu-CN; Wed, 15 Feb 2023 21:44:08 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045192;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
+ TI=SMTPD_---0VbmFyb0_1676515436; 
+Received: from 30.221.98.44(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VbmFyb0_1676515436) by smtp.aliyun-inc.com;
+ Thu, 16 Feb 2023 10:43:57 +0800
+Message-ID: <ccb172ac-6deb-b74f-c2f6-3b8983cfd043@linux.alibaba.com>
+Date: Thu, 16 Feb 2023 10:43:54 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH RESEND 10/18] i386: Update APIC ID parsing rule to support
- module level
-To: Zhao Liu <zhao1.liu@linux.intel.com>
-CC: <qemu-devel@nongnu.org>, Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi
- <dapeng1.mi@intel.com>, Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo
- <robert.hu@linux.intel.com>, Xiaoyao Li <xiaoyao.li@intel.com>, Like Xu
- <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>, Eduardo Habkost
- <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, "Michael S .
- Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>, Markus
- Armbruster <armbru@redhat.com>
-References: <20230213093625.158170-1-zhao1.liu@linux.intel.com>
- <20230213093625.158170-11-zhao1.liu@linux.intel.com>
- <c4607aed-a010-21cc-592a-f17be6a64259@huawei.com>
- <Y+z0RxPYGQafkKFz@liuzhao-OptiPlex-7080>
-In-Reply-To: <Y+z0RxPYGQafkKFz@liuzhao-OptiPlex-7080>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.257,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ Thunderbird/102.7.2
+Subject: Re: [PATCH v1 RFC Zisslpcfi 7/9] target/riscv: Tracking indirect
+ branches (fcfi) using TCG
+Content-Language: en-US
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, liweiwei@iscas.ac.cn,
+ dbarboza@ventanamicro.com, Kip Walker <kip@rivosinc.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20230209062404.3582018-1-debug@rivosinc.com>
+ <20230209062404.3582018-8-debug@rivosinc.com>
+ <adabbb03-aafe-5a3c-1ecb-6dddd6132be1@linux.alibaba.com>
+ <CAKC1njRVF8hxC+sWxZH7+2bWCgGbdSm6mOPLmVNhgM-eG7x3Rg@mail.gmail.com>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <CAKC1njRVF8hxC+sWxZH7+2bWCgGbdSm6mOPLmVNhgM-eG7x3Rg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=115.124.30.100;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-100.freemail.mail.aliyun.com
+X-Spam_score_int: -101
+X-Spam_score: -10.2
+X-Spam_bar: ----------
+X-Spam_report: (-10.2 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.257, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,173 +68,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-在 2023/2/15 23:03, Zhao Liu 写道:
-> On Wed, Feb 15, 2023 at 07:06:32PM +0800, wangyanan (Y) wrote:
->> Date: Wed, 15 Feb 2023 19:06:32 +0800
->> From: "wangyanan (Y)" <wangyanan55@huawei.com>
->> Subject: Re: [PATCH RESEND 10/18] i386: Update APIC ID parsing rule to
->>   support module level
->>
->> Hi Zhao,
->>
->> 在 2023/2/13 17:36, Zhao Liu 写道:
->>> From: Zhuocheng Ding <zhuocheng.ding@intel.com>
->>>
->>> Add the module level parsing support for APIC ID.
->>>
->>> With this support, now the conversion between X86CPUTopoIDs,
->>> X86CPUTopoInfo and APIC ID is completed.
->> IIUC, contents in patch 6-8 and 10 are all about "Introduce the module-level
->> CPU topology support for x86", why do we need gradually do this with kinds
->> of temporary things instead of warp them into one patch?
-> Patch 6 is about CPUX86State.nr_dies, which is independent from
-> patch 7, 8, 10.
-Ok
->
-> Patch 7 (X86CPUTopoInfo.modules_per_die), patch 8 (X86CPUTopoIDs.module_id),
-> and patch 10 (APIC ID parsing rule) are related but have their own
-> relatively clear little themes, and are gradually completing full
-> support for module level in apic id.
->
-> Patch 7, 8, 10 can be combined into one big patch. This current
-> splitting way is actually designed to make it easier to review...
-> But if you think this is not convenient for review, sorry for that,
-> and I'm willing to merge them together. ;-)
-So comments in patch 7, I think merging 8 and 10 will be clean enough.
 
-Thanks,
-Yanan
->
-> Thanks,
-> Zhao
->
->> Before support
->> for smp.clusters in the CLI for x86, we can ensure that modules_per_dies is
->> always 1 so that the code is save in one diff. Or do I miss something?
+On 2023/2/16 8:02, Deepak Gupta wrote:
+> On Wed, Feb 15, 2023 at 12:55 AM LIU Zhiwei
+> <zhiwei_liu@linux.alibaba.com> wrote:
 >>
->> Thanks,
->> Yanan
->>> Signed-off-by: Zhuocheng Ding <zhuocheng.ding@intel.com>
->>> Co-developed-by: Zhao Liu <zhao1.liu@intel.com>
->>> Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
+>> On 2023/2/9 14:24, Deepak Gupta wrote:
+>>> zisslpcfi protects forward control flow (if enabled) by enforcing all
+>>> indirect call and jmp must land on a landing pad instruction `lpcll`
+>>> short for landing pad and check lower label value. If target of an
+>>> indirect call or jmp is not `lpcll` then cpu/hart must raise an illegal
+>>> instruction exception.
+>>>
+>>> This patch implements the mechanism using TCG. Target architecture branch
+>>> instruction must define the end of a TB. Using this property, during
+>>> translation of branch instruction, TB flag = FCFI_LP_EXPECTED can be set.
+>>> Translation of target TB can check if FCFI_LP_EXPECTED flag is set and a
+>>> flag (fcfi_lp_expected) can be set in DisasContext. If `lpcll` gets
+>>> translated, fcfi_lp_expected flag in DisasContext can be cleared. Else
+>>> it'll fault.
+>>>
+>>> This patch also also adds flag for forward and backward cfi in
+>>> DisasContext.
+>>>
+>>> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+>>> Signed-off-by: Kip Walker  <kip@rivosinc.com>
 >>> ---
->>>    hw/i386/x86.c              | 19 ++++++++-----------
->>>    include/hw/i386/topology.h | 36 ++++++++++++++++++------------------
->>>    2 files changed, 26 insertions(+), 29 deletions(-)
+>>>    target/riscv/cpu.h        |  3 +++
+>>>    target/riscv/cpu_helper.c | 12 +++++++++
+>>>    target/riscv/translate.c  | 52 +++++++++++++++++++++++++++++++++++++++
+>>>    3 files changed, 67 insertions(+)
 >>>
->>> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
->>> index b90c6584930a..2a9d080a8e7a 100644
->>> --- a/hw/i386/x86.c
->>> +++ b/hw/i386/x86.c
->>> @@ -311,11 +311,11 @@ void x86_cpu_pre_plug(HotplugHandler *hotplug_dev,
->>>        /*
->>>         * If APIC ID is not set,
->>> -     * set it based on socket/die/core/thread properties.
->>> +     * set it based on socket/die/cluster/core/thread properties.
->>>         */
->>>        if (cpu->apic_id == UNASSIGNED_APIC_ID) {
->>> -        int max_socket = (ms->smp.max_cpus - 1) /
->>> -                                smp_threads / smp_cores / ms->smp.dies;
->>> +        int max_socket = (ms->smp.max_cpus - 1) / smp_threads / smp_cores /
->>> +                                ms->smp.clusters / ms->smp.dies;
->>>            /*
->>>             * die-id was optional in QEMU 4.0 and older, so keep it optional
->>> @@ -379,15 +379,12 @@ void x86_cpu_pre_plug(HotplugHandler *hotplug_dev,
->>>            x86_topo_ids_from_apicid(cpu->apic_id, &topo_info, &topo_ids);
->>> -        /*
->>> -         * TODO: Before APIC ID supports module level parsing, there's no need
->>> -         * to expose module_id info.
->>> -         */
->>>            error_setg(errp,
->>> -            "Invalid CPU [socket: %u, die: %u, core: %u, thread: %u] with"
->>> -            " APIC ID %" PRIu32 ", valid index range 0:%d",
->>> -            topo_ids.pkg_id, topo_ids.die_id, topo_ids.core_id, topo_ids.smt_id,
->>> -            cpu->apic_id, ms->possible_cpus->len - 1);
->>> +            "Invalid CPU [socket: %u, die: %u, module: %u, core: %u, thread: %u]"
->>> +            " with APIC ID %" PRIu32 ", valid index range 0:%d",
->>> +            topo_ids.pkg_id, topo_ids.die_id, topo_ids.module_id,
->>> +            topo_ids.core_id, topo_ids.smt_id, cpu->apic_id,
->>> +            ms->possible_cpus->len - 1);
->>>            return;
+>>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>>> index 8803ea6426..98b272bcad 100644
+>>> --- a/target/riscv/cpu.h
+>>> +++ b/target/riscv/cpu.h
+>>> @@ -644,6 +644,9 @@ FIELD(TB_FLAGS, VMA, 25, 1)
+>>>    /* Native debug itrigger */
+>>>    FIELD(TB_FLAGS, ITRIGGER, 26, 1)
+>>>
+>>> +/* Zisslpcfi needs a TB flag to track indirect branches */
+>>> +FIELD(TB_FLAGS, FCFI_LP_EXPECTED, 27, 1)
+>>> +
+>>>    #ifdef TARGET_RISCV32
+>>>    #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
+>>>    #else
+>>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+>>> index 63377abc2f..d15918f534 100644
+>>> --- a/target/riscv/cpu_helper.c
+>>> +++ b/target/riscv/cpu_helper.c
+>>> @@ -129,6 +129,18 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+>>>            flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
 >>>        }
->>> diff --git a/include/hw/i386/topology.h b/include/hw/i386/topology.h
->>> index 5de905dc00d3..3cec97b377f2 100644
->>> --- a/include/hw/i386/topology.h
->>> +++ b/include/hw/i386/topology.h
->>> @@ -79,12 +79,13 @@ static inline unsigned apicid_smt_width(X86CPUTopoInfo *topo_info)
->>>    /* Bit width of the Core_ID field */
->>>    static inline unsigned apicid_core_width(X86CPUTopoInfo *topo_info)
->>>    {
->>> -    /*
->>> -     * TODO: Will separate module info from core_width when update
->>> -     * APIC ID with module level.
->>> -     */
->>> -    return apicid_bitwidth_for_count(topo_info->cores_per_module *
->>> -                                     topo_info->modules_per_die);
->>> +    return apicid_bitwidth_for_count(topo_info->cores_per_module);
->>> +}
+>>>
+>>> +    if (cpu->cfg.ext_cfi) {
+>>> +        /*
+>>> +         * For Forward CFI, only the expectation of a lpcll at
+>>> +         * the start of the block is tracked (which can only happen
+>>> +         * when FCFI is enabled for the current processor mode). A jump
+>>> +         * or call at the end of the previous TB will have updated
+>>> +         * env->elp to indicate the expectation.
+>>> +         */
+>>> +        flags = FIELD_DP32(flags, TB_FLAGS, FCFI_LP_EXPECTED,
+>>> +                           env->elp != NO_LP_EXPECTED);
+>>> +    }
 >>> +
->>> +/* Bit width of the Module_ID (cluster ID) field */
->>> +static inline unsigned apicid_module_width(X86CPUTopoInfo *topo_info)
->>> +{
->>> +    return apicid_bitwidth_for_count(topo_info->modules_per_die);
->>>    }
->>>    /* Bit width of the Die_ID field */
->>> @@ -99,10 +100,16 @@ static inline unsigned apicid_core_offset(X86CPUTopoInfo *topo_info)
->>>        return apicid_smt_width(topo_info);
->>>    }
->>> +/* Bit offset of the Module_ID (cluster ID) field */
->>> +static inline unsigned apicid_module_offset(X86CPUTopoInfo *topo_info)
->>> +{
->>> +    return apicid_core_offset(topo_info) + apicid_core_width(topo_info);
->>> +}
->>> +
->>>    /* Bit offset of the Die_ID field */
->>>    static inline unsigned apicid_die_offset(X86CPUTopoInfo *topo_info)
->>>    {
->>> -    return apicid_core_offset(topo_info) + apicid_core_width(topo_info);
->>> +    return apicid_module_offset(topo_info) + apicid_module_width(topo_info);
->>>    }
->>>    /* Bit offset of the Pkg_ID (socket ID) field */
->>> @@ -121,6 +128,7 @@ static inline apic_id_t x86_apicid_from_topo_ids(X86CPUTopoInfo *topo_info,
->>>    {
->>>        return (topo_ids->pkg_id  << apicid_pkg_offset(topo_info)) |
->>>               (topo_ids->die_id  << apicid_die_offset(topo_info)) |
->>> +           (topo_ids->module_id << apicid_module_offset(topo_info)) |
->>>               (topo_ids->core_id << apicid_core_offset(topo_info)) |
->>>               topo_ids->smt_id;
->>>    }
->>> @@ -138,11 +146,6 @@ static inline void x86_topo_ids_from_idx(X86CPUTopoInfo *topo_info,
->>>        unsigned nr_cores = topo_info->cores_per_module;
->>>        unsigned nr_threads = topo_info->threads_per_core;
->>> -    /*
->>> -     * Currently smp for i386 doesn't support "clusters", modules_per_die is
->>> -     * only 1. Therefore, the module_id generated from the module topology will
->>> -     * not conflict with the module_id generated according to the apicid.
->>> -     */
->>>        topo_ids->pkg_id = cpu_index / (nr_dies * nr_modules *
->>>                           nr_cores * nr_threads);
->>>        topo_ids->die_id = cpu_index / (nr_modules * nr_cores *
->>> @@ -166,12 +169,9 @@ static inline void x86_topo_ids_from_apicid(apic_id_t apicid,
->>>        topo_ids->core_id =
->>>                (apicid >> apicid_core_offset(topo_info)) &
->>>                ~(0xFFFFFFFFUL << apicid_core_width(topo_info));
->>> -    /*
->>> -     * TODO: This is the temporary initialization for topo_ids.module_id to
->>> -     * avoid "maybe-uninitialized" compilation errors. Will remove when APIC
->>> -     * ID supports module level parsing.
->>> -     */
->>> -    topo_ids->module_id = 0;
->>> +    topo_ids->module_id =
->>> +            (apicid >> apicid_module_offset(topo_info)) &
->>> +            ~(0xFFFFFFFFUL << apicid_module_width(topo_info));
->>>        topo_ids->die_id =
->>>                (apicid >> apicid_die_offset(topo_info)) &
->>>                ~(0xFFFFFFFFUL << apicid_die_width(topo_info));
+>>>    #ifdef CONFIG_USER_ONLY
+>>>        flags |= TB_FLAGS_MSTATUS_FS;
+>>>        flags |= TB_FLAGS_MSTATUS_VS;
+>>> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+>>> index df38db7553..7d43d20fc3 100644
+>>> --- a/target/riscv/translate.c
+>>> +++ b/target/riscv/translate.c
+>>> @@ -41,6 +41,7 @@ static TCGv load_val;
+>>>    /* globals for PM CSRs */
+>>>    static TCGv pm_mask;
+>>>    static TCGv pm_base;
+>>> +static TCGOp *cfi_lp_check;
+>>>
+>>>    #include "exec/gen-icount.h"
+>>>
+>>> @@ -116,6 +117,10 @@ typedef struct DisasContext {
+>>>        bool itrigger;
+>>>        /* TCG of the current insn_start */
+>>>        TCGOp *insn_start;
+>>> +    /* CFI extension */
+>>> +    bool bcfi_enabled;
+>>> +    bool fcfi_enabled;
+>>> +    bool fcfi_lp_expected;
+>>>    } DisasContext;
+>>>
+>>>    static inline bool has_ext(DisasContext *ctx, uint32_t ext)
+>>> @@ -1166,11 +1171,44 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>>>        ctx->pm_mask_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_MASK_ENABLED);
+>>>        ctx->pm_base_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_BASE_ENABLED);
+>>>        ctx->itrigger = FIELD_EX32(tb_flags, TB_FLAGS, ITRIGGER);
+>>> +    ctx->bcfi_enabled = cpu_get_bcfien(env);
+>>> +    ctx->fcfi_enabled = cpu_get_fcfien(env);
+>> This is wrong.  If you ctx->bcfi_enabled in the translation and don't
+>> put it in a tb flags field, the translated tb will
+>> be misused.
+> TLB for shadow stack index is flushed on privilege transfers.
+> All TLBs is flushed whenever enable/disable bits for shadow stack are toggled.
+> Can you elaborate a bit more how this can be misused?
+As Richard has pointed out, you need put this fields into tb flags if 
+you want to use them in translation process as constants.
+Nothing to do with TLB.
 
+Tb flags will always be calculated (Except the direct block chain I 
+think, is it right? @Richard) before using the translated tb. So if your 
+translated tb depend on some machine states, you
+should put it in tb flags. Otherwise, the translated tb will be misused, 
+as its execution environment varies from its translation machine states.
+
+Zhiwei
+
+>
+>>
+>> Zhiwei
+>>
+>>> +    ctx->fcfi_lp_expected = FIELD_EX32(tb_flags, TB_FLAGS, FCFI_LP_EXPECTED);
+>>>        ctx->zero = tcg_constant_tl(0);
+>>>    }
+>>>
+>>>    static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
+>>>    {
+>>> +    DisasContext *ctx = container_of(db, DisasContext, base);
+>>> +
+>>> +    if (ctx->fcfi_lp_expected) {
+>>> +        /*
+>>> +         * Since we can't look ahead to confirm that the first
+>>> +         * instruction is a legal landing pad instruction, emit
+>>> +         * compare-and-branch sequence that will be fixed-up in
+>>> +         * riscv_tr_tb_stop() to either statically hit or skip an
+>>> +         * illegal instruction exception depending on whether the
+>>> +         * flag was lowered by translation of a CJLP or JLP as
+>>> +         * the first instruction in the block.
+>>> +         */
+>>> +        TCGv_i32 immediate;
+>>> +        TCGLabel *l;
+>>> +        l = gen_new_label();
+>>> +        immediate = tcg_temp_local_new_i32();
+>>> +        tcg_gen_movi_i32(immediate, 0);
+>>> +        cfi_lp_check = tcg_last_op();
+>>> +        tcg_gen_brcondi_i32(TCG_COND_EQ, immediate, 0, l);
+>>> +        tcg_temp_free_i32(immediate);
+>>> +        gen_exception_illegal(ctx);
+>>> +        gen_set_label(l);
+>>> +        /*
+>>> +         * Despite the use of gen_exception_illegal(), the rest of
+>>> +         * the TB needs to be generated. The TCG optimizer will
+>>> +         * clean things up depending on which path ends up being
+>>> +         * active.
+>>> +         */
+>>> +        ctx->base.is_jmp = DISAS_NEXT;
+>>> +    }
+>>>    }
+>>>
+>>>    static void riscv_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
+>>> @@ -1225,6 +1263,7 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+>>>    static void riscv_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+>>>    {
+>>>        DisasContext *ctx = container_of(dcbase, DisasContext, base);
+>>> +    CPURISCVState *env = cpu->env_ptr;
+>>>
+>>>        switch (ctx->base.is_jmp) {
+>>>        case DISAS_TOO_MANY:
+>>> @@ -1235,6 +1274,19 @@ static void riscv_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+>>>        default:
+>>>            g_assert_not_reached();
+>>>        }
+>>> +
+>>> +    if (ctx->fcfi_lp_expected) {
+>>> +        /*
+>>> +         * If the "lp expected" flag is still up, the block needs to take an
+>>> +         * illegal instruction exception.
+>>> +         */
+>>> +        tcg_set_insn_param(cfi_lp_check, 1, tcgv_i32_arg(tcg_constant_i32(1)));
+>>> +    } else {
+>>> +        /*
+>>> +        * LP instruction requirement was met, clear up LP expected
+>>> +        */
+>>> +        env->elp = NO_LP_EXPECTED;
+>>> +    }
+>>>    }
+>>>
+>>>    static void riscv_tr_disas_log(const DisasContextBase *dcbase,
 
