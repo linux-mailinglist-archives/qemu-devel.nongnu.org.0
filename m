@@ -2,79 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB183699765
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:28:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C80A69976D
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:30:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSfEw-00046B-Q6; Thu, 16 Feb 2023 09:28:02 -0500
+	id 1pSfGL-0006Ca-If; Thu, 16 Feb 2023 09:29:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSfEu-00045Z-Lr
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:28:00 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSfEt-0000q3-4c
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:28:00 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- bg5-20020a05600c3c8500b003e00c739ce4so1794902wmb.5
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 06:27:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=UphD501LV9nRiE7X4Zi4rgSHUT7gzWe9G/z0VbgkVlc=;
- b=hkTXtDI6XADzChw2XtPD5Uiwr4VxVKL86PJiHLyfH+xqqHdaAzln5PMDdLr119cZTh
- D1XJT7Ajx0ZHMurSTTUdOX6bkmbkGoiCkn84gFe5TVpnBQIEldUs0vliehXZlclMUy4P
- J2ypWwW/lS2kE7xFohOhoMDjVd1VC9z/Yp1xIhooWm9KeDj2vxj20MqEWAPSQ0XZZDkj
- KRvu6GkB2e2TkWRkIH+AAY39nD4DeZ8Yj7txw5d+PLbhWoFscRlxb9gTO1ea3a2trG7W
- Qn1TwlcTYD5sfJ9oN2OsuCSDiAyGDwxc4dtg8DSGO+m3sdnt5Rg2bBO9fVpQokmRwgWe
- S0rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UphD501LV9nRiE7X4Zi4rgSHUT7gzWe9G/z0VbgkVlc=;
- b=seGteSDxmRNCJQq6bn9ySLFpwFjuNBsreNOLh2EhmuwnjFRpObTYadUWg4FdC+9P/W
- t2+GG+tLPyE3QNY0zg/M5j7skXmD/A0/CeNRg3X6/wmFHQ3lOyVQC/wMdYiu/d+iAoEb
- qq6jmqyknyAiXZppNIiIKuol15Qd4vqmkESrIfo13GL5DkswcnvPYZRRfVooo6SCiEVg
- f1HGCEKGuafwpHcSkbgzU3Wr3CyThEZsr2WtpHe5S9tCU8cw41Set7v/DJmPPxDNYyM4
- AiquRYAO/ndS1sUJXEZYc20lpv5otIQKEyO7itdkfcff3D7qG2ywgRWW8VzZITblxyXn
- 0yoQ==
-X-Gm-Message-State: AO0yUKXzcdsaMkdBNP+FSWwHuWJPWYKiAo7jsrLQ5JymF4Pg7hFHi0QQ
- k+Qr5uFY90Xylhs0e3/DRxGK8A==
-X-Google-Smtp-Source: AK7set9nOuqmzsOZNHJXjGIcdIMlSaUFII2yzenO7HLpGo9h5SHBDTB14FNEcFyBsNdPVz3QepakUA==
-X-Received: by 2002:a05:600c:992:b0:3e1:fff7:e970 with SMTP id
- w18-20020a05600c099200b003e1fff7e970mr4931701wmp.30.1676557677644; 
- Thu, 16 Feb 2023 06:27:57 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- o2-20020a05600c378200b003dfe5190376sm1894071wmr.35.2023.02.16.06.27.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Feb 2023 06:27:57 -0800 (PST)
-Message-ID: <2e46db2f-d48b-bc6e-85d8-1fa80ef4082c@linaro.org>
-Date: Thu, 16 Feb 2023 15:27:56 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pSfGH-0006BH-V7
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:29:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pSfGF-00018I-8O
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:29:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676557761;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NuGcz7UvG3kUxfW3zrHa2a+zSs661yz2THSIVxkHVFY=;
+ b=GUZEs7p2hN/2UpvLgGFN1W9NyhCp2NXeHY3TToAmg+/uWSx6VLdP+9ctvCNAV6q5pvxmmc
+ jHhdKwmavTU7ILDq6zVhCShUh288orSkv9xKgmegHTJQ7UCqEVZ+hTw1nRC5/BMparzaug
+ 4RvdHuR8wfaQcp4HLNZpw8NzvC4i7BU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-284-Q7MNVhiIPF-y_sz2bg9dMg-1; Thu, 16 Feb 2023 09:29:18 -0500
+X-MC-Unique: Q7MNVhiIPF-y_sz2bg9dMg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E14221C09048;
+ Thu, 16 Feb 2023 14:29:17 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.233])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2A0752026D4B;
+ Thu, 16 Feb 2023 14:29:17 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v2] Do not include hw/hw.h if it is not necessary
+Date: Thu, 16 Feb 2023 15:29:15 +0100
+Message-Id: <20230216142915.304481-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v3] Adding new machine Yosemitev2 in QEMU
-Content-Language: en-US
-To: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>, clg@kaod.org,
- peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
-References: <20230216133326.216017-1-pkarthikeyan1509@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230216133326.216017-1-pkarthikeyan1509@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.351,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,44 +73,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/2/23 14:33, Karthikeyan Pasupathi wrote:
-> This patch support Yosemitev2 in QEMU environment.
-> and introduced EEPROM BMC FRU data support "add fbyv2_bmc_fruid data"
-> along with the machine support.
-> 
-> 
-> Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
-> ---
->   hw/arm/aspeed.c        | 31 +++++++++++++++++++++++++++++++
->   hw/arm/aspeed_eeprom.c | 23 +++++++++++++++++++++++
->   hw/arm/aspeed_eeprom.h |  3 +++
->   3 files changed, 57 insertions(+)
+hw.h only contains the protoype of one function nowadays, hw_error(),
+so all files that do not use this function anymore also do not need
+to include this header anymore.
 
-> +static void aspeed_machine_yosemitev2_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc = MACHINE_CLASS(oc);
-> +    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
-> +
-> +    mc->desc       = "Facebook YosemiteV2 BMC (ARM1176)";
-> +    amc->soc_name  = "ast2500-a1";
-> +    amc->hw_strap1 = AST2500_EVB_HW_STRAP1;
-> +    amc->hw_strap2 = 0;
-> +    amc->fmc_model = "n25q256a";
-> +    amc->spi_model = "mx25l25635e";
-> +    amc->num_cs    = 2;
-> +    amc->i2c_init  = yosemitev2_bmc_i2c_init;
-> +    mc->default_ram_size       = 512 * MiB;
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ v2:
+ - Add .c files, too (thanks to Philippe for the hint)
+ - Changed the subject of the patch (was: "Do not include hw.h from headers")
 
-Odd indentation
+ include/hw/ssi/ibex_spi_host.h          | 1 -
+ include/hw/tricore/tricore_testdevice.h | 1 -
+ hw/pci-host/mv64361.c                   | 1 -
+ hw/ppc/pegasos2.c                       | 1 -
+ hw/sensor/dps310.c                      | 1 -
+ 5 files changed, 5 deletions(-)
 
-> +    mc->default_cpus = mc->min_cpus = mc->max_cpus =
-> +        aspeed_soc_num_cpus(amc->soc_name);
-
-Here too. What about:
-
-        mc->default_cpus = mc->min_cpus = mc->max_cpus
-                         = aspeed_soc_num_cpus(amc->soc_name);
-
-I suppose Cédric can fix when applying, no need for v4.
+diff --git a/include/hw/ssi/ibex_spi_host.h b/include/hw/ssi/ibex_spi_host.h
+index 8089cc1c31..5bd5557b9a 100644
+--- a/include/hw/ssi/ibex_spi_host.h
++++ b/include/hw/ssi/ibex_spi_host.h
+@@ -28,7 +28,6 @@
+ #define IBEX_SPI_HOST_H
+ 
+ #include "hw/sysbus.h"
+-#include "hw/hw.h"
+ #include "hw/ssi/ssi.h"
+ #include "qemu/fifo8.h"
+ #include "qom/object.h"
+diff --git a/include/hw/tricore/tricore_testdevice.h b/include/hw/tricore/tricore_testdevice.h
+index 1e2b8942ac..8b4fe15f24 100644
+--- a/include/hw/tricore/tricore_testdevice.h
++++ b/include/hw/tricore/tricore_testdevice.h
+@@ -19,7 +19,6 @@
+ #define HW_TRICORE_TESTDEVICE_H
+ 
+ #include "hw/sysbus.h"
+-#include "hw/hw.h"
+ 
+ #define TYPE_TRICORE_TESTDEVICE "tricore_testdevice"
+ #define TRICORE_TESTDEVICE(obj) \
+diff --git a/hw/pci-host/mv64361.c b/hw/pci-host/mv64361.c
+index f43f33fbd9..298564f1f5 100644
+--- a/hw/pci-host/mv64361.c
++++ b/hw/pci-host/mv64361.c
+@@ -11,7 +11,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
+-#include "hw/hw.h"
+ #include "hw/sysbus.h"
+ #include "hw/pci/pci_device.h"
+ #include "hw/pci/pci_host.h"
+diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+index a9563f4fb2..7cc375df05 100644
+--- a/hw/ppc/pegasos2.c
++++ b/hw/ppc/pegasos2.c
+@@ -10,7 +10,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
+-#include "hw/hw.h"
+ #include "hw/ppc/ppc.h"
+ #include "hw/sysbus.h"
+ #include "hw/pci/pci_host.h"
+diff --git a/hw/sensor/dps310.c b/hw/sensor/dps310.c
+index d60a18ac41..addee99b19 100644
+--- a/hw/sensor/dps310.c
++++ b/hw/sensor/dps310.c
+@@ -9,7 +9,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/log.h"
+-#include "hw/hw.h"
+ #include "hw/i2c/i2c.h"
+ #include "qapi/error.h"
+ #include "qapi/visitor.h"
+-- 
+2.31.1
 
 
