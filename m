@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F7FF69965D
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 14:52:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC44699660
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 14:53:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSegK-0007Kk-79; Thu, 16 Feb 2023 08:52:16 -0500
+	id 1pSehJ-0000XA-MM; Thu, 16 Feb 2023 08:53:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <smostafa@google.com>)
- id 1pSegI-0007JX-LE
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:52:14 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pSehI-0000Wu-Bf
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:53:16 -0500
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <smostafa@google.com>)
- id 1pSegF-0006TD-Kj
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:52:13 -0500
-Received: by mail-wm1-x332.google.com with SMTP id r18so1605825wmq.5
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 05:52:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=2/13tiYI81FpDKKddFvA7ILvHfUZPvmt2iXRLFgT3x4=;
- b=h7VGCGcAdZB5bW9dXaQVi4uXOdPLZwq4zcwLhIdRpwd4uJrBCSdxiWJTeb30W6m1Bo
- P3viYnWPa/WUsm2gCm/p0YMyMJJAakrbyrwvoVei4o1aPNoMHxMtV3PhdEMtdYIardZ1
- Z1HnRg/4ICUYZbu6y1Ddjev2/YxdyqCnyVt1CJRL0198qKUP1UsgoO3+Xjxe7GIuCtjS
- r41qJQMCmxjf+iOrsF9Hkk9uV9CNs4yZ/Ed+auyXbxRZuSWXeGynH5w2nWevrehlnwdN
- RiHZmnLrGvaggE3Rg6bCQFKhWZubylhV6j6Qer6+LB0S/WGMVKHc01VFx1YCB8r2OPnG
- Hx9g==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pSehG-0006fb-LS
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:53:16 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id bw10so1526853pfb.0
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 05:53:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=A+QqRXMpaYZVQ9Gicgre5gq9JZrSFvw6aCTI66YFRKw=;
+ b=uDVOK5RF/0PYFOxyy0NKuGuvNRXwJ43DvtDPpUrqANJC2OK5ZBQ+sIvlMwsaycG1pl
+ M7XChx6Kaa2b2yyj5+1gUUcNl8J1/nt6CR62Nrz+FNqbbQB6eTJftrZLQXbEZKADJrJV
+ P8SJcULnbWcmI+Xmtaqta16RuvEcGy91VoS62uNtj57xXVglP990mP31aXCNPSSb5Jqg
+ 5oBf5yFQPSZj9CdLw82FZP2kPDpNYXUfegsZHZ0NWdmJAsuKFwfBunRC8Egq/ewDZe12
+ y1u6ILIbr0V4AXF8qE1j9/cmAtj2B8H0f+xR9G+irca92cYTL9W3IgeDcBP4kPvl95rS
+ JrMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2/13tiYI81FpDKKddFvA7ILvHfUZPvmt2iXRLFgT3x4=;
- b=WgnU+REIsksGLqYEIsaNI4+uA0+xTU4QCwrNnvMLE8ql1VL8OTkBJNTGaqjvmk5+p+
- ZjVCIqrw8RVYFAh54zOSlDveyr23ylammJqX6sSDvhkz1cxLLZ7rH/oMcsZYRVAh50vM
- QR3UhPDdXyj840DbjAQiRuf1eVu9XASJh4YuvuoxoLqHHqaRA1rPGow7VC1CXBaIjm0W
- hjwhF0fgPCPG1wkxgWYASYCCIoGacnS1swP1cM4Nu940AsfCt+Ef/9Z7DNN4M7sGdnJN
- +DyeARWZ3Gt1UEcN5mK4hGRZ/fqbr4A6WcHff7Z0CYFpPaSaIKybiiTgkRpRpOZVM+y3
- v2vw==
-X-Gm-Message-State: AO0yUKWM3vMdOp23j3LngjDcyj2JnfyWE+x5xT2T52xdNc7J1FnT7FN7
- 5mfGM/uE7+MeOxauRV3kFNipkA==
-X-Google-Smtp-Source: AK7set92bBVAze4Ssofqn9JFwmAOBFhtm6VmaKY3Oy10sFF44kEVayu5hYixvx1o6QgZm3KFTcY/ng==
-X-Received: by 2002:a05:600c:1d8c:b0:3df:f3cb:e8cd with SMTP id
- p12-20020a05600c1d8c00b003dff3cbe8cdmr224199wms.6.1676555530100; 
- Thu, 16 Feb 2023 05:52:10 -0800 (PST)
-Received: from google.com (44.232.78.34.bc.googleusercontent.com.
- [34.78.232.44]) by smtp.gmail.com with ESMTPSA id
- a8-20020a5d5088000000b002c567881dbcsm1569703wrt.48.2023.02.16.05.52.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 05:52:09 -0800 (PST)
-Date: Thu, 16 Feb 2023 13:52:05 +0000
-From: Mostafa Saleh <smostafa@google.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc: qemu-devel@nongnu.org, eric.auger@redhat.com, peter.maydell@linaro.org,
- qemu-arm@nongnu.org
-Subject: Re: [RFC PATCH 12/16] hw/arm/smmuv3: Add VMID to tlb tagging
-Message-ID: <Y+41BbcL2WxCfbTk@google.com>
-References: <20230205094411.793816-1-smostafa@google.com>
- <20230205094411.793816-13-smostafa@google.com>
- <Y+02xgL5RhO3vh6S@myrica>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=A+QqRXMpaYZVQ9Gicgre5gq9JZrSFvw6aCTI66YFRKw=;
+ b=dRVngGbyv4D5Wvy8d1RSwMKMrn9mcCyrzInEBLDqUG890+pTJM5oGPEe1n9UC1MoOF
+ /nIp8gkBiMNQtbaTLcup9b+f5ksJJ0+HjfTTw/tDk2zD8d2LVXno7IpPcoAw2Q5F3iD2
+ QeEWW2pjDXC/NALU+jymGaFl5p3fy9k44hSduwdXdg09CUG/tcDGlnlwc0wnmeL4/U4W
+ g6+hv7/ZKddIX4ecRIISj4UfPxqMSE/jl4W0LvxXdsBGe40bNbFjRwS0W0B469ojJbBq
+ mu5ut3aBLQn62NmtbgZDl9MeFLjAOvyA4o9PB+DePEAbGqRCRfme44i89sa2MGb9kAz7
+ Tqeg==
+X-Gm-Message-State: AO0yUKXYlEmCjrEOw2psM+1cPjHgll7K/HVT15pE4u2R+GSJ4D6CacSc
+ 1Gnrf85JqEcM0yg2LJlOFHj/cP333fch3axy7VZJ3w==
+X-Google-Smtp-Source: AK7set969Mh6ivxrtn7u154DnLBd08ITqdD5y8a1YiIj8tROlol3RLBCEs9vbztei91s0PhvwXTc/NadRT//CvdMV68=
+X-Received: by 2002:a63:770a:0:b0:4fb:86d2:654b with SMTP id
+ s10-20020a63770a000000b004fb86d2654bmr882083pgc.6.1676555593246; Thu, 16 Feb
+ 2023 05:53:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y+02xgL5RhO3vh6S@myrica>
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=smostafa@google.com; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
+References: <20230214171921.1917916-1-jean-philippe@linaro.org>
+In-Reply-To: <20230214171921.1917916-1-jean-philippe@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 16 Feb 2023 13:53:01 +0000
+Message-ID: <CAFEAcA_iTkDhrY-rxg-BjMPsvOqdQWNN=TXOuDPSZo28gXEJjg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] hw/arm/smmu: Fixes for TTB1
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Cc: eric.auger@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, ola.hugosson@arm.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,23 +83,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Jean,
+On Tue, 14 Feb 2023 at 17:21, Jean-Philippe Brucker
+<jean-philippe@linaro.org> wrote:
+>
+> Two small changes to support TTB1. Since [v1] I removed the unused
+> SMMU_MAX_VA_BITS and added tags, thanks!
+>
+> [v1] https://lore.kernel.org/qemu-devel/20230210163731.970130-1-jean-philippe@linaro.org/
+>
+> Jean-Philippe Brucker (2):
+>   hw/arm/smmu-common: Support 64-bit addresses
+>   hw/arm/smmu-common: Fix TTB1 handling
 
-Thanks for taking the time to check the patches.
 
-On Wed, Feb 15, 2023 at 07:47:18PM +0000, Jean-Philippe Brucker wrote:
-> > diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
-> > index 541c427684..028a60949a 100644
-> > --- a/hw/arm/smmu-common.c
-> > +++ b/hw/arm/smmu-common.c
-> > @@ -56,10 +56,11 @@ static gboolean smmu_iotlb_key_equal(gconstpointer v1, gconstpointer v2)
-> >             (k1->level == k2->level) && (k1->tg == k2->tg);
-> 
-> I'm getting some aliasing in the TLB, because smmu_iotlb_key_equal() is
-> missing the VMID comparison. With that fixed my handful of tests pass
-> 
-Oh, I missed that, I will update it in v2.
 
-Thanks,
-Mostafa
+Applied to target-arm.next, thanks.
+
+-- PMM
 
