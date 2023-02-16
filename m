@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66BE698D04
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 07:32:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6FA698CD4
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 07:27:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSXiS-0003S5-1D; Thu, 16 Feb 2023 01:26:00 -0500
+	id 1pSXic-0003rg-Dm; Thu, 16 Feb 2023 01:26:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+33d3adc5578b079b0cf9+7116+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pSXhx-0003JY-Ku
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:25:29 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ <BATV+96e41a9b2a2966255e0b+7116+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pSXhz-0003KP-S2
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:25:33 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+33d3adc5578b079b0cf9+7116+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pSXhk-0006xU-JJ
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:25:29 -0500
+ <BATV+96e41a9b2a2966255e0b+7116+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pSXhm-00071F-D2
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:25:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
- To:From:Reply-To:Content-ID:Content-Description;
- bh=urKKGbdsqTjakIQ7bgKT/xKrpvNdCDd4zJERFRrhrAs=; b=iDoNd7MO+AyxAY8ocLKunIGjDO
- xTc0tSIjG5RfX4IHcVZf6WBFtc1ZjqS5Xy8Oyn6jQjKUBKJfg8WSrwU/8ivhUA6KFGt5LwaJgEMG0
- 2CksH2qNKT4ULNyrUOnB2DDOulePWXmPspH46EmIJuqh9Pw5hr/QvG6qqSyxgEd0DXb2j/kIVJbHy
- 59pzsDj5xowGCe9nEG/ubYZG+nWtXvYmrmRuEBkXJFxUvRGLDAefJ58MdadQ5zLroqZ8EdqNj1nDC
- 00IDaSA59txMkA9kAIEuWpBRpaqnqt65oiet1bwnGbVygXowRlvoXQ3sxTjQjZhVFlY+2lBckOb5c
- 5TcGgXHw==;
+ d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+ Reply-To:Content-Type:Content-ID:Content-Description;
+ bh=qtGvQQ4k9VoEfpRept7NsUqERWgaN8BCbGmKpZb1noI=; b=i+ZBEbMZ9mB/6NKXh8jcZ0/gTU
+ gBLZaCdMcp+87tYkCw+OZimRl/TqMciBdrWY+IWodPmesh58DKiEH4LqQmixe79mDtAezEfZUTxKZ
+ tJZkDWTKRInQtpJ4kCDXDPtDQy2oOu24EDGwybJkIyOr+SOC89RnXiFJDZ/4rg5z3NdwTXpZOSfXo
+ LXZXe2vq067gn37Eeth6LPpzyNF5WsCMGkXQWz+yzqCCdFYquhLiPfzpjSXzcx5DgN0wk49WxT//d
+ rX0jc8rGkCmjYMyJnHS75h3wr2YNBUBYx/AIGa+KXn4UgdhVRZh+5NIGK8TGnyeuUJtpc692UzHXM
+ nQz8mEwQ==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pSXhI-0089xq-LS; Thu, 16 Feb 2023 06:24:49 +0000
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1pSXgc-00AAzQ-1i; Thu, 16 Feb 2023 06:24:54 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pSXhI-008w90-24; Thu, 16 Feb 2023 06:24:48 +0000
+ Linux)) id 1pSXhI-008w95-2H; Thu, 16 Feb 2023 06:24:48 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -49,21 +49,19 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-Subject: [PATCH v11 43/59] hw/xen: Add xen_gnttab device for grant table
- emulation
-Date: Thu, 16 Feb 2023 06:24:28 +0000
-Message-Id: <20230216062444.2129371-44-dwmw2@infradead.org>
+Subject: [PATCH v11 44/59] hw/xen: Support mapping grant frames
+Date: Thu, 16 Feb 2023 06:24:29 +0000
+Message-Id: <20230216062444.2129371-45-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230216062444.2129371-1-dwmw2@infradead.org>
 References: <20230216062444.2129371-1-dwmw2@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+33d3adc5578b079b0cf9+7116+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+96e41a9b2a2966255e0b+7116+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -89,211 +87,156 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 From: David Woodhouse <dwmw@amazon.co.uk>
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- hw/i386/kvm/meson.build   |   1 +
- hw/i386/kvm/xen_gnttab.c  | 111 ++++++++++++++++++++++++++++++++++++++
- hw/i386/kvm/xen_gnttab.h  |  18 +++++++
- hw/i386/pc.c              |   2 +
- target/i386/kvm/xen-emu.c |   3 ++
- 5 files changed, 135 insertions(+)
- create mode 100644 hw/i386/kvm/xen_gnttab.c
- create mode 100644 hw/i386/kvm/xen_gnttab.h
+ hw/i386/kvm/xen_gnttab.c  | 73 ++++++++++++++++++++++++++++++++++++++-
+ hw/i386/kvm/xen_overlay.c |  2 +-
+ hw/i386/kvm/xen_overlay.h |  2 ++
+ 3 files changed, 75 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i386/kvm/meson.build b/hw/i386/kvm/meson.build
-index cab64df339..e02449e4d4 100644
---- a/hw/i386/kvm/meson.build
-+++ b/hw/i386/kvm/meson.build
-@@ -7,6 +7,7 @@ i386_kvm_ss.add(when: 'CONFIG_IOAPIC', if_true: files('ioapic.c'))
- i386_kvm_ss.add(when: 'CONFIG_XEN_EMU', if_true: files(
-   'xen_overlay.c',
-   'xen_evtchn.c',
-+  'xen_gnttab.c',
-   ))
- 
- i386_ss.add_all(when: 'CONFIG_KVM', if_true: i386_kvm_ss)
 diff --git a/hw/i386/kvm/xen_gnttab.c b/hw/i386/kvm/xen_gnttab.c
-new file mode 100644
-index 0000000000..ef8857e50c
---- /dev/null
+index ef8857e50c..72e87aea6a 100644
+--- a/hw/i386/kvm/xen_gnttab.c
 +++ b/hw/i386/kvm/xen_gnttab.c
-@@ -0,0 +1,111 @@
-+/*
-+ * QEMU Xen emulation: Grant table support
-+ *
-+ * Copyright © 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-+ *
-+ * Authors: David Woodhouse <dwmw2@infradead.org>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
+@@ -37,13 +37,26 @@ OBJECT_DECLARE_SIMPLE_TYPE(XenGnttabState, XEN_GNTTAB)
+ #define XEN_PAGE_SHIFT 12
+ #define XEN_PAGE_SIZE (1ULL << XEN_PAGE_SHIFT)
+ 
++#define ENTRIES_PER_FRAME_V1 (XEN_PAGE_SIZE / sizeof(grant_entry_v1_t))
 +
-+#include "qemu/osdep.h"
-+#include "qemu/host-utils.h"
-+#include "qemu/module.h"
-+#include "qemu/lockable.h"
-+#include "qemu/main-loop.h"
-+#include "qapi/error.h"
-+#include "qom/object.h"
-+#include "exec/target_page.h"
-+#include "exec/address-spaces.h"
-+#include "migration/vmstate.h"
+ struct XenGnttabState {
+     /*< private >*/
+     SysBusDevice busdev;
+     /*< public >*/
+ 
++    QemuMutex gnt_lock;
 +
-+#include "hw/sysbus.h"
-+#include "hw/xen/xen.h"
-+#include "xen_overlay.h"
-+#include "xen_gnttab.h"
+     uint32_t nr_frames;
+     uint32_t max_frames;
 +
-+#include "sysemu/kvm.h"
-+#include "sysemu/kvm_xen.h"
++    union {
++        grant_entry_v1_t *v1;
++        /* Theoretically, v2 support could be added here. */
++    } entries;
 +
-+#include "hw/xen/interface/memory.h"
-+#include "hw/xen/interface/grant_table.h"
-+
-+#define TYPE_XEN_GNTTAB "xen-gnttab"
-+OBJECT_DECLARE_SIMPLE_TYPE(XenGnttabState, XEN_GNTTAB)
-+
-+#define XEN_PAGE_SHIFT 12
-+#define XEN_PAGE_SIZE (1ULL << XEN_PAGE_SHIFT)
-+
-+struct XenGnttabState {
-+    /*< private >*/
-+    SysBusDevice busdev;
-+    /*< public >*/
-+
-+    uint32_t nr_frames;
-+    uint32_t max_frames;
-+};
-+
-+struct XenGnttabState *xen_gnttab_singleton;
-+
-+static void xen_gnttab_realize(DeviceState *dev, Error **errp)
-+{
-+    XenGnttabState *s = XEN_GNTTAB(dev);
-+
-+    if (xen_mode != XEN_EMULATE) {
-+        error_setg(errp, "Xen grant table support is for Xen emulation");
-+        return;
-+    }
-+    s->nr_frames = 0;
-+    s->max_frames = kvm_xen_get_gnttab_max_frames();
-+}
-+
-+static bool xen_gnttab_is_needed(void *opaque)
-+{
-+    return xen_mode == XEN_EMULATE;
-+}
-+
-+static const VMStateDescription xen_gnttab_vmstate = {
-+    .name = "xen_gnttab",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = xen_gnttab_is_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32(nr_frames, XenGnttabState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void xen_gnttab_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->realize = xen_gnttab_realize;
-+    dc->vmsd = &xen_gnttab_vmstate;
-+}
-+
-+static const TypeInfo xen_gnttab_info = {
-+    .name          = TYPE_XEN_GNTTAB,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(XenGnttabState),
-+    .class_init    = xen_gnttab_class_init,
-+};
-+
-+void xen_gnttab_create(void)
-+{
-+    xen_gnttab_singleton = XEN_GNTTAB(sysbus_create_simple(TYPE_XEN_GNTTAB,
-+                                                           -1, NULL));
-+}
-+
-+static void xen_gnttab_register_types(void)
-+{
-+    type_register_static(&xen_gnttab_info);
-+}
-+
-+type_init(xen_gnttab_register_types)
-+
-+int xen_gnttab_map_page(uint64_t idx, uint64_t gfn)
-+{
-+    return -ENOSYS;
-+}
-+
-diff --git a/hw/i386/kvm/xen_gnttab.h b/hw/i386/kvm/xen_gnttab.h
-new file mode 100644
-index 0000000000..a7caa94c83
---- /dev/null
-+++ b/hw/i386/kvm/xen_gnttab.h
-@@ -0,0 +1,18 @@
-+/*
-+ * QEMU Xen emulation: Grant table support
-+ *
-+ * Copyright © 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-+ *
-+ * Authors: David Woodhouse <dwmw2@infradead.org>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef QEMU_XEN_GNTTAB_H
-+#define QEMU_XEN_GNTTAB_H
-+
-+void xen_gnttab_create(void);
-+int xen_gnttab_map_page(uint64_t idx, uint64_t gfn);
-+
-+#endif /* QEMU_XEN_GNTTAB_H */
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 2d3f316d10..ae1d50e084 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -91,6 +91,7 @@
- #include "hw/virtio/virtio-mem-pci.h"
- #include "hw/i386/kvm/xen_overlay.h"
- #include "hw/i386/kvm/xen_evtchn.h"
-+#include "hw/i386/kvm/xen_gnttab.h"
- #include "hw/mem/memory-device.h"
- #include "sysemu/replay.h"
- #include "target/i386/cpu.h"
-@@ -1858,6 +1859,7 @@ int pc_machine_kvm_type(MachineState *machine, const char *kvm_type)
-     if (xen_mode == XEN_EMULATE) {
-         xen_overlay_create();
-         xen_evtchn_create();
-+        xen_gnttab_create();
++    MemoryRegion gnt_frames;
++    MemoryRegion *gnt_aliases;
++    uint64_t *gnt_frame_gpas;
+ };
+ 
+ struct XenGnttabState *xen_gnttab_singleton;
+@@ -51,6 +64,7 @@ struct XenGnttabState *xen_gnttab_singleton;
+ static void xen_gnttab_realize(DeviceState *dev, Error **errp)
+ {
+     XenGnttabState *s = XEN_GNTTAB(dev);
++    int i;
+ 
+     if (xen_mode != XEN_EMULATE) {
+         error_setg(errp, "Xen grant table support is for Xen emulation");
+@@ -58,6 +72,38 @@ static void xen_gnttab_realize(DeviceState *dev, Error **errp)
      }
- #endif
-     return 0;
-diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index c57620ca51..41976e85af 100644
---- a/target/i386/kvm/xen-emu.c
-+++ b/target/i386/kvm/xen-emu.c
-@@ -25,6 +25,7 @@
- #include "hw/i386/apic-msidef.h"
- #include "hw/i386/kvm/xen_overlay.h"
- #include "hw/i386/kvm/xen_evtchn.h"
-+#include "hw/i386/kvm/xen_gnttab.h"
- 
- #include "hw/xen/interface/version.h"
- #include "hw/xen/interface/sched.h"
-@@ -560,6 +561,8 @@ static int add_to_physmap_one(uint32_t space, uint64_t idx, uint64_t gfn)
-         return xen_set_shared_info(gfn);
- 
-     case XENMAPSPACE_grant_table:
-+        return xen_gnttab_map_page(idx, gfn);
+     s->nr_frames = 0;
+     s->max_frames = kvm_xen_get_gnttab_max_frames();
++    memory_region_init_ram(&s->gnt_frames, OBJECT(dev), "xen:grant_table",
++                           XEN_PAGE_SIZE * s->max_frames, &error_abort);
++    memory_region_set_enabled(&s->gnt_frames, true);
++    s->entries.v1 = memory_region_get_ram_ptr(&s->gnt_frames);
++    memset(s->entries.v1, 0, XEN_PAGE_SIZE * s->max_frames);
 +
-     case XENMAPSPACE_gmfn:
-     case XENMAPSPACE_gmfn_range:
-         return -ENOTSUP;
++    /* Create individual page-sizes aliases for overlays */
++    s->gnt_aliases = (void *)g_new0(MemoryRegion, s->max_frames);
++    s->gnt_frame_gpas = (void *)g_new(uint64_t, s->max_frames);
++    for (i = 0; i < s->max_frames; i++) {
++        memory_region_init_alias(&s->gnt_aliases[i], OBJECT(dev),
++                                 NULL, &s->gnt_frames,
++                                 i * XEN_PAGE_SIZE, XEN_PAGE_SIZE);
++        s->gnt_frame_gpas[i] = INVALID_GPA;
++    }
++
++    qemu_mutex_init(&s->gnt_lock);
++
++    xen_gnttab_singleton = s;
++}
++
++static int xen_gnttab_post_load(void *opaque, int version_id)
++{
++    XenGnttabState *s = XEN_GNTTAB(opaque);
++    uint32_t i;
++
++    for (i = 0; i < s->nr_frames; i++) {
++        if (s->gnt_frame_gpas[i] != INVALID_GPA) {
++            xen_overlay_do_map_page(&s->gnt_aliases[i], s->gnt_frame_gpas[i]);
++        }
++    }
++    return 0;
+ }
+ 
+ static bool xen_gnttab_is_needed(void *opaque)
+@@ -70,8 +116,11 @@ static const VMStateDescription xen_gnttab_vmstate = {
+     .version_id = 1,
+     .minimum_version_id = 1,
+     .needed = xen_gnttab_is_needed,
++    .post_load = xen_gnttab_post_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT32(nr_frames, XenGnttabState),
++        VMSTATE_VARRAY_UINT32(gnt_frame_gpas, XenGnttabState, nr_frames, 0,
++                              vmstate_info_uint64, uint64_t),
+         VMSTATE_END_OF_LIST()
+     }
+ };
+@@ -106,6 +155,28 @@ type_init(xen_gnttab_register_types)
+ 
+ int xen_gnttab_map_page(uint64_t idx, uint64_t gfn)
+ {
+-    return -ENOSYS;
++    XenGnttabState *s = xen_gnttab_singleton;
++    uint64_t gpa = gfn << XEN_PAGE_SHIFT;
++
++    if (!s) {
++        return -ENOTSUP;
++    }
++
++    if (idx >= s->max_frames) {
++        return -EINVAL;
++    }
++
++    QEMU_IOTHREAD_LOCK_GUARD();
++    QEMU_LOCK_GUARD(&s->gnt_lock);
++
++    xen_overlay_do_map_page(&s->gnt_aliases[idx], gpa);
++
++    s->gnt_frame_gpas[idx] = gpa;
++
++    if (s->nr_frames <= idx) {
++        s->nr_frames = idx + 1;
++    }
++
++    return 0;
+ }
+ 
+diff --git a/hw/i386/kvm/xen_overlay.c b/hw/i386/kvm/xen_overlay.c
+index 8685d87959..39fda1b72c 100644
+--- a/hw/i386/kvm/xen_overlay.c
++++ b/hw/i386/kvm/xen_overlay.c
+@@ -49,7 +49,7 @@ struct XenOverlayState {
+ 
+ struct XenOverlayState *xen_overlay_singleton;
+ 
+-static void xen_overlay_do_map_page(MemoryRegion *page, uint64_t gpa)
++void xen_overlay_do_map_page(MemoryRegion *page, uint64_t gpa)
+ {
+     /*
+      * Xen allows guests to map the same page as many times as it likes
+diff --git a/hw/i386/kvm/xen_overlay.h b/hw/i386/kvm/xen_overlay.h
+index 5c46a0b036..75ecb6b359 100644
+--- a/hw/i386/kvm/xen_overlay.h
++++ b/hw/i386/kvm/xen_overlay.h
+@@ -21,4 +21,6 @@ int xen_sync_long_mode(void);
+ int xen_set_long_mode(bool long_mode);
+ bool xen_is_long_mode(void);
+ 
++void xen_overlay_do_map_page(MemoryRegion *page, uint64_t gpa);
++
+ #endif /* QEMU_XEN_OVERLAY_H */
 -- 
 2.39.0
 
