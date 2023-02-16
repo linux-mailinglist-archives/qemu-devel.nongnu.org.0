@@ -2,57 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BEE6699716
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:21:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50588699708
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:19:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSf86-0003UF-SM; Thu, 16 Feb 2023 09:21:00 -0500
+	id 1pSf5v-0001zJ-GG; Thu, 16 Feb 2023 09:18:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pSf7e-0003DC-Jr; Thu, 16 Feb 2023 09:20:30 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pSf5t-0001yu-Ja
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:18:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pSf7c-0003LB-Nf; Thu, 16 Feb 2023 09:20:30 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A5DEF74633D;
- Thu, 16 Feb 2023 15:17:52 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id E85D8746324; Thu, 16 Feb 2023 15:17:51 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id E6345745712;
- Thu, 16 Feb 2023 15:17:51 +0100 (CET)
-Date: Thu, 16 Feb 2023 15:17:51 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
-cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, 
- Eduardo Habkost <eduardo@habkost.net>, qemu-block@nongnu.org, 
- Hu Tao <hutao@cn.fujitsu.com>, Gonglei Arei <arei.gonglei@huawei.com>, 
- Richard Henderson <richard.henderson@linaro.org>, 
- Li Qiang <liq3ea@163.com>, Cao jin <caoj.fnst@cn.fujitsu.com>, 
- xiaoqiang zhao <zxq_yx_007@163.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, 
- =?ISO-8859-15?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH v3 01/14] hw/char/serial-pci: Replace
- DO_UPCAST(PCISerialState) by PCI_SERIAL()
-In-Reply-To: <892b6b09-6adc-c935-ab3d-d55965792d5f@linaro.org>
-Message-ID: <c39404f9-40ac-0595-45b7-f49bd251ca4e@eik.bme.hu>
-References: <20230213184338.46712-1-philmd@linaro.org>
- <20230213184338.46712-2-philmd@linaro.org>
- <f987749e-d7d8-7812-b118-2eb449ff09f6@redhat.com>
- <892b6b09-6adc-c935-ab3d-d55965792d5f@linaro.org>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pSf5r-0002i8-QX
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:18:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676557119;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zS5NZUIZUDUkh1/IVZDXvUyeZ0ynjF81iswHJAuxQBc=;
+ b=Gs1zZWv+mCr/6udDWIHK4sbXxloK3pCYl4Uq/8lG8DGIteMLF1SNkqcR9OY6GOhz8+XEXq
+ LLXl/C0FY9bKagMUTllw8s2DuOaYzx3o8o8E/qtliB/l16pu4OIzmEqZ2fIkZ+FmqQyLWT
+ aWdMPJc8lqLl9d6/tnwcN5Xf9ILu3L4=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-427-x5RhNyWGPOy1HZXfkr49UQ-1; Thu, 16 Feb 2023 09:18:37 -0500
+X-MC-Unique: x5RhNyWGPOy1HZXfkr49UQ-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ gu10-20020a056214260a00b0056c2005684aso1130028qvb.23
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 06:18:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zS5NZUIZUDUkh1/IVZDXvUyeZ0ynjF81iswHJAuxQBc=;
+ b=O9YBT1d5/ZHoy1jYmwA3f4OALnBRnILK/gamfa1C91azAJTolOjf7wq+w8lTSfdU+P
+ dmBY/p57H1eKQswPRhlDA4HXUytzR9wos/fx/NBIzgKdkIHqOd8qjf4c7dK7FbKFZf6o
+ Psb8xKg8ozmH054UJuy6zrCov64MQE2W0w6t7kCQHpnvTFdt04zBod57YJx5C/U/kVHM
+ 47YTCvo+gycVRyiaDyXudtD4bEtDRyyyAXNo99vBSUgLJx3ZN+MBz7GvemMB+AyuH/OB
+ Vh1xfy8hL873kauvmH1a0AOZHYIijgswSxfc28miLyrkYEAbGS919x0CgGjkQ/6UF85W
+ W1cw==
+X-Gm-Message-State: AO0yUKX0WilCAKh7gdPAoq4TwLl3iqltvX5p0tiSwZcE4FVanw4X0XiZ
+ zvwK31nKvH+01EPFfyjX36gcu4qkSx+1zRwwS/ltER86XvNBqtiVK1FMc8naOC+nn+bBU5PiDih
+ 7nO2Ik40PjfDgJfE=
+X-Received: by 2002:a05:622a:311:b0:3b9:a441:37ed with SMTP id
+ q17-20020a05622a031100b003b9a44137edmr9834028qtw.32.1676557116894; 
+ Thu, 16 Feb 2023 06:18:36 -0800 (PST)
+X-Google-Smtp-Source: AK7set+myTD6VUnfo6c32pAIoyitWX0BatNuM7UhzbjOECAsAEnPHoc38OlF18DMf4EPFhxGFeQ81g==
+X-Received: by 2002:a05:622a:311:b0:3b9:a441:37ed with SMTP id
+ q17-20020a05622a031100b003b9a44137edmr9833995qtw.32.1676557116590; 
+ Thu, 16 Feb 2023 06:18:36 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-144.web.vodafone.de.
+ [109.43.176.144]) by smtp.gmail.com with ESMTPSA id
+ s64-20020a372c43000000b00719165e9e72sm1233393qkh.91.2023.02.16.06.18.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Feb 2023 06:18:36 -0800 (PST)
+Message-ID: <18f52a74-64f4-8af6-6d51-21e2ff469adf@redhat.com>
+Date: Thu, 16 Feb 2023 15:18:32 +0100
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-678830211-1676557071=:10520"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v3 4/6] hw/vfio/ccw: Replace DO_UPCAST(S390CCWDevice) by
+ S390_CCW_DEVICE()
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Eric Farman <farman@linux.ibm.com>,
+ qemu-devel@nongnu.org, Cedric Le Goater <clegoate@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
+ Alex Williamson <alex.williamson@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Matthew Rosato
+ <mjrosato@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Ilya Leoshkevich <iii@linux.ibm.com>
+References: <20230213170145.45666-1-philmd@linaro.org>
+ <20230213170145.45666-5-philmd@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230213170145.45666-5-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.351, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,74 +107,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 13/02/2023 18.01, Philippe Mathieu-Daudé wrote:
+> Use the S390_CCW_DEVICE() QOM type-checking macro to avoid DO_UPCAST().
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   hw/vfio/ccw.c | 9 +++------
+>   1 file changed, 3 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
+> index 2c20e3c202..2ea7b4a63c 100644
+> --- a/hw/vfio/ccw.c
+> +++ b/hw/vfio/ccw.c
+> @@ -251,8 +251,7 @@ again:
+>   
+>   static void vfio_ccw_reset(DeviceState *dev)
+>   {
+> -    CcwDevice *ccw_dev = DO_UPCAST(CcwDevice, parent_obj, dev);
+> -    S390CCWDevice *cdev = DO_UPCAST(S390CCWDevice, parent_obj, ccw_dev);
+> +    S390CCWDevice *cdev = S390_CCW_DEVICE(dev);
+>       VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
+>   
+>       ioctl(vcdev->vdev.fd, VFIO_DEVICE_RESET);
+> @@ -657,8 +656,7 @@ static VFIOGroup *vfio_ccw_get_group(S390CCWDevice *cdev, Error **errp)
+>   static void vfio_ccw_realize(DeviceState *dev, Error **errp)
+>   {
+>       VFIOGroup *group;
+> -    CcwDevice *ccw_dev = DO_UPCAST(CcwDevice, parent_obj, dev);
+> -    S390CCWDevice *cdev = DO_UPCAST(S390CCWDevice, parent_obj, ccw_dev);
+> +    S390CCWDevice *cdev = S390_CCW_DEVICE(dev);
+>       VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
+>       S390CCWDeviceClass *cdc = S390_CCW_DEVICE_GET_CLASS(cdev);
+>       Error *err = NULL;
+> @@ -729,8 +727,7 @@ out_err_propagate:
+>   
+>   static void vfio_ccw_unrealize(DeviceState *dev)
+>   {
+> -    CcwDevice *ccw_dev = DO_UPCAST(CcwDevice, parent_obj, dev);
+> -    S390CCWDevice *cdev = DO_UPCAST(S390CCWDevice, parent_obj, ccw_dev);
+> +    S390CCWDevice *cdev = S390_CCW_DEVICE(dev);
+>       VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
+>       S390CCWDeviceClass *cdc = S390_CCW_DEVICE_GET_CLASS(cdev);
+>       VFIOGroup *group = vcdev->vdev.group;
 
---3866299591-678830211-1676557071=:10520
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-On Thu, 16 Feb 2023, Philippe Mathieu-Daudé wrote:
-> On 16/2/23 12:20, Thomas Huth wrote:
->> On 13/02/2023 19.43, Philippe Mathieu-Daudé wrote:
->>> Use the PCI_SERIAL() QOM type-checking macro to avoid DO_UPCAST().
->>> 
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>> ---
->>>   hw/char/serial-pci.c | 7 +++++--
->>>   1 file changed, 5 insertions(+), 2 deletions(-)
->>> 
->>> diff --git a/hw/char/serial-pci.c b/hw/char/serial-pci.c
->>> index 801b769aba..9689645cac 100644
->>> --- a/hw/char/serial-pci.c
->>> +++ b/hw/char/serial-pci.c
->>> @@ -36,7 +36,10 @@
->>>   #include "qom/object.h"
->>>   struct PCISerialState {
->>> +    /*< private >*/
->>>       PCIDevice dev;
->>> +    /*< public >*/
->>> +
->> 
->> I'm not sure about this part of the patch. It does not seem to be related 
->> to the other changes at all, and are you sure about which parts are really 
->> "public" and which parts are "private"? If so, I'd like to see a 
->> description about this in the commit message, preferably in a separate 
->> patch. Also, why an empty line after the "public" comment?
->
-> This is how QOM style separates the object 'private' part -- the
-> inherited parent, used by the QOM-cast macros -- and the fields
-> specific to this object.
-> The private field *must* be the first one in the structure for the
-> cast macros to work.
->
-> Maybe this isn't a convention and we could make one, to unify the
-> API style. I'm open to better suggestion :)
->
-> I suppose I got custom to see it to distinct the QOM hierarchy and
-> now it helps me to detect what is QOM and what isn't.
-> Anyway I'll remove from this patch.
-
-I also dislike these comments and empty lines in these struct definitions. 
-I think it should be enough to document this QOM convention in the docs 
-saying that each QOM object state has to have it's parent's state as first 
-member and you're not supposed to access it directly (except maybe from 
-very closely related sub class) but do a QOM cast instead. If this is 
-clearly stated in the docs then there's no need to add comments about this 
-in every object. You could tell QOM objects from other structs by the 
-first member also being a QOM object and usually called parent or similar 
-but sometimes just dev. If you really want to get fancy maybe you could 
-hide it in a macro, something like:
-
-OBJECT_STATE(PCISerialState, PCIDevice)
-...
-END_OBJECT_STATE
-
-but I'm not sure I like that because it has to hide the braces in the 
-macro so it's not clear it's just a struct. So just describing it in the 
-docs if it's not already is probably enough.
-
-Regards,
-BALATON Zoltan
---3866299591-678830211-1676557071=:10520--
 
