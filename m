@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAA3D698DD6
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 08:34:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19197698DDD
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 08:35:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSYlC-0006on-Lk; Thu, 16 Feb 2023 02:32:54 -0500
+	id 1pSYnC-0008Sx-UB; Thu, 16 Feb 2023 02:34:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pSYl9-0006h0-7t
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 02:32:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pSYnA-0008Ro-Qa
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 02:34:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pSYl6-0003cU-MK
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 02:32:50 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pSYn9-0006Mh-4C
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 02:34:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676532767;
+ s=mimecast20190719; t=1676532894;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vpYWYfCv9xvpyVMbEw/vB0QdfPlqAFjQcuseLsJL8RI=;
- b=UM7WJ4pUUOxYJKPTwikEqb+K9poICv7RwO+0R0oFbiriFqsGz5BzasiCcqYZEDayAKKxwU
- 1zHbMVKejyPZBbmWpvR6yK7MG3RQviOx6K3JJAf9kuxA+/SMI1xEEmFL17+0BeAW6PV96b
- AiqQ73lWMjg1p9pltXeJ3B8oqF/ZIl8=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ZPb4rNiPVH62XA6fMrT3LhZNZV/gCdQNzwieA9CVAc8=;
+ b=cbSgTaCtbJPrnidfBDIRGFwfrAGdGDvZqtHDlsYMeQvoe+BxNqESOtMHTl//t89pmcMTM5
+ 1/doaXzKWWE4FvkwwAiyOIpyJUazYxk/PkCnzKW6BJcgj0h2svPWJxdT9L1/9vn13SagNa
+ 9ZuOzwwVM8VZNpMBAQIEgvYBiSKl/qA=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-624-AzNodK_JMLudHzXsSpK8og-1; Thu, 16 Feb 2023 02:32:44 -0500
-X-MC-Unique: AzNodK_JMLudHzXsSpK8og-1
-Received: by mail-qk1-f197.google.com with SMTP id
- x14-20020a05620a14ae00b0072f7f0f356bso717899qkj.1
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 23:32:44 -0800 (PST)
+ us-mta-557-dHdgS9GRNX2MWlZxDMVOUg-1; Thu, 16 Feb 2023 02:34:52 -0500
+X-MC-Unique: dHdgS9GRNX2MWlZxDMVOUg-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ g9-20020ac80709000000b003ba266c0c2bso780240qth.5
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 23:34:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vpYWYfCv9xvpyVMbEw/vB0QdfPlqAFjQcuseLsJL8RI=;
- b=fxmmgiFHGrywsWENOEt69GlEZH8wKDvIO5udvihzDTtNG62dEgE08r9qVuy0v6paTz
- jF3tdeFtNCb2U2f24CfDHce/AK83tpztoXswW6xb8k5hnsH6Mo+YNjFyw0IFKkF5m1fM
- xc4iqvsbvc2VTL6UqLzwtBIatgZJ7AzipmizLRSzmxccjQ6VJYpKZl3QNUwd6QnHmT63
- 5Vju1j3TDBpd2S8/zVVsq20X00PmP/OAZ/k1DlTGZuikDbFzCWqGEk2ucO77pVCOutWE
- pdMpI3/VdUqsuVbgWr6AxNoRECaPU+SkKTp3OwiW0wXXlaWoxfK4jVHpOzRs+ygd8Lw/
- UW6g==
-X-Gm-Message-State: AO0yUKXS8kWnsc5pytJsQZro71WbvxnoZfG0WBU6lm25hen01jsqC5Ys
- jvGD5++2NKi6G4U8c+tQHqwBYXdEtSKcy9lqI7D9BQtzdDfkR5XsqFNwRTWlju5sg3Bopg5gvtY
- ux+ur2SUq8ljcMFk=
-X-Received: by 2002:ac8:570f:0:b0:3b9:abfb:61cd with SMTP id
- 15-20020ac8570f000000b003b9abfb61cdmr8301760qtw.26.1676532763733; 
- Wed, 15 Feb 2023 23:32:43 -0800 (PST)
-X-Google-Smtp-Source: AK7set+M0J7mbHrih0auHvwQNXzd8yPspj7V/RuKf80/WfGvHFHA7ZSEvU0V+MUoSN7k7rNWAQH6NQ==
-X-Received: by 2002:ac8:570f:0:b0:3b9:abfb:61cd with SMTP id
- 15-20020ac8570f000000b003b9abfb61cdmr8301728qtw.26.1676532763497; 
- Wed, 15 Feb 2023 23:32:43 -0800 (PST)
+ bh=ZPb4rNiPVH62XA6fMrT3LhZNZV/gCdQNzwieA9CVAc8=;
+ b=bMSXmBBFwkhBlkfjw9hAbM9rlr9KboyDGK+Yp4th69u6wVW26RDa2e6lMVYLwKfKdG
+ PaDAJeYiwZfwpS3iDYNQHHQZqOjf9pOxQeIUKef9ZjtOyKBpHUlXOLjhsxXhOC3LN0PJ
+ Rq5yhfwDSs8iLLQ7ro6AgcsJdEYXyx3w/mBbpjHdqYmnSFNXF2dGNgQYlhOhNnU9kz9W
+ VMra7BNrBIb5XNfHTpKt1r4wJF5JARv0jVgB/u2d47Ji+LB8ycqdxnIymka1qOnaNGb4
+ 4RegYsAEn5+7NlnZfWDsCNIPYsAjv8ov4qrWSLlEQBPzvMZLNpRYHUxGdEy7ZoJ4eXao
+ oEDw==
+X-Gm-Message-State: AO0yUKU+kTs6UZUTRN94FGCOHl0GiuYj1TKL22vgN4pawIs5rH8gFV8h
+ 3DK2Pu/nzp9N8wt3dbVyJlAVDkDGZ6UTBckqrPhx1Nl4R9G/KLZRwL4ICkez5KpmqZCcr4KgYDX
+ h7EECV1xeuF+mI8E=
+X-Received: by 2002:ac8:5bd5:0:b0:3b9:c074:6e3c with SMTP id
+ b21-20020ac85bd5000000b003b9c0746e3cmr9210933qtb.43.1676532892433; 
+ Wed, 15 Feb 2023 23:34:52 -0800 (PST)
+X-Google-Smtp-Source: AK7set9Lix5CPENztoWwpkljA0119Ts493OEY//wSk5aTq2TQJkXES7BC8Chr7M1XJYlyexCx8VEtw==
+X-Received: by 2002:ac8:5bd5:0:b0:3b9:c074:6e3c with SMTP id
+ b21-20020ac85bd5000000b003b9c0746e3cmr9210912qtb.43.1676532892203; 
+ Wed, 15 Feb 2023 23:34:52 -0800 (PST)
 Received: from [192.168.0.2] (ip-109-43-176-144.web.vodafone.de.
  [109.43.176.144]) by smtp.gmail.com with ESMTPSA id
- e4-20020ac84e44000000b003b9bca1e093sm814019qtw.27.2023.02.15.23.32.39
+ c13-20020ac81e8d000000b003b9ba2cf068sm795457qtm.56.2023.02.15.23.34.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Feb 2023 23:32:43 -0800 (PST)
-Message-ID: <9d47c51d-07bb-d951-0656-688abb625062@redhat.com>
-Date: Thu, 16 Feb 2023 08:32:38 +0100
+ Wed, 15 Feb 2023 23:34:51 -0800 (PST)
+Message-ID: <1b0d28cb-61aa-1e5a-f246-5e110ab5df79@redhat.com>
+Date: Thu, 16 Feb 2023 08:34:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH 01/12] gitlab: tweak and filter ninja output to reduce
- build noise
+Subject: Re: [PATCH 04/12] tests: be a bit more strict cleaning up fifos
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
@@ -87,12 +86,12 @@ Cc: Michael Roth <michael.roth@amd.com>, Alexander Bulekov <alxndr@bu.edu>,
  Beraldo Leal <bleal@redhat.com>, Ed Maste <emaste@freebsd.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
 References: <20230215192530.299263-1-alex.bennee@linaro.org>
- <20230215192530.299263-2-alex.bennee@linaro.org>
+ <20230215192530.299263-5-alex.bennee@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230215192530.299263-2-alex.bennee@linaro.org>
+In-Reply-To: <20230215192530.299263-5-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -100,7 +99,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.257, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,40 +116,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 15/02/2023 20.25, Alex Bennée wrote:
-> A significant portion of our CI logs are just enumerating each
-> successfully built object file. The current widespread versions of
-> ninja don't have a quiet option so we use NINJA_STATUS to add a fixed
-> string to the ninja output which we then filter with grep. If there
-> are any errors in the output we get them from the compiler.
+> When we re-factored we dropped the unlink() step which turns out to be
+> required for rmdir to do its thing. If we had been checking the return
+> value we would have noticed so lets do that with this fix.
 > 
+> Fixes: 68406d1085 (tests/unit: cleanups for test-io-channel-command)
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Suggested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   .gitlab-ci.d/buildtest-template.yml | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
-> index 73ecfabb8d..3af51846cd 100644
-> --- a/.gitlab-ci.d/buildtest-template.yml
-> +++ b/.gitlab-ci.d/buildtest-template.yml
-> @@ -21,7 +21,7 @@
->         then
->           ../meson/meson.py configure . -Dbackend_max_links="$LD_JOBS" ;
->         fi || exit 1;
-> -    - make -j"$JOBS"
-> +    - env NINJA_STATUS="[ninja][%f/%t] " make -j"$JOBS" | grep -v "\[ninja\]\[.*[123456789]/"
->       - if test -n "$MAKE_CHECK_ARGS";
->         then
->           make -j"$JOBS" $MAKE_CHECK_ARGS ;
+>   tests/unit/test-io-channel-command.c | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
 
-Not meant as a veto, but just for the records: I still don't like the idea. 
-Having a log of the files that got compiled is still sometimes useful for 
-me, e.g. when I want to check whether a certain file has been compiled at 
-all or not (when e.g. debugging meson.build problems). So I'm still in 
-favour of dropping this patch.
-
-IMHO if you want to shorten the build log in the CI, please get those chatty 
-softfloat tests fixed instead.
-
-  Thomas
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
