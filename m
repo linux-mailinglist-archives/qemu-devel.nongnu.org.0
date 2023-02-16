@@ -2,78 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D36E698904
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 01:03:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE826698903
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 01:03:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSRjS-0000y9-2t; Wed, 15 Feb 2023 19:02:38 -0500
+	id 1pSRju-00014v-6i; Wed, 15 Feb 2023 19:03:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
- id 1pSRjQ-0000xw-7z
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 19:02:36 -0500
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pSRjo-00013z-Im
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 19:03:01 -0500
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
- id 1pSRjK-0007qF-5g
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 19:02:35 -0500
-Received: by mail-ej1-x632.google.com with SMTP id my5so1125361ejc.7
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 16:02:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=PAefcUOnzj1B/nFgdkM9POAquJhLrIgi9JYQYtMQaRw=;
- b=6Cp3w10V858cvAtyvuAOu1nJyy0Tjc7tg+zXZjynxS/bb70YaLfQdvWwNtPhK2plmG
- w2iYjnaN7adAQqV5V6vDBfbNEy7hGvb7IPuxx8h0A3tyF3c9DcPB78IHd5T6rNwdro0u
- D0+V4rW6gtuAKLET1jQTTXlP5fCL88cUOiYKH/8FBUSDvwcjdQRksEe88+Mab114qhW2
- g93EZeATITfg3EAiUp2cX1s1/yvtXxigy1Bl0slkE6XzSiWgeJDxKt6pV2gCMV7aFA2X
- Ew1ieLcHqNwYN57tlom55pd3pvyLCP2/QI0hbYt8yp13SZcYXO7wwiZQcPPMcCfskGvp
- atMg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pSRjk-0007sV-Ns
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 19:02:59 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id n2so218131pgb.2
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 16:02:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=LOIkRH7TUPjDBmVuYMmdclpQs5reHe741TvewIhihM4=;
+ b=ECKbQYKtp8z8uuEayZg8oQsfGn9NzdsD885TltVVUe1PKCdJcWjqmtejK4keY+sZ6N
+ onwiJGIJ26ylja+ag6pJ6iA/6FJs6+I+1arRotW2q0nv5K0+UL3iPLjOuFVyF2TvTZ+U
+ CU24EcNeFIBfepvnmZ8yS0JIC5u93xu8C6zpyIW9iqJdbdIPxSRC0Ug7p5tUVLR1o/ta
+ 1VkfebpCat34ZqR24ch+jVdD6cZBudF/sIwRmP8Ywxv9wAgNczC5mVb6IJyQyi91uphW
+ BaX3IerHMlXQO8sUSjEQqOrFgHbEo0Jw/69AoKnaUsAaNHt1i4gWPkgz03As0K5ZBIhF
+ AvyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=PAefcUOnzj1B/nFgdkM9POAquJhLrIgi9JYQYtMQaRw=;
- b=fEoh87gSiiFqECO87Rvw/FDk9fMiwSSICbwdoRvmeMNuR74WB6OqTalAGQ/7Xlf5e9
- GW/RgNeK3zWTKTlWhRijHcL7ARUU0JGeBjzyliDWbBb9rCtGtL3iqUCJIX+9qa7vF2d0
- wS/ilRItCwuP+WDB5vEb+2/3D+MKi3nru1r9qdjoDj++y53dzYj4rnFp6UMCoTPbvez6
- fYcWQWQ93d5IL3wuihiOyqxsSC3XjqkUFyhNt84MRumt65s2SulQNC22WfF5erxzpdf/
- B8POSSx/jCmuh3pmI671MJWqdEp3MePMTffzmvGNN6D8nB47w0CnFHRqaru3O/Y401y8
- MTng==
-X-Gm-Message-State: AO0yUKV1LrTpe/7rAKmHiSHxci1O5jWACoO1aGM3s27e//QYd2IXGh4a
- o3VUT5BR/9/NXGlJdGVQEZfRuuh9fWlnPcXi0K7zBg==
-X-Google-Smtp-Source: AK7set/j4xGQ3NqrP4fTT9HIiQ8Qq0VNFyJ3+27mTY4ohc4UEwHLcNnOtdDs5bBUYKxE/PfeDmd4lX+ZnXQ/hUkLUxg=
-X-Received: by 2002:a17:906:af10:b0:877:747c:373e with SMTP id
- lx16-20020a170906af1000b00877747c373emr1907922ejb.6.1676505748302; Wed, 15
- Feb 2023 16:02:28 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LOIkRH7TUPjDBmVuYMmdclpQs5reHe741TvewIhihM4=;
+ b=NjV5zTIbvLQ5EdHkX2vO30cCqBixQ/8Uwxmb/NYwjsGJlRJr+DSxj1U9tG7fgUU5Qu
+ qXc2atos+8H2u+atMk4cWQOYEAXrD8tya1e7bJHgDETw83Cp8D2PvWB9kOFjHiYBIUaS
+ 5m8iqidGgyJxs+VGcRBuhr3LTTh8q6n2DtRiFoe6HphKYmy8smwheJVm28JCz2H/lq2F
+ 3XWZTYmASpXhpfzpbo7dinaYhBpxz3Y/ugdcA5GLRt8o6JAYuahU6qYJ9EvuUOw0TH6B
+ cBwU3Tn5xvEdFvpijPKM6wdjthx4B5JNRLZ8TXNZlJmCAVSB+Zmz5+ML5JS7uDqIgz7U
+ EKyA==
+X-Gm-Message-State: AO0yUKVhNW4LaxI4AU76GbXWGgeca9fAeJIUE0J2+RnXLxE8OmDLRjct
+ 6d2+hocCh9EypV5laIDWYj58RA==
+X-Google-Smtp-Source: AK7set8Q9cqD16csvpvToEB3Ctyy1pzOgpqMHjj7T4KWbASozreC9JQuXW+l77TJ2fVgjlM/wA4wXw==
+X-Received: by 2002:a62:1c47:0:b0:5a8:bc09:6430 with SMTP id
+ c68-20020a621c47000000b005a8bc096430mr3471471pfc.23.1676505774875; 
+ Wed, 15 Feb 2023 16:02:54 -0800 (PST)
+Received: from [192.168.192.227] (rrcs-74-87-59-234.west.biz.rr.com.
+ [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
+ u10-20020aa7848a000000b005895f9657ebsm12179983pfn.70.2023.02.15.16.02.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Feb 2023 16:02:54 -0800 (PST)
+Message-ID: <d9f692af-eb86-421d-f0cf-495f2a2e01b4@linaro.org>
+Date: Wed, 15 Feb 2023 14:02:49 -1000
 MIME-Version: 1.0
-References: <20230209062404.3582018-1-debug@rivosinc.com>
- <20230209062404.3582018-8-debug@rivosinc.com>
- <adabbb03-aafe-5a3c-1ecb-6dddd6132be1@linux.alibaba.com>
-In-Reply-To: <adabbb03-aafe-5a3c-1ecb-6dddd6132be1@linux.alibaba.com>
-From: Deepak Gupta <debug@rivosinc.com>
-Date: Wed, 15 Feb 2023 16:02:08 -0800
-Message-ID: <CAKC1njRVF8hxC+sWxZH7+2bWCgGbdSm6mOPLmVNhgM-eG7x3Rg@mail.gmail.com>
-Subject: Re: [PATCH v1 RFC Zisslpcfi 7/9] target/riscv: Tracking indirect
- branches (fcfi) using TCG
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v1 RFC Zisslpcfi 3/9] target/riscv: implements CSRs and
+ new bits in existing CSRs in zisslpcfi
+Content-Language: en-US
+To: Deepak Gupta <debug@rivosinc.com>,
+ LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
+ Alistair Francis <alistair.francis@wdc.com>,
  Bin Meng <bin.meng@windriver.com>, liweiwei@iscas.ac.cn,
- dbarboza@ventanamicro.com, 
- Kip Walker <kip@rivosinc.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=debug@rivosinc.com; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ dbarboza@ventanamicro.com, Kip Walker <kip@rivosinc.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+References: <20230209062404.3582018-1-debug@rivosinc.com>
+ <20230209062404.3582018-4-debug@rivosinc.com>
+ <f68da758-a418-c528-6f7c-e6e0d0246255@linux.alibaba.com>
+ <CAKC1njTbP0=H8w=izkMkEwVjq9=6m_Rw_ymgremjtbFYDGTrow@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAKC1njTbP0=H8w=izkMkEwVjq9=6m_Rw_ymgremjtbFYDGTrow@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,179 +101,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 15, 2023 at 12:55 AM LIU Zhiwei
-<zhiwei_liu@linux.alibaba.com> wrote:
->
->
-> On 2023/2/9 14:24, Deepak Gupta wrote:
-> > zisslpcfi protects forward control flow (if enabled) by enforcing all
-> > indirect call and jmp must land on a landing pad instruction `lpcll`
-> > short for landing pad and check lower label value. If target of an
-> > indirect call or jmp is not `lpcll` then cpu/hart must raise an illegal
-> > instruction exception.
-> >
-> > This patch implements the mechanism using TCG. Target architecture branch
-> > instruction must define the end of a TB. Using this property, during
-> > translation of branch instruction, TB flag = FCFI_LP_EXPECTED can be set.
-> > Translation of target TB can check if FCFI_LP_EXPECTED flag is set and a
-> > flag (fcfi_lp_expected) can be set in DisasContext. If `lpcll` gets
-> > translated, fcfi_lp_expected flag in DisasContext can be cleared. Else
-> > it'll fault.
-> >
-> > This patch also also adds flag for forward and backward cfi in
-> > DisasContext.
-> >
-> > Signed-off-by: Deepak Gupta <debug@rivosinc.com>
-> > Signed-off-by: Kip Walker  <kip@rivosinc.com>
-> > ---
-> >   target/riscv/cpu.h        |  3 +++
-> >   target/riscv/cpu_helper.c | 12 +++++++++
-> >   target/riscv/translate.c  | 52 +++++++++++++++++++++++++++++++++++++++
-> >   3 files changed, 67 insertions(+)
-> >
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index 8803ea6426..98b272bcad 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -644,6 +644,9 @@ FIELD(TB_FLAGS, VMA, 25, 1)
-> >   /* Native debug itrigger */
-> >   FIELD(TB_FLAGS, ITRIGGER, 26, 1)
-> >
-> > +/* Zisslpcfi needs a TB flag to track indirect branches */
-> > +FIELD(TB_FLAGS, FCFI_LP_EXPECTED, 27, 1)
-> > +
-> >   #ifdef TARGET_RISCV32
-> >   #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
-> >   #else
-> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> > index 63377abc2f..d15918f534 100644
-> > --- a/target/riscv/cpu_helper.c
-> > +++ b/target/riscv/cpu_helper.c
-> > @@ -129,6 +129,18 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-> >           flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
-> >       }
-> >
-> > +    if (cpu->cfg.ext_cfi) {
-> > +        /*
-> > +         * For Forward CFI, only the expectation of a lpcll at
-> > +         * the start of the block is tracked (which can only happen
-> > +         * when FCFI is enabled for the current processor mode). A jump
-> > +         * or call at the end of the previous TB will have updated
-> > +         * env->elp to indicate the expectation.
-> > +         */
-> > +        flags = FIELD_DP32(flags, TB_FLAGS, FCFI_LP_EXPECTED,
-> > +                           env->elp != NO_LP_EXPECTED);
-> > +    }
-> > +
-> >   #ifdef CONFIG_USER_ONLY
-> >       flags |= TB_FLAGS_MSTATUS_FS;
-> >       flags |= TB_FLAGS_MSTATUS_VS;
-> > diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> > index df38db7553..7d43d20fc3 100644
-> > --- a/target/riscv/translate.c
-> > +++ b/target/riscv/translate.c
-> > @@ -41,6 +41,7 @@ static TCGv load_val;
-> >   /* globals for PM CSRs */
-> >   static TCGv pm_mask;
-> >   static TCGv pm_base;
-> > +static TCGOp *cfi_lp_check;
-> >
-> >   #include "exec/gen-icount.h"
-> >
-> > @@ -116,6 +117,10 @@ typedef struct DisasContext {
-> >       bool itrigger;
-> >       /* TCG of the current insn_start */
-> >       TCGOp *insn_start;
-> > +    /* CFI extension */
-> > +    bool bcfi_enabled;
-> > +    bool fcfi_enabled;
-> > +    bool fcfi_lp_expected;
-> >   } DisasContext;
-> >
-> >   static inline bool has_ext(DisasContext *ctx, uint32_t ext)
-> > @@ -1166,11 +1171,44 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-> >       ctx->pm_mask_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_MASK_ENABLED);
-> >       ctx->pm_base_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_BASE_ENABLED);
-> >       ctx->itrigger = FIELD_EX32(tb_flags, TB_FLAGS, ITRIGGER);
-> > +    ctx->bcfi_enabled = cpu_get_bcfien(env);
-> > +    ctx->fcfi_enabled = cpu_get_fcfien(env);
-> This is wrong.  If you ctx->bcfi_enabled in the translation and don't
-> put it in a tb flags field, the translated tb will
-> be misused.
+On 2/15/23 13:33, Deepak Gupta wrote:
+> On Tue, Feb 14, 2023 at 9:47 PM LIU Zhiwei <zhiwei_liu@linux.alibaba.com> wrote:
+>> And MSTATUS_UBCFIEN field change don't need flush tlb.
+>>
+> 
+> TCG code-gen would be different depending on whether ubcfi is enabled or not.
+> As an example a TB might have code generated when bcfi was enabled.
+> But if someone disables it,
+> translation needs to happen again and zimops implementation should be
+> generated this time.
 
-TLB for shadow stack index is flushed on privilege transfers.
-All TLBs is flushed whenever enable/disable bits for shadow stack are toggled.
-Can you elaborate a bit more how this can be misused?
+tlb_flush does not affect translation.  TB are tied to physical addresses and are only 
+flushed by writes or tb_flush().
 
->
->
-> Zhiwei
->
-> > +    ctx->fcfi_lp_expected = FIELD_EX32(tb_flags, TB_FLAGS, FCFI_LP_EXPECTED);
-> >       ctx->zero = tcg_constant_tl(0);
-> >   }
-> >
-> >   static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
-> >   {
-> > +    DisasContext *ctx = container_of(db, DisasContext, base);
-> > +
-> > +    if (ctx->fcfi_lp_expected) {
-> > +        /*
-> > +         * Since we can't look ahead to confirm that the first
-> > +         * instruction is a legal landing pad instruction, emit
-> > +         * compare-and-branch sequence that will be fixed-up in
-> > +         * riscv_tr_tb_stop() to either statically hit or skip an
-> > +         * illegal instruction exception depending on whether the
-> > +         * flag was lowered by translation of a CJLP or JLP as
-> > +         * the first instruction in the block.
-> > +         */
-> > +        TCGv_i32 immediate;
-> > +        TCGLabel *l;
-> > +        l = gen_new_label();
-> > +        immediate = tcg_temp_local_new_i32();
-> > +        tcg_gen_movi_i32(immediate, 0);
-> > +        cfi_lp_check = tcg_last_op();
-> > +        tcg_gen_brcondi_i32(TCG_COND_EQ, immediate, 0, l);
-> > +        tcg_temp_free_i32(immediate);
-> > +        gen_exception_illegal(ctx);
-> > +        gen_set_label(l);
-> > +        /*
-> > +         * Despite the use of gen_exception_illegal(), the rest of
-> > +         * the TB needs to be generated. The TCG optimizer will
-> > +         * clean things up depending on which path ends up being
-> > +         * active.
-> > +         */
-> > +        ctx->base.is_jmp = DISAS_NEXT;
-> > +    }
-> >   }
-> >
-> >   static void riscv_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
-> > @@ -1225,6 +1263,7 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
-> >   static void riscv_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-> >   {
-> >       DisasContext *ctx = container_of(dcbase, DisasContext, base);
-> > +    CPURISCVState *env = cpu->env_ptr;
-> >
-> >       switch (ctx->base.is_jmp) {
-> >       case DISAS_TOO_MANY:
-> > @@ -1235,6 +1274,19 @@ static void riscv_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-> >       default:
-> >           g_assert_not_reached();
-> >       }
-> > +
-> > +    if (ctx->fcfi_lp_expected) {
-> > +        /*
-> > +         * If the "lp expected" flag is still up, the block needs to take an
-> > +         * illegal instruction exception.
-> > +         */
-> > +        tcg_set_insn_param(cfi_lp_check, 1, tcgv_i32_arg(tcg_constant_i32(1)));
-> > +    } else {
-> > +        /*
-> > +        * LP instruction requirement was met, clear up LP expected
-> > +        */
-> > +        env->elp = NO_LP_EXPECTED;
-> > +    }
-> >   }
-> >
-> >   static void riscv_tr_disas_log(const DisasContextBase *dcbase,
+The correct fix is to allocate a bit from FIELD(TB_FLAGS, X, Y, 1), and adjust 
+cpu_get_tb_cpu_state to indicate when CFI is active in the current cpu mode.
+
+
+r~
 
