@@ -2,95 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D47169974B
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:24:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0850A699753
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:25:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSfBS-00063W-21; Thu, 16 Feb 2023 09:24:26 -0500
+	id 1pSfBR-0005v3-1e; Thu, 16 Feb 2023 09:24:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSfBE-0005ll-KN
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pSfBH-0005on-FJ
  for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:24:16 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSfBC-0007BX-7g
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:24:11 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- k8-20020a05600c1c8800b003dc57ea0dfeso4372643wms.0
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 06:24:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pSfBF-0007XU-Hc
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:24:15 -0500
+Received: by mail-lf1-x132.google.com with SMTP id w11so2939094lfu.11
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 06:24:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AgNv7jvYIv3Rzz9yuX+hevsRvmOvV3oj8SZGxY0IVW0=;
- b=l+8FD4H3zVooq0SzPC/ib6S6JI3vQSFaDYPJYAWNN0G+qHz7Jf5NpxUWs1mf+Vgdmq
- pomqy0+Uj9oETTzlrdROIrXgwM9MjfW/lBzRRmVHfc1YBuyoiZ3TP/yFOsCpp2scjQii
- YntcrG6Lr09VS/vtBKjYh0GpV/ZLKyidKdXCvYURsiNdPAXL55vXMQ6Drq4cD2PUoYIy
- 7aWBBzM9fej+amgrmRIDGjjI+ejfs3jaYbuEMNctFL7vkgwrCtzUrQmcAIoH+DPrX4OL
- 7tAJCuzH5ZKYfdZi3yGO6rB53deKCLJmiktbTijzDwYb/l/C5dLrCzLNS12iZidBxcl4
- 8UoQ==
+ bh=+SfgQq/T+JwDHEWnarOzlh81F7FjXVQrpDn529WoNuo=;
+ b=SdrDUt6rW7leeURpUP9H4se69u8kiuunVLenB8VcGX86wlqnJykcmhjCyQ/cRL7jak
+ G7MYV0Cbnr2Bleim3o5x292BVye+qCTWZntxCOfkf5BEvWhW4ZVmkrBA/U1OaCf7IfZs
+ v9f9q269bJ2XqkdB0jfx8Ra5x8Ul/+ijFTnpP+yq4A2HBi9RfMaJLpwaHTvgf5DiZlc8
+ xvm3Y84OvLmYJEKHPa24GQ7Kb6f31IbB8WMyY9T+V43ckf/QVXfNn4saHGOsYDGxWu9R
+ bS/Foa8CkngDqf9ccXxs5BF7FSBK44tyS9YXblHBpRKWkrdx2+33RapuDd42CTsSA5tp
+ W7HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=AgNv7jvYIv3Rzz9yuX+hevsRvmOvV3oj8SZGxY0IVW0=;
- b=cR+3X4NfKMicmIGDNetvrCRF7H53DJOIJdmgcNqFLFgr3GRjIEcVG8VtiYYoNroVpQ
- QVTqQ1Zjs6/aQTuiRcv4exU/uNjbDrxuD9yNA3zKXVFAOmh51jtnJ5h0yKswhTpRqwbO
- tODWr71audqNerDcAzWUDeXBtXB9f1EQjuwF6RyWpmWocVU3jSHOT5Zw4ffwsntuIcKu
- 2CvMKWlaudt7vjTcnd5/po4zA/+Ud+q2+6kvG8H+sXfEg1Zo25x7LXnU92b3J9LGe+zH
- 2c5lYeSozYCftWUnS1kS7WXb/ctxuK9L1C2g4aekqyRRWkN5sIWgbPFr0neuHcUHkwhj
- 0yRQ==
-X-Gm-Message-State: AO0yUKWNGKCPFT33bEbZeyYzGUAp3FC63BZ4p7rRwmIs+f7tf0ww2jge
- UlZhVrtGzTAIN3nqWjI9CHVW4MAAHqj0qzbt
-X-Google-Smtp-Source: AK7set/UWYHmFPqEOMIV//qApgjFDnwnf390ffK0+E8AnuyibGwHyodYaDcVG/wvJsI1eeeqsteqlA==
-X-Received: by 2002:a05:600c:4f52:b0:3df:d431:cf64 with SMTP id
- m18-20020a05600c4f5200b003dfd431cf64mr4667921wmq.39.1676557449269; 
- Thu, 16 Feb 2023 06:24:09 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- bd27-20020a05600c1f1b00b003e20cf0408esm1908939wmb.40.2023.02.16.06.24.07
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 16 Feb 2023 06:24:08 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Dapeng Mi <dapeng1.mi@intel.com>, Sean Christopherson <seanjc@google.com>,
- Bin Meng <bin.meng@windriver.com>,
- Zhuocheng Ding <zhuocheng.ding@intel.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Zhenyu Wang <zhenyu.z.wang@intel.com>, qemu-riscv@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
- Zhao Liu <zhao1.liu@intel.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Robert Hoo <robert.hu@linux.intel.com>,
- Yanan Wang <wangyanan55@huawei.com>, qemu-arm@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Like Xu <like.xu.linux@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Zhao Liu <zhao1.liu@linux.intel.com>, Eduardo Habkost <eduardo@habkost.net>
-Subject: [PATCH 5/5] hw/riscv: Restrict CPU clusters to the expected type
-Date: Thu, 16 Feb 2023 15:23:38 +0100
-Message-Id: <20230216142338.82982-6-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230216142338.82982-1-philmd@linaro.org>
-References: <20230216142338.82982-1-philmd@linaro.org>
+ bh=+SfgQq/T+JwDHEWnarOzlh81F7FjXVQrpDn529WoNuo=;
+ b=Lt1+wKDLAdY8OHTvfBSzbMnnWXzprJBzHgJwBEiI04nw5ZnDCfcuMVkapa9VFoSqiI
+ /JrBP/W+vR0hp36daNg9NQ4/xKFaWX87fdblD2rHaqYjZeDc/c2RWe+9qq4uFP+5B15/
+ jbFj4ybojw6hd+OEoPBTZxCR37UubTeNYDFP5UvwZw08VEN6UIPFg66y8eJEcdy8VTIl
+ hs357kq/6li1u+p6h0R/75aRZZdh0kLcs1XeMJgr8Uc2+TRZ/n6V/GDE2zwsLoaZH8OS
+ qt8yDIaSj9f/9ou483etuMT/wRRzTau2BVv4xy7ZuHGqXq350vnHQNOGcC/QyhK0/E3s
+ vR8w==
+X-Gm-Message-State: AO0yUKVqyetNoF3dyiDdrMe0VahqVkZQJHDX+PKW2pHfPXYvo5l1QgX+
+ gJQSrmtTPh4EfKVmF0aczztqLOHicu3Jjd9/pIA=
+X-Google-Smtp-Source: AK7set+mpBQFVSUsgrGCBbT4sGJ36NzG1lJk5bdSbX1upxm+z95kZVCUZ9sgXQwnltv9jy8xJ5eaWUVLb2Ah/D9qiKo=
+X-Received: by 2002:ac2:5192:0:b0:4d5:ca43:7042 with SMTP id
+ u18-20020ac25192000000b004d5ca437042mr1699599lfi.5.1676557450519; Thu, 16 Feb
+ 2023 06:24:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+References: <20161022095318.17775-1-marcandre.lureau@redhat.com>
+ <20161022095318.17775-20-marcandre.lureau@redhat.com>
+ <7f4f3a95-d1c5-a531-0ce5-8a974e5bc002@linaro.org>
+In-Reply-To: <7f4f3a95-d1c5-a531-0ce5-8a974e5bc002@linaro.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 16 Feb 2023 18:23:58 +0400
+Message-ID: <CAJ+F1C+4VJOytUS4kukBcnNEo7XN1dCLKcSzbiFmLkM4F+gSJA@mail.gmail.com>
+Subject: Re: [Qemu-devel] [PATCH 19/38] char: make some qemu_chr_fe skip if no
+ driver
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: Bin Meng <bmeng.cn@gmail.com>, pbonzini@redhat.com, 
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-devel@nongnu.org, 
+ Alistair Francis <alistair@alistair23.me>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::132;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x132.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,61 +89,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Microchip PolarFire SoC expects U51/U54 cores,
-the SiFive Freedom board: the E31/E51 and U34/U54.
+Hi Philippe
 
-Do not allow any other CPU type by setting the cluster
-'cpu-type' property.
+On Thu, Feb 16, 2023 at 2:14 AM Philippe Mathieu-Daud=C3=A9
+<philmd@linaro.org> wrote:
+>
+> Hi Marc-Andr=C3=A9,
+>
+> [very old patch...]
+>
+> On 22/10/16 11:52, Marc-Andr=C3=A9 Lureau wrote:
+> > In most cases, front ends do not care about the side effect of
+> > CharBackend, so we can simply skip the checks and call the qemu_chr_fe
+> > functions even without associated CharDriver.
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >   hw/arm/pxa2xx.c           |  8 +++-----
+> >   hw/arm/strongarm.c        | 16 ++++++---------
+> >   hw/char/bcm2835_aux.c     | 18 ++++++-----------
+> >   hw/char/cadence_uart.c    | 24 +++++++---------------
+>
+> >   qemu-char.c               | 51 ++++++++++++++++++++++++++++++++++++++=
+---------
+> >   include/sysemu/char.h     | 40 +++++++++++++++++++++++++------------
+> >   22 files changed, 156 insertions(+), 191 deletions(-)
+>
+>
+> > diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
+> > index 4459b2d..291818e 100644
+> > --- a/hw/char/cadence_uart.c
+> > +++ b/hw/char/cadence_uart.c
+> > @@ -142,9 +142,7 @@ static void uart_rx_reset(CadenceUARTState *s)
+> >   {
+> >       s->rx_wpos =3D 0;
+> >       s->rx_count =3D 0;
+> > -    if (s->chr.chr) {
+> > -        qemu_chr_fe_accept_input(&s->chr);
+> > -    }
+> > +    qemu_chr_fe_accept_input(&s->chr);
+>
+> I'm trying to understand this change. This code comes from:
+>
+> commit 9121d02cb33c96b444a3973579f5edc119597e81
+>
+>      char/cadence_uart: Fix reset for unattached instances
+>
+>      commit 1db8b5efe0c2b5000e50691eea61264a615f43de introduced an issue
+>      where QEMU would segfault if you have an unattached Cadence UART.
+>
+>      Fix by guarding the flush-on-reset logic on there being a qemu_chr
+>      attachment.
+>
+> diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
+> index 131370a74b..4d457f8c65 100644
+> --- a/hw/char/cadence_uart.c
+> +++ b/hw/char/cadence_uart.c
+> @@ -157,7 +157,9 @@ static void uart_rx_reset(UartState *s)
+>   {
+>       s->rx_wpos =3D 0;
+>       s->rx_count =3D 0;
+> -    qemu_chr_accept_input(s->chr);
+> +    if (s->chr) {
+> +        qemu_chr_accept_input(s->chr);
+> +    }
+>
+> When resetting the xlnx-zcu102 machine, I hit:
+>
+> (lldb) bt
+> * thread #1, queue =3D 'com.apple.main-thread', stop reason =3D
+> EXC_BAD_ACCESS (code=3D1, address=3D0x50)
+>    * frame #0: 0x10020a740 gd_vc_send_chars(vc=3D0x000000000) at
+> gtk.c:1759:41 [opt]
+>      frame #1: 0x100636264 qemu_chr_fe_accept_input(be=3D<unavailable>) a=
+t
+> char-fe.c:159:9 [opt]
+>      frame #2: 0x1000608e0 cadence_uart_reset_hold [inlined]
+> uart_rx_reset(s=3D0x10810a960) at cadence_uart.c:158:5 [opt]
+>      frame #3: 0x1000608d4 cadence_uart_reset_hold(obj=3D0x10810a960) at
+> cadence_uart.c:530:5 [opt]
+>      frame #4: 0x100580ab4 resettable_phase_hold(obj=3D0x10810a960,
+> opaque=3D0x000000000, type=3D<unavailable>) at resettable.c:0 [opt]
+>      frame #5: 0x10057d1b0 bus_reset_child_foreach(obj=3D<unavailable>,
+> cb=3D(resettable_phase_hold at resettable.c:162), opaque=3D0x000000000,
+> type=3DRESET_TYPE_COLD) at bus.c:97:13 [opt]
+>      frame #6: 0x1005809f8 resettable_phase_hold [inlined]
+> resettable_child_foreach(rc=3D0x000060000332d2c0, obj=3D0x0000600002c1c18=
+0,
+> cb=3D<unavailable>, opaque=3D0x000000000, type=3DRESET_TYPE_COLD) at
+> resettable.c:96:9 [opt]
+>      frame #7: 0x1005809d8 resettable_phase_hold(obj=3D0x0000600002c1c180=
+,
+> opaque=3D0x000000000, type=3DRESET_TYPE_COLD) at resettable.c:173:5 [opt]
+>      frame #8: 0x1005803a0
+> resettable_assert_reset(obj=3D0x0000600002c1c180, type=3D<unavailable>) a=
+t
+> resettable.c:60:5 [opt]
+>      frame #9: 0x10058027c resettable_reset(obj=3D0x0000600002c1c180,
+> type=3DRESET_TYPE_COLD) at resettable.c:45:5 [opt]
+>
+> Doing similar to commit 9121d02cb3...:
+>
+> -- >8 --
+> diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
+> index c069a30842..deadee1788 100644
+> --- a/hw/char/cadence_uart.c
+> +++ b/hw/char/cadence_uart.c
+> @@ -155,7 +155,9 @@ static void uart_rx_reset(CadenceUARTState *s)
+>   {
+>       s->rx_wpos =3D 0;
+>       s->rx_count =3D 0;
+> -    qemu_chr_fe_accept_input(&s->chr);
+> +    if (qemu_chr_fe_backend_open(&s->chr)) {
+> +        qemu_chr_fe_accept_input(&s->chr);
+> +    }
+>   }
+> ---
+>
+> ... fixes the issue but I'm not sure 1/ this is a correct use of the
+> chardev API and 2/ this is how the HW work at reset.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- hw/riscv/microchip_pfsoc.c | 4 ++++
- hw/riscv/sifive_u.c        | 2 ++
- 2 files changed, 6 insertions(+)
+The trouble is that GTK/VTE console/chardev creation is done later.
 
-diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index 2b91e49561..658307fdfb 100644
---- a/hw/riscv/microchip_pfsoc.c
-+++ b/hw/riscv/microchip_pfsoc.c
-@@ -150,6 +150,8 @@ static void microchip_pfsoc_soc_instance_init(Object *obj)
- 
-     object_initialize_child(obj, "e-cluster", &s->e_cluster, TYPE_CPU_CLUSTER);
-     qdev_prop_set_uint32(DEVICE(&s->e_cluster), "cluster-id", 0);
-+    qdev_prop_set_string(DEVICE(&s->e_cluster), "cpu-type",
-+                         TYPE_RISCV_CPU_SIFIVE_E51);
- 
-     object_initialize_child(OBJECT(&s->e_cluster), "e-cpus", &s->e_cpus,
-                             TYPE_RISCV_HART_ARRAY);
-@@ -161,6 +163,8 @@ static void microchip_pfsoc_soc_instance_init(Object *obj)
- 
-     object_initialize_child(obj, "u-cluster", &s->u_cluster, TYPE_CPU_CLUSTER);
-     qdev_prop_set_uint32(DEVICE(&s->u_cluster), "cluster-id", 1);
-+    qdev_prop_set_string(DEVICE(&s->e_cluster), "cpu-type",
-+                         TYPE_RISCV_CPU_SIFIVE_U54);
- 
-     object_initialize_child(OBJECT(&s->u_cluster), "u-cpus", &s->u_cpus,
-                             TYPE_RISCV_HART_ARRAY);
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index d3ab7a9cda..d0535746ca 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -763,6 +763,7 @@ static void sifive_u_soc_instance_init(Object *obj)
- 
-     object_initialize_child(obj, "e-cluster", &s->e_cluster, TYPE_CPU_CLUSTER);
-     qdev_prop_set_uint32(DEVICE(&s->e_cluster), "cluster-id", 0);
-+    qdev_prop_set_string(DEVICE(&s->e_cluster), "cpu-type", SIFIVE_E_CPU);
- 
-     object_initialize_child(OBJECT(&s->e_cluster), "e-cpus", &s->e_cpus,
-                             TYPE_RISCV_HART_ARRAY);
-@@ -813,6 +814,7 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-      * CPU must exist and have been parented into the cluster before the
-      * cluster is realized.
-      */
-+    qdev_prop_set_string(DEVICE(&s->u_cluster), "cpu-type", s->cpu_type);
-     qdev_realize(DEVICE(&s->e_cluster), NULL, &error_abort);
-     qdev_realize(DEVICE(&s->u_cluster), NULL, &error_abort);
- 
--- 
-2.38.1
+I think we should rather fix ui/gtk.c, as this could happen with other
+char frontends:
 
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 4817623c8f..dfaf6d33c3 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -1783,7 +1783,9 @@ static void gd_vc_chr_accept_input(Chardev *chr)
+     VCChardev *vcd =3D VC_CHARDEV(chr);
+     VirtualConsole *vc =3D vcd->console;
+
+-    gd_vc_send_chars(vc);
++    if (vc) {
++        gd_vc_send_chars(vc);
++    }
+ }
+
+
+>
+> Can you help me with 1/ before I ask Xilinx folks for 2/ ? :)
+>
+> Thanks,
+>
+> Phil.
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
