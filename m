@@ -2,68 +2,135 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22BA269976F
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:30:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A73B69976E
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:30:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSfGj-0006XD-G5; Thu, 16 Feb 2023 09:29:53 -0500
+	id 1pSfGk-0006XH-0g; Thu, 16 Feb 2023 09:29:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <samuel.ginu2010@gmail.com>)
- id 1pSa7r-0004qt-7e
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:00:23 -0500
-Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <samuel.ginu2010@gmail.com>)
- id 1pSa7o-0003I8-HD
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:00:22 -0500
-Received: by mail-lj1-x233.google.com with SMTP id a9so1174712ljr.13
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 01:00:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=JQlAeGMUz+W0FvjU+Wix+xY+9zeggi3oMBEbyiyjUNA=;
- b=HAHjnnxQcAB/vFhRO3a6grmiso4aUX3BHuZ+D5DHgznbuatGKu/nGsmLwVTEQsiAlT
- dhYPl4V9+tzIL5B13R7MuVwxelRtJZJcfe7JNFVEDRB2L73VKMkH2KwVabeot/n2dD8B
- u5GjYEakbR5hufebIv7WfVwmPXU+ySmxkrJRalj9Z4E1ZxROVi6uWGITtVZ888oQ3vqL
- VqiWrfRQFVQ9iOSNiF+EiaPUHlUBiD+sU9joKDYYz6osFbjwjSbE8DD/wx4eFsBivZ1p
- drazDClBS8CFmS1p6mdAVAZA8AbbP00rrZRdGo1VAbZU6MCPQ8NciFZaTHqp675+FiRF
- tl1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=JQlAeGMUz+W0FvjU+Wix+xY+9zeggi3oMBEbyiyjUNA=;
- b=l8ugJw7/dfgjIu58dc7Y2AL05M4QtxtPW6ocefybbGYLdS0CoxxzAO1e3jdqcaFJD4
- cIBPJWzRWv3BrdKCo54KZU7A4ZC1DEib71UfkhHeUAamVVGmvFFWb0EjhTqQJB3OhLFt
- 4ozEoyoDUwPgZhG6wSQZCOattj94zpm424NPhUtIfKYPIq3u+xkVco/b+nYQHLYzUkal
- VThumUK+3gWbgs2p/ljwSAhhRtCoCm5omA0fTl9lBZnc0fcldRcAD6FxBODeNJuXNRpC
- u0wPP3i/B/x3ShdhWZyfS6+C5JObNF8uOeMzlnk0OLQGkmrNrkBUXpGMI4q/ME2SN90o
- vJ6A==
-X-Gm-Message-State: AO0yUKU7LiGNKzTr3AxHgUytftQKkHYYbY4w9I0YF6h0eyK08jZ7lX2k
- 3WiAtV75rcfKtLu9FioHs7vagzfnW88wgKv3vQH/AmmcmYo=
-X-Google-Smtp-Source: AK7set8+fA0HPAenWNljLMm3hggRt0vrLceycJaw4iB/CevWj0ZUj5geHCJszgZtYg8RhYKGAifi8M6Ct8p+T/bDaD0=
-X-Received: by 2002:a2e:8e21:0:b0:293:4ffa:a68c with SMTP id
- r1-20020a2e8e21000000b002934ffaa68cmr1407137ljk.8.1676538017676; Thu, 16 Feb
- 2023 01:00:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <francisco.iglesias@amd.com>)
+ id 1pSaYV-00005L-0p; Thu, 16 Feb 2023 04:27:55 -0500
+Received: from mail-co1nam11on20614.outbound.protection.outlook.com
+ ([2a01:111:f400:7eab::614]
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <francisco.iglesias@amd.com>)
+ id 1pSaYS-0007iQ-Qf; Thu, 16 Feb 2023 04:27:54 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Cam5RRPJ8iJXppJk4sn5257NsorAdKrmlJIEwo9/UsqMrKsvQIwmvqQAZyXJth6CDKYj120QOHQgG546/0HawHAdEKQgJMyAR5YPXJn2Hb3vENj6jCXL6y2umEiyn2sfwPn0Tv5I9Rx26aKz4Qpus7fIcQiWFX6wAN9focoOwcDkVS/E5bfUkaEqdw6O1K1R4WEYvq+MQ22USFUfQH8z/JKiLMgftMJin3cSozumbQkXqTTfMjKfF70OglY7uNtzWT4DF5TW9MIuKLMOJFf7Vb693vHWplfrxjGBQTuuSxwrm5EvTaP4DVvFnlfwq5Qk0CwAHDia5fUBXlimdty2Bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/V4rGUcOKG3ErsOoVgyZ/Qyb+zzMNlF7eWUfjoZpYo0=;
+ b=QpBfTtTdWh6cghfS2X2Ol9tExgZNErzO4NIvWMVptjdJlD9jv088zErrilSsk/4fXf6j4H60lU4srxR7fEn88kY0YlDtfYjDtVLrjt646qZ/CHqbKL8TlAJG9Njy04dbZD1dco9XUQE8WWmDJ2RnzrYFbnh7fgRwSCvvZILAZxBIGJd5AEAFCvJAb04jd73c6xJhNXNsE1deuyAte69YRDeDKMvUKMdds47D9BwmUUepYDEw5estmXE9sgV+ruehZ6B7Ucfcyv9Z9pqA/tMjQ9gM0hEgSNSdq1QfU0JmMV/P5S5Yv3PXNGKJe3XWxDLgWr2d8VZbNTwkyzkMg+1cfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/V4rGUcOKG3ErsOoVgyZ/Qyb+zzMNlF7eWUfjoZpYo0=;
+ b=nfiddxqZ3TEK/ene0PB5JDBX6UfqmnVfWf8Yh0BUcMNys7pUNdSxeT4FNyOSvLucRR9a5O5OvOMs2kr2joTMKLmdAu0Jdmz4Oqc0PL+6PgG4ycvzFljAb4/MVEOgiUMM3Tl+jmpRNERjSULfK8w/QnUSMaA46Dxbh+Iv+e6Ky9I=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1130.namprd12.prod.outlook.com (2603:10b6:3:75::19) by
+ DM4PR12MB6495.namprd12.prod.outlook.com (2603:10b6:8:bc::19) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6086.26; Thu, 16 Feb 2023 09:27:46 +0000
+Received: from DM5PR12MB1130.namprd12.prod.outlook.com
+ ([fe80::234:3b1c:70ba:9a1d]) by DM5PR12MB1130.namprd12.prod.outlook.com
+ ([fe80::234:3b1c:70ba:9a1d%4]) with mapi id 15.20.6086.026; Thu, 16 Feb 2023
+ 09:27:39 +0000
+Message-ID: <332905e0-3428-8e0b-7222-ed503a5b116a@amd.com>
+Date: Thu, 16 Feb 2023 10:27:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] hw/arm: Add missing ZynqMP ZCU102 -> USB_DWC3 Kconfig
+ dependency
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>
+References: <20230216092327.2203-1-philmd@linaro.org>
+From: Francisco Iglesias <francisco.iglesias@amd.com>
+In-Reply-To: <20230216092327.2203-1-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO2P265CA0025.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:61::13) To DM5PR12MB1130.namprd12.prod.outlook.com
+ (2603:10b6:3:75::19)
 MIME-Version: 1.0
-From: ginu samuel <samuel.ginu2010@gmail.com>
-Date: Thu, 16 Feb 2023 14:30:05 +0530
-Message-ID: <CAPWd1mzg0rWgpf_D+NC+yAosx8oJnA+tR=NpsuFNtWP-j25=pQ@mail.gmail.com>
-Subject: Runnig solaris binary(32 bit) on linux(64 bit)
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000ff023b05f4cd6cdd"
-Received-SPF: pass client-ip=2a00:1450:4864:20::233;
- envelope-from=samuel.ginu2010@gmail.com; helo=mail-lj1-x233.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1130:EE_|DM4PR12MB6495:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7e50b3eb-1a1c-4c1a-3076-08db10000be4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3Vl1kDxIObhqLOea4Stqz1LU7gJd8HDipFvc8N5STfvoSxqWBMSylCMyfH8ztg68OLSPxfuSnMexoQjiY4ee6aQL4X9B7b+Gv0WG3S3meLPHet74r/insMYrHZbm+/49jzfJcxCMglzkRi1YyyIzZfCfukJnA90CZERw+X2D3tutA2EkSOd0UluHIHlra0h7k6IeCWQgYM/lqUCxjUYuAN7yL7Sm92W/8D2J8JK3F6MzHhM7boOI38mSLuwKMyeDOl+WZ8fox5er8qFwShJMr7bT8W7y5Y0mY2c5bD7nighcGEilCpZpJNrOaTF1PJFPVSBijT9Ka2TcBKNPje8xC3vgxVIvZBXuPEOMClDVpCqKiG4A1rhP2yfvULZigBoLBJMD3kPtbDLZhC23J0T6gPTY1vj/RYEcxZYAXdaTRPrA1WCyVgcA2+sJUM2He4VNoEFr4ZAbWZsdKbXjMIgIR4gdDR+xafwwZC9Vmyi/32QDzJD2ycKnLLeI8JLiZjq0zv4Y98XgWizxCJGAhyhQ0KAeLGgEbq/9uZ6wvXEYEIDM5gW5vx8uZjHZDzg/j5N6roGA4tK4REII80jl1JtEobjCw4C6vjhggKA32dETD3bKQf5zCOhoLURKhkOR/n6GztdfBX/aba4G9n2Fyd8oJ5mU0GDm6+VDb4SP63wlb1jdCrs/Wq+d9Tq0ksIppJJlcBgO+iv26eIFidMB8e/5g6SzPe+g/IB603c3yxvJ0y8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1130.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(39860400002)(366004)(396003)(136003)(346002)(376002)(451199018)(31686004)(2616005)(2906002)(86362001)(31696002)(36756003)(66476007)(41300700001)(44832011)(5660300002)(66946007)(66556008)(38100700002)(8676002)(6486002)(478600001)(6512007)(54906003)(4326008)(186003)(4744005)(8936002)(53546011)(6506007)(26005)(6666004)(316002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YkpNcWVydHd4TWNIWHVXQUlLeEJaT1dVSFcva1QrUWJSU2xZV0sxWW5Bbm4z?=
+ =?utf-8?B?K0tEK3dzMnpOaUQzaWx4MGdXMWpnbjV0ZGxPcXJ6dHFsMEx3d2J0ZWpJV0gy?=
+ =?utf-8?B?NTZmK2c4UjRBaGllZGVIL0FGWTd3VlJta25rb05vOXVycWkzVVduRjJwVEtS?=
+ =?utf-8?B?c3JVdng5SXI3dkxIelE5ZlVKdTBMYXRKaVlLR044UklOK2xPOXIyOXl2V3py?=
+ =?utf-8?B?UWhnT0ZZaUl6VjFnSWJoTmZMTVJwQkdGUzl2djN3bU82bkY5L2lNRFRWVisy?=
+ =?utf-8?B?bC9TUXZqUHMvbnlkdERjVmUwSHFHWnRhQUdqNnlrVTNLWkJpTEprNzBQMmEw?=
+ =?utf-8?B?YzNSYkxzQVYzTWJYVTgwQWR6N0x0QXBQUjRxVE9xNWtuV3RrQjQ2TlpVNk4x?=
+ =?utf-8?B?a2lrRnpleWJZUVAwR1hodnhDUUxLdVNwWFlxdU52TDJMN1pVOHVWalJ4UjB4?=
+ =?utf-8?B?VjJPUTVGUm1ISXZyU2pNZ09KZ0hoajQ5c0ZjYVhKUlo4eUhrWk83WnBmUE8v?=
+ =?utf-8?B?Y25Cb0o2VEtwaHp3L0QzZTlaRzg5S2RjK1BiUkZjZzNWYkMvd2ExcXFsdTFH?=
+ =?utf-8?B?cGw0Ny9vMzllMGhJa2xMbmlHcDlDK3BLbTdhdUdIMkRwcis1YnhDd1YxNWRr?=
+ =?utf-8?B?L1BGQ2RuK1IvaFJSUHZRTDFDQXQzQTVYUjRyVTVGR1dsN2NtSEhiYS85QzI4?=
+ =?utf-8?B?VDdMWVJTYWpWQk05eWtScC9aRUQyM3FOclJQaTZzRWYxb0RsQmxKdlFMYzcz?=
+ =?utf-8?B?SVNib2h5UXVKQzFXT1RmQWwvZ0NkNjU2U2h0bm1ENElDeEM5cTRVL3l3d3Rr?=
+ =?utf-8?B?ajJqUkJ6dTRseW94QnVWTUtKMnBaRlF2MUE5Z1pwTWtWSWplT3hWQVVCaXd3?=
+ =?utf-8?B?M2xXbFNwOXFER1pxYVpEakVsYUpGV2d3d2k5SGVlNDk1SEFyOW12K3RyZ1Rn?=
+ =?utf-8?B?Z1BXbkEyVTRTU3JZRkVGam5qQ0lQWnorNmczNVdOeVpUYXcyYUNSS3NUcXlo?=
+ =?utf-8?B?dDdlSDd3UEZLUUlyRFM3R2NUOHYvenAwYlNYbi9EMWV5c0dvM2pkdi9DSldI?=
+ =?utf-8?B?OXBwRUx2R2JIeDh0a1luRUFoRjVqVjJyZ3RtM2UxTGFVR0tDaEsvTXlRYTRu?=
+ =?utf-8?B?Q2FtMnV4WDE2UmpYb09LZmQ5QkRKRHYrdUJGSU5xNElsRXhvTGpqb1MxVVFH?=
+ =?utf-8?B?UVpBeXdSOEFNamdLcnYwbGd0c0ptNyt0OVQyUzZ5UlhUaE9NMEY3RGJ1N0VO?=
+ =?utf-8?B?TXUvbThDc2RlKytKL3FLU2ZSQ0NqSndQbjBpTUJNMVR4MXpCbVk5SHRmMVEz?=
+ =?utf-8?B?alV0Q1Y5dE1DZUIxeXFzS3gzM1hET3FoM0R3bHNzUWxkV2pwYmE3ektZV0hY?=
+ =?utf-8?B?WnJXNmJuVlZXMUlpUitLYUtlVW9iOFZuVGN4bGY4WW1BNmdJR1ZUR05teGZJ?=
+ =?utf-8?B?TmppN1VNSmlpcysrd2dvK0xEUnJCR2VCTGdDSUNNaW1oOGdlYXA2akh6UGNN?=
+ =?utf-8?B?ODRhRmplSDFJWm52V01vVUR6KysrcWNrczBibG45ekxqR2JNaVVBd05RTkJC?=
+ =?utf-8?B?ZEJCMjVxYXdGTWNRTGZZdmFMcklDMEpuSHJZbkpQV3ZuUTI4UFU1ajQ4M2NY?=
+ =?utf-8?B?UVhqNjJ0WnNtZ2M0bk5LMmRIMldqak1pYldwQ3d5cFllSWdnS25tdEJtYUU3?=
+ =?utf-8?B?bHdIWTRRZG5NR1lVOGpxekRuTWxQQ1BObkxkNDlTWXJJckw0YmM2ZTBiUmhS?=
+ =?utf-8?B?VkZudVhzNG41L1FDVXpJTlNnVXRNb2l5b1J2dnNyblBub0FWUSsxSm1VSm15?=
+ =?utf-8?B?Vi9adzlmclZoV3cxbkNvNjdLbVE3MjZlaEJtRkpqZGFxL21lMmNvaDVMSW9Y?=
+ =?utf-8?B?SGlRQmhla3pOMnpZTEJ5cEtYd2IvaDVsMW9sb3lBLzRMRHUyT0Vya0lRRm04?=
+ =?utf-8?B?djJ3alNmSzQvcEFIUzQvMGhLS21NRHVBYWx4azZ6RW95a0hUM0JRTFBGRFVR?=
+ =?utf-8?B?cEo5QXRROWpYb09QRERaVlRsd2p6cDEyc2JwRWhqb056Z25uMUVjZlJadVRj?=
+ =?utf-8?B?WFdZNk5nRmEyYWZWZWpMZVc4NVFvdnpvMklNa3M0S3lLZmtDaU1LQlgzWCtu?=
+ =?utf-8?Q?HK70zeaLRQNZCbZIsRkn+wXBR?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e50b3eb-1a1c-4c1a-3076-08db10000be4
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1130.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2023 09:27:39.1417 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lBOw452thXWLlF98NbBGe7mj3UMlAQc1XZFEP7q1aCitWKDjKb1OSQfrRZkuxm6lmCNCkt4b/kr0orv6G1KC8Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6495
+Received-SPF: softfail client-ip=2a01:111:f400:7eab::614;
+ envelope-from=francisco.iglesias@amd.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Thu, 16 Feb 2023 09:29:51 -0500
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,142 +147,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000ff023b05f4cd6cdd
-Content-Type: text/plain; charset="UTF-8"
-
-Hi,
-    I have a requirement to run a Solaris binary ( 32 bit ) on linux (64
-bit).
-
-Since some of the sources for the binary are not available, recompilation
-on linux is not possible.
-
-So we are trying to run on linux using QEMU
-
-the uname output on solaris box is -
-#uname -sip
-SunOS sparc sun4v
-
-the uname output on linux box is -
-#uname -siop
-Linux x86_64 x86_64 GNU/Linux
-
-Following are the questions:
-1. Is the user mode emulation (of QEMU) the right way to do this?
-
-2. If yes, what would be actual command to do this. The Linux User space
-emulator ( https://www.qemu.org/docs/master/user/main.html) gives the
-command :
-
-qemu-i386 [-h] [-d] [-L path] [-s size] [-cpu model] [-g port] [-B
-offset] [-R size] program [arguments...]
-
-Is there a suitable command for 64 bit linux to run the program ?
-
-3.  Is this the package to install for RHEL as given in documentation?
 
 
-   -
+On 2023-02-16 10:23, Philippe Mathieu-Daudé wrote:
+> Since commit acc0b8b05a when running the ZynqMP ZCU102 board with
+> a QEMU configured using --without-default-devices, we get:
+> 
+>    $ qemu-system-aarch64 -M xlnx-zcu102
+>    qemu-system-aarch64: missing object type 'usb_dwc3'
+>    Abort trap: 6
+> 
+> Fix by adding the missing Kconfig dependency.
+> 
+> Fixes: acc0b8b05a ("hw/arm/xlnx-zynqmp: Connect ZynqMP's USB controllers")
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-   RHEL/CentOS: yum install qemu-kvm
+Reviewed-by: Francisco Iglesias <francisco.iglesias@amd.com>
 
-
-4. Does the program require Super user privileges to run?
-
-Regards,
-Ginu
-
---000000000000ff023b05f4cd6cdd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi,<div>=C2=A0 =C2=A0 I=C2=A0have a requirement to run a S=
-olaris binary ( 32 bit ) on linux (64 bit).</div><div><br></div><div>Since =
-some of=C2=A0the=C2=A0sources=C2=A0for the binary are not available, recomp=
-ilation on linux is not possible.</div><div><br></div><div>So we are trying=
-=C2=A0to run on linux using QEMU</div><div><br></div><div>the uname output =
-on solaris box is -=C2=A0</div><div>#uname -sip</div><div>SunOS sparc sun4v=
-</div><div><br></div><div>the uname output=C2=A0on linux box is -</div><div=
->#uname -siop</div><div>Linux x86_64 x86_64 GNU/Linux</div><div><br></div><=
-div>Following are the questions:</div><div>1. Is the user mode emulation=C2=
-=A0(of QEMU) the right way to do this?=C2=A0</div><div><br></div><div>2. If=
- yes, what would be actual command to do this. The=C2=A0Linux User space em=
-ulator (=C2=A0<a href=3D"https://www.qemu.org/docs/master/user/main.html">h=
-ttps://www.qemu.org/docs/master/user/main.html</a>) gives the command :</di=
-v><div><pre style=3D"box-sizing:border-box;font-family:SFMono-Regular,Menlo=
-,Monaco,Consolas,&quot;Liberation Mono&quot;,&quot;Courier New&quot;,Courie=
-r,monospace;font-size:12px;line-height:1.4;margin-top:0px;margin-bottom:0px=
-;color:rgb(0,0,0);padding:12px;overflow:auto"><span class=3D"gmail-n" style=
-=3D"box-sizing:border-box">qemu</span><span class=3D"gmail-o" style=3D"box-=
-sizing:border-box;color:rgb(102,102,102)">-</span><span class=3D"gmail-n" s=
-tyle=3D"box-sizing:border-box">i386</span> <span class=3D"gmail-p" style=3D=
-"box-sizing:border-box">[</span><span class=3D"gmail-o" style=3D"box-sizing=
-:border-box;color:rgb(102,102,102)">-</span><span class=3D"gmail-n" style=
-=3D"box-sizing:border-box">h</span><span class=3D"gmail-p" style=3D"box-siz=
-ing:border-box">]</span> <span class=3D"gmail-p" style=3D"box-sizing:border=
--box">[</span><span class=3D"gmail-o" style=3D"box-sizing:border-box;color:=
-rgb(102,102,102)">-</span><span class=3D"gmail-n" style=3D"box-sizing:borde=
-r-box">d</span><span class=3D"gmail-p" style=3D"box-sizing:border-box">]</s=
-pan> <span class=3D"gmail-p" style=3D"box-sizing:border-box">[</span><span =
-class=3D"gmail-o" style=3D"box-sizing:border-box;color:rgb(102,102,102)">-<=
-/span><span class=3D"gmail-n" style=3D"box-sizing:border-box">L</span> <spa=
-n class=3D"gmail-n" style=3D"box-sizing:border-box">path</span><span class=
-=3D"gmail-p" style=3D"box-sizing:border-box">]</span> <span class=3D"gmail-=
-p" style=3D"box-sizing:border-box">[</span><span class=3D"gmail-o" style=3D=
-"box-sizing:border-box;color:rgb(102,102,102)">-</span><span class=3D"gmail=
--n" style=3D"box-sizing:border-box">s</span> <span class=3D"gmail-n" style=
-=3D"box-sizing:border-box">size</span><span class=3D"gmail-p" style=3D"box-=
-sizing:border-box">]</span> <span class=3D"gmail-p" style=3D"box-sizing:bor=
-der-box">[</span><span class=3D"gmail-o" style=3D"box-sizing:border-box;col=
-or:rgb(102,102,102)">-</span><span class=3D"gmail-n" style=3D"box-sizing:bo=
-rder-box">cpu</span> <span class=3D"gmail-n" style=3D"box-sizing:border-box=
-">model</span><span class=3D"gmail-p" style=3D"box-sizing:border-box">]</sp=
-an> <span class=3D"gmail-p" style=3D"box-sizing:border-box">[</span><span c=
-lass=3D"gmail-o" style=3D"box-sizing:border-box;color:rgb(102,102,102)">-</=
-span><span class=3D"gmail-n" style=3D"box-sizing:border-box">g</span> <span=
- class=3D"gmail-n" style=3D"box-sizing:border-box">port</span><span class=
-=3D"gmail-p" style=3D"box-sizing:border-box">]</span> <span class=3D"gmail-=
-p" style=3D"box-sizing:border-box">[</span><span class=3D"gmail-o" style=3D=
-"box-sizing:border-box;color:rgb(102,102,102)">-</span><span class=3D"gmail=
--n" style=3D"box-sizing:border-box">B</span> <span class=3D"gmail-n" style=
-=3D"box-sizing:border-box">offset</span><span class=3D"gmail-p" style=3D"bo=
-x-sizing:border-box">]</span> <span class=3D"gmail-p" style=3D"box-sizing:b=
-order-box">[</span><span class=3D"gmail-o" style=3D"box-sizing:border-box;c=
-olor:rgb(102,102,102)">-</span><span class=3D"gmail-n" style=3D"box-sizing:=
-border-box">R</span> <span class=3D"gmail-n" style=3D"box-sizing:border-box=
-">size</span><span class=3D"gmail-p" style=3D"box-sizing:border-box">]</spa=
-n> <span class=3D"gmail-n" style=3D"box-sizing:border-box">program</span> <=
-span class=3D"gmail-p" style=3D"box-sizing:border-box">[</span><span class=
-=3D"gmail-n" style=3D"box-sizing:border-box">arguments</span><span class=3D=
-"gmail-o" style=3D"box-sizing:border-box;color:rgb(102,102,102)">...</span>=
-<span class=3D"gmail-p" style=3D"box-sizing:border-box">]</span></pre><pre =
-style=3D"box-sizing:border-box;font-size:12px;line-height:1.4;margin-top:0p=
-x;margin-bottom:0px;color:rgb(0,0,0);padding:12px;overflow:auto"><font face=
-=3D"arial, sans-serif">Is there a suitable command for 64 bit linux to run =
-the program ?</font></pre><pre style=3D"box-sizing:border-box;font-size:12p=
-x;line-height:1.4;margin-top:0px;margin-bottom:0px;color:rgb(0,0,0);padding=
-:12px;overflow:auto"><font face=3D"arial, sans-serif">3. </font> Is this th=
-e package to install for RHEL as given in documentation?</pre><pre style=3D=
-"box-sizing:border-box;line-height:1.4;margin-top:0px;margin-bottom:0px;col=
-or:rgb(0,0,0);padding:12px;overflow:auto"><ul style=3D"font-size:14.6667px;=
-box-sizing:border-box;margin-bottom:0px;font-family:Roboto,sans-serif;white=
--space:normal"><li style=3D"box-sizing:border-box"><p style=3D"box-sizing:b=
-order-box;margin-bottom:1em"><span style=3D"box-sizing:border-box">RHEL/Cen=
-tOS:</span>=C2=A0<code style=3D"box-sizing:border-box;font-family:&quot;Rob=
-oto Mono&quot;,monospace;font-size:1em;background:rgba(0,0,0,0.05)">yum ins=
-tall qemu-kvm</code></p></li></ul><div style=3D""><font face=3D"Roboto Mono=
-, monospace"><span style=3D"font-size:14.6667px;white-space:normal"><br></s=
-pan></font></div><div style=3D""><font face=3D"Roboto Mono, monospace"><spa=
-n style=3D"font-size:14.6667px;white-space:normal">4. Does the program requ=
-ire Super user privileges to run?</span></font></div><div style=3D""><font =
-face=3D"Roboto Mono, monospace"><span style=3D"font-size:14.6667px;white-sp=
-ace:normal"><br></span></font></div><div style=3D""><font face=3D"Roboto Mo=
-no, monospace"><span style=3D"font-size:14.6667px;white-space:normal">Regar=
-ds,</span></font></div><div style=3D""><font face=3D"Roboto Mono, monospace=
-"><span style=3D"font-size:14.6667px;white-space:normal">Ginu</span></font>=
-</div>
-
-</pre></div><div><br></div><div><br></div></div>
-
---000000000000ff023b05f4cd6cdd--
+> ---
+>   hw/arm/Kconfig | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 2d157de9b8..b5aed4aff5 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -389,6 +389,7 @@ config XLNX_ZYNQMP_ARM
+>       select XLNX_CSU_DMA
+>       select XLNX_ZYNQMP
+>       select XLNX_ZDMA
+> +    select USB_DWC3
+>   
+>   config XLNX_VERSAL
+>       bool
 
