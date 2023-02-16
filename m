@@ -2,85 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDABB6992B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 12:07:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F9696992D2
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 12:11:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSc69-0004Wf-2p; Thu, 16 Feb 2023 06:06:45 -0500
+	id 1pSc9a-0000OW-7F; Thu, 16 Feb 2023 06:10:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pSc65-0004Vu-6v
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 06:06:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pSc63-0008GT-Fs
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 06:06:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676545598;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4GrdJPyMXsioxnigYklI8ymcJxALt3Q5CGBqMPj53nw=;
- b=haIo7HOpUitHtzubDirkS/TRtcpEBwALlDowTNE+THUMDsuJVYfc0JaC59nfzgI/WbnQwI
- vmDppjFiSpEXz6Yr4vZBVwnYp9t7qoAkF3pDm2GG9Q2z6UPmU5UbTFAUHArjm76cEjlU9p
- OnZ2/OeICo5TBeEpTMJsWuDjCsFYuhs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-426-GCKOBUX5OYmn4bfnYT_Efw-1; Thu, 16 Feb 2023 06:06:35 -0500
-X-MC-Unique: GCKOBUX5OYmn4bfnYT_Efw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0FEE6185A7A4;
- Thu, 16 Feb 2023 11:06:35 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.164])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BF2DA2166B30;
- Thu, 16 Feb 2023 11:06:30 +0000 (UTC)
-Date: Thu, 16 Feb 2023 11:06:28 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v2 6/7] CI: Stop building docs on centos8
-Message-ID: <Y+4ONA/D+uUV9klZ@redhat.com>
-References: <CAFn=p-aDV9=vG6hjTWRE6c52TpYSjDBU22nthTuejDCv_XrYMQ@mail.gmail.com>
- <CAFEAcA_eGvz_BQVLhVWtedRh2mcBuMEhv0RKF+6DW4t+9FdPAw@mail.gmail.com>
- <Y+Z2Kcq17HGWuoTV@redhat.com> <87cz6cpue3.fsf@pond.sub.org>
- <Y+t1J72iMsLWXHne@redhat.com>
- <CABgObfb-_upmc=36_bnxLMCB+0KqWoZNK62rnD5KpBKhW4N+hw@mail.gmail.com>
- <Y+vEKTgwoPtj86Z1@redhat.com>
- <CABgObfbsoOGU5v-xw3LzsnknS_TFJWZBA3LGCAmOOF-uBcXziQ@mail.gmail.com>
- <Y+zDd93lnPeteQxk@redhat.com> <87k00iv0ut.fsf@pond.sub.org>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSc9V-00006Y-Eo
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 06:10:13 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSc9T-0002Hp-C0
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 06:10:13 -0500
+Received: by mail-wr1-x435.google.com with SMTP id y1so1489778wru.2
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 03:10:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=XaCnP/Bw5+cT1thBZVdVlU3T544od9SduuK47VrrVkg=;
+ b=RXK/jNvLZ8krSdSZC+imNBqKGY/r+g2/q9neNlDZy74nAoV+SLG78Ra2Z07jA78Qsw
+ fJ05XDPKf4StGRiNbTGsr5tJISomrX6+kvLJoNm8PbaRX9OdGba6BegVnR1w+YrVjZMV
+ FplvDIO+xwgPu8NZ0H7R1LE2AprmSAxOo3jbWlml7U8myVXkwx7saEGiThvfJfkdtY/c
+ NY4MHhv8MqDBPoh1RJ9vOKOVGXK1jLCRvJIIJ16897f3rdvnM7mqVZUn57WDYoUXILL/
+ X1HWZEaopP1BSOMdT7e6hoGXdXxvwMWBDbN8McepqmlibbkQu4YebL9VVT8syRnFHKuW
+ fgQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XaCnP/Bw5+cT1thBZVdVlU3T544od9SduuK47VrrVkg=;
+ b=iSD/L21G+HDGa6zsm21sJr6DeBD0bG0+UAEiLOxX6uobPy3saGbhScwOUXISLe47sT
+ DfjyjkyKoOAgUL9MhjdsHMvA8viLjN2ExNCjFjBOIqJ2knZoeynC4G+XPYKdGNf35VZD
+ R0oHFnMMVs9285hYKy4O0lFlGmArm/AizWeZXPARDi6fXIRACRW1y0GwViOcrBvxDoKK
+ 9JL4CrfPUgO872XH701o14fzaACsrWINrgkqIaBdh+EnTDIML7iha/mPBy/trcbXh/Fp
+ rHTvZILQeNQekHrVgYbXD8jBoA18DYWDLaVHPw/s/9ydOy7mKJSL8SLpTb5YsIhL3pB8
+ N6FQ==
+X-Gm-Message-State: AO0yUKXs0OReRpCSHl2TGwDWytcJjnuPpM7AU3T6vducl/Hr/IaKkhuP
+ TiS5oEvlDCqr9dGyWPv3iY5Uag==
+X-Google-Smtp-Source: AK7set8W21C9uEuhIlrFHFJd9UYIfq81at9PHqvGgTL/bHlCHm12jIJ+oC0FFpzJFatNBAA/lwVoyA==
+X-Received: by 2002:a5d:574a:0:b0:2c5:582b:bad1 with SMTP id
+ q10-20020a5d574a000000b002c5582bbad1mr4661126wrw.30.1676545809135; 
+ Thu, 16 Feb 2023 03:10:09 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ g18-20020adff3d2000000b002c569acab1esm1181735wrp.73.2023.02.16.03.10.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Feb 2023 03:10:08 -0800 (PST)
+Message-ID: <8c18d24f-2454-11f2-0322-529ece683629@linaro.org>
+Date: Thu, 16 Feb 2023 12:10:07 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87k00iv0ut.fsf@pond.sub.org>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH] Adding new machine Yosemitev2 in QEMU
+Content-Language: en-US
+To: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>, clg@kaod.org,
+ peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
+References: <20230216104820.192624-1-pkarthikeyan1509@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230216104820.192624-1-pkarthikeyan1509@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,75 +87,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 16, 2023 at 02:46:18AM +0100, Markus Armbruster wrote:
-> Daniel P. Berrangé <berrange@redhat.com> writes:
-> 
-> > On Tue, Feb 14, 2023 at 09:52:44PM +0100, Paolo Bonzini wrote:
-> >> Il mar 14 feb 2023, 18:26 Kevin Wolf <kwolf@redhat.com> ha scritto:
-> >> 
-> >> > Am 14.02.2023 um 15:03 hat Paolo Bonzini geschrieben:
-> >> > > In the case of Python the issue is not the interpreter per se, though
-> >> > > there are a couple new feature in Python 3.7 that are quite nice (for
-> >> > > example improved data classes[1] or context variables[2]). The main
-> >> > > problem as far as I understood (and have seen in my experience) is
-> >> > > linting tools. New versions fix bugs that caused false positives, but
-> >> > > also become more strict at the same time. The newer versions at the
-> >> > > same time are very quick at dropping support for old versions of
-> >> > > Python; while older versions sometimes throw deprecation warnings on
-> >> > > new versions of Python. This makes it very hard to support a single
-> >> > > version of, say, mypy that works on all versions from RHEL8 and SLE15
-> >> > > to Fedora 38 and Ubuntu 23.04.
-> >> >
-> >> > Why do we have to support a single version of mypy? What is wrong with
-> >> > running an old mypy version with old Python version, and a newer mypy
-> >> > with newer Python versions?
-> >> >
-> >> > Sure, they will complain about different things, but it doesn't feel
-> >> > that different from supporting multiple C compilers in various versions.
-> >> >
-> >> 
-> >> It's more like having to support only C++03 on RHEL 8 and only C++20 in
-> >> Fedora 37, without even being able to use a preprocessor.
-> >> 
-> >> For example old versions might not understand some type annotations and
-> >> will fail mypy altogether, therefore even with newer versions you can't
-> >> annotate the whole source and have to fall back to non-strict mode.
-> >
-> > In terms of back compatibility, is there a distinction to be
-> > made between mypy compat and the python runtime compat ?
-> >
-> > If we add annotations wanted by new mypy, and old mypy doesn't
-> > understand them, that's not a huge problem. We can simply declare
-> > that we don't support old mypy, and skip the validation tests if
-> > old mypy is installed.
-> 
-> In theory, type hints are transparent at run time.  In practice, use of
-> modern type hints is known to break 3.6 at run time.  I don't remember
-> the details offhand, but John should be able to dig them up if you're
-> interested.
-> 
-> So, it should not be a problem, but it is.
+Hi Pasupathi,
 
-Ok, this is a pretty compelling motivating factor for dropping
-3.6, as it is clear demonstration that we're being held back
-by the unfortunate lack of runtime compatibility.
-
-For most of the other problems we can simply mandate a new
-enough version of the add on tool, but if using new mypy
-requires annotations that break at runtime on 3.6 that's
-a painful blocker.
+On 16/2/23 11:48, Karthikeyan Pasupathi wrote:
+> Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
+> ---
+>   hw/arm/aspeed.c        | 38 ++++++++++++++++++++++++++++++++++++++
+>   hw/arm/aspeed_eeprom.c | 23 +++++++++++++++++++++++
+>   hw/arm/aspeed_eeprom.h |  3 +++
+>   3 files changed, 64 insertions(+)
 
 
+> +static void yosemitev2_bmc_i2c_init(AspeedMachineState *bmc)
+> +{
+> +    AspeedSoCState *soc = &bmc->soc;
+> +
+> +    I2CBus *i2c[16];
+> +
+> +    for (int i = 0; i < 16; i++) {
+> +        i2c[i] = aspeed_i2c_get_bus(&soc->i2c, i);
+> +    }
+> +
+> +    at24c_eeprom_init(i2c[4], 0x51, 128 * KiB);
+> +
+> +    at24c_eeprom_init_rom(i2c[8], 0x51, 128 * KiB, fbyv2_bmc_fruid,
+> +                          fbyv2_bmc_fruid_len);
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+This can be simplified as:
+
+at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 4), 0x51, 128 * KiB);
+at24c_eeprom_init_rom(aspeed_i2c_get_bus(&soc->i2c, 8), 0x51, 128 * KiB,
+                       fbyv2_bmc_fruid, fbyv2_bmc_fruid_len);
+
+> +}
 
 
