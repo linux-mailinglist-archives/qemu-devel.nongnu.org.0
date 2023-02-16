@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60BC9698AC5
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 03:59:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 633BA698AC3
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 03:59:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSUTK-0003Vr-2v; Wed, 15 Feb 2023 21:58:10 -0500
+	id 1pSUTM-0003X8-MN; Wed, 15 Feb 2023 21:58:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSUTI-0003VI-GC
+ id 1pSUTI-0003VR-PU
  for qemu-devel@nongnu.org; Wed, 15 Feb 2023 21:58:08 -0500
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSUTG-0005ls-Bl
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 21:58:07 -0500
-Received: by mail-pg1-x531.google.com with SMTP id 7so427384pga.1
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 18:58:05 -0800 (PST)
+ id 1pSUTH-0005is-4d
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 21:58:08 -0500
+Received: by mail-pg1-x529.google.com with SMTP id e1so406775pgg.9
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 18:58:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=XpxrtDgBblg1xHWmk0z4agClqvDtMclVGTGWwtGIZic=;
- b=PUA+M0pFskLHb8VIAAW9koLR3Lq5nb72g1mvOprB8XrpaXYiuleAYsYx5wAew/Cy/F
- k5M8NMyvzho2nIuZifsmYEv49Yv2KtrdIl/u0tu8iaZM6UgvYu9hAbwlHm6UR5pyKKfZ
- KVRzz3wvSO0AtAVSZPxoNo5iZ39VjAgL9VEd4pJpzZTg4Ecy+xXw/GYPupdG2fHVsQNs
- tDzFti5rfeMyOrtNpH8Q+2uLhbZr36Bm0mJtcBplMhyYeFUEcKdEF8vr46g+s1QWceUE
- KaGQKM+MTUcdEGcwmcZE7tr8Ljqte//J6EF5l0c0rtwN4xTiY1lE6xb4E5tYAf5Esylq
- NqbA==
+ :reply-to; bh=V4V1gK7l/X0jR5MaeGeYdL9LeHtcxKxh5We6ThF9P1U=;
+ b=TrPWFXMsAiCkA4p371n2A6qXRuDhQ0MFNwv82NytilZ83cU0t7FATGtwB9oNo1dOaD
+ WlxX+PIwO9DLe6rQmgjhpvl8nOkwR7+uDVDl+PZeJsWjdt3KYwjKn5j/GJEX0xHWzxJR
+ lMsmkGgYa6n6DFzoiN/KDvqPbyYyT0A/CcoruFZc8bybyllT1z5mhTrRSA/UT03E1PA9
+ U3H6UV/EpY/pJEPcZMtKQSy0IFw8xXtibC7bS/8LzMmFherZH0DdJwHvdMqvtTW13w0h
+ ygDQuRq+vtQbe3dl6ibPsnBq2xWSQut9J4s1UfGoyq41CRTSm+xAlhtPEUnsnOJRhZWA
+ xBrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XpxrtDgBblg1xHWmk0z4agClqvDtMclVGTGWwtGIZic=;
- b=8EirQJNLSDb7b3UDJDBTWi/P7I8v++NRl3LlLfo3BDf/qaqTTgHM9yDVQzVWrXmAPK
- ky44Bva5E4E6HIz5KBrnn7ki5ffl5XGLP1TVvPx/lg4XtQajnD63QaqHblnUUlv8A+2P
- mDlfKtOhdAFiqIomcYxGwuWSvhC/6dXMdmakgAbOmDPcLJIxy2d/s+i1s6fMuluMBeOG
- zngKRVIHbbfDpOcieDPSY210h/u+Sr0SvUDobHNTYpCDNQ9MiIvszni0vc8LNkm9AElh
- /VimqnfT0siWJ226QNjbaAjUTGYyWbRk6B7rxq1MDVlRRfVbxBuSEc9neRUx9PyqK2MO
- XzUA==
-X-Gm-Message-State: AO0yUKWgGU2Nu5QDUkqte1VEiQNo+USD8fJhQcrfcv1GuzKcSi7i2Um8
- Dipku5dfBX2bsBQ34Uydobcui1y03wTSBaQBZhI=
-X-Google-Smtp-Source: AK7set/e8XpMvbS/D5OycIWvqHr04Wce9JSvYDCyF6OpaDWd4fJ+Zum6kgcMRIXW28lEkP4HPhpJqg==
-X-Received: by 2002:a05:6a00:288e:b0:5a8:c038:f4e7 with SMTP id
- ch14-20020a056a00288e00b005a8c038f4e7mr759196pfb.1.1676516285058; 
- Wed, 15 Feb 2023 18:58:05 -0800 (PST)
+ bh=V4V1gK7l/X0jR5MaeGeYdL9LeHtcxKxh5We6ThF9P1U=;
+ b=BpvwTaBfbLRyQzlc0gY3/Zjv2hjoBXG3TtddDX+pRJHFW2uKSD0cW8BnMC5YX7bpO2
+ cNuGmr+TmJOVhJx1x1p2aMaGhr9QdWWFFz2rEoxB4DG/sdTIFidPnqpDv/YRXAjgkTyq
+ brAQ7AmREXKMr1ghKH2G0WwIMl34opFARmWDzsrufG1nDLuNJsjsgr/BJSAY7Os8nYyt
+ 73n6uTd+CTM4llTeJg4j8Uh6ogXUWnIm8CQiRG+Ysb5ocvzc8ORRaUHAnorYEi+maHEp
+ /6Rav7XEMWZxbFmOkE9JWXgze9U7wUmspgaiBPwzyF3YzLTrZ4G1T7lYDTdU3iZw/B/2
+ t9qQ==
+X-Gm-Message-State: AO0yUKXLa3f7H0F2s45EB9qkPAiEBghyGbBAeAzhUPI70m0LBHFTrw2X
+ suMDirExrhZPC60L+8kGJEUF0RM+reSBpEo2QBQ=
+X-Google-Smtp-Source: AK7set9pEKXU8YP51L9zrx5Qss/6A4nDf3CQ6HrQyMLSlMuzpheUTQJqWR8QUKf6sb92x2Y7gAEEHg==
+X-Received: by 2002:a62:1a58:0:b0:5a8:bdae:caa7 with SMTP id
+ a85-20020a621a58000000b005a8bdaecaa7mr3512652pfa.14.1676516286358; 
+ Wed, 15 Feb 2023 18:58:06 -0800 (PST)
 Received: from stoup.. (rrcs-74-87-59-234.west.biz.rr.com. [74.87.59.234])
  by smtp.gmail.com with ESMTPSA id
- e14-20020a62aa0e000000b005a816b7c3e8sm89655pff.24.2023.02.15.18.58.04
+ e14-20020a62aa0e000000b005a816b7c3e8sm89655pff.24.2023.02.15.18.58.05
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 18:58:04 -0800 (PST)
+ Wed, 15 Feb 2023 18:58:05 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 17/30] tcg/aarch64: Detect have_lse, have_lse2 for linux
-Date: Wed, 15 Feb 2023 16:57:26 -1000
-Message-Id: <20230216025739.1211680-18-richard.henderson@linaro.org>
+Subject: [PATCH v2 18/30] tcg/aarch64: Detect have_lse, have_lse2 for darwin
+Date: Wed, 15 Feb 2023 16:57:27 -1000
+Message-Id: <20230216025739.1211680-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230216025739.1211680-1-richard.henderson@linaro.org>
 References: <20230216025739.1211680-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,66 +88,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Notice when the host has additional atomic instructions.
-The new variables will also be used in generated code.
+These features are present for Apple M1.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/aarch64/tcg-target.h     |  3 +++
- tcg/aarch64/tcg-target.c.inc | 12 ++++++++++++
- 2 files changed, 15 insertions(+)
+ tcg/aarch64/tcg-target.c.inc | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
-index c0b0f614ba..3c0b0d312d 100644
---- a/tcg/aarch64/tcg-target.h
-+++ b/tcg/aarch64/tcg-target.h
-@@ -57,6 +57,9 @@ typedef enum {
- #define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_EVEN
- #define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_NORMAL
- 
-+extern bool have_lse;
-+extern bool have_lse2;
-+
- /* optional instructions */
- #define TCG_TARGET_HAS_div_i32          1
- #define TCG_TARGET_HAS_rem_i32          1
 diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-index 05123cce35..d144d1a769 100644
+index d144d1a769..1a295791b4 100644
 --- a/tcg/aarch64/tcg-target.c.inc
 +++ b/tcg/aarch64/tcg-target.c.inc
-@@ -13,6 +13,9 @@
- #include "../tcg-ldst.c.inc"
- #include "../tcg-pool.c.inc"
- #include "qemu/bitops.h"
-+#ifdef __linux__
-+#include <asm/hwcap.h>
+@@ -16,6 +16,9 @@
+ #ifdef __linux__
+ #include <asm/hwcap.h>
+ #endif
++#ifdef CONFIG_DARWIN
++#include <sys/sysctl.h>
 +#endif
  
  /* We're going to re-use TCGType in setting of the SF bit, which controls
     the size of the operation performed.  If we know the values match, it
-@@ -71,6 +74,9 @@ static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
-     return TCG_REG_X0 + slot;
+@@ -2916,6 +2919,27 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+     }
  }
  
-+bool have_lse;
-+bool have_lse2;
++#ifdef CONFIG_DARWIN
++static bool sysctl_for_bool(const char *name)
++{
++    int val = 0;
++    size_t len = sizeof(val);
 +
- #define TCG_REG_TMP TCG_REG_X30
- #define TCG_VEC_TMP TCG_REG_V31
- 
-@@ -2912,6 +2918,12 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
- 
- static void tcg_target_init(TCGContext *s)
- {
-+#ifdef __linux__
-+    unsigned long hwcap = qemu_getauxval(AT_HWCAP);
-+    have_lse = hwcap & HWCAP_ATOMICS;
-+    have_lse2 = hwcap & HWCAP_USCAT;
++    if (sysctlbyname(name, &val, &len, NULL, 0) == 0) {
++        return val != 0;
++    }
++
++    /*
++     * We might in ask for properties not present in older kernels,
++     * but we're only asking about static properties, all of which
++     * should be 'int'.  So we shouln't see ENOMEM (val too small),
++     * or any of the other more exotic errors.
++     */
++    assert(errno == ENOENT);
++    return false;
++}
 +#endif
 +
+ static void tcg_target_init(TCGContext *s)
+ {
+ #ifdef __linux__
+@@ -2923,6 +2947,10 @@ static void tcg_target_init(TCGContext *s)
+     have_lse = hwcap & HWCAP_ATOMICS;
+     have_lse2 = hwcap & HWCAP_USCAT;
+ #endif
++#ifdef CONFIG_DARWIN
++    have_lse = sysctl_for_bool("hw.optional.arm.FEAT_LSE");
++    have_lse2 = sysctl_for_bool("hw.optional.arm.FEAT_LSE2");
++#endif
+ 
      tcg_target_available_regs[TCG_TYPE_I32] = 0xffffffffu;
      tcg_target_available_regs[TCG_TYPE_I64] = 0xffffffffu;
-     tcg_target_available_regs[TCG_TYPE_V64] = 0xffffffff00000000ull;
 -- 
 2.34.1
 
