@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4188F699C4C
+	by mail.lfdr.de (Postfix) with ESMTPS id 57558699C4D
 	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 19:27:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSiy4-00084l-0u; Thu, 16 Feb 2023 13:26:53 -0500
+	id 1pSiy8-00089y-G4; Thu, 16 Feb 2023 13:26:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pSixs-000827-7v
+ id 1pSixt-00082T-Rz
  for qemu-devel@nongnu.org; Thu, 16 Feb 2023 13:26:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pSixq-0006sx-3R
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 13:26:39 -0500
+ id 1pSixq-0006tC-LA
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 13:26:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676571996;
+ s=mimecast20190719; t=1676571997;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t7b+jveNkL0VH3LOIkpYyuHdFZQybj1BFuoa/53F2nE=;
- b=L2mA5owzLuVdEe1tRSdkg9N8Uz+yav5vnVdwIejGDZ8ng1D1L7Kvv9Kk6lsAUyUUwNkqVs
- CGEdb4czFVBqESl3BbnSSS3Se/auzwFTuL1bb25gCTK4gjY4AAJ18BWwB188XBuMf5YZt4
- 4hg7GRp9mF1zjyOo5YajKkAava6NHto=
+ bh=/xfb9yRGGrdvd754TYZuOnAY53Lb+R7bOwc/X5bIq14=;
+ b=BcfS//MUVapTebiAvkxHYZbRlhsSqQMHGk03mRs303dg6wJAVtPktfVHeMV0WJQOwKpEFU
+ c6lMdHRGFTryBNLLdMe+WPn+A+Ue2dSNACB6jVzF/EdT0uE1qcjssFoJboF11qQhWwbywB
+ LO7ay+xoy6uZQOHNaYbagGFH7bOZ4yg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-298-A_EIU-u2NOq_PQQrVD5AsA-1; Thu, 16 Feb 2023 13:26:35 -0500
-X-MC-Unique: A_EIU-u2NOq_PQQrVD5AsA-1
+ us-mta-115-7UDbeF2FMsqqayTGA3ZiJA-1; Thu, 16 Feb 2023 13:26:36 -0500
+X-MC-Unique: 7UDbeF2FMsqqayTGA3ZiJA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EB044101A52E
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 18:26:34 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F0A4685CCE0
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 18:26:35 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.179])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2820740B40C9;
- Thu, 16 Feb 2023 18:26:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 303F8401014C;
+ Thu, 16 Feb 2023 18:26:35 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: virtio-fs@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
  vgoyal@redhat.com, gmaglione@redhat.com
-Subject: [PULL 1/4] virtiofsd: Remove test
-Date: Thu, 16 Feb 2023 18:26:25 +0000
-Message-Id: <20230216182628.126139-2-dgilbert@redhat.com>
+Subject: [PULL 2/4] virtiofsd: Remove build and docs glue
+Date: Thu, 16 Feb 2023 18:26:26 +0000
+Message-Id: <20230216182628.126139-3-dgilbert@redhat.com>
 In-Reply-To: <20230216182628.126139-1-dgilbert@redhat.com>
 References: <20230216182628.126139-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,258 +80,211 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Rmove the avocado test for virtiofsd, since we're about to remove
-the C implementation.
+Remove all the virtiofsd build and docs infrastructure.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- .../org.centos/stream/8/x86_64/test-avocado   |   7 -
- tests/avocado/virtiofs_submounts.py           | 217 ------------------
- 2 files changed, 224 deletions(-)
- delete mode 100644 tests/avocado/virtiofs_submounts.py
+ MAINTAINERS                                    |  2 --
+ docs/conf.py                                   |  4 ----
+ docs/meson.build                               |  1 -
+ docs/tools/index.rst                           |  1 -
+ meson.build                                    |  1 -
+ meson_options.txt                              |  2 --
+ .../ci/org.centos/stream/8/x86_64/configure    |  2 --
+ scripts/coverity-scan/COMPONENTS.md            |  3 ---
+ scripts/meson-buildoptions.sh                  |  3 ---
+ tools/meson.build                              | 13 -------------
+ tools/virtiofsd/50-qemu-virtiofsd.json.in      |  5 -----
+ tools/virtiofsd/meson.build                    | 18 ------------------
+ 12 files changed, 55 deletions(-)
+ delete mode 100644 tools/virtiofsd/50-qemu-virtiofsd.json.in
+ delete mode 100644 tools/virtiofsd/meson.build
 
-diff --git a/scripts/ci/org.centos/stream/8/x86_64/test-avocado b/scripts/ci/org.centos/stream/8/x86_64/test-avocado
-index 7aeecbcfb8..f403e4e7ec 100755
---- a/scripts/ci/org.centos/stream/8/x86_64/test-avocado
-+++ b/scripts/ci/org.centos/stream/8/x86_64/test-avocado
-@@ -14,13 +14,6 @@
- # * Require machine type "x-remote":
- #   - tests/avocado/multiprocess.py:Multiprocess.test_multiprocess_x86_64
- #
--# * Needs superuser privileges:
--#   - tests/avocado/virtiofs_submounts.py:VirtiofsSubmountsTest.test_pre_virtiofsd_set_up
--#   - tests/avocado/virtiofs_submounts.py:VirtiofsSubmountsTest.test_pre_launch_set_up
--#   - tests/avocado/virtiofs_submounts.py:VirtiofsSubmountsTest.test_post_launch_set_up
--#   - tests/avocado/virtiofs_submounts.py:VirtiofsSubmountsTest.test_post_mount_set_up
--#   - tests/avocado/virtiofs_submounts.py:VirtiofsSubmountsTest.test_two_runs
--#
- # * Requires display type "egl-headless":
- #   - tests/avocado/virtio-gpu.py:VirtioGPUx86.test_virtio_vga_virgl
- #   - tests/avocado/virtio-gpu.py:VirtioGPUx86.test_vhost_user_vga_virgl
-diff --git a/tests/avocado/virtiofs_submounts.py b/tests/avocado/virtiofs_submounts.py
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fd54c1f140..5090ba0e49 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2096,10 +2096,8 @@ virtiofs
+ M: Dr. David Alan Gilbert <dgilbert@redhat.com>
+ M: Stefan Hajnoczi <stefanha@redhat.com>
+ S: Supported
+-F: tools/virtiofsd/*
+ F: hw/virtio/vhost-user-fs*
+ F: include/hw/virtio/vhost-user-fs.h
+-F: docs/tools/virtiofsd.rst
+ L: virtio-fs@redhat.com
+ 
+ virtio-input
+diff --git a/docs/conf.py b/docs/conf.py
+index 73a287a4f2..00767b0e24 100644
+--- a/docs/conf.py
++++ b/docs/conf.py
+@@ -290,10 +290,6 @@
+     ('tools/virtfs-proxy-helper', 'virtfs-proxy-helper',
+      'QEMU 9p virtfs proxy filesystem helper',
+      ['M. Mohan Kumar'], 1),
+-    ('tools/virtiofsd', 'virtiofsd',
+-     'QEMU virtio-fs shared file system daemon',
+-     ['Stefan Hajnoczi <stefanha@redhat.com>',
+-      'Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>'], 1),
+ ]
+ man_make_section_directory = False
+ 
+diff --git a/docs/meson.build b/docs/meson.build
+index 9136fed3b7..bbcdccce68 100644
+--- a/docs/meson.build
++++ b/docs/meson.build
+@@ -48,7 +48,6 @@ if build_docs
+         'qemu-storage-daemon.1': (have_tools ? 'man1' : ''),
+         'qemu-trace-stap.1': (stap.found() ? 'man1' : ''),
+         'virtfs-proxy-helper.1': (have_virtfs_proxy_helper ? 'man1' : ''),
+-        'virtiofsd.1': (have_virtiofsd ? 'man1' : ''),
+         'qemu.1': 'man1',
+         'qemu-block-drivers.7': 'man7',
+         'qemu-cpu-models.7': 'man7'
+diff --git a/docs/tools/index.rst b/docs/tools/index.rst
+index 2151adcf78..8e65ce0dfc 100644
+--- a/docs/tools/index.rst
++++ b/docs/tools/index.rst
+@@ -16,4 +16,3 @@ command line utilities and other standalone programs.
+    qemu-pr-helper
+    qemu-trace-stap
+    virtfs-proxy-helper
+-   virtiofsd
+diff --git a/meson.build b/meson.build
+index a76c855312..adfc0e28b5 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3879,7 +3879,6 @@ if have_block
+   summary_info += {'Block whitelist (ro)': get_option('block_drv_ro_whitelist')}
+   summary_info += {'Use block whitelist in tools': get_option('block_drv_whitelist_in_tools')}
+   summary_info += {'VirtFS support':    have_virtfs}
+-  summary_info += {'build virtiofs daemon': have_virtiofsd}
+   summary_info += {'Live block migration': config_host_data.get('CONFIG_LIVE_BLOCK_MIGRATION')}
+   summary_info += {'replication support': config_host_data.get('CONFIG_REPLICATION')}
+   summary_info += {'bochs support':     get_option('bochs').allowed()}
+diff --git a/meson_options.txt b/meson_options.txt
+index 7e5801db90..6b0900205e 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -272,8 +272,6 @@ option('vhost_user_blk_server', type: 'feature', value: 'auto',
+        description: 'build vhost-user-blk server')
+ option('virtfs', type: 'feature', value: 'auto',
+        description: 'virtio-9p support')
+-option('virtiofsd', type: 'feature', value: 'auto',
+-       description: 'build virtiofs daemon (virtiofsd)')
+ option('libvduse', type: 'feature', value: 'auto',
+        description: 'build VDUSE Library')
+ option('vduse_blk_export', type: 'feature', value: 'auto',
+diff --git a/scripts/ci/org.centos/stream/8/x86_64/configure b/scripts/ci/org.centos/stream/8/x86_64/configure
+index 65eacf3c56..6e8983f39c 100755
+--- a/scripts/ci/org.centos/stream/8/x86_64/configure
++++ b/scripts/ci/org.centos/stream/8/x86_64/configure
+@@ -138,7 +138,6 @@
+ --disable-vhost-vdpa \
+ --disable-virglrenderer \
+ --disable-virtfs \
+---disable-virtiofsd \
+ --disable-vnc \
+ --disable-vnc-jpeg \
+ --disable-png \
+@@ -191,7 +190,6 @@
+ --enable-tpm \
+ --enable-trace-backends=dtrace \
+ --enable-usb-redir \
+---enable-virtiofsd \
+ --enable-vhost-kernel \
+ --enable-vhost-net \
+ --enable-vhost-user \
+diff --git a/scripts/coverity-scan/COMPONENTS.md b/scripts/coverity-scan/COMPONENTS.md
+index 0e6ab4936e..639dcee45a 100644
+--- a/scripts/coverity-scan/COMPONENTS.md
++++ b/scripts/coverity-scan/COMPONENTS.md
+@@ -132,9 +132,6 @@ util
+ xen
+   ~ (/qemu)?(.*/xen.*)
+ 
+-virtiofsd
+-  ~ (/qemu)?(/tools/virtiofsd/.*)
+-
+ (headers)
+   ~ (/qemu)?(/include/.*)
+ 
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 939cc114dd..5d969a94c0 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -175,7 +175,6 @@ meson_options_help() {
+   printf "%s\n" '  vhost-vdpa      vhost-vdpa kernel backend support'
+   printf "%s\n" '  virglrenderer   virgl rendering support'
+   printf "%s\n" '  virtfs          virtio-9p support'
+-  printf "%s\n" '  virtiofsd       build virtiofs daemon (virtiofsd)'
+   printf "%s\n" '  vmnet           vmnet.framework network backend support'
+   printf "%s\n" '  vnc             VNC server'
+   printf "%s\n" '  vnc-jpeg        JPEG lossy compression for VNC server'
+@@ -461,8 +460,6 @@ _meson_option_parse() {
+     --disable-virglrenderer) printf "%s" -Dvirglrenderer=disabled ;;
+     --enable-virtfs) printf "%s" -Dvirtfs=enabled ;;
+     --disable-virtfs) printf "%s" -Dvirtfs=disabled ;;
+-    --enable-virtiofsd) printf "%s" -Dvirtiofsd=enabled ;;
+-    --disable-virtiofsd) printf "%s" -Dvirtiofsd=disabled ;;
+     --enable-vmnet) printf "%s" -Dvmnet=enabled ;;
+     --disable-vmnet) printf "%s" -Dvmnet=disabled ;;
+     --enable-vnc) printf "%s" -Dvnc=enabled ;;
+diff --git a/tools/meson.build b/tools/meson.build
+index 10eb3a043f..e69de29bb2 100644
+--- a/tools/meson.build
++++ b/tools/meson.build
+@@ -1,13 +0,0 @@
+-have_virtiofsd = get_option('virtiofsd') \
+-    .require(targetos == 'linux',
+-             error_message: 'virtiofsd requires Linux') \
+-    .require(seccomp.found() and libcap_ng.found(),
+-             error_message: 'virtiofsd requires libcap-ng-devel and seccomp-devel') \
+-    .require(have_vhost_user,
+-             error_message: 'virtiofsd needs vhost-user-support') \
+-    .disable_auto_if(not have_tools and not have_system) \
+-    .allowed()
+-
+-if have_virtiofsd
+-  subdir('virtiofsd')
+-endif
+diff --git a/tools/virtiofsd/50-qemu-virtiofsd.json.in b/tools/virtiofsd/50-qemu-virtiofsd.json.in
 deleted file mode 100644
-index e6dc32ffd4..0000000000
---- a/tests/avocado/virtiofs_submounts.py
+index 9bcd86f8dc..0000000000
+--- a/tools/virtiofsd/50-qemu-virtiofsd.json.in
 +++ /dev/null
-@@ -1,217 +0,0 @@
--import logging
--import re
--import os
--import subprocess
--import time
+@@ -1,5 +0,0 @@
+-{
+-  "description": "QEMU virtiofsd vhost-user-fs",
+-  "type": "fs",
+-  "binary": "@libexecdir@/virtiofsd"
+-}
+diff --git a/tools/virtiofsd/meson.build b/tools/virtiofsd/meson.build
+deleted file mode 100644
+index c134ba633f..0000000000
+--- a/tools/virtiofsd/meson.build
++++ /dev/null
+@@ -1,18 +0,0 @@
+-executable('virtiofsd', files(
+-  'buffer.c',
+-  'fuse_opt.c',
+-  'fuse_log.c',
+-  'fuse_lowlevel.c',
+-  'fuse_signals.c',
+-  'fuse_virtio.c',
+-  'helper.c',
+-  'passthrough_ll.c',
+-  'passthrough_seccomp.c'),
+-  dependencies: [seccomp, qemuutil, libcap_ng, vhost_user],
+-  install: true,
+-  install_dir: get_option('libexecdir'))
 -
--from avocado import skipUnless
--from avocado_qemu import LinuxTest, BUILD_DIR
--from avocado_qemu import has_cmds
--from avocado_qemu import run_cmd
--from avocado_qemu import wait_for_console_pattern
--from avocado.utils import ssh
--
--
--class VirtiofsSubmountsTest(LinuxTest):
--    """
--    :avocado: tags=arch:x86_64
--    :avocado: tags=accel:kvm
--    """
--
--    def run(self, args, ignore_error=False):
--        stdout, stderr, ret = run_cmd(args)
--
--        if ret != 0:
--            cmdline = ' '.join(args)
--            if not ignore_error:
--                self.fail(f'{cmdline}: Returned {ret}: {stderr}')
--            else:
--                self.log.warn(f'{cmdline}: Returned {ret}: {stderr}')
--
--        return (stdout, stderr, ret)
--
--    def set_up_shared_dir(self):
--        self.shared_dir = os.path.join(self.workdir, 'virtiofs-shared')
--
--        os.mkdir(self.shared_dir)
--
--        self.run(('cp', self.get_data('guest.sh'),
--                 os.path.join(self.shared_dir, 'check.sh')))
--
--        self.run(('cp', self.get_data('guest-cleanup.sh'),
--                 os.path.join(self.shared_dir, 'cleanup.sh')))
--
--    def set_up_virtiofs(self):
--        attmp = os.getenv('AVOCADO_TESTS_COMMON_TMPDIR')
--        self.vfsdsock = os.path.join(attmp, 'vfsdsock')
--
--        self.run(('sudo', '-n', 'rm', '-f', self.vfsdsock), ignore_error=True)
--
--        self.virtiofsd = \
--            subprocess.Popen(('sudo', '-n',
--                              'tools/virtiofsd/virtiofsd',
--                              f'--socket-path={self.vfsdsock}',
--                              '-o', f'source={self.shared_dir}',
--                              '-o', 'cache=always',
--                              '-o', 'xattr',
--                              '-o', 'announce_submounts',
--                              '-f'),
--                             stdout=subprocess.DEVNULL,
--                             stderr=subprocess.PIPE,
--                             universal_newlines=True)
--
--        while not os.path.exists(self.vfsdsock):
--            if self.virtiofsd.poll() is not None:
--                self.fail('virtiofsd exited prematurely: ' +
--                          self.virtiofsd.communicate()[1])
--            time.sleep(0.1)
--
--        self.run(('sudo', '-n', 'chmod', 'go+rw', self.vfsdsock))
--
--        self.vm.add_args('-chardev',
--                         f'socket,id=vfsdsock,path={self.vfsdsock}',
--                         '-device',
--                         'vhost-user-fs-pci,queue-size=1024,chardev=vfsdsock' \
--                             ',tag=host',
--                         '-object',
--                         'memory-backend-file,id=mem,size=1G,' \
--                             'mem-path=/dev/shm,share=on',
--                         '-numa',
--                         'node,memdev=mem')
--
--    def set_up_nested_mounts(self):
--        scratch_dir = os.path.join(self.shared_dir, 'scratch')
--        try:
--            os.mkdir(scratch_dir)
--        except FileExistsError:
--            pass
--
--        args = ['bash', self.get_data('host.sh'), scratch_dir]
--        if self.seed:
--            args += [self.seed]
--
--        out, _, _ = self.run(args)
--        seed = re.search(r'^Seed: \d+', out)
--        self.log.info(seed[0])
--
--    def mount_in_guest(self):
--        self.ssh_command('mkdir -p /mnt/host')
--        self.ssh_command('mount -t virtiofs host /mnt/host')
--
--    def check_in_guest(self):
--        self.ssh_command('bash /mnt/host/check.sh /mnt/host/scratch/share')
--
--    def live_cleanup(self):
--        self.ssh_command('bash /mnt/host/cleanup.sh /mnt/host/scratch')
--
--        # It would be nice if the above was sufficient to make virtiofsd clear
--        # all references to the mounted directories (so they can be unmounted
--        # on the host), but unfortunately it is not.  To do so, we have to
--        # resort to a remount.
--        self.ssh_command('mount -o remount /mnt/host')
--
--        scratch_dir = os.path.join(self.shared_dir, 'scratch')
--        self.run(('bash', self.get_data('cleanup.sh'), scratch_dir))
--
--    @skipUnless(*has_cmds(('sudo -n', ('sudo', '-n', 'true')),
--                          'ssh-keygen', 'bash', 'losetup', 'mkfs.xfs', 'mount'))
--    def setUp(self):
--        vmlinuz = self.params.get('vmlinuz')
--        if vmlinuz is None:
--            """
--            The Linux kernel supports FUSE auto-submounts only as of 5.10.
--            boot_linux.py currently provides Fedora 31, whose kernel is too
--            old, so this test cannot pass with the on-image kernel (you are
--            welcome to try, hence the option to force such a test with
--            -p vmlinuz='').  Therefore, for now the user must provide a
--            sufficiently new custom kernel, or effectively explicitly
--            request failure with -p vmlinuz=''.
--            Once an image with a sufficiently new kernel is available
--            (probably Fedora 34), we can make -p vmlinuz='' the default, so
--            that this parameter no longer needs to be specified.
--            """
--            self.cancel('vmlinuz parameter not set; you must point it to a '
--                        'Linux kernel binary to test (to run this test with ' \
--                        'the on-image kernel, set it to an empty string)')
--
--        self.seed = self.params.get('seed')
--
--        self.ssh_key = os.path.join(self.workdir, 'id_ed25519')
--
--        self.run(('ssh-keygen', '-N', '', '-t', 'ed25519', '-f', self.ssh_key))
--
--        pubkey = self.ssh_key + '.pub'
--
--        super(VirtiofsSubmountsTest, self).setUp(pubkey)
--
--        if vmlinuz:
--            self.vm.add_args('-kernel', vmlinuz,
--                             '-append', 'console=ttyS0 root=/dev/sda1')
--
--        self.require_accelerator("kvm")
--        self.vm.add_args('-accel', 'kvm')
--
--    def tearDown(self):
--        try:
--            self.vm.shutdown()
--        except:
--            pass
--
--        scratch_dir = os.path.join(self.shared_dir, 'scratch')
--        self.run(('bash', self.get_data('cleanup.sh'), scratch_dir),
--                 ignore_error=True)
--
--    def test_pre_virtiofsd_set_up(self):
--        self.set_up_shared_dir()
--
--        self.set_up_nested_mounts()
--
--        self.set_up_virtiofs()
--        self.launch_and_wait()
--        self.mount_in_guest()
--        self.check_in_guest()
--
--    def test_pre_launch_set_up(self):
--        self.set_up_shared_dir()
--        self.set_up_virtiofs()
--
--        self.set_up_nested_mounts()
--
--        self.launch_and_wait()
--        self.mount_in_guest()
--        self.check_in_guest()
--
--    def test_post_launch_set_up(self):
--        self.set_up_shared_dir()
--        self.set_up_virtiofs()
--        self.launch_and_wait()
--
--        self.set_up_nested_mounts()
--
--        self.mount_in_guest()
--        self.check_in_guest()
--
--    def test_post_mount_set_up(self):
--        self.set_up_shared_dir()
--        self.set_up_virtiofs()
--        self.launch_and_wait()
--        self.mount_in_guest()
--
--        self.set_up_nested_mounts()
--
--        self.check_in_guest()
--
--    def test_two_runs(self):
--        self.set_up_shared_dir()
--
--        self.set_up_nested_mounts()
--
--        self.set_up_virtiofs()
--        self.launch_and_wait()
--        self.mount_in_guest()
--        self.check_in_guest()
--
--        self.live_cleanup()
--        self.set_up_nested_mounts()
--
--        self.check_in_guest()
+-configure_file(input: '50-qemu-virtiofsd.json.in',
+-               output: '50-qemu-virtiofsd.json',
+-               configuration: { 'libexecdir' : get_option('prefix') / get_option('libexecdir') },
+-               install_dir: qemu_datadir / 'vhost-user')
 -- 
 2.39.2
 
