@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C6F69904E
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 10:44:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8447369905B
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 10:47:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSaoX-0007yR-15; Thu, 16 Feb 2023 04:44:29 -0500
+	id 1pSapO-0000Eg-7l; Thu, 16 Feb 2023 04:45:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pSaoU-0007yF-Gj
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:44:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from
+ <BATV+96e41a9b2a2966255e0b+7116+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pSap4-00009U-Ih
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:45:02 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pSaoS-0006E7-Oz
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:44:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676540664;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Jnw7z1r+Yt81rvN04BJvgSnQOy4cP3/QQixLjDOgzlI=;
- b=glm9BhzJNPreiVRhmuC2AHPl2AtWvD4rS0Otn2LnZFadGaNUIC2izW/qocvQ3eCWxE0+g2
- ty2498nNJ/95YjHQaSrd30wjwp3DZBCxS+zM5Px8f5RGOJ4jZdGjQvNltDVN+/DFFgBmjf
- wMz+KkCSk3/RyYyxLbKCKu9uf1oxJJw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-443-bshjoJlUO-GirpwwfmGBZw-1; Thu, 16 Feb 2023 04:44:22 -0500
-X-MC-Unique: bshjoJlUO-GirpwwfmGBZw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EE5C6280AA22;
- Thu, 16 Feb 2023 09:44:21 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.164])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E00F12166B30;
- Thu, 16 Feb 2023 09:44:20 +0000 (UTC)
-Date: Thu, 16 Feb 2023 09:44:17 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org, pbonzini@redhat.com,
- Laszlo Ersek <lersek@redhat.com>
-Subject: Re: [PATCH] qemu: make version available in coredump
-Message-ID: <Y+368RcZsG+t7SjW@redhat.com>
-References: <20220607203221.966261-1-vsementsov@yandex-team.ru>
- <CAJSP0QVNnGg+5OkDwpk3Kgc=kicsSt+f5QVg1tyd+ze76N_KVw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from
+ <BATV+96e41a9b2a2966255e0b+7116+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pSaoy-0006LP-C1
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:45:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+ Reply-To:Content-Type:Content-ID:Content-Description;
+ bh=WGMgm2xP5OFveuzNv5BqlZwn6gD0y4xm/+xNLbXDQdI=; b=b/2R0ue0ve40sNlOSe+6nuEHxS
+ ahIuy4iQ15h3yy/jATRzThOqLj66IZnGfbli3zuuHcGG6wWtlIVnkPgKYQ/OllKMcZaGoGeP2iub8
+ oPxSXUjONOJx+4wFulC80+To9iSo19Ke0Mo4lpqWl2z8iSRB5WBIV2GJmekYShu0zPpdjva6Uy8o+
+ phx4GCbrvcs9zjgX7BWKauk3biO4RPFqfWUMQFbCxo5BpeSGGO4/JDI4iKyHp5sfCPd8J6hCgPxFS
+ CuqzkDlsMp+TTdfYRMKW6JGQIu1TN8aMPS3KMMBQEGWhpg0YBKrtLZ+rWsnyTLupWXHjTl64/70fG
+ UVeD8//w==;
+Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1pSao2-00AEF0-2O; Thu, 16 Feb 2023 09:44:44 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
+ Linux)) id 1pSaoi-0090Bh-2w; Thu, 16 Feb 2023 09:44:40 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com,
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com
+Subject: [RFC PATCH v11bis 08/26] hw/xen: Create initial XenStore nodes
+Date: Thu, 16 Feb 2023 09:44:18 +0000
+Message-Id: <20230216094436.2144978-9-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230216094436.2144978-1-dwmw2@infradead.org>
+References: <20230216094436.2144978-1-dwmw2@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAJSP0QVNnGg+5OkDwpk3Kgc=kicsSt+f5QVg1tyd+ze76N_KVw@mail.gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+96e41a9b2a2966255e0b+7116+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,83 +82,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 15, 2023 at 05:05:47PM -0500, Stefan Hajnoczi wrote:
-> On Tue, 7 Jun 2022 at 16:33, Vladimir Sementsov-Ogievskiy
-> <vsementsov@yandex-team.ru> wrote:
-> >
-> > Add a variable with QEMU_FULL_VERSION definition. Then the content of
-> > the variable is easily searchable:
-> >
-> >    strings /path/to/core | grep QEMU_FULL_VERSION
-> >
-> > 'volatile' keyword is used to avoid removing the variable by compiler as
-> > unused.
-> >
-> > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> > ---
-> >
-> > Hi all!
-> >
-> > Probably, I just don't know the correct way to get version from core
-> > file. If so, please teach me :)
-> 
-> I've never hit this issue because bug reports usually include the QEMU
-> distro package version. Keeping the version string in the core file
-> seems reasonable (unless there is already another way to do this).
-> 
-> Something I'm curious about: is the coredump guaranteed to contain
-> static const variables? I wondered if they might be located in the
-> .rodata ELF section and excluded from the coredump because they are
-> referenced in the NT_FILE mmap note instead. Maybe volatile prevents
-> this?
+From: Paul Durrant <pdurrant@amazon.com>
 
-In Fedora / RHEL based systems (and some other distros too IIUC) for
-many years, all binaries have included a "build-id" ELF note which
-uniquely identifies the package build.
+Signed-off-by: Paul Durrant <pdurrant@amazon.com>
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+---
+ hw/i386/kvm/xen_xenstore.c | 70 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
 
-Note section [ 3] '.note.gnu.build-id' of 36 bytes at offset 0x3c0:
-  Owner          Data size  Type
-  GNU                   20  GNU_BUILD_ID
-    Build ID: e3143405b7f653a0a65b3295df760fdf2c09ba79
-
-This can be used to query what RPM it came from (assuming the RPM
-is still in your repos)
-
- dnf repoquery --whatprovides debuginfo(build-id) = ...hash...
-
-this makes it into the coredump files and is what current distro
-tooling uses to find the binary (and libraries).
-
-There are some downsides/limitations with this though, so in
-Fedora 36 a new impl was added alongside which provides full
-package info in json
-
-Note section [ 5] '.note.package' of 136 bytes at offset 0x404:
-  Owner          Data size  Type
-  FDO                  120  FDO_PACKAGING_METADATA
-    Packaging Metadata: {"type":"rpm","name":"qemu","version":"7.0.0-13.fc37","architecture":"x86_64","osCpe":"cpe:/o:fedoraproject:fedora:37"}
-
-This format is supported by systemd core dump tools
-
-  https://systemd.io/ELF_PACKAGE_METADATA/
-
-I believe it has been proposed (and possibly implemented?) for
-Debian too.
-
-This is a long winded way of asking, do we really need a QEMU specific
-solution here ? Especially one that only tells us a QEMU verison, and
-nothing about the many libraries QEMU links to which affect its
-operational behaviour.
-
-With regards,
-Daniel
+diff --git a/hw/i386/kvm/xen_xenstore.c b/hw/i386/kvm/xen_xenstore.c
+index d15eea76c4..ff39137846 100644
+--- a/hw/i386/kvm/xen_xenstore.c
++++ b/hw/i386/kvm/xen_xenstore.c
+@@ -76,9 +76,39 @@ struct XenXenstoreState *xen_xenstore_singleton;
+ static void xen_xenstore_event(void *opaque);
+ static void fire_watch_cb(void *opaque, const char *path, const char *token);
+ 
++static void G_GNUC_PRINTF (4, 5) relpath_printf(XenXenstoreState *s,
++                                                GList *perms,
++                                                const char *relpath,
++                                                const char *fmt, ...)
++{
++    gchar *abspath;
++    gchar *value;
++    va_list args;
++    GByteArray *data;
++    int err;
++
++    abspath = g_strdup_printf("/local/domain/%u/%s", xen_domid, relpath);
++    va_start(args, fmt);
++    value = g_strdup_vprintf(fmt, args);
++    va_end(args);
++
++    data = g_byte_array_new_take((void *)value, strlen(value));
++
++    err = xs_impl_write(s->impl, DOMID_QEMU, XBT_NULL, abspath, data);
++    assert(!err);
++
++    g_byte_array_unref(data);
++
++    err = xs_impl_set_perms(s->impl, DOMID_QEMU, XBT_NULL, abspath, perms);
++    assert(!err);
++
++    g_free(abspath);
++}
++
+ static void xen_xenstore_realize(DeviceState *dev, Error **errp)
+ {
+     XenXenstoreState *s = XEN_XENSTORE(dev);
++    GList *perms;
+ 
+     if (xen_mode != XEN_EMULATE) {
+         error_setg(errp, "Xen xenstore support is for Xen emulation");
+@@ -102,6 +132,46 @@ static void xen_xenstore_realize(DeviceState *dev, Error **errp)
+                        xen_xenstore_event, NULL, NULL, NULL, s);
+ 
+     s->impl = xs_impl_create(xen_domid);
++
++    /* Populate the default nodes */
++
++    /* Nodes owned by 'dom0' but readable by the guest */
++    perms = g_list_append(NULL, xs_perm_as_string(XS_PERM_NONE, DOMID_QEMU));
++    perms = g_list_append(perms, xs_perm_as_string(XS_PERM_READ, xen_domid));
++
++    relpath_printf(s, perms, "", "%s", "");
++
++    relpath_printf(s, perms, "domid", "%u", xen_domid);
++
++    relpath_printf(s, perms, "control/platform-feature-xs_reset_watches", "%u", 1);
++    relpath_printf(s, perms, "control/platform-feature-multiprocessor-suspend", "%u", 1);
++
++    relpath_printf(s, perms, "platform/acpi", "%u", 1);
++    relpath_printf(s, perms, "platform/acpi_s3", "%u", 1);
++    relpath_printf(s, perms, "platform/acpi_s4", "%u", 1);
++    relpath_printf(s, perms, "platform/acpi_laptop_slate", "%u", 0);
++
++    g_list_free_full(perms, g_free);
++
++    /* Nodes owned by the guest */
++    perms = g_list_append(NULL, xs_perm_as_string(XS_PERM_NONE, xen_domid));
++
++    relpath_printf(s, perms, "attr", "%s", "");
++
++    relpath_printf(s, perms, "control/shutdown", "%s", "");
++    relpath_printf(s, perms, "control/feature-poweroff", "%u", 1);
++    relpath_printf(s, perms, "control/feature-reboot", "%u", 1);
++    relpath_printf(s, perms, "control/feature-suspend", "%u", 1);
++    relpath_printf(s, perms, "control/feature-s3", "%u", 1);
++    relpath_printf(s, perms, "control/feature-s4", "%u", 1);
++
++    relpath_printf(s, perms, "data", "%s", "");
++    relpath_printf(s, perms, "device", "%s", "");
++    relpath_printf(s, perms, "drivers", "%s", "");
++    relpath_printf(s, perms, "error", "%s", "");
++    relpath_printf(s, perms, "feature", "%s", "");
++
++    g_list_free_full(perms, g_free);
+ }
+ 
+ static bool xen_xenstore_is_needed(void *opaque)
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.39.0
 
 
