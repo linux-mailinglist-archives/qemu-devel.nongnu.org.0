@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C3C5699AF2
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:14:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C725D699AFF
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:15:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pShnY-0000qP-CA; Thu, 16 Feb 2023 12:11:56 -0500
+	id 1pShnU-0000Ve-D4; Thu, 16 Feb 2023 12:11:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShnU-0000a1-4g
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:52 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ id 1pShnS-0000OJ-7v
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:50 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShnO-0007tG-IB
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:51 -0500
-Received: by mail-wm1-x331.google.com with SMTP id n33so2119703wms.0
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:11:46 -0800 (PST)
+ id 1pShnQ-0007yg-5S
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:49 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id r2so2527463wrv.7
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:11:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=uCZjE6lvYgX4qXFndfs51jkpgm8/Sewi06RQDXzjFJQ=;
- b=KySVwczsfpIVPV8who6SfOSo1JBJqKfK5g7CJZm7YN8bpyA3rEXqxxJiDvoxbJO2XZ
- yLwxKd61O6wJq7nh52igkgqJEOQBiAXfrmXzsOIehYLkOg+igKzimjOmzlMTUcDO5CH4
- nIqPybGtuDLfWqB9cbnqG9IE/LtQSR9y93D+hZER46AVX1yd9Kg0G5KoZWexDn0jR/W/
- vpI+bkvyly6/VL73oRH4BnCMmc0f5V4Dk46BIB5SfsSWLJcEzb/gKH7ptpr5YCtZQRVm
- Q8dqPeTXpeXwJbl2pW9LDsNlCzD4r7VAUQCzxSBE5aZeqeim/oxz5YTcvdZn1OluJE+P
- fOzg==
+ :reply-to; bh=rLdLg7FVc+e5cTbBnKEvOZt66LpMMYrauCjY8XnM1eg=;
+ b=DVMkLF61ZN+6Z+hVcj5SGXqL6oNaxuI2zAxHhBtuYNvkV3lIADq7utXpfhOrk2Dy1V
+ pWyD/Lg0YnlJsoz7zXTSzqKK6vJDnicayc6P0lTCL95Ppd5goav9Bh4Tkrm8rt3wcO12
+ SLUkYkeKUMFBG2IZCp3NiwHeiwD6h1fQtgwCgWhuo+mNEHzuyGh78F1F5BepK7104xYx
+ ShVccRJXXSqGE3jua1CdHMNgTZWFmZnIQRCUiUqP+kaNK6ctv8SP73LbOJJVVFmMqJhn
+ rPFG4s/bgrGnLJo7zdwGP88F0UpYi4038pjwFuk3L5kK6jiSPpnhkryh41F9J1/Anw3j
+ vr0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uCZjE6lvYgX4qXFndfs51jkpgm8/Sewi06RQDXzjFJQ=;
- b=ld3V/LUqb9Uj89R37rVz1egw3NwABEvj2yo+sSxFGtOw2VbP+1PP1uUs56o+58kCAt
- vqCWYYHLSdhUZUrE+f5Z6TeljUwc+xCKQCXEk04n1dM9jgqfb2OUqQa7F8t/CEuHuHrw
- D8PT4pnNIwKAx5WVk2mS8UbNEEZUaVukMZJSWVugfCz8D8VTT2wHIQGEO85TqRqKv8CL
- RoPLKCTzf7Eal4l4Dv4ABp95pt7H4x3PkoXb0DshXh+pWzvhyKzcEtdSYIxuTUXNWBz0
- KLB2fsKvCb1VucNIbAzn6iJwrJMmiQ50RtGZEMSSh3zZmmmL/pO/ZdgRiiPtEp1+wRiu
- r57A==
-X-Gm-Message-State: AO0yUKW1rZki8dSECnT1LYZnAvrsaVBy2r8/L3h5cTy8rR6hLOmvY3BZ
- d7GfCiLo8q/ztG19RZJB1ssN2dm8hx73YS16
-X-Google-Smtp-Source: AK7set8q2F5XUJrywUA2ae4S0Ykr+l9SjIVjpwIsHe8c7UV9ddthbRitqfhNmAyG3Lp4icxMvOb+lQ==
-X-Received: by 2002:a05:600c:1c07:b0:3df:9858:c033 with SMTP id
- j7-20020a05600c1c0700b003df9858c033mr2530230wms.8.1676567505761; 
- Thu, 16 Feb 2023 09:11:45 -0800 (PST)
+ bh=rLdLg7FVc+e5cTbBnKEvOZt66LpMMYrauCjY8XnM1eg=;
+ b=hnXdAxjhWGfy8RrMZ1fHdFKs6J8ES9/WTmHDNAUDW5bqULnHMH+JM3Qjb/7LWVbTjj
+ MTQ9+LjPXzmt2voW1vzAV7letLg4t8oreVkpmjCJIr387qD/aYMdrZiq0RGJQx+fJ+Tm
+ /c815TJoFzDL7AFHmXofUZ3uQiCZd34XLBOsFQvMLmSzk0crE5vCJFfFaZnovk0I0oL9
+ k12KYT5dwt0keKExr/lsJZhKU7Ec0HCCp3vkvJVXtcqcIOgBSJG7qEyVXCLxT9VvdpMp
+ FYDCt1SZAivZDCku0eDzs9pSUiQMLy+BWFbAsXQjpgdgwA1VA8AkANFf5WDuCI6Bm7PZ
+ lpng==
+X-Gm-Message-State: AO0yUKWK5W0xENuGhPHf4+SSJ59zfHOf9Ybx7yV2a/JRl1DdVE5xfucg
+ v80LSj549twuQZ0h5sWQrABx+V4dFH/mrXje
+X-Google-Smtp-Source: AK7set8S0CCaZDa+ZfVQ/j4U25UjZ7CuNjO+CW6UmpPf4vRqZ/u2G5aHCBTg0WGrA4Z9pDB8zYiJDA==
+X-Received: by 2002:adf:fccd:0:b0:2c5:a5e5:8c9e with SMTP id
+ f13-20020adffccd000000b002c5a5e58c9emr372361wrs.18.1676567506800; 
+ Thu, 16 Feb 2023 09:11:46 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  f12-20020a5d4dcc000000b002c556a4f1casm2049107wru.42.2023.02.16.09.11.45
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 09:11:45 -0800 (PST)
+ Thu, 16 Feb 2023 09:11:46 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/30] target/arm: Move PC alignment check
-Date: Thu, 16 Feb 2023 17:11:17 +0000
-Message-Id: <20230216171123.2518285-25-peter.maydell@linaro.org>
+Subject: [PULL 25/30] target/arm: Move cpregs code out of cpu.h
+Date: Thu, 16 Feb 2023 17:11:18 +0000
+Message-Id: <20230216171123.2518285-26-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230216171123.2518285-1-peter.maydell@linaro.org>
 References: <20230216171123.2518285-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,55 +91,232 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Fabiano Rosas <farosas@suse.de>
 
-Move this earlier to make the next patch diff cleaner. While here
-update the comment slightly to not give the impression that the
-misalignment affects only TCG.
+Since commit cf7c6d1004 ("target/arm: Split out cpregs.h") we now have
+a cpregs.h header which is more suitable for this code.
 
+Code moved verbatim.
+
+Signed-off-by: Fabiano Rosas <farosas@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Signed-off-by: Fabiano Rosas <farosas@suse.de>
 Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/machine.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ target/arm/cpregs.h | 98 +++++++++++++++++++++++++++++++++++++++++++++
+ target/arm/cpu.h    | 91 -----------------------------------------
+ 2 files changed, 98 insertions(+), 91 deletions(-)
 
-diff --git a/target/arm/machine.c b/target/arm/machine.c
-index 5f261526525..b4c3850570c 100644
---- a/target/arm/machine.c
-+++ b/target/arm/machine.c
-@@ -839,6 +839,15 @@ static int cpu_post_load(void *opaque, int version_id)
-         }
-     }
+diff --git a/target/arm/cpregs.h b/target/arm/cpregs.h
+index efcf9181b97..1ee64e99de8 100644
+--- a/target/arm/cpregs.h
++++ b/target/arm/cpregs.h
+@@ -120,6 +120,104 @@ enum {
+     ARM_CP_SME                   = 1 << 19,
+ };
  
-+    /*
-+     * Misaligned thumb pc is architecturally impossible. Fail the
-+     * incoming migration. For TCG it would trigger the assert in
-+     * thumb_tr_translate_insn().
-+     */
-+    if (!is_a64(env) && env->thumb && (env->regs[15] & 1)) {
-+        return -1;
-+    }
++/*
++ * Interface for defining coprocessor registers.
++ * Registers are defined in tables of arm_cp_reginfo structs
++ * which are passed to define_arm_cp_regs().
++ */
 +
-     hw_breakpoint_update_all(cpu);
-     hw_watchpoint_update_all(cpu);
++/*
++ * When looking up a coprocessor register we look for it
++ * via an integer which encodes all of:
++ *  coprocessor number
++ *  Crn, Crm, opc1, opc2 fields
++ *  32 or 64 bit register (ie is it accessed via MRC/MCR
++ *    or via MRRC/MCRR?)
++ *  non-secure/secure bank (AArch32 only)
++ * We allow 4 bits for opc1 because MRRC/MCRR have a 4 bit field.
++ * (In this case crn and opc2 should be zero.)
++ * For AArch64, there is no 32/64 bit size distinction;
++ * instead all registers have a 2 bit op0, 3 bit op1 and op2,
++ * and 4 bit CRn and CRm. The encoding patterns are chosen
++ * to be easy to convert to and from the KVM encodings, and also
++ * so that the hashtable can contain both AArch32 and AArch64
++ * registers (to allow for interprocessing where we might run
++ * 32 bit code on a 64 bit core).
++ */
++/*
++ * This bit is private to our hashtable cpreg; in KVM register
++ * IDs the AArch64/32 distinction is the KVM_REG_ARM/ARM64
++ * in the upper bits of the 64 bit ID.
++ */
++#define CP_REG_AA64_SHIFT 28
++#define CP_REG_AA64_MASK (1 << CP_REG_AA64_SHIFT)
++
++/*
++ * To enable banking of coprocessor registers depending on ns-bit we
++ * add a bit to distinguish between secure and non-secure cpregs in the
++ * hashtable.
++ */
++#define CP_REG_NS_SHIFT 29
++#define CP_REG_NS_MASK (1 << CP_REG_NS_SHIFT)
++
++#define ENCODE_CP_REG(cp, is64, ns, crn, crm, opc1, opc2)   \
++    ((ns) << CP_REG_NS_SHIFT | ((cp) << 16) | ((is64) << 15) |   \
++     ((crn) << 11) | ((crm) << 7) | ((opc1) << 3) | (opc2))
++
++#define ENCODE_AA64_CP_REG(cp, crn, crm, op0, op1, op2) \
++    (CP_REG_AA64_MASK |                                 \
++     ((cp) << CP_REG_ARM_COPROC_SHIFT) |                \
++     ((op0) << CP_REG_ARM64_SYSREG_OP0_SHIFT) |         \
++     ((op1) << CP_REG_ARM64_SYSREG_OP1_SHIFT) |         \
++     ((crn) << CP_REG_ARM64_SYSREG_CRN_SHIFT) |         \
++     ((crm) << CP_REG_ARM64_SYSREG_CRM_SHIFT) |         \
++     ((op2) << CP_REG_ARM64_SYSREG_OP2_SHIFT))
++
++/*
++ * Convert a full 64 bit KVM register ID to the truncated 32 bit
++ * version used as a key for the coprocessor register hashtable
++ */
++static inline uint32_t kvm_to_cpreg_id(uint64_t kvmid)
++{
++    uint32_t cpregid = kvmid;
++    if ((kvmid & CP_REG_ARCH_MASK) == CP_REG_ARM64) {
++        cpregid |= CP_REG_AA64_MASK;
++    } else {
++        if ((kvmid & CP_REG_SIZE_MASK) == CP_REG_SIZE_U64) {
++            cpregid |= (1 << 15);
++        }
++
++        /*
++         * KVM is always non-secure so add the NS flag on AArch32 register
++         * entries.
++         */
++         cpregid |= 1 << CP_REG_NS_SHIFT;
++    }
++    return cpregid;
++}
++
++/*
++ * Convert a truncated 32 bit hashtable key into the full
++ * 64 bit KVM register ID.
++ */
++static inline uint64_t cpreg_to_kvm_id(uint32_t cpregid)
++{
++    uint64_t kvmid;
++
++    if (cpregid & CP_REG_AA64_MASK) {
++        kvmid = cpregid & ~CP_REG_AA64_MASK;
++        kvmid |= CP_REG_SIZE_U64 | CP_REG_ARM64;
++    } else {
++        kvmid = cpregid & ~(1 << 15);
++        if (cpregid & (1 << 15)) {
++            kvmid |= CP_REG_SIZE_U64 | CP_REG_ARM;
++        } else {
++            kvmid |= CP_REG_SIZE_U32 | CP_REG_ARM;
++        }
++    }
++    return kvmid;
++}
++
+ /*
+  * Valid values for ARMCPRegInfo state field, indicating which of
+  * the AArch32 and AArch64 execution states this register is visible in.
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index d623afe84af..12b1082537c 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -2559,97 +2559,6 @@ void arm_cpu_list(void);
+ uint32_t arm_phys_excp_target_el(CPUState *cs, uint32_t excp_idx,
+                                  uint32_t cur_el, bool secure);
  
-@@ -856,15 +865,6 @@ static int cpu_post_load(void *opaque, int version_id)
-         }
-     }
- 
--    /*
--     * Misaligned thumb pc is architecturally impossible.
--     * We have an assert in thumb_tr_translate_insn to verify this.
--     * Fail an incoming migrate to avoid this assert.
--     */
--    if (!is_a64(env) && env->thumb && (env->regs[15] & 1)) {
--        return -1;
--    }
+-/* Interface for defining coprocessor registers.
+- * Registers are defined in tables of arm_cp_reginfo structs
+- * which are passed to define_arm_cp_regs().
+- */
 -
-     if (!kvm_enabled()) {
-         pmu_op_finish(&cpu->env);
-     }
+-/* When looking up a coprocessor register we look for it
+- * via an integer which encodes all of:
+- *  coprocessor number
+- *  Crn, Crm, opc1, opc2 fields
+- *  32 or 64 bit register (ie is it accessed via MRC/MCR
+- *    or via MRRC/MCRR?)
+- *  non-secure/secure bank (AArch32 only)
+- * We allow 4 bits for opc1 because MRRC/MCRR have a 4 bit field.
+- * (In this case crn and opc2 should be zero.)
+- * For AArch64, there is no 32/64 bit size distinction;
+- * instead all registers have a 2 bit op0, 3 bit op1 and op2,
+- * and 4 bit CRn and CRm. The encoding patterns are chosen
+- * to be easy to convert to and from the KVM encodings, and also
+- * so that the hashtable can contain both AArch32 and AArch64
+- * registers (to allow for interprocessing where we might run
+- * 32 bit code on a 64 bit core).
+- */
+-/* This bit is private to our hashtable cpreg; in KVM register
+- * IDs the AArch64/32 distinction is the KVM_REG_ARM/ARM64
+- * in the upper bits of the 64 bit ID.
+- */
+-#define CP_REG_AA64_SHIFT 28
+-#define CP_REG_AA64_MASK (1 << CP_REG_AA64_SHIFT)
+-
+-/* To enable banking of coprocessor registers depending on ns-bit we
+- * add a bit to distinguish between secure and non-secure cpregs in the
+- * hashtable.
+- */
+-#define CP_REG_NS_SHIFT 29
+-#define CP_REG_NS_MASK (1 << CP_REG_NS_SHIFT)
+-
+-#define ENCODE_CP_REG(cp, is64, ns, crn, crm, opc1, opc2)   \
+-    ((ns) << CP_REG_NS_SHIFT | ((cp) << 16) | ((is64) << 15) |   \
+-     ((crn) << 11) | ((crm) << 7) | ((opc1) << 3) | (opc2))
+-
+-#define ENCODE_AA64_CP_REG(cp, crn, crm, op0, op1, op2) \
+-    (CP_REG_AA64_MASK |                                 \
+-     ((cp) << CP_REG_ARM_COPROC_SHIFT) |                \
+-     ((op0) << CP_REG_ARM64_SYSREG_OP0_SHIFT) |         \
+-     ((op1) << CP_REG_ARM64_SYSREG_OP1_SHIFT) |         \
+-     ((crn) << CP_REG_ARM64_SYSREG_CRN_SHIFT) |         \
+-     ((crm) << CP_REG_ARM64_SYSREG_CRM_SHIFT) |         \
+-     ((op2) << CP_REG_ARM64_SYSREG_OP2_SHIFT))
+-
+-/* Convert a full 64 bit KVM register ID to the truncated 32 bit
+- * version used as a key for the coprocessor register hashtable
+- */
+-static inline uint32_t kvm_to_cpreg_id(uint64_t kvmid)
+-{
+-    uint32_t cpregid = kvmid;
+-    if ((kvmid & CP_REG_ARCH_MASK) == CP_REG_ARM64) {
+-        cpregid |= CP_REG_AA64_MASK;
+-    } else {
+-        if ((kvmid & CP_REG_SIZE_MASK) == CP_REG_SIZE_U64) {
+-            cpregid |= (1 << 15);
+-        }
+-
+-        /* KVM is always non-secure so add the NS flag on AArch32 register
+-         * entries.
+-         */
+-         cpregid |= 1 << CP_REG_NS_SHIFT;
+-    }
+-    return cpregid;
+-}
+-
+-/* Convert a truncated 32 bit hashtable key into the full
+- * 64 bit KVM register ID.
+- */
+-static inline uint64_t cpreg_to_kvm_id(uint32_t cpregid)
+-{
+-    uint64_t kvmid;
+-
+-    if (cpregid & CP_REG_AA64_MASK) {
+-        kvmid = cpregid & ~CP_REG_AA64_MASK;
+-        kvmid |= CP_REG_SIZE_U64 | CP_REG_ARM64;
+-    } else {
+-        kvmid = cpregid & ~(1 << 15);
+-        if (cpregid & (1 << 15)) {
+-            kvmid |= CP_REG_SIZE_U64 | CP_REG_ARM;
+-        } else {
+-            kvmid |= CP_REG_SIZE_U32 | CP_REG_ARM;
+-        }
+-    }
+-    return kvmid;
+-}
+-
+ /* Return the highest implemented Exception Level */
+ static inline int arm_highest_el(CPUARMState *env)
+ {
 -- 
 2.34.1
 
