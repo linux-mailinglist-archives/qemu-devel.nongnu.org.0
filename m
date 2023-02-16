@@ -2,96 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50588699708
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:19:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E8C5699714
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:20:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSf5v-0001zJ-GG; Thu, 16 Feb 2023 09:18:43 -0500
+	id 1pSf7B-0002xN-4S; Thu, 16 Feb 2023 09:20:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pSf5t-0001yu-Ja
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:18:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pSf5r-0002i8-QX
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:18:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676557119;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zS5NZUIZUDUkh1/IVZDXvUyeZ0ynjF81iswHJAuxQBc=;
- b=Gs1zZWv+mCr/6udDWIHK4sbXxloK3pCYl4Uq/8lG8DGIteMLF1SNkqcR9OY6GOhz8+XEXq
- LLXl/C0FY9bKagMUTllw8s2DuOaYzx3o8o8E/qtliB/l16pu4OIzmEqZ2fIkZ+FmqQyLWT
- aWdMPJc8lqLl9d6/tnwcN5Xf9ILu3L4=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-427-x5RhNyWGPOy1HZXfkr49UQ-1; Thu, 16 Feb 2023 09:18:37 -0500
-X-MC-Unique: x5RhNyWGPOy1HZXfkr49UQ-1
-Received: by mail-qv1-f71.google.com with SMTP id
- gu10-20020a056214260a00b0056c2005684aso1130028qvb.23
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 06:18:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pSf77-0002ws-Ha; Thu, 16 Feb 2023 09:19:59 -0500
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pSf73-0002tl-Sn; Thu, 16 Feb 2023 09:19:56 -0500
+Received: by mail-ed1-x534.google.com with SMTP id t16so3320800edd.10;
+ Thu, 16 Feb 2023 06:19:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=95VjHFeainMePR2DshY/ljqcMNekJSmzMYZQsd7neDI=;
+ b=pplpbu5WUjQmAk9oY6kx7/mTpRU6M4jlxm5FWVBGGZHrfWNJFSXez3gVqoGpw3lV1y
+ VvCtcc20fhEOuQ1/lXP0h24H8XJH3W4jsNbGhjCzE8CrNenFKlrTGFVKUCCXY356JwQi
+ 6C79IML+LX/pm50VKWaebwGXmqa6unwixqwFY7fP9RHC7BK69u3XsC5zDrTUwsesENyz
+ qibVyXDCjuDy7OxY7nVnpDzvu0fAACmkZ3XKw9xIPLBkQGlfEFy1ZV5uij18+Hu88Nrp
+ 1zB3O6MunR4FhTSbvl4OgSWVmxQeCOWb+SwwgpSVz6lW0UpoJ1Ngw76qCVvUD9Gvp3Z7
+ 6eTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zS5NZUIZUDUkh1/IVZDXvUyeZ0ynjF81iswHJAuxQBc=;
- b=O9YBT1d5/ZHoy1jYmwA3f4OALnBRnILK/gamfa1C91azAJTolOjf7wq+w8lTSfdU+P
- dmBY/p57H1eKQswPRhlDA4HXUytzR9wos/fx/NBIzgKdkIHqOd8qjf4c7dK7FbKFZf6o
- Psb8xKg8ozmH054UJuy6zrCov64MQE2W0w6t7kCQHpnvTFdt04zBod57YJx5C/U/kVHM
- 47YTCvo+gycVRyiaDyXudtD4bEtDRyyyAXNo99vBSUgLJx3ZN+MBz7GvemMB+AyuH/OB
- Vh1xfy8hL873kauvmH1a0AOZHYIijgswSxfc28miLyrkYEAbGS919x0CgGjkQ/6UF85W
- W1cw==
-X-Gm-Message-State: AO0yUKX0WilCAKh7gdPAoq4TwLl3iqltvX5p0tiSwZcE4FVanw4X0XiZ
- zvwK31nKvH+01EPFfyjX36gcu4qkSx+1zRwwS/ltER86XvNBqtiVK1FMc8naOC+nn+bBU5PiDih
- 7nO2Ik40PjfDgJfE=
-X-Received: by 2002:a05:622a:311:b0:3b9:a441:37ed with SMTP id
- q17-20020a05622a031100b003b9a44137edmr9834028qtw.32.1676557116894; 
- Thu, 16 Feb 2023 06:18:36 -0800 (PST)
-X-Google-Smtp-Source: AK7set+myTD6VUnfo6c32pAIoyitWX0BatNuM7UhzbjOECAsAEnPHoc38OlF18DMf4EPFhxGFeQ81g==
-X-Received: by 2002:a05:622a:311:b0:3b9:a441:37ed with SMTP id
- q17-20020a05622a031100b003b9a44137edmr9833995qtw.32.1676557116590; 
- Thu, 16 Feb 2023 06:18:36 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-144.web.vodafone.de.
- [109.43.176.144]) by smtp.gmail.com with ESMTPSA id
- s64-20020a372c43000000b00719165e9e72sm1233393qkh.91.2023.02.16.06.18.34
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=95VjHFeainMePR2DshY/ljqcMNekJSmzMYZQsd7neDI=;
+ b=2xH1BHPb2Wv1k9VguZQmz1znP/cLd9vgPkag+edtI003M9OHvSixKt6SeUR8r5DkDM
+ 9ick+N83HGLyCLiPLtAzGs+cH/6JzTU0OjVWd0KFdHqJwibxjj6BOAGnNqdwNRJPtM3M
+ P7hGG7B65N3Fe0mQvYWQKFQupqTqtRZ1eJbi2ThkR9/LitJhVtyGdpY2FHgUfjOGRvcH
+ H88y2BMTtvhCK8frCsUCxaaW7KvqVdt6lcO/1W2qEzQ6LDBJoJPUJb5N0aVSV9zLOlar
+ 4TPf0V9LOX59PbhMwOfcIJe8GQn1o/ZzuWR+4d48sMkpceQV3ivSDRjmZwFaA6634Shp
+ BFvA==
+X-Gm-Message-State: AO0yUKX86AZL0zfr87Ts1qgyvuhVFskgAnaI1pTBHNEIBjnDtqs0QcTd
+ T49Oh9nsmwT0IfZE0+71sdp8Uoe0K6A=
+X-Google-Smtp-Source: AK7set/9RY+0pJSTV8HoZ/cQI/ovx4IKHlrJoqGhDe+mcK7+FnoG0rcw+audqojQv8FkPcIqPvC9RA==
+X-Received: by 2002:a05:6402:27d0:b0:4ad:6113:76fd with SMTP id
+ c16-20020a05640227d000b004ad611376fdmr1469414ede.16.1676557181441; 
+ Thu, 16 Feb 2023 06:19:41 -0800 (PST)
+Received: from [127.0.0.1] (dynamic-089-012-175-191.89.12.pool.telefonica.de.
+ [89.12.175.191]) by smtp.gmail.com with ESMTPSA id
+ d27-20020a50cd5b000000b004acb4b3b78bsm932467edj.88.2023.02.16.06.19.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Feb 2023 06:18:36 -0800 (PST)
-Message-ID: <18f52a74-64f4-8af6-6d51-21e2ff469adf@redhat.com>
-Date: Thu, 16 Feb 2023 15:18:32 +0100
+ Thu, 16 Feb 2023 06:19:41 -0800 (PST)
+Date: Thu, 16 Feb 2023 14:19:35 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+CC: qemu-block@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
+ John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_04/20=5D_hw/ide/isa=3A_Extract_TY?=
+ =?US-ASCII?Q?PE=5FISA=5FIDE_declarations_to_=27hw/ide/isa=2Eh=27?=
+In-Reply-To: <20230215112712.23110-5-philmd@linaro.org>
+References: <20230215112712.23110-1-philmd@linaro.org>
+ <20230215112712.23110-5-philmd@linaro.org>
+Message-ID: <4CA7A9C3-290E-4D6E-9B30-673C856E0F20@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v3 4/6] hw/vfio/ccw: Replace DO_UPCAST(S390CCWDevice) by
- S390_CCW_DEVICE()
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Eric Farman <farman@linux.ibm.com>,
- qemu-devel@nongnu.org, Cedric Le Goater <clegoate@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
- Alex Williamson <alex.williamson@redhat.com>,
- David Hildenbrand <david@redhat.com>, Matthew Rosato
- <mjrosato@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, Ilya Leoshkevich <iii@linux.ibm.com>
-References: <20230213170145.45666-1-philmd@linaro.org>
- <20230213170145.45666-5-philmd@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230213170145.45666-5-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.351, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,49 +95,153 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/02/2023 18.01, Philippe Mathieu-Daudé wrote:
-> Use the S390_CCW_DEVICE() QOM type-checking macro to avoid DO_UPCAST().
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->   hw/vfio/ccw.c | 9 +++------
->   1 file changed, 3 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-> index 2c20e3c202..2ea7b4a63c 100644
-> --- a/hw/vfio/ccw.c
-> +++ b/hw/vfio/ccw.c
-> @@ -251,8 +251,7 @@ again:
->   
->   static void vfio_ccw_reset(DeviceState *dev)
->   {
-> -    CcwDevice *ccw_dev = DO_UPCAST(CcwDevice, parent_obj, dev);
-> -    S390CCWDevice *cdev = DO_UPCAST(S390CCWDevice, parent_obj, ccw_dev);
-> +    S390CCWDevice *cdev = S390_CCW_DEVICE(dev);
->       VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
->   
->       ioctl(vcdev->vdev.fd, VFIO_DEVICE_RESET);
-> @@ -657,8 +656,7 @@ static VFIOGroup *vfio_ccw_get_group(S390CCWDevice *cdev, Error **errp)
->   static void vfio_ccw_realize(DeviceState *dev, Error **errp)
->   {
->       VFIOGroup *group;
-> -    CcwDevice *ccw_dev = DO_UPCAST(CcwDevice, parent_obj, dev);
-> -    S390CCWDevice *cdev = DO_UPCAST(S390CCWDevice, parent_obj, ccw_dev);
-> +    S390CCWDevice *cdev = S390_CCW_DEVICE(dev);
->       VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
->       S390CCWDeviceClass *cdc = S390_CCW_DEVICE_GET_CLASS(cdev);
->       Error *err = NULL;
-> @@ -729,8 +727,7 @@ out_err_propagate:
->   
->   static void vfio_ccw_unrealize(DeviceState *dev)
->   {
-> -    CcwDevice *ccw_dev = DO_UPCAST(CcwDevice, parent_obj, dev);
-> -    S390CCWDevice *cdev = DO_UPCAST(S390CCWDevice, parent_obj, ccw_dev);
-> +    S390CCWDevice *cdev = S390_CCW_DEVICE(dev);
->       VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
->       S390CCWDeviceClass *cdc = S390_CCW_DEVICE_GET_CLASS(cdev);
->       VFIOGroup *group = vcdev->vdev.group;
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 
+Am 15=2E Februar 2023 11:26:56 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <=
+philmd@linaro=2Eorg>:
+>"hw/ide=2Eh" is a mixed bag of lost IDE declarations=2E
+>
+>Extract isa_ide_init() and the TYPE_ISA_IDE QOM declarations
+>to a new "hw/ide/isa=2Eh" header=2E
+>
+>Rename ISAIDEState::isairq as 'irqnum' to emphasize this is
+>not a qemu_irq object but the number (index) of an ISA IRQ=2E
+>
+>Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro=2Eorg>
+>---
+> hw/i386/pc_piix=2Ec    |  1 +
+> hw/ide/isa=2Ec         | 14 ++++++--------
+> include/hw/ide=2Eh     |  5 -----
+> include/hw/ide/isa=2Eh | 20 ++++++++++++++++++++
+> 4 files changed, 27 insertions(+), 13 deletions(-)
+> create mode 100644 include/hw/ide/isa=2Eh
+>
+>diff --git a/hw/i386/pc_piix=2Ec b/hw/i386/pc_piix=2Ec
+>index df64dd8dcc=2E=2E7085b4bc58 100644
+>--- a/hw/i386/pc_piix=2Ec
+>+++ b/hw/i386/pc_piix=2Ec
+>@@ -39,6 +39,7 @@
+> #include "hw/pci/pci_ids=2Eh"
+> #include "hw/usb=2Eh"
+> #include "net/net=2Eh"
+>+#include "hw/ide/isa=2Eh"
+> #include "hw/ide/pci=2Eh"
+> #include "hw/ide/piix=2Eh"
+> #include "hw/irq=2Eh"
+>diff --git a/hw/ide/isa=2Ec b/hw/ide/isa=2Ec
+>index 8bedbd13f1=2E=2E5c3e83a0fc 100644
+>--- a/hw/ide/isa=2Ec
+>+++ b/hw/ide/isa=2Ec
+>@@ -31,22 +31,20 @@
+> #include "qemu/module=2Eh"
+> #include "sysemu/dma=2Eh"
+>=20
+>+#include "hw/ide/isa=2Eh"
+> #include "hw/ide/internal=2Eh"
+> #include "qom/object=2Eh"
+>=20
+> /***********************************************************/
+> /* ISA IDE definitions */
+>=20
+>-#define TYPE_ISA_IDE "isa-ide"
+>-OBJECT_DECLARE_SIMPLE_TYPE(ISAIDEState, ISA_IDE)
+>-
+> struct ISAIDEState {
+>     ISADevice parent_obj;
+>=20
+>     IDEBus    bus;
+>     uint32_t  iobase;
+>     uint32_t  iobase2;
+>-    uint32_t  isairq;
+>+    uint32_t  irqnum;
+>     qemu_irq  irq;
+> };
+>=20
+>@@ -75,13 +73,13 @@ static void isa_ide_realizefn(DeviceState *dev, Error=
+ **errp)
+>=20
+>     ide_bus_init(&s->bus, sizeof(s->bus), dev, 0, 2);
+>     ide_init_ioport(&s->bus, isadev, s->iobase, s->iobase2);
+>-    s->irq =3D isa_get_irq(isadev, s->isairq);
+>+    s->irq =3D isa_get_irq(isadev, s->irqnum);
+>     ide_init2(&s->bus, s->irq);
+>     vmstate_register(VMSTATE_IF(dev), 0, &vmstate_ide_isa, s);
+>     ide_register_restart_cb(&s->bus);
+> }
+>=20
+>-ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int isairq=
+,
+>+ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int irqnum=
+,
+>                         DriveInfo *hd0, DriveInfo *hd1)
+> {
+>     DeviceState *dev;
+>@@ -92,7 +90,7 @@ ISADevice *isa_ide_init(ISABus *bus, int iobase, int io=
+base2, int isairq,
+>     dev =3D DEVICE(isadev);
+>     qdev_prop_set_uint32(dev, "iobase",  iobase);
+>     qdev_prop_set_uint32(dev, "iobase2", iobase2);
+>-    qdev_prop_set_uint32(dev, "irq",     isairq);
+>+    qdev_prop_set_uint32(dev, "irq",     irqnum);
+>     isa_realize_and_unref(isadev, bus, &error_fatal);
+>=20
+>     s =3D ISA_IDE(dev);
+>@@ -108,7 +106,7 @@ ISADevice *isa_ide_init(ISABus *bus, int iobase, int =
+iobase2, int isairq,
+> static Property isa_ide_properties[] =3D {
+>     DEFINE_PROP_UINT32("iobase",  ISAIDEState, iobase,  0x1f0),
+>     DEFINE_PROP_UINT32("iobase2", ISAIDEState, iobase2, 0x3f6),
+>-    DEFINE_PROP_UINT32("irq",    ISAIDEState, isairq,  14),
+>+    DEFINE_PROP_UINT32("irq",     ISAIDEState, irqnum,  14),
+>     DEFINE_PROP_END_OF_LIST(),
+> };
+>=20
+>diff --git a/include/hw/ide=2Eh b/include/hw/ide=2Eh
+>index 5f8c36b2aa=2E=2E24a7aa2925 100644
+>--- a/include/hw/ide=2Eh
+>+++ b/include/hw/ide=2Eh
+>@@ -1,13 +1,8 @@
+> #ifndef HW_IDE_H
+> #define HW_IDE_H
+>=20
+>-#include "hw/isa/isa=2Eh"
+> #include "exec/memory=2Eh"
+>=20
+>-/* ide-isa=2Ec */
+>-ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int isairq=
+,
+>-                        DriveInfo *hd0, DriveInfo *hd1);
+>-
+> int ide_get_geometry(BusState *bus, int unit,
+>                      int16_t *cyls, int8_t *heads, int8_t *secs);
+> int ide_get_bios_chs_trans(BusState *bus, int unit);
+>diff --git a/include/hw/ide/isa=2Eh b/include/hw/ide/isa=2Eh
+>new file mode 100644
+>index 0000000000=2E=2E1cd0ff1fa6
+>--- /dev/null
+>+++ b/include/hw/ide/isa=2Eh
+>@@ -0,0 +1,20 @@
+>+/*
+>+ * QEMU IDE Emulation: ISA Bus support=2E
+>+ *
+>+ * Copyright (c) 2003 Fabrice Bellard
+>+ * Copyright (c) 2006 Openedhand Ltd=2E
+>+ *
+>+ * SPDX-License-Identifier: MIT
+>+ */
+>+#ifndef HW_IDE_ISA_H
+>+#define HW_IDE_ISA_H
+>+
+>+#include "qom/object=2Eh"
+>+
+>+#define TYPE_ISA_IDE "isa-ide"
+>+OBJECT_DECLARE_SIMPLE_TYPE(ISAIDEState, ISA_IDE)
+>+
+>+ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int irqnum=
+,
+>+                        DriveInfo *hd0, DriveInfo *hd1);
+>+
+>+#endif
+
+Reviewed-by: Bernhard Beschow <shentey@gmail=2Ecom>
 
