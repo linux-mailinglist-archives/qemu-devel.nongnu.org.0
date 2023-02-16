@@ -2,96 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EA30699AC5
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:08:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A77699AD5
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:12:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pShif-00047S-Gq; Thu, 16 Feb 2023 12:06:53 -0500
+	id 1pShmh-0007Rc-3o; Thu, 16 Feb 2023 12:11:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pShiT-00046b-S6
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:06:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pShiR-0003YE-AJ
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:06:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676567197;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iMI56UeYLJ0/JuaJKS00EMiHqlcOZdL/C1u16xQYgQs=;
- b=dUYwf7OZCEYHvFkKY4pSLbH0MWUvip0hkG+UsxeqyGLpQjWxPHpQxD9wGiuy7quhCD2zNm
- uybTkUV4p58myEEG7KHBB1+Tu35ZucomhJL6mICBqysQtiWq31WyRG6rIB3QdT9To2BCv4
- KT0TJPcxhWC9FSRArWmp25mjOJXbmQY=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-465-sCwUxioBPuC2F1vSqupTMg-1; Thu, 16 Feb 2023 12:06:35 -0500
-X-MC-Unique: sCwUxioBPuC2F1vSqupTMg-1
-Received: by mail-qt1-f197.google.com with SMTP id
- v3-20020a05622a188300b003ba183e8272so1591213qtc.0
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:06:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pShmf-0007RN-L3; Thu, 16 Feb 2023 12:11:01 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pShmd-0007j7-Tq; Thu, 16 Feb 2023 12:11:01 -0500
+Received: by mail-ed1-x531.google.com with SMTP id d40so5417960eda.8;
+ Thu, 16 Feb 2023 09:10:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Vtv8FTcDNzPS9y5Z0E5BIM0lRmYWWNc2bz96oCjgvRM=;
+ b=FS8gRkmWAZ/6L+EO8TMYjcZs4/Xo0a3H0TPs+0N5+prEtW7+n2pxKSuRbF6uZ3Fyl9
+ Tl8dWA4FMHCvCw3eH+mHXZpw76dfy3B+IZSUPXLX3CmHyxRVcbyK+E2/ZYX6/p90sGKb
+ DpRWT3+X1DGn1QZzX8q8TBRT4ntae7urS83a36Vf2Mxv/v8k2Oe5yoYFMaeRGgXFOM6L
+ bulo8x3Efm3dsWRz3VpXwtF1dv/SYiV/Btna8UlSMFMx3+3TDNhYKXMXE/nFXtawj+nq
+ k98y8xpTJ19Pt9I+2r389I++EF/APVX2XUkeeVzg3jEmdmuSm1S5QDp18ddakYdFTMtL
+ a4Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=iMI56UeYLJ0/JuaJKS00EMiHqlcOZdL/C1u16xQYgQs=;
- b=T2gX2CS3JXxAUJUJ/DY2oFELUSFD3gSJrfYCnR2u3nkurNonvx6H5qO7f6ZGPhaIds
- CB/rEofLOQ3ql2nj/ihv4lhp896h7C5bAueWOt51ONl2jDC3x3rzGj8R7WDMaageKhp6
- 0dPC2zewHfrIOyEHdQXuPkd9aL88EB0eve1BktzkZWOg26DhMmVId4jm5rvofkrSzeHx
- +s1DNAbEUaht/ecHqH7xL4Oe+3vzMO7+Fikqlbpz/G6Gxrbb/RZqp7ISJgYvY+TYsEO6
- 1kEypjg8qZQgfaT73A4KyR8h1WHzjA+5LgCKO+4l3gxKOdm6Nx9VsuBO8eRuOROu3lwD
- KXsw==
-X-Gm-Message-State: AO0yUKXnvXBZlHjZZrX6iKP6ZwU4P3nq+GfdeC4fPAkQbxiWiiiMNeju
- Xcc876xra8DeK1oToDh9VCEqKNBQBjzoc00K6S5XSOx/5ahb13k0w1mUjDUBh/t1TP6EpRDdEQ0
- EQtNBSHGvPcj3l520sxAG
-X-Received: by 2002:ac8:7f0e:0:b0:3bd:140:4f4e with SMTP id
- f14-20020ac87f0e000000b003bd01404f4emr9810037qtk.2.1676567193283; 
- Thu, 16 Feb 2023 09:06:33 -0800 (PST)
-X-Google-Smtp-Source: AK7set/FOV99sHMfmHwmTMgiIVyZ6WzDfbIh68UP/aCxJcJXtCAwIF2dgMJzYQzkaC7erxKPp+zI9w==
-X-Received: by 2002:ac8:7f0e:0:b0:3bd:140:4f4e with SMTP id
- f14-20020ac87f0e000000b003bd01404f4emr9809995qtk.2.1676567192866; 
- Thu, 16 Feb 2023 09:06:32 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- e15-20020a05620a014f00b0073b399700adsm1564791qkn.3.2023.02.16.09.06.31
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Vtv8FTcDNzPS9y5Z0E5BIM0lRmYWWNc2bz96oCjgvRM=;
+ b=bdAZWDf9TxeOyn1kkY8HMidXUDyHx1kbICt9gb27I3CND3ShIagnlddYaPNvy5FXqD
+ g3sQImL1U9Yl4v9XCT9EkdB0FtEeAoGdUUOA0bCdx4kaS3O8bVY3+2OgGqGwTH2ISYgY
+ a02Eo/8ZNuDbKDzCt9oS/d00vjDKvTDm18BGPnenn2UyONew4CG2wRfrYWYOBrkcsdB/
+ jfO1qhVAJBSWQ5ktHghYdxwK4yxnDtAMIQOdXeysKyX4wrHgZKYk4cJHbHY+a64N3/yW
+ XtPpAo5RNytskeT22XNCdQbK+fkdX1Ed81Y1UGD/nKbGxQrmr0KRnG1RqMWHRO9/pyKG
+ 7THQ==
+X-Gm-Message-State: AO0yUKVdgZofNjjs80QS5HIGdxWhTQYu8auM7xyT2oj3AAAOqv01y+iy
+ g/Zp+dvo2Xv4Uw6IZzt8RCU=
+X-Google-Smtp-Source: AK7set+xNoaZvPCkMD/r0Xn/vKS7JIcjjYFmTGu09SYZuDtzuyhcz2aqdmUztrR0gTdACDnohkZpSw==
+X-Received: by 2002:aa7:c2d3:0:b0:4ad:7bd3:bb44 with SMTP id
+ m19-20020aa7c2d3000000b004ad7bd3bb44mr170314edp.35.1676567457458; 
+ Thu, 16 Feb 2023 09:10:57 -0800 (PST)
+Received: from [127.0.0.1] (dynamic-089-012-175-191.89.12.pool.telefonica.de.
+ [89.12.175.191]) by smtp.gmail.com with ESMTPSA id
+ t30-20020a50d71e000000b004873927780bsm1145196edi.20.2023.02.16.09.10.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Feb 2023 09:06:32 -0800 (PST)
-Message-ID: <e537087d-a8ab-f30b-aeff-76750966a08b@redhat.com>
-Date: Thu, 16 Feb 2023 18:06:29 +0100
+ Thu, 16 Feb 2023 09:10:56 -0800 (PST)
+Date: Thu, 16 Feb 2023 17:10:49 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>
+CC: qemu-devel@nongnu.org,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-ppc@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_07/18=5D_hw/ide/piix=3A_Ensure?=
+ =?US-ASCII?Q?_IDE_output_IRQs_are_wired_at_realization?=
+In-Reply-To: <0350214d-fd70-4d24-8db8-66185f5d6780@linaro.org>
+References: <20230215161641.32663-1-philmd@linaro.org>
+ <20230215161641.32663-8-philmd@linaro.org>
+ <CAG4p6K6zMEMT07qDzPyEgc1F+FPp-AHyhgZWRhYAaJsfOUZD=g@mail.gmail.com>
+ <0350214d-fd70-4d24-8db8-66185f5d6780@linaro.org>
+Message-ID: <3E0C5438-30E1-4D5B-BC6A-A5A333FD1F73@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v2] target/arm: Add raw_writes ops for register whose
- write induce TLB maintenance
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: eric.auger.pro@gmail.com, richard.henderson@linaro.org,
- pbonzini@redhat.com, qemu-devel@nongnu.org, philmd@linaro.org
-References: <20230213183803.3239258-1-eric.auger@redhat.com>
- <CAFEAcA9sOykbFg=ZNvMRvjaSEJCEsn0MXODdu22zWSsyhDxAGQ@mail.gmail.com>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <CAFEAcA9sOykbFg=ZNvMRvjaSEJCEsn0MXODdu22zWSsyhDxAGQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.351, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,213 +97,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Peter,
 
-On 2/16/23 14:51, Peter Maydell wrote:
-> On Mon, 13 Feb 2023 at 18:38, Eric Auger <eric.auger@redhat.com> wrote:
->> Some registers whose 'cooked' writefns induce TLB maintenance do
->> not have raw_writefn ops defined. If only the writefn ops is set
->> (ie. no raw_writefn is provided), it is assumed the cooked also
->> work as the raw one. For those registers it is not obvious the
->> tlb_flush works on KVM mode so better/safer setting the raw write.
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
->>
->> ---
->>
->> v1 -> v2:
->> - do not add raw_writefn if type is set to ARM_CP_NO_RAW [Peter]
->>
->> I am not familiar with those callbacks. I am not sure whether
->> the .raw_writefn must be set only for registers only doing some
->> TLB maintenance or shall be set safely on other registers doing
->> TLB maintenance + other state settings.
->> ---
->>  target/arm/helper.c | 39 +++++++++++++++++++++++----------------
->>  1 file changed, 23 insertions(+), 16 deletions(-)
->>
->> diff --git a/target/arm/helper.c b/target/arm/helper.c
->> index c62ed05c12..0bd8806999 100644
->> --- a/target/arm/helper.c
->> +++ b/target/arm/helper.c
->> @@ -719,16 +719,20 @@ static const ARMCPRegInfo not_v7_cp_reginfo[] = {
->>       * the unified TLB ops but also the dside/iside/inner-shareable variants.
->>       */
->>      { .name = "TLBIALL", .cp = 15, .crn = 8, .crm = CP_ANY,
->> -      .opc1 = CP_ANY, .opc2 = 0, .access = PL1_W, .writefn = tlbiall_write,
->> +      .opc1 = CP_ANY, .opc2 = 0, .access = PL1_W,
->> +      .writefn = tlbiall_write, .raw_writefn = raw_write,
->>        .type = ARM_CP_NO_RAW },
->>      { .name = "TLBIMVA", .cp = 15, .crn = 8, .crm = CP_ANY,
->> -      .opc1 = CP_ANY, .opc2 = 1, .access = PL1_W, .writefn = tlbimva_write,
->> +      .opc1 = CP_ANY, .opc2 = 1, .access = PL1_W,
->> +      .writefn = tlbimva_write, .raw_writefn = raw_write,
->>        .type = ARM_CP_NO_RAW },
->>      { .name = "TLBIASID", .cp = 15, .crn = 8, .crm = CP_ANY,
->> -      .opc1 = CP_ANY, .opc2 = 2, .access = PL1_W, .writefn = tlbiasid_write,
->> +      .opc1 = CP_ANY, .opc2 = 2, .access = PL1_W,
->> +      .writefn = tlbiasid_write, .raw_writefn = raw_write,
->>        .type = ARM_CP_NO_RAW },
->>      { .name = "TLBIMVAA", .cp = 15, .crn = 8, .crm = CP_ANY,
->> -      .opc1 = CP_ANY, .opc2 = 3, .access = PL1_W, .writefn = tlbimvaa_write,
->> +      .opc1 = CP_ANY, .opc2 = 3, .access = PL1_W,
->> +      .writefn = tlbimvaa_write, .raw_writefn = raw_write,
->>        .type = ARM_CP_NO_RAW },
->>      { .name = "PRRR", .cp = 15, .crn = 10, .crm = 2,
->>        .opc1 = 0, .opc2 = 0, .access = PL1_RW, .type = ARM_CP_NOP },
-> These are all type ARM_CP_NO_RAW, so don't want a raw_writefn.
-damned, need to change my eyes :-(
->
->> @@ -4183,14 +4187,14 @@ static const ARMCPRegInfo vmsa_cp_reginfo[] = {
->>        .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 0, .opc2 = 0,
->>        .access = PL1_RW, .accessfn = access_tvm_trvm,
->>        .fgt = FGT_TTBR0_EL1,
->> -      .writefn = vmsa_ttbr_write, .resetvalue = 0,
->> +      .writefn = vmsa_ttbr_write, .resetvalue = 0, .raw_writefn = raw_write,
->>        .bank_fieldoffsets = { offsetof(CPUARMState, cp15.ttbr0_s),
->>                               offsetof(CPUARMState, cp15.ttbr0_ns) } },
->>      { .name = "TTBR1_EL1", .state = ARM_CP_STATE_BOTH,
->>        .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 0, .opc2 = 1,
->>        .access = PL1_RW, .accessfn = access_tvm_trvm,
->>        .fgt = FGT_TTBR1_EL1,
->> -      .writefn = vmsa_ttbr_write, .resetvalue = 0,
->> +      .writefn = vmsa_ttbr_write, .resetvalue = 0, .raw_writefn = raw_write,
->>        .bank_fieldoffsets = { offsetof(CPUARMState, cp15.ttbr1_s),
->>                               offsetof(CPUARMState, cp15.ttbr1_ns) } },
->>      { .name = "TCR_EL1", .state = ARM_CP_STATE_AA64,
->> @@ -4450,13 +4454,13 @@ static const ARMCPRegInfo lpae_cp_reginfo[] = {
->>        .type = ARM_CP_64BIT | ARM_CP_ALIAS,
->>        .bank_fieldoffsets = { offsetof(CPUARMState, cp15.ttbr0_s),
->>                               offsetof(CPUARMState, cp15.ttbr0_ns) },
->> -      .writefn = vmsa_ttbr_write, },
->> +      .writefn = vmsa_ttbr_write, .raw_writefn = raw_write },
->>      { .name = "TTBR1", .cp = 15, .crm = 2, .opc1 = 1,
->>        .access = PL1_RW, .accessfn = access_tvm_trvm,
->>        .type = ARM_CP_64BIT | ARM_CP_ALIAS,
->>        .bank_fieldoffsets = { offsetof(CPUARMState, cp15.ttbr1_s),
->>                               offsetof(CPUARMState, cp15.ttbr1_ns) },
->> -      .writefn = vmsa_ttbr_write, },
->> +      .writefn = vmsa_ttbr_write, .raw_writefn = raw_write },
->>  };
->>
->>  static uint64_t aa64_fpcr_read(CPUARMState *env, const ARMCPRegInfo *ri)
->> @@ -5899,12 +5903,12 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
->>        .type = ARM_CP_IO,
->>        .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 0,
->>        .access = PL2_RW, .fieldoffset = offsetof(CPUARMState, cp15.hcr_el2),
->> -      .writefn = hcr_write },
->> +      .writefn = hcr_write, .raw_writefn = raw_write },
-> These ones are OK.
->
->>      { .name = "HCR", .state = ARM_CP_STATE_AA32,
->>        .type = ARM_CP_ALIAS | ARM_CP_IO,
->>        .cp = 15, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 0,
->>        .access = PL2_RW, .fieldoffset = offsetof(CPUARMState, cp15.hcr_el2),
->> -      .writefn = hcr_writelow },
->> +      .writefn = hcr_writelow, .raw_writefn = raw_write },
-> This is going to do the wrong thing on big-endian hosts, because
-> the data value is the low 32 bits and the raw_writefn will
-> write that to the whole 64-bit value. We could implement a
-> special purpose raw write for this register which just writes
-> the value to the low 32 bits, I guess.
->
-> For KVM we could ignore this, though -- the register is EL2 only,
-> and also is ARM_CP_ALIAS, which means we won't try to do anything
-> with it for the KVM<->QEMU state sync or the migration codepaths.
-OK so can I simply revert that change.
->
->>      { .name = "HACR_EL2", .state = ARM_CP_STATE_BOTH,
->>        .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 7,
->>        .access = PL2_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
->> @@ -5971,6 +5975,7 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
->>      { .name = "TCR_EL2", .state = ARM_CP_STATE_BOTH,
->>        .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 0, .opc2 = 2,
->>        .access = PL2_RW, .writefn = vmsa_tcr_el12_write,
->> +      .raw_writefn = raw_write,
->>        .fieldoffset = offsetof(CPUARMState, cp15.tcr_el[2]) },
->>      { .name = "VTCR", .state = ARM_CP_STATE_AA32,
->>        .cp = 15, .opc1 = 4, .crn = 2, .crm = 1, .opc2 = 2,
->> @@ -5987,10 +5992,10 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
->>        .type = ARM_CP_64BIT | ARM_CP_ALIAS,
->>        .access = PL2_RW, .accessfn = access_el3_aa32ns,
->>        .fieldoffset = offsetof(CPUARMState, cp15.vttbr_el2),
->> -      .writefn = vttbr_write },
->> +      .writefn = vttbr_write, .raw_writefn = raw_write },
->>      { .name = "VTTBR_EL2", .state = ARM_CP_STATE_AA64,
->>        .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 1, .opc2 = 0,
->> -      .access = PL2_RW, .writefn = vttbr_write,
->> +      .access = PL2_RW, .writefn = vttbr_write, .raw_writefn = raw_write,
->>        .fieldoffset = offsetof(CPUARMState, cp15.vttbr_el2) },
->>      { .name = "SCTLR_EL2", .state = ARM_CP_STATE_BOTH,
->>        .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 0, .opc2 = 0,
->> @@ -6002,7 +6007,8 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
->>        .fieldoffset = offsetof(CPUARMState, cp15.tpidr_el[2]) },
->>      { .name = "TTBR0_EL2", .state = ARM_CP_STATE_AA64,
->>        .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 0, .opc2 = 0,
->> -      .access = PL2_RW, .resetvalue = 0, .writefn = vmsa_tcr_ttbr_el2_write,
->> +      .access = PL2_RW, .resetvalue = 0,
->> +      .writefn = vmsa_tcr_ttbr_el2_write, .raw_writefn = raw_write,
->>        .fieldoffset = offsetof(CPUARMState, cp15.ttbr0_el[2]) },
->>      { .name = "HTTBR", .cp = 15, .opc1 = 4, .crm = 2,
->>        .access = PL2_RW, .type = ARM_CP_64BIT | ARM_CP_ALIAS,
-> These ones are all OK.
->
->> @@ -6139,7 +6145,7 @@ static const ARMCPRegInfo el2_v8_cp_reginfo[] = {
->>        .cp = 15, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 4,
->>        .access = PL2_RW,
->>        .fieldoffset = offsetofhigh32(CPUARMState, cp15.hcr_el2),
->> -      .writefn = hcr_writehigh },
->> +      .writefn = hcr_writehigh, .raw_writefn = raw_write },
-> Similarly this would need a special purpose raw write function
-> since we want to only touch the high 32 bits; and again for
-> the KVM case we won't ever be doing a raw access to this register.
 
-same question: can I simply revert that change?
-
+Am 16=2E Februar 2023 15:33:47 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <=
+philmd@linaro=2Eorg>:
+>On 16/2/23 15:43, Bernhard Beschow wrote:
+>>=20
+>>=20
+>> On Wed, Feb 15, 2023 at 5:20 PM Philippe Mathieu-Daud=C3=A9 <philmd@lin=
+aro=2Eorg <mailto:philmd@linaro=2Eorg>> wrote:
+>>=20
+>>     Ensure both IDE output IRQ lines are wired=2E
+>>=20
+>>     We can remove the last use of isa_get_irq(NULL)=2E
+>>=20
+>>     Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro=2Eorg
+>>     <mailto:philmd@linaro=2Eorg>>
+>>     ---
+>>      =C2=A0hw/ide/piix=2Ec | 13 ++++++++-----
+>>      =C2=A01 file changed, 8 insertions(+), 5 deletions(-)
+>>=20
+>>     diff --git a/hw/ide/piix=2Ec b/hw/ide/piix=2Ec
+>>     index 9d876dd4a7=2E=2Eb75a4ddcca 100644
+>>     --- a/hw/ide/piix=2Ec
+>>     +++ b/hw/ide/piix=2Ec
+>>     @@ -133,14 +133,17 @@ static bool pci_piix_init_bus(PCIIDEState *d,
+>>     unsigned i, Error **errp)
+>>      =C2=A0 =C2=A0 =C2=A0static const struct {
+>>      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int iobase;
+>>      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int iobase2;
+>>     -=C2=A0 =C2=A0 =C2=A0 =C2=A0 int isairq;
+>>      =C2=A0 =C2=A0 =C2=A0} port_info[] =3D {
+>>     -=C2=A0 =C2=A0 =C2=A0 =C2=A0 {0x1f0, 0x3f6, 14},
+>>     -=C2=A0 =C2=A0 =C2=A0 =C2=A0 {0x170, 0x376, 15},
+>>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 {0x1f0, 0x3f6},
+>>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 {0x170, 0x376},
+>>      =C2=A0 =C2=A0 =C2=A0};
+>>      =C2=A0 =C2=A0 =C2=A0int ret;
+>>=20
+>>     -=C2=A0 =C2=A0 qemu_irq irq_out =3D d->irq[i] ? : isa_get_irq(NULL,
+>>     port_info[i]=2Eisairq);
+>>     +=C2=A0 =C2=A0 if (!d->irq[i]) {
+>>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, "output IDE IRQ %u no=
+t connected", i);
+>>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;
+>>     +=C2=A0 =C2=A0 }
+>>     +
+>>      =C2=A0 =C2=A0 =C2=A0ide_bus_init(&d->bus[i], sizeof(d->bus[i]), DE=
+VICE(d), i, 2);
+>>      =C2=A0 =C2=A0 =C2=A0ret =3D ide_init_ioport(&d->bus[i], NULL, port=
+_info[i]=2Eiobase,
+>>      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0port_info[i]=2Eiobase2);
+>>     @@ -149,7 +152,7 @@ static bool pci_piix_init_bus(PCIIDEState *d,
+>>     unsigned i, Error **errp)
+>>      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 object_get_typename(OBJECT(d)), i);
+>>      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;
+>>      =C2=A0 =C2=A0 =C2=A0}
+>>     -=C2=A0 =C2=A0 ide_bus_init_output_irq(&d->bus[i], irq_out);
+>>     +=C2=A0 =C2=A0 ide_bus_init_output_irq(&d->bus[i], d->irq[i]);
+>>=20
+>>      =C2=A0 =C2=A0 =C2=A0bmdma_init(&d->bus[i], &d->bmdma[i], d);
+>>      =C2=A0 =C2=A0 =C2=A0d->bmdma[i]=2Ebus =3D &d->bus[i];
+>>     --     2=2E38=2E1
+>>=20
+>>=20
+>> This now breaks user-created =C2=A0piix3-ide:
+>>=20
+>>  =C2=A0 qemu-system-x86_64 -M q35 -device piix3-ide
+>>=20
+>> Results in:
+>>=20
+>>  =C2=A0 qemu-system-x86_64: -device piix3-ide: output IDE IRQ 0 not con=
+nected
 >
+>Thank you for this real-life-impossible-but-exists-in-QEMU test-case!
 >
->>  };
->>
->>  static CPAccessResult sel2_access(CPUARMState *env, const ARMCPRegInfo *ri,
->> @@ -6189,12 +6195,12 @@ static const ARMCPRegInfo el3_cp_reginfo[] = {
->>      { .name = "SCR_EL3", .state = ARM_CP_STATE_AA64,
->>        .opc0 = 3, .opc1 = 6, .crn = 1, .crm = 1, .opc2 = 0,
->>        .access = PL3_RW, .fieldoffset = offsetof(CPUARMState, cp15.scr_el3),
->> -      .resetfn = scr_reset, .writefn = scr_write },
->> +      .resetfn = scr_reset, .writefn = scr_write, .raw_writefn = raw_write },
->>      { .name = "SCR",  .type = ARM_CP_ALIAS | ARM_CP_NEWEL,
->>        .cp = 15, .opc1 = 0, .crn = 1, .crm = 1, .opc2 = 0,
->>        .access = PL1_RW, .accessfn = access_trap_aa32s_el1,
->>        .fieldoffset = offsetoflow32(CPUARMState, cp15.scr_el3),
->> -      .writefn = scr_write },
->> +      .writefn = scr_write, .raw_writefn = raw_write },
->>      { .name = "SDER32_EL3", .state = ARM_CP_STATE_AA64,
->>        .opc0 = 3, .opc1 = 6, .crn = 1, .crm = 1, .opc2 = 1,
->>        .access = PL3_RW, .resetvalue = 0,
->> @@ -7862,6 +7868,7 @@ static const ARMCPRegInfo vhe_reginfo[] = {
->>      { .name = "TTBR1_EL2", .state = ARM_CP_STATE_AA64,
->>        .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 0, .opc2 = 1,
->>        .access = PL2_RW, .writefn = vmsa_tcr_ttbr_el2_write,
->> +      .raw_writefn = raw_write,
->>        .fieldoffset = offsetof(CPUARMState, cp15.ttbr1_el[2]) },
-> These are OK.
+>Should we cover it in qtests?
 
-Than you for the review!
-
-Eric
->
->>  #ifndef CONFIG_USER_ONLY
->>      { .name = "CNTHV_CVAL_EL2", .state = ARM_CP_STATE_AA64,
->> --
->> 2.37.3
->>
-> thanks
-> -- PMM
->
-
+Yes, why not=2E Preferably along with the x-remote machine=2E
 
