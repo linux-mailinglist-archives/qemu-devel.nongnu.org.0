@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA44C698E06
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 08:48:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAEDC698E0F
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 08:52:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSYzD-0002hi-T7; Thu, 16 Feb 2023 02:47:23 -0500
+	id 1pSZ3s-0003tp-RA; Thu, 16 Feb 2023 02:52:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSYyx-0002fe-Fz
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 02:47:09 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSZ3b-0003tK-HI
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 02:51:57 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSYyv-0004QA-0x
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 02:47:07 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- bg5-20020a05600c3c8500b003e00c739ce4so883727wmb.5
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 23:47:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSZ3Z-0000IM-Pa
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 02:51:55 -0500
+Received: by mail-wr1-x436.google.com with SMTP id l2so1007826wry.0
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 23:51:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ltSUp0V0DygOjKUG1rVyntURKUpZZwTHSMKbT96DuUQ=;
- b=qDOHeWkobdnW5g1DP1w5i44v/lLWQejx8ejmGqZsbaqb1Pd1RY7td9w+Ow4vUzhiNr
- UktpT5NmxZ0JCLa6QkQwHDEgCAK0rWDfKbrt++qTeHl7wszJ8/hWnqK5IIjKhINKRtxB
- zgyR5RkA0yPkMRmHvOs+J+wp2/FqDOK+ipnbg3LBoQmgYVpXtJV+Oz9gQZwjfx8sV5Sp
- SAPKe8jc5GhQkJhAf8EL711qhX8kK9K4him44Vs5sFIRmsguZ7uout5sCFLr8AumG2G7
- 3Xa+kdarPhpYe669qUgyfDFAbOqe5Z57DxZWAJida1T27cTAc+bVPsO4ECu/j0w4XCWO
- Cvig==
+ bh=X4oNMcLvdxv21DOd6b9fbe8hS1Ypp10JvZx7/lmlxZk=;
+ b=w2JU7DmI58QoIlqXK6M7IOPnLnzTj5R1n4l3dwzhCL4fM+ojgeCj/5gL1GtHfVRf4j
+ YstTkOAIkkQjoWiKBlLd57f7n0UMrezOauH+KMWkStFZU2jicnmBSp8SK63nlp/bCV7/
+ Xt0a043YutHb9d+4SKMwsPoCfTk33C2upDP2iQXdYI7IkT2axZJp5QQj+2AocrCCKtYV
+ IR/uFOUbs9MvHY0ZZCa1QZvQcGTW/MslgTcEvQbjMZhbpXmPB21NnmcI6SwaEehoxf93
+ eJfQ2FstI/B41eS682g5/tswKcLixmAuOEnnZXugKfv079fmOn9VXyqStGLYvebBJdk1
+ mXJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ltSUp0V0DygOjKUG1rVyntURKUpZZwTHSMKbT96DuUQ=;
- b=eHpdKNnbGQqjKevlFEH0mHe8bC5ZSTa54xVQ6SRyXSox4IVluq5kGIwGkB2dWmLaID
- uHs+RAwAjxOEKHxKUkyxndjYhK+YqWoR/JtutFyFPPRmzcW+tLINS0dwOTAshcL5hruj
- LkeVNxEd09QD0MKSz4unIj4nayO3tyKjtUxoel/dLevOdjNevEUInL8KxZQMHNcVCTUO
- BUkSNQbXTEj5DYYVJravogtdeH+30ZftEfjflou/o8EbP1wIxul7X9uPSzPQAU5wlTG5
- Rj1ifmRrLtHL20lKda0Q+pYcMuiHNJ1T2eUdBNCdfAx0vOeyl/m5vv6Xi/Ok/u1jExx0
- XgXw==
-X-Gm-Message-State: AO0yUKWB2xFzY9UQLCPmXJZ24chs44CyROuHCpxO61oL3Nmc3lOCaACB
- vytimQyRzF9aWwIKklLurtjYqA==
-X-Google-Smtp-Source: AK7set9fSs+rSF9c+vTOCEQo5kf7QUmzBZA2sZOuvJqSkhBFJkx5+wi4lLty3oylcx0wmk0b/ck+kA==
-X-Received: by 2002:a05:600c:180a:b0:3df:ef18:b0a1 with SMTP id
- n10-20020a05600c180a00b003dfef18b0a1mr4507581wmp.12.1676533622946; 
- Wed, 15 Feb 2023 23:47:02 -0800 (PST)
+ bh=X4oNMcLvdxv21DOd6b9fbe8hS1Ypp10JvZx7/lmlxZk=;
+ b=1k0a170sqxEhNtLJHCTPaX+VKOXK4s6WgmdeLL8faBIT0mWWMmJStSRQ3ZpBYAns4n
+ zud6joBF4MSp1t8fhZvshLte6hqk9cfQF1poYn77nWA2i/t5ew6l/JwvsGGUDCrwosqN
+ V45oUfmlLFcNaj40H9pA+HYSscOsxOVmffKMumNkKLvii0Xz/AmhybZNmVU+GrLpWs4J
+ +lPh4kp0wZJeExSwD/ue9LBxOCyGZyDSpcaFxz+MBXArZqFWfLbBZNexTM/YPerDKT/f
+ gZMzhFHmlwfgars654Sk2V51ifTcjsj0r1D1rxyXsNLXrGILPwfbfxg0IDMqesHdJrjt
+ ohkQ==
+X-Gm-Message-State: AO0yUKUyiSx9AGaiDBG7cGEGxyWmnncXm2JoAEbXtvPQuARFKqAcJd4D
+ 4MsLOdumuf4tb2fMmwFCK7m/Ug==
+X-Google-Smtp-Source: AK7set+Xvg423rHR3jDhwMYgi+Mx5sM31xOIynANJe3QhPu7a45gvb6FKlW6jxhdODbvqamRJgunlQ==
+X-Received: by 2002:a05:6000:1801:b0:2c5:52f0:b071 with SMTP id
+ m1-20020a056000180100b002c552f0b071mr4213747wrh.15.1676533912337; 
+ Wed, 15 Feb 2023 23:51:52 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- k1-20020a7bc401000000b003dc47d458cdsm841300wmi.15.2023.02.15.23.47.02
+ x13-20020adfdccd000000b002c3e3ee7d1asm771702wrm.79.2023.02.15.23.51.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Feb 2023 23:47:02 -0800 (PST)
-Message-ID: <65c1948f-2fd8-a725-4fe6-1a6b6a996ebb@linaro.org>
-Date: Thu, 16 Feb 2023 08:47:01 +0100
+ Wed, 15 Feb 2023 23:51:52 -0800 (PST)
+Message-ID: <e17c867a-2af1-ec6e-141f-2f11f772a3fb@linaro.org>
+Date: Thu, 16 Feb 2023 08:51:51 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH 0/4] target/arm: Cache ARMVAParameters
+Subject: Re: [PATCH v2 02/15] linux-user/sparc: Tidy syscall trap
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: anders.roxell@linaro.org, qemu-arm@nongnu.org
-References: <20230202075242.260793-1-richard.henderson@linaro.org>
+Cc: laurent@vivier.eu
+References: <20230216054516.1267305-1-richard.henderson@linaro.org>
+ <20230216054516.1267305-3-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230202075242.260793-1-richard.henderson@linaro.org>
+In-Reply-To: <20230216054516.1267305-3-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -90,20 +90,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Richard,
+On 16/2/23 06:45, Richard Henderson wrote:
+> Use TT_TRAP.
+> 
+> For sparc32, 0x88 is the "Slowaris" system call, currently BAD_TRAP
+> in the kernel's ttable_32.S.  For sparc64, 0x110 is tl0_linux32, the
+> sparc32 trap, now folded into the TARGET_ABI32 case via TT_TRAP.
+> 
+> For sparc64, there does still exist trap 0x111 as tl0_oldlinux64,
+> which was replaced by 0x16d as tl0_linux64 in 1998.  Since no one
+> has noticed, don't bother implementing it now.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   linux-user/sparc/cpu_loop.c | 14 +++++++-------
+>   1 file changed, 7 insertions(+), 7 deletions(-)
 
-On 2/2/23 08:52, Richard Henderson wrote:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-> Richard Henderson (4):
->    target/arm: Flush only required tlbs for TCR_EL[12]
->    target/arm: Store tbi for both insns and data in ARMVAParameters
->    target/arm: Use FIELD for ARMVAParameters
->    target/arm: Cache ARMVAParameters
-
-Applying: target/arm: Flush only required tlbs for TCR_EL[12]
-error: patch failed: target/arm/helper.c:4151
-error: target/arm/helper.c: patch does not apply
-Patch failed at 0001 target/arm: Flush only required tlbs for TCR_EL[12]
-
-What is this series base commit?
 
