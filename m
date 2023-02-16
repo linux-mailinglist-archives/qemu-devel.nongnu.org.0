@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00AD6699ADE
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:13:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67183699AF3
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:14:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pShnW-0000gJ-37; Thu, 16 Feb 2023 12:11:54 -0500
+	id 1pShnY-0000qi-9K; Thu, 16 Feb 2023 12:11:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShnU-0000dE-R4
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:52 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ id 1pShnV-0000g3-E6
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:53 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShnS-0007sY-V0
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:52 -0500
-Received: by mail-wr1-x431.google.com with SMTP id o15so2520346wrc.9
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:11:50 -0800 (PST)
+ id 1pShnT-0007tg-Jt
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:53 -0500
+Received: by mail-wr1-x434.google.com with SMTP id h16so2503920wrz.12
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:11:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=XVRtdPWy6SO/+ib4dr2eJvk7NAPUzEubpNbchybnbuU=;
- b=P2VxbLaosfCf1ciXxTbdEXDxtGbVReKmF58y+bRoIHDTkKoOKK/h1nOrWP6gMjil9S
- SELZG2uF2HL4LhGv9XWgilwQCFcoHjoD0Pl+0C/NHaZZ5dRqZu2MaovVSegM8wB3ZnQ/
- lbCL2t5flQZhs5di4GCMZUxz2/Vs+svSOOOCsaG4rm9vYQEMBKliuoM3dq5ZVzGDvurW
- lnMPeAGFaP1UBYtSm/MiLINdp7W/v7IEPTjtmxy7/+HU9DppwGAaF7EfM2KChylr5RxK
- mWLdvFf9xqeqnO83CtKQi+eC9Li7too11kdlQ/AL9KJVAD3lnUImhtitTpGXFllhgFZJ
- 8/bw==
+ :reply-to; bh=VvgfuLUSNrvN4aahIRpGRRD0M1CGU3JQCC4h/XD559w=;
+ b=J8c8hg6zPetXqDX4OJxCBhKZ2iv3496Z++5N4FwMcjJNhky0u2TJxc2ky+o3kzPjdk
+ u/zCcPPg5csN/p1H2ICt13lW2OMXfIKyBTd2nLYDMn1BNVt5dvkjrjR3QGhmiuBXfl+N
+ /kltfzn0AFW9VDr1VXDbm9CbiqywTFZ+J4zBh7/M41SS7a9oFVcZQzXDDJjAViZGwS7d
+ S3oDtduHTkL3ERMcUhoT6cKZEILi3cG8lUpIVbgmgJtZJTH0vP6oztMAiBjjNIgslXMz
+ Dnily5B+oO3m4QHADUKQBhvjui6BHCVFJ/uiHF+2u889NElPHbRDMQgO9amkBiYeIdXW
+ ZuyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XVRtdPWy6SO/+ib4dr2eJvk7NAPUzEubpNbchybnbuU=;
- b=nHQH6Te/IwZBG95iiPLloPHkuDq6yx5GnZ0nxt5z9MOxSpcSfcSyOxa/7+2DgPAEWO
- Vn0T8HuYDxVvIADX58T0LJ87Xio6LQytXuGwIFhc2GPo2JaleqZ3vU2eX5vQC6IKJBJt
- gplrFLy4pWn/CU5tsHpcI1pCmMGBldH3etJOI6bbSaJ11OvjNxgQLpr+mA8KDz7wCrm3
- km8h167qlQg93fHLNU/oLH5imBZ+NbIyuho+bBrUK0/ZfxTtuwUKwRKC7AUfHw8gtnP+
- 89wBawNmKpyDXAifZ0s+cXZGTey+mMlesjEBDJSu1zcg7+ArC73hujTrPpu0R7Xvw+6I
- qLMg==
-X-Gm-Message-State: AO0yUKXFeybQlpkSxDx/aEONoeO5M+1B9+BK/JaZdJmQVOFzCwnNwRS6
- gXfABGhsP02PBvMw4VmjWZRmdd8wlfb2uMdN
-X-Google-Smtp-Source: AK7set+/seRN9IpQ+GZOlm+Df85F2En9TdX88UpFgkwU402PUdXFhbUf05JunGmuH8E9QV2SNw9aaQ==
-X-Received: by 2002:a5d:6486:0:b0:2c5:519f:307a with SMTP id
- o6-20020a5d6486000000b002c5519f307amr2844105wri.30.1676567510137; 
+ bh=VvgfuLUSNrvN4aahIRpGRRD0M1CGU3JQCC4h/XD559w=;
+ b=05m68hd4jLWiSg1DPIPHPoQ0SfhGss7BHYXwApVzBqZ97SG1l2nMZt3gh41GrLmh+M
+ rnkzFxaKc31gxqph/Pe1SoG4QDtl3euhK74zb/J/tFoYyOz/ZZhUyuh5XXqqKRn+bzsd
+ nG1ZumnzPfSvhDCeP4c89sXXyP6rHqfZGC6TRtnKZLDeX6dVAOMsyqcC6USj93PFrh8w
+ gZI/RjwTbc7fnJpT+GjrHBkzB68pEFwZQr4VYuMBOJ9TTQofjIWtr99xdDe5TnoX3WoC
+ /uCwzT7ayoe1wOKQokaIDxAyKzQnyJNFlxKefXsJPAS07Sl1fChopijPN03y4txIstDm
+ b5zg==
+X-Gm-Message-State: AO0yUKXbB0gem6D8bTMAChL0ugK0TIRpksoxTwlD5vHJOLDltavqeLap
+ hF3tRUxhcy2lcQduHrJuAO/MaOLm3wBcUbXU
+X-Google-Smtp-Source: AK7set+VdVlQCIVsURITowe5v682rN8/f24uuddpoSTCqAdgjy/jW8aeaW+NKfYgi8ot1Z2ElsJNug==
+X-Received: by 2002:a5d:5012:0:b0:2c5:5878:e5a6 with SMTP id
+ e18-20020a5d5012000000b002c55878e5a6mr5322041wrt.61.1676567510861; 
  Thu, 16 Feb 2023 09:11:50 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- f12-20020a5d4dcc000000b002c556a4f1casm2049107wru.42.2023.02.16.09.11.49
+ f12-20020a5d4dcc000000b002c556a4f1casm2049107wru.42.2023.02.16.09.11.50
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 09:11:49 -0800 (PST)
+ Thu, 16 Feb 2023 09:11:50 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/30] target/arm: Use "max" as default cpu for the virt
- machine with KVM
-Date: Thu, 16 Feb 2023 17:11:21 +0000
-Message-Id: <20230216171123.2518285-29-peter.maydell@linaro.org>
+Subject: [PULL 29/30] tests/qtest: arm-cpu-features: Match tests to required
+ accelerators
+Date: Thu, 16 Feb 2023 17:11:22 +0000
+Message-Id: <20230216171123.2518285-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230216171123.2518285-1-peter.maydell@linaro.org>
 References: <20230216171123.2518285-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,37 +91,76 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Fabiano Rosas <farosas@suse.de>
 
-Now that the cortex-a15 is under CONFIG_TCG, use as default CPU for a
-KVM-only build the 'max' cpu.
-
-Note that we cannot use 'host' here because the qtests can run without
-any other accelerator (than qtest) and 'host' depends on KVM being
-enabled.
-
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/virt.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ tests/qtest/arm-cpu-features.c | 28 ++++++++++++++++++----------
+ 1 file changed, 18 insertions(+), 10 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 8d13e4486b1..ac626b3bef7 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -3013,7 +3013,11 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-     mc->minimum_page_bits = 12;
-     mc->possible_cpu_arch_ids = virt_possible_cpu_arch_ids;
-     mc->cpu_index_to_instance_props = virt_cpu_index_to_props;
-+#ifdef CONFIG_TCG
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-a15");
-+#else
-+    mc->default_cpu_type = ARM_CPU_TYPE_NAME("max");
-+#endif
-     mc->get_default_cpu_node_id = virt_get_default_cpu_node_id;
-     mc->kvm_type = virt_kvm_type;
-     assert(!mc->get_hotplug_handler);
+diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
+index 8691802950c..1cb08138ad1 100644
+--- a/tests/qtest/arm-cpu-features.c
++++ b/tests/qtest/arm-cpu-features.c
+@@ -21,7 +21,7 @@
+ #define SVE_MAX_VQ 16
+ 
+ #define MACHINE     "-machine virt,gic-version=max -accel tcg "
+-#define MACHINE_KVM "-machine virt,gic-version=max -accel kvm -accel tcg "
++#define MACHINE_KVM "-machine virt,gic-version=max -accel kvm "
+ #define QUERY_HEAD  "{ 'execute': 'query-cpu-model-expansion', " \
+                     "  'arguments': { 'type': 'full', "
+ #define QUERY_TAIL  "}}"
+@@ -607,31 +607,39 @@ int main(int argc, char **argv)
+ {
+     g_test_init(&argc, &argv, NULL);
+ 
+-    qtest_add_data_func("/arm/query-cpu-model-expansion",
+-                        NULL, test_query_cpu_model_expansion);
++    if (qtest_has_accel("tcg")) {
++        qtest_add_data_func("/arm/query-cpu-model-expansion",
++                            NULL, test_query_cpu_model_expansion);
++    }
++
++    if (!g_str_equal(qtest_get_arch(), "aarch64")) {
++        goto out;
++    }
+ 
+     /*
+      * For now we only run KVM specific tests with AArch64 QEMU in
+      * order avoid attempting to run an AArch32 QEMU with KVM on
+      * AArch64 hosts. That won't work and isn't easy to detect.
+      */
+-    if (g_str_equal(qtest_get_arch(), "aarch64") && qtest_has_accel("kvm")) {
++    if (qtest_has_accel("kvm")) {
+         /*
+          * This tests target the 'host' CPU type, so register it only if
+          * KVM is available.
+          */
+         qtest_add_data_func("/arm/kvm/query-cpu-model-expansion",
+                             NULL, test_query_cpu_model_expansion_kvm);
+-    }
+ 
+-    if (g_str_equal(qtest_get_arch(), "aarch64")) {
+-        qtest_add_data_func("/arm/max/query-cpu-model-expansion/sve-max-vq-8",
+-                            NULL, sve_tests_sve_max_vq_8);
+-        qtest_add_data_func("/arm/max/query-cpu-model-expansion/sve-off",
+-                            NULL, sve_tests_sve_off);
+         qtest_add_data_func("/arm/kvm/query-cpu-model-expansion/sve-off",
+                             NULL, sve_tests_sve_off_kvm);
+     }
+ 
++    if (qtest_has_accel("tcg")) {
++        qtest_add_data_func("/arm/max/query-cpu-model-expansion/sve-max-vq-8",
++                            NULL, sve_tests_sve_max_vq_8);
++        qtest_add_data_func("/arm/max/query-cpu-model-expansion/sve-off",
++                            NULL, sve_tests_sve_off);
++    }
++
++out:
+     return g_test_run();
+ }
 -- 
 2.34.1
 
