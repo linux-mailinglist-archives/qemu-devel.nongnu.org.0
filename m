@@ -2,86 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93FA9699A5E
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 17:43:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD01A699A5D
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 17:43:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pShKd-0005NA-Gc; Thu, 16 Feb 2023 11:42:03 -0500
+	id 1pShKs-0005z8-KO; Thu, 16 Feb 2023 11:42:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pShKb-0005A8-98
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:42:01 -0500
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pShKq-0005tg-TJ
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:42:16 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pShKZ-0000Zg-Lx
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:42:00 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- x4-20020a17090a388400b002349a303ca5so2146753pjb.4
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 08:41:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oYrbvdGn2FPVZKLdulVWGubYW/YR7PjC3o7k8Oirtew=;
- b=inx0YTDfIAvXdknXG6+oARbBbrBtCgYVpRJgCexHoJvgdZPefmwmyOXvzpzFUKMNy1
- gru+8JwSzjCDP1Roa+Jh7w5OJ+LzpcmrKGYqKFHPH4Ap/0i+B+ou6qFCc5C6mMPVy4qE
- NYVFgdHidWMZrs6QN2C3jZsYgLW1PFGuz524yVKmEKhjLYvXvRs40r201m5OfmFPe+eP
- sEvLRx68rxDGKB2pAi8zL6dOjG7tKJ18chw/KSKNNkB5FkLtdBr/ZNG68z6q6cRJevTU
- eeCWmMYQF7LeW4v/wVo7vS5v4iCBHFM4hwUtQ7FlJ4EDzWBxmlozp5+x/Y+72N/zx6/a
- O31w==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pShKp-0000cj-7a
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:42:16 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ oa11-20020a17090b1bcb00b002341a2656e5so2705964pjb.1
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 08:42:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=6cf2TONYJflbiFEEl5WJe1blExFqws/U/3uWBMjqc+s=;
+ b=NUWfy1rocbGn74j/gfx5Dj0tXRBoUqVWjvTkKSi4Xhs9WexdSddmh4veq1mw3LmjD9
+ XHaERkSwLUynXzUANgaNFGkxUFh99sFTAK3qoFIo8kGDivp1gdytGxfMOQPFSO7BWSle
+ r2ioMDtN9mbYfgLqhLG136XWrYtdZSCTKIJr3ITXMGg4O84+eVZ9V+HqCR9TfjY4FZ8J
+ +I/eAN60zLOBe28bKWFZqenG2UtwLvSY/kpWL9ZAkyHmuObWJKnQMTMkmgEdX6z1NOuR
+ sBstguzpoAoh1zO68r5r3UtKDKqy6Oc+kmwk6YGdMAQlU9IOmK4Z6cBCfoBUQhpENMrp
+ Iacg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oYrbvdGn2FPVZKLdulVWGubYW/YR7PjC3o7k8Oirtew=;
- b=6Lp4+TrVHQ8jicVEZxvvtu2luyyfIbv3LLKM1QfTwx3S9KwB0mkV8C9fuzujEq/qEX
- 76xNT1k02/RMgeT2EAFK00O8dsaDKFuB95WYnXYP81aoXyIqQFjaWN82DetYspIl+MSg
- xOiRkhnLmyxOgUo13+dw5TTWLrvTMRZD7VfKQr3SwQ4oK5/V3SfhE8xpiYzDqTvxL0Q5
- VIQombvSmfZ9BU54AMlc8XEC+tcUW6lEKm/ItLJSTlspEessNly4/Vs1iQfbe0zRgs65
- WjEl88i/gc8DyjjOGFEXv9WQrtZAzvby0TKyM54PHWYDPBg/NrgEQcuhhPWab7PqVR4s
- a0xQ==
-X-Gm-Message-State: AO0yUKXfTXTsMfydAhVVt2U5/VSvYx7zjiJCEM4HQ9sDqQ+FxU2IKbym
- ND5f/KdKW2bhjth4K2oNTBKcKQ==
-X-Google-Smtp-Source: AK7set+7jDpfJ2sbSs+br/N+xYJf97fXf69Ek9Ga/eMg8JKdYtUidUyKMG9mennWhGViLPwg8m6zCw==
-X-Received: by 2002:a17:90b:3e81:b0:233:ca48:540b with SMTP id
- rj1-20020a17090b3e8100b00233ca48540bmr7981668pjb.3.1676565718039; 
- Thu, 16 Feb 2023 08:41:58 -0800 (PST)
-Received: from kerodi.Dlink ([49.206.14.226]) by smtp.gmail.com with ESMTPSA id
- q20-20020a638c54000000b004fbd10af99asm1385243pgn.60.2023.02.16.08.41.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 08:41:57 -0800 (PST)
-From: Sunil V L <sunilvl@ventanamicro.com>
-To: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Andrew Jones <ajones@ventanamicro.com>,
- Anup Patel <apatel@ventanamicro.com>,
- Atish Kumar Patra <atishp@rivosinc.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Sunil V L <sunilvl@ventanamicro.com>, Bin Meng <bmeng@tinylab.org>
-Subject: [PATCH V3 8/8] MAINTAINERS: Add entry for RISC-V ACPI
-Date: Thu, 16 Feb 2023 22:11:25 +0530
-Message-Id: <20230216164125.1945633-9-sunilvl@ventanamicro.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230216164125.1945633-1-sunilvl@ventanamicro.com>
-References: <20230216164125.1945633-1-sunilvl@ventanamicro.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6cf2TONYJflbiFEEl5WJe1blExFqws/U/3uWBMjqc+s=;
+ b=1IaaPe5/il7ZjbRhWwZDTtsDdO9V6IKYDzyTq6H5uxepHZWioGq5UhGnK4n3VyKVan
+ BDgHk+1fLCYRs67f+xuOiJD2qeRDD+k2jX7GcyDk8km+HzLmrJfLHNwYUjG8eW7K3Exz
+ XucrpM/icV0Vvt1MsUx5QdTpF3jmWVnzNEhRRLE1UFzco8DJASBV6VlfOen5GUCerIq6
+ XLvHu+yl6uO2CfUxsnrEjvQ7xAE5HH2wEj4nPt/6GxxWlAVrvR7goBM3Fwa0WMaFxpQ4
+ HLSGcSgxEk+A0mplIseXcRMRGNdTBaHrVG/rTHyhrvJ1IjC/YaY1WwdaB4Is6GDV2EBI
+ wtpg==
+X-Gm-Message-State: AO0yUKVGfYEbucDCKy7ZfGP1RWguCcdMowkl0tdK/5TTBo3U9/UqZFyr
+ qJkyN9go/IuE2ljooKyvcEdmvkkd+QULhUz+Ar3B0awfqNiZQw==
+X-Google-Smtp-Source: AK7set/jrt/swaNnkriI/mvkGhIZeGs+OkCzhZZejotcdBXfzWr0VxoCYS5W0h5jRZJUc1LKbUOa/Aqv+7ClFMuLHGE=
+X-Received: by 2002:a17:90b:5109:b0:233:dcb5:ee15 with SMTP id
+ sc9-20020a17090b510900b00233dcb5ee15mr774622pjb.92.1676565733887; Thu, 16 Feb
+ 2023 08:42:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=sunilvl@ventanamicro.com; helo=mail-pj1-x1032.google.com
+References: <209f0f05-b982-eecd-f4e2-70da12e91892@yadro.com>
+In-Reply-To: <209f0f05-b982-eecd-f4e2-70da12e91892@yadro.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 16 Feb 2023 16:42:02 +0000
+Message-ID: <CAFEAcA_1V1W2XteGpuKHYMAgp9mkAz=ZR22S-XG8yF-QB7uXJA@mail.gmail.com>
+Subject: Re: [PATCH] TCG plugin API extension to read guest memory content by
+ an address
+To: Mikhail Tyutin <m.tyutin@yadro.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, 
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
+ "erdnaxe@crans.org" <erdnaxe@crans.org>, 
+ "ma.mandourr@gmail.com" <ma.mandourr@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,55 +87,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-RISC-V ACPI related functionality for virt machine is added in
-virt-acpi-build.c. Add the maintainer entry after moving the
-ARM ACPI entry under the main ACPI entry.
+On Thu, 16 Feb 2023 at 16:18, Mikhail Tyutin <m.tyutin@yadro.com> wrote:
+>
+> TCG plugin API extension to read guest memory content. qemu_plugin_vcpu_read_phys_mem()
+> function can be used by TCG plugin inside of qemu_plugin_vcpu_mem_cb_t callback to adjust
+> received address according to internal memory mappings and read content of guest memory.
+> Works for both user-level and system-level emulation modes.
+>
+> Signed-off-by: Mikhail Tyutin <m.tyutin@yadro.com>
+> Signed-off-by: Aleksey Titov <a.titov@yadro.com>
 
-Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-Reviewed-by: Bin Meng <bmeng@tinylab.org>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
----
- MAINTAINERS | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+> +/**
+> + * qemu_plugin_vcpu_read_phys_mem() - reads guest's memory content
+> + *
+> + * @vcpu_index: vcpu index
+> + * @addr: guest's virtual address
+> + * @buf: destination buffer to read data to
+> + * @len: number of bytes to read
+> + *
+> + * Adjusts address according to internal memory mapping and reads
+> + * content of guest memory.
+> + */
+> +void qemu_plugin_vcpu_read_phys_mem(unsigned int vcpu_index,
+> +                                    uint64_t addr,
+> +                                    void *buf,
+> +                                    uint64_t len);
+> +
+>   #endif /* QEMU_QEMU_PLUGIN_H */
+> diff --git a/plugins/api.c b/plugins/api.c
+> index 2078b16edb..95753bce95 100644
+> --- a/plugins/api.c
+> +++ b/plugins/api.c
+> @@ -442,3 +442,23 @@ uint64_t qemu_plugin_entry_code(void)
+>   #endif
+>       return entry;
+>   }
+> +
+> +void qemu_plugin_vcpu_read_phys_mem(unsigned int vcpu_index,
+> +                                    uint64_t addr,
+> +                                    void *buf,
+> +                                    uint64_t len) {
+> +#ifndef CONFIG_USER_ONLY
+> +    cpu_physical_memory_rw(addr, buf, len, false);
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 847bc7f131..fe97319fc8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -997,12 +997,6 @@ S: Maintained
- F: hw/ssi/xlnx-versal-ospi.c
- F: include/hw/ssi/xlnx-versal-ospi.h
- 
--ARM ACPI Subsystem
--M: Shannon Zhao <shannon.zhaosl@gmail.com>
--L: qemu-arm@nongnu.org
--S: Maintained
--F: hw/arm/virt-acpi-build.c
--
- STM32F100
- M: Alexandre Iooss <erdnaxe@crans.org>
- L: qemu-arm@nongnu.org
-@@ -1911,6 +1905,18 @@ F: hw/acpi/ghes.c
- F: include/hw/acpi/ghes.h
- F: docs/specs/acpi_hest_ghes.rst
- 
-+ARM ACPI Subsystem
-+M: Shannon Zhao <shannon.zhaosl@gmail.com>
-+L: qemu-arm@nongnu.org
-+S: Maintained
-+F: hw/arm/virt-acpi-build.c
-+
-+RISC-V ACPI Subsystem
-+M: Sunil V L <sunilvl@ventanamicro.com>
-+L: qemu-riscv@nongnu.org
-+S: Maintained
-+F: hw/riscv/virt-acpi-build.c
-+
- ppc4xx
- L: qemu-ppc@nongnu.org
- S: Orphan
--- 
-2.34.1
+This is the wrong API to use, because "physical memory at
+address X" can differ depending on what CPU you are and
+what state that CPU is in.
 
+> +#else
+> +    CPUClass *cc;
+> +    CPUState *cpu;
+> +
+> +    cpu = qemu_get_cpu(vcpu_index);
+> +    cc = CPU_GET_CLASS(cpu);
+> +    if (cc->memory_rw_debug) {
+> +        cc->memory_rw_debug(cpu, addr, buf, len, false);
+> +    } else {
+> +        cpu_memory_rw_debug(cpu, addr, buf, len, false);
+> +    }
+
+These ones are a bit better.
+
+> +#endif
+> +}
+> \ No newline at end of file
+
+-- PMM
 
