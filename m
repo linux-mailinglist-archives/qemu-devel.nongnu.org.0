@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA9A699BC9
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 19:05:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53A0F699BCD
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 19:05:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSic9-0008PF-UP; Thu, 16 Feb 2023 13:04:13 -0500
+	id 1pSicC-00008z-D7; Thu, 16 Feb 2023 13:04:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pSic7-0008NF-O7
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 13:04:11 -0500
-Received: from forwardcorp1c.mail.yandex.net
- ([2a02:6b8:c03:500:1:45:d181:df01])
+ id 1pSic9-0008Pg-Aa
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 13:04:13 -0500
+Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pSic5-0005lj-O0
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 13:04:11 -0500
+ id 1pSic5-0005ll-SG
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 13:04:13 -0500
 Received: from iva8-99b070b76c56.qloud-c.yandex.net
  (iva8-99b070b76c56.qloud-c.yandex.net
  [IPv6:2a02:6b8:c0c:1099:0:640:99b0:70b7])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 2A67A60129;
- Thu, 16 Feb 2023 21:04:02 +0300 (MSK)
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 07A7162242;
+ Thu, 16 Feb 2023 21:04:03 +0300 (MSK)
 Received: from vsementsov-win.yandex-team.ru (unknown
  [2a02:6b8:b081:8813::1:16])
  by iva8-99b070b76c56.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- u3q89J0Qp8c1-AgPlymGz; Thu, 16 Feb 2023 21:04:01 +0300
+ u3q89J0Qp8c1-oQhDVm0z; Thu, 16 Feb 2023 21:04:02 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1676570641; bh=LKk0NsNxWY3QySuOaRiPhRhksY881PykX1pba2KGV9c=;
+ t=1676570642; bh=10MHLiZcXhNinnYHAedT2xoeawYGH6LhBzP0neAItZM=;
  h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=fqEj5+m3xIbqD6O/DFX1G+pJZDpZO7VVFu6tw89uXbHEaNd+h2OwZsxpx9OkoYRuw
- jamT7Qw9hhswTHTYlJygeis93TdJfb44kEGEquoNeVbhRmBzRX7BFwopRXbBAuAIIZ
- lGqALdWQfldtiwlcixVQaFzUYI9fpHdcNx1Ot0i4=
+ b=XHMwk/Ap1h7x7ErXP1xjfV85klYwB6Y1jFrCQV97BlvYvEF7JPKLKBVS+BmTtpiaO
+ wckIopFv8G0iOMWOepwYKwphqJfa4ZxUxAUpeMqDuBFfyrjUhibVz750+xX1jfrIGA
+ zqyL7s5p/X3PCNrOgQ+mUhM1dKvYiHHocPugF2kk=
 Authentication-Results: iva8-99b070b76c56.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
@@ -44,16 +43,17 @@ Cc: armbru@redhat.com, eblake@redhat.com, eduardo@habkost.net,
  berrange@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
  mst@redhat.com, philmd@linaro.org, vsementsov@yandex-team.ru,
  den-plotnikov@yandex-team.ru, antonkuchin@yandex-team.ru
-Subject: [PATCH v5 01/18] pci/shpc: set attention led to OFF on reset
-Date: Thu, 16 Feb 2023 21:03:39 +0300
-Message-Id: <20230216180356.156832-2-vsementsov@yandex-team.ru>
+Subject: [PATCH v5 02/18] pci/shpc: change shpc_get_status() return type to
+ uint8_t
+Date: Thu, 16 Feb 2023 21:03:40 +0300
+Message-Id: <20230216180356.156832-3-vsementsov@yandex-team.ru>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230216180356.156832-1-vsementsov@yandex-team.ru>
 References: <20230216180356.156832-1-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+Received-SPF: pass client-ip=178.154.239.136;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -75,26 +75,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-0 is not a valid state for the led. Let's start with OFF.
+The result of the function is always one byte. The result is always
+assigned to uint8_t variable. Also, shpc_get_status() should be
+symmetric to shpc_set_status() which has uint8_t value argument.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 Reviewed-by: Anton Kuchin <antonkuchin@yandex-team.ru>
 ---
- hw/pci/shpc.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/pci/shpc.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
-index fca7f6691a..1b3f619dc9 100644
+index 1b3f619dc9..5d71569b13 100644
 --- a/hw/pci/shpc.c
 +++ b/hw/pci/shpc.c
-@@ -223,6 +223,7 @@ void shpc_reset(PCIDevice *d)
-                             SHPC_SLOT_STATUS_PRSNT_MASK);
-             shpc_set_status(shpc, i, SHPC_LED_OFF, SHPC_SLOT_PWR_LED_MASK);
-         }
-+        shpc_set_status(shpc, i, SHPC_LED_OFF, SHPC_SLOT_ATTN_LED_MASK);
-         shpc_set_status(shpc, i, 0, SHPC_SLOT_STATUS_66);
-     }
-     shpc_set_sec_bus_speed(shpc, SHPC_SEC_BUS_33);
+@@ -123,10 +123,13 @@
+ #define SHPC_PCI_TO_IDX(pci_slot) ((pci_slot) - 1)
+ #define SHPC_IDX_TO_PHYSICAL(slot) ((slot) + 1)
+ 
+-static uint16_t shpc_get_status(SHPCDevice *shpc, int slot, uint16_t msk)
++static uint8_t shpc_get_status(SHPCDevice *shpc, int slot, uint16_t msk)
+ {
+     uint8_t *status = shpc->config + SHPC_SLOT_STATUS(slot);
+-    return (pci_get_word(status) & msk) >> ctz32(msk);
++    uint16_t result = (pci_get_word(status) & msk) >> ctz32(msk);
++
++    assert(result <= UINT8_MAX);
++    return result;
+ }
+ 
+ static void shpc_set_status(SHPCDevice *shpc,
 -- 
 2.34.1
 
