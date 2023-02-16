@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCCA8699AD9
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:12:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00AD6699ADE
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:13:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pShnX-0000pS-WE; Thu, 16 Feb 2023 12:11:56 -0500
+	id 1pShnW-0000gJ-37; Thu, 16 Feb 2023 12:11:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShnU-0000bL-Gj
+ id 1pShnU-0000dE-R4
  for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:52 -0500
 Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pShnS-0007zE-CN
+ id 1pShnS-0007sY-V0
  for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:11:52 -0500
-Received: by mail-wr1-x431.google.com with SMTP id m14so2497118wrg.13
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:11:49 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id o15so2520346wrc.9
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:11:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=tgMbUsRHeiMP1zN6oNigLk88zA1/eZdSv72d9GFz8HA=;
- b=xzGzqmUfZcoiTUqYbvT+vyI6i5sw3LXjQPcgk+ov2E2shYpriY9A70MSENUFncuM3P
- VzsHYIyR8rG5bqskuI1PtlaWNod4Dd0Ux7a+xlJcpUvnBebBErnqvP0KzWy/NMqrS0ou
- QygRTj+GlT4HvA836Iva26YynWrRp1uif3nPdLQtSOlC1qxnaHf+H4AWMfKaCXYkBIMH
- 1RZZF70BxzleSlbC86CEc5NVZqi8zJ8yBARomsHYjFVo5rjtR+OLFEHV2QV/PyW+mZOo
- iX0PGnj3pI3y9biqrmeCHW996Q7rLJH8UpQ7iQSoYkbJ2vlQ4YASkpwDgCH3kXxtxwex
- 3yGg==
+ :reply-to; bh=XVRtdPWy6SO/+ib4dr2eJvk7NAPUzEubpNbchybnbuU=;
+ b=P2VxbLaosfCf1ciXxTbdEXDxtGbVReKmF58y+bRoIHDTkKoOKK/h1nOrWP6gMjil9S
+ SELZG2uF2HL4LhGv9XWgilwQCFcoHjoD0Pl+0C/NHaZZ5dRqZu2MaovVSegM8wB3ZnQ/
+ lbCL2t5flQZhs5di4GCMZUxz2/Vs+svSOOOCsaG4rm9vYQEMBKliuoM3dq5ZVzGDvurW
+ lnMPeAGFaP1UBYtSm/MiLINdp7W/v7IEPTjtmxy7/+HU9DppwGAaF7EfM2KChylr5RxK
+ mWLdvFf9xqeqnO83CtKQi+eC9Li7too11kdlQ/AL9KJVAD3lnUImhtitTpGXFllhgFZJ
+ 8/bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=tgMbUsRHeiMP1zN6oNigLk88zA1/eZdSv72d9GFz8HA=;
- b=wHRiPVHAACg+agvqXPE65nw5WgFI/aXWVrEHMlL/cIpqL0MDpXceDXjoqWxr4o/r/e
- WM7tPjwPfkTGXsm71Un5WzUm3AKT6kNsmp/C88Tv55aP0CsK5Hy1Jr58j96lmSIjiNc/
- OHFBrDGQYmmnfcVdwqjv4CczclumPYZ0bjNijP0qbgUYcwt6KqGkosSsCf93coly+mk6
- BOoRkkgzJfyuIWRMb77cuty/FH/eE5DyVfvDnYr6GHMv22hA1OlEhsrQqEd0NyerCwp+
- gmVrrSHAB38ZDBmK5XKsOG2a/P3hVNvYZg3B4/pokXttajwtHT3P7nGlNEmxQ4xRtOvD
- 0+dg==
-X-Gm-Message-State: AO0yUKWeovI+/zIfJ2ZjlXExnckmdsV+vAhtvULpCo87wGIv1Ta/Ut78
- gASJ7D3Lc2NdaMVHcFrJbfAuQvvZfaKzv5Wu
-X-Google-Smtp-Source: AK7set/zbAPGiatm02NppjEpqUmNRHProWlmoVsRS0Z/Se3qAuBwTBnRUEPbnoox0YTEH5sFIOrzcg==
-X-Received: by 2002:adf:f087:0:b0:2c5:6036:2567 with SMTP id
- n7-20020adff087000000b002c560362567mr5368430wro.11.1676567508992; 
- Thu, 16 Feb 2023 09:11:48 -0800 (PST)
+ bh=XVRtdPWy6SO/+ib4dr2eJvk7NAPUzEubpNbchybnbuU=;
+ b=nHQH6Te/IwZBG95iiPLloPHkuDq6yx5GnZ0nxt5z9MOxSpcSfcSyOxa/7+2DgPAEWO
+ Vn0T8HuYDxVvIADX58T0LJ87Xio6LQytXuGwIFhc2GPo2JaleqZ3vU2eX5vQC6IKJBJt
+ gplrFLy4pWn/CU5tsHpcI1pCmMGBldH3etJOI6bbSaJ11OvjNxgQLpr+mA8KDz7wCrm3
+ km8h167qlQg93fHLNU/oLH5imBZ+NbIyuho+bBrUK0/ZfxTtuwUKwRKC7AUfHw8gtnP+
+ 89wBawNmKpyDXAifZ0s+cXZGTey+mMlesjEBDJSu1zcg7+ArC73hujTrPpu0R7Xvw+6I
+ qLMg==
+X-Gm-Message-State: AO0yUKXFeybQlpkSxDx/aEONoeO5M+1B9+BK/JaZdJmQVOFzCwnNwRS6
+ gXfABGhsP02PBvMw4VmjWZRmdd8wlfb2uMdN
+X-Google-Smtp-Source: AK7set+/seRN9IpQ+GZOlm+Df85F2En9TdX88UpFgkwU402PUdXFhbUf05JunGmuH8E9QV2SNw9aaQ==
+X-Received: by 2002:a5d:6486:0:b0:2c5:519f:307a with SMTP id
+ o6-20020a5d6486000000b002c5519f307amr2844105wri.30.1676567510137; 
+ Thu, 16 Feb 2023 09:11:50 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- f12-20020a5d4dcc000000b002c556a4f1casm2049107wru.42.2023.02.16.09.11.47
+ f12-20020a5d4dcc000000b002c556a4f1casm2049107wru.42.2023.02.16.09.11.49
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 09:11:47 -0800 (PST)
+ Thu, 16 Feb 2023 09:11:49 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/30] tests/avocado: Tag TCG tests with accel:tcg
-Date: Thu, 16 Feb 2023 17:11:20 +0000
-Message-Id: <20230216171123.2518285-28-peter.maydell@linaro.org>
+Subject: [PULL 28/30] target/arm: Use "max" as default cpu for the virt
+ machine with KVM
+Date: Thu, 16 Feb 2023 17:11:21 +0000
+Message-Id: <20230216171123.2518285-29-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230216171123.2518285-1-peter.maydell@linaro.org>
 References: <20230216171123.2518285-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::431;
  envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
@@ -91,56 +91,37 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Fabiano Rosas <farosas@suse.de>
 
-This allows the test to be skipped when TCG is not present in the QEMU
-binary.
+Now that the cortex-a15 is under CONFIG_TCG, use as default CPU for a
+KVM-only build the 'max' cpu.
+
+Note that we cannot use 'host' here because the qtests can run without
+any other accelerator (than qtest) and 'host' depends on KVM being
+enabled.
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- tests/avocado/boot_linux_console.py | 1 +
- tests/avocado/reverse_debugging.py  | 8 ++++++++
- 2 files changed, 9 insertions(+)
+ hw/arm/virt.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
-index be60f8cda9a..574609bf43b 100644
---- a/tests/avocado/boot_linux_console.py
-+++ b/tests/avocado/boot_linux_console.py
-@@ -997,6 +997,7 @@ def test_arm_orangepi_uboot_netbsd9(self):
- 
-     def test_aarch64_raspi3_atf(self):
-         """
-+        :avocado: tags=accel:tcg
-         :avocado: tags=arch:aarch64
-         :avocado: tags=machine:raspi3b
-         :avocado: tags=cpu:cortex-a53
-diff --git a/tests/avocado/reverse_debugging.py b/tests/avocado/reverse_debugging.py
-index d2921e70c3b..680c314cfcc 100644
---- a/tests/avocado/reverse_debugging.py
-+++ b/tests/avocado/reverse_debugging.py
-@@ -173,6 +173,10 @@ def reverse_debugging(self, shift=7, args=None):
-         vm.shutdown()
- 
- class ReverseDebugging_X86_64(ReverseDebugging):
-+    """
-+    :avocado: tags=accel:tcg
-+    """
-+
-     REG_PC = 0x10
-     REG_CS = 0x12
-     def get_pc(self, g):
-@@ -190,6 +194,10 @@ def test_x86_64_pc(self):
-         self.reverse_debugging()
- 
- class ReverseDebugging_AArch64(ReverseDebugging):
-+    """
-+    :avocado: tags=accel:tcg
-+    """
-+
-     REG_PC = 32
- 
-     # unidentified gitlab timeout problem
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 8d13e4486b1..ac626b3bef7 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -3013,7 +3013,11 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+     mc->minimum_page_bits = 12;
+     mc->possible_cpu_arch_ids = virt_possible_cpu_arch_ids;
+     mc->cpu_index_to_instance_props = virt_cpu_index_to_props;
++#ifdef CONFIG_TCG
+     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-a15");
++#else
++    mc->default_cpu_type = ARM_CPU_TYPE_NAME("max");
++#endif
+     mc->get_default_cpu_node_id = virt_get_default_cpu_node_id;
+     mc->kvm_type = virt_kvm_type;
+     assert(!mc->get_hotplug_handler);
 -- 
 2.34.1
 
