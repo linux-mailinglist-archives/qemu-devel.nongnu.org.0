@@ -2,97 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B46E6699B3E
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:27:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA726699ABD
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:03:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSi1v-0002db-M6; Thu, 16 Feb 2023 12:26:47 -0500
+	id 1pShea-0000mf-NQ; Thu, 16 Feb 2023 12:02:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jwd@defmacro.it>)
- id 1pShQp-0000fY-FS; Thu, 16 Feb 2023 11:48:27 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pSheY-0000kw-Rh
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:02:39 -0500
+Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jwd@defmacro.it>)
- id 1pShQl-0004SJ-CF; Thu, 16 Feb 2023 11:48:27 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 985685C02B9;
- Thu, 16 Feb 2023 11:48:22 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 16 Feb 2023 11:48:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=defmacro.it; h=
- cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1676566102; x=1676652502; bh=rn
- 5AfEGiZi1w60FdHUG2ifk5DfKsujysR5waAbJ4x4c=; b=SjJxTF5ChPGkNkEjK1
- 8rOmsdS+gdrXwVeUam0WTLPlLE7Y58ogLtaxUTpFUzYv+CYN7jNrmHVuaCdE9fqg
- UkwXtU9o6VZv9JdCq2sxo6Mwxus0oDPCgS75mNy0tRZRp193BgBNLhPq7xpEEHuS
- tWhIt9TCiBHrRGp4sW4CF7egVp9k1e2SztO14dI9LD5Fgz01X9knxFjqolUzyJLw
- OrS2+U7B3nnWX2Ijir0TMmYkp1UazGHADEk1cbbUkYmBbXW2hEdsdq+JiPsoH7WM
- QgzPR451+nTbWWgSNYujv3oEpqxs8yG8tDOqO3xuJkTHAWcz8sfoqJhAVwx1TG13
- efog==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1676566102; x=1676652502; bh=rn5AfEGiZi1w6
- 0FdHUG2ifk5DfKsujysR5waAbJ4x4c=; b=dWHk196PxTxd/D6FRijE+70rZ1qWD
- wjBS2IMgKLFclcmbI0ATlOE4wgz4Xg4HK6wSHuWi2hnaYAANYYggMxv4/++uHPHc
- rDRlKTWjVe9m4SqRgVyupZt8YoXi8gTSScJp7up7I5dZp4EsyfnlFGT871f6ZlMu
- Ia4qQyzyhDblnbk6OVOIdjtWEXgVMODLrAMo/K2aV+HIXB/4a1Bsdy4e8Xd9iONi
- ticM33Oy3Sjl4NzLeoJN+War6BWlYqvPlxQEw5CG3346+13fGKgVpR6mZyd2xnL5
- ZJw7oNXvYPbG8yVDT5QLeHkth2JoEvMVsUTymEhjzy+qHFaOM8IGE+caQ==
-X-ME-Sender: <xms:Vl7uY2usu_Avat-Q9asxuqtr6DYdCsky_WuvlJ75uMiaWsCI9EZg4Q>
- <xme:Vl7uY7enaiGG29ZbIomhikAavFjtzlU8UFLx9IVe9e7S2OSb47qMtrD3b8ioWNHD2
- NUUFCwVI-OX8IakDr8>
-X-ME-Received: <xmr:Vl7uYxwrLFNQ1YfSIPFxcQaBrT30Cvj3jhagm8PhJjeGg4OGulky4wBXibz9sgXWTM-zS6fTkH2DayOH7XwBgnOjQA1fmA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeijedgleduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomheplfgvshhp
- vghrucffvghvrghnthhivghruceojhifugesuggvfhhmrggtrhhordhitheqnecuggftrf
- grthhtvghrnheptdefjeffudffhefhteevgfeliedtheduffduvdeiudehheelgedvheeh
- ledvteejnecuffhomhgrihhnpedvtdduledqtdekrdhorhhgnecuvehluhhsthgvrhfuih
- iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhifugesuggvfhhmrggtrhhordhi
- th
-X-ME-Proxy: <xmx:Vl7uYxPvPGPgpAc3OPP2rNUz-Tf1kJazvd3RCiCfmjs9OEU-WZG2Qw>
- <xmx:Vl7uY2-hhBuuTkIVkzmLwUb1KPFwwZ0Z8TCZe9iNEPDuiS-OBDnM7w>
- <xmx:Vl7uY5USvXVOEVh4esPuDDJYkCEyzijRpl6DYxnIn_zi4ObpevG3Yg>
- <xmx:Vl7uY31tolxp40J2WbgryyFZ5gcLTDILR2QkqINKG5yfdVoVOC1GWw>
-Feedback-ID: i0f41475f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Feb 2023 11:48:20 -0500 (EST)
-From: Jesper Devantier <jwd@defmacro.it>
-To: jwd@defmacro.it,
-	qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Klaus Jensen <its@irrelevant.dk>,
- Fam Zheng <fam@euphon.net>, Keith Busch <kbusch@kernel.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Jesper Devantier <j.devantier@samsung.com>,
- Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH 5/5] hw/nvme: flexible data placement emulation
-Date: Thu, 16 Feb 2023 17:48:06 +0100
-Message-Id: <20230216164806.233533-6-jwd@defmacro.it>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230216164806.233533-1-jwd@defmacro.it>
-References: <20230216164806.233533-1-jwd@defmacro.it>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pSheW-0002kX-5z
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:02:38 -0500
+Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
+ (iva4-f06c35e68a0a.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:152e:0:640:f06c:35e6])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 534E861EE2;
+ Thu, 16 Feb 2023 20:02:29 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:8813::1:16] (unknown
+ [2a02:6b8:b081:8813::1:16])
+ by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ S2pT790R00U1-Z39DvYbi; Thu, 16 Feb 2023 20:02:28 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1676566948; bh=AvUhGzXjt2ymreYc9TyOrL8/jo+X+o+tiv+CMAIV+gg=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=FHbdEiIJqyrAUC0M9TA9aUJMRFGp0TglE2lQVJuUGVprELeRQhz0wPJ+RvvVRoH0e
+ fT24cMUFjBfoTQK2M73vlxvNEP5Z3la2OpRxiV1pgfh5V/5zoG0j6ye5Dob3z0wOCh
+ E4LPpKqW05TLCoUZ9vnL4WdfF9VJ3Bb+caDkDsqg=
+Authentication-Results: iva4-f06c35e68a0a.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <0a749ec2-3b5a-64dc-909e-803222d7a3d8@yandex-team.ru>
+Date: Thu, 16 Feb 2023 20:02:28 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] qemu: make version available in coredump
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, Laszlo Ersek <lersek@redhat.com>
+References: <20220607203221.966261-1-vsementsov@yandex-team.ru>
+ <CAJSP0QVNnGg+5OkDwpk3Kgc=kicsSt+f5QVg1tyd+ze76N_KVw@mail.gmail.com>
+ <Y+368RcZsG+t7SjW@redhat.com>
+ <56843688-7985-2e54-de54-817298f213eb@yandex-team.ru>
+ <Y+4bd1ao+o1ZLmTP@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <Y+4bd1ao+o1ZLmTP@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=jwd@defmacro.it;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=178.154.239.136;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.351,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URI_NOVOWEL=0.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 16 Feb 2023 12:26:45 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,1629 +80,157 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Jesper Devantier <j.devantier@samsung.com>
+On 16.02.23 15:03, Daniel P. Berrangé wrote:
+> On Thu, Feb 16, 2023 at 02:30:16PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+>> On 16.02.23 12:44, Daniel P. Berrangé wrote:
+>>> On Wed, Feb 15, 2023 at 05:05:47PM -0500, Stefan Hajnoczi wrote:
+>>>> On Tue, 7 Jun 2022 at 16:33, Vladimir Sementsov-Ogievskiy
+>>>> <vsementsov@yandex-team.ru> wrote:
+>>>>>
+>>>>> Add a variable with QEMU_FULL_VERSION definition. Then the content of
+>>>>> the variable is easily searchable:
+>>>>>
+>>>>>      strings /path/to/core | grep QEMU_FULL_VERSION
+>>>>>
+>>>>> 'volatile' keyword is used to avoid removing the variable by compiler as
+>>>>> unused.
+>>>>>
+>>>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>>>>> ---
+>>>>>
+>>>>> Hi all!
+>>>>>
+>>>>> Probably, I just don't know the correct way to get version from core
+>>>>> file. If so, please teach me :)
+>>>>
+>>>> I've never hit this issue because bug reports usually include the QEMU
+>>>> distro package version. Keeping the version string in the core file
+>>>> seems reasonable (unless there is already another way to do this).
+>>>>
+>>>> Something I'm curious about: is the coredump guaranteed to contain
+>>>> static const variables? I wondered if they might be located in the
+>>>> .rodata ELF section and excluded from the coredump because they are
+>>>> referenced in the NT_FILE mmap note instead. Maybe volatile prevents
+>>>> this?
+>>>
+>>> In Fedora / RHEL based systems (and some other distros too IIUC) for
+>>> many years, all binaries have included a "build-id" ELF note which
+>>> uniquely identifies the package build.
+>>>
+>>> Note section [ 3] '.note.gnu.build-id' of 36 bytes at offset 0x3c0:
+>>>     Owner          Data size  Type
+>>>     GNU                   20  GNU_BUILD_ID
+>>>       Build ID: e3143405b7f653a0a65b3295df760fdf2c09ba79
+>>>
+>>> This can be used to query what RPM it came from (assuming the RPM
+>>> is still in your repos)
+>>>
+>>>    dnf repoquery --whatprovides debuginfo(build-id) = ...hash...
+>>>
+>>> this makes it into the coredump files and is what current distro
+>>> tooling uses to find the binary (and libraries).
+>>>
+>>> There are some downsides/limitations with this though, so in
+>>> Fedora 36 a new impl was added alongside which provides full
+>>> package info in json
+>>>
+>>> Note section [ 5] '.note.package' of 136 bytes at offset 0x404:
+>>>     Owner          Data size  Type
+>>>     FDO                  120  FDO_PACKAGING_METADATA
+>>>       Packaging Metadata: {"type":"rpm","name":"qemu","version":"7.0.0-13.fc37","architecture":"x86_64","osCpe":"cpe:/o:fedoraproject:fedora:37"}
+>>
+>> Looks very good
+>>
+>>>
+>>> This format is supported by systemd core dump tools
+>>>
+>>>     https://systemd.io/ELF_PACKAGE_METADATA/
+>>>
+>>> I believe it has been proposed (and possibly implemented?) for
+>>> Debian too.
+>>>
+>>> This is a long winded way of asking, do we really need a QEMU specific
+>>> solution here ? Especially one that only tells us a QEMU verison, and
+>>> nothing about the many libraries QEMU links to which affect its
+>>> operational behaviour.
+>>
+>>
+>> Generic solution is of course better.
+>>
+>> Hmm. I'm on Ubuntu 22.04.
+>>
+>> readelf -n /usr/bin/qemu-system-x86_64
+>>
+>> Displaying notes found in: .note.gnu.property
+>>    Owner                Data size        Description
+>>    GNU                  0x00000020       NT_GNU_PROPERTY_TYPE_0
+>>        Properties: x86 feature: IBT, SHSTK
+>>          x86 ISA needed: x86-64-baseline
+>>
+>> Displaying notes found in: .note.gnu.build-id
+>>    Owner                Data size        Description
+>>    GNU                  0x00000014       NT_GNU_BUILD_ID (unique build ID bitstring)
+>>      Build ID: 4298cd7c2623c58e1cd71668d9d48508bb7f8d52
+>>
+>> Displaying notes found in: .note.ABI-tag
+>>    Owner                Data size        Description
+>>    GNU                  0x00000010       NT_GNU_ABI_TAG (ABI version tag)
+>>      OS: Linux, ABI: 3.2.0
+>>
+>>
+>> OK. But I can't find this build-id in core file..
+>>
+>> readelf -n /tmp/cores/core.qemu-system-x86.20351.vsementsov-win.1676544081 | grep -i 'build'  ----  gets nothing
+>>
+>> strings /tmp/cores//core.qemu-system-x86.20351.vsementsov-win.1676544081 | grep 4298cd7c2623c58e   ---- nothing as well
+> 
+> I don't understand why that's not visible directly, I guess it must
+> be encoded in some binary format instead, because at least tools like
+> eu-unstrip can extract it. eg "
+> 
+> # eu-unstrip -n --core a
 
-Add emulation of TP4146 ("Flexible Data Placement").
+O, great! That works for me on Ubuntu.
 
-Signed-off-by: Jesper Devantier <j.devantier@samsung.com>
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/nvme/ctrl.c       | 703 ++++++++++++++++++++++++++++++++++++++++++-
- hw/nvme/ns.c         | 141 +++++++++
- hw/nvme/nvme.h       |  85 +++++-
- hw/nvme/subsys.c     |  94 +++++-
- hw/nvme/trace-events |   5 +
- include/block/nvme.h | 168 ++++++++++-
- 6 files changed, 1186 insertions(+), 10 deletions(-)
+> 0x558ff8145000+0xd3f000 e3143405b7f653a0a65b3295df760fdf2c09ba79@0x558ff81453d0 . - /usr/bin/qemu-system-x86_64
+> 0x7fffdf36e000+0x1000 9ff92e165010e0806172add635849ec55533b287@0x7fffdf36e554 . - linux-vdso.so.1
+> 0x7f00d2e35000+0x6028 e62598a2d2be298ca20184413edea75fc5a3f1d7@0x7f00d2e352f8 /usr/bin/../lib64/qemu/accel-tcg-x86_64.so - accel-tcg-x86_64.so
+> 0x7f00d02bd000+0x432b0 05ba68b0c1f03dd879a78a4a8b75713d7134bdbc@0x7f00d02bd2f8 /usr/lib64/gvfs/libgvfscommon.so - libgvfscommon.so
+> 0x7f00d0301000+0x34300 7c9fd184be4d2c3593d4901feca9fd59c4981d11@0x7f00d03012f8 /usr/lib64/gio/modules/libgvfsdbus.so - libgvfsdbus.so
+> 0x7f00d2e3c000+0xf0e0 08e41432bd5cec0b0dd36158402ce963c711e46f@0x7f00d2e3c2f8 /usr/lib64/gio/modules/libdconfsettings.so - libdconfsettings.so
+> 0x7f00d0491000+0x22008 ee65b3f0999329d66676c60df8ed1feaab83e15f@0x7f00d04912f8 /lib64/libbrotlicommon.so.1 - libbrotlicommon.so.1
+> 0x7f00d094b000+0x8008 73a48146553f6009aea4cbfe65a01fed665c9bed@0x7f00d094b2f8 /lib64/libdatrie.so.1 - libdatrie.so.1
+> 0x7f00d0954000+0x22008 5c9099941d5c7af74f952367da1368a78d06347c@0x7f00d09542f8 /lib64/liblz4.so.1 - liblz4.so.1
+> 0x7f00d0977000+0x9038 f3f24bb6e411e3885602e753eda1e764fc1f5bfb@0x7f00d09772f8 /lib64/libcap.so.2 - libcap.so.2
+> 0x7f00ca200000+0x1d05008 47276216e74b87c4b9bd01ac85c7bf332e6f2aed@0x7f00ca2002c0 /lib64/libicudata.so.71 - libicudata.so.71
+> 0x7f00d0981000+0x5020 5f69b36d838d0ec4967f94dd1ea95fd830262997@0x7f00d09812f8 /lib64/libXau.so.6 - libXau.so.6
+> 0x7f00d0987000+0xc008 5fc05a35af263c2149bb2c0fae2533c2ebe0a225@0x7f00d09872f8 /lib64/libbrotlidec.so.1 - libbrotlidec.so.1
+> 0x7f00d0994000+0x12c08 101a76ab214af7a108f9a601fd298bcf405eff5d@0x7f00d09942f8 /lib64/libbz2.so.1 - libbz2.so.1
+> 0x7f00d04b4000+0x14beb8 931d94ba5734f5d1a4b24af1283af44c786ef5d0@0x7f00d04b42f8 /lib64/libsqlite3.so.0 - libsqlite3.so.0
+> 0x7f00d09a7000+0x2b198 e21ae41532eae88d92bd3b18dd7cba5d3873f960@0x7f00d09a72f8 /lib64/libjson-glib-1.0.so.0 - libjson-glib-1.0.so.0
+> 0x7f00d0600000+0x32e328 f4748e4011f7e0fd328ade31e62bc9167e417b74@0x7f00d06002f8 /lib64/libicui18n.so.71 - libicui18n.so.71
+> 0x7f00d09d3000+0x540a8 a3251522721d67203dd4dbe5166334f6643d16c0@0x7f00d09d32f8 /lib64/libstemmer.so.0 - libstemmer.so.0
+> 0x7f00d0a28000+0x3c4a8 62c94aa0bc23c6d131160f48caaef6afdc7625ca@0x7f00d0a282f8 /lib64/libatspi.so.0 - libatspi.so.0
+> 0x7f00d0a65000+0x542c8 d0687c050fb1599e99195661d70fdbbe6bf9c4b1@0x7f00d0a652f8 /lib64/libdbus-1.so.3 - libdbus-1.so.3
+> 0x7f00d0aba000+0x179728 946e0bba5825d11471d055a39041747e2db65d7a@0x7f00d0aba2f8 /lib64/libxml2.so.2 - libxml2.so.2
+> 0x7f00d0c34000+0x21008 24975d617308ccea1539745afa0ace7a6057f225@0x7f00d0c342f8 /lib64/libgraphite2.so.3 - libgraphite2.so.3
+> 0x7f00d0c56000+0xa870 99e9f4339b7296c8be1d4e1a51049598ffc9af1e@0x7f00d0c562f8 /lib64/libthai.so.0 - libthai.so.0
+> 0x7f00d0c61000+0xdc578 35de99f90f9858bb028b57fa6eef9d8238562527@0x7f00d0c61330 /lib64/libsystemd.so.0 - libsystemd.so.0
+> 0x7f00d0d3e000+0x1fc2a0 f0a97a601f057dd0739c60482ff1b33c5e054456@0x7f00d0d3e2f8 /lib64/libicuuc.so.71 - libicuuc.so.71
+> 
+>> So the case is to find the package not having the binary, only by core file.
+>>
+>> Probably right solution is to fix our workflow so that if you have core file you always have corresponding binary as well.
+> 
+> With debuginfod present, Fedora can find the binaries, even if they
+> are not installed. Older RHEL versions probably lack this, but IIRC
+> it should bein RHEL-9
+> 
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 17e6b430e2..b894bda326 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -238,6 +238,8 @@ static const bool nvme_feature_support[NVME_FID_MAX] = {
-     [NVME_TIMESTAMP]                = true,
-     [NVME_HOST_BEHAVIOR_SUPPORT]    = true,
-     [NVME_COMMAND_SET_PROFILE]      = true,
-+    [NVME_FDP_MODE]                 = true,
-+    [NVME_FDP_EVENTS]               = true,
- };
- 
- static const uint32_t nvme_feature_cap[NVME_FID_MAX] = {
-@@ -249,6 +251,8 @@ static const uint32_t nvme_feature_cap[NVME_FID_MAX] = {
-     [NVME_TIMESTAMP]                = NVME_FEAT_CAP_CHANGE,
-     [NVME_HOST_BEHAVIOR_SUPPORT]    = NVME_FEAT_CAP_CHANGE,
-     [NVME_COMMAND_SET_PROFILE]      = NVME_FEAT_CAP_CHANGE,
-+    [NVME_FDP_MODE]                 = NVME_FEAT_CAP_CHANGE,
-+    [NVME_FDP_EVENTS]               = NVME_FEAT_CAP_CHANGE | NVME_FEAT_CAP_NS,
- };
- 
- static const uint32_t nvme_cse_acs[256] = {
-@@ -281,6 +285,8 @@ static const uint32_t nvme_cse_iocs_nvm[256] = {
-     [NVME_CMD_VERIFY]               = NVME_CMD_EFF_CSUPP,
-     [NVME_CMD_COPY]                 = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_LBCC,
-     [NVME_CMD_COMPARE]              = NVME_CMD_EFF_CSUPP,
-+    [NVME_CMD_IO_MGMT_RECV]         = NVME_CMD_EFF_CSUPP,
-+    [NVME_CMD_IO_MGMT_SEND]         = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_LBCC,
- };
- 
- static const uint32_t nvme_cse_iocs_zoned[256] = {
-@@ -299,12 +305,66 @@ static const uint32_t nvme_cse_iocs_zoned[256] = {
- 
- static void nvme_process_sq(void *opaque);
- static void nvme_ctrl_reset(NvmeCtrl *n, NvmeResetType rst);
-+static inline uint64_t nvme_get_timestamp(const NvmeCtrl *n);
- 
- static uint16_t nvme_sqid(NvmeRequest *req)
- {
-     return le16_to_cpu(req->sq->sqid);
- }
- 
-+static inline uint16_t nvme_make_pid(NvmeNamespace *ns, uint16_t rg,
-+                                     uint16_t ph)
-+{
-+    uint16_t rgif = ns->endgrp->fdp.rgif;
-+
-+    if (!rgif) {
-+        return ph;
-+    }
-+
-+    return (rg << (16 - rgif)) | ph;
-+}
-+
-+static inline bool nvme_ph_valid(NvmeNamespace *ns, uint16_t ph)
-+{
-+    return ph < ns->fdp.nphs;
-+}
-+
-+static inline bool nvme_rg_valid(NvmeEnduranceGroup *endgrp, uint16_t rg)
-+{
-+    return rg < endgrp->fdp.nrg;
-+}
-+
-+static inline uint16_t nvme_pid2ph(NvmeNamespace *ns, uint16_t pid)
-+{
-+    uint16_t rgif = ns->endgrp->fdp.rgif;
-+
-+    if (!rgif) {
-+        return pid;
-+    }
-+
-+    return pid & ((1 << (15 - rgif)) - 1);
-+}
-+
-+static inline uint16_t nvme_pid2rg(NvmeNamespace *ns, uint16_t pid)
-+{
-+    uint16_t rgif = ns->endgrp->fdp.rgif;
-+
-+    if (!rgif) {
-+        return 0;
-+    }
-+
-+    return pid >> (16 - rgif);
-+}
-+
-+static inline bool nvme_parse_pid(NvmeNamespace *ns, uint16_t pid,
-+                                  uint16_t *ph, uint16_t *rg)
-+{
-+    *rg = nvme_pid2rg(ns, pid);
-+    *ph = nvme_pid2ph(ns, pid);
-+
-+    return nvme_ph_valid(ns, *ph) && nvme_rg_valid(ns->endgrp, *rg);
-+}
-+
- static void nvme_assign_zone_state(NvmeNamespace *ns, NvmeZone *zone,
-                                    NvmeZoneState state)
- {
-@@ -378,6 +438,69 @@ static uint16_t nvme_aor_check(NvmeNamespace *ns, uint32_t act, uint32_t opn)
-     return nvme_zns_check_resources(ns, act, opn, 0);
- }
- 
-+static NvmeFdpEvent *nvme_fdp_alloc_event(NvmeCtrl *n, NvmeFdpEventBuffer *ebuf)
-+{
-+    NvmeFdpEvent *ret = NULL;
-+    bool is_full = ebuf->next == ebuf->start && ebuf->nelems;
-+
-+    ret = &ebuf->events[ebuf->next++];
-+    if (unlikely(ebuf->next == NVME_FDP_MAX_EVENTS)) {
-+        ebuf->next = 0;
-+    }
-+    if (is_full) {
-+        ebuf->start = ebuf->next;
-+    } else {
-+        ebuf->nelems++;
-+    }
-+
-+    memset(ret, 0, sizeof(NvmeFdpEvent));
-+    ret->timestamp = nvme_get_timestamp(n);
-+
-+    return ret;
-+}
-+
-+static inline int log_event(NvmeRuHandle *ruh, uint8_t event_type)
-+{
-+    return (ruh->event_filter >> nvme_fdp_evf_shifts[event_type]) & 0x1;
-+}
-+
-+static bool nvme_update_ruh(NvmeCtrl *n, NvmeNamespace *ns, uint16_t pid)
-+{
-+    NvmeEnduranceGroup *endgrp = ns->endgrp;
-+    NvmeRuHandle *ruh;
-+    NvmeReclaimUnit *ru;
-+    NvmeFdpEvent *e = NULL;
-+    uint16_t ph, rg, ruhid;
-+
-+    if (!nvme_parse_pid(ns, pid, &ph, &rg)) {
-+        return false;
-+    }
-+
-+    ruhid = ns->fdp.phs[ph];
-+
-+    ruh = &endgrp->fdp.ruhs[ruhid];
-+    ru = &ruh->rus[rg];
-+
-+    if (ru->ruamw) {
-+        if (log_event(ruh, FDP_EVT_RU_NOT_FULLY_WRITTEN)) {
-+            e = nvme_fdp_alloc_event(n, &endgrp->fdp.host_events);
-+            e->type = FDP_EVT_RU_NOT_FULLY_WRITTEN;
-+            e->flags = FDPEF_PIV | FDPEF_NSIDV | FDPEF_LV;
-+            e->pid = cpu_to_le16(pid);
-+            e->nsid = cpu_to_le32(ns->params.nsid);
-+            e->rgid = cpu_to_le16(rg);
-+            e->ruhid = cpu_to_le16(ruhid);
-+        }
-+
-+        /* log (eventual) GC overhead of prematurely swapping the RU */
-+        nvme_fdp_stat_inc(&endgrp->fdp.mbmw, nvme_l2b(ns, ru->ruamw));
-+    }
-+
-+    ru->ruamw = ruh->ruamw;
-+
-+    return true;
-+}
-+
- static bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr)
- {
-     hwaddr hi, lo;
-@@ -3322,6 +3445,44 @@ invalid:
-     return status | NVME_DNR;
- }
- 
-+static void nvme_do_write_fdp(NvmeCtrl *n, NvmeRequest *req, uint64_t slba,
-+                              uint32_t nlb)
-+{
-+    NvmeNamespace *ns = req->ns;
-+    NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
-+    uint64_t data_size = nvme_l2b(ns, nlb);
-+    uint32_t dw12 = le32_to_cpu(req->cmd.cdw12);
-+    uint8_t dtype = (dw12 >> 20) & 0xf;
-+    uint16_t pid = le16_to_cpu(rw->dspec);
-+    uint16_t ph, rg, ruhid;
-+    NvmeReclaimUnit *ru;
-+
-+    if (dtype != NVME_DIRECTIVE_DATA_PLACEMENT
-+        || !nvme_parse_pid(ns, pid, &ph, &rg)) {
-+        ph = 0;
-+        rg = 0;
-+    }
-+
-+    ruhid = ns->fdp.phs[ph];
-+    ru = &ns->endgrp->fdp.ruhs[ruhid].rus[rg];
-+
-+    nvme_fdp_stat_inc(&ns->endgrp->fdp.hbmw, data_size);
-+    nvme_fdp_stat_inc(&ns->endgrp->fdp.mbmw, data_size);
-+
-+    //trace_pci_nvme_fdp_ruh_write(ruh->rgid, ruh->ruhid, ruh->nlb_ruamw, nlb);
-+
-+    while (nlb) {
-+        if (nlb < ru->ruamw) {
-+            ru->ruamw -= nlb;
-+            break;
-+        }
-+
-+        nlb -= ru->ruamw;
-+        //trace_pci_nvme_fdp_ruh_change(ruh->rgid, ruh->ruhid);
-+        nvme_update_ruh(n, ns, pid);
-+    }
-+}
-+
- static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
-                               bool wrz)
- {
-@@ -3431,6 +3592,8 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
-         if (!(zone->d.za & NVME_ZA_ZRWA_VALID)) {
-             zone->w_ptr += nlb;
-         }
-+    } else if (ns->endgrp && ns->endgrp->fdp.enabled) {
-+        nvme_do_write_fdp(n, req, slba, nlb);
-     }
- 
-     data_offset = nvme_l2b(ns, slba);
-@@ -4088,6 +4251,126 @@ static uint16_t nvme_zone_mgmt_recv(NvmeCtrl *n, NvmeRequest *req)
-     return status;
- }
- 
-+static uint16_t nvme_io_mgmt_recv_ruhs(NvmeCtrl *n, NvmeRequest *req,
-+                                       size_t len)
-+{
-+    NvmeNamespace *ns = req->ns;
-+    NvmeEnduranceGroup *endgrp;
-+    NvmeRuhStatus *hdr;
-+    NvmeRuhStatusDescr *ruhsd;
-+    unsigned int nruhsd;
-+    uint16_t rg, ph, *ruhid;
-+    size_t trans_len;
-+    g_autofree uint8_t *buf = NULL;
-+
-+    if (!n->subsys) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-+    if (ns->params.nsid == 0 || ns->params.nsid == 0xffffffff) {
-+        return NVME_INVALID_NSID | NVME_DNR;
-+    }
-+
-+    if (!n->subsys->endgrp.fdp.enabled) {
-+        return NVME_FDP_DISABLED | NVME_DNR;
-+    }
-+
-+    endgrp = ns->endgrp;
-+
-+    nruhsd = ns->fdp.nphs * endgrp->fdp.nrg;
-+    trans_len = sizeof(NvmeRuhStatus) + nruhsd * sizeof(NvmeRuhStatusDescr);
-+    buf = g_malloc(trans_len);
-+
-+    trans_len = MIN(trans_len, len);
-+
-+    hdr = (NvmeRuhStatus *)buf;
-+    ruhsd = (NvmeRuhStatusDescr *)(buf + sizeof(NvmeRuhStatus));
-+
-+    hdr->nruhsd = cpu_to_le16(nruhsd);
-+
-+    ruhid = ns->fdp.phs;
-+
-+    for (ph = 0; ph < ns->fdp.nphs; ph++, ruhid++) {
-+        NvmeRuHandle *ruh = &endgrp->fdp.ruhs[*ruhid];
-+
-+        for (rg = 0; rg < endgrp->fdp.nrg; rg++, ruhsd++) {
-+            uint16_t pid = nvme_make_pid(ns, rg, ph);
-+
-+            ruhsd->pid = cpu_to_le16(pid);
-+            ruhsd->ruhid = *ruhid;
-+            ruhsd->earutr = 0;
-+            ruhsd->ruamw = cpu_to_le64(ruh->rus[rg].ruamw);
-+        }
-+    }
-+
-+    return nvme_c2h(n, buf, trans_len, req);
-+}
-+
-+static uint16_t nvme_io_mgmt_recv(NvmeCtrl *n, NvmeRequest *req)
-+{
-+    NvmeCmd *cmd = &req->cmd;
-+    uint32_t cdw10 = le32_to_cpu(cmd->cdw10);
-+    uint32_t numd = le32_to_cpu(cmd->cdw11);
-+    uint8_t mo = (cdw10 & 0xff);
-+    size_t len = (numd + 1) << 2;
-+
-+    switch (mo) {
-+    case NVME_IOMR_MO_NOP:
-+        return 0;
-+    case NVME_IOMR_MO_RUH_STATUS:
-+        return nvme_io_mgmt_recv_ruhs(n, req, len);
-+    default:
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    };
-+}
-+
-+static uint16_t nvme_io_mgmt_send_ruh_update(NvmeCtrl *n, NvmeRequest *req)
-+{
-+    NvmeCmd *cmd = &req->cmd;
-+    NvmeNamespace *ns = req->ns;
-+    uint32_t cdw10 = le32_to_cpu(cmd->cdw10);
-+    uint16_t ret = NVME_SUCCESS;
-+    uint32_t npid = (cdw10 >> 1) + 1;
-+    unsigned int i = 0;
-+    g_autofree uint16_t *pids = NULL;
-+    uint32_t maxnpid = n->subsys->endgrp.fdp.nrg * n->subsys->endgrp.fdp.nruh;
-+
-+    if (unlikely(npid >= MIN(NVME_FDP_MAXPIDS, maxnpid))) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-+    pids = g_new(uint16_t, npid);
-+
-+    ret = nvme_h2c(n, pids, npid * sizeof(uint16_t), req);
-+    if (ret) {
-+        return ret;
-+    }
-+
-+    for (; i < npid; i++) {
-+        if (!nvme_update_ruh(n, ns, pids[i])) {
-+            return NVME_INVALID_FIELD | NVME_DNR;
-+        }
-+    }
-+
-+    return ret;
-+}
-+
-+static uint16_t nvme_io_mgmt_send(NvmeCtrl *n, NvmeRequest *req)
-+{
-+    NvmeCmd *cmd = &req->cmd;
-+    uint32_t cdw10 = le32_to_cpu(cmd->cdw10);
-+    uint8_t mo = (cdw10 & 0xff);
-+
-+    switch (mo) {
-+    case NVME_IOMS_MO_NOP:
-+        return 0;
-+    case NVME_IOMS_MO_RUH_UPDATE:
-+        return nvme_io_mgmt_send_ruh_update(n, req);
-+    default:
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    };
-+}
-+
- static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
- {
-     NvmeNamespace *ns;
-@@ -4164,6 +4447,10 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
-         return nvme_zone_mgmt_send(n, req);
-     case NVME_CMD_ZONE_MGMT_RECV:
-         return nvme_zone_mgmt_recv(n, req);
-+    case NVME_CMD_IO_MGMT_RECV:
-+        return nvme_io_mgmt_recv(n, req);
-+    case NVME_CMD_IO_MGMT_SEND:
-+        return nvme_io_mgmt_send(n, req);
-     default:
-         assert(false);
-     }
-@@ -4619,6 +4906,209 @@ static uint16_t nvme_cmd_effects(NvmeCtrl *n, uint8_t csi, uint32_t buf_len,
-     return nvme_c2h(n, ((uint8_t *)&log) + off, trans_len, req);
- }
- 
-+static size_t sizeof_fdp_conf_descr(size_t nruh, size_t vss)
-+{
-+    size_t entry_siz = sizeof(NvmeFdpDescrHdr) + nruh * sizeof(NvmeRuhDescr)
-+                       + vss;
-+    return ROUND_UP(entry_siz, 8);
-+}
-+
-+static uint16_t nvme_fdp_confs(NvmeCtrl *n, uint32_t endgrpid, uint32_t buf_len,
-+                               uint64_t off, NvmeRequest *req)
-+{
-+    uint32_t log_size, trans_len;
-+    g_autofree uint8_t *buf = NULL;
-+    NvmeFdpDescrHdr *hdr;
-+    NvmeRuhDescr *ruhd;
-+    NvmeEnduranceGroup *endgrp;
-+    NvmeFdpConfsHdr *log;
-+    size_t nruh, fdp_descr_size;
-+    int i;
-+
-+    if (endgrpid != 1 || !n->subsys) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-+    endgrp = &n->subsys->endgrp;
-+
-+    if (endgrp->fdp.enabled) {
-+        nruh = endgrp->fdp.nruh;
-+    } else {
-+        nruh = 1;
-+    }
-+
-+    fdp_descr_size = sizeof_fdp_conf_descr(nruh, FDPVSS);
-+    log_size = sizeof(NvmeFdpConfsHdr) + fdp_descr_size;
-+
-+    if (off >= log_size) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-+    trans_len = MIN(log_size - off, buf_len);
-+
-+    buf = g_malloc0(log_size);
-+    log = (NvmeFdpConfsHdr *)buf;
-+    hdr = (NvmeFdpDescrHdr *)(log + 1);
-+    ruhd = (NvmeRuhDescr *)(buf + sizeof(*log) + sizeof(*hdr));
-+
-+    log->num_confs = cpu_to_le16(0);
-+    log->size = cpu_to_le32(log_size);
-+
-+    hdr->descr_size = cpu_to_le16(fdp_descr_size);
-+    if (endgrp->fdp.enabled) {
-+        hdr->fdpa = FIELD_DP8(hdr->fdpa, FDPA, VALID, 1);
-+        hdr->fdpa = FIELD_DP8(hdr->fdpa, FDPA, RGIF, endgrp->fdp.rgif);
-+        hdr->nrg = cpu_to_le16(endgrp->fdp.nrg);
-+        hdr->nruh = cpu_to_le16(endgrp->fdp.nruh);
-+        hdr->maxpids = cpu_to_le16(NVME_FDP_MAXPIDS - 1);
-+        hdr->nnss = cpu_to_le32(NVME_MAX_NAMESPACES);
-+        hdr->runs = cpu_to_le64(endgrp->fdp.runs);
-+
-+        for (i = 0; i < nruh; i++) {
-+            ruhd->ruht = NVME_RUHT_INITIALLY_ISOLATED;
-+            ruhd++;
-+        }
-+    } else {
-+        /* 1 bit for RUH in PIF -> 2 RUHs max. */
-+        hdr->nrg = cpu_to_le16(1);
-+        hdr->nruh = cpu_to_le16(1);
-+        hdr->maxpids = cpu_to_le16(NVME_FDP_MAXPIDS - 1);
-+        hdr->nnss = cpu_to_le32(1);
-+        hdr->runs = cpu_to_le64(96 * MiB);
-+
-+        ruhd->ruht = NVME_RUHT_INITIALLY_ISOLATED;
-+    }
-+
-+    return nvme_c2h(n, (uint8_t *)buf + off, trans_len, req);
-+}
-+
-+static uint16_t nvme_fdp_ruh_usage(NvmeCtrl *n, uint32_t endgrpid,
-+                                   uint32_t dw10, uint32_t dw12,
-+                                   uint32_t buf_len, uint64_t off,
-+                                   NvmeRequest *req)
-+{
-+    NvmeRuHandle *ruh;
-+    NvmeRuhuLog *hdr;
-+    NvmeRuhuDescr *ruhud;
-+    NvmeEnduranceGroup *endgrp;
-+    g_autofree uint8_t *buf = NULL;
-+    uint32_t log_size, trans_len;
-+    uint16_t i;
-+
-+    trace_pci_nvme_fdp_log_ruh_usage(endgrpid);
-+
-+    if (endgrpid != 1 || !n->subsys) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-+    endgrp = &n->subsys->endgrp;
-+
-+    if (!endgrp->fdp.enabled) {
-+        return NVME_FDP_DISABLED | NVME_DNR;
-+    }
-+
-+    log_size = sizeof(NvmeRuhuLog) + endgrp->fdp.nruh * sizeof(NvmeRuhuDescr);
-+
-+    if (off >= log_size) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-+    trans_len = MIN(log_size - off, buf_len);
-+
-+    buf = g_malloc0(log_size);
-+    hdr = (NvmeRuhuLog *)buf;
-+    ruhud = (NvmeRuhuDescr *)(hdr + 1);
-+
-+    ruh = endgrp->fdp.ruhs;
-+    hdr->nruh = cpu_to_le16(endgrp->fdp.nruh);
-+
-+    for (i = 0; i < endgrp->fdp.nruh; i++, ruhud++, ruh++) {
-+        ruhud->ruha = ruh->ruha;
-+    }
-+
-+    return nvme_c2h(n, (uint8_t *)buf + off, trans_len, req);
-+}
-+
-+static uint16_t nvme_fdp_stats(NvmeCtrl *n, uint32_t endgrpid, uint32_t buf_len,
-+                               uint64_t off, NvmeRequest *req)
-+{
-+    NvmeEnduranceGroup *endgrp;
-+    NvmeFdpStatsLog log = {};
-+    uint32_t trans_len;
-+
-+    if (off >= sizeof(NvmeFdpStatsLog)) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-+    if (endgrpid != 1 || !n->subsys) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-+    if (!n->subsys->endgrp.fdp.enabled) {
-+        return NVME_FDP_DISABLED | NVME_DNR;
-+    }
-+
-+    endgrp = &n->subsys->endgrp;
-+
-+    trans_len = MIN(sizeof(log) - off, buf_len);
-+
-+    /* spec value is 128 bit, we only use 64 bit */
-+    log.hbmw[0] = cpu_to_le64(endgrp->fdp.hbmw);
-+    log.mbmw[0] = cpu_to_le64(endgrp->fdp.mbmw);
-+    log.mbe[0] = cpu_to_le64(endgrp->fdp.mbe);
-+
-+    return nvme_c2h(n, (uint8_t *)&log + off, trans_len, req);
-+}
-+
-+static uint16_t nvme_fdp_events(NvmeCtrl *n, uint32_t endgrpid,
-+                                uint32_t buf_len, uint64_t off,
-+                                NvmeRequest *req)
-+{
-+    NvmeEnduranceGroup *endgrp;
-+    NvmeCmd *cmd = &req->cmd;
-+    bool host_events = (cmd->cdw10 >> 8) & 0x1;
-+    uint32_t log_size, trans_len;
-+    NvmeFdpEventBuffer *ebuf;
-+    g_autofree NvmeFdpEventsLog *elog = NULL;
-+    NvmeFdpEvent *event;
-+
-+    if (endgrpid != 1 || !n->subsys) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-+    endgrp = &n->subsys->endgrp;
-+
-+    if (!endgrp->fdp.enabled) {
-+        return NVME_FDP_DISABLED | NVME_DNR;
-+    }
-+
-+    if (host_events) {
-+        ebuf = &endgrp->fdp.host_events;
-+    } else {
-+        ebuf = &endgrp->fdp.ctrl_events;
-+    }
-+
-+    log_size = sizeof(NvmeFdpEventsLog) + ebuf->nelems * sizeof(NvmeFdpEvent);
-+    trans_len = MIN(log_size - off, buf_len);
-+    elog = g_malloc0(log_size);
-+    elog->num_events = cpu_to_le32(ebuf->nelems);
-+    event = (NvmeFdpEvent *)(elog + 1);
-+
-+    if (ebuf->nelems && ebuf->start == ebuf->next) {
-+        unsigned int nelems = (NVME_FDP_MAX_EVENTS - ebuf->start);
-+        /* wrap over, copy [start;NVME_FDP_MAX_EVENTS[ and [0; next[ */
-+        memcpy(event, &ebuf->events[ebuf->start],
-+               sizeof(NvmeFdpEvent) * nelems);
-+        memcpy(event + nelems, ebuf->events,
-+               sizeof(NvmeFdpEvent) * ebuf->next);
-+    } else if (ebuf->start < ebuf->next) {
-+        memcpy(event, &ebuf->events[ebuf->start],
-+               sizeof(NvmeFdpEvent) * (ebuf->next - ebuf->start));
-+    }
-+
-+    return nvme_c2h(n, (uint8_t *)elog + off, trans_len, req);
-+}
-+
- static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
- {
-     NvmeCmd *cmd = &req->cmd;
-@@ -4631,13 +5121,14 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
-     uint8_t  lsp = (dw10 >> 8) & 0xf;
-     uint8_t  rae = (dw10 >> 15) & 0x1;
-     uint8_t  csi = le32_to_cpu(cmd->cdw14) >> 24;
--    uint32_t numdl, numdu;
-+    uint32_t numdl, numdu, lspi;
-     uint64_t off, lpol, lpou;
-     size_t   len;
-     uint16_t status;
- 
-     numdl = (dw10 >> 16);
-     numdu = (dw11 & 0xffff);
-+    lspi = (dw11 >> 16);
-     lpol = dw12;
-     lpou = dw13;
- 
-@@ -4668,6 +5159,14 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
-         return nvme_cmd_effects(n, csi, len, off, req);
-     case NVME_LOG_ENDGRP:
-         return nvme_endgrp_info(n, rae, len, off, req);
-+    case NVME_LOG_FDP_CONFS:
-+        return nvme_fdp_confs(n, lspi, len, off, req);
-+    case NVME_LOG_FDP_RUH_USAGE:
-+        return nvme_fdp_ruh_usage(n, lspi, dw10, dw12, len, off, req);
-+    case NVME_LOG_FDP_STATS:
-+        return nvme_fdp_stats(n, lspi, len, off, req);
-+    case NVME_LOG_FDP_EVENTS:
-+        return nvme_fdp_events(n, lspi, len, off, req);
-     default:
-         trace_pci_nvme_err_invalid_log_page(nvme_cid(req), lid);
-         return NVME_INVALID_FIELD | NVME_DNR;
-@@ -5254,6 +5753,84 @@ static uint16_t nvme_get_feature_timestamp(NvmeCtrl *n, NvmeRequest *req)
-     return nvme_c2h(n, (uint8_t *)&timestamp, sizeof(timestamp), req);
- }
- 
-+static int nvme_get_feature_fdp(NvmeCtrl *n, uint32_t endgrpid,
-+                                uint32_t *result)
-+{
-+    *result = 0;
-+
-+    if (!n->subsys || !n->subsys->endgrp.fdp.enabled) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-+    *result = FIELD_DP16(0, FEAT_FDP, FDPE, 1);
-+    *result = FIELD_DP16(*result, FEAT_FDP, CONF_NDX, 0);
-+
-+    return NVME_SUCCESS;
-+}
-+
-+static uint16_t nvme_get_feature_fdp_events(NvmeCtrl *n, NvmeNamespace *ns,
-+                                            NvmeRequest *req, uint32_t *result)
-+{
-+    NvmeCmd *cmd = &req->cmd;
-+    uint32_t cdw11 = le32_to_cpu(cmd->cdw11);
-+    uint16_t ph = cdw11 & 0xffff;
-+    uint8_t noet = (cdw11 >> 16) & 0xff;
-+    uint16_t ruhid, ret;
-+    uint32_t nentries = 0;
-+    uint8_t s_events_ndx = 0;
-+    size_t s_events_siz = sizeof(NvmeFdpEventDescr) * noet;
-+    g_autofree NvmeFdpEventDescr *s_events = g_malloc0(s_events_siz);
-+    NvmeRuHandle *ruh;
-+    NvmeFdpEventDescr *s_event;
-+
-+    if (!n->subsys || !n->subsys->endgrp.fdp.enabled) {
-+        return NVME_FDP_DISABLED | NVME_DNR;
-+    }
-+
-+    if (!nvme_ph_valid(ns, ph)) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-+    ruhid = ns->fdp.phs[ph];
-+    ruh = &n->subsys->endgrp.fdp.ruhs[ruhid];
-+
-+    assert(ruh);
-+
-+    if (unlikely(noet == 0)) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-+    for (uint8_t event_type = 0; event_type < FDP_EVT_MAX; event_type++) {
-+        uint8_t shift = nvme_fdp_evf_shifts[event_type];
-+        if (!shift && event_type) {
-+            /*
-+             * only first entry (event_type == 0) has a shift value of 0
-+             * other entries are simply unpopulated.
-+             */
-+            continue;
-+        }
-+
-+        nentries++;
-+
-+        s_event = &s_events[s_events_ndx];
-+        s_event->evt = event_type;
-+        s_event->evta = (ruh->event_filter >> shift) & 0x1;
-+
-+        /* break if all `noet` entries are filled */
-+        if ((++s_events_ndx) == noet) {
-+            break;
-+        }
-+    }
-+
-+    ret = nvme_c2h(n, s_events, s_events_siz, req);
-+    if (ret) {
-+        return ret;
-+    }
-+
-+    *result = nentries;
-+    return NVME_SUCCESS;
-+}
-+
- static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
- {
-     NvmeCmd *cmd = &req->cmd;
-@@ -5266,6 +5843,7 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
-     uint16_t iv;
-     NvmeNamespace *ns;
-     int i;
-+    uint16_t endgrpid = 0, ret = NVME_SUCCESS;
- 
-     static const uint32_t nvme_feature_default[NVME_FID_MAX] = {
-         [NVME_ARBITRATION] = NVME_ARB_AB_NOLIMIT,
-@@ -5363,6 +5941,33 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
-     case NVME_HOST_BEHAVIOR_SUPPORT:
-         return nvme_c2h(n, (uint8_t *)&n->features.hbs,
-                         sizeof(n->features.hbs), req);
-+    case NVME_FDP_MODE:
-+        endgrpid = dw11 & 0xff;
-+
-+        if (endgrpid != 0x1) {
-+            return NVME_INVALID_FIELD | NVME_DNR;
-+        }
-+
-+        ret = nvme_get_feature_fdp(n, endgrpid, &result);
-+        if (ret) {
-+            return ret;
-+        }
-+        goto out;
-+    case NVME_FDP_EVENTS:
-+        if (!nvme_nsid_valid(n, nsid)) {
-+            return NVME_INVALID_NSID | NVME_DNR;
-+        }
-+
-+        ns = nvme_ns(n, nsid);
-+        if (unlikely(!ns)) {
-+            return NVME_INVALID_FIELD | NVME_DNR;
-+        }
-+
-+        ret = nvme_get_feature_fdp_events(n, ns, req, &result);
-+        if (ret) {
-+            return ret;
-+        }
-+        goto out;
-     default:
-         break;
-     }
-@@ -5395,6 +6000,20 @@ defaults:
-         if (iv == n->admin_cq.vector) {
-             result |= NVME_INTVC_NOCOALESCING;
-         }
-+        break;
-+    case NVME_FDP_MODE:
-+        endgrpid = dw11 & 0xff;
-+
-+        if (endgrpid != 0x1) {
-+            return NVME_INVALID_FIELD | NVME_DNR;
-+        }
-+
-+        ret = nvme_get_feature_fdp(n, endgrpid, &result);
-+        if (ret) {
-+            return ret;
-+        }
-+        goto out;
-+
-         break;
-     default:
-         result = nvme_feature_default[fid];
-@@ -5403,7 +6022,7 @@ defaults:
- 
- out:
-     req->cqe.result = cpu_to_le32(result);
--    return NVME_SUCCESS;
-+    return ret;
- }
- 
- static uint16_t nvme_set_feature_timestamp(NvmeCtrl *n, NvmeRequest *req)
-@@ -5421,6 +6040,51 @@ static uint16_t nvme_set_feature_timestamp(NvmeCtrl *n, NvmeRequest *req)
-     return NVME_SUCCESS;
- }
- 
-+static uint16_t nvme_set_feature_fdp_events(NvmeCtrl *n, NvmeNamespace *ns,
-+                                            NvmeRequest *req)
-+{
-+    NvmeCmd *cmd = &req->cmd;
-+    uint32_t cdw11 = le32_to_cpu(cmd->cdw11);
-+    uint16_t ph = cdw11 & 0xffff;
-+    uint8_t noet = (cdw11 >> 16) & 0xff;
-+    uint16_t ret, ruhid;
-+    uint8_t enable = le32_to_cpu(cmd->cdw12) & 0x1;
-+    uint8_t event_mask = 0;
-+    unsigned int i;
-+    g_autofree uint8_t *events = g_malloc0(noet);
-+    NvmeRuHandle *ruh = NULL;
-+
-+    assert(ns);
-+
-+    if (!n->subsys || !n->subsys->endgrp.fdp.enabled) {
-+        return NVME_FDP_DISABLED | NVME_DNR;
-+    }
-+
-+    if (!nvme_ph_valid(ns, ph)) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-+    ruhid = ns->fdp.phs[ph];
-+    ruh = &n->subsys->endgrp.fdp.ruhs[ruhid];
-+
-+    ret = nvme_h2c(n, events, noet, req);
-+    if (ret) {
-+        return ret;
-+    }
-+
-+    for (i = 0; i < noet; i++) {
-+        event_mask |= (1 << nvme_fdp_evf_shifts[events[i]]);
-+    }
-+
-+    if (enable) {
-+        ruh->event_filter |= event_mask;
-+    } else {
-+        ruh->event_filter = ruh->event_filter & ~event_mask;
-+    }
-+
-+    return NVME_SUCCESS;
-+}
-+
- static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
- {
-     NvmeNamespace *ns = NULL;
-@@ -5580,6 +6244,11 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
-             return NVME_CMD_SET_CMB_REJECTED | NVME_DNR;
-         }
-         break;
-+    case NVME_FDP_MODE:
-+        /* spec: abort with cmd seq err if there's one or more NS' in endgrp */
-+        return NVME_CMD_SEQ_ERROR | NVME_DNR;
-+    case NVME_FDP_EVENTS:
-+        return nvme_set_feature_fdp_events(n, ns, req);
-     default:
-         return NVME_FEAT_NOT_CHANGEABLE | NVME_DNR;
-     }
-@@ -6155,6 +6824,7 @@ static uint16_t nvme_directive_send(NvmeCtrl *n, NvmeRequest *req)
- 
- static uint16_t nvme_directive_receive(NvmeCtrl *n, NvmeRequest *req)
- {
-+    NvmeNamespace *ns;
-     uint32_t dw10 = le32_to_cpu(req->cmd.cdw10);
-     uint32_t dw11 = le32_to_cpu(req->cmd.cdw11);
-     uint32_t nsid = le32_to_cpu(req->cmd.nsid);
-@@ -6176,7 +6846,30 @@ static uint16_t nvme_directive_receive(NvmeCtrl *n, NvmeRequest *req)
-         return NVME_INVALID_FIELD | NVME_DNR;
-     }
- 
--    return nvme_c2h(n, (uint8_t *)&id, trans_len, req);
-+    ns = nvme_ns(n, nsid);
-+    if (!ns) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-+    switch (dtype) {
-+    case NVME_DIRECTIVE_IDENTIFY:
-+        switch (doper) {
-+        case NVME_DIRECTIVE_RETURN_PARAMS:
-+            if (ns->endgrp->fdp.enabled) {
-+                id.supported |= 1 << NVME_DIRECTIVE_DATA_PLACEMENT;
-+                id.enabled |= 1 << NVME_DIRECTIVE_DATA_PLACEMENT;
-+                id.persistent |= 1 << NVME_DIRECTIVE_DATA_PLACEMENT;
-+            }
-+
-+            return nvme_c2h(n, (uint8_t *)&id, trans_len, req);
-+
-+        default:
-+            return NVME_INVALID_FIELD | NVME_DNR;
-+        }
-+
-+    default:
-+        return NVME_INVALID_FIELD;
-+    }
- }
- 
- static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
-@@ -7541,6 +8234,10 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-         ctratt |= NVME_CTRATT_ENDGRPS;
- 
-         id->endgidmax = cpu_to_le16(0x1);
-+
-+        if (n->subsys->endgrp.fdp.enabled) {
-+            ctratt |= NVME_CTRATT_FDPS;
-+        }
-     }
- 
-     id->ctratt = cpu_to_le32(ctratt);
-diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
-index 23872a174c..c690c48da8 100644
---- a/hw/nvme/ns.c
-+++ b/hw/nvme/ns.c
-@@ -14,8 +14,10 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/units.h"
-+#include "qemu/cutils.h"
- #include "qemu/error-report.h"
- #include "qapi/error.h"
-+#include "qemu/bitops.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/block-backend.h"
- 
-@@ -377,6 +379,128 @@ static void nvme_zoned_ns_shutdown(NvmeNamespace *ns)
-     assert(ns->nr_open_zones == 0);
- }
- 
-+static NvmeRuHandle *nvme_find_ruh_by_attr(NvmeEnduranceGroup *endgrp,
-+                                           uint8_t ruha, uint16_t *ruhid)
-+{
-+    for (uint16_t i = 0; i < endgrp->fdp.nruh; i++) {
-+        NvmeRuHandle *ruh = &endgrp->fdp.ruhs[i];
-+
-+        if (ruh->ruha == ruha) {
-+            *ruhid = i;
-+            return ruh;
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
-+static bool nvme_ns_init_fdp(NvmeNamespace *ns, Error **errp)
-+{
-+    NvmeEnduranceGroup *endgrp = ns->endgrp;
-+    NvmeRuHandle *ruh;
-+    uint8_t lbafi = NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
-+    unsigned int *ruhid, *ruhids;
-+    char *r, *p, *token;
-+    uint16_t *ph;
-+
-+    if (!ns->params.fdp.ruhs) {
-+        ns->fdp.nphs = 1;
-+        ph = ns->fdp.phs = g_new(uint16_t, 1);
-+
-+        ruh = nvme_find_ruh_by_attr(endgrp, NVME_RUHA_CTRL, ph);
-+        if (!ruh) {
-+            ruh = nvme_find_ruh_by_attr(endgrp, NVME_RUHA_UNUSED, ph);
-+            if (!ruh) {
-+                error_setg(errp, "no unused reclaim unit handles left");
-+                return false;
-+            }
-+
-+            ruh->ruha = NVME_RUHA_CTRL;
-+            ruh->lbafi = lbafi;
-+            ruh->ruamw = endgrp->fdp.runs >> ns->lbaf.ds;
-+
-+            for (uint16_t rg = 0; rg < endgrp->fdp.nrg; rg++) {
-+                ruh->rus[rg].ruamw = ruh->ruamw;
-+            }
-+        } else if (ruh->lbafi != lbafi) {
-+            error_setg(errp, "lba format index of controller assigned "
-+                       "reclaim unit handle does not match namespace lba "
-+                       "format index");
-+            return false;
-+        }
-+
-+        return true;
-+    }
-+
-+    ruhid = ruhids = g_new0(unsigned int, endgrp->fdp.nruh);
-+    r = p = strdup(ns->params.fdp.ruhs);
-+
-+    /* parse the reclaim unit handle identifiers */
-+    while ((token = qemu_strsep(&p, ";")) != NULL) {
-+        if (++ns->fdp.nphs == endgrp->fdp.nruh) {
-+            error_setg(errp, "too many placement handles");
-+            free(r);
-+            return false;
-+        }
-+
-+        if (qemu_strtoui(token, NULL, 0, ruhid++) < 0) {
-+            error_setg(errp, "cannot parse reclaim unit handle identifier");
-+            free(r);
-+            return false;
-+        }
-+    }
-+
-+    free(r);
-+
-+    ph = ns->fdp.phs = g_new(uint16_t, ns->fdp.nphs);
-+
-+    ruhid = ruhids;
-+
-+    /* verify the identifiers */
-+    for (unsigned int i = 0; i < ns->fdp.nphs; i++, ruhid++, ph++) {
-+        if (*ruhid >= endgrp->fdp.nruh) {
-+            error_setg(errp, "invalid reclaim unit handle identifier");
-+            return false;
-+        }
-+
-+        ruh = &endgrp->fdp.ruhs[*ruhid];
-+
-+        switch (ruh->ruha) {
-+        case NVME_RUHA_UNUSED:
-+            ruh->ruha = NVME_RUHA_HOST;
-+            ruh->lbafi = lbafi;
-+            ruh->ruamw = endgrp->fdp.runs >> ns->lbaf.ds;
-+
-+            for (uint16_t rg = 0; rg < endgrp->fdp.nrg; rg++) {
-+                ruh->rus[rg].ruamw = ruh->ruamw;
-+            }
-+
-+            break;
-+
-+        case NVME_RUHA_HOST:
-+            if (ruh->lbafi != lbafi) {
-+                error_setg(errp, "lba format index of host assigned"
-+                           "reclaim unit handle does not match namespace "
-+                           "lba format index");
-+                return false;
-+            }
-+
-+            break;
-+
-+        case NVME_RUHA_CTRL:
-+            error_setg(errp, "reclaim unit handle is controller assigned");
-+            return false;
-+
-+        default:
-+            abort();
-+        }
-+
-+        *ph = *ruhid;
-+    }
-+
-+    return true;
-+}
-+
- static int nvme_ns_check_constraints(NvmeNamespace *ns, Error **errp)
- {
-     unsigned int pi_size;
-@@ -417,6 +541,11 @@ static int nvme_ns_check_constraints(NvmeNamespace *ns, Error **errp)
-         return -1;
-     }
- 
-+    if (ns->params.zoned && ns->endgrp && ns->endgrp->fdp.enabled) {
-+        error_setg(errp, "cannot be a zoned- in an FDP configuration");
-+        return -1;
-+    }
-+
-     if (ns->params.zoned) {
-         if (ns->params.max_active_zones) {
-             if (ns->params.max_open_zones > ns->params.max_active_zones) {
-@@ -502,6 +631,12 @@ int nvme_ns_setup(NvmeNamespace *ns, Error **errp)
-         nvme_ns_init_zoned(ns);
-     }
- 
-+    if (ns->endgrp && ns->endgrp->fdp.enabled) {
-+        if (!nvme_ns_init_fdp(ns, errp)) {
-+            return -1;
-+        }
-+    }
-+
-     return 0;
- }
- 
-@@ -525,6 +660,10 @@ void nvme_ns_cleanup(NvmeNamespace *ns)
-         g_free(ns->zone_array);
-         g_free(ns->zd_extensions);
-     }
-+
-+    if (ns->endgrp && ns->endgrp->fdp.enabled) {
-+        g_free(ns->fdp.phs);
-+    }
- }
- 
- static void nvme_ns_unrealize(DeviceState *dev)
-@@ -562,6 +701,7 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
-             return;
-         }
-         ns->subsys = subsys;
-+        ns->endgrp = &subsys->endgrp;
-     }
- 
-     if (nvme_ns_setup(ns, errp)) {
-@@ -648,6 +788,7 @@ static Property nvme_ns_props[] = {
-     DEFINE_PROP_SIZE("zoned.zrwafg", NvmeNamespace, params.zrwafg, -1),
-     DEFINE_PROP_BOOL("eui64-default", NvmeNamespace, params.eui64_default,
-                      false),
-+    DEFINE_PROP_STRING("fdp.ruhs", NvmeNamespace, params.fdp.ruhs),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index e489830478..209e8f5b4c 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -27,6 +27,8 @@
- #define NVME_MAX_CONTROLLERS 256
- #define NVME_MAX_NAMESPACES  256
- #define NVME_EUI64_DEFAULT ((uint64_t)0x5254000000000000)
-+#define NVME_FDP_MAX_EVENTS 63
-+#define NVME_FDP_MAXPIDS 128
- 
- QEMU_BUILD_BUG_ON(NVME_MAX_NAMESPACES > NVME_NSID_BROADCAST - 1);
- 
-@@ -45,8 +47,47 @@ typedef struct NvmeBus {
-     OBJECT_CHECK(NvmeSubsystem, (obj), TYPE_NVME_SUBSYS)
- #define SUBSYS_SLOT_RSVD (void *)0xFFFF
- 
-+typedef struct NvmeReclaimUnit {
-+    uint64_t ruamw;
-+} NvmeReclaimUnit;
-+
-+typedef struct NvmeRuHandle {
-+    uint8_t  ruht;
-+    uint8_t  ruha;
-+    uint64_t event_filter;
-+    uint8_t  lbafi;
-+    uint64_t ruamw;
-+
-+    /* reclaim units indexed by reclaim group */
-+    NvmeReclaimUnit *rus;
-+} NvmeRuHandle;
-+
-+typedef struct NvmeFdpEventBuffer {
-+    NvmeFdpEvent     events[NVME_FDP_MAX_EVENTS];
-+    unsigned int     nelems;
-+    unsigned int     start;
-+    unsigned int     next;
-+} NvmeFdpEventBuffer;
-+
- typedef struct NvmeEnduranceGroup {
-     uint8_t event_conf;
-+
-+    struct {
-+        NvmeFdpEventBuffer host_events, ctrl_events;
-+
-+        uint16_t nruh;
-+        uint16_t nrg;
-+        uint8_t  rgif;
-+        uint64_t runs;
-+
-+        uint64_t hbmw;
-+        uint64_t mbmw;
-+        uint64_t mbe;
-+
-+        bool enabled;
-+
-+        NvmeRuHandle *ruhs;
-+    } fdp;
- } NvmeEnduranceGroup;
- 
- typedef struct NvmeSubsystem {
-@@ -55,11 +96,19 @@ typedef struct NvmeSubsystem {
-     uint8_t     subnqn[256];
-     char        *serial;
- 
--    NvmeCtrl      *ctrls[NVME_MAX_CONTROLLERS];
--    NvmeNamespace *namespaces[NVME_MAX_NAMESPACES + 1];
-+    NvmeCtrl           *ctrls[NVME_MAX_CONTROLLERS];
-+    NvmeNamespace      *namespaces[NVME_MAX_NAMESPACES + 1];
-+    NvmeEnduranceGroup endgrp;
- 
-     struct {
-         char *nqn;
-+
-+        struct {
-+            bool     enabled;
-+            uint64_t runs;
-+            uint16_t nruh;
-+            uint32_t nrg;
-+        } fdp;
-     } params;
- } NvmeSubsystem;
- 
-@@ -100,6 +149,21 @@ typedef struct NvmeZone {
-     QTAILQ_ENTRY(NvmeZone) entry;
- } NvmeZone;
- 
-+#define FDP_EVT_MAX 0xff
-+#define NVME_FDP_MAX_NS_RUHS 32u
-+#define FDPVSS 0
-+
-+static const uint8_t nvme_fdp_evf_shifts[FDP_EVT_MAX] = {
-+    /* Host events */
-+    [FDP_EVT_RU_NOT_FULLY_WRITTEN]      = 0,
-+    [FDP_EVT_RU_ATL_EXCEEDED]           = 1,
-+    [FDP_EVT_CTRL_RESET_RUH]            = 2,
-+    [FDP_EVT_INVALID_PID]               = 3,
-+    /* CTRL events */
-+    [FDP_EVT_MEDIA_REALLOC]             = 32,
-+    [FDP_EVT_RUH_IMPLICIT_RU_CHANGE]    = 33,
-+};
-+
- typedef struct NvmeNamespaceParams {
-     bool     detached;
-     bool     shared;
-@@ -129,6 +193,10 @@ typedef struct NvmeNamespaceParams {
-     uint32_t numzrwa;
-     uint64_t zrwas;
-     uint64_t zrwafg;
-+
-+    struct {
-+        char *ruhs;
-+    } fdp;
- } NvmeNamespaceParams;
- 
- typedef struct NvmeNamespace {
-@@ -172,10 +240,17 @@ typedef struct NvmeNamespace {
- 
-     NvmeNamespaceParams params;
-     NvmeSubsystem *subsys;
-+    NvmeEnduranceGroup *endgrp;
- 
-     struct {
-         uint32_t err_rec;
-     } features;
-+
-+    struct {
-+        uint16_t nphs;
-+        /* reclaim unit handle identifiers indexed by placement handle */
-+        uint16_t *phs;
-+    } fdp;
- } NvmeNamespace;
- 
- static inline uint32_t nvme_nsid(NvmeNamespace *ns)
-@@ -279,6 +354,12 @@ static inline void nvme_aor_dec_active(NvmeNamespace *ns)
-     assert(ns->nr_active_zones >= 0);
- }
- 
-+static inline void nvme_fdp_stat_inc(uint64_t *a, uint64_t b)
-+{
-+    uint64_t ret = *a + b;
-+    *a = ret < *a ? UINT64_MAX : ret;
-+}
-+
- void nvme_ns_init_format(NvmeNamespace *ns);
- int nvme_ns_setup(NvmeNamespace *ns, Error **errp);
- void nvme_ns_drain(NvmeNamespace *ns);
-diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
-index 9d2643678b..24ddec860e 100644
---- a/hw/nvme/subsys.c
-+++ b/hw/nvme/subsys.c
-@@ -7,10 +7,13 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "qapi/error.h"
- 
- #include "nvme.h"
- 
-+#define NVME_DEFAULT_RU_SIZE (96 * MiB)
-+
- static int nvme_subsys_reserve_cntlids(NvmeCtrl *n, int start, int num)
- {
-     NvmeSubsystem *subsys = n->subsys;
-@@ -109,13 +112,95 @@ void nvme_subsys_unregister_ctrl(NvmeSubsystem *subsys, NvmeCtrl *n)
-     n->cntlid = -1;
- }
- 
--static void nvme_subsys_setup(NvmeSubsystem *subsys)
-+static bool nvme_calc_rgif(uint16_t nruh, uint16_t nrg, uint8_t *rgif)
-+{
-+    uint16_t val;
-+    unsigned int i;
-+
-+    if (unlikely(nrg == 1)) {
-+        /* PIDRG_NORGI scenario, all of pid is used for PHID */
-+        *rgif = 0;
-+        return true;
-+    }
-+
-+    val = nrg;
-+    i = 0;
-+    while (val) {
-+        val >>= 1;
-+        i++;
-+    }
-+    *rgif = i;
-+
-+    /* ensure remaining bits suffice to represent number of phids in a RG */
-+    if (unlikely((UINT16_MAX >> i) < nruh)) {
-+        *rgif = 0;
-+        return false;
-+    }
-+
-+    return true;
-+}
-+
-+static bool nvme_subsys_setup_fdp(NvmeSubsystem *subsys, Error **errp)
-+{
-+    NvmeEnduranceGroup *endgrp = &subsys->endgrp;
-+
-+    if (!subsys->params.fdp.runs) {
-+        error_setg(errp, "fdp.runs must be non-zero");
-+        return false;
-+    }
-+
-+    endgrp->fdp.runs = subsys->params.fdp.runs;
-+
-+    if (!subsys->params.fdp.nrg) {
-+        error_setg(errp, "fdp.nrg must be non-zero");
-+        return false;
-+    }
-+
-+    endgrp->fdp.nrg = subsys->params.fdp.nrg;
-+
-+    if (!subsys->params.fdp.nruh) {
-+        error_setg(errp, "fdp.nruh must be non-zero");
-+        return false;
-+    }
-+
-+    endgrp->fdp.nruh = subsys->params.fdp.nruh;
-+
-+    if (!nvme_calc_rgif(endgrp->fdp.nruh, endgrp->fdp.nrg, &endgrp->fdp.rgif)) {
-+        error_setg(errp,
-+                   "cannot derive a valid rgif (nruh %"PRIu16" nrg %"PRIu32")",
-+                   endgrp->fdp.nruh, endgrp->fdp.nrg);
-+        return false;
-+    }
-+
-+    endgrp->fdp.ruhs = g_new(NvmeRuHandle, endgrp->fdp.nruh);
-+
-+    for (uint16_t ruhid = 0; ruhid < endgrp->fdp.nruh; ruhid++) {
-+        endgrp->fdp.ruhs[ruhid] = (NvmeRuHandle) {
-+            .ruht = NVME_RUHT_INITIALLY_ISOLATED,
-+            .ruha = NVME_RUHA_UNUSED,
-+        };
-+
-+        endgrp->fdp.ruhs[ruhid].rus = g_new(NvmeReclaimUnit, endgrp->fdp.nrg);
-+    }
-+
-+    endgrp->fdp.enabled = true;
-+
-+    return true;
-+}
-+
-+static bool nvme_subsys_setup(NvmeSubsystem *subsys, Error **errp)
- {
-     const char *nqn = subsys->params.nqn ?
-         subsys->params.nqn : subsys->parent_obj.id;
- 
-     snprintf((char *)subsys->subnqn, sizeof(subsys->subnqn),
-              "nqn.2019-08.org.qemu:%s", nqn);
-+
-+    if (subsys->params.fdp.enabled && !nvme_subsys_setup_fdp(subsys, errp)) {
-+        return false;
-+    }
-+
-+    return true;
- }
- 
- static void nvme_subsys_realize(DeviceState *dev, Error **errp)
-@@ -124,11 +209,16 @@ static void nvme_subsys_realize(DeviceState *dev, Error **errp)
- 
-     qbus_init(&subsys->bus, sizeof(NvmeBus), TYPE_NVME_BUS, dev, dev->id);
- 
--    nvme_subsys_setup(subsys);
-+    nvme_subsys_setup(subsys, errp);
- }
- 
- static Property nvme_subsystem_props[] = {
-     DEFINE_PROP_STRING("nqn", NvmeSubsystem, params.nqn),
-+    DEFINE_PROP_BOOL("fdp", NvmeSubsystem, params.fdp.enabled, false),
-+    DEFINE_PROP_SIZE("fdp.runs", NvmeSubsystem, params.fdp.runs,
-+                     NVME_DEFAULT_RU_SIZE),
-+    DEFINE_PROP_UINT32("fdp.nrg", NvmeSubsystem, params.fdp.nrg, 1),
-+    DEFINE_PROP_UINT16("fdp.nruh", NvmeSubsystem, params.fdp.nruh, 0),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
-index b16f2260b4..0eba68844f 100644
---- a/hw/nvme/trace-events
-+++ b/hw/nvme/trace-events
-@@ -117,6 +117,11 @@ pci_nvme_clear_ns_reset(uint32_t state, uint64_t slba) "zone state=%"PRIu32", sl
- pci_nvme_zoned_zrwa_implicit_flush(uint64_t zslba, uint32_t nlb) "zslba 0x%"PRIx64" nlb %"PRIu32""
- pci_nvme_pci_reset(void) "PCI Function Level Reset"
- pci_nvme_virt_mngmt(uint16_t cid, uint16_t act, uint16_t cntlid, const char* rt, uint16_t nr) "cid %"PRIu16", act=0x%"PRIx16", ctrlid=%"PRIu16" %s nr=%"PRIu16""
-+pci_nvme_fdp_init(uint64_t nru, uint64_t ru_size, uint16_t nrg, uint8_t nruhrg) "FDP init, nru=%"PRIu64", ru_size=%"PRIu64", nrg=%"PRIu16", nruhrg=%"PRIu8""
-+pci_nvme_fdp_ruh_change(uint16_t rgid, uint16_t ruhid) "change RU on RUH rgid=%"PRIu16", ruhid=%"PRIu16""
-+pci_nvme_fdp_ruh_write(uint16_t rgid, uint16_t ruhid, uint32_t ruamw, uint32_t nlb) "write RUH rgid=%"PRIu16", ruhid=%"PRIu16", ruamw=%"PRIu32", nlb=%"PRIu32""
-+pci_nvme_fdp_get_feature_fdp(uint16_t result) "result=0x%"PRIx16""
-+pci_nvme_fdp_log_ruh_usage(uint32_t endgrpid) "log RUH usage for endgrp %"PRIu32""
- 
- # error conditions
- pci_nvme_err_mdts(size_t len) "len %zu"
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index d463d0ef5f..b0863687d4 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -1,6 +1,8 @@
- #ifndef BLOCK_NVME_H
- #define BLOCK_NVME_H
- 
-+#include "hw/registerfields.h"
-+
- typedef struct QEMU_PACKED NvmeBar {
-     uint64_t    cap;
-     uint32_t    vs;
-@@ -631,7 +633,9 @@ enum NvmeIoCommands {
-     NVME_CMD_WRITE_ZEROES       = 0x08,
-     NVME_CMD_DSM                = 0x09,
-     NVME_CMD_VERIFY             = 0x0c,
-+    NVME_CMD_IO_MGMT_RECV       = 0x12,
-     NVME_CMD_COPY               = 0x19,
-+    NVME_CMD_IO_MGMT_SEND       = 0x1d,
-     NVME_CMD_ZONE_MGMT_SEND     = 0x79,
-     NVME_CMD_ZONE_MGMT_RECV     = 0x7a,
-     NVME_CMD_ZONE_APPEND        = 0x7d,
-@@ -724,7 +728,9 @@ typedef struct QEMU_PACKED NvmeRwCmd {
-     uint64_t    slba;
-     uint16_t    nlb;
-     uint16_t    control;
--    uint32_t    dsmgmt;
-+    uint8_t     dsmgmt;
-+    uint8_t     rsvd;
-+    uint16_t    dspec;
-     uint32_t    reftag;
-     uint16_t    apptag;
-     uint16_t    appmask;
-@@ -895,6 +901,8 @@ enum NvmeStatusCodes {
-     NVME_INVALID_PRP_OFFSET     = 0x0013,
-     NVME_CMD_SET_CMB_REJECTED   = 0x002b,
-     NVME_INVALID_CMD_SET        = 0x002c,
-+    NVME_FDP_DISABLED           = 0x0029,
-+    NVME_INVALID_PHID_LIST      = 0x002a,
-     NVME_LBA_RANGE              = 0x0080,
-     NVME_CAP_EXCEEDED           = 0x0081,
-     NVME_NS_NOT_READY           = 0x0082,
-@@ -1031,6 +1039,10 @@ enum NvmeLogIdentifier {
-     NVME_LOG_CHANGED_NSLIST             = 0x04,
-     NVME_LOG_CMD_EFFECTS                = 0x05,
-     NVME_LOG_ENDGRP                     = 0x09,
-+    NVME_LOG_FDP_CONFS                  = 0x20,
-+    NVME_LOG_FDP_RUH_USAGE              = 0x21,
-+    NVME_LOG_FDP_STATS                  = 0x22,
-+    NVME_LOG_FDP_EVENTS                 = 0x23,
- };
- 
- typedef struct QEMU_PACKED NvmePSD {
-@@ -1160,6 +1172,7 @@ enum NvmeIdCtrlOaes {
- enum NvmeIdCtrlCtratt {
-     NVME_CTRATT_ENDGRPS = 1 <<  4,
-     NVME_CTRATT_ELBAS   = 1 << 15,
-+    NVME_CTRATT_FDPS    = 1 << 19,
- };
- 
- enum NvmeIdCtrlOacs {
-@@ -1273,6 +1286,8 @@ enum NvmeFeatureIds {
-     NVME_TIMESTAMP                  = 0xe,
-     NVME_HOST_BEHAVIOR_SUPPORT      = 0x16,
-     NVME_COMMAND_SET_PROFILE        = 0x19,
-+    NVME_FDP_MODE                   = 0x1d,
-+    NVME_FDP_EVENTS                 = 0x1e,
-     NVME_SOFTWARE_PROGRESS_MARKER   = 0x80,
-     NVME_FID_MAX                    = 0x100,
- };
-@@ -1652,7 +1667,9 @@ typedef struct NvmeDirectiveIdentify {
-     uint8_t unused1[31];
-     uint8_t enabled;
-     uint8_t unused33[31];
--    uint8_t rsvd64[4032];
-+    uint8_t persistent;
-+    uint8_t unused65[31];
-+    uint8_t rsvd64[4000];
- } NvmeDirectiveIdentify;
- 
- enum NvmeDirective {
-@@ -1661,13 +1678,158 @@ enum NvmeDirective {
- };
- 
- enum NvmeDirectiveTypes {
--    NVME_DIRECTIVE_IDENTIFY = 0x0,
-+    NVME_DIRECTIVE_IDENTIFY       = 0x0,
-+    NVME_DIRECTIVE_DATA_PLACEMENT = 0x2,
- };
- 
- enum NvmeDirectiveOperations {
-     NVME_DIRECTIVE_RETURN_PARAMS = 0x1,
- };
- 
-+typedef struct QEMU_PACKED NvmeFdpConfsHdr {
-+    uint16_t num_confs;
-+    uint8_t  version;
-+    uint8_t  rsvd3;
-+    uint32_t size;
-+    uint8_t  rsvd8[8];
-+} NvmeFdpConfsHdr;
-+
-+REG8(FDPA, 0x0)
-+    FIELD(FDPA, RGIF, 0, 4)
-+    FIELD(FDPA, VWC, 4, 1)
-+    FIELD(FDPA, VALID, 7, 1);
-+
-+typedef struct QEMU_PACKED NvmeFdpDescrHdr {
-+    uint16_t descr_size;
-+    uint8_t  fdpa;
-+    uint8_t  vss;
-+    uint32_t nrg;
-+    uint16_t nruh;
-+    uint16_t maxpids;
-+    uint32_t nnss;
-+    uint64_t runs;
-+    uint32_t erutl;
-+    uint8_t  rsvd28[36];
-+} NvmeFdpDescrHdr;
-+
-+enum NvmeRuhType {
-+    NVME_RUHT_INITIALLY_ISOLATED = 1,
-+    NVME_RUHT_PERSISTENTLY_ISOLATED = 2,
-+};
-+
-+typedef struct QEMU_PACKED NvmeRuhDescr {
-+    uint8_t ruht;
-+    uint8_t rsvd1[3];
-+} NvmeRuhDescr;
-+
-+typedef struct QEMU_PACKED NvmeRuhuLog {
-+    uint16_t nruh;
-+    uint8_t  rsvd2[6];
-+} NvmeRuhuLog;
-+
-+enum NvmeRuhAttributes {
-+    NVME_RUHA_UNUSED = 0,
-+    NVME_RUHA_HOST = 1,
-+    NVME_RUHA_CTRL = 2,
-+};
-+
-+typedef struct QEMU_PACKED NvmeRuhuDescr {
-+    uint8_t ruha;
-+    uint8_t rsvd1[7];
-+} NvmeRuhuDescr;
-+
-+typedef struct QEMU_PACKED NvmeFdpStatsLog {
-+    uint64_t hbmw[2];
-+    uint64_t mbmw[2];
-+    uint64_t mbe[2];
-+    uint8_t  rsvd48[16];
-+} NvmeFdpStatsLog;
-+
-+typedef struct QEMU_PACKED NvmeFdpEventsLog {
-+    uint32_t num_events;
-+    uint8_t  rsvd4[60];
-+} NvmeFdpEventsLog;
-+
-+enum NvmeFdpEventType {
-+    FDP_EVT_RU_NOT_FULLY_WRITTEN = 0x0,
-+    FDP_EVT_RU_ATL_EXCEEDED = 0x1,
-+    FDP_EVT_CTRL_RESET_RUH = 0x2,
-+    FDP_EVT_INVALID_PID = 0x3,
-+    FDP_EVT_MEDIA_REALLOC = 0x80,
-+    FDP_EVT_RUH_IMPLICIT_RU_CHANGE = 0x81,
-+};
-+
-+enum NvmeFdpEventFlags {
-+    FDPEF_PIV = 1 << 0,
-+    FDPEF_NSIDV = 1 << 1,
-+    FDPEF_LV = 1 << 2,
-+};
-+
-+typedef struct QEMU_PACKED NvmeFdpEvent {
-+    uint8_t  type;
-+    uint8_t  flags;
-+    uint16_t pid;
-+    uint64_t timestamp;
-+    uint32_t nsid;
-+    uint64_t type_specific[2];
-+    uint16_t rgid;
-+    uint8_t  ruhid;
-+    uint8_t  rsvd35[5];
-+    uint64_t vendor[3];
-+} NvmeFdpEvent;
-+
-+typedef struct QEMU_PACKED NvmePhidList {
-+    uint16_t nnruhd;
-+    uint8_t  rsvd2[6];
-+} NvmePhidList;
-+
-+typedef struct QEMU_PACKED NvmePhidDescr {
-+    uint8_t  ruht;
-+    uint8_t  rsvd1;
-+    uint16_t ruhid;
-+} NvmePhidDescr;
-+
-+REG32(FEAT_FDP, 0x0)
-+    FIELD(FEAT_FDP, FDPE, 0, 1)
-+    FIELD(FEAT_FDP, CONF_NDX, 8, 8);
-+
-+typedef struct QEMU_PACKED NvmeFdpEventDescr {
-+    uint8_t evt;
-+    uint8_t evta;
-+} NvmeFdpEventDescr;
-+
-+REG32(NVME_IOMR, 0x0)
-+    FIELD(NVME_IOMR, MO, 0, 8)
-+    FIELD(NVME_IOMR, MOS, 16, 16);
-+
-+enum NvmeIomr2Mo {
-+    NVME_IOMR_MO_NOP = 0x0,
-+    NVME_IOMR_MO_RUH_STATUS = 0x1,
-+    NVME_IOMR_MO_VENDOR_SPECIFIC = 0x255,
-+};
-+
-+typedef struct QEMU_PACKED NvmeRuhStatus {
-+    uint8_t  rsvd0[14];
-+    uint16_t nruhsd;
-+} NvmeRuhStatus;
-+
-+typedef struct QEMU_PACKED NvmeRuhStatusDescr {
-+    uint16_t pid;
-+    uint16_t ruhid;
-+    uint32_t earutr;
-+    uint64_t ruamw;
-+    uint8_t  rsvd16[16];
-+} NvmeRuhStatusDescr;
-+
-+REG32(NVME_IOMS, 0x0)
-+    FIELD(NVME_IOMS, MO, 0, 8)
-+    FIELD(NVME_IOMS, MOS, 16, 16);
-+
-+enum NvmeIoms2Mo {
-+    NVME_IOMS_MO_NOP = 0x0,
-+    NVME_IOMS_MO_RUH_UPDATE = 0x1,
-+};
-+
- static inline void _nvme_check_size(void)
- {
-     QEMU_BUILD_BUG_ON(sizeof(NvmeBar) != 4096);
+Ok, I see now how finding the binary may be automated without the patch, so it's not really needed. Thanks!
+
 -- 
-2.39.1
+Best regards,
+Vladimir
 
 
