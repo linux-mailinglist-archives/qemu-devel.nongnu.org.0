@@ -2,73 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA36E698CE8
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 07:29:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D4B0698D66
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 07:52:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSXia-0003pt-Rs; Thu, 16 Feb 2023 01:26:08 -0500
+	id 1pSY6K-0004E8-IM; Thu, 16 Feb 2023 01:50:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+96e41a9b2a2966255e0b+7116+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pSXi0-0003KU-7x
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:25:33 -0500
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+96e41a9b2a2966255e0b+7116+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pSXhn-00071T-7j
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:25:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- Reply-To:Content-Type:Content-ID:Content-Description;
- bh=ejCxozW2KDZscOQD34pHUDLwOlSsEPfmXxQc/b+wYQc=; b=jPqXqeHyYyzecDZt31jmsJS8EY
- q81TdsNEBRGQqhIBvOmS9JCPqnH1CcOiLO6cAMBcF/Yqk5vh0QHKybEBVhwM71mZtJfmOA0dhnTks
- CVReHXD4o0A3gngILZgWo7+Ly3FcIayUl7WsLW35ZpqdELyiXvZ222hdPzUcVWGjPxxppmy19n6Ap
- d52iR5INOX9EdB1qm/Y/NUaQ2C+PFF+PMDBkOS5B+XT1GX7i9VgqTF63Zq04O8WY9G3xdI4XHBG9z
- w4qdItzA7ttITEoWC3KwT2t7wkHVY/iHcql07a64sysC6Y3QAzJUBrmIGvPR1UrPTZr8ZakYksZHE
- NLoofoXw==;
-Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pSXgd-00AAzY-1Q; Thu, 16 Feb 2023 06:25:03 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pSXhJ-008wAD-1z; Thu, 16 Feb 2023 06:24:49 +0000
-From: David Woodhouse <dwmw2@infradead.org>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-Subject: [PATCH v11 59/59] i386/xen: Document Xen HVM emulation
-Date: Thu, 16 Feb 2023 06:24:44 +0000
-Message-Id: <20230216062444.2129371-60-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230216062444.2129371-1-dwmw2@infradead.org>
-References: <20230216062444.2129371-1-dwmw2@infradead.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pSY68-0004DO-VJ
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:50:30 -0500
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pSY66-0007xT-HZ
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 01:50:28 -0500
+Received: by mail-pj1-x1044.google.com with SMTP id
+ v6-20020a17090ad58600b00229eec90a7fso5528381pju.0
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 22:50:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2SvpPc3aqs3icaOQoav4ldZ1sVhHX1oLFka7S/B+ZUY=;
+ b=r9a8GVDf6vARIojz8vpSfF4I0ivYpjHNXRrj2X/Np7d20M9kDeWSFACKozrrETUira
+ l1egbc1a32fxkZTjDO+m372cm6w6XgL1UvvJ8RFY+/8vEG2f1TfSa3YaGkNdeL3OgMRd
+ imutoOdxgLRfhuZwx/tMDQXOsHpJLp3LCD9XKU3ebbs8QoYLeJLuysU34W8T34yblnQ2
+ jqJrD+FRu3NIuNdbU15B+xpEBlocghKvhRnKSUpQ+QnyGoBz3Uah6eCxWli7yVWhwpn6
+ 2ECvYHv2IUAHoTozYLL2tbQhtjJFqMr/lGO7ZZm4pPdDa0q+UTstY2eYYGpsnR0tdIwL
+ Gi1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2SvpPc3aqs3icaOQoav4ldZ1sVhHX1oLFka7S/B+ZUY=;
+ b=jiVRfRDRVG+/w0mp4CBxhLhKdgzuv4bbUs+cjlK+FQH82HH54lfm4rs8xmRXxQdgBI
+ IlJchs01fQKvm638hccbhYbA6+i1NyjG1YnN258yfIawr7CzQrmmN37hVM8p2p1oMzP8
+ j3jg+SNd8MWCWda3MpCrmpKCPKlvq+kY/87OYIWi7LyBRch+0l5wRhBrynmMIzu7iQIJ
+ 7XRR4nGPgHhbBtRfjMIDixSlQfY2Nd2g+LLLhaHGlMZhXVeXKOEZ/TdC2eihhzDE8zej
+ RkUTIjPj1JuyP77CNJboqaN2+g8bBbewcbZMQ/aw+Rfoi8ReF3+zPO+Pl3rXk2QmrCqw
+ jLSQ==
+X-Gm-Message-State: AO0yUKVnyx4sZdQI6pBjIUrsgwjpOXj7g4b0fgT3XqrK5vqwLoPuRT3e
+ qMtnpwbog/SbbTAq3Nli4xnxc+DFtDCRH2NNFF/Huw==
+X-Google-Smtp-Source: AK7set/bsV7/H14eQG/AZsUrFtxzOD8XfW7thA9tFMrW1tFc5OF4Lx1Y16TriYYVVe4vGWD8Bym5DA==
+X-Received: by 2002:a17:902:c950:b0:19a:aea3:8a92 with SMTP id
+ i16-20020a170902c95000b0019aaea38a92mr5751936pla.16.1676530224618; 
+ Wed, 15 Feb 2023 22:50:24 -0800 (PST)
+Received: from [192.168.192.227] (rrcs-74-87-59-234.west.biz.rr.com.
+ [74.87.59.234]) by smtp.gmail.com with ESMTPSA id
+ u12-20020a17090282cc00b0019a9637b2d3sm453465plz.279.2023.02.15.22.50.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Feb 2023 22:50:24 -0800 (PST)
+Message-ID: <028cae76-5b52-76e0-9294-6477cbb89a28@linaro.org>
+Date: Wed, 15 Feb 2023 20:50:11 -1000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- desiato.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
- envelope-from=BATV+96e41a9b2a2966255e0b+7116+infradead.org+dwmw2@desiato.srs.infradead.org;
- helo=desiato.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] target/i386: Fix BZHI instruction
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com
+References: <20230114233206.3118472-1-richard.henderson@linaro.org>
+In-Reply-To: <20230114233206.3118472-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1044.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,111 +93,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+Ping.
 
-Signed-off-by: David Woodhouse <dwmw2@amazon.co.uk>
-Reviewed-by: Paul Durrant <paul@xen.org>
----
- docs/system/i386/xen.rst    | 76 +++++++++++++++++++++++++++++++++++++
- docs/system/target-i386.rst |  1 +
- 2 files changed, 77 insertions(+)
- create mode 100644 docs/system/i386/xen.rst
+r~
 
-diff --git a/docs/system/i386/xen.rst b/docs/system/i386/xen.rst
-new file mode 100644
-index 0000000000..a00523b492
---- /dev/null
-+++ b/docs/system/i386/xen.rst
-@@ -0,0 +1,76 @@
-+Xen HVM guest support
-+=====================
-+
-+
-+Description
-+-----------
-+
-+KVM has support for hosting Xen guests, intercepting Xen hypercalls and event
-+channel (Xen PV interrupt) delivery. This allows guests which expect to be
-+run under Xen to be hosted in QEMU under Linux/KVM instead.
-+
-+Setup
-+-----
-+
-+Xen mode is enabled by setting the ``xen-version`` property of the KVM
-+accelerator, for example for Xen 4.10:
-+
-+.. parsed-literal::
-+
-+  |qemu_system| --accel kvm,xen-version=0x4000a
-+
-+Additionally, virtual APIC support can be advertised to the guest through the
-+``xen-vapic`` CPU flag:
-+
-+.. parsed-literal::
-+
-+  |qemu_system| --accel kvm,xen-version=0x4000a --cpu host,+xen_vapic
-+
-+When Xen support is enabled, QEMU changes hypervisor identification (CPUID
-+0x40000000..0x4000000A) to Xen. The KVM identification and features are not
-+advertised to a Xen guest. If Hyper-V is also enabled, the Xen identification
-+moves to leaves 0x40000100..0x4000010A.
-+
-+The Xen platform device is enabled automatically for a Xen guest. This allows
-+a guest to unplug all emulated devices, in order to use Xen PV block and network
-+drivers instead. Note that until the Xen PV device back ends are enabled to work
-+with Xen mode in QEMU, that is unlikely to cause significant joy. Linux guests
-+can be dissuaded from this by adding 'xen_emul_unplug=never' on their command
-+line, and it can also be noted that AHCI disk controllers are exempt from being
-+unplugged, as are passthrough VFIO PCI devices.
-+
-+Properties
-+----------
-+
-+The following properties exist on the KVM accelerator object:
-+
-+``xen-version``
-+  This property contains the Xen version in ``XENVER_version`` form, with the
-+  major version in the top 16 bits and the minor version in the low 16 bits.
-+  Setting this property enables the Xen guest support.
-+
-+``xen-evtchn-max-pirq``
-+  Xen PIRQs represent an emulated physical interrupt, either GSI or MSI, which
-+  can be routed to an event channel instead of to the emulated I/O or local
-+  APIC. By default, QEMU permits only 256 PIRQs because this allows maximum
-+  compatibility with 32-bit MSI where the higher bits of the PIRQ# would need
-+  to be in the upper 64 bits of the MSI message. For guests with large numbers
-+  of PCI devices (and none which are limited to 32-bit addressing) it may be
-+  desirable to increase this value.
-+
-+``xen-gnttab-max-frames``
-+  Xen grant tables are the means by which a Xen guest grants access to its
-+  memory for PV back ends (disk, network, etc.). Since QEMU only supports v1
-+  grant tables which are 8 bytes in size, each page (each frame) of the grant
-+  table can reference 512 pages of guest memory. The default number of frames
-+  is 64, allowing for 32768 pages of guest memory to be accessed by PV backends
-+  through simultaneous grants. For guests with large numbers of PV devices and
-+  high throughput, it may be desirable to increase this value.
-+
-+OS requirements
-+---------------
-+
-+The minimal Xen support in the KVM accelerator requires the host to be running
-+Linux v5.12 or newer. Later versions add optimisations: Linux v5.17 added
-+acceleration of interrupt delivery via the Xen PIRQ mechanism, and Linux v5.19
-+accelerated Xen PV timers and inter-processor interrupts (IPIs).
-diff --git a/docs/system/target-i386.rst b/docs/system/target-i386.rst
-index e64c013077..77c2f3b979 100644
---- a/docs/system/target-i386.rst
-+++ b/docs/system/target-i386.rst
-@@ -27,6 +27,7 @@ Architectural features
- 
-    i386/cpu
-    i386/hyperv
-+   i386/xen
-    i386/kvm-pv
-    i386/sgx
-    i386/amd-memory-encryption
--- 
-2.39.0
+On 1/14/23 13:32, Richard Henderson wrote:
+> We did not correctly handle N >= operand size.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1374
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   tests/tcg/i386/test-i386-bmi2.c |  3 +++
+>   target/i386/tcg/emit.c.inc      | 14 +++++++-------
+>   2 files changed, 10 insertions(+), 7 deletions(-)
+> 
+> diff --git a/tests/tcg/i386/test-i386-bmi2.c b/tests/tcg/i386/test-i386-bmi2.c
+> index 982d4abda4..0244df7987 100644
+> --- a/tests/tcg/i386/test-i386-bmi2.c
+> +++ b/tests/tcg/i386/test-i386-bmi2.c
+> @@ -123,6 +123,9 @@ int main(int argc, char *argv[]) {
+>       result = bzhiq(mask, 0x1f);
+>       assert(result == (mask & ~(-1 << 30)));
+>   
+> +    result = bzhiq(mask, 0x40);
+> +    assert(result == mask);
+> +
+>       result = rorxq(0x2132435465768798, 8);
+>       assert(result == 0x9821324354657687);
+>   
+> diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
+> index 4d7702c106..1eace1231a 100644
+> --- a/target/i386/tcg/emit.c.inc
+> +++ b/target/i386/tcg/emit.c.inc
+> @@ -1143,20 +1143,20 @@ static void gen_BLSR(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+>   static void gen_BZHI(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+>   {
+>       MemOp ot = decode->op[0].ot;
+> -    TCGv bound;
+> +    TCGv bound = tcg_constant_tl(ot == MO_64 ? 63 : 31);
+> +    TCGv zero = tcg_constant_tl(0);
+> +    TCGv mone = tcg_constant_tl(-1);
+>   
+> -    tcg_gen_ext8u_tl(s->T1, cpu_regs[s->vex_v]);
+> -    bound = tcg_constant_tl(ot == MO_64 ? 63 : 31);
+> +    tcg_gen_ext8u_tl(s->T1, s->T1);
+>   
+>       /*
+>        * Note that since we're using BMILG (in order to get O
+>        * cleared) we need to store the inverse into C.
+>        */
+> -    tcg_gen_setcond_tl(TCG_COND_LT, cpu_cc_src, s->T1, bound);
+> -    tcg_gen_movcond_tl(TCG_COND_GT, s->T1, s->T1, bound, bound, s->T1);
+> +    tcg_gen_setcond_tl(TCG_COND_LEU, cpu_cc_src, s->T1, bound);
+>   
+> -    tcg_gen_movi_tl(s->A0, -1);
+> -    tcg_gen_shl_tl(s->A0, s->A0, s->T1);
+> +    tcg_gen_shl_tl(s->A0, mone, s->T1);
+> +    tcg_gen_movcond_tl(TCG_COND_LEU, s->A0, s->T1, bound, s->A0, zero);
+>       tcg_gen_andc_tl(s->T0, s->T0, s->A0);
+>   
+>       gen_op_update1_cc(s);
 
 
