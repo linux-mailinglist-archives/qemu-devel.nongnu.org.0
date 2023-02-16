@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00CF5699D4F
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 21:04:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27407699D68
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 21:12:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSkTJ-0004R6-7K; Thu, 16 Feb 2023 15:03:13 -0500
+	id 1pSkba-0003yZ-N2; Thu, 16 Feb 2023 15:11:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSkTC-0004LB-Nn
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 15:03:06 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ id 1pSkbY-0003wU-NV
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 15:11:44 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSkTB-0002Dq-1U
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 15:03:06 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- f16-20020a17090a9b1000b0023058bbd7b2so3298726pjp.0
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 12:03:04 -0800 (PST)
+ id 1pSkbX-0007D1-7N
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 15:11:44 -0500
+Received: by mail-pl1-x631.google.com with SMTP id m2so3297655plg.4
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 12:11:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=+UN2zMyf9t2T7vmFhQiEJwvKbs8aCLrtnk4t2GcSM84=;
- b=OpsZkNLwVurSwjfM1I1HqJKzpKX2wcxwtkyyWKrJHwe+uDeFsBlJnGeqlbTujJrnwu
- kN2ggs5cKFMBvFoeMl7Qt/h1v12WVHoxFpE/91IVD9W2lh7x+eI/crlASOYclT77M/kG
- sRxi70gN62rqmPKKdSMuVNmgTjQHDeJiR7Mp1FyvmCWZ2cGPyP88rYcLkof/HVySJxq/
- JLFmxhOCP50sPjgjn3kGuVe1rSKS66kDDlPDYjIV+WUX+qNWz8nAYwqSYgiSGCbIG4rk
- DaWKxdDwwKCXY3+w2YozRnwRW5LgLxKB8yJENHQlDOZ7qkqHIHMYkjEnXnsYSzBhOnYQ
- O+hg==
+ bh=UKzJOPq6CYdPJnRmOnq47FCpvMkQLtD+dyuEoUEnwt0=;
+ b=xbK6Xzg7lNTZ1nR/ffpkBP7pZdl4M3zpDTwzRdkCKa6DZk7+g5AKD6n1CEIlsIcUKv
+ cqFmxL8kW7Ngmyj0WAhKbQ5vJ12WvdFNaDrjIJ/6fICUvH9PjX6UqZuBleFg7TQm1jwJ
+ GHAX++SWPLR3/d1XBsLU0fVlJ3upeqttsipc2UiVoDlFFVjZiRB4IsF9l0/bEiWOks6v
+ 6A/h38hw/r/icZAasfImxz5jyIQUJV2/391tGqN2NgfzMMzlfjzBChUZ88LHJYeTHJhu
+ P2pnSIukvRNIh3CF2600OH7N3WNd3DVRaC8reSYCHQYbPpVlBrD1oXPrcwq8Bc+oASme
+ pBew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+UN2zMyf9t2T7vmFhQiEJwvKbs8aCLrtnk4t2GcSM84=;
- b=IvJ3AJbwxDrHlfEOyqGUqBmBbKq7KafNVR95HPYNAFPb7tsWOu0SYgj4jOb29GMa7T
- aEO1rAuxLJkVsmnXWJK9FLLyWaxaytvve+MtDHusH7SLB0Ck4GtKhpkVAOkQ0gFcR0Od
- rXOXmOmNeGgF/lzMDy0mkFoSw4NknNhQId3Okx8ST/ItyqxQ7DmcwX1L2l6eA863RpeO
- Bx5K2u1z4qV2hztahDhI381y8xy0zey9n/d64ZGBSLjasX2nXva8u1maUVU+MyeIgwk3
- fxLnxHMHqiIfjR8PywuqN64RfSiHPilkxTt+thYLIZpgRMSNnpgUN11ip/LuFyVcSXL6
- 92cQ==
-X-Gm-Message-State: AO0yUKVksinYsC1TZgHbK4tHxvh0+p1+nWJOLUpz8tlz1hpHqa9r58FJ
- p56LG41j8EG3EdEkcmMz42NEcg==
-X-Google-Smtp-Source: AK7set+ozUJcKAFfZz06GGmsymGvY02HmiybkTIexRDkZdkHc077NEtOue1qoOR5/xveN90u4a6paQ==
-X-Received: by 2002:a05:6a20:3953:b0:c6:bf1d:9dc9 with SMTP id
- r19-20020a056a20395300b000c6bf1d9dc9mr7498974pzg.56.1676577783389; 
- Thu, 16 Feb 2023 12:03:03 -0800 (PST)
+ bh=UKzJOPq6CYdPJnRmOnq47FCpvMkQLtD+dyuEoUEnwt0=;
+ b=ozRktf1HwMqmfQRckj8oFibKd03D7YlRObMKqoKSUymOOjqmxehc22O1ekflr0FE6o
+ OB6pcdvTM44e03WwvyulgWPrJDs43OzgqFUJ3+MDRGiBBkdUBXKmx3UETBaYRBtq/U/E
+ QGktjtpe46eDEfQB/brR1p6k0vrdV0o9hHWkj8JWz7+NythZpgbUmHo0vBdeh4JHes3o
+ vsjjAS9t+0zCgatIaArvfjZPPDQhPXXf1eELDNNczVSaHl24T/hzr/sJseQEcWhFUd/B
+ s1URvCh5YmluJDxpwPzjfinIgXHnRgmfvi7xkCIUe/hGlTpU68INMS7hdqXrcDdqNNG+
+ 9Rtw==
+X-Gm-Message-State: AO0yUKVY8FSNdrJ4po1nwRFTfYDQ07RMZh6TF0Kd7uPplhP1CNLgq+/8
+ gdkxJXAnaMtZSiQrSzgCvHCKNQ==
+X-Google-Smtp-Source: AK7set+ejbouRWfOjSqgKUtvtLqMf97Qd5HIPhA4/CLGreEarbCvwxjOhRHl90fXQJvlEW99jrVXTA==
+X-Received: by 2002:a17:902:e88a:b0:198:dd3f:2847 with SMTP id
+ w10-20020a170902e88a00b00198dd3f2847mr8714080plg.21.1676578301419; 
+ Thu, 16 Feb 2023 12:11:41 -0800 (PST)
 Received: from ?IPV6:2607:fb90:8f62:8652:bed9:812b:5b9e:e49a?
  ([2607:fb90:8f62:8652:bed9:812b:5b9e:e49a])
  by smtp.gmail.com with ESMTPSA id
- q18-20020a637512000000b004fc2eb3fe45sm128883pgc.54.2023.02.16.12.03.01
+ y9-20020a170902ed4900b0019a256bfe96sm1684172plb.242.2023.02.16.12.11.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Feb 2023 12:03:02 -0800 (PST)
-Message-ID: <9effb233-1dd7-0860-96e2-4f07a41adb5a@linaro.org>
-Date: Thu, 16 Feb 2023 10:02:59 -1000
+ Thu, 16 Feb 2023 12:11:40 -0800 (PST)
+Message-ID: <41615dde-73c3-49a9-2e29-c21324265c1f@linaro.org>
+Date: Thu, 16 Feb 2023 10:11:37 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v2 2/4] sysemu/os-win32: fix setjmp/longjmp on
- windows-arm64
+Subject: Re: [PATCH v2 4/4] target/ppc: fix warning with clang-15
 Content-Language: en-US
 To: Pierrick Bouvier <pierrick.bouvier@linaro.org>, qemu-devel@nongnu.org
 Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org,
  alex.bennee@linaro.org, peter.maydell@linaro.org
 References: <20230216134911.6803-1-pierrick.bouvier@linaro.org>
- <20230216134911.6803-3-pierrick.bouvier@linaro.org>
+ <20230216134911.6803-5-pierrick.bouvier@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230216134911.6803-3-pierrick.bouvier@linaro.org>
+In-Reply-To: <20230216134911.6803-5-pierrick.bouvier@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
@@ -98,29 +96,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 2/16/23 03:49, Pierrick Bouvier wrote:
-> Windows implementation of setjmp/longjmp is done in
-> C:/WINDOWS/system32/ucrtbase.dll. Alas, on arm64, it seems to *always*
-> perform stack unwinding, which crashes from generated code.
+> When compiling for windows-arm64 using clang-15, it reports a sometimes
+> uninitialized variable. This seems to be a false positive, as a default
+> case guards switch expressions, preventing to return an uninitialized
+> value, but clang seems unhappy with assert(0) definition.
 > 
-> By using alternative implementation built in mingw, we avoid doing stack
-> unwinding and this fixes crash when calling longjmp.
+> Change code to g_assert_not_reached() fix the warning.
 > 
-> Signed-off-by: Pierrick Bouvier <pierrick.bouvier@linaro.org>
+> Signed-off-by: Pierrick Bouvier<pierrick.bouvier@linaro.org>
 > ---
->   include/sysemu/os-win32.h | 21 +++++++++++++++++++--
->   meson.build               | 22 ++++++++++++++++++++++
->   2 files changed, 41 insertions(+), 2 deletions(-)
+>   target/ppc/dfp_helper.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
-Ugly, but workable.
-
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
-
-Ideally we'd interact properly with system unwinding.  It looks like we'd use 
-RtlAddFunctionTable, but the documentation is spread out and I've not found all of the bits.
-
-We already do something similar for gdb -- see tcg/tcg.c, tcg_register_jit_int, and 
-tcg/aarch64/tcg-target.c.inc, debug_frame.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
