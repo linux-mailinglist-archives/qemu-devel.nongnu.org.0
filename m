@@ -2,95 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B09A4699307
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 12:22:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73FF4699322
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 12:32:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pScJv-0002I9-NU; Thu, 16 Feb 2023 06:20:59 -0500
+	id 1pScTA-0004Md-49; Thu, 16 Feb 2023 06:30:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pScJt-0002HK-MK
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 06:20:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pScT7-0004M8-OV
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 06:30:30 -0500
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pScJr-0007Cw-Va
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 06:20:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676546454;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+SGR2OTuFMkTmz30hS3C13oD95Dta+sufNEEj7mbeK0=;
- b=I16342/vB61jUVLU6Ixt+rXKLlxEYmqxUjOFpy3QLXWq3F1b5+KPBFruuBc203aPu/qtYr
- 2+zat2OxzttbSF5INbTX7HXZJ3c/oasH7IDmx+AtIkFVsblpRi6ySxr4Dz95RgjTsxqx/9
- raNiSuZBJrR5QRH6uC7cNBOJ0dfZsx0=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-206-VzQrjPgyOTGgZkeY3SVMHQ-1; Thu, 16 Feb 2023 06:20:53 -0500
-X-MC-Unique: VzQrjPgyOTGgZkeY3SVMHQ-1
-Received: by mail-qk1-f199.google.com with SMTP id
- j29-20020a05620a001d00b00724fd33cb3eso967479qki.14
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 03:20:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+SGR2OTuFMkTmz30hS3C13oD95Dta+sufNEEj7mbeK0=;
- b=fqtQ3BzbDBf7KD6hitA1hkGJINAqDIx8o8aesS6Db5WM4sPWwwLT1LEuPTddzKxriS
- m7rB5skGNFU2/OEsS/46+Onc3opc1FRctXWgH7fAa+eIMSPFk4IIvi9FA93txDc6UMNC
- DYaWNzfPqvHymiUhEBjzYPOEEMh4MV/8DLG/gSGDkh8Okr945O5+LSOprdN2RMo3gK1U
- ayf1naP66F9vPTeylBjgp1tEFxqY4X4wyFdXIiMBQwxDq5dpatu1owYT6NOwF89whqVU
- rZ+41BFsZNDm1RwD3PYWb7xWiE8eIY0H+i64a4i2wmMKat35b6PwugQHNOIo/bbzR1Kr
- yrRQ==
-X-Gm-Message-State: AO0yUKX62ijOs2e7qHuA6wFi9kvUomIbXlV5edXfbNLmLsBdBCtipccp
- EzPwUqRYLs/5OyCkoYkbtHkqNPiG3FebQzYCXFfJ3y8STGapJY1qWZ4Ox8B1vcBWrO5LtwDla1v
- 2/0oLYHTFZy6BpWA=
-X-Received: by 2002:a05:622a:592:b0:3ba:1a25:f66 with SMTP id
- c18-20020a05622a059200b003ba1a250f66mr8592518qtb.53.1676546453142; 
- Thu, 16 Feb 2023 03:20:53 -0800 (PST)
-X-Google-Smtp-Source: AK7set9ijaSezyyRRSACwOJAfpWYSKoR4Mxdnk9qYilKV4r9wrtMoBgs98J+UaUFEvyWMePrAmt2NQ==
-X-Received: by 2002:a05:622a:592:b0:3ba:1a25:f66 with SMTP id
- c18-20020a05622a059200b003ba1a250f66mr8592496qtb.53.1676546452898; 
- Thu, 16 Feb 2023 03:20:52 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-144.web.vodafone.de.
- [109.43.176.144]) by smtp.gmail.com with ESMTPSA id
- r9-20020ac85c89000000b003b869f71eedsm1024031qta.66.2023.02.16.03.20.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Feb 2023 03:20:52 -0800 (PST)
-Message-ID: <f987749e-d7d8-7812-b118-2eb449ff09f6@redhat.com>
-Date: Thu, 16 Feb 2023 12:20:49 +0100
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pScT4-0003wL-Ry
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 06:30:29 -0500
+Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
+ (iva4-f06c35e68a0a.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:152e:0:640:f06c:35e6])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 20562607BA;
+ Thu, 16 Feb 2023 14:30:17 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:8813::1:16] (unknown
+ [2a02:6b8:b081:8813::1:16])
+ by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ GUjLO70R3Os1-Zo8wxMqd; Thu, 16 Feb 2023 14:30:16 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1676547016; bh=MYHj4pTli7/BnsKfp5g2wpJtwMLU29sZuHkjxAd1loE=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=ct61HKW5eyVqTovGLAJL4URahbNQ8au/q2FfARuiNpTqmzt0LJfeCxOB0vaucSH5m
+ zLcraLMaYhs8g8jZvEaiiKZYqybWPtB/c+Etzw+uiwkDSm2r5lR0QUNbieIyCywB/G
+ QyZMvOlFTdp9dNt5QRjkI77ENZscaRbDtpMYQePQ=
+Authentication-Results: iva4-f06c35e68a0a.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <56843688-7985-2e54-de54-817298f213eb@yandex-team.ru>
+Date: Thu, 16 Feb 2023 14:30:16 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v3 01/14] hw/char/serial-pci: Replace
- DO_UPCAST(PCISerialState) by PCI_SERIAL()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] qemu: make version available in coredump
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>
-Cc: qemu-block@nongnu.org, Hu Tao <hutao@cn.fujitsu.com>,
- Gonglei Arei <arei.gonglei@huawei.com>,
- Richard Henderson <richard.henderson@linaro.org>, Li Qiang <liq3ea@163.com>,
- Cao jin <caoj.fnst@cn.fujitsu.com>, xiaoqiang zhao <zxq_yx_007@163.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20230213184338.46712-1-philmd@linaro.org>
- <20230213184338.46712-2-philmd@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230213184338.46712-2-philmd@linaro.org>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com,
+ Laszlo Ersek <lersek@redhat.com>
+References: <20220607203221.966261-1-vsementsov@yandex-team.ru>
+ <CAJSP0QVNnGg+5OkDwpk3Kgc=kicsSt+f5QVg1tyd+ze76N_KVw@mail.gmail.com>
+ <Y+368RcZsG+t7SjW@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <Y+368RcZsG+t7SjW@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.257, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,57 +79,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/02/2023 19.43, Philippe Mathieu-Daudé wrote:
-> Use the PCI_SERIAL() QOM type-checking macro to avoid DO_UPCAST().
+On 16.02.23 12:44, Daniel P. Berrangé wrote:
+> On Wed, Feb 15, 2023 at 05:05:47PM -0500, Stefan Hajnoczi wrote:
+>> On Tue, 7 Jun 2022 at 16:33, Vladimir Sementsov-Ogievskiy
+>> <vsementsov@yandex-team.ru> wrote:
+>>>
+>>> Add a variable with QEMU_FULL_VERSION definition. Then the content of
+>>> the variable is easily searchable:
+>>>
+>>>     strings /path/to/core | grep QEMU_FULL_VERSION
+>>>
+>>> 'volatile' keyword is used to avoid removing the variable by compiler as
+>>> unused.
+>>>
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>>> ---
+>>>
+>>> Hi all!
+>>>
+>>> Probably, I just don't know the correct way to get version from core
+>>> file. If so, please teach me :)
+>>
+>> I've never hit this issue because bug reports usually include the QEMU
+>> distro package version. Keeping the version string in the core file
+>> seems reasonable (unless there is already another way to do this).
+>>
+>> Something I'm curious about: is the coredump guaranteed to contain
+>> static const variables? I wondered if they might be located in the
+>> .rodata ELF section and excluded from the coredump because they are
+>> referenced in the NT_FILE mmap note instead. Maybe volatile prevents
+>> this?
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->   hw/char/serial-pci.c | 7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
+> In Fedora / RHEL based systems (and some other distros too IIUC) for
+> many years, all binaries have included a "build-id" ELF note which
+> uniquely identifies the package build.
 > 
-> diff --git a/hw/char/serial-pci.c b/hw/char/serial-pci.c
-> index 801b769aba..9689645cac 100644
-> --- a/hw/char/serial-pci.c
-> +++ b/hw/char/serial-pci.c
-> @@ -36,7 +36,10 @@
->   #include "qom/object.h"
->   
->   struct PCISerialState {
-> +    /*< private >*/
->       PCIDevice dev;
-> +    /*< public >*/
-> +
+> Note section [ 3] '.note.gnu.build-id' of 36 bytes at offset 0x3c0:
+>    Owner          Data size  Type
+>    GNU                   20  GNU_BUILD_ID
+>      Build ID: e3143405b7f653a0a65b3295df760fdf2c09ba79
+> 
+> This can be used to query what RPM it came from (assuming the RPM
+> is still in your repos)
+> 
+>   dnf repoquery --whatprovides debuginfo(build-id) = ...hash...
+> 
+> this makes it into the coredump files and is what current distro
+> tooling uses to find the binary (and libraries).
+> 
+> There are some downsides/limitations with this though, so in
+> Fedora 36 a new impl was added alongside which provides full
+> package info in json
+> 
+> Note section [ 5] '.note.package' of 136 bytes at offset 0x404:
+>    Owner          Data size  Type
+>    FDO                  120  FDO_PACKAGING_METADATA
+>      Packaging Metadata: {"type":"rpm","name":"qemu","version":"7.0.0-13.fc37","architecture":"x86_64","osCpe":"cpe:/o:fedoraproject:fedora:37"}
 
-I'm not sure about this part of the patch. It does not seem to be related to 
-the other changes at all, and are you sure about which parts are really 
-"public" and which parts are "private"? If so, I'd like to see a description 
-about this in the commit message, preferably in a separate patch. Also, why 
-an empty line after the "public" comment?
+Looks very good
 
->       SerialState state;
->       uint8_t prog_if;
->   };
-> @@ -46,7 +49,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(PCISerialState, PCI_SERIAL)
->   
->   static void serial_pci_realize(PCIDevice *dev, Error **errp)
->   {
-> -    PCISerialState *pci = DO_UPCAST(PCISerialState, dev, dev);
-> +    PCISerialState *pci = PCI_SERIAL(dev);
->       SerialState *s = &pci->state;
->   
->       if (!qdev_realize(DEVICE(s), NULL, errp)) {
-> @@ -63,7 +66,7 @@ static void serial_pci_realize(PCIDevice *dev, Error **errp)
->   
->   static void serial_pci_exit(PCIDevice *dev)
->   {
-> -    PCISerialState *pci = DO_UPCAST(PCISerialState, dev, dev);
-> +    PCISerialState *pci = PCI_SERIAL(dev);
->       SerialState *s = &pci->state;
->   
->       qdev_unrealize(DEVICE(s));
+> 
+> This format is supported by systemd core dump tools
+> 
+>    https://systemd.io/ELF_PACKAGE_METADATA/
+> 
+> I believe it has been proposed (and possibly implemented?) for
+> Debian too.
+> 
+> This is a long winded way of asking, do we really need a QEMU specific
+> solution here ? Especially one that only tells us a QEMU verison, and
+> nothing about the many libraries QEMU links to which affect its
+> operational behaviour.
 
-Ack for the DO_UPCAST removal.
 
-  Thomas
+Generic solution is of course better.
+
+Hmm. I'm on Ubuntu 22.04.
+
+readelf -n /usr/bin/qemu-system-x86_64
+
+Displaying notes found in: .note.gnu.property
+   Owner                Data size        Description
+   GNU                  0x00000020       NT_GNU_PROPERTY_TYPE_0
+       Properties: x86 feature: IBT, SHSTK
+         x86 ISA needed: x86-64-baseline
+
+Displaying notes found in: .note.gnu.build-id
+   Owner                Data size        Description
+   GNU                  0x00000014       NT_GNU_BUILD_ID (unique build ID bitstring)
+     Build ID: 4298cd7c2623c58e1cd71668d9d48508bb7f8d52
+
+Displaying notes found in: .note.ABI-tag
+   Owner                Data size        Description
+   GNU                  0x00000010       NT_GNU_ABI_TAG (ABI version tag)
+     OS: Linux, ABI: 3.2.0
+
+
+OK. But I can't find this build-id in core file..
+
+readelf -n /tmp/cores/core.qemu-system-x86.20351.vsementsov-win.1676544081 | grep -i 'build'  ----  gets nothing
+
+strings /tmp/cores//core.qemu-system-x86.20351.vsementsov-win.1676544081 | grep 4298cd7c2623c58e   ---- nothing as well
+
+So the case is to find the package not having the binary, only by core file.
+
+Probably right solution is to fix our workflow so that if you have core file you always have corresponding binary as well.
+
+Still, having the information exactly inside core file seems good anyway. Maybe there is a generic way to force the system put "Packaging Metadata" into core file on creation of it?
+
+-- 
+Best regards,
+Vladimir
 
 
