@@ -2,64 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 760EB698FD7
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 10:32:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C270698FDD
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 10:34:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSacB-00020y-H2; Thu, 16 Feb 2023 04:31:43 -0500
+	id 1pSae9-0004D3-Vn; Thu, 16 Feb 2023 04:33:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1pSabz-0001to-Ra
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:31:32 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189])
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1pSae7-0004Co-13
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:33:43 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1pSabx-00006Q-47
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:31:31 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4PHV2749dlzFqSk;
- Thu, 16 Feb 2023 17:26:39 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.6; Thu, 16 Feb 2023 17:31:11 +0800
-Message-ID: <38f00a43-dc24-0a5b-e197-536c414354e7@huawei.com>
-Date: Thu, 16 Feb 2023 17:31:11 +0800
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1pSae3-0003Qo-Fy
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 04:33:42 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 31G8BtEo020050; Thu, 16 Feb 2023 09:33:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=cafaRvbNIk7x12qDcWQJ38ZWAWg6glUurvYmZfLKWDY=;
+ b=qBTHlgZjeYtwfnc+DtUST8EDVLlE0h0mJ2D9Qga3s/4nXejO9SvsWIlZalhd7g5Vckvh
+ wq+86a39s59kBh3UdkHmuN9hNCr/mnYL9pJX6hXLPoHeM7ztHl+ePfBznfj1VcOuy/fO
+ 0trejhLkMflqwYI9Guz8qPc0rzugjmisEgPi+FuSns1NKXLciRmfyF6XBjZy4bg1nnj0
+ CPv7Hj9DI3dRjShgw4PTo9i6A3GevoG8MYSX4zf46dsXXnGaOH02JqU7YuScJoXle5CT
+ Jje0mIzdZWLqJH/kxAGFfSdEz6SEDux9UQ9UcK+wOFtR5hqWh5iQp+9eq7sGEhdck+IE fQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nsg4gtrjh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Feb 2023 09:33:34 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31G8tXt0030806;
+ Thu, 16 Feb 2023 09:33:34 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nsg4gtrhv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Feb 2023 09:33:34 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31G8EsIM021534;
+ Thu, 16 Feb 2023 09:33:33 GMT
+Received: from smtprelay05.dal12v.mail.ibm.com ([9.208.130.101])
+ by ppma02wdc.us.ibm.com (PPS) with ESMTPS id 3np2n7htft-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Feb 2023 09:33:32 +0000
+Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com
+ [10.39.53.229])
+ by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 31G9XVhI5571130
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 16 Feb 2023 09:33:31 GMT
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7F6FA5805C;
+ Thu, 16 Feb 2023 09:33:31 +0000 (GMT)
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AE9DA58059;
+ Thu, 16 Feb 2023 09:33:27 +0000 (GMT)
+Received: from [9.77.150.161] (unknown [9.77.150.161])
+ by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 16 Feb 2023 09:33:27 +0000 (GMT)
+Message-ID: <bcb416f7-2e64-16de-f4db-e8206bbdc368@linux.ibm.com>
+Date: Thu, 16 Feb 2023 11:33:25 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [RFC 12/52] hw/acpi: Replace MachineState.smp access with
- topology helpers
-To: Zhao Liu <zhao1.liu@linux.intel.com>
-CC: <qemu-devel@nongnu.org>, Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi
- <dapeng1.mi@intel.com>, Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo
- <robert.hu@linux.intel.com>, Sean Christopherson <seanjc@google.com>, Like Xu
- <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>, Igor Mammedov
- <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>, Eduardo Habkost
- <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, "Michael S .
- Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>, Markus
- Armbruster <armbru@redhat.com>
-References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
- <20230213095035.158240-13-zhao1.liu@linux.intel.com>
-In-Reply-To: <20230213095035.158240-13-zhao1.liu@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.257,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ Thunderbird/102.7.2
+Subject: Re: [RFC PATCH v2 1/2] qapi, i386: Move kernel-hashes to
+ SevCommonProperties
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Eric Blake <eblake@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>, Tom Lendacky
+ <thomas.lendacky@amd.com>, Michael Roth <michael.roth@amd.com>,
+ Ashish Kalra <ashish.kalra@amd.com>, Mario Smarduch
+ <mario.smarduch@amd.com>, Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Dov Murik <dovmurik@linux.ibm.com>
+References: <20230216084913.2148508-1-dovmurik@linux.ibm.com>
+ <20230216084913.2148508-2-dovmurik@linux.ibm.com>
+ <87wn4irmif.fsf@pond.sub.org>
+From: Dov Murik <dovmurik@linux.ibm.com>
+In-Reply-To: <87wn4irmif.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: MdsSO0HqiZS6YzZRDFJOtw5nAimOFbS_
+X-Proofpoint-ORIG-GUID: _KGTIlSjVtjYT4T8aQ1BANmmJKjnFfjJ
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-16_06,2023-02-15_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxlogscore=730
+ clxscore=1015 bulkscore=0 mlxscore=0 malwarescore=0 priorityscore=1501
+ impostorscore=0 adultscore=0 suspectscore=0 spamscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2302160080
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,67 +124,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Zhao,
+Hello Markus,
 
-在 2023/2/13 17:49, Zhao Liu 写道:
-> From: Zhao Liu <zhao1.liu@intel.com>
->
-> At present, in QEMU only arm needs PPTT table to build cpu topology.
->
-> Before QEMU's arm supports hybrid architectures, it's enough to limit
-> the cpu topology of PPTT to smp type through the explicit smp interface
-> (machine_topo_get_smp_threads()).
->
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Ani Sinha <ani@anisinha.ca>
-> Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
-> ---
->   hw/acpi/aml-build.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> index ea331a20d131..693bd8833d10 100644
-> --- a/hw/acpi/aml-build.c
-> +++ b/hw/acpi/aml-build.c
-> @@ -2044,7 +2044,7 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
->               cluster_offset = socket_offset;
->           }
->   
-> -        if (ms->smp.threads == 1) {
-> +        if (machine_topo_get_smp_threads(ms) == 1) {
->               build_processor_hierarchy_node(table_data,
->                   (1 << 1) | /* ACPI Processor ID valid */
->                   (1 << 3),  /* Node is a Leaf */
-ACPI PPTT table is designed to also support the hybrid CPU topology
-case where nodes on the same CPU topology level can have different
-number of child nodes.
+On 16/02/2023 11:24, Markus Armbruster wrote:
+> Dov Murik <dovmurik@linux.ibm.com> writes:
+> 
+>> In order to enable kernel-hashes for SNP, pull it from
+>> SevGuestProperties to its parent SevCommonProperties so
+>> it will be available for both SEV and SNP.
+> 
+> Missing
+> 
+>   Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+> 
 
-So to be general, the diff should be:
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index ea331a20d1..dfded95bbc 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -2044,7 +2044,7 @@ void build_pptt(GArray *table_data, BIOSLinker 
-*linker, MachineState *ms,
-              cluster_offset = socket_offset;
-          }
+Oops, thanks. I'll fix.
 
--        if (ms->smp.threads == 1) {
-+        if (machine_topo_get_threads_by_idx(n) == 1) {
-              build_processor_hierarchy_node(table_data,
-                  (1 << 1) | /* ACPI Processor ID valid */
-                  (1 << 3),  /* Node is a Leaf */
+> Patch does not apply for me.
+> 
 
-Actually I'm recently working on ARM hmp virtualization which relys on
-PPTT for topology representation, so we will also need PPTT to be general
-for hybrid case anyway.
+This patch series is based on AMD's upmv10-snpv3 tree:
 
-Thanks,
-Yanan
+  https://github.com/mdroth/qemu/tree/upmv10-snpv3
+
+Have you tried to apply it on top of that tree?
+
+-Dov
 
