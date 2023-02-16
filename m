@@ -2,77 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F81269911E
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 11:27:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C719969916C
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 11:35:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSbTj-0007xZ-4l; Thu, 16 Feb 2023 05:27:03 -0500
+	id 1pSbaW-0002q8-7k; Thu, 16 Feb 2023 05:34:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pSbTg-0007x0-D2
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 05:27:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1pSbaS-0002pp-S0
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 05:34:01 -0500
+Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pSbTe-0005TT-Fv
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 05:27:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676543217;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=qwuCpPscZ/2zhce+jg1JXEa0kkLaNf47qA/czFL9P20=;
- b=F6es6dMirNCrnO+yfFay46WJf97bMI6/KCgZ6qASv3ErZg0XLemlV3dldp7oyCrbLm7m1T
- tee/4s4OOxMXsaSzADzMxmUj6l/cd3GyzEXDo7k77wRYZEyZdKd7IglwPMZIdhMAHHqrU8
- YuMJepgEvMELedcae1C85mKFDBL8Wa8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-651-Wuk984iBNDaq3MFJcotcMA-1; Thu, 16 Feb 2023 05:26:53 -0500
-X-MC-Unique: Wuk984iBNDaq3MFJcotcMA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 32602380673E;
- Thu, 16 Feb 2023 10:26:53 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.164])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 950C52026D4B;
- Thu, 16 Feb 2023 10:26:50 +0000 (UTC)
-Date: Thu, 16 Feb 2023 10:26:47 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Dov Murik <dovmurik@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>,
- Tom Lendacky <thomas.lendacky@amd.com>,
- Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Mario Smarduch <mario.smarduch@amd.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
-Subject: Re: [RFC PATCH v2 0/2] i386/sev: Support measured direct kernel boot
- on SNP
-Message-ID: <Y+4E5xh19PmO9BRY@redhat.com>
-References: <20230216084913.2148508-1-dovmurik@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1pSbaQ-0001ES-PJ
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 05:34:00 -0500
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id 56C0F400BA;
+ Thu, 16 Feb 2023 13:33:48 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 97310C8;
+ Thu, 16 Feb 2023 13:33:47 +0300 (MSK)
+Message-ID: <f65e71ca-e4b8-dcca-5753-c2b225f57775@msgid.tls.msk.ru>
+Date: Thu, 16 Feb 2023 13:33:47 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230216084913.2148508-1-dovmurik@linux.ibm.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] audio/pwaudio.c: Add Pipewire audio backend for QEMU
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Dorinda Bassey <dbassey@redhat.com>
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com, armbru@redhat.com,
+ qemu_oss@crudebyte.com, pbonzini@redhat.com, wtaymans@redhat.com
+References: <20230215085102.415053-1-dbassey@redhat.com>
+ <Y+zBUaNdzqawzHPs@redhat.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
+In-Reply-To: <Y+zBUaNdzqawzHPs@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.257,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,27 +59,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 16, 2023 at 08:49:11AM +0000, Dov Murik wrote:
-> This RFC patch series is based on AMD's RFC upmv10-snpv3 tree [1].
+15.02.2023 14:26, Daniel P. Berrangé пишет:
+..
+>> -       choices: ['alsa', 'coreaudio', 'default', 'dsound', 'jack', 'oss', 'pa', 'sdl', 'sndio'],
+>> +       choices: ['alsa', 'coreaudio', 'default', 'dsound', 'jack', 'oss', 'pa', 'pw', 'sdl', 'sndio'],
+> 
+> I appreciate you probably just followed the example of pulseaudio, abbreviated
+> to 'pa', but I'm not a fan of the existing usage there. So lets be more verbose
+> and say 'pipewire' so users are clear on what this is.
 
-I've seen postings of the kernel patches for SNP using the kernel
-UPM support, but I don't recall ever seeing these QEMU pieces
-posted for review. The code in that QEMU branch looks different
-from the last posting of SNP to qemu-devel years ago.
+I'd vote for "pw" here, it is a quite well-known acronym. It is not because "pa"
+is used in qemu, it is because "pa" and now "pw" is used everywhere in context
+of linux sound.
 
-IMHO it would be very desirable if that QEMU UPM tree was submitted
-to qemu-devel for review feedback, before requesting review of patches
-that build on top of it.
+But if there's no need to type it manually every time, it can be "pipewire" too.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+/mjt
 
