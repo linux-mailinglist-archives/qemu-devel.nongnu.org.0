@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C718C698C45
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 06:46:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95CBD698C5B
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 06:49:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSX5Y-0001G0-T3; Thu, 16 Feb 2023 00:45:48 -0500
+	id 1pSX7e-0003lc-PU; Thu, 16 Feb 2023 00:47:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSX5N-000115-JK
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:45:38 -0500
+ id 1pSX7c-0003l4-La
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:47:56 -0500
 Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSX5L-00012Y-Qs
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:45:37 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id jk14so974563plb.8
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 21:45:35 -0800 (PST)
+ id 1pSX7b-0004wc-3T
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 00:47:56 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id ja21so953293plb.13
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 21:47:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4zhGePcD91yQ6ch+7pxzLZ4Aayz4MXPEoGj6QOyVgUM=;
- b=PNMBYKObCsz9WrJuxjzHRldkjkZuouINoye/Ir95MRsAhV+ZdwMvogcORdZQrb048v
- UoKCoQRRiNCu8G+k3rdWdYhpDgDr0LTfarXVDkpw9urzp3cjI8GkPDX9kE7XLKZQBDSs
- ol0MUH7GlBFHWW4Qf2uT69lF7S5vUitidTYeSgmGmYECFkp0+agv/xMCNNtAzQoY/+fd
- PcC062P2uWm2eCeVRoi84iKESkX6eISdSS8xj2q8FU+oSnuEO/rBuH5DoxqetJ14q+DT
- htFObL+TRfJzZYPtHQPEQGW72zb7LOk1p0i9bIg8GHoUKcMLdNfCk1ZocfwCdXJdXOB1
- HGEA==
+ bh=3/GsGOhPL6d8HonZ9tvdFyDrYuAo6ZmEKf6gpoOjRcI=;
+ b=HQB3PJLuA9MUG6bqVFdMuKez6pm27N5ZO2YnZFwvyh3Tyk1OQCVJYA/rtuYcFKNbqi
+ KlzniEAY9LyGjZ6yjdHgC0Dmna8J5Oj6sMGstpAFvY6GXjxbjaDgETFC0AE3xH4flL5S
+ CaZjCy/NwqXBEHnvcYegxUJw5lhQtUzGzrgdzWpNCq+bqx+1QqF3DRAhR7ZNu8SC9Gt1
+ 3s2pGoHiNDQ33wr8JDkGmd4CML/K+1xEayNJ2UX79BkYwd2d/nxAS4pXlkOktNNtu7dP
+ D/g9sjXsQGrSupzHg+TqBXBCjbLpQIikAxFoE62/4Yzb92NNsWQfc10fiFXXgx3T1pu+
+ 3RBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4zhGePcD91yQ6ch+7pxzLZ4Aayz4MXPEoGj6QOyVgUM=;
- b=Xal5ItFFcvfoEhuFuBi9SVlNZD4bwJ322X14S4U0PzVffKW4b5CRnFXhhNpQ6A23kx
- sktpleZY8LSfBcTa0XmePu5RZoQExwXB8ttySghiZ30969RC+a2JZGPDEriVK8tuXWFN
- 0PFouEd7fiRbwKFNfklswnsp/d5HKB/bGCH8++Cvfw5yhqaO15XfH8phSzB4n7+0GDKZ
- 3Ewo2hBct/RZVigPfboAuJacV222q3wxA6ok1uOn4euR5Hrcm1ghGH4AA+bBBtF3d9fw
- 1fd+f/ZS/LmWkTgkchUp0Vg1nPY7bMhQ8DphAuKOkE3dmhfTL5n8cGoD9iKnXs108dDI
- fzhQ==
-X-Gm-Message-State: AO0yUKUbBhp7BkKq6dLBEfirB51xCOpxTwArOWF+ZSOut/y6olHbD7ED
- T7dZ4bcRAyNBo5lMoO5xm8ZOM4ueA4AeUWKnGNM=
-X-Google-Smtp-Source: AK7set+Jk2ghDpboaawoTpxIjHvz7SsHU48wLL7Lcu3TrnTjtI0ptGxr5jOdYCjGg6e9Z8C3WvK1vA==
-X-Received: by 2002:a05:6a20:7d95:b0:c7:23ad:63eb with SMTP id
- v21-20020a056a207d9500b000c723ad63ebmr1073519pzj.10.1676526334190; 
- Wed, 15 Feb 2023 21:45:34 -0800 (PST)
+ bh=3/GsGOhPL6d8HonZ9tvdFyDrYuAo6ZmEKf6gpoOjRcI=;
+ b=jhX8u97O5f3vw5jgE50/17qEoRc7bCZJdaUvW5eesWzaYaYOEm3E0z/pm8yTf7dcog
+ RH/7bvVHdZhxlxHTHyMAaF2dBg21C9eOqQK+1suPYa3TBfIn9GJRo51yNHnTbC9R6zqH
+ +ksRoi+z3E/rEMUXHiQFGxx4JMjwPAKpObjquE8MzjlwickRwiJ0psGZ0JMqSdGA9vwV
+ 6tmXmIwlhDAuX9/Il9ksZOBVQHFoO6bwdqzoJaLM5ctPx4/qHppCdSiD+EPkcxvK9ZPT
+ s8ab6QbvNGEwiM58gwrtUHRHalFFvI6HuisBJQu9hegGBlCqlk4p/pbVM8KwgIHKTQD+
+ J8qg==
+X-Gm-Message-State: AO0yUKVytprh4OXl7YXWcyWOo0r/NzBdWHhfxBVNXrRoHy8b5rstggXe
+ FUbPXU6OUuja84s0uwyxQ5RwGVfSo0Q2zCyZLoM=
+X-Google-Smtp-Source: AK7set+jTw7mnmfV5kIV0lr/EOirk+JYwA/AwbGKDpwg4H/acG+2oLp4ikzEBUUyVlGwxe9K2+fxQA==
+X-Received: by 2002:a05:6a20:244d:b0:be:b8bd:83ad with SMTP id
+ t13-20020a056a20244d00b000beb8bd83admr5174680pzc.0.1676526473761; 
+ Wed, 15 Feb 2023 21:47:53 -0800 (PST)
 Received: from stoup.. (rrcs-74-87-59-234.west.biz.rr.com. [74.87.59.234])
  by smtp.gmail.com with ESMTPSA id
- j184-20020a6380c1000000b0047917991e83sm358034pgd.48.2023.02.15.21.45.31
+ j184-20020a6380c1000000b0047917991e83sm358034pgd.48.2023.02.15.21.45.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 21:45:33 -0800 (PST)
+ Wed, 15 Feb 2023 21:47:53 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: laurent@vivier.eu,
-	Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v2 01/15] linux-user/sparc: Raise SIGILL for all unhandled
- software traps
-Date: Wed, 15 Feb 2023 19:45:02 -1000
-Message-Id: <20230216054516.1267305-2-richard.henderson@linaro.org>
+Cc: laurent@vivier.eu
+Subject: [PATCH v2 02/15] linux-user/sparc: Tidy syscall trap
+Date: Wed, 15 Feb 2023 19:45:03 -1000
+Message-Id: <20230216054516.1267305-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230216054516.1267305-1-richard.henderson@linaro.org>
 References: <20230216054516.1267305-1-richard.henderson@linaro.org>
@@ -91,35 +89,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The linux kernel's trap tables vector all unassigned trap
-numbers to BAD_TRAP, which then raises SIGILL.
+Use TT_TRAP.
 
-Tested-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Reported-by: Ilya Leoshkevich <iii@linux.ibm.com>
+For sparc32, 0x88 is the "Slowaris" system call, currently BAD_TRAP
+in the kernel's ttable_32.S.  For sparc64, 0x110 is tl0_linux32, the
+sparc32 trap, now folded into the TARGET_ABI32 case via TT_TRAP.
+
+For sparc64, there does still exist trap 0x111 as tl0_oldlinux64,
+which was replaced by 0x16d as tl0_linux64 in 1998.  Since no one
+has noticed, don't bother implementing it now.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/sparc/cpu_loop.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ linux-user/sparc/cpu_loop.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
-index 434c90a55f..c120c42278 100644
+index c120c42278..d31ea057db 100644
 --- a/linux-user/sparc/cpu_loop.c
 +++ b/linux-user/sparc/cpu_loop.c
-@@ -248,6 +248,14 @@ void cpu_loop (CPUSPARCState *env)
-             cpu_exec_step_atomic(cs);
-             break;
-         default:
-+            /*
-+             * Most software trap numbers vector to BAD_TRAP.
-+             * Handle anything not explicitly matched above.
-+             */
-+            if (trapnr >= TT_TRAP && trapnr <= TT_TRAP + 0x7f) {
-+                force_sig_fault(TARGET_SIGILL, ILL_ILLTRP, env->pc);
-+                break;
-+            }
-             fprintf(stderr, "Unhandled trap: 0x%x\n", trapnr);
-             cpu_dump_state(cs, stderr, 0);
-             exit(EXIT_FAILURE);
+@@ -149,6 +149,12 @@ static void flush_windows(CPUSPARCState *env)
+ #endif
+ }
+ 
++#ifdef TARGET_ABI32
++#define TARGET_TT_SYSCALL  (TT_TRAP + 0x10) /* t_linux */
++#else
++#define TARGET_TT_SYSCALL  (TT_TRAP + 0x6d) /* tl0_linux64 */
++#endif
++
+ void cpu_loop (CPUSPARCState *env)
+ {
+     CPUState *cs = env_cpu(env);
+@@ -167,13 +173,7 @@ void cpu_loop (CPUSPARCState *env)
+         }
+ 
+         switch (trapnr) {
+-#ifndef TARGET_SPARC64
+-        case 0x88:
+-        case 0x90:
+-#else
+-        case 0x110:
+-        case 0x16d:
+-#endif
++        case TARGET_TT_SYSCALL:
+             ret = do_syscall (env, env->gregs[1],
+                               env->regwptr[0], env->regwptr[1],
+                               env->regwptr[2], env->regwptr[3],
 -- 
 2.34.1
 
