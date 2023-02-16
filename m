@@ -2,80 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 399156997E3
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:52:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DBDE6997ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:53:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSfcR-0001bP-Gm; Thu, 16 Feb 2023 09:52:19 -0500
+	id 1pSfdM-0002ev-0D; Thu, 16 Feb 2023 09:53:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pSfcP-0001af-GA
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:52:17 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pSfcN-0004Pt-M9
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:52:16 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- j29-20020a05600c1c1d00b003dc52fed235so1879838wms.1
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 06:52:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=g1RHqr5TSHVFZPWRKeU8Ch+Jr2VeSPkSh2pANhFJTlE=;
- b=CS6r2o3lstxX6zaihC6YB1b5Br0jm4WRf1NwGId3/hEcde8WjpV6FioIAfJDMKKjMN
- Bi3MSnbOWxzGq5PS7zUnp5G8SHYVRkmJxifIgNDZ8Yq8BEbL3BD2wjA56N2Y07wDeDaC
- mrWubK12A+X+PNbDI8o2d8Zzc3DQvP1TAopeRiBIDJ4SUsYta/Xb2gI0QUgEPBOD53pM
- c41c8Zco+o70UC9RrzDPisW7iKf/ySxEs77WZZlgBVLuziupYS3fCn9pkLfPqqcSdIU1
- UxzCnOOlAXcKmoJxDCQENMwTrYUWfdQO5X79xMeOqaFxumRs70++mZMut1lJDK1Mr1T5
- 6y2Q==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pSfdK-0002em-Im
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:53:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pSfdI-0004Wu-Ne
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:53:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676559191;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cy1OFNWzRRMl4sXiG2mqgJYFWsB/S0EoTf4VEsYGEpQ=;
+ b=Cxkz2E37tEIuQDLfOPusXW5G46wIgX6CwkFcx7ftQxpjAb64zsSkJP66cr4L0TXtp7IZNy
+ cTyFn0235POjYOLZN/lwQmIKsqkuZCmxognV8enwCXjdJh/Hitaff5mVLMKwlMIC+/GIoM
+ xpIuCeSdETd2uHELhF1HJp7Ase2j/9o=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-226-STA9FM7VNqeb4wXpjeH_sQ-1; Thu, 16 Feb 2023 09:53:10 -0500
+X-MC-Unique: STA9FM7VNqeb4wXpjeH_sQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ k9-20020a05600c1c8900b003dc5dec2ac6so3269901wms.4
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 06:53:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=g1RHqr5TSHVFZPWRKeU8Ch+Jr2VeSPkSh2pANhFJTlE=;
- b=S9xDYBUjXWgqT7z6nvhJxc77/45B3Ty0iB4k6xypUCd9jeo9oIm0723Tk3zuAvqOBU
- cikRyJtwP5ASAgDxXpP3DP3hNfOjgtAN8yR0vxEJb1+XYlKabbJ99kdBZshCIgBsk0FE
- L8dtaH6hna6q1/j7m90d8ZPRwJSQns+G2YQJO0xVdaDaxvyznQC/PFHdbzN44xLBhEMG
- Dw0wr6YK1ezWALhH+p5WkmY8GkujUY7n/ZXiCyZjgW4+3iMNKwyHDe+SJBVq4Z9AxLE7
- aPueMYI8QK5p+ctoIUgB6AWnap9faXcKOBx+w6oWSumgbDBuRacGkxOkFNUxwzcSJZC/
- HXXg==
-X-Gm-Message-State: AO0yUKXoySfGEKkht9fZ0by2E+Th90gH1wkqmH5U1DM2NNM0VxvOxRsT
- Yn1b9IvI2x218+zt5vnyR6DK2A==
-X-Google-Smtp-Source: AK7set8dYTamVEohVMTlMntmhfYIe44TK+RfSJieBgrmRU/z/DxVB7WqBKSL+0tOtrOC3w4cReCYYg==
-X-Received: by 2002:a05:600c:4450:b0:3de:a525:1d05 with SMTP id
- v16-20020a05600c445000b003dea5251d05mr2042978wmn.8.1676559134213; 
- Thu, 16 Feb 2023 06:52:14 -0800 (PST)
-Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
- by smtp.gmail.com with ESMTPSA id
- 7-20020a05600c028700b003e214803343sm1863399wmk.46.2023.02.16.06.52.13
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=cy1OFNWzRRMl4sXiG2mqgJYFWsB/S0EoTf4VEsYGEpQ=;
+ b=o1MBxNSW2zgPAbCPF6C+cER4BdL6vmC97lJKPuZevtSwlHi0sGaqAFT7ddSDhR4tSZ
+ r+bDc9f+fANps3bKWxfV8T8dADToPb6RlgpBMXVb9QEKrSCPc9Y614tj52EvE+qcBw/W
+ Wf/kRhrKwIUxrRTbPrfTgdPBJy/KjGBaONMK2JgGl1yYZkexHVisoPerR5XCPDWeIXf0
+ B69IJ2oJ1nbw2ho0jh8596NqMsVLapP55CTRxcnXKT3lT9bDtL7hpF5YR8qqf929VI9p
+ GcnRRL1vHx7NIqDXp30WSoH2IWY2d7nhDGSmlEg6bwk/5Kgi2uAzvl+fOFqJeEijz+nX
+ 91Hw==
+X-Gm-Message-State: AO0yUKUPA7VbyHPZ+EKhK/Gj/MOIXrO4O/JC6aFqeAHpcY+iI/WAaaT+
+ 8ktw3sdVoTYpaXRiyksMoJJwzJoJqOb5QpAGT0yNKJCeON0MRDcBMapWjwkCgdsmCJyUZnbtJVP
+ uQIFiGZyCJ2Zicz40sqwVYEI=
+X-Received: by 2002:adf:e60d:0:b0:2c5:5308:859c with SMTP id
+ p13-20020adfe60d000000b002c55308859cmr4884964wrm.18.1676559188929; 
+ Thu, 16 Feb 2023 06:53:08 -0800 (PST)
+X-Google-Smtp-Source: AK7set/rt07AieO62pKH7AvYZjSb5QID8hZwgiO32ouvM/R3TzncdVZtXev1c8UOpO/mXYJ7a3eUQw==
+X-Received: by 2002:adf:e60d:0:b0:2c5:5308:859c with SMTP id
+ p13-20020adfe60d000000b002c55308859cmr4884950wrm.18.1676559188611; 
+ Thu, 16 Feb 2023 06:53:08 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ q14-20020a056000136e00b002c57c555010sm1685235wrz.28.2023.02.16.06.53.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 06:52:13 -0800 (PST)
-Date: Thu, 16 Feb 2023 15:52:12 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- bmeng@tinylab.org, liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com
-Subject: Re: [PATCH v4 02/10] target/riscv: remove RISCV_FEATURE_MISA
-Message-ID: <20230216145212.dvgb5isazcx52w6i@orel>
-References: <20230216130444.795997-1-dbarboza@ventanamicro.com>
- <20230216130444.795997-3-dbarboza@ventanamicro.com>
+ Thu, 16 Feb 2023 06:53:08 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Avihai Horon <avihaih@nvidia.com>
+Cc: <qemu-devel@nongnu.org>,  Alex Williamson <alex.williamson@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,  "Michael S. Tsirkin"
+ <mst@redhat.com>,  Cornelia Huck <cohuck@redhat.com>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>,  =?utf-8?Q?C=C3=A9dric?= Le Goater
+ <clg@redhat.com>,  Yishai
+ Hadas <yishaih@nvidia.com>,  Jason Gunthorpe <jgg@nvidia.com>,  Maor
+ Gottlieb <maorg@nvidia.com>,  Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>,  Joao Martins
+ <joao.m.martins@oracle.com>
+Subject: Re: [PATCH v11 04/11] vfio/common: Change
+ vfio_devices_all_running_and_saving() logic to equivalent one
+In-Reply-To: <20230216143630.25610-5-avihaih@nvidia.com> (Avihai Horon's
+ message of "Thu, 16 Feb 2023 16:36:23 +0200")
+References: <20230216143630.25610-1-avihaih@nvidia.com>
+ <20230216143630.25610-5-avihaih@nvidia.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 16 Feb 2023 15:53:07 +0100
+Message-ID: <87a61dirvw.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230216130444.795997-3-dbarboza@ventanamicro.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=ajones@ventanamicro.com; helo=mail-wm1-x329.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,37 +108,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 16, 2023 at 10:04:36AM -0300, Daniel Henrique Barboza wrote:
-> It's unused after write_misa() became a regular no-op.
-> 
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> ---
->  target/riscv/cpu.h | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 7128438d8e..01803a020d 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -89,7 +89,6 @@ enum {
->      RISCV_FEATURE_MMU,
->      RISCV_FEATURE_PMP,
->      RISCV_FEATURE_EPMP,
-> -    RISCV_FEATURE_MISA,
->      RISCV_FEATURE_DEBUG
->  };
->  
-> -- 
-> 2.39.1
+Avihai Horon <avihaih@nvidia.com> wrote:
+> vfio_devices_all_running_and_saving() is used to check if migration is
+> in pre-copy phase. This is done by checking if migration is in setup or
+> active states and if all VFIO devices are in pre-copy state, i.e.
+> _SAVING | _RUNNING.
 >
+> In VFIO migration protocol v2 pre-copy support is made optional. Hence,
+> a matching v2 protocol pre-copy state can't be used here.
+>
+> As preparation for adding v2 protocol, change
+> vfio_devices_all_running_and_saving() logic such that it doesn't use the
+> VFIO pre-copy state.
+>
+> The new equivalent logic checks if migration is in active state and if
+> all VFIO devices are in running state [1]. No functional changes
+> intended.
+>
+> [1] Note that checking if migration is in setup or active states and if
+> all VFIO devices are in running state doesn't guarantee that we are in
+> pre-copy phase, thus we check if migration is only in active state.
+>
+> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@redhat.com>
 
-Probably could squash into the previous patch, but anyway
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-
-Thanks,
-drew
 
