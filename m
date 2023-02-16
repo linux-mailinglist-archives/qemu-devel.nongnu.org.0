@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C68699BCA
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 19:05:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA531699BF9
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 19:13:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSicM-0000Fq-CI; Thu, 16 Feb 2023 13:04:26 -0500
+	id 1pSijs-00083S-N0; Thu, 16 Feb 2023 13:12:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pSicJ-0000Ew-CF
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 13:04:23 -0500
-Received: from forwardcorp1b.mail.yandex.net
- ([2a02:6b8:c02:900:1:45:d181:df01])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1pSijr-000807-9a; Thu, 16 Feb 2023 13:12:11 -0500
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pSicH-0005qS-M9
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 13:04:23 -0500
-Received: from iva8-99b070b76c56.qloud-c.yandex.net
- (iva8-99b070b76c56.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:1099:0:640:99b0:70b7])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id BC44062A6E;
- Thu, 16 Feb 2023 21:04:17 +0300 (MSK)
-Received: from vsementsov-win.yandex-team.ru (unknown
- [2a02:6b8:b081:8813::1:16])
- by iva8-99b070b76c56.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- u3q89J0Qp8c1-peyGi9TG; Thu, 16 Feb 2023 21:04:16 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1676570656; bh=6LzK5JcKoqQp/AREI8ga/H9CKv30XnA168S3R/9Tv0I=;
- h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=HKQHbfXxtwmILHkkBqz/vgvEcVxfwS5v8oR7Wr3793tv8P+lfE2c4P26e0WsPm4US
- g1gpxAwtftOIyvp2Y4E4/owmPhQq1T6YNROFoGlVPAoCzxKUCdzqGj5eVsXfYfkoeh
- NDHU1C9oTYZAjw6IaR8U1knkBiNofJqnDazP0D74=
-Authentication-Results: iva8-99b070b76c56.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Cc: armbru@redhat.com, eblake@redhat.com, eduardo@habkost.net,
- berrange@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
- mst@redhat.com, philmd@linaro.org, vsementsov@yandex-team.ru,
- den-plotnikov@yandex-team.ru, antonkuchin@yandex-team.ru
-Subject: [PATCH v5 18/18] qapi: introduce DEVICE_ON event
-Date: Thu, 16 Feb 2023 21:03:56 +0300
-Message-Id: <20230216180356.156832-19-vsementsov@yandex-team.ru>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230216180356.156832-1-vsementsov@yandex-team.ru>
-References: <20230216180356.156832-1-vsementsov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1pSijo-00029r-4n; Thu, 16 Feb 2023 13:12:10 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.48])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 5E80F206BF;
+ Thu, 16 Feb 2023 18:12:04 +0000 (UTC)
+Received: from kaod.org (37.59.142.106) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Thu, 16 Feb
+ 2023 19:12:03 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R006c3d769c1-1982-4562-ab08-f9211698d00d,
+ 6472B0FD1AC4FAE7C483658EB00F62ED22160684) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <e4e0217e-9bd3-1bb7-c91c-0686cf67fc02@kaod.org>
+Date: Thu, 16 Feb 2023 19:12:03 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [RFC PATCH 5/5] hw/ppc/pnv_bmc: Simplify pnv_bmc_find()
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ <qemu-devel@nongnu.org>
+CC: Markus Armbruster <armbru@redhat.com>, <qemu-arm@nongnu.org>,
+ <qemu-s390x@nongnu.org>, <qemu-ppc@nongnu.org>, <qemu-block@nongnu.org>
+References: <20230216122524.67212-1-philmd@linaro.org>
+ <20230216122524.67212-6-philmd@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230216122524.67212-6-philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: af17be2c-659b-4256-a52d-3d65338c1a49
+X-Ovh-Tracer-Id: 8211188022095940457
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudeijedguddtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehphhhilhhmugeslhhinhgrrhhordhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdgrrhhmsghruhesrhgvughhrghtrdgtohhmpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqshefledtgiesnhhonhhgnhhurdhorhhgpdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdhqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.351,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,108 +75,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We have DEVICE_DELETED event, that signals that device_del command is
-actually completed. But we don't have a counter-part for device_add.
-Still it's sensible for SHPC and PCIe-native hotplug, as there are time
-when the device in some intermediate state. Let's add an event that say
-that the device is finally powered on, power indicator is on and
-everything is OK for next manipulation on that device.
+On 2/16/23 13:25, Philippe Mathieu-Daudé wrote:
+> ForeachArgs::name is only used once as TYPE_IPMI_BMC.
+> Since the penultimate commit, object_child_foreach_recursive()'s
+> handler takes an Error* argument and return a boolean.
+> We can directly pass ForeachArgs::obj as context, removing the
+> ForeachArgs structure.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>
+> ---
+> RFC: please double-check...
+>
+> 
+>   hw/ppc/pnv_bmc.c | 25 +++++++++----------------
+>   1 file changed, 9 insertions(+), 16 deletions(-)
+> 
+> diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
+> index 05acc88a55..566284469f 100644
+> --- a/hw/ppc/pnv_bmc.c
+> +++ b/hw/ppc/pnv_bmc.c
+> @@ -278,36 +278,29 @@ IPMIBmc *pnv_bmc_create(PnvPnor *pnor)
+>       return IPMI_BMC(obj);
+>   }
+>   
+> -typedef struct ForeachArgs {
+> -    const char *name;
+> -    Object *obj;
+> -} ForeachArgs;
+> -
+>   static bool bmc_find(Object *child, void *opaque, Error **errp)
+>   {
+> -    ForeachArgs *args = opaque;
+> +    Object **obj = opaque;
+>   
+> -    if (object_dynamic_cast(child, args->name)) {
+> -        if (args->obj) {
+> -            return false;
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
----
- qapi/qdev.json | 10 ++++++++++
- hw/pci/pcie.c  | 14 ++++++++++++++
- hw/pci/shpc.c  | 12 ++++++++++++
- 3 files changed, 36 insertions(+)
+The purpose of this test was to catch multiple bmc devices and it's removed
+now.
+  
+> +    if (object_dynamic_cast(child, TYPE_IPMI_BMC)) {
+> +        if (*obj) {
+> +            return true;
+>           }
+> -        args->obj = child;
+> +        *obj = child;
+>       }
+>       return true;
+>   }
+>   
+>   IPMIBmc *pnv_bmc_find(Error **errp)
+>   {
+> -    ForeachArgs args = { TYPE_IPMI_BMC, NULL };
+> -    int ret;
+> +    Object *obj = NULL;
+>   
+> -    ret = object_child_foreach_recursive(object_get_root(), bmc_find,
+> -                                         &args, NULL);
+> -    if (ret) {
+> +    if (!object_child_foreach_recursive(object_get_root(), bmc_find, &obj,
+> +                                        NULL)) {
+>           error_setg(errp, "machine should have only one BMC device. "
+>                      "Use '-nodefaults'");>           return NULL;
+>       }
 
-diff --git a/qapi/qdev.json b/qapi/qdev.json
-index 6f2d8d6647..116a8a7de8 100644
---- a/qapi/qdev.json
-+++ b/qapi/qdev.json
-@@ -348,3 +348,13 @@
- { 'command': 'query-hotplug',
-   'data': { 'id': 'str' },
-   'returns': 'HotplugInfo' }
-+
-+##
-+# @DEVICE_ON:
-+#
-+# Emitted whenever the device insertion completion is acknowledged by the guest.
-+# For now only emitted for SHPC and PCIe-native hotplug.
-+#
-+# Since: 8.0
-+##
-+{ 'event': 'DEVICE_ON', 'data': 'DeviceAndPath' }
-diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index 636f962a23..4297e4e8dc 100644
---- a/hw/pci/pcie.c
-+++ b/hw/pci/pcie.c
-@@ -22,6 +22,7 @@
- 
- #include "monitor/qdev.h"
- #include "qapi/error.h"
-+#include "qapi/qapi-events-qdev.h"
- #include "hw/pci/pci_bridge.h"
- #include "hw/pci/pcie.h"
- #include "hw/pci/msix.h"
-@@ -47,6 +48,13 @@ static bool pcie_sltctl_powered_off(uint16_t sltctl)
-         && (sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_OFF;
- }
- 
-+static bool pcie_sltctl_powered_on(uint16_t sltctl)
-+{
-+    return (sltctl & PCI_EXP_SLTCTL_PCC) == PCI_EXP_SLTCTL_PWR_ON &&
-+        (sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_ON &&
-+        (sltctl & PCI_EXP_SLTCTL_AIC) == PCI_EXP_SLTCTL_ATTN_IND_OFF;
-+}
-+
- static LedActivity pcie_led_state_to_qapi(uint16_t value)
- {
-     switch (value) {
-@@ -816,6 +824,12 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
-         qdev_hotplug_state_event(DEVICE(dev), NULL, child_dev, &changed_state);
-     }
- 
-+    if ((sltsta & PCI_EXP_SLTSTA_PDS) && pcie_sltctl_powered_on(val) &&
-+        !pcie_sltctl_powered_on(old_slt_ctl) && child_dev)
-+    {
-+        qapi_event_send_device_on(child_dev->id, child_dev->canonical_path);
-+    }
-+
-     /*
-      * If the slot is populated, power indicator is off and power
-      * controller is off, it is safe to detach the devices.
-diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
-index 6a4f93949d..380b2b83b3 100644
---- a/hw/pci/shpc.c
-+++ b/hw/pci/shpc.c
-@@ -299,6 +299,12 @@ static bool shpc_slot_is_off(uint8_t state, uint8_t power, uint8_t attn)
-     return state == SHPC_STATE_DISABLED && power == SHPC_LED_OFF;
- }
- 
-+static bool shpc_slot_is_on(uint8_t state, uint8_t power, uint8_t attn)
-+{
-+    return state == SHPC_STATE_ENABLED && power == SHPC_LED_ON &&
-+        attn == SHPC_LED_OFF;
-+}
-+
- static void shpc_slot_command(PCIDevice *d, uint8_t target,
-                               uint8_t state, uint8_t power, uint8_t attn)
- {
-@@ -366,6 +372,12 @@ static void shpc_slot_command(PCIDevice *d, uint8_t target,
-             SHPC_SLOT_EVENT_MRL |
-             SHPC_SLOT_EVENT_PRESENCE;
-     }
-+
-+    if (!shpc_slot_is_on(old_state, old_power, old_attn) &&
-+        shpc_slot_is_on(state, power, attn) && child_dev)
-+    {
-+        qapi_event_send_device_on(child_dev->id, child_dev->canonical_path);
-+    }
- }
- 
- static void shpc_command(PCIDevice *d)
--- 
-2.34.1
+We don't test obj against NULL any more. This could break the QOM cast below.
+
+Thanks,
+
+
+C.
+
+
+>   
+> -    return args.obj ? IPMI_BMC(args.obj) : NULL;
+> +    return IPMI_BMC(obj);
+>   }
 
 
